@@ -319,7 +319,8 @@ jobs:
           # exchanges this workflow's id-token for a short-lived npm token, so no
           # stored publish secret is needed. Requires a Trusted Publisher for
           # @dnb/eufemia configured on npmjs.com pointing at this workflow and
-          # the npm-release environment, with "Allow npm publish" selected.
+          # the npm-release environment, with `npm publish` allowed (not only
+          # `npm stage publish`).
           # GH_* are for the GitHub release and the changelog/tag commit push.
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           GH_NAME: ${{ secrets.GH_NAME }}
