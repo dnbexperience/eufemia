@@ -580,6 +580,85 @@ describe('TableTr', () => {
       expect(getLast()).toEqual([false, false, true])
     })
 
+    it.each([false, true])(
+      'should recount when rows move between arrays (StrictMode: %s)',
+      (strictMode) => {
+        const GroupedTable = ({ pinned }: { pinned: boolean }) => {
+          const table = (
+            <Table>
+              <tbody>
+                {(pinned ? ['a'] : []).map((value) => (
+                  <TableTr key={value}>
+                    <td>{value}</td>
+                  </TableTr>
+                ))}
+                {(pinned ? ['b', 'c'] : ['a', 'b', 'c']).map((value) => (
+                  <TableTr key={value}>
+                    <td>{value}</td>
+                  </TableTr>
+                ))}
+              </tbody>
+            </Table>
+          )
+
+          return strictMode ? <StrictMode>{table}</StrictMode> : table
+        }
+
+        const { rerender } = render(<GroupedTable pinned />)
+        const firstRow = getRows()[0]
+
+        rerender(<GroupedTable pinned={false} />)
+
+        expect(getRows()[0]).not.toBe(firstRow)
+        expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+        expect(getLast()).toEqual([false, false, true])
+
+        rerender(<GroupedTable pinned />)
+
+        expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+        expect(getLast()).toEqual([false, false, true])
+      }
+    )
+
+    it('should distinguish row keys containing fingerprint separators', () => {
+      const { rerender } = render(<MockTable values={['a:undefined|b']} />)
+
+      rerender(<MockTable values={['a', 'b']} />)
+
+      expect(getVariants()).toEqual(['odd', 'even'])
+      expect(getLast()).toEqual([false, true])
+    })
+
+    it('should render only once when nested row arrays stay the same', () => {
+      const onRender = vi.fn()
+      const NestedTable = () => (
+        <Profiler id="table" onRender={onRender}>
+          <Table>
+            <tbody>
+              {['a', 'b'].map((value) => (
+                <TableTr key={value}>
+                  <td>{value}</td>
+                </TableTr>
+              ))}
+              {['c'].map((value) => (
+                <TableTr key={value}>
+                  <td>{value}</td>
+                </TableTr>
+              ))}
+            </tbody>
+          </Table>
+        </Profiler>
+      )
+      const { rerender } = render(<NestedTable />)
+
+      onRender.mockClear()
+      rerender(<NestedTable />)
+
+      expect(onRender).toHaveBeenCalledTimes(1)
+      expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+      expect(getLast()).toEqual([false, false, true])
+    })
+
     it('should move the last row class when the last row is removed', () => {
       const { rerender } = render(<MockTable values={['a', 'b', 'c']} />)
 
