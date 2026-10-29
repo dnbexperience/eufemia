@@ -3,15 +3,18 @@
 *
 */
 
+// Dark mode keeps the token colors, as the palette colors fail contrast there
+$light-scheme: ':where(:not(.eufemia-theme__color-scheme--dark *))';
+
 .dnb-button {
-  &--primary,
-  &--secondary,
-  &--tertiary {
+  &--primary#{$light-scheme},
+  &--secondary#{$light-scheme},
+  &--tertiary#{$light-scheme} {
     --button-color-icon--disabled: var(--color-black-55);
     --button-color-text--disabled: var(--color-black-55);
   }
 
-  &--primary {
+  &--primary#{$light-scheme} {
     // Background
     --button-color-bg--default: var(--color-emerald-green);
     --button-color-bg--hover: var(--color-sea-green);
@@ -31,7 +34,7 @@
     --button-color-text--active: var(--color-white);
   }
 
-  &--secondary {
+  &--secondary#{$light-scheme} {
     // Background
     --button-color-bg--active: var(--color-pistachio);
     --button-color-bg--disabled: var(--color-white);
@@ -49,7 +52,7 @@
     --button-color-text--active: var(--color-emerald-green);
   }
 
-  &--tertiary {
+  &--tertiary#{$light-scheme} {
     // Icon
     --button-color-icon--default: var(--color-emerald-green);
     --button-color-icon--hover: var(--color-emerald-green);

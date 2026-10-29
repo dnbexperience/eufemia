@@ -776,6 +776,26 @@ describe('Button scss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('uses the Eiendom palette colors only in the light color scheme', () => {
+    const css = loadScss(
+      require.resolve('../style/themes/dnb-button-theme-eiendom.scss')
+    )
+    const paletteRules = css
+      .split('}')
+      .filter((rule) => rule.includes('var(--color-'))
+
+    expect(paletteRules.length).toBeGreaterThan(0)
+    for (const rule of paletteRules) {
+      for (const selector of rule
+        .slice(0, rule.lastIndexOf('{'))
+        .split(',')) {
+        expect(selector).toContain(
+          ':where(:not(.eufemia-theme__color-scheme--dark *))'
+        )
+      }
+    }
+  })
+
   it('shows the focus ring in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
