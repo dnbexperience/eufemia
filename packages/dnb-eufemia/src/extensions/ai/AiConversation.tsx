@@ -26,9 +26,11 @@ import type {
 const BOTTOM_THRESHOLD = 32
 
 // A new turn starts at a message from the user
-const ANCHOR_SELECTOR = '.dnb-ai-message--user'
+const ANCHOR_SELECTOR =
+  '.dnb-ai-message--user, .dnb-ai-conversation__item--user'
 
-const MESSAGE_SELECTOR = '.dnb-ai-message[id]'
+const MESSAGE_SELECTOR =
+  '.dnb-ai-message[id], .dnb-ai-conversation__item[id]'
 
 const SCROLL_KEYS = [
   'ArrowUp',
@@ -47,7 +49,7 @@ type Store<T> = {
   isActive: () => boolean
 }
 
-type ConversationApi = {
+export type ConversationApi = {
   controls: AiConversationControls
   scrollState: Store<AiConversationScrollState>
   visibility: Store<AiConversationVisibility>
@@ -55,9 +57,19 @@ type ConversationApi = {
 
 type Position = { element: Element; top: number }
 
-const AiConversationContext = createContext<ConversationApi>(null)
+export const AiConversationContext = createContext<ConversationApi>(null)
 
 function AiConversation(props: AiConversationProps) {
+  const { renderDriver, ...rest } = props
+  const Renderer = props.items && renderDriver?.Renderer
+  return Renderer ? (
+    <Renderer {...rest} />
+  ) : (
+    <ConversationContent {...rest} />
+  )
+}
+
+function ConversationContent(props: AiConversationProps) {
   const {
     id,
     label,
@@ -65,6 +77,8 @@ function AiConversation(props: AiConversationProps) {
     'aria-live': ariaLive,
     className,
     children,
+    items,
+    renderDriver: _renderDriver,
     ...rest
   } = props
 
@@ -134,15 +148,7 @@ function AiConversation(props: AiConversationProps) {
     }
   }, [])
 
-  const { update } = useSharedState<ConversationApi>(id)
-
-  useLayoutEffect(() => {
-    if (!id) {
-      return undefined // stop here
-    }
-    update(api)
-    return () => update(undefined)
-  }, [id, api, update])
+  useRegisterConversation(id, api)
 
   useLayoutEffect(
     () => () => {
@@ -335,7 +341,25 @@ function AiConversation(props: AiConversationProps) {
           }}
         >
           <div ref={contentRef} className="dnb-ai-conversation__content">
-            {children}
+            {items
+              ? items.map((item, index) => (
+                  <div
+                    key={item.id}
+                    id={item.id}
+                    className={clsx(
+                      'dnb-ai-conversation__item',
+                      item.from === 'user' &&
+                        'dnb-ai-conversation__item--user'
+                    )}
+                    style={{
+                      paddingBottom:
+                        index < items.length - 1 ? '1rem' : undefined,
+                    }}
+                  >
+                    {item.render()}
+                  </div>
+                ))
+              : children}
           </div>
           <div ref={spacerRef} className="dnb-ai-conversation__spacer" />
         </ScrollView>
@@ -405,19 +429,19 @@ const NO_CONTROLS: AiConversationControls = {
   scrollToMessage: () => false,
 }
 
-const DEFAULT_SCROLL_STATE: AiConversationScrollState = {
+export const DEFAULT_SCROLL_STATE: AiConversationScrollState = {
   isAtStart: true,
   isAtEnd: true,
 }
 
-const NO_VISIBILITY: AiConversationVisibility = {
+export const NO_VISIBILITY: AiConversationVisibility = {
   currentTurnId: null,
   visibleMessageIds: [],
 }
 
 const noSubscription = () => () => undefined
 
-function createStore<T extends Record<string, unknown>>(
+export function createStore<T extends Record<string, unknown>>(
   initial: T,
   onActiveChange?: (isActive: boolean) => void
 ): Store<T> {
@@ -446,6 +470,20 @@ function createStore<T extends Record<string, unknown>>(
     },
     isActive: () => listeners.size > 0,
   }
+}
+
+export function useRegisterConversation(
+  id: string | undefined,
+  api: ConversationApi
+) {
+  const { update } = useSharedState<ConversationApi>(id)
+  useLayoutEffect(() => {
+    if (!id) {
+      return undefined
+    }
+    update(api)
+    return () => update(undefined)
+  }, [id, api, update])
 }
 
 function isSame(a: Record<string, unknown>, b: Record<string, unknown>) {
