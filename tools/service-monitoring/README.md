@@ -1,19 +1,19 @@
 # Eufemia service monitoring
 
-Hourly AWS checks of the public CDN and HTTP MCP server, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn and checkHttpMcp implementations, including their retries, response limits and rollout grace periods.
+Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods.
 
 ## Deployment
 
-The public Service Monitoring Lambda workflow tests and bundles the checks, then copies the ZIP, Terraform and internal deployment workflow to the repository configured by GHE_MONITORING_DEPLOY_REPO. Only main can perform the handoff. The internal workflow uses OIDC to apply Terraform and invokes both monitors as a smoke test. Until the handoff variable is configured, CI still validates and produces a downloadable deployment artifact. Root dependency and Yarn configuration changes also trigger validation. The handoff compares the complete deployment package with the internal deploy branch and skips the push when its contents are unchanged; dependency changes that affect the bundle still deploy.
+The public Service Monitoring Lambda workflow tests and bundles the checks, then copies the ZIP, Terraform and internal deployment workflow to the repository configured by GHE_MONITORING_DEPLOY_REPO. Only main can perform the handoff. The internal workflow uses OIDC to apply Terraform and invokes every monitor as a smoke test. Until the handoff variable is configured, CI still validates and produces a downloadable deployment artifact. Root dependency and Yarn configuration changes also trigger validation. The handoff compares the complete deployment package with the internal deploy branch and skips the push when its contents are unchanged; dependency changes that affect the bundle still deploy.
 
 Each service has a separate Node.js 22 Lambda using the same bundle, with 256 MB memory and one reserved concurrent execution. The HTTP budget is 330 seconds; Lambda allows 480 seconds for checks, persistence and notifications. There is no public inbound endpoint, runtime checkout, docs build or package installation. The production checks always use the public edge, including npm and GitHub for freshness verification.
 
-EventBridge Scheduler runs CDN at :07 and MCP at :11 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
+EventBridge Scheduler runs CDN at :07, MCP at :11 and Analytics at :17 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
 
 ## One-time setup
 
 1. Create a dedicated internal deployment repository. Provision its OIDC deploy role through the internal federation repository, restricted to the deploy branch and verified repository IDs. Give it scoped access to this stack, its Terraform state key and permission to pass the three execution roles.
-2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, read of the optional GitHub token secret, sns:Publish to the monitoring topic and failure-queue writes. The notifier needs its own log writes, bot configuration secret read, monitoring-table item read/write and sqs:SendMessage for its failure destination. Scheduler trust restricts the source account and schedule group. Its permissions are lambda:InvokeFunction for the two check functions and sqs:SendMessage for the schedule failure queue.
+2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, read of the optional GitHub token secret and the analytics GHE token secret, sns:Publish to the monitoring topic and failure-queue writes. The notifier needs its own log writes, bot configuration secret read, monitoring-table item read/write and sqs:SendMessage for its failure destination. Scheduler trust restricts the source account and schedule group. Its permissions are lambda:InvokeFunction for the three check functions and sqs:SendMessage for the schedule failure queue.
 3. Configure GHE_MONITORING_DEPLOY_REPO in the public repo and a monitoring-only GHE_MONITORING_DEPLOY_PAT credential with Contents read/write, Workflows read/write and required Metadata read for that internal repository only. The handoff writes .github/workflows/deploy.yml, so workflow-file access is required. Configure the internal variables below.
 4. Configure the Slack bot secret and deploy with notifications disabled. Follow the Slack app setup below before enabling notifications. Never put secret values in Terraform, repository variables, logs or committed files.
 
@@ -32,10 +32,11 @@ AWS schedules continue running independently if a deployment credential expires.
 | MONITORING_SLACK_BOT_SECRET_ARN    | Required bot configuration secret ARN when notifications are enabled |
 | MONITORING_NOTIFICATIONS_ENABLED   | false during verification, then true                                 |
 | MONITORING_GITHUB_TOKEN_SECRET_ARN | Optional Secrets Manager ARN for a read-only GitHub Actions token    |
+| MONITORING_ANALYTICS_DEPLOY_REPO   | Required: owner/repo of the analytics deployment                     |
 
 State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock.
 
-The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secrets are created by an administrator and passed to Terraform only by ARN; the Lambdas read their values at runtime.
+The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secrets are created by an administrator; the Lambdas read their values at runtime. Terraform passes the GitHub and Slack bot secrets by ARN. The analytics check reads its GHE token by the fixed name eufemia/<environment>/monitoring/ghe-analytics-token: a dnb.ghe.com fine-grained token with Actions read on the analytics deployment repository only, stored as plain text with the default Secrets Manager key. Create it before deploying the analytics function; without it the analytics check reports unhealthy and the smoke test fails.
 
 The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification uses the unauthenticated API limit. A 403/429 makes the deployment-source check unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
 
@@ -43,7 +44,7 @@ Functions use Lambda's default network with outbound HTTPS. If account policy re
 
 ## Quiet Slack notifications
 
-A single notifier owns all AWS CDN/MCP posts. Check functions save their health
+A single notifier owns all AWS monitoring posts. Check functions save their health
 reports and publish observations to SNS. CloudWatch alarm transitions enter the
 same notifier. Reserved concurrency of one serializes shared notification state.
 Each check retains its pending observation until SNS accepts it. A later run
@@ -95,20 +96,18 @@ The deployment fails before enabling notifications unless slack_bot_secret_arn i
 configured. The notifier validates the secret at runtime. The API uses only fixed
 Slack endpoints and refuses redirects; logs include only allowlisted error names, HTTP status and Slack error codes, excluding tokens and raw response bodies. SNS and Lambda failure destinations preserve rejected deliveries.
 
-### Migration and tests
+### Tests
 
 Use mocked Slack API calls for development and CI. No test messages go to the
 production team channel. If a live check is necessary, use a separate test channel
 with an explicitly approved destination. Do not manufacture service failures in
 the production incident state.
 
-Install/configure the bot and apply the bootstrap role update first. Verify the notifier with notifications disabled or in a test stack, then deploy and assign CDN/MCP alert ownership to AWS. Production CDN/MCP checks and alert ownership stay in AWS. Use the local diagnostic commands for on-demand checks. Existing open GitHub incidents need explicit handoff; the notifier does
-not write GitHub issues. Analytics and Portal monitors remain separate workflows
-and need their own integration before they can share this overview.
-
-The shared GitHub incident reporter remains in use by Analytics. A regional AWS
-outage still needs an external uptime service for independent paging.
+Production CDN, MCP and analytics checks and alert ownership stay in AWS. Use the
+local diagnostic commands for on-demand checks. The notifier does not write GitHub
+issues. The Portal monitor remains a separate workflow. A regional AWS outage
+still needs an external uptime service for independent paging.
 
 ## Local validation
 
-Run the service-monitoring workspace scripts: test, test:types, lint and build. The build imports both shipped ESM bundles before packaging the ZIP, catching loader failures. Initialize Terraform with backend disabled and the committed lockfile before validation. Live check commands remain in the existing assets and mcp-lambda workspaces; running them without the alert wrappers sends no messages.
+Run the service-monitoring workspace scripts: test, test:types, lint and build. The build imports both shipped ESM bundles before packaging the ZIP, catching loader failures. Initialize Terraform with backend disabled and the committed lockfile before validation. Live check commands remain in the assets, mcp-lambda and analytics workspaces (check:cdn, check:http, check:analytics); they send no messages.

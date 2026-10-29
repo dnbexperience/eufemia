@@ -1,6 +1,7 @@
 import type { Report } from '../../monitoring/report-incident.ts'
 
-export type Service = 'CDN' | 'MCP'
+export const services = ['CDN', 'MCP', 'Analytics'] as const
+export type Service = (typeof services)[number]
 export type State = { report?: Report; pendingObservation?: Report }
 type Dependencies = {
   load: () => Promise<State>

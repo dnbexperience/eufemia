@@ -20,7 +20,9 @@ mock_provider "aws" {
 }
 
 variables {
-  cost_allocation = "test"
+  cost_allocation             = "test"
+  analytics_deploy_repository = "owner/deploy-repo"
+  github_token_secret_arn     = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-github-abcdef"
 }
 
 run "shadow_rollout" {
@@ -47,6 +49,26 @@ run "shadow_rollout" {
     ])
     error_message = "A monitor that stops completing must trigger a missing-check alarm."
   }
+  assert {
+    condition = (
+      aws_scheduler_schedule.monitor["Analytics"].schedule_expression == "cron(17 * * * ? *)" &&
+      aws_lambda_function.monitor["Analytics"].environment[0].variables["GHE_TOKEN_SECRET"] == "eufemia/dev/monitoring/ghe-analytics-token" &&
+      aws_lambda_function.monitor["Analytics"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
+      aws_lambda_function.monitor["MCP"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
+      aws_lambda_function.monitor["CDN"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == "" &&
+      aws_lambda_function.monitor["Analytics"].environment[0].variables["ANALYTICS_DEPLOY_REPOSITORY"] == "owner/deploy-repo" &&
+      !contains(keys(aws_lambda_function.monitor["MCP"].environment[0].variables), "GHE_TOKEN_SECRET")
+    )
+    error_message = "MCP and analytics get the GitHub token; only analytics gets the GHE credential and deploy repository."
+  }
+}
+
+run "reject_invalid_analytics_repository" {
+  command = plan
+  variables {
+    analytics_deploy_repository = ""
+  }
+  expect_failures = [var.analytics_deploy_repository]
 }
 
 run "reject_missing_bot_secret" {

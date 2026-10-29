@@ -20,6 +20,9 @@ vi.mock('../../assets/check-cdn.ts', () => ({ checkCdn: mocks.check }))
 vi.mock('../../mcp-lambda/src/check-http.ts', () => ({
   checkHttpMcp: mocks.check,
 }))
+vi.mock('../../analytics/src/monitor/check-analytics.ts', () => ({
+  checkAnalytics: mocks.check,
+}))
 vi.mock('../src/secrets.ts', () => ({ readSecret: mocks.secret }))
 vi.mock('../src/publish-observation.ts', () => ({
   publishObservation: mocks.publish,
@@ -76,6 +79,60 @@ it('still checks public MCP when its optional GitHub credential is unavailable',
   expect(await handler()).toEqual({ service: 'MCP', status: 'unhealthy' })
   expect(mocks.check).toHaveBeenCalledWith(
     expect.objectContaining({ githubToken: undefined })
+  )
+})
+it('reads the analytics GHE credential by name and passes the deploy repository', async () => {
+  vi.stubEnv('SERVICE', 'Analytics')
+  vi.stubEnv(
+    'GHE_TOKEN_SECRET',
+    'eufemia/dev/monitoring/ghe-analytics-token'
+  )
+  vi.stubEnv('ANALYTICS_DEPLOY_REPOSITORY', 'owner/deploy-repo')
+  mocks.secret.mockResolvedValue('ghe-token')
+  expect(await handler()).toEqual({
+    service: 'Analytics',
+    status: 'healthy',
+  })
+  expect(mocks.secret).toHaveBeenCalledWith(
+    'eufemia/dev/monitoring/ghe-analytics-token'
+  )
+  expect(mocks.check).toHaveBeenCalledWith(
+    expect.objectContaining({
+      githubToken: undefined,
+      gheRepository: 'owner/deploy-repo',
+      gheToken: 'ghe-token',
+    })
+  )
+  expect(mocks.save.mock.calls[0]?.[0].input.Key).toEqual({
+    service: { S: 'Analytics' },
+  })
+})
+it('reports an unreadable analytics GHE credential without exposing the error', async () => {
+  vi.stubEnv('SERVICE', 'Analytics')
+  vi.stubEnv(
+    'GHE_TOKEN_SECRET',
+    'eufemia/dev/monitoring/ghe-analytics-token'
+  )
+  const output = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+  mocks.secret.mockRejectedValue(
+    Object.assign(new Error('secret value'), {
+      name: 'AccessDeniedException',
+    })
+  )
+  expect(await handler()).toEqual({
+    service: 'Analytics',
+    status: 'unhealthy',
+  })
+  expect(mocks.check).toHaveBeenCalledWith(
+    expect.objectContaining({ gheToken: undefined })
+  )
+  const lines = output.mock.calls.map(([line]) => String(line))
+  expect(lines.join('')).not.toContain('secret value')
+  expect(
+    lines.map((line) => JSON.parse(line)).find((event) => event.report)
+      ?.report.checks
+  ).toContainEqual(
+    expect.objectContaining({ name: 'GHE deploy credential', ok: false })
   )
 })
 it('reports SNS failure with a safe stage and no completion metric', async () => {
