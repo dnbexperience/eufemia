@@ -674,6 +674,47 @@ describe('TableTr', () => {
       expect(getVariants()).toEqual(['odd', 'even', 'odd'])
       expect(getLast()).toEqual([false, false, true])
     })
+
+    it('should recount when a row moves into a nested array', () => {
+      const { rerender } = render(
+        <Table>
+          <tbody>
+            {[
+              [
+                <TableTr key="a">
+                  <td>a</td>
+                </TableTr>,
+              ],
+              <TableTr key="b">
+                <td>b</td>
+              </TableTr>,
+            ]}
+          </tbody>
+        </Table>
+      )
+
+      rerender(
+        <Table>
+          <tbody>
+            {[
+              [
+                <TableTr key="a">
+                  <td>a</td>
+                </TableTr>,
+              ],
+              [
+                <TableTr key="b">
+                  <td>b</td>
+                </TableTr>,
+              ],
+            ]}
+          </tbody>
+        </Table>
+      )
+
+      expect(getVariants()).toEqual(['odd', 'even'])
+      expect(getLast()).toEqual([false, true])
+    })
   })
 
   describe('isLast', () => {

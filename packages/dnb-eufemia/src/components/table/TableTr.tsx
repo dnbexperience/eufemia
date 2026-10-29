@@ -303,7 +303,8 @@ function getRowsKey(children: ReactNode): string | null {
   let hasHiddenRows = false
 
   const collect = (nodes: ReactNode) => {
-    Children.forEach(nodes, (node) => {
+    // The keys from toArray include the position in nested arrays, like React uses to keep rows
+    Children.toArray(nodes).forEach((node) => {
       if (hasHiddenRows || !isValidElement(node)) {
         return
       }
