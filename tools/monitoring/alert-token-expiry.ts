@@ -70,7 +70,7 @@ async function main() {
     )
   }
 
-  // Failures without an expiry date (expired, missing secret, GHE unavailable) alert every day.
+  // Failures without a day count alert every day.
   const alerts = checks.filter(
     (check) =>
       !check.ok &&
