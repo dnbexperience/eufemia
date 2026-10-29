@@ -15,6 +15,33 @@ describe('Field.Name', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
+  it('should have a default label linked to the input', () => {
+    render(<Field.Name />)
+
+    const label = document.querySelector('label')
+    const input = document.querySelector('input')
+    expect(label).toHaveTextContent(nb.Name.label)
+    expect(label).toHaveAttribute('for', input.id)
+  })
+
+  it('should support a custom label', () => {
+    render(<Field.Name label="Fullt navn" />)
+
+    expect(document.querySelector('label')).toHaveTextContent('Fullt navn')
+  })
+
+  it.each([
+    ['First', Field.Name.First, nb.FirstName.label],
+    ['Last', Field.Name.Last, nb.LastName.label],
+  ])(
+    '%s name should keep its own default label',
+    (_, Component, label) => {
+      render(<Component />)
+
+      expect(document.querySelector('label')).toHaveTextContent(label)
+    }
+  )
+
   it('should show errors if field is empty on submit', () => {
     const onSubmit = vi.fn()
 
@@ -494,6 +521,7 @@ describe('Field.Name', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
         <>
+          <Field.Name required validateInitially />
           <Field.Name.First required validateInitially />
           <Field.Name.Last required validateInitially />
           <Field.Name.Company required validateInitially />

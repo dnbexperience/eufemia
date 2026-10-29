@@ -176,6 +176,9 @@ export default {
       errorRequired: 'Du skal udfylde en e-mailadresse.',
       errorPattern: 'Du skal indtaste en gyldig e-mailadresse.',
     },
+    Name: {
+      label: 'Navn',
+    },
     FirstName: {
       label: 'Fornavn',
       errorRequired: 'Du skal udfylde fornavn.',
