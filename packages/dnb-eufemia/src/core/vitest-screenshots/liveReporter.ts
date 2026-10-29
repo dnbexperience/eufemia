@@ -12,6 +12,12 @@
  * summary without re-printing every completed test from each file.
  */
 
+import fs from 'node:fs'
+import { createRequire } from 'node:module'
+import os from 'node:os'
+import path from 'node:path'
+import { version as playwrightVersion } from 'playwright/package.json'
+import { isCICheck } from 'repo-utils'
 import type {
   Reporter,
   TestCase,
@@ -20,6 +26,8 @@ import type {
   TestSpecification,
 } from 'vitest/node'
 import { drainNavigations } from './failures'
+
+const require = createRequire(import.meta.url)
 
 const COLORS = {
   reset: '\x1b[0m',
@@ -52,6 +60,31 @@ const flushNavigations = () => {
 export default class LiveReporter implements Reporter {
   private finished = 0
   private failed: string[] = []
+
+  onInit() {
+    const browsersPath = path.join(
+      path.dirname(require.resolve('playwright-core/package.json')),
+      'browsers.json'
+    )
+    const { browsers } = JSON.parse(
+      fs.readFileSync(browsersPath, 'utf-8')
+    ) as {
+      browsers: {
+        name: string
+        browserVersion: string
+        revision: string
+      }[]
+    }
+    const firefox = browsers.find(({ name }) => name === 'firefox')
+
+    write(
+      `Visual tests: Playwright ${playwrightVersion} | bundled Firefox ${firefox?.browserVersion ?? 'unknown'} (build ${firefox?.revision ?? 'unknown'})`
+    )
+    write(
+      `Environment: Node ${process.version} | ${os.platform()} ${os.release()} (${os.arch()}) | ${isCICheck() ? 'CI' : 'local'}`
+    )
+    write('')
+  }
 
   onTestRunStart(specifications: ReadonlyArray<TestSpecification>) {
     this.finished = 0

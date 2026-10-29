@@ -2,11 +2,55 @@
 
 import { afterEach, expect, it, vi } from 'vitest'
 import type { TestCase } from 'vitest/node'
+import fs from 'node:fs'
+import os from 'node:os'
 import LiveReporter from '../liveReporter'
+
+vi.mock('playwright/package.json', () => ({ version: '1.2.3' }))
 
 afterEach(() => {
   vi.restoreAllMocks()
+  vi.unstubAllEnvs()
 })
+
+it.each(['true', '1', 'false', undefined])(
+  'prints the visual test environment once at startup with CI=%s',
+  (ci) => {
+    vi.stubEnv('CI', ci)
+    vi.spyOn(os, 'platform').mockReturnValue('linux')
+    vi.spyOn(os, 'release').mockReturnValue('6.8.0')
+    vi.spyOn(os, 'arch').mockReturnValue('x64')
+    const readFile = vi.spyOn(fs, 'readFileSync').mockReturnValue(
+      JSON.stringify({
+        browsers: [
+          { name: 'chromium', browserVersion: '123.0', revision: '111' },
+          { name: 'firefox', browserVersion: '124.0', revision: '222' },
+        ],
+      })
+    )
+    const write = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+    const reporter = new LiveReporter()
+
+    reporter.onInit()
+    reporter.onTestRunStart([])
+    reporter.onTestRunStart([])
+
+    const output = write.mock.calls.map(([text]) => String(text)).join('')
+    expect(readFile).toHaveBeenCalledWith(
+      expect.stringContaining('playwright-core/browsers.json'),
+      'utf-8'
+    )
+    expect(output).toContain(
+      'Visual tests: Playwright 1.2.3 | bundled Firefox 124.0 (build 222)'
+    )
+    expect(output).toContain(
+      `Environment: Node ${process.version} | linux 6.8.0 (x64) | ${
+        ci === 'true' || ci === '1' ? 'CI' : 'local'
+      }`
+    )
+    expect(output.match(/Visual tests:/g)).toHaveLength(1)
+  }
+)
 
 it('prints the original errors when a retried test eventually passes', () => {
   const write = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
