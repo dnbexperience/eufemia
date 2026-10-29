@@ -1008,10 +1008,13 @@ describe('Slider scss', () => {
       /@media \(forced-colors: active\) \{\s*\.dnb-slider__line \{\s*forced-color-adjust: none;\s*background-color: Highlight;/
     )
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-slider__line__after \{\s*background-color: CanvasText;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__line__after \{\s*background-color: Canvas;\s*outline: 1px solid CanvasText;/
     )
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-slider__state--disabled \.dnb-slider__line, \.dnb-slider__state--disabled \.dnb-slider__line__after \{\s*background-color: GrayText;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__state--disabled \.dnb-slider__line \{\s*background-color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__state--disabled \.dnb-slider__line__after \{\s*background-color: Canvas;\s*outline-color: GrayText;/
     )
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-slider__marker \{\s*forced-color-adjust: none;\s*background-color: CanvasText;/

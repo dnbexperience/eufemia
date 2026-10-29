@@ -1461,7 +1461,8 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
 }
 @media (forced-colors: active) {
   .dnb-slider__line__after {
-    background-color: CanvasText;
+    background-color: Canvas;
+    outline: 1px solid CanvasText;
   }
 }
 .dnb-slider--vertical .dnb-slider__line {
@@ -1517,12 +1518,18 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
 .dnb-slider__state--disabled .dnb-slider__line {
   background-color: var(--slider-line-before--disabled);
 }
+@media (forced-colors: active) {
+  .dnb-slider__state--disabled .dnb-slider__line {
+    background-color: GrayText;
+  }
+}
 .dnb-slider__state--disabled .dnb-slider__line__after {
   background-color: var(--slider-line-after--disabled);
 }
 @media (forced-colors: active) {
-  .dnb-slider__state--disabled .dnb-slider__line, .dnb-slider__state--disabled .dnb-slider__line__after {
-    background-color: GrayText;
+  .dnb-slider__state--disabled .dnb-slider__line__after {
+    background-color: Canvas;
+    outline-color: GrayText;
   }
 }
 .dnb-slider__state--animate .dnb-slider__thumb, .dnb-slider__state--animate .dnb-slider__line {
