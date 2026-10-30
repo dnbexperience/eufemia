@@ -9,6 +9,7 @@
 
 .eufemia-theme__carnegie,
 :root {
+  --button-font-weight-cta: var(--font-weight-regular);
   --font-size-basis-native: var(--font-size-basis-web);
 
   // Ensure Carnegie headings use ArizonaFlare, even after UI variables are imported

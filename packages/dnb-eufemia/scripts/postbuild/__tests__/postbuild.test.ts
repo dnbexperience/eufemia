@@ -131,13 +131,13 @@ describe('rebaseAssetUrls (copyStyles)', () => {
 
   it('rebases nested theme bundles to their deeper location', () => {
     const css =
-      '@font-face{src:url("../../../assets/fonts/dnb/DNB-Regular.woff2")}'
+      '@font-face{src:url("../../../assets/fonts/dnb/DNBSansText-Regular.woff2")}'
     const dest = path.join(
       buildAbs,
       'es/style/themes/ui/ui-theme-basis.css'
     )
     expect(rebaseAssetUrls(css, dest)).toContain(
-      'url("../../../../assets/fonts/dnb/DNB-Regular.woff2")'
+      'url("../../../../assets/fonts/dnb/DNBSansText-Regular.woff2")'
     )
   })
 
@@ -1097,7 +1097,7 @@ describe('style build', () => {
         'utf-8'
       )
       expect(normalizeCss(content)).toContain(
-        normalizeCss(`--font-family-default: "DNB", sans-serif;`)
+        normalizeCss(`--font-family-default: "DNB", "Arial", sans-serif;`)
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
@@ -1105,7 +1105,7 @@ describe('style build', () => {
       // bundle, so their relative asset paths gain one extra "../".
       const fontsPrefix = stage === '' ? '../../../' : '../../../../'
       expect(content).toContain(
-        `src: url("${fontsPrefix}assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        `src: url("${fontsPrefix}assets/fonts/dnb/DNBSansText-Regular.woff2") format("woff2"),`
       )
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
@@ -1253,7 +1253,7 @@ describe('style build', () => {
     const themeTests = [
       {
         theme: 'ui',
-        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', 'Arial', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
       {
@@ -1264,7 +1264,7 @@ describe('style build', () => {
       },
       {
         theme: 'eiendom',
-        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', 'Arial', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
     ]
