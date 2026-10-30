@@ -1385,6 +1385,9 @@ button.dnb-button::-moz-focus-inner {
   --checkbox-color-background__indeterminate--disabled: var(
     --token-color-background-neutral
   );
+  --checkbox-color-border__indeterminate--disabled: var(
+    --token-color-stroke-action-disabled
+  );
   --checkbox-border-inset--active: inset;
   --checkbox-color-gfx-on--active: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-off--active: var(
@@ -1442,10 +1445,25 @@ button.dnb-button::-moz-focus-inner {
   --checkbox-bounding--medium: 1.75, 1.75;
 }
 .dnb-checkbox--surface-dark {
-  --checkbox-color-border-off--disabled: color-mix(
-    in srgb,
-    var(--token-color-stroke-neutral-ondark) 50%,
-    transparent
+  --checkbox-color-gfx--disabled: var(
+    --token-color-icon-action-disabled-ondark
+  );
+  --checkbox-color-background-on--disabled: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --checkbox-color-background-off--disabled: transparent;
+  --checkbox-color-border-on--disabled: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --checkbox-color-border-off--disabled: var(
+    --token-color-stroke-action-disabled-ondark
+  );
+  --checkbox-color-gfx__indeterminate--disabled: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --checkbox-color-background__indeterminate--disabled: transparent;
+  --checkbox-color-border__indeterminate--disabled: var(
+    --token-color-stroke-action-disabled-ondark
   );
 }
 .dnb-checkbox {
@@ -1657,7 +1675,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
     color: GrayText;
   }
 }
-.dnb-checkbox__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__button {
+.dnb-checkbox__input[disabled]:not(:checked):not([data-checked=true]):not(:indeterminate) ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border-off--disabled);
   background-color: var(--checkbox-color-background-off--disabled);
 }
@@ -1670,6 +1688,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   }
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__button {
+  --checkbox-color-border: var(
+    --checkbox-color-border__indeterminate--disabled
+  );
   background-color: var(--checkbox-color-background__indeterminate--disabled);
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__gfx {
