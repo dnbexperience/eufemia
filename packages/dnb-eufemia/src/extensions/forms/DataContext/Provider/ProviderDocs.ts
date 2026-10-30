@@ -48,7 +48,7 @@ export const ProviderProperties: PropertiesTableProps = {
   },
   ajvInstance: {
     doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: `import Ajv from "@dnb/eufemia/extensions/forms"` and pass `ajvInstance={makeAjvInstance()}`. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
-    type: '"ajv"',
+    type: 'Ajv',
     status: 'optional',
   },
   transformIn: {
@@ -88,6 +88,11 @@ export const ProviderProperties: PropertiesTableProps = {
   },
   translationsLoader: {
     doc: 'Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).',
+    type: 'function',
+    status: 'optional',
+  },
+  messageFormatter: {
+    doc: 'Message formatter for advanced message formatting (e.g. ICU MessageFormat). Import and pass `icu` from `@dnb/eufemia/shared` to enable pluralization, select, and other ICU features in translation strings.',
     type: 'function',
     status: 'optional',
   },

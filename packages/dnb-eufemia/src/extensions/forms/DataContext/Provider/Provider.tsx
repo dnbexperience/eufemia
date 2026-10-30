@@ -221,6 +221,10 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     required?: boolean
     /**
+     * Disable all fields.
+     */
+    disabled?: boolean
+    /**
      * Contents.
      */
     children: ReactNode
