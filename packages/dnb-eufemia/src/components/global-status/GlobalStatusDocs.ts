@@ -77,7 +77,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusAnchorText: {
-    doc: 'Defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.',
+    doc: 'Defines the anchor text showing up after every item that has a go-to link (`statusAnchorUrl`). Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -109,13 +109,18 @@ export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
     type: 'string',
     status: 'required',
   },
-  statusId: {
-    doc: 'Defines a unique ID so the message can be either updated or removed individually.',
+  itemId: {
+    doc: 'Defines a unique ID for the item, so it can be updated individually: an item with the same `itemId` replaces the existing one. The go-to link of `statusAnchorUrl={true}` points to the element with this ID. Defaults to an ID made from the `text`.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
+  },
+  id: {
+    doc: 'Defines the `id` of the element that shows the item text. The go-to link refers to it with `aria-describedby`.',
+    type: ['string', 'number'],
+    status: 'optional',
   },
   statusAnchorUrl: {
-    doc: 'Use `statusAnchorUrl={true}` to enable the go-to link, defined as a url hash using the `statusId`. Or provide it with an actual url: `statusAnchorUrl="https://"`.',
+    doc: 'Use `statusAnchorUrl={true}` to enable the go-to link, defined as a url hash using the `itemId`. Or provide it with an actual url: `statusAnchorUrl="https://"`.',
     type: 'string',
     status: 'optional',
   },
