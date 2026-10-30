@@ -136,6 +136,19 @@ describe('useOutsideClick', () => {
     expect(onOutsideClick).toHaveBeenCalledTimes(0)
   })
 
+  it('should count a mouse pointerdown instead of a mousedown when pressEvent is pointerdown', () => {
+    const { onOutsideClick } = renderOutsideClick({
+      pressEvent: 'pointerdown',
+    })
+
+    fireEvent.mouseDown(outside)
+    fireEvent.pointerDown(outside, { pointerType: 'touch' })
+    expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+    fireEvent.pointerDown(outside, { pointerType: 'mouse' })
+    expect(onOutsideClick).toHaveBeenCalledTimes(1)
+  })
+
   it('should only see stopped events when capture is true', () => {
     outside.addEventListener('mousedown', (event) =>
       event.stopPropagation()
