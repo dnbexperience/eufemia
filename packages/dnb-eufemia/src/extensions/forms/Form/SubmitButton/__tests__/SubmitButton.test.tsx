@@ -569,7 +569,9 @@ describe('Form.SubmitButton', () => {
       document.querySelectorAll('button')
     )
     const pendingIndicator = () =>
-      submitButton.querySelector('.dnb-forms-submit-indicator--state-pending')
+      submitButton.querySelector(
+        '.dnb-forms-submit-indicator--state-pending'
+      )
 
     submitButton.focus()
     fireEvent.click(submitButton)

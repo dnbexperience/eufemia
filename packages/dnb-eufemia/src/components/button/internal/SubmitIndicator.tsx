@@ -10,7 +10,7 @@ import { convertJsxToString } from '../../../shared/component-helper'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
-export type SubmitIndicatorProps = {
+export type ButtonSubmitIndicatorProps = {
   state: SubmitState
   id?: string
   label?: ReactNode
@@ -19,7 +19,7 @@ export type SubmitIndicatorProps = {
   children?: ReactNode
 } & SpaceProps
 
-function SubmitIndicator(props: SubmitIndicatorProps) {
+function SubmitIndicator(props: ButtonSubmitIndicatorProps) {
   const translation = useTranslation().SubmitIndicator
 
   const {

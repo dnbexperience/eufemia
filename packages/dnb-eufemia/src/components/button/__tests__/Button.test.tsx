@@ -847,11 +847,12 @@ describe('Button pending', () => {
 
   it('ignores clicks and does not submit a form', () => {
     const onClick = vi.fn()
-    const onParentClick = vi.fn()
+    const onBodyClick = vi.fn()
     const onSubmit = vi.fn((event) => event.preventDefault())
+    document.body.addEventListener('click', onBodyClick)
 
     const { rerender } = render(
-      <form onSubmit={onSubmit} onClick={onParentClick}>
+      <form onSubmit={onSubmit}>
         <Button text="Save" type="submit" onClick={onClick} pending />
       </form>
     )
@@ -860,11 +861,11 @@ describe('Button pending', () => {
     fireEvent.click(button)
 
     expect(onClick).toHaveBeenCalledTimes(0)
-    expect(onParentClick).toHaveBeenCalledTimes(0)
+    expect(onBodyClick).toHaveBeenCalledTimes(0)
     expect(onSubmit).toHaveBeenCalledTimes(0)
 
     rerender(
-      <form onSubmit={onSubmit} onClick={onParentClick}>
+      <form onSubmit={onSubmit}>
         <Button
           text="Save"
           type="submit"
@@ -877,8 +878,10 @@ describe('Button pending', () => {
     fireEvent.click(button)
 
     expect(onClick).toHaveBeenCalledTimes(1)
-    expect(onParentClick).toHaveBeenCalledTimes(1)
+    expect(onBodyClick).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledTimes(1)
+
+    document.body.removeEventListener('click', onBodyClick)
   })
 
   it('keeps a pending link focusable and prevents navigation', () => {
