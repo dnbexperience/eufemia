@@ -75,11 +75,6 @@
   &--primary,
   &--secondary,
   &--tertiary {
-    --button-font-weight: var(
-      --button-font-weight-cta,
-      var(--font-weight-medium)
-    );
-
     // Shared values
     // Background
     --button-color-bg--focus: var(
@@ -719,7 +714,7 @@
 
   text-align: left;
   font-size: var(--font-size-small); // reset
-  font-weight: var(--button-font-weight, var(--font-weight-regular));
+  font-weight: var(--font-weight-regular); // reset
   line-height: var(--button-height);
   text-decoration: none;
 
