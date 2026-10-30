@@ -568,15 +568,19 @@ describe('Form.SubmitButton', () => {
     const [submitButton, otherButton] = Array.from(
       document.querySelectorAll('button')
     )
+    const pendingIndicator = () =>
+      submitButton.querySelector('.dnb-forms-submit-indicator--state-pending')
+
     submitButton.focus()
     fireEvent.click(submitButton)
 
     await waitFor(() => {
-      expect(submitButton).toHaveClass('dnb-button--pending')
+      expect(pendingIndicator()).toBeInTheDocument()
     })
 
     expect(submitButton).not.toBeDisabled()
     expect(submitButton).toHaveAttribute('aria-disabled', 'true')
+    expect(submitButton).toHaveClass('dnb-button--pending')
     expect(document.activeElement).toBe(submitButton)
     expect(otherButton).toBeDisabled()
 
@@ -586,9 +590,10 @@ describe('Form.SubmitButton', () => {
     resolveSubmit()
 
     await waitFor(() => {
-      expect(submitButton).not.toHaveClass('dnb-button--pending')
+      expect(pendingIndicator()).not.toBeInTheDocument()
     })
     expect(submitButton).not.toHaveAttribute('aria-disabled')
+    expect(submitButton).not.toHaveClass('dnb-button--pending')
     expect(otherButton).not.toBeDisabled()
   })
 
