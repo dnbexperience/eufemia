@@ -2980,6 +2980,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-security: "npm:4.0.0"
     express: "npm:5.3.0"
+    fflate: "npm:0.8.2"
     flag-icons: "npm:7.6.0"
     fonteditor-core: "npm:2.6.3"
     fs-extra: "npm:10.0.0"
@@ -3009,6 +3010,7 @@ __metadata:
     repo-utils: "workspace:*"
     sass: "npm:1.97.2"
     semantic-release: "npm:25.0.9"
+    sharp: "npm:0.35.4"
     simple-git: "npm:4.0.2"
     start-server-and-test: "npm:3.0.11"
     stylelint: "npm:16.26.1"
@@ -10442,6 +10444,13 @@ __metadata:
     picomatch:
       optional: true
   checksum: 10/14ca1c9f0a0e8f4f2e9bf4e8551065a164a09545dae548c12a18d238b72e51e5a7b39bd8e5494b56463a0877672d0a6c1ef62c6fa0677db1b0c847773be939b1
+  languageName: node
+  linkType: hard
+
+"fflate@npm:0.8.2":
+  version: 0.8.2
+  resolution: "fflate@npm:0.8.2"
+  checksum: 10/2bd26ba6d235d428de793c6a0cd1aaa96a06269ebd4e21b46c8fd1bd136abc631acf27e188d47c3936db090bf3e1ede11d15ce9eae9bffdc4bfe1b9dc66ca9cb
   languageName: node
   linkType: hard
 
