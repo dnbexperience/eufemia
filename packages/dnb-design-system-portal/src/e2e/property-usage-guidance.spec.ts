@@ -4,6 +4,20 @@ import waitForApp from './shared/waitForApp'
 const guidanceName = 'Read about intended use and customization'
 
 for (const path of [
+  '/uilib/usage/customisation/component-properties/#intended-use-and-customization',
+  '/uilib/components/breadcrumb/events/',
+]) {
+  test(`keeps the property note off ${path}`, async ({ page }) => {
+    await page.goto(path)
+    await waitForApp(page)
+    await expect(page.locator('main h1')).toBeVisible()
+    await expect(
+      page.getByRole('link', { name: guidanceName })
+    ).toHaveCount(0)
+  })
+}
+
+for (const path of [
   '/uilib/components/button/properties/',
   '/uilib/components/breadcrumb/properties/',
   '/uilib/elements/paragraph/properties/',
