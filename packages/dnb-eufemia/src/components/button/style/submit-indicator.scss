@@ -2,7 +2,8 @@
 // Each rule also matches inside a Button, so the CSS optimizer keeps the styles for apps that only use Button.
 .dnb-forms-submit-indicator,
 .dnb-button .dnb-forms-submit-indicator {
-  --padding-left: 0.5em;
+  // Not --padding-left, because Space sets it on every .dnb-space element, and this element is one
+  --dots-offset: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
     var(--easing-default);
   --opacity-animation: opacity var(--opacity-animation-duration, 0ms)
@@ -46,7 +47,7 @@
       animation-duration: 1.2s;
 
       &:nth-of-type(1) {
-        margin-left: var(--padding-left);
+        margin-left: var(--dots-offset);
         animation-delay: 50ms;
       }
       &:nth-of-type(2) {
@@ -65,7 +66,7 @@
   &--inline-wrap .dnb-forms-submit-indicator__content {
     display: flex;
 
-    --padding-left: 0.25em;
+    --dots-offset: 0.25em;
   }
 }
 

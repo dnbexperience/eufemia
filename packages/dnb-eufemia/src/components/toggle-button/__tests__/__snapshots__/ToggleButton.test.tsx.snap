@@ -596,7 +596,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
 
 .dnb-forms-submit-indicator,
 .dnb-button .dnb-forms-submit-indicator {
-  --padding-left: 0.5em;
+  --dots-offset: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
     var(--easing-default);
   --opacity-animation: opacity var(--opacity-animation-duration, 0ms)
@@ -642,7 +642,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
 }
 .dnb-forms-submit-indicator__content b:nth-of-type(1),
 .dnb-button .dnb-forms-submit-indicator__content b:nth-of-type(1) {
-  margin-left: var(--padding-left);
+  margin-left: var(--dots-offset);
   animation-delay: 50ms;
 }
 .dnb-forms-submit-indicator__content b:nth-of-type(2),
@@ -661,7 +661,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
 .dnb-forms-submit-indicator--inline-wrap .dnb-forms-submit-indicator__content,
 .dnb-button .dnb-forms-submit-indicator--inline-wrap .dnb-forms-submit-indicator__content {
   display: flex;
-  --padding-left: 0.25em;
+  --dots-offset: 0.25em;
 }
 
 .dnb-button .dnb-forms-submit-indicator__content {
