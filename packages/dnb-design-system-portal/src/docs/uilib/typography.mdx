@@ -9,6 +9,7 @@ order: 5
 import {
   TypographyVariants,
   FontFamiliesExample,
+  DisplayFontExample,
   ResponsiveTypographyExample,
   ResponsiveTypographyFullExample,
 } from 'Docs/uilib/typography/Examples'
@@ -22,26 +23,57 @@ import {
 ## Font roles
 
 [DNB's brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
-define fonts for distinct roles. **Text** is a font variant designed
+define three complementary font families. **Text** is a font variant designed
 for readability, used in both digital interfaces and printed documents.
 
-| Font                        | Use                                                        |
-| --------------------------- | ---------------------------------------------------------- |
-| DNB Sans Text Regular       | Body text, introductions, everyday UI and document content |
-| DNB Sans Text Medium / Bold | Subheadings; Medium for calls to action                    |
-| DNB Sans Mono               | Selected eyebrow labels, short captions and table details  |
-| Arial                       | Fallback when DNB Sans Text cannot load                    |
+| Font                        | Use                                                                        |
+| --------------------------- | -------------------------------------------------------------------------- |
+| DNB Sans Text Regular       | Body text, introductions, everyday UI and document content                 |
+| DNB Sans Text Medium / Bold | Subheadings; Medium for calls to action                                    |
+| DNB Sans Display            | Short, expressive headlines that need extra attention, selected explicitly |
+| DNB Sans Mono               | Selected eyebrow labels, short captions and table details                  |
+| Arial                       | Fallback when DNB Sans Text cannot load                                    |
 
 Text and Mono provide Light, Regular, Medium and Bold, each with a genuine
 italic. The brand guidelines do not assign a specific role to Light. Use
 Regular for normal content and ensure sufficient readability when choosing
-Light.
+Light. Display has one upright weight.
 
 Eufemia keeps Text as the default for DNB headings, paragraphs, UI and
 letters. Sbanken retains Roboto and Maison Neue. Carnegie retains its
 ArizonaFlare headings. Eiendom continues to use the DNB text family.
 
 <FontFamiliesExample />
+
+## Display headlines
+
+Use the existing font-family option to select Display for a specific
+headline. Keep the semantic heading level appropriate to the content:
+
+```tsx
+import { H1, H2 } from '@dnb/eufemia/elements'
+import { Heading } from '@dnb/eufemia/components'
+
+<H1 family="display">En god start</H1>
+<H2>Everyday content uses Text</H2>
+<Heading family="display">Et steg videre</Heading>
+```
+
+<DisplayFontExample />
+
+The equivalent helper is `.dnb-t__family--display`. Custom CSS can use
+`font-family: var(--font-family-display)`. The helper uses the single
+upright weight, disables synthesized bold and italic, and sets line height
+to 110% to allow space for accents and descenders. Check multiline headlines
+with Norwegian characters at all supported widths. Increase line height up
+to 118% if letters collide. An explicit line-height helper or the Typography
+lineHeight property overrides the Display default. DNB Display headings use a
+matching skeleton font so loading placeholders keep the same wrapping.
+Left-align or center Display headlines.
+
+Display is never selected automatically by heading level or document
+styles. Sbanken and Carnegie map the Display option to their own heading
+family. Do not use Display for body text, form labels or controls.
 
 ## Typography components
 
@@ -132,7 +164,8 @@ The default DNB typeface is **DNB Sans Text**, registered under the existing
 CSS family name `DNB`. DNB Sans Mono retains the CSS name `DNBMono`.
 Keeping these names preserves existing custom CSS and font-family variables.
 The stylesheet loads the official `DNBSansText-*` and `DNBSansMono-*`
-files, including Light and italics.
+files, including Light and italics. Display is registered separately as
+`DNB Sans Display`.
 
 The existing weights remain Regular (400), Medium (500) and Bold (600).
 CSS `bold` (700) also selects the genuine DNB Bold face. Light uses 300.
@@ -203,12 +236,13 @@ when linking fonts manually:
 Text and Mono filenames follow `DNBSansText-<Weight>[Italic].woff2`
 and `DNBSansMono-<Weight>[Italic].woff2`. Weights are `Light`,
 `Regular`, `Medium` and `Bold`. WOFF, TTF and OTF are also
-included in the package.
+included in the package. Display uses `DNBSansDisplay.woff2`.
 
 Download the complete families:
 
 - [DNB Sans Text](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText.zip)
 - [DNB Sans Mono](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono.zip)
+- [DNB Sans Display](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansDisplay.zip)
 
 These URLs become available with the release containing these files. For
 local previews, Eufemia loads the bundled files. The old `DNB-*` and

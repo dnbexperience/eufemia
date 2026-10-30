@@ -7,6 +7,8 @@
 
 :root,
 .eufemia-theme__ui {
+  --font-family-display-skeleton: 'DNBSansDisplaySkeleton';
+  --font-family-display: 'DNB Sans Display', var(--font-family-default);
   --button-font-weight-cta: var(--font-weight-medium);
   --font-size-basis-native: 1.0625rem;
 }

@@ -77,17 +77,6 @@
     text-align: right;
   }
 
-  // family
-  &__family--default {
-    font-family: var(--font-family-default);
-  }
-  &__family--heading {
-    font-family: var(--font-family-heading);
-  }
-  &__family--monospace {
-    font-family: var(--font-family-monospace);
-  }
-
   // underline / italic
   &__decoration--underline {
     text-decoration: underline;

@@ -24,6 +24,7 @@ test.describe('Fonts', () => {
           )
         )
       ),
+      'dnb/DNBSansDisplay.woff2',
 
       // Sbanken
       'sbanken/MaisonNeue.woff2',

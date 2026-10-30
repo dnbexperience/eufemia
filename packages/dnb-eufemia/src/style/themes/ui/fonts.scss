@@ -58,3 +58,28 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
     }
   }
 }
+
+@font-face {
+  font-family: 'DNB Sans Display';
+  src:
+    url('#{$fonts-path}/DNBSansDisplay.woff2') format('woff2'),
+    url('#{$fonts-path}/DNBSansDisplay.woff') format('woff'),
+    url('#{$fonts-path}/DNBSansDisplay.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: DNBSansDisplaySkeleton;
+  src:
+    url('#{$fonts-path}/skeleton/DNBSansDisplay-Skeleton-Regular.woff2')
+      format('woff2'),
+    url('#{$fonts-path}/skeleton/DNBSansDisplay-Skeleton-Regular.woff')
+      format('woff'),
+    url('#{$fonts-path}/skeleton/DNBSansDisplay-Skeleton-Regular.ttf')
+      format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}

@@ -172,7 +172,7 @@ jobs:
 
           while [ "$(date +%s)" -lt "$DEADLINE" ]; do
             ready=true
-            for ASSET in fonts/dnb/DNBSansText-Regular.woff2 fonts/dnb/DNBSansText-RegularItalic.woff2 fonts/dnb/DNBSansMono-Regular.woff2 icons/dnb/add.svg; do
+            for ASSET in fonts/dnb/DNBSansText-Regular.woff2 fonts/dnb/DNBSansText-RegularItalic.woff2 fonts/dnb/DNBSansMono-Regular.woff2 fonts/dnb/DNBSansDisplay.woff2 icons/dnb/add.svg; do
               : > "$HEADERS"
               code=$(curl -s -o /dev/null --dump-header "$HEADERS" -w '%{http_code}' --max-time 10 "$BASE_URL/$ASSET" || true)
               if [ "$code" != "200" ] || ! grep -Eiq "$CSP" "$HEADERS"; then

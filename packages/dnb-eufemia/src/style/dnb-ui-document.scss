@@ -207,4 +207,6 @@
       }
     }
   }
+
+  @include typography.fontFamilyModifiers();
 }
