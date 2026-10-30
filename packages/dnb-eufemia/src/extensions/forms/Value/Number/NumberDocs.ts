@@ -1,8 +1,15 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 import { NumberFormatNumberProperties } from '../../../../components/number-format/NumberFormatDocs'
 
+const formatProperties = { ...NumberFormatNumberProperties }
+delete formatProperties.value
+
 export const NumberProperties: PropertiesTableProps = {
-  value: NumberFormatNumberProperties.value,
+  value: {
+    doc: 'The number to display. Will take precedence over the path value given in the data context.',
+    type: 'number',
+    status: 'optional',
+  },
   minimum: {
     doc: 'Defines the minimum value of the rendered number. Defaults to `Number.MIN_SAFE_INTEGER`.',
     type: 'number',
@@ -18,5 +25,5 @@ export const NumberProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  ...NumberFormatNumberProperties,
+  ...formatProperties,
 }
