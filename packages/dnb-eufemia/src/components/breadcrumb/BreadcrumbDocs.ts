@@ -104,7 +104,7 @@ export const BreadcrumbEvents: PropertiesTableProps = {
 
 export const BreadcrumbItemProperties: PropertiesTableProps = {
   text: {
-    doc: 'Text displaying inside Breadcrumb item.',
+    doc: 'Text displaying inside the Breadcrumb item. Defaults to the translated "Home" text when `variant` is `home`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -119,7 +119,7 @@ export const BreadcrumbItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   href: {
-    doc: 'Set what happens when the user clicks on the item. Also see `onClick` event.',
+    doc: 'Link to the page that the item represents. Also see the `onClick` event.',
     type: 'string',
     status: 'optional',
   },

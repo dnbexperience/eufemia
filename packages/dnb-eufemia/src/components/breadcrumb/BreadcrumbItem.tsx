@@ -25,8 +25,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbItemProps = {
   /**
-   * Text displaying the title of the item's corresponding page
-   * Defaults to `Home` when variant is `home`, otherwise required.
+   * Text displaying inside the Breadcrumb item. Defaults to the translated "Home" text when `variant` is `home`.
    */
   text?: ReactNode
 
@@ -36,7 +35,7 @@ export type BreadcrumbItemProps = {
   icon?: IconIcon
 
   /**
-   * Href should be the link to the item's corresponding page.
+   * Link to the page that the item represents. Also see the `onClick` event.
    * Default: `null`
    */
   href?: string

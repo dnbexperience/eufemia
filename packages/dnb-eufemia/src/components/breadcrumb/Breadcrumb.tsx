@@ -33,6 +33,10 @@ import type {
 } from '../../shared/types'
 import { chevron_down, chevron_up } from '../../icons'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import type {
+  SectionBackgroundColor,
+  SectionVariants,
+} from '../section/types'
 
 const toggleIcon = Icon.transition({
   collapsed: chevron_down,
@@ -110,6 +114,18 @@ export type BreadcrumbProps = {
   backToText?: ReactNode
 
   /**
+   * No longer supported after the Breadcrumb redesign.
+   * @deprecated Has no effect. Remove this property.
+   */
+  backgroundColor?: SectionBackgroundColor
+
+  /**
+   * No longer supported after the Breadcrumb redesign.
+   * @deprecated Has no effect. Remove this property.
+   */
+  collapsedStyleType?: SectionVariants
+
+  /**
    * For variant `collapse`, override collapsed state for the collapsed content by updating this value using the provided property `onClick`.
    */
   collapsed?: boolean
@@ -173,6 +189,8 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     goBackText, // has a translation in context
     homeText,
     backToText, // has a translation in context
+    backgroundColor: _backgroundColor, // deprecated
+    collapsedStyleType: _collapsedStyleType, // deprecated
     collapsed: overrideCollapsed,
     spacing,
     noAnimation,

@@ -551,6 +551,21 @@ describe('Breadcrumb', () => {
     expect(element.className).toContain('dnb-space__top--large')
     expect(element.getAttribute('style')).toContain('--padding-t-s')
   })
+
+  it('accepts the deprecated backgroundColor and collapsedStyleType properties without passing them to the DOM', () => {
+    render(
+      <Breadcrumb
+        backgroundColor="white"
+        collapsedStyleType="information"
+        data={[{ href: '/' }, { href: '/page1', text: 'Page 1' }]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-breadcrumb')
+
+    expect(element.hasAttribute('backgroundcolor')).toBe(false)
+    expect(element.hasAttribute('collapsedstyletype')).toBe(false)
+  })
 })
 
 describe('Breadcrumb aria', () => {
