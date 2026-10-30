@@ -9,6 +9,7 @@
 
 .eufemia-theme__eiendom,
 :root {
+  --button-text-translate-y: 0;
   --button-font-weight-cta: var(--font-weight-regular);
   --font-size-basis-native: var(--font-size-basis-web);
 }
