@@ -1008,7 +1008,7 @@ describe('Form.Handler', () => {
 
       fireEvent.click(buttonElement)
 
-      expect(buttonElement).toBeDisabled()
+      expect(buttonElement).toHaveAttribute('aria-disabled', 'true')
       expect(inputElement).toBeDisabled()
     })
 
@@ -1371,7 +1371,7 @@ describe('Form.Handler', () => {
       })
       await wait(100)
 
-      expect(buttonElement).toBeDisabled()
+      expect(buttonElement).toHaveAttribute('aria-disabled', 'true')
       expect(
         document.querySelector(
           '.dnb-forms-submit-indicator--state-pending'
@@ -1381,7 +1381,7 @@ describe('Form.Handler', () => {
       resolveSubmit()
 
       await waitFor(() => {
-        expect(buttonElement).not.toBeDisabled()
+        expect(buttonElement).not.toHaveAttribute('aria-disabled')
       })
     })
 
@@ -1398,14 +1398,14 @@ describe('Form.Handler', () => {
 
       fireEvent.click(buttonElement)
 
-      expect(buttonElement).toBeDisabled()
+      expect(buttonElement).toHaveAttribute('aria-disabled', 'true')
 
       await wait(4)
 
-      expect(buttonElement).toBeDisabled()
+      expect(buttonElement).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
-        expect(buttonElement).not.toBeDisabled()
+        expect(buttonElement).not.toHaveAttribute('aria-disabled')
       })
     })
   })

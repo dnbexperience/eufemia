@@ -1651,7 +1651,7 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
@@ -1662,7 +1662,7 @@ describe('Wizard.Container', () => {
       fireEvent.click(previousButton())
 
       expect(output()).toHaveTextContent('Step 2')
-      expect(previousButton()).toBeDisabled()
+      expect(previousButton()).toHaveAttribute('aria-disabled', 'true')
       expect(nextButton()).toBeDisabled()
 
       await waitFor(() => {
@@ -1712,7 +1712,7 @@ describe('Wizard.Container', () => {
       await wait(100)
 
       expect(output()).toHaveTextContent('Step 1')
-      expect(nextButton()).toBeDisabled()
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'true')
       expect(
         document.querySelector(
           '.dnb-forms-submit-indicator--state-pending'
@@ -1807,6 +1807,7 @@ describe('Wizard.Container', () => {
           document.querySelector('.dnb-form-status')
         ).toHaveTextContent('Request failed')
         expect(nextButton()).not.toBeDisabled()
+        expect(nextButton()).not.toHaveAttribute('aria-disabled')
       })
       expect(onStepChange).toHaveBeenCalledTimes(1)
       expect(output()).toHaveTextContent('Step 1')
@@ -1847,6 +1848,7 @@ describe('Wizard.Container', () => {
           document.querySelector('.dnb-form-status')
         ).toHaveTextContent('Request failed')
         expect(nextButton()).not.toBeDisabled()
+        expect(nextButton()).not.toHaveAttribute('aria-disabled')
       })
 
       fireEvent.click(nextButton())
@@ -1920,7 +1922,7 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 2')
       expect(previousButton()).toBeDisabled()
-      expect(submitButton()).toBeDisabled()
+      expect(submitButton()).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
@@ -2054,7 +2056,7 @@ describe('Wizard.Container', () => {
       fireEvent.click(nextButton())
 
       expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
@@ -2114,7 +2116,7 @@ describe('Wizard.Container', () => {
       fireEvent.click(nextButton())
 
       expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 1')
@@ -2133,7 +2135,7 @@ describe('Wizard.Container', () => {
       expect(output()).toHaveTextContent('Step 1')
       expect(screen.queryAllByRole('alert')).toHaveLength(0)
       expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
@@ -2178,7 +2180,7 @@ describe('Wizard.Container', () => {
       fireEvent.click(nextButton())
 
       expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 2')
@@ -2238,7 +2240,7 @@ describe('Wizard.Container', () => {
       fireEvent.click(nextButton())
 
       expect(previousButton()).toBeDisabled()
-      expect(nextButton()).toBeDisabled()
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'true')
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 1')

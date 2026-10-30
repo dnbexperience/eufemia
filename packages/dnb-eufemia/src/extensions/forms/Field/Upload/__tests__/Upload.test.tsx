@@ -2513,11 +2513,11 @@ describe('Field.Upload', () => {
 
       fireEvent.submit(document.querySelector('form'))
 
-      // Wait for submit button to be disabled
+      // Wait for submit button to be pending
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-forms-submit-button')
-        ).toBeDisabled()
+        ).toHaveAttribute('aria-disabled', 'true')
       })
 
       expect(onSubmit).not.toHaveBeenCalled()
@@ -2580,11 +2580,11 @@ describe('Field.Upload', () => {
 
       fireEvent.submit(document.querySelector('form'))
 
-      // Wait for submit button to be disabled
+      // Wait for submit button to be pending
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-forms-submit-button')
-        ).toBeDisabled()
+        ).toHaveAttribute('aria-disabled', 'true')
       })
 
       expect(onSubmit).not.toHaveBeenCalled()

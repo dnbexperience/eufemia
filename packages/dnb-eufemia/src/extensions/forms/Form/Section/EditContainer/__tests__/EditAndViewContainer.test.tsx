@@ -1289,7 +1289,9 @@ describe('EditContainer and ViewContainer', () => {
 
     expect(onDone).toHaveBeenCalledTimes(1)
     expect(containerMode).toBe('edit')
-    expect(doneButton).toBeDisabled()
+    expect(doneButton).not.toBeDisabled()
+    expect(doneButton).toHaveAttribute('aria-disabled', 'true')
+    expect(doneButton).toHaveFocus()
     expect(
       document.querySelectorAll('.dnb-forms-section-edit-block button')[1]
     ).toBeDisabled()
@@ -1349,7 +1351,7 @@ describe('EditContainer and ViewContainer', () => {
     rejectOnDone(new Error('Save failed'))
 
     await waitFor(() => {
-      expect(doneButton).not.toBeDisabled()
+      expect(doneButton).not.toHaveAttribute('aria-disabled')
     })
     expect(
       document.querySelectorAll('.dnb-forms-section-edit-block button')[1]

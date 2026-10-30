@@ -31,7 +31,7 @@ describe('EditContainer done button focus', () => {
   const getOutsideButton = () =>
     document.querySelector('[data-testid="outside"]') as HTMLButtonElement
 
-  it('should move focus back to the done button when async onDone rejects', async () => {
+  it('should keep focus on the done button while async onDone is pending and when it rejects', async () => {
     let rejectOnDone!: (reason?: unknown) => void
     const onDone = vi.fn(
       () =>
@@ -44,19 +44,17 @@ describe('EditContainer done button focus', () => {
 
     const doneButton = getDoneButton()
     await userEvent.click(doneButton)
-    expect(doneButton).toBeDisabled()
 
     // Browsers move focus to the document body when the focused element
-    // becomes disabled, while jsdom keeps the focus. Reproduce the browser
-    // behavior, so the focus can be verified as restored.
-    getOutsideButton().focus()
-    getOutsideButton().blur()
-    expect(document.body).toHaveFocus()
+    // becomes disabled, so the pending done button must not be disabled
+    expect(doneButton).not.toBeDisabled()
+    expect(doneButton).toHaveAttribute('aria-disabled', 'true')
+    expect(doneButton).toHaveFocus()
 
     rejectOnDone(new Error('Save failed'))
 
     await waitFor(() => {
-      expect(doneButton).not.toBeDisabled()
+      expect(doneButton).not.toHaveAttribute('aria-disabled')
     })
     expect(doneButton).toHaveFocus()
   })
@@ -81,26 +79,24 @@ describe('EditContainer done button focus', () => {
     rejectOnDone(new Error('Save failed'))
 
     await waitFor(() => {
-      expect(doneButton).not.toBeDisabled()
+      expect(doneButton).not.toHaveAttribute('aria-disabled')
     })
     expect(getOutsideButton()).toHaveFocus()
   })
 
-  it('should move focus back to the done button after asyncSubmitTimeout', async () => {
+  it('should keep focus on the done button after asyncSubmitTimeout', async () => {
     const onDone = vi.fn(() => new Promise<void>(() => undefined))
 
     renderSection(onDone, 100)
 
     const doneButton = getDoneButton()
     await userEvent.click(doneButton)
-    expect(doneButton).toBeDisabled()
-
-    getOutsideButton().focus()
-    getOutsideButton().blur()
-    expect(document.body).toHaveFocus()
+    expect(doneButton).not.toBeDisabled()
+    expect(doneButton).toHaveAttribute('aria-disabled', 'true')
+    expect(doneButton).toHaveFocus()
 
     await waitFor(() => {
-      expect(doneButton).not.toBeDisabled()
+      expect(doneButton).not.toHaveAttribute('aria-disabled')
     })
     expect(doneButton).toHaveFocus()
   })
