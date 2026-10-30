@@ -141,10 +141,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
-/**
- * Validates like `z.string()` with the minLength, maxLength and pattern
- * rules and returns the same issues, without bundling Zod for text fields.
- */
+// Returns the same issues as `z.string()` with these rules, without bundling Zod
 function createStringSchema(props: FieldStringProps): ZodSchema {
   const safeParse = (value: unknown) => {
     const issues = getStringIssues(value, props)
