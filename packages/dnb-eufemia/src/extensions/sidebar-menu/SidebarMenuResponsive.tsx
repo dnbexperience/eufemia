@@ -769,6 +769,8 @@ export function SidebarMenuResponsiveInline({
     enabled: compactExpanded,
     capture: true,
     keys: [],
+    // Also counts presses that cancel pointerdown, which then send no mousedown
+    pressEvent: 'pointerdown',
     isInside: (target) => isInsideInlineMenu(inlineRef.current, target),
     onOutsideClick: () => setCompactExpanded(false),
   })

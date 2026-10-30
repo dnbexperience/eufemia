@@ -1431,6 +1431,28 @@ describe('SidebarMenu responsive parts', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('closes a toggled compact menu on a mouse pointerdown outside', () => {
+    setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>Menu</SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    fireEvent.click(toggle)
+    // No mousedown follows when the pointerdown is canceled
+    fireEvent.pointerDown(document.body, { pointerType: 'mouse' })
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
   it('keeps a toggled compact menu open when a touch scrolls outside', () => {
     setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
 
@@ -1736,7 +1758,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(inline.contains(option)).toBe(false)
 
     fireEvent.focusOut(sectionTrigger, { relatedTarget: option })
-    fireEvent.mouseDown(option)
+    fireEvent.pointerDown(option)
     fireEvent.click(option)
 
     expect(inline).toHaveAttribute(
