@@ -15,6 +15,7 @@ import {
   Flex,
   Heading,
   Section,
+  ScrollView,
 } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { useSpacing } from '@dnb/eufemia/src/components/space/SpacingUtils'
@@ -204,7 +205,12 @@ export const SpaceVisibleWhenVisualTestPatterns = () => (
           c += 0.5
         }
         return (
-          <div className="spacing-patterns">
+          <ScrollView
+            className="spacing-patterns"
+            interactive="auto"
+            role="region"
+            aria-label="Spacing pattern comparison"
+          >
             <P bottom>
               With <Code>dnb-core-style</Code>
             </P>
@@ -214,7 +220,7 @@ export const SpaceVisibleWhenVisualTestPatterns = () => (
               Without
             </P>
             <TestCase />
-          </div>
+          </ScrollView>
         )
       }}
     </ComponentBox>
