@@ -265,7 +265,7 @@ function VirtualizedConversation(
       }
     })
     return () => cancelAnimationFrame(navigationFrame)
-  }, [navigation, navigationIndex, virtualizer, peek])
+  }, [navigation, navigationIndex, virtualizer, peek, total, viewportHeight])
 
   useLayoutEffect(() => {
     if (!navigation || isScrolling) {
