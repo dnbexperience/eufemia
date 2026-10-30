@@ -13,7 +13,7 @@ import Space from '../space/Space'
 import P from '../../elements/P'
 
 // Icons
-import { lightbulb_medium as LightbulbIcon } from '../../icons'
+import LightbulbIcon from '../../icons/lightbulb_medium'
 
 // Shared
 import { useSpacing } from '../space/SpacingUtils'

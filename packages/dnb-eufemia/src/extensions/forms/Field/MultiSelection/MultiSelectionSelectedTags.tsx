@@ -8,7 +8,7 @@ import {
 } from '../../../../components'
 import { P } from '../../../../elements'
 import ScrollView from '../../../../components/scroll-view/ScrollView'
-import { close } from '../../../../icons'
+import close from '../../../../icons/close'
 import type { MultiSelectionItem } from './MultiSelection'
 
 export type MultiSelectionSelectedTagsProps = {

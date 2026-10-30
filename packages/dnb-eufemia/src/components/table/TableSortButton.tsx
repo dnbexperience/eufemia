@@ -2,7 +2,8 @@ import { useContext } from 'react'
 import { clsx } from 'clsx'
 import Button from '../button/Button'
 import Icon from '../icon/Icon'
-import { arrow_down, arrow_up } from '../../icons'
+import arrow_down from '../../icons/arrow_down'
+import arrow_up from '../../icons/arrow_up'
 import { TableThContext } from './TableThContext'
 
 const sortIcon = Icon.transition({ asc: arrow_down, desc: arrow_up })

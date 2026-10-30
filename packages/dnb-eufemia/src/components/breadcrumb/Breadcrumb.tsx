@@ -31,7 +31,8 @@ import type {
   SpaceTypeMedia,
   SpacingProps,
 } from '../../shared/types'
-import { chevron_down, chevron_up } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 const toggleIcon = Icon.transition({

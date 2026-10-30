@@ -12,7 +12,7 @@ import { clsx } from 'clsx'
 import Button from '../button/Button'
 
 // Icons
-import { folder as FolderIcon } from '../../icons'
+import FolderIcon from '../../icons/folder'
 
 // Shared
 import useId from '../../shared/helpers/useId'

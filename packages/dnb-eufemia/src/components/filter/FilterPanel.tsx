@@ -12,7 +12,7 @@ import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import SharedContext from '../../shared/Context'
 import { FilterContext, FilterItemContext } from './FilterContext'
-import { close } from '../../icons'
+import close from '../../icons/close'
 import Hr from '../../elements/Hr'
 
 export type FilterPanelProps = {

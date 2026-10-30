@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react'
 import Dropdown from '../dropdown/Dropdown'
 import type { DropdownAllProps } from '../dropdown/Dropdown'
 import type { DrawerListChangeEvent } from '../../fragments/drawer-list/DrawerList'
-import { sort as sortIcon } from '../../icons'
+import sortIcon from '../../icons/sort'
 import SharedContext from '../../shared/Context'
 import useMedia from '../../shared/useMedia'
 

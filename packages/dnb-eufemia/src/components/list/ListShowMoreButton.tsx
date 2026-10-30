@@ -1,10 +1,8 @@
 import { useCallback } from 'react'
 import Button from '../button/Button'
 import type { ButtonProps } from '../button/Button'
-import {
-  chevron_down as ChevronDown,
-  chevron_up as ChevronUp,
-} from '../../icons'
+import ChevronDown from '../../icons/chevron_down'
+import ChevronUp from '../../icons/chevron_up'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import useTranslation from '../../shared/useTranslation'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

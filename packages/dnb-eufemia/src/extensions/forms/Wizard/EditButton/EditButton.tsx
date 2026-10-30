@@ -7,7 +7,7 @@ import ButtonRow from '../../Form/ButtonRow'
 import type { StepIndex } from '../Context/types'
 import useTranslation from '../../hooks/useTranslation'
 import useStep from '../hooks/useStep'
-import { edit } from '../../../../icons'
+import edit from '../../../../icons/edit'
 import Hr from '../../../../elements/Hr'
 import {
   omitSpacingProps,

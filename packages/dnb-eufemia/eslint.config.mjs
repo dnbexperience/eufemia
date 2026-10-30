@@ -271,6 +271,11 @@ export default [
               message:
                 'Do not import from src – but rather define correct relative paths!',
             },
+            {
+              regex: '^(\\.\\./){2,}icons(/index)?$',
+              message:
+                'Import each icon from its own module, e.g. "../../icons/chevron_down", so a component does not load all icons.',
+            },
           ],
         },
       ],

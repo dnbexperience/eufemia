@@ -3,7 +3,7 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
 import { Button } from '../../../../../components'
-import { edit } from '../../../../../icons'
+import edit from '../../../../../icons/edit'
 import mergeProps from '../../../../../shared/helpers/mergeProps'
 import type { ButtonProps } from '../../../../../components/button/Button'
 

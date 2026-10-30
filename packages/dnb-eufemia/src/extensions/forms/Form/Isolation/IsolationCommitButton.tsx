@@ -4,7 +4,7 @@ import { useTranslation } from '../../hooks'
 import DataContext from '../../DataContext/Context'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'
-import { check } from '../../../../icons'
+import check from '../../../../icons/check'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
