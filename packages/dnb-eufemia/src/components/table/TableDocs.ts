@@ -38,7 +38,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stickyOffset: {
-    doc: 'Defines the offset (top) in `rem` from where the header should start to stick. You may define your app header height here, if you have a sticky header on your page.',
+    doc: 'Defines the offset (top) from where the header should start to stick. Use a `rem` value like `"3.5rem"`, or a number in pixels. You may define your app header height here, if you have a sticky header on your page.',
     type: ['string', 'number'],
     defaultValue: '0',
     status: 'optional',
