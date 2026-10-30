@@ -79,6 +79,25 @@ describe('useOutsideClick', () => {
     expect(onOutsideClick).toHaveBeenCalledTimes(0)
   })
 
+  it('should not count the mousedown that follows a tap outside', () => {
+    vi.useFakeTimers()
+
+    try {
+      const { onOutsideClick } = renderOutsideClick()
+
+      fireEvent.touchStart(outside)
+      fireEvent.touchEnd(outside)
+      fireEvent.mouseDown(outside)
+      expect(onOutsideClick).toHaveBeenCalledTimes(1)
+
+      vi.advanceTimersByTime(1000)
+      fireEvent.mouseDown(outside)
+      expect(onOutsideClick).toHaveBeenCalledTimes(2)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('should call onOutsideClick when a released key is outside', () => {
     const { onOutsideClick } = renderOutsideClick()
 
