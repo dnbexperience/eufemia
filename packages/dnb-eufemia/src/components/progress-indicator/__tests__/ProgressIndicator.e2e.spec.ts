@@ -12,31 +12,37 @@ test.describe('ProgressIndicator', () => {
     })
   })
 
-  test('uses Highlight for a linear bar with customColors in forced colors mode', async ({
-    page,
-    browserName,
-  }) => {
-    test.skip(
-      browserName === 'webkit',
-      'WebKit does not support forced colors emulation.'
-    )
-    await page.emulateMedia({ forcedColors: 'active' })
+  for (const colorScheme of ['light', 'dark'] as const) {
+    test.describe(colorScheme, () => {
+      test.use({ forcedColors: 'active', colorScheme })
 
-    const highlight = await page.evaluate(() => {
-      const element = document.createElement('span')
-      element.style.backgroundColor = 'Highlight'
-      document.body.appendChild(element)
-      const color = getComputedStyle(element).backgroundColor
-      element.remove()
-      return color
+      test('uses Highlight for a linear bar with customColors in forced colors mode', async ({
+        page,
+        browserName,
+      }) => {
+        test.skip(
+          browserName === 'webkit',
+          'WebKit does not support forced colors emulation.'
+        )
+
+        const bar = page.locator(
+          '[data-visual-test="progress-indicator-custom-horizontal"] .dnb-progress-indicator__linear__bar'
+        )
+        await expect(bar).toHaveAttribute('style', /background-color/)
+
+        const highlight = await bar.evaluate((bar) => {
+          const element = document.createElement('span')
+          element.style.backgroundColor = 'Highlight'
+          bar.parentElement.appendChild(element)
+          const color = getComputedStyle(element).backgroundColor
+          element.remove()
+          return color
+        })
+
+        // customColors.line is set as an inline style, which wins over a
+        // stylesheet rule without !important
+        await expect(bar).toHaveCSS('background-color', highlight)
+      })
     })
-
-    // customColors.line is set as an inline style, which wins over a
-    // stylesheet rule without !important
-    const bar = page.locator(
-      '[data-visual-test="progress-indicator-custom-horizontal"] .dnb-progress-indicator__linear__bar'
-    )
-    await expect(bar).toHaveAttribute('style', /background-color/)
-    await expect(bar).toHaveCSS('background-color', highlight)
-  })
+  }
 })
