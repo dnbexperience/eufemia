@@ -2,6 +2,7 @@ import { useMemo, useContext } from 'react'
 import type {
   TranslationFlatToObject,
   TranslationObjectToFlat,
+  TranslationValues,
 } from '../../../shared/Context'
 import SharedContext from '../../../shared/Context'
 import type { AdditionalReturnUtils } from '../../../shared/useTranslation'
@@ -22,13 +23,12 @@ let baseCache: {
 
 export type FormsTranslationDefaultLocales = typeof formsLocales
 export type FormsTranslationLocale = keyof FormsTranslationDefaultLocales
-export type FormsTranslationKeys =
-  keyof FormsTranslationDefaultLocales[FormsTranslationLocale]
+export type FormsTranslationKeys = keyof FormsTranslationValues
+// The SubmitIndicator label is in the shared translations, so Button can use it without forms
 export type FormsTranslationValues =
-  FormsTranslationDefaultLocales[FormsTranslationLocale]
-export type FormsTranslation = DeepPartial<
-  FormsTranslationDefaultLocales[FormsTranslationLocale]
->
+  FormsTranslationDefaultLocales[FormsTranslationLocale] &
+    Pick<TranslationValues, 'SubmitIndicator'>
+export type FormsTranslation = DeepPartial<FormsTranslationValues>
 export type FormsTranslationFlat =
   TranslationObjectToFlat<FormsTranslation>
 
