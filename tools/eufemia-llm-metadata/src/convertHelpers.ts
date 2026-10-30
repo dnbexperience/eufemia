@@ -32,6 +32,7 @@ import type {
 import { findUnhandledStandaloneMdxComponents } from './extensions/mdx/detector.ts'
 import { applySpecialMdxComponentRenderers } from './extensions/mdx/registry.ts'
 import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
+import { readPropertiesUsage } from './shared/propertiesUsage.ts'
 
 export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
@@ -1530,12 +1531,14 @@ export async function convertMdxToMd({
 
   const links = frontmatterLinks || {}
   const fallbackLink = resolveFallbackLink(inputPath, links)
+  const propertiesUsage = await readPropertiesUsage(inputPath)
   outputBody = await replacePropertiesTableWithJsonBlock(outputBody, {
     fallbackLink,
     importsByFile,
     inputDir: path.dirname(inputPath),
     docsRoot,
     docsBaseRoot,
+    propertiesUsage,
   })
   outputBody = await replaceTranslationsTableWithJsonBlock(outputBody, {
     importsByFile,
@@ -1588,7 +1591,12 @@ export async function convertMdxToMd({
   const outputFrontmatter = includeFrontmatter
     ? addDocLinksToFrontmatter(frontmatter, links)
     : ''
-  const output = [outputFrontmatter, titleHeading, outputBody.trim()]
+  const output = [
+    outputFrontmatter,
+    titleHeading,
+    propertiesUsage,
+    outputBody.trim(),
+  ]
     .filter(Boolean)
     .join('\n\n')
 
@@ -1611,12 +1619,14 @@ async function replacePropertiesTableWithJsonBlock(
     inputDir,
     docsRoot,
     docsBaseRoot,
+    propertiesUsage,
   }: {
     fallbackLink: { label: string; url: string } | null
     importsByFile: Map<string, string[]>
     inputDir: string
     docsRoot: string
     docsBaseRoot: string
+    propertiesUsage: string
   }
 ) {
   const regex = /<PropertiesTable\b[\s\S]*?\/>/g
@@ -1652,6 +1662,7 @@ async function replacePropertiesTableWithJsonBlock(
     if (propsValue) {
       const metadata: Record<string, any> = {
         props: propsValue,
+        ...(propertiesUsage ? { usageGuidance: propertiesUsage } : {}),
       }
 
       for (const [name, attr] of Object.entries(attrs)) {

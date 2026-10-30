@@ -46,6 +46,7 @@ import { SSEServerTransport } from '@modelcontextprotocol/server-legacy'
 
 import {
   createServerInfo,
+  DOCS_SERVER_INSTRUCTIONS,
   createDocsTools,
   readDocsMeta,
   registerDocsTools,
@@ -149,7 +150,9 @@ function buildMcpServer(
   docsRoot: string
 } {
   const tools = createDocsTools(options)
-  const server = new McpServer(options.serverInfo)
+  const server = new McpServer(options.serverInfo, {
+    instructions: DOCS_SERVER_INSTRUCTIONS,
+  })
   registerDocsTools(server, tools)
   return { server, docsRoot: tools.docsRoot }
 }

@@ -872,6 +872,37 @@ describe('component_props', () => {
     ])
   })
 
+  it('preserves usage guidance in property metadata for API-only lookups', async () => {
+    const fixture = createDocsFixture()
+    const usageGuidance =
+      'Customizations beyond documented patterns need a use case approved by DNB UX.'
+    fs.writeFileSync(
+      path.join(fixture.docsRoot, 'uilib', 'components', 'button.md'),
+      [
+        '# Button',
+        '```json',
+        JSON.stringify({
+          props: { text: { type: 'string' } },
+          usageGuidance,
+        }),
+        '```',
+      ].join('\n')
+    )
+
+    try {
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+      expect(
+        JSON.parse(getText(await tools.componentProps({ name: 'Button' })))
+      ).toEqual([{ props: { text: { type: 'string' } }, usageGuidance }])
+      const api = JSON.parse(
+        getText(await tools.componentApi({ name: 'Button' }))
+      )
+      expect(api.jsonBlocks[0].usageGuidance).toBe(usageGuidance)
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it.each(['componentApi', 'componentProps'] as const)(
     '%s returns ENOENT for a missing component doc',
     async (tool) => {

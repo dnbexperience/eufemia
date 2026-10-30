@@ -924,11 +924,19 @@ describe('convertMdxToMd', () => {
     expect(dateOfBirthEvents).toContain('```json')
     expect(dateOfBirthEvents).toContain('"onChange"')
     expect(dateOfBirthEvents).toContain('"onBlur"')
+    expect(dateOfBirthEvents).not.toContain('usageGuidance')
+    expect(dateOfBirthEvents).not.toContain(
+      'Some properties provide flexibility for specific integrations.'
+    )
 
     expect(selectCurrencyProperties).not.toContain('PropertiesTable')
     expect(selectCurrencyProperties).toContain('```json')
     expect(selectCurrencyProperties).toContain('"currencies"')
     expect(selectCurrencyProperties).toContain('"size"')
+    expect(selectCurrencyProperties).toContain('"usageGuidance"')
+    expect(selectCurrencyProperties).toContain(
+      'need a use case approved by DNB UX'
+    )
   })
 
   it('replaces AvailableCountriesTable with a markdown country table', async () => {
