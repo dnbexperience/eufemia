@@ -593,10 +593,6 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
-  --button-font-weight: var(
-    --button-font-weight-cta,
-    var(--font-weight-medium)
-  );
   --button-color-bg--focus: var(
     --token-color-background-action-focus-subtle
   );
@@ -1098,7 +1094,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   border-radius: var(--button-border-radius);
   text-align: left;
   font-size: var(--font-size-small);
-  font-weight: var(--button-font-weight, var(--font-weight-regular));
+  font-weight: var(--font-weight-regular);
   line-height: var(--button-height);
   text-decoration: none;
 }
@@ -1359,7 +1355,6 @@ legend.dnb-form-label {
   pointer-events: none;
 }
 .dnb-dropdown__trigger {
-  --button-font-weight-cta: var(--font-weight-regular);
   position: relative;
   z-index: 1;
   user-select: none;
@@ -1675,7 +1670,6 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
   pointer-events: none;
 }
 .dnb-dropdown__trigger {
-  --button-font-weight-cta: var(--font-weight-regular);
   position: relative;
   z-index: 1;
   user-select: none;
