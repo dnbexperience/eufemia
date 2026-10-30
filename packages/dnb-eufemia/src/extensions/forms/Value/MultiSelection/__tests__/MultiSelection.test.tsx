@@ -134,6 +134,18 @@ describe('Value.MultiSelection', () => {
     ).toHaveTextContent('Baz, Bar and Foo')
   })
 
+  it('formats value with the locale property', () => {
+    render(
+      <Value.MultiSelection value={['Baz', 'Bar', 'Foo']} locale="en-GB" />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-multi-selection .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Baz, Bar and Foo')
+  })
+
   it('resolves values to titles using direct data prop', () => {
     render(<Value.MultiSelection value={['foo', 'baz']} data={data} />)
 
