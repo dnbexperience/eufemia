@@ -1,29 +1,89 @@
 ---
 title: Print and document styles
-description: Print apps and format branded documents with independent opt-in stylesheets.
+description: Preview branded document styles, review typography, and learn how to use document and print styles.
 status: 'beta'
 ---
 
 import { DocumentLetter } from './document-styles/Examples'
 import { Space } from '@dnb/eufemia/src/components'
 
-> **Beta:** Print and document styles are subject to change. Class names,
-> typography, spacing and print behavior may change as we gather feedback
-> from app and document-production teams.
+> **Beta:** These styles are a proposed starting point. Typography, spacing,
+> print behavior and the implementation may change as we gather feedback.
 
-Eufemia provides separate stylesheets for print behavior and document
-formatting. Use either on its own or combine them. Neither imports the
-other or is included in the default Eufemia bundle. Import the stylesheet
-and apply its scope to enable it. Both work without React.
+Use this page to review how a branded letter could look and compare the
+proposed font sizes and spacing. The document style keeps the selected
+brand's fonts, weights and colors while using a smaller type scale for
+letters and document production.
 
-These styles provide pagination for selected printable content and an
-optional document typography profile. They do not make an entire app
-print-ready or provide print representations for every Eufemia component.
-Normal component styles do not automatically enable this print behavior.
+[View the example](#style-preview) · [See font sizes](#typography-and-spacing) ·
+[Developer guide](#developer-guide)
+
+## Style preview
+
+The example below shows typography, spacing and branding with fictional
+content. Its letter layout is illustrative, not a document template. Each
+project owns its content, page layout, logos and envelope positioning.
+
+[Open the interactive style preview](/uilib/usage/customisation/styling/document-styles/preview/)
+to switch brands, try a multi-page table and inspect print behavior.
+
+<DocumentLetter />
+
+## Document styles
+
+### Typography and spacing
+
+These proposed sizes apply to the document style on screen and in print.
+Regular app content keeps its existing typography.
+
+<Space bottom="medium">
+
+| Role                      | Size at the default root | Line height |
+| ------------------------- | ------------------------ | ----------- |
+| Body and salutation       | 11pt                     | 1.4         |
+| Main heading              | 14pt                     | 1.25        |
+| Section heading           | 13pt                     | 1.25        |
+| Subheadings and lead text | 12pt                     | 1.3         |
+| Signature and table cells | 10pt                     | 1.4         |
+| Footer and return address | 9pt                      | 1.4         |
+
+</Space>
+
+Point sizes assume a 16px root font size and normal PDF scaling. The
+implementation uses relative units so browser font preferences still work.
+
+Paragraphs, headings, lists and tables have consistent spacing. The return
+address and footer use the smallest text; signatures and table content
+remain slightly larger. Brand fonts and weights remain part of the design.
+
+Review the result with your actual content and production PDF renderer.
+The document-production team's reference stylesheet should guide final
+design approval.
+
+### Paper appearance
+
+Print output can retain the brand's colors using a light theme, or use
+black text on white paper without background graphics. The plain paper
+option works regardless of whether the app is light or dark on screen.
+Images and artwork may still contain colors and should be checked on paper.
+
+Page margins, footer placement and page numbers belong to the document
+layout and PDF renderer. Changing the footer's font size does not correct
+a footer positioned outside the page's content area. See
+[footer layout and page numbers](#footer-layout-and-page-numbers) for details.
+
+## Developer guide
+
+Eufemia provides independent, opt-in print and document stylesheets. Use
+either on its own or combine them. Neither imports the other or is included
+in the default Eufemia bundle. Import the stylesheet and apply its scope
+to enable it. Both work without React.
 
 For an app, start with the [printable apps guide](/uilib/usage/customisation/styling/printable-apps/).
-Use the [document profile](#document-styles) for letters and other documents
-that need smaller typography on screen as well as in print.
+Use the [document implementation](#document-implementation) for the smaller
+typography shown above. App navigation, content selection and page layout
+still need to be handled by the app. These styles do not provide print
+representations for every Eufemia component.
 
 <Space bottom="large">
 
@@ -173,11 +233,10 @@ breaks in the actual production renderer.
 See the [printable apps guide](/uilib/usage/customisation/styling/printable-apps/)
 for app layout, print-only content, and browser testing.
 
-## Document styles
+## Document implementation
 
-For letters and document production, `dnb-ui-document` adds smaller
-typography and document spacing while retaining the selected brand's fonts,
-weights and colors. It applies on screen and in print.
+`dnb-ui-document` applies the document typography and spacing on screen
+and in print. It preserves the selected brand's fonts, weights and colors.
 
 ### Import document formatting
 
@@ -218,6 +277,39 @@ Application content outside this wrapper retains its normal typography.
 `.dnb-document` activates document formatting only. Print pagination
 requires both the print import and `.dnb-print`. Neither scope imports
 styles or enables the other.
+
+### Typography details
+
+The size table maps native `h1` to 14pt, `h2` to 13pt, and `h3` and `h4`
+to 12pt. For React headings, the corresponding visual sizes are
+`xx-large`, `x-large`, and `large` or `medium`.
+
+Paragraphs have a `0.75rem` bottom gap. Headings have `1.25rem` above and
+`0.5rem` below; a first heading has no top gap. Table cells use
+`0.375rem 0.5rem` padding. Explicit Eufemia Space properties take precedence
+over default paragraph and heading spacing.
+Explicit table alignment, vertical alignment and cell spacing options are
+also preserved. Table size variants use the document cell padding;
+`border={false}` (or `.dnb-table--no-border`) keeps cells borderless.
+
+React heading components retain their brand-specific default size mapping.
+For example, `H2` defaults to `large` for DNB and `x-large` for Sbanken.
+Set `size="x-large"` on `H2` to select the same 13pt document size across
+brands, as shown in the [React example](#react-teams). The native HTML heading sizes are fixed by the
+document profile; both approaches retain the selected brand's fonts.
+
+The profile reuses `--font-size-*` and `--line-height-*` variables. Values
+are expressed in `rem`, so the point equivalents assume a 16px root and
+normal PDF scaling. Browser font preferences still work. The profile does
+not change the root font size. Responsive typography modifiers use the
+document scale at every viewport size to keep pagination stable.
+
+Use `.dnb-document__signature` for 10pt signature text, and
+`.dnb-document__footer` and `.dnb-document__return-address` for 9pt text,
+including nested paragraphs. Greeting wording, logos, envelope calculations
+and positioning remain part of the template. Existing inline font sizes
+should be removed when migrating to the profile.
+Eufemia does not provide DNB Light or Noto Sans as part of this profile.
 
 ### React teams
 
@@ -276,48 +368,6 @@ example, import `dnb-ui-print` and add `dnb-print` to the article's classes.
 Add `dnb-print__keep-together` to the signature to keep it on one page when
 it fits.
 
-### Typography and spacing
-
-<Space bottom="medium">
-
-| Role                                                             | Size at the default root | Line height |
-| ---------------------------------------------------------------- | ------------------------ | ----------- |
-| Body and salutation                                              | 11pt                     | 1.4         |
-| Native `h1` / React `size="xx-large"`                            | 14pt                     | 1.25        |
-| Native `h2` / React `size="x-large"`                             | 13pt                     | 1.25        |
-| Native `h3`, `h4` / React `size="large"`, `size="medium"` / lead | 12pt                     | 1.3         |
-| Signature and table cells                                        | 10pt                     | 1.4         |
-| Footer and return address                                        | 9pt                      | 1.4         |
-
-</Space>
-
-Paragraphs have a `0.75rem` bottom gap. Headings have `1.25rem` above and
-`0.5rem` below; a first heading has no top gap. Table cells use
-`0.375rem 0.5rem` padding. Explicit Eufemia Space properties take precedence
-over default paragraph and heading spacing.
-Explicit table alignment, vertical alignment and cell spacing options are
-also preserved. Table size variants use the document cell padding;
-`border={false}` (or `.dnb-table--no-border`) keeps cells borderless.
-
-React heading components retain their brand-specific default size mapping.
-For example, `H2` defaults to `large` for DNB and `x-large` for Sbanken.
-Set `size="x-large"` on `H2` to select the same 13pt document size across
-brands, as shown above. The native HTML heading sizes are fixed by the
-document profile; both approaches retain the selected brand's fonts.
-
-The profile reuses `--font-size-*` and `--line-height-*` variables. Values
-are expressed in `rem`, so the point equivalents assume a 16px root and
-normal PDF scaling. Browser font preferences still work. The profile does
-not change the root font size. Responsive typography modifiers use the
-document scale at every viewport size to keep pagination stable.
-
-Use `.dnb-document__signature` for 10pt signature text, and
-`.dnb-document__footer` and `.dnb-document__return-address` for 9pt text,
-including nested paragraphs. Greeting wording, logos, envelope calculations
-and positioning remain part of the template. Existing inline font sizes
-should be removed when migrating to the profile.
-Eufemia does not provide DNB Light or Noto Sans as part of this profile.
-
 ### Footer layout and page numbers
 
 `.dnb-document__footer` controls typography only. It does not position the
@@ -336,16 +386,3 @@ for output such as "Page 1 of 3". Support differs between renderers, so
 validate the result with the engine used in production. Reducing the font
 size does not correct a footer whose width or position exceeds the page's
 content area.
-
-## Style preview
-
-[Open the style preview](/uilib/usage/customisation/styling/document-styles/preview/)
-to switch brands, try a multi-page table and inspect print behavior. The
-fictional content and letter layout demonstrate the styles; they are not
-a document template. Eufemia provides the styles, while each project owns
-its document layout and content.
-
-These defaults are a proposed common baseline; final document design approval
-should use the production team's reference stylesheet.
-
-<DocumentLetter />

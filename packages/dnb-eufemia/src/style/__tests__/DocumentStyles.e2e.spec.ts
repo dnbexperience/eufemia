@@ -531,7 +531,9 @@ test.describe('Document and print styles', () => {
         const scss = paragraphs.find((element) =>
           element.textContent.startsWith('SCSS imports')
         )
-        const table = root.querySelector('.dnb-table__scroll-view')
+        const table = scss.previousElementSibling.querySelector(
+          '.dnb-table__scroll-view'
+        )
         const intro = paragraphs.find((element) =>
           element.textContent.startsWith('Import dnb-ui-print')
         )
