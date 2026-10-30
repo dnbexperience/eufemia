@@ -727,18 +727,15 @@ test.describe('List nested row alignment', () => {
       const offsets = await rows.evaluateAll((items) =>
         items.map((item) => {
           const middle = (rect: DOMRect) => rect.top + rect.height / 2
-          const textMiddle = (element: Element) => {
-            const range = document.createRange()
-            range.selectNodeContents(element)
-            return middle(range.getBoundingClientRect())
-          }
-
           const titleText = Array.from(
             item.querySelector('.dnb-list__item__title > span').childNodes
           ).find((node) => node.nodeType === Node.TEXT_NODE)
-          const titleRange = document.createRange()
-          titleRange.selectNodeContents(titleText)
-          const title = middle(titleRange.getBoundingClientRect())
+          // Compare line boxes, since glyph bounds differ across font weights and platforms.
+          const titleLine = document.createElement('span')
+          titleLine.style.display = 'inline-block'
+          titleText.replaceWith(titleLine)
+          titleLine.appendChild(titleText)
+          const title = middle(titleLine.getBoundingClientRect())
 
           return {
             icon:
@@ -748,8 +745,11 @@ test.describe('List nested row alignment', () => {
                   .getBoundingClientRect()
               ) - title,
             end:
-              textMiddle(item.querySelector('.dnb-list__item__end')) -
-              title,
+              middle(
+                item
+                  .querySelector('.dnb-list__item__end')
+                  .getBoundingClientRect()
+              ) - title,
             chevron:
               middle(
                 item
