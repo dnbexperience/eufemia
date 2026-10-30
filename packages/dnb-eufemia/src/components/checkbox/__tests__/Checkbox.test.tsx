@@ -469,6 +469,62 @@ describe('Checkbox component', () => {
     )
   })
 
+  it('does not restore a Checkbox that unmounted after a canceled click', () => {
+    const onChange = vi.fn()
+    const { unmount } = render(
+      <Checkbox
+        onClick={({ preventDefault }) => preventDefault()}
+        onChange={onChange}
+      />
+    )
+    const input = document.querySelector('input')
+    const queue = vi
+      .spyOn(globalThis, 'queueMicrotask')
+      .mockImplementation(() => {})
+
+    try {
+      fireEvent.click(input)
+      expect(queue).toHaveBeenCalledTimes(1)
+      const restore = queue.mock.calls[0][0]
+
+      unmount()
+      expect(input.isConnected).toBe(false)
+      expect(() => restore()).not.toThrow()
+      expect(onChange).not.toHaveBeenCalled()
+    } finally {
+      queue.mockRestore()
+    }
+  })
+
+  it('restores the latest checked value after a canceled click', () => {
+    const onClick: CheckboxProps['onClick'] = ({ preventDefault }) =>
+      preventDefault()
+    const onChange = vi.fn()
+    const { rerender } = render(
+      <Checkbox checked={false} onClick={onClick} onChange={onChange} />
+    )
+    const input = document.querySelector('input')
+    const queue = vi
+      .spyOn(globalThis, 'queueMicrotask')
+      .mockImplementation(() => {})
+
+    try {
+      fireEvent.click(input)
+      expect(queue).toHaveBeenCalledTimes(1)
+      const restore = queue.mock.calls[0][0]
+
+      rerender(<Checkbox checked onClick={onClick} onChange={onChange} />)
+      expect(input.checked).toBe(true)
+
+      // A queued restore must not replace a newer value from the parent.
+      restore()
+      expect(input.checked).toBe(true)
+      expect(onChange).not.toHaveBeenCalled()
+    } finally {
+      queue.mockRestore()
+    }
+  })
+
   it('has "onChange" event which will trigger on an input change', () => {
     const myEvent = vi.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
