@@ -206,20 +206,22 @@ export const SpaceVisibleWhenVisualTestPatterns = () => (
         }
         return (
           <ScrollView
-            className="spacing-patterns"
             interactive="auto"
             role="region"
             aria-label="Spacing pattern comparison"
+            style={{ padding: '0.0625rem', margin: '-0.0625rem' }}
           >
-            <P bottom>
-              With <Code>dnb-core-style</Code>
-            </P>
-            <TestCase className="dnb-core-style" />
+            <div className="spacing-patterns">
+              <P bottom>
+                With <Code>dnb-core-style</Code>
+              </P>
+              <TestCase className="dnb-core-style" />
 
-            <P top bottom>
-              Without
-            </P>
-            <TestCase />
+              <P top bottom>
+                Without
+              </P>
+              <TestCase />
+            </div>
           </ScrollView>
         )
       }}
