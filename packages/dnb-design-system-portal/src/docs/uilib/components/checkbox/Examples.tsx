@@ -3,7 +3,6 @@
  *
  */
 
-import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Checkbox, HelpButton, Section } from '@dnb/eufemia/src'
@@ -105,48 +104,6 @@ export const CheckboxPreventDefault = () => {
         onChange={({ checked }) => console.log('onChange', checked)}
       />
     </ComponentBox>
-  )
-}
-
-export function CheckboxCanceledChange({
-  initialChecked,
-  mode,
-  indeterminate = false,
-}: {
-  initialChecked: boolean
-  mode: 'onClick' | 'readOnly'
-  indeterminate?: boolean
-}) {
-  const [checked, setChecked] = useState(initialChecked)
-  const [blocked, setBlocked] = useState(true)
-  const [renders, setRenders] = useState(0)
-  const [changes, setChanges] = useState<boolean[]>([])
-
-  return (
-    <div
-      data-testid={`${mode}-${initialChecked}${indeterminate ? '-indeterminate' : ''}`}
-    >
-      <Checkbox
-        label="Consent"
-        checked={checked}
-        indeterminate={indeterminate}
-        readOnly={mode === 'readOnly' && blocked}
-        onClick={({ preventDefault }) => {
-          if (mode === 'onClick' && blocked) {
-            preventDefault()
-          }
-        }}
-        onChange={({ checked }) => {
-          setChanges((changes) => [...changes, checked])
-          setChecked(checked)
-        }}
-      />
-      <button onClick={() => setRenders(renders + 1)}>Render again</button>
-      <button onClick={() => setBlocked(false)}>Allow changes</button>
-      <output data-testid="value">{String(checked)}</output>
-      <output data-testid="changes">{JSON.stringify(changes)}</output>
-      <output data-testid="renders">{renders}</output>
-    </div>
   )
 }
 
