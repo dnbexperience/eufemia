@@ -72,6 +72,71 @@ describe('production CDN checks', () => {
     ).toBe(true)
   })
 
+  it('checks current DNB font files listed by a newer release manifest', async () => {
+    const currentPaths = [
+      'DNBSansText-Regular',
+      'DNBSansText-RegularItalic',
+      'DNBSansMono-BoldItalic',
+      'DNBSansDisplay',
+    ].map((name) => 'fonts/dnb/' + name + '.woff2')
+    const currentManifest =
+      manifest +
+      '\n' +
+      currentPaths
+        .map(
+          (path) =>
+            createHash('sha256').update(font).digest('hex') +
+            '  assets/' +
+            path
+        )
+        .join('\n')
+    const request = fixture({
+      change: (url) =>
+        url.endsWith('.manifest.sha256')
+          ? new Response(currentManifest)
+          : undefined,
+    })
+    const report = await checkCdn({ fetch: request, now, sleep })
+    expect(report.status).toBe('healthy')
+    for (const path of currentPaths) {
+      expect(
+        report.checks.some(
+          (check) => check.name === 'v11.15.2/' + path && check.ok
+        )
+      ).toBe(true)
+    }
+  })
+
+  it('detects an unavailable current font without requiring it in older release manifests', async () => {
+    const currentPath = 'fonts/dnb/DNBSansText-RegularItalic.woff2'
+    const currentManifest =
+      manifest +
+      '\n' +
+      createHash('sha256').update(font).digest('hex') +
+      '  assets/' +
+      currentPath
+    const report = await checkCdn({
+      fetch: fixture({
+        change: (url) => {
+          if (url.endsWith('.manifest.sha256')) {
+            return new Response(currentManifest)
+          }
+          if (url.endsWith(currentPath)) {
+            return new Response('', { status: 404 })
+          }
+        },
+      }),
+      now,
+      sleep,
+    })
+    expect(report.status).toBe('unhealthy')
+    expect(
+      report.checks.some(
+        (check) => check.name === 'v11.15.2/' + currentPath && !check.ok
+      )
+    ).toBe(true)
+  })
+
   it('fails when the latest version has not deployed after one hour', async () => {
     const report = await checkCdn({
       fetch: fixture({

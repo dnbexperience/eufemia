@@ -15,7 +15,11 @@ const script = workflow
   .slice(workflow.lastIndexOf('run: |\n') + 'run: |\n'.length)
   .replace(/^ {10}/gm, '')
 const policy = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
-const font = '/v11.0.0/fonts/dnb/DNB-Regular.woff2'
+const fonts = [
+  'DNBSansText-Regular',
+  'DNBSansText-RegularItalic',
+  'DNBSansMono-Regular',
+].map((name) => '/v11.0.0/fonts/dnb/' + name + '.woff2')
 const svg = '/v11.0.0/icons/dnb/add.svg'
 const validHeaders = 'Content-Security-Policy: ' + policy + '\r\n'
 
@@ -92,7 +96,7 @@ describe('published assets verification', () => {
   it('requires the enforced CSP on both the font and SVG', () => {
     const result = verify(validHeaders)
     expect(result.status).toBe(0)
-    expect(result.calls).toEqual([font, svg])
+    expect(result.calls).toEqual([...fonts, svg])
   })
 
   it.each([
@@ -121,7 +125,10 @@ describe('published assets verification', () => {
   it('retries until the CSP has propagated', () => {
     const result = verify('', { retry: true })
     expect(result.status).toBe(0)
-    expect(result.calls.slice(-2)).toEqual([font, svg])
-    expect(result.calls.length).toBeGreaterThan(2)
+    expect(result.calls.slice(-(fonts.length + 1))).toEqual([
+      ...fonts,
+      svg,
+    ])
+    expect(result.calls.length).toBeGreaterThan(fonts.length + 1)
   })
 })

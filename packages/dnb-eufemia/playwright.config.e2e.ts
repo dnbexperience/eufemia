@@ -22,6 +22,16 @@ export default defineConfig({
       use: { browserName: 'firefox' },
     },
     {
+      name: 'chromium-fonts',
+      testMatch: '**/style/__tests__/Fonts.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'webkit-fonts',
+      testMatch: '**/style/__tests__/Fonts.e2e.spec.ts',
+      use: { browserName: 'webkit' },
+    },
+    {
       name: 'chromium-document-styles',
       testMatch: 'DocumentStyles.e2e.spec.ts',
       use: { browserName: 'chromium' },
