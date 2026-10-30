@@ -1149,7 +1149,7 @@ describe('convertMdxToMd', () => {
       [
         '---',
         'title: Button',
-        "category: 'actions'",
+        "category: 'general'",
         "description: 'Use Button when people need to confirm an action.'",
         '---',
         '',
@@ -1162,7 +1162,7 @@ describe('convertMdxToMd', () => {
       [
         '---',
         'title: Anchor',
-        "category: 'actions'",
+        "category: 'general'",
         "description: 'Use Anchor to take people to another page.'",
         '---',
         '',
@@ -1196,7 +1196,7 @@ describe('convertMdxToMd', () => {
 
     expect(output).toContain('## Related components')
     expect(output).toContain(
-      'Button is part of the [Actions](/web/components/overview/#actions) category.'
+      'Button is part of the [General](/web/components/overview/#general) category.'
     )
     expect(output).toContain(
       '- [Anchor](/web/components/anchor/) – to take people to another page.'
@@ -1231,7 +1231,7 @@ describe('convertMdxToMd', () => {
         [
           '---',
           `title: ${name}`,
-          "category: 'content'",
+          "category: 'general'",
           `description: '${name} description.'`,
           '---',
           '',
@@ -1260,7 +1260,7 @@ describe('convertMdxToMd', () => {
     const listedCount = (output.match(/^- \[/gm) || []).length
     expect(listedCount).toBe(6)
     expect(output).toContain(
-      '[See all in Content](/web/components/overview/#content)'
+      '[See all in General](/web/components/overview/#general)'
     )
     // Alpha–Foxtrot are shown; Golf and Hotel are beyond the cap.
     expect(output).toContain('- [Alpha](/web/components/alpha/)')
@@ -1281,7 +1281,7 @@ describe('convertMdxToMd', () => {
       [
         '---',
         'title: Button',
-        "category: 'actions'",
+        "category: 'general'",
         "description: 'Use Button to confirm an action.'",
         '---',
         '',
@@ -1294,7 +1294,7 @@ describe('convertMdxToMd', () => {
       [
         '---',
         'title: Checkbox',
-        "category: 'input'",
+        "category: 'formatting'",
         "description: 'Use Checkbox to turn options on or off.'",
         '---',
         '',
@@ -1320,7 +1320,7 @@ describe('convertMdxToMd', () => {
       [
         '---',
         'title: ActionExtension',
-        "category: 'actions'",
+        "category: 'general'",
         "description: 'Use ActionExtension to complete an action.'",
         '---',
         '',
@@ -1337,8 +1337,8 @@ describe('convertMdxToMd', () => {
       state: { mdxCache: new Map(), inProgress: new Set() },
     })
 
-    expect(output).toContain('## Actions')
-    expect(output).toContain('## Input')
+    expect(output).toContain('## General')
+    expect(output).toContain('## Formatting and typography')
     expect(output).toContain(
       '- [Button](/web/components/button/): Use Button to confirm an action.'
     )
