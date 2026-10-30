@@ -297,6 +297,7 @@ describe('Decimals format', () => {
       expect(formatCurrency(-0.004, { returnAria: true })).toMatchObject({
         number: '0,00 kr',
         aria: '0,00 kroner',
+        cleanedValue: '0,00 kr',
       })
     })
 

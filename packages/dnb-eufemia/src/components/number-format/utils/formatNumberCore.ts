@@ -110,10 +110,7 @@ function normalizeMinusSign(parts: FormatPartItem[]): FormatPartItem[] {
   )
 }
 
-/**
- * Removes the minus sign when a negative value is formatted as zero,
- * e.g. -0.004 with two decimals, so it is not shown as "−0,00".
- */
+// E.g. -0.004 with two decimals is formatted as "−0,00" by Intl
 function removeMinusSignFromZero(
   parts: FormatPartItem[],
   signDisplay: InternalNumberFormatOptions['signDisplay']
