@@ -24,4 +24,25 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
   },
   help: FieldProperties.help,
   size: StringProperties.size,
+  error: {
+    doc: 'Error message shown below the fields.',
+    type: [
+      'string',
+      'React.ReactElement',
+      'Error',
+      'FormError',
+      'Array<string | React.ReactElement | Error | FormError>',
+    ],
+    status: 'optional',
+  },
+  warning: {
+    doc: 'Warning message shown below the fields.',
+    type: ['React.ReactNode', 'Array<React.ReactNode>'],
+    status: 'optional',
+  },
+  info: {
+    doc: 'Info message shown below the fields.',
+    type: ['React.ReactNode', 'Array<React.ReactNode>'],
+    status: 'optional',
+  },
 }
