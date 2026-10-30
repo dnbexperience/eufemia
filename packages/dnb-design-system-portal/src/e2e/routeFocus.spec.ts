@@ -213,6 +213,10 @@ test.describe('Route Focus', () => {
       page.locator('.dnb-sidebar-menu-responsive-inline__content')
     ).toHaveCSS('clip-path', 'inset(0px)')
     await page
+      .getByRole('navigation', { name: 'Platform Content Menu' })
+      .getByRole('button', { name: 'Content and layout', exact: true })
+      .click()
+    await page
       .locator('a[href="/web/components/accordion"]')
       .first()
       .click()
