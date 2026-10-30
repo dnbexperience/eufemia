@@ -8,6 +8,7 @@ import tar from 'tar'
 import { log } from '../../../lib'
 import '../../../../src/core/test-utils/testSetup'
 import { getFigmaDoc } from '../../helpers/docHelpers'
+import { createIconDownloads } from '../iconDownloads'
 import { type ChildProcess, execFile } from 'node:child_process'
 import {
   IconsConfig,
@@ -319,6 +320,12 @@ describe('assetsExtractors', () => {
       },
       ['objects/bell_medium.xml', 'objects/bell.xml']
     )
+  })
+
+  it('propagates download generation failures from extractIcons', async () => {
+    const error = new Error('Download generation failed')
+    vi.mocked(createIconDownloads).mockRejectedValueOnce(error)
+    await expect(runMock()).rejects.toBe(error)
   })
 
   it('extractIcons', async () => {

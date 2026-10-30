@@ -23,7 +23,6 @@ import properties from '../../../src/style/themes/ui/properties'
 import { create } from 'tar'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
-import { createIconDownloads } from './iconDownloads'
 
 export const ICON_SIZES = {
   16: { suffix: '' },
@@ -151,6 +150,7 @@ export const extractIcons = async ({
       await optimizeSVGIcons({ destDir, listWithFiles: listWithNewFiles })
     }
 
+    const { createIconDownloads } = await import('./iconDownloads')
     await createIconDownloads({
       destDir,
       manifestFile: path.join(

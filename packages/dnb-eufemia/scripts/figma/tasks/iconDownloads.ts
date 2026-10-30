@@ -1,7 +1,6 @@
 import fs from 'fs-extra'
 import path from 'node:path'
 import { createHash } from 'node:crypto'
-import sharp from 'sharp'
 import { zipSync, type Zippable } from 'fflate'
 import packageJson from '../../../package.json'
 import vdToolPackage from 'vd-tool/package.json'
@@ -33,7 +32,6 @@ export async function createIconDownloads({
   const zipHash = createHash('sha256')
     .update(contentHash)
     .update(await fs.readFile(__filename))
-    .update(JSON.stringify(sharp.versions))
     .update(packageJson.devDependencies.fflate)
     .digest('hex')
   const androidHash = createHash('sha256')
@@ -71,10 +69,6 @@ export async function createIconDownloads({
     const mtime = new Date(1980, 0, 1)
     for (const { iconFile, bytes } of sources) {
       entries[`svg/${iconFile}`] = [bytes, { mtime }]
-      entries[`png/${iconFile.replace(/\.svg$/, '.png')}`] = [
-        await sharp(bytes).png().toBuffer(),
-        { mtime, level: 0 },
-      ]
     }
     await fs.writeFile(zipFile, zipSync(entries, { level: 6 }))
   }

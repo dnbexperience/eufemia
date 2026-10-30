@@ -46,9 +46,9 @@ During development of the conversion script `convertSvgToJsx` you may consider t
 
 ### Download packages
 
-Icon syncs also generate `assets/icons/dnb/eufemia-icons.zip` with every current SVG and a transparent PNG at its original dimensions, alongside the two Android XML archives. These downloads are committed with the icons and reused by normal library and Portal builds. They are not regenerated on every push.
+Icon syncs also generate `assets/icons/dnb/eufemia-icons.zip` with every current SVG, alongside the two Android XML archives. These downloads are committed with the icons and reused by normal library and Portal builds. They are not regenerated on every push.
 
-Content fingerprints in `src/icons/dnb/icon-downloads.lock` skip PNG conversion, ZIP compression, and Android conversion when their inputs have not changed. SVG changes, additions, removals, converter changes, or missing downloads trigger regeneration. Category changes rebuild the Android packages only. Figma URLs and fetch timestamps do not invalidate the downloads.
+Content fingerprints in `src/icons/dnb/icon-downloads.lock` skip ZIP compression and Android conversion when their inputs have not changed. SVG changes, additions, removals, converter changes, or missing downloads trigger regeneration. Category changes rebuild the Android packages only. Figma URLs and fetch timestamps do not invalidate the downloads.
 
 To regenerate downloads from the local SVGs and icon lock file without calling Figma, run:
 
@@ -56,7 +56,7 @@ To regenerate downloads from the local SVGs and icon lock file without calling F
 yarn workspace @dnb/eufemia icons:downloads
 ```
 
-Commit the archives and `icon-downloads.lock` together with the icon changes.
+Commit the archives and `icon-downloads.lock` together with the icon changes. The build-script tests also compare the ZIP's SVGs with the committed files, so direct SVG edits require regenerating the downloads.
 
 ## Icons CI/CD process description
 

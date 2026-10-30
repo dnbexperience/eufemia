@@ -1,7 +1,6 @@
 import fs from 'fs-extra'
 import os from 'node:os'
 import path from 'node:path'
-import sharp from 'sharp'
 import { unzipSync } from 'fflate'
 import { createIconDownloads } from '../iconDownloads'
 
@@ -35,31 +34,19 @@ afterEach(async () => {
   await fs.remove(destDir)
 })
 
-it('includes every SVG and transparent PNG at its original dimensions', async () => {
+it('includes only the original SVGs', async () => {
   await generate()
   const entries = unzipSync(
     await fs.readFile(path.join(destDir, 'eufemia-icons.zip'))
   )
   expect(Object.keys(entries).sort()).toEqual([
-    'png/bell.png',
-    'png/bell_medium.png',
     'svg/bell.svg',
     'svg/bell_medium.svg',
   ])
   expect(Buffer.from(entries['svg/bell.svg']).toString()).toBe(svg())
-  const png = sharp(entries['png/bell.png'])
-  expect(await png.metadata()).toMatchObject({
-    width: 16,
-    height: 16,
-    hasAlpha: true,
-  })
-  expect((await png.raw().toBuffer())[15 * 16 * 4 + 15 * 4 + 3]).toBe(0)
-  expect(
-    await sharp(entries['png/bell_medium.png']).metadata()
-  ).toMatchObject({
-    width: 24,
-    height: 24,
-  })
+  expect(Buffer.from(entries['svg/bell_medium.svg']).toString()).toBe(
+    svg(24)
+  )
 })
 
 it('skips unchanged inputs including timestamp-only changes', async () => {
@@ -83,17 +70,39 @@ it('rebuilds for same-length SVG edits and removes deleted icons', async () => {
   const entries = unzipSync(
     await fs.readFile(path.join(destDir, 'eufemia-icons.zip'))
   )
-  expect(Object.keys(entries)).toHaveLength(2)
+  expect(Object.keys(entries)).toEqual(['svg/bell.svg'])
 })
 
 it('recreates byte-identical ZIPs without depending on file order', async () => {
+  vi.useFakeTimers({ toFake: ['Date'] })
+  try {
+    vi.setSystemTime(new Date(2026, 0, 1))
+    await generate()
+    const zipFile = path.join(destDir, 'eufemia-icons.zip')
+    const before = await fs.readFile(zipFile)
+    await fs.unlink(zipFile)
+    files.reverse()
+    vi.setSystemTime(new Date(2027, 0, 1))
+    await generate()
+    expect(await fs.readFile(zipFile)).toEqual(before)
+  } finally {
+    vi.useRealTimers()
+  }
+})
+
+it('repairs a missing categorized Android archive without rebuilding the ZIP', async () => {
   await generate()
   const zipFile = path.join(destDir, 'eufemia-icons.zip')
-  const before = await fs.readFile(zipFile)
-  await fs.unlink(zipFile)
-  files.reverse()
+  const before = await fs.stat(zipFile)
+  const categorizedFile = path.join(
+    destDir,
+    'eufemia-icons-xml-categorized.tgz'
+  )
+  await fs.unlink(categorizedFile)
   await generate()
-  expect(await fs.readFile(zipFile)).toEqual(before)
+  expect(buildAndroid).toHaveBeenCalledTimes(2)
+  expect(await fs.pathExists(categorizedFile)).toBe(true)
+  expect((await fs.stat(zipFile)).mtimeMs).toBe(before.mtimeMs)
 })
 
 it('rebuilds only Android packages for category changes', async () => {

@@ -3010,7 +3010,6 @@ __metadata:
     repo-utils: "workspace:*"
     sass: "npm:1.97.2"
     semantic-release: "npm:25.0.9"
-    sharp: "npm:0.35.4"
     simple-git: "npm:4.0.2"
     start-server-and-test: "npm:3.0.11"
     stylelint: "npm:16.26.1"
