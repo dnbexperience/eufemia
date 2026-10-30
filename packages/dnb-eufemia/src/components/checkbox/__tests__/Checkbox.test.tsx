@@ -279,9 +279,16 @@ describe('Checkbox component', () => {
   ])(
     'canceled changes with checked=$initialChecked',
     ({ initialChecked, nextChecked }) => {
-      it.each(['onClick', 'readOnly'] as const)(
-        'keeps the state through a render and the next allowed click after %s blocks a change',
-        async (mode) => {
+      it.each([
+        { mode: 'onClick', activation: 'label' },
+        { mode: 'onClick', activation: 'input' },
+        { mode: 'onClick', activation: 'Space' },
+        { mode: 'readOnly', activation: 'label' },
+        { mode: 'readOnly', activation: 'input' },
+        { mode: 'readOnly', activation: 'Space' },
+      ] as const)(
+        'keeps the state through a render and the next allowed activation after $mode blocks $activation',
+        async ({ mode, activation }) => {
           const onChange = vi.fn()
 
           function Controlled({ blocked }: { blocked: boolean }) {
@@ -312,11 +319,19 @@ describe('Checkbox component', () => {
           const input = document.querySelector('input')
           const label = document.querySelector('label')
           const output = document.querySelector('output')
+          const activate = async () => {
+            if (activation === 'Space') {
+              input.focus()
+              await userEvent.keyboard(' ')
+            } else {
+              await userEvent.click(activation === 'label' ? label : input)
+            }
+          }
 
           expect(input.checked).toBe(initialChecked)
           expect(output).toHaveTextContent(String(initialChecked))
 
-          await userEvent.click(label)
+          await activate()
           expect(input.checked).toBe(initialChecked)
           expect(output).toHaveTextContent(String(initialChecked))
           expect(onChange).not.toHaveBeenCalled()
@@ -332,13 +347,13 @@ describe('Checkbox component', () => {
           expect(output).toHaveTextContent(String(initialChecked))
           expect(onChange).not.toHaveBeenCalled()
 
-          await userEvent.click(label)
+          await activate()
           expect(input.checked).toBe(nextChecked)
           expect(output).toHaveTextContent(String(nextChecked))
           expect(onChange).toHaveBeenCalledTimes(1)
           expect(onChange).toHaveBeenLastCalledWith(nextChecked)
 
-          await userEvent.click(label)
+          await activate()
           expect(input.checked).toBe(initialChecked)
           expect(output).toHaveTextContent(String(initialChecked))
           expect(onChange).toHaveBeenCalledTimes(2)
