@@ -1,4 +1,6 @@
 .dnb-forms-value-upload {
+  --button-font-weight-cta: var(--font-weight-regular);
+
   &__item {
     .dnb-progress-indicator {
       display: inline-flex;

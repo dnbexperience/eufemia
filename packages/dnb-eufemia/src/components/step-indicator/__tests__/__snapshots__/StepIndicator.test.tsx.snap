@@ -1293,6 +1293,7 @@ button.dnb-button::-moz-focus-inner {
   align-items: flex-start;
 }
 .dnb-step-indicator__trigger__button {
+  --button-font-weight-cta: var(--font-weight-regular);
   --button-height: 1.5rem;
 }
 .dnb-step-indicator__trigger__button .dnb-button__text {

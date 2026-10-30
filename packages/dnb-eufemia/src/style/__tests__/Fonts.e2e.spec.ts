@@ -45,6 +45,26 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
             'style/themes/' + brand + '/' + brand + '-theme-basis.scss'
           ),
           compile('components/button/style/dnb-button.scss'),
+          ...[
+            'toggle-button',
+            'breadcrumb',
+            'pagination',
+            'step-indicator',
+            'upload',
+            'dropdown',
+            'date-picker',
+          ].map((component) =>
+            compile(
+              'components/' +
+                component +
+                '/style/dnb-' +
+                component +
+                '.scss'
+            )
+          ),
+          compile(
+            'extensions/forms/Value/Upload/style/dnb-value-upload.scss'
+          ),
           compile('components/skeleton/style/dnb-skeleton.scss'),
           compile('style/dnb-ui-document.scss'),
         ]
@@ -75,6 +95,56 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
             text +
             '</h1></article></div></main>'
         )
+        const controls = [
+          ['dnb-toggle-button', '', 'dnb-toggle-button__button'],
+          ['dnb-breadcrumb', '', ''],
+          ['dnb-pagination', 'dnb-pagination__bar', ''],
+          [
+            'dnb-step-indicator',
+            '',
+            'dnb-step-indicator__trigger__button',
+          ],
+          ['dnb-forms-value-upload', '', ''],
+          ['dnb-upload', 'dnb-upload__file-cell__text-container', ''],
+          ['dnb-dropdown', '', 'dnb-dropdown__trigger'],
+          ['dnb-date-picker', 'dnb-date-picker__day', ''],
+        ]
+        await page
+          .locator('.dnb-core-style')
+          .evaluate((element, controls) => {
+            for (const [root, container, button] of controls) {
+              element.insertAdjacentHTML(
+                'beforeend',
+                '<div class="' +
+                  root +
+                  '"><div class="' +
+                  container +
+                  '"><button class="dnb-button dnb-button--secondary ' +
+                  button +
+                  '"><span class="dnb-button__text">Selected value</span></button></div></div>'
+              )
+            }
+            element.insertAdjacentHTML(
+              'beforeend',
+              '<div class="dnb-upload"><button id="upload-action" class="dnb-button dnb-button--secondary"><span class="dnb-button__text">Upload file</span></button></div><div class="dnb-pagination"><div class="dnb-pagination__loadbar"><button id="load-action" class="dnb-button dnb-button--secondary"><span class="dnb-button__text">Load more</span></button></div></div>'
+            )
+          }, controls)
+        for (const [root] of controls) {
+          await expect(
+            page.locator('.' + root + ' .dnb-button__text').first()
+          ).toHaveCSS('font-weight', '400')
+        }
+        for (const selector of ['#upload-action', '#load-action']) {
+          await expect(
+            page.locator(selector + ' .dnb-button__text')
+          ).toHaveCSS('font-weight', brand === 'ui' ? '500' : '400')
+        }
+        await page.locator('.dnb-date-picker__day').evaluate((element) => {
+          element.classList.add('dnb-date-picker__day--today')
+        })
+        await expect(
+          page.locator('.dnb-date-picker__day .dnb-button__text')
+        ).toHaveCSS('font-weight', '500')
         await page.evaluate(() => document.fonts.ready)
         expect(
           requests.some((name) => name.startsWith('DNBSansDisplay'))
