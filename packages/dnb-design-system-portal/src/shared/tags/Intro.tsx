@@ -19,7 +19,18 @@ const Intro = ({ children }: IntroProps) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const onKeyDownHandler = (e: KeyboardEvent) => {
-      if (/textarea|input/i.test(document.activeElement.tagName)) {
+      const activeElement = document.activeElement as HTMLElement
+      if (
+        e.defaultPrevented ||
+        e.altKey ||
+        e.ctrlKey ||
+        e.metaKey ||
+        e.shiftKey ||
+        activeElement?.closest(
+          'input, textarea, select, button, a[href], pre, [contenteditable]:not([contenteditable="false"])'
+        ) ||
+        activeElement?.tabIndex >= 0
+      ) {
         return
       }
       try {
