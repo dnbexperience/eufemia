@@ -140,7 +140,9 @@ Use `slant="italic"` or `.dnb-t__slant--italic` for Text and Mono italics.
 DNB primary, secondary and tertiary buttons use Medium; unstyled buttons
 retain Regular. Built-in selection controls, navigation and clickable file
 names also retain Regular; upload and load-more actions use Medium.
-Lead and Ingress use Regular in the DNB UI theme.
+Lead uses Regular in the DNB UI theme. Ingress retains its explicit Medium
+default for compatibility; use `<Ingress weight="regular">` for introductory
+text that follows the brand guidance.
 
 The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
 Text and Mono use explicit CSS font metrics to keep their baselines
