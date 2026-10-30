@@ -111,7 +111,6 @@ export default function ListComponentsOverview() {
 
   return (
     <>
-      <FormsAndInputsIntro />
       <CategoriesTableOfContents categories={categories} />
 
       {categories.map(({ id, title, description, entries }: Category) => (
@@ -122,6 +121,8 @@ export default function ListComponentsOverview() {
           </AutoLinkHeader>
 
           <P>{description}</P>
+
+          {id === 'input' && <FormsAndInputsIntro />}
 
           <ComponentsOverviewList entries={entries} />
         </section>
