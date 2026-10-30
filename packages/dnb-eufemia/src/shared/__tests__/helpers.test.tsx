@@ -112,6 +112,16 @@ describe('"applyPageFocus" should', () => {
       'dnb-no-focus'
     )
   })
+
+  it('pass the focus options to the element', () => {
+    const focusElement =
+      document.querySelector<HTMLElement>('.focus-content')
+    const focus = vi.spyOn(focusElement, 'focus')
+
+    applyPageFocus(focusElement, null, { preventScroll: true })
+
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true })
+  })
 })
 
 describe('"scrollToLocationHashId" should', () => {

@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react'
-import type { PropsWithChildren, Ref } from 'react'
+import type { PropsWithChildren, ReactNode, Ref } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import {
@@ -1453,6 +1453,109 @@ describe('GlobalStatus component', () => {
 
     expect(jumpLink).toHaveAttribute('href', '#other-field-id')
     expect(fireEvent.click(jumpLink)).toBe(false)
+  })
+
+  describe('go-to link', () => {
+    beforeEach(() => {
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          callback: IntersectionObserverCallback
+          constructor(callback: IntersectionObserverCallback) {
+            this.callback = callback
+          }
+          observe(target: Element) {
+            this.callback(
+              [
+                {
+                  isIntersecting: true,
+                  target,
+                } as IntersectionObserverEntry,
+              ],
+              this as unknown as IntersectionObserver
+            )
+          }
+          unobserve() {}
+          disconnect() {}
+        }
+      )
+    })
+
+    afterEach(() => {
+      vi.unstubAllGlobals()
+    })
+
+    const renderWithTarget = (target: ReactNode) => {
+      render(
+        <>
+          {target}
+          <button>Other</button>
+          <GlobalStatus
+            show
+            noAnimation
+            autoScroll={false}
+            items={[
+              {
+                itemId: 'target',
+                text: 'Error',
+                statusAnchorUrl: true,
+                statusAnchorLabel: 'target',
+              },
+            ]}
+          />
+        </>
+      )
+
+      return document.querySelector(
+        '.dnb-global-status__message a.dnb-anchor'
+      )
+    }
+
+    it('should focus the target and restore it when it loses focus', () => {
+      const link = renderWithTarget(<span id="target">Target</span>)
+      const target = document.getElementById('target')
+
+      fireEvent.click(link)
+
+      expect(document.activeElement).toBe(target)
+      expect(target).toHaveAttribute('tabindex', '-1')
+      expect(target).toHaveClass('dnb-no-focus')
+
+      act(() => {
+        document.querySelector('button').focus()
+      })
+
+      expect(target).not.toHaveAttribute('tabindex')
+      expect(target).not.toHaveClass('dnb-no-focus')
+    })
+
+    it('should keep the tabindex of a target that can get focus on its own', () => {
+      const link = renderWithTarget(
+        <div id="target" tabIndex={-1}>
+          Target
+        </div>
+      )
+      const target = document.getElementById('target')
+
+      fireEvent.click(link)
+      fireEvent.click(link)
+
+      expect(document.activeElement).toBe(target)
+
+      act(() => {
+        document.querySelector('button').focus()
+      })
+
+      expect(target).toHaveAttribute('tabindex', '-1')
+      expect(target).not.toHaveClass('dnb-no-focus')
+
+      act(() => {
+        target.focus()
+        document.querySelector('button').focus()
+      })
+
+      expect(target).toHaveAttribute('tabindex', '-1')
+    })
   })
 
   it('should use the item id as the id of the item text', () => {

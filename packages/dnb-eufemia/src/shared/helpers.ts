@@ -83,7 +83,8 @@ export function setPageFocusElement(
 
 export function applyPageFocus(
   selectorOrElement: string | HTMLElement = 'default',
-  callback: ((element: HTMLElement) => void) | null = null
+  callback: ((element: HTMLElement) => void) | null = null,
+  focusOptions?: FocusOptions
 ) {
   try {
     let element: string | HTMLElement | null = selectorOrElement
@@ -127,7 +128,7 @@ export function applyPageFocus(
       }
     }
 
-    element.focus()
+    element.focus(focusOptions)
 
     const onBlur = () => {
       if (!isInteractive) {

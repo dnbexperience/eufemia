@@ -29,6 +29,7 @@ import {
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
+import { applyPageFocus } from '../../shared/helpers'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type {
   HeightAnimationOnStart,
@@ -356,26 +357,9 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           }
 
           isElementVisible(element, (elem) => {
-            try {
-              // remove the blink animation again
-              elem.addEventListener('blur', (e) => {
-                if ((e.target as HTMLElement).classList) {
-                  ;(e.target as HTMLElement).removeAttribute('tabindex')
-                }
-              })
-
-              // we don't want a visual focus style, we have our own
-              elem.classList.add('dnb-no-focus')
-
-              // in order to use the blur event
-              elem.setAttribute('tabindex', '-1')
-
-              // now show the animation
-              // we use "attention-focus" in #form-status theme
-              elem.focus({ preventScroll: true })
-            } catch (e) {
-              warn('GlobalStatus: Failed to focus status element:', e)
-            }
+            // Focus shows the "attention-focus" animation of FormStatus.
+            // The tabindex and class are restored when it loses focus.
+            applyPageFocus(elem, null, { preventScroll: true })
           })
 
           if (typeof element.scrollIntoView === 'function') {
