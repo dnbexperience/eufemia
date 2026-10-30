@@ -4,6 +4,7 @@ import Dialog from '../Dialog'
 import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
+import Dropdown from '../../dropdown/Dropdown'
 import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
@@ -652,6 +653,64 @@ describe('Dialog', () => {
     // Let the initial focus timer run (0 ms with noAnimation)
     await new Promise((resolve) => setTimeout(resolve, 50))
     expect(document.activeElement).toBe(field)
+  })
+
+  it('keeps focus in a dialog opened on top of it', async () => {
+    const WithNestedDialog = () => {
+      const [nestedOpen, setNestedOpen] = useState(false)
+      return (
+        <Dialog noAnimation open title="Outer">
+          <button id="open-nested" onClick={() => setNestedOpen(true)}>
+            Open
+          </button>
+          <Dialog noAnimation open={nestedOpen} title="Nested" />
+        </Dialog>
+      )
+    }
+    render(<WithNestedDialog />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Outer' })
+      )
+    })
+
+    // Opening the nested dialog re-renders the outer dialog content
+    fireEvent.click(document.getElementById('open-nested'))
+    // Let the focus timers of both dialogs run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'Nested' })
+    )
+  })
+
+  it('keeps focus in an open Dropdown list when the content changes', async () => {
+    const WithDropdown = () => {
+      const [, setCount] = useState(0)
+      return (
+        <Dialog noAnimation open title="Title">
+          <Dropdown
+            noAnimation
+            data={['A', 'B']}
+            onOpen={() => setCount((count) => count + 1)}
+          />
+        </Dialog>
+      )
+    }
+    render(<WithDropdown />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Title' })
+      )
+    })
+
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-drawer-list__options')
+    )
   })
 
   it('respects focusSelector over dialog container and close button', async () => {

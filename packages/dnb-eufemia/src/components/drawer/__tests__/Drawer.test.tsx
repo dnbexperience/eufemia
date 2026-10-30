@@ -3,11 +3,13 @@ import type { ReactNode, RefObject } from 'react'
 import type { DrawerAllProps } from '../Drawer'
 import Drawer from '../Drawer'
 import Button from '../../button/Button'
+import Dialog from '../../dialog/Dialog'
+import Dropdown from '../../dropdown/Dropdown'
 import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 const props: DrawerAllProps = {
@@ -435,6 +437,64 @@ describe('Drawer', () => {
     await waitFor(() => {
       expect(document.activeElement?.id).toBe('body-button')
     })
+  })
+
+  it('keeps focus in a dialog opened on top of it', async () => {
+    const WithNestedDialog = () => {
+      const [nestedOpen, setNestedOpen] = useState(false)
+      return (
+        <Drawer noAnimation open title="Drawer">
+          <button id="open-nested" onClick={() => setNestedOpen(true)}>
+            Open
+          </button>
+          <Dialog noAnimation open={nestedOpen} title="Nested" />
+        </Drawer>
+      )
+    }
+    render(<WithNestedDialog />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Drawer' })
+      )
+    })
+
+    // Opening the dialog re-renders the Drawer content
+    fireEvent.click(document.getElementById('open-nested'))
+    // Let the focus timers of both modals run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'Nested' })
+    )
+  })
+
+  it('keeps focus in an open Dropdown list when the content changes', async () => {
+    const WithDropdown = () => {
+      const [, setCount] = useState(0)
+      return (
+        <Drawer noAnimation open title="Drawer">
+          <Dropdown
+            noAnimation
+            data={['A', 'B']}
+            onOpen={() => setCount((count) => count + 1)}
+          />
+        </Drawer>
+      )
+    }
+    render(<WithDropdown />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Drawer' })
+      )
+    })
+
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-drawer-list__options')
+    )
   })
 
   it('respects focusSelector over close button', async () => {
