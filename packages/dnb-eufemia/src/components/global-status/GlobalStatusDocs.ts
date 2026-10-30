@@ -106,7 +106,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
 export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
   text: {
     doc: 'The text appears as the status content. Besides plain text, you can send in a React component as well.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'required',
   },
   itemId: {
@@ -121,7 +121,7 @@ export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
   },
   statusAnchorUrl: {
     doc: 'Use `statusAnchorUrl={true}` to enable the go-to link, defined as a url hash using the `itemId`. Or provide it with an actual url: `statusAnchorUrl="https://"`.',
-    type: 'string',
+    type: ['string', 'boolean'],
     status: 'optional',
   },
   statusAnchorText: {
@@ -131,7 +131,7 @@ export const GlobalStatusAdvancedItemProperties: PropertiesTableProps = {
   },
   statusAnchorLabel: {
     doc: 'Adds an additional text to the anchor (replaces `%s`), showing up after every item. Is used by default by other form components, if they have a `label`.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
 }
