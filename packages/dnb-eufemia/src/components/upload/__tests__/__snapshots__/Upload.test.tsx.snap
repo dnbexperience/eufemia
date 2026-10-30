@@ -1380,6 +1380,7 @@ button.dnb-button::-moz-focus-inner {
   background-color: var(--upload-highlight);
 }
 .dnb-upload__file-cell__text-container {
+  --button-font-weight-cta: var(--font-weight-regular);
   display: flex;
   flex-direction: column;
   align-items: flex-start;

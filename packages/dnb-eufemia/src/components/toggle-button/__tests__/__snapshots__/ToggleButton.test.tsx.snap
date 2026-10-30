@@ -2156,6 +2156,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 *
 */
 .dnb-toggle-button {
+  --button-font-weight-cta: var(--font-weight-regular);
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
