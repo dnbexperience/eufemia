@@ -346,8 +346,8 @@ jobs:
           # `npm stage publish`).
           # The release bot token is for the GitHub release, the comments and
           # the changelog/tag push. It is passed as GITHUB_TOKEN, because
-          # semantic-release only adds the `x-access-token:` user name that a
-          # GitHub App token needs for git to that variable, not to GH_TOKEN.
+          # semantic-release adds the `x-access-token:` git user name, which
+          # GitHub documents for App tokens, only to that variable.
           GITHUB_TOKEN: ${{ steps.release-bot.outputs.token }}
           # The prepared build/package.json carries no scripts (prepareForRelease
           # strips them), so this is a no-op in normal operation — but it stops a
