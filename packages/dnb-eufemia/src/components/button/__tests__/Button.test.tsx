@@ -10,8 +10,15 @@ import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
 import Icon from '../../icon/Icon'
 import { chevron_down, chevron_up } from '../../../icons'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import {
+  createEvent,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react'
 import { Provider, Theme } from '../../../shared'
+import nbNO from '../../../shared/locales/nb-NO'
+import enGB from '../../../shared/locales/en-GB'
 import userEvent from '@testing-library/user-event'
 
 const props: ButtonProps = {
@@ -770,10 +777,167 @@ describe('Button status', () => {
   })
 })
 
+describe('Button pending', () => {
+  it('shows the indicator after the text', () => {
+    render(<Button text="Save" pending />)
+
+    const text = document.querySelector('.dnb-button__text')
+    const indicator = text.querySelector('.dnb-forms-submit-indicator')
+    const content = indicator.querySelector(
+      '.dnb-forms-submit-indicator__content'
+    )
+
+    expect(text).toHaveTextContent('Save')
+    expect(text.lastElementChild).toBe(indicator)
+    expect(indicator).toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
+    expect(content.querySelectorAll('b')).toHaveLength(3)
+    expect(content).toHaveAttribute('role', 'status')
+    expect(content).toHaveAttribute(
+      'aria-label',
+      nbNO['nb-NO'].SubmitIndicator.label
+    )
+  })
+
+  it('uses the translation of the current locale', () => {
+    render(
+      <Provider locale="en-GB">
+        <Button text="Save" pending />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-submit-indicator__content')
+    ).toHaveAttribute('aria-label', enGB['en-GB'].SubmitIndicator.label)
+  })
+
+  it('stays focusable and uses aria-disabled instead of disabled', () => {
+    const { rerender } = render(<Button text="Save" pending={false} />)
+
+    const button = document.querySelector('button')
+    button.focus()
+
+    expect(button).not.toHaveAttribute('aria-disabled')
+    expect(button).not.toHaveClass('dnb-button--pending')
+
+    rerender(<Button text="Save" pending />)
+
+    expect(button).not.toBeDisabled()
+    expect(button).toHaveAttribute('aria-disabled', 'true')
+    expect(button).toHaveClass('dnb-button--pending')
+    expect(document.activeElement).toBe(button)
+  })
+
+  it('stays focusable when it is disabled as well', () => {
+    render(
+      <Provider formElement={{ disabled: true }}>
+        <Button text="Save" pending />
+        <Button text="Cancel" disabled pending />
+      </Provider>
+    )
+
+    const [save, cancel] = Array.from(document.querySelectorAll('button'))
+
+    expect(save).not.toBeDisabled()
+    expect(save).toHaveAttribute('aria-disabled', 'true')
+    expect(cancel).not.toBeDisabled()
+    expect(cancel).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('ignores clicks and does not submit a form', () => {
+    const onClick = vi.fn()
+    const onParentClick = vi.fn()
+    const onSubmit = vi.fn((event) => event.preventDefault())
+
+    const { rerender } = render(
+      <form onSubmit={onSubmit} onClick={onParentClick}>
+        <Button text="Save" type="submit" onClick={onClick} pending />
+      </form>
+    )
+
+    const button = document.querySelector('button')
+    fireEvent.click(button)
+
+    expect(onClick).toHaveBeenCalledTimes(0)
+    expect(onParentClick).toHaveBeenCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    rerender(
+      <form onSubmit={onSubmit} onClick={onParentClick}>
+        <Button
+          text="Save"
+          type="submit"
+          onClick={onClick}
+          pending={false}
+        />
+      </form>
+    )
+
+    fireEvent.click(button)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onParentClick).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps a pending link focusable and prevents navigation', () => {
+    render(<Button text="Open" href="/url" pending />)
+
+    const anchor = document.querySelector('a')
+    const event = createEvent.click(anchor)
+    fireEvent(anchor, event)
+
+    expect(event.defaultPrevented).toBe(true)
+    expect(anchor).toHaveAttribute('aria-disabled', 'true')
+    expect(anchor).toHaveAttribute('href', '/url')
+    expect(anchor).not.toHaveAttribute('tabindex')
+  })
+
+  it('renders a hidden indicator when pending is false, so it can animate in', () => {
+    const { rerender } = render(<Button text="Save" />)
+
+    expect(
+      document.querySelector('.dnb-forms-submit-indicator')
+    ).not.toBeInTheDocument()
+
+    rerender(<Button text="Save" pending={false} />)
+
+    const indicator = document.querySelector('.dnb-forms-submit-indicator')
+    const content = indicator.querySelector(
+      '.dnb-forms-submit-indicator__content'
+    )
+
+    expect(indicator).not.toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
+    expect(content).toHaveAttribute('aria-hidden', 'true')
+    expect(content).not.toHaveAttribute('role')
+    expect(content.querySelectorAll('b')).toHaveLength(0)
+  })
+
+  it('should validate with ARIA rules when pending', async () => {
+    const Comp = render(<Button text="Save" pending />)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
 describe('Button scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('includes the pending indicator styles and a not-allowed cursor', () => {
+    const css = String(loadScss(require.resolve('../style/deps.scss')))
+
+    expect(css).toMatch(/\.dnb-button--pending \{\s*cursor: not-allowed;/)
+    expect(css).toMatch(
+      /\.dnb-forms-submit-indicator--state-pending \.dnb-forms-submit-indicator__content \{\s*font-size: 1em;\s*opacity: 1;/
+    )
+    expect(css).toMatch(
+      /\.dnb-button \.dnb-forms-submit-indicator__content \{\s*cursor: inherit;\s*--dots-color: currentcolor;/
+    )
   })
 
   it('shows the focus ring in forced colors mode', () => {

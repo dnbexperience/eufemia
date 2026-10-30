@@ -7,7 +7,7 @@ export const SubmitButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showIndicator: {
-    doc: 'Show the submit indicator.',
+    doc: 'Show the submit indicator and ignore clicks, like the Button `pending` property.',
     type: 'boolean',
     status: 'optional',
   },

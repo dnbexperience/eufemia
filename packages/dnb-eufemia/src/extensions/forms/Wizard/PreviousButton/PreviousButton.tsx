@@ -6,7 +6,6 @@ import type { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
 import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
-import SubmitIndicator from '../../Form/SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
 import useId from '../../../../shared/helpers/useId'
 import mergeProps from '../../../../shared/helpers/mergeProps'
@@ -59,10 +58,11 @@ function PreviousButton(props: WizardPreviousButtonProps) {
           { className: 'dnb-forms-previous-button', onClick: handleClick },
           props
         )}
+        pending={Boolean(
+          props.pending || (hasIndicator && formState === 'pending')
+        )}
       >
         {children}
-
-        <SubmitIndicator state={hasIndicator ? formState : undefined} />
       </Button>
     </ButtonRow>
   )

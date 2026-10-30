@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const VippsWalletButtonProperties: PropertiesTableProps = {
   pending: {
-    doc: 'Set to `true` to show a pending state with a [SubmitIndicator](/uilib/extensions/forms/Form/SubmitIndicator/). The button is disabled while pending. Defaults to `false`.',
+    doc: 'Set to `true` to show a pending indicator, like the Button `pending` property. The button ignores clicks while pending, but keeps focus. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

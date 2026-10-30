@@ -7,7 +7,6 @@ import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../../defaults'
 import { Button } from '../../../../../components'
 import { check } from '../../../../../icons'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
-import SubmitIndicator from '../../SubmitIndicator'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../../shared/helpers/useIsomorphicLayoutEffect'
 
 type PendingOperation = {
@@ -25,27 +24,7 @@ export default function DoneEditButton() {
   const asyncSubmitTimeout =
     dataContext?.props?.asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT
   const translation = useTranslation().SectionEditContainer
-  const buttonRef = useRef<HTMLElement>(null)
-  const restoreFocusRef = useRef(false)
   const pendingOperationRef = useRef<PendingOperation>(null)
-
-  // Disabling the button while it is pending removes it from the focus
-  // order, which makes browsers move focus to the document body. When the
-  // section stays in edit mode (rejected Promise), move focus back so the
-  // user keeps their place. Focus is only reclaimed when it was actually
-  // lost, to avoid taking it away from somewhere the user moved it to.
-  // On a resolved Promise, SectionContainer handles focus when the view
-  // container opens. A layout effect restores focus in the same commit
-  // that enables the button again.
-  useLayoutEffect(() => {
-    if (!isPending && restoreFocusRef.current) {
-      restoreFocusRef.current = false
-
-      if (document.activeElement === document.body) {
-        buttonRef.current?.focus?.()
-      }
-    }
-  }, [isPending])
 
   useLayoutEffect(
     () => () => {
@@ -107,7 +86,6 @@ export default function DoneEditButton() {
             return
           }
 
-          restoreFocusRef.current = true
           setIsPending?.(false)
         }, asyncSubmitTimeout)
 
@@ -125,7 +103,6 @@ export default function DoneEditButton() {
               return
             }
 
-            restoreFocusRef.current = true
             setIsPending?.(false)
           }
         )
@@ -151,11 +128,9 @@ export default function DoneEditButton() {
       icon={check}
       iconPosition="left"
       onClick={doneHandler}
-      disabled={isPending}
-      ref={buttonRef}
+      pending={Boolean(isPending)}
     >
       {translation.doneButton}
-      {isPending && <SubmitIndicator state="pending" />}
     </Button>
   )
 }
