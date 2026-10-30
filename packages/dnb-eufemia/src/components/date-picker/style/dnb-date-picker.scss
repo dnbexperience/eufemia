@@ -315,8 +315,6 @@
   }
 
   &__day {
-    --button-font-weight-cta: var(--font-weight-regular);
-
     position: relative;
 
     width: var(--date-picker-day-width); // medium size

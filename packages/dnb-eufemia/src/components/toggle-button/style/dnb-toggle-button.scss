@@ -6,8 +6,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-toggle-button {
-  --button-font-weight-cta: var(--font-weight-regular);
-
   display: inline-flex;
   align-items: center; // because, with this we v align it to the label
 

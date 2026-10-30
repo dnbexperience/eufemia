@@ -79,7 +79,7 @@ test('centers DNB button labels across sizes, root scaling and native text size'
           .toBeCloseTo(height * rootScale, 1)
         await expect(button.locator('.dnb-button__text')).toHaveCSS(
           'font-weight',
-          '500'
+          '400'
         )
         const bounds = await button.evaluate((element) => {
           const button = element.getBoundingClientRect()
