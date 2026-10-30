@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test.describe('Dropdown focus', () => {
   test.beforeEach(async ({ page }) => {
+    await page.clock.install({ time: 0 })
     await page.goto('/uilib/components/dropdown/demos/')
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
@@ -36,8 +37,12 @@ test.describe('Dropdown focus', () => {
       '[data-visual-test="dropdown-closed"] button.dnb-dropdown__trigger'
     )
 
+    await trigger.scrollIntoViewIfNeeded()
+    // Keep Escape inside the opening delay, even on a slow test runner.
+    await page.clock.pauseAt(3_600_000)
     await trigger.click()
     await page.keyboard.press('Escape')
+    await page.clock.runFor(1000)
 
     await expect(trigger).toHaveAttribute('aria-expanded', 'false')
     await expect(trigger).toBeFocused()
