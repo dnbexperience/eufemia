@@ -7,7 +7,6 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import { Input, Textarea } from '../../../../components'
-import * as z from 'zod'
 import type { InputProps } from '../../../../components/input/Input'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
 import InputMasked from '../../../../components/InputMasked'
@@ -21,6 +20,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type { FieldProps, Schema } from '../../types'
+import type { ZodSchema } from '../../utils'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -141,6 +141,91 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
+/**
+ * Validates like `z.string()` with the minLength, maxLength and pattern
+ * rules and returns the same issues, without bundling Zod for text fields.
+ */
+function createStringSchema(props: FieldStringProps): ZodSchema {
+  const safeParse = (value: unknown) => {
+    const issues = getStringIssues(value, props)
+    return issues.length > 0
+      ? { success: false, error: { issues } }
+      : { success: true, data: value }
+  }
+
+  return { safeParse } as unknown as ZodSchema
+}
+
+function getStringIssues(value: unknown, props: FieldStringProps) {
+  if (typeof value !== 'string') {
+    return [
+      {
+        code: 'invalid_type',
+        expected: 'string',
+        message: `Invalid input: expected string, received ${getTypeName(value)}`,
+      },
+    ]
+  }
+
+  const { minLength, maxLength, pattern } = props
+  const issues: Array<Record<string, unknown>> = []
+
+  if (minLength !== undefined && value.length < minLength) {
+    issues.push({
+      code: 'too_small',
+      minimum: minLength,
+      type: 'string',
+      inclusive: true,
+      origin: 'string',
+      message: 'StringField.errorMinLength',
+      messageValues: { minLength: String(minLength) },
+    })
+  }
+  if (maxLength !== undefined && value.length > maxLength) {
+    issues.push({
+      code: 'too_big',
+      maximum: maxLength,
+      type: 'string',
+      inclusive: true,
+      origin: 'string',
+      message: 'StringField.errorMaxLength',
+      messageValues: { maxLength: String(maxLength) },
+    })
+  }
+  if (pattern && !new RegExp(pattern, 'u').test(value)) {
+    issues.push({
+      code: 'invalid_format',
+      validation: 'regex',
+      format: 'regex',
+      message: 'Field.errorPattern',
+      messageValues: { pattern },
+    })
+  }
+
+  return issues
+}
+
+// The type names Zod uses in its "received ..." message
+function getTypeName(value: unknown) {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? 'number' : String(value)
+  }
+  if (value === null) {
+    return 'null'
+  }
+  if (Array.isArray(value)) {
+    return 'array'
+  }
+  if (
+    typeof value === 'object' &&
+    Object.getPrototypeOf(value) !== Object.prototype &&
+    value.constructor
+  ) {
+    return value.constructor.name
+  }
+  return typeof value
+}
+
 function StringComponent(props: FieldStringProps) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
@@ -150,48 +235,7 @@ function StringComponent(props: FieldStringProps) {
       // Use a factory so the schema is created using the current props
       // at validation time (min/max/pattern). This keeps rules in sync
       // with dynamic prop changes and avoids stale closures.
-      props.schema ??
-      ((p: FieldStringProps) => {
-        return z.string().superRefine((val, ctx) => {
-          if (p.minLength !== undefined && val.length < p.minLength) {
-            ctx.addIssue({
-              code: 'too_small',
-              minimum: p.minLength,
-              type: 'string',
-              inclusive: true,
-              origin: 'string',
-              message: 'StringField.errorMinLength',
-              messageValues: {
-                minLength: String(p.minLength),
-              },
-            })
-          }
-          if (p.maxLength !== undefined && val.length > p.maxLength) {
-            ctx.addIssue({
-              code: 'too_big',
-              maximum: p.maxLength,
-              type: 'string',
-              inclusive: true,
-              origin: 'string',
-              message: 'StringField.errorMaxLength',
-              messageValues: {
-                maxLength: String(p.maxLength),
-              },
-            })
-          }
-          if (p.pattern && !new RegExp(p.pattern, 'u').test(val)) {
-            ctx.addIssue({
-              code: 'invalid_format',
-              validation: 'regex',
-              format: 'regex',
-              message: 'Field.errorPattern',
-              messageValues: {
-                pattern: p.pattern,
-              },
-            })
-          }
-        })
-      })
+      props.schema ?? ((p: FieldStringProps) => createStringSchema(p))
     )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

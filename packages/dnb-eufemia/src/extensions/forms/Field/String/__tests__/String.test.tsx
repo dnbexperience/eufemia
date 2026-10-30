@@ -1048,6 +1048,47 @@ describe('Field.String', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
       })
+
+      it('should validate with the updated rules when they change', async () => {
+        const { rerender } = render(
+          <Field.String value="ab" minLength={3} validateInitially />
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(
+            nb.StringField.errorMinLength.replace('{minLength}', '3')
+          )
+        })
+
+        rerender(
+          <Field.String value="ab" minLength={1} validateInitially />
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+
+        rerender(
+          <Field.String
+            value="ab"
+            minLength={1}
+            maxLength={1}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(
+            nb.StringField.errorMaxLength.replace('{maxLength}', '1')
+          )
+        })
+      })
     })
 
     describe('validation based on maxLength-prop', () => {

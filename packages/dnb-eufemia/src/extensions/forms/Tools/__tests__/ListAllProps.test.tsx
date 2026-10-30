@@ -28,13 +28,7 @@ describe('Tools.ListAllProps', () => {
             pattern: '^[a-z]{2}[0-9]+$',
             required: true,
             schema: expect.objectContaining({
-              def: expect.objectContaining({
-                type: 'string',
-              }),
-              '~standard': expect.objectContaining({
-                vendor: 'zod',
-                version: 1,
-              }),
+              safeParse: expect.any(Function),
             }),
             width: 'large',
             ref: {
