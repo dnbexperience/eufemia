@@ -34,7 +34,7 @@ function cleanTitle(title: string): string {
 
 // Cap how many siblings are listed inline; the rest are reachable via the
 // "See all" link to the overview category, to avoid long lists on big
-// categories like General.
+// categories like Inputs and Content and layout.
 const MAX_VISIBLE_RELATED = 6
 
 function toReason(description?: string): string | undefined {

@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 for (const width of [1440, 390]) {
   test(
-    'uses the proposed component structure at ' + width + 'px',
+    'groups components by their purpose at ' + width + 'px',
     async ({ page }) => {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.setViewportSize({ width, height: 900 })
@@ -29,22 +29,26 @@ for (const width of [1440, 390]) {
         })
       ).toHaveAttribute('href', '/web/components/overview')
       for (const name of [
-        'General',
+        'Actions',
+        'Inputs',
+        'Navigation',
+        'Feedback and dialogs',
+        'Content and layout',
         'Formatting and typography',
         'Accessibility',
         'Utilities',
       ]) {
         await expect(
-          menu.getByRole('list', { name, exact: true })
+          menu.getByRole('button', { name, exact: true })
         ).toBeVisible()
       }
       const buttons = menu.getByRole('button', {
-        name: 'Buttons',
+        name: 'Actions',
         exact: true,
       })
       await buttons.click()
       await expect(page).toHaveURL(initialUrl)
-      for (const name of ['Button', 'Help button', 'Toggle button']) {
+      for (const name of ['Button', 'Help button', 'Menu']) {
         await expect(
           menu.getByRole('link', { name, exact: true })
         ).toBeVisible()
@@ -55,9 +59,19 @@ for (const width of [1440, 390]) {
       })
       await inputs.press('Enter')
       await expect(page).toHaveURL(initialUrl)
-      await expect(
-        menu.getByRole('link', { name: 'Input', exact: true })
-      ).toBeVisible()
+      for (const name of [
+        'Input',
+        'Text area',
+        'Dropdown',
+        'Checkbox',
+        'Radio button',
+        'Upload',
+        'Date picker',
+      ]) {
+        await expect(
+          menu.getByRole('link', { name, exact: true })
+        ).toBeVisible()
+      }
       await menu
         .getByRole('link', { name: 'Masked input', exact: true })
         .click()
@@ -74,6 +88,13 @@ for (const width of [1440, 390]) {
       await expect(
         menu.getByRole('link', { name: 'Masked input', exact: true })
       ).toHaveAttribute('aria-current', 'page')
+      const content = menu.getByRole('button', {
+        name: 'Content and layout',
+        exact: true,
+      })
+      if ((await content.getAttribute('aria-expanded')) === 'false') {
+        await content.click()
+      }
       await menu
         .getByRole('link', { name: 'Country flags', exact: true })
         .click()

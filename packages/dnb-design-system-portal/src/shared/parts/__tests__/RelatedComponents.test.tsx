@@ -12,7 +12,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Dropdown',
             description:
               'Use Dropdown when people need to choose one option from a list.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -23,7 +23,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Autocomplete',
             description:
               'Use Autocomplete to help people find and choose from matching suggestions as they type.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -34,7 +34,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Radio',
             description:
               'Use Radio when people must choose one option from a set.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -45,7 +45,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Checkbox',
             description:
               'Use Checkbox when people can turn one or more options on or off.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -56,7 +56,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Input',
             description:
               'Use Input when people need to enter a short line of text.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -67,7 +67,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Slider',
             description:
               'Use Slider when people need to choose a value from a range.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -78,7 +78,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Switch',
             description:
               'Use Switch when people can turn one setting on or off.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -89,7 +89,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Textarea',
             description:
               'Use Textarea when people need to write longer text over several lines.',
-            category: 'general',
+            category: 'input',
           },
         },
       },
@@ -100,7 +100,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Anchor (Text Link)',
             description:
               'Use Anchor to take people to another page, section, or website.',
-            category: 'formatting',
+            category: 'actions',
           },
         },
       },
@@ -111,7 +111,7 @@ const mockData = vi.hoisted(() => ({
             title: 'Button',
             description:
               'Use Button when people need to start, confirm, or submit an action.',
-            category: 'formatting',
+            category: 'actions',
           },
         },
       },
@@ -121,7 +121,7 @@ const mockData = vi.hoisted(() => ({
           frontmatter: {
             title: 'Breadcrumb',
             description: 'Use Breadcrumb to show where someone is.',
-            category: 'utilities',
+            category: 'navigation',
           },
         },
       },
@@ -192,7 +192,7 @@ describe('RelatedComponents', () => {
       (a as HTMLAnchorElement).getAttribute('href')
     )
 
-    // General has 7 siblings here; only the first six (alphabetical) show.
+    // Input has 7 siblings here; only the first six (alphabetical) show.
     expect(links).toEqual([
       '/web/components/autocomplete',
       '/web/components/checkbox',
@@ -209,9 +209,9 @@ describe('RelatedComponents', () => {
 
     expect(seeAll).toBeTruthy()
     expect(seeAll?.getAttribute('href')).toBe(
-      '/web/components/overview/#general'
+      '/web/components/overview/#input'
     )
-    expect(seeAll?.textContent).toContain('General')
+    expect(seeAll?.textContent).toContain('Input')
   })
 
   it('omits the See all link when the whole category fits inline', () => {
@@ -228,11 +228,11 @@ describe('RelatedComponents', () => {
     const { container } = renderAt('/web/components/dropdown')
 
     const categoryLink = container.querySelector(
-      'a[href="/web/components/overview/#general"]'
+      'a[href="/web/components/overview/#input"]'
     )
 
     expect(categoryLink).not.toBeNull()
-    expect(categoryLink?.textContent).toBe('General')
+    expect(categoryLink?.textContent).toBe('Inputs')
   })
 
   it('shows a short reason derived from each description', () => {
