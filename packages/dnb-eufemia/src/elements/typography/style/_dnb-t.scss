@@ -53,6 +53,9 @@
   }
 
   // weight
+  &__weight--light {
+    font-weight: var(--font-weight-light, 300);
+  }
   &__weight--regular {
     font-weight: var(--font-weight-regular);
   }

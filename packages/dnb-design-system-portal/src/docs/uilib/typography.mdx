@@ -8,6 +8,7 @@ order: 5
 
 import {
   TypographyVariants,
+  FontFamiliesExample,
   ResponsiveTypographyExample,
   ResponsiveTypographyFullExample,
 } from 'Docs/uilib/typography/Examples'
@@ -18,6 +19,30 @@ import {
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/style)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/typography)
 
+## Font roles
+
+[DNB's brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
+define fonts for distinct roles. **Text** is a font variant designed
+for readability, used in both digital interfaces and printed documents.
+
+| Font                        | Use                                                        |
+| --------------------------- | ---------------------------------------------------------- |
+| DNB Sans Text Regular       | Body text, introductions, everyday UI and document content |
+| DNB Sans Text Medium / Bold | Subheadings; Medium for calls to action                    |
+| DNB Sans Mono               | Selected eyebrow labels, short captions and table details  |
+| Arial                       | Fallback when DNB Sans Text cannot load                    |
+
+Text and Mono provide Light, Regular, Medium and Bold, each with a genuine
+italic. The brand guidelines do not assign a specific role to Light. Use
+Regular for normal content and ensure sufficient readability when choosing
+Light.
+
+Eufemia keeps Text as the default for DNB headings, paragraphs, UI and
+letters. Sbanken retains Roboto and Maison Neue. Carnegie retains its
+ArizonaFlare headings. Eiendom continues to use the DNB text family.
+
+<FontFamiliesExample />
+
 ## Typography components
 
 The two main components used to set typography are:
@@ -25,11 +50,11 @@ The two main components used to set typography are:
 - [Span](/uilib/elements/span)
 - [P](/uilib/elements/paragraph)
 
-([Lead](/uilib/elements/lead) and [Ingress](uilib/elements/ingress) also work in the same way)
+([Lead](/uilib/elements/lead) and [Ingress](/uilib/elements/ingress) also work in the same way)
 
 ## Typography in general
 
-Fonts are handled automatically once the CSS packages **dnb-ui-core** or **dnb-ui-basis** are loaded.
+Fonts are registered by the selected brand basis stylesheet. Load it together with **dnb-ui-core** or **dnb-ui-basis**. Browsers download only the faces used on the page.
 
 Every typography HTML element, like headings and paragraphs, has a defined `height` and `line-height` so everything falls exactly into the **8-pixel grid**.
 
@@ -103,7 +128,19 @@ Use `Typography.Context` to make typography components, or all components use re
 
 ## Font Face
 
-The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
+The default DNB typeface is **DNB Sans Text**, registered under the existing
+CSS family name `DNB`. DNB Sans Mono retains the CSS name `DNBMono`.
+Keeping these names preserves existing custom CSS and font-family variables.
+The stylesheet loads the official `DNBSansText-*` and `DNBSansMono-*`
+files, including Light and italics.
+
+The existing weights remain Regular (400), Medium (500) and Bold (600).
+CSS `bold` (700) also selects the genuine DNB Bold face. Light uses 300.
+Use `slant="italic"` or `.dnb-t__slant--italic` for Text and Mono italics.
+DNB primary, secondary and tertiary buttons use Medium; unstyled buttons
+retain Regular. Lead and Ingress use Regular in the DNB UI theme.
+
+The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
 
 - Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/sbanken/fonts.scss` and applied via Sbanken-specific properties.
 - Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.
@@ -131,9 +168,9 @@ import { H1, H2, ... } from '@dnb/eufemia'
 
 Read more about the [Anchor / Text Link](/uilib/components/anchor).
 
-## DNB Mono (monospace)
+## DNB Sans Mono (monospace)
 
-DNB has its own monospace typeface (`font-family`).
+Use Mono for selected details, such as eyebrow labels, short captions and table values. It is also used for code. Tables keep Text by default; select Mono where it helps the content.
 
 Use it either by a CSS class `.dnb-t__family--monospace` or define your own like so:
 
@@ -149,19 +186,35 @@ Use it either by a CSS class `.dnb-t__family--monospace` or define your own like
 
 New Eufemia releases load fonts from an immutable CDN path matching the package
 version, for example
-`https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNB-Regular.woff2`.
+`https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNBSansText-Regular.woff2`.
 
 The stable URLs below always serve the latest stable release and are convenient
 when linking fonts manually:
 
 ### DNB
 
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Medium.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Bold.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Regular.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Medium.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono-Bold.woff2`
+
+Text and Mono filenames follow `DNBSansText-<Weight>[Italic].woff2`
+and `DNBSansMono-<Weight>[Italic].woff2`. Weights are `Light`,
+`Regular`, `Medium` and `Bold`. WOFF, TTF and OTF are also
+included in the package.
+
+Download the complete families:
+
+- [DNB Sans Text](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText.zip)
+- [DNB Sans Mono](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono.zip)
+
+These URLs become available with the release containing these files. For
+local previews, Eufemia loads the bundled files. The old `DNB-*` and
+`DNBMono-*` asset URLs remain available for existing consumers; new code
+should use the current filenames. Update manual preloads and self-hosted
+copies together with the stylesheet to avoid downloading both generations.
 
 ### Sbanken
 

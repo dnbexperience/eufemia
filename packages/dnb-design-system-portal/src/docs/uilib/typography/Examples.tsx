@@ -25,6 +25,7 @@ import {
   Span,
 } from '@dnb/eufemia/src'
 import { Typography } from '@dnb/eufemia/src/elements'
+import type { TypographyWeight } from '@dnb/eufemia/src/elements/Typography'
 
 import { Theme, useTheme } from '@dnb/eufemia/shared'
 
@@ -95,25 +96,25 @@ export function FontWeightByThemeExample() {
     <Wrapper>
       {/* Regular */}
       <FontUsageExample
-        fontFamily="DNB Regular"
+        fontFamily="DNB Sans Text Regular"
         typoClass="dnb-t__weight--regular"
       />
 
       {/* Medium */}
       <FontUsageExample
-        fontFamily="DNB Medium"
+        fontFamily="DNB Sans Text Medium"
         typoClass="dnb-t__weight--medium"
       />
 
       {/* Bold */}
       <FontUsageExample
-        fontFamily="DNB Bold"
+        fontFamily="DNB Sans Text Bold"
         typoClass="dnb-t__weight--bold"
       />
 
       {/* Mono Regular */}
       <FontUsageExample
-        fontFamily="DNB Mono Regular"
+        fontFamily="DNB Sans Mono Regular"
         typoClass="dnb-t__weight--regular dnb-t__family--monospace"
       />
     </Wrapper>
@@ -312,6 +313,52 @@ export function NativeTypographyExample() {
           )
         }
 
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function FontFamiliesExample() {
+  return (
+    <ComponentBox
+      scope={{ Typography, P, Flex, Button, useTheme }}
+      data-visual-test="font-families"
+    >
+      {() => {
+        function Example() {
+          const theme = useTheme()
+          const supportsDnbFaces = theme?.brand !== 'sbanken'
+          const weights: TypographyWeight[] = [
+            'light',
+            'regular',
+            'medium',
+            'bold',
+          ]
+
+          return (
+            <Flex.Stack>
+              <P>Everyday text: ÆØÅ æøå, 0123456789</P>
+              {supportsDnbFaces &&
+                weights.map((weight) => (
+                  <P key={weight}>
+                    <Typography element="span" weight={weight}>
+                      Text {weight}: ÆØÅ æøå
+                    </Typography>{' '}
+                    <Typography
+                      element="span"
+                      weight={weight}
+                      slant="italic"
+                    >
+                      Italic: ÆØÅ æøå
+                    </Typography>
+                  </P>
+                ))}
+              <P family="monospace">Selected details: 1 234,50 NOK</P>
+              <Button text="Continue" />
+            </Flex.Stack>
+          )
+        }
         return <Example />
       }}
     </ComponentBox>

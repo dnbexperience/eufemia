@@ -33,50 +33,28 @@
 
 $fonts-path: '../../../../assets/fonts/dnb' !default;
 
-// Std and Regular
-@font-face {
-  font-family: DNB;
-  src:
-    url('#{$fonts-path}/DNB-Regular.woff2') format('woff2'),
-    url('#{$fonts-path}/DNB-Regular.woff') format('woff'),
-    url('#{$fonts-path}/DNB-Regular.ttf') format('truetype');
-  font-weight: normal; // have to be the same as: --font-weight-regular
-  font-style: normal;
-  font-display: fallback;
-}
+// Keep the public CSS family names while loading the current brand fonts.
+// DNB Bold remains available at both the Eufemia weight (600) and CSS bold (700).
+@each $family, $file in (DNB: DNBSansText, DNBMono: DNBSansMono) {
+  @each $name,
+    $weight in (Light: 300, Regular: normal, Medium: 500, Bold: 600 700)
+  {
+    @each $style in (normal, italic) {
+      $suffix: $name;
+      @if $style == italic {
+        $suffix: '#{$name}Italic';
+      }
 
-// Medium
-@font-face {
-  font-family: DNB;
-  src:
-    url('#{$fonts-path}/DNB-Medium.woff2') format('woff2'),
-    url('#{$fonts-path}/DNB-Medium.woff') format('woff'),
-    url('#{$fonts-path}/DNB-Medium.ttf') format('truetype');
-  font-weight: 500; // have to be the same as: --font-weight-medium
-  font-style: normal;
-  font-display: fallback;
-}
-
-// Bold
-@font-face {
-  font-family: DNB;
-  src:
-    url('#{$fonts-path}/DNB-Bold.woff2') format('woff2'),
-    url('#{$fonts-path}/DNB-Bold.woff') format('woff'),
-    url('#{$fonts-path}/DNB-Bold.ttf') format('truetype');
-  font-weight: 600; // have to be the same as: --font-weight-bold
-  font-style: normal;
-  font-display: fallback;
-}
-
-// Mono-Regular
-@font-face {
-  font-family: DNBMono;
-  src:
-    url('#{$fonts-path}/DNBMono-Regular.woff2') format('woff2'),
-    url('#{$fonts-path}/DNBMono-Regular.woff') format('woff'),
-    url('#{$fonts-path}/DNBMono-Regular.ttf') format('truetype');
-  font-weight: normal; // have to be the same as: --font-weight-regular
-  font-style: normal;
-  font-display: fallback;
+      @font-face {
+        font-family: $family;
+        src:
+          url('#{$fonts-path}/#{$file}-#{$suffix}.woff2') format('woff2'),
+          url('#{$fonts-path}/#{$file}-#{$suffix}.woff') format('woff'),
+          url('#{$fonts-path}/#{$file}-#{$suffix}.ttf') format('truetype');
+        font-weight: $weight;
+        font-style: $style;
+        font-display: fallback;
+      }
+    }
+  }
 }

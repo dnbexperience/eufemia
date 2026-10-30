@@ -1170,6 +1170,10 @@ sub {
   line-height: var(--typography-line-height-x-small);
 }
 
+.dnb-t__weight--light {
+  font-weight: var(--font-weight-light, 300);
+}
+
 .dnb-t__weight--regular {
   font-weight: var(--font-weight-regular);
 }

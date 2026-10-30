@@ -5,7 +5,7 @@
 
 :root {
   // Typography Family
-  --font-family-default: 'DNB', sans-serif;
+  --font-family-default: 'DNB', 'Arial', sans-serif;
   --font-family-heading: var(--font-family-default);
   --font-family-monospace:
     'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',
@@ -14,6 +14,7 @@
   // Typography Weights
   --font-weight-default: normal;
   --font-weight-basis: normal;
+  --font-weight-light: 300;
   --font-weight-regular: normal;
   --font-weight-medium: 500;
   --font-weight-bold: 600;
