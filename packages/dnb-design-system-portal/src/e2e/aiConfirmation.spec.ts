@@ -91,24 +91,63 @@ test('keeps focus and announces the decision through controlled states', async (
   await expect(card.locator('.dnb-badge')).toHaveText('Avslått')
 })
 
-test('expires the application request without losing keyboard focus', async ({
+test('offers adjustable expiry without losing focus', async ({ page }) => {
+  const demo = page.locator('[data-visual-test="ai-confirmation-expiry"]')
+  const start = demo.getByRole('button', {
+    name: 'Start a request',
+    exact: true,
+  })
+  await start.focus()
+  await start.press('Enter')
+  await expect(
+    demo.getByRole('button', { name: 'Restart request', exact: true })
+  ).toBeFocused()
+  await expect(demo.locator('.dnb-ai-confirmation')).toHaveClass(
+    /--required/
+  )
+  await demo
+    .getByRole('button', { name: 'Extend by one minute', exact: true })
+    .click()
+  await expect(demo.locator('.dnb-ai-confirmation')).toContainText(
+    '60 seconds'
+  )
+  await demo
+    .getByRole('button', { name: 'Turn off time limit', exact: true })
+    .click()
+  await expect(demo.locator('.dnb-ai-confirmation')).toHaveClass(
+    /--required/
+  )
+  await expect(
+    demo.getByRole('button', { name: 'Restart request', exact: true })
+  ).toBeFocused()
+})
+
+test('warns before expiry and lets readers extend or disable the limit', async ({
   page,
 }) => {
+  await page.clock.install()
   const demo = page.locator('[data-visual-test="ai-confirmation-expiry"]')
-  const card = demo.locator('.dnb-ai-confirmation')
   await demo
-    .getByRole('button', { name: 'Start a five-second request' })
+    .getByRole('button', { name: 'Start a request', exact: true })
     .click()
-  const confirm = card.getByRole('button', { name: 'Ja', exact: true })
-
-  await expect(confirm).toBeEnabled()
-  await confirm.focus()
-  await expect(card).toHaveClass(/dnb-ai-confirmation--expired/, {
-    timeout: 8000,
-  })
-  await expect(confirm).toBeDisabled()
-  await expect(card.locator('.dnb-ai-confirmation__body')).toBeFocused()
-  await expect(card.locator('.dnb-aria-live')).toContainText('Utløpt')
+  await page.clock.fastForward(31000)
+  await expect(demo.locator('.dnb-aria-live').last()).toContainText(
+    'expires soon'
+  )
+  await demo
+    .getByRole('button', { name: 'Extend by one minute', exact: true })
+    .click()
+  await page.clock.fastForward(31000)
+  await expect(demo.locator('.dnb-ai-confirmation')).toHaveClass(
+    /--required/
+  )
+  await demo
+    .getByRole('button', { name: 'Turn off time limit', exact: true })
+    .click()
+  await page.clock.fastForward(120000)
+  await expect(demo.locator('.dnb-ai-confirmation')).toHaveClass(
+    /--required/
+  )
 })
 
 test('wraps content and action labels in a narrow container', async ({

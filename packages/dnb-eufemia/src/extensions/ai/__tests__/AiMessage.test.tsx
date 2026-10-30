@@ -14,6 +14,23 @@ import { copy } from '../../../icons'
 import { Action, Actions, Message, MessageIndicator, Response } from '..'
 
 describe('Ai.Message', () => {
+  it('keeps grouped avatars beside the bubble without adding an empty header', () => {
+    render(
+      <Message grouped avatar={<Avatar hasLabel>A</Avatar>}>
+        Follow-up
+      </Message>
+    )
+    const message = document.querySelector('.dnb-ai-message')
+    expect(message).toHaveClass(
+      'dnb-ai-message--grouped',
+      'dnb-ai-message--has-avatar'
+    )
+    expect(message.querySelector('.dnb-ai-message__header')).toBeNull()
+    expect(
+      message.querySelector('.dnb-ai-message__avatar')
+    ).toHaveAttribute('aria-hidden', 'true')
+  })
+
   it('renders an assistant bubble by default', () => {
     render(<Message>Hello</Message>)
 

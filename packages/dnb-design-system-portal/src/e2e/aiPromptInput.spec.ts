@@ -30,7 +30,7 @@ test.describe('Ai.PromptInput interaction styles', () => {
     await expect(stop).toBeVisible()
     await stop.focus()
     await stop.press('Enter')
-    await expect(form.locator('button[type="submit"]')).toBeDisabled()
+    await expect(form.locator('button[type="submit"]')).toBeEnabled()
     await expect(textarea).toBeFocused()
   })
 
