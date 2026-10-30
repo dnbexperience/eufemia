@@ -43,7 +43,7 @@ describe('MDX-defined Portal navigation', () => {
       while (group && group.frontmatter.navigation.kind !== 'category') {
         group = definitions.get(group.frontmatter.navigation.parent)
       }
-      expect(group?.fields.slug, fields.slug).toBe(
+      expect(group?.fields.slug).toBe(
         'web/components/categories/' + getCategoryId(frontmatter.category)
       )
     }
