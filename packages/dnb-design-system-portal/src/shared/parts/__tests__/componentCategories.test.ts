@@ -10,19 +10,17 @@ import {
 
 describe('componentCategories', () => {
   describe('categoryOrder', () => {
-    it('defines the six known categories in order', () => {
+    it('defines the four navigation categories in order', () => {
       expect(categoryOrder.map(({ id }) => id)).toEqual([
-        'actions',
-        'input',
-        'navigation',
-        'feedback',
-        'content',
-        'other',
+        'general',
+        'formatting',
+        'accessibility',
+        'utilities',
       ])
     })
 
     it('exposes the ids as a set', () => {
-      expect(categoryIds.has('input')).toBe(true)
+      expect(categoryIds.has('general')).toBe(true)
       expect(categoryIds.has('unknown')).toBe(false)
     })
   })
@@ -37,8 +35,8 @@ describe('componentCategories', () => {
 
   describe('isCategoryId', () => {
     it('accepts known category ids', () => {
-      expect(isCategoryId('input')).toBe(true)
-      expect(isCategoryId('content')).toBe(true)
+      expect(isCategoryId('general')).toBe(true)
+      expect(isCategoryId('formatting')).toBe(true)
     })
 
     it('rejects unknown values', () => {
@@ -51,24 +49,26 @@ describe('componentCategories', () => {
 
   describe('getCategoryId', () => {
     it('returns the id for a known category', () => {
-      expect(getCategoryId('feedback')).toBe('feedback')
+      expect(getCategoryId('accessibility')).toBe('accessibility')
     })
 
     it('returns undefined when the category is explicitly false', () => {
       expect(getCategoryId(false)).toBeUndefined()
     })
 
-    it('falls back to "other" for unknown or missing categories', () => {
-      expect(getCategoryId('does-not-exist')).toBe('other')
-      expect(getCategoryId(null)).toBe('other')
-      expect(getCategoryId(undefined)).toBe('other')
+    it('falls back to "general" for unknown or missing categories', () => {
+      expect(getCategoryId('does-not-exist')).toBe('general')
+      expect(getCategoryId(null)).toBe('general')
+      expect(getCategoryId(undefined)).toBe('general')
     })
   })
 
   describe('getCategoryTitle', () => {
     it('returns the human readable title for a category id', () => {
-      expect(getCategoryTitle('input')).toBe('Input')
-      expect(getCategoryTitle('other')).toBe('Other')
+      expect(getCategoryTitle('general')).toBe('General')
+      expect(getCategoryTitle('formatting')).toBe(
+        'Formatting and typography'
+      )
     })
   })
 })
