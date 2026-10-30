@@ -189,6 +189,7 @@ export default {
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
   '--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
   '--focus-ring-width': '0.25rem',
+  '--button-text-translate-y': '-0.03125rem',
   '--button-font-weight-cta': 'var(--font-weight-regular)',
   '--font-size-basis-native': '1rem'
 }; // prettier-ignore

@@ -23,12 +23,18 @@ export default defineConfig({
     },
     {
       name: 'chromium-fonts',
-      testMatch: '**/style/__tests__/Fonts.e2e.spec.ts',
+      testMatch: [
+        '**/style/__tests__/Fonts.e2e.spec.ts',
+        '**/style/__tests__/FontMetrics.e2e.spec.ts',
+      ],
       use: { browserName: 'chromium' },
     },
     {
       name: 'webkit-fonts',
-      testMatch: '**/style/__tests__/Fonts.e2e.spec.ts',
+      testMatch: [
+        '**/style/__tests__/Fonts.e2e.spec.ts',
+        '**/style/__tests__/FontMetrics.e2e.spec.ts',
+      ],
       use: { browserName: 'webkit' },
     },
     {

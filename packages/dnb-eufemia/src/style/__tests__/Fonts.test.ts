@@ -65,6 +65,36 @@ describe('DNB font faces', () => {
     }
   )
 
+  it('keeps consistent Text and Mono line metrics across weights, italics, and skeletons', () => {
+    const skeletonCss = loadScss(
+      path.resolve(
+        __dirname,
+        '../../components/skeleton/style/dnb-skeleton.scss'
+      )
+    )
+    const skeletonFaces: Record<string, string>[] = []
+    postcss.parse(skeletonCss).walkAtRules('font-face', (rule) => {
+      const face: Record<string, string> = {}
+      rule.walkDecls((decl) => {
+        face[decl.prop] = decl.value
+      })
+      skeletonFaces.push(face)
+    })
+    const faces = getFontFaces().filter((face) =>
+      ['DNB', 'DNBMono'].includes(face['font-family'])
+    )
+    for (const face of [...faces, ...skeletonFaces]) {
+      expect(face['ascent-override']).toBe('95%')
+      expect(face['descent-override']).toBe('25%')
+      expect(face['line-gap-override']).toBe('0%')
+    }
+    expect(
+      getFontFaces().find(
+        (face) => face['font-family'] === '"DNB Sans Display"'
+      )['ascent-override']
+    ).toBeUndefined()
+  })
+
   it('uses the single Display face only for an explicit family choice', () => {
     const faces = getFontFaces().filter(
       (face) => face['font-family'] === '"DNB Sans Display"'

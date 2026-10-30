@@ -47,8 +47,24 @@ ArizonaFlare headings. Eiendom continues to use the DNB text family.
 
 ## Display headlines
 
-Use the existing font-family option to select Display for a specific
-headline. Keep the semantic heading level appropriate to the content:
+### Choose Display for the message, not the heading level
+
+DNB Sans Text is the default for interface and document headings. Choose
+DNB Sans Display for short, expressive headlines intended to celebrate
+something or draw particular attention to a message.
+
+The following examples apply the brand guidance to interfaces:
+
+- **Consider Display:** a campaign headline, a prominent welcome message,
+  or a celebratory announcement.
+- **Keep Text:** everyday page and section headings, form steps, dialog
+  titles, help content, and letters.
+
+Use Display sparingly so it retains its emphasis. A large heading or an
+`<H1>` does not automatically call for Display. Keep the semantic heading
+hierarchy independent of the font choice.
+
+Use the font-family option to select Display for a specific headline:
 
 ```tsx
 import { H1, H2 } from '@dnb/eufemia/elements'
@@ -69,7 +85,8 @@ with Norwegian characters at all supported widths. Increase line height up
 to 118% if letters collide. An explicit line-height helper or the Typography
 lineHeight property overrides the Display default. DNB Display headings use a
 matching skeleton font so loading placeholders keep the same wrapping.
-Left-align or center Display headlines.
+Left-align or center Display headlines. Check wrapping and accented
+characters at smaller widths.
 
 Display is never selected automatically by heading level or document
 styles. Sbanken and Carnegie map the Display option to their own heading
@@ -174,6 +191,10 @@ DNB primary, secondary and tertiary buttons use Medium; unstyled buttons
 retain Regular. Lead and Ingress use Regular in the DNB UI theme.
 
 The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
+Text and Mono use explicit CSS font metrics to keep their baselines
+consistent across browsers. Their skeleton fonts use the same metrics.
+When self-hosting, keep these declarations along with the font files;
+copying the files alone does not preserve the line-box configuration.
 
 - Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/sbanken/fonts.scss` and applied via Sbanken-specific properties.
 - Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.

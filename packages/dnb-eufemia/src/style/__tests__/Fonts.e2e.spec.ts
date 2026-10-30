@@ -102,6 +102,27 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         await expect(
           page.locator('#unstyled .dnb-button__text')
         ).toHaveCSS('font-weight', '400')
+        await expect(page.locator('#cta .dnb-button__text')).toHaveCSS(
+          'transform',
+          brand === 'sbanken'
+            ? 'matrix(1, 0, 0, 1, 0, -0.5)'
+            : 'matrix(1, 0, 0, 1, 0, 0)'
+        )
+        await page.locator('#cta').evaluate((element) => {
+          ;(element as HTMLElement).style.setProperty(
+            '--button-text-translate-y',
+            '1px'
+          )
+        })
+        await expect(page.locator('#cta .dnb-button__text')).toHaveCSS(
+          'transform',
+          'matrix(1, 0, 0, 1, 0, 1)'
+        )
+        await page.locator('#cta').evaluate((element) => {
+          ;(element as HTMLElement).style.removeProperty(
+            '--button-text-translate-y'
+          )
+        })
         if (brand === 'ui') {
           await expect(page.locator('#lead')).toHaveCSS(
             'font-weight',
