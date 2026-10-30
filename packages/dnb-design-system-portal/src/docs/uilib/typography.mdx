@@ -79,12 +79,22 @@ import { Heading } from '@dnb/eufemia/components'
 
 The equivalent helper is `.dnb-t__family--display`. Custom CSS can use
 `font-family: var(--font-family-display)`. The helper uses the single
-upright weight, disables synthesized bold and italic, and sets line height
-to 110% to allow space for accents and descenders. Check multiline headlines
-with Norwegian characters at all supported widths. Increase line height up
-to 118% if letters collide. An explicit line-height helper or the Typography
-lineHeight property overrides the Display default. DNB Display headings use a
-matching skeleton font so loading placeholders keep the same wrapping.
+upright weight and disables synthesized bold and italic.
+
+The [brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
+specify 100% line height, increased to 110–118% when accents and descenders
+collide. Eufemia defaults to 110% to allow room for these characters in web
+headlines. Check multiline headlines at all supported widths and adjust as
+needed, for example `style={{ lineHeight: 1 }}` for a compact headline or
+`style={{ lineHeight: 1.18 }}` for more space. An explicit line-height helper
+or the Typography lineHeight property also overrides the default.
+
+Display reuses Eufemia's existing heading-size tokens. The Eufemia Figma
+library does not yet have a dedicated Display text style or variable. The
+web default is an implementation choice, not a synchronized Display token.
+
+DNB Display headings use a matching skeleton font so loading placeholders
+keep the same wrapping.
 Left-align or center Display headlines. Check wrapping and accented
 characters at smaller widths.
 
