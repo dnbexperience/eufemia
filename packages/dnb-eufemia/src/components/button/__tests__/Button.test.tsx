@@ -4,7 +4,11 @@
  */
 
 import type { RefObject } from 'react'
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { eufemiaCssOptimizer } from '../../../style/vite-plugin'
 import type { ButtonOnClick, ButtonProps } from '../Button'
 import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
@@ -935,12 +939,90 @@ describe('Button scss', () => {
     const css = String(loadScss(require.resolve('../style/deps.scss')))
 
     expect(css).toMatch(/\.dnb-button--pending \{\s*cursor: not-allowed;/)
-    expect(css).toMatch(
-      /\.dnb-forms-submit-indicator--state-pending \.dnb-forms-submit-indicator__content \{\s*font-size: 1em;\s*opacity: 1;/
+    expect(css).toContain('@keyframes submit-indicator-dot')
+  })
+
+  const getStylesheet = () =>
+    String(loadScss(require.resolve('../style/deps.scss')))
+
+  const getOptimizedStylesheet = async () => {
+    const root = fs.realpathSync(
+      fs.mkdtempSync(path.join(os.tmpdir(), 'eufemia-button-'))
     )
-    expect(css).toMatch(
-      /\.dnb-button \.dnb-forms-submit-indicator__content \{\s*cursor: inherit;\s*--dots-color: currentcolor;/
-    )
+
+    try {
+      fs.mkdirSync(path.join(root, 'src'))
+      fs.writeFileSync(
+        path.join(root, 'src/App.tsx'),
+        `import { Button } from '@dnb/eufemia'
+        export const App = () => <Button pending />`
+      )
+
+      const plugin = eufemiaCssOptimizer()
+      plugin.configResolved({ root, logger: { info: vi.fn() } })
+
+      const result = await plugin.transform(
+        getStylesheet(),
+        path.join(
+          root,
+          'node_modules/@dnb/eufemia/style/dnb-ui-components.css'
+        )
+      )
+
+      return result.code
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  }
+
+  describe.each([
+    ['the stylesheet', getStylesheet],
+    [
+      'the stylesheet optimized for an app that only uses Button',
+      getOptimizedStylesheet,
+    ],
+  ])('pending with %s', (_, getCss) => {
+    let css: string
+    let style: HTMLStyleElement
+
+    beforeAll(async () => {
+      css = await getCss()
+      style = document.createElement('style')
+      style.textContent = css
+      document.head.appendChild(style)
+    })
+
+    afterAll(() => {
+      style.remove()
+    })
+
+    it('shows the animated indicator dots', () => {
+      render(<Button text="Save" pending />)
+
+      const content = document.querySelector(
+        '.dnb-forms-submit-indicator__content'
+      )
+      const dot = content.querySelector('b')
+
+      expect(getComputedStyle(content).opacity).toBe('1')
+      expect(getComputedStyle(content).fontSize).not.toBe('0px')
+      expect(getComputedStyle(dot).borderRadius).toBe('50%')
+      expect(getComputedStyle(dot).animationName).toBe(
+        'submit-indicator-dot'
+      )
+      expect(css).toContain('@keyframes submit-indicator-dot')
+    })
+
+    it('hides the indicator when pending is false', () => {
+      render(<Button text="Save" pending={false} />)
+
+      const content = document.querySelector(
+        '.dnb-forms-submit-indicator__content'
+      )
+
+      expect(getComputedStyle(content).opacity).toBe('0')
+      expect(getComputedStyle(content).fontSize).toBe('0px')
+    })
   })
 
   it('shows the focus ring in forced colors mode', () => {

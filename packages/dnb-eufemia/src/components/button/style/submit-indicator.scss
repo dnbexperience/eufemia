@@ -1,5 +1,7 @@
-// The class names keep the forms prefix, so existing styles and tests keep working
-.dnb-forms-submit-indicator {
+// The class names keep the forms prefix, so existing styles and tests keep working.
+// Each rule also matches inside a Button, so the CSS optimizer keeps the styles for apps that only use Button.
+.dnb-forms-submit-indicator,
+.dnb-button .dnb-forms-submit-indicator {
   --padding-left: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
     var(--easing-default);
@@ -7,7 +9,7 @@
     var(--easing-default) var(--opacity-animation-delay, 0ms);
   --dots-color: var(--token-color-text-neutral);
 
-  &:has(&__label) {
+  &:has(.dnb-forms-submit-indicator__label) {
     --font-animation-duration: 400ms;
     --opacity-animation-duration: 400ms;
     --opacity-animation-delay: 250ms;
@@ -56,21 +58,21 @@
     }
   }
 
-  &--state-pending &__content {
+  &--state-pending .dnb-forms-submit-indicator__content {
     font-size: 1em;
     opacity: 1;
   }
-  &--inline-wrap &__content {
+  &--inline-wrap .dnb-forms-submit-indicator__content {
     display: flex;
 
     --padding-left: 0.25em;
   }
+}
 
-  .dnb-button &__content {
-    cursor: inherit;
+.dnb-button .dnb-forms-submit-indicator__content {
+  cursor: inherit;
 
-    --dots-color: currentcolor;
-  }
+  --dots-color: currentcolor;
 }
 
 @keyframes submit-indicator-dot {
