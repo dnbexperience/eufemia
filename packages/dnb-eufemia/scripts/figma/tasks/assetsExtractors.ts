@@ -22,7 +22,6 @@ import {
 import properties from '../../../src/style/themes/ui/properties'
 import { create } from 'tar'
 import { execFile } from 'node:child_process'
-import { promisify } from 'node:util'
 
 export const ICON_SIZES = {
   16: { suffix: '' },
@@ -151,15 +150,24 @@ export const extractIcons = async ({
     }
 
     const { createIconDownloads } = await import('./iconDownloads')
+    const downloadFiles = [
+      ...new Map(
+        listOfProcessedFiles.map((file) => [file.iconFile, file])
+      ).values(),
+    ]
+
     await createIconDownloads({
       destDir,
       manifestFile: path.join(
         path.dirname(iconsLockFile),
         'icon-downloads.lock'
       ),
-      files: listOfProcessedFiles,
+      files: downloadFiles,
       buildAndroid: () =>
-        createXMLTarBundles({ destDir, listOfProcessedFiles }),
+        createXMLTarBundles({
+          destDir,
+          listOfProcessedFiles: downloadFiles,
+        }),
     })
 
     if (!forceReconvert) {
@@ -749,9 +757,24 @@ export const createXMLTarBundles = async ({
         path.dirname(require.resolve('vd-tool/package.json')),
         'bin/vd-tool'
       )
-      await promisify(execFile)(converter, ['-c', '-in', destDir], {
-        timeout: 120000,
+      const output = await new Promise<string>((resolve, reject) => {
+        execFile(
+          converter,
+          ['-c', '-in', destDir],
+          { timeout: 120000 },
+          (error, stdout, stderr) => {
+            if (error) {
+              reject(error)
+            } else {
+              resolve(`${stdout}${stderr}`)
+            }
+          }
+        )
       })
+
+      if (!output.includes('errors found in 0 files')) {
+        throw new Error(`vd-tool reported conversion errors:\n${output}`)
+      }
     } catch (error) {
       log.fail(
         `> Figma: failed to convert SVG to XML in ${destDir}\n\n${error}`

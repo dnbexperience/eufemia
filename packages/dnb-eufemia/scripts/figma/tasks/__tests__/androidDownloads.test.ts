@@ -17,7 +17,11 @@ beforeEach(async () => {
   vi.mocked(execFile).mockImplementation(
     (file, args, options, callback) => {
       fs.writeFileSync(path.join(destDir, 'bell.xml'), '<vector/>')
-      callback(null, '', '')
+      callback(
+        null,
+        'Convert 1 SVG files in total, errors found in 0 files',
+        ''
+      )
       return {} as ChildProcess
     }
   )
@@ -50,7 +54,11 @@ it('rejects failed conversions and missing output instead of using stale XML', a
   await fs.writeFile(path.join(destDir, 'bell.xml'), '<stale/>')
   vi.mocked(execFile).mockImplementation(
     (file, args, options, callback) => {
-      callback(null, '', '')
+      callback(
+        null,
+        'Convert 1 SVG files in total, errors found in 0 files',
+        ''
+      )
       return {} as ChildProcess
     }
   )
@@ -65,4 +73,57 @@ it('rejects failed conversions and missing output instead of using stale XML', a
   )
   await expect(generate()).rejects.toThrow('conversion failed')
   expect(await fs.pathExists(path.join(destDir, 'bell.xml'))).toBe(false)
+})
+
+it('rejects conversion errors even when vd-tool exits successfully', async () => {
+  vi.mocked(execFile).mockImplementation(
+    (file, args, options, callback) => {
+      fs.writeFileSync(path.join(destDir, 'bell.xml'), '<partial/>')
+      callback(
+        null,
+        'Convert 1 SVG files in total, errors found in 1 files',
+        'error is ERROR @ line 1: <text> is not supported'
+      )
+      return {} as ChildProcess
+    }
+  )
+  await expect(generate()).rejects.toThrow('<text> is not supported')
+  expect(await fs.pathExists(path.join(destDir, 'bell.xml'))).toBe(false)
+  expect(
+    await fs.pathExists(path.join(destDir, 'eufemia-icons-xml.tgz'))
+  ).toBe(false)
+  expect(
+    await fs.pathExists(
+      path.join(destDir, 'eufemia-icons-xml-categorized.tgz')
+    )
+  ).toBe(false)
+})
+
+it('requires a successful conversion summary', async () => {
+  vi.mocked(execFile).mockImplementation(
+    (file, args, options, callback) => {
+      fs.writeFileSync(path.join(destDir, 'bell.xml'), '<partial/>')
+      callback(null, '', '')
+      return {} as ChildProcess
+    }
+  )
+  await expect(generate()).rejects.toThrow(
+    'vd-tool reported conversion errors'
+  )
+  expect(await fs.pathExists(path.join(destDir, 'bell.xml'))).toBe(false)
+})
+
+it('accepts a successful summary on stderr alongside warnings', async () => {
+  vi.mocked(execFile).mockImplementation(
+    (file, args, options, callback) => {
+      fs.writeFileSync(path.join(destDir, 'bell.xml'), '<vector/>')
+      callback(
+        null,
+        '',
+        'Warning: diagnostic\nConvert 1 SVG files in total, errors found in 0 files'
+      )
+      return {} as ChildProcess
+    }
+  )
+  await expect(generate()).resolves.toBeUndefined()
 })

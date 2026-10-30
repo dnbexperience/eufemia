@@ -233,11 +233,15 @@ describe('assetsExtractors', () => {
   const info = vi.fn()
   const succeed = vi.fn()
   const runCommand = vi.fn((cmd, args, options, callback) => {
-    callback(null, '', '')
+    callback(
+      null,
+      'Convert 2 SVG files in total, errors found in 0 files',
+      ''
+    )
     return {} as ChildProcess
   })
 
-  const runMock = async () => {
+  const runMock = async ({ duplicateFrame = false } = {}) => {
     vi.spyOn(log, 'start').mockImplementation(start)
     vi.spyOn(log, 'info').mockImplementation(info)
     vi.spyOn(log, 'succeed').mockImplementation(succeed)
@@ -251,6 +255,11 @@ describe('assetsExtractors', () => {
       preventUpdate: true,
       localFile,
     })
+
+    if (duplicateFrame) {
+      const canvas = figmaDoc.document.children[0]
+      canvas.children.push(structuredClone(canvas.children[0]))
+    }
 
     const result = await extractIcons({
       figmaDoc,
@@ -326,6 +335,24 @@ describe('assetsExtractors', () => {
     const error = new Error('Download generation failed')
     vi.mocked(createIconDownloads).mockRejectedValueOnce(error)
     await expect(runMock()).rejects.toBe(error)
+  })
+
+  it('deduplicates exports for download fingerprints and Android packages', async () => {
+    const result = await runMock({ duplicateFrame: true })
+    expect(result).toHaveLength(4)
+    const { files } = vi.mocked(createIconDownloads).mock.calls[0][0]
+    expect(files.map(({ iconFile }) => iconFile)).toEqual([
+      'bell_medium.svg',
+      'bell.svg',
+    ])
+    expect(tar.create).toHaveBeenNthCalledWith(1, expect.any(Object), [
+      'bell_medium.xml',
+      'bell.xml',
+    ])
+    expect(tar.create).toHaveBeenNthCalledWith(2, expect.any(Object), [
+      'objects/bell_medium.xml',
+      'objects/bell.xml',
+    ])
   })
 
   it('extractIcons', async () => {
