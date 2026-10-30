@@ -5,7 +5,10 @@ import { getPortalPages } from '../../../../vite/client/plugins/portal-pages'
 import type { MdxNode } from '../../../../vite/client/plugins/portal-pages.shared'
 import { createMdxSidebarNavigation } from '../MdxSidebarNavigation'
 import graphics from '../SidebarGraphics'
-import { getCategoryId } from '../../parts/componentCategories'
+import {
+  categoryOrder,
+  getCategoryId,
+} from '../../parts/componentCategories'
 import { getPageRedirects } from '../../../../vite/client/plugins/portal-pages.shared'
 import {
   findActiveSidebarItemId,
@@ -25,6 +28,18 @@ function flatten(items: NavItem[]): NavItem[] {
 }
 
 describe('MDX-defined Portal navigation', () => {
+  it('uses the same category labels and descriptions in the sidebar and overview', () => {
+    for (const { id, title, description } of categoryOrder) {
+      const page = pages.find(
+        ({ fields }) => fields.slug === 'web/components/categories/' + id
+      )
+      expect(page.frontmatter.title).toBe(title)
+      expect(page.frontmatter.description).toBe(description)
+      expect(page.frontmatter.navigation.kind).toBe('group')
+      expect(page.frontmatter.route).toBe(false)
+    }
+  })
+
   it('uses the same component categories in navigation and documentation', () => {
     const definitions = new Map(
       pages.map((page) => [page.fields.slug, page])
@@ -40,7 +55,10 @@ describe('MDX-defined Portal navigation', () => {
         continue
       }
       let group = definitions.get(frontmatter.navigation?.parent)
-      while (group && group.frontmatter.navigation.kind !== 'category') {
+      while (
+        group &&
+        !group.fields.slug.startsWith('web/components/categories/')
+      ) {
         group = definitions.get(group.frontmatter.navigation.parent)
       }
       expect(group?.fields.slug).toBe(
@@ -70,34 +88,57 @@ describe('MDX-defined Portal navigation', () => {
     }
   })
 
-  it('groups components by the proposed navigation without losing pages', () => {
+  it('groups components by purpose without losing pages', () => {
     const components = tree().sections[0].items.find(
       ({ path }) => path === 'web/components'
     )
     expect(components.subheadings.map(({ title }) => title)).toEqual([
       'All components A–Z',
       'Components by category',
-      'General',
+      'Actions',
+      'Inputs',
+      'Navigation',
+      'Feedback and dialogs',
+      'Content and layout',
       'Formatting and typography',
       'Accessibility',
       'Utilities',
       'Fragments',
     ])
-    const general = components.subheadings.find(
-      ({ title }) => title === 'General'
-    )
-    expect(general.isMenuGroup).toBe(true)
-    for (const [title, labels] of [
-      ['Buttons', ['Button', 'Help button', 'Toggle button']],
-      ['Inputs', ['Input', 'Masked input']],
-    ] as const) {
-      const group = general.subheadings.find(
+    for (const title of ['Actions', 'Inputs', 'Navigation']) {
+      const group = components.subheadings.find(
         (item) => item.title === title
       )
       expect(group.isMenuGroup).toBe(false)
       expect(group.isMenuLink).toBe(false)
-      expect(group.subheadings.map(({ title }) => title)).toEqual(labels)
     }
+    const inputs = components.subheadings.find(
+      ({ title }) => title === 'Inputs'
+    )
+    expect(inputs.subheadings.map(({ title }) => title)).toEqual(
+      expect.arrayContaining([
+        'Input',
+        'Masked input',
+        'Text area',
+        'Checkbox',
+        'Radio button',
+        'Switch',
+        'Dropdown',
+        'Autocomplete',
+        'Date picker',
+        'Slider',
+        'Upload',
+      ])
+    )
+    const actions = components.subheadings.find(
+      ({ title }) => title === 'Actions'
+    )
+    expect(actions.subheadings.map(({ title }) => title)).toContain(
+      'Button'
+    )
+    expect(
+      actions.subheadings.some(({ title }) => title === 'Buttons')
+    ).toBe(false)
     const links = flatten([components]).filter(
       ({ isMenuLink }) => isMenuLink
     )

@@ -72,7 +72,7 @@ test.describe('Page Heading', () => {
       name: 'Platform Content Menu',
     })
     await menu
-      .getByRole('button', { name: 'Buttons', exact: true })
+      .getByRole('button', { name: 'Actions', exact: true })
       .click()
     await menu.getByRole('link', { name: 'Button', exact: true }).click()
 

@@ -16,7 +16,11 @@ import {
  */
 
 export type ComponentCategoryId =
-  | 'general'
+  | 'actions'
+  | 'input'
+  | 'navigation'
+  | 'feedback'
+  | 'content'
   | 'formatting'
   | 'accessibility'
   | 'utilities'
@@ -30,10 +34,34 @@ export type ComponentCategoryDefinition = {
 export const componentCategoryOrder: ReadonlyArray<ComponentCategoryDefinition> =
   [
     {
-      id: 'general',
-      title: 'General',
+      id: 'actions',
+      title: 'Actions',
       description:
-        'Components for common interface patterns, including actions, inputs, navigation, feedback, and content.',
+        'Buttons and controls for starting actions or opening choices.',
+    },
+    {
+      id: 'input',
+      title: 'Inputs',
+      description:
+        'Controls for entering information, choosing options, and uploading files.',
+    },
+    {
+      id: 'navigation',
+      title: 'Navigation',
+      description:
+        'Components for moving between pages, sections, and steps.',
+    },
+    {
+      id: 'feedback',
+      title: 'Feedback and dialogs',
+      description:
+        'Messages, progress indicators, and dialogs that explain what is happening or needs attention.',
+    },
+    {
+      id: 'content',
+      title: 'Content and layout',
+      description:
+        'Components for organizing and displaying information, images, icons, and tables.',
     },
     {
       id: 'formatting',
@@ -233,5 +261,5 @@ function getCategoryId(
     return category as ComponentCategoryId
   }
 
-  return 'general'
+  return 'utilities'
 }

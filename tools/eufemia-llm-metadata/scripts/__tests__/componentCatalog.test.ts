@@ -82,14 +82,14 @@ describe('componentCatalog', () => {
 
     writeComponent(componentsDir, 'button.mdx', [
       'title: Button',
-      "category: 'general'",
+      "category: 'actions'",
       "description: 'Use Button to confirm.'",
     ])
     writeComponent(componentsDir, 'anchor.mdx', [
       'title: Anchor',
-      "category: 'general'",
+      "category: 'actions'",
     ])
-    // No category -> falls back to "general".
+    // No category -> falls back to "utilities".
     writeComponent(componentsDir, 'mystery.mdx', ['title: Mystery'])
     // category: false -> excluded entirely.
     writeComponent(componentsDir, 'nocat.mdx', [
@@ -99,12 +99,12 @@ describe('componentCatalog', () => {
     // draft / hideInMenu -> excluded.
     writeComponent(componentsDir, 'draft.mdx', [
       'title: Draft',
-      "category: 'general'",
+      "category: 'content'",
       'draft: true',
     ])
     writeComponent(componentsDir, 'hidden.mdx', [
       'title: Hidden',
-      "category: 'general'",
+      "category: 'content'",
       'hideInMenu: true',
     ])
     // Missing title -> excluded (e.g. an info/demos tab file).
@@ -120,19 +120,16 @@ describe('componentCatalog', () => {
 
     const catalog = await loadComponentCatalog(docsRoot)
 
-    const actions = catalog.byCategory.get('general') || []
+    const actions = catalog.byCategory.get('actions') || []
     expect(actions.map((entry) => entry.title)).toEqual([
       'Anchor',
       'Button',
-      'Mystery',
     ])
 
     const other = (catalog.byCategory.get('utilities') || []).map(
       (entry) => entry.title
     )
-    expect(
-      catalog.byCategory.get('general')?.map((entry) => entry.title)
-    ).toContain('Mystery')
+    expect(other).toContain('Mystery')
     expect(other).toContain('ScrollView')
 
     expect(catalog.byNormalizedSlug.has('uilib/components/button')).toBe(
@@ -155,10 +152,8 @@ describe('componentCatalog', () => {
   })
 
   it('getComponentCategoryTitle returns the mapped title', () => {
-    expect(getComponentCategoryTitle('general')).toBe('General')
-    expect(getComponentCategoryTitle('formatting')).toBe(
-      'Formatting and typography'
-    )
+    expect(getComponentCategoryTitle('actions')).toBe('Actions')
+    expect(getComponentCategoryTitle('input')).toBe('Inputs')
   })
 
   it('stays in sync with the portal componentCategories source', () => {
