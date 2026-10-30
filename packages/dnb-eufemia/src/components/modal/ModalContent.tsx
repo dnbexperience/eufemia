@@ -177,6 +177,11 @@ export default function ModalContent(props: ModalContentProps) {
       focusTimeoutRef.current = setTimeout(
         () => {
           try {
+            // A modal opened on top of this one manages focus
+            if (getModalRoot(-1) !== selfRef.current) {
+              return // stop here
+            }
+
             const dialogContainer = document.getElementById(
               usedContentId
             ) as HTMLElement
@@ -186,13 +191,17 @@ export default function ModalContent(props: ModalContentProps) {
 
             // setFocus also runs when the children change, for example on
             // each key press in a controlled field. Keep focus where it
-            // already is inside the modal, so that typing is not interrupted.
+            // already is: inside the modal, or in a portal that is not a
+            // modal, such as an open Dropdown list. Move focus only when it
+            // is on the page or on a modal behind this one.
             const active = document.activeElement
             if (
               active &&
               active !== dialogContainer &&
               active !== elem &&
-              root.contains(active)
+              (root.contains(active) ||
+                (active.closest('.eufemia-portal-root') &&
+                  !active.closest('.dnb-modal__content')))
             ) {
               return // stop here
             }
