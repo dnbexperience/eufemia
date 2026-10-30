@@ -357,8 +357,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           }
 
           isElementVisible(element, (elem) => {
-            // Focus shows the "attention-focus" animation of FormStatus.
-            // The tabindex and class are restored when it loses focus.
+            // Focus shows the "attention-focus" animation of FormStatus
             applyPageFocus(elem, null, { preventScroll: true })
           })
 
