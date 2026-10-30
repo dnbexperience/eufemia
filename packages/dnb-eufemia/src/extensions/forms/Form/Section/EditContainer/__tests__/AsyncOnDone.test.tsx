@@ -210,9 +210,9 @@ describe('EditContainer async onDone', () => {
     await userEvent.click(doneButton)
 
     // Cancel restores the original data and leaves edit mode, which would
-    // discard the values a pending save is still writing. Both buttons
-    // stay disabled until the Promise settles.
-    expect(doneButton).toBeDisabled()
+    // discard the values a pending save is still writing. Cancel stays
+    // disabled, and Done ignores clicks, until the Promise settles.
+    expect(doneButton).toHaveAttribute('aria-disabled', 'true')
     expect(cancelButton).toBeDisabled()
 
     resolveOnDone()
@@ -248,14 +248,14 @@ describe('EditContainer async onDone', () => {
 
     // Disabled while the save is in flight
     expect(onDone).toHaveBeenCalledTimes(1)
-    expect(doneButton).toBeDisabled()
+    expect(doneButton).toHaveAttribute('aria-disabled', 'true')
     expect(cancelButton).toBeDisabled()
     expect(input).toBeDisabled()
 
     // The Promise never settles, so the asyncSubmitTimeout recovers the
     // section instead of leaving it stuck.
     await waitFor(() => {
-      expect(doneButton).not.toBeDisabled()
+      expect(doneButton).not.toHaveAttribute('aria-disabled')
     })
     expect(cancelButton).not.toBeDisabled()
     expect(input).not.toBeDisabled()
@@ -295,7 +295,7 @@ describe('EditContainer async onDone', () => {
     await userEvent.click(doneButton)
 
     await waitFor(() => {
-      expect(doneButton).not.toBeDisabled()
+      expect(doneButton).not.toHaveAttribute('aria-disabled')
     })
 
     await act(async () => {
@@ -338,19 +338,19 @@ describe('EditContainer async onDone', () => {
     await userEvent.click(doneButton)
 
     await waitFor(() => {
-      expect(doneButton).not.toBeDisabled()
+      expect(doneButton).not.toHaveAttribute('aria-disabled')
     })
 
     await userEvent.click(doneButton)
     expect(onDone).toHaveBeenCalledTimes(2)
-    expect(doneButton).toBeDisabled()
+    expect(doneButton).toHaveAttribute('aria-disabled', 'true')
     expect(cancelButton).toBeDisabled()
 
     await act(async () => {
       operations[0].reject(new Error('First save failed late'))
     })
 
-    expect(doneButton).toBeDisabled()
+    expect(doneButton).toHaveAttribute('aria-disabled', 'true')
     expect(cancelButton).toBeDisabled()
 
     await act(async () => {

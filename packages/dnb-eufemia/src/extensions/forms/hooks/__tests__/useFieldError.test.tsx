@@ -107,10 +107,10 @@ describe('field pending state with asyncSubmitTimeout', () => {
     expect(onSubmit).toHaveBeenCalledTimes(0)
 
     await waitFor(() => {
-      expect(submitButton).toBeDisabled()
+      expect(submitButton).toHaveAttribute('aria-disabled', 'true')
     })
     await waitFor(() => {
-      expect(submitButton).not.toBeDisabled()
+      expect(submitButton).not.toHaveAttribute('aria-disabled')
     })
 
     await waitFor(() => {
