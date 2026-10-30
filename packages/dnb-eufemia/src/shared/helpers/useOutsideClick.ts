@@ -49,18 +49,23 @@ export function addOutsideClickListener({
 
   let touchStartTarget: EventTarget | null = null
   let touchMoved = false
+  let tapTimeStamp = -Infinity
 
   const check = (event: Event, target = event.target) => {
-    if (!(target instanceof Node)) {
-      return // stop here
+    if (!(target instanceof Node) || isInside(target, event)) {
+      return false
     }
 
-    if (!isInside(target, event)) {
-      onOutsideClick(event as OutsideClickEvent)
-    }
+    onOutsideClick(event as OutsideClickEvent)
+    return true
   }
 
   const handleMouseDown = (event: Event) => {
+    // Browsers follow a tap with a mousedown, which the tap already counted for
+    if (event.timeStamp - tapTimeStamp < 1000) {
+      return // stop here
+    }
+
     check(event)
   }
 
@@ -84,7 +89,9 @@ export function addOutsideClickListener({
       return // stop here
     }
 
-    check(event, target)
+    if (check(event, target)) {
+      tapTimeStamp = event.timeStamp
+    }
   }
 
   const handleKeyUp = (event: KeyboardEvent) => {

@@ -363,6 +363,23 @@ describe('Dropdown component', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
+  it('calls onClose once per tap outside when onClose keeps it open', () => {
+    const onClose = vi.fn(() => false)
+    render(<Dropdown onClose={onClose} data={mockData} />)
+
+    open()
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
+    // Browsers also fire a mousedown after a tap
+    fireEvent.mouseDown(document.body)
+
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('.dnb-dropdown')).toHaveClass(
+      'dnb-dropdown--open'
+    )
+  })
+
   it('has valid onSelect callback', () => {
     const onSelect = vi.fn()
 
