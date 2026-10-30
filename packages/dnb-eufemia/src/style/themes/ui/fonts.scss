@@ -54,6 +54,10 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
         font-weight: $weight;
         font-style: $style;
         font-display: fallback;
+        // Keep the established line box across browsers and font versions.
+        ascent-override: 95%;
+        descent-override: 25%;
+        line-gap-override: 0%;
       }
     }
   }
