@@ -24,6 +24,27 @@ function flatten(items: NavItem[]): NavItem[] {
 }
 
 describe('MDX-defined Portal navigation', () => {
+  it('lists incoming helper, printing and contributor pages in their sections', () => {
+    const items = flatten([
+      ...tree().shared,
+      ...tree().sections.flatMap(({ items }) => items),
+    ])
+    for (const [slug, parent] of [
+      ['web/helpers/shared-state', 'web/developer-helpers'],
+      [
+        'web/usage/customisation/styling/printable-apps',
+        'web/usage/customisation/styling',
+      ],
+      ['contribute/social-preview-images', 'contribute'],
+    ]) {
+      const page = pages.find(({ fields }) => fields.slug === slug)
+      expect(page.frontmatter.navigation.parent).toBe(parent)
+      expect(
+        items.filter(({ path, isMenuLink }) => path === slug && isMenuLink)
+      ).toHaveLength(1)
+    }
+  })
+
   it('rejects published titled pages without an explicit navigation definition', () => {
     const page: MdxNode = {
       fields: {
