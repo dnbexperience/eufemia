@@ -141,6 +141,10 @@ DNB primary, secondary and tertiary buttons use Medium; unstyled buttons
 retain Regular. Lead and Ingress use Regular in the DNB UI theme.
 
 The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
+Text and Mono use explicit CSS font metrics to keep their baselines
+consistent across browsers. Their skeleton fonts use the same metrics.
+When self-hosting, keep these declarations along with the font files;
+copying the files alone does not preserve the line-box configuration.
 
 - Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/sbanken/fonts.scss` and applied via Sbanken-specific properties.
 - Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.

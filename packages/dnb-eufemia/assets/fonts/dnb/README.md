@@ -21,6 +21,9 @@ announced breaking change with migration guidance.
 
 Regular, Medium and Light Text outlines, character widths and mappings match
 the previous Text files. Bold outlines have changed. The new files enable
-USE_TYPO_METRICS, so matching outlines alone do not guarantee identical browser
-baselines. Mono retains character coverage and widths. Skeleton fonts keep the
-existing widths; their generator reads the current Text and Mono sources.
+USE_TYPO_METRICS. Text, Mono and their skeleton faces use explicit CSS metrics
+(ascent 95%, descent 25%, line gap 0%) to retain the established line boxes
+across browsers. These values match the previous 950/−250 metrics at 1,000
+units per em. The official binaries remain unchanged. Mono retains character
+coverage and widths. Skeleton fonts keep the existing widths; their generator
+reads the current Text and Mono sources.

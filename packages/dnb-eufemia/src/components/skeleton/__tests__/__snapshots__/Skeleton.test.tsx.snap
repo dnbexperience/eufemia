@@ -154,6 +154,9 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
   font-weight: normal;
   font-style: normal;
   font-display: fallback;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
 }
 @font-face {
   font-family: DNBSkeleton;
@@ -161,6 +164,9 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
   font-weight: 500;
   font-style: normal;
   font-display: fallback;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
 }
 @font-face {
   font-family: DNBSkeleton;
@@ -168,6 +174,9 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
   font-weight: 600;
   font-style: normal;
   font-display: fallback;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
 }
 @font-face {
   font-family: DNBMonoSkeleton;
@@ -175,5 +184,8 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
   font-weight: normal;
   font-style: normal;
   font-display: fallback;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
 }"
 `;
