@@ -465,6 +465,49 @@ describe('eufemia-theme plugin', () => {
       ).toBe(true)
     })
 
+    it('assigns a deferred theme URL when switching to it', async () => {
+      const uiLink = createMockLink('ui')
+      const sbankenLink = createMockLink('sbanken', { loaded: false })
+      const href = sbankenLink.getAttribute('href')
+      sbankenLink.removeAttribute('href')
+      sbankenLink.dataset.eufemiaHref = href
+      sbankenLink.disabled = true
+
+      const evalCode = code
+        .replace(/import\([^)]+\)/g, 'Promise.resolve()')
+        .replace(/import '[^']+';/g, '')
+      new Function(evalCode)()
+
+      const loaded = (window as any).__loadEufemiaTheme('sbanken')
+      expect(sbankenLink.getAttribute('href')).toBe(href)
+      expect(uiLink.disabled).toBe(false)
+      sbankenLink.dispatchEvent(new Event('load'))
+      await loaded
+      expect(uiLink.disabled).toBe(true)
+      expect(sbankenLink.disabled).toBe(false)
+    })
+
+    it('keeps the latest brand when earlier CSS finishes afterward', async () => {
+      createMockLink('ui')
+      const sbanken = createMockLink('sbanken', { loaded: false })
+      const carnegie = createMockLink('carnegie', { loaded: false })
+      const evalCode = code
+        .replace(/import\([^)]+\)/g, 'Promise.resolve()')
+        .replace(/import '[^']+';/g, '')
+      new Function(evalCode)()
+      const first = window.__loadEufemiaTheme('sbanken')
+      const last = window.__loadEufemiaTheme('carnegie')
+      carnegie.dispatchEvent(new Event('load'))
+      await last
+      sbanken.dispatchEvent(new Event('load'))
+      await first
+      expect(
+        document.body.classList.contains('eufemia-theme__carnegie')
+      ).toBe(true)
+      expect(sbanken.disabled).toBe(true)
+      expect(carnegie.disabled).toBe(false)
+    })
+
     it('activates a pre-injected loaded theme immediately without import()', async () => {
       const uiLink = createMockLink('ui')
       const sbankenLink = createMockLink('sbanken')

@@ -985,7 +985,7 @@ describe('CodeBlock', () => {
         await new Promise((resolve) => setTimeout(resolve, 0))
       })
 
-      expect(mockSubmit).toHaveBeenCalled()
+      await waitFor(() => expect(mockSubmit).toHaveBeenCalled())
       expect(mockAppendChild).toHaveBeenCalled()
       expect(mockRemoveChild).toHaveBeenCalled()
 

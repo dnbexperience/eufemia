@@ -7,7 +7,7 @@ import { Card, Hr, Li, P, Span, Ul } from '@dnb/eufemia/src'
 import ReactMarkdown from 'react-markdown'
 import Anchor from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
-import { basicComponents } from '../../shared/tags'
+import basicComponents from '../tags/markdownComponents'
 import { getSlugFromText } from '../../uilib/utils/slug.mjs'
 import { cardItemStyle } from './ListComponentsOverview.module.scss'
 import {

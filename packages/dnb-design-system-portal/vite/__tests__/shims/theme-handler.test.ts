@@ -12,6 +12,7 @@ describe('theme-handler shim', () => {
   beforeEach(() => {
     localStorage.clear()
     delete window.__applyEufemiaThemeStyles__
+    delete window.__loadEufemiaTheme
   })
 
   describe('getThemes', () => {
@@ -126,6 +127,24 @@ describe('theme-handler shim', () => {
   })
 
   describe('setTheme', () => {
+    it('does not publish an older selection after its stylesheet finishes', async () => {
+      let finishFirst: () => void
+      const first = new Promise<void>((resolve) => {
+        finishFirst = resolve
+      })
+      window.__loadEufemiaTheme = vi
+        .fn()
+        .mockReturnValueOnce(first)
+        .mockResolvedValue(undefined)
+      const outdated = vi.fn()
+      setTheme({ brand: 'sbanken' }, outdated)
+      setTheme({ brand: 'carnegie' })
+      await Promise.resolve()
+      finishFirst()
+      await first
+      expect(getTheme().brand).toBe('carnegie')
+      expect(outdated).not.toHaveBeenCalled()
+    })
     it('saves brand to localStorage, mirrored to the deprecated name', () => {
       setTheme({ brand: 'sbanken' })
 

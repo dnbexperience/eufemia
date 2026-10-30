@@ -68,6 +68,7 @@ function withBrand(
 // Simple event emitter for cross-component theme updates
 type Listener = (theme: ThemeState) => void
 const listeners = new Set<Listener>()
+let themeRevision = 0
 
 function emit(theme: ThemeState) {
   listeners.forEach((fn) => fn(theme))
@@ -121,11 +122,15 @@ export function setTheme(
   if (!isValidTheme(brand)) {
     return // stop here
   }
+  const revision = ++themeRevision
 
   // Re-derive both keys so passing only `name` (or only `brand`) can't diverge.
   const theme = withBrand({ ...current, ...themeProps }, brand)
 
   const applyAndNotify = () => {
+    if (revision !== themeRevision) {
+      return
+    }
     // Dev mode: toggle style.disabled on <style> elements
     if (
       typeof window !== 'undefined' &&

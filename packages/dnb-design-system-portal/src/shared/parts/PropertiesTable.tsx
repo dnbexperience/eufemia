@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { useHandleSortState } from '@dnb/eufemia/src/components/table/useHandleSortState'
 import type { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
-import { basicComponents } from '../tags'
+import basicComponents from '../tags/markdownComponents'
 
 const components = {
   ...basicComponents,

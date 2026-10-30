@@ -39,7 +39,11 @@ const ShortcutHint = ({ hint }: { hint: string }) => (
   </kbd>
 )
 
-export const SearchBarInput = () => {
+export const SearchBarInput = ({
+  id = searchInputId,
+  placeholder = 'Search ...',
+  stretch = false,
+}: { id?: string; placeholder?: string; stretch?: boolean } = {}) => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
   const [hasValue, setHasValue] = useState(false)
@@ -55,8 +59,14 @@ export const SearchBarInput = () => {
         (event.metaKey || event.ctrlKey) &&
         (event.key === 'k' || event.key === 'K')
       ) {
+        const search =
+          document.getElementById('portal-home-search') ||
+          document.getElementById(searchInputId)
+        if (search?.id !== id) {
+          return
+        }
         event.preventDefault()
-        document.getElementById(searchInputId)?.focus()
+        search?.focus()
       }
     }
 
@@ -65,7 +75,7 @@ export const SearchBarInput = () => {
     return () => {
       document.removeEventListener('keydown', onKeyDown)
     }
-  }, [])
+  }, [id])
 
   const onTypeHandler = ({
     value,
@@ -140,7 +150,8 @@ export const SearchBarInput = () => {
 
   return (
     <Autocomplete
-      id={searchInputId}
+      id={id}
+      stretch={stretch}
       className={clsx(autocompleteStyle, 'portal-search')}
       mode="async"
       showClearButton
@@ -150,7 +161,7 @@ export const SearchBarInput = () => {
       fixedPosition
       size="medium"
       align="right"
-      placeholder="Search ..."
+      placeholder={placeholder}
       label="Search the Eufemia documentation"
       labelSrOnly
       aria-keyshortcuts="Meta+K Control+K"
