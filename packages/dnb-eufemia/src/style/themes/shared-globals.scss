@@ -19,8 +19,6 @@
   --scrollbar-track-width: 0.5rem;
   --scrollbar-thumb-width: 0.5rem;
   --scrollbar-track-color: var(--token-color-background-neutral-subtle);
-  --scrollbar-thumb-color: var(--token-color-background-action);
-  --scrollbar-thumb-hover-color: var(
-    --token-color-background-action-hover
-  );
+  --scrollbar-thumb-color: var(--token-color-text-neutral-alternative);
+  --scrollbar-thumb-hover-color: var(--token-color-text-neutral);
 }
