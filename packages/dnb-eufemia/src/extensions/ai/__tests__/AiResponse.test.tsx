@@ -12,6 +12,23 @@ beforeEach(() => {
 })
 
 describe('Ai.Response', () => {
+  it('does not render remote images unless the origin is allowed', () => {
+    const text = '![Account chart](https://charts.example.test/chart.png)'
+    const { rerender } = render(<Response>{text}</Response>)
+    expect(document.querySelector('img')).toBeNull()
+    expect(document.querySelector('.dnb-ai-response')).toHaveTextContent(
+      'Account chart'
+    )
+    rerender(
+      <Response allowedImagePrefixes={['https://charts.example.test/']}>
+        {text}
+      </Response>
+    )
+    expect(document.querySelector('img')).toHaveAttribute(
+      'src',
+      'https://charts.example.test/chart.png'
+    )
+  })
   it('uses the Norwegian currency display default', () => {
     render(
       <Provider locale="nb-NO">

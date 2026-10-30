@@ -1,5 +1,21 @@
 import { createCurrencyParser } from '../parseCurrencyAmounts'
 
+it('preserves ambiguous single-dot groups outside dot-grouping locales', () => {
+  for (const [locale, currency, text] of [
+    ['nb-NO', 'NOK', 'Kursen er 11.725 NOK i dag.'],
+    ['nb-NO', 'NOK', 'EUR 0.085'],
+    ['sv-SE', 'SEK', 'Kursen är 11.485 SEK idag.'],
+  ]) {
+    expect(createCurrencyParser(locale, currency)(text)).toEqual([text])
+  }
+  expect(createCurrencyParser('nb-NO', 'NOK')('NOK 1.234.567')).toEqual([
+    { value: 1234567, currency: 'NOK', decimals: 0 },
+  ])
+  expect(createCurrencyParser('da-DK', 'DKK')('7.462 DKK')).toEqual([
+    { value: 7462, currency: 'DKK', decimals: 0 },
+  ])
+})
+
 const parse = createCurrencyParser('nb-NO', 'NOK')
 const amounts = (text: string) =>
   parse(text).filter((part) => typeof part !== 'string')

@@ -174,6 +174,14 @@ function parseAmount(source: string, decimal: string, group: string) {
         : null
   const groups = separator ? normalized.split(separator) : [normalized]
   if (
+    separator === '.' &&
+    group !== '.' &&
+    parts.length === 1 &&
+    groups.length === 2
+  ) {
+    return null
+  }
+  if (
     !/^[0-9]+$/.test(groups[0]) ||
     (separator &&
       (groups[0].length > 3 ||

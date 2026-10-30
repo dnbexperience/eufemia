@@ -113,7 +113,7 @@ function AiResponse(props: AiResponseProps) {
     currencyFormatting = true,
     components,
     allowedLinkPrefixes,
-    allowedImagePrefixes,
+    allowedImagePrefixes = [],
     defaultOrigin,
     className,
     ...rest
