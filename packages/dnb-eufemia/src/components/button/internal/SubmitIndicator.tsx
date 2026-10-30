@@ -55,9 +55,12 @@ function SubmitIndicator(props: ButtonSubmitIndicatorProps) {
   const params = {
     id,
     className: clsx(
-      'dnb-forms-submit-indicator',
+      // The forms classes stay for existing styles and tests. The styles use the Button classes.
+      'dnb-forms-submit-indicator dnb-button__indicator',
       state && `dnb-forms-submit-indicator--state-${state}`,
-      willWrap && 'dnb-forms-submit-indicator--inline-wrap',
+      state === 'pending' && 'dnb-button__indicator--pending',
+      willWrap &&
+        'dnb-forms-submit-indicator--inline-wrap dnb-button__indicator--inline-wrap',
       className
     ),
     ...pickSpacingProps(rest),
@@ -77,12 +80,14 @@ function SubmitIndicator(props: ButtonSubmitIndicatorProps) {
   const dot = <b />
   const indicator = (
     <span
-      className="dnb-forms-submit-indicator__content"
+      className="dnb-forms-submit-indicator__content dnb-button__indicator-content"
       {...ariaAttributes}
       {...omitSpacingProps(rest)}
     >
       {showLabel && (
-        <span className="dnb-forms-submit-indicator__label">{label}</span>
+        <span className="dnb-forms-submit-indicator__label dnb-button__indicator-label">
+          {label}
+        </span>
       )}
       {state && state !== 'success' && state !== 'abort' && (
         <>

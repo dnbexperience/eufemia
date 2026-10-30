@@ -1,7 +1,6 @@
-// The class names keep the forms prefix, so existing styles and tests keep working.
-// Each rule also matches inside a Button, so the CSS optimizer keeps the styles for apps that only use Button.
-.dnb-forms-submit-indicator,
-.dnb-button .dnb-forms-submit-indicator {
+// Form.SubmitIndicator renders these classes next to its dnb-forms-submit-indicator classes,
+// because the components styles must not contain forms class names.
+.dnb-button__indicator {
   // Not --padding-left, because Space sets it on every .dnb-space element, and this element is one
   --dots-offset: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
@@ -10,7 +9,7 @@
     var(--easing-default) var(--opacity-animation-delay, 0ms);
   --dots-color: var(--token-color-text-neutral);
 
-  &:has(.dnb-forms-submit-indicator__label) {
+  &:has(&-label) {
     --font-animation-duration: 400ms;
     --opacity-animation-duration: 400ms;
     --opacity-animation-delay: 250ms;
@@ -18,11 +17,11 @@
 
   display: inline;
 
-  &__label {
+  &-label {
     padding: 0.5em 0;
   }
 
-  &__content {
+  &-content {
     align-items: center;
     font-size: 0;
     opacity: 0;
@@ -59,21 +58,21 @@
     }
   }
 
-  &--state-pending .dnb-forms-submit-indicator__content {
+  &--pending &-content {
     font-size: 1em;
     opacity: 1;
   }
-  &--inline-wrap .dnb-forms-submit-indicator__content {
+  &--inline-wrap &-content {
     display: flex;
 
     --dots-offset: 0.25em;
   }
-}
 
-.dnb-button .dnb-forms-submit-indicator__content {
-  cursor: inherit;
+  .dnb-button &-content {
+    cursor: inherit;
 
-  --dots-color: currentcolor;
+    --dots-color: currentcolor;
+  }
 }
 
 @keyframes submit-indicator-dot {

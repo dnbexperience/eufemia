@@ -31,7 +31,7 @@ describe('Form.SubmitIndicator', () => {
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
     expect(element).toHaveClass(
-      'dnb-space dnb-forms-submit-indicator custom-class',
+      'dnb-space dnb-forms-submit-indicator dnb-button__indicator custom-class',
       { exact: true }
     )
   })
@@ -51,7 +51,7 @@ describe('Form.SubmitIndicator', () => {
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
     expect(element).toHaveClass(
-      'dnb-space dnb-space__top--large dnb-forms-submit-indicator dnb-forms-submit-indicator--state-pending',
+      'dnb-space dnb-space__top--large dnb-forms-submit-indicator dnb-button__indicator dnb-forms-submit-indicator--state-pending dnb-button__indicator--pending',
       { exact: true }
     )
   })
@@ -176,7 +176,9 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
     expect(element).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
+      'dnb-button__indicator',
+      'dnb-button__indicator--pending'
     )
 
     rerender(<Form.SubmitIndicator state="complete" />)
@@ -184,6 +186,7 @@ describe('Form.SubmitIndicator', () => {
     expect(element).toHaveClass(
       'dnb-forms-submit-indicator--state-complete'
     )
+    expect(element).not.toHaveClass('dnb-button__indicator--pending')
   })
 
   it('should not add dots when state is "success" or "abort"', () => {
@@ -254,7 +257,10 @@ describe('Form.SubmitIndicator', () => {
       </Form.SubmitIndicator>
     )
 
-    expect(element).toHaveClass('dnb-forms-submit-indicator--inline-wrap')
+    expect(element).toHaveClass(
+      'dnb-forms-submit-indicator--inline-wrap',
+      'dnb-button__indicator--inline-wrap'
+    )
 
     Object.defineProperties(HTMLElement.prototype, {
       offsetHeight: {

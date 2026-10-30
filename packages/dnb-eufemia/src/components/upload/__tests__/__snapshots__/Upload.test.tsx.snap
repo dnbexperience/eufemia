@@ -537,8 +537,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   --button-tertiary-focus-right: 0;
 }
 
-.dnb-forms-submit-indicator,
-.dnb-button .dnb-forms-submit-indicator {
+.dnb-button__indicator {
   --dots-offset: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
     var(--easing-default);
@@ -546,22 +545,18 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
     var(--easing-default) var(--opacity-animation-delay, 0ms);
   --dots-color: var(--token-color-text-neutral);
 }
-.dnb-forms-submit-indicator:has(.dnb-forms-submit-indicator__label),
-.dnb-button .dnb-forms-submit-indicator:has(.dnb-forms-submit-indicator__label) {
+.dnb-button__indicator:has(.dnb-button__indicator-label) {
   --font-animation-duration: 400ms;
   --opacity-animation-duration: 400ms;
   --opacity-animation-delay: 250ms;
 }
-.dnb-forms-submit-indicator,
-.dnb-button .dnb-forms-submit-indicator {
+.dnb-button__indicator {
   display: inline;
 }
-.dnb-forms-submit-indicator__label,
-.dnb-button .dnb-forms-submit-indicator__label {
+.dnb-button__indicator-label {
   padding: 0.5em 0;
 }
-.dnb-forms-submit-indicator__content,
-.dnb-button .dnb-forms-submit-indicator__content {
+.dnb-button__indicator-content {
   align-items: center;
   font-size: 0;
   opacity: 0;
@@ -569,8 +564,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   will-change: font-size opacity;
   transition: var(--font-animation), var(--opacity-animation);
 }
-.dnb-forms-submit-indicator__content b,
-.dnb-button .dnb-forms-submit-indicator__content b {
+.dnb-button__indicator-content b {
   display: inline-block;
   width: 0.25em;
   height: 0.25em;
@@ -583,31 +577,25 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   animation-iteration-count: infinite;
   animation-duration: 1.2s;
 }
-.dnb-forms-submit-indicator__content b:nth-of-type(1),
-.dnb-button .dnb-forms-submit-indicator__content b:nth-of-type(1) {
+.dnb-button__indicator-content b:nth-of-type(1) {
   margin-left: var(--dots-offset);
   animation-delay: 50ms;
 }
-.dnb-forms-submit-indicator__content b:nth-of-type(2),
-.dnb-button .dnb-forms-submit-indicator__content b:nth-of-type(2) {
+.dnb-button__indicator-content b:nth-of-type(2) {
   animation-delay: 200ms;
 }
-.dnb-forms-submit-indicator__content b:nth-of-type(3),
-.dnb-button .dnb-forms-submit-indicator__content b:nth-of-type(3) {
+.dnb-button__indicator-content b:nth-of-type(3) {
   animation-delay: 400ms;
 }
-.dnb-forms-submit-indicator--state-pending .dnb-forms-submit-indicator__content,
-.dnb-button .dnb-forms-submit-indicator--state-pending .dnb-forms-submit-indicator__content {
+.dnb-button__indicator--pending .dnb-button__indicator-content {
   font-size: 1em;
   opacity: 1;
 }
-.dnb-forms-submit-indicator--inline-wrap .dnb-forms-submit-indicator__content,
-.dnb-button .dnb-forms-submit-indicator--inline-wrap .dnb-forms-submit-indicator__content {
+.dnb-button__indicator--inline-wrap .dnb-button__indicator-content {
   display: flex;
   --dots-offset: 0.25em;
 }
-
-.dnb-button .dnb-forms-submit-indicator__content {
+.dnb-button .dnb-button__indicator-content {
   cursor: inherit;
   --dots-color: currentcolor;
 }

@@ -794,8 +794,11 @@ describe('Button pending', () => {
     expect(text).toHaveTextContent('Save')
     expect(text.lastElementChild).toBe(indicator)
     expect(indicator).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
+      'dnb-button__indicator',
+      'dnb-button__indicator--pending'
     )
+    expect(content).toHaveClass('dnb-button__indicator-content')
     expect(content.querySelectorAll('b')).toHaveLength(3)
     expect(content).toHaveAttribute('role', 'status')
     expect(content).toHaveAttribute(
@@ -918,6 +921,7 @@ describe('Button pending', () => {
     expect(indicator).not.toHaveClass(
       'dnb-forms-submit-indicator--state-pending'
     )
+    expect(indicator).not.toHaveClass('dnb-button__indicator--pending')
     expect(content).toHaveAttribute('aria-hidden', 'true')
     expect(content).not.toHaveAttribute('role')
     expect(content.querySelectorAll('b')).toHaveLength(0)
@@ -940,6 +944,12 @@ describe('Button scss', () => {
 
     expect(css).toMatch(/\.dnb-button--pending \{\s*cursor: not-allowed;/)
     expect(css).toContain('@keyframes submit-indicator-dot')
+  })
+
+  it('does not contain forms class names', () => {
+    const css = String(loadScss(require.resolve('../style/deps.scss')))
+
+    expect(css).not.toContain('.dnb-forms-')
   })
 
   const getStylesheet = () =>

@@ -2126,6 +2126,7 @@ describe('Wizard.Container', () => {
         ).toHaveTextContent('Error message')
         expect(previousButton()).toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
+        expect(nextButton()).not.toHaveAttribute('aria-disabled')
       })
 
       await userEvent.type(document.querySelector('input'), 'valid')
@@ -2250,6 +2251,7 @@ describe('Wizard.Container', () => {
         ).toHaveTextContent('Error message')
         expect(previousButton()).toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
+        expect(nextButton()).not.toHaveAttribute('aria-disabled')
       })
 
       await userEvent.type(document.querySelector('input'), 'valid')
