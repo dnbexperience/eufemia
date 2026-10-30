@@ -328,6 +328,9 @@ export default function Provider<Data extends JsonObject>(
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Map<Path, boolean>>(new Map())
   const errorsRef = useRef<Record<Path, FormError> | undefined>(undefined)
+  // Fields translate error messages in place, so compare the validator output
+  const errorsSignatureRef = useRef(getErrorsSignature(undefined))
+  const renderedErrorsSignatureRef = useRef(errorsSignatureRef.current)
   const addSetShowAllErrorsRef = useRef<
     Array<(showAllErrors: boolean) => void>
   >([])
@@ -642,10 +645,13 @@ export default function Provider<Data extends JsonObject>(
     return undefined // stop here
   }, [])
   const validateData = useCallback(() => {
-    const previousErrors = errorsRef.current
     const contextErrors = executeAjvValidator()
     executeSectionValidators(contextErrors)
-    if (previousErrors !== errorsRef.current) {
+    errorsSignatureRef.current = getErrorsSignature(errorsRef.current)
+
+    if (
+      errorsSignatureRef.current !== renderedErrorsSignatureRef.current
+    ) {
       forceUpdate()
     }
   }, [executeAjvValidator, executeSectionValidators, forceUpdate])
@@ -1186,6 +1192,7 @@ export default function Provider<Data extends JsonObject>(
 
     const contextErrors = executeAjvValidator()
     executeSectionValidators(contextErrors)
+    errorsSignatureRef.current = getErrorsSignature(errorsRef.current)
 
     if (hasNoErrors && errorsRef.current !== undefined) {
       forceUpdate()
@@ -2141,6 +2148,7 @@ export default function Provider<Data extends JsonObject>(
     ...rest,
   }
   contextValueRef.current = contextValue
+  renderedErrorsSignatureRef.current = errorsSignatureRef.current
 
   if (id) {
     sharedDataContext?.set(contextValue, { silent: true })
@@ -2362,5 +2370,16 @@ function isCredentialField(props: unknown) {
   return (
     type === 'password' ||
     credentialAutoComplete.test(String(autoComplete ?? ''))
+  )
+}
+
+function getErrorsSignature(errors?: Record<Path, FormError>) {
+  return JSON.stringify(
+    Object.entries(errors ?? {}).map(([path, error]) => [
+      path,
+      error?.message,
+      error?.ajvKeyword,
+      error?.messageValues,
+    ])
   )
 }

@@ -44,8 +44,10 @@ import {
   Value,
   makeAjvInstance,
   withValidatorOptions,
+  z,
 } from '../../../'
 import { isCI } from 'repo-utils'
+import { useFieldProps } from '../../../hooks'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
 import type {
   ContextState,
@@ -4996,6 +4998,126 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
     )
     expect(firstNameRender).toHaveBeenCalled()
     expect(lastNameRender).not.toHaveBeenCalled()
+  })
+
+  it('should only render the field for the changed path while the schema errors stay the same', () => {
+    let lastNameRenders = 0
+
+    // Profiler does not report renders caused by a context change
+    const LastNameField = (props: { path: string }) => {
+      useFieldProps(props)
+      lastNameRenders++
+      return null
+    }
+
+    const schema: JSONSchema = {
+      type: 'object',
+      properties: {
+        firstName: { type: 'string' },
+        lastName: { type: 'string' },
+        email: { type: 'string' },
+      },
+      required: ['email'],
+    }
+
+    render(
+      <Form.Handler
+        schema={schema}
+        ajvInstance={makeAjvInstance()}
+        defaultData={{ firstName: 'John', lastName: 'Smith' }}
+      >
+        <Field.String path="/firstName" label="First name" />
+        <LastNameField path="/lastName" />
+        <Field.String path="/email" label="Email" />
+      </Form.Handler>
+    )
+
+    const rendersBefore = lastNameRenders
+
+    fireEvent.change(document.querySelector('input[name="firstName"]'), {
+      target: { value: 'Jane' },
+    })
+    fireEvent.change(document.querySelector('input[name="firstName"]'), {
+      target: { value: 'Janet' },
+    })
+
+    expect(document.querySelector('input[name="firstName"]')).toHaveValue(
+      'Janet'
+    )
+    expect(lastNameRenders).toBe(rendersBefore)
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.Field.errorRequired
+    )
+
+    const rendersAfterSubmit = lastNameRenders
+
+    fireEvent.change(document.querySelector('input[name="firstName"]'), {
+      target: { value: 'Jan' },
+    })
+    fireEvent.change(document.querySelector('input[name="firstName"]'), {
+      target: { value: 'Ja' },
+    })
+
+    expect(lastNameRenders).toBe(rendersAfterSubmit)
+  })
+
+  it('should update a schema error when only its message values change', () => {
+    const minimumByType = { short: 3, long: 5, longer: 7 }
+    const schema = z
+      .object({ type: z.string(), code: z.string() })
+      .superRefine((data, ctx) => {
+        const minimum = minimumByType[data.type]
+        if (data.code.length < minimum) {
+          ctx.addIssue({
+            code: 'too_small',
+            origin: 'string',
+            minimum,
+            inclusive: true,
+            input: data.code,
+            path: ['code'],
+            message: `Too small: expected string to have >=${minimum} characters`,
+          })
+        }
+      })
+
+    render(
+      <Form.Handler
+        schema={schema}
+        defaultData={{ type: 'short', code: 'ab' }}
+      >
+        <Field.String path="/type" label="Type" />
+        <Field.String path="/code" label="Code" validateInitially />
+      </Form.Handler>
+    )
+
+    const minLengthMessage = (minLength: number) =>
+      nb.StringField.errorMinLength.replace(
+        '{minLength}',
+        String(minLength)
+      )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      minLengthMessage(3)
+    )
+
+    fireEvent.change(document.querySelector('input[name="type"]'), {
+      target: { value: 'long' },
+    })
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      minLengthMessage(5)
+    )
+
+    fireEvent.change(document.querySelector('input[name="type"]'), {
+      target: { value: 'longer' },
+    })
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      minLengthMessage(7)
+    )
   })
 
   describe('with useData', () => {
