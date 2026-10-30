@@ -115,11 +115,10 @@ describe('createMarkdownCopies', () => {
       (match) => JSON.parse(match[1])
     )
     expect(blocks).toHaveLength(3)
-    for (const block of blocks.slice(0, 2)) {
-      expect(block.usageGuidance).toContain(
-        'need a use case approved by DNB UX'
-      )
-    }
+    expect(blocks[0].usageGuidance).toContain(
+      'need a use case approved by DNB UX'
+    )
+    expect(blocks[1]).not.toHaveProperty('usageGuidance')
     expect(blocks[2]).not.toHaveProperty('usageGuidance')
     expect(output).not.toContain('properties.md')
     expect(output).not.toContain('showTabs: true')

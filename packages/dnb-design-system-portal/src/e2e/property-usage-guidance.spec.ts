@@ -6,6 +6,11 @@ const guidanceName = 'Read about intended use and customization'
 for (const path of [
   '/uilib/usage/customisation/component-properties/#intended-use-and-customization',
   '/uilib/components/breadcrumb/events/',
+  '/uilib/extensions/forms/Wizard/properties/',
+  '/uilib/extensions/forms/Form/useSubmit/properties/',
+  '/uilib/extensions/forms/Form/useTranslation/properties/',
+  '/uilib/extensions/forms/create-component/useFieldProps/properties/',
+  '/uilib/extensions/forms/create-component/useValueProps/properties/',
 ]) {
   test(`keeps the property note off ${path}`, async ({ page }) => {
     await page.goto(path)

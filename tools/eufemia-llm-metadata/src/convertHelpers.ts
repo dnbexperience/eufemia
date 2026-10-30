@@ -1641,6 +1641,7 @@ async function replacePropertiesTableWithJsonBlock(
   let output = ''
   let lastIndex = 0
   let match: RegExpExecArray | null
+  let includeUsageGuidance = Boolean(propertiesUsage)
 
   while ((match = regex.exec(body))) {
     output += body.slice(lastIndex, match.index)
@@ -1662,7 +1663,9 @@ async function replacePropertiesTableWithJsonBlock(
     if (propsValue) {
       const metadata: Record<string, any> = {
         props: propsValue,
-        ...(propertiesUsage ? { usageGuidance: propertiesUsage } : {}),
+        ...(includeUsageGuidance
+          ? { usageGuidance: propertiesUsage }
+          : {}),
       }
 
       for (const [name, attr] of Object.entries(attrs)) {
@@ -1680,6 +1683,7 @@ async function replacePropertiesTableWithJsonBlock(
       }
 
       output += renderJsonBlock(metadata)
+      includeUsageGuidance = false
     } else {
       if (fallbackLink) {
         output += `See ${fallbackLink.label}: ${fallbackLink.url}`

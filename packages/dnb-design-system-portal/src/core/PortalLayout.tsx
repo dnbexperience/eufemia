@@ -53,6 +53,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
               printLayout
               showTabs
               hideEditLink
+              hidePropertiesUsage
               breadcrumb {
                 text
                 href
@@ -226,6 +227,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
           showEditLink={!codeFocusMode && !fmData.hideEditLink}
           showPropertiesUsage={
             !codeFocusMode &&
+            !pageFm.hidePropertiesUsage &&
             slug.startsWith('uilib/') &&
             slug.endsWith('/properties')
           }
