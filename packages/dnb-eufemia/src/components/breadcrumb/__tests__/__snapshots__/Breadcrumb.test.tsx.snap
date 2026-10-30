@@ -1462,6 +1462,7 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 .dnb-breadcrumb {
+  --button-font-weight-cta: var(--font-weight-regular);
   margin: 0;
   padding: 0;
   display: flex;

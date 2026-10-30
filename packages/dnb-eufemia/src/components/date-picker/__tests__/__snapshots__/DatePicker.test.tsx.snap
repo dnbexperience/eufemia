@@ -2625,6 +2625,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 *
 */
 .dnb-toggle-button {
+  --button-font-weight-cta: var(--font-weight-regular);
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -3213,6 +3214,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   text-align: center;
 }
 .dnb-date-picker__day {
+  --button-font-weight-cta: var(--font-weight-regular);
   position: relative;
   width: var(--date-picker-day-width);
   height: var(--date-picker-day-width);

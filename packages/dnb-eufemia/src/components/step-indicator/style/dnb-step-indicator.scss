@@ -34,6 +34,7 @@
   }
 
   &__trigger__button {
+    --button-font-weight-cta: var(--font-weight-regular);
     --button-height: 1.5rem;
     .dnb-button__text {
       margin: 0;
