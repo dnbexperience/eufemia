@@ -82,13 +82,13 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   prefix: {
-    doc: 'Text added before the value input.',
-    type: 'string',
+    doc: 'Text added before the value input. Can also be a function that receives the value and returns the text.',
+    type: ['string', 'function'],
     status: 'optional',
   },
   suffix: {
-    doc: 'Text added after the value input.',
-    type: 'string',
+    doc: 'Text added after the value input. Can also be a function that receives the value and returns the text.',
+    type: ['string', 'function'],
     status: 'optional',
   },
   step: {
@@ -107,8 +107,13 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   mask: {
-    doc: 'An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.',
-    type: ['array', 'function'],
+    doc: 'Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties). When given, it is used instead of the default number mask. It has no effect together with `currency` or `percent`.',
+    type: ['RegExp', 'Array<RegExp | string>'],
+    status: 'optional',
+  },
+  inputClassName: {
+    doc: 'Additional CSS class applied to the inner input element.',
+    type: 'string',
     status: 'optional',
   },
 }
