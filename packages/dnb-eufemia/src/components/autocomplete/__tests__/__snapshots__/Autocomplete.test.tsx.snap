@@ -1863,6 +1863,7 @@ html[data-visual-test] .dnb-input__input {
   pointer-events: none;
 }
 .dnb-dropdown__trigger {
+  --button-font-weight-cta: var(--font-weight-regular);
   position: relative;
   z-index: 1;
   user-select: none;
