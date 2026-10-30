@@ -533,11 +533,16 @@ function VirtualizedConversation(
                   style={{
                     position: 'absolute',
                     top: 0,
-                    left: 0,
-                    width: '100%',
+                    left: 'var(--ai-conversation-padding)',
+                    width:
+                      'calc(100% - 2 * var(--ai-conversation-padding))',
                     display: 'flow-root',
                     paddingBottom:
-                      row.index < items.length - 1 ? '1rem' : undefined,
+                      row.index < items.length - 1
+                        ? items[row.index + 1].from === item.from
+                          ? '0.5rem'
+                          : '1rem'
+                        : undefined,
                     scrollMarginTop:
                       item.from === 'user'
                         ? 'var(--ai-conversation-peek)'
@@ -598,7 +603,19 @@ function VirtualizedConversation(
             className="dnb-ai-conversation__scroll-button"
             aria-label={translation.scrollToBottom}
             tooltip={translation.scrollToBottom}
-            onClick={api.controls.scrollToEnd}
+            onClick={({ event }) => {
+              if (document.activeElement === event.currentTarget) {
+                const message =
+                  scrollRef.current?.querySelector<HTMLElement>(
+                    '[data-ai-message-id="' +
+                      CSS.escape(items.at(-1)?.id ?? '') +
+                      '"]'
+                  )
+                message?.setAttribute('tabindex', '-1')
+                message?.focus({ preventScroll: true })
+              }
+              api.controls.scrollToEnd()
+            }}
           />
         )}
       </div>

@@ -16,6 +16,12 @@ New chat opens an empty conversation and clears any draft or pending reply. The 
 
 <Examples.AiChatExample />
 
+### Chat window and customer-service handover
+
+Compose a chat window with Dialog for its keyboard focus, close controls and responsive modal behavior. The input uses the large radius token inside the window. Suggestions sit above the input; the application owns sending them. A customer-service reply uses the assistant side with a headset avatar and no AI-generated label.
+
+<Examples.AiChatWindow />
+
 ### Streamed reply announcements
 
 The application keeps a separate `AriaLive` region mounted and updates it once when the reply ends, including when Stop preserves a partial answer. The conversation's automatic live announcements are disabled to avoid duplicates. See [Screen reader announcements](/uilib/extensions/ai/integrations/#screen-reader-announcements) for the application helper and failure handling.

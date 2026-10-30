@@ -125,7 +125,7 @@ describe('PromptInput', () => {
       .querySelector<HTMLButtonElement>('.dnb-ai-prompt-input__stop')
       .focus()
     await userEvent.keyboard('{Enter}')
-    expect(getSubmit()).toBeDisabled()
+    expect(getSubmit()).toBeEnabled()
     expect(getTextarea()).toHaveFocus()
   })
 
@@ -142,7 +142,7 @@ describe('PromptInput', () => {
     const onSubmit = vi.fn()
     render(<PromptInput onSubmit={onSubmit} />)
 
-    expect(getSubmit()).toBeDisabled()
+    expect(getSubmit()).toBeEnabled()
 
     await userEvent.type(getTextarea(), 'Hello')
     expect(getSubmit()).not.toBeDisabled()
@@ -156,6 +156,9 @@ describe('PromptInput', () => {
   it('does not submit empty text', async () => {
     const onSubmit = vi.fn()
     render(<PromptInput onSubmit={onSubmit} />)
+
+    expect(getSubmit()).toBeEnabled()
+    await userEvent.click(getSubmit())
 
     await userEvent.type(getTextarea(), '   {Enter}')
 

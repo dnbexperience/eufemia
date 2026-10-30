@@ -35,6 +35,7 @@ import {
   Avatar,
   Button,
   CopyOnClick,
+  Dialog,
   List,
   NumberFormat,
   P,
@@ -43,6 +44,7 @@ import { Provider } from '@dnb/eufemia/src/shared'
 import {
   add,
   aino,
+  customer_service,
   bank,
   card,
   close,
@@ -119,6 +121,16 @@ export function AiResponseStreaming() {
 
         return <StreamingResponse />
       }}
+    </ComponentBox>
+  )
+}
+
+export function AiResponseImagePolicy() {
+  return (
+    <ComponentBox data-visual-test="ai-response-image-policy">
+      <Response>
+        {'![Untrusted image](https://untrusted.example/pixel.png)'}
+      </Response>
     </ComponentBox>
   )
 }
@@ -802,11 +814,7 @@ export function AiChatExample() {
             prompt: 'What can you help me with?',
           },
         ]
-        const ainoAvatar = (
-          <Avatar variant="secondary" hasLabel>
-            A
-          </Avatar>
-        )
+        const ainoAvatar = <Avatar size="small" icon={aino} hasLabel />
 
         const BankingAssistant = () => {
           const [chatStarted, setChatStarted] = useState(false)
@@ -869,7 +877,10 @@ export function AiChatExample() {
                             key={prompt}
                             icon={icon}
                             suggestion={prompt}
-                            onClick={({ suggestion }) => send(suggestion)}
+                            onClick={({ suggestion }) => {
+                              send(suggestion)
+                              promptRef.current?.focus()
+                            }}
                           />
                         ))}
                       </Suggestions>
@@ -879,7 +890,10 @@ export function AiChatExample() {
                             key={label}
                             icon={icon}
                             suggestion={prompt}
-                            onClick={({ suggestion }) => send(suggestion)}
+                            onClick={({ suggestion }) => {
+                              send(suggestion)
+                              promptRef.current?.focus()
+                            }}
                           >
                             {label}
                           </Suggestion>
@@ -959,7 +973,10 @@ export function AiChatExample() {
                               <Action
                                 icon={refresh}
                                 label="Regenerate"
-                                onClick={regenerate}
+                                onClick={() => {
+                                  regenerate()
+                                  promptRef.current?.focus()
+                                }}
                               />
                             )}
                           </Actions>
@@ -970,14 +987,12 @@ export function AiChatExample() {
                             <Message
                               id={message.id}
                               from={message.role}
-                              name={isAssistant ? 'Aino' : 'You'}
-                              avatar={
-                                isAssistant ? (
-                                  ainoAvatar
-                                ) : (
-                                  <Avatar hasLabel>P</Avatar>
-                                )
+                              aria-label={isAssistant ? 'Aino' : 'You'}
+                              grouped={
+                                isAssistant &&
+                                messages[index - 1]?.role === 'assistant'
                               }
+                              avatar={isAssistant ? ainoAvatar : undefined}
                               aiGenerated={isAssistant}
                               actions={transactions ? undefined : actions}
                             >
@@ -1099,6 +1114,106 @@ export function AiChatExample() {
   )
 }
 
+export function AiChatWindow() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-chat-window"
+      scope={{ aino, customer_service }}
+    >
+      <Dialog
+        restoreFocusTo={() =>
+          document.getElementById('ai-chat-window-trigger')
+        }
+        trigger={(props) => (
+          <Button {...props} id="ai-chat-window-trigger">
+            Open chat window
+          </Button>
+        )}
+        minWidth="23rem"
+        maxWidth="23rem"
+        title="Chat with DNB"
+      >
+        <Flex.Stack
+          gap="small"
+          style={{ height: 'min(38rem, 65dvh)', minHeight: '18rem' }}
+        >
+          <Conversation
+            scrollBehavior="end"
+            aria-live="off"
+            style={{ flex: '1 1 auto' }}
+          >
+            <Message from="user">Can I speak to a person?</Message>
+            <Message
+              aria-label="Aino"
+              avatar={<Avatar size="small" icon={aino} hasLabel />}
+            >
+              I will connect you to customer service.
+            </Message>
+            <Message
+              aria-label="Maria, customer service"
+              avatar={
+                <Avatar size="small" icon={customer_service} hasLabel />
+              }
+            >
+              Hello, I am Maria from DNB. How can I help?
+            </Message>
+          </Conversation>
+          <Suggestions aria-label="Suggested replies">
+            <Suggestion suggestion="Help with a payment" />
+            <Suggestion suggestion="Help with my card" />
+          </Suggestions>
+          <PromptInput
+            style={
+              {
+                '--ai-prompt-input-radius': 'var(--token-radius-lg)',
+              } as React.CSSProperties
+            }
+          />
+        </Flex.Stack>
+      </Dialog>
+    </ComponentBox>
+  )
+}
+
+export function AiMessageDesign() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-message-design"
+      scope={{ aino, customer_service }}
+    >
+      <Conversation
+        scrollBehavior="end"
+        style={{ height: '24rem', maxWidth: '23rem' }}
+      >
+        <Message from="user">Chatmessage from the user.</Message>
+        <Message
+          aria-label="Aino"
+          avatar={<Avatar size="small" icon={aino} hasLabel />}
+        >
+          Chatmessage from a bot.
+          <br />
+          Beep-bop.
+        </Message>
+        <Message
+          grouped
+          avatar={<Avatar size="small" icon={aino} hasLabel />}
+        >
+          More information from the same bot.
+        </Message>
+        <Message from="user">
+          Thanks. This longer message wraps before reaching the opposite
+          edge of the conversation.
+        </Message>
+        <Message
+          avatar={<Avatar size="small" icon={customer_service} hasLabel />}
+        >
+          Hello from customer service.
+        </Message>
+      </Conversation>
+    </ComponentBox>
+  )
+}
+
 export function AiChatCompact() {
   return (
     <ComponentBox
@@ -1110,12 +1225,6 @@ export function AiChatCompact() {
         avatar={<Avatar size="small" icon={aino} hasLabel />}
         title="Where do you want to start today?"
       >
-        <PromptInput
-          variant="compact"
-          placeholder="Start typing here"
-          onAttachmentClick={() => null}
-          onMicrophoneClick={() => null}
-        />
         <Suggestions>
           <Suggestion
             icon={bank}
@@ -1124,6 +1233,12 @@ export function AiChatCompact() {
           <Suggestion icon={bank} suggestion="Show my savings goals" />
           <Suggestion icon={bank} suggestion="When is my next bill due?" />
         </Suggestions>
+        <PromptInput
+          variant="compact"
+          placeholder="Start typing here"
+          onAttachmentClick={() => null}
+          onMicrophoneClick={() => null}
+        />
       </Welcome>
     </ComponentBox>
   )
@@ -1286,32 +1401,86 @@ export function AiConfirmationExpiry() {
           const [status, setStatus] = useState<
             'expired' | 'required' | 'confirmed' | 'declined'
           >('expired')
-
+          const startRef = useRef<HTMLButtonElement>(null)
+          const [deadline, setDeadline] = useState<number>(null)
+          const [now, setNow] = useState(Date.now())
           useEffect(() => {
-            if (status !== 'required') {
+            if (status !== 'required' || deadline === null) {
               return undefined
             }
-            const timeout = setTimeout(() => setStatus('expired'), 5000)
-            return () => clearTimeout(timeout)
-          }, [status])
-
+            const update = () => {
+              const time = Date.now()
+              setNow(time)
+              if (time >= deadline) {
+                const focused = document.activeElement
+                if (
+                  focused instanceof HTMLElement &&
+                  focused.closest(
+                    '[data-visual-test="ai-confirmation-expiry"]'
+                  ) &&
+                  !focused.closest('.dnb-ai-confirmation')
+                ) {
+                  startRef.current?.focus()
+                }
+                setStatus('expired')
+              }
+            }
+            const interval = setInterval(update, 1000)
+            update()
+            return () => clearInterval(interval)
+          }, [status, deadline])
           return (
             <>
-              <Button
-                bottom
-                disabled={status === 'required'}
-                onClick={() => setStatus('required')}
-              >
-                Start a five-second request
-              </Button>
+              <Flex.Horizontal bottom>
+                <Button
+                  ref={startRef}
+                  onClick={() => {
+                    setNow(Date.now())
+                    setDeadline(Date.now() + 60000)
+                    setStatus('required')
+                  }}
+                >
+                  {status === 'required'
+                    ? 'Restart request'
+                    : 'Start a request'}
+                </Button>
+                {status === 'required' && deadline !== null && (
+                  <>
+                    <Button
+                      onClick={() => setDeadline(Date.now() + 60000)}
+                    >
+                      Extend by one minute
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setDeadline(null)
+                        startRef.current?.focus()
+                      }}
+                    >
+                      Turn off time limit
+                    </Button>
+                  </>
+                )}
+              </Flex.Horizontal>
               <Confirmation
                 title="Continue with this request?"
                 status={status}
                 onConfirm={() => setStatus('confirmed')}
                 onDecline={() => setStatus('declined')}
               >
-                This example request expires after five seconds.
+                {status === 'required' && deadline !== null
+                  ? 'You have ' +
+                    Math.max(0, Math.ceil((deadline - now) / 1000)) +
+                    ' seconds. Extend or turn off the limit if you need more time.'
+                  : 'Review the request before continuing.'}
               </Confirmation>
+              <AriaLive>
+                {status === 'required' &&
+                deadline !== null &&
+                deadline - now <= 30000
+                  ? 'This request expires soon. Extend or turn off the time limit using the buttons above.'
+                  : ''}
+              </AriaLive>
             </>
           )
         }

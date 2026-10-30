@@ -11,6 +11,7 @@ function AiMessage(props: AiMessageProps) {
     name,
     timestamp,
     avatar,
+    grouped,
     aiGenerated,
     actions,
     className,
@@ -19,7 +20,7 @@ function AiMessage(props: AiMessageProps) {
   } = props
 
   const translation = useTranslation().Ai
-  const hasHeader = Boolean(avatar || name || timestamp || aiGenerated)
+  const hasHeader = Boolean(name || timestamp || aiGenerated)
 
   const rootProps = useSpacing(props, {
     ...rest,
@@ -27,20 +28,22 @@ function AiMessage(props: AiMessageProps) {
       'dnb-ai-message',
       `dnb-ai-message--${from}`,
       `dnb-ai-message--${variant}`,
+      avatar && 'dnb-ai-message--has-avatar',
+      grouped && 'dnb-ai-message--grouped',
+      hasHeader && 'dnb-ai-message--has-header',
       className
     ),
   })
 
   return (
     <div {...rootProps}>
+      {avatar && (
+        <span className="dnb-ai-message__avatar" aria-hidden>
+          {avatar}
+        </span>
+      )}
       {hasHeader && (
         <div className="dnb-ai-message__header">
-          {avatar && (
-            <span className="dnb-ai-message__avatar" aria-hidden>
-              {avatar}
-            </span>
-          )}
-
           {(name || timestamp) && (
             <span className="dnb-ai-message__meta">
               {name}

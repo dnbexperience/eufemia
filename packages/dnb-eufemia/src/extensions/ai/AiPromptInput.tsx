@@ -47,10 +47,10 @@ function AiPromptInput(props: AiPromptInputProps) {
   const isCompact = variant === 'compact'
   const isEmpty = value.trim() === ''
   const isTooLong = characterCounter > 0 && value.length > characterCounter
-  const isSubmitDisabled = isEmpty || isTooLong || isBusy || disabled
+  const isSubmitDisabled = isTooLong || isBusy || disabled
 
   const submit = (event: AiPromptInputSubmitEvent['event']) => {
-    if (isSubmitDisabled) {
+    if (isSubmitDisabled || isEmpty) {
       return // stop here
     }
 
