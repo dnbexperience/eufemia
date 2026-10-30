@@ -1,0 +1,75 @@
+// @vitest-environment node
+
+import fs from 'node:fs'
+import path from 'node:path'
+import postcss from 'postcss'
+import { loadScss } from '../../core/test-utils/testSetup'
+
+const themeDirectory = path.resolve(__dirname, '../themes')
+
+function getFontFaces(theme = 'ui') {
+  const css = loadScss(path.join(themeDirectory, theme, 'fonts.scss'))
+  const faces: Record<string, string>[] = []
+  postcss.parse(css).walkAtRules('font-face', (rule) => {
+    const face: Record<string, string> = {}
+    rule.walkDecls((decl) => {
+      face[decl.prop] = decl.value
+    })
+    faces.push(face)
+  })
+  return faces
+}
+
+describe('DNB font faces', () => {
+  it.each([
+    ['DNB', 'DNBSansText'],
+    ['DNBMono', 'DNBSansMono'],
+  ])(
+    'registers every official %s face under its existing CSS family',
+    (family, fileName) => {
+      const faces = getFontFaces().filter(
+        (face) => face['font-family'] === family
+      )
+      expect(faces).toHaveLength(8)
+      for (const [style, weight] of [
+        ['Light', '300'],
+        ['Regular', 'normal'],
+        ['Medium', '500'],
+        ['Bold', '600 700'],
+      ]) {
+        for (const italic of [false, true]) {
+          const face = faces.find(
+            (face) =>
+              face['font-weight'] === weight &&
+              face['font-style'] === (italic ? 'italic' : 'normal')
+          )
+          expect(face).toBeDefined()
+          for (const extension of ['woff2', 'woff', 'ttf']) {
+            const file =
+              fileName +
+              '-' +
+              style +
+              (italic ? 'Italic' : '') +
+              '.' +
+              extension
+            expect(face.src).toContain('/' + file)
+            expect(
+              fs.existsSync(
+                path.resolve(__dirname, '../../../assets/fonts/dnb', file)
+              )
+            ).toBe(true)
+          }
+          expect(face['font-display']).toBe('fallback')
+        }
+      }
+    }
+  )
+
+  it('keeps Sbanken font faces independent', () => {
+    expect(
+      getFontFaces('sbanken').some((face) =>
+        /DNB/.test(face['font-family'])
+      )
+    ).toBe(false)
+  })
+})

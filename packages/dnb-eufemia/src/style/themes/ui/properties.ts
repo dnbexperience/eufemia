@@ -103,12 +103,13 @@ export default {
   '--ca-color-classic-beige': '#f6eae4',
   '--ca-color-pale-green': '#ccf0e7',
   '--ca-color-pale-red': '#ffdedb',
-  '--font-family-default': "'DNB', sans-serif",
+  '--font-family-default': "'DNB', 'Arial', sans-serif",
   '--font-family-heading': 'var(--font-family-default)',
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',
   '--font-weight-basis': 'normal',
+  '--font-weight-light': '300',
   '--font-weight-regular': 'normal',
   '--font-weight-medium': '500',
   '--font-weight-bold': '600',
@@ -186,5 +187,6 @@ export default {
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
   '--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
   '--focus-ring-width': '0.25rem',
+  '--button-font-weight-cta': 'var(--font-weight-medium)',
   '--font-size-basis-native': '1.0625rem'
 }; // prettier-ignore

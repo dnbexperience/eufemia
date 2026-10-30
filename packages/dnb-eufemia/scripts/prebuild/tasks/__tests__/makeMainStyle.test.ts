@@ -264,9 +264,9 @@ if (isCI) {
       expect(count).toBeGreaterThan(50)
     })
 
-    it('should contain the DNB Skeleton font URL in the CSS', () => {
+    it('should contain the DNB Sans Text font URL in the CSS', () => {
       expect(global.css[0]).toContain(
-        `${getFontBasePath()}dnb/DNB-Regular.woff2`
+        `${getFontBasePath()}dnb/DNBSansText-Regular.woff2`
       )
     })
 
