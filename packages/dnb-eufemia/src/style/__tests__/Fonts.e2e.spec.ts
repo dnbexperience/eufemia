@@ -137,7 +137,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         for (const selector of ['#upload-action', '#load-action']) {
           await expect(
             page.locator(selector + ' .dnb-button__text')
-          ).toHaveCSS('font-weight', brand === 'ui' ? '500' : '400')
+          ).toHaveCSS('font-weight', '400')
         }
         await page.locator('.dnb-date-picker__day').evaluate((element) => {
           element.classList.add('dnb-date-picker__day--today')
@@ -163,10 +163,23 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
           'font-family',
           new RegExp(heading)
         )
-        await expect(page.locator('#cta .dnb-button__text')).toHaveCSS(
-          'font-weight',
-          brand === 'ui' ? '500' : '400'
-        )
+        for (const variant of [
+          'primary',
+          'secondary',
+          'tertiary',
+          'unstyled',
+        ]) {
+          await page.locator('#cta').evaluate((element, variant) => {
+            element.setAttribute(
+              'class',
+              'dnb-button dnb-button--' + variant
+            )
+          }, variant)
+          await expect(page.locator('#cta .dnb-button__text')).toHaveCSS(
+            'font-weight',
+            '400'
+          )
+        }
         await expect(
           page.locator('#unstyled .dnb-button__text')
         ).toHaveCSS('font-weight', '400')
@@ -191,12 +204,10 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
             '--button-text-translate-y'
           )
         })
-        if (brand === 'ui') {
-          await expect(page.locator('#lead')).toHaveCSS(
-            'font-weight',
-            '400'
-          )
-        }
+        await expect(page.locator('#lead')).toHaveCSS(
+          'font-weight',
+          brand === 'sbanken' ? '400' : '500'
+        )
         if (brand !== 'sbanken') {
           for (const weight of [300, 400, 500, 600, 700]) {
             for (const style of ['normal', 'italic']) {

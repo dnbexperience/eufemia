@@ -64,8 +64,6 @@
 
   // button
   &__trigger {
-    --button-font-weight-cta: var(--font-weight-regular);
-
     position: relative;
     z-index: 1;
     user-select: none; // Safari / Touch fix
