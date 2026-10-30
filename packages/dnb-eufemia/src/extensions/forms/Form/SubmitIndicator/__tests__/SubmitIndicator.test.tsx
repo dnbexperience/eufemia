@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
-import locales from '../../../constants/locales'
+import locales from '../../../../../shared/locales'
 
 const nbNO = locales['nb-NO']
 
