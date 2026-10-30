@@ -21,6 +21,17 @@ for (const width of [320, 390, 640]) {
       const searchBox = await header
         .locator('.portal-search')
         .boundingBox()
+      const availableSearchWidth = await header
+        .locator('#portal-search')
+        .evaluate((input) => {
+          const style = getComputedStyle(input)
+          return (
+            input.getBoundingClientRect().width -
+            parseFloat(style.paddingLeft) -
+            parseFloat(style.paddingRight)
+          )
+        })
+      expect(availableSearchWidth).toBeGreaterThan(24)
       const toolsBox = await tools.boundingBox()
       expect(toolsBox.width).toBeCloseTo(toolsBox.height, 1)
       expect(toolsBox.y + toolsBox.height / 2).toBeCloseTo(
@@ -224,7 +235,7 @@ for (const width of [390, 1440]) {
       const tools = header.locator('button#portal-tools')
       await expect(tools).toHaveText('DNB - Light')
       await expect(tools).not.toHaveAttribute('title')
-      await expect(tools).toHaveAccessibleName('DNB - Light')
+      await expect(tools).toHaveAccessibleName('DNB - Light, Portal Tools')
       await expect(tools).not.toHaveAttribute('aria-pressed')
       await expect(tools).toHaveAttribute('aria-expanded', 'false')
       await expect(tools).not.toHaveClass(/dnb-toggle-button__button/)
@@ -360,7 +371,9 @@ test('keeps long brand labels accessible in the phone cog button', async ({
   const header = page.locator('header.sticky-menu')
   const tools = header.locator('button#portal-tools')
   await expect(tools).toHaveText('DNB Carnegie - Dark')
-  await expect(tools).toHaveAccessibleName('DNB Carnegie - Dark')
+  await expect(tools).toHaveAccessibleName(
+    'DNB Carnegie - Dark, Portal Tools'
+  )
   const logoBox = await header
     .getByRole('link', { name: 'Go to Eufemia home' })
     .boundingBox()
