@@ -551,6 +551,10 @@ function VirtualizedConversation(
                   }}
                   onFocusCapture={(event) => {
                     cancelAnimationFrame(focusFrame.current)
+                    if (event.target === event.currentTarget) {
+                      setFocusedId(item.id)
+                      return
+                    }
                     handleUserScroll()
                     following.current = false
                     const scroll = scrollRef.current

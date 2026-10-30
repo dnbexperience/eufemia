@@ -162,6 +162,11 @@
     margin-top: 1rem;
   }
 
+  &__content :is(.dnb-p, .dnb-ul, .dnb-ol) {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
   &--plain &__content {
     width: 100%;
   }

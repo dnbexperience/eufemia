@@ -9,6 +9,7 @@ test('matches bubble tokens, spacing, avatars and sender groups', async ({
   const demo = page.locator('[data-visual-test="ai-message-design"]')
   const messages = demo.locator('.dnb-ai-message')
   await expect(messages).toHaveCount(5)
+  await expect(messages.nth(2).locator('p')).toHaveCSS('font-size', '16px')
   await expect(
     messages.nth(0).locator('.dnb-ai-message__content')
   ).toHaveCSS('padding', '8px 16px')
