@@ -21,16 +21,18 @@ import {
 
 ## Font roles
 
-[DNB's brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
-define fonts for distinct roles. **Text** is a font variant designed
-for readability, used in both digital interfaces and printed documents.
+The [Eufemia Web Figma library](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/)
+is the source for interface typography, including component weights and sizes.
+The [brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
+describe the broader roles of Text and Mono across communication and print.
+**Text** is a font variant designed for readability.
 
-| Font                        | Use                                                        |
-| --------------------------- | ---------------------------------------------------------- |
-| DNB Sans Text Regular       | Body text, introductions, everyday UI and document content |
-| DNB Sans Text Medium / Bold | Subheadings; Medium for calls to action                    |
-| DNB Sans Mono               | Selected eyebrow labels, short captions and table details  |
-| Arial                       | Fallback when DNB Sans Text cannot load                    |
+| Font                        | Use                                                       |
+| --------------------------- | --------------------------------------------------------- |
+| DNB Sans Text Regular       | Body text, button labels and everyday UI content          |
+| DNB Sans Text Medium / Bold | Lead and headings use Medium; Bold for explicit emphasis  |
+| DNB Sans Mono               | Selected eyebrow labels, short captions and table details |
+| Arial                       | Fallback when DNB Sans Text cannot load                   |
 
 Text and Mono provide Light, Regular, Medium and Bold, each with a genuine
 italic. The brand guidelines do not assign a specific role to Light. Use
@@ -137,12 +139,11 @@ files, including Light and italics.
 The existing weights remain Regular (400), Medium (500) and Bold (600).
 CSS `bold` (700) also selects the genuine DNB Bold face. Light uses 300.
 Use `slant="italic"` or `.dnb-t__slant--italic` for Text and Mono italics.
-DNB primary, secondary and tertiary buttons use Medium; unstyled buttons
-retain Regular. Built-in selection controls, navigation and clickable file
-names also retain Regular; upload and load-more actions use Medium.
-Lead uses Regular in the DNB UI theme. Ingress retains its explicit Medium
-default for compatibility; use `<Ingress weight="regular">` for introductory
-text that follows the brand guidance.
+DNB button labels use Regular, including primary, secondary and tertiary
+buttons, selection controls, navigation, upload and load-more actions.
+Lead and Ingress use Medium in the DNB UI theme, matching Eufemia Web in
+Figma. Other brands retain their existing typography. Use `weight="regular"`
+only when an introductory text design explicitly calls for it.
 
 The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
 Text and Mono use explicit CSS font metrics to keep their baselines

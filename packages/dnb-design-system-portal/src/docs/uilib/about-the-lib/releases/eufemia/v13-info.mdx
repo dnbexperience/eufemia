@@ -44,15 +44,13 @@ to the `DNBSansText-*` and `DNBSansMono-*` files together. Existing
 `DNB-*` asset paths remain available for compatibility. Avoid mixing old
 font declarations with the current stylesheet under the same CSS family.
 
-Review layout and visual snapshots: genuine italics, updated Bold outlines,
-Regular introductions and Medium DNB CTA labels can change text alignment
-and wrapping. Text and Mono retain the established line boxes through
+Review layout and visual snapshots: genuine italics, updated Bold outlines
+and font metrics can change text alignment and wrapping. Button labels
+retain Regular; Lead and Ingress retain Medium, matching Eufemia Web in Figma.
+Text and Mono retain the established line boxes through
 explicit CSS font metrics; preserve those descriptors in self-hosted
 stylesheets. DNB button labels no longer use the previous upward nudge.
 Sbanken and Carnegie keep their own heading fonts. See [Typography](/uilib/typography/#font-roles).
-
-Ingress keeps its explicit Medium default. Set `weight="regular"` for
-introductory text that follows the current DNB brand guidance.
 
 ## Migration
 
