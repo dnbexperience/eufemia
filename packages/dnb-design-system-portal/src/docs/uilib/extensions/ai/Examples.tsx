@@ -1198,7 +1198,7 @@ export function AiMessageDesign() {
           grouped
           avatar={<Avatar size="small" icon={aino} hasLabel />}
         >
-          More information from the same bot.
+          <Response>More information from the same bot.</Response>
         </Message>
         <Message from="user">
           Thanks. This longer message wraps before reaching the opposite
