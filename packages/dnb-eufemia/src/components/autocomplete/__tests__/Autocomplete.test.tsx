@@ -239,6 +239,37 @@ describe('Autocomplete component', () => {
     document.body.removeAttribute('style')
   })
 
+  it('keeps dialog open when Escape is pressed while the list opens', async () => {
+    // Without noAnimation, the list waits DrawerListProvider.blurDelay before it handles keys itself
+    render(
+      <Dialog noAnimation open title="Dialog">
+        <Autocomplete id="autocomplete-id" data={mockData} />
+      </Dialog>
+    )
+    await waitFor(() => {
+      expect(document.activeElement).toHaveAttribute('role', 'dialog')
+    })
+
+    const input = document.querySelector('input') as HTMLInputElement
+    input.focus()
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'cc' } })
+    expect(input).toHaveAttribute('aria-expanded', 'true')
+
+    // false: the list handles Escape (preventDefault), as after the opening delay
+    expect(fireEvent.keyDown(input, { key: 'Escape' })).toBe(false)
+
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    })
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+    expect(document.activeElement).toBe(input)
+
+    document.body.removeAttribute('style')
+  })
+
   it('has correct options after filter', () => {
     render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
