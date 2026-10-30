@@ -40,6 +40,8 @@ The part of the previous reply that is shown above a new turn is set with the `-
 
 ## Virtualization
 
+The Figma chat starts from the bottom. Use `scrollBehavior="end"` for that layout. The `turn` default lets readers follow a streamed reply from its start. Use `--ai-conversation-padding` to adjust the default `1rem` side padding.
+
 Conversation keeps the full transcript mounted by default. Its `content-visibility` styles let the browser skip off-screen rendering while preserving screen-reader navigation, browser search and text selection. Start with that behavior.
 
 For large histories where mounted React content becomes expensive, pass `items` and an opt-in `renderDriver`. The separately imported driver uses the same optional `@tanstack/react-virtual` peer dependency as DrawerList; it is not imported by the default AI entry. Install the peer dependency in your application when using it.

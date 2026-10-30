@@ -30,9 +30,9 @@ export const AiResponseProperties: PropertiesTableProps = {
     status: 'optional',
   },
   allowedImagePrefixes: {
-    doc: 'URL prefixes allowed for images. Use `*` to allow any http(s) URL. Images that are not allowed are rendered as their alt text.',
+    doc: 'Trusted URL prefixes allowed for images. Images are disabled by default; blocked images render as alt text.',
     type: 'Array<string>',
-    defaultValue: "['*']",
+    defaultValue: '[]',
     status: 'optional',
   },
   defaultOrigin: {
@@ -75,8 +75,13 @@ export const AiMessageProperties: PropertiesTableProps = {
     status: 'optional',
   },
   avatar: {
-    doc: 'Avatar shown in the header, e.g. an [Avatar](/uilib/components/avatar/) with `hasLabel`. It is hidden from screen readers, as the name is shown.',
+    doc: 'Decorative avatar shown beside the bubble, e.g. an [Avatar](/uilib/components/avatar/) with `hasLabel`. Provide the sender name in the message or its accessible label; the avatar is hidden from screen readers.',
     type: 'React.ReactNode',
+    status: 'optional',
+  },
+  grouped: {
+    doc: 'Continues the previous sender group. Retains avatar alignment while hiding the repeated avatar.',
+    type: 'boolean',
     status: 'optional',
   },
   aiGenerated: {

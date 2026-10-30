@@ -263,7 +263,7 @@ test('preserves the regular message gap with and without virtualization', async 
     )
     .first()
     .evaluate((element) => parseFloat(getComputedStyle(element).marginTop))
-  expect(regularGap).toBe(16)
+  expect(regularGap).toBe(8)
   for (const virtualized of [true, false]) {
     await demo
       .getByRole('button', { name: 'Short transcript', exact: true })
@@ -282,7 +282,7 @@ test('preserves the regular message gap with and without virtualization', async 
           )
         })
       )
-      .toBeCloseTo(regularGap, 0)
+      .toBeCloseTo(16, 0)
     await expect
       .poll(() =>
         log.evaluate((element) => {

@@ -353,7 +353,11 @@ function ConversationContent(props: AiConversationProps) {
                     )}
                     style={{
                       paddingBottom:
-                        index < items.length - 1 ? '1rem' : undefined,
+                        index < items.length - 1
+                          ? items[index + 1].from === item.from
+                            ? '0.5rem'
+                            : '1rem'
+                          : undefined,
                     }}
                   >
                     {item.render()}
@@ -372,7 +376,18 @@ function ConversationContent(props: AiConversationProps) {
             className="dnb-ai-conversation__scroll-button"
             aria-label={translation.scrollToBottom}
             tooltip={translation.scrollToBottom}
-            onClick={api.controls.scrollToEnd}
+            onClick={({ event }) => {
+              if (document.activeElement === event.currentTarget) {
+                const message =
+                  contentRef.current?.querySelectorAll<HTMLElement>(
+                    '.dnb-ai-message, .dnb-ai-conversation__item'
+                  )
+                const latest = message?.[message.length - 1]
+                latest?.setAttribute('tabindex', '-1')
+                latest?.focus({ preventScroll: true })
+              }
+              api.controls.scrollToEnd()
+            }}
           />
         )}
       </div>

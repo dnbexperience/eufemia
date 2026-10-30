@@ -4,16 +4,26 @@
 @use '../../../shared/internal/dots-indicator.scss';
 
 .dnb-ai-response {
+  &.dnb-spacing .dnb-p:not([class*='space__bottom']) {
+    margin-bottom: 1.5rem;
+  }
+
   > .dnb-table__scroll-view,
   &__code-block {
     margin-bottom: 1.5rem;
   }
 
-  > :first-child {
+  &.dnb-spacing > :first-child:not([class*='space__top']),
+  .dnb-core-style &.dnb-spacing > :first-child:not([class*='space__top']),
+  &.dnb-spacing > :is(.dnb-ul, .dnb-ol):first-child > li:first-child {
     margin-top: 0;
   }
 
-  > :last-child {
+  &.dnb-spacing > :last-child:not([class*='space__bottom']),
+  .dnb-core-style
+    &.dnb-spacing
+    > :last-child:not([class*='space__bottom']),
+  &.dnb-spacing > :is(.dnb-ul, .dnb-ol):last-child > li:last-child {
     margin-bottom: 0;
   }
 
@@ -38,7 +48,7 @@
     color: var(--token-color-text-neutral-alternative);
     border-left: 0.25rem solid var(--token-color-stroke-neutral-subtle);
 
-    > :last-child {
+    .dnb-spacing & > :last-child:not([class*='space__bottom']) {
       margin-bottom: 0;
     }
   }
@@ -59,19 +69,17 @@
 }
 
 .dnb-ai-message {
-  --ai-message-background--user: var(
+  --ai-message-background--user: var(--token-color-decorative-first-muted);
+  --ai-message-background--assistant: var(
     --token-color-background-neutral-base
   );
-  --ai-message-background--assistant: var(
-    --token-color-background-selected-subtle
-  );
-  --ai-message-border-radius: 1.5rem;
-  --ai-message-border-radius--start: 0.25rem;
+  --ai-message-border-radius: var(--token-radius-lg);
 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  row-gap: 0.5rem;
+  max-width: calc(100% - 3rem);
 
   color: var(--token-color-text-neutral);
 
@@ -80,7 +88,22 @@
   }
 
   &--user {
-    align-items: flex-end;
+    justify-items: end;
+    margin-left: auto;
+  }
+
+  &--assistant + &--assistant,
+  &--user + &--user {
+    margin-top: 0.5rem;
+  }
+
+  &--has-avatar {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0.5rem;
+  }
+
+  &--has-avatar > :not(&__avatar) {
+    grid-column: 2;
   }
 
   &__header {
@@ -92,34 +115,46 @@
     line-height: var(--line-height-small);
   }
 
+  &--grouped &__avatar {
+    visibility: hidden;
+  }
+
+  &--has-header &__avatar {
+    grid-row: 2;
+  }
+
+  &--has-header &__header {
+    grid-row: 1;
+  }
+
   &--user &__header {
     flex-direction: row-reverse;
   }
 
   &__avatar {
     display: flex;
+    grid-row: 1;
+    align-self: start;
   }
 
   &__content {
     max-width: 100%;
 
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
   }
 
   &--bubble &__content {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
 
     border-radius: var(--ai-message-border-radius);
   }
 
   &--bubble#{&}--assistant &__content {
-    border-top-left-radius: var(--ai-message-border-radius--start);
     background-color: var(--ai-message-background--assistant);
   }
 
   &--bubble#{&}--user &__content {
-    border-top-right-radius: var(--ai-message-border-radius--start);
     background-color: var(--ai-message-background--user);
   }
 
@@ -129,6 +164,10 @@
 
   &--plain &__content {
     width: 100%;
+  }
+
+  &--plain {
+    max-width: 100%;
   }
 
   &__text {
@@ -195,6 +234,11 @@
   border-radius: var(--ai-prompt-input-radius);
 
   @include utilities.fakeBorder(var(--ai-prompt-input-border-color));
+  @include utilities.forcedColorsOutline(var(--border-width), inset);
+
+  &--focus {
+    @include utilities.forcedColorsOutline($inset: inset);
+  }
 
   &:not(&--disabled):not(&--error):not(&--focus) {
     @include utilities.hover() {
@@ -217,6 +261,10 @@
   }
 
   &--disabled {
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
+
     --ai-prompt-input-background: var(
       --token-color-background-neutral-subtle
     );
@@ -374,6 +422,12 @@
   min-height: 0;
 
   --ai-conversation-peek: 3rem;
+  --ai-conversation-padding: 1rem;
+
+  &__content,
+  &__virtual-content {
+    padding-inline: var(--ai-conversation-padding);
+  }
 
   &__scroll {
     flex: 1 1 auto;
@@ -500,7 +554,7 @@
   }
 
   &__state {
-    color: var(--token-color-text-neutral-alternative);
+    color: var(--token-color-text-neutral);
   }
 
   &--done &__icon {
@@ -516,7 +570,7 @@
 
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
-    color: var(--token-color-text-error);
+    color: var(--token-color-text-neutral);
   }
 
   &__status ~ :not(&__error) {

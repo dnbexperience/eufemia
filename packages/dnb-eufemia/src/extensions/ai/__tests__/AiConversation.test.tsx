@@ -213,6 +213,29 @@ describe('Ai.Conversation', () => {
     expect(getScrollButton()).toBeNull()
   })
 
+  it('moves focus from the disappearing latest-message button to the latest message', () => {
+    render(
+      <Conversation scrollBehavior="end">
+        <Message>
+          Latest reply <button>Sources</button>
+        </Message>
+      </Conversation>
+    )
+    setScrollPosition(getScroll(), {
+      scrollHeight: 1000,
+      scrollTop: 0,
+      clientHeight: 400,
+      byUser: true,
+    })
+    getScrollButton().focus()
+    fireEvent.click(getScrollButton())
+    expect(document.querySelector('.dnb-ai-message')).toHaveFocus()
+    expect(document.querySelector('.dnb-ai-message')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+  })
+
   it('keeps following while scrolling down from the button', () => {
     render(<Conversation scrollBehavior="end" />)
 
