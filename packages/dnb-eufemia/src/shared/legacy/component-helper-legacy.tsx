@@ -111,8 +111,13 @@ export const detectOutsideClick = (
 
 // Used by detectOutsideClick
 export class DetectOutsideClickClass {
+  handleClickOutside:
+    | ((event: Event, onDone?: () => void) => void)
+    | null = null
+
   removeOutsideClickListener: (() => void) | null = null
   keydownCallback: ((event: KeyboardEvent) => void) | null = null
+  keyupCallback: ((event: KeyboardEvent) => void) | null = null
 
   constructor(
     ignoreElementsInput:
@@ -127,12 +132,24 @@ export class DetectOutsideClickClass {
         ? ignoreElementsInput
         : [ignoreElementsInput]
 
-    if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+    if (
+      !this.handleClickOutside &&
+      typeof document !== 'undefined' &&
+      typeof window !== 'undefined'
+    ) {
+      this.handleClickOutside = (event) => {
+        this.checkOutsideClick(
+          {
+            event,
+            ignoreElements,
+          },
+          () => typeof onSuccess === 'function' && onSuccess({ event })
+        )
+      }
       this.removeOutsideClickListener = addOutsideClickListener({
         // Capture phase, so stopPropagation (e.g. in a Popover) cannot hide the click
         capture: true,
-        // e.g. includedKeys = ['Tab']
-        keys: options.includedKeys ?? [],
+        keys: [],
         isInside: (target, event) =>
           !this.checkOutsideClick({ event, ignoreElements }),
         onOutsideClick: (event) => {
@@ -151,6 +168,23 @@ export class DetectOutsideClickClass {
         }
       }
       window.addEventListener('keydown', this.keydownCallback)
+
+      // e.g. includedKeys = ['Tab']
+      if (options.includedKeys) {
+        // use keyup so we get the correct new target
+        this.keyupCallback = (event) => {
+          if (
+            options.includedKeys.includes(event.key) &&
+            typeof this.handleClickOutside === 'function'
+          ) {
+            this.handleClickOutside(event, () => {
+              if (this.keyupCallback)
+                window.removeEventListener('keyup', this.keyupCallback)
+            })
+          }
+        }
+        window.addEventListener('keyup', this.keyupCallback)
+      }
     }
   }
 
@@ -159,9 +193,14 @@ export class DetectOutsideClickClass {
       this.removeOutsideClickListener()
       this.removeOutsideClickListener = null
     }
+    this.handleClickOutside = null
     if (this.keydownCallback && typeof window !== 'undefined') {
       window.removeEventListener('keydown', this.keydownCallback)
       this.keydownCallback = null
+    }
+    if (this.keyupCallback && typeof window !== 'undefined') {
+      window.removeEventListener('keyup', this.keyupCallback)
+      this.keyupCallback = null
     }
   }
 

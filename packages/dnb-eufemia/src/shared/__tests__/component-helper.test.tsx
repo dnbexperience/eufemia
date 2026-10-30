@@ -205,6 +205,30 @@ describe('"detectOutsideClick" should', () => {
     inside.remove()
   })
 
+  it('should keep listening for included key releases on window', () => {
+    const inside = document.createElement('BUTTON')
+    document.body.appendChild(inside)
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess, {
+      includedKeys: ['Tab'],
+    })
+
+    expect(typeof outsideClick.handleClickOutside).toBe('function')
+    expect(typeof outsideClick.keyupCallback).toBe('function')
+
+    fireEvent.keyUp(window, { key: 'Tab' })
+
+    expect(onSuccess).toHaveBeenCalledTimes(1)
+
+    outsideClick.remove()
+
+    expect(outsideClick.handleClickOutside).toBeNull()
+    expect(outsideClick.keyupCallback).toBeNull()
+
+    inside.remove()
+  })
+
   it('should support react refs as ignore element', async () => {
     // Set PointerEvent to undefined to prevent the await keyword from failing this test
     // Is there perhaps a better way to handle this?

@@ -9,7 +9,7 @@ export type OutsideClickOptions = {
   isInside: (target: Node, event: Event) => boolean
 
   /**
-   * Called on a mousedown, a tap or a released key outside.
+   * Called on a press, a tap or a released key outside.
    */
   onOutsideClick: (event: OutsideClickEvent) => void
 
@@ -24,6 +24,11 @@ export type OutsideClickOptions = {
    * Defaults to all keys. An empty list ignores the keyboard.
    */
   keys?: Array<string>
+
+  /**
+   * The event that counts as a mouse or pen press. Defaults to `mousedown`.
+   */
+  pressEvent?: 'mousedown' | 'pointerdown'
 
   /**
    * Gets the events that a parent stops before they reach the document.
@@ -41,6 +46,7 @@ export function addOutsideClickListener({
   onOutsideClick,
   capture = false,
   keys,
+  pressEvent = 'mousedown',
   subscribe,
 }: OutsideClickOptions) {
   if (typeof document === 'undefined') {
@@ -60,7 +66,12 @@ export function addOutsideClickListener({
     return true
   }
 
-  const handleMouseDown = (event: Event) => {
+  const handlePress = (event: Event) => {
+    // A touch counts on touchend, as a tap
+    if ((event as PointerEvent).pointerType === 'touch') {
+      return // stop here
+    }
+
     // Browsers follow a tap with a mousedown, which the tap already counted for
     if (event.timeStamp - tapTimeStamp < 1000) {
       return // stop here
@@ -103,7 +114,7 @@ export function addOutsideClickListener({
   const root = document
   const touchOptions = { capture, passive: true }
 
-  root.addEventListener('mousedown', handleMouseDown, capture)
+  root.addEventListener(pressEvent, handlePress, capture)
   root.addEventListener('touchstart', handleTouchStart, touchOptions)
   root.addEventListener('touchmove', handleTouchMove, touchOptions)
   root.addEventListener('touchend', handleTouchEnd, touchOptions)
@@ -113,13 +124,13 @@ export function addOutsideClickListener({
     if (event.type === 'touchstart') {
       handleTouchStart(event)
     } else {
-      handleMouseDown(event)
+      handlePress(event)
     }
   })
 
   return () => {
     unsubscribe?.()
-    root.removeEventListener('mousedown', handleMouseDown, capture)
+    root.removeEventListener(pressEvent, handlePress, capture)
     root.removeEventListener('touchstart', handleTouchStart, capture)
     root.removeEventListener('touchmove', handleTouchMove, capture)
     root.removeEventListener('touchend', handleTouchEnd, capture)
@@ -139,7 +150,7 @@ export default function useOutsideClick({
   const optionsRef = useRef(options)
   optionsRef.current = options
 
-  const { capture, subscribe } = options
+  const { capture, pressEvent, subscribe } = options
 
   useEffect(() => {
     if (!enabled) {
@@ -148,11 +159,12 @@ export default function useOutsideClick({
 
     return addOutsideClickListener({
       capture,
+      pressEvent,
       subscribe,
       keys: optionsRef.current.keys,
       isInside: (target, event) =>
         optionsRef.current.isInside(target, event),
       onOutsideClick: (event) => optionsRef.current.onOutsideClick(event),
     })
-  }, [enabled, capture, subscribe])
+  }, [enabled, capture, pressEvent, subscribe])
 }
