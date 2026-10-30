@@ -1529,6 +1529,22 @@ describe('GlobalStatus component', () => {
       expect(target).not.toHaveClass('dnb-no-focus')
     })
 
+    it('should focus a link target without href', () => {
+      const link = renderWithTarget(<a id="target">Target</a>)
+      const target = document.getElementById('target')
+
+      fireEvent.click(link)
+
+      expect(document.activeElement).toBe(target)
+
+      act(() => {
+        document.querySelector('button').focus()
+      })
+
+      expect(target).not.toHaveAttribute('tabindex')
+      expect(target).not.toHaveClass('dnb-no-focus')
+    })
+
     it('should keep the tabindex of a target that can get focus on its own', () => {
       const link = renderWithTarget(
         <div id="target" tabIndex={-1}>

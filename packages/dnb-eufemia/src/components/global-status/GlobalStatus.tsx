@@ -29,7 +29,6 @@ import {
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
-import { applyPageFocus } from '../../shared/helpers'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type {
   HeightAnimationOnStart,
@@ -357,8 +356,35 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           }
 
           isElementVisible(element, (elem) => {
-            // Focus shows the "attention-focus" animation of FormStatus
-            applyPageFocus(elem, null, { preventScroll: true })
+            try {
+              const hasTabIndex = elem.hasAttribute('tabindex')
+              const hasNoFocus = elem.classList.contains('dnb-no-focus')
+
+              // No focus ring, FormStatus shows an "attention-focus" animation
+              if (!hasNoFocus) {
+                elem.classList.add('dnb-no-focus')
+              }
+              if (!hasTabIndex) {
+                elem.setAttribute('tabindex', '-1')
+              }
+
+              elem.addEventListener(
+                'blur',
+                () => {
+                  if (!hasTabIndex) {
+                    elem.removeAttribute('tabindex')
+                  }
+                  if (!hasNoFocus) {
+                    elem.classList.remove('dnb-no-focus')
+                  }
+                },
+                { once: true }
+              )
+
+              elem.focus({ preventScroll: true })
+            } catch (e) {
+              warn('GlobalStatus: Failed to focus status element:', e)
+            }
           })
 
           if (typeof element.scrollIntoView === 'function') {
