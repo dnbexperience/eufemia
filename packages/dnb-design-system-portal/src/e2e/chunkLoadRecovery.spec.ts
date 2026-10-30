@@ -4,7 +4,7 @@ import waitForApp from './shared/waitForApp'
 const chunkPatterns = {
   entry: /\/assets\/index-[^/]+\.js$/,
   dependency: /\/assets\/jsx-runtime-[^/]+\.js$/,
-  layout: /\/assets\/ChangeStyleTheme-[^/]+\.js$/,
+  layout: /\/assets\/SpacingUtils-[^/]+\.js$/,
   page: /\/assets\/BankAccountNumber-[^/]+\.js$/,
 }
 
