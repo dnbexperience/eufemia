@@ -228,9 +228,9 @@
       transform-origin: left;
       border-radius: inherit;
 
+      // !important, so that it also wins over the inline customColors.line
       @media (forced-colors: active) {
-        forced-color-adjust: none;
-        background-color: Highlight;
+        background-color: Highlight !important;
       }
     }
 

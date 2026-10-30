@@ -1373,7 +1373,6 @@ legend.dnb-form-label {
 }
 @media (forced-colors: active) {
   .dnb-slider__marker {
-    forced-color-adjust: none;
     background-color: CanvasText;
   }
 }
@@ -1447,7 +1446,6 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
 }
 @media (forced-colors: active) {
   .dnb-slider__line {
-    forced-color-adjust: none;
     background-color: Highlight;
   }
 }

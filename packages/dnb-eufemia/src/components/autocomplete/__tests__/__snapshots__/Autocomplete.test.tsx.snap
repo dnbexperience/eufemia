@@ -2303,8 +2303,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 @media (forced-colors: active) {
   .dnb-progress-indicator__linear__bar {
-    forced-color-adjust: none;
-    background-color: Highlight;
+    background-color: Highlight !important;
   }
 }
 .dnb-progress-indicator__linear__bar-transition {
