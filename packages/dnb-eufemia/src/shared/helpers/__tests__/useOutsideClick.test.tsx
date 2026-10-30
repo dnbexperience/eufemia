@@ -202,10 +202,7 @@ describe('useOutsideClick', () => {
   })
 
   it('should use the latest callbacks without adding the listeners again', () => {
-    const addEventListener = vi.spyOn(
-      document.documentElement,
-      'addEventListener'
-    )
+    const addEventListener = vi.spyOn(document, 'addEventListener')
     const first = vi.fn()
     const second = vi.fn()
 
@@ -220,6 +217,12 @@ describe('useOutsideClick', () => {
     )
 
     const callCount = addEventListener.mock.calls.length
+    expect(addEventListener).toHaveBeenCalledWith(
+      'mousedown',
+      expect.any(Function),
+      false
+    )
+
     rerender({ onOutsideClick: second })
     fireEvent.mouseDown(outside)
 
