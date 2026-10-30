@@ -111,6 +111,27 @@ function normalizeMinusSign(parts: FormatPartItem[]): FormatPartItem[] {
 }
 
 /**
+ * Removes the minus sign when a negative value is formatted as zero,
+ * e.g. -0.004 with two decimals, so it is not shown as "−0,00".
+ */
+function removeMinusSignFromZero(
+  parts: FormatPartItem[],
+  signDisplay: InternalNumberFormatOptions['signDisplay']
+): FormatPartItem[] {
+  if (signDisplay && signDisplay !== 'auto') {
+    return parts
+  }
+
+  const digits = parts.filter(
+    ({ type }) => type === 'integer' || type === 'fraction'
+  )
+  const isZero =
+    digits.length > 0 && digits.every(({ value }) => /^0+$/.test(value))
+
+  return isZero ? parts.filter(({ type }) => type !== 'minusSign') : parts
+}
+
+/**
  * Aligns the currency symbol in the output based on the currency display option.
  * "norske kroner" ("Norwegian kroner") will be changed to "kroner" if the
  * currency display option is set to "name".
@@ -272,11 +293,14 @@ export const formatNumberCoreParts = (
     delete options.decimals
 
     parts = normalizeMinusSign(
-      getFormatParts({
-        number: formatter ? Number(number) : parseFloat(String(number)),
-        locale,
-        options,
-      })
+      removeMinusSignFromZero(
+        getFormatParts({
+          number: formatter ? Number(number) : parseFloat(String(number)),
+          locale,
+          options,
+        }),
+        options.signDisplay
+      )
     ).map((item) => (formatter ? formatter(item) : item))
     parts = alignParts(parts, options.currencyDisplay)
     number = joinParts(parts)

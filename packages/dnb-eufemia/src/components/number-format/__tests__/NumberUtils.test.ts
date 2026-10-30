@@ -283,6 +283,32 @@ describe('Decimals format', () => {
       expect(formatNumber(0)).toBe('0')
     })
 
+    it('auto (default) should not display a minus when the value gets rounded to zero', () => {
+      expect(formatCurrency(-0)).toBe('0,00 kr')
+      expect(formatCurrency(-0.004)).toBe('0,00 kr')
+      expect(formatCurrency(-0.004, { signDisplay: 'auto' })).toBe(
+        '0,00 kr'
+      )
+      expect(formatCurrency(-0.004, { locale: 'en-GB' })).toBe(
+        'NOK\u00A00.00'
+      )
+      expect(formatNumber(-0.001, { decimals: 2 })).toBe('0,00')
+      expect(formatPercent(-0.001, { decimals: 1 })).toBe('0,0\u00A0%')
+      expect(formatCurrency(-0.004, { returnAria: true })).toMatchObject({
+        number: '0,00 kr',
+        aria: '0,00 kroner',
+      })
+    })
+
+    it('auto (default) should keep the minus when the value does not get rounded to zero', () => {
+      expect(formatCurrency(-0.005)).toBe('−0,01 kr')
+      expect(formatNumber(-0.05, { decimals: 1 })).toBe('−0,1')
+      expect(formatNumber(-Infinity, { locale: 'en-GB' })).toBe('−∞')
+      expect(formatCurrency(-0.004, { signDisplay: 'always' })).toBe(
+        '−0,00 kr'
+      )
+    })
+
     it('always', () => {
       expect(formatNumber(1234, { signDisplay: 'always' })).toBe(
         '+1\u00A0234'
@@ -568,22 +594,22 @@ describe('Currency format with dirty number', () => {
     ).toBe('−NOK\u00A0123,456,789.50')
     expect(
       formatCurrency(-0, { currencyPosition: 'after', locale: 'en-GB' })
-    ).toBe('−0.00 NOK')
+    ).toBe('0.00 NOK')
     expect(
       formatCurrency(-0, { currencyPosition: 'after', locale: 'en-US' })
-    ).toBe('−0.00 NOK')
+    ).toBe('0.00 NOK')
     expect(
       formatCurrency('-0', { currencyPosition: 'after', locale: 'en-GB' })
-    ).toBe('−0.00 NOK')
+    ).toBe('0.00 NOK')
     expect(
       formatCurrency('-0', { currencyPosition: 'after', locale: 'en-US' })
-    ).toBe('−0.00 NOK')
+    ).toBe('0.00 NOK')
     expect(
       formatCurrency('-0', { currencyPosition: 'before', locale: 'en-GB' })
-    ).toBe('−NOK\u00A00.00')
+    ).toBe('NOK\u00A00.00')
     expect(
       formatCurrency('-0', { currencyPosition: 'before', locale: 'en-US' })
-    ).toBe('−NOK\u00A00.00')
+    ).toBe('NOK\u00A00.00')
     expect(
       formatCurrency('something 1234 something', {
         clean: true,

@@ -94,7 +94,7 @@ export type NumberFormatOptionParams = {
    * - `auto` (default): sign display for negative numbers only.
    * - `always`: always display sign.
    * - `exceptZero`: sign display for positive and negative numbers, but not zero.
-   * - `negative`: sign display for negative numbers only, including negative zero.
+   * - `negative`: sign display for negative numbers only, excluding negative zero.
    * - `never`: never display sign.
    */
   signDisplay?: 'auto' | 'always' | 'exceptZero' | 'negative' | 'never'
