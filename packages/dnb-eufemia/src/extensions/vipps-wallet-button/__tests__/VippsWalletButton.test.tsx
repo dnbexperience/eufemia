@@ -3,7 +3,7 @@
  *
  */
 
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import VippsWalletButton from '../VippsWalletButton'
 import { Provider } from '../../../shared'
 
@@ -88,27 +88,20 @@ describe('VippsWalletButton', () => {
     expect(element).toBeDisabled()
   })
 
-  it('ignores clicks but keeps focus when pending is true', () => {
-    const onClick = vi.fn()
-    render(<VippsWalletButton pending={true} onClick={onClick} />)
+  it('is disabled when pending is true', () => {
+    render(<VippsWalletButton pending={true} />)
 
     const element = document.querySelector('button')
-    element.focus()
-    fireEvent.click(element)
 
-    expect(element).not.toBeDisabled()
-    expect(element).toHaveAttribute('aria-disabled', 'true')
-    expect(document.activeElement).toBe(element)
-    expect(onClick).toHaveBeenCalledTimes(0)
+    expect(element).toBeDisabled()
   })
 
-  it('keeps focus when both disabled and pending are true', () => {
+  it('is disabled when both disabled and pending are true', () => {
     render(<VippsWalletButton disabled={true} pending={true} />)
 
     const element = document.querySelector('button')
 
-    expect(element).not.toBeDisabled()
-    expect(element).toHaveAttribute('aria-disabled', 'true')
+    expect(element).toBeDisabled()
   })
 
   it('is not disabled when neither disabled nor pending is set', () => {

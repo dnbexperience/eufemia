@@ -5,9 +5,15 @@
 
 import { clsx } from 'clsx'
 import Button, { type ButtonProps } from '../../components/button/Button'
+import SubmitIndicator from '../../components/button/internal/SubmitIndicator'
 import useTranslation from '../../shared/useTranslation'
 
-export type VippsWalletButtonProps = Omit<ButtonProps, 'variant'>
+export type VippsWalletButtonProps = Omit<
+  ButtonProps,
+  'variant' | 'pending'
+> & {
+  pending?: boolean
+}
 
 export default function VippsWalletButton({
   className,
@@ -22,9 +28,10 @@ export default function VippsWalletButton({
       {...props}
       variant="primary"
       className={clsx('dnb-vipps-wallet-button', className)}
-      pending={Boolean(pending)}
+      disabled={props.disabled || pending}
     >
       {buttonText} <VippsLogo />
+      <SubmitIndicator state={pending ? 'pending' : undefined} />
     </Button>
   )
 }

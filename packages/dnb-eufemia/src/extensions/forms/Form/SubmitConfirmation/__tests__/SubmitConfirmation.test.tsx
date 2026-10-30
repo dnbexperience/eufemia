@@ -391,7 +391,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
       await waitFor(() => {
-        expect(submitButton).toHaveAttribute('aria-disabled', 'true')
+        expect(submitButton).toBeDisabled()
       })
 
       await act(submitHandlerRef.current)
@@ -529,7 +529,6 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       // Wait for submit button to be re-enabled
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
-        expect(submitButton).not.toHaveAttribute('aria-disabled')
       })
 
       // Click submit again
@@ -716,7 +715,6 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
 
     await waitFor(() => {
       expect(submitButton).not.toBeDisabled()
-      expect(submitButton).not.toHaveAttribute('aria-disabled')
     })
 
     fireEvent.submit(submitButton)

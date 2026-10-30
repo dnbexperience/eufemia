@@ -7,12 +7,12 @@ export const SubmitButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showIndicator: {
-    doc: 'Show the submit indicator and ignore clicks, like the Button `pending` property.',
+    doc: 'Show the submit indicator.',
     type: 'boolean',
     status: 'optional',
   },
   '[Button](/uilib/components/button/properties)': {
-    doc: 'All button properties. A given `onClick` runs before the form is submitted, instead of replacing the submit.',
+    doc: 'All button properties, except `pending`. A given `onClick` runs before the form is submitted, instead of replacing the submit.',
     type: 'Various',
     status: 'optional',
   },

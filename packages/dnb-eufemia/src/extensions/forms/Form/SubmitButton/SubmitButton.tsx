@@ -5,6 +5,7 @@ import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'
+import SubmitIndicator from '../SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
 import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
@@ -13,11 +14,11 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type FormSubmitButtonProps = {
   /**
-   * Show the submit indicator and ignore clicks, like the Button `pending` property.
+   * Show the submit indicator.
    */
   showIndicator?: boolean
 } & ComponentProps &
-  Omit<ButtonProps, 'variant'> &
+  Omit<ButtonProps, 'variant' | 'pending'> &
   Partial<
     Omit<HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>, 'title'>
   > & {
@@ -27,15 +28,8 @@ export type FormSubmitButtonProps = {
 function SubmitButton(props: FormSubmitButtonProps) {
   const translations = useTranslation().SubmitButton
 
-  const {
-    variant,
-    className,
-    showIndicator,
-    pending,
-    children,
-    text,
-    ...rest
-  } = props
+  const { variant, className, showIndicator, children, text, ...rest } =
+    props
 
   const content =
     text ||
@@ -67,11 +61,11 @@ function SubmitButton(props: FormSubmitButtonProps) {
 
   const isActiveSubmitButton =
     !activeSubmitButtonId || activeSubmitButtonId === submitButtonId
-  const isPending = Boolean(
-    pending ||
-    showIndicator ||
-    (isActiveSubmitButton && formState === 'pending')
-  )
+  const indicatorState = showIndicator
+    ? 'pending'
+    : isActiveSubmitButton
+      ? formState
+      : undefined
 
   return (
     <Button
@@ -80,10 +74,11 @@ function SubmitButton(props: FormSubmitButtonProps) {
       variant={variant === 'secondary' ? 'secondary' : undefined}
       icon={variant === 'send' ? send : null}
       data-form-submit-button-id={submitButtonId}
-      pending={isPending}
       {...mergeProps({ onClick: onClickHandler }, rest)}
     >
       {content}
+
+      <SubmitIndicator state={indicatorState} />
     </Button>
   )
 }

@@ -996,14 +996,14 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       fireEvent.click(submitButton)
 
       await waitFor(() => {
-        expect(submitButton).toHaveAttribute('aria-disabled', 'true')
+        expect(submitButton).toBeDisabled()
         expect(indicator).toHaveClass(
           'dnb-forms-submit-indicator--state-pending'
         )
       })
 
       await waitFor(() => {
-        expect(submitButton).toHaveAttribute('aria-disabled', 'true')
+        expect(submitButton).toBeDisabled()
         expect(onSubmitComplete).toHaveBeenCalledTimes(1)
         expect(onSubmitComplete).toHaveBeenCalledWith(
           { foo: undefined },
@@ -1012,7 +1012,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       })
 
       await waitFor(() => {
-        expect(submitButton).toHaveAttribute('aria-disabled', 'true')
+        expect(submitButton).toBeDisabled()
         expect(indicator).toHaveClass(
           'dnb-forms-submit-indicator--state-pending'
         )
@@ -1076,8 +1076,10 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
         await waitFor(() => {
           expect(
-            setTimeoutSpy.mock.calls.some(([, delay]) => delay === 9876)
-          ).toBe(true)
+            document.querySelector(
+              '.dnb-forms-submit-indicator--state-abort'
+            )
+          ).toBeInTheDocument()
         })
 
         const abortResetTimer = setTimeoutSpy.mock.results.find(
@@ -1859,7 +1861,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       fireEvent.click(buttonElement)
 
       await waitFor(() => {
-        expect(buttonElement).toHaveAttribute('aria-disabled', 'true')
+        expect(buttonElement).toBeDisabled()
         expect(
           buttonElement.querySelector(
             '.dnb-forms-submit-indicator--state-pending'
@@ -1887,7 +1889,6 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       await waitFor(() => {
         expect(buttonElement).not.toBeDisabled()
-        expect(buttonElement).not.toHaveAttribute('aria-disabled')
       })
 
       await userEvent.type(inputElement, '{Backspace>10}')

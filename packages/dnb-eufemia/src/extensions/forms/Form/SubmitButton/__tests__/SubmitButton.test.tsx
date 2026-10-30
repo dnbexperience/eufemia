@@ -5,7 +5,6 @@ import { Form, Field, Wizard } from '../../..'
 import { Provider } from '../../../../../shared'
 
 import nbNO from '../../../constants/locales/nb-NO'
-import sharedNbNO from '../../../../../shared/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Form.SubmitButton', () => {
@@ -526,7 +525,7 @@ describe('Form.SubmitButton', () => {
     expect(indicatorContentElement).toHaveAttribute('role', 'status')
     expect(indicatorContentElement).toHaveAttribute(
       'aria-label',
-      sharedNbNO['nb-NO'].SubmitIndicator.label
+      nb.SubmitIndicator.label
     )
   })
 
@@ -550,53 +549,18 @@ describe('Form.SubmitButton', () => {
     ).toHaveAttribute('aria-label', 'Vent litt')
   })
 
-  it('should keep focus and ignore clicks while the form is pending', async () => {
-    let resolveSubmit: () => void
-    const onSubmit = vi.fn(async () => {
-      await new Promise<void>((resolve) => {
-        resolveSubmit = resolve
-      })
-    })
+  it('should still submit when showIndicator is set', () => {
+    const onSubmit = vi.fn()
 
     render(
-      <Form.Handler onSubmit={onSubmit} minimumAsyncBehaviorTime={10}>
-        <Form.SubmitButton />
-        <Form.SubmitButton text="Other" />
+      <Form.Handler onSubmit={onSubmit}>
+        <Form.SubmitButton showIndicator />
       </Form.Handler>
     )
 
-    const [submitButton, otherButton] = Array.from(
-      document.querySelectorAll('button')
-    )
-    const pendingIndicator = () =>
-      submitButton.querySelector(
-        '.dnb-forms-submit-indicator--state-pending'
-      )
+    fireEvent.click(document.querySelector('button'))
 
-    submitButton.focus()
-    fireEvent.click(submitButton)
-
-    await waitFor(() => {
-      expect(pendingIndicator()).toBeInTheDocument()
-    })
-
-    expect(submitButton).not.toBeDisabled()
-    expect(submitButton).toHaveAttribute('aria-disabled', 'true')
-    expect(submitButton).toHaveClass('dnb-button--pending')
-    expect(document.activeElement).toBe(submitButton)
-    expect(otherButton).toBeDisabled()
-
-    fireEvent.click(submitButton)
     expect(onSubmit).toHaveBeenCalledTimes(1)
-
-    resolveSubmit()
-
-    await waitFor(() => {
-      expect(pendingIndicator()).not.toBeInTheDocument()
-    })
-    expect(submitButton).not.toHaveAttribute('aria-disabled')
-    expect(submitButton).not.toHaveClass('dnb-button--pending')
-    expect(otherButton).not.toBeDisabled()
   })
 
   it('should support custom text with submit indicator', () => {
