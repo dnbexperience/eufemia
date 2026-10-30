@@ -15,6 +15,9 @@ export default {
       text: 'Send',
       sendText: 'Send inn',
     },
+    SubmitIndicator: {
+      label: 'Vennligst vent',
+    },
     Isolation: {
       commitButtonText: 'Legg til',
       preventUncommittedChangesText:

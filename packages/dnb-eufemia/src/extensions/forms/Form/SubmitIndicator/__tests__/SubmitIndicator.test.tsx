@@ -2,8 +2,12 @@ import { useReducer } from 'react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
-import { axeComponent } from '../../../../../core/test-utils/testSetup'
+import {
+  axeComponent,
+  loadScss,
+} from '../../../../../core/test-utils/testSetup'
 import locales from '../../../../../shared/locales'
+import svSE_forms from '../../../constants/locales/sv-SE'
 
 const nbNO = locales['nb-NO']
 
@@ -143,6 +147,23 @@ describe('Form.SubmitIndicator', () => {
     )
 
     expect(dots).toHaveAttribute('aria-label', 'Custom label')
+  })
+
+  it('should use the label from the forms translations given to Form.Handler', () => {
+    render(
+      <Form.Handler translations={svSE_forms} locale="sv-SE">
+        <Form.SubmitIndicator state="pending" />
+      </Form.Handler>
+    )
+
+    const dots = document.querySelector(
+      '.dnb-forms-submit-indicator__content'
+    )
+
+    expect(dots).toHaveAttribute(
+      'aria-label',
+      svSE_forms['sv-SE'].SubmitIndicator.label
+    )
   })
 
   it('should render when showLabel is true', () => {
@@ -447,5 +468,15 @@ describe('Form.SubmitIndicator', () => {
     await userEvent.click(button)
 
     expect(element).toHaveTextContent('Label 2')
+  })
+})
+
+describe('Form.SubmitIndicator scss', () => {
+  it('includes the indicator styles in its forms style entry', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-form-submit-indicator.scss'))
+    )
+
+    expect(css).toContain('@keyframes submit-indicator-dot')
   })
 })
