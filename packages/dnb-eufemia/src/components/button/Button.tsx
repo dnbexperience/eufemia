@@ -56,6 +56,7 @@ const buttonDefaultProps: Partial<ButtonProps> = {
   bounding: null,
   stretch: null,
   skeleton: null,
+  pending: null,
   disabled: null,
   tooltip: null,
   status: null,
@@ -118,6 +119,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     statusNoAnimation,
     globalStatus,
     disabled,
+    pending,
     text: _text,
     icon: _icon,
     iconPosition,
@@ -219,6 +221,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
       isIconOnly && 'dnb-button--icon-only',
       selected && 'dnb-button--selected',
       wrap && 'dnb-button--wrap',
+      pending && 'dnb-button--pending',
       status && `dnb-button__status--${statusState}`,
       createSkeletonClass(
         variant === 'tertiary' ? 'font' : 'shape',
@@ -231,7 +234,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     ),
     title: titleString,
     id: resolvedId,
-    disabled,
+    disabled: pending ? undefined : disabled,
     ...attributes,
     ...(Element === Anchor && { omitClass: true }),
   })
@@ -270,6 +273,15 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     }
   }
 
+  // A pending Button keeps focus, so it ignores clicks instead of being disabled
+  if (pending) {
+    params['aria-disabled'] = true
+    params.onClick = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+  }
+
   if (Element !== Anchor && !params.type) {
     params.type = params.type === '' ? undefined : 'button'
   }
@@ -302,6 +314,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
           customContent={customContent}
           isIconOnly={isIconOnly}
           skeleton={skeleton}
+          pending={pending}
           transitionState={transitionState}
           iconElement={pickIcon(usedIcon, 'dnb-button__icon')}
         />

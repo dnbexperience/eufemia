@@ -74,6 +74,9 @@ export default {
     ProgressIndicator: {
       indicatorLabel: 'Please wait ...',
     },
+    SubmitIndicator: {
+      label: 'Please wait',
+    },
     DrawerList: {
       defaultGroupSR: 'Default options',
       missingGroup: 'Group',

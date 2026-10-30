@@ -73,6 +73,9 @@ export default {
     ProgressIndicator: {
       indicatorLabel: 'Vennligst vent ...',
     },
+    SubmitIndicator: {
+      label: 'Vennligst vent',
+    },
     DrawerList: {
       defaultGroupSR: 'Standardvalg',
       missingGroup: 'Gruppe',

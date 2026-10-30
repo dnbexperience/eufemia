@@ -74,6 +74,9 @@ export default {
     ProgressIndicator: {
       indicatorLabel: 'Vänligen vänta ...',
     },
+    SubmitIndicator: {
+      label: 'Vänligen vänta',
+    },
     DrawerList: {
       defaultGroupSR: 'Standardval',
       missingGroup: 'Grupp',

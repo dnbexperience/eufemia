@@ -16,9 +16,6 @@ export default {
       text: 'Skicka',
       sendText: 'Skicka in',
     },
-    SubmitIndicator: {
-      label: 'Vänligen vänta',
-    },
     Isolation: {
       commitButtonText: 'Lägg till',
       preventUncommittedChangesText:

@@ -1,3 +1,4 @@
+// The class names keep the forms prefix, so existing styles and tests keep working
 .dnb-forms-submit-indicator {
   --padding-left: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
@@ -92,30 +93,5 @@
   100% {
     opacity: 0.2;
     transform: scale(0.75);
-  }
-}
-
-@keyframes submit-indicator-success {
-  0% {
-    opacity: 0.2;
-    font-size: 1em;
-  }
-  20% {
-    opacity: 1;
-    font-size: 1em;
-  }
-  80% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 0.3;
-    font-size: 1em;
-  }
-  90% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-    font-size: 0;
   }
 }

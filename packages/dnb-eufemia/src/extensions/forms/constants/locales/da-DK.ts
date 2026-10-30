@@ -16,9 +16,6 @@ export default {
       text: 'Send',
       sendText: 'Indsend',
     },
-    SubmitIndicator: {
-      label: 'Vent venligst',
-    },
     Isolation: {
       commitButtonText: 'Tilføj',
       preventUncommittedChangesText:

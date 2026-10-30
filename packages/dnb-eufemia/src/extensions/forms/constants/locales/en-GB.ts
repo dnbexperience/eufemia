@@ -16,9 +16,6 @@ export default {
       text: 'Send',
       sendText: 'Send',
     },
-    SubmitIndicator: {
-      label: 'Please wait',
-    },
     Isolation: {
       commitButtonText: 'Add',
       preventUncommittedChangesText:
