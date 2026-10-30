@@ -18,6 +18,7 @@ import {
 } from './StickyMenuBar.module.scss'
 import { Link } from '../tags/Anchor'
 import { useHasScrolled } from '@dnb/eufemia/src/shared'
+import { useLocation } from 'react-router'
 
 export default function StickyMenuBar() {
   const { inlineCollapsed, isCompact, open } = SidebarMenu.useResponsive()
@@ -25,11 +26,13 @@ export default function StickyMenuBar() {
   const menuLabel = open
     ? 'Hide section content menu'
     : 'Open section content menu'
+  const home = useLocation().pathname === '/'
 
   return (
     <header
       className={clsx(headerStyle, 'sticky-menu', 'dev-grid')}
       data-scrolled={hasScrolled ? 'true' : undefined}
+      data-home={home || undefined}
     >
       <div
         className={portalHeaderWrapperStyle}
@@ -64,10 +67,12 @@ export default function StickyMenuBar() {
           </Link>
         </span>
 
-        <span className={toolsStyle}>
-          <SearchBarInput />
-          <PortalToolsMenu />
-        </span>
+        {!home && (
+          <span className={toolsStyle}>
+            <SearchBarInput />
+            <PortalToolsMenu />
+          </span>
+        )}
       </div>
     </header>
   )
