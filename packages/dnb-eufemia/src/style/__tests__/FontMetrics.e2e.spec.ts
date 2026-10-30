@@ -69,7 +69,14 @@ test('centers DNB button labels across sizes, root scaling and native text size'
           )
         }, size)
         await page.evaluate(() => document.fonts.ready)
-        await expect(button).toHaveCSS('height', height * rootScale + 'px')
+        // Allow subpixel rounding of line-box heights in WebKit.
+        await expect
+          .poll(() =>
+            button.evaluate(
+              (element) => element.getBoundingClientRect().height
+            )
+          )
+          .toBeCloseTo(height * rootScale, 1)
         await expect(button.locator('.dnb-button__text')).toHaveCSS(
           'font-weight',
           '500'
