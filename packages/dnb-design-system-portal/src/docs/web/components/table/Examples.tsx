@@ -457,7 +457,7 @@ export const StackedContainer = () => {
     >
       {() => {
         const StyledContainer = styled(TableContainer)`
-          /* 
+          /*
             Define the width of the THs so they are aligned across tables.
             A "fixed" table width is needed in order to align all tables to act with the same column widths.
           */

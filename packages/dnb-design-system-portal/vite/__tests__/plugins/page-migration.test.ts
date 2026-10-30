@@ -14,6 +14,26 @@ import {
 
 describe('MDX route migration', () => {
   it.each([
+    'helpers/shared-state',
+    'usage/customisation/styling/printable-apps',
+    'usage/customisation/styling/document-styles/visual-tests/plain',
+  ])('preserves new documentation and aliases for %s', (relativePath) => {
+    const files = scanPageFiles(
+      path.resolve(__dirname, '../../../src/docs')
+    )
+    expect(
+      files.find(({ slug }) => slug === 'web/' + relativePath)
+    ).toBeDefined()
+    expect(files.some(({ slug }) => slug.startsWith('uilib/'))).toBe(false)
+    expect(getPageRedirects(files)).toContainEqual(
+      expect.objectContaining({
+        from: '/uilib/' + relativePath,
+        to: '/web/' + relativePath + '/',
+      })
+    )
+  })
+
+  it.each([
     'components/list/visual-tests/action-footer',
     'components/card/visual-tests/inside-scroll-view',
     'extensions/sidebar-menu/visual-tests/first-paint',
