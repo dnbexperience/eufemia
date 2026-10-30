@@ -42,9 +42,13 @@
       --block-outline-color: transparent;
     }
 
+    &--variant-filled {
+      --block-outline-color: var(--token-color-stroke-neutral-base);
+    }
+
     &--variant-filled &__inner {
       --space: 1rem;
-      background-color: var(--token-color-background-neutral-alternative);
+      background-color: var(--token-color-background-neutral-base);
     }
 
     &--no-animation &__inner {
