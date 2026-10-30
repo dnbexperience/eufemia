@@ -3,6 +3,7 @@
  *
  */
 
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, Flex, IconPrimary, P, Section } from '@dnb/eufemia/src'
@@ -54,6 +55,41 @@ export const ButtonDisabled = () => (
         disabled
       />
     </Flex.Horizontal>
+  </ComponentBox>
+)
+
+export const ButtonPending = () => (
+  <ComponentBox data-visual-test="button-pending">
+    <Flex.Horizontal layoutEngine="css" gap="medium" align="center">
+      <Button text="Primary" pending />
+      <Button text="Secondary" variant="secondary" pending />
+      <Button
+        text="Tertiary"
+        variant="tertiary"
+        icon="chevron_right"
+        pending
+      />
+    </Flex.Horizontal>
+  </ComponentBox>
+)
+
+export const ButtonPendingAsync = () => (
+  <ComponentBox>
+    {() => {
+      const SaveButton = () => {
+        const [pending, setPending] = useState(false)
+
+        const save = async () => {
+          setPending(true)
+          await new Promise((resolve) => setTimeout(resolve, 2000))
+          setPending(false)
+        }
+
+        return <Button text="Save" pending={pending} onClick={save} />
+      }
+
+      return <SaveButton />
+    }}
   </ComponentBox>
 )
 
