@@ -9,40 +9,28 @@
 
 export const categoryOrder = [
   {
-    id: 'actions',
-    title: 'Actions',
+    id: 'general',
+    title: 'General',
     description:
-      'For things people click to do something, open choices, follow a link, or get help.',
+      'Components for common interface patterns, including actions, inputs, navigation, feedback, and content.',
   },
   {
-    id: 'input',
-    title: 'Input',
+    id: 'formatting',
+    title: 'Formatting and typography',
     description:
-      'For entering information, choosing options, uploading files, or changing values.',
+      'Components for formatting dates, numbers, lists, and text.',
   },
   {
-    id: 'navigation',
-    title: 'Navigation',
+    id: 'accessibility',
+    title: 'Accessibility',
     description:
-      'For helping people move between pages, jump to content, or continue through steps.',
+      'Components for announcements, keyboard navigation, and screen reader content.',
   },
   {
-    id: 'feedback',
-    title: 'Feedback',
+    id: 'utilities',
+    title: 'Utilities',
     description:
-      'For messages and panels that tell people what happened, what is happening, or what needs attention.',
-  },
-  {
-    id: 'content',
-    title: 'Content',
-    description:
-      'For showing information, such as text, numbers, tables, icons, lists, and cards.',
-  },
-  {
-    id: 'other',
-    title: 'Other',
-    description:
-      'For special page behavior that does not fit the groups above.',
+      'Components for scrolling, animation, copying, and rendering outside the page flow.',
   },
 ] as const
 
@@ -94,7 +82,7 @@ export function getCategoryId(
     return category
   }
 
-  return 'other'
+  return 'general'
 }
 
 export function getCategoryTitle(id: CategoryId): string {

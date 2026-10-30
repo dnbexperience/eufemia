@@ -5,6 +5,7 @@ import { getPortalPages } from '../../../../vite/client/plugins/portal-pages'
 import type { MdxNode } from '../../../../vite/client/plugins/portal-pages.shared'
 import { createMdxSidebarNavigation } from '../MdxSidebarNavigation'
 import graphics from '../SidebarGraphics'
+import { getCategoryId } from '../../parts/componentCategories'
 import { getPageRedirects } from '../../../../vite/client/plugins/portal-pages.shared'
 import {
   findActiveSidebarItemId,
@@ -24,6 +25,30 @@ function flatten(items: NavItem[]): NavItem[] {
 }
 
 describe('MDX-defined Portal navigation', () => {
+  it('uses the same component categories in navigation and documentation', () => {
+    const definitions = new Map(
+      pages.map((page) => [page.fields.slug, page])
+    )
+    for (const { fields, frontmatter } of pages) {
+      if (
+        !fields.slug.startsWith('web/components/') ||
+        fields.slug.includes('/fragments/') ||
+        frontmatter.draft ||
+        frontmatter.navigation?.hidden ||
+        !frontmatter.category
+      ) {
+        continue
+      }
+      let group = definitions.get(frontmatter.navigation?.parent)
+      while (group && group.frontmatter.navigation.kind !== 'category') {
+        group = definitions.get(group.frontmatter.navigation.parent)
+      }
+      expect(group?.fields.slug, fields.slug).toBe(
+        'web/components/categories/' + getCategoryId(frontmatter.category)
+      )
+    }
+  })
+
   it('lists incoming helper, printing and contributor pages in their sections', () => {
     const items = flatten([
       ...tree().shared,

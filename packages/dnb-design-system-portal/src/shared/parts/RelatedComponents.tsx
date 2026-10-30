@@ -34,7 +34,7 @@ function cleanTitle(title: string): string {
 
 // Cap how many siblings are listed inline; the rest are reachable via the
 // "See all" link to the overview category, to avoid long lists on big
-// categories like Content and Input.
+// categories like General.
 const MAX_VISIBLE_RELATED = 6
 
 function toReason(description?: string): string | undefined {
@@ -148,7 +148,7 @@ export default function RelatedComponents() {
         <Anchor href={`/web/components/overview/#${current.category}`}>
           {categoryTitle}
         </Anchor>{' '}
-        category. Other components for similar needs:
+        category. More components in this category:
       </P>
 
       <Ul>
