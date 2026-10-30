@@ -272,7 +272,10 @@
 
     [skip-isolation]
       body:has([data-portal-print-layout])
-      .eufemia-portal-root:has(#dnb-modal-portal-tools) {
+      .eufemia-portal-root:has(#dnb-modal-portal-tools),
+    [skip-isolation]
+      body:has([data-portal-print-layout])
+      .eufemia-portal-root:has(#portal-sidebar-menu-drawer) {
       display: none !important;
     }
 
@@ -316,6 +319,7 @@
     :global {
       .sticky-menu,
       #portal-sidebar-menu,
+      .dnb-sidebar-menu-responsive-inline,
       .dnb-live-toolbar,
       .anchor-hash,
       .dnb-copy-on-click__button {
