@@ -169,6 +169,15 @@ describe('useValueProps', () => {
     expect(result.current.bar).toBe('bar')
   })
 
+  it('should use defaultLabel as the label without forwarding it', () => {
+    const { result } = renderHook(() =>
+      useValueProps({ defaultLabel: 'Default label' })
+    )
+
+    expect(result.current.label).toBe('Default label')
+    expect(result.current).not.toHaveProperty('defaultLabel')
+  })
+
   it('should use "toInput" to prepare value from context', () => {
     const path = '/contextValue'
 
@@ -404,6 +413,106 @@ describe('useValueProps', () => {
         document.querySelector('.dnb-forms-value-string').textContent
       ).toBe('The label')
     })
+
+    it('should let an inherited label win over defaultLabel', () => {
+      render(
+        <Form.Handler>
+          <Field.String path="/myPath" label="The label" />
+          <Value.String
+            path="/myPath"
+            defaultLabel="Default label"
+            inheritLabel
+            showEmpty
+          />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).toHaveTextContent('The label')
+    })
+
+    it('should use defaultLabel when there is no label to inherit', () => {
+      render(
+        <Form.Handler>
+          <Value.String
+            path="/myPath"
+            defaultLabel="Default label"
+            inheritLabel
+            showEmpty
+          />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).toHaveTextContent('Default label')
+    })
+
+    const valuesWithDefaultLabel = Object.entries({
+      'Value.Email': Value.Email,
+      'Value.Date': Value.Date,
+      'Value.DateOfBirth': Value.DateOfBirth,
+      'Value.Time': Value.Time,
+      'Value.NationalIdentityNumber': Value.NationalIdentityNumber,
+      'Value.OrganizationNumber': Value.OrganizationNumber,
+      'Value.PhoneNumber': Value.PhoneNumber,
+      'Value.PostalCodeAndCity': Value.PostalCodeAndCity,
+      'Value.BankAccountNumber': Value.BankAccountNumber,
+      'Value.Name.First': Value.Name.First,
+      'Value.Name.Last': Value.Name.Last,
+      'Value.Name.Company': Value.Name.Company,
+      'Value.Address.Postal': Value.Address.Postal,
+      'Value.Address.Street': Value.Address.Street,
+      'Value.SelectCountry': Value.SelectCountry,
+      'Value.SelectCurrency': Value.SelectCurrency,
+    })
+
+    it.each(valuesWithDefaultLabel)(
+      'should resolve the label of %s from label, an inherited label or defaultLabel',
+      (_, Component) => {
+        render(
+          <Form.Handler>
+            <Field.String path="/myPath" label="The label" />
+            <Component path="/myPath" inheritLabel showEmpty />
+            <Value.SummaryList inheritLabel>
+              <Component path="/myPath" showEmpty />
+            </Value.SummaryList>
+            <Component defaultLabel="Default label" showEmpty />
+            <Component label={false} showEmpty />
+          </Form.Handler>
+        )
+
+        const labels = Array.from(
+          document.querySelectorAll('.dnb-forms-value-block__label')
+        ).map((label) => label.textContent)
+        expect(labels).toEqual(['The label', 'The label', 'Default label'])
+      }
+    )
+
+    it.each(valuesWithDefaultLabel)(
+      'should fall back to the default label of %s when the inherited label is empty',
+      (_, Component) => {
+        render(
+          <Form.Handler>
+            <Field.String path="/hidden" label={false} />
+            <Field.String path="/empty" label="" />
+            <Component showEmpty />
+            <Component path="/hidden" inheritLabel showEmpty />
+            <Component path="/empty" inheritLabel showEmpty />
+            <Value.SummaryList inheritLabel>
+              <Component path="/hidden" showEmpty />
+            </Value.SummaryList>
+          </Form.Handler>
+        )
+
+        const [builtInLabel, ...labels] = Array.from(
+          document.querySelectorAll('.dnb-forms-value-block__label')
+        ).map((label) => label.textContent)
+        expect(builtInLabel).toBeTruthy()
+        expect(labels).toEqual([builtInLabel, builtInLabel, builtInLabel])
+      }
+    )
   })
 
   describe('inheritVisibility', () => {

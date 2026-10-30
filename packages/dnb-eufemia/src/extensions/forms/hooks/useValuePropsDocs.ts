@@ -38,6 +38,11 @@ export const useValuePropsParameters: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  defaultLabel: {
+    doc: 'Label to use when no `label` is given and none is inherited with `inheritLabel`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   inheritVisibility: {
     doc: 'When `true`, inherits visibility state from the Field component at the same path.',
     type: 'boolean',
@@ -67,7 +72,7 @@ export const useValuePropsParameters: PropertiesTableProps = {
  */
 export const useValuePropsReturns: PropertiesTableProps = {
   '...props': {
-    doc: 'All input props are passed through in the return value.',
+    doc: 'All input props, except `defaultLabel`, are passed through in the return value.',
     type: 'object',
     status: 'required',
   },
@@ -77,7 +82,7 @@ export const useValuePropsReturns: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'The label to display, either from props or inherited from the associated Field.',
+    doc: 'The label to display, either from props, inherited from the associated Field, or `defaultLabel`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
