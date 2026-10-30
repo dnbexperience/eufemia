@@ -5,7 +5,7 @@ order: 4
 icon: 'gettingStarted'
 ---
 
-Publishing new versions to the NPM Package (`@dnb/eufemia`) is handled by a Deploy Server.
+New versions of the NPM Package (`@dnb/eufemia`) are published by the release workflow (`.github/workflows/release.yml`) in GitHub Actions.
 
 ## Continuous Integration (CI)
 
@@ -21,7 +21,8 @@ The steps, from code changes to production builds, are:
 1. You can merge your _Pull Request_.
 1. A maintainer will create a _Pull Request_ into one of the release branches (`next`, `alpha`, `beta` or `release`).
 1. After a release _Pull Request_ got merged, the CI Server deploys the Portal
-   and releases a new NPM version when the included commits require one.
+   and releases a new NPM version when the included commits require one. See
+   [What happens during a release](#what-happens-during-a-release).
 
 The production Portal is always built from `origin/release`, which is the single
 source of truth for the currently deployed Portal and package version.
@@ -100,6 +101,42 @@ Our beta version will now get released.
 
 Our beta version will now get released.
 
+### What happens during a release
+
+A release starts when a push reaches a release branch, normally when a maintainer merges the _Pull Request_ from `main` into `release`. The release workflow then runs these jobs:
+
+1. **Build and validate release** builds the library and the Portal, runs the dependency audit and the package validation, and builds the packed library in the Vite and Next.js consumer smoke tests. Its GitHub token can only read.
+1. **Validate portal links** checks the internal links of the built Portal (on `release` only).
+1. **Publish release** runs in the `npm-release` environment. It restores the package from the build job and validates it again. Right before `semantic-release` runs, it gets a short-lived token from the release bot, a GitHub App. `semantic-release` reads the commits since the last version tag and decides the next version. If the commits need no new version, nothing is published. Otherwise it:
+   1. updates `CHANGELOG.md`, and pushes the `chore(release): <version> [skip ci]` commit and the `v<version>` tag to the branch,
+   1. publishes the package to npm with Trusted Publishing and provenance,
+   1. creates the GitHub release with the package tarball, and comments on the released pull requests and issues.
+1. **Generate release SBOM** and **Attest and publish release SBOM** run only when a new version was published. They attach the SBOM (`sbom.cdx.json`) and the vulnerability report to the GitHub release.
+1. **Deploy portal to GitHub Pages** deploys the Portal (on `release` only), also when no new version was published.
+
+The push to `release` also starts `mcp-lambda.yml`, and the published GitHub release starts `assets.yml`.
+
+#### Who does what
+
+| Step                                                     | Done by                                                                                                                 |
+| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Pull requests into `main`, and the release pull request  | Contributors and maintainers                                                                                            |
+| Icon, country flag and design token update pull requests | The automation bot, a GitHub App (see [Icons](/contribute/deploy/icons) and [Design Tokens](/contribute/deploy/tokens)) |
+| Changelog commit and version tag                         | Pushed by the release bot. The commit author is `semantic-release-bot`, the default identity of `semantic-release`.     |
+| npm publish                                              | The release workflow, with Trusted Publishing instead of an npm token (see [Publishing method](#publishing-method))     |
+| GitHub release, and the comments on released items       | The release bot                                                                                                         |
+| SBOM upload and Portal deploy                            | GitHub Actions                                                                                                          |
+
+Both bots are GitHub Apps installed only on this repository. Their tokens are valid for one hour. For the controls around the release, see [Release security](#release-security).
+
+#### If a release fails
+
+If the **Publish release** job fails, its log shows how far the release got:
+
+- **The job failed before the Release step, or the Release step has no `Created tag` line:** nothing was published. Fix the cause, then re-run the failed jobs.
+- **The Release step has a `Created tag` line, but npm has no such version:** the release is half finished, and the tag has to be removed before the next release runs. See [Releases queue, and are never canceled mid-flight](#releases-queue-and-are-never-canceled-mid-flight).
+- **npm and the GitHub release have the version, but the step failed later**, for example while it commented on released pull requests: nothing needs undoing. Re-running the failed jobs deploys the Portal, but it does not publish again, and it does not attach the SBOM for that version.
+
 ### How to run a dry release locally
 
 If you are unsure about what version will be released, you can run a so called dry-run locally.
@@ -152,7 +189,7 @@ The build and validation job runs with `contents: read` and cannot request an np
 
 The release workflow therefore sets `cancel-in-progress: false`, so a second push to a release branch waits for the run in progress instead of canceling it. At most one run stays pending per branch; a newer push supersedes the earlier one while it is still pending, which is safe because `semantic-release` analyzes every commit since the last tag, so nothing is lost. Every job carries a `timeout-minutes` for the same reason: a release now holds the queue until it finishes, so it must not be able to hold it indefinitely.
 
-Queueing removes the routine cause of a half-finished release, but not every cause — an infrastructure failure in the same window has the same effect. Signs of it: the workflow failed after the `Release` step started, a `v<version>` tag and a `chore(release)` commit exist on the branch, and `npm view @dnb/eufemia@<version>` reports no such version. The load-bearing detail when recovering is the tag: while it is on the branch, `semantic-release` treats that version as already released and the next run will move past it, so the tag has to be removed before the next release runs or the version is skipped permanently. Sorting that out — removing the tag and the GitHub release, undoing the changelog commit and re-running the release — is a maintainer task, not something the pipeline does for you. If instead npm has the version and only the GitHub release or its SBOM assets are missing, nothing needs undoing: those steps are non-blocking and can be re-run or attached by hand.
+Queueing removes the routine cause of a half-finished release, but not every cause — an infrastructure failure in the same window has the same effect. Signs of it: the workflow failed after the `Release` step started, a `v<version>` tag and a `chore(release)` commit exist on the branch, and `npm view @dnb/eufemia@<version>` reports no such version. The load-bearing detail when recovering is the tag: while it is on the branch, `semantic-release` treats that version as already released and the next run will move past it, so the tag has to be removed before the next release runs or the version is skipped permanently. Sorting that out — removing the tag and the GitHub release, undoing the changelog commit and re-running the release — is a maintainer task, not something the pipeline does for you. If instead npm has the version and only the GitHub release or its SBOM assets are missing, nothing needs undoing. A failed SBOM job can be re-run. But when the Release step itself failed after the npm publish, a re-run does not publish again, so a missing GitHub release or SBOM has to be added by hand.
 
 ### Build, validate and smoke-test
 

@@ -311,8 +311,9 @@ jobs:
 
       # A short-lived token from the release GitHub App, limited to this
       # repository. Created right before it is used, after every validation.
-      # Its pushes and the GitHub release start the workflows that react to
-      # them, which events from the built-in token would not.
+      # The GitHub release it creates starts the workflows that react to
+      # published releases, which a release made with the built-in token would
+      # not. Its pushes start no workflows: the changelog commit is [skip ci].
       - name: Create release bot token
         id: release-bot
         if: github.repository == 'dnbexperience/eufemia' &&
