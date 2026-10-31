@@ -30,7 +30,6 @@ Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper compon
 
 ## Key behaviors
 
-- Menu labels follow the skeleton state from `Provider` or a surrounding `Skeleton`. Use `Skeleton.Exclude` to keep a menu available while the rest of the page loads.
 - Setting `selectedItem` reveals its ancestors and section. An active branch can still be collapsed; its label then uses medium font weight to indicate that it contains the current page.
 - An off-screen selected item is brought into view. Initial positioning and restored scroll positions happen without a visible animated jump.
 - `openItemsStorageKey` and `scrollPositionStorageKey` preserve navigation context between route changes. Session storage is used by default.
