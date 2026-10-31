@@ -660,9 +660,11 @@ describe('Checkbox scss', () => {
       loadScss(require.resolve('../style/dnb-checkbox.scss'))
     )
     const surfaceDark = css.match(
-      /\.dnb-checkbox--surface-dark \{[^}]*\}/
-    )[0]
+      /\.dnb-checkbox--surface-dark:where\(:not\(\.dnb-toggle-button--checked \*\)\) \{[^}]*\}/
+    )?.[0]
 
+    // A checked ToggleButton keeps a light button on dark surfaces
+    expect(css).not.toMatch(/\.dnb-checkbox--surface-dark \{/)
     expect(surfaceDark).toMatch(
       /--checkbox-color-gfx--disabled: var\(\s*--token-color-icon-action-disabled-ondark\s*\)/
     )

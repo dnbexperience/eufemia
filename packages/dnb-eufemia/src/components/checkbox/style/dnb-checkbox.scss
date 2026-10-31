@@ -134,7 +134,8 @@
   // Bounding box
   --checkbox-bounding--medium: 1.75, 1.75;
 
-  &--surface-dark {
+  // Checked ToggleButtons keep a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button--checked *)) {
     --checkbox-color-gfx--disabled: var(
       --token-color-icon-action-disabled-ondark
     );

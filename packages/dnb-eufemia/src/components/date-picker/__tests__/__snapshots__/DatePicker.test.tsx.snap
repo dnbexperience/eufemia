@@ -1932,7 +1932,7 @@ html[data-visual-test] .dnb-input__input {
   );
   --checkbox-bounding--medium: 1.75, 1.75;
 }
-.dnb-checkbox--surface-dark {
+.dnb-checkbox--surface-dark:where(:not(.dnb-toggle-button--checked *)) {
   --checkbox-color-gfx--disabled: var(
     --token-color-icon-action-disabled-ondark
   );
