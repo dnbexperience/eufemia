@@ -195,4 +195,12 @@
   &--stretch {
     width: 100%;
   }
+
+  @media (forced-colors: active) {
+    &--sidebar &__link.dnb-anchor[aria-current] {
+      color: HighlightText;
+      background-color: Highlight;
+      forced-color-adjust: none;
+    }
+  }
 }

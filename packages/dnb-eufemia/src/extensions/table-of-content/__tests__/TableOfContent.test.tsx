@@ -70,6 +70,20 @@ describe('mobile item limit', () => {
     ).toHaveNoViolations()
   })
 
+  it('focuses the first newly revealed link when a preceding item is hidden', () => {
+    setMedia({ width: '390px' })
+    render(
+      <TableOfContent.Root defaultExpanded maxVisibleItems={2}>
+        <TableOfContent.Item id="first" text="First" />
+        <TableOfContent.Item id="hidden" text="Hidden" hidden />
+        <TableOfContent.Item id="second" text="Second" />
+        <TableOfContent.Item id="third" text="Third" />
+      </TableOfContent.Root>
+    )
+    fireEvent.click(showAll())
+    expect(document.querySelector('a[href="#third"]')).toHaveFocus()
+  })
+
   it('supports a custom limit, translation, composition and unlimited lists', () => {
     setMedia({ width: '390px' })
     const navigation = (limit: number) => (
@@ -1076,7 +1090,7 @@ it('uses stable initial styles for custom breakpoints and independently expanded
   expect(first.querySelector('style').textContent).toBe(
     second.querySelector('style').textContent
   )
-  expect(first.querySelector('style').textContent).toContain('64em')
+  expect(first.querySelector('style').textContent).toContain('64.00625em')
   expect(first.querySelector('nav')).not.toHaveAttribute(
     'data-table-of-content-expanded'
   )
@@ -1110,3 +1124,17 @@ beforeEach(() => {
   )
 })
 afterEach(() => vi.unstubAllGlobals())
+
+it('passes the CSP nonce to first-paint styles without naming the generic scroll wrapper', () => {
+  const container = document.createElement('div')
+  container.innerHTML = renderToString(
+    <TableOfContent.Data data={data} styleNonce="test-nonce" />
+  )
+  expect(container.querySelector('style')).toHaveAttribute(
+    'nonce',
+    'test-nonce'
+  )
+  expect(
+    container.querySelector('.dnb-table-of-content__scroll')
+  ).not.toHaveAttribute('aria-labelledby')
+})

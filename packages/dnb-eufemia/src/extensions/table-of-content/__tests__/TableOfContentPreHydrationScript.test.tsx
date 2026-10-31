@@ -52,3 +52,27 @@ it('does not interrupt rendering when storage is blocked', () => {
   expect(() => new Function(getPreHydrationScript())()).not.toThrow()
   nav.remove()
 })
+
+it('copies the script nonce to the restored disclosure styles', () => {
+  sessionStorage.setItem('toc-state', 'true')
+  const container = document.createElement('div')
+  container.innerHTML = renderToString(
+    <TableOfContent.Data
+      id="nonce-toc"
+      data={[{ id: 'first', text: 'First', level: 2 }]}
+      expandedStorageKey="toc-state"
+      styleNonce="test-nonce"
+    />
+  )
+  document.body.append(container)
+  const script = document.createElement('script')
+  script.nonce = 'test-nonce'
+  vi.spyOn(document, 'currentScript', 'get').mockReturnValue(script)
+
+  new Function(getPreHydrationScript())()
+
+  expect(
+    document.querySelector('[data-table-of-content-pre-hydration]')
+  ).toHaveAttribute('nonce', 'test-nonce')
+  container.remove()
+})

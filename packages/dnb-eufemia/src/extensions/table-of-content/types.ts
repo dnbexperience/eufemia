@@ -52,10 +52,12 @@ export type TableOfContentRootProps = {
    */
   maxVisibleItems?: number
   /**
-   * Eufemia breakpoint at or above which the navigation is always expanded. Below it, a disclosure button controls the list. Defaults to large (72em, normally 1152px); Provider breakpoint overrides are respected.
+   * Eufemia breakpoint above which the navigation is always expanded. At or below it, a disclosure button controls the list. Defaults to large (72em, normally 1152px); Provider breakpoint overrides are respected.
    * Default: `"large"`
    */
   breakpoint?: MediaQuerySizes
+  /** CSP nonce for the inline styles used before hydration. */
+  styleNonce?: string
   /**
    * Use the available width. Otherwise the expanded sidebar is 12rem wide.
    * Default: `false`
