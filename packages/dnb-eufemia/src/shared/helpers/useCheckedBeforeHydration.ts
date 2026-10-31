@@ -33,7 +33,10 @@ export default function useCheckedBeforeHydration({
 }) {
   useEffect(() => {
     const input = inputRef.current
-    if (!input || input.checked === Boolean(checkedRef.current)) {
+    if (
+      input?.type !== 'checkbox' || // e.g. a Checkbox with element="span"
+      input.checked === Boolean(checkedRef.current)
+    ) {
       return // stop here
     }
 
