@@ -41,7 +41,8 @@ import PortalLayout from '../../src/core/PortalLayout'
 import { FocusModeCodeProvider } from '../../src/core/FocusModeCodeContext'
 import BranchBanner from '../../src/shared/menu/BranchBanner'
 import ErrorBoundary from '../../src/core/ErrorBoundary'
-import { allMdxNodes } from 'virtual:portal-pages'
+import { discoverPortalRoutes } from './load-portal-routes'
+import { allMdxNodes } from 'virtual:portal-data'
 import { resolvePageRedirect } from './plugins/portal-pages.shared'
 
 // Import all Eufemia theme styles (core + all themes)
@@ -260,13 +261,35 @@ type PortalAppProps = {
 }
 
 function createPortalRouter(routes: RouteObject[]) {
-  return createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        id: 'portal-root',
+        path: '/',
+        element: <RootLayout />,
+        children: routes,
+      },
+    ],
     {
-      path: '/',
-      element: <RootLayout />,
-      children: routes,
-    },
-  ])
+      async patchRoutesOnNavigation({ patch, path, signal }) {
+        try {
+          patch('portal-root', await discoverPortalRoutes(path))
+        } catch (error) {
+          if (!signal.aborted) {
+            const pending = router.state.navigation.location
+            window.location.assign(
+              pending
+                ? pending.pathname + pending.search + pending.hash
+                : path
+            )
+          }
+          throw error
+        }
+      },
+    }
+  )
+
+  return router
 }
 
 export default function PortalApp({ routes }: PortalAppProps) {
