@@ -248,6 +248,8 @@ for (const width of [400, 1024]) {
         'keeps the accordion hover outline after mouse navigation in ' +
           colorScheme,
         async ({ page }) => {
+          // Finish hash scrolling before hovering and measuring the outline.
+          await page.emulateMedia({ reducedMotion: 'reduce' })
           await page.addInitScript((colorScheme) => {
             window['IS_TEST'] = true
             localStorage.setItem(

@@ -528,4 +528,17 @@ describe('ProgressIndicator scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the linear track and bar in forced colors mode', () => {
+    const css = loadScss(
+      require.resolve('../style/dnb-progress-indicator.scss')
+    )
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear \{\s*outline: 1px solid CanvasText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear__bar \{\s*forced-color-adjust: none;\s*background-color: Highlight;/
+    )
+  })
 })

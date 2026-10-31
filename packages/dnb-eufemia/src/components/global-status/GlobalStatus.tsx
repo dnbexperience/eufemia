@@ -24,7 +24,6 @@ import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import Context from '../../shared/Context'
 import {
   warn,
-  makeUniqueId,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -144,6 +143,7 @@ function hasContent(globalStatus: GlobalStatusResult | null | undefined) {
 function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const context = useContext(Context)
   const fallbackStatusId = useId(ownProps.statusId)
+  const fallbackItemId = useId()
 
   // Refs
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -556,8 +556,11 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       return null // skip this item if no content is given
     }
 
-    const id =
-      item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
+    const id = item.id
+      ? String(item.id)
+      : item.itemId
+        ? `${item.itemId}-${i}`
+        : `${fallbackItemId}-${i}`
 
     let anchorText: ReactNode
 

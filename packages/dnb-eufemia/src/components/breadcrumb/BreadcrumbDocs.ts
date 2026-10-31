@@ -114,7 +114,7 @@ export const BreadcrumbItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'Override icon displaying on the left side (Not recommended). Defaults to `chevron_left`.',
+    doc: 'The icon shown before the item text. Keep the default navigation icons for consistency. Overrides need a use case approved by DNB UX. Non-home items use `chevron_right` by default; `variant="home"` always uses the home icon.',
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -212,6 +212,12 @@
     height: var(--progress-indicator-linear-size);
     border-radius: var(--token-radius-full);
 
+    // Forced colors mode removes the background colors of the track and the
+    // bar, so outline the track and use a system color for the bar
+    @media (forced-colors: active) {
+      outline: 1px solid CanvasText;
+    }
+
     &__bar {
       background-color: var(--progress-indicator-linear-bar-color);
       width: 100%;
@@ -221,6 +227,11 @@
       top: 0;
       transform-origin: left;
       border-radius: inherit;
+
+      @media (forced-colors: active) {
+        forced-color-adjust: none;
+        background-color: Highlight;
+      }
     }
 
     &__bar-transition {

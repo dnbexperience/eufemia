@@ -1000,6 +1000,26 @@ describe('Slider scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the track and markers in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-slider.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__line \{\s*forced-color-adjust: none;\s*background-color: Highlight;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__line__after \{\s*background-color: Canvas;\s*outline: 1px solid CanvasText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__state--disabled \.dnb-slider__line \{\s*background-color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__state--disabled \.dnb-slider__line__after \{\s*background-color: Canvas;\s*outline-color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__marker \{\s*forced-color-adjust: none;\s*background-color: CanvasText;/
+    )
+  })
 })
 
 const getButtonHelper = (): HTMLInputElement => {

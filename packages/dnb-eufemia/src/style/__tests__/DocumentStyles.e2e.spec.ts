@@ -112,6 +112,97 @@ test.describe('Document and print styles', () => {
     })
   }
 
+  for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+    for (const isolated of [false, true]) {
+      test(`prints ${brand} dark content on plain paper and restores screen colors (isolated: ${isolated})`, async () => {
+        const css = await withIsolation(
+          [
+            coreCss,
+            compile(`themes/${brand}/${brand}-theme-basis.scss`),
+            ...(brand === 'carnegie'
+              ? []
+              : [
+                  compile(`themes/${brand}/${brand}-theme-dark-mode.scss`),
+                ]),
+            compile('../components/anchor/style/dnb-anchor.scss'),
+            `.paper { color: white; background: #123; } .paper::before { content: 'Note'; color: white; background: red; }`,
+            printCss,
+          ].join('\n'),
+          isolated
+        )
+        await page.setContent(`<style>${css}</style>
+          <div class="${isolated ? 'test-scope' : ''}">
+            <div class="eufemia-theme__color-scheme--dark">
+              <section class="dnb-print dnb-print--plain paper">
+                <p id="paper-text" style="color: white; background: red">Printed content</p>
+                <a id="paper-link" class="dnb-anchor" href="https://example.com">Read more</a>
+                <div class="eufemia-theme__color-scheme--dark">
+                  <input id="paper-value" value="123" style="color: white; background: #123" />
+                </div>
+                <p id="paper-only" class="dnb-print-only">Print only</p>
+                <p id="screen-only" class="dnb-print-hidden">Screen only</p>
+              </section>
+              <p id="outside-plain" style="color: white; background: #123">Outside</p>
+            </div>
+          </div>`)
+        const screen = await styles('#paper-text')
+        expect((await styles('#paper-only')).display).toBe('none')
+        await page.emulateMedia({ media: 'print' })
+        expect(
+          await page
+            .locator('.paper')
+            .evaluate(
+              (element) => getComputedStyle(element).backgroundColor
+            )
+        ).toBe('rgb(255, 255, 255)')
+        for (const selector of [
+          '#paper-text',
+          '#paper-link',
+          '#paper-value',
+        ]) {
+          const colors = await page
+            .locator(selector)
+            .evaluate((element) => {
+              const style = getComputedStyle(element)
+              return {
+                color: style.color,
+                background: style.backgroundColor,
+                image: style.backgroundImage,
+              }
+            })
+          expect(colors).toEqual({
+            color: 'rgb(0, 0, 0)',
+            background: 'rgba(0, 0, 0, 0)',
+            image: 'none',
+          })
+        }
+        expect((await styles('#outside-plain')).color).toBe(
+          'rgb(255, 255, 255)'
+        )
+        expect((await styles('#paper-only')).display).not.toBe('none')
+        expect((await styles('#screen-only')).display).toBe('none')
+        expect(
+          await page
+            .locator('#paper-value')
+            .evaluate((element) => getComputedStyle(element).colorScheme)
+        ).toBe('light')
+        expect(
+          await page.locator('.paper').evaluate((element) => ({
+            color: getComputedStyle(element, '::before').color,
+            background: getComputedStyle(element, '::before')
+              .backgroundColor,
+          }))
+        ).toEqual({
+          color: 'rgb(0, 0, 0)',
+          background: 'rgba(0, 0, 0, 0)',
+        })
+        await page.emulateMedia({ media: 'screen' })
+        expect(await styles('#paper-text')).toEqual(screen)
+        expect((await styles('#paper-only')).display).toBe('none')
+      })
+    }
+  }
+
   for (const isolated of [false, true]) {
     test(`supports an independent print scope without document styles (isolated: ${isolated})`, async () => {
       const css = await withIsolation(
@@ -440,7 +531,9 @@ test.describe('Document and print styles', () => {
         const scss = paragraphs.find((element) =>
           element.textContent.startsWith('SCSS imports')
         )
-        const table = root.querySelector('.dnb-table__scroll-view')
+        const table = scss.previousElementSibling.querySelector(
+          '.dnb-table__scroll-view'
+        )
         const intro = paragraphs.find((element) =>
           element.textContent.startsWith('Import dnb-ui-print')
         )

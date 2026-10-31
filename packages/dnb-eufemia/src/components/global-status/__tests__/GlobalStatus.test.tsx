@@ -5,6 +5,8 @@
 
 import { useState } from 'react'
 import type { PropsWithChildren, Ref } from 'react'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
 import {
   axeComponent,
   loadScss,
@@ -16,7 +18,7 @@ import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import { P } from '../../../elements'
 import { Icon } from '../../../components'
@@ -829,6 +831,85 @@ describe('GlobalStatus component', () => {
     })
   })
 
+  describe('item without id or itemId', () => {
+    // No itemId can be made from a component given as text
+    const Message = () => <>Something went wrong</>
+    const items = [
+      {
+        text: <Message />,
+        statusAnchorUrl: '/uilib/components/global-status',
+      },
+    ]
+
+    it('should keep the id of the item text between renders', () => {
+      const { rerender } = render(
+        <GlobalStatus
+          show
+          noAnimation
+          autoScroll={false}
+          title="Title"
+          items={items}
+        />
+      )
+
+      const id = document.querySelector(
+        '.dnb-global-status__message li p'
+      ).id
+      expect(id).not.toBe('')
+
+      rerender(
+        <GlobalStatus
+          show
+          noAnimation
+          autoScroll={false}
+          title="New title"
+          items={items}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-global-status__message li p')
+      ).toHaveAttribute('id', id)
+      expect(
+        document.querySelector('.dnb-global-status__message li a')
+      ).toHaveAttribute('aria-describedby', id)
+    })
+
+    it('should give the item text the same id on the server and the client', () => {
+      const element = (
+        <GlobalStatus show noAnimation autoScroll={false} items={items} />
+      )
+
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+      document.body.appendChild(container)
+      const serverId = container.querySelector(
+        '.dnb-global-status__message li p'
+      ).id
+      expect(serverId).not.toBe('')
+
+      const consoleError = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => undefined)
+      let root: ReturnType<typeof hydrateRoot>
+
+      try {
+        act(() => {
+          root = hydrateRoot(container, element)
+        })
+
+        expect(
+          container.querySelector('.dnb-global-status__message li p')
+        ).toHaveAttribute('id', serverId)
+        expect(consoleError).not.toHaveBeenCalled()
+      } finally {
+        act(() => root?.unmount())
+        container.remove()
+        consoleError.mockRestore()
+      }
+    })
+  })
+
   it('should support component given as labels', async () => {
     const LabelAsComponent = () => {
       return <span>'my-label'</span>
@@ -1372,6 +1453,44 @@ describe('GlobalStatus component', () => {
 
     expect(jumpLink).toHaveAttribute('href', '#other-field-id')
     expect(fireEvent.click(jumpLink)).toBe(false)
+  })
+
+  it('should use the item id as the id of the item text', () => {
+    const Message = () => <>Other error</>
+
+    render(
+      <GlobalStatus
+        show
+        noAnimation
+        autoScroll={false}
+        items={[
+          {
+            id: 'first-item',
+            text: 'Error',
+            statusAnchorUrl: '/uilib/components/global-status',
+          },
+          {
+            id: 'second-item',
+            text: <Message />,
+            statusAnchorUrl: '/uilib/components/global-status',
+          },
+        ]}
+      />
+    )
+
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-global-status__message li')
+    )
+    expect(first.querySelector('p')).toHaveAttribute('id', 'first-item')
+    expect(first.querySelector('a')).toHaveAttribute(
+      'aria-describedby',
+      'first-item'
+    )
+    expect(second.querySelector('p')).toHaveAttribute('id', 'second-item')
+    expect(second.querySelector('a')).toHaveAttribute(
+      'aria-describedby',
+      'second-item'
+    )
   })
 })
 

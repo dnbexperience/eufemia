@@ -19,6 +19,12 @@ Also, the `FormStatus` is used inside of many other form components.
 
 The `FormStatus` component cooperates with the [GlobalStatus](/uilib/components/global-status) component to summarize and display several status messages in one place.
 
+## Usage
+
+Start with the documented patterns and the default icon for the selected `state`. Prefer plain text for the message. Inline links can help the user resolve the status, and [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock) can combine messages from several fields into one status.
+
+The content and icon properties also provide flexibility for specific integrations. Custom content, actions, or icon changes beyond the documented patterns need a use case approved by DNB UX. The same guidance applies when FormStatus is configured through another component's `statusProps`.
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=16838-6706)

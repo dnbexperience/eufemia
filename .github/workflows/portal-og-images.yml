@@ -27,7 +27,7 @@ jobs:
   generate:
     if: github.repository == 'dnbexperience/eufemia' && github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 75
     outputs:
       source-run-id: ${{ steps.snapshot.outputs.source-run-id }}
     steps:
@@ -65,9 +65,12 @@ jobs:
         run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts plan
         env:
           OG_MODE: ${{ inputs.mode || 'refresh' }}
-      - name: Install Chromium when captures are needed
+      - name: Setup Playwright when captures are needed
         if: steps.plan.outputs.captures != '' && steps.plan.outputs.captures != '0'
-        run: yarn workspace dnb-design-system-portal exec playwright install --with-deps chromium
+        uses: ./.github/actions/setup-playwright
+        with:
+          browsers: chromium
+          cache-version: ${{ secrets.CACHE_VERSION }}
       - name: Render changed images
         if: steps.plan.outputs.changed == 'true'
         run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts render

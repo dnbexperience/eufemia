@@ -41,7 +41,7 @@ export const HeadingVanillaHTMLExample = () => (
   <ComponentBox hideCode data-visual-test="heading-default">
     <h1 className="dnb-h--xx-large">Heading style xx-large</h1>
     <h2 className="dnb-h--x-large">Heading style x-large</h2>
-    <h5 className="dnb-h--large">Heading style large</h5>
+    <h3 className="dnb-h--large">Heading style large</h3>
     <h3 className="dnb-h--small">Heading style small</h3>
     <h3 className="dnb-h--basis">Heading style basis</h3>
   </ComponentBox>
@@ -107,9 +107,9 @@ export function HeadingProseMaxWidthProvider() {
 
 export const HeadingMarginCollapsingExample = () => (
   <ComponentBox>
-    <H1 size="small" top bottom="small">
+    <H4 size="small" top bottom="small">
       Spacing with bottom margin: small
-    </H1>
+    </H4>
     <P top="large" bottom="small">
       Spacing with top margin: large
     </P>

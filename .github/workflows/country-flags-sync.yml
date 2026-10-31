@@ -116,9 +116,12 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: yarn workspace @dnb/eufemia test:scripts syncCountryFlags prepareCountryFlagUpdate
 
-      - name: Install Firefox
+      - name: Setup Playwright
         if: steps.changes.outputs.changed == 'true'
-        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+        uses: ./.github/actions/setup-playwright
+        with:
+          browsers: firefox
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Build library and Portal
         if: steps.changes.outputs.changed == 'true'

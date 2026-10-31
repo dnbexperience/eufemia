@@ -194,7 +194,7 @@ test('keeps predefined widths in the horizontal layout when the label wraps', as
         .map((button) => button.getBoundingClientRect().width)
     )
 
-  // Default, small, medium and large, the same as other fields
+  // Default, small, medium and large, the same as in the vertical layout
   expect(widths).toEqual([336, 104, 176, 336])
 })
 

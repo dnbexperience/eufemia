@@ -55,17 +55,13 @@ export type FormStatusBaseProps = {
 
 export type FormStatusProps = {
   id?: string
-  /**
-   * The `title` attribute in the status.
-   */
-  title?: string
   label?: ReactNode
   /**
    * Provide `false` if you want to animate the visibility. Defaults to `true`.
    */
   show?: boolean
   /**
-   * The `text` appears as the status message. Besides plain text, you can send in a React component as well.
+   * The status message. Prefer plain text that explains the status and how to resolve it. React content supports inline links and grouped messages. Custom content or actions beyond the documented patterns need a use case approved by DNB UX.
    */
   text?: FormStatusText
   /**
@@ -73,11 +69,11 @@ export type FormStatusProps = {
    */
   globalStatus?: GlobalStatusConfigObject
   /**
-   * The `icon` shown before the status text. Defaults to `error`.
+   * The icon shown before the status message. The default icon is selected by `state`. Keep this default unless DNB UX has approved a use case for replacing or removing it.
    */
   icon?: IconIcon
   /**
-   * The size of the icon. Defaults to `medium`.
+   * The size of the icon. Defaults to `medium`. Keep this default unless DNB UX has approved a use case for a different size.
    */
   iconSize?: IconSize
   /**
@@ -118,7 +114,7 @@ export type FormStatusProps = {
   shellSpace?: SpaceTypeAll
   className?: string
   /**
-   * The `text` appears as the status message. Besides plain text, you can send in a React component as well.
+   * Alternative to `text`, with the same usage guidance. Supports inline links and the grouped messages rendered by FieldBlock. Custom content or actions beyond the documented patterns need a use case approved by DNB UX.
    */
   children?: FormStatusChildren
 } & Omit<

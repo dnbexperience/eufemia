@@ -1,6 +1,12 @@
 import { Filter } from '@dnb/eufemia/src'
 
-export default function PanelActions({ count = 2 }: { count?: number }) {
+export default function PanelActions({
+  count = 2,
+  'aria-label': ariaLabel,
+}: {
+  count?: number
+  'aria-label': string
+}) {
   const options = Array.from({ length: count }, (_, index) => ({
     value: String(index),
     label: 'Alternativ ' + (index + 1),
@@ -10,7 +16,11 @@ export default function PanelActions({ count = 2 }: { count?: number }) {
   )
 
   return (
-    <Filter.Root defaultPanelOpen defaultFilters={defaultFilters}>
+    <Filter.Root
+      aria-label={ariaLabel}
+      defaultPanelOpen
+      defaultFilters={defaultFilters}
+    >
       <Filter.Header>
         <Filter.Toolbar>
           <Filter.Search label="Søk" placeholder="Søk i resultater" />

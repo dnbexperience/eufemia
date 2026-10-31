@@ -136,21 +136,11 @@ jobs:
               changedFiles.join('\n')
             )
 
-      - name: Use Playwright cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        id: playwright-cache
+      - name: Setup Playwright
+        uses: ./.github/actions/setup-playwright
         with:
-          path: |
-            ~/Library/Caches/ms-playwright
-            ~/.cache/ms-playwright
-            %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('node_modules/playwright-core/browsers.json') }}
-      - name: Install Playwright browsers
-        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - name: Install Playwright dependencies
-        run: yarn workspace @dnb/eufemia playwright install-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+          browsers: firefox
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Prebuild Library
         if: env.RUN_POST_BUILD == 'true'
@@ -171,7 +161,20 @@ jobs:
 
       - name: Run visual tests
         if: env.RUN_VISUAL_TEST == 'true'
-        run: yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
+        run: |
+          (
+            while sleep 60; do
+              ps -axo rss,comm | awk '
+                /Nightly.app/ { firefox += $1 }
+                /node$/ { node += $1 }
+                END { printf "Memory: Firefox %.0f MiB, Node %.0f MiB\n", firefox / 1024, node / 1024 }
+              '
+              sysctl vm.swapusage
+            done
+          ) &
+          monitor_pid=$!
+          trap 'kill "$monitor_pid" 2>/dev/null || true' EXIT
+          yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
 
       - name: Store visual test artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7

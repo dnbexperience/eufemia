@@ -19,7 +19,7 @@ Address.Postal = function PostalAddress(props: ValueAddressProps) {
 
   const postalAddressProps: ValueAddressProps = {
     ...props,
-    label: props.label ?? translations.PostalAddress.label,
+    defaultLabel: props.defaultLabel ?? translations.PostalAddress.label,
   }
 
   return <Address {...postalAddressProps} />
@@ -31,7 +31,7 @@ Address.Street = function StreetAddress(props: ValueAddressProps) {
 
   const streetAddressProps: ValueAddressProps = {
     ...props,
-    label: props.label ?? translations.StreetAddress.label,
+    defaultLabel: props.defaultLabel ?? translations.StreetAddress.label,
   }
 
   return <Address {...streetAddressProps} />

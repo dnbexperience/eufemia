@@ -1,6 +1,12 @@
 /**
- * Optional print rules for a light brand theme. Layout belongs to the template.
+ * Optional print pagination and plain paper output. Layout belongs to the app.
  */
+
+@media screen {
+  .dnb-print-only {
+    display: none !important;
+  }
+}
 
 @media print {
   .dnb-print {
@@ -15,6 +21,7 @@
     }
     thead {
       display: table-header-group;
+      position: static;
     }
     tfoot {
       display: table-footer-group;
@@ -34,5 +41,70 @@
 
   .dnb-print-hidden {
     display: none !important;
+  }
+
+  .dnb-print.dnb-print--plain {
+    background: #fff !important;
+
+    &,
+    *,
+    &::before,
+    &::after,
+    *::before,
+    *::after {
+      color-scheme: light !important;
+      color: #000 !important;
+      -webkit-text-fill-color: currentcolor !important;
+      border-color: #777 !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
+    *,
+    &::before,
+    &::after,
+    *::before,
+    *::after {
+      background: transparent !important;
+    }
+
+    a[href] {
+      text-decoration: underline;
+    }
+
+    .dnb-input__placeholder {
+      display: none !important;
+    }
+
+    .dnb-tabs__button[aria-selected='true'] .dnb-tabs__button__title {
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+    }
+
+    .dnb-radio__input:checked ~ .dnb-radio__dot,
+    .dnb-radio__input[data-checked='true'] ~ .dnb-radio__dot {
+      border: 0.1875rem solid #000 !important;
+    }
+
+    .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
+      border-top: 0.1875rem solid #000 !important;
+    }
+
+    .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__gfx {
+      visibility: hidden;
+    }
+
+    .dnb-input__shell,
+    .dnb-checkbox__button,
+    .dnb-radio__button {
+      outline: 0.0625rem solid #777;
+      outline-offset: -0.0625rem;
+    }
+
+    .dnb-switch__button {
+      border: 0.0625rem solid #000 !important;
+    }
   }
 }

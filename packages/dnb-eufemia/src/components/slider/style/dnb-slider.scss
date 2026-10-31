@@ -85,6 +85,11 @@
     height: var(--slider-marker-height);
     background-color: var(--slider-marker);
 
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+
     &:focus {
       @include utilities.focusRing();
     }
@@ -169,6 +174,13 @@
     background-color: var(--slider-line-before);
     border-radius: var(--slider-track-height);
 
+    // Forced colors mode removes background colors, so draw the track like a
+    // native range input: filled with Highlight and outlined where empty
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+      background-color: Highlight;
+    }
+
     &__before {
       z-index: 2;
     }
@@ -177,6 +189,11 @@
       z-index: 1;
       right: 0;
       background-color: var(--slider-line-after);
+
+      @media (forced-colors: active) {
+        background-color: Canvas;
+        outline: 1px solid CanvasText;
+      }
     }
   }
 
@@ -252,10 +269,19 @@
 
   &__state--disabled &__line {
     background-color: var(--slider-line-before--disabled);
+
+    @media (forced-colors: active) {
+      background-color: GrayText;
+    }
   }
 
   &__state--disabled &__line__after {
     background-color: var(--slider-line-after--disabled);
+
+    @media (forced-colors: active) {
+      background-color: Canvas;
+      outline-color: GrayText;
+    }
   }
 
   &__state--animate &__thumb,

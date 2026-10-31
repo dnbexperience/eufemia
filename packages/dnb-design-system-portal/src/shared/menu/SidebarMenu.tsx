@@ -218,7 +218,7 @@ function SidebarResizeHandle({
   return (
     <button
       type="button"
-      className={resizeHandleStyle}
+      className={clsx(resizeHandleStyle, 'dnb-print-hidden')}
       aria-label="Resize sidebar"
       aria-controls="portal-sidebar-menu"
       onPointerDown={handleResizePointerDown}

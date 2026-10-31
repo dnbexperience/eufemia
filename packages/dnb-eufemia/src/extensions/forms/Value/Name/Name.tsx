@@ -19,7 +19,7 @@ Name.First = function FirstName(props: ValueNameProps) {
 
   const nameProps: ValueNameProps = {
     ...props,
-    label: props.label ?? translations.FirstName.label,
+    defaultLabel: props.defaultLabel ?? translations.FirstName.label,
   }
 
   return <Name {...nameProps} />
@@ -31,7 +31,7 @@ Name.Last = function LastName(props: ValueNameProps) {
 
   const nameProps: ValueNameProps = {
     ...props,
-    label: props.label ?? translations.LastName.label,
+    defaultLabel: props.defaultLabel ?? translations.LastName.label,
   }
 
   return <Name {...nameProps} />
@@ -43,7 +43,7 @@ Name.Company = function CompanyName(props: ValueNameProps) {
 
   const nameProps: ValueNameProps = {
     ...props,
-    label: props.label ?? translations.CompanyName.label,
+    defaultLabel: props.defaultLabel ?? translations.CompanyName.label,
   }
 
   return <Name {...nameProps} />
