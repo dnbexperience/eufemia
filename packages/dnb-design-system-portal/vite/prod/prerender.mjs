@@ -18,6 +18,7 @@ import { build } from 'vite'
 import { execSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import fs from 'node:fs'
+import { createHash } from 'node:crypto'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -382,9 +383,26 @@ async function prerender() {
       assets,
       dependencies,
     }).replace(/</g, '\\u003c')
+    const hintsFile =
+      'assets/route-hints-' +
+      createHash('sha256').update(data).digest('hex').slice(0, 12) +
+      '.json'
+    fs.writeFileSync(path.join(outDir, hintsFile), data)
+    assets.length = 0
+    dependencies.length = 0
+    assetIndexes.clear()
+    dependencyIndexes.clear()
+    const bootstrap = JSON.stringify({
+      initial: compact(initial),
+      links: links['/'] ? { '/': compact(links['/']) } : {},
+      assets,
+      dependencies,
+    }).replace(/</g, '\\u003c')
     const script =
-      '<script id="portal-initial-route" type="application/json">' +
-      data +
+      '<script id="portal-initial-route" data-hints="/' +
+      hintsFile +
+      '" type="application/json">' +
+      bootstrap +
       '</script>'
     return html.replace('</head>', script + '\n</head>')
   }
@@ -598,6 +616,7 @@ function getRoutePreloads(
           const impEntry = clientManifest[imp]
           if (impEntry?.file) {
             const impPath = '/' + impEntry.file
+            jsPreloads.add(impPath)
             if (!visited.has(impPath)) {
               queue.push(impPath)
             }

@@ -22,6 +22,8 @@ const routeMap = new Map<string, PortalRoute>()
 const pageLoads = new Map<string, Promise<PortalRoute>>()
 const styleLoads = new Map<string, Promise<void>>()
 let hints: RouteHints | undefined
+let hintsUrl: string | undefined
+let hintsPromise: Promise<void> | undefined
 let routesPromise: Promise<PortalRoute[]> | undefined
 
 export function loadPortalRoutes(): Promise<PortalRoute[]> {
@@ -158,6 +160,7 @@ function loadHint(hint: RouteHint, recover = false): Promise<PortalRoute> {
 export async function getInitialPortalRoutes(): Promise<PortalRoute[]> {
   const element = document.getElementById('portal-initial-route')
   if (element?.textContent) {
+    hintsUrl = element.getAttribute('data-hints') || undefined
     hints = JSON.parse(element.textContent) as RouteHints
     if (
       matchRoutes([hints.initial as PortalRoute], window.location.pathname)
@@ -173,7 +176,7 @@ export async function getInitialPortalRoutes(): Promise<PortalRoute[]> {
               id: home.id,
               index: true,
               lazy: async () => {
-                const { Component } = await loadHint(home)
+                const { Component } = await loadHint(hints.links['/'])
                 return { Component }
               },
             },
@@ -191,6 +194,7 @@ function normalizePath(pathname: string) {
 }
 
 export async function discoverPortalRoutes(pathname: string) {
+  await loadHints()
   const hint = hints?.links[pathname.replace(/\/+$/, '') || '/']
   if (hint) {
     return [await loadHint(hint)]
@@ -199,6 +203,7 @@ export async function discoverPortalRoutes(pathname: string) {
 }
 
 export async function prefetchPortalRoute(pathname: string) {
+  await loadHints()
   const hint = hints?.links[pathname.replace(/\/+$/, '') || '/']
   if (hint) {
     await loadHint(hint)
@@ -218,4 +223,26 @@ export async function prefetchPortalRoute(pathname: string) {
         ? routeMap.get(normalizePath(target))
         : undefined
   }
+}
+
+function loadHints() {
+  if (
+    !hintsUrl ||
+    !new RegExp('^/assets/route-hints-[a-f0-9]{12}[.]json$').test(hintsUrl)
+  ) {
+    return Promise.resolve()
+  }
+  return (hintsPromise ??= fetch(hintsUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Could not load navigation')
+      }
+      return response.json()
+    })
+    .then((data: RouteHints) => {
+      hints = data
+    })
+    .catch(() => {
+      hintsPromise = undefined
+    }))
 }
