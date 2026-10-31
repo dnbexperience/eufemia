@@ -197,7 +197,7 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
     if (hashes) {
       const currentFonts = [...hashes.keys()]
         .filter((path) =>
-          /^fonts\/dnb\/DNBSans(?:Text|Mono|Display)[^/]*\.woff2$/.test(
+          /^fonts\/dnb\/(?:web\/)?DNBSans(?:Text|Mono|Display)[^/]*\.woff2$/.test(
             path
           )
         )

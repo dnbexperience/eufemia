@@ -9,8 +9,8 @@ Every published Eufemia version, including prereleases, gets an immutable
 prefix. Stable aliases follow only the latest stable release and remain
 available for manually linked assets and backwards compatibility:
 
-- `https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNBSansText-Regular.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Regular.woff2`
+- `https://assets.eufemia.dnb.no/v<version>/fonts/dnb/web/DNBSansText-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansText-Regular.woff2`
 
 Generated Eufemia CSS uses the immutable URL matching its package version, and
 repeats each `@font-face` source against the stable alias so the fonts still
