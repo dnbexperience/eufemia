@@ -54,7 +54,7 @@ The `countryCode` property supports a field path as value. This allows you to se
 
 If you want to allow for a postal code that is not Norwegian, just set the `countryCode` property to the desired country, and add your own custom validation.
 
-NB: As of today, setting `countryCode` property to anything other than `NO` will only remove the default norwegian postal code pattern, mask, and placeholder, but not actually set the postal code pattern, mask, and placeholder for the value provided to the `countryCode` property. This functionality will hopefully be implemented in the future.
+NB: As of today, `NO`, `DK` and `CH` get a four-digit postal code mask and validation, and only `NO` limits the city to Norwegian letters, spaces and hyphens. Any other `countryCode` removes these rules, but does not set rules for the given country. This functionality will hopefully be implemented in the future.
 
 <Examples.NonNorwegianPostalCode />
 
