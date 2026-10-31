@@ -1,4 +1,5 @@
 import {
+  checkRepositoryAdvisories,
   findAdvisoryMatches,
   getProductionPackages,
   isPatched,
@@ -464,5 +465,51 @@ describe('checkRepositoryAdvisories', () => {
     expect(check('18.3.1')).toEqual([])
     expect(check('19.1.2')).toEqual([])
     expect(check('19.2.1')).toEqual([])
+  })
+
+  describe('with the lockfile', () => {
+    const stubFetch = (advisoriesStatus: number) => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(async (url: string) =>
+          url.startsWith('https://registry.npmjs.org/')
+            ? {
+                ok: true,
+                status: 200,
+                json: async () => ({
+                  repository: { url: 'https://github.com/owner/repo' },
+                }),
+              }
+            : {
+                ok: advisoriesStatus === 200,
+                status: advisoriesStatus,
+                json: async () => [],
+              }
+        )
+      )
+    }
+
+    beforeEach(() => {
+      vi.spyOn(console, 'log').mockImplementation(() => undefined)
+    })
+
+    afterEach(() => {
+      vi.unstubAllGlobals()
+      vi.restoreAllMocks()
+    })
+
+    it('fails when every GitHub repository is skipped', async () => {
+      stubFetch(404)
+
+      await expect(checkRepositoryAdvisories()).rejects.toThrow(
+        'All 1 GitHub repositories were skipped'
+      )
+    })
+
+    it('passes when the advisories could be read', async () => {
+      stubFetch(200)
+
+      await expect(checkRepositoryAdvisories()).resolves.toEqual([])
+    })
   })
 })
