@@ -12,7 +12,8 @@ import useId from '../../../../shared/helpers/useId'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type WizardPreviousButtonProps = ComponentProps & ButtonProps
+export type WizardPreviousButtonProps = ComponentProps &
+  Omit<ButtonProps, 'pending'>
 
 function PreviousButton(props: WizardPreviousButtonProps) {
   const translations = useTranslation().WizardPreviousButton

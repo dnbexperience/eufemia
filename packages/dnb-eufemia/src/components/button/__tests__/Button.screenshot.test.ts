@@ -136,6 +136,14 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       })
     })
 
+    describe('pending', () => {
+      it('have to match pending buttons', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="button-pending"]',
+        })
+      })
+    })
+
     describe('error', () => {
       it('have to match', async () => {
         await makeScreenshot({

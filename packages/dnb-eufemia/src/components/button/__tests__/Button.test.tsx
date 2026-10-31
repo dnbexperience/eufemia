@@ -4,14 +4,25 @@
  */
 
 import type { RefObject } from 'react'
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { eufemiaCssOptimizer } from '../../../style/vite-plugin'
 import type { ButtonOnClick, ButtonProps } from '../Button'
 import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
 import Icon from '../../icon/Icon'
 import { chevron_down, chevron_up } from '../../../icons'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import {
+  createEvent,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react'
 import { Provider, Theme } from '../../../shared'
+import nbNO from '../../../shared/locales/nb-NO'
+import enGB from '../../../shared/locales/en-GB'
 import userEvent from '@testing-library/user-event'
 
 const props: ButtonProps = {
@@ -770,10 +781,258 @@ describe('Button status', () => {
   })
 })
 
+describe('Button pending', () => {
+  it('shows the indicator after the text', () => {
+    render(<Button text="Save" pending />)
+
+    const text = document.querySelector('.dnb-button__text')
+    const indicator = text.querySelector('.dnb-forms-submit-indicator')
+    const content = indicator.querySelector(
+      '.dnb-forms-submit-indicator__content'
+    )
+
+    expect(text).toHaveTextContent('Save')
+    expect(text.lastElementChild).toBe(indicator)
+    expect(indicator).toHaveClass(
+      'dnb-forms-submit-indicator--state-pending',
+      'dnb-button__indicator',
+      'dnb-button__indicator--pending'
+    )
+    expect(content).toHaveClass('dnb-button__indicator-content')
+    expect(content.querySelectorAll('b')).toHaveLength(3)
+    expect(content).toHaveAttribute('role', 'status')
+    expect(content).toHaveAttribute(
+      'aria-label',
+      nbNO['nb-NO'].SubmitIndicator.label
+    )
+  })
+
+  it('uses the translation of the current locale', () => {
+    render(
+      <Provider locale="en-GB">
+        <Button text="Save" pending />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-submit-indicator__content')
+    ).toHaveAttribute('aria-label', enGB['en-GB'].SubmitIndicator.label)
+  })
+
+  it('stays focusable and uses aria-disabled instead of disabled', () => {
+    const { rerender } = render(<Button text="Save" pending={false} />)
+
+    const button = document.querySelector('button')
+    button.focus()
+
+    expect(button).not.toHaveAttribute('aria-disabled')
+    expect(button).not.toHaveClass('dnb-button--pending')
+
+    rerender(<Button text="Save" pending />)
+
+    expect(button).not.toBeDisabled()
+    expect(button).toHaveAttribute('aria-disabled', 'true')
+    expect(button).toHaveClass('dnb-button--pending')
+    expect(document.activeElement).toBe(button)
+  })
+
+  it('stays focusable when it is disabled as well', () => {
+    render(
+      <Provider formElement={{ disabled: true }}>
+        <Button text="Save" pending />
+        <Button text="Cancel" disabled pending />
+      </Provider>
+    )
+
+    const [save, cancel] = Array.from(document.querySelectorAll('button'))
+
+    expect(save).not.toBeDisabled()
+    expect(save).toHaveAttribute('aria-disabled', 'true')
+    expect(cancel).not.toBeDisabled()
+    expect(cancel).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('ignores clicks and does not submit a form', () => {
+    const onClick = vi.fn()
+    const onBodyClick = vi.fn()
+    const onSubmit = vi.fn((event) => event.preventDefault())
+    document.body.addEventListener('click', onBodyClick)
+
+    const { rerender } = render(
+      <form onSubmit={onSubmit}>
+        <Button text="Save" type="submit" onClick={onClick} pending />
+      </form>
+    )
+
+    const button = document.querySelector('button')
+    fireEvent.click(button)
+
+    expect(onClick).toHaveBeenCalledTimes(0)
+    expect(onBodyClick).toHaveBeenCalledTimes(0)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    rerender(
+      <form onSubmit={onSubmit}>
+        <Button
+          text="Save"
+          type="submit"
+          onClick={onClick}
+          pending={false}
+        />
+      </form>
+    )
+
+    fireEvent.click(button)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onBodyClick).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+
+    document.body.removeEventListener('click', onBodyClick)
+  })
+
+  it('keeps a pending link focusable and prevents navigation', () => {
+    render(<Button text="Open" href="/url" pending />)
+
+    const anchor = document.querySelector('a')
+    const event = createEvent.click(anchor)
+    fireEvent(anchor, event)
+
+    expect(event.defaultPrevented).toBe(true)
+    expect(anchor).toHaveAttribute('aria-disabled', 'true')
+    expect(anchor).toHaveAttribute('href', '/url')
+    expect(anchor).not.toHaveAttribute('tabindex')
+  })
+
+  it('renders a hidden indicator when pending is false, so it can animate in', () => {
+    const { rerender } = render(<Button text="Save" />)
+
+    expect(
+      document.querySelector('.dnb-forms-submit-indicator')
+    ).not.toBeInTheDocument()
+
+    rerender(<Button text="Save" pending={false} />)
+
+    const indicator = document.querySelector('.dnb-forms-submit-indicator')
+    const content = indicator.querySelector(
+      '.dnb-forms-submit-indicator__content'
+    )
+
+    expect(indicator).not.toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
+    expect(indicator).not.toHaveClass('dnb-button__indicator--pending')
+    expect(content).toHaveAttribute('aria-hidden', 'true')
+    expect(content).not.toHaveAttribute('role')
+    expect(content.querySelectorAll('b')).toHaveLength(0)
+  })
+
+  it('should validate with ARIA rules when pending', async () => {
+    const Comp = render(<Button text="Save" pending />)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
 describe('Button scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('includes the pending indicator styles and a not-allowed cursor', () => {
+    const css = String(loadScss(require.resolve('../style/deps.scss')))
+
+    expect(css).toMatch(/\.dnb-button--pending \{\s*cursor: not-allowed;/)
+    expect(css).toContain('@keyframes submit-indicator-dot')
+  })
+
+  it('does not contain forms class names', () => {
+    const css = String(loadScss(require.resolve('../style/deps.scss')))
+
+    expect(css).not.toContain('.dnb-forms-')
+  })
+
+  const getStylesheet = () =>
+    String(loadScss(require.resolve('../style/deps.scss')))
+
+  const getOptimizedStylesheet = async () => {
+    const root = fs.realpathSync(
+      fs.mkdtempSync(path.join(os.tmpdir(), 'eufemia-button-'))
+    )
+
+    try {
+      fs.mkdirSync(path.join(root, 'src'))
+      fs.writeFileSync(
+        path.join(root, 'src/App.tsx'),
+        `import { Button } from '@dnb/eufemia'
+        export const App = () => <Button pending />`
+      )
+
+      const plugin = eufemiaCssOptimizer()
+      plugin.configResolved({ root, logger: { info: vi.fn() } })
+
+      const result = await plugin.transform(
+        getStylesheet(),
+        path.join(
+          root,
+          'node_modules/@dnb/eufemia/style/dnb-ui-components.css'
+        )
+      )
+
+      return result.code
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  }
+
+  describe.each([
+    ['the stylesheet', getStylesheet],
+    [
+      'the stylesheet optimized for an app that only uses Button',
+      getOptimizedStylesheet,
+    ],
+  ])('pending with %s', (_, getCss) => {
+    let css: string
+    let style: HTMLStyleElement
+
+    beforeAll(async () => {
+      css = await getCss()
+      style = document.createElement('style')
+      style.textContent = css
+      document.head.appendChild(style)
+    })
+
+    afterAll(() => {
+      style.remove()
+    })
+
+    it('shows the animated indicator dots', () => {
+      render(<Button text="Save" pending />)
+
+      const content = document.querySelector(
+        '.dnb-forms-submit-indicator__content'
+      )
+      const dot = content.querySelector('b')
+
+      expect(getComputedStyle(content).opacity).toBe('1')
+      expect(getComputedStyle(content).fontSize).not.toBe('0px')
+      expect(getComputedStyle(dot).borderRadius).toBe('50%')
+      expect(getComputedStyle(dot).animationName).toBe(
+        'submit-indicator-dot'
+      )
+      expect(css).toContain('@keyframes submit-indicator-dot')
+    })
+
+    it('hides the indicator when pending is false', () => {
+      render(<Button text="Save" pending={false} />)
+
+      const content = document.querySelector(
+        '.dnb-forms-submit-indicator__content'
+      )
+
+      expect(getComputedStyle(content).opacity).toBe('0')
+      expect(getComputedStyle(content).fontSize).toBe('0px')
+    })
   })
 
   it('shows the focus ring in forced colors mode', () => {

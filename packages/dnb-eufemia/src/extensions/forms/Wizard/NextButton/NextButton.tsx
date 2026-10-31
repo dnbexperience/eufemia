@@ -12,7 +12,7 @@ import useCombinedRef from '../../../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardNextButtonProps = ComponentProps &
-  Omit<ButtonProps, 'variant'>
+  Omit<ButtonProps, 'variant' | 'pending'>
 
 function NextButton(props: WizardNextButtonProps) {
   const translations = useTranslation().WizardNextButton

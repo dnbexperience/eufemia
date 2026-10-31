@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import AlignmentHelper from '../../../shared/AlignmentHelper'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import type { IconIcon, IconSize } from '../../icon/Icon'
+import SubmitIndicator from './SubmitIndicator'
 
 type ButtonContentProps = {
   title?: ReactNode
@@ -12,6 +13,7 @@ type ButtonContentProps = {
   iconSize?: IconSize | string | number
   bounding?: boolean
   skeleton?: boolean
+  pending?: boolean
   isIconOnly?: boolean
   iconElement?: ReactNode
   transitionState?: string
@@ -25,6 +27,7 @@ export default function ButtonContent({
   iconSize = 'default',
   bounding = null,
   skeleton = null,
+  pending = null,
   isIconOnly = null,
   iconElement = null,
   transitionState = null,
@@ -51,6 +54,11 @@ export default function ButtonContent({
             className="dnb-button__text dnb-skeleton--show-font"
           >
             {content}
+
+            {/* Rendered with pending={false} too, so the indicator can animate in */}
+            {typeof pending === 'boolean' && (
+              <SubmitIndicator state={pending ? 'pending' : undefined} />
+            )}
           </span>
         </>
       )}

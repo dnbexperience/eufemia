@@ -5,6 +5,7 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 @use './button--tertiary.scss';
+@use './submit-indicator.scss';
 
 :root {
   --button-icon-size: 1rem;
@@ -905,6 +906,10 @@
   &[disabled] {
     cursor: not-allowed;
     outline: none; // when state goes from enabled to disabled and the focus is set, the outline (Safari) will show up, because it already had focus
+  }
+
+  &--pending {
+    cursor: not-allowed;
   }
 
   &--primary[disabled],

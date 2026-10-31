@@ -18,7 +18,7 @@ export type FormSubmitButtonProps = {
    */
   showIndicator?: boolean
 } & ComponentProps &
-  Omit<ButtonProps, 'variant'> &
+  Omit<ButtonProps, 'variant' | 'pending'> &
   Partial<
     Omit<HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>, 'title'>
   > & {

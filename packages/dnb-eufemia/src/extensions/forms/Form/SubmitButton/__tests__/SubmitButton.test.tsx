@@ -529,6 +529,40 @@ describe('Form.SubmitButton', () => {
     )
   })
 
+  it('should use the translations given to Form.Handler for the indicator', () => {
+    render(
+      <Form.Handler
+        translations={{
+          'nb-NO': {
+            SubmitButton: { text: 'Lagre' },
+            SubmitIndicator: { label: 'Vent litt' },
+          },
+        }}
+      >
+        <Form.SubmitButton showIndicator />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('button')).toHaveTextContent('Lagre')
+    expect(
+      document.querySelector('.dnb-forms-submit-indicator__content')
+    ).toHaveAttribute('aria-label', 'Vent litt')
+  })
+
+  it('should still submit when showIndicator is set', () => {
+    const onSubmit = vi.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Form.SubmitButton showIndicator />
+      </Form.Handler>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
   it('should support custom text with submit indicator', () => {
     const { rerender } = render(<Form.SubmitButton text="Save" />)
 

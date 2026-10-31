@@ -75,6 +75,9 @@ export default {
     ProgressIndicator: {
       indicatorLabel: 'Vent venligst ...',
     },
+    SubmitIndicator: {
+      label: 'Vent venligst',
+    },
     DrawerList: {
       defaultGroupSR: 'Standardvalg',
       missingGroup: 'Gruppe',

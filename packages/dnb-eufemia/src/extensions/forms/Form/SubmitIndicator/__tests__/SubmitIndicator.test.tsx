@@ -2,8 +2,12 @@ import { useReducer } from 'react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
-import { axeComponent } from '../../../../../core/test-utils/testSetup'
-import locales from '../../../constants/locales'
+import {
+  axeComponent,
+  loadScss,
+} from '../../../../../core/test-utils/testSetup'
+import locales from '../../../../../shared/locales'
+import svSE_forms from '../../../constants/locales/sv-SE'
 
 const nbNO = locales['nb-NO']
 
@@ -31,7 +35,7 @@ describe('Form.SubmitIndicator', () => {
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
     expect(element).toHaveClass(
-      'dnb-space dnb-forms-submit-indicator custom-class',
+      'dnb-space dnb-forms-submit-indicator dnb-button__indicator custom-class',
       { exact: true }
     )
   })
@@ -51,7 +55,7 @@ describe('Form.SubmitIndicator', () => {
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
     expect(element).toHaveClass(
-      'dnb-space dnb-space__top--large dnb-forms-submit-indicator dnb-forms-submit-indicator--state-pending',
+      'dnb-space dnb-space__top--large dnb-forms-submit-indicator dnb-button__indicator dnb-forms-submit-indicator--state-pending dnb-button__indicator--pending',
       { exact: true }
     )
   })
@@ -145,6 +149,23 @@ describe('Form.SubmitIndicator', () => {
     expect(dots).toHaveAttribute('aria-label', 'Custom label')
   })
 
+  it('should use the label from the forms translations given to Form.Handler', () => {
+    render(
+      <Form.Handler translations={svSE_forms} locale="sv-SE">
+        <Form.SubmitIndicator state="pending" />
+      </Form.Handler>
+    )
+
+    const dots = document.querySelector(
+      '.dnb-forms-submit-indicator__content'
+    )
+
+    expect(dots).toHaveAttribute(
+      'aria-label',
+      svSE_forms['sv-SE'].SubmitIndicator.label
+    )
+  })
+
   it('should render when showLabel is true', () => {
     render(<Form.SubmitIndicator state="pending" showLabel />)
 
@@ -176,7 +197,9 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
     expect(element).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator--state-pending',
+      'dnb-button__indicator',
+      'dnb-button__indicator--pending'
     )
 
     rerender(<Form.SubmitIndicator state="complete" />)
@@ -184,6 +207,7 @@ describe('Form.SubmitIndicator', () => {
     expect(element).toHaveClass(
       'dnb-forms-submit-indicator--state-complete'
     )
+    expect(element).not.toHaveClass('dnb-button__indicator--pending')
   })
 
   it('should not add dots when state is "success" or "abort"', () => {
@@ -254,7 +278,10 @@ describe('Form.SubmitIndicator', () => {
       </Form.SubmitIndicator>
     )
 
-    expect(element).toHaveClass('dnb-forms-submit-indicator--inline-wrap')
+    expect(element).toHaveClass(
+      'dnb-forms-submit-indicator--inline-wrap',
+      'dnb-button__indicator--inline-wrap'
+    )
 
     Object.defineProperties(HTMLElement.prototype, {
       offsetHeight: {
@@ -441,5 +468,15 @@ describe('Form.SubmitIndicator', () => {
     await userEvent.click(button)
 
     expect(element).toHaveTextContent('Label 2')
+  })
+})
+
+describe('Form.SubmitIndicator scss', () => {
+  it('includes the indicator styles in its forms style entry', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-form-submit-indicator.scss'))
+    )
+
+    expect(css).toContain('@keyframes submit-indicator-dot')
   })
 })
