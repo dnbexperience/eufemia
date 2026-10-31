@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])(`Menu for %s`, (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="menu-accordion"]',
       style: {
-        'padding-bottom': '14rem',
+        'padding-bottom': '16.5rem',
         width: '12rem',
       },
       simulate: 'click',
