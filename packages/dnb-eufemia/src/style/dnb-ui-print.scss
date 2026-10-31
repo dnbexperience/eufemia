@@ -74,7 +74,8 @@
       text-decoration: underline;
     }
 
-    .dnb-input__placeholder {
+    .dnb-input__placeholder,
+    .dnb-textarea__placeholder {
       display: none !important;
     }
 
@@ -97,10 +98,18 @@
     }
 
     .dnb-input__shell,
+    .dnb-textarea__state,
     .dnb-checkbox__button,
-    .dnb-radio__button {
+    .dnb-radio__button,
+    .dnb-toggle-button__button {
       outline: 0.0625rem solid #777;
       outline-offset: -0.0625rem;
+    }
+
+    // ToggleButton shows its selection only with a background and color
+    .dnb-toggle-button--checked .dnb-toggle-button__button {
+      outline: 0.1875rem solid #000;
+      outline-offset: -0.1875rem;
     }
 
     .dnb-switch__button {
