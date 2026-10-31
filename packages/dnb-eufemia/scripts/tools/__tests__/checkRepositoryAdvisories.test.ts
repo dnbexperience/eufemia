@@ -64,8 +64,31 @@ describe('checkRepositoryAdvisories', () => {
     ['6.1.3', '>= 7.0.0, < 7.1.6', false],
     ['1.2.3', '= 1.2.3', true],
     ['1.2.4', '<= 1.2.3', false],
+    ['1.2.0', '>= 1.0.0, < 1.2.0', false],
+    ['0.9.0', '>= 1.0.0, < 1.2.0', false],
+    ['8.0.0-alpha.5', '>= 8.0.0-alpha.0, < 8.0.0-alpha.16', true],
+    ['8.0.0-alpha.16', '>= 8.0.0-alpha.0, < 8.0.0-alpha.16', false],
+    ['7.26.9', '<7.26.10, 8.0.0-alpha.0 - 8.0.0-alpha.16', true],
+    ['8.0.0-alpha.16', '<7.26.10, 8.0.0-alpha.0 - 8.0.0-alpha.16', true],
+    ['7.28.4', '<7.26.10, 8.0.0-alpha.0 - 8.0.0-alpha.16', false],
+    ['7.20.0', '7.12.0 - 7.29.3', true],
+    ['7.29.4', '7.12.0 - 7.29.3', false],
+    ['1.1.0', '>=1.0.0 <1.2.0 || >=2.0.0 <2.1.0', true],
+    ['1.5.0', '>=1.0.0 <1.2.0 || >=2.0.0 <2.1.0', false],
+    ['3.1.2', '>= 2.3.1, <= 2.4.2; >= 3.0.0, <= 3.1.3', true],
+    ['3.1.4', '>= 2.3.1, <= 2.4.2; >= 3.0.0, <= 3.1.3', false],
   ])('checks %s against "%s"', (version, range, expected) => {
     expect(isVersionInRange(version, range)).toBe(expected)
+  })
+
+  it.each([
+    ['1.0.0', ''],
+    ['1.0.0', '^1.0.0'],
+    ['4.1.0', '4.0.0 < 4.1.2'],
+    ['3.1.0', '3.0.0<= 3.1.0'],
+    ['7.26.10', '7.26.10, 8.0.0-alpha.17'],
+  ])('cannot read %s against "%s"', (version, range) => {
+    expect(isVersionInRange(version, range)).toBeNull()
   })
 
   it.each([
@@ -124,6 +147,141 @@ describe('checkRepositoryAdvisories', () => {
     ).toHaveLength(1)
   })
 
+  it('reads ranges in npm syntax', () => {
+    const advisories = [
+      {
+        ghsa_id: 'GHSA-968p-4wvh-cqc8',
+        summary:
+          'Inefficient RepExp complexity in generated code with .replace when transpiling named capturing groups',
+        severity: 'medium',
+        html_url:
+          'https://github.com/babel/babel/security/advisories/GHSA-968p-4wvh-cqc8',
+        vulnerabilities: [
+          {
+            package: { ecosystem: 'npm', name: '@babel/runtime-corejs3' },
+            vulnerable_version_range:
+              '<7.26.10, 8.0.0-alpha.0 - 8.0.0-alpha.16',
+            patched_versions: '7.26.10, 8.0.0-alpha.17',
+          },
+        ],
+      },
+      {
+        ghsa_id: 'GHSA-fv7c-fp4j-7gwp',
+        summary:
+          'Improper Control of Generation of Code when compiling specifically crafted malicious code with @babel/plugin-transform-modules-systemjs',
+        severity: 'high',
+        html_url:
+          'https://github.com/babel/babel/security/advisories/GHSA-fv7c-fp4j-7gwp',
+        vulnerabilities: [
+          {
+            package: {
+              ecosystem: 'npm',
+              name: '@babel/plugin-transform-modules-systemjs',
+            },
+            vulnerable_version_range: '7.12.0 - 7.29.3',
+            patched_versions: '7.29.4',
+          },
+          {
+            package: {
+              ecosystem: 'npm',
+              name: '@babel/plugin-transform-modules-systemjs',
+            },
+            vulnerable_version_range: '8.0.0-alpha.0 - 8.0.0-alpha.12',
+            patched_versions: '8.0.0-alpha.13',
+          },
+        ],
+      },
+    ]
+
+    expect(
+      findAdvisoryMatches(
+        { name: '@babel/runtime-corejs3', version: '7.26.9' },
+        advisories
+      )
+    ).toEqual([
+      {
+        name: '@babel/runtime-corejs3',
+        version: '7.26.9',
+        ghsaId: 'GHSA-968p-4wvh-cqc8',
+        severity: 'medium',
+        summary: advisories[0].summary,
+        url: advisories[0].html_url,
+      },
+    ])
+    expect(
+      findAdvisoryMatches(
+        { name: '@babel/runtime-corejs3', version: '7.28.4' },
+        advisories
+      )
+    ).toEqual([])
+    expect(
+      findAdvisoryMatches(
+        {
+          name: '@babel/plugin-transform-modules-systemjs',
+          version: '7.20.0',
+        },
+        advisories
+      )
+    ).toEqual([expect.objectContaining({ ghsaId: 'GHSA-fv7c-fp4j-7gwp' })])
+    expect(
+      findAdvisoryMatches(
+        {
+          name: '@babel/plugin-transform-modules-systemjs',
+          version: '8.0.0-alpha.12',
+        },
+        advisories
+      )
+    ).toHaveLength(1)
+    expect(
+      findAdvisoryMatches(
+        {
+          name: '@babel/plugin-transform-modules-systemjs',
+          version: '7.29.4',
+        },
+        advisories
+      )
+    ).toEqual([])
+  })
+
+  it('reports entries with a missing or unreadable range for review', () => {
+    const advisory = (
+      vulnerable_version_range: string | null,
+      patched_versions: string | null = null
+    ) => ({
+      ghsa_id: 'GHSA-xxxx-xxxx-xxxx',
+      summary: 'Summary',
+      severity: 'low',
+      html_url: 'https://github.com/advisories/GHSA-xxxx-xxxx-xxxx',
+      vulnerabilities: [
+        {
+          package: { ecosystem: 'npm', name: 'a' },
+          vulnerable_version_range,
+          patched_versions,
+        },
+      ],
+    })
+    const entry = { name: 'a', version: '1.0.0' }
+
+    expect(findAdvisoryMatches(entry, [advisory(null)])).toEqual([
+      expect.objectContaining({
+        ghsaId: 'GHSA-xxxx-xxxx-xxxx',
+        unreadableRange: '',
+      }),
+    ])
+    expect(findAdvisoryMatches(entry, [advisory('^1.0.0')])).toEqual([
+      expect.objectContaining({ unreadableRange: '^1.0.0' }),
+    ])
+    expect(
+      findAdvisoryMatches({ name: 'b', version: '1.0.0' }, [
+        advisory(null),
+      ])
+    ).toEqual([])
+    expect(findAdvisoryMatches(entry, [advisory(null, '1.0.0')])).toEqual(
+      []
+    )
+    expect(findAdvisoryMatches(entry, [advisory('>= 2.0.0')])).toEqual([])
+  })
+
   it.each([
     ['7.1.6', '7.1.6', true],
     ['7.1.5', '7.1.6', false],
@@ -131,6 +289,10 @@ describe('checkRepositoryAdvisories', () => {
     ['6.1.4', '6.1.4, 7.1.6', true],
     ['6.1.3', '6.1.4, 7.1.6', false],
     ['7.1.3', null, false],
+    ['8.0.0-rc.5', '8.0.0-rc.6', false],
+    ['8.0.0-rc.6', '8.0.0-rc.6', true],
+    ['3.1.9', '4.1.2; 3.1.5; 2.4.4', true],
+    ['3.1.4', '4.1.2; 3.1.5; 2.4.4', false],
   ])('treats %s as patched by "%s": %s', (version, patched, expected) => {
     expect(isPatched(version, patched)).toBe(expected)
   })

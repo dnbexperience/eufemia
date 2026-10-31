@@ -20,7 +20,7 @@ type RepositoryAdvisory = {
   html_url: string
   vulnerabilities?: Array<{
     package?: { ecosystem?: string; name?: string }
-    vulnerable_version_range?: string
+    vulnerable_version_range?: string | null
     patched_versions?: string | null
   }>
 }
@@ -32,7 +32,17 @@ export type AdvisoryMatch = {
   severity: string
   summary: string
   url: string
+  /** Set when the affected versions are missing or cannot be read, so a person has to check them */
+  unreadableRange?: string
 }
+
+type Version = {
+  numbers: number[]
+  prerelease: string[]
+  partial: boolean
+}
+
+type Comparator = { operator: string; version: Version }
 
 const repoRoot = path.resolve(__dirname, '../../../..')
 
@@ -105,49 +115,146 @@ export function toGitHubRepository(url: unknown) {
   return match ? `${match[1]}/${match[2].replace(/\.git$/, '')}` : null
 }
 
-function parseVersion(version: string) {
-  const [major = 0, minor = 0, patch = 0] = version
-    .replace(/^v/, '')
-    .split('-')[0]
-    .split('.')
-    .map((part) => parseInt(part, 10) || 0)
-  return [major, minor, patch]
+function parseVersion(version: string): Version | null {
+  const text = version.trim().replace(/^v/, '').split('+')[0]
+  const dash = text.indexOf('-')
+  const numbers = (dash === -1 ? text : text.slice(0, dash)).split('.')
+  const prerelease = dash === -1 ? [] : text.slice(dash + 1).split('.')
+  if (
+    numbers.length > 3 ||
+    !numbers.every((part) => /^\d+$/.test(part)) ||
+    !prerelease.every((identifier) => /^[0-9A-Za-z-]+$/.test(identifier))
+  ) {
+    return null
+  }
+  return {
+    numbers: [0, 1, 2].map((index) => parseInt(numbers[index] ?? '0', 10)),
+    prerelease,
+    partial: numbers.length < 3,
+  }
 }
 
-function compareVersions(a: string, b: string) {
-  const left = parseVersion(a)
-  const right = parseVersion(b)
+function compareVersions(a: Version, b: Version) {
   for (let index = 0; index < 3; index += 1) {
-    if (left[index] !== right[index]) {
-      return left[index] < right[index] ? -1 : 1
+    if (a.numbers[index] !== b.numbers[index]) {
+      return a.numbers[index] < b.numbers[index] ? -1 : 1
     }
+  }
+
+  // A prerelease comes before its release
+  if (a.prerelease.length === 0 || b.prerelease.length === 0) {
+    return Math.sign(b.prerelease.length - a.prerelease.length)
+  }
+
+  const isNumber = (identifier: string) => /^\d+$/.test(identifier)
+  const length = Math.max(a.prerelease.length, b.prerelease.length)
+  for (let index = 0; index < length; index += 1) {
+    const left = a.prerelease[index]
+    const right = b.prerelease[index]
+    if (left === right) {
+      continue
+    }
+    if (left === undefined || right === undefined) {
+      return left === undefined ? -1 : 1
+    }
+    if (isNumber(left) !== isNumber(right)) {
+      return isNumber(left) ? -1 : 1
+    }
+    if (isNumber(left)) {
+      return Number(left) < Number(right) ? -1 : 1
+    }
+    return left < right ? -1 : 1
   }
   return 0
 }
 
+function parseComparator(text: string): Comparator | null {
+  const match = /^(>=|<=|>|<|=)?(\S+)$/.exec(text)
+  const version = match && parseVersion(match[2])
+  if (!version) {
+    return null
+  }
+
+  const operator = match[1] ?? '='
+
+  // Only after >= and < does a partial version like "1.2" mean the same as "1.2.0"
+  if (version.partial && operator !== '>=' && operator !== '<') {
+    return null
+  }
+  return { operator, version }
+}
+
+function parseComparatorSet(text: string): Comparator[] | null {
+  const trimmed = text.trim()
+  if (trimmed === '*') {
+    return []
+  }
+
+  const hyphen = /^(\S+)\s+-\s+(\S+)$/.exec(trimmed)
+  if (hyphen) {
+    const from = parseVersion(hyphen[1])
+    const to = parseVersion(hyphen[2])
+    return from && to && !from.partial && !to.partial
+      ? [
+          { operator: '>=', version: from },
+          { operator: '<=', version: to },
+        ]
+      : null
+  }
+
+  const tokens = trimmed.replace(/(>=|<=|>|<|=)\s+/g, '$1').split(/\s+/)
+
+  // "4.0.0 < 4.1.2" would mean exactly 4.0.0 in npm syntax, which is rarely what was meant
+  if (tokens.length > 1 && tokens.some((token) => !/^[<>=]/.test(token))) {
+    return null
+  }
+
+  const comparators = tokens.map(parseComparator)
+  return comparators.every(Boolean) ? comparators : null
+}
+
 /**
- * Supports the GitHub advisory range format, such as ">= 7.0.0, < 7.1.6".
+ * Reads GitHub's range syntax, such as ">= 7.0.0, < 7.1.6", where commas mean "and".
+ * Also reads npm syntax, such as "<7.26.10, 8.0.0-alpha.0 - 8.0.0-alpha.16", where commas, "||" and ";" mean "or".
+ * Returns null when the range is missing or cannot be read.
  */
-export function isVersionInRange(version: string, range: string) {
-  return range.split(',').every((comparator) => {
-    const match = /^\s*(>=|<=|>|<|=)?\s*(\S+)\s*$/.exec(comparator)
-    if (!match) {
-      return false
-    }
-    const result = compareVersions(version, match[2])
-    switch (match[1]) {
-      case '>=':
-        return result >= 0
-      case '<=':
-        return result <= 0
-      case '>':
-        return result > 0
-      case '<':
-        return result < 0
-      default:
-        return result === 0
-    }
-  })
+export function isVersionInRange(
+  version: string,
+  range: string | null | undefined
+) {
+  const current = parseVersion(version)
+  const sets = String(range ?? '')
+    .split(/\|\||;/)
+    .flatMap((alternative) => {
+      const parts = alternative.split(',')
+      const isGitHubSyntax = parts.every((part) =>
+        /^\s*(>=|<=|>|<|=)?\s*[^\s<>=]+\s*$/.test(part)
+      )
+      return isGitHubSyntax ? [parts.join(' ')] : parts
+    })
+    .map(parseComparatorSet)
+
+  if (!current || current.partial || !sets.every(Boolean)) {
+    return null
+  }
+
+  return sets.some((set) =>
+    set.every(({ operator, version: bound }) => {
+      const result = compareVersions(current, bound)
+      switch (operator) {
+        case '>=':
+          return result >= 0
+        case '<=':
+          return result <= 0
+        case '>':
+          return result > 0
+        case '<':
+          return result < 0
+        default:
+          return result === 0
+      }
+    })
+  )
 }
 
 /**
@@ -157,11 +264,12 @@ export function isPatched(
   version: string,
   patchedVersions?: string | null
 ) {
+  const current = parseVersion(version)
   const patched = String(patchedVersions ?? '')
-    .split(',')
-    .map((patchedVersion) => patchedVersion.trim())
-    .filter(Boolean)
-  if (patched.length === 0) {
+    .split(/,|;|\|\|/)
+    .map(parseVersion)
+    .filter((patchedVersion) => patchedVersion && !patchedVersion.partial)
+  if (!current || patched.length === 0) {
     return false
   }
 
@@ -169,11 +277,11 @@ export function isPatched(
     compareVersions(a, b) >= 0 ? a : b
   )
   return (
-    compareVersions(version, newest) >= 0 ||
+    compareVersions(current, newest) >= 0 ||
     patched.some(
       (patchedVersion) =>
-        parseVersion(patchedVersion)[0] === parseVersion(version)[0] &&
-        compareVersions(version, patchedVersion) >= 0
+        patchedVersion.numbers[0] === current.numbers[0] &&
+        compareVersions(current, patchedVersion) >= 0
     )
   )
 }
@@ -183,23 +291,39 @@ export function findAdvisoryMatches(
   advisories: RepositoryAdvisory[]
 ): AdvisoryMatch[] {
   return advisories.flatMap((advisory) =>
-    (advisory.vulnerabilities ?? [])
-      .filter(
-        ({ package: pkg, vulnerable_version_range, patched_versions }) =>
-          pkg?.ecosystem === 'npm' &&
-          pkg?.name === entry.name &&
-          Boolean(vulnerable_version_range) &&
-          isVersionInRange(entry.version, vulnerable_version_range) &&
-          !isPatched(entry.version, patched_versions)
-      )
-      .map(() => ({
-        name: entry.name,
-        version: entry.version,
-        ghsaId: advisory.ghsa_id,
-        severity: advisory.severity,
-        summary: advisory.summary,
-        url: advisory.html_url,
-      }))
+    (advisory.vulnerabilities ?? []).flatMap(
+      ({ package: pkg, vulnerable_version_range, patched_versions }) => {
+        if (
+          pkg?.ecosystem !== 'npm' ||
+          pkg?.name !== entry.name ||
+          isPatched(entry.version, patched_versions)
+        ) {
+          return []
+        }
+
+        const affected = isVersionInRange(
+          entry.version,
+          vulnerable_version_range
+        )
+        if (affected === false) {
+          return []
+        }
+
+        return [
+          {
+            name: entry.name,
+            version: entry.version,
+            ghsaId: advisory.ghsa_id,
+            severity: advisory.severity,
+            summary: advisory.summary,
+            url: advisory.html_url,
+            ...(affected === null && {
+              unreadableRange: vulnerable_version_range ?? '',
+            }),
+          },
+        ]
+      }
+    )
   )
 }
 
@@ -272,6 +396,11 @@ export async function checkRepositoryAdvisories() {
     console.log(
       `${match.severity}: ${match.name}@${match.version} ${match.ghsaId} ${match.summary} (${match.url})`
     )
+    if (match.unreadableRange !== undefined) {
+      console.log(
+        `  Could not read the affected versions ("${match.unreadableRange}"). Check by hand whether ${match.version} is affected.`
+      )
+    }
   }
 
   return matches
