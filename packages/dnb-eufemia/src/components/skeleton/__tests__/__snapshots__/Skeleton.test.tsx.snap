@@ -79,9 +79,9 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
       var(--skeleton-color) 0.0625rem 0.375rem
     );
   background-image: var(--skeleton-active-background, none) !important;
-  background-repeat: repeat-x, repeat !important;
-  background-size: 24rem 100%, 0.5303300859rem 0.5303300859rem !important;
-  background-position: 0 50%, 0 50%;
+  background-repeat: no-repeat, repeat !important;
+  background-size: 300% 300%, 0.5303300859rem 0.5303300859rem !important;
+  background-position: 0 100%, 0 50%;
   animation: skeletonSweepAnimation var(--skeleton-duration) linear var(--skeleton-iteration-count) var(--skeleton-delay);
 }
 .dnb-skeleton--code pre,
@@ -141,11 +141,11 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
 @keyframes skeletonSweepAnimation {
   from {
     --skeleton-active-background: var(--skeleton-background-image);
-    background-position-x: 0, 0;
+    background-position: 0 100%, 0 50%;
   }
   to {
     --skeleton-active-background: var(--skeleton-background-image);
-    background-position-x: -24rem, -4.2426406871rem;
+    background-position: 100% 0, -4.2426406871rem 50%;
   }
 }
 @font-face {
