@@ -85,6 +85,13 @@ export function addOutsideClickListener({
     check(event)
   }
 
+  // A mouse or pen press after a tap counts, as only it comes with its own pointerdown
+  const handlePointerDown = (event: PointerEvent) => {
+    if (event.pointerType !== 'touch') {
+      tapTimeStamp = -Infinity
+    }
+  }
+
   const handleTouchStart = (event: Event) => {
     const touch = (event as TouchEvent).changedTouches?.[0]
     touchMoved = false
@@ -137,6 +144,7 @@ export function addOutsideClickListener({
   const root = document
   const touchOptions = { capture, passive: true }
 
+  root.addEventListener('pointerdown', handlePointerDown, true)
   root.addEventListener(pressEvent, handlePress, capture)
   root.addEventListener('touchstart', handleTouchStart, touchOptions)
   root.addEventListener('touchmove', handleTouchMove, touchOptions)
@@ -153,6 +161,7 @@ export function addOutsideClickListener({
 
   return () => {
     unsubscribe?.()
+    root.removeEventListener('pointerdown', handlePointerDown, true)
     root.removeEventListener(pressEvent, handlePress, capture)
     root.removeEventListener('touchstart', handleTouchStart, capture)
     root.removeEventListener('touchmove', handleTouchMove, capture)
