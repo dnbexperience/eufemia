@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test.use({ reducedMotion: 'reduce' })
+
 test('keeps the page usable when the settings download fails', async ({
   page,
 }) => {
