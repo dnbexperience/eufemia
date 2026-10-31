@@ -984,7 +984,7 @@ export const KeyboardNavigation = () => (
         const navRef = useTableKeyboardNavigation()
 
         return (
-          <Table.ScrollView aria-label="Keyboard navigable table">
+          <Table.ScrollView>
             <Table border outline ref={navRef}>
               <caption className="dnb-sr-only">
                 Keyboard navigable table
