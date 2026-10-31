@@ -1547,7 +1547,7 @@ describe('GlobalStatus component', () => {
 
     it('should keep the tabindex of a target that can get focus on its own', () => {
       const link = renderWithTarget(
-        <div id="target" tabIndex={-1}>
+        <div id="target" role="button" tabIndex={0}>
           Target
         </div>
       )
@@ -1557,12 +1557,13 @@ describe('GlobalStatus component', () => {
       fireEvent.click(link)
 
       expect(document.activeElement).toBe(target)
+      expect(target).toHaveAttribute('tabindex', '0')
 
       act(() => {
         document.querySelector('button').focus()
       })
 
-      expect(target).toHaveAttribute('tabindex', '-1')
+      expect(target).toHaveAttribute('tabindex', '0')
       expect(target).not.toHaveClass('dnb-no-focus')
 
       act(() => {
@@ -1570,7 +1571,27 @@ describe('GlobalStatus component', () => {
         document.querySelector('button').focus()
       })
 
+      expect(target).toHaveAttribute('tabindex', '0')
+    })
+
+    it('should keep a dnb-no-focus class and tabindex that the target already has', () => {
+      const link = renderWithTarget(
+        <div id="target" tabIndex={-1} className="dnb-no-focus">
+          Target
+        </div>
+      )
+      const target = document.getElementById('target')
+
+      fireEvent.click(link)
+
+      expect(document.activeElement).toBe(target)
+
+      act(() => {
+        document.querySelector('button').focus()
+      })
+
       expect(target).toHaveAttribute('tabindex', '-1')
+      expect(target).toHaveClass('dnb-no-focus')
     })
   })
 
