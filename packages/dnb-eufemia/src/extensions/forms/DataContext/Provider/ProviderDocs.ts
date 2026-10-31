@@ -93,7 +93,7 @@ export const ProviderProperties: PropertiesTableProps = {
   },
   messageFormatter: {
     doc: 'Message formatter for advanced message formatting (e.g. ICU MessageFormat). Import and pass `icu` from `@dnb/eufemia/shared` to enable pluralization, select, and other ICU features in translation strings.',
-    type: 'function',
+    type: 'ICUFormatMessage',
     status: 'optional',
   },
   countryCode: {
