@@ -33,30 +33,36 @@ function renderIntro(control?: ReactNode) {
 }
 
 describe('Intro keyboard shortcuts', () => {
-  it.each(['ArrowLeft', 'ArrowRight'])(
-    'keeps normal %s navigation from the page heading',
-    (key) => {
-      renderIntro()
-      const heading = document.querySelector('h1')
-      heading.focus()
-      fireEvent.keyDown(heading, { key })
+  it('keeps normal ArrowRight navigation from the page heading', () => {
+    renderIntro()
+    const heading = document.querySelector('h1')
+    heading.focus()
+    fireEvent.keyDown(heading, { key: 'ArrowRight' })
 
-      if (key === 'ArrowRight') {
-        expect(navigate).toHaveBeenCalledExactlyOnceWith(
-          '/uilib/intro/08-color-usage'
-        )
-        expect(window.history.back).not.toHaveBeenCalled()
-      } else {
-        expect(window.history.back).toHaveBeenCalledOnce()
-        expect(navigate).not.toHaveBeenCalled()
-      }
-    }
-  )
+    expect(navigate).toHaveBeenCalledExactlyOnceWith(
+      '/uilib/intro/08-color-usage'
+    )
+    expect(window.history.back).not.toHaveBeenCalled()
+  })
 
+  it('keeps normal ArrowLeft navigation from the page heading', () => {
+    renderIntro()
+    const heading = document.querySelector('h1')
+    heading.focus()
+    fireEvent.keyDown(heading, { key: 'ArrowLeft' })
+
+    expect(window.history.back).toHaveBeenCalledOnce()
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  // tabIndex -1 leaves the selector as the only guard for these controls
   it.each(['input', 'textarea', 'select', 'button', 'pre', 'a'])(
     'leaves arrow keys to the focused %s',
     (tag) => {
-      renderIntro(createElement(tag, { id: 'control', tabIndex: 0 }))
+      const href = tag === 'a' ? '#details' : undefined
+      renderIntro(
+        createElement(tag, { id: 'control', href, tabIndex: -1 })
+      )
       const control = document.querySelector<HTMLElement>('#control')
       control.focus()
       expect(document.activeElement).toBe(control)
