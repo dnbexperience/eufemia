@@ -466,6 +466,48 @@ describe('docs_search', () => {
     expect(hits[0]?.score).toBeGreaterThan(0)
   })
 
+  it('does not rank shared usage guidance as component content', async () => {
+    const fixture = createDocsFixture()
+    try {
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'shared.md'),
+        [
+          '# Component',
+          '<!-- eufemia-properties-usage:start -->',
+          'A use case approved by DNB UX is required.',
+          '<!-- eufemia-properties-usage:end -->',
+          '```json',
+          JSON.stringify({
+            props: {},
+            usageGuidance: 'A use case approved by DNB UX is required.',
+          }),
+          '```',
+        ].join(String.fromCharCode(10))
+      )
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'approval.md'),
+        '# Approval process'
+      )
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+      const result = await tools.docsSearch({
+        query: 'approved',
+        limit: 10,
+      })
+      expect(JSON.parse(getText(result))).toEqual([])
+      const content = await tools.docsSearch({
+        query: 'Component',
+        limit: 10,
+      })
+      expect(JSON.parse(getText(content))).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ path: '/shared.md' }),
+        ])
+      )
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('handles multi-word queries with AND logic', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsSearch({

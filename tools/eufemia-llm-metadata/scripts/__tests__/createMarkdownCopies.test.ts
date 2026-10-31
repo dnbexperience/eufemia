@@ -103,6 +103,8 @@ describe('createMarkdownCopies', () => {
           )
         )
     ).toHaveLength(1)
+    expect(output).toContain('<!-- eufemia-properties-usage:start -->')
+    expect(output).toContain('<!-- eufemia-properties-usage:end -->')
     expect(output).toContain('need a use case approved by DNB UX')
     expect(output).toContain(
       '/uilib/usage/customisation/component-properties/#intended-use-and-customization'

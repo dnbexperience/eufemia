@@ -1594,7 +1594,11 @@ export async function convertMdxToMd({
   const output = [
     outputFrontmatter,
     titleHeading,
-    propertiesUsage,
+    propertiesUsage
+      ? `<!-- eufemia-properties-usage:start -->
+${propertiesUsage}
+<!-- eufemia-properties-usage:end -->`
+      : '',
     outputBody.trim(),
   ]
     .filter(Boolean)

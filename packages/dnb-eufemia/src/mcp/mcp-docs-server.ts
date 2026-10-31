@@ -465,6 +465,24 @@ function createDocsContext(source: DocsSource) {
           continue
         }
 
+        text = text
+          .replace(
+            /\x3c!-- eufemia-properties-usage:start -->[\s\S]*?\x3c!-- eufemia-properties-usage:end -->/g,
+            ''
+          )
+          .replace(/```json\s*([\s\S]*?)```/g, (block, json) => {
+            try {
+              const metadata = JSON.parse(json)
+              if (metadata && Object.hasOwn(metadata, 'usageGuidance')) {
+                delete metadata.usageGuidance
+                return JSON.stringify(metadata)
+              }
+            } catch {
+              // Keep unstructured examples searchable.
+            }
+            return block
+          })
+
         const lower = text.toLowerCase()
 
         // For single-word queries, use exact phrase matching (backward compatible)
