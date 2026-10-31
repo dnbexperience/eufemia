@@ -81,4 +81,43 @@ describe('List scss', () => {
       expect(selector).not.toContain(':focus-visible')
     }
   })
+
+  // A row outside a List.Container, like in a Dropdown or Autocomplete
+  // option, has no padding of its own, so fixed cell sizes make it taller.
+  it('should only give the cells a fixed height on a List surface', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const cell =
+      /\.dnb-list__item__(title|end|icon|start|chevron|center)\b|\.dnb-anchor__launch-icon/
+    const surfaces: Array<string> = []
+    const fixedOutsideSurface: Array<string> = []
+
+    postcss.parse(css).walkDecls((decl) => {
+      const rule = decl.parent as postcss.Rule
+
+      if (decl.prop === '--list-item-cell-height') {
+        surfaces.push(`${rule.selector} { ${decl.value} }`)
+      }
+
+      if (
+        /^(min-height|padding-top|margin-top|margin-bottom)$/.test(
+          decl.prop
+        ) &&
+        rule.selectors?.some((selector) => cell.test(selector))
+      ) {
+        // Without a List surface, the custom property uses its fallback
+        const value = decl.value.replace(
+          /var\(--list-item-cell-height, (var\([^)]*\)|[^)]*)\)/g,
+          '$1'
+        )
+        if (/\d(rem|px|em)\b/.test(value)) {
+          fixedOutsideSurface.push(
+            `${rule.selector} { ${decl.prop}: ${decl.value} }`
+          )
+        }
+      }
+    })
+
+    expect(fixedOutsideSurface).toEqual([])
+    expect(surfaces).toEqual(['.dnb-list--variant-basic { 2rem }'])
+  })
 })

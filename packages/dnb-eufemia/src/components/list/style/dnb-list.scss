@@ -42,6 +42,7 @@
     --list-item-height: 4rem;
     --list-item-rounded-corner: var(--token-radius-xl);
     --list-item-row-gap: 0.5rem;
+    --list-item-cell-height: 2rem;
     --list-item-chevron-margin: 1rem;
     --list-item-chevron-height: 1.5rem;
     --list-item-outline-width: 0.0625rem;
@@ -177,9 +178,11 @@
     // In a row with an overline, the cells move down so they stay on the title
     // line. Only check the cells of the same row (the children of the cells'
     // parent), so a nested list (e.g. inside an accordion) does not affect the
-    // alignment of other rows.
-    $line-box: 2rem;
-    $title-offset: calc(($line-box - var(--line-height-basis)) / 2);
+    // alignment of other rows. A row outside a List.Container, like in a
+    // Dropdown option, has no padding, so it gets no box.
+    $line-box: var(--list-item-cell-height, auto);
+    $box-height: var(--list-item-cell-height, var(--line-height-basis));
+    $title-offset: calc(($box-height - var(--line-height-basis)) / 2);
     $overline-offset: calc(var(--line-height-basis) - #{$title-offset});
     $footer: '#{&}__footer, #{&}__action__footer';
     $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
