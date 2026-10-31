@@ -55,6 +55,40 @@ jobs:
 
       - name: Save diagnostic evidence
         if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          Add-Type @'
+          using System;
+          using System.Runtime.InteropServices;
+          public static class FontSystemSettings {
+            [DllImport("user32.dll")]
+            public static extern uint GetDpiForSystem();
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool SystemParametersInfo(uint action, uint param, out uint value, uint flags);
+          }
+          '@
+          [uint32]$smoothing = 0
+          [uint32]$smoothingType = 0
+          if (-not [FontSystemSettings]::SystemParametersInfo(0x004A, 0, [ref]$smoothing, 0)) {
+            throw "Could not read Windows font smoothing"
+          }
+          if (-not [FontSystemSettings]::SystemParametersInfo(0x200A, 0, [ref]$smoothingType, 0)) {
+            throw "Could not read Windows font smoothing type"
+          }
+          $textSizePath = 'HKCU:\SOFTWARE\Microsoft\Accessibility'
+          $textSizePresent = Test-Path $textSizePath
+          $textScale = if ($textSizePresent) { (Get-ItemProperty $textSizePath).TextScaleFactor } else { $null }
+          [ordered]@{
+            systemDpi = [FontSystemSettings]::GetDpiForSystem()
+            fontSmoothingEnabled = ($smoothing -ne 0)
+            fontSmoothingType = $smoothingType
+            textSizeRegistryPresent = $textSizePresent
+            textScaleFactorPercent = $textScale
+          } | ConvertTo-Json | Set-Content packages/dnb-eufemia/test-results/windows-settings.json
+
+      - name: Upload diagnostic evidence
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: windows-font-diagnostics

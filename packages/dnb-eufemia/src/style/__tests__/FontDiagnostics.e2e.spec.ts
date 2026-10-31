@@ -195,7 +195,8 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
         if (!(element instanceof HTMLElement)) {
           throw new Error('Metric sample must be an HTMLElement')
         }
-        element.style.font = 'normal 400 ' + size + 'px/24px ' + family
+        element.style.font =
+          'normal 400 ' + size + 'px/' + (size * 4) / 3 + 'px ' + family
       },
       { family, size }
     )
@@ -249,6 +250,12 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
   }
   try {
     for (const family of ['Text', 'Mono']) {
+      const legacyAlias = 'ReferenceLegacy' + family
+      await addFace(
+        legacyAlias,
+        'legacy',
+        (family === 'Text' ? 'DNB' : 'DNBMono') + '-Regular.woff2'
+      )
       for (const [weightName, weight] of weights) {
         for (const italic of [false, true]) {
           const suffix = weightName + (italic ? 'Italic' : '')
@@ -294,6 +301,7 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
           for (const size of [14, 16, 18, 24, 34, 48]) {
             const candidate = await select(derived, size)
             const source = await select(official, size)
+            const legacy = await select(legacyAlias, size)
             widthComparisons.push({
               family,
               suffix,
@@ -301,8 +309,15 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
               derived: candidate.width,
               official: source.width,
               delta: candidate.width - source.width,
+              derivedMetrics: candidate,
+              officialMetrics: source,
+              legacyMetrics: legacy,
             })
             expect(candidate.width).toBeCloseTo(source.width, 2)
+            if (!italic) {
+              expect(candidate.height).toBeCloseTo(legacy.height, 2)
+              expect(candidate.baseline).toBeCloseTo(legacy.baseline, 2)
+            }
           }
         }
       }
