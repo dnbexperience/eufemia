@@ -18,13 +18,26 @@ yarn add --dev @modelcontextprotocol/server
 ```
 
 That is sufficient for the stdio server. The HTTP server also needs the Node
-adapter, legacy SSE transport, and Express:
+adapter and Express:
 
 ```bash
-npm install --save-dev @modelcontextprotocol/node @modelcontextprotocol/server-legacy express
+npm install --save-dev @modelcontextprotocol/node express
 # or
-yarn add --dev @modelcontextprotocol/node @modelcontextprotocol/server-legacy express
+yarn add --dev @modelcontextprotocol/node express
 ```
+
+Only add the legacy SSE transport if a client still needs the old `/sse`
+endpoint, such as Claude Desktop's "SSE" server type. The package is
+deprecated upstream, and Streamable HTTP at `/mcp` covers current clients:
+
+```bash
+npm install --save-dev @modelcontextprotocol/server-legacy
+# or
+yarn add --dev @modelcontextprotocol/server-legacy
+```
+
+Without it, the HTTP server still starts and serves `/mcp`, and `/sse` and
+`/messages` answer `501`.
 
 ## Available Tools
 
@@ -63,11 +76,14 @@ Use this when you want to host the MCP server behind a public URL — for exampl
 The HTTP server exposes:
 
 - `GET /healthz` — health check (`{ ok: true, name, version, transports }`).
+  `transports` lists `sse` only when the legacy SSE transport is installed.
 - `POST /mcp`, `GET /mcp`, `DELETE /mcp` — MCP 2025 and `2026-07-28`
   on the same URL. Existing 2025 clients keep their stateful sessions; modern
   clients use stateless per-request serving.
 - `GET /sse` — legacy SSE stream. Emits an `endpoint` event with `/messages?sessionId=<id>`.
+  Needs `@modelcontextprotocol/server-legacy`.
 - `POST /messages?sessionId=<id>` — legacy SSE message endpoint.
+  Needs `@modelcontextprotocol/server-legacy`.
 
 #### Configuration
 
