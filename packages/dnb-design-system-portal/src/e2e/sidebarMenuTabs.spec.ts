@@ -147,6 +147,7 @@ test.describe('Portal SidebarMenu', () => {
     await menu
       .getByRole('button', { name: 'Design language', exact: true })
       .click()
+    const designLanguage = menu.locator('#design-language-content')
     for (const name of [
       'Design tokens',
       'Design principles',
@@ -159,7 +160,7 @@ test.describe('Portal SidebarMenu', () => {
       'Brand & logos',
     ]) {
       await expect(
-        menu.getByRole(
+        designLanguage.getByRole(
           ['Design tokens', 'Design principles'].includes(name)
             ? 'link'
             : 'button',

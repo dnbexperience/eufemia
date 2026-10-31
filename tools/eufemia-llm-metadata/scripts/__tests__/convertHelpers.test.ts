@@ -541,7 +541,9 @@ describe('convertMdxToMd', () => {
 
     expect(output).not.toContain('ListElements')
     expect(output).toContain('- [Paragraph](/web/elements/paragraph/):')
-    expect(output).toContain('- [Span](/web/elements/span/):')
+    expect(output).toContain(
+      '- [Inline text (span)](/web/elements/span/):'
+    )
   })
 
   it('replaces re-exported examples referenced through a namespace import', async () => {
@@ -1258,7 +1260,7 @@ describe('convertMdxToMd', () => {
     const listedCount = (output.match(/^- \[/gm) || []).length
     expect(listedCount).toBe(6)
     expect(output).toContain(
-      '[See all in Content](/web/components/overview/#content)'
+      '[See all in Content and layout](/web/components/overview/#content)'
     )
     // Alpha–Foxtrot are shown; Golf and Hotel are beyond the cap.
     expect(output).toContain('- [Alpha](/web/components/alpha/)')
@@ -1336,7 +1338,7 @@ describe('convertMdxToMd', () => {
     })
 
     expect(output).toContain('## Actions')
-    expect(output).toContain('## Input')
+    expect(output).toContain('## Inputs')
     expect(output).toContain(
       '- [Button](/web/components/button/): Use Button to confirm an action.'
     )

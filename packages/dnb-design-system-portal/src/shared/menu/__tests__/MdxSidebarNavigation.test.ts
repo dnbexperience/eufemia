@@ -5,6 +5,10 @@ import { getPortalPages } from '../../../../vite/client/plugins/portal-pages'
 import type { MdxNode } from '../../../../vite/client/plugins/portal-pages.shared'
 import { createMdxSidebarNavigation } from '../MdxSidebarNavigation'
 import graphics from '../SidebarGraphics'
+import {
+  categoryOrder,
+  getCategoryId,
+} from '../../parts/componentCategories'
 import { getPageRedirects } from '../../../../vite/client/plugins/portal-pages.shared'
 import {
   findActiveSidebarItemId,
@@ -24,6 +28,51 @@ function flatten(items: NavItem[]): NavItem[] {
 }
 
 describe('MDX-defined Portal navigation', () => {
+  it('uses the same category labels and descriptions in the sidebar and overview', () => {
+    for (const { id, title, description } of categoryOrder) {
+      const page = pages.find(
+        ({ fields }) => fields.slug === 'web/components/categories/' + id
+      )
+      expect(page.frontmatter.title).toBe(title)
+      expect(page.frontmatter.description).toBe(description)
+      expect(page.frontmatter.navigation.kind).toBe('group')
+      expect(page.frontmatter.route).toBe(false)
+    }
+  })
+
+  it('uses the same component categories in navigation and documentation', () => {
+    const mismatches: string[] = []
+    const definitions = new Map(
+      pages.map((page) => [page.fields.slug, page])
+    )
+    for (const { fields, frontmatter } of pages) {
+      if (
+        !fields.slug.startsWith('web/components/') ||
+        fields.slug.includes('/fragments/') ||
+        frontmatter.draft ||
+        frontmatter.navigation?.hidden ||
+        frontmatter.category === false
+      ) {
+        continue
+      }
+      let group = definitions.get(frontmatter.navigation?.parent)
+      while (
+        group &&
+        !group.fields.slug.startsWith('web/components/categories/')
+      ) {
+        group = definitions.get(group.frontmatter.navigation.parent)
+      }
+      const expected =
+        'web/components/categories/' + getCategoryId(frontmatter.category)
+      if (group && group.fields.slug !== expected) {
+        mismatches.push(
+          fields.slug + ': ' + group.fields.slug + ' != ' + expected
+        )
+      }
+    }
+    expect(mismatches).toEqual([])
+  })
+
   it('lists incoming helper, printing and contributor pages in their sections', () => {
     const items = flatten([
       ...tree().shared,
@@ -43,6 +92,163 @@ describe('MDX-defined Portal navigation', () => {
         items.filter(({ path, isMenuLink }) => path === slug && isMenuLink)
       ).toHaveLength(1)
     }
+  })
+
+  it('groups components by purpose without losing pages', () => {
+    const components = tree().sections[0].items.find(
+      ({ path }) => path === 'web/components'
+    )
+    expect(components.subheadings.map(({ title }) => title)).toEqual([
+      'All components A–Z',
+      'Components by category',
+      'Actions',
+      'Inputs',
+      'Navigation',
+      'Feedback and dialogs',
+      'Content and layout',
+      'Formatting and typography',
+      'Accessibility',
+      'Utilities',
+      'Fragments',
+    ])
+    for (const title of ['Actions', 'Inputs', 'Navigation']) {
+      const group = components.subheadings.find(
+        (item) => item.title === title
+      )
+      expect(group.isMenuGroup).toBe(false)
+      expect(group.isMenuLink).toBe(false)
+    }
+    const inputs = components.subheadings.find(
+      ({ title }) => title === 'Inputs'
+    )
+    expect(inputs.subheadings.map(({ title }) => title)).toEqual(
+      expect.arrayContaining([
+        'Input',
+        'Masked input',
+        'Text area',
+        'Checkbox',
+        'Radio button',
+        'Switch',
+        'Dropdown',
+        'Autocomplete',
+        'Date picker',
+        'Slider',
+        'Upload',
+      ])
+    )
+    const actions = components.subheadings.find(
+      ({ title }) => title === 'Actions'
+    )
+    expect(actions.subheadings.map(({ title }) => title)).toContain(
+      'Button'
+    )
+    expect(
+      actions.subheadings.some(({ title }) => title === 'Buttons')
+    ).toBe(false)
+    const links = flatten([components]).filter(
+      ({ isMenuLink }) => isMenuLink
+    )
+    const expectedPaths = pages
+      .filter(
+        ({ fields, frontmatter }) =>
+          fields.slug.startsWith('web/components/') &&
+          frontmatter.navigation &&
+          !frontmatter.navigation.hidden &&
+          frontmatter.route !== false &&
+          !frontmatter.draft
+      )
+      .map(({ fields }) => fields.slug)
+    expect(links.map(({ path }) => path).sort()).toEqual(
+      ['web/components', ...expectedPaths].sort()
+    )
+  })
+
+  it('uses readable component labels and matching page headings', () => {
+    const links = flatten(tree().sections[0].items).filter(
+      ({ isMenuLink }) => isMenuLink
+    )
+    for (const [slug, title] of [
+      ['date-picker', 'Date picker'],
+      ['input-masked', 'Masked input'],
+      ['country-flag', 'Country flags'],
+      ['icon', 'Icons'],
+      ['logo', 'Logos'],
+      ['number-format', 'Number format'],
+      ['skip-content', 'Skip content'],
+    ]) {
+      const path = 'web/components/' + slug
+      expect(links.find((item) => item.path === path)?.title).toBe(title)
+      const page = pages.find(({ fields }) => fields.slug === path)
+      expect(page.frontmatter.contentTitle || page.frontmatter.title).toBe(
+        title
+      )
+    }
+  })
+  it('aligns extension headings and keeps the Vipps button under Extensions', () => {
+    const links = flatten(tree().sections[0].items).filter(
+      ({ isMenuLink }) => isMenuLink
+    )
+    for (const [slug, title] of [
+      ['vipps-wallet-button', 'Vipps wallet button'],
+      ['payment-card', 'Payment card'],
+      ['sidebar-menu', 'Sidebar menu'],
+    ]) {
+      const path = 'web/extensions/' + slug
+      const page = pages.find(({ fields }) => fields.slug === path)
+      expect(page.frontmatter.title).toBe(title)
+      expect(links.filter((item) => item.path === path)).toHaveLength(1)
+      expect(links.find((item) => item.path === path)?.title).toBe(title)
+    }
+    const vipps = pages.find(
+      ({ fields }) => fields.slug === 'web/extensions/vipps-wallet-button'
+    )
+    expect(vipps.frontmatter.navigation.parent).toBe('web/extensions')
+  })
+
+  it('uses readable element names without losing element pages', () => {
+    const elements = tree().sections[0].items.find(
+      ({ path }) => path === 'web/elements'
+    )
+    expect(elements.subheadings.map(({ title }) => title)).toEqual([
+      'Using HTML elements',
+      'Block quote',
+      'Code',
+      'Headings',
+      'Horizontal rule',
+      'Image',
+      'Introductory paragraph',
+      'Lead paragraph',
+      'Lists',
+      'Paragraph',
+      'Inline text (span)',
+    ])
+    for (const item of elements.subheadings.slice(1)) {
+      const page = pages.find(({ fields }) => fields.slug === item.path)
+      expect(page.frontmatter.contentTitle || page.frontmatter.title).toBe(
+        item.title
+      )
+    }
+    const horizontalRule = pages.find(
+      ({ fields }) => fields.slug === 'web/elements/horizontal-rule'
+    )
+    expect(horizontalRule.frontmatter.legacyFragments).toEqual({
+      horizontalrule: '/web/elements/horizontal-rule/#horizontal-rule',
+    })
+  })
+
+  it('preserves old component heading fragments through legacy routes', () => {
+    const page = pages.find(
+      ({ fields }) => fields.slug === 'web/components/date-picker'
+    )
+    expect(page.frontmatter.legacyFragments).toEqual({
+      datepicker: '/web/components/date-picker/#date-picker',
+    })
+    expect(getPageRedirects(files)).toContainEqual(
+      expect.objectContaining({
+        from: '/uilib/components/date-picker',
+        fragments: page.frontmatter.legacyFragments,
+      })
+    )
   })
 
   it('rejects published titled pages without an explicit navigation definition', () => {
@@ -126,6 +332,7 @@ describe('MDX-defined Portal navigation', () => {
       {
         href: 'https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web',
         dividerBefore: true,
+        icon: expect.any(Function),
         target: '_blank',
         rel: 'noopener noreferrer',
         to: undefined,
@@ -133,6 +340,7 @@ describe('MDX-defined Portal navigation', () => {
       },
       {
         href: 'https://github.com/dnbexperience/eufemia/',
+        icon: expect.any(Function),
         target: '_blank',
         rel: 'noopener noreferrer',
       },

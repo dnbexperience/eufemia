@@ -10,14 +10,16 @@ import {
 
 describe('componentCategories', () => {
   describe('categoryOrder', () => {
-    it('defines the six known categories in order', () => {
+    it('defines the eight usage categories in order', () => {
       expect(categoryOrder.map(({ id }) => id)).toEqual([
         'actions',
         'input',
         'navigation',
         'feedback',
         'content',
-        'other',
+        'formatting',
+        'accessibility',
+        'utilities',
       ])
     })
 
@@ -58,17 +60,17 @@ describe('componentCategories', () => {
       expect(getCategoryId(false)).toBeUndefined()
     })
 
-    it('falls back to "other" for unknown or missing categories', () => {
-      expect(getCategoryId('does-not-exist')).toBe('other')
-      expect(getCategoryId(null)).toBe('other')
-      expect(getCategoryId(undefined)).toBe('other')
+    it('falls back to "utilities" for unknown or missing categories', () => {
+      expect(getCategoryId('does-not-exist')).toBe('utilities')
+      expect(getCategoryId(null)).toBe('utilities')
+      expect(getCategoryId(undefined)).toBe('utilities')
     })
   })
 
   describe('getCategoryTitle', () => {
     it('returns the human readable title for a category id', () => {
-      expect(getCategoryTitle('input')).toBe('Input')
-      expect(getCategoryTitle('other')).toBe('Other')
+      expect(getCategoryTitle('input')).toBe('Inputs')
+      expect(getCategoryTitle('utilities')).toBe('Utilities')
     })
   })
 })

@@ -89,7 +89,7 @@ describe('componentCatalog', () => {
       'title: Anchor',
       "category: 'actions'",
     ])
-    // No category -> falls back to "other".
+    // No category -> falls back to "utilities".
     writeComponent(componentsDir, 'mystery.mdx', ['title: Mystery'])
     // category: false -> excluded entirely.
     writeComponent(componentsDir, 'nocat.mdx', [
@@ -115,7 +115,7 @@ describe('componentCatalog', () => {
     // Fragment sub-pages are still included.
     writeComponent(componentsDir, 'fragments/scroll-view.mdx', [
       'title: ScrollView',
-      "category: 'other'",
+      "category: 'utilities'",
     ])
 
     const catalog = await loadComponentCatalog(docsRoot)
@@ -126,7 +126,7 @@ describe('componentCatalog', () => {
       'Button',
     ])
 
-    const other = (catalog.byCategory.get('other') || []).map(
+    const other = (catalog.byCategory.get('utilities') || []).map(
       (entry) => entry.title
     )
     expect(other).toContain('Mystery')
@@ -153,7 +153,7 @@ describe('componentCatalog', () => {
 
   it('getComponentCategoryTitle returns the mapped title', () => {
     expect(getComponentCategoryTitle('actions')).toBe('Actions')
-    expect(getComponentCategoryTitle('input')).toBe('Input')
+    expect(getComponentCategoryTitle('input')).toBe('Inputs')
   })
 
   it('stays in sync with the portal componentCategories source', () => {

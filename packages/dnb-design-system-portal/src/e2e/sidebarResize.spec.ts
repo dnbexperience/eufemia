@@ -43,11 +43,11 @@ test.describe('Sidebar resize', () => {
     const sidebar = page.locator('#portal-sidebar-menu')
     const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
     const resizeHandle = page.getByRole('separator', {
-      name: 'Endre størrelse på sidemeny',
+      name: 'Resize sidebar',
     })
     await expect(
       sidebar.getByRole('separator', {
-        name: 'Endre størrelse på sidemeny',
+        name: 'Resize sidebar',
       })
     ).toBeVisible()
     const initialWidth = await sidebar.evaluate(
@@ -57,7 +57,7 @@ test.describe('Sidebar resize', () => {
     const sidebarLayout = await page.evaluate(() => {
       const sidebar = document.querySelector('#portal-sidebar-menu')
       const resizeHandle = document.querySelector(
-        '[aria-label="Endre størrelse på sidemeny"]'
+        '[aria-label="Resize sidebar"]'
       )
 
       return {
@@ -188,7 +188,7 @@ test.describe('Sidebar resize', () => {
   test('should wrap mobile menu content without shifting the logo', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 390, height: 844 })
+    await page.setViewportSize({ width: 320, height: 844 })
     await page.goto('/web/components/button/demos/')
     await waitForApp(page)
 
@@ -262,10 +262,10 @@ test.describe('Sidebar resize', () => {
       })
     ).toEqual({
       backgroundColor: 'rgb(255, 255, 255)',
-      bottom: '-4px',
+      bottom: '-6px',
       borderRadius: '32px',
       opacity: '1',
-      top: '0px',
+      top: '-2px',
     })
 
     await trigger.click()
@@ -299,9 +299,12 @@ test.describe('Sidebar resize', () => {
 
     await components.click()
 
+    await drawer
+      .getByRole('button', { name: 'Content and layout', exact: true })
+      .click()
     const itemText = drawer
       .getByRole('link', {
-        name: 'FormStatus (Messageboxes)',
+        name: 'Info card (deprecated)',
         exact: true,
       })
       .locator('.dnb-sidebar-menu__item__text')
@@ -341,7 +344,7 @@ test.describe('Sidebar resize', () => {
 
     const sidebar = page.locator('#portal-sidebar-menu')
     const resizeHandle = page.getByRole('separator', {
-      name: 'Endre størrelse på sidemeny',
+      name: 'Resize sidebar',
     })
 
     const initialWidth = await sidebar.evaluate(
@@ -375,7 +378,7 @@ test.describe('Sidebar resize', () => {
 
     const sidebar = page.locator('#portal-sidebar-menu')
     const resizeHandle = page.getByRole('separator', {
-      name: 'Endre størrelse på sidemeny',
+      name: 'Resize sidebar',
     })
 
     const start = await resizeHandle.evaluate((element) => {
@@ -419,7 +422,7 @@ test.describe('Sidebar resize', () => {
     const sidebar = page.locator('#portal-sidebar-menu')
     const inline = page.locator('.dnb-sidebar-menu-responsive-inline')
     const resizeHandle = page.getByRole('separator', {
-      name: 'Endre størrelse på sidemeny',
+      name: 'Resize sidebar',
     })
     const trigger = page.locator('#toggle-sidebar-menu')
 

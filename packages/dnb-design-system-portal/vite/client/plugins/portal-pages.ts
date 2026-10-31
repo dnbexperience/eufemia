@@ -11,7 +11,10 @@ import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from '@11ty/gray-matter'
-import { getSlugFromMdxHeading } from '../../../src/uilib/utils/slug.mjs'
+import {
+  getSlugFromMdxHeading,
+  getSlugFromText,
+} from '../../../src/uilib/utils/slug.mjs'
 import type {
   MdxFrontmatter,
   MdxNode,
@@ -212,7 +215,63 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
   }
 
   walk(docsDir)
-  return results
+  return inheritTabTitleFragments(results)
+}
+
+function inheritTabTitleFragments(files: PageFileInfo[]): PageFileInfo[] {
+  const pages = new Map(
+    files
+      .filter(({ type }) => type === 'mdx')
+      .map((file) => [file.slug, file])
+  )
+  return files.map((file) => {
+    const fm = file.frontmatter
+    if (
+      file.type !== 'mdx' ||
+      !fm.showTabs ||
+      fm.title ||
+      fm.contentTitle
+    ) {
+      return file
+    }
+    let parentSlug = file.slug
+    let parent: PageFileInfo | undefined
+    while (parentSlug.includes('/') && !parent) {
+      parentSlug = parentSlug.slice(0, parentSlug.lastIndexOf('/'))
+      parent = pages.get(parentSlug)
+    }
+    if (
+      !parent?.frontmatter.title ||
+      !parent.frontmatter.legacyFragments
+    ) {
+      return file
+    }
+    const titleHash = '#' + getSlugFromText(parent.frontmatter.title)
+    const inherited: Record<string, string> = {}
+    for (const [key, target] of Object.entries(
+      parent.frontmatter.legacyFragments
+    )) {
+      const url = new URL(target, 'https://eufemia.dnb.no')
+      if (
+        url.origin === 'https://eufemia.dnb.no' &&
+        url.pathname.replace(/^\/+|\/+$/g, '') === parent.slug &&
+        url.hash === titleHash
+      ) {
+        const slug = isFirstTabPage(file) ? parent.slug : file.slug
+        inherited[key] = '/' + slug + '/' + url.search + titleHash
+      }
+    }
+    if (!Object.keys(inherited).length) {
+      return file
+    }
+    return {
+      ...file,
+      frontmatter: {
+        ...fm,
+        legacyFragments: { ...inherited, ...fm.legacyFragments },
+      },
+    }
+  })
 }
 
 export function readPageFileInfo(
