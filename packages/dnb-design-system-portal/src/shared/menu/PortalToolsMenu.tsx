@@ -1,7 +1,5 @@
 import {
   useCallback,
-  lazy,
-  Suspense,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -24,8 +22,6 @@ type Props = {
   triggerProps?: ButtonProps
   hideWhenMediaLarge?: boolean
 }
-
-const PortalToolsDrawer = lazy(() => import('./PortalToolsDrawer'))
 
 const portalToolsOpenStorageKey = 'portal-tools-open'
 const portalToolsMobileOpenStorageKey = 'portal-tools-open-mobile'
@@ -82,6 +78,9 @@ export default function PortalToolsMenu({
   const [isOpen, setIsOpen] = useState(false)
   const [hasOpened, setHasOpened] = useState(false)
   const [drawerReady, setDrawerReady] = useState(false)
+  const [Drawer, setDrawer] =
+    useState<typeof import('./PortalToolsDrawer').default>()
+  const [loadFailed, setLoadFailed] = useState(false)
   const handleDrawerReady = useCallback(() => setDrawerReady(true), [])
   const { brand, colorScheme } = getTheme()
   const activeTheme = useTheme()
@@ -153,6 +152,7 @@ export default function PortalToolsMenu({
   }, [isOpen, themeChanged, themeKey])
 
   const handleOpen = useCallback(() => {
+    setLoadFailed(false)
     restoredRef.current = false
     setHasOpened(true)
     setIsOpen(true)
@@ -166,6 +166,44 @@ export default function PortalToolsMenu({
     setStoredPortalToolsOpen(false, storageKey)
     document.documentElement.removeAttribute('data-portal-tools-open')
   }, [storageKey])
+
+  useEffect(() => {
+    if (!isOpen || Drawer) {
+      return
+    }
+    let active = true
+    const onPreloadError = (event: Event & { payload?: Error }) => {
+      if (event.payload?.message.includes('PortalToolsDrawer')) {
+        event.preventDefault()
+        event.stopImmediatePropagation()
+      }
+    }
+    window.addEventListener('vite:preloadError', onPreloadError, true)
+    void import('./PortalToolsDrawer')
+      .then(({ default: LoadedDrawer }) => {
+        if (active) {
+          setDrawer(() => LoadedDrawer)
+        }
+      })
+      .catch(() => {
+        setStoredPortalToolsOpen(false, portalToolsOpenStorageKey)
+        setStoredPortalToolsOpen(false, portalToolsMobileOpenStorageKey)
+        if (active) {
+          handleClose()
+          setLoadFailed(true)
+        }
+      })
+      .finally(() =>
+        window.removeEventListener(
+          'vite:preloadError',
+          onPreloadError,
+          true
+        )
+      )
+    return () => {
+      active = false
+    }
+  }, [isOpen, Drawer, handleClose])
 
   return (
     <>
@@ -206,23 +244,21 @@ export default function PortalToolsMenu({
           }
         }}
       />
-      {(isOpen || hasOpened) && (
-        <Suspense
-          fallback={
-            <span className="dnb-sr-only" role="status">
-              Loading settings...
-            </span>
-          }
-        >
-          <PortalToolsDrawer
-            open={isOpen}
-            noAnimation={noAnimation}
-            onOpen={handleOpen}
-            onClose={handleClose}
-            onReady={handleDrawerReady}
-            {...props}
-          />
-        </Suspense>
+      {loadFailed && (
+        <span role="alert">
+          Could not load settings. Please try again.
+        </span>
+      )}
+      {isOpen && !Drawer && <span role="status">Loading settings...</span>}
+      {(isOpen || hasOpened) && Drawer && (
+        <Drawer
+          open={isOpen}
+          noAnimation={noAnimation}
+          onOpen={handleOpen}
+          onClose={handleClose}
+          onReady={handleDrawerReady}
+          {...props}
+        />
       )}
     </>
   )

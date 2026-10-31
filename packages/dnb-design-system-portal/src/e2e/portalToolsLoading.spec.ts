@@ -1,6 +1,35 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test('keeps the page usable when the settings download fails', async ({
+  page,
+}) => {
+  let documents = 0
+  page.on('request', (request) => {
+    if (
+      request.isNavigationRequest() &&
+      request.frame() === page.mainFrame()
+    ) {
+      documents++
+    }
+  })
+  await page.route(/PortalToolsDrawer/, (route) => route.abort())
+  await page.goto('/web/components/')
+  await waitForApp(page)
+  await page.locator('button#portal-tools').click()
+  await expect(page.getByRole('alert')).toContainText(
+    'Could not load settings'
+  )
+  await expect(page.locator('button#portal-tools')).toHaveAttribute(
+    'aria-expanded',
+    'false'
+  )
+  expect(documents).toBe(1)
+  expect(
+    await page.evaluate(() => sessionStorage.getItem('portal-tools-open'))
+  ).toBeNull()
+})
+
 for (const path of ['/', '/web/components/']) {
   test('loads settings on first open from ' + path, async ({ page }) => {
     const requests: string[] = []
