@@ -1,0 +1,30 @@
+.dnb-home-sail {
+  [data-hanging-item] > span:first-child {
+    background: none;
+
+    svg {
+      opacity: 1;
+    }
+
+    path {
+      animation: dnb-home-sail-wind 2.4s ease-in-out infinite alternate;
+    }
+  }
+
+  [data-hanging-item]:nth-child(even) > span:first-child path {
+    animation-delay: -1.2s;
+  }
+
+  [data-hanging-item] > span:last-child {
+    opacity: 0;
+  }
+}
+
+@keyframes dnb-home-sail-wind {
+  from {
+    d: path('M32 0 C-160 30 180 72 32 100');
+  }
+  to {
+    d: path('M32 0 C-40 42 300 80 32 100');
+  }
+}

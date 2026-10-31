@@ -1,0 +1,5 @@
+@use '@dnb/eufemia/src/style/themes/sbanken/fonts.scss' with (
+  $fonts-path: '@dnb/eufemia/assets/fonts/sbanken'
+);
+@use '@dnb/eufemia/src/style/themes/sbanken/sbanken-theme-basis.scss';
+@use '@dnb/eufemia/src/style/themes/sbanken/sbanken-theme-dark-mode.scss';

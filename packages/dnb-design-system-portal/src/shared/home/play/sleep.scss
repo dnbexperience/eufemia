@@ -1,0 +1,22 @@
+.dnb-home-sleep {
+  [data-hanging-item] > span:first-child {
+    background: none;
+
+    svg {
+      opacity: 1;
+    }
+
+    path {
+      d: path('M32 0 C8 35 56 70 32 100');
+    }
+  }
+
+  [data-hanging-item]:nth-child(even) > span:first-child svg {
+    transform: scaleX(-1);
+  }
+
+  [data-hanging-item] > span:last-child {
+    opacity: 0.6;
+    filter: blur(0.15rem);
+  }
+}

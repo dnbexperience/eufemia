@@ -144,6 +144,39 @@ describe('vite.config transform plugins', () => {
   })
 
   describe('portal-mdx', () => {
+    it('imports the code renderer only for pages with Markdown code blocks', async () => {
+      const { transform } = portalMdxPlugin()
+      if (typeof transform !== 'function') {
+        throw new Error('Expected portal-mdx plugin to expose transform')
+      }
+
+      const plain = await transform(
+        '# Home\n\nSome `inline code`.\n',
+        '/virtual/home.mdx'
+      )
+      const fenced = await transform(
+        '~~~jsx\n<Button text="Hello" />\n~~~',
+        '/virtual/fenced.mdx'
+      )
+      const nested = await transform(
+        '> ~~~\n> const value = 42\n> ~~~',
+        '/virtual/nested.mdx'
+      )
+      const code = (result: typeof plain) =>
+        typeof result === 'string' ? result : result?.code
+
+      expect(code(plain)).not.toContain('MarkdownCodeBlock')
+      for (const result of [fenced, nested]) {
+        expect(code(result)).toMatch(
+          /import .* from ["'].*MarkdownCodeBlock/
+        )
+        expect(code(result)).toContain('PortalMarkdownCodeBlock')
+      }
+      expect(code(fenced)).toContain('language-jsx')
+      expect(code(fenced)).toContain('Hello')
+      expect(code(nested)).toContain('const value = 42')
+    })
+
     it('does not export frontmatter from runtime MDX modules', async () => {
       const plugin = portalMdxPlugin()
       const transform = plugin.transform

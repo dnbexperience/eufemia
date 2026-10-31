@@ -1233,11 +1233,11 @@ describe('prerender-utils', () => {
         themeCssPaths
       )
 
-      for (const name of Object.keys(themeCssPaths)) {
-        const link = document.createElement('link')
-        link.rel = 'stylesheet'
-        link.setAttribute('data-eufemia-theme', name)
-        document.head.appendChild(link)
+      const parsed = new DOMParser().parseFromString(html, 'text/html')
+      for (const link of parsed.querySelectorAll(
+        'link[data-eufemia-theme]'
+      )) {
+        document.head.appendChild(document.importNode(link, true))
       }
 
       // The disable loop is only meaningful if the links are present.
@@ -1256,7 +1256,16 @@ describe('prerender-utils', () => {
         .find((body) => body.includes('globalThis.__eufemiaTheme='))
       expect(script, 'no pre-paint theme script found').toBeDefined()
 
-      new Function(script)()
+      const write = vi
+        .spyOn(document, 'write')
+        .mockImplementation((markup) => {
+          document.head.insertAdjacentHTML('beforeend', markup)
+        })
+      try {
+        new Function(script)()
+      } finally {
+        write.mockRestore()
+      }
 
       return (globalThis as { __eufemiaTheme?: string }).__eufemiaTheme
     }
@@ -1302,6 +1311,29 @@ describe('prerender-utils', () => {
     it('falls back to the default brand when nothing is stored', () => {
       expect(runHeadScript()).toBe('ui')
       expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    it('only assigns a stylesheet URL to the selected brand', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie' })
+      )
+      runHeadScript()
+      const links = Array.from(
+        document.querySelectorAll<HTMLLinkElement>(
+          'link[data-eufemia-theme]'
+        )
+      )
+      expect(
+        links
+          .filter((link) => link.hasAttribute('href'))
+          .map((link) => link.getAttribute('data-eufemia-theme'))
+      ).toEqual(['carnegie'])
+      expect(
+        links
+          .find((link) => link.dataset.eufemiaTheme === 'carnegie')
+          ?.getAttribute('href')
+      ).toBe(themeCssPaths.carnegie)
     })
 
     // An unknown brand matches no <link>; without validation the loop disables

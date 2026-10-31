@@ -3,7 +3,6 @@
  */
 
 import { Children, cloneElement, isValidElement, useId } from 'react'
-import CodeBlock from './CodeBlock'
 import { Checkbox, Input, CopyOnClick } from '@dnb/eufemia/src/components'
 import {
   Ul,
@@ -65,9 +64,6 @@ export const basicComponents = {
   blockquote: (props) => <Blockquote {...props} />,
   hr: (props) => <Hr {...props} />,
   table: Table,
-  pre: (props) => {
-    return CodeBlock(props.children.props)
-  },
   code: ({ children, ...rest }) => {
     if (rest?.inline) {
       // So it does not appear in the HTML

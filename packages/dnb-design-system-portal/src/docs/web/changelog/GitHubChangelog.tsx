@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Button, Hr, P } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../../../shared/tags/AutoLinkHeader'
-import { basicComponents } from '../../../shared/tags'
+import basicComponents from '../../../shared/tags/markdownComponents'
 import { getSlugFromReactHeading } from '../../../uilib/utils/slug.mjs'
 import type { GitHubRelease } from '../../../../vite/client/plugins/github-releases'
 

@@ -154,8 +154,11 @@ for (const path of [
         })
         await page.goto(path)
         await waitForApp(page)
+        await expect(page.locator('body')).toHaveClass(
+          /color-scheme--dark/
+        )
         await expect(page.locator('button#portal-tools')).toHaveText(
-          'DNB - Dark'
+          path === '/' ? 'Settings' : 'DNB - Dark'
         )
         expect(
           (await Promise.all(errors)).filter((message) =>
@@ -226,7 +229,7 @@ for (const width of [390, 1440]) {
         reducedMotion: 'reduce',
       })
       await page.setViewportSize({ width, height: 900 })
-      await page.goto('/')
+      await page.goto('/web/components/')
       await waitForApp(page)
       const header = page.locator('header.sticky-menu')
       await expect(
@@ -366,7 +369,7 @@ test('keeps long brand labels accessible in the phone cog button', async ({
       JSON.stringify({ brand: 'carnegie', colorScheme: 'dark' })
     )
   })
-  await page.goto('/')
+  await page.goto('/web/components/')
   await waitForApp(page)
   const header = page.locator('header.sticky-menu')
   const tools = header.locator('button#portal-tools')
@@ -391,7 +394,7 @@ test('shows the resolved system color scheme and restores focus on Escape', asyn
   page,
 }) => {
   await page.emulateMedia({ colorScheme: 'dark' })
-  await page.goto('/')
+  await page.goto('/web/components/')
   await waitForApp(page)
   const tools = page.locator('button#portal-tools')
   await expect(tools).toHaveText('DNB - Dark')

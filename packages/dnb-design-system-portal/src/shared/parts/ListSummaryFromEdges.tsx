@@ -9,7 +9,7 @@ import {
   resetLevels,
 } from '@dnb/eufemia/src/components/Heading'
 import ReactMarkdown from 'react-markdown'
-import { basicComponents } from '../../shared/tags'
+import basicComponents from '../tags/markdownComponents'
 import type { SpacingProps } from '@dnb/eufemia/src/shared/types'
 import type { MdxNode } from '../../../vite/client/plugins/portal-pages.shared'
 

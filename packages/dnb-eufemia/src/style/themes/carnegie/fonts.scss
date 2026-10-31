@@ -29,7 +29,7 @@
 }
 
 // Carnegie heading fonts
-$carnegie-fonts-path: '../../../../assets/fonts/carnegie';
+$carnegie-fonts-path: '../../../../assets/fonts/carnegie' !default;
 
 // Regular
 @font-face {

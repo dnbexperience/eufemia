@@ -2,7 +2,70 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 import isDev from './shared/isDev'
 
+for (const width of [1000, 1200]) {
+  for (const path of ['/', '/web/components/']) {
+    test(
+      'keeps the compact logo in place during hydration at ' +
+        width +
+        'px on ' +
+        path,
+      async ({ browser, page, baseURL }) => {
+        const prerendered = await browser.newContext({
+          javaScriptEnabled: false,
+          viewport: { width, height: 900 },
+        })
+        const logoSelector = 'header.sticky-menu a[href="/"]'
+        try {
+          const staticPage = await prerendered.newPage()
+          await staticPage.goto(new URL(path, baseURL).toString())
+          const before = await staticPage
+            .locator(logoSelector)
+            .boundingBox()
+          await page.setViewportSize({ width, height: 900 })
+          await page.goto(path)
+          await waitForApp(page)
+          await expect(
+            page.locator('.dnb-sidebar-menu-responsive-inline')
+          ).toHaveAttribute('data-sidebar-menu-responsive-compact', 'true')
+          const after = await page.locator(logoSelector).boundingBox()
+          expect(after.x).toBeCloseTo(before.x, 1)
+          expect(after.y).toBeCloseTo(before.y, 1)
+        } finally {
+          await prerendered.close()
+        }
+      }
+    )
+  }
+}
+
 test.describe('Responsiveness', () => {
+  for (const path of ['/', '/web/components/']) {
+    test(
+      'aligns the compact header logo with the small-screen logo on ' +
+        path,
+      async ({ page }) => {
+        await page.emulateMedia({ reducedMotion: 'reduce' })
+        const positions = []
+        for (const width of [390, 1200]) {
+          await page.setViewportSize({ width, height: 900 })
+          await page.goto(path)
+          await waitForApp(page)
+          const logo = page
+            .locator('header.sticky-menu')
+            .getByRole('link', { name: 'Go to Eufemia home' })
+          await expect(logo).toBeVisible()
+          const box = await logo.boundingBox()
+          positions.push(box.y)
+          await page.evaluate(() => window.scrollTo(0, 400))
+          await expect
+            .poll(async () => (await logo.boundingBox()).y)
+            .toBeCloseTo(box.y, 1)
+        }
+        expect(positions[1]).toBeCloseTo(positions[0], 1)
+      }
+    )
+  }
+
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/web/components/')
@@ -355,13 +418,16 @@ test.describe('Responsiveness', () => {
       viewport: { width: 375, height: 667 },
     })
     const prerenderedPage = await prerenderedContext.newPage()
-    await prerenderedPage.goto(new URL('/', page.url()).toString(), {
-      waitUntil: 'domcontentloaded',
-    })
+    await prerenderedPage.goto(
+      new URL('/web/components/', page.url()).toString(),
+      {
+        waitUntil: 'domcontentloaded',
+      }
+    )
     await expect
       .poll(() =>
         prerenderedPage
-          .locator('link[rel="stylesheet"]')
+          .locator('link[rel="stylesheet"][href]')
           .evaluateAll((links: HTMLLinkElement[]) =>
             links.every((link) => link.disabled || Boolean(link.sheet))
           )

@@ -206,27 +206,18 @@ export function injectHtml(
       `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${persistedSidebarScript}</script>`
   )
 
-  // Inject <link> tags for ALL brand theme CSS chunks.
-  // All links are enabled (render-blocking) so the browser fetches them
-  // before the first paint. A head script disables inactive themes
-  // before the browser paints, and a body-opening script adds the
-  // active brand class to <body> so token selectors match immediately.
+  // Resolve the active brand before paint without fetching inactive themes.
+  // Keep their URLs available for later switches and a default without JS.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
       .map(([name, href]) => {
-        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}">`
+        return `    <link rel="stylesheet" crossorigin data-eufemia-href="${href}" data-eufemia-theme="${name}">`
       })
       .join('\n')
 
-    // Head script: determine active theme, disable inactive theme
-    // links, and store the name on globalThis for the body script.
-    // Runs in <head> after the render-blocking links have loaded,
-    // so the disable is instant — no network delay.
-    //
-    // Validate the brand against the themes present (like isValidTheme in the
-    // shim): an unknown brand matches no link and would disable every stylesheet.
-    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.brand||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');var known=[];for(var i=0;i<links.length;i++){known.push(links[i].getAttribute('data-eufemia-theme'))}if(known.length&&known.indexOf(n)<0){n='${defaultTheme}'}for(var j=0;j<links.length;j++){links[j].disabled=known[j]!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
+    // Insert the selected stylesheet during parsing so every browser waits for it.
+    const headThemeScript = `<script>(function(){var n='${defaultTheme}';try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);n=p.get('eufemia-theme')||t.brand||t.name||n}catch(e){}var links=document.querySelectorAll('link[data-eufemia-theme]');var known=[];for(var i=0;i<links.length;i++){known.push(links[i].getAttribute('data-eufemia-theme'))}if(known.indexOf(n)<0){n='${defaultTheme}'}for(var j=0;j<links.length;j++){links[j].disabled=known[j]!==n;if(known[j]===n){document.write(links[j].outerHTML.replace('data-eufemia-href=', 'href='));links[j].remove()}}globalThis.__eufemiaTheme=n})()</script>`
 
     // Body script: add the brand class to <body> immediately after
     // the opening tag, before any content is rendered.
@@ -234,7 +225,7 @@ export function injectHtml(
 
     html = html.replace(
       '</head>',
-      `${linkTags}\n${headThemeScript}\n  </head>`
+      `${linkTags}\n${headThemeScript}\n<noscript><link rel="stylesheet" href="${themeCssPaths[defaultTheme]}"></noscript>\n  </head>`
     )
     html = html.replace(
       /<body[^>]*>/,

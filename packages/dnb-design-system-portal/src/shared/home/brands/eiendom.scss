@@ -1,0 +1,5 @@
+@use '@dnb/eufemia/src/style/themes/ui/fonts.scss' with (
+  $fonts-path: '@dnb/eufemia/assets/fonts/dnb'
+);
+@use '@dnb/eufemia/src/style/themes/eiendom/eiendom-theme-basis.scss';
+@use '@dnb/eufemia/src/style/themes/eiendom/eiendom-theme-dark-mode.scss';

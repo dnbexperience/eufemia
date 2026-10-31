@@ -61,7 +61,6 @@ import { LiveProvider } from 'react-live-ssr-adapter'
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
-import { openInStackBlitz } from './openInStackBlitz'
 
 // Import other languages not included in the default bundle of prism-react-renderer
 import './prismLanguages'
@@ -366,6 +365,7 @@ function LiveCode(props: LiveCodeProps) {
   )
 
   const handleOpenInStackBlitz = useCallback(async () => {
+    const { openInStackBlitz } = await import('./openInStackBlitz')
     const codeToOpen = editedCode ?? codeToUse
     await openInStackBlitz(codeToOpen, sourceImports)
   }, [editedCode, codeToUse, sourceImports])

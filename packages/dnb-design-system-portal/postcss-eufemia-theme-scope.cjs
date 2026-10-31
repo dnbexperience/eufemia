@@ -33,6 +33,18 @@ const plugin = () => {
     postcssPlugin: 'postcss-eufemia-theme-scope',
     Once(root, { result }) {
       const filePath = result.opts.from || ''
+      const sampleBrand =
+        filePath.includes('/home/brands/') &&
+        filePath.split('/').pop().split('.')[0]
+      if (sampleBrand) {
+        root.walkRules((rule) => {
+          rule.selector = rule.selector.replaceAll(
+            '.eufemia-scope--portal',
+            '.portal-home-brand-' + sampleBrand
+          )
+        })
+        return
+      }
 
       // Determine which non-default theme this file belongs to
       const theme = nonDefaultThemes.find((t) =>
