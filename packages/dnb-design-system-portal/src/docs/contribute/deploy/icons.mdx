@@ -58,6 +58,8 @@ yarn workspace @dnb/eufemia icons:downloads
 
 Commit the archives and `icon-downloads.lock` together with the icon changes. The build-script tests also compare the ZIP's SVGs with the committed files, so direct SVG edits require regenerating the downloads.
 
+Android conversion stops if vd-tool reports errors. Its output may omit the failing SVG's filename. Check the icons listed as “Saved file” earlier in the sync log first, then convert those SVGs individually to find the unsupported content.
+
 ## Icons CI/CD process description
 
 This is a description of what happens during adding new icons to the icons library.
