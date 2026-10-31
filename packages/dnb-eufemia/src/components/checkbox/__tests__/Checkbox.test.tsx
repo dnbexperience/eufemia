@@ -643,7 +643,10 @@ describe('Checkbox with server-rendered markup', () => {
 
   it('should call onClick before it reports a change made before hydration', () => {
     const calls: string[] = []
-    const onClick = vi.fn(() => calls.push('onClick'))
+    const onClick = vi.fn(({ event }) => {
+      calls.push('onClick')
+      return event.target
+    })
     const onChange = vi.fn(() => calls.push('onChange'))
     const { input, unmount } = hydrateAfterChange(
       <Checkbox label="Label" onClick={onClick} onChange={onChange} />
@@ -654,7 +657,10 @@ describe('Checkbox with server-rendered markup', () => {
     expect(onClick).toHaveBeenLastCalledWith(
       expect.objectContaining({ checked: false, target: input })
     )
-    expect(onClick.mock.calls[0][0].event.target).toBe(input)
+    expect(onClick.mock.results[0]).toEqual({
+      type: 'return',
+      value: input,
+    })
     expect(onChange).toHaveBeenLastCalledWith(
       expect.objectContaining({ checked: true })
     )
