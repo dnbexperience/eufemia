@@ -3,6 +3,8 @@ import { StringProperties } from '../String/StringDocs'
 
 export const PasswordProperties: PropertiesTableProps = {
   ...StringProperties,
+  // The field switches the type to show or hide the password
+  type: undefined,
   pattern: {
     doc: 'Validation based on regex pattern for the password field e.g. `pattern="\\w{8}\\d{4}"`.',
     type: 'string',
