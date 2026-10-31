@@ -130,6 +130,21 @@ describe('useOutsideClick', () => {
     }
   })
 
+  it.each(['mousedown', 'pointerdown'] as const)(
+    'should count a mouse press right after a tap outside, with pressEvent %s',
+    (pressEvent) => {
+      const { onOutsideClick } = renderOutsideClick({ pressEvent })
+
+      fireEvent.touchStart(outside)
+      fireEvent.touchEnd(outside)
+      expect(onOutsideClick).toHaveBeenCalledTimes(1)
+
+      fireEvent.pointerDown(outside, { pointerType: 'mouse' })
+      fireEvent.mouseDown(outside)
+      expect(onOutsideClick).toHaveBeenCalledTimes(2)
+    }
+  )
+
   it('should call onOutsideClick when a released key is outside', () => {
     const { onOutsideClick } = renderOutsideClick()
 
