@@ -6,7 +6,8 @@ import type {
   ButtonClickEvent,
 } from '../button/Button'
 import { FilterContext } from './FilterContext'
-import { filter as filterIcon, close } from '../../icons'
+import filterIcon from '../../icons/filter'
+import close from '../../icons/close'
 import Icon from '../icon/Icon'
 import SharedContext from '../../shared/Context'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'

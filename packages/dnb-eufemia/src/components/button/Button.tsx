@@ -28,7 +28,7 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
-import { launch as LaunchIcon } from '../../icons'
+import LaunchIcon from '../../icons/launch'
 import Tooltip from '../tooltip/Tooltip'
 import ButtonContent from './internal/ButtonContent'
 import type { ButtonProps } from './types'
