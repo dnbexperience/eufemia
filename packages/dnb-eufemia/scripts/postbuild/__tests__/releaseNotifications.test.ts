@@ -448,11 +448,29 @@ describe('release notification isolation', () => {
         path.resolve(packageRoot, '../../.github/workflows/release.yml'),
         'utf8'
       )
-    ) as { jobs: Record<string, { needs: string; permissions: object }> }
+    ) as {
+      jobs: Record<
+        string,
+        {
+          needs?: string | string[]
+          permissions: object
+          steps?: Array<{ uses?: string; with?: Record<string, string> }>
+        }
+      >
+    }
+    const dependents = Object.keys(workflow.jobs).filter((name) =>
+      [workflow.jobs[name].needs ?? []].flat().includes('notify-release')
+    )
+    const download = workflow.jobs['notify-release']?.steps?.find((step) =>
+      step.uses?.startsWith('actions/download-artifact@')
+    )
 
     expect(workflow.jobs['notify-release']?.needs).toBe('action')
-    expect(workflow.jobs.sbom.needs).toBe('action')
-    expect(workflow.jobs['deploy-portal'].needs).toBe('action')
+    expect(dependents).toEqual([])
+    expect(download?.with?.['artifact-ids']).toBe(
+      "${{ needs.action.outputs.notification-artifact-id || 'missing' }}"
+    )
+    expect(download?.with?.name).toBeUndefined()
     expect(workflow.jobs['notify-release']?.permissions).toEqual({
       contents: 'read',
       'pull-requests': 'write',
