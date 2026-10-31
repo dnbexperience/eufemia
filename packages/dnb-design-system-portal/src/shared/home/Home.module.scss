@@ -140,6 +140,21 @@
   height: 38rem;
   margin: -8rem 1rem 0;
 
+  &[data-home-play='page'] {
+    position: static;
+
+    &::before {
+      display: none;
+    }
+
+    .hangingStyle {
+      --anchor-offset: 0px;
+      --floor-level: calc(var(--length) + var(--lift-y) + 4rem);
+      top: 0;
+      height: 100%;
+    }
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -187,6 +202,7 @@
   --balance: 0rad;
   --pitch: 0rad;
   --lift-y: 0px;
+  --travel-x: 0px;
   --rope-length: max(1px, calc(var(--length) + var(--lift-y)));
   --rope-curve: 0;
 
@@ -194,6 +210,7 @@
   z-index: calc(var(--depth) + 1);
   top: calc(-1 * var(--anchor-offset));
   left: var(--x);
+  translate: var(--travel-x);
   width: 0;
   height: calc(100% + var(--anchor-offset));
 

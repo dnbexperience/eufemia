@@ -1,4 +1,12 @@
-import { useEffect, useRef, type CSSProperties } from 'react'
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react'
 import {
   Button,
   Checkbox,
@@ -49,8 +57,20 @@ const brands = [
   ['eiendom', 'DNB Eiendom'],
 ] as const
 
+const Fun = lazy(() => import('./play/Fun'))
+
 export default function HomeHero() {
-  const ref = useHangingMotion()
+  const { ref, onQuery } = useHangingMotion()
+  const [showFun, setShowFun] = useState(false)
+  const handleQuery = useCallback(
+    (value: string) => {
+      if (value.trim().toLowerCase() === 'secret') {
+        setShowFun(true)
+      }
+      onQuery(value)
+    },
+    [onQuery]
+  )
   const { setTheme } = useThemeHandler()
   const activeTheme = useTheme()
   const canUseDOM = useCanUseDOM()
@@ -80,20 +100,27 @@ export default function HomeHero() {
             {homeData.title.split('. ')[0]}. <br />
             {homeData.title.split('. ').slice(1).join('. ')}
           </H1>
-          <P
-            size="large"
-            className={introStyle}
-            top={false}
-            bottom={false}
-          >
-            {homeData.introduction}
-          </P>
+          {showFun ? (
+            <Suspense fallback={null}>
+              <Fun />
+            </Suspense>
+          ) : (
+            <P
+              size="large"
+              className={introStyle}
+              top={false}
+              bottom={false}
+            >
+              {homeData.introduction}
+            </P>
+          )}
         </Typography.Context>
         <div className={searchStyle}>
           <SearchBarInput
             id="portal-home-search"
             placeholder="Search components, patterns and guidance"
             stretch
+            onQuery={handleQuery}
           />
         </div>
       </div>

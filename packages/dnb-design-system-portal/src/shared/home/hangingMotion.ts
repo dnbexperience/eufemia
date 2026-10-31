@@ -1,3 +1,5 @@
+import type { HomePlay } from './play/homePlay'
+
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value))
 const gravity = 3200
@@ -71,6 +73,12 @@ export default function mountHangingMotion(
   let previous = 0
   let suppressClick = false
   let breezeTimer: ReturnType<typeof setTimeout>
+  let play: HomePlay | undefined
+  let playTime = 0
+  let returning: Animation[] = []
+  let playArea = root.getBoundingClientRect()
+  let playBounds: Array<{ left: number; right: number; origin: number }> =
+    []
 
   const paint = (item: (typeof items)[number]) => {
     item.element.style.setProperty('--swing', item.angle + 'rad')
@@ -90,11 +98,45 @@ export default function mountHangingMotion(
     )
     item.rope?.setAttribute('d', 'M32 0 Q' + (32 + bend) + ' 50 32 100')
   }
-  const tick = (time: number) => {
-    const dt = Math.min((time - previous) / 1000 || 1 / 60, 1 / 30)
+  const tick = (time: number, snap = false) => {
+    const dt = snap
+      ? 0
+      : Math.min((time - previous) / 1000 || 1 / 60, 1 / 30)
     previous = time
     let moving = false
-    for (const item of items) {
+    for (const [index, item] of items.entries()) {
+      if (play && drag?.item !== item) {
+        const pose = play.pose(
+          playTime,
+          index,
+          item.length,
+          playArea.width,
+          playArea.height,
+          playBounds[index]
+        )
+        const blend = snap ? 1 : 1 - Math.exp(-dt * 14)
+        const bounds = playBounds[index]
+        item.angle += (pose.angle - item.angle) * blend
+        item.lift += (pose.lift - item.lift) * blend
+        item.balance += ((pose.balance ?? 0) - item.balance) * blend
+        item.pitch += ((pose.pitch ?? 0) - item.pitch) * blend
+        const swingX = Math.sin(item.angle) * (item.length + item.lift)
+        const travel = clamp(
+          (pose.x ?? 0) -
+            (play.space === 'page' ? playBounds[index].origin : 0) +
+            swingX,
+          bounds.left,
+          bounds.right
+        )
+        item.element.style.setProperty(
+          '--travel-x',
+          (play.fixedAnchors ? 0 : travel - swingX) + 'px'
+        )
+        item.drop = undefined
+        paint(item)
+        moving = true
+        continue
+      }
       if (item.drop && item.drop.elapsed < 0) {
         item.drop.elapsed += dt
         moving = true
@@ -188,6 +230,7 @@ export default function mountHangingMotion(
           (item.drop ? 1 : 0) >
           0.002
     }
+    playTime += dt
     frame = moving ? requestAnimationFrame(tick) : 0
   }
   const wake = () => {
@@ -199,6 +242,7 @@ export default function mountHangingMotion(
   const breeze = () => {
     const box = root.getBoundingClientRect()
     if (
+      play ||
       reduced.matches ||
       drag ||
       document.hidden ||
@@ -234,6 +278,7 @@ export default function mountHangingMotion(
     if (event.button !== 0 || reduced.matches || drag) {
       return
     }
+    returning.forEach((animation) => animation.cancel())
     suppressClick = false
     const item = findItem(event.target)
     if (item) {
@@ -412,6 +457,9 @@ export default function mountHangingMotion(
     }
   }
   const reset = () => {
+    returning.forEach((animation) => animation.cancel())
+    returning = []
+    root.removeAttribute('data-home-play')
     cancelAnimationFrame(frame)
     frame = 0
     drag = undefined
@@ -426,12 +474,15 @@ export default function mountHangingMotion(
         item.lift =
           0
       item.drop = undefined
+      item.element.style.removeProperty('--travel-x')
       delete item.element.dataset.dragging
       paint(item)
     }
   }
   const onMotionChange = () => {
     clearTimeout(breezeTimer)
+    play?.dispose?.()
+    play = undefined
     reset()
     if (!reduced.matches) {
       scheduleBreeze()
@@ -449,6 +500,7 @@ export default function mountHangingMotion(
   }
   const destroy = () => {
     clearTimeout(breezeTimer)
+    play?.dispose?.()
     reset()
     root.removeEventListener('pointerdown', down)
     root.removeEventListener('pointerover', hover)
@@ -468,5 +520,84 @@ export default function mountHangingMotion(
     })
     wake()
   }
-  return { destroy, down, move, release, hover, breeze }
+  const setPlay = (next?: (root: HTMLElement) => HomePlay) => {
+    if (!play && !next) {
+      return
+    }
+    const parts = !reduced.matches
+      ? items.flatMap(({ element }) => [
+          element,
+          ...Array.from(element.children),
+        ])
+      : []
+    const snapshot = (element: Element): Keyframe => {
+      const style = getComputedStyle(element)
+      return {
+        ...Object.fromEntries(
+          ['transform', 'translate', 'top', 'left', 'height'].map(
+            (property) => [property, style.getPropertyValue(property)]
+          )
+        ),
+        zIndex: style.zIndex,
+      }
+    }
+    const before = parts.map(snapshot)
+    const positions = parts.map((element) =>
+      element.getBoundingClientRect()
+    )
+    play?.dispose?.()
+    reset()
+    play = reduced.matches ? undefined : next?.(root)
+    if (play?.space) {
+      root.dataset.homePlay = play.space
+    }
+    playArea = (
+      play?.space === 'page' || play?.fixedAnchors
+        ? root.closest('[data-portal-home]')
+        : root
+    ).getBoundingClientRect()
+    playBounds = items.map(({ element }) => {
+      const box = element
+        .querySelector('[data-home-specimen]')
+        .getBoundingClientRect()
+      return {
+        left: playArea.left - box.left + 12,
+        right: playArea.right - box.right - 12,
+        origin: element.getBoundingClientRect().left - playArea.left,
+      }
+    })
+    items.forEach((item) => {
+      item.length = measureLength(item)
+    })
+    playTime = 0
+    if (play) {
+      tick(0, true)
+    }
+    returning = parts.map((element, index) => {
+      const after = snapshot(element)
+      if (!play) {
+        after.zIndex = before[index].zIndex
+      }
+      if (element.hasAttribute('data-hanging-item')) {
+        const bounds = element.getBoundingClientRect()
+        const travelX = parseFloat(String(after.translate)) || 0
+        before[index] = {
+          ...before[index],
+          left: after.left,
+          top: after.top,
+          translate: `${positions[index].left - bounds.left + travelX}px ${positions[index].top - bounds.top}px`,
+        }
+      }
+      // An implicit endpoint blends into the live pose as the effect moves.
+      return element.animate(
+        play ? [{ ...before[index], offset: 0 }] : [before[index], after],
+        {
+          duration: 650,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        }
+      )
+    })
+    wake()
+  }
+  return { destroy, down, move, release, hover, breeze, setPlay }
 }
