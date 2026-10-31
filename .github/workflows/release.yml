@@ -185,10 +185,9 @@ jobs:
           tarball="$(cd packages/dnb-eufemia/build && npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP" | tail -1)"
           echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
 
-      # Both consumers in one step: run-smoke.mjs builds them in parallel, so
-      # the step takes about as long as the slower one. Most of each run is
-      # `npm install` unpacking the 27,000-file tarball (25-27 s each in the
-      # v11.16.1 release).
+      # Both consumers in one step: run-smoke.mjs builds them in parallel. On a
+      # GitHub runner that took 66 s, against 39 + 51 s in turn; most of each
+      # run is `npm install` unpacking the 27,000-file tarball.
       - name: Vite and Next.js consumer smoke tests
         env:
           TARBALL: ${{ steps.smoke-pack.outputs.tarball }}

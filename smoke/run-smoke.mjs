@@ -203,9 +203,9 @@ function smokeTest(fixture, tarball, keep) {
 
 // Several fixtures run at once, each in its own process that runs this script
 // for one fixture. Most of a run is `npm install` unpacking the 27,000-file
-// tarball, so the fixtures take about as long as the slowest one instead of
-// all of them in turn. Each output line starts with its fixture name, because
-// the processes write at the same time.
+// tarball. Two of those slow each other down, but on a GitHub runner Vite and
+// Next.js together took 66 s, against 39 + 51 s in turn. Each output line
+// starts with its fixture name, because the processes write at the same time.
 function smokeTestInParallel(fixtures, tarball, keep) {
   const script = fileURLToPath(import.meta.url)
   return Promise.all(
