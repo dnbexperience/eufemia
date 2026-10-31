@@ -84,7 +84,7 @@
     column-gap: 1.5rem;
   }
 
-  @include utilities.allBelow(small) {
+  @media (max-width: 48em) {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -95,7 +95,7 @@
   align-self: start;
   padding-block: 6.5rem 3rem;
 
-  @include utilities.allBelow(small) {
+  @media (max-width: 48em) {
     padding-block-start: 0.5rem;
   }
 }
@@ -171,7 +171,7 @@
     pointer-events: none;
   }
 
-  @include utilities.allBelow(small) {
+  @media (max-width: 48em) {
     --floor-level: 19rem;
     z-index: 0;
     width: 100%;
@@ -214,7 +214,7 @@
   width: 0;
   height: calc(100% + var(--anchor-offset));
 
-  @include utilities.allBelow(small) {
+  @media (max-width: 48em) {
     --specimen-scale: 0.75;
     --length: calc(
       var(--mobile-length) + var(--anchor-offset) + var(--depth-offset) *

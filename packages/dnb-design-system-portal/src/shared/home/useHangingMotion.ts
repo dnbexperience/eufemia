@@ -31,6 +31,7 @@ export default function useHangingMotion() {
     let physics: ReturnType<typeof mountHangingMotion> | undefined
     let pointer: PointerEvent | undefined
     let latest: PointerEvent | undefined
+    let entranceTimer: ReturnType<typeof setTimeout>
 
     const load = (event?: PointerEvent) => {
       if (
@@ -55,7 +56,10 @@ export default function useHangingMotion() {
           if (!mount || disposed || reduced.matches) {
             return
           }
-          physics = mount(root, enter.current)
+          physics = mount(
+            root,
+            enter.current && root.style.visibility === 'hidden'
+          )
           if (pointer) {
             physics.down(pointer)
             if (latest !== pointer) {
@@ -76,6 +80,7 @@ export default function useHangingMotion() {
           // Brand, appearance and settings controls remain available.
         })
         .finally(() => {
+          clearTimeout(entranceTimer)
           pending = undefined
           root.style.removeProperty('visibility')
         })
@@ -104,6 +109,10 @@ export default function useHangingMotion() {
     const idleTimer = setTimeout(() => load(), 1500 + Math.random() * 1000)
     if (enter.current && !reduced.matches) {
       root.style.visibility = 'hidden'
+      entranceTimer = setTimeout(
+        () => root.style.removeProperty('visibility'),
+        300
+      )
       load()
     }
     const move = (event: PointerEvent) => {
@@ -131,6 +140,7 @@ export default function useHangingMotion() {
       disposed = true
       query.current = () => undefined
       clearTimeout(idleTimer)
+      clearTimeout(entranceTimer)
       resize.disconnect()
       physics?.destroy()
       root.removeEventListener('pointerover', load)

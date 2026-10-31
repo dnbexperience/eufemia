@@ -3,6 +3,42 @@ import waitForApp from './shared/waitForApp'
 
 for (const colorScheme of ['light', 'dark'] as const) {
   test(
+    'keeps Carnegie appearance controls available in ' + colorScheme,
+    async ({ page }) => {
+      await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' })
+      await page.goto('/')
+      await waitForApp(page)
+      await expect(page.locator('#welcome-heading')).toHaveCSS(
+        'font-family',
+        'DNB, sans-serif'
+      )
+
+      await page.getByRole('checkbox', { name: 'DNB Carnegie' }).check()
+      await expect(page.locator('body')).toHaveClass(
+        /eufemia-theme__carnegie/
+      )
+      const dark = page.getByRole('switch', {
+        name: 'Dark mode',
+        exact: true,
+      })
+      await expect(dark).toBeEnabled()
+      await expect(
+        page.locator('[data-hanging-item=carnegie] .eufemia-theme')
+      ).toHaveClass(new RegExp('color-scheme--' + colorScheme))
+
+      await dark.click()
+      const mode = colorScheme === 'light' ? 'dark' : 'light'
+      await expect(page.locator('body')).toHaveClass(
+        new RegExp('color-scheme--' + mode)
+      )
+      await expect(dark).toBeChecked({ checked: mode === 'dark' })
+      await expect(page.locator('body')).toHaveClass(
+        /eufemia-theme__carnegie/
+      )
+    }
+  )
+
+  test(
     'keeps foreground ropes visible across the Carnegie card in ' +
       colorScheme,
     async ({ page }) => {
@@ -58,17 +94,17 @@ for (const width of [1600, 800, 390]) {
         await expect(page.locator('#portal-search')).toHaveCount(0)
         const specimens = page.locator('[data-hanging-item]')
         await expect(specimens).toHaveCount(6)
-        const palettes = () =>
+        const sampleBrands = () =>
           specimens.evaluateAll((items) =>
             items
               .slice(0, 4)
               .map((item) =>
-                getComputedStyle(
-                  item.querySelector('.eufemia-theme')
-                ).getPropertyValue('--token-color-background-action')
+                item
+                  .querySelector('.eufemia-theme')
+                  .getAttribute('data-brand')
               )
           )
-        const before = await palettes()
+        const before = await sampleBrands()
         await page
           .getByRole('button', {
             name: 'Switch brand to Sbanken',
@@ -78,7 +114,13 @@ for (const width of [1600, 800, 390]) {
         await expect(page.locator('body')).toHaveClass(
           /eufemia-theme__sbanken/
         )
-        expect(await palettes()).toEqual(before)
+        const sbanken = page.getByRole('button', {
+          name: 'Switch brand to Sbanken',
+          exact: true,
+        })
+        await sbanken.click()
+        await expect(sbanken).toHaveAttribute('aria-pressed', 'true')
+        expect(await sampleBrands()).toEqual(before)
         const dark = page.getByRole('switch', {
           name: 'Dark mode',
           exact: true,
