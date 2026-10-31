@@ -4,8 +4,10 @@
  */
 
 import { cleanup, fireEvent, render } from '@testing-library/react'
-import { StrictMode, useRef, useState } from 'react'
-import type { RefObject } from 'react'
+import { StrictMode, act, useRef, useState } from 'react'
+import type { ReactElement, RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SwitchProps } from '../Switch'
 import Switch from '../Switch'
@@ -352,6 +354,162 @@ describe('Switch component', () => {
     fireEvent.keyUp(document.querySelector('input'), { code: 'Enter' })
 
     expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('Switch with server-rendered markup', () => {
+  // The user changes the switch before the JavaScript has loaded
+  const hydrateAfterChange = (element: ReactElement) => {
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+    container.querySelector('input').checked = true
+
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element)
+    })
+
+    return {
+      input: container.querySelector('input'),
+      unmount: () => {
+        act(() => root.unmount())
+        container.remove()
+      },
+    }
+  }
+
+  it('should report a change made before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(true)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(false)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false })
+    )
+
+    unmount()
+  })
+
+  it('should give the change handler the input as currentTarget', () => {
+    const onChange = vi.fn(({ event }) => event.currentTarget.checked)
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onChange={onChange} />
+    )
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].event.target).toBe(input)
+    expect(onChange.mock.calls[0][0].event.currentTarget).toBe(input)
+    expect(onChange.mock.results[0]).toEqual({
+      type: 'return',
+      value: true,
+    })
+
+    unmount()
+  })
+
+  it('should undo a change made before hydration when readOnly', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" readOnly onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+
+    unmount()
+  })
+
+  it('should call onClick before it reports a change made before hydration', () => {
+    const calls: string[] = []
+    const onClick = vi.fn(({ event }) => {
+      calls.push('onClick')
+      return event.target
+    })
+    const onChange = vi.fn(() => calls.push('onChange'))
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onClick={onClick} onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(true)
+    expect(calls).toEqual(['onClick', 'onChange'])
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false, target: input })
+    )
+    expect(onClick.mock.results[0]).toEqual({
+      type: 'return',
+      value: input,
+    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+
+    unmount()
+  })
+
+  it('should undo a change made before hydration when onClick calls preventDefault', () => {
+    const onClick = vi.fn(({ preventDefault }) => preventDefault())
+    const onChange = vi.fn()
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onClick={onClick} onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(false)
+    expect(input.getAttribute('aria-checked')).toBe('false')
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false })
+    )
+    expect(onChange).not.toHaveBeenCalled()
+
+    // One more vetoed click after hydration
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(false)
+    expect(input.getAttribute('aria-checked')).toBe('false')
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false })
+    )
+    expect(onChange).not.toHaveBeenCalled()
+
+    unmount()
+  })
+
+  it('should give the handlers events with nativeEvent and persist', () => {
+    const onClick = vi.fn(({ event }) => {
+      event.persist()
+      return event.nativeEvent.type
+    })
+    const onChange = vi.fn(({ event }) => {
+      event.persist()
+      return event.nativeEvent.type
+    })
+    const { unmount } = hydrateAfterChange(
+      <Switch label="Label" onClick={onClick} onChange={onChange} />
+    )
+
+    expect(onClick.mock.results[0]).toEqual({
+      type: 'return',
+      value: 'click',
+    })
+    expect(onChange.mock.results[0]).toEqual({
+      type: 'return',
+      value: 'change',
+    })
+
+    unmount()
   })
 })
 
