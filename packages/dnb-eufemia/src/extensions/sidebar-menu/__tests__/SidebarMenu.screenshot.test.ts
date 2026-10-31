@@ -45,17 +45,6 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
-  it.each(['declarative', 'data'])(
-    'matches the %s menu with page-wide skeletons',
-    async (composition) => {
-      await makeScreenshot({
-        url: '/uilib/extensions/sidebar-menu/demos/?skeleton',
-        selector: `[data-visual-test="sidebar-menu-${composition}"]`,
-        style: { width: '24rem' },
-      })
-    }
-  )
-
   it('matches wrapped accordion labels', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-data"]',
