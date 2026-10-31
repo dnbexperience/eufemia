@@ -31,6 +31,11 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  prerenderFieldProps: {
+    doc: 'If set to `true`, the wizard pre-renders all steps so the props of each field are available in the data context. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   validationMode: {
     doc: 'Determines if and how the validation will be bypassed.',
     type: ['"bypassOnNavigation"'],
