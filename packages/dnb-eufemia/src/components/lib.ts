@@ -68,6 +68,7 @@ import Tag from './tag/Tag'
 import TermDefinition from './term-definition/TermDefinition'
 import Textarea from './textarea/Textarea'
 import Timeline from './timeline/Timeline'
+import Toaster from './toaster/Toaster'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
 import Upload from './upload/Upload'
@@ -133,6 +134,7 @@ export {
   TermDefinition,
   Textarea,
   Timeline,
+  Toaster,
   ToggleButton,
   Tooltip,
   Upload,
