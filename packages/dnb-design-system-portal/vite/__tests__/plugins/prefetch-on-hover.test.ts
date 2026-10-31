@@ -48,12 +48,13 @@ describe('prefetch-on-hover plugin', () => {
   })
 
   describe('runtime code', () => {
-    it('imports routes from virtual:portal-pages', () => {
+    it('uses on-demand route prefetching', () => {
       const plugin = prefetchOnHoverPlugin()
       const load = plugin.load as (id: string) => string | undefined
       const code = load('\0virtual:prefetch-on-hover')!
 
-      expect(code).toContain("from 'virtual:portal-pages'")
+      expect(code).toContain('prefetchPortalRoute')
+      expect(code).not.toContain("from 'virtual:portal-pages'")
     })
 
     it('exports setupPrefetchOnHover function', () => {
@@ -79,15 +80,6 @@ describe('prefetch-on-hover plugin', () => {
 
       expect(code).toContain("'pointerover'")
       expect(code).toContain("'focusin'")
-    })
-
-    it('builds a route map for O(1) lookups', () => {
-      const plugin = prefetchOnHoverPlugin()
-      const load = plugin.load as (id: string) => string | undefined
-      const code = load('\0virtual:prefetch-on-hover')!
-
-      expect(code).toContain('new Map()')
-      expect(code).toContain('routeMap.set(route.path')
     })
 
     it('tracks prefetched paths to avoid duplicate imports', () => {

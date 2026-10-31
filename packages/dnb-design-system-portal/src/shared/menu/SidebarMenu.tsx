@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react'
 import { clsx } from 'clsx'
-import { allMdxNodes } from 'virtual:portal-pages'
+import { allMdxNodes } from 'virtual:portal-data'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
