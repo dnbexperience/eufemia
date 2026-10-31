@@ -146,10 +146,26 @@ Figma. Other brands retain their existing typography. Use `weight="regular"`
 only when an introductory text design explicitly calls for it.
 
 The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
-Text and Mono use explicit CSS font metrics to keep their baselines
-consistent across browsers. Their skeleton fonts use the same metrics.
+Text and Mono use explicit CSS font metrics to limit vertical changes from
+the legacy fonts. Their skeleton fonts use the same metrics. Firefox can
+move text by about one pixel row compared with the legacy fonts; identical
+rendering across browsers is not guaranteed.
 When self-hosting, keep these declarations along with the font files;
 copying the files alone does not preserve the line-box configuration.
+
+### Updating from legacy DNB fonts
+
+Update manual font preloads, copied font stylesheets and self-hosted assets
+to the `DNBSansText-*` and `DNBSansMono-*` files together. Keep the
+`ascent-override`, `descent-override` and `line-gap-override` descriptors from
+Eufemia's font declarations. Existing `DNB-*` and `DNBMono-*` assets remain
+available for compatibility. Avoid mixing old and current declarations
+under the same CSS family name.
+
+Review text wrapping, control alignment and visual snapshots on your
+supported browsers and operating systems. Genuine italics, updated Medium
+and Bold details, font metrics and rasterization can change the result.
+See the [v11 font update guidance](/uilib/about-the-lib/releases/eufemia/v11-info/#dnb-font-update).
 
 - Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/sbanken/fonts.scss` and applied via Sbanken-specific properties.
 - Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.
@@ -177,7 +193,7 @@ import { H1, H2, ... } from '@dnb/eufemia'
 
 Read more about the [Anchor / Text Link](/uilib/components/anchor).
 
-## DNB Sans Mono (monospace)
+## DNB Sans Mono (monospace) \{#dnb-mono-monospace\}
 
 Use Mono for selected details, such as eyebrow labels, short captions and table values. It is also used for code. Tables keep Text by default; select Mono where it helps the content.
 

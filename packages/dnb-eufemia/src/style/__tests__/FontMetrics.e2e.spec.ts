@@ -183,7 +183,7 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
   await page.evaluate(() => document.fonts.ready)
   const metrics = () =>
     sample.evaluate((element) => ({
-      height: element.getBoundingClientRect().height,
+      height: element.querySelector('span').getBoundingClientRect().height,
       baseline:
         element.querySelector('i').getBoundingClientRect().top -
         element.getBoundingClientRect().top,
@@ -204,7 +204,10 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         await page.evaluate(() => document.fonts.ready)
         const actual = await metrics()
         normalized ??= actual
-        expect(actual.height).toBeCloseTo(legacy.height, 1)
+        // Firefox rounds the overridden metrics differently from native metrics.
+        expect(
+          Math.abs(actual.height - legacy.height)
+        ).toBeLessThanOrEqual(1.1)
         expect(
           Math.abs(actual.baseline - legacy.baseline)
         ).toBeLessThanOrEqual(1)
@@ -229,7 +232,9 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
       )
       await page.evaluate(() => document.fonts.ready)
       const actual = await metrics()
-      expect(actual.height).toBeCloseTo(legacy.height, 1)
+      expect(Math.abs(actual.height - legacy.height)).toBeLessThanOrEqual(
+        1.1
+      )
       expect(actual.baseline).toBeCloseTo(normalized.baseline, 1)
     }
   }

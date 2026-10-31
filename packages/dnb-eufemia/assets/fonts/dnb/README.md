@@ -19,11 +19,20 @@ public URLs and direct package imports. Current styles use only `DNBSansText-*`
 and `DNBSansMono-*`. Remove legacy assets only in a separately
 announced breaking change with migration guidance.
 
-Regular, Medium and Light Text outlines, character widths and mappings match
-the previous Text files. Bold outlines have changed. The new files enable
-USE_TYPO_METRICS. Text, Mono and their skeleton faces use explicit CSS metrics
-(ascent 95%, descent 25%, line gap 0%) to retain the established line boxes
-across browsers. These values match the previous 950/−250 metrics at 1,000
-units per em. The official binaries remain unchanged. Mono retains character
-coverage and widths. Skeleton fonts keep the existing widths; their generator
-reads the current Text and Mono sources.
+The current web fonts include updated Medium and Bold details and genuine
+italics. The Regular, Medium and Light Text TTF outlines match the previous
+TTFs, but the previously served Medium WOFF2 was an older build. The current
+WOFF2 and WOFF files use CFF outlines instead of the previous TrueType
+outlines, which can also change rasterization.
+
+The new files enable USE_TYPO_METRICS. Text, Mono and their skeleton faces
+use explicit CSS metrics (ascent 95%, descent 25%, line gap 0%) based on the
+previous 950/−250 metrics at 1,000 units per em. These descriptors limit
+vertical changes; they do not guarantee identical rendering across browsers.
+Firefox can move text by about one pixel row compared with the legacy fonts.
+Preserve the descriptors when self-hosting and review application snapshots
+on the supported browsers and operating systems.
+
+The official binaries remain unchanged. Mono retains character coverage and
+widths. Skeleton fonts keep the existing widths; their generator reads the
+current Text and Mono sources.

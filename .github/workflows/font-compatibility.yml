@@ -1,0 +1,50 @@
+name: Windows font compatibility
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!**--skip-ci'
+      - '!**--visual-reports'
+    paths:
+      - '.github/workflows/font-compatibility.yml'
+      - 'packages/dnb-eufemia/assets/fonts/**'
+      - 'packages/dnb-eufemia/src/style/themes/ui/fonts.scss'
+      - 'packages/dnb-eufemia/src/components/skeleton/style/dnb-skeleton.scss'
+      - 'packages/dnb-eufemia/src/style/__tests__/Fonts*.spec.ts'
+      - 'packages/dnb-eufemia/src/style/__tests__/FontMetrics.e2e.spec.ts'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fonts:
+    name: Check fonts on Windows
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: 'package.json'
+          package-manager-cache: false
+
+      - name: Install test dependencies
+        run: node .yarn/releases/yarn-4.18.0.cjs install --immutable --mode=skip-build
+
+      - name: Install browsers
+        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright install chromium firefox
+
+      - name: Check font loading, metrics and controls
+        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.e2e.ts src/style/__tests__/Fonts.e2e.spec.ts src/style/__tests__/FontMetrics.e2e.spec.ts --project firefox --project chromium-fonts --workers 2
