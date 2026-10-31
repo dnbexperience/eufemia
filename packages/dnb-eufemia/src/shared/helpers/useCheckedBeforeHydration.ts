@@ -51,9 +51,11 @@ export default function useCheckedBeforeHydration({
 
     if (onClick) {
       let isPrevented = false
+      const clickEvent = createEvent('click', input)
       onClick({
         checked: Boolean(checkedRef.current),
-        event: createEvent('click', input),
+        event: clickEvent,
+        nativeEvent: clickEvent,
         target: input,
         currentTarget: input,
         preventDefault: () => {
@@ -76,7 +78,7 @@ export default function useCheckedBeforeHydration({
   }, [])
 }
 
-// The handler gets the input as target and currentTarget, as with a real event
+// Like React's event: the input as target and currentTarget, plus nativeEvent and persist
 function createEvent(type: 'click' | 'change', input: HTMLInputElement) {
   const event =
     type === 'click'
@@ -85,6 +87,8 @@ function createEvent(type: 'click' | 'change', input: HTMLInputElement) {
   Object.defineProperties(event, {
     target: { value: input },
     currentTarget: { value: input },
+    nativeEvent: { value: event },
+    persist: { value: () => undefined },
   })
   return event
 }
