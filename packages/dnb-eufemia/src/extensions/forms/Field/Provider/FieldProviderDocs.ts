@@ -8,7 +8,6 @@ export const FieldProviderProperties: PropertiesTableProps = {
   disabled: DataValueWritePropsProperties.disabled,
   layout: FieldProperties.layout,
   layoutOptions: FieldProperties.layoutOptions,
-  width: FieldProperties.width,
   locale: {
     doc: 'Locale (language) to use for all nested Eufemia components.',
     type: 'string',
