@@ -67,7 +67,8 @@
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
 
-  &--surface-dark {
+  // A checked ToggleButton keeps a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button--checked *)) {
     --radio-color-dot-on--disabled: var(
       --token-color-background-action-disabled-ondark
     );

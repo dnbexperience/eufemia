@@ -1904,7 +1904,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
 }
-.dnb-radio--surface-dark {
+.dnb-radio--surface-dark:where(:not(.dnb-toggle-button--checked *)) {
   --radio-color-dot-on--disabled: var(
     --token-color-background-action-disabled-ondark
   );
