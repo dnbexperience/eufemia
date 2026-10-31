@@ -41,6 +41,7 @@ describe('MDX-defined Portal navigation', () => {
   })
 
   it('uses the same component categories in navigation and documentation', () => {
+    const mismatches: string[] = []
     const definitions = new Map(
       pages.map((page) => [page.fields.slug, page])
     )
@@ -50,7 +51,7 @@ describe('MDX-defined Portal navigation', () => {
         fields.slug.includes('/fragments/') ||
         frontmatter.draft ||
         frontmatter.navigation?.hidden ||
-        !frontmatter.category
+        frontmatter.category === false
       ) {
         continue
       }
@@ -61,10 +62,15 @@ describe('MDX-defined Portal navigation', () => {
       ) {
         group = definitions.get(group.frontmatter.navigation.parent)
       }
-      expect(group?.fields.slug).toBe(
+      const expected =
         'web/components/categories/' + getCategoryId(frontmatter.category)
-      )
+      if (group && group.fields.slug !== expected) {
+        mismatches.push(
+          fields.slug + ': ' + group.fields.slug + ' != ' + expected
+        )
+      }
     }
+    expect(mismatches).toEqual([])
   })
 
   it('lists incoming helper, printing and contributor pages in their sections', () => {

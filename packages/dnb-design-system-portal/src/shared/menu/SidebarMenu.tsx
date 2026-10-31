@@ -29,6 +29,7 @@ import {
   getWebStorage,
   readWebStorageJSON,
 } from '@dnb/eufemia/src/shared/helpers/webStorage'
+import { Provider } from '@dnb/eufemia/src/shared'
 import PortalLogo from './graphics/logo'
 import { Link } from '../tags/Anchor'
 
@@ -118,7 +119,7 @@ export default function SidebarLayout({
   )
 
   return (
-    <>
+    <Provider locale="en-GB">
       <SidebarMenu.ResponsiveDrawer
         id="portal-sidebar-menu-drawer"
         className={mobileDrawerStyle}
@@ -163,7 +164,7 @@ export default function SidebarLayout({
         {menu(true)}
       </SidebarMenu.ResponsiveAside>
       <SidebarMenu.PreHydrationScript />
-    </>
+    </Provider>
   )
 }
 
