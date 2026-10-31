@@ -1010,6 +1010,25 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('returns focus to the trigger when Escape is pressed while the list opens', async () => {
+    // Without noAnimation, the list waits DrawerListProvider.blurDelay before it handles keys itself
+    render(<Dropdown data={mockData} />)
+
+    const trigger = document.querySelector(
+      'button.dnb-dropdown__trigger'
+    ) as HTMLButtonElement
+    open()
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(document.activeElement).not.toBe(trigger)
+
+    fireEvent.keyDown(document.activeElement, { key: 'Escape' })
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(document.activeElement).toBe(trigger)
+    })
+  })
+
   it('keeps dialog open when Escape is pressed inside the dropdown', async () => {
     render(
       <Dialog noAnimation open title="Dialog">
@@ -1032,6 +1051,30 @@ describe('Dropdown component', () => {
     await userEvent.keyboard('{Escape}')
 
     expect(document.documentElement).not.toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+  })
+
+  it('keeps dialog open when Escape is pressed while the list opens', async () => {
+    // Without noAnimation, the list waits DrawerListProvider.blurDelay before it handles keys itself
+    render(
+      <Dialog noAnimation open title="Dialog">
+        <Dropdown data={mockData} skipPortal />
+      </Dialog>
+    )
+
+    const trigger = document.querySelector(
+      'button.dnb-dropdown__trigger'
+    ) as HTMLButtonElement
+    open()
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    fireEvent.keyDown(document.activeElement, { key: 'Escape' })
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+    expect(document.documentElement).toHaveAttribute(
       'data-dnb-modal-active'
     )
   })
