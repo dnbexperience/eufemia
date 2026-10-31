@@ -28,6 +28,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  errorMessages: {
+    doc: "Custom error messages for the validation states, e.g. `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.",
+    type: 'object',
+    status: 'optional',
+  },
   minItems: {
     doc: 'The minimum amount of items required to iterate over.',
     type: 'number',
