@@ -1,6 +1,59 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+for (const dir of ['ltr', 'rtl']) {
+  for (const width of [1200, 1600]) {
+    test(`slides nested items only when the compact rail expands at ${width}px in ${dir}`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(
+        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+      )
+      await waitForApp(page)
+      const shell = page.locator('[data-sidebar-menu-responsive-example]')
+      await shell.evaluate(
+        (element, dir) => element.setAttribute('dir', dir),
+        dir
+      )
+      const inline = shell.locator('.dnb-sidebar-menu-responsive-inline')
+      const toggle = inline.locator(
+        '.dnb-sidebar-menu-responsive-inline__toggle'
+      )
+      await expect(inline).toHaveClass(/--transitions-ready/)
+      await page.clock.install()
+      await page.clock.pauseAt(new Date())
+      if (width === 1200) {
+        await toggle.evaluate((element: HTMLElement) => element.click())
+        await page.clock.runFor(300)
+      }
+      const products = shell.locator(
+        '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
+      )
+      await products.evaluate((element: HTMLElement) => element.click())
+      await page.clock.runFor(500)
+      const accounts = shell.locator(
+        '[data-sidebar-menu-id="accounts"] > .dnb-sidebar-menu__item__action'
+      )
+      await expect(accounts).toHaveCSS('animation-name', 'none')
+      await expect(accounts).toHaveCSS('transform', 'none')
+      if (width === 1200) {
+        await toggle.evaluate((element: HTMLElement) => element.click())
+        await page.clock.runFor(300)
+        await toggle.evaluate((element: HTMLElement) => element.click())
+        await expect(accounts).toHaveCSS(
+          'animation-name',
+          'dnb-sidebar-menu-show-nested-item'
+        )
+        await page.clock.runFor(300)
+        await expect(accounts).toHaveCSS('animation-name', 'none')
+      }
+      await page.clock.resume()
+    })
+  }
+}
+
 test('keeps selected nested accordion labels stable while closing', async ({
   page,
 }) => {
