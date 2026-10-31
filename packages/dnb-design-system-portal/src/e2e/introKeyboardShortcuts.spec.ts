@@ -6,6 +6,11 @@ test('Intro shortcuts leave focused code blocks on the current page', async ({
   browserName,
 }) => {
   await page.setViewportSize({ width: 375, height: 812 })
+
+  // Keep both routes in the partial E2E build.
+  await page.goto('/uilib/intro/08-color-usage/')
+  await waitForApp(page)
+
   await page.goto('/uilib/intro/07-typography/')
   await waitForApp(page)
 
