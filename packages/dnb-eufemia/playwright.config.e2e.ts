@@ -22,6 +22,12 @@ export default defineConfig({
       use: { browserName: 'firefox' },
     },
     {
+      name: 'chromium-forced-colors',
+      testMatch: ['ProgressIndicator.e2e.spec.ts', 'Slider.e2e.spec.ts'],
+      grep: /forced colors mode/,
+      use: { browserName: 'chromium' },
+    },
+    {
       name: 'chromium-document-styles',
       testMatch: 'DocumentStyles.e2e.spec.ts',
       use: { browserName: 'chromium' },
