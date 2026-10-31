@@ -293,7 +293,68 @@ describe('checkRepositoryAdvisories', () => {
     ['8.0.0-rc.6', '8.0.0-rc.6', true],
     ['3.1.9', '4.1.2; 3.1.5; 2.4.4', true],
     ['3.1.4', '4.1.2; 3.1.5; 2.4.4', false],
+    ['2.10.0', '2.10.1, 2.9.3, 1.123.22', false],
+    ['2.10.1', '2.10.1, 2.9.3, 1.123.22', true],
+    ['19.1.1', '19.0.1, 19.1.2, 19.2.1', false],
   ])('treats %s as patched by "%s": %s', (version, patched, expected) => {
     expect(isPatched(version, patched)).toBe(expected)
+  })
+
+  it('does not treat a version as patched because an older line of its major was fixed', () => {
+    const advisories = [
+      {
+        ghsa_id: 'GHSA-jjpj-p2wh-qf23',
+        summary: 'Sandbox Escape in JavaScript Task Runner',
+        severity: 'critical',
+        html_url:
+          'https://github.com/n8n-io/n8n/security/advisories/GHSA-jjpj-p2wh-qf23',
+        vulnerabilities: [
+          {
+            package: { ecosystem: 'npm', name: 'n8n' },
+            vulnerable_version_range:
+              '< 1.123.22, >= 2.0.0 < 2.9.3, >= 2.10.0 < 2.10.1',
+            patched_versions: '2.10.1, 2.9.3, 1.123.22',
+          },
+        ],
+      },
+      {
+        ghsa_id: 'GHSA-h25m-26qc-wcjf',
+        summary: 'Denial of Service with Server Components',
+        severity: 'high',
+        html_url:
+          'https://github.com/vercel/next.js/security/advisories/GHSA-h25m-26qc-wcjf',
+        vulnerabilities: [
+          {
+            package: { ecosystem: 'npm', name: 'next' },
+            vulnerable_version_range:
+              '>=13.0.0 <15.0.8, >=15.0.0 <15.6.0-canary.61, >=16.0.0 <16.1.5',
+            patched_versions:
+              '15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.11, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5',
+          },
+        ],
+      },
+    ]
+
+    const [match, ...rest] = findAdvisoryMatches(
+      { name: 'n8n', version: '2.10.0' },
+      advisories
+    )
+    expect(rest).toEqual([])
+    expect(match).toEqual(
+      expect.objectContaining({ ghsaId: 'GHSA-jjpj-p2wh-qf23' })
+    )
+    expect(match).not.toHaveProperty('unreadableRange')
+    expect(
+      findAdvisoryMatches({ name: 'n8n', version: '2.10.1' }, advisories)
+    ).toEqual([])
+    expect(
+      findAdvisoryMatches({ name: 'n8n', version: '2.9.3' }, advisories)
+    ).toEqual([])
+    expect(
+      findAdvisoryMatches({ name: 'next', version: '16.1.4' }, advisories)
+    ).toEqual([expect.objectContaining({ ghsaId: 'GHSA-h25m-26qc-wcjf' })])
+    expect(
+      findAdvisoryMatches({ name: 'next', version: '16.1.5' }, advisories)
+    ).toEqual([])
   })
 })
