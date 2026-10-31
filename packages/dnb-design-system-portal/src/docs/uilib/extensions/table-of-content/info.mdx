@@ -70,7 +70,7 @@ Set expandedStorageKey on Root or Data to remember the disclosure choice across 
 />
 ```
 
-For SSR or static HTML, place the pre-hydration script after the prerendered navigation and before application hydration. It restores the saved disclosure styling before first paint; the component adopts the state during hydration. Pass a nonce to the script component when required by your Content Security Policy.
+For SSR or static HTML, place the pre-hydration script after the prerendered navigation and before application hydration. It restores the saved disclosure styling before first paint; the component adopts the state during hydration. When required by your Content Security Policy, pass the same nonce as styleNonce to Root or Data and as nonce to the script component.
 
 ```tsx
 import { TableOfContentPreHydrationScript } from '@dnb/eufemia/extensions/table-of-content/TableOfContentPreHydrationScript'
@@ -114,7 +114,7 @@ Following a section link moves the indicator directly to that destination while 
 
 Automatic tracking responds to window and nested-container scrolling, resizing, DOM replacements, and visibility changes. If the current heading is hidden or removed dynamically, including immediately after following its link, selection moves to an available heading without requiring another scroll. Hidden sections and headings with hidden, aria-hidden="true", display: none or visibility: hidden are excluded. Revealed or remounted headings participate again automatically; when every tracked heading is hidden or missing, the current link and selection outline are cleared.
 
-The component uses the supplied data or Item children as its link list. Update that data or those children when sections should be added to or removed from navigation. It does not scan the page or generate ids. The Portal supplies this integration: its link list also updates automatically when page headings are hidden, removed or restored.
+The component uses the supplied data or Item children as its link list. Update that data or those children when sections should be added to or removed from navigation. It does not scan the page or generate ids. Update the data when page headings are hidden, removed or restored.
 
 On the initial visit, a URL hash matching a tracked heading takes precedence while that heading is visible below currentSectionOffset and inside its scrolling region. Manual wheel, touch, pointer or keyboard input, later hash/history navigation, or the heading leaving view ends this initial preference. Normal scroll tracking then resumes without reapplying the old hash or changing the URL. Missing, hidden or unrelated hash targets do not affect selection.
 

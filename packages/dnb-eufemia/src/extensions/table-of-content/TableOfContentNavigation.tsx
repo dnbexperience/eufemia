@@ -54,6 +54,7 @@ export default function TableOfContentNavigation({
   stickyOffset = 0,
   animateChanges = false,
   style,
+  styleNonce,
   expanded,
   defaultExpanded = false,
   expandedStorageKey,
@@ -150,7 +151,9 @@ export default function TableOfContentNavigation({
   const translation = getTranslation({ locale }).TableOfContent
   const label = title ?? translation.title
   const mobileQuery = String(
-    buildQuery({ when: { min: breakpoint }, not: true }, breakpoints)
+    buildQuery({ when: { min: breakpoint }, not: true }, breakpoints, {
+      correctRange: true,
+    })
   )
   const scope =
     '[data-table-of-content-query="' +
@@ -183,7 +186,11 @@ export default function TableOfContentNavigation({
       focusRevealed.current = false
       const links =
         scrollRef.current?.querySelectorAll<HTMLAnchorElement>('a')
-      links?.[limit]?.focus({ preventScroll: true })
+      Array.from(links ?? [])
+        .find(
+          (link) => link.getAttribute('href') === '#' + items[limit]?.id
+        )
+        ?.focus({ preventScroll: true })
     } else if (
       !isSidebar &&
       isExpanded &&
@@ -199,7 +206,15 @@ export default function TableOfContentNavigation({
     ) {
       toggleRef.current?.focus()
     }
-  }, [resolvedId, children, isSidebar, isExpanded, showingAll, limit])
+  }, [
+    resolvedId,
+    children,
+    isSidebar,
+    isExpanded,
+    showingAll,
+    limit,
+    items,
+  ])
 
   useLayoutEffect(() => {
     if (isSidebar || !supportsOpenOnFind()) {
@@ -277,7 +292,7 @@ export default function TableOfContentNavigation({
         )}
       >
         {!canUseDOM && (
-          <style>{`@media ${mobileQuery}{
+          <style nonce={styleNonce}>{`@media ${mobileQuery}{
             ${scope}{display:block!important;position:static!important;width:auto!important;max-height:none!important}
             ${scope} .dnb-table-of-content__title{display:none!important}
             ${scope} .dnb-table-of-content__toggle.dnb-button{display:inline-flex!important}
@@ -307,7 +322,6 @@ export default function TableOfContentNavigation({
         </Button>
         <ScrollView
           className="dnb-table-of-content__scroll"
-          aria-labelledby={titleId}
           ref={scrollRef}
         >
           <HeightAnimation

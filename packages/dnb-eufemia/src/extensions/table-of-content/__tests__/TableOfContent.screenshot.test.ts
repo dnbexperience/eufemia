@@ -45,7 +45,7 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="table-of-content-declarative"]',
       style: { width: '18rem' },
-      simulate: 'hover',
+      simulate: 'realhover',
       simulateSelector:
         '[data-visual-test="table-of-content-declarative"] a',
     })
@@ -66,7 +66,7 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="table-of-content-declarative"]',
       style: { width: '18rem' },
-      simulate: 'hover',
+      simulate: 'realhover',
       simulateSelector:
         '[data-visual-test="table-of-content-declarative"] a[aria-current]',
     })
@@ -80,7 +80,7 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
       wrapperStyle: {
         background: 'var(--token-color-background-neutral)',
       },
-      simulate: 'hover',
+      simulate: 'realhover',
       simulateSelector:
         '[data-visual-test="table-of-content-declarative"] a[aria-current]',
     })

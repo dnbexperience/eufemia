@@ -41,9 +41,14 @@ export const TableOfContentRootProperties: PropertiesTableProps = {
     status: 'optional',
   },
   breakpoint: {
-    doc: 'Eufemia breakpoint at or above which the navigation is always expanded. Below it, a disclosure button controls the list. Defaults to large (72em, normally 1152px); Provider breakpoint overrides are respected.',
+    doc: 'Eufemia breakpoint above which the navigation is always expanded. At or below it, a disclosure button controls the list. Defaults to large (72em, normally 1152px); Provider breakpoint overrides are respected.',
     type: ['"small"', '"medium"', '"large"', '"x-large"', '"xx-large"'],
     defaultValue: '"large"',
+    status: 'optional',
+  },
+  styleNonce: {
+    doc: 'CSP nonce for the inline styles used before hydration.',
+    type: 'string',
     status: 'optional',
   },
   stretch: {
