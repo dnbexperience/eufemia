@@ -100,14 +100,21 @@ export default function SidebarLayout({
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [closeMenu])
 
+  const focusTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+  useEffect(() => {
+    return () => clearTimeout(focusTimeoutRef.current)
+  }, [location])
+
   useEffect(() => {
     if (isOpen && !isClosing) {
-      setTimeout(() => {
+      clearTimeout(focusTimeoutRef.current)
+      const timeout = setTimeout(() => {
         scrollToActiveItem()
         applyPageFocus('sidebar')
       }, 10) // after animation is done
+      return () => clearTimeout(timeout)
     } else if (isClosing) {
-      setTimeout(() => {
+      focusTimeoutRef.current = setTimeout(() => {
         applyPageFocus('content')
       }, 300) // after animation is done - to make sure we can get the focus on h1
     }
