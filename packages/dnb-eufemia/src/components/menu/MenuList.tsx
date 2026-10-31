@@ -28,7 +28,7 @@ export default function MenuList(props: MenuListProps) {
     maxVisibleListItems > 0
 
   const fallbackMaxHeight = hasValidMaxVisibleListItems
-    ? `calc(var(--menu-action-min-height, 2.5rem) * ${maxVisibleListItems} + var(--menu-content-padding, 0.25rem) * 2)`
+    ? `calc(var(--menu-action-min-height, 3.5rem) * ${maxVisibleListItems} + var(--menu-content-padding, 0.25rem) * 2)`
     : undefined
 
   const [measuredMaxHeight, setMeasuredMaxHeight] = useState<

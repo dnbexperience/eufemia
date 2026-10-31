@@ -388,7 +388,7 @@ describe('MenuList', () => {
         '.dnb-menu__list'
       ) as HTMLElement
       expect(element.style.maxHeight).toBe(
-        'calc(var(--menu-action-min-height, 2.5rem) * 3 + var(--menu-content-padding, 0.25rem) * 2)'
+        'calc(var(--menu-action-min-height, 3.5rem) * 3 + var(--menu-content-padding, 0.25rem) * 2)'
       )
       expect(element.style.overflowY).toBe('auto')
     })
