@@ -16,4 +16,8 @@ import { IndeterminateProperties } from '@dnb/eufemia/src/extensions/forms/Field
 
 ### General properties
 
-<PropertiesTable props={FieldProperties} valueType="any" />
+<PropertiesTable
+  props={FieldProperties}
+  valueType="any"
+  omit={['layout', 'layoutOptions']}
+/>

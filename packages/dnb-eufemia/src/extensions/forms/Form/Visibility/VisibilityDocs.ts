@@ -74,7 +74,7 @@ export const VisibilityProperties: PropertiesTableProps = {
   },
   fieldPropsWhenHidden: {
     doc: 'When visibility is hidden, and `keepInDOM` is `true`, pass these properties to the children.',
-    type: '"various"',
+    type: 'object',
     status: 'optional',
   },
   element: {
