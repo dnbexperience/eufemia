@@ -86,8 +86,8 @@ export function addOutsideClickListener({
   }
 
   // A mouse or pen press after a tap counts, as only it comes with its own pointerdown
-  const handlePointerDown = (event: PointerEvent) => {
-    if (event.pointerType !== 'touch') {
+  const handlePointerDown = (event: Event) => {
+    if ((event as PointerEvent).pointerType !== 'touch') {
       tapTimeStamp = -Infinity
     }
   }
@@ -135,13 +135,14 @@ export function addOutsideClickListener({
     }
   }
 
-  const handleKeyUp = (event: KeyboardEvent) => {
-    if (!keys || keys.includes(event.key)) {
+  const handleKeyUp = (event: Event) => {
+    if (!keys || keys.includes((event as KeyboardEvent).key)) {
       check(event)
     }
   }
 
-  const root = document
+  // When React renders into the document, <html> still gets bubbling events before React
+  const root: EventTarget = capture ? document : document.documentElement
   const touchOptions = { capture, passive: true }
 
   root.addEventListener('pointerdown', handlePointerDown, true)
