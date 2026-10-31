@@ -25,7 +25,6 @@ import type {
 } from '../../types'
 import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import { useFieldProps } from '../../hooks'
-import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type AdditionalArgs = {
@@ -77,7 +76,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
   } = useTranslation().DateOfBirth
   const { locale } = useContext(SharedContext)
 
-  const { dateFormat = DEFAULT_DATE_FORMAT, labelSuffix, required } = props
+  const { dateFormat = DEFAULT_DATE_FORMAT } = props
 
   const dayRef = useRef<FieldDateOfBirthProps['value']>(props?.emptyValue)
   const monthRef = useRef<FieldDateOfBirthProps['value']>(
@@ -188,12 +187,6 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
     setHasFocus,
     value: fieldValue,
   } = useFieldProps(preparedProps)
-
-  const labelWithItemNo = useIterateItemNo({
-    label: labelProp ?? label,
-    labelSuffix,
-    required,
-  })
 
   const prepareEventValues = useCallback(
     ({
@@ -374,7 +367,8 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
     ...sharedFieldBlockProps,
     className: 'dnb-forms-field-date-of-birth',
     error,
-    label: labelWithItemNo,
+    // FieldBlock replaces {itemNo} and adds the labelSuffix
+    label: labelProp ?? label,
     labelSrOnly,
     labelSize,
     labelDescription,
