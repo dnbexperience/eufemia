@@ -29,6 +29,36 @@ function toIntlOptions({
   return rest
 }
 
+const numberFormatCache = new Map<string, Intl.NumberFormat>()
+
+/**
+ * Creating an `Intl.NumberFormat` is slow, so reuse one per locale and options.
+ */
+function getNumberFormat(
+  locale: string,
+  options: Intl.NumberFormatOptions
+): Intl.NumberFormat {
+  const key =
+    locale +
+    // JSON would turn NaN and Infinity into null, which Intl treats differently
+    JSON.stringify(options, (_name, value) =>
+      typeof value === 'number' ? String(value) : value
+    )
+  let formatter = numberFormatCache.get(key)
+
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(locale, options)
+
+    if (numberFormatCache.size >= 100) {
+      numberFormatCache.clear()
+    }
+
+    numberFormatCache.set(key, formatter)
+  }
+
+  return formatter
+}
+
 function getFormatParts({
   number,
   locale = null,
@@ -42,7 +72,7 @@ function getFormatParts({
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
   ) {
-    const inst = new Intl.NumberFormat(
+    const inst = getNumberFormat(
       locale || LOCALE,
       toIntlOptions(options || {})
     )
