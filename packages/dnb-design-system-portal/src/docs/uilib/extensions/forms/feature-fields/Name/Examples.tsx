@@ -2,6 +2,17 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'
 
+export const Name = () => {
+  return (
+    <ComponentBox>
+      <Field.Name
+        value="Nora Mørk"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const FirstName = () => {
   return (
     <ComponentBox>

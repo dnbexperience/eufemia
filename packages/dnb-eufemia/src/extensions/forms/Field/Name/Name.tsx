@@ -56,6 +56,7 @@ export const companyPattern =
   '^(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}\\p{N}]([\\p{L}\\p{N}\\p{P}\\p{Zs}.]*[\\p{L}\\p{N}])?$'
 
 function Name(props: FieldNameProps) {
+  const translations = useTranslation().Name
   const {
     onBlurValidator: onBlurValidatorProp,
     minLength: minLengthProp = 1,
@@ -95,6 +96,7 @@ function Name(props: FieldNameProps) {
   }, [onBlurValidatorProp, nameValidator])
 
   const StringFieldProps: StringFieldProps = {
+    label: translations.label,
     trim: true,
     autoComplete: 'name',
     minLength: minLengthProp,
