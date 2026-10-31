@@ -18,6 +18,7 @@ import {
 } from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
 import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
+import type PortalToolsDrawer from './PortalToolsDrawer'
 
 type Props = {
   className?: string
@@ -81,8 +82,7 @@ export default function PortalToolsMenu({
   const [isOpen, setIsOpen] = useState(false)
   const [hasOpened, setHasOpened] = useState(false)
   const [drawerReady, setDrawerReady] = useState(false)
-  const [Drawer, setDrawer] =
-    useState<typeof import('./PortalToolsDrawer').default>()
+  const [Drawer, setDrawer] = useState<typeof PortalToolsDrawer>()
   const [loadFailed, setLoadFailed] = useState(false)
   const handleDrawerReady = useCallback(() => setDrawerReady(true), [])
   const { brand, colorScheme } = getTheme()
