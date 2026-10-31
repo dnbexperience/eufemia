@@ -112,7 +112,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputClassName: {
-    doc: 'Additional CSS class applied to the inner input element.',
+    doc: 'Class name set on the input wrapper (`.dnb-input`) that contains the `<input>` element.',
     type: 'string',
     status: 'optional',
   },

@@ -38,7 +38,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 export type FieldNumberProps = FieldProps<number, undefined | number> & {
   /** Ref to the underlying input element. */
   ref?: RefObject<HTMLInputElement>
-  /** Additional CSS class applied to the inner input element. */
+  /** Class name set on the input wrapper (`.dnb-input`) that contains the `<input>` element. */
   inputClassName?: string
   /**
    * Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.
