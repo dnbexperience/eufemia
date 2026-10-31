@@ -48,6 +48,13 @@ jobs:
     # is several times the observed cost and only fires on a genuine hang.
     timeout-minutes: 45
 
+    # The publish job downloads the prepared package by this ID, not by name.
+    # Any job in the run can replace an artifact of the same name, and the
+    # replacement gets a new ID, so a replaced package fails the download
+    # instead of being published.
+    outputs:
+      prepared-package-artifact-id: ${{ steps.upload-prepared-package.outputs.artifact-id }}
+
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -58,14 +65,25 @@ jobs:
           fetch-depth: 0
           filter: blob:none
 
-      - name: Setup dependencies
-        uses: ./.github/actions/setup
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          cache-version: ${{ secrets.CACHE_VERSION }}
+          node-version-file: 'package.json'
+          package-manager-cache: false
           # No `registry-url`: it makes actions/setup-node write an .npmrc that
           # conflicts with semantic-release's OIDC auth (EINVALIDNPMTOKEN).
           # semantic-release publishes to the default public registry and
           # handles Trusted Publishing itself.
+
+      # Install from the lockfile on every release instead of restoring the
+      # node_modules cache the other workflows share. On an exact hit that
+      # cache skips the install, so nothing checks it against yarn.lock, and
+      # any run on main can save entries that this branch restores. The
+      # package, the portal and the search index are built from these
+      # dependencies. The install measured 24-38 s on the last 11 releases,
+      # against 6-15 s for the cache restore.
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Audit dependencies
         run: yarn workspace @dnb/eufemia audit:ci
@@ -150,6 +168,7 @@ jobs:
             -C packages/dnb-eufemia build
 
       - name: Upload prepared release package
+        id: upload-prepared-package
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: prepared-release-package
@@ -178,10 +197,17 @@ jobs:
   # anchor would hold back an npm release. Nothing needs this job: it goes red
   # on the release run while the publish and the portal deploy carry on, and
   # every PR already blocks on the same check in the preview build.
+  #
+  # It starts after the portal deploy. It restores the shared node_modules
+  # cache and runs third-party code (parse5), and the Pages deploy can only
+  # find its artifact by name, so this job must not run between the upload
+  # and the deploy. `!cancelled()` keeps the check when the publish or the
+  # deploy fails.
   validate-portal-links:
     name: Validate portal links
-    needs: build
-    if: github.ref == 'refs/heads/release'
+    needs: [build, deploy-portal]
+    if: ${{ !cancelled() && needs.build.result == 'success' &&
+      github.ref == 'refs/heads/release' }}
 
     runs-on: ubuntu-latest
 
@@ -242,6 +268,7 @@ jobs:
       released: ${{ steps.release-info.outputs.released }}
       notifications: ${{ steps.release.outputs.notifications }}
       tarball: ${{ steps.pack.outputs.tarball }}
+      tarball-artifact-id: ${{ steps.upload-subject.outputs.artifact-id }}
 
     steps:
       # A shallow checkout is enough: semantic-release fetches the history and
@@ -262,10 +289,13 @@ jobs:
       - name: Install release tooling
         run: yarn install --immutable --mode=skip-build
 
+      # By the ID the build job recorded (see its `outputs`). An empty ID would
+      # make download-artifact fetch every artifact of the run, so `missing`
+      # makes the download fail instead.
       - name: Download prepared release package
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: prepared-release-package
+          artifact-ids: ${{ needs.build.outputs.prepared-package-artifact-id || 'missing' }}
           path: ${{ runner.temp }}/prepared-release-package
 
       - name: Restore prepared release package
@@ -380,6 +410,7 @@ jobs:
       # Upload the packed tarball so the separate attestation job can bind the
       # SBOM to it. Short retention: it only needs to outlive this workflow run.
       - name: Upload attestation subject
+        id: upload-subject
         continue-on-error: true
         if: steps.pack.outputs.tarball != ''
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -459,11 +490,17 @@ jobs:
   # kept inline. Non-blocking (every step is continue-on-error), so a failure
   # here never affects the release. See docs/sbom.md for what these files are,
   # where they are stored, and why.
+  #
+  # For the same reason it starts after the portal deploy: the Pages deploy
+  # can only find its artifact by name, and any job in the run can replace an
+  # artifact of the same name. `!cancelled()` keeps the SBOM when the deploy
+  # fails, and on the branches that do not deploy the portal.
   sbom:
     name: Generate release SBOM
-    needs: action
-    if: needs.action.outputs.released != '' &&
-      needs.action.outputs.released != '0.0.0-development'
+    needs: [action, deploy-portal]
+    if: ${{ !cancelled() && needs.action.result == 'success' &&
+      needs.action.outputs.released != '' &&
+      needs.action.outputs.released != '0.0.0-development' }}
 
     runs-on: ubuntu-latest
 
@@ -622,12 +659,16 @@ jobs:
       attestations: write # Record the SBOM attestation
 
     steps:
+      # By ID, not by name: the SBOM job before this one runs third-party code,
+      # and a replaced tarball gets a new ID. It is then not found, so it is
+      # neither attested nor attached to the GitHub release.
       - name: Download attestation subject
+        id: download-subject
         continue-on-error: true
-        if: needs.action.outputs.tarball != ''
+        if: needs.action.outputs.tarball-artifact-id != ''
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: release-tarball
+          artifact-ids: ${{ needs.action.outputs.tarball-artifact-id }}
           path: packages/dnb-eufemia
 
       - name: Download SBOM and vulnerability report
@@ -643,7 +684,7 @@ jobs:
       # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
       - name: Attest the SBOM
         continue-on-error: true
-        if: needs.action.outputs.tarball != ''
+        if: steps.download-subject.outcome == 'success'
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         with:
           subject-path: packages/dnb-eufemia/${{ needs.action.outputs.tarball }}
@@ -660,7 +701,9 @@ jobs:
           # release.yml has no job-wide env to inherit a token from.
           GH_TOKEN: ${{ github.token }}
           RELEASED_VERSION: ${{ needs.action.outputs.released }}
-          PACKED_TARBALL: ${{ needs.action.outputs.tarball }}
+          # Only a tarball downloaded by ID above, so a replaced one is never
+          # attached.
+          PACKED_TARBALL: ${{ steps.download-subject.outcome == 'success' && needs.action.outputs.tarball || '' }}
         run: |
           gh release upload "v$RELEASED_VERSION" \
             sbom.cdx.json vulnerability-report.json \
