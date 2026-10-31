@@ -9,8 +9,102 @@ import SidebarMenu from '../SidebarMenu'
 import { SidebarMenuRootProperties } from '../SidebarMenuDocs'
 import { office_buildings, person } from '../../../icons'
 import Provider from '../../../shared/Provider'
+import Skeleton from '../../../components/Skeleton'
 
 describe('SidebarMenu', () => {
+  it('updates menu labels and actions with the page-wide skeleton state', () => {
+    const onClick = vi.fn()
+    const onOpenItemsChange = vi.fn()
+    const menu = (
+      <SidebarMenu.Root onOpenItemsChange={onOpenItemsChange}>
+        <SidebarMenu.Header text="Standalone header" />
+        <SidebarMenu.Header text="Grouped header">
+          <SidebarMenu.Item id="home" text="Home" onClick={onClick} />
+        </SidebarMenu.Header>
+        <SidebarMenu.Group text="Static group">
+          <SidebarMenu.Item id="cards" text="Cards" href="/cards" />
+        </SidebarMenu.Group>
+        <SidebarMenu.Group id="group" text="Linked group" href="/group">
+          <SidebarMenu.Item id="child">Child content</SidebarMenu.Item>
+        </SidebarMenu.Group>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="nested" text="Nested item" />
+        </SidebarMenu.Accordion>
+        <SidebarMenu.Accordion id="linked" text="Linked" href="/linked">
+          <SidebarMenu.Item id="linked-child" text="Linked child" />
+        </SidebarMenu.Accordion>
+        <SidebarMenu.Accordion
+          id="static"
+          text="Static"
+          collapsible={false}
+        >
+          <SidebarMenu.Item id="static-child" text="Static child" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+    const { rerender } = render(<Provider skeleton>{menu}</Provider>)
+    const labels = document.querySelectorAll(
+      '.dnb-sidebar-menu__item__text, .dnb-sidebar-menu__header, .dnb-sidebar-menu__group__title'
+    )
+
+    expect(labels).toHaveLength(13)
+    labels.forEach((label) => {
+      expect(label).toHaveClass('dnb-skeleton--font')
+    })
+    document.querySelectorAll('button').forEach((button) => {
+      expect(button).toBeDisabled()
+      fireEvent.click(button)
+    })
+    expect(onClick).not.toHaveBeenCalled()
+    expect(onOpenItemsChange).not.toHaveBeenCalled()
+
+    rerender(<Provider skeleton={false}>{menu}</Provider>)
+
+    labels.forEach((label) => {
+      expect(label).not.toHaveClass('dnb-skeleton')
+    })
+    document.querySelectorAll('button').forEach((button) => {
+      expect(button).not.toBeDisabled()
+    })
+    fireEvent.click(
+      document.querySelector('[data-sidebar-menu-id="home"] button')
+    )
+    expect(onClick).toHaveBeenCalledTimes(1)
+    fireEvent.click(
+      document.querySelector('[data-sidebar-menu-id="products"] button')
+    )
+    expect(onOpenItemsChange).toHaveBeenCalledWith(['products'])
+  })
+
+  it('supports Skeleton wrappers and exclusions with data composition', () => {
+    const data = [{ id: 'home', text: 'Home' }]
+    render(
+      <Skeleton show>
+        <SidebarMenu.Data data={data} aria-label="Loading menu" />
+        <Skeleton.Exclude>
+          <SidebarMenu.Data data={data} aria-label="Ready menu" />
+        </Skeleton.Exclude>
+      </Skeleton>
+    )
+
+    expect(
+      document.querySelector(
+        '[aria-label="Loading menu"] .dnb-sidebar-menu__item__text'
+      )
+    ).toHaveClass('dnb-skeleton--font')
+    expect(
+      document.querySelector('[aria-label="Loading menu"] button')
+    ).toBeDisabled()
+    expect(
+      document.querySelector(
+        '[aria-label="Ready menu"] .dnb-sidebar-menu__item__text'
+      )
+    ).not.toHaveClass('dnb-skeleton')
+    expect(
+      document.querySelector('[aria-label="Ready menu"] button')
+    ).not.toBeDisabled()
+  })
+
   it('localizes screen-reader labels', () => {
     render(
       <Provider locale="nb-NO">

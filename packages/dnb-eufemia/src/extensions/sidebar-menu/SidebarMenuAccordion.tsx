@@ -24,6 +24,7 @@ import {
   useSidebarMenuContext,
 } from './SidebarMenuContext'
 import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
+import E from '../../elements/Element'
 import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import type { SidebarMenuAccordionProps } from './types'
@@ -343,7 +344,9 @@ export default function SidebarMenuAccordion(
           {content}
         </div>
       ) : (
-        <button
+        <E
+          as="button"
+          internalClass={false}
           type="button"
           className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger"
           aria-expanded={isOpen}
@@ -357,7 +360,7 @@ export default function SidebarMenuAccordion(
         >
           {content}
           {accordionIndicator}
-        </button>
+        </E>
       )}
 
       <HeightAnimation
