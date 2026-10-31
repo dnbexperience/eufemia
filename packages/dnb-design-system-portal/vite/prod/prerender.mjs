@@ -18,6 +18,7 @@ import { build } from 'vite'
 import { execSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import fs from 'node:fs'
+import { createHash } from 'node:crypto'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -28,6 +29,7 @@ import {
 } from '../../src/shared/social-image.mjs'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
+import { getRoutePreloads, modulePreloadTags } from './route-preloads.mts'
 import {
   createCanonicalUrls,
   createPortalSitemap,
@@ -97,8 +99,13 @@ async function prerender() {
   // Load the SSR module for metadata only (routes, allMdxNodes, etc.).
   // Actual rendering is done in worker threads for parallelism.
   const serverEntry = path.resolve(outDir, 'server', 'entry-server.mjs')
-  const { routes, getContentScript, getSidebarMenuScript, allMdxNodes } =
-    await import(serverEntry)
+  const {
+    routes,
+    routeModules,
+    getContentScript,
+    getSidebarMenuScript,
+    allMdxNodes,
+  } = await import(serverEntry)
 
   // Read the client HTML template
   const templatePath = path.resolve(outDir, 'index.html')
@@ -165,6 +172,18 @@ async function prerender() {
     workerCount
   )
 
+  const routesByPath = new Map(
+    routes.map((route) => [route.index ? '/' : route.path, route])
+  )
+  const routeHints = new Map()
+  const links = Object.fromEntries(
+    routes.flatMap((route) => {
+      const hint = route.path !== '*' && getRouteHint(route)
+      return hint ? [[route.index ? '/' : route.path, hint]] : []
+    })
+  )
+  let sharedHintsFile
+
   // Process page results
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i]
@@ -192,11 +211,13 @@ async function prerender() {
       const page = allMdxNodes.find(
         ({ fields }) => fields.slug === url.replace(/^\/+|\/+$/g, '')
       )
+      const initialRoute = getInitialRoute(url)
       const preloads = getRoutePreloads(
         url,
         ssrManifest,
         clientManifest,
-        page?.fields.sourcePath
+        page?.fields.sourcePath,
+        routeModules[initialRoute?.id]
       )
       const meta = getPageMeta(url, allMdxNodes)
       const mdPath = getMdPath(url, mdPaths)
@@ -210,7 +231,7 @@ async function prerender() {
         themeCssPaths,
         sidebarMenuScript
       )
-      writeHtml(url, html)
+      writeHtml(url, injectInitialRoute(html, url))
       renderedUrls.push(url)
     }
 
@@ -266,6 +287,130 @@ async function prerender() {
     console.log(
       `✓ Generated sitemap for ${sitemap.pages.length} canonical pages`
     )
+  }
+
+  function getInitialRoute(url) {
+    const pathname = url.replace(/\/+$/, '') || '/'
+    return routesByPath.get(pathname)
+  }
+
+  function getRouteHint(route) {
+    if (!route || route.handle?.redirectTo) {
+      return undefined
+    }
+    if (routeHints.has(route.id)) {
+      return routeHints.get(route.id)
+    }
+    const sourcePath = routeModules[route.id]
+    const entry =
+      sourcePath &&
+      clientManifest?.['../../' + sourcePath.replace(/\/$/, '')]
+    if (!entry) {
+      throw new Error('Missing Portal route module for ' + route.id)
+    }
+    const css = new Set()
+    const imports = new Set()
+    const visited = new Set()
+    function collectStyles(chunk) {
+      if (!chunk || visited.has(chunk)) {
+        return
+      }
+      visited.add(chunk)
+      imports.add('/' + chunk.file)
+      for (const file of chunk.css ?? []) {
+        css.add('/' + file)
+      }
+      for (const key of chunk.imports ?? []) {
+        if (key !== 'index.html') {
+          collectStyles(clientManifest[key])
+        }
+      }
+    }
+    collectStyles(entry)
+    const hint = {
+      id: route.id,
+      ...(route.index ? { index: true } : { path: route.path }),
+      module: '/' + entry.file,
+      css: [...css],
+      imports: [...imports],
+    }
+    routeHints.set(route.id, hint)
+    return hint
+  }
+
+  function injectInitialRoute(html, url) {
+    const initial = getRouteHint(getInitialRoute(url))
+    // Share dependency URLs across hints instead of repeating their hashes
+    // for every sidebar link.
+    const assets = []
+    const assetIndexes = new Map()
+    const dependencies = []
+    const dependencyIndexes = new Map()
+    function compact(hint) {
+      const imports = hint.imports.map((href) => {
+        if (!assetIndexes.has(href)) {
+          assetIndexes.set(href, assets.length)
+          assets.push(href)
+        }
+        return assetIndexes.get(href)
+      })
+      const key = imports.join(',')
+      if (!dependencyIndexes.has(key)) {
+        dependencyIndexes.set(key, dependencies.length)
+        dependencies.push(imports)
+      }
+      return { ...hint, imports: dependencyIndexes.get(key) }
+    }
+    if (!sharedHintsFile) {
+      const data = JSON.stringify({
+        links: Object.fromEntries(
+          Object.entries(links).map(([pathname, hint]) => [
+            pathname,
+            compact(hint),
+          ])
+        ),
+        assets,
+        dependencies,
+      }).replace(/</g, '\\u003c')
+      sharedHintsFile =
+        'assets/route-hints-' +
+        createHash('sha256').update(data).digest('hex').slice(0, 12) +
+        '.json'
+      fs.writeFileSync(path.join(outDir, sharedHintsFile), data)
+    }
+    assets.length = 0
+    dependencies.length = 0
+    assetIndexes.clear()
+    dependencyIndexes.clear()
+    const bootstrapLinks = links['/'] ? { '/': links['/'] } : {}
+    const content = html.match(/<main\b[^>]*>[\s\S]*?<\/main>/)?.[0] || ''
+    for (const match of content.matchAll(
+      /<a\b[^>]*\bhref="([^"#?]+)[^"]*"/g
+    )) {
+      const target = new URL(match[1], 'https://eufemia.dnb.no' + url)
+      const pathname = target.pathname.replace(/\/+$/, '') || '/'
+      if (target.origin === 'https://eufemia.dnb.no' && links[pathname]) {
+        bootstrapLinks[decodeURI(pathname).toLowerCase()] = compact(
+          links[pathname]
+        )
+      }
+    }
+    if (links['/']) {
+      bootstrapLinks['/'] = compact(links['/'])
+    }
+    const bootstrap = JSON.stringify({
+      initial: compact(initial),
+      links: bootstrapLinks,
+      assets,
+      dependencies,
+    }).replace(/</g, '\\u003c')
+    const script =
+      '<script id="portal-initial-route" data-hints="/' +
+      sharedHintsFile +
+      '" type="application/json">' +
+      bootstrap +
+      '</script>'
+    return html.replace('</head>', script + '\n</head>')
   }
 
   /**
@@ -379,99 +524,6 @@ function getPageMeta(url, allMdxNodes) {
   }
 
   return { title, description }
-}
-
-function getRoutePreloads(url, ssrManifest, clientManifest, sourcePath) {
-  const routePath = url.replace(/^\/|\/$/g, '') || 'index'
-
-  const candidates = [
-    ...(sourcePath
-      ? [
-          sourcePath.replace(
-            'packages/dnb-design-system-portal/',
-            '../../'
-          ),
-        ]
-      : []),
-    `../../src/docs/${routePath}.mdx`,
-    `../../src/docs/${routePath}.tsx`,
-    `../../src/docs/${routePath}/index.mdx`,
-    `../../src/docs/${routePath}/index.tsx`,
-  ]
-
-  const jsPreloads = new Set()
-  const cssPreloads = new Set()
-
-  for (const candidate of candidates) {
-    const assets = ssrManifest[candidate]
-    if (assets) {
-      for (const asset of assets) {
-        if (asset.endsWith('.js')) {
-          jsPreloads.add(asset)
-        } else if (asset.endsWith('.css')) {
-          cssPreloads.add(asset)
-        }
-      }
-    }
-  }
-
-  // Use the client manifest to find CSS chunks that are transitively
-  // imported by the route's JS chunks. Without this, CSS modules
-  // imported by non-route source files (e.g. shared menu components)
-  // would only load after JS executes, causing a layout flicker on
-  // prerendered pages.
-  if (clientManifest && jsPreloads.size > 0) {
-    // Build a lookup from output file path to manifest entry
-    const fileToEntry = new Map()
-    for (const entry of Object.values(clientManifest)) {
-      if (entry.file) {
-        fileToEntry.set('/' + entry.file, entry)
-      }
-    }
-
-    // BFS through chunk imports to collect all transitive CSS
-    const visited = new Set()
-    const queue = [...jsPreloads]
-
-    while (queue.length > 0) {
-      const chunk = queue.shift()
-      if (visited.has(chunk)) {
-        continue
-      }
-      visited.add(chunk)
-
-      const entry = fileToEntry.get(chunk)
-      if (!entry) {
-        continue
-      }
-
-      // Collect CSS associated with this chunk
-      if (entry.css) {
-        for (const css of entry.css) {
-          cssPreloads.add('/' + css)
-        }
-      }
-
-      // Follow static imports (skip the entry point — its CSS
-      // is already in the HTML template)
-      if (entry.imports) {
-        for (const imp of entry.imports) {
-          if (imp === 'index.html') {
-            continue
-          }
-          const impEntry = clientManifest[imp]
-          if (impEntry?.file) {
-            const impPath = '/' + impEntry.file
-            if (!visited.has(impPath)) {
-              queue.push(impPath)
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return { js: [...jsPreloads], css: [...cssPreloads] }
 }
 
 function injectHtml(
@@ -626,9 +678,7 @@ function injectHtml(
   }
 
   if (preloads.js && preloads.js.length > 0) {
-    const preloadTags = preloads.js
-      .map((p) => `<link rel="modulepreload" crossorigin href="${p}">`)
-      .join('\n    ')
+    const preloadTags = modulePreloadTags(html, preloads.js)
     html = html.replace('</head>', `    ${preloadTags}\n  </head>`)
   }
 

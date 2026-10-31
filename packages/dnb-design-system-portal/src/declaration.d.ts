@@ -20,12 +20,23 @@ declare module '*.module.scss' {
 }
 
 declare module 'virtual:portal-pages' {
-  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
+  import type { PortalRoute } from '../vite/client/plugins/portal-pages.shared'
+  export const routes: PortalRoute[]
+  export const routeModules: Record<string, string>
+  export {
+    allMdxNodes,
+    regularMdxNodes,
+    globPath,
+  } from 'virtual:portal-data'
+}
 
-  export const routes: Array<{
-    path: string
-    lazy: () => Promise<{ Component: React.ComponentType }>
-  }>
+declare module 'virtual:portal-toc' {
+  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
+  export const tableOfContentsNodes: MdxNode[]
+}
+
+declare module 'virtual:portal-data' {
+  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
 
   /**
    * Every MDX page, unfiltered and unsorted.

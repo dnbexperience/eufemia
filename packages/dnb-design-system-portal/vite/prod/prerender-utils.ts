@@ -2,12 +2,12 @@
  * Pure utility functions for the SSG prerender pipeline.
  *
  * These functions are extracted from the prerender script for
- * independent unit testing. The prerender.mjs orchestrator
- * uses the same logic inline (since it's a plain .mjs script
- * that can't import .ts directly).
+ * independent unit testing. Shared native modules are also imported by
+ * the prerender.mjs orchestrator.
  */
 
 import path from 'node:path'
+import { modulePreloadTags } from './route-preloads.mts'
 import socialImages from '../../static/og/manifest.json'
 import {
   socialImageTags,
@@ -144,103 +144,7 @@ export function getPageMeta(
   return { title, description }
 }
 
-/**
- * Map a URL to its per-route preload assets from the SSR manifest.
- * Returns JS files for modulepreload and CSS files for stylesheet links.
- *
- * When a client manifest is provided, performs a BFS through chunk
- * imports to discover transitive CSS dependencies. Without this,
- * CSS modules imported by non-route source files (e.g. shared menu
- * components) would only load after JS executes, causing a layout
- * flicker on prerendered pages.
- */
-export function getRoutePreloads(
-  url: string,
-  ssrManifest: SSRManifest,
-  clientManifest?: ClientManifest | null,
-  sourcePath?: string
-): { js: string[]; css: string[] } {
-  const routePath = url.replace(/^\/|\/$/g, '') || 'index'
-
-  const candidates = [
-    ...(sourcePath
-      ? [
-          sourcePath.replace(
-            'packages/dnb-design-system-portal/',
-            '../../'
-          ),
-        ]
-      : []),
-    `../../src/docs/${routePath}.mdx`,
-    `../../src/docs/${routePath}.tsx`,
-    `../../src/docs/${routePath}/index.mdx`,
-    `../../src/docs/${routePath}/index.tsx`,
-  ]
-
-  const jsPreloads = new Set<string>()
-  const cssPreloads = new Set<string>()
-
-  for (const candidate of candidates) {
-    const assets = ssrManifest[candidate]
-    if (assets) {
-      for (const asset of assets) {
-        if (asset.endsWith('.js')) {
-          jsPreloads.add(asset)
-        } else if (asset.endsWith('.css')) {
-          cssPreloads.add(asset)
-        }
-      }
-    }
-  }
-
-  if (clientManifest && jsPreloads.size > 0) {
-    const fileToEntry = new Map<string, ClientManifestEntry>()
-    for (const entry of Object.values(clientManifest)) {
-      if (entry.file) {
-        fileToEntry.set('/' + entry.file, entry)
-      }
-    }
-
-    const visited = new Set<string>()
-    const queue = Array.from(jsPreloads)
-
-    while (queue.length > 0) {
-      const chunk = queue.shift()!
-      if (visited.has(chunk)) {
-        continue
-      }
-      visited.add(chunk)
-
-      const entry = fileToEntry.get(chunk)
-      if (!entry) {
-        continue
-      }
-
-      if (entry.css) {
-        for (const css of entry.css) {
-          cssPreloads.add('/' + css)
-        }
-      }
-
-      if (entry.imports) {
-        for (const imp of entry.imports) {
-          if (imp === 'index.html') {
-            continue
-          }
-          const impEntry = clientManifest[imp]
-          if (impEntry?.file) {
-            const impPath = '/' + impEntry.file
-            if (!visited.has(impPath)) {
-              queue.push(impPath)
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return { js: Array.from(jsPreloads), css: Array.from(cssPreloads) }
-}
+export { getRoutePreloads } from './route-preloads.mts'
 
 /**
  * Inject prerendered HTML, styles, meta tags, and preloads into the
@@ -413,9 +317,7 @@ export function injectHtml(
   }
 
   if (preloads.js.length > 0) {
-    const preloadTags = preloads.js
-      .map((p) => `<link rel="modulepreload" crossorigin href="${p}">`)
-      .join('\n    ')
+    const preloadTags = modulePreloadTags(html, preloads.js)
     html = html.replace('</head>', `    ${preloadTags}\n  </head>`)
   }
 

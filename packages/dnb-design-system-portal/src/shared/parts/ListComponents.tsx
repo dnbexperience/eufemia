@@ -1,5 +1,5 @@
 import ListSummaryFromEdges from './ListSummaryFromEdges'
-import { regularMdxNodes } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-data'
 import { getComponents } from './listEdges'
 
 export default function ListComponents(props) {

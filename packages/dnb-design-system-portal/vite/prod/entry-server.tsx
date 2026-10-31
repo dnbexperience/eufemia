@@ -21,7 +21,7 @@ import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { MDXProvider } from '@mdx-js/react'
-import { routes, allMdxNodes } from 'virtual:portal-pages'
+import { routes } from 'virtual:portal-pages'
 import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
@@ -34,6 +34,7 @@ let cachedHandler: ReturnType<typeof createStaticHandler> | null = null
 function buildRouteConfig(resolvedRoutes: typeof routes) {
   return [
     {
+      id: 'portal-root',
       path: '/',
       Component: RootLayout,
       children: resolvedRoutes,
@@ -190,7 +191,7 @@ class SSRErrorBoundary extends Component<
  * Export the list of all routes so the prerender script knows
  * which URLs to generate.
  */
-export { routes, allMdxNodes }
+export { routes, allMdxNodes, routeModules } from 'virtual:portal-pages'
 
 /**
  * Re-export FOUC prevention script for the prerender pipeline.

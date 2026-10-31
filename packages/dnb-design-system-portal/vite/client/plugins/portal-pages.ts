@@ -27,6 +27,9 @@ import {
   isFirstTabPage,
 } from './portal-pages.shared'
 
+const PAGE_MODULE_PREFIX = 'virtual:portal-page/'
+const DATA_MODULE_ID = 'virtual:portal-data'
+const TOC_MODULE_ID = 'virtual:portal-toc'
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
 const PORTAL_DOCS_SOURCE_PATH =
@@ -351,25 +354,48 @@ export default function portalPagesPlugin(
 ): Plugin {
   const docsDir = options.docsDir ?? getDefaultDocsDir()
   const normalizedDocsDir = docsDir.replace(/\\/g, '/')
+  const pageModules = new Map<string, string>()
   const pageSignatures = new Map<string, string | null>()
 
   return {
     name: 'vite-plugin-portal-pages',
 
     resolveId(id) {
-      if (id === VIRTUAL_MODULE_ID) {
-        return RESOLVED_VIRTUAL_MODULE_ID
+      if (
+        [VIRTUAL_MODULE_ID, DATA_MODULE_ID, TOC_MODULE_ID].includes(id) ||
+        id.startsWith(PAGE_MODULE_PREFIX)
+      ) {
+        return '\0' + id
       }
     },
 
-    load(id) {
-      if (id === RESOLVED_VIRTUAL_MODULE_ID) {
+    load(id, options) {
+      const pageModule = pageModules.get(id.slice(1))
+      if (pageModule) {
+        return (
+          'export { default } from ' + JSON.stringify(pageModule) + ';'
+        )
+      }
+      if (
+        [
+          RESOLVED_VIRTUAL_MODULE_ID,
+          '\0' + DATA_MODULE_ID,
+          '\0' + TOC_MODULE_ID,
+        ].includes(id)
+      ) {
         const { files, allMdxNodes, regularMdxNodes } =
           getPortalPages(docsDir)
 
         const regularMdxNodeIndexes = regularMdxNodes.map((node) =>
           allMdxNodes.indexOf(node)
         )
+
+        for (const file of files) {
+          pageModules.set(
+            PAGE_MODULE_PREFIX + file.slug,
+            file.filePath.split(path.sep).join('/')
+          )
+        }
 
         pageSignatures.clear()
         for (const file of files) {
@@ -379,6 +405,45 @@ export default function portalPagesPlugin(
           )
         }
 
+        if (id === '\0' + TOC_MODULE_ID) {
+          return `export const tableOfContentsNodes = ${JSON.stringify(
+            allMdxNodes.filter(
+              (node) =>
+                node.fields.slug.startsWith(
+                  'contribute/getting-started/'
+                ) && node.tableOfContents
+            )
+          )};`
+        }
+
+        if (id === '\0' + DATA_MODULE_ID) {
+          // Routes own redirects. Heading trees are only needed by the
+          // contribution guide, which imports them separately.
+          const nodes = options?.ssr
+            ? allMdxNodes
+            : allMdxNodes.map(({ fields, frontmatter }) => {
+                const {
+                  redirect_from,
+                  legacyPrefixes,
+                  ...clientFrontmatter
+                } = frontmatter
+                return { fields, frontmatter: clientFrontmatter }
+              })
+          return `
+export const allMdxNodes = ${JSON.stringify(
+            nodes.map(({ fields, ...node }) => [
+              fields.slug,
+              fields.sourcePath.slice(PORTAL_DOCS_SOURCE_PATH.length + 1),
+              node,
+            ])
+          )}.map(([slug, sourcePath, node]) => ({
+  fields: { slug, sourcePath: ${JSON.stringify(PORTAL_DOCS_SOURCE_PATH + '/')} + sourcePath }, ...node,
+}));
+export const regularMdxNodes = ${JSON.stringify(regularMdxNodeIndexes)}.map(index => allMdxNodes[index]);
+export { globPath } from '${path.join(__dirname, 'portal-pages.shared').split(path.sep).join('/')}';
+`
+        }
+
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
 
@@ -386,7 +451,7 @@ export default function portalPagesPlugin(
           if (file.frontmatter.route === false) {
             return
           }
-          const importPath = file.filePath.replace(/\\/g, '/')
+          const importPath = PAGE_MODULE_PREFIX + file.slug
 
           // First-tab pages (e.g. info.mdx with showTabs but no title)
           // redirect to the parent page instead of rendering separately.
@@ -398,15 +463,12 @@ export default function portalPagesPlugin(
           } else if (file.slug === '') {
             // Homepage: index route
             routeDefs.push(
-              `  { index: true, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
+              `  { id: 'page:', index: true, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
           } else {
-            // Register both with and without trailing slash so links work either way
+            // React Router also matches URLs with a trailing slash.
             routeDefs.push(
-              `  { path: '/${file.slug}', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
-            )
-            routeDefs.push(
-              `  { path: '/${file.slug}/', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
+              `  { id: 'page:${file.slug}', path: '/${file.slug}', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
           }
         })
@@ -424,7 +486,7 @@ export default function portalPagesPlugin(
           .join(docsDir, '404.tsx')
           .replace(/\\/g, '/')
         routeDefs.push(
-          `  { path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: m.default })) },`
+          `  { id: 'portal-not-found', path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: m.default })) },`
         )
 
         return `
@@ -444,6 +506,7 @@ function PageRedirect({ target, fragments }) {
 
 const redirectRoutes = ${redirectData}.flatMap(({ from, to, fragments }) =>
   [from, from + '/'].map(path => ({
+    id: 'redirect:' + path,
     path,
     Component: () => React.createElement(PageRedirect, { target: to, fragments }),
     handle: { redirectTo: to },
@@ -456,17 +519,8 @@ export const routes = [
 ${routeDefs.join('\n')}
 ];
 
-export const allMdxNodes = [
-${allMdxNodes.map((node) => `  ${JSON.stringify(node)},`).join('\n')}
-];
-
-const regularMdxNodeIndexes = [${regularMdxNodeIndexes.join(',')}];
-
-export const regularMdxNodes = regularMdxNodeIndexes.map(
-  (index) => allMdxNodes[index]
-);
-
-export { globPath } from '${globModulePath}';
+export { allMdxNodes, regularMdxNodes, globPath } from 'virtual:portal-data';
+export const routeModules = ${JSON.stringify(Object.fromEntries(files.map((file) => ['page:' + file.slug, PAGE_MODULE_PREFIX + file.slug])))};
 `
       }
     },
@@ -489,6 +543,17 @@ export { globPath } from '${globModulePath}';
         const mod = server.moduleGraph.getModuleById(
           RESOLVED_VIRTUAL_MODULE_ID
         )
+        const dataMod = server.moduleGraph.getModuleById(
+          '\0' + DATA_MODULE_ID
+        )
+        const tocMod = server.moduleGraph.getModuleById(
+          '\0' + TOC_MODULE_ID
+        )
+        for (const data of [dataMod, tocMod]) {
+          if (data) {
+            server.moduleGraph.invalidateModule(data)
+          }
+        }
         if (mod) {
           server.moduleGraph.invalidateModule(mod)
           server.ws.send({ type: 'full-reload' })
@@ -536,9 +601,22 @@ export { globPath } from '${globModulePath}';
         const mod = server.moduleGraph.getModuleById(
           RESOLVED_VIRTUAL_MODULE_ID
         )
+        const dataMod = server.moduleGraph.getModuleById(
+          '\0' + DATA_MODULE_ID
+        )
+        const tocMod = server.moduleGraph.getModuleById(
+          '\0' + TOC_MODULE_ID
+        )
+        for (const data of [dataMod, tocMod]) {
+          if (data) {
+            server.moduleGraph.invalidateModule(data)
+          }
+        }
         if (mod) {
           server.moduleGraph.invalidateModule(mod)
-          return modules.includes(mod) ? modules : [...modules, mod]
+          return Array.from(
+            new Set([...modules, mod, dataMod, tocMod].filter(Boolean))
+          )
         }
       }
     },

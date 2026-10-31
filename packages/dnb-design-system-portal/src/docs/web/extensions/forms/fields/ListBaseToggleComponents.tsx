@@ -1,5 +1,5 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-data'
 import { getBaseToggleComponents } from '../../../../../shared/parts/listEdges'
 
 export default function ListBaseToggleComponents() {

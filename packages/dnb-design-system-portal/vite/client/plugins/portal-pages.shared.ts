@@ -11,6 +11,12 @@
  */
 
 import picomatch from 'picomatch'
+import type { ComponentType } from 'react'
+import type { RouteObject } from 'react-router'
+
+export type PortalRoute = RouteObject & {
+  lazy?: () => Promise<{ Component: ComponentType }>
+}
 
 export type TableOfContentsItem = {
   url: string
