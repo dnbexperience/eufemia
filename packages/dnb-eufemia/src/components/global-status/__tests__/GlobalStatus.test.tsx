@@ -1593,6 +1593,31 @@ describe('GlobalStatus component', () => {
       expect(target).toHaveAttribute('tabindex', '-1')
       expect(target).toHaveClass('dnb-no-focus')
     })
+
+    it('should restore the target only once', () => {
+      const link = renderWithTarget(<span id="target">Target</span>)
+      const target = document.getElementById('target')
+
+      fireEvent.click(link)
+
+      act(() => {
+        document.querySelector('button').focus()
+      })
+
+      expect(target).not.toHaveAttribute('tabindex')
+      expect(target).not.toHaveClass('dnb-no-focus')
+
+      target.setAttribute('tabindex', '0')
+      target.classList.add('dnb-no-focus')
+
+      act(() => {
+        target.focus()
+        document.querySelector('button').focus()
+      })
+
+      expect(target).toHaveAttribute('tabindex', '0')
+      expect(target).toHaveClass('dnb-no-focus')
+    })
   })
 
   it('should use the item id as the id of the item text', () => {
