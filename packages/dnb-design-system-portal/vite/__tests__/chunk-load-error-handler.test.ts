@@ -276,7 +276,7 @@ describe('setupChunkLoadErrorHandler', () => {
     expect(reload).not.toHaveBeenCalled()
   })
 
-  it('handles Vite preload errors even when the import rejection is caught', () => {
+  it('handles Vite preload errors even when the import rejection is caught', async () => {
     cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
     const event = new Event('vite:preloadError', { cancelable: true })
     Object.defineProperty(event, 'payload', {
@@ -284,6 +284,7 @@ describe('setupChunkLoadErrorHandler', () => {
     })
 
     window.dispatchEvent(event)
+    await Promise.resolve()
     expect(reload).toHaveBeenCalledTimes(1)
     dispatchRejection(
       new Error('Failed to fetch dynamically imported module')
@@ -291,6 +292,20 @@ describe('setupChunkLoadErrorHandler', () => {
 
     expect(reload).toHaveBeenCalledTimes(1)
     expect(event.defaultPrevented).toBe(false)
+  })
+
+  it('leaves locally handled preload errors on the current page', async () => {
+    cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
+    const event = new Event('vite:preloadError', { cancelable: true })
+    Object.assign(event, {
+      payload: new Error('Failed to fetch dynamically imported module'),
+    })
+    const handle = (event: Event) => event.preventDefault()
+    window.addEventListener('vite:preloadError', handle)
+    window.dispatchEvent(event)
+    await Promise.resolve()
+    window.removeEventListener('vite:preloadError', handle)
+    expect(reload).not.toHaveBeenCalled()
   })
 
   it('does not treat unrelated Vite preload errors as network failures', () => {

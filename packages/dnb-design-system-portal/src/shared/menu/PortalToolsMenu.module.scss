@@ -3,6 +3,10 @@
 .buttonStyle {
   flex-shrink: 0;
 
+  &[aria-busy='true'] {
+    cursor: progress;
+  }
+
   @include utilities.allBelow(small) {
     &:global(.dnb-button) {
       width: 2.5rem;

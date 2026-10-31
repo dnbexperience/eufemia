@@ -1,28 +1,21 @@
 import {
   useCallback,
-  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from 'react'
 import { clsx } from 'clsx'
-import { Button, Drawer, Tooltip } from '@dnb/eufemia/src/components'
-import { Anchor, Flex } from '@dnb/eufemia/src'
+import { Button, Tooltip } from '@dnb/eufemia/src/components'
 import { getTheme } from '../../../vite/client/shims/theme-handler'
-import ToggleGrid from './ToggleGrid'
-import { Context, useTheme } from '@dnb/eufemia/src/shared'
+import { useTheme } from '@dnb/eufemia/src/shared'
 import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { cog } from '@dnb/eufemia/src/icons'
 import { themeTitles } from './SidebarMenuData'
-import PortalSkeleton from '../../core/PortalSkeleton'
-import ToggleDarkMode from '../../core/ToggleDarkMode'
-import ToggleNativeTypography from '../../core/ToggleNativeTypography'
-import ChangeLocale from '../../core/ChangeLocale'
-import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
 import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
+import type PortalToolsDrawer from './PortalToolsDrawer'
 
 type Props = {
   className?: string
@@ -82,9 +75,13 @@ export default function PortalToolsMenu({
   hideWhenMediaLarge = false,
   ...props
 }: Props) {
-  const { skeleton } = useContext(Context)
   const storageKey = getPortalToolsOpenStorageKey(hideWhenMediaLarge)
   const [isOpen, setIsOpen] = useState(false)
+  const [hasOpened, setHasOpened] = useState(false)
+  const [drawerReady, setDrawerReady] = useState(false)
+  const [Drawer, setDrawer] = useState<typeof PortalToolsDrawer>()
+  const [loadFailed, setLoadFailed] = useState(false)
+  const handleDrawerReady = useCallback(() => setDrawerReady(true), [])
   const { brand, colorScheme } = getTheme()
   const activeTheme = useTheme()
   const canUseDOM = useCanUseDOM()
@@ -92,9 +89,7 @@ export default function PortalToolsMenu({
     canUseDOM && activeTheme?.colorScheme === 'dark' ? 'Dark' : 'Light'
   }`
   const themeKey = `${brand}:${colorScheme || 'auto'}`
-  // Start with animation disabled so the initial open=false render
-  // uses the immediate close path in Modal, avoiding a 300ms timer
-  // that would race with the restore effect and close the drawer.
+  // Restore an open drawer immediately, once its module has loaded.
   const [disableAnimation, setDisableAnimation] = useState(true)
   const previousThemeKeyRef = useRef(themeKey)
   const themeChanged = previousThemeKeyRef.current !== themeKey
@@ -111,6 +106,7 @@ export default function PortalToolsMenu({
     if (stored) {
       restoredRef.current = true
       setDisableAnimation(true)
+      setHasOpened(true)
       setIsOpen(true)
 
       // When restoring with noAnimation, the Modal skips setting
@@ -120,14 +116,6 @@ export default function PortalToolsMenu({
         'data-portal-tools-open',
         'true'
       )
-
-      // Re-enable animation after the drawer has opened without
-      // animation, so subsequent interactions animate normally.
-      const timeoutId = window.setTimeout(() => {
-        setDisableAnimation(false)
-      }, disableAnimationResetDelay)
-
-      return () => window.clearTimeout(timeoutId)
     } else {
       // Nothing to restore — enable animation so the first manual
       // open animates normally.
@@ -136,7 +124,7 @@ export default function PortalToolsMenu({
   }, [storageKey])
 
   useEffect(() => {
-    if (!disableAnimation || restoredRef.current) {
+    if (!disableAnimation || !drawerReady) {
       return
     }
 
@@ -153,7 +141,7 @@ export default function PortalToolsMenu({
     return () => {
       window.clearTimeout(timeoutId)
     }
-  }, [disableAnimation, isOpen])
+  }, [disableAnimation, drawerReady, isOpen])
 
   useLayoutEffect(() => {
     if (themeChanged && isOpen) {
@@ -164,7 +152,9 @@ export default function PortalToolsMenu({
   }, [isOpen, themeChanged, themeKey])
 
   const handleOpen = useCallback(() => {
+    setLoadFailed(false)
     restoredRef.current = false
+    setHasOpened(true)
     setIsOpen(true)
     setStoredPortalToolsOpen(true, storageKey)
   }, [storageKey])
@@ -176,6 +166,44 @@ export default function PortalToolsMenu({
     setStoredPortalToolsOpen(false, storageKey)
     document.documentElement.removeAttribute('data-portal-tools-open')
   }, [storageKey])
+
+  useEffect(() => {
+    if (!isOpen || Drawer) {
+      return
+    }
+    let active = true
+    const onPreloadError = (event: Event & { payload?: Error }) => {
+      if (event.payload?.message.includes('PortalToolsDrawer')) {
+        event.preventDefault()
+        event.stopImmediatePropagation()
+      }
+    }
+    window.addEventListener('vite:preloadError', onPreloadError, true)
+    void import('./PortalToolsDrawer')
+      .then(({ default: LoadedDrawer }) => {
+        if (active) {
+          setDrawer(() => LoadedDrawer)
+        }
+      })
+      .catch(() => {
+        setStoredPortalToolsOpen(false, portalToolsOpenStorageKey)
+        setStoredPortalToolsOpen(false, portalToolsMobileOpenStorageKey)
+        if (active) {
+          handleClose()
+          setLoadFailed(true)
+        }
+      })
+      .finally(() =>
+        window.removeEventListener(
+          'vite:preloadError',
+          onPreloadError,
+          true
+        )
+      )
+    return () => {
+      active = false
+    }
+  }, [isOpen, Drawer, handleClose])
 
   return (
     <>
@@ -197,6 +225,7 @@ export default function PortalToolsMenu({
         aria-haspopup="dialog"
         aria-controls="dnb-modal-portal-tools-modal"
         aria-expanded={isOpen}
+        aria-busy={(isOpen && !drawerReady) || undefined}
         tooltip={
           <Tooltip
             placement={tooltipPosition}
@@ -215,65 +244,22 @@ export default function PortalToolsMenu({
           }
         }}
       />
-      <Drawer
-        id="portal-tools-modal"
-        omitTriggerButton
-        focusSelector="#change-theme"
-        restoreFocusTo={() => document.getElementById('portal-tools')}
-        title="Portal Tools"
-        open={isOpen}
-        noAnimation={noAnimation}
-        onOpen={handleOpen}
-        onClose={handleClose}
-        {...props}
-      >
-        <Drawer.Body innerSpace={{ block: 'large' }}>
-          <Flex.Stack gap="large">
-            <ChangeStyleTheme
-              labelDescription={
-                <>
-                  Read more about{' '}
-                  <Anchor href="/web/usage/customisation/theming/">
-                    theming
-                  </Anchor>
-                </>
-              }
-            />
-            <ChangeLocale
-              labelDescription={
-                <>
-                  Read more about{' '}
-                  <Anchor href="/web/usage/customisation/localization/">
-                    localization
-                  </Anchor>
-                </>
-              }
-            />
-
-            <ToggleDarkMode
-              label="Dark mode"
-              labelDescription={
-                <>
-                  Read more about{' '}
-                  <Anchor href="/web/usage/customisation/theming/">
-                    theming
-                  </Anchor>
-                </>
-              }
-            />
-
-            <Flex.Stack gap="small">
-              <ToggleNativeTypography />
-              <PortalSkeleton
-                enabled={skeleton}
-                label="Show everything behind skeletons"
-                skeleton={false}
-              />
-              <ToggleGrid label="Show grid" />
-            </Flex.Stack>
-          </Flex.Stack>
-        </Drawer.Body>
-      </Drawer>
+      {loadFailed && (
+        <span role="alert">
+          Could not load settings. Please try again.
+        </span>
+      )}
+      {isOpen && !Drawer && <span role="status">Loading settings...</span>}
+      {(isOpen || hasOpened) && Drawer && (
+        <Drawer
+          open={isOpen}
+          noAnimation={noAnimation}
+          onOpen={handleOpen}
+          onClose={handleClose}
+          onReady={handleDrawerReady}
+          {...props}
+        />
+      )}
     </>
   )
 }
