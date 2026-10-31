@@ -7,6 +7,7 @@ import type { HTMLProps, ReactNode } from 'react'
 import type { HeadingCounter, HeadingDebugCounter } from './HeadingCounter'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
+import type { TypographyProps } from '../../elements/typography/Typography'
 
 export type HeadingLevelSizeResolutions = {
   1: HeadingSize
@@ -42,7 +43,7 @@ export type HeadingLevel =
 
 export type InternalHeadingLevel = number
 
-export type HeadingProps = {
+export type HeadingProps = Pick<TypographyProps, 'family'> & {
   id?: string
   group?: string
 

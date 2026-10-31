@@ -9,6 +9,8 @@
 
 .eufemia-theme__eiendom,
 :root {
+  --font-family-display-skeleton: 'DNBSansDisplaySkeleton';
+  --font-family-display: 'DNB Sans Display', var(--font-family-default);
   --button-text-translate-y: 0;
   --font-size-basis-native: var(--font-size-basis-web);
 }

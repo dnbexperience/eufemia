@@ -364,3 +364,19 @@ export function FontFamiliesExample() {
     </ComponentBox>
   )
 }
+
+export function DisplayFontExample() {
+  return (
+    <ComponentBox scope={{ H2, P, Flex }} data-visual-test="font-display">
+      <Flex.Stack>
+        <H2 family="display" size="xx-large">
+          En god start
+          <br />
+          på noe større
+        </H2>
+        <P>Ordinary paragraphs and headings keep the brand's text font.</P>
+        <H2>En god start på noe større</H2>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}

@@ -92,6 +92,27 @@ describe('DNB font faces', () => {
       expect(face['descent-override']).toBeUndefined()
       expect(face['line-gap-override']).toBeUndefined()
     }
+    expect(
+      getFontFaces().find(
+        (face) => face['font-family'] === '"DNB Sans Display"'
+      )['ascent-override']
+    ).toBeUndefined()
+  })
+
+  it('uses the single Display face only for an explicit family choice', () => {
+    const faces = getFontFaces().filter(
+      (face) => face['font-family'] === '"DNB Sans Display"'
+    )
+    expect(faces).toHaveLength(1)
+    expect(faces[0].src).toContain('/DNBSansDisplay.woff2')
+    expect(faces[0]['font-weight']).toBe('normal')
+    expect(
+      getFontFaces().some(
+        (face) =>
+          face['font-family'] === 'DNBSansDisplaySkeleton' &&
+          face.src.includes('DNBSansDisplay-Skeleton-Regular.woff2')
+      )
+    ).toBe(true)
   })
 
   it('keeps Sbanken font faces independent', () => {

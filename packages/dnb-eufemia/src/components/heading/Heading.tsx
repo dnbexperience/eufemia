@@ -62,6 +62,7 @@ export default function Heading(props: HeadingAllProps) {
     skeleton: _skeleton,
     element: _element,
     className,
+    family,
     children,
     ...rest
   } = useTypography(props)
@@ -255,6 +256,7 @@ export default function Heading(props: HeadingAllProps) {
     ...attributes,
     className: clsx(
       'dnb-heading',
+      family && `dnb-t__family--${family}`,
       context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
       `dnb-h--${size}`,
       createSkeletonClass('font', skeleton, headingContext),

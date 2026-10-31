@@ -9,6 +9,7 @@ order: 5
 import {
   TypographyVariants,
   FontFamiliesExample,
+  DisplayFontExample,
   ResponsiveTypographyExample,
   ResponsiveTypographyFullExample,
 } from 'Docs/uilib/typography/Examples'
@@ -24,26 +25,84 @@ import {
 The [Eufemia Web Figma library](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/)
 is the source for interface typography, including component weights and sizes.
 The [brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
-describe the broader roles of Text and Mono across communication and print.
+describe the broader roles of Text, Display and Mono across communication and print.
 **Text** is a font variant designed for readability.
 
 | Font                        | Use                                                       |
 | --------------------------- | --------------------------------------------------------- |
 | DNB Sans Text Regular       | Body text, button labels and everyday UI content          |
 | DNB Sans Text Medium / Bold | Lead and headings use Medium; Bold for explicit emphasis  |
+| DNB Sans Display            | Short, expressive headlines selected explicitly           |
 | DNB Sans Mono               | Selected eyebrow labels, short captions and table details |
 | Arial                       | Fallback when DNB Sans Text cannot load                   |
 
 Text and Mono provide Light, Regular, Medium and Bold, each with a genuine
 italic. The brand guidelines do not assign a specific role to Light. Use
 Regular for normal content and ensure sufficient readability when choosing
-Light.
+Light. Display has one upright weight.
 
 Eufemia keeps Text as the default for DNB headings, paragraphs, UI and
 letters. Sbanken retains Roboto and Maison Neue. Carnegie retains its
 ArizonaFlare headings. Eiendom continues to use the DNB text family.
 
 <FontFamiliesExample />
+
+## Display headlines
+
+### Choose Display for the message, not the heading level
+
+DNB Sans Text is the default for interface and document headings. Choose
+DNB Sans Display for short, expressive headlines intended to celebrate
+something or draw particular attention to a message.
+
+The following examples apply the brand guidance to interfaces:
+
+- **Consider Display:** a campaign headline, a prominent welcome message,
+  or a celebratory announcement.
+- **Keep Text:** everyday page and section headings, form steps, dialog
+  titles, help content, and letters.
+
+Use Display sparingly so it retains its emphasis. A large heading or an
+`<H1>` does not automatically call for Display. Keep the semantic heading
+hierarchy independent of the font choice.
+
+Use the font-family option to select Display for a specific headline:
+
+```tsx
+import { H1, H2 } from '@dnb/eufemia/elements'
+import { Heading } from '@dnb/eufemia/components'
+
+<H1 family="display">En god start</H1>
+<H2>Everyday content uses Text</H2>
+<Heading family="display">Et steg videre</Heading>
+```
+
+<DisplayFontExample />
+
+The equivalent helper is `.dnb-t__family--display`. Custom CSS can use
+`font-family: var(--font-family-display)`. The helper uses the single
+upright weight and disables synthesized bold and italic.
+
+The [brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
+specify 100% line height, increased to 110–118% when accents and descenders
+collide. Eufemia defaults to 110% to reduce collisions in web headlines.
+Accented capitals can still touch descenders on the line above. Check multiline headlines at all supported widths and adjust as
+needed, for example `style={{ lineHeight: 1 }}` for a compact headline or
+`style={{ lineHeight: 1.18 }}` for more space. An explicit line-height helper
+or the Typography lineHeight property also overrides the default.
+
+Display reuses Eufemia's existing heading-size tokens. The Eufemia Figma
+library does not yet have a dedicated Display text style or variable. The
+web default is an implementation choice, not a synchronized Display token.
+
+DNB Display headings use a matching skeleton font so loading placeholders
+keep the same wrapping.
+Left-align or center Display headlines. Check wrapping and accented
+characters at smaller widths.
+
+Display is never selected automatically by heading level or document
+styles. Sbanken and Carnegie map the Display option to their own heading
+family. Do not use Display for body text, form labels or controls.
 
 ## Typography components
 
@@ -134,7 +193,8 @@ The default DNB typeface is **DNB Sans Text**, registered under the existing
 CSS family name `DNB`. DNB Sans Mono retains the CSS name `DNBMono`.
 Keeping these names preserves existing custom CSS and font-family variables.
 The stylesheet loads `DNBSansText-*` and `DNBSansMono-*` webfonts derived
-from the official TTF files, including Light and italics.
+from the official TTF files, including Light and italics. Display is registered
+separately as `DNB Sans Display`.
 
 The existing weights remain Regular (400), Medium (500) and Bold (600).
 CSS `bold` (700) also selects the genuine DNB Bold face. Light uses 300.
@@ -228,12 +288,13 @@ Text and Mono filenames follow `DNBSansText-<Weight>[Italic].woff2`
 and `DNBSansMono-<Weight>[Italic].woff2`. Weights are `Light`,
 `Regular`, `Medium` and `Bold`. Derived WOFF and TTF files are also
 included under `web/`. Original OTF, TTF, WOFF and WOFF2 files remain
-in the parent directory.
+in the parent directory. Display uses `DNBSansDisplay.woff2`.
 
 Download the complete families:
 
 - [DNB Sans Text](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText.zip)
 - [DNB Sans Mono](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono.zip)
+- [DNB Sans Display](https://assets.eufemia.dnb.no/fonts/dnb/DNBSansDisplay.zip)
 
 These URLs become available with the release containing these files. For
 local previews, Eufemia loads the bundled files. The old `DNB-*` and

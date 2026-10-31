@@ -13,7 +13,9 @@ const text = 'ÆØÅ æøå Gjør noe større 0123456789'
 for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
   for (const isolated of [false, true]) {
     test(
-      brand + ' loads current Text and Mono fonts, isolated=' + isolated,
+      brand +
+        ' loads current fonts and keeps Display explicit, isolated=' +
+        isolated,
       async ({ page }) => {
         const requests: string[] = []
         await page.route('https://fonts.test/**', async (route) => {
@@ -95,9 +97,9 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
             text +
             '</p><p id="lead" class="dnb-p dnb-p--lead">' +
             text +
-            '</p><button id="cta" class="dnb-button dnb-button--primary"><span class="dnb-button__text">Continue</span></button><button id="unstyled" class="dnb-button dnb-button--unstyled"><span class="dnb-button__text">Unstyled</span></button><article class="dnb-document"><h1 id="document" class="dnb-h--xx-large">' +
+            '</p><button id="cta" class="dnb-button dnb-button--primary"><span class="dnb-button__text">Continue</span></button><button id="unstyled" class="dnb-button dnb-button--unstyled"><span class="dnb-button__text">Unstyled</span></button></div><article class="dnb-document"><h1 id="document" class="dnb-h--xx-large">' +
             text +
-            '</h1></article></div></main>'
+            '</h1></article></main>'
         )
         const controls = [
           ['dnb-toggle-button', '', 'dnb-toggle-button__button'],
@@ -233,6 +235,151 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
           expect(requests).toContain('DNBSansText-BoldItalic.woff2')
           expect(requests).toContain('DNBSansMono-MediumItalic.woff2')
         }
+        await page
+          .locator('#default, #document')
+          .evaluateAll((elements) =>
+            elements.forEach((element) =>
+              element.classList.add('dnb-t__family--display')
+            )
+          )
+        const displayFamily =
+          brand === 'sbanken' || brand === 'carnegie'
+            ? heading
+            : 'DNB Sans Display'
+        for (const selector of ['#default', '#document']) {
+          await expect(page.locator(selector)).toHaveCSS(
+            'font-family',
+            new RegExp(displayFamily)
+          )
+          await expect(page.locator(selector)).toHaveCSS(
+            'font-weight',
+            '400'
+          )
+          await expect(page.locator(selector)).toHaveCSS(
+            'font-style',
+            'normal'
+          )
+          expect(
+            await page.locator(selector).evaluate((element) => {
+              const style = getComputedStyle(element)
+              return (
+                parseFloat(style.lineHeight) / parseFloat(style.fontSize)
+              )
+            })
+          ).toBeCloseTo(1.1)
+        }
+        for (const [family, expectedFamily] of [
+          ['basis', brand === 'sbanken' ? 'Roboto' : 'DNB'],
+          ['default', brand === 'sbanken' ? 'Roboto' : 'DNB'],
+          ['heading', heading],
+          ['monospace', 'DNBMono'],
+        ]) {
+          for (const selector of ['#default', '#document']) {
+            await page.locator(selector).evaluate((element, family) => {
+              element.setAttribute(
+                'class',
+                'dnb-h--small dnb-t__family--' + family
+              )
+            }, family)
+            await expect(page.locator(selector)).toHaveCSS(
+              'font-family',
+              new RegExp(expectedFamily)
+            )
+          }
+        }
+        await page
+          .locator('#default, #document')
+          .evaluateAll((elements) =>
+            elements.forEach((element) =>
+              element.classList.add('dnb-t__family--display')
+            )
+          )
+        await page.locator('#default').evaluate((element) => {
+          element.classList.add(
+            'dnb-t__weight--bold',
+            'dnb-t__slant--italic'
+          )
+        })
+        for (const size of [
+          'xx-large',
+          'x-large',
+          'large',
+          'medium',
+          'basis',
+          'small',
+          'x-small',
+        ]) {
+          await page.locator('#default').evaluate((element, size) => {
+            element.setAttribute(
+              'class',
+              'dnb-h--' +
+                size +
+                ' dnb-t__family--display dnb-t__weight--bold dnb-t__slant--italic'
+            )
+          }, size)
+          await expect(page.locator('#default')).toHaveCSS(
+            'font-family',
+            new RegExp(displayFamily)
+          )
+          await expect(page.locator('#default')).toHaveCSS(
+            'font-weight',
+            '400'
+          )
+          await expect(page.locator('#default')).toHaveCSS(
+            'font-style',
+            'normal'
+          )
+        }
+        await page.evaluate(() => document.fonts.ready)
+        expect(requests.includes('DNBSansDisplay.woff2')).toBe(
+          brand === 'ui' || brand === 'eiendom'
+        )
+        await page.locator('#default').evaluate((element) => {
+          element.setAttribute(
+            'class',
+            'dnb-h--xx-large dnb-t__family--display dnb-t__line-height--xx-large'
+          )
+        })
+        await expect(page.locator('#default')).toHaveCSS(
+          'line-height',
+          brand === 'carnegie' ? '68px' : '56px'
+        )
+        if (brand === 'ui' || brand === 'eiendom') {
+          const widths = await page
+            .locator('#default')
+            .evaluate(async (element) => {
+              element.setAttribute(
+                'style',
+                'display:inline-block;max-width:180px'
+              )
+              await document.fonts.ready
+              const before = element.getBoundingClientRect()
+              element.classList.add('dnb-skeleton--font')
+              await document.fonts.load('48px DNBSansDisplaySkeleton')
+              const after = element.getBoundingClientRect()
+              return [
+                before.width,
+                before.height,
+                after.width,
+                after.height,
+              ]
+            })
+          expect(widths[2]).toBeCloseTo(widths[0], 1)
+          expect(widths[3]).toBeCloseTo(widths[1], 1)
+          expect(requests).toContain(
+            'DNBSansDisplay-Skeleton-Regular.woff2'
+          )
+        }
+        await page.setViewportSize({ width: 390, height: 844 })
+        await page.emulateMedia({ media: 'print' })
+        await expect(page.locator('#document')).toHaveCSS(
+          'font-family',
+          new RegExp(displayFamily)
+        )
+        await expect(page.locator('#regular')).toHaveCSS(
+          'font-family',
+          new RegExp(brand === 'sbanken' ? 'Roboto' : 'DNB')
+        )
       }
     )
   }

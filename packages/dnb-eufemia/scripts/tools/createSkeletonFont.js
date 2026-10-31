@@ -23,10 +23,19 @@ asyncForEach(
     { fontName: 'DNBMono', styleName: 'Regular' },
     { fontName: 'DNBMono', styleName: 'Medium' },
     { fontName: 'DNBMono', styleName: 'Bold' },
+    { fontName: 'DNBSansDisplay', styleName: 'Regular' },
   ],
   async ({ fontName, styleName }) => {
-    const sourceFamily = fontName === 'DNB' ? 'DNBSansText' : 'DNBSansMono'
-    const sourceFile = `${sourceFamily}-${styleName}.ttf`
+    const sourceFamily =
+      fontName === 'DNB'
+        ? 'DNBSansText'
+        : fontName === 'DNBMono'
+          ? 'DNBSansMono'
+          : fontName
+    const sourceFile =
+      fontName === 'DNBSansDisplay'
+        ? 'DNBSansDisplay.ttf'
+        : `${sourceFamily}-${styleName}.ttf`
     const sourcePath = path.resolve(
       __dirname,
       '../../assets/fonts/dnb/',
@@ -108,6 +117,16 @@ function createFont(font, { styleName, familyName }) {
     ascender: font.ascender,
     descender: font.descender,
     glyphs: changedGlyphs,
+    tables: {
+      ...(familyName === 'DNBSansDisplaySkeleton' && {
+        os2: {
+          sTypoAscender: font.tables.os2.sTypoAscender,
+          sTypoDescender: font.tables.os2.sTypoDescender,
+          sTypoLineGap: font.tables.os2.sTypoLineGap,
+          fsSelection: font.tables.os2.fsSelection,
+        },
+      }),
+    },
   })
 
   return newFont
