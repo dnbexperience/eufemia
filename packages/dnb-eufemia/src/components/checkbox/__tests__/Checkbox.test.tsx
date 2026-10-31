@@ -566,6 +566,22 @@ describe('Checkbox component', () => {
 })
 
 describe('Checkbox scss', () => {
+  it('does not change the check mark of disabled checkboxes on hover', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    )
+    const hoverSelectors = Array.from(
+      css.matchAll(
+        /([^{}]+)\{[^{}]*\scolor: var\(--checkbox-color-gfx--hover\);/g
+      ),
+      ([, selectors]) => selectors.trim()
+    )
+
+    expect(hoverSelectors).toEqual([
+      '.dnb-checkbox__input:not([disabled]):hover:not(:active):not(:focus) ~ .dnb-checkbox__gfx',
+    ])
+  })
+
   it('shows the box and the marks in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
 
