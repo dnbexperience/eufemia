@@ -19,7 +19,7 @@ const fonts = [
   'DNBSansText-Regular',
   'DNBSansText-RegularItalic',
   'DNBSansMono-Regular',
-].map((name) => '/v11.0.0/fonts/dnb/' + name + '.woff2')
+].map((name) => '/v11.0.0/fonts/dnb/web/' + name + '.woff2')
 const svg = '/v11.0.0/icons/dnb/add.svg'
 const validHeaders = 'Content-Security-Policy: ' + policy + '\r\n'
 

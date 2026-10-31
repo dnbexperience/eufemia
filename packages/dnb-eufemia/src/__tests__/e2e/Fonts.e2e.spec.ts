@@ -20,7 +20,8 @@ test.describe('Fonts', () => {
       ...['DNBSansText', 'DNBSansMono'].flatMap((family) =>
         ['Light', 'Regular', 'Medium', 'Bold'].flatMap((weight) =>
           ['', 'Italic'].map(
-            (slant) => 'dnb/' + family + '-' + weight + slant + '.woff2'
+            (slant) =>
+              'dnb/web/' + family + '-' + weight + slant + '.woff2'
           )
         )
       ),
