@@ -1,0 +1,136 @@
+.dnb-home-party-lights {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 20% 45%,
+      color-mix(
+        in srgb,
+        var(--token-color-decorative-first-bold) 36%,
+        transparent
+      ),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 80% 60%,
+      color-mix(
+        in srgb,
+        var(--token-color-decorative-third-base) 32%,
+        transparent
+      ),
+      transparent 48%
+    );
+
+  &::before,
+  &::after {
+    position: absolute;
+    inset: -35%;
+    background: conic-gradient(
+      from 0deg at 50% 0%,
+      transparent 145deg,
+      color-mix(
+          in srgb,
+          var(--token-color-text-action-focus) 42%,
+          transparent
+        )
+        165deg,
+      transparent 180deg,
+      color-mix(
+          in srgb,
+          var(--token-color-decorative-second-base) 40%,
+          transparent
+        )
+        195deg,
+      transparent 215deg
+    );
+    filter: blur(1.5rem);
+    transform-origin: 50% 0;
+    animation: dnb-home-party-sweep 9s ease-in-out infinite alternate;
+    content: '';
+  }
+
+  &::after {
+    background: conic-gradient(
+      from 10deg at 50% 0%,
+      transparent 145deg,
+      color-mix(
+          in srgb,
+          var(--token-color-background-error) 42%,
+          transparent
+        )
+        170deg,
+      transparent 190deg,
+      color-mix(
+          in srgb,
+          var(--token-color-background-warning) 36%,
+          transparent
+        )
+        205deg,
+      transparent 220deg
+    );
+    animation-delay: -5s;
+    animation-duration: 13s;
+  }
+
+  .eufemia-theme__sbanken & {
+    &::before {
+      animation-duration: 1.8s;
+    }
+
+    &::after {
+      animation-duration: 2.6s;
+    }
+  }
+}
+
+.dnb-home-party {
+  [data-hanging-item] {
+    --party-rope-color: var(--token-color-decorative-first-bold);
+    --party-rope-delay: 0s;
+
+    &:nth-child(3n + 2) {
+      --party-rope-color: var(--token-color-background-warning);
+      --party-rope-delay: -0.5s;
+    }
+
+    &:nth-child(3n) {
+      --party-rope-color: var(--token-color-text-action-focus);
+      --party-rope-delay: -1s;
+    }
+
+    > span:first-child svg {
+      color: var(--party-rope-color);
+      filter: drop-shadow(0 0 0.25rem currentcolor);
+      opacity: 1;
+      animation: dnb-home-party-twinkle 1.6s ease-in-out infinite alternate;
+      animation-delay: var(--party-rope-delay);
+
+      path {
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-dasharray: 0 20;
+      }
+    }
+  }
+}
+
+@keyframes dnb-home-party-twinkle {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dnb-home-party-sweep {
+  from {
+    transform: rotate(-24deg) scale(1.1);
+  }
+  to {
+    transform: rotate(24deg) scale(1.3);
+  }
+}

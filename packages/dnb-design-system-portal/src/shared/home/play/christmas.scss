@@ -1,0 +1,33 @@
+.dnb-home-christmas {
+  [data-hanging-item] > span:first-child {
+    width: 0.1875rem;
+    background: repeating-linear-gradient(
+      to bottom,
+      #ecb855 0 0.1875rem,
+      transparent 0.1875rem 1.25rem
+    );
+    box-shadow: 0 0 0.75rem rgb(236 184 85 / 65%);
+  }
+
+  .dnb-home-snow {
+    position: absolute;
+    inset: -20rem 0 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle, #d7e8ee 0.0625rem, transparent 0.125rem),
+      radial-gradient(circle, #e9c471 0.0625rem, transparent 0.125rem);
+    background-size:
+      4.5rem 5.5rem,
+      7rem 9rem;
+    opacity: 0.65;
+    animation: dnb-home-snowfall 12s linear infinite;
+  }
+}
+
+@keyframes dnb-home-snowfall {
+  to {
+    background-position:
+      2rem 5.5rem,
+      -1rem 9rem;
+  }
+}

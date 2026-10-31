@@ -43,8 +43,15 @@ export const SearchBarInput = ({
   id = searchInputId,
   placeholder = 'Search ...',
   stretch = false,
-}: { id?: string; placeholder?: string; stretch?: boolean } = {}) => {
+  onQuery,
+}: {
+  id?: string
+  placeholder?: string
+  stretch?: boolean
+  onQuery?: (value: string) => void
+} = {}) => {
   const searchIndex = useRef(null)
+  const searchRevision = useRef(0)
   const [status, setStatus] = useState(null)
   const [hasValue, setHasValue] = useState(false)
   const shortcutHint = useSyncExternalStore(
@@ -80,22 +87,41 @@ export const SearchBarInput = ({
   const onTypeHandler = ({
     value,
     setHidden,
+    setVisible,
     showIndicator,
     hideIndicator,
     showNoOptionsItem,
     updateData,
     debounce,
   }) => {
+    const revision = ++searchRevision.current
     setHasValue(Boolean(value))
+    setStatus(null)
+    onQuery?.(value)
+    if (!value.trim()) {
+      setHidden(true)
+      hideIndicator()
+      updateData([])
+      return
+    }
 
     debounce(
-      ({ value }) => {
+      ({ value, revision }) => {
+        if (revision !== searchRevision.current) {
+          return
+        }
         searchIndex.current
           ?.search(value)
           .then(({ hits }) => {
+            if (revision !== searchRevision.current) {
+              return
+            }
             const searchableHits = hits.filter(
               ({ search }) => search !== false
             )
+            if (document.activeElement?.id === id) {
+              setVisible()
+            }
             updateData(
               makeHitsHumanFriendly({ hits: searchableHits, setHidden })
             )
@@ -105,11 +131,14 @@ export const SearchBarInput = ({
             }
           })
           .catch((err) => {
+            if (revision !== searchRevision.current) {
+              return
+            }
             setStatus(err.message || err)
             hideIndicator()
           })
       },
-      { value }
+      { value, revision }
     )
     showIndicator()
   }
@@ -171,7 +200,11 @@ export const SearchBarInput = ({
       onType={onTypeHandler}
       onChange={onChangeHandler}
       onFocus={onFocusHandler}
-      onClear={() => setHasValue(false)}
+      onClear={() => {
+        searchRevision.current++
+        setHasValue(false)
+        onQuery?.('')
+      }}
       submitElement={
         !hasValue && shortcutHint ? (
           <ShortcutHint hint={shortcutHint} />

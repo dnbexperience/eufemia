@@ -1,8 +1,11 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useCallback, useLayoutEffect, useRef } from 'react'
 import type mountHangingMotion from './hangingMotion'
+import { loadHomePlay } from './play/homePlay'
 
 export default function useHangingMotion() {
   const ref = useRef<HTMLDivElement>(null)
+  const query = useRef<(value: string) => void>(() => undefined)
+  const onQuery = useCallback((value: string) => query.current(value), [])
   const enter = useRef(
     typeof document !== 'undefined' &&
       document.documentElement.hasAttribute('data-portal-ready')
@@ -23,7 +26,8 @@ export default function useHangingMotion() {
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
     let disposed = false
-    let pending = false
+    let pending: Promise<void> | undefined
+    let playRevision = 0
     let physics: ReturnType<typeof mountHangingMotion> | undefined
     let pointer: PointerEvent | undefined
     let latest: PointerEvent | undefined
@@ -36,11 +40,13 @@ export default function useHangingMotion() {
       ) {
         pointer = latest = event
       }
-      if (reduced.matches || pending || physics) {
-        return
+      if (reduced.matches || physics) {
+        return Promise.resolve()
       }
-      pending = true
-      void import('./hangingMotion')
+      if (pending) {
+        return pending
+      }
+      pending = import('./hangingMotion')
         .then(
           (motion) => motion.default,
           () => null
@@ -70,9 +76,30 @@ export default function useHangingMotion() {
           // Brand, appearance and settings controls remain available.
         })
         .finally(() => {
-          pending = false
+          pending = undefined
           root.style.removeProperty('visibility')
         })
+      return pending
+    }
+    query.current = (value) => {
+      const revision = ++playRevision
+      const module = reduced.matches ? undefined : loadHomePlay(value)
+      if (!module) {
+        physics?.setPlay()
+      }
+      if (module) {
+        void Promise.all([module, load()])
+          .then(([effect]) => {
+            if (
+              !disposed &&
+              revision === playRevision &&
+              !reduced.matches
+            ) {
+              physics?.setPlay(effect.default)
+            }
+          })
+          .catch(() => undefined)
+      }
     }
     const idleTimer = setTimeout(() => load(), 1500 + Math.random() * 1000)
     if (enter.current && !reduced.matches) {
@@ -102,6 +129,7 @@ export default function useHangingMotion() {
     document.addEventListener('selectstart', preventSelection)
     return () => {
       disposed = true
+      query.current = () => undefined
       clearTimeout(idleTimer)
       resize.disconnect()
       physics?.destroy()
@@ -114,5 +142,5 @@ export default function useHangingMotion() {
     }
   }, [])
 
-  return ref
+  return { ref, onQuery }
 }

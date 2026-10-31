@@ -53,7 +53,10 @@ beforeAll(() => {
   })
 })
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  search.mockReset().mockResolvedValue({ hits: [] })
+})
 
 describe('SearchBar', () => {
   it.each([false, true, 42, {}, null, undefined])(
@@ -149,6 +152,112 @@ describe('SearchBar', () => {
 })
 
 describe('SearchBarInput', () => {
+  it('keeps searching when the query callback returns a value', async () => {
+    search.mockResolvedValueOnce({
+      hits: [{ slug: 'web/layout/space', title: 'Space' }],
+    })
+    const onQuery = vi.fn(() => true)
+    render(
+      <MemoryRouter>
+        <SearchBarInput onQuery={onQuery} />
+      </MemoryRouter>
+    )
+    const input = document.querySelector(
+      '#portal-search'
+    ) as HTMLInputElement
+    input.focus()
+    fireEvent.change(input, { target: { value: 'space' } })
+    expect(onQuery).toHaveBeenCalledWith('space')
+    await waitFor(() =>
+      expect(
+        document.querySelector('a[href="/web/layout/space"]')
+      ).not.toBeNull()
+    )
+  })
+
+  it('updates results after successive queries instead of retaining the first revision', async () => {
+    search.mockResolvedValue({
+      hits: [{ slug: 'web/components/button', title: 'Button' }],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'bu' } })
+    await waitFor(() =>
+      expect(
+        document.querySelector('a[href="/web/components/button"]')
+      ).not.toBeNull()
+    )
+    search.mockResolvedValue({
+      hits: [{ slug: 'web/components/card', title: 'Card' }],
+    })
+    fireEvent.change(input, { target: { value: 'card' } })
+    await waitFor(() =>
+      expect(
+        document.querySelector('a[href="/web/components/card"]')
+      ).not.toBeNull()
+    )
+    expect(
+      document.querySelector('.dnb-autocomplete--show-indicator')
+    ).toBeNull()
+    search.mockResolvedValue({ hits: [] })
+  })
+
+  it('shows results after the search query changes', async () => {
+    search.mockResolvedValueOnce({
+      hits: [{ slug: 'web/components/button', title: 'Button' }],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput onQuery={(value) => value === 'dance'} />
+      </MemoryRouter>
+    )
+    const input = document.querySelector(
+      '#portal-search'
+    ) as HTMLInputElement
+    input.focus()
+    fireEvent.change(input, { target: { value: 'dance' } })
+    fireEvent.change(input, { target: { value: 'button' } })
+    await waitFor(() =>
+      expect(
+        document.querySelector('a[href="/web/components/button"]')
+      ).not.toBeNull()
+    )
+    expect(
+      document.querySelector(
+        '.dnb-autocomplete__root.dnb-drawer-list--hidden'
+      )
+    ).toBeNull()
+  })
+
+  it('stops loading when cleared and ignores the pending response', async () => {
+    const calls = search.mock.calls.length
+    let resolveSearch: (value: { hits: unknown[] }) => void
+    search.mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveSearch = resolve
+      })
+    )
+    render(<SearchBarInput />)
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'button' } })
+    await waitFor(() => expect(search.mock.calls.length).toBe(calls + 1))
+    fireEvent.change(input, { target: { value: '' } })
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-autocomplete--show-indicator')
+      ).toBeNull()
+    )
+    resolveSearch({ hits: [] })
+    await waitFor(() => expect((input as HTMLInputElement).value).toBe(''))
+    expect(document.body.textContent).not.toContain('No options')
+  })
+
   it('shows List results without pages marked search: false', async () => {
     search.mockResolvedValueOnce({
       hits: [
