@@ -5,6 +5,7 @@ import Drawer from '../Drawer'
 import Button from '../../button/Button'
 import Dialog from '../../dialog/Dialog'
 import Dropdown from '../../dropdown/Dropdown'
+import Popover from '../../popover/Popover'
 import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 
@@ -494,6 +495,68 @@ describe('Drawer', () => {
 
     expect(document.activeElement).toBe(
       document.querySelector('.dnb-drawer-list__options')
+    )
+  })
+
+  it('moves focus to the dialog when opened from a button in a Popover', async () => {
+    // The Popover renders in a portal that is not a modal. When the Drawer
+    // opens, focus is still on the Popover button, behind the Drawer.
+    const DrawerFromPopover = () => {
+      const [open, setOpen] = useState(false)
+      return (
+        <>
+          <Popover
+            noAnimation
+            trigger={
+              <button type="button" id="popover-trigger">
+                Open popover
+              </button>
+            }
+          >
+            <button
+              type="button"
+              id="popover-action"
+              onClick={() => setOpen(true)}
+            >
+              Open from popover
+            </button>
+          </Popover>
+          <Drawer
+            noAnimation
+            open={open}
+            omitTriggerButton
+            title="From popover"
+            onClose={() => setOpen(false)}
+          >
+            <p>Opened from a popover</p>
+          </Drawer>
+        </>
+      )
+    }
+    render(<DrawerFromPopover />)
+
+    fireEvent.click(document.getElementById('popover-trigger'))
+    const action = await waitFor(() => {
+      const element = document.getElementById('popover-action')
+      expect(element).toBeInTheDocument()
+      return element
+    })
+    // The Popover focuses its content when it opens, and again after
+    // 10 ms if focus is outside it. Let that run first, so that it does
+    // not take focus back from the Drawer.
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    action.focus()
+    expect(document.activeElement).toBe(action)
+    expect(action.closest('.eufemia-portal-root')).not.toBeNull()
+    expect(action.closest('.dnb-modal__content')).toBeNull()
+
+    fireEvent.click(action)
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'From popover' })
     )
   })
 

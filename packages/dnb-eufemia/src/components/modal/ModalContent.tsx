@@ -93,6 +93,8 @@ export default function ModalContent(props: ModalContentProps) {
   const iiRef = useRef<InteractionInvalidation>(null)
   const mountedRef = useRef(0)
   const lastFocusTimeRef = useRef(0)
+  // True until the first focus run in which this modal is on top
+  const isOpeningRef = useRef(true)
   const triggeredByRef = useRef<ModalTriggeredBy>(undefined)
   const triggeredByEventRef = useRef<SyntheticEvent>(undefined)
 
@@ -194,13 +196,21 @@ export default function ModalContent(props: ModalContentProps) {
             // already is: inside the modal, or in a portal that is not a
             // modal, such as an open Dropdown list. Move focus only when it
             // is on the page or on a modal behind this one.
+            //
+            // In the first run after the modal opened, a portal that is not
+            // a modal still belongs to the page behind it, for example the
+            // Popover whose button opened the modal. Move focus from there.
+            const isOpening = isOpeningRef.current
+            isOpeningRef.current = false
+
             const active = document.activeElement
             if (
               active &&
               active !== dialogContainer &&
               active !== elem &&
               (root.contains(active) ||
-                (active.closest('.eufemia-portal-root') &&
+                (!isOpening &&
+                  active.closest('.eufemia-portal-root') &&
                   !active.closest('.dnb-modal__content')))
             ) {
               return // stop here

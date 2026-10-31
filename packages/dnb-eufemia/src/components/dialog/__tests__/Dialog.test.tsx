@@ -5,6 +5,7 @@ import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
 import Dropdown from '../../dropdown/Dropdown'
+import Popover from '../../popover/Popover'
 import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
@@ -711,6 +712,93 @@ describe('Dialog', () => {
     expect(document.activeElement).toBe(
       document.querySelector('.dnb-drawer-list__options')
     )
+  })
+
+  describe('opened from a button in a Popover', () => {
+    // The Popover renders in a portal that is not a modal. When the Dialog
+    // opens, focus is still on the Popover button, behind the Dialog.
+    const DialogFromPopover = () => {
+      const [open, setOpen] = useState(false)
+      return (
+        <>
+          <Popover
+            noAnimation
+            trigger={
+              <button type="button" id="popover-trigger">
+                Open popover
+              </button>
+            }
+          >
+            <button
+              type="button"
+              id="popover-action"
+              onClick={() => setOpen(true)}
+            >
+              Open from popover
+            </button>
+          </Popover>
+          <Dialog
+            noAnimation
+            open={open}
+            omitTriggerButton
+            title="From popover"
+            onClose={() => setOpen(false)}
+          >
+            <p>Opened from a popover</p>
+          </Dialog>
+        </>
+      )
+    }
+
+    const openFromPopover = async () => {
+      fireEvent.click(document.getElementById('popover-trigger'))
+      const action = await waitFor(() => {
+        const element = document.getElementById('popover-action')
+        expect(element).toBeInTheDocument()
+        return element
+      })
+      // The Popover focuses its content when it opens, and again after
+      // 10 ms if focus is outside it. Let that run first, so that it does
+      // not take focus back from the Dialog.
+      await new Promise((resolve) => setTimeout(resolve, 50))
+
+      action.focus()
+      expect(document.activeElement).toBe(action)
+      expect(action.closest('.eufemia-portal-root')).not.toBeNull()
+      expect(action.closest('.dnb-modal__content')).toBeNull()
+
+      fireEvent.click(action)
+      // Let the focus timer run (0 ms with noAnimation)
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    }
+
+    it('moves focus to the dialog', async () => {
+      render(<DialogFromPopover />)
+      await openFromPopover()
+
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'From popover' })
+      )
+    })
+
+    it('moves focus to a nested dialog', async () => {
+      render(
+        <Dialog noAnimation open title="Outer">
+          <DialogFromPopover />
+        </Dialog>
+      )
+      await waitFor(() => {
+        expect(document.activeElement).toBe(
+          screen.getByRole('dialog', { name: 'Outer' })
+        )
+      })
+
+      await openFromPopover()
+
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'From popover' })
+      )
+    })
   })
 
   it('respects focusSelector over dialog container and close button', async () => {
