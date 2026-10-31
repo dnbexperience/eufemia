@@ -3,12 +3,13 @@
  * @dnb/eufemia tarball, to catch broken exports, CSS imports, types or
  * tree-shaking regressions before a release reaches consumers.
  *
- * Usage: node smoke/run-smoke.mjs <fixture> [--tarball <path>] [--keep]
- *   <fixture>   directory under smoke/ to build (e.g. "vite")
+ * Usage: node smoke/run-smoke.mjs <fixture...> [--tarball <path>] [--keep]
+ *   <fixture>   directory under smoke/ to build (e.g. "vite"); give several
+ *               to build them in parallel (e.g. "vite nextjs")
  *   --tarball   path to a prebuilt .tgz; if omitted, packs packages/dnb-eufemia/build
  *   --keep      keep the temporary consumer directory (for debugging)
  */
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawn } from 'node:child_process'
 import {
   cpSync,
   existsSync,
@@ -19,6 +20,7 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { createInterface } from 'node:readline'
 import { fileURLToPath } from 'node:url'
 
 const smokeRoot = path.dirname(fileURLToPath(import.meta.url))
@@ -123,27 +125,30 @@ function assertTreeShaking(fixture, workDir, built) {
   )
 }
 
-function main() {
-  const args = process.argv.slice(2)
-  const fixture = args.find((arg) => !arg.startsWith('--'))
-  const keep = args.includes('--keep')
+const USAGE =
+  'Usage: node smoke/run-smoke.mjs <fixture...> [--tarball <path>] [--keep]'
+
+function parseArgs(args) {
   const tarballIndex = args.indexOf('--tarball')
-
-  if (!fixture) {
-    throw new Error(
-      'Usage: node smoke/run-smoke.mjs <fixture> [--tarball <path>] [--keep]'
-    )
+  const tarballValueIndex = tarballIndex === -1 ? -1 : tarballIndex + 1
+  const tarballValue = args[tarballValueIndex]
+  if (
+    tarballIndex !== -1 &&
+    (!tarballValue || tarballValue.startsWith('--'))
+  ) {
+    throw new Error(USAGE)
   }
+  return {
+    fixtures: args.filter(
+      (arg, index) => index !== tarballValueIndex && !arg.startsWith('--')
+    ),
+    tarball: tarballIndex === -1 ? null : path.resolve(tarballValue),
+    keep: args.includes('--keep'),
+  }
+}
 
+function smokeTest(fixture, tarball, keep) {
   const fixtureDir = path.join(smokeRoot, fixture)
-  if (!existsSync(fixtureDir)) {
-    throw new Error(`Unknown fixture: ${fixtureDir}`)
-  }
-
-  const tarball =
-    tarballIndex !== -1
-      ? path.resolve(args[tarballIndex + 1])
-      : packLibrary()
   console.log(`Using tarball: ${tarball}`)
 
   const workDir = mkdtempSync(
@@ -196,4 +201,85 @@ function main() {
   }
 }
 
-main()
+// Several fixtures run at once, each in its own process that runs this script
+// for one fixture. Most of a run is `npm install` unpacking the 27,000-file
+// tarball, so the fixtures take about as long as the slowest one instead of
+// all of them in turn. Each output line starts with its fixture name, because
+// the processes write at the same time.
+function smokeTestInParallel(fixtures, tarball, keep) {
+  const script = fileURLToPath(import.meta.url)
+  return Promise.all(
+    fixtures.map(
+      (fixture) =>
+        new Promise((resolve) => {
+          const started = Date.now()
+          const child = spawn(
+            process.execPath,
+            [
+              script,
+              fixture,
+              '--tarball',
+              tarball,
+              ...(keep ? ['--keep'] : []),
+            ],
+            { stdio: ['ignore', 'pipe', 'pipe'] }
+          )
+          createInterface({ input: child.stdout }).on('line', (line) =>
+            console.log(`[${fixture}] ${line}`)
+          )
+          createInterface({ input: child.stderr }).on('line', (line) =>
+            console.error(`[${fixture}] ${line}`)
+          )
+          const finish = (passed) =>
+            resolve({
+              fixture,
+              passed,
+              seconds: Math.round((Date.now() - started) / 1000),
+            })
+          child.on('error', (error) => {
+            console.error(`[${fixture}] ${error.message}`)
+            finish(false)
+          })
+          child.on('close', (code) => finish(code === 0))
+        })
+    )
+  )
+}
+
+async function main() {
+  const { fixtures, tarball, keep } = parseArgs(process.argv.slice(2))
+  if (fixtures.length === 0) {
+    throw new Error(USAGE)
+  }
+  for (const fixture of fixtures) {
+    const fixtureDir = path.join(smokeRoot, fixture)
+    if (!existsSync(fixtureDir)) {
+      throw new Error(`Unknown fixture: ${fixtureDir}`)
+    }
+  }
+
+  // Pack once, so every fixture installs the same tarball.
+  const tarballPath = tarball ?? packLibrary()
+  if (fixtures.length === 1) {
+    smokeTest(fixtures[0], tarballPath, keep)
+    return
+  }
+
+  const results = await smokeTestInParallel(fixtures, tarballPath, keep)
+  for (const { fixture, passed, seconds } of results) {
+    console.log(
+      `${passed ? 'Passed' : 'FAILED'}: ${fixture} (${seconds} s)`
+    )
+  }
+  const failed = results.filter((result) => !result.passed)
+  if (failed.length > 0) {
+    // Set the exit code instead of throwing, so the output of the fixtures is
+    // fully written before the process exits.
+    console.error(
+      `Smoke test failed for: ${failed.map((result) => result.fixture).join(', ')}`
+    )
+    process.exitCode = 1
+  }
+}
+
+await main()

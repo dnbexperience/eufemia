@@ -39,14 +39,10 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      # Cache the consumers' npm downloads: run-smoke.mjs runs `npm ci` for each
-      # fixture, which would otherwise re-download react/next/vite every run.
-      - name: Cache consumer npm downloads
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: ~/.npm
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-smoke-npm-${{ hashFiles('smoke/*/package-lock.json') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-smoke-npm-
+      # No npm cache for the consumers. This workflow runs on pull requests
+      # only, so every pull request saved its own copy (40 copies, 5.8 GB of
+      # the 10 GB cache budget), and a hit was no faster than a miss (#9269):
+      # `npm ci` here is bound by unpacking, not by downloading.
 
       # Full publishable build (also runs the package-content validation gate).
       - name: Build library
@@ -60,8 +56,9 @@ jobs:
           tarball=$(cd packages/dnb-eufemia/build && npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP" 2>/dev/null | tail -1)
           echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
 
-      - name: Vite consumer smoke test
-        run: node smoke/run-smoke.mjs vite --tarball "${{ steps.pack.outputs.tarball }}"
-
-      - name: Next.js consumer smoke test
-        run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.pack.outputs.tarball }}"
+      # Both consumers in one step: run-smoke.mjs builds them in parallel, so
+      # the step takes about as long as the slower one.
+      - name: Vite and Next.js consumer smoke tests
+        env:
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: node smoke/run-smoke.mjs vite nextjs --tarball "$TARBALL"
