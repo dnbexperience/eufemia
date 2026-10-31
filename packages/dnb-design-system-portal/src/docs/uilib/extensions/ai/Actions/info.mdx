@@ -1,0 +1,25 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Action, Actions } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(
+  <Actions>
+    <Action icon="thumbs_up" label="Good answer" />
+  </Actions>
+)
+```
+
+## Description
+
+`Ai.Actions` with `Ai.Action` shows icon buttons below a message, like copy, feedback or regenerate. Give them to the `actions` property of [Ai.Message](/uilib/extensions/ai/Message/). Each `Ai.Action` is a small tertiary [Button](/uilib/components/button/) with a default-size icon and an expanded touch area. Its `label` is used for the tooltip and for screen readers. Actions have `0.375rem` spacing, and unselected icons use the theme's neutral alternative color.
+
+For feedback, control `selected` from your application. It applies Button's selected styling and exposes `aria-pressed` as `true` or `false`. Keep the label unchanged when selection changes. Store one choice per answer, so positive and negative feedback cannot both be selected, and allow the selected action to clear the choice. Omit `selected` for ordinary commands such as regenerate. An explicit `aria-pressed` is still forwarded if your application needs to control it separately.
+
+The application owns feedback storage, requests and errors. Selection alone does not confirm that feedback reached a server. Use `disabled` while saving if users should not change the choice, and show a useful error if saving fails. The [message actions demo](/uilib/extensions/ai/Actions/demos/#message-actions) demonstrates selection locally.
+
+For copying a response, place [CopyOnClick.Button](/uilib/components/copy-on-click/) inside `Ai.Actions`. Pass `size="small"`, `iconSize="default"` and `bounding` to match the other actions. Set the text as `copyContent`, and provide a descriptive `title` and `tooltip`, such as "Copy answer". It handles the clipboard and announces a confirmation only after a successful copy. The [message actions demo](/uilib/extensions/ai/Message/demos/#message-actions) shows this composition.

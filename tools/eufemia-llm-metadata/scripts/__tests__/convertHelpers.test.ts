@@ -26,6 +26,44 @@ describe('convertMdxToMd', () => {
     resetUnhandledStandaloneMdxWarnings()
   })
 
+  it('includes the experimental notice once when composing AI documentation', async () => {
+    const root = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'ai-experimental-md-')
+    )
+    const docsRoot = path.join(root, 'docs')
+    const directory = path.join(docsRoot, 'uilib/extensions/ai/Message')
+    fs.mkdirSync(directory, { recursive: true })
+    const inputPath = path.join(directory, '../Message.mdx')
+    fs.writeFileSync(
+      inputPath,
+      "---\ntitle: Ai.Message\n---\n\nimport Info from './Message/info'\n\n<Info />"
+    )
+    fs.writeFileSync(
+      path.join(directory, 'info.mdx'),
+      '## Description\n\nMessage details.'
+    )
+    try {
+      const output = await convertMdxToMd({
+        inputPath,
+        docsRoot,
+        docsBaseRoot: docsRoot,
+        prettierConfig: {},
+        includeFrontmatter: true,
+        state: { mdxCache: new Map(), inProgress: new Set() },
+      })
+      expect(output.match(/\*\*Experimental:\*\*/g)).toHaveLength(1)
+      expect(output).toContain(
+        'The AI extension and its component APIs may change in the future.'
+      )
+      expect(output.indexOf('**Experimental:**')).toBeLessThan(
+        output.indexOf('## Description')
+      )
+      expect(output).toContain('Message details.')
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
+
   it('finds unhandled standalone MDX components outside code fences', () => {
     const content = [
       '<UnhandledWidget />',

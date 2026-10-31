@@ -1,0 +1,24 @@
+---
+showTabs: true
+---
+
+import * as Examples from '../Examples'
+import VirtualizedExample from './Examples'
+
+## Demos
+
+See [Message scroller](/uilib/extensions/ai/message-scroller/) for demos of how the conversation scrolls.
+
+### Conversation with date and info
+
+Scroll up to see the button that takes you to the latest message.
+
+<Examples.AiConversationExample />
+
+### Virtualized history
+
+This opt-in example keeps a window of 1,000 variable-height messages mounted. Try navigating to message 100, appending a turn, extending the latest reply and prepending history. Use Show full transcript for browser search, selection across the full conversation and screen-reader access to unmounted messages.
+
+The example has no real requests. The application owns reply announcements. See [Virtualization](/uilib/extensions/ai/Conversation/#virtualization) for the tradeoffs and driver import.
+
+<VirtualizedExample />

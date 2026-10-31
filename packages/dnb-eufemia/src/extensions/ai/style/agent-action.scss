@@ -1,0 +1,382 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-ai-agent-action {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5625rem;
+
+  min-width: 0;
+
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-basis);
+  font-weight: var(--font-weight-basis);
+  line-height: var(--line-height-basis);
+  color: var(--token-color-text-neutral);
+
+  &__avatar {
+    display: flex;
+    flex-shrink: 0;
+
+    margin-top: 0.40625rem;
+  }
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+
+    min-width: 0;
+  }
+
+  &__status {
+    min-width: 0;
+    outline-offset: 0.25rem;
+  }
+
+  &__label > &__text,
+  &__target {
+    animation: dnb-ai-agent-action-result 300ms ease-out;
+  }
+
+  &__text + &__target {
+    animation-delay: 150ms;
+    animation-fill-mode: backwards;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    min-width: 0;
+
+    > .dnb-ai-agent-action__text {
+      padding-left: 0.75rem;
+    }
+  }
+
+  &__target {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    min-width: 0;
+    min-height: 2.3125rem;
+    padding: 0.34375rem 0.75rem;
+
+    overflow: hidden;
+    overflow-wrap: anywhere;
+
+    border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+    border-radius: 1.15625rem;
+  }
+
+  &__target--has-visual {
+    padding-right: 1.5rem;
+  }
+
+  &__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+
+    min-width: min(2.3125rem, 100%);
+    max-width: 100%;
+
+    overflow: hidden;
+
+    background-color: color-mix(
+      in srgb,
+      var(--token-color-decorative-first-bold) 8%,
+      var(--token-color-background-neutral)
+    );
+    border-radius: inherit;
+
+    transition: width 300ms ease-in-out;
+
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+      background-color: Canvas;
+      border: 0.0625rem solid CanvasText;
+    }
+  }
+
+  &--indeterminate &__fill {
+    width: 100%;
+    min-width: 0;
+
+    transition: none;
+
+    animation: dnb-ai-agent-action-progress 3.84s linear infinite;
+  }
+
+  &__target-visual {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+
+    .dnb-avatar {
+      --avatar-width--small: 1.03125rem;
+      --avatar-height--small: 1.03125rem;
+      --avatar-icon-size--small: 0.75rem;
+    }
+  }
+
+  &__text {
+    position: relative;
+    min-width: 0;
+  }
+
+  &__result {
+    display: inline-block;
+
+    min-height: 2.3125rem;
+    padding: 0.40625rem 0.75rem;
+
+    overflow-wrap: anywhere;
+  }
+
+  &--done &__result {
+    animation: dnb-ai-agent-action-result 300ms ease-out;
+  }
+
+  &--error &__result {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    color: var(--token-color-text-error);
+  }
+
+  &__error-icon {
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  &__undo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4375rem;
+
+    padding: 0.09375rem 0.125rem;
+    padding-left: 0.75rem;
+
+    background-color: var(--token-color-background-neutral-subtle);
+    border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+    border-radius: var(--token-radius-full);
+
+    animation: dnb-ai-agent-action-result 300ms ease-out 150ms backwards;
+
+    &:focus-within {
+      animation: none;
+    }
+  }
+
+  &__countdown {
+    min-width: 2.75rem;
+
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums;
+    color: var(--token-color-text-neutral-alternative);
+  }
+
+  &__undo-button.dnb-button {
+    font-weight: var(--font-weight-medium);
+
+    --button-height--small: 2rem;
+    --button-padding--small: 0.75rem;
+    --button-icon-gutter: 0.375rem;
+    --button-color-bg--default: var(
+      --token-color-background-positive-subtle
+    );
+    --button-color-text--default: var(--token-color-text-positive);
+    --button-color-icon--default: var(--token-color-text-positive);
+    --button-color-border--default: var(
+      --token-color-stroke-neutral-subtle
+    );
+  }
+
+  @include utilities.reducedMotion() {
+    &__fill {
+      transition: none;
+    }
+
+    &--indeterminate &__fill {
+      width: 30%;
+      animation: none;
+    }
+
+    &__label > &__text,
+    &__target,
+    &__result,
+    &__undo {
+      animation: none;
+    }
+  }
+}
+
+// Figma node 71010:3889: one 3.84s return cycle on a 195px track.
+@keyframes dnb-ai-agent-action-progress {
+  0%,
+  100% {
+    left: 0%;
+    width: 28.7179%;
+  }
+
+  2.0833%,
+  97.9167% {
+    left: 0.3036%;
+    width: 29.0672%;
+  }
+
+  4.1667%,
+  95.8333% {
+    left: 1.1913%;
+    width: 30.0918%;
+  }
+
+  6.25%,
+  93.75% {
+    left: 2.5985%;
+    width: 31.7221%;
+  }
+
+  8.3333%,
+  91.6667% {
+    left: 4.4313%;
+    width: 33.8462%;
+  }
+
+  10.4167%,
+  89.5833% {
+    left: 6.5795%;
+    width: 36.32%;
+  }
+
+  12.5%,
+  87.5% {
+    left: 8.9369%;
+    width: 38.9744%;
+  }
+
+  14.5833%,
+  85.4167% {
+    left: 11.4185%;
+    width: 41.6287%;
+  }
+
+  16.6667%,
+  83.3333% {
+    left: 13.9744%;
+    width: 44.1026%;
+  }
+
+  18.75%,
+  81.25% {
+    left: 16.5974%;
+    width: 46.2267%;
+  }
+
+  20.8333%,
+  79.1667% {
+    left: 19.3236%;
+    width: 47.8569%;
+  }
+
+  22.9167%,
+  77.0833% {
+    left: 22.2231%;
+    width: 48.8815%;
+  }
+
+  25%,
+  75% {
+    left: 25.3846%;
+    width: 49.2308%;
+  }
+
+  27.0833%,
+  72.9167% {
+    left: 28.8954%;
+    width: 48.8815%;
+  }
+
+  29.1667%,
+  70.8333% {
+    left: 32.8195%;
+    width: 47.8569%;
+  }
+
+  31.25%,
+  68.75% {
+    left: 37.1759%;
+    width: 46.2267%;
+  }
+
+  33.3333%,
+  66.6667% {
+    left: 41.9231%;
+    width: 44.1026%;
+  }
+
+  35.4167%,
+  64.5833% {
+    left: 46.9528%;
+    width: 41.6287%;
+  }
+
+  37.5%,
+  62.5% {
+    left: 52.0887%;
+    width: 38.9744%;
+  }
+
+  39.5833%,
+  60.4167% {
+    left: 57.1005%;
+    width: 36.32%;
+  }
+
+  41.6667%,
+  58.3333% {
+    left: 61.7226%;
+    width: 33.8462%;
+  }
+
+  43.75%,
+  56.25% {
+    left: 65.6795%;
+    width: 31.7221%;
+  }
+
+  45.8333%,
+  54.1667% {
+    left: 68.7169%;
+    width: 30.0918%;
+  }
+
+  47.9167%,
+  52.0833% {
+    left: 70.6292%;
+    width: 29.0672%;
+  }
+
+  50% {
+    left: 71.2821%;
+    width: 28.7179%;
+  }
+}
+
+@keyframes dnb-ai-agent-action-result {
+  from {
+    opacity: 0;
+    transform: translateX(-0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

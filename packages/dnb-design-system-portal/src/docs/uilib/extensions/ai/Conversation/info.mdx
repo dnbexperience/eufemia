@@ -1,0 +1,83 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Conversation } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Conversation />)
+```
+
+## Description
+
+`Ai.Conversation` holds the messages, and takes care of the scrolling while new messages and replies stream in. Read more in [Message scroller](/uilib/extensions/ai/message-scroller/).
+
+By default, a new message from the user is scrolled near the top, with a peek of the previous reply above it. The reply then streams in below, and the view stays where it is, so the user can read in peace. When the reply goes below the view, a button to go to the latest message is shown. When the user scrolls to the end, or presses the button, the conversation follows the reply as it streams in.
+
+Use `scrollBehavior="end"` to always follow the end of the conversation instead, until the user scrolls up.
+
+The conversation only moves when the user sends a message or asks for it. Content that changes, like a reply that streams in or older messages that are added above, does not move what the user reads. Short conversations start at the bottom, like in most chats.
+
+Give it a height, e.g. with `style` or by placing it in a flex layout. The conversation can be scrolled with the keyboard when its content overflows.
+
+### Announcements while streaming
+
+The scroll view is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role) that announces additions by default. This does not guarantee that updates to a streaming message will be announced in full.
+
+The application owns streaming announcements because it knows when a reply finishes, stops or fails. Set `aria-live="off"` on the conversation and keep a separate [AriaLive](/uilib/components/aria-live/) mounted outside it. Update that region once when the operation ends. Clear its text when a new operation starts, so identical replies can be announced in separate turns. Keep partial replies visible after cancellation or failure, and provide a useful localized announcement for that outcome.
+
+See the [announcement recipe](/uilib/extensions/ai/integrations/#screen-reader-announcements) and [live demo](/uilib/extensions/ai/demos/#streamed-reply-announcements). Check the result with the screen readers your application supports; DOM attributes alone do not prove spoken behavior.
+
+### Scroll from elsewhere
+
+Give the conversation an `id`, and use `Ai.useConversation(id)` to scroll it, e.g. from a toolbar.
+
+### Customize the peek
+
+The part of the previous reply that is shown above a new turn is set with the `--ai-conversation-peek` CSS custom property, which defaults to `3rem`.
+
+## Virtualization
+
+The Figma chat starts from the bottom. Use `scrollBehavior="end"` for that layout. The `turn` default lets readers follow a streamed reply from its start. Use `--ai-conversation-padding` to adjust the default `1rem` side padding.
+
+Conversation keeps the full transcript mounted by default. Its `content-visibility` styles let the browser skip off-screen rendering while preserving screen-reader navigation, browser search and text selection. Start with that behavior.
+
+For large histories where mounted React content becomes expensive, pass `items` and an opt-in `renderDriver`. The separately imported driver uses the same optional `@tanstack/react-virtual` peer dependency as DrawerList; it is not imported by the default AI entry. Install the peer dependency in your application when using it.
+
+```tsx
+import { Conversation, Message } from '@dnb/eufemia/extensions/ai'
+import { createConversationVirtualization } from '@dnb/eufemia/extensions/ai/Virtualization'
+import '@dnb/eufemia/extensions/ai/style'
+
+// Create the driver once, outside your component.
+const renderDriver = createConversationVirtualization({
+  estimateSize: 120,
+  overscan: 5,
+})
+
+const items = messages.map((message) => ({
+  id: message.id,
+  from: message.role,
+  render: () => <Message from={message.role}>{message.text}</Message>,
+}))
+
+render(
+  <Conversation
+    id="chat-history"
+    items={items}
+    renderDriver={renderDriver}
+    scrollBehavior="end"
+    style={{ height: '30rem' }}
+  />
+)
+```
+
+Each item needs a stable unique `id` and a `render` callback. Set `from="user"` in the item metadata to mark a turn. The item wrapper owns the DOM ID, so do not repeat it on the rendered Message. `items` takes precedence over children. Without a driver, the same items render the full transcript. A driver without items uses the regular children rendering.
+
+The driver measures variable heights, follows streamed growth while at the end, preserves the reader on prepended history and supports both scroll behaviors. `useConversation` can navigate to items that are not mounted; it returns false for unknown IDs. New turns and navigation scroll smoothly unless reduced motion is requested. The driver adjusts the destination as message heights are measured. Keyboard focus takes control of scrolling, so navigating through older messages keeps the focused control visible. New appended messages fade in; mounting older history does not replay the animation. Visibility hooks report mounted visible items and the current turn. Keep the items array stable when its content has not changed. Update items immutably, retain IDs when prepending history, and use new IDs for a different conversation.
+
+Only a window of items is mounted. Unmounted content is unavailable to browser search, screen-reader reading and selection across messages. Local component state is discarded when an item unmounts. Store persistent state in the application, or set `keepMounted: true` for a decision, active media or other stateful content. Focused items and their adjacent items stay mounted for keyboard navigation, along with the latest message and latest user message.
+
+The virtualized log always uses `aria-live="off"`, because scrolling remounts old messages and must not announce them as new replies. The application must announce meaningful outcomes through a separate AriaLive region, following the [announcement recipe](/uilib/extensions/ai/integrations/#screen-reader-announcements). Provide a way to show the full transcript when users need its complete content. Test your application with its supported screen readers. The [virtualized history demo](/uilib/extensions/ai/Conversation/demos/#virtualized-history) demonstrates switching to the full transcript.

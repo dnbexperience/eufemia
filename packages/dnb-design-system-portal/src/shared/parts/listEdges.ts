@@ -131,6 +131,17 @@ export function getDataContextComponents(pages: MdxNode[]): MdxNode[] {
   )
 }
 
+/** The pages listed by `ListAiComponents`. */
+export function getAiComponents(pages: MdxNode[]): MdxNode[] {
+  return pages.filter(
+    (node) =>
+      globPath(node, 'uilib/extensions/ai/*') &&
+      node.frontmatter.title &&
+      node.frontmatter.componentType !== 'docs' &&
+      node.frontmatter.hideInMenu !== true
+  )
+}
+
 /** The pages listed by `ListFormComponents`. */
 export function getFormComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(

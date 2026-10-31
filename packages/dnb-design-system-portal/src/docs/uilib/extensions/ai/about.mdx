@@ -1,0 +1,153 @@
+---
+showTabs: true
+---
+
+import ListAiComponents from './ListAiComponents'
+
+## Import
+
+```tsx
+import {
+  Conversation,
+  Message,
+  PromptInput,
+  Response,
+} from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+```
+
+Import the components and hooks you use by name. The `Ai.` prefix in the documentation identifies the extension; the examples use named imports directly.
+
+### Isolated styles
+
+For applications using [style isolation](/uilib/usage/customisation/styling/style-isolation/), replace the regular AI style import with the isolated entry point:
+
+```tsx
+import '@dnb/eufemia/style/isolated'
+import '@dnb/eufemia/extensions/ai/style/isolated'
+import { IsolatedStyleScope } from '@dnb/eufemia/shared'
+import { Response } from '@dnb/eufemia/extensions/ai'
+
+render(
+  <IsolatedStyleScope>
+    <Response>{'Hello from the assistant.'}</Response>
+  </IsolatedStyleScope>
+)
+```
+
+The AI entry point adds only the extension styles. Keep the isolated basis and theme imports for the Eufemia components used inside it.
+
+## Description
+
+`Ai` provides building blocks for AI chat experiences, built with Eufemia components. Use them to build a chat with an assistant, from the welcome screen with suggestions to the conversation and the prompt input.
+
+## Usage
+
+Your application owns the messages, transport, tool execution and error handling. Eufemia renders the content and handles presentation, keyboard interaction and conversation scrolling.
+
+The message type below belongs to this example. Use your application's data and map it to the component props.
+
+```tsx
+import { useId } from 'react'
+import {
+  Conversation,
+  Message,
+  MessageIndicator,
+  PromptInput,
+  Response,
+} from '@dnb/eufemia/extensions/ai'
+import { GlobalStatus } from '@dnb/eufemia/components'
+import '@dnb/eufemia/extensions/ai/style'
+
+type ChatMessage = {
+  id: string
+  from: 'user' | 'assistant'
+  text: string
+  isStreaming?: boolean
+}
+
+type ChatProps = {
+  messages: Array<ChatMessage>
+  isBusy: boolean
+  isWaiting: boolean
+  hasError: boolean
+  onSend: (text: string) => void
+  onStop: () => void
+}
+
+export function Chat({
+  messages,
+  isBusy,
+  isWaiting,
+  hasError,
+  onSend,
+  onStop,
+}: ChatProps) {
+  const prefix = useId()
+  return (
+    <>
+      <Conversation
+        label="Chat with the assistant"
+        style={{ height: '32rem' }}
+      >
+        {messages.map((message) => (
+          <Message
+            key={message.id}
+            id={prefix + message.id}
+            from={message.from}
+          >
+            {message.from === 'user' ? (
+              message.text
+            ) : (
+              <Response
+                parseIncompleteMarkdown={message.isStreaming ?? false}
+              >
+                {message.text}
+              </Response>
+            )}
+          </Message>
+        ))}
+        {isWaiting && <MessageIndicator />}
+      </Conversation>
+      {hasError && (
+        <GlobalStatus
+          show
+          autoScroll={false}
+          omitSetFocus
+          id={prefix + '-error'}
+          text="The reply could not be completed. Try again."
+        />
+      )}
+      <PromptInput
+        isBusy={isBusy}
+        onSubmit={({ value }) => onSend(value)}
+        onStop={onStop}
+      />
+    </>
+  )
+}
+```
+
+Compose tool results and sources inside each message using `Ai.Task` and `Ai.Sources`. See [Integrations](/uilib/extensions/ai/integrations/) for complete framework examples and ownership of each state.
+
+Use [Ai.AgentAction](/uilib/extensions/ai/AgentAction/) for compact agent actions with progress, a result, and optional Undo. The application controls the action state and reversal window.
+
+Use [Ai.Confirmation](/uilib/extensions/ai/Confirmation/) to ask the user to confirm or decline before proceeding with a proposed action.
+
+## Guides
+
+For streamed-reply announcements, follow the [application-owned announcement recipe](/uilib/extensions/ai/integrations/#screen-reader-announcements).
+
+- [Translations](/uilib/extensions/ai/translations/): select a locale and customize component labels.
+- [Integrations](/uilib/extensions/ai/integrations/): composition and recipes for AI SDK and TanStack AI.
+
+- [Message scroller](/uilib/extensions/ai/message-scroller/): how the conversation scrolls while replies stream in.
+
+## Components
+
+<ListAiComponents size="small" />
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/ai)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/ai)
