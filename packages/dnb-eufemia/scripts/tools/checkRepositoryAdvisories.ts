@@ -424,6 +424,7 @@ export async function checkRepositoryAdvisories() {
   const packages = getProductionPackages(entries, dependencies)
   const advisoriesByRepository = new Map<string, RepositoryAdvisory[]>()
   const matches: AdvisoryMatch[] = []
+  let skippedRepositories = 0
 
   for (const entry of packages) {
     const metadata = await fetchJson(
@@ -437,17 +438,27 @@ export async function checkRepositoryAdvisories() {
     }
 
     if (!advisoriesByRepository.has(repository)) {
-      advisoriesByRepository.set(
-        repository,
-        (await fetchJson(
-          `https://api.github.com/repos/${repository}/security-advisories?state=published&per_page=100`,
-          githubHeaders,
-          { allowNotFound: true }
-        )) ?? []
+      const advisories = await fetchJson(
+        `https://api.github.com/repos/${repository}/security-advisories?state=published&per_page=100`,
+        githubHeaders,
+        { allowNotFound: true }
       )
+      if (!advisories) {
+        skippedRepositories += 1
+      }
+      advisoriesByRepository.set(repository, advisories ?? [])
     }
     matches.push(
       ...findAdvisoryMatches(entry, advisoriesByRepository.get(repository))
+    )
+  }
+
+  if (
+    advisoriesByRepository.size > 0 &&
+    skippedRepositories === advisoriesByRepository.size
+  ) {
+    throw new Error(
+      `All ${skippedRepositories} GitHub repositories were skipped, so no advisories were checked.`
     )
   }
 
