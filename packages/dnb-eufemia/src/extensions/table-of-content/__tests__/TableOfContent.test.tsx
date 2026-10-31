@@ -77,11 +77,13 @@ describe('mobile item limit', () => {
         <TableOfContent.Item id="first" text="First" />
         <TableOfContent.Item id="hidden" text="Hidden" hidden />
         <TableOfContent.Item id="second" text="Second" />
-        <TableOfContent.Item id="third" text="Third" />
+        <TableOfContent.Item id="tredje æ" text="Third" />
       </TableOfContent.Root>
     )
     fireEvent.click(showAll())
-    expect(document.querySelector('a[href="#third"]')).toHaveFocus()
+    expect(
+      document.querySelector('a[href="#tredje%20%C3%A6"]')
+    ).toHaveFocus()
   })
 
   it('supports a custom limit, translation, composition and unlimited lists', () => {
