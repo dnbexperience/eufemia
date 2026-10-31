@@ -21,12 +21,13 @@ test.describe('Page Scroll', () => {
     await expect(anchor).toBeVisible()
     await anchor.click()
 
-    await page.waitForFunction(() => window.scrollY > 0, {
-      timeout: 5000,
-    })
-
-    const scrollY = await page.evaluate(() => window.scrollY)
-    expect(scrollY).toBeGreaterThan(0)
+    await expect
+      .poll(() =>
+        page
+          .locator('#spacing-support')
+          .evaluate((element) => element.getBoundingClientRect().top)
+      )
+      .toBeLessThan(300)
   })
 
   test('should scroll to linked hash element', async ({ page }) => {
@@ -44,10 +45,13 @@ test.describe('Page Scroll', () => {
 
     expect(page.url()).toContain('#')
 
-    await page.waitForFunction(() => window.scrollY > 0, {
-      timeout: 5000,
-    })
-    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+    await expect
+      .poll(() =>
+        page
+          .locator('#spacing-support')
+          .evaluate((element) => element.getBoundingClientRect().top)
+      )
+      .toBeLessThan(300)
   })
 
   test('should scroll to hash element after route change', async ({
