@@ -19,6 +19,7 @@ import {
   ProgressIndicatorCountdownExample,
   ProgressIndicatorCustomCountdown,
   ProgressIndicatorCustomHorizontal,
+  ProgressIndicatorLinearOnSubtleExample,
   ProgressIndicatorCustomizationExample,
 } from 'Docs/uilib/components/progress-indicator/Examples'
 
@@ -98,6 +99,12 @@ The sizes and colors can be customized with the properties `size`, `customColors
 
 <ProgressIndicatorCustomCountdown />
 <ProgressIndicatorCustomHorizontal />
+
+#### On a subtle background
+
+The `linear` type has a separate track color for subtle backgrounds, such as `--token-color-background-neutral-subtle`. Set the `--token-color-component-progressbar-neutral-onsubtle` token as the `shaft` color with `customColors`.
+
+<ProgressIndicatorLinearOnSubtleExample />
 
 <VisibleWhenVisualTest>
   <ProgressIndicatorCustomizationExample />
