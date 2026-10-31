@@ -80,8 +80,8 @@ jobs:
       # cache skips the install, so nothing checks it against yarn.lock, and
       # any run on main can save entries that this branch restores. The
       # package, the portal and the search index are built from these
-      # dependencies. The publish job's identical install took 24-38 s on the
-      # last 11 releases; restoring and saving the cache here took 12-22 s.
+      # dependencies. This install took 34-37 s in nine Dependabot runs that
+      # had no cache at all; restoring and saving the cache here took 12-22 s.
       - name: Install dependencies
         run: yarn install --immutable
 
@@ -185,9 +185,9 @@ jobs:
           tarball="$(cd packages/dnb-eufemia/build && npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP" | tail -1)"
           echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
 
-      # Both consumers in one step: run-smoke.mjs builds them in parallel. On a
-      # GitHub runner that took 66 s, against 39 + 51 s in turn; most of each
-      # run is `npm install` unpacking the 27,000-file tarball.
+      # Both consumers in one step: run-smoke.mjs builds them in parallel. On
+      # pull requests that took 48-66 s, against 39 + 51 s in turn; most of
+      # each run is `npm install` of the 28,000-file tarball.
       - name: Vite and Next.js consumer smoke tests
         env:
           TARBALL: ${{ steps.smoke-pack.outputs.tarball }}
@@ -398,7 +398,10 @@ jobs:
       # semantic-release packed the published files into ../dist (`tarballDir`
       # in the release config, with lifecycle scripts off) and attached that
       # tarball to the GitHub release, so it is the attestation subject as it
-      # is. Packing build/ again took 19-27 s on the last 9 releases.
+      # is. Only the git plugin runs between that pack and `npm publish`, and it
+      # changes no files: four releases from before the SBOM attestation
+      # (v10.104.2, v11.7.0, v11.8.2, v11.8.3) attached a tarball with npm's
+      # SHA-1. Packing build/ again took 19-27 s on the last 9 releases.
       - name: Locate the released tarball (attestation subject)
         id: pack
         continue-on-error: true
@@ -515,6 +518,9 @@ jobs:
     permissions:
       contents: read
 
+    outputs:
+      sbom-artifact-id: ${{ steps.upload-sbom.outputs.artifact-id }}
+
     # This job runs untrusted third-party code (the CycloneDX generator).
     # release.yml has no workflow-level `env:` (secrets are scoped per step — see
     # the note at the top of this file), so no secrets reach this job today;
@@ -538,11 +544,18 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup dependencies
+      # Node.js only. The generator reads each package manifest through Yarn's
+      # fetcher, with its integrity check off, and `yarn npm audit` reads the
+      # lockfile: both gave the same result without an install. The shared
+      # setup action would restore the node_modules cache, which neither
+      # reads, and on a miss the shared Yarn download cache, which the
+      # generator would read into the SBOM that the next job signs.
+      - name: Use Node.js
         continue-on-error: true
-        uses: ./.github/actions/setup
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          cache-version: ${{ secrets.CACHE_VERSION }}
+          node-version-file: 'package.json'
+          package-manager-cache: false
 
       - name: Generate SBOM and vulnerability report
         continue-on-error: true
@@ -638,6 +651,7 @@ jobs:
           ' "$audit_exit"
 
       - name: Upload SBOM and vulnerability report
+        id: upload-sbom
         continue-on-error: true
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
@@ -682,12 +696,16 @@ jobs:
           artifact-ids: ${{ needs.action.outputs.tarball-artifact-id }}
           path: packages/dnb-eufemia
 
+      # By ID, like the tarball: the portal link check runs at the same time
+      # and restores the shared node_modules cache, so an SBOM found by name
+      # could be its replacement, and this job would sign it.
       - name: Download SBOM and vulnerability report
         continue-on-error: true
-        if: needs.action.outputs.tarball != ''
+        if: needs.action.outputs.tarball != '' &&
+          needs.sbom.outputs.sbom-artifact-id != ''
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: sbom-and-vulnerability-report
+          artifact-ids: ${{ needs.sbom.outputs.sbom-artifact-id }}
           path: packages/dnb-eufemia
 
       # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
