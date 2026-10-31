@@ -217,6 +217,7 @@ function Checkbox(localProps: CheckboxProps) {
     inputRef: internalRef,
     checkedRef: isCheckedRef,
     readOnly,
+    onClick,
     onChange: applyChange,
   })
 

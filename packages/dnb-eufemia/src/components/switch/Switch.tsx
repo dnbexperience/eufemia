@@ -118,6 +118,7 @@ function Switch(props: SwitchProps) {
     inputRef,
     checkedRef: isCheckedRef,
     readOnly,
+    onClick,
     onChange: applyChange,
   })
 
