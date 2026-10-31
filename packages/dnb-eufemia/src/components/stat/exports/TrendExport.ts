@@ -1,2 +1,2 @@
 export { default } from '../Trend'
-export type { TrendProps } from '../Trend'
+export type { StatTrendProps } from '../Trend'

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Container from '../Container'
-import type { ItemBasicProps } from '../ItemBasic'
+import type { ListItemBasicProps } from '../ItemBasic'
 import ItemBasic from '../ItemBasic'
 import ItemTitle from '../ItemTitle'
 import ItemEnd from '../ItemEnd'
@@ -10,7 +10,7 @@ import type { ComponentMarkers } from '../../../shared/helpers/withComponentMark
 
 describe('ItemBasic', () => {
   it('renders with props as an object', () => {
-    const props: ItemBasicProps = {}
+    const props: ListItemBasicProps = {}
 
     render(<ItemBasic {...props}>Content</ItemBasic>)
 
@@ -131,7 +131,7 @@ describe('ItemBasic', () => {
   })
 
   describe('layout engine', () => {
-    const renderRow = (props: ItemBasicProps = {}) => {
+    const renderRow = (props: ListItemBasicProps = {}) => {
       render(
         <ItemBasic title="Title" {...props}>
           <ItemEnd>End</ItemEnd>

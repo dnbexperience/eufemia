@@ -16,14 +16,14 @@ type ContentOwnProps = {
   skeleton?: SkeletonShow
 }
 
-export type ContentProps = Omit<
+export type StatContentProps = Omit<
   HTMLProps<HTMLElement>,
   keyof ContentOwnProps | 'ref'
 > &
   ContentOwnProps &
   SpacingProps
 
-function Content(props: ContentProps) {
+function Content(props: StatContentProps) {
   const { inRoot } = useContext(StatRootContext)
 
   const {

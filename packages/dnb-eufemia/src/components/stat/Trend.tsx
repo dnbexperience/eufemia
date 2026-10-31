@@ -22,14 +22,14 @@ type TrendOwnProps = {
   skeleton?: SkeletonShow
 }
 
-export type TrendProps = Omit<
+export type StatTrendProps = Omit<
   HTMLProps<HTMLElement>,
   keyof TrendOwnProps | 'ref'
 > &
   TrendOwnProps &
   SpacingProps
 
-function Trend(props: TrendProps) {
+function Trend(props: StatTrendProps) {
   const {
     value,
     children,

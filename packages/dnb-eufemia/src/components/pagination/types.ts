@@ -10,7 +10,7 @@ import type {
   ReactNode,
   SyntheticEvent,
 } from 'react'
-import type { NavigationItemProps } from './PaginationBar'
+import type { PaginationNavigationItemProps } from './PaginationBar'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
 import type { ButtonIconPosition } from '../Button'
@@ -220,11 +220,11 @@ export type PaginationProps = {
    */
   barSpace?: SpaceTypeAll
   /**
-   * A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `NavigationItemProps`. Anchor-like elements keep the browser default behavior on modified or middle clicks.
+   * A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `PaginationNavigationItemProps`. Anchor-like elements keep the browser default behavior on modified or middle clicks.
    */
   transformNavigationItem?: (
     pageNumber: number,
-    navigationItemProps: NavigationItemProps
+    navigationItemProps: PaginationNavigationItemProps
   ) => ReactNode
   className?: string
   /**
