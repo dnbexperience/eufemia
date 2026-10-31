@@ -155,14 +155,31 @@ describe('useOutsideClick', () => {
     expect(onOutsideClick).toHaveBeenCalledTimes(1)
   })
 
-  it('should count presses and released keys on the document and body', () => {
-    const { onOutsideClick } = renderOutsideClick()
+  it('should count presses and released keys on the document and body when capture is true', () => {
+    const { onOutsideClick } = renderOutsideClick({ capture: true })
 
     fireEvent.mouseDown(document)
     fireEvent.keyUp(document, { key: 'Tab' })
     fireEvent.keyUp(document.body, { key: 'Tab' })
 
     expect(onOutsideClick).toHaveBeenCalledTimes(3)
+  })
+
+  it('should check a bubbling press before listeners on the document, like React rendering into the document', () => {
+    const child = document.createElement('span')
+    inside.append(child)
+    const replaceChild = () => child.remove()
+    document.addEventListener('mousedown', replaceChild)
+
+    try {
+      const { onOutsideClick } = renderOutsideClick()
+
+      fireEvent.mouseDown(child)
+
+      expect(onOutsideClick).toHaveBeenCalledTimes(0)
+    } finally {
+      document.removeEventListener('mousedown', replaceChild)
+    }
   })
 
   it('should only count the given keys', () => {
@@ -263,7 +280,10 @@ describe('useOutsideClick', () => {
   })
 
   it('should use the latest callbacks without adding the listeners again', () => {
-    const addEventListener = vi.spyOn(document, 'addEventListener')
+    const addEventListener = vi.spyOn(
+      document.documentElement,
+      'addEventListener'
+    )
     const first = vi.fn()
     const second = vi.fn()
 

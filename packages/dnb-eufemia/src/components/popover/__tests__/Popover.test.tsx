@@ -1,5 +1,7 @@
-import { act } from 'react'
+import { act, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
+import { createRoot } from 'react-dom/client'
+import { flushSync } from 'react-dom'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
@@ -720,6 +722,65 @@ describe('Popover', () => {
     fireEvent.keyUp(document.body, { key: 'ArrowDown' })
 
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('stays open when React renders into the document and a press inside replaces the pressed element', () => {
+    function ReplaceOnPress() {
+      const [count, setCount] = useState(0)
+      // Browsers render before the next listener runs, as React updates in a microtask
+      const replace = () => flushSync(() => setCount((count) => count + 1))
+
+      return (
+        <button
+          key={count}
+          id="replace-on-press"
+          type="button"
+          onMouseDown={replace}
+          onTouchEnd={replace}
+        >
+          Pressed {count}
+        </button>
+      )
+    }
+
+    // Like Next.js App Router, which renders into the document
+    const root = createRoot(document)
+
+    try {
+      act(() => {
+        root.render(
+          <html lang="en">
+            <head />
+            <body>
+              <Popover
+                skipPortal
+                noAnimation
+                openInitially
+                trigger={({ ref, ...rest }) => (
+                  <button type="button" ref={ref} {...rest}>
+                    Toggle popover
+                  </button>
+                )}
+              >
+                <ReplaceOnPress />
+              </Popover>
+            </body>
+          </html>
+        )
+      })
+
+      const trigger = document.querySelector('button[aria-controls]')
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+      fireEvent.mouseDown(document.querySelector('#replace-on-press'))
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+      fireEvent.touchStart(document.querySelector('#replace-on-press'))
+      fireEvent.touchEnd(document.querySelector('#replace-on-press'))
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    } finally {
+      act(() => root.unmount())
+    }
   })
 
   it('stays open when touch scrolls outside before ending', async () => {
