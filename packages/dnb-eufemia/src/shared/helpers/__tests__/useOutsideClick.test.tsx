@@ -160,6 +160,20 @@ describe('useOutsideClick', () => {
     expect(onOutsideClick).toHaveBeenCalledTimes(1)
   })
 
+  it('should use the latest keys', () => {
+    const { onOutsideClick, rerender } = renderOutsideClick({
+      keys: ['Tab'],
+    })
+
+    rerender({ keys: ['Enter'] })
+
+    fireEvent.keyUp(outside, { key: 'Tab' })
+    expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+    fireEvent.keyUp(outside, { key: 'Enter' })
+    expect(onOutsideClick).toHaveBeenCalledTimes(1)
+  })
+
   it('should ignore the keyboard when keys is empty', () => {
     const { onOutsideClick } = renderOutsideClick({ keys: [] })
 
