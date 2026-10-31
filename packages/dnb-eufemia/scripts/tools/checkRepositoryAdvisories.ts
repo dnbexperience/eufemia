@@ -258,17 +258,26 @@ export function isVersionInRange(
   const current = parseVersion(version)
   const text = String(range ?? '')
 
-  // A version alone may mean "since", so a version above it cannot be read
-  const exact = /^[^\s<>=*,;|]+$/.test(text.trim())
-    ? parseBound(text)
-    : null
+  // A list of versions means any of them. A version alone may also mean "since", so a version above it cannot be read
+  const exactVersions = text
+    .split(/,|;|\|\|/)
+    .map((part) =>
+      /^[^\s<>=*]+$/.test(part.trim()) ? parseBound(part) : null
+    )
   if (
     current &&
-    exact &&
-    !exact.partial &&
-    compareVersions(current, exact) > 0
+    !current.partial &&
+    exactVersions.every((exact) => exact && !exact.partial)
   ) {
-    return null
+    if (
+      exactVersions.some((exact) => compareVersions(current, exact) === 0)
+    ) {
+      return true
+    }
+    return exactVersions.length === 1 &&
+      compareVersions(current, exactVersions[0]) > 0
+      ? null
+      : false
   }
 
   const sets = text

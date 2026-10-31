@@ -80,6 +80,10 @@ describe('checkRepositoryAdvisories', () => {
     ['1.0.0', '>= 1.0.0, <= 1.0.0', true],
     ['15.0.0', '15.0.0', true],
     ['14.2.0', '15.0.0', false],
+    ['19.1.1', '19.0.0, 19.1.0, 19.1.1, 19.2.0', true],
+    ['18.3.1', '19.0.0, 19.1.0, 19.1.1, 19.2.0', false],
+    ['19.1.2', '19.0.0, 19.1.0, 19.1.1, 19.2.0', false],
+    ['7.26.10', '7.26.10, 8.0.0-alpha.17', true],
   ])('checks %s against "%s"', (version, range, expected) => {
     expect(isVersionInRange(version, range)).toBe(expected)
   })
@@ -89,7 +93,6 @@ describe('checkRepositoryAdvisories', () => {
     ['1.0.0', '^1.0.0'],
     ['4.1.0', '4.0.0 < 4.1.2'],
     ['3.1.0', '3.0.0<= 3.1.0'],
-    ['7.26.10', '7.26.10, 8.0.0-alpha.17'],
     ['4.7.2', '4.7.1+'],
     ['7.2.0', '7.0.0-7.4.0'],
     ['4.47.0', '4.46.0-4.48.7 '],
@@ -424,5 +427,42 @@ describe('checkRepositoryAdvisories', () => {
     expect(
       findAdvisoryMatches({ name: 'next', version: '16.1.5' }, advisories)
     ).toEqual([])
+  })
+
+  it('reads a list of versions as any of them', () => {
+    const advisories = [
+      {
+        ghsa_id: 'GHSA-fv66-9v8q-g76r',
+        summary:
+          'Critical Security Vulnerability in React Server Components',
+        severity: 'critical',
+        html_url:
+          'https://github.com/react/react/security/advisories/GHSA-fv66-9v8q-g76r',
+        vulnerabilities: [
+          {
+            package: {
+              ecosystem: 'npm',
+              name: 'react-server-dom-webpack',
+            },
+            vulnerable_version_range: '19.0.0, 19.1.0, 19.1.1, 19.2.0',
+            patched_versions: '19.0.1, 19.1.2, 19.2.1',
+          },
+        ],
+      },
+    ]
+    const check = (version: string) =>
+      findAdvisoryMatches(
+        { name: 'react-server-dom-webpack', version },
+        advisories
+      )
+
+    expect(check('19.1.1')).toEqual([
+      expect.objectContaining({ ghsaId: 'GHSA-fv66-9v8q-g76r' }),
+    ])
+    expect(check('19.1.1')[0]).not.toHaveProperty('unreadableRange')
+    expect(check('19.0.0')).toHaveLength(1)
+    expect(check('18.3.1')).toEqual([])
+    expect(check('19.1.2')).toEqual([])
+    expect(check('19.2.1')).toEqual([])
   })
 })
