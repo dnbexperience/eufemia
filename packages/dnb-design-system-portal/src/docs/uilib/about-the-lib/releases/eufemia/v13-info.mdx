@@ -12,7 +12,6 @@ breadcrumb:
 ---
 
 - [v13](#v13)
-  - [DNB fonts](#dnb-fonts)
   - [Migration](#migration)
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
@@ -31,26 +30,6 @@ breadcrumb:
     - [Field.Name.Company](#fieldnamecompany)
 
 > **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
-
-## DNB fonts
-
-DNB styles now load the current DNB Sans Text and DNB Sans Mono files,
-including genuine italics and Light. CSS family names `DNB` and `DNBMono`
-and the existing weight values remain supported. Default headings keep
-Text.
-
-Update manual font preloads, copied font stylesheets and self-hosted assets
-to the `DNBSansText-*` and `DNBSansMono-*` files together. Existing
-`DNB-*` asset paths remain available for compatibility. Avoid mixing old
-font declarations with the current stylesheet under the same CSS family.
-
-Review layout and visual snapshots: genuine italics, updated Bold outlines
-and font metrics can change text alignment and wrapping. Button labels
-retain Regular; Lead and Ingress retain Medium, matching Eufemia Web in Figma.
-Text and Mono retain the established line boxes through
-explicit CSS font metrics; preserve those descriptors in self-hosted
-stylesheets. DNB button labels no longer use the previous upward nudge.
-Sbanken and Carnegie keep their own heading fonts. See [Typography](/uilib/typography/#font-roles).
 
 ## Migration
 
