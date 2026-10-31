@@ -694,6 +694,22 @@ describe('Checkbox with server-rendered markup', () => {
 
     unmount()
   })
+
+  it('should not report a change on mount when rendered as a non-input element', () => {
+    const onClick = vi.fn()
+    const onChange = vi.fn()
+    render(
+      <Checkbox
+        label="Label"
+        element="span"
+        onClick={onClick}
+        onChange={onChange}
+      />
+    )
+
+    expect(onClick).not.toHaveBeenCalled()
+    expect(onChange).not.toHaveBeenCalled()
+  })
 })
 
 describe('Checkbox scss', () => {
