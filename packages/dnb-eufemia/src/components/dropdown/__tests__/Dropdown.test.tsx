@@ -380,6 +380,20 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('calls onClose on a mouse press right after a tap outside when onClose keeps it open', () => {
+    const onClose = vi.fn(() => false)
+    render(<Dropdown onClose={onClose} data={mockData} />)
+
+    open()
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
+    fireEvent.pointerDown(document.body, { pointerType: 'mouse' })
+    fireEvent.mouseDown(document.body)
+
+    expect(onClose).toHaveBeenCalledTimes(2)
+  })
+
   it('has valid onSelect callback', () => {
     const onSelect = vi.fn()
 
