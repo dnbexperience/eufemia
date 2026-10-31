@@ -171,6 +171,10 @@ function TransactionList() {
 }
 ```
 
+### Server-side rendering (SSR)
+
+When filters are rendered on a server, the filter state of each render is kept separate, so it never reaches another request. During a server render, `Filter.useFilter(id)` outside of `Filter.Root` shares the state when both are inside the same Eufemia [Provider](/uilib/usage/customisation/provider/). Without a `Provider`, they do not share the state on the server, but they do in the browser, so React reports a hydration mismatch.
+
 ## Custom filters
 
 Create custom filter types using `Filter.useFilterContext()` and `Filter.Item`:

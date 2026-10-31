@@ -3,6 +3,7 @@ import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   createSharedState,
+  useSharedStateStore,
 } from '../../../shared/helpers/useSharedState'
 import type { ContextState } from '../DataContext/Context'
 import DataContext from '../DataContext/Context'
@@ -11,9 +12,12 @@ export default function useDataContext(id: SharedStateId = undefined): {
   dataContext?: ContextState
   getContext: () => ContextState
 } {
+  const store = useSharedStateStore()
   const sharedDataContext = id
     ? createSharedState<ContextState>(
-        createReferenceKey(id, 'data-context')
+        createReferenceKey(id, 'data-context', store),
+        undefined,
+        store
       )
     : null
 

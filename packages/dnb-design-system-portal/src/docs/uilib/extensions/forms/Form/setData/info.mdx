@@ -67,3 +67,7 @@ update('/foo', (value) => {
   return 1
 })
 ```
+
+## Server-side rendering (SSR)
+
+`Form.setData` has no effect during server rendering. Give the initial data to `Form.Handler` with `data` or `defaultData`. In development, Eufemia logs a warning when `Form.setData` runs on the server.

@@ -123,6 +123,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -254,6 +255,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   }, [getCountryObjectByIso, itemPath, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx('dnb-forms-field-select-country', className),
     label,

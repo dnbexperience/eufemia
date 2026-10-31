@@ -1,7 +1,9 @@
 import { useCallback } from 'react'
 import pointer from '../../utils/json-pointer'
 import type { Path } from '../../types'
-import { useData, getData } from '../../Form'
+import { useData } from '../../Form'
+import { readData } from '../../Form/DataContext/getData'
+import { warnOnServer } from '../../Form/DataContext/warnOnServer'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 
 export type IterateCountProps = {
@@ -42,7 +44,13 @@ function countData(data: unknown, { path, filter }: IterateCountProps) {
 }
 
 export function count(props: IterateCountProps) {
-  const { data } = getData(props.id)
+  warnOnServer(
+    'Iterate.count',
+    props.id,
+    'does not get form data during server rendering. Use Iterate.useCount inside the component instead.'
+  )
+
+  const { data } = readData(props.id)
   return countData(data, props)
 }
 

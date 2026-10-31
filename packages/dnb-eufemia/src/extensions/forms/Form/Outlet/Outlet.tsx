@@ -4,6 +4,7 @@ import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   useSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import type { ContextState } from '../../DataContext/Context'
@@ -37,12 +38,19 @@ function Outlet(props: FormOutletProps) {
 
   // Subscribe to reactive attachments updates to trigger re-renders
   // when linked validation/form state changes in the source handler.
+  const store = useSharedStateStore()
   useSharedState<SharedAttachments<unknown>>(
-    createReferenceKey(formHandlerId, 'attachments')
+    createReferenceKey(formHandlerId, 'attachments', store),
+    undefined,
+    undefined,
+    { store }
   )
 
   const { data: dataContext } = useSharedState<ContextState>(
-    createReferenceKey(formHandlerId, 'data-context')
+    createReferenceKey(formHandlerId, 'data-context', store),
+    undefined,
+    undefined,
+    { store }
   )
 
   const dataContextRef = useRef<ContextState>(undefined)

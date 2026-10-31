@@ -75,6 +75,7 @@ export type FieldArraySelectionProps = FieldProps<
 
 function ArraySelection(props: FieldArraySelectionProps) {
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     dataPath,
@@ -108,6 +109,7 @@ function ArraySelection(props: FieldArraySelectionProps) {
   }, [children, dataList, value])
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx(
       'dnb-forms-field-array-selection',

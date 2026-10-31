@@ -1,8 +1,9 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
 import type { Validator } from '../../..'
-import { Field, Form } from '../../..'
+import { Field, Form, Iterate } from '../../..'
 import { validateDateOfBirth } from '../validators'
 import nbNO from '../../../constants/locales/nb-NO'
 import type { AdditionalArgs } from '../DateOfBirth'
@@ -53,6 +54,110 @@ describe('Field.DateOfBirth', () => {
     expect(
       label.querySelector('.dnb-forms-field-block__label__suffix')
     ).toHaveTextContent(nb.Field.optionalLabelSuffix)
+  })
+
+  describe('labelSuffix', () => {
+    const getLegendTexts = (root: ParentNode = document) =>
+      Array.from(root.querySelectorAll('legend'), (legend) =>
+        legend.textContent.replace(/\s+/g, ' ')
+      )
+    const getSuffixes = (root: ParentNode = document) =>
+      root.querySelectorAll('legend .dnb-forms-field-block__label__suffix')
+
+    it('should show a custom labelSuffix once', () => {
+      render(
+        <Field.DateOfBirth label="Birth date" labelSuffix="(child)" />
+      )
+
+      expect(getLegendTexts()).toEqual(['Birth date (child)'])
+      expect(getSuffixes()).toHaveLength(1)
+    })
+
+    it('should show a custom labelSuffix once inside Form.Handler', () => {
+      render(
+        <Form.Handler>
+          <Field.DateOfBirth label="Birth date" labelSuffix="(child)" />
+        </Form.Handler>
+      )
+
+      expect(getLegendTexts()).toEqual(['Birth date (child)'])
+      expect(getSuffixes()).toHaveLength(1)
+    })
+
+    it('should show a custom labelSuffix once when required is false', () => {
+      render(
+        <Field.DateOfBirth
+          label="Birth date"
+          labelSuffix="(child)"
+          required={false}
+        />
+      )
+
+      expect(getLegendTexts()).toEqual(['Birth date (child)'])
+      expect(getSuffixes()).toHaveLength(1)
+    })
+
+    it('should show the optional labelSuffix once when required is false', () => {
+      render(<Field.DateOfBirth label="Birth date" required={false} />)
+
+      expect(getLegendTexts()).toEqual([
+        `Birth date ${nb.Field.optionalLabelSuffix}`,
+      ])
+      expect(getSuffixes()).toHaveLength(1)
+    })
+
+    it('should replace {itemNo} inside Iterate.Array', () => {
+      render(
+        <Form.Handler data={{ list: ['', ''] }}>
+          <Iterate.Array path="/list">
+            <Field.DateOfBirth itemPath="/" label="Child {itemNo}" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(getLegendTexts()).toEqual(['Child 1', 'Child 2'])
+      expect(getSuffixes()).toHaveLength(0)
+    })
+
+    it('should replace {itemNo} and show a custom labelSuffix once inside Iterate.Array', () => {
+      render(
+        <Form.Handler data={{ list: ['', ''] }}>
+          <Iterate.Array path="/list">
+            <Field.DateOfBirth
+              itemPath="/"
+              label="Child {itemNo}"
+              labelSuffix="(child)"
+            />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(getLegendTexts()).toEqual([
+        'Child 1 (child)',
+        'Child 2 (child)',
+      ])
+      expect(getSuffixes()).toHaveLength(2)
+    })
+
+    it('should show a custom labelSuffix once when rendered on the server', () => {
+      const originalDocument = globalThis.document
+      let html: string
+
+      try {
+        delete globalThis.document
+        html = renderToString(
+          <Field.DateOfBirth label="Birth date" labelSuffix="(child)" />
+        )
+      } finally {
+        globalThis.document = originalDocument
+      }
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+
+      expect(getLegendTexts(container)).toEqual(['Birth date (child)'])
+      expect(getSuffixes(container)).toHaveLength(1)
+    })
   })
 
   describe('onChange', () => {

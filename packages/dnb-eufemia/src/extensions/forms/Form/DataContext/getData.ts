@@ -6,6 +6,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import type { Path } from '../../types'
+import { warnOnServer } from './warnOnServer'
 import type {
   UseDataReturnGetValue,
   UseDataReturnFilterData,
@@ -22,6 +23,17 @@ type SetDataReturn<Data> = {
 export default function getData<Data>(
   id: SharedStateId
 ): SetDataReturn<Data> {
+  warnOnServer(
+    'Form.getData',
+    id,
+    'does not get form data during server rendering. Use Form.useData or Form.useDataWithoutSubscription inside the component instead.'
+  )
+
+  return readData<Data>(id)
+}
+
+/** Reads the data from the process-wide store, without the server warning. */
+export function readData<Data>(id: SharedStateId): SetDataReturn<Data> {
   const sharedState = createSharedState(id)
   const sharedAttachments = createSharedState<SharedAttachments<Data>>(
     createReferenceKey(id, 'attachments')

@@ -67,6 +67,25 @@ The deprecated Sbanken-prefixed properties are still emitted. Their values diffe
 
 ## Component changes
 
+### Forms and Filter server rendering
+
+Server-rendered Forms and Filter state is isolated per render. Wrap components that share state by `id` outside `Form.Handler` or `Filter.Root` in the same Eufemia `Provider`. Without that scope, server rendering cannot share their data, although the browser still can, which can cause a hydration mismatch.
+
+On the server, pass initial form data through `data` or `defaultData` on `Form.Handler`, or through `Form.useData` inside the shared `Provider`. `Form.setData` no longer seeds server-rendered forms. Browser behavior is unchanged.
+
+`Form.getData` and the `Iterate.count` function do not get form data during server rendering, even inside a `Provider`. To read form data while a component renders, use `Form.useData`, `Form.useDataWithoutSubscription` or `Iterate.useCount`. In development, Eufemia logs a warning when `Form.getData`, `Form.setData` or `Iterate.count` runs on the server.
+
+For custom fields that render on the server, pass the prepared props from `useFieldProps` directly to `FieldBlock`. Automatic sharing by `id` requires a surrounding `Provider` on the server. Built-in fields already pass their props directly.
+
+```tsx
+const { id, fieldBlockProps } = useFieldProps(props)
+return (
+  <FieldBlock {...fieldBlockProps} forId={id}>
+    ...
+  </FieldBlock>
+)
+```
+
 ### [Theme](/uilib/usage/customisation/theming/theme)
 
 The deprecated `name` property and `data-name` attribute have been removed. Use `brand` and `data-brand` instead.
