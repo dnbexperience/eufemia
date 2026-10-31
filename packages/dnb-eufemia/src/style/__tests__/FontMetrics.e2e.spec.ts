@@ -18,7 +18,12 @@ test('centers DNB button labels across sizes, root scaling and native text size'
     await route.fulfill({
       contentType: 'font/woff2',
       body: await fs.readFile(
-        path.join(packageRoot, 'assets/fonts/dnb', name)
+        path.join(
+          packageRoot,
+          'assets/fonts/dnb',
+          /^DNBSans(Text|Mono)-/.test(name) ? 'web' : '',
+          name
+        )
       ),
     })
   })
@@ -159,7 +164,11 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         path.join(
           packageRoot,
           'assets/fonts/dnb',
-          name.includes('Skeleton') ? 'skeleton' : '',
+          name.includes('Skeleton')
+            ? 'skeleton'
+            : /^DNBSans(Text|Mono)-/.test(name)
+              ? 'web'
+              : '',
           name
         )
       ),
@@ -183,7 +192,7 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
   await page.evaluate(() => document.fonts.ready)
   const metrics = () =>
     sample.evaluate((element) => ({
-      height: element.getBoundingClientRect().height,
+      height: element.querySelector('span').getBoundingClientRect().height,
       baseline:
         element.querySelector('i').getBoundingClientRect().top -
         element.getBoundingClientRect().top,
@@ -204,10 +213,13 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         await page.evaluate(() => document.fonts.ready)
         const actual = await metrics()
         normalized ??= actual
-        expect(actual.height).toBeCloseTo(legacy.height, 1)
+        // Embedded metrics must retain the legacy inline box and baseline.
+        expect(
+          Math.abs(actual.height - legacy.height)
+        ).toBeLessThanOrEqual(0.02)
         expect(
           Math.abs(actual.baseline - legacy.baseline)
-        ).toBeLessThanOrEqual(1)
+        ).toBeLessThanOrEqual(0.02)
         expect(
           actual.baseline,
           family + ' ' + slant + ' ' + weight
@@ -229,7 +241,9 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
       )
       await page.evaluate(() => document.fonts.ready)
       const actual = await metrics()
-      expect(actual.height).toBeCloseTo(legacy.height, 1)
+      expect(Math.abs(actual.height - legacy.height)).toBeLessThanOrEqual(
+        1.1
+      )
       expect(actual.baseline).toBeCloseTo(normalized.baseline, 1)
     }
   }

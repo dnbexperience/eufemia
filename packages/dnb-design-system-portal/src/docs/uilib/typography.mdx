@@ -192,9 +192,9 @@ Use `Typography.Context` to make typography components, or all components use re
 The default DNB typeface is **DNB Sans Text**, registered under the existing
 CSS family name `DNB`. DNB Sans Mono retains the CSS name `DNBMono`.
 Keeping these names preserves existing custom CSS and font-family variables.
-The stylesheet loads the official `DNBSansText-*` and `DNBSansMono-*`
-files, including Light and italics. Display is registered separately as
-`DNB Sans Display`.
+The stylesheet loads `DNBSansText-*` and `DNBSansMono-*` webfonts derived
+from the official TTF files, including Light and italics. Display is registered
+separately as `DNB Sans Display`.
 
 The existing weights remain Regular (400), Medium (500) and Bold (600).
 CSS `bold` (700) also selects the genuine DNB Bold face. Light uses 300.
@@ -206,10 +206,25 @@ Figma. Other brands retain their existing typography. Use `weight="regular"`
 only when an introductory text design explicitly calls for it.
 
 The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
-Text and Mono use explicit CSS font metrics to keep their baselines
-consistent across browsers. Their skeleton fonts use the same metrics.
-When self-hosting, keep these declarations along with the font files;
-copying the files alone does not preserve the line-box configuration.
+Text and Mono webfonts align their embedded line metrics with the legacy
+fonts and existing skeletons. Outlines, hinting and font names are preserved
+from the official TTFs. These webfonts live in `assets/fonts/dnb/web/`;
+the original font files and download ZIPs remain unchanged. Identical
+rendering across browsers and operating systems is not guaranteed.
+
+### Updating from legacy DNB fonts
+
+Update manual font preloads, copied font stylesheets and self-hosted assets
+to the `DNBSansText-*` and `DNBSansMono-*` files under `fonts/dnb/web/`
+together. Use Eufemia's derived webfonts to retain the embedded line metrics;
+the official download ZIPs contain the original fonts. Existing `DNB-*` and `DNBMono-*` assets remain
+available for compatibility. Avoid mixing old and current declarations
+under the same CSS family name.
+
+Review text wrapping, control alignment and visual snapshots on your
+supported browsers and operating systems. Genuine italics, updated Medium
+and Bold details, font metrics and rasterization can change the result.
+See the [v11 font update guidance](/uilib/about-the-lib/releases/eufemia/v11-info/#dnb-font-update).
 
 - Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/sbanken/fonts.scss` and applied via Sbanken-specific properties.
 - Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.
@@ -237,7 +252,7 @@ import { H1, H2, ... } from '@dnb/eufemia'
 
 Read more about the [Anchor / Text Link](/uilib/components/anchor).
 
-## DNB Sans Mono (monospace)
+## DNB Sans Mono (monospace) \{#dnb-mono-monospace\}
 
 Use Mono for selected details, such as eyebrow labels, short captions and table values. It is also used for code. Tables keep Text by default; select Mono where it helps the content.
 
@@ -255,24 +270,25 @@ Use it either by a CSS class `.dnb-t__family--monospace` or define your own like
 
 New Eufemia releases load fonts from an immutable CDN path matching the package
 version, for example
-`https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNBSansText-Regular.woff2`.
+`https://assets.eufemia.dnb.no/v<version>/fonts/dnb/web/DNBSansText-Regular.woff2`.
 
 The stable URLs below always serve the latest stable release and are convenient
 when linking fonts manually:
 
 ### DNB
 
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Regular.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Medium.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Bold.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono-Regular.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono-Medium.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansMono-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansText-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansText-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansText-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansMono-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansMono-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansMono-Bold.woff2`
 
 Text and Mono filenames follow `DNBSansText-<Weight>[Italic].woff2`
 and `DNBSansMono-<Weight>[Italic].woff2`. Weights are `Light`,
-`Regular`, `Medium` and `Bold`. WOFF, TTF and OTF are also
-included in the package. Display uses `DNBSansDisplay.woff2`.
+`Regular`, `Medium` and `Bold`. Derived WOFF and TTF files are also
+included under `web/`. Original OTF, TTF, WOFF and WOFF2 files remain
+in the parent directory. Display uses `DNBSansDisplay.woff2`.
 
 Download the complete families:
 
