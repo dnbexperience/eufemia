@@ -139,6 +139,8 @@ jobs:
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: ./packages/dnb-design-system-portal/public
+          # A week, like the prepared package, so the deploy can be re-run.
+          retention-days: 7
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
@@ -174,7 +176,9 @@ jobs:
           name: prepared-release-package
           path: ${{ runner.temp }}/prepared-release-package.tar.gz
           if-no-files-found: error
-          retention-days: 1
+          # A week, so "Re-run failed jobs" can still restore it, for example
+          # after a failure on a Friday. After that, "Re-run all jobs".
+          retention-days: 7
 
       # Pack once and run both consumer builds last. A regression fails this job,
       # and the OIDC-enabled release job (`needs: build`) never starts — so the
@@ -269,8 +273,6 @@ jobs:
     outputs:
       released: ${{ steps.release-info.outputs.released }}
       notifications: ${{ steps.release.outputs.notifications }}
-      tarball: ${{ steps.pack.outputs.tarball }}
-      tarball-artifact-id: ${{ steps.upload-subject.outputs.artifact-id }}
 
     steps:
       # A shallow checkout is enough: semantic-release fetches the history and
@@ -381,52 +383,51 @@ jobs:
       # Capture the published version so the least-privilege SBOM job below can
       # target the matching GitHub Release and stamp the SBOM. Empty or the
       # placeholder version means nothing was published.
+      #
+      # It is set only once npm has the version, and also when the Release
+      # step failed after publishing: in v11.16.1, semantic-release's success
+      # step failed after npm had the version, which skipped the portal
+      # deploy, the SBOM and the attestation. A re-run publishes nothing,
+      # because semantic-release finds the earlier attempt's tag, so the
+      # version then comes from that tag: semantic-release puts it on the
+      # release commit, whose parent is this run's commit.
       - name: Capture released version
         id: release-info
         continue-on-error: true
-        if: github.repository == 'dnbexperience/eufemia' &&
-          (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/beta' ||
-          github.ref == 'refs/heads/alpha' ||
-          github.ref == 'refs/heads/next' ||
-          endsWith(github.ref, '.x'))
-        working-directory: packages/dnb-eufemia
-        run: |
-          released="$(node -p "require('./build/package.json').version")"
-          echo "released=$released" >> "$GITHUB_OUTPUT"
-
-      # semantic-release packed the published files into ../dist (`tarballDir`
-      # in the release config, with lifecycle scripts off) and attached that
-      # tarball to the GitHub release, so it is the attestation subject as it
-      # is. Only the git plugin runs between that pack and `npm publish`, and it
-      # changes no files: four releases from before the SBOM attestation
-      # (v10.104.2, v11.7.0, v11.8.2, v11.8.3) attached a tarball with npm's
-      # SHA-1. Packing build/ again took 19-27 s on the last 9 releases.
-      - name: Locate the released tarball (attestation subject)
-        id: pack
-        continue-on-error: true
-        if: steps.release-info.outputs.released != '' &&
-          steps.release-info.outputs.released != '0.0.0-development'
+        if: ${{ !cancelled() && steps.release.outcome != 'skipped' }}
         working-directory: packages/dnb-eufemia
         env:
-          RELEASED_VERSION: ${{ steps.release-info.outputs.released }}
+          RUN_COMMIT: ${{ github.sha }}
         run: |
-          tarball="dnb-eufemia-$RELEASED_VERSION.tgz"
-          test -f "dist/$tarball"
-          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
-          echo "Attestation subject: dist/$tarball"
-
-      # Upload the packed tarball so the separate attestation job can bind the
-      # SBOM to it. Short retention: it only needs to outlive this workflow run.
-      - name: Upload attestation subject
-        id: upload-subject
-        continue-on-error: true
-        if: steps.pack.outputs.tarball != ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: release-tarball
-          path: packages/dnb-eufemia/dist/${{ steps.pack.outputs.tarball }}
-          retention-days: 1
+          version="$(node -p "require('./build/package.json').version")"
+          if [ "$version" = "0.0.0-development" ]; then
+            version=""
+            # The same fetch semantic-release runs: the checkout is shallow.
+            git fetch --quiet --unshallow --tags origin ||
+              git fetch --quiet --tags origin
+            tag="$(git describe --contains --match 'v[0-9]*' "$RUN_COMMIT" \
+              2>/dev/null | sed 's/[~^].*//')" || true
+            if [ -n "$tag" ] && {
+              [ "$(git rev-parse "$tag^{commit}^" 2>/dev/null)" = "$RUN_COMMIT" ] ||
+                [ "$(git rev-parse "$tag^{commit}" 2>/dev/null)" = "$RUN_COMMIT" ]
+            }; then
+              version="${tag#v}"
+            fi
+          fi
+          if [ -z "$version" ]; then
+            echo "Nothing was released from this commit."
+            exit 0
+          fi
+          for attempt in 1 2 3 4 5 6 7 8; do
+            [ "$attempt" = 1 ] || sleep 20
+            if [ "$(npm view "@dnb/eufemia@$version" version 2>/dev/null)" = "$version" ]; then
+              echo "released=$version" >> "$GITHUB_OUTPUT"
+              echo "Released version: $version"
+              exit 0
+            fi
+          done
+          echo "::error::npm does not list @dnb/eufemia@$version. If it still does not, and the v$version tag is on the branch, read 'Releases queue' in deploy.mdx before the next release."
+          exit 1
 
   # Notifications can be retried without publishing or deploying again.
   notify-release:
@@ -503,13 +504,12 @@ jobs:
   # For the same reason it starts after the portal deploy: the Pages deploy
   # can only find its artifact by name, and any job in the run can replace an
   # artifact of the same name. `!cancelled()` keeps the SBOM when the deploy
-  # fails, and on the branches that do not deploy the portal.
+  # fails, on the branches that do not deploy the portal, and when the publish
+  # job failed after npm had the version.
   sbom:
     name: Generate release SBOM
     needs: [action, deploy-portal]
-    if: ${{ !cancelled() && needs.action.result == 'success' &&
-      needs.action.outputs.released != '' &&
-      needs.action.outputs.released != '0.0.0-development' }}
+    if: ${{ !cancelled() && needs.action.outputs.released != '' }}
 
     runs-on: ubuntu-latest
 
@@ -670,8 +670,9 @@ jobs:
     needs: [action, sbom]
     # Explicit, because the default `success()` also counts the jobs further up
     # the chain: the SBOM job runs after a skipped or failed portal deploy, and
-    # this job would then be skipped (actions/runner#2205).
-    if: ${{ !cancelled() && needs.action.result == 'success' &&
+    # this job would then be skipped (actions/runner#2205). It also runs when
+    # the publish job failed after npm had the version.
+    if: ${{ !cancelled() && needs.action.outputs.released != '' &&
       needs.sbom.result == 'success' }}
 
     runs-on: ubuntu-latest
@@ -684,55 +685,75 @@ jobs:
       attestations: write # Record the SBOM attestation
 
     steps:
-      # By ID, not by name: the SBOM job before this one runs third-party code,
-      # and a replaced tarball gets a new ID. It is then not found, so it is
-      # neither attested nor attached to the GitHub release.
-      - name: Download attestation subject
-        id: download-subject
+      # The attestation subject is the tarball npm serves for this version.
+      # `npm pack` of a registry version downloads it, checks it against the
+      # registry's integrity hash and runs no package code; for v11.15.2 and
+      # v11.16.1 it had the same SHA-1 as npm's `dist.shasum`. No artifact
+      # carries it, so no job in this run can replace it, and a re-run can
+      # still attest after the run's artifacts have expired.
+      - name: Get the released tarball from npm
+        id: subject
         continue-on-error: true
-        if: needs.action.outputs.tarball-artifact-id != ''
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          artifact-ids: ${{ needs.action.outputs.tarball-artifact-id }}
-          path: packages/dnb-eufemia
+        env:
+          RELEASED_VERSION: ${{ needs.action.outputs.released }}
+        run: |
+          # An empty version would make npm pack the latest release instead.
+          if [ -z "$RELEASED_VERSION" ]; then
+            echo "::error::No released version to attest."
+            exit 1
+          fi
+          for attempt in 1 2 3 4 5; do
+            [ "$attempt" = 1 ] || sleep 20
+            if out="$(npm pack "@dnb/eufemia@$RELEASED_VERSION" \
+              --ignore-scripts --pack-destination "$RUNNER_TEMP")"; then
+              tarball="$RUNNER_TEMP/$(printf '%s\n' "$out" | tail -1)"
+              if [ -f "$tarball" ]; then
+                echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+                echo "Attestation subject: $tarball"
+                exit 0
+              fi
+            fi
+          done
+          echo "::error::Could not get @dnb/eufemia@$RELEASED_VERSION from npm."
+          exit 1
 
-      # By ID, like the tarball: the portal link check runs at the same time
-      # and restores the shared node_modules cache, so an SBOM found by name
-      # could be its replacement, and this job would sign it.
+      # By ID: the portal link check runs at the same time and restores the
+      # shared node_modules cache, so an SBOM found by name could be its
+      # replacement, and this job would sign it.
       - name: Download SBOM and vulnerability report
+        id: download-sbom
         continue-on-error: true
-        if: needs.action.outputs.tarball != '' &&
-          needs.sbom.outputs.sbom-artifact-id != ''
+        if: needs.sbom.outputs.sbom-artifact-id != ''
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           artifact-ids: ${{ needs.sbom.outputs.sbom-artifact-id }}
           path: packages/dnb-eufemia
 
       # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
-      # the packed release artifact. Complements npm provenance; verify with
+      # the npm tarball. Complements npm provenance; verify with
       # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
       - name: Attest the SBOM
         continue-on-error: true
-        if: steps.download-subject.outcome == 'success'
+        if: steps.subject.outcome == 'success' &&
+          steps.download-sbom.outcome == 'success'
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         with:
-          subject-path: packages/dnb-eufemia/${{ needs.action.outputs.tarball }}
+          subject-path: ${{ steps.subject.outputs.tarball }}
           sbom-path: packages/dnb-eufemia/sbom.cdx.json
 
       # Attach all three files to the GitHub Release (tag "v<version>") so they
-      # persist beyond the 90-day artifact. --clobber keeps re-runs idempotent.
+      # persist beyond the 90-day artifact. --clobber keeps re-runs idempotent;
+      # the tarball replaces semantic-release's copy, which has the same bytes.
       - name: Attach SBOM and vulnerability report to the GitHub Release
         continue-on-error: true
-        if: needs.action.outputs.tarball != ''
+        if: steps.download-sbom.outcome == 'success'
         working-directory: packages/dnb-eufemia
         env:
           # gh authenticates with the job's scoped contents:write GITHUB_TOKEN;
           # release.yml has no job-wide env to inherit a token from.
           GH_TOKEN: ${{ github.token }}
           RELEASED_VERSION: ${{ needs.action.outputs.released }}
-          # Only a tarball downloaded by ID above, so a replaced one is never
-          # attached.
-          PACKED_TARBALL: ${{ steps.download-subject.outcome == 'success' && needs.action.outputs.tarball || '' }}
+          PACKED_TARBALL: ${{ steps.subject.outputs.tarball }}
         run: |
           gh release upload "v$RELEASED_VERSION" \
             sbom.cdx.json vulnerability-report.json \
@@ -742,7 +763,10 @@ jobs:
   deploy-portal:
     name: Deploy portal to GitHub Pages
     needs: action
-    if: github.ref == 'refs/heads/release'
+    # Also when the publish job failed after npm had the version, so the
+    # release still finishes without a re-run.
+    if: ${{ !cancelled() && github.ref == 'refs/heads/release' &&
+      (needs.action.result == 'success' || needs.action.outputs.released != '') }}
 
     runs-on: ubuntu-latest
 
