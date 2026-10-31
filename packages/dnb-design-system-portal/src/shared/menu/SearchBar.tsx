@@ -48,10 +48,11 @@ export const SearchBarInput = ({
   id?: string
   placeholder?: string
   stretch?: boolean
-  onQuery?: (value: string) => void
+  onQuery?: (value: string) => boolean | void
 } = {}) => {
   const searchIndex = useRef(null)
   const searchRevision = useRef(0)
+  const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [status, setStatus] = useState(null)
   const [hasValue, setHasValue] = useState(false)
   const shortcutHint = useSyncExternalStore(
@@ -80,6 +81,7 @@ export const SearchBarInput = ({
     document.addEventListener('keydown', onKeyDown)
 
     return () => {
+      clearTimeout(hideTimer.current)
       document.removeEventListener('keydown', onKeyDown)
     }
   }, [id])
@@ -95,9 +97,18 @@ export const SearchBarInput = ({
     debounce,
   }) => {
     const revision = ++searchRevision.current
+    clearTimeout(hideTimer.current)
     setHasValue(Boolean(value))
     setStatus(null)
-    onQuery?.(value)
+    if (onQuery?.(value)) {
+      hideTimer.current = setTimeout(() => {
+        if (revision === searchRevision.current) {
+          searchRevision.current++
+          setHidden(true)
+          hideIndicator()
+        }
+      }, 1500)
+    }
     if (!value.trim()) {
       setHidden(true)
       hideIndicator()
@@ -201,6 +212,7 @@ export const SearchBarInput = ({
       onChange={onChangeHandler}
       onFocus={onFocusHandler}
       onClear={() => {
+        clearTimeout(hideTimer.current)
         searchRevision.current++
         setHasValue(false)
         onQuery?.('')

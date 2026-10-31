@@ -1,12 +1,18 @@
 .dnb-home-christmas {
   [data-hanging-item] > span:first-child {
-    width: 0.1875rem;
-    background: repeating-linear-gradient(
-      to bottom,
-      #ecb855 0 0.1875rem,
-      transparent 0.1875rem 1.25rem
-    );
-    box-shadow: 0 0 0.75rem rgb(236 184 85 / 65%);
+    background: none;
+
+    svg {
+      color: var(--token-color-background-warning);
+      filter: drop-shadow(0 0 0.25rem currentcolor);
+      opacity: 1;
+    }
+
+    path {
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 0 20;
+    }
   }
 
   .dnb-home-snow {
