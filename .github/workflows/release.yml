@@ -273,6 +273,7 @@ jobs:
     outputs:
       released: ${{ steps.release-info.outputs.released }}
       notifications: ${{ steps.release.outputs.notifications }}
+      notification-artifact-id: ${{ steps.upload-release-notification.outputs.artifact-id }}
 
     steps:
       # A shallow checkout is enough: semantic-release fetches the history and
@@ -371,6 +372,7 @@ jobs:
           NPM_CONFIG_IGNORE_SCRIPTS: 'true'
 
       - name: Upload release notification details
+        id: upload-release-notification
         continue-on-error: true
         if: steps.release.outputs.notifications == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -457,10 +459,11 @@ jobs:
       - name: Install notification dependencies
         run: yarn install --immutable --mode=skip-build
 
+      # By the ID the publish job recorded, like the prepared package.
       - name: Download release notification details
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: release-notification
+          artifact-ids: ${{ needs.action.outputs.notification-artifact-id || 'missing' }}
           path: ${{ runner.temp }}/release-notification
 
       - name: Notify released PRs and issues
