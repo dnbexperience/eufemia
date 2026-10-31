@@ -132,6 +132,69 @@
     );
   }
 
+  // Checked and error ToggleButtons keep a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button *)) {
+    // Figma's icon-neutral-inverse is white and has no contrast on these backgrounds
+    --checkbox-color-gfx-on: var(--token-color-icon-neutral-static);
+    --checkbox-color-gfx-off: transparent;
+    --checkbox-color-background-off: transparent;
+    --checkbox-color-background-on: var(
+      --token-color-background-selected-ondark
+    );
+    --checkbox-color-border-off: var(
+      --token-color-stroke-action-alternative-ondark
+    );
+    --checkbox-color-border-on: var(
+      --token-color-background-selected-ondark
+    );
+    --checkbox-color-gfx__indeterminate: var(
+      --token-color-background-selected-ondark
+    );
+    --checkbox-color-background__indeterminate: var(
+      --token-color-background-selected-subtle-ondark
+    );
+    --checkbox-color-border__indeterminate: var(
+      --token-color-stroke-selected-ondark
+    );
+    --checkbox-color-gfx-on--active: var(
+      --token-color-icon-neutral-static
+    );
+    --checkbox-color-background-off--active: var(
+      --token-color-background-action-pressed-subtle-ondark
+    );
+    --checkbox-color-border-off--active: var(
+      --token-color-stroke-action-pressed-ondark
+    );
+    --checkbox-color-background-on--active: var(
+      --token-color-background-action-pressed-ondark
+    );
+    --checkbox-color-border-on--active: var(
+      --token-color-stroke-action-pressed-ondark
+    );
+    --checkbox-color-gfx__indeterminate--active: var(
+      --token-color-background-action-pressed-ondark
+    );
+    --checkbox-color-gfx--hover: var(--token-color-icon-neutral-static);
+    --checkbox-color-background-on--hover: var(
+      --token-color-background-action-hover-ondark
+    );
+    --checkbox-color-background-off--hover: var(
+      --token-color-background-action-hover-subtle-ondark
+    );
+    --checkbox-color-border--hover: var(
+      --token-color-stroke-action-hover-ondark
+    );
+    --checkbox-color-gfx__indeterminate--hover: var(
+      --token-color-background-action-hover-ondark
+    );
+    --checkbox-color-background__indeterminate--hover: var(
+      --token-color-background-action-hover-subtle-ondark
+    );
+    --checkbox-color-border__indeterminate--hover: var(
+      --token-color-stroke-action-hover-ondark
+    );
+  }
+
   display: inline-flex;
   flex-direction: column;
 
@@ -472,7 +535,7 @@
     background-color: var(--checkbox-color-background-off--hover);
   }
 
-  &__input:hover:not(:active):not(:focus) ~ &__gfx {
+  &__input:not([disabled]):hover:not(:active):not(:focus) ~ &__gfx {
     color: var(--checkbox-color-gfx--hover);
   }
 
