@@ -1921,7 +1921,7 @@ describe('Field.Toggle', () => {
   describe.each(['checkbox', 'switch'] as const)(
     'variant: %s with server-rendered markup',
     (variant) => {
-      it('should undo a change made before hydration when onClick calls preventDefault', () => {
+      it('should undo a change made before hydration when onClick calls preventDefault', async () => {
         const onClick = vi.fn((value, { preventDefault }) => {
           preventDefault()
         })
@@ -1959,7 +1959,7 @@ describe('Field.Toggle', () => {
         expect(onChange).not.toHaveBeenCalled()
 
         // One more vetoed click after hydration
-        fireEvent.click(input)
+        await userEvent.click(input)
 
         expect(input.checked).toBe(false)
         expect(onClick).toHaveBeenCalledTimes(2)
