@@ -33,6 +33,7 @@ function MultiSelection(props: ValueMultiSelectionProps) {
     data,
     dataPath,
     value,
+    locale,
     format,
     className,
     variant = 'text',
@@ -87,6 +88,7 @@ function MultiSelection(props: ValueMultiSelectionProps) {
     return (
       <ListFormat
         value={valueToUse}
+        locale={locale}
         format={format}
         variant={variant}
         listType={listType}
@@ -97,6 +99,7 @@ function MultiSelection(props: ValueMultiSelectionProps) {
     path,
     data,
     dataPath,
+    locale,
     format,
     variant,
     listType,
