@@ -18,6 +18,7 @@ if (require.main === module) {
       '/assets/icons/',
       'version.lock',
       'icons-svg.lock',
+      'icon-downloads.lock',
       'icons-pdf.lock',
       'icons-meta.json',
     ],

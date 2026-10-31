@@ -20,8 +20,8 @@ import {
   md5,
 } from '../helpers/docHelpers'
 import properties from '../../../src/style/themes/ui/properties'
-import { create, extract } from 'tar'
-import { runCommand } from '../../tools/cliTools'
+import { create } from 'tar'
+import { execFile } from 'node:child_process'
 
 export const ICON_SIZES = {
   16: { suffix: '' },
@@ -147,13 +147,28 @@ export const extractIcons = async ({
 
     if (listWithNewFiles.length > 0) {
       await optimizeSVGIcons({ destDir, listWithFiles: listWithNewFiles })
-
-      // Android support
-      await createXMLTarBundles({
-        destDir,
-        listOfProcessedFiles,
-      })
     }
+
+    const { createIconDownloads } = await import('./iconDownloads')
+    const downloadFiles = [
+      ...new Map(
+        listOfProcessedFiles.map((file) => [file.iconFile, file])
+      ).values(),
+    ]
+
+    await createIconDownloads({
+      destDir,
+      manifestFile: path.join(
+        path.dirname(iconsLockFile),
+        'icon-downloads.lock'
+      ),
+      files: downloadFiles,
+      buildAndroid: () =>
+        createXMLTarBundles({
+          destDir,
+          listOfProcessedFiles: downloadFiles,
+        }),
+    })
 
     if (!forceReconvert) {
       await saveIconsLockFile({
@@ -176,8 +191,8 @@ export const extractIcons = async ({
     return listOfProcessedFiles
   } catch (e) {
     log.fail(ErrorHandler('extractIcons failed', e))
+    throw e
   }
-  return undefined
 }
 
 async function collectIconsFromFigmaDoc({
@@ -697,7 +712,7 @@ type ProcessedFileList = Array<{
   name: string
   category: string
   iconFile: string
-  iconFileXML: string
+  iconFileXML?: string
 }>
 
 type XMLTarBundlesOptions = {
@@ -707,7 +722,7 @@ type XMLTarBundlesOptions = {
   outputNameCategorized?: string
 }
 
-const createXMLTarBundles = async ({
+export const createXMLTarBundles = async ({
   destDir,
   listOfProcessedFiles,
   outputName = 'eufemia-icons-xml.tgz',
@@ -715,15 +730,7 @@ const createXMLTarBundles = async ({
 }: XMLTarBundlesOptions) => {
   log.info(`> Figma: started to create ${outputName}`)
 
-  let tarFileSize = 0
   const tarFile = path.resolve(destDir, outputName)
-  if (fs.existsSync(tarFile)) {
-    tarFileSize = (await fs.stat(tarFile)).size
-    await extract({
-      cwd: destDir,
-      file: tarFile,
-    })
-  }
 
   listOfProcessedFiles = listOfProcessedFiles.map(
     ({ iconFile, ...rest }) => {
@@ -732,35 +739,47 @@ const createXMLTarBundles = async ({
     }
   )
 
-  await convertSvgToXml()
-  const sizeHasChanged = await hasSizeChanged()
-
-  if (sizeHasChanged) {
+  await removeGeneratedXmlFiles()
+  try {
+    await convertSvgToXml()
     await createTarWithoutCategories()
     await createTarWithCategories()
+  } finally {
+    await removeGeneratedXmlFiles()
   }
-
-  await removeGeneratedXmlFiles()
 
   log.succeed(`> Figma: finished to create ${outputName}`)
 
   async function convertSvgToXml() {
     try {
       log.info(`> Figma: convert SVG to XML in directory: ${destDir}`)
-      // Allow only path characters (no shell metacharacters) and guard the
-      // variable that flows into the command, so it cannot inject shell syntax.
-      if (
-        typeof destDir !== 'string' ||
-        !/^[A-Za-z0-9 _./@+-]+$/.test(destDir)
-      ) {
-        throw new Error(`Unsafe destination directory: ${destDir}`)
+      const converter = path.join(
+        path.dirname(require.resolve('vd-tool/package.json')),
+        'bin/vd-tool'
+      )
+      const output = await new Promise<string>((resolve, reject) => {
+        execFile(
+          converter,
+          ['-c', '-in', destDir],
+          { timeout: 120000 },
+          (error, stdout, stderr) => {
+            if (error) {
+              reject(error)
+            } else {
+              resolve(`${stdout}${stderr}`)
+            }
+          }
+        )
+      })
+
+      if (!output.includes('errors found in 0 files')) {
+        throw new Error(`vd-tool reported conversion errors:\n${output}`)
       }
-      const safeDestDir = `'${String(destDir).replace(/'/g, `'\\''`)}'`
-      await runCommand(`yarn vd-tool -c -in ${safeDestDir}`)
     } catch (error) {
       log.fail(
         `> Figma: failed to convert SVG to XML in ${destDir}\n\n${error}`
       )
+      throw error
     }
   }
 
@@ -773,27 +792,6 @@ const createXMLTarBundles = async ({
     })
   }
 
-  async function hasSizeChanged() {
-    const fileList = listOfProcessedFiles.map(
-      ({ iconFileXML }) => iconFileXML
-    )
-
-    const tmp = path.resolve(destDir, 'tmp.tgz')
-    await create(
-      {
-        gzip: true,
-        cwd: destDir,
-        file: tmp,
-      },
-      fileList
-    )
-    const tmpSize = (await fs.stat(tmp)).size
-
-    await fs.unlink(tmp)
-
-    return Math.abs(tarFileSize - tmpSize) > 30
-  }
-
   async function createTarWithoutCategories() {
     const fileList = listOfProcessedFiles.map(
       ({ iconFileXML }) => iconFileXML
@@ -802,6 +800,9 @@ const createXMLTarBundles = async ({
     await create(
       {
         gzip: true,
+        portable: true,
+        noMtime: true,
+        strict: true,
         cwd: destDir,
         file: tarFile,
       },
@@ -817,7 +818,7 @@ const createXMLTarBundles = async ({
         const dest = path.resolve(destDir, `${category}/${iconFileXML}`)
 
         if (fs.existsSync(source)) {
-          await fs.move(source, dest)
+          await fs.move(source, dest, { overwrite: true })
         }
       }
     )
@@ -830,6 +831,9 @@ const createXMLTarBundles = async ({
     await create(
       {
         gzip: true,
+        portable: true,
+        noMtime: true,
+        strict: true,
         cwd: destDir,
         file: tarFile,
       },
