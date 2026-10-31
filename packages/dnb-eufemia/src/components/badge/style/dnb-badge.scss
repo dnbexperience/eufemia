@@ -101,7 +101,9 @@
   }
 
   &--status-neutral {
-    --badge-information-bg: var(--token-color-background-neutral-bold);
+    --badge-information-bg: var(
+      --token-color-background-neutral-alternative
+    );
 
     // subtle
     --badge-information-subtle-bg: var(
@@ -126,6 +128,7 @@
 
   &--status-warning {
     --badge-information-bg: var(--token-color-background-warning);
+    --badge-information-color: var(--token-color-text-neutral-onlight);
 
     // subtle
     --badge-information-subtle-bg: var(
@@ -137,7 +140,7 @@
 
   &--status-negative {
     --badge-information-bg: var(--token-color-background-error);
-    --badge-information-color: var(--token-color-text-neutral-inverse);
+    --badge-information-color: var(--token-color-text-neutral-ondark);
 
     // subtle
     --badge-information-subtle-bg: var(
