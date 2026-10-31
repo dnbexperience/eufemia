@@ -184,10 +184,21 @@ export default function useOutsideClick({
       capture,
       pressEvent,
       subscribe,
-      keys: optionsRef.current.keys,
       isInside: (target, event) =>
         optionsRef.current.isInside(target, event),
-      onOutsideClick: (event) => optionsRef.current.onOutsideClick(event),
+      onOutsideClick: (event) => {
+        // Read the keys here, so changing them does not add the listeners again
+        const { keys, onOutsideClick } = optionsRef.current
+        if (
+          event.type === 'keyup' &&
+          keys &&
+          !keys.includes((event as KeyboardEvent).key)
+        ) {
+          return // stop here
+        }
+
+        onOutsideClick(event)
+      },
     })
   }, [enabled, capture, pressEvent, subscribe])
 }
