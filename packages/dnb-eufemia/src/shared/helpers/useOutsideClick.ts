@@ -36,6 +36,10 @@ export type OutsideClickOptions = {
   subscribe?: (listener: (event: Event) => void) => () => void
 }
 
+// A finger often moves a few pixels during a tap. Safari then sends touchmove,
+// but still counts the touch as a tap. A touch that scrolls moves further.
+const TAP_MOVE_TOLERANCE = 10 // CSS pixels from where the touch started
+
 /**
  * Calls `onOutsideClick` when the user presses outside.
  * A tap counts, but a touch that scrolls does not.
@@ -54,6 +58,7 @@ export function addOutsideClickListener({
   }
 
   let touchStartTarget: EventTarget | null = null
+  let touchStartPoint: { x: number; y: number } | null = null
   let touchMoved = false
   let tapTimeStamp = -Infinity
 
@@ -81,18 +86,36 @@ export function addOutsideClickListener({
   }
 
   const handleTouchStart = (event: Event) => {
+    const touch = (event as TouchEvent).changedTouches?.[0]
     touchMoved = false
     touchStartTarget = event.target
+    touchStartPoint = touch ? { x: touch.clientX, y: touch.clientY } : null
   }
 
-  const handleTouchMove = () => {
-    touchMoved = true
+  const handleTouchMove = (event: Event) => {
+    if (touchMoved) {
+      return // stop here
+    }
+
+    const start = touchStartPoint
+    const touches = Array.from((event as TouchEvent).touches ?? [])
+
+    // Without positions to compare, any move counts
+    touchMoved =
+      !start ||
+      touches.length === 0 ||
+      touches.some(
+        ({ clientX, clientY }) =>
+          Math.hypot(clientX - start.x, clientY - start.y) >
+          TAP_MOVE_TOLERANCE
+      )
   }
 
   const handleTouchEnd = (event: Event) => {
     const target = touchStartTarget
     const moved = touchMoved
     touchStartTarget = null
+    touchStartPoint = null
     touchMoved = false
 
     // No touchstart was seen, e.g. it was stopped in a nested Popover
