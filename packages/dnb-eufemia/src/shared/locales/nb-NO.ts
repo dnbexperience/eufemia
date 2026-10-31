@@ -156,6 +156,10 @@ export default {
       addTitle: 'Øk (%s)',
       subtractTitle: 'Reduser (%s)',
     },
+    TableOfContent: {
+      showAll: 'Vis alle',
+      title: 'På denne siden',
+    },
     VippsWalletButton: {
       text: 'Legg til i',
     },
