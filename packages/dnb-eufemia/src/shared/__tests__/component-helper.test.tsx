@@ -4,7 +4,7 @@
  */
 
 import type { RefObject } from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 
 import {
   extendDeep,
@@ -183,6 +183,50 @@ describe('"detectOutsideClick" should', () => {
 
     inside.remove()
     outside.remove()
+  })
+
+  it('detect a mousedown and an included key release on the document and body', () => {
+    const inside = document.createElement('BUTTON')
+    document.body.appendChild(inside)
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess, {
+      includedKeys: ['Tab'],
+    })
+
+    fireEvent.mouseDown(document)
+    fireEvent.keyUp(document, { key: 'Tab' })
+    fireEvent.keyUp(document.body, { key: 'Tab' })
+    fireEvent.keyUp(inside, { key: 'Tab' })
+
+    expect(onSuccess).toHaveBeenCalledTimes(3)
+
+    outsideClick.remove()
+    inside.remove()
+  })
+
+  it('should keep listening for included key releases on window', () => {
+    const inside = document.createElement('BUTTON')
+    document.body.appendChild(inside)
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess, {
+      includedKeys: ['Tab'],
+    })
+
+    expect(typeof outsideClick.handleClickOutside).toBe('function')
+    expect(typeof outsideClick.keyupCallback).toBe('function')
+
+    fireEvent.keyUp(window, { key: 'Tab' })
+
+    expect(onSuccess).toHaveBeenCalledTimes(1)
+
+    outsideClick.remove()
+
+    expect(outsideClick.handleClickOutside).toBeNull()
+    expect(outsideClick.keyupCallback).toBeNull()
+
+    inside.remove()
   })
 
   it('should support react refs as ignore element', async () => {

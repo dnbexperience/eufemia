@@ -15,6 +15,11 @@ describe('SidebarMenu responsive parts', () => {
     localStorage.clear()
   })
 
+  const touchAt = (clientX: number, clientY: number) => {
+    const touches = [{ clientX, clientY }]
+    return { touches, changedTouches: touches }
+  }
+
   it.each(['session', 'local'] as const)(
     'persists inline dismissal in %s storage across remounts',
     (storageType) => {
@@ -1425,8 +1430,86 @@ describe('SidebarMenu responsive parts', () => {
     )
     fireEvent.click(toggle)
     fireEvent.pointerDown(document.body, { pointerType: 'touch' })
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
 
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('closes a toggled compact menu on a tap outside where the finger moves a few pixels', () => {
+    setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>Menu</SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    fireEvent.click(toggle)
+    // Safari sends touchmove for this, but still counts it as a tap
+    fireEvent.pointerDown(document.body, { pointerType: 'touch' })
+    fireEvent.touchStart(document.body, touchAt(100, 100))
+    fireEvent.touchMove(document.body, touchAt(103, 104))
+    fireEvent.pointerUp(document.body, { pointerType: 'touch' })
+    fireEvent.touchEnd(document.body)
+    fireEvent.mouseDown(document.body)
+    fireEvent.mouseUp(document.body)
+    fireEvent.click(document.body)
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('closes a toggled compact menu on a mouse pointerdown outside', () => {
+    setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>Menu</SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    fireEvent.click(toggle)
+    // No mousedown follows when the pointerdown is canceled
+    fireEvent.pointerDown(document.body, { pointerType: 'mouse' })
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('keeps a toggled compact menu open when a touch scrolls outside', () => {
+    setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>Menu</SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    fireEvent.click(toggle)
+    fireEvent.pointerDown(document.body, { pointerType: 'touch' })
+    fireEvent.touchStart(document.body, touchAt(100, 100))
+    fireEvent.touchMove(document.body, touchAt(100, 160))
+    fireEvent.pointerCancel(document.body, { pointerType: 'touch' })
+    fireEvent.touchEnd(document.body)
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('closes a toggled compact menu with Escape', () => {

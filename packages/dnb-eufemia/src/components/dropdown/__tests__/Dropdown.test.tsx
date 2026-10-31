@@ -337,6 +337,63 @@ describe('Dropdown component', () => {
     expect(onClose).toHaveBeenCalledTimes(0)
   })
 
+  it('closes on a tap outside, but not when a touch scrolls outside', () => {
+    const onClose = vi.fn()
+    render(<Dropdown onClose={onClose} data={mockData} />)
+
+    open()
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchMove(document.body)
+    fireEvent.touchEnd(document.body)
+
+    expect(onClose).toHaveBeenCalledTimes(0)
+    expect(document.querySelector('.dnb-dropdown')).toHaveClass(
+      'dnb-dropdown--open'
+    )
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
+
+    expect(onClose).toHaveBeenCalledTimes(1)
+
+    // Browsers also fire a mousedown after a tap
+    fireEvent.mouseDown(document.body)
+
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('calls onClose once per tap outside when onClose keeps it open', () => {
+    const onClose = vi.fn(() => false)
+    render(<Dropdown onClose={onClose} data={mockData} />)
+
+    open()
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
+    // Browsers also fire a mousedown after a tap
+    fireEvent.mouseDown(document.body)
+
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('.dnb-dropdown')).toHaveClass(
+      'dnb-dropdown--open'
+    )
+  })
+
+  it('calls onClose on a mouse press right after a tap outside when onClose keeps it open', () => {
+    const onClose = vi.fn(() => false)
+    render(<Dropdown onClose={onClose} data={mockData} />)
+
+    open()
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
+    fireEvent.pointerDown(document.body, { pointerType: 'mouse' })
+    fireEvent.mouseDown(document.body)
+
+    expect(onClose).toHaveBeenCalledTimes(2)
+  })
+
   it('has valid onSelect callback', () => {
     const onSelect = vi.fn()
 
