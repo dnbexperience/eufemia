@@ -25,7 +25,12 @@ const validHeaders = 'Content-Security-Policy: ' + policy + '\r\n'
 
 function verify(
   headers: string,
-  options: { svgHeaders?: string; status?: string; retry?: boolean } = {}
+  options: {
+    svgHeaders?: string
+    status?: string
+    retry?: boolean
+    legacy?: boolean
+  } = {}
 ) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'published-assets-'))
   try {
@@ -38,6 +43,11 @@ function verify(
         'const callsFile = process.env.CALLS_FILE',
         'const calls = fs.existsSync(callsFile) ? JSON.parse(fs.readFileSync(callsFile)) : []',
         'const url = args.at(-1)',
+        "if (url.endsWith('.manifest.sha256')) {",
+        "  fs.writeFileSync(args[args.indexOf('--output') + 1], process.env.FIXTURE_MANIFEST)",
+        "  process.stdout.write('200')",
+        '  process.exit(0)',
+        '}',
         "const headers = calls.length > 0 && process.env.RETRY === 'true'",
         '  ? process.env.VALID_HEADERS',
         "  : url.endsWith('.svg') ? process.env.SVG_HEADERS : process.env.FONT_HEADERS",
@@ -78,6 +88,15 @@ function verify(
         VALID_HEADERS: validHeaders,
         STATUS: options.status ?? '200',
         RETRY: String(options.retry ?? false),
+        FIXTURE_MANIFEST: [
+          'fonts/dnb/DNB-Regular.woff2',
+          'icons/dnb/add.svg',
+          ...(options.legacy
+            ? []
+            : fonts.map((font) => font.slice('/v11.0.0/'.length))),
+        ]
+          .map((asset) => 'a'.repeat(64) + '  assets/' + asset)
+          .join(String.fromCharCode(10)),
       },
     })
     expect(result.error).toBeUndefined()
@@ -93,10 +112,23 @@ function verify(
 }
 
 describe('published assets verification', () => {
+  it('verifies older releases using only the fonts in their manifest', () => {
+    const result = verify(validHeaders, { legacy: true })
+    expect(result.status).toBe(0)
+    expect(result.calls).toEqual([
+      '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
+      svg,
+    ])
+  })
+
   it('requires the enforced CSP on both the font and SVG', () => {
     const result = verify(validHeaders)
     expect(result.status).toBe(0)
-    expect(result.calls).toEqual([...fonts, svg])
+    expect(result.calls).toEqual([
+      '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
+      svg,
+      ...fonts,
+    ])
   })
 
   it.each([
@@ -125,10 +157,11 @@ describe('published assets verification', () => {
   it('retries until the CSP has propagated', () => {
     const result = verify('', { retry: true })
     expect(result.status).toBe(0)
-    expect(result.calls.slice(-(fonts.length + 1))).toEqual([
-      ...fonts,
+    expect(result.calls.slice(-(fonts.length + 2))).toEqual([
+      '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
       svg,
+      ...fonts,
     ])
-    expect(result.calls.length).toBeGreaterThan(fonts.length + 1)
+    expect(result.calls.length).toBeGreaterThan(fonts.length + 2)
   })
 })
