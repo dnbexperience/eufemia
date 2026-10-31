@@ -2987,6 +2987,7 @@ __metadata:
     globby: "npm:11.0.4"
     hono: "npm:4.13.13"
     intl-messageformat: "npm:11.2.3"
+    issue-parser: "npm:7.0.2"
     jest-axe: "npm:11.0.0"
     jsdom: "npm:30.1.1"
     lebab: "npm:3.2.7"
@@ -12169,7 +12170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"issue-parser@npm:^7.0.0":
+"issue-parser@npm:7.0.2, issue-parser@npm:^7.0.0":
   version: 7.0.2
   resolution: "issue-parser@npm:7.0.2"
   dependencies:
