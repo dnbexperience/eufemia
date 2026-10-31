@@ -176,6 +176,9 @@ export default {
       errorRequired: 'Du måste fylla i en e-postadress.',
       errorPattern: 'Du måste ange en giltig e-postadress.',
     },
+    Name: {
+      label: 'Namn',
+    },
     FirstName: {
       label: 'Förnamn',
       errorRequired: 'Du måste fylla i förnamn.',

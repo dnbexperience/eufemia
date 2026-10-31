@@ -2,6 +2,14 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { P } from '@dnb/eufemia/src'
 import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
+export const Name = () => {
+  return (
+    <ComponentBox>
+      <Value.Name value="Nora Mørk" />
+    </ComponentBox>
+  )
+}
+
 export const FirstName = () => {
   return (
     <ComponentBox>
