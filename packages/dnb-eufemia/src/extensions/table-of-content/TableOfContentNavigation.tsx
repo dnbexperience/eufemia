@@ -188,7 +188,9 @@ export default function TableOfContentNavigation({
         scrollRef.current?.querySelectorAll<HTMLAnchorElement>('a')
       Array.from(links ?? [])
         .find(
-          (link) => link.getAttribute('href') === '#' + items[limit]?.id
+          (link) =>
+            link.getAttribute('href') ===
+            '#' + encodeURIComponent(items[limit]?.id)
         )
         ?.focus({ preventScroll: true })
     } else if (
