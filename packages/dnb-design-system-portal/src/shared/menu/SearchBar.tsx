@@ -25,6 +25,7 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 import { markNextViewFromSearch } from '../../../vite/client/track-page-view'
+import { loadPortalRoutes } from '../../../vite/client/load-portal-routes'
 
 const searchInputId = 'portal-search'
 const subscribeToPlatform = () => () => undefined
@@ -127,6 +128,7 @@ export const SearchBarInput = () => {
   }
 
   const onFocusHandler = () => {
+    void loadPortalRoutes().catch(() => undefined)
     const searchClient = algoliasearch(
       process.env.ALGOLIA_APP_ID,
       process.env.ALGOLIA_SEARCH_KEY

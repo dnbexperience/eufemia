@@ -7,6 +7,14 @@ export default defineConfig({
   retries: 3,
   reporter: 'list',
   testDir: './src/e2e',
+  projects: [
+    { name: 'firefox' },
+    {
+      name: 'chromium-routes',
+      testMatch: '**/deferredRoutes.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+  ],
 
   use: {
     // Base URL to use in actions like `await page.goto('/')`.

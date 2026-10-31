@@ -41,7 +41,7 @@ import PortalLayout from '../../src/core/PortalLayout'
 import { FocusModeCodeProvider } from '../../src/core/FocusModeCodeContext'
 import BranchBanner from '../../src/shared/menu/BranchBanner'
 import ErrorBoundary from '../../src/core/ErrorBoundary'
-import { discoverPortalRoutes } from './load-portal-routes'
+import { discoverPortalRoutes, loadHints } from './load-portal-routes'
 import { allMdxNodes } from 'virtual:portal-data'
 import { resolvePageRedirect } from './plugins/portal-pages.shared'
 
@@ -227,6 +227,15 @@ function useRouteFocus() {
 
     document.documentElement.setAttribute('data-portal-ready', 'true')
     window.dispatchEvent(new Event('portal:ready'))
+    const warmHints = () => {
+      void loadHints()
+    }
+    if (window.requestIdleCallback) {
+      const idle = window.requestIdleCallback(warmHints, { timeout: 1000 })
+      return () => window.cancelIdleCallback(idle)
+    }
+    const timer = window.setTimeout(warmHints, 200)
+    return () => window.clearTimeout(timer)
   }, [routeHash, pathname, routeSearch, navigationType])
 }
 
