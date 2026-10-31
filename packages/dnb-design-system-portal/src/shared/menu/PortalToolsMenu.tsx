@@ -7,11 +7,14 @@ import {
   useState,
 } from 'react'
 import { clsx } from 'clsx'
-import { Drawer, Tooltip } from '@dnb/eufemia/src/components'
+import { Drawer, ToggleButton, Tooltip } from '@dnb/eufemia/src/components'
 import { Anchor, Flex } from '@dnb/eufemia/src'
 import { getTheme } from '../../../vite/client/shims/theme-handler'
 import ToggleGrid from './ToggleGrid'
-import { Context } from '@dnb/eufemia/src/shared'
+import { Context, useTheme } from '@dnb/eufemia/src/shared'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
+import { cog } from '@dnb/eufemia/src/icons'
+import { themeTitles } from './SidebarMenuData'
 import PortalSkeleton from '../../core/PortalSkeleton'
 import ToggleDarkMode from '../../core/ToggleDarkMode'
 import ToggleNativeTypography from '../../core/ToggleNativeTypography'
@@ -19,12 +22,12 @@ import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
-import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
+import type { ToggleButtonProps } from '@dnb/eufemia/src/components/ToggleButton'
 
 type Props = {
   className?: string
   tooltipPosition?: TooltipPlacement
-  triggerProps?: ButtonProps
+  triggerProps?: ToggleButtonProps
   hideWhenMediaLarge?: boolean
 }
 
@@ -83,6 +86,11 @@ export default function PortalToolsMenu({
   const storageKey = getPortalToolsOpenStorageKey(hideWhenMediaLarge)
   const [isOpen, setIsOpen] = useState(false)
   const { brand, colorScheme } = getTheme()
+  const activeTheme = useTheme()
+  const canUseDOM = useCanUseDOM()
+  const triggerText = `${themeTitles[activeTheme?.brand] || 'DNB'} - ${
+    canUseDOM && activeTheme?.colorScheme === 'dark' ? 'Dark' : 'Light'
+  }`
   const themeKey = `${brand}:${colorScheme || 'auto'}`
   // Start with animation disabled so the initial open=false render
   // uses the immediate close path in Modal, avoiding a 300ms timer
@@ -170,85 +178,103 @@ export default function PortalToolsMenu({
   }, [storageKey])
 
   return (
-    <Drawer
-      id="portal-tools"
-      title="Portal Tools"
-      open={isOpen}
-      noAnimation={noAnimation}
-      onOpen={handleOpen}
-      onClose={handleClose}
-      triggerProps={{
-        className: clsx(
+    <>
+      <ToggleButton
+        id="portal-tools"
+        className={clsx(
           className,
           buttonStyle,
           hideWhenMediaLarge && 'hideWhenMediaLarge'
-        ),
-        size: 'default',
-        icon: 'more',
-        iconSize: 'medium',
-        skeleton: false,
-        left: 'x-small',
-        title: 'Portal Tools',
-        tooltip: (
+        )}
+        text={triggerText}
+        icon={cog}
+        iconPosition="right"
+        iconSize="medium"
+        skeleton={false}
+        left="x-small"
+        title="Portal Tools"
+        aria-label={`${triggerText}, Portal Tools`}
+        aria-haspopup="dialog"
+        aria-controls="dnb-modal-portal-tools-modal"
+        aria-expanded={isOpen}
+        tooltip={
           <Tooltip
             placement={tooltipPosition}
-            // Use 4001 to be over header of 4000
             style={{ zIndex: 4001 }}
             fixedPosition
           >
             Open the portal tools
           </Tooltip>
-        ),
-        ...triggerProps,
-      }}
-      {...props}
-    >
-      <Drawer.Body innerSpace={{ block: 'large' }}>
-        <Flex.Stack gap="large">
-          <ChangeStyleTheme
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/web/usage/customisation/theming/">
-                  theming
-                </Anchor>
-              </>
-            }
-          />
-          <ChangeLocale
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/web/usage/customisation/localization/">
-                  localization
-                </Anchor>
-              </>
-            }
-          />
-
-          <ToggleDarkMode
-            label="Dark mode"
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/web/usage/customisation/theming/">
-                  theming
-                </Anchor>
-              </>
-            }
-          />
-
-          <Flex.Stack gap="small">
-            <ToggleNativeTypography />
-            <PortalSkeleton
-              enabled={skeleton}
-              label="Show everything behind skeletons"
-              skeleton={false}
+        }
+        {...triggerProps}
+        checked={isOpen}
+        onChange={({ checked }) => {
+          if (checked) {
+            handleOpen()
+          } else {
+            handleClose()
+          }
+        }}
+      />
+      <Drawer
+        id="portal-tools-modal"
+        omitTriggerButton
+        focusSelector="#change-theme"
+        restoreFocusTo={() => document.getElementById('portal-tools')}
+        title="Portal Tools"
+        open={isOpen}
+        noAnimation={noAnimation}
+        onOpen={handleOpen}
+        onClose={handleClose}
+        {...props}
+      >
+        <Drawer.Body innerSpace={{ block: 'large' }}>
+          <Flex.Stack gap="large">
+            <ChangeStyleTheme
+              labelDescription={
+                <>
+                  Read more about{' '}
+                  <Anchor href="/web/usage/customisation/theming/">
+                    theming
+                  </Anchor>
+                </>
+              }
             />
-            <ToggleGrid label="Show grid" />
+            <ChangeLocale
+              labelDescription={
+                <>
+                  Read more about{' '}
+                  <Anchor href="/web/usage/customisation/localization/">
+                    localization
+                  </Anchor>
+                </>
+              }
+            />
+
+            <ToggleDarkMode
+              label="Dark mode"
+              labelDescription={
+                <>
+                  Read more about{' '}
+                  <Anchor href="/web/usage/customisation/theming/">
+                    theming
+                  </Anchor>
+                </>
+              }
+            />
+
+            <Flex.Stack gap="small">
+              <ToggleNativeTypography />
+              <PortalSkeleton
+                enabled={skeleton}
+                label="Show everything behind skeletons"
+                skeleton={false}
+              />
+              <ToggleGrid label="Show grid" />
+            </Flex.Stack>
           </Flex.Stack>
-        </Flex.Stack>
-      </Drawer.Body>
-    </Drawer>
+        </Drawer.Body>
+      </Drawer>
+    </>
   )
 }

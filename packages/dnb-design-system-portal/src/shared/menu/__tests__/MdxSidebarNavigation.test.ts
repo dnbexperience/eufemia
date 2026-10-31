@@ -110,7 +110,39 @@ describe('MDX-defined Portal navigation', () => {
       'Layout',
       'Helpers',
       'Patterns',
+      'Figma',
+      'GitHub',
     ])
+  })
+
+  it('keeps Web resource links after a divider and outside native navigation', () => {
+    const { sections } = tree()
+    const resources = sections[0].items.slice(-2)
+    expect(resources.map(({ title }) => title)).toEqual([
+      'Figma',
+      'GitHub',
+    ])
+    expect(toSidebarMenuData(resources, () => undefined)).toMatchObject([
+      {
+        href: 'https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web',
+        dividerBefore: true,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        to: undefined,
+        element: undefined,
+      },
+      {
+        href: 'https://github.com/dnbexperience/eufemia/',
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+    ])
+    expect(
+      sections
+        .slice(1)
+        .flatMap(({ items }) => flatten(items))
+        .some(({ title }) => title === 'Figma' || title === 'GitHub')
+    ).toBe(false)
   })
 
   it('keeps About concise without duplicate overview or contact entries', () => {

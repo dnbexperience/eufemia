@@ -11,6 +11,8 @@ export type NavItem = {
   hideInMenu?: boolean
   order?: number
   path: string
+  href?: string
+  dividerBefore?: boolean
   status?: string
   theme?: ThemeNames[]
   title: string
@@ -67,10 +69,15 @@ export function toSidebarMenuData(
           ? 'portal-sidebar-menu__item--active'
           : undefined,
         text: (item.menuTitle || item.title).replace(/^[A-Z][a-z]*\./, ''),
-        to: hasPage ? item.path : undefined,
-        element: hasPage
-          ? (PortalLink as SidebarMenuItemData['element'])
-          : undefined,
+        href: item.href,
+        target: item.href ? '_blank' : undefined,
+        rel: item.href ? 'noopener noreferrer' : undefined,
+        dividerBefore: item.dividerBefore,
+        to: hasPage && !item.href ? item.path : undefined,
+        element:
+          hasPage && !item.href
+            ? (PortalLink as SidebarMenuItemData['element'])
+            : undefined,
         icon: icon || undefined,
         disabled: item.disabled,
         badge: statusTitles[item.status],
