@@ -7,6 +7,7 @@ import { clsx } from 'clsx'
 import PortalLogo from './graphics/logo'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import PortalToolsMenu from './PortalToolsMenu'
+import Tooltip from '@dnb/eufemia/src/components/tooltip/Tooltip'
 import { SearchBarInput } from './SearchBar'
 import {
   headerStyle,
@@ -22,6 +23,9 @@ import { useLocation } from 'react-router'
 export default function StickyMenuBar() {
   const { inlineCollapsed, isCompact, open } = SidebarMenu.useResponsive()
   const hasScrolled = useHasScrolled()
+  const menuLabel = open
+    ? 'Hide section content menu'
+    : 'Open section content menu'
   const home = useLocation().pathname === '/'
 
   return (
@@ -46,10 +50,11 @@ export default function StickyMenuBar() {
             iconSize="default"
             controls="portal-sidebar-menu-drawer"
             inlineControls="portal-sidebar-menu"
-            title={
-              open
-                ? 'Hide section content menu'
-                : 'Open section content menu'
+            aria-label={menuLabel}
+            tooltip={
+              <Tooltip placement="bottom" fixedPosition>
+                {menuLabel}
+              </Tooltip>
             }
           />
 

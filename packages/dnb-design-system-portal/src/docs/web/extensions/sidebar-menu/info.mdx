@@ -258,6 +258,22 @@ Use the responsive compound parts when the same navigation should be inline on l
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after navigating from it.
 
+An icon-only `ResponsiveTrigger` has a localized accessible name by default. Set `aria-label` when a more specific name helps people identify the navigation, and use `tooltip` for a visible hint on hover and keyboard focus. Keep both texts the same and omit `title` to avoid a second native browser tooltip. The label is available to screen readers even when the tooltip is hidden.
+
+```tsx
+function NavigationTrigger() {
+  const { open } = SidebarMenu.useResponsive()
+  const menuLabel = open ? 'Close banking menu' : 'Open banking menu'
+
+  return (
+    <SidebarMenu.ResponsiveTrigger
+      aria-label={menuLabel}
+      tooltip={menuLabel}
+    />
+  )
+}
+```
+
 Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Inline dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
 
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the inline navigation.
