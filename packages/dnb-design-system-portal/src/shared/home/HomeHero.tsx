@@ -178,11 +178,10 @@ export default function HomeHero() {
                   (brand ? ' portal-home-brand-' + brand : '')
                 }
               >
+                {/* Keep color schemes brand-independent so Carnegie inherits dark-mode support when its theme adds it. */}
                 <Theme
                   brand={brand || activeBrand}
-                  colorScheme={
-                    brand === 'carnegie' ? 'light' : colorScheme
-                  }
+                  colorScheme={colorScheme}
                   surface="initial"
                 >
                   {(index === 0 || index === 3) && (
@@ -231,13 +230,17 @@ export default function HomeHero() {
                     </Card>
                   )}
                   {index === 2 && (
-                    <ToggleButton
-                      size="large"
-                      text={name}
-                      checked={selected}
-                      aria-label={'Switch brand to ' + name}
+                    <ToggleButton.Group
+                      value={activeBrand}
                       onChange={() => setTheme({ brand })}
-                    />
+                    >
+                      <ToggleButton
+                        size="large"
+                        text={name}
+                        value={brand}
+                        aria-label={'Switch brand to ' + name}
+                      />
+                    </ToggleButton.Group>
                   )}
                   {index === 5 && (
                     <PortalToolsMenu

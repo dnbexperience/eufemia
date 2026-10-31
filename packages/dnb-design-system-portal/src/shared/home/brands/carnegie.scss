@@ -1,0 +1,4 @@
+@use '@dnb/eufemia/src/style/themes/ui/fonts.scss' with (
+  $fonts-path: '@dnb/eufemia/assets/fonts/dnb'
+);
+@use '@dnb/eufemia/src/style/themes/carnegie/carnegie-theme-basis.scss';

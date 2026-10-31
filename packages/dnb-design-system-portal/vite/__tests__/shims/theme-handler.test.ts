@@ -127,6 +127,34 @@ describe('theme-handler shim', () => {
   })
 
   describe('setTheme', () => {
+    it('merges appearance changes into the requested brand while its stylesheet loads', async () => {
+      let finish: () => void
+      const pending = new Promise<void>((resolve) => {
+        finish = resolve
+      })
+      window.__loadEufemiaTheme = vi.fn().mockReturnValue(pending)
+      setTheme({ brand: 'sbanken' })
+      setTheme({ colorScheme: 'dark' })
+      finish()
+      await pending
+      expect(getTheme()).toMatchObject({
+        brand: 'sbanken',
+        colorScheme: 'dark',
+      })
+    })
+
+    it('can apply a temporary appearance without changing storage', () => {
+      setTheme({ colorScheme: 'light' })
+      const saved = localStorage.getItem('eufemia-theme')
+      setTheme({ colorScheme: 'dark' }, undefined, false)
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--dark'
+        )
+      ).toBe(true)
+      expect(localStorage.getItem('eufemia-theme')).toBe(saved)
+    })
+
     it('does not publish an older selection after its stylesheet finishes', async () => {
       let finishFirst: () => void
       const first = new Promise<void>((resolve) => {

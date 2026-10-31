@@ -27,6 +27,8 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
         .getByRole('link', { name: /Develop/ })
         .click()
       await expect(page).toHaveURL('/web/getting-started/')
+      await expect(items).toHaveCount(0)
+      await page.clock.pauseAt(new Date(Date.now() + 1000))
       await page
         .locator('#portal-sidebar-menu')
         .getByRole('link', { name: 'Go to Eufemia home', exact: true })
@@ -47,6 +49,7 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
         await page.clock.runFor(4000)
         expect(await lifts()).toEqual([0, 0, 0, 0, 0, 0])
       }
+      await page.clock.resume()
       await page.reload()
       await waitForApp(page)
       expect(await lifts()).toEqual([0, 0, 0, 0, 0, 0])

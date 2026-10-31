@@ -12,20 +12,28 @@ export default function darkMode() {
   previous = current === 'dark' ? (previous ?? current) : current
   const active = ++revision
   let applied = false
-  setTheme({ colorScheme: 'dark' }, () => {
-    applied = true
-  })
+  setTheme(
+    { colorScheme: 'dark' },
+    () => {
+      applied = true
+    },
+    false
+  )
   return () => {
     queueMicrotask(() => {
       if (active !== revision) {
         return
       }
-      if (!applied || getTheme().colorScheme === 'dark') {
-        setTheme({ colorScheme: previous }, () => {
-          if (active === revision) {
-            previous = undefined
-          }
-        })
+      if (!applied || (getTheme().colorScheme || 'auto') === current) {
+        setTheme(
+          { colorScheme: previous },
+          () => {
+            if (active === revision) {
+              previous = undefined
+            }
+          },
+          false
+        )
       } else {
         previous = undefined
       }
