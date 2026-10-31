@@ -486,6 +486,31 @@ describe('Switch with server-rendered markup', () => {
 
     unmount()
   })
+
+  it('should give the handlers events with nativeEvent and persist', () => {
+    const onClick = vi.fn(({ event }) => {
+      event.persist()
+      return event.nativeEvent.type
+    })
+    const onChange = vi.fn(({ event }) => {
+      event.persist()
+      return event.nativeEvent.type
+    })
+    const { unmount } = hydrateAfterChange(
+      <Switch label="Label" onClick={onClick} onChange={onChange} />
+    )
+
+    expect(onClick.mock.results[0]).toEqual({
+      type: 'return',
+      value: 'click',
+    })
+    expect(onChange.mock.results[0]).toEqual({
+      type: 'return',
+      value: 'change',
+    })
+
+    unmount()
+  })
 })
 
 describe('Switch scss', () => {
