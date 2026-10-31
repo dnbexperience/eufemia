@@ -258,7 +258,8 @@ export function isVersionInRange(
 }
 
 /**
- * A version is fixed when it reaches a patched version of its own major, or the newest patched version.
+ * A version is fixed when it reaches the highest patched version of its own major
+ * (not just any of them, as fixes are often listed per minor), or the newest patched version.
  */
 export function isPatched(
   version: string,
@@ -273,16 +274,15 @@ export function isPatched(
     return false
   }
 
-  const newest = patched.reduce((a, b) =>
-    compareVersions(a, b) >= 0 ? a : b
+  const sameMajor = patched.filter(
+    (patchedVersion) => patchedVersion.numbers[0] === current.numbers[0]
   )
-  return (
-    compareVersions(current, newest) >= 0 ||
-    patched.some(
-      (patchedVersion) =>
-        patchedVersion.numbers[0] === current.numbers[0] &&
-        compareVersions(current, patchedVersion) >= 0
-    )
+  return [patched, sameMajor].some(
+    (versions) =>
+      versions.length > 0 &&
+      versions.every(
+        (patchedVersion) => compareVersions(current, patchedVersion) >= 0
+      )
   )
 }
 
