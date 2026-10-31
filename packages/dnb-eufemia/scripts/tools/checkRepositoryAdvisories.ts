@@ -285,7 +285,12 @@ export function isVersionInRange(
     .flatMap((alternative) => {
       const parts = alternative.split(',')
       const isGitHubSyntax = parts.every((part) =>
-        /^\s*(>=|<=|>|<|=)?\s*[^\s<>=]+\s*$/.test(part)
+        /^[^\s<>=]+$/.test(
+          part
+            .trim()
+            .replace(/^(?:>=|<=|>|<|=)/, '')
+            .trim()
+        )
       )
       return isGitHubSyntax ? [parts.join(' ')] : parts
     })
