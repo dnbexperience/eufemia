@@ -4,15 +4,6 @@ import type { Page } from '@playwright/test'
 
 async function selectPlatform(page: Page, name: string) {
   const option = page.getByRole('option', { name, exact: true })
-  await option.waitFor({ state: 'visible' })
-  await option.evaluate(async (element) => {
-    const list = element.closest('.dnb-drawer-list')
-    await Promise.all(
-      list
-        .getAnimations({ subtree: true })
-        .map((animation) => animation.finished.catch(() => undefined))
-    )
-  })
   await option.click()
 }
 
