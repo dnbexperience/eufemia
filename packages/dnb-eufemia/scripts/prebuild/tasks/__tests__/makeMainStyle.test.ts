@@ -266,7 +266,7 @@ if (isCI) {
 
     it('should contain the DNB Sans Text font URL in the CSS', () => {
       expect(global.css[0]).toContain(
-        `${getFontBasePath()}dnb/DNBSansText-Regular.woff2`
+        `${getFontBasePath()}dnb/web/DNBSansText-Regular.woff2`
       )
     })
 

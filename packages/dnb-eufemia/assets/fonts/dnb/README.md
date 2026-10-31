@@ -1,8 +1,9 @@
 # DNB Sans fonts
 
 Source: [DNB brand typography guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763).
-Downloaded from the official family archives on 30 October 2026. Official
-font files are unmodified. Download ZIPs contain those files without OS metadata.
+Downloaded from the official family archives on 30 October 2026. Source
+font files and download ZIPs are unmodified. Eufemia loads derived webfonts
+from `web/`; see the webfont build below.
 
 | Family        | Font version | Files                                           | CSS family |
 | ------------- | ------------ | ----------------------------------------------- | ---------- |
@@ -22,17 +23,28 @@ announced breaking change with migration guidance.
 The current web fonts include updated Medium and Bold details and genuine
 italics. The Regular, Medium and Light Text TTF outlines match the previous
 TTFs, but the previously served Medium WOFF2 was an older build. The current
-WOFF2 and WOFF files use CFF outlines instead of the previous TrueType
-outlines, which can also change rasterization.
+official WOFF2 and WOFF files use CFF outlines instead of the previous
+TrueType outlines. The derived webfonts retain the official TTF outlines.
 
-The new files enable USE_TYPO_METRICS. Text, Mono and their skeleton faces
-use explicit CSS metrics (ascent 95%, descent 25%, line gap 0%) based on the
-previous 950/−250 metrics at 1,000 units per em. These descriptors limit
-vertical changes; they do not guarantee identical rendering across browsers.
-Firefox can move text by about one pixel row compared with the legacy fonts.
-Preserve the descriptors when self-hosting and review application snapshots
-on the supported browsers and operating systems.
+The official files enable USE_TYPO_METRICS and have different hhea and typo
+metrics. The derived webfonts align these embedded metrics to retain the
+legacy line box and baseline without CSS metric overrides.
 
 The official binaries remain unchanged. Mono retains character coverage and
 widths. Skeleton fonts keep the existing widths; their generator reads the
 current Text and Mono sources.
+
+## Webfont build
+
+The web build under `web/` starts from
+all 16 official Text and Mono TTF files and aligns the typo ascent,
+descent and line gap with the existing hhea values (950, -250, 0). It keeps
+USE_TYPO_METRICS enabled and preserves outlines, hinting and names. The
+original font files and ZIP downloads remain unchanged.
+
+Regenerate with `node scripts/tools/createWebFonts.ts` from the Eufemia
+package directory. The styles load these generated files without CSS ascent,
+descent or line-gap overrides. The generator updates only the typo values and
+required checksums before compression. WOFF2 compression omits the original
+empty DSIG table. Use these derived files for manual preloads and self-hosting
+with Eufemia's styles.

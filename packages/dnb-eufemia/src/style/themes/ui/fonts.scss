@@ -48,16 +48,14 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
       @font-face {
         font-family: $family;
         src:
-          url('#{$fonts-path}/#{$file}-#{$suffix}.woff2') format('woff2'),
-          url('#{$fonts-path}/#{$file}-#{$suffix}.woff') format('woff'),
-          url('#{$fonts-path}/#{$file}-#{$suffix}.ttf') format('truetype');
+          url('#{$fonts-path}/web/#{$file}-#{$suffix}.woff2')
+            format('woff2'),
+          url('#{$fonts-path}/web/#{$file}-#{$suffix}.woff') format('woff'),
+          url('#{$fonts-path}/web/#{$file}-#{$suffix}.ttf')
+            format('truetype');
         font-weight: $weight;
         font-style: $style;
         font-display: fallback;
-        // Use the legacy ascent and descent without modifying the font files.
-        ascent-override: 95%;
-        descent-override: 25%;
-        line-gap-override: 0%;
       }
     }
   }

@@ -25,7 +25,7 @@ describe('DNB font faces', () => {
     ['DNB', 'DNBSansText'],
     ['DNBMono', 'DNBSansMono'],
   ])(
-    'registers every official %s face under its existing CSS family',
+    'registers every derived %s face under its existing CSS family',
     (family, fileName) => {
       const faces = getFontFaces().filter(
         (face) => face['font-family'] === family
@@ -52,10 +52,14 @@ describe('DNB font faces', () => {
               (italic ? 'Italic' : '') +
               '.' +
               extension
-            expect(face.src).toContain('/' + file)
+            expect(face.src).toContain('/web/' + file)
             expect(
               fs.existsSync(
-                path.resolve(__dirname, '../../../assets/fonts/dnb', file)
+                path.resolve(
+                  __dirname,
+                  '../../../assets/fonts/dnb/web',
+                  file
+                )
               )
             ).toBe(true)
           }
@@ -65,7 +69,7 @@ describe('DNB font faces', () => {
     }
   )
 
-  it('keeps consistent Text and Mono line metrics across weights, italics, and skeletons', () => {
+  it('uses embedded metrics without CSS overrides for Text, Mono and skeletons', () => {
     const skeletonCss = loadScss(
       path.resolve(
         __dirname,
@@ -84,9 +88,9 @@ describe('DNB font faces', () => {
       ['DNB', 'DNBMono'].includes(face['font-family'])
     )
     for (const face of [...faces, ...skeletonFaces]) {
-      expect(face['ascent-override']).toBe('95%')
-      expect(face['descent-override']).toBe('25%')
-      expect(face['line-gap-override']).toBe('0%')
+      expect(face['ascent-override']).toBeUndefined()
+      expect(face['descent-override']).toBeUndefined()
+      expect(face['line-gap-override']).toBeUndefined()
     }
   })
 
