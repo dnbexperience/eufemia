@@ -523,6 +523,9 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
   --accordion-color-border--active: var(
     --token-color-stroke-action-pressed
   );
+  --accordion-color-border--after-click: var(
+    --token-color-decorative-third-muted
+  );
   --accordion-border-width--default: 0.0625rem;
   --accordion-border-width--hover: 0.125rem;
 }
