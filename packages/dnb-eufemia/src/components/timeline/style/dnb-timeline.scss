@@ -3,8 +3,6 @@
 *
 */
 
-@use '../../../style/core/utilities.scss' as utilities;
-
 @mixin centerBorder(
   $width: var(--timeline-icon-width--medium),
   $spacing: var(--timeline-border-spacing--icon-adjusted)
@@ -61,15 +59,8 @@
         line-height: var(--timeline-icon-height--small);
         border-radius: var(--timeline-icon-border-radius--small);
 
-        color: var(--token-color-icon-neutral);
-        // No icon color token equivalent, figma sketch is using --token-color-background-page-background, as the icon fill should match the page background color
-        background-color: var(--token-color-background-page-background);
-
-        @include utilities.fakeBorder(
-          var(--token-color-stroke-neutral),
-          0.0625rem,
-          inset
-        );
+        color: var(--token-color-icon-neutral-alternative);
+        background-color: var(--token-color-background-neutral-base);
       }
 
       &__title {
@@ -82,8 +73,7 @@
 
     &__content {
       padding-bottom: 1rem;
-      // No stroke token equivalent for this color, the figma sketch is using --token-color-text-neutral-alternative
-      border-left: 1px dashed var(--token-color-text-neutral-alternative);
+      border-left: 1px dashed var(--token-color-stroke-neutral-subtle);
 
       @include centerBorder(var(--timeline-icon-width--small));
 
@@ -101,14 +91,15 @@
     }
 
     &--completed &__content {
-      border-left: 1px solid var(--token-color-stroke-neutral);
+      border-left: 1px solid var(--token-color-stroke-neutral-subtle);
     }
 
     &--completed &__label__title {
       color: var(--token-color-text-neutral);
     }
 
-    &--current &__content {
+    &--current &__content,
+    &--upcoming &__content {
       @include centerBorder(
         var(--timeline-icon-width--medium),
         var(--timeline-border-spacing)
@@ -122,31 +113,27 @@
       line-height: var(--line-height-basis);
     }
 
-    &--current &__label__icon {
+    &--current &__label__icon,
+    &--upcoming &__label__icon {
       width: var(--timeline-icon-width--medium);
       line-height: var(--timeline-icon-height--medium);
       border-radius: var(--timeline-icon-border-radius--medium);
     }
 
-    &--current {
+    &--current:not(.dnb-skeleton) &__label__icon {
+      color: var(--token-color-icon-neutral-inverse);
+      background-color: var(--token-color-background-selected);
+    }
+
+    &--current,
+    &--upcoming {
       margin-left: 0;
     }
 
     &--upcoming &__label__title {
+      margin-left: var(--timeline-border-spacing);
       font-weight: var(--font-weight-basis);
       color: var(--token-color-text-neutral-alternative);
-    }
-
-    &--upcoming:not(.dnb-skeleton) &__label__icon {
-      color: var(--token-color-text-neutral-alternative);
-      background-color: var(--token-color-background-neutral-subtle);
-
-      @include utilities.fakeBorder(
-        // Border color same as background color, no stroke equivalent for this color. Figma sketch has no border
-        var(--token-color-background-neutral-subtle),
-        0.0625rem,
-        inset
-      );
     }
 
     &:last-child &__content {
