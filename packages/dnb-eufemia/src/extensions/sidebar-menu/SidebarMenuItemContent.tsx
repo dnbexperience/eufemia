@@ -1,6 +1,10 @@
+import { useContext } from 'react'
 import type { ReactNode } from 'react'
+import { clsx } from 'clsx'
 import IconPrimary from '../../components/IconPrimary'
 import type { IconIcon } from '../../components/icon/Icon'
+import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
+import Context from '../../shared/Context'
 
 export default function SidebarMenuItemContent({
   icon,
@@ -13,6 +17,8 @@ export default function SidebarMenuItemContent({
   children?: ReactNode
   textSuffix?: ReactNode
 }) {
+  const { skeleton } = useContext(Context)
+
   return (
     <>
       {icon && (
@@ -20,7 +26,12 @@ export default function SidebarMenuItemContent({
           <IconPrimary icon={icon} />
         </span>
       )}
-      <span className="dnb-sidebar-menu__item__text">
+      <span
+        className={clsx(
+          'dnb-sidebar-menu__item__text',
+          createSkeletonClass('font', skeleton)
+        )}
+      >
         {text ?? children}
         {textSuffix}
       </span>

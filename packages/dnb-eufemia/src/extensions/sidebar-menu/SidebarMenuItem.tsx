@@ -1,5 +1,6 @@
 import { clsx } from 'clsx'
 import Anchor from '../../components/Anchor'
+import E from '../../elements/Element'
 import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import { useSidebarMenuContext } from './SidebarMenuContext'
@@ -92,7 +93,9 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
           {content}
         </Anchor>
       ) : (
-        <button
+        <E
+          as="button"
+          internalClass={false}
           className="dnb-sidebar-menu__item__action"
           type="button"
           disabled={disabled}
@@ -103,7 +106,7 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
           onClick={handleClick}
         >
           {content}
-        </button>
+        </E>
       )}
     </li>
   )
