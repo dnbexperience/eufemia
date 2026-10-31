@@ -49,6 +49,7 @@ on:
       - '.yarnrc.yml'
       - '.yarn/**'
       - '.github/workflows/dependency-audit.yml'
+      - 'packages/dnb-eufemia/scripts/tools/checkRepositoryAdvisories.ts'
       - '.github/workflows/release.yml'
   schedule:
     # Daily, to catch advisories disclosed against an unchanged tree. GitHub
