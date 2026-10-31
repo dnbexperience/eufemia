@@ -9,7 +9,7 @@ function getRing(button: Locator) {
 
 test.describe('Td with onClick', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/table/demos/')
+    await page.goto('/web/components/table/demos/')
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
       'true'

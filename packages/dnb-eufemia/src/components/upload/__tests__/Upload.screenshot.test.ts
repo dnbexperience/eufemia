@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Upload for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/upload/demos/',
+    url: '/web/components/upload/demos/',
   })
 
   it('have to match the default', async () => {
@@ -140,7 +140,7 @@ describe.each(['ui', 'sbanken'])(`Upload for %s`, (themeName) => {
 
 describe('Upload', () => {
   setupPageScreenshot({
-    url: '/uilib/components/upload/demos/',
+    url: '/web/components/upload/demos/',
     pageViewport: {
       width: 480, // 30rem
     },

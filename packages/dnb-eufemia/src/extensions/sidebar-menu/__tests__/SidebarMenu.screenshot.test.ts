@@ -9,7 +9,7 @@ import {
 describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/sidebar-menu/demos/',
+    url: '/web/extensions/sidebar-menu/demos/',
   })
 
   it('matches the declarative menu', async () => {

@@ -3,7 +3,6 @@ import {
   compareByOrder,
   globPath,
 } from '../../client/plugins/portal-pages.shared'
-import { createOrderKey } from '../../../src/shared/menu/SidebarMenuOrder'
 import type { MdxNode } from '../../client/plugins/portal-pages.shared'
 
 const page = (slug: string) =>
@@ -182,20 +181,5 @@ describe('compareByOrder', () => {
       0,
       undefined,
     ])
-  })
-
-  it('agrees with the sidebar menu ordering', () => {
-    const orders = [3, 1, -2, undefined, 0, -1, 2.5, 999, -999]
-    const bySidebar = orders
-      .map((order) => ({ order }))
-      .sort((a, b) => {
-        const keyA = createOrderKey(a.order, 0)
-        const keyB = createOrderKey(b.order, 0)
-
-        return keyA < keyB ? -1 : keyA > keyB ? 1 : 0
-      })
-      .map(({ order }) => order)
-
-    expect(sortByOrder(orders)).toEqual(bySidebar)
   })
 })

@@ -261,6 +261,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     const storage = getWebStorage(scrollPositionStorage)
     const storedValue = storage?.getItem(scrollPositionStorageKey)
     const storedPosition = Number(storedValue)
+    let restoreFrame: number | undefined
     if (
       storedValue !== null &&
       storedValue !== undefined &&
@@ -269,9 +270,25 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     ) {
       restoredScrollPositionRef.current = true
       scrollInstantly(scrollView, storedPosition)
+      const restoreAfterLayout = () => {
+        if (scrollView.querySelector('.dnb-height-animation--animating')) {
+          restoreFrame = requestAnimationFrame(restoreAfterLayout)
+          return
+        }
+        if (scrollView.scrollTop !== storedPosition) {
+          scrollInstantly(scrollView, storedPosition)
+        }
+        restoreFrame = undefined
+      }
+      restoreFrame = requestAnimationFrame(() => {
+        restoreFrame = requestAnimationFrame(restoreAfterLayout)
+      })
     }
 
     const persistPosition = () => {
+      if (restoreFrame !== undefined) {
+        return
+      }
       if (
         responsive?.isSmallScreen &&
         (scrollView.classList.contains('dnb-drawer--hide') ||
@@ -295,6 +312,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     })
 
     return () => {
+      cancelAnimationFrame(restoreFrame)
       scrollView.removeEventListener('scroll', persistPosition)
     }
   }, [

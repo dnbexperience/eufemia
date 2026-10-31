@@ -6,7 +6,7 @@ import {
 
 describe('ListFormat', () => {
   setupPageScreenshot({
-    url: '/uilib/components/list-format/demos/',
+    url: '/web/components/list-format/demos/',
   })
 
   it('have to match default list', async () => {

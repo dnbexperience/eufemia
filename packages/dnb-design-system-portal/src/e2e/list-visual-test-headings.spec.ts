@@ -5,14 +5,14 @@ test('List visual test pages have a descriptive level-one heading', async ({
   page,
 }) => {
   for (const path of [
-    '/uilib/components/list/visual-tests/action-footer/',
-    '/uilib/components/list/visual-tests/card-outline/',
-    '/uilib/components/list/visual-tests/custom-cells/',
-    '/uilib/components/list/visual-tests/focus-fallback/',
-    '/uilib/components/list/visual-tests/nested-alignment/',
-    '/uilib/components/list/visual-tests/overline-and-subline/',
-    '/uilib/components/list/visual-tests/text-layout/',
-    '/uilib/components/list/visual-tests/title-in-center/',
+    '/web/components/list/visual-tests/action-footer/',
+    '/web/components/list/visual-tests/card-outline/',
+    '/web/components/list/visual-tests/custom-cells/',
+    '/web/components/list/visual-tests/focus-fallback/',
+    '/web/components/list/visual-tests/nested-alignment/',
+    '/web/components/list/visual-tests/overline-and-subline/',
+    '/web/components/list/visual-tests/text-layout/',
+    '/web/components/list/visual-tests/title-in-center/',
   ]) {
     await page.goto(path)
     await expect(page.locator('main')).toBeVisible()

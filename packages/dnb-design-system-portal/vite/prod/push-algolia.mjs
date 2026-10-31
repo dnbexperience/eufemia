@@ -30,6 +30,7 @@ import {
   shouldIncludeInAlgolia,
   buildAlgoliaRecord,
   findAncestorPages,
+  replaceAlgoliaRecords,
 } from './algolia-helpers.mjs'
 import { getSlugFromMdastHeading } from '../../src/uilib/utils/slug.mjs'
 
@@ -160,6 +161,7 @@ async function pushAlgolia() {
       !shouldIncludeInAlgolia({
         slug,
         draft: frontmatter.draft,
+        route: frontmatter.route,
       })
     ) {
       continue
@@ -210,7 +212,7 @@ async function pushAlgolia() {
 
   const client = algoliasearch(appId, apiKey)
   const index = client.initIndex(indexName)
-  const { objectIDs } = await index.saveObjects(records)
+  const { objectIDs } = await replaceAlgoliaRecords(index, records)
   console.log(`✓ Pushed ${objectIDs.length} records to Algolia`)
 }
 

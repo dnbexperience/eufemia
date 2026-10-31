@@ -6,7 +6,7 @@ import {
 
 describe('Upload', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/base-fields/Upload/demos/',
+    url: '/web/extensions/forms/base-fields/Upload/demos/',
   })
 
   it('have to match upload-field-customized', async () => {

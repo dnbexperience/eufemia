@@ -1,0 +1,136 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/card/demos
+---
+
+import * as Examples from './Examples'
+import * as MediaExamples from './MediaExamples'
+
+## Demos
+
+### Default border
+
+<Examples.Default />
+
+### Stack
+
+When `stack` is set to `true`, the Card will add a gap between its children and stretch them to the full.
+
+For [form components](/web/extensions/forms/), you should use [Form.Card](/web/extensions/forms/Form/Card/) instead of the original Card component.
+
+When `stack` is set to `true`, the Card will add a gap between its children and stretch them to the full.
+
+<Examples.Stack />
+
+### With form fields
+
+When using Eufemia Forms, you may want to use [Form.Card](/web/extensions/forms/Form/Card/) instead of the original Card component.
+
+<Examples.WithFormFields />
+
+### Nested Cards
+
+Nested cards have `responsive={false}` by default and will not behave responsive.
+
+<Examples.NestedCards />
+
+### With drop shadow
+
+<Examples.WithDropShadow />
+
+## With `outset`
+
+When using `outset`, the Card will break out of the layout container.
+On small screens (mobile) the outset is removed.
+
+<Examples.WithOutset />
+
+### Without padding
+
+<Examples.WithoutPadding />
+
+### With nested Section
+
+Card components need to have `stack={true}` or `align="stretch"` in order to stretch its children components.
+
+<Examples.WithNestedSection />
+
+### With Table
+
+<Examples.WithTable />
+
+### With Grid
+
+Grid wraps the Cards nicely on smaller screens.
+
+<Examples.WithGrid />
+
+### With Flex
+
+While Flex has the horizontal direction, it uses rowGap when wrapping. So it's the container spacing the Cards then. This is not ideal, because the Cards should ideally have no gap, like in the Grid example above.
+
+<Examples.WithFlex />
+
+<VisibleWhenVisualTest>
+  <Examples.WithTableOutline />
+  <Examples.InColoredSection />
+</VisibleWhenVisualTest>
+
+## With `backgroundColor` and `outline`
+
+<Examples.CustomBackgroundColorAndOutline />
+
+### Interactive Cards
+
+Use `Card.Action` to make a Card clickable or a link. Pass `onClick` for a button-like card, or `href`/`to` for a link card. Both variants get hover, focus, and keyboard styles automatically.
+
+For custom routing (e.g. react-router), pass a router `Link` via the `element` prop on `Card.Action`.
+
+<Examples.InteractiveCards />
+
+### Info card layout
+
+Use `Card.Info` directly for information and tips. Compose its content using existing components.
+
+<Examples.InfoLayout />
+
+### Info card actions
+
+Set `onClick`, `href`, or `to` on Card.Info when the whole card performs one action or navigates to a URL. Keep the content free of nested links, buttons, and other interactive elements.
+
+<Examples.InfoCardActions />
+
+### Closable info card
+
+Compose Card.Info.CloseButton inside Card.Info and wrap the card in [HeightAnimation](/web/components/height-animation/) to animate dismissal. HeightAnimation removes the card after the closing animation completes. In your application, move focus to a suitable remaining control when dismissing focused content.
+
+<Examples.ClosableInfoCard />
+
+### Graphic and centered layouts
+
+<Examples.InfoCardGraphic />
+
+### Image beside content
+
+Set `innerSpace={0}` on Card.Info for edge-to-edge media and add padding around the content. Flex wraps the image above the text when the card becomes narrow, including inside a grid. Use descriptive `alt` text for meaningful images and `alt=""` for decorative images.
+
+<MediaExamples.ImageCard />
+
+### Centered image card
+
+Set `maxWidth` directly on Card.Info and use Flex to center the content. Round the image's top corners without clipping the card, so keyboard focus outlines remain visible.
+
+<MediaExamples.CenteredImageCard />
+
+### Full media with video
+
+Use a muted background video for decoration and keep all information in the card's text. The video plays automatically unless the user prefers reduced motion. Enabling reduced motion pauses playback; the user can still choose to play it. The keyboard-accessible control toggles play and pause without resetting playback. Use the first video frame as the poster to avoid a visual jump when playback starts. A poster image and the call to action remain available if playback fails.
+
+Replace the video and poster URLs with your own media. `Card.Info.Overlay` supplies the gradient, progressive blur, text shadows for headings and paragraphs, padding, and dark-surface context for its controls. Check text contrast across the full video. For video that conveys information, provide native controls, captions, and a transcript; see [images and video](/web/components/card/#images-and-video).
+
+Use `Card.Info.MediaButton` and pass the video ref. It handles playback state, reduced motion, translated labels, and the play/pause icon transition. Keep source, poster, and error fallback handling with the video.
+
+The close control pauses playback, dismisses the card, and moves focus to this section's heading.
+
+<MediaExamples.VideoCard />

@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`DatePicker for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/date-picker/visual-tests/',
+    url: '/web/components/date-picker/visual-tests/',
   })
 
   it('have to match the input fields', async () => {

@@ -1,0 +1,52 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/input-masked/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  InputMaskedProperties,
+  InputMaskedMaskOptionsProperties,
+} from '@dnb/eufemia/src/components/input-masked/InputMaskedDocs'
+
+## Properties
+
+<PropertiesTable props={InputMaskedProperties} />
+
+## Number mask properties
+
+The number mask is used for all kinds of number based masks, like:
+
+**Locale based masks:**
+
+- `asNumber`
+- `asCurrency`
+- `asPercent`
+
+**Static masks:**
+
+- `numberMask`
+- `currencyMask`
+
+You can `maskOptions` to manipulate the options.
+
+Defaults to Norwegian number format.
+
+<PropertiesTable props={InputMaskedMaskOptionsProperties} />
+
+### Custom number mask usage
+
+The number mask is included and can be set with the `numberMask` property.
+
+```jsx
+
+// 1. Use the desired configurations
+const numberMask = {
+  prefix: '',
+  suffix: ',- kr'
+}
+
+// 2. Then pass 'numberMask' to the InputMasked component as the numberMask
+<InputMasked numberMask={numberMask} ... />
+```

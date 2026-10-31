@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-const url = '/uilib/extensions/forms/create-component/FieldBlock/demos/'
+const url = '/web/extensions/forms/create-component/FieldBlock/demos/'
 
 describe.each(['ui', 'sbanken'])(`FieldBlock for %s`, (themeName) => {
   setupPageScreenshot({

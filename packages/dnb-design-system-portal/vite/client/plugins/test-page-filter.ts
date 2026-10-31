@@ -13,8 +13,8 @@
  * Environment variables:
  * - `IS_VISUAL_TEST=1` — extracts URLs from `setupPageScreenshot()` /
  *   `makeScreenshot()` calls in `.screenshot.test.ts` files
- * - `IS_E2E=1` — extracts URLs from `page.goto()` calls in
- *   `.spec.ts` / `.e2e.spec.ts` files
+ * - `IS_E2E=1` — extracts URLs from `page.goto()` and `toHaveURL()` calls
+ *   in `.spec.ts` / `.e2e.spec.ts` files
  *
  * When neither variable is set, the plugin does nothing.
  */
@@ -33,15 +33,15 @@ const VISUAL_TEST_FALLBACK_PAGES = ['/visual-tests', '/demos']
 const E2E_TEST_FALLBACK_PAGES = [
   '/',
   '/design-system/',
-  '/uilib/components/',
-  '/uilib/extensions/',
-  '/uilib/elements/',
-  '/uilib/components/button/',
-  '/uilib/components/button/demos/',
-  '/uilib/components/textarea/demos/',
-  '/uilib/about-the-lib/',
-  '/uilib/components/card/',
-  '/uilib/typography/',
+  '/web/components/',
+  '/web/extensions/',
+  '/web/elements/',
+  '/web/components/button/',
+  '/web/components/button/demos/',
+  '/web/components/textarea/demos/',
+  '/web/about-the-lib/',
+  '/web/components/card/',
+  '/web/typography/',
   '/quickguide-designer/colors/',
   '/quickguide-designer/fonts/',
   '/contribute/getting-started/',
@@ -99,6 +99,17 @@ export default function testPageFilterPlugin(): Plugin {
   }
 
   const originalLength = routes.length;
+  let added;
+  do {
+    added = false;
+    for (const route of routes) {
+      const target = normalize(route.handle?.redirectTo);
+      if (allowlist.has(normalize(route.path)) && target && !allowlist.has(target)) {
+        allowlist.add(target);
+        added = true;
+      }
+    }
+  } while (added);
   const filtered = routes.filter(r => {
     if (r.index) return true;
     const norm = normalize(r.path);
@@ -290,7 +301,8 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
     if (
       ts.isCallExpression(node) &&
       ts.isPropertyAccessExpression(node.expression) &&
-      node.expression.name.text === 'goto'
+      (node.expression.name.text === 'goto' ||
+        node.expression.name.text === 'toHaveURL')
     ) {
       const [arg] = node.arguments
       const rawValue =

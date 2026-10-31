@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 test.describe('Focus mode', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/radio/demos/')
+    await page.goto('/web/components/radio/demos/')
     await waitForApp(page)
   })
 
@@ -21,7 +21,7 @@ test.describe('Focus mode', () => {
     await expect(page).toHaveURL(/focusmode=/)
 
     // Sidebar and footer should be hidden
-    await expect(page.locator('nav#portal-sidebar-menu')).not.toBeVisible()
+    await expect(page.locator('#portal-sidebar-menu')).not.toBeVisible()
     await expect(page.locator('footer')).not.toBeVisible()
 
     // The code block preview and toolbar should still be visible
@@ -46,7 +46,7 @@ test.describe('Focus mode', () => {
     await expect(page).not.toHaveURL(/focusmode=/)
 
     // Sidebar should reappear
-    await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
+    await expect(page.locator('#portal-sidebar-menu')).toBeVisible()
   })
 
   test('should show brand switch in toolbar during focusmode', async ({
@@ -122,7 +122,7 @@ test.describe('Focus mode', () => {
         (hash ? ' with a hash' : ''),
       async ({ page }) => {
         if (hash) {
-          await page.goto('/uilib/components/radio/demos/' + hash)
+          await page.goto('/web/components/radio/demos/' + hash)
           await waitForApp(page)
         }
 
@@ -242,7 +242,7 @@ test.describe('Focus mode', () => {
     })
 
     await page.goto(
-      '/uilib/components/radio/demos/?q=term#with-different-sizes'
+      '/web/components/radio/demos/?q=term#with-different-sizes'
     )
     await waitForApp(page)
 
@@ -264,7 +264,7 @@ test.describe('Focus mode', () => {
       await page.goBack()
 
       await expect(page).toHaveURL(previousUrl)
-      await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
+      await expect(page.locator('#portal-sidebar-menu')).toBeVisible()
       await expect(
         page.locator('button[aria-label="Quit focus mode"]')
       ).toHaveCount(0)
@@ -297,7 +297,7 @@ test.describe('Focus mode', () => {
     page,
   }) => {
     await page.goto(
-      '/uilib/components/radio/demos/?focusmode=RadioExampleSizes'
+      '/web/components/radio/demos/?focusmode=RadioExampleSizes'
     )
     await waitForApp(page)
 
@@ -307,6 +307,6 @@ test.describe('Focus mode', () => {
     ).toBeVisible()
 
     // Sidebar should be hidden
-    await expect(page.locator('nav#portal-sidebar-menu')).not.toBeVisible()
+    await expect(page.locator('#portal-sidebar-menu')).not.toBeVisible()
   })
 })

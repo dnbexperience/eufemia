@@ -2,7 +2,7 @@ import { it, describe } from 'vitest'
 import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('Iterate.Array', () => {
-  const url = '/uilib/extensions/forms/Iterate/Array/demos/'
+  const url = '/web/extensions/forms/Iterate/Array/demos/'
 
   it('have to match primitive element values', async () => {
     await makeScreenshot({

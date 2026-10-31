@@ -1,8 +1,14 @@
 ---
-title: 'Icons Library'
-contentTitle: 'Icons library'
-description: 'List of all Eufemia icons.'
+title: Icons Library
+contentTitle: Icons library
+description: List of all Eufemia icons.
 order: 1
+navigation:
+  parent: design-language
+  title: Iconography
+  order: 6
+  kind: group
+  pageTitle: Browse icons
 ---
 
 import ListAllIcons from 'dnb-design-system-portal/src/shared/parts/icons/ListAllIcons'
@@ -11,16 +17,16 @@ This is a comprehensive list of all available icons, sorted by categories. Prima
 
 Company and product logos are maintained separately in the [company logos library](/collections/logos).
 
-- For web, icons are available as public [versioned SVG files](/uilib/usage/assets/#available-eufemia-assets) and ready-to-use [React components](/icons/secondary#react-example-usage).
-- For Android, there are public [custom XML drawable packages](https://assets.eufemia.dnb.no/icons/dnb/eufemia-icons-xml.tgz) and [categorized XML drawable packages](https://assets.eufemia.dnb.no/icons/dnb/eufemia-icons-xml-categorized.tgz). Use the matching [versioned CDN path](/uilib/usage/assets/#stable-and-versioned-urls) for reproducible builds.
-- Support for iOS with the PDF format was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
+- For web, icons are available as public [versioned SVG files](/web/usage/assets/#available-eufemia-assets) and ready-to-use [React components](/icons/secondary#react-example-usage).
+- For Android, there are public [custom XML drawable packages](https://assets.eufemia.dnb.no/icons/dnb/eufemia-icons-xml.tgz) and [categorized XML drawable packages](https://assets.eufemia.dnb.no/icons/dnb/eufemia-icons-xml-categorized.tgz). Use the matching [versioned CDN path](/web/usage/assets/#stable-and-versioned-urls) for reproducible builds.
+- Support for iOS with the PDF format was discontinued in [v10](/web/about-the-lib/releases/eufemia/v10-info/).
 
 ## Filled Icons
 
-Some icons support a filled variant where the SVG paths are filled with `currentColor`. Use the toggle below to preview filled icons. Use the `fill` prop on `Icon`. See the [Icon component docs](/uilib/components/icon#filled-icons) for usage details.
+Some icons support a filled variant where the SVG paths are filled with `currentColor`. Use the toggle below to preview filled icons. Use the `fill` prop on `Icon`. See the [Icon component docs](/web/components/icon#filled-icons) for usage details.
 
 ## Animated Icons
 
-Some icons have an optional animated import. Use the toggle below to see which icons support motion, then hover an icon to preview the animation. Animated icons use direct default imports rather than named imports. See the [Icon component docs](/uilib/components/icon#animated-icons) for where, why, and when to use them.
+Some icons have an optional animated import. Use the toggle below to see which icons support motion, then hover an icon to preview the animation. Animated icons use direct default imports rather than named imports. See the [Icon component docs](/web/components/icon#animated-icons) for where, why, and when to use them.
 
 <ListAllIcons groupBy="category" />

@@ -1,0 +1,55 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/switch/info
+---
+
+import WhenToUseForms from 'Docs/web/extensions/forms/when-to-use-forms.mdx'
+
+## Import
+
+```tsx
+import { Switch } from '@dnb/eufemia'
+```
+
+## Description
+
+_Also known as a toggle switch or toggle._
+
+The Switch component (toggle) is a digital on/off switch. Toggle switches are best used for changing system functionalities and preferences. "Toggles may replace two radio buttons or a single checkbox to allow users to choose between two opposing states." – [Source][1]
+
+You may also check out the [Checkbox](/web/components/checkbox) component.
+
+## When to use Switch vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Switch` is [Field.Boolean](/web/extensions/forms/base-fields/Boolean/) with the switch variant (`variant="switch"`), or [Field.Toggle](/web/extensions/forms/base-fields/Toggle/) for toggling between two values.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1493)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/switch)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/switch)
+
+## Accessibility
+
+The Switch component uses a semantic checkbox input with `role="switch"` to properly communicate its toggle functionality. It is keyboard accessible (Space to toggle) and announces its current state to screen readers.
+
+## How it **should** work
+
+"Toggle switches should take immediate effect and should not require the user to click Save or Submit to apply the new state. As always, we should strive to match the system to the real world." – [Source][1]
+
+### When not to use
+
+Do not use a toggle switch if the user is required to click Save or Update to apply the new state.
+
+## Good practices
+
+"The toggle labels should describe what the control will do when the switch is on; they should not be neutral or ambiguous. When in doubt, say the label aloud and append 'on/off' to the end. If it doesn't make sense, then rewrite the label." – [Source][1]
+
+The label should describe what the toggle will do when the switch is on.
+
+[1]: https://www.nngroup.com/articles/toggle-switch-guidelines/
+
+<RelatedComponents />

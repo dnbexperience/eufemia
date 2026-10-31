@@ -15,20 +15,20 @@ describe('suggestEdit', () => {
   it('creates a link with the page, anchor and source path', () => {
     expect(
       getSuggestEditUrl(
-        '/uilib/components/button/#events',
-        'packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx'
+        '/web/components/button/#events',
+        'packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx'
       )
     ).toBe(
-      '/contribute/suggest-edit/?page=%2Fuilib%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fuilib%2Fcomponents%2Fbutton%2Finfo.mdx'
+      '/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
     )
   })
 
   it('creates a complete portal-content prompt', () => {
     expect(
       createSuggestEditPrompt({
-        pageUrl: 'https://eufemia.dnb.no/uilib/components/button/#events',
+        pageUrl: 'https://eufemia.dnb.no/web/components/button/#events',
         sourcePath:
-          'packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx',
+          'packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx',
         requestedChange: 'Clarify when the click event fires.',
         proposedWording: 'The event fires after activation.',
         includeInReleaseNotes: false,
@@ -38,8 +38,8 @@ describe('suggestEdit', () => {
     )
       .toBe(`Use the eufemia-portal-content skill to update this Eufemia portal page and create or update the pull request. If the skill is not available, follow the instructions below directly. Use the Eufemia MCP server for current documentation if it is configured.
 
-Page: https://eufemia.dnb.no/uilib/components/button/#events
-Source: https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx
+Page: https://eufemia.dnb.no/web/components/button/#events
+Source: https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx
 
 Requested change:
 Clarify when the click event fires.

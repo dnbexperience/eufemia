@@ -7,7 +7,7 @@ describe('Flex.Item', () => {
 
   it('have to match responsive size on large viewport', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/item/demos/',
+      url: '/web/layout/flex/item/demos/',
       pageViewport: {
         width: 1000,
       },
@@ -17,7 +17,7 @@ describe('Flex.Item', () => {
 
   it('have to match responsive size on medium viewport', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/item/demos/',
+      url: '/web/layout/flex/item/demos/',
       pageViewport: {
         width: 800,
       },
@@ -27,7 +27,7 @@ describe('Flex.Item', () => {
 
   it('have to match responsive size on small viewport', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/item/demos/',
+      url: '/web/layout/flex/item/demos/',
       pageViewport: {
         width: 600,
       },
@@ -37,7 +37,7 @@ describe('Flex.Item', () => {
 
   it('have to match responsive size on x-small viewport', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/item/demos/',
+      url: '/web/layout/flex/item/demos/',
       pageViewport: {
         width: 400,
       },

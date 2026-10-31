@@ -29,9 +29,9 @@ describe('componentCategories', () => {
 
   describe('excludedSlugs', () => {
     it('excludes the fragments index and the overview page', () => {
-      expect(excludedSlugs.has('uilib/components/fragments')).toBe(true)
-      expect(excludedSlugs.has('uilib/components/overview')).toBe(true)
-      expect(excludedSlugs.has('uilib/components/dropdown')).toBe(false)
+      expect(excludedSlugs.has('web/components/fragments')).toBe(true)
+      expect(excludedSlugs.has('web/components/overview')).toBe(true)
+      expect(excludedSlugs.has('web/components/dropdown')).toBe(false)
     })
   })
 

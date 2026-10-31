@@ -1,6 +1,6 @@
 /**
- * Vite plugin that persists and restores scroll positions for
- * specified DOM elements across route changes.
+ * Vite plugin that persists and restores the page scroll position
+ * across route changes.
  *
  * The runtime code is served via a virtual module (`virtual:scroll-position`)
  * that exports helper functions and a React hook.

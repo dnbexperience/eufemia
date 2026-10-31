@@ -5,7 +5,7 @@ test('keeps composite fields separate when the composition wraps', async ({
 }) => {
   await page.setViewportSize({ width: 410, height: 900 })
   await page.goto(
-    '/uilib/extensions/forms/feature-fields/PhoneNumber/demos/'
+    '/web/extensions/forms/feature-fields/PhoneNumber/demos/'
   )
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
@@ -17,7 +17,7 @@ test('keeps composite fields separate when the composition wraps', async ({
     )
     .first()
     .evaluate((element) => element.outerHTML)
-  await page.goto('/uilib/extensions/forms/base-fields/Composition/demos/')
+  await page.goto('/web/extensions/forms/base-fields/Composition/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
@@ -82,7 +82,7 @@ test('keeps long dropdown text inside a narrow container', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 900 })
-  await page.goto('/uilib/extensions/forms/base-fields/Selection/demos/')
+  await page.goto('/web/extensions/forms/base-fields/Selection/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
@@ -202,7 +202,7 @@ test('keeps short values visible at predefined widths in a parent sized to its c
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 })
-  await page.goto('/uilib/extensions/forms/base-fields/Selection/demos/')
+  await page.goto('/web/extensions/forms/base-fields/Selection/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
@@ -214,34 +214,44 @@ test('keeps short values visible at predefined widths in a parent sized to its c
     const stack = element.firstElementChild as HTMLElement
     stack.style.display = 'inline-flex'
     stack.style.alignItems = 'flex-start'
+    for (const text of element.querySelectorAll(
+      '.dnb-dropdown__text__inner'
+    )) {
+      text.textContent = 'Foo!'
+    }
   })
-  const dimensions = await example
-    .getByRole('combobox')
-    .evaluateAll((buttons) =>
-      buttons.slice(0, 4).map((button) => {
-        const text = button.querySelector(
-          '.dnb-dropdown__text__inner'
-        ) as HTMLElement
-        return {
-          width: button.getBoundingClientRect().width,
-          text: text.clientWidth,
-          fullText: text.scrollWidth,
-        }
-      })
-    )
-  expect(dimensions.map(({ width }) => width)).toEqual([
-    336, 104, 176, 336,
-  ])
-  for (const { text, fullText } of dimensions) {
-    expect(text).toBeGreaterThanOrEqual(fullText)
-  }
+  await page.evaluate(() => document.fonts.ready)
+  await expect(async () => {
+    const dimensions = await example
+      .getByRole('combobox')
+      .evaluateAll((buttons) =>
+        buttons.slice(0, 4).map((button) => {
+          const text = button.querySelector(
+            '.dnb-dropdown__text__inner'
+          ) as HTMLElement
+          const range = document.createRange()
+          range.selectNodeContents(text)
+          return {
+            width: button.getBoundingClientRect().width,
+            text: text.getBoundingClientRect().width,
+            fullText: range.getBoundingClientRect().width,
+          }
+        })
+      )
+    expect(dimensions.map(({ width }) => width)).toEqual([
+      336, 104, 176, 336,
+    ])
+    for (const { text, fullText } of dimensions) {
+      expect(text).toBeGreaterThanOrEqual(fullText)
+    }
+  }).toPass({ timeout: 5000 })
 })
 
 test('preserves the width of horizontal string fields in narrow containers', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 })
-  await page.goto('/uilib/extensions/forms/base-fields/String/demos/')
+  await page.goto('/web/extensions/forms/base-fields/String/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'

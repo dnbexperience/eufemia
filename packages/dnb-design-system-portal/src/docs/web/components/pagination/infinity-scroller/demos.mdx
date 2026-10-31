@@ -1,0 +1,34 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/pagination/infinity-scroller/demos
+---
+
+import {
+  PaginationExampleInfinityLoadButton,
+  PaginationExampleInfinityIndicator,
+  PaginationExampleInfinityUnknown,
+  PaginationExampleInfinityTable,
+} from 'Docs/web/components/pagination/infinity-scroller/Examples'
+
+## Demos
+
+### Infinity scroller with load button
+
+A load button is shown at the bottom by having `useLoadButton={true}` - but here we define our `startupPage={5}`, so we also get a load button on top.
+
+<PaginationExampleInfinityLoadButton />
+
+### Infinity scroller with custom load indicator
+
+<PaginationExampleInfinityIndicator />
+
+### Infinity scroller with unknown `pageCount`
+
+<PaginationExampleInfinityUnknown />
+
+### Advanced Table infinity scroller
+
+You can find the code on [GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/pagination/Examples.tsx)
+
+<PaginationExampleInfinityTable />

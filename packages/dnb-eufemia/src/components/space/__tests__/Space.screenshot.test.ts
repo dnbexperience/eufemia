@@ -6,7 +6,7 @@ import {
 
 describe('Space', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/space/demos/',
+    url: '/web/layout/space/demos/',
   })
 
   it('have to match the spacing patterns', async () => {
@@ -60,7 +60,7 @@ describe('Space', () => {
 
 describe('Space inner spacing breakpoints', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/space/demos/',
+    url: '/web/layout/space/demos/',
   })
 
   it('have to match inner spacing on "small" breakpoint', async () => {
@@ -93,7 +93,7 @@ describe('Space inner spacing breakpoints', () => {
 
 describe('Space responsive outer spacing', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/space/demos/',
+    url: '/web/layout/space/demos/',
   })
 
   it('have to match responsive outer spacing on "small" breakpoint', async () => {
@@ -126,7 +126,7 @@ describe('Space responsive outer spacing', () => {
 
 describe('Space inline/block', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/space/demos/',
+    url: '/web/layout/space/demos/',
   })
 
   it('have to match space inline/block', async () => {
@@ -138,7 +138,7 @@ describe('Space inline/block', () => {
 
 describe('Space innerspace media queries', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/space/demos/',
+    url: '/web/layout/space/demos/',
   })
 
   it('have to match innerspace media queries on "small" breakpoint', async () => {
@@ -171,7 +171,7 @@ describe('Space innerspace media queries', () => {
 
 describe('Space media queries', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/space/demos/',
+    url: '/web/layout/space/demos/',
   })
 
   it('have to match space media queries on "small" breakpoint', async () => {

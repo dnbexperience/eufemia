@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Avatar for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/avatar/demos/',
+    url: '/web/components/avatar/demos/',
   })
 
   describe('children', () => {

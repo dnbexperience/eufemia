@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
-const route = '/uilib/components/button/demos/#primary-button'
+const route = '/web/components/button/demos/#primary-button'
 
 test('renders a scoped Eufemia preview without JavaScript', async ({
   browser,
@@ -42,11 +42,11 @@ test('keeps labels and tab panels linked after hydration', async ({
           .filter((id) => !document.getElementById(id))
       )
 
-  await page.goto('/uilib/extensions/forms/Connectors/Bring/demos/')
+  await page.goto('/web/extensions/forms/Connectors/Bring/demos/')
   await waitForApp(page)
   expect(await findBrokenReferences()).toEqual([])
 
-  await page.goto('/uilib/components/tabs/demos/')
+  await page.goto('/web/components/tabs/demos/')
   await waitForApp(page)
   expect(await findBrokenReferences()).toEqual([])
 })

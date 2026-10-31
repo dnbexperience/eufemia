@@ -11,6 +11,7 @@ import {
   excludedSlugs,
   getCategoryId,
   getCategoryTitle,
+  isCategorizedComponentSlug,
   type CategoryId,
 } from './componentCategories'
 
@@ -64,9 +65,7 @@ export default function RelatedComponents() {
             draft: { ne: true }
             hideInMenu: { ne: true }
           }
-          internal: {
-            contentFilePath: { regex: "/(uilib/components/.*)/" }
-          }
+          internal: { contentFilePath: { regex: "/(web/.*)/" } }
         }
         sort: [
           { frontmatter: { order: ASC } }
@@ -96,7 +95,12 @@ export default function RelatedComponents() {
       const slug = node.fields.slug
       const category = getCategoryId(node.frontmatter.category)
 
-      if (excludedSlugs.has(slug) || !category) {
+      if (
+        node.frontmatter.route === false ||
+        excludedSlugs.has(slug) ||
+        !isCategorizedComponentSlug(slug) ||
+        !category
+      ) {
         return entries
       }
 
@@ -141,7 +145,7 @@ export default function RelatedComponents() {
 
       <P bottom="small">
         {cleanTitle(current.title)} is part of the{' '}
-        <Anchor href={`/uilib/components/overview/#${current.category}`}>
+        <Anchor href={`/web/components/overview/#${current.category}`}>
           {categoryTitle}
         </Anchor>{' '}
         category. Other components for similar needs:
@@ -162,7 +166,7 @@ export default function RelatedComponents() {
 
       {hasMore && (
         <P top="x-small">
-          <Anchor href={`/uilib/components/overview/#${current.category}`}>
+          <Anchor href={`/web/components/overview/#${current.category}`}>
             See all in {categoryTitle} →
           </Anchor>
         </P>

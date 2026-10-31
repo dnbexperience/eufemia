@@ -14,10 +14,16 @@ export type AnchorProps = Props &
     HTMLAnchorElement
   >
 
-function PortalLink({ href, onClick = null, ref, ...props }: AnchorProps) {
+function PortalLink({
+  href,
+  to = href,
+  onClick = null,
+  ref,
+  ...props
+}: AnchorProps) {
   return (
     <RouterLink
-      to={href}
+      to={to}
       ref={ref as Ref<HTMLAnchorElement>}
       {...(props as Omit<LinkProps, 'ref' | 'onClick' | 'to'>)}
       onClick={onClick}

@@ -6,7 +6,7 @@
  */
 
 export const excludedSlugPartials = [
-  'uilib/about-the-lib/releases/',
+  'web/about-the-lib/releases/',
   'EUFEMIA_CHANGELOG',
 ]
 
@@ -17,12 +17,21 @@ const hasSearch = (record) => String(record.search || '').length > 0
 const hasDescription = (record) =>
   String(record.description || '').length > 0
 
-export function shouldIncludeInAlgolia({ slug, draft = undefined }) {
+export function shouldIncludeInAlgolia({
+  slug,
+  draft = undefined,
+  route = undefined,
+}) {
   return (
     !slug.includes('not_in_use') &&
     !excludedSlugPartials.some((partial) => slug.includes(partial)) &&
-    draft !== true
+    draft !== true &&
+    route !== false
   )
+}
+
+export function replaceAlgoliaRecords(index, records) {
+  return index.replaceAllObjects(records, { safe: true }).wait()
 }
 
 export function buildAlgoliaRecord({

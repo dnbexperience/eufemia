@@ -6,12 +6,12 @@ test.describe('Page language before hydration', () => {
 
   for (const route of [
     '/',
-    '/uilib/',
-    '/uilib/components/button/',
-    '/uilib/extensions/forms/',
+    '/web/',
+    '/web/components/button/',
+    '/web/extensions/forms/',
     '/contribute/',
     '/EUFEMIA_CHANGELOG/',
-    '/uilib/extensions/forms/Value/BankAccountNumber/',
+    '/web/extensions/forms/Value/BankAccountNumber/',
   ]) {
     test(`declares English on ${route}`, async ({ page }) => {
       await page.goto(route)
@@ -24,7 +24,7 @@ test.describe('Page language before hydration', () => {
     page,
   }) => {
     await page.goto(
-      '/uilib/components/autocomplete/demos/#default-autocomplete'
+      '/web/components/autocomplete/demos/#default-autocomplete'
     )
 
     await expect(
@@ -45,7 +45,7 @@ test('keeps documentation in English and follows Portal Tools for previews and p
     }
   })
   await page.goto(
-    '/uilib/components/autocomplete/demos/#default-autocomplete'
+    '/web/components/autocomplete/demos/#default-autocomplete'
   )
   await waitForApp(page)
 

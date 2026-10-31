@@ -1,0 +1,28 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/breadcrumb/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import {
+  BreadcrumbProperties,
+  BreadcrumbItemProperties,
+} from '@dnb/eufemia/src/components/breadcrumb/BreadcrumbDocs'
+
+## Properties
+
+### `Breadcrumb` properties
+
+<PropertiesTable props={BreadcrumbProperties} />
+
+### `Breadcrumb.Item` properties
+
+<PropertiesTable props={BreadcrumbItemProperties} />
+
+**NB:** When interactive, the item is an inherited [Button](/web/components/button/). You can therefore swap out the underlying HTML element, by providing a new `element` or use other Button properties, such as `to` instead of `href`.
+
+## Translations
+
+<TranslationsTable localeKey="Breadcrumb" />

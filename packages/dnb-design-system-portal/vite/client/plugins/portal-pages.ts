@@ -18,7 +18,11 @@ import type {
   PageFileInfo,
   TableOfContentsItem,
 } from './portal-pages.shared'
-import { compareByOrder, isFirstTabPage } from './portal-pages.shared'
+import {
+  compareByOrder,
+  getPageRedirects,
+  isFirstTabPage,
+} from './portal-pages.shared'
 
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -121,7 +125,10 @@ export function getPortalPages(docsDir: string = getDefaultDocsDir()) {
 export function toRegularMdxNodes(nodes: MdxNode[]): MdxNode[] {
   return nodes
     .filter(
-      (node) => node.frontmatter?.title && node.frontmatter?.draft !== true
+      (node) =>
+        node.frontmatter?.title &&
+        node.frontmatter?.draft !== true &&
+        node.frontmatter?.route !== false
     )
     .sort((a, b) => {
       return String(a.frontmatter.title).localeCompare(
@@ -172,7 +179,7 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
 
       const relativePath = path.relative(docsDir, fullPath)
       const normalizedRelativePath = relativePath.replace(/\\/g, '/')
-      const slug = normalizedRelativePath
+      let slug = normalizedRelativePath
         .replace(/\.(mdx|tsx)$/, '')
         .replace(/(^|\/)index$/, '$1')
         .replace(/\/$/, '')
@@ -190,6 +197,9 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
         }
       }
 
+      if (typeof frontmatter.slug === 'string') {
+        slug = frontmatter.slug.replace(/^\/+|\/+$/g, '')
+      }
       results.push({
         filePath: fullPath,
         sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
@@ -230,7 +240,7 @@ export function readPageFileInfo(
 
   const relativePath = path.relative(docsDir, filePath)
   const normalizedRelativePath = relativePath.replace(/\\/g, '/')
-  const slug = normalizedRelativePath
+  let slug = normalizedRelativePath
     .replace(/\.(mdx|tsx)$/, '')
     .replace(/(^|\/)index$/, '$1')
     .replace(/\/$/, '')
@@ -249,6 +259,9 @@ export function readPageFileInfo(
     }
   }
 
+  if (typeof frontmatter.slug === 'string') {
+    slug = frontmatter.slug.replace(/^\/+|\/+$/g, '')
+  }
   return {
     filePath,
     sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
@@ -309,9 +322,11 @@ export default function portalPagesPlugin(
 
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
-        const redirectDefs: string[] = []
 
         files.forEach((file) => {
+          if (file.frontmatter.route === false) {
+            return
+          }
           const importPath = file.filePath.replace(/\\/g, '/')
 
           // First-tab pages (e.g. info.mdx with showTabs but no title)
@@ -320,13 +335,7 @@ export default function portalPagesPlugin(
           const isFirstTab = isFirstTabPage(file)
 
           if (isFirstTab) {
-            const parentSlug = file.slug.replace(/\/info$/, '')
-            redirectDefs.push(
-              `  { path: '/${file.slug}', Component: Noop, loader: () => redirect('/${parentSlug}/') },`
-            )
-            redirectDefs.push(
-              `  { path: '/${file.slug}/', Component: Noop, loader: () => redirect('/${parentSlug}/') },`
-            )
+            // The common redirect registry includes first-tab routes.
           } else if (file.slug === '') {
             // Homepage: index route
             routeDefs.push(
@@ -341,24 +350,9 @@ export default function portalPagesPlugin(
               `  { path: '/${file.slug}/', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
           }
-
-          if (file.type === 'mdx') {
-            // Collect redirect_from frontmatter for redirect routes
-            const redirectFrom = file.frontmatter.redirect_from
-            if (Array.isArray(redirectFrom)) {
-              for (const from of redirectFrom) {
-                const fromPath = String(from).replace(/\/$/, '')
-                const target = `/${file.slug}/`
-                redirectDefs.push(
-                  `  { path: '${fromPath}', Component: Noop, loader: () => redirect('${target}') },`
-                )
-                redirectDefs.push(
-                  `  { path: '${fromPath}/', Component: Noop, loader: () => redirect('${target}') },`
-                )
-              }
-            }
-          }
         })
+
+        const redirectData = JSON.stringify(getPageRedirects(files))
 
         // Path matching helper, re-exported so page lists can select pages
         // with the same globs the content queries used.
@@ -376,16 +370,30 @@ export default function portalPagesPlugin(
 
         return `
 import React from 'react';
-import { redirect } from 'react-router';
+import { Navigate, redirect, useLocation } from 'react-router';
+import { resolvePageRedirect } from '${globModulePath}';
 
-// No-op component for redirect routes so React Router does not warn
-// about a matched leaf route without an element or Component.
-function Noop() {
-  return null;
+function PageRedirect({ target, fragments }) {
+  const source = useLocation();
+  const key = source.hash.slice(1);
+  const destination = Object.prototype.hasOwnProperty.call(fragments, key) ? fragments[key] : target;
+  return React.createElement(Navigate, {
+    replace: true,
+    to: resolvePageRedirect(destination, source.pathname + source.search + source.hash),
+  });
 }
 
+const redirectRoutes = ${redirectData}.flatMap(({ from, to, fragments }) =>
+  [from, from + '/'].map(path => ({
+    path,
+    Component: () => React.createElement(PageRedirect, { target: to, fragments }),
+    handle: { redirectTo: to },
+    loader: typeof window === 'undefined' ? ({ request }) => redirect(resolvePageRedirect(to, request.url)) : undefined,
+  }))
+);
+
 export const routes = [
-${redirectDefs.join('\n')}
+...redirectRoutes,
 ${routeDefs.join('\n')}
 ];
 

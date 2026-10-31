@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-const url = '/uilib/extensions/forms/feature-fields/PhoneNumber/demos/'
+const url = '/web/extensions/forms/feature-fields/PhoneNumber/demos/'
 
 describe.each(['ui'])(`PhoneNumber for %s`, (themeName) => {
   setupPageScreenshot({

@@ -1,0 +1,142 @@
+/**
+ * UI lib Component Example
+ *
+ */
+
+import ComponentBox from '../../../../shared/tags/ComponentBox'
+import Breadcrumb from '@dnb/eufemia/src/components/Breadcrumb'
+
+export const BreadcrumbSingle = () => (
+  <ComponentBox data-visual-test="breadcrumb-single">
+    <Breadcrumb
+      navText="Single breadcrumb example"
+      onClick={() => {
+        console.log('Going back!')
+      }}
+    />
+  </ComponentBox>
+)
+
+export const BreadcrumbDefault = () => (
+  <ComponentBox data-visual-test="breadcrumb-default">
+    {() => {
+      // You can also import pages from a store and only do a remapping
+      const pages = [
+        {
+          text: '',
+          href: '/',
+        },
+        {
+          text: 'UI Library',
+          href: '/uilib',
+        },
+        {
+          text: 'Components',
+          href: '/web/components',
+        },
+        {
+          text: 'Breadcrumbs',
+          href: '/web/components/breadcrumbs',
+        },
+      ]
+
+      return (
+        <Breadcrumb
+          navText="Data breadcrumb example"
+          data={pages}
+          spacing
+        />
+      )
+    }}
+  </ComponentBox>
+)
+
+export const BreadcrumbChildren = () => (
+  <ComponentBox data-visual-test="breadcrumb-children">
+    <Breadcrumb navText="Child component breadcrumb example" spacing>
+      <Breadcrumb.Item
+        onClick={() => {
+          console.log('go home!')
+        }}
+        variant="home"
+      />
+      <Breadcrumb.Item
+        text="Page item"
+        onClick={() => {
+          console.log('go to page 1')
+        }}
+      />
+      <Breadcrumb.Item
+        text="Page item"
+        onClick={() => {
+          console.log('go to page 2')
+        }}
+        variant="current"
+      />
+    </Breadcrumb>
+  </ComponentBox>
+)
+
+export const BreadcrumbCollapse = () => (
+  <ComponentBox data-visual-test="breadcrumb-collapse">
+    {() => {
+      const pages = [
+        {
+          text: '',
+          href: '/',
+        },
+        {
+          text: 'UI Library',
+          href: '/uilib',
+        },
+        {
+          text: 'Components',
+          href: '/web/components',
+        },
+      ]
+
+      return (
+        <Breadcrumb
+          navText="Collapsed breadcrumb example"
+          variant="collapse"
+          data={pages}
+          spacing
+        />
+      )
+    }}
+  </ComponentBox>
+)
+
+export const BreadcrumbMultiple = () => (
+  <ComponentBox data-visual-test="breadcrumb-multiple">
+    {() => {
+      const pages = [
+        {
+          text: '',
+          href: '/',
+        },
+        {
+          text: 'UI Library',
+          href: '/uilib',
+        },
+        {
+          text: 'Components',
+          href: '/web/components',
+        },
+        {
+          text: 'Breadcrumbs',
+          href: '/web/components/breadcrumbs',
+        },
+      ]
+
+      return (
+        <Breadcrumb
+          navText="Expanded breadcrumb example"
+          variant="multiple"
+          data={pages}
+          spacing
+        />
+      )
+    }}
+  </ComponentBox>
+)

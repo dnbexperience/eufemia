@@ -1,12 +1,13 @@
 import { execFileSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import {
   shouldIncludeInAlgolia,
   buildAlgoliaRecord,
   findAncestorPages,
   excludedSlugPartials,
+  replaceAlgoliaRecords,
 } from '../../prod/algolia-helpers.mjs'
 import { getSlugFromMdastHeading } from '../../../src/uilib/utils/slug.mjs'
 import { unified } from 'unified'
@@ -19,6 +20,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 
 describe('algolia-helpers', () => {
+  it('replaces stale search records atomically and waits for completion', async () => {
+    const records = [{ objectID: 'web/components/button' }]
+    const wait = vi
+      .fn()
+      .mockResolvedValue({ objectIDs: ['web/components/button'] })
+    const index = { replaceAllObjects: vi.fn().mockReturnValue({ wait }) }
+    await expect(replaceAlgoliaRecords(index, records)).resolves.toEqual({
+      objectIDs: ['web/components/button'],
+    })
+    expect(index.replaceAllObjects).toHaveBeenCalledWith(records, {
+      safe: true,
+    })
+    expect(wait).toHaveBeenCalledOnce()
+  })
   describe('heading slugs', () => {
     // Mirrors how push-algolia walks a document: it holds an mdast node.
     function firstHeading(markdown: string) {
@@ -44,6 +59,14 @@ describe('algolia-helpers', () => {
   })
 
   describe('shouldIncludeInAlgolia', () => {
+    it('excludes contentless navigation entries', () => {
+      expect(
+        shouldIncludeInAlgolia({ slug: 'web/get-started', route: false })
+      ).toBe(false)
+      expect(
+        shouldIncludeInAlgolia({ slug: 'web/introduction', route: true })
+      ).toBe(true)
+    })
     it('should include a regular page', () => {
       expect(
         shouldIncludeInAlgolia({ slug: '/uilib/components/button' })

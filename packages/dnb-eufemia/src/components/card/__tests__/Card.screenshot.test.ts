@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/card/demos/',
+      url: '/web/components/card/demos/',
     })
 
     it('have to match border', async () => {
@@ -100,7 +100,7 @@ describe.each(['ui', 'sbanken'])(
       pageViewport: {
         width: 400,
       },
-      url: '/uilib/components/card/demos/',
+      url: '/web/components/card/demos/',
     }
 
     it('have to match border', async () => {
@@ -154,7 +154,7 @@ describe.each(['ui', 'sbanken'])(
 describe.each(['ui'])(`Interactive Card for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/card/demos/',
+    url: '/web/components/card/demos/',
   })
 
   it('have to match default state', async () => {

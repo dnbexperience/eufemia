@@ -1,0 +1,118 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Form/getData/info
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.getData
+```
+
+## Description
+
+With the `Form.getData` method, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+function Component() {
+  return <Form.Handler id={myFormId}>...</Form.Handler>
+}
+
+// Later, when there is data available
+const { getValue, data, filterData, reduceToVisibleFields } =
+  Form.getData(myFormId)
+```
+
+- `getValue` will return the value of the given path.
+- `data` will return the whole dataset (unvalidated).
+- `filterData` will filter the data based on your own logic.
+- `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
+
+You link them together via the `id` (string, function, object or React Context as the reference) property.
+
+TypeScript support:
+
+```tsx
+type Data = { foo: string }
+const { data } = Form.getData<Data>('unique')
+```
+
+Related helpers:
+
+- [Form.setData](/web/extensions/forms/Form/setData/)
+- [Form.useData](/web/extensions/forms/Form/useData/)
+- [Form.useDataValue](/web/extensions/forms/Form/useDataValue/)
+- [Form.useDataWithoutSubscription](/web/extensions/forms/Form/useData/#without-subscription)
+
+For rendered values inside `Form.Handler`, use [Form.useDataValue](/web/extensions/forms/Form/useDataValue/) to subscribe to one path. For custom field or value components that render form data, prefer [useFieldProps](/web/extensions/forms/create-component/useFieldProps/) or [useValueProps](/web/extensions/forms/create-component/useValueProps/). Use `Form.useDataWithoutSubscription().getData()` for non-subscribing imperative reads inside a component.
+
+## Visible data
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+const MyForm = () => {
+  return (
+    <Form.Handler id={myFormId}>
+      <Form.Visibility pathTrue="/isVisible">
+        <Field.String path="/foo" />
+      </Form.Visibility>
+    </Form.Handler>
+  )
+}
+
+// Later, when there is data available
+const { data, reduceToVisibleFields } = Form.getData(myFormId)
+const visibleData = reduceToVisibleFields(data)
+```
+
+## Filter data
+
+You can use the `filterData` function to filter your data.
+
+You simply give it the [same kind of filter](/web/extensions/forms/Form/Handler/demos/#filter-your-data) as you would within the `onSubmit` event callback.
+
+The callback function receives the following properties in an object:
+
+- `path` The path of the field.
+- `value` The value of the field.
+- `displayValue` The displayed value of the field.
+- `label` The label of the field.
+- `props` The given field properties.
+- `error` The error of the field. Is `undefined` if there is no error.
+
+The callback function should return a `boolean` or `undefined`. Return `false` to exclude an entry.
+
+It returns the filtered form data.
+
+```tsx
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+const MyForm = () => {
+  return (
+    <Form.Handler id={myFormId}>
+      <Field.String path="/foo" disabled />
+    </Form.Handler>
+  )
+}
+
+const filterDataHandler = ({ path, value, data, props, error }) => {
+  if (props.disabled === true) {
+    return false
+  }
+}
+
+// Later, when there is data available
+const { filterData } = Form.getData(myFormId)
+const filteredData = filterData(filterDataHandler)
+```

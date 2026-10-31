@@ -52,8 +52,9 @@ describe('visual test FOUC prevention script in index.html', () => {
 
     expect(runtime).toContain('data-visual-test')
     expect(runtime).toContain('header.sticky-menu')
-    expect(runtime).toContain('nav#portal-sidebar-menu')
-    expect(runtime).toContain('--aside-width:0')
+    expect(runtime).toContain('.dnb-sidebar-menu-responsive-inline')
+    expect(runtime).toContain('--aside-width:0px')
+    expect(runtime).not.toContain('.dnb-app-content{margin-left:0')
     expect(runtime).toContain('.dnb-live-editor')
     expect(runtime).toContain('.dnb-live-toolbar')
   })
@@ -65,7 +66,7 @@ describe('visual test FOUC prevention script in index.html', () => {
     if (search.includes('data-visual-test')) {
       const s = document.createElement('style')
       s.textContent =
-        'header.sticky-menu{display:none!important}nav#portal-sidebar-menu{display:none!important}.dnb-app-content{margin-left:0!important}:root{--aside-width:0}.dnb-live-editor{display:none!important}.dnb-live-toolbar{display:none!important}'
+        'header.sticky-menu{display:none!important}.dnb-sidebar-menu-responsive-inline{display:none!important}:root{--aside-width:0px}.dnb-live-editor{display:none!important}.dnb-live-toolbar{display:none!important}'
       document.head.appendChild(s)
     }
 

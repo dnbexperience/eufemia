@@ -24,27 +24,25 @@ describe('portal-pages plugin', () => {
     })
 
     it('ignores assets directories', () => {
-      expect(shouldIgnore('/src/docs/uilib/assets/icon.tsx')).toBe(true)
+      expect(shouldIgnore('/src/docs/web/assets/icon.tsx')).toBe(true)
     })
 
     it('ignores __utils__ directories', () => {
-      expect(shouldIgnore('/src/docs/uilib/__utils__/helper.tsx')).toBe(
-        true
-      )
+      expect(shouldIgnore('/src/docs/web/__utils__/helper.tsx')).toBe(true)
     })
 
     it('ignores helper components with PascalCase names', () => {
       expect(
-        shouldIgnore('/src/docs/uilib/changelog/GitHubChangelog.tsx')
+        shouldIgnore('/src/docs/web/changelog/GitHubChangelog.tsx')
       ).toBe(true)
       expect(
         shouldIgnore(
-          '/src/docs/uilib/extensions/payment-card/CardProductsTable.tsx'
+          '/src/docs/web/extensions/payment-card/CardProductsTable.tsx'
         )
       ).toBe(true)
       expect(
         shouldIgnore(
-          '/src/docs/uilib/extensions/forms/Form/ListFormComponents.tsx'
+          '/src/docs/web/extensions/forms/Form/ListFormComponents.tsx'
         )
       ).toBe(true)
     })
@@ -54,29 +52,27 @@ describe('portal-pages plugin', () => {
       expect(shouldIgnore('/src/docs/index.tsx')).toBe(false)
       expect(
         shouldIgnore(
-          '/src/docs/uilib/components/date-picker/visual-tests.tsx'
+          '/src/docs/web/components/date-picker/visual-tests.tsx'
         )
       ).toBe(false)
     })
 
     it('ignores ColorTable.tsx', () => {
-      expect(shouldIgnore('/src/docs/uilib/ColorTable.tsx')).toBe(true)
+      expect(shouldIgnore('/src/docs/web/ColorTable.tsx')).toBe(true)
     })
 
     it('ignores underscore-prefixed files', () => {
-      expect(shouldIgnore('/src/docs/uilib/typography/_helpers.tsx')).toBe(
+      expect(shouldIgnore('/src/docs/web/typography/_helpers.tsx')).toBe(
         true
       )
       expect(
-        shouldIgnore(
-          '/src/docs/uilib/components/drawer-list/_prop-data.mdx'
-        )
+        shouldIgnore('/src/docs/web/components/drawer-list/_prop-data.mdx')
       ).toBe(true)
     })
 
     it('does not ignore regular page files', () => {
       expect(shouldIgnore('/src/docs/button/info.mdx')).toBe(false)
-      expect(shouldIgnore('/src/docs/uilib/index.tsx')).toBe(false)
+      expect(shouldIgnore('/src/docs/web/index.tsx')).toBe(false)
     })
   })
 
@@ -137,14 +133,14 @@ describe('portal-pages plugin', () => {
 
     it('strips index from slug while preserving the case-sensitive source filename', () => {
       createFile(
-        'uilib/extensions/forms/Form/Section/index.mdx',
+        'web/extensions/forms/Form/Section/index.mdx',
         '---\ntitle: Form.Section\n---'
       )
 
       const files = scanPageFiles(tmpDir)
-      expect(files[0].slug).toBe('uilib/extensions/forms/Form/Section')
+      expect(files[0].slug).toBe('web/extensions/forms/Form/Section')
       expect(files[0].sourcePath).toBe(
-        'packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/Section/index.mdx'
+        'packages/dnb-design-system-portal/src/docs/web/extensions/forms/Form/Section/index.mdx'
       )
     })
 
@@ -160,6 +156,24 @@ describe('portal-pages plugin', () => {
         order: 3,
         draft: true,
       })
+    })
+
+    it('extracts redirects for a moved page', () => {
+      createFile(
+        'new/page.mdx',
+        [
+          '---',
+          'title: My Page',
+          'redirect_from:',
+          '  - /old/page',
+          '---',
+        ].join('\n')
+      )
+
+      const files = scanPageFiles(tmpDir)
+
+      expect(files[0].slug).toBe('new/page')
+      expect(files[0].frontmatter.redirect_from).toEqual(['/old/page'])
     })
 
     it('returns empty frontmatter for TSX files', () => {
@@ -330,7 +344,7 @@ describe('portal-pages plugin', () => {
       }) => unknown
 
       const result = handleHotUpdate({
-        file: '/src/docs/uilib/components/button/Examples.tsx',
+        file: '/src/docs/web/components/button/Examples.tsx',
         server: {
           moduleGraph: {
             getModuleById,

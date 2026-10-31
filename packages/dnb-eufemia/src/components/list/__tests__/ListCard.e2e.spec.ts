@@ -14,7 +14,7 @@ function getBorderWidths(item: Locator) {
 
 test.describe('List.Card', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/list/demos/')
+    await page.goto('/web/components/list/demos/')
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
       'true'
@@ -47,7 +47,7 @@ test.describe('List.Card outline', () => {
   const fullOutline = ['2px', '2px', '2px', '2px']
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/list/visual-tests/card-outline/')
+    await page.goto('/web/components/list/visual-tests/card-outline/')
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
       'true'

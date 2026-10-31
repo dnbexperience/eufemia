@@ -12,7 +12,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     }
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/textarea/demos/',
+      url: '/web/components/textarea/demos/',
     })
 
     it('have to match the "default" textarea style', async () => {

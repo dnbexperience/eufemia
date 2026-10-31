@@ -1,0 +1,31 @@
+---
+showTabs: true
+hideInMenu: true
+redirect_from:
+  - /uilib/extensions/forms/Form/Outlet/info
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.Outlet formHandlerId="my-form-id">...</Form.Outlet>)
+```
+
+## Description
+
+`Form.Outlet` links its children to an existing `Form.Handler` context by `formHandlerId`.
+
+This is useful when you need to render parts of a form outside the handler subtree, such as in a side panel, modal footer, or another layout region.
+
+The `formHandlerId` is required. The matching `Form.Handler` can be rendered before or after the outlet. The outlet stays empty until the handler context is available and then connects automatically.
+
+When `Form.Outlet` is placed **outside** a `Form.Handler` subtree it automatically wraps its children in a `<form>` element, so submit buttons work correctly. When placed **inside** an existing `Form.Handler`, no extra `<form>` element is added.
+
+## Relevant links
+
+- [Form.Handler](/web/extensions/forms/Form/Handler/)
+- [Form.useData](/web/extensions/forms/Form/useData/)
+- [Form.useSubmit](/web/extensions/forms/Form/useSubmit/)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/Outlet)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Form/Outlet)

@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Menu for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/menu/demos/',
+    url: '/web/components/menu/demos/',
   })
 
   it('have to match menu with accordion item', async () => {

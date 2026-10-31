@@ -1,0 +1,36 @@
+{
+  "title": "Welcome to Eufemia",
+  "introduction": "Eufemia is DNB's design system, providing resources for designers and developers to create consistent and efficient experiences across web and native platforms.",
+  "actions": [
+    {
+      "title": "Design",
+      "description": "Figma UI kits and more",
+      "url": "/quickguide-designer"
+    },
+    {
+      "title": "Develop",
+      "description": "Get started with installation guides",
+      "url": "/web/getting-started/"
+    }
+  ],
+  "resources": [
+    { "title": "Images", "url": "/web/elements/image" },
+    {
+      "title": "Animations",
+      "url": "/web/components/height-animation"
+    },
+    { "title": "Icons", "url": "/icons" },
+    {
+      "title": "Theming",
+      "url": "/web/usage/customisation/theming"
+    },
+    { "title": "Grid", "url": "/web/layout/grid" },
+    {
+      "title": "Tokens",
+      "url": "/web/usage/customisation/theming/design-tokens"
+    },
+    { "title": "Brand", "url": "/brand" },
+    { "title": "What's new", "url": "/whats-new" },
+    { "title": "Eufemia change log", "url": "/design-system" }
+  ]
+}

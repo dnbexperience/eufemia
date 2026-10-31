@@ -7,7 +7,7 @@ import { excludedSlugs, getCategoryId } from '../componentCategories'
 const currentDir = path.dirname(fileURLToPath(import.meta.url))
 const componentsDir = path.resolve(
   currentDir,
-  '../../../docs/uilib/components'
+  '../../../docs/web/components'
 )
 
 const tabPagePattern = /\/(info|demos|properties|events)\.mdx$/
@@ -44,7 +44,7 @@ function readFrontmatterValue(
 function toSlug(file: string): string {
   const relative = path.relative(componentsDir, file).replace(/\.mdx$/, '')
 
-  return `uilib/components/${relative}`
+  return `web/components/${relative}`
 }
 
 describe('Related components coverage', () => {
@@ -60,10 +60,12 @@ describe('Related components coverage', () => {
 
       const hasTitle = readFrontmatterValue(content, 'title') !== undefined
       const isDraft = readFrontmatterValue(content, 'draft') === 'true'
+      const isMenuDefinition =
+        readFrontmatterValue(content, 'route') === 'false'
       const isHidden =
         readFrontmatterValue(content, 'hideInMenu') === 'true'
 
-      if (!hasTitle || isDraft || isHidden) {
+      if (!hasTitle || isDraft || isHidden || isMenuDefinition) {
         return false
       }
 

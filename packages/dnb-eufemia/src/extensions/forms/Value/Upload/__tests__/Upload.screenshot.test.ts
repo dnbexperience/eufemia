@@ -6,7 +6,7 @@ import {
 
 describe('Value.Upload', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/Value/Upload/demos/',
+    url: '/web/extensions/forms/Value/Upload/demos/',
   })
 
   it('have to match default upload value', async () => {

@@ -1,0 +1,34 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Form/Appearance/info
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.Appearance />)
+```
+
+## Description
+
+`Form.Appearance` is a provider for theming form fields.
+
+For now, it only provides theming of sizes for [base fields](/web/extensions/forms/base-fields/) and all [feature fields](/web/extensions/forms/feature-fields/) that utilize them. See example below.
+
+You can nest `Form.Appearance` to provide different themes for different parts of the form.
+
+## Usage
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Appearance size="medium">
+    <Field.String />
+    <Form.Appearance size="large">
+      <Field.String />
+    </Form.Appearance>
+  </Form.Appearance>
+)
+```

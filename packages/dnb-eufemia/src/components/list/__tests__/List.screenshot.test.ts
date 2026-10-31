@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`List for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/list/demos',
+    url: '/web/components/list/demos',
   })
 
   it('have to match slots list', async () => {
@@ -166,7 +166,7 @@ describe.each(['ui'])(`List for %s on small viewport`, (themeName) => {
   setupPageScreenshot({
     themeName,
     pageViewport: smallViewport,
-    url: '/uilib/components/list/demos',
+    url: '/web/components/list/demos',
   })
 
   it('have to match separated list', async () => {

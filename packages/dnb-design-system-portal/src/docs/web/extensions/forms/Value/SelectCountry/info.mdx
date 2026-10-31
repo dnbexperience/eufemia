@@ -1,0 +1,40 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Value/SelectCountry/info
+---
+
+## Import
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.SelectCountry />)
+```
+
+## Description
+
+`Value.SelectCountry` will render the selected country name by `value`'s ISO code ([ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). It displays the country name in the current locale. If the value provided is not a valid/supported ISO code, it displays the value.
+
+There is a corresponding [Field.SelectCountry](/web/extensions/forms/feature-fields/SelectCountry) component.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.SelectCountry path="/country" />)
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/SelectCountry)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Value/SelectCountry)
+
+### The `useCountry` hook
+
+You can use the `Value.SelectCountry.useCountry` hook to get the country name by ISO code ([ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). It returns the country name in the current locale.
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+
+const MyComponent = () => {
+  const { getCountryNameByIso } = Value.SelectCountry.useCountry('NO')
+}
+```

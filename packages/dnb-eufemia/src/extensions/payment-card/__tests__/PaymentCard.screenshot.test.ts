@@ -5,7 +5,7 @@ import {
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('PaymentCard', () => {
-  setupPageScreenshot({ url: '/uilib/extensions/payment-card/demos/' })
+  setupPageScreenshot({ url: '/web/extensions/payment-card/demos/' })
 
   it('have to match a basic card', async () => {
     await makeScreenshot({
