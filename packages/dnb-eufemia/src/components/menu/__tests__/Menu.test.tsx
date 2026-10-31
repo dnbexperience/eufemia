@@ -1,7 +1,7 @@
 import { act } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import Menu from '../Menu'
 
 vi.mock('../../popover/Popover', async () => {
@@ -583,5 +583,18 @@ describe('Menu integration', () => {
 
       expect(await axeComponent(container)).toHaveNoViolations()
     })
+  })
+})
+
+describe('Menu scss', () => {
+  it('uses the sharp shadow for the menu panel and the Popover shadow for nested menus', () => {
+    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-menu\.dnb-popover \{\s*min-width: auto;\s*box-shadow: var\(--shadow-sharp\);\s*\}/
+    )
+    expect(css).toMatch(
+      /\.dnb-menu \.dnb-menu\.dnb-popover \{\s*box-shadow: var\(--shadow-default\);\s*\}/
+    )
   })
 })

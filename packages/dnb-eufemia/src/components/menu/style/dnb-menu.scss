@@ -30,6 +30,13 @@
   // Menu width should fit its content. Override Popover's min-width.
   &.dnb-popover {
     min-width: auto;
+
+    @include utilities.sharpDropShadow();
+  }
+
+  // Nested menus keep the Popover shadow
+  & &.dnb-popover {
+    @include utilities.defaultDropShadow();
   }
 
   &__popover-content {
