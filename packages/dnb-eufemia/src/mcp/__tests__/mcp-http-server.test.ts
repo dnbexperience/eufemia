@@ -155,9 +155,10 @@ describe('mcp-http-server', () => {
     )
 
     expect(response.status).toBe(200)
-    expect((await response.json()).result.supportedVersions).toContain(
-      '2026-07-28'
-    )
+    const discovery = (await response.json()).result
+    expect(discovery.instructions).toContain('DNB UX')
+    expect(discovery.instructions).toContain('usageGuidance')
+    expect(discovery.supportedVersions).toContain('2026-07-28')
 
     const toolsResponse = await postJson(
       `${server.url}/mcp`,
@@ -220,9 +221,11 @@ describe('mcp-http-server', () => {
       const initEvent = await readSseEvent(initRes)
       expect(initEvent.event).toBe('message')
       const initJson = JSON.parse(initEvent.data ?? '{}') as {
-        result?: { serverInfo?: { name?: string } }
+        result?: { serverInfo?: { name?: string }; instructions?: string }
       }
       expect(initJson.result?.serverInfo?.name).toBe('eufemia')
+      expect(initJson.result?.instructions).toContain('DNB UX')
+      expect(initJson.result?.instructions).toContain('usageGuidance')
 
       const listRes = await postJson(
         `${server.url}/mcp`,
@@ -247,6 +250,11 @@ describe('mcp-http-server', () => {
       }
       const tools = listJson.result?.tools ?? []
       const toolNames = tools.map((tool) => tool.name)
+      for (const name of ['component_props', 'component_api']) {
+        expect(
+          tools.find((tool) => tool.name === name)?.description
+        ).toContain('usageGuidance')
+      }
       expect(toolNames).toEqual(
         expect.arrayContaining([
           'docs_entry',

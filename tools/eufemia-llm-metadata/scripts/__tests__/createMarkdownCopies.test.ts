@@ -58,6 +58,10 @@ describe('createMarkdownCopies', () => {
         '## Properties',
         '',
         '<PropertiesTable props={ButtonProperties} />',
+        '',
+        '### Additional properties',
+        '',
+        '<PropertiesTable props={ButtonProperties} />',
       ].join('\n')
     )
 
@@ -90,6 +94,34 @@ describe('createMarkdownCopies', () => {
     expect(output).toContain('Main content.')
     expect(output).toContain('## Properties')
     expect(output).toContain('## Events')
+    expect(
+      output
+        .split('\n')
+        .filter((line) =>
+          line.startsWith(
+            'Some properties provide flexibility for specific integrations.'
+          )
+        )
+    ).toHaveLength(1)
+    expect(output).toContain('<!-- eufemia-properties-usage:start -->')
+    expect(output).toContain('<!-- eufemia-properties-usage:end -->')
+    expect(output).toContain('need a use case approved by DNB UX')
+    expect(output).toContain(
+      '/uilib/usage/customisation/component-properties/#intended-use-and-customization'
+    )
+    expect(
+      output.indexOf('need a use case approved by DNB UX')
+    ).toBeLessThan(output.indexOf('```json'))
+    const blocks = Array.from(
+      output.matchAll(/```json\s*([\s\S]*?)```/g),
+      (match) => JSON.parse(match[1])
+    )
+    expect(blocks).toHaveLength(3)
+    expect(blocks[0].usageGuidance).toContain(
+      'need a use case approved by DNB UX'
+    )
+    expect(blocks[1]).not.toHaveProperty('usageGuidance')
+    expect(blocks[2]).not.toHaveProperty('usageGuidance')
     expect(output).not.toContain('properties.md')
     expect(output).not.toContain('showTabs: true')
     expect(output).not.toContain('PropertiesTable')

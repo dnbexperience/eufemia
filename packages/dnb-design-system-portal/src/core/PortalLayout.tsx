@@ -15,12 +15,17 @@ import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
 import Heading, { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
-import { Breadcrumb, Button } from '@dnb/eufemia/src'
+import { Breadcrumb, Button, P } from '@dnb/eufemia/src'
+import PropertiesUsage from '../docs/_shared/_properties-usage.mdx'
 import { resolveEditSourcePath } from './editSourcePath'
 import { getSuggestEditUrl } from './suggestEdit'
 import type { KnownFrontmatter } from '../../vite/client/plugins/portal-pages.shared'
 
 const ContentWrapper = TabBar.ContentWrapper
+const propertiesUsageTags = {
+  ...tags,
+  p: (props) => <P size="small" top="medium" bottom="medium" {...props} />,
+}
 
 export type PortalLayoutProps = {
   location: Location
@@ -48,6 +53,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
               printLayout
               showTabs
               hideEditLink
+              hidePropertiesUsage
               breadcrumb {
                 text
                 href
@@ -219,6 +225,12 @@ export default function PortalLayout(props: PortalLayoutProps) {
           sourcePath={editSourcePath}
           pagePath={`${location.pathname}${location.hash || ''}`}
           showEditLink={!codeFocusMode && !fmData.hideEditLink}
+          showPropertiesUsage={
+            !codeFocusMode &&
+            !pageFm.hidePropertiesUsage &&
+            slug.startsWith('uilib/') &&
+            slug.endsWith('/properties')
+          }
         >
           {children}
         </Content>
@@ -227,9 +239,21 @@ export default function PortalLayout(props: PortalLayoutProps) {
   )
 }
 
-function Content({ sourcePath, pagePath, showEditLink, children }) {
+function Content({
+  sourcePath,
+  pagePath,
+  showEditLink,
+  showPropertiesUsage,
+  children,
+}) {
   return (
     <ContentWrapper>
+      {showPropertiesUsage && (
+        <MDXProvider components={propertiesUsageTags}>
+          <PropertiesUsage />
+        </MDXProvider>
+      )}
+
       <MDXProvider components={tags}>{children}</MDXProvider>
 
       {showEditLink && (
