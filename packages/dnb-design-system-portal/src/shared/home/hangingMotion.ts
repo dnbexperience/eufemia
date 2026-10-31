@@ -80,6 +80,24 @@ export default function mountHangingMotion(
   let playBounds: Array<{ left: number; right: number; origin: number }> =
     []
 
+  const transition = (element: Element, before: Keyframe) => {
+    const animation = element.animate([before], {
+      duration: 650,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+    })
+    animation.onfinish = () => {
+      returning = returning.filter((effect) => effect !== animation)
+      animation.cancel()
+      // Restart compositing after the temporary effect without rewinding idle motion.
+      element.getAnimations().forEach((idle) => {
+        const startTime = idle.startTime
+        if ('animationName' in idle && startTime !== null) {
+          idle.startTime = startTime
+        }
+      })
+    }
+    return animation
+  }
   const paint = (item: (typeof items)[number]) => {
     item.element.style.setProperty('--swing', item.angle + 'rad')
     item.element.style.setProperty('--balance', item.balance + 'rad')
@@ -246,9 +264,6 @@ export default function mountHangingMotion(
           0.002
       moving ||= active
       if (!active) {
-        returning = returning.filter(
-          (animation) => animation.playState !== 'finished'
-        )
         const parts = Array.from(item.element.children)
         const before = parts.map((part) => {
           const { transform, translate } = getComputedStyle(part)
@@ -256,12 +271,7 @@ export default function mountHangingMotion(
         })
         item.element.removeAttribute('data-active')
         parts.forEach((part, index) => {
-          returning.push(
-            part.animate([before[index]], {
-              duration: 650,
-              easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            })
-          )
+          returning.push(transition(part, before[index]))
         })
       }
     }
@@ -626,10 +636,7 @@ export default function mountHangingMotion(
         }
       }
       // Blend into the live pose, including the default sleep motion.
-      return element.animate([{ ...before[index], offset: 0 }], {
-        duration: 650,
-        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      })
+      return transition(element, { ...before[index], offset: 0 })
     })
     wake()
   }

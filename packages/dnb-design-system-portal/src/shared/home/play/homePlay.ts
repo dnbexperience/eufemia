@@ -34,9 +34,7 @@ const commands = {
   christmas: () => import('./christmas'),
 }
 
-export const homePlayCommands = Object.keys(commands).filter(
-  (command) => command !== 'sleep'
-)
+export const homePlayCommands = Object.keys(commands)
 
 export function isHomePlay(value: string) {
   return Object.hasOwn(commands, value.trim().toLowerCase())

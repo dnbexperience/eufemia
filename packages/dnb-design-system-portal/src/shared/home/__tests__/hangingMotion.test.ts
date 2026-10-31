@@ -6,6 +6,7 @@ let reduced: MediaQueryList
 let motionChange: () => void
 let frame: FrameRequestCallback
 let motion: ReturnType<typeof mountHangingMotion>
+const disconnect = vi.fn()
 
 beforeEach(() => {
   vi.useFakeTimers()
@@ -27,11 +28,36 @@ beforeEach(() => {
     })
   )
   vi.stubGlobal('cancelAnimationFrame', vi.fn())
+  vi.stubGlobal(
+    'IntersectionObserver',
+    class {
+      observe = vi.fn()
+      disconnect = disconnect
+    }
+  )
+  vi.stubGlobal(
+    'DOMMatrix',
+    class {
+      m11 = 1
+      m12 = 0
+      m21 = 0
+      m22 = 1
+      m23 = 0
+      m33 = 1
+    }
+  )
   root = document.createElement('div')
+  root.dataset.portalHome = ''
   root.innerHTML =
-    '<div data-hanging-item><span><svg><path /></svg></span><div data-home-specimen><button>Brand</button></div></div>'.repeat(
+    '<div data-hanging-item style="--tilt: 0deg"><span><svg><path /></svg></span><div data-home-specimen><button>Brand</button></div></div>'.repeat(
       3
     )
+  root.querySelectorAll('[data-hanging-item] > *').forEach((part) => {
+    part.animate = vi.fn().mockReturnValue({
+      cancel: vi.fn(),
+      playState: 'finished',
+    })
+  })
   root.querySelectorAll('span').forEach((rope) => {
     Object.defineProperty(rope, 'offsetHeight', { value: 200 })
   })
@@ -59,11 +85,9 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-it('stops ambient motion for reduced motion and disposes its timers', () => {
+it('keeps idle physics asleep and disposes its visibility observer', () => {
   vi.advanceTimersByTime(7200)
-  frame(16)
-  frame(32)
-  frame(48)
+  expect(requestAnimationFrame).not.toHaveBeenCalled()
   Object.defineProperty(reduced, 'matches', {
     value: true,
     configurable: true,
@@ -77,8 +101,10 @@ it('stops ambient motion for reduced motion and disposes its timers', () => {
   expect(vi.getTimerCount()).toBe(0)
   Object.defineProperty(reduced, 'matches', { value: false })
   motionChange()
-  expect(vi.getTimerCount()).toBe(1)
+  expect(requestAnimationFrame).not.toHaveBeenCalled()
+  disconnect.mockClear()
   motion.destroy()
+  expect(disconnect).toHaveBeenCalledOnce()
   expect(vi.getTimerCount()).toBe(0)
 })
 
