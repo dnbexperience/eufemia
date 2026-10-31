@@ -1,5 +1,5 @@
 import { screen, render } from '@testing-library/react'
-import { Value, Form } from '../../..'
+import { Field, Value, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -14,8 +14,41 @@ describe('Value.Address', () => {
     ).toHaveTextContent('Dronning Eufemias gate 30')
   })
 
-  it('renders no label by default', () => {
+  it('renders a default label', () => {
     render(<Value.Address showEmpty />)
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.Address.label
+    )
+  })
+
+  it('lets an inherited label win over the default label', () => {
+    render(
+      <Form.Handler>
+        <Field.Address path="/address" label="Leveringsadresse" />
+        <Value.Address path="/address" inheritLabel showEmpty />
+        <Value.SummaryList inheritLabel>
+          <Value.Address path="/address" showEmpty />
+        </Value.SummaryList>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-string .dnb-form-label')
+    ).toHaveTextContent('Leveringsadresse')
+    expect(document.querySelector('dt')).toHaveTextContent(
+      'Leveringsadresse'
+    )
+  })
+
+  it('renders the default label when there is no label to inherit', () => {
+    render(<Value.Address path="/address" inheritLabel showEmpty />)
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.Address.label
+    )
+  })
+
+  it('renders no label when label is false', () => {
+    render(<Value.Address label={false} showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toBeNull()
   })
 

@@ -12,10 +12,12 @@ export type FieldAddressProps = StringFieldProps & {
 }
 
 function Address(props: FieldAddressProps) {
+  const translations = useTranslation().Address
   const { element: Element = StringField, ...rest } = props
 
   if (Element === StringField) {
     Object.assign(rest, {
+      label: translations.label,
       autoComplete: 'street-address',
       inputMode: 'text',
       trim: true,
