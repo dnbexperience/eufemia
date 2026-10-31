@@ -1,10 +1,42 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test('keeps idle motion off the JavaScript frame loop', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const request = window.requestAnimationFrame.bind(window)
+    window['homeFrames'] = 0
+    window.requestAnimationFrame = (callback) =>
+      request((time) => {
+        window['homeFrames']++
+        callback(time)
+      })
+  })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/')
+  await waitForApp(page)
+  await page.evaluate(() => document.fonts.ready)
+  const before = await page.evaluate(() => window['homeFrames'])
+  await page.waitForTimeout(300)
+  expect(
+    (await page.evaluate(() => window['homeFrames'])) - before
+  ).toBeLessThanOrEqual(1)
+})
+
 for (const colorScheme of ['light', 'dark'] as const) {
   test(
     'keeps Carnegie appearance controls available in ' + colorScheme,
     async ({ page }) => {
+      const failedFonts: string[] = []
+      page.on('response', (response) => {
+        if (
+          response.status() >= 400 &&
+          /ArizonaFlare.*.woff2/.test(response.url())
+        ) {
+          failedFonts.push(response.url())
+        }
+      })
       await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' })
       await page.goto('/')
       await waitForApp(page)
@@ -17,6 +49,8 @@ for (const colorScheme of ['light', 'dark'] as const) {
       await expect(page.locator('body')).toHaveClass(
         /eufemia-theme__carnegie/
       )
+      await page.evaluate(() => document.fonts.ready)
+      expect(failedFonts).toEqual([])
       const dark = page.getByRole('switch', {
         name: 'Dark mode',
         exact: true,
@@ -469,11 +503,13 @@ test('loads optional motion when enabled and keeps controls usable if it fails',
   await expect.poll(() => requests.length).toBeGreaterThan(0)
   await page
     .getByRole('switch', { name: 'Dark mode', exact: true })
-    .click()
+    .focus()
+  await page.keyboard.press('Space')
   await expect(page.locator('body')).toHaveClass(/color-scheme--dark/)
   await page
     .getByRole('button', { name: 'Open settings', exact: true })
-    .click()
+    .focus()
+  await page.keyboard.press('Enter')
   await expect(
     page.getByRole('dialog', { name: 'Portal Tools', exact: true })
   ).toBeVisible()
@@ -513,41 +549,23 @@ test('skips the physics download for reduced motion', async ({ page }) => {
 test('stops automatic motion when reduced motion is enabled', async ({
   page,
 }) => {
-  await page.clock.install()
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.setViewportSize({ width: 1600, height: 1000 })
-  const download = page.waitForResponse(/\/hangingMotion[.-]/)
   await page.goto('/')
   await waitForApp(page)
-  await page.clock.fastForward(2600)
-  await (await download).finished()
-  const angles = () =>
+  const animations = () =>
     page
       .locator('[data-hanging-item]')
-      .evaluateAll((items) =>
-        items.map(
-          (item) =>
-            Math.abs(
-              parseFloat(
-                (item as HTMLElement).style.getPropertyValue('--swing')
-              )
-            ) || 0
-        )
+      .evaluateAll(
+        (items) =>
+          items.flatMap((item) =>
+            item
+              .getAnimations({ subtree: true })
+              .filter((animation) => animation.playState === 'running')
+          ).length
       )
-  await expect
-    .poll(async () => {
-      await page.clock.runFor(100)
-      return (await angles()).filter((angle) => angle > 0.0001).length
-    })
-    .toBeGreaterThanOrEqual(2)
+  await expect.poll(animations).toBeGreaterThan(0)
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.clock.runFor(100)
-  await page.clock.fastForward(30_000)
-  await page
-    .getByRole('button', { name: 'Switch brand to Sbanken', exact: true })
-    .hover()
-  await page.clock.runFor(200)
-  expect(await angles()).toEqual([0, 0, 0, 0, 0, 0])
+  await expect.poll(animations).toBe(0)
 })
 
 test('picks up a first drag while the optional physics download is pending', async ({

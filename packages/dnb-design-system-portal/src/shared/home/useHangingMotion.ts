@@ -20,6 +20,7 @@ export default function useHangingMotion() {
       )
     }
     updateOffset()
+    root.dataset.motionReady = ''
     const resize = new ResizeObserver(updateOffset)
     resize.observe(root)
     resize.observe(root.previousElementSibling)

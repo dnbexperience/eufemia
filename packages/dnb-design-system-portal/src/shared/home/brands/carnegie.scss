@@ -1,4 +1,8 @@
 @use '@dnb/eufemia/src/style/themes/ui/fonts.scss' with (
   $fonts-path: '@dnb/eufemia/assets/fonts/dnb'
 );
+@use '@dnb/eufemia/src/style/themes/carnegie/fonts.scss' as carnegie-fonts
+  with (
+  $carnegie-fonts-path: '@dnb/eufemia/assets/fonts/carnegie'
+);
 @use '@dnb/eufemia/src/style/themes/carnegie/carnegie-theme-basis.scss';
