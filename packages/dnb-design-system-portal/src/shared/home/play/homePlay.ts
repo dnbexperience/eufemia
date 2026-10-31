@@ -9,6 +9,7 @@ export type Pose = {
 export type HomePlay = {
   space?: 'page'
   fixedAnchors?: boolean
+  overflow?: boolean
   pose: (
     time: number,
     index: number,
@@ -21,23 +22,29 @@ export type HomePlay = {
 }
 
 const commands = {
+  swing: () => import('./swing'),
+  space: () => import('./space'),
+  jump: () => import('./jump'),
   dance: () => import('./dance'),
   run: () => import('./run'),
-  jump: () => import('./jump'),
-  swing: () => import('./swing'),
-  christmas: () => import('./christmas'),
-  space: () => import('./space'),
   sleep: () => import('./sleep'),
-  dead: () => import('./dead'),
-  party: () => import('./party'),
   hide: () => import('./hide'),
+  sail: () => import('./sail'),
+  party: () => import('./party'),
+  christmas: () => import('./christmas'),
 }
 
-export const homePlayCommands = Object.keys(commands)
+export const homePlayCommands = Object.keys(commands).filter(
+  (command) => command !== 'sleep'
+)
+
+export function isHomePlay(value: string) {
+  return Object.hasOwn(commands, value.trim().toLowerCase())
+}
 
 export function loadHomePlay(value: string) {
   const command = value.trim().toLowerCase()
-  return Object.hasOwn(commands, command)
+  return isHomePlay(command)
     ? commands[command as keyof typeof commands]()
     : undefined
 }

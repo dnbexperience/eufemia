@@ -21,7 +21,9 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
               ) || 0
           )
         )
-      expect(await lifts()).toEqual([0, 0, 0, 0, 0, 0])
+      expect((await lifts()).every((lift) => Math.abs(lift) <= 3)).toBe(
+        true
+      )
       await page
         .getByRole('navigation', { name: 'Get started' })
         .getByRole('link', { name: /Develop/ })
@@ -47,12 +49,16 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
         expect(after[0]).toBeGreaterThan(before[0])
         expect(after[5]).toBe(before[5])
         await page.clock.runFor(4000)
-        expect(await lifts()).toEqual([0, 0, 0, 0, 0, 0])
+        expect((await lifts()).every((lift) => Math.abs(lift) <= 3)).toBe(
+          true
+        )
       }
       await page.clock.resume()
       await page.reload()
       await waitForApp(page)
-      expect(await lifts()).toEqual([0, 0, 0, 0, 0, 0])
+      expect((await lifts()).every((lift) => Math.abs(lift) <= 3)).toBe(
+        true
+      )
     }
   )
 }

@@ -20,11 +20,10 @@ export default function mountHangingMotion(
     velocity: 0,
     balance: 0,
     balanceVelocity: 0,
-    gust: 0,
-    gustTime: 0,
     pitch: 0,
     pitchVelocity: 0,
     lift: 0,
+    releasedAt: undefined as number | undefined,
     drop: undefined as
       | {
           height: number
@@ -72,7 +71,7 @@ export default function mountHangingMotion(
   let frame = 0
   let previous = 0
   let suppressClick = false
-  let breezeTimer: ReturnType<typeof setTimeout>
+  let idleTimer: ReturnType<typeof setTimeout>
   let play: HomePlay | undefined
   let playTime = 0
   let returning: Animation[] = []
@@ -104,8 +103,14 @@ export default function mountHangingMotion(
       : Math.min((time - previous) / 1000 || 1 / 60, 1 / 30)
     previous = time
     let moving = false
+    const box = root.getBoundingClientRect()
+    const idle =
+      !document.hidden &&
+      !document.querySelector('[aria-modal="true"]') &&
+      box.bottom > 0 &&
+      box.top < window.innerHeight
     for (const [index, item] of items.entries()) {
-      if (play && drag?.item !== item) {
+      if (play && (drag?.item !== item || (drag.touch && !drag.moved))) {
         const pose = play.pose(
           playTime,
           index,
@@ -114,23 +119,38 @@ export default function mountHangingMotion(
           playArea.height,
           playBounds[index]
         )
-        const blend = snap ? 1 : 1 - Math.exp(-dt * 14)
+        const resume = Math.min(
+          1,
+          (playTime - (item.releasedAt ?? -1)) / 0.65
+        )
+        const blend = snap
+          ? 1
+          : (1 - Math.exp(-dt * 14)) * resume * resume * (3 - 2 * resume)
         const bounds = playBounds[index]
+        const previousAngle = item.angle
         item.angle += (pose.angle - item.angle) * blend
+        item.velocity = snap
+          ? 0
+          : item.velocity +
+            ((item.angle - previousAngle) / dt - item.velocity) * blend
         item.lift += (pose.lift - item.lift) * blend
         item.balance += ((pose.balance ?? 0) - item.balance) * blend
         item.pitch += ((pose.pitch ?? 0) - item.pitch) * blend
         const swingX = Math.sin(item.angle) * (item.length + item.lift)
-        const travel = clamp(
+        const target =
           (pose.x ?? 0) -
-            (play.space === 'page' ? playBounds[index].origin : 0) +
-            swingX,
-          bounds.left,
-          bounds.right
-        )
+          (play.space === 'page' ? playBounds[index].origin : 0) +
+          swingX
+        const travel = play.overflow
+          ? target
+          : clamp(target, bounds.left, bounds.right)
+        const targetX = play.fixedAnchors ? 0 : travel - swingX
+        const fromX =
+          parseFloat(item.element.style.getPropertyValue('--travel-x')) ||
+          0
         item.element.style.setProperty(
           '--travel-x',
-          (play.fixedAnchors ? 0 : travel - swingX) + 'px'
+          fromX + (targetX - fromX) * resume + 'px'
         )
         item.drop = undefined
         paint(item)
@@ -144,26 +164,35 @@ export default function mountHangingMotion(
       }
       const held = drag?.item === item && (drag.moved || !drag.touch)
       if (!held) {
-        if (item.gustTime < 1) {
-          item.velocity +=
-            item.gust * Math.sin(Math.PI * item.gustTime) * dt
-          item.gustTime = Math.min(1, item.gustTime + dt)
-        }
+        const resting = idle && !item.drop
+        const breath = Math.sin(playTime * 1.1 + index * 0.25)
         if (!item.drop?.fall) {
+          const angle = resting
+            ? Math.sin(playTime * 0.65 + index * 0.35) * 0.035
+            : 0
           item.velocity +=
-            (-(gravity / item.length) * Math.sin(item.angle) -
+            (-(gravity / item.length) * Math.sin(item.angle - angle) -
               item.velocity * 1.2) *
             dt
           item.angle += item.velocity * dt
         }
         // A little delayed leveling lets the control settle independently of its rope.
-        const target = clamp(item.angle * 0.3, -0.12, 0.12)
+        const target = resting
+          ? (index % 2 ? -0.16 : 0.16) + breath * 0.025
+          : clamp(item.angle * 0.3, -0.12, 0.12)
         item.balanceVelocity +=
           ((target - item.balance) * 35 - item.balanceVelocity * 4) * dt
         item.balance += item.balanceVelocity * dt
         item.pitchVelocity +=
-          (-item.pitch * 90 - item.pitchVelocity * 16) * dt
+          (((resting ? breath * 0.035 : 0) - item.pitch) * 90 -
+            item.pitchVelocity * 16) *
+          dt
         item.pitch += item.pitchVelocity * dt
+        if (!item.drop) {
+          item.lift +=
+            ((resting ? -breath * 3 : 0) - item.lift) *
+            (1 - Math.exp(-dt * 4))
+        }
         if (item.drop) {
           const drop = item.drop
           drop.elapsed += dt
@@ -218,9 +247,9 @@ export default function mountHangingMotion(
       }
       paint(item)
       moving ||=
+        idle ||
         held ||
         Math.abs(item.angle) +
-          (item.gustTime < 1 ? Math.abs(item.gust) : 0) +
           Math.abs(item.velocity) +
           Math.abs(item.balance) +
           Math.abs(item.balanceVelocity) +
@@ -239,7 +268,7 @@ export default function mountHangingMotion(
       frame = requestAnimationFrame(tick)
     }
   }
-  const breeze = () => {
+  const resumeIdle = () => {
     const box = root.getBoundingClientRect()
     if (
       play ||
@@ -247,32 +276,18 @@ export default function mountHangingMotion(
       drag ||
       document.hidden ||
       document.querySelector('[aria-modal="true"]') ||
-      root.matches(':hover, :focus-within') ||
       box.bottom <= 0 ||
       box.top >= window.innerHeight
     ) {
       return
     }
-    const start = Math.floor(Math.random() * items.length)
-    const count = 2 + Math.floor(Math.random() * 2)
-    for (let index = 0; index < count; index++) {
-      const item = items[(start + index) % items.length]
-      if (Math.abs(item.angle) + Math.abs(item.velocity) < 0.002) {
-        item.length = measureLength(item)
-        item.gust = (Math.random() < 0.5 ? -1 : 1) * 0.04
-        item.gustTime = 0
-      }
-    }
     wake()
   }
-  const scheduleBreeze = () => {
-    breezeTimer = setTimeout(
-      () => {
-        breeze()
-        scheduleBreeze()
-      },
-      6000 + Math.random() * 4000
-    )
+  const scheduleIdle = () => {
+    idleTimer = setTimeout(() => {
+      resumeIdle()
+      scheduleIdle()
+    }, 2000)
   }
   const down = (event: PointerEvent) => {
     if (event.button !== 0 || reduced.matches || drag) {
@@ -286,10 +301,7 @@ export default function mountHangingMotion(
       item.velocity = item.balanceVelocity = 0
       item.pitchVelocity = 0
       item.drop = undefined
-      item.gust = 0
-      if (event.pointerType === 'touch') {
-        hover(event)
-      }
+      item.releasedAt = undefined
       const box = item.element
         .querySelector('[data-home-specimen]')
         .getBoundingClientRect()
@@ -325,27 +337,6 @@ export default function mountHangingMotion(
         speedX: 0,
         speed: 0,
       }
-      wake()
-    }
-  }
-  const hover = (event: PointerEvent) => {
-    if (
-      (event.pointerType !== 'mouse' && event.pointerType !== 'touch') ||
-      drag ||
-      reduced.matches
-    ) {
-      return
-    }
-    const item = findItem(event.target)
-    if (!item || item.element.contains(event.relatedTarget as Node)) {
-      return
-    }
-    if (Math.abs(item.angle) + Math.abs(item.velocity) < 0.02) {
-      const box = item.element
-        .querySelector('[data-home-specimen]')
-        .getBoundingClientRect()
-      item.velocity +=
-        event.clientX < box.left + box.width / 2 ? 0.035 : -0.035
       wake()
     }
   }
@@ -440,9 +431,14 @@ export default function mountHangingMotion(
       stopped ? 0 : drag.speed,
       stopped ? 0 : drag.speedX
     )
-    if (stopped && (drag.moved || event.type === 'pointercancel')) {
+    if (
+      !play &&
+      stopped &&
+      (drag.moved || event.type === 'pointercancel')
+    ) {
       drag.item.velocity = 0
     }
+    drag.item.releasedAt = play ? playTime : undefined
     if (drag.capture.hasPointerCapture(event.pointerId)) {
       drag.capture.releasePointerCapture(event.pointerId)
     }
@@ -465,7 +461,6 @@ export default function mountHangingMotion(
     drag = undefined
     for (const item of items) {
       item.angle =
-        item.gust =
         item.velocity =
         item.balance =
         item.balanceVelocity =
@@ -474,36 +469,37 @@ export default function mountHangingMotion(
         item.lift =
           0
       item.drop = undefined
+      item.releasedAt = undefined
       item.element.style.removeProperty('--travel-x')
       delete item.element.dataset.dragging
       paint(item)
     }
   }
   const onMotionChange = () => {
-    clearTimeout(breezeTimer)
+    clearTimeout(idleTimer)
     play?.dispose?.()
     play = undefined
     reset()
     if (!reduced.matches) {
-      scheduleBreeze()
+      resumeIdle()
+      scheduleIdle()
     }
   }
   root.addEventListener('pointerdown', down)
-  root.addEventListener('pointerover', hover)
   window.addEventListener('pointermove', move)
   window.addEventListener('pointerup', release)
   window.addEventListener('pointercancel', release)
   root.addEventListener('click', click, true)
   reduced.addEventListener('change', onMotionChange)
   if (!reduced.matches) {
-    scheduleBreeze()
+    resumeIdle()
+    scheduleIdle()
   }
   const destroy = () => {
-    clearTimeout(breezeTimer)
+    clearTimeout(idleTimer)
     play?.dispose?.()
     reset()
     root.removeEventListener('pointerdown', down)
-    root.removeEventListener('pointerover', hover)
     window.removeEventListener('pointermove', move)
     window.removeEventListener('pointerup', release)
     window.removeEventListener('pointercancel', release)
@@ -569,15 +565,12 @@ export default function mountHangingMotion(
     items.forEach((item) => {
       item.length = measureLength(item)
     })
-    playTime = 0
     if (play) {
+      playTime = 0
       tick(0, true)
     }
     returning = parts.map((element, index) => {
       const after = snapshot(element)
-      if (!play) {
-        after.zIndex = before[index].zIndex
-      }
       if (element.hasAttribute('data-hanging-item')) {
         const bounds = element.getBoundingClientRect()
         const travelX = parseFloat(String(after.translate)) || 0
@@ -588,16 +581,13 @@ export default function mountHangingMotion(
           translate: `${positions[index].left - bounds.left + travelX}px ${positions[index].top - bounds.top}px`,
         }
       }
-      // An implicit endpoint blends into the live pose as the effect moves.
-      return element.animate(
-        play ? [{ ...before[index], offset: 0 }] : [before[index], after],
-        {
-          duration: 650,
-          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-        }
-      )
+      // Blend into the live pose, including the default sleep motion.
+      return element.animate([{ ...before[index], offset: 0 }], {
+        duration: 650,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      })
     })
     wake()
   }
-  return { destroy, down, move, release, hover, breeze, setPlay }
+  return { destroy, down, move, release, setPlay }
 }

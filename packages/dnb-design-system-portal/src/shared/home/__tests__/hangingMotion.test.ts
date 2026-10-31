@@ -82,29 +82,6 @@ it('stops ambient motion for reduced motion and disposes its timers', () => {
   expect(vi.getTimerCount()).toBe(0)
 })
 
-it('gently swings on touch-down without starting a drag', () => {
-  const button = root.querySelector('button')
-  button.setPointerCapture = vi.fn()
-  button.hasPointerCapture = () => false
-  const item = button.closest<HTMLElement>('[data-hanging-item]')
-  motion.down({
-    target: button,
-    button: 0,
-    pointerId: 1,
-    pointerType: 'touch',
-    type: 'pointerdown',
-    clientX: 20,
-    clientY: 200,
-    timeStamp: 0,
-  } as unknown as PointerEvent)
-  frame(16)
-  frame(32)
-  expect(
-    parseFloat(item.style.getPropertyValue('--swing'))
-  ).toBeGreaterThan(0)
-  expect(item.dataset.dragging).toBeUndefined()
-})
-
 it('drops a lifted control vertically until its rope catches', () => {
   const button = root.querySelector('button')
   button.setPointerCapture = vi.fn()

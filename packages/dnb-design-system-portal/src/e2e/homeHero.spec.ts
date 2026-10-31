@@ -195,7 +195,10 @@ test('swings after a drag without selecting a brand and settles at its attachmen
       const matrix = new DOMMatrix(getComputedStyle(item).transform)
       return Math.atan2(matrix.m12, matrix.m11)
     })
-  const restingTilt = await tilt()
+  const restingTilt = await sample.evaluate(
+    (item: HTMLElement) =>
+      (parseFloat(item.style.getPropertyValue('--tilt')) * Math.PI) / 180
+  )
   const box = await sample.locator('button').boundingBox()
   const x = box.x + box.width / 2
   const y = box.y + box.height / 2
@@ -439,7 +442,7 @@ for (const width of [320, 390, 640]) {
   )
 }
 
-test('loads optional physics on pointer intent and keeps controls usable if it fails', async ({
+test('loads optional motion when enabled and keeps controls usable if it fails', async ({
   page,
 }) => {
   const requests: string[] = []
@@ -463,7 +466,6 @@ test('loads optional physics on pointer intent and keeps controls usable if it f
   await expect(page.locator('body')).toHaveClass(/eufemia-theme__sbanken/)
   expect(requests).toHaveLength(0)
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await sbanken.hover()
   await expect.poll(() => requests.length).toBeGreaterThan(0)
   await page
     .getByRole('switch', { name: 'Dark mode', exact: true })
@@ -508,15 +510,15 @@ test('skips the physics download for reduced motion', async ({ page }) => {
   expect(requests).toHaveLength(0)
 })
 
-test('stops hover and automatic motion when reduced motion is enabled', async ({
+test('stops automatic motion when reduced motion is enabled', async ({
   page,
 }) => {
   await page.clock.install()
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.setViewportSize({ width: 1600, height: 1000 })
+  const download = page.waitForResponse(/\/hangingMotion[.-]/)
   await page.goto('/')
   await waitForApp(page)
-  const download = page.waitForResponse(/\/hangingMotion[.-]/)
   await page.clock.fastForward(2600)
   await (await download).finished()
   const angles = () =>
@@ -566,7 +568,7 @@ test('picks up a first drag while the optional physics download is pending', asy
   })
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.setViewportSize({ width: 1600, height: 1000 })
-  await page.goto('/')
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
   await waitForApp(page)
   const sample = page.locator('[data-hanging-item=sbanken]')
   const box = await sample.locator('button').boundingBox()
@@ -608,11 +610,8 @@ test('does not attach late physics after navigating away', async ({
     await route.continue()
   })
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/')
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
   await waitForApp(page)
-  await page
-    .getByRole('button', { name: 'Switch brand to Sbanken', exact: true })
-    .hover()
   await request
   await page.getByRole('link', { name: /Develop/ }).click()
   await expect(page).toHaveURL('/web/getting-started/')

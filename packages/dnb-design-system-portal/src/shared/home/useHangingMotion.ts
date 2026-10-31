@@ -65,15 +65,6 @@ export default function useHangingMotion() {
             if (latest !== pointer) {
               physics.move(latest)
             }
-          } else if (
-            (event?.type === 'pointerover' ||
-              (event?.type === 'pointerdown' &&
-                event.pointerType === 'touch')) &&
-            root.contains(event.target as Node)
-          ) {
-            physics.hover(event)
-          } else if (!event && !enter.current) {
-            physics.breeze()
           }
         })
         .catch(() => {
@@ -106,15 +97,20 @@ export default function useHangingMotion() {
           .catch(() => undefined)
       }
     }
-    const idleTimer = setTimeout(() => load(), 1500 + Math.random() * 1000)
+    const onMotionChange = () => {
+      if (!reduced.matches) {
+        void load()
+      }
+    }
+    reduced.addEventListener('change', onMotionChange)
     if (enter.current && !reduced.matches) {
       root.style.visibility = 'hidden'
       entranceTimer = setTimeout(
         () => root.style.removeProperty('visibility'),
         300
       )
-      load()
     }
+    void load()
     const move = (event: PointerEvent) => {
       if (pointer?.pointerId === event.pointerId) {
         latest = event
@@ -130,7 +126,6 @@ export default function useHangingMotion() {
         event.preventDefault()
       }
     }
-    root.addEventListener('pointerover', load)
     root.addEventListener('pointerdown', load)
     window.addEventListener('pointermove', move)
     window.addEventListener('pointerup', release)
@@ -139,11 +134,10 @@ export default function useHangingMotion() {
     return () => {
       disposed = true
       query.current = () => undefined
-      clearTimeout(idleTimer)
       clearTimeout(entranceTimer)
       resize.disconnect()
       physics?.destroy()
-      root.removeEventListener('pointerover', load)
+      reduced.removeEventListener('change', onMotionChange)
       root.removeEventListener('pointerdown', load)
       window.removeEventListener('pointermove', move)
       window.removeEventListener('pointerup', release)

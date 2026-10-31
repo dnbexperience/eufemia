@@ -26,6 +26,7 @@ import PortalToolsMenu from '../menu/PortalToolsMenu'
 import HomeBrands from './HomeBrands'
 import homeData from './HomeData.json'
 import useHangingMotion from './useHangingMotion'
+import { isHomePlay } from './play/homePlay'
 import {
   heroStyle,
   titleStyle,
@@ -64,10 +65,12 @@ export default function HomeHero() {
   const [showFun, setShowFun] = useState(false)
   const handleQuery = useCallback(
     (value: string) => {
-      if (value.trim().toLowerCase() === 'secret') {
+      const command = value.trim().toLowerCase()
+      if (command === 'secret') {
         setShowFun(true)
       }
       onQuery(value)
+      return command === 'secret' || isHomePlay(command)
     },
     [onQuery]
   )
@@ -100,19 +103,18 @@ export default function HomeHero() {
             {homeData.title.split('. ')[0]}. <br />
             {homeData.title.split('. ').slice(1).join('. ')}
           </H1>
-          {showFun ? (
+          <P
+            size="large"
+            className={introStyle}
+            top={false}
+            bottom={false}
+          >
+            {homeData.introduction}
+          </P>
+          {showFun && (
             <Suspense fallback={null}>
               <Fun />
             </Suspense>
-          ) : (
-            <P
-              size="large"
-              className={introStyle}
-              top={false}
-              bottom={false}
-            >
-              {homeData.introduction}
-            </P>
           )}
         </Typography.Context>
         <div className={searchStyle}>
