@@ -93,9 +93,9 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
             text +
             '</p><p id="lead" class="dnb-p dnb-p--lead">' +
             text +
-            '</p><button id="cta" class="dnb-button dnb-button--primary"><span class="dnb-button__text">Continue</span></button><button id="unstyled" class="dnb-button dnb-button--unstyled"><span class="dnb-button__text">Unstyled</span></button><article class="dnb-document"><h1 id="document" class="dnb-h--xx-large">' +
+            '</p><button id="cta" class="dnb-button dnb-button--primary"><span class="dnb-button__text">Continue</span></button><button id="unstyled" class="dnb-button dnb-button--unstyled"><span class="dnb-button__text">Unstyled</span></button></div><article class="dnb-document"><h1 id="document" class="dnb-h--xx-large">' +
             text +
-            '</h1></article></div></main>'
+            '</h1></article></main>'
         )
         const controls = [
           ['dnb-toggle-button', '', 'dnb-toggle-button__button'],
@@ -255,6 +255,14 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
             'font-style',
             'normal'
           )
+          expect(
+            await page.locator(selector).evaluate((element) => {
+              const style = getComputedStyle(element)
+              return (
+                parseFloat(style.lineHeight) / parseFloat(style.fontSize)
+              )
+            })
+          ).toBeCloseTo(1.1)
         }
         for (const [family, expectedFamily] of [
           ['basis', brand === 'sbanken' ? 'Roboto' : 'DNB'],

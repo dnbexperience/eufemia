@@ -10,6 +10,15 @@ import {
 } from '../tailwindTransform'
 
 describe('convertVariablesToTailwindFormat', () => {
+  it('keeps internal skeleton font families out of Tailwind utilities', () => {
+    expect(
+      convertVariablesToTailwindFormat({
+        '--font-family-display': 'DNB Sans Display',
+        '--font-family-display-skeleton': 'DNBSansDisplaySkeleton',
+      })
+    ).toEqual({ '--font-display': 'DNB Sans Display' })
+  })
+
   describe('Basic --sb-* to Tailwind namespace conversion', () => {
     it('should convert --sb-color-* to --color-sb-*', () => {
       const input = {

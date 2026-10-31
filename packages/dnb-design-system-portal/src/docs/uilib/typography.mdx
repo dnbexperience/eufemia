@@ -85,8 +85,8 @@ upright weight and disables synthesized bold and italic.
 
 The [brand guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763)
 specify 100% line height, increased to 110–118% when accents and descenders
-collide. Eufemia defaults to 110% to allow room for these characters in web
-headlines. Check multiline headlines at all supported widths and adjust as
+collide. Eufemia defaults to 110% to reduce collisions in web headlines.
+Accented capitals can still touch descenders on the line above. Check multiline headlines at all supported widths and adjust as
 needed, for example `style={{ lineHeight: 1 }}` for a compact headline or
 `style={{ lineHeight: 1.18 }}` for more space. An explicit line-height helper
 or the Typography lineHeight property also overrides the default.

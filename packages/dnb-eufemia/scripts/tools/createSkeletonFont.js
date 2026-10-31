@@ -118,12 +118,14 @@ function createFont(font, { styleName, familyName }) {
     descender: font.descender,
     glyphs: changedGlyphs,
     tables: {
-      os2: {
-        sTypoAscender: font.tables.os2.sTypoAscender,
-        sTypoDescender: font.tables.os2.sTypoDescender,
-        sTypoLineGap: font.tables.os2.sTypoLineGap,
-        fsSelection: font.tables.os2.fsSelection,
-      },
+      ...(familyName === 'DNBSansDisplaySkeleton' && {
+        os2: {
+          sTypoAscender: font.tables.os2.sTypoAscender,
+          sTypoDescender: font.tables.os2.sTypoDescender,
+          sTypoLineGap: font.tables.os2.sTypoLineGap,
+          fsSelection: font.tables.os2.fsSelection,
+        },
+      }),
     },
   })
 

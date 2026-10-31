@@ -106,7 +106,6 @@
   --color-ca-pale-red: #ffdedb;
   --font-default: var(--font-sb-default);
   --font-display: var(--font-family-heading);
-  --font-display-skeleton: 'DNBSkeleton';
   --font-heading: var(--font-sb-heading);
   --font-monospace:
     'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',

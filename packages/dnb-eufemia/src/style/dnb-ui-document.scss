@@ -72,22 +72,22 @@
     }
   }
 
-  :is(h1:not([class*='dnb-h--']), .dnb-h--xx-large) {
+  :is(:where(h1:not([class*='dnb-h--'])), .dnb-h--xx-large) {
     @include typography.headingSizeXxLarge();
   }
-  :is(h2:not([class*='dnb-h--']), .dnb-h--x-large) {
+  :is(:where(h2:not([class*='dnb-h--'])), .dnb-h--x-large) {
     @include typography.headingSizeXLarge();
   }
-  :is(h3:not([class*='dnb-h--']), .dnb-h--large) {
+  :is(:where(h3:not([class*='dnb-h--'])), .dnb-h--large) {
     @include typography.headingSizeLarge();
   }
-  :is(h4:not([class*='dnb-h--']), .dnb-h--medium) {
+  :is(:where(h4:not([class*='dnb-h--'])), .dnb-h--medium) {
     @include typography.headingSizeMedium();
   }
-  :is(h5:not([class*='dnb-h--']), .dnb-h--basis) {
+  :is(:where(h5:not([class*='dnb-h--'])), .dnb-h--basis) {
     @include typography.headingSizeBasis();
   }
-  :is(h6:not([class*='dnb-h--']), .dnb-h--small) {
+  :is(:where(h6:not([class*='dnb-h--'])), .dnb-h--small) {
     @include typography.headingSizeSmall();
   }
 
