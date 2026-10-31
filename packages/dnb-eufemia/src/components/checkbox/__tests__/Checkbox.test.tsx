@@ -640,6 +640,54 @@ describe('Checkbox with server-rendered markup', () => {
 
     unmount()
   })
+
+  it('should call onClick before it reports a change made before hydration', () => {
+    const calls: string[] = []
+    const onClick = vi.fn(() => calls.push('onClick'))
+    const onChange = vi.fn(() => calls.push('onChange'))
+    const { input, unmount } = hydrateAfterChange(
+      <Checkbox label="Label" onClick={onClick} onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(true)
+    expect(calls).toEqual(['onClick', 'onChange'])
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false, target: input })
+    )
+    expect(onClick.mock.calls[0][0].event.target).toBe(input)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+
+    unmount()
+  })
+
+  it('should undo a change made before hydration when onClick calls preventDefault', () => {
+    const onClick = vi.fn(({ preventDefault }) => preventDefault())
+    const onChange = vi.fn()
+    const { input, unmount } = hydrateAfterChange(
+      <Checkbox label="Label" onClick={onClick} onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false })
+    )
+    expect(onChange).not.toHaveBeenCalled()
+
+    // One more vetoed click after hydration
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false })
+    )
+    expect(onChange).not.toHaveBeenCalled()
+
+    unmount()
+  })
 })
 
 describe('Checkbox scss', () => {
