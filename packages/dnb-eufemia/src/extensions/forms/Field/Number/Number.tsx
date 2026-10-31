@@ -38,7 +38,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 export type FieldNumberProps = FieldProps<number, undefined | number> & {
   /** Ref to the underlying input element. */
   ref?: RefObject<HTMLInputElement>
-  /** Additional CSS class applied to the inner input element. */
+  /** Class name set on the input wrapper (`.dnb-input`) that contains the `<input>` element. */
   inputClassName?: string
   /**
    * Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.
@@ -51,7 +51,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
    */
   percent?: InputMaskedProps['asPercent']
   /**
-   * An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.
+   * Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties). When given, it is used instead of the default number mask. It has no effect together with `currency` or `percent`.
    */
   mask?: InputMaskedProps['mask']
   /**
@@ -75,11 +75,11 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
    */
   disallowLeadingZeroes?: boolean
   /**
-   * Text added before the value input.
+   * Text added before the value input. Can also be a function that receives the value and returns the text.
    */
   prefix?: string | ((value: number) => string)
   /**
-   * Text added after the value input.
+   * Text added after the value input. Can also be a function that receives the value and returns the text.
    */
   suffix?: string | ((value: number) => string)
   /**
@@ -102,7 +102,9 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
    * Validation that requires the number to be a multiple of a given value.
    */
   multipleOf?: number
-  /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
+  /**
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default`. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
+   */
   size?: InputSize
   /**
    * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.

@@ -64,7 +64,7 @@ export const NumberProperties: PropertiesTableProps = {
   },
   size: {
     ...InputProperties.size,
-    doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: 'The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default`. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).',
   },
   align: {
     doc: 'Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.',
@@ -82,13 +82,13 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   prefix: {
-    doc: 'Text added before the value input.',
-    type: 'string',
+    doc: 'Text added before the value input. Can also be a function that receives the value and returns the text.',
+    type: ['string', 'function'],
     status: 'optional',
   },
   suffix: {
-    doc: 'Text added after the value input.',
-    type: 'string',
+    doc: 'Text added after the value input. Can also be a function that receives the value and returns the text.',
+    type: ['string', 'function'],
     status: 'optional',
   },
   step: {
@@ -107,8 +107,13 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   mask: {
-    doc: 'An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.',
-    type: ['array', 'function'],
+    doc: 'Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties). When given, it is used instead of the default number mask. It has no effect together with `currency` or `percent`.',
+    type: ['RegExp', 'Array<RegExp | string>'],
+    status: 'optional',
+  },
+  inputClassName: {
+    doc: 'Class name set on the input wrapper (`.dnb-input`) that contains the `<input>` element.',
+    type: 'string',
     status: 'optional',
   },
 }
