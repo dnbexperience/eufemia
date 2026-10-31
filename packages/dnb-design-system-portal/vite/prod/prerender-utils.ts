@@ -231,6 +231,7 @@ export function getRoutePreloads(
           const impEntry = clientManifest[imp]
           if (impEntry?.file) {
             const impPath = '/' + impEntry.file
+            jsPreloads.add(impPath)
             if (!visited.has(impPath)) {
               queue.push(impPath)
             }

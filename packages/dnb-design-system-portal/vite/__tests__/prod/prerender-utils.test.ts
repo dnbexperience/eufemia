@@ -376,6 +376,11 @@ describe('prerender-utils', () => {
 
       const preloads = getRoutePreloads('/', ssrManifest, clientManifest)
       expect(preloads.css).toContain('/assets/Card.css')
+      expect(preloads.js).toEqual([
+        '/assets/docs-abc.js',
+        '/assets/MenuWrapper.js',
+        '/assets/Card.js',
+      ])
     })
 
     it('skips the index.html entry point to avoid duplicating template CSS', () => {
