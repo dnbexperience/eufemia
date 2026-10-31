@@ -209,9 +209,6 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
   font-weight: normal;
   font-style: normal;
   font-display: fallback;
-  ascent-override: 95%;
-  descent-override: 25%;
-  line-gap-override: 0%;
 }
 
 // Skeleton-Medium
@@ -226,9 +223,6 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
   font-weight: 500;
   font-style: normal;
   font-display: fallback;
-  ascent-override: 95%;
-  descent-override: 25%;
-  line-gap-override: 0%;
 }
 
 // Skeleton-Bold
@@ -241,9 +235,6 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
   font-weight: 600;
   font-style: normal;
   font-display: fallback;
-  ascent-override: 95%;
-  descent-override: 25%;
-  line-gap-override: 0%;
 }
 
 // Mono-Skeleton
@@ -259,7 +250,4 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
   font-weight: normal;
   font-style: normal;
   font-display: fallback;
-  ascent-override: 95%;
-  descent-override: 25%;
-  line-gap-override: 0%;
 }

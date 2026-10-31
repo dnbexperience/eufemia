@@ -75,8 +75,8 @@ describe('production CDN checks', () => {
   it('checks current DNB font files listed by a newer release manifest', async () => {
     const currentPaths = [
       'DNBSansText-Regular',
-      'DNBSansText-RegularItalic',
-      'DNBSansMono-BoldItalic',
+      'web/DNBSansText-RegularItalic',
+      'web/DNBSansMono-BoldItalic',
       'DNBSansDisplay',
     ].map((name) => 'fonts/dnb/' + name + '.woff2')
     const currentManifest =
@@ -108,7 +108,7 @@ describe('production CDN checks', () => {
   })
 
   it('detects an unavailable current font without requiring it in older release manifests', async () => {
-    const currentPath = 'fonts/dnb/DNBSansText-RegularItalic.woff2'
+    const currentPath = 'fonts/dnb/web/DNBSansText-RegularItalic.woff2'
     const currentManifest =
       manifest +
       '\n' +
