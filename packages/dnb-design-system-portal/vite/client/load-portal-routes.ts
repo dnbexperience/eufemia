@@ -59,9 +59,11 @@ function handlePreloadErrors(urls: string[]) {
   const onError = (event: Event & { payload?: Error }) => {
     const message = event.payload?.message || ''
     if (
+      urls.length === 0 ||
       !message.includes('/assets/') ||
       urls.some((url) => message.includes(url))
     ) {
+      event.preventDefault()
       event.stopImmediatePropagation()
     }
   }
@@ -176,8 +178,13 @@ export async function getInitialPortalRoutes(): Promise<PortalRoute[]> {
               id: home.id,
               index: true,
               lazy: async () => {
-                const { Component } = await loadHint(hints.links['/'])
-                return { Component }
+                try {
+                  const { Component } = await loadHint(hints.links['/'])
+                  return { Component }
+                } catch {
+                  window.location.assign('/')
+                  return new Promise<never>(() => {})
+                }
               },
             },
           ]
@@ -194,8 +201,11 @@ function normalizePath(pathname: string) {
 }
 
 export async function discoverPortalRoutes(pathname: string) {
-  await loadHints()
-  const hint = hints?.links[pathname.replace(/\/+$/, '') || '/']
+  const path = normalizePath(pathname)
+  if (!hints?.links[path]) {
+    await loadHints()
+  }
+  const hint = hints?.links[path]
   if (hint) {
     return [await loadHint(hint)]
   }
@@ -203,8 +213,11 @@ export async function discoverPortalRoutes(pathname: string) {
 }
 
 export async function prefetchPortalRoute(pathname: string) {
-  await loadHints()
-  const hint = hints?.links[pathname.replace(/\/+$/, '') || '/']
+  const path = normalizePath(pathname)
+  if (!hints?.links[path]) {
+    await loadHints()
+  }
+  const hint = hints?.links[path]
   if (hint) {
     await loadHint(hint)
     return
@@ -215,7 +228,12 @@ export async function prefetchPortalRoute(pathname: string) {
   while (route && !visited.has(route)) {
     visited.add(route)
     if (typeof route.lazy === 'function') {
-      await route.lazy()
+      const cleanup = handlePreloadErrors([])
+      try {
+        await route.lazy()
+      } finally {
+        cleanup()
+      }
     }
     const target = route.handle?.redirectTo
     route =
@@ -225,7 +243,7 @@ export async function prefetchPortalRoute(pathname: string) {
   }
 }
 
-function loadHints() {
+export function loadHints() {
   if (
     !hintsUrl ||
     !new RegExp('^/assets/route-hints-[a-f0-9]{12}[.]json$').test(hintsUrl)
@@ -240,7 +258,20 @@ function loadHints() {
       return response.json()
     })
     .then((data: RouteHints) => {
-      hints = data
+      const assetOffset = hints.assets.length
+      const dependencyOffset = hints.dependencies.length
+      hints.assets.push(...data.assets)
+      hints.dependencies.push(
+        ...data.dependencies.map((imports) =>
+          imports.map((index) => index + assetOffset)
+        )
+      )
+      for (const [pathname, hint] of Object.entries(data.links)) {
+        hints.links[normalizePath(pathname)] ??= {
+          ...hint,
+          imports: hint.imports + dependencyOffset,
+        }
+      }
     })
     .catch(() => {
       hintsPromise = undefined

@@ -246,6 +246,25 @@ describe('prerender-utils', () => {
   })
 
   describe('getRoutePreloads', () => {
+    it('preloads the initial virtual route and its static dependencies', () => {
+      const preloads = getRoutePreloads(
+        '/',
+        {},
+        {
+          '../../virtual-home': {
+            file: 'assets/home.js',
+            imports: ['shared'],
+          },
+          shared: { file: 'assets/shared.js', css: ['assets/shared.css'] },
+        },
+        undefined,
+        'virtual-home'
+      )
+      expect(preloads).toEqual({
+        js: ['/assets/home.js', '/assets/shared.js'],
+        css: ['/assets/shared.css'],
+      })
+    })
     it('uses the named home source for the root route', () => {
       expect(
         getRoutePreloads(
@@ -572,6 +591,22 @@ describe('prerender-utils', () => {
         css: [],
       })
       expect(result).not.toContain('modulepreload')
+    })
+
+    it('does not duplicate modulepreloads already in the template', () => {
+      const result = injectHtml(
+        template.replace(
+          '</head>',
+          '<link rel="modulepreload" crossorigin href="/assets/shared.js"></head>'
+        ),
+        '<h1>Hello</h1>',
+        {
+          js: ['/assets/shared.js', '/assets/page.js', '/assets/page.js'],
+          css: [],
+        }
+      )
+      expect(result.match(/href="\/assets\/shared.js"/g)).toHaveLength(1)
+      expect(result.match(/href="\/assets\/page.js"/g)).toHaveLength(1)
     })
 
     it('injects modulepreload links before </head>', () => {

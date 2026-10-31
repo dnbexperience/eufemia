@@ -29,6 +29,7 @@ import {
 } from '../../src/shared/social-image.mjs'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
+import { getRoutePreloads, modulePreloadTags } from './route-preloads.mts'
 import {
   createCanonicalUrls,
   createPortalSitemap,
@@ -175,6 +176,13 @@ async function prerender() {
     routes.map((route) => [route.index ? '/' : route.path, route])
   )
   const routeHints = new Map()
+  const links = Object.fromEntries(
+    routes.flatMap((route) => {
+      const hint = route.path !== '*' && getRouteHint(route)
+      return hint ? [[route.index ? '/' : route.path, hint]] : []
+    })
+  )
+  let sharedHintsFile
 
   // Process page results
   for (let i = 0; i < urls.length; i++) {
@@ -332,25 +340,6 @@ async function prerender() {
 
   function injectInitialRoute(html, url) {
     const initial = getRouteHint(getInitialRoute(url))
-    const links = initial.index
-      ? {}
-      : { '/': getRouteHint(getInitialRoute('/')) }
-    for (const match of html.matchAll(
-      /<a\b[^>]*\bhref="([^"#?]+)[^"]*"/g
-    )) {
-      const target = new URL(match[1], 'https://eufemia.dnb.no' + url)
-      if (target.origin !== 'https://eufemia.dnb.no') {
-        continue
-      }
-      const pathname = target.pathname.replace(/\/+$/, '') || '/'
-      if (links[pathname] || pathname === (initial.path || '/')) {
-        continue
-      }
-      const hint = getRouteHint(getInitialRoute(pathname))
-      if (hint) {
-        links[pathname] = hint
-      }
-    }
     // Share dependency URLs across hints instead of repeating their hashes
     // for every sidebar link.
     const assets = []
@@ -372,35 +361,52 @@ async function prerender() {
       }
       return { ...hint, imports: dependencyIndexes.get(key) }
     }
-    const data = JSON.stringify({
-      initial: compact(initial),
-      links: Object.fromEntries(
-        Object.entries(links).map(([pathname, hint]) => [
-          pathname,
-          compact(hint),
-        ])
-      ),
-      assets,
-      dependencies,
-    }).replace(/</g, '\\u003c')
-    const hintsFile =
-      'assets/route-hints-' +
-      createHash('sha256').update(data).digest('hex').slice(0, 12) +
-      '.json'
-    fs.writeFileSync(path.join(outDir, hintsFile), data)
+    if (!sharedHintsFile) {
+      const data = JSON.stringify({
+        links: Object.fromEntries(
+          Object.entries(links).map(([pathname, hint]) => [
+            pathname,
+            compact(hint),
+          ])
+        ),
+        assets,
+        dependencies,
+      }).replace(/</g, '\\u003c')
+      sharedHintsFile =
+        'assets/route-hints-' +
+        createHash('sha256').update(data).digest('hex').slice(0, 12) +
+        '.json'
+      fs.writeFileSync(path.join(outDir, sharedHintsFile), data)
+    }
     assets.length = 0
     dependencies.length = 0
     assetIndexes.clear()
     dependencyIndexes.clear()
+    const bootstrapLinks = links['/'] ? { '/': links['/'] } : {}
+    const content = html.match(/<main\b[^>]*>[\s\S]*?<\/main>/)?.[0] || ''
+    for (const match of content.matchAll(
+      /<a\b[^>]*\bhref="([^"#?]+)[^"]*"/g
+    )) {
+      const target = new URL(match[1], 'https://eufemia.dnb.no' + url)
+      const pathname = target.pathname.replace(/\/+$/, '') || '/'
+      if (target.origin === 'https://eufemia.dnb.no' && links[pathname]) {
+        bootstrapLinks[decodeURI(pathname).toLowerCase()] = compact(
+          links[pathname]
+        )
+      }
+    }
+    if (links['/']) {
+      bootstrapLinks['/'] = compact(links['/'])
+    }
     const bootstrap = JSON.stringify({
       initial: compact(initial),
-      links: links['/'] ? { '/': compact(links['/']) } : {},
+      links: bootstrapLinks,
       assets,
       dependencies,
     }).replace(/</g, '\\u003c')
     const script =
       '<script id="portal-initial-route" data-hints="/' +
-      hintsFile +
+      sharedHintsFile +
       '" type="application/json">' +
       bootstrap +
       '</script>'
@@ -518,115 +524,6 @@ function getPageMeta(url, allMdxNodes) {
   }
 
   return { title, description }
-}
-
-function getRoutePreloads(
-  url,
-  ssrManifest,
-  clientManifest,
-  sourcePath,
-  routeModule
-) {
-  const routePath = url.replace(/^\/|\/$/g, '') || 'index'
-
-  const candidates = [
-    ...(sourcePath
-      ? [
-          sourcePath.replace(
-            'packages/dnb-design-system-portal/',
-            '../../'
-          ),
-        ]
-      : []),
-    `../../src/docs/${routePath}.mdx`,
-    `../../src/docs/${routePath}.tsx`,
-    `../../src/docs/${routePath}/index.mdx`,
-    `../../src/docs/${routePath}/index.tsx`,
-  ]
-
-  const jsPreloads = new Set()
-  const cssPreloads = new Set()
-
-  // The initial page is a distinct dynamic entry even when other pages
-  // import the same MDX source. Include its complete CSS dependency graph.
-  const initialEntry =
-    routeModule &&
-    clientManifest?.['../../' + routeModule.replace(/\/$/, '')]
-  if (initialEntry) {
-    jsPreloads.add('/' + initialEntry.file)
-  }
-
-  for (const candidate of candidates) {
-    const assets = ssrManifest[candidate]
-    if (assets) {
-      for (const asset of assets) {
-        if (asset.endsWith('.js')) {
-          jsPreloads.add(asset)
-        } else if (asset.endsWith('.css')) {
-          cssPreloads.add(asset)
-        }
-      }
-    }
-  }
-
-  // Use the client manifest to find CSS chunks that are transitively
-  // imported by the route's JS chunks. Without this, CSS modules
-  // imported by non-route source files (e.g. shared menu components)
-  // would only load after JS executes, causing a layout flicker on
-  // prerendered pages.
-  if (clientManifest && jsPreloads.size > 0) {
-    // Build a lookup from output file path to manifest entry
-    const fileToEntry = new Map()
-    for (const entry of Object.values(clientManifest)) {
-      if (entry.file) {
-        fileToEntry.set('/' + entry.file, entry)
-      }
-    }
-
-    // BFS through chunk imports to collect all transitive CSS
-    const visited = new Set()
-    const queue = [...jsPreloads]
-
-    while (queue.length > 0) {
-      const chunk = queue.shift()
-      if (visited.has(chunk)) {
-        continue
-      }
-      visited.add(chunk)
-
-      const entry = fileToEntry.get(chunk)
-      if (!entry) {
-        continue
-      }
-
-      // Collect CSS associated with this chunk
-      if (entry.css) {
-        for (const css of entry.css) {
-          cssPreloads.add('/' + css)
-        }
-      }
-
-      // Follow static imports (skip the entry point — its CSS
-      // is already in the HTML template)
-      if (entry.imports) {
-        for (const imp of entry.imports) {
-          if (imp === 'index.html') {
-            continue
-          }
-          const impEntry = clientManifest[imp]
-          if (impEntry?.file) {
-            const impPath = '/' + impEntry.file
-            jsPreloads.add(impPath)
-            if (!visited.has(impPath)) {
-              queue.push(impPath)
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return { js: [...jsPreloads], css: [...cssPreloads] }
 }
 
 function injectHtml(
@@ -781,9 +678,7 @@ function injectHtml(
   }
 
   if (preloads.js && preloads.js.length > 0) {
-    const preloadTags = preloads.js
-      .map((p) => `<link rel="modulepreload" crossorigin href="${p}">`)
-      .join('\n    ')
+    const preloadTags = modulePreloadTags(html, preloads.js)
     html = html.replace('</head>', `    ${preloadTags}\n  </head>`)
   }
 
