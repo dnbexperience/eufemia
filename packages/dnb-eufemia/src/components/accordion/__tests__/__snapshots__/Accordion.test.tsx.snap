@@ -508,19 +508,26 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
     --token-color-text-action-disabled
   );
   --accordion-color-bg--default: var(
-    --token-color-decorative-third-muted
+    --token-color-background-neutral-subtle
   );
   --accordion-color-bg--hover: var(--token-color-background-neutral);
   --accordion-color-bg--active: var(
     --token-color-background-action-pressed
   );
   --accordion-color-border--default: var(
+    --token-color-stroke-neutral-subtle
+  );
+  --accordion-color-border--hover: var(
     --token-color-decorative-third-muted
   );
   --accordion-color-border--active: var(
     --token-color-stroke-action-pressed
   );
-  --accordion-border-width--default: 0.125rem;
+  --accordion-color-border--after-click: var(
+    --token-color-decorative-third-muted
+  );
+  --accordion-border-width--default: 0.0625rem;
+  --accordion-border-width--hover: 0.125rem;
 }
 .dnb-accordion__variant--outlined, .dnb-accordion__variant--filled {
   --accordion-color-text--disabled: var(
