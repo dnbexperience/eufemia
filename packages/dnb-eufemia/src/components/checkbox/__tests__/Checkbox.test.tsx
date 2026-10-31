@@ -668,7 +668,7 @@ describe('Checkbox with server-rendered markup', () => {
     unmount()
   })
 
-  it('should undo a change made before hydration when onClick calls preventDefault', () => {
+  it('should undo a change made before hydration when onClick calls preventDefault', async () => {
     const onClick = vi.fn(({ preventDefault }) => preventDefault())
     const onChange = vi.fn()
     const { input, unmount } = hydrateAfterChange(
@@ -683,7 +683,7 @@ describe('Checkbox with server-rendered markup', () => {
     expect(onChange).not.toHaveBeenCalled()
 
     // One more vetoed click after hydration
-    fireEvent.click(input)
+    await userEvent.click(input)
 
     expect(input.checked).toBe(false)
     expect(onClick).toHaveBeenCalledTimes(2)
