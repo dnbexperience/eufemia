@@ -58,9 +58,9 @@ test.describe('Theme', () => {
     ).toBe(false)
 
     const uiLink = page.locator('link[data-eufemia-theme="ui"]')
-    expect(
-      await uiLink.evaluate((el: HTMLLinkElement) => el.disabled)
-    ).toBe(true)
+    await expect
+      .poll(() => uiLink.evaluate((el: HTMLLinkElement) => el.disabled))
+      .toBe(true)
   })
 
   test('should set local storage', async ({ page }) => {
