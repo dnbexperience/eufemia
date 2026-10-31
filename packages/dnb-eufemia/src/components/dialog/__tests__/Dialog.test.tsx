@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import Dialog from '../Dialog'
 import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
+import Dropdown from '../../dropdown/Dropdown'
+import Popover from '../../popover/Popover'
 import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
@@ -602,6 +604,200 @@ describe('Dialog', () => {
       const content = document.querySelector('.dnb-modal__content')
       expect(content).toBeInTheDocument()
       expect(document.activeElement).toBe(content)
+    })
+  })
+
+  it('keeps focus in a field while typing updates the content', async () => {
+    const ControlledField = () => {
+      const [value, setValue] = useState('')
+      return (
+        <Dialog noAnimation open title="Title">
+          <Dialog.Body>
+            <input
+              id="field"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+            />
+          </Dialog.Body>
+        </Dialog>
+      )
+    }
+    render(<ControlledField />)
+
+    const field = document.getElementById('field') as HTMLInputElement
+    await userEvent.type(field, 'hello world')
+
+    expect(field).toHaveValue('hello world')
+    expect(document.activeElement).toBe(field)
+  })
+
+  it('keeps focus on an element inside that takes focus when it opens', async () => {
+    const FocusOnMount = () => {
+      const ref = useRef<HTMLInputElement>(null)
+      useEffect(() => {
+        ref.current?.focus()
+      }, [])
+      return <input id="focused-on-mount" ref={ref} />
+    }
+    render(
+      <Dialog noAnimation open title="Title">
+        <Dialog.Body>
+          <FocusOnMount />
+        </Dialog.Body>
+      </Dialog>
+    )
+
+    const field = document.getElementById('focused-on-mount')
+    await waitFor(() => {
+      expect(document.activeElement).toBe(field)
+    })
+    // Let the initial focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(document.activeElement).toBe(field)
+  })
+
+  it('keeps focus in a dialog opened on top of it', async () => {
+    const WithNestedDialog = () => {
+      const [nestedOpen, setNestedOpen] = useState(false)
+      return (
+        <Dialog noAnimation open title="Outer">
+          <button id="open-nested" onClick={() => setNestedOpen(true)}>
+            Open
+          </button>
+          <Dialog noAnimation open={nestedOpen} title="Nested" />
+        </Dialog>
+      )
+    }
+    render(<WithNestedDialog />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Outer' })
+      )
+    })
+
+    // Opening the nested dialog re-renders the outer dialog content
+    fireEvent.click(document.getElementById('open-nested'))
+    // Let the focus timers of both dialogs run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'Nested' })
+    )
+  })
+
+  it('keeps focus in an open Dropdown list when the content changes', async () => {
+    const WithDropdown = () => {
+      const [, setCount] = useState(0)
+      return (
+        <Dialog noAnimation open title="Title">
+          <Dropdown
+            noAnimation
+            data={['A', 'B']}
+            onOpen={() => setCount((count) => count + 1)}
+          />
+        </Dialog>
+      )
+    }
+    render(<WithDropdown />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Title' })
+      )
+    })
+
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-drawer-list__options')
+    )
+  })
+
+  describe('opened from a button in a Popover', () => {
+    // The Popover renders in a portal that is not a modal. When the Dialog
+    // opens, focus is still on the Popover button, behind the Dialog.
+    const DialogFromPopover = () => {
+      const [open, setOpen] = useState(false)
+      return (
+        <>
+          <Popover
+            noAnimation
+            trigger={
+              <button type="button" id="popover-trigger">
+                Open popover
+              </button>
+            }
+          >
+            <button
+              type="button"
+              id="popover-action"
+              onClick={() => setOpen(true)}
+            >
+              Open from popover
+            </button>
+          </Popover>
+          <Dialog
+            noAnimation
+            open={open}
+            omitTriggerButton
+            title="From popover"
+            onClose={() => setOpen(false)}
+          >
+            <p>Opened from a popover</p>
+          </Dialog>
+        </>
+      )
+    }
+
+    const openFromPopover = async () => {
+      fireEvent.click(document.getElementById('popover-trigger'))
+      const action = await waitFor(() => {
+        const element = document.getElementById('popover-action')
+        expect(element).toBeInTheDocument()
+        return element
+      })
+      // The Popover focuses its content when it opens, and again after
+      // 10 ms if focus is outside it. Let that run first, so that it does
+      // not take focus back from the Dialog.
+      await new Promise((resolve) => setTimeout(resolve, 50))
+
+      action.focus()
+      expect(document.activeElement).toBe(action)
+      expect(action.closest('.eufemia-portal-root')).not.toBeNull()
+      expect(action.closest('.dnb-modal__content')).toBeNull()
+
+      fireEvent.click(action)
+      // Let the focus timer run (0 ms with noAnimation)
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    }
+
+    it('moves focus to the dialog', async () => {
+      render(<DialogFromPopover />)
+      await openFromPopover()
+
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'From popover' })
+      )
+    })
+
+    it('moves focus to a nested dialog', async () => {
+      render(
+        <Dialog noAnimation open title="Outer">
+          <DialogFromPopover />
+        </Dialog>
+      )
+      await waitFor(() => {
+        expect(document.activeElement).toBe(
+          screen.getByRole('dialog', { name: 'Outer' })
+        )
+      })
+
+      await openFromPopover()
+
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'From popover' })
+      )
     })
   })
 
