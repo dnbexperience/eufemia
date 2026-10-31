@@ -156,7 +156,11 @@ export function setupChunkLoadErrorHandler({
   }
 
   const onPreloadError = (event: Event & { payload?: unknown }) => {
-    handleReason(event.payload)
+    queueMicrotask(() => {
+      if (!event.defaultPrevented) {
+        handleReason(event.payload)
+      }
+    })
   }
 
   window.addEventListener('portal:ready', onReady)
