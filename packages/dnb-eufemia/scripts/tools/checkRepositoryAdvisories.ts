@@ -168,9 +168,19 @@ function compareVersions(a: Version, b: Version) {
   return 0
 }
 
+/**
+ * Reads a version in a range. "4.7.1+" and "7.0.0-7.4.0" are valid versions,
+ * but likely mean a range, so they cannot be read.
+ */
+function parseBound(text: string) {
+  const version = text.includes('+') ? null : parseVersion(text)
+  const [first, second] = version?.prerelease ?? []
+  return /^\d+$/.test(first) && /^\d+$/.test(second) ? null : version
+}
+
 function parseComparator(text: string): Comparator | null {
   const match = /^(>=|<=|>|<|=)?(\S+)$/.exec(text)
-  const version = match && parseVersion(match[2])
+  const version = match && parseBound(match[2])
   if (!version) {
     return null
   }
@@ -184,6 +194,24 @@ function parseComparator(text: string): Comparator | null {
   return { operator, version }
 }
 
+/**
+ * A set like ">=3.0.0 <2.0.0" matches no version, so it was likely meant as "or".
+ */
+function isSatisfiable(comparators: Comparator[]) {
+  return comparators.every((lower) =>
+    comparators.every((upper) => {
+      if (!/^[>=]/.test(lower.operator) || !/^[<=]/.test(upper.operator)) {
+        return true
+      }
+      const result = compareVersions(lower.version, upper.version)
+      return (
+        result < 0 ||
+        (result === 0 && lower.operator !== '>' && upper.operator !== '<')
+      )
+    })
+  )
+}
+
 function parseComparatorSet(text: string): Comparator[] | null {
   const trimmed = text.trim()
   if (trimmed === '*') {
@@ -192,14 +220,17 @@ function parseComparatorSet(text: string): Comparator[] | null {
 
   const hyphen = /^(\S+)\s+-\s+(\S+)$/.exec(trimmed)
   if (hyphen) {
-    const from = parseVersion(hyphen[1])
-    const to = parseVersion(hyphen[2])
-    return from && to && !from.partial && !to.partial
-      ? [
-          { operator: '>=', version: from },
-          { operator: '<=', version: to },
-        ]
-      : null
+    const from = parseBound(hyphen[1])
+    const to = parseBound(hyphen[2])
+    if (!from || !to || from.partial || to.partial) {
+      return null
+    }
+
+    const comparators = [
+      { operator: '>=', version: from },
+      { operator: '<=', version: to },
+    ]
+    return isSatisfiable(comparators) ? comparators : null
   }
 
   const tokens = trimmed.replace(/(>=|<=|>|<|=)\s+/g, '$1').split(/\s+/)
@@ -210,7 +241,9 @@ function parseComparatorSet(text: string): Comparator[] | null {
   }
 
   const comparators = tokens.map(parseComparator)
-  return comparators.every(Boolean) ? comparators : null
+  return comparators.every(Boolean) && isSatisfiable(comparators)
+    ? comparators
+    : null
 }
 
 /**
@@ -223,7 +256,22 @@ export function isVersionInRange(
   range: string | null | undefined
 ) {
   const current = parseVersion(version)
-  const sets = String(range ?? '')
+  const text = String(range ?? '')
+
+  // A version alone may mean "since", so a version above it cannot be read
+  const exact = /^[^\s<>=*,;|]+$/.test(text.trim())
+    ? parseBound(text)
+    : null
+  if (
+    current &&
+    exact &&
+    !exact.partial &&
+    compareVersions(current, exact) > 0
+  ) {
+    return null
+  }
+
+  const sets = text
     .split(/\|\||;/)
     .flatMap((alternative) => {
       const parts = alternative.split(',')

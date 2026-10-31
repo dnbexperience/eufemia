@@ -77,6 +77,9 @@ describe('checkRepositoryAdvisories', () => {
     ['1.5.0', '>=1.0.0 <1.2.0 || >=2.0.0 <2.1.0', false],
     ['3.1.2', '>= 2.3.1, <= 2.4.2; >= 3.0.0, <= 3.1.3', true],
     ['3.1.4', '>= 2.3.1, <= 2.4.2; >= 3.0.0, <= 3.1.3', false],
+    ['1.0.0', '>= 1.0.0, <= 1.0.0', true],
+    ['15.0.0', '15.0.0', true],
+    ['14.2.0', '15.0.0', false],
   ])('checks %s against "%s"', (version, range, expected) => {
     expect(isVersionInRange(version, range)).toBe(expected)
   })
@@ -87,6 +90,17 @@ describe('checkRepositoryAdvisories', () => {
     ['4.1.0', '4.0.0 < 4.1.2'],
     ['3.1.0', '3.0.0<= 3.1.0'],
     ['7.26.10', '7.26.10, 8.0.0-alpha.17'],
+    ['4.7.2', '4.7.1+'],
+    ['7.2.0', '7.0.0-7.4.0'],
+    ['4.47.0', '4.46.0-4.48.7 '],
+    ['15.3.0', '15.0.0'],
+    ['7.26.9', '<7.26.10, >=8.0.0-alpha.0'],
+    ['1.5.0', '2.0.0 - 1.0.0'],
+    ['1.0.0', '> 1.0.0, <= 1.0.0'],
+    [
+      '5.4.19',
+      '>=2.9.18,<3.0.0,>=3.2.9,<4.0.0,>=4.5.3,<5.0.0,>=5.2.6,<=5.4.20',
+    ],
   ])('cannot read %s against "%s"', (version, range) => {
     expect(isVersionInRange(version, range)).toBeNull()
   })
@@ -281,6 +295,60 @@ describe('checkRepositoryAdvisories', () => {
     )
     expect(findAdvisoryMatches(entry, [advisory('>= 2.0.0')])).toEqual([])
   })
+
+  it.each([
+    ['GHSA-9g9p-9gw9-jx7f', 'next', '15.0.0', '15.5.10', '15.3.0'],
+    ['GHSA-gc7p-j5xm-xxh2', '@strapi/strapi', '4.0.0', '4.13.1', '4.5.0'],
+    [
+      'GHSA-4q56-crqp-v477',
+      '@react-router/express',
+      '7.0.0-7.4.0',
+      '7.4.1',
+      '7.2.0',
+    ],
+    [
+      'GHSA-g5m6-hxpp-fc49',
+      '@sveltejs/kit',
+      '2.0.0-2.4.2',
+      '2.4.3',
+      '2.3.0',
+    ],
+    ['GHSA-9gh8-wp53-ccc6', 'ghost', '4.46.0-4.48.7 ', '4.48.8', '4.47.0'],
+    ['GHSA-68jh-rf6x-836f', '@apollo/server', '4.7.1+', '4.7.4', '4.7.2'],
+    [
+      'GHSA-93m4-6634-74q7',
+      'vite',
+      '>=2.9.18,<3.0.0,>=3.2.9,<4.0.0,>=4.5.3,<5.0.0,>=5.2.6,<=5.4.20',
+      '5.4.21',
+      '5.4.19',
+    ],
+  ])(
+    'reports %s for %s "%s" as unreadable until it is patched',
+    (ghsaId, name, range, patched, version) => {
+      const advisories = [
+        {
+          ghsa_id: ghsaId,
+          summary: 'Summary',
+          severity: 'high',
+          html_url: `https://github.com/advisories/${ghsaId}`,
+          vulnerabilities: [
+            {
+              package: { ecosystem: 'npm', name },
+              vulnerable_version_range: range,
+              patched_versions: patched,
+            },
+          ],
+        },
+      ]
+
+      expect(findAdvisoryMatches({ name, version }, advisories)).toEqual([
+        expect.objectContaining({ ghsaId, unreadableRange: range }),
+      ])
+      expect(
+        findAdvisoryMatches({ name, version: patched }, advisories)
+      ).toEqual([])
+    }
+  )
 
   it.each([
     ['7.1.6', '7.1.6', true],
