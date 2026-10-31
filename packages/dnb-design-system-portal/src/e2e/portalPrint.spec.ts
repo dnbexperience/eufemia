@@ -14,6 +14,10 @@ for (const width of [1440, 390]) {
       await expect(
         page.getByRole('dialog', { name: 'Menu', exact: true })
       ).toBeVisible()
+      await expect(page.locator('#dnb-app-content h1')).toHaveAttribute(
+        'aria-hidden',
+        'true'
+      )
     }
 
     await page.emulateMedia({ media: 'print' })
@@ -25,9 +29,21 @@ for (const width of [1440, 390]) {
       page.getByRole('dialog', { name: 'Menu', exact: true })
     ).toBeHidden()
     await expect(page.locator('header.sticky-menu')).toBeHidden()
-    await expect(
-      page.getByRole('heading', { name: 'Printable apps', exact: true })
-    ).toBeVisible()
+    // Print CSS reveals the page while the open modal keeps its screen accessibility state.
+    const heading = page.locator('#dnb-app-content h1')
+    await expect(heading).toContainText('Printable apps')
+    await expect(heading).toBeVisible()
     await expect(page.locator('[data-portal-print-footer]')).toBeVisible()
+
+    if (width === 390) {
+      await page.emulateMedia({ media: 'screen' })
+      await expect(
+        page.getByRole('dialog', { name: 'Menu', exact: true })
+      ).toBeVisible()
+      await page.keyboard.press('Escape')
+      await expect(
+        page.getByRole('heading', { name: 'Printable apps', exact: true })
+      ).toBeVisible()
+    }
   })
 }
