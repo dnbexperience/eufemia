@@ -458,6 +458,40 @@ describe('Radio scss', () => {
     )
   })
 
+  it('uses the Figma on-dark tokens for enabled radio buttons on dark surfaces', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-radio.scss'))
+    )
+    const surfaceDark = css.match(
+      /\.dnb-radio--surface-dark:where\(:not\(\.dnb-toggle-button \*\)\) \{[^}]*\}/
+    )[0]
+
+    expect(surfaceDark).toMatch(
+      /--radio-color-dot-on--default: var\(\s*--token-color-background-selected-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-background--default: transparent;/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-background-on--default: var\(\s*--token-color-background-selected-subtle-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-border--default: var\(\s*--token-color-stroke-action-alternative-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-border-on--default: var\(\s*--token-color-stroke-selected-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-border--hover: var\(\s*--token-color-stroke-action-hover-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-border--active: var\(\s*--token-color-stroke-action-pressed-ondark\s*\)/
+    )
+    expect(css).toMatch(
+      /\.dnb-radio__input:checked ~ \.dnb-radio__button,\s*\.dnb-radio__input\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__button \{[^}]*--radio-color-border--default: var\(--radio-color-border-on--default\);\s*--radio-color-background--default: var\(\s*--radio-color-background-on--default\s*\);/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
