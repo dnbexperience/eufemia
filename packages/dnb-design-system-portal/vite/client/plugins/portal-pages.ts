@@ -4,19 +4,17 @@
  * It scans src/docs/ for .mdx and .tsx page files and generates a
  * virtual module (`virtual:portal-pages`) that exports:
  *   - `routes`: an array of { path, component } for React Router
- *   - `allMdxNodes`: a static data structure with frontmatter and table of contents for all MDX pages
+ *   - `allMdxNodes`: a static data structure with frontmatter for all MDX pages
  */
 
 import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from '@11ty/gray-matter'
-import { getSlugFromMdxHeading } from '../../../src/uilib/utils/slug.mjs'
 import type {
   MdxFrontmatter,
   MdxNode,
   PageFileInfo,
-  TableOfContentsItem,
 } from './portal-pages.shared'
 import { compareByOrder, isFirstTabPage } from './portal-pages.shared'
 
@@ -37,7 +35,6 @@ const IGNORE_PATTERNS = [
 // The page shape lives in a types-only file, so app code can import it
 // without reaching into this module's build-time dependencies.
 export type {
-  TableOfContentsItem,
   KnownFrontmatter,
   MdxFrontmatter,
   MdxNode,
@@ -50,44 +47,6 @@ export type PortalPagesPluginOptions = {
 
 export function shouldIgnore(filePath: string): boolean {
   return IGNORE_PATTERNS.some((pattern) => pattern.test(filePath))
-}
-
-/**
- * Extract a table-of-contents tree from MDX content by parsing
- * markdown headings (## and ###).
- *
- * The shallowest heading level present sets the top level, so partials
- * that only use ### list their headings instead of dropping them.
- */
-export function extractTableOfContents(
-  mdxContent: string
-): { items: TableOfContentsItem[] } | undefined {
-  const headingRegex = /^(#{2,3})\s+(.+)$/gm
-  const firstDepth = /^##\s+.+$/m.test(mdxContent) ? 2 : 3
-  const items: TableOfContentsItem[] = []
-  let match: RegExpExecArray | null
-
-  while ((match = headingRegex.exec(mdxContent)) !== null) {
-    const depth = match[1].length
-    const title = match[2].trim()
-    const url = `#${getSlugFromMdxHeading(match[0])}`
-
-    if (depth === firstDepth) {
-      items.push({ url, title })
-    } else if (depth === firstDepth + 1 && items.length > 0) {
-      const parent = items[items.length - 1]
-      if (!parent.items) {
-        parent.items = []
-      }
-      parent.items.push({ url, title })
-    }
-  }
-
-  if (items.length === 0) {
-    return undefined
-  }
-
-  return { items }
 }
 
 /** Where the portal's pages live, when no other location is given. */
@@ -140,9 +99,6 @@ export function toMdxNodes(files: PageFileInfo[]): MdxNode[] {
     .map((file) => ({
       fields: { slug: file.slug, sourcePath: file.sourcePath },
       frontmatter: file.frontmatter,
-      ...(file.tableOfContents
-        ? { tableOfContents: file.tableOfContents }
-        : {}),
     }))
 }
 
@@ -178,13 +134,11 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
         .replace(/\/$/, '')
 
       let frontmatter: MdxFrontmatter = {}
-      let tableOfContents: { items: TableOfContentsItem[] } | undefined
       if (isMdx) {
         try {
           const content = fs.readFileSync(fullPath, 'utf-8')
           const parsed = matter(content)
           frontmatter = parsed.data
-          tableOfContents = extractTableOfContents(parsed.content)
         } catch {
           // ignore frontmatter parse errors
         }
@@ -195,7 +149,6 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
         sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
         slug,
         frontmatter,
-        tableOfContents,
         type: isMdx ? 'mdx' : 'tsx',
       })
     }
@@ -236,14 +189,12 @@ export function readPageFileInfo(
     .replace(/\/$/, '')
 
   let frontmatter: MdxFrontmatter = {}
-  let tableOfContents: { items: TableOfContentsItem[] } | undefined
 
   if (isMdx) {
     try {
       const content = fs.readFileSync(filePath, 'utf-8')
       const parsed = matter(content)
       frontmatter = parsed.data
-      tableOfContents = extractTableOfContents(parsed.content)
     } catch {
       // ignore frontmatter parse errors
     }
@@ -254,7 +205,6 @@ export function readPageFileInfo(
     sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
     slug,
     frontmatter,
-    tableOfContents,
     type: isMdx ? 'mdx' : 'tsx',
   }
 }
