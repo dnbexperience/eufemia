@@ -23,6 +23,8 @@ export async function notifyRelease({
   const shas = new Set(commits.map(({ hash }) => hash))
   const targets = new Map<number, boolean>()
   const checkedPrs = new Set<number>()
+  const labeledPrs = new Set<number>()
+  const label = channel ? `released on @${channel}` : 'released'
   const messages = commits.map(({ message }) => message)
   const parse = issueParser('github')
   const errors: Array<unknown> = []
@@ -59,6 +61,9 @@ export async function notifyRelease({
         }
 
         targets.set(pr.number, true)
+        if (pr.labels?.some(({ name }) => name === label)) {
+          labeledPrs.add(pr.number)
+        }
         messages.push(pr.body || '')
       }
     } catch (error) {
@@ -84,7 +89,6 @@ export async function notifyRelease({
   }
 
   const marker = `<!-- eufemia-release:${gitTag}:${channel || 'latest'} -->`
-  const label = channel ? `released on @${channel}` : 'released'
   const releaseUrl = `https://github.com/${owner}/${repo}/releases/tag/${encodeURIComponent(gitTag)}`
 
   for (const [number, isPr] of targets) {
@@ -114,11 +118,13 @@ export async function notifyRelease({
       }
 
       // Reapply the label if an earlier run stopped after posting the comment.
-      await github.request(
-        'POST /repos/{owner}/{repo}/issues/{issue_number}/labels',
-        { owner, repo, issue_number: number, labels: [label] }
-      )
-      await pause()
+      if (!labeledPrs.has(number)) {
+        await github.request(
+          'POST /repos/{owner}/{repo}/issues/{issue_number}/labels',
+          { owner, repo, issue_number: number, labels: [label] }
+        )
+        await pause()
+      }
       console.log(`Confirmed release ${version} on #${number}`)
     } catch (error) {
       errors.push(

@@ -256,6 +256,39 @@ describe('release notifications', () => {
     )
   })
 
+  it('does not reapply an existing release label', async () => {
+    const github = createGitHub()
+    github.prs.set('included', [
+      pr(123, { labels: [{ name: 'released' }] }),
+    ])
+
+    await run(github)
+
+    expect(github.request).toHaveBeenCalledWith(
+      expect.stringContaining('/comments'),
+      expect.objectContaining({ issue_number: 123 })
+    )
+    expect(
+      github.request.mock.calls.filter(([route]) =>
+        route.endsWith('/labels')
+      )
+    ).toHaveLength(0)
+  })
+
+  it('still applies a different release channel label', async () => {
+    const github = createGitHub()
+    github.prs.set('included', [
+      pr(123, { labels: [{ name: 'released' }] }),
+    ])
+
+    await run(github, { ...release, channel: 'beta' })
+
+    expect(github.request).toHaveBeenCalledWith(
+      expect.stringContaining('/labels'),
+      expect.objectContaining({ labels: ['released on @beta'] })
+    )
+  })
+
   it('skips open PRs, foreign repositories and unrelated merged PRs', async () => {
     const github = createGitHub()
     github.prs.set('included', [

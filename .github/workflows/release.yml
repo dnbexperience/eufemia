@@ -419,9 +419,11 @@ jobs:
         env:
           RELEASE_NOTIFICATION_FILE: ${{ runner.temp }}/release-notification/release-notification.json
         with:
+          github-token: ${{ secrets.GH_TOKEN }}
           retries: 3
           script: |
             const { readFileSync } = require('node:fs')
+            const describeError = (error) => [error.message, error.cause && describeError(error.cause), ...(error.errors || []).map(describeError)].filter(Boolean).join('; ')
             const { pathToFileURL } = require('node:url')
             const { resolve } = require('node:path')
             const { notifyRelease } = await import(pathToFileURL(resolve(
@@ -433,6 +435,7 @@ jobs:
               try {
                 await notifyRelease({ github, ...context.repo, release })
               } catch (error) {
+                core.error(describeError(error))
                 errors.push(error)
               }
             }
