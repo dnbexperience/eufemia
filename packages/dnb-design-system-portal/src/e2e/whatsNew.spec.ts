@@ -86,6 +86,33 @@ test.describe("What's new", () => {
     ).toHaveCount(0)
   })
 
+  test('lists the pages of the web section in the sidebar on large and small screens', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 800 })
+    await page.goto('/web/whats-new')
+    await waitForApp(page)
+    const sidebar = page.locator('#portal-sidebar-menu')
+    const currentPage = sidebar.getByRole('link', {
+      name: "What's new",
+      exact: true,
+    })
+    const otherPage = sidebar.getByRole('link', {
+      name: 'Status icon pattern',
+      exact: true,
+    })
+    await expect(currentPage).toBeVisible()
+    await expect(currentPage).toHaveAttribute('aria-current', 'true')
+    await expect(otherPage).toBeVisible()
+
+    await page.setViewportSize({ width: 375, height: 667 })
+    await expect(sidebar).toBeHidden()
+    await page.locator('#toggle-sidebar-menu').click()
+    await expect(currentPage).toBeVisible()
+    await expect(currentPage).toHaveAttribute('aria-current', 'true')
+    await expect(otherPage).toBeVisible()
+  })
+
   for (const path of [
     '/web/whats-new/change-log',
     '/web/whats-new/upgrade',
