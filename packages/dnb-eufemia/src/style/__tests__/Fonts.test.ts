@@ -1,0 +1,104 @@
+// @vitest-environment node
+
+import fs from 'node:fs'
+import path from 'node:path'
+import postcss from 'postcss'
+import { loadScss } from '../../core/test-utils/testSetup'
+
+const themeDirectory = path.resolve(__dirname, '../themes')
+
+function getFontFaces(theme = 'ui') {
+  const css = loadScss(path.join(themeDirectory, theme, 'fonts.scss'))
+  const faces: Record<string, string>[] = []
+  postcss.parse(css).walkAtRules('font-face', (rule) => {
+    const face: Record<string, string> = {}
+    rule.walkDecls((decl) => {
+      face[decl.prop] = decl.value
+    })
+    faces.push(face)
+  })
+  return faces
+}
+
+describe('DNB font faces', () => {
+  it.each([
+    ['DNB', 'DNBSansText'],
+    ['DNBMono', 'DNBSansMono'],
+  ])(
+    'registers every derived %s face under its existing CSS family',
+    (family, fileName) => {
+      const faces = getFontFaces().filter(
+        (face) => face['font-family'] === family
+      )
+      expect(faces).toHaveLength(8)
+      for (const [style, weight] of [
+        ['Light', '300'],
+        ['Regular', 'normal'],
+        ['Medium', '500'],
+        ['Bold', '600 700'],
+      ]) {
+        for (const italic of [false, true]) {
+          const face = faces.find(
+            (face) =>
+              face['font-weight'] === weight &&
+              face['font-style'] === (italic ? 'italic' : 'normal')
+          )
+          expect(face).toBeDefined()
+          for (const extension of ['woff2', 'woff', 'ttf']) {
+            const file =
+              fileName +
+              '-' +
+              style +
+              (italic ? 'Italic' : '') +
+              '.' +
+              extension
+            expect(face.src).toContain('/web/' + file)
+            expect(
+              fs.existsSync(
+                path.resolve(
+                  __dirname,
+                  '../../../assets/fonts/dnb/web',
+                  file
+                )
+              )
+            ).toBe(true)
+          }
+          expect(face['font-display']).toBe('fallback')
+        }
+      }
+    }
+  )
+
+  it('uses embedded metrics without CSS overrides for Text, Mono and skeletons', () => {
+    const skeletonCss = loadScss(
+      path.resolve(
+        __dirname,
+        '../../components/skeleton/style/dnb-skeleton.scss'
+      )
+    )
+    const skeletonFaces: Record<string, string>[] = []
+    postcss.parse(skeletonCss).walkAtRules('font-face', (rule) => {
+      const face: Record<string, string> = {}
+      rule.walkDecls((decl) => {
+        face[decl.prop] = decl.value
+      })
+      skeletonFaces.push(face)
+    })
+    const faces = getFontFaces().filter((face) =>
+      ['DNB', 'DNBMono'].includes(face['font-family'])
+    )
+    for (const face of [...faces, ...skeletonFaces]) {
+      expect(face['ascent-override']).toBeUndefined()
+      expect(face['descent-override']).toBeUndefined()
+      expect(face['line-gap-override']).toBeUndefined()
+    }
+  })
+
+  it('keeps Sbanken font faces independent', () => {
+    expect(
+      getFontFaces('sbanken').some((face) =>
+        /DNB/.test(face['font-family'])
+      )
+    ).toBe(false)
+  })
+})

@@ -17,6 +17,15 @@ test.describe('Fonts', () => {
       'dnb/skeleton/DNB-Skeleton-Medium.woff2',
       'dnb/skeleton/DNB-Skeleton-Bold.woff2',
 
+      ...['DNBSansText', 'DNBSansMono'].flatMap((family) =>
+        ['Light', 'Regular', 'Medium', 'Bold'].flatMap((weight) =>
+          ['', 'Italic'].map(
+            (slant) =>
+              'dnb/web/' + family + '-' + weight + slant + '.woff2'
+          )
+        )
+      ),
+
       // Sbanken
       'sbanken/MaisonNeue.woff2',
       'sbanken/Roboto-Regular.woff2',

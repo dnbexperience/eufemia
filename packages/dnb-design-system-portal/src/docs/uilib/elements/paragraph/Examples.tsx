@@ -103,8 +103,6 @@ export function ParagraphDefault() {
         <Case>
           <strong>Strong paragraph (medium weight)</strong>
         </Case>
-        {/* <i>Italic paragraph (Currently not supported by DNB UX)</i> */}
-        {/* <u>Underline paragraph (Currently not supported by DNB UX)</u> */}
         <Case>Numbers 0123456789</Case>
         <Case>
           <code className="dnb-code">Code paragraph</code>

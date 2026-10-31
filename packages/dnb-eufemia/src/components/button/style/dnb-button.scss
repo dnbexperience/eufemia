@@ -724,8 +724,7 @@
     line-height: var(--line-height-basis);
     color: inherit;
 
-    // vertical alignment
-    transform: translateY(-0.03125rem); // 0.5px
+    transform: translateY(var(--button-text-translate-y, -0.03125rem));
   }
 
   &__alignment {

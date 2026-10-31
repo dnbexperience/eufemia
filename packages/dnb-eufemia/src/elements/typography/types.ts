@@ -19,7 +19,7 @@ export type TypographyAlign = 'center' | 'left' | 'right'
 
 export type TypographyFamily = 'basis' | 'heading' | 'monospace'
 
-export type TypographyWeight = 'regular' | 'medium' | 'bold'
+export type TypographyWeight = 'light' | 'regular' | 'medium' | 'bold'
 
 export type TypographyDecoration = 'underline'
 

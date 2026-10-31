@@ -12,6 +12,12 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       url: '/uilib/typography/',
     })
 
+    it('matches font families and italic faces', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="font-families"]',
+      })
+    })
+
     it('have to match all the typography variants', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="typography-variants"]',

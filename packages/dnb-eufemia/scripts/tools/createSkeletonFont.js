@@ -25,7 +25,8 @@ asyncForEach(
     { fontName: 'DNBMono', styleName: 'Bold' },
   ],
   async ({ fontName, styleName }) => {
-    const sourceFile = `${fontName}-${styleName}.ttf`
+    const sourceFamily = fontName === 'DNB' ? 'DNBSansText' : 'DNBSansMono'
+    const sourceFile = `${sourceFamily}-${styleName}.ttf`
     const sourcePath = path.resolve(
       __dirname,
       '../../assets/fonts/dnb/',

@@ -44,7 +44,7 @@ export const TypographyProperties: PropertiesTableProps = {
   },
   weight: {
     doc: 'Sets the font weight.',
-    type: ['"regular"', '"medium"'],
+    type: ['"light"', '"regular"', '"medium"', '"bold"'],
     status: 'optional',
   },
   decoration: {

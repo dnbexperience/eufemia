@@ -166,13 +166,26 @@ jobs:
           # Check the font used by generated CSS and an SVG document through the public edge.
           BASE_URL="https://assets.eufemia.dnb.no/${ASSET_VERSION}"
           HEADERS=$(mktemp)
-          trap 'rm -f "$HEADERS"' EXIT
+          MANIFEST=$(mktemp)
+          trap 'rm -f "$HEADERS" "$MANIFEST"' EXIT
           CSP="^content-security-policy:[[:blank:]]*default-src 'none';[[:blank:]]*style-src 'unsafe-inline';[[:blank:]]*sandbox;?[[:space:]]*$"
           DEADLINE=$(( $(date +%s) + 1800 ))
 
           while [ "$(date +%s)" -lt "$DEADLINE" ]; do
             ready=true
-            for ASSET in fonts/dnb/DNB-Regular.woff2 icons/dnb/add.svg; do
+            code=$(curl -s --output "$MANIFEST" -w '%{http_code}' --max-time 10 "$BASE_URL/.manifest.sha256" || true)
+            if [ "$code" != "200" ] || ! grep -Fq '  assets/fonts/dnb/DNB-Regular.woff2' "$MANIFEST"; then
+              echo "Waiting for the deployment manifest at $BASE_URL (HTTP $code)"
+              sleep 15
+              continue
+            fi
+            ASSETS=(fonts/dnb/DNB-Regular.woff2 icons/dnb/add.svg)
+            for ASSET in fonts/dnb/web/DNBSansText-Regular.woff2 fonts/dnb/web/DNBSansText-RegularItalic.woff2 fonts/dnb/web/DNBSansMono-Regular.woff2; do
+              if grep -Fq "  assets/$ASSET" "$MANIFEST"; then
+                ASSETS+=("$ASSET")
+              fi
+            done
+            for ASSET in "${ASSETS[@]}"; do
               : > "$HEADERS"
               code=$(curl -s -o /dev/null --dump-header "$HEADERS" -w '%{http_code}' --max-time 10 "$BASE_URL/$ASSET" || true)
               if [ "$code" != "200" ] || ! grep -Eiq "$CSP" "$HEADERS"; then

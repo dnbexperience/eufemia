@@ -104,13 +104,14 @@
   --color-ca-classic-beige: #f6eae4;
   --color-ca-pale-green: #ccf0e7;
   --color-ca-pale-red: #ffdedb;
-  --font-default: 'DNB', sans-serif;
+  --font-default: 'DNB', 'Arial', sans-serif;
   --font-heading: var(--font-ca-heading);
   --font-monospace:
     'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',
     'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace;
   --font-weight-default: normal;
   --font-weight-basis: normal;
+  --font-weight-light: 300;
   --font-weight-regular: normal;
   --font-weight-medium: 500;
   --font-weight-bold: 600;
@@ -188,5 +189,6 @@
   --ease-default: cubic-bezier(0.42, 0, 0, 1);
   --ease-fast-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --focus-ring-width: 0.25rem;
+  --button-text-translate-y: 0;
   --text-basis-native: var(--font-size-basis-web);
 }

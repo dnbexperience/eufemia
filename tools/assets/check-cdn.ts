@@ -105,10 +105,11 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
 
   async function checkAssets(
     prefix: string,
-    hashes?: Map<string, string>
+    hashes?: Map<string, string>,
+    monitoredAssets = assets
   ) {
     const results = await Promise.all(
-      assets.map((asset) =>
+      monitoredAssets.map((asset) =>
         probe(
           `${prefix || 'stable/'}${asset.path}`,
           `${cdn}/${prefix}${asset.path}`,
@@ -193,6 +194,16 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
       }
     )
     await checkAssets(prefix, hashes)
+    if (hashes) {
+      const currentFonts = [...hashes.keys()]
+        .filter((path) =>
+          /^fonts\/dnb\/(?:web\/)?DNBSans(?:Text|Mono|Display)[^/]*\.woff2$/.test(
+            path
+          )
+        )
+        .map((path) => ({ path, type: 'font/woff2', magic: '774f4632' }))
+      await checkAssets(prefix, hashes, currentFonts)
+    }
     return hashes
   }
 
