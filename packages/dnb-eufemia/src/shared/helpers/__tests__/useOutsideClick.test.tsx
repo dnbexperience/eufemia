@@ -37,6 +37,11 @@ describe('useOutsideClick', () => {
     return { onOutsideClick, ...result }
   }
 
+  const touchAt = (clientX: number, clientY: number) => {
+    const touches = [{ clientX, clientY }]
+    return { touches, changedTouches: touches }
+  }
+
   it('should call onOutsideClick on a mousedown outside', () => {
     const { onOutsideClick } = renderOutsideClick()
 
@@ -68,6 +73,33 @@ describe('useOutsideClick', () => {
     expect(onOutsideClick).toHaveBeenLastCalledWith(
       expect.objectContaining({ type: 'touchend' })
     )
+  })
+
+  it('should call onOutsideClick on a tap outside where the finger moves a few pixels', () => {
+    const { onOutsideClick } = renderOutsideClick()
+
+    // Safari sends touchmove for this, but still counts it as a tap
+    fireEvent.touchStart(outside, touchAt(100, 100))
+    fireEvent.touchMove(outside, touchAt(103, 104))
+    fireEvent.touchEnd(outside)
+
+    expect(onOutsideClick).toHaveBeenCalledTimes(1)
+    expect(onOutsideClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({ type: 'touchend' })
+    )
+  })
+
+  it('should not call onOutsideClick once the finger has moved more than 10 px from where the touch started', () => {
+    const { onOutsideClick } = renderOutsideClick()
+
+    // A slow scroll moves a few pixels per event, then the finger moves back
+    fireEvent.touchStart(outside, touchAt(100, 100))
+    for (const clientY of [104, 108, 112, 108, 104, 100]) {
+      fireEvent.touchMove(outside, touchAt(100, clientY))
+    }
+    fireEvent.touchEnd(outside)
+
+    expect(onOutsideClick).toHaveBeenCalledTimes(0)
   })
 
   it('should use the element where the touch started', () => {
