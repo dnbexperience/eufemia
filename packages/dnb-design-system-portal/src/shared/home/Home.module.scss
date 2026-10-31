@@ -214,12 +214,93 @@
   width: 0;
   height: calc(100% + var(--anchor-offset));
 
+  [data-motion-ready] &:not([data-active]) > span,
+  [data-motion-ready] &:not([data-active]) > div {
+    animation-duration: calc(9.6s + var(--depth) * 0.15s);
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+
+  [data-motion-ready] &:not([data-active]) > .tetherStyle {
+    animation-name: idleRope;
+  }
+
+  [data-motion-ready] &:not([data-active]) > .specimenStyle {
+    animation-name: idleSpecimen;
+  }
+
+  [data-motion-ready] &:not([data-active]) > .shadowStyle {
+    animation-name: idleShadow;
+  }
+
   @media (max-width: 48em) {
     --specimen-scale: 0.75;
     --length: calc(
       var(--mobile-length) + var(--anchor-offset) + var(--depth-offset) *
         0.35
     );
+  }
+}
+
+@mixin specimenPose($swing, $balance, $pitch, $lift) {
+  @if $lift == 0 {
+    $lift: 0px;
+  }
+
+  $rope-length: max(1px, calc(var(--length) + #{$lift}));
+
+  transform: translate(
+      calc(-1 * var(--pin) + sin(#{$swing}) * #{$rope-length}),
+      calc((cos(#{$swing}) - 1) * #{$rope-length} + #{$lift})
+    )
+    rotate(calc(var(--tilt) - #{$swing} + #{$balance}))
+    scale(var(--rendered-scale)) perspective(50rem) rotateX($pitch);
+}
+
+@keyframes idleRope {
+  0%,
+  100% {
+    transform: rotate(0rad);
+  }
+  25% {
+    transform: rotate(-0.035rad) scaleY(calc(1 - 3px / var(--length)));
+  }
+  75% {
+    transform: rotate(0.035rad) scaleY(calc(1 + 3px / var(--length)));
+  }
+}
+
+@keyframes idleSpecimen {
+  0%,
+  100% {
+    @include specimenPose(0rad, 0rad, 0rad, 0);
+  }
+  25% {
+    @include specimenPose(0.035rad, 0.025rad, 0.035rad, -3px);
+  }
+  75% {
+    @include specimenPose(-0.035rad, -0.025rad, -0.035rad, 3px);
+  }
+}
+
+@keyframes idleShadow {
+  0%,
+  100% {
+    translate: 0;
+  }
+  25% {
+    translate: calc(0.035 * var(--length));
+  }
+  75% {
+    translate: calc(-0.035 * var(--length));
+  }
+}
+
+.rootStyle[data-motion-hidden] {
+  *,
+  *::before,
+  *::after {
+    animation-play-state: paused !important;
   }
 }
 
@@ -259,12 +340,12 @@
   position: absolute;
   top: var(--length);
   width: var(--specimen-width);
-  transform: translate(
-      calc(-1 * var(--pin) + sin(var(--swing)) * var(--rope-length)),
-      calc((cos(var(--swing)) - 1) * var(--rope-length) + var(--lift-y))
-    )
-    rotate(calc(var(--tilt) - var(--swing) + var(--balance)))
-    scale(var(--rendered-scale)) perspective(50rem) rotateX(var(--pitch));
+  @include specimenPose(
+    var(--swing),
+    var(--balance),
+    var(--pitch),
+    var(--lift-y)
+  );
   transform-origin: var(--pin) 0;
   filter: drop-shadow(0 0.125rem 0.125rem rgb(0 0 0 / 12%));
   touch-action: none;
@@ -500,7 +581,12 @@
   }
 }
 
+// Automatic motion follows the system accessibility preference, including live changes.
 @media (prefers-reduced-motion: reduce) {
+  .hangingStyle > * {
+    animation: none !important;
+  }
+
   .actionArtworkStyle,
   .designArtworkStyle::before,
   .designArtworkStyle::after,

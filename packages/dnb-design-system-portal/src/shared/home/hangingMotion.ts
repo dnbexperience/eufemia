@@ -71,7 +71,8 @@ export default function mountHangingMotion(
   let frame = 0
   let previous = 0
   let suppressClick = false
-  let idleTimer: ReturnType<typeof setTimeout>
+  let visible = true
+  let suspended = false
   let play: HomePlay | undefined
   let playTime = 0
   let returning: Animation[] = []
@@ -103,13 +104,10 @@ export default function mountHangingMotion(
       : Math.min((time - previous) / 1000 || 1 / 60, 1 / 30)
     previous = time
     let moving = false
-    const box = root.getBoundingClientRect()
-    const idle =
-      !document.hidden &&
-      !document.querySelector('[aria-modal="true"]') &&
-      box.bottom > 0 &&
-      box.top < window.innerHeight
     for (const [index, item] of items.entries()) {
+      if (!item.element.hasAttribute('data-active')) {
+        continue
+      }
       if (play && (drag?.item !== item || (drag.touch && !drag.moved))) {
         const pose = play.pose(
           playTime,
@@ -164,34 +162,23 @@ export default function mountHangingMotion(
       }
       const held = drag?.item === item && (drag.moved || !drag.touch)
       if (!held) {
-        const resting = idle && !item.drop
-        const breath = Math.sin(playTime * 1.1 + index * 0.25)
         if (!item.drop?.fall) {
-          const angle = resting
-            ? Math.sin(playTime * 0.65 + index * 0.35) * 0.035
-            : 0
           item.velocity +=
-            (-(gravity / item.length) * Math.sin(item.angle - angle) -
+            (-(gravity / item.length) * Math.sin(item.angle) -
               item.velocity * 1.2) *
             dt
           item.angle += item.velocity * dt
         }
         // A little delayed leveling lets the control settle independently of its rope.
-        const target = resting
-          ? (index % 2 ? -0.16 : 0.16) + breath * 0.025
-          : clamp(item.angle * 0.3, -0.12, 0.12)
+        const target = clamp(item.angle * 0.3, -0.12, 0.12)
         item.balanceVelocity +=
           ((target - item.balance) * 35 - item.balanceVelocity * 4) * dt
         item.balance += item.balanceVelocity * dt
         item.pitchVelocity +=
-          (((resting ? breath * 0.035 : 0) - item.pitch) * 90 -
-            item.pitchVelocity * 16) *
-          dt
+          (-item.pitch * 90 - item.pitchVelocity * 16) * dt
         item.pitch += item.pitchVelocity * dt
         if (!item.drop) {
-          item.lift +=
-            ((resting ? -breath * 3 : 0) - item.lift) *
-            (1 - Math.exp(-dt * 4))
+          item.lift *= Math.exp(-dt * 4)
         }
         if (item.drop) {
           const drop = item.drop
@@ -246,8 +233,7 @@ export default function mountHangingMotion(
         }
       }
       paint(item)
-      moving ||=
-        idle ||
+      const active =
         held ||
         Math.abs(item.angle) +
           Math.abs(item.velocity) +
@@ -258,46 +244,106 @@ export default function mountHangingMotion(
           Math.abs(item.lift) +
           (item.drop ? 1 : 0) >
           0.002
+      moving ||= active
+      if (!active) {
+        returning = returning.filter(
+          (animation) => animation.playState !== 'finished'
+        )
+        const parts = Array.from(item.element.children)
+        const before = parts.map((part) => {
+          const { transform, translate } = getComputedStyle(part)
+          return { transform, translate, offset: 0 }
+        })
+        item.element.removeAttribute('data-active')
+        parts.forEach((part, index) => {
+          returning.push(
+            part.animate([before[index]], {
+              duration: 650,
+              easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            })
+          )
+        })
+      }
     }
     playTime += dt
-    frame = moving ? requestAnimationFrame(tick) : 0
+    frame = moving && !suspended ? requestAnimationFrame(tick) : 0
   }
   const wake = () => {
-    if (!frame && !reduced.matches) {
+    if (!frame && !reduced.matches && !suspended) {
       previous = 0
       frame = requestAnimationFrame(tick)
     }
   }
-  const resumeIdle = () => {
-    const box = root.getBoundingClientRect()
-    if (
-      play ||
-      reduced.matches ||
-      drag ||
+  const updateVisibility = () => {
+    suspended =
+      !visible ||
       document.hidden ||
-      document.querySelector('[aria-modal="true"]') ||
-      box.bottom <= 0 ||
-      box.top >= window.innerHeight
+      !!document.querySelector('[aria-modal="true"]')
+    root
+      .closest('[data-portal-home]')
+      .toggleAttribute('data-motion-hidden', suspended)
+    if (suspended) {
+      cancelAnimationFrame(frame)
+      frame = 0
+    } else if (
+      items.some(({ element }) => element.hasAttribute('data-active'))
     ) {
-      return
+      wake()
     }
-    wake()
   }
-  const scheduleIdle = () => {
-    idleTimer = setTimeout(() => {
-      resumeIdle()
-      scheduleIdle()
-    }, 2000)
+  const intersection = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting
+    updateVisibility()
+  })
+  intersection.observe(root)
+  const modals = new MutationObserver(updateVisibility)
+  modals.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['aria-modal'],
+  })
+  document.addEventListener('visibilitychange', updateVisibility)
+  const startItem = (item: (typeof items)[number]) => {
+    if (!item.element.hasAttribute('data-active')) {
+      // Transfer the compositor pose to the drag physics without moving the grip.
+      const rope = new DOMMatrix(
+        getComputedStyle(item.element.firstElementChild).transform
+      )
+      const specimen = new DOMMatrix(
+        getComputedStyle(
+          item.element.querySelector('[data-home-specimen]')
+        ).transform
+      )
+      item.length = (
+        item.element.firstElementChild as HTMLElement
+      ).offsetHeight
+      item.angle = -Math.atan2(rope.m12, rope.m11)
+      item.lift = (Math.hypot(rope.m21, rope.m22) - 1) * item.length
+      item.balance =
+        Math.atan2(specimen.m12, specimen.m11) -
+        (parseFloat(
+          getComputedStyle(item.element).getPropertyValue('--tilt')
+        ) *
+          Math.PI) /
+          180 +
+        item.angle
+      item.pitch = Math.atan2(specimen.m23, specimen.m33)
+      item.element.dataset.active = ''
+      paint(item)
+    }
   }
   const down = (event: PointerEvent) => {
     if (event.button !== 0 || reduced.matches || drag) {
       return
     }
-    returning.forEach((animation) => animation.cancel())
     suppressClick = false
     const item = findItem(event.target)
     if (item) {
       item.length = measureLength(item)
+      startItem(item)
+      returning.forEach((animation) => animation.cancel())
+      returning = []
       item.velocity = item.balanceVelocity = 0
       item.pitchVelocity = 0
       item.drop = undefined
@@ -472,18 +518,14 @@ export default function mountHangingMotion(
       item.releasedAt = undefined
       item.element.style.removeProperty('--travel-x')
       delete item.element.dataset.dragging
+      delete item.element.dataset.active
       paint(item)
     }
   }
   const onMotionChange = () => {
-    clearTimeout(idleTimer)
     play?.dispose?.()
     play = undefined
     reset()
-    if (!reduced.matches) {
-      resumeIdle()
-      scheduleIdle()
-    }
   }
   root.addEventListener('pointerdown', down)
   window.addEventListener('pointermove', move)
@@ -491,14 +533,12 @@ export default function mountHangingMotion(
   window.addEventListener('pointercancel', release)
   root.addEventListener('click', click, true)
   reduced.addEventListener('change', onMotionChange)
-  if (!reduced.matches) {
-    resumeIdle()
-    scheduleIdle()
-  }
   const destroy = () => {
-    clearTimeout(idleTimer)
     play?.dispose?.()
     reset()
+    intersection.disconnect()
+    modals.disconnect()
+    document.removeEventListener('visibilitychange', updateVisibility)
     root.removeEventListener('pointerdown', down)
     window.removeEventListener('pointermove', move)
     window.removeEventListener('pointerup', release)
@@ -508,6 +548,7 @@ export default function mountHangingMotion(
   }
   if (enter && !reduced.matches) {
     items.forEach((item, index) => {
+      item.element.dataset.active = ''
       item.length = measureLength(item)
       item.lift = -Math.max(0, item.length - 48)
       item.angle = (index % 2 ? -1 : 1) * 0.5
@@ -566,6 +607,9 @@ export default function mountHangingMotion(
       item.length = measureLength(item)
     })
     if (play) {
+      items.forEach(({ element }) => {
+        element.dataset.active = ''
+      })
       playTime = 0
       tick(0, true)
     }
