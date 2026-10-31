@@ -97,8 +97,13 @@ async function prerender() {
   // Load the SSR module for metadata only (routes, allMdxNodes, etc.).
   // Actual rendering is done in worker threads for parallelism.
   const serverEntry = path.resolve(outDir, 'server', 'entry-server.mjs')
-  const { routes, getContentScript, getSidebarMenuScript, allMdxNodes } =
-    await import(serverEntry)
+  const {
+    routes,
+    routeModules,
+    getContentScript,
+    getSidebarMenuScript,
+    allMdxNodes,
+  } = await import(serverEntry)
 
   // Read the client HTML template
   const templatePath = path.resolve(outDir, 'index.html')
@@ -165,6 +170,11 @@ async function prerender() {
     workerCount
   )
 
+  const routesByPath = new Map(
+    routes.map((route) => [route.index ? '/' : route.path, route])
+  )
+  const routeHints = new Map()
+
   // Process page results
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i]
@@ -192,11 +202,13 @@ async function prerender() {
       const page = allMdxNodes.find(
         ({ fields }) => fields.slug === url.replace(/^\/+|\/+$/g, '')
       )
+      const initialRoute = getInitialRoute(url)
       const preloads = getRoutePreloads(
         url,
         ssrManifest,
         clientManifest,
-        page?.fields.sourcePath
+        page?.fields.sourcePath,
+        routeModules[initialRoute?.id]
       )
       const meta = getPageMeta(url, allMdxNodes)
       const mdPath = getMdPath(url, mdPaths)
@@ -210,7 +222,7 @@ async function prerender() {
         themeCssPaths,
         sidebarMenuScript
       )
-      writeHtml(url, html)
+      writeHtml(url, injectInitialRoute(html, url))
       renderedUrls.push(url)
     }
 
@@ -266,6 +278,115 @@ async function prerender() {
     console.log(
       `✓ Generated sitemap for ${sitemap.pages.length} canonical pages`
     )
+  }
+
+  function getInitialRoute(url) {
+    const pathname = url.replace(/\/+$/, '') || '/'
+    return routesByPath.get(pathname)
+  }
+
+  function getRouteHint(route) {
+    if (!route || route.handle?.redirectTo) {
+      return undefined
+    }
+    if (routeHints.has(route.id)) {
+      return routeHints.get(route.id)
+    }
+    const sourcePath = routeModules[route.id]
+    const entry =
+      sourcePath &&
+      clientManifest?.['../../' + sourcePath.replace(/\/$/, '')]
+    if (!entry) {
+      throw new Error('Missing Portal route module for ' + route.id)
+    }
+    const css = new Set()
+    const imports = new Set()
+    const visited = new Set()
+    function collectStyles(chunk) {
+      if (!chunk || visited.has(chunk)) {
+        return
+      }
+      visited.add(chunk)
+      imports.add('/' + chunk.file)
+      for (const file of chunk.css ?? []) {
+        css.add('/' + file)
+      }
+      for (const key of chunk.imports ?? []) {
+        if (key !== 'index.html') {
+          collectStyles(clientManifest[key])
+        }
+      }
+    }
+    collectStyles(entry)
+    const hint = {
+      id: route.id,
+      ...(route.index ? { index: true } : { path: route.path }),
+      module: '/' + entry.file,
+      css: [...css],
+      imports: [...imports],
+    }
+    routeHints.set(route.id, hint)
+    return hint
+  }
+
+  function injectInitialRoute(html, url) {
+    const initial = getRouteHint(getInitialRoute(url))
+    const links = initial.index
+      ? {}
+      : { '/': getRouteHint(getInitialRoute('/')) }
+    for (const match of html.matchAll(
+      /<a\b[^>]*\bhref="([^"#?]+)[^"]*"/g
+    )) {
+      const target = new URL(match[1], 'https://eufemia.dnb.no' + url)
+      if (target.origin !== 'https://eufemia.dnb.no') {
+        continue
+      }
+      const pathname = target.pathname.replace(/\/+$/, '') || '/'
+      if (links[pathname] || pathname === (initial.path || '/')) {
+        continue
+      }
+      const hint = getRouteHint(getInitialRoute(pathname))
+      if (hint) {
+        links[pathname] = hint
+      }
+    }
+    // Share dependency URLs across hints instead of repeating their hashes
+    // for every sidebar link.
+    const assets = []
+    const assetIndexes = new Map()
+    const dependencies = []
+    const dependencyIndexes = new Map()
+    function compact(hint) {
+      const imports = hint.imports.map((href) => {
+        if (!assetIndexes.has(href)) {
+          assetIndexes.set(href, assets.length)
+          assets.push(href)
+        }
+        return assetIndexes.get(href)
+      })
+      const key = imports.join(',')
+      if (!dependencyIndexes.has(key)) {
+        dependencyIndexes.set(key, dependencies.length)
+        dependencies.push(imports)
+      }
+      return { ...hint, imports: dependencyIndexes.get(key) }
+    }
+    const data = JSON.stringify({
+      initial: compact(initial),
+      links: Object.fromEntries(
+        Object.entries(links).map(([pathname, hint]) => [
+          pathname,
+          compact(hint),
+        ])
+      ),
+      assets,
+      dependencies,
+    }).replace(/</g, '\\u003c')
+    const script =
+      '<script id="portal-initial-route" type="application/json">' +
+      data +
+      '</script>'
+    return html.replace('</head>', script + '\n</head>')
   }
 
   /**
@@ -381,7 +502,13 @@ function getPageMeta(url, allMdxNodes) {
   return { title, description }
 }
 
-function getRoutePreloads(url, ssrManifest, clientManifest, sourcePath) {
+function getRoutePreloads(
+  url,
+  ssrManifest,
+  clientManifest,
+  sourcePath,
+  routeModule
+) {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
   const candidates = [
@@ -401,6 +528,15 @@ function getRoutePreloads(url, ssrManifest, clientManifest, sourcePath) {
 
   const jsPreloads = new Set()
   const cssPreloads = new Set()
+
+  // The initial page is a distinct dynamic entry even when other pages
+  // import the same MDX source. Include its complete CSS dependency graph.
+  const initialEntry =
+    routeModule &&
+    clientManifest?.['../../' + routeModule.replace(/\/$/, '')]
+  if (initialEntry) {
+    jsPreloads.add('/' + initialEntry.file)
+  }
 
   for (const candidate of candidates) {
     const assets = ssrManifest[candidate]

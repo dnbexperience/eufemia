@@ -173,8 +173,8 @@ legacyFragments:
     const source = load('\0virtual:portal-pages')
     const module = source
       .replace(/^import .*;$/gm, '')
+      .replace(/^export \{[^}]+\} from .*;$/gm, '')
       .replace(/^export /gm, '')
-      .replace(/^\{ globPath \} from .*;$/gm, '')
     const generated = new Function(
       'React',
       'Navigate',

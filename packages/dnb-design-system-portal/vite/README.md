@@ -51,7 +51,10 @@ In production, `prerender.mjs` builds the client and server bundles, collects ro
 
 ## Virtual Modules
 
-- `virtual:portal-pages` provides route definitions and the static `allMdxNodes` data set.
+- `virtual:portal-data` provides the metadata index used by menus, page layouts, and component lists. The browser receives no redirect aliases or global table-of-contents trees.
+- `virtual:portal-pages` provides route definitions. Production HTML identifies and preloads its own page module and includes route hints for its rendered links. Hover, focus, and press preload hinted destinations directly, including their styles and module dependencies. Links added later and redirects discover the full registry on demand. React Router adds missing routes without replacing the mounted application. If discovery fails during navigation, the destination loads as a normal document.
+- `virtual:portal-page/<slug>` keeps each page addressable as a dynamic entry even when other pages import the same source.
+- `virtual:portal-toc` provides heading trees for the contribution guide, loaded with that page.
 - `virtual:eufemia-theme-styles` loads core theme styles and enables runtime theme switching.
 - `virtual:build-info` exposes computed build metadata.
 - `virtual:prefetch-on-hover`, `virtual:catch-links`, and `virtual:scroll-position` provide client-side navigation helpers.

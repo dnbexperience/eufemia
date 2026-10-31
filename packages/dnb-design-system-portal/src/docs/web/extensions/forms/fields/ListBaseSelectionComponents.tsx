@@ -1,5 +1,5 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-data'
 import { getBaseSelectionComponents } from '../../../../../shared/parts/listEdges'
 
 export default function ListBaseSelectionComponents() {

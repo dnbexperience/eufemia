@@ -1,4 +1,4 @@
-import { regularMdxNodes } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-data'
 import { getBaseFieldComponents } from '../../../../../shared/parts/listEdges'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
 

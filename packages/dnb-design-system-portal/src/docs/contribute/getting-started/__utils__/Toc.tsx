@@ -1,29 +1,12 @@
-import { useStaticQuery, graphql } from 'portal-query'
+import { tableOfContentsNodes } from 'virtual:portal-toc'
 import TableOfContents from '../../../../shared/parts/TableOfContents'
 
 const Toc = () => {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    query {
-      allMdx(
-        filter: {
-          internal: {
-            contentFilePath: { glob: "**/contribute/getting-started/*" }
-          }
-        }
-      ) {
-        edges {
-          node {
-            frontmatter {
-              order
-            }
-            tableOfContents
-          }
-        }
-      }
-    }
-  `)
+  const edges = tableOfContentsNodes
+    .filter(({ fields }) =>
+      fields.slug.startsWith('contribute/getting-started/')
+    )
+    .map((node) => ({ node }))
 
   return <TableOfContents edges={edges} />
 }
