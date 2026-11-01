@@ -59,15 +59,16 @@ it.each(skeletonFontConfigs)(
     expect(after.get('hhea').subarray(4, 10)).toEqual(
       before.get('hhea').subarray(4, 10)
     )
-    for (const [start, end] of [
-      [4, 8],
-      [62, 64],
-      [68, 78],
-      [86, 90],
-    ]) {
-      expect(after.get('OS/2').subarray(start, end)).toEqual(
-        before.get('OS/2').subarray(start, end)
+    expect(after.get('OS/2')).toEqual(before.get('OS/2'))
+    for (const extension of ['otf', 'ttf']) {
+      const binary = await fs.readFile(
+        path.join(temporary, name + '.' + extension)
       )
+      let sum = 0
+      for (let offset = 0; offset < binary.length; offset += 4) {
+        sum = (sum + binary.readUInt32BE(offset)) >>> 0
+      }
+      expect(sum).toBe(0xb1b0afba)
     }
     for (const tag of ['GDEF', 'GPOS', 'GSUB', 'kern']) {
       expect(after.get(tag)).toEqual(before.get(tag))
