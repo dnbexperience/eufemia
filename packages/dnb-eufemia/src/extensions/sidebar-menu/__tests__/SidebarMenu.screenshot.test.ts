@@ -133,8 +133,9 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
         },
         {
           action: 'realhover',
+          // The list ignores keys until it is open and sets this attribute
           selector:
-            '.dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
+            'html[data-dnb-drawer-list-active] .dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
         },
         { keypress: 'ArrowDown' },
       ],
