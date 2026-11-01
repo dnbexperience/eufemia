@@ -195,57 +195,22 @@ $stripe-tile-size: $stripe-spacing * math.sqrt(2);
 
 $fonts-path: '../../../../assets/fonts/dnb' !default;
 
-// Skeleton-Regular
-@font-face {
-  font-family: DNBSkeleton;
-  src:
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff2')
-      format('woff2'),
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff') format('woff'),
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.ttf')
-      format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback;
-}
-
-// Skeleton-Medium
-@font-face {
-  font-family: DNBSkeleton;
-  src:
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff2')
-      format('woff2'),
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff') format('woff'),
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.ttf')
-      format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: fallback;
-}
-
-// Skeleton-Bold
-@font-face {
-  font-family: DNBSkeleton;
-  src:
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff2') format('woff2'),
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff') format('woff'),
-    url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: fallback;
-}
-
-// Mono-Skeleton
-@font-face {
-  font-family: DNBMonoSkeleton;
-  src:
-    url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff2')
-      format('woff2'),
-    url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff')
-      format('woff'),
-    url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.ttf')
-      format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: fallback;
+@each $family, $file in (DNBSkeleton: DNB, DNBMonoSkeleton: DNBMono) {
+  @each $name,
+    $weight in (Light: 300, Regular: normal, Medium: 500, Bold: 600 700)
+  {
+    @font-face {
+      font-family: $family;
+      src:
+        url('#{$fonts-path}/skeleton/#{$file}-Skeleton-#{$name}.woff2')
+          format('woff2'),
+        url('#{$fonts-path}/skeleton/#{$file}-Skeleton-#{$name}.woff')
+          format('woff'),
+        url('#{$fonts-path}/skeleton/#{$file}-Skeleton-#{$name}.ttf')
+          format('truetype');
+      font-weight: $weight;
+      font-style: normal;
+      font-display: fallback;
+    }
+  }
 }

@@ -337,23 +337,26 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
       }
     }
     for (const [family, names] of [
-      ['DNB', ['Regular', 'Medium', 'Bold']],
-      ['DNBMono', ['Regular']],
+      ['DNB', ['Light', 'Regular', 'Medium', 'Bold']],
+      ['DNBMono', ['Light', 'Regular', 'Medium', 'Bold']],
     ] as const) {
       for (const weight of names) {
-        const alias = 'Skeleton' + family + weight
-        await addFace(
-          alias,
-          'derived',
-          family + '-Skeleton-' + weight + '.woff2'
-        )
-        inlineMetrics.push({
-          family,
-          weight,
-          variant: 'skeleton',
-          ...(await select(alias)),
-          fonts: await renderedFonts('#sample span'),
-        })
+        for (const format of ['ttf', 'woff2']) {
+          const alias = 'Skeleton' + family + weight + format
+          await addFace(
+            alias,
+            'derived',
+            family + '-Skeleton-' + weight + '.' + format
+          )
+          inlineMetrics.push({
+            family,
+            weight,
+            format,
+            variant: 'skeleton',
+            ...(await select(alias)),
+            fonts: await renderedFonts('#sample span'),
+          })
+        }
       }
     }
     for (const variant of [
@@ -560,7 +563,7 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
       testInfo.outputPath('font-diagnostics.json'),
       JSON.stringify(
         {
-          sourceRevision: 'add130fbe1e6ca09f858750aee8938fe0324af07',
+          sourceRevision: 'd564c34d6dc7f92c676184542084d3c8a302bd08',
           diagnosticRevision: process.env.GITHUB_SHA,
           os: { platform: os.platform(), release: os.release() },
           browserName,

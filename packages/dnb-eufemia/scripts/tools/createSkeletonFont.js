@@ -1,169 +1,199 @@
-import path from 'path'
-import fs from 'fs-extra'
+import path from 'node:path'
+import fs from 'node:fs/promises'
+import { parseArgs } from 'node:util'
 import opentype from 'opentype.js'
-import { Font, woff2 } from 'fonteditor-core'
-import { asyncForEach } from './'
-import { makeUniqueId } from '../../src/shared/component-helper'
-import ora from 'ora'
+import { Font } from 'fonteditor-core'
+import { writeWebFontFiles } from './createWebFonts'
 
-const log = ora()
-
-const leftOffset = -24 // e.g. -24
-const rightOffset = 24 // e.g. 24
-const topOffset = -100 // e.g. -100
-const bottomOffset = 100 // e.g. 100
-
-asyncForEach(
-  [
-    { fontName: 'DNB', styleName: 'Light' },
-    { fontName: 'DNB', styleName: 'Regular' },
-    { fontName: 'DNB', styleName: 'Medium' },
-    { fontName: 'DNB', styleName: 'Bold' },
-    { fontName: 'DNBMono', styleName: 'Light' },
-    { fontName: 'DNBMono', styleName: 'Regular' },
-    { fontName: 'DNBMono', styleName: 'Medium' },
-    { fontName: 'DNBMono', styleName: 'Bold' },
-  ],
-  async ({ fontName, styleName }) => {
-    const sourceFamily = fontName === 'DNB' ? 'DNBSansText' : 'DNBSansMono'
-    const sourceFile = `${sourceFamily}-${styleName}.ttf`
-    const sourcePath = path.resolve(
-      __dirname,
-      '../../assets/fonts/dnb/',
-      sourceFile
-    )
-
-    const familyName = `${fontName}Skeleton`
-    const fileName = `${fontName}-Skeleton`
-    const font = await opentype.load(sourcePath)
-
-    log.start()
-    log.info(`Converting ${styleName}`)
-
-    try {
-      const newFont = createFont(font, {
-        styleName,
-        familyName,
-      })
-
-      log.info(`Created new font: ${familyName}`)
-
-      const cachedFileName = `./assets/fonts/dnb/skeleton/${fileName}-${styleName}-${makeUniqueId()}.otf`
-      const destFileName = `./assets/fonts/dnb/skeleton/${fileName}-${styleName}.otf`
-
-      if (fs.existsSync(destFileName)) {
-        await fs.remove(destFileName)
-      }
-
-      await newFont.download(cachedFileName)
-
-      log.info(`Downloaded ${familyName}`)
-
-      await fs.rename(cachedFileName, destFileName)
-
-      await minifyFonts()
-
-      log.succeed(`Success: ${fileName}-${styleName}`)
-    } catch (e) {
-      log.fail(`Failed: ${fileName}-${styleName}`)
-      console.error(e)
+export const skeletonFontConfigs = ['Text', 'Mono'].flatMap((family) =>
+  ['Light', 'Regular', 'Medium', 'Bold'].map((styleName) => {
+    const name = family === 'Text' ? 'DNB' : 'DNBMono'
+    return {
+      source: `web/DNBSans${family}-${styleName}.ttf`,
+      familyName: `${name}Skeleton`,
+      filePrefix: `${name}-Skeleton`,
+      styleName,
     }
-  }
+  })
 )
 
-const createChar = (s) => s.charCodeAt(0)
-const excludeChars = ''.split('').map(createChar) // special chars   \',;[]()."`
+function tables(font) {
+  const result = new Map()
+  for (let i = 0; i < font.readUInt16BE(4); i++) {
+    const entry = 12 + i * 16
+    const offset = font.readUInt32BE(entry + 8)
+    result.set(
+      font.toString('ascii', entry, entry + 4),
+      Buffer.from(
+        font.subarray(offset, offset + font.readUInt32BE(entry + 12))
+      )
+    )
+  }
+  return result
+}
 
-function createFont(font, { styleName, familyName }) {
-  const glyphs = Object.values(font.glyphs.glyphs)
+function checksum(bytes) {
+  let sum = 0
+  for (let i = 0; i < bytes.length; i += 4) {
+    let word = 0
+    for (let j = 0; j < 4; j++) {
+      word = (word << 8) | (bytes[i + j] ?? 0)
+    }
+    sum = (sum + (word >>> 0)) >>> 0
+  }
+  return sum
+}
 
-  // Get the height from H char
-  const H = glyphs.find((g) => g.unicode === 72) // H char
-  const h = H.yMax
+function preserveLayout(generated, source) {
+  const output = tables(generated)
+  const original = tables(source)
+  for (const tag of ['head', 'hhea', 'OS/2']) {
+    if (!output.has(tag) || !original.has(tag)) {
+      throw new Error(`Font is missing its ${tag} table`)
+    }
+  }
+  original.get('hhea').copy(output.get('hhea'), 4, 4, 10)
+  output.set('OS/2', original.get('OS/2'))
+  original.get('head').copy(output.get('head'), 20, 20, 36)
 
-  const changedGlyphs = glyphs
-    .map((g) => {
-      // console.log('glyphs', g)
-      // Heres a list of the most used (Basic Latin) chars: https://en.wikipedia.org/wiki/List_of_Unicode_characters
-      // But as for now, we convert all chars
-      // if (
-      //   // typeof g.unicode === 'undefined'
-      //   // ||
-      //   !(
-      //     typeof g.unicode !== 'undefined' &&
-      //     g.unicode >= 0 &&
-      //     g.unicode <= 126
-      //   )
-      // ) {
-      //   return null
-      // }
-      return changePath(g, h)
-    })
-    .filter(Boolean)
+  // Glyph indices are retained, so shaping and kerning must be retained too.
+  for (const tag of ['GDEF', 'GPOS', 'GSUB', 'kern']) {
+    if (original.has(tag)) {
+      output.set(tag, original.get(tag))
+    }
+  }
+  output.get('head').writeUInt32BE(0, 8)
+  const names = [...output.keys()].sort()
+  const power = Math.floor(Math.log2(names.length))
+  const font = Buffer.alloc(
+    12 +
+      names.length * 16 +
+      names.reduce(
+        (length, tag) =>
+          length + Math.ceil(output.get(tag).length / 4) * 4,
+        0
+      )
+  )
+  generated.copy(font, 0, 0, 4)
+  font.writeUInt16BE(names.length, 4)
+  font.writeUInt16BE(16 * 2 ** power, 6)
+  font.writeUInt16BE(power, 8)
+  font.writeUInt16BE(names.length * 16 - 16 * 2 ** power, 10)
+  let offset = 12 + names.length * 16
+  let headOffset
+  names.forEach((tag, index) => {
+    const data = output.get(tag)
+    const entry = 12 + index * 16
+    font.write(tag, entry, 4, 'ascii')
+    font.writeUInt32BE(checksum(data), entry + 4)
+    font.writeUInt32BE(offset, entry + 8)
+    font.writeUInt32BE(data.length, entry + 12)
+    data.copy(font, offset)
+    if (tag === 'head') {
+      headOffset = offset
+    }
+    offset += Math.ceil(data.length / 4) * 4
+  })
+  font.writeUInt32BE((0xb1b0afba - checksum(font)) >>> 0, headOffset + 8)
+  return font
+}
 
-  const newFont = new opentype.Font({
+export async function createSkeletonFont({
+  sourcePath,
+  outputDirectory,
+  familyName,
+  filePrefix,
+  styleName = 'Regular',
+}) {
+  const source = await fs.readFile(sourcePath)
+  const parsed = opentype.parse(
+    source.buffer.slice(
+      source.byteOffset,
+      source.byteOffset + source.byteLength
+    )
+  )
+  const height = parsed.charToGlyph('H').getMetrics().yMax
+  const glyphs = Array.from(
+    { length: parsed.glyphs.length },
+    (_, index) => {
+      const original = parsed.glyphs.get(index)
+      const rectangle = new opentype.Path()
+      rectangle.moveTo(-24, -100)
+      rectangle.lineTo(-24, height + 100)
+      rectangle.lineTo(original.advanceWidth + 24, height + 100)
+      rectangle.lineTo(original.advanceWidth + 24, -100)
+      rectangle.close()
+      const glyph = new opentype.Glyph({
+        name: original.name,
+        unicode: original.unicode,
+        advanceWidth: original.advanceWidth,
+        path: rectangle,
+      })
+      glyph.unicodes = [...original.unicodes]
+      return glyph
+    }
+  )
+  const skeleton = new opentype.Font({
     familyName,
     styleName,
-    unitsPerEm: font.unitsPerEm,
-    ascender: font.ascender,
-    descender: font.descender,
-    glyphs: changedGlyphs,
+    unitsPerEm: parsed.unitsPerEm,
+    ascender: parsed.ascender,
+    descender: parsed.descender,
+    glyphs,
   })
-
-  return newFont
+  const otf = preserveLayout(Buffer.from(skeleton.toArrayBuffer()), source)
+  const converted = Font.create(otf, { type: 'otf' })
+  const ttf = preserveLayout(
+    Buffer.from(converted.write({ type: 'ttf' })),
+    source
+  )
+  await fs.mkdir(outputDirectory, { recursive: true })
+  const stem = path.join(outputDirectory, `${filePrefix}-${styleName}`)
+  await fs.writeFile(stem + '.otf', otf)
+  await writeWebFontFiles(stem, ttf)
 }
 
-function changePath(glyph, bottom) {
-  const aPath = new opentype.Path()
-
-  if (!excludeChars.includes(glyph.unicode)) {
-    // NB: top and bottom are opposite. Wired. But true.
-    aPath.moveTo(leftOffset, -bottomOffset)
-    aPath.lineTo(leftOffset, bottom - topOffset)
-    aPath.lineTo(glyph.advanceWidth + rightOffset, bottom - topOffset)
-    aPath.lineTo(glyph.advanceWidth + rightOffset, -bottomOffset)
-    aPath.close()
-  }
-
-  glyph.path = aPath
-
-  return glyph
-}
-
-let woff2Ready = false
-
-// Convert every generated skeleton .otf into .ttf, .woff and .woff2
-// (previously handled by "fontmin"; replaced with the maintained
-// "fonteditor-core" to avoid its abandoned/vulnerable dependencies).
-async function minifyFonts() {
-  const dir = path.resolve(__dirname, '../../assets/fonts/dnb/skeleton')
-
-  if (!woff2Ready) {
-    await woff2.init()
-    woff2Ready = true
-  }
-
-  const otfFiles = fs
-    .readdirSync(dir)
-    .filter((file) => file.toLowerCase().endsWith('.otf'))
-
-  otfFiles.forEach((file) => {
-    const base = path.join(dir, file.replace(/\.otf$/i, ''))
-    const font = Font.create(fs.readFileSync(path.join(dir, file)), {
-      type: 'otf',
+export async function createSkeletonFonts(
+  directory = path.resolve(__dirname, '../../assets/fonts/dnb'),
+  configs = skeletonFontConfigs
+) {
+  for (const { source, ...config } of configs) {
+    await createSkeletonFont({
+      ...config,
+      sourcePath: path.join(directory, source),
+      outputDirectory: path.join(directory, 'skeleton'),
     })
+  }
+}
 
-    fs.writeFileSync(
-      `${base}.ttf`,
-      Buffer.from(font.write({ type: 'ttf' }))
-    )
-    fs.writeFileSync(
-      `${base}.woff`,
-      Buffer.from(font.write({ type: 'woff' }))
-    )
-    fs.writeFileSync(
-      `${base}.woff2`,
-      Buffer.from(font.write({ type: 'woff2' }))
-    )
+if (path.basename(process.argv[1] || '') === 'createSkeletonFont.js') {
+  const { values } = parseArgs({
+    options: {
+      source: { type: 'string' },
+      output: { type: 'string' },
+      family: { type: 'string' },
+      prefix: { type: 'string' },
+      style: { type: 'string', default: 'Regular' },
+    },
+  })
+  const run = async () => {
+    if (!values.source) {
+      await createSkeletonFonts()
+      return
+    }
+    if (!values.output || !values.family || !values.prefix) {
+      throw new Error('--source requires --output, --family and --prefix')
+    }
+    await createSkeletonFont({
+      sourcePath: path.resolve(values.source),
+      outputDirectory: path.resolve(values.output),
+      familyName: values.family,
+      filePrefix: values.prefix,
+      styleName: values.style,
+    })
+  }
+  run().catch((error) => {
+    console.error(error)
+    process.exitCode = 1
   })
 }
