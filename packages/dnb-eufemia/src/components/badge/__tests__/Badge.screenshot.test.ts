@@ -89,6 +89,9 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
           await makeScreenshot({
             selector: '[data-visual-test="badge-status"]',
             colorScheme: 'dark',
+            wrapperStyle: {
+              background: 'var(--token-color-background-page-background)',
+            },
           })
         })
       }
