@@ -342,6 +342,13 @@ export function isPatched(
   if (!current || patched.length === 0) {
     return false
   }
+  if (
+    patched.some(
+      (patchedVersion) => compareVersions(current, patchedVersion) === 0
+    )
+  ) {
+    return true
+  }
 
   const sameMajor = patched.filter(
     (patchedVersion) => patchedVersion.numbers[0] === current.numbers[0]
@@ -461,11 +468,13 @@ export async function checkRepositoryAdvisories() {
   }
 
   if (
-    advisoriesByRepository.size > 0 &&
+    packages.length > 0 &&
     skippedRepositories === advisoriesByRepository.size
   ) {
     throw new Error(
-      `All ${skippedRepositories} GitHub repositories were skipped, so no advisories were checked.`
+      advisoriesByRepository.size === 0
+        ? `No GitHub repository was found for the ${packages.length} production packages, so no advisories were checked.`
+        : `All ${skippedRepositories} GitHub repositories were skipped, so no advisories were checked.`
     )
   }
 

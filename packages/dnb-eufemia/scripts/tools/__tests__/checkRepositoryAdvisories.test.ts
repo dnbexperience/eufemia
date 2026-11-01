@@ -372,6 +372,8 @@ describe('checkRepositoryAdvisories', () => {
     ['1.19.0', '>= 1.20.0', false],
     ['15.2.2', '14.2.30, >= 15.2.2', true],
     ['15.2.1', '14.2.30, >= 15.2.2', false],
+    ['15.5.10', '15.0.8, 15.5.10, 15.6.0-canary.61', true],
+    ['15.5.9', '15.0.8, 15.5.10, 15.6.0-canary.61', false],
   ])('treats %s as patched by "%s": %s', (version, patched, expected) => {
     expect(isPatched(version, patched)).toBe(expected)
   })
@@ -519,7 +521,12 @@ describe('checkRepositoryAdvisories', () => {
   })
 
   describe('with the lockfile', () => {
-    const stubFetch = (advisoriesStatus: number) => {
+    const stubFetch = (
+      advisoriesStatus: number,
+      repository: object | null = {
+        url: 'https://github.com/owner/repo',
+      }
+    ) => {
       vi.stubGlobal(
         'fetch',
         vi.fn(async (url: string) =>
@@ -527,9 +534,7 @@ describe('checkRepositoryAdvisories', () => {
             ? {
                 ok: true,
                 status: 200,
-                json: async () => ({
-                  repository: { url: 'https://github.com/owner/repo' },
-                }),
+                json: async () => ({ repository }),
               }
             : {
                 ok: advisoriesStatus === 200,
@@ -554,6 +559,14 @@ describe('checkRepositoryAdvisories', () => {
 
       await expect(checkRepositoryAdvisories()).rejects.toThrow(
         'All 1 GitHub repositories were skipped'
+      )
+    })
+
+    it('fails when no GitHub repository is found', async () => {
+      stubFetch(200, null)
+
+      await expect(checkRepositoryAdvisories()).rejects.toThrow(
+        'No GitHub repository was found'
       )
     })
 
