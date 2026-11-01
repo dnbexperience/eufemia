@@ -53,17 +53,7 @@ function preserveLayout(generated, source) {
     }
   }
   original.get('hhea').copy(output.get('hhea'), 4, 4, 10)
-  const os2 = output.get('OS/2')
-  const sourceOs2 = original.get('OS/2')
-  os2.writeUInt16BE(Math.min(sourceOs2.readUInt16BE(0), 4), 0)
-  for (const [start, end] of [
-    [4, 8],
-    [62, 64],
-    [68, 78],
-    [86, 90],
-  ]) {
-    sourceOs2.copy(os2, start, start, end)
-  }
+  output.set('OS/2', original.get('OS/2'))
   original.get('head').copy(output.get('head'), 20, 20, 36)
 
   // Glyph indices are retained, so shaping and kerning must be retained too.
