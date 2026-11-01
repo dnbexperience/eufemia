@@ -1039,6 +1039,39 @@ describe('getThousandsSeparator should', () => {
   })
 })
 
+describe('Intl.NumberFormat', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('should be created once per locale and options', () => {
+    const spy = vi.spyOn(Intl, 'NumberFormat')
+
+    getDecimalSeparator('fr-CH')
+    getDecimalSeparator('fr-CH')
+    getThousandsSeparator('fr-CH')
+
+    expect(spy).toHaveBeenCalledTimes(1)
+
+    getCurrencySymbol('fr-CH', 'EUR')
+
+    expect(spy).toHaveBeenCalledTimes(2)
+  })
+
+  it('should not reuse a formatter for options that Intl rejects', () => {
+    const format = (maximumFractionDigits: number) =>
+      formatNumber(1234.5678, {
+        locale: 'nb-NO',
+        options: { maximumFractionDigits },
+      })
+
+    format(null)
+
+    expect(format(NaN)).toBe('1234.5678')
+    expect(format(Infinity)).toBe('1234.5678')
+  })
+})
+
 describe('getCurrencySymbol should', () => {
   it('default to space', () => {
     expect(getCurrencySymbol()).toBe('kr')
