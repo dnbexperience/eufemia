@@ -823,6 +823,7 @@ export function SidebarMenuResponsiveInline({
       className={clsx(
         'dnb-sidebar-menu-responsive-inline',
         compactOpen && 'dnb-sidebar-menu-responsive-inline--expanded',
+        compactOpening && 'dnb-sidebar-menu-responsive-inline--opening',
         compactClosing && 'dnb-sidebar-menu-responsive-inline--closing',
         transitionsReady &&
           'dnb-sidebar-menu-responsive-inline--transitions-ready',
