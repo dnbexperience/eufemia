@@ -434,6 +434,7 @@ $t-lh-2xl: var(--line-height-xx-large);
   font-weight: normal;
   font-style: normal;
   font-synthesis: none;
+  text-rendering: var(--font-display-text-rendering, auto);
   &:where(:not([class*='dnb-t__line-height--'])) {
     line-height: 1.1;
   }

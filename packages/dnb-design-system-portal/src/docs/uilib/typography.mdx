@@ -100,6 +100,10 @@ web default is an implementation choice, not a synchronized Display token.
 
 DNB Display headings use a matching skeleton font so loading placeholders
 keep the same wrapping.
+Display uses geometric text precision so source and skeleton keep the same
+design advances, including at small sizes where native outline hinting can
+otherwise move a word onto another line. Text, Mono and other brands keep
+their existing rendering policy.
 The [skeleton font generator](/uilib/components/skeleton/info/#generate-a-skeleton-font)
 reproduces it from the current `DNBSansDisplay.ttf`, including its own line
 metrics, kerning and substitutions.

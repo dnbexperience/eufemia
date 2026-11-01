@@ -1398,6 +1398,7 @@ sub {
   font-weight: normal;
   font-style: normal;
   font-synthesis: none;
+  text-rendering: var(--font-display-text-rendering, auto);
 }
 .dnb-t__family--display:where(:not([class*=dnb-t__line-height--])), .dnb-core-style .dnb-t__family--display:where(:not([class*=dnb-t__line-height--])) {
   line-height: 1.1;

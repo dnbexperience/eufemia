@@ -260,6 +260,17 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
             'normal'
           )
           expect(
+            await page
+              .locator(selector)
+              .evaluate((element) =>
+                getComputedStyle(element).textRendering.toLowerCase()
+              )
+          ).toBe(
+            brand === 'ui' || brand === 'eiendom'
+              ? 'geometricprecision'
+              : 'auto'
+          )
+          expect(
             await page.locator(selector).evaluate((element) => {
               const style = getComputedStyle(element)
               return (
@@ -419,6 +430,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                       { top: number; bottom: number }
                     >()
                     const wordBaselines: number[] = []
+                    const widths: number[] = []
                     for (const word of element.children) {
                       const letters = word.querySelector('span')
                       const marker = word.querySelector('i')
@@ -449,12 +461,14 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                         ),
                       })
                       wordBaselines.push(key)
+                      widths.push(letters.getBoundingClientRect().width)
                     }
                     const ordered = [...lines.values()]
                     return {
                       height: element.getBoundingClientRect().height,
                       baselines: [...lines.keys()],
                       wordBaselines,
+                      widths,
                       clearances: ordered
                         .slice(1)
                         .map(
@@ -488,6 +502,9 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
               expect(metrics.after.wordBaselines).toEqual(
                 metrics.before.wordBaselines
               )
+              metrics.after.widths.forEach((value, index) => {
+                expect(value).toBeCloseTo(metrics.before.widths[index], 1)
+              })
             }
           }
         }
