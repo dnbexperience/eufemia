@@ -106,6 +106,7 @@ export default {
   '--font-family-default': "'DNB', 'Arial', sans-serif",
   '--font-family-display': 'var(--font-family-heading)',
   '--font-family-display-skeleton': "'DNBSkeleton'",
+  '--font-display-text-rendering': 'auto',
   '--font-family-heading': 'var(--ca-font-family-heading)',
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
