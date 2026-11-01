@@ -50,20 +50,15 @@ export default function useCheckedBeforeHydration({
     }
 
     if (onClick) {
-      let isPrevented = false
       const clickEvent = createEvent('click', input)
       onClick({
         checked: Boolean(checkedRef.current),
         event: clickEvent,
-        nativeEvent: clickEvent,
-        target: input,
-        currentTarget: input,
-        preventDefault: () => {
-          isPrevented = true
-        },
+        ...clickEvent,
+        preventDefault: () => clickEvent.preventDefault(),
       } as unknown as OnClickParams)
 
-      if (isPrevented) {
+      if (clickEvent.defaultPrevented) {
         undoChange()
         return // stop here
       }
@@ -78,17 +73,28 @@ export default function useCheckedBeforeHydration({
   }, [])
 }
 
-// Like React's event: the input as target and currentTarget, plus nativeEvent and persist
+// Like React's event: the input as target and currentTarget, and own fields that can be spread
 function createEvent(type: 'click' | 'change', input: HTMLInputElement) {
   const event =
     type === 'click'
       ? new MouseEvent(type, { bubbles: true, cancelable: true })
       : new Event(type, { bubbles: true })
-  Object.defineProperties(event, {
-    target: { value: input },
-    currentTarget: { value: input },
-    nativeEvent: { value: event },
-    persist: { value: () => undefined },
-  })
+  let isPropagationStopped = false
+  const fields = {
+    type,
+    timeStamp: event.timeStamp,
+    target: input,
+    currentTarget: input,
+    nativeEvent: event,
+    isDefaultPrevented: () => event.defaultPrevented,
+    isPropagationStopped: () => isPropagationStopped,
+    stopPropagation: () => {
+      isPropagationStopped = true
+    },
+    persist: () => undefined,
+  }
+  for (const [key, value] of Object.entries(fields)) {
+    Object.defineProperty(event, key, { value, enumerable: true })
+  }
   return event
 }

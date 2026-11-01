@@ -511,6 +511,69 @@ describe('Switch with server-rendered markup', () => {
 
     unmount()
   })
+
+  it('should give the handlers events with isDefaultPrevented and isPropagationStopped', () => {
+    const onClick = vi.fn(({ event }) => [
+      event.isDefaultPrevented(),
+      event.isPropagationStopped(),
+    ])
+    const onChange = vi.fn(({ event }) => {
+      event.stopPropagation()
+      return [event.isDefaultPrevented(), event.isPropagationStopped()]
+    })
+    const { unmount } = hydrateAfterChange(
+      <Switch label="Label" onClick={onClick} onChange={onChange} />
+    )
+
+    expect(onClick.mock.results[0]).toEqual({
+      type: 'return',
+      value: [false, false],
+    })
+    expect(onChange.mock.results[0]).toEqual({
+      type: 'return',
+      value: [false, true],
+    })
+
+    unmount()
+  })
+
+  it('should mark the click event as default prevented when onClick calls preventDefault', () => {
+    const onClick = vi.fn(({ event, preventDefault }) => {
+      preventDefault()
+      return event.isDefaultPrevented()
+    })
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onClick={onClick} />
+    )
+
+    expect(input.checked).toBe(false)
+    expect(onClick.mock.results[0]).toEqual({
+      type: 'return',
+      value: true,
+    })
+
+    unmount()
+  })
+
+  it('should give onClick the click event fields at the top level, like a click after hydration', () => {
+    const onClick = vi.fn()
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onClick={onClick} />
+    )
+
+    fireEvent.click(input)
+
+    expect(onClick).toHaveBeenCalledTimes(2)
+    for (const [args] of onClick.mock.calls) {
+      expect(args.type).toBe('click')
+      expect(args.timeStamp).toEqual(expect.any(Number))
+      expect(args.nativeEvent).toBe(args.event.nativeEvent)
+      expect(args.isDefaultPrevented()).toBe(false)
+      expect(args.isPropagationStopped()).toBe(false)
+    }
+
+    unmount()
+  })
 })
 
 describe('Switch scss', () => {
