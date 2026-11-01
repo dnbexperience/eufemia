@@ -74,9 +74,29 @@ it.each(skeletonFontConfigs)(
       expect(after.get(tag)).toEqual(before.get(tag))
     }
     const read = (font: Buffer) =>
-      fonteditor.Font.create(font, { type: 'ttf' }).get()
+      fonteditor.Font.create(font, { type: 'ttf', hinting: true }).get()
     const sourceFont = read(original)
     const skeleton = read(generated)
+    expect(skeleton.head.flags & 4).toBe(4)
+    expect(skeleton.maxp.maxStackElements).toBeGreaterThanOrEqual(1)
+    for (const glyph of skeleton.glyf) {
+      if (!('instructions' in glyph)) {
+        throw new Error('Skeleton glyph metric hinting is missing')
+      }
+      const points = glyph.contours.reduce(
+        (count, contour) => count + contour.length,
+        0
+      )
+      expect(glyph.instructions).toEqual([
+        0x01,
+        0xb0,
+        points,
+        0x2f,
+        0xb0,
+        points + 1,
+        0x2f,
+      ])
+    }
     expect(skeleton.glyf.map((glyph) => glyph.advanceWidth)).toEqual(
       sourceFont.glyf.map((glyph) => glyph.advanceWidth)
     )
