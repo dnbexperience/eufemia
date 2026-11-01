@@ -1,3 +1,4 @@
+import fs from 'fs'
 import {
   checkRepositoryAdvisories,
   findAdvisoryMatches,
@@ -567,6 +568,20 @@ describe('checkRepositoryAdvisories', () => {
 
       await expect(checkRepositoryAdvisories()).rejects.toThrow(
         'No GitHub repository was found'
+      )
+    })
+
+    it('fails when no production package is found', async () => {
+      stubFetch(200)
+      const readFileSync = fs.readFileSync
+      vi.spyOn(fs, 'readFileSync').mockImplementation((file, options) =>
+        String(file).endsWith('yarn.lock')
+          ? ''
+          : readFileSync(file, options)
+      )
+
+      await expect(checkRepositoryAdvisories()).rejects.toThrow(
+        'No production packages were found in yarn.lock'
       )
     })
 
