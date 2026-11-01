@@ -185,7 +185,9 @@ export default function PortalToolsMenu({
       }
     }
     window.addEventListener('vite:preloadError', onPreloadError, true)
-    void import('./PortalToolsDrawer')
+    // Keep result handling outside Vite's preload wrapper, which may resolve without a module.
+    const loadDrawer = import('./PortalToolsDrawer')
+    void loadDrawer
       .then((module) => {
         if (!module?.default) {
           throw new Error('Could not load settings')
