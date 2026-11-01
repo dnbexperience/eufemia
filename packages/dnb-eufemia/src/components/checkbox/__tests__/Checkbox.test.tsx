@@ -655,6 +655,22 @@ describe('Checkbox scss', () => {
     )
   })
 
+  it('keeps the disabled mark color for indeterminate checkboxes with an error', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    )
+    const errorSelectors = Array.from(
+      css.matchAll(
+        /([^{}]+)\{[^{}]*\sbackground-color: var\(--checkbox-color-gfx__indeterminate--error\);/g
+      ),
+      ([, selectors]) => selectors.trim()
+    )
+
+    expect(errorSelectors).toEqual([
+      '.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):indeterminate ~ .dnb-checkbox__indeterminate',
+    ])
+  })
+
   it('uses the Figma on-dark tokens for disabled checkboxes on dark surfaces', () => {
     const css = String(
       loadScss(require.resolve('../style/dnb-checkbox.scss'))

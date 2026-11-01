@@ -600,7 +600,9 @@
     background-color: var(--checkbox-color-background-on--error);
   }
 
-  &__status--error &__input:indeterminate ~ &__indeterminate {
+  &__status--error
+    &__input:not([disabled]):indeterminate
+    ~ &__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--error);
   }
 
