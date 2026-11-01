@@ -436,6 +436,12 @@ export async function checkRepositoryAdvisories() {
     )
   )
   const packages = getProductionPackages(entries, dependencies)
+  if (packages.length === 0) {
+    throw new Error(
+      'No production packages were found in yarn.lock, so no advisories were checked.'
+    )
+  }
+
   const advisoriesByRepository = new Map<string, RepositoryAdvisory[]>()
   const matches: AdvisoryMatch[] = []
   let skippedRepositories = 0
@@ -467,10 +473,7 @@ export async function checkRepositoryAdvisories() {
     )
   }
 
-  if (
-    packages.length > 0 &&
-    skippedRepositories === advisoriesByRepository.size
-  ) {
+  if (skippedRepositories === advisoriesByRepository.size) {
     throw new Error(
       advisoriesByRepository.size === 0
         ? `No GitHub repository was found for the ${packages.length} production packages, so no advisories were checked.`
