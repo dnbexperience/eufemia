@@ -1,7 +1,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 :root {
-  // Keep these outside of the .dnb-card class so they can be used globally (dnb-help-button-inline)
+  // Keep this outside of the .dnb-card class so it can be used globally (dnb-forms-section)
   --card-outline-width: 0.0625rem;
 }
 
