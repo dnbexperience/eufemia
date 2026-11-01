@@ -6,17 +6,24 @@ hideInMenu: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import {
+  InfoOverlayProperties,
   InfoOverlaySuccessProperties,
   InfoOverlayErrorProperties,
 } from '@dnb/eufemia/src/extensions/forms/Form/InfoOverlay/InfoOverlayDocs'
 
 ## Properties
 
-### Error
+<PropertiesTable props={InfoOverlayProperties} />
+
+### Error object
+
+The keys of the `error` property:
 
 <PropertiesTable props={InfoOverlayErrorProperties} />
 
-### Success
+### Success object
+
+The keys of the `success` property:
 
 <PropertiesTable props={InfoOverlaySuccessProperties} />
 
