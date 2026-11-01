@@ -84,6 +84,16 @@ describe('DNB font faces', () => {
       })
       skeletonFaces.push(face)
     })
+    for (const family of ['DNBSkeleton', 'DNBMonoSkeleton']) {
+      expect(
+        skeletonFaces.filter((face) => face['font-family'] === family)
+      ).toHaveLength(4)
+      expect(
+        skeletonFaces
+          .filter((face) => face['font-family'] === family)
+          .map((face) => face['font-weight'])
+      ).toEqual(['300', 'normal', '500', '600 700'])
+    }
     const faces = getFontFaces().filter((face) =>
       ['DNB', 'DNBMono'].includes(face['font-family'])
     )
