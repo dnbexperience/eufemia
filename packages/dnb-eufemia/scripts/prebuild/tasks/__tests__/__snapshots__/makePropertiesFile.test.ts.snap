@@ -109,6 +109,7 @@ export default {
   '--font-family-default': 'var(--sb-font-family-default)',
   '--font-family-display': 'var(--font-family-heading)',
   '--font-family-display-skeleton': "'DNBSkeleton'",
+  '--font-display-text-rendering': 'auto',
   '--font-family-heading': 'var(--sb-font-family-heading)',
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
@@ -307,6 +308,7 @@ export default {
   '--font-family-default': "'DNB', 'Arial', sans-serif",
   '--font-family-display': "'DNB Sans Display', var(--font-family-default)",
   '--font-family-display-skeleton': "'DNBSansDisplaySkeleton'",
+  '--font-display-text-rendering': 'geometricprecision',
   '--font-family-heading': 'var(--font-family-default)',
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
