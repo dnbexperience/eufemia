@@ -11,11 +11,24 @@ const compile = (file: string) =>
   sass.compile(path.join(packageRoot, 'src', file)).css
 
 async function buttonInkCenter(button: Locator) {
-  const bounds = await button.evaluate((element) => {
+  const bounds = await button.evaluate(async (element) => {
+    const label = element.querySelector('.dnb-button__text')
+    const style = getComputedStyle(label)
+    const descriptor =
+      style.fontStyle +
+      ' ' +
+      style.fontWeight +
+      ' ' +
+      style.fontSize +
+      ' ' +
+      style.fontFamily
+    const faces = await document.fonts.load(descriptor, label.textContent)
+    if (faces.length !== 1 || faces[0].status !== 'loaded') {
+      throw new Error('Expected one loaded button font for ' + descriptor)
+    }
+    await document.fonts.ready
     const button = element.getBoundingClientRect()
-    const text = element
-      .querySelector('.dnb-button__text')
-      .getBoundingClientRect()
+    const text = label.getBoundingClientRect()
     return {
       width: button.width,
       height: button.height,
