@@ -383,7 +383,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                     width +
                     'px;font-size:' +
                     size +
-                    'px;line-height:1.18'
+                    'px;line-height:1.25'
                   element.replaceChildren()
                   const words = [
                     'ÆØÅ',

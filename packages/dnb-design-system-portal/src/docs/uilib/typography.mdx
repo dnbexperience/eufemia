@@ -88,7 +88,10 @@ specify 100% line height, increased to 110–118% when accents and descenders
 collide. Eufemia defaults to 110% to reduce collisions in web headlines.
 Accented capitals can still touch descenders on the line above. Check multiline headlines at all supported widths and adjust as
 needed, for example `style={{ lineHeight: 1 }}` for a compact headline or
-`style={{ lineHeight: 1.18 }}` for more space. An explicit line-height helper
+`style={{ lineHeight: 1.25 }}` for a narrow, accented multiline headline.
+At small sizes, native glyph hinting can still make 118% overlap; test the
+actual words and widths rather than treating a percentage as a guarantee.
+An explicit line-height helper
 or the Typography lineHeight property also overrides the default.
 
 Display reuses Eufemia's existing heading-size tokens. The Eufemia Figma
