@@ -4,6 +4,17 @@ import { ListFormatProperties } from '../../../../components/list-format/ListFor
 
 import { UploadFieldEvents } from '../../Field/Upload/UploadDocs'
 
+// `value` is in the general properties; the other omitted keys are not supported
+const {
+  value,
+  children,
+  inside,
+  outside,
+  nested,
+  ref,
+  ...listProperties
+} = ListFormatProperties
+
 export const UploadValueProperties: PropertiesTableProps = {
   download: {
     doc: 'Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.',
@@ -15,7 +26,7 @@ export const UploadValueProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  ...ListFormatProperties,
+  ...listProperties,
 }
 
 export const UploadValueEvents: PropertiesTableProps = {

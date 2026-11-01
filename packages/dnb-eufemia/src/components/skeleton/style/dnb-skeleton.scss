@@ -7,7 +7,6 @@
 
 @use 'sass:math';
 
-$sweep-width: 24rem;
 $stripe-spacing: 0.375rem;
 // At 45 degrees, a square tile spans sqrt(2) times the stripe spacing.
 $stripe-tile-size: $stripe-spacing * math.sqrt(2);
@@ -97,13 +96,13 @@ $stripe-tile-size: $stripe-spacing * math.sqrt(2);
         var(--skeleton-color) 0.0625rem #{$stripe-spacing}
       );
     background-image: var(--skeleton-active-background, none) !important;
-    // Tile the fading layer so it keeps covering the stripes between sweeps.
-    background-repeat: repeat-x, repeat !important;
+    background-repeat: no-repeat, repeat !important;
+    // Keep the sweep outside the element at both ends, including tall shapes.
     background-size:
-      $sweep-width 100%,
+      300% 300%,
       $stripe-tile-size $stripe-tile-size !important;
     background-position:
-      0 50%,
+      0 100%,
       0 50%;
     animation: skeletonSweepAnimation var(--skeleton-duration) linear
       var(--skeleton-iteration-count) var(--skeleton-delay);
@@ -183,13 +182,16 @@ $stripe-tile-size: $stripe-spacing * math.sqrt(2);
 @keyframes skeletonSweepAnimation {
   from {
     --skeleton-active-background: var(--skeleton-background-image);
-    background-position-x: 0, 0;
+    background-position:
+      0 100%,
+      0 50%;
   }
 
   to {
     --skeleton-active-background: var(--skeleton-background-image);
-    // Move by whole tiles so both layers loop seamlessly.
-    background-position-x: (-$sweep-width), (-8 * $stripe-tile-size);
+    background-position:
+      100% 0,
+      (-8 * $stripe-tile-size) 50%;
   }
 }
 

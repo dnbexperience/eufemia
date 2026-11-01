@@ -32,8 +32,8 @@ export const ThemeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   colorScheme: {
-    doc: 'Controls the color scheme. Use `auto` to follow system preference and switch automatically between light and dark, `light` for light mode, `dark` for dark mode, or `inherit` to inherit from a parent Theme. Defaults to `undefined`.',
-    type: ['"auto"', '"light"', '"dark"', '"inherit"'],
+    doc: 'Controls the color scheme. Use `auto` to follow system preference and switch automatically between light and dark, `light` for light mode or `dark` for dark mode. When not set, the color scheme of a parent Theme is used.',
+    type: ['"auto"', '"light"', '"dark"'],
     status: 'optional',
   },
   surface: {

@@ -127,6 +127,9 @@ export default {
     /**
      * Feature fields
      */
+    Address: {
+      label: 'Address',
+    },
     PostalAddress: {
       label: 'Postal address',
       errorRequired: 'You must enter a postal address.',
@@ -173,6 +176,9 @@ export default {
       label: 'Email address',
       errorRequired: 'You must enter an email address.',
       errorPattern: 'You must enter a valid email address.',
+    },
+    Name: {
+      label: 'Name',
     },
     FirstName: {
       label: 'Given name',

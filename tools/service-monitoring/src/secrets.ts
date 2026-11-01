@@ -12,9 +12,9 @@ const secrets = new SecretsManagerClient({
   },
 })
 
-export async function readSecret(arn: string) {
+export async function readSecret(secretId: string) {
   const result = await secrets.send(
-    new GetSecretValueCommand({ SecretId: arn })
+    new GetSecretValueCommand({ SecretId: secretId })
   )
   if (!result.SecretString) {
     throw new Error('Monitor secret must contain a string')

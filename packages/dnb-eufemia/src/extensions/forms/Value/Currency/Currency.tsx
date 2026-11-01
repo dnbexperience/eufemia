@@ -6,7 +6,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type ValueCurrencyProps = NumberValueProps & {
   /**
-   * The currency of the component.
+   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. Use `true` for the default currency. Defaults to `NOK`.
    */
   currency?: CurrencyISO | true
 }

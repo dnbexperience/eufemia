@@ -857,6 +857,11 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   transform: translate3d(0, var(--table-offset, 0), 0);
 }
 
+@media print {
+  .dnb-table tr.sticky {
+    transform: none;
+  }
+}
 .dnb-table tr.sticky.css-position {
   top: var(--table-top, 0);
 }

@@ -8,6 +8,7 @@ import { parseSlackConfig, slackApi } from './slack-api.ts'
 import { processNotification } from './notifications.ts'
 import type { NotificationState, Observation } from './notifications.ts'
 import { logFailure } from './diagnostics.ts'
+import { services } from './monitor.ts'
 
 const db = new DynamoDBClient({
   maxAttempts: 2,
@@ -23,7 +24,7 @@ function parseObservation(message: string): Observation {
   const value = JSON.parse(message)
   if (value.kind === 'service') {
     if (
-      !['CDN', 'MCP'].includes(value.service) ||
+      !services.includes(value.service) ||
       !['healthy', 'unhealthy', 'pending'].includes(
         value.report?.status
       ) ||

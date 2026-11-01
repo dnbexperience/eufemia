@@ -98,8 +98,7 @@ export type WizardContainerProps = ComponentProps & {
    */
   outset?: boolean
   /**
-   * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
-   * Defaults to `true`.
+   * If set to `true`, the wizard pre-renders all steps so the props of each field are available in the data context. Defaults to `true`.
    */
   prerenderFieldProps?: boolean
 

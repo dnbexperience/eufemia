@@ -33,6 +33,11 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  defaultLabel: {
+    doc: 'Label to show when no `label` is given and none is inherited with `inheritLabel`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   inheritVisibility: {
     doc: 'Use `true` to inherit the visibility from a field with the same path. You can find more info in the [Value section](/uilib/extensions/forms/Value/#inherit-visibility-from-fields-based-on-path).',
     type: 'boolean',

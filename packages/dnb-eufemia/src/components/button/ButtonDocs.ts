@@ -72,7 +72,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   wrap: {
-    doc: 'If set to `true` the button text will wrap into new lines if the overflow point is reached. Defaults to `false`.',
+    doc: 'Set to `true` to allow the label to wrap onto multiple lines when it reaches the available width. Defaults to `false` because button labels should be short and easy to scan. If a label needs a line break, consider shortening it or using a different component that better fits the content and interaction.',
     type: 'boolean',
     status: 'optional',
   },
@@ -112,8 +112,14 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
+    doc: 'Defines the state of the status. Can be `error`, `warning`, `information`, `success` or `marketing`. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {

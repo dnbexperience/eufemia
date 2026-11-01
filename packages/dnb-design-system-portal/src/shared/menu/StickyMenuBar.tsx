@@ -11,6 +11,7 @@ import PortalLogo from './graphics/logo'
 import { Button } from '@dnb/eufemia/src'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import PortalToolsMenu from './PortalToolsMenu'
+import Tooltip from '@dnb/eufemia/src/components/tooltip/Tooltip'
 import { SearchBarInput } from './SearchBar'
 import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 import {
@@ -28,6 +29,9 @@ export default function StickyMenuBar({
   preventBarVisibility = false,
 } = {}) {
   const { toggleMenu, isOpen } = useContext(SidebarMenuContext)
+  const menuLabel = isOpen
+    ? 'Hide section content menu'
+    : 'Open section content menu'
 
   if (preventBarVisibility || hideSidebarToggleButton) {
     return null
@@ -59,11 +63,11 @@ export default function StickyMenuBar({
             aria-haspopup={true}
             aria-controls="portal-sidebar-menu"
             aria-expanded={isOpen}
-            aria-label="Section Content Menu"
-            title={
-              isOpen
-                ? 'Hide section content menu'
-                : 'Show section content menu'
+            aria-label={menuLabel}
+            tooltip={
+              <Tooltip placement="bottom" fixedPosition>
+                {menuLabel}
+              </Tooltip>
             }
           />
           <Button

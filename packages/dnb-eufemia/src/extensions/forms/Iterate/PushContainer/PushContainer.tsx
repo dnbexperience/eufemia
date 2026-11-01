@@ -48,24 +48,24 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 type OnlyPathRequired = {
   /**
-   * The path to the array to add the new item to.
+   * The path to the array to add the new item to. Required when `itemPath` is not given.
    */
   path: Path
 
   /**
-   * The path to the item in a nested array, to add the new item to.
+   * The path to the item in a nested array, to add the new item to. Required when `path` is not given.
    */
   itemPath?: Path
 }
 
 type OnlyItemPathRequired = {
   /**
-   * The path to the array to add the new item to.
+   * The path to the array to add the new item to. Required when `itemPath` is not given.
    */
   path?: Path
 
   /**
-   * The path to the item in a nested array, to add the new item to.
+   * The path to the item in a nested array, to add the new item to. Required when `path` is not given.
    */
   itemPath: Path
 }

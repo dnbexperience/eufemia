@@ -12,12 +12,12 @@ export const DialogProperties: PropertiesTableProps = {
     status: 'optional',
   },
   minWidth: {
-    doc: "The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
+    doc: "The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `320px` (the average width is `60vw`). The `confirmation` variant has no default minimum width.",
     type: ['string', 'number'],
     status: 'optional',
   },
   maxWidth: {
-    doc: 'The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).',
+    doc: 'The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `49rem` (`40rem` for the `confirmation` variant).',
     type: ['string', 'number'],
     status: 'optional',
   },

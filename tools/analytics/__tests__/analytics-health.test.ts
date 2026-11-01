@@ -163,6 +163,17 @@ describe('production analytics checks', () => {
     expect(failed(stuck)).toEqual(['GHE deploy run'])
   })
 
+  it('ages a re-run from its own start, not from the original run', async () => {
+    const rerun = {
+      status: 'in_progress',
+      conclusion: null,
+      run_started_at: minutesAgo(10),
+    }
+    const report = await check(fixture({ age: 120, deployRun: rerun }))
+
+    expect(report.status).toBe('pending')
+  })
+
   it('allows rollout time for a source mismatch, then fails a GHE deploy that never ran', async () => {
     const old = { display_title: 'Deploy from main (57c9b37)' }
     const settling = await check(fixture({ age: 10, deployRun: old }))

@@ -60,8 +60,8 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`large` for predefined standard width, `stretch` for fill available width.',
-    type: ['string', 'false'],
+    doc: 'Use `stretch` to fill the available width, or `large` to make the number field wider when `omitCountryCodeField` is set.',
+    type: ['"large"', '"stretch"'],
     status: 'optional',
   },
   label: {

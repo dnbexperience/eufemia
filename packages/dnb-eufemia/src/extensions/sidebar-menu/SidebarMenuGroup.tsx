@@ -1,5 +1,8 @@
+import { useContext } from 'react'
 import { clsx } from 'clsx'
 import Anchor from '../../components/Anchor'
+import Context from '../../shared/Context'
+import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
 import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import {
@@ -34,6 +37,7 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
     ...rest
   } = props
   const context = useSidebarMenuContext()
+  const { skeleton } = useContext(Context)
   const resolvedId = useId(id)
   const titleId = `${resolvedId}-title`
   const hasLink = Boolean(href || to)
@@ -92,7 +96,13 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
           <SidebarMenuBadge badge={badge} badgeProps={badgeProps} />
         </Anchor>
       ) : text ? (
-        <div id={titleId} className="dnb-sidebar-menu__group__title">
+        <div
+          id={titleId}
+          className={clsx(
+            'dnb-sidebar-menu__group__title',
+            createSkeletonClass('font', skeleton)
+          )}
+        >
           {text}
         </div>
       ) : null}

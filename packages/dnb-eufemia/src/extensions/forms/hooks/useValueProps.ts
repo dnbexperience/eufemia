@@ -91,11 +91,14 @@ export default function useValueProps<Value = unknown, Props = unknown>(
     ? transformIn(toInput(externalValue))
     : undefined
 
-  const label =
-    props.label ??
-    (inheritLabel
-      ? fieldInternalsRef?.current?.[path]?.props?.label
-      : undefined)
+  const { defaultLabel, ...rest } = props
 
-  return { ...props, label, value } as typeof props
+  // A field with a hidden or empty label has no label to inherit
+  const inheritedLabel = inheritLabel
+    ? fieldInternalsRef?.current?.[path]?.props?.label || undefined
+    : undefined
+
+  const label = props.label ?? inheritedLabel ?? defaultLabel
+
+  return { ...rest, label, value } as typeof props
 }

@@ -4,6 +4,24 @@ import {
 } from '../../../../components/upload/UploadDocs'
 import type { PropertiesTableProps } from '../../../../shared/types'
 
+// Field.Upload uses translations instead of these text properties
+const {
+  buttonText,
+  fileTypeTableCaption,
+  fileTypeDescription,
+  fileSizeDescription,
+  fileAmountDescription,
+  fileSizeContent,
+  errorLargeFile,
+  errorUnsupportedFile,
+  errorAmountLimit,
+  errorDeleteFailed,
+  loadingText,
+  deleteButton,
+  listAriaLabel,
+  ...uploadProperties
+} = UploadProperties
+
 export const UploadFieldProperties: PropertiesTableProps = {
   fileHandler: {
     doc: 'File handler function that receives only newly added valid files (files without validation errors) as a parameter (`newFiles: UploadValue`) and returns the processed files. Existing files that were already uploaded are not included. The function can either be synchronous or asynchronous. It returns a promise (`Promise<UploadValue>`) containing the processed files when asynchronous. You can modify the returned files by setting a new `id` (e.g., from server response), adding an `errorMessage` to indicate upload failure, or modifying other properties. Files it does not return are removed. If it throws or rejects, its files show the error message, or a generic one when there is none. The files keep loading until the handler settles, so add your own timeout to the requests if needed, e.g. with `AbortSignal.timeout()`.',
@@ -15,7 +33,21 @@ export const UploadFieldProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  ...UploadProperties,
+  ...uploadProperties,
+  id: {
+    ...UploadProperties.id,
+    type: 'string',
+  },
+  acceptedFileTypes: {
+    ...UploadProperties.acceptedFileTypes,
+    doc: `${UploadProperties.acceptedFileTypes.doc} Defaults to \`['pdf', 'png', 'jpg', 'jpeg']\`.`,
+    status: 'optional',
+  },
+  width: {
+    doc: '`large` for predefined standard width, `stretch` to fill available width.',
+    type: ['"large"', '"stretch"'],
+    status: 'optional',
+  },
   title: undefined, // hiding from docs as we rather want user to use the `label` prop,
   text: undefined, // hiding from docs as we rather want user to use the `labelDescription` prop,
 }

@@ -33,7 +33,9 @@ export type FormInfoOverlayProps = {
   content?: InfoOverlayContent
   onCancel?: () => void
 
-  /** Predefined content */
+  /**
+   * Texts and button settings for the `success` content. See the success object below.
+   */
   success?: {
     title?: ReactNode
     description?: ReactNode
@@ -41,7 +43,9 @@ export type FormInfoOverlayProps = {
     buttonHref?: string
     buttonClickHandler?: () => void
   }
-  /** Predefined content */
+  /**
+   * Texts for the `error` content. See the error object below.
+   */
   error?: {
     title?: ReactNode
     description?: ReactNode

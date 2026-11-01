@@ -15,6 +15,24 @@ const definition =
 const translations = defaultLocales['nb-NO'].TermDefinition
 
 describe('TermDefinition', () => {
+  it('accepts a React element as content', async () => {
+    render(
+      <TermDefinition content={<em>Rich definition</em>}>
+        {term}
+      </TermDefinition>
+    )
+
+    await userEvent.click(
+      document.querySelector('.dnb-term-definition__trigger')
+    )
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-popover__content em')?.textContent
+      ).toBe('Rich definition')
+    })
+  })
+
   it('renders trigger with closed state by default', () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')

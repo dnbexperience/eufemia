@@ -25,7 +25,7 @@ const resolver = {
 }
 
 const captureUsage = (event: APIGatewayProxyEventV2) =>
-  capture(event, resolver)
+  capture(event, { resolver, eufemiaVersion: '11.16.0' })
 
 const TOOL_CALL = JSON.stringify({
   jsonrpc: '2.0',
@@ -73,8 +73,11 @@ describe('captureUsage', () => {
       | undefined
     expect(command?.input.QueueUrl).toBe('https://sqs.example/usage')
     expect(
-      JSON.parse(command?.input.MessageBody ?? '[]')[0].component
-    ).toBe('button')
+      JSON.parse(command?.input.MessageBody ?? '[]')[0]
+    ).toMatchObject({
+      component: 'button',
+      eufemia_version: '11.16.0',
+    })
     expect(send.mock.calls[0]?.[1]?.abortSignal).toBeInstanceOf(
       AbortSignal
     )

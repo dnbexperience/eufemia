@@ -41,9 +41,13 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.
    */
   width?: FieldBlockWidth
-  /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
+  /**
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
+   */
   size?: InputProps['size'] | TextareaProps['size']
-  /** If set to `true` the placeholder will remain visible when the field has focus. */
+  /**
+   * Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.
+   */
   keepPlaceholder?: InputProps['keepPlaceholder']
 
   // - Validation
@@ -63,13 +67,19 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   // - Input props
   /** HTML input type attribute, e.g. `text`, `password`, `search`. Defaults to `text`. */
   type?: InputProps['type']
-  /** Text alignment inside the input: `left`, `center`, or `right`. */
+  /**
+   * Defines the text alignment of the input. Can be `left`, `right` or `center`. Defaults to `left`.
+   */
   align?: InputProps['align']
-  /** If `true`, all text in the input is selected on focus. */
+  /**
+   * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
+   */
   selectAll?: InputProps['selectAll']
   /** If `true`, shows a clear button inside the input. */
   clear?: boolean
-  /** Input mask configuration for masked input patterns. */
+  /**
+   * Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties).
+   */
   mask?: InputMaskedProps['mask']
   /** If `true`, allows typing beyond the defined mask boundaries. */
   allowOverflow?: InputMaskedProps['allowOverflow']

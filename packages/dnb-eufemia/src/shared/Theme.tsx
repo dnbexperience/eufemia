@@ -51,8 +51,13 @@ export type ThemeProps = {
    */
   size?: ThemeSizes
   contrastMode?: ContrastMode
+  /**
+   * Controls the color scheme. Use `auto` to follow system preference and switch automatically between light and dark, `light` for light mode or `dark` for dark mode. When not set, the color scheme of a parent Theme is used.
+   */
   colorScheme?: ThemeColorScheme
-  /** Selects the brand's web or native typography. Inherits from the parent Theme. */
+  /**
+   * Selects the brand's native app or web font size for body text and control labels in this Theme and its Eufemia React portals. Inherits from the parent Theme. Use web to override a native parent. Line heights and control dimensions stay the same.
+   */
   typography?: ThemeTypography
   surface?: ThemeSurface
   element?: DynamicElement | typeof Fragment | false

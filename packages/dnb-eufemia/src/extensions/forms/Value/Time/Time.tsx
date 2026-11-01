@@ -53,7 +53,7 @@ function TimeComponent(props: ValueTimeProps) {
 
   const stringProps: ValueTimeProps = {
     ...props,
-    label: props.label ?? translations.label,
+    defaultLabel: props.defaultLabel ?? translations.label,
     toInput,
   }
 

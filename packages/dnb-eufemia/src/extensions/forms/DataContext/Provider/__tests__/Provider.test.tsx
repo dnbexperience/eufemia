@@ -6146,6 +6146,23 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
     })
   })
 
+  describe('disabled', () => {
+    it('should disable all fields', () => {
+      render(
+        <DataContext.Provider disabled>
+          <Field.String path="/foo" />
+          <Field.Number path="/bar" />
+        </DataContext.Provider>
+      )
+
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(first).toBeDisabled()
+      expect(second).toBeDisabled()
+    })
+  })
+
   describe('required', () => {
     it('should make all fields required', () => {
       const { rerender } = render(

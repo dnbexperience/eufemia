@@ -7,6 +7,16 @@ export const StringProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  type: {
+    doc: 'HTML input type attribute, e.g. `text`, `password`, `search`. Defaults to `text`.',
+    type: 'string',
+    status: 'optional',
+  },
+  placeholder: {
+    doc: 'Text showing in place of the value if no value is given.',
+    type: ['string', 'React.ReactNode'],
+    status: 'optional',
+  },
   leftIcon: {
     doc: 'For icon at the left side of the text input. Only one of `leftIcon` or `rightIcon` can be used at the same time.',
     type: 'string',
@@ -46,6 +56,33 @@ export const StringProperties: PropertiesTableProps = {
     type: ['"on"', 'string'],
     status: 'optional',
   },
+  autoCorrect: {
+    doc: 'Controls browser autocorrect behavior.',
+    type: 'string',
+    status: 'optional',
+  },
+  spellCheck: {
+    doc: 'Controls browser spell-checking behavior.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  autoCapitalize: {
+    doc: 'Controls text auto-capitalization on touch devices.',
+    type: [
+      '"off"',
+      '"none"',
+      '"on"',
+      '"sentences"',
+      '"words"',
+      '"characters"',
+    ],
+    status: 'optional',
+  },
+  autoFocus: {
+    doc: 'If `true`, the input receives focus when the component mounts.',
+    type: 'boolean',
+    status: 'optional',
+  },
   minLength: {
     doc: 'Validation for minimum length of the text (number of characters).',
     type: 'number',
@@ -74,8 +111,24 @@ export const StringProperties: PropertiesTableProps = {
   },
   align: InputProperties.align,
   selectAll: InputProperties.selectAll,
-  clear: InputProperties.clear,
+  clear: {
+    doc: 'If `true`, shows a clear button inside the input.',
+    type: 'boolean',
+    status: 'optional',
+  },
   keepPlaceholder: InputProperties.keepPlaceholder,
+
+  // - InputMasked props
+  mask: {
+    doc: 'Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties).',
+    type: ['RegExp', 'Array<RegExp | string>'],
+    status: 'optional',
+  },
+  allowOverflow: {
+    doc: 'If `true`, allows typing beyond the defined mask boundaries.',
+    type: 'boolean',
+    status: 'optional',
+  },
 
   // - Textarea props
   rows: {

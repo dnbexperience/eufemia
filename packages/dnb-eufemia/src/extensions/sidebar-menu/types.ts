@@ -213,7 +213,9 @@ export type SidebarMenuItemProps = {
   href?: string
   to?: string
   element?: AnchorProps['element']
+  /** Link target attribute. */
   target?: string
+  /** Link rel attribute. */
   rel?: string
   /**
    * Disables activation.
@@ -252,7 +254,9 @@ export type SidebarMenuAccordionProps = {
   to?: string
   /** Custom link element, such as a router Link component. */
   element?: AnchorProps['element']
+  /** Link target attribute. */
   target?: string
+  /** Link rel attribute. */
   rel?: string
   /**
    * Called when the optional page link is activated.
@@ -300,7 +304,7 @@ export type SidebarMenuSectionProps = {
 }
 
 type SidebarMenuGroupBaseProps = {
-  /** Unique id used for selection. Generated for non-linked groups when omitted. */
+  /** Unique id used for selection. Required for linked groups and generated for non-linked groups when omitted. */
   id?: string
   /** Visible group title. */
   text?: ReactNode
@@ -320,7 +324,9 @@ type SidebarMenuGroupBaseProps = {
   to?: string
   /** Custom link element, such as a router Link component. */
   element?: AnchorProps['element']
+  /** Link target attribute. */
   target?: string
+  /** Link rel attribute. */
   rel?: string
   /** Called when the optional page link is activated. */
   onClick?: MouseEventHandler<HTMLElement>

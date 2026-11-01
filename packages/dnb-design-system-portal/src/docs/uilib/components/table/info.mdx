@@ -74,6 +74,8 @@ render(
 )
 ```
 
+`Table.ScrollView` uses the browser's own scrollbar, so the user's system and browser settings decide whether it is always visible. With overlay scrollbars, such as the default on macOS with a trackpad, on iOS and on Android, the scrollbar only shows while the user scrolls. When the table is wider than the `Table.ScrollView`, users can also reach it with the Tab key and scroll it with the arrow keys.
+
 If you place a `Table.ScrollView` at the bottom of your own element with rounded corners and `overflow: hidden` or `overflow: clip`, the rounded corners can cut off the ends of the horizontal scrollbar. Give the `Table.ScrollView` space below it, e.g. `margin-bottom: 1rem`, or use a [Table.Container](/uilib/components/table/demos/#several-tables-in-one-container), which keeps the scrollbar clear of its rounded corners.
 
 ### Sticky header

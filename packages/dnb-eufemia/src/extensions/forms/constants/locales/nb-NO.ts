@@ -128,6 +128,9 @@ export default {
     /**
      * Feature fields
      */
+    Address: {
+      label: 'Adresse',
+    },
     PostalAddress: {
       label: 'Postadresse',
       errorRequired: 'Du må fylle inn en postadresse.',
@@ -174,6 +177,9 @@ export default {
       label: 'E-postadresse',
       errorRequired: 'Du må fylle inn en e-postadresse.',
       errorPattern: 'Du må skrive inn en gyldig e-postadresse.',
+    },
+    Name: {
+      label: 'Navn',
     },
     FirstName: {
       label: 'Fornavn',

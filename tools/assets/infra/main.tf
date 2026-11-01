@@ -180,6 +180,24 @@ data "aws_iam_policy_document" "assets" {
       values   = [aws_cloudfront_distribution.assets.arn]
     }
   }
+
+  statement {
+    sid       = "DenyInsecureTransport"
+    effect    = "Deny"
+    actions   = ["s3:*"]
+    resources = [aws_s3_bucket.assets.arn, "${aws_s3_bucket.assets.arn}/*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "assets" {

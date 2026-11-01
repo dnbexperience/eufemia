@@ -54,6 +54,11 @@ export const SpaceProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  skeleton: {
+    doc: 'If set to `true`, a loading skeleton will be shown. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
 }
 
 export const SpaceResponsiveContextProperties: PropertiesTableProps = {

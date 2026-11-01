@@ -466,6 +466,48 @@ describe('docs_search', () => {
     expect(hits[0]?.score).toBeGreaterThan(0)
   })
 
+  it('does not rank shared usage guidance as component content', async () => {
+    const fixture = createDocsFixture()
+    try {
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'shared.md'),
+        [
+          '# Component',
+          '<!-- eufemia-properties-usage:start -->',
+          'A use case approved by DNB UX is required.',
+          '<!-- eufemia-properties-usage:end -->',
+          '```json',
+          JSON.stringify({
+            props: {},
+            usageGuidance: 'A use case approved by DNB UX is required.',
+          }),
+          '```',
+        ].join(String.fromCharCode(10))
+      )
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'approval.md'),
+        '# Approval process'
+      )
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+      const result = await tools.docsSearch({
+        query: 'approved',
+        limit: 10,
+      })
+      expect(JSON.parse(getText(result))).toEqual([])
+      const content = await tools.docsSearch({
+        query: 'Component',
+        limit: 10,
+      })
+      expect(JSON.parse(getText(content))).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ path: '/shared.md' }),
+        ])
+      )
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('handles multi-word queries with AND logic', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsSearch({
@@ -870,6 +912,37 @@ describe('component_props', () => {
       { props: { text: { type: 'string' } } },
       { props: { onClick: { type: 'function' } } },
     ])
+  })
+
+  it('preserves usage guidance in property metadata for API-only lookups', async () => {
+    const fixture = createDocsFixture()
+    const usageGuidance =
+      'Customizations beyond documented patterns need a use case approved by DNB UX.'
+    fs.writeFileSync(
+      path.join(fixture.docsRoot, 'uilib', 'components', 'button.md'),
+      [
+        '# Button',
+        '```json',
+        JSON.stringify({
+          props: { text: { type: 'string' } },
+          usageGuidance,
+        }),
+        '```',
+      ].join('\n')
+    )
+
+    try {
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+      expect(
+        JSON.parse(getText(await tools.componentProps({ name: 'Button' })))
+      ).toEqual([{ props: { text: { type: 'string' } }, usageGuidance }])
+      const api = JSON.parse(
+        getText(await tools.componentApi({ name: 'Button' }))
+      )
+      expect(api.jsonBlocks[0].usageGuidance).toBe(usageGuidance)
+    } finally {
+      fixture.cleanup()
+    }
   })
 
   it.each(['componentApi', 'componentProps'] as const)(

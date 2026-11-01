@@ -636,13 +636,16 @@ export const DropdownWithListItemContent = () => {
         data-visual-test="dropdown-list-item-content"
       >
         {() => {
-          // A List row keeps its end cell at content width, so the row needs
-          // horizontal room. Give the Dropdown a width of its own, or the
-          // title column will be squeezed by the end cell.
+          // A List row keeps its end cell at content width. Give the
+          // Dropdown room for both cells, without exceeding the demo width.
           const AccountDropdown = styled(Dropdown)`
+            width: 22rem;
+            max-width: 100%;
+
             .dnb-dropdown__shell,
             .dnb-drawer-list__root {
-              width: 22rem;
+              width: 100%;
+              min-width: 0;
             }
           `
 
@@ -689,7 +692,7 @@ export const DropdownWithListItemContent = () => {
             },
           ]
 
-          return <AccountDropdown data={data} value="accounts" />
+          return <AccountDropdown data={data} value="accounts" stretch />
         }}
       </ComponentBox>
     </Wrapper>
