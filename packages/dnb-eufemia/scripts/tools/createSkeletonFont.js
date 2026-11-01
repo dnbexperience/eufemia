@@ -44,7 +44,7 @@ function checksum(bytes) {
   return sum
 }
 
-function preserveLayout(generated, source) {
+export function preserveLayout(generated, source) {
   const output = tables(generated)
   const original = tables(source)
   for (const tag of ['head', 'hhea', 'OS/2']) {

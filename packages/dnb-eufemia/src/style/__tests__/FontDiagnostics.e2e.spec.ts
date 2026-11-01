@@ -5,8 +5,10 @@ import { createHash } from 'node:crypto'
 import * as sass from 'sass'
 import postcss from 'postcss'
 import { PNG } from 'pngjs'
+import fonteditor from 'fonteditor-core'
 import { expect, test } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
+import { preserveLayout } from '../../../scripts/tools/createSkeletonFont'
 
 const packageRoot = path.resolve(__dirname, '../../..')
 const fontRoot = path.join(packageRoot, 'assets/fonts/dnb')
@@ -18,7 +20,11 @@ const weights = [
   ['Bold', 600],
 ] as const
 type Variant = 'legacy' | 'official' | 'derived'
-type FontSource = Variant | 'skeleton-typo' | 'skeleton-win'
+type FontSource =
+  | Variant
+  | 'skeleton-typo'
+  | 'skeleton-win'
+  | 'skeleton-hinted'
 type Observation = Record<string, unknown>
 
 const checksum = (data: Buffer) => {
@@ -34,6 +40,31 @@ const checksum = (data: Buffer) => {
 }
 
 const probeSkeletonMetrics = (data: Buffer, variant: string) => {
+  if (variant === 'skeleton-hinted') {
+    const font = fonteditor.Font.create(data, { type: 'ttf' })
+    const parsed = font.get()
+    parsed.head.flags |= 4
+    parsed.maxp.maxStackElements = 1
+    for (const glyph of parsed.glyf) {
+      const points = (glyph.contours || []).reduce(
+        (sum, contour) => sum + contour.length,
+        0
+      )
+      glyph.instructions = [
+        0x01,
+        0xb0,
+        points,
+        0x2f,
+        0xb0,
+        points + 1,
+        0x2f,
+      ]
+    }
+    return preserveLayout(
+      Buffer.from(font.write({ type: 'ttf', hinting: true })),
+      data
+    )
+  }
   if (variant !== 'skeleton-typo' && variant !== 'skeleton-win') {
     return data
   }
@@ -363,6 +394,7 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
       'derived',
       'skeleton-typo',
       'skeleton-win',
+      'skeleton-hinted',
     ] as const) {
       const alias = 'MetricProbe' + variant.replaceAll('-', '')
       await addFace(alias, variant, 'DNB-Skeleton-Regular.ttf')
