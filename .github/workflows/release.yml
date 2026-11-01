@@ -108,7 +108,7 @@ jobs:
 
       - name: Preserve Portal snapshot for OG updates
         if: github.ref == 'refs/heads/release'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: portal-og-site
           path: ./packages/dnb-design-system-portal/public
@@ -150,7 +150,7 @@ jobs:
             -C packages/dnb-eufemia build
 
       - name: Upload prepared release package
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: prepared-release-package
           path: ${{ runner.temp }}/prepared-release-package.tar.gz
@@ -201,7 +201,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Download the portal artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: github-pages
           path: ${{ runner.temp }}/portal-artifact
@@ -252,7 +252,7 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: 'package.json'
           package-manager-cache: false
@@ -263,7 +263,7 @@ jobs:
         run: yarn install --immutable --mode=skip-build
 
       - name: Download prepared release package
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: prepared-release-package
           path: ${{ runner.temp }}/prepared-release-package
@@ -339,7 +339,7 @@ jobs:
       - name: Upload release notification details
         continue-on-error: true
         if: steps.release.outputs.notifications == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-notification
           path: ${{ runner.temp }}/release-notification.json
@@ -382,7 +382,7 @@ jobs:
       - name: Upload attestation subject
         continue-on-error: true
         if: steps.pack.outputs.tarball != ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-tarball
           path: packages/dnb-eufemia/${{ steps.pack.outputs.tarball }}
@@ -408,7 +408,7 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: 'package.json'
           package-manager-cache: false
@@ -417,7 +417,7 @@ jobs:
         run: yarn install --immutable --mode=skip-build
 
       - name: Download release notification details
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: release-notification
           path: ${{ runner.temp }}/release-notification
@@ -596,7 +596,7 @@ jobs:
 
       - name: Upload SBOM and vulnerability report
         continue-on-error: true
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: sbom-and-vulnerability-report
           path: |
@@ -625,7 +625,7 @@ jobs:
       - name: Download attestation subject
         continue-on-error: true
         if: needs.action.outputs.tarball != ''
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: release-tarball
           path: packages/dnb-eufemia
@@ -633,7 +633,7 @@ jobs:
       - name: Download SBOM and vulnerability report
         continue-on-error: true
         if: needs.action.outputs.tarball != ''
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: sbom-and-vulnerability-report
           path: packages/dnb-eufemia
