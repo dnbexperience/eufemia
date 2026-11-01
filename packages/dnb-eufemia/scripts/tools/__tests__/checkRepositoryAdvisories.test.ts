@@ -368,6 +368,10 @@ describe('checkRepositoryAdvisories', () => {
     ['2.10.0', '2.10.1, 2.9.3, 1.123.22', false],
     ['2.10.1', '2.10.1, 2.9.3, 1.123.22', true],
     ['19.1.1', '19.0.1, 19.1.2, 19.2.1', false],
+    ['1.20.0', '>=1.20.0', true],
+    ['1.19.0', '>= 1.20.0', false],
+    ['15.2.2', '14.2.30, >= 15.2.2', true],
+    ['15.2.1', '14.2.30, >= 15.2.2', false],
   ])('treats %s as patched by "%s": %s', (version, patched, expected) => {
     expect(isPatched(version, patched)).toBe(expected)
   })
@@ -427,6 +431,53 @@ describe('checkRepositoryAdvisories', () => {
     ).toEqual([expect.objectContaining({ ghsaId: 'GHSA-h25m-26qc-wcjf' })])
     expect(
       findAdvisoryMatches({ name: 'next', version: '16.1.5' }, advisories)
+    ).toEqual([])
+  })
+
+  it('reads patched versions written as a lower bound', () => {
+    const advisories = [
+      {
+        ghsa_id: 'GHSA-3h52-269p-cp9r',
+        summary: 'Information exposure in Next.js dev server',
+        severity: 'low',
+        html_url:
+          'https://github.com/vercel/next.js/security/advisories/GHSA-3h52-269p-cp9r',
+        vulnerabilities: [
+          {
+            package: { ecosystem: 'npm', name: 'next' },
+            vulnerable_version_range:
+              '>=13.0.0 <14.2.30, >=15.0.0 <15.2.2',
+            patched_versions: '14.2.30, >= 15.2.2',
+          },
+        ],
+      },
+      {
+        ghsa_id: 'GHSA-r4gj-5m52-g5wh',
+        summary: 'axios advisory',
+        severity: 'high',
+        html_url:
+          'https://github.com/axios/axios/security/advisories/GHSA-r4gj-5m52-g5wh',
+        vulnerabilities: [
+          {
+            package: { ecosystem: 'npm', name: 'axios' },
+            vulnerable_version_range: '1.17.0',
+            patched_versions: '>=1.20.0',
+          },
+        ],
+      },
+    ]
+
+    expect(
+      findAdvisoryMatches({ name: 'next', version: '15.2.1' }, advisories)
+    ).toEqual([expect.objectContaining({ ghsaId: 'GHSA-3h52-269p-cp9r' })])
+    expect(
+      findAdvisoryMatches({ name: 'next', version: '15.2.2' }, advisories)
+    ).toEqual([])
+    expect(
+      findAdvisoryMatches({ name: 'axios', version: '1.20.0' }, advisories)
+    ).toEqual([])
+    expect(
+      findAdvisoryMatches({ name: 'axios', version: '2.0.0' }, advisories)
     ).toEqual([])
   })
 
