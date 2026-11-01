@@ -330,7 +330,14 @@ export function isPatched(
   const current = parseVersion(version)
   const patched = String(patchedVersions ?? '')
     .split(/,|;|\|\|/)
-    .map(parseVersion)
+    .map((part) =>
+      parseVersion(
+        part
+          .trim()
+          .replace(/^(?:>=|=)/, '')
+          .trim()
+      )
+    )
     .filter((patchedVersion) => patchedVersion && !patchedVersion.partial)
   if (!current || patched.length === 0) {
     return false
