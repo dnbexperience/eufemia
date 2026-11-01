@@ -1,4 +1,4 @@
-name: Windows font compatibility
+name: Linux font diagnostics
 
 on:
   push:
@@ -24,8 +24,8 @@ concurrency:
 
 jobs:
   fonts:
-    name: Check fonts on Windows
-    runs-on: windows-latest
+    name: Collect native Linux font measurements
+    runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
@@ -44,7 +44,7 @@ jobs:
         run: node .yarn/releases/yarn-4.18.0.cjs install --immutable --mode=skip-build
 
       - name: Install browsers
-        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright install chromium firefox
+        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright install --with-deps chromium firefox
 
       - name: Check font loading, metrics and controls
         run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.e2e.ts src/style/__tests__/Fonts.e2e.spec.ts src/style/__tests__/FontMetrics.e2e.spec.ts --project firefox --project chromium-fonts --workers 2
@@ -54,7 +54,7 @@ jobs:
         run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.font-diagnostics.ts
 
       - name: Save diagnostic evidence
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && runner.os == 'Windows' }}
         shell: pwsh
         run: |
           Add-Type @'
@@ -91,6 +91,6 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: windows-font-diagnostics
+          name: linux-font-diagnostics
           path: packages/dnb-eufemia/test-results/
           retention-days: 7

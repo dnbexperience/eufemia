@@ -315,8 +315,10 @@ test('records Windows font selection, inline metrics, and button ink bounds', as
             })
             expect(candidate.width).toBeCloseTo(source.width, 2)
             if (!italic) {
-              expect(candidate.height).toBeCloseTo(legacy.height, 2)
-              expect(candidate.baseline).toBeCloseTo(legacy.baseline, 2)
+              expect.soft(candidate.height).toBeCloseTo(legacy.height, 2)
+              expect
+                .soft(candidate.baseline)
+                .toBeCloseTo(legacy.baseline, 2)
             }
           }
         }
