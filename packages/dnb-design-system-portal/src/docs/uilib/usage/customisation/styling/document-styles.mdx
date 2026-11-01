@@ -41,7 +41,8 @@ SCSS imports are also available through `@dnb/eufemia/style/print` and
 use the corresponding `--isolated.min.css` files within `IsolatedStyleScope`.
 
 DNB document text and headings use DNB Sans Text, with genuine italic faces.
-Ordinary letters keep Text. Font loading comes from the selected
+Display is [opt-in for expressive headlines](/uilib/typography/#display-headlines);
+ordinary letters should keep Text. Font loading comes from the selected
 brand stylesheet and is shared between screen and print. Wait for
 `document.fonts.ready` before generating a PDF.
 

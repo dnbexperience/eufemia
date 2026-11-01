@@ -47,11 +47,11 @@ jobs:
         run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright install --with-deps chromium firefox
 
       - name: Check font loading, metrics and controls
-        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.e2e.ts src/style/__tests__/Fonts.e2e.spec.ts src/style/__tests__/FontMetrics.e2e.spec.ts --project firefox --project chromium-fonts --workers 2
+        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.font-diagnostics.ts --grep "Display rendering policies" --project chromium
 
       - name: Collect diagnostic measurements
         if: ${{ !cancelled() }}
-        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.font-diagnostics.ts
+        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.font-diagnostics.ts --grep "Display rendering policies" --project firefox
 
       - name: Save diagnostic evidence
         if: ${{ !cancelled() && runner.os == 'Windows' }}

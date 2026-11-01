@@ -18,10 +18,12 @@ import {
 import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import { useTypography } from './Typography'
+import type { TypographyProps } from './Typography'
 
 export type HSize = HeadingSize
 
-type HProps = SpacingProps &
+type HProps = Pick<TypographyProps, 'family'> &
+  SpacingProps &
   HTMLAttributes<HTMLHeadingElement> & {
     /**
      * Defines the Element Type, like "h1".
@@ -53,6 +55,7 @@ const H = (props: HProps) => {
     level,
     size,
     className,
+    family,
     ...rest
   } = useTypography(props)
 
@@ -78,6 +81,7 @@ const H = (props: HProps) => {
       internalClass={clsx(
         targetSize && `dnb-h--${targetSize}`,
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
+        family && `dnb-t__family--${family}`,
         className
       )}
       {...rest}

@@ -121,6 +121,10 @@ This command runs once, reads the derived fonts in `assets/fonts/dnb/web/`, and
 writes Light, Regular, Medium and Bold in OTF, TTF, WOFF and WOFF2 to
 `assets/fonts/dnb/skeleton/`. It does not modify the source fonts or download ZIPs.
 
+It also generates the single upright Display skeleton from
+`assets/fonts/dnb/DNBSansDisplay.ttf`. Display keeps its own source metrics;
+it must not reuse a Text skeleton or Text's normalized metrics.
+
 To generate a skeleton from another TTF or OTF:
 
 ```shell

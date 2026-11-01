@@ -20,7 +20,7 @@ export const TypographyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   lineHeight: {
-    doc: 'Sets the line height, will use same value as `size` if not set.',
+    doc: 'Sets the line height. Defaults to the size, or the Display line height when family is display.',
     type: [
       '"x-small"',
       '"small"',
@@ -38,8 +38,14 @@ export const TypographyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   family: {
-    doc: 'Sets the font family.',
-    type: ['"basis"', '"heading"', '"monospace"'],
+    doc: 'Sets the font family. Use display only for short, expressive headlines. Display has one upright weight.',
+    type: [
+      '"basis"',
+      '"default"',
+      '"heading"',
+      '"monospace"',
+      '"display"',
+    ],
     status: 'optional',
   },
   weight: {

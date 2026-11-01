@@ -428,3 +428,46 @@ $t-lh-2xl: var(--line-height-xx-large);
   --typography-line-height-x-large: var(--line-height-x-large);
   --typography-line-height-xx-large: var(--line-height-xx-large);
 }
+
+@mixin displayFont() {
+  font-family: var(--font-family-display, var(--font-family-heading));
+  font-weight: normal;
+  font-style: normal;
+  font-synthesis: none;
+  &:where(:not([class*='dnb-t__line-height--'])) {
+    line-height: 1.1;
+  }
+
+  &.dnb-skeleton--font {
+    --font-family-default: var(
+      --font-family-display-skeleton,
+      'DNBSkeleton'
+    ) !important;
+  }
+}
+
+@mixin fontFamilyModifiers() {
+  @each $family,
+    $property
+      in (
+        basis: default,
+        default: default,
+        heading: heading,
+        monospace: monospace
+      )
+  {
+    .dnb-t__family--#{$family} {
+      &,
+      .dnb-core-style & {
+        font-family: var(--font-family-#{$property});
+      }
+    }
+  }
+
+  .dnb-t__family--display {
+    &,
+    .dnb-core-style & {
+      @include displayFont();
+    }
+  }
+}

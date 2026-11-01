@@ -118,6 +118,84 @@ const sourcePath = (variant: string, name: string) =>
     name
   )
 
+test('records Display rendering policies', async ({
+  page,
+  browserName,
+}, info) => {
+  await page.route('https://display-policy.test/**', async (route) => {
+    const name = new URL(route.request().url()).pathname.slice(1)
+    await route.fulfill({
+      contentType: 'font/woff2',
+      body: await fs.readFile(
+        path.join(
+          fontRoot,
+          name.includes('Skeleton') ? 'skeleton' : '',
+          name
+        )
+      ),
+    })
+  })
+  await page.setContent(
+    '<style>@font-face{font-family:SourceDisplay;src:url("https://display-policy.test/DNBSansDisplay.woff2")}@font-face{font-family:MaskDisplay;src:url("https://display-policy.test/DNBSansDisplay-Skeleton-Regular.woff2")}</style><p id="sample" style="margin:0;max-width:180px"></p>'
+  )
+  const observations = []
+  for (const policy of [
+    'auto',
+    'optimizeLegibility',
+    'geometricPrecision',
+  ]) {
+    for (const size of [14, 16, 18, 24, 34, 48]) {
+      const pair = []
+      for (const family of ['SourceDisplay', 'MaskDisplay']) {
+        pair.push(
+          await page.locator('#sample').evaluate(
+            async (element, { family, policy, size }) => {
+              if (!(element instanceof HTMLElement))
+                throw new Error('Missing sample')
+              element.style.font = '400 ' + size + 'px/1.25 ' + family
+              element.style.textRendering = policy
+              element.replaceChildren()
+              for (const text of [
+                'ÆØÅ',
+                'Hgjpq',
+                'ÆØÅ',
+                'Hgjpq',
+                'æøå',
+                'Gjør',
+                'noe',
+                'større',
+              ]) {
+                const word = document.createElement('span')
+                word.style.whiteSpace = 'nowrap'
+                word.textContent = text
+                element.append(word, ' ')
+              }
+              await document.fonts.load('400 ' + size + 'px ' + family)
+              await document.fonts.ready
+              return [...element.children].map((word) => ({
+                text: word.textContent,
+                width: word.getBoundingClientRect().width,
+                top: word.getBoundingClientRect().top,
+              }))
+            },
+            { family, policy, size }
+          )
+        )
+      }
+      observations.push({
+        policy,
+        size,
+        source: pair[0],
+        skeleton: pair[1],
+      })
+    }
+  }
+  await fs.writeFile(
+    info.outputPath('display-policy.json'),
+    JSON.stringify({ browserName, observations }, null, 2)
+  )
+})
+
 test('records Windows font selection, inline metrics, and button ink bounds', async ({
   page,
   browser,

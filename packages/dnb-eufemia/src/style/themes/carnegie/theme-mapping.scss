@@ -13,6 +13,8 @@
   --font-size-basis-native: var(--font-size-basis-web);
 
   // Ensure Carnegie headings use ArizonaFlare, even after UI variables are imported
+  --font-family-display-skeleton: 'DNBSkeleton';
+  --font-family-display: var(--font-family-heading);
   --font-family-heading: var(--ca-font-family-heading);
 
   // Override primary action color token to Ocean Green (Carnegie)

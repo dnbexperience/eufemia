@@ -11,11 +11,24 @@ const compile = (file: string) =>
   sass.compile(path.join(packageRoot, 'src', file)).css
 
 async function buttonInkCenter(button: Locator) {
-  const bounds = await button.evaluate((element) => {
+  const bounds = await button.evaluate(async (element) => {
+    const label = element.querySelector('.dnb-button__text')
+    const style = getComputedStyle(label)
+    const descriptor =
+      style.fontStyle +
+      ' ' +
+      style.fontWeight +
+      ' ' +
+      style.fontSize +
+      ' ' +
+      style.fontFamily
+    const faces = await document.fonts.load(descriptor, label.textContent)
+    if (faces.length !== 1 || faces[0].status !== 'loaded') {
+      throw new Error('Expected one loaded button font for ' + descriptor)
+    }
+    await document.fonts.ready
     const button = element.getBoundingClientRect()
-    const text = element
-      .querySelector('.dnb-button__text')
-      .getBoundingClientRect()
+    const text = label.getBoundingClientRect()
     return {
       width: button.width,
       height: button.height,
@@ -220,14 +233,9 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
   const sample = page.locator('#sample')
   await page.evaluate(() => document.fonts.ready)
   const metrics = () =>
-    sample.evaluate((element) => {
+    sample.evaluate(async (element) => {
       const style = getComputedStyle(element)
-      const canvas = document.createElement('canvas')
-      const context = canvas.getContext('2d')
-      if (!context) {
-        throw new Error('Canvas text metrics are unavailable')
-      }
-      context.font =
+      const descriptor =
         style.fontStyle +
         ' ' +
         style.fontWeight +
@@ -235,6 +243,20 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         style.fontSize +
         ' ' +
         style.fontFamily
+      const faces = await document.fonts.load(
+        descriptor,
+        element.querySelector('span').textContent
+      )
+      if (faces.length !== 1 || faces[0].status !== 'loaded') {
+        throw new Error('Expected one loaded font face for ' + descriptor)
+      }
+      await document.fonts.ready
+      const canvas = document.createElement('canvas')
+      const context = canvas.getContext('2d')
+      if (!context) {
+        throw new Error('Canvas text metrics are unavailable')
+      }
+      context.font = descriptor
       const ink = context.measureText(
         element.querySelector('span').textContent
       )
@@ -322,7 +344,10 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
       expect(
         Math.abs(actual.baseline - expected.baseline)
       ).toBeLessThanOrEqual(0.02)
-      expect(actual.width).toBeCloseTo(expected.width, 1)
+      expect(actual.width, family + ' weight ' + weight).toBeCloseTo(
+        expected.width,
+        1
+      )
     }
   }
 })

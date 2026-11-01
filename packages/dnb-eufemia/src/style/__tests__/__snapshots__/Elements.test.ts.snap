@@ -1198,18 +1198,6 @@ sub {
   text-align: right;
 }
 
-.dnb-t__family--default {
-  font-family: var(--font-family-default);
-}
-
-.dnb-t__family--heading {
-  font-family: var(--font-family-heading);
-}
-
-.dnb-t__family--monospace {
-  font-family: var(--font-family-monospace);
-}
-
 .dnb-t__decoration--underline {
   text-decoration: underline;
 }
@@ -1387,5 +1375,37 @@ sub {
 }
 .dnb-spacing .dnb-p:not([class*=dnb-space__bottom]), .dnb-core-style .dnb-spacing .dnb-p:not([class*=dnb-space__bottom]) {
   margin-bottom: 1.5rem;
+}
+
+.dnb-t__family--basis, .dnb-core-style .dnb-t__family--basis {
+  font-family: var(--font-family-default);
+}
+
+.dnb-t__family--default, .dnb-core-style .dnb-t__family--default {
+  font-family: var(--font-family-default);
+}
+
+.dnb-t__family--heading, .dnb-core-style .dnb-t__family--heading {
+  font-family: var(--font-family-heading);
+}
+
+.dnb-t__family--monospace, .dnb-core-style .dnb-t__family--monospace {
+  font-family: var(--font-family-monospace);
+}
+
+.dnb-t__family--display, .dnb-core-style .dnb-t__family--display {
+  font-family: var(--font-family-display, var(--font-family-heading));
+  font-weight: normal;
+  font-style: normal;
+  font-synthesis: none;
+}
+.dnb-t__family--display:where(:not([class*=dnb-t__line-height--])), .dnb-core-style .dnb-t__family--display:where(:not([class*=dnb-t__line-height--])) {
+  line-height: 1.1;
+}
+.dnb-t__family--display.dnb-skeleton--font, .dnb-core-style .dnb-t__family--display.dnb-skeleton--font {
+  --font-family-default: var(
+    --font-family-display-skeleton,
+    'DNBSkeleton'
+  ) !important;
 }"
 `;
