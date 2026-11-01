@@ -1,8 +1,19 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 import { ListFormatProperties } from '../../../../components/list-format/ListFormatDocs'
 
+// `value` is in the general properties; the other omitted keys are not supported
+const {
+  value,
+  children,
+  inside,
+  outside,
+  nested,
+  ref,
+  ...listProperties
+} = ListFormatProperties
+
 export const MultiSelectionProperties: PropertiesTableProps = {
-  ...ListFormatProperties,
+  ...listProperties,
   data: {
     doc: 'Data to resolve values to their display titles. Array of objects with `value` and `title` properties.',
     type: 'Array<{ value, title }>',
