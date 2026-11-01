@@ -369,6 +369,125 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
           expect(requests).toContain(
             'DNBSansDisplay-Skeleton-Regular.woff2'
           )
+          for (const size of [14, 16, 18, 24, 34, 48]) {
+            for (const width of [180, 260]) {
+              const metrics = await page.locator('#default').evaluate(
+                async (element, { size, width }) => {
+                  if (!(element instanceof HTMLElement)) {
+                    throw new Error('Display heading is missing')
+                  }
+                  element.className =
+                    'dnb-h--xx-large dnb-t__family--display'
+                  element.style.cssText =
+                    'display:block;max-width:' +
+                    width +
+                    'px;font-size:' +
+                    size +
+                    'px;line-height:1.18'
+                  element.replaceChildren()
+                  const words = [
+                    'ÆØÅ',
+                    'Hgjpq',
+                    'ÆØÅ',
+                    'Hgjpq',
+                    'æøå',
+                    'Gjør',
+                    'noe',
+                    'større',
+                  ]
+                  for (const text of [...words, ...words]) {
+                    const word = document.createElement('span')
+                    word.style.whiteSpace = 'nowrap'
+                    const letters = document.createElement('span')
+                    letters.textContent = text
+                    const baseline = document.createElement('i')
+                    baseline.style.cssText =
+                      'display:inline-block;width:0;height:0;vertical-align:baseline'
+                    word.append(letters, baseline)
+                    element.append(word, ' ')
+                  }
+                  await document.fonts.ready
+                  const measure = () => {
+                    const context = document
+                      .createElement('canvas')
+                      .getContext('2d')
+                    if (!context) {
+                      throw new Error('Canvas metrics are unavailable')
+                    }
+                    const lines = new Map<
+                      number,
+                      { top: number; bottom: number }
+                    >()
+                    const widths: number[] = []
+                    for (const word of element.children) {
+                      const letters = word.querySelector('span')
+                      const marker = word.querySelector('i')
+                      if (!letters || !marker) {
+                        throw new Error('Display word metrics are missing')
+                      }
+                      const style = getComputedStyle(letters)
+                      context.font =
+                        style.fontStyle +
+                        ' ' +
+                        style.fontWeight +
+                        ' ' +
+                        style.fontSize +
+                        ' ' +
+                        style.fontFamily
+                      const ink = context.measureText(letters.textContent)
+                      const baseline = marker.getBoundingClientRect().top
+                      const key = Math.round(baseline * 100) / 100
+                      const top = baseline - ink.actualBoundingBoxAscent
+                      const bottom =
+                        baseline + ink.actualBoundingBoxDescent
+                      const previous = lines.get(key)
+                      lines.set(key, {
+                        top: Math.min(previous?.top ?? top, top),
+                        bottom: Math.max(
+                          previous?.bottom ?? bottom,
+                          bottom
+                        ),
+                      })
+                      widths.push(letters.getBoundingClientRect().width)
+                    }
+                    const ordered = [...lines.values()]
+                    return {
+                      height: element.getBoundingClientRect().height,
+                      baselines: [...lines.keys()],
+                      widths,
+                      clearances: ordered
+                        .slice(1)
+                        .map(
+                          (line, index) => line.top - ordered[index].bottom
+                        ),
+                    }
+                  }
+                  const before = measure()
+                  element.classList.add('dnb-skeleton--font')
+                  await document.fonts.load(
+                    size + 'px DNBSansDisplaySkeleton'
+                  )
+                  await document.fonts.ready
+                  return { before, after: measure() }
+                },
+                { size, width }
+              )
+              expect(metrics.before.baselines.length).toBeGreaterThan(1)
+              for (const clearance of metrics.before.clearances) {
+                expect(clearance).toBeGreaterThanOrEqual(-0.02)
+              }
+              expect(metrics.after.height).toBeCloseTo(
+                metrics.before.height,
+                1
+              )
+              expect(metrics.after.baselines).toEqual(
+                metrics.before.baselines
+              )
+              metrics.after.widths.forEach((value, index) => {
+                expect(value).toBeCloseTo(metrics.before.widths[index], 1)
+              })
+            }
+          }
         }
         await page.setViewportSize({ width: 390, height: 844 })
         await page.emulateMedia({ media: 'print' })

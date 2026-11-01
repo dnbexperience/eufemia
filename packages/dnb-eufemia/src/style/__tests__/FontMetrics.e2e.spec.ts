@@ -3,14 +3,58 @@ import path from 'node:path'
 import * as sass from 'sass'
 import postcss from 'postcss'
 import { PNG } from 'pngjs'
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
 
 const packageRoot = path.resolve(__dirname, '../../..')
 const compile = (file: string) =>
   sass.compile(path.join(packageRoot, 'src', file)).css
 
-test('centers DNB button labels across sizes, root scaling and native text size', async ({
+async function buttonInkCenter(button: Locator) {
+  const bounds = await button.evaluate((element) => {
+    const button = element.getBoundingClientRect()
+    const text = element
+      .querySelector('.dnb-button__text')
+      .getBoundingClientRect()
+    return {
+      width: button.width,
+      height: button.height,
+      left: text.left - button.left,
+      right: text.right - button.left,
+    }
+  })
+  const image = PNG.sync.read(await button.screenshot())
+  const horizontalRatio = image.width / bounds.width
+  const verticalRatio = image.height / bounds.height
+  const rows: number[] = []
+  for (let y = 0; y < image.height; y++) {
+    for (
+      let x = Math.ceil(bounds.left * horizontalRatio);
+      x < Math.floor(bounds.right * horizontalRatio);
+      x++
+    ) {
+      const index = (y * image.width + x) * 4
+      if (
+        image.data[index] > 220 &&
+        image.data[index + 1] > 230 &&
+        image.data[index + 2] > 230
+      ) {
+        rows.push(y)
+        break
+      }
+    }
+  }
+  expect(rows.length).toBeGreaterThan(0)
+  return {
+    width: bounds.width,
+    height: bounds.height,
+    offset:
+      ((rows[0] + rows[rows.length - 1] + 1) / 2 - image.height / 2) /
+      verticalRatio,
+  }
+}
+
+test('preserves legacy DNB button alignment across sizes, root scaling and native text size', async ({
   page,
 }) => {
   await page.route('https://font-metrics.test/**', async (route) => {
@@ -46,6 +90,7 @@ test('centers DNB button labels across sizes, root scaling and native text size'
   await page.setContent(
     '<style>' +
       isolated +
+      '@font-face{font-family:LegacyDNB;src:url("https://font-metrics.test/DNB-Regular.woff2")}' +
       '</style><div class="metric-scope"><div class="dnb-core-style"><button class="dnb-button dnb-button--primary dnb-button--has-text" style="background:#007272;color:#fff;box-shadow:none"><span aria-hidden="true" class="dnb-alignment-helper--pseudo-element-only dnb-button__alignment"></span><span class="dnb-button__text">Continue</span></button></div></div>'
   )
   for (const rootScale of [1, 1.25, 2]) {
@@ -86,43 +131,27 @@ test('centers DNB button labels across sizes, root scaling and native text size'
           'font-weight',
           '400'
         )
-        const bounds = await button.evaluate((element) => {
-          const button = element.getBoundingClientRect()
-          const text = element
-            .querySelector('.dnb-button__text')
-            .getBoundingClientRect()
-          return {
-            width: button.width,
-            left: text.left - button.left,
-            right: text.right - button.left,
-          }
+        const actual = await buttonInkCenter(button)
+        await button.evaluate((element) => {
+          ;(element as HTMLElement).style.fontFamily = 'LegacyDNB'
         })
-        const image = PNG.sync.read(await button.screenshot())
-        const ratio = image.width / bounds.width
-        const rows: number[] = []
-        for (let y = 0; y < image.height; y++) {
-          for (
-            let x = Math.ceil(bounds.left * ratio);
-            x < Math.floor(bounds.right * ratio);
-            x++
-          ) {
-            const index = (y * image.width + x) * 4
-            if (
-              image.data[index] > 220 &&
-              image.data[index + 1] > 230 &&
-              image.data[index + 2] > 230
-            ) {
-              rows.push(y)
-              break
-            }
-          }
-        }
-        expect(rows.length).toBeGreaterThan(0)
-        const center = (rows[0] + rows[rows.length - 1] + 1) / 2
+        await page.evaluate(() => document.fonts.ready)
+        const legacy = await buttonInkCenter(button)
+        await button.evaluate((element) => {
+          ;(element as HTMLElement).style.removeProperty('font-family')
+        })
+        expect(actual.height).toBeCloseTo(legacy.height, 2)
+        expect(actual.width).toBeCloseTo(legacy.width, 2)
+        // Native rasterization also places legacy ink 1.5px off-center.
         expect(
-          Math.abs(center - image.height / 2) / ratio,
+          Math.abs(actual.offset - legacy.offset)
+        ).toBeLessThanOrEqual(0.02)
+        expect(
+          Math.abs(actual.offset),
           size + ' at ' + basis + 'px and rootScale ' + rootScale
-        ).toBeLessThanOrEqual(1.25)
+        ).toBeLessThanOrEqual(
+          Math.max(1.25, Math.abs(legacy.offset)) + 0.02
+        )
         for (const label of ['Åpne konto', 'Gjennomfør', 'ÆØÅ gjpq']) {
           await button
             .locator('.dnb-button__text')
@@ -191,14 +220,40 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
   const sample = page.locator('#sample')
   await page.evaluate(() => document.fonts.ready)
   const metrics = () =>
-    sample.evaluate((element) => ({
-      height: element.querySelector('span').getBoundingClientRect().height,
-      baseline:
+    sample.evaluate((element) => {
+      const style = getComputedStyle(element)
+      const canvas = document.createElement('canvas')
+      const context = canvas.getContext('2d')
+      if (!context) {
+        throw new Error('Canvas text metrics are unavailable')
+      }
+      context.font =
+        style.fontStyle +
+        ' ' +
+        style.fontWeight +
+        ' ' +
+        style.fontSize +
+        ' ' +
+        style.fontFamily
+      const ink = context.measureText(
+        element.querySelector('span').textContent
+      )
+      const baseline =
         element.querySelector('i').getBoundingClientRect().top -
-        element.getBoundingClientRect().top,
-    }))
+        element.getBoundingClientRect().top
+      const bounds = element.querySelector('span').getBoundingClientRect()
+      return {
+        height: bounds.height,
+        width: bounds.width,
+        baseline,
+        lineBoxHeight: element.getBoundingClientRect().height,
+        lineHeight: parseFloat(style.lineHeight),
+        inkTop: baseline - ink.actualBoundingBoxAscent,
+        inkBottom: baseline + ink.actualBoundingBoxDescent,
+      }
+    })
   const legacy = await metrics()
-  let normalized: { height: number; baseline: number }
+  let normalized: typeof legacy
   for (const family of ['DNB', 'DNBMono']) {
     for (const weight of [300, 400, 500, 600, 700]) {
       for (const slant of ['normal', 'italic']) {
@@ -213,13 +268,24 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         await page.evaluate(() => document.fonts.ready)
         const actual = await metrics()
         normalized ??= actual
-        // Embedded metrics must retain the legacy inline box and baseline.
+        // Firefox/Linux rounds typo and legacy inline font boxes differently.
+        // Preserve the actual line box and baseline, not that rounding policy.
         expect(
-          Math.abs(actual.height - legacy.height)
+          Math.abs(actual.lineBoxHeight - legacy.lineBoxHeight)
+        ).toBeLessThanOrEqual(0.02)
+        expect(
+          Math.abs(actual.lineHeight - legacy.lineHeight)
         ).toBeLessThanOrEqual(0.02)
         expect(
           Math.abs(actual.baseline - legacy.baseline)
         ).toBeLessThanOrEqual(0.02)
+        expect(
+          Math.abs(actual.height - normalized.height)
+        ).toBeLessThanOrEqual(0.02)
+        expect(actual.inkTop).toBeGreaterThanOrEqual(-0.02)
+        expect(actual.inkBottom).toBeLessThanOrEqual(
+          actual.lineBoxHeight + 0.02
+        )
         expect(
           actual.baseline,
           family + ' ' + slant + ' ' + weight
@@ -228,9 +294,18 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
     }
   }
   for (const family of ['DNBSkeleton', 'DNBMonoSkeleton']) {
-    for (const weight of family === 'DNBSkeleton'
-      ? [400, 500, 600]
-      : [400]) {
+    for (const weight of [300, 400, 500, 600, 700]) {
+      await sample.evaluate(
+        (element, { family, weight }) => {
+          ;(element as HTMLElement).style.fontFamily =
+            family === 'DNBSkeleton' ? 'DNB' : 'DNBMono'
+          ;(element as HTMLElement).style.fontWeight = String(weight)
+          ;(element as HTMLElement).style.fontStyle = 'normal'
+        },
+        { family, weight }
+      )
+      await page.evaluate(() => document.fonts.ready)
+      const expected = await metrics()
       await sample.evaluate(
         (element, { family, weight }) => {
           ;(element as HTMLElement).style.fontFamily = family
@@ -241,10 +316,13 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
       )
       await page.evaluate(() => document.fonts.ready)
       const actual = await metrics()
-      expect(Math.abs(actual.height - legacy.height)).toBeLessThanOrEqual(
-        1.1
-      )
-      expect(actual.baseline).toBeCloseTo(normalized.baseline, 1)
+      expect(
+        Math.abs(actual.height - expected.height)
+      ).toBeLessThanOrEqual(0.02)
+      expect(
+        Math.abs(actual.baseline - expected.baseline)
+      ).toBeLessThanOrEqual(0.02)
+      expect(actual.width).toBeCloseTo(expected.width, 1)
     }
   }
 })
