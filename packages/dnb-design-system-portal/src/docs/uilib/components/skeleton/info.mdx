@@ -102,4 +102,34 @@ In order to create the same skeletons as the build-ins, you can make use of a co
 
 <SkeletonInfoCustom />
 
+## Generate a skeleton font
+
+Skeleton fonts replace glyph outlines with blocks while retaining the source
+font's glyph advances, kerning, substitutions and embedded line metrics. Generate
+them from the font files used by the stylesheet, not an older font with a similar
+name. In particular, keep the `hhea`, OS/2 typo and Windows metrics, and the
+`USE_TYPO_METRICS` flag together: browsers select and round these differently
+across Windows, Linux and macOS.
+
+From `packages/dnb-eufemia`, regenerate the DNB Text and Mono skeletons with:
+
+```shell
+yarn skeleton:font
+```
+
+This command runs once, reads the derived fonts in `assets/fonts/dnb/web/`, and
+writes Light, Regular, Medium and Bold in OTF, TTF, WOFF and WOFF2 to
+`assets/fonts/dnb/skeleton/`. It does not modify the source fonts or download ZIPs.
+
+To generate a skeleton from another TTF or OTF:
+
+```shell
+yarn skeleton:font --source path/to/font.ttf --output path/to/skeletons --family CustomSkeleton --prefix Custom-Skeleton --style Regular
+```
+
+Register the generated family with `@font-face` and verify font loading, widths,
+wrapping, line boxes and baselines against the source font in each supported
+browser. Identical inline font-box rounding across operating systems is not
+guaranteed, even when the paragraph line height and baseline are unchanged.
+
 <RelatedComponents />
