@@ -90,6 +90,15 @@ describe.each(['ui', 'sbanken'])(`Checkbox for %s`, (themeName) => {
       })
     })
 
+    it('have to match disabled checkbox with hover', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="checkbox-disabled"]',
+        simulateSelector:
+          '[data-visual-test="checkbox-disabled"] .dnb-checkbox--surface-dark .dnb-checkbox__input:checked',
+        simulate: 'hover',
+      })
+    })
+
     it('have to match checkbox in error state', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="checkbox-error"] .dnb-checkbox',
