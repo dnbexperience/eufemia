@@ -57,6 +57,18 @@ describe('Form.Isolation', () => {
     })
   })
 
+  it('should disable all nested fields with the disabled property', () => {
+    render(
+      <Form.Handler>
+        <Form.Isolation disabled>
+          <Field.String path="/foo" />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toBeDisabled()
+  })
+
   it('should use initial value from root context', () => {
     render(
       <Form.Handler
