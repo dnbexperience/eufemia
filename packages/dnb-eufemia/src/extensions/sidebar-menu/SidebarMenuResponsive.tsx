@@ -532,8 +532,14 @@ export function SidebarMenuResponsiveTrigger({
         (!isSmallScreen && inlineCollapsed ? animatedHamburger : hamburger)
       }
       variant={variant}
-      title={
-        title ?? (open ? translation.closeMenu : translation.openMenu)
+      title={title}
+      aria-label={
+        props['aria-label'] ??
+        (props.text || props.children || title
+          ? undefined
+          : open
+            ? translation.closeMenu
+            : translation.openMenu)
       }
       aria-haspopup={!isHydrated || isSmallScreen ? 'dialog' : undefined}
       aria-controls={

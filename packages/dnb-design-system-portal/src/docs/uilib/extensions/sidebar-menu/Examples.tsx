@@ -743,7 +743,10 @@ export function SidebarMenuResponsiveNavigation() {
             'business-overview': 'Business overview',
             payments: 'Payments',
           }
-          const { close } = SidebarMenu.useResponsive()
+          const { close, open } = SidebarMenu.useResponsive()
+          const menuLabel = open
+            ? 'Close banking menu'
+            : 'Open banking menu'
           const addCloseHandler = (
             items: SidebarMenuItemData[]
           ): SidebarMenuItemData[] =>
@@ -827,7 +830,8 @@ export function SidebarMenuResponsiveNavigation() {
               {/* A div, because the portal page already has a main landmark */}
               <div className={styles.responsiveContent}>
                 <SidebarMenu.ResponsiveTrigger
-                  text="Menu"
+                  aria-label={menuLabel}
+                  tooltip={menuLabel}
                   bottom="medium"
                 />
                 <H2>{itemTitles[selectedItem]}</H2>

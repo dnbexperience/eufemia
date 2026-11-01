@@ -395,6 +395,16 @@ export const SidebarMenuToggleProperties: PropertiesTableProps = {
 
 export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
   {
+    'aria-label': {
+      doc: 'Accessible name for an icon-only trigger. Defaults to the localized open or close label. Use an application-specific label when it clarifies which navigation opens. Visible text or children provide the name when present.',
+      type: 'string',
+      status: 'optional',
+    },
+    tooltip: {
+      doc: 'Shows an Eufemia tooltip on hover and keyboard focus. For an icon-only trigger, use the same text as aria-label. Omit title to avoid an additional native browser tooltip.',
+      type: 'React.ReactNode',
+      status: 'optional',
+    },
     controls: {
       doc: 'Overrides the `aria-controls` value used at or below `drawerAt`, which tells assistive technology which Drawer the trigger opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id in the same provider, so you rarely need it.',
       type: 'string',
