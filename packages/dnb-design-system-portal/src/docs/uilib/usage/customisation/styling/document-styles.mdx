@@ -180,11 +180,12 @@ This opt-in mode applies only during printing. It makes text and links
 black on a white paper surface, removes descendant CSS backgrounds,
 gradients and shadows, uses gray borders, and disables transitions and
 animations in the scope. Fonts and the type scale remain unchanged.
-Text inputs, checkboxes, radio buttons and switches retain visible
-boundaries and selection indicators without background graphics. The
+Text inputs, checkboxes, radio buttons, switches and toggle buttons
+retain visible boundaries and selection indicators without background
+graphics. A selected toggle button gets a thicker black outline. The
 screen retains its selected theme and control state.
-Input placeholders are hidden in plain print so an empty field remains
-visually distinct from an entered value.
+Input and Textarea placeholders are hidden in plain print so an empty
+field remains visually distinct from an entered value.
 
 Image pixels, fixed SVG fills, canvas and video are not recolored. Inline
 SVGs that use `currentColor` follow the black text color. Provide a printable
