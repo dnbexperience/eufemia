@@ -41,7 +41,7 @@ export type FieldPostalCodeAndCityProps = Pick<
   city?: StringFieldProps
 } & {
   /**
-   * Defines which country the postal code and city is for, based on the [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) e.g. `NO`, `DE` etc. `NO`, `DK` and `CH` get a four-digit postal code mask and validation, and only `NO` limits the city to Norwegian letters, spaces and hyphens. Any other value removes these rules. You can also use the value of another field to define the countryCode, by using a path value e.g. `/myCountryCodePath`. Defaults to the `countryCode` of `Form.Handler`, or `NO`.
+   * Defines which country the postal code and city is for, based on the [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) e.g. `NO`, `DE` etc. `NO`, `DK` and `CH` get a four-digit postal code mask and validation, and only `NO` limits the city to Norwegian letters, spaces and hyphens. Any other value, or a path that has no value, removes these rules. You can also use the value of another field to define the countryCode, by using a path value e.g. `/myCountryCodePath`. Defaults to the `countryCode` of `Form.Handler`, or `NO`.
    */
   countryCode?: CountryCode
 } & Pick<StringFieldProps, 'size'>
