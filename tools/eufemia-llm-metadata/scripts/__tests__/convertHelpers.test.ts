@@ -157,6 +157,31 @@ describe('convertMdxToMd', () => {
     expect(output).not.toContain('PropertiesTable')
   })
 
+  it.each([
+    'extensions/forms/Wizard',
+    'extensions/forms/Form/useSubmit',
+    'extensions/forms/Form/useTranslation',
+    'extensions/forms/create-component/useFieldProps',
+    'extensions/forms/create-component/useValueProps',
+  ])('omits component customization guidance from %s', async (page) => {
+    const docsRoot = path.resolve(
+      '../../packages/dnb-design-system-portal/src/docs'
+    )
+    const output = await convertMdxToMd({
+      inputPath: path.join(docsRoot, 'uilib', page, 'properties.mdx'),
+      docsRoot,
+      docsBaseRoot: path.dirname(docsRoot),
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).not.toContain('usageGuidance')
+    expect(output).not.toContain(
+      'Some properties provide flexibility for specific integrations.'
+    )
+  })
+
   it('includes extra attributes when converting PropertiesTable', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-attrs-'))
     const docsRoot = path.join(tmpRoot, 'docs')
@@ -924,11 +949,19 @@ describe('convertMdxToMd', () => {
     expect(dateOfBirthEvents).toContain('```json')
     expect(dateOfBirthEvents).toContain('"onChange"')
     expect(dateOfBirthEvents).toContain('"onBlur"')
+    expect(dateOfBirthEvents).not.toContain('usageGuidance')
+    expect(dateOfBirthEvents).not.toContain(
+      'Some properties provide flexibility for specific integrations.'
+    )
 
     expect(selectCurrencyProperties).not.toContain('PropertiesTable')
     expect(selectCurrencyProperties).toContain('```json')
     expect(selectCurrencyProperties).toContain('"currencies"')
     expect(selectCurrencyProperties).toContain('"size"')
+    expect(selectCurrencyProperties).toContain('"usageGuidance"')
+    expect(selectCurrencyProperties).toContain(
+      'need a use case approved by DNB UX'
+    )
   })
 
   it('replaces AvailableCountriesTable with a markdown country table', async () => {

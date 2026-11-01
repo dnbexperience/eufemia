@@ -465,6 +465,24 @@ function createDocsContext(source: DocsSource) {
           continue
         }
 
+        text = text
+          .replace(
+            /\x3c!-- eufemia-properties-usage:start -->[\s\S]*?\x3c!-- eufemia-properties-usage:end -->/g,
+            ''
+          )
+          .replace(/```json\s*([\s\S]*?)```/g, (block, json) => {
+            try {
+              const metadata = JSON.parse(json)
+              if (metadata && Object.hasOwn(metadata, 'usageGuidance')) {
+                delete metadata.usageGuidance
+                return JSON.stringify(metadata)
+              }
+            } catch {
+              // Keep unstructured examples searchable.
+            }
+            return block
+          })
+
         const lower = text.toLowerCase()
 
         // For single-word queries, use exact phrase matching (backward compatible)
@@ -1028,6 +1046,8 @@ export function createDocsTools(
 }
 
 const SERVER_NAME = 'eufemia'
+export const DOCS_SERVER_INSTRUCTIONS =
+  "Follow Eufemia's documented patterns and defaults. A prop's availability does not make every customization recommended. Read and follow usageGuidance and prop-specific notes returned by component tools. Customizations beyond documented patterns need a use case approved by DNB UX. Read the relevant component documentation before choosing a custom appearance, content structure, or interaction pattern."
 
 export type DocsMeta = {
   eufemiaVersion: string
@@ -1207,7 +1227,7 @@ export function registerDocsTools(
     {
       title: 'Component API',
       description:
-        'Extract and return all JSON code blocks from the component documentation markdown (for example structured API metadata embedded in ```json fences), including blocks that are not props or events, such as translations. Use this when you need every machine-readable block for a component; for props and events only, use component_props.',
+        'Extract and return all JSON code blocks from the component documentation markdown (for example structured API metadata embedded in ```json fences), including blocks that are not props or events, such as translations. Use this when you need every machine-readable block for a component; for props and events only, use component_props. Read and follow usageGuidance and prop-specific notes before customizing a component.',
       inputSchema: ComponentNameInput.shape,
     },
     (input) =>
@@ -1219,7 +1239,7 @@ export function registerDocsTools(
     {
       title: 'Component props',
       description:
-        'Return only the JSON blocks that describe a component’s properties and events. For every block, including translations, use component_api.',
+        'Return only the JSON blocks that describe a component’s properties and events. Read and follow usageGuidance and prop-specific notes before customizing a component. For every block, including translations, use component_api.',
       inputSchema: ComponentNameInput.shape,
     },
     (input) =>
@@ -1239,7 +1259,9 @@ export async function createDocsServer(
   const { onToolCall, ...docsOptions } = options
   const tools = createDocsTools(docsOptions)
   const meta = await readDocsMeta(tools.source)
-  const server = new McpServer(createServerInfo(meta.eufemiaVersion))
+  const server = new McpServer(createServerInfo(meta.eufemiaVersion), {
+    instructions: DOCS_SERVER_INSTRUCTIONS,
+  })
   registerDocsTools(server, tools, { onToolCall })
   return { server, tools }
 }
