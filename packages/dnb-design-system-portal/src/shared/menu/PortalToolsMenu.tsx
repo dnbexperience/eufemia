@@ -13,6 +13,7 @@ import { cog } from '@dnb/eufemia/src/icons'
 import { themeTitles } from './SidebarMenuData'
 import {
   buttonStyle,
+  loadingStyle,
   darkSchemeStyle,
   lightSchemeStyle,
 } from './PortalToolsMenu.module.scss'
@@ -94,6 +95,7 @@ export default function PortalToolsMenu({
   const themeChanged = previousThemeKeyRef.current !== themeKey
   const restoredRef = useRef(false)
   const noAnimation = disableAnimation || themeChanged
+  const loading = isOpen && !drawerReady
 
   // Restore open state from sessionStorage after hydration to avoid
   // a mismatch between server (always closed) and client.
@@ -211,6 +213,8 @@ export default function PortalToolsMenu({
         className={clsx(
           className,
           buttonStyle,
+          loading && 'dnb-skeleton dnb-skeleton--shape',
+          loading && loadingStyle,
           hideWhenMediaLarge && 'hideWhenMediaLarge'
         )}
         text={
@@ -230,7 +234,7 @@ export default function PortalToolsMenu({
         aria-haspopup="dialog"
         aria-controls="dnb-modal-portal-tools-modal"
         aria-expanded={isOpen}
-        aria-busy={(isOpen && !drawerReady) || undefined}
+        aria-busy={loading || undefined}
         tooltip={
           <Tooltip
             placement={tooltipPosition}
@@ -254,7 +258,6 @@ export default function PortalToolsMenu({
           Could not load settings. Please try again.
         </span>
       )}
-      {isOpen && !Drawer && <span role="status">Loading settings...</span>}
       {(isOpen || hasOpened) && Drawer && (
         <Drawer
           open={isOpen}

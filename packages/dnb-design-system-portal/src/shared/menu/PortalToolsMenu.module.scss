@@ -15,6 +15,13 @@
   }
 }
 
+.loadingStyle {
+  // Keep the loading trigger available for canceling a pending open.
+  &:global(.dnb-skeleton--shape) {
+    pointer-events: auto;
+  }
+}
+
 .buttonStyle {
   flex-shrink: 0;
 

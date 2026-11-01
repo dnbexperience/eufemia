@@ -81,10 +81,16 @@ test('opens on the first keyboard activation after a delayed settings download',
   await page.goto('/web/components/')
   await waitForApp(page)
   const trigger = page.locator('button#portal-tools')
+  const before = await trigger.boundingBox()
   try {
     await trigger.focus()
     await trigger.press('Enter')
     await expect(trigger).toHaveAttribute('aria-busy', 'true')
+    await expect(trigger).toHaveClass(/dnb-skeleton--shape/)
+    await expect(
+      page.getByText('Loading settings...', { exact: true })
+    ).toHaveCount(0)
+    expect(await trigger.boundingBox()).toEqual(before)
     await expect(trigger).toBeFocused()
     release()
     const drawer = page.getByRole('dialog', {
@@ -94,6 +100,7 @@ test('opens on the first keyboard activation after a delayed settings download',
     await expect(drawer).toBeVisible()
     await expect(drawer.locator('#change-theme')).toBeFocused()
     await expect(trigger).not.toHaveAttribute('aria-busy', 'true')
+    await expect(trigger).not.toHaveClass(/dnb-skeleton--shape/)
   } finally {
     release()
   }
