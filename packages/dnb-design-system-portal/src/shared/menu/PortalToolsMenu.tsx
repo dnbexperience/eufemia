@@ -85,6 +85,7 @@ export default function PortalToolsMenu({
   const [drawerReady, setDrawerReady] = useState(false)
   const [Drawer, setDrawer] = useState<typeof PortalToolsDrawer>()
   const [loadFailed, setLoadFailed] = useState(false)
+  const loadFailures = useRef(0)
   const handleDrawerReady = useCallback(() => setDrawerReady(true), [])
   const { brand, colorScheme } = getTheme()
   const activeTheme = useTheme()
@@ -174,16 +175,24 @@ export default function PortalToolsMenu({
     }
     let active = true
     const onPreloadError = (event: Event & { payload?: Error }) => {
-      if (event.payload?.message.includes('PortalToolsDrawer')) {
+      const message = event.payload?.message || ''
+      if (
+        !message.includes('/assets/') ||
+        message.includes('PortalToolsDrawer')
+      ) {
         event.preventDefault()
         event.stopImmediatePropagation()
       }
     }
     window.addEventListener('vite:preloadError', onPreloadError, true)
     void import('./PortalToolsDrawer')
-      .then(({ default: LoadedDrawer }) => {
+      .then((module) => {
+        if (!module?.default) {
+          throw new Error('Could not load settings')
+        }
         if (active) {
-          setDrawer(() => LoadedDrawer)
+          loadFailures.current = 0
+          setDrawer(() => module.default)
         }
       })
       .catch(() => {
@@ -192,6 +201,10 @@ export default function PortalToolsMenu({
         if (active) {
           handleClose()
           setLoadFailed(true)
+          // A repeated failure while online may be an outdated chunk after a deploy.
+          if (++loadFailures.current > 1 && navigator.onLine) {
+            window.location.reload()
+          }
         }
       })
       .finally(() =>
@@ -241,7 +254,9 @@ export default function PortalToolsMenu({
             style={{ zIndex: 4001 }}
             fixedPosition
           >
-            Open settings
+            {loadFailed
+              ? 'Could not load settings. Please try again.'
+              : 'Open settings'}
           </Tooltip>
         }
         {...triggerProps}
@@ -253,8 +268,11 @@ export default function PortalToolsMenu({
           }
         }}
       />
+      <span className="dnb-sr-only" role="status">
+        {loading ? 'Loading settings...' : ''}
+      </span>
       {loadFailed && (
-        <span role="alert">
+        <span className="dnb-sr-only" role="alert">
           Could not load settings. Please try again.
         </span>
       )}

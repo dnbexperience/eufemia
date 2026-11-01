@@ -87,9 +87,9 @@ test('opens on the first keyboard activation after a delayed settings download',
     await trigger.press('Enter')
     await expect(trigger).toHaveAttribute('aria-busy', 'true')
     await expect(trigger).toHaveClass(/dnb-skeleton--shape/)
-    await expect(
-      page.getByText('Loading settings...', { exact: true })
-    ).toHaveCount(0)
+    await expect(page.getByRole('status')).toHaveText(
+      'Loading settings...'
+    )
     expect(await trigger.boundingBox()).toEqual(before)
     await expect(trigger).toBeFocused()
     release()
@@ -126,7 +126,7 @@ test('does not open after canceling a pending settings download', async ({
     await expect(trigger).toHaveAttribute('aria-busy', 'true')
     await trigger.press('Enter')
     release()
-    await expect(page.getByRole('status')).toHaveCount(0)
+    await expect(page.getByRole('status')).toBeEmpty()
     await expect(trigger).toHaveAttribute('aria-expanded', 'false')
     await expect(trigger).toBeFocused()
     await expect(

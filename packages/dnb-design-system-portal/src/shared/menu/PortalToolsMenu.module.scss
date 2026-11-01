@@ -19,6 +19,12 @@
   // Keep the loading trigger available for canceling a pending open.
   &:global(.dnb-skeleton--shape) {
     pointer-events: auto;
+
+    @include utilities.focusVisible() {
+      outline: var(--focus-ring-width) solid
+        var(--token-color-stroke-action-focus);
+      outline-offset: 0.125rem;
+    }
   }
 }
 
