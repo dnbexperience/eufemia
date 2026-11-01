@@ -143,8 +143,28 @@ export async function createSkeletonFont({
   })
   const otf = preserveLayout(Buffer.from(skeleton.toArrayBuffer()), source)
   const converted = Font.create(otf, { type: 'otf' })
+  const data = converted.get()
+  data.head.flags |= 4
+  data.maxp.maxStackElements = 1
+  for (const glyph of data.glyf) {
+    const points = glyph.contours.reduce(
+      (count, contour) => count + contour.length,
+      0
+    )
+    // Grid-fit only the horizontal metric phantom points. FreeType's
+    // shape-based auto-hinter otherwise widens the solid rectangular stems.
+    glyph.instructions = [
+      0x01, // SVTCA[x]
+      0xb0,
+      points,
+      0x2f, // PUSHB left phantom; MDAP[round]
+      0xb0,
+      points + 1,
+      0x2f, // PUSHB right phantom; MDAP[round]
+    ]
+  }
   const ttf = preserveLayout(
-    Buffer.from(converted.write({ type: 'ttf' })),
+    Buffer.from(converted.write({ type: 'ttf', hinting: true })),
     source
   )
   await fs.mkdir(outputDirectory, { recursive: true })
