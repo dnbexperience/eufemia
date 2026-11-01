@@ -159,10 +159,11 @@
       grid-template: auto / minmax(0, 1fr);
       padding-inline: var(--list-item-padding, 0);
 
-      // Place the text like a title: its first line is centered in a 2rem
+      // Place the text like a title: its first line is centered in the cell
       // box at the top of the row
       padding-top: calc(
-        var(--list-item-padding) + (2rem - var(--line-height-basis)) / 2
+        var(--list-item-padding) +
+          (var(--list-item-cell-height) - var(--line-height-basis)) / 2
       );
       align-content: start;
 

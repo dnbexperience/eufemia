@@ -120,4 +120,20 @@ describe('List scss', () => {
     expect(fixedOutsideSurface).toEqual([])
     expect(surfaces).toEqual(['.dnb-list--variant-basic { 2rem }'])
   })
+
+  it('should only set the height of the cell box in one place', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const boxHeights: Array<string> = []
+
+    postcss.parse(css).walkDecls((decl) => {
+      if (/(^|[^.\d])2rem\b/.test(decl.value)) {
+        const rule = decl.parent as postcss.Rule
+        boxHeights.push(`${rule.selector} { ${decl.prop}: ${decl.value} }`)
+      }
+    })
+
+    expect(boxHeights).toEqual([
+      '.dnb-list--variant-basic { --list-item-cell-height: 2rem }',
+    ])
+  })
 })
