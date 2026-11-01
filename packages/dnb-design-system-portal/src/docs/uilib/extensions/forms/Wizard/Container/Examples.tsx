@@ -279,7 +279,10 @@ export const WithStatusMessage = () => {
             >
               <Form.MainHeading>Step 1</Form.MainHeading>
               <P>Content</P>
-              <Wizard.NextButton text="Press me to see the status message" />
+              <Wizard.NextButton
+                text="Press me to see the status message"
+                wrap
+              />
             </Wizard.Step>
           </Wizard.Container>
         </Provider>
