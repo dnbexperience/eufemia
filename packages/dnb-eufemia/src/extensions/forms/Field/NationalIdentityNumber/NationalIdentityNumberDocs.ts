@@ -3,6 +3,9 @@ import { StringProperties } from '../String/StringDocs'
 
 export const NationalIdentityNumberProperties: PropertiesTableProps = {
   ...StringProperties,
+  // The field sets its own mask
+  mask: undefined,
+  allowOverflow: undefined,
   validate: {
     doc: 'Using this prop you can disable the default validation.',
     type: 'boolean',

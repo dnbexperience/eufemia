@@ -3,6 +3,9 @@ import { StringProperties } from '../String/StringDocs'
 
 export const BankAccountNumberProperties: PropertiesTableProps = {
   ...StringProperties,
+  // The field sets its own mask
+  mask: undefined,
+  allowOverflow: undefined,
   bankAccountType: {
     doc: 'The type of bank account number, used for input mask, label, and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Validation is currently only supported for `norwegianBban`. Defaults to `norwegianBban`.',
     type: 'string',
