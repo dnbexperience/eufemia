@@ -2,8 +2,8 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const SubmitIndicatorProperties: PropertiesTableProps = {
   state: {
-    doc: 'Provide `pending` to make the dots visible and `success` to show the checkmark icon.',
-    type: ['"pending"', '"success"'],
+    doc: 'Provide `pending` to make the dots visible.',
+    type: ['"pending"', '"complete"', '"success"', '"error"', '"abort"'],
     status: 'required',
   },
   showLabel: {
@@ -13,7 +13,7 @@ export const SubmitIndicatorProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Provide a label that will be shown next to the indicator.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
