@@ -136,7 +136,7 @@ test.describe('Document and print styles', () => {
               <section class="dnb-print dnb-print--plain paper">
                 <p id="paper-text" style="color: white; background: red">Printed content</p>
                 <a id="paper-link" class="dnb-anchor" href="https://example.com">Read more</a>
-                <div class="eufemia-theme__color-scheme--dark">
+                <div id="paper-field" class="dnb-input__shell eufemia-theme__color-scheme--dark">
                   <input id="paper-value" value="123" style="color: white; background: #123" />
                 </div>
                 <p id="paper-only" class="dnb-print-only">Print only</p>
@@ -166,12 +166,14 @@ test.describe('Document and print styles', () => {
               const style = getComputedStyle(element)
               return {
                 color: style.color,
+                borderColor: style.borderColor,
                 background: style.backgroundColor,
                 image: style.backgroundImage,
               }
             })
           expect(colors).toEqual({
             color: 'rgb(0, 0, 0)',
+            borderColor: 'rgb(0, 0, 0)',
             background: 'rgba(0, 0, 0, 0)',
             image: 'none',
           })
@@ -181,6 +183,14 @@ test.describe('Document and print styles', () => {
         )
         expect((await styles('#paper-only')).display).not.toBe('none')
         expect((await styles('#screen-only')).display).toBe('none')
+        await expect(page.locator('.paper')).toHaveCSS(
+          'border-color',
+          'rgb(0, 0, 0)'
+        )
+        await expect(page.locator('#paper-field')).toHaveCSS(
+          'outline-color',
+          'rgb(0, 0, 0)'
+        )
         expect(
           await page
             .locator('#paper-value')
@@ -189,11 +199,13 @@ test.describe('Document and print styles', () => {
         expect(
           await page.locator('.paper').evaluate((element) => ({
             color: getComputedStyle(element, '::before').color,
+            borderColor: getComputedStyle(element, '::before').borderColor,
             background: getComputedStyle(element, '::before')
               .backgroundColor,
           }))
         ).toEqual({
           color: 'rgb(0, 0, 0)',
+          borderColor: 'rgb(0, 0, 0)',
           background: 'rgba(0, 0, 0, 0)',
         })
         await page.emulateMedia({ media: 'screen' })
