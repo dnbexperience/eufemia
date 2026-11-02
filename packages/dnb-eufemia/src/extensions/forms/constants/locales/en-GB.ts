@@ -127,6 +127,9 @@ export default {
     /**
      * Feature fields
      */
+    Address: {
+      label: 'Address',
+    },
     PostalAddress: {
       label: 'Postal address',
       errorRequired: 'You must enter a postal address.',
