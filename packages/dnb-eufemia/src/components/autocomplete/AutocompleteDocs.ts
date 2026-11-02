@@ -153,7 +153,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   submitButtonTitle: {
     doc: 'Title on submit button. Defaults to `Vis alternativer`.',
-    type: 'React.ReactNode',
+    type: 'string',
     status: 'optional',
   },
   submitButtonIcon: {
