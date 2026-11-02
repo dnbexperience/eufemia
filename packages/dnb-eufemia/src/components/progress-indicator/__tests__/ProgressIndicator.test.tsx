@@ -537,8 +537,10 @@ describe('ProgressIndicator scss', () => {
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear \{\s*outline: 1px solid CanvasText;/
     )
+    // !important, so that it also wins over the inline customColors.line.
+    // No forced-color-adjust: none, as system colors are kept without it.
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear__bar \{\s*forced-color-adjust: none;\s*background-color: Highlight;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear__bar \{\s*background-color: Highlight !important;\s*\}/
     )
   })
 })

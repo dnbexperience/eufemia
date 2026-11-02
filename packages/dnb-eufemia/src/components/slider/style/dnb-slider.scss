@@ -85,8 +85,9 @@
     height: var(--slider-marker-height);
     background-color: var(--slider-marker);
 
+    // Without forced-color-adjust: none, so that the browser keeps drawing
+    // the focus ring in a system color
     @media (forced-colors: active) {
-      forced-color-adjust: none;
       background-color: CanvasText;
     }
 
@@ -177,7 +178,6 @@
     // Forced colors mode removes background colors, so draw the track like a
     // native range input: filled with Highlight and outlined where empty
     @media (forced-colors: active) {
-      forced-color-adjust: none;
       background-color: Highlight;
     }
 
