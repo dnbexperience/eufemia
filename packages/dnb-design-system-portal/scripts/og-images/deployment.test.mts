@@ -134,3 +134,79 @@ test('holds the Pages deployment queue only while publishing', async () => {
       publish.indexOf('Check that the source Portal is still deployed')
   )
 })
+
+test('records the snapshot artifact ID in the deployment marker', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'og-artifact-'))
+  try {
+    const script = new URL('./deployment.mts', import.meta.url).pathname
+    const env = { ...process.env, OG_SITE_OUTPUT: root }
+    await exec(process.execPath, [script, 'stamp'], {
+      env: { ...env, GITHUB_RUN_ID: '42' },
+    })
+    await exec(process.execPath, [script, 'artifact'], {
+      env: { ...env, OG_SNAPSHOT_ARTIFACT_ID: '7' },
+    })
+    assert.deepEqual(
+      JSON.parse(
+        await readFile(path.join(root, 'og-deployment.json'), 'utf8')
+      ),
+      { runId: 42, artifactId: 7 }
+    )
+    for (const id of ['', '0', 'x']) {
+      await assert.rejects(
+        exec(process.execPath, [script, 'artifact'], {
+          env: { ...env, OG_SNAPSHOT_ARTIFACT_ID: id },
+        }),
+        /Invalid Portal snapshot artifact/
+      )
+    }
+  } finally {
+    await rm(root, { recursive: true, force: true })
+  }
+})
+
+test('names the snapshot artifact in the deployed marker', async () => {
+  for (const name of ['release.yml', 'portal-og-images.yml']) {
+    const steps = (
+      await readFile(
+        new URL('../../../../.github/workflows/' + name, import.meta.url),
+        'utf8'
+      )
+    ).split(/\n {6}- /)
+    const snapshot = steps.findIndex(
+      (step) =>
+        step.includes('actions/upload-artifact@') &&
+        step.includes('name: portal-og-site')
+    )
+    const record = steps.findIndex((step) =>
+      step.includes('og-images/deployment.mts artifact')
+    )
+    const pages = steps.findIndex((step) =>
+      step.includes('actions/upload-pages-artifact@')
+    )
+    const id = /\n {8}id: (\S+)\n/.exec(steps[snapshot])?.[1]
+    assert.ok(id, name)
+    assert.ok(snapshot < record && record < pages, name)
+    assert.ok(
+      steps[record].includes(
+        'OG_SNAPSHOT_ARTIFACT_ID: ${{ steps.' +
+          id +
+          '.outputs.artifact-id }}'
+      ),
+      name
+    )
+  }
+})
+
+test('installs the social image dependencies from the lockfile', async () => {
+  const workflow = await readFile(
+    new URL(
+      '../../../../.github/workflows/portal-og-images.yml',
+      import.meta.url
+    ),
+    'utf8'
+  )
+  const generate = workflow.split('\n  publish:\n')[0]
+  assert.doesNotMatch(generate, /uses: \.\/\.github\/actions\/setup\n/)
+  assert.match(generate, /\n {8}run: yarn install --immutable\n/)
+})
