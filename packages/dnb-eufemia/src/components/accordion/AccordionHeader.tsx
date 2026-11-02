@@ -239,13 +239,14 @@ export const AccordionHeader = ({
     </AccordionHeaderDescription>,
   ]
 
+  const builtInParts = [...defaultParts]
   const customParts = []
 
   if (Array.isArray(children)) {
     const removeParts = []
     children.forEach((cur) => {
       if (isValidElement(cur)) {
-        const part = defaultParts.find((c) => c.type === cur.type)
+        const part = builtInParts.find((c) => c.type === cur.type)
         if (part) {
           removeParts.push(part)
         }

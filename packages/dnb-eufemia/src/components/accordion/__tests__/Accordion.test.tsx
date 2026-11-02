@@ -239,6 +239,24 @@ describe('Accordion custom header', () => {
         Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy()
   })
+
+  it('renders several custom elements of the same type', () => {
+    render(
+      <Accordion noAnimation>
+        <Accordion.Header>
+          <Accordion.Header.Title>Title</Accordion.Header.Title>
+          <span className="first">New</span>
+          <span className="second">3 unread</span>
+        </Accordion.Header>
+        <Accordion.Content>Content</Accordion.Content>
+      </Accordion>
+    )
+
+    const header = document.querySelector('.dnb-accordion__header')
+
+    expect(header.querySelector('.first')).toHaveTextContent('New')
+    expect(header.querySelector('.second')).toHaveTextContent('3 unread')
+  })
 })
 
 describe('Accordion openOnFind', () => {
