@@ -606,7 +606,7 @@ describe('NumberFormat component', () => {
       />
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '−SEK\u00A00'
+      'SEK\u00A00'
     )
   })
 
@@ -636,6 +636,17 @@ describe('NumberFormat component', () => {
     render(<Component value={-0} />)
     const element = document.querySelector('.dnb-number-format')
     expect(element.textContent).toBe('0')
+  })
+
+  it('should not render minus when value gets rounded to zero by the default decimals', () => {
+    render(<NumberFormat.Currency value={-0.004} />)
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '0,00 kr'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('0,00 kroner')
   })
 
   it('have to match phone number', () => {
