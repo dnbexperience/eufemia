@@ -152,5 +152,29 @@ describe('Value.Currency', () => {
         document.querySelector('.dnb-forms-value-number')
       ).not.toHaveTextContent('kr')
     })
+
+    it('uses the currency from the Provider', () => {
+      render(
+        <Provider currency="USD">
+          <Value.Currency value={1234} />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).toHaveTextContent('1 234,00 $')
+    })
+
+    it('uses its own currency over the Provider currency', () => {
+      render(
+        <Provider currency="USD">
+          <Value.Currency value={1234} currency="EUR" />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).toHaveTextContent('1 234,00 €')
+    })
   })
 })
