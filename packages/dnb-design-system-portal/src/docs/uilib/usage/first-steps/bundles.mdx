@@ -57,7 +57,7 @@ Requires React and ReactDOM to be loaded.
 Requires React and ReactDOM to be loaded as a module resolution ([importmap](https://github.com/WICG/import-maps)). Uses ES modules (**NB:** That is the aim, right now it is also transpiled [for broad browser compatibility](/uilib/usage/#supported-browsers-and-platforms)).
 
 - **dnb-ui-lib.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements).
-- **dnb-theme-components.min.mjs** - includes all [components](/uilib/components).
+- **dnb-ui-components.min.mjs** - includes all [components](/uilib/components).
 - **dnb-ui-extensions.min.mjs** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-icons.min.mjs** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.mjs** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
@@ -79,14 +79,15 @@ Because `importmap` is still not supported by the majority of browsers, we use a
     {
       "imports": {
         "react": "...",
-        "react-dom": "..."
+        "react-dom": "...",
+        "react-dom/client": "..."
       }
     }
   </script>
 
   <script type="module-shim">
     import React from 'react'
-    import ReactDOM from 'react-dom'
+    import { createRoot } from 'react-dom/client'
     import { Button } from 'https://unpkg.com/@dnb/eufemia/esm/dnb-ui-lib.min.mjs'
 
     const MyButton = React.createElement(
