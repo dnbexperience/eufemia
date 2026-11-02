@@ -11,6 +11,7 @@ import {
 } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 
@@ -138,7 +139,9 @@ test('holds the Pages deployment queue only while publishing', async () => {
 test('records the snapshot artifact ID in the deployment marker', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'og-artifact-'))
   try {
-    const script = new URL('./deployment.mts', import.meta.url).pathname
+    const script = fileURLToPath(
+      new URL('./deployment.mts', import.meta.url)
+    )
     const env = { ...process.env, OG_SITE_OUTPUT: root }
     await exec(process.execPath, [script, 'stamp'], {
       env: { ...env, GITHUB_RUN_ID: '42' },
