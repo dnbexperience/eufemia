@@ -50,6 +50,38 @@ resource "aws_s3_bucket_public_access_block" "data" {
   restrict_public_buckets = true
 }
 
+data "aws_iam_policy_document" "require_tls" {
+  for_each = {
+    data      = aws_s3_bucket.data.arn
+    dashboard = aws_s3_bucket.dashboard.arn
+  }
+
+  statement {
+    sid       = "DenyInsecureTransport"
+    effect    = "Deny"
+    actions   = ["s3:*"]
+    resources = [each.value, "${each.value}/*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "data" {
+  bucket = aws_s3_bucket.data.id
+  policy = data.aws_iam_policy_document.require_tls["data"].json
+
+  depends_on = [aws_s3_bucket_public_access_block.data]
+}
+
 # Athena scratch output is transient; expire it so it does not accumulate cost.
 resource "aws_s3_bucket_lifecycle_configuration" "data" {
   bucket = aws_s3_bucket.data.id
@@ -1321,6 +1353,8 @@ resource "aws_cloudfront_distribution" "dashboard" {
 
 # Allow only this distribution to read the bucket (OAC identity + SourceArn).
 data "aws_iam_policy_document" "dashboard" {
+  source_policy_documents = [data.aws_iam_policy_document.require_tls["dashboard"].json]
+
   statement {
     sid       = "AllowCloudFrontRead"
     effect    = "Allow"
