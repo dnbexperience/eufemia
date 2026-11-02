@@ -107,6 +107,7 @@ jobs:
         run: node packages/dnb-design-system-portal/scripts/og-images/deployment.mts stamp
 
       - name: Preserve Portal snapshot for OG updates
+        id: preserve-snapshot
         if: github.ref == 'refs/heads/release'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
@@ -115,6 +116,13 @@ jobs:
           include-hidden-files: true
           retention-days: 90
           if-no-files-found: error
+
+      # The social image refresh restores the snapshot by this ID.
+      - name: Name the Portal snapshot in the deployment marker
+        if: github.ref == 'refs/heads/release'
+        run: node packages/dnb-design-system-portal/scripts/og-images/deployment.mts artifact
+        env:
+          OG_SNAPSHOT_ARTIFACT_ID: ${{ steps.preserve-snapshot.outputs.artifact-id }}
 
       - name: Upload portal artifact
         if: github.ref == 'refs/heads/release'
