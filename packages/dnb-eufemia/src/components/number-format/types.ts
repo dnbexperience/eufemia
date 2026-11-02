@@ -72,19 +72,19 @@ export type NumberFormatProps = {
   options?: NumberFormatOptions
   /** Fixed number of decimal digits to display. */
   decimals?: NumberFormatDecimals
-  /** If `true`, selects the entire value text on click. */
+  /** Use `false` to disable the auto select all on the first click. Defaults to `true`. */
   selectAll?: boolean
-  /** If `true`, keeps the value text selected at all times after click. */
+  /** Use `true` to always auto select all on the first click. Defaults to `false`. */
   alwaysSelectAll?: boolean
-  /** If `true`, copies the selected value to clipboard on selection. */
+  /** Use `false` to disable the auto copy feature. Defaults to `true`. */
   copySelection?: boolean
-  /** If `true`, strips formatting characters (spaces, currency symbols) from the copied value. */
+  /** If set to `true` the copy&paste value will be provided without e.g. a currency sign or a percent sign. Defaults to `false`. */
   cleanCopyValue?: boolean
   /** Rounding strategy: `omit` (truncate), `half-even` (banker's rounding), or `half-up`. */
   rounding?: 'omit' | 'half-even' | 'half-up'
   /** Controls display of positive/negative signs: `auto`, `always`, `exceptZero`, `negative`, `never`. */
   signDisplay?: NumberFormatSignDisplay
-  /** If `true`, strips trailing zeroes from decimal values. */
+  /** If set to `true` a dirty string will be parsed to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`). */
   clean?: boolean
   /** Screen-reader-only label for the formatted value for accessibility. */
   srLabel?: ReactNode
