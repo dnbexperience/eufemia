@@ -111,8 +111,8 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   trigger: {
-    doc: 'Provide a custom trigger component. Like `trigger={<Anchor href="/" />}`. It will set the focus on it when the modal gets closed.',
-    type: ['React.ReactNode', 'function'],
+    doc: 'Provide a custom trigger component, like `trigger={(props) => <Anchor href="/" {...props} />}`. Spread the given properties on your element. It will set the focus on it when the modal gets closed.',
+    type: 'React.ElementType',
     status: 'optional',
   },
   triggerProps: {
@@ -172,21 +172,21 @@ export const ModalProperties: PropertiesTableProps = {
   },
   barContent: {
     doc: 'The content which will appear in the bar, above the header, and side-by-side the close button.',
-    type: ['React.ReactNode', 'function'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   headerContent: {
     doc: 'The content which will appear in the header of the modal/drawer.',
-    type: ['React.ReactNode', 'function'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   minWidth: {
-    doc: "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
+    doc: "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Dialog and Drawer have their own defaults.",
     type: ['string', 'number'],
     status: 'optional',
   },
   maxWidth: {
-    doc: 'The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.',
+    doc: 'The maximum Modal content width, defined by a CSS width value like `20rem`. Dialog and Drawer have their own defaults.',
     type: ['string', 'number'],
     status: 'optional',
   },
