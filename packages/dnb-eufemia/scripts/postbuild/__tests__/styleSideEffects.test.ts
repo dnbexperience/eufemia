@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 const packageRoot = path.resolve(__dirname, '../../..')
@@ -6,7 +6,7 @@ const packageRoot = path.resolve(__dirname, '../../..')
 describe.each([
   ['package.json', ['', 'es/', 'esm/', 'src/']],
   ['src/cjs/package.json', ['']],
-])('%s style side effects', (manifest, prefixes: string[]) => {
+])('%s side effects', (manifest, prefixes: string[]) => {
   const { sideEffects } = JSON.parse(
     readFileSync(path.join(packageRoot, manifest), 'utf8')
   ) as { sideEffects: string[] }
@@ -49,6 +49,16 @@ describe.each([
       expect(hasSideEffects(`${prefix}${file}`)).toBe(true)
     })
 
+    it.each(['shared/component-helper', 'shared/helpers/whatInput'])(
+      'preserves the import-time setup in %s',
+      (file) => {
+        expect(existsSync(path.join(packageRoot, `src/${file}.ts`))).toBe(
+          true
+        )
+        expect(hasSideEffects(`${prefix}${file}.js`)).toBe(true)
+      }
+    )
+
     it.each([
       'index.js',
       'components/button/index.js',
@@ -65,6 +75,8 @@ describe.each([
       'extensions/forms/Field/String/index.js',
       'shared/style.js',
       'shared/style-utils.js',
+      'shared/helpers.js',
+      'shared/legacy/component-helper-legacy.js',
       'plugins/postcss-isolated-style-scope.js',
     ])('keeps %s tree-shakeable', (file) => {
       expect(hasSideEffects(`${prefix}${file}`)).toBe(false)
