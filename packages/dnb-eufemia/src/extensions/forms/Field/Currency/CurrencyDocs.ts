@@ -11,7 +11,7 @@ delete props.percent
 
 export const CurrencyProperties: PropertiesTableProps = {
   currency: {
-    doc: 'Defines what format to show the currency value in, e.g. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.',
+    doc: 'Defines what format to show the currency value in, e.g. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`. Defaults to the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set.',
     type: 'string',
     status: 'optional',
   },

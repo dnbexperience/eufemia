@@ -1,4 +1,3 @@
-import { CURRENCY } from '../../../../shared/defaults'
 import type { ValueNumberProps as NumberValueProps } from '../Number'
 import NumberValue from '../Number'
 import type { CurrencyISO } from '../../constants/currencies'
@@ -6,7 +5,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type ValueCurrencyProps = NumberValueProps & {
   /**
-   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. Use `true` for the default currency. Defaults to `NOK`.
+   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. Use `true` for the default currency. Defaults to the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set.
    */
   currency?: CurrencyISO | true
 }
@@ -14,7 +13,8 @@ export type ValueCurrencyProps = NumberValueProps & {
 function Currency(props: ValueCurrencyProps) {
   const numberProps: ValueCurrencyProps = {
     ...props,
-    currency: props.currency ?? CURRENCY,
+    // `true` makes NumberFormat use the Provider currency
+    currency: props.currency ?? true,
   }
 
   return <NumberValue {...numberProps} />
