@@ -5,7 +5,7 @@ export const NameProperties: PropertiesTableProps = {
   ...StringProperties,
   minLength: {
     ...StringProperties.minLength,
-    doc: 'Validation for minimum length of the text (number of characters). Defaults to `1`.',
+    doc: 'Validation for minimum length of the text (number of characters). Defaults to `1`, and `3` for `Field.Name.Company`.',
   },
 }
 
