@@ -63,7 +63,7 @@ export type TypographyProps<
      */
     align?: TypographyAlign
     /**
-     * Sets the font family. Use display only for short, expressive headlines. Display has one upright weight.
+     * Sets the font family. Display is experimental. [Contact the Eufemia team](/design-system/contact) before use. Use it only for short, expressive headlines. Display has one upright weight.
      */
     family?: TypographyFamily
     /**

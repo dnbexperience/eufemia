@@ -38,7 +38,7 @@ export const TypographyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   family: {
-    doc: 'Sets the font family. Use display only for short, expressive headlines. Display has one upright weight.',
+    doc: 'Sets the font family. Display is experimental. [Contact the Eufemia team](/design-system/contact) before use. Use it only for short, expressive headlines. Display has one upright weight.',
     type: [
       '"basis"',
       '"default"',
