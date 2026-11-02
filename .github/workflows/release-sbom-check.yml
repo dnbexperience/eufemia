@@ -1,0 +1,49 @@
+name: Release SBOM check
+
+# The release workflow keeps the SBOM and its attestation non-blocking, so a
+# release can finish without them. This checks every release published in the
+# last three days once a release run has completed.
+on:
+  workflow_run:
+    workflows: ['Release']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-sbom-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: >-
+      github.repository == 'dnbexperience/eufemia' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.repository.full_name == github.repository))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      attestations: read
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout: |
+            packages/dnb-eufemia/scripts/tools
+
+      - name: Use Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: package.json
+          package-manager-cache: false
+
+      - name: Check the SBOM of recent releases
+        run: node packages/dnb-eufemia/scripts/tools/checkReleaseSbom.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
