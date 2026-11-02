@@ -6,7 +6,7 @@ import IterateItemContext from '../IterateItemContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
-import { check } from '../../../../icons'
+import check from '../../../../icons/check'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import type { ButtonProps } from '../../../../components/Button'
 

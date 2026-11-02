@@ -1,14 +1,12 @@
-import {
-  refresh_medium as Refresh,
-  clock_medium as Expired,
-  email_medium as Envelope,
-  padlock_medium as Blocked,
-  question_medium as QuestionMark,
-  shopping_cart_medium as Cart,
-  confetti_medium as Confetti,
-  stop_medium as Stop,
-  reset_medium as Reset,
-} from '../../../../icons'
+import Refresh from '../../../../icons/refresh_medium'
+import Expired from '../../../../icons/clock_medium'
+import Envelope from '../../../../icons/email_medium'
+import Blocked from '../../../../icons/padlock_medium'
+import QuestionMark from '../../../../icons/question_medium'
+import Cart from '../../../../icons/shopping_cart_medium'
+import Confetti from '../../../../icons/confetti_medium'
+import Stop from '../../../../icons/stop_medium'
+import Reset from '../../../../icons/reset_medium'
 
 const statusIconMap = {
   renewed: { Icon: Reset, className: 'icon--fill' },

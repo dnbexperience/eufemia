@@ -5,7 +5,7 @@ import { toPascalCase } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import AriaLive from '../../components/AriaLive'
 import Icon from '../../components/icon/Icon'
-import { exclamation_triangle } from '../../icons'
+import exclamation_triangle from '../../icons/exclamation_triangle'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import P from '../../elements/P'
 
