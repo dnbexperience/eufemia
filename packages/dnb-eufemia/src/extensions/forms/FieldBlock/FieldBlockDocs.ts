@@ -98,7 +98,13 @@ export const FieldBlockProperties: PropertiesTableProps = {
   },
   error: {
     doc: 'Error message shown below the content by default. Use `statusPosition="above"` to show status messages above the content.',
-    type: ['Error', 'FormError', 'Array<Error | FormError>'],
+    type: [
+      'string',
+      'React.Element',
+      'Error',
+      'FormError',
+      'Array<string | React.Element | Error | FormError>',
+    ],
     status: 'optional',
   },
   forId: {
