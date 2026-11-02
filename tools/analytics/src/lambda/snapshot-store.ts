@@ -84,6 +84,19 @@ export type McpUsageDaily = {
 
 export type McpUsageDay = { date: string; count: number }
 
+// Requests per Eufemia version. The lookup counts are null for versions that
+// don't report misses, so they never read as zero.
+export type McpVersionUsage = RankedCount & {
+  componentLookups: number | null
+  missedLookups: number | null
+}
+
+export type McpVersionUsageRow = RankedCount & {
+  transport: string
+  componentLookups: number
+  missedLookups: number
+}
+
 // MCP usage for one transport: total plus ranked breakdowns and a daily series
 // for trend/year-over-year views.
 export type McpTransportUsage = {
@@ -93,15 +106,15 @@ export type McpTransportUsage = {
   perPath: RankedCount[]
   missedLookups: number
   perLikelyComponent: RankedCount[]
+  perVersion: McpVersionUsage[]
   daily: McpUsageDay[]
 }
 
 // The MCP usage dashboard section, split by transport: `web` is the deployed MCP
-// Lambda, `local` is the stdio server in @dnb/eufemia. The web Lambda records no
-// Eufemia version, so only `local` has `perVersion`.
+// Lambda, `local` is the stdio server in @dnb/eufemia.
 export type McpUsageSection = {
   web: McpTransportUsage
-  local: McpTransportUsage & { perVersion: RankedCount[] }
+  local: McpTransportUsage
 }
 
 const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
@@ -111,12 +124,13 @@ const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   perPath: [],
   missedLookups: 0,
   perLikelyComponent: [],
+  perVersion: [],
   daily: [],
 }
 
 export const EMPTY_MCP_USAGE: McpUsageSection = {
   web: EMPTY_MCP_TRANSPORT_USAGE,
-  local: { ...EMPTY_MCP_TRANSPORT_USAGE, perVersion: [] },
+  local: EMPTY_MCP_TRANSPORT_USAGE,
 }
 
 // A component-usage count keyed by app+component+version, summed across days.
