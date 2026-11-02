@@ -8,7 +8,7 @@ import {
   isLegacyRequest,
   WebStandardStreamableHTTPServerTransport,
 } from '@modelcontextprotocol/server'
-import { createServer, usageResolver } from '../server.js'
+import { createServer, usageCaptureOptions } from '../server.js'
 import { captureUsage } from '../usage-capture.js'
 
 const modernMcpHandler = createMcpHandler(createServer, {
@@ -136,7 +136,7 @@ export async function handler(
     const request = toWebRequest(event)
     const response = await handleMcpRequest(request)
 
-    await captureUsage(event, usageResolver)
+    await captureUsage(event, usageCaptureOptions)
 
     // API Gateway requires a buffered response body.
     return await toApiGatewayResult(response)
