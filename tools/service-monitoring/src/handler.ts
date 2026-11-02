@@ -7,8 +7,10 @@ import {
 import { readSecret } from './secrets.ts'
 import { checkCdn } from '../../assets/check-cdn.ts'
 import { checkHttpMcp } from '../../mcp-lambda/src/check-http.ts'
-import { runMonitor } from './monitor.ts'
+import { checkAnalytics } from '../../analytics/src/monitor/check-analytics.ts'
+import { runMonitor, services } from './monitor.ts'
 import type { Service, State } from './monitor.ts'
+import type { Report } from '../../monitoring/report-incident.ts'
 import { publishObservation } from './publish-observation.ts'
 import { logFailure } from './diagnostics.ts'
 
@@ -50,8 +52,8 @@ function metric(service: Service, name: string, value: number) {
 }
 
 export async function handler() {
-  const service = required('SERVICE')
-  if (service !== 'CDN' && service !== 'MCP') {
+  const service = required('SERVICE') as Service
+  if (!services.includes(service)) {
     throw new Error('Invalid monitor service')
   }
   let stage = 'configuration'
@@ -97,31 +99,46 @@ export async function handler() {
       },
       check: async () => {
         stage = 'check'
-        let githubToken: string | undefined
-        let tokenUnavailable = false
-        if (service === 'MCP' && process.env.GITHUB_TOKEN_SECRET_ARN) {
+        const unreadable: string[] = []
+        async function credential(label: string, secret?: string) {
+          if (!secret) {
+            return undefined
+          }
           try {
-            githubToken = await readSecret(
-              process.env.GITHUB_TOKEN_SECRET_ARN
-            )
+            return await readSecret(secret)
           } catch (error) {
-            logFailure(service, 'GitHub credential', error)
-            tokenUnavailable = true
+            logFailure(service, label, error)
+            unreadable.push(label)
+            return undefined
           }
         }
         const options = { fetch: request, sleep }
-        const report =
-          service === 'CDN'
-            ? await checkCdn(options)
-            : await checkHttpMcp({
-                ...options,
-                githubToken,
-              })
-        if (tokenUnavailable) {
+        let report: Report
+        if (service === 'CDN') {
+          report = await checkCdn(options)
+        } else {
+          const githubToken = await credential(
+            'GitHub verification credential',
+            process.env.GITHUB_TOKEN_SECRET_ARN
+          )
+          report =
+            service === 'MCP'
+              ? await checkHttpMcp({ ...options, githubToken })
+              : await checkAnalytics({
+                  ...options,
+                  githubToken,
+                  gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
+                  gheToken: await credential(
+                    'GHE deploy credential',
+                    required('GHE_TOKEN_SECRET')
+                  ),
+                })
+        }
+        for (const label of unreadable) {
           report.checks.push({
-            name: 'GitHub verification credential',
+            name: label,
             ok: false,
-            detail: 'Configured GitHub credential could not be read',
+            detail: 'Configured credential could not be read',
           })
           report.status = 'unhealthy'
         }
