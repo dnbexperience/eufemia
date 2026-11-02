@@ -110,14 +110,14 @@ test.describe("What's new", () => {
       exact: true,
     })
     await expect(currentPage).toBeVisible()
-    await expect(currentPage).toHaveAttribute('aria-current', 'true')
+    await expect(currentPage).toHaveAttribute('aria-current', 'page')
     await expect(otherPage).toBeVisible()
 
     await page.setViewportSize({ width: 375, height: 667 })
     await expect(sidebar).toBeHidden()
     await page.locator('#toggle-sidebar-menu').click()
     await expect(currentPage).toBeVisible()
-    await expect(currentPage).toHaveAttribute('aria-current', 'true')
+    await expect(currentPage).toHaveAttribute('aria-current', 'page')
     await expect(otherPage).toBeVisible()
   })
 
