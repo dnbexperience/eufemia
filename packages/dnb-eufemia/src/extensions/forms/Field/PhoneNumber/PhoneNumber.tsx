@@ -53,6 +53,9 @@ export type FieldPhoneNumberProps = Omit<
   numberLabel?: ReactNode | false
   numberMask?: InputMaskedProps['mask']
   pattern?: StringFieldProps['pattern']
+  /**
+   * Use `stretch` to fill the available width, or `large` to make the number field wider when `omitCountryCodeField` is set.
+   */
   width?: 'large' | 'stretch'
   inputRef?: RefObject<HTMLInputElement>
   omitCountryCodeField?: boolean
