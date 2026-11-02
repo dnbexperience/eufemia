@@ -93,7 +93,8 @@ export async function verifyAttestation(repository, version) {
         directory,
       ])
       tarball = path.join(directory, stdout.trim().split('\n').pop())
-    } catch {
+    } catch (error) {
+      process.stderr.write(error.stderr ?? '')
       return 'npm does not serve this version'
     }
 
@@ -109,7 +110,8 @@ export async function verifyAttestation(repository, version) {
         '--signer-workflow',
         `${repository}/.github/workflows/release.yml`,
       ])
-    } catch {
+    } catch (error) {
+      process.stderr.write(error.stderr ?? '')
       return 'the npm tarball has no SBOM attestation from the release workflow'
     }
     return undefined

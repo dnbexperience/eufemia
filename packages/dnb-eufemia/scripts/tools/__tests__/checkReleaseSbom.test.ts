@@ -106,7 +106,7 @@ describe('gh and npm commands', () => {
       path.join(bin, 'npm'),
       [
         '#!/bin/sh',
-        '[ -n "$NPM_FAIL" ] && exit 1',
+        '[ -n "$NPM_FAIL" ] && { echo "npm error code E404" >&2; exit 1; }',
         'case "$*" in *--loglevel=error*) ;; *) head -c 2000000 /dev/zero | tr "\\0" x >&2 ;; esac',
         'while [ $# -gt 0 ]; do [ "$1" = --pack-destination ] && dest="$2"; shift; done',
         ': > "$dest/dnb-eufemia-1.2.3.tgz"',
@@ -127,7 +127,8 @@ describe('gh and npm commands', () => {
         '  echo \'["sbom.cdx.json"]\'',
         '  exit 0',
         'fi',
-        '[ -z "$GH_FAIL" ]',
+        '[ -n "$GH_FAIL" ] && { echo "no attestations found" >&2; exit 1; }',
+        'exit 0',
       ].join('\n'),
       { mode: 0o755 }
     )
@@ -174,17 +175,29 @@ describe('gh and npm commands', () => {
 
   it('reports a tarball without an attestation', async () => {
     process.env.GH_FAIL = '1'
+    const log = vi.spyOn(process.stderr, 'write').mockReturnValue(true)
 
-    expect(await verifyAttestation('owner/repo', '1.2.3')).toBe(
-      'the npm tarball has no SBOM attestation from the release workflow'
-    )
+    try {
+      expect(await verifyAttestation('owner/repo', '1.2.3')).toBe(
+        'the npm tarball has no SBOM attestation from the release workflow'
+      )
+      expect(log).toHaveBeenCalledWith('no attestations found\n')
+    } finally {
+      log.mockRestore()
+    }
   })
 
   it('reports a version npm does not serve', async () => {
     process.env.NPM_FAIL = '1'
+    const log = vi.spyOn(process.stderr, 'write').mockReturnValue(true)
 
-    expect(await verifyAttestation('owner/repo', '1.2.3')).toBe(
-      'npm does not serve this version'
-    )
+    try {
+      expect(await verifyAttestation('owner/repo', '1.2.3')).toBe(
+        'npm does not serve this version'
+      )
+      expect(log).toHaveBeenCalledWith('npm error code E404\n')
+    } finally {
+      log.mockRestore()
+    }
   })
 })
