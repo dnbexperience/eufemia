@@ -29,6 +29,10 @@ export type ItemActionProps<E extends ElementType = 'a'> = {
   variant?: ListVariant
   selected?: boolean
   disabled?: boolean
+  /**
+   * Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.
+   * Default: `"right"`
+   */
   chevronPosition?: ItemActionIconPosition
   icon?: IconIcon
   title?: ReactNode
