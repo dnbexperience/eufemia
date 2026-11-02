@@ -1,5 +1,5 @@
 import { screen, render } from '@testing-library/react'
-import { Value, Form } from '../../..'
+import { Field, Value, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -14,8 +14,39 @@ describe('Value.Name', () => {
     ).toHaveTextContent('Nora')
   })
 
-  it('renders no label by default', () => {
+  it('renders a default label', () => {
     render(<Value.Name showEmpty />)
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.Name.label
+    )
+  })
+
+  it('lets an inherited label win over the default label', () => {
+    render(
+      <Form.Handler>
+        <Field.Name path="/name" label="Fullt navn" />
+        <Value.Name path="/name" inheritLabel showEmpty />
+        <Value.SummaryList inheritLabel>
+          <Value.Name path="/name" showEmpty />
+        </Value.SummaryList>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-string .dnb-form-label')
+    ).toHaveTextContent('Fullt navn')
+    expect(document.querySelector('dt')).toHaveTextContent('Fullt navn')
+  })
+
+  it('renders the default label when there is no label to inherit', () => {
+    render(<Value.Name path="/name" inheritLabel showEmpty />)
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.Name.label
+    )
+  })
+
+  it('renders no label when label is false', () => {
+    render(<Value.Name label={false} showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toBeNull()
   })
 
