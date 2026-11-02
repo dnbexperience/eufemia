@@ -17,7 +17,8 @@ import {
 } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Icon from '../icon/Icon'
-import { chevron_down, chevron_up } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import { clsx } from 'clsx'
 import AccordionContext from './AccordionContext'
 import { useSpacing } from '../space/SpacingUtils'
@@ -239,16 +240,20 @@ export const AccordionHeader = ({
     </AccordionHeaderDescription>,
   ]
 
+  const builtInParts = [...defaultParts]
+  const customParts = []
+
   if (Array.isArray(children)) {
     const removeParts = []
     children.forEach((cur) => {
       if (isValidElement(cur)) {
-        const part = defaultParts.find((c) => c.type === cur.type)
+        const part = builtInParts.find((c) => c.type === cur.type)
         if (part) {
           removeParts.push(part)
         }
 
         defaultParts.push(cur)
+        customParts.push(cur)
       }
     })
     removeParts.forEach((part) => {
@@ -267,14 +272,19 @@ export const AccordionHeader = ({
     </span>
   )
 
+  const isWrapperPart = (part: ReactNode) =>
+    isValidElement(part) &&
+    (part.type === AccordionHeaderTitle ||
+      part.type === AccordionHeaderDescription)
+
+  // Render the wrapper where a custom title or description is placed, so custom parts keep their order
+  const wrapperPosition =
+    customParts.find(isWrapperPart) ?? defaultParts.find(isWrapperPart)
+
   defaultParts.forEach((part) => {
-    if (
-      isValidElement(part) &&
-      (part.type === AccordionHeaderTitle ||
-        part.type === AccordionHeaderDescription)
-    ) {
+    if (isWrapperPart(part)) {
       wrapperParts.push(part)
-      if (partsToRender.findIndex((c) => c === wrapperComp) === -1) {
+      if (part === wrapperPosition) {
         partsToRender.push(wrapperComp)
       }
     } else {

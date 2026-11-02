@@ -19,6 +19,25 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
             '[data-visual-test="badge-variant-notification"] .dnb-badge',
         })
       })
+      it('keeps notification numbers independent of inherited line height', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-notification-numbers"]',
+          executeBeforeSimulate: () => {
+            const container = document.querySelector<HTMLElement>(
+              '[data-visual-test="badge-notification-numbers"] .dnb-flex-container'
+            )
+            container.style.lineHeight = '40px'
+
+            for (const badge of container.querySelectorAll('.dnb-badge')) {
+              if (getComputedStyle(badge).lineHeight === '40px') {
+                throw new Error(
+                  'Notification numbers must not inherit the surrounding control line height'
+                )
+              }
+            }
+          },
+        })
+      })
       it('have to match variant notification inline with text', async () => {
         await makeScreenshot({
           selector:

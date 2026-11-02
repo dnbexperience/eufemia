@@ -737,6 +737,15 @@ describe('Field.Number', () => {
         expect(document.querySelector('input')).toHaveValue('12 345 kr')
       })
 
+      it('uses the currency from the Provider', () => {
+        render(
+          <SharedProvider currency="USD">
+            <Field.Number value={12345} currency />
+          </SharedProvider>
+        )
+        expect(document.querySelector('input')).toHaveValue('12 345 $')
+      })
+
       it('formats with currency and decimalLimit', () => {
         render(
           <Field.Number value={1234.56789} currency decimalLimit={2} />
@@ -1326,6 +1335,35 @@ describe('Field.Number', () => {
           const expectedRegex = expected.replace(/\s/g, '\\s')
           expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('uses the Provider currency in the message', async () => {
+        render(
+          <SharedProvider currency="USD">
+            <Field.Number
+              value={30}
+              minimum={50}
+              validateInitially
+              currency
+            />
+          </SharedProvider>
+        )
+
+        await waitFor(() => {
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(
+              formatCurrency(50, { locale: 'nb-NO', currency: 'USD' })
+            )
+          )
+          const normalize = (text: string) => text.replace(/\s/g, ' ')
+          expect(normalize(statusElement.textContent)).toContain(
+            normalize(expected)
           )
         })
       })

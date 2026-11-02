@@ -25,6 +25,16 @@ import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 export type ListContainerProps = {
   id?: string
+  /**
+   * Select the internal Flex layout engine. Defaults to `css`. Use `legacy` only as a temporary compatibility fallback while migrating an existing custom list integration.
+   * Default: `'css'`
+   */
+  layoutEngine?: FlexProps['layoutEngine']
+  /**
+   * Define the HTML element used for the list. Defaults to `ul`. Change the `element` of the items too, so the markup stays valid.
+   * Default: `'ul'`
+   */
+  element?: FlexProps['element']
   visibleCount?: number
   /**
    * Makes items hidden by `visibleCount` findable with browser find-in-page. Matching content is revealed and expands a list connected to `List.ShowMoreButton`. Defaults to `true` when `visibleCount` is used.
@@ -40,7 +50,7 @@ export type ListContainerProps = {
   striped?: boolean | 'odd' | 'even'
   skeleton?: SkeletonShow
   disabled?: boolean
-} & FlexProps
+} & Omit<FlexProps, 'layoutEngine' | 'element'>
 
 function ListContainer(props: ListContainerProps) {
   const {

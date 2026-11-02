@@ -15,8 +15,14 @@ type Run = {
   path: string
   head_branch: string
   head_sha: string
-  conclusion: string
+  status: string
+  conclusion: string | null
   event: string
+}
+type Artifact = {
+  name: string
+  expired: boolean
+  workflow_run?: { id: number }
 }
 export function isCatalogueRun(run: Run, branch: string) {
   return (
@@ -34,27 +40,35 @@ async function api<T>(endpoint: string): Promise<T> {
   return JSON.parse(stdout)
 }
 
-async function download(runId: number, name: string, destination: string) {
+async function download(
+  repository: string,
+  artifactId: number,
+  destination: string
+) {
   const temporary = await mkdtemp(
     path.join(tmpdir(), 'eufemia-og-artifact-')
   )
   try {
-    await exec('gh', [
-      'run',
-      'download',
-      String(runId),
-      '--repo',
-      process.env.GITHUB_REPOSITORY || 'dnbexperience/eufemia',
-      '--name',
-      name,
-      '--dir',
-      temporary,
-    ])
+    const archive = path.join(temporary, 'snapshot.zip')
+    const files = path.join(temporary, 'files')
+    const { stdout } = await exec(
+      'gh',
+      ['api', `repos/${repository}/actions/artifacts/${artifactId}/zip`],
+      { encoding: 'buffer', maxBuffer: 512 * 1024 * 1024 }
+    )
+    await writeFile(archive, stdout)
+    await exec('unzip', ['-q', archive, '-d', files])
     await mkdir(destination, { recursive: true })
-    await cp(temporary, destination, { recursive: true })
+    await cp(files, destination, { recursive: true })
   } finally {
     await rm(temporary, { recursive: true, force: true })
   }
+}
+
+function isId(value: unknown): value is number {
+  return (
+    typeof value === 'number' && Number.isSafeInteger(value) && value > 0
+  )
 }
 
 export async function restoreSite(destination: string) {
@@ -68,15 +82,22 @@ export async function restoreSite(destination: string) {
       'The deployed Portal has no refresh snapshot. Deploy the Portal before publishing OG updates.'
     )
   }
-  const reference = (await marker.json()) as { runId: unknown }
-  if (
-    typeof reference.runId !== 'number' ||
-    !Number.isSafeInteger(reference.runId) ||
-    reference.runId <= 0
-  ) {
+  const reference = (await marker.json()) as {
+    runId: unknown
+    artifactId?: unknown
+  }
+  if (!isId(reference.runId)) {
     throw new Error('Invalid Portal snapshot reference')
   }
-  const runId = Number(reference.runId)
+  if (reference.artifactId === undefined) {
+    throw new Error(
+      'The deployed Portal does not name its snapshot artifact. Deploy the Portal before publishing OG updates.'
+    )
+  }
+  if (!isId(reference.artifactId)) {
+    throw new Error('Invalid Portal snapshot reference')
+  }
+  const { runId, artifactId } = reference
   const run = await api<Run>(
     'repos/' + repository + '/actions/runs/' + runId
   )
@@ -87,13 +108,31 @@ export async function restoreSite(destination: string) {
     run.path === '.github/workflows/release.yml' &&
     run.head_branch === 'release' &&
     run.event === 'push'
+  // The marker shows that this run deployed the site, so a later failure in
+  // the release run, such as the link check, does not affect the snapshot.
   if (
-    !(publishedRelease && run.conclusion === 'success') &&
+    !(publishedRelease && run.status === 'completed') &&
     !isCatalogueRun(run, branch)
   ) {
     throw new Error('Portal snapshot workflow is not complete')
   }
-  await download(runId, 'portal-og-site', destination)
+  const artifact = await api<Artifact>(
+    'repos/' + repository + '/actions/artifacts/' + artifactId
+  )
+  if (
+    artifact.name !== 'portal-og-site' ||
+    artifact.workflow_run?.id !== runId
+  ) {
+    throw new Error(
+      'The Portal snapshot artifact does not match the deployed run'
+    )
+  }
+  if (artifact.expired) {
+    throw new Error(
+      'The deployed Portal snapshot has expired. Deploy the Portal before publishing OG updates.'
+    )
+  }
+  await download(repository, artifactId, destination)
   return runId
 }
 

@@ -1,7 +1,6 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
-import { getFieldEventsWithTypes } from '../FieldDocs'
+import { FieldProperties, getFieldEventsWithTypes } from '../FieldDocs'
 import { StringProperties } from '../String/StringDocs'
-import { FieldProperties } from '../../Field/FieldDocs'
 
 export const PhoneNumberProperties: PropertiesTableProps = {
   listDriver: {

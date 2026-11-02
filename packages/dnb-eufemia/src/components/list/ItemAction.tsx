@@ -17,7 +17,8 @@ import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
-import { chevron_down, chevron_up } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import FlexItem from '../flex/Item'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
@@ -29,6 +30,10 @@ export type ItemActionProps<E extends ElementType = 'a'> = {
   variant?: ListVariant
   selected?: boolean
   disabled?: boolean
+  /**
+   * Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.
+   * Default: `"right"`
+   */
   chevronPosition?: ItemActionIconPosition
   icon?: IconIcon
   title?: ReactNode

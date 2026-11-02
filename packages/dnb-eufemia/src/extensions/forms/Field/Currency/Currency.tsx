@@ -13,7 +13,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type FieldCurrencyProps = NumberFieldProps & {
   /**
-   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.
+   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`. Defaults to the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set.
    */
   currency?: PathStrict | CurrencyISO
 }
@@ -27,15 +27,16 @@ function Currency(props: FieldCurrencyProps) {
   const currencyValue = currencyPath
     ? currencyPathValue
     : getSourceValue(props.currency)
+  const currency = currencyValue ?? sharedContext?.currency ?? CURRENCY
 
   const preparedProps = {
     ...props,
-    currency: currencyValue ?? CURRENCY,
+    currency,
     placeholder:
       props.placeholder ??
       getCurrencySymbol(
         sharedContext?.locale,
-        currencyValue,
+        currency,
         props.currencyDisplay
       ),
   }

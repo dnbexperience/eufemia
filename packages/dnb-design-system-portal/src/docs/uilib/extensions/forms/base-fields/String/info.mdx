@@ -22,6 +22,12 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.String path="/myValue" />)
 ```
 
+## Built-in validation
+
+The `minLength`, `maxLength` and `pattern` rules validate without Zod. They use Eufemia's translations and `errorMessages` overrides. A custom `schema` replaces these built-in rules.
+
+If the field receives a non-string value, its built-in type error is in English and does not use global `z.config()` settings. A custom Zod `schema` still uses those settings.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/String)

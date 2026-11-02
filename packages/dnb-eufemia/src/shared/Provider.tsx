@@ -21,12 +21,12 @@ import { warn } from './component-helper'
 
 export type ProviderProps = {
   /**
-   * Send in an object that gets spread as properties to the Provider
+   * Send in an object that gets spread as properties to the Provider.
    */
   value?: ContextProps
 
   /**
-   * The content
+   * The content.
    */
   children: ReactNode
 } & ContextProps

@@ -33,8 +33,27 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   overflow: hidden;
   position: absolute;
   z-index: 2;
+  pointer-events: none;
+}
+.dnb-badge__root > .dnb-button ~ .dnb-badge {
+  --badge-offset-x: 0%;
+  --badge-offset-y: 0%;
+  transform: translate(var(--badge-offset-x), var(--badge-offset-y));
+}
+.dnb-badge__root > .dnb-button ~ .dnb-badge--horizontal-left {
+  --badge-offset-x: -25%;
+}
+.dnb-badge__root > .dnb-button ~ .dnb-badge--horizontal-right {
+  --badge-offset-x: 25%;
+}
+.dnb-badge__root > .dnb-button ~ .dnb-badge--vertical-top {
+  --badge-offset-y: -25%;
+}
+.dnb-badge__root > .dnb-button ~ .dnb-badge--vertical-bottom {
+  --badge-offset-y: 25%;
 }
 .dnb-badge--variant-notification {
+  line-height: normal;
   color: var(--token-color-text-neutral-ondark);
   background-color: var(--token-color-background-error);
   padding: 0 0.25rem;
@@ -85,7 +104,7 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   );
 }
 .dnb-badge--status-neutral {
-  --badge-information-bg: var(--token-color-background-neutral-bold);
+  --badge-information-bg: var(--token-color-background-neutral-base);
   --badge-information-subtle-bg: var(
     --token-color-background-neutral-subtle
   );

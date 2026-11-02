@@ -6,6 +6,12 @@ import { beginAuthRetry, clearAuthRetry, type Session } from './auth'
 
 export type CountListItem = { name: string; count: number }
 
+// Lookup counts are null for versions that don't report missed lookups.
+export type McpVersionUsage = CountListItem & {
+  componentLookups?: number | null
+  missedLookups?: number | null
+}
+
 export type McpTransportUsage = {
   total?: number
   perTool?: CountListItem[]
@@ -13,7 +19,7 @@ export type McpTransportUsage = {
   perPath?: CountListItem[]
   missedLookups?: number
   perLikelyComponent?: CountListItem[]
-  perVersion?: CountListItem[]
+  perVersion?: McpVersionUsage[]
 }
 
 export type McpUsage = {

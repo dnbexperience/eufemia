@@ -10,7 +10,7 @@ delete props.currencyDisplay
 export const CurrencyValueProperties: PropertiesTableProps = {
   value: NumberProperties.value,
   currency: {
-    doc: 'Defines what format to show the currency value in, e.g. `NOK` or `USD`. Use `true` for the default currency. Defaults to `NOK`.',
+    doc: 'Defines what format to show the currency value in, e.g. `NOK` or `USD`. Use `true` for the default currency. Defaults to the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set.',
     type: ['string', 'true'],
     status: 'optional',
   },

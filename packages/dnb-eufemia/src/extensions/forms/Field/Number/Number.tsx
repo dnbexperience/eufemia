@@ -41,7 +41,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
   /** Class name set on the input wrapper (`.dnb-input`) that contains the `<input>` element. */
   inputClassName?: string
   /**
-   * Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.
+   * Currency code (ISO 4217) or `true` to use the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set. Uses two decimals by default.
    */
   currency?: InputMaskedProps['asCurrency']
   /** How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. Use `false` to hide it. */
@@ -136,6 +136,7 @@ function NumberComponent(props: FieldNumberProps) {
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
   const locale = sharedContext?.locale
+  const providerCurrency = sharedContext?.currency
 
   const validateContinuouslyRef = useRef(props?.validateContinuously)
   const [limitError, setLimitError] = useState<FormError | undefined>()
@@ -178,7 +179,10 @@ function NumberComponent(props: FieldNumberProps) {
           if (p.currency) {
             return formatCurrency(value, {
               ...formatOptions,
-              currency: p.currency,
+              currency:
+                p.currency === true
+                  ? (providerCurrency ?? true)
+                  : p.currency,
             })
           }
 
@@ -338,6 +342,7 @@ function NumberComponent(props: FieldNumberProps) {
     props.percent,
     props.decimalLimit,
     locale,
+    providerCurrency,
   ])
 
   const toInput = useCallback((external: number | undefined | unknown) => {

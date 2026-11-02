@@ -132,9 +132,7 @@
     }
 
     &--parent:not(&--selected) {
-      --item-background-color: var(
-        --token-color-background-neutral-alternative
-      );
+      --item-background-color: var(--token-color-background-neutral-base);
     }
 
     &--select-all {

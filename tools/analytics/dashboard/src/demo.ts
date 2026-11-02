@@ -88,6 +88,26 @@ export const demoPayload: DashboardPayload = {
         { name: 'date-picker', count: 4 },
         { name: 'input-masked', count: 1 },
       ],
+      perVersion: [
+        {
+          name: '11.17.0',
+          count: 52,
+          componentLookups: 30,
+          missedLookups: 2,
+        },
+        {
+          name: '11.16.0',
+          count: 30,
+          componentLookups: 21,
+          missedLookups: 5,
+        },
+        {
+          name: '11.15.2',
+          count: 12,
+          componentLookups: null,
+          missedLookups: null,
+        },
+      ],
     },
     local: {
       total: 34,
@@ -110,9 +130,24 @@ export const demoPayload: DashboardPayload = {
         { name: '/uilib/usage/', count: 4 },
       ],
       perVersion: [
-        { name: '10.79.0', count: 20 },
-        { name: '10.78.1', count: 10 },
-        { name: '10.77.0', count: 4 },
+        {
+          name: '11.16.0',
+          count: 20,
+          componentLookups: 9,
+          missedLookups: 1,
+        },
+        {
+          name: '11.15.2',
+          count: 10,
+          componentLookups: null,
+          missedLookups: null,
+        },
+        {
+          name: '11.15.1',
+          count: 4,
+          componentLookups: null,
+          missedLookups: null,
+        },
       ],
     },
   },

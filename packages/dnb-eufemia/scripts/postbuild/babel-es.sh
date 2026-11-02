@@ -4,7 +4,6 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 echo 'Building es bundle ...'
 
-cross-env \
 NODE_ENV=production \
 BABEL_ENV=es \
 babel ./src \

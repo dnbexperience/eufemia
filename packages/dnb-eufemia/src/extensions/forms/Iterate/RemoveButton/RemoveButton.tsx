@@ -8,7 +8,7 @@ import { useTranslation } from '../../hooks'
 import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import type { DataValueReadWriteComponentProps } from '../../types'
 import { omitDataValueReadWriteProps } from '../../types'
-import { trash } from '../../../../icons'
+import trash from '../../../../icons/trash'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 

@@ -111,6 +111,28 @@ describe('makePropertiesFile', () => {
       'utf-8'
     )
   })
+
+  it('keeps dark error text, icons and strokes on the approved foundation colors', () => {
+    for (const [tokens, foundation, prefix, shade, color] of [
+      [global.uiTokensDark, global.uiFoundation, 'dnb', '500', '#ff5959'],
+      [
+        global.sbankenTokensDark,
+        global.sbankenFoundation,
+        'sbanken',
+        '600',
+        '#ff8099',
+      ],
+    ]) {
+      const variable = '--' + prefix + '-red-' + shade
+      expect(foundation).toContain(variable + ': ' + color + ';')
+      for (const role of ['text', 'icon', 'stroke']) {
+        expect(tokens).toContain(
+          '--token-color-' + role + '-error: var(' + variable + ');'
+        )
+      }
+    }
+  })
+
   describe('Tokens snapshots for', () => {
     it('ui', () => {
       expect(global.uiTokens).toMatchSnapshot()

@@ -28,7 +28,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
-import { check as CheckIcon } from '../../icons'
+import CheckIcon from '../../icons/check'
 import type { SwitchProps } from './types'
 
 export type * from './types'

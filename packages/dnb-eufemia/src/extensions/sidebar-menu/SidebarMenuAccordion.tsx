@@ -18,7 +18,8 @@ import Anchor from '../../components/Anchor'
 import HeightAnimation from '../../components/height-animation/HeightAnimation'
 import Icon from '../../components/icon/Icon'
 import IconPrimary from '../../components/IconPrimary'
-import { chevron_down, chevron_up } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import {
   SidebarMenuContext,
   useSidebarMenuContext,

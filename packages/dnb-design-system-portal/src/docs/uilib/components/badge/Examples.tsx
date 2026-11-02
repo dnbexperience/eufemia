@@ -4,12 +4,28 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Badge, Avatar, Grid, Flex, P } from '@dnb/eufemia/src'
+import { useState } from 'react'
+import { Badge, Avatar, Button, Grid, Flex, P } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
     <Badge content={1} label="Notifications" variant="notification" />
+  </ComponentBox>
+)
+
+export const BadgeNotificationNumbers = () => (
+  <ComponentBox hideCode data-visual-test="badge-notification-numbers">
+    <Flex.Container gap="small">
+      {[0, 1, 2, 8, 10, 99, 1234].map((content) => (
+        <Badge
+          key={content}
+          content={content}
+          label="Notifications"
+          variant="notification"
+        />
+      ))}
+    </Flex.Container>
   </ComponentBox>
 )
 
@@ -68,6 +84,33 @@ export const BadgeInformationAvatar = () => (
         </Avatar>
       </Avatar.Group>
     </Badge>
+  </ComponentBox>
+)
+
+export const BadgeButton = () => (
+  <ComponentBox>
+    {() => {
+      const Example = () => {
+        const [notifications, setNotifications] = useState(1)
+
+        return (
+          <Badge
+            content={notifications}
+            label="Notifications"
+            variant="notification"
+            horizontal="right"
+            vertical="top"
+          >
+            <Button
+              text="Add notification"
+              onClick={() => setNotifications((count) => count + 1)}
+            />
+          </Badge>
+        )
+      }
+
+      return <Example />
+    }}
   </ComponentBox>
 )
 

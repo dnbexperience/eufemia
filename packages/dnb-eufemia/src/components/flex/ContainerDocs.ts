@@ -44,6 +44,17 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: `'flex-start'`,
     status: 'optional',
   },
+  alignSelf: {
+    doc: 'Align the container itself when it is a flex item in an outer container (CSS `align-self`).',
+    type: [
+      '"flex-start"',
+      '"flex-end"',
+      '"center"',
+      '"baseline"',
+      '"stretch"',
+    ],
+    status: 'optional',
+  },
   divider: {
     doc: 'How to separate sub components.',
     type: ['"space"', '"line"', '"line-framed"'],

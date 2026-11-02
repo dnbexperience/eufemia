@@ -29,6 +29,36 @@ describe('Field.Currency', () => {
     expect(input).toHaveValue('123 NOK')
   })
 
+  it('uses the currency from the Provider', () => {
+    const { rerender } = render(
+      <Provider currency="USD">
+        <Field.Currency />
+      </Provider>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('aria-placeholder', '$')
+
+    rerender(
+      <Provider currency="USD">
+        <Field.Currency value={123} />
+      </Provider>
+    )
+
+    expect(input).toHaveValue('123 $')
+  })
+
+  it('uses its own currency over the Provider currency', () => {
+    render(
+      <Provider currency="USD">
+        <Field.Currency value={123} currency="EUR" />
+      </Provider>
+    )
+
+    expect(document.querySelector('input')).toHaveValue('123 €')
+  })
+
   it('should support onKeyDown, e.g. for amount shortcuts', async () => {
     const MyForm = () => {
       const { update } = Form.useData<{ amount: number }>('amount')
