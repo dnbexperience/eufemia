@@ -481,6 +481,28 @@ describe('Tag', () => {
       expect(onKeyUp).toHaveBeenCalledTimes(1)
       expect(onClick).toHaveBeenCalledTimes(1)
     })
+
+    it('calls onClick with the event object when releasing Delete, like on click', () => {
+      const onClick = vi.fn()
+
+      render(
+        <Tag.Group label="tags">
+          <Tag variant="removable" onClick={onClick}>
+            Keyboard
+          </Tag>
+        </Tag.Group>
+      )
+
+      const button = document.querySelector('button')
+      fireEvent.click(button)
+      fireEvent.keyUp(button, { key: 'Delete' })
+
+      const [[clickArgs], [keyArgs]] = onClick.mock.calls
+      expect(clickArgs.event.type).toBe('click')
+      expect(keyArgs.event.type).toBe('keyup')
+      expect(keyArgs.event.key).toBe('Delete')
+      expect(keyArgs.key).toBe('Delete')
+    })
   })
 
   describe('with onClick', () => {

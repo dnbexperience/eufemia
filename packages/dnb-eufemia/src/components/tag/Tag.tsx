@@ -16,6 +16,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 
 // Internal
@@ -145,7 +146,7 @@ const Tag = (
 
   const handleDeleteKeyUp = (event) => {
     if (isDeleteKeyboardEvent(event) && onClick) {
-      onClick(event)
+      dispatchCustomElementEvent({ onClick }, 'onClick', { event })
     }
   }
 
