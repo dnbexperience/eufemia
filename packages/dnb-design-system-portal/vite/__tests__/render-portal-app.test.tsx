@@ -4,7 +4,6 @@ import { renderPortalApp } from '../client/render-portal-app'
 vi.mock('virtual:build-info', () => ({
   releaseVersion: 'v11.0.0',
   buildVersion: '1.1.2026, 12:00:00',
-  changelogVersion: 'v11.0.0',
 }))
 
 describe('renderPortalApp', () => {

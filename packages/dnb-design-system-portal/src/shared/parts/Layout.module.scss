@@ -254,12 +254,6 @@
   --aside-width: 0px;
 }
 
-@media screen {
-  .contentStyle[hidden] {
-    display: none;
-  }
-}
-
 @page portal-print {
   margin: 15mm;
 }
@@ -306,10 +300,6 @@
       margin: 0;
       padding: 0;
       box-shadow: none;
-    }
-
-    .contentStyle[hidden] {
-      display: block !important;
     }
 
     .footerStyle {
