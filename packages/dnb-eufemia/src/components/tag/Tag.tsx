@@ -60,7 +60,7 @@ export type TagProps = {
   children?: string | ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
 
   /**
-   * Will be called on a click event. Returns the native event.
+   * Will be called on a click event. Returns an object with the native event: `{ event }`.
    */
   onClick?: (args: { event: MouseEvent<HTMLButtonElement> }) => void
 
