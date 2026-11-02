@@ -378,3 +378,12 @@ After:
 +  return [validators.companyValidator]
  }
 ```
+
+### [Provider](/uilib/usage/customisation/provider/)
+
+- The `currencyDisplay` property is deprecated, because NumberFormat does not read it. Use `NumberFormat={{ currencyDisplay }}` instead.
+
+```diff
+-<Provider currencyDisplay="code">
++<Provider NumberFormat={{ currencyDisplay: 'code' }}>
+```

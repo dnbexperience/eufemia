@@ -21,6 +21,11 @@ export const ProviderProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  currencyDisplay: {
+    doc: "Deprecated. Has no effect. Use `NumberFormat={{ currencyDisplay: 'code' }}` instead.",
+    type: 'string',
+    status: 'deprecated',
+  },
   translations: {
     doc: 'Overwrite existing translation strings or define new strings, per locale. See [Provide your own translations](/uilib/usage/customisation/localization/#provide-your-own-translations).',
     type: 'object',

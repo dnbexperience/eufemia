@@ -172,7 +172,8 @@ export type ContextProps = ContextComponents & {
   currency?: NumberFormatCurrency
 
   /**
-   * Defines the currencyDisplay used by the NumberFormat component
+   * Deprecated. Has no effect. Use `NumberFormat={{ currencyDisplay: 'code' }}` instead.
+   * @deprecated Has no effect. Use `NumberFormat={{ currencyDisplay }}` instead.
    */
   currencyDisplay?: string
 
