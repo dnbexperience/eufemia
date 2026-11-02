@@ -21,6 +21,7 @@ function App() {
       <P>Eufemia packed-artifact smoke test</P>
       <Button {...buttonProps} />
       <Field.String label="Label" path="/myField" />
+      <Field.Email path="/email" />
       <Form.SubmitButton text="It builds" />
     </Form.Handler>
   )
