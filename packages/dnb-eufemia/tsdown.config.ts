@@ -81,6 +81,9 @@ function makeBundleConfig(
   }).filter((dep) => !alwaysExternal.includes(dep))
   noExternal.push(/^date-fns(?:\/|$)/, /^ajv\/dist\/2020/)
 
+  const iconsBundle =
+    format === 'esm' ? './dnb-ui-icons.min.mjs' : './dnb-ui-icons.min.js'
+
   return {
     // Parse JSX that lives in .js files
     loader: { '.js': 'jsx' },
@@ -88,10 +91,13 @@ function makeBundleConfig(
     // Pick the JSX runtime
     inputOptions: {
       jsx: 'react',
+      // The sources don't import React, so import it for the classic runtime
+      inject: { React: 'react' },
     },
 
-    // Keep peers/large libs external (UMD globals map below)
-    external: (id, importer) => shouldBeExternal(id, importer),
+    // The icons bundle contains the icons, and the other bundles import it
+    plugins:
+      outName === 'dnb-ui-icons' ? [] : [externalIcons(iconsBundle)],
 
     // Also keep these external
     noExternal,
@@ -139,10 +145,7 @@ function makeBundleConfig(
           if (id === 'react-dom') {
             return 'ReactDOM'
           }
-          if (id.includes('icons/dnb/primary_icons')) {
-            return 'dnbIcons'
-          }
-          if (id.includes('icons/dnb/primary_icons_medium')) {
+          if (id === iconsBundle) {
             return 'dnbIcons'
           }
 
@@ -155,21 +158,25 @@ function makeBundleConfig(
   }
 }
 
-// Helper to decide if an import should be external
-function shouldBeExternal(id: string, importer?: string) {
-  // Resolve relative imports against the importer and compare absolute paths
-  if (importer && id.startsWith('.')) {
-    // Files that should be externalized when imported
-    const externalized = [
-      path.resolve('./src/icons/dnb/primary_icons'),
-      path.resolve('./src/icons/dnb/primary_icons_medium'),
-    ]
+// Load the icons from the icons bundle, which only needs React
+function externalIcons(iconsBundle: string) {
+  const iconSets = [
+    path.resolve('./src/icons/dnb/primary_icons'),
+    path.resolve('./src/icons/dnb/primary_icons_medium'),
+  ]
 
-    const abs = path.resolve(path.dirname(importer), id)
-    return externalized.some(
-      (dir) => abs === dir || abs.startsWith(dir + path.sep)
-    )
+  return {
+    name: 'external-icons',
+    resolveId(id: string, importer: string | undefined) {
+      if (
+        importer &&
+        id.startsWith('.') &&
+        iconSets.includes(path.resolve(path.dirname(importer), id))
+      ) {
+        return { id: iconsBundle, external: true }
+      }
+
+      return null
+    },
   }
-
-  return false
 }
