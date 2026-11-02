@@ -51,8 +51,7 @@ export type SpaceProps = {
   stretch?: boolean
 
   /**
-   * If set to `true`, a loading skeleton will be shown.
-   * Default: `false`
+   * If set to `true`, a loading skeleton will be shown. Defaults to `false`.
    */
   skeleton?: SkeletonShow
 

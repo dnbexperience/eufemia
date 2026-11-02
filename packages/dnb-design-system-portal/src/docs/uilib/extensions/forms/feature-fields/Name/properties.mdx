@@ -15,12 +15,16 @@ import { NameProperties } from '@dnb/eufemia/src/extensions/forms/Field/Name/Nam
 
 ### General properties
 
-<PropertiesTable props={FieldProperties} omit={['onBlurValidator']} />
+<PropertiesTable
+  props={FieldProperties}
+  omit={['onBlurValidator', 'width']}
+/>
 
 ## Translations
 
 <TranslationsTable
   localeKey={[
+    'Name',
     'FirstName',
     'LastName',
     'CompanyName',

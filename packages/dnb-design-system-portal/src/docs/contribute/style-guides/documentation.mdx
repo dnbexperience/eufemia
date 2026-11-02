@@ -6,6 +6,14 @@ order: 3
 
 The documentation is written in enhanced Markdown, called MDX. It allows us to import other Markdown files along with React components and JavaScript logic.
 
+## Property usage guidance
+
+When documenting a customization property, explain its intended use, the preferred default, and when DNB UX approval is needed. Follow the [intended use and customization guidance](/uilib/usage/customisation/component-properties/#intended-use-and-customization).
+
+Keep the prop description and TypeScript JSDoc aligned so the same guidance appears in the Portal and editor. Identify technical customization examples clearly when they go beyond the component's intended patterns.
+
+Properties pages that only document API parameters or translations can set `hidePropertiesUsage: true` in their frontmatter to omit the component customization note from the Portal and generated Markdown.
+
 ## Handling themes
 
 If you need to show some documentation only for when a certain theme is selected, you can do so:

@@ -1443,8 +1443,7 @@ button.dnb-button::-moz-focus-inner {
 }
 @media (forced-colors: active) {
   .dnb-progress-indicator__linear__bar {
-    forced-color-adjust: none;
-    background-color: Highlight;
+    background-color: Highlight !important;
   }
 }
 .dnb-progress-indicator__linear__bar-transition {

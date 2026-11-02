@@ -8,7 +8,8 @@ import tar from 'tar'
 import { log } from '../../../lib'
 import '../../../../src/core/test-utils/testSetup'
 import { getFigmaDoc } from '../../helpers/docHelpers'
-import cliTools from '../../../tools/cliTools'
+import { createIconDownloads } from '../iconDownloads'
+import { type ChildProcess, execFile } from 'node:child_process'
 import {
   IconsConfig,
   extractIcons,
@@ -155,6 +156,10 @@ vi.mock('fs-extra', async () => {
   }
 })
 
+vi.mock('../iconDownloads', () => ({
+  createIconDownloads: vi.fn(async ({ buildAndroid }) => buildAndroid()),
+}))
+
 vi.mock('tar', () => {
   const tar = {
     create: vi.fn(),
@@ -202,7 +207,7 @@ vi.mock('../../helpers/docHelpers', async () => {
   }
 })
 
-vi.mock('../../../tools/cliTools')
+vi.mock('node:child_process', () => ({ execFile: vi.fn() }))
 
 describe('assetsExtractors', () => {
   it('IconsConfig', () => {
@@ -227,16 +232,21 @@ describe('assetsExtractors', () => {
   const start = vi.fn()
   const info = vi.fn()
   const succeed = vi.fn()
-  const runCommand = vi.fn(async (cmd) => {
-    return cmd
+  const runCommand = vi.fn((cmd, args, options, callback) => {
+    callback(
+      null,
+      'Convert 2 SVG files in total, errors found in 0 files',
+      ''
+    )
+    return {} as ChildProcess
   })
 
-  const runMock = async () => {
+  const runMock = async ({ duplicateFrame = false } = {}) => {
     vi.spyOn(log, 'start').mockImplementation(start)
     vi.spyOn(log, 'info').mockImplementation(info)
     vi.spyOn(log, 'succeed').mockImplementation(succeed)
 
-    vi.spyOn(cliTools, 'runCommand').mockImplementation(runCommand)
+    vi.mocked(execFile).mockImplementation(runCommand)
 
     vi.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime())
 
@@ -245,6 +255,11 @@ describe('assetsExtractors', () => {
       preventUpdate: true,
       localFile,
     })
+
+    if (duplicateFrame) {
+      const canvas = figmaDoc.document.children[0]
+      canvas.children.push(structuredClone(canvas.children[0]))
+    }
 
     const result = await extractIcons({
       figmaDoc,
@@ -268,20 +283,35 @@ describe('assetsExtractors', () => {
     expect(runCommand).toHaveBeenCalledTimes(1)
     expect(runCommand).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('yarn vd-tool -c -in')
+      expect.stringContaining('/vd-tool/bin/vd-tool'),
+      ['-c', '-in', expect.stringContaining('/assets/icons/dnb')],
+      { timeout: 120000 },
+      expect.any(Function)
     )
     expect(runCommand).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('/packages/dnb-eufemia/assets/icons/dnb')
+      expect.any(String),
+      [
+        '-c',
+        '-in',
+        expect.stringContaining('/packages/dnb-eufemia/assets/icons/dnb'),
+      ],
+      { timeout: 120000 },
+      expect.any(Function)
     )
 
-    expect(tar.create).toHaveBeenCalledTimes(3)
+    expect(tar.create).toHaveBeenCalledTimes(2)
     expect(tar.create).toHaveBeenNthCalledWith(
       1,
       {
         cwd: expect.stringContaining('/assets/icons'),
-        file: expect.stringContaining('/assets/icons/dnb/tmp.tgz'),
+        file: expect.stringContaining(
+          '/assets/icons/dnb/eufemia-icons-xml.tgz'
+        ),
         gzip: true,
+        portable: true,
+        noMtime: true,
+        strict: true,
       },
       ['bell_medium.xml', 'bell.xml']
     )
@@ -290,23 +320,39 @@ describe('assetsExtractors', () => {
       {
         cwd: expect.stringContaining('/assets/icons'),
         file: expect.stringContaining(
-          '/assets/icons/dnb/eufemia-icons-xml.tgz'
-        ),
-        gzip: true,
-      },
-      ['bell_medium.xml', 'bell.xml']
-    )
-    expect(tar.create).toHaveBeenNthCalledWith(
-      3,
-      {
-        cwd: expect.stringContaining('/assets/icons'),
-        file: expect.stringContaining(
           '/assets/icons/dnb/eufemia-icons-xml-categorized.tgz'
         ),
         gzip: true,
+        portable: true,
+        noMtime: true,
+        strict: true,
       },
       ['objects/bell_medium.xml', 'objects/bell.xml']
     )
+  })
+
+  it('propagates download generation failures from extractIcons', async () => {
+    const error = new Error('Download generation failed')
+    vi.mocked(createIconDownloads).mockRejectedValueOnce(error)
+    await expect(runMock()).rejects.toBe(error)
+  })
+
+  it('deduplicates exports for download fingerprints and Android packages', async () => {
+    const result = await runMock({ duplicateFrame: true })
+    expect(result).toHaveLength(4)
+    const { files } = vi.mocked(createIconDownloads).mock.calls[0][0]
+    expect(files.map(({ iconFile }) => iconFile)).toEqual([
+      'bell_medium.svg',
+      'bell.svg',
+    ])
+    expect(tar.create).toHaveBeenNthCalledWith(1, expect.any(Object), [
+      'bell_medium.xml',
+      'bell.xml',
+    ])
+    expect(tar.create).toHaveBeenNthCalledWith(2, expect.any(Object), [
+      'objects/bell_medium.xml',
+      'objects/bell.xml',
+    ])
   })
 
   it('extractIcons', async () => {
@@ -378,33 +424,39 @@ describe('assetsExtractors', () => {
     expect(fs.move).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('/assets/icons/dnb/bell_medium.xml'),
-      expect.stringContaining('/assets/icons/dnb/objects/bell_medium.xml')
+      expect.stringContaining('/assets/icons/dnb/objects/bell_medium.xml'),
+      { overwrite: true }
     )
     expect(fs.move).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining('/assets/icons/dnb/bell.xml'),
-      expect.stringContaining('/assets/icons/dnb/objects/bell.xml')
+      expect.stringContaining('/assets/icons/dnb/objects/bell.xml'),
+      { overwrite: true }
     )
 
-    expect(fs.unlink).toHaveBeenCalledTimes(5)
+    expect(fs.unlink).toHaveBeenCalledTimes(6)
     expect(fs.unlink).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('/assets/icons/dnb/tmp.tgz')
-    )
-    expect(fs.unlink).toHaveBeenNthCalledWith(
-      2,
-      expect.stringContaining('/assets/icons/dnb/objects/bell_medium.xml')
-    )
-    expect(fs.unlink).toHaveBeenNthCalledWith(
-      3,
-      expect.stringContaining('/assets/icons/dnb/objects/bell.xml')
-    )
-    expect(fs.unlink).toHaveBeenNthCalledWith(
-      4,
       expect.stringContaining('/assets/icons/dnb/bell_medium.xml')
     )
     expect(fs.unlink).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('/assets/icons/dnb/bell.xml')
+    )
+    expect(fs.unlink).toHaveBeenNthCalledWith(
+      3,
+      expect.stringContaining('/assets/icons/dnb/objects/bell_medium.xml')
+    )
+    expect(fs.unlink).toHaveBeenNthCalledWith(
+      4,
+      expect.stringContaining('/assets/icons/dnb/objects/bell.xml')
+    )
+    expect(fs.unlink).toHaveBeenNthCalledWith(
       5,
+      expect.stringContaining('/assets/icons/dnb/bell_medium.xml')
+    )
+    expect(fs.unlink).toHaveBeenNthCalledWith(
+      6,
       expect.stringContaining('/assets/icons/dnb/bell.xml')
     )
 

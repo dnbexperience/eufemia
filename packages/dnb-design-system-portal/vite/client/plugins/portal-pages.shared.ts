@@ -106,6 +106,8 @@ export type KnownFrontmatter = {
   /** Use a page's own print layout, such as a document style preview. */
   printLayout?: 'default' | 'custom'
   hideEditLink?: boolean
+  /** Omit component customization guidance on API or translation reference pages. */
+  hidePropertiesUsage?: boolean
   componentType?: string
   /** A category id, or `false` to exclude the page from category listings. */
   category?: string | false

@@ -66,7 +66,7 @@ jobs:
           filter: blob:none
 
       - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: 'package.json'
           package-manager-cache: false
@@ -126,7 +126,7 @@ jobs:
 
       - name: Preserve Portal snapshot for OG updates
         if: github.ref == 'refs/heads/release'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: portal-og-site
           path: ./packages/dnb-design-system-portal/public
@@ -171,7 +171,7 @@ jobs:
 
       - name: Upload prepared release package
         id: upload-prepared-package
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: prepared-release-package
           path: ${{ runner.temp }}/prepared-release-package.tar.gz
@@ -233,7 +233,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Download the portal artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: github-pages
           path: ${{ runner.temp }}/portal-artifact
@@ -284,7 +284,7 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: 'package.json'
           package-manager-cache: false
@@ -298,7 +298,7 @@ jobs:
       # make download-artifact fetch every artifact of the run, so `missing`
       # makes the download fail instead.
       - name: Download prepared release package
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.build.outputs.prepared-package-artifact-id || 'missing' }}
           path: ${{ runner.temp }}/prepared-release-package
@@ -375,7 +375,7 @@ jobs:
         id: upload-release-notification
         continue-on-error: true
         if: steps.release.outputs.notifications == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-notification
           path: ${{ runner.temp }}/release-notification.json
@@ -451,7 +451,7 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: 'package.json'
           package-manager-cache: false
@@ -461,7 +461,7 @@ jobs:
 
       # By the ID the publish job recorded, like the prepared package.
       - name: Download release notification details
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.action.outputs.notification-artifact-id || 'missing' }}
           path: ${{ runner.temp }}/release-notification
@@ -555,7 +555,7 @@ jobs:
       # generator would read into the SBOM that the next job signs.
       - name: Use Node.js
         continue-on-error: true
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: 'package.json'
           package-manager-cache: false
@@ -656,7 +656,7 @@ jobs:
       - name: Upload SBOM and vulnerability report
         id: upload-sbom
         continue-on-error: true
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: sbom-and-vulnerability-report
           path: |
@@ -727,7 +727,7 @@ jobs:
         id: download-sbom
         continue-on-error: true
         if: needs.sbom.outputs.sbom-artifact-id != ''
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.sbom.outputs.sbom-artifact-id }}
           path: packages/dnb-eufemia

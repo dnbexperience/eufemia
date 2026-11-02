@@ -3,7 +3,31 @@ import Container from './Container'
 import type { FlexContainerAllProps } from './Container'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type StackProps = FlexContainerAllProps
+export type StackProps = Omit<
+  FlexContainerAllProps,
+  'direction' | 'align' | 'alignSelf' | 'gap' | 'element'
+> & {
+  /**
+   * Direction of sub components. Can be: `horizontal` or `vertical`. Defaults to `vertical`.
+   */
+  direction?: FlexContainerAllProps['direction']
+  /**
+   * Align sub components along the cross axis (CSS `align-items`). In horizontal direction, this controls vertical alignment. In vertical direction, this controls horizontal alignment. Defaults to `stretch`.
+   */
+  align?: FlexContainerAllProps['align']
+  /**
+   * Align the Stack itself when it is a flex item in an outer container (CSS `align-self`). Defaults to `stretch`.
+   */
+  alignSelf?: FlexContainerAllProps['alignSelf']
+  /**
+   * How much space between child items. Use `false` for no spacing. In vertical direction, `rowGap` is used instead when both are set. Defaults to `medium`, or `small` when `divider` is `line` or `line-framed`.
+   */
+  gap?: FlexContainerAllProps['gap']
+  /**
+   * Define the type of element. Defaults to `section`.
+   */
+  element?: FlexContainerAllProps['element']
+}
 
 function Stack(props: StackProps) {
   const {

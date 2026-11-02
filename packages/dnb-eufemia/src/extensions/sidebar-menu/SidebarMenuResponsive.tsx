@@ -532,8 +532,14 @@ export function SidebarMenuResponsiveTrigger({
         (!isSmallScreen && inlineCollapsed ? animatedHamburger : hamburger)
       }
       variant={variant}
-      title={
-        title ?? (open ? translation.closeMenu : translation.openMenu)
+      title={title}
+      aria-label={
+        props['aria-label'] ??
+        (props.text || props.children || title
+          ? undefined
+          : open
+            ? translation.closeMenu
+            : translation.openMenu)
       }
       aria-haspopup={!isHydrated || isSmallScreen ? 'dialog' : undefined}
       aria-controls={
@@ -823,6 +829,7 @@ export function SidebarMenuResponsiveInline({
       className={clsx(
         'dnb-sidebar-menu-responsive-inline',
         compactOpen && 'dnb-sidebar-menu-responsive-inline--expanded',
+        compactOpening && 'dnb-sidebar-menu-responsive-inline--opening',
         compactClosing && 'dnb-sidebar-menu-responsive-inline--closing',
         transitionsReady &&
           'dnb-sidebar-menu-responsive-inline--transitions-ready',
@@ -1135,8 +1142,17 @@ function getFirstPaintCss(
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
   DrawerAllProps,
-  'onClose' | 'open'
+  'onClose' | 'open' | 'id' | 'dialogTitle'
 > & {
+  /**
+   * Id of the Drawer. Toggle and ResponsiveTrigger reference it with `aria-controls` automatically.
+   * Default: `"sidebar-menu-responsive-drawer"`
+   */
+  id?: string
+  /**
+   * Accessible name of the Drawer. Defaults to the translated menu label.
+   */
+  dialogTitle?: DrawerAllProps['dialogTitle']
   onClose?: DrawerAllProps['onClose']
 }
 

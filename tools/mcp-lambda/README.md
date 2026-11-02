@@ -78,7 +78,8 @@ EUFEMIA_DOCS_ROOT=/path/to/docs yarn dev
 
 The build script does the following:
 
-1. Builds Eufemia docs (`yarn workspace @dnb/eufemia build:docs`)
+1. Builds Eufemia docs (`yarn workspace @dnb/eufemia build:docs`). Without
+   release tags, as in a shallow clone, the docs report `0.0.0-development`.
 2. Bundles the MCP and usage-consumer handlers into separate ESM files
 3. Copies the built docs into `dist/docs/`
 4. Creates `dist/lambda.zip` and `dist/usage-consumer.zip`
@@ -207,13 +208,15 @@ Each run checks:
   actual availability and protocol failures still fail after retries. Failed
   deployment workflows and runs stalled for an hour are reported separately.
 
-The hosted docs are rebuilt independently of npm and currently report a
-development version. The source commit is the deployment freshness signal;
-this monitor does not claim npm version equality. The public deployment
-workflow hands artifacts to a separate deploy pipeline, so its success alone
-is insufficient: the monitor also checks the commit returned by production.
-A public workflow that finishes without updating production is detected after
-the rollout window. Metadata uses the generated short commit hash.
+The hosted docs are rebuilt independently of npm and report the release the
+deployed code builds on, such as `11.16.0`, or `11.16.0+main.4c04cde117a` for a
+deploy from a branch other than `release`. The source commit is the deployment
+freshness signal; this monitor does not claim npm version equality. The public
+deployment workflow hands artifacts to a separate deploy pipeline, so its
+success alone is insufficient: the monitor also checks the commit returned by
+production. A public workflow that finishes without updating production is
+detected after the rollout window. Metadata uses the generated short commit
+hash.
 
 Requests have a 20-second deadline, a 1 MiB response limit and two retries.
 JSON and event-stream replies are supported; complete MCP events are consumed

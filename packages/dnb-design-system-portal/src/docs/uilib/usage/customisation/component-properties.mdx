@@ -9,7 +9,17 @@ import {
   ExtendedExample,
 } from 'Docs/uilib/usage/customisation/Examples'
 
-Every [Component](/uilib/components) has its own `properties` to make them work for a variety of cases. You may have a look at the table describing all the possibilities. Check out for example the [Button Properties](/uilib/components/button/properties).
+Every [Component](/uilib/components) has properties to support different use cases. Each component's Properties page describes the available options, such as the [Button properties](/uilib/components/button/properties).
+
+## Intended use and customization
+
+Start with the component's documented patterns and defaults. The demos show intended usage, but cannot cover every valid use case.
+
+Some properties support specific integrations or give Eufemia components flexibility internally. Their availability does not mean every possible customization is a recommended design. Technical customization examples illustrate what the API allows.
+
+Follow the usage guidance beside each property. Changes to a component's established appearance, content structure, or interaction pattern beyond the documented patterns need a use case approved by DNB UX. Properties marked internal are intended for Eufemia's own integrations.
+
+The same guidance applies when configuring components through nested props, Provider, or custom CSS.
 
 ## Naming
 
@@ -22,5 +32,7 @@ Below are some examples. You can even modify them right away in the Browser.
 <LargeButtonsAndIconsExample />
 
 ## Extended example
+
+This technical customization example changes the button's shape and icon color. Use it to understand the styling options. A product use case for this appearance needs DNB UX approval.
 
 <ExtendedExample />

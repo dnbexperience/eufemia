@@ -1,5 +1,12 @@
 declare module '*.scss'
 
+declare module '*.mdx' {
+  import type { ComponentType } from 'react'
+
+  const Content: ComponentType
+  export default Content
+}
+
 type ImportMetaEnv = {
   readonly VITE_EUFEMIA_STACKBLITZ_VERSION?: string
   readonly VITE_GITHUB_REPOSITORY?: string

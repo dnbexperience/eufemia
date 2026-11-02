@@ -15,7 +15,13 @@ export type ListShowMoreButtonSharedState = {
 
 export type ListShowMoreButtonProps = {
   id: string
+  /**
+   * Button label shown when the list is collapsed. Defaults to the localized `List.showMore` translation.
+   */
   showMore?: string
+  /**
+   * Button label shown when the list is expanded. Defaults to the localized `List.showLess` translation.
+   */
   showLess?: string
 } & Omit<ButtonProps, 'id' | 'text' | 'icon' | 'onClick' | 'variant'>
 

@@ -31,7 +31,27 @@ export type CardProps = {
    * Define if the Card should get the same background color as the outline border.
    */
   filled?: boolean
-} & FlexContainerProps &
+
+  /**
+   * Define the type of element. Defaults to `section`.
+   */
+  element?: SpaceProps['element']
+
+  /**
+   * Direction of sub components. Can be: `horizontal` or `vertical`. Defaults to `vertical`.
+   */
+  direction?: FlexContainerProps['direction']
+
+  /**
+   * Align the Card itself when it is a flex item in an outer container (CSS `align-self`). Defaults to `stretch`.
+   */
+  alignSelf?: FlexItemProps['alignSelf']
+
+  /**
+   * How much space between the sub components. Use `false` for no space. Defaults to `false`, or `medium` when `stack` is set.
+   */
+  gap?: FlexContainerProps['gap']
+} & Omit<FlexContainerProps, 'direction' | 'alignSelf' | 'gap'> &
   Pick<
     SectionProps,
     | 'outset'
@@ -40,9 +60,9 @@ export type CardProps = {
     | 'dropShadow'
     | 'backgroundColor'
   > &
-  FlexItemProps & {
+  Omit<FlexItemProps, 'alignSelf'> & {
     stack?: boolean
-  } & SpaceProps &
+  } & Omit<SpaceProps, 'element'> &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
 
 function Card(props: CardProps) {

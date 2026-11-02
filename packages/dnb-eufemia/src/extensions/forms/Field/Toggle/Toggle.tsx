@@ -43,6 +43,9 @@ export type ToggleProps = {
     | 'buttons'
   textOn?: string
   textOff?: string
+  /**
+   * The size of the toggle. Can be `default`, `medium` or `large`. The button variants also support `small`.
+   */
   size?: ToggleButtonProps['size'] | CheckboxProps['size']
 
   /**

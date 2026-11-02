@@ -83,6 +83,14 @@ describe('docs-server tools', () => {
     await fs.rm(docsRoot, { recursive: true, force: true })
   })
 
+  it('provides component usage instructions before any documentation lookup', () => {
+    expect(client.getInstructions()).toContain(
+      'documented patterns and defaults'
+    )
+    expect(client.getInstructions()).toContain('usageGuidance')
+    expect(client.getInstructions()).toContain('DNB UX')
+  })
+
   describe('docs_entry', () => {
     it('returns llm.md content', async () => {
       const result = parseResult(

@@ -32,8 +32,14 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
+    doc: 'Defines the state of the status. Can be `error`, `warning`, `information`, `success` or `marketing`. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {
@@ -64,6 +70,21 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
   vertical: {
     doc: 'Will force both `direction` and `labelDirection` to be `vertical` if set to `true`.',
     type: 'boolean',
+    status: 'optional',
+  },
+  variant: {
+    doc: 'Use `checkbox` or `radio` to show a checkbox or radio button in front of the text of every button. With `radio`, the group gets the `radiogroup` role. Defaults to `default`.',
+    type: ['"default"', '"checkbox"', '"radio"'],
+    status: 'optional',
+  },
+  leftComponent: {
+    doc: 'Custom content shown in front of the text of every button, when `variant` is `default`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  size: {
+    doc: 'The size of the buttons. There is `default`, `small`, `medium` and `large`.',
+    type: ['"default"', '"small"', '"medium"', '"large"'],
     status: 'optional',
   },
   suffix: {

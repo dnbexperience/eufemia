@@ -14,6 +14,7 @@ import {
   extractTitleFromMdx,
   formatUnhandledStandaloneMdxWarnings,
   findUnhandledStandaloneMdxComponents,
+  findSourceInfo,
   loadTsDocsForDocPath,
   recordUnhandledStandaloneMdxWarning,
   resetUnhandledStandaloneMdxWarnings,
@@ -155,6 +156,31 @@ describe('convertMdxToMd', () => {
     expect(output).toContain('"size"')
     expect(output).toContain('"Size of button"')
     expect(output).not.toContain('PropertiesTable')
+  })
+
+  it.each([
+    'extensions/forms/Wizard',
+    'extensions/forms/Form/useSubmit',
+    'extensions/forms/Form/useTranslation',
+    'extensions/forms/create-component/useFieldProps',
+    'extensions/forms/create-component/useValueProps',
+  ])('omits component customization guidance from %s', async (page) => {
+    const docsRoot = path.resolve(
+      '../../packages/dnb-design-system-portal/src/docs'
+    )
+    const output = await convertMdxToMd({
+      inputPath: path.join(docsRoot, 'uilib', page, 'properties.mdx'),
+      docsRoot,
+      docsBaseRoot: path.dirname(docsRoot),
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).not.toContain('usageGuidance')
+    expect(output).not.toContain(
+      'Some properties provide flexibility for specific integrations.'
+    )
   })
 
   it('includes extra attributes when converting PropertiesTable', async () => {
@@ -924,11 +950,19 @@ describe('convertMdxToMd', () => {
     expect(dateOfBirthEvents).toContain('```json')
     expect(dateOfBirthEvents).toContain('"onChange"')
     expect(dateOfBirthEvents).toContain('"onBlur"')
+    expect(dateOfBirthEvents).not.toContain('usageGuidance')
+    expect(dateOfBirthEvents).not.toContain(
+      'Some properties provide flexibility for specific integrations.'
+    )
 
     expect(selectCurrencyProperties).not.toContain('PropertiesTable')
     expect(selectCurrencyProperties).toContain('```json')
     expect(selectCurrencyProperties).toContain('"currencies"')
     expect(selectCurrencyProperties).toContain('"size"')
+    expect(selectCurrencyProperties).toContain('"usageGuidance"')
+    expect(selectCurrencyProperties).toContain(
+      'need a use case approved by DNB UX'
+    )
   })
 
   it('replaces AvailableCountriesTable with a markdown country table', async () => {
@@ -1341,5 +1375,26 @@ describe('frontmatter metadata', () => {
     expect(await extractDescriptionFromMdx(mdxPath)).toBe(
       'Use Button to start an action.'
     )
+  })
+})
+
+describe('findSourceInfo', () => {
+  it.each([
+    ['11.16.0', 'v11.16.0'],
+    ['11.16.0+main.4c04cde', 'main'],
+    ['0.0.0-development', 'main'],
+  ])('links the source of version %s to %s', async (version, ref) => {
+    const tsDocsDir = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'source-info-')
+    )
+    fs.writeFileSync(path.join(tsDocsDir, 'index.ts'), '')
+
+    const info = await findSourceInfo({
+      tsDocsDir,
+      name: 'Button',
+      version,
+    })
+
+    expect(info?.fileUrl).toContain(`/blob/${ref}/`)
   })
 })

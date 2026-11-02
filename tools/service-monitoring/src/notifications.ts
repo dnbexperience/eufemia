@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto'
 import type { Report } from '../../monitoring/report-incident.ts'
+import type { Service } from './monitor.ts'
 import { logFailure } from './diagnostics.ts'
 
 export type Observation =
-  | { kind: 'service'; service: 'CDN' | 'MCP'; report: Report }
+  | { kind: 'service'; service: Service; report: Report }
   | { kind: 'alarm'; name: string; status: 'ALARM' | 'OK'; at: string }
 type Source = {
   at: string

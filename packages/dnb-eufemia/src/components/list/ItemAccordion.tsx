@@ -35,6 +35,10 @@ export type ItemAccordionIconPosition = 'left' | 'right'
 
 export type ItemAccordionProps = {
   variant?: ListVariant
+  /**
+   * Initial open state. Defaults to `false`. The accordion can be toggled by the user via the header.
+   * Default: `false`
+   */
   open?: boolean
   /**
    * When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.
@@ -54,6 +58,10 @@ export type ItemAccordionProps = {
    * Called when the accordion open state changes. Receives an object with the `expanded` state.
    */
   onChange?: (args: { expanded: boolean }) => void
+  /**
+   * Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.
+   * Default: `"right"`
+   */
   chevronPosition?: ItemAccordionIconPosition
   icon?: IconIcon
   title?: ReactNode

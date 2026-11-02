@@ -33,7 +33,7 @@ export const TabsProperties: PropertiesTableProps = {
   },
   tabElement: {
     doc: "Define what HTML element should be used. You can provide e.g. `tabElement={Link}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.",
-    type: 'React.ReactNode',
+    type: ['string', 'React.ElementType'],
     status: 'optional',
   },
   '[data](/uilib/components/tabs/properties/#data-object)': {

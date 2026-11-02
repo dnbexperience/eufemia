@@ -114,7 +114,7 @@ export type GlobalStatusProps = {
    */
   omitSetFocusOnUpdate?: boolean
   /**
-   * Defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
+   * Defines the anchor text showing up after every item that has a go-to link (`statusAnchorUrl`). Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
    */
   statusAnchorText?: ReactNode
   /**
