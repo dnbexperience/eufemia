@@ -72,6 +72,21 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  variant: {
+    doc: 'Use `checkbox` or `radio` to show a checkbox or radio button in front of the text of every button. With `radio`, the group gets the `radiogroup` role. Defaults to `default`.',
+    type: ['"default"', '"checkbox"', '"radio"'],
+    status: 'optional',
+  },
+  leftComponent: {
+    doc: 'Custom content shown in front of the text of every button, when `variant` is `default`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  size: {
+    doc: 'The size of the buttons. There is `default`, `small`, `medium` and `large`.',
+    type: ['"default"', '"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
   suffix: {
     doc: 'Text describing the content of the ToggleButtonGroup more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButtonGroup component.',
     type: 'string',
