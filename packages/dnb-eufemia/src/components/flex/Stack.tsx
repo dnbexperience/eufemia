@@ -20,7 +20,7 @@ export type StackProps = Omit<
    */
   alignSelf?: FlexContainerAllProps['alignSelf']
   /**
-   * How much space between child items. Use `false` for no spacing. Defaults to `medium`, or `small` when `divider` is `line` or `line-framed`.
+   * How much space between child items. Use `false` for no spacing. In vertical direction, `rowGap` is used instead when both are set. Defaults to `medium`, or `small` when `divider` is `line` or `line-framed`.
    */
   gap?: FlexContainerAllProps['gap']
   /**

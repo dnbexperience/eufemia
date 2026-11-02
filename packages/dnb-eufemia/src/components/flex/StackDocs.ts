@@ -29,7 +29,7 @@ export const FlexStackProperties: PropertiesTableProps = {
     status: 'optional',
   },
   gap: {
-    doc: 'How much space between child items. Use `false` for no spacing. Defaults to `medium`, or `small` when `divider` is `line` or `line-framed`.',
+    doc: 'How much space between child items. Use `false` for no spacing. In vertical direction, `rowGap` is used instead when both are set. Defaults to `medium`, or `small` when `divider` is `line` or `line-framed`.',
     type: [
       '"xx-small"',
       '"x-small"',

@@ -6,7 +6,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type CardOverlayProps = Omit<StackProps, 'gap' | 'layoutEngine'> & {
   /**
-   * How much space between child items. Use `false` for no spacing. Defaults to `small`.
+   * How much space between child items. Use `false` for no spacing. In vertical direction, `rowGap` is used instead when both are set. Defaults to `small`.
    */
   gap?: StackProps['gap']
   /**
