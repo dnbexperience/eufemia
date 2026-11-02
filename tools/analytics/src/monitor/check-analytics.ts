@@ -61,7 +61,7 @@ export async function checkAnalytics(
     return undefined
   }
 
-  // Errors name only the status: GHE URLs would put the internal repository name in a public issue.
+  // Errors name only the status: GHE URLs would put the internal repository name in alerts and logs.
   async function get(url: string, type: string, token?: string) {
     const response = await request(url, {
       headers: token

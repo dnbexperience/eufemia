@@ -95,7 +95,7 @@ public GitHub (.github/workflows/analytics-lambda.yml)
 - **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from any branch. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
 - On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
-- **Failure alerts** (`analytics-health.yml`): a green public run only means the hand-off worked. Every hour, and after each public deploy run, a workflow checks the public deploy run, the newest GHE `deploy` run, that the GHE deploy ran the newest public commit, the API health endpoint and the dashboard page. A failure, or a deploy still running or out of date after an hour, opens an `Eufemia Analytics incident` issue and posts to the shared Slack alert webhook. The issue closes when all checks pass again.
+- **Failure alerts**: a green public run only means the hand-off worked; see [Production health monitor](#production-health-monitor).
 
 ### Required configuration
 
@@ -157,6 +157,6 @@ Terraform state reuses the shared `eufemia-mcp-terraform-state` bucket under the
 
 ## Production health monitor
 
-The analytics health workflow checks the public API and dashboard, then verifies the internal deployment run. Store its separate fine-grained credential as the public repository Actions secret GHE_MONITOR_PAT. Scope it to the internal analytics deployment repository with Actions read and the required Metadata read permission. It needs no Contents write or organization permissions. Keep GHE_DEPLOY_PAT reserved for deployment handoff.
+The AWS service monitoring (`tools/service-monitoring`) runs `checkAnalytics` every hour: the public deploy run, the newest GHE `deploy` run, whether that deploy ran the newest public commit, the API health endpoint and the dashboard page. Failures and recoveries go to the shared Slack monitoring channel, like the CDN and MCP checks. See tools/service-monitoring for its setup, including the GHE token secret it reads. A permission failure in deployment verification reports unhealthy even when the API and dashboard are available, so read the individual check results.
 
-The token must be active and approved for the internal organization, and renewed before its expiration. A permission failure in deployment verification reports an unhealthy monitor even when the API and dashboard remain available; inspect the individual check results in the incident.
+For an on-demand check, run `yarn workspace eufemia-analytics check:analytics` with GH_TOKEN (optional, public GitHub API), GHE_TOKEN (Actions read on the internal analytics deployment repository) and ANALYTICS_DEPLOY_REPOSITORY (owner/repo) set. It prints the report and writes analytics-health-report.json; it sends no messages.
