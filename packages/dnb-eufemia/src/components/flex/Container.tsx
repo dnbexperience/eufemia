@@ -48,6 +48,10 @@ export type FlexContainerProps = {
    */
   wrapChildrenInSpace?: boolean
   rowGap?: FlexGap
+  /**
+   * Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/uilib/layout/flex/item).
+   * Default: `12`
+   */
   sizeCount?: number
   /**
    * Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement.
