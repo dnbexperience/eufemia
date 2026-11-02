@@ -1,8 +1,8 @@
 name: Release SBOM check
 
 # The release workflow keeps the SBOM and its attestation non-blocking, so a
-# release can finish without them. This checks every release published in the
-# last three days once a release run has completed.
+# release can finish without them. Once a release run has completed, this
+# checks every version npm published in the last three days.
 on:
   workflow_run:
     workflows: ['Release']

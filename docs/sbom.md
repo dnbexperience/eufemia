@@ -113,6 +113,6 @@ package itself.
   generation ever fails, the release still completes and the artifacts
   can be regenerated afterwards.
 - The **Release SBOM check** workflow runs after every release run. It
-  fails when a release from the last three days lacks either file on its
-  GitHub release, or an attestation for its npm tarball that
-  `gh attestation verify` accepts.
+  fails when a version that npm published in the last three days has no
+  GitHub release, lacks either file on it, or has no attestation for its
+  npm tarball that `gh attestation verify` accepts.

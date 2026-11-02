@@ -1,66 +1,68 @@
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { checkReleases, verifyAttestation } from '../checkReleaseSbom.mjs'
-
-type Release = {
-  tag_name: string
-  draft: boolean
-  published_at: string | null
-  assets: Array<{ name: string }>
-}
+import {
+  checkReleases,
+  getReleaseAssets,
+  verifyAttestation,
+} from '../checkReleaseSbom.mjs'
 
 const now = Date.parse('2026-11-02T12:00:00Z')
-
-function release(
-  version: string,
-  publishedAt: string | null,
-  assets = [
-    `dnb-eufemia-${version}.tgz`,
-    'sbom.cdx.json',
-    'vulnerability-report.json',
-  ]
-): Release {
-  return {
-    tag_name: `v${version}`,
-    draft: false,
-    published_at: publishedAt,
-    assets: assets.map((name) => ({ name })),
-  }
+const time = {
+  created: '2018-01-01T00:00:00Z',
+  modified: '2026-11-02T10:00:00Z',
+  '11.16.1': '2026-10-28T12:53:21Z',
+  '11.17.0': '2026-11-02T10:00:00Z',
+  '12.0.0-beta.1': '2026-11-01T10:00:00Z',
+  // Unpublished: npm keeps its time but not the version.
+  '12.0.0': '2026-11-01T00:00:00Z',
 }
+const allAssets = async (version: string) => [
+  `dnb-eufemia-${version}.tgz`,
+  'sbom.cdx.json',
+  'vulnerability-report.json',
+]
 
 describe('checkReleases', () => {
-  it('checks the releases published in the last three days', async () => {
+  it('checks the versions npm published in the last three days', async () => {
+    const getAssets = vi.fn(allAssets)
     const verify = vi.fn(async () => undefined)
 
     const results = await checkReleases({
-      releases: [
-        release('11.17.0', '2026-11-02T10:00:00Z'),
-        release('11.16.1', '2026-10-28T12:53:21Z'),
-        { ...release('11.17.1', '2026-11-02T11:00:00Z'), draft: true },
-        release('11.17.2', null),
-        {
-          ...release('1.0.0', '2026-11-02T11:00:00Z'),
-          tag_name: 'tools-1',
-        },
-      ],
+      versions: ['11.16.1', '11.17.0'],
+      time,
       now,
+      getAssets,
       verify,
     })
 
     expect(results).toEqual([{ version: '11.17.0', problems: [] }])
+    expect(getAssets).toHaveBeenCalledTimes(1)
+    expect(getAssets).toHaveBeenCalledWith('11.17.0')
     expect(verify).toHaveBeenCalledTimes(1)
     expect(verify).toHaveBeenCalledWith('11.17.0')
   })
 
+  it('reports a version without a GitHub release', async () => {
+    const results = await checkReleases({
+      versions: ['11.17.0'],
+      time,
+      now,
+      getAssets: async () => undefined,
+      verify: async () => undefined,
+    })
+
+    expect(results).toEqual([
+      { version: '11.17.0', problems: ['there is no GitHub release'] },
+    ])
+  })
+
   it('reports missing SBOM files on the GitHub release', async () => {
     const results = await checkReleases({
-      releases: [
-        release('11.17.0', '2026-11-02T10:00:00Z', [
-          'dnb-eufemia-11.17.0.tgz',
-        ]),
-      ],
+      versions: ['11.17.0'],
+      time,
       now,
+      getAssets: async () => ['dnb-eufemia-11.17.0.tgz'],
       verify: async () => undefined,
     })
 
@@ -77,8 +79,10 @@ describe('checkReleases', () => {
 
   it('reports an attestation that cannot be verified', async () => {
     const results = await checkReleases({
-      releases: [release('12.0.0-beta.1', '2026-11-01T10:00:00Z')],
+      versions: ['12.0.0-beta.1'],
+      time,
       now,
+      getAssets: allAssets,
       verify: async (version) => `no attestation for ${version}`,
     })
 
@@ -91,7 +95,7 @@ describe('checkReleases', () => {
   })
 })
 
-describe('verifyAttestation', () => {
+describe('gh and npm commands', () => {
   let bin: string
   const originalPath = process.env.PATH
 
@@ -112,7 +116,19 @@ describe('verifyAttestation', () => {
     )
     writeFileSync(
       path.join(bin, 'gh'),
-      '#!/bin/sh\nprintf "%s\\n" "$*" > "$GH_ARGS"\n[ -z "$GH_FAIL" ]\n',
+      [
+        '#!/bin/sh',
+        'printf "%s\\n" "$*" > "$GH_ARGS"',
+        'if [ "$1" = api ]; then',
+        '  case "$GH_RELEASE" in',
+        '    missing) echo "gh: Not Found (HTTP 404)" >&2; exit 1 ;;',
+        '    error) echo "gh: Bad Gateway (HTTP 502)" >&2; exit 1 ;;',
+        '  esac',
+        '  echo \'["sbom.cdx.json"]\'',
+        '  exit 0',
+        'fi',
+        '[ -z "$GH_FAIL" ]',
+      ].join('\n'),
       { mode: 0o755 }
     )
     process.env.PATH = `${bin}${path.delimiter}${originalPath}`
@@ -123,8 +139,30 @@ describe('verifyAttestation', () => {
     process.env.PATH = originalPath
     delete process.env.GH_ARGS
     delete process.env.GH_FAIL
+    delete process.env.GH_RELEASE
     delete process.env.NPM_FAIL
     rmSync(bin, { recursive: true, force: true })
+  })
+
+  it('reads the asset names of the GitHub release', async () => {
+    expect(await getReleaseAssets('owner/repo', '1.2.3')).toEqual([
+      'sbom.cdx.json',
+    ])
+    expect(readFileSync(process.env.GH_ARGS, 'utf8')).toMatch(
+      /^api repos\/owner\/repo\/releases\/tags\/v1\.2\.3 /
+    )
+  })
+
+  it('reads no assets when the GitHub release does not exist', async () => {
+    process.env.GH_RELEASE = 'missing'
+
+    expect(await getReleaseAssets('owner/repo', '1.2.3')).toBeUndefined()
+  })
+
+  it('fails on other GitHub API errors', async () => {
+    process.env.GH_RELEASE = 'error'
+
+    await expect(getReleaseAssets('owner/repo', '1.2.3')).rejects.toThrow()
   })
 
   it('verifies the npm tarball against the release workflow', async () => {
