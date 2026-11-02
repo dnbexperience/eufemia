@@ -131,7 +131,7 @@ export type SharedFieldBlockProps = {
    */
   contentWidth?: FieldBlockWidth
   /**
-   * Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).
+   * Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set `openOnFind` to `true` to open matching inline help from browser find-in-page, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).
    */
   help?: HelpProps
   /**
@@ -149,7 +149,9 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
     FieldProps<Value>,
     keyof ComponentProps | 'info' | 'warning' | 'error' | 'disabled'
   > & {
-    /** The id to link an element with */
+    /**
+     * The `id` of the form element the label belongs to. It is used as the `for` attribute of the label.
+     */
     forId?: string
     /**
      * Use `true` when you have several form elements. This way a `fieldset` with a `legend` is used.
@@ -163,9 +165,13 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
      * `center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.
      */
     align?: 'center' | 'bottom'
-    /** Class name for the contents block */
+    /**
+     * Class name for the element that wraps the content (`children`).
+     */
     contentClassName?: string
-    /** To show the SubmitIndicator during async validation */
+    /**
+     * Shows the inline [SubmitIndicator](/uilib/extensions/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.
+     */
     fieldState?: SubmitState
     /**
      * Defines the height of a component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.
@@ -177,7 +183,9 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
     disableStatusSummary?: boolean
     /** For internal use only */
     required?: boolean
-    /** Role for the fieldset element when using fieldset */
+    /**
+     * The `role` of the fieldset element, when a fieldset is used.
+     */
     fieldsetRole?: string
     children?: ReactNode
   } & HTMLAttributes<HTMLDivElement>
