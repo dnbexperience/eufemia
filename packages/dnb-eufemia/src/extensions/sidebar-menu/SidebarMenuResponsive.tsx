@@ -1142,8 +1142,17 @@ function getFirstPaintCss(
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
   DrawerAllProps,
-  'onClose' | 'open'
+  'onClose' | 'open' | 'id' | 'dialogTitle'
 > & {
+  /**
+   * Id of the Drawer. Toggle and ResponsiveTrigger reference it with `aria-controls` automatically.
+   * Default: `"sidebar-menu-responsive-drawer"`
+   */
+  id?: string
+  /**
+   * Accessible name of the Drawer. Defaults to the translated menu label.
+   */
+  dialogTitle?: DrawerAllProps['dialogTitle']
   onClose?: DrawerAllProps['onClose']
 }
 

@@ -431,8 +431,8 @@ export const SidebarMenuResponsiveDrawerProperties: PropertiesTableProps =
       status: 'optional',
     },
     dialogTitle: {
-      doc: 'Accessible name of the Drawer.',
-      type: 'React.ReactNode',
+      doc: 'Accessible name of the Drawer. Defaults to the translated menu label.',
+      type: 'string',
       status: 'optional',
     },
     '[Drawer properties]': {
@@ -567,6 +567,12 @@ export const SidebarMenuAccordionProperties: PropertiesTableProps = {
     type: 'React.Element',
     status: 'optional',
   },
+  target: {
+    doc: 'Link target attribute.',
+    type: 'string',
+    status: 'optional',
+  },
+  rel: { doc: 'Link rel attribute.', type: 'string', status: 'optional' },
   children: {
     doc: 'Nested items and accordions.',
     type: 'React.ReactNode',
@@ -700,10 +706,24 @@ export const SidebarMenuGroupProperties: PropertiesTableProps = {
     type: 'React.Element',
     status: 'optional',
   },
+  target: {
+    doc: 'Link target attribute.',
+    type: 'string',
+    status: 'optional',
+  },
+  rel: { doc: 'Link rel attribute.', type: 'string', status: 'optional' },
   disabled: {
     doc: 'Disables activation of the optional page link.',
     type: 'boolean',
     defaultValue: 'false',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuGroupEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Called when the optional page link is activated.',
+    type: '(event: React.MouseEvent<HTMLElement>) => void',
     status: 'optional',
   },
 }
