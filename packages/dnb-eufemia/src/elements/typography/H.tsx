@@ -32,7 +32,7 @@ type HProps = SpacingProps &
      */
     level?: 'use'
     /**
-     * Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Use `auto` to use the size of the heading level. `H1` to `H6` default to `auto`.
+     * Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Use `auto` to use the size of the heading level. `H` defaults to `xx-large`, and `H1` to `H6` default to `auto`.
      */
     size?: HSize | 'auto'
     /**
