@@ -1,6 +1,16 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const ImgProperties: PropertiesTableProps = {
+  src: {
+    doc: 'The URL of the image.',
+    type: 'string',
+    status: 'required',
+  },
+  alt: {
+    doc: 'Text alternative for the image, read by screen readers. Use an empty string (`alt=""`) for decorative images.',
+    type: 'string',
+    status: 'required',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
