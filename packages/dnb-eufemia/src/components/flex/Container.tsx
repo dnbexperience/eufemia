@@ -65,7 +65,9 @@ export type FlexContainerProps = {
    * Default: `'flex-start'`
    */
   align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline'
-  /** For when used as a flex item in an outer container in addition to being a container: */
+  /**
+   * Align the container itself when it is a flex item in an outer container (CSS `align-self`).
+   */
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   /**
    * How to separate sub components.

@@ -4,7 +4,15 @@ import type { StackProps } from '../flex/Stack'
 import Theme from '../../shared/Theme'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type CardOverlayProps = StackProps & {
+export type CardOverlayProps = Omit<StackProps, 'gap' | 'layoutEngine'> & {
+  /**
+   * How much space between child items. Use `false` for no spacing. Defaults to `small`.
+   */
+  gap?: StackProps['gap']
+  /**
+   * Select the internal Flex layout engine. Defaults to `css`.
+   */
+  layoutEngine?: StackProps['layoutEngine']
   /** Add a transparent-to-dark gradient behind the content. Defaults to true. */
   gradient?: boolean
   /** Add progressive backdrop blur behind the content. Defaults to true. */
