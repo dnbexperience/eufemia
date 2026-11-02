@@ -1,15 +1,15 @@
 const jsBundles = [
-  // NB: Icon entry bundles are thin import/re-export wrappers and are excluded on purpose.
-
   { path: 'build/umd/dnb-ui-basis.min.js', maxSize: '5kB' },
   { path: 'build/umd/dnb-ui-components.min.js', maxSize: '280kB' },
   { path: 'build/umd/dnb-ui-elements.min.js', maxSize: '75kB' },
   { path: 'build/umd/dnb-ui-extensions.min.js', maxSize: '400kB' },
+  { path: 'build/umd/dnb-ui-icons.min.js', maxSize: '5kB' },
   { path: 'build/umd/dnb-ui-lib.min.js', maxSize: '280kB' },
   { path: 'build/esm/dnb-ui-basis.min.mjs', maxSize: '5kB' },
   { path: 'build/esm/dnb-ui-components.min.mjs', maxSize: '280kB' },
   { path: 'build/esm/dnb-ui-elements.min.mjs', maxSize: '75kB' },
   { path: 'build/esm/dnb-ui-extensions.min.mjs', maxSize: '400kB' },
+  { path: 'build/esm/dnb-ui-icons.min.mjs', maxSize: '5kB' },
   { path: 'build/esm/dnb-ui-lib.min.mjs', maxSize: '280kB' },
 ]
 
