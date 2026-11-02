@@ -46,7 +46,12 @@ export type CardProps = {
    * Align the Card itself when it is a flex item in an outer container (CSS `align-self`). Defaults to `stretch`.
    */
   alignSelf?: FlexItemProps['alignSelf']
-} & Omit<FlexContainerProps, 'direction' | 'alignSelf'> &
+
+  /**
+   * How much space between the sub components. Use `false` for no space. Defaults to `false`, or `medium` when `stack` is set.
+   */
+  gap?: FlexContainerProps['gap']
+} & Omit<FlexContainerProps, 'direction' | 'alignSelf' | 'gap'> &
   Pick<
     SectionProps,
     | 'outset'
