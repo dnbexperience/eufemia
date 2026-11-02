@@ -52,8 +52,13 @@ jobs:
     # Any job in the run can replace an artifact of the same name, and the
     # replacement gets a new ID, so a replaced package fails the download
     # instead of being published.
+    #
+    # The Pages artifact gets a name per run attempt: a re-run of this job
+    # uploads it again, and deploy-pages refuses a name two artifacts share.
     outputs:
       prepared-package-artifact-id: ${{ steps.upload-prepared-package.outputs.artifact-id }}
+      pages-artifact: github-pages-${{ github.run_attempt }}
+      pages-artifact-id: ${{ steps.upload-pages.outputs.artifact_id }}
 
     steps:
       - name: Git checkout
@@ -135,9 +140,11 @@ jobs:
           if-no-files-found: error
 
       - name: Upload portal artifact
+        id: upload-pages
         if: github.ref == 'refs/heads/release'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: ./packages/dnb-design-system-portal/public
           # A week, like the prepared package, so the deploy can be re-run.
           retention-days: 7
@@ -235,7 +242,7 @@ jobs:
       - name: Download the portal artifact
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: github-pages
+          name: ${{ needs.build.outputs.pages-artifact }}
           path: ${{ runner.temp }}/portal-artifact
 
       # upload-pages-artifact packs the site into a single uncompressed
@@ -765,7 +772,7 @@ jobs:
 
   deploy-portal:
     name: Deploy portal to GitHub Pages
-    needs: action
+    needs: [build, action]
     # Also when the publish job failed after npm had the version, so the
     # release still finishes without a re-run.
     if: ${{ !cancelled() && github.ref == 'refs/heads/release' &&
@@ -781,6 +788,7 @@ jobs:
     # Scoped to the minimum the deploy needs (the release job keeps the
     # broader permissions it requires for semantic-release).
     permissions:
+      actions: read # Check the portal artifact ID
       pages: write # Required to deploy to GitHub Pages
       id-token: write # Required for OIDC verification of the deployment
 
@@ -795,6 +803,23 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      # deploy-pages finds its artifact by name, so deploy only if that
+      # artifact still has the ID the build job recorded.
+      - name: Check the portal artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_NAME: ${{ needs.build.outputs.pages-artifact }}
+          ARTIFACT_ID: ${{ needs.build.outputs.pages-artifact-id }}
+        run: |
+          found="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?name=$ARTIFACT_NAME" \
+            --jq '[.artifacts[].id] | map(tostring) | join(",")')"
+          if [ -z "$ARTIFACT_ID" ] || [ "$found" != "$ARTIFACT_ID" ]; then
+            echo "::error::The portal artifact is not the one the build job uploaded."
+            exit 1
+          fi
+
       - name: Deploy portal
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        with:
+          artifact_name: ${{ needs.build.outputs.pages-artifact }}
