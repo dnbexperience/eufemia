@@ -4,14 +4,14 @@ import { getOffsetTop } from '../../shared/helpers'
 
 export type TableStickyHeaderProps = {
   /**
-   * Makes the Table header sticky
+   * Use `true` to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.
    * Default: `false`
    */
   sticky?: boolean | 'css-position'
 
   /**
-   * The offset from top in rem or em unit
-   * Default: `false`
+   * Defines the offset (top) from where the header should start to stick. Use a `rem` value like `"3.5rem"`, or a number in pixels. You may define your app header height here, if you have a sticky header on your page.
+   * Default: `0`
    */
   stickyOffset?: string | number
 }
