@@ -530,6 +530,19 @@ export const convertVariablesToTokens = ({
       continue
     }
 
+    const webCodeSyntax = variable.codeSyntax?.WEB
+    const expectedCodeSyntax = `--token-${variable.name.replaceAll('/', '-')}`
+
+    if (
+      /^(color|radius)\//.test(variable.name) &&
+      webCodeSyntax &&
+      webCodeSyntax !== expectedCodeSyntax
+    ) {
+      throw new Error(
+        `The Figma variable "${variable.name}" must use WEB code syntax "${expectedCodeSyntax}"`
+      )
+    }
+
     addTokenLeaf(
       tokens,
       variable.name.split('/'),

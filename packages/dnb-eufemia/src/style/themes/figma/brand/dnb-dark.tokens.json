@@ -3429,7 +3429,7 @@
             "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-color-stroke-neutral-subtle"
+            "WEB": "--token-color-stroke-neutral-base"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:27e40ae1cb0ebb30b1528d97e6689669d30ddc48/6740:14",
