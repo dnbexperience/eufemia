@@ -254,7 +254,7 @@ describe('convertMdxToMd', () => {
       '../../packages/dnb-design-system-portal/src/docs'
     )
     const output = await convertMdxToMd({
-      inputPath: path.join(docsRoot, 'uilib', page, 'properties.mdx'),
+      inputPath: path.join(docsRoot, 'web', page, 'properties.mdx'),
       docsRoot,
       docsBaseRoot: path.dirname(docsRoot),
       prettierConfig: {},

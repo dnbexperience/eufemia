@@ -106,19 +106,26 @@ test.describe("What's new", () => {
       exact: true,
     })
     const otherPage = sidebar.getByRole('link', {
-      name: 'Status icon pattern',
+      name: /Status icon(?: pattern)?$/,
       exact: true,
     })
     await expect(currentPage).toBeVisible()
     await expect(currentPage).toHaveAttribute('aria-current', 'page')
+    await sidebar
+      .getByRole('button', { name: 'Patterns', exact: true })
+      .click()
     await expect(otherPage).toBeVisible()
 
     await page.setViewportSize({ width: 375, height: 667 })
     await expect(sidebar).toBeHidden()
     await page.locator('#toggle-sidebar-menu').click()
-    await expect(currentPage).toBeVisible()
-    await expect(currentPage).toHaveAttribute('aria-current', 'page')
-    await expect(otherPage).toBeVisible()
+    const menu = page.getByRole('dialog', { name: 'Menu', exact: true })
+    await expect(
+      menu.getByRole('link', { name: "What's new", exact: true })
+    ).toHaveAttribute('aria-current', 'page')
+    await expect(
+      menu.getByRole('link', { name: /Status icon(?: pattern)?$/ })
+    ).toBeVisible()
   })
 
   for (const path of [

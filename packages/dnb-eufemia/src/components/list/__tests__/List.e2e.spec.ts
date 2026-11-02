@@ -603,7 +603,9 @@ for (const width of [400, 1024]) {
 
 test.describe('List text layout compatibility', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/web/components/list/visual-tests/text-layout/')
+    await page.goto('/web/components/list/visual-tests/text-layout/', {
+      waitUntil: 'domcontentloaded',
+    })
     await page.waitForFunction(() =>
       document.documentElement.hasAttribute('data-portal-ready')
     )
