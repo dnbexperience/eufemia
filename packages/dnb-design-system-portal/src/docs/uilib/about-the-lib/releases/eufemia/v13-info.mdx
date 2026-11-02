@@ -15,6 +15,7 @@ breadcrumb:
   - [Migration](#migration)
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
+    - [Design-token color migration](#design-token-color-migration)
   - [Print styles](#print-styles)
   - [Component changes](#component-changes)
     - [Theme](#theme)
@@ -50,6 +51,14 @@ $ yarn add @dnb/eufemia@13
 ```
 
 ## CSS custom properties
+
+### Design-token color migration
+
+The design-token color update changes the meaning of `--token-color-background-neutral-alternative` in DNB and removes 13 foundation CSS custom properties. Applications must review direct references, including Tailwind utilities and values in JavaScript/TypeScript strings.
+
+For text backgrounds, usually replace `--token-color-background-neutral-alternative` with `--token-color-background-neutral-subtle`. For UI fills such as progress tracks, usually use `--token-color-background-neutral-base`. Check contrast and nested surfaces in every supported theme and color mode; this is not a blanket find-and-replace.
+
+See [Migrating information and neutral colors](/uilib/usage/customisation/theming/design-tokens/colors#migrating-information-and-neutral-colors) for the before/after values, removed-variable inventory and application checklist. Follow that guidance when upgrading to the release containing this update, even if you are not upgrading to v13.
 
 ### Typography: \{#css-custom-properties-typography\}
 
