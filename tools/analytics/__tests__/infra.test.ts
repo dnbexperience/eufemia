@@ -204,4 +204,35 @@ describe('analytics infrastructure', () => {
       'aws_cloudfront_function.dashboard_edge_auth.arn'
     )
   })
+
+  it('requires TLS on both buckets', () => {
+    const requireTls = terraform.match(
+      /data "aws_iam_policy_document" "require_tls" \{[\s\S]*?^\}/m
+    )?.[0]
+    const dataPolicy = terraform.match(
+      /resource "aws_s3_bucket_policy" "data" \{[\s\S]*?^\}/m
+    )?.[0]
+    const dashboardPolicy = terraform.match(
+      /data "aws_iam_policy_document" "dashboard" \{[\s\S]*?^\}/m
+    )?.[0]
+
+    expect(requireTls).toMatch(/data\s+=\s+aws_s3_bucket\.data\.arn/)
+    expect(requireTls).toMatch(
+      /dashboard\s+=\s+aws_s3_bucket\.dashboard\.arn/
+    )
+    expect(requireTls).toMatch(/effect\s+=\s+"Deny"/)
+    expect(requireTls).toMatch(
+      /resources\s+=\s+\[each\.value, "\$\{each\.value\}\/\*"\]/
+    )
+    expect(requireTls).toMatch(
+      /variable\s+=\s+"aws:SecureTransport"\s+values\s+=\s+\["false"\]/
+    )
+
+    expect(dataPolicy).toContain(
+      'data.aws_iam_policy_document.require_tls["data"].json'
+    )
+    expect(dashboardPolicy).toContain(
+      'data.aws_iam_policy_document.require_tls["dashboard"].json'
+    )
+  })
 })
