@@ -38,10 +38,15 @@ export type CardProps = {
   element?: SpaceProps['element']
 
   /**
-   * Defaults to `vertical`.
+   * Direction of sub components. Can be: `horizontal` or `vertical`. Defaults to `vertical`.
    */
   direction?: FlexContainerProps['direction']
-} & Omit<FlexContainerProps, 'direction'> &
+
+  /**
+   * Align the Card itself when it is a flex item in an outer container (CSS `align-self`). Defaults to `stretch`.
+   */
+  alignSelf?: FlexItemProps['alignSelf']
+} & Omit<FlexContainerProps, 'direction' | 'alignSelf'> &
   Pick<
     SectionProps,
     | 'outset'
@@ -50,7 +55,7 @@ export type CardProps = {
     | 'dropShadow'
     | 'backgroundColor'
   > &
-  FlexItemProps & {
+  Omit<FlexItemProps, 'alignSelf'> & {
     stack?: boolean
   } & Omit<SpaceProps, 'element'> &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>

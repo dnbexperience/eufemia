@@ -18,7 +18,7 @@ export const CardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   direction: {
-    doc: 'Defaults to `vertical`.',
+    doc: 'Direction of sub components. Can be: `horizontal` or `vertical`. Defaults to `vertical`.',
     type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
@@ -37,7 +37,7 @@ export const CardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alignSelf: {
-    doc: 'Defaults to `stretch`.',
+    doc: 'Align the Card itself when it is a flex item in an outer container (CSS `align-self`). Defaults to `stretch`.',
     type: [
       '"flex-start"',
       '"flex-end"',
