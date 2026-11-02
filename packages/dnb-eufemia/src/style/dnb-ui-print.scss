@@ -37,13 +37,7 @@
     .dnb-print__page-break {
       break-before: page;
     }
-  }
 
-  .dnb-print-hidden {
-    display: none !important;
-  }
-
-  .dnb-print.dnb-print--plain {
     background: #fff !important;
 
     &,
@@ -55,7 +49,7 @@
       color-scheme: light !important;
       color: #000 !important;
       -webkit-text-fill-color: currentcolor !important;
-      border-color: #777 !important;
+      border-color: #000 !important;
       box-shadow: none !important;
       text-shadow: none !important;
       transition: none !important;
@@ -102,7 +96,7 @@
     .dnb-checkbox__button,
     .dnb-radio__button,
     .dnb-toggle-button__button {
-      outline: 0.0625rem solid #777;
+      outline: 0.0625rem solid #000;
       outline-offset: -0.0625rem;
     }
 
@@ -115,5 +109,9 @@
     .dnb-switch__button {
       border: 0.0625rem solid #000 !important;
     }
+  }
+
+  .dnb-print-hidden {
+    display: none !important;
   }
 }
