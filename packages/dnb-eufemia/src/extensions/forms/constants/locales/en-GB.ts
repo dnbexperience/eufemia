@@ -174,6 +174,9 @@ export default {
       errorRequired: 'You must enter an email address.',
       errorPattern: 'You must enter a valid email address.',
     },
+    Name: {
+      label: 'Name',
+    },
     FirstName: {
       label: 'Given name',
       errorRequired: 'You must enter a given name (first name).',
