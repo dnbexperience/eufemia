@@ -31,7 +31,17 @@ export type CardProps = {
    * Define if the Card should get the same background color as the outline border.
    */
   filled?: boolean
-} & FlexContainerProps &
+
+  /**
+   * Define the type of element. Defaults to `section`.
+   */
+  element?: SpaceProps['element']
+
+  /**
+   * Defaults to `vertical`.
+   */
+  direction?: FlexContainerProps['direction']
+} & Omit<FlexContainerProps, 'direction'> &
   Pick<
     SectionProps,
     | 'outset'
@@ -42,7 +52,7 @@ export type CardProps = {
   > &
   FlexItemProps & {
     stack?: boolean
-  } & SpaceProps &
+  } & Omit<SpaceProps, 'element'> &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
 
 function Card(props: CardProps) {

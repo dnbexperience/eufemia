@@ -13,13 +13,27 @@ export const CardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stack: {
-    doc: 'True to stack the sub components with space between. The `spacing` will default to `medium`. Defaults to `false`.',
+    doc: 'True to stack the sub components with space between. The `gap` will default to `medium`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   direction: {
     doc: 'Defaults to `vertical`.',
     type: ['"horizontal"', '"vertical"'],
+    status: 'optional',
+  },
+  gap: {
+    doc: 'How much space between the sub components. Use `false` for no space. Defaults to `false`, or `medium` when `stack` is set.',
+    type: [
+      '"xx-small"',
+      '"x-small"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
+      'false',
+    ],
     status: 'optional',
   },
   alignSelf: {
