@@ -158,11 +158,23 @@ function main() {
     // Install the fixture's pinned toolchain from its committed lockfile
     // (`npm ci` is exact and reproducible), then add the packed @dnb/eufemia
     // tarball with --no-save so it never rewrites the lockfile — the toolchain
-    // that drives the bundler stays deterministic across runs.
-    run('npm', ['ci', '--no-audit', '--no-fund'], workDir)
+    // that drives the bundler stays deterministic across runs. Neither install
+    // runs dependency lifecycle scripts: the fixtures build without them.
     run(
       'npm',
-      ['install', '--no-audit', '--no-fund', '--no-save', tarball],
+      ['ci', '--no-audit', '--no-fund', '--ignore-scripts'],
+      workDir
+    )
+    run(
+      'npm',
+      [
+        'install',
+        '--no-audit',
+        '--no-fund',
+        '--no-save',
+        '--ignore-scripts',
+        tarball,
+      ],
       workDir
     )
     run('npm', ['run', 'build'], workDir)

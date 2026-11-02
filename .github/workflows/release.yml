@@ -138,9 +138,8 @@ jobs:
             packages/dnb-eufemia/build
 
       # Capture the artifact immediately after validation, before the consumer
-      # smoke tests below: those install their fixtures with `npm ci`, which runs
-      # dependency lifecycle scripts with write access to build/ (Yarn installs
-      # here do not — `enableScripts: false`). Archiving first keeps the package
+      # smoke tests below: they build their fixtures with third-party bundlers
+      # that have write access to build/. Archiving first keeps the package
       # the release job publishes identical to the one `validate:package`
       # checked. tar preserves hidden files and executable modes on the way to
       # the minimal release job.
