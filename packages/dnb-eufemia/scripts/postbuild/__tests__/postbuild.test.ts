@@ -9,7 +9,12 @@
 import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
+import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
+import vm from 'node:vm'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { renderToString } from 'react-dom/server'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
 import { themeCapabilities } from '../../../src/style/themes/capabilities'
@@ -929,7 +934,7 @@ describe('tsdown build', () => {
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
-              /import\*as \w from"\.\.\/icons\/dnb\/primary_icons";/ // "../icons/dnb/primary_icons"
+              /import\*as \w from"\.\/dnb-ui-icons\.min\.mjs";/ // "./dnb-ui-icons.min.mjs"
             )
           }
         }
@@ -945,13 +950,75 @@ describe('tsdown build', () => {
             expect(content).toContain('function(e,t)')
             expect(content).toContain('require(`react`),')
             expect(content).toContain('require(`react-dom`)):')
-            expect(content).toContain(
-              'require(`../icons/dnb/primary_icons`)'
-            )
+            expect(content).toContain('require(`./dnb-ui-icons.min.js`)')
           }
         }
         break
     }
+  })
+
+  it('loads the ESM bundles with the Node module loader', () => {
+    // Node resolves imports like browsers do, without guessing file extensions
+    const output = execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '--eval',
+        `
+          import React from 'react'
+          import ReactDOMServer from 'react-dom/server'
+          import { Button } from './build/esm/dnb-ui-lib.min.mjs'
+          import { chevron_right_medium } from './build/esm/dnb-ui-icons.min.mjs'
+          process.stdout.write(typeof chevron_right_medium + ReactDOMServer.renderToString(
+            React.createElement(Button, { text: 'Go', icon: 'chevron_right' })
+          ))
+        `,
+      ],
+      { cwd: PKG_ROOT, encoding: 'utf-8' }
+    )
+
+    expect(output).toMatch(/^function<button/)
+    expect(output).toContain('<svg')
+  })
+
+  it('ships the icons inside the icons bundles', () => {
+    const esm = fs.readFileSync(
+      path.resolve(PKG_ROOT, 'build/esm/dnb-ui-icons.min.mjs'),
+      'utf-8'
+    )
+    expect(esm).not.toContain('../icons/')
+
+    const context = vm.createContext({ React })
+    vm.runInContext(
+      fs.readFileSync(
+        path.resolve(PKG_ROOT, 'build/umd/dnb-ui-icons.min.js'),
+        'utf-8'
+      ),
+      context
+    )
+    expect(typeof context.dnbIcons.chevron_right).toBe('function')
+    expect(typeof context.dnbIcons.chevron_right_medium).toBe('function')
+  })
+
+  it('renders with the UMD bundles from browser globals', () => {
+    const context = vm.createContext({ React, ReactDOM })
+    for (const file of ['dnb-ui-icons.min.js', 'dnb-ui-lib.min.js']) {
+      vm.runInContext(
+        fs.readFileSync(
+          path.resolve(PKG_ROOT, `build/umd/${file}`),
+          'utf-8'
+        ),
+        context
+      )
+    }
+
+    const html = renderToString(
+      React.createElement(context.dnbLib.Button, {
+        text: 'Go',
+        icon: 'chevron_right',
+      })
+    )
+    expect(html).toContain('<svg')
   })
 })
 
