@@ -50,8 +50,14 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
+    doc: 'Defines the state of the status. Can be `error`, `warning`, `information`, `success` or `marketing`. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {
