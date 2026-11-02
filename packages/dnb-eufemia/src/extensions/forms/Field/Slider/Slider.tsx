@@ -26,8 +26,17 @@ export type FieldSliderProps = FieldProps<SliderValue> & {
    * Define an array with JSON Pointer paths for multiple thumb buttons.
    */
   paths?: Array<Path>
+  /**
+   * The steps the slider takes on changing the value. Can also be a JSON Pointer path to a value in the data context. Defaults to `1`.
+   */
   step?: SliderProps['step'] | Path
+  /**
+   * The minimum value. Can be a negative number as well, or a JSON Pointer path to a value in the data context. Defaults to `0`.
+   */
   min?: SliderProps['min'] | Path
+  /**
+   * The maximum value. Can also be a JSON Pointer path to a value in the data context. Defaults to `100`.
+   */
   max?: SliderProps['max'] | Path
   vertical?: SliderProps['vertical']
   reverse?: SliderProps['reverse']
