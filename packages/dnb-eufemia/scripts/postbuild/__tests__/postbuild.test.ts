@@ -921,6 +921,16 @@ describe('agent skills', () => {
 describe('tsdown build', () => {
   const buildStages = ['/esm', '/umd']
 
+  // The icons bundle comes first, as the other UMD bundles read its global
+  const bundleGlobals = {
+    icons: 'dnbIcons',
+    basis: 'dnbBasis',
+    components: 'dnbComponents',
+    elements: 'dnbElements',
+    extensions: 'dnbExtensions',
+    lib: 'dnbLib',
+  }
+
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     switch (stage) {
       case '/esm':
@@ -957,7 +967,14 @@ describe('tsdown build', () => {
     }
   })
 
-  it('loads the ESM bundles with the Node module loader', () => {
+  it('loads every ESM bundle with the Node module loader', () => {
+    const imports = Object.keys(bundleGlobals)
+      .map(
+        (name) =>
+          `import * as ${name} from './build/esm/dnb-ui-${name}.min.mjs'`
+      )
+      .join('\n')
+
     // Node resolves imports like browsers do, without guessing file extensions
     const output = execFileSync(
       process.execPath,
@@ -967,10 +984,9 @@ describe('tsdown build', () => {
         `
           import React from 'react'
           import ReactDOMServer from 'react-dom/server'
-          import { Button } from './build/esm/dnb-ui-lib.min.mjs'
-          import { chevron_right_medium } from './build/esm/dnb-ui-icons.min.mjs'
-          process.stdout.write(typeof chevron_right_medium + ReactDOMServer.renderToString(
-            React.createElement(Button, { text: 'Go', icon: 'chevron_right' })
+          ${imports}
+          process.stdout.write(typeof icons.chevron_right_medium + ReactDOMServer.renderToString(
+            React.createElement(lib.Button, { text: 'Go', icon: 'chevron_right' })
           ))
         `,
       ],
@@ -981,35 +997,17 @@ describe('tsdown build', () => {
     expect(output).toContain('<svg')
   })
 
-  it('ships the icons inside the icons bundles', () => {
-    const esm = fs.readFileSync(
-      path.resolve(PKG_ROOT, 'build/esm/dnb-ui-icons.min.mjs'),
-      'utf-8'
-    )
-    expect(esm).not.toContain('../icons/')
-
-    const context = vm.createContext({ React })
-    vm.runInContext(
-      fs.readFileSync(
-        path.resolve(PKG_ROOT, 'build/umd/dnb-ui-icons.min.js'),
-        'utf-8'
-      ),
-      context
-    )
-    expect(typeof context.dnbIcons.chevron_right).toBe('function')
-    expect(typeof context.dnbIcons.chevron_right_medium).toBe('function')
-  })
-
-  it('renders with the UMD bundles from browser globals', () => {
+  it('loads every UMD bundle from browser globals', () => {
     const context = vm.createContext({ React, ReactDOM })
-    for (const file of ['dnb-ui-icons.min.js', 'dnb-ui-lib.min.js']) {
+    for (const [name, globalName] of Object.entries(bundleGlobals)) {
       vm.runInContext(
         fs.readFileSync(
-          path.resolve(PKG_ROOT, `build/umd/${file}`),
+          path.resolve(PKG_ROOT, `build/umd/dnb-ui-${name}.min.js`),
           'utf-8'
         ),
         context
       )
+      expect(context[globalName]).toBeDefined()
     }
 
     const html = renderToString(
@@ -1018,7 +1016,19 @@ describe('tsdown build', () => {
         icon: 'chevron_right',
       })
     )
+    expect(typeof context.dnbIcons.chevron_right_medium).toBe('function')
     expect(html).toContain('<svg')
+  })
+
+  it('ships the icons inside the icons bundles', () => {
+    for (const file of [
+      'esm/dnb-ui-icons.min.mjs',
+      'umd/dnb-ui-icons.min.js',
+    ]) {
+      expect(
+        fs.readFileSync(path.resolve(PKG_ROOT, `build/${file}`), 'utf-8')
+      ).not.toContain('../icons/')
+    }
   })
 })
 
