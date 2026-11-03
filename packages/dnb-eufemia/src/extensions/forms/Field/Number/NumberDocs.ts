@@ -13,7 +13,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   currency: {
-    doc: 'Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.',
+    doc: 'Currency code (ISO 4217) or `true` to use the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set. Uses two decimals by default.',
     type: ['boolean', 'string'],
     status: 'optional',
   },
