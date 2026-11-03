@@ -116,7 +116,9 @@ export function MultiSelectionItemList({
       className={clsx(
         'dnb-forms-field-multi-selection__item',
         item.children && 'dnb-forms-field-multi-selection__item--parent',
-        selectedValueSet.has(item.value) &&
+        (item.children
+          ? getParentState(item).checked
+          : selectedValueSet.has(item.value)) &&
           'dnb-forms-field-multi-selection__item--selected',
         item.disabled && 'dnb-forms-field-multi-selection__item--disabled',
         depth > 0 &&
