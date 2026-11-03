@@ -136,4 +136,41 @@ describe('List scss', () => {
       '.dnb-list--variant-basic { --list-item-cell-height: 2rem }',
     ])
   })
+
+  // Like in the design, a control taller than the cell box (a 40px Button)
+  // is centered on the title line and reaches into the row padding.
+  it('should keep an end cell with only a control as tall as the cell box', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const maxHeights: Array<{
+      media: string
+      selector: string
+      value: string
+    }> = []
+
+    postcss.parse(css).walkDecls('max-height', (decl) => {
+      const rule = decl.parent as postcss.Rule
+      if (rule.selector.includes('.dnb-list__item__end')) {
+        maxHeights.push({
+          media: (rule.parent as postcss.AtRule).params,
+          selector: rule.selector,
+          value: decl.value,
+        })
+      }
+    })
+
+    expect(maxHeights).toHaveLength(1)
+
+    const [{ media, selector, value }] = maxHeights
+
+    // On small screens, the end cell is placed below the text
+    expect(media).toContain('min-width')
+    expect(selector).toContain('.dnb-button')
+    expect(selector).toContain(':only-child')
+
+    // A horizontal flex container can wrap onto more lines
+    expect(selector).toContain(':not(.dnb-flex-container)')
+
+    // Rows outside a List.Container keep their own height
+    expect(value).toBe('var(--list-item-cell-height, none)')
+  })
 })

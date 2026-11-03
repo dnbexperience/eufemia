@@ -223,6 +223,14 @@
       &:has(> #{$end-control}) {
         justify-content: center;
       }
+
+      // Like in the design, a control taller than the box (a 40px Button) is
+      // centered on the title line and reaches into the row padding
+      &:has(> #{$end-control}:not(.dnb-flex-container):only-child) {
+        @include utilities.allAbove(small) {
+          max-height: var(--list-item-cell-height, none);
+        }
+      }
     }
     @at-root :where(#{&}__title),
       :where(#{&}__end) {
