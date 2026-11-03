@@ -36,7 +36,6 @@ import {
   Button,
   CopyOnClick,
   Dialog,
-  Dropdown,
   List,
   NumberFormat,
   P,
@@ -49,7 +48,8 @@ import {
   bank,
   card,
   close,
-  globe,
+  attachment,
+  microphone,
   loan,
   pay_from,
   refresh,
@@ -424,43 +424,58 @@ export function AiPromptInputCustomActions({
           ? 'ai-prompt-input-custom-compact'
           : 'ai-prompt-input-custom'
       }
-      scope={{ variant, globe }}
+      scope={{ variant, attachment, microphone, close }}
     >
       {() => {
         const CustomActions = () => {
-          const [searchWeb, setSearchWeb] = useState(false)
-          const [source, setSource] = useState(0)
+          const [value, setValue] = useState('')
+          const [hasAttachment, setHasAttachment] = useState(false)
           return (
             <PromptInput
               variant={variant}
               icon={null}
+              value={value}
+              onChange={({ value }) => setValue(value)}
+              onSubmit={() => setValue('')}
               startActions={
                 <Button
                   type="button"
                   variant="tertiary"
                   size="small"
-                  aria-pressed={searchWeb}
-                  icon={globe}
+                  icon={attachment}
                   iconSize="default"
-                  aria-label="Web search"
-                  tooltip="Web search"
-                  onClick={() => setSearchWeb(!searchWeb)}
+                  aria-label="Add attachment"
+                  tooltip="Add attachment"
+                  disabled={hasAttachment}
+                  onClick={() => setHasAttachment(true)}
                 />
               }
               endActions={
-                variant === 'default' && (
-                  <Dropdown
-                    label="Sources"
-                    labelSrOnly
-                    independentWidth
-                    value={source}
-                    size="small"
-                    data={['All', 'Files']}
-                    onChange={({ value }) => setSource(Number(value))}
-                  />
-                )
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  size="small"
+                  icon={microphone}
+                  iconSize="default"
+                  aria-label="Use microphone"
+                  tooltip="Use microphone"
+                  onClick={() => setValue('Show my latest transactions')}
+                />
               }
-            />
+            >
+              {hasAttachment && (
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  size="small"
+                  icon={close}
+                  iconSize="default"
+                  text="Budget.pdf"
+                  aria-label="Remove Budget.pdf"
+                  onClick={() => setHasAttachment(false)}
+                />
+              )}
+            </PromptInput>
           )
         }
         return <CustomActions />
