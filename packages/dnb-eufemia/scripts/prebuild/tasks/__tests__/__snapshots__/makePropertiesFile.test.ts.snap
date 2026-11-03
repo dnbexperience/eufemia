@@ -1221,7 +1221,7 @@ exports[`makePropertiesFile > Tokens snapshots for > sbanken 2`] = `
   --token-color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-text-neutral-subtle: var(--sbanken-greyscale-600);
   --token-color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
-  --token-color-text-error: #ff8099;
+  --token-color-text-error: var(--sbanken-red-600);
   --token-color-text-error-inverse: var(--sbanken-red-950);
   --token-color-text-warning: var(--sbanken-yellow-600);
   --token-color-text-warning-inverse: var(--sbanken-yellow-800);
@@ -1478,7 +1478,7 @@ exports[`makePropertiesFile > Tokens snapshots for > sbanken 3`] = `
   --sbanken-green-950: #0d1f1b;
   --sbanken-red-100: #ffecf3;
   --sbanken-red-200: #ffdbe9;
-  --sbanken-red-600: #ff3c64;
+  --sbanken-red-600: #ff8099;
   --sbanken-red-700: #d8134b;
   --sbanken-red-950: #3c010b;
   --sbanken-orange-400: #ff817b;
@@ -1903,7 +1903,7 @@ exports[`makePropertiesFile > Tokens snapshots for > ui 2`] = `
   --token-color-text-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral-subtle: var(--dnb-greyscale-600);
   --token-color-text-neutral-subtle-ondark: var(--dnb-greyscale-200);
-  --token-color-text-error: #ff6b6b;
+  --token-color-text-error: var(--dnb-red-500);
   --token-color-text-error-inverse: var(--dnb-red-600);
   --token-color-text-warning: var(--dnb-yellow-500);
   --token-color-text-warning-inverse: var(--dnb-yellow-800);
@@ -2161,7 +2161,7 @@ exports[`makePropertiesFile > Tokens snapshots for > ui 3`] = `
   --dnb-green-950: #1c342d;
   --dnb-red-50: #fceeee;
   --dnb-red-100: #fcdddd;
-  --dnb-red-500: #ff4646;
+  --dnb-red-500: #ff5959;
   --dnb-red-600: #d52525;
   --dnb-red-700: #b21e1e;
   --dnb-red-900: #541515;

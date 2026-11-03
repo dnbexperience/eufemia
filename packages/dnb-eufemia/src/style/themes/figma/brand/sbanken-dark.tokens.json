@@ -1828,6 +1828,12 @@
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-text-error"
+          },
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:db5c24aade16167c29f6ea48a74785172e5f879f/6740:128",
+            "targetVariableName": "sbanken/red/600",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetName": "colors"
           }
         }
       },
@@ -2733,11 +2739,11 @@
           "colorSpace": "srgb",
           "components": [
             1,
-            0.23529411852359772,
-            0.3921568691730499
+            0.5019607843137255,
+            0.6
           ],
           "alpha": 1,
-          "hex": "#FF3C64"
+          "hex": "#FF8099"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:53690:1341",
@@ -3579,11 +3585,11 @@
           "colorSpace": "srgb",
           "components": [
             1,
-            0.23529411852359772,
-            0.3921568691730499
+            0.5019607843137255,
+            0.6
           ],
           "alpha": 1,
-          "hex": "#FF3C64"
+          "hex": "#FF8099"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:724",
