@@ -149,7 +149,7 @@ import BellMedium from '@dnb/eufemia/icons/bell_medium'
 
 ## UMD
 
-In case you do not have a compiling/build process, you can use the UMD packed version of the `@dnb/eufemia`.
+In case you do not have a compiling/build process, you can use the UMD packed version of the `@dnb/eufemia`. The bundles need `React` and `ReactDOM` as global variables, and React 19 has no UMD builds, so see [Bundles](/uilib/usage/first-steps/bundles/#usage-of-umd-bundles) for how to load React.
 
 ```html
 <html>
@@ -170,8 +170,14 @@ In case you do not have a compiling/build process, you can use the UMD packed ve
   </head>
   <body>
     ...
-    <script src="https://unpkg.com/@dnb/eufemia@latest/umd/dnb-ui-icons.min.js"></script>
-    <script src="https://unpkg.com/@dnb/eufemia@latest/umd/dnb-ui-lib.min.js"></script>
+    <script
+      defer
+      src="https://unpkg.com/@dnb/eufemia@latest/umd/dnb-ui-icons.min.js"
+    ></script>
+    <script
+      defer
+      src="https://unpkg.com/@dnb/eufemia@latest/umd/dnb-ui-lib.min.js"
+    ></script>
   </body>
 </html>
 ```
