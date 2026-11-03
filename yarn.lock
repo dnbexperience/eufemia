@@ -1681,22 +1681,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:7.29.7":
-  version: 7.29.7
-  resolution: "@babel/plugin-transform-runtime@npm:7.29.7"
-  dependencies:
-    "@babel/helper-module-imports": "npm:^7.29.7"
-    "@babel/helper-plugin-utils": "npm:^7.29.7"
-    babel-plugin-polyfill-corejs2: "npm:^0.4.14"
-    babel-plugin-polyfill-corejs3: "npm:^0.13.0"
-    babel-plugin-polyfill-regenerator: "npm:^0.6.5"
-    semver: "npm:^6.3.1"
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 10/4b0b4702e523440530cd0d166b73866470609969afb41b62b2ce3b51a007cad509c77ad21a1bdc62732470d212600cbb6604ca3b8ee89c9e3c6af2f0cd1a63bc
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-transform-shorthand-properties@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/plugin-transform-shorthand-properties@npm:7.29.7"
@@ -1952,15 +1936,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 10/9475696152579933dbb0ffa7f47e0a3d130064101fc6ee471ec4cd8f20c70438798f3165708cb2ad29f585d81af0a26a4c233d732fbe63c7abec6a63b7d509d8
-  languageName: node
-  linkType: hard
-
-"@babel/runtime-corejs3@npm:7.28.4":
-  version: 7.28.4
-  resolution: "@babel/runtime-corejs3@npm:7.28.4"
-  dependencies:
-    core-js-pure: "npm:^3.43.0"
-  checksum: 10/99079931145c0606a9967fe002c3528ae237b759cee115fc97a5dc17101d5ccdf9a794fd4ce5d94c7e2e8ee1f9f6816fb50b4472e980b5e4dd878fbdfac02619
   languageName: node
   linkType: hard
 
@@ -2818,11 +2793,9 @@ __metadata:
     "@babel/plugin-transform-modules-commonjs": "npm:7.27.1"
     "@babel/plugin-transform-nullish-coalescing-operator": "npm:7.27.1"
     "@babel/plugin-transform-react-constant-elements": "npm:7.27.1"
-    "@babel/plugin-transform-runtime": "npm:7.29.7"
     "@babel/preset-env": "npm:7.29.7"
     "@babel/preset-react": "npm:7.29.7"
     "@babel/preset-typescript": "npm:7.29.7"
-    "@babel/runtime-corejs3": "npm:7.28.4"
     "@blazediff/core": "npm:1.9.1"
     "@dnb/browserslist-config": "npm:1.4.1"
     "@emotion/react": "npm:11.14.0"
@@ -7335,7 +7308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-polyfill-corejs2@npm:^0.4.14, babel-plugin-polyfill-corejs2@npm:^0.4.15":
+"babel-plugin-polyfill-corejs2@npm:^0.4.15":
   version: 0.4.17
   resolution: "babel-plugin-polyfill-corejs2@npm:0.4.17"
   dependencies:
@@ -7348,7 +7321,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-polyfill-corejs3@npm:0.13.0, babel-plugin-polyfill-corejs3@npm:^0.13.0":
+"babel-plugin-polyfill-corejs3@npm:0.13.0":
   version: 0.13.0
   resolution: "babel-plugin-polyfill-corejs3@npm:0.13.0"
   dependencies:
@@ -7372,7 +7345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-polyfill-regenerator@npm:^0.6.5, babel-plugin-polyfill-regenerator@npm:^0.6.6":
+"babel-plugin-polyfill-regenerator@npm:^0.6.6":
   version: 0.6.8
   resolution: "babel-plugin-polyfill-regenerator@npm:0.6.8"
   dependencies:
@@ -8311,7 +8284,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js-pure@npm:3.50.0, core-js-pure@npm:^3.43.0":
+"core-js-pure@npm:3.50.0":
   version: 3.50.0
   resolution: "core-js-pure@npm:3.50.0"
   checksum: 10/4009d549c955dbd4274b58a6c36c7afce8a8f468a631bacb06708873bf503b1c91cbf5baa88c8605c2fff2ccc481fb337e9358c16c029c701d0fffa074e1706e

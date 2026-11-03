@@ -142,30 +142,18 @@ const config = {
     },
     esm: {
       presets: legacyPresets,
-      plugins: [
-        ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }],
-      ],
+      plugins: productionPlugins,
     },
     es: {
-      plugins: [
-        ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }],
-      ],
+      plugins: productionPlugins,
     },
     umd: {
       presets: legacyPresets,
-      plugins: [
-        ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }],
-      ],
+      plugins: productionPlugins,
     },
     production: {
       presets: legacyPresets,
-      plugins: [
-        ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }],
-      ],
+      plugins: productionPlugins,
     },
     development: { presets: presetsGeneral },
     test: {

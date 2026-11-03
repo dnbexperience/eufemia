@@ -355,6 +355,27 @@ describe('babel build', () => {
     expect(invalidExtensions).toHaveLength(0)
   })
 
+  it('inlines Babel helpers instead of importing @babel/runtime', async () => {
+    const buildDir = path.resolve(PKG_ROOT, 'build')
+    const files = await globby('**/*.{js,mjs,cjs}', {
+      cwd: buildDir,
+      ignore: ['**/node_modules/**'],
+    })
+    const runtimeImport = /['"]@babel\/runtime[^'"/]*\//
+
+    const contents = await Promise.all(
+      files.map((file) =>
+        fs.promises.readFile(path.resolve(buildDir, file), 'utf-8')
+      )
+    )
+    const filesWithRuntimeImports = files.filter((_, index) =>
+      runtimeImport.test(contents[index])
+    )
+
+    expect(files.length).toBeGreaterThan(0)
+    expect(filesWithRuntimeImports).toEqual([])
+  })
+
   it('imports inside "src" should not contain "/src/"', async () => {
     try {
       const files = await getCommittedFiles(10)
@@ -1394,23 +1415,6 @@ describe('review rule metadata build', () => {
 })
 
 describe('package.json dependencies', () => {
-  it('includes @babel/runtime-corejs3 as a runtime dependency', () => {
-    // The published build artifacts contain imports from
-    // "@babel/runtime-corejs3/helpers/esm/*" because they were compiled with
-    // @babel/plugin-transform-runtime using corejs: 3. Consumers bundling with
-    // tools like esbuild or Vite will get a build error if this package is not
-    // listed as a dependency in the published package.json.
-    // See: https://github.com/dnbexperience/eufemia/pull/7994 (accidental removal)
-    //      https://github.com/dnbexperience/eufemia/pull/8016 (re-added)
-    const packageJson = fs.readJsonSync(
-      path.resolve(PKG_ROOT, 'package.json')
-    )
-
-    expect(packageJson.dependencies).toMatchObject({
-      '@babel/runtime-corejs3': expect.any(String),
-    })
-  })
-
   it('includes postcss-selector-parser as a runtime dependency', () => {
     // The published package ships the postcss-isolated-style-scope plugin
     // (build/plugins/) which requires "postcss-selector-parser" at runtime.
