@@ -25,7 +25,7 @@
     --token-color-icon-action-disabled
   );
   --menu-divider-color: var(--token-color-stroke-neutral-subtle);
-  --menu-content-padding: 0.25rem;
+  --menu-content-padding: 0rem; // keep the unit, MenuList uses it in calc()
 
   // Menu width should fit its content. Override Popover's min-width.
   &.dnb-popover {
