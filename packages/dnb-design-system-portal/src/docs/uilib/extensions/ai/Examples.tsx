@@ -441,7 +441,7 @@ export function AiPromptInputCustomActions({
                 <Button
                   type="button"
                   variant="tertiary"
-                  size="small"
+                  bounding
                   icon={attachment}
                   iconSize="default"
                   aria-label="Add attachment"
@@ -454,7 +454,7 @@ export function AiPromptInputCustomActions({
                 <Button
                   type="button"
                   variant="tertiary"
-                  size="small"
+                  bounding
                   icon={microphone}
                   iconSize="default"
                   aria-label="Use microphone"
@@ -467,7 +467,7 @@ export function AiPromptInputCustomActions({
                 <Button
                   type="button"
                   variant="tertiary"
-                  size="small"
+                  bounding
                   icon={close}
                   iconSize="default"
                   text="Budget.pdf"
