@@ -691,7 +691,7 @@ describe('Checkbox scss', () => {
       /--checkbox-color-background-off--disabled: transparent;/
     )
     expect(surfaceDark).toMatch(
-      /--checkbox-color-border-off--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
+      /--checkbox-color-border-off--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
     )
     expect(surfaceDark).toMatch(
       /--checkbox-color-border__indeterminate--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
