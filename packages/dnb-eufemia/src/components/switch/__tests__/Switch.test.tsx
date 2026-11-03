@@ -364,6 +364,17 @@ describe('Switch scss', () => {
     )
   })
 
+  it('shows the error knob without a ring and with the inverse icon on hover and focus', () => {
+    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-switch__status--error \{[^}]*--switch-focus-icon: var\(--token-color-icon-neutral-inverse\);/
+    )
+    expect(css).toMatch(
+      /html:not\(\[data-whatinput=keyboard\]\) \.dnb-switch__status--error \.dnb-switch__input:not\(\[disabled\]\):not\(:active\):hover ~ \.dnb-switch__button,\s*html\[data-whatinput=keyboard\] \.dnb-switch__status--error \.dnb-switch__input:not\(\[disabled\]\):focus ~ \.dnb-switch__button \{\s*box-shadow: none;/
+    )
+  })
+
   it('shows disabled switches with the disabled text color in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-switch.scss'))
 
