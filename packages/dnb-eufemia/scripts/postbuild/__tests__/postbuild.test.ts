@@ -1393,6 +1393,41 @@ describe('review rule metadata build', () => {
   })
 })
 
+describe('ESM plugins build', () => {
+  it.each(getBuildStages(['/es', '/esm']))(
+    'resolves all relative imports on stage %s',
+    async (stage) => {
+      const buildDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}`
+      )
+      const files = await globby('plugins/**/*.js', {
+        cwd: buildDir,
+        absolute: true,
+      })
+
+      const missingImports = files.flatMap((file) => {
+        const content = fs.readFileSync(file, 'utf-8')
+        return Array.from(
+          content.matchAll(/from '(\.{1,2}\/[^']+)'/g),
+          ([, specifier]) => specifier
+        )
+          .filter(
+            (specifier) =>
+              !fs.existsSync(path.resolve(path.dirname(file), specifier))
+          )
+          .map(
+            (specifier) =>
+              `${path.relative(buildDir, file)} -> ${specifier}`
+          )
+      })
+
+      expect(files.length).toBeGreaterThan(0)
+      expect(missingImports).toEqual([])
+    }
+  )
+})
+
 describe('package.json dependencies', () => {
   it('includes @babel/runtime-corejs3 as a runtime dependency', () => {
     // The published build artifacts contain imports from
