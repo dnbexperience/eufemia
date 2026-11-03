@@ -204,11 +204,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
       {...restProps}
     >
       {label && <span className="dnb-sr-only">{label} </span>}
-      {variantIsNotification && contentIsNum ? (
-        <span className="dnb-badge__number">{content}</span>
-      ) : (
-        content
-      )}
+      {content}
     </span>
   )
 })

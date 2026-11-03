@@ -16,13 +16,6 @@
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-x-small);
 
-  &__number {
-    @supports (text-box: trim-both cap alphabetic) {
-      line-height: 1;
-      text-box: trim-both cap alphabetic;
-    }
-  }
-
   &__root {
     position: relative;
     display: inline-flex;
@@ -38,6 +31,7 @@
   }
 
   &--variant-notification {
+    line-height: normal;
     color: var(--token-color-text-neutral-ondark);
     background-color: var(--token-color-background-error);
     padding: 0 0.25rem;
