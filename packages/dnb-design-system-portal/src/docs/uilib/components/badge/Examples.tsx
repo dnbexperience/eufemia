@@ -85,7 +85,6 @@ export const BadgeButton = () => (
             variant="notification"
             horizontal="right"
             vertical="top"
-            style={{ transform: 'translate(25%, -25%)' }}
           >
             <Button
               text="Add notification"

@@ -29,6 +29,28 @@
       z-index: 2; // Render the badge on top of a potential .dnb-img img.
       pointer-events: none;
     }
+
+    > .dnb-button ~ .dnb-badge {
+      --badge-offset-x: 0%;
+      --badge-offset-y: 0%;
+      transform: translate(var(--badge-offset-x), var(--badge-offset-y));
+
+      &--horizontal-left {
+        --badge-offset-x: -25%;
+      }
+
+      &--horizontal-right {
+        --badge-offset-x: 25%;
+      }
+
+      &--vertical-top {
+        --badge-offset-y: -25%;
+      }
+
+      &--vertical-bottom {
+        --badge-offset-y: 25%;
+      }
+    }
   }
 
   &--variant-notification {
