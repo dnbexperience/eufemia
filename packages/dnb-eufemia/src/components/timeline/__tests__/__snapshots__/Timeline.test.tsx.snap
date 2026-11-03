@@ -101,6 +101,9 @@ exports[`Timeline scss > should match style dependencies css 1`] = `
   color: var(--token-color-icon-neutral-inverse);
   background-color: var(--token-color-background-selected);
 }
+.dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
+  color: var(--token-color-text-neutral-alternative);
+}
 .dnb-timeline__item--current, .dnb-timeline__item--upcoming {
   margin-left: 0;
 }

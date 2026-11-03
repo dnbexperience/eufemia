@@ -125,6 +125,10 @@
       background-color: var(--token-color-background-selected);
     }
 
+    &--upcoming:not(.dnb-skeleton) &__label__icon {
+      color: var(--token-color-text-neutral-alternative);
+    }
+
     &--current,
     &--upcoming {
       margin-left: 0;
