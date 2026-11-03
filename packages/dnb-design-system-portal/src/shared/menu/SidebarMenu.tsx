@@ -428,6 +428,7 @@ function ListItem({
     status &&
     {
       new: 'New',
+      alpha: 'Alpha',
       beta: 'Beta',
       wip: 'WIP',
       cs: 'Coming soon',
