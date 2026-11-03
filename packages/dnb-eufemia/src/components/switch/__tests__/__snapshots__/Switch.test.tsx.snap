@@ -624,11 +624,15 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
     --token-color-background-action-pressed-ondark
   );
   --switch-disabled-background: transparent;
-  --switch-disabled-border: var(
-    --token-color-stroke-action-disabled-ondark
+  --switch-disabled-border: color-mix(
+    in srgb,
+    var(--token-color-stroke-action-disabled-ondark) 50%,
+    transparent
   );
-  --switch-disabled-button-background: var(
-    --token-color-background-action-disabled-ondark
+  --switch-disabled-button-background: color-mix(
+    in srgb,
+    var(--token-color-background-action-disabled-ondark) 50%,
+    transparent
   );
   --switch-disabled-checked-background: var(
     --token-color-background-action-disabled-ondark

@@ -395,10 +395,10 @@ describe('Switch scss', () => {
     )[0]
 
     expect(surfaceDark).toMatch(
-      /--switch-disabled-border: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
+      /--switch-disabled-border: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
     )
     expect(surfaceDark).toMatch(
-      /--switch-disabled-button-background: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
+      /--switch-disabled-button-background: color-mix\(\s*in srgb,\s*var\(--token-color-background-action-disabled-ondark\) 50%,\s*transparent\s*\)/
     )
     expect(surfaceDark).toMatch(
       /--switch-disabled-checked-background: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
