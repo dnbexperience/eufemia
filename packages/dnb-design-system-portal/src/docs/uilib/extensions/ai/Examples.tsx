@@ -88,6 +88,23 @@ export function AiResponseDefault() {
   )
 }
 
+export function AiResponseOverflowTable() {
+  return (
+    <ComponentBox data-visual-test="ai-response-overflow-table">
+      <div style={{ maxWidth: '18rem' }}>
+        <Response parseIncompleteMarkdown={false}>
+          {[
+            '| Category | This month | Last month | Difference |',
+            '| :-- | --: | --: | --: |',
+            '| Groceries | 4 200 kr | 3 900 kr | 300 kr |',
+            '| Transport | 1 100 kr | 1 300 kr | -200 kr |',
+          ].join('\n')}
+        </Response>
+      </div>
+    </ComponentBox>
+  )
+}
+
 export function AiResponseStreaming() {
   return (
     <ComponentBox scope={{ answer }}>

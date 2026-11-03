@@ -10,6 +10,7 @@ import { Th, Td, Tr } from '../../components/table/Table'
 import { Code, H, Hr, Li, Ol, P, Ul } from '../../elements'
 import type { HSize } from '../../elements/typography/H'
 import AiCodeBlock from './AiCodeBlock'
+import AiResponseTable from './AiResponseTable'
 import { parseBlocks } from './markdown/parseBlocks'
 import type {
   Block,
@@ -311,7 +312,7 @@ function renderBlock(
         incomplete && index === block.rows.length - 1
 
       return (
-        <Table.ScrollView>
+        <AiResponseTable>
           <TableElement>
             <Head>
               <Row>
@@ -344,7 +345,7 @@ function renderBlock(
               </Body>
             )}
           </TableElement>
-        </Table.ScrollView>
+        </AiResponseTable>
       )
     }
   }
