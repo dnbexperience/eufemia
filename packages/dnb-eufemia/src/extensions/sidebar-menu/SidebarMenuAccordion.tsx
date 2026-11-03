@@ -32,6 +32,11 @@ import type { SidebarMenuAccordionProps } from './types'
 import useTranslation from '../../shared/useTranslation'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { handleMenuAccordionNavigation } from '../../shared/helpers/menuKeyboardNavigation'
+import {
+  getSidebarMenuItems,
+  sidebarMenuActionSelector,
+} from './SidebarMenuKeyboard'
 
 const accordionIcon = Icon.transition({
   collapsed: chevron_down,
@@ -62,6 +67,7 @@ export default function SidebarMenuAccordion(
     defaultOpen = false,
     collapsible = true,
     onOpenChange,
+    onKeyDown,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     title,
@@ -73,6 +79,8 @@ export default function SidebarMenuAccordion(
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
   const [delayOpen, setDelayOpen] = useState(false)
   const accordionRef = useRef<HTMLLIElement>(null)
+  const contentRef = useRef<HTMLUListElement>(null)
+  const focusOnOpenRef = useRef(false)
   const scrollAfterOpeningRef = useRef(false)
   const pendingOpenTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const contextControlsOpen = context.openItems.includes(id)
@@ -110,6 +118,9 @@ export default function SidebarMenuAccordion(
     (next: boolean, scrollAfterOpening = false) => {
       clearPendingOpen()
       setDelayOpen(false)
+      if (!next) {
+        focusOnOpenRef.current = false
+      }
       scrollAfterOpeningRef.current = next && scrollAfterOpening
       if (!isControlled && !context.openItemsControlled) {
         setInternalOpen(next)
@@ -242,6 +253,54 @@ export default function SidebarMenuAccordion(
     [collapsible]
   )
 
+  const focusFirstChild = useCallback(() => {
+    const trigger = accordionRef.current?.querySelector<HTMLElement>(
+      ':scope > .dnb-sidebar-menu__accordion__trigger'
+    )
+    if (document.activeElement !== trigger || !contentRef.current) {
+      return
+    }
+    const first = getSidebarMenuItems(contentRef.current)[0]
+    if (first) {
+      first.focus()
+      focusOnOpenRef.current = false
+    }
+  }, [])
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLLIElement>) => {
+    onKeyDown?.(event)
+    const action = event.target as HTMLElement
+    if (
+      disabled ||
+      !collapsible ||
+      !action.matches(sidebarMenuActionSelector) ||
+      action.isContentEditable ||
+      action.closest('.dnb-sidebar-menu') !==
+        event.currentTarget.closest('.dnb-sidebar-menu') ||
+      (event.key === 'ArrowRight' &&
+        action !== accordionRef.current?.firstElementChild)
+    ) {
+      return
+    }
+
+    handleMenuAccordionNavigation(event, {
+      isOpen,
+      setOpen: (next) => {
+        focusOnOpenRef.current = next
+        setOpen(next, next)
+      },
+      focusFirstChild,
+      closeSelf: () => {
+        setOpen(false)
+        accordionRef.current
+          ?.querySelector<HTMLElement>(
+            ':scope > .dnb-sidebar-menu__accordion__trigger'
+          )
+          ?.focus()
+      },
+    })
+  }
+
   const itemStyle = {
     '--sidebar-menu-indent': `${context.indent}rem`,
   } as React.CSSProperties
@@ -296,9 +355,11 @@ export default function SidebarMenuAccordion(
   )
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- delegates keys from the accordion's links and buttons
     <li
       {...rest}
       ref={accordionRef}
+      onKeyDown={handleKeyDown}
       data-sidebar-menu-id={id}
       data-sidebar-menu-open-controlled={
         isControlled || !collapsible || undefined
@@ -381,6 +442,10 @@ export default function SidebarMenuAccordion(
           if (state === 'opened') {
             setDescendantsReady(true)
             scrollOpenedAccordionIntoView()
+            if (focusOnOpenRef.current) {
+              focusOnOpenRef.current = false
+              focusFirstChild()
+            }
           }
         }}
       >
@@ -394,7 +459,11 @@ export default function SidebarMenuAccordion(
               context.ancestorsOpen && isOpen && descendantsReady,
           }}
         >
-          <ul id={`${id}-content`} className="dnb-sidebar-menu__list">
+          <ul
+            ref={contentRef}
+            id={`${id}-content`}
+            className="dnb-sidebar-menu__list"
+          >
             {children}
           </ul>
         </SidebarMenuContext>
