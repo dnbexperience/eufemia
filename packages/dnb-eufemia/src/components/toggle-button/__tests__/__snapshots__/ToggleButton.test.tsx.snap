@@ -1462,8 +1462,10 @@ button.dnb-button::-moz-focus-inner {
   --checkbox-color-border-on--disabled: var(
     --token-color-background-action-disabled-ondark
   );
-  --checkbox-color-border-off--disabled: var(
-    --token-color-stroke-action-disabled-ondark
+  --checkbox-color-border-off--disabled: color-mix(
+    in srgb,
+    var(--token-color-stroke-action-disabled-ondark) 50%,
+    transparent
   );
   --checkbox-color-gfx__indeterminate--disabled: var(
     --token-color-background-action-disabled-ondark
