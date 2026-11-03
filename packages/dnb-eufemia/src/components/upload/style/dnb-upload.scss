@@ -93,6 +93,11 @@
     background-color: var(--upload-list-border);
   }
 
+  // Keep the top border above the first row's background
+  &__file-list::before {
+    z-index: 1;
+  }
+
   &__file-cell {
     position: relative;
     padding: 1rem 0;

@@ -1340,6 +1340,9 @@ button.dnb-button::-moz-focus-inner {
   height: 1px;
   background-color: var(--upload-list-border);
 }
+.dnb-upload__file-list::before {
+  z-index: 1;
+}
 .dnb-upload__file-cell {
   position: relative;
   padding: 1rem 0;
