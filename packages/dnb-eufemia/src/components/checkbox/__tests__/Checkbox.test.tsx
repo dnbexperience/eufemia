@@ -624,7 +624,7 @@ describe('Checkbox scss', () => {
 
   it('keeps the error colors on hover, pressed and focus', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
-    const block = css.match(
+    const block = String(css).match(
       /\.dnb-checkbox__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \{([^}]*)\}/
     )?.[1]
 
