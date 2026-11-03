@@ -5,6 +5,7 @@ import { useSpacing } from '../../components/space/SpacingUtils'
 import mergeProps from '../../shared/helpers/mergeProps'
 import Button from '../../components/Button'
 import Icon from '../../components/Icon'
+import HeightAnimation from '../../components/HeightAnimation'
 import Textarea from '../../components/Textarea'
 import TextCounter from '../../fragments/TextCounter'
 import type {
@@ -206,9 +207,9 @@ function AiPromptInput(props: AiPromptInputProps) {
 
   return (
     <form {...rootProps} onSubmit={handleSubmit}>
-      {children && (
+      <HeightAnimation open={Boolean(children)} compensateForGap="auto">
         <div className="dnb-ai-prompt-input__context">{children}</div>
-      )}
+      </HeightAnimation>
       {isCompact ? (
         <div className="dnb-ai-prompt-input__compact-row">
           {icon && (

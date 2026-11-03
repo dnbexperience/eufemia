@@ -19,13 +19,27 @@ test.describe('Ai.PromptInput interaction styles', () => {
           exact: true,
         })
         await textarea.fill('Hello')
+        const height = () =>
+          form.evaluate(
+            (element) => element.getBoundingClientRect().height
+          )
+        const initialHeight = await height()
+        const contextAnimation = form.locator(
+          ':scope > .dnb-height-animation'
+        )
+        await expect(contextAnimation).toBeHidden()
         await attachment.click()
         await expect(attachment).toBeDisabled()
+        await expect(contextAnimation).toBeVisible()
+        await expect(contextAnimation).not.toHaveClass(/--animating/)
+        expect(await height()).toBeGreaterThan(initialHeight)
         await expect(textarea).toHaveValue('Hello')
         await form
           .getByRole('button', { name: 'Remove Budget.pdf' })
           .click()
         await expect(attachment).toBeEnabled()
+        await expect(contextAnimation).toBeHidden()
+        await expect.poll(height).toBe(initialHeight)
         await microphone.click()
         await expect(textarea).toHaveValue('Show my latest transactions')
 
