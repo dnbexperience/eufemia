@@ -188,8 +188,8 @@ export default {
       text: 'Dra og slipp eller velg hvilke filer du vil laste opp.',
       textSingular:
         'Dra og slipp eller velg hvilken fil du vil laste opp.',
-      fileTypeTableCaption: 'Tillatte filformater og maks filstørrelse',
-      fileTypeDescription: 'Tillatte filformater:',
+      fileTypeTableCaption: 'Tillatte filer og maks filstørrelse',
+      fileTypeDescription: 'Tillatte filer:',
       fileSizeDescription: 'Maks filstørrelse:',
       fileAmountDescription: 'Maks antall filer:',
       fileSizeContent: '%size MB',

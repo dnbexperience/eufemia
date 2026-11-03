@@ -189,8 +189,8 @@ export default {
       text: 'Drag & drop your files or choose files to upload.',
       textSingular:
         'Drag & drop your file or choose which file to upload.',
-      fileTypeTableCaption: 'Allowed formats and max. file size',
-      fileTypeDescription: 'Allowed formats:',
+      fileTypeTableCaption: 'Allowed files and max. file size',
+      fileTypeDescription: 'Allowed files:',
       fileSizeDescription: 'Max. file size:',
       fileAmountDescription: 'Max. number of files:',
       fileSizeContent: '%size MB',
