@@ -49,6 +49,7 @@ const securityRecommendedRules = Object.fromEntries(
 const nodeGlobals = globals.node || {}
 const browserGlobals = globals.browser || {}
 const esGlobals = globals.es2021 || {}
+const compatRecommended = compatPlugin.configs['flat/recommended']
 const vitestGlobals = {
   afterAll: 'readonly',
   afterEach: 'readonly',
@@ -79,13 +80,12 @@ export default [
     jsxA11yPlugin.flatConfigs.recommended,
   ]),
   {
-    ...compatPlugin.configs['flat/recommended'],
+    ...compatRecommended,
     files: ['**/src/**/*.{js,jsx,ts,tsx}'],
     settings: {
-      ...compatPlugin.configs['flat/recommended'].settings,
+      ...compatRecommended.settings,
       polyfills: [
-        ...(compatPlugin.configs['flat/recommended'].settings?.polyfills ||
-          []),
+        ...(compatRecommended.settings?.polyfills || []),
         'Object.hasOwn',
       ],
       lintAllEsApis: true,
