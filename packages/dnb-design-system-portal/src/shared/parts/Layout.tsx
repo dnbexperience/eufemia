@@ -156,10 +156,7 @@ function Layout(props: LayoutProps) {
       data-portal-print-layout={portalPrintEnabled || undefined}
       className={clsx(
         portalStyle,
-        portalPrintEnabled && [
-          portalPrintStyle,
-          'dnb-print dnb-print--plain',
-        ],
+        portalPrintEnabled && [portalPrintStyle, 'dnb-print'],
         fs && fullscreenStyle,
         hideSidebar && hideSidebarStyle,
         codeFocusMode && 'focusmode'

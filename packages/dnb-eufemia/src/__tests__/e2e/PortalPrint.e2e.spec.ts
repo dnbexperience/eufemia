@@ -46,7 +46,7 @@ test('prints an empty Textarea with a frame but without its placeholder, and res
     .locator('.dnb-textarea__state')
   await expect(frame).toHaveCSS('outline-style', 'solid')
   await expect(frame).toHaveCSS('outline-width', '1px')
-  await expect(frame).toHaveCSS('outline-color', 'rgb(119, 119, 119)')
+  await expect(frame).toHaveCSS('outline-color', 'rgb(0, 0, 0)')
 
   await page.emulateMedia({ media: 'screen' })
   await expect(placeholder).toBeVisible()
@@ -78,7 +78,7 @@ test('prints the selected ToggleButton with a thicker outline', async ({
   await expect(selected).toHaveCSS('outline-color', 'rgb(0, 0, 0)')
   await expect(other).toHaveCSS('outline-style', 'solid')
   await expect(other).toHaveCSS('outline-width', '1px')
-  await expect(other).toHaveCSS('outline-color', 'rgb(119, 119, 119)')
+  await expect(other).toHaveCSS('outline-color', 'rgb(0, 0, 0)')
 })
 
 test('scopes Portal page margins to its named page', async ({ page }) => {
@@ -160,7 +160,7 @@ test('uses plain paper for fullscreen documentation', async ({ page }) => {
   })
   await page.goto('/uilib/intro/03-accessibility/')
   await expect(page.locator('[data-portal-print-layout]')).toHaveClass(
-    /dnb-print--plain/
+    /\bdnb-print\b/
   )
   await page.emulateMedia({ media: 'print' })
   await expect(page.locator('#dnb-app-content')).toHaveCSS(
@@ -182,7 +182,12 @@ test('preserves the document preview print layout', async ({ page }) => {
   )
   await expect(page.locator('#letter')).toBeVisible()
   await expect(page.locator('[data-portal-print-layout]')).toHaveCount(0)
+  const paragraph = page.locator('#letter .dnb-p').first()
+  const screenColor = await paragraph.evaluate(
+    (element) => getComputedStyle(element).color
+  )
   await page.emulateMedia({ media: 'print' })
+  await expect(paragraph).toHaveCSS('color', 'rgb(0, 0, 0)')
   expect(
     await page
       .locator('#letter')
@@ -214,6 +219,8 @@ test('preserves the document preview print layout', async ({ page }) => {
     )
   ).toBe(true)
   await expect(page.locator('[data-portal-print-footer]')).toHaveCount(0)
+  await page.emulateMedia({ media: 'screen' })
+  await expect(paragraph).toHaveCSS('color', screenColor)
 })
 
 test('preserves printed selection indicators without background graphics', async ({
