@@ -17,7 +17,7 @@ import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
-  acceptedFileTypes.sort().join(', ').toUpperCase()
+  acceptedFileTypes.join(', ').toUpperCase()
 
 const formatFileSize = (
   fileSizeContent: ReactNode,
@@ -287,7 +287,10 @@ function UploadInfoAcceptedFileTypesTable({
       </thead>
       <tbody>
         {Object.keys(acceptedFileTypesGroupedByFileMaxSize)
-          .sort((a, b) => Number(b) - Number(a))
+          // Smallest max size first, and the file types without a max size (0) last
+          .sort(
+            (a, b) => (Number(a) || Infinity) - (Number(b) || Infinity)
+          )
           .map((key) => {
             return (
               <Tr variant="odd" key={key}>

@@ -372,8 +372,31 @@ describe('Upload', () => {
 
       expect(screen.queryByText('ODT, PDF, ZIP')).toBeInTheDocument()
       expect(screen.queryByText('DOCX')).toBeInTheDocument()
-      expect(screen.queryByText('DOC, GIF, JPG, SVG')).toBeInTheDocument()
+      expect(screen.queryByText('JPG, DOC, SVG, GIF')).toBeInTheDocument()
       expect(screen.queryByText('TEXT, TXT')).toBeInTheDocument()
+
+      const rows = Array.from(
+        document.querySelectorAll(
+          '.dnb-upload__accepted-file-types-table tbody tr'
+        )
+      ).map((row) => row.textContent)
+      expect(rows).toEqual([
+        'JPG, DOC, SVG, GIF1 MB',
+        'DOCX2 MB',
+        'ODT, PDF, ZIP99 MB',
+        'TEXT, TXT',
+      ])
+    })
+
+    it('lists the accepted file types in the given order', () => {
+      const acceptedFileTypes = ['png', 'jpg', 'pdf']
+
+      render(
+        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
+      )
+
+      expect(screen.queryByText('PNG, JPG, PDF')).toBeInTheDocument()
+      expect(acceptedFileTypes).toEqual(['png', 'jpg', 'pdf'])
     })
 
     it('renders the custom accepted format', () => {
@@ -2450,7 +2473,7 @@ describe('Upload', () => {
       )
 
       expect(rows).toEqual([
-        ['TH:Tillatte filformater', 'TD:JPG, PNG'],
+        ['TH:Tillatte filformater', 'TD:PNG, JPG'],
         ['TH:Maks filstørrelse', 'TD:10 MB'],
         ['TH:Maks antall filer', 'TD:2'],
       ])
@@ -2490,8 +2513,8 @@ describe('Upload', () => {
       )
       expect(rows).toEqual([
         ['Tillatte filformater', 'Maks filstørrelse'],
-        ['DOC, PDF', '10 MB'],
         ['PNG', '2 MB'],
+        ['PDF, DOC', '10 MB'],
       ])
     })
 

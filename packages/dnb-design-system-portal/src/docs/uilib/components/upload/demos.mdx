@@ -82,7 +82,7 @@ You can pass the file formats as a string array. This will restrict which files 
 
 ### Upload with file max size based on file type
 
-The table of accepted file types is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
+The table of accepted file types is sorted by `maxFileSize`, with the smallest first. File types without a max size come last. File types with the same `maxFileSize` are listed in the given order.
 
 <UploadFileMaxSizeBasedOnFileType />
 
