@@ -16,6 +16,13 @@
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-x-small);
 
+  &__number {
+    @supports (text-box: trim-both cap alphabetic) {
+      line-height: 1;
+      text-box: trim-both cap alphabetic;
+    }
+  }
+
   &__root {
     position: relative;
     display: inline-flex;

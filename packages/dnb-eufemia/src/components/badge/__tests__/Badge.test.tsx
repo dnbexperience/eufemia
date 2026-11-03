@@ -56,6 +56,19 @@ describe('Badge', () => {
     expect(element).toHaveClass('dnb-badge--variant-notification')
   })
 
+  it('keeps custom notification content unwrapped', () => {
+    render(
+      <Badge variant="notification" content={<Icon icon={Confetti} />} />
+    )
+
+    expect(
+      document.querySelector('.dnb-badge__number')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-badge > .dnb-icon')
+    ).toBeInTheDocument()
+  })
+
   it('isolates context for NumberFormat in notification variant', () => {
     const { rerender } = render(
       <Provider NumberFormat={{ decimals: 2 }}>
