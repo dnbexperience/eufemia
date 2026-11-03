@@ -401,9 +401,9 @@ describe('PromptInput', () => {
       </PromptInput>
     )
     const context = document.querySelector('.dnb-ai-prompt-input__context')
-    expect(context.nextElementSibling).toHaveClass(
-      'dnb-ai-prompt-input__field'
-    )
+    expect(
+      context.closest('.dnb-height-animation').nextElementSibling
+    ).toHaveClass('dnb-ai-prompt-input__field')
     await userEvent.click(context.querySelector('button'))
     expect(onRemove).toHaveBeenCalledTimes(1)
     expect(onSubmit).not.toHaveBeenCalled()
