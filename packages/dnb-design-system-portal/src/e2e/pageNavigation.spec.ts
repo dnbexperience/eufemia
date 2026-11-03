@@ -88,7 +88,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/web/components/')
+      await page.goto('/web/components/overview/')
       await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
@@ -130,7 +130,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/web/components/')
+      await page.goto('/web/components/overview/')
 
       const heading = await page.textContent('h1')
       expect(heading).toContain('Components')
@@ -148,7 +148,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/web/components/')
+      await page.goto('/web/components/overview/')
 
       const href = '/web/components/button'
       const link = page.locator(`#tab-bar-content a[href="${href}"]`)
@@ -283,15 +283,12 @@ test.describe('Page Navigation', () => {
       page,
     }) => {
       await page.setViewportSize({ width: 1440, height: 900 })
-      await page.goto('/web/components/')
+      await page.goto('/web/components/overview/')
       await waitForApp(page)
 
       const menu = page.getByRole('navigation', {
         name: 'Platform Content Menu',
       })
-      await menu
-        .getByRole('button', { name: 'Actions', exact: true })
-        .click()
       await menu.getByRole('link', { name: 'Button', exact: true }).click()
       await page.waitForURL('**/web/components/button**')
       await waitForApp(page)
@@ -335,7 +332,7 @@ test.describe('Page Navigation', () => {
     }) => {
       // Vite does not render component summary links on the listing page.
 
-      await page.goto('/web/components/')
+      await page.goto('/web/components/overview/')
       await waitForApp(page)
 
       const heading = await page.textContent('h1')

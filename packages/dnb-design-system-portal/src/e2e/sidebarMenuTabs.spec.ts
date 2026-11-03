@@ -123,7 +123,7 @@ test('opens Components on the first click from the Layout page', async ({
 test.describe('Portal SidebarMenu', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/web/components')
+    await page.goto('/web/components/overview/')
     await waitForApp(page)
   })
 
@@ -426,7 +426,7 @@ test.describe('Portal SidebarMenu', () => {
       exact: true,
     })
     await patterns.click()
-    await expect(page).toHaveURL(/\/web\/components\/?$/)
+    await expect(page).toHaveURL(/\/web\/components\/overview\/?$/)
     await expect(patterns).toHaveAttribute('aria-expanded', 'true')
     await expect(
       platform.getByRole('link', {

@@ -101,7 +101,7 @@ async function readLayout(page: Page) {
 }
 
 for (const width of [1440, 1280]) {
-  for (const path of ['/', '/web/components/']) {
+  for (const path of ['/', '/web/components/overview/']) {
     test(
       'keeps the first-paint sidebar layout at ' + width + ' on ' + path,
       async ({ browser, page, baseURL }) => {

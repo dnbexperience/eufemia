@@ -299,9 +299,6 @@ test.describe('Sidebar resize', () => {
 
     await components.click()
 
-    await drawer
-      .getByRole('button', { name: 'Content and layout', exact: true })
-      .click()
     const itemText = drawer
       .getByRole('link', {
         name: 'Info card (deprecated)',

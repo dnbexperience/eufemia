@@ -24,7 +24,7 @@ test.describe('Page Heading', () => {
   test.use({ viewport: { width: 1440, height: 900 } })
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/web/components/')
+    await page.goto('/web/components/overview/')
 
     // Check if app is mounted
     await waitForApp(page)
@@ -66,14 +66,11 @@ test.describe('Page Heading', () => {
       '#tab-bar-content > p ~ *',
       (element) => element.tagName
     )
-    expect(secondElementTagName).toBe('H2')
+    expect(secondElementTagName).toBe('NAV')
 
     const menu = page.getByRole('navigation', {
       name: 'Platform Content Menu',
     })
-    await menu
-      .getByRole('button', { name: 'Actions', exact: true })
-      .click()
     await menu.getByRole('link', { name: 'Button', exact: true }).click()
 
     // On tab pages, the h1 is in the tab bar, still before the content

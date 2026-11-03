@@ -200,7 +200,7 @@ test.describe('Route Focus', () => {
   test('should focus content when navigating to a route without hash', async ({
     page,
   }) => {
-    await page.goto('/web/components/')
+    await page.goto('/web/components/overview/')
     await waitForApp(page)
 
     await page
@@ -210,10 +210,6 @@ test.describe('Route Focus', () => {
     await expect(
       page.locator('.dnb-sidebar-menu-responsive-inline__content')
     ).toHaveCSS('clip-path', 'inset(0px)')
-    await page
-      .getByRole('navigation', { name: 'Platform Content Menu' })
-      .getByRole('button', { name: 'Content and layout', exact: true })
-      .click()
     await page
       .locator('a[href="/web/components/accordion"]')
       .first()
