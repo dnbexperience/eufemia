@@ -1404,6 +1404,7 @@ button.dnb-button::-moz-focus-inner {
   padding-left: 0;
 }
 .dnb-upload--compact {
+  --upload-background: transparent;
   padding: 0;
   border-radius: 0;
 }
