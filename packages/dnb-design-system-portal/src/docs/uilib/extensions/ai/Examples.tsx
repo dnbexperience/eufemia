@@ -48,7 +48,6 @@ import {
   bank,
   card,
   close,
-  attachment,
   microphone,
   loan,
   pay_from,
@@ -424,7 +423,7 @@ export function AiPromptInputCustomActions({
           ? 'ai-prompt-input-custom-compact'
           : 'ai-prompt-input-custom'
       }
-      scope={{ variant, attachment, microphone, close }}
+      scope={{ variant, add, microphone, close }}
     >
       {() => {
         const CustomActions = () => {
@@ -442,7 +441,7 @@ export function AiPromptInputCustomActions({
                   type="button"
                   variant="tertiary"
                   bounding
-                  icon={attachment}
+                  icon={add}
                   iconSize="default"
                   aria-label="Add attachment"
                   tooltip="Add attachment"
