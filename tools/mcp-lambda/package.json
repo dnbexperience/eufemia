@@ -24,9 +24,9 @@
   "devDependencies": {
     "@dnb/eufemia": "workspace:*",
     "@modelcontextprotocol/client": "2.4.0",
-    "@types/aws-lambda": "8.10.161",
+    "@types/aws-lambda": "8.10.164",
     "esbuild": "0.25.5",
-    "tsx": "4.22.4",
+    "tsx": "4.23.15",
     "typescript": "6.0.3",
     "vitest": "4.1.12"
   }
