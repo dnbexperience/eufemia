@@ -12,10 +12,8 @@ import type {
   TextareaKeyDownEvent,
 } from '../../components/textarea/types'
 import useTranslation from './hooks/useTranslation'
-import add from '../../icons/add'
 import aino_medium from '../../icons/aino_medium'
 import arrow_up from '../../icons/arrow_up'
-import microphone from '../../icons/microphone'
 import stop from '../../icons/stop'
 import type { AiPromptInputProps, AiPromptInputSubmitEvent } from './types'
 
@@ -34,8 +32,8 @@ function AiPromptInput(props: AiPromptInputProps) {
     onChange,
     onSubmit,
     onStop,
-    onAttachmentClick,
-    onMicrophoneClick,
+    startActions,
+    endActions,
     className,
     children,
     ...rest
@@ -152,34 +150,6 @@ function AiPromptInput(props: AiPromptInputProps) {
     </div>
   )
 
-  const attachmentButton = onAttachmentClick && (
-    <Button
-      variant="tertiary"
-      size="small"
-      iconSize="default"
-      className="dnb-ai-prompt-input__icon-button"
-      icon={add}
-      aria-label={translation.addAttachment}
-      tooltip={translation.addAttachment}
-      disabled={disabled}
-      onClick={onAttachmentClick}
-    />
-  )
-
-  const microphoneButton = onMicrophoneClick && (
-    <Button
-      variant="tertiary"
-      size="small"
-      iconSize="default"
-      className="dnb-ai-prompt-input__icon-button"
-      icon={microphone}
-      aria-label={translation.useMicrophone}
-      tooltip={translation.useMicrophone}
-      disabled={disabled}
-      onClick={onMicrophoneClick}
-    />
-  )
-
   const submitButton =
     isBusy && onStop ? (
       <Button
@@ -222,6 +192,18 @@ function AiPromptInput(props: AiPromptInputProps) {
       />
     )
 
+  const start = startActions && (
+    <div className="dnb-ai-prompt-input__start-actions">
+      {startActions}
+    </div>
+  )
+  const end = (endActions || submitButton) && (
+    <div className="dnb-ai-prompt-input__actions">
+      {endActions}
+      {submitButton}
+    </div>
+  )
+
   return (
     <form {...rootProps} onSubmit={handleSubmit}>
       {children && (
@@ -237,11 +219,10 @@ function AiPromptInput(props: AiPromptInputProps) {
               aria-hidden
             />
           )}
-          {attachmentButton}
+          {start}
           {textarea}
           {counter}
-          {microphoneButton}
-          {submitButton}
+          {end}
         </div>
       ) : (
         <>
@@ -250,11 +231,8 @@ function AiPromptInput(props: AiPromptInputProps) {
             {counter}
           </div>
           <div className="dnb-ai-prompt-input__toolbar">
-            {attachmentButton}
-            <div className="dnb-ai-prompt-input__actions">
-              {microphoneButton}
-              {submitButton}
-            </div>
+            {start}
+            {end}
           </div>
         </>
       )}

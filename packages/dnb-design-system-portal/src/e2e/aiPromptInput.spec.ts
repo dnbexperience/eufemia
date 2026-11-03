@@ -2,6 +2,93 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.PromptInput interaction styles', () => {
+  for (const variant of ['custom', 'custom-compact']) {
+    test(
+      'composes custom controls in the ' + variant + ' layout',
+      async ({ page, browserName }) => {
+        const form = page.locator(
+          '[data-visual-test="ai-prompt-input-' + variant + '"] form'
+        )
+        const textarea = form.locator('textarea')
+        const toggle = form.getByRole('button', {
+          name: 'Web search',
+          exact: true,
+        })
+        const source = form.getByRole('combobox', { name: /Sources/ })
+        await textarea.fill('Hello')
+        await toggle.click()
+        await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+        if (variant === 'custom') {
+          await source.click()
+          await page
+            .getByRole('option', { name: 'Files', exact: true })
+            .click()
+          await expect(source).toContainText('Files')
+        }
+        await expect(textarea).toHaveValue('Hello')
+
+        const send = form.locator('button[type="submit"]')
+        if (variant === 'custom-compact') {
+          await toggle.focus()
+          await page.keyboard.press(
+            browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+          )
+          await expect(textarea).toBeFocused()
+        } else {
+          await textarea.focus()
+          await page.keyboard.press(
+            browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+          )
+          await expect(toggle).toBeFocused()
+        }
+        if (variant === 'custom') {
+          await source.focus()
+        }
+        await page.keyboard.press(
+          browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+        )
+        await expect(send).toBeFocused()
+
+        for (const width of [375, 320]) {
+          await page.setViewportSize({ width, height: 900 })
+          await expect
+            .poll(() =>
+              form.evaluate(
+                (element) => element.scrollWidth <= element.clientWidth
+              )
+            )
+            .toBe(true)
+          const inputBox = await textarea.boundingBox()
+          expect(inputBox.width).toBeGreaterThan(32)
+        }
+        await send.click()
+        await expect(textarea).toHaveValue('')
+        await expect(textarea).toBeFocused()
+      }
+    )
+  }
+
+  test('removes and restores context with a custom action', async ({
+    page,
+  }) => {
+    const form = page.locator(
+      '[data-visual-test="ai-prompt-input-context"] form'
+    )
+    const add = form.getByRole('button', {
+      name: 'Add reference',
+      exact: true,
+    })
+    await expect(add).toBeDisabled()
+    await form.getByRole('button', { name: 'Remove reference' }).click()
+    await expect(add).toBeEnabled()
+    await add.click()
+    await expect(
+      form.locator('.dnb-ai-prompt-input__context')
+    ).toContainText('dnb.no/...Insurance')
+    await expect(add).toBeDisabled()
+    await expect(form.locator('textarea')).not.toHaveValue('')
+  })
+
   test('keeps keyboard focus after sending with the default button', async ({
     page,
   }) => {
@@ -119,7 +206,9 @@ test.describe('Ai.PromptInput interaction styles', () => {
   test('uses the Textarea hover and focus borders on the card', async ({
     page,
   }) => {
-    const form = page.locator('.dnb-ai-prompt-input').first()
+    const form = page.locator(
+      '[data-visual-test="ai-prompt-input-custom"] .dnb-ai-prompt-input'
+    )
     const textarea = form.locator('textarea')
     const border = (element: HTMLElement) => ({
       color: getComputedStyle(element)
@@ -151,11 +240,11 @@ test.describe('Ai.PromptInput interaction styles', () => {
     expect(parseFloat(actual.width)).toBe(0.125)
     await expect(form).not.toHaveCSS('filter', 'none')
 
-    const attachment = form.getByRole('button', {
-      name: 'Legg til vedlegg',
+    const action = form.getByRole('button', {
+      name: 'Web search',
       exact: true,
     })
-    await attachment.focus()
+    await action.focus()
     await expect(form).not.toHaveClass(/dnb-ai-prompt-input--focus/)
     actual = await form.evaluate(border)
     const idleColor = await form.evaluate((element) =>
