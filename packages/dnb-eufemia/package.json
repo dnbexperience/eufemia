@@ -205,7 +205,7 @@
     "babel-plugin-polyfill-corejs3": "0.13.0",
     "babel-plugin-search-and-replace": "1.1.1",
     "babel-plugin-transform-next-use-client": "1.1.1",
-    "bundlewatch": "0.4.2",
+    "bundlewatch": "1.1.0",
     "conventional-changelog-conventionalcommits": "9.3.1",
     "cross-env": "7.0.3",
     "cssnano": "6.0.1",
