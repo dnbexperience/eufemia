@@ -1276,6 +1276,7 @@ button.dnb-button::-moz-focus-inner {
   --upload-border--active: var(--token-color-stroke-action-pressed);
   --upload-border-width: 0.125rem;
   --upload-list-border: var(--token-color-stroke-neutral-subtle);
+  --upload-list-background: var(--token-color-background-neutral);
   --upload-icon--default: var(--token-color-icon-neutral);
   --upload-icon--warning: var(--token-color-icon-error);
   --upload-highlight: var(--token-color-background-warning-subtle);
@@ -1342,6 +1343,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-upload__file-cell {
   position: relative;
   padding: 1rem 0;
+  background-color: var(--upload-list-background);
   /** Highlight Animation */
   transition: background-color;
   transition-duration: 1.5s;
