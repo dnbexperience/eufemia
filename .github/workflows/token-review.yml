@@ -1,0 +1,51 @@
+name: Design token review
+
+on:
+  pull_request:
+    paths:
+      - 'packages/dnb-eufemia/src/style/themes/**'
+      - 'packages/dnb-eufemia/scripts/figma/**'
+      - 'packages/dnb-eufemia/scripts/prebuild/tasks/makePropertiesFile.ts'
+      - 'packages/dnb-eufemia/package.json'
+      - '.github/workflows/tokens-sync.yml'
+      - '.github/workflows/token-review.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Review resolved token values and contrast
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: token-review
+
+      - name: Generate token CSS from the source exports
+        run: yarn workspace @dnb/eufemia make-properties
+
+      - name: Review tokens against the pull request base
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        run: yarn workspace @dnb/eufemia review:tokens "origin/$BASE_BRANCH" "$RUNNER_TEMP/token-review.md"
+
+      - name: Publish token review
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/token-review.md" ]; then
+            cat "$RUNNER_TEMP/token-review.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
