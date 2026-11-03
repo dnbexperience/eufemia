@@ -47,6 +47,11 @@
     white-space: nowrap;
   }
 
+  // Sub-menus render inside the parent list
+  &__list & &__popover-content {
+    padding: 0.5rem;
+  }
+
   &__action {
     position: relative;
     display: flex;
