@@ -17,7 +17,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   currency: {
-    doc: 'Defines the currency used by `NumberFormat` when its `currency` property is `true`, as with `NumberFormat.Currency`, and by `Field.Currency` and `Value.Currency` when they have no `currency` of their own. Defaults to `NOK`.',
+    doc: 'Defines the default currency. It is used by `NumberFormat.Currency`, by `Field.Currency` and `Value.Currency` when they have no `currency` of their own, and when `currency` or `asCurrency` is `true` on `NumberFormat`, `Field.Number` or `InputMasked`. Defaults to `NOK`.',
     type: 'string',
     status: 'optional',
   },
