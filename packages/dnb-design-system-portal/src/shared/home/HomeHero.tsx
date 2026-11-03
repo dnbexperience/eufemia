@@ -22,7 +22,6 @@ import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { useThemeHandler } from '../../../vite/client/shims/theme-handler'
 import { SearchBarInput } from '../menu/SearchBar'
-import PortalToolsMenu from '../menu/PortalToolsMenu'
 import HomeBrands from './HomeBrands'
 import homeData from './HomeData.json'
 import useHangingMotion from './useHangingMotion'
@@ -48,7 +47,6 @@ const samples = [
   [34, 300, 52, 4, -5.5, 7.5],
   [78, 260, 49, 1, 4, 11],
   [25, 410, 48, 5, 6.5, 12],
-  [83, 390, 52, 2, -7, 9.5],
 ] as const
 
 const brands = [
@@ -140,9 +138,7 @@ export default function HomeHero() {
             <div
               key={index}
               className={hangingStyle}
-              data-hanging-item={
-                brand || (index === 4 ? 'mode' : 'settings')
-              }
+              data-hanging-item={brand || 'mode'}
               style={
                 {
                   '--desktop-x': x + '%',
@@ -243,18 +239,6 @@ export default function HomeHero() {
                         aria-label={'Switch brand to ' + name}
                       />
                     </ToggleButton.Group>
-                  )}
-                  {index === 5 && (
-                    <PortalToolsMenu
-                      compactOnSmall={false}
-                      triggerProps={{
-                        text: 'Settings',
-                        'aria-label': 'Open settings',
-                        tooltip: null,
-                        size: 'large',
-                        left: false,
-                      }}
-                    />
                   )}
                 </Theme>
               </div>

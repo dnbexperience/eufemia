@@ -282,6 +282,12 @@
     animation-name: idleSpecimen;
   }
 
+  [data-motion-ready]
+    &[data-hanging-item='carnegie']:not([data-active])
+    > .specimenStyle {
+    animation-name: idleCarnegie;
+  }
+
   [data-motion-ready] &:not([data-active]) > .shadowStyle {
     animation-name: idleShadow;
   }
@@ -301,13 +307,17 @@
   }
 
   $rope-length: max(1px, calc(var(--length) + #{$lift}));
+  $depth-transform: null;
+  @if $pitch != null {
+    $depth-transform: perspective(50rem) rotateX($pitch);
+  }
 
   transform: translate(
       calc(-1 * var(--pin) + sin(#{$swing}) * #{$rope-length}),
       calc((cos(#{$swing}) - 1) * #{$rope-length} + #{$lift})
     )
     rotate(calc(var(--tilt) - #{$swing} + #{$balance}))
-    scale(var(--rendered-scale)) perspective(50rem) rotateX($pitch);
+    scale(var(--rendered-scale)) #{$depth-transform};
 }
 
 @keyframes idleRope {
@@ -346,6 +356,20 @@
   }
   75% {
     translate: calc(-0.035 * var(--length));
+  }
+}
+
+// Keep Firefox from rasterizing the thin checkbox outline through a 3D idle transform.
+@keyframes idleCarnegie {
+  0%,
+  100% {
+    @include specimenPose(0rad, 0rad, null, 0);
+  }
+  25% {
+    @include specimenPose(0.035rad, 0.025rad, null, -3px);
+  }
+  75% {
+    @include specimenPose(-0.035rad, -0.025rad, null, 3px);
   }
 }
 

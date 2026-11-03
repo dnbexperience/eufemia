@@ -35,19 +35,19 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
         .locator('#portal-sidebar-menu')
         .getByRole('link', { name: 'Go to Eufemia home', exact: true })
         .click()
-      await expect(items).toHaveCount(6)
+      await expect(items).toHaveCount(5)
       await expect(
         items.first().locator('[data-home-specimen]')
       ).toBeVisible()
       if (reducedMotion === 'reduce') {
-        expect(await lifts()).toEqual([0, 0, 0, 0, 0, 0])
+        expect(await lifts()).toEqual([0, 0, 0, 0, 0])
       } else {
         expect((await lifts()).every((lift) => lift < -24)).toBe(true)
         const before = await lifts()
         await page.clock.runFor(64)
         const after = await lifts()
         expect(after[0]).toBeGreaterThan(before[0])
-        expect(after[5]).toBe(before[5])
+        expect(after[4]).toBe(before[4])
         await page.clock.runFor(4000)
         expect((await lifts()).every((lift) => Math.abs(lift) <= 3)).toBe(
           true

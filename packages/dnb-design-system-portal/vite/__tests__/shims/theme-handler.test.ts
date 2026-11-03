@@ -127,6 +127,19 @@ describe('theme-handler shim', () => {
   })
 
   describe('setTheme', () => {
+    it.each(['carnegie', 'eiendom'] as const)(
+      'starts %s in light mode when selected and allows a dark-mode override',
+      (brand) => {
+        setTheme({ brand: 'ui', colorScheme: 'dark' })
+        setTheme({ brand })
+        expect(getTheme()).toMatchObject({ brand, colorScheme: 'light' })
+        setTheme({ colorScheme: 'dark' })
+        expect(getTheme()).toMatchObject({ brand, colorScheme: 'dark' })
+        setTheme({ brand, colorScheme: 'dark' })
+        expect(getTheme()).toMatchObject({ brand, colorScheme: 'dark' })
+      }
+    )
+
     it('merges appearance changes into the requested brand while its stylesheet loads', async () => {
       let finish: () => void
       const pending = new Promise<void>((resolve) => {

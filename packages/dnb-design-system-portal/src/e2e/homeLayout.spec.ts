@@ -17,7 +17,7 @@ for (const width of [320, 390, 640, 800, 1200, 1600]) {
       })
       await page.goto('/', { waitUntil: 'domcontentloaded' })
       const specimens = page.locator('[data-home-specimen]')
-      await expect(specimens).toHaveCount(6)
+      await expect(specimens).toHaveCount(5)
       // Exercise wider fallback metrics even on macOS, where the system
       // font can otherwise conceal the wrapping seen on Linux.
       const fallback = await page.addStyleTag({
@@ -187,7 +187,7 @@ test('keeps the resting control angles unchanged when hydration starts', async (
   })
   await page.goto('/', { waitUntil: 'commit' })
   const specimens = page.locator('[data-home-specimen]')
-  await expect(specimens).toHaveCount(6)
+  await expect(specimens).toHaveCount(5)
   const angles = () =>
     specimens.evaluateAll((items) =>
       items.map((item) => {

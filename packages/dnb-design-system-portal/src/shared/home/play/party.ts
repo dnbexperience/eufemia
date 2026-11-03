@@ -18,7 +18,7 @@ export default function party(root: HTMLElement): HomePlay {
   return {
     space: 'page',
     pose: (time, index, length, width) => {
-      const lap = time * 0.38 + (index * Math.PI) / 3
+      const lap = time * 0.38 + (index * Math.PI * 2) / dancers.length
       const beat = time * Math.PI * 2 * (96 / 60)
       const depth = Math.sin(lap)
       dancers[index].style.zIndex = String(Math.round(20 + depth * 10))

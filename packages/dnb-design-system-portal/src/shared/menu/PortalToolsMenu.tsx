@@ -15,7 +15,6 @@ import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 import type PortalToolsDrawer from './PortalToolsDrawer'
 
 type Props = {
-  compactOnSmall?: boolean
   className?: string
   tooltipPosition?: TooltipPlacement
   triggerProps?: ButtonProps
@@ -23,7 +22,6 @@ type Props = {
 }
 
 export default function PortalToolsMenu({
-  compactOnSmall = true,
   className = null,
   tooltipPosition = 'bottom',
   triggerProps = null,
@@ -102,7 +100,7 @@ export default function PortalToolsMenu({
         id="portal-tools"
         className={clsx(
           className,
-          compactOnSmall && buttonStyle,
+          buttonStyle,
           loading && 'dnb-skeleton dnb-skeleton--shape',
           loading && loadingStyle,
           hideWhenMediaLarge && 'hideWhenMediaLarge'
