@@ -58,9 +58,11 @@ Start with these foreground/background pairs, then check the rendered result in 
 | `--token-color-text-neutral`             | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Main text                                              |
 | `--token-color-text-neutral-alternative` | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Descriptions, optional labels and other secondary text |
 | `--token-color-text-action`              | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Links                                                  |
-| `--token-color-text-error`               | `--token-color-background-neutral`                                              | Error text                                             |
+| `--token-color-text-error`               | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Error text                                             |
 
-Do not assume that `text-error` works on every subtle or filled surface. On `background-neutral-subtle`, it has 4.13:1 contrast in DNB dark and 3.23:1 in Sbanken dark, below the 4.5:1 minimum for normal text. A neutral surface or the existing error-status pattern provides a safer starting point. Keep a visible outline when a nested container shares its background with its parent.
+On `background-neutral-subtle`, the lighter dark-mode `text-error` has 5.02:1 contrast in DNB and Eiendom and 4.67:1 in Sbanken. It also passes on `background-neutral`. These values do not apply to every filled surface: check `background-neutral-base` separately, particularly in Sbanken dark.
+
+Error text on `background-info-subtle` in DNB light and Carnegie remains below 4.5:1. Use a neutral surface or the existing error-status pattern for normal-size error messages there.
 
 For applications upgrading from the previous palette, follow [Migrating information and neutral colors](/uilib/usage/customisation/theming/design-tokens/colors#migrating-information-and-neutral-colors). Replacements depend on the role of each usage, so review them individually.
 

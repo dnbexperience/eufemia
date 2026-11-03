@@ -75,7 +75,7 @@
   --color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --color-text-neutral-subtle: var(--sbanken-greyscale-600);
   --color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
-  --color-text-error: var(--sbanken-red-600);
+  --color-text-error: #ff8099;
   --color-text-error-inverse: var(--sbanken-red-950);
   --color-text-warning: var(--sbanken-yellow-600);
   --color-text-warning-inverse: var(--sbanken-yellow-800);
