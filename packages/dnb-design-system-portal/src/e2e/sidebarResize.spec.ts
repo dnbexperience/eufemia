@@ -182,7 +182,7 @@ test.describe('Sidebar resize', () => {
     await expect(expandIcon).toHaveCSS('height', '24px')
     await expect(expandIconLeaf).toHaveCSS('width', '16px')
     await expect(expandIconLeaf).toHaveCSS('height', '16px')
-    await expect(header).toHaveCSS('color', 'rgb(115, 115, 115)')
+    await expect(header).toHaveCSS('color', 'rgb(112, 112, 112)')
   })
 
   test('should wrap mobile menu content without shifting the logo', async ({
