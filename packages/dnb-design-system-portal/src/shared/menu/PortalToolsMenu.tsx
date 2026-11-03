@@ -226,6 +226,7 @@ export default function PortalToolsMenu({
         focusSelector="#change-theme"
         restoreFocusTo={() => document.getElementById('portal-tools')}
         title="Settings"
+        closeTitle="Close"
         open={isOpen}
         noAnimation={noAnimation}
         onOpen={handleOpen}

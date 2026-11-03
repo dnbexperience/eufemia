@@ -238,7 +238,7 @@ for (const width of [390, 1440]) {
         useInnerText: true,
       })
       await expect(tools).not.toHaveAttribute('title')
-      await expect(tools).toHaveAccessibleName('DNB - Light Portal Tools')
+      await expect(tools).toHaveAccessibleName('DNB - Light Settings')
       await expect(tools).not.toHaveAttribute('aria-pressed')
       await expect(tools).toHaveAttribute('aria-expanded', 'false')
       await expect(tools).not.toHaveClass(/dnb-toggle-button__button/)
@@ -246,12 +246,10 @@ for (const width of [390, 1440]) {
       await expect(tools.locator('.dnb-icon svg')).toBeVisible()
       await tools.hover()
       const tooltip = page.getByRole('tooltip', {
-        name: 'Open the portal tools',
+        name: 'Open settings',
       })
       await expect(tooltip).toBeVisible()
-      await expect(tools).toHaveAccessibleDescription(
-        'Open the portal tools'
-      )
+      await expect(tools).toHaveAccessibleDescription('Open settings')
       await expect(tooltip.locator('.dnb-tooltip__arrow')).toHaveClass(
         /dnb-tooltip__arrow__placement--bottom/
       )
@@ -382,7 +380,7 @@ test('keeps long brand labels accessible in the phone cog button', async ({
   await expect(tools).toHaveText('DNB Carnegie - Dark Settings', {
     useInnerText: true,
   })
-  await expect(tools).toHaveAccessibleName('DNB Carnegie - Dark Portal Tools')
+  await expect(tools).toHaveAccessibleName('DNB Carnegie - Dark Settings')
   const logoBox = await header
     .getByRole('link', { name: 'Go to Eufemia home' })
     .boundingBox()
