@@ -449,7 +449,7 @@ describe('Radio scss', () => {
       /--radio-color-background--disabled: transparent;/
     )
     expect(surfaceDark).toMatch(
-      /--radio-color-border--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
+      /--radio-color-border--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
     )
     expect(surfaceDark).toMatch(
       /--radio-color-border-on--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/

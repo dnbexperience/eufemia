@@ -2382,8 +2382,10 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
     --token-color-background-action-disabled-ondark
   );
   --radio-color-background--disabled: transparent;
-  --radio-color-border--disabled: var(
-    --token-color-stroke-action-disabled-ondark
+  --radio-color-border--disabled: color-mix(
+    in srgb,
+    var(--token-color-stroke-action-disabled-ondark) 50%,
+    transparent
   );
   --radio-color-border-on--disabled: var(
     --token-color-stroke-action-disabled-ondark

@@ -73,8 +73,11 @@
       --token-color-background-action-disabled-ondark
     );
     --radio-color-background--disabled: transparent;
-    --radio-color-border--disabled: var(
-      --token-color-stroke-action-disabled-ondark
+    // Figma shows unchecked disabled radio buttons on dark surfaces at 50% opacity
+    --radio-color-border--disabled: color-mix(
+      in srgb,
+      var(--token-color-stroke-action-disabled-ondark) 50%,
+      transparent
     );
     --radio-color-border-on--disabled: var(
       --token-color-stroke-action-disabled-ondark
