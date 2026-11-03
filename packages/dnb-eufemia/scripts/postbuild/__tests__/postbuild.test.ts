@@ -958,9 +958,11 @@ describe('tsdown build', () => {
               'utf-8'
             )
             expect(content).toContain('function(e,t)')
-            expect(content).toContain('require(`react`),')
-            expect(content).toContain('require(`react-dom`)):')
-            expect(content).toContain('require(`./dnb-ui-icons.min.js`)')
+            expect(content).toMatch(/require\(["`]react["`]\),/)
+            expect(content).toMatch(/require\(["`]react-dom["`]\)\):/)
+            expect(content).toMatch(
+              /require\(["`]\.\/dnb-ui-icons\.min\.js["`]\)/
+            )
           }
         }
         break
