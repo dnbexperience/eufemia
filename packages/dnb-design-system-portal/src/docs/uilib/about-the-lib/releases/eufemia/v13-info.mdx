@@ -54,7 +54,7 @@ $ yarn add @dnb/eufemia@13
 
 ### Design-token color migration
 
-The design-token color update changes the meaning of `--token-color-background-neutral-alternative` in DNB and removes 13 foundation CSS custom properties. Applications must review direct references, including Tailwind utilities and values in JavaScript/TypeScript strings.
+The design-token color update changes the meaning of `--token-color-background-neutral-alternative` in DNB and Eiendom and removes 13 foundation CSS custom properties. Applications must review direct references, including Tailwind utilities and values in JavaScript/TypeScript strings.
 
 For text backgrounds, usually replace `--token-color-background-neutral-alternative` with `--token-color-background-neutral-subtle`. For UI fills such as progress tracks, usually use `--token-color-background-neutral-base`. Check contrast and nested surfaces in every supported theme and color mode; this is not a blanket find-and-replace.
 

@@ -30,10 +30,10 @@ Information backgrounds, icons and strokes now use blue across DNB, Sbanken and 
 
 The neutral palette also changes. Applications that use tokens directly must review their backgrounds before upgrading:
 
-| Token                                          | DNB light: before → after | DNB dark: before → after |
-| ---------------------------------------------- | ------------------------- | ------------------------ |
-| `--token-color-background-neutral-alternative` | `#f2f2f5` → `#ccc`        | `#333` → `#1c1c1e`       |
-| `--token-color-background-neutral-bold`        | `#ccc` → `#b1b1b5`        | `#48484a` (unchanged)    |
+| Token                                          | DNB and Eiendom light: before → after | DNB and Eiendom dark: before → after |
+| ---------------------------------------------- | ------------------------------------- | ------------------------------------ |
+| `--token-color-background-neutral-alternative` | `#f2f2f5` → `#ccc`                    | `#333` → `#1c1c1e`                   |
+| `--token-color-background-neutral-bold`        | `#ccc` → `#b1b1b5`                    | `#48484a` (unchanged)                |
 
 `neutral-alternative` is no longer suitable as a general text background. In DNB light, links on this background drop from 5.15:1 to 3.58:1 contrast, below the 4.5:1 minimum for normal text. In DNB dark it matches the neutral surface used by Card, so nested boxes can lose their visible fill.
 
