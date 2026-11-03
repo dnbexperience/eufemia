@@ -15,10 +15,13 @@ test.describe('Badge', () => {
     await expect(badge).toHaveText('Notifications 1')
     await button.scrollIntoViewIfNeeded()
 
-    const bounds = await badge.boundingBox()
+    const badgeBounds = await badge.boundingBox()
+    const buttonBounds = await button.boundingBox()
+
+    // Click the center of the area where the badge overlaps the button.
     const position = {
-      x: bounds.x + bounds.width / 2,
-      y: bounds.y + bounds.height / 2,
+      x: (badgeBounds.x + buttonBounds.x + buttonBounds.width) / 2,
+      y: (buttonBounds.y + badgeBounds.y + badgeBounds.height) / 2,
     }
 
     await page.mouse.click(position.x, position.y)
