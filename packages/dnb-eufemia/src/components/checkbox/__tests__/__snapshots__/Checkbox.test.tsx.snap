@@ -334,8 +334,12 @@ button .dnb-form-status__text {
     --token-color-stroke-action-hover
   );
   --checkbox-color-gfx--focus: var(--token-color-icon-action-focus);
+  --checkbox-color-gfx-on--focus: var(--token-color-icon-neutral-ondark);
   --checkbox-color-background--focus: var(
     --token-color-background-action-focus-subtle
+  );
+  --checkbox-color-background-on--focus: var(
+    --token-color-background-action-focus
   );
   --checkbox-color-gfx__indeterminate--focus: var(
     --token-color-background-action-focus
@@ -666,8 +670,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   box-shadow: none;
   background-color: var(--checkbox-color-background--focus);
 }
+html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):checked:not(:indeterminate):focus ~ .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled])[data-checked=true]:not(:indeterminate):focus ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background-on--focus);
+}
 html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {
-  color: var(--checkbox-color-gfx--focus);
+  color: var(--checkbox-color-gfx-on--focus);
 }
 html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):indeterminate:focus ~ .dnb-checkbox__gfx {
   color: transparent;

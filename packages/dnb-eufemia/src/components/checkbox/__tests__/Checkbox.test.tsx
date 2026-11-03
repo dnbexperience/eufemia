@@ -605,6 +605,20 @@ describe('Checkbox scss', () => {
     )
   })
 
+  it('uses a solid focus background with a light check mark for focused checked checkboxes', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+
+    expect(css).toMatch(
+      /--checkbox-color-background-on--focus: var\(\s*--token-color-background-action-focus\s*\)/
+    )
+    expect(css).toMatch(
+      /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\)/
+    )
+    expect(css).toMatch(
+      /html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-checkbox__input:not\(\[disabled\]\):checked:not\(:indeterminate\):focus ~ \.dnb-checkbox__button,[^{]*\{\s*background-color: var\(--checkbox-color-background-on--focus\);/
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
