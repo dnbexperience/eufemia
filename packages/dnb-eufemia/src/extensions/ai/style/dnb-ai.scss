@@ -443,14 +443,7 @@
   // Paint containment clips controls' focus rings and expanded touch areas.
   &__content
     > :is(.dnb-ai-message, .dnb-ai-conversation__item):not(
-      :has(
-        a,
-        :enabled,
-        summary,
-        [role],
-        [tabindex],
-        [contenteditable]
-      )
+      :has(a, :enabled, summary, [role], [tabindex], [contenteditable])
     ) {
     content-visibility: auto;
     contain-intrinsic-block-size: auto 5rem;
