@@ -48,13 +48,13 @@ jobs:
         run: |
           $yarnPath = (Select-String -Path .yarnrc.yml -Pattern '^yarnPath: (.+)$').Matches.Groups[1].Value.Trim()
           if (-not (Test-Path $yarnPath)) { throw "Repository Yarn not found: $yarnPath" }
-          "YARN_PATH=$yarnPath" >> $env:GITHUB_ENV
+          "EUFEMIA_YARN_CLI=$yarnPath" >> $env:GITHUB_ENV
 
       - name: Install test dependencies
-        run: node $env:YARN_PATH install --immutable --mode=skip-build
+        run: node $env:EUFEMIA_YARN_CLI install --immutable --mode=skip-build
 
       - name: Install browsers
-        run: node $env:YARN_PATH workspace @dnb/eufemia playwright install chromium firefox
+        run: node $env:EUFEMIA_YARN_CLI workspace @dnb/eufemia playwright install chromium firefox
 
       - name: Check font loading, metrics and controls
-        run: node $env:YARN_PATH workspace @dnb/eufemia playwright test --config playwright.config.e2e.ts src/style/__tests__/Fonts.e2e.spec.ts src/style/__tests__/FontMetrics.e2e.spec.ts --project firefox --project chromium-fonts --workers 2
+        run: node $env:EUFEMIA_YARN_CLI workspace @dnb/eufemia playwright test --config playwright.config.e2e.ts src/style/__tests__/Fonts.e2e.spec.ts src/style/__tests__/FontMetrics.e2e.spec.ts --project firefox --project chromium-fonts --workers 2
