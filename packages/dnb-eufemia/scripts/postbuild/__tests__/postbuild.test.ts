@@ -1393,6 +1393,41 @@ describe('review rule metadata build', () => {
   })
 })
 
+describe('ESM plugins build', () => {
+  it.each(getBuildStages(['/es', '/esm']))(
+    'resolves all relative imports on stage %s',
+    async (stage) => {
+      const buildDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}`
+      )
+      const files = await globby('plugins/**/*.js', {
+        cwd: buildDir,
+        absolute: true,
+      })
+
+      const missingImports = files.flatMap((file) => {
+        const content = fs.readFileSync(file, 'utf-8')
+        return Array.from(
+          content.matchAll(/from '(\.{1,2}\/[^']+)'/g),
+          ([, specifier]) => specifier
+        )
+          .filter(
+            (specifier) =>
+              !fs.existsSync(path.resolve(path.dirname(file), specifier))
+          )
+          .map(
+            (specifier) =>
+              `${path.relative(buildDir, file)} -> ${specifier}`
+          )
+      })
+
+      expect(files.length).toBeGreaterThan(0)
+      expect(missingImports).toEqual([])
+    }
+  )
+})
+
 describe('package.json dependencies', () => {
   it('includes @babel/runtime-corejs3 as a runtime dependency', () => {
     // The published build artifacts contain imports from
@@ -1454,6 +1489,24 @@ describe('package.json dependencies', () => {
     })
     expect(packageJson.devDependencies).toMatchObject({
       purgecss: expect.any(String),
+    })
+  })
+
+  it('declares the packages the shipped tools import as optional peer dependencies', () => {
+    // The Stylelint plugin imports "stylelint" and the MCP server imports
+    // "@modelcontextprotocol/server". Strict package managers (like Yarn PnP)
+    // only let the package resolve them when they are declared.
+    const packageJson = fs.readJsonSync(
+      path.resolve(PKG_ROOT, 'package.json')
+    )
+
+    expect(packageJson.peerDependencies).toMatchObject({
+      '@modelcontextprotocol/server': expect.any(String),
+      stylelint: expect.any(String),
+    })
+    expect(packageJson.peerDependenciesMeta).toMatchObject({
+      '@modelcontextprotocol/server': { optional: true },
+      stylelint: { optional: true },
     })
   })
 })
