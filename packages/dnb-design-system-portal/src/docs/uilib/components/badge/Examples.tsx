@@ -13,6 +13,21 @@ export const BadgeNotification = () => (
   </ComponentBox>
 )
 
+export const BadgeNotificationNumbers = () => (
+  <ComponentBox hideCode data-visual-test="badge-notification-numbers">
+    <Flex.Container gap="small">
+      {[0, 1, 2, 8, 10, 99, 1234].map((content) => (
+        <Badge
+          key={content}
+          content={content}
+          label="Notifications"
+          variant="notification"
+        />
+      ))}
+    </Flex.Container>
+  </ComponentBox>
+)
+
 export const BadgeNotificationInline = () => (
   <ComponentBox
     hideCode
