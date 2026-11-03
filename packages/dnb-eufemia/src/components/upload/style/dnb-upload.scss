@@ -185,7 +185,16 @@
   &__file-limits {
     align-self: flex-start;
     max-width: 100%;
-    margin-bottom: 1.5rem;
+
+    // The file list has its own spacing, when the button is hidden
+    & + .dnb-upload__file-input-area .dnb-upload__file-input-button {
+      margin-top: 1.5rem;
+    }
+
+    // Let the focus ring follow the rounded corners of the content
+    .dnb-accordion__tertiary-content {
+      border-radius: var(--token-radius-xl);
+    }
 
     &__content {
       padding: 1rem;

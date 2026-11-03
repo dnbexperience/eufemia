@@ -1730,7 +1730,12 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-upload__file-limits {
   align-self: flex-start;
   max-width: 100%;
-  margin-bottom: 1.5rem;
+}
+.dnb-upload__file-limits + .dnb-upload__file-input-area .dnb-upload__file-input-button {
+  margin-top: 1.5rem;
+}
+.dnb-upload__file-limits .dnb-accordion__tertiary-content {
+  border-radius: var(--token-radius-xl);
 }
 .dnb-upload__file-limits__content {
   padding: 1rem;
