@@ -19,7 +19,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
             '[data-visual-test="badge-variant-notification"] .dnb-badge',
         })
       })
-      it('centers single and multi-digit notification numbers', async () => {
+      it('keeps notification numbers independent of inherited line height', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="badge-notification-numbers"]',
           executeBeforeSimulate: () => {
