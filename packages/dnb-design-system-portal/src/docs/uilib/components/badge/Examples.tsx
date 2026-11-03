@@ -73,7 +73,7 @@ export const BadgeInformationAvatar = () => (
 )
 
 export const BadgeButton = () => (
-  <ComponentBox data-visual-test="badge-button">
+  <ComponentBox>
     {() => {
       const Example = () => {
         const [notifications, setNotifications] = useState(1)
