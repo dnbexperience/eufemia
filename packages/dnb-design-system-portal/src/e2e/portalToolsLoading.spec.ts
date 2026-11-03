@@ -14,7 +14,7 @@ test('keeps the page usable when the settings download fails', async ({
     }
   })
   await page.route(/PortalToolsDrawer/, (route) => route.abort())
-  await page.goto('/web/components/')
+  await page.goto('/web/components/overview/')
   await waitForApp(page)
   await page.locator('button#portal-tools').click()
   await expect(page.getByRole('alert')).toContainText(
@@ -27,7 +27,7 @@ test('keeps the page usable when the settings download fails', async ({
   expect(documents).toBe(1)
 })
 
-for (const path of ['/', '/web/components/']) {
+for (const path of ['/', '/web/components/overview/']) {
   test('loads settings on first open from ' + path, async ({ page }) => {
     const requests: string[] = []
     page.on('request', (request) => requests.push(request.url()))
@@ -41,7 +41,7 @@ for (const path of ['/', '/web/components/']) {
 
     await trigger.click()
     const drawer = page.getByRole('dialog', {
-      name: 'Portal Tools',
+      name: 'Settings',
       exact: true,
     })
     await expect(drawer).toBeVisible()
@@ -75,7 +75,7 @@ test('opens on the first keyboard activation after a delayed settings download',
     await pending
     await route.continue()
   })
-  await page.goto('/web/components/')
+  await page.goto('/web/components/overview/')
   await waitForApp(page)
   const trigger = page.locator('button#portal-tools')
   const before = await trigger.boundingBox()
@@ -91,7 +91,7 @@ test('opens on the first keyboard activation after a delayed settings download',
     await expect(trigger).toBeFocused()
     release()
     const drawer = page.getByRole('dialog', {
-      name: 'Portal Tools',
+      name: 'Settings',
       exact: true,
     })
     await expect(drawer).toBeVisible()
@@ -114,7 +114,7 @@ test('does not open after canceling a pending settings download', async ({
     await pending
     await route.continue()
   })
-  await page.goto('/web/components/')
+  await page.goto('/web/components/overview/')
   await waitForApp(page)
   const trigger = page.locator('button#portal-tools')
   try {
@@ -127,11 +127,11 @@ test('does not open after canceling a pending settings download', async ({
     await expect(trigger).toHaveAttribute('aria-expanded', 'false')
     await expect(trigger).toBeFocused()
     await expect(
-      page.getByRole('dialog', { name: 'Portal Tools', exact: true })
+      page.getByRole('dialog', { name: 'Settings', exact: true })
     ).toBeHidden()
     await trigger.click()
     await expect(
-      page.getByRole('dialog', { name: 'Portal Tools', exact: true })
+      page.getByRole('dialog', { name: 'Settings', exact: true })
     ).toBeVisible()
   } finally {
     release()

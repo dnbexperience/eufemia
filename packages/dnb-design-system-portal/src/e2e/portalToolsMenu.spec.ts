@@ -142,7 +142,7 @@ test.describe('Settings', () => {
         await gotoAndWait(page)
         const trigger = page.locator('button#portal-tools')
         const drawer = page.getByRole('dialog', {
-          name: 'Portal Tools',
+          name: 'Settings',
           exact: true,
         })
         await trigger.click()

@@ -23,7 +23,7 @@ export default function PortalToolsDrawer({
       omitTriggerButton
       focusSelector="#change-theme"
       restoreFocusTo={() => document.getElementById('portal-tools')}
-      title="Portal Tools"
+      title="Settings"
       closeTitle="Close"
       {...props}
     >
