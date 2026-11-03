@@ -17,7 +17,8 @@
     align-items: start;
 
     :global(.fullscreen-page) &,
-    &.content-grid--without-toc {
+    &.content-grid--without-toc,
+    &:not(:has(.content-grid__sidebar nav)) {
       grid-template-columns: [content-start] minmax(0, 1fr) [content-end];
     }
   }
@@ -32,6 +33,16 @@
 }
 
 .content-grid__sidebar {
+  &:not(:has(nav)) {
+    display: none;
+  }
+
+  :global(.dnb-table-of-content__scroll) {
+    --scrollbar-track-width: 0.25rem;
+
+    scrollbar-width: thin;
+  }
+
   margin: 3rem 0 1.5rem;
 
   :global(.fullscreen-page) & {
@@ -46,7 +57,7 @@
 
     position: sticky;
     top: var(--content-sidebar-top);
-    max-height: calc(100dvh - var(--content-sidebar-top) - 1rem);
+    max-height: calc(100dvh - var(--content-sidebar-top) - 5.5rem);
 
     display: flex;
     flex-direction: column;

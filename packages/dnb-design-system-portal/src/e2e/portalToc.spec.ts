@@ -1,6 +1,217 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, webkit } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('starts a new page at the top after leaving a long page in WebKit', async ({
+    baseURL,
+  }) => {
+    const browser = await webkit.launch()
+    try {
+      const page = await browser.newPage()
+      for (const width of [1440, 1194]) {
+        await page.setViewportSize({ width, height: 900 })
+        await page.goto(new URL('/uilib/components/card/', baseURL).href)
+        await expect(page.locator('html')).toHaveAttribute(
+          'data-portal-ready',
+          'true'
+        )
+        await page.evaluate(() =>
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'instant',
+          })
+        )
+        const link = page
+          .locator('#portal-sidebar-menu')
+          .getByRole('link', { name: 'Button', exact: true })
+        await link.click()
+        await expect(page).toHaveURL(/\/uilib\/components\/button\/?$/)
+        await expect(page.locator('main h1')).toHaveText('Button#')
+        await expect
+          .poll(() => page.evaluate(() => window.scrollY))
+          .toBe(0)
+      }
+    } finally {
+      await browser.close()
+    }
+  })
+
+  test('contains wheel scrolling only while the outline overflows', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/uilib/components/card/')
+    const scroll = page.locator(
+      '#portal-page-toc .dnb-table-of-content__scroll'
+    )
+    await expect(scroll).toBeVisible()
+    await expect(scroll).toHaveCSS('overscroll-behavior-y', 'contain')
+    await page.setViewportSize({ width: 1440, height: 3000 })
+    await expect(scroll).toHaveCSS('overscroll-behavior-y', 'auto')
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await expect(scroll).toHaveCSS('overscroll-behavior-y', 'contain')
+    await scroll.evaluate((element) =>
+      element.scrollTo({ top: element.scrollHeight, behavior: 'instant' })
+    )
+    const bottom = await scroll.evaluate((element) => element.scrollTop)
+    expect(bottom).toBeGreaterThan(0)
+    await scroll.hover()
+    for (let step = 0; step < 3; step++) {
+      await page.mouse.wheel(0, 400)
+    }
+    await page.waitForTimeout(300)
+    expect(await page.evaluate(() => window.scrollY)).toBe(0)
+    expect(await scroll.evaluate((element) => element.scrollTop)).toBe(
+      bottom
+    )
+
+    await page.goto('/uilib/components/button/demos/')
+    await expect(scroll).toBeVisible()
+    await expect(scroll).toHaveCSS('overscroll-behavior-y', 'auto')
+    await scroll.hover()
+    await page.mouse.wheel(0, 400)
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThan(0)
+  })
+
+  test('skips the page outline when moving to the article with the keyboard', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/uilib/components/card/')
+    await expect(page.locator('#portal-page-toc')).toBeVisible()
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-portal-ready',
+      'true'
+    )
+    const skip = page.locator('.dnb-skip-link')
+    await skip.focus()
+    await page.keyboard.press('Enter')
+    const content = page.locator('[data-portal-page-content]')
+    await expect(content).toBeFocused()
+    await page.keyboard.press('Tab')
+    expect(
+      await content.evaluate((element) =>
+        element.contains(document.activeElement)
+      )
+    ).toBe(true)
+    await expect(content).toHaveAttribute('tabindex', '-1')
+  })
+
+  for (const path of [
+    '/uilib/extensions/forms/Form/Outlet/',
+    '/uilib/extensions/forms/Form/Outlet/demos/',
+  ]) {
+    test(
+      'hydrates the outlet-first example with its server outline at ' +
+        path,
+      async ({ page }) => {
+        const errors: string[] = []
+        page.on('pageerror', (error) => errors.push(error.message))
+        page.on('console', (message) => {
+          if (message.type() === 'error') {
+            errors.push(message.text())
+          }
+        })
+        await page.goto(path)
+        await expect(
+          page.locator('#OutletBeforeHandler .dnb-live-preview input')
+        ).toHaveCount(2)
+        await expect(page.locator('html')).toHaveAttribute(
+          'data-portal-ready',
+          'true'
+        )
+        expect(
+          errors.filter((message) =>
+            /hydration|hydrating|#418|did not match/i.test(message)
+          )
+        ).toEqual([])
+      }
+    )
+  }
+
+  test('keeps a tall outline below the header at the end of the page', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/extensions/forms/changelog/')
+    const toc = page.locator('#portal-page-toc')
+    for (const width of [1153, 1440, 1920]) {
+      for (const height of [700, 900, 1300]) {
+        await page.setViewportSize({ width, height })
+        await expect(toc).toBeVisible()
+        await page.evaluate(() =>
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'instant',
+          })
+        )
+        await expect
+          .poll(async () => (await toc.boundingBox()).y)
+          .toBeGreaterThanOrEqual(103)
+      }
+    }
+    await expect(toc.locator('.dnb-table-of-content__scroll')).toHaveCSS(
+      '--scrollbar-track-width',
+      /^0?\.25rem$/
+    )
+  })
+
+  test('omits title-only outlines on desktop and mobile', async ({
+    page,
+  }) => {
+    for (const width of [1280, 375]) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/design-system/privacy/')
+      await expect(page.locator('#dnb-app-content h1')).toBeVisible()
+      await expect(page.locator('#portal-page-toc')).toHaveCount(0)
+      await expect(page.locator('#content-grid-sidebar')).toBeHidden()
+    }
+  })
+
+  test('keeps schema validation errors within the demo at the narrowest desktop width', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1153, height: 900 })
+    await page.goto(
+      '/uilib/extensions/forms/Form/schema-validation/demos/#dependent-schema-across-sections'
+    )
+    const example = page.locator(
+      '#DependentSchemaValidation .dnb-live-preview'
+    )
+    await example
+      .getByRole('button', { name: 'Show errors', exact: true })
+      .click()
+    await expect(example.locator('output pre').last()).toContainText(
+      'Dette feltet må fylles ut.'
+    )
+    const overflow = await example.evaluate((element) =>
+      Math.max(
+        ...Array.from(element.querySelectorAll('output, .dnb-card')).map(
+          (child) =>
+            child.getBoundingClientRect().right -
+            element.getBoundingClientRect().right
+        )
+      )
+    )
+    expect(overflow).toBeLessThanOrEqual(1)
+  })
+
+  test('hides an opened outline when printing and restores it on screen', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 900 })
+    await page.goto('/uilib/components/button/demos/')
+    const toc = page.locator('#portal-page-toc')
+    await toc
+      .getByRole('button', { name: 'On this page', exact: true })
+      .click()
+    await expect(toc.getByRole('link').first()).toBeVisible()
+    await page.emulateMedia({ media: 'print' })
+    await expect(page.locator('#content-grid-sidebar')).toBeHidden()
+    await page.emulateMedia({ media: 'screen' })
+    await expect(toc.getByRole('link').first()).toBeVisible()
+  })
+
   test('removes and restores links as page headings change dynamically', async ({
     page,
   }) => {
@@ -315,6 +526,14 @@ test.describe('Portal table of contents', () => {
       .click()
     await page.getByRole('tab', { name: 'Info', exact: true }).focus()
     await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(
+      /\/uilib\/extensions\/table-of-content\/?$/
+    )
+    await expect(
+      page
+        .locator('main')
+        .getByRole('heading', { name: 'Description', exact: true })
+    ).toBeVisible()
     await expect(
       toc.getByRole('button', { name: 'On this page', exact: true })
     ).toHaveAttribute('aria-expanded', 'false')

@@ -185,7 +185,12 @@ export default function PortalLayout(props: PortalLayoutProps) {
   }
 
   return (
-    <Layout key="layout" location={location} fullscreen={fullscreen} printLayout={fmData.printLayout}>
+    <Layout
+      key="layout"
+      location={location}
+      fullscreen={fullscreen}
+      printLayout={fmData.printLayout}
+    >
       {codeFocusMode ? (
         <Content>{children}</Content>
       ) : (
@@ -199,7 +204,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
             id="content-grid-header"
           >
             {fmData.breadcrumb && (
-              <Breadcrumb key="breadcrumb" top="large" className="dnb-print-hidden">
+              <Breadcrumb
+                key="breadcrumb"
+                top="large"
+                className="dnb-print-hidden"
+              >
                 {fmData.breadcrumb.map((item, i, a) => {
                   return (
                     <Breadcrumb.Item
@@ -236,7 +245,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
           {!hideToc && (
             <div
-              className={pageLayoutStyles['content-grid__sidebar']}
+              className={
+                pageLayoutStyles['content-grid__sidebar'] +
+                ' dnb-print-hidden'
+              }
               id="content-grid-sidebar"
             >
               <PortalToc
@@ -252,7 +264,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 sourcePath={editSourcePath}
                 pagePath={`${location.pathname}${location.hash || ''}`}
                 showEditLink={!fmData.hideEditLink}
-                showPropertiesUsage={!pageFm.hidePropertiesUsage && slug.startsWith('uilib/') && slug.endsWith('/properties')}
+                showPropertiesUsage={
+                  !pageFm.hidePropertiesUsage &&
+                  slug.startsWith('uilib/') &&
+                  slug.endsWith('/properties')
+                }
               >
                 {children}
               </Content>

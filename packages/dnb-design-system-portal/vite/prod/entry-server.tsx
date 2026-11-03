@@ -33,6 +33,7 @@ import {
 import { getPreHydrationScript as getSidebarMenuScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
 import { getPreHydrationScript as getTableOfContentScript } from '@dnb/eufemia/src/extensions/table-of-content/TableOfContentPreHydrationScript'
 import { readRenderedToc } from './portal-toc'
+import PortalToc from '../../src/shared/parts/PortalToc'
 
 // Cached resolved routes and static handler — populated by prepareRoutes()
 let resolvedRouteConfig: ReturnType<typeof buildRouteConfig> | null = null
@@ -97,22 +98,31 @@ export async function render(url: string) {
 
   const router = createStaticRouter(resolvedRouteConfig, context)
 
-  // Create a fresh Emotion cache for this render to ensure clean
-  // style extraction per page.
-  const renderPage = (toc: PortalTocSnapshot | null = null) =>
-    renderToString(
-      <CacheProvider value={createEmotionCache({ key: 'css' })}>
-        <PortalTocData value={toc}>
-          <StaticRouterProvider router={router} context={context} />
-        </PortalTocData>
+  const cache = createEmotionCache({ key: 'css' })
+  let appHtml = renderToString(
+    <CacheProvider value={cache}>
+      <StaticRouterProvider router={router} context={context} />
+    </CacheProvider>
+  )
+  const placeholder =
+    /<template data-portal-toc-depth="(\d+)"><\/template>/
+  const match = appHtml.match(placeholder)
+  if (match) {
+    const pathname = new URL(fetchRequest.url).pathname
+    const toc: PortalTocSnapshot = {
+      pathname,
+      headings: readRenderedToc(appHtml),
+    }
+    const tocHtml = renderToString(
+      <CacheProvider value={cache}>
+        <Provider locale={getLang()} translations={translations}>
+          <PortalTocData value={toc}>
+            <PortalToc pathname={pathname} maxDepth={Number(match[1])} />
+          </PortalTocData>
+        </Provider>
       </CacheProvider>
     )
-  let appHtml = renderPage()
-  if (appHtml.includes('id="content-grid-sidebar"')) {
-    appHtml = renderPage({
-      pathname: new URL(fetchRequest.url).pathname,
-      headings: readRenderedToc(appHtml),
-    })
+    appHtml = appHtml.replace(placeholder, () => tocHtml)
   }
 
   // Extract Emotion <style> tags from the rendered HTML and collect

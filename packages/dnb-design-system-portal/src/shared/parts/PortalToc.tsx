@@ -1,4 +1,10 @@
-import { createElement, useContext, useMemo, useState } from 'react'
+import {
+  createElement,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type { ReactNode } from 'react'
 import useLayoutEffect from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
 import { TableOfContent } from '@dnb/eufemia/src/extensions'
@@ -33,6 +39,8 @@ export default function PortalToc({
     pathname
   )
 
+  const navigationRef = useRef<HTMLElement>(null)
+
   const sections = useMemo<TableOfContentSection[]>(
     () =>
       headings.map(({ text, id, level }) => ({
@@ -42,6 +50,54 @@ export default function PortalToc({
       })),
     [headings]
   )
+
+  useLayoutEffect(() => {
+    const scroll = navigationRef.current?.querySelector<HTMLElement>(
+      '.dnb-table-of-content__scroll'
+    )
+    if (!scroll) {
+      return
+    }
+
+    const update = () => {
+      scroll.style.overscrollBehaviorY =
+        scroll.scrollHeight > scroll.clientHeight ? 'contain' : 'auto'
+    }
+    update()
+
+    const onWheel = (event: WheelEvent) => {
+      if (
+        event.ctrlKey ||
+        event.shiftKey ||
+        Math.abs(event.deltaY) <= Math.abs(event.deltaX)
+      ) {
+        return
+      }
+      const maximum = scroll.scrollHeight - scroll.clientHeight
+      if (
+        maximum > 0 &&
+        ((event.deltaY < 0 && scroll.scrollTop <= 0) ||
+          (event.deltaY > 0 && scroll.scrollTop >= maximum - 1))
+      ) {
+        event.preventDefault()
+      }
+    }
+    scroll.addEventListener('wheel', onWheel, { passive: false })
+
+    const observer = new ResizeObserver(update)
+    observer.observe(scroll)
+    if (scroll.firstElementChild) {
+      observer.observe(scroll.firstElementChild)
+    }
+    return () => {
+      observer.disconnect()
+      scroll.removeEventListener('wheel', onWheel)
+    }
+  }, [sections, resolvedPath, maxDepth])
+
+  if (!initialData && !headings.length) {
+    return <template data-portal-toc-depth={maxDepth ?? 2} />
+  }
 
   return (
     <>
@@ -54,18 +110,21 @@ export default function PortalToc({
           }}
         />
       )}
-      <TableOfContent.Data
-        key={resolvedPath}
-        id="portal-page-toc"
-        locale="en-GB"
-        includeH1
-        expandedStorageKey="portal-toc-expanded"
-        data={sections}
-        currentSectionOffset={currentSectionOffset}
-        maxDepth={maxDepth}
-        sticky={false}
-        animateChanges={false}
-      />
+      {headings.some(({ level }) => level > 1) && (
+        <TableOfContent.Data
+          key={resolvedPath}
+          ref={navigationRef}
+          id="portal-page-toc"
+          locale="en-GB"
+          includeH1
+          expandedStorageKey="portal-toc-expanded"
+          data={sections}
+          currentSectionOffset={currentSectionOffset}
+          maxDepth={maxDepth}
+          sticky={false}
+          animateChanges={false}
+        />
+      )}
     </>
   )
 }
@@ -86,8 +145,8 @@ function usePageHeadings(
         signature: JSON.stringify(text),
         text: text.map((part, index) =>
           typeof part === 'string'
-            ? part
-            : createElement('code', { key: index }, part.code)
+            ? wrapLabel(part)
+            : createElement('code', { key: index }, wrapLabel(part.code))
         ),
       })) ?? []
   )
@@ -201,13 +260,13 @@ function titleOf(heading: HTMLElement) {
 
   const readText = (node: Node): ReactNode => {
     if (node.nodeType === Node.TEXT_NODE) {
-      return node.textContent
+      return wrapLabel(node.textContent)
     }
     if (node instanceof HTMLElement && node.tagName === 'CODE') {
       return createElement(
         'code',
         { key: Array.from(node.parentNode.childNodes).indexOf(node) },
-        node.textContent
+        wrapLabel(node.textContent)
       )
     }
     return Array.from(node.childNodes).map(readText)
@@ -227,4 +286,13 @@ function isSameHeadings(current: PageHeading[], found: PageHeading[]) {
         heading.level === found[index].level
     )
   )
+}
+
+function wrapLabel(text: string): ReactNode {
+  return text
+    .split(/(?<=\.)/)
+    .map((part, index) => [
+      index > 0 && createElement('wbr', { key: index }),
+      part,
+    ])
 }
