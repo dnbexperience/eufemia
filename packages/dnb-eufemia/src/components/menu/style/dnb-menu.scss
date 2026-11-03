@@ -208,6 +208,9 @@
     }
 
     .dnb-menu__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
       padding-inline-start: var(--menu-action-padding-inline);
     }
   }
