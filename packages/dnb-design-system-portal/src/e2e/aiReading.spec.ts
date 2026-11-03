@@ -11,8 +11,13 @@ test('returns to the latest user turn after sending from older history', async (
 }) => {
   const demo = page.locator('[data-visual-test="ai-conversation-reading"]')
   const log = demo.getByRole('log')
-  await log.hover()
-  await page.mouse.wheel(0, -1200)
+  await log.evaluate((element) => {
+    element.dispatchEvent(
+      new WheelEvent('wheel', { bubbles: true, deltaY: -1200 })
+    )
+    element.scrollTop = 0
+    element.dispatchEvent(new Event('scroll'))
+  })
   await expect
     .poll(() => log.evaluate((element) => element.scrollTop))
     .toBeLessThan(100)
