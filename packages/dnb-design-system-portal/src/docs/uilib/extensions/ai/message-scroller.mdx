@@ -174,7 +174,8 @@ Scroll the conversation, and see how the current question is marked.
 ```tsx
 import { useConversationScrollState } from '@dnb/eufemia/extensions/ai'
 
-const { isAtStart, isAtEnd } = useConversationScrollState('my-chat')
+const { isAtStart, isAtEnd, hasUnreadMessages } =
+  useConversationScrollState('my-chat')
 ```
 
 <Examples.AiScrollerScrollState />

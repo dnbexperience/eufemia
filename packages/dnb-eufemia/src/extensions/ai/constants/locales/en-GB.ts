@@ -29,6 +29,7 @@ export default {
       suggestions: 'Suggestions',
       conversationLabel: 'Conversation',
       scrollToBottom: 'Go to latest message',
+      newMessage: 'New message',
       sources: 'Sources (%count)',
       taskRunning: 'In progress',
       taskDone: 'Completed',

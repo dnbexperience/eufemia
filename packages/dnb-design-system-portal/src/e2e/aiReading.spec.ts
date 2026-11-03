@@ -31,6 +31,55 @@ test('returns to the latest user turn after sending from older history', async (
   )
 })
 
+test('marks newly received replies as unread without treating history or streaming as new', async ({
+  page,
+}) => {
+  const demo = page.locator('[data-visual-test="ai-conversation-reading"]')
+  const log = demo.getByRole('log')
+  await expect(
+    demo.getByText('Unread messages: no', { exact: true })
+  ).toBeVisible()
+  await log.evaluate((element) => {
+    element.dispatchEvent(
+      new WheelEvent('wheel', { bubbles: true, deltaY: -1200 })
+    )
+    element.scrollTop = 0
+    element.dispatchEvent(new Event('scroll'))
+  })
+  await expect
+    .poll(() => log.evaluate((element) => element.scrollTop))
+    .toBeLessThan(100)
+  await demo
+    .getByRole('button', { name: 'Extend reply', exact: true })
+    .click()
+  await expect(
+    demo.getByText('Unread messages: no', { exact: true })
+  ).toBeVisible()
+  await demo
+    .getByRole('button', { name: 'Receive message', exact: true })
+    .click()
+  await expect(
+    demo.getByText('Unread messages: yes', { exact: true })
+  ).toBeVisible()
+  const latest = demo.getByRole('button', {
+    name: 'Ny melding. Gå til siste melding',
+    exact: true,
+  })
+  await expect(latest).toHaveText('Ny melding')
+  await latest.click()
+  await expect(
+    demo.getByText('Unread messages: no', { exact: true })
+  ).toBeVisible()
+  await expect
+    .poll(() =>
+      log.evaluate(
+        (element) =>
+          element.scrollHeight - element.clientHeight - element.scrollTop
+      )
+    )
+    .toBeLessThan(3)
+})
+
 test('keeps the end visible as a multiline draft changes and the viewport shrinks', async ({
   page,
 }) => {
@@ -107,6 +156,21 @@ test('preserves browser navigation and text selection while a reply grows', asyn
 }) => {
   const demo = page.locator('[data-visual-test="ai-conversation-reading"]')
   const log = demo.getByRole('log')
+  await log.scrollIntoViewIfNeeded()
+  await expect
+    .poll(() =>
+      log.evaluate(
+        (element) =>
+          element.scrollHeight - element.clientHeight - element.scrollTop
+      )
+    )
+    .toBeLessThan(3)
+  await log.evaluate(
+    () =>
+      new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve))
+      )
+  )
   const first = log.locator('.dnb-ai-message').first()
   await first.evaluate((element) =>
     element.scrollIntoView({ block: 'start', behavior: 'instant' })

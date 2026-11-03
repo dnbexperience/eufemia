@@ -414,6 +414,8 @@ export type AiConversationScrollState = {
   isAtStart: boolean
   /** `true` when the conversation is scrolled to the end. */
   isAtEnd: boolean
+  /** `true` when new incoming messages arrived while reading older history. Clears at the end. */
+  hasUnreadMessages: boolean
 }
 
 export type AiConversationVisibility = {

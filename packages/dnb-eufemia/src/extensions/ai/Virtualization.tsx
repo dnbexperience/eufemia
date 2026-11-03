@@ -75,6 +75,8 @@ function VirtualizedConversation(
   const previousScrollTop = useRef(0)
   const [focusedId, setFocusedId] = useState<string>(null)
   const [hasContentBelow, setHasContentBelow] = useState(false)
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false)
+  const unreadRef = useRef(false)
   const [spacer, setSpacer] = useState(0)
   const previous = useRef<{
     first?: string
@@ -306,10 +308,15 @@ function VirtualizedConversation(
     }
     const atEnd =
       scroll.scrollHeight - scroll.clientHeight - scroll.scrollTop <= 2
+    if (atEnd) {
+      unreadRef.current = false
+    }
+    setHasUnreadMessages(unreadRef.current)
     setHasContentBelow(!following.current && !atEnd)
     api.scrollState.set({
       isAtStart: scroll.scrollTop <= 1,
       isAtEnd: atEnd,
+      hasUnreadMessages: unreadRef.current,
     })
     const { items, metadata, virtualizer } = latest.current
     const visible = virtualizer
@@ -372,6 +379,23 @@ function VirtualizedConversation(
       !metadata.indexes.has(before.last) &&
       before.first &&
       !metadata.indexes.has(before.first)
+    const previousLastIndex = before
+      ? metadata.indexes.get(before.last)
+      : undefined
+    const appended =
+      previousLastIndex === undefined
+        ? []
+        : items.slice(previousLastIndex + 1)
+    if (!before || reset || !items.length) {
+      unreadRef.current = false
+    } else if (
+      appended.length &&
+      !following.current &&
+      scroll.scrollHeight - scroll.clientHeight - scroll.scrollTop > 2 &&
+      !appended.some((item) => item.from === 'user')
+    ) {
+      unreadRef.current = true
+    }
     if (reset) {
       following.current = scrollBehavior === 'end'
       pendingTarget.current = null
@@ -631,7 +655,14 @@ function VirtualizedConversation(
             size="medium"
             icon={arrow_down}
             className="dnb-ai-conversation__scroll-button"
-            aria-label={translation.scrollToBottom}
+            text={hasUnreadMessages ? translation.newMessage : undefined}
+            aria-label={
+              hasUnreadMessages
+                ? translation.newMessage +
+                  '. ' +
+                  translation.scrollToBottom
+                : translation.scrollToBottom
+            }
             tooltip={translation.scrollToBottom}
             onClick={({ event }) => {
               if (document.activeElement === event.currentTarget) {

@@ -536,6 +536,11 @@ export const AiConversationScrollState: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  hasUnreadMessages: {
+    doc: '`true` when new incoming messages arrived while reading older history. Clears at the end.',
+    type: 'boolean',
+    status: 'optional',
+  },
 }
 
 export const AiConversationVisibility: PropertiesTableProps = {

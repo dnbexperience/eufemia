@@ -694,3 +694,55 @@ test('resumes following a submitted turn while reading older virtual history', a
     demo.getByRole('button', { name: 'Action 1001', exact: true })
   ).toBeInViewport()
 })
+
+test('tracks unread incoming messages in both renderers without flagging prepended history', async ({
+  page,
+}) => {
+  const demo = page.locator(
+    '[data-visual-test="ai-virtualized-conversation"]'
+  )
+  for (const virtualized of [true, false]) {
+    await demo
+      .getByRole('button', { name: 'Go to message 100', exact: true })
+      .click()
+    await expect(demo.locator('#history-100')).toBeInViewport()
+    await demo
+      .getByRole('button', { name: 'Prepend history', exact: true })
+      .click()
+    await expect(
+      demo.getByText('Unread messages: no', { exact: true })
+    ).toBeVisible()
+    await demo.getByRole('log').evaluate((element) => {
+      element.dispatchEvent(
+        new WheelEvent('wheel', { bubbles: true, deltaY: -1200 })
+      )
+      element.scrollTop = 0
+      element.dispatchEvent(new Event('scroll'))
+    })
+    await expect
+      .poll(() =>
+        demo.getByRole('log').evaluate((element) => element.scrollTop)
+      )
+      .toBeLessThan(3)
+    await demo
+      .getByRole('button', { name: 'Receive message', exact: true })
+      .click()
+    await expect(
+      demo.getByText('Unread messages: yes', { exact: true })
+    ).toBeVisible()
+    const latest = demo.getByRole('button', {
+      name: 'Ny melding. Gå til siste melding',
+      exact: true,
+    })
+    await expect(latest).toHaveText('Ny melding')
+    await latest.click()
+    await expect(
+      demo.getByText('Unread messages: no', { exact: true })
+    ).toBeVisible()
+    if (virtualized) {
+      await demo
+        .getByRole('button', { name: 'Show full transcript', exact: true })
+        .click()
+    }
+  }
+})

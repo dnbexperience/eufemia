@@ -5,6 +5,7 @@ import {
   Message,
   useConversation,
   useConversationVisibility,
+  useConversationScrollState,
 } from '@dnb/eufemia/src/extensions/ai'
 import { createConversationVirtualization } from '@dnb/eufemia/src/extensions/ai/Virtualization'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
@@ -20,6 +21,9 @@ function Controls() {
     'virtual-chat-demo'
   )
   const { currentTurnId } = useConversationVisibility('virtual-chat-demo')
+  const { hasUnreadMessages } = useConversationScrollState(
+    'virtual-chat-demo'
+  )
   return (
     <Flex.Stack>
       <Flex.Horizontal>
@@ -29,6 +33,7 @@ function Controls() {
         <Button onClick={scrollToEnd}>Go to latest</Button>
       </Flex.Horizontal>
       <P>Current turn: {currentTurnId ?? 'none'}</P>
+      <P>Unread messages: {hasUnreadMessages ? 'yes' : 'no'}</P>
     </Flex.Stack>
   )
 }
@@ -38,12 +43,16 @@ function VirtualizedDemo() {
   const [first, setFirst] = useState(0)
   const [count, setCount] = useState(1000)
   const [extra, setExtra] = useState('')
+  const [incoming, setIncoming] = useState<number[]>([])
   const [mode, setMode] = useState<'turn' | 'end'>('end')
   const items = useMemo<Array<AiConversationItem>>(
     () =>
       Array.from({ length: count - first }, (_, index) => {
         const number = index + first
-        const from = number % 2 === 0 ? 'user' : 'assistant'
+        const from =
+          number % 2 === 0 && !incoming.includes(number)
+            ? 'user'
+            : 'assistant'
         return {
           id: 'history-' + number,
           from,
@@ -61,7 +70,7 @@ function VirtualizedDemo() {
           ),
         }
       }),
-    [first, count, extra]
+    [first, count, extra, incoming]
   )
   return (
     <div>
@@ -84,6 +93,14 @@ function VirtualizedDemo() {
             }
           >
             Extend latest reply
+          </Button>
+          <Button
+            onClick={() => {
+              setIncoming((messages) => [...messages, count])
+              setCount((value) => value + 1)
+            }}
+          >
+            Receive message
           </Button>
           <Button onClick={() => setFirst((value) => value - 20)}>
             Prepend history

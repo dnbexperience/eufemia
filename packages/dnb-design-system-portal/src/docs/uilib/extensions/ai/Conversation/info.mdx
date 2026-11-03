@@ -38,6 +38,12 @@ Give the conversation an `id`, and use `Ai.useConversation(id)` to scroll it, e.
 
 The part of the previous reply that is shown above a new turn is set with the `--ai-conversation-peek` CSS custom property, which defaults to `3rem`.
 
+## Incoming messages
+
+When an incoming message is appended while the reader is away from the end, the scroll-to-latest button shows a translated “New message” label. `useConversationScrollState` exposes `hasUnreadMessages` for custom controls. Reaching the end clears it. Restored or prepended history, edits and streamed text within an existing message do not mark a message unread. Keep message keys and item ids stable.
+
+This visual state does not announce a reply. The application still owns announcements for streamed completion and incoming customer-service or proactive messages. See [Screen reader announcements](/uilib/extensions/ai/integrations/#screen-reader-announcements).
+
 ## Virtualization
 
 The Figma chat starts from the bottom. Use `scrollBehavior="end"` for that layout. The `turn` default lets readers follow a streamed reply from its start. In `end` mode, submitting a new user message returns to the end and resumes following. Moving focus into older content, selecting text or navigating away pauses following until the reader returns to the end. Use `--ai-conversation-padding` to adjust the default `1rem` side padding.
