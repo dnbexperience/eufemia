@@ -3,8 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import buildTargets from '@dnb/browserslist-config/buildTargets.mjs'
 
-// tsdown loads this file with Node, which needs an import attribute for JSON,
-// and the CommonJS tsconfig does not allow import attributes
+// Node needs an import attribute for JSON, which the CommonJS tsconfig disallows
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 
 export default [
@@ -79,11 +78,11 @@ function makeBundleConfig(
     'core-js-pure', // polyfills, usually external
   ]
 
-  const noExternal: Array<string | RegExp> = Object.keys({
+  const alwaysBundle: Array<string | RegExp> = Object.keys({
     ...pkg.dependencies,
     ...pkg.peerDependencies,
   }).filter((dep) => !alwaysExternal.includes(dep))
-  noExternal.push(/^date-fns(?:\/|$)/, /^ajv\/dist\/2020/)
+  alwaysBundle.push(/^date-fns(?:\/|$)/, /^ajv\/dist\/2020/)
 
   const iconsBundle =
     format === 'esm' ? './dnb-ui-icons.min.mjs' : './dnb-ui-icons.min.js'
@@ -106,7 +105,7 @@ function makeBundleConfig(
       outName === 'dnb-ui-icons' ? [] : [externalIcons(iconsBundle)],
 
     // Bundle these, even though they are dependencies
-    deps: { alwaysBundle: noExternal },
+    deps: { alwaysBundle },
 
     // Some tools also read this
     globalName,
