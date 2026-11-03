@@ -405,6 +405,9 @@
       --token-color-background-neutral-subtle
     );
     --accordion-color-bg--hover: var(--token-color-background-neutral);
+    --accordion-color-bg--after-click: var(
+      --token-color-background-neutral
+    );
     --accordion-color-bg--active: var(
       --token-color-background-action-pressed
     );
