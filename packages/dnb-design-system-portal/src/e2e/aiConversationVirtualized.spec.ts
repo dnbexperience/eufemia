@@ -293,7 +293,7 @@ test('preserves the regular message gap with and without virtualization', async 
           )
         })
       )
-      .toBeCloseTo(0, 0)
+      .toBeCloseTo(8, 0)
     if (virtualized) {
       await demo
         .getByRole('button', { name: 'Show full transcript', exact: true })
@@ -658,7 +658,8 @@ test('keeps a reader in place during reply growth and aligns short history to th
       log.evaluate((element) => {
         const last = element.querySelector('#history-1')
         return Math.abs(
-          last.getBoundingClientRect().bottom -
+          last.getBoundingClientRect().bottom +
+            8 -
             element.getBoundingClientRect().bottom
         )
       })

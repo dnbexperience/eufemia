@@ -2,6 +2,29 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.PromptInput interaction styles', () => {
+  for (const variant of ['default', 'compact']) {
+    test(
+      'focuses the textarea from empty ' + variant + ' card space',
+      async ({ page }) => {
+        const form = page.locator(
+          '[data-visual-test="ai-prompt-input-' + variant + '"] form'
+        )
+        const textarea = form.locator('textarea')
+        await textarea.fill('Hello')
+        await page.locator('h1').click()
+        await form.click({ position: { x: 16, y: 8 } })
+        await expect(textarea).toBeFocused()
+        await page.keyboard.type(' world')
+        await expect(textarea).toHaveValue('Hello world')
+        if (variant === 'default') {
+          const toolbar = form.locator('.dnb-ai-prompt-input__toolbar')
+          await toolbar.click({ position: { x: 40, y: 10 } })
+          await expect(textarea).toBeFocused()
+        }
+      }
+    )
+  }
+
   for (const variant of ['custom', 'custom-compact']) {
     test(
       'composes custom controls in the ' + variant + ' layout',
@@ -302,6 +325,11 @@ test.describe('Ai.PromptInput on touch-primary devices', () => {
     )
     const textarea = form.locator('textarea')
     await textarea.fill('Hello')
+    await page.locator('h1').tap()
+    await form
+      .locator('.dnb-ai-prompt-input__toolbar')
+      .tap({ position: { x: 40, y: 10 } })
+    await expect(textarea).toBeFocused()
     await textarea.press('Enter')
     await textarea.pressSequentially('world')
     await expect(textarea).toHaveValue('Hello\nworld')

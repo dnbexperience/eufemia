@@ -12,7 +12,7 @@ render(<PromptInput />)
 
 ## Description
 
-`Ai.PromptInput` is where the user writes a message. On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices (`hover: none` and `pointer: coarse`), Enter adds a new line; use the send button to submit. Set `isBusy` while a reply is pending or streaming. With `onStop`, the send button becomes a stop button. After sending, focus returns to the textarea. Stopping also returns keyboard focus when the empty compact input removes the stop button.
+`Ai.PromptInput` is where the user writes a message. On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices (`hover: none` and `pointer: coarse`), Enter adds a new line; use the send button to submit. Set `isBusy` while a reply is pending or streaming. With `onStop`, the send button becomes a stop button. Pressing empty space on the card focuses the textarea with the caret at the end. Custom controls and context content keep their own interactions. After sending, focus returns to the textarea. Stopping also returns keyboard focus when the empty compact input removes the stop button.
 
 Use `variant="compact"` for a single line on a welcome screen. It shows the Aino icon by default and hides the send button until the user enters text. While busy, the stop button stays available even when the input is empty. Use `icon` to change the leading icon or `icon={null}` to hide it.
 

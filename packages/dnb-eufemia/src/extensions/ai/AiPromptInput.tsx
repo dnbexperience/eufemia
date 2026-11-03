@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { FormEvent, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import mergeProps from '../../shared/helpers/mergeProps'
@@ -33,6 +33,7 @@ function AiPromptInput(props: AiPromptInputProps) {
     onChange,
     onSubmit,
     onStop,
+    onMouseDown,
     startActions,
     endActions,
     className,
@@ -90,6 +91,36 @@ function AiPromptInput(props: AiPromptInputProps) {
           '.dnb-ai-prompt-input__textarea textarea'
         )
         ?.focus()
+    }
+  }
+
+  const handleMouseDown = (event: MouseEvent<HTMLFormElement>) => {
+    onMouseDown?.(event)
+    const control = (event.target as Element).closest(
+      'a, button, input, select, textarea, label, summary, [role]:not([role="presentation"], [role="none"], [role="img"]), [tabindex], [contenteditable], .dnb-ai-prompt-input__context'
+    )
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      disabled ||
+      (control &&
+        control !== event.currentTarget &&
+        event.currentTarget.contains(control))
+    ) {
+      return // stop here
+    }
+
+    const textarea =
+      event.currentTarget.querySelector<HTMLTextAreaElement>(
+        '.dnb-ai-prompt-input__textarea textarea'
+      )
+    if (textarea && !textarea.disabled) {
+      event.preventDefault()
+      textarea.focus()
+      textarea.setSelectionRange(
+        textarea.value.length,
+        textarea.value.length
+      )
     }
   }
 
@@ -206,7 +237,13 @@ function AiPromptInput(props: AiPromptInputProps) {
   )
 
   return (
-    <form {...rootProps} onSubmit={handleSubmit}>
+    // The card delegates pointer focus to its textarea without adding a tab stop.
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    <form
+      {...rootProps}
+      onSubmit={handleSubmit}
+      onMouseDown={handleMouseDown}
+    >
       <HeightAnimation open={Boolean(children)} compensateForGap="auto">
         <div className="dnb-ai-prompt-input__context">{children}</div>
       </HeightAnimation>

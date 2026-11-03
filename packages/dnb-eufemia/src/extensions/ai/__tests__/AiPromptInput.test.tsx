@@ -543,6 +543,81 @@ describe('PromptInput', () => {
     expect(form).toHaveAttribute('id', 'prompt')
   })
 
+  it('focuses the textarea at the end when pressing empty card space', () => {
+    const onMouseDown = vi.fn()
+    render(
+      <div role="group" tabIndex={-1}>
+        <PromptInput value="Hello" onMouseDown={onMouseDown} />
+      </div>
+    )
+    const event = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+      button: 0,
+    })
+    document
+      .querySelector('.dnb-ai-prompt-input__toolbar')
+      .dispatchEvent(event)
+    expect(onMouseDown).toHaveBeenCalledOnce()
+    expect(event.defaultPrevented).toBe(true)
+    expect(getTextarea()).toHaveFocus()
+    expect(getTextarea().selectionStart).toBe(5)
+    expect(getTextarea().selectionEnd).toBe(5)
+  })
+
+  it('focuses the input from the decorative compact icon', () => {
+    render(<PromptInput variant="compact" />)
+    fireEvent.mouseDown(
+      document.querySelector('.dnb-ai-prompt-input__icon svg')
+    )
+    expect(getTextarea()).toHaveFocus()
+  })
+
+  it('leaves custom controls and context content alone', () => {
+    render(
+      <PromptInput
+        startActions={
+          <>
+            <Button text="Attach" />
+            <input aria-label="Source" />
+            <div role="button" tabIndex={0}>
+              <span>Menu</span>
+            </div>
+          </>
+        }
+      >
+        <span>Reference text</span>
+      </PromptInput>
+    )
+    const targets = document.querySelectorAll(
+      '.dnb-ai-prompt-input__start-actions button span, input, [role="button"] span, .dnb-ai-prompt-input__context span, textarea'
+    )
+    for (const target of targets) {
+      const event = new MouseEvent('mousedown', {
+        bubbles: true,
+        cancelable: true,
+        button: 0,
+      })
+      target.dispatchEvent(event)
+      expect(event.defaultPrevented).toBe(false)
+    }
+    expect(getTextarea()).not.toHaveFocus()
+  })
+
+  it('respects disabled inputs, canceled events and secondary presses on the card', () => {
+    const { rerender } = render(<PromptInput disabled />)
+    fireEvent.mouseDown(document.querySelector('form'))
+    expect(getTextarea()).not.toHaveFocus()
+    rerender(
+      <PromptInput onMouseDown={(event) => event.preventDefault()} />
+    )
+    fireEvent.mouseDown(document.querySelector('form'))
+    expect(getTextarea()).not.toHaveFocus()
+    rerender(<PromptInput />)
+    fireEvent.mouseDown(document.querySelector('form'), { button: 2 })
+    expect(getTextarea()).not.toHaveFocus()
+  })
+
   it('should validate with ARIA rules', async () => {
     const result = render(
       <>
