@@ -14,6 +14,9 @@ for (const width of [1440, 390]) {
       await expect(
         page.getByRole('dialog', { name: 'Menu', exact: true })
       ).toBeVisible()
+      await expect(
+        page.locator('h1', { hasText: 'Printable apps' })
+      ).toHaveAttribute('aria-hidden', 'true')
     }
 
     await page.emulateMedia({ media: 'print' })
@@ -26,7 +29,7 @@ for (const width of [1440, 390]) {
     ).toBeHidden()
     await expect(page.locator('header.sticky-menu')).toBeHidden()
     await expect(
-      page.getByRole('heading', { name: 'Printable apps', exact: true })
+      page.locator('h1', { hasText: 'Printable apps' })
     ).toBeVisible()
     await expect(page.locator('[data-portal-print-footer]')).toBeVisible()
   })
