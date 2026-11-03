@@ -140,22 +140,24 @@ describe('Ai.Conversation', () => {
     expect(scrollTo).toHaveBeenCalledTimes(1)
   })
 
-  it('keeps following when the browser moves the scroll position', () => {
+  it('pauses following when native navigation moves away without a layout change', () => {
     render(<Conversation scrollBehavior="end" />)
 
+    act(() => resizeCallback([], null))
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
       scrollTop: 600,
       clientHeight: 400,
     })
 
-    // Content changes can move the scroll position without the user
+    act(() => resizeCallback([], null))
+    // Native navigation changes scroll without changing layout
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
       scrollTop: 560,
       clientHeight: 400,
     })
-    expect(getScrollButton()).toBeNull()
+    expect(getScrollButton()).toBeInTheDocument()
   })
 
   it('keeps following after the user uses content in the conversation', () => {
@@ -165,11 +167,13 @@ describe('Ai.Conversation', () => {
       </Conversation>
     )
 
+    act(() => resizeCallback([], null))
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
       scrollTop: 600,
       clientHeight: 400,
     })
+    act(() => resizeCallback([], null))
     fireEvent.pointerDown(document.querySelector('button'))
     fireEvent.keyDown(document.querySelector('button'), { key: 'Enter' })
     setScrollPosition(getScroll(), {
@@ -177,7 +181,7 @@ describe('Ai.Conversation', () => {
       scrollTop: 560,
       clientHeight: 400,
     })
-    expect(getScrollButton()).toBeNull()
+    expect(getScrollButton()).toBeInTheDocument()
 
     fireEvent.keyDown(getScroll(), { key: 'PageUp' })
     setScrollPosition(getScroll(), {
@@ -211,6 +215,55 @@ describe('Ai.Conversation', () => {
       behavior: 'smooth',
     })
     expect(getScrollButton()).toBeNull()
+  })
+
+  it('resumes end following when a new user turn is added while reading history', () => {
+    const { rerender } = render(
+      <Conversation scrollBehavior="end">
+        <Message from="user">First</Message>
+        <Message>Reply</Message>
+      </Conversation>
+    )
+    act(() => resizeCallback([], null))
+    setScrollPosition(getScroll(), {
+      scrollHeight: 1000,
+      scrollTop: 0,
+      clientHeight: 400,
+      byUser: true,
+    })
+    const scrollTo = vi.mocked(Element.prototype.scrollTo)
+    scrollTo.mockClear()
+    rerender(
+      <Conversation scrollBehavior="end">
+        <Message from="user">First</Message>
+        <Message>Reply</Message>
+        <Message from="user">Next</Message>
+      </Conversation>
+    )
+    act(() => resizeCallback([], null))
+    expect(scrollTo).toHaveBeenLastCalledWith({
+      top: 1000,
+      behavior: 'auto',
+    })
+  })
+
+  it('stops following when focus or selection enters the transcript', () => {
+    render(
+      <Conversation scrollBehavior="end">
+        <Message>
+          <button>Source</button>
+        </Message>
+      </Conversation>
+    )
+    act(() => resizeCallback([], null))
+    const scrollTo = vi.mocked(Element.prototype.scrollTo)
+    fireEvent.focus(document.querySelector('button'))
+    scrollTo.mockClear()
+    act(() => resizeCallback([], null))
+    expect(scrollTo).not.toHaveBeenCalled()
+    fireEvent.pointerDown(document.querySelector('.dnb-ai-message'))
+    act(() => resizeCallback([], null))
+    expect(scrollTo).not.toHaveBeenCalled()
   })
 
   it('moves focus from the disappearing latest-message button to the latest message', () => {
@@ -250,6 +303,7 @@ describe('Ai.Conversation', () => {
       clientHeight: 400,
       byUser: true,
     })
+    act(() => resizeCallback([], null))
     fireEvent.click(getScrollButton())
 
     // The smooth scroll fires scroll events on the way down

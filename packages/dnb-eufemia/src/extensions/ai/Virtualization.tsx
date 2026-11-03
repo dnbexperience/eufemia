@@ -378,6 +378,17 @@ function VirtualizedConversation(
       setNavigation(null)
     }
     if (
+      scrollBehavior === 'end' &&
+      before &&
+      turnId &&
+      turnId !== before.turn
+    ) {
+      following.current = true
+      userScrolling.current = false
+      pendingTarget.current = null
+      setNavigation(null)
+    }
+    if (
       scrollBehavior === 'turn' &&
       turnId &&
       (modeChanged || turnId !== before?.turn)
@@ -477,6 +488,13 @@ function VirtualizedConversation(
           onPointerDown={(event) => {
             if (event.target === event.currentTarget) {
               handleUserScroll()
+            } else if (
+              !(event.target as Element).closest(
+                'button, a, input, select, textarea, [role="button"]'
+              )
+            ) {
+              handleUserScroll()
+              following.current = false
             }
           }}
           onKeyDown={(event) => {

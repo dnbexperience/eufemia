@@ -1079,6 +1079,9 @@ export function AiChatExample() {
                               actions={transactions ? undefined : actions}
                             >
                               <DemoMessageContent message={message} />
+                              {message.stopped && (
+                                <P size="small">Reply stopped.</P>
+                              )}
                             </Message>
 
                             {transactions && (
@@ -1128,10 +1131,15 @@ export function AiChatExample() {
                   )}
                   <ReplyAnnouncement
                     isBusy={status !== 'ready'}
-                    text={
+                    messageId={
                       messages.at(-1)?.role === 'assistant'
-                        ? getText(messages.at(-1))
-                        : ''
+                        ? messages.at(-1).id
+                        : undefined
+                    }
+                    outcome={
+                      messages.at(-1)?.stopped
+                        ? 'Reply stopped.'
+                        : undefined
                     }
                   />
 
@@ -1609,7 +1617,6 @@ export function AiChatAnnouncements() {
       scope={{
         useChatSimulation,
         DemoMessageContent,
-        getText,
         ReplyAnnouncement,
       }}
     >
@@ -1617,7 +1624,6 @@ export function AiChatAnnouncements() {
         const Chat = () => {
           const { messages, status, sendMessage, stop } =
             useChatSimulation()
-          const [stopped, setStopped] = useState(false)
           const isBusy = status !== 'ready'
           const reply = messages.at(-1)
           return (
@@ -1630,24 +1636,23 @@ export function AiChatAnnouncements() {
                     from={message.role}
                   >
                     <DemoMessageContent message={message} />
+                    {message.stopped && <P size="small">Reply stopped.</P>}
                   </Message>
                 ))}
               </Conversation>
               <ReplyAnnouncement
                 isBusy={isBusy}
-                text={
-                  (stopped ? 'Reply stopped. ' : '') +
-                  (reply?.role === 'assistant' ? getText(reply) : '')
+                messageId={
+                  reply?.role === 'assistant' ? reply.id : undefined
                 }
+                outcome={reply?.stopped ? 'Reply stopped.' : undefined}
               />
               <PromptInput
                 isBusy={isBusy}
                 onSubmit={({ value }) => {
-                  setStopped(false)
                   sendMessage({ text: value })
                 }}
                 onStop={() => {
-                  setStopped(true)
                   stop()
                 }}
               />
@@ -1655,6 +1660,106 @@ export function AiChatAnnouncements() {
           )
         }
         return <Chat />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiConversationReading() {
+  return (
+    <ComponentBox data-visual-test="ai-conversation-reading">
+      {() => {
+        const Reading = () => {
+          const [messages, setMessages] = useState(
+            Array.from({ length: 12 }, (_, index) => ({
+              id: 'reading-' + index,
+              from: index % 2 ? ('assistant' as const) : ('user' as const),
+              text: (
+                'Message ' +
+                index +
+                '. Read earlier messages while the reply grows. '
+              ).repeat(4),
+            }))
+          )
+          return (
+            <>
+              <Flex.Horizontal bottom>
+                <Button
+                  onClick={() =>
+                    setMessages((current) =>
+                      current.map((message, index) =>
+                        index === current.length - 1
+                          ? {
+                              ...message,
+                              text:
+                                message.text +
+                                ' More reply content.'.repeat(12),
+                            }
+                          : message
+                      )
+                    )
+                  }
+                >
+                  Extend reply
+                </Button>
+                <Button
+                  onClick={() =>
+                    setMessages((current) => [
+                      ...current,
+                      {
+                        id: 'reading-' + current.length,
+                        from: 'assistant',
+                        text: 'A new message from customer service.',
+                      },
+                    ])
+                  }
+                >
+                  Receive message
+                </Button>
+              </Flex.Horizontal>
+              <Flex.Stack gap="small" style={{ height: '28rem' }}>
+                <Conversation
+                  scrollBehavior="end"
+                  aria-live="off"
+                  style={{ flex: '1 1 auto' }}
+                >
+                  {messages.map((message) => (
+                    <Message
+                      key={message.id}
+                      id={message.id}
+                      from={message.from}
+                      actions={
+                        message.from === 'assistant' && (
+                          <Button size="small">Reply details</Button>
+                        )
+                      }
+                    >
+                      {message.text}
+                    </Message>
+                  ))}
+                </Conversation>
+                <PromptInput
+                  onSubmit={({ value }) =>
+                    setMessages((current) => [
+                      ...current,
+                      {
+                        id: 'reading-' + current.length,
+                        from: 'user',
+                        text: value,
+                      },
+                      {
+                        id: 'reading-' + (current.length + 1),
+                        from: 'assistant',
+                        text: 'Your next reply starts here.',
+                      },
+                    ])
+                  }
+                />
+              </Flex.Stack>
+            </>
+          )
+        }
+        return <Reading />
       }}
     </ComponentBox>
   )

@@ -17,6 +17,7 @@ export type DemoMessage = {
   id: string
   role: 'user' | 'assistant'
   parts: Array<DemoPart>
+  stopped?: boolean
 }
 
 type ScriptStep =
@@ -229,7 +230,7 @@ export function useChatSimulation() {
       role: 'user',
       parts: [{ type: 'text', text: turn.prompt }],
     }
-    if (turn.step === -1) {
+    if (turn.step === -1 && !turn.stopped) {
       return [user]
     }
     return [
@@ -238,6 +239,7 @@ export function useChatSimulation() {
         id: prefix + turn.id + '-assistant',
         role: 'assistant',
         parts: toParts(turn),
+        stopped: turn.stopped,
       },
     ]
   })

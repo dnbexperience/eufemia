@@ -666,3 +666,31 @@ test('keeps a reader in place during reply growth and aligns short history to th
     )
     .toBeLessThan(3)
 })
+
+test('resumes following a submitted turn while reading older virtual history', async ({
+  page,
+}) => {
+  const demo = page.locator(
+    '[data-visual-test="ai-virtualized-conversation"]'
+  )
+  const log = demo.getByRole('log')
+  await demo
+    .getByRole('button', { name: 'Go to message 100', exact: true })
+    .click()
+  await expect(demo.locator('#history-100')).toBeInViewport()
+  await demo
+    .getByRole('button', { name: 'Append turn', exact: true })
+    .click()
+  await expect
+    .poll(() =>
+      log.evaluate(
+        (element) =>
+          element.scrollHeight - element.clientHeight - element.scrollTop
+      )
+    )
+    .toBeLessThan(3)
+  await log.scrollIntoViewIfNeeded()
+  await expect(
+    demo.getByRole('button', { name: 'Action 1001', exact: true })
+  ).toBeInViewport()
+})

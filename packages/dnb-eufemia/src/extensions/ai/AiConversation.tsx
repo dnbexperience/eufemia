@@ -122,6 +122,9 @@ function ConversationContent(props: AiConversationProps) {
           isFollowingRef.current = true
           isUserScrollingRef.current = false
           setHasContentBelow(false)
+          scrollTargetRef.current = {
+            top: scrollRef.current?.scrollHeight ?? 0,
+          }
           scrollTo(
             scrollRef.current,
             scrollRef.current?.scrollHeight,
@@ -191,6 +194,17 @@ function ConversationContent(props: AiConversationProps) {
 
       const anchors = content.querySelectorAll(ANCHOR_SELECTOR)
       const anchor = anchors[anchors.length - 1] ?? null
+
+      if (
+        scrollBehavior === 'end' &&
+        anchor &&
+        !isFirstRun &&
+        anchor !== anchorRef.current
+      ) {
+        isFollowingRef.current = true
+        isUserScrollingRef.current = false
+        scrollTargetRef.current = null
+      }
 
       if (scrollBehavior === 'turn') {
         updateSpacer(scroll, content, spacerRef.current, anchor)
@@ -295,6 +309,8 @@ function ConversationContent(props: AiConversationProps) {
       isUserScrollingRef.current = false
     } else if (isUserScrollingRef.current) {
       isFollowingRef.current = false
+    } else if (isFollowingRef.current && !hasChanged && target === null) {
+      isFollowingRef.current = false
     }
 
     updateState()
@@ -302,6 +318,12 @@ function ConversationContent(props: AiConversationProps) {
 
   const handleUserScroll = () => {
     isUserScrollingRef.current = true
+  }
+
+  const stopFollowing = () => {
+    handleUserScroll()
+    isFollowingRef.current = false
+    scrollTargetRef.current = null
   }
 
   const rootProps = useSpacing(props, {
@@ -328,6 +350,11 @@ function ConversationContent(props: AiConversationProps) {
           onScroll={handleScroll}
           onWheel={handleUserScroll}
           onTouchMove={handleUserScroll}
+          onFocusCapture={(event) => {
+            if (event.target !== event.currentTarget) {
+              stopFollowing()
+            }
+          }}
           onKeyDown={(event) => {
             if (SCROLL_KEYS.includes(event.key)) {
               handleUserScroll()
@@ -337,6 +364,12 @@ function ConversationContent(props: AiConversationProps) {
             // A press on the scroll view itself is on its scrollbar
             if (event.target === event.currentTarget) {
               handleUserScroll()
+            } else if (
+              !(event.target as Element).closest(
+                'button, a, input, select, textarea, [role="button"]'
+              )
+            ) {
+              stopFollowing()
             }
           }}
         >
