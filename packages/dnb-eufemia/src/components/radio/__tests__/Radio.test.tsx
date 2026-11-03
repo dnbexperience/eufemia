@@ -427,7 +427,7 @@ describe('Radio scss', () => {
       /--radio-color-border-on--disabled: var\(\s*--token-color-stroke-action-disabled\s*\)/
     )
     expect(css).toMatch(
-      /\.dnb-radio__input\[disabled\]:checked ~ \.dnb-radio__button,\s*\.dnb-radio__input\[disabled\]\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__button \{\s*--radio-color-border: var\(--radio-color-border-on--disabled\);/
+      /\.dnb-radio__input\[disabled\]:checked ~ \.dnb-radio__button,\s*\.dnb-radio__input\[disabled\]\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__button \{\s*--radio-color-border: var\(--radio-color-border-on--disabled\);\s*--radio-border-width--default: 0\.0625rem;/
     )
   })
 

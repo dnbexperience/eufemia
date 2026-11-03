@@ -2215,6 +2215,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 }
 .dnb-radio__input[disabled]:checked ~ .dnb-radio__button, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__button {
   --radio-color-border: var(--radio-color-border-on--disabled);
+  --radio-border-width--default: 0.0625rem;
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--disabled);
