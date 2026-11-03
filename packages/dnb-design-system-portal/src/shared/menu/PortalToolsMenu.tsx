@@ -190,7 +190,7 @@ export default function PortalToolsMenu({
             {themeTitles[activeTheme?.brand] || 'DNB'} -{' '}
             <span className={lightSchemeStyle}>Light</span>
             <span className={darkSchemeStyle}>Dark</span>
-            <span className="dnb-sr-only"> Portal Tools</span>
+            <span className="dnb-sr-only"> Settings</span>
           </>
         }
         icon={cog}
@@ -198,7 +198,7 @@ export default function PortalToolsMenu({
         iconSize="medium"
         skeleton={false}
         left="x-small"
-        title="Portal Tools"
+        title="Settings"
         aria-haspopup="dialog"
         aria-controls="dnb-modal-portal-tools-modal"
         aria-expanded={isOpen}
@@ -208,7 +208,7 @@ export default function PortalToolsMenu({
             style={{ zIndex: 4001 }}
             fixedPosition
           >
-            Open the portal tools
+            Open settings
           </Tooltip>
         }
         {...triggerProps}
@@ -226,7 +226,7 @@ export default function PortalToolsMenu({
         omitTriggerButton
         focusSelector="#change-theme"
         restoreFocusTo={() => document.getElementById('portal-tools')}
-        title="Portal Tools"
+        title="Settings"
         open={isOpen}
         noAnimation={noAnimation}
         onOpen={handleOpen}

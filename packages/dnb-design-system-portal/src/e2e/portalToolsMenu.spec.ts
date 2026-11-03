@@ -10,7 +10,7 @@ test.afterEach(async ({ page }) => {
   await clearStorage(page)
 })
 
-test.describe('Portal tools menu', () => {
+test.describe('Settings', () => {
   async function gotoAndWait(page: Page) {
     await page.goto('/web/components/button/demos/')
     await waitForApp(page)
@@ -25,7 +25,7 @@ test.describe('Portal tools menu', () => {
         await page.setViewportSize({ width, height: 1000 })
         await gotoAndWait(page)
         await page.locator('button#portal-tools').click()
-        const drawer = page.getByRole('dialog', { name: 'Portal Tools' })
+        const drawer = page.getByRole('dialog', { name: 'Settings' })
         const toggle = drawer.getByRole('switch', {
           name: 'Native app font size',
           exact: true,
@@ -117,7 +117,7 @@ test.describe('Portal tools menu', () => {
         await page.setViewportSize({ width, height: 1000 })
         await gotoAndWait(page)
         await page.locator('button#portal-tools').click()
-        const drawer = page.getByRole('dialog', { name: 'Portal Tools' })
+        const drawer = page.getByRole('dialog', { name: 'Settings' })
         const skeleton = drawer.locator('.dnb-switch').filter({
           has: page.getByRole('switch', {
             name: 'Show everything behind skeletons',

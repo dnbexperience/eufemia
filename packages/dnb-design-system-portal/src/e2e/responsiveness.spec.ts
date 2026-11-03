@@ -22,7 +22,7 @@ test.describe('Responsiveness', () => {
     const drawer = page.getByRole('dialog', { name: 'Menu' })
     await expect(drawer).toBeVisible()
 
-    await expect(drawer.getByText('Portal Tools')).toHaveCount(0)
+    await expect(drawer.getByText('Settings')).toHaveCount(0)
 
     const components = drawer.getByRole('button', {
       name: 'Components',

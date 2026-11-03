@@ -35,12 +35,12 @@ for (const storedScheme of [undefined, 'dark', 'light'] as const) {
           exact: true,
         })
       ).toBeVisible()
-      await expect(tools).toHaveAccessibleName(`${label} Portal Tools`)
+      await expect(tools).toHaveAccessibleName(`${label} Settings`)
     } finally {
       resume()
     }
 
     await waitForApp(page)
-    await expect(tools).toHaveAccessibleName(`${label} Portal Tools`)
+    await expect(tools).toHaveAccessibleName(`${label} Settings`)
   })
 }

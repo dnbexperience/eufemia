@@ -117,7 +117,7 @@ test('scopes Portal page margins to its named page', async ({ page }) => {
   expect(unscopedMargins).toEqual([])
 })
 
-test('prints documentation while Portal Tools is open', async ({
+test('prints documentation while Settings is open', async ({
   page,
 }) => {
   await page.goto('/web/components/button/properties/')
@@ -125,7 +125,7 @@ test('prints documentation while Portal Tools is open', async ({
     document.documentElement.hasAttribute('data-portal-ready')
   )
   await page.locator('#portal-tools').click()
-  const tools = page.getByRole('dialog', { name: 'Portal Tools' })
+  const tools = page.getByRole('dialog', { name: 'Settings' })
   await expect(tools).toBeVisible()
   await page.emulateMedia({ media: 'print' })
   await expect(tools).toBeHidden()

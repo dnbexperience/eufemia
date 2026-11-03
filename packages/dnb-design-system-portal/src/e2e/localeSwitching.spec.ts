@@ -28,10 +28,10 @@ test.describe('Locale switching', () => {
     expect(locale === null || locale === 'nb-NO').toBe(true)
   })
 
-  test('should switch locale via portal tools', async ({ page }) => {
+  test('should switch locale via settings', async ({ page }) => {
     await gotoAndWait(page)
 
-    // Open portal tools drawer
+    // Open settings drawer
     const triggerButton = page.locator(
       'button[id*="portal-tools"], [id="portal-tools"] button'
     )
