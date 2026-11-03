@@ -571,7 +571,7 @@ export const WithNestedSection = () => {
           <P>no inner space</P>
           <Section
             innerSpace
-            backgroundColor="var(--token-color-background-neutral-alternative)"
+            backgroundColor="var(--token-color-background-neutral-subtle)"
           >
             <Field.String
               width="medium"

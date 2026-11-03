@@ -635,7 +635,7 @@ describe('FormStatus icons', () => {
       [null, '#333'],
     ])
     expect(info).toEqual([
-      ['#007272', null],
+      ['#1955a9', null],
       ['#fff', '#fff'],
       [null, '#fff'],
     ])

@@ -62,6 +62,25 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
+  it('distinguishes the selected section from a hovered section', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+        },
+        {
+          action: 'realhover',
+          selector:
+            '.dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
+        },
+      ],
+    })
+  })
+
   it('matches the focused section selector', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
