@@ -35,18 +35,23 @@ Show a user-facing request error with [GlobalStatus](/uilib/components/global-st
 
 The application owns announcements because it knows the request lifecycle. The conversation is a live log by default; text updates inside a streaming message are not guaranteed to be read in full. For completed-reply announcements, set `aria-live="off"` on `Conversation` and keep a separate `AriaLive` mounted outside it. Do not make every streaming token a live announcement.
 
-This application helper waits for a busy-to-idle transition. It does not announce restored history and clears its region when another operation starts, allowing an identical reply to be announced again. Pass a readable localized summary or plain reply text, including relevant tool results. On cancellation or failure, include that outcome and useful partial content; avoid duplicating an error already announced by `GlobalStatus`. This helper is example application code, not an Eufemia export.
+This application helper waits for a busy-to-idle transition. It does not announce restored history and clears its region when another operation starts, allowing an identical reply to be announced again. Pass a readable localized summary as `text`, or the latest rendered message’s DOM `messageId` to read its visible content without Markdown syntax. Include relevant tool results. On cancellation or failure, include that outcome and useful partial content; avoid duplicating an error already announced by `GlobalStatus`. This helper is example application code, not an Eufemia export.
 
 ```tsx
 import { useEffect, useRef, useState } from 'react'
 import AriaLive from '@dnb/eufemia/components/AriaLive'
 
+// The application knows when a reply ends, including when it stops early.
 export default function ReplyAnnouncement({
   text,
   isBusy,
+  messageId,
+  outcome,
 }: {
-  text: string
+  text?: string
   isBusy: boolean
+  messageId?: string
+  outcome?: string
 }) {
   const wasBusy = useRef(false)
   const [announcement, setAnnouncement] = useState('')
@@ -55,16 +60,29 @@ export default function ReplyAnnouncement({
     if (isBusy) {
       setAnnouncement('')
     } else if (wasBusy.current) {
-      setAnnouncement(text)
+      const content = messageId
+        ? document
+            .getElementById(messageId)
+            ?.querySelector<HTMLElement>('.dnb-ai-message__content')
+        : null
+      const reply =
+        content?.innerText || content?.textContent || text || ''
+      setAnnouncement(
+        outcome && !reply.includes(outcome)
+          ? [outcome, reply].filter(Boolean).join(' ')
+          : reply
+      )
     }
     wasBusy.current = isBusy
-  }, [isBusy, text])
+  }, [isBusy, text, messageId, outcome])
 
   return <AriaLive>{announcement}</AriaLive>
 }
 ```
 
-Keep `isBusy` true from submission until completion, cancellation or failure. If your framework briefly reports idle between tool steps, use the application's operation state instead. Only pass text from the current assistant turn. The recipes below use text parts for brevity; adapt them to your message types and request errors. Test with the screen readers your application supports.
+Keep `isBusy` true from submission until completion, cancellation or failure. If your framework briefly reports idle between tool steps, use the application's operation state instead. Only pass text from the current assistant turn. The recipes below read the latest assistant message from the rendered DOM. Pass a localized `outcome` after cancellation, and show that same outcome beside the partial answer. Adapt this to your message types and request errors. Test with the screen readers your application supports.
+
+Messages that arrive without a request, such as a customer-service reply or a proactive message, need their own application announcement. Announce new incoming messages by stable id, and do not announce restored history or every streamed text update. Keep this separate from the busy-to-idle helper above.
 
 See the [live announcement demo](/uilib/extensions/ai/demos/#streamed-reply-announcements).
 
@@ -132,7 +150,7 @@ The example uses `ai@7.0.128` and `@ai-sdk/react@4.0.131`. Install them in your 
 The following client renders text, tool status/results and source URLs. A server tool named `getBalance` returns `{ balance: number }` in this example. Replace that result renderer with your application's typed tool UI. For approval controls, use [tool approval](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-tool-usage) and the hook's `addToolApprovalResponse`.
 
 ```tsx
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import ReplyAnnouncement from './ReplyAnnouncement'
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport, getToolName, isToolUIPart } from 'ai'
@@ -248,17 +266,12 @@ function MessageContent({
 
 export function Chat() {
   const prefix = useId()
+  const [stoppedIds, setStoppedIds] = useState<string[]>([])
   const { messages, status, error, sendMessage, stop } = useChat({
     transport,
   })
   const isBusy = status === 'submitted' || status === 'streaming'
   const latest = messages.at(-1)
-  const reply =
-    latest?.role === 'assistant'
-      ? latest.parts
-          .flatMap((part) => (part.type === 'text' ? [part.text] : []))
-          .join('\n\n')
-      : ''
   return (
     <>
       <Conversation
@@ -274,6 +287,7 @@ export function Chat() {
               id={prefix + message.id}
               from={message.role === 'user' ? 'user' : 'assistant'}
             >
+              {stoppedIds.includes(message.id) && <P>Reply stopped.</P>}
               <MessageContent
                 message={message}
                 isBusy={isBusy && index === visible.length - 1}
@@ -282,7 +296,17 @@ export function Chat() {
           ))}
         {status === 'submitted' && <MessageIndicator />}
       </Conversation>
-      <ReplyAnnouncement isBusy={isBusy} text={reply} />
+      <ReplyAnnouncement
+        isBusy={isBusy}
+        messageId={
+          latest?.role === 'assistant' ? prefix + latest.id : undefined
+        }
+        outcome={
+          latest && stoppedIds.includes(latest.id)
+            ? 'Reply stopped.'
+            : undefined
+        }
+      />
       {error && (
         <GlobalStatus
           show
@@ -298,6 +322,9 @@ export function Chat() {
           void sendMessage({ text: value })
         }}
         onStop={() => {
+          if (latest?.role === 'assistant') {
+            setStoppedIds((ids) => [...ids, latest.id])
+          }
           void stop()
         }}
       />
@@ -313,7 +340,7 @@ The example uses `@tanstack/ai@0.64.1` and `@tanstack/ai-react@0.29.4`. Install 
 Text parts use `content`. Tool calls and results are separate records: pair them by call id and render a result once. This example uses `getBalance` as above and accepts validated citation data from the application through `sourcesByMessage`. TanStack source metadata depends on your provider and application; normalize it to `{ url, title }` when receiving the response. For user decisions, connect the framework's [interrupts](https://tanstack.com/ai/latest/docs/ui/react) to confirmation controls inside `Ai.Task`.
 
 ```tsx
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import ReplyAnnouncement from './ReplyAnnouncement'
 import { useChat, fetchServerSentEvents } from '@tanstack/ai-react'
 import type { UIMessage } from '@tanstack/ai-react'
@@ -470,15 +497,10 @@ export function Chat({
   sourcesByMessage?: Record<string, Array<AiSource>>
 }) {
   const prefix = useId()
+  const [stoppedIds, setStoppedIds] = useState<string[]>([])
   const { messages, isLoading, error, status, sendMessage, stop } =
     useChat({ connection })
   const latest = messages.at(-1)
-  const reply =
-    latest?.role === 'assistant'
-      ? latest.parts
-          .flatMap((part) => (part.type === 'text' ? [part.content] : []))
-          .join('\n\n')
-      : ''
   return (
     <>
       <Conversation
@@ -494,6 +516,7 @@ export function Chat({
               id={prefix + message.id}
               from={message.role === 'user' ? 'user' : 'assistant'}
             >
+              {stoppedIds.includes(message.id) && <P>Reply stopped.</P>}
               <MessageContent
                 message={message}
                 isBusy={isLoading && index === visible.length - 1}
@@ -503,7 +526,17 @@ export function Chat({
           ))}
         {status === 'submitted' && <MessageIndicator />}
       </Conversation>
-      <ReplyAnnouncement isBusy={isLoading} text={reply} />
+      <ReplyAnnouncement
+        isBusy={isLoading}
+        messageId={
+          latest?.role === 'assistant' ? prefix + latest.id : undefined
+        }
+        outcome={
+          latest && stoppedIds.includes(latest.id)
+            ? 'Reply stopped.'
+            : undefined
+        }
+      />
       {error && (
         <GlobalStatus
           show
@@ -518,7 +551,12 @@ export function Chat({
         onSubmit={({ value }) => {
           void sendMessage(value)
         }}
-        onStop={stop}
+        onStop={() => {
+          if (latest?.role === 'assistant') {
+            setStoppedIds((ids) => [...ids, latest.id])
+          }
+          stop()
+        }}
       />
     </>
   )

@@ -31,6 +31,46 @@ describe('ReplyAnnouncement example', () => {
     }
   )
 
+  it('announces rendered text without Markdown syntax or link URLs', async () => {
+    const { rerender } = render(
+      <>
+        <div id="reply">
+          <div className="dnb-ai-message__content">
+            <p>
+              Your total is <strong>100 kr</strong>.
+            </p>
+            <a href="https://www.dnb.no">Read more</a>
+          </div>
+        </div>
+        <ReplyAnnouncement messageId="reply" isBusy />
+      </>
+    )
+    rerender(
+      <>
+        <div id="reply">
+          <div className="dnb-ai-message__content">
+            <p>
+              Your total is <strong>100 kr</strong>.
+            </p>
+            <a href="https://www.dnb.no">Read more</a>
+          </div>
+        </div>
+        <ReplyAnnouncement
+          messageId="reply"
+          outcome="Reply stopped."
+          isBusy={false}
+        />
+      </>
+    )
+    await waitFor(() =>
+      expect(region().textContent).toBe(
+        'Reply stopped. Your total is 100 kr.Read more'
+      )
+    )
+    expect(region().textContent).not.toContain('https://')
+    expect(region().textContent).not.toContain('**')
+  })
+
   it('clears the region before an identical reply in a later turn', async () => {
     const { rerender } = render(
       <ReplyAnnouncement text="Same reply" isBusy />

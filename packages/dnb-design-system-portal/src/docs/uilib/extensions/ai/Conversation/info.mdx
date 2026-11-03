@@ -40,7 +40,7 @@ The part of the previous reply that is shown above a new turn is set with the `-
 
 ## Virtualization
 
-The Figma chat starts from the bottom. Use `scrollBehavior="end"` for that layout. The `turn` default lets readers follow a streamed reply from its start. Use `--ai-conversation-padding` to adjust the default `1rem` side padding.
+The Figma chat starts from the bottom. Use `scrollBehavior="end"` for that layout. The `turn` default lets readers follow a streamed reply from its start. In `end` mode, submitting a new user message returns to the end and resumes following. Moving focus into older content, selecting text or navigating away pauses following until the reader returns to the end. Use `--ai-conversation-padding` to adjust the default `1rem` side padding.
 
 Conversation keeps the full transcript mounted by default. Its `content-visibility` styles let supported browsers skip off-screen rendering of messages without interactive content while preserving screen-reader navigation, browser search and text selection. Messages with links or controls remain fully rendered so focus rings and expanded touch areas are not clipped. Start with that behavior.
 
