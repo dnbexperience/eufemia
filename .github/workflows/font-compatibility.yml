@@ -8,6 +8,9 @@ on:
       - '!**--visual-reports'
     paths:
       - '.github/workflows/font-compatibility.yml'
+      - '.yarnrc.yml'
+      - 'package.json'
+      - 'yarn.lock'
       - 'packages/dnb-eufemia/assets/fonts/**'
       - 'packages/dnb-eufemia/src/style/themes/ui/fonts.scss'
       - 'packages/dnb-eufemia/src/components/skeleton/style/dnb-skeleton.scss'
@@ -40,11 +43,18 @@ jobs:
           node-version-file: 'package.json'
           package-manager-cache: false
 
+      - name: Resolve repository Yarn
+        shell: pwsh
+        run: |
+          $yarnPath = (Select-String -Path .yarnrc.yml -Pattern '^yarnPath: (.+)$').Matches.Groups[1].Value.Trim()
+          if (-not (Test-Path $yarnPath)) { throw "Repository Yarn not found: $yarnPath" }
+          "YARN_PATH=$yarnPath" >> $env:GITHUB_ENV
+
       - name: Install test dependencies
-        run: node .yarn/releases/yarn-4.18.0.cjs install --immutable --mode=skip-build
+        run: node $env:YARN_PATH install --immutable --mode=skip-build
 
       - name: Install browsers
-        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright install chromium firefox
+        run: node $env:YARN_PATH workspace @dnb/eufemia playwright install chromium firefox
 
       - name: Check font loading, metrics and controls
-        run: node .yarn/releases/yarn-4.18.0.cjs workspace @dnb/eufemia playwright test --config playwright.config.e2e.ts src/style/__tests__/Fonts.e2e.spec.ts src/style/__tests__/FontMetrics.e2e.spec.ts --project firefox --project chromium-fonts --workers 2
+        run: node $env:YARN_PATH workspace @dnb/eufemia playwright test --config playwright.config.e2e.ts src/style/__tests__/Fonts.e2e.spec.ts src/style/__tests__/FontMetrics.e2e.spec.ts --project firefox --project chromium-fonts --workers 2
