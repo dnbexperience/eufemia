@@ -1,6 +1,71 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test('preserves reply action focus rings and expanded touch areas', async ({
+  page,
+  browserName,
+}) => {
+  await page.goto('/uilib/extensions/ai/demos/')
+  await waitForApp(page)
+  const chat = page.locator('[data-visual-test="ai-chat"]')
+  await chat
+    .getByRole('button', { name: /Show my latest transactions/ })
+    .click()
+  const regenerate = chat.getByRole('button', {
+    name: 'Regenerate',
+    exact: true,
+  })
+  await expect(regenerate).toBeVisible({ timeout: 15000 })
+  await chat.locator('textarea').fill('Block my Visa card')
+  await chat.locator('textarea').press('Enter')
+  await expect(regenerate).toBeVisible({ timeout: 15000 })
+  const log = chat.getByRole('log')
+  const buttons = log.locator('.dnb-ai-actions button')
+  await expect(log.locator('.dnb-ai-message--user')).toHaveCount(2)
+  await expect.poll(() => buttons.count()).toBeGreaterThanOrEqual(7)
+  await log.dispatchEvent('wheel', { deltaY: -1 })
+  for (const button of await buttons.all()) {
+    await button.evaluate((element) =>
+      element.scrollIntoView({ block: 'center', behavior: 'instant' })
+    )
+    const result = await button.evaluate((element) => {
+      const row = element.closest('.dnb-ai-message')
+      const bounds = element
+        .querySelector('.dnb-button__bounding')
+        .getBoundingClientRect()
+      const centerX = (bounds.left + bounds.right) / 2
+      const centerY = (bounds.top + bounds.bottom) / 2
+      return {
+        containment: getComputedStyle(row).contentVisibility,
+        bottomHit: element.contains(
+          document.elementFromPoint(centerX, bounds.bottom - 1)
+        ),
+        leftHit: element.contains(
+          document.elementFromPoint(bounds.left + 1, centerY)
+        ),
+      }
+    })
+    expect(result.containment).toBe('visible')
+    expect(result.bottomHit).toBe(true)
+    expect(result.leftHit).toBe(true)
+  }
+  await chat.locator('textarea').focus()
+  await page.keyboard.press(
+    browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
+  )
+  await expect(regenerate).toBeFocused()
+  const space = await regenerate.evaluate((button) => {
+    const rect = button.getBoundingClientRect()
+    const viewport = button.closest('[role="log"]').getBoundingClientRect()
+    return viewport.bottom - rect.bottom
+  })
+  expect(space).toBeGreaterThanOrEqual(4)
+  await expect(log.locator('.dnb-ai-message--user').first()).toHaveCSS(
+    'content-visibility',
+    'auto'
+  )
+})
+
 test('matches bubble tokens, spacing, avatars and sender groups', async ({
   page,
 }) => {

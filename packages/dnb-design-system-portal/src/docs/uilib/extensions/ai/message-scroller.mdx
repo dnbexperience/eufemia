@@ -190,7 +190,7 @@ const { isAtStart, isAtEnd } = useConversationScrollState('my-chat')
 
 Scrolling does not render the messages again. The conversation measures the content when its size changes, and when the user scrolls, it only updates the button to go to the latest message and the components that use its hooks.
 
-Messages out of view are not rendered by the browser, with [content-visibility](https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility). Unlike a virtualized list, all messages stay in the page, so the user can still find text with the search of the browser, select text across messages, and use a screen reader to read them. When a message is rendered and gets its real size, the conversation keeps the user's place.
+Supported browsers can skip off-screen rendering of messages without interactive content with [content-visibility](https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility). Messages with links or controls stay fully rendered so their focus rings and touch areas remain available. Unlike a virtualized list, all messages stay in the page, so the user can still find text with the search of the browser, select text across messages, and use a screen reader to read them. When a message is rendered and gets its real size, the conversation keeps the user's place.
 
 Until a message has been rendered, its height is estimated. Set the estimate with `contain-intrinsic-block-size` when your messages are much taller or shorter:
 

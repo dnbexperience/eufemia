@@ -238,6 +238,8 @@
   background-color: var(--ai-prompt-input-background);
   border-radius: var(--ai-prompt-input-radius);
 
+  cursor: text;
+
   @include utilities.fakeBorder(var(--ai-prompt-input-border-color));
   @include utilities.forcedColorsOutline(var(--border-width), inset);
 
@@ -245,20 +247,18 @@
     @include utilities.forcedColorsOutline($inset: inset);
   }
 
-  &:not(&--disabled):not(&--error):not(&--focus) {
-    @include utilities.hover() {
-      @include utilities.fakeBorder(
-        var(--token-color-stroke-action-hover),
-        0.125rem
-      );
+  &:not(&--disabled, &--error, &--focus) {
+    @include utilities.whatInputNot('touch') {
+      &:hover {
+        --border-color: var(--token-color-stroke-action-hover);
+        --border-width: 0.125rem;
+      }
     }
   }
 
   &--focus:not(&--disabled) {
-    @include utilities.fakeBorder(
-      var(--token-color-stroke-action-pressed),
-      0.125rem
-    );
+    --border-color: var(--token-color-stroke-action-pressed);
+    --border-width: 0.125rem;
   }
 
   &--error:not(&--disabled) {
@@ -301,14 +301,9 @@
     color: var(--token-color-icon-action);
   }
 
-  &--disabled &__icon {
+  &--disabled &__icon,
+  &--compact:not(&--drop-shadow, &--focus) &__icon {
     color: var(--token-color-icon-neutral-alternative);
-  }
-
-  &--compact:not(&--drop-shadow):not(&--focus) {
-    .dnb-ai-prompt-input__icon {
-      color: var(--token-color-icon-neutral-alternative);
-    }
   }
 
   // The card draws the border, so the textarea only shows its text
@@ -426,7 +421,7 @@
 
   &__content,
   &__virtual-content {
-    padding-inline: var(--ai-conversation-padding);
+    padding: 0 var(--ai-conversation-padding) 0.5rem;
   }
 
   &__scroll {
@@ -445,10 +440,18 @@
     scroll-margin-top: var(--ai-conversation-peek);
   }
 
-  // Messages out of view are not rendered by the browser, but can still
-  // be found, selected and read by screen readers
-  &__content > .dnb-ai-message,
-  &__content > &__item {
+  // Paint containment clips controls' focus rings and expanded touch areas.
+  &__content
+    > :is(.dnb-ai-message, .dnb-ai-conversation__item):not(
+      :has(
+        a,
+        :enabled,
+        summary,
+        [role],
+        [tabindex],
+        [contenteditable]
+      )
+    ) {
     content-visibility: auto;
     contain-intrinsic-block-size: auto 5rem;
   }

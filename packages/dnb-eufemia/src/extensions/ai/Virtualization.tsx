@@ -517,6 +517,7 @@ function VirtualizedConversation(
             style={{
               position: 'relative',
               flexShrink: 0,
+              boxSizing: 'content-box',
               height: Math.max(
                 total,
                 scrollRef.current?.clientHeight ?? 0
