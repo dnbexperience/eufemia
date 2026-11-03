@@ -341,6 +341,9 @@ button .dnb-form-status__text {
   --checkbox-color-background-on--focus: var(
     --token-color-background-action-focus
   );
+  --checkbox-color-border-on--focus: var(
+    --token-color-stroke-action-focus-subtle
+  );
   --checkbox-color-gfx__indeterminate--focus: var(
     --token-color-background-action-focus
   );
@@ -716,6 +719,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   background-color: var(--checkbox-color-background--focus);
 }
 html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):checked:not(:indeterminate):focus ~ .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled])[data-checked=true]:not(:indeterminate):focus ~ .dnb-checkbox__button {
+  box-shadow: inset 0 0 0 0.125rem var(--checkbox-color-border-on--focus);
   background-color: var(--checkbox-color-background-on--focus);
 }
 html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {

@@ -615,7 +615,10 @@ describe('Checkbox scss', () => {
       /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\)/
     )
     expect(css).toMatch(
-      /html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-checkbox__input:not\(\[disabled\]\):checked:not\(:indeterminate\):focus ~ \.dnb-checkbox__button,[^{]*\{\s*background-color: var\(--checkbox-color-background-on--focus\);/
+      /--checkbox-color-border-on--focus: var\(\s*--token-color-stroke-action-focus-subtle\s*\)/
+    )
+    expect(css).toMatch(
+      /html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-checkbox__input:not\(\[disabled\]\):checked:not\(:indeterminate\):focus ~ \.dnb-checkbox__button,[^{]*\{\s*box-shadow: inset 0 0 0 0\.125rem var\(--checkbox-color-border-on--focus\);\s*background-color: var\(--checkbox-color-background-on--focus\);/
     )
   })
 
