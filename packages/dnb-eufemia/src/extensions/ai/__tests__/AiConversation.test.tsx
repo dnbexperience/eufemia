@@ -247,6 +247,91 @@ describe('Ai.Conversation', () => {
     })
   })
 
+  it('marks appended incoming messages as unread while reading history and clears at the end', () => {
+    let state: ReturnType<typeof useConversationScrollState>
+    const State = () => {
+      state = useConversationScrollState()
+      return null
+    }
+    const { rerender } = render(
+      <Conversation scrollBehavior="end">
+        <State />
+        <Message key="first" id="first">
+          First reply
+        </Message>
+      </Conversation>
+    )
+    act(() => resizeCallback([], null))
+    setScrollPosition(getScroll(), {
+      scrollHeight: 1000,
+      scrollTop: 0,
+      clientHeight: 400,
+      byUser: true,
+    })
+    expect(state.hasUnreadMessages).toBe(false)
+    rerender(
+      <Conversation scrollBehavior="end">
+        <State />
+        <Message key="first" id="first">
+          First reply
+        </Message>
+        <Message key="incoming" id="incoming">
+          Incoming reply
+        </Message>
+      </Conversation>
+    )
+    act(() => resizeCallback([], null))
+    expect(state.hasUnreadMessages).toBe(true)
+    expect(getScrollButton()).toHaveTextContent('Ny melding')
+    expect(getScrollButton()).toHaveAccessibleName(
+      'Ny melding. Gå til siste melding'
+    )
+    setScrollPosition(getScroll(), {
+      scrollHeight: 1000,
+      scrollTop: 600,
+      clientHeight: 400,
+      byUser: true,
+    })
+    expect(state.hasUnreadMessages).toBe(false)
+  })
+
+  it('does not mark restored history or streamed text as unread', () => {
+    let state: ReturnType<typeof useConversationScrollState>
+    const State = () => {
+      state = useConversationScrollState()
+      return null
+    }
+    const { rerender } = render(
+      <Conversation scrollBehavior="end">
+        <State />
+        <Message key="first" id="first">
+          First reply
+        </Message>
+      </Conversation>
+    )
+    act(() => resizeCallback([], null))
+    setScrollPosition(getScroll(), {
+      scrollHeight: 1000,
+      scrollTop: 0,
+      clientHeight: 400,
+      byUser: true,
+    })
+    rerender(
+      <Conversation scrollBehavior="end">
+        <State />
+        <Message key="older" id="older">
+          Older reply
+        </Message>
+        <Message key="first" id="first">
+          First reply grows
+        </Message>
+      </Conversation>
+    )
+    act(() => resizeCallback([], null))
+    expect(state.hasUnreadMessages).toBe(false)
+    expect(getScrollButton()).not.toHaveTextContent('Ny melding')
+  })
+
   it('stops following when focus or selection enters the transcript', () => {
     render(
       <Conversation scrollBehavior="end">
@@ -741,7 +826,11 @@ describe('Ai.useConversationScrollState', () => {
         <Conversation id="chat" />
       </>
     )
-    expect(state).toEqual({ isAtStart: true, isAtEnd: true })
+    expect(state).toEqual({
+      isAtStart: true,
+      isAtEnd: true,
+      hasUnreadMessages: false,
+    })
 
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
@@ -749,7 +838,11 @@ describe('Ai.useConversationScrollState', () => {
       clientHeight: 400,
       byUser: true,
     })
-    expect(state).toEqual({ isAtStart: false, isAtEnd: false })
+    expect(state).toEqual({
+      isAtStart: false,
+      isAtEnd: false,
+      hasUnreadMessages: false,
+    })
 
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
@@ -757,7 +850,11 @@ describe('Ai.useConversationScrollState', () => {
       clientHeight: 400,
       byUser: true,
     })
-    expect(state).toEqual({ isAtStart: false, isAtEnd: true })
+    expect(state).toEqual({
+      isAtStart: false,
+      isAtEnd: true,
+      hasUnreadMessages: false,
+    })
   })
 
   it('returns a default without a conversation', () => {
@@ -767,7 +864,11 @@ describe('Ai.useConversationScrollState', () => {
       return null
     }
     render(<Edges />)
-    expect(state).toEqual({ isAtStart: true, isAtEnd: true })
+    expect(state).toEqual({
+      isAtStart: true,
+      isAtEnd: true,
+      hasUnreadMessages: false,
+    })
   })
 })
 

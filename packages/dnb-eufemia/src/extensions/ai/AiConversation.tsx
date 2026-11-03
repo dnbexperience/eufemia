@@ -95,6 +95,9 @@ function ConversationContent(props: AiConversationProps) {
   const seenItemsRef = useRef(new WeakSet<Element>())
   const visibilityRef = useRef<ReturnType<typeof trackVisibility>>(null)
   const [hasContentBelow, setHasContentBelow] = useState(false)
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false)
+  const unreadRef = useRef(false)
+  const previousLastMessage = useRef<Element>(null)
 
   const api = useMemo<ConversationApi>(() => {
     const scrollToTarget = (element: Element, top: number) => {
@@ -163,13 +166,41 @@ function ConversationContent(props: AiConversationProps) {
 
   const updateState = useCallback(() => {
     const scroll = scrollRef.current
+    const isAtEnd = getGap(scroll) <= 1
+    if (isAtEnd) {
+      unreadRef.current = false
+    }
+    setHasUnreadMessages(unreadRef.current)
     setHasContentBelow(hasMoreBelow(scroll, isFollowingRef.current))
     api.scrollState.set({
       isAtStart: scroll.scrollTop <= 1,
-      isAtEnd: getGap(scroll) <= 1,
+      isAtEnd,
+      hasUnreadMessages: unreadRef.current,
     })
     visibilityRef.current?.update()
   }, [api])
+
+  useLayoutEffect(() => {
+    const messages = Array.from(contentRef.current.children).filter(
+      (element) =>
+        element.matches('.dnb-ai-message, .dnb-ai-conversation__item')
+    )
+    const previousIndex = messages.indexOf(previousLastMessage.current)
+    const appended =
+      previousIndex < 0 ? [] : messages.slice(previousIndex + 1)
+    if (previousIndex < 0) {
+      unreadRef.current = false
+    } else if (
+      appended.length &&
+      !isFollowingRef.current &&
+      getGap(scrollRef.current) > BOTTOM_THRESHOLD &&
+      !appended.some((element) => element.matches(ANCHOR_SELECTOR))
+    ) {
+      unreadRef.current = true
+    }
+    previousLastMessage.current = messages.at(-1) ?? null
+    updateState()
+  }, [children, items, updateState])
 
   // Keep the reader in place while the content changes
   useLayoutEffect(() => {
@@ -407,7 +438,14 @@ function ConversationContent(props: AiConversationProps) {
             size="medium"
             icon={arrow_down}
             className="dnb-ai-conversation__scroll-button"
-            aria-label={translation.scrollToBottom}
+            text={hasUnreadMessages ? translation.newMessage : undefined}
+            aria-label={
+              hasUnreadMessages
+                ? translation.newMessage +
+                  '. ' +
+                  translation.scrollToBottom
+                : translation.scrollToBottom
+            }
             tooltip={translation.scrollToBottom}
             onClick={({ event }) => {
               if (document.activeElement === event.currentTarget) {
@@ -480,6 +518,7 @@ const NO_CONTROLS: AiConversationControls = {
 export const DEFAULT_SCROLL_STATE: AiConversationScrollState = {
   isAtStart: true,
   isAtEnd: true,
+  hasUnreadMessages: false,
 }
 
 export const NO_VISIBILITY: AiConversationVisibility = {

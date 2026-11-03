@@ -29,6 +29,7 @@ export default {
       suggestions: 'Forslag',
       conversationLabel: 'Samtale',
       scrollToBottom: 'Gå til seneste besked',
+      newMessage: 'Ny besked',
       sources: 'Kilder (%count)',
       taskRunning: 'I gang',
       taskDone: 'Fuldført',

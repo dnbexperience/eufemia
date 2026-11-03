@@ -1669,6 +1669,11 @@ export function AiConversationReading() {
   return (
     <ComponentBox data-visual-test="ai-conversation-reading">
       {() => {
+        const UnreadState = () => {
+          const { hasUnreadMessages } =
+            useConversationScrollState('reading-chat')
+          return <P>Unread messages: {hasUnreadMessages ? 'yes' : 'no'}</P>
+        }
         const Reading = () => {
           const [messages, setMessages] = useState(
             Array.from({ length: 12 }, (_, index) => ({
@@ -1717,8 +1722,17 @@ export function AiConversationReading() {
                   Receive message
                 </Button>
               </Flex.Horizontal>
-              <Flex.Stack gap="small" style={{ height: '28rem' }}>
+              <UnreadState />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1rem',
+                  height: '28rem',
+                }}
+              >
                 <Conversation
+                  id="reading-chat"
                   scrollBehavior="end"
                   aria-live="off"
                   style={{ flex: '1 1 auto' }}
@@ -1755,7 +1769,7 @@ export function AiConversationReading() {
                     ])
                   }
                 />
-              </Flex.Stack>
+              </div>
             </>
           )
         }
