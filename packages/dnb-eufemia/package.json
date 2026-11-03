@@ -75,6 +75,7 @@
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
     "publish:release": "./scripts/postbuild/publish-release.sh",
     "reset": "rm -rf ./node_modules ./build",
+    "review:tokens": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/figma/reportTokenChanges.ts",
     "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
     "test": "yarn test:prepare && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts",
     "test:changed": "yarn test:prepare && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runConditionalUnitTests.ts",
