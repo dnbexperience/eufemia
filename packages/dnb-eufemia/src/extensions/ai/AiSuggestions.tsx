@@ -2,7 +2,7 @@ import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Button from '../../components/Button'
 import useTranslation from './hooks/useTranslation'
-import { ai } from '../../icons'
+import ai from '../../icons/ai'
 import type { AiSuggestionProps, AiSuggestionsProps } from './types'
 
 export function AiSuggestions(props: AiSuggestionsProps) {

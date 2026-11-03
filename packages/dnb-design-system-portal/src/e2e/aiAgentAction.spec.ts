@@ -12,6 +12,11 @@ test.describe('Ai.AgentAction', () => {
           '/uilib/extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
         )
         await waitForApp(page)
+        // Freeze CSS timelines before Replay mounts the animated elements.
+        await page.addStyleTag({
+          content:
+            '.dnb-ai-agent-action * { animation-play-state: paused !important; }',
+        })
         await page.clock.runFor(2250)
         const replay = page.getByRole('button', {
           name: 'Replay payment',
@@ -94,6 +99,10 @@ test.describe('Ai.AgentAction', () => {
       '/uilib/extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
     )
     await waitForApp(page)
+    await page.addStyleTag({
+      content:
+        '.dnb-ai-agent-action * { animation-play-state: paused !important; }',
+    })
     await page.clock.runFor(2250)
     const result = page
       .getByRole('button', { name: 'Replay payment', exact: true })

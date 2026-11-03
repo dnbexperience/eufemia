@@ -14,7 +14,7 @@ import ScrollView from '../../components/ScrollView'
 import useTranslation from './hooks/useTranslation'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { useSharedState } from '../../shared/helpers/useSharedState'
-import { arrow_down } from '../../icons'
+import arrow_down from '../../icons/arrow_down'
 import type {
   AiConversationControls,
   AiConversationProps,

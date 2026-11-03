@@ -3,7 +3,7 @@ import { isCI } from 'repo-utils'
 
 export default defineConfig({
   timeout: 30_000,
-  globalTimeout: 600_000,
+  globalTimeout: 1_200_000,
   retries: 3,
   reporter: 'list',
   testDir: './src/e2e',

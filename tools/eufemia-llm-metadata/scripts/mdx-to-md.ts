@@ -342,7 +342,12 @@ export async function convertMdxToMd({
     ? getDocumentationNotice(inputPath, docsRoot)
     : ''
   const propertiesUsage = await readPropertiesUsage(inputPath)
-  const output = [outputFrontmatter, notice, propertiesUsage, outputBody.trim()]
+  const output = [
+    outputFrontmatter,
+    notice,
+    propertiesUsage,
+    outputBody.trim(),
+  ]
     .filter(Boolean)
     .join('\n\n')
   const formattedOutput = await prettier.format(output, {

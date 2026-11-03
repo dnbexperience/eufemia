@@ -8,7 +8,7 @@ import { clsx } from 'clsx'
 import ScrollView from '../../components/ScrollView'
 import Button from '../../components/Button'
 import { useSpacing } from '../../components/space/SpacingUtils'
-import { arrow_down } from '../../icons'
+import arrow_down from '../../icons/arrow_down'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useTranslation from './hooks/useTranslation'
 import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
@@ -265,7 +265,14 @@ function VirtualizedConversation(
       }
     })
     return () => cancelAnimationFrame(navigationFrame)
-  }, [navigation, navigationIndex, virtualizer, peek, total, viewportHeight])
+  }, [
+    navigation,
+    navigationIndex,
+    virtualizer,
+    peek,
+    total,
+    viewportHeight,
+  ])
 
   useLayoutEffect(() => {
     if (!navigation || isScrolling) {

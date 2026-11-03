@@ -12,7 +12,11 @@ import type {
   TextareaKeyDownEvent,
 } from '../../components/textarea/types'
 import useTranslation from './hooks/useTranslation'
-import { add, aino_medium, arrow_up, microphone, stop } from '../../icons'
+import add from '../../icons/add'
+import aino_medium from '../../icons/aino_medium'
+import arrow_up from '../../icons/arrow_up'
+import microphone from '../../icons/microphone'
+import stop from '../../icons/stop'
 import type { AiPromptInputProps, AiPromptInputSubmitEvent } from './types'
 
 function AiPromptInput(props: AiPromptInputProps) {
