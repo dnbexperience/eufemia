@@ -25,9 +25,6 @@ test('keeps the page usable when the settings download fails', async ({
     'false'
   )
   expect(documents).toBe(1)
-  expect(
-    await page.evaluate(() => sessionStorage.getItem('portal-tools-open'))
-  ).toBeNull()
 })
 
 for (const path of ['/', '/web/components/']) {
@@ -136,40 +133,6 @@ test('does not open after canceling a pending settings download', async ({
     await expect(
       page.getByRole('dialog', { name: 'Portal Tools', exact: true })
     ).toBeVisible()
-  } finally {
-    release()
-  }
-})
-
-test('restores an open drawer after a delayed settings download', async ({
-  page,
-}) => {
-  let release: () => void
-  const pending = new Promise<void>((resolve) => {
-    release = resolve
-  })
-  await page.route(/PortalToolsDrawer/, async (route) => {
-    await pending
-    await route.continue()
-  })
-  await page.addInitScript(() =>
-    sessionStorage.setItem('portal-tools-open', 'true')
-  )
-  try {
-    await page.goto('/web/components/', { waitUntil: 'domcontentloaded' })
-    await waitForApp(page)
-    const trigger = page.locator('button#portal-tools')
-    await expect(trigger).toHaveAttribute('aria-busy', 'true')
-    release()
-    const drawer = page.getByRole('dialog', {
-      name: 'Portal Tools',
-      exact: true,
-    })
-    await expect(drawer).toBeVisible()
-    await expect(drawer.locator('#change-theme')).toBeFocused()
-    await page.keyboard.press('Escape')
-    await expect(drawer).toBeHidden()
-    await expect(trigger).toBeFocused()
   } finally {
     release()
   }

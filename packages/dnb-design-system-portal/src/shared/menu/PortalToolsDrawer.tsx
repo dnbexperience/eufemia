@@ -12,10 +12,6 @@ import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
 export default function PortalToolsDrawer({
   onReady,
-  open,
-  noAnimation,
-  onOpen,
-  onClose,
   ...props
 }: DrawerAllProps & { onReady: () => void }) {
   const { skeleton } = useContext(Context)
@@ -29,10 +25,6 @@ export default function PortalToolsDrawer({
       restoreFocusTo={() => document.getElementById('portal-tools')}
       title="Portal Tools"
       closeTitle="Close"
-      open={open}
-      noAnimation={noAnimation}
-      onOpen={onOpen}
-      onClose={onClose}
       {...props}
     >
       <Drawer.Body innerSpace={{ block: 'large' }}>
