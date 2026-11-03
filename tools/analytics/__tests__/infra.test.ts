@@ -268,6 +268,8 @@ describe('analytics infrastructure', () => {
       'arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/eufemia-${var.environment}-dashboard-snapshot-read',
       'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
     ])
-    expect(terraform).not.toMatch(/resource "aws_iam_role_policy" /)
+    expect(terraform).not.toMatch(
+      /resource "aws_iam_role_policy" |managed_policy_arns|inline_policy/
+    )
   })
 })
