@@ -110,6 +110,7 @@ describe('dashboard-read handler', () => {
           perPath: [],
           missedLookups: 0,
           perLikelyComponent: [],
+          perVersion: [],
           daily: [],
         },
         local: {
@@ -119,8 +120,8 @@ describe('dashboard-read handler', () => {
           perPath: [],
           missedLookups: 0,
           perLikelyComponent: [],
-          daily: [],
           perVersion: [],
+          daily: [],
         },
       },
       componentUsage: {

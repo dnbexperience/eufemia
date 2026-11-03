@@ -4,16 +4,17 @@ import {
   GetQueryResultsCommand,
   StartQueryExecutionCommand,
 } from '@aws-sdk/client-athena'
+import { COMPONENT_TOOLS } from 'eufemia-usage-ingest'
 import { requireEnv } from './env.js'
 import type {
   ComponentUsageAggregate,
   ComponentUsageDaily,
   McpUsageDaily,
+  McpVersionUsageRow,
   PortalViewDaily,
   PortalViewDayCount,
   PortalViewLocaleThemeCount,
   PortalViewMonthPathCount,
-  RankedCount,
 } from './snapshot-store.js'
 
 const athena = new AthenaClient({})
@@ -297,29 +298,32 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   )
 }
 
+const COMPONENT_TOOL_LIST = [...COMPONENT_TOOLS]
+  .map((tool) => `'${tool}'`)
+  .join(', ')
+
 /**
- * Aggregate local MCP usage on or after `sinceDt` into per-version counts for
- * the dashboard, highest request count first.
- *
- * Only transport='local' rows carry a meaningful Eufemia version: the web MCP
- * Lambda always runs latest and records no version, so those rows are excluded
- * here rather than surfaced as a null/empty bucket. Reads the raw mcp_usage
- * table directly (the durable daily rollup does not carry the version
- * dimension), scoped to a recent window so the scan stays bounded as the raw
- * table's 13-month retention fills, like its aggregateMcpUsageRaw sibling.
+ * Aggregate MCP usage on or after `sinceDt` into per-transport, per-version
+ * request, component lookup and missed lookup counts, highest request count
+ * first. Rows without a version are left out. Reads the raw mcp_usage table
+ * (the durable daily rollup has no version), so the window keeps the scan
+ * bounded as the raw table's 13-month retention fills.
  */
-export async function aggregateLocalMcpUsageByVersion(
+export async function aggregateMcpUsageByVersion(
   sinceDt: string
-): Promise<RankedCount[]> {
+): Promise<McpVersionUsageRow[]> {
   assertPartitionDate(sinceDt)
 
   const table = glueTable('GLUE_TABLE_MCP_USAGE')
 
   return runQuery(
-    `SELECT eufemia_version, count(*) AS cnt FROM ${table} WHERE dt >= '${sinceDt}' AND transport = 'local' AND eufemia_version IS NOT NULL AND eufemia_version <> '' GROUP BY eufemia_version ORDER BY cnt DESC`,
-    ([version, count]) => ({
+    `SELECT coalesce(transport, 'web') AS transport, eufemia_version, count(*) AS cnt, count_if(tool IN (${COMPONENT_TOOL_LIST})) AS component_lookups, count_if(component_missed) AS missed_lookups FROM ${table} WHERE dt >= '${sinceDt}' AND eufemia_version IS NOT NULL AND eufemia_version <> '' GROUP BY coalesce(transport, 'web'), eufemia_version ORDER BY cnt DESC`,
+    ([transport, version, count, componentLookups, missedLookups]) => ({
+      transport: transport ?? '',
       name: version ?? '',
       count: Number(count ?? 0),
+      componentLookups: Number(componentLookups ?? 0),
+      missedLookups: Number(missedLookups ?? 0),
     })
   )
 }
