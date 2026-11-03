@@ -33,6 +33,7 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   overflow: hidden;
   position: absolute;
   z-index: 2;
+  pointer-events: none;
 }
 .dnb-badge--variant-notification {
   color: var(--token-color-text-neutral-ondark);

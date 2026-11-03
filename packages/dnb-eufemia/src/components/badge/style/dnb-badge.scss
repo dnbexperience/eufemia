@@ -27,6 +27,7 @@
       overflow: hidden;
       position: absolute;
       z-index: 2; // Render the badge on top of a potential .dnb-img img.
+      pointer-events: none;
     }
   }
 
