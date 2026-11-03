@@ -235,4 +235,39 @@ describe('analytics infrastructure', () => {
       'data.aws_iam_policy_document.require_tls["dashboard"].json'
     )
   })
+
+  it('creates the dashboard role with the OIDC boundary, trusted only by Lambda', () => {
+    const role = terraform.match(
+      /resource "aws_iam_role" "dashboard" \{[\s\S]*?^\}/m
+    )?.[0]
+    const assume = terraform.match(
+      /data "aws_iam_policy_document" "dashboard_assume" \{[\s\S]*?^\}/m
+    )?.[0]
+
+    expect(role).toMatch(
+      /permissions_boundary\s+=\s+".*:policy\/tlz\/oidc-tooling-github-permissionboundarypolicy"/
+    )
+    expect(role).toContain(
+      'data.aws_iam_policy_document.dashboard_assume.json'
+    )
+    expect(assume?.match(/identifiers\s+=\s+\[.*\]/g)).toEqual([
+      'identifiers = ["lambda.amazonaws.com"]',
+    ])
+  })
+
+  it('attaches only the deploy-approved policies to the dashboard role', () => {
+    const attachedPolicies = (
+      terraform.match(
+        /^resource "aws_iam_role_policy_attachment" "\w+" \{[\s\S]*?^\}/gm
+      ) ?? []
+    )
+      .filter((block) => block.includes('aws_iam_role.dashboard.name'))
+      .map((block) => block.match(/policy_arn\s+=\s+"(.*)"/)?.[1])
+
+    expect(attachedPolicies).toEqual([
+      'arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/eufemia-${var.environment}-dashboard-snapshot-read',
+      'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
+    ])
+    expect(terraform).not.toMatch(/resource "aws_iam_role_policy" /)
+  })
 })
