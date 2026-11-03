@@ -98,6 +98,28 @@ describe('Field.Upload', () => {
     expect(fourthDd).toHaveTextContent('2')
   })
 
+  it('should show the file limits when expanded in the compact variant', () => {
+    render(
+      <Field.Upload
+        variant="compact"
+        acceptedFileTypes={['pdf']}
+        fileMaxSize={1}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-upload__file-limits button'
+    )
+    expect(button).toHaveTextContent(nbShared.Upload.fileLimitsButtonText)
+
+    fireEvent.click(button)
+
+    const cells = Array.from(
+      document.querySelectorAll('.dnb-upload__file-limits__table td')
+    )
+    expect(cells.map((cell) => cell.textContent)).toEqual(['PDF', '1 MB'])
+  })
+
   it('should render label and text', () => {
     render(<Field.Upload label="My Label" text="My Text" />)
 

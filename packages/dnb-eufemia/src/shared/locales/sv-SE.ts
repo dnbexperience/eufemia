@@ -196,6 +196,7 @@ export default {
       fileSizeContent: '%size MB',
       buttonText: 'Välj filer',
       buttonTextSingular: 'Välj fil',
+      fileLimitsButtonText: 'Tillåtna filer och storlekar',
       loadingText: 'Laddar',
       errorLargeFile:
         'Filen du försöker ladda upp är för stor, den maximalt tillåtna storleken är %size MB.',

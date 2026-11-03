@@ -5,6 +5,7 @@ showTabs: true
 import {
   UploadBasic,
   UploadBasicCompactVariant,
+  UploadCompactVariantFileMaxSizeBasedOnFileType,
   UploadCompactVariantFiles,
   UploadCompactVariantWithoutLabels,
   UploadPrefilledFileList,
@@ -37,7 +38,13 @@ import {
 
 ### Upload `compact` variant
 
+The `compact` variant shows the accepted file types and sizes when the user expands them.
+
 <UploadBasicCompactVariant />
+
+With a file max size based on file type, the expanded content shows a table.
+
+<UploadCompactVariantFileMaxSizeBasedOnFileType />
 
 ### `useUpload` React Hook
 

@@ -456,6 +456,14 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('renders only the file types in the list when fileMaxSize is 0', () => {
+      render(<Upload {...defaultProps} fileMaxSize={0} />)
+
+      expect(document.querySelector('.dnb-upload dl').textContent).toBe(
+        `${nb.fileTypeDescription}PNG`
+      )
+    })
+
     it('renders no custom file size when fileMaxSize is disabled', () => {
       const fileMaxSize = false
       const fileSizeContent = '%size custom'
@@ -2399,6 +2407,161 @@ describe('Upload', () => {
       expect(
         screen.queryByText(nb.fileSizeDescription)
       ).not.toBeInTheDocument()
+    })
+
+    it('renders a collapsed file limits button', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      const button = document.querySelector(
+        '.dnb-upload__file-limits button'
+      )
+
+      expect(button).toHaveTextContent(nb.fileLimitsButtonText)
+      expect(button).toHaveClass('dnb-button--tertiary')
+      expect(button).toHaveAttribute('aria-expanded', 'false')
+      expect(
+        document.querySelector('.dnb-upload__file-limits__table')
+      ).not.toBeInTheDocument()
+    })
+
+    it('shows the file limits as a table when expanded', () => {
+      render(
+        <Upload
+          acceptedFileTypes={['png', 'jpg']}
+          fileMaxSize={10}
+          filesAmountLimit={2}
+          variant="compact"
+        />
+      )
+
+      const button = document.querySelector(
+        '.dnb-upload__file-limits button'
+      )
+      fireEvent.click(button)
+
+      expect(button).toHaveAttribute('aria-expanded', 'true')
+
+      const rows = Array.from(
+        document.querySelectorAll('.dnb-upload__file-limits__table tr')
+      ).map((row) =>
+        Array.from(row.querySelectorAll('th, td')).map(
+          (cell) => `${cell.tagName}:${cell.textContent}`
+        )
+      )
+
+      expect(rows).toEqual([
+        ['TH:Tillatte filformater', 'TD:JPG, PNG'],
+        ['TH:Maks filstørrelse', 'TD:10 MB'],
+        ['TH:Maks antall filer', 'TD:2'],
+      ])
+      expect(
+        document.querySelector('.dnb-upload__file-limits__table th')
+      ).toHaveAttribute('scope', 'row')
+    })
+
+    it('shows the file max size per file type when expanded', () => {
+      render(
+        <Upload
+          acceptedFileTypes={[
+            { fileType: 'png', fileMaxSize: 2 },
+            { fileType: 'pdf', fileMaxSize: 10 },
+            { fileType: 'doc', fileMaxSize: 10 },
+          ]}
+          variant="compact"
+        />
+      )
+
+      fireEvent.click(
+        document.querySelector('.dnb-upload__file-limits button')
+      )
+
+      const table = document.querySelector(
+        '.dnb-upload__file-limits__table'
+      )
+      const rows = Array.from(table.querySelectorAll('tr')).map((row) =>
+        Array.from(row.querySelectorAll('th, td')).map(
+          (cell) => cell.textContent
+        )
+      )
+
+      expect(table).not.toHaveClass('dnb-table--border')
+      expect(table.querySelector('caption')).toHaveTextContent(
+        nb.fileTypeTableCaption
+      )
+      expect(rows).toEqual([
+        ['Tillatte filformater', 'Maks filstørrelse'],
+        ['DOC, PDF', '10 MB'],
+        ['PNG', '2 MB'],
+      ])
+    })
+
+    it('renders a custom file limits button text', () => {
+      render(
+        <Upload
+          {...defaultProps}
+          variant="compact"
+          fileLimitsButtonText="Custom text"
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-upload__file-limits button')
+      ).toHaveTextContent('Custom text')
+    })
+
+    it('does not render the file limits when fileLimitsButtonText is false', () => {
+      render(
+        <Upload
+          {...defaultProps}
+          variant="compact"
+          fileLimitsButtonText={false}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-upload__file-limits')
+      ).not.toBeInTheDocument()
+    })
+
+    it('does not render the file limits when there is nothing to show', () => {
+      render(
+        <Upload
+          acceptedFileTypes={[]}
+          fileMaxSize={false}
+          variant="compact"
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-upload__file-limits')
+      ).not.toBeInTheDocument()
+    })
+
+    it('does not render the file limits in the default variant', () => {
+      render(<Upload {...defaultProps} />)
+
+      expect(
+        document.querySelector('.dnb-upload__file-limits')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should validate with expanded file limits', async () => {
+      const Component = render(
+        <Upload
+          acceptedFileTypes={[
+            { fileType: 'png', fileMaxSize: 2 },
+            { fileType: 'pdf' },
+          ]}
+          filesAmountLimit={2}
+          variant="compact"
+        />
+      )
+
+      fireEvent.click(
+        document.querySelector('.dnb-upload__file-limits button')
+      )
+
+      expect(await axeComponent(Component)).toHaveNoViolations()
     })
   })
 
