@@ -167,7 +167,7 @@ export type ContextProps = ContextComponents & {
   translation?: Translation
 
   /**
-   * Defines the currency used by `NumberFormat` when its `currency` property is `true`, as with `NumberFormat.Currency`. Defaults to `NOK`.
+   * Defines the currency used by `NumberFormat` when its `currency` property is `true`, as with `NumberFormat.Currency`, and by `Field.Currency` and `Value.Currency` when they have no `currency` of their own. Defaults to `NOK`.
    */
   currency?: NumberFormatCurrency
 

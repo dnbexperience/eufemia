@@ -17,7 +17,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   currency: {
-    doc: 'Defines the currency used by `NumberFormat` when its `currency` property is `true`, as with `NumberFormat.Currency`. Defaults to `NOK`.',
+    doc: 'Defines the currency used by `NumberFormat` when its `currency` property is `true`, as with `NumberFormat.Currency`, and by `Field.Currency` and `Value.Currency` when they have no `currency` of their own. Defaults to `NOK`.',
     type: 'string',
     status: 'optional',
   },
