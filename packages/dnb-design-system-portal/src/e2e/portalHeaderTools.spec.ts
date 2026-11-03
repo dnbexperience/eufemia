@@ -61,7 +61,8 @@ for (const path of [
         await page.goto(path)
         await waitForApp(page)
         await expect(page.locator('button#portal-tools')).toHaveText(
-          'DNB - Dark'
+          'DNB - Dark Portal Tools',
+          { useInnerText: true }
         )
         expect(
           (await Promise.all(errors)).filter((message) =>
@@ -89,7 +90,9 @@ for (const width of [390, 1440]) {
         header.locator('a[href*="github.com"], a[href*="figma.com"]')
       ).toHaveCount(0)
       const tools = header.locator('button#portal-tools')
-      await expect(tools).toHaveText('DNB - Light')
+      await expect(tools).toHaveText('DNB - Light Portal Tools', {
+        useInnerText: true,
+      })
       await expect(tools).toHaveAttribute('aria-pressed', 'false')
       await expect(tools.locator('.dnb-icon svg')).toBeVisible()
       await tools.click()
@@ -99,12 +102,16 @@ for (const width of [390, 1440]) {
       await drawer
         .getByRole('radio', { name: 'Dark', exact: true })
         .click()
-      await expect(tools).toHaveText('DNB - Dark')
+      await expect(tools).toHaveText('DNB - Dark Portal Tools', {
+        useInnerText: true,
+      })
       await drawer.locator('#change-theme').click()
       await page
         .getByRole('option', { name: 'Sbanken (WIP)', exact: true })
         .click()
-      await expect(tools).toHaveText('Sbanken - Dark')
+      await expect(tools).toHaveText('Sbanken - Dark Portal Tools', {
+        useInnerText: true,
+      })
       await drawer
         .getByRole('button', { name: /Close|Lukk/ })
         .first()
@@ -113,7 +120,9 @@ for (const width of [390, 1440]) {
       await expect(tools).toHaveAttribute('aria-pressed', 'false')
       await page.reload()
       await waitForApp(page)
-      await expect(tools).toHaveText('Sbanken - Dark')
+      await expect(tools).toHaveText('Sbanken - Dark Portal Tools', {
+        useInnerText: true,
+      })
       expect(
         await tools.evaluate((el) => el.getBoundingClientRect().right)
       ).toBeLessThanOrEqual(width)
@@ -204,7 +213,9 @@ test('keeps long brand labels clear of the mobile logo', async ({
   await waitForApp(page)
   const header = page.locator('header.sticky-menu')
   const tools = header.locator('button#portal-tools')
-  await expect(tools).toHaveText('DNB Carnegie - Dark')
+  await expect(tools).toHaveText('DNB Carnegie - Dark Portal Tools', {
+    useInnerText: true,
+  })
   const logoBox = await header
     .getByRole('link', { name: 'Go to Eufemia home' })
     .boundingBox()
@@ -221,9 +232,13 @@ test('shows the resolved system color scheme and restores focus on Escape', asyn
   await page.goto('/')
   await waitForApp(page)
   const tools = page.locator('button#portal-tools')
-  await expect(tools).toHaveText('DNB - Dark')
+  await expect(tools).toHaveText('DNB - Dark Portal Tools', {
+    useInnerText: true,
+  })
   await page.emulateMedia({ colorScheme: 'light' })
-  await expect(tools).toHaveText('DNB - Light')
+  await expect(tools).toHaveText('DNB - Light Portal Tools', {
+    useInnerText: true,
+  })
   await tools.click()
   const drawer = page.getByRole('dialog', { name: 'Portal Tools' })
   await expect(drawer).toBeVisible()

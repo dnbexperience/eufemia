@@ -1,5 +1,20 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
+// The theme class is applied before paint, including stored and system preferences.
+.darkSchemeStyle {
+  display: none;
+}
+
+:global(.eufemia-theme__color-scheme--dark) {
+  .lightSchemeStyle {
+    display: none;
+  }
+
+  .darkSchemeStyle {
+    display: inline;
+  }
+}
+
 .buttonStyle {
   flex-shrink: 0;
 

@@ -12,7 +12,6 @@ import { Anchor, Flex } from '@dnb/eufemia/src'
 import { getTheme } from '../../../vite/client/shims/theme-handler'
 import ToggleGrid from './ToggleGrid'
 import { Context, useTheme } from '@dnb/eufemia/src/shared'
-import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { cog } from '@dnb/eufemia/src/icons'
 import { themeTitles } from './SidebarMenuData'
 import PortalSkeleton from '../../core/PortalSkeleton'
@@ -20,7 +19,11 @@ import ToggleDarkMode from '../../core/ToggleDarkMode'
 import ToggleNativeTypography from '../../core/ToggleNativeTypography'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
-import { buttonStyle } from './PortalToolsMenu.module.scss'
+import {
+  buttonStyle,
+  darkSchemeStyle,
+  lightSchemeStyle,
+} from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
 import type { ToggleButtonProps } from '@dnb/eufemia/src/components/ToggleButton'
 
@@ -87,10 +90,6 @@ export default function PortalToolsMenu({
   const [isOpen, setIsOpen] = useState(false)
   const { brand, colorScheme } = getTheme()
   const activeTheme = useTheme()
-  const canUseDOM = useCanUseDOM()
-  const triggerText = `${themeTitles[activeTheme?.brand] || 'DNB'} - ${
-    canUseDOM && activeTheme?.colorScheme === 'dark' ? 'Dark' : 'Light'
-  }`
   const themeKey = `${brand}:${colorScheme || 'auto'}`
   // Start with animation disabled so the initial open=false render
   // uses the immediate close path in Modal, avoiding a 300ms timer
@@ -186,14 +185,20 @@ export default function PortalToolsMenu({
           buttonStyle,
           hideWhenMediaLarge && 'hideWhenMediaLarge'
         )}
-        text={triggerText}
+        text={
+          <>
+            {themeTitles[activeTheme?.brand] || 'DNB'} -{' '}
+            <span className={lightSchemeStyle}>Light</span>
+            <span className={darkSchemeStyle}>Dark</span>
+            <span className="dnb-sr-only"> Portal Tools</span>
+          </>
+        }
         icon={cog}
         iconPosition="right"
         iconSize="medium"
         skeleton={false}
         left="x-small"
         title="Portal Tools"
-        aria-label={`${triggerText}, Portal Tools`}
         aria-haspopup="dialog"
         aria-controls="dnb-modal-portal-tools-modal"
         aria-expanded={isOpen}
