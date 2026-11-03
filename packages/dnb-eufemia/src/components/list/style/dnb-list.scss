@@ -43,7 +43,7 @@
     --list-item-rounded-corner: var(--token-radius-xl);
     --list-item-row-gap: 0.5rem;
 
-    // The content height of a one-line row (4rem - 2 × 1rem), so a lower
+    // The content height of a one-line row (4rem - 2 * 1rem), so a lower
     // --list-item-height still makes the rows lower
     --list-item-cell-height: clamp(
       var(--line-height-basis),

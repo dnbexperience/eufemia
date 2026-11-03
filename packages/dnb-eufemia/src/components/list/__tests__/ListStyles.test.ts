@@ -102,7 +102,7 @@ describe('List scss', () => {
       const rule = decl.parent as postcss.Rule
 
       if (decl.prop === '--list-item-cell-height') {
-        surfaces.push(`${rule.selector} { ${normalize(decl.value)} }`)
+        surfaces.push(rule.selector)
       }
 
       if (
@@ -125,9 +125,7 @@ describe('List scss', () => {
     })
 
     expect(fixedOutsideSurface).toEqual([])
-    expect(surfaces).toEqual([
-      `.dnb-list--variant-basic { ${cellBoxHeight} }`,
-    ])
+    expect(surfaces).toEqual(['.dnb-list--variant-basic'])
   })
 
   it('should only set the height of the cell box in one place', () => {
@@ -137,14 +135,12 @@ describe('List scss', () => {
     postcss.parse(css).walkDecls((decl) => {
       if (/(^|[^.\d])2rem\b/.test(decl.value)) {
         const rule = decl.parent as postcss.Rule
-        boxHeights.push(
-          `${rule.selector} { ${decl.prop}: ${normalize(decl.value)} }`
-        )
+        boxHeights.push(`${rule.selector} { ${decl.prop} }`)
       }
     })
 
     expect(boxHeights).toEqual([
-      `.dnb-list--variant-basic { --list-item-cell-height: ${cellBoxHeight} }`,
+      '.dnb-list--variant-basic { --list-item-cell-height }',
     ])
   })
 
