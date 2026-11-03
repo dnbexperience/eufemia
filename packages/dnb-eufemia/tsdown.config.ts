@@ -1,7 +1,11 @@
 import type { UserConfig } from 'tsdown'
+import fs from 'node:fs'
 import path from 'node:path'
 import buildTargets from '@dnb/browserslist-config/buildTargets.mjs'
-import pkg from './package.json'
+
+// tsdown loads this file with Node, which needs an import attribute for JSON,
+// and the CommonJS tsconfig does not allow import attributes
+const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 
 export default [
   // UMD bundles
@@ -90,17 +94,19 @@ function makeBundleConfig(
 
     // Pick the JSX runtime
     inputOptions: {
-      jsx: 'react',
-      // The sources don't import React, so import it for the classic runtime
-      inject: { React: 'react' },
+      transform: {
+        jsx: 'react',
+        // The sources don't import React, so import it for the classic runtime
+        inject: { React: 'react' },
+      },
     },
 
     // The icons bundle contains the icons, and the other bundles import it
     plugins:
       outName === 'dnb-ui-icons' ? [] : [externalIcons(iconsBundle)],
 
-    // Also keep these external
-    noExternal,
+    // Bundle these, even though they are dependencies
+    deps: { alwaysBundle: noExternal },
 
     // Some tools also read this
     globalName,
