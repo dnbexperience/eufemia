@@ -10,43 +10,38 @@ test.describe('Ai.PromptInput interaction styles', () => {
           '[data-visual-test="ai-prompt-input-' + variant + '"] form'
         )
         const textarea = form.locator('textarea')
-        const toggle = form.getByRole('button', {
-          name: 'Web search',
+        const attachment = form.getByRole('button', {
+          name: 'Add attachment',
           exact: true,
         })
-        const source = form.getByRole('combobox', { name: /Sources/ })
+        const microphone = form.getByRole('button', {
+          name: 'Use microphone',
+          exact: true,
+        })
         await textarea.fill('Hello')
-        await toggle.click()
-        await expect(toggle).toHaveAttribute('aria-pressed', 'true')
-        if (variant === 'custom') {
-          await source.click()
-          await page
-            .getByRole('option', { name: 'Files', exact: true })
-            .click()
-          await expect(source).toContainText('Files')
-        }
+        await attachment.click()
+        await expect(attachment).toBeDisabled()
         await expect(textarea).toHaveValue('Hello')
+        await form
+          .getByRole('button', { name: 'Remove Budget.pdf' })
+          .click()
+        await expect(attachment).toBeEnabled()
+        await microphone.click()
+        await expect(textarea).toHaveValue('Show my latest transactions')
 
         const send = form.locator('button[type="submit"]')
+        const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
         if (variant === 'custom-compact') {
-          await toggle.focus()
-          await page.keyboard.press(
-            browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
-          )
+          await attachment.focus()
+          await page.keyboard.press(tab)
           await expect(textarea).toBeFocused()
         } else {
           await textarea.focus()
-          await page.keyboard.press(
-            browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
-          )
-          await expect(toggle).toBeFocused()
+          await page.keyboard.press(tab)
+          await expect(attachment).toBeFocused()
         }
-        if (variant === 'custom') {
-          await source.focus()
-        }
-        await page.keyboard.press(
-          browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
-        )
+        await microphone.focus()
+        await page.keyboard.press(tab)
         await expect(send).toBeFocused()
 
         for (const width of [375, 320]) {
@@ -241,7 +236,7 @@ test.describe('Ai.PromptInput interaction styles', () => {
     await expect(form).not.toHaveCSS('filter', 'none')
 
     const action = form.getByRole('button', {
-      name: 'Web search',
+      name: 'Add attachment',
       exact: true,
     })
     await action.focus()
