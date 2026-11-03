@@ -4,7 +4,8 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Badge, Avatar, Grid, Flex, P } from '@dnb/eufemia/src'
+import { useState } from 'react'
+import { Badge, Avatar, Button, Grid, Flex, P } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const BadgeNotification = () => (
@@ -83,6 +84,33 @@ export const BadgeInformationAvatar = () => (
         </Avatar>
       </Avatar.Group>
     </Badge>
+  </ComponentBox>
+)
+
+export const BadgeButton = () => (
+  <ComponentBox>
+    {() => {
+      const Example = () => {
+        const [notifications, setNotifications] = useState(1)
+
+        return (
+          <Badge
+            content={notifications}
+            label="Notifications"
+            variant="notification"
+            horizontal="right"
+            vertical="top"
+          >
+            <Button
+              text="Add notification"
+              onClick={() => setNotifications((count) => count + 1)}
+            />
+          </Badge>
+        )
+      }
+
+      return <Example />
+    }}
   </ComponentBox>
 )
 
