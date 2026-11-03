@@ -17,8 +17,8 @@
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan"
   },
   "dependencies": {
-    "@aws-sdk/client-athena": "3.1075.0",
-    "@aws-sdk/client-s3": "3.1075.0",
+    "@aws-sdk/client-athena": "3.1161.0",
+    "@aws-sdk/client-s3": "3.1161.0",
     "eufemia-usage-ingest": "workspace:*"
   },
   "devDependencies": {
