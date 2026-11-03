@@ -49,6 +49,12 @@ describe('createMarkdownCopies', () => {
         expect(output.match(/\*\*Experimental:\*\*/g) || []).toHaveLength(
           route.includes('/ai') ? 1 : 0
         )
+        if (
+          route.endsWith('/properties.mdx') ||
+          route.endsWith('/Message.mdx')
+        ) {
+          expect(output).toContain('need a use case approved by DNB UX')
+        }
       }
     } finally {
       fs.rmSync(root, { recursive: true, force: true })

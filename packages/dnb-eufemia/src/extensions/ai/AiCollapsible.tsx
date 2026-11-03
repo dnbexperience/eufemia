@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Button from '../../components/Button'
 import HeightAnimation from '../../components/HeightAnimation'
-import { chevron_down } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
 
 type AiCollapsibleProps = {
   label: ReactNode

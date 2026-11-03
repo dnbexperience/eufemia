@@ -3,12 +3,10 @@ import { useSpacing } from '../../components/space/SpacingUtils'
 import Icon from '../../components/Icon'
 import ProgressIndicator from '../../components/ProgressIndicator'
 import useTranslation from './hooks/useTranslation'
-import {
-  check,
-  close,
-  exclamation_circled,
-  information_circled,
-} from '../../icons'
+import check from '../../icons/check'
+import close from '../../icons/close'
+import exclamation_circled from '../../icons/exclamation_circled'
+import information_circled from '../../icons/information_circled'
 import type { AiTaskProps } from './types'
 
 const STATUS_ICONS = {
