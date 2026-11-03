@@ -1614,7 +1614,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  column-gap: 1rem;
+  gap: 1rem;
   width: 100%;
 }
 .dnb-dialog--information .dnb-dialog__actions {
