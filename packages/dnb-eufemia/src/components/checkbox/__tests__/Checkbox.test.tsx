@@ -619,6 +619,35 @@ describe('Checkbox scss', () => {
     )
   })
 
+  it('keeps the error colors on hover, pressed and focus', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    const block = css.match(
+      /\.dnb-checkbox__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \{([^}]*)\}/
+    )?.[1]
+
+    expect(block).toMatch(
+      /--checkbox-color-border--hover: var\(--checkbox-color-border--error\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background-off--hover: var\(\s*--checkbox-color-background-off--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background-on--active: var\(\s*--checkbox-color-background-on--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-border-off--active: var\(\s*--checkbox-color-border--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background--focus: var\(\s*--checkbox-color-background-off--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background-on--focus: var\(\s*--checkbox-color-background-on--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-gfx-on--focus: var\(--checkbox-color-gfx--error\);/
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
