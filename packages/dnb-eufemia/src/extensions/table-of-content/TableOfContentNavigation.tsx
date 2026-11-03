@@ -26,7 +26,8 @@ import useMarkerStyle from './useMarkerStyle'
 import useNavigationTarget from './useNavigationTarget'
 import useContentTransition from './useContentTransition'
 import useDisclosureState from './useDisclosureState'
-import { chevron_down, chevron_up } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import type {
   TableOfContentRootProps,
   TableOfContentSection,
