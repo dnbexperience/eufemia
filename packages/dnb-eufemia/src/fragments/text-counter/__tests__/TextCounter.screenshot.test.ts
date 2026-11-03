@@ -28,3 +28,21 @@ describe.each(['ui', 'sbanken'])(`TextCounter for %s`, (themeName) => {
     })
   })
 })
+
+// Eiendom reuses the DNB token palette.
+describe.each(['ui', 'sbanken', 'eiendom'])(
+  'TextCounter on filled surfaces for %s dark',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      colorScheme: 'dark',
+      url: '/uilib/components/fragments/text-counter/demos/',
+    })
+
+    it('keeps over-limit text readable inside a filled form section', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="text-counter-filled-error"]',
+      })
+    })
+  }
+)
