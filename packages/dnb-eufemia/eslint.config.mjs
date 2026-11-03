@@ -1,12 +1,15 @@
-import { FlatCompat } from '@eslint/eslintrc'
 import { fixupConfigRules } from '@eslint/compat'
 import js from '@eslint/js'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import globals from 'globals'
 
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 import vitestPlugin from '@vitest/eslint-plugin'
+import compatPlugin from 'eslint-plugin-compat'
+import importPlugin, { createNodeResolver } from 'eslint-plugin-import-x'
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import playwrightPlugin from 'eslint-plugin-playwright'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import securityPlugin from 'eslint-plugin-security'
 import tsParser from '@typescript-eslint/parser'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
@@ -14,15 +17,6 @@ import componentTypesPlugin from './scripts/eslint/plugins/component-types/index
 import namingConventionsPlugin from './scripts/eslint/plugins/naming-conventions/index.js'
 import spreadPropsPlugin from './scripts/eslint/plugins/spread-props/index.js'
 import playwrightExtrasPlugin from './scripts/eslint/plugins/playwright-extras/index.js'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-const basePlugins = new FlatCompat({
-  baseDirectory: __dirname,
-  resolvePluginsRelativeTo: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-})
 
 const ignorePatterns = [
   '**/tests/**/*.js',
@@ -76,30 +70,28 @@ export default [
       reportUnusedDisableDirectives: 'error',
     },
   },
-  ...fixupConfigRules(
-    basePlugins.extends(
-      'eslint:recommended',
-      'plugin:import/recommended',
-      'plugin:react/recommended',
-      'plugin:react-hooks/recommended',
-      'plugin:jsx-a11y/recommended'
-    )
-  ),
-  ...fixupConfigRules(
-    basePlugins.extends('plugin:compat/recommended').map((config) => ({
-      ...config,
-      files: ['**/src/**/*.{js,jsx,ts,tsx}'],
-      settings: {
-        ...(config.settings || {}),
-        polyfills: [
-          ...(config.settings?.polyfills || []),
-          'Object.hasOwn',
-        ],
-        lintAllEsApis: true,
-        ignoreConditionalChecks: true,
-      },
-    }))
-  ),
+  js.configs.recommended,
+  importPlugin.flatConfigs.recommended,
+  reactHooksPlugin.configs.flat.recommended,
+  // These plugins don't support ESLint 10 yet
+  ...fixupConfigRules([
+    reactPlugin.configs.flat.recommended,
+    jsxA11yPlugin.flatConfigs.recommended,
+  ]),
+  {
+    ...compatPlugin.configs['flat/recommended'],
+    files: ['**/src/**/*.{js,jsx,ts,tsx}'],
+    settings: {
+      ...compatPlugin.configs['flat/recommended'].settings,
+      polyfills: [
+        ...(compatPlugin.configs['flat/recommended'].settings?.polyfills ||
+          []),
+        'Object.hasOwn',
+      ],
+      lintAllEsApis: true,
+      ignoreConditionalChecks: true,
+    },
+  },
   {
     languageOptions: {
       ecmaVersion: 2020,
@@ -123,6 +115,20 @@ export default [
       react: {
         version: 'detect',
       },
+      // Resolve "./BuildInfo" to BuildInfo.ts rather than BuildInfo.cjs
+      'import-x/resolver-next': [
+        createNodeResolver({
+          extensions: [
+            '.ts',
+            '.tsx',
+            '.js',
+            '.jsx',
+            '.mjs',
+            '.cjs',
+            '.json',
+          ],
+        }),
+      ],
     },
     rules: {
       ...securityRecommendedRules,
@@ -155,7 +161,7 @@ export default [
         },
       ],
       'react/react-in-jsx-scope': 'off',
-      'import/namespace': 'off',
+      'import-x/namespace': 'off',
       'no-restricted-imports': [
         'error',
         {
@@ -179,10 +185,10 @@ export default [
       'spaced-comment': ['error', 'always', { markers: ['/'] }],
       'multiline-comment-style': ['error', 'separate-lines'],
       'no-restricted-syntax': ['error', ...restrictedSyntax],
-      'import/export': 'off',
-      'import/no-duplicates': 'error',
-      'import/no-named-as-default': 'error',
-      'import/no-anonymous-default-export': [
+      'import-x/export': 'off',
+      'import-x/no-duplicates': 'error',
+      'import-x/no-named-as-default': 'error',
+      'import-x/no-anonymous-default-export': [
         'error',
         {
           allowArray: true,
@@ -194,7 +200,7 @@ export default [
           allowObject: true,
         },
       ],
-      'import/no-unresolved': 'off',
+      'import-x/no-unresolved': 'off',
       'react/self-closing-comp': [
         'warn',
         {
@@ -242,9 +248,9 @@ export default [
     },
     rules: {
       'no-console': 'off',
-      'import/default': 'off',
-      'import/no-named-as-default-member': 'off',
-      'import/no-named-as-default': 'off',
+      'import-x/default': 'off',
+      'import-x/no-named-as-default-member': 'off',
+      'import-x/no-named-as-default': 'off',
     },
   },
   {
@@ -289,14 +295,10 @@ export default [
       ],
     },
   },
-  ...fixupConfigRules(
-    basePlugins
-      .extends('plugin:@typescript-eslint/recommended')
-      .map((config) => ({
-        ...config,
-        files: tsConfigFiles,
-      }))
-  ),
+  ...tsPlugin.configs['flat/recommended'].map((config) => ({
+    ...config,
+    files: tsConfigFiles,
+  })),
   {
     files: tsConfigFiles,
     languageOptions: {
@@ -318,7 +320,7 @@ export default [
       },
     },
     rules: {
-      'import/named': 'off',
+      'import-x/named': 'off',
       'no-unused-vars': 'off',
 
       // Allow @ts-expect-error and @ts-ignore with a description.
