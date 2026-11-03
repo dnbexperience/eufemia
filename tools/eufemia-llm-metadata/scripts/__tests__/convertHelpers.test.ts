@@ -544,39 +544,6 @@ describe('convertMdxToMd', () => {
     )
   })
 
-  it('replaces ListComponents with markdown sections from regex-matched docs', async () => {
-    const repoRoot = path.resolve(process.cwd(), '..', '..')
-    const docsRoot = path.join(
-      repoRoot,
-      'packages',
-      'dnb-design-system-portal',
-      'src',
-      'docs'
-    )
-    const docsBaseRoot = path.join(
-      repoRoot,
-      'packages',
-      'dnb-design-system-portal',
-      'src'
-    )
-    const inputPath = path.join(docsRoot, 'web', 'components.mdx')
-
-    const output = await convertMdxToMd({
-      inputPath,
-      docsRoot,
-      docsBaseRoot,
-      prettierConfig: {},
-      includeFrontmatter: false,
-      state: { mdxCache: new Map(), inProgress: new Set() },
-    })
-
-    expect(output).not.toContain('ListComponents')
-    expect(output).toContain('## [Accordion](/web/components/accordion/)')
-    expect(output).toContain(
-      'Use Accordion to let people open and close sections of related content.'
-    )
-  })
-
   it('replaces ListElements with markdown list items', async () => {
     const repoRoot = path.resolve(process.cwd(), '..', '..')
     const docsRoot = path.join(

@@ -3,7 +3,9 @@ import waitForApp from './shared/waitForApp'
 
 for (const width of [1440, 390]) {
   test(
-    'groups components by their purpose at ' + width + 'px',
+    'lists components alphabetically with specialist groups at ' +
+      width +
+      'px',
     async ({ page }) => {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.setViewportSize({ width, height: 900 })
@@ -18,51 +20,40 @@ for (const width of [1440, 390]) {
       const menu = page.getByRole('navigation', {
         name: 'Platform Content Menu',
       })
-      const initialUrl = page.url()
       await expect(
         menu.getByRole('link', { name: 'All components A–Z', exact: true })
-      ).toHaveAttribute('href', '/web/components')
+      ).toHaveCount(0)
       await expect(
         menu.getByRole('link', {
           name: 'Components by category',
           exact: true,
         })
       ).toHaveAttribute('href', '/web/components/overview')
-      for (const name of [
-        'Actions',
-        'Inputs',
-        'Navigation',
-        'Feedback and dialogs',
-        'Content and layout',
+      const entries = menu.locator('#web-components-content > li')
+      const titles = await entries.evaluateAll((items) =>
+        items
+          .slice(1)
+          .map((item) =>
+            item
+              .querySelector('a, button, .dnb-sidebar-menu__group__title')
+              ?.textContent?.trim()
+          )
+      )
+      const groups = [
+        'Graphics',
         'Formatting and typography',
         'Accessibility',
         'Utilities',
-      ]) {
-        await expect(
-          menu.getByRole('button', { name, exact: true })
-        ).toBeVisible()
-      }
-      const buttons = menu.getByRole('button', {
-        name: 'Actions',
-        exact: true,
-      })
-      await buttons.click()
-      await expect(page).toHaveURL(initialUrl)
-      for (const name of ['Button', 'Help button', 'Menu']) {
-        await expect(
-          menu.getByRole('link', { name, exact: true })
-        ).toBeVisible()
-      }
-      const inputs = menu.getByRole('button', {
-        name: 'Inputs',
-        exact: true,
-      })
-      await inputs.press('Enter')
-      await expect(page).toHaveURL(initialUrl)
+        'Fragments',
+      ]
+      expect(titles.slice(-groups.length)).toEqual(groups)
+      const general = titles.slice(0, -groups.length)
+      expect(general).toEqual(
+        [...general].sort((a, b) => a.localeCompare(b))
+      )
       for (const name of [
+        'Button',
         'Input',
-        'Text area',
-        'Dropdown',
         'Checkbox',
         'Radio button',
         'Upload',
@@ -88,13 +79,12 @@ for (const width of [1440, 390]) {
       await expect(
         menu.getByRole('link', { name: 'Masked input', exact: true })
       ).toHaveAttribute('aria-current', 'page')
-      const content = menu.getByRole('button', {
-        name: 'Content and layout',
-        exact: true,
-      })
-      if ((await content.getAttribute('aria-expanded')) === 'false') {
-        await content.click()
-      }
+      await expect(
+        menu.getByRole('button', { name: 'Graphics', exact: true })
+      ).toHaveCount(0)
+      await expect(
+        menu.getByText('Graphics', { exact: true })
+      ).toBeVisible()
       await menu
         .getByRole('link', { name: 'Country flags', exact: true })
         .click()
@@ -113,6 +103,31 @@ for (const width of [1440, 390]) {
       )
     }
   )
+}
+
+for (const path of [
+  '/web/components/?from=bookmark#formatting',
+  '/uilib/components/?from=bookmark#formatting',
+]) {
+  test('redirects the old A–Z page at ' + path, async ({ page }) => {
+    await page.goto(path)
+    await waitForApp(page)
+    await expect(page).toHaveURL(
+      '/web/components/overview/?from=bookmark#formatting'
+    )
+    await expect(
+      page.getByRole('heading', {
+        name: 'Components by category',
+        exact: true,
+      })
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', {
+        name: 'Formatting and typography',
+        exact: true,
+      })
+    ).toBeVisible()
+  })
 }
 
 test('uses readable HTML element names and preserves old anchors', async ({

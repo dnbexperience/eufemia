@@ -77,7 +77,8 @@ export function createMdxSidebarNavigation(
     const { frontmatter: fm } = definitions.get(slug)
     const nav = fm.navigation
     const nested = itemsFor(slug)
-    const group = nav.kind === 'group' || nested.length > 0
+    const group =
+      nav.kind === 'group' || nav.kind === 'heading' || nested.length > 0
     const item: NavItem = {
       id: slug ? slug.replaceAll('/', '-') : 'portal-home',
       path: slug || '/',
@@ -89,7 +90,7 @@ export function createMdxSidebarNavigation(
       status: nav.kind === 'placeholder' ? 'todo' : fm.status,
       disabled: nav.kind === 'placeholder',
       isMenuLink: !group && (Boolean(nav.href) || fm.route !== false),
-      isMenuGroup: false,
+      isMenuGroup: nav.kind === 'heading',
       isActive: !group && isActive(slug, fm),
     }
     if (group && fm.route !== false) {

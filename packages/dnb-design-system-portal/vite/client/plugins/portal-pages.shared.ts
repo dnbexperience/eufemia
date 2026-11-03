@@ -31,7 +31,7 @@ export type KnownFrontmatter = {
     href?: string
     dividerBefore?: boolean
     order?: number
-    kind?: 'group' | 'platform' | 'placeholder'
+    kind?: 'group' | 'heading' | 'platform' | 'placeholder'
     platform?: 'web' | 'ios' | 'android'
     hidden?: boolean
   }

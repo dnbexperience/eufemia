@@ -5,10 +5,7 @@ import { getPortalPages } from '../../../../vite/client/plugins/portal-pages'
 import type { MdxNode } from '../../../../vite/client/plugins/portal-pages.shared'
 import { createMdxSidebarNavigation } from '../MdxSidebarNavigation'
 import graphics from '../SidebarGraphics'
-import {
-  categoryOrder,
-  getCategoryId,
-} from '../../parts/componentCategories'
+import { categoryOrder } from '../../parts/componentCategories'
 import { getPageRedirects } from '../../../../vite/client/plugins/portal-pages.shared'
 import {
   findActiveSidebarItemId,
@@ -28,49 +25,18 @@ function flatten(items: NavItem[]): NavItem[] {
 }
 
 describe('MDX-defined Portal navigation', () => {
-  it('uses the same category labels and descriptions in the sidebar and overview', () => {
-    for (const { id, title, description } of categoryOrder) {
+  it('keeps specialist category labels and descriptions aligned with the overview', () => {
+    for (const { id, title, description } of categoryOrder.filter(
+      ({ id }) => ['formatting', 'accessibility', 'utilities'].includes(id)
+    )) {
       const page = pages.find(
         ({ fields }) => fields.slug === 'web/components/categories/' + id
       )
       expect(page.frontmatter.title).toBe(title)
       expect(page.frontmatter.description).toBe(description)
-      expect(page.frontmatter.navigation.kind).toBe('group')
+      expect(page.frontmatter.navigation.kind).toBe('heading')
       expect(page.frontmatter.route).toBe(false)
     }
-  })
-
-  it('uses the same component categories in navigation and documentation', () => {
-    const mismatches: string[] = []
-    const definitions = new Map(
-      pages.map((page) => [page.fields.slug, page])
-    )
-    for (const { fields, frontmatter } of pages) {
-      if (
-        !fields.slug.startsWith('web/components/') ||
-        fields.slug.includes('/fragments/') ||
-        frontmatter.draft ||
-        frontmatter.navigation?.hidden ||
-        frontmatter.category === false
-      ) {
-        continue
-      }
-      let group = definitions.get(frontmatter.navigation?.parent)
-      while (
-        group &&
-        !group.fields.slug.startsWith('web/components/categories/')
-      ) {
-        group = definitions.get(group.frontmatter.navigation.parent)
-      }
-      const expected =
-        'web/components/categories/' + getCategoryId(frontmatter.category)
-      if (group && group.fields.slug !== expected) {
-        mismatches.push(
-          fields.slug + ': ' + group.fields.slug + ' != ' + expected
-        )
-      }
-    }
-    expect(mismatches).toEqual([])
   })
 
   it('lists incoming helper, printing and contributor pages in their sections', () => {
@@ -94,57 +60,67 @@ describe('MDX-defined Portal navigation', () => {
     }
   })
 
-  it('groups components by purpose without losing pages', () => {
+  it('lists components alphabetically before specialist groups without losing pages', () => {
     const components = tree().sections[0].items.find(
       ({ path }) => path === 'web/components'
     )
-    expect(components.subheadings.map(({ title }) => title)).toEqual([
-      'All components A–Z',
-      'Components by category',
-      'Actions',
-      'Inputs',
-      'Navigation',
-      'Feedback and dialogs',
-      'Content and layout',
+    const [overview, ...items] = components.subheadings
+    expect(overview.title).toBe('Components by category')
+    const general = items.filter(({ order }) => !order)
+    const titles = general.map(({ title }) => title)
+    expect(titles).toEqual([...titles].sort((a, b) => a.localeCompare(b)))
+    expect(titles).toEqual(
+      expect.arrayContaining([
+        'Accordion',
+        'Autocomplete',
+        'Button',
+        'Checkbox',
+        'Date picker',
+        'Dialog',
+        'Dropdown',
+        'Input',
+        'Masked input',
+        'Radio button',
+        'Switch',
+        'Text area',
+        'Upload',
+      ])
+    )
+    const groups = items.filter(({ order }) => order < 0)
+    expect(groups.map(({ title }) => title)).toEqual([
+      'Graphics',
       'Formatting and typography',
       'Accessibility',
       'Utilities',
       'Fragments',
     ])
-    for (const title of ['Actions', 'Inputs', 'Navigation']) {
-      const group = components.subheadings.find(
-        (item) => item.title === title
-      )
-      expect(group.isMenuGroup).toBe(false)
-      expect(group.isMenuLink).toBe(false)
+    expect(items.slice(general.length)).toEqual(groups)
+    const expectedGroups = {
+      Graphics: ['Country flags', 'Icons', 'Logos'],
+      'Formatting and typography': [
+        'Date format',
+        'Form label',
+        'Heading',
+        'List format',
+        'Number format',
+      ],
+      Accessibility: ['ARIA live', 'Skip content', 'Visually hidden'],
+      Utilities: [
+        'Copy on click',
+        'Height animation',
+        'Portal root',
+        'Scroll view',
+      ],
     }
-    const inputs = components.subheadings.find(
-      ({ title }) => title === 'Inputs'
-    )
-    expect(inputs.subheadings.map(({ title }) => title)).toEqual(
-      expect.arrayContaining([
-        'Input',
-        'Masked input',
-        'Text area',
-        'Checkbox',
-        'Radio button',
-        'Switch',
-        'Dropdown',
-        'Autocomplete',
-        'Date picker',
-        'Slider',
-        'Upload',
-      ])
-    )
-    const actions = components.subheadings.find(
-      ({ title }) => title === 'Actions'
-    )
-    expect(actions.subheadings.map(({ title }) => title)).toContain(
-      'Button'
-    )
-    expect(
-      actions.subheadings.some(({ title }) => title === 'Buttons')
-    ).toBe(false)
+    for (const [title, expected] of Object.entries(expectedGroups)) {
+      const group = groups.find((item) => item.title === title)
+      expect(group.isMenuGroup).toBe(true)
+      expect(group.isMenuLink).toBe(false)
+      const [data] = toSidebarMenuData([group], () => undefined)
+      expect(data.type).toBe('group')
+      expect(data.collapsible).toBeUndefined()
+      expect(group.subheadings.map(({ title }) => title)).toEqual(expected)
+    }
     const links = flatten([components]).filter(
       ({ isMenuLink }) => isMenuLink
     )
@@ -159,8 +135,20 @@ describe('MDX-defined Portal navigation', () => {
       )
       .map(({ fields }) => fields.slug)
     expect(links.map(({ path }) => path).sort()).toEqual(
-      ['web/components', ...expectedPaths].sort()
+      expectedPaths.sort()
     )
+  })
+
+  it('replaces the standalone A–Z page with redirects to the category overview', () => {
+    const components = pages.find(
+      ({ fields }) => fields.slug === 'web/components'
+    )
+    expect(components.frontmatter.route).toBe(false)
+    for (const from of ['/web/components', '/uilib/components']) {
+      expect(getPageRedirects(files)).toContainEqual(
+        expect.objectContaining({ from, to: '/web/components/overview/' })
+      )
+    }
   })
 
   it('uses readable component labels and matching page headings', () => {

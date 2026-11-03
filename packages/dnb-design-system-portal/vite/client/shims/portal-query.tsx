@@ -46,7 +46,7 @@ const staticQueryCache = new Map<string, unknown>()
 // useStaticQuery returns the pre-computed allMdx data.
 // Gatsby's GraphQL layer filters (e.g. title != null, draft != true) –
 // replicate the most common filters here so portal code that relies on
-// them (SidebarMenu, ListComponents) doesn't crash on missing titles.
+// them (SidebarMenu, ListComponentsOverview) doesn't crash on missing titles.
 export function useStaticQuery<
   T extends StaticQueryConnections = { allMdx: StaticQueryConnection },
 >(query: unknown): StaticQueryResultFull<T> {
