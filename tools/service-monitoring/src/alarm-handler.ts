@@ -80,6 +80,15 @@ export async function handler(event: Event) {
     })
     stage = 'Slack bot configuration'
     const slack = slackApi(parseSlackConfig(await readSecret(secret)))
+    const region = process.env.AWS_REGION
+    const aws = region
+      ? {
+          region,
+          logGroups: JSON.parse(
+            process.env.MONITOR_LOG_GROUPS || '{}'
+          ) as Record<string, string>,
+        }
+      : undefined
     const key = { service: { S: 'notifications' } }
     for (const observation of records) {
       stage = 'notification state and Slack delivery'
@@ -105,6 +114,7 @@ export async function handler(event: Event) {
           )
         },
         ...slack,
+        aws,
       })
     }
   } catch (error) {
