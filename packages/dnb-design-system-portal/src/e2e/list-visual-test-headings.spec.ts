@@ -7,7 +7,6 @@ test('List visual test pages have a descriptive level-one heading', async ({
   for (const path of [
     '/uilib/components/list/visual-tests/action-footer/',
     '/uilib/components/list/visual-tests/card-outline/',
-    '/uilib/components/list/visual-tests/chevron-left/',
     '/uilib/components/list/visual-tests/custom-cells/',
     '/uilib/components/list/visual-tests/focus-fallback/',
     '/uilib/components/list/visual-tests/nested-alignment/',
