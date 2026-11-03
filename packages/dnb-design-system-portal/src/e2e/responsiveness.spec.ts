@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 import isDev from './shared/isDev'
 
 for (const width of [1000, 1200]) {
-  for (const path of ['/', '/web/components/']) {
+  for (const path of ['/', '/web/components/overview/']) {
     test(
       'keeps the compact logo in place during hydration at ' +
         width +
@@ -39,7 +39,7 @@ for (const width of [1000, 1200]) {
 }
 
 test.describe('Responsiveness', () => {
-  for (const path of ['/', '/web/components/']) {
+  for (const path of ['/', '/web/components/overview/']) {
     test(
       'aligns the compact header logo with the small-screen logo on ' +
         path,
@@ -419,7 +419,7 @@ test.describe('Responsiveness', () => {
     })
     const prerenderedPage = await prerenderedContext.newPage()
     await prerenderedPage.goto(
-      new URL('/web/components/', page.url()).toString(),
+      new URL('/web/components/overview/', page.url()).toString(),
       {
         waitUntil: 'domcontentloaded',
       }

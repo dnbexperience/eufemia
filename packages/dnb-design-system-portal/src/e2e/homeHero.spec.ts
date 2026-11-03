@@ -46,7 +46,7 @@ for (const width of [390, 1600]) {
         .toBe(before.y)
       await trigger.click()
       const drawer = page.getByRole('dialog', {
-        name: 'Portal Tools',
+        name: 'Settings',
         exact: true,
       })
       await expect(drawer).toBeVisible()
@@ -62,7 +62,7 @@ for (const brand of ['carnegie', 'eiendom']) {
   test(
     'starts ' +
       brand +
-      ' in light mode from Home and names it in Portal Tools',
+      ' in light mode from Home and names it in Settings',
     async ({ page }) => {
       await page.emulateMedia({
         colorScheme: 'dark',
@@ -85,7 +85,8 @@ for (const brand of ['carnegie', 'eiendom']) {
       await expect(page.locator('body')).toHaveClass(/color-scheme--light/)
       await expect(page.locator('header #portal-tools')).toHaveText(
         (brand === 'carnegie' ? 'DNB Carnegie' : 'DNB Eiendom') +
-          ' - Light'
+          ' - Light Settings',
+        { useInnerText: true }
       )
       const dark = page.getByRole('switch', {
         name: 'Dark mode',
@@ -243,7 +244,7 @@ for (const width of [1600, 800, 390]) {
         )
         await page.locator('header #portal-tools').click()
         const drawer = page.getByRole('dialog', {
-          name: 'Portal Tools',
+          name: 'Settings',
           exact: true,
         })
         await expect(drawer).toBeVisible()
@@ -576,7 +577,7 @@ test('loads optional motion when enabled and keeps controls usable if it fails',
   await page.locator('header #portal-tools').focus()
   await page.keyboard.press('Enter')
   await expect(
-    page.getByRole('dialog', { name: 'Portal Tools', exact: true })
+    page.getByRole('dialog', { name: 'Settings', exact: true })
   ).toBeVisible()
 })
 
