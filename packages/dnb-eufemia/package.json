@@ -133,7 +133,7 @@
     "csstype": "3.2.3",
     "date-fns": "4.4.0",
     "intl-messageformat": "11.2.3",
-    "postcss-selector-parser": "7.1.6",
+    "postcss-selector-parser": "7.1.7",
     "zod": "4.6.6"
   },
   "peerDependencies": {
@@ -226,7 +226,7 @@
     "fs-extra": "10.0.0",
     "globals": "17.6.0",
     "globby": "11.0.4",
-    "hono": "4.13.13",
+    "hono": "4.13.14",
     "issue-parser": "7.0.2",
     "jest-axe": "11.0.0",
     "jsdom": "30.1.1",
@@ -239,7 +239,7 @@
     "ora": "5.4.1",
     "playwright": "1.65.0-alpha-2026-10-24",
     "pngjs": "7.0.0",
-    "postcss": "8.5.31",
+    "postcss": "8.5.32",
     "postcss-preset-env": "11.2.1",
     "prettier": "3.8.1",
     "prettier-package-json": "2.8.0",
