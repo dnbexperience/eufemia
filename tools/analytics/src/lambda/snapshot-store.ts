@@ -84,8 +84,7 @@ export type McpUsageDaily = {
 
 export type McpUsageDay = { date: string; count: number }
 
-// Requests per Eufemia version. The lookup counts are null for versions that
-// don't report misses, so they never read as zero.
+// Null lookup counts mean the version is too old to report misses.
 export type McpVersionUsage = RankedCount & {
   componentLookups: number | null
   missedLookups: number | null

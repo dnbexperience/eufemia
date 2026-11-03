@@ -74,7 +74,6 @@ const MCP_TOP_LIMIT = 20
 // version, so this bounds the scan and keeps the list on current versions.
 const MCP_VERSION_WINDOW_DAYS = 90
 
-// The first release whose MCP servers report missed component lookups
 const FIRST_VERSION_REPORTING_MISSES = '11.16.0'
 
 function reportsMissedLookups(version: string): boolean {

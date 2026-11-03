@@ -32,7 +32,7 @@ import {
 } from './data'
 import Kpis from './components/Kpis'
 import BarList from './components/BarList'
-import MissedLookupsTable from './components/MissedLookupsTable'
+import MissedLookupsPerVersion from './components/MissedLookupsPerVersion'
 import RankedTable from './components/RankedTable'
 import './App.scss'
 
@@ -434,11 +434,6 @@ function McpUsagePanel({
   const total = usage?.total ?? 0
   const missedLookups = usage?.missedLookups ?? 0
   const perVersion = usage?.perVersion ?? []
-  const versionsReportingMisses = perVersion
-    .filter((version) => version.componentLookups)
-    .sort((a, b) =>
-      b.name.localeCompare(a.name, undefined, { numeric: true })
-    )
 
   if (total === 0) {
     return <P className="dashboard__meta">{`No ${label} usage yet.`}</P>
@@ -509,18 +504,7 @@ function McpUsagePanel({
         </Card>
       )}
 
-      {versionsReportingMisses.length > 0 && (
-        <Card stack>
-          <H2 size="medium">Missed lookups per version, last 90 days</H2>
-          <P className="dashboard__meta">
-            Lists only versions that report missed component lookups.
-          </P>
-          <MissedLookupsTable
-            caption={`${label} missed lookups per version, last 90 days`}
-            versions={versionsReportingMisses}
-          />
-        </Card>
-      )}
+      <MissedLookupsPerVersion label={label} versions={perVersion} />
     </Flex.Stack>
   )
 }
