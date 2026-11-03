@@ -30,6 +30,13 @@ const withFocusVisible =
 const withoutFocusVisible =
   '(not (selector(:has(*)))) and (not (selector(:focus-visible)))'
 
+const cellBoxHeight =
+  'clamp(var(--line-height-basis), calc(var(--list-item-height) - 2 * var(--list-item-padding)), 2rem)'
+
+// Sass keeps the line breaks of a custom property value
+const normalize = (value: string) =>
+  value.replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')')
+
 describe('List scss', () => {
   it('should show the outline of a focused item in browsers without :has()', () => {
     expect(getFallbackRules()).toEqual([
@@ -95,7 +102,7 @@ describe('List scss', () => {
       const rule = decl.parent as postcss.Rule
 
       if (decl.prop === '--list-item-cell-height') {
-        surfaces.push(`${rule.selector} { ${decl.value} }`)
+        surfaces.push(`${rule.selector} { ${normalize(decl.value)} }`)
       }
 
       if (
@@ -118,7 +125,9 @@ describe('List scss', () => {
     })
 
     expect(fixedOutsideSurface).toEqual([])
-    expect(surfaces).toEqual(['.dnb-list--variant-basic { 2rem }'])
+    expect(surfaces).toEqual([
+      `.dnb-list--variant-basic { ${cellBoxHeight} }`,
+    ])
   })
 
   it('should only set the height of the cell box in one place', () => {
@@ -128,13 +137,28 @@ describe('List scss', () => {
     postcss.parse(css).walkDecls((decl) => {
       if (/(^|[^.\d])2rem\b/.test(decl.value)) {
         const rule = decl.parent as postcss.Rule
-        boxHeights.push(`${rule.selector} { ${decl.prop}: ${decl.value} }`)
+        boxHeights.push(
+          `${rule.selector} { ${decl.prop}: ${normalize(decl.value)} }`
+        )
       }
     })
 
     expect(boxHeights).toEqual([
-      '.dnb-list--variant-basic { --list-item-cell-height: 2rem }',
+      `.dnb-list--variant-basic { --list-item-cell-height: ${cellBoxHeight} }`,
     ])
+  })
+
+  // A lower --list-item-height makes the rows lower, like before the cells
+  // got a box. The box stays between one text line and 2rem.
+  it('should derive the cell box from the row height', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const cellHeights: Array<string> = []
+
+    postcss.parse(css).walkDecls('--list-item-cell-height', (decl) => {
+      cellHeights.push(normalize(decl.value))
+    })
+
+    expect(cellHeights).toEqual([cellBoxHeight])
   })
 
   // Like in the design, a control taller than the cell box (a 40px Button)

@@ -42,7 +42,14 @@
     --list-item-height: 4rem;
     --list-item-rounded-corner: var(--token-radius-xl);
     --list-item-row-gap: 0.5rem;
-    --list-item-cell-height: 2rem;
+
+    // The content height of a one-line row (4rem - 2 × 1rem), so a lower
+    // --list-item-height still makes the rows lower
+    --list-item-cell-height: clamp(
+      var(--line-height-basis),
+      calc(var(--list-item-height) - 2 * var(--list-item-padding)),
+      2rem
+    );
     --list-item-chevron-margin: 1rem;
     --list-item-chevron-height: 1.5rem;
     --list-item-outline-width: 0.0625rem;
