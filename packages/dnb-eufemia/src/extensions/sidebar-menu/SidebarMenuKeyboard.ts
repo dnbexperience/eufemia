@@ -9,6 +9,9 @@ export function getSidebarMenuItems(container: HTMLElement) {
       item.tabIndex >= 0 &&
       !item.matches(':disabled, [aria-disabled="true"]') &&
       !item.closest('[hidden], [inert], [aria-hidden="true"]') &&
+      !item.closest(
+        '.dnb-sidebar-menu__accordion__trigger[aria-expanded="false"] ~ .dnb-sidebar-menu__accordion__content'
+      ) &&
       item.closest('.dnb-sidebar-menu') === menu &&
       item.getClientRects().length > 0 &&
       getComputedStyle(item).visibility === 'visible'

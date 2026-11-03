@@ -1,6 +1,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SidebarMenu from '../SidebarMenu'
+import { getSidebarMenuItems } from '../SidebarMenuKeyboard'
 
 describe('SidebarMenu keyboard navigation', () => {
   beforeEach(() => {
@@ -343,7 +344,7 @@ describe('SidebarMenu keyboard navigation', () => {
     expect(getAction('settings')).toHaveFocus()
   })
 
-  it('skips closing content when browser find support is disabled', () => {
+  it('skips removed content when browser find support is disabled', () => {
     const renderMenu = (openItems: string[]) => (
       <SidebarMenu.Root openOnFind={false} openItems={openItems}>
         <SidebarMenu.Accordion id="products" text="Products">
@@ -361,6 +362,95 @@ describe('SidebarMenu keyboard navigation', () => {
     getAction('products').focus()
     press('ArrowDown')
     expect(getAction('settings')).toHaveFocus()
+  })
+
+  it.each([false, true, undefined])(
+    'uses the accordion state when content remains mounted (expanded: %s)',
+    (expanded) => {
+      render(
+        <nav className="dnb-sidebar-menu">
+          <ul>
+            <li className="dnb-sidebar-menu__accordion">
+              <button
+                type="button"
+                className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger"
+                aria-expanded={expanded}
+              >
+                Products
+              </button>
+              <div className="dnb-sidebar-menu__accordion__content">
+                <ul>
+                  <li className="dnb-sidebar-menu__accordion">
+                    <button
+                      type="button"
+                      className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger"
+                      aria-expanded="true"
+                    >
+                      Cards
+                    </button>
+                    <div className="dnb-sidebar-menu__accordion__content">
+                      <button
+                        type="button"
+                        className="dnb-sidebar-menu__item__action"
+                      >
+                        Debit card
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="dnb-sidebar-menu__item__action"
+              >
+                Settings
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )
+
+      expect(
+        getSidebarMenuItems(document.querySelector('nav')).map(
+          (item) => item.textContent
+        )
+      ).toEqual(
+        expanded === false
+          ? ['Products', 'Settings']
+          : ['Products', 'Cards', 'Debit card', 'Settings']
+      )
+    }
+  )
+
+  it('does not emit changes or persist state for Left on a closed accordion', () => {
+    const onOpenChange = vi.fn()
+    const onOpenItemsChange = vi.fn()
+    render(
+      <SidebarMenu.Root
+        openItemsStorageKey="closed-keyboard-test"
+        onOpenItemsChange={onOpenItemsChange}
+      >
+        <SidebarMenu.Accordion
+          id="products"
+          text="Products"
+          onOpenChange={onOpenChange}
+        >
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+    const setItem = vi.spyOn(Storage.prototype, 'setItem')
+
+    getAction('products').focus()
+    press('ArrowLeft')
+    press('ArrowLeft')
+
+    expect(getAction('products')).toHaveFocus()
+    expect(onOpenChange).not.toHaveBeenCalled()
+    expect(onOpenItemsChange).not.toHaveBeenCalled()
+    expect(setItem).not.toHaveBeenCalled()
   })
 
   it('opens with Right, focuses the first enabled child, and closes with Left', async () => {

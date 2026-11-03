@@ -291,7 +291,9 @@ export default function SidebarMenuAccordion(
       },
       focusFirstChild,
       closeSelf: () => {
-        setOpen(false)
+        if (isOpen) {
+          setOpen(false)
+        }
         accordionRef.current
           ?.querySelector<HTMLElement>(
             ':scope > .dnb-sidebar-menu__accordion__trigger'
