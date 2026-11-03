@@ -12,7 +12,7 @@ render(<PromptInput />)
 
 ## Description
 
-`Ai.PromptInput` is where the user writes a message. On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices (`hover: none` and `pointer: coarse`), Enter adds a new line; use the send button to submit. Set `isBusy` while a reply is pending or streaming. With `onStop`, the send button becomes a stop button. The attachment and microphone buttons are only shown when you give their callbacks. After sending, focus returns to the textarea. Stopping also returns keyboard focus when the empty input makes Send disabled or removes it.
+`Ai.PromptInput` is where the user writes a message. On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices (`hover: none` and `pointer: coarse`), Enter adds a new line; use the send button to submit. Set `isBusy` while a reply is pending or streaming. With `onStop`, the send button becomes a stop button. After sending, focus returns to the textarea. Stopping also returns keyboard focus when the empty compact input removes the stop button.
 
 Use `variant="compact"` for a single line on a welcome screen. It shows the Aino icon by default and hides the send button until the user enters text. While busy, the stop button stays available even when the input is empty. Use `icon` to change the leading icon or `icon={null}` to hide it.
 
@@ -21,3 +21,11 @@ The default variant is flat and gains a shadow when the textarea is focused. The
 With `disabled`, the card uses Textarea's disabled background and border tokens. Set `textareaProps.status` for error feedback; the card keeps its error border while the textarea is focused.
 
 Pass context chips as `children` to show attachments or references above the input. Your application owns their data and removal actions. Use controls with `type="button"` so removing context does not submit the message.
+
+## Custom actions
+
+Use `startActions` to place controls on the left of the toolbar, or before the textarea in the compact variant. Use `endActions` to place controls before the built-in Send or Stop button. Both accept React content, including multiple buttons, a menu or a custom component. Their DOM order follows the visual order for keyboard navigation.
+
+Compose actions with [Button](/uilib/components/button), [Dropdown](/uilib/components/dropdown) or your own controls. PromptInput does not provide attachment or microphone buttons because their behavior and labels belong to the application. For icon-only buttons, provide a translated `aria-label` and a tooltip. Use `type="button"` on custom buttons to avoid submitting the message.
+
+`disabled` applies to the textarea and built-in Send or Stop button. Pass the same disabled state to custom controls when they should also be unavailable. PromptInput does not change the properties of custom content. Keep controls concise in the compact variant; use the default variant or move additional actions into a menu when space is limited.

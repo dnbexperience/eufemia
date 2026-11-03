@@ -194,6 +194,10 @@ export type AiPromptInputProps = {
   dropShadow?: boolean
   /** Context shown above the input, such as removable attachment or reference chips. */
   children?: ReactNode
+  /** Custom controls at the start of the toolbar, or before the textarea in the compact variant. The application owns their labels, behavior and disabled state. */
+  startActions?: ReactNode
+  /** Custom controls before the built-in Send or Stop button. The application owns their labels, behavior and disabled state. */
+  endActions?: ReactNode
   /** The text value. Use it together with `onChange` to control the value. Without it, the text is cleared after submit. */
   value?: string
   /** Placeholder text. Defaults to a translated text. */
@@ -207,7 +211,7 @@ export type AiPromptInputProps = {
   isBusy?: boolean
   /** Show a character counter with the given maximum number of characters. Text that is longer is not sent. */
   characterCounter?: number
-  /** Disable the input and its buttons. */
+  /** Disable the input and built-in Send or Stop button. Disable custom actions separately. */
   disabled?: boolean
   /** Properties forwarded to the [Textarea](/uilib/components/textarea/properties), e.g. `status` for an error message. */
   textareaProps?: Partial<TextareaProps>
@@ -221,10 +225,6 @@ export type AiPromptInputProps = {
   onSubmit?: (event: AiPromptInputSubmitEvent) => void
   /** Called when the user presses the stop button. */
   onStop?: () => void
-  /** Called when the user presses the attachment button. The button is only shown when this is given. */
-  onAttachmentClick?: (args: ButtonClickEvent) => void
-  /** Called when the user presses the microphone button. The button is only shown when this is given. */
-  onMicrophoneClick?: (args: ButtonClickEvent) => void
 } & SpacingProps &
   Omit<
     HTMLAttributes<HTMLFormElement>,

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import { PromptInput } from '..'
+import Button from '../../../components/Button'
 import { bank } from '../../../icons'
 
 const getTextarea = () => document.querySelector('textarea')
@@ -46,10 +47,7 @@ describe('PromptInput', () => {
   it('translates texts', () => {
     render(
       <Provider locale="en-GB">
-        <PromptInput
-          onAttachmentClick={vi.fn()}
-          onMicrophoneClick={vi.fn()}
-        />
+        <PromptInput />
       </Provider>
     )
 
@@ -58,9 +56,7 @@ describe('PromptInput', () => {
       'aria-placeholder',
       'Write a message'
     )
-    const buttons = document.querySelectorAll('button')
-    expect(buttons[0]).toHaveAccessibleName('Add attachment')
-    expect(buttons[1]).toHaveAccessibleName('Use microphone')
+    expect(getSubmit()).toHaveAccessibleName('Send')
   })
 
   it('submits the trimmed text on Enter and clears it', async () => {
@@ -115,7 +111,7 @@ describe('PromptInput', () => {
     expect(getTextarea()).toHaveFocus()
   })
 
-  it('returns focus to the default input when stopping disables Send', async () => {
+  it('returns focus to the default input after stopping an empty prompt', async () => {
     const Demo = () => {
       const [busy, setBusy] = useState(true)
       return <PromptInput isBusy={busy} onStop={() => setBusy(false)} />
@@ -230,36 +226,85 @@ describe('PromptInput', () => {
     expect(getSubmit()).not.toBeDisabled()
   })
 
-  it('only renders the attachment and microphone buttons when callbacks are given', async () => {
-    const { rerender } = render(<PromptInput />)
-    expect(document.querySelectorAll('button')).toHaveLength(1)
+  it.each(['default', 'compact'] as const)(
+    'composes custom actions in the %s layout without submitting',
+    async (variant) => {
+      const onStart = vi.fn()
+      const onEnd = vi.fn()
+      const onSubmit = vi.fn()
+      render(
+        <PromptInput
+          variant={variant}
+          value="Hello"
+          onSubmit={onSubmit}
+          startActions={
+            <>
+              <Button text="Attach a document" onClick={onStart} />
+              <select aria-label="Response style" defaultValue="short">
+                <option value="short">Short</option>
+                <option value="detailed">Detailed</option>
+              </select>
+            </>
+          }
+          endActions={
+            <button type="button" onClick={onEnd}>
+              Record
+            </button>
+          }
+        />
+      )
+      const start = document.querySelector(
+        '.dnb-ai-prompt-input__start-actions'
+      )
+      const end = document.querySelector('.dnb-ai-prompt-input__actions')
+      expect(start.querySelector('select')).toHaveValue('short')
+      expect(Array.from(end.querySelectorAll('button')).at(-1)).toBe(
+        getSubmit()
+      )
+      expect(
+        Boolean(
+          start.compareDocumentPosition(getTextarea()) &
+          Node.DOCUMENT_POSITION_FOLLOWING
+        )
+      ).toBe(variant === 'compact')
+      await userEvent.click(start.querySelector('button'))
+      await userEvent.click(end.querySelector('button'))
+      expect(onStart).toHaveBeenCalledOnce()
+      expect(onEnd).toHaveBeenCalledOnce()
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(getTextarea()).toHaveValue('Hello')
+      expect(document.querySelector('form')).not.toHaveAttribute(
+        'startActions'
+      )
+      expect(document.querySelector('form')).not.toHaveAttribute(
+        'endActions'
+      )
+    }
+  )
 
-    const onAttachmentClick = vi.fn()
-    const onMicrophoneClick = vi.fn()
-    rerender(
-      <PromptInput
-        onAttachmentClick={onAttachmentClick}
-        onMicrophoneClick={onMicrophoneClick}
-      />
+  it('keeps custom actions mounted when Send becomes Stop', () => {
+    const actions = <Button text="Choose a source" />
+    const { rerender } = render(<PromptInput endActions={actions} />)
+    const button = document.querySelector(
+      '.dnb-ai-prompt-input__actions button'
     )
-
-    const buttons = document.querySelectorAll('button')
-    expect(buttons).toHaveLength(3)
-    expect(buttons[0]).toHaveAttribute('type', 'button')
-
-    await userEvent.click(buttons[0])
-    await userEvent.click(buttons[1])
-    expect(onAttachmentClick).toHaveBeenCalledTimes(1)
-    expect(onMicrophoneClick).toHaveBeenCalledTimes(1)
+    expect(button).toHaveTextContent('Choose a source')
+    rerender(<PromptInput isBusy onStop={vi.fn()} endActions={actions} />)
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__actions button')
+    ).toBe(button)
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__stop')
+    ).toBeInTheDocument()
   })
 
-  it('renders the compact variant with icon buttons', () => {
+  it('renders the compact variant with custom actions', () => {
     render(
       <PromptInput
         variant="compact"
         isBusy
         onStop={vi.fn()}
-        onAttachmentClick={vi.fn()}
+        startActions={<Button text="Attach" />}
       />
     )
 
@@ -274,8 +319,13 @@ describe('PromptInput', () => {
     ).toHaveAccessibleName('Stopp')
   })
 
-  it('shows the assistant icon and microphone without a send button when compact and empty', async () => {
-    render(<PromptInput variant="compact" onMicrophoneClick={vi.fn()} />)
+  it('shows the assistant icon and custom actions without a send button when compact and empty', async () => {
+    render(
+      <PromptInput
+        variant="compact"
+        endActions={<Button text="Record" />}
+      />
+    )
     expect(
       document.querySelector('.dnb-ai-prompt-input__icon')
     ).toHaveAttribute('aria-hidden', 'true')
@@ -407,7 +457,14 @@ describe('PromptInput', () => {
   })
 
   it('disables the input and buttons', () => {
-    render(<PromptInput value="Hi" disabled onAttachmentClick={vi.fn()} />)
+    render(
+      <PromptInput
+        value="Hi"
+        disabled
+        startActions={<Button disabled text="Attach" />}
+        endActions={<Button disabled text="Record" />}
+      />
+    )
 
     expect(getTextarea()).toBeDisabled()
     document.querySelectorAll('button').forEach((button) => {
@@ -463,7 +520,7 @@ describe('PromptInput', () => {
     const onBlur = vi.fn()
     render(
       <PromptInput
-        onAttachmentClick={vi.fn()}
+        startActions={<Button text="Attach" />}
         textareaProps={{ onFocus, onBlur }}
       />
     )
@@ -472,7 +529,7 @@ describe('PromptInput', () => {
     expect(form).toHaveClass('dnb-ai-prompt-input--focus')
     expect(onFocus).toHaveBeenCalledOnce()
     await userEvent.click(
-      document.querySelector('.dnb-ai-prompt-input__icon-button')
+      document.querySelector('.dnb-ai-prompt-input__start-actions button')
     )
     expect(form).not.toHaveClass('dnb-ai-prompt-input--focus')
     expect(onBlur).toHaveBeenCalledOnce()
@@ -491,13 +548,13 @@ describe('PromptInput', () => {
       <>
         <PromptInput
           characterCounter={111}
-          onAttachmentClick={vi.fn()}
-          onMicrophoneClick={vi.fn()}
+          startActions={<Button text="Attach" />}
+          endActions={<Button text="Record" />}
         />
         <PromptInput
           variant="compact"
-          onAttachmentClick={vi.fn()}
-          onMicrophoneClick={vi.fn()}
+          startActions={<Button text="Attach" />}
+          endActions={<Button text="Record" />}
         />
       </>
     )

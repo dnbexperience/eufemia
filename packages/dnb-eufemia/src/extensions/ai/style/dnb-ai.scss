@@ -309,12 +309,6 @@
     .dnb-ai-prompt-input__icon {
       color: var(--token-color-icon-neutral-alternative);
     }
-
-    .dnb-ai-prompt-input__icon-button {
-      --button-color-icon--default: var(
-        --token-color-icon-neutral-alternative
-      );
-    }
   }
 
   // The card draws the border, so the textarea only shows its text
@@ -360,15 +354,16 @@
     align-self: center;
   }
 
-  &__icon-button {
-    --button-color-icon--default: var(--token-color-icon-neutral);
-  }
-
   &__toolbar,
+  &__start-actions,
   &__actions {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  &__toolbar {
+    flex-wrap: wrap;
   }
 
   &__actions {

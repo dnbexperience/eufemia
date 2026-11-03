@@ -26,8 +26,6 @@ export default {
       promptPlaceholder: 'Skriv ett meddelande',
       send: 'Skicka',
       stop: 'Stoppa',
-      addAttachment: 'Lägg till bilaga',
-      useMicrophone: 'Använd mikrofon',
       suggestions: 'Förslag',
       conversationLabel: 'Konversation',
       scrollToBottom: 'Gå till senaste meddelandet',

@@ -241,6 +241,16 @@ export const AiPromptInputProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  startActions: {
+    doc: 'Custom controls at the start of the toolbar, or before the textarea in the compact variant. The application owns their labels, behavior and disabled state.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  endActions: {
+    doc: 'Custom controls before the built-in Send or Stop button. The application owns their labels, behavior and disabled state.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   variant: {
     doc: 'Use `default` for a multiline card with the send button below the text, or `compact` for an input with a leading icon and inline actions. The compact send button is hidden while the input is empty.',
     type: ['"default"', '"compact"'],
@@ -273,7 +283,7 @@ export const AiPromptInputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'Disable the input and its buttons.',
+    doc: 'Disable the input and built-in Send or Stop button. Disable custom actions separately.',
     type: 'boolean',
     status: 'optional',
   },
@@ -302,16 +312,6 @@ export const AiPromptInputEvents: PropertiesTableProps = {
   },
   onStop: {
     doc: 'Called when the user presses the stop button.',
-    type: 'function',
-    status: 'optional',
-  },
-  onAttachmentClick: {
-    doc: 'Called when the user presses the attachment button. The button is only shown when this is given.',
-    type: 'function',
-    status: 'optional',
-  },
-  onMicrophoneClick: {
-    doc: 'Called when the user presses the microphone button. The button is only shown when this is given.',
     type: 'function',
     status: 'optional',
   },

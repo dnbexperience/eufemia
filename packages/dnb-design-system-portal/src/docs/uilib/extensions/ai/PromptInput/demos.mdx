@@ -22,9 +22,17 @@ Use `dropShadow={false}` for the flat inline surface.
 
 <Examples.AiPromptInputInline />
 
+### Custom actions
+
+Place buttons or other controls in `startActions` and `endActions`. These examples compose a web search toggle and a source chooser using existing Eufemia components. Use their state in your application's submit handler when sending a request.
+
+<Examples.AiPromptInputCustomActions />
+
+<Examples.AiPromptInputCustomActions variant="compact" />
+
 ### Prompt input with context
 
-Pass your context as children. The application owns the reference and its removal.
+Pass your context as children. The application owns the reference and its removal. The custom action adds it again after removal.
 
 <Examples.AiPromptInputContext />
 

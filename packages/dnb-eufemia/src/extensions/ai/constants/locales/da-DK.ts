@@ -26,8 +26,6 @@ export default {
       promptPlaceholder: 'Skriv en besked',
       send: 'Send',
       stop: 'Stop',
-      addAttachment: 'Tilføj vedhæftning',
-      useMicrophone: 'Brug mikrofon',
       suggestions: 'Forslag',
       conversationLabel: 'Samtale',
       scrollToBottom: 'Gå til seneste besked',

@@ -26,8 +26,6 @@ export default {
       promptPlaceholder: 'Write a message',
       send: 'Send',
       stop: 'Stop',
-      addAttachment: 'Add attachment',
-      useMicrophone: 'Use microphone',
       suggestions: 'Suggestions',
       conversationLabel: 'Conversation',
       scrollToBottom: 'Go to latest message',

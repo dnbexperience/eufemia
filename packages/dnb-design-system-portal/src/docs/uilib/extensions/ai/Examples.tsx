@@ -36,6 +36,7 @@ import {
   Button,
   CopyOnClick,
   Dialog,
+  Dropdown,
   List,
   NumberFormat,
   P,
@@ -48,6 +49,7 @@ import {
   bank,
   card,
   close,
+  globe,
   loan,
   pay_from,
   refresh,
@@ -385,11 +387,7 @@ export function AiMessageComposition() {
 export function AiPromptInputDefault() {
   return (
     <ComponentBox data-visual-test="ai-prompt-input-default">
-      <PromptInput
-        characterCounter={111}
-        onAttachmentClick={() => null}
-        onMicrophoneClick={() => null}
-      />
+      <PromptInput characterCounter={111} />
     </ComponentBox>
   )
 }
@@ -397,11 +395,7 @@ export function AiPromptInputDefault() {
 export function AiPromptInputCompact() {
   return (
     <ComponentBox data-visual-test="ai-prompt-input-compact">
-      <PromptInput
-        variant="compact"
-        placeholder="Ask Aino"
-        onMicrophoneClick={() => null}
-      />
+      <PromptInput variant="compact" placeholder="Ask Aino" />
     </ComponentBox>
   )
 }
@@ -413,8 +407,64 @@ export function AiPromptInputInline() {
         variant="compact"
         dropShadow={false}
         placeholder="Ask Aino"
-        onMicrophoneClick={() => null}
       />
+    </ComponentBox>
+  )
+}
+
+export function AiPromptInputCustomActions({
+  variant = 'default',
+}: {
+  variant?: 'default' | 'compact'
+}) {
+  return (
+    <ComponentBox
+      data-visual-test={
+        variant === 'compact'
+          ? 'ai-prompt-input-custom-compact'
+          : 'ai-prompt-input-custom'
+      }
+      scope={{ variant, globe }}
+    >
+      {() => {
+        const CustomActions = () => {
+          const [searchWeb, setSearchWeb] = useState(false)
+          const [source, setSource] = useState(0)
+          return (
+            <PromptInput
+              variant={variant}
+              icon={null}
+              startActions={
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  size="small"
+                  aria-pressed={searchWeb}
+                  icon={globe}
+                  iconSize="default"
+                  aria-label="Web search"
+                  tooltip="Web search"
+                  onClick={() => setSearchWeb(!searchWeb)}
+                />
+              }
+              endActions={
+                variant === 'default' && (
+                  <Dropdown
+                    label="Sources"
+                    labelSrOnly
+                    independentWidth
+                    value={source}
+                    size="small"
+                    data={['All', 'Files']}
+                    onChange={({ value }) => setSource(Number(value))}
+                  />
+                )
+              }
+            />
+          )
+        }
+        return <CustomActions />
+      }}
     </ComponentBox>
   )
 }
@@ -423,7 +473,7 @@ export function AiPromptInputContext() {
   return (
     <ComponentBox
       data-visual-test="ai-prompt-input-context"
-      scope={{ close, referenceAvatar }}
+      scope={{ add, close, referenceAvatar }}
     >
       {() => {
         const ContextChip = styled.div`
@@ -446,8 +496,19 @@ export function AiPromptInputContext() {
               value={value}
               onChange={({ value }) => setValue(value)}
               onSubmit={() => setValue('')}
-              onAttachmentClick={() => setHasReference(true)}
-              onMicrophoneClick={() => null}
+              startActions={
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  size="small"
+                  icon={add}
+                  iconSize="default"
+                  aria-label="Add reference"
+                  tooltip="Add reference"
+                  disabled={hasReference}
+                  onClick={() => setHasReference(true)}
+                />
+              }
             >
               {hasReference && (
                 <ContextChip>
@@ -533,8 +594,15 @@ export function AiPromptInputDisabled() {
       <PromptInput
         disabled
         value="Message unavailable"
-        onAttachmentClick={() => null}
-        onMicrophoneClick={() => null}
+        startActions={
+          <Button
+            type="button"
+            variant="tertiary"
+            size="small"
+            text="Add reference"
+            disabled
+          />
+        }
       />
     </ComponentBox>
   )
@@ -1066,8 +1134,6 @@ export function AiChatExample() {
                       setDraft('')
                     }}
                     onStop={stop}
-                    onAttachmentClick={() => null}
-                    onMicrophoneClick={() => null}
                   />
                 </section>
 
@@ -1233,12 +1299,7 @@ export function AiChatCompact() {
           <Suggestion icon={bank} suggestion="Show my savings goals" />
           <Suggestion icon={bank} suggestion="When is my next bill due?" />
         </Suggestions>
-        <PromptInput
-          variant="compact"
-          placeholder="Start typing here"
-          onAttachmentClick={() => null}
-          onMicrophoneClick={() => null}
-        />
+        <PromptInput variant="compact" placeholder="Start typing here" />
       </Welcome>
     </ComponentBox>
   )
@@ -1304,11 +1365,7 @@ export function AiChatConversation() {
           </Message>
         </Conversation>
 
-        <PromptInput
-          characterCounter={111}
-          onAttachmentClick={() => null}
-          onMicrophoneClick={() => null}
-        />
+        <PromptInput characterCounter={111} />
       </div>
     </ComponentBox>
   )
