@@ -1456,4 +1456,22 @@ describe('package.json dependencies', () => {
       purgecss: expect.any(String),
     })
   })
+
+  it('declares the packages the shipped tools import as optional peer dependencies', () => {
+    // The Stylelint plugin imports "stylelint" and the MCP server imports
+    // "@modelcontextprotocol/server". Strict package managers (like Yarn PnP)
+    // only let the package resolve them when they are declared.
+    const packageJson = fs.readJsonSync(
+      path.resolve(PKG_ROOT, 'package.json')
+    )
+
+    expect(packageJson.peerDependencies).toMatchObject({
+      '@modelcontextprotocol/server': expect.any(String),
+      stylelint: expect.any(String),
+    })
+    expect(packageJson.peerDependenciesMeta).toMatchObject({
+      '@modelcontextprotocol/server': { optional: true },
+      stylelint: { optional: true },
+    })
+  })
 })
