@@ -244,6 +244,49 @@ export default function TableOfContentNavigation({
     }
   }, [currentLink, isSidebar])
 
+  useLayoutEffect(() => {
+    const scroll = scrollRef.current
+    if (!isSidebar || !scroll) {
+      return
+    }
+
+    const update = () => {
+      scroll.style.overscrollBehaviorY =
+        scroll.scrollHeight > scroll.clientHeight ? 'contain' : 'auto'
+    }
+    update()
+
+    const onWheel = (event: WheelEvent) => {
+      if (
+        event.ctrlKey ||
+        event.shiftKey ||
+        Math.abs(event.deltaY) <= Math.abs(event.deltaX)
+      ) {
+        return
+      }
+      const maximum = scroll.scrollHeight - scroll.clientHeight
+      if (
+        maximum > 0 &&
+        ((event.deltaY < 0 && scroll.scrollTop <= 0) ||
+          (event.deltaY > 0 && scroll.scrollTop >= maximum - 1))
+      ) {
+        event.preventDefault()
+      }
+    }
+    scroll.addEventListener('wheel', onWheel, { passive: false })
+
+    const observer = new ResizeObserver(update)
+    observer.observe(scroll)
+    if (scroll.firstElementChild) {
+      observer.observe(scroll.firstElementChild)
+    }
+    return () => {
+      observer.disconnect()
+      scroll.removeEventListener('wheel', onWheel)
+      scroll.style.removeProperty('overscroll-behavior-y')
+    }
+  }, [isSidebar, children])
+
   if (!items.length) {
     return null
   }
