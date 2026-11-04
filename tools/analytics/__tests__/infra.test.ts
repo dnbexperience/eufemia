@@ -8,6 +8,7 @@ const terraform = readFileSync(
   path.resolve(dir, '../infra/main.tf'),
   'utf8'
 )
+
 const terraformBlock = (header: string) =>
   terraform.match(new RegExp(`^${header} \\{[\\s\\S]*?^\\}`, 'm'))?.[0]
 
@@ -111,8 +112,7 @@ describe('analytics infrastructure', () => {
         )
       )
 
-      // The durable rollup must NOT have its own expiration rule, or history would
-      // be lost the same way the raw prefix is trimmed.
+      // An expiry rule on the rollup prefix would delete its history.
       expect(terraform).not.toMatch(
         new RegExp(`prefix\\s+=\\s+"${prefix}"`)
       )
