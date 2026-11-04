@@ -64,6 +64,14 @@
     padding-left: 0.5rem;
   }
 
+  // linear variant: one line next to the bar, wraps only beyond half the width
+  &--full-width#{&}--horizontal &__label {
+    flex-shrink: 0;
+    max-width: 50%;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
   &--vertical &__label {
     padding-top: 0.5rem;
   }
