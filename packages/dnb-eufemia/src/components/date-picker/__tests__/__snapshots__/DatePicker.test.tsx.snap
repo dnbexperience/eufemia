@@ -2602,6 +2602,25 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
 .dnb-radio__status--error {
   --radio-color-dot-on--default: var(--token-color-background-error);
 }
+.dnb-radio__status--error:where(:not(.dnb-toggle-button *)) .dnb-radio__input ~ .dnb-radio__button {
+  --radio-border-width--active: 0.0625rem;
+  --radio-color-background--hover: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background--active: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background--focus: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-border--hover: var(--token-color-stroke-error);
+  --radio-color-border--active: var(--token-color-stroke-error);
+}
+.dnb-radio__status--error:where(:not(.dnb-toggle-button *)) {
+  --radio-color-dot-on--hover: var(--token-color-background-error);
+  --radio-color-dot-on--active: var(--token-color-background-error);
+  --radio-color-dot-on--focus: var(--token-color-background-error);
+}
 .dnb-radio {
   /** Hover state **/
 }
