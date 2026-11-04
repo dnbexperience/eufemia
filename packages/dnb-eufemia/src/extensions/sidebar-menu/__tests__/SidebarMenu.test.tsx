@@ -319,6 +319,35 @@ describe('SidebarMenu', () => {
     expect(list).toHaveAccessibleName('Accounts')
   })
 
+  it('indents nested Header items without indenting their siblings', () => {
+    render(
+      <SidebarMenu.Root defaultOpenItems={['resources']}>
+        <SidebarMenu.Header text="Top level">
+          <SidebarMenu.Item id="home" text="Home" />
+        </SidebarMenu.Header>
+        <SidebarMenu.Accordion id="resources" text="Resources">
+          <SidebarMenu.Header id="ai" text="AI assistance">
+            <SidebarMenu.Item id="skills" text="Agent skills" />
+          </SidebarMenu.Header>
+          <SidebarMenu.Item id="utilities" text="Utilities and helpers" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(document.querySelector('#ai')).toHaveStyle({
+      '--sidebar-menu-indent': '3rem',
+    })
+    expect(
+      document.querySelector('[data-sidebar-menu-id="skills"]')
+    ).toHaveStyle({ '--sidebar-menu-indent': '4rem' })
+    expect(
+      document.querySelector('[data-sidebar-menu-id="utilities"]')
+    ).toHaveStyle({ '--sidebar-menu-indent': '3rem' })
+    expect(
+      document.querySelector('[data-sidebar-menu-id="home"]')
+    ).toHaveStyle({ '--sidebar-menu-indent': '0rem' })
+  })
+
   it('supports legacy Header children as its label', () => {
     render(
       <SidebarMenu.Root>
