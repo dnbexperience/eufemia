@@ -157,6 +157,10 @@ export default {
       addTitle: 'Öka (%s)',
       subtractTitle: 'Minska (%s)',
     },
+    TableOfContent: {
+      showAll: 'Visa alla',
+      title: 'På den här sidan',
+    },
     VippsWalletButton: {
       text: 'Lägg till i',
     },

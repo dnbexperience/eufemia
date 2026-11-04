@@ -13,6 +13,8 @@
 export type SpacingPropsVariant = boolean | 'children' | 'passthrough'
 
 export type ComponentMarkers = {
+  /** Identifies declarative TableOfContent items without importing them in Root. */
+  _tableOfContentRole?: 'item'
   /** Identifies an optional close control without importing it in Card. */
   _cardControl?: 'close'
   /** Identifies a SidebarMenu compound part without importing it in Root. */

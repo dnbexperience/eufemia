@@ -132,7 +132,9 @@ describe('SuggestEdit', () => {
 
     await enterText(' Again.')
 
-    expect(document.querySelector('.dnb-form-status--error')).toBe(null)
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status--error')).toBe(null)
+    })
   })
 
   describe('query parameters', () => {
