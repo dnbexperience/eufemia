@@ -711,7 +711,7 @@ describe('portal-pages plugin', () => {
       server.watcher.emit('unlink', path.join(tmpDir, 'old-name.mdx'))
       server.watcher.emit('add', path.join(tmpDir, 'new-name.mdx'))
 
-      expect(server.mocks.invalidateModule).toHaveBeenCalledTimes(6)
+      expect(server.mocks.invalidateModule).toHaveBeenCalledTimes(4)
       expect(server.mocks.send).toHaveBeenCalledTimes(2)
     })
   })
