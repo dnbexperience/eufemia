@@ -22,3 +22,7 @@ render(<Form.SubmitIndicator state="pending" />)
 ### Integration
 
 The indicator is implemented by default in the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) and [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) label. It will be displayed when the `onSubmit` event handler on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component is an async function. You can find some examples down below.
+
+### In a Button
+
+To show the indicator in a [Button](/uilib/components/button/demos/#pending-state), use its `pending` property. It works without the forms extension.

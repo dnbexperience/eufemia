@@ -101,6 +101,11 @@ export const ButtonProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  pending: {
+    doc: 'Set to `true` while the action is in progress. The button shows an indicator after the text, or in place of its icon when it has no text, and ignores clicks, but keeps focus, also when `disabled` is set. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   tooltip: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
     type: ['string', 'React.ReactNode'],

@@ -116,13 +116,11 @@ export const WithinOtherComponents = () => {
       <Form.Handler>
         <Flex.Horizontal align="center">
           <Form.SubmitButton showIndicator />
-          <Button variant="secondary" icon="chevron_right">
+          <Button variant="secondary" icon="chevron_right" pending>
             Secondary
-            <Form.SubmitIndicator state="pending" />
           </Button>
-          <Button variant="tertiary">
+          <Button variant="tertiary" pending>
             Tertiary
-            <Form.SubmitIndicator state="pending" />
           </Button>
           <FormLabel>
             Label

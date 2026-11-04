@@ -12,7 +12,7 @@ import useCombinedRef from '../../../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardNextButtonProps = ComponentProps &
-  Omit<ButtonProps, 'variant' | 'icon' | 'iconPosition'> & {
+  Omit<ButtonProps, 'variant' | 'icon' | 'iconPosition' | 'pending'> & {
     /**
      * The icon shown in the button. Defaults to `chevron_right`.
      */

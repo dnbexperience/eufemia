@@ -7,6 +7,8 @@ import {
   ButtonPrimary,
   ButtonSecondary,
   ButtonDisabled,
+  ButtonPending,
+  ButtonPendingAsync,
   ButtonErrorState,
   ButtonPrimaryWithIcon,
   ButtonPrimaryWithIconLeft,
@@ -173,9 +175,19 @@ Set `href` when navigation needs the visual emphasis of a button. Button renders
 
 ### Disabled buttons
 
-Set `disabled` to make an action unavailable. Prefer keeping actions available where possible. A disabled button alone does not explain what the user needs to do next.
+Set `disabled` to make an action unavailable. Prefer keeping actions available where possible. A disabled button alone does not explain what the user needs to do next. While an action is in progress, use the [pending state](#pending-state) instead.
 
 <ButtonDisabled />
+
+### Pending state
+
+Set `pending` while the action is in progress, such as when saving or sending. The button shows an animated indicator after the text and ignores clicks. Unlike `disabled`, it keeps focus, so keyboard and screen reader users stay in place.
+
+<ButtonPending />
+
+Click the button to see the pending state while an action runs:
+
+<ButtonPendingAsync />
 
 ### Error state
 

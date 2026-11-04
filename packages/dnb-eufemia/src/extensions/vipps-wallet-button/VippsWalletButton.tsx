@@ -5,10 +5,13 @@
 
 import { clsx } from 'clsx'
 import Button, { type ButtonProps } from '../../components/button/Button'
+import SubmitIndicator from '../../components/button/internal/SubmitIndicator'
 import useTranslation from '../../shared/useTranslation'
-import SubmitIndicator from '../forms/Form/SubmitIndicator'
 
-export type VippsWalletButtonProps = Omit<ButtonProps, 'variant'> & {
+export type VippsWalletButtonProps = Omit<
+  ButtonProps,
+  'variant' | 'pending'
+> & {
   pending?: boolean
 }
 

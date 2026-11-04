@@ -1,0 +1,76 @@
+@use '../../../shared/internal/dots-indicator.scss';
+
+// Form.SubmitIndicator renders these classes next to its dnb-forms-submit-indicator classes,
+// because the components styles must not contain forms class names.
+.dnb-button__indicator {
+  // Not --padding-left, because Space sets it on every .dnb-space element, and this element is one
+  --dots-offset: 0.5em;
+  --font-animation: font-size var(--font-animation-duration, 400ms)
+    var(--easing-default);
+  --opacity-animation: opacity var(--opacity-animation-duration, 0ms)
+    var(--easing-default) var(--opacity-animation-delay, 0ms);
+  --dots-color: var(--token-color-text-neutral);
+
+  &:has(&-label) {
+    --font-animation-duration: 400ms;
+    --opacity-animation-duration: 400ms;
+    --opacity-animation-delay: 250ms;
+  }
+
+  display: inline;
+
+  &-label {
+    padding: 0.5em 0;
+  }
+
+  &-content {
+    --dots-first-gap: var(--dots-offset);
+
+    align-items: center;
+    font-size: 0;
+    opacity: 0;
+    line-height: 1em;
+
+    will-change: font-size opacity;
+    transition: var(--font-animation), var(--opacity-animation);
+
+    b {
+      @include dots-indicator.dot();
+
+      @media (forced-colors: active) {
+        forced-color-adjust: none;
+        background-color: currentcolor;
+      }
+    }
+  }
+
+  &--pending &-content {
+    font-size: 1em;
+    opacity: 1;
+  }
+  &--inline-wrap &-content {
+    display: flex;
+
+    --dots-offset: 0.25em;
+  }
+
+  .dnb-button &-content {
+    cursor: inherit;
+
+    --dots-color: currentcolor;
+  }
+
+  .dnb-button--icon-only & {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    --dots-offset: 0;
+  }
+}
+
+.dnb-button--icon-only.dnb-button--pending .dnb-button__icon {
+  opacity: 0;
+}

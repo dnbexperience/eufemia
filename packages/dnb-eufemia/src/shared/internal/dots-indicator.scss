@@ -1,4 +1,4 @@
-.dnb-dots-indicator__dot {
+@mixin dot() {
   display: inline-block;
   width: var(--dots-size, 0.25em);
   height: var(--dots-size, 0.25em);
@@ -30,6 +30,10 @@
     opacity: 0.6;
     transform: none;
   }
+}
+
+.dnb-dots-indicator__dot {
+  @include dot();
 }
 
 @keyframes dnb-dots-indicator-dot {

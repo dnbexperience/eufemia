@@ -13,7 +13,7 @@ import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardPreviousButtonProps = ComponentProps &
-  Omit<ButtonProps, 'variant' | 'icon' | 'iconPosition'> & {
+  Omit<ButtonProps, 'variant' | 'icon' | 'iconPosition' | 'pending'> & {
     /**
      * Defines the kind of button. Defaults to `tertiary`.
      */

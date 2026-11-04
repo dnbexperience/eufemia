@@ -160,6 +160,10 @@ export type ButtonProps = {
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: ButtonSkeleton
+  /**
+   * Set to `true` while the action is in progress. The button shows an indicator after the text, or in place of its icon when it has no text, and ignores clicks, but keeps focus, also when `disabled` is set. Defaults to `false`.
+   */
+  pending?: boolean
   disabled?: boolean
   ref?: Ref<HTMLElement>
   className?: string
