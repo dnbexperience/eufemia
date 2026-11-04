@@ -258,7 +258,7 @@ test.describe('Portal table of contents', () => {
       [390, 844, 16],
     ]) {
       await page.setViewportSize({ width, height })
-      await page.goto('/web/extensions/forms/#quick-start')
+      await page.goto('/web/extensions/forms/')
       const toc = page.locator('#portal-page-toc')
       await expect(toc).toBeVisible()
       await expect(page.locator('html')).toHaveAttribute(
