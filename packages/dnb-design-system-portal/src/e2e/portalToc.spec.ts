@@ -863,8 +863,8 @@ test.describe('Portal table of contents', () => {
       const content = await page.locator('#tab-bar-content').boundingBox()
       const above = navigation.y - header.y - header.height
       const below = content.y - navigation.y - navigation.height
-      expect(above).toBe(48)
-      expect(above).toBeCloseTo(below, 0)
+      expect(above).toBe(0)
+      expect(below).toBe(24)
     }
   })
   test('avoids destination tooltip flashes and preserves direct anchor focus', async ({
