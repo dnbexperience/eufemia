@@ -62,7 +62,7 @@ The static HTML includes the table of contents and its heading data alongside th
 
 Portal disables heading-list replacement animation with animateChanges set to false. Applications can opt in through TableOfContent.Root or TableOfContent.Data; see the [extension documentation](/uilib/extensions/table-of-content/).
 
-The skip link moves focus directly to the article content. Scrolling inside an overflowing desktop outline stays within its list; a short outline allows the page to scroll.
+The skip link moves focus to the main content, including its title and tabs. On desktop, the outline follows the article in the reading and keyboard order. On mobile, the disclosure comes before the article. The outline uses the shared native scrollbar sizing. Scrolling inside an overflowing desktop outline stays within its list; a short outline allows the page to scroll.
 
 The table of contents is sticky on wide screens and a disclosure above the content on smaller screens. On narrow screens it initially shows up to 10 links, including the page title, with a translated “Show all” button that disappears after revealing the remaining links. The component's maxVisibleItems property configures this limit. Browser find-in-page also reveals the full list when it matches a hidden link, where hidden="until-found" is supported. Its open or closed choice is stored in session storage with expandedStorageKey, so it survives page navigation, reloads and viewport changes within the same tab. The saved state is restored before first paint. It is hidden in focus mode and fullscreen pages.
 

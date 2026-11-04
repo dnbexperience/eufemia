@@ -138,20 +138,14 @@ function Layout(props: LayoutProps) {
     // we prevent the default and set it manually. The DOM elements have tabIndex="-1" and className="dnb-no-focus" in place
     try {
       event.preventDefault()
-      const elem =
-        mainRef.current.querySelector<HTMLElement>(
-          '[data-portal-page-content]'
-        ) ?? mainRef.current
-      const hadTabIndex = elem.hasAttribute('tabindex')
+      const elem = mainRef.current
       elem.setAttribute('tabindex', '-1')
       elem.focus()
-      if (!hadTabIndex) {
-        elem.addEventListener(
-          'blur',
-          () => elem.removeAttribute('tabindex'),
-          { once: true }
-        )
-      }
+      elem.addEventListener(
+        'blur',
+        () => elem.removeAttribute('tabindex'),
+        { once: true }
+      )
     } catch (e) {
       console.error('Failed to set focus on skip link target:', e)
     }
