@@ -7,6 +7,7 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 // Field.Upload uses translations instead of these text properties
 const {
   buttonText,
+  fileLimitsButtonText,
   fileTypeTableCaption,
   fileTypeDescription,
   fileSizeDescription,

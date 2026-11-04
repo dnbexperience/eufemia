@@ -1596,6 +1596,10 @@ html[data-visual-test] .dnb-progress-indicator {
   --upload-icon--warning: var(--token-color-icon-error);
   --upload-highlight: var(--token-color-background-warning-subtle);
   --upload-text--secondary: var(--token-color-text-neutral-alternative);
+  --upload-file-limits-background: var(
+    --token-color-background-neutral-subtle
+  );
+  --upload-file-limits-border: var(--token-color-stroke-neutral-subtle);
   position: relative;
   display: flex;
   flex-grow: 1;
@@ -1722,6 +1726,64 @@ html[data-visual-test] .dnb-progress-indicator {
 }
 .dnb-upload__accepted-file-types-table.dnb-table tbody td:first-child {
   padding-left: 0;
+}
+.dnb-upload__file-limits {
+  align-self: flex-start;
+  max-width: 100%;
+}
+.dnb-upload__file-limits + .dnb-upload__file-input-area .dnb-upload__file-input-button {
+  margin-top: 1.5rem;
+}
+.dnb-upload__file-limits .dnb-accordion__tertiary-content {
+  border-radius: var(--token-radius-xl);
+}
+.dnb-upload__file-limits__content {
+  padding: 1rem;
+  background-color: var(--upload-file-limits-background);
+  border: 0.0625rem solid var(--upload-file-limits-border);
+  border-radius: var(--token-radius-xl);
+}
+.dnb-upload__file-limits__table.dnb-table {
+  --table-th-background-color: transparent;
+  margin: 0;
+  border-collapse: separate;
+}
+.dnb-upload__file-limits__table.dnb-table:not(:only-child) {
+  width: auto;
+}
+.dnb-upload__file-limits__table.dnb-table + .dnb-upload__file-limits__table.dnb-table {
+  margin-top: 1rem;
+}
+.dnb-upload__file-limits__table.dnb-table thead th {
+  padding: 0.5rem 1rem 0.75rem;
+}
+.dnb-upload__file-limits__table.dnb-table tbody th {
+  padding: 1rem 1rem 1rem 0.5rem;
+}
+.dnb-upload__file-limits__table.dnb-table tbody tr th[scope=row] + td:last-child {
+  width: auto;
+}
+.dnb-upload__file-limits__table.dnb-table tbody td {
+  border-top: 0.0625rem solid var(--upload-file-limits-border);
+  border-right: 0.0625rem solid var(--upload-file-limits-border);
+}
+.dnb-upload__file-limits__table.dnb-table tbody td:first-of-type {
+  border-left: 0.0625rem solid var(--upload-file-limits-border);
+}
+.dnb-upload__file-limits__table.dnb-table tbody tr:first-child td:first-of-type {
+  border-top-left-radius: var(--token-radius-lg);
+}
+.dnb-upload__file-limits__table.dnb-table tbody tr:first-child td:last-child {
+  border-top-right-radius: var(--token-radius-lg);
+}
+.dnb-upload__file-limits__table.dnb-table tbody tr:last-child td {
+  border-bottom: 0.0625rem solid var(--upload-file-limits-border);
+}
+.dnb-upload__file-limits__table.dnb-table tbody tr:last-child td:first-of-type {
+  border-bottom-left-radius: var(--token-radius-lg);
+}
+.dnb-upload__file-limits__table.dnb-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--token-radius-lg);
 }
 .dnb-upload--compact {
   padding: 0;

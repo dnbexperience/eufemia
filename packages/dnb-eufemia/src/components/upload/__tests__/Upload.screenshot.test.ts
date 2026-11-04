@@ -22,6 +22,27 @@ describe.each(['ui', 'sbanken'])(`Upload for %s`, (themeName) => {
     })
   })
 
+  it('have to match the compact variant with expanded file limits', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="upload-basic-compact-variant"]',
+      simulateSelector:
+        '[data-visual-test="upload-basic-compact-variant"] .dnb-upload__file-limits button',
+      simulate: 'click',
+      recalculateHeightAfterSimulate: true,
+    })
+  })
+
+  it('have to match the compact variant with expanded file max size based on file type', async () => {
+    await makeScreenshot({
+      selector:
+        '[data-visual-test="upload-compact-variant-file-max-size-based-on-file-format"]',
+      simulateSelector:
+        '[data-visual-test="upload-compact-variant-file-max-size-based-on-file-format"] .dnb-upload__file-limits button',
+      simulate: 'click',
+      recalculateHeightAfterSimulate: true,
+    })
+  })
+
   it('have to match the compact variant file list', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="upload-compact-variant-files-list"]',
