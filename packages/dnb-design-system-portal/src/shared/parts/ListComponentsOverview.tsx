@@ -159,7 +159,7 @@ function ComponentsOverviewList({ entries }: { entries: Entry[] }) {
               element="div"
               innerSpace={0}
               responsive={false}
-              backgroundColor="var(--token-color-background-neutral)"
+              backgroundColor="var(--token-color-background-neutral-base)"
             >
               <svg
                 viewBox="0 0 240 144"
