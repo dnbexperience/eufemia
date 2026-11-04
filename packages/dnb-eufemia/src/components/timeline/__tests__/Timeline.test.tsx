@@ -484,6 +484,14 @@ describe('Timeline aria', () => {
 })
 
 describe('Timeline scss', () => {
+  it('keeps completed icons readable on the neutral circle in dark themes', () => {
+    const css = loadScss(require.resolve('../style/dnb-timeline.scss'))
+
+    expect(css).toMatch(
+      /color: var\(--token-color-text-neutral-alternative\);\s*background-color: var\(--token-color-background-neutral-base\);/
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

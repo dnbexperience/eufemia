@@ -52,7 +52,7 @@ exports[`Timeline scss > should match style dependencies css 1`] = `
   padding: 0;
   line-height: var(--timeline-icon-height--small);
   border-radius: var(--timeline-icon-border-radius--small);
-  color: var(--token-color-icon-neutral-alternative);
+  color: var(--token-color-text-neutral-alternative);
   background-color: var(--token-color-background-neutral-base);
 }
 .dnb-timeline__item__label__title {
