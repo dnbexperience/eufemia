@@ -7,6 +7,9 @@ test('keeps the component overview and related links populated', async ({
   await page.goto('/web/components/overview')
   await waitForApp(page)
   await expect(
+    page.locator('#portal-page-toc').getByRole('link')
+  ).toHaveCount(9)
+  await expect(
     page.locator('main a[href="/web/components/button"]')
   ).toBeVisible()
   await expect(page.locator('main a[href*="/categories/"]')).toHaveCount(0)
