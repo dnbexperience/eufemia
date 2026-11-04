@@ -440,7 +440,7 @@ test.describe('TableOfContent extension', () => {
           )
         }, colorScheme)
         await page.goto(
-          '/uilib/extensions/table-of-content/demos/?eufemia-color-scheme=' +
+          '/web/patterns-and-extensions/table-of-content/demos/?eufemia-color-scheme=' +
             colorScheme
         )
         const example = page.locator(
@@ -532,7 +532,7 @@ test.describe('TableOfContent extension', () => {
   test('renders the info page with literal API examples', async ({
     page,
   }) => {
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     await expect(
       page.getByText('Something went wrong', { exact: true })
     ).toHaveCount(0)
