@@ -1748,6 +1748,9 @@ html[data-visual-test] .dnb-progress-indicator {
   margin: 0;
   border-collapse: separate;
 }
+.dnb-upload__file-limits__table.dnb-table:not(:only-child) {
+  width: auto;
+}
 .dnb-upload__file-limits__table.dnb-table + .dnb-upload__file-limits__table.dnb-table {
   margin-top: 1rem;
 }
@@ -1762,12 +1765,10 @@ html[data-visual-test] .dnb-progress-indicator {
 }
 .dnb-upload__file-limits__table.dnb-table tbody td {
   border-top: 0.0625rem solid var(--upload-file-limits-border);
+  border-right: 0.0625rem solid var(--upload-file-limits-border);
 }
 .dnb-upload__file-limits__table.dnb-table tbody td:first-of-type {
   border-left: 0.0625rem solid var(--upload-file-limits-border);
-}
-.dnb-upload__file-limits__table.dnb-table tbody td:last-child {
-  border-right: 0.0625rem solid var(--upload-file-limits-border);
 }
 .dnb-upload__file-limits__table.dnb-table tbody tr:first-child td:first-of-type {
   border-top-left-radius: var(--token-radius-lg);

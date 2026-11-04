@@ -211,6 +211,11 @@
 
       border-collapse: separate;
 
+      // Keep the files amount table from stretching to the file types table
+      &:not(:only-child) {
+        width: auto;
+      }
+
       & + & {
         margin-top: 1rem;
       }
@@ -228,16 +233,13 @@
         width: auto;
       }
 
-      // The data cells form a box with rounded corners
+      // The data cells form a box with rounded corners and column dividers
       tbody td {
         border-top: 0.0625rem solid var(--upload-file-limits-border);
+        border-right: 0.0625rem solid var(--upload-file-limits-border);
 
         &:first-of-type {
           border-left: 0.0625rem solid var(--upload-file-limits-border);
-        }
-
-        &:last-child {
-          border-right: 0.0625rem solid var(--upload-file-limits-border);
         }
       }
 
