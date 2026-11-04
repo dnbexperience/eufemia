@@ -10,6 +10,7 @@
  *   popover     → 1000  (popovers, floating elements)
  *   tooltip     → 1100  (tooltips, always above popovers)
  *   modal       → 3000  (dialogs, drawers, full overlays)
+ *   toaster     → 4000  (toaster notifications, above modals)
  */
 
 :root {
@@ -18,4 +19,5 @@
   --z-index-popover: 1000;
   --z-index-tooltip: 1100;
   --z-index-modal: 3000;
+  --z-index-toaster: 4000;
 }
