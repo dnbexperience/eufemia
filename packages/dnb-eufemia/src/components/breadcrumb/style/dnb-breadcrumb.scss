@@ -58,7 +58,6 @@
   &__item {
     display: flex;
     align-items: center;
-    padding: 0.5rem 0;
 
     &__span {
       display: flex;
@@ -81,7 +80,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        transform: scale(1.25, 2);
+        transform: scale(1.25, 1.5);
         border: 0.5rem solid transparent;
 
         // Forced colors mode would draw the transparent border
@@ -169,8 +168,6 @@
   }
 
   &__collapse &__item {
-    padding: 0;
-
     &:not(:first-child) {
       margin-left: 1.5rem;
 
@@ -207,6 +204,6 @@
 
     margin: 0;
 
-    padding: 1rem 1rem 2rem;
+    padding: 1rem 1rem 1.5rem;
   }
 }

@@ -583,4 +583,16 @@ describe('Breadcrumb scss', () => {
       /\.dnb-anchor::after \{[^}]*border: 0\.5rem solid transparent;[^}]*forced-color-adjust: none;/
     )
   })
+
+  it('uses the Figma row height and expanded list spacing', () => {
+    const css = loadScss(require.resolve('../style/dnb-breadcrumb.scss'))
+
+    expect(css).not.toMatch(/\.dnb-breadcrumb__item \{[^}]*padding/)
+    expect(css).toMatch(
+      /\.dnb-breadcrumb__item \.dnb-anchor::after \{[^}]*transform: scale\(1\.25, 1\.5\);/
+    )
+    expect(css).toMatch(
+      /\.dnb-breadcrumb__collapse \.dnb-breadcrumb__list \{[^}]*padding: 1rem 1rem 1\.5rem;/
+    )
+  })
 })
