@@ -140,6 +140,12 @@ for (const width of [1440, 390]) {
           const content = document.querySelector('.dnb-app-content')
           return {
             home: home.getBoundingClientRect().toJSON(),
+            homeAtTop: document
+              .elementsFromPoint(
+                home.getBoundingClientRect().left + home.clientWidth / 2,
+                1
+              )
+              .includes(home),
             hero: hero.getBoundingClientRect().toJSON(),
             heading: heading.getBoundingClientRect().toJSON(),
             content: content.getBoundingClientRect().toJSON(),
@@ -154,6 +160,7 @@ for (const width of [1440, 390]) {
           }
         })
         expect(layout.home.top).toBeCloseTo(0, 1)
+        expect(layout.homeAtTop).toBe(true)
         expect(layout.home.left).toBeCloseTo(layout.content.left, 1)
         expect(layout.home.right).toBeCloseTo(layout.content.right, 1)
         expect(layout.heading.top).toBeGreaterThanOrEqual(layout.hero.top)

@@ -78,6 +78,10 @@
     padding: 0 var(--content-gutter-size);
     overflow: hidden;
 
+    &:has([data-portal-home]) {
+      overflow: visible;
+    }
+
     :global(.fullscreen-page) & {
       margin: 0;
       padding: 0;
