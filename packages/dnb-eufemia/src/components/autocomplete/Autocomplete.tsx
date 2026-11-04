@@ -2180,16 +2180,12 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               <Input
                 icon={
                   visibleIndicator && icon ? (
-                    <ProgressIndicator
-                      size={size === 'large' ? 'medium' : 'small'}
-                    />
+                    <ProgressIndicator size="small" />
                   ) : (
                     (icon as IconIcon)
                   )
                 }
-                iconSize={
-                  iconSize || (size === 'large' ? 'medium' : 'default')
-                }
+                iconSize={iconSize || 'default'}
                 size={size}
                 status={status ? statusState : null}
                 statusState={statusState}
