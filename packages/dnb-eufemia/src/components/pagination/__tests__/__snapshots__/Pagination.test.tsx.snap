@@ -1732,7 +1732,8 @@ html[data-visual-test] .dnb-progress-indicator {
 }
 .dnb-pagination__bar__skip {
   display: flex;
-  column-gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 2.5rem;
 }
 
 @keyframes show-page {

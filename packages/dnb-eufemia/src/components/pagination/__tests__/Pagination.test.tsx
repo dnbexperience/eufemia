@@ -1257,4 +1257,12 @@ describe('Pagination scss', () => {
       /\.dnb-pagination__button\.dnb-button\[aria-current=page\]:focus-visible:not\(\[disabled\]\) \{\s*outline-color: CanvasText;/
     )
   })
+
+  it('places the previous and next buttons 40px apart and wraps them on narrow screens', () => {
+    const css = loadScss(require.resolve('../style/dnb-pagination.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-pagination__bar__skip \{\s*display: flex;\s*flex-wrap: wrap;\s*gap: 0\.5rem 2\.5rem;\s*\}/
+    )
+  })
 })
