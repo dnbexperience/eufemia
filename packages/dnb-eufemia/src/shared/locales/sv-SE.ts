@@ -157,6 +157,10 @@ export default {
       addTitle: 'Öka (%s)',
       subtractTitle: 'Minska (%s)',
     },
+    TableOfContent: {
+      showAll: 'Visa alla',
+      title: 'På den här sidan',
+    },
     VippsWalletButton: {
       text: 'Lägg till i',
     },
@@ -185,13 +189,14 @@ export default {
       text: 'Dra och släpp eller välj vilka filer du vill ladda upp.',
       textSingular:
         'Dra och släpp eller välj vilken fil du vill ladda upp.',
-      fileTypeTableCaption: 'Tillåtna filformat och max filstorlek',
-      fileTypeDescription: 'Tillåtna filformat:',
+      fileTypeTableCaption: 'Tillåtna filer och max filstorlek',
+      fileTypeDescription: 'Tillåtna filer:',
       fileSizeDescription: 'Max filstorlek:',
       fileAmountDescription: 'Max antal filer:',
       fileSizeContent: '%size MB',
       buttonText: 'Välj filer',
       buttonTextSingular: 'Välj fil',
+      fileLimitsButtonText: 'Tillåtna filer och storlekar',
       loadingText: 'Laddar',
       errorLargeFile:
         'Filen du försöker ladda upp är för stor, den maximalt tillåtna storleken är %size MB.',

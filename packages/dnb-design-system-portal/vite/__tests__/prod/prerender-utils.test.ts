@@ -502,6 +502,17 @@ describe('prerender-utils', () => {
       expect(result).toContain('data-open-items-storage-key')
     })
 
+    it('restores persisted TableOfContent state on pages without SidebarMenu storage', () => {
+      const result = injectHtml(
+        template,
+        '<nav data-table-of-content-expanded-storage-key="toc">Contents</nav>',
+        { js: [], css: [] }
+      )
+      expect(
+        result.indexOf('data-table-of-content-pre-hydration')
+      ).toBeGreaterThan(result.indexOf('</nav></div>'))
+    })
+
     it('omits the SidebarMenu bootstrap on pages without persisted navigation', () => {
       const result = injectHtml(template, '<h1>Plain page</h1>', {
         js: [],

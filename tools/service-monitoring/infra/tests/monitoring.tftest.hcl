@@ -61,6 +61,10 @@ run "shadow_rollout" {
     )
     error_message = "MCP and analytics get the GitHub token; only analytics gets the GHE credential and deploy repository."
   }
+  assert {
+    condition     = jsondecode(aws_lambda_function.notifier.environment[0].variables["MONITOR_LOG_GROUPS"])["Analytics"] == aws_cloudwatch_log_group.monitor["Analytics"].name
+    error_message = "Slack incident posts must link to each monitor's log group."
+  }
 }
 
 run "reject_invalid_analytics_repository" {

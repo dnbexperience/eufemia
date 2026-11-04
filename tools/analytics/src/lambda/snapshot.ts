@@ -1,6 +1,6 @@
 import {
   aggregateComponentUsageRaw,
-  aggregateLocalMcpUsageByVersion,
+  aggregateMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
   retrieveComponentUsageTotals,
@@ -19,6 +19,8 @@ import {
   type McpTransportUsage,
   type McpUsageDaily,
   type McpUsageSection,
+  type McpVersionUsage,
+  type McpVersionUsageRow,
   type PortalViewTrendsSection,
   type RankedCount,
   type Snapshot,
@@ -68,12 +70,33 @@ function emitMetric(name: MetricName, value: number): void {
 const ROLLUP_RECOMPUTE_DAYS = 7
 const MCP_TOP_LIMIT = 20
 
-// Recent window for the local-by-version breakdown. Unlike the daily-rollup
-// reads above, this scans the raw per-request mcp_usage table directly (it has
-// no durable rollup for the version dimension), so it needs its own
-// bound to stay cheap as the table's 13-month retention fills; it also keeps
-// the metric focused on currently-relevant versions rather than all-time history.
+// Days of raw rows the per-version breakdown scans. The daily rollup has no
+// version, so this bounds the scan and keeps the list on current versions.
 const MCP_VERSION_WINDOW_DAYS = 90
+
+const FIRST_VERSION_REPORTING_MISSES = '11.16.0'
+
+function reportsMissedLookups(version: string): boolean {
+  const release = version.split(/[-+]/)[0] ?? ''
+
+  return (
+    /^\d+\.\d+\.\d+$/.test(release) &&
+    release.localeCompare(FIRST_VERSION_REPORTING_MISSES, undefined, {
+      numeric: true,
+    }) >= 0
+  )
+}
+
+function toVersionUsage({
+  name,
+  count,
+  componentLookups,
+  missedLookups,
+}: McpVersionUsageRow): McpVersionUsage {
+  return reportsMissedLookups(name)
+    ? { name, count, componentLookups, missedLookups }
+    : { name, count, componentLookups: null, missedLookups: null }
+}
 
 // First day (YYYY-MM-DD, UTC) of the `days`-long window that ends today.
 function windowStart(days: number): string {
@@ -171,6 +194,7 @@ function sumCounts(rows: McpUsageDaily[]): number {
 
 function buildTransportUsage(
   daily: McpUsageDaily[],
+  versions: McpVersionUsageRow[],
   transport: 'web' | 'local'
 ): McpTransportUsage {
   const rows = daily.filter((row) => row.transport === transport)
@@ -194,6 +218,10 @@ function buildTransportUsage(
       0,
       MCP_TOP_LIMIT
     ),
+    perVersion: versions
+      .filter((row) => row.transport === transport)
+      .slice(0, MCP_TOP_LIMIT)
+      .map(toVersionUsage),
     daily: [...dayTotals.entries()]
       .map(([date, count]) => ({ date, count }))
       .sort((a, b) => a.date.localeCompare(b.date)),
@@ -247,16 +275,13 @@ async function buildMcpUsage(
     )
   }
 
-  const perVersion = await aggregateLocalMcpUsageByVersion(
+  const versions = await aggregateMcpUsageByVersion(
     windowStart(MCP_VERSION_WINDOW_DAYS)
   )
 
   return {
-    web: buildTransportUsage(daily, 'web'),
-    local: {
-      ...buildTransportUsage(daily, 'local'),
-      perVersion: perVersion.slice(0, MCP_TOP_LIMIT),
-    },
+    web: buildTransportUsage(daily, versions, 'web'),
+    local: buildTransportUsage(daily, versions, 'local'),
   }
 }
 

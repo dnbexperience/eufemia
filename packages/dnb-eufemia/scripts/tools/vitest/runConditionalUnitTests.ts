@@ -3,7 +3,8 @@
  *
  * Protected branches run the full suite (a diff against origin/main is empty
  * there). Every other branch runs Vitest's native `--changed` selection plus
- * the guard tests that `--changed` cannot see. Changes to global test infra
+ * the guard tests that `--changed` cannot see, and the tests that read a
+ * changed style or snapshot file from disk. Changes to global test infra
  * already fall back to the full suite via `forceRerunTriggers` in
  * `vitest.config.ts`. The base ref must be fetched (CI uses `fetch-depth: 0`);
  * a missing ref fails loudly rather than silently running the wrong set.
@@ -11,6 +12,10 @@
 
 import { spawnSync } from 'node:child_process'
 
+import {
+  findTestsReadingChangedFiles,
+  getChangedFiles,
+} from './findTestsReadingChangedFiles.ts'
 import {
   ALWAYS_RUN_TEST_PATHS,
   DEFAULT_BASE_REF,
@@ -38,6 +43,13 @@ if (isProtectedBranch(branchName)) {
 
 console.log(`Running unit tests affected since ${baseRef}, plus guards.`)
 
+// Before Vitest runs, so a missing base ref stops the run here. Package scripts
+// run from the package root.
+const testsReadingChangedFiles = findTestsReadingChangedFiles({
+  packageRoot: process.cwd(),
+  changedFiles: getChangedFiles({ baseRef, cwd: process.cwd() }),
+})
+
 const changedExit = runVitest([
   'run',
   '--changed',
@@ -46,10 +58,19 @@ const changedExit = runVitest([
 ])
 
 // Guards scan the file system instead of importing, so `--changed` can never
-// select them; run them explicitly.
+// select them; run them explicitly. The same goes for tests that read a changed
+// style or snapshot file from disk.
+if (testsReadingChangedFiles.length > 0) {
+  console.log('Also running the tests that read a changed file from disk:')
+  for (const { testPath, reason } of testsReadingChangedFiles) {
+    console.log(`  ${testPath}: ${reason}`)
+  }
+}
+
 const guardExit = runVitest([
   'run',
   ...ALWAYS_RUN_TEST_PATHS,
+  ...testsReadingChangedFiles.map(({ testPath }) => testPath),
   '--passWithNoTests',
 ])
 

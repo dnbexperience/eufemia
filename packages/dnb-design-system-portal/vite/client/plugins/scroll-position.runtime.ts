@@ -128,7 +128,7 @@ export function useScrollPosition() {
       saveScrollPosition()
 
       if (!location.hash) {
-        window.scrollTo({ top: 0 })
+        window.scrollTo({ top: 0, behavior: 'instant' })
       }
 
       requestAnimationFrame(() => {

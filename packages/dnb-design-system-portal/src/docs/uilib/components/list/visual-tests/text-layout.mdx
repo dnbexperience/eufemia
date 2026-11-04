@@ -6,6 +6,7 @@ search: false
 
 import {
   VisuallyHidden,
+  Avatar,
   Button,
   Filter,
   List,
@@ -69,3 +70,18 @@ import {
 >
   Standalone text
 </List.Item.Basic>
+
+<List.Container data-testid="avatar-group-alignment">
+  <List.Item.Basic>
+    <List.Cell.Title>
+      {'Account'}
+      <List.Cell.Title.Subline>Shared account</List.Cell.Title.Subline>
+    </List.Cell.Title>
+    <List.Cell.End>
+      <Avatar.Group label="Account owners">
+        <Avatar>A</Avatar>
+        <Avatar>B</Avatar>
+      </Avatar.Group>
+    </List.Cell.End>
+  </List.Item.Basic>
+</List.Container>

@@ -82,3 +82,26 @@ export function CountCharactersInteractive() {
     </ComponentBox>
   )
 }
+
+export function ErrorOnFilledSurface() {
+  return (
+    <ComponentBox hideCode data-visual-test="text-counter-filled-error">
+      <Form.Handler>
+        <Form.Section containerMode="edit">
+          <Form.Section.EditContainer
+            variant="filled"
+            title="Your message"
+          >
+            <Field.String
+              label="Message"
+              labelDescription="Maximum 20 characters"
+              value="A message over the limit"
+              multiline
+              characterCounter={20}
+            />
+          </Form.Section.EditContainer>
+        </Form.Section>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

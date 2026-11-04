@@ -14,6 +14,14 @@ const analyticsTerraform = readTerraform(
   '../../../analytics/infra/main.tf'
 )
 
+const terraformBlock = (header: string) =>
+  terraform.match(new RegExp(`^${header} \\{[\\s\\S]*?^\\}`, 'm'))?.[0]
+
+const resourceBlocks = (type: string) =>
+  terraform.match(
+    new RegExp(`^resource "${type}" "\\w+" \\{[\\s\\S]*?^\\}`, 'gm')
+  ) ?? []
+
 describe('MCP infrastructure', () => {
   it('notifies the analytics alert topic from every alarm', () => {
     const alarms = [
@@ -46,5 +54,51 @@ describe('MCP infrastructure', () => {
 
     expect(topicName).toBeDefined()
     expect(topicArn?.split(':').at(-1)).toBe(topicName)
+  })
+
+  it('creates both Lambda roles with the OIDC boundary, Lambda-only trust and delete protection', () => {
+    const assume = terraformBlock(
+      'data "aws_iam_policy_document" "lambda_assume"'
+    )
+
+    expect(terraform).toMatch(
+      /oidc_permissions_boundary_arn\s+=\s+".*:policy\/tlz\/oidc-tooling-github-permissionboundarypolicy"/
+    )
+    expect(assume?.match(/identifiers\s+=\s+\[.*\]/g)).toEqual([
+      'identifiers = ["lambda.amazonaws.com"]',
+    ])
+
+    for (const name of ['mcp', 'usage_consumer']) {
+      const role = terraformBlock(`resource "aws_iam_role" "${name}"`)
+
+      expect(role, `${name} role`).toMatch(
+        /permissions_boundary\s+=\s+local\.oidc_permissions_boundary_arn/
+      )
+      expect(role, `${name} role`).toContain(
+        'data.aws_iam_policy_document.lambda_assume.json'
+      )
+      expect(role, `${name} role`).toMatch(
+        /^\s+prevent_destroy\s+=\s+true$/m
+      )
+    }
+  })
+
+  it('attaches only the deploy-approved policies to each Lambda role', () => {
+    const attachedPolicies = (role: string) =>
+      resourceBlocks('aws_iam_role_policy_attachment')
+        .filter((block) => block.includes(`aws_iam_role.${role}.`))
+        .map((block) => block.match(/policy_arn\s+=\s+"(.*)"/)?.[1])
+
+    expect(attachedPolicies('mcp')).toEqual([
+      'arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-enqueue',
+      'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
+    ])
+    expect(attachedPolicies('usage_consumer')).toEqual([
+      'arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-consume',
+      'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
+    ])
+    expect(terraform).not.toMatch(
+      /resource "aws_iam_(role_policy|policy_attachment|role_policy_attachments_exclusive)" |managed_policy_arns|inline_policy/
+    )
   })
 })

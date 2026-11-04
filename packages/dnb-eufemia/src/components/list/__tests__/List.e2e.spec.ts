@@ -688,6 +688,33 @@ test.describe('List text layout compatibility', () => {
     await expect(row.locator('div')).toHaveCount(0)
   })
 
+  test('centers an end avatar group on the first title line', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1024, height: 900 })
+    const row = page.getByTestId('avatar-group-alignment')
+    await expect(row.locator('.dnb-avatar__group')).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
+    const offset = await row.evaluate((element) => {
+      const title = element.querySelector('.dnb-list__item__title > span')
+      const text = title.firstChild
+      const line = document.createElement('span')
+      line.style.display = 'inline-block'
+      text.replaceWith(line)
+      line.appendChild(text)
+      const titleRect = line.getBoundingClientRect()
+      const groupRect = element
+        .querySelector('.dnb-avatar__group')
+        .getBoundingClientRect()
+      return (
+        groupRect.top +
+        groupRect.height / 2 -
+        (titleRect.top + titleRect.height / 2)
+      )
+    })
+    expect(Math.abs(offset)).toBeLessThanOrEqual(1)
+  })
+
   test('keeps limited text rows hidden until expanded', async ({
     page,
   }) => {
@@ -738,9 +765,12 @@ test.describe('List nested row alignment', () => {
           const titleText = Array.from(
             item.querySelector('.dnb-list__item__title > span').childNodes
           ).find((node) => node.nodeType === Node.TEXT_NODE)
-          const titleRange = document.createRange()
-          titleRange.selectNodeContents(titleText)
-          const title = middle(titleRange.getBoundingClientRect())
+          // Compare line boxes, since glyph bounds differ across font weights and platforms.
+          const titleLine = document.createElement('span')
+          titleLine.style.display = 'inline-block'
+          titleText.replaceWith(titleLine)
+          titleLine.appendChild(titleText)
+          const title = middle(titleLine.getBoundingClientRect())
 
           return {
             icon:

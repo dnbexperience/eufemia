@@ -1099,7 +1099,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
-  transform: translateY(-0.03125rem);
+  transform: translateY(var(--button-text-translate-y, -0.03125rem));
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1279,7 +1279,7 @@ button.dnb-button::-moz-focus-inner {
     var(--progress-indicator-circular-size) / 8
   );
   --progress-indicator-circular-background-color: var(
-    --token-color-background-neutral-base
+    --token-color-background-neutral-subtle
   );
   --progress-indicator-circular-bar-color: var(
     --token-color-background-action

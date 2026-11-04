@@ -48,7 +48,6 @@ jobs:
             '^tools/monitoring/'
             '^tools/service-monitoring/'
             '^tools/usage-ingest/'
-            '^\.github/workflows/analytics-health\.yml$'
             '^\.github/workflows/analytics-lambda\.yml$'
             '^\.github/workflows/assets\.yml$'
             '^\.github/workflows/eufemia-marketplace-artifacts\.yml$'

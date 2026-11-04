@@ -3192,7 +3192,10 @@ describe('Wizard.Container', () => {
 
       expect(currentIndex).toBe(0)
 
-      await userEvent.type(document.querySelector('input'), 'foo')
+      // The hidden field can't get focus, so set its value without typing
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'foo' },
+      })
 
       // Go to Step 2
       await userEvent.click(nextButton())

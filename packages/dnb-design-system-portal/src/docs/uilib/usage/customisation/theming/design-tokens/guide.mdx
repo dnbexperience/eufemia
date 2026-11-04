@@ -2,30 +2,6 @@
 showTabs: true
 ---
 
-## Guide contents
-
-- [Guide contents](#guide-contents)
-- [Choosing the right token](#choosing-the-right-token)
-- [Token selection by role](#token-selection-by-role)
-- [Neutral surfaces and text](#neutral-surfaces-and-text)
-- [Token selection by state](#token-selection-by-state)
-  - [Interaction states](#interaction-states)
-  - [Status states](#status-states)
-  - [Modifiers](#modifiers)
-- [Practical examples](#practical-examples)
-  - [Custom action card](#custom-action-card)
-  - [Status banner](#status-banner)
-  - [Input-like field](#input-like-field)
-- [Patterns learned from Eufemia components](#patterns-learned-from-eufemia-components)
-  - [Use local CSS variables to simplify state handling](#use-local-css-variables-to-simplify-state-handling)
-  - [Use semantic tokens, not component tokens](#use-semantic-tokens-not-component-tokens)
-  - [Focus uses the shared action-focus tokens](#focus-uses-the-shared-action-focus-tokens)
-  - [Use decorative tokens only for decoration](#use-decorative-tokens-only-for-decoration)
-  - [Dark surfaces use `ondark` tokens](#dark-surfaces-use-ondark-tokens)
-- [Radius tokens](#radius-tokens)
-- [Decision checklist](#decision-checklist)
-- [Common mistakes](#common-mistakes)
-
 ## Choosing the right token
 
 When building application components with Eufemia design tokens, think semantically. Do not ask "which token has the same color value as the one I want?" Ask "what role does this color play in this component and state?"
@@ -58,9 +34,11 @@ Start with these foreground/background pairs, then check the rendered result in 
 | `--token-color-text-neutral`             | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Main text                                              |
 | `--token-color-text-neutral-alternative` | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Descriptions, optional labels and other secondary text |
 | `--token-color-text-action`              | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Links                                                  |
-| `--token-color-text-error`               | `--token-color-background-neutral`                                              | Error text                                             |
+| `--token-color-text-error`               | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Error text                                             |
 
-Do not assume that `text-error` works on every subtle or filled surface. On `background-neutral-subtle`, it has 4.13:1 contrast in DNB dark and 3.23:1 in Sbanken dark, below the 4.5:1 minimum for normal text. A neutral surface or the existing error-status pattern provides a safer starting point. Keep a visible outline when a nested container shares its background with its parent.
+On `background-neutral-subtle`, the lighter dark-mode `text-error` has 4.53:1 contrast in DNB and Eiendom and 4.67:1 in Sbanken. It also passes on `background-neutral`. These values do not apply to every filled surface: check `background-neutral-base` separately, particularly in Sbanken dark.
+
+Error text on `background-info-subtle` in DNB light and Carnegie remains below 4.5:1. Use a neutral surface or the existing error-status pattern for normal-size error messages there.
 
 For applications upgrading from the previous palette, follow [Migrating information and neutral colors](/uilib/usage/customisation/theming/design-tokens/colors#migrating-information-and-neutral-colors). Replacements depend on the role of each usage, so review them individually.
 

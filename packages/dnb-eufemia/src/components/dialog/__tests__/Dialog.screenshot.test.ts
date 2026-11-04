@@ -239,5 +239,28 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         })
       })
     })
+
+    describe('narrow screen', () => {
+      setupPageScreenshot({
+        themeName,
+        url: '/uilib/components/dialog/demos/',
+        pageViewport: {
+          width: 375,
+          height: 667,
+        },
+      })
+
+      it('have to match wrapped action buttons', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="dialog-confirm-wrapped-actions"]', // only to make sure we have a valid selector
+          simulate: 'click',
+          simulateSelector:
+            '[data-visual-test="dialog-confirm-wrapped-actions"] button:first-of-type',
+          simulateAfter: { keypress: 'Escape' },
+          screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
+          rootClassName: 'hide-page-content',
+        })
+      })
+    })
   }
 )

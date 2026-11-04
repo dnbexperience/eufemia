@@ -371,3 +371,21 @@ describe.each(['ui'])(`Button for %s`, (themeName) => {
     })
   })
 })
+
+describe.each(['ui', 'eiendom'])(
+  'Button destructive colors for %s dark',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      colorScheme: 'dark',
+      url: '/uilib/components/button/demos/',
+    })
+
+    it('matches the pressed destructive primary button', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="button-error-primary"]',
+        simulate: 'active',
+      })
+    })
+  }
+)

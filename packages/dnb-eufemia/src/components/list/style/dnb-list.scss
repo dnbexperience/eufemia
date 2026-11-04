@@ -197,7 +197,7 @@
     $launch-icon: '#{&}__action--href > a > .dnb-anchor__launch-icon';
     $text-cell: ':is(#{&}__center:not(:has(> #{&}__title)), #{&}__end)';
     $overline: '#{&}__overline';
-    $end-control: ':is(.dnb-avatar, .dnb-badge, .dnb-button, .dnb-flex-container--direction-horizontal, .dnb-icon, .dnb-switch, .dnb-tag, .dnb-toggle-button)';
+    $end-control: ':is(.dnb-avatar, .dnb-avatar__group, .dnb-badge, .dnb-button, .dnb-flex-container--direction-horizontal, .dnb-icon, .dnb-switch, .dnb-tag, .dnb-toggle-button)';
 
     // Safari before 15.4 does not support `:has()`. It drops every rule that
     // uses it, also the other selectors in the same selector list. So keep

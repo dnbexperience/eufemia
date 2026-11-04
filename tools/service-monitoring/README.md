@@ -66,6 +66,11 @@ Monitoring incident; it recovers after every known alarm has cleared. An alarm
 that was already active before deployment is learned on its next transition;
 inspect existing alarm state as part of migration. Timestamp checks deduplicate accepted observations and hourly repeated failures. They do not guarantee exactly-once Slack delivery.
 
+Outage posts list each failed check with its reason and link to the service and
+the monitor's CloudWatch log group (sign-in required).
+CDN reasons already name the failing asset URL. Monitoring incidents link to the
+alarm that opened them.
+
 Observed incident time is the window between the first failed check and first
 healthy check. Hourly sampling cannot determine exact downtime, and a freshness
 or monitoring failure need not mean the service was unavailable. Reports and raw

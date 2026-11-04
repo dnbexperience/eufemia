@@ -57,7 +57,7 @@ test.describe('Route Focus', () => {
       const scrollIntoView = HTMLElement.prototype.scrollIntoView
       HTMLElement.prototype.scrollIntoView = function (options) {
         scrollIntoView.call(this, options)
-        if (this.id === 'scss-utilities') {
+        if (this.id === 'spacing-support') {
           Object.assign(window, {
             clickedHashTop: this.getBoundingClientRect().top,
           })
@@ -68,10 +68,8 @@ test.describe('Route Focus', () => {
     await page.goto('/contribute/getting-started/')
     await waitForApp(page)
 
-    await page
-      .getByRole('link', { name: 'SCSS utilities', exact: true })
-      .click()
-    const target = page.locator('#scss-utilities')
+    await page.locator('main a[href="#spacing-support"]').first().click()
+    const target = page.locator('#spacing-support')
 
     await expect
       .poll(() =>
