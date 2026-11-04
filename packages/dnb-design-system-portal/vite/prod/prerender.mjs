@@ -99,7 +99,13 @@ async function prerender() {
   // Load the SSR module for metadata only (routes, allMdxNodes, etc.).
   // Actual rendering is done in worker threads for parallelism.
   const serverEntry = path.resolve(outDir, 'server', 'entry-server.mjs')
-  const { routes, routeModules, getContentScript, getNavigationScript, allMdxNodes } = await import(serverEntry)
+  const {
+    routes,
+    routeModules,
+    getContentScript,
+    getNavigationScript,
+    allMdxNodes,
+  } = await import(serverEntry)
 
   // Read the client HTML template
   const templatePath = path.resolve(outDir, 'index.html')
