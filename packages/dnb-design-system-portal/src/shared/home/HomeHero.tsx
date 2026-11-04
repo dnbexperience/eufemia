@@ -20,7 +20,10 @@ import {
 import { Theme, useTheme } from '@dnb/eufemia/src/shared'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
-import { useThemeHandler } from '../../../vite/client/shims/theme-handler'
+import {
+  getTheme,
+  useThemeHandler,
+} from '../../../vite/client/shims/theme-handler'
 import { SearchBarInput } from '../menu/SearchBar'
 import PortalToolsMenu from '../menu/PortalToolsMenu'
 import HomeBrands from './HomeBrands'
@@ -75,6 +78,9 @@ export default function HomeHero() {
     [onQuery]
   )
   const { setTheme } = useThemeHandler()
+  const [initialColorScheme] = useState(
+    () => getTheme().colorScheme || 'auto'
+  )
   const activeTheme = useTheme()
   const canUseDOM = useCanUseDOM()
   const activeBrand = canUseDOM ? activeTheme.brand : 'ui'
@@ -224,7 +230,16 @@ export default function HomeHero() {
                           label="Dark mode"
                           onChange={({ checked }) =>
                             setTheme({
-                              colorScheme: checked ? 'dark' : 'light',
+                              colorScheme:
+                                initialColorScheme === 'auto' &&
+                                checked ===
+                                  window.matchMedia(
+                                    '(prefers-color-scheme: dark)'
+                                  ).matches
+                                  ? 'auto'
+                                  : checked
+                                    ? 'dark'
+                                    : 'light',
                             })
                           }
                         />
