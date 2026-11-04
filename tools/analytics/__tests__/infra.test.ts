@@ -233,7 +233,7 @@ describe('analytics infrastructure', () => {
     )
   })
 
-  it('creates the dashboard role with the OIDC boundary, trusted only by Lambda', () => {
+  it('creates the dashboard role with the OIDC boundary, Lambda-only trust and delete protection', () => {
     const role = terraformBlock('resource "aws_iam_role" "dashboard"')
     const assume = terraformBlock(
       'data "aws_iam_policy_document" "dashboard_assume"'
@@ -248,6 +248,7 @@ describe('analytics infrastructure', () => {
     expect(assume?.match(/identifiers\s+=\s+\[.*\]/g)).toEqual([
       'identifiers = ["lambda.amazonaws.com"]',
     ])
+    expect(role).toMatch(/prevent_destroy\s+=\s+true/)
   })
 
   it('attaches only the deploy-approved policies to the dashboard role', () => {
