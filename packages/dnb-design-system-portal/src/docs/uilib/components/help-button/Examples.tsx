@@ -12,9 +12,43 @@ import {
   Dt,
   Dd,
   Dialog,
+  Drawer,
   TermDefinition,
 } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+
+export const HelpButtonModalSpacingExample = () => (
+  <>
+    <ComponentBox scope={{ Field }}>
+      <Dialog
+        title="Inline help"
+        triggerProps={{ 'data-testid': 'inline-help-modal-0' }}
+      >
+        <Field.String
+          label="Name"
+          help={{
+            title: 'About your name',
+            content: 'Enter your full name.',
+          }}
+        />
+      </Dialog>
+    </ComponentBox>
+    <ComponentBox scope={{ Field, Drawer }}>
+      <Drawer
+        title="Inline help"
+        triggerProps={{ 'data-testid': 'inline-help-modal-1' }}
+      >
+        <Field.String
+          label="Name"
+          help={{
+            title: 'About your name',
+            content: 'Enter your full name.',
+          }}
+        />
+      </Drawer>
+    </ComponentBox>
+  </>
+)
 
 export const HelpButtonDefaultExample = () => (
   <ComponentBox data-visual-test="help-button-default">
