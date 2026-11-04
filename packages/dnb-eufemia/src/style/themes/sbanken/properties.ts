@@ -109,6 +109,7 @@ export default {
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',
   '--font-weight-basis': 'normal',
+  '--font-weight-light': '300',
   '--font-weight-regular': 'normal',
   '--font-weight-medium': 'var(--sb-font-weight-medium)',
   '--font-weight-bold': 'var(--sb-font-weight-bold)',
@@ -186,5 +187,6 @@ export default {
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
   '--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
   '--focus-ring-width': '0.25rem',
+  '--button-text-translate-y': '-0.03125rem',
   '--font-size-basis-native': '1rem'
 }; // prettier-ignore

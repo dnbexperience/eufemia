@@ -12,10 +12,20 @@ import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
 For details about what values Typographic elements use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
 
-## Eufemia has three (3) font-weights
+## Supported weights
+
+DNB Sans Text and Mono support Light, Regular, Medium and Bold, each with
+italics. The existing public values for Regular, Medium and Bold are
+unchanged. Other brands retain their own fonts and weights; Light is only
+provided by the DNB faces.
+
+Follow the Eufemia Web Figma library for UI typography: body text and button
+labels use Regular; Lead and headings use Medium. Use Bold for explicit
+emphasis where the design calls for it.
 
 | Type                                                                                                 | CSS variable / property | CSS Classname             |
 | ---------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------- |
+| Light (300)                                                                                          | `--font-weight-light`   | `.dnb-t__weight--light`   |
 | <span className="dnb-t__weight--regular">Regular (<PropValue name="--font-weight-regular" />)</span> | `--font-weight-regular` | `.dnb-t__weight--regular` |
 | <span className="dnb-t__weight--medium">Medium (<PropValue name="--font-weight-medium" />)</span>    | `--font-weight-medium`  | `.dnb-t__weight--medium`  |
 | <span className="dnb-t__weight--bold">Bold (<PropValue name="--font-weight-bold" />)</span>          | `--font-weight-bold`    | `.dnb-t__weight--bold`    |

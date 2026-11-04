@@ -627,3 +627,17 @@ describe('useTypography', () => {
     expect(el.dataset.randomProp).toBe('test')
   })
 })
+
+describe('font variants', () => {
+  it('supports Light and genuine italic modifiers', () => {
+    render(
+      <Typography weight="light" slant="italic">
+        Text
+      </Typography>
+    )
+    expect(document.querySelector('.dnb-p')).toHaveClass(
+      'dnb-t__weight--light',
+      'dnb-t__slant--italic'
+    )
+  })
+})
