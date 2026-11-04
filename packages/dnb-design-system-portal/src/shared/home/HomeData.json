@@ -15,25 +15,36 @@
   ],
   "resources": [
     {
-      "title": "Images",
-      "url": "/web/layout-and-typography/elements/image"
+      "title": "Components",
+      "url": "/web/components/overview/"
     },
     {
-      "title": "Animations",
-      "url": "/web/components/height-animation"
+      "title": "AI",
+      "url": "/web/ai-tools-and-resources/ai/mcp-universe/"
     },
-    { "title": "Icons", "url": "/collections/icons" },
+    {
+      "title": "Forms",
+      "url": "/web/forms/"
+    },
+    {
+      "title": "Motion",
+      "url": "/web/development-guidelines/motion/"
+    },
+    {
+      "title": "Design Tokens",
+      "url": "/web/styling-and-themes/design-tokens/"
+    },
     {
       "title": "Theming",
-      "url": "/web/styling-and-themes/brands-and-dark-mode"
+      "url": "/web/styling-and-themes/brands-and-dark-mode/"
     },
-    { "title": "Grid", "url": "/web/layout-and-typography/layout/grid" },
     {
-      "title": "Tokens",
-      "url": "/web/styling-and-themes/design-tokens"
+      "title": "Icons",
+      "url": "/collections/icons/"
     },
-    { "title": "Brand", "url": "/design-foundations/brand-guidelines" },
-    { "title": "What's new", "url": "/web/releases-and-upgrades" },
-    { "title": "Eufemia change log", "url": "/design-system" }
+    {
+      "title": "Layout",
+      "url": "/web/layout-and-typography/layout/"
+    }
   ]
 }
