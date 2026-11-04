@@ -2,7 +2,7 @@ name: Design token review
 
 on:
   pull_request:
-    # Release PRs only bundle token changes that were already reviewed on main.
+    # Release PRs only bundle token changes that were reviewed in earlier PRs.
     branches-ignore:
       - 'release'
       - 'beta'
