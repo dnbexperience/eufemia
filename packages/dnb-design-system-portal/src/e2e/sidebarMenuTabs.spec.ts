@@ -221,11 +221,6 @@ test.describe('Portal SidebarMenu', () => {
       'href',
       '/web/get-started/quick-start'
     )
-    const design = menu.getByRole('button', {
-      name: 'Design for Web',
-      exact: true,
-    })
-    await design.click()
     await expect(
       menu.getByRole('link', {
         name: 'Set up Eufemia Web in Figma',
@@ -306,8 +301,7 @@ test.describe('Portal SidebarMenu', () => {
       await expect(page).toHaveURL(
         (url) =>
           url.pathname.replace(/[/]$/, '') ===
-            '/web/get-started/how-eufemia-works' &&
-          url.search === '?from=old'
+            '/web/get-started/quick-start' && url.search === '?from=old'
       )
       await expect(page.locator('main')).toContainText(
         'What the library provides'

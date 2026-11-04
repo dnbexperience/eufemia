@@ -110,11 +110,6 @@
     "h1": "Web typography"
   },
   {
-    "slug": "web/get-started/design-for-web/inspiration",
-    "menu": "Inspiration",
-    "h1": "Inspiration"
-  },
-  {
     "slug": "quickguide-designer/logos",
     "menu": "DNB brand logos",
     "h1": "DNB brand logos"
@@ -140,11 +135,6 @@
     "h1": "HTML elements"
   },
   {
-    "slug": "web/patterns-and-extensions/extensions",
-    "menu": "Extensions",
-    "h1": "Extensions"
-  },
-  {
     "slug": "web/ai-tools-and-resources/utilities",
     "menu": "Shared utilities",
     "h1": "Shared utilities"
@@ -153,11 +143,6 @@
     "slug": "web/get-started/guided-introduction",
     "menu": "Guided introduction",
     "h1": "Guided introduction"
-  },
-  {
-    "slug": "web/get-started/how-eufemia-works",
-    "menu": "How Eufemia works",
-    "h1": "How Eufemia works"
   },
   {
     "slug": "web/layout-and-typography/layout",
@@ -263,11 +248,6 @@
     "slug": "web/accessibility",
     "menu": "Build accessible interfaces",
     "h1": "Build accessible interfaces"
-  },
-  {
-    "slug": "web/development-guidelines",
-    "menu": "Web development guidelines",
-    "h1": "Web development guidelines"
   },
   {
     "slug": "web/styling-and-themes/configuration",

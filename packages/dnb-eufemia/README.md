@@ -2,7 +2,7 @@
 
 Eufemia is DNB's design system and UI library, providing a consistent and accessible set of components for building modern web applications. It streamlines development by offering reusable elements, design guidelines, and best practices, ensuring a unified user experience across DNB's digital products.
 
-Read more about Eufemia and the [DNB UI Library](https://eufemia.dnb.no/web/get-started/how-eufemia-works).
+Read more about Eufemia and the [DNB UI Library](https://eufemia.dnb.no/web/get-started/quick-start).
 
 ## Agent Skills
 

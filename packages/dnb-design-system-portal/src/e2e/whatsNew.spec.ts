@@ -38,25 +38,21 @@ test.describe('Releases and upgrades', () => {
         exact: true,
       })
     ).toBeVisible()
-    for (const name of ['Releases', 'Change log', 'Upgrade']) {
+    for (const [index, name] of [
+      'Change log',
+      'Releases',
+      'Upgrade',
+    ].entries()) {
       await expect(
         page.getByRole('tab', { name, exact: true })
       ).toBeVisible()
+      await expect(page.getByRole('tab').nth(index)).toHaveAccessibleName(
+        name
+      )
     }
-    await expect(
-      page.getByRole('tab', { name: 'Releases', exact: true })
-    ).toHaveAttribute('aria-selected', 'true')
-    await expect(
-      page.getByRole('region', { name: 'Eufemia release history' })
-    ).toBeVisible()
-    await page
-      .getByRole('tab', { name: 'Change log', exact: true })
-      .click()
-    await expect(page).toHaveURL('/web/releases-and-upgrades/change-log')
     await expect(
       page.getByRole('tab', { name: 'Change log', exact: true })
     ).toHaveAttribute('aria-selected', 'true')
-    // The URL can update before React commits the new tab content.
     await expect(
       page
         .locator('main')
@@ -65,6 +61,14 @@ test.describe('Releases and upgrades', () => {
     ).toHaveAttribute('href', '/web/releases-and-upgrades/upgrade', {
       timeout: 15000,
     })
+    await page.getByRole('tab', { name: 'Releases', exact: true }).click()
+    await expect(page).toHaveURL('/web/releases-and-upgrades/releases')
+    await expect(
+      page.getByRole('tab', { name: 'Releases', exact: true })
+    ).toHaveAttribute('aria-selected', 'true')
+    await expect(
+      page.getByRole('region', { name: 'Eufemia release history' })
+    ).toBeVisible()
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
     await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade')
     await expect(
@@ -141,10 +145,10 @@ test.describe('Releases and upgrades', () => {
   })
 
   for (const path of [
-    '/web/releases-and-upgrades/change-log',
+    '/web/releases-and-upgrades/releases',
     '/web/releases-and-upgrades/upgrade',
   ]) {
-    const tab = path.endsWith('/upgrade') ? 'Upgrade' : 'Change log'
+    const tab = path.endsWith('/upgrade') ? 'Upgrade' : 'Releases'
     test(
       'loads ' + path + ' directly and after reload',
       async ({ page }) => {
@@ -172,12 +176,13 @@ test.describe('Releases and upgrades', () => {
     '/whats-new',
     '/whats-new/info',
     '/whats-new/change-log',
+    '/web/releases-and-upgrades/change-log',
     '/whats-new/upgrade',
   ]) {
     test('redirects ' + path + ' to the web section', async ({ page }) => {
       await page.goto(path)
       const target =
-        path === '/whats-new/info'
+        path.endsWith('/info') || path.endsWith('/change-log')
           ? '/web/releases-and-upgrades'
           : '/web/releases-and-upgrades' + path.slice('/whats-new'.length)
       await expect(page).toHaveURL(new RegExp(target + '/?$'))

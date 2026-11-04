@@ -1,7 +1,7 @@
 # Eufemia Analytics dashboard
 
 A dashboard UI for the analytics records — key figures and ranked bar lists,
-built with React, Vite and [`@dnb/eufemia`](https://eufemia.dnb.no/web/get-started/how-eufemia-works/)
+built with React, Vite and [`@dnb/eufemia`](https://eufemia.dnb.no/web/get-started/quick-start/)
 components. It renders whatever data it is given and shows an empty state until a
 data source is wired up.
 

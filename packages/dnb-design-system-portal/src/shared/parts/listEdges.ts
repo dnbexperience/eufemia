@@ -32,6 +32,7 @@ export function getExtensions(pages: MdxNode[]): MdxNode[] {
     (node) =>
       (node.fields.slug === 'web/forms' ||
         globPath(node, 'web/patterns-and-extensions/*')) &&
+      node.frontmatter.showTabs === true &&
       node.frontmatter.hideInMenu !== true
   )
 }

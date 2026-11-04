@@ -120,7 +120,7 @@ describe('MDX-defined Portal navigation', () => {
       expect(group.isMenuGroup).toBe(true)
       expect(group.isMenuLink).toBe(false)
       const [data] = toSidebarMenuData([group], () => undefined)
-      expect(data.type).toBe('group')
+      expect(data.type).toBe('header')
       expect(data.collapsible).toBeUndefined()
       expect(group.subheadings.map(({ title }) => title)).toEqual(expected)
     }
@@ -374,11 +374,11 @@ describe('MDX-defined Portal navigation', () => {
       expect.arrayContaining([
         expect.objectContaining({
           from: '/web/about-the-lib',
-          to: '/web/get-started/how-eufemia-works/',
+          to: '/web/get-started/quick-start/',
         }),
         expect.objectContaining({
           from: '/uilib/about-the-lib',
-          to: '/web/get-started/how-eufemia-works/',
+          to: '/web/get-started/quick-start/',
         }),
         expect.objectContaining({
           from: '/contribute/contact',
@@ -416,10 +416,11 @@ describe('MDX-defined Portal navigation', () => {
     const design = flatten(tree().sections[0].items).find(
       ({ path }) => path === 'web/get-started/design-for-web'
     )
-    expect(design.subheadings.map(({ title }) => title)).toEqual([
-      'Set up Eufemia Web in Figma',
-      'Inspiration',
-    ])
+    expect(design).toMatchObject({
+      title: 'Set up Eufemia Web in Figma',
+      isMenuLink: true,
+    })
+    expect(design.subheadings).toBeUndefined()
     expect(flatten([design]).every(({ icon }) => !icon)).toBe(true)
     expect(
       flatten(tree().shared).find(
@@ -492,7 +493,6 @@ describe('MDX-defined Portal navigation', () => {
     for (const slug of [
       'web/get-started/guided-introduction',
       'web/get-started/quick-start',
-      'web/get-started/how-eufemia-works',
       'web/get-started/design-for-web',
       'web/get-started/quick-start',
       'web/get-started/quick-start',
@@ -500,8 +500,8 @@ describe('MDX-defined Portal navigation', () => {
       'web/ai-tools-and-resources/module-formats',
       'web/ai-tools-and-resources/developer-tools',
       'web/components/overview',
-      'web/development-guidelines/for-formatting',
-      'web/development-guidelines/for-javascript',
+      'design-foundations/number-formatting',
+      'web/contribute/guidelines/coding',
       'web/development-guidelines/for-styling',
       'web/development-guidelines/for-testing',
       'web/development-guidelines/for-typography',
@@ -608,10 +608,9 @@ describe('MDX-defined Portal navigation', () => {
     const start = web.items.find(({ id }) => id === 'web-get-started')
     expect(start.subheadings.map(({ title }) => title)).toEqual([
       'Quick start',
-      'How Eufemia works',
       'Guided introduction',
       'Requirements and browser support',
-      'Design for Web',
+      'Set up Eufemia Web in Figma',
     ])
   })
 
@@ -628,17 +627,19 @@ describe('MDX-defined Portal navigation', () => {
       isMenuGroup: false,
     })
     expect(patterns.subheadings.map(({ title }) => title)).toEqual([
-      'Extensions',
+      'Using patterns and extensions',
       'Sidebar menu',
       'Payment card',
       'Vipps wallet button',
-      'Status indicators',
       'Table of contents',
+      'Patterns',
     ])
     expect(
-      patterns.subheadings.find(
-        ({ path }) => path === 'web/patterns-and-extensions/status-icon'
-      )
+      patterns.subheadings
+        .flatMap((item) => item.subheadings ?? [item])
+        .find(
+          ({ path }) => path === 'web/patterns-and-extensions/status-icon'
+        )
     ).toMatchObject({ isMenuLink: true, isActive: true })
     const [data] = toSidebarMenuData([patterns], () => undefined)
     expect(data).toMatchObject({ collapsible: true })

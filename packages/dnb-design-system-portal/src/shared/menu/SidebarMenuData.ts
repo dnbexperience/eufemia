@@ -90,7 +90,7 @@ export function toSidebarMenuData(
             }
           : undefined,
         items: nestedItems,
-        type: isGroup ? 'group' : undefined,
+        type: item.isMenuGroup ? 'header' : isGroup ? 'group' : undefined,
         collapsible: nestedItems && !isGroup ? true : undefined,
         onClick: closeMenu,
       }

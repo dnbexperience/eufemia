@@ -20,7 +20,7 @@ export default function App() {
             📖 Here's the link to the documentation:
             <Anchor
               left
-              href="https://eufemia.dnb.no/web/get-started/how-eufemia-works/"
+              href="https://eufemia.dnb.no/web/get-started/quick-start/"
               target="_blank"
             >
               Eufemia Documentation

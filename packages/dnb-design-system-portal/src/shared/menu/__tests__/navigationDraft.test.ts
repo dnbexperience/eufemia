@@ -78,7 +78,6 @@ it('keeps every existing menu page in the navigation draft', () => {
     'web/accessibility/design-guidance',
     'web/development-guidelines/motion',
     'web/contribute/guidelines/design-and-code-vocabulary',
-    'web/get-started/design-for-web/inspiration',
     'web/components/icon/usage',
     'web/contribute/social-preview-images',
     'web/contribute/suggest-edit',

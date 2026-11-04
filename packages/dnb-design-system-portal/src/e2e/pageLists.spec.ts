@@ -94,18 +94,22 @@ test.describe('Page Lists', () => {
 
   test.describe('of extensions', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/web/patterns-and-extensions/extensions/')
+      await page.goto(
+        '/web/patterns-and-extensions/using-patterns-and-extensions/'
+      )
 
       // Check if app is mounted
       await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {
-      await expect(page).toHaveTitle('Extensions | Eufemia')
+      await expect(page).toHaveTitle(
+        'Using patterns and extensions | Eufemia'
+      )
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('Extensions')
+      await expect(headingText).toBe('Using patterns and extensions')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 

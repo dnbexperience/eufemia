@@ -4,27 +4,31 @@ description: >-
   layouts.
 title: Breakpoints and media queries
 contentTitle: Breakpoints and media queries
-hideInMenu: true
 breadcrumb:
   - text: Layout
     href: /web/layout-and-typography/layout/
   - text: Media Queries
     href: /web/layout-and-typography/breakpoints/
 navigation:
-  title: Responsive breakpoints
+  title: Breakpoints and media queries
   order: 3
-  kind: group
-  pageTitle: Breakpoints and media queries
   parent: web/layout-and-typography
 legacyFragments:
   media-queries-and-breakpoints: /web/layout-and-typography/breakpoints/#breakpoints-and-media-queries
+  media-query: /web/layout-and-typography/breakpoints/#properties
 redirect_from:
   - /uilib/layout/media-queries
   - /web/layout/media-queries
+  - /web/layout-and-typography/breakpoints/properties
+  - /uilib/shared/media-query/properties
+  - /web/shared/media-query/properties
 legacyPrefixes:
   - web/layout/media-queries
   - uilib/layout/media-queries
 ---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { MediaQueryProperties } from '@dnb/eufemia/src/shared/MediaQueryDocs'
 
 import BreakpointRanges from './layout/assets/breakpoint-ranges.svg'
 import {
@@ -100,6 +104,8 @@ It uses the same query API as CSS. You can also provide your query raw by using,
 You can both use `min` and `max`, they are equivalent to `minWidth` and `maxWidth`.
 
 CamelCase properties will be converted to kebab-case.
+
+<PropertiesTable props={MediaQueryProperties} />
 
 ### SSR
 
@@ -271,7 +277,7 @@ You have plenty of possibilities to mix and match:
 </MediaQuery>
 ```
 
-you can find the [properties on this page](/web/layout-and-typography/breakpoints/properties).
+See the [MediaQuery properties](#properties) above.
 
 #### Interceptor on change listener
 

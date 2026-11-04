@@ -657,7 +657,7 @@ test.describe('Portal table of contents', () => {
     await page.setViewportSize({ width: 1440, height: 1000 })
     for (const path of [
       '/web/forms/changelog/',
-      '/web/patterns-and-extensions/extensions/',
+      '/web/patterns-and-extensions/using-patterns-and-extensions/',
       '/web/patterns-and-extensions/table-of-content/',
     ]) {
       await page.goto(path)

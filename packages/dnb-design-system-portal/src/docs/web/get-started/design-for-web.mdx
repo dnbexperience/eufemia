@@ -2,12 +2,11 @@
 title: Set up Eufemia Web in Figma
 description: Eufemia for designers - design guidelines and resources.
 navigation:
-  title: Design for Web
+  title: Set up Eufemia Web in Figma
   order: 9
   parent: web/get-started
-  kind: group
-  pageTitle: Set up Eufemia Web in Figma
 legacyFragments:
+  contents: /web/get-started/design-for-web/#related-design-guidance
   start-designing: /web/get-started/design-for-web/#set-up-eufemia-web-in-figma
   ui-resources: /web/get-started/design-for-web/#figma-files
 redirect_from:
@@ -18,64 +17,94 @@ legacyPrefixes:
   - quickguide-designer
 ---
 
-import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
-import FigmaTeam from 'Docs/web/get-started/design-for-web/assets/figma-team.svg'
-import FigmaLibraries from 'Docs/web/get-started/design-for-web/assets/figma-libraries.svg'
-import FigmaLayoutGrid from 'Docs/web/get-started/design-for-web/assets/figma-layout-grid.svg'
-import FigmaLibrary from 'Docs/web/get-started/design-for-web/assets/figma-library.svg'
+import { Img } from '@dnb/eufemia/src'
+import FigmaTeam from 'Docs/web/get-started/design-for-web/assets/figma-team.svg?url'
+import FigmaLibraries from 'Docs/web/get-started/design-for-web/assets/figma-libraries.svg?url'
+import FigmaLayoutGrid from 'Docs/web/get-started/design-for-web/assets/figma-layout-grid.svg?url'
+import FigmaLibrary from 'Docs/web/get-started/design-for-web/assets/figma-library.svg?url'
 
-## Contents
+Use the official Eufemia Web library in Figma so your designs share the components, typography and spacing used by developers.
 
-1. [Accessibility](/web/accessibility/design-guidance) - accessibility, inclusiveness, and WCAG.
-1. [Design tools](#design-tools) - recommended applications.
-1. [Fonts](/web/layout-and-typography/typography/design-guidance) - downloads and links to other resources.
-1. [Logos](/collections/logos/#dnb-brand-logos) - DNB brand logo.
-1. [Colors](/web/styling-and-themes/legacy-colors/#legacy-color-palette) (deprecated) - color library downloads and recommendations. Use [Design Tokens – Colors](/web/styling-and-themes/design-tokens/colors) instead.
-1. [UI resources](#figma-files) - the official Figma libraries.
-1. [Naming conventions](/web/contribute/guidelines/design-and-code-vocabulary) - overview of how we name things across code and design.
-1. [Design principles](/design-foundations/design-principles/) - in relation to designing digital UIs.
-1. [Motion](/web/development-guidelines/motion) - visual studies of movement and feedback in DNB interfaces.
-
-1. [Spatial System](/web/layout-and-typography/layout-principles) - spatial system used in Eufemia.
-
-### Brand guidelines
-
-What you should read from the brand guidelines before starting to design for DNB
-
-### Getting started
+## Getting started
 
 1. Open Figma.
-2. Make sure you are a member of the DNB UX team. If not, then contact a [lead designer](/about/contact).
-3. When you click on the 'You' dropdown, you should see DNB Bank ASA as a team to choose from.
-4. Choose DNB Bank ASA <InlineImg src={FigmaTeam} caption="Join the DNB UX team" alt="Join the DNB UX team" />.
-5. Create a new file.
-6. Add Eufemia library to your file by selecting the 'open book' icon on the top right of the Figma interface. <InlineImg src={FigmaLibrary} caption="Figma's library icon" alt="Library icon" />.
-7. This opens a new dialog window. Choose Eufemia by toggling the switch: <InlineImg src={FigmaLibraries} caption="Add the Eufemia library" alt="Add Eufemia team" />.
-8. In preferences set your nudge amount to 8px - this will snap items to the 8px grid.
-9. Add a layout grid and set it to 8px: <InlineImg src={FigmaLayoutGrid} caption="Add an 8px layout grid" alt="Add 8px layout grid" />.
+2. Make sure you are a member of the DNB UX team. If you need access, [contact the Eufemia team](/about/contact/).
+3. Open the team selector.
+4. Choose **DNB Bank ASA**.
+
+<Img
+  src={FigmaTeam}
+  caption="Choose the DNB team in Figma"
+  alt="DNB Bank ASA in Figma's team selector"
+  bottom="large"
+/>
+
+<ol start={5}>
+  <li>Create a new file.</li>
+  <li>Open the library dialog using the library icon.</li>
+</ol>
+
+<Img
+  src={FigmaLibrary}
+  caption="Open the library dialog"
+  alt="Figma's library icon"
+  bottom="large"
+/>
+
+<ol start={7}>
+  <li>Enable the Eufemia Web library for your file.</li>
+</ol>
+
+<Img
+  src={FigmaLibraries}
+  caption="Enable the Eufemia library"
+  alt="Eufemia in the Figma team libraries dialog"
+  bottom="large"
+/>
+
+<ol start={8}>
+  <li>Set your nudge amount to 8px in preferences.</li>
+  <li>Add a layout grid and set its size to 8px.</li>
+</ol>
+
+<Img
+  src={FigmaLayoutGrid}
+  caption="Use an 8px layout grid"
+  alt="An 8px layout grid in Figma"
+  bottom="large"
+/>
+
+## Brand guidelines
+
+Read the [DNB brand guidelines](/design-foundations/brand-guidelines/) before starting a design. Use the Eufemia Web library for the interface components and tokens that apply to Web applications.
 
 ## Design tools
 
-DNB's main (original) design templates and guides are created and maintained in Figma.
-Designers are **strongly encouraged** to work in Figma to maintain compatibility and ease of sharing.
-
-Link: [Figma.com](https://www.figma.com)
+DNB's interface design templates and guides are maintained in [Figma](https://www.figma.com). Working in the shared tool makes designs easier to review, maintain and hand over.
 
 ## Why not Sketch?
 
-We are working on the 'single-source-of-truth' principle. For that reason, only one design application will be used to generate Eufemia's main documents.
-
-In general, if a team decides **together** to use a specific application or technology because they feel that the product or service will be built better or that they are more comfortable using it, they may do so. Even then, it is recommended that data and file formats remain agnostic and reusable in other common applications and technologies.
+The shared Eufemia libraries are maintained in Figma to provide one source for interface design. Teams can choose other tools when their work requires them, but should keep design files and exports accessible to collaborators.
 
 ## UI resources
 
-The following is a set of interface design resources to get you up and running with all the basic tools and libraries. These files ensure that you are using the official and most up-to-date versions, rather than simply serving as a time-saving measure.
+Use the official libraries so your work stays aligned with maintained design resources.
 
 ## Figma files
 
-You may have to request **view** access to use these resources.
+You may need to request view access to these resources:
 
-- [Eufemia](https://www.figma.com/file/cdtwQD8IJ7pTeE45U148r1/Eufemia-Web?node-id=530%3A49)
+- [Eufemia Web](https://www.figma.com/file/cdtwQD8IJ7pTeE45U148r1/Eufemia-Web?node-id=530%3A49)
 - [Icons](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia-Icons?node-id=1%3A9)
 - [Flags](https://www.figma.com/file/Uc4ydRIqv0Ab4YiR6mSOZH/Eufemia-Flags?node-id=1%3A3246)
-- [Payment Cards](https://www.figma.com/file/461cAN5Qc3Nks4ztZ9pjtM)
+- [Payment cards](https://www.figma.com/file/461cAN5Qc3Nks4ztZ9pjtM)
+
+## Related design guidance
+
+- [Design principles](/design-foundations/design-principles/) and [Motion principles](/design-foundations/motion-principles/).
+- [Accessibility for Web designers](/web/accessibility/design-guidance/).
+- [Web typography](/web/layout-and-typography/typography/design-guidance/) and [Color tokens](/web/styling-and-themes/design-tokens/colors/).
+- [Logos](/collections/logos/) and [Number formatting reference](/design-foundations/number-formatting/).
+- [Web layout principles](/web/layout-and-typography/layout-principles/) and [Spacing](/web/layout-and-typography/spacing/).
+- [Design and code vocabulary](/web/contribute/guidelines/design-and-code-vocabulary/).
+- [Motion examples and implementation for Web](/web/development-guidelines/motion/).

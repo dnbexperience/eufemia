@@ -10,11 +10,21 @@ navigation:
   order: 1
 redirect_from:
   - /contribute/style-guides/coding
+  - /web/development-guidelines/for-javascript
+  - /uilib/usage/best-practices/for-javascript
+  - /web/usage/best-practices/for-javascript
+legacyFragments:
+  javascript-and-jsx: /web/contribute/guidelines/coding/#javascript-and-jsx
+  clean-code: /web/contribute/guidelines/coding/#javascript-and-jsx
+  dates: /web/contribute/guidelines/coding/#dates
+  react: /web/contribute/guidelines/coding/#react-state
+  handling-of-react-state: /web/contribute/guidelines/coding/#react-state
+  readable-jsx: /web/contribute/guidelines/coding/#readable-jsx
 ---
 
 To assure that the source code remains consistent regardless of the amount of contributors, a set of code principles has been established.
 
-The set of main code principles within JS, CSS, Typography and testing are located in the [UI Library - Best practices](/web/development-guidelines). Below is more related to further developing the Eufemia repository.
+For application guidance, see [CSS and styling](/web/development-guidelines/for-styling/), [Typography](/web/development-guidelines/for-typography/) and [Testing frontend code](/web/development-guidelines/for-testing/). This guide covers conventions for contributing to Eufemia.
 
 ## Recommended Tools
 
@@ -72,3 +82,19 @@ Follow this list below to increase consistent code:
 1. Code comments should be optional to consume while reading the code. They should be a helping hand – if needed.
 
 Eufemia has some (`multiline-comment-style` and `spaced-comment`) ESLint and StyleLint rules to enhance consistent code comment styles.
+
+## JavaScript and JSX
+
+Keep components small and use descriptive names. Extract complex expressions into named variables or functions so the markup remains easy to scan. Use the repository's ESLint and Prettier rules to keep contributions consistent.
+
+### Dates
+
+Eufemia uses [date-fns](https://date-fns.org/) for date calculations. Prefer its modular functions and immutable date operations when contributing to the library. Use [DateFormat](/web/components/date-format/) and the [number formatting reference](/design-foundations/number-formatting/) for user-facing output.
+
+### React state
+
+Keep state close to the components that use it. Lift it to a shared parent when necessary, and use context when several descendants need the same data. See [state colocation](https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster) for examples.
+
+### Readable JSX
+
+Arrange a larger module so readers can find its main component first, followed by smaller components and supporting logic. Extract reusable behavior into hooks, and prefer local state when it does not need to be shared.

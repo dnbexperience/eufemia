@@ -83,7 +83,7 @@ test.describe('LLM integration', () => {
       path.join(publicDir, 'uilib.md'),
       'utf-8'
     )
-    expect(uilibBody).toContain('# How Eufemia works')
+    expect(uilibBody).toContain('# Quick start')
     expect(uilibBody).toContain('The DNB UI library contains ready-to-use')
 
     const iconsMdFile = path.join(publicDir, 'icons.md')

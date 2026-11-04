@@ -165,6 +165,15 @@ the reusable workflow; MCP provides the current Eufemia facts. If MCP is not
 available, the skills should say that the relevant information could not be
 verified instead of guessing.
 
+### Read Markdown documentation without MCP
+
+For tools that can read files or fetch URLs directly, use the Markdown documentation:
+
+- Prefer the documentation packaged with the project's installed `@dnb/eufemia` version. Start with `node_modules/@dnb/eufemia/docs/web/get-started/quick-start.md` and follow links within that package's `docs` directory. Older package versions may use different paths.
+- If packaged documentation is unavailable, start with [Quick start in Markdown](https://eufemia.dnb.no/web/get-started/quick-start.md). The hosted documentation follows the latest release, so check the project's installed version before relying on version-specific APIs.
+
+Retrieve the relevant documentation before generating or reviewing code. Use documented APIs and state when something cannot be verified.
+
 ## Build AI tools on Eufemia
 
 Treat Eufemia as the source of truth for shared design-system functionality and

@@ -26,11 +26,6 @@
     > .dnb-sidebar-menu-responsive-inline__content {
     clip-path: inset(0 -2rem 0 0);
   }
-
-  [data-sidebar-menu-group-id^='web-components-categories-']
-    > .dnb-sidebar-menu__group__title {
-    color: var(--token-color-text-neutral-alternative);
-  }
 }
 .navStyle {
   position: fixed;

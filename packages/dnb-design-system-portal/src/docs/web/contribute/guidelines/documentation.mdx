@@ -113,7 +113,7 @@ Pages without section headings omit the table of contents. Otherwise, the page t
 
 The static HTML includes the table of contents and its heading data alongside the page content. Hydration reuses that data, then tracks headings that are added, removed or changed in the browser. The mobile disclosure and desktop links are styled for the viewport before hydration.
 
-Portal disables heading-list replacement animation with animateChanges set to false. Applications can opt in through TableOfContent.Root or TableOfContent.Data; see the [extension documentation](/web/extensions/table-of-content/).
+Portal disables heading-list replacement animation with animateChanges set to false. Applications can opt in through TableOfContent.Root or TableOfContent.Data; see the [extension documentation](/web/patterns-and-extensions/table-of-content/).
 
 The skip link moves focus to the main content, including its title and tabs. On desktop, the outline follows the article in the reading and keyboard order. On mobile, the disclosure comes before the article. The outline uses the shared native scrollbar sizing. Scrolling inside an overflowing desktop outline stays within its list; a short outline allows the page to scroll.
 

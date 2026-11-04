@@ -10,4 +10,4 @@ about: If you have questions, please check our Discord or StackOverflow
 
 For questions or help please see:
 
-- [Eufemia Portal](https://eufemia.dnb.no/web/get-started/how-eufemia-works)
+- [Eufemia Portal](https://eufemia.dnb.no/web/get-started/quick-start)

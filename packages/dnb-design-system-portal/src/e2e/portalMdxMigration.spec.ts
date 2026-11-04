@@ -145,7 +145,7 @@ test('keeps the introduction and first-tab aliases accessible', async ({
   await page.goto('/uilib?source=legacy#ui-library')
   await waitForApp(page)
   await expect(page).toHaveURL(
-    '/web/get-started/how-eufemia-works/?source=legacy#ui-library'
+    '/web/get-started/quick-start/?source=legacy#quick-start'
   )
   await page.goto('/uilib/components/button/info?source=legacy#sizes')
   await waitForApp(page)

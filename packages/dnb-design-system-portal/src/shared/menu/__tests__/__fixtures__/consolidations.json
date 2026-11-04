@@ -94,5 +94,9 @@
   "web/typography/line-height": {
     "to": "web/layout-and-typography/typography/css-reference",
     "section": "line-height"
+  },
+  "web/get-started/how-eufemia-works": {
+    "to": "web/get-started/quick-start",
+    "section": "what-the-library-provides"
   }
 }

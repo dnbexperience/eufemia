@@ -36,9 +36,6 @@ for (const width of [1440, 390]) {
         .getByRole('button', { name: 'Get started', exact: true })
         .click()
       await nav
-        .getByRole('button', { name: 'Design for Web', exact: true })
-        .click()
-      await nav
         .getByRole('link', {
           name: 'Set up Eufemia Web in Figma',
           exact: true,

@@ -25,6 +25,38 @@ for (const width of [1440, 390]) {
 
 for (const [from, to] of [
   [
+    '/web/whats-new/#v11161',
+    '/web/releases-and-upgrades/releases/#v11161',
+  ],
+  [
+    '/web/get-started/how-eufemia-works/#what-the-library-provides',
+    '/web/get-started/quick-start/#what-the-library-provides',
+  ],
+  [
+    '/uilib/about-the-lib/#collaboration',
+    '/web/get-started/quick-start/#design-and-development',
+  ],
+  [
+    '/web/development-guidelines/for-formatting/#phone-number',
+    '/design-foundations/number-formatting/#phone-number',
+  ],
+  [
+    '/web/development-guidelines/for-javascript/#handling-of-react-state',
+    '/web/contribute/guidelines/coding/#react-state',
+  ],
+  [
+    '/web/layout-and-typography/breakpoints/properties/#properties',
+    '/web/layout-and-typography/breakpoints/#properties',
+  ],
+  [
+    '/web/get-started/design-for-web/inspiration/#using-eufemias-spatial-system-for-layout',
+    '/web/layout-and-typography/layout-principles/#web-layout-principles',
+  ],
+  [
+    '/web/patterns-and-extensions/extensions/#webextensionsforms',
+    '/web/patterns-and-extensions/using-patterns-and-extensions/#webforms',
+  ],
+  [
     '/web/typography/font-weight/#eufemia-has-three-3-font-weights',
     '/web/layout-and-typography/typography/css-reference/#supported-weights',
   ],

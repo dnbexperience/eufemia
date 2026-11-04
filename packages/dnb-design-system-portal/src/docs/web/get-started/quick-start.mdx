@@ -9,6 +9,22 @@ navigation:
   order: 1
   parent: web/get-started
 legacyFragments:
+  how-eufemia-works: /web/get-started/quick-start/#quick-start
+  ui-library: /web/get-started/quick-start/#quick-start
+  web-introduction: /web/get-started/quick-start/#quick-start
+  only-html-elements-no: /web/get-started/quick-start/#design-and-development
+  the-library: /web/get-started/quick-start/#what-the-library-provides
+  developers--what-to-expect: /web/get-started/quick-start/#what-the-library-provides
+  developers-what-to-expect: /web/get-started/quick-start/#what-the-library-provides
+  collaboration: /web/get-started/quick-start/#design-and-development
+  technical-aspects: /web/get-started/quick-start/#imports-and-typescript
+  production-ready: /web/get-started/requirements/#supported-browsers-and-platforms
+  components-elements-and-extensions: /web/get-started/quick-start/#what-the-library-provides
+  where-do-i-go-next: /web/get-started/quick-start/#continue
+  next-steps: /web/get-started/quick-start/#continue
+  ai-instructions-and-skills: /web/ai-tools-and-resources/ai/ai-skills/#connect-the-documentation
+  versioned-documentation-preferred: /web/ai-tools-and-resources/ai/ai-skills/#read-markdown-documentation-without-mcp
+  non-versioned-documentation: /web/ai-tools-and-resources/ai/ai-skills/#read-markdown-documentation-without-mcp
   installation-and-first-steps: /web/get-started/quick-start/#installation
   the-basics: /web/get-started/quick-start/#interaction-states
   react--typescript: /web/get-started/quick-start/#imports-and-typescript
@@ -43,6 +59,13 @@ legacyFragments:
   configuration-and-browserslist: /web/get-started/requirements/#configuration-and-browserslist
   '': /web/get-started/quick-start/#quick-start
 redirect_from:
+  - /web/get-started/how-eufemia-works
+  - /uilib/get-started/how-eufemia-works
+  - /uilib
+  - /web
+  - /web/about-the-lib
+  - /uilib/about-the-lib
+  - /web/introduction
   - /uilib/getting-started
   - /web/getting-started
   - /web/usage/first-steps
@@ -56,6 +79,8 @@ redirect_from:
   - /web/usage/first-steps/quick-reference
   - /uilib/usage/first-steps/quick-reference
 legacyPrefixes:
+  - web/introduction
+  - uilib/introduction
   - web/getting-started
   - uilib/getting-started
 ---
@@ -66,7 +91,18 @@ import {
   EventsExample,
 } from 'Docs/web/get-started/_examples/Examples'
 
-Build your first accessible interface with Eufemia. This guide covers installation, imports, component events, and the conventions you need to continue.
+The DNB UI library contains ready-to-use components, HTML elements, and extensions for Web applications. Use this guide to understand the building blocks, install Eufemia, and render your first component.
+
+## What the library provides
+
+- [Components](/web/components/overview/) and [HTML elements](/web/layout-and-typography/elements/) with DNB styles, fonts, and icons.
+- [Forms](/web/forms/) and other [extensions](/web/patterns-and-extensions/using-patterns-and-extensions/) for larger reusable solutions.
+- Shared [themes and tokens](/web/styling-and-themes/brands-and-dark-mode/), [layout](/web/layout-and-typography/layout/), and [accessibility guidance](/web/accessibility/).
+- Versioned [releases and upgrade guides](/web/releases-and-upgrades/) to help applications adopt changes.
+
+### Design and development
+
+Eufemia connects design and development through shared components, naming, spacing, and tokens. Use the same foundations in Figma and code so handovers and implemented interfaces stay aligned. See [Figma setup](/web/get-started/design-for-web/) for the maintained design resources.
 
 ## Installation
 
@@ -165,31 +201,9 @@ Components provide hover, active, focus, and disabled states. Use their document
 ## Continue
 
 - Follow the [guided introduction](/web/get-started/guided-introduction/) for a walkthrough.
-- Read [how Eufemia works](/web/get-started/how-eufemia-works/) for the library's purpose and building blocks.
 - Browse [components](/web/components/overview/), [layout](/web/layout-and-typography/layout/), and [Web typography](/web/layout-and-typography/typography/).
 - Set up [developer tools](/web/ai-tools-and-resources/developer-tools/) for your editor and workflow.
-
-## AI instructions and skills
-
-Eufemia's documentation is optimized for AI assistance. When generating or reviewing code, use the following sources in order of priority.
-
-- Use the documentation exactly as provided.
-- Gather all required information from the documentation before using it as a reference.
-- Do not make assumptions or infer missing details unless explicitly instructed to do so.
-
-### Versioned documentation (preferred)
-
-1. Install `@dnb/eufemia` with the package manager used in your project (e.g., npm, yarn, pnpm).
-2. Find where `node_modules` is located in your project.
-3. Read docs from `node_modules/@dnb/eufemia/docs/web/usage/first-steps/quick-reference.md`.
-4. Follow relative links between markdown files.
-5. Use this content as the primary reference.
-
-### Non-versioned documentation
-
-1. Fetch `https://eufemia.dnb.no/web/get-started/quick-start.md`.
-2. Read docs from the fetched markdown file.
-3. Follow absolute URLs for referenced markdown files.
-4. Use this content as a reference only.
+- Follow [releases and upgrades](/web/releases-and-upgrades/) and [watch the repository](/web/get-started/requirements/#the-eufemia-repository) for updates.
+- For AI assistance, install [Agent skills](/web/ai-tools-and-resources/ai/ai-skills/) and connect the [MCP server](/web/ai-tools-and-resources/ai/mcp-universe/).
 
 <WelcomeAdvice />
