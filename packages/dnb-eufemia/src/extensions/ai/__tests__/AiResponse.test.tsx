@@ -291,6 +291,66 @@ describe('Ai.Response', () => {
     expect(cell).toHaveStyle({ textAlign: 'right' })
   })
 
+  it('only shows a translated table hint while horizontal content overflows', async () => {
+    let update: ResizeObserverCallback
+    const disconnect = vi.fn()
+    const original = window.ResizeObserver
+    window.ResizeObserver = class {
+      constructor(callback: ResizeObserverCallback) {
+        update = callback
+      }
+      observe = vi.fn()
+      unobserve = vi.fn()
+      disconnect = disconnect
+    }
+    try {
+      const { unmount } = render(
+        <Provider locale="en-GB">
+          <Response>
+            {'| Item | Amount |' +
+              String.fromCharCode(10) +
+              '|---|---|' +
+              String.fromCharCode(10) +
+              '| Fee | 10 |'}
+          </Response>
+        </Provider>
+      )
+      const scroll = document.querySelector<HTMLElement>(
+        '.dnb-table__scroll-view'
+      )
+      expect(
+        document.querySelector('.dnb-ai-response__table-hint')
+      ).toBeNull()
+      Object.defineProperty(scroll, 'clientWidth', {
+        configurable: true,
+        value: 100,
+      })
+      Object.defineProperty(scroll, 'scrollWidth', {
+        configurable: true,
+        value: 300,
+      })
+      act(() => update([], null))
+      const hint = document.querySelector('.dnb-ai-response__table-hint')
+      expect(hint).toHaveTextContent(
+        'Scroll horizontally to see the full table'
+      )
+      expect(scroll).toHaveAttribute('aria-describedby', hint.id)
+      Object.defineProperty(scroll, 'clientWidth', {
+        configurable: true,
+        value: 400,
+      })
+      act(() => update([], null))
+      expect(
+        document.querySelector('.dnb-ai-response__table-hint')
+      ).toBeNull()
+      expect(scroll).not.toHaveAttribute('aria-describedby')
+      unmount()
+      expect(disconnect).toHaveBeenCalled()
+    } finally {
+      window.ResizeObserver = original
+    }
+  })
+
   it('renders code blocks with language and a copy button', async () => {
     render(<Response>{'```ts\nconst a = 1\n```'}</Response>)
 

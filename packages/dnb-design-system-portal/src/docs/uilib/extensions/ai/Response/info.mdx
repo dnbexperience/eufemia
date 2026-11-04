@@ -47,3 +47,11 @@ While streaming, an amount at the end of unfinished text remains unformatted unt
 When the application already knows the amount and currency, render [NumberFormat.Currency](/uilib/components/number-format/) directly from those values. Prefer this for financial content rather than extracting values from generated prose. See the [structured amount demo](/uilib/extensions/ai/Response/demos/#structured-amount).
 
 Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML and HTML entities. You can add syntax highlighting by overriding the `code` element with `components`. Code blocks get a `language-*` class.
+
+## Horizontal table overflow
+
+Markdown tables use `Table.ScrollView`. If a table is wider than its available space, a translated hint below it explains that it can be scrolled horizontally. The hint is associated with the scroll area for assistive technology and disappears when all columns fit. Keyboard scrolling remains available. The hint also updates when streaming changes the table or the container resizes.
+
+| Key             | nb-NO                                | en-GB                                     | sv-SE                                   | da-DK                               |
+| --------------- | ------------------------------------ | ----------------------------------------- | --------------------------------------- | ----------------------------------- |
+| `tableOverflow` | Rull vannrett for å se hele tabellen | Scroll horizontally to see the full table | Rulla i sidled för att se hela tabellen | Rul vandret for at se hele tabellen |
