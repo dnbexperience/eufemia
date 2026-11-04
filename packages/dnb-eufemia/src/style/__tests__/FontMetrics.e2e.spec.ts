@@ -73,12 +73,7 @@ test('preserves legacy DNB button alignment across sizes, root scaling and nativ
     await route.fulfill({
       contentType: 'font/woff2',
       body: await fs.readFile(
-        path.join(
-          packageRoot,
-          'assets/fonts/dnb',
-          /^DNBSans(Text|Mono)-/.test(name) ? 'web' : '',
-          name
-        )
+        path.join(packageRoot, 'assets/fonts/dnb', name)
       ),
     })
   })
@@ -204,11 +199,7 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         path.join(
           packageRoot,
           'assets/fonts/dnb',
-          name.includes('Skeleton')
-            ? 'skeleton'
-            : /^DNBSans(Text|Mono)-/.test(name)
-              ? 'web'
-              : '',
+          name.includes('Skeleton') ? 'skeleton' : '',
           name
         )
       ),
@@ -226,7 +217,7 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
   await page.setContent(
     '<style>' +
       css +
-      '@font-face{font-family:LegacyDNB;src:url("https://font-metrics.test/DNB-Regular.woff2")}</style><p id="sample" style="font:18px/24px LegacyDNB;margin:0"><span>ÆØÅ Hgjx</span><i style="display:inline-block;width:0;height:0;vertical-align:baseline"></i></p>'
+      '@font-face{font-family:LegacyDNB;src:url("https://font-metrics.test/DNB-Regular.woff2")}</style><p id="sample" style="font:18px/24px LegacyDNB;margin:0"><span>ÆØÅ Hgjx ‰ ₍₎</span><i style="display:inline-block;width:0;height:0;vertical-align:baseline"></i></p>'
   )
   const sample = page.locator('#sample')
   await page.evaluate(() => document.fonts.ready)
@@ -263,6 +254,20 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         element.getBoundingClientRect().top
       const bounds = element.querySelector('span').getBoundingClientRect()
       return {
+        monoWidths: [
+          'H',
+          '_',
+          'Ŋ',
+          'Ŧ',
+          '†',
+          '‡',
+          'fi',
+          'fl',
+          'office',
+        ].map((text) => ({
+          text,
+          width: context.measureText(text).width,
+        })),
         height: bounds.height,
         width: bounds.width,
         baseline,
@@ -273,7 +278,7 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
       }
     })
   const legacy = await metrics()
-  let normalized: typeof legacy
+  let reference: typeof legacy
   for (const family of ['DNB', 'DNBMono']) {
     for (const weight of [300, 400, 500, 600, 700]) {
       for (const slant of ['normal', 'italic']) {
@@ -287,7 +292,13 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         )
         await page.evaluate(() => document.fonts.ready)
         const actual = await metrics()
-        normalized ??= actual
+        reference ??= actual
+        if (family === 'DNBMono') {
+          const advance = actual.monoWidths[0].width
+          for (const { text, width } of actual.monoWidths) {
+            expect(width, text).toBeCloseTo(advance * text.length, 1)
+          }
+        }
         // Firefox/Linux rounds typo and legacy inline font boxes differently.
         // Preserve the actual line box and baseline, not that rounding policy.
         expect(
@@ -300,7 +311,7 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
           Math.abs(actual.baseline - legacy.baseline)
         ).toBeLessThanOrEqual(0.02)
         expect(
-          Math.abs(actual.height - normalized.height)
+          Math.abs(actual.height - reference.height)
         ).toBeLessThanOrEqual(0.02)
         expect(actual.inkTop).toBeGreaterThanOrEqual(-0.02)
         expect(actual.inkBottom).toBeLessThanOrEqual(
@@ -309,7 +320,7 @@ test('keeps Text baselines consistent across weights, italics, and skeleton plac
         expect(
           actual.baseline,
           family + ' ' + slant + ' ' + weight
-        ).toBeCloseTo(normalized.baseline, 1)
+        ).toBeCloseTo(reference.baseline, 1)
       }
     }
   }

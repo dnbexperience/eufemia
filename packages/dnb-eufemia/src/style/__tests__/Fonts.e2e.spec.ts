@@ -33,11 +33,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                 packageRoot,
                 'assets/fonts',
                 family,
-                name.includes('Skeleton')
-                  ? 'skeleton'
-                  : /^DNBSans(Text|Mono)-/.test(name)
-                    ? 'web'
-                    : '',
+                name.includes('Skeleton') ? 'skeleton' : '',
                 name
               )
             ),
