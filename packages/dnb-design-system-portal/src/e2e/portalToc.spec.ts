@@ -1,6 +1,68 @@
 import { test, expect, webkit } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  for (const width of [390, 1440]) {
+    for (const { name, path, trigger } of [
+      {
+        name: 'Portal Tools',
+        path: '/uilib/components/button/',
+        trigger: '#portal-tools',
+      },
+      {
+        name: 'a drawer',
+        path: '/uilib/components/drawer/demos/',
+        trigger: '[data-visual-test="simple-drawer"] button',
+      },
+      {
+        name: 'a dialog',
+        path: '/uilib/components/dialog/demos/',
+        trigger: '[data-visual-test="dialog-default"] button',
+      },
+    ]) {
+      test(`keeps the outline when opening ${name} at ${width}px`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width, height: 1000 })
+        await page.goto(path)
+        const toc = page.locator('#portal-page-toc')
+        await expect(toc).toBeVisible()
+        if (width === 390) {
+          await toc
+            .getByRole('button', { name: 'On this page', exact: true })
+            .click()
+        }
+        const links = toc.locator('a')
+        const labels = await links.allTextContents()
+        expect(labels.length).toBeGreaterThan(1)
+
+        await page.locator(trigger).first().click()
+        const modal = page.getByRole('dialog')
+        await expect(modal).toBeVisible()
+        await expect(page.locator('main h1')).toHaveAttribute(
+          'aria-hidden',
+          'true'
+        )
+        await page.evaluate(() =>
+          window.dispatchEvent(new Event('resize'))
+        )
+        await expect(toc).toBeVisible()
+        await expect(links).toHaveText(labels)
+        await expect(toc).toHaveAttribute('aria-hidden', 'true')
+
+        await page.keyboard.press('Escape')
+        await expect(modal).toBeHidden()
+        await expect(toc).toBeVisible()
+        await expect(links).toHaveText(labels)
+        await expect(toc).not.toHaveAttribute('aria-hidden', 'true')
+        if (width === 390) {
+          await expect(
+            toc.getByRole('button', { name: 'On this page', exact: true })
+          ).toHaveAttribute('aria-expanded', 'true')
+        }
+      })
+    }
+  }
+
   test('starts a new page at the top after leaving a long page in WebKit', async ({
     baseURL,
   }) => {

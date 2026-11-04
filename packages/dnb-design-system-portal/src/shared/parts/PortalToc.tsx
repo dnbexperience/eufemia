@@ -147,7 +147,7 @@ function usePageHeadings(
       subtree: true,
       characterData: true,
       attributes: true,
-      attributeFilter: ['id', 'hidden', 'aria-hidden', 'class', 'style'],
+      attributeFilter: ['id', 'hidden', 'class', 'style'],
     })
     window.addEventListener('resize', scheduleRescan)
 
@@ -171,10 +171,11 @@ function readHeadings(content: HTMLElement) {
   )
 
   for (const element of elements) {
+    // Modals mark background content aria-hidden without visually hiding it.
     if (
       !element.getClientRects().length ||
       element.closest(
-        '[hidden], [aria-hidden="true"], .dnb-live-code-editor, .dnb-table-of-content'
+        '[hidden], .dnb-live-code-editor, .dnb-table-of-content'
       ) ||
       getComputedStyle(element).visibility === 'hidden'
     ) {
