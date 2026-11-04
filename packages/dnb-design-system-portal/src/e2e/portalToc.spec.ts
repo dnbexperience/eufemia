@@ -287,7 +287,8 @@ test.describe('Portal table of contents', () => {
             )
           )
       )
-      for (const gap of [20, 1, 0]) {
+      // Narrow layouts can leave less than 20px for the final section.
+      for (const gap of [1, 0.5, 0]) {
         await page.evaluate(
           (gap) =>
             window.scrollTo({
