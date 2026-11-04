@@ -63,7 +63,7 @@ test.describe('Popover focus restoration', () => {
     const content = page.locator('#controlled-popover-content')
 
     await outside.evaluate((element) => {
-      element.style.marginTop = '16rem'
+      element.style.marginBottom = '16rem'
     })
     await trigger.focus()
     await trigger.press('Enter')
