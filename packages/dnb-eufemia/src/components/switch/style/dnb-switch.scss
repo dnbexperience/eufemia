@@ -494,7 +494,7 @@
     );
     --switch-focus-background: var(--token-color-background-error-subtle);
     --switch-focus-button-background: var(--token-color-background-error);
-    --switch-focus-icon: var(--token-color-icon-neutral-inverse);
+    --switch-focus-icon: var(--token-color-icon-neutral-ondark);
   }
 
   html:not([data-whatinput='keyboard'])

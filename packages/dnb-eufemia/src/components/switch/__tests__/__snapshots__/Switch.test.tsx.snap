@@ -676,7 +676,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
   );
   --switch-focus-background: var(--token-color-background-error-subtle);
   --switch-focus-button-background: var(--token-color-background-error);
-  --switch-focus-icon: var(--token-color-icon-neutral-inverse);
+  --switch-focus-icon: var(--token-color-icon-neutral-ondark);
 }
 html:not([data-whatinput=keyboard]) .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button, html[data-whatinput=keyboard] .dnb-switch__status--error .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
   box-shadow: none;
