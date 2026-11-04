@@ -233,7 +233,7 @@ describe('analytics infrastructure', () => {
     )
   })
 
-  it('creates the dashboard role with the OIDC boundary, trusted only by Lambda', () => {
+  it('creates the dashboard role with the OIDC boundary, Lambda-only trust and delete protection', () => {
     const role = terraformBlock('resource "aws_iam_role" "dashboard"')
     const assume = terraformBlock(
       'data "aws_iam_policy_document" "dashboard_assume"'
@@ -248,13 +248,14 @@ describe('analytics infrastructure', () => {
     expect(assume?.match(/identifiers\s+=\s+\[.*\]/g)).toEqual([
       'identifiers = ["lambda.amazonaws.com"]',
     ])
+    expect(role).toMatch(/^\s+prevent_destroy\s+=\s+true$/m)
   })
 
   it('attaches only the deploy-approved policies to the dashboard role', () => {
     const attachedPolicies = resourceBlocks(
       'aws_iam_role_policy_attachment'
     )
-      .filter((block) => block.includes('aws_iam_role.dashboard.name'))
+      .filter((block) => block.includes('aws_iam_role.dashboard.'))
       .map((block) => block.match(/policy_arn\s+=\s+"(.*)"/)?.[1])
 
     expect(attachedPolicies).toEqual([
@@ -262,7 +263,7 @@ describe('analytics infrastructure', () => {
       'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
     ])
     expect(terraform).not.toMatch(
-      /resource "aws_iam_role_policy" |managed_policy_arns|inline_policy/
+      /resource "aws_iam_(role_policy|policy_attachment|role_policy_attachments_exclusive)" |managed_policy_arns|inline_policy/
     )
   })
 })
