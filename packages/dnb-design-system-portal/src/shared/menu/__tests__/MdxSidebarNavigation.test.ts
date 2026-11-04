@@ -629,6 +629,7 @@ describe('MDX-defined Portal navigation', () => {
     expect(patterns.subheadings.map(({ title }) => title)).toEqual([
       'Using patterns and extensions',
       'Sidebar menu',
+      'AI components',
       'Payment card',
       'Vipps wallet button',
       'Table of contents',
@@ -692,8 +693,8 @@ describe('MDX-defined Portal navigation', () => {
       ({ path }) => path === 'web/ai-tools-and-resources/ai'
     )
     expect(ai.subheadings.slice(0, 2).map(({ path }) => path)).toEqual([
-      'web/ai-tools-and-resources/ai/ai-skills',
       'web/ai-tools-and-resources/ai/mcp-universe',
+      'web/ai-tools-and-resources/ai/ai-skills',
     ])
     expect(
       readdirSync(docs, { recursive: true, encoding: 'utf8' }).filter(
