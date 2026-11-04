@@ -44,7 +44,7 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
       @if $style == italic {
         $suffix: '#{$name}Italic';
         @if $name == Regular {
-          $suffix: Italic;
+          $suffix: 'Italic';
         }
       }
 

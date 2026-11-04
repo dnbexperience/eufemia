@@ -20,19 +20,16 @@ Display is deliberately registered at normal weight despite its internal
 weight metadata. UI weights follow Eufemia Web in Figma: Regular buttons
 and Medium Lead/Ingress. Display remains experimental and opt-in.
 
-The supplier reported possibly missing source files for Text Regular
-Italic. It is not yet confirmed whether this refers to editable masters.
-The compiled DNBSansText-Italic files are present in all three
-formats and identify themselves as version 26.302.1, weight 400, italic.
-They are included unchanged; clarification of the source-file report remains
-with the supplier.
+Regular Italic is named Italic for Office compatibility. The supplier
+confirmed these executable font files as final for implementation; editable
+source files are not part of the distribution.
 
 ## Official webfonts and downloads
 
 Styles load the official files directly from this directory. The supplied
 TrueType outlines and matching hhea, OS/2 typo and Windows line metrics
-(950, -250, 0; Windows 950/250) replace the earlier normalization step and
-its generated web/ copies. USE_TYPO_METRICS is enabled. No CSS metric
+(950, -250, 0; Windows 950/250) are embedded in every format.
+USE_TYPO_METRICS is enabled. No CSS metric
 overrides or font binary modifications are needed.
 
 Each family ZIP contains exactly the matching TTF, WOFF and WOFF2 binaries
@@ -41,8 +38,7 @@ OTFs into these downloads. Text advances are retained; Mono fixes some
 italic advances and ligature widths, so code wrapping can change.
 
 The `DNB-*` and `DNBMono-*` files and their ZIPs remain byte-for-byte unchanged
-for existing public URLs and direct package imports. The replaced DNBSans
-files, OTFs and derived web/ directory had not shipped in an Eufemia release.
+for existing public URLs and direct package imports.
 Remove published legacy assets only with separate migration guidance.
 
 The supplied Variable, Eiendom and Ung families are not registered or bundled.

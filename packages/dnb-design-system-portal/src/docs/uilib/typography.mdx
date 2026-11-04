@@ -219,17 +219,16 @@ Figma. Other brands retain their existing typography. Use `weight="regular"`
 only when an introductory text design explicitly calls for it.
 
 The faces are declared in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
-The official Text and Mono files now have matching embedded line metrics
+The official Text and Mono files have matching embedded line metrics
 across TTF, WOFF and WOFF2. Eufemia loads them unchanged from
-`assets/fonts/dnb/` and regenerates matching skeleton fonts. The earlier
-derived webfonts and metric-normalization step are no longer needed.
+`assets/fonts/dnb/` and generates matching skeleton fonts.
 Identical rendering across browsers and operating systems is not guaranteed.
 
 ### Updating from legacy DNB fonts
 
 Update manual font preloads, copied font stylesheets and self-hosted assets
 to the `DNBSansText-*` and `DNBSansMono-*` files under `fonts/dnb/` together.
-Use the official 26.302.1 files, including the renamed Regular Italic files
+Use the official 26.302.1 files. Regular Italic files are named
 `DNBSansText-Italic` and `DNBSansMono-Italic`. Existing `DNB-*` and `DNBMono-*`
 assets remain available for compatibility. Avoid mixing old and current
 declarations under the same CSS family name.

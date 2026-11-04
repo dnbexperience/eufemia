@@ -88,9 +88,9 @@ it.each(['Text', 'Mono', 'Display'])(
     )
     expect(Object.keys(archive).sort()).toEqual(expected.sort())
     for (const name of expected) {
-      expect(Buffer.from(archive[name])).toEqual(
-        await fs.readFile(path.join(directory, name))
-      )
+      expect(
+        createHash('sha256').update(archive[name]).digest('hex')
+      ).toBe(sources.files[name])
     }
   }
 )
