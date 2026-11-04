@@ -39,7 +39,12 @@ const commands = {
 export const homePlayCommands = Object.keys(commands)
 
 export function isHomePlay(value: string) {
-  return Object.hasOwn(commands, value.trim().toLowerCase())
+  const command = value.trim().toLowerCase()
+  return (
+    Object.hasOwn(commands, command) &&
+    (command !== 'oslo' ||
+      Date.now() >= Date.parse('2026-11-12T00:00:00+01:00'))
+  )
 }
 
 export function loadHomePlay(value: string) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import HeightAnimation from '@dnb/eufemia/src/components/height-animation'
-import { homePlayCommands } from './homePlay'
+import { homePlayCommands, isHomePlay } from './homePlay'
 import './fun.scss'
 
 export default function Fun() {
@@ -14,7 +14,7 @@ export default function Fun() {
     <HeightAnimation open={open}>
       <section className="dnb-home-fun" aria-label="Hidden commands">
         <ul>
-          {homePlayCommands.map((command) => (
+          {homePlayCommands.filter(isHomePlay).map((command) => (
             <li key={command}>
               <code>{command}</code>
             </li>
