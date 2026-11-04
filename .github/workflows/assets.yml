@@ -180,7 +180,7 @@ jobs:
               continue
             fi
             ASSETS=(fonts/dnb/DNB-Regular.woff2 icons/dnb/add.svg)
-            for ASSET in fonts/dnb/web/DNBSansText-Regular.woff2 fonts/dnb/web/DNBSansText-RegularItalic.woff2 fonts/dnb/web/DNBSansMono-Regular.woff2; do
+            for ASSET in fonts/dnb/web/DNBSansText-Regular.woff2 fonts/dnb/web/DNBSansText-RegularItalic.woff2 fonts/dnb/web/DNBSansMono-Regular.woff2 fonts/dnb/DNBSansDisplay.woff2; do
               if grep -Fq "  assets/$ASSET" "$MANIFEST"; then
                 ASSETS+=("$ASSET")
               fi

@@ -5,19 +5,21 @@ Downloaded from the official family archives on 30 October 2026. Source
 font files and download ZIPs are unmodified. Eufemia loads derived webfonts
 from `web/`; see the webfont build below.
 
-| Family        | Font version | Files                                           | CSS family |
-| ------------- | ------------ | ----------------------------------------------- | ---------- |
-| DNB Sans Text | 26.159.1     | DNBSansText-{Light,Regular,Medium,Bold}[Italic] | DNB        |
-| DNB Sans Mono | 26.133.1     | DNBSansMono-{Light,Regular,Medium,Bold}[Italic] | DNBMono    |
+| Family           | Font version | Files                                           | CSS family       |
+| ---------------- | ------------ | ----------------------------------------------- | ---------------- |
+| DNB Sans Text    | 26.159.1     | DNBSansText-{Light,Regular,Medium,Bold}[Italic] | DNB              |
+| DNB Sans Mono    | 26.133.1     | DNBSansMono-{Light,Regular,Medium,Bold}[Italic] | DNBMono          |
+| DNB Sans Display | 26.127.4     | DNBSansDisplay                                  | DNB Sans Display |
 
 Text and Mono provide WOFF2, WOFF, TTF and OTF for every weight and italic.
-CSS weight mapping is deliberate: Light 300, Regular 400, Medium 500, Bold 600–700. This preserves
+Display provides one upright face in the same formats. CSS weight mapping
+is deliberate: Light 300, Regular 400, Medium 500, Bold 600–700. This preserves
 Eufemia's existing 600 Bold token and supports native CSS bold. The source
 files' internal weight metadata is not used to select faces in CSS.
 
 The `DNB-*` and `DNBMono-*` files and their ZIPs remain available for existing
-public URLs and direct package imports. Current styles use only `DNBSansText-*`
-and `DNBSansMono-*`. Remove legacy assets only in a separately
+public URLs and direct package imports. Current styles use only `DNBSansText-*`,
+`DNBSansMono-*` and `DNBSansDisplay`. Remove legacy assets only in a separately
 announced breaking change with migration guidance.
 
 The current web fonts include updated Medium and Bold details and genuine
@@ -33,6 +35,9 @@ legacy line box and baseline without CSS metric overrides.
 The official binaries remain unchanged. Mono retains character coverage and
 widths. Skeleton fonts keep the existing widths; their generator reads the
 current Text and Mono sources.
+
+Display uses a generated skeleton with the same advances and vertical metrics
+as its source face so loading headings keep their line breaks.
 
 ## Webfont build
 

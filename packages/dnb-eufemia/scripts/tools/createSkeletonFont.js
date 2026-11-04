@@ -5,17 +5,25 @@ import opentype from 'opentype.js'
 import { Font } from 'fonteditor-core'
 import { writeWebFontFiles } from './createWebFonts'
 
-export const skeletonFontConfigs = ['Text', 'Mono'].flatMap((family) =>
-  ['Light', 'Regular', 'Medium', 'Bold'].map((styleName) => {
-    const name = family === 'Text' ? 'DNB' : 'DNBMono'
-    return {
-      source: `web/DNBSans${family}-${styleName}.ttf`,
-      familyName: `${name}Skeleton`,
-      filePrefix: `${name}-Skeleton`,
-      styleName,
-    }
-  })
-)
+export const skeletonFontConfigs = [
+  ...['Text', 'Mono'].flatMap((family) =>
+    ['Light', 'Regular', 'Medium', 'Bold'].map((styleName) => {
+      const name = family === 'Text' ? 'DNB' : 'DNBMono'
+      return {
+        source: `web/DNBSans${family}-${styleName}.ttf`,
+        familyName: `${name}Skeleton`,
+        filePrefix: `${name}-Skeleton`,
+        styleName,
+      }
+    })
+  ),
+  {
+    source: 'DNBSansDisplay.ttf',
+    familyName: 'DNBSansDisplaySkeleton',
+    filePrefix: 'DNBSansDisplay-Skeleton',
+    styleName: 'Regular',
+  },
+]
 
 function tables(font) {
   const result = new Map()

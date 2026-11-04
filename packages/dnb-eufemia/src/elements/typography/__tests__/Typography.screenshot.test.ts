@@ -18,6 +18,32 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       })
     })
 
+    it('matches the default headline before opting into Display', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="font-display"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="font-display"] .dnb-t__family--display'
+            )
+            .classList.remove('dnb-t__family--display')
+        },
+      })
+    })
+
+    it('matches opt-in Display headlines', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="font-display"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="font-display"] .dnb-h--xx-large'
+            )
+            .classList.add('dnb-t__family--display')
+        },
+      })
+    })
+
     it('have to match all the typography variants', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="typography-variants"]',
