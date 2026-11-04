@@ -191,7 +191,10 @@
     $line-box: var(--list-item-cell-height, auto);
     $box-height: var(--list-item-cell-height, var(--line-height-basis));
     $title-offset: calc(($box-height - var(--line-height-basis)) / 2);
-    $overline-offset: calc(var(--line-height-basis) - #{$title-offset});
+    $overline-offset: max(
+      0px,
+      calc(var(--line-height-basis) - #{$title-offset})
+    );
     $footer: '#{&}__footer, #{&}__action__footer';
     $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
     $launch-icon: '#{&}__action--href > a > .dnb-anchor__launch-icon';
@@ -323,6 +326,25 @@
     $end: '#{&}__end';
     $chevron: '#{&}__chevron';
     $row-grid: ':is(#{&}, #{&}__accordion__header, #{&}__action__button, #{&}__action--href > a)';
+
+    // Large start avatars define the title's alignment box. Scope this to
+    // the same row so nested lists and standalone options keep their sizing.
+    @each $size, $height in (large: 4rem, x-large: 5rem) {
+      @at-root #{$row-grid}:where(
+            .dnb-list--variant-basic,
+            .dnb-list--variant-basic > *
+          ):has(> .dnb-list__item__start .dnb-avatar--size-#{$size}) {
+        --list-item-cell-height: #{$height};
+
+        > :where(#{$title}:has(#{$overline})),
+        > :where(#{$center}) > :where(#{$title}:has(#{$overline})) {
+          padding-top: max(
+            0px,
+            calc(#{$title-offset} - var(--line-height-basis))
+          );
+        }
+      }
+    }
     @at-root #{$row-grid}:has(> #{$center} > #{$title}):not(
           :has(> #{$title})
         ) {

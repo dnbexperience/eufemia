@@ -715,6 +715,58 @@ test.describe('List text layout compatibility', () => {
     expect(Math.abs(offset)).toBeLessThanOrEqual(1)
   })
 
+  for (const width of [400, 1024]) {
+    test(
+      'centers the first title line on large start avatars at ' +
+        width +
+        'px',
+      async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 })
+        await page.evaluate(() => document.fonts.ready)
+        for (const size of ['large', 'x-large']) {
+          const rows = page
+            .getByTestId('avatar-alignment-' + size)
+            .locator('.dnb-list__item')
+          await expect(rows).toHaveCount(3)
+          const offsets = await rows.evaluateAll((items) =>
+            items.map((item) => {
+              const title = item.querySelector(
+                '.dnb-list__item__title > span'
+              )
+              const text = Array.from(title.childNodes).find(
+                (node) =>
+                  node.nodeType === Node.TEXT_NODE &&
+                  node.textContent.trim()
+              )
+              const line = document.createElement('span')
+              line.style.display = 'inline-block'
+              text.replaceWith(line)
+              line.appendChild(text)
+              const titleRect = line.getBoundingClientRect()
+              const avatarRect = item
+                .querySelector('.dnb-avatar')
+                .getBoundingClientRect()
+              const rowRect = item.getBoundingClientRect()
+              return {
+                center:
+                  avatarRect.top +
+                  avatarRect.height / 2 -
+                  (titleRect.top + titleRect.height / 2),
+                top: avatarRect.top - rowRect.top,
+                bottom: rowRect.bottom - avatarRect.bottom,
+              }
+            })
+          )
+          for (const offset of offsets) {
+            expect(Math.abs(offset.center)).toBeLessThanOrEqual(1)
+            expect(offset.top).toBeGreaterThanOrEqual(0)
+            expect(offset.bottom).toBeGreaterThanOrEqual(0)
+          }
+        }
+      }
+    )
+  }
+
   test('keeps limited text rows hidden until expanded', async ({
     page,
   }) => {
