@@ -33,6 +33,7 @@ export const themeTitles: Partial<Record<ThemeNames, string>> = {
 const statusTitles = {
   todo: 'To do',
   new: 'New',
+  alpha: 'Alpha',
   beta: 'Beta',
   wip: 'WIP',
   cs: 'Coming soon',

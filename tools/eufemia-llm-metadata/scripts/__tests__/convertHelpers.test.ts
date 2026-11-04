@@ -72,7 +72,7 @@ describe('convertMdxToMd', () => {
       path.join(os.tmpdir(), 'ai-experimental-md-')
     )
     const docsRoot = path.join(root, 'docs')
-    const directory = path.join(docsRoot, 'uilib/extensions/ai/Message')
+    const directory = path.join(docsRoot, 'web/extensions/ai/Message')
     fs.mkdirSync(directory, { recursive: true })
     const inputPath = path.join(directory, '../Message.mdx')
     fs.writeFileSync(

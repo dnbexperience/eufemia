@@ -137,7 +137,7 @@ export function getDataContextComponents(pages: MdxNode[]): MdxNode[] {
 export function getAiComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/ai/*') &&
+      globPath(node, 'web/extensions/ai/*') &&
       node.frontmatter.title &&
       node.frontmatter.componentType !== 'docs' &&
       node.frontmatter.hideInMenu !== true

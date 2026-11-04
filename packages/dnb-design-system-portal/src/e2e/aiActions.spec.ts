@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/uilib/extensions/ai/Actions/demos/')
+  await page.goto('/web/extensions/ai/Actions/demos/')
   await waitForApp(page)
 })
 

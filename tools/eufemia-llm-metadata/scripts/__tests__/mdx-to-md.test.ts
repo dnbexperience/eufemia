@@ -12,11 +12,11 @@ import { convertMdxToMd } from '../mdx-to-md.ts'
 
 describe('mdx-to-md converter', () => {
   it.each([
-    ['uilib/extensions/ai.mdx', true],
-    ['uilib/extensions/ai/Message.mdx', true],
-    ['uilib/extensions/ai/Message/properties.mdx', true],
-    ['uilib/extensions/ai/integrations.mdx', true],
-    ['uilib/extensions/ai-other.mdx', false],
+    ['web/extensions/ai.mdx', true],
+    ['web/extensions/ai/Message.mdx', true],
+    ['web/extensions/ai/Message/properties.mdx', true],
+    ['web/extensions/ai/integrations.mdx', true],
+    ['web/extensions/ai-other.mdx', false],
     ['uilib/components/button.mdx', false],
   ])(
     'includes the experimental notice only on AI pages: %s',
