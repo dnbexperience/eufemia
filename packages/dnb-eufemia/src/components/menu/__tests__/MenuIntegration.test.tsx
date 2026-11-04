@@ -329,4 +329,70 @@ describe('Menu integration with real Popover', () => {
 
     vi.useRealTimers()
   })
+
+  it('shows no arrow on the menu or an opened sub-menu by default', () => {
+    vi.useFakeTimers()
+
+    render(
+      <Menu.Root open noAnimation>
+        <Menu.Button text="File" />
+        <Menu.List>
+          <Menu.Root open noAnimation placement="right">
+            <Menu.Action text="Export as" />
+            <Menu.List>
+              <Menu.Action text="PDF" />
+            </Menu.List>
+          </Menu.Root>
+        </Menu.List>
+      </Menu.Root>
+    )
+    act(() => {
+      vi.advanceTimersByTime(100)
+    })
+
+    expect(document.querySelectorAll('[role="menu"]')).toHaveLength(2)
+    expect(
+      document.querySelector('.dnb-popover__arrow')
+    ).not.toBeInTheDocument()
+
+    vi.useRealTimers()
+  })
+
+  it('shows the arrow at the given arrowPosition', () => {
+    vi.useFakeTimers()
+
+    render(
+      <Menu.Root open noAnimation arrowPosition="left">
+        <Menu.Button text="File" />
+        <Menu.List>
+          <Menu.Root
+            open
+            noAnimation
+            placement="right"
+            arrowPosition="top"
+          >
+            <Menu.Action text="Export as" />
+            <Menu.List>
+              <Menu.Action text="PDF" />
+            </Menu.List>
+          </Menu.Root>
+        </Menu.List>
+      </Menu.Root>
+    )
+    act(() => {
+      vi.advanceTimersByTime(100)
+    })
+
+    expect(document.querySelectorAll('.dnb-popover__arrow')).toHaveLength(
+      2
+    )
+    expect(
+      document.querySelector('.dnb-popover__arrow__arrow--left')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-popover__arrow__arrow--top')
+    ).toBeInTheDocument()
+
+    vi.useRealTimers()
+  })
 })
