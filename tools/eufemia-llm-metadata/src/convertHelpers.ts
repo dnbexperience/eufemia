@@ -334,9 +334,9 @@ export async function loadTsDocsForDocPath(rel: string) {
 
   const source = rel
     .slice(prefix.length)
-    .replace(/^forms[\/\\]/, 'extensions/forms/')
-    .replace(/^patterns-and-extensions[\/\\]/, 'extensions/')
-    .replace(/^layout-and-typography[\/\\]/, '')
+    .replace(/^forms[/\\]/, 'extensions/forms/')
+    .replace(/^patterns-and-extensions[/\\]/, 'extensions/')
+    .replace(/^layout-and-typography[/\\]/, '')
   return loadTsDocs(source)
 }
 
