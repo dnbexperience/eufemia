@@ -239,6 +239,7 @@ test.describe('easing previews', () => {
       page,
     }) => {
       await page.setViewportSize({ width, height: 900 })
+      await page.evaluate(() => document.fonts.ready)
       await page.goto('/quickguide-designer/motion/#timing-and-easing')
       await waitForApp(page)
       await expect

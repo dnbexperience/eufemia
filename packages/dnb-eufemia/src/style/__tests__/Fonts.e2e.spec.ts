@@ -33,11 +33,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                 packageRoot,
                 'assets/fonts',
                 family,
-                name.includes('Skeleton')
-                  ? 'skeleton'
-                  : /^DNBSans(Text|Mono)-/.test(name)
-                    ? 'web'
-                    : '',
+                name.includes('Skeleton') ? 'skeleton' : '',
                 name
               )
             ),
@@ -531,7 +527,7 @@ test('loads a font response that arrives after the fallback deadline', async ({
       body: await fs.readFile(
         path.join(
           packageRoot,
-          'assets/fonts/dnb/web/DNBSansText-Regular.woff2'
+          'assets/fonts/dnb/DNBSansText-Regular.woff2'
         )
       ),
     })

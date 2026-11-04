@@ -33,6 +33,7 @@ import { findUnhandledStandaloneMdxComponents } from './extensions/mdx/detector.
 import { applySpecialMdxComponentRenderers } from './extensions/mdx/registry.ts'
 import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
 import { readPropertiesUsage } from './shared/propertiesUsage.ts'
+import { getDocumentationNotice } from './shared/documentationNotices.ts'
 
 export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
@@ -1588,9 +1589,13 @@ export async function convertMdxToMd({
   const outputFrontmatter = includeFrontmatter
     ? addDocLinksToFrontmatter(frontmatter, links)
     : ''
+  const notice = includeFrontmatter
+    ? getDocumentationNotice(inputPath, docsRoot)
+    : ''
   const output = [
     outputFrontmatter,
     titleHeading,
+    notice,
     propertiesUsage
       ? `<!-- eufemia-properties-usage:start -->
 ${propertiesUsage}

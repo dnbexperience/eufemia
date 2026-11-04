@@ -692,8 +692,9 @@ data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
 }
 
-# The OIDC deploy role may create this role only with this boundary and attach
-# only the two policies below; snapshot-read lives in the OIDC federation repo.
+# The OIDC deploy role may create this role only under this name and with this
+# boundary, and attach only the two policies below; snapshot-read lives in the
+# OIDC federation repo.
 data "aws_iam_policy_document" "dashboard_assume" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -710,6 +711,11 @@ resource "aws_iam_role" "dashboard" {
   assume_role_policy   = data.aws_iam_policy_document.dashboard_assume.json
   permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
   tags                 = local.tags
+
+  lifecycle {
+    # A rename would delete a role the deploy role cannot recreate.
+    prevent_destroy = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "dashboard_snapshot_read" {
