@@ -255,7 +255,7 @@ describe('analytics infrastructure', () => {
     const attachedPolicies = resourceBlocks(
       'aws_iam_role_policy_attachment'
     )
-      .filter((block) => block.includes('aws_iam_role.dashboard.name'))
+      .filter((block) => block.includes('aws_iam_role.dashboard.'))
       .map((block) => block.match(/policy_arn\s+=\s+"(.*)"/)?.[1])
 
     expect(attachedPolicies).toEqual([
@@ -263,7 +263,7 @@ describe('analytics infrastructure', () => {
       'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
     ])
     expect(terraform).not.toMatch(
-      /resource "aws_iam_role_policy" |managed_policy_arns|inline_policy/
+      /resource "aws_iam_role_policy" |resource "aws_iam_policy_attachment" |managed_policy_arns|inline_policy/
     )
   })
 })
