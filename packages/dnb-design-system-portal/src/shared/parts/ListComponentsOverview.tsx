@@ -153,7 +153,6 @@ function ComponentsOverviewList({ entries }: { entries: Entry[] }) {
             stack
             responsive={false}
             gap="small"
-            backgroundColor="var(--token-color-background-neutral-base)"
             className={illustrationStyle}
           >
             <Card
