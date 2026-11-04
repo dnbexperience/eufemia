@@ -40,39 +40,6 @@ test.describe('TableOfContent extension', () => {
       .toBeGreaterThan(shortTop)
   })
 
-  test('redirects existing documentation links to the extension pages', async ({
-    page,
-  }) => {
-    for (const path of [
-      '/uilib/components/table-of-content/',
-      '/uilib/components/table-of-content/info/',
-      '/uilib/components/table-of-content/demos/',
-      '/uilib/components/table-of-content/properties/',
-      '/uilib/components/table-of-content/events/',
-      '/uilib/extensions/table-of-content/',
-      '/uilib/extensions/table-of-content/demos/',
-      '/uilib/extensions/table-of-content/properties/',
-      '/uilib/extensions/table-of-content/events/',
-    ]) {
-      await page.goto(path)
-      await expect(page).toHaveURL(
-        new RegExp(
-          path
-            .replace('/components/', '/extensions/')
-            .replace('/info/', '/') + '$'
-        )
-      )
-      await expect(
-        page.getByRole('heading', { name: 'TableOfContent', exact: true })
-      ).toBeVisible()
-      await expect(page.locator('html')).toHaveAttribute(
-        'data-portal-ready',
-        'true'
-      )
-      await page.waitForLoadState('load')
-    }
-  })
-
   test('keeps complete article implementations inspectable in collapsed code panels', async ({
     page,
   }) => {

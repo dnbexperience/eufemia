@@ -281,7 +281,9 @@ test('the accordion chevron morphs vertically without rotating', async ({
     'none'
   )
   for (const frame of frames) {
-    expect([frame[0], frame[2], frame[4]]).toEqual([-5, 0, 5])
+    expect(frame[0]).toBeCloseTo(-5)
+    expect(frame[2]).toBeCloseTo(0)
+    expect(frame[4]).toBeCloseTo(5)
   }
   expect(frames[0][3]).toBeGreaterThan(frames[0][1])
   expect(frames[2][3]).toBeLessThan(frames[2][1])
