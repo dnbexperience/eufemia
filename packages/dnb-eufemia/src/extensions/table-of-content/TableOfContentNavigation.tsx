@@ -285,7 +285,7 @@ export default function TableOfContentNavigation({
       scroll.removeEventListener('wheel', onWheel)
       scroll.style.removeProperty('overscroll-behavior-y')
     }
-  }, [isSidebar, children])
+  }, [isSidebar, children, contentKey])
 
   if (!items.length) {
     return null

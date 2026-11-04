@@ -1222,3 +1222,28 @@ it('contains outline scrolling only while its list overflows and updates after r
     vi.unstubAllGlobals()
   }
 })
+
+it('contains a sidebar revealed by increasing the visible depth', () => {
+  const children = <TableOfContent.Item id="overview" text="Overview" />
+  const { rerender } = render(
+    <TableOfContent.Root maxDepth={0}>{children}</TableOfContent.Root>
+  )
+  expect(document.querySelector('nav')).toBeNull()
+  rerender(
+    <TableOfContent.Root maxDepth={2}>{children}</TableOfContent.Root>
+  )
+  const scroll = document.querySelector<HTMLElement>(
+    '.dnb-table-of-content__scroll'
+  )
+  Object.defineProperty(scroll, 'scrollHeight', {
+    configurable: true,
+    value: 300,
+  })
+  Object.defineProperty(scroll, 'clientHeight', {
+    configurable: true,
+    value: 100,
+  })
+  const event = new WheelEvent('wheel', { deltaY: -100, cancelable: true })
+  scroll.dispatchEvent(event)
+  expect(event.defaultPrevented).toBe(true)
+})
