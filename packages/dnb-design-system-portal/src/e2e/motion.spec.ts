@@ -153,7 +153,7 @@ for (const width of [320, 1280]) {
       ['enter-and-exit', 'Enter and exit'],
       ['animate-an-illustration', 'Animate an illustration'],
     ]) {
-      await page.goto(`/quickguide-designer/motion/#${id}`)
+      await page.goto(`/web/development-guidelines/motion/#${id}`)
       await waitForApp(page)
       await expect
         .poll(() =>
@@ -865,7 +865,7 @@ test('the submit button keeps its label and shape while a tapered border rotates
   const study = page
     .locator('.dnb-motion-demo')
     .filter({ has: page.locator('.dnb-motion-scene__submit-glow') })
-  await expect(study).toHaveCSS('padding-bottom', '8px')
+  await expect(study).toHaveCSS('padding-bottom', '16px')
   await expect(
     study.locator('.dnb-motion-scene__submit-label')
   ).toHaveText('Send')
@@ -1170,7 +1170,7 @@ for (const width of [320, 640, 641, 768, 1280]) {
           animation.currentTime = time
         })
         return Array.from(
-          element.querySelectorAll('.dnb-motion-demo__stage')
+          element.querySelectorAll('.dnb-motion-demo__artwork')
         ).map((stage) => {
           const { x, y, width, height } = stage.getBoundingClientRect()
           return { x, y, width, height }
@@ -1180,7 +1180,7 @@ for (const width of [320, 640, 641, 768, 1280]) {
     })
     expect(geometry.after).toEqual(geometry.before)
     geometry.after.forEach((stage) => {
-      expect(stage.width / stage.height).toBeCloseTo(1.5, 1)
+      expect(stage.width / stage.height).toBeCloseTo(5 / 3, 1)
       expect(stage.x).toBeGreaterThanOrEqual(0)
       expect(stage.x + stage.width).toBeLessThanOrEqual(width)
     })

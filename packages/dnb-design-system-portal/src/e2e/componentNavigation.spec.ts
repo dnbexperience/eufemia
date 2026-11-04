@@ -35,7 +35,7 @@ for (const width of [1440, 390]) {
           .slice(1)
           .map((item) =>
             item
-              .querySelector('a, button, .dnb-sidebar-menu__group__title')
+              .querySelector('a, button, .dnb-sidebar-menu__header')
               ?.textContent?.trim()
           )
       )

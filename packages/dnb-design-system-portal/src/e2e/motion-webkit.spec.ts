@@ -15,7 +15,7 @@ for (const width of [320, 1280]) {
       await page.goto('/web/development-guidelines/motion/')
       await waitForApp(page)
       const stage = page.locator(
-        '#show-submission .dnb-motion-demo__stage'
+        '#show-submission .dnb-motion-demo__artwork'
       )
       const glow = stage.locator('.dnb-motion-scene__submit-glow')
       if (reducedMotion === 'no-preference') {
