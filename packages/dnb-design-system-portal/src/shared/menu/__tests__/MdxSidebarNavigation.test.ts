@@ -633,6 +633,7 @@ describe('MDX-defined Portal navigation', () => {
       'Payment card',
       'Vipps wallet button',
       'Status indicators',
+      'Table of contents',
     ])
     expect(
       patterns.subheadings.find(
