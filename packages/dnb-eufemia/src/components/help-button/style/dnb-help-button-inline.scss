@@ -20,6 +20,11 @@
     --outset-left: 1.5rem;
     --outset-right: 1.5rem;
 
+    @include utilities.allBelow(small) {
+      --outset-left: 1rem;
+      --outset-right: 1rem;
+    }
+
     // Because we don't use/need an outline, we need to add to get a wider corner radius.
     --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
 
