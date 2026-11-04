@@ -172,7 +172,9 @@ export default function DialogContent({
             id={context?.contentId + '-content'}
             className="dnb-dialog__content"
           >
-            {description}
+            {description && (
+              <div className="dnb-dialog__description">{description}</div>
+            )}
             {content}
           </div>
 

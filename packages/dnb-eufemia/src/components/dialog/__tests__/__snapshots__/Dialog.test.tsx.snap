@@ -1621,6 +1621,10 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   position: relative;
   z-index: 1;
 }
+.dnb-dialog--confirmation .dnb-dialog__description {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}
 .dnb-dialog__actions {
   padding-top: 1.5rem;
   display: flex;
