@@ -101,7 +101,8 @@
         --menu-action-text-color: var(--token-color-text-action-focus);
         --menu-action-icon-color: var(--token-color-icon-action-focus);
 
-        @include utilities.focusRing('always');
+        // Inside, as in Figma, so a scrollable list does not clip it
+        @include utilities.focusRing('always', $inset: inset);
       }
     }
 
