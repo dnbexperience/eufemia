@@ -605,6 +605,52 @@ describe('Checkbox scss', () => {
     )
   })
 
+  it('uses a solid focus background with a light check mark for focused checked checkboxes', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+
+    expect(css).toMatch(
+      /--checkbox-color-background-on--focus: var\(\s*--token-color-background-action-focus\s*\)/
+    )
+    expect(css).toMatch(
+      /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\)/
+    )
+    expect(css).toMatch(
+      /--checkbox-color-border-on--focus: var\(\s*--token-color-stroke-action-focus-subtle\s*\)/
+    )
+    expect(css).toMatch(
+      /html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-checkbox__input:not\(\[disabled\]\):checked:not\(:indeterminate\):focus ~ \.dnb-checkbox__button,[^{]*\{\s*box-shadow: inset 0 0 0 0\.125rem var\(--checkbox-color-border-on--focus\);\s*background-color: var\(--checkbox-color-background-on--focus\);/
+    )
+  })
+
+  it('keeps the error colors on hover, pressed and focus', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    const block = String(css).match(
+      /\.dnb-checkbox__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \{([^}]*)\}/
+    )?.[1]
+
+    expect(block).toMatch(
+      /--checkbox-color-border--hover: var\(--checkbox-color-border--error\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background-off--hover: var\(\s*--checkbox-color-background-off--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background-on--active: var\(\s*--checkbox-color-background-on--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-border-off--active: var\(\s*--checkbox-color-border--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background--focus: var\(\s*--checkbox-color-background-off--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-background-on--focus: var\(\s*--checkbox-color-background-on--error\s*\);/
+    )
+    expect(block).toMatch(
+      /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\);/
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
