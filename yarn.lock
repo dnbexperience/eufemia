@@ -2931,13 +2931,17 @@ __metadata:
     vitest: "npm:4.1.12"
     zod: "npm:4.6.7"
   peerDependencies:
+    "@modelcontextprotocol/server": ^2.0.0
     "@tanstack/react-virtual": ^3.14.10
     "@types/react": ^19
     "@types/react-dom": ^19
     purgecss: ^8.0.0
     react: ^19
     react-dom: ^19
+    stylelint: ^16.0.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
+    "@modelcontextprotocol/server":
+      optional: true
     "@tanstack/react-virtual":
       optional: true
     "@types/react":
@@ -2945,6 +2949,8 @@ __metadata:
     "@types/react-dom":
       optional: true
     purgecss:
+      optional: true
+    stylelint:
       optional: true
   bin:
     eufemia: ./cli/eufemia.js

@@ -1,3 +1,4 @@
+import path from 'path'
 import { transform } from 'lebab'
 import { sync } from 'globby'
 import fs from 'fs-extra'
@@ -14,8 +15,11 @@ export function transformFilesToESM(): void {
     const codeIn = fs
       .readFileSync(file, 'utf8')
 
-      // Replace .cjs with .js (can be rewritten to a babel plugin at some point)
-      .replace(/\.cjs'/g, ".js'")
+      // Point .cjs imports to the ESM .js build, when there is one
+      .replace(/'([^']+)\.cjs'/g, (match, specifier: string) => {
+        const esmFile = path.resolve(path.dirname(file), `${specifier}.js`)
+        return fs.existsSync(esmFile) ? `'${specifier}.js'` : match
+      })
 
     const { code: codeOut } = transform(codeIn, ['commonjs'])
 

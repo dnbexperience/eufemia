@@ -58,7 +58,8 @@ const Typography = (props: TypographyProps & TypographyInternalProps) => {
         decoration && `dnb-t__decoration--${decoration}`,
         slant && `dnb-t__slant--${slant}`,
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
-        (lineHeight || size) && `dnb-t__line-height--${lineHeight || size}`
+        (lineHeight || (family !== 'display' && size)) &&
+          `dnb-t__line-height--${lineHeight || size}`
       )}
     />
   )

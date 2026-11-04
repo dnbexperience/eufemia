@@ -647,7 +647,7 @@ describe('Checkbox scss', () => {
       /--checkbox-color-background-on--focus: var\(\s*--checkbox-color-background-on--error\s*\);/
     )
     expect(block).toMatch(
-      /--checkbox-color-gfx-on--focus: var\(--checkbox-color-gfx--error\);/
+      /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\);/
     )
   })
 

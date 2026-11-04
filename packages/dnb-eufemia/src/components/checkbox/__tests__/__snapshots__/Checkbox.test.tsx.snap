@@ -631,7 +631,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   --checkbox-color-gfx__indeterminate--active: var(
     --checkbox-color-gfx__indeterminate--error
   );
-  --checkbox-color-gfx-on--focus: var(--checkbox-color-gfx--error);
+  --checkbox-color-gfx-on--focus: var(--token-color-icon-neutral-ondark);
   --checkbox-color-background--focus: var(
     --checkbox-color-background-off--error
   );

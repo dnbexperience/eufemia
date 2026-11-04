@@ -1,5 +1,6 @@
 // @vitest-environment node
 
+import path from 'path'
 import { sync } from 'globby'
 import fs from 'fs-extra'
 import { transform } from 'lebab'
@@ -19,6 +20,9 @@ const mockWriteFileSync =
   fs.writeFileSync as import('vitest').MockedFunction<
     typeof fs.writeFileSync
   >
+const mockExistsSync = fs.existsSync as import('vitest').MockedFunction<
+  typeof fs.existsSync
+>
 const mockTransform = transform as import('vitest').MockedFunction<
   typeof transform
 >
@@ -102,6 +106,7 @@ describe('transformToESM script', () => {
   it('should transform .cjs references to .js', () => {
     const testFiles = ['./build/es/plugins/test.js']
     mockSync.mockReturnValue(testFiles)
+    mockExistsSync.mockReturnValue(true)
 
     const originalCode = "import('./test.cjs'); require('./helper.cjs')"
     mockReadFileSync.mockReturnValue(originalCode)
@@ -112,6 +117,25 @@ describe('transformToESM script', () => {
     expect(mockReadFileSync).toHaveBeenCalledWith(testFiles[0], 'utf8')
     expect(mockTransform).toHaveBeenCalledWith(
       "import('./test.js'); require('./helper.js')",
+      ['commonjs']
+    )
+  })
+
+  it('should keep .cjs references without a .js file next to them', () => {
+    const testFiles = ['./build/es/plugins/stylelint/index.js']
+    mockSync.mockReturnValue(testFiles)
+    mockExistsSync.mockImplementation(
+      (file) => file === path.resolve('./build/es/plugins/helper.js')
+    )
+
+    mockReadFileSync.mockReturnValue(
+      "require('./rules/rule.cjs'); require('../helper.cjs')"
+    )
+
+    transformFilesToESM()
+
+    expect(mockTransform).toHaveBeenCalledWith(
+      "require('./rules/rule.cjs'); require('../helper.js')",
       ['commonjs']
     )
   })

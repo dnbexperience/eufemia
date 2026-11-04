@@ -9,8 +9,8 @@ Every published Eufemia version, including prereleases, gets an immutable
 prefix. Stable aliases follow only the latest stable release and remain
 available for manually linked assets and backwards compatibility:
 
-- `https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNB-Regular.woff2`
-- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2`
+- `https://assets.eufemia.dnb.no/v<version>/fonts/dnb/web/DNBSansText-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/web/DNBSansText-Regular.woff2`
 
 Generated Eufemia CSS uses the immutable URL matching its package version, and
 repeats each `@font-face` source against the stable alias so the fonts still
@@ -67,6 +67,7 @@ The monitor checks:
 - npm's `latest` stable version and its publication time.
 - Stable URLs for DNB Regular, DNB Bold, and the DNB logo, even if npm is down.
 - The latest version's deployment manifest and the same immutable assets.
+- Current DNB Sans Text, Mono and Display WOFF2 files listed in each checked release manifest. Older releases keep their original font checks.
 - HTTP 200, actual binary signatures, MIME types, public CORS headers, and
   immutable asset SHA-256 hashes against the deployment manifest.
 - Stable aliases against the latest manifest after 25 hours, allowing for the
