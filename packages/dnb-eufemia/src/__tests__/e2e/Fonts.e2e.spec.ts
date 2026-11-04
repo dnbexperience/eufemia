@@ -21,7 +21,11 @@ test.describe('Fonts', () => {
         ['Light', 'Regular', 'Medium', 'Bold'].flatMap((weight) =>
           ['', 'Italic'].map(
             (slant) =>
-              'dnb/web/' + family + '-' + weight + slant + '.woff2'
+              'dnb/' +
+              family +
+              '-' +
+              (weight === 'Regular' && slant ? 'Italic' : weight + slant) +
+              '.woff2'
           )
         )
       ),

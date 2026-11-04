@@ -25,7 +25,7 @@ describe('DNB font faces', () => {
     ['DNB', 'DNBSansText'],
     ['DNBMono', 'DNBSansMono'],
   ])(
-    'registers every derived %s face under its existing CSS family',
+    'registers every official %s face under its existing CSS family',
     (family, fileName) => {
       const faces = getFontFaces().filter(
         (face) => face['font-family'] === family
@@ -48,18 +48,15 @@ describe('DNB font faces', () => {
             const file =
               fileName +
               '-' +
-              style +
-              (italic ? 'Italic' : '') +
+              (italic && style === 'Regular'
+                ? 'Italic'
+                : style + (italic ? 'Italic' : '')) +
               '.' +
               extension
-            expect(face.src).toContain('/web/' + file)
+            expect(face.src).toContain('/dnb/' + file)
             expect(
               fs.existsSync(
-                path.resolve(
-                  __dirname,
-                  '../../../assets/fonts/dnb/web',
-                  file
-                )
+                path.resolve(__dirname, '../../../assets/fonts/dnb', file)
               )
             ).toBe(true)
           }

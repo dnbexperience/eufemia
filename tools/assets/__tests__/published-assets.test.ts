@@ -17,9 +17,9 @@ const script = workflow
 const policy = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
 const fonts = [
   'DNBSansText-Regular',
-  'DNBSansText-RegularItalic',
+  'DNBSansText-Italic',
   'DNBSansMono-Regular',
-].map((name) => '/v11.0.0/fonts/dnb/web/' + name + '.woff2')
+].map((name) => '/v11.0.0/fonts/dnb/' + name + '.woff2')
 fonts.push('/v11.0.0/fonts/dnb/DNBSansDisplay.woff2')
 const svg = '/v11.0.0/icons/dnb/add.svg'
 const validHeaders = 'Content-Security-Policy: ' + policy + '\r\n'

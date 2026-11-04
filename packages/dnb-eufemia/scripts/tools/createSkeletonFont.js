@@ -3,14 +3,14 @@ import fs from 'node:fs/promises'
 import { parseArgs } from 'node:util'
 import opentype from 'opentype.js'
 import { Font } from 'fonteditor-core'
-import { writeWebFontFiles } from './createWebFonts'
+import { writeWebFontFiles } from './writeWebFontFiles'
 
 export const skeletonFontConfigs = [
   ...['Text', 'Mono'].flatMap((family) =>
     ['Light', 'Regular', 'Medium', 'Bold'].map((styleName) => {
       const name = family === 'Text' ? 'DNB' : 'DNBMono'
       return {
-        source: `web/DNBSans${family}-${styleName}.ttf`,
+        source: `DNBSans${family}-${styleName}.ttf`,
         familyName: `${name}Skeleton`,
         filePrefix: `${name}-Skeleton`,
         styleName,

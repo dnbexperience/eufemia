@@ -73,18 +73,19 @@ Text; Display is experimental. Contact the Eufemia team before selecting it
 explicitly with `family="display"`.
 
 If you self-host fonts or maintain manual preloads, update the font files
-and declarations together. Use Eufemia's derived webfonts under
-`fonts/dnb/web/` to retain the embedded line metrics, and avoid mixing
-legacy and current declarations under the same CSS family
+and declarations together. Use the official 26.302.1 files under
+`fonts/dnb/`, and avoid mixing legacy and current declarations under the same CSS family
 name. Legacy font URLs remain available. See [Updating from legacy DNB
 fonts](/uilib/typography/#updating-from-legacy-dnb-fonts).
 
 Review text wrapping, control alignment and visual snapshots. The update
-includes genuine italics and changed Medium and Bold details. The derived
-webfonts align embedded line metrics with the legacy fonts while preserving
-the official TTF outlines, hinting and names. Original font files and ZIP
-downloads remain unchanged. Rendering can still differ across browsers and
-operating systems. DNB button labels also no longer use the previous upward
+includes genuine italics and changed Medium and Bold details. The official
+26.302.1 files provide matching embedded metrics in TTF, WOFF and WOFF2.
+Family downloads contain these same official files. Regular Italic files
+are named `DNBSansText-Italic` and `DNBSansMono-Italic`.
+Mono's corrected character and ligature widths can change wrapping.
+Rendering can still differ across browsers and operating systems.
+DNB button labels also no longer use the previous upward
 nudge.
 
 ## v10 support timeline

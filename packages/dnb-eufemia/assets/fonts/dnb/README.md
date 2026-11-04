@@ -1,55 +1,61 @@
 # DNB Sans fonts
 
 Source: [DNB brand typography guidelines](https://bc.dnb.no/point/no/dnbvisualguidelines/component/default/763).
-Downloaded from the official family archives on 30 October 2026. Source
-font files and download ZIPs are unmodified. Eufemia loads derived webfonts
-from `web/`; see the webfont build below.
+The official static release 26.302.1 was supplied on 4 November 2026 in
+DNBSans-Statics-26.302.1. All active Text, Mono and Display TTF, WOFF and
+WOFF2 binaries are unmodified. Their SHA-256 hashes are recorded in
+[font-sources.json](font-sources.json).
 
-| Family           | Font version | Files                                           | CSS family       |
-| ---------------- | ------------ | ----------------------------------------------- | ---------------- |
-| DNB Sans Text    | 26.159.1     | DNBSansText-{Light,Regular,Medium,Bold}[Italic] | DNB              |
-| DNB Sans Mono    | 26.133.1     | DNBSansMono-{Light,Regular,Medium,Bold}[Italic] | DNBMono          |
-| DNB Sans Display | 26.127.4     | DNBSansDisplay                                  | DNB Sans Display |
+| Family           | Font version | CSS family       |
+| ---------------- | ------------ | ---------------- |
+| DNB Sans Text    | 26.302.1     | DNB              |
+| DNB Sans Mono    | 26.302.1     | DNBMono          |
+| DNB Sans Display | 26.302.1     | DNB Sans Display |
 
-Text and Mono provide WOFF2, WOFF, TTF and OTF for every weight and italic.
-Display provides one upright face in the same formats. CSS weight mapping
-is deliberate: Light 300, Regular 400, Medium 500, Bold 600–700. This preserves
-Eufemia's existing 600 Bold token and supports native CSS bold. The source
-files' internal weight metadata is not used to select faces in CSS.
+Text and Mono provide Light, Regular, Medium and Bold, each with a genuine
+italic. Regular italics are named DNBSansText-Italic and DNBSansMono-Italic;
+other italics append Italic to the weight. Display has one upright face.
+CSS weight mapping remains Light 300, Regular 400, Medium 500, Bold 600–700.
+Display is deliberately registered at normal weight despite its internal
+weight metadata. UI weights follow Eufemia Web in Figma: Regular buttons
+and Medium Lead/Ingress. Display remains experimental and opt-in.
 
-The `DNB-*` and `DNBMono-*` files and their ZIPs remain available for existing
-public URLs and direct package imports. Current styles use only `DNBSansText-*`,
-`DNBSansMono-*` and `DNBSansDisplay`. Remove legacy assets only in a separately
-announced breaking change with migration guidance.
+Regular Italic is named Italic for Office compatibility. The supplier
+confirmed these executable font files as final for implementation; editable
+source files are not part of the distribution.
 
-The current web fonts include updated Medium and Bold details and genuine
-italics. The Regular, Medium and Light Text TTF outlines match the previous
-TTFs, but the previously served Medium WOFF2 was an older build. The current
-official WOFF2 and WOFF files use CFF outlines instead of the previous
-TrueType outlines. The derived webfonts retain the official TTF outlines.
+## Official webfonts and downloads
 
-The official files enable USE_TYPO_METRICS and have different hhea and typo
-metrics. The derived webfonts align these embedded metrics to retain the
-legacy line box and baseline without CSS metric overrides.
+Styles load the official files directly from this directory. The supplied
+TrueType outlines and matching hhea, OS/2 typo and Windows line metrics
+(950, -250, 0; Windows 950/250) are embedded in every format.
+USE_TYPO_METRICS is enabled. No CSS metric
+overrides or font binary modifications are needed.
 
-The official binaries remain unchanged. Mono retains character coverage and
-widths. Skeleton fonts keep the existing widths; their generator reads the
-current Text and Mono sources.
+Each family ZIP contains exactly the matching TTF, WOFF and WOFF2 binaries
+in this directory. This release has no official OTF files. Do not mix older
+OTFs into these downloads. Text advances are retained, but updated italic
+kerning can change wrapping. Mono fixes some italic advances and ligature
+widths, so code wrapping can change too.
 
-Display uses a generated skeleton with the same advances and vertical metrics
-as its source face so loading headings keep their line breaks.
+The `DNB-*` and `DNBMono-*` files and their ZIPs remain byte-for-byte unchanged
+for existing public URLs and direct package imports.
+Remove published legacy assets only with separate migration guidance.
 
-## Webfont build
+The supplied Variable, Eiendom and Ung families are not registered or bundled.
+Variable is intended for separately configured animation use, not as a
+replacement for Eufemia's static UI families. Existing theme choices remain.
 
-The web build under `web/` starts from
-all 16 official Text and Mono TTF files and aligns the typo ascent,
-descent and line gap with the existing hhea values (950, -250, 0). It keeps
-USE_TYPO_METRICS enabled and preserves outlines, hinting and names. The
-original font files and ZIP downloads remain unchanged.
+## Skeleton build
 
-Regenerate with `node scripts/tools/createWebFonts.ts` from the Eufemia
-package directory. The styles load these generated files without CSS ascent,
-descent or line-gap overrides. The generator updates only the typo values and
-required checksums before compression. WOFF2 compression omits the original
-empty DSIG table. Use these derived files for manual preloads and self-hosting
-with Eufemia's styles.
+Run yarn skeleton:font from packages/dnb-eufemia. It reads the official Text,
+Mono and Display TTFs and writes matching skeletons to skeleton/. The
+skeleton generator preserves advances, shaping tables and embedded metrics;
+only skeleton outlines, names and metric hinting are generated. Its webfont
+encoder is not used to rewrite the official font files.
+
+Display still needs care with multiline accented headlines: 110% line height
+can overlap. Check the actual words and widths and increase spacing when
+needed. Some Mono per-mille glyphs and Display subscript parentheses extend
+below the declared Windows descent. Browser compatibility tests do not
+certify desktop applications or PowerPoint font installation and export.
