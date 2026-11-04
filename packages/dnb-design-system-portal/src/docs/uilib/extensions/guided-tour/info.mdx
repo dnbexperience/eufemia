@@ -1,0 +1,59 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import GuidedTour from '@dnb/eufemia/extensions/guided-tour'
+import '@dnb/eufemia/extensions/guided-tour/style'
+```
+
+## Description
+
+`GuidedTour` walks users through a page, one step at a time. Each step highlights an element and explains it in a [Popover](/uilib/components/popover/). An optional intro and outro are shown in a [Dialog](/uilib/components/dialog/).
+
+You control the open state, and can start the tour from e.g. a [HelpButton](/uilib/components/help-button/):
+
+```tsx
+const [open, setOpen] = useState(false)
+
+<HelpButton onClick={() => setOpen(true)} />
+<GuidedTour
+  open={open}
+  onOpenChange={setOpen}
+  intro={{ title: 'Welcome', content: 'Let us show you around.' }}
+  steps={[
+    { id: 'amount', target: '#amount', title: 'Amount', content: '…' },
+  ]}
+  outro={{ title: "That's it!", content: '…' }}
+/>
+```
+
+See the [demo case](/uilib/extensions/guided-tour/demo-cases/payment/) for a full-page example.
+
+## Key behaviors
+
+- `target` points a step at an element: a CSS selector, an element, a ref or a function. Without a `target`, the step is centered on the screen.
+- Steps whose target is missing or hidden are skipped, and are not counted in the progress (e.g. "2 of 5").
+- `onBeforeShow` can reveal a hidden target first, e.g. by opening an Accordion.
+- During the tour, the rest of the page is dimmed and can't be clicked.
+- To cover several screens, render `GuidedTour` above them, so it stays mounted.
+
+## Status
+
+This extension is a proof of concept. Open question: should the intro and outro use a Popover too, so the whole tour uses one surface?
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/guided-tour)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/guided-tour)
+
+## Accessibility
+
+- Each step is a `dialog`, labeled by its title and described by its content.
+- During the tour, the rest of the page is hidden from keyboard and screen readers.
+- Focus moves into each step, and returns to the element that started the tour when it closes.
+- **ArrowRight/ArrowLeft** move between steps. **Escape** closes the tour.
+
+<RelatedComponents />
