@@ -58,7 +58,7 @@ test.describe('Skip Link', () => {
     })
     await page.keyboard.press('Enter')
 
-    const mainContent = page.locator('#dnb-app-content')
+    const mainContent = page.locator('[data-portal-page-content]')
     await expect(mainContent).toBeFocused()
   })
 

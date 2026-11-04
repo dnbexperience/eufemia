@@ -10,6 +10,8 @@ import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
 import TabBar from '../shared/tags/TabBar'
 import AutoLinkHeader from '../shared/tags/AutoLinkHeader'
+import PortalToc from '../shared/parts/PortalToc'
+import pageLayoutStyles from './PortalLayout.module.scss'
 import { defaultTabsValue } from '../shared/tags/defaultValues'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
@@ -51,6 +53,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
               description
               fullscreen
               printLayout
+              hideToc
+              tocDepth
               showTabs
               hideEditLink
               hidePropertiesUsage
@@ -77,6 +81,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 description
                 fullscreen
                 printLayout
+                hideToc
+                tocDepth
                 showTabs
                 hideEditLink
                 breadcrumb {
@@ -143,6 +149,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
   usePortalHead(headData)
 
   const tabsFromParent = Boolean(!pageFm.title && pageFm.showTabs)
+  const hideToc =
+    pageFm.hideToc ?? (tabsFromParent ? parentFm.hideToc : undefined)
+  const tocDepth =
+    pageFm.tocDepth ?? (tabsFromParent ? parentFm.tocDepth : undefined)
+
   const rootPath =
     '/' +
     (tabsFromParent ? parentMdx?.fields?.slug : pageMdx?.fields?.slug)
@@ -180,70 +191,100 @@ export default function PortalLayout(props: PortalLayoutProps) {
       fullscreen={fullscreen}
       printLayout={fmData.printLayout}
     >
-      {!codeFocusMode && fmData.breadcrumb && (
-        <Breadcrumb
-          key="breadcrumb"
-          top="large"
-          className="dnb-print-hidden"
+      {codeFocusMode ? (
+        <Content>{children}</Content>
+      ) : (
+        <div
+          className={`${pageLayoutStyles['content-grid']} ${
+            hideToc ? pageLayoutStyles['content-grid--without-toc'] : ''
+          }`}
         >
-          {fmData.breadcrumb.map((item, i, a) => {
-            return (
-              <Breadcrumb.Item
-                key={item.text}
-                variant={
-                  (i === 0 && 'home') ||
-                  (i === a.length - 1 && 'current') ||
-                  null
-                }
-                // @ts-expect-error -- strictFunctionTypes
-                element={Link}
-                text={item.text}
-                href={item.href}
+          <div
+            className={pageLayoutStyles['content-grid__header']}
+            id="content-grid-header"
+          >
+            {fmData.breadcrumb && (
+              <Breadcrumb
+                key="breadcrumb"
+                top="large"
+                className="dnb-print-hidden"
+              >
+                {fmData.breadcrumb.map((item, i, a) => {
+                  return (
+                    <Breadcrumb.Item
+                      key={item.text}
+                      variant={
+                        (i === 0 && 'home') ||
+                        (i === a.length - 1 && 'current') ||
+                        null
+                      }
+                      // @ts-expect-error -- strictFunctionTypes
+                      element={Link}
+                      text={item.text}
+                      href={item.href}
+                    />
+                  )
+                })}
+              </Breadcrumb>
+            )}
+
+            {pageFm.showTabs ? (
+              <TabBar
+                key="tab-bar"
+                location={location}
+                rootPath={rootPath}
+                title={titleNode}
+                tabs={fmData.tabs}
+                defaultTabs={fmData.defaultTabs}
+                hideTabs={fmData.hideTabs}
               />
-            )
-          })}
-        </Breadcrumb>
+            ) : (
+              titleNode
+            )}
+          </div>
+
+          {!hideToc && (
+            <div
+              className={
+                pageLayoutStyles['content-grid__sidebar'] +
+                ' dnb-print-hidden'
+              }
+              id="content-grid-sidebar"
+            >
+              <PortalToc
+                pathname={location.pathname}
+                maxDepth={tocDepth}
+              />
+            </div>
+          )}
+
+          <div className={pageLayoutStyles['content-grid__content']}>
+            <Heading.Level reset={2}>
+              <Content
+                sourcePath={editSourcePath}
+                pagePath={`${location.pathname}${location.hash || ''}`}
+                showEditLink={!fmData.hideEditLink}
+                showPropertiesUsage={
+                  !pageFm.hidePropertiesUsage &&
+                  slug.startsWith('uilib/') &&
+                  slug.endsWith('/properties')
+                }
+              >
+                {children}
+              </Content>
+            </Heading.Level>
+          </div>
+        </div>
       )}
-
-      {!codeFocusMode &&
-        (pageFm.showTabs ? (
-          <TabBar
-            key="tab-bar"
-            location={location}
-            rootPath={rootPath}
-            title={titleNode}
-            tabs={fmData.tabs}
-            defaultTabs={fmData.defaultTabs}
-            hideTabs={fmData.hideTabs}
-          />
-        ) : (
-          titleNode
-        ))}
-
-      <Heading.Level reset={2}>
-        <Content
-          sourcePath={editSourcePath}
-          pagePath={`${location.pathname}${location.hash || ''}`}
-          showEditLink={!codeFocusMode && !fmData.hideEditLink}
-          showPropertiesUsage={
-            !codeFocusMode &&
-            !pageFm.hidePropertiesUsage &&
-            slug.startsWith('uilib/') &&
-            slug.endsWith('/properties')
-          }
-        >
-          {children}
-        </Content>
-      </Heading.Level>
     </Layout>
   )
 }
 
 function Content({
-  sourcePath,
-  pagePath,
-  showEditLink,
-  showPropertiesUsage,
+  sourcePath = undefined,
+  pagePath = undefined,
+  showEditLink = false,
+  showPropertiesUsage = false,
   children,
 }) {
   return (

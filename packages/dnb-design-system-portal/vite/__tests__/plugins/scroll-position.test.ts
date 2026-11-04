@@ -218,7 +218,9 @@ describe('scroll-position plugin', () => {
     it('scrolls window to top on route change instead of restoring', async () => {
       const code = await loadRuntimeCode()
 
-      expect(code).toContain('window.scrollTo({ top: 0 })')
+      expect(code).toContain(
+        "window.scrollTo({ top: 0, behavior: 'instant' })"
+      )
       expect(code).toContain('restoreWindow: false')
     })
   })

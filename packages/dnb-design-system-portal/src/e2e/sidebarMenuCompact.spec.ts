@@ -399,7 +399,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
   await scrollView.evaluate((element) => {
     element.style.height = '8rem'
     element.style.maxHeight = '8rem'
-    element.scrollTop = 200
+    element.scrollTo({ top: 200, behavior: 'instant' })
   })
   await expect
     .poll(() => scrollView.evaluate((element) => element.scrollTop))
