@@ -1366,8 +1366,8 @@ resource "aws_cloudfront_distribution" "dashboard" {
     }
   }
 
-  # No custom domain: the default *.cloudfront.net certificate is used, so the
-  # CloudFront URL is added to the app registration redirect URIs after deploy.
+  # Akamai serves the custom domain and sends the CloudFront hostname as the
+  # Host header, so the default *.cloudfront.net certificate is enough.
   viewer_certificate {
     cloudfront_default_certificate = true
   }
