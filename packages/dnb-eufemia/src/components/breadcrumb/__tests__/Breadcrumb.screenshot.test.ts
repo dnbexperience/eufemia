@@ -78,8 +78,6 @@ describe.each(['ui', 'sbanken'])(`Breadcrumb for %s`, (themeName) => {
   it('have to match Breadcrumb focus state', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb',
-      screenshotSelector:
-        '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb .dnb-breadcrumb__bar',
       simulateSelector:
         '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb__list .dnb-breadcrumb__item:nth-of-type(2) a',
       simulate: 'focus',
