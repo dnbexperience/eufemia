@@ -1790,6 +1790,9 @@ html[data-visual-test] .dnb-progress-indicator {
   padding: 0;
   border-radius: 0;
 }
+.dnb-upload--compact .dnb-upload__label .dnb-lead {
+  vertical-align: top;
+}
 .dnb-upload--compact .dnb-upload__label .dnb-lead ~ .dnb-upload__text {
   display: inline-block;
   margin-top: 0.25rem;

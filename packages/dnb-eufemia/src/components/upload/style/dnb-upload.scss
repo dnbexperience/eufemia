@@ -272,6 +272,10 @@
 
     padding: 0;
     border-radius: 0;
+    // Keep the larger title from making its line taller than the line height
+    .dnb-upload__label .dnb-lead {
+      vertical-align: top;
+    }
     .dnb-upload__label .dnb-lead ~ .dnb-upload__text {
       display: inline-block;
       margin-top: 0.25rem;
