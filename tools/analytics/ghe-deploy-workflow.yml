@@ -92,19 +92,18 @@ jobs:
           cd infra
           BUCKET=$(terraform output -raw dashboard_bucket)
           DIST=$(terraform output -raw dashboard_distribution_id)
-          URL=$(terraform output -raw dashboard_public_url)
+          DASHBOARD_URL=$(terraform output -raw dashboard_public_url)
           API_BASE_URL=$(terraform output -raw dashboard_api_endpoint)
 
           # Generate the per-host runtime config from the deploy variables. It
           # holds only non-secret public identifiers, so it is safe to serve.
-          # The redirect URI is the canonical public dashboard URL (custom
-          # domain when DASHBOARD_PUBLIC_URL is set, else the CloudFront URL) and
-          # must be registered on the app registration; apiScope is the app
-          # registration's exposed "Dashboard.Read" scope.
+          # redirectUri (DASHBOARD_PUBLIC_URL) must be a registered redirect
+          # URI on the app registration, and apiScope must be a scope exposed
+          # there.
           jq -n \
             --arg clientId "$ENTRA_CLIENT_ID" \
             --arg tenantId "$ENTRA_TENANT_ID" \
-            --arg redirectUri "$URL" \
+            --arg redirectUri "$DASHBOARD_URL" \
             --arg apiBaseUrl "$API_BASE_URL" \
             --arg apiScope "api://${ENTRA_CLIENT_ID}/Dashboard.Read" \
             '{clientId: $clientId, tenantId: $tenantId, redirectUri: $redirectUri, apiBaseUrl: $apiBaseUrl, apiScope: $apiScope}' \
