@@ -152,7 +152,8 @@ function MotionStudy({
         className="dnb-motion-demo__stage"
         innerSpace={0}
         responsive={false}
-        backgroundColor="var(--token-color-background-neutral-base)"
+        outlineWidth={0}
+        backgroundColor="var(--token-color-background-selected-subtle)"
       >
         <svg viewBox="0 0 360 240" aria-hidden="true" focusable="false">
           {children}

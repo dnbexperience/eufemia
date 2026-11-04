@@ -51,11 +51,11 @@
 // Scene lengths follow the fixed SVG viewBox; layout and captions use rem.
 .dnb-motion-scene {
   &__surface {
-    fill: var(--token-color-background-neutral-subtle);
+    fill: var(--token-color-background-neutral);
   }
 
   &__muted {
-    fill: var(--token-color-background-neutral);
+    fill: var(--token-color-background-neutral-subtle);
   }
 
   &__lines {
