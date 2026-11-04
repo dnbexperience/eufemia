@@ -3,7 +3,11 @@
  */
 
 import { Fragment, useMemo, useState } from 'react'
+import type { HTMLAttributes } from 'react'
 import {
+  Card,
+  Flex,
+  Grid,
   Icon,
   CopyOnClick,
   ToggleButton,
@@ -24,11 +28,6 @@ import AnimatedCheck from '@dnb/eufemia/src/icons/animated/check'
 import AnimatedCheckMedium from '@dnb/eufemia/src/icons/animated/check_medium'
 import iconsMetaData from '@dnb/eufemia/src/icons/dnb/icons-meta.json'
 import AutoLinkHeader from '../../tags/AutoLinkHeader'
-import {
-  listStyle,
-  listItemStyle,
-  listItemInnerStyle,
-} from './ListAllIcons.module.scss'
 
 const animatedIcons = {
   arrow_right: AnimatedArrowRight,
@@ -79,6 +78,10 @@ type Props = {
   variant: string
 }
 
+function IconList({ children, ...props }: HTMLAttributes<HTMLElement>) {
+  return <Card.List {...props}>{children}</Card.List>
+}
+
 function IconPreviewItem({
   iconName,
   Svg,
@@ -88,14 +91,25 @@ function IconPreviewItem({
   showFilled,
 }) {
   return (
-    <li className={listItemStyle}>
-      <div className={listItemInnerStyle} data-icon-animation-trigger>
-        <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
+    <Card.ListItem center>
+      <Card
+        responsive={false}
+        layoutEngine="css"
+        align="center"
+        gap="x-small"
+        data-icon-animation-trigger
+      >
+        <Flex.Container
+          layoutEngine="css"
+          align="center"
+          top="large"
+          bottom="large"
+          aria-hidden
+        >
           <Icon
             icon={Svg}
             fill={showFilled}
             animateWhen={showAnimated ? 'hover' : undefined}
-            right
           />
           <Icon
             icon={SvgMedium}
@@ -103,15 +117,15 @@ function IconPreviewItem({
             fill={showFilled}
             animateWhen={showAnimated ? 'hover' : undefined}
           />
-        </figure>
+        </Flex.Container>
 
         <AutoLinkHeader level={3} size="medium" useSlug={iconName}>
           <CopyOnClick>{iconName}</CopyOnClick>
         </AutoLinkHeader>
 
         <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>
-      </div>
-    </li>
+      </Card>
+    </Card.ListItem>
   )
 }
 
@@ -149,38 +163,45 @@ export default function ListAllIcons(props: Props) {
     return all
   }, [variant, showAnimated, showFilled])
 
-  const renderListItem = (icons) => {
-    return icons.map(({ iconName, Svg, variant, tags }) => {
-      let SvgMedium = (
-        variant === 'primary' ? PrimaryIconsMedium : SecondaryIconsMedium
-      )[`${iconName}_medium`]
+  const renderList = (icons) => (
+    <Grid.Container
+      element={IconList}
+      columns={{ small: 1, medium: 2, large: 3 }}
+      rowGap="small"
+      columnGap="small"
+    >
+      {icons.map(({ iconName, Svg, variant, tags }) => {
+        let SvgMedium = (
+          variant === 'primary' ? PrimaryIconsMedium : SecondaryIconsMedium
+        )[`${iconName}_medium`]
 
-      if (showAnimated) {
-        Svg = animatedIcons[iconName]
-        SvgMedium = animatedIconsMedium[`${iconName}_medium`]
-      }
-
-      // remove duplications
-      tags = tags.filter((item, index) => {
-        if (item === iconName) {
-          return false
+        if (showAnimated) {
+          Svg = animatedIcons[iconName]
+          SvgMedium = animatedIconsMedium[`${iconName}_medium`]
         }
-        return tags.indexOf(item) === index
-      })
 
-      return (
-        <IconPreviewItem
-          key={iconName}
-          iconName={iconName}
-          Svg={Svg}
-          SvgMedium={SvgMedium}
-          tags={tags}
-          showAnimated={showAnimated}
-          showFilled={showFilled}
-        />
-      )
-    })
-  }
+        // remove duplications
+        tags = tags.filter((item, index) => {
+          if (item === iconName) {
+            return false
+          }
+          return tags.indexOf(item) === index
+        })
+
+        return (
+          <IconPreviewItem
+            key={iconName}
+            iconName={iconName}
+            Svg={Svg}
+            SvgMedium={SvgMedium}
+            tags={tags}
+            showAnimated={showAnimated}
+            showFilled={showFilled}
+          />
+        )
+      })}
+    </Grid.Container>
+  )
 
   if (iconsToRender.length === 0) {
     return <></>
@@ -222,7 +243,7 @@ export default function ListAllIcons(props: Props) {
             <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
               {categoryName}
             </AutoLinkHeader>
-            <ul className={listStyle}>{renderListItem(icons)}</ul>
+            {renderList(icons)}
           </Fragment>
         ))}
       </>
@@ -232,7 +253,7 @@ export default function ListAllIcons(props: Props) {
   return (
     <>
       {toggle}
-      <ul className={listStyle}>{renderListItem(iconsToRender)}</ul>
+      {renderList(iconsToRender)}
     </>
   )
 }

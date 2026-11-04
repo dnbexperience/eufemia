@@ -24,9 +24,7 @@ for (const width of [1440, 390]) {
       await nav
         .getByRole('button', { name: 'Collections', exact: true })
         .click()
-      await nav
-        .getByRole('link', { name: 'Icons library', exact: true })
-        .click()
+      await nav.getByRole('link', { name: 'Icons', exact: true }).click()
       await expect(page).toHaveURL(new RegExp('/collections/icons/?$'))
       await expect(page.locator('h1')).toContainText('Icons')
       nav = await menu()

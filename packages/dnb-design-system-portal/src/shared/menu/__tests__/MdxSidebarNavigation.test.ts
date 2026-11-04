@@ -530,7 +530,7 @@ describe('MDX-defined Portal navigation', () => {
       ['web/get-started/quick-start', 'Quick start'],
       ['web/get-started/design-for-web', 'Set up Eufemia Web in Figma'],
       ['design-foundations/brand-guidelines', 'Brand guidelines'],
-      ['collections/icons', 'Icons library'],
+      ['collections/icons', 'Icons'],
       [
         'web/development-guidelines/motion',
         'Motion examples and implementation',

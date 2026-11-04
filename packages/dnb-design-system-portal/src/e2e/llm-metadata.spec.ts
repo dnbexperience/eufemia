@@ -95,13 +95,13 @@ test.describe('LLM integration', () => {
   }) => {
     await page.goto('/collections/icons/')
     await expect(
-      page.getByRole('heading', { name: 'Icons library', exact: true })
+      page.getByRole('heading', { name: 'Icons', exact: true })
     ).toBeVisible()
     await expect(page.getByRole('heading', { name: 'bell' })).toBeVisible()
 
     await page.goto('/collections/icons/')
     await expect(
-      page.getByRole('heading', { name: 'Icons library', exact: true })
+      page.getByRole('heading', { name: 'Icons', exact: true })
     ).toBeVisible()
     await expect(
       page.getByRole('heading', { name: 'user_feedback' })

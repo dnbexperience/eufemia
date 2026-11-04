@@ -17,11 +17,11 @@
   },
   "icons/primary": {
     "to": "collections/icons",
-    "section": "icons-library"
+    "section": "icons"
   },
   "icons/secondary": {
     "to": "collections/icons",
-    "section": "icons-library"
+    "section": "icons"
   },
   "icons/other": {
     "to": "web/components/icon/usage",
