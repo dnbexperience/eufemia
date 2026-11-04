@@ -8,27 +8,40 @@ const terraform = readFileSync(
   path.resolve(dir, '../infra/main.tf'),
   'utf8'
 )
-const alarms =
+
+const terraformBlock = (header: string) =>
+  terraform.match(new RegExp(`^${header} \\{[\\s\\S]*?^\\}`, 'm'))?.[0]
+
+const resourceBlocks = (type: string) =>
   terraform.match(
-    /^resource "aws_cloudwatch_metric_alarm" "\w+" \{[\s\S]*?^\}/gm
+    new RegExp(`^resource "${type}" "\\w+" \\{[\\s\\S]*?^\\}`, 'gm')
   ) ?? []
 
+const lifecycleRule = (id: string) =>
+  terraform.match(
+    new RegExp(
+      `^ {2}rule \\{\\s+id\\s+=\\s+"${id}"[\\s\\S]*?^ {2}\\}`,
+      'm'
+    )
+  )?.[0]
+
+const alarms = resourceBlocks('aws_cloudwatch_metric_alarm')
+
 describe('analytics infrastructure', () => {
-  it('expires raw MCP usage objects and cleans noncurrent versions bucket-wide', () => {
-    const rawUsageRule = terraform.match(
-      /rule \{[\s\S]*?id\s+=\s+"expire-mcp-usage-raw"[\s\S]*?^ {2}\}/m
-    )?.[0]
+  it.each(['portal-views', 'mcp-usage', 'component-usage'])(
+    'expires raw %s objects after 395 days',
+    (prefix) => {
+      const rule = lifecycleRule(`expire-${prefix}-raw`)
 
-    // Raw usage keys are unique (write-once), so this rule only expires current
-    // versions; noncurrent cleanup is handled by the bucket-wide rule below.
-    expect(rawUsageRule).toContain('expiration {')
-    expect(rawUsageRule).not.toContain('noncurrent_version_expiration')
+      // Raw keys are write-once; noncurrent cleanup is the bucket-wide rule.
+      expect(rule).toMatch(new RegExp(`prefix\\s+=\\s+"${prefix}/"`))
+      expect(rule).toMatch(/expiration \{\s+days\s+=\s+395\s+\}/)
+      expect(rule).not.toContain('noncurrent_version_expiration')
+    }
+  )
 
-    const noncurrentRule = terraform.match(
-      /rule \{[\s\S]*?id\s+=\s+"expire-noncurrent-versions"[\s\S]*?^ {2}\}/m
-    )?.[0]
-
-    expect(noncurrentRule).toMatch(
+  it('cleans noncurrent versions bucket-wide', () => {
+    expect(lifecycleRule('expire-noncurrent-versions')).toMatch(
       /filter \{\}\s+noncurrent_version_expiration \{\s+noncurrent_days\s+=\s+\d+\s+\}/
     )
   })
@@ -37,9 +50,9 @@ describe('analytics infrastructure', () => {
     // Up to seven Athena queries run one after another (page-view rollup
     // refresh, the concurrent trend reads, three MCP queries, then two
     // component-usage queries when enabled), each waiting up to 2 minutes.
-    const snapshotLambda = terraform.match(
-      /resource "aws_lambda_function" "snapshot" \{[\s\S]*?^\}/m
-    )?.[0]
+    const snapshotLambda = terraformBlock(
+      'resource "aws_lambda_function" "snapshot"'
+    )
     const timeout = Number(
       snapshotLambda?.match(/timeout\s+=\s+(\d+)/)?.[1]
     )
@@ -52,9 +65,9 @@ describe('analytics infrastructure', () => {
       'resource "aws_sns_topic" "snapshot_alerts"'
     )
 
-    const subscription = terraform.match(
-      /resource "aws_sns_topic_subscription" "snapshot_alerts_email" \{[\s\S]*?^\}/m
-    )?.[0]
+    const subscription = terraformBlock(
+      'resource "aws_sns_topic_subscription" "snapshot_alerts_email"'
+    )
     expect(subscription).toMatch(
       /count\s+=\s+var\.snapshot_alert_email != "" \? 1 : 0/
     )
@@ -76,28 +89,35 @@ describe('analytics infrastructure', () => {
     }
   })
 
-  it('expires raw portal-view objects on the portal-views/ prefix', () => {
-    const rawRule = terraform.match(
-      /rule \{[\s\S]*?id\s+=\s+"expire-portal-views-raw"[\s\S]*?^ {2}\}/m
-    )?.[0]
+  it.each([
+    {
+      table: 'portal_views_daily',
+      envVar: 'GLUE_TABLE_PORTAL_VIEWS_DAILY',
+      prefix: 'portal-views-daily/',
+    },
+    {
+      table: 'component_usage_daily',
+      envVar: 'GLUE_TABLE_COMPONENT_USAGE_DAILY',
+      prefix: 'component-usage-daily/',
+    },
+  ])(
+    'defines a durable $table rollup with no expiry rule',
+    ({ table, envVar, prefix }) => {
+      expect(terraform).toContain(
+        `resource "aws_glue_catalog_table" "${table}"`
+      )
+      expect(terraform).toMatch(
+        new RegExp(
+          `${envVar}\\s+=\\s+aws_glue_catalog_table\\.${table}\\.name`
+        )
+      )
 
-    expect(rawRule).toMatch(/prefix\s+=\s+"portal-views\/"/)
-    expect(rawRule).toMatch(/expiration \{\s+days\s+=\s+395\s+\}/)
-    expect(rawRule).not.toContain('noncurrent_version_expiration')
-  })
-
-  it('defines a durable portal_views_daily rollup with no expiry rule', () => {
-    expect(terraform).toContain(
-      'resource "aws_glue_catalog_table" "portal_views_daily"'
-    )
-    expect(terraform).toMatch(
-      /GLUE_TABLE_PORTAL_VIEWS_DAILY\s+=\s+aws_glue_catalog_table\.portal_views_daily\.name/
-    )
-
-    // The durable rollup must NOT have its own expiration rule, or history would
-    // be lost the same way the raw prefix is trimmed.
-    expect(terraform).not.toMatch(/prefix\s+=\s+"portal-views-daily\/"/)
-  })
+      // An expiry rule on the rollup prefix would delete its history.
+      expect(terraform).not.toMatch(
+        new RegExp(`prefix\\s+=\\s+"${prefix}"`)
+      )
+    }
+  )
 
   it('pairs every emitted metric with an alarm, and every custom-metric alarm with an emitted metric', () => {
     const snapshotSource = readFileSync(
@@ -145,16 +165,6 @@ describe('analytics infrastructure', () => {
     }
   })
 
-  it('expires raw component-usage objects on the component-usage/ prefix', () => {
-    const rawUsageRule = terraform.match(
-      /rule \{[\s\S]*?id\s+=\s+"expire-component-usage-raw"[\s\S]*?^ {2}\}/m
-    )?.[0]
-
-    expect(rawUsageRule).toMatch(/prefix\s+=\s+"component-usage\/"/)
-    expect(rawUsageRule).toContain('expiration {')
-    expect(rawUsageRule).not.toContain('noncurrent_version_expiration')
-  })
-
   it('defines the component_usage Glue table and wires it into the generator', () => {
     expect(terraform).toContain(
       'resource "aws_glue_catalog_table" "component_usage"'
@@ -167,24 +177,11 @@ describe('analytics infrastructure', () => {
     )
   })
 
-  it('defines a durable component_usage_daily rollup with no expiry rule', () => {
-    expect(terraform).toContain(
-      'resource "aws_glue_catalog_table" "component_usage_daily"'
-    )
-    expect(terraform).toMatch(
-      /GLUE_TABLE_COMPONENT_USAGE_DAILY\s+=\s+aws_glue_catalog_table\.component_usage_daily\.name/
-    )
-
-    // The durable rollup must NOT have its own expiration rule, or history would
-    // be lost the same way the raw prefix is trimmed.
-    expect(terraform).not.toMatch(/prefix\s+=\s+"component-usage-daily\/"/)
-  })
-
   it('locks the dashboard origin to the Akamai edge via a viewer-request function', () => {
     // The function validates the shared X-Edge-Auth secret Akamai injects.
-    const originLock = terraform.match(
-      /resource "aws_cloudfront_function" "dashboard_edge_auth" \{[\s\S]*?^\}/m
-    )?.[0]
+    const originLock = terraformBlock(
+      'resource "aws_cloudfront_function" "dashboard_edge_auth"'
+    )
 
     expect(originLock).toContain('functions/dashboard-edge-auth.js.tftpl')
     expect(originLock).toMatch(
@@ -192,9 +189,9 @@ describe('analytics infrastructure', () => {
     )
 
     // It must run on every viewer request to the dashboard distribution.
-    const distribution = terraform.match(
-      /resource "aws_cloudfront_distribution" "dashboard" \{[\s\S]*?^\}/m
-    )?.[0]
+    const distribution = terraformBlock(
+      'resource "aws_cloudfront_distribution" "dashboard"'
+    )
     const association = distribution?.match(
       /function_association \{[\s\S]*?\}/
     )?.[0]
@@ -206,15 +203,15 @@ describe('analytics infrastructure', () => {
   })
 
   it('requires TLS on both buckets', () => {
-    const requireTls = terraform.match(
-      /data "aws_iam_policy_document" "require_tls" \{[\s\S]*?^\}/m
-    )?.[0]
-    const dataPolicy = terraform.match(
-      /resource "aws_s3_bucket_policy" "data" \{[\s\S]*?^\}/m
-    )?.[0]
-    const dashboardPolicy = terraform.match(
-      /data "aws_iam_policy_document" "dashboard" \{[\s\S]*?^\}/m
-    )?.[0]
+    const requireTls = terraformBlock(
+      'data "aws_iam_policy_document" "require_tls"'
+    )
+    const dataPolicy = terraformBlock(
+      'resource "aws_s3_bucket_policy" "data"'
+    )
+    const dashboardPolicy = terraformBlock(
+      'data "aws_iam_policy_document" "dashboard"'
+    )
 
     expect(requireTls).toMatch(/data\s+=\s+aws_s3_bucket\.data\.arn/)
     expect(requireTls).toMatch(
@@ -237,12 +234,10 @@ describe('analytics infrastructure', () => {
   })
 
   it('creates the dashboard role with the OIDC boundary, trusted only by Lambda', () => {
-    const role = terraform.match(
-      /resource "aws_iam_role" "dashboard" \{[\s\S]*?^\}/m
-    )?.[0]
-    const assume = terraform.match(
-      /data "aws_iam_policy_document" "dashboard_assume" \{[\s\S]*?^\}/m
-    )?.[0]
+    const role = terraformBlock('resource "aws_iam_role" "dashboard"')
+    const assume = terraformBlock(
+      'data "aws_iam_policy_document" "dashboard_assume"'
+    )
 
     expect(role).toMatch(
       /permissions_boundary\s+=\s+".*:policy\/tlz\/oidc-tooling-github-permissionboundarypolicy"/
@@ -256,10 +251,8 @@ describe('analytics infrastructure', () => {
   })
 
   it('attaches only the deploy-approved policies to the dashboard role', () => {
-    const attachedPolicies = (
-      terraform.match(
-        /^resource "aws_iam_role_policy_attachment" "\w+" \{[\s\S]*?^\}/gm
-      ) ?? []
+    const attachedPolicies = resourceBlocks(
+      'aws_iam_role_policy_attachment'
     )
       .filter((block) => block.includes('aws_iam_role.dashboard.name'))
       .map((block) => block.match(/policy_arn\s+=\s+"(.*)"/)?.[1])
