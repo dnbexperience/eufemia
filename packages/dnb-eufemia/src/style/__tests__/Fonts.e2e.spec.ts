@@ -527,7 +527,7 @@ test('loads a font response that arrives after the fallback deadline', async ({
       body: await fs.readFile(
         path.join(
           packageRoot,
-          'assets/fonts/dnb/web/DNBSansText-Regular.woff2'
+          'assets/fonts/dnb/DNBSansText-Regular.woff2'
         )
       ),
     })

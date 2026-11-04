@@ -34,8 +34,9 @@ overrides or font binary modifications are needed.
 
 Each family ZIP contains exactly the matching TTF, WOFF and WOFF2 binaries
 in this directory. This release has no official OTF files. Do not mix older
-OTFs into these downloads. Text advances are retained; Mono fixes some
-italic advances and ligature widths, so code wrapping can change.
+OTFs into these downloads. Text advances are retained, but updated italic
+kerning can change wrapping. Mono fixes some italic advances and ligature
+widths, so code wrapping can change too.
 
 The `DNB-*` and `DNBMono-*` files and their ZIPs remain byte-for-byte unchanged
 for existing public URLs and direct package imports.
