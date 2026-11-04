@@ -247,7 +247,7 @@ export default function TableOfContentNavigation({
   useLayoutEffect(() => {
     const scroll = scrollRef.current
     if (!isSidebar || !scroll) {
-      return
+      return undefined
     }
 
     const update = () => {
