@@ -172,6 +172,93 @@ describe('Accordion component', () => {
   })
 })
 
+describe('Accordion custom header', () => {
+  it('keeps the icon on the left when it comes before the title', () => {
+    render(
+      <Accordion noAnimation>
+        <Accordion.Header>
+          <Accordion.Header.Icon />
+          <Accordion.Header.Title>Title</Accordion.Header.Title>
+        </Accordion.Header>
+        <Accordion.Content>Content</Accordion.Content>
+      </Accordion>
+    )
+
+    const header = document.querySelector('.dnb-accordion__header')
+    const icon = header.querySelector('.dnb-accordion__header__icon')
+    const title = header.querySelector('.dnb-accordion__header__title')
+
+    expect(header).not.toHaveClass('dnb-accordion__header--icon-right')
+    expect(
+      icon.compareDocumentPosition(title) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
+  it('places the icon on the right when it comes after the title', () => {
+    render(
+      <Accordion noAnimation>
+        <Accordion.Header>
+          <Accordion.Header.Title>Title</Accordion.Header.Title>
+          <Accordion.Header.Icon />
+        </Accordion.Header>
+        <Accordion.Content>Content</Accordion.Content>
+      </Accordion>
+    )
+
+    const header = document.querySelector('.dnb-accordion__header')
+    const icon = header.querySelector('.dnb-accordion__header__icon')
+    const title = header.querySelector('.dnb-accordion__header__title')
+
+    expect(header).toHaveClass('dnb-accordion__header--icon-right')
+    expect(
+      title.compareDocumentPosition(icon) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
+  it('keeps a custom container before the title', () => {
+    render(
+      <Accordion noAnimation>
+        <Accordion.Header>
+          <Accordion.Header.Container>Left</Accordion.Header.Container>
+          <Accordion.Header.Title>Title</Accordion.Header.Title>
+        </Accordion.Header>
+        <Accordion.Content>Content</Accordion.Content>
+      </Accordion>
+    )
+
+    const header = document.querySelector('.dnb-accordion__header')
+    const container = header.querySelector(
+      '.dnb-accordion__header__container'
+    )
+    const title = header.querySelector('.dnb-accordion__header__title')
+
+    expect(
+      container.compareDocumentPosition(title) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
+  it('renders several custom elements of the same type', () => {
+    render(
+      <Accordion noAnimation>
+        <Accordion.Header>
+          <Accordion.Header.Title>Title</Accordion.Header.Title>
+          <span className="first">New</span>
+          <span className="second">3 unread</span>
+        </Accordion.Header>
+        <Accordion.Content>Content</Accordion.Content>
+      </Accordion>
+    )
+
+    const header = document.querySelector('.dnb-accordion__header')
+
+    expect(header.querySelector('.first')).toHaveTextContent('New')
+    expect(header.querySelector('.second')).toHaveTextContent('3 unread')
+  })
+})
+
 describe('Accordion openOnFind', () => {
   it('should not render closed content when "openOnFind" is not set', () => {
     render(

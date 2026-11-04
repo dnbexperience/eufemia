@@ -135,6 +135,17 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Review resolved token values and text contrast
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace @dnb/eufemia review:tokens origin/main "$RUNNER_TEMP/token-review.md"
+
+      - name: Publish token review summary
+        if: always() && steps.changes.outputs.changed == 'true'
+        run: |
+          if [ -f "$RUNNER_TEMP/token-review.md" ]; then
+            cat "$RUNNER_TEMP/token-review.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Update design token snapshots
         if: steps.changes.outputs.changed == 'true'
         # The snapshots mirror the generated theme files, so a token change always changes them
@@ -153,7 +164,7 @@ jobs:
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
       - name: Store visual test artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
           name: visual-test-artifact
@@ -308,6 +319,12 @@ jobs:
             echo ""
             if [ "$EXISTING_PR" = true ]; then
               echo "Suggested title: \`$title\`"
+              echo ""
+            fi
+            if [ -f "$RUNNER_TEMP/token-review.md" ]; then
+              head -c 40000 "$RUNNER_TEMP/token-review.md"
+              echo ""
+              echo "Full resolved values and contrast report: $run_url#summary"
               echo ""
             fi
             echo "Review the token values, removals, snapshots, and visual screenshots before marking the pull request ready."

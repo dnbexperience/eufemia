@@ -11,29 +11,11 @@ breadcrumb:
   - text: 'v13'
 ---
 
-- [v13](#v13)
-  - [Migration](#migration)
-  - [Install](#install)
-  - [CSS custom properties](#css-custom-properties)
-  - [Component changes](#component-changes)
-    - [Theme](#theme)
-    - [SidebarMenu](#sidebarmenu)
-    - [Flex](#flex)
-    - [Accordion](#accordion)
-    - [Autocomplete](#autocomplete)
-    - [DatePicker](#datepicker)
-    - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
-    - [InfoCard](#infocard)
-    - [Img](#img)
-    - [Popover](#popover)
-    - [ScrollView](#scrollview)
-    - [Field.Name.Company](#fieldnamecompany)
-
 > **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
 
 ## Migration
 
-v13 of @dnb/eufemia contains _breaking changes_. As a migration process, you can simply search and replace:
+v13 of @dnb/eufemia contains _breaking changes_. Follow the migration steps below for removed APIs and changed behavior. The [deprecations](#deprecations) section lists APIs that remain available for compatibility and can be replaced separately.
 
 ## Install
 
@@ -46,6 +28,14 @@ $ yarn add @dnb/eufemia@13
 ```
 
 ## CSS custom properties
+
+### Design-token color migration
+
+The design-token color update changes the meaning of `--token-color-background-neutral-alternative` in DNB and Eiendom and removes 13 foundation CSS custom properties. Applications must review direct references, including Tailwind utilities and values in JavaScript/TypeScript strings.
+
+For text backgrounds, usually replace `--token-color-background-neutral-alternative` with `--token-color-background-neutral-subtle`. For UI fills such as progress tracks, usually use `--token-color-background-neutral-base`. Check contrast and nested surfaces in every supported theme and color mode; this is not a blanket find-and-replace.
+
+See [Migrating information and neutral colors](/uilib/usage/customisation/theming/design-tokens/colors#migrating-information-and-neutral-colors) for the before/after values, removed-variable inventory and application checklist. Follow that guidance when upgrading to the release containing this update, even if you are not upgrading to v13.
 
 ### Typography: \{#css-custom-properties-typography\}
 
@@ -64,6 +54,23 @@ The deprecated Sbanken-prefixed properties are still emitted. Their values diffe
 - Replace `--text-sb-*` with `--text-*`
 - Replace `--text-sb-medium--plus` with `--text-medium`
 - Replace `--leading-sb-*` with `--leading-*`
+
+## Print styles
+
+The `dnb-print` scope now prints pure black text, borders and form
+outlines on white paper and removes descendant CSS backgrounds. Previously
+this paper appearance required `dnb-print--plain`. Remove the redundant
+modifier from existing markup:
+
+```diff
+-<article class="dnb-print dnb-print--plain">
++<article class="dnb-print">
+```
+
+Existing markup with both classes still works. Screen colors, typography
+and wrapper layout remain unchanged. If you relied on `dnb-print` to retain
+brand colors when printing, use your own print styles outside this scope.
+See [print styles](/uilib/usage/customisation/styling/document-styles/#print-styles).
 
 ## Component changes
 
@@ -116,12 +123,7 @@ Replace `breakpoint` with `drawerAt` on `SidebarMenu.ResponsiveProvider`. The de
 
 ### [Flex](/uilib/layout/flex/)
 
-Flex now uses native CSS gap and renders React children unchanged. The following legacy migration APIs are deprecated:
-
-- `Flex.withChildren`
-- `_supportsSpacingProps`
-- `wrapChildrenInSpace`
-- `layoutEngine="legacy"`
+Flex now uses native CSS gap and renders React children unchanged. The [legacy compatibility APIs](#flex-compatibility-apis) remain available during migration.
 
 #### Custom components
 
@@ -166,7 +168,7 @@ For a component that already applied spacing to its root, deleting the marker is
 
 #### Wrapper components
 
-`Flex.withChildren` is deprecated. It never hoisted a wrapper's children into the outer container's flex line. When the HOC marked a wrapper, `Flex.Container` automatically injected a nested `Flex.Container` inside the wrapper's root — inheriting the outer container's props — and laid the wrapper's children out there. The rendered DOM was already outer container → wrapper root → inner container. To keep that layout in v13, render the inner `Flex.Container` yourself.
+`Flex.withChildren` remains available as a deprecated compatibility adapter. It never hoisted a wrapper's children into the outer container's flex line. When the HOC marked a wrapper, `Flex.Container` automatically injected a nested `Flex.Container` inside the wrapper's root, inheriting the outer container's props, and laid the wrapper's children out there. The rendered DOM was already outer container → wrapper root → inner container. To keep that layout without the adapter, render the inner `Flex.Container` yourself.
 
 **Before (v11):**
 
@@ -220,51 +222,9 @@ The DOM structure is unchanged from v11 — a wrapper root containing a nested `
 
 When using `divider="line"` or `divider="line-framed"`, the CSS engine paints the divider without rendering `<hr>` elements. This removes the corresponding separator roles from the accessibility tree. If a divider conveys semantic separation, render explicit `Hr` elements instead of relying on the `divider` property.
 
-The previous child-inspection engine remains temporarily available during migration:
-
-```tsx
-<Flex.Container layoutEngine="legacy">...</Flex.Container>
-```
-
-Do not use the deprecated APIs for new integrations. See the [Flex.Container migration guidance](/uilib/layout/flex/container/#backwards-compatibility) for details.
-
 ### [Accordion](/uilib/components/accordion/)
 
 - Replace `id` with `connectedTo` on `Accordion.Content` when connecting to a standalone tertiary button.
-
-### [Autocomplete](/uilib/components/autocomplete/)
-
-The individual search-related props are deprecated in favor of a single `search` object:
-
-- `disableFilter` → `search.filter`
-- `disableReorder` → `search.reorder`
-- `disableHighlighting` → `search.highlight`
-- `searchNumbers` → `search.numbers`
-- `searchInWordIndex` → `search.matchInsideWordsFrom`
-- `searchMatch` → `search.match`
-
-Note that the `disable*` props invert, so a disabled feature becomes `false`:
-
-```diff
--<Autocomplete
--  disableFilter
--  disableReorder
--  disableHighlighting
--  searchNumbers
--  searchInWordIndex={4}
--  searchMatch="starts-with"
--/>
-+<Autocomplete
-+  search={{
-+    filter: false,
-+    reorder: false,
-+    highlight: false,
-+    numbers: true,
-+    matchInsideWordsFrom: 4,
-+    match: 'starts-with',
-+  }}
-+/>
-```
 
 ### [DatePicker](/uilib/components/date-picker/)
 
@@ -325,16 +285,6 @@ After:
 - Replace `centered` with your content layout, for example `Flex.Stack align="center"` and centered text. Wrap loading content in `Provider skeleton`.
 - Remove `stretch` and control width through the containing layout. Other Card properties, including spacing and `dropShadow`, can be passed directly to Card.Info.
 
-### [Img](/uilib/elements/image/)
-
-- Replace `imgClass` with `imageClassName`.
-- The `element` prop is deprecated. Keep the default `figure` wrapper and use `figureProps` to pass native properties to it.
-
-```diff
--<Img src="image.png" alt="Description" imgClass="image-class" />
-+<Img src="image.png" alt="Description" imageClassName="image-class" />
-```
-
 ### [Popover](/uilib/components/popover/)
 
 - Replace `triggerAttributes` with `triggerProps`.
@@ -377,4 +327,78 @@ After:
 +const myValidator: CompanyNameValidator = (value, { validators }) => {
 +  return [validators.companyValidator]
  }
+```
+
+## Deprecations
+
+Deprecated APIs remain available for compatibility. Replacing them is recommended, but deprecation alone does not require a change to upgrade to v13. Removal is a separate breaking change and is documented explicitly.
+
+### Flex compatibility APIs
+
+The following deprecated APIs remain available during migration:
+
+- `Flex.withChildren`
+- `_supportsSpacingProps`
+- `wrapChildrenInSpace`
+- `layoutEngine="legacy"`
+
+The previous child-inspection engine can still be selected explicitly:
+
+```tsx
+<Flex.Container layoutEngine="legacy">...</Flex.Container>
+```
+
+Avoid these APIs for new integrations. See the [Flex migration steps](#flex) and [Flex.Container migration guidance](/uilib/layout/flex/container/#backwards-compatibility) for alternatives.
+
+### [Autocomplete](/uilib/components/autocomplete/)
+
+The individual search-related props remain supported as deprecated aliases for the `search` object. Replace them when updating the component:
+
+- `disableFilter` → `search.filter`
+- `disableReorder` → `search.reorder`
+- `disableHighlighting` → `search.highlight`
+- `searchNumbers` → `search.numbers`
+- `searchInWordIndex` → `search.matchInsideWordsFrom`
+- `searchMatch` → `search.match`
+
+Note that the `disable*` props invert, so a disabled feature becomes `false`:
+
+```diff
+-<Autocomplete
+-  disableFilter
+-  disableReorder
+-  disableHighlighting
+-  searchNumbers
+-  searchInWordIndex={4}
+-  searchMatch="starts-with"
+-/>
++<Autocomplete
++  search={{
++    filter: false,
++    reorder: false,
++    highlight: false,
++    numbers: true,
++    matchInsideWordsFrom: 4,
++    match: 'starts-with',
++  }}
++/>
+```
+
+### [Img](/uilib/elements/image/)
+
+- The `imgClass` alias is deprecated but still supported. Use `imageClassName` for new code.
+- The `element` prop is deprecated and remains available. Keep the default `figure` wrapper and use `figureProps` to pass native properties to it.
+
+```diff
+-<Img src="image.png" alt="Description" imgClass="image-class" />
++<Img src="image.png" alt="Description" imageClassName="image-class" />
+```
+
+### [Provider](/uilib/usage/customisation/provider/)
+
+The top-level `currencyDisplay` property is deprecated and remains in the Provider types. It already had no effect on NumberFormat; this is not a v13 behavior change. To configure currency display, use `NumberFormat={{ currencyDisplay }}` instead.
+
+```diff
+-<Provider currencyDisplay="code">
++<Provider NumberFormat={{ currencyDisplay: 'code' }}>
 ```

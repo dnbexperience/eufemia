@@ -26,7 +26,7 @@ The accepted file type object is used to define file max size for specific file 
 
 When providing a list of AcceptedFileType to [Uploads](/uilib/components/upload/properties/#properties) `acceptedFileTypes`, the accepted file types will be presented in a table. Here is an [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type).
 
-The table is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
+The table is sorted by `maxFileSize`, with the smallest first. File types without a max size come last. File types with the same `maxFileSize` are listed in the given order.
 
 <PropertiesTable props={AcceptedFileTypeProperties} />
 

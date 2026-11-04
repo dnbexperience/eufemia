@@ -533,6 +533,45 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   --button-tertiary-focus-right: 0;
 }
 
+.dnb-dots-indicator__dot {
+  display: inline-block;
+  width: var(--dots-size, 0.25em);
+  height: var(--dots-size, 0.25em);
+  margin-left: var(--dots-gap, 0.25em);
+  border-radius: 50%;
+  background-color: var(--dots-color, currentcolor);
+  opacity: 0.2;
+  transform: scale(0.75);
+  animation: dnb-dots-indicator-dot 1.2s infinite;
+}
+.dnb-dots-indicator__dot:nth-of-type(1) {
+  margin-left: var(--dots-first-gap, var(--dots-gap, 0.25em));
+  animation-delay: 50ms;
+}
+.dnb-dots-indicator__dot:nth-of-type(2) {
+  animation-delay: 200ms;
+}
+.dnb-dots-indicator__dot:nth-of-type(3) {
+  animation-delay: 400ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-dots-indicator__dot {
+    animation: none;
+    opacity: 0.6;
+    transform: none;
+  }
+}
+
+@keyframes dnb-dots-indicator-dot {
+  0%, 70%, 100% {
+    opacity: 0.2;
+    transform: scale(0.75);
+  }
+  20%, 50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 .dnb-button__indicator {
   --dots-offset: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
@@ -553,6 +592,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   padding: 0.5em 0;
 }
 .dnb-button__indicator-content {
+  --dots-first-gap: var(--dots-offset);
   align-items: center;
   font-size: 0;
   opacity: 0;
@@ -562,19 +602,17 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
 }
 .dnb-button__indicator-content b {
   display: inline-block;
-  width: 0.25em;
-  height: 0.25em;
-  margin-left: 0.25em;
+  width: var(--dots-size, 0.25em);
+  height: var(--dots-size, 0.25em);
+  margin-left: var(--dots-gap, 0.25em);
   border-radius: 50%;
-  background-color: var(--dots-color);
+  background-color: var(--dots-color, currentcolor);
   opacity: 0.2;
   transform: scale(0.75);
-  animation-name: submit-indicator-dot;
-  animation-iteration-count: infinite;
-  animation-duration: 1.2s;
+  animation: dnb-dots-indicator-dot 1.2s infinite;
 }
 .dnb-button__indicator-content b:nth-of-type(1) {
-  margin-left: var(--dots-offset);
+  margin-left: var(--dots-first-gap, var(--dots-gap, 0.25em));
   animation-delay: 50ms;
 }
 .dnb-button__indicator-content b:nth-of-type(2) {
@@ -582,6 +620,19 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
 }
 .dnb-button__indicator-content b:nth-of-type(3) {
   animation-delay: 400ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-button__indicator-content b {
+    animation: none;
+    opacity: 0.6;
+    transform: none;
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button__indicator-content b {
+    forced-color-adjust: none;
+    background-color: currentcolor;
+  }
 }
 .dnb-button__indicator--pending .dnb-button__indicator-content {
   font-size: 1em;
@@ -595,29 +646,19 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   cursor: inherit;
   --dots-color: currentcolor;
 }
-
-@keyframes submit-indicator-dot {
-  0% {
-    opacity: 0.2;
-    transform: scale(0.75);
-  }
-  20% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  70% {
-    opacity: 0.2;
-    transform: scale(0.75);
-  }
-  100% {
-    opacity: 0.2;
-    transform: scale(0.75);
-  }
+.dnb-button--icon-only .dnb-button__indicator {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --dots-offset: 0;
 }
+
+.dnb-button--icon-only.dnb-button--pending .dnb-button__icon {
+  opacity: 0;
+}
+
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -1184,7 +1225,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
-  transform: translateY(-0.03125rem);
+  transform: translateY(var(--button-text-translate-y, -0.03125rem));
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1363,8 +1404,20 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-help-button__content .dnb-section {
   --background-color: var(--token-color-background-neutral-subtle);
+  --outset-left: 1.5rem;
+  --outset-right: 1.5rem;
+}
+@media screen and (max-width: 40em) {
+  .dnb-help-button__content .dnb-section {
+    --outset-left: 1rem;
+    --outset-right: 1rem;
+  }
+}
+.dnb-card .dnb-help-button__content .dnb-section {
   --outset-left: 1rem;
   --outset-right: 1rem;
+}
+.dnb-help-button__content .dnb-section {
   --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
 }
 .dnb-help-button__content .dnb-section .dnb-p {

@@ -159,6 +159,10 @@ export default {
       addTitle: 'Øk (%s)',
       subtractTitle: 'Reduser (%s)',
     },
+    TableOfContent: {
+      showAll: 'Vis alle',
+      title: 'På denne siden',
+    },
     VippsWalletButton: {
       text: 'Legg til i',
     },
@@ -187,13 +191,14 @@ export default {
       text: 'Dra og slipp eller velg hvilke filer du vil laste opp.',
       textSingular:
         'Dra og slipp eller velg hvilken fil du vil laste opp.',
-      fileTypeTableCaption: 'Tillatte filformater og maks filstørrelse',
-      fileTypeDescription: 'Tillatte filformater:',
+      fileTypeTableCaption: 'Tillatte filer og maks filstørrelse',
+      fileTypeDescription: 'Tillatte filer:',
       fileSizeDescription: 'Maks filstørrelse:',
       fileAmountDescription: 'Maks antall filer:',
       fileSizeContent: '%size MB',
       buttonText: 'Velg filer',
       buttonTextSingular: 'Velg fil',
+      fileLimitsButtonText: 'Tillatte filer og størrelser',
       loadingText: 'Laster',
       errorLargeFile:
         'Filen du prøver å laste opp er for stor, den maksimale støttede størrelsen er %size MB.',

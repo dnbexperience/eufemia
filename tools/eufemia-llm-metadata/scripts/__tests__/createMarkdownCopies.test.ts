@@ -11,6 +11,56 @@ vi.mock('prettier', () => ({
 import { createMarkdownCopies } from '../../src/convertHelpers.ts'
 
 describe('createMarkdownCopies', () => {
+  it('marks every generated AI page once, including appended properties and events', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-ai-notice-'))
+    const docsRoot = path.join(root, 'docs')
+    const outputRoot = path.join(root, 'out')
+    const routes = [
+      'uilib/extensions/ai.mdx',
+      'uilib/extensions/ai/Message.mdx',
+      'uilib/extensions/ai/Message/info.mdx',
+      'uilib/extensions/ai/Message/properties.mdx',
+      'uilib/extensions/ai/Message/events.mdx',
+      'uilib/extensions/ai/Message/demos.mdx',
+      'uilib/extensions/ai/integrations.mdx',
+      'uilib/components/button.mdx',
+    ]
+    for (const route of routes) {
+      const inputPath = path.join(docsRoot, route)
+      fs.mkdirSync(path.dirname(inputPath), { recursive: true })
+      fs.writeFileSync(
+        inputPath,
+        '---\ntitle: Example\n---\n\nPage content.'
+      )
+    }
+    try {
+      await createMarkdownCopies({
+        siteDir: root,
+        docsRoot,
+        outputRoot,
+        slugBase: '',
+        entryFiles: routes.map((route) => path.join(docsRoot, route)),
+      })
+      for (const route of routes) {
+        const output = fs.readFileSync(
+          path.join(outputRoot, route.replace('.mdx', '.md')),
+          'utf-8'
+        )
+        expect(output.match(/\*\*Experimental:\*\*/g) || []).toHaveLength(
+          route.includes('/ai') ? 1 : 0
+        )
+        if (
+          route.endsWith('/properties.mdx') ||
+          route.endsWith('/Message.mdx')
+        ) {
+          expect(output).toContain('need a use case approved by DNB UX')
+        }
+      }
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
+
   it('appends properties and events markdown to output', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-md-'))
     const docsRoot = path.join(tmpRoot, 'docs')
@@ -58,6 +108,10 @@ describe('createMarkdownCopies', () => {
         '## Properties',
         '',
         '<PropertiesTable props={ButtonProperties} />',
+        '',
+        '### Additional properties',
+        '',
+        '<PropertiesTable props={ButtonProperties} />',
       ].join('\n')
     )
 
@@ -90,6 +144,34 @@ describe('createMarkdownCopies', () => {
     expect(output).toContain('Main content.')
     expect(output).toContain('## Properties')
     expect(output).toContain('## Events')
+    expect(
+      output
+        .split('\n')
+        .filter((line) =>
+          line.startsWith(
+            'Some properties provide flexibility for specific integrations.'
+          )
+        )
+    ).toHaveLength(1)
+    expect(output).toContain('<!-- eufemia-properties-usage:start -->')
+    expect(output).toContain('<!-- eufemia-properties-usage:end -->')
+    expect(output).toContain('need a use case approved by DNB UX')
+    expect(output).toContain(
+      '/uilib/usage/customisation/component-properties/#intended-use-and-customization'
+    )
+    expect(
+      output.indexOf('need a use case approved by DNB UX')
+    ).toBeLessThan(output.indexOf('```json'))
+    const blocks = Array.from(
+      output.matchAll(/```json\s*([\s\S]*?)```/g),
+      (match) => JSON.parse(match[1])
+    )
+    expect(blocks).toHaveLength(3)
+    expect(blocks[0].usageGuidance).toContain(
+      'need a use case approved by DNB UX'
+    )
+    expect(blocks[1]).not.toHaveProperty('usageGuidance')
+    expect(blocks[2]).not.toHaveProperty('usageGuidance')
     expect(output).not.toContain('properties.md')
     expect(output).not.toContain('showTabs: true')
     expect(output).not.toContain('PropertiesTable')

@@ -28,7 +28,7 @@ const decimalsAndFormattingProps: PropertiesTableProps = {
     status: 'optional',
   },
   signDisplay: {
-    doc: 'When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.',
+    doc: 'When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only, excluding negative zero, or `never` to never display sign.',
     type: ['"auto"', '"always"', '"exceptZero"', '"negative"', '"never"'],
     status: 'optional',
   },

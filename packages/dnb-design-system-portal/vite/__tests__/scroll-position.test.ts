@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { createElement } from 'react'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, useNavigate } from 'react-router'
 import {
   saveScrollPosition,
   restoreScrollPosition,
@@ -129,6 +129,28 @@ describe('restoreScrollPosition', () => {
 })
 
 describe('useScrollPosition', () => {
+  it('resets page navigation instantly even when the document scrolls smoothly', () => {
+    const scrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => {})
+    vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(1)
+
+    function Consumer() {
+      useScrollPosition()
+      const navigate = useNavigate()
+      return createElement(
+        'button',
+        { onClick: () => navigate('/next/') },
+        'Next'
+      )
+    }
+
+    render(createElement(MemoryRouter, null, createElement(Consumer)))
+    fireEvent.click(document.querySelector('button'))
+
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'instant' })
+  })
+
   it('owns browser scroll restoration for hash navigation', () => {
     window.history.scrollRestoration = 'auto'
     vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(1)

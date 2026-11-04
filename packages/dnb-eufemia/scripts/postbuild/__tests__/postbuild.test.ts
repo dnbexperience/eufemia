@@ -9,7 +9,12 @@
 import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
+import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
+import vm from 'node:vm'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { renderToString } from 'react-dom/server'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
 import { themeCapabilities } from '../../../src/style/themes/capabilities'
@@ -131,13 +136,13 @@ describe('rebaseAssetUrls (copyStyles)', () => {
 
   it('rebases nested theme bundles to their deeper location', () => {
     const css =
-      '@font-face{src:url("../../../assets/fonts/dnb/DNB-Regular.woff2")}'
+      '@font-face{src:url("../../../assets/fonts/dnb/DNBSansText-Regular.woff2")}'
     const dest = path.join(
       buildAbs,
       'es/style/themes/ui/ui-theme-basis.css'
     )
     expect(rebaseAssetUrls(css, dest)).toContain(
-      'url("../../../../assets/fonts/dnb/DNB-Regular.woff2")'
+      'url("../../../../assets/fonts/dnb/DNBSansText-Regular.woff2")'
     )
   })
 
@@ -916,6 +921,16 @@ describe('agent skills', () => {
 describe('tsdown build', () => {
   const buildStages = ['/esm', '/umd']
 
+  // The icons bundle comes first, as the other UMD bundles read its global
+  const bundleGlobals = {
+    icons: 'dnbIcons',
+    basis: 'dnbBasis',
+    components: 'dnbComponents',
+    elements: 'dnbElements',
+    extensions: 'dnbExtensions',
+    lib: 'dnbLib',
+  }
+
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     switch (stage) {
       case '/esm':
@@ -929,7 +944,7 @@ describe('tsdown build', () => {
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
-              /import\*as \w from"\.\.\/icons\/dnb\/primary_icons";/ // "../icons/dnb/primary_icons"
+              /import\*as \w from"\.\/dnb-ui-icons\.min\.mjs";/ // "./dnb-ui-icons.min.mjs"
             )
           }
         }
@@ -943,14 +958,78 @@ describe('tsdown build', () => {
               'utf-8'
             )
             expect(content).toContain('function(e,t)')
-            expect(content).toContain('require(`react`),')
-            expect(content).toContain('require(`react-dom`)):')
-            expect(content).toContain(
-              'require(`../icons/dnb/primary_icons`)'
+            expect(content).toMatch(/require\(["`]react["`]\),/)
+            expect(content).toMatch(/require\(["`]react-dom["`]\)\):/)
+            expect(content).toMatch(
+              /require\(["`]\.\/dnb-ui-icons\.min\.js["`]\)/
             )
           }
         }
         break
+    }
+  })
+
+  it('loads every ESM bundle with the Node module loader', () => {
+    const imports = Object.keys(bundleGlobals)
+      .map(
+        (name) =>
+          `import * as ${name} from './build/esm/dnb-ui-${name}.min.mjs'`
+      )
+      .join('\n')
+
+    // Node resolves imports like browsers do, without guessing file extensions
+    const output = execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '--eval',
+        `
+          import React from 'react'
+          import ReactDOMServer from 'react-dom/server'
+          ${imports}
+          process.stdout.write(typeof icons.chevron_right_medium + ReactDOMServer.renderToString(
+            React.createElement(lib.Button, { text: 'Go', icon: 'chevron_right' })
+          ))
+        `,
+      ],
+      { cwd: PKG_ROOT, encoding: 'utf-8' }
+    )
+
+    expect(output).toMatch(/^function<button/)
+    expect(output).toContain('<svg')
+  })
+
+  it('loads every UMD bundle from browser globals', () => {
+    const context = vm.createContext({ React, ReactDOM })
+    for (const [name, globalName] of Object.entries(bundleGlobals)) {
+      vm.runInContext(
+        fs.readFileSync(
+          path.resolve(PKG_ROOT, `build/umd/dnb-ui-${name}.min.js`),
+          'utf-8'
+        ),
+        context
+      )
+      expect(context[globalName]).toBeDefined()
+    }
+
+    const html = renderToString(
+      React.createElement(context.dnbLib.Button, {
+        text: 'Go',
+        icon: 'chevron_right',
+      })
+    )
+    expect(typeof context.dnbIcons.chevron_right_medium).toBe('function')
+    expect(html).toContain('<svg')
+  })
+
+  it('ships the icons inside the icons bundles', () => {
+    for (const file of [
+      'esm/dnb-ui-icons.min.mjs',
+      'umd/dnb-ui-icons.min.js',
+    ]) {
+      expect(
+        fs.readFileSync(path.resolve(PKG_ROOT, `build/${file}`), 'utf-8')
+      ).not.toContain('../icons/')
     }
   })
 })
@@ -1097,7 +1176,7 @@ describe('style build', () => {
         'utf-8'
       )
       expect(normalizeCss(content)).toContain(
-        normalizeCss(`--font-family-default: "DNB", sans-serif;`)
+        normalizeCss(`--font-family-default: "DNB", "Arial", sans-serif;`)
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
@@ -1105,7 +1184,7 @@ describe('style build', () => {
       // bundle, so their relative asset paths gain one extra "../".
       const fontsPrefix = stage === '' ? '../../../' : '../../../../'
       expect(content).toContain(
-        `src: url("${fontsPrefix}assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        `src: url("${fontsPrefix}assets/fonts/dnb/DNBSansText-Regular.woff2") format("woff2"),`
       )
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
@@ -1253,7 +1332,7 @@ describe('style build', () => {
     const themeTests = [
       {
         theme: 'ui',
-        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', 'Arial', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
       {
@@ -1264,7 +1343,7 @@ describe('style build', () => {
       },
       {
         theme: 'eiendom',
-        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', 'Arial', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
     ]
@@ -1312,6 +1391,41 @@ describe('review rule metadata build', () => {
     expect(metadata).toContain("level: 'warning'")
     expect(declarations).toContain('ReviewRuleMetadata')
   })
+})
+
+describe('ESM plugins build', () => {
+  it.each(getBuildStages(['/es', '/esm']))(
+    'resolves all relative imports on stage %s',
+    async (stage) => {
+      const buildDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}`
+      )
+      const files = await globby('plugins/**/*.js', {
+        cwd: buildDir,
+        absolute: true,
+      })
+
+      const missingImports = files.flatMap((file) => {
+        const content = fs.readFileSync(file, 'utf-8')
+        return Array.from(
+          content.matchAll(/from '(\.{1,2}\/[^']+)'/g),
+          ([, specifier]) => specifier
+        )
+          .filter(
+            (specifier) =>
+              !fs.existsSync(path.resolve(path.dirname(file), specifier))
+          )
+          .map(
+            (specifier) =>
+              `${path.relative(buildDir, file)} -> ${specifier}`
+          )
+      })
+
+      expect(files.length).toBeGreaterThan(0)
+      expect(missingImports).toEqual([])
+    }
+  )
 })
 
 describe('package.json dependencies', () => {
@@ -1375,6 +1489,24 @@ describe('package.json dependencies', () => {
     })
     expect(packageJson.devDependencies).toMatchObject({
       purgecss: expect.any(String),
+    })
+  })
+
+  it('declares the packages the shipped tools import as optional peer dependencies', () => {
+    // The Stylelint plugin imports "stylelint" and the MCP server imports
+    // "@modelcontextprotocol/server". Strict package managers (like Yarn PnP)
+    // only let the package resolve them when they are declared.
+    const packageJson = fs.readJsonSync(
+      path.resolve(PKG_ROOT, 'package.json')
+    )
+
+    expect(packageJson.peerDependencies).toMatchObject({
+      '@modelcontextprotocol/server': expect.any(String),
+      stylelint: expect.any(String),
+    })
+    expect(packageJson.peerDependenciesMeta).toMatchObject({
+      '@modelcontextprotocol/server': { optional: true },
+      stylelint: { optional: true },
     })
   })
 })

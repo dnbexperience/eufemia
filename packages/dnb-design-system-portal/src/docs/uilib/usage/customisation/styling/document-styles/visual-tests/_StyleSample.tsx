@@ -20,11 +20,7 @@ export default function StyleSample({
 }) {
   return (
     <article
-      className={clsx(
-        print ? 'dnb-print' : 'dnb-document',
-        plain && 'dnb-print--plain',
-        styles.sample
-      )}
+      className={clsx(print ? 'dnb-print' : 'dnb-document', styles.sample)}
       data-visual-test="style-sample"
     >
       <H1>{print ? 'Print styles' : 'Document styles'}</H1>

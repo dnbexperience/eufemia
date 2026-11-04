@@ -33,14 +33,16 @@ export type UsageResolver = {
   docsDir: (path: string) => Promise<boolean>
 }
 
-// The web Lambda records no Eufemia version. The miss fields are absent on
-// messages queued before they existed.
+// Fields added after launch are absent on messages queued before they existed.
 export type WebMcpUsageRecord = Omit<
   McpUsageRecord,
   'transport' | 'eufemia_version' | 'component_missed' | 'likely_component'
 > &
   Partial<
-    Pick<McpUsageRecord, 'component_missed' | 'likely_component'>
+    Pick<
+      McpUsageRecord,
+      'eufemia_version' | 'component_missed' | 'likely_component'
+    >
   > & {
     transport: 'web'
   }

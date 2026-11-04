@@ -8,7 +8,7 @@ const {
   retrievePortalViewsPerLocaleAndTheme,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
-  aggregateLocalMcpUsageByVersion,
+  aggregateMcpUsageByVersion,
   aggregateComponentUsageRaw,
   retrieveComponentUsageTotals,
 } = vi.hoisted(() => ({
@@ -19,7 +19,7 @@ const {
   retrievePortalViewsPerLocaleAndTheme: vi.fn(),
   aggregateMcpUsageRaw: vi.fn(),
   retrieveMcpUsageDaily: vi.fn(),
-  aggregateLocalMcpUsageByVersion: vi.fn(),
+  aggregateMcpUsageByVersion: vi.fn(),
   aggregateComponentUsageRaw: vi.fn(),
   retrieveComponentUsageTotals: vi.fn(),
 }))
@@ -51,7 +51,7 @@ vi.mock('../src/lambda/retrieve.js', () => ({
   retrievePortalViewsPerLocaleAndTheme,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
-  aggregateLocalMcpUsageByVersion,
+  aggregateMcpUsageByVersion,
   aggregateComponentUsageRaw,
   retrieveComponentUsageTotals,
 }))
@@ -115,7 +115,7 @@ beforeEach(() => {
   retrievePortalViewsPerLocaleAndTheme.mockReset()
   aggregateMcpUsageRaw.mockReset()
   retrieveMcpUsageDaily.mockReset()
-  aggregateLocalMcpUsageByVersion.mockReset()
+  aggregateMcpUsageByVersion.mockReset()
   aggregateComponentUsageRaw.mockReset()
   retrieveComponentUsageTotals.mockReset()
   send.mockResolvedValue({})
@@ -125,7 +125,7 @@ beforeEach(() => {
   retrievePortalViewsPerLocaleAndTheme.mockResolvedValue([])
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
-  aggregateLocalMcpUsageByVersion.mockResolvedValue([])
+  aggregateMcpUsageByVersion.mockResolvedValue([])
   aggregateComponentUsageRaw.mockResolvedValue([])
   retrieveComponentUsageTotals.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
@@ -358,6 +358,7 @@ describe('mcp usage section', () => {
       perPath: [],
       missedLookups: 0,
       perLikelyComponent: [],
+      perVersion: [],
       daily: [
         { date: '2026-09-09', count: 5 },
         { date: '2026-09-10', count: 3 },
@@ -370,8 +371,8 @@ describe('mcp usage section', () => {
       perPath: [{ name: '/uilib/components/', count: 2 }],
       missedLookups: 0,
       perLikelyComponent: [],
-      daily: [{ date: '2026-09-10', count: 2 }],
       perVersion: [],
+      daily: [{ date: '2026-09-10', count: 2 }],
     })
   })
 
@@ -502,6 +503,7 @@ describe('mcp usage section', () => {
         perPath: [],
         missedLookups: 0,
         perLikelyComponent: [],
+        perVersion: [],
         daily: [],
       },
       local: {
@@ -511,8 +513,8 @@ describe('mcp usage section', () => {
         perPath: [],
         missedLookups: 0,
         perLikelyComponent: [],
-        daily: [],
         perVersion: [],
+        daily: [],
       },
     })
     expect(errorSpy).toHaveBeenCalled()
@@ -548,25 +550,68 @@ describe('mcp usage section', () => {
     ).toBe(1)
   })
 
-  it('builds perVersion from local-only usage, ordered by count', async () => {
-    aggregateLocalMcpUsageByVersion.mockResolvedValue([
-      { name: '10.79.0', count: 9 },
-      { name: '10.78.1', count: 3 },
+  it('splits perVersion by transport, keeping the query order', async () => {
+    aggregateMcpUsageByVersion.mockResolvedValue([
+      {
+        transport: 'web',
+        name: '11.16.0',
+        count: 9,
+        componentLookups: 6,
+        missedLookups: 1,
+      },
+      {
+        transport: 'local',
+        name: '11.16.1',
+        count: 4,
+        componentLookups: 2,
+        missedLookups: 0,
+      },
     ])
 
     await handler()
 
-    expect(aggregateLocalMcpUsageByVersion).toHaveBeenCalledWith(
+    expect(aggregateMcpUsageByVersion).toHaveBeenCalledWith(
       expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
     )
 
     const mcp = snapshotBody().mcpUsage
 
+    expect(mcp.web.perVersion).toEqual([
+      { name: '11.16.0', count: 9, componentLookups: 6, missedLookups: 1 },
+    ])
     expect(mcp.local.perVersion).toEqual([
-      { name: '10.79.0', count: 9 },
-      { name: '10.78.1', count: 3 },
+      { name: '11.16.1', count: 4, componentLookups: 2, missedLookups: 0 },
     ])
   })
+
+  it.each([
+    ['11.15.2', null, null],
+    ['11.15.2+main.4c04cde117a', null, null],
+    ['0.0.0-development', null, null],
+    ['unknown', null, null],
+    ['11.16.0', 3, 1],
+    ['11.16.0+main.4c04cde117a', 3, 1],
+    ['12.0.0', 3, 1],
+  ])(
+    'gives version %s lookup counts only when it reports misses',
+    async (name, componentLookups, missedLookups) => {
+      aggregateMcpUsageByVersion.mockResolvedValue([
+        {
+          transport: 'web',
+          name,
+          count: 5,
+          componentLookups: 3,
+          missedLookups: 1,
+        },
+      ])
+
+      await handler()
+
+      expect(snapshotBody().mcpUsage.web.perVersion).toEqual([
+        { name, count: 5, componentLookups, missedLookups },
+      ])
+    }
+  )
 })
 
 describe('buildComponentUsage', () => {

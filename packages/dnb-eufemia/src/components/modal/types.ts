@@ -140,7 +140,7 @@ export type ModalProps = ModalRootProps & {
   ) => (() => void) | void
 
   /**
-   * Provide a custom trigger component. Like `trigger={<Anchor href="/" />}`. It will set the focus on it when the modal gets closed.
+   * Provide a custom trigger component, like `trigger={(props) => <Anchor href="/" {...props} />}`. Spread the given properties on your element. It will set the focus on it when the modal gets closed.
    */
   trigger?: ElementType
 
@@ -265,12 +265,12 @@ export type ModalContentProps = {
   noAnimationOnMobile?: boolean
 
   /**
-   * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.
+   * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Dialog and Drawer have their own defaults.
    */
   minWidth?: ModalContentMinWidth
 
   /**
-   * The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.
+   * The maximum Modal content width, defined by a CSS width value like `20rem`. Dialog and Drawer have their own defaults.
    */
   maxWidth?: ModalContentMaxWidth
 

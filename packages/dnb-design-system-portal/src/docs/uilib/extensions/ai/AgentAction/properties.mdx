@@ -1,0 +1,24 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { AiAgentActionProperties } from '@dnb/eufemia/src/extensions/ai/AiDocs'
+
+## Properties
+
+<PropertiesTable props={AiAgentActionProperties} />
+
+## Translations
+
+| Key                         | Purpose                                                                                            |
+| --------------------------- | -------------------------------------------------------------------------------------------------- |
+| `undo`                      | Undo button label.                                                                                 |
+| `undoTimeLeft`              | Label for the quiet countdown.                                                                     |
+| `undoAvailable`             | Announces availability. `%action` is the button label.                                             |
+| `undoAvailableFor`          | Announces a time limit. `%action` is the button label and `%seconds` is the remaining time.        |
+| `undoAvailableForOneSecond` | Singular form of the time-limit announcement.                                                      |
+| `undoAvailableUntil`        | Stable button description. `%action` is the button label and `%time` is the localized expiry time. |
+| `undoUnavailable`           | Announces expiry. `%action` is the button label.                                                   |
+
+Status announcements reuse the [Ai.Task translations](/uilib/extensions/ai/Task/properties/#translations). Application-specific action and result text must be translated by the application. See [AI translations](/uilib/extensions/ai/translations/).

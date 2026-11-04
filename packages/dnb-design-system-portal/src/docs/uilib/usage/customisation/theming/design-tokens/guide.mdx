@@ -2,29 +2,6 @@
 showTabs: true
 ---
 
-## Guide contents
-
-- [Guide contents](#guide-contents)
-- [Choosing the right token](#choosing-the-right-token)
-- [Token selection by role](#token-selection-by-role)
-- [Token selection by state](#token-selection-by-state)
-  - [Interaction states](#interaction-states)
-  - [Status states](#status-states)
-  - [Modifiers](#modifiers)
-- [Practical examples](#practical-examples)
-  - [Custom action card](#custom-action-card)
-  - [Status banner](#status-banner)
-  - [Input-like field](#input-like-field)
-- [Patterns learned from Eufemia components](#patterns-learned-from-eufemia-components)
-  - [Use local CSS variables to simplify state handling](#use-local-css-variables-to-simplify-state-handling)
-  - [Use semantic tokens, not component tokens](#use-semantic-tokens-not-component-tokens)
-  - [Focus uses the shared action-focus tokens](#focus-uses-the-shared-action-focus-tokens)
-  - [Use decorative tokens only for decoration](#use-decorative-tokens-only-for-decoration)
-  - [Dark surfaces use `ondark` tokens](#dark-surfaces-use-ondark-tokens)
-- [Radius tokens](#radius-tokens)
-- [Decision checklist](#decision-checklist)
-- [Common mistakes](#common-mistakes)
-
 ## Choosing the right token
 
 When building application components with Eufemia design tokens, think semantically. Do not ask "which token has the same color value as the one I want?" Ask "what role does this color play in this component and state?"
@@ -45,6 +22,25 @@ Every color in a component has a semantic role. Identify the role first, then pi
 | Border / outline     | `stroke`      | `--token-color-stroke-neutral`               |
 | Focus ring           | `stroke`      | `--token-color-stroke-action-focus`          |
 | Branded / decorative | `decorative`  | `--token-color-decorative-first-bold-static` |
+
+## Neutral surfaces and text
+
+Use `background-neutral-subtle` for a subtle text surface and `background-neutral-base` for UI fills such as progress tracks. The value of `background-neutral-alternative` varies between themes. In DNB and Eiendom dark it matches the Card surface; in Sbanken dark it matches the page background. Use it only where the design asks for it, and check every supported theme and color mode. It is not a general text background.
+
+Start with these foreground/background pairs, then check the rendered result in every supported theme and color mode:
+
+| Foreground token                         | Background token                                                                | Use                                                    |
+| ---------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `--token-color-text-neutral`             | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Main text                                              |
+| `--token-color-text-neutral-alternative` | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Descriptions, optional labels and other secondary text |
+| `--token-color-text-action`              | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Links                                                  |
+| `--token-color-text-error`               | `--token-color-background-neutral` or `--token-color-background-neutral-subtle` | Error text                                             |
+
+On `background-neutral-subtle`, the lighter dark-mode `text-error` has 4.53:1 contrast in DNB and Eiendom and 4.67:1 in Sbanken. It also passes on `background-neutral`. These values do not apply to every filled surface: check `background-neutral-base` separately, particularly in Sbanken dark.
+
+Error text on `background-info-subtle` in DNB light and Carnegie remains below 4.5:1. Use a neutral surface or the existing error-status pattern for normal-size error messages there.
+
+For applications upgrading from the previous palette, follow [Migrating information and neutral colors](/uilib/usage/customisation/theming/design-tokens/colors#migrating-information-and-neutral-colors). Replacements depend on the role of each usage, so review them individually.
 
 ## Token selection by state
 

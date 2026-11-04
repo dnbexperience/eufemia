@@ -3,8 +3,16 @@ import { StringProperties } from '../String/StringDocs'
 
 export const NationalIdentityNumberProperties: PropertiesTableProps = {
   ...StringProperties,
+  // The field sets its own mask
+  mask: undefined,
+  allowOverflow: undefined,
   validate: {
     doc: 'Using this prop you can disable the default validation.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  omitMask: {
+    doc: 'Shows the number without the space between the digit groups, e.g. `12345678901` instead of `123456 78901`.',
     type: 'boolean',
     status: 'optional',
   },

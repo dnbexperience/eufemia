@@ -1,5 +1,5 @@
 import { Button } from '../../../../components'
-import { close } from '../../../../icons'
+import close from '../../../../icons/close'
 
 export type MultiSelectionActionsProps = {
   id: string

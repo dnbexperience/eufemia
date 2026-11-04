@@ -32,6 +32,7 @@ import {
 } from './data'
 import Kpis from './components/Kpis'
 import BarList from './components/BarList'
+import MissedLookupsPerVersion from './components/MissedLookupsPerVersion'
 import RankedTable from './components/RankedTable'
 import './App.scss'
 
@@ -502,6 +503,8 @@ function McpUsagePanel({
           />
         </Card>
       )}
+
+      <MissedLookupsPerVersion label={label} versions={perVersion} />
     </Flex.Stack>
   )
 }

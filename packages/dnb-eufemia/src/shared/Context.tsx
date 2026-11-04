@@ -124,6 +124,10 @@ export type ContextComponents = {
   TermDefinition?: Partial<TermDefinitionProps>
 
   // Common props
+
+  /**
+   * Properties for all form components inside the Provider: `disabled`, `skeleton`, `vertical`, `labelDirection` and `translate`.
+   */
   formElement?: FormElementProps
 }
 
@@ -138,22 +142,22 @@ export type ContextProps = ContextComponents & {
   theme?: ThemeProps
 
   /**
-   * Will enable all skeletons inside this provider/context scope
+   * Enables the skeleton on all components inside the Provider that support it.
    */
   skeleton?: SkeletonShow
 
   /**
-   * Optional SVG directory override for named icons. Defaults to the public asset CDN for the installed Eufemia version, or the unversioned CDN in development. Set false to disable remote icon loading.
+   * Optional SVG directory override for named icons. Defaults to the public asset CDN for the installed Eufemia version, or the unversioned CDN in development. Set `false` to disable remote icon loading. See [Icon assets](/uilib/usage/customisation/provider/#icon-assets).
    */
   iconBaseUrl?: string | false
 
   /**
-   * Define what breakpoints should be used by the MediaQuery component and hook
+   * Custom breakpoints for the `MediaQuery` component and the `useMedia` and `useMediaQuery` hooks. See [Use different breakpoints](/uilib/layout/media-queries/#use-different-breakpoints).
    */
   breakpoints?: Record<string, string>
 
   /**
-   * Defines the locale (internal translation) used by some components
+   * Defines the locale used for translations and number formatting. Eufemia includes `nb-NO` and `en-GB`, and you can [add other locales](/uilib/usage/customisation/localization/#how-to-add-eufemia-provided-locales), such as `sv-SE` or `da-DK`. Defaults to `nb-NO`.
    */
   locale?: InternalLocale
 
@@ -163,12 +167,13 @@ export type ContextProps = ContextComponents & {
   translation?: Translation
 
   /**
-   * Defines the currency used by the NumberFormat component
+   * Defines the default currency. It is used by `NumberFormat.Currency`, by `Field.Currency` and `Value.Currency` when they have no `currency` of their own, and when `currency` or `asCurrency` is `true` on `NumberFormat`, `Field.Number` or `InputMasked`. Defaults to `NOK`.
    */
   currency?: NumberFormatCurrency
 
   /**
-   * Defines the currencyDisplay used by the NumberFormat component
+   * Deprecated. Has no effect. Use `NumberFormat={{ currencyDisplay: 'code' }}` instead.
+   * @deprecated Has no effect. Use `NumberFormat={{ currencyDisplay }}` instead.
    */
   currencyDisplay?: string
 
@@ -193,21 +198,17 @@ export type ContextProps = ContextComponents & {
   setCurrentLocale?: (locale: InternalLocale) => void
 
   /**
-   * Overwrite existing internal translation strings or define new strings via the Provider
+   * Overwrite existing translation strings or define new strings, per locale. See [Provide your own translations](/uilib/usage/customisation/localization/#provide-your-own-translations).
    */
   translations?: Translations | TranslationCustomLocales
 
   /**
-   * Async function to load translations for a given locale.
-   * Called on mount and whenever the locale changes.
-   * The returned translations are merged with any existing translations.
+   * Async function that loads translations for a given locale. It is called on mount and whenever the locale changes, and the loaded translations are merged with `translations`. See [Async translations with translationsLoader](/uilib/usage/customisation/localization/#async-translations-with-translationsloader).
    */
   translationsLoader?: TranslationsLoader
 
   /**
-   * Message formatter for advanced message formatting (e.g. ICU MessageFormat).
-   * Import and pass `icu` from `@dnb/eufemia/shared` to enable
-   * pluralization, select, and other ICU features in translation strings.
+   * Message formatter for advanced message formatting, such as ICU MessageFormat. Import and pass `icu` from `@dnb/eufemia/shared` to enable pluralization, select and other ICU features in translation strings. See [ICU Message Format](/uilib/usage/customisation/localization/#icu-message-format).
    */
   messageFormatter?: ICUFormatMessage
 

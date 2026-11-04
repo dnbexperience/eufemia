@@ -34,9 +34,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          cache-version: ${{ secrets.CACHE_VERSION }}
+          node-version-file: package.json
+          package-manager-cache: false
+      # From the lockfile instead of the node_modules cache that the other
+      # workflows share, because this job prepares the site it deploys.
+      - name: Install dependencies
+        run: yarn install --immutable
       - name: Restore CDN catalogue
         run: node packages/dnb-design-system-portal/scripts/og-images/cdn.mts
         env:
@@ -84,7 +89,7 @@ jobs:
           OG_EXPECTED_RUN_ID: ${{ steps.snapshot.outputs.source-run-id }}
       - name: Save review catalogue artifact
         if: github.event_name == 'workflow_dispatch' && !inputs.publish
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: portal-social-images-review
           path: packages/dnb-design-system-portal/.og-catalogue
@@ -92,14 +97,20 @@ jobs:
           retention-days: 14
           if-no-files-found: error
       - name: Preserve updated Portal snapshot
+        id: preserve-snapshot
         if: github.event_name == 'schedule' || inputs.publish
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: portal-og-site
           path: packages/dnb-design-system-portal/public
           include-hidden-files: true
           retention-days: 90
           if-no-files-found: error
+      - name: Name the updated snapshot in the deployment marker
+        if: github.event_name == 'schedule' || inputs.publish
+        run: node packages/dnb-design-system-portal/scripts/og-images/deployment.mts artifact
+        env:
+          OG_SNAPSHOT_ARTIFACT_ID: ${{ steps.preserve-snapshot.outputs.artifact-id }}
       - name: Prepare Pages deployment
         if: github.event_name == 'schedule' || inputs.publish
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
@@ -127,7 +138,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: package.json
           package-manager-cache: false

@@ -19,14 +19,14 @@ You do not need the document typography stylesheet to print an app.
 import '@dnb/eufemia/style/dnb-ui-print.min.css'
 ```
 
-Apply `dnb-print` to the printable area. Add `dnb-print--plain` for black
-text without CSS backgrounds, regardless of the screen's light or dark
-theme. Apply the scope to the app shell if the shell also needs this
-paper appearance. The import and classes do not change screen colors.
+Apply `dnb-print` to the printable area for pure black text, borders and
+form outlines without CSS backgrounds, regardless of the screen's light
+or dark theme. Apply the scope to the app shell if the shell also needs
+this paper appearance. The import and classes do not change screen colors.
 
 ```tsx
 render(
-  <div className="app-shell dnb-print dnb-print--plain">
+  <div className="app-shell dnb-print">
     <header className="dnb-print-hidden">{/* App navigation */}</header>
     <aside className="dnb-print-hidden">{/* Sidebar */}</aside>
     <main className="app-content">{/* Content to print */}</main>
@@ -102,13 +102,15 @@ app print button.
 
 ## Paper appearance and footers
 
-Plain mode supplies a white surface, removes descendant CSS backgrounds,
-and makes foreground text black, including inside nested dark themes.
-It preserves selection indicators for Checkbox, Radio and Switch and
-outlines for Input. It does not convert artwork or
-produce a full light brand palette. Use a light printable view to retain
-brand colors. Essential meaning must not depend on color or background
-graphics, since users can disable background printing.
+`dnb-print` supplies a white surface, removes descendant CSS backgrounds,
+and makes text, borders and form outlines pure black (`#000`), including
+inside nested dark themes.
+It preserves selection indicators for Checkbox, Radio, Switch and
+ToggleButton and outlines for Input and Textarea. It does not convert
+artwork. For output that retains brand colors, use a separate printable
+view with your own print styles outside the `dnb-print` scope. Essential
+meaning must not depend on color or background graphics, since users can
+disable background printing.
 
 A `dnb-print-only` footer stays in normal document flow, after the content.
 The Portal prints its page path and version this way. It does not repeat

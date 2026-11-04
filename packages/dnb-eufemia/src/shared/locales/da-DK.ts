@@ -161,6 +161,10 @@ export default {
       addTitle: 'Forøg (%s)',
       subtractTitle: 'Reducer (%s)',
     },
+    TableOfContent: {
+      showAll: 'Vis alle',
+      title: 'På denne side',
+    },
     VippsWalletButton: {
       text: 'Tilføj til',
     },
@@ -188,13 +192,14 @@ export default {
       title: 'Upload dokumenter',
       text: 'Træk og slip eller vælg hvilke filer du vil uploade.',
       textSingular: 'Træk og slip eller vælg hvilken fil du vil uploade.',
-      fileTypeTableCaption: 'Tilladte filformater og maks filstørrelse',
-      fileTypeDescription: 'Tilladte filformater:',
+      fileTypeTableCaption: 'Tilladte filer og maks filstørrelse',
+      fileTypeDescription: 'Tilladte filer:',
       fileSizeDescription: 'Maks filstørrelse:',
       fileAmountDescription: 'Maks antal filer:',
       fileSizeContent: '%size MB',
       buttonText: 'Vælg filer',
       buttonTextSingular: 'Vælg fil',
+      fileLimitsButtonText: 'Tilladte filer og størrelser',
       loadingText: 'Indlæser',
       errorLargeFile:
         'Filen du prøver at uploade er for stor, den maksimale understøttede størrelse er %size MB.',

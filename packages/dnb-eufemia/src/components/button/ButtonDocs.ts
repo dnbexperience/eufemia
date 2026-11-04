@@ -102,7 +102,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pending: {
-    doc: 'Set to `true` while the action is in progress. The button shows an animated indicator after the text and ignores clicks, but keeps focus, also when `disabled` is set. Defaults to `false`.',
+    doc: 'Set to `true` while the action is in progress. The button shows an indicator after the text, or in place of its icon when it has no text, and ignores clicks, but keeps focus, also when `disabled` is set. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -117,8 +117,14 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
+    doc: 'Defines the state of the status. Can be `error`, `warning`, `information`, `success` or `marketing`. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {

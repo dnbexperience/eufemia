@@ -78,7 +78,8 @@ EUFEMIA_DOCS_ROOT=/path/to/docs yarn dev
 
 The build script does the following:
 
-1. Builds Eufemia docs (`yarn workspace @dnb/eufemia build:docs`)
+1. Builds Eufemia docs (`yarn workspace @dnb/eufemia build:docs`). Without
+   release tags, as in a shallow clone, the docs report `0.0.0-development`.
 2. Bundles the MCP and usage-consumer handlers into separate ESM files
 3. Copies the built docs into `dist/docs/`
 4. Creates `dist/lambda.zip` and `dist/usage-consumer.zip`
@@ -116,10 +117,20 @@ The build & push workflow triggers on:
 
 Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
-The MCP execution role needs `sqs:SendMessage` on the usage queue. The
-pre-created `eufemia-<env>-mcp-usage-consumer-role` needs basic Lambda logging,
-`sqs:ReceiveMessage`/`DeleteMessage`/`GetQueueAttributes` on that queue, and
-`s3:PutObject` on the analytics bucket's `mcp-usage/*` prefix.
+The deploy creates both Lambda execution roles with the OIDC permissions
+boundary. Each gets basic Lambda logging plus one policy from the OIDC
+federation repo, and the deploy role may attach no others:
+
+- `eufemia-<env>-mcp-lambda`: `eufemia-<env>-mcp-usage-enqueue`
+  (`sqs:SendMessage` on the usage queue).
+- `eufemia-<env>-mcp-usage-consumer-lambda`: `eufemia-<env>-mcp-usage-consume`
+  (`sqs:ReceiveMessage`/`DeleteMessage`/`GetQueueAttributes` on that queue and
+  `s3:PutObject` on the analytics bucket's `mcp-usage/*` prefix).
+
+The deploy role can't change a role's trust policy, description or maximum
+session duration; such a change fails the deploy until the OIDC federation repo
+grants it. Renaming a role replaces it, so the new name must be granted there
+first and `prevent_destroy` lifted in the same change.
 
 ### Infrastructure
 
@@ -207,13 +218,15 @@ Each run checks:
   actual availability and protocol failures still fail after retries. Failed
   deployment workflows and runs stalled for an hour are reported separately.
 
-The hosted docs are rebuilt independently of npm and currently report a
-development version. The source commit is the deployment freshness signal;
-this monitor does not claim npm version equality. The public deployment
-workflow hands artifacts to a separate deploy pipeline, so its success alone
-is insufficient: the monitor also checks the commit returned by production.
-A public workflow that finishes without updating production is detected after
-the rollout window. Metadata uses the generated short commit hash.
+The hosted docs are rebuilt independently of npm and report the release the
+deployed code builds on, such as `11.16.0`, or `11.16.0+main.4c04cde117a` for a
+deploy from a branch other than `release`. The source commit is the deployment
+freshness signal; this monitor does not claim npm version equality. The public
+deployment workflow hands artifacts to a separate deploy pipeline, so its
+success alone is insufficient: the monitor also checks the commit returned by
+production. A public workflow that finishes without updating production is
+detected after the rollout window. Metadata uses the generated short commit
+hash.
 
 Requests have a 20-second deadline, a 1 MiB response limit and two retries.
 JSON and event-stream replies are supported; complete MCP events are consumed

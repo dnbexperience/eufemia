@@ -1,0 +1,23 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Message } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Message />)
+```
+
+## Description
+
+Bubble messages use theme colors and radius, small text and `0.5rem` by `1rem` padding. Avatars sit beside the bubble. Use the same avatar with the grouped prop on follow-up messages to retain alignment without repeating the icon; user avatars, names and timestamps are optional.
+
+For a customer-service handover, use `from="assistant"`, an Avatar with the `customer_service` icon and omit `aiGenerated`. This represents the conversation side without labeling a person as AI.
+
+`Ai.Message` shows a message from the user or the assistant, with an optional header (avatar, name, time and an AI-generated tag) and actions. User messages are placed on the right.
+
+Compose the content inside `Ai.Message` using children: plain text, [Ai.Response](/uilib/extensions/ai/Response/) for markdown, [Ai.Task](/uilib/extensions/ai/Task/), or [Ai.Sources](/uilib/extensions/ai/Sources/). String children preserve line breaks. Set `from="user"` for user messages and give each message a unique DOM `id` to use the conversation scrolling and visibility hooks.
+
+See [Integrations](/uilib/extensions/ai/integrations/) for connecting your chat data to these components.

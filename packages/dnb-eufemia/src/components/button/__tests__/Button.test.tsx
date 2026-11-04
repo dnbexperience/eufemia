@@ -782,6 +782,38 @@ describe('Button status', () => {
 })
 
 describe('Button pending', () => {
+  it('shows a status indicator for an icon-only button and preserves its name', () => {
+    render(<Button icon={chevron_down} title="Load more" pending />)
+
+    expect(document.querySelector('button')).toHaveAccessibleName(
+      'Load more'
+    )
+    expect(document.querySelector('[role="status"]')).toHaveAttribute(
+      'aria-busy',
+      'true'
+    )
+    expect(
+      document.querySelectorAll('.dnb-button__indicator-content b')
+    ).toHaveLength(3)
+  })
+
+  it('prevents middle-click navigation while pending', () => {
+    const onAuxClick = vi.fn()
+    render(
+      <Button text="Open" href="/url" pending onAuxClick={onAuxClick} />
+    )
+
+    const event = new MouseEvent('auxclick', {
+      button: 1,
+      bubbles: true,
+      cancelable: true,
+    })
+    fireEvent(document.querySelector('a'), event)
+
+    expect(event.defaultPrevented).toBe(true)
+    expect(onAuxClick).not.toHaveBeenCalled()
+  })
+
   it('shows the indicator after the text', () => {
     render(<Button text="Save" pending />)
 
@@ -943,7 +975,7 @@ describe('Button scss', () => {
     const css = String(loadScss(require.resolve('../style/deps.scss')))
 
     expect(css).toMatch(/\.dnb-button--pending \{\s*cursor: not-allowed;/)
-    expect(css).toContain('@keyframes submit-indicator-dot')
+    expect(css).toContain('@keyframes dnb-dots-indicator-dot')
   })
 
   it('does not contain forms class names', () => {
@@ -1017,10 +1049,11 @@ describe('Button scss', () => {
       expect(getComputedStyle(content).opacity).toBe('1')
       expect(getComputedStyle(content).fontSize).not.toBe('0px')
       expect(getComputedStyle(dot).borderRadius).toBe('50%')
-      expect(getComputedStyle(dot).animationName).toBe(
-        'submit-indicator-dot'
+      expect(dot).toHaveClass('dnb-dots-indicator__dot')
+      expect(css).toContain(
+        'animation: dnb-dots-indicator-dot 1.2s infinite'
       )
-      expect(css).toContain('@keyframes submit-indicator-dot')
+      expect(css).toContain('@keyframes dnb-dots-indicator-dot')
     })
 
     it('hides the indicator when pending is false', () => {

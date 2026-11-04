@@ -6,7 +6,7 @@
 import { isValidElement } from 'react'
 import type { ReactElement, ReactNode } from 'react'
 
-import whatInput from './helpers/whatInput'
+import './helpers/whatInput'
 import { warn } from './helpers'
 import { getClosestParent } from './helpers/getClosest'
 import { init } from './Eufemia'
@@ -26,7 +26,6 @@ export { getClosestParent, warn }
 init()
 
 // run component helper functions
-whatInput.specificKeys([])
 defineNavigator()
 
 /** @private */

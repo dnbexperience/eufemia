@@ -1,0 +1,42 @@
+import type nbNO from './nb-NO'
+
+export default {
+  'sv-SE': {
+    Ai: {
+      confirmationYes: 'Ja',
+      confirmationNo: 'Nej',
+      confirmationPending: 'Väntar på bekräftelse',
+      confirmationRequired: 'Krävs',
+      confirmationConfirmed: 'Bekräftat',
+      confirmationDeclined: 'Avböjt',
+      confirmationExpired: 'Utgånget',
+
+      undo: 'Ångra',
+      undoAvailable: '%action är tillgängligt.',
+      undoAvailableFor: '%action är tillgängligt i %seconds sekunder.',
+      undoAvailableForOneSecond: '%action är tillgängligt i 1 sekund.',
+      undoUnavailable: '%action är inte längre tillgängligt.',
+      undoAvailableUntil: '%action är tillgängligt till %time.',
+      undoTimeLeft: 'Tid kvar att ångra',
+      copyCode: 'Kopiera kod',
+      codeCopied: 'Kopierat',
+      loading: 'Skriver svar …',
+      aiGenerated: 'AI-genererat',
+      promptLabel: 'Meddelande',
+      promptPlaceholder: 'Skriv ett meddelande',
+      send: 'Skicka',
+      stop: 'Stoppa',
+      suggestions: 'Förslag',
+      conversationLabel: 'Konversation',
+      scrollToBottom: 'Gå till senaste meddelandet',
+      tableOverflow: 'Rulla i sidled för att se hela tabellen',
+      newMessage: 'Nytt meddelande',
+      sources: 'Källor (%count)',
+      taskRunning: 'Pågår',
+      taskDone: 'Slutförd',
+      taskError: 'Misslyckades',
+      taskAwaitingConfirmation: 'Väntar på bekräftelse',
+      canceled: 'Avbruten',
+    },
+  } satisfies (typeof nbNO)['nb-NO'],
+}

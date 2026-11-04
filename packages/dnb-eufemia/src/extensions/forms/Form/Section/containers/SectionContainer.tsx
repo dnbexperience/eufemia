@@ -17,8 +17,7 @@ import withComponentMarkers from '../../../../../shared/helpers/withComponentMar
 export type ContainerMode = 'view' | 'edit' | 'auto'
 export type SectionContainerProps = {
   /**
-   * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
-   * Defaults to `outline`.
+   * Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.
    */
   variant?: 'outline' | 'basic' | 'filled'
 }

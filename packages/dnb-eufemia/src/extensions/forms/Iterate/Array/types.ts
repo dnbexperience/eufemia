@@ -89,7 +89,9 @@ export type IterateArrayProps = Omit<
      * If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.
      */
     required?: boolean
-    /** Custom error messages for validation states. */
+    /**
+     * Custom error messages for the validation states, e.g. `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.
+     */
     errorMessages?: DefaultErrorMessages
     /**
      * Will transform the current value before it is displayed.

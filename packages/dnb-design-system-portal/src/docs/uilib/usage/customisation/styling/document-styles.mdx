@@ -12,8 +12,9 @@ import { Space } from '@dnb/eufemia/src/components'
 
 Use this page to review how a branded letter could look and compare the
 proposed font sizes and spacing. The document style keeps the selected
-brand's fonts, weights and colors while using a smaller type scale for
-letters and document production.
+brand's fonts and weights while using a smaller type scale for letters
+and document production. The preview keeps brand colors on screen and
+uses pure black text on white paper when printed.
 
 [View the example](#style-preview) · [See font sizes](#typography-and-spacing) ·
 [Developer guide](#developer-guide)
@@ -62,9 +63,9 @@ design approval.
 
 ### Paper appearance
 
-Print output can retain the brand's colors using a light theme, or use
-black text on white paper without background graphics. The plain paper
-option works regardless of whether the app is light or dark on screen.
+The `dnb-print` class uses pure black text, borders and form outlines on
+white paper without CSS backgrounds. It works regardless of whether the
+app is light or dark on screen. No additional color modifier is needed.
 Images and artwork may still contain colors and should be checked on paper.
 
 Page margins, footer placement and page numbers belong to the document
@@ -87,18 +88,23 @@ representations for every Eufemia component.
 
 <Space bottom="large">
 
-| Need                                                    | Import                                 | Scope                         |
-| ------------------------------------------------------- | -------------------------------------- | ----------------------------- |
-| Print behavior with existing typography and spacing     | `dnb-ui-print.min.css`                 | `.dnb-print`                  |
-| Black text on white paper in either screen color scheme | `dnb-ui-print.min.css`                 | `.dnb-print.dnb-print--plain` |
-| Document typography and spacing on screen and in print  | `dnb-ui-document.min.css`              | `.dnb-document`               |
-| Document formatting with print/PDF behavior             | Both, with `dnb-ui-print.min.css` last | `.dnb-document.dnb-print`     |
+| Need                                                            | Import                                 | Scope                     |
+| --------------------------------------------------------------- | -------------------------------------- | ------------------------- |
+| Pure black paper output and pagination with existing typography | `dnb-ui-print.min.css`                 | `.dnb-print`              |
+| Document typography and spacing on screen and in print          | `dnb-ui-document.min.css`              | `.dnb-document`           |
+| Document formatting with print/PDF behavior                     | Both, with `dnb-ui-print.min.css` last | `.dnb-document.dnb-print` |
 
 </Space>
 
 SCSS imports are also available through `@dnb/eufemia/style/print` and
 `@dnb/eufemia/style/document`. For [isolated styles](/uilib/usage/customisation/styling/style-isolation/),
 use the corresponding `--isolated.min.css` files within `IsolatedStyleScope`.
+
+DNB document text and headings use DNB Sans Text, with genuine italic faces.
+Display is [experimental and opt-in for expressive headlines](/uilib/typography/#display-headlines);
+ordinary letters should keep Text. Font loading comes from the selected
+brand stylesheet and is shared between screen and print. Wait for
+`document.fonts.ready` before generating a PDF.
 
 ## Print styles
 
@@ -110,9 +116,9 @@ import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 import '@dnb/eufemia/style/dnb-ui-print.min.css'
 ```
 
-Wrap the content you want to apply pagination to in `.dnb-print`. This
-works with existing app typography and does not require `.dnb-document`
-or the document stylesheet:
+Wrap the printable content in `.dnb-print` for pure black paper output
+and pagination. This works with existing app typography and does not
+require `.dnb-document` or the document stylesheet:
 
 ```html
 <section class="dnb-print">
@@ -120,11 +126,10 @@ or the document stylesheet:
 </section>
 ```
 
-The base `.dnb-print` scope preserves your existing typography, spacing,
-brand palette and wrapper layout. Add the optional plain mode described
-below to change paper colors. The print stylesheet works independently of
-`dnb-ui-document`. Screen styles remain unchanged except for elements
-explicitly marked `dnb-print-only`.
+The `.dnb-print` scope preserves your existing typography, spacing and
+wrapper layout while making paper output black on white. The print
+stylesheet works independently of `dnb-ui-document`. Screen styles remain
+unchanged except for elements explicitly marked `dnb-print-only`.
 Configure your PDF renderer to use print media. The scope does not exclude
 content elsewhere in the app from printing; the app owns that selection.
 
@@ -168,23 +173,24 @@ do not impose an `@page` size or margin. For example, an A4 template can add:
 
 ### Plain paper output
 
-For background-free output, add `.dnb-print--plain` to the print scope:
+The same `.dnb-print` class supplies background-free paper output:
 
 ```html
-<section class="dnb-print dnb-print--plain">
+<section class="dnb-print">
   <!-- Black text without CSS backgrounds, in either screen color scheme -->
 </section>
 ```
 
-This opt-in mode applies only during printing. It makes text and links
-black on a white paper surface, removes descendant CSS backgrounds,
-gradients and shadows, uses gray borders, and disables transitions and
-animations in the scope. Fonts and the type scale remain unchanged.
-Text inputs, checkboxes, radio buttons and switches retain visible
-boundaries and selection indicators without background graphics. The
+These styles apply only during printing. They make text, links, borders
+and form outlines pure black (`#000`) on a white paper surface, remove
+descendant CSS backgrounds, gradients and shadows, and disable transitions
+and animations in the scope. Fonts and the type scale remain unchanged.
+Text inputs, checkboxes, radio buttons, switches and toggle buttons
+retain visible boundaries and selection indicators without background
+graphics. A selected toggle button gets a thicker black outline. The
 screen retains its selected theme and control state.
-Input placeholders are hidden in plain print so an empty field remains
-visually distinct from an entered value.
+Input and Textarea placeholders are hidden when printing so an empty
+field remains visually distinct from an entered value.
 
 Image pixels, fixed SVG fills, canvas and video are not recolored. Inline
 SVGs that use `currentColor` follow the black text color. Provide a printable
@@ -195,38 +201,23 @@ Status information must remain understandable without color.
 
 ### Color scheme and paper surface
 
-For output that retains brand colors, omit `.dnb-print--plain` and use a
-**light brand theme**. The base `.dnb-print` scope does not convert dark
-tokens to a light palette. Setting the CSS `color-scheme` property alone
-does not replace those tokens.
+`dnb-print` supplies black text on white paper, including inside nested
+dark themes. Screen colors remain unchanged. When inspecting paper
+colors in developer tools, enable print media emulation.
 
-For React, set the scheme on a Theme wrapper around the printable content:
+The example letter uses `.dnb-document.dnb-print`: the document stylesheet
+supplies typography and the print stylesheet supplies paper colors and
+pagination. Apps only need `.dnb-print` for paper output with their existing
+typography.
 
-```tsx
-<Theme colorScheme="light">
-  <section className="dnb-print">{/* Printable content */}</section>
-</Theme>
-```
+For output that retains brand colors, use your own print styles outside
+the `.dnb-print` scope and choose a light theme for the printable content.
+A complete light brand palette is not generated by the print stylesheet.
 
-For HTML without React, apply `.eufemia-theme__color-scheme--light` on a
-wrapper around the printable content, with the selected brand's light
-theme stylesheet loaded. This wrapper uses the light scheme on screen
-as well as in print. A nested light wrapper lets the surrounding app keep
-its selected color scheme. The document preview uses this approach.
-
-For dark content on screen with black text on paper, use `.dnb-print--plain`.
-Automatic conversion to a complete light brand palette remains outside
-this stylesheet's support. Use a dedicated light printable view if you
-need branded colors in print. Do not reset only a few color tokens.
-
-In the base mode, the template owns the paper background and text color.
-Use the light theme's background and text tokens for that paper surface.
-Plain mode supplies white paper and black text. Both modes leave wrapper
-width and overflow to the app or template. Brand artwork retains fixed
-colors; background printing depends on the renderer's settings. Check that
+Wrapper width and overflow belong to the app or template. Brand artwork
+retains fixed colors; background printing depends on the renderer's settings. Check that
 text, links, borders and status indicators remain readable with background
-graphics disabled and in
-grayscale. Essential meaning must not depend on color alone.
+graphics disabled and in grayscale. Essential meaning must not depend on color alone.
 Load fonts before generating the PDF and verify font embedding and page
 breaks in the actual production renderer.
 
@@ -264,11 +255,9 @@ Also add `.dnb-print` to the document wrapper:
 </article>
 ```
 
-Add `.dnb-print--plain` to the same wrapper if the document should print
-with black text on white paper. This changes print colors while
-`dnb-ui-document` continues to supply document typography. The letter
-preview uses a light brand theme with the base print mode to retain its
-brand colors.
+`dnb-print` supplies pure black paper output automatically, regardless of
+the document's screen theme. `dnb-ui-document` continues to supply document
+typography. The letter preview keeps the selected brand's colors on screen.
 
 ### Document scope
 

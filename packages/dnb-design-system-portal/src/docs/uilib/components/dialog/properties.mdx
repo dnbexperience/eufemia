@@ -16,7 +16,23 @@ import { ModalProperties } from '@dnb/eufemia/src/components/modal/ModalDocs'
 The properties of [Modal](/uilib/components/modal) formatted as camel case are also provided.
 See the table below:
 
-<PropertiesTable props={ModalProperties} />
+<PropertiesTable
+  props={ModalProperties}
+  omit={[
+    'title',
+    'minWidth',
+    'maxWidth',
+    'spacing',
+    'headerContent',
+    'modalContent',
+    'verticalAlignment',
+    'alignContent',
+    'fullscreen',
+    'scrollRef',
+    'contentRef',
+    '[Space](/uilib/layout/space/properties)',
+  ]}
+/>
 
 ## Translations
 

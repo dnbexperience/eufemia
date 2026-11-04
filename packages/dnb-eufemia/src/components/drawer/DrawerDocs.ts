@@ -12,12 +12,12 @@ export const DrawerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   minWidth: {
-    doc: "The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
+    doc: "The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `384px` (the average width is `40vw`).",
     type: ['string', 'number'],
     status: 'optional',
   },
   maxWidth: {
-    doc: 'The maximum Drawer content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).',
+    doc: 'The maximum Drawer content width, defined by a CSS width value like `20rem`. Defaults to `40rem`.',
     type: ['string', 'number'],
     status: 'optional',
   },

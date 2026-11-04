@@ -32,6 +32,8 @@ import type {
 import { findUnhandledStandaloneMdxComponents } from './extensions/mdx/detector.ts'
 import { applySpecialMdxComponentRenderers } from './extensions/mdx/registry.ts'
 import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
+import { readPropertiesUsage } from './shared/propertiesUsage.ts'
+import { getDocumentationNotice } from './shared/documentationNotices.ts'
 
 export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
@@ -830,10 +832,7 @@ export async function findSourceInfo({
       .relative(repoRoot, fileAbs)
       .replace(/\\/g, '/')
     const dirRepoPath = path.posix.dirname(fileRepoPath)
-    const tag =
-      /^\d+/.test(String(version)) && !version.includes('-')
-        ? `v${version}`
-        : 'main'
+    const tag = /^\d+\.\d+\.\d+$/.test(version) ? `v${version}` : 'main'
     const fileUrl = `${REPO_URL}/blob/${tag}/${fileRepoPath}`
     const dirUrl = `${REPO_URL}/tree/${tag}/${dirRepoPath}`
 
@@ -1530,12 +1529,14 @@ export async function convertMdxToMd({
 
   const links = frontmatterLinks || {}
   const fallbackLink = resolveFallbackLink(inputPath, links)
+  const propertiesUsage = await readPropertiesUsage(inputPath)
   outputBody = await replacePropertiesTableWithJsonBlock(outputBody, {
     fallbackLink,
     importsByFile,
     inputDir: path.dirname(inputPath),
     docsRoot,
     docsBaseRoot,
+    propertiesUsage,
   })
   outputBody = await replaceTranslationsTableWithJsonBlock(outputBody, {
     importsByFile,
@@ -1588,7 +1589,20 @@ export async function convertMdxToMd({
   const outputFrontmatter = includeFrontmatter
     ? addDocLinksToFrontmatter(frontmatter, links)
     : ''
-  const output = [outputFrontmatter, titleHeading, outputBody.trim()]
+  const notice = includeFrontmatter
+    ? getDocumentationNotice(inputPath, docsRoot)
+    : ''
+  const output = [
+    outputFrontmatter,
+    titleHeading,
+    notice,
+    propertiesUsage
+      ? `<!-- eufemia-properties-usage:start -->
+${propertiesUsage}
+<!-- eufemia-properties-usage:end -->`
+      : '',
+    outputBody.trim(),
+  ]
     .filter(Boolean)
     .join('\n\n')
 
@@ -1611,12 +1625,14 @@ async function replacePropertiesTableWithJsonBlock(
     inputDir,
     docsRoot,
     docsBaseRoot,
+    propertiesUsage,
   }: {
     fallbackLink: { label: string; url: string } | null
     importsByFile: Map<string, string[]>
     inputDir: string
     docsRoot: string
     docsBaseRoot: string
+    propertiesUsage: string
   }
 ) {
   const regex = /<PropertiesTable\b[\s\S]*?\/>/g
@@ -1631,6 +1647,7 @@ async function replacePropertiesTableWithJsonBlock(
   let output = ''
   let lastIndex = 0
   let match: RegExpExecArray | null
+  let includeUsageGuidance = Boolean(propertiesUsage)
 
   while ((match = regex.exec(body))) {
     output += body.slice(lastIndex, match.index)
@@ -1652,6 +1669,9 @@ async function replacePropertiesTableWithJsonBlock(
     if (propsValue) {
       const metadata: Record<string, any> = {
         props: propsValue,
+        ...(includeUsageGuidance
+          ? { usageGuidance: propertiesUsage }
+          : {}),
       }
 
       for (const [name, attr] of Object.entries(attrs)) {
@@ -1669,6 +1689,7 @@ async function replacePropertiesTableWithJsonBlock(
       }
 
       output += renderJsonBlock(metadata)
+      includeUsageGuidance = false
     } else {
       if (fallbackLink) {
         output += `See ${fallbackLink.label}: ${fallbackLink.url}`

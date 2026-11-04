@@ -18,6 +18,7 @@ function ArraySelection(props: ValueArraySelectionProps) {
   const {
     path,
     value,
+    locale,
     format,
     className,
     variant = 'text',
@@ -47,12 +48,13 @@ function ArraySelection(props: ValueArraySelectionProps) {
     return (
       <ListFormat
         value={valueToUse}
+        locale={locale}
         format={format}
         variant={variant}
         listType={listType}
       />
     )
-  }, [value, path, format, variant, listType, fieldInternalsRef])
+  }, [value, path, locale, format, variant, listType, fieldInternalsRef])
 
   return (
     <ValueBlock

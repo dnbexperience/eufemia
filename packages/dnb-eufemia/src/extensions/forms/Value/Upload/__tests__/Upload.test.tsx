@@ -277,6 +277,15 @@ describe('Value.Upload', () => {
     )
   })
 
+  it('formats value with the locale property', () => {
+    render(<Value.Upload value={files} locale="en-GB" />)
+
+    const valueElement = document.querySelector(
+      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+    )
+    expect(getValueText(valueElement)).toBe('foo.png, bar.png and baz.png')
+  })
+
   describe('Icons', () => {
     it('renders the pdf icon', () => {
       render(

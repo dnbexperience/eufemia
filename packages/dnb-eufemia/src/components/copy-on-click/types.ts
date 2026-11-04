@@ -45,4 +45,19 @@ export type CopyOnClickButtonProps = {
    * Defaults to the translation `CopyOnClick.clipboardCopy`.
    */
   tooltipContent?: ReactNode
-} & ButtonProps
+
+  /**
+   * Describes what the button copies, such as "Copy account number". When the button has no text, it is also used as the `aria-label` and defaults to the translation `CopyOnClick.buttonTitle`.
+   */
+  title?: ButtonProps['title']
+
+  /**
+   * Icon displayed on the button. Defaults to the `copy` icon.
+   */
+  icon?: ButtonProps['icon']
+
+  /**
+   * Button variant. Defaults to `tertiary`.
+   */
+  variant?: ButtonProps['variant']
+} & Omit<ButtonProps, 'title' | 'icon' | 'variant'>

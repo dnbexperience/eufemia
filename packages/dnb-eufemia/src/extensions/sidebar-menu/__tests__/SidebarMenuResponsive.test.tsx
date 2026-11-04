@@ -10,6 +10,137 @@ import ScrollView from '../../../components/scroll-view/ScrollView'
 import Provider from '../../../shared/Provider'
 
 describe('SidebarMenu responsive parts', () => {
+  it('names the hamburger without adding a native title', () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const trigger = document.querySelector('button')
+    expect(trigger).toHaveAccessibleName('Åpne meny')
+    expect(trigger).not.toHaveAttribute('title')
+    fireEvent.click(trigger)
+    expect(trigger).toHaveAccessibleName('Lukk meny')
+  })
+
+  it('supports an explicit hamburger label and tooltip without a native title', async () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger
+          aria-label="Open banking navigation"
+          tooltip="Open banking navigation"
+        />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const trigger = document.querySelector('button')
+    expect(trigger).toHaveAccessibleName('Open banking navigation')
+    expect(trigger).not.toHaveAttribute('title')
+    fireEvent.focus(trigger)
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toHaveTextContent('Open banking navigation')
+    )
+    expect(trigger).not.toHaveAttribute('aria-describedby')
+  })
+
+  it.each([
+    ['Escape', true],
+    ['Escape', false],
+    ['close button', true],
+    ['close button', false],
+  ] as const)(
+    'restores focus without reopening the tooltip after %s with noAnimation=%s',
+    async (dismissal, noAnimation) => {
+      setMedia({ width: '30em' })
+      render(
+        <SidebarMenu.ResponsiveProvider>
+          <SidebarMenu.ResponsiveTrigger
+            aria-label="Open banking navigation"
+            tooltip="Open banking navigation"
+          />
+          <SidebarMenu.ResponsiveDrawer noAnimation={noAnimation}>
+            <a href="#accounts">Accounts</a>
+          </SidebarMenu.ResponsiveDrawer>
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const trigger = document.querySelector<HTMLButtonElement>(
+        '.dnb-sidebar-menu-responsive-trigger'
+      )
+      act(() => trigger.focus())
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-tooltip--active')
+        ).not.toBeNull()
+      )
+      fireEvent.click(trigger)
+      const drawer = document.querySelector('.dnb-drawer')
+      act(() => drawer.querySelector('a').focus())
+      expect(drawer.contains(document.activeElement)).toBe(true)
+      await waitFor(() =>
+        expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+      )
+
+      if (dismissal === 'Escape') {
+        fireEvent.keyDown(drawer, { key: 'Escape' })
+      } else {
+        fireEvent.click(drawer.querySelector('.dnb-modal__close-button'))
+      }
+
+      await waitFor(() => expect(trigger).toHaveFocus())
+      expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+      await waitFor(() =>
+        expect(trigger).not.toHaveAttribute('data-autofocus')
+      )
+      expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+      fireEvent.mouseEnter(trigger)
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-tooltip--active')
+        ).not.toBeNull()
+      )
+      fireEvent.mouseLeave(trigger)
+      act(() => trigger.blur())
+      act(() => trigger.focus())
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-tooltip--active')
+        ).not.toBeNull()
+      )
+    }
+  )
+
+  it('uses the visible trigger text as its accessible name', () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger text="Banking navigation" />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(document.querySelector('button')).toHaveAccessibleName(
+      'Banking navigation'
+    )
+    expect(document.querySelector('button')).not.toHaveAttribute('title')
+  })
+
+  it('preserves an explicitly supplied native title', () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger title="Banking navigation" />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(document.querySelector('button')).toHaveAttribute(
+      'title',
+      'Banking navigation'
+    )
+    expect(document.querySelector('button')).toHaveAccessibleName(
+      'Banking navigation'
+    )
+  })
+
   afterEach(() => {
     sessionStorage.clear()
     localStorage.clear()

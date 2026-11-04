@@ -428,6 +428,7 @@ function ListItem({
     status &&
     {
       new: 'New',
+      alpha: 'Alpha',
       beta: 'Beta',
       wip: 'WIP',
       cs: 'Coming soon',
@@ -706,6 +707,7 @@ const prepareNav = ({
 
 function groupNavItems(navItems: NavItem[], location: Location) {
   const topLevelHeadings: NavItem[] = []
+  const paths = new Set(navItems.map(({ path }) => path))
 
   // Remove first and last slash from pathname to match path from graphql
   const currentPathName = location.pathname
@@ -725,9 +727,17 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     const { isActive, isInsideActiveCategory, isInsideActivePath } =
       getActiveStatusForItem(currentPathName, item)
 
+    // A section can lack its own page, like /web for /web/whats-new
+    const parts = item.path.split('/')
+    const isTopLevel = !parts.some(
+      (_, i) => i > 0 && paths.has(parts.slice(0, i).join('/'))
+    )
+
     // Add props for use in <ListItem />
     const hashItem = {
       ...item,
+      // Show such pages like the ones right below a section page
+      level: isTopLevel ? Math.min(item.level, 2) : item.level,
       id: itemId,
       parentId,
       isActive,
@@ -754,7 +764,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
 
     // Add all top level heading object references to topLevelHeadings array
     // so that we won't have to loop through the array a second time to sort out top level headings
-    if (item.level === 1) {
+    if (isTopLevel) {
       topLevelHeadings.push(hashmap[itemId])
     }
 

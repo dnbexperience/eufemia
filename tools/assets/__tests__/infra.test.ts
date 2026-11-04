@@ -53,6 +53,21 @@ describe('assets infrastructure', () => {
     )
   })
 
+  it('requires TLS on the bucket', () => {
+    const denyStatement = infra.match(
+      /statement \{\s+sid\s+=\s+"DenyInsecureTransport"[\s\S]*?^ {2}\}/m
+    )?.[0]
+
+    expect(denyStatement).toMatch(/effect\s+=\s+"Deny"/)
+    expect(denyStatement).toMatch(/actions\s+=\s+\["s3:\*"\]/)
+    expect(denyStatement).toMatch(
+      /resources\s+=\s+\[aws_s3_bucket\.assets\.arn, "\$\{aws_s3_bucket\.assets\.arn\}\/\*"\]/
+    )
+    expect(denyStatement).toMatch(
+      /variable\s+=\s+"aws:SecureTransport"\s+values\s+=\s+\["false"\]/
+    )
+  })
+
   it('rejects requests that bypass the Akamai edge', () => {
     expect(infra).toContain('event_type   = "viewer-request"')
     expect(edgeAuth).toContain("request.headers['x-origin-verify']")

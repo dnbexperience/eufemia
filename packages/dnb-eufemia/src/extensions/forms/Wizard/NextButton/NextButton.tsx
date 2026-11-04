@@ -12,7 +12,16 @@ import useCombinedRef from '../../../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardNextButtonProps = ComponentProps &
-  Omit<ButtonProps, 'variant' | 'pending'>
+  Omit<ButtonProps, 'variant' | 'icon' | 'iconPosition' | 'pending'> & {
+    /**
+     * The icon shown in the button. Defaults to `chevron_right`.
+     */
+    icon?: ButtonProps['icon']
+    /**
+     * Position of the icon inside the button. Defaults to `right`.
+     */
+    iconPosition?: ButtonProps['iconPosition']
+  }
 
 function NextButton(props: WizardNextButtonProps) {
   const translations = useTranslation().WizardNextButton

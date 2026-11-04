@@ -19,7 +19,7 @@ All the code examples are only quick demos, showing how to load the bundles. Kee
 
 ## UMD bundles
 
-Requires React and ReactDOM to be loaded.
+Requires `React` and `ReactDOM` as global variables. React 19 no longer ships UMD builds, so [load React from an ESM CDN](https://react.dev/blog/2024/04/25/react-19-upgrade-guide#umd-builds-removed) such as [esm.sh](https://esm.sh/) and assign the globals before the bundles run.
 
 - **dnb-ui-lib.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements).
 - **dnb-ui-components.min.js** - includes all [components](/uilib/components).
@@ -29,16 +29,31 @@ Requires React and ReactDOM to be loaded.
 
 ### Usage of UMD bundles
 
+Module scripts and scripts with `defer` run in order after the page is parsed, so the bundles run after the globals are assigned, and your code runs after the bundles.
+
 ```html
 <body>
   <div id="app"></div>
 
-  <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-icons.min.js"></script>
-  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-lib.min.js"></script>
+  <script type="module">
+    import React from 'https://esm.sh/react@19'
+    import ReactDOM from 'https://esm.sh/react-dom@19'
+    import { createRoot } from 'https://esm.sh/react-dom@19/client'
 
-  <script type="application/javascript">
+    window.React = React
+    window.ReactDOM = { ...ReactDOM, createRoot }
+  </script>
+
+  <script
+    defer
+    src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-icons.min.js"
+  ></script>
+  <script
+    defer
+    src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-lib.min.js"
+  ></script>
+
+  <script type="module">
     const MyButton = React.createElement(window.dnbLib.Button, {
       text: 'My Button',
       icon: 'chevron_right',
@@ -46,7 +61,7 @@ Requires React and ReactDOM to be loaded.
         console.log('onClick', params)
       },
     })
-    const root = createRoot(document.getElementById('app'))
+    const root = ReactDOM.createRoot(document.getElementById('app'))
     root.render(MyButton)
   </script>
 </body>
@@ -57,7 +72,7 @@ Requires React and ReactDOM to be loaded.
 Requires React and ReactDOM to be loaded as a module resolution ([importmap](https://github.com/WICG/import-maps)). Uses ES modules (**NB:** That is the aim, right now it is also transpiled [for broad browser compatibility](/uilib/usage/#supported-browsers-and-platforms)).
 
 - **dnb-ui-lib.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements).
-- **dnb-theme-components.min.mjs** - includes all [components](/uilib/components).
+- **dnb-ui-components.min.mjs** - includes all [components](/uilib/components).
 - **dnb-ui-extensions.min.mjs** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-icons.min.mjs** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.mjs** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
@@ -80,15 +95,14 @@ Because `importmap` is still not supported by the majority of browsers, we use a
       "imports": {
         "react": "...",
         "react-dom": "...",
-        "../icons/dnb/primary_icons.js": "https://unpkg.com/@dnb/eufemia/esm/dnb-ui-icons.min.mjs",
-        "../icons/dnb/primary_icons_medium.js": "https://unpkg.com/@dnb/eufemia/esm/dnb-ui-icons.min.mjs"
+        "react-dom/client": "..."
       }
     }
   </script>
 
   <script type="module-shim">
     import React from 'react'
-    import ReactDOM from 'react-dom'
+    import { createRoot } from 'react-dom/client'
     import { Button } from 'https://unpkg.com/@dnb/eufemia/esm/dnb-ui-lib.min.mjs'
 
     const MyButton = React.createElement(

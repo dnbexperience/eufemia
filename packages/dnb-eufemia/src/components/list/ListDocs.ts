@@ -7,6 +7,12 @@ export const ContainerProperties: PropertiesTableProps = {
     defaultValue: `'css'`,
     status: 'optional',
   },
+  element: {
+    doc: 'Define the HTML element used for the list. Defaults to `ul`. Change the `element` of the items too, so the markup stays valid.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'ul'`,
+    status: 'optional',
+  },
   separated: {
     doc: 'When `true`, adds row gap between items so each row keeps its own outline and border radius instead of running edge-to-edge.',
     type: 'boolean',

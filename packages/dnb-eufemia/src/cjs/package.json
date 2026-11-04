@@ -10,6 +10,8 @@
     "extensions/**/style.*",
     "fragments/**/style.*",
     "**/style/**/*",
+    "shared/component-helper.*",
+    "shared/helpers/whatInput.*",
     "umd/*"
   ]
 }

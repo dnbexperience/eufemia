@@ -48,8 +48,8 @@ export type TableProps = {
   size?: TableSizes
 
   /**
-   * Defines the visual style of the table header. Use `subtle` for a lighter appearance with reduced font-weight, smaller font-size, and muted text color.
-   * Default: `"emphasis"`
+   * The style variant of the table. Only `generic` is available.
+   * Default: `"generic"`
    */
   variant?: TableVariants
 

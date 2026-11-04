@@ -9,6 +9,7 @@ import useTranslation from '../../../shared/useTranslation'
 import { convertJsxToString } from '../../../shared/component-helper'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
+import DotsIndicator from '../../../shared/internal/DotsIndicator'
 
 export type ButtonSubmitIndicatorProps = {
   state: SubmitState
@@ -77,7 +78,6 @@ function SubmitIndicator(props: ButtonSubmitIndicatorProps) {
           'aria-hidden': true,
         }
 
-  const dot = <b />
   const indicator = (
     <span
       className="dnb-forms-submit-indicator__content dnb-button__indicator-content"
@@ -90,11 +90,7 @@ function SubmitIndicator(props: ButtonSubmitIndicatorProps) {
         </span>
       )}
       {state && state !== 'success' && state !== 'abort' && (
-        <>
-          {dot}
-          {dot}
-          {dot}
-        </>
+        <DotsIndicator />
       )}
     </span>
   )

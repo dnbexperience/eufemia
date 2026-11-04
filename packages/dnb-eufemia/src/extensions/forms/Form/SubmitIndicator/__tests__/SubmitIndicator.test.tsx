@@ -47,6 +47,10 @@ describe('Form.SubmitIndicator', () => {
       '.dnb-forms-submit-indicator__content b'
     )
     expect(dots).toHaveLength(3)
+    dots.forEach((dot) => {
+      expect(dot).toHaveClass('dnb-dots-indicator__dot')
+      expect(dot).toHaveAttribute('aria-hidden', 'true')
+    })
   })
 
   it('should support spacing props', () => {
@@ -477,6 +481,6 @@ describe('Form.SubmitIndicator scss', () => {
       loadScss(require.resolve('../style/dnb-form-submit-indicator.scss'))
     )
 
-    expect(css).toContain('@keyframes submit-indicator-dot')
+    expect(css).toContain('@keyframes dnb-dots-indicator-dot')
   })
 })

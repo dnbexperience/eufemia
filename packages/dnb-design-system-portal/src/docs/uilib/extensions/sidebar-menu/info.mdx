@@ -51,6 +51,14 @@ Set `dividerBefore: true` on a data item to render a separator, or place `Sideba
 
 When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
 
+## Keyboard navigation
+
+Use Arrow Down and Arrow Up to move focus through the visible, enabled menu items in the active section. Home or Page Up moves focus to the first item; End or Page Down moves to the last. Type a character to focus the next item whose label starts with that character. Arrow navigation stops at either end and does not select or activate an item. Collapsed content, headings, dividers, and custom controls are skipped.
+
+Arrow Right opens an accordion and focuses its first enabled item. On an open accordion, it moves focus to the first enabled item. Arrow Left closes the closest accordion and returns focus to its trigger. Linked accordions expand with Arrow Right without following the link.
+
+Tab and Shift+Tab continue to reach all interactive controls. Use Enter to activate a link, and Enter or Space to activate a button or toggle an accordion. The section dropdown keeps its own keyboard navigation.
+
 ## State and scrolling
 
 Use controlled properties when application routing or external state owns the menu:
@@ -255,6 +263,22 @@ Use the responsive compound parts when the same navigation should be inline on l
 - `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column at or below `drawerAt`.
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after navigating from it.
+
+An icon-only `ResponsiveTrigger` has a localized accessible name by default. Set `aria-label` when a more specific name helps people identify the navigation, and use `tooltip` for a visible hint on hover and keyboard focus. Keep both texts the same and omit `title` to avoid a second native browser tooltip. The label is available to screen readers even when the tooltip is hidden.
+
+```tsx
+function NavigationTrigger() {
+  const { open } = SidebarMenu.useResponsive()
+  const menuLabel = open ? 'Close banking menu' : 'Open banking menu'
+
+  return (
+    <SidebarMenu.ResponsiveTrigger
+      aria-label={menuLabel}
+      tooltip={menuLabel}
+    />
+  )
+}
+```
 
 Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Inline dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
 

@@ -16,7 +16,7 @@
     var(--progress-indicator-circular-size) / 8
   );
   --progress-indicator-circular-background-color: var(
-    --token-color-background-neutral-alternative
+    --token-color-background-neutral-subtle
   );
   --progress-indicator-circular-bar-color: var(
     --token-color-background-action
@@ -228,9 +228,9 @@
       transform-origin: left;
       border-radius: inherit;
 
+      // !important, so that it also wins over the inline customColors.line
       @media (forced-colors: active) {
-        forced-color-adjust: none;
-        background-color: Highlight;
+        background-color: Highlight !important;
       }
     }
 

@@ -586,10 +586,10 @@ describe('FormStatus icons', () => {
   it('should let Icon inheritColor override the icon colors', () => {
     const style = document.createElement('style')
     style.textContent = [
-      '../../icon/style/dnb-icon.scss',
-      '../style/dnb-form-status.scss',
+      loadScss(require.resolve('../../icon/style/dnb-icon.scss')),
+      loadScss(require.resolve('../style/dnb-form-status.scss')),
     ]
-      .map((file) => String(loadScss(require.resolve(file))))
+      .map(String)
       .join('\n')
     document.head.appendChild(style)
 
@@ -635,7 +635,7 @@ describe('FormStatus icons', () => {
       [null, '#333'],
     ])
     expect(info).toEqual([
-      ['#007272', null],
+      ['#1955a9', null],
       ['#fff', '#fff'],
       [null, '#fff'],
     ])

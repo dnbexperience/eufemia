@@ -4,11 +4,13 @@ showTabs: true
 
 import {
   BadgeNotification,
+  BadgeNotificationNumbers,
   BadgeNotificationInline,
   BadgeNotificationAvatar,
   BadgeDefault,
   BadgeInformationInline,
   BadgeInformationAvatar,
+  BadgeButton,
   BadgeCornerPosition,
   BadgeStatus,
   BadgeHide,
@@ -32,6 +34,8 @@ The default variant. Equivalent to `variant='information'`.
 
 <BadgeNotification />
 
+<BadgeNotificationNumbers />
+
 <BadgeNotificationInline />
 
 ### Overlaid badge
@@ -40,6 +44,12 @@ You can overlay the badge on top of an element by wrapping the `<Badge>` compone
 
 <BadgeInformationAvatar />
 <BadgeNotificationAvatar />
+
+#### Overlaid button
+
+The button remains clickable where the badge overlaps it. Use `horizontal` and `vertical` to select the badge corner.
+
+<BadgeButton />
 
 #### Setting property `horizontal` and `vertical`
 

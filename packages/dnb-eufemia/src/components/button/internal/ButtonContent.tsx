@@ -88,6 +88,10 @@ export default function ButtonContent({
             skeleton={skeleton}
           />
         ))}
+
+      {isIconOnly && typeof pending === 'boolean' && (
+        <SubmitIndicator state={pending ? 'pending' : undefined} />
+      )}
     </>
   )
 }

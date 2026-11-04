@@ -3,11 +3,13 @@ import type { KeyboardEvent } from 'react'
 import { clsx } from 'clsx'
 import IconPrimary from '../IconPrimary'
 import Icon from '../icon/Icon'
-import { chevron_down, chevron_up } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { MenuContext, useMenuContext } from './MenuContext'
 import MenuItemContent from './MenuItemContent'
 import useMenuItemRegistration from './useMenuItemRegistration'
+import { handleMenuAccordionNavigation } from '../../shared/helpers/menuKeyboardNavigation'
 import type { MenuAccordionProps, MenuContextValue } from './types'
 
 const accordionIcon = Icon.transition({
@@ -117,37 +119,15 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         return // stop here
       }
 
-      if (
-        event.key === 'Enter' ||
-        event.key === ' ' ||
-        event.key === 'ArrowRight'
-      ) {
-        event.preventDefault()
-        event.stopPropagation()
-
-        if (!isOpen) {
-          setIsOpen(true)
-
-          // Focus the first child item after render
-          requestAnimationFrame(() => {
-            focusFirstChild()
-          })
-        } else if (event.key === 'ArrowRight') {
-          // Already open — focus first child
-          focusFirstChild()
-        } else {
-          // Already open — Enter/Space toggles closed
-          setIsOpen(false)
-        }
-      }
-
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault()
-        event.stopPropagation()
-        setIsOpen(false)
-      }
+      handleMenuAccordionNavigation(event, {
+        isOpen,
+        setOpen: setIsOpen,
+        focusFirstChild,
+        closeSelf,
+        toggleOnActivate: true,
+      })
     },
-    [onKeyDown, disabled, isOpen, setIsOpen, focusFirstChild]
+    [onKeyDown, disabled, isOpen, setIsOpen, focusFirstChild, closeSelf]
   )
 
   return (

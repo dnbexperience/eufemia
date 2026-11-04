@@ -29,12 +29,11 @@ type AmountOwnProps = Omit<
   currencyDisplay?: NumberFormatProps['currencyDisplay']
   currencyPosition?: NumberFormatProps['currencyPosition']
   /**
-   * Typography size for the label. Line-height is derived from the shared heading/text scale.
-   * Default: `"basis"`
+   * Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value. If omitted, default is `large` (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless any size prop is set).
    */
   fontSize?: TypographySize
   /**
-   * Typography size for the main content. Defaults to `large`.
+   * Typography size for the main content. When omitted, it falls back to `fontSize` if provided.
    */
   mainSize?: TypographySize
   /**
@@ -42,14 +41,11 @@ type AmountOwnProps = Omit<
    */
   mainWeight?: TypographyWeight
   /**
-   * Typography size for secondary content like affixes. Defaults to `large`.
+   * Typography size for secondary content like currency sign and affixes (`prefix` and `suffix`). When omitted, it falls back to `fontSize` if provided.
    */
   auxiliarySize?: TypographySize
   /**
-   * Typography weight for secondary content like currency sign and affixes.
-   *
-   * If not set, and `mainSize` equals `auxiliarySize` while `mainWeight` is not set,
-   * `medium` is used.
+   * Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, `medium` is used.
    */
   auxiliaryWeight?: TypographyWeight
   /**

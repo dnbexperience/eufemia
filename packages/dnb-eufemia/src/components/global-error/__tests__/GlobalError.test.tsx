@@ -131,6 +131,16 @@ describe('GlobalError', () => {
     expect(heading.tagName).toBe('H1')
   })
 
+  it('should accept a React element as the title', () => {
+    render(<GlobalError title={<span>Custom title</span>} />)
+
+    expect(
+      document.querySelector(
+        '.dnb-global-error__inner__content .dnb-heading span'
+      ).textContent
+    ).toBe('Custom title')
+  })
+
   it('should respect Heading.Level context for its title', () => {
     render(
       <Heading.Level reset={1}>

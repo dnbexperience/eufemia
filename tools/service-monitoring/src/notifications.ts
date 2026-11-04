@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto'
 import type { Report } from '../../monitoring/report-incident.ts'
+import type { Service } from './monitor.ts'
 import { logFailure } from './diagnostics.ts'
 
 export type Observation =
-  | { kind: 'service'; service: 'CDN' | 'MCP'; report: Report }
+  | { kind: 'service'; service: Service; report: Report }
   | { kind: 'alarm'; name: string; status: 'ALARM' | 'OK'; at: string }
 type Source = {
   at: string
@@ -32,6 +33,53 @@ type Dependencies = {
   save: (state: NotificationState) => Promise<void>
   post: (text: string, id: string, thread?: string) => Promise<string>
   update: (timestamp: string, text: string) => Promise<void>
+  aws?: { region: string; logGroups: Record<string, string> }
+}
+
+// CDN check details already name the failing asset URLs.
+const serviceUrls: Partial<Record<Service, string>> = {
+  MCP: 'https://server.eufemia.dnb.no/healthz',
+  Analytics: 'https://dashboard.eufemia.dnb.no/',
+}
+
+// Check details can quote response bodies, so Slack control sequences are escaped.
+function escapeSlack(text: string) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+function slackLink(url: string, label: string) {
+  return `<${url}|${escapeSlack(label)}>`
+}
+
+function linkLines(event: Observation, aws: Dependencies['aws']) {
+  const url = event.kind === 'service' && serviceUrls[event.service]
+  const lines = url ? ['Service: ' + url] : []
+  if (!aws) {
+    return lines
+  }
+  const cloudWatch = `https://${aws.region}.console.aws.amazon.com/cloudwatch/home?region=${aws.region}#`
+  if (event.kind === 'alarm') {
+    const alarm = encodeURIComponent(event.name)
+    lines.push(
+      'Alarm: ' +
+        slackLink(`${cloudWatch}alarmsV2:alarm/${alarm}`, event.name)
+    )
+  } else if (aws.logGroups[event.service]) {
+    const logGroup = encodeURIComponent(
+      aws.logGroups[event.service]
+    ).replace(/%/g, '$25')
+    lines.push(
+      'Monitor logs: ' +
+        slackLink(
+          `${cloudWatch}logsV2:log-groups/log-group/${logGroup}`,
+          'CloudWatch'
+        )
+    )
+  }
+  return lines
 }
 
 function messageId(value: string) {
@@ -180,20 +228,21 @@ export async function processNotification(
         event.kind === 'service'
           ? event.report.checks
               .filter((check) => !check.ok && !check.pending)
-              .map((check) => check.name)
-              .join(', ')
-          : 'Monitor-health alarm active. Check AWS logs and delivery.'
+              .map(
+                (check) =>
+                  '• ' + escapeSlack(check.name + ': ' + check.detail)
+              )
+          : ['Monitor-health alarm active.']
       state.pending = {
         type: 'outage',
         source: name,
         id: messageId(name + ':' + source.outage.started + ':outage'),
-        text:
-          'Eufemia ' +
-          name +
-          ' incident detected.\n' +
-          checks +
-          '\nFirst observed: ' +
-          source.outage.started,
+        text: [
+          'Eufemia ' + name + ' incident detected.',
+          ...checks,
+          'First observed: ' + source.outage.started,
+          ...linkLines(event, dependencies.aws),
+        ].join('\n'),
       }
     } else if (status === 'healthy' && source.outage) {
       if (!source.outage.thread) {
@@ -208,13 +257,13 @@ export async function processNotification(
         source: name,
         thread: source.outage.thread,
         id: messageId(name + ':' + source.outage.started + ':recovery'),
-        text:
-          'Eufemia ' +
-          name +
-          ' recovered.\nObserved incident window: ' +
-          Math.round(duration / 60000) +
-          ' minutes.\nHealthy at: ' +
-          source.at,
+        text: [
+          'Eufemia ' + name + ' recovered.',
+          'Observed incident window: ' +
+            Math.round(duration / 60000) +
+            ' minutes.',
+          'Healthy at: ' + source.at,
+        ].join('\n'),
       }
     }
     await dependencies.save(state)

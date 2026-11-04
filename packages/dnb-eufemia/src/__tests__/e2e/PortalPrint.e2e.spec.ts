@@ -23,6 +23,64 @@ test('prints an empty Input without its placeholder and restores the hint on scr
   await expect(placeholder).toBeVisible()
 })
 
+test('prints an empty Textarea with a frame but without its placeholder, and restores the hint on screen', async ({
+  page,
+}) => {
+  await page.goto('/uilib/components/textarea/demos/')
+  const textarea = page.getByLabel('Placeholder', { exact: true })
+  const placeholder = page
+    .locator('.dnb-textarea')
+    .filter({ has: textarea })
+    .locator('.dnb-textarea__placeholder')
+  await expect(textarea).toHaveValue('')
+  await expect(placeholder).toHaveText('Placeholder text')
+  await expect(placeholder).toBeVisible()
+  await page.emulateMedia({ media: 'print' })
+  await expect(placeholder).toBeHidden()
+
+  // Only a box-shadow draws the frame on screen, so without an outline
+  // an empty Textarea would leave nothing on paper but its label
+  const frame = page
+    .locator('.dnb-textarea')
+    .filter({ has: textarea })
+    .locator('.dnb-textarea__state')
+  await expect(frame).toHaveCSS('outline-style', 'solid')
+  await expect(frame).toHaveCSS('outline-width', '1px')
+  await expect(frame).toHaveCSS('outline-color', 'rgb(0, 0, 0)')
+
+  await page.emulateMedia({ media: 'screen' })
+  await expect(placeholder).toBeVisible()
+})
+
+test('prints the selected ToggleButton with a thicker outline', async ({
+  page,
+}) => {
+  await page.goto('/uilib/components/toggle-button/demos/')
+  const group = page.locator(
+    '[data-visual-test="toggle-button-group-default"]'
+  )
+  const selected = group.locator(
+    '.dnb-toggle-button--checked .dnb-toggle-button__button'
+  )
+  const other = group
+    .locator(
+      '.dnb-toggle-button:not(.dnb-toggle-button--checked) .dnb-toggle-button__button'
+    )
+    .first()
+  await expect(selected).toHaveText('First')
+  await expect(other).toHaveText('Second')
+
+  // Plain print removes the background and color that show the
+  // selection on screen, so the outline must carry it on paper
+  await page.emulateMedia({ media: 'print' })
+  await expect(selected).toHaveCSS('outline-style', 'solid')
+  await expect(selected).toHaveCSS('outline-width', '3px')
+  await expect(selected).toHaveCSS('outline-color', 'rgb(0, 0, 0)')
+  await expect(other).toHaveCSS('outline-style', 'solid')
+  await expect(other).toHaveCSS('outline-width', '1px')
+  await expect(other).toHaveCSS('outline-color', 'rgb(0, 0, 0)')
+})
+
 test('scopes Portal page margins to its named page', async ({ page }) => {
   await page.goto('/uilib/usage/customisation/styling/printable-apps/')
   await expect(page.locator('[data-portal-print-layout]')).toBeVisible()
@@ -102,7 +160,7 @@ test('uses plain paper for fullscreen documentation', async ({ page }) => {
   })
   await page.goto('/uilib/intro/03-accessibility/')
   await expect(page.locator('[data-portal-print-layout]')).toHaveClass(
-    /dnb-print--plain/
+    /\bdnb-print\b/
   )
   await page.emulateMedia({ media: 'print' })
   await expect(page.locator('#dnb-app-content')).toHaveCSS(
@@ -124,7 +182,12 @@ test('preserves the document preview print layout', async ({ page }) => {
   )
   await expect(page.locator('#letter')).toBeVisible()
   await expect(page.locator('[data-portal-print-layout]')).toHaveCount(0)
+  const paragraph = page.locator('#letter .dnb-p').first()
+  const screenColor = await paragraph.evaluate(
+    (element) => getComputedStyle(element).color
+  )
   await page.emulateMedia({ media: 'print' })
+  await expect(paragraph).toHaveCSS('color', 'rgb(0, 0, 0)')
   expect(
     await page
       .locator('#letter')
@@ -156,6 +219,8 @@ test('preserves the document preview print layout', async ({ page }) => {
     )
   ).toBe(true)
   await expect(page.locator('[data-portal-print-footer]')).toHaveCount(0)
+  await page.emulateMedia({ media: 'screen' })
+  await expect(paragraph).toHaveCSS('color', screenColor)
 })
 
 test('preserves printed selection indicators without background graphics', async ({
@@ -211,6 +276,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
       await page.emulateMedia({ media: 'print' })
       await expect(page.locator('.sticky-menu')).toBeHidden()
       await expect(page.locator('#portal-sidebar-menu')).toBeHidden()
+      await expect(page.locator('#content-grid-sidebar')).toBeHidden()
       await expect(
         page.getByRole('button', { name: 'Suggest an edit' })
       ).toBeHidden()

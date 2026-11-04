@@ -79,9 +79,9 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
       var(--skeleton-color) 0.0625rem 0.375rem
     );
   background-image: var(--skeleton-active-background, none) !important;
-  background-repeat: repeat-x, repeat !important;
-  background-size: 24rem 100%, 0.5303300859rem 0.5303300859rem !important;
-  background-position: 0 50%, 0 50%;
+  background-repeat: no-repeat, repeat !important;
+  background-size: 300% 300%, 0.5303300859rem 0.5303300859rem !important;
+  background-position: 0 100%, 0 50%;
   animation: skeletonSweepAnimation var(--skeleton-duration) linear var(--skeleton-iteration-count) var(--skeleton-delay);
 }
 .dnb-skeleton--code pre,
@@ -141,12 +141,19 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
 @keyframes skeletonSweepAnimation {
   from {
     --skeleton-active-background: var(--skeleton-background-image);
-    background-position-x: 0, 0;
+    background-position: 0 100%, 0 50%;
   }
   to {
     --skeleton-active-background: var(--skeleton-background-image);
-    background-position-x: -24rem, -4.2426406871rem;
+    background-position: 100% 0, -4.2426406871rem 50%;
   }
+}
+@font-face {
+  font-family: DNBSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Light.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Light.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: fallback;
 }
 @font-face {
   font-family: DNBSkeleton;
@@ -165,7 +172,14 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
 @font-face {
   font-family: DNBSkeleton;
   src: url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.ttf") format("truetype");
-  font-weight: 600;
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: DNBMonoSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Light.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Light.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Light.ttf") format("truetype");
+  font-weight: 300;
   font-style: normal;
   font-display: fallback;
 }
@@ -173,6 +187,20 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
   font-family: DNBMonoSkeleton;
   src: url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.ttf") format("truetype");
   font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: DNBMonoSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Medium.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Medium.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: DNBMonoSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Bold.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Bold.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Bold.ttf") format("truetype");
+  font-weight: 600 700;
   font-style: normal;
   font-display: fallback;
 }"

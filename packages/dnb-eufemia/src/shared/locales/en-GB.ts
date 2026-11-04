@@ -160,6 +160,10 @@ export default {
       addTitle: 'Increase (%s)',
       subtractTitle: 'Decrease (%s)',
     },
+    TableOfContent: {
+      showAll: 'Show all',
+      title: 'On this page',
+    },
     VippsWalletButton: {
       text: 'Add to',
     },
@@ -188,13 +192,14 @@ export default {
       text: 'Drag & drop your files or choose files to upload.',
       textSingular:
         'Drag & drop your file or choose which file to upload.',
-      fileTypeTableCaption: 'Allowed formats and max. file size',
-      fileTypeDescription: 'Allowed formats:',
+      fileTypeTableCaption: 'Allowed files and max. file size',
+      fileTypeDescription: 'Allowed files:',
       fileSizeDescription: 'Max. file size:',
       fileAmountDescription: 'Max. number of files:',
       fileSizeContent: '%size MB',
       buttonText: 'Choose files',
       buttonTextSingular: 'Choose file',
+      fileLimitsButtonText: 'Allowed files and sizes',
       loadingText: 'Loading',
       errorLargeFile:
         'The file you are trying to upload is too big, the maximum size supported is %size MB.',

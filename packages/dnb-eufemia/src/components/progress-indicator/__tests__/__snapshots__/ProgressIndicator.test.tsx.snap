@@ -22,7 +22,7 @@ exports[`ProgressIndicator scss > should match style dependencies css 1`] = `
     var(--progress-indicator-circular-size) / 8
   );
   --progress-indicator-circular-background-color: var(
-    --token-color-background-neutral-alternative
+    --token-color-background-neutral-subtle
   );
   --progress-indicator-circular-bar-color: var(
     --token-color-background-action
@@ -186,8 +186,7 @@ exports[`ProgressIndicator scss > should match style dependencies css 1`] = `
 }
 @media (forced-colors: active) {
   .dnb-progress-indicator__linear__bar {
-    forced-color-adjust: none;
-    background-color: Highlight;
+    background-color: Highlight !important;
   }
 }
 .dnb-progress-indicator__linear__bar-transition {

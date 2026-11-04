@@ -526,7 +526,7 @@ export const InfoIcon = (props: InfoIconProps) => {
         clipRule="evenodd"
         d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
         {...iconPaint(isSuccess ? 'success' : 'information', {
-          fill: isSuccess ? '#007b5e' : '#007272',
+          fill: isSuccess ? '#007b5e' : '#1955a9',
         })}
       />
       <circle

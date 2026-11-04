@@ -4,23 +4,32 @@
 
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
+import useMediaQuery from '@dnb/eufemia/src/shared/useMediaQuery'
 import { useFocusModeCode } from './FocusModeCodeContext'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
 import TabBar from '../shared/tags/TabBar'
 import AutoLinkHeader from '../shared/tags/AutoLinkHeader'
+import PortalToc from '../shared/parts/PortalToc'
+import pageLayoutStyles from './PortalLayout.module.scss'
 import { defaultTabsValue } from '../shared/tags/defaultValues'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
 import Heading, { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
-import { Breadcrumb, Button } from '@dnb/eufemia/src'
+import { Breadcrumb, Button, P } from '@dnb/eufemia/src'
+import PropertiesUsage from '../docs/_shared/_properties-usage.mdx'
 import { resolveEditSourcePath } from './editSourcePath'
 import { getSuggestEditUrl } from './suggestEdit'
+import AiExperimentalNotice from '../docs/uilib/extensions/ai/ExperimentalNotice'
 import type { KnownFrontmatter } from '../../vite/client/plugins/portal-pages.shared'
 
 const ContentWrapper = TabBar.ContentWrapper
+const propertiesUsageTags = {
+  ...tags,
+  p: (props) => <P size="small" top="medium" bottom="medium" {...props} />,
+}
 
 export type PortalLayoutProps = {
   location: Location
@@ -30,6 +39,10 @@ export type PortalLayoutProps = {
 
 export default function PortalLayout(props: PortalLayoutProps) {
   const { pageContext, location, children } = props
+  const desktopToc = useMediaQuery({
+    when: { min: 'large' },
+    matchOnSSR: true,
+  })
 
   const data = useStaticQuery(graphql`
     query {
@@ -46,8 +59,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
               description
               fullscreen
               printLayout
+              hideToc
+              tocDepth
               showTabs
               hideEditLink
+              hidePropertiesUsage
               breadcrumb {
                 text
                 href
@@ -71,6 +87,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 description
                 fullscreen
                 printLayout
+                hideToc
+                tocDepth
                 showTabs
                 hideEditLink
                 breadcrumb {
@@ -137,6 +155,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
   usePortalHead(headData)
 
   const tabsFromParent = Boolean(!pageFm.title && pageFm.showTabs)
+  const hideToc =
+    pageFm.hideToc ?? (tabsFromParent ? parentFm.hideToc : undefined)
+  const tocDepth =
+    pageFm.tocDepth ?? (tabsFromParent ? parentFm.tocDepth : undefined)
+
   const rootPath =
     '/' +
     (tabsFromParent ? parentMdx?.fields?.slug : pageMdx?.fields?.slug)
@@ -167,6 +190,44 @@ export default function PortalLayout(props: PortalLayoutProps) {
     setPortalHeadData(pageContext, headData)
   }
 
+  const toc = !hideToc && (
+    <div
+      key="toc"
+      className={
+        pageLayoutStyles['content-grid__sidebar'] + ' dnb-print-hidden'
+      }
+      id="content-grid-sidebar"
+    >
+      <PortalToc pathname={location.pathname} maxDepth={tocDepth} />
+    </div>
+  )
+  const content = (
+    <div
+      key="content"
+      className={pageLayoutStyles['content-grid__content']}
+    >
+      <Heading.Level reset={2}>
+        <Content
+          sourcePath={editSourcePath}
+          pagePath={`${location.pathname}${location.hash || ''}`}
+          showEditLink={!fmData.hideEditLink}
+          showPropertiesUsage={
+            !pageFm.hidePropertiesUsage &&
+            slug.startsWith('uilib/') &&
+            slug.endsWith('/properties')
+          }
+        >
+          {!codeFocusMode &&
+            (slug === 'uilib/extensions/ai' ||
+              slug.startsWith('uilib/extensions/ai/')) && (
+              <AiExperimentalNotice />
+            )}
+          {children}
+        </Content>
+      </Heading.Level>
+    </div>
+  )
+
   return (
     <Layout
       key="layout"
@@ -174,62 +235,80 @@ export default function PortalLayout(props: PortalLayoutProps) {
       fullscreen={fullscreen}
       printLayout={fmData.printLayout}
     >
-      {!codeFocusMode && fmData.breadcrumb && (
-        <Breadcrumb
-          key="breadcrumb"
-          top="large"
-          className="dnb-print-hidden"
+      {codeFocusMode ? (
+        <Content>{children}</Content>
+      ) : (
+        <div
+          className={`${pageLayoutStyles['content-grid']} ${
+            hideToc ? pageLayoutStyles['content-grid--without-toc'] : ''
+          }`}
         >
-          {fmData.breadcrumb.map((item, i, a) => {
-            return (
-              <Breadcrumb.Item
-                key={item.text}
-                variant={
-                  (i === 0 && 'home') ||
-                  (i === a.length - 1 && 'current') ||
-                  null
-                }
-                // @ts-expect-error -- strictFunctionTypes
-                element={Link}
-                text={item.text}
-                href={item.href}
+          <div
+            className={pageLayoutStyles['content-grid__header']}
+            id="content-grid-header"
+          >
+            {fmData.breadcrumb && (
+              <Breadcrumb
+                key="breadcrumb"
+                top="large"
+                className="dnb-print-hidden"
+              >
+                {fmData.breadcrumb.map((item, i, a) => {
+                  return (
+                    <Breadcrumb.Item
+                      key={item.text}
+                      variant={
+                        (i === 0 && 'home') ||
+                        (i === a.length - 1 && 'current') ||
+                        null
+                      }
+                      // @ts-expect-error -- strictFunctionTypes
+                      element={Link}
+                      text={item.text}
+                      href={item.href}
+                    />
+                  )
+                })}
+              </Breadcrumb>
+            )}
+
+            {pageFm.showTabs ? (
+              <TabBar
+                key="tab-bar"
+                location={location}
+                rootPath={rootPath}
+                title={titleNode}
+                tabs={fmData.tabs}
+                defaultTabs={fmData.defaultTabs}
+                hideTabs={fmData.hideTabs}
               />
-            )
-          })}
-        </Breadcrumb>
+            ) : (
+              titleNode
+            )}
+          </div>
+
+          {desktopToc ? [content, toc] : [toc, content]}
+        </div>
       )}
-
-      {!codeFocusMode &&
-        (pageFm.showTabs ? (
-          <TabBar
-            key="tab-bar"
-            location={location}
-            rootPath={rootPath}
-            title={titleNode}
-            tabs={fmData.tabs}
-            defaultTabs={fmData.defaultTabs}
-            hideTabs={fmData.hideTabs}
-          />
-        ) : (
-          titleNode
-        ))}
-
-      <Heading.Level reset={2}>
-        <Content
-          sourcePath={editSourcePath}
-          pagePath={`${location.pathname}${location.hash || ''}`}
-          showEditLink={!codeFocusMode && !fmData.hideEditLink}
-        >
-          {children}
-        </Content>
-      </Heading.Level>
     </Layout>
   )
 }
 
-function Content({ sourcePath, pagePath, showEditLink, children }) {
+function Content({
+  sourcePath = undefined,
+  pagePath = undefined,
+  showEditLink = false,
+  showPropertiesUsage = false,
+  children,
+}) {
   return (
     <ContentWrapper>
+      {showPropertiesUsage && (
+        <MDXProvider components={propertiesUsageTags}>
+          <PropertiesUsage />
+        </MDXProvider>
+      )}
+
       <MDXProvider components={tags}>{children}</MDXProvider>
 
       {showEditLink && (

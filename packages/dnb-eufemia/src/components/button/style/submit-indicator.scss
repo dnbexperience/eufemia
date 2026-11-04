@@ -1,3 +1,5 @@
+@use '../../../shared/internal/dots-indicator.scss';
+
 // Form.SubmitIndicator renders these classes next to its dnb-forms-submit-indicator classes,
 // because the components styles must not contain forms class names.
 .dnb-button__indicator {
@@ -22,6 +24,8 @@
   }
 
   &-content {
+    --dots-first-gap: var(--dots-offset);
+
     align-items: center;
     font-size: 0;
     opacity: 0;
@@ -31,29 +35,11 @@
     transition: var(--font-animation), var(--opacity-animation);
 
     b {
-      display: inline-block;
-      width: 0.25em;
-      height: 0.25em;
-      margin-left: 0.25em;
-      border-radius: 50%;
-      background-color: var(--dots-color);
+      @include dots-indicator.dot();
 
-      opacity: 0.2;
-      transform: scale(0.75);
-
-      animation-name: submit-indicator-dot;
-      animation-iteration-count: infinite;
-      animation-duration: 1.2s;
-
-      &:nth-of-type(1) {
-        margin-left: var(--dots-offset);
-        animation-delay: 50ms;
-      }
-      &:nth-of-type(2) {
-        animation-delay: 200ms;
-      }
-      &:nth-of-type(3) {
-        animation-delay: 400ms;
+      @media (forced-colors: active) {
+        forced-color-adjust: none;
+        background-color: currentcolor;
       }
     }
   }
@@ -73,27 +59,18 @@
 
     --dots-color: currentcolor;
   }
+
+  .dnb-button--icon-only & {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    --dots-offset: 0;
+  }
 }
 
-@keyframes submit-indicator-dot {
-  0% {
-    opacity: 0.2;
-    transform: scale(0.75);
-  }
-  20% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  70% {
-    opacity: 0.2;
-    transform: scale(0.75);
-  }
-  100% {
-    opacity: 0.2;
-    transform: scale(0.75);
-  }
+.dnb-button--icon-only.dnb-button--pending .dnb-button__icon {
+  opacity: 0;
 }

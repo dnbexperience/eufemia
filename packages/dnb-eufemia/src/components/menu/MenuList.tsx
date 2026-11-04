@@ -4,6 +4,10 @@ import { clsx } from 'clsx'
 import { useMenuContext } from './MenuContext'
 import type { MenuListProps } from './types'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import {
+  handleMenuNavigation,
+  isMenuNavigationKey,
+} from '../../shared/helpers/menuKeyboardNavigation'
 
 export default function MenuList(props: MenuListProps) {
   const {
@@ -100,7 +104,7 @@ export default function MenuList(props: MenuListProps) {
     (event: KeyboardEvent<HTMLUListElement>) => {
       onKeyDown?.(event)
 
-      if (!context) {
+      if (!context || !isMenuNavigationKey(event)) {
         return
       }
 
@@ -119,71 +123,11 @@ export default function MenuList(props: MenuListProps) {
         }
       }
 
-      switch (event.key) {
-        case 'ArrowDown': {
-          event.preventDefault()
-          event.stopPropagation()
-          if (currentIdx === -1) {
-            focusByDomOrder(items[0])
-          } else {
-            focusByDomOrder(items[(currentIdx + 1) % items.length])
-          }
-          break
-        }
-
-        case 'ArrowUp': {
-          event.preventDefault()
-          event.stopPropagation()
-          if (currentIdx === -1) {
-            focusByDomOrder(items[items.length - 1])
-          } else {
-            focusByDomOrder(
-              items[(currentIdx - 1 + items.length) % items.length]
-            )
-          }
-          break
-        }
-
-        case 'Home':
-        case 'PageUp': {
-          event.preventDefault()
-          event.stopPropagation()
-          focusByDomOrder(items[0])
-          break
-        }
-
-        case 'End':
-        case 'PageDown': {
-          event.preventDefault()
-          event.stopPropagation()
-          focusByDomOrder(items[items.length - 1])
-          break
-        }
-
-        case 'Escape':
-        case 'Tab': {
-          // Let Popover handle close and focus restore to trigger
-          break
-        }
-
-        default: {
-          // Type-ahead: jump to first item starting with pressed character
-          if (event.key.length === 1 && !event.ctrlKey && !event.metaKey) {
-            const char = event.key.toLowerCase()
-            const startIdx =
-              currentIdx === -1 ? 0 : (currentIdx + 1) % items.length
-
-            for (let i = 0; i < items.length; i++) {
-              const idx = (startIdx + i) % items.length
-              const text = items[idx].textContent?.trim().toLowerCase()
-              if (text?.startsWith(char)) {
-                focusByDomOrder(items[idx])
-                break
-              }
-            }
-          }
-        }
-      }
+      handleMenuNavigation(event, {
+        items,
+        currentIndex: currentIdx,
+        focusItem: focusByDomOrder,
+      })
     },
     [onKeyDown, context, getNavigableItems, focusByDomOrder]
   )

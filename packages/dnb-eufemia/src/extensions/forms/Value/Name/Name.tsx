@@ -1,16 +1,27 @@
+import { clsx } from 'clsx'
 import type { ValueStringProps as StringValueProps } from '../String'
-import StringValue from '../String'
+import ValueBlock from '../../ValueBlock'
+import { useValueProps } from '../../hooks'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ValueNameProps = StringValueProps
 
 function Name(props: ValueNameProps) {
-  const StringValueProps: ValueNameProps = {
-    ...props,
-  }
+  const translations = useTranslation().Name
 
-  return <StringValue {...StringValueProps} />
+  // Apply the default after useValueProps, so an inherited label wins
+  const { value, className, label, ...rest } = useValueProps(props)
+
+  return (
+    <ValueBlock
+      className={clsx('dnb-forms-value-string', className)}
+      label={label ?? translations.label}
+      {...rest}
+    >
+      {value}
+    </ValueBlock>
+  )
 }
 withComponentMarkers(Name, { _supportsSpacingProps: true })
 

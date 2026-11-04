@@ -63,6 +63,7 @@ export const ButtonPending = () => (
     <Flex.Horizontal layoutEngine="css" gap="medium" align="center">
       <Button text="Primary" pending />
       <Button text="Secondary" variant="secondary" pending />
+      <Button icon="refresh" title="Refresh" pending />
       <Button
         text="Tertiary"
         variant="tertiary"

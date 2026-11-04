@@ -13,7 +13,20 @@ import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardPreviousButtonProps = ComponentProps &
-  Omit<ButtonProps, 'pending'>
+  Omit<ButtonProps, 'variant' | 'icon' | 'iconPosition' | 'pending'> & {
+    /**
+     * Defines the kind of button. Defaults to `tertiary`.
+     */
+    variant?: ButtonProps['variant']
+    /**
+     * The icon shown in the button. Defaults to `chevron_left`.
+     */
+    icon?: ButtonProps['icon']
+    /**
+     * Position of the icon inside the button. Defaults to `left`.
+     */
+    iconPosition?: ButtonProps['iconPosition']
+  }
 
 function PreviousButton(props: WizardPreviousButtonProps) {
   const translations = useTranslation().WizardPreviousButton

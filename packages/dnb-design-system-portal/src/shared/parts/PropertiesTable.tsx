@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm-react-markdown'
+import remarkGfm from 'remark-gfm'
 import styled from '@emotion/styled'
 import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { useHandleSortState } from '@dnb/eufemia/src/components/table/useHandleSortState'

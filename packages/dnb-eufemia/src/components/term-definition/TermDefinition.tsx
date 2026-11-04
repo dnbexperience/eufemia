@@ -47,7 +47,7 @@ export type TermDefinitionProps = {
 
 export type TermDefinitionAllProps = TermDefinitionProps &
   SpacingProps &
-  HTMLAttributes<HTMLSpanElement>
+  Omit<HTMLAttributes<HTMLSpanElement>, 'content'>
 
 const termDefinitionDefaultProps: Partial<TermDefinitionAllProps> = {
   placement: 'bottom',

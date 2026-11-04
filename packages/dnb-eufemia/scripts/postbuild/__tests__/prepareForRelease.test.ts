@@ -90,7 +90,9 @@ describe('cleanupPackage', () => {
       string
     >
 
-    expect(dependencies['@inquirer/checkbox']).toBe('5.2.1')
+    expect(dependencies['@inquirer/checkbox']).toBe(
+      JSON.parse(packageString).dependencies['@inquirer/checkbox']
+    )
   })
 })
 

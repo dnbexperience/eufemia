@@ -28,6 +28,7 @@ test('card controls have visible surfaces and centered icons', async ({
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await waitForApp(page)
   const button = page.locator(
     '[data-visual-test="card-media-video"] .dnb-card__media-button'
   )
@@ -170,6 +171,7 @@ test('the video close button dismisses the card and restores focus', async ({
   page,
 }) => {
   await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await waitForApp(page)
   const example = page.locator('[data-visual-test="card-media-video"]')
   const close = example.getByRole('button', { name: 'Dismiss video card' })
   await expect(close).toBeVisible()
@@ -294,9 +296,19 @@ for (const width of [375, 1280]) {
         })
       expect(geometry).toEqual({ stacked, fits: true, noOverflow: true })
     }
-    await checkLayout(width < 600)
+    const cardWidth = await example
+      .locator('.dnb-card')
+      .evaluate((card) => card.getBoundingClientRect().width)
+    const rootFontSize = await page.evaluate(() =>
+      parseFloat(getComputedStyle(document.documentElement).fontSize)
+    )
+    await checkLayout(cardWidth < 36 * rootFontSize)
 
     if (width > 600) {
+      await example.locator('.dnb-card').evaluate((card: HTMLElement) => {
+        card.style.width = '640px'
+      })
+      await checkLayout(false)
       await example.locator('.dnb-card').evaluate((card: HTMLElement) => {
         card.style.width = '320px'
       })
@@ -338,6 +350,7 @@ test('background video starts on request and supports keyboard pause and resume'
     }
   })
   await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await waitForApp(page)
   const example = page.locator('[data-visual-test="card-media-video"]')
   const video = example.locator('video')
   await expect(video).toHaveJSProperty('paused', true)
@@ -374,6 +387,7 @@ test('video failure retains the poster, text, and independent action', async ({
     route.abort()
   )
   await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await waitForApp(page)
   const example = page.locator('[data-visual-test="card-media-video"]')
   await example
     .getByRole('button', { name: 'Play background video' })

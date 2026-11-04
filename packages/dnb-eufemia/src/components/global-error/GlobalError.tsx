@@ -69,7 +69,7 @@ export type GlobalErrorProps = {
 }
 
 export type GlobalErrorAllProps = GlobalErrorProps &
-  Omit<HTMLProps<HTMLElement>, 'ref'> &
+  Omit<HTMLProps<HTMLElement>, 'ref' | 'title'> &
   SpacingProps &
   GetTranslationProps
 

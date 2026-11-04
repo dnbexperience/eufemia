@@ -30,7 +30,13 @@ type MediaSpans = {
 export type FlexSpan = MediaSpans | FlexSpans
 
 export type FlexItemProps = {
+  /**
+   * True to expand in width/height when there is more space available. Defaults to `false`.
+   */
   grow?: boolean
+  /**
+   * True to shrink in width/height when there is not enough space available for all components within the container. Defaults to `false`.
+   */
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   span?: FlexSpan

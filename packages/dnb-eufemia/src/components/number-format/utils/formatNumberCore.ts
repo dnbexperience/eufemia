@@ -29,6 +29,36 @@ function toIntlOptions({
   return rest
 }
 
+const numberFormatCache = new Map<string, Intl.NumberFormat>()
+
+/**
+ * Creating an `Intl.NumberFormat` is slow, so reuse one per locale and options.
+ */
+function getNumberFormat(
+  locale: string,
+  options: Intl.NumberFormatOptions
+): Intl.NumberFormat {
+  const key =
+    locale +
+    // JSON would turn NaN and Infinity into null, which Intl treats differently
+    JSON.stringify(options, (_name, value) =>
+      typeof value === 'number' ? String(value) : value
+    )
+  let formatter = numberFormatCache.get(key)
+
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(locale, options)
+
+    if (numberFormatCache.size >= 100) {
+      numberFormatCache.clear()
+    }
+
+    numberFormatCache.set(key, formatter)
+  }
+
+  return formatter
+}
+
 function getFormatParts({
   number,
   locale = null,
@@ -42,7 +72,7 @@ function getFormatParts({
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
   ) {
-    const inst = new Intl.NumberFormat(
+    const inst = getNumberFormat(
       locale || LOCALE,
       toIntlOptions(options || {})
     )
@@ -108,6 +138,24 @@ function normalizeMinusSign(parts: FormatPartItem[]): FormatPartItem[] {
       ? { ...item, value: NUMBER_MINUS_SIGN }
       : item
   )
+}
+
+// E.g. -0.004 with two decimals is formatted as "−0,00" by Intl
+function removeMinusSignFromZero(
+  parts: FormatPartItem[],
+  signDisplay: InternalNumberFormatOptions['signDisplay']
+): FormatPartItem[] {
+  if (signDisplay && signDisplay !== 'auto') {
+    return parts
+  }
+
+  const digits = parts.filter(
+    ({ type }) => type === 'integer' || type === 'fraction'
+  )
+  const isZero =
+    digits.length > 0 && digits.every(({ value }) => /^0+$/.test(value))
+
+  return isZero ? parts.filter(({ type }) => type !== 'minusSign') : parts
 }
 
 /**
@@ -272,11 +320,14 @@ export const formatNumberCoreParts = (
     delete options.decimals
 
     parts = normalizeMinusSign(
-      getFormatParts({
-        number: formatter ? Number(number) : parseFloat(String(number)),
-        locale,
-        options,
-      })
+      removeMinusSignFromZero(
+        getFormatParts({
+          number: formatter ? Number(number) : parseFloat(String(number)),
+          locale,
+          options,
+        }),
+        options.signDisplay
+      )
     ).map((item) => (formatter ? formatter(item) : item))
     parts = alignParts(parts, options.currencyDisplay)
     number = joinParts(parts)
