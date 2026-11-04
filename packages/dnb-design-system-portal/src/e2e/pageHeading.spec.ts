@@ -60,13 +60,10 @@ test.describe('Page Heading', () => {
       '#tab-bar-content > *',
       (element) => element.tagName
     )
-    expect(firstContentElementTagName).toBe('P')
-
-    const secondElementTagName = await page.$eval(
-      '#tab-bar-content > p ~ *',
-      (element) => element.tagName
-    )
-    expect(secondElementTagName).toBe('SECTION')
+    expect(firstContentElementTagName).toBe('SECTION')
+    await expect(
+      page.locator('#tab-bar-content > section h2').first()
+    ).toBeVisible()
 
     const menu = page.getByRole('navigation', {
       name: 'Platform Content Menu',
