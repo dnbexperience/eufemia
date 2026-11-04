@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
-import { FormStatus, H2, Icon, P } from '@dnb/eufemia/src'
+import { Card, FormStatus, H2, Icon, P } from '@dnb/eufemia/src'
 import { bell_medium } from '@dnb/eufemia/src/icons'
 import { useMediaQuery } from '@dnb/eufemia/src/shared'
 import FamilyHomeIllustration from './FamilyHomeIllustration'
@@ -138,28 +138,42 @@ function MotionStudy({
   children: ReactNode
 }) {
   return (
-    <figure
+    <Card
+      element="figure"
       id={id}
       className="dnb-motion-demo"
       aria-labelledby={`${id}-title`}
+      stack
+      responsive={false}
+      gap="small"
+      backgroundColor="var(--token-color-background-neutral-base)"
     >
+      <Card
+        element="div"
+        className="dnb-motion-demo__stage"
+        innerSpace={0}
+        responsive={false}
+        backgroundColor="var(--token-color-background-neutral)"
+      >
+        <svg viewBox="0 0 360 240" aria-hidden="true" focusable="false">
+          {children}
+        </svg>
+      </Card>
       <figcaption className="dnb-motion-demo__caption">
-        <H2 id={`${id}-title`} size="medium" top={0} bottom="x-small">
+        <H2
+          id={`${id}-title`}
+          size="medium"
+          weight="medium"
+          top={0}
+          bottom={0}
+        >
           {title}
         </H2>
         <P top={0} bottom={0}>
           {description}
         </P>
       </figcaption>
-      <svg
-        className="dnb-motion-demo__stage"
-        viewBox="0 0 360 240"
-        aria-hidden="true"
-        focusable="false"
-      >
-        {children}
-      </svg>
-    </figure>
+    </Card>
   )
 }
 

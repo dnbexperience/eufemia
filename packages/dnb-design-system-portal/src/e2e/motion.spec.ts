@@ -104,7 +104,7 @@ test('all thirteen motion studies autoplay in a loop without a pause control', a
   await expect(studies.locator('button, input, a')).toHaveCount(0)
   await expect(
     studies.locator(
-      '.dnb-motion-demo__stage[aria-hidden="true"][focusable="false"]'
+      '.dnb-motion-demo__stage svg[aria-hidden="true"][focusable="false"]'
     )
   ).toHaveCount(13)
   await expect(studies.getByRole('heading')).toHaveText([
@@ -1117,7 +1117,7 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
 })
 
 for (const width of [320, 640, 641, 768, 1280]) {
-  test(`study captions switch sides at the small-screen breakpoint at ${width}px`, async ({
+  test(`study illustrations stay above their captions at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
@@ -1130,7 +1130,6 @@ for (const width of [320, 640, 641, 768, 1280]) {
           const description = caption.querySelector('p')
           const stage = study.querySelector('.dnb-motion-demo__stage')
           return {
-            captionFirst: study.firstElementChild === caption,
             figureTop: study.getBoundingClientRect().top,
             headingBottom: heading.getBoundingClientRect().bottom,
             descriptionTop: description.getBoundingClientRect().top,
@@ -1144,17 +1143,11 @@ for (const width of [320, 640, 641, 768, 1280]) {
       )
     expect(captions).toHaveLength(13)
     for (const caption of captions) {
-      expect(caption.captionFirst).toBe(true)
       expect(caption.headingBottom).toBeLessThanOrEqual(
         caption.descriptionTop
       )
-      if (width <= 640) {
-        expect(caption.descriptionBottom).toBeLessThan(caption.stageTop)
-        expect(caption.captionBottom).toBeLessThan(caption.stageTop)
-      } else {
-        expect(caption.stageBottom).toBeLessThan(caption.captionTop)
-        expect(caption.stageTop).toBe(caption.figureTop)
-      }
+      expect(caption.stageBottom).toBeLessThan(caption.captionTop)
+      expect(caption.stageTop).toBeGreaterThan(caption.figureTop)
     }
   })
 
