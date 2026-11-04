@@ -32,6 +32,8 @@ const commands = {
   sail: () => import('./sail'),
   party: () => import('./party'),
   christmas: () => import('./christmas'),
+  bergen: () => import('./bergen'),
+  oslo: () => import('./oslo'),
 }
 
 export const homePlayCommands = Object.keys(commands)
