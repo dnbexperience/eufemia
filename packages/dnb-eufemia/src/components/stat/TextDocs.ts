@@ -27,5 +27,6 @@ export const TextProperties: PropertiesTableProps = {
   },
   ...pickNumberFormatProps(NumberFormatNumberProperties, ['srLabel']),
   skeleton: skeletonProperty,
-  '[Space](/uilib/layout/space/properties)': spacingProperties,
+  '[Space](/web/layout-and-typography/layout/space/properties)':
+    spacingProperties,
 }

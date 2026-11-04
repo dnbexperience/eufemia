@@ -1,0 +1,69 @@
+---
+description: >-
+  Follow the steps to set up Eufemia, make changes, run tests, and submit a
+  contribution.
+title: Local development workflow
+order: 3
+navigation:
+  title: Local development workflow
+  order: 2
+  parent: web/contribute
+legacyFragments:
+  get-the-repo-on-your-local-computer: /web/contribute/local-development/#clone-the-repo
+redirect_from:
+  - /contribute/getting-started/clone-repo
+  - /contribute/getting-started/install-dependencies
+  - /contribute/getting-started/making-changes
+  - /contribute/getting-started/make-and-run-tests
+  - /contribute/getting-started/update-change-logs
+  - /contribute/getting-started/commit-changes
+  - /contribute/getting-started
+legacyPrefixes:
+  - contribute/getting-started
+---
+
+import { Hr } from '@dnb/eufemia/src'
+import { basicComponents } from '../../../shared/tags'
+
+import CloneRepo from './local-development/_clone-repo'
+import CommitChanges from './local-development/_commit-changes'
+import InstallDependencies from './local-development/_install-dependencies'
+import MakeAndRunTests from './local-development/_make-and-run-tests'
+import MakingChanges from './local-development/_making-changes'
+import UpdateChangeLogs from './local-development/_update-change-logs'
+
+export const nestedHeadings = {
+  h2: basicComponents.h3,
+  h3: basicComponents.h4,
+  h4: basicComponents.h5,
+  h5: basicComponents.h6,
+}
+
+You are now ready to get started. Here you will find a step-by-step guide to making changes in the Eufemia repo.
+If you are new to the repository, first check out [how to report an issue or suggest a new feature](/web/contribute/first-contribution#how-to-report-an-issue-or-suggest-a-new-feature).
+
+<Hr top="large" />
+
+## Clone the repo
+
+<CloneRepo />
+
+## Install the dependencies
+
+<InstallDependencies />
+
+## Making changes
+
+<MakingChanges components={nestedHeadings} />
+
+## Make and run tests
+
+<MakeAndRunTests components={nestedHeadings} />
+
+## (Optional) Update change logs
+
+<UpdateChangeLogs />
+
+## Commit changes
+
+<CommitChanges components={nestedHeadings} />

@@ -17,12 +17,12 @@ export const HandlerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   autoComplete: {
-    doc: 'Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.',
+    doc: 'Will set `autoComplete="on"` on all nested [Field.String](/web/forms/base-fields/String/)-fields.',
     type: 'boolean',
     status: 'optional',
   },
   decoupleForm: {
-    doc: 'Will not render the form element, so you can place it yourself with `Form.Element`. Read more about [decoupling the form element](/uilib/extensions/forms/Form/Handler/#decoupling-the-form-element).',
+    doc: 'Will not render the form element, so you can place it yourself with `Form.Element`. Read more about [decoupling the form element](/web/forms/Form/Handler/#decoupling-the-form-element).',
     type: 'boolean',
     status: 'optional',
   },
@@ -31,17 +31,16 @@ export const HandlerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
   },
-  '[DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/properties)':
-    {
-      doc: 'Provider properties such as `data`.',
-      type: 'Various',
-      status: 'optional',
-    },
+  '[DataContext.Provider](/web/forms/DataContext/Provider/properties)': {
+    doc: 'Provider properties such as `data`.',
+    type: 'Various',
+    status: 'optional',
+  },
   '[Form Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attributes)':
     {
       doc: 'All supported form element attributes.',
@@ -52,10 +51,9 @@ export const HandlerProperties: PropertiesTableProps = {
 
 export const HandlerEvents: PropertiesTableProps = {
   ...ProviderEvents,
-  '[DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/events)':
-    {
-      doc: 'Events such as `onSubmit`.',
-      type: 'function',
-      status: 'optional',
-    },
+  '[DataContext.Provider](/web/forms/DataContext/Provider/events)': {
+    doc: 'Events such as `onSubmit`.',
+    type: 'function',
+    status: 'optional',
+  },
 }

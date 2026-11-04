@@ -4,7 +4,7 @@ test('prints an empty Input without its placeholder and restores the hint on scr
   page,
 }) => {
   await page.goto(
-    '/web/usage/customisation/styling/document-styles/visual-tests/plain/'
+    '/web/styling-and-themes/css/document-styles/visual-tests/plain/'
   )
   const input = page.getByLabel('Empty reference', { exact: true })
   const placeholder = page
@@ -82,12 +82,12 @@ test('prints the selected ToggleButton with a thicker outline', async ({
 })
 
 test('scopes Portal page margins to its named page', async ({ page }) => {
-  await page.goto('/web/usage/customisation/styling/printable-apps/')
+  await page.goto('/web/styling-and-themes/css/printable-apps/')
   await expect(page.locator('[data-portal-print-layout]')).toBeVisible()
   await page.emulateMedia({ media: 'print' })
   await expect(page.locator('body')).toHaveCSS('page', 'portal-print')
   await page.goto(
-    '/web/usage/customisation/styling/document-styles/visual-tests/plain/'
+    '/web/styling-and-themes/css/document-styles/visual-tests/plain/'
   )
   await expect(
     page.locator('[data-visual-test="style-sample"]')
@@ -157,7 +157,7 @@ test('uses plain paper for fullscreen documentation', async ({ page }) => {
       JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
     )
   })
-  await page.goto('/web/intro/03-accessibility/')
+  await page.goto('/web/get-started/guided-introduction/03-accessibility/')
   await expect(page.locator('[data-portal-print-layout]')).toHaveClass(
     /\bdnb-print\b/
   )
@@ -176,9 +176,7 @@ test('preserves the document preview print layout', async ({ page }) => {
       JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
     )
   })
-  await page.goto(
-    '/web/usage/customisation/styling/document-styles/preview/'
-  )
+  await page.goto('/web/styling-and-themes/css/document-styles/preview/')
   await expect(page.locator('#letter')).toBeVisible()
   await expect(page.locator('[data-portal-print-layout]')).toHaveCount(0)
   const paragraph = page.locator('#letter .dnb-p').first()
@@ -226,7 +224,7 @@ test('preserves printed selection indicators without background graphics', async
   page,
 }) => {
   await page.goto(
-    '/web/usage/customisation/styling/document-styles/visual-tests/plain/'
+    '/web/styling-and-themes/css/document-styles/visual-tests/plain/'
   )
   await expect(
     page.getByLabel('Selected option', { exact: true })
@@ -260,7 +258,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         },
         { scheme: colorScheme, brand }
       )
-      await page.goto('/web/usage/customisation/styling/document-styles/')
+      await page.goto('/web/styling-and-themes/css/document-styles/')
       await expect(
         page.locator('#dnb-app-content h1').first()
       ).toBeVisible()
@@ -285,7 +283,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
       ).toBeVisible()
       await expect(
         page.locator('[data-portal-print-footer]')
-      ).toContainText('/web/usage/customisation/styling/document-styles/')
+      ).toContainText('/web/styling-and-themes/css/document-styles/')
       const printStyle = await page
         .locator('#dnb-app-content')
         .evaluate((element) => {

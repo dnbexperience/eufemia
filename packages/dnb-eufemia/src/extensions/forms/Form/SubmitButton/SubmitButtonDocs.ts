@@ -11,12 +11,12 @@ export const SubmitButtonProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Button](/uilib/components/button/properties)': {
+  '[Button](/web/components/button/properties)': {
     doc: 'All button properties. A given `onClick` runs before the form is submitted, instead of replacing the submit.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

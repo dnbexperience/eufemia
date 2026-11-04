@@ -208,7 +208,7 @@ describe('createMarkdownCopies', () => {
     expect(output).toContain('<!-- eufemia-properties-usage:end -->')
     expect(output).toContain('need a use case approved by DNB UX')
     expect(output).toContain(
-      '/web/usage/customisation/component-properties/#intended-use-and-customization'
+      '/web/styling-and-themes/configuration/component-properties/#intended-use-and-customization'
     )
     expect(
       output.indexOf('need a use case approved by DNB UX')

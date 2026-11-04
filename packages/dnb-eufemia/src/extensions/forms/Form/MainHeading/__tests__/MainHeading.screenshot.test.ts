@@ -6,7 +6,7 @@ import {
 
 describe('Form.MainHeading', () => {
   setupPageScreenshot({
-    url: '/web/extensions/forms/Form/MainHeading/demos/',
+    url: '/web/forms/Form/MainHeading/demos/',
   })
 
   it('have to match above stack', async () => {

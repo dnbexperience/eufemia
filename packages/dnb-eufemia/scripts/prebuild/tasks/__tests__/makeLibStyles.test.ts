@@ -102,12 +102,12 @@ describe('makeLibStyles animated icon styles', () => {
 
     expect(
       files.some((file) =>
-        file.includes('/icons/animated/style/dnb-bell.css')
+        file.includes('/collections/icons/animated/style/dnb-bell.css')
       )
     ).toBe(true)
     expect(
       files.some((file) =>
-        file.includes('/icons/animated/style/dnb-bell.min.css')
+        file.includes('/collections/icons/animated/style/dnb-bell.min.css')
       )
     ).toBe(true)
   })

@@ -31,9 +31,10 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[FlexVertical](/uilib/layout/flex/container/properties)': {
-    doc: 'All Flex.Vertical properties.',
-    type: 'Various',
-    status: 'optional',
-  },
+  '[FlexVertical](/web/layout-and-typography/layout/flex/container/properties)':
+    {
+      doc: 'All Flex.Vertical properties.',
+      type: 'Various',
+      status: 'optional',
+    },
 }

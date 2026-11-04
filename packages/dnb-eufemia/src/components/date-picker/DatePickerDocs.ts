@@ -34,12 +34,12 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   minDate: {
-    doc: 'To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.',
+    doc: 'To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/web/forms/feature-fields/Date/) for input validation. Defaults to `null`.',
     type: dateType,
     status: 'optional',
   },
   maxDate: {
-    doc: 'To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.',
+    doc: 'To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/web/forms/feature-fields/Date/) for input validation. Defaults to `null`.',
     type: dateType,
     status: 'optional',
   },
@@ -280,7 +280,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'deprecated',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -304,7 +304,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -348,7 +348,7 @@ export const DatePickerEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onDaysRender: {
-    doc: 'Will be called before the days of each calendar view are rendered, and again on interactions such as hover and selection. Receives the `days` array and the calendar number (`0` for the first calendar, `1` for the second in range mode). Change the day objects, or return a new array, to customize the days. See [Manipulate the days in the calendar view](/uilib/components/date-picker/#manipulate-the-days-in-the-calendar-view).',
+    doc: 'Will be called before the days of each calendar view are rendered, and again on interactions such as hover and selection. Receives the `days` array and the calendar number (`0` for the first calendar, `1` for the second in range mode). Change the day objects, or return a new array, to customize the days. See [Manipulate the days in the calendar view](/web/components/date-picker/#manipulate-the-days-in-the-calendar-view).',
     type: 'function',
     status: 'optional',
   },

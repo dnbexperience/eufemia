@@ -5,7 +5,7 @@ import sampleMotionStyles from './shared/sampleMotionStyles'
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/quickguide-designer/motion/')
+  await page.goto('/web/development-guidelines/motion/')
   await waitForApp(page)
 })
 
@@ -53,14 +53,14 @@ test('principles and motion link both ways with implementation guidance below th
   ).toBeVisible()
 
   await content
-    .getByRole('link', { name: 'Animation Principles', exact: true })
+    .getByRole('link', { name: 'Motion principles', exact: true })
     .click()
   await expect(page).toHaveURL(
-    /\/quickguide-designer\/animation-principles\/?$/
+    /\/design-foundations\/motion-principles\/?$/
   )
   await expect(
     content.getByRole('heading', {
-      name: 'Animation Principles',
+      name: 'Motion principles',
       level: 1,
     })
   ).toBeVisible()
@@ -69,16 +69,21 @@ test('principles and motion link both ways with implementation guidance below th
     content.getByRole('heading', { name: 'Helpers to use in code' })
   ).toHaveCount(0)
 
-  await content.getByRole('link', { name: 'Motion', exact: true }).click()
-  await expect(page).toHaveURL(/\/quickguide-designer\/motion\/?$/)
+  await content
+    .getByRole('link', {
+      name: 'Web motion examples and implementation',
+      exact: true,
+    })
+    .click()
+  await expect(page).toHaveURL(/\/web\/development-guidelines\/motion\/?$/)
   await expect(content.locator('.dnb-motion-demo')).toHaveCount(13)
 })
 
 test('animation principles can be opened directly', async ({ page }) => {
-  await page.goto('/quickguide-designer/animation-principles/')
+  await page.goto('/design-foundations/motion-principles/')
   await waitForApp(page)
   await expect(
-    page.getByRole('heading', { name: 'Animation Principles', level: 1 })
+    page.getByRole('heading', { name: 'Motion principles', level: 1 })
   ).toBeVisible()
 })
 

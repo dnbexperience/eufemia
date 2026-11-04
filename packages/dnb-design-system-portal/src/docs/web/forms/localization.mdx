@@ -1,0 +1,240 @@
+---
+title: Form localization
+description: Task guidance for form localization.
+navigation:
+  parent: web/forms
+  title: Form localization
+  order: 1.6
+---
+
+import { Ul, Li, Anchor } from '@dnb/eufemia/src'
+import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLocale'
+
+## Localization and translation
+
+You can set the locale for your form by using the `locale` property on the [Form.Handler](/web/forms/Form/Handler/) component. This will ensure that the correct language is used for all the fields in your form.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler locale="en-GB">
+      <Field.PhoneNumber />
+    </Form.Handler>
+  )
+}
+```
+
+### Translations provided by Eufemia
+
+Eufemia provides forms translations for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+**Note on field labels:** Most fields already have a default label, so check the field translations for an existing label entry. Only set `label` when you really need to override the default.
+
+### Add additional translations
+
+For `sv-SE` and `da-DK`, remember to import the locale files and merge them with `mergeTranslations` before passing them to `Form.Handler`.
+
+```js
+import { mergeTranslations } from '@dnb/eufemia/shared'
+import { Form } from '@dnb/eufemia/extensions/forms'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/da-DK'
+
+const translations = mergeTranslations(
+  svSE_forms,
+  svSE_forms_countries, // if needed
+  daDK_forms, // if needed
+  daDK_forms_countries // if needed
+)
+
+render(
+  <Form.Handler translations={translations} locale="sv-SE">
+    Your form
+  </Form.Handler>
+)
+```
+
+Instead of providing the forms translations per form, you can also provide them globally using the `Provider` component.
+
+If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` to merge the forms translations with the shared translations like this:
+
+```js
+import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
+
+const translations = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_countries // if needed
+)
+
+render(
+  <Provider translations={translations} locale="sv-SE">
+    Your app, including Eufemia Forms
+  </Provider>
+)
+```
+
+### Customize translations
+
+You can customize the internal translations in a flat structure (dot-notation):
+
+```tsx
+{
+  'nb-NO': { 'PhoneNumber.numberLabel': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.numberLabel': 'Custom' },
+}
+```
+
+or an object based structure:
+
+```tsx
+{
+  'nb-NO': { PhoneNumber: { numberLabel: 'Egendefinert' } },
+  'en-GB': { PhoneNumber: { numberLabel: 'Custom' } },
+}
+```
+
+### Load translations dynamically
+
+When you have many locales or large translation files, you can load them on demand using the `translationsLoader` prop. It accepts an async function that receives the current locale and returns a translations object. The loader is called on mount and whenever the locale changes.
+
+Components render with default translations immediately. When the loader resolves, translations are merged in and components re-render with the updated strings.
+
+The loader function can use any source — dynamic `import()` of `.ts`, `.js`, or `.json` files, `fetch()` calls, or any other async operation. As long as the function returns a translations object, it works.
+
+#### Using `Form.Handler`
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const translationsLoader = async (locale) => {
+  switch (locale) {
+    case 'en-GB':
+      return (await import('../extensions/forms/locales/en-GB')).default
+    case 'sv-SE':
+      return (await import('../extensions/forms/locales/sv-SE')).default
+    default:
+      return (await import('../extensions/forms/locales/nb-NO')).default
+  }
+}
+
+render(
+  <Form.Handler translationsLoader={translationsLoader}>
+    <Field.PhoneNumber />
+  </Form.Handler>
+)
+```
+
+Each imported file should export a translations object with the locale key, matching the same structure as the `translations` prop:
+
+```ts
+// locales/nb-NO.ts
+export default {
+  'nb-NO': {
+    PhoneNumber: {
+      numberLabel: 'Dynamisk etikett',
+    },
+  },
+}
+```
+
+#### Using the shared `Provider`
+
+You can also load translations at the app level using the shared [Provider](/web/styling-and-themes/configuration/provider/). The shared [Localization](/web/styling-and-themes/configuration/localization/#load-translations-dynamically) guide has the provider example and additional loading patterns.
+
+#### Combining with static translations
+
+`Form.Handler` supports using `translationsLoader` alongside the `translations` prop. Static translations are available immediately, and loaded translations are merged on top. See the shared [Localization](/web/styling-and-themes/configuration/localization/#load-translations-dynamically) guide for the equivalent shared `Provider` example and additional loading patterns.
+
+### How to customize translations in a form
+
+You can customize the translations in a form by using the `translations` property on the [Form.Handler](/web/forms/Form/Handler/).
+
+Alternatively, you can use the global Eufemia [Provider](/web/styling-and-themes/configuration/provider/).
+
+You can find all available strings and keys in the properties tab of each field or value component. For example, check out the [PhoneNumber field properties](/web/forms/feature-fields/PhoneNumber/properties/#translations).
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const myTranslations = {
+  'nb-NO': { 'PhoneNumber.numberLabel': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.numberLabel': 'Custom' },
+}
+
+render(
+  <Form.Handler translations={myTranslations}>
+    <Field.PhoneNumber />
+  </Form.Handler>
+)
+```
+
+#### Consume the translations
+
+You can consume both the internal and your own translations with the [Form.useTranslation](/web/forms/Form/useTranslation/) hook.
+
+The dedicated [Form.useTranslation](/web/forms/Form/useTranslation/) page shows examples for typed custom translations, `formatMessage`, `renderMessage`, `<Translation />`, and missing-key fallbacks.
+
+Here is also a [demo](/web/forms/Form/Handler/demos/#locale-and-translations) of how to use translations in a form.
+
+When creating [your own field](/web/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
+
+### ICU Message Format
+
+Forms translations support [ICU MessageFormat](/web/styling-and-themes/configuration/localization/#icu-message-format) for pluralization, gender selection, and other locale-aware formatting. Enable it by passing the `icu` message formatter to `Form.Handler`:
+
+```tsx
+import { icu } from '@dnb/eufemia/shared'
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const translations = {
+  'en-GB': {
+    MyForm: {
+      summary:
+        'You have {count, plural, =0 {no items} one {# item} other {# items}} in your cart.',
+    },
+  },
+  'nb-NO': {
+    MyForm: {
+      summary:
+        'Du har {count, plural, =0 {ingen varer} one {# vare} other {# varer}} i handlekurven.',
+    },
+  },
+}
+
+function MyForm() {
+  const { formatMessage } = Form.useTranslation()
+  return <>{formatMessage('MyForm.summary', { count: 3 })}</>
+}
+
+render(
+  <Form.Handler
+    messageFormatter={icu}
+    translations={translations}
+    locale="en-GB"
+  >
+    <MyForm />
+  </Form.Handler>
+)
+```
+
+See the [ICU Message Format docs](/web/styling-and-themes/configuration/localization/#icu-message-format) for the full list of supported formatters and syntax.

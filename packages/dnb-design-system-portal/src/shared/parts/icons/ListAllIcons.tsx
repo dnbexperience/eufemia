@@ -121,7 +121,7 @@ export default function ListAllIcons(props: Props) {
   const [showAnimated, setShowAnimated] = useState(false)
 
   const iconsToRender = useMemo(() => {
-    let icons = {}
+    let icons: typeof PrimaryIcons | typeof SecondaryIcons
     switch (variant) {
       case 'primary':
         icons = PrimaryIcons

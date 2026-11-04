@@ -5,7 +5,7 @@ if (process.env.PLAYWRIGHT_BASE_URL) {
   test.use({ baseURL: process.env.PLAYWRIGHT_BASE_URL })
 }
 
-test.describe("What's new", () => {
+test.describe('Releases and upgrades', () => {
   test('links to the release overview from the sidebar menu', async ({
     page,
   }) => {
@@ -15,14 +15,14 @@ test.describe("What's new", () => {
       name: 'Platform Content Menu',
     })
     await menu
-      .getByRole('button', { name: 'Get started', exact: true })
+      .getByRole('link', { name: 'Releases and upgrades', exact: true })
       .click()
-    await menu
-      .getByRole('link', { name: "What's new", exact: true })
-      .click()
-    await expect(page).toHaveURL(/\/web\/whats-new\/?$/)
+    await expect(page).toHaveURL(/\/web\/releases-and-upgrades\/?$/)
     await expect(
-      page.getByRole('heading', { name: "What's new", exact: true })
+      page.getByRole('heading', {
+        name: 'Releases and upgrades',
+        exact: true,
+      })
     ).toBeVisible()
   })
 
@@ -30,10 +30,13 @@ test.describe("What's new", () => {
     page,
   }) => {
     test.setTimeout(60_000)
-    await page.goto('/web/whats-new')
+    await page.goto('/web/releases-and-upgrades')
     await waitForApp(page)
     await expect(
-      page.getByRole('heading', { name: "What's new", exact: true })
+      page.getByRole('heading', {
+        name: 'Releases and upgrades',
+        exact: true,
+      })
     ).toBeVisible()
     for (const name of ['Releases', 'Change log', 'Upgrade']) {
       await expect(
@@ -49,7 +52,7 @@ test.describe("What's new", () => {
     await page
       .getByRole('tab', { name: 'Change log', exact: true })
       .click()
-    await expect(page).toHaveURL('/web/whats-new/change-log')
+    await expect(page).toHaveURL('/web/releases-and-upgrades/change-log')
     await expect(
       page.getByRole('tab', { name: 'Change log', exact: true })
     ).toHaveAttribute('aria-selected', 'true')
@@ -59,9 +62,11 @@ test.describe("What's new", () => {
         .locator('main')
         .getByRole('link', { name: 'details about releases' })
         .first()
-    ).toHaveAttribute('href', '/web/whats-new/upgrade', { timeout: 15000 })
+    ).toHaveAttribute('href', '/web/releases-and-upgrades/upgrade', {
+      timeout: 15000,
+    })
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
-    await expect(page).toHaveURL('/web/whats-new/upgrade')
+    await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade')
     await expect(
       page.locator('main a[href*="form-set-row-deprecation-v11"]')
     ).toHaveCount(0)
@@ -73,7 +78,7 @@ test.describe("What's new", () => {
       .getByRole('link', { name: 'v11', exact: true })
       .click()
     await expect(page).toHaveURL(
-      '/web/about-the-lib/releases/eufemia/v11-info'
+      '/web/releases-and-upgrades/versions/eufemia/v11-info'
     )
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'v11'
@@ -85,7 +90,7 @@ test.describe("What's new", () => {
       .locator('.dnb-breadcrumb')
       .getByRole('link', { name: 'Upgrade', exact: true })
       .click()
-    await expect(page).toHaveURL('/web/whats-new/upgrade')
+    await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade')
     const sidebar = page.locator('#portal-sidebar-menu')
     await expect(
       sidebar.locator('a[href*="/releases/eufemia/"]')
@@ -99,21 +104,24 @@ test.describe("What's new", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 800 })
-    await page.goto('/web/whats-new')
+    await page.goto('/web/releases-and-upgrades')
     await waitForApp(page)
     const sidebar = page.locator('#portal-sidebar-menu')
     const currentPage = sidebar.getByRole('link', {
-      name: "What's new",
+      name: 'Releases and upgrades',
       exact: true,
     })
     const otherPage = sidebar.getByRole('link', {
-      name: /Status icon(?: pattern)?$/,
+      name: /Status indicators$/,
       exact: true,
     })
     await expect(currentPage).toBeVisible()
     await expect(currentPage).toHaveAttribute('aria-current', 'page')
     await sidebar
-      .getByRole('button', { name: 'Patterns', exact: true })
+      .getByRole('button', {
+        name: 'Patterns and extensions',
+        exact: true,
+      })
       .click()
     await expect(otherPage).toBeVisible()
 
@@ -122,16 +130,19 @@ test.describe("What's new", () => {
     await page.locator('#toggle-sidebar-menu').click()
     const menu = page.getByRole('dialog', { name: 'Menu', exact: true })
     await expect(
-      menu.getByRole('link', { name: "What's new", exact: true })
+      menu.getByRole('link', {
+        name: 'Releases and upgrades',
+        exact: true,
+      })
     ).toHaveAttribute('aria-current', 'page')
     await expect(
-      menu.getByRole('link', { name: /Status icon(?: pattern)?$/ })
+      menu.getByRole('link', { name: /Status indicators$/ })
     ).toBeVisible()
   })
 
   for (const path of [
-    '/web/whats-new/change-log',
-    '/web/whats-new/upgrade',
+    '/web/releases-and-upgrades/change-log',
+    '/web/releases-and-upgrades/upgrade',
   ]) {
     const tab = path.endsWith('/upgrade') ? 'Upgrade' : 'Change log'
     test(
@@ -140,7 +151,10 @@ test.describe("What's new", () => {
         await page.goto(path)
         await waitForApp(page)
         await expect(
-          page.getByRole('heading', { name: "What's new", exact: true })
+          page.getByRole('heading', {
+            name: 'Releases and upgrades',
+            exact: true,
+          })
         ).toBeVisible()
         await expect(
           page.getByRole('tab', { name: tab, exact: true })
@@ -163,25 +177,30 @@ test.describe("What's new", () => {
     test('redirects ' + path + ' to the web section', async ({ page }) => {
       await page.goto(path)
       const target =
-        path === '/whats-new/info' ? '/web/whats-new' : '/web' + path
+        path === '/whats-new/info'
+          ? '/web/releases-and-upgrades'
+          : '/web/releases-and-upgrades' + path.slice('/whats-new'.length)
       await expect(page).toHaveURL(new RegExp(target + '/?$'))
       await waitForApp(page)
       await expect(
-        page.getByRole('heading', { name: "What's new", exact: true })
+        page.getByRole('heading', {
+          name: 'Releases and upgrades',
+          exact: true,
+        })
       ).toBeVisible()
     })
   }
 
   test('keeps the previous page URLs available', async ({ page }) => {
     const headings = {
-      '/uilib/changelog': "What's new",
+      '/web/releases-and-upgrades/change-log-history': "What's new",
       '/design-system': 'Change log of Eufemia',
-      '/uilib/about-the-lib/releases': 'Releases and versions',
+      '/web/releases-and-upgrades/versions': 'Releases and versions',
     }
     for (const path of [
-      '/web/changelog',
+      '/web/releases-and-upgrades/change-log-history',
       '/design-system',
-      '/web/about-the-lib/releases',
+      '/web/releases-and-upgrades/versions',
     ]) {
       await page.goto(path)
       await waitForApp(page)
@@ -198,7 +217,7 @@ test.describe("What's new", () => {
   test('keeps version guides directly accessible without sidebar entries', async ({
     page,
   }) => {
-    await page.goto('/web/about-the-lib/releases/eufemia/v11-info')
+    await page.goto('/web/releases-and-upgrades/versions/eufemia/v11-info')
     await waitForApp(page)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'v11'
@@ -233,7 +252,7 @@ test.describe("What's new", () => {
       '/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11#deprecation'
     )
     await expect(page).toHaveURL(
-      /\/web\/about-the-lib\/releases\/eufemia\/v11-info\/?(#deprecation)?$/
+      /\/web\/releases-and-upgrades\/versions\/eufemia\/v11-info\/?(#deprecation)?$/
     )
     await waitForApp(page)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(

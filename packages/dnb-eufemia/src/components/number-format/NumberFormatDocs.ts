@@ -82,7 +82,7 @@ const presentationProps: PropertiesTableProps = {
     status: 'optional',
   },
   monospace: {
-    doc: 'Sets the font to [DNB Mono Regular](/quickguide-designer/fonts/#dnbmono-regular).',
+    doc: 'Sets the font to [DNB Mono Regular](/web/layout-and-typography/typography/design-guidance/#dnbmono-regular).',
     type: 'boolean',
     status: 'optional',
   },
@@ -109,7 +109,7 @@ const presentationProps: PropertiesTableProps = {
 }
 
 const spacingProps: PropertiesTableProps = {
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

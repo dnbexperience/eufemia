@@ -61,12 +61,12 @@ export const SegmentedFieldProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
   },
-  '[Input](/uilib/components/input/properties)': {
+  '[Input](/web/components/input/properties)': {
     doc: 'Most `Input` properties are supported, except controlled value/event props that are handled by `SegmentedField` itself.',
     type: 'Various',
     status: 'optional',

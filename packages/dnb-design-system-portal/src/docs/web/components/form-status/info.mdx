@@ -2,9 +2,11 @@
 showTabs: true
 redirect_from:
   - /uilib/components/form-status/info
+legacyFragments:
+  formstatus-messageboxes: /web/components/form-status/#form-status
 ---
 
-import FormStatusIcons from 'Docs/icons/form-status.mdx'
+import FormStatusIcons from 'Docs/web/components/icon/_form-status.mdx'
 
 ## Import
 
@@ -23,7 +25,7 @@ The `FormStatus` component cooperates with the [GlobalStatus](/web/components/gl
 
 ## Usage
 
-Start with the documented patterns and the default icon for the selected `state`. Prefer plain text for the message. Inline links can help the user resolve the status, and [FieldBlock](/web/extensions/forms/create-component/FieldBlock) can combine messages from several fields into one status.
+Start with the documented patterns and the default icon for the selected `state`. Prefer plain text for the message. Inline links can help the user resolve the status, and [FieldBlock](/web/forms/create-component/FieldBlock) can combine messages from several fields into one status.
 
 The content and icon properties also provide flexibility for specific integrations. Custom content, actions, or icon changes beyond the documented patterns need a use case approved by DNB UX. The same guidance applies when FormStatus is configured through another component's `statusProps`.
 
@@ -41,7 +43,7 @@ The `FormStatus` component is designed to be accessible. It is important to prov
 
 When you use `FormStatus` directly, place it before the related form element in the DOM and link it with `aria-describedby`. This lets screen readers find and announce the status message.
 
-Eufemia components set this link automatically when the `status` property is used. Fields that use [useFieldProps](/web/extensions/forms/create-component/useFieldProps/) do the same. Their [FieldBlock](/web/extensions/forms/create-component/FieldBlock) renders status messages after the field contents in the DOM so grouped messages can include nested fields in server-rendered HTML. `FieldBlock` also supports showing error, warning, and info messages at the same time.
+Eufemia components set this link automatically when the `status` property is used. Fields that use [useFieldProps](/web/forms/create-component/useFieldProps/) do the same. Their [FieldBlock](/web/forms/create-component/FieldBlock) renders status messages after the field contents in the DOM so grouped messages can include nested fields in server-rendered HTML. `FieldBlock` also supports showing error, warning, and info messages at the same time.
 
 ### Width alignment
 

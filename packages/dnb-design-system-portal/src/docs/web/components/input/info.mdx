@@ -5,8 +5,8 @@ redirect_from:
 ---
 
 import * as Examples from './Examples'
-import { MultipleOneRow } from '../../extensions/forms/base-fields/String/Examples'
-import WhenToUseForms from 'Docs/web/extensions/forms/when-to-use-forms.mdx'
+import { MultipleOneRow } from '../../forms/base-fields/String/Examples'
+import WhenToUseForms from 'Docs/web/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -22,7 +22,7 @@ The Input component is an umbrella component for all inputs that share the same 
 
 <WhenToUseForms />
 
-The Eufemia Forms equivalent of `Input` is [Field.String](/web/extensions/forms/base-fields/String/) for text values, while [Field.Number](/web/extensions/forms/base-fields/Number/) and [Field.Currency](/web/extensions/forms/feature-fields/Currency/) handle numbers and amounts.
+The Eufemia Forms equivalent of `Input` is [Field.String](/web/forms/base-fields/String/) for text values, while [Field.Number](/web/forms/base-fields/Number/) and [Field.Currency](/web/forms/feature-fields/Currency/) handle numbers and amounts.
 
 ## Relevant links
 
@@ -32,13 +32,13 @@ The Eufemia Forms equivalent of `Input` is [Field.String](/web/extensions/forms/
 
 ### Formatted input fields (masked values)
 
-You may consider using [InputMasked](/web/components/input-masked/) for formatted strings and [Eufemia Forms](/web/extensions/forms/) fields like [Field.Number](/web/extensions/forms/base-fields/Number/) and [Field.Currency](/web/extensions/forms/feature-fields/Currency/) for formatted numbers:
+You may consider using [InputMasked](/web/components/input-masked/) for formatted strings and [Eufemia Forms](/web/forms/) fields like [Field.Number](/web/forms/base-fields/Number/) and [Field.Currency](/web/forms/feature-fields/Currency/) for formatted numbers:
 
 <Examples.CurrencyField />
 
 ### Step controls (increment and decrement)
 
-For a number input with stepper buttons to increment and decrement the value (plus/minus, number spinner), use [Field.Number](/web/extensions/forms/base-fields/Number/#step-controls) (or [Field.Currency](/web/extensions/forms/feature-fields/Currency/)) with the `showStepControls` property.
+For a number input with stepper buttons to increment and decrement the value (plus/minus, number spinner), use [Field.Number](/web/forms/base-fields/Number/#step-controls) (or [Field.Currency](/web/forms/feature-fields/Currency/)) with the `showStepControls` property.
 
 ### Browser autofill styling
 

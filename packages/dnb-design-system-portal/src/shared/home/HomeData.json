@@ -5,32 +5,35 @@
     {
       "title": "Design",
       "description": "Figma UI kits and more",
-      "url": "/quickguide-designer"
+      "url": "/web/get-started/design-for-web"
     },
     {
       "title": "Develop",
       "description": "Get started with installation guides",
-      "url": "/web/getting-started/"
+      "url": "/web/get-started/quick-start/"
     }
   ],
   "resources": [
-    { "title": "Images", "url": "/web/elements/image" },
+    {
+      "title": "Images",
+      "url": "/web/layout-and-typography/elements/image"
+    },
     {
       "title": "Animations",
       "url": "/web/components/height-animation"
     },
-    { "title": "Icons", "url": "/icons" },
+    { "title": "Icons", "url": "/collections/icons" },
     {
       "title": "Theming",
-      "url": "/web/usage/customisation/theming"
+      "url": "/web/styling-and-themes/brands-and-dark-mode"
     },
-    { "title": "Grid", "url": "/web/layout/grid" },
+    { "title": "Grid", "url": "/web/layout-and-typography/layout/grid" },
     {
       "title": "Tokens",
-      "url": "/web/usage/customisation/theming/design-tokens"
+      "url": "/web/styling-and-themes/design-tokens"
     },
-    { "title": "Brand", "url": "/brand" },
-    { "title": "What's new", "url": "/whats-new" },
+    { "title": "Brand", "url": "/design-foundations/brand-guidelines" },
+    { "title": "What's new", "url": "/web/releases-and-upgrades" },
     { "title": "Eufemia change log", "url": "/design-system" }
   ]
 }

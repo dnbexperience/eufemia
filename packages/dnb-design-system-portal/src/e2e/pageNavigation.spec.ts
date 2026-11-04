@@ -181,7 +181,7 @@ test.describe('Page Navigation', () => {
         .getByRole('navigation', { name: 'Get started', exact: true })
         .getByRole('link', { name: /^Design/ })
         .click()
-      await expect(page).toHaveURL('/quickguide-designer')
+      await expect(page).toHaveURL('/web/get-started/design-for-web')
       await expectCurrentDocument(page)
     })
 
@@ -190,7 +190,7 @@ test.describe('Page Navigation', () => {
     }) => {
       await markCurrentDocument(page)
       await page.getByRole('link', { name: /Develop/ }).click()
-      await expect(page).toHaveURL('/web/getting-started/')
+      await expect(page).toHaveURL('/web/get-started/quick-start/')
       await expect(
         page.getByRole('heading', { name: 'Quick start', level: 1 })
       ).toBeVisible()
@@ -241,7 +241,7 @@ test.describe('Page Navigation', () => {
       ).toBeVisible()
       await expect(
         sidebar.getByRole('button', {
-          name: 'Design language',
+          name: 'Design foundations',
           exact: true,
         })
       ).toBeVisible()
@@ -258,7 +258,7 @@ test.describe('Page Navigation', () => {
 
       await expect(editLink).toHaveAttribute(
         'href',
-        '/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
+        '/web/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
       )
     })
 
@@ -272,10 +272,10 @@ test.describe('Page Navigation', () => {
         .getByRole('navigation', { name: 'Get started', exact: true })
         .getByRole('link', { name: /^Design/ })
         .click()
-      await expect(page).toHaveURL('/quickguide-designer')
+      await expect(page).toHaveURL('/web/get-started/design-for-web')
       await waitForApp(page)
       await expect(
-        page.getByRole('heading', { name: 'Start designing' })
+        page.getByRole('heading', { name: 'Set up Eufemia Web in Figma' })
       ).toBeVisible()
     })
 

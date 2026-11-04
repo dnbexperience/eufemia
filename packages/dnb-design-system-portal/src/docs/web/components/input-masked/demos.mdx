@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/input-masked/demos
+legacyFragments:
+  inputmasked: /web/components/input-masked/demos/#masked-input
 ---
 
 import {
@@ -20,7 +22,7 @@ import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ### Locale based numbers
 
-When you use `asNumber` or `asPercent` (and `asCurrency` see below) it will create a mask for you and inherit the locale from the [Eufemia Provider](/web/usage/customisation/provider), if the locale property is not given.
+When you use `asNumber` or `asPercent` (and `asCurrency` see below) it will create a mask for you and inherit the locale from the [Eufemia Provider](/web/styling-and-themes/configuration/provider), if the locale property is not given.
 
 You can still define extra mask parameters with `numberMask` or `maskOptions`, as the second input example shows (e.g. `decimalLimit`).
 
@@ -28,7 +30,7 @@ You can still define extra mask parameters with `numberMask` or `maskOptions`, a
 
 ### Locale based `asCurrency`
 
-When you use `asCurrency` it will create a mask for you and inherit the locale from the [Eufemia Provider](/web/usage/customisation/provider), if the locale property is not given.
+When you use `asCurrency` it will create a mask for you and inherit the locale from the [Eufemia Provider](/web/styling-and-themes/configuration/provider), if the locale property is not given.
 
 <InputMaskedExampleCurrencyLocale />
 

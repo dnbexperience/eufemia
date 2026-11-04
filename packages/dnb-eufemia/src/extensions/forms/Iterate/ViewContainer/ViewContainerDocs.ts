@@ -21,9 +21,10 @@ export const ViewContainerProperties: PropertiesTableProps = {
     type: ['"minimumOneItem"', '"custom"'],
     status: 'optional',
   },
-  '[FlexVertical](/uilib/layout/flex/container/properties)': {
-    doc: 'All Flex.Vertical properties.',
-    type: 'Various',
-    status: 'optional',
-  },
+  '[FlexVertical](/web/layout-and-typography/layout/flex/container/properties)':
+    {
+      doc: 'All Flex.Vertical properties.',
+      type: 'Various',
+      status: 'optional',
+    },
 }

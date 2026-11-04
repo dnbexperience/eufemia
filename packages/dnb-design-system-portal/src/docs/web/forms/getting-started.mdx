@@ -1,0 +1,147 @@
+---
+title: Build your first form
+description: >-
+  Forms is reusable components for data input, data display and surrounding
+  layout for simplified user interface creation in React, built on top of base
+  Eufemia components.
+order: 2
+breadcrumb:
+  - text: Forms
+    href: /web/forms/
+  - text: Getting started
+    href: /web/forms/getting-started/
+navigation:
+  title: Build your first form
+  order: 1
+  parent: web/forms
+legacyFragments:
+  quick-start: /web/forms/getting-started/#build-your-first-form
+  state-management: /web/forms/data-and-state/#state-management
+  what-is-a-json-pointer: /web/forms/data-and-state/#what-is-a-json-pointer
+  data-handling: /web/forms/data-and-state/#data-handling
+  filter-data: /web/forms/data-and-state/#filter-data
+  concepts-of-filtering-data: /web/forms/data-and-state/#concepts-of-filtering-data
+  how-do-i-use-it: /web/forms/data-and-state/#how-do-i-use-it
+  filter-data-during-submit: /web/forms/data-and-state/#filter-data-during-submit
+  the-reducetovisiblefields-method: /web/forms/data-and-state/#the-reducetovisiblefields-method
+  the-filterdata-method: /web/forms/data-and-state/#the-filterdata-method
+  transforming-data: /web/forms/data-and-state/#transforming-data
+  complex-objects-in-the-data-context: /web/forms/data-and-state/#complex-objects-in-the-data-context
+  async-form-handling: /web/forms/async-forms/#async-form-handling
+  field-components: /web/forms/conditional-content/#field-components
+  value-components: /web/forms/conditional-content/#value-components
+  inherit-visibility-from-fields: /web/forms/conditional-content/#inherit-visibility-from-fields
+  conditionally-display-content: /web/forms/conditional-content/#conditionally-display-content
+  async-form-behavior: /web/forms/async-forms/#async-form-behavior
+  onchange-and-autosave: /web/forms/async-forms/#onchange-and-autosave
+  async-field-validation: /web/forms/async-forms/#async-field-validation
+  validation-and-error-handling: /web/forms/validation/#validation-and-error-handling
+  validation-and-the-user-experience-ux: /web/forms/validation/#validation-and-the-user-experience-ux
+  validation-order: /web/forms/validation/#validation-order
+  error-messages: /web/forms/validation/#error-messages
+  summary-for-errors: /web/forms/validation/#summary-for-errors
+  keepindom-for-hidden-content: /web/forms/validation/#keepindom-for-hidden-content
+  required: /web/forms/validation/#required
+  optional-and-supporting-label-text-in-designs: /web/forms/validation/#optional-and-supporting-label-text-in-designs
+  pattern: /web/forms/validation/#pattern
+  schema: /web/forms/validation/#schema
+  onblurvalidator-and-onchangevalidator: /web/forms/validation/#onblurvalidator-and-onchangevalidator
+  connect-with-another-field: /web/forms/validation/#connect-with-another-field
+  async-validation: /web/forms/validation/#async-validation
+  async-validator-with-debounce: /web/forms/validation/#async-validator-with-debounce
+  error: /web/forms/validation/#error
+  conditionally-display-messages: /web/forms/validation/#conditionally-display-messages
+  country-specific-validation: /web/forms/validation/#country-specific-validation
+  localization-and-translation: /web/forms/localization/#localization-and-translation
+  translations-provided-by-eufemia: /web/forms/localization/#translations-provided-by-eufemia
+  add-additional-translations: /web/forms/localization/#add-additional-translations
+  customize-translations: /web/forms/localization/#customize-translations
+  load-translations-dynamically: /web/forms/localization/#load-translations-dynamically
+  using-formhandler: /web/forms/localization/#using-formhandler
+  using-the-shared-provider: /web/forms/localization/#using-the-shared-provider
+  combining-with-static-translations: /web/forms/localization/#combining-with-static-translations
+  how-to-customize-translations-in-a-form: /web/forms/localization/#how-to-customize-translations-in-a-form
+  consume-the-translations: /web/forms/localization/#consume-the-translations
+  icu-message-format: /web/forms/localization/#icu-message-format
+  debugging: /web/forms/debugging/#debugging
+  logging: /web/forms/debugging/#logging
+  finding-errors: /web/forms/debugging/#finding-errors
+  getting-started: /web/forms/getting-started/#build-your-first-form
+redirect_from:
+  - /uilib/extensions/forms/getting-started
+  - /web/extensions/forms/getting-started
+---
+
+import QuickStart from './quick-start'
+
+<QuickStart />
+
+## Creating forms
+
+To build an entire form, use surrounding components such as [Form.Handler](/web/forms/Form/Handler/) and [Wizard.Container](/web/forms/Wizard/Container/) to simplify data flow and layout while reducing code complexity without compromising flexibility.
+
+The required styles for Eufemia Forms are included when you import the main Eufemia styles (`import '@dnb/eufemia/style'`) or the theme's `ui-theme-components`; no separate Forms CSS import is needed in these cases.
+
+## TypeScript support
+
+You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
+
+**NB:** Use `type` instead of `interface` for the type definition.
+
+```tsx
+import { Form, OnSubmit } from '@dnb/eufemia/extensions/forms'
+
+type MyData = {
+  firstName?: string
+}
+
+const submitHandler: OnSubmit<MyData> = (data) => {
+  console.log(data.firstName satisfies string)
+}
+
+function MyForm() {
+  return (
+    <Form.Handler<MyData> onSubmit={submitHandler}>
+      <MyComponent />
+    </Form.Handler>
+  )
+}
+
+const MyComponent = () => {
+  const { data } = Form.useData<MyData>()
+  return data.firstName
+}
+```
+
+Read more about TypeScript support and the other methods in the [Form.Handler](/web/forms/Form/Handler/#formhandler) section or in the [Form.useData](/web/forms/Form/useData/#formusedata) hook docs.
+
+To also get autocomplete and compile-time checking on the `path` props of every field and value, see [Type-checked paths](/web/forms/typed-paths/).
+
+## Layout
+
+When building your application forms, preferably use the following layout components. They seamlessly places all the fields and components of Eufemia Forms correctly into place.
+
+- [Flex.Stack](/web/layout-and-typography/layout/flex/stack/) layout component for easy and consistent application forms.
+- [Form.Card](/web/forms/Form/Card/) with the stack property `<Form.Card>...</Form.Card>` for the default card outline of forms.
+- [Form.Appearance](/web/forms/Form/Appearance/) for changing sizes (height) of e.g. input fields.
+
+## Best practices on forms (accessibility, usability, and performance)
+
+When building forms, there are some best practices to keep in mind to ensure that your forms are accessible, usable, and performant. Read more about these best practices in the dedicated documentation on
+
+- [Best practices on Forms](/web/forms/best-practices-on-forms/).
+
+## Create your own component
+
+Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
+
+Read more about [creating your own component](/web/forms/create-component/)
+
+## Continue
+
+- [Form data and state](/web/forms/data-and-state/)
+- [Conditional fields and values](/web/forms/conditional-content/)
+- [Async forms and autosave](/web/forms/async-forms/)
+- [Validation and error handling](/web/forms/validation/)
+- [Form localization](/web/forms/localization/)
+- [Debugging forms](/web/forms/debugging/)

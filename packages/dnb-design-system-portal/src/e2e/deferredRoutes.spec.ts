@@ -8,7 +8,7 @@ test('opens Home as a document when its lazy module fails', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
-  await page.goto('/web/getting-started/')
+  await page.goto('/web/get-started/quick-start/')
   await waitForApp(page)
   test.skip(await isDev(page), 'Production route splitting')
   const module = await page
@@ -42,7 +42,7 @@ test('keeps hinted prefetch failures local', async ({ page, request }) => {
   const hintsUrl = html.match(/data-hints="([^"]+)"/)?.[1]
   test.skip(!hintsUrl, 'Production route splitting')
   const data = await (await request.get(hintsUrl)).json()
-  const hint = data.links['/web/getting-started'].module
+  const hint = data.links['/web/get-started/quick-start'].module
   let failures = 0
   await page.route(hint, (route) => {
     failures++
@@ -172,7 +172,7 @@ for (const interaction of ['hover', 'focus', 'click'] as const) {
         )
         await link.click()
       }
-      await expect(page).toHaveURL(/\/web\/getting-started\//)
+      await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//)
       await expect(
         page.getByRole('heading', { name: 'Quick start', exact: true })
       ).toContainText('Quick start')
@@ -183,7 +183,7 @@ for (const interaction of ['hover', 'focus', 'click'] as const) {
       await page.goBack()
       await expect(page.locator('[data-portal-home]')).toBeVisible()
       await page.goForward()
-      await expect(page).toHaveURL(/\/web\/getting-started\//)
+      await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//)
       expect(requests.filter((url) => registry.test(url))).toHaveLength(0)
       expect(errors).toEqual([])
     }
@@ -202,9 +202,9 @@ test('does not fetch routes for hash, external, download or new-tab links', asyn
     for (const [href, attributes] of [
       ['#example', {}],
       ['https://example.com/', {}],
-      ['/web/getting-started/', { rel: 'nofollow external' }],
-      ['/web/getting-started/', { download: 'guide' }],
-      ['/web/getting-started/', { target: '_blank' }],
+      ['/web/get-started/quick-start/', { rel: 'nofollow external' }],
+      ['/web/get-started/quick-start/', { download: 'guide' }],
+      ['/web/get-started/quick-start/', { target: '_blank' }],
     ] as const) {
       const link = document.createElement('a')
       link.href = href

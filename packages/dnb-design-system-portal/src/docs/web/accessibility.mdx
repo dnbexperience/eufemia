@@ -1,0 +1,33 @@
+---
+description: >-
+  Find tools and guidance for building and testing accessible interfaces with
+  Eufemia.
+title: Build accessible interfaces
+order: 5
+navigation:
+  title: Accessibility
+  order: 7
+  kind: group
+  pageTitle: Build accessible interfaces
+  parent: web
+icon: people_2
+legacyFragments:
+  accessibility: /web/accessibility/#build-accessible-interfaces
+redirect_from:
+  - /uilib/usage/accessibility
+  - /web/usage/accessibility
+legacyPrefixes:
+  - web/usage/accessibility
+  - uilib/usage/accessibility
+---
+
+import AboutAccessibility from 'Docs/web/accessibility/about-accessibility.mdx'
+
+<AboutAccessibility />
+
+## Tooling tips
+
+- Use [ESLint](https://eslint.org) with [eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y) in your Code Editor setup.
+- Use **axe** in [integration tests](/web/development-guidelines/for-testing#integration-tests)
+- There are several integrations for Developer Tools, including [axe-core](https://www.deque.com/axe/)
+- Testing semantics is never enough; use actual [screen readers](/web/accessibility/screenreader)

@@ -28,11 +28,11 @@ export const BreadcrumbDefault = () => (
         },
         {
           text: 'UI Library',
-          href: '/uilib',
+          href: '/web/get-started/how-eufemia-works',
         },
         {
           text: 'Components',
-          href: '/web/components',
+          href: '/web/components/overview',
         },
         {
           text: 'Breadcrumbs',
@@ -87,11 +87,11 @@ export const BreadcrumbCollapse = () => (
         },
         {
           text: 'UI Library',
-          href: '/uilib',
+          href: '/web/get-started/how-eufemia-works',
         },
         {
           text: 'Components',
-          href: '/web/components',
+          href: '/web/components/overview',
         },
       ]
 
@@ -117,11 +117,11 @@ export const BreadcrumbMultiple = () => (
         },
         {
           text: 'UI Library',
-          href: '/uilib',
+          href: '/web/get-started/how-eufemia-works',
         },
         {
           text: 'Components',
-          href: '/web/components',
+          href: '/web/components/overview',
         },
         {
           text: 'Breadcrumbs',

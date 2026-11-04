@@ -2,12 +2,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const TimelineProperties: PropertiesTableProps = {
   data: {
-    doc: 'List of [timeline items](/uilib/components/timeline/properties#timelineitem-properties) to render. Each object in data can include all properties from [Timeline.Item properties](/uilib/components/timeline/properties#timelineitem-properties).',
+    doc: 'List of [timeline items](/web/components/timeline/properties#timelineitem-properties) to render. Each object in data can include all properties from [Timeline.Item properties](/web/components/timeline/properties#timelineitem-properties).',
     type: 'Array<TimelineItemProps>',
     status: 'optional',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.',
+    doc: 'Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/web/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -16,7 +16,7 @@ export const TimelineProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -40,7 +40,7 @@ export const TimelineItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   infoMessage: {
-    doc: 'Info message, displayed in a [FormStatus of state information](/uilib/components/form-status#displaying-information-status), below the `subtitle` if it exists.',
+    doc: 'Info message, displayed in a [FormStatus of state information](/web/components/form-status#displaying-information-status), below the `subtitle` if it exists.',
     type: 'React.ReactNode',
     status: 'optional',
   },

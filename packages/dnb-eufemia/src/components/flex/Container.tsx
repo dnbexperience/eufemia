@@ -49,7 +49,7 @@ export type FlexContainerProps = {
   wrapChildrenInSpace?: boolean
   rowGap?: FlexGap
   /**
-   * Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/uilib/layout/flex/item).
+   * Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/web/layout-and-typography/layout/flex/item).
    * Default: `12`
    */
   sizeCount?: number

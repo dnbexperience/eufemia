@@ -22,7 +22,7 @@ test.describe('Route Focus', () => {
       await page.emulateMedia({ reducedMotion })
 
       await page.goto(
-        '/web/extensions/sidebar-menu/demos/#responsive-navigation'
+        '/web/patterns-and-extensions/sidebar-menu/demos/#responsive-navigation'
       )
       await page.waitForFunction(
         () =>
@@ -57,7 +57,7 @@ test.describe('Route Focus', () => {
       const scrollIntoView = HTMLElement.prototype.scrollIntoView
       HTMLElement.prototype.scrollIntoView = function (options) {
         scrollIntoView.call(this, options)
-        if (this.id === 'spacing-support') {
+        if (this.id === 'make-and-run-tests') {
           Object.assign(window, {
             clickedHashTop: this.getBoundingClientRect().top,
           })
@@ -65,11 +65,13 @@ test.describe('Route Focus', () => {
       }
     })
     await page.emulateMedia({ reducedMotion: 'no-preference' })
-    await page.goto('/contribute/getting-started/')
+    await page.goto('/web/contribute/local-development/')
     await waitForApp(page)
 
-    await page.locator('main a[href="#spacing-support"]').first().click()
-    const target = page.locator('#spacing-support')
+    await page
+      .locator('#portal-page-toc a[href="#make-and-run-tests"]')
+      .click()
+    const target = page.locator('#make-and-run-tests')
 
     await expect
       .poll(() =>

@@ -31,11 +31,11 @@ yarn add @dnb/eufemia
 
 ## FAQ
 
-More information can be found in the [faq](https://eufemia.dnb.no/contribute/faq/).
+More information can be found in the [faq](https://eufemia.dnb.no/web/contribute/faq/).
 
 ## Contribution
 
-Find more information about how to contribute in [Eufemia Portal - Contribute](https://eufemia.dnb.no/contribute).
+Find more information about how to contribute in [Eufemia Portal - Contribute](https://eufemia.dnb.no/web/contribute).
 
 ### Our contributors
 

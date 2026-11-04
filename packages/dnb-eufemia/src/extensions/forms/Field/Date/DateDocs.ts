@@ -44,7 +44,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   size: {
     ...DatePickerProperties.size,
-    doc: `${DatePickerProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: `${DatePickerProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).`,
   },
   ...datePickerProperties,
   onType: {

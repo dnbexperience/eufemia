@@ -28,7 +28,7 @@ export type IconSize =
 
 export type IconProps = {
   /**
-   * A React SVG component or an icon name. Names load from the asset CDN. Set `iconBaseUrl` on [Provider](/uilib/usage/customisation/provider) to use self-hosted SVGs. IconPrimary uses bundled primary icons before falling back to the CDN.
+   * A React SVG component or an icon name. Names load from the asset CDN. Set `iconBaseUrl` on [Provider](/web/styling-and-themes/configuration/provider) to use self-hosted SVGs. IconPrimary uses bundled primary icons before falling back to the CDN.
    */
   icon?: IconIcon
 
@@ -38,7 +38,7 @@ export type IconProps = {
   size?: IconSize
 
   /**
-   * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.
+   * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/web/styling-and-themes/legacy-colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.
    */
   color?: IconColor
 

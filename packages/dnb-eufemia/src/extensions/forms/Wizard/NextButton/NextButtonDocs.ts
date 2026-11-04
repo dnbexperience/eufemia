@@ -11,12 +11,12 @@ export const WizardNextButtonProperties: PropertiesTableProps = {
     type: ['"left"', '"right"', '"top"'],
     status: 'optional',
   },
-  '[Button](/uilib/components/button/properties)': {
+  '[Button](/web/components/button/properties)': {
     doc: 'All button properties, except `variant`. A given `onClick` runs before the wizard moves to the next step, instead of replacing it. Return `false` from it to stay on the current step.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

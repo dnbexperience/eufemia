@@ -154,7 +154,9 @@ describe('SearchBar', () => {
 describe('SearchBarInput', () => {
   it('keeps searching when the query callback returns a value', async () => {
     search.mockResolvedValueOnce({
-      hits: [{ slug: 'web/layout/space', title: 'Space' }],
+      hits: [
+        { slug: 'web/layout-and-typography/layout/space', title: 'Space' },
+      ],
     })
     const onQuery = vi.fn(() => true)
     render(
@@ -170,7 +172,9 @@ describe('SearchBarInput', () => {
     expect(onQuery).toHaveBeenCalledWith('space')
     await waitFor(() =>
       expect(
-        document.querySelector('a[href="/web/layout/space"]')
+        document.querySelector(
+          'a[href="/web/layout-and-typography/layout/space"]'
+        )
       ).not.toBeNull()
     )
   })

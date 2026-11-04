@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`String field for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/web/extensions/forms/base-fields/String/demos/',
+    url: '/web/forms/base-fields/String/demos/',
   })
 
   it('have to match widths', async () => {

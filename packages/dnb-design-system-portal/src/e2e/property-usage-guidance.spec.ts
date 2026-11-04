@@ -4,13 +4,13 @@ import waitForApp from './shared/waitForApp'
 const guidanceName = 'Read about intended use and customization'
 
 for (const path of [
-  '/web/usage/customisation/component-properties/#intended-use-and-customization',
+  '/web/styling-and-themes/configuration/component-properties/#intended-use-and-customization',
   '/web/components/breadcrumb/events/',
-  '/web/extensions/forms/Wizard/properties/',
-  '/web/extensions/forms/Form/useSubmit/properties/',
-  '/web/extensions/forms/Form/useTranslation/properties/',
-  '/web/extensions/forms/create-component/useFieldProps/properties/',
-  '/web/extensions/forms/create-component/useValueProps/properties/',
+  '/web/forms/Wizard/properties/',
+  '/web/forms/Form/useSubmit/properties/',
+  '/web/forms/Form/useTranslation/properties/',
+  '/web/forms/create-component/useFieldProps/properties/',
+  '/web/forms/create-component/useValueProps/properties/',
 ]) {
   test(`keeps the property note off ${path}`, async ({ page }) => {
     await page.goto(path)
@@ -25,8 +25,8 @@ for (const path of [
 for (const path of [
   '/web/components/button/properties/',
   '/web/components/breadcrumb/properties/',
-  '/web/elements/paragraph/properties/',
-  '/web/extensions/forms/base-fields/String/properties/',
+  '/web/layout-and-typography/elements/paragraph/properties/',
+  '/web/forms/base-fields/String/properties/',
 ]) {
   test(`shows usage guidance once on ${path}`, async ({ page }) => {
     await page.goto(path)

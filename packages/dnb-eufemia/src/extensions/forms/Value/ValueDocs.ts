@@ -39,7 +39,7 @@ export const ValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inheritVisibility: {
-    doc: 'Use `true` to inherit the visibility from a field with the same path. You can find more info in the [Value section](/uilib/extensions/forms/Value/#inherit-visibility-from-fields-based-on-path).',
+    doc: 'Use `true` to inherit the visibility from a field with the same path. You can find more info in the [Value section](/web/forms/Value/#inherit-visibility-from-fields-based-on-path).',
     type: 'boolean',
     status: 'optional',
   },
@@ -73,7 +73,7 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

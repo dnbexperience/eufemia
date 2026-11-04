@@ -138,7 +138,8 @@ test('uses readable HTML element names and preserves old anchors', async ({
   await waitForApp(page)
   await expect(page).toHaveURL(
     (url) =>
-      url.pathname === '/web/elements/horizontal-rule/' &&
+      url.pathname ===
+        '/web/layout-and-typography/elements/horizontal-rule/' &&
       url.hash === '#horizontal-rule'
   )
   await expect(
@@ -153,7 +154,7 @@ test('uses readable HTML element names and preserves old anchors', async ({
   await menu
     .getByRole('link', { name: 'Lead paragraph', exact: true })
     .click()
-  await expect(page).toHaveURL('/web/elements/lead')
+  await expect(page).toHaveURL('/web/layout-and-typography/elements/lead')
   await expect(
     page.getByRole('heading', { name: 'Lead paragraph', exact: true })
   ).toBeVisible()
@@ -184,12 +185,14 @@ test('opens the Vipps wallet button from Extensions without changing its URL', a
     name: 'Platform Content Menu',
   })
   await menu
-    .getByRole('button', { name: 'Extensions', exact: true })
+    .getByRole('button', { name: 'Patterns and extensions', exact: true })
     .click()
   await menu
     .getByRole('link', { name: 'Vipps wallet button', exact: true })
     .click()
-  await expect(page).toHaveURL('/web/extensions/vipps-wallet-button')
+  await expect(page).toHaveURL(
+    '/web/patterns-and-extensions/vipps-wallet-button'
+  )
   await expect(
     page.getByRole('heading', { name: 'Vipps wallet button', exact: true })
   ).toBeVisible()

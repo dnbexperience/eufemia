@@ -18,7 +18,7 @@ import {
 import {
   AllComponentsHorizontalTestCase,
   AllComponentsVerticalLabelsTestCase,
-} from '../../layout/Examples'
+} from '../../layout-and-typography/layout/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import { Article } from '@dnb/eufemia/src/components/skeleton/figures'
 import {

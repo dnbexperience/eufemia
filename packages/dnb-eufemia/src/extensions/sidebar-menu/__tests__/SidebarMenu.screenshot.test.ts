@@ -22,7 +22,7 @@ const scrollDeclarativeMenuIntoView = async () => {
 describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/web/extensions/sidebar-menu/demos/',
+    url: '/web/patterns-and-extensions/sidebar-menu/demos/',
   })
 
   it('matches the declarative menu', async () => {

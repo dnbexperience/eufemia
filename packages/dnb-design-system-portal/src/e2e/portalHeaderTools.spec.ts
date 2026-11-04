@@ -6,7 +6,7 @@ for (const width of [320, 390, 640]) {
     'shows the logo and cog in a single phone header row at ' + width,
     async ({ page }) => {
       await page.setViewportSize({ width, height: 844 })
-      await page.goto('/quickguide-designer')
+      await page.goto('/web/get-started/design-for-web')
       await waitForApp(page)
       const header = page.locator('header.sticky-menu')
       const logo = header.getByRole('link', { name: 'Go to Eufemia home' })
@@ -133,7 +133,7 @@ for (const width of [375, 900]) {
 for (const path of [
   '/',
   '/web/components/button/',
-  '/web/getting-started/',
+  '/web/get-started/quick-start/',
 ]) {
   for (const storedDark of [false, true]) {
     test(
@@ -197,18 +197,17 @@ test('hides external-link indicators only while the sidebar is collapsed', async
   const inline = page.locator(
     '[data-sidebar-menu-responsive-scope="portal-sidebar-menu"].dnb-sidebar-menu-responsive-inline'
   )
+  await sidebar
+    .getByRole('button', { name: 'AI, tools and resources', exact: true })
+    .click()
   const resources = sidebar.locator(
-    '[data-sidebar-menu-id="web-figma"], [data-sidebar-menu-id="web-github"]'
+    '[data-sidebar-menu-id="web-ai-tools-and-resources-figma"], [data-sidebar-menu-id="web-ai-tools-and-resources-github"]'
   )
   const indicators = resources.locator('.dnb-anchor__launch-icon')
-  const logos = resources.locator('.dnb-sidebar-menu__item__icon')
   await expect(indicators).toHaveCount(2)
   await page.mouse.move(1190, 10)
   for (const indicator of await indicators.all()) {
     await expect(indicator).toHaveCSS('visibility', 'hidden')
-  }
-  for (const logo of await logos.all()) {
-    await expect(logo).toHaveCSS('visibility', 'visible')
   }
   await inline.hover({ position: { x: 20, y: 80 } })
   await expect(inline).toHaveClass(/--expanded/)
@@ -227,7 +226,7 @@ test('hides external-link indicators only while the sidebar is collapsed', async
   await page.setViewportSize({ width: 390, height: 900 })
   await page.locator('#toggle-sidebar-menu').click()
   const drawer = page.getByRole('dialog', { name: 'Menu' })
-  for (const name of ['Figma', 'GitHub']) {
+  for (const name of ['Figma library', 'GitHub repository']) {
     await expect(
       drawer
         .getByRole('link', { name, exact: true })
@@ -309,21 +308,21 @@ for (const width of [390, 1440]) {
       const platform = page.getByRole('navigation', {
         name: 'Platform Content Menu',
       })
+      await platform
+        .getByRole('button', {
+          name: 'AI, tools and resources',
+          exact: true,
+        })
+        .click()
       const figma = platform.getByRole('link', {
-        name: 'Figma',
+        name: 'Figma library',
         exact: true,
       })
       const github = platform.getByRole('link', {
-        name: 'GitHub',
+        name: 'GitHub repository',
         exact: true,
       })
       await github.scrollIntoViewIfNeeded()
-      await expect(
-        figma.locator('.dnb-sidebar-menu__item__icon svg')
-      ).toBeVisible()
-      await expect(
-        github.locator('.dnb-sidebar-menu__item__icon svg')
-      ).toBeVisible()
       await expect(figma).toHaveAttribute(
         'href',
         'https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web'

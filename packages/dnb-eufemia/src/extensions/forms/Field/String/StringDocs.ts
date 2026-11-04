@@ -107,7 +107,7 @@ export const StringProperties: PropertiesTableProps = {
   // - Input props
   size: {
     ...InputProperties.size,
-    doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).`,
   },
   align: InputProperties.align,
   selectAll: InputProperties.selectAll,
@@ -120,7 +120,7 @@ export const StringProperties: PropertiesTableProps = {
 
   // - InputMasked props
   mask: {
-    doc: 'Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties).',
+    doc: 'Input mask, in the same format as the `mask` property of [InputMasked](/web/components/input-masked/properties).',
     type: ['RegExp', 'Array<RegExp | string>'],
     status: 'optional',
   },

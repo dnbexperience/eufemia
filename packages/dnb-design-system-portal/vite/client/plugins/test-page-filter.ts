@@ -33,18 +33,18 @@ const VISUAL_TEST_FALLBACK_PAGES = ['/visual-tests', '/demos']
 const E2E_TEST_FALLBACK_PAGES = [
   '/',
   '/design-system/',
-  '/web/components/',
-  '/web/extensions/',
-  '/web/elements/',
+  '/web/components/overview/',
+  '/web/patterns-and-extensions/extensions/',
+  '/web/layout-and-typography/elements/',
   '/web/components/button/',
   '/web/components/button/demos/',
   '/web/components/textarea/demos/',
-  '/web/about-the-lib/',
+  '/web/get-started/how-eufemia-works/',
   '/web/components/card/',
-  '/web/typography/',
-  '/quickguide-designer/colors/',
-  '/quickguide-designer/fonts/',
-  '/contribute/getting-started/',
+  '/web/layout-and-typography/typography/',
+  '/web/styling-and-themes/legacy-colors/',
+  '/web/layout-and-typography/typography/design-guidance/',
+  '/web/contribute/local-development/',
 ]
 
 export default function testPageFilterPlugin(): Plugin {

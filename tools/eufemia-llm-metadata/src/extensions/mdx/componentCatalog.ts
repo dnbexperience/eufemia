@@ -159,6 +159,7 @@ async function buildComponentCatalog(
 ): Promise<ComponentCatalog> {
   const catalogRoots = [
     path.join(docsRoot, 'web', 'components'),
+    path.join(docsRoot, 'web', 'patterns-and-extensions'),
     path.join(docsRoot, 'web', 'extensions'),
     path.join(docsRoot, 'uilib', 'components'),
     path.join(docsRoot, 'uilib', 'extensions'),
@@ -194,7 +195,9 @@ async function buildComponentCatalog(
     }
 
     if (
-      /^(web|uilib)\/extensions\//.test(noExt) &&
+      /^(?:web\/patterns-and-extensions|(?:web|uilib)\/extensions)\//.test(
+        noExt
+      ) &&
       noExt.split('/').length !== 3
     ) {
       continue

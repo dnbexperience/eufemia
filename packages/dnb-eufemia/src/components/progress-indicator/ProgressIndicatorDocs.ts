@@ -69,7 +69,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[customColors](/uilib/components/progress-indicator/properties/#data-object-customcolors)':
+  '[customColors](/web/components/progress-indicator/properties/#data-object-customcolors)':
     {
       doc: 'Send in custom CSS colors that override any CSS. See below for data structure.',
       type: 'object',
@@ -80,7 +80,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

@@ -64,7 +64,7 @@ export const RootProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -119,7 +119,7 @@ export const PanelButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Button props]': {
-    doc: 'All [Button](/uilib/components/button/properties) props are supported except `variant`, `icon`, `iconPosition`, `transitionState`, and `aria-expanded`.',
+    doc: 'All [Button](/web/components/button/properties) props are supported except `variant`, `icon`, `iconPosition`, `transitionState`, and `aria-expanded`.',
     type: 'Various',
     status: 'optional',
   },
@@ -292,7 +292,7 @@ export const NoResultsProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -325,7 +325,7 @@ export const ResultCountProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -348,7 +348,7 @@ export const ContentProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -403,7 +403,7 @@ export const SortButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Dropdown props]': {
-    doc: 'All other [Dropdown](/uilib/components/dropdown/properties) props are forwarded.',
+    doc: 'All other [Dropdown](/web/components/dropdown/properties) props are forwarded.',
     type: 'Various',
     status: 'optional',
   },

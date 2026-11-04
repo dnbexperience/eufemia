@@ -1,0 +1,391 @@
+---
+title: Validation and error handling
+description: Task guidance for validation and error handling.
+navigation:
+  parent: web/forms
+  title: Validation and error handling
+  order: 1.5
+---
+
+Every field component has a built-in validation that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
+
+In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidation` property.
+
+Fields which have the `disabled` property or the `readOnly` property, will skip validation.
+
+For monitoring and setting your form errors, you can use the [useValidation](/web/forms/Form/useValidation/) hook.
+
+### Validation and the user experience (UX)
+
+Eufemia Forms provides a built-in validation system that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
+
+In general, the validation is based on the following principles:
+
+- Trust the user and assume they are doing their best.
+- Avoid interrupting the user while they are entering data.
+- Provide clear and concise error messages ending with a period.
+
+The validation system is flexible and can be customized to fit your specific needs. You can add your own validation to a field component by using the `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidation` property.
+
+### Validation order
+
+If there are multiple errors, they will be shown in a specific order, and only the first error in that order will appear.
+
+The validation order is as follows:
+
+1. `required`
+2. `error` (with `conditionally`)
+3. `schema` (including `pattern`)
+4. `onChangeValidator`
+5. `onBlurValidator`
+
+### Error messages
+
+Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/web/forms/all-fields/) (field level) and on the [Form.Handler](/web/forms/Form/Handler/) (global level).
+
+You may use the `errorMessages` property for two purposes:
+
+- Provide your own error messages.
+- Overwrite the default error messages.
+
+Both can be done on a global level or on a field level.
+
+However, for overwriting the default error messages on a global level, you can also use [internationalization (i18n)](/web/forms/localization/#localization-and-translation).
+
+Read more about [error messages](/web/forms/Form/error-messages/).
+
+### Summary for errors
+
+To improve user experience communication regarding errors and their locations, WCAG/UU suggests summarizing error messages when errors have occurred.
+
+Eufemia Forms will easily link up with the [GlobalStatus](/web/components/global-status/) component and will only display it if there are errors or when the form is being submitted.
+
+```tsx
+<GlobalStatus />
+
+<Form.Handler>
+  My Form
+</Form.Handler>
+```
+
+If you need a custom unique ID, you can just assign `globalStatusId` to the `Form.Handler`:
+
+```tsx
+<GlobalStatus id="my-form-status" />
+
+<Form.Handler globalStatusId="my-form-status">
+  My Form
+</Form.Handler>
+```
+
+### keepInDOM for hidden content
+
+Use `keepInDOM` when hidden content still needs to keep its internal state or continue participating in logic such as validation.
+
+Why this can be useful:
+
+- Avoid remounting: component state is preserved when closed/hidden.
+- Keep validation context: hidden fields can still be part of validation flows when relevant.
+
+Examples where this pattern is used:
+
+- [Wizard.Container](/web/forms/Wizard/Container/) in Forms.
+- [Form.Visibility](/web/forms/Form/Visibility/) in Forms.
+- [Accordion](/web/components/accordion/) component.
+- [Table](/web/components/table/#table) component with `mode="accordion"`.
+- [List](/web/components/list/#list) component with `List.Item.Accordion`.
+
+### required
+
+Fields are optional by default. Eufemia Forms is designed for more than classical form submissions — it also covers data display, settings, wizards, and layout — so validation is opt-in.
+
+The `required` property is a boolean that indicates whether the field is required or not:
+
+```tsx
+<Field.PhoneNumber required />
+```
+
+**Note:** You can use the `required` property on the [Form.Handler](/web/forms/Form/Handler/) or [Wizard.Step](/web/forms/Wizard/Step/) components ([example](/web/forms/Form/Handler/demos/#required-and-optional-fields)). Additionally, the [Form.Section](/web/forms/Form/Section/) component as well as the [Field.Provider](/web/forms/feature-fields/Provider/) provider has a `required` property, which will make all nested fields within that section required.
+
+```tsx
+<Form.Handler required>
+  <Field.PhoneNumber />
+  <Field.String />
+</Form.Handler>
+```
+
+When you need to opt-out of the required field validation, you can use the `required={false}` property. This will also add a "(optional)" suffix to the field label(`labelSuffix`). Optional fields are labeled instead of required ones because, in a required form, most fields should be required — labeling the exceptions reduces visual noise and makes the form easier to scan.
+The suffix is displayed in a secondary text color to distinguish it from the label while keeping it inside the label.
+
+Using a consistent suffix convention across all forms helps users build a reliable mental model: "if there's no suffix, I need to fill this in." If a form has mostly optional fields and only a few required ones, consider whether the form could be simplified — for example, by moving optional fields to a separate step or section.
+
+It is possible to customize the suffix text with the `labelSuffix` property, if really needed:
+
+```tsx
+<Form.Handler required>
+  <Field.String label="I'm required" />
+  <Field.String label="I'm not" required={false} />
+  <Field.Email required={false} labelSuffix="(recommended)" />
+</Form.Handler>
+```
+
+#### Optional and supporting label text in designs
+
+When implementing a screenshot or Figma design, identify the role of text around the field before mapping it to a property. In a form where fields are required, use `required={false}` when a label marks one field as optional. Use `labelDescription` for separate supporting information, and add `labelDescriptionInline` when the supporting text appears on the same line as the label. These properties can be used together.
+
+Do not render "optional" or "valgfritt" with the classic Input `suffix`. An input suffix is content displayed after the input, such as contextual help, a unit or currency, rather than label metadata.
+
+```tsx
+<Form.Handler required>
+  <Field.String
+    label="Account name"
+    required={false}
+    labelDescription="Use the name shown on the account."
+    labelDescriptionInline
+  />
+  <Field.Email />
+</Form.Handler>
+```
+
+### pattern
+
+The `pattern` property is a regular expression (RegExp) that the value of the field must match:
+
+```tsx
+<Field.PhoneNumber pattern="Your RegExp" />
+```
+
+### schema
+
+The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema.
+
+Read more about JSON [Schema validation](/web/forms/Form/schema-validation/).
+
+You can set a schema on the
+
+- [Form.Handler](/web/forms/Form/Handler/) component to apply it globally to all fields without a specific schema.
+- [Form.Section](/web/forms/Form/Section/) component to apply it to all fields within that section.
+- [Field](/web/forms/all-fields/) components to apply it to a specific field.
+
+**Using Zod schemas**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.string().min(5)
+
+<Form.Handler>
+  <Field.String schema={schema} />
+</Form.Handler>
+```
+
+**Using JSON Schema (Ajv)**
+
+**NB:** An `Ajv` instance is required on the `Form.Handler`.
+
+```tsx
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajv = makeAjvInstance()
+const schema = {
+  /* Ajv Schema */
+}
+
+render(
+  <Form.Handler ajvInstance={ajv}>
+    <Field.PhoneNumber schema={schema} />
+  </Form.Handler>
+)
+```
+
+### onBlurValidator and onChangeValidator
+
+The `onBlurValidator` and `onChangeValidator` properties accepts a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
+
+```tsx
+const onChangeValidator = (value) => {
+  const isInvalid = new RegExp('Your RegExp').test(value)
+  if (isInvalid) {
+    return new Error('Invalid value message')
+  }
+}
+render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
+```
+
+You can find more info about error messages in the [error messages](/web/forms/Form/error-messages/) docs.
+
+#### Connect with another field
+
+You can also use the `connectWithPath` (or `connectWithItemPath` for within [Iterate.Array](/web/forms/Iterate/Array/)) function to connect the validator (`onChangeValidator` and `onBlurValidator`) to another field. This allows you to rerun the validator function once the value of the connected field changes:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const onChangeValidator = (value, { connectWithPath }) => {
+  const { getValue } = connectWithPath('/myReference')
+  const amount = getValue()
+  if (amount >= value) {
+    return new Error(`The amount should be greater than ${amount}`)
+  }
+}
+
+render(
+  <Form.Handler>
+    <Field.Number path="/myReference" defaultValue={2} />
+
+    <Field.Number
+      path="/withOnChangeValidator"
+      defaultValue={2}
+      onChangeValidator={onChangeValidator} // NB: You may use "onBlurValidator" depending on use case.
+    />
+  </Form.Handler>
+)
+```
+
+By default, the `onChangeValidator` function will only run when the "/withOnChangeValidator" field is changed. When the error message is shown, it will update the message with the new value of the "/myReference" field.
+
+You can also change this behavior for testing purposes by using the following properties:
+
+- `validateInitially` will run the validation initially.
+- `validateContinuously` will run the validation on every change, including when the connected field changes.
+- `validateUnchanged` will validate without any changes made by the user, including when the connected field changes.
+
+#### Async validation
+
+Async validation is also supported. The validator function can return a promise (async/await) that resolves to an error message.
+
+In this example we use `onBlurValidator` to only validate the field when the user leaves the field:
+
+```tsx
+const onChangeValidator = async (value) => {
+  try {
+    const isInvalid = await makeRequest(value)
+    if (isInvalid) {
+      return new Error('Invalid value') // Show this message below the field
+    }
+  } catch (error) {
+    return error
+  }
+}
+render(<Field.PhoneNumber onBlurValidator={onChangeValidator} />)
+```
+
+By default, `onChangeValidator` and `onBlurValidator` also run during form submit. For request-backed validators that should only run from field interaction, wrap the validator with `withValidatorOptions`:
+
+```tsx
+import { Field, withValidatorOptions } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Field.NationalIdentityNumber
+    onBlurValidator={withValidatorOptions(checkSsnAgreement, {
+      runOnSubmit: 'never',
+    })}
+  />
+)
+```
+
+Use `runOnSubmit: 'when-changed'` when the validator should run during submit only if the field value changed since the validator last ran. Object and array values are compared by reference.
+
+#### Async validator with debounce
+
+When using async validation on every keystroke, it's a good idea to debounce the validation function to avoid unnecessary requests. This can be done by using the [debounceAsync](/web/ai-tools-and-resources/utilities/functions/#debounce) helper function:
+
+```tsx
+import { debounceAsync } from '@dnb/eufemia/shared/helpers'
+
+const onChangeValidator = debounceAsync(async function myValidator(value) {
+  try {
+    const isInvalid = await makeRequest(value)
+    if (isInvalid) {
+      return new Error('Invalid value') // Show this message below the field
+    }
+  } catch (error) {
+    return error
+  }
+})
+render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
+```
+
+### error
+
+The `error` property is a controlled error message that is always displayed by default.
+
+```tsx
+render(<Field.String error={new Error('Invalid value')} />)
+```
+
+You can also provide the error message as a string:
+
+```tsx
+render(<Field.String error="Invalid value" />)
+```
+
+Or as a React.Element:
+
+```tsx
+render(
+  <Field.String
+    error={
+      <>
+        A <strong>formatted</strong> error message.
+      </>
+    }
+  />
+)
+```
+
+As well as an array with multiple error messages:
+
+```tsx
+render(
+  <Field.String
+    error={[
+      'First error message',
+      <>
+        Second <strong>formatted</strong> error message.
+      </>,
+      new Error('Third error message'),
+      new FormError('fourth.message'),
+      new FormError('fifth.message'),
+    ]}
+    errorMessages={{
+      'fourth.message': 'Fourth error message',
+      'fifth.message': (
+        <>
+          Fifth <strong>formatted</strong> error message.
+        </>
+      ),
+    }}
+  />
+)
+```
+
+## Conditionally display messages
+
+You can provide a function to the `info`, `warning`, and `error` properties to conditionally change this behavior based on specific requirements.
+
+Using this `conditional` function, the error message (or info or warning message) will only be shown after the user interacts with the field—for instance, after they change its value and move focus away (blur). This allows you to display error messages dynamically, ensuring they appear only when the field's value is invalid and the user has engaged with it.
+
+```tsx
+render(
+  <Field.Number
+    error={(value, { conditionally }) => {
+      if (value === 123) {
+        return conditionally(() => new Error('Invalid value'))
+      }
+    }}
+  />
+)
+```
+
+More info about it in the [Field.Number](/web/forms/base-fields/Number/) component.
+
+## Country specific validation
+
+You can change the country used for your form by setting the `countryCode` property on the [Form.Handler](/web/forms/Form/Handler/) component.
+
+Fields that support the `countryCode` property will use the country code from the data context and adjust their behavior accordingly. Read more about the specific behavior changes in their respective documentation.

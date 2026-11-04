@@ -169,7 +169,7 @@ test.describe('Responsiveness', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1200, height: 500 })
-    await page.goto('/web/about-the-lib/living-system')
+    await page.goto('/about/how-eufemia-evolves')
     await waitForApp(page)
 
     const toggle = page.locator(

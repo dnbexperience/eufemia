@@ -12,7 +12,7 @@ export const HelpButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="information"`), other icons should be set as React elements.',
+    doc: 'To be included in the button. [Primary Icons](/collections/icons) can be set as a string (e.g. `icon="information"`), other icons should be set as React elements.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
@@ -21,12 +21,12 @@ export const HelpButtonProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  '[Button](/uilib/components/button/properties)': {
+  '[Button](/web/components/button/properties)': {
     doc: 'All button properties.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -34,7 +34,7 @@ export const HelpButtonProperties: PropertiesTableProps = {
 }
 
 export const HelpButtonEvents: PropertiesTableProps = {
-  '[Button](/uilib/components/button/events)': {
+  '[Button](/web/components/button/events)': {
     doc: 'Accepts all Button events.',
     type: 'Various',
     status: 'optional',

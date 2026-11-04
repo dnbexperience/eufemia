@@ -165,8 +165,8 @@ function buildFilteredEdges(
       // ignore invalid regex
     }
   } else if (globMatch) {
-    // Convert glob like "**/web/elements/*" or
-    // "**/web/about-the-lib/releases/eufemia/**/*" to a slug prefix
+    // Convert glob like "**/web/layout-and-typography/elements/*" or
+    // "**/web/releases-and-upgrades/versions/eufemia/**/*" to a slug prefix
     const globPattern = globMatch[1]
     const prefix = globPattern
       .replace(/^\*\*\//, '')

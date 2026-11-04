@@ -144,7 +144,7 @@ docs accordingly. It is **on by default** and **opt-out**.
   component it matches when case and hyphens are ignored (e.g. `date-picker`
   for `DatePicker`); the name itself is never sent;
 - for `docs_read` / `docs_list`, the leading documentation area (e.g.
-  `/uilib/components/`), gated against the areas this server's own docs
+  `/web/components/overview/`), gated against the areas this server's own docs
   actually contain — a path outside the docs (or a model's guess) is dropped
   instead of narrowed;
 - the running `@dnb/eufemia` version.

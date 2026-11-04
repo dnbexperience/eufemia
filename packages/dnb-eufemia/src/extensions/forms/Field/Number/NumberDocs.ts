@@ -13,7 +13,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   currency: {
-    doc: 'Currency code (ISO 4217) or `true` to use the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set. Uses two decimals by default.',
+    doc: 'Currency code (ISO 4217) or `true` to use the `currency` of the [Provider](/web/styling-and-themes/configuration/provider/), which is `NOK` unless set. Uses two decimals by default.',
     type: ['boolean', 'string'],
     status: 'optional',
   },
@@ -64,7 +64,7 @@ export const NumberProperties: PropertiesTableProps = {
   },
   size: {
     ...InputProperties.size,
-    doc: 'The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default`. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).',
+    doc: 'The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default`. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).',
   },
   align: {
     doc: 'Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.',
@@ -107,7 +107,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   mask: {
-    doc: 'Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties). When given, it is used instead of the default number mask. It has no effect together with `currency` or `percent`.',
+    doc: 'Input mask, in the same format as the `mask` property of [InputMasked](/web/components/input-masked/properties). When given, it is used instead of the default number mask. It has no effect together with `currency` or `percent`.',
     type: ['RegExp', 'Array<RegExp | string>'],
     status: 'optional',
   },

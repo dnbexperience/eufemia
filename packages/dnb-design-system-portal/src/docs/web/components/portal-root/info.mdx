@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/portal-root/info
+legacyFragments:
+  portalroot: /web/components/portal-root/#portal-root
 ---
 
 ## Import
@@ -19,7 +21,7 @@ It lets you render some children into a different part of the DOM.
 ### Good to know
 
 - It contains CSS styles and screen reader accessibility features needed for proper usage of portals.
-- It comes with support for [style isolation](/web/usage/customisation/styling/style-isolation/).
+- It comes with support for [style isolation](/web/styling-and-themes/css/style-isolation/).
 - Everything inside the `PortalRoot` can later be customized and stacked on top of each other using CSS `z-index`.
 - It is used in other components, like [Tooltip](/web/components/tooltip), [Modal](/web/components/modal), [TermDefinition](/web/components/term-definition) and [DatePicker's calendar](/web/components/date-picker).
 - A wrapper is inserted automatically as a child node to the HTML `<body>` or the `<IsolatedStyleScope scopeHash="your-scope" />` element.

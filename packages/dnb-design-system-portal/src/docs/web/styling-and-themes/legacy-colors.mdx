@@ -1,0 +1,74 @@
+---
+description: >-
+  Look up legacy color custom properties and find the replacement color design
+  tokens.
+title: Legacy colors (deprecated)
+order: 5
+navigation:
+  parent: web/styling-and-themes
+  title: Legacy colors (deprecated)
+  order: 5
+legacyFragments:
+  colors-deprecated: /web/styling-and-themes/legacy-colors/#legacy-color-palette
+  colors-table: /web/styling-and-themes/legacy-colors/#legacy-color-palette
+  color-table-for-web: /web/styling-and-themes/legacy-colors/#legacy-color-palette
+redirect_from:
+  - /uilib/usage/customisation/colors
+  - /quickguide-designer/colors
+  - /web/usage/customisation/colors
+legacyPrefixes:
+  - web/usage/customisation/colors
+  - uilib/usage/customisation/colors
+---
+
+import ColorsTable from 'Docs/web/get-started/design-for-web/colors/tables.mdx'
+
+---
+
+**Deprecated:** The `--color-*` CSS custom properties and this color documentation are deprecated. Use [Design Tokens – Colors](/web/styling-and-themes/design-tokens/colors) instead.
+
+---
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=883-7)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/style)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/styling-and-themes/configuration/colors.mdx)
+
+All Colors are provided by CSS Custom Properties.
+
+## Legacy color palette
+
+<ColorsTable />
+
+<VisibilityByTheme hidden="sbanken">
+
+## Gradients, shadows, and shades
+
+### Gradients
+
+The DNB brand consists mainly of solid fill colors. Gradients should be avoided, despite there being an illustration in Brandbook on page 39 (PDF) showing a graph with a purple gradient.
+
+### Shadows
+
+Shadows are used to depict depth along the z-axis. Typical use cases are interface components that are laid 'above' the main interface, such as calendar widgets. Android development for DNB uses Google Material Design Guidelines regarding shadow color, depth, blur, etc.
+
+See the DNB Figma main guide for shadow specifications.
+
+### Tints and shades
+
+Tints are lighter versions of a color that are made by mixing a color with white, whereas shades are darker versions of a color that are made by mixing a color with black. If a lighter version of a primary color is required (due to accessibility, contrast, or for illustration), consult with the design team.
+
+</VisibilityByTheme>
+
+<VisibilityByTheme visible="sbanken">
+
+### Tertiary colors
+
+Tertiary colors are mainly lighter variations of the secondary colors.
+
+</VisibilityByTheme>
+
+### Resources
+
+Use a calculator [such as this](https://snook.ca/technical/colour_contrast/colour.html#fg=33FF33,bg=333333) [or this](https://webaim.org/resources/contrastchecker/) to test your text color and size against the background for contrast values.

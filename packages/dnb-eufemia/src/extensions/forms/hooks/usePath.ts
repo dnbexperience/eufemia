@@ -138,7 +138,7 @@ export default function usePath(props: UsePathProps = {}) {
 }
 
 // Will remove duplicate slashes and trailing slashes
-// /foo///bar/// => /foo/bar
+// /foo///bar/ => /foo/bar
 export function cleanPath(path: Path): string {
   return path.replace(/\/+$|\/(\/)+/g, '$1')
 }

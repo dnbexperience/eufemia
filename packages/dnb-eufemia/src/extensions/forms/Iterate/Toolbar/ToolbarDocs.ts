@@ -6,7 +6,7 @@ export const ToolbarProperties: PropertiesTableProps = {
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: 'Various',
     status: 'optional',

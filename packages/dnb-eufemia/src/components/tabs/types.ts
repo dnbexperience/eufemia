@@ -71,7 +71,7 @@ export type TabsProps = Omit<
      */
     content?: TabsContent
     /**
-     * To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
+     * To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/web/components/section/properties). Defaults to `null`.
      */
     contentStyle?: SectionVariants | string
     /**
@@ -92,7 +92,7 @@ export type TabsProps = Omit<
      */
     align?: TabsAlign
     /**
-     * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
+     * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/web/components/section/properties). Defaults to `null`.
      */
     tabsStyle?: SectionVariants | string
     /**

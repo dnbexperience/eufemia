@@ -3,8 +3,8 @@ import { AxeBuilder } from '@axe-core/playwright'
 import waitForApp from './shared/waitForApp'
 
 for (const path of [
-  '/web/elements/heading/',
-  '/web/elements/heading/demos/',
+  '/web/layout-and-typography/elements/heading/',
+  '/web/layout-and-typography/elements/heading/demos/',
 ]) {
   test(`heading levels only increase by one on ${path}`, async ({
     page,

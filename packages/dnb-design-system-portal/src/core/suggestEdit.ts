@@ -44,7 +44,7 @@ export function getSuggestEditUrl(
 ): string {
   const params = new URLSearchParams({ page, source: sourcePath })
 
-  return `/contribute/suggest-edit/?${params}`
+  return `/web/contribute/suggest-edit/?${params}`
 }
 
 type SuggestEditPrompt = {

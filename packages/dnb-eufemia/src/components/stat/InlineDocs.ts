@@ -17,9 +17,10 @@ export const InlineProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Flex.Horizontal](/uilib/layout/flex/container/properties)': {
-    doc: 'Supports all additional `Flex.Horizontal` properties.',
-    type: 'Various',
-    status: 'optional',
-  },
+  '[Flex.Horizontal](/web/layout-and-typography/layout/flex/container/properties)':
+    {
+      doc: 'Supports all additional `Flex.Horizontal` properties.',
+      type: 'Various',
+      status: 'optional',
+    },
 }

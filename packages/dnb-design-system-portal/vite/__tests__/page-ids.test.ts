@@ -344,10 +344,8 @@ describe('portal page ids', () => {
     ).toBe('Table')
 
     // `contentTitle` replaces the title for the heading only.
-    expect(resolvePageTitle(pagesBySlug.get('design-system/about'))).toBe(
-      String(
-        pagesBySlug.get('design-system/about').frontmatter.contentTitle
-      )
+    expect(resolvePageTitle(pagesBySlug.get('about/eufemia'))).toBe(
+      String(pagesBySlug.get('about/eufemia').frontmatter.contentTitle)
     )
 
     const inherited = mdxPages.filter(

@@ -41,7 +41,7 @@ test('restores sidebar scroll before the rest of a streamed page arrives', async
     )
     sessionStorage.setItem(
       'portal-sidebar-menu-open-items-shared',
-      JSON.stringify(['about', 'design-language'])
+      JSON.stringify(['about', 'design-foundations'])
     )
     sessionStorage.setItem(
       'portal-sidebar-menu-open-items-platform',

@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-const url = '/web/extensions/forms/Iterate/PushContainer/demos/'
+const url = '/web/forms/Iterate/PushContainer/demos/'
 
 describe('PushContainer', () => {
   setupPageScreenshot({

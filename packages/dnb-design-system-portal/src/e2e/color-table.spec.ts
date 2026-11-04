@@ -13,7 +13,7 @@ test.afterEach(async ({ page }) => {
 test.describe('Colors for UI', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/colors/?data-visual-test&eufemia-theme=ui'
+      '/web/styling-and-themes/legacy-colors/?data-visual-test&eufemia-theme=ui'
     )
 
     // Check if app is mounted
@@ -35,7 +35,7 @@ test.describe('Colors for UI', () => {
 test.describe('Colors for Sbanken', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/colors/?data-visual-test&eufemia-theme=sbanken'
+      '/web/styling-and-themes/legacy-colors/?data-visual-test&eufemia-theme=sbanken'
     )
 
     // Check if app is mounted

@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/web/typography/',
+      url: '/web/layout-and-typography/typography/',
     })
 
     it('matches font families and italic faces', async () => {

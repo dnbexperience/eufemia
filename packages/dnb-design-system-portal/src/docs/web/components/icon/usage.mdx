@@ -1,0 +1,162 @@
+---
+title: SVG and CSS icon usage
+contentTitle: SVG and CSS icon usage
+description: Technical details about Eufemia Icons.
+order: 1
+category: false
+navigation:
+  title: SVG and CSS icon usage
+  order: 1
+  parent: web/components/icon
+legacyFragments:
+  icon-details: /web/components/icon/usage/#svg-and-css-icon-usage
+  other-icons: /web/components/icon/usage/#other-component-icons
+redirect_from:
+  - /icons/other
+  - /icons/details
+  - /icons/form-status
+legacyPrefixes:
+  - icons/details
+---
+
+import FormStatusIcons from 'Docs/web/components/icon/_form-status.mdx'
+
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import IconNearestNeighbour from 'Docs/web/get-started/design-for-web/assets/icon-nearest-neighbour.svg'
+
+At DNB we are using Streamline icons as our source for off-the-shelf vector icons.
+
+[Link to streamlineicons.com](https://www.streamlineicons.com/)
+
+## Using Icons
+
+The icons are in SVG format and are optimized for performance and to have the smallest footprint possible in the package build process.
+
+The sources are included in the `@dnb/eufemia` package and published as public
+[stable and immutable CDN files](/web/ai-tools-and-resources/asset-cdn/#stable-and-versioned-urls).
+For example:
+
+```text
+https://assets.eufemia.dnb.no/v11.14.1/icons/dnb/home.svg
+https://assets.eufemia.dnb.no/icons/dnb/home.svg
+```
+
+They also exist as [React Components](/web/components/icon) to be easily integrated, without the need of an additional SVG file loader.
+
+## Icon color
+
+Eufemia SVG icons simply inherit the current color. In case you do not use the [Icon component](/web/components/icon), you have to handle colors yourself.
+
+For icons that communicate a state, follow the [status icon pattern](/web/patterns-and-extensions/status-icon) for sizing, semantic colors, dark mode and accessibility.
+
+### Change SVG border color
+
+```css
+.selector svg {
+  color: var(--custom-color);
+}
+```
+
+### Example color usage
+
+```css
+color: var(--custom-color);
+.selector svg {
+  color: inherit;
+  fill: currentColor;
+  stroke: currentColor;
+}
+```
+
+## Sizing
+
+Eufemia icons come in **two** sizes:
+
+- **Default Size** 1.0rem with 1.5px stroke weight
+- **Medium Size** 1.5rem with 1.5px stroke weight
+
+The reason there are two sizes is mainly due to the SVG artifact that the icons, alongside the strokes, will scale up once we use them with a larger width and height.
+
+### Scalability in web
+
+To ensure that the relative size of the SVG icons is scalable by the inherited CSS font size, do not explicitly specify the SVG.
+
+**Example size definition by CSS**
+
+```css
+font-size: 1.5rem;
+svg {
+  width: 1em;
+  height: 1em;
+
+  font-size: inherit;
+}
+```
+
+## Spacing
+
+Icons should have a minimum area of 8px between them and their nearest neighbor.
+
+<div className="image-box">
+  <InlineImg
+    src={IconNearestNeighbour}
+    caption="Icons with nearest neighbor 8px (0.5rem) distance"
+    alt="Icon's nearest neighbor"
+    height="136"
+  />
+</div>
+
+## Custom Icons
+
+[Streamline](https://www.streamlineicons.com/) caters to pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. In these cases please contact one of Eufemia's [design leads](/about/contact).
+
+## Primary icons
+
+The Primary Icons are used inside Eufemia [components](/web/components/overview) and are also bundled as a [UMD Package](https://unpkg.com/@dnb/eufemia@latest/umd/dnb-ui-icons.min.js).
+
+Primary Icons can easily be defined and included in components, for instance, in [Buttons](/web/components/button).
+They are integrated by using the [IconPrimary](/web/components/icon-primary) component.
+
+## React example usage
+
+```jsx
+<IconPrimary icon="bell" size="medium" />
+<Button icon="chevron_right" />
+```
+
+You can also import them like the [Secondary](/web/components/icon/usage/#secondary-icons) icons:
+
+```jsx
+import { bell_medium, chevron_right } from '@dnb/eufemia/icons'
+
+<Icon icon={bell_medium} size="medium" />
+<Button icon={chevron_right} />
+```
+
+Browse the [shared icon catalogue](/collections/icons/) and use its primary filter.
+
+## Secondary icons
+
+The Secondary Icons are an addition to the [Primary Icons](/web/components/icon/usage/#primary-icons). They extend the possibility to have more icons that are not primarily used. They do not ship integrated, as the [Primary Icons](/web/components/icon/usage/#primary-icons) do.
+
+The Secondary Icons can be extended infinitely.
+
+**Technically:** As a consequence, they have to be [imported](/web/components/icon) wherever they are used.
+
+### Importing secondary icons
+
+```jsx
+import { hamburger_medium as HamburgerIcon, bubble } from '@dnb/eufemia/icons'
+
+<HamburgerIcon />/* <-- is not recommended, but possible */
+<Icon icon={HamburgerIcon} />
+<Button icon={bubble} />
+```
+
+Browse the [shared icon catalogue](/collections/icons/) and use its secondary filter.
+
+## Other component icons
+
+Some icons belong to a component rather than the shared catalogue.
+
+<FormStatusIcons />

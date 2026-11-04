@@ -73,7 +73,7 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
     {/* @ts-expect-error -- strictFunctionTypes */}
     <Button href={href} text={text} icon="chevron_right" element={Link} />
     <Button
-      href="/web/getting-started"
+      href="/web/get-started/quick-start"
       variant="secondary"
       text="Cancel"
       icon="close"

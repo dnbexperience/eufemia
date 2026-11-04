@@ -37,7 +37,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   imgProps: {
-    doc: '[Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.',
+    doc: '[Image properties](/web/layout-and-typography/elements/image) applied to the `img` element if the component is used to display an image.',
     type: 'ImgProps',
     status: 'optional',
   },
@@ -91,7 +91,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/icon/info
+legacyFragments:
+  icon: /web/components/icon/#icons
 ---
 
 ## Import
@@ -87,7 +89,7 @@ Direct `Icon` string names use this directory. `IconPrimary` and components that
 
 Set `iconBaseUrl={false}` to disable remote loading, for example when your app must not make requests to other hosts. Imported icons still render. `IconPrimary` and components that use it continue to render bundled primary names; direct `Icon` string names and non-primary string names render nothing, as they did before CDN loading was added.
 
-Use names from the [icon library](/icons), such as `bell`, `arrow_right`, or `bell_medium`. CamelCase and hyphenated names are normalized to underscores. For CDN icons, `size="medium"` selects the `_medium` asset. For example, `<Icon icon="bell" size="medium" />` loads `bell_medium.svg`. An explicit `_medium` suffix is retained. `auto` scales with the surrounding font size and uses the default asset unless the name ends in `_medium`. Bundled primary icons retain their existing size selection.
+Use names from the [icon library](/collections/icons), such as `bell`, `arrow_right`, or `bell_medium`. CamelCase and hyphenated names are normalized to underscores. For CDN icons, `size="medium"` selects the `_medium` asset. For example, `<Icon icon="bell" size="medium" />` loads `bell_medium.svg`. An explicit `_medium` suffix is retained. `auto` scales with the surrounding font size and uses the default asset unless the name ends in `_medium`. Bundled primary icons retain their existing size selection.
 
 The browser loads the SVG as a CSS mask and applies `currentColor`, including hover and theme colours. Use `inheritColor={false}` to display the SVG's original colours as an image. Masks and images preserve the SVG's shape: the `fill`, `animate`, `animateWhen`, and `transitionState` features require imported inline SVG icons. Scaling an external SVG also scales its strokes.
 
@@ -99,7 +101,7 @@ See the [dynamic CDN demos](/web/components/icon/demos#dynamic-cdn-icons).
 
 ### Icon Sizes
 
-_Exists in the [Icon Library](/icons)_
+_Exists in the [Icon Library](/collections/icons)_
 
 - **default** `1rem` (16px)
 - **medium** `1.5rem` (24px)
@@ -124,13 +126,13 @@ Set `fill` on an `Icon` to fill its SVG paths with `currentColor`:
 <Icon icon={star} fill />
 ```
 
-See the [Icon Library](/icons#filled-icons) for icons that are known to look good when filled.
+See the [Icon Library](/collections/icons#filled-icons) for icons that are known to look good when filled.
 
 ### Animated Icons
 
 Animated icons are an opt-in enhancement. Use them to reinforce nearby feedback, such as a bell moving once when a new notification arrives. Motion must not be the only indication that something changed.
 
-Read the [Animation Principles](/quickguide-designer/animation-principles/) for where, why, and when to use motion, and [Motion](/quickguide-designer/motion/) for visual examples and implementation guidance.
+Read the [Motion principles](/design-foundations/motion-principles/) for where, why, and when to use motion, and [Motion examples and implementation](/web/development-guidelines/motion/) for visual examples and implementation guidance.
 
 See the [animated icon demos](#animated-icon-demos) for one-time, replayed, and looping examples.
 
@@ -214,6 +216,6 @@ render(<Icon size="medium">{CustomIcon}</Icon>)
 
 ### Primary Icon
 
-There is also the [IconPrimary](/web/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in `@dnb/eufemia`. You do not have to import the primary icons separately.
+There is also the [IconPrimary](/web/components/icon-primary) component, which comes with all the [Primary Icons](/web/components/icon/usage/#primary-icons) included in `@dnb/eufemia`. You do not have to import the primary icons separately.
 
 <RelatedComponents />

@@ -1,0 +1,53 @@
+---
+description: >-
+  Choose fields with data-specific functionality built on Eufemia Forms base
+  field components.
+title: Ready-made fields
+order: 16
+breadcrumb:
+  - text: Forms
+    href: /web/forms/
+  - text: Feature fields
+    href: /web/forms/feature-fields/
+navigation:
+  title: Ready-made fields
+  order: 3
+  kind: group
+  pageTitle: Ready-made fields
+  parent: web/forms
+legacyFragments:
+  feature-fields: /web/forms/feature-fields/#ready-made-fields
+  webextensionsformsfeature-fieldsaddress: /web/forms/feature-fields/#webformsfeature-fieldsaddress
+  webextensionsformsfeature-fieldsbankaccountnumber: /web/forms/feature-fields/#webformsfeature-fieldsbankaccountnumber
+  webextensionsformsfeature-fieldscurrency: /web/forms/feature-fields/#webformsfeature-fieldscurrency
+  webextensionsformsfeature-fieldsdate: /web/forms/feature-fields/#webformsfeature-fieldsdate
+  webextensionsformsfeature-fieldsdateofbirth: /web/forms/feature-fields/#webformsfeature-fieldsdateofbirth
+  webextensionsformsfeature-fieldsemail: /web/forms/feature-fields/#webformsfeature-fieldsemail
+  webextensionsformsfeature-fieldsexpiry: /web/forms/feature-fields/#webformsfeature-fieldsexpiry
+  webextensionsformsfeature-fieldsname: /web/forms/feature-fields/#webformsfeature-fieldsname
+  webextensionsformsfeature-fieldsnationalidentitynumber: /web/forms/feature-fields/#webformsfeature-fieldsnationalidentitynumber
+  webextensionsformsfeature-fieldsorganizationnumber: /web/forms/feature-fields/#webformsfeature-fieldsorganizationnumber
+  webextensionsformsfeature-fieldspassword: /web/forms/feature-fields/#webformsfeature-fieldspassword
+  webextensionsformsfeature-fieldsphonenumber: /web/forms/feature-fields/#webformsfeature-fieldsphonenumber
+  webextensionsformsfeature-fieldspostalcodeandcity: /web/forms/feature-fields/#webformsfeature-fieldspostalcodeandcity
+  webextensionsformsfeature-fieldsprovider: /web/forms/feature-fields/#webformsfeature-fieldsprovider
+  webextensionsformsfeature-fieldsselectcountry: /web/forms/feature-fields/#webformsfeature-fieldsselectcountry
+  webextensionsformsfeature-fieldsselectcurrency: /web/forms/feature-fields/#webformsfeature-fieldsselectcurrency
+  webextensionsformsfeature-fieldstime: /web/forms/feature-fields/#webformsfeature-fieldstime
+redirect_from:
+  - /uilib/extensions/forms/feature-fields
+  - /web/extensions/forms/feature-fields
+---
+
+import ListFeatureFieldComponents from './feature-fields/ListFeatureFieldComponents'
+
+Feature fields are fields with data-specific functionality built on top of base [field components](/web/forms/base-fields/).
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Email />)
+```
+
+Here is also a list of [all available fields](/web/forms/all-fields/).
+
+<ListFeatureFieldComponents />

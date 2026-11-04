@@ -14,10 +14,10 @@ describe('test-page-filter plugin', () => {
   it('keeps both dedicated AI pages and their bookmark source in the partial build', () => {
     const pages = collectE2eTestPages()
     for (const path of [
-      '/working-with-ai/ai-skills',
-      '/working-with-ai/mcp-universe',
+      '/web/ai-tools-and-resources/ai/ai-skills',
+      '/web/ai-tools-and-resources/ai/mcp-universe',
       '/uilib/usage/first-steps/tools',
-      '/web/usage/first-steps/tools',
+      '/web/ai-tools-and-resources/developer-tools',
       '/web/components/button/properties',
       '/web/components/date-picker/properties',
       '/uilib/components/date-picker/properties',
@@ -352,13 +352,15 @@ describe('test-page-filter plugin', () => {
         test('navigation works', async ({ page }) => {
           await page.goto('/')
           await page.getByRole('link', { name: 'Design' }).click()
-          await expect(page).toHaveURL('/quickguide-designer')
+          await expect(page).toHaveURL('/web/get-started/design-for-web')
         })
         `
       )
 
       const urls = extractPageGotoUrls(filePath)
-      expect(urls).toEqual(new Set(['/', '/quickguide-designer']))
+      expect(urls).toEqual(
+        new Set(['/', '/web/get-started/design-for-web'])
+      )
     })
 
     it('extracts multiple URLs from a single file', () => {

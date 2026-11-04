@@ -79,7 +79,7 @@ export type FormVisibilityProps = {
    */
   inferData?: (data: unknown) => boolean
   /**
-   * Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.
+   * Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/web/forms/data-and-state/#filter-data) documentation.
    */
   filterData?: FilterData
   /**

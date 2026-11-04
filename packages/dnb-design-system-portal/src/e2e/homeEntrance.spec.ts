@@ -28,7 +28,7 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
         .getByRole('navigation', { name: 'Get started' })
         .getByRole('link', { name: /Develop/ })
         .click()
-      await expect(page).toHaveURL('/web/getting-started/')
+      await expect(page).toHaveURL('/web/get-started/quick-start/')
       await expect(items).toHaveCount(0)
       await page.clock.pauseAt(new Date(Date.now() + 1000))
       await page

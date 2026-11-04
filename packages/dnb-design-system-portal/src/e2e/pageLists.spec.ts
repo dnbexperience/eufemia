@@ -62,6 +62,7 @@ test.describe('Page Lists', () => {
                   (href) =>
                     href &&
                     href !== '/web/components/overview' &&
+                    href !== '/web/components/icon/usage' &&
                     href !== '/web/components/fragments' &&
                     !href.startsWith('/web/components/fragments/')
                 )
@@ -80,6 +81,7 @@ test.describe('Page Lists', () => {
                   (href) =>
                     href &&
                     href !== '/web/components/overview' &&
+                    href !== '/web/components/icon/usage' &&
                     href !== '/web/components/fragments' &&
                     !href.startsWith('/web/components/fragments/')
                 )
@@ -92,7 +94,7 @@ test.describe('Page Lists', () => {
 
   test.describe('of extensions', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/web/extensions/')
+      await page.goto('/web/patterns-and-extensions/extensions/')
 
       // Check if app is mounted
       await waitForApp(page)
@@ -114,7 +116,7 @@ test.describe('Page Lists', () => {
 
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu [data-sidebar-menu-id="web-extensions"] [data-sidebar-menu-id] > a[href^="/web/extensions/"], #portal-sidebar-menu [data-sidebar-menu-id="web-extensions"] [data-sidebar-menu-id] > .dnb-sidebar-menu__accordion__trigger a[href^="/web/extensions/"]'
+          '#portal-sidebar-menu [data-sidebar-menu-id="web-patterns-and-extensions-extensions"] [data-sidebar-menu-id] > a[href^="/web/extensions/"], #portal-sidebar-menu [data-sidebar-menu-id="web-patterns-and-extensions-extensions"] [data-sidebar-menu-id] > .dnb-sidebar-menu__accordion__trigger a[href^="/web/extensions/"]'
         )
         .count()
 
@@ -128,7 +130,7 @@ test.describe('Page Lists', () => {
 
   test.describe('of elements', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/web/elements/')
+      await page.goto('/web/layout-and-typography/elements/')
 
       // Check if app is mounted
       await waitForApp(page)
@@ -147,7 +149,7 @@ test.describe('Page Lists', () => {
       await expandAllSidebarItems(page)
 
       const sidebarLinks = page.locator(
-        '#portal-sidebar-menu [data-sidebar-menu-id="web-elements"] [data-sidebar-menu-id] > a[href^="/web/elements/"]'
+        '#portal-sidebar-menu [data-sidebar-menu-id="web-layout-and-typography-elements"] [data-sidebar-menu-id] > a[href^="/web/elements/"]'
       )
       const pageLinks = page.locator(
         '#tab-bar-content ul li a[href^="/web/elements/"]:not([aria-hidden])'

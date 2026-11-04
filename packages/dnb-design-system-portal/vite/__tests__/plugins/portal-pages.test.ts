@@ -31,17 +31,17 @@ describe('portal-pages plugin', () => {
 
     it('ignores helper components with PascalCase names', () => {
       expect(
-        shouldIgnore('/src/docs/web/changelog/GitHubChangelog.tsx')
-      ).toBe(true)
-      expect(
         shouldIgnore(
-          '/src/docs/web/extensions/payment-card/CardProductsTable.tsx'
+          '/src/docs/web/releases-and-upgrades/change-log-history/GitHubChangelog.tsx'
         )
       ).toBe(true)
       expect(
         shouldIgnore(
-          '/src/docs/web/extensions/forms/Form/ListFormComponents.tsx'
+          '/src/docs/web/patterns-and-extensions/payment-card/CardProductsTable.tsx'
         )
+      ).toBe(true)
+      expect(
+        shouldIgnore('/src/docs/web/forms/Form/ListFormComponents.tsx')
       ).toBe(true)
     })
 
@@ -60,9 +60,11 @@ describe('portal-pages plugin', () => {
     })
 
     it('ignores underscore-prefixed files', () => {
-      expect(shouldIgnore('/src/docs/web/typography/_helpers.tsx')).toBe(
-        true
-      )
+      expect(
+        shouldIgnore(
+          '/src/docs/web/layout-and-typography/typography/_helpers.tsx'
+        )
+      ).toBe(true)
       expect(
         shouldIgnore('/src/docs/web/components/drawer-list/_prop-data.mdx')
       ).toBe(true)
@@ -131,14 +133,14 @@ describe('portal-pages plugin', () => {
 
     it('strips index from slug while preserving the case-sensitive source filename', () => {
       createFile(
-        'web/extensions/forms/Form/Section/index.mdx',
+        'web/forms/Form/Section/index.mdx',
         '---\ntitle: Form.Section\n---'
       )
 
       const files = scanPageFiles(tmpDir)
-      expect(files[0].slug).toBe('web/extensions/forms/Form/Section')
+      expect(files[0].slug).toBe('web/forms/Form/Section')
       expect(files[0].sourcePath).toBe(
-        'packages/dnb-design-system-portal/src/docs/web/extensions/forms/Form/Section/index.mdx'
+        'packages/dnb-design-system-portal/src/docs/web/forms/Form/Section/index.mdx'
       )
     })
 

@@ -2,10 +2,12 @@
 showTabs: true
 redirect_from:
   - /uilib/components/textarea/info
+legacyFragments:
+  textarea: /web/components/textarea/#text-area
 ---
 
 import * as Examples from './Examples'
-import WhenToUseForms from 'Docs/web/extensions/forms/when-to-use-forms.mdx'
+import WhenToUseForms from 'Docs/web/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -21,7 +23,7 @@ The Textarea component is a multi-line text input control with an unlimited numb
 
 <WhenToUseForms />
 
-The Eufemia Forms equivalent of `Textarea` is [Field.String](/web/extensions/forms/base-fields/String/) with the `multiline` property.
+The Eufemia Forms equivalent of `Textarea` is [Field.String](/web/forms/base-fields/String/) with the `multiline` property.
 
 ## Relevant links
 
@@ -39,7 +41,7 @@ Please avoid using the `maxlength` attribute whenever possible, as it is not acc
 
 This way, the user gets visual feedback on the number of characters entered and the maximum number of characters allowed, and it will not limit the user in their workflow.
 
-You can still set the requirement for your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/web/extensions/forms/base-fields/String/).
+You can still set the requirement for your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/web/forms/base-fields/String/).
 
 <Examples.MaxLength />
 

@@ -55,7 +55,7 @@ test('loads highlighted code when navigating from Home', async ({
     .locator('[data-portal-home]')
     .getByRole('link', { name: /Develop/ })
     .click()
-  await expect(page).toHaveURL(/\/web\/getting-started\//)
+  await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//)
   await expect(
     page.locator('pre.language-bash .token').first()
   ).toBeVisible()
@@ -75,7 +75,9 @@ test('renders highlighted Markdown code without JavaScript', async ({
   const context = await browser.newContext({ javaScriptEnabled: false })
   try {
     const page = await context.newPage()
-    await page.goto(new URL('/web/getting-started/', baseURL).toString())
+    await page.goto(
+      new URL('/web/get-started/quick-start/', baseURL).toString()
+    )
     await expect(
       page.locator('pre.language-bash .token').first()
     ).toBeVisible()

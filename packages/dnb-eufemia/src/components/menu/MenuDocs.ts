@@ -70,7 +70,7 @@ export const MenuButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Button props]': {
-    doc: 'All [Button](/uilib/components/button/properties) props are supported.',
+    doc: 'All [Button](/web/components/button/properties) props are supported.',
     type: 'Various',
     status: 'optional',
   },

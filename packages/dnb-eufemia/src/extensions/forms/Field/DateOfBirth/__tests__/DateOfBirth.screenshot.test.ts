@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-const url = '/web/extensions/forms/feature-fields/DateOfBirth/demos/'
+const url = '/web/forms/feature-fields/DateOfBirth/demos/'
 
 describe.each(['ui'])(`DateOfBirth for %s`, (themeName) => {
   setupPageScreenshot({
