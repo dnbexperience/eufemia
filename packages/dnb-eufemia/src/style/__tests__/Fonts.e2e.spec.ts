@@ -1,13 +1,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import * as sass from 'sass'
 import postcss from 'postcss'
 import { test, expect } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
+import { compileFontTestStyles as compile } from './fontTestStyles'
 
 const packageRoot = path.resolve(__dirname, '../../..')
-const compile = (file: string) =>
-  sass.compile(path.join(packageRoot, 'src', file)).css
 const text = 'ÆØÅ æøå Gjør noe større 0123456789'
 
 for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
@@ -522,3 +520,33 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
     )
   }
 }
+
+test('loads a font response that arrives after the fallback deadline', async ({
+  page,
+}) => {
+  await page.route('https://fonts.test/delayed.woff2', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 4000))
+    await route.fulfill({
+      contentType: 'font/woff2',
+      body: await fs.readFile(
+        path.join(
+          packageRoot,
+          'assets/fonts/dnb/web/DNBSansText-Regular.woff2'
+        )
+      ),
+    })
+  })
+  const css = compile('style/themes/ui/fonts.scss').replace(
+    /url\(["']?[^)"']*DNBSansText-Regular\.woff2["']?\)/g,
+    'url("https://fonts.test/delayed.woff2")'
+  )
+  await page.setContent(
+    '<style>' + css + '</style><p style="font:18px DNB">ÆØÅ Hgjpq</p>'
+  )
+  const faces = await page.evaluate(async () =>
+    (await document.fonts.load('18px DNB', 'ÆØÅ Hgjpq')).map(
+      (face) => face.status
+    )
+  )
+  expect(faces).toEqual(['loaded'])
+})

@@ -1,14 +1,12 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import * as sass from 'sass'
 import postcss from 'postcss'
 import { PNG } from 'pngjs'
 import { expect, test, type Locator } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
+import { compileFontTestStyles as compile } from './fontTestStyles'
 
 const packageRoot = path.resolve(__dirname, '../../..')
-const compile = (file: string) =>
-  sass.compile(path.join(packageRoot, 'src', file)).css
 
 async function buttonInkCenter(button: Locator) {
   const bounds = await button.evaluate(async (element) => {
