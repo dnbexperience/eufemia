@@ -1140,3 +1140,110 @@ it('passes the CSP nonce to first-paint styles without naming the generic scroll
     container.querySelector('.dnb-table-of-content__scroll')
   ).not.toHaveAttribute('aria-labelledby')
 })
+
+it('contains outline scrolling only while its list overflows and updates after resizing', async () => {
+  const callbacks: ResizeObserverCallback[] = []
+  const disconnect = vi.fn()
+  vi.stubGlobal(
+    'ResizeObserver',
+    class {
+      constructor(callback: ResizeObserverCallback) {
+        callbacks.push(callback)
+      }
+      observe() {}
+      disconnect = disconnect
+    }
+  )
+  try {
+    const { unmount, rerender } = render(
+      <TableOfContent.Data data={data} currentId="details" />
+    )
+    await waitFor(() =>
+      expect(document.querySelector('nav')).not.toBeNull()
+    )
+    const scroll = document.querySelector<HTMLElement>(
+      '.dnb-table-of-content__scroll'
+    )
+    Object.defineProperty(scroll, 'clientHeight', {
+      configurable: true,
+      value: 100,
+    })
+    Object.defineProperty(scroll, 'scrollHeight', {
+      configurable: true,
+      value: 300,
+    })
+    act(() => callbacks.forEach((callback) => callback([], null)))
+    expect(scroll.style.overscrollBehaviorY).toBe('contain')
+
+    const wheel = (deltaY: number, options: WheelEventInit = {}) => {
+      const event = new WheelEvent('wheel', {
+        deltaY,
+        cancelable: true,
+        ...options,
+      })
+      scroll.dispatchEvent(event)
+      return event.defaultPrevented
+    }
+    scroll.scrollTop = 200
+    expect(wheel(100)).toBe(true)
+    expect(wheel(-100)).toBe(false)
+    expect(wheel(100, { ctrlKey: true })).toBe(false)
+    expect(wheel(100, { shiftKey: true })).toBe(false)
+    expect(wheel(100, { deltaX: 200 })).toBe(false)
+    scroll.scrollTop = 50
+    expect(wheel(100)).toBe(false)
+    scroll.scrollTop = 0
+    expect(wheel(-100)).toBe(true)
+    act(() => setMedia({ width: '390px' }))
+    expect(scroll.style.overscrollBehaviorY).toBe('')
+    expect(wheel(-100)).toBe(false)
+    act(() => setMedia({ width: '1400px' }))
+    expect(scroll.style.overscrollBehaviorY).toBe('contain')
+    rerender(
+      <TableOfContent.Data data={data.slice(0, 2)} currentId="overview" />
+    )
+    expect(scroll.style.overscrollBehaviorY).toBe('contain')
+    Object.defineProperty(scroll, 'scrollHeight', {
+      configurable: true,
+      value: 100,
+    })
+    act(() => callbacks.forEach((callback) => callback([], null)))
+    expect(scroll.style.overscrollBehaviorY).toBe('auto')
+    expect(wheel(100)).toBe(false)
+    expect(wheel(-100)).toBe(false)
+    unmount()
+    expect(disconnect).toHaveBeenCalled()
+    Object.defineProperty(scroll, 'scrollHeight', {
+      configurable: true,
+      value: 300,
+    })
+    expect(wheel(-100)).toBe(false)
+  } finally {
+    vi.unstubAllGlobals()
+  }
+})
+
+it('contains a sidebar revealed by increasing the visible depth', () => {
+  const children = <TableOfContent.Item id="overview" text="Overview" />
+  const { rerender } = render(
+    <TableOfContent.Root maxDepth={0}>{children}</TableOfContent.Root>
+  )
+  expect(document.querySelector('nav')).toBeNull()
+  rerender(
+    <TableOfContent.Root maxDepth={2}>{children}</TableOfContent.Root>
+  )
+  const scroll = document.querySelector<HTMLElement>(
+    '.dnb-table-of-content__scroll'
+  )
+  Object.defineProperty(scroll, 'scrollHeight', {
+    configurable: true,
+    value: 300,
+  })
+  Object.defineProperty(scroll, 'clientHeight', {
+    configurable: true,
+    value: 100,
+  })
+  const event = new WheelEvent('wheel', { deltaY: -100, cancelable: true })
+  scroll.dispatchEvent(event)
+  expect(event.defaultPrevented).toBe(true)
+})

@@ -1,6 +1,45 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('TableOfContent extension', () => {
+  test('contains wheel scrolling in an overflowing component outside the Portal outline', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/uilib/extensions/table-of-content/demos/')
+    const toc = page.locator(
+      '[data-visual-test="table-of-content-declarative"] nav'
+    )
+    await expect(toc).toBeVisible()
+    await toc.evaluate((element) => {
+      element.style.maxHeight = '6rem'
+    })
+    const scroll = toc.locator('.dnb-table-of-content__scroll')
+    await expect(scroll).toHaveCSS('overscroll-behavior-y', 'contain')
+    await scroll.evaluate((element) =>
+      element.scrollTo({ top: element.scrollHeight, behavior: 'instant' })
+    )
+    const bottom = await scroll.evaluate((element) => element.scrollTop)
+    expect(bottom).toBeGreaterThan(0)
+    await scroll.hover()
+    const top = await page.evaluate(() => window.scrollY)
+    await page.mouse.wheel(0, 400)
+    await page.waitForTimeout(300)
+    expect(await page.evaluate(() => window.scrollY)).toBe(top)
+    expect(await scroll.evaluate((element) => element.scrollTop)).toBe(
+      bottom
+    )
+    await toc.evaluate((element) => {
+      element.style.maxHeight = ''
+    })
+    await expect(scroll).toHaveCSS('overscroll-behavior-y', 'auto')
+    await scroll.hover()
+    const shortTop = await page.evaluate(() => window.scrollY)
+    await page.mouse.wheel(0, 400)
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThan(shortTop)
+  })
+
   test('redirects existing documentation links to the extension pages', async ({
     page,
   }) => {

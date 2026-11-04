@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, it, expect, vi } from 'vitest'
+import { afterEach, it, expect, vi } from 'vitest'
 import { act, render, waitFor } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
 import PortalToc from '../PortalToc'
@@ -6,33 +6,18 @@ import { PortalTocData, readInitialToc } from '../PortalTocData'
 
 vi.mock('@dnb/eufemia/src/extensions', () => ({
   TableOfContent: {
-    Data: ({ data: sections, locale, ref }) => (
-      <nav lang={locale} ref={ref}>
-        <div className="dnb-table-of-content__scroll">
-          <div>
-            {sections.map(({ id, text }) => (
-              <a key={id} href={'#' + id}>
-                {text}
-              </a>
-            ))}
-          </div>
-        </div>
+    Data: ({ data: sections, locale }) => (
+      <nav lang={locale}>
+        {sections.map(({ id, text }) => (
+          <a key={id} href={'#' + id}>
+            {text}
+          </a>
+        ))}
       </nav>
     ),
   },
 }))
 vi.mock('@dnb/eufemia/src/extensions/table-of-content/style', () => ({}))
-
-beforeEach(() => {
-  vi.stubGlobal(
-    'ResizeObserver',
-    class {
-      observe() {}
-      disconnect() {}
-    }
-  )
-})
-afterEach(() => vi.unstubAllGlobals())
 
 afterEach(() =>
   document.querySelectorAll('main').forEach((main) => main.remove())
@@ -192,78 +177,4 @@ it('omits navigation when there are no headings below the page title', () => {
   )
   expect(container.querySelector('nav')).toBeNull()
   expect(container.querySelector('#portal-toc-data')).not.toBeNull()
-})
-
-it('contains outline scrolling only while its list overflows and updates after resizing', async () => {
-  const main = document.createElement('main')
-  main.append(heading('first', 'First'))
-  document.body.append(main)
-  const callbacks: ResizeObserverCallback[] = []
-  const disconnect = vi.fn()
-  vi.stubGlobal(
-    'ResizeObserver',
-    class {
-      constructor(callback: ResizeObserverCallback) {
-        callbacks.push(callback)
-      }
-      observe() {}
-      disconnect = disconnect
-    }
-  )
-  try {
-    const { unmount } = render(<PortalToc />)
-    await waitFor(() =>
-      expect(document.querySelector('nav')).not.toBeNull()
-    )
-    const scroll = document.querySelector<HTMLElement>(
-      '.dnb-table-of-content__scroll'
-    )
-    Object.defineProperty(scroll, 'clientHeight', {
-      configurable: true,
-      value: 100,
-    })
-    Object.defineProperty(scroll, 'scrollHeight', {
-      configurable: true,
-      value: 300,
-    })
-    act(() => callbacks.forEach((callback) => callback([], null)))
-    expect(scroll.style.overscrollBehaviorY).toBe('contain')
-
-    const wheel = (deltaY: number, options: WheelEventInit = {}) => {
-      const event = new WheelEvent('wheel', {
-        deltaY,
-        cancelable: true,
-        ...options,
-      })
-      scroll.dispatchEvent(event)
-      return event.defaultPrevented
-    }
-    scroll.scrollTop = 200
-    expect(wheel(100)).toBe(true)
-    expect(wheel(-100)).toBe(false)
-    expect(wheel(100, { ctrlKey: true })).toBe(false)
-    expect(wheel(100, { shiftKey: true })).toBe(false)
-    expect(wheel(100, { deltaX: 200 })).toBe(false)
-    scroll.scrollTop = 50
-    expect(wheel(100)).toBe(false)
-    scroll.scrollTop = 0
-    expect(wheel(-100)).toBe(true)
-    Object.defineProperty(scroll, 'scrollHeight', {
-      configurable: true,
-      value: 100,
-    })
-    act(() => callbacks.forEach((callback) => callback([], null)))
-    expect(scroll.style.overscrollBehaviorY).toBe('auto')
-    expect(wheel(100)).toBe(false)
-    expect(wheel(-100)).toBe(false)
-    unmount()
-    expect(disconnect).toHaveBeenCalled()
-    Object.defineProperty(scroll, 'scrollHeight', {
-      configurable: true,
-      value: 300,
-    })
-    expect(wheel(-100)).toBe(false)
-  } finally {
-    vi.unstubAllGlobals()
-  }
 })

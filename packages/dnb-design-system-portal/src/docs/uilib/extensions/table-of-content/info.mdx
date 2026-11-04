@@ -82,7 +82,7 @@ import { TableOfContentPreHydrationScript } from '@dnb/eufemia/extensions/table-
 <TableOfContentPreHydrationScript />
 ```
 
-Desktop navigation is sticky by default within its containing block. Set stickyOffset to clear a fixed header, or `sticky={false}` when the application owns positioning. Align its initial position with stickyOffset when it should remain stationary from the first scroll. Mobile disclosure remains in normal document flow. Constrain its height in a flex container when a long table of contents needs its own scrolling area. The current link is revealed inside that area without moving keyboard focus as the reader scrolls.
+Desktop navigation is sticky by default within its containing block. Set stickyOffset to clear a fixed header, or `sticky={false}` when the application owns positioning. Align its initial position with stickyOffset when it should remain stationary from the first scroll. Mobile disclosure remains in normal document flow. Constrain its height in a flex container when a long table of contents needs its own scrolling area. The current link is revealed inside that area without moving keyboard focus as the reader scrolls. When the desktop list overflows, wheel scrolling stays inside it at both ends. Short lists let the surrounding page scroll.
 
 Use currentSectionOffset for the point where a heading becomes selected, stickyOffset for the TOC position, and CSS scroll-padding-top on the scrolling container for anchor destinations. Set these to the same header clearance to keep headings visible and selected. For example, with a 96px header clearance:
 
