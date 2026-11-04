@@ -111,10 +111,10 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   border-color: transparent;
 }
 .dnb-avatar__group .dnb-avatar--size-small {
-  margin-left: -0.5rem;
+  margin-left: -0.25rem;
 }
 .dnb-avatar__group .dnb-avatar--size-medium {
-  margin-left: -0.75rem;
+  margin-left: -0.375rem;
 }
 .dnb-avatar__group .dnb-avatar--size-large {
   margin-left: -1rem;
