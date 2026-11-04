@@ -9,7 +9,7 @@ test.describe('Ai.AgentAction', () => {
         await page.clock.install()
         await page.emulateMedia({ reducedMotion })
         await page.goto(
-          '/web/extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
+          '/web/patterns-and-extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
         )
         await waitForApp(page)
         // Freeze CSS timelines before Replay mounts the animated elements.
@@ -96,7 +96,7 @@ test.describe('Ai.AgentAction', () => {
     await page.clock.install()
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.goto(
-      '/web/extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
+      '/web/patterns-and-extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
     )
     await waitForApp(page)
     await page.addStyleTag({
@@ -164,7 +164,7 @@ test.describe('Ai.AgentAction', () => {
     page,
   }) => {
     await page.clock.install()
-    await page.goto('/web/extensions/ai/AgentAction/demos/#pending-undo')
+    await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/#pending-undo')
     await waitForApp(page)
     const add = page.getByRole('button', {
       name: 'Add Undo deadline',
@@ -199,7 +199,7 @@ test.describe('Ai.AgentAction', () => {
   }) => {
     await page.clock.install()
     await page.goto(
-      '/web/extensions/ai/AgentAction/demos/#historical-actions'
+      '/web/patterns-and-extensions/ai/AgentAction/demos/#historical-actions'
     )
     await waitForApp(page)
     await page.clock.fastForward(1100)
@@ -220,7 +220,7 @@ test.describe('Ai.AgentAction', () => {
       'keeps known progress free of a bottom line in ' + colorScheme,
       async ({ page }) => {
         await page.emulateMedia({ colorScheme })
-        await page.goto('/web/extensions/ai/AgentAction/demos/')
+        await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/')
         await waitForApp(page)
         const fill = page.locator(
           '[aria-valuenow="35"] .dnb-ai-agent-action__fill'
@@ -241,7 +241,7 @@ test.describe('Ai.AgentAction', () => {
   test('grows known progress from the initial pill width to the full target', async ({
     page,
   }) => {
-    await page.goto('/web/extensions/ai/AgentAction/demos/')
+    await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/')
     await waitForApp(page)
     await page.evaluate(() => document.fonts.ready)
     for (const progress of [35, 65]) {
@@ -269,7 +269,7 @@ test.describe('Ai.AgentAction', () => {
   }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.goto(
-      '/web/extensions/ai/AgentAction/demos/#unknown-progress-and-cancellation'
+      '/web/patterns-and-extensions/ai/AgentAction/demos/#unknown-progress-and-cancellation'
     )
     await waitForApp(page)
     const action = page
@@ -330,7 +330,7 @@ test.describe('Ai.AgentAction', () => {
   }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.goto(
-      '/web/extensions/ai/AgentAction/demos/#unknown-progress-and-cancellation'
+      '/web/patterns-and-extensions/ai/AgentAction/demos/#unknown-progress-and-cancellation'
     )
     await waitForApp(page)
     const action = page
@@ -366,7 +366,7 @@ test.describe('Ai.AgentAction', () => {
   test('keeps keyboard focus in the action while Undo is pending and respects moving on', async ({
     page,
   }) => {
-    await page.goto('/web/extensions/ai/AgentAction/demos/#pending-undo')
+    await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/#pending-undo')
     await waitForApp(page)
     const confirm = page.getByRole('button', {
       name: 'Confirm reversal',
@@ -389,7 +389,7 @@ test.describe('Ai.AgentAction', () => {
   })
 
   test('keeps Undo mounted when a deadline is added', async ({ page }) => {
-    await page.goto('/web/extensions/ai/AgentAction/demos/#pending-undo')
+    await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/#pending-undo')
     await waitForApp(page)
     const add = page.getByRole('button', {
       name: 'Add Undo deadline',
@@ -411,7 +411,7 @@ test.describe('Ai.AgentAction', () => {
     page,
   }) => {
     await page.clock.install()
-    await page.goto('/web/extensions/ai/AgentAction/demos/#pending-undo')
+    await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/#pending-undo')
     await waitForApp(page)
     const add = page.getByRole('button', {
       name: 'Add Undo deadline',
@@ -444,7 +444,7 @@ test.describe('Ai.AgentAction', () => {
             )),
           'This browser does not support forced colors.'
         )
-        await page.goto('/web/extensions/ai/AgentAction/demos/')
+        await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/')
         await waitForApp(page)
         if (forcedColors === 'none') {
           for (const fill of await page
@@ -517,7 +517,7 @@ test.describe('Ai.AgentAction', () => {
   test('uses regular action text and medium Undo text', async ({
     page,
   }) => {
-    await page.goto('/web/extensions/ai/AgentAction/demos/')
+    await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/')
     await waitForApp(page)
     const text = page.locator('.dnb-ai-agent-action__text').first()
     const action = page.locator('.dnb-ai-agent-action').first()
@@ -544,7 +544,7 @@ test.describe('Ai.AgentAction', () => {
           reducedMotion,
         async ({ page }) => {
           await page.emulateMedia({ colorScheme, reducedMotion })
-          await page.goto('/web/extensions/ai/AgentAction/demos/')
+          await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/')
           await waitForApp(page)
           await page.evaluate(() => document.fonts.ready)
 
@@ -618,7 +618,7 @@ test.describe('Ai.AgentAction', () => {
       async ({ page }) => {
         await page.setViewportSize({ width: 1280, height: 900 })
         await page.emulateMedia({ reducedMotion })
-        await page.goto('/web/extensions/ai/AgentAction/demos/')
+        await page.goto('/web/patterns-and-extensions/ai/AgentAction/demos/')
         await waitForApp(page)
         await page.evaluate(() => document.fonts.ready)
 

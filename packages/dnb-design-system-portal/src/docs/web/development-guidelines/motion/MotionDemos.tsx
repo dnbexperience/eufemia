@@ -146,7 +146,6 @@ function MotionStudy({
       stack
       responsive={false}
       gap="small"
-      backgroundColor="var(--token-color-background-neutral-base)"
     >
       <Card
         element="div"
@@ -163,7 +162,6 @@ function MotionStudy({
         <H2
           id={`${id}-title`}
           size="medium"
-          weight="medium"
           top={0}
           bottom={0}
         >

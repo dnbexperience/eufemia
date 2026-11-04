@@ -16,13 +16,13 @@ describe('createMarkdownCopies', () => {
     const docsRoot = path.join(root, 'docs')
     const outputRoot = path.join(root, 'out')
     const routes = [
-      'web/extensions/ai.mdx',
-      'web/extensions/ai/Message.mdx',
-      'web/extensions/ai/Message/info.mdx',
-      'web/extensions/ai/Message/properties.mdx',
-      'web/extensions/ai/Message/events.mdx',
-      'web/extensions/ai/Message/demos.mdx',
-      'web/extensions/ai/integrations.mdx',
+      'web/patterns-and-extensions/ai.mdx',
+      'web/patterns-and-extensions/ai/Message.mdx',
+      'web/patterns-and-extensions/ai/Message/info.mdx',
+      'web/patterns-and-extensions/ai/Message/properties.mdx',
+      'web/patterns-and-extensions/ai/Message/events.mdx',
+      'web/patterns-and-extensions/ai/Message/demos.mdx',
+      'web/patterns-and-extensions/ai/integrations.mdx',
       'uilib/components/button.mdx',
     ]
     for (const route of routes) {

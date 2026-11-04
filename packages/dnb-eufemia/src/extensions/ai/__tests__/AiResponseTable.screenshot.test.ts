@@ -9,7 +9,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
     setupPageScreenshot({
       themeName: 'ui',
       colorScheme,
-      url: '/web/extensions/ai/Response/demos/',
+      url: '/web/patterns-and-extensions/ai/Response/demos/',
     })
     it('shows a readable hint below a narrow table', async () => {
       await makeScreenshot({

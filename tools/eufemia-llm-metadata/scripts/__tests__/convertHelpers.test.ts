@@ -72,7 +72,7 @@ describe('convertMdxToMd', () => {
       path.join(os.tmpdir(), 'ai-experimental-md-')
     )
     const docsRoot = path.join(root, 'docs')
-    const directory = path.join(docsRoot, 'web/extensions/ai/Message')
+    const directory = path.join(docsRoot, 'web/patterns-and-extensions/ai/Message')
     fs.mkdirSync(directory, { recursive: true })
     const inputPath = path.join(directory, '../Message.mdx')
     fs.writeFileSync(
@@ -1184,13 +1184,15 @@ describe('convertMdxToMd', () => {
     )
     expect(output).toContain('## Resources')
     expect(output).toContain(
-      '- [Images](/web/layout-and-typography/elements/image)'
+      '- [Components](/web/components/overview/)'
     )
     expect(output).toContain(
-      '- [Brand](/design-foundations/brand-guidelines)'
+      '- [AI](/web/ai-tools-and-resources/ai/mcp-universe/)'
     )
-    expect(output).toContain("- [What's new](/web/releases-and-upgrades)")
-    expect(output).toContain('- [Eufemia change log](/design-system)')
+    expect(output).toContain('- [Forms](/web/forms/)')
+    expect(output).toContain(
+      '- [Motion](/web/development-guidelines/motion/)'
+    )
     expect(output).not.toContain('<Home')
   })
 

@@ -4,7 +4,7 @@ import fs from 'node:fs'
 const notice = JSON.parse(
   fs.readFileSync(
     new URL(
-      '../../../../packages/dnb-design-system-portal/src/docs/web/extensions/ai/experimentalNotice.json',
+      '../../../../packages/dnb-design-system-portal/src/docs/web/patterns-and-extensions/ai/experimentalNotice.json',
       import.meta.url
     ),
     'utf8'
@@ -19,8 +19,8 @@ export function getDocumentationNotice(
     .relative(docsRoot, inputPath)
     .split(path.sep)
     .join('/')
-  return route === 'web/extensions/ai.mdx' ||
-    route.startsWith('web/extensions/ai/')
+  return route === 'web/patterns-and-extensions/ai.mdx' ||
+    route.startsWith('web/patterns-and-extensions/ai/')
     ? '**Experimental:** ' + notice.text
     : ''
 }
