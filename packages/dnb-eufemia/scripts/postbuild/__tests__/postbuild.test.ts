@@ -942,7 +942,7 @@ describe('tsdown build', () => {
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
-              /import\*as \w from"\.\/dnb-ui-collections\/icons\.min\.mjs";/ // "./dnb-ui-icons.min.mjs"
+              /import\*as \w from"\.\/dnb-ui-icons\.min\.mjs";/ // "./dnb-ui-icons.min.mjs"
             )
           }
         }
@@ -959,7 +959,7 @@ describe('tsdown build', () => {
             expect(content).toMatch(/require\(["`]react["`]\),/)
             expect(content).toMatch(/require\(["`]react-dom["`]\)\):/)
             expect(content).toMatch(
-              /require\(["`]\.\/dnb-ui-collections\/icons\.min\.js["`]\)/
+              /require\(["`]\.\/dnb-ui-icons\.min\.js["`]\)/
             )
           }
         }

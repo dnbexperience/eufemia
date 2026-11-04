@@ -25,7 +25,7 @@ const ignorePatterns = [
   '**/assets/**',
   '**/public/**',
   '**/.cache/**',
-  '**/collections/icons/**',
+  '**/icons/**',
   '**/node_modules/**',
   '*not_in_use*',
 ]
