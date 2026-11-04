@@ -9,14 +9,10 @@
   }
 
   &__popover {
-    --popover-border-radius: var(--token-radius-lg);
+    --popover-border-radius: var(--token-radius-xl);
 
     &.dnb-popover {
       min-width: auto;
-    }
-
-    &:not(.dnb-popover--no-inner-space) .dnb-popover__content {
-      padding-top: 1rem;
     }
   }
 
@@ -285,6 +281,7 @@
   &__actions {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1.5rem;
     padding-top: 1rem;
   }
