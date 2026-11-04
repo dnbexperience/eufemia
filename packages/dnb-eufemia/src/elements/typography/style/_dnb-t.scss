@@ -53,6 +53,9 @@
   }
 
   // weight
+  &__weight--light {
+    font-weight: var(--font-weight-light, 300);
+  }
   &__weight--regular {
     font-weight: var(--font-weight-regular);
   }
@@ -72,17 +75,6 @@
   }
   &__align--right {
     text-align: right;
-  }
-
-  // family
-  &__family--default {
-    font-family: var(--font-family-default);
-  }
-  &__family--heading {
-    font-family: var(--font-family-heading);
-  }
-  &__family--monospace {
-    font-family: var(--font-family-monospace);
   }
 
   // underline / italic

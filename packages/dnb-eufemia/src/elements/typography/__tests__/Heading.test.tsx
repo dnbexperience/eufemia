@@ -216,3 +216,27 @@ describe('Heading', () => {
     )
   })
 })
+
+describe('Display font family', () => {
+  it.each([H1, H2, H3, H4, H5, H6])(
+    'opts a heading into Display without changing its level',
+    (Component) => {
+      render(<Component family="display">A clear message</Component>)
+      const heading = document.querySelector(
+        '[data-flex-item-type="heading"]'
+      )
+      expect(heading.tagName).toBe(
+        'H' + ([H1, H2, H3, H4, H5, H6].indexOf(Component) + 1)
+      )
+      expect(heading).toHaveClass('dnb-t__family--display')
+      expect(heading).not.toHaveAttribute('family')
+    }
+  )
+
+  it('keeps Display opt-in', () => {
+    render(<H1>Everyday heading</H1>)
+    expect(document.querySelector('h1')).not.toHaveClass(
+      'dnb-t__family--display'
+    )
+  })
+})

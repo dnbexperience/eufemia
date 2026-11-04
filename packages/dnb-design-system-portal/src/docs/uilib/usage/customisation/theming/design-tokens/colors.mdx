@@ -57,7 +57,7 @@ Search application CSS, SCSS and JavaScript/TypeScript strings for `--token-colo
  }
 ```
 
-This is not a one-to-one replacement. Check links, secondary text, error text and nested surfaces in every supported theme and color mode. Normal text needs at least 4.5:1 contrast. In particular, `text-error` on `background-neutral-subtle` remains below that threshold in DNB dark (4.13:1) and Sbanken dark (3.23:1). Use a supported surface/text pair rather than assuming every text token works on every neutral background. See the [neutral surface guidance](/uilib/usage/customisation/theming/design-tokens/guide#neutral-surfaces-and-text).
+This is not a one-to-one replacement. Check links, secondary text, error text and nested surfaces in every supported theme and color mode. Normal text needs at least 4.5:1 contrast. Dark-mode `text-error` now uses a lighter red on the same surfaces: 4.53:1 in DNB and Eiendom, and 4.67:1 in Sbanken on `background-neutral-subtle`. Use a supported surface/text pair rather than assuming every text token works on every neutral background. See the [neutral surface guidance](/uilib/usage/customisation/theming/design-tokens/guide#neutral-surfaces-and-text).
 
 Also review direct uses of `--token-color-stroke-neutral-alternative`, which changes in DNB light and Sbanken dark, and `--token-color-stroke-neutral-bold`, which changes in DNB dark and Sbanken dark. The new `--token-color-stroke-neutral-base` provides a base-level outline. Background and stroke tokens with the same suffix do not guarantee sufficient text or control contrast.
 

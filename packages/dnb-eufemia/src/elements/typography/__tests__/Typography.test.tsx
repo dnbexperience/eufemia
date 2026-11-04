@@ -627,3 +627,56 @@ describe('useTypography', () => {
     expect(el.dataset.randomProp).toBe('test')
   })
 })
+
+describe('font variants', () => {
+  it('supports Light and genuine italic modifiers', () => {
+    render(
+      <Typography weight="light" slant="italic">
+        Text
+      </Typography>
+    )
+    expect(document.querySelector('.dnb-p')).toHaveClass(
+      'dnb-t__weight--light',
+      'dnb-t__slant--italic'
+    )
+  })
+
+  it('supports Display on the dynamic Heading component', () => {
+    render(<Heading family="display">A clear message</Heading>)
+    const heading = document.querySelector('.dnb-heading')
+    expect(heading).toHaveClass('dnb-t__family--display')
+    expect(heading).not.toHaveAttribute('family')
+  })
+
+  it.each([
+    'basis',
+    'default',
+    'heading',
+    'monospace',
+    'display',
+  ] as const)('supports the %s family', (family) => {
+    render(<Typography family={family}>Text</Typography>)
+    expect(document.querySelector('.dnb-p')).toHaveClass(
+      'dnb-t__family--' + family
+    )
+  })
+})
+
+it('lets Display use its own line height unless one is explicitly supplied', () => {
+  const { rerender } = render(
+    <Typography family="display" size="xx-large">
+      Text
+    </Typography>
+  )
+  expect(document.querySelector('.dnb-p')).not.toHaveClass(
+    'dnb-t__line-height--xx-large'
+  )
+  rerender(
+    <Typography family="display" size="xx-large" lineHeight="large">
+      Text
+    </Typography>
+  )
+  expect(document.querySelector('.dnb-p')).toHaveClass(
+    'dnb-t__line-height--large'
+  )
+})

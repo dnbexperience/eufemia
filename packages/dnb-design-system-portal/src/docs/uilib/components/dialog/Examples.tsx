@@ -348,6 +348,27 @@ export const DialogConfirmError = () => (
   </ComponentBox>
 )
 
+export const DialogConfirmWrappedActions = () => (
+  <ComponentBox
+    data-visual-test="dialog-confirm-wrapped-actions"
+    scope={{ trash_medium }}
+  >
+    <Dialog
+      variant="confirmation"
+      confirmType="warning"
+      title="Are you sure you want to delete this?"
+      icon={trash_medium}
+      description="This action cannot be undone."
+      confirmText="Yes, please delete"
+      declineText="No, please cancel"
+      triggerProps={{
+        text: 'Delete record',
+        icon: trash_medium,
+      }}
+    />
+  </ComponentBox>
+)
+
 export const DialogConfirmScrollableContent = () => {
   return (
     <ComponentBox data-visual-test="dialog-scroll-content">

@@ -226,3 +226,21 @@ describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
     })
   })
 })
+
+describe.each(['ui', 'sbanken', 'eiendom'])(
+  'Dropdown error colors for %s dark',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      colorScheme: 'dark',
+      url: '/uilib/components/dropdown/demos/',
+    })
+
+    it('matches the error text, arrow and border', async () => {
+      await makeScreenshot({
+        selector:
+          '[data-visual-test="dropdown-status-error"] .dnb-dropdown__inner',
+      })
+    })
+  }
+)
