@@ -16,6 +16,7 @@ on:
       - 'packages/dnb-eufemia/src/components/skeleton/style/dnb-skeleton.scss'
       - 'packages/dnb-eufemia/src/style/__tests__/Fonts*.spec.ts'
       - 'packages/dnb-eufemia/src/style/__tests__/FontMetrics.e2e.spec.ts'
+      - 'packages/dnb-eufemia/src/style/__tests__/fontTestStyles.ts'
   workflow_dispatch:
 
 permissions:
