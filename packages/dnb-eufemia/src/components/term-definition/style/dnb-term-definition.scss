@@ -36,4 +36,13 @@
   .dnb-popover__title strong::first-letter {
     text-transform: uppercase;
   }
+
+  .dnb-popover__body {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+
+    &:not(:first-child) {
+      margin-top: 0.25rem;
+    }
+  }
 }
