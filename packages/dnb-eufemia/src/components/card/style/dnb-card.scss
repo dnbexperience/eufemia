@@ -300,6 +300,8 @@
     --card-outline-color: var(--token-color-stroke-action-focus);
     --outline-color: var(--token-color-stroke-action-focus);
     --outline-width: var(--focus-ring-width);
+
+    @include utilities.forcedColorsOutline();
   }
 }
 
