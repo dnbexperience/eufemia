@@ -215,6 +215,24 @@ describe('MenuAccordion', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false')
   })
 
+  it('allows application handlers to prevent accordion navigation', () => {
+    render(
+      <MenuContext value={createMockContext()}>
+        <ul role="menu">
+          <Menu.Accordion
+            text="Export as"
+            onKeyDown={(event) => event.preventDefault()}
+          >
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.keyDown(trigger, { key: 'ArrowRight' })
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  })
+
   it('closes accordion and restores focus to trigger on ArrowLeft from child item', () => {
     const ctx = createMockContext()
 

@@ -122,6 +122,10 @@ export const convertVariablesToTailwindFormat = (
   const convertedVariables: CSSVariables = {}
 
   Object.entries(variables).forEach(([key, value]) => {
+    if (key === '--font-family-display-skeleton') {
+      return
+    }
+
     let convertedKey = key
     let convertedValue = value
 

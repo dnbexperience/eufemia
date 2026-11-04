@@ -13,7 +13,6 @@ breadcrumb:
   - text: 'v11'
 ---
 
-import { Accordion } from '@dnb/eufemia/src'
 import {
   FormSetAlternativeAfter,
   FormSetAlternativeForms,
@@ -32,89 +31,6 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
 1. **snake_case → camelCase renames** — The majority of changes are mechanical property, event, and translation key renames. These can be [automated](#automated-migration-snake_case-to-camelcase).
 2. **React 19 alignment** — `innerRef` → `ref`, `Context.Provider` → `Context`, and related updates.
 3. **Behavioral changes and removals** — API redesigns, removed features, and changed defaults. These require manual review.
-
-<Accordion title="Table of contents">
-
-- [Summary of changes](#summary-of-changes)
-- [v10 support timeline](#v10-support-timeline)
-- [Install](#install)
-- [Migration](#migration)
-  - [Automated migration: snake_case to camelCase](#automated-migration-snake_case-to-camelcase)
-  - [Migration effort levels](#migration-effort-levels)
-  - [Semantic renames (not just casing)](#semantic-renames-not-just-casing)
-  - [Import path changes](#import-path-changes)
-  - [Common migration mistakes](#common-migration-mistakes)
-  - [Cross-component prop patterns](#cross-component-prop-patterns)
-  - [Step-by-step migration procedure](#step-by-step-migration-procedure)
-  - [Find-and-replace safety guide](#find-and-replace-safety-guide)
-  - [Verifying your migration](#verifying-your-migration)
-  - [Silent failures TypeScript won't catch](#silent-failures-typescript-wont-catch)
-  - [Complete migration example](#complete-migration-example)
-  - [innerRef → ref](#innerref--ref)
-  - [Context.Provider → Context](#contextprovider--context)
-  - [Theme.Provider → Theme.Context](#themeprovider--themecontext)
-  - [Theme propMapping removed](#theme-propmapping-removed)
-  - [Theme darkMode → colorScheme](#theme-darkmode--colorscheme)
-- [Components](#components)
-  - [labelDirection default changed to vertical](#labeldirection-default-changed-to-vertical)
-  - [Section](#section)
-  - [HelpButton](#helpbutton)
-  - [Autocomplete](#autocomplete)
-  - [Dropdown](#dropdown)
-  - [DrawerList](#drawerlist)
-  - [Anchor](#anchor)
-  - [Input](#input)
-  - [InputMasked](#inputmasked)
-  - [FormLabel](#formlabel)
-  - [Radio](#radio)
-  - [Textarea](#textarea)
-  - [Accordion](#accordion)
-  - [Tag](#tag)
-  - [Upload](#upload)
-  - [Stat](#stat)
-  - [P (paragraph)](#p)
-  - [Definition lists](#definition-lists)
-  - [Breadcrumb](#breadcrumb)
-  - [ProgressIndicator](#progressindicator)
-  - [PaymentCard](#paymentcard)
-  - [Divider (Horizontal Rule)](#divider-horizontal-rule)
-  - [Flex.Item](#flexitem)
-  - [Card](#card)
-  - [Checkbox](#checkbox)
-  - [Switch](#switch)
-  - [Logo](#logo)
-  - [Icon](#icon)
-  - [Button](#button)
-  - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
-  - [Heading](#heading)
-  - [H (heading elements)](#h-heading-elements)
-  - [Table](#table)
-  - [FormStatus](#formstatus)
-  - [Skeleton](#skeleton)
-  - [Tabs](#tabs)
-  - [Pagination](#pagination)
-  - [Slider](#slider)
-  - [Timeline](#timeline)
-  - [DatePicker](#datepicker)
-  - [NumberFormat](#numberformat)
-  - [StepIndicator](#stepindicator)
-  - [GlobalError](#globalerror)
-  - [ToggleButton](#togglebutton)
-  - [Tooltip](#tooltip)
-  - [GlobalStatus](#globalstatus)
-  - [CopyOnClick](#copyonclick)
-- [Layout](#layout)
-  - [Removal of FormRow and FormSet](#removal-of-formrow-and-formset)
-- [Helpers](#helpers)
-- [Eufemia Forms](#eufemia-forms)
-- [SCSS mixin renames](#scss-mixin-renames)
-- [SCSS: @import → @use](#scss-import--use)
-- [TypeScript](#typescript)
-- [Theming](#theming)
-- [Props Type Exports](#props-type-exports)
-- [New in v11](#new-in-v11)
-
-</Accordion>
 
 ## Summary of changes
 
@@ -141,6 +57,36 @@ These components are new in v11:
 
 - **[Menu](/uilib/components/menu/)** — A context menu component that replaces Dropdown's `actionMenu` and `moreMenu` props. Supports `Menu.Button`, `Menu.List`, `Menu.Action`, `Menu.Accordion`, `Menu.Header`, and `Menu.Divider` sub-components.
 - **[List](/uilib/components/list/)** — A layout component for displaying structured lists with support for icons, titles, content, and accordion behavior.
+
+## DNB font update
+
+The current DNB Sans Text and DNB Sans Mono update targets a v11 minor
+release. It is separate from the initial v11 migration and the planned v13
+changes. Check the release notes for your installed version before adopting
+the new font files.
+
+CSS family names `DNB` and `DNBMono` and the existing weight values remain
+supported. Light and genuine italics are available. Button labels retain
+Regular; Lead and Ingress retain Medium, matching Eufemia Web in Figma.
+Sbanken and Carnegie keep their own font choices. Default headings keep
+Text; Display is experimental. Contact the Eufemia team before selecting it
+explicitly with `family="display"`.
+
+If you self-host fonts or maintain manual preloads, update the font files
+and declarations together. Use the official 26.302.1 files under
+`fonts/dnb/`, and avoid mixing legacy and current declarations under the same CSS family
+name. Legacy font URLs remain available. See [Updating from legacy DNB
+fonts](/uilib/typography/#updating-from-legacy-dnb-fonts).
+
+Review text wrapping, control alignment and visual snapshots. The update
+includes genuine italics and changed Medium and Bold details. The official
+26.302.1 files provide matching embedded metrics in TTF, WOFF and WOFF2.
+Family downloads contain these same official files. Regular Italic files
+are named `DNBSansText-Italic` and `DNBSansMono-Italic`.
+Mono's corrected character and ligature widths can change wrapping.
+Rendering can still differ across browsers and operating systems.
+DNB button labels also no longer use the previous upward
+nudge.
 
 ## v10 support timeline
 

@@ -331,7 +331,7 @@ function HelpButtonInlineContentComponent(
                 top: 'small',
                 bottom: 'medium',
                 left: 'medium',
-                right: 'x-small',
+                right: 'medium',
               }
         }
         {...rest}

@@ -17,9 +17,14 @@ export type TypographySize =
 
 export type TypographyAlign = 'center' | 'left' | 'right'
 
-export type TypographyFamily = 'basis' | 'heading' | 'monospace'
+export type TypographyFamily =
+  | 'basis'
+  | 'default'
+  | 'heading'
+  | 'monospace'
+  | 'display'
 
-export type TypographyWeight = 'regular' | 'medium' | 'bold'
+export type TypographyWeight = 'light' | 'regular' | 'medium' | 'bold'
 
 export type TypographyDecoration = 'underline'
 
@@ -50,7 +55,7 @@ export type TypographyProps<
      */
     size?: TypographySize
     /**
-     * Sets the line height, will use same value as `size` if not set.
+     * Sets the line height. Defaults to the size, or the Display line height when family is display.
      */
     lineHeight?: TypographySize
     /**
@@ -58,7 +63,7 @@ export type TypographyProps<
      */
     align?: TypographyAlign
     /**
-     * Sets the font family.
+     * Sets the font family. Display is experimental. [Contact the Eufemia team](/design-system/contact) before use. Use it only for short, expressive headlines. Display has one upright weight.
      */
     family?: TypographyFamily
     /**

@@ -107,8 +107,9 @@ describe('Tools.Log', () => {
     )
 
     const element = document.querySelector('output')
-    expect(element.innerHTML).toBe(`<pre>{
+    expect(element.querySelector('pre').style.whiteSpace).toBe('pre-wrap')
+    expect(element.querySelector('pre').textContent).toBe(`{
   "foo": "bar"
-}&nbsp;</pre>`)
+}\u00a0`)
   })
 })

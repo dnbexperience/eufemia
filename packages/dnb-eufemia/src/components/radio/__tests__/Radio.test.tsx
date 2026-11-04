@@ -439,6 +439,17 @@ describe('Radio scss', () => {
     )
   })
 
+  it('keeps the error colors on hover, pressed and focus', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-radio__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \.dnb-radio__input ~ \.dnb-radio__button \{\s*--radio-border-width--active: 0\.0625rem;\s*--radio-color-background--hover: var\(\s*--token-color-background-error-subtle\s*\);\s*--radio-color-background--active: var\(\s*--token-color-background-error-subtle\s*\);\s*--radio-color-background--focus: var\(\s*--token-color-background-error-subtle\s*\);\s*--radio-color-border--hover: var\(--token-color-stroke-error\);\s*--radio-color-border--active: var\(--token-color-stroke-error\);\s*\}/
+    )
+    expect(css).toMatch(
+      /\.dnb-radio__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \{\s*--radio-color-dot-on--hover: var\(--token-color-background-error\);\s*--radio-color-dot-on--active: var\(--token-color-background-error\);\s*--radio-color-dot-on--focus: var\(--token-color-background-error\);\s*\}/
+    )
+  })
+
   it('shows disabled radio buttons with the disabled text color in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-radio.scss'))
 

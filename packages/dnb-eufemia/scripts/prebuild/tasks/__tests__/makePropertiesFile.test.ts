@@ -111,6 +111,28 @@ describe('makePropertiesFile', () => {
       'utf-8'
     )
   })
+
+  it('keeps dark error text, icons and strokes on the approved foundation colors', () => {
+    for (const [tokens, foundation, prefix, shade, color] of [
+      [global.uiTokensDark, global.uiFoundation, 'dnb', '500', '#ff5959'],
+      [
+        global.sbankenTokensDark,
+        global.sbankenFoundation,
+        'sbanken',
+        '600',
+        '#ff8099',
+      ],
+    ]) {
+      const variable = '--' + prefix + '-red-' + shade
+      expect(foundation).toContain(variable + ': ' + color + ';')
+      for (const role of ['text', 'icon', 'stroke']) {
+        expect(tokens).toContain(
+          '--token-color-' + role + '-error: var(' + variable + ');'
+        )
+      }
+    }
+  })
+
   describe('Tokens snapshots for', () => {
     it('ui', () => {
       expect(global.uiTokens).toMatchSnapshot()
@@ -994,7 +1016,7 @@ describe('makePropertiesFile', () => {
         `'--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)'`
       )
       expect(global.ui).toContain(
-        `'--font-family-default': "'DNB', sans-serif"`
+        `'--font-family-default': "'DNB', 'Arial', sans-serif"`
       )
     })
   })
@@ -1089,7 +1111,7 @@ describe('makePropertiesFile', () => {
     describe('Theme-Specific Content', () => {
       it('should contain theme-ui specific variables', () => {
         expect(uiTailwindResult).toContain(
-          "--font-default: 'DNB', sans-serif;"
+          "--font-default: 'DNB', 'Arial', sans-serif;"
         )
         expect(uiTailwindResult).toContain('--color-black: #000;')
       })
@@ -1105,7 +1127,7 @@ describe('makePropertiesFile', () => {
 
       it('should contain theme-eiendom specific variables', () => {
         expect(eiendomTailwindResult).toContain(
-          "--font-default: 'DNB', sans-serif;"
+          "--font-default: 'DNB', 'Arial', sans-serif;"
         )
         expect(eiendomTailwindResult).toContain('--color-black: #000;')
       })

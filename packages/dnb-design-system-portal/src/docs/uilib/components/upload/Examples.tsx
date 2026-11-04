@@ -74,6 +74,22 @@ export const UploadBasicCompactVariant = () => (
   </ComponentBox>
 )
 
+export const UploadCompactVariantFileMaxSizeBasedOnFileType = () => (
+  <ComponentBox data-visual-test="upload-compact-variant-file-max-size-based-on-file-format">
+    <Upload
+      variant="compact"
+      acceptedFileTypes={[
+        { fileType: 'jpg', fileMaxSize: 2 },
+        { fileType: 'jpeg', fileMaxSize: 2 },
+        { fileType: 'png', fileMaxSize: 2 },
+        { fileType: 'bmp', fileMaxSize: 2 },
+        { fileType: 'pdf', fileMaxSize: 10 },
+        { fileType: 'doc', fileMaxSize: 10 },
+      ]}
+    />
+  </ComponentBox>
+)
+
 export const UploadCompactVariantWithoutLabels = () => (
   <ComponentBox data-visual-test="upload-basic-compact-variant-without-labels">
     <Upload

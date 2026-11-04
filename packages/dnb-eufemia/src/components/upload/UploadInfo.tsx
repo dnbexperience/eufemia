@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import type { ReactNode } from 'react'
 import { uploadDefaultProps, UploadContext } from './UploadContext'
 import Lead from '../../elements/Lead'
 import P from '../../elements/P'
@@ -11,27 +12,30 @@ import Table from '../Table'
 import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
+import AccordionTertiary from '../accordion/AccordionTertiary'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
-  acceptedFileTypes.sort().join(', ').toUpperCase()
+  acceptedFileTypes.join(', ').toUpperCase()
 
-const UploadInfo = () => {
-  const context = useContext(UploadContext)
+const formatFileSize = (
+  fileSizeContent: ReactNode,
+  size: number | string
+) =>
+  String(fileSizeContent).replace('%size', formatNumber(size).toString())
 
+// The file limits show the descriptions as table headers, without the colon
+const removeTrailingColon = (text: ReactNode) =>
+  typeof text === 'string' ? text.replace(/\s*:$/, '') : text
+
+function useFileLimits() {
   const {
-    title,
-    text,
     acceptedFileTypes,
-    fileTypeDescription,
-    fileSizeDescription,
-    fileAmountDescription,
-    fileSizeContent,
     filesAmountLimit,
     fileMaxSize,
-    children,
-  } = context
+    fileSizeContent,
+  } = useContext(UploadContext)
 
   const prettifiedAcceptedFileFormats =
     prettifyAcceptedFileFormats(acceptedFileTypes)
@@ -45,6 +49,10 @@ const UploadInfo = () => {
   const displayFileMaxSizeItem =
     isAcceptedFileTypeListOfStrings && fileMaxSize
 
+  const fileMaxSizeText = displayFileMaxSizeItem
+    ? formatFileSize(fileSizeContent, fileMaxSize)
+    : null
+
   const displayFilesAmountLimitItem =
     filesAmountLimit < uploadDefaultProps.filesAmountLimit
 
@@ -52,10 +60,42 @@ const UploadInfo = () => {
     !displayAcceptedFileFormatsListItem &&
     isArrayOfObjects(acceptedFileTypes)
 
-  const displayDl =
+  const displayList =
     displayAcceptedFileFormatsListItem ||
     displayFileMaxSizeItem ||
     displayFilesAmountLimitItem
+
+  return {
+    prettifiedAcceptedFileFormats,
+    displayAcceptedFileFormatsListItem,
+    fileMaxSizeText,
+    displayFilesAmountLimitItem,
+    displayAcceptedFileFormatsTable,
+    displayList,
+  }
+}
+
+const UploadInfo = () => {
+  const context = useContext(UploadContext)
+
+  const {
+    title,
+    text,
+    fileTypeDescription,
+    fileSizeDescription,
+    fileAmountDescription,
+    filesAmountLimit,
+    children,
+  } = context
+
+  const {
+    prettifiedAcceptedFileFormats,
+    displayAcceptedFileFormatsListItem,
+    fileMaxSizeText,
+    displayFilesAmountLimitItem,
+    displayAcceptedFileFormatsTable,
+    displayList,
+  } = useFileLimits()
 
   return (
     <Flex.Stack layoutEngine="css" gap="small">
@@ -68,7 +108,7 @@ const UploadInfo = () => {
       )}
       {children}
 
-      {displayDl && (
+      {displayList && (
         <Dl bottom={0} layout="horizontal">
           {displayAcceptedFileFormatsListItem && (
             <Dl.Item>
@@ -77,15 +117,10 @@ const UploadInfo = () => {
             </Dl.Item>
           )}
 
-          {displayFileMaxSizeItem && (
+          {fileMaxSizeText && (
             <Dl.Item>
               <Dt>{fileSizeDescription}</Dt>
-              <Dd>
-                {String(fileSizeContent).replace(
-                  '%size',
-                  formatNumber(fileMaxSize).toString()
-                )}
-              </Dd>
+              <Dd>{fileMaxSizeText}</Dd>
             </Dl.Item>
           )}
 
@@ -105,7 +140,86 @@ const UploadInfo = () => {
   )
 }
 
-function UploadInfoAcceptedFileTypesTable() {
+export function UploadFileLimits() {
+  const context = useContext(UploadContext)
+
+  const {
+    fileLimitsButtonText,
+    fileTypeDescription,
+    fileSizeDescription,
+    fileAmountDescription,
+    filesAmountLimit,
+  } = context
+
+  const {
+    prettifiedAcceptedFileFormats,
+    displayAcceptedFileFormatsListItem,
+    fileMaxSizeText,
+    displayFilesAmountLimitItem,
+    displayAcceptedFileFormatsTable,
+    displayList,
+  } = useFileLimits()
+
+  if (
+    !fileLimitsButtonText ||
+    !(displayList || displayAcceptedFileFormatsTable)
+  ) {
+    return null
+  }
+
+  return (
+    <AccordionTertiary
+      title={fileLimitsButtonText}
+      iconPosition="right"
+      className="dnb-upload__file-limits"
+    >
+      <div className="dnb-upload__file-limits__content">
+        {displayList && (
+          <Table border={false} className="dnb-upload__file-limits__table">
+            <tbody>
+              {displayAcceptedFileFormatsListItem && (
+                <Tr variant="odd">
+                  <Th scope="row">
+                    {removeTrailingColon(fileTypeDescription)}
+                  </Th>
+                  <Td>{prettifiedAcceptedFileFormats}</Td>
+                </Tr>
+              )}
+
+              {fileMaxSizeText && (
+                <Tr variant="odd">
+                  <Th scope="row">
+                    {removeTrailingColon(fileSizeDescription)}
+                  </Th>
+                  <Td>{fileMaxSizeText}</Td>
+                </Tr>
+              )}
+
+              {displayFilesAmountLimitItem && (
+                <Tr variant="odd">
+                  <Th scope="row">
+                    {removeTrailingColon(fileAmountDescription)}
+                  </Th>
+                  <Td>{filesAmountLimit}</Td>
+                </Tr>
+              )}
+            </tbody>
+          </Table>
+        )}
+
+        {displayAcceptedFileFormatsTable && (
+          <UploadInfoAcceptedFileTypesTable expandable />
+        )}
+      </div>
+    </AccordionTertiary>
+  )
+}
+
+function UploadInfoAcceptedFileTypesTable({
+  expandable,
+}: {
+  expandable?: boolean
+}) {
   const context = useContext(UploadContext)
 
   const {
@@ -150,22 +264,33 @@ function UploadInfoAcceptedFileTypesTable() {
     fileMaxSize
   )
 
+  const formatHeader = expandable
+    ? removeTrailingColon
+    : (text: ReactNode) => text
+
   return (
     <Table
-      border
-      className="dnb-upload__accepted-file-types-table"
-      size="small"
+      border={!expandable}
+      className={
+        expandable
+          ? 'dnb-upload__file-limits__table'
+          : 'dnb-upload__accepted-file-types-table'
+      }
+      size={expandable ? undefined : 'small'}
     >
       <caption className="dnb-sr-only">{fileTypeTableCaption}</caption>
       <thead>
         <Tr variant="odd">
-          <Th>{fileTypeDescription}</Th>
-          <Th>{fileSizeDescription}</Th>
+          <Th>{formatHeader(fileTypeDescription)}</Th>
+          <Th>{formatHeader(fileSizeDescription)}</Th>
         </Tr>
       </thead>
       <tbody>
         {Object.keys(acceptedFileTypesGroupedByFileMaxSize)
-          .sort((a, b) => Number(b) - Number(a))
+          // Smallest max size first, and the file types without a max size (0) last
+          .sort(
+            (a, b) => (Number(a) || Infinity) - (Number(b) || Infinity)
+          )
           .map((key) => {
             return (
               <Tr variant="odd" key={key}>
@@ -179,11 +304,7 @@ function UploadInfoAcceptedFileTypesTable() {
                   )}
                 </Td>
                 <Td>
-                  {key !== '0' &&
-                    String(fileSizeContent).replace(
-                      '%size',
-                      formatNumber(key).toString()
-                    )}
+                  {key !== '0' && formatFileSize(fileSizeContent, key)}
                 </Td>
               </Tr>
             )

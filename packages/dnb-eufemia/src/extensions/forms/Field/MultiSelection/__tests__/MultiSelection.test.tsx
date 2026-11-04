@@ -2192,6 +2192,85 @@ describe('MultiSelection', () => {
         { timeout: 3000 }
       )
     })
+
+    it('sets the selected class on a parent item while the list is open', async () => {
+      const data = [
+        {
+          value: 'scandinavia',
+          title: 'Scandinavia',
+          children: [
+            { value: 'oslo', title: 'Oslo' },
+            { value: 'stockholm', title: 'Stockholm' },
+          ],
+        },
+      ]
+
+      render(<Field.MultiSelection data={data} />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      const getParentItem = () =>
+        document.querySelector(
+          '.dnb-forms-field-multi-selection__item--parent'
+        )
+
+      await waitFor(() => {
+        expect(getParentItem()).toBeInTheDocument()
+      })
+      expect(getParentItem()).not.toHaveClass(
+        'dnb-forms-field-multi-selection__item--selected'
+      )
+
+      fireEvent.click(getParentItem())
+
+      expect(getParentItem()).toHaveClass(
+        'dnb-forms-field-multi-selection__item--selected'
+      )
+    })
+
+    it('removes the selected class from a parent item when a child is unchecked', async () => {
+      const data = [
+        {
+          value: 'scandinavia',
+          title: 'Scandinavia',
+          children: [
+            { value: 'oslo', title: 'Oslo' },
+            { value: 'stockholm', title: 'Stockholm' },
+          ],
+        },
+      ]
+
+      render(
+        <Field.MultiSelection
+          data={data}
+          value={['scandinavia', 'oslo', 'stockholm']}
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      const getParentItem = () =>
+        document.querySelector(
+          '.dnb-forms-field-multi-selection__item--parent'
+        )
+
+      await waitFor(() => {
+        expect(getParentItem()).toBeInTheDocument()
+      })
+      expect(getParentItem()).toHaveClass(
+        'dnb-forms-field-multi-selection__item--selected'
+      )
+
+      fireEvent.click(
+        document.querySelector(
+          '.dnb-forms-field-multi-selection__item--level-1'
+        )
+      )
+
+      expect(getParentItem()).not.toHaveClass(
+        'dnb-forms-field-multi-selection__item--selected'
+      )
+    })
   })
 
   describe('selectedItemsCollapsibleThreshold', () => {

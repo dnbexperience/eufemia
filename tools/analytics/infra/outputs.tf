@@ -41,9 +41,9 @@ output "dashboard_bucket" {
   value       = aws_s3_bucket.dashboard.id
 }
 
-output "dashboard_url" {
-  description = "CloudFront distribution URL of the dashboard (direct access returns 403; reachable only via the Akamai edge domain, dashboard_public_url)"
-  value       = "https://${aws_cloudfront_distribution.dashboard.domain_name}"
+output "dashboard_origin_hostname" {
+  description = "CloudFront hostname for Akamai to point at (direct access returns 403)"
+  value       = aws_cloudfront_distribution.dashboard.domain_name
 }
 
 output "dashboard_public_url" {

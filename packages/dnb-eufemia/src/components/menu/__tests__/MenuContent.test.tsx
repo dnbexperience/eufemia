@@ -102,6 +102,45 @@ describe('MenuList', () => {
   })
 
   describe('keyboard navigation', () => {
+    it('supports type-ahead and PageUp/PageDown through the shared navigation', () => {
+      renderWithContext(
+        <MenuList>
+          <MenuAction text="Home" />
+          <MenuAction text="Cards" />
+          <MenuAction text="Credit cards" />
+          <MenuAction text="Settings" />
+        </MenuList>
+      )
+      const menu = document.querySelector('[role="menu"]')
+      const items = document.querySelectorAll<HTMLElement>(
+        '[role="menuitem"]'
+      )
+      items[0].focus()
+      fireEvent.keyDown(menu, { key: 'c' })
+      expect(items[1]).toHaveFocus()
+      fireEvent.keyDown(menu, { key: 'c' })
+      expect(items[2]).toHaveFocus()
+      fireEvent.keyDown(menu, { key: 'PageDown' })
+      expect(items[3]).toHaveFocus()
+      fireEvent.keyDown(menu, { key: 'PageUp' })
+      expect(items[0]).toHaveFocus()
+    })
+
+    it('allows application handlers to prevent navigation', () => {
+      renderWithContext(
+        <MenuList onKeyDown={(event) => event.preventDefault()}>
+          <MenuAction text="First" />
+          <MenuAction text="Last" />
+        </MenuList>
+      )
+      const first = document.querySelector<HTMLElement>(
+        '[role="menuitem"]'
+      )
+      first.focus()
+      fireEvent.keyDown(first, { key: 'End' })
+      expect(first).toHaveFocus()
+    })
+
     it('focuses first item on ArrowDown when no item is active (mouse-open scenario)', () => {
       const setActiveIndex = vi.fn()
       renderWithContext(

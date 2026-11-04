@@ -1,0 +1,66 @@
+import { useState, type CSSProperties } from 'react'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+
+/**
+ * Style for an absolutely positioned marker that covers `target`,
+ * following it whenever a new target is given.
+ *
+ * Returns `undefined` while there is nothing to mark.
+ */
+export default function useMarkerStyle(target: HTMLElement | null) {
+  const [style, setStyle] = useState<CSSProperties>()
+
+  useIsomorphicLayoutEffect(() => {
+    if (!target) {
+      setStyle(undefined)
+      return undefined
+    }
+
+    const coverTarget = () => {
+      const next = styleCovering(target)
+      setStyle((current) =>
+        current &&
+        current.left === next.left &&
+        current.translate === next.translate &&
+        current.width === next.width &&
+        current.height === next.height
+          ? current
+          : next
+      )
+    }
+    coverTarget()
+
+    const space = coordinateSpaceOf(target)
+    const resizeObserver = new ResizeObserver(coverTarget)
+    resizeObserver.observe(space)
+    resizeObserver.observe(target)
+    const observer = new MutationObserver(coverTarget)
+    observer.observe(space, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    })
+
+    return () => {
+      resizeObserver.disconnect()
+      observer.disconnect()
+    }
+  }, [target])
+
+  return style
+}
+
+function styleCovering(target: HTMLElement): CSSProperties {
+  // Layout offsets exclude transforms applied by entrance animations.
+  return {
+    left: target.offsetLeft,
+    translate: `0 ${target.offsetTop}px`,
+    width: target.offsetWidth,
+    height: target.offsetHeight,
+  }
+}
+
+/** The element an absolutely positioned sibling of `target` is placed against. */
+function coordinateSpaceOf(target: HTMLElement) {
+  return target.offsetParent ?? target
+}

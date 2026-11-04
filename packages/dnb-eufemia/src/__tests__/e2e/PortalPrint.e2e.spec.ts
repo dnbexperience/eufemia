@@ -276,6 +276,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
       await page.emulateMedia({ media: 'print' })
       await expect(page.locator('.sticky-menu')).toBeHidden()
       await expect(page.locator('#portal-sidebar-menu')).toBeHidden()
+      await expect(page.locator('#content-grid-sidebar')).toBeHidden()
       await expect(
         page.getByRole('button', { name: 'Suggest an edit' })
       ).toBeHidden()

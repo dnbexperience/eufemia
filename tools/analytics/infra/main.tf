@@ -686,22 +686,46 @@ resource "aws_athena_workgroup" "analytics" {
 # Lambda
 # ---------------------------------------------------------------------------
 
-# Pre-created out-of-band: the OIDC deploy role's permissions boundary forbids
-# iam:CreateRole (ADR 0004), so an account admin provisions the execution role
-# and it is only referenced here. See the "One-time bootstrap" section in
-# README.md for its trust policy and permissions.
+# Pre-created out-of-band by an account admin and only referenced here. See the
+# "One-time bootstrap" section in README.md for its trust policy and permissions.
 data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
 }
 
-# Read-only execution role for the browser-facing dashboard-read Lambda.
-# Pre-created out-of-band for the same reason as above and only referenced here.
-# Its inline policy grants a single permission:
-#   - s3:GetObject on the snapshot prefix (snapshots/*)
-# so the internet-facing read surface has no write or Athena access. See the
-# "One-time bootstrap" section in README.md for the policy.
-data "aws_iam_role" "dashboard" {
-  name = "eufemia-${var.environment}-dashboard-role"
+# The OIDC deploy role may create this role only under this name and with this
+# boundary, and attach only the two policies below; snapshot-read lives in the
+# OIDC federation repo.
+data "aws_iam_policy_document" "dashboard_assume" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "dashboard" {
+  name                 = "eufemia-${var.environment}-dashboard-lambda"
+  assume_role_policy   = data.aws_iam_policy_document.dashboard_assume.json
+  permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
+  tags                 = local.tags
+
+  lifecycle {
+    # A rename would delete a role the deploy role cannot recreate.
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "dashboard_snapshot_read" {
+  role       = aws_iam_role.dashboard.name
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/eufemia-${var.environment}-dashboard-snapshot-read"
+}
+
+resource "aws_iam_role_policy_attachment" "dashboard_logs" {
+  role       = aws_iam_role.dashboard.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {
@@ -885,7 +909,7 @@ resource "aws_cloudwatch_log_group" "dashboard_read" {
 
 resource "aws_lambda_function" "dashboard_read" {
   function_name = "eufemia-${var.environment}-dashboard"
-  role          = data.aws_iam_role.dashboard.arn
+  role          = aws_iam_role.dashboard.arn
   handler       = "index.dashboardRead"
   runtime       = "nodejs22.x"
   timeout       = 10
@@ -901,8 +925,12 @@ resource "aws_lambda_function" "dashboard_read" {
     }
   }
 
-  depends_on = [aws_cloudwatch_log_group.dashboard_read]
-  tags       = local.tags
+  depends_on = [
+    aws_cloudwatch_log_group.dashboard_read,
+    aws_iam_role_policy_attachment.dashboard_snapshot_read,
+    aws_iam_role_policy_attachment.dashboard_logs,
+  ]
+  tags = local.tags
 }
 
 # ---------------------------------------------------------------------------
@@ -1344,8 +1372,8 @@ resource "aws_cloudfront_distribution" "dashboard" {
     }
   }
 
-  # No custom domain: the default *.cloudfront.net certificate is used, so the
-  # CloudFront URL is added to the app registration redirect URIs after deploy.
+  # Akamai serves the custom domain and sends the CloudFront hostname as the
+  # Host header, so the default *.cloudfront.net certificate is enough.
   viewer_certificate {
     cloudfront_default_certificate = true
   }
