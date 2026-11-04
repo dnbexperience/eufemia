@@ -1,0 +1,451 @@
+---
+draft: true
+contentTitle: 'Behaviour examples'
+---
+
+import {
+  HeadingRowA1,
+  HeadingRowA2,
+  HeadingRowA3,
+  HeadingRowA4,
+  HeadingRowA5,
+  HeadingRowBRef,
+  HeadingRowB1,
+  HeadingRowB2,
+  HeadingRowB3,
+  HeadingRowB4,
+  HeadingRowCRef,
+  HeadingRowC1,
+  HeadingRowC1Reset,
+  HeadingRowC2,
+  HeadingRowC2Contrast,
+  HeadingRowC3,
+  HeadingRowC4,
+  HeadingRowC4Contrast,
+  HeadingRowC5,
+  HeadingRowC6,
+  HeadingRowC7,
+  HeadingRowD1,
+  HeadingRowD2,
+  HeadingRowD3,
+  HeadingRowD4,
+  HeadingRowD5,
+  HeadingRowE1,
+  HeadingRowF1,
+  HeadingRowF2,
+  HeadingRowF3,
+  HeadingRowF4,
+  HeadingRowF5,
+  HeadingRowF6,
+  HeadingRowF7,
+  HeadingRowG1,
+  HeadingRowG2,
+  HeadingRowG3,
+  HeadingRowG4,
+  HeadingRowG5,
+  HeadingRowG6,
+  HeadingRowG7,
+  HeadingRowH1,
+  HeadingRowH2,
+  HeadingRowH3,
+  HeadingRowH4,
+  HeadingRowH5,
+  HeadingRowH6,
+  HeadingRowH7,
+  HeadingRowH8,
+  HeadingRowH9,
+  HeadingRowH10,
+  HeadingRowH11,
+  HeadingRowH12,
+  HeadingRowH13,
+  HeadingRowH14,
+  HeadingRowH15,
+  HeadingRowH16,
+  HeadingRowH17,
+  HeadingRowH18,
+  HeadingRowH19,
+  HeadingRowH20,
+  HeadingRowH21,
+  HeadingRowH22,
+  HeadingRowH23,
+} from 'Docs/uilib/components/heading/Examples'
+
+## Auto-level bugs
+
+Each example below corresponds to exactly one row of the findings tables. The
+`debug` prefix (`[hN]`) shows the level that is **actually** rendered; the
+heading text is the **expected** level, and a trailing `X` marks a mismatch.
+
+**NB:** Examples without a `reset` boundary (A3, C1, C-ref, E1, G6) depend on
+the surrounding page state, so on this live page their `[hN]` prefix may differ
+from the isolated value — that context-dependence is itself part of the findings.
+
+### Group A — explicit `level` vs reset baseline
+
+#### A1 — reference: `reset={2}` resolves the levels correctly
+
+`reset={2}` with `level={2}` and `level={5}` → h2, h3.
+
+<HeadingRowA1 />
+
+#### A2 — `reset={1}` collapses the same levels
+
+The identical levels drop to h1, h2 instead of h2, h3.
+
+<HeadingRowA2 />
+
+#### A3 — no reset collapses the same levels
+
+Without a reset the levels also drop to h1, h2.
+
+<HeadingRowA3 />
+
+#### A4 — a heading before a `reset={1}` group — collapse disappears
+
+With a heading rendered first, the group resolves to h2, h3.
+
+<HeadingRowA4 />
+
+#### A5 — same, with `reset={2}`
+
+Shown for comparison with A4: h2, h3.
+
+<HeadingRowA5 />
+
+### Group B — `level={1}` demotion
+
+#### B-ref — `level={1}` after an h2 is demoted to h2
+
+<HeadingRowBRef />
+
+#### B1 — `level={1}` after an h3 wrongly stays a second h1
+
+Should be demoted to h2.
+
+<HeadingRowB1 />
+
+#### B2 — two `level={1}` after an h3 both stay h1
+
+Both should be h2.
+
+<HeadingRowB2 />
+
+#### B3 — in a longer run, only the `level={1}` after h3 stays h1
+
+<HeadingRowB3 />
+
+#### B4 — contrast: repeated `level={1}` does demote here
+
+Note the first `level={3}` also collapses to h1 (overlaps with Group A).
+
+<HeadingRowB4 />
+
+### Group C — `inherit`
+
+#### C-ref — `inherit` with an explicit `level={2}` after an h1
+
+The explicit level wins: h2 (correct).
+
+<HeadingRowCRef />
+
+#### C1 — `inherit` after an h1 duplicates to a second h1
+
+No reset; should be h2.
+
+<HeadingRowC1 />
+
+#### C1-reset — the same duplication inside a `reset={1}` context
+
+Looks identical to C1 but the h1 baseline comes from reset — possibly a
+different code path.
+
+<HeadingRowC1Reset />
+
+#### C2 — `inherit` blocks a following `increase`
+
+After `inherit` (→h3) the following `increase` stays at h3 instead of h4.
+
+<HeadingRowC2 />
+
+#### C2-contrast — `level={3}` instead of `inherit` lets `increase` advance
+
+The same `increase` correctly reaches h4.
+
+<HeadingRowC2Contrast />
+
+#### C3 — `inherit down` from an h3 → h2 (works)
+
+<HeadingRowC3 />
+
+#### C4 — `inherit down` from an h2 → h2 (down cancelled)
+
+Unclear whether this is a bug (can't create a second h1).
+
+<HeadingRowC4 />
+
+#### C4-contrast — `down` alone from an h2 also floors to h2
+
+<HeadingRowC4Contrast />
+
+#### C5 — `inherit` as the first heading falls back to the reset baseline
+
+<HeadingRowC5 />
+
+#### C6 — `inherit` between an h2 and a plain heading — no divergence
+
+<HeadingRowC6 />
+
+#### C7 — `inherit` with `level={3}` then a plain heading — no leak observed
+
+<HeadingRowC7 />
+
+### Group D — string vs number `level`
+
+#### D1 — string `level="2"` / `level="5"` → h2, h4
+
+The string `"5"` is over-incremented; should be h3.
+
+<HeadingRowD1 />
+
+#### D2 — number `level={2}` / `level={5}` → h2, h3 (correct)
+
+<HeadingRowD2 />
+
+#### D3 — mixed: only the string heading is affected
+
+<HeadingRowD3 />
+
+#### D4 — single string `level="5"` → h4
+
+Should be h3.
+
+<HeadingRowD4 />
+
+#### D5 — single number `level={5}` → h3 (correct)
+
+<HeadingRowD5 />
+
+### Group E/F — first heading & provider entry (baseline-relative)
+
+#### E1 — a bare first heading with `level={3}` is forced to h1
+
+Unclear whether it should honour the explicit level.
+
+<HeadingRowE1 />
+
+#### F1 — `level={4}` at `reset={2}` clamps to h3 (factor-one)
+
+<HeadingRowF1 />
+
+#### F2 — `level={4}` at `reset={3}` → h4
+
+<HeadingRowF2 />
+
+#### F3 — `level={4}` at `reset={4}` → h4
+
+<HeadingRowF3 />
+
+#### F4 — `level={4}` after an h1 clamps to h2
+
+<HeadingRowF4 />
+
+#### F5 — `level={4}` after h1, h2 clamps to h3
+
+<HeadingRowF5 />
+
+#### F6 — `level={6}` after h1, h2, h3 clamps to h4
+
+<HeadingRowF6 />
+
+#### F7 — nested `level={4}` provider clamps to h3, outer reverts to h2
+
+<HeadingRowF7 />
+
+### Group G — confirmed normal (no bug)
+
+#### G1 — increase / increase / decrease flows correctly
+
+<HeadingRowG1 />
+
+#### G2 — decrease floors at h2 (no second h1)
+
+<HeadingRowG2 />
+
+#### G3 — decrease from an h3 steps to h2 then floors
+
+<HeadingRowG3 />
+
+#### G4 — explicit `level={2}` can jump down by more than one
+
+<HeadingRowG4 />
+
+#### G5 — the docs context example (`inherit` + `Decrease inherit`)
+
+<HeadingRowG5 />
+
+#### G6 — a standalone `reset` → h2
+
+<HeadingRowG6 />
+
+#### G7 — `skipCorrection` honours `level={4}` then `increase` → h5
+
+<HeadingRowG7 />
+
+## Context, reset & skipCorrection interactions
+
+Unlike the groups above, these demos label each heading with its **actual**
+rendered level (so the `[hN]` prefix matches) — they document _rules_, not
+bug-vs-expected. Read each description for what is surprising. All are isolated
+with a `reset` so they stay deterministic on this page.
+
+### Group H1 — heading ↔ context
+
+#### H1 — a plain heading after a context resumes the _pre-context_ level
+
+The `d` after the nested context is **h2** (the level before the context), not h3 (the context's last heading). Plain `Heading.Level` is isolated for following siblings.
+
+<HeadingRowH1 />
+
+#### H2 — an `inherit` heading after a context jumps to the _last-inside_ level
+
+The `inherit` heading is **h3** (the context's last heading), not h2. `inherit` crosses the boundary a plain heading respects.
+
+<HeadingRowH2 />
+
+#### H3 — a plain heading after a `skipCorrection` context → pre-context
+
+The context's internal `h5` does **not** leak; the following plain heading is **h2**.
+
+<HeadingRowH3 />
+
+#### H4 — an `inherit` heading after a `skipCorrection` context → inside-last
+
+Same setup as H3 but with `inherit`: the following heading becomes **h5**.
+
+<HeadingRowH4 />
+
+#### H5 — a heading before a context sets the context's baseline
+
+The context's first child inherits the preceding heading's level (**h2**).
+
+<HeadingRowH5 />
+
+### Group H2 — Increase/Decrease isolation & chaining
+
+#### H6 — a plain heading after `Heading.Increase` cannot return to h1
+
+Pre-context was h1, but the following sibling is bumped to **h2** (the "no second `<h1>`" rule leaking across the boundary).
+
+<HeadingRowH6 />
+
+#### H7 — sibling `Heading.Increase` contexts chain
+
+Two sibling increases accumulate (**h2** then **h3**) rather than each starting from the parent level.
+
+<HeadingRowH7 />
+
+#### H8 — `Heading.Level` + an `increase` child double-counts
+
+`[h1, Level{ increase }]` → **h3**, skipping h2 — whereas `Heading.Increase` in the same spot yields h2 (see H6). Same "increment once" intent, different result.
+
+<HeadingRowH8 />
+
+### Group H3 — nesting: accumulate & boundary
+
+#### H9 — nested `Increase` accumulates
+
+h1 → h2 → **h3**, one level per nesting.
+
+<HeadingRowH9 />
+
+#### H10 — nested `Increase` is swallowed at the h6 cap
+
+From h5, two nested increases give **h6, h6** — the second is lost at the ceiling.
+
+<HeadingRowH10 />
+
+#### H11 — nested `Decrease` accumulates from a high start
+
+From h6, two nested decreases give **h5, h4** (not stuck) — decrease accumulates like increase.
+
+<HeadingRowH11 />
+
+#### H12 — nested `Decrease` is swallowed at the h2 floor
+
+From h3, two nested decreases give **h2, h2** — the second hits the "no second `<h1>`" floor.
+
+<HeadingRowH12 />
+
+#### H13 — nested `Heading.Level inherit` does NOT accumulate
+
+Both levels stay **h2** — `inherit` on a plain Level just reuses the level.
+
+<HeadingRowH13 />
+
+#### H14 — nested `Heading.Increase inherit` DOES accumulate
+
+h3 → **h4** per nesting — Increase still increments even with `inherit`.
+
+<HeadingRowH14 />
+
+### Group H4 — two contexts in sequence
+
+#### H15 — a plain second context resumes the pre-context level
+
+The second context's heading is **h2**, like a plain heading after (H1).
+
+<HeadingRowH15 />
+
+#### H16 — an `inherit` second context jumps to the first context's last-inside
+
+The second context's heading is **h4**, like an `inherit` heading after (H2).
+
+<HeadingRowH16 />
+
+#### H17 — inside usage changes what `inherit` picks up
+
+When only the _last_ inside heading uses `level`, the earlier auto heading keeps the baseline low, so `level={4}` clamps to **h3** and the following `inherit` picks up **h3** (vs h4 when all inside headings use `level` — H16).
+
+<HeadingRowH17 />
+
+### Group H5 — reset
+
+#### H18 — a nested `reset` overrides the parent (down)
+
+`reset=2` inside `reset=3` → **h2**; the heading after the inner context resumes **h3**.
+
+<HeadingRowH18 />
+
+#### H19 — a nested `reset` overrides the parent (up)
+
+`reset=3` inside `reset=2` → **h3**.
+
+<HeadingRowH19 />
+
+#### H20 — `reset=1` injects an `<h1>` mid-document
+
+`reset=1` inside `reset=3` forces **h1** right after an h3 — a non-monotonic outline (h3 → h1 → h3).
+
+<HeadingRowH20 />
+
+#### H21 — a reset value does not leak forward, but the h1-bump applies
+
+After the `reset=3` context, the next sibling is **h2** (not the pre-context h1, and not h3) — the reset value does not leak, but a sibling after an h1 still can't be h1.
+
+<HeadingRowH21 />
+
+#### H22 — `reset` bypasses the factor-one rule
+
+`reset=4` after an h2 jumps straight to **h4** (skipping h3); the heading after resumes **h2**.
+
+<HeadingRowH22 />
+
+### Group H6 — skipCorrection
+
+#### H23 — `skipCorrection` + `level` is honored absolutely
+
+`skipCorrection level={6}` after an h4 renders **h6**, bypassing the factor-one clamp (a normal heading would become h5).
+
+<HeadingRowH23 />
+
+> **Not shown (render crash):** a `skipCorrection` heading or context with **no** `level` (and no `inherit`/`increase`) leaves the level at `0`, so `getHeadingElement(0)` returns `undefined` and React throws `"Element type is invalid"`. It is omitted here because it would crash the page.

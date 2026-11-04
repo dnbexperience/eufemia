@@ -1,0 +1,160 @@
+---
+draft: true
+contentTitle: 'Bug examples'
+---
+
+import {
+  HeadingBug1,
+  HeadingBug1Renders,
+  HeadingBug2,
+  HeadingBug3,
+  HeadingBug3Honored,
+  HeadingBug4,
+  HeadingBug5,
+  HeadingBug6,
+  HeadingBug6Ok,
+  HeadingBug7,
+  HeadingBug8,
+} from 'Docs/uilib/components/heading/Examples'
+
+## Confirmed bugs
+
+One live example per bug. The `debug` prefix (`[hN]`) is the level **actually**
+rendered; the heading text is the **expected** level, and a trailing `X` marks a
+mismatch. Each example uses a `reset` boundary so it reproduces regardless of the
+surrounding page state.
+
+### Bug 1 — a `skipCorrection` heading that resolves to level 0 crashes
+
+`skipCorrection` skips the normal level seeding, so the heading only gets a level
+from its **own** `level`/`increase`/`decrease`, or from the surrounding context —
+and the context supplies one **only when its level is greater than 1**. With
+neither — no own level/increment **and** an ambient level of ≤ 1 (e.g. `reset={1}`,
+right after an h1, or a `down`-floored h1) — the level stays `0`,
+`getHeadingElement(0)` is `undefined`, and React throws _"Element type is invalid"_,
+dropping the whole subtree (shown here as the error box — note that **both**
+headings disappear).
+
+<HeadingBug1 />
+
+The **same** `skipCorrection` heading renders fine when the ambient level is ≥ 2.
+Here `reset={2}` starts the baseline at h2, so it inherits h2 instead of crashing:
+
+<HeadingBug1Renders />
+
+So the trigger is not "a `skipCorrection` heading with no level" — it is a
+`skipCorrection` heading that **ends up at level 0**, which depends on the ambient
+level where it sits. A bare `skipCorrection` heading with no context renders only
+because a live page's global level is usually already > 1; in isolation it crashes
+too. It is the only hard crash.
+
+### Bug 2 — `level={1}` after h3+ emits a second `<h1>`
+
+`level={1}` is demoted to h2 only when the previous heading is exactly h2. After
+an h3 (or h4/h5/h6) it slips through as a real second `<h1>`. The same duplicate
+`<h1>` also appears via `inherit` right after an h1, via a `skipCorrection`
+heading polluting the next one, and generally lets multiple `<h1>` exist with no
+reset at all.
+
+<HeadingBug2 />
+
+### Bug 3 — `reset={1}` is off-by-one for an explicit `level` on the first heading
+
+Every `reset={N}` treats the reset value as the **previous** heading's level, so the
+first heading is allowed up to `N+1` (factor-one). `reset={2}` therefore honors
+`level={2}` → h2 **and** `level={3}` → h3, and only clamps what exceeds that
+(`level={5}` → h3). That clamping is normal at every reset level and is not the bug.
+
+`reset={1}` breaks the pattern: it forces the first heading to **h1** and honors
+**only `level={1}`**. `level={2}` — which should be h2 (`N+1`) — collapses to h1, and
+everything after it is dragged down with it:
+
+<HeadingBug3 />
+
+The identical markup at `reset={2}` resolves correctly (`level={2}` → h2,
+`level={3}` → h3):
+
+<HeadingBug3Honored />
+
+### Bug 4 — `reset` value handling is inconsistent
+
+`reset={0}`, a bare `reset`, and `reset={true}` all silently become `2` — you
+cannot reset to 0, and `reset={0}` is indistinguishable from `reset={2}`.
+Meanwhile `reset={1}` is special-cased. Below, `reset={0}` renders the same h2 as
+`reset={2}`, while only `reset={1}` gives an h1.
+
+<HeadingBug4 />
+
+### Bug 5 — `inherit` swallows a following `increase`
+
+After an `inherit` heading, the next `increase` does not advance — it stays at the
+inherited level (here the last heading stalls at h3 instead of reaching h4). Using
+`level={3}` in place of `inherit` lets the same `increase` correctly reach h4, so
+`inherit` and `level` are not interchangeable for the heading that follows.
+
+<HeadingBug5 />
+
+### Bug 6 — `Heading.Level` + an `increase` child double-counts (reset=1 only)
+
+At `reset={1}`, entering a `Heading.Level` context **and** putting `increase` on its
+child counts twice: from h1 the child becomes h3, skipping h2.
+
+<HeadingBug6 />
+
+This only happens at `reset={1}`. The same nesting at `reset={2}` resolves correctly
+(h2 → h3), and `reset={3}` gives h3 → h4:
+
+<HeadingBug6Ok />
+
+The equivalent `Heading.Increase` (with a plain child) is correct at every reset
+level — including `reset={1}`, where it yields h1 → h2 — so the two ways to
+"increment once" disagree only inside a `reset={1}` context.
+
+### Bug 7 — nested increment contexts skip a level
+
+Two `increase` contexts with no heading between them stack onto the single inner
+heading: from h1 it jumps to h3, skipping h2. When such a nested `up` is the very
+first content on a page, the page's `<h1>` is dropped entirely — an invalid,
+inaccessible outline.
+
+<HeadingBug7 />
+
+### Bug 8 — internal / mechanism issues
+
+- **I3** — the dev warning's _"had before X"_ baseline reads a stale counter.
+- **I5** — the correction cache is keyed on per-render props identity, so it never
+  hits and is never cleared (a leak). _(Expected fixed by #9181.)_
+- **I1** — a global mount-order counter makes levels non-deterministic under
+  remount, re-render or client-side navigation. Unlike I3/I5, this one **is**
+  observable — see below.
+
+#### I1 in practice — `reset={1}` + `up` on the first heading
+
+`[up, up, plain]` is a relative structure: _second = first + 1_ and _third =
+second_. With `reset={1}` the first heading should be h1, so the group should be
+**`h1 h2 h2`** — and it is when the first heading is plain (`[plain, up, plain]` →
+`h1 h2 h2`), and the analogous `reset={2}` case works too (`[up, up, plain]` →
+`h3 h4 h4`, third follows second). But `reset={1}` with `up` on the **first**
+heading is wrong in two ways, and never reaches `h1 h2 h2`:
+
+1. **On first paint it renders `h2 h3 h3`** — the `up` pushes the first heading past
+   the baseline, so there is **no `h1` on the page at all**.
+2. **After any re-level it becomes `h1 h2 h3`** — the first heading corrects to h1,
+   but now the **third heading skips to h3 instead of following the second (h2)**. The
+   relative structure is broken.
+
+So the correct `h1 h2 h2` is never produced. The heading text below is the expected
+level (`h1 h2 h2`); the `[hN]` prefix is what actually renders. A re-level is
+triggered by the most ordinary things — toggling, adding/removing any heading,
+a list changing, navigating away and pressing back, or dev `StrictMode`. Click the
+button and watch: the first two prefixes flip from `h2 h3` to `h1 h2`, but the third
+stays `h3` (marked `X`) the whole time:
+
+<HeadingBug8 />
+
+This is specific to `reset={1}` (baseline ≤ 1). `reset={2}`–`{6}` stay
+`hN hN+1 hN+1` through any re-level (third always follows second), because baselines
+≥ 2 re-seed deterministically from the reset-forced context level. `reset={1}`
+routes through a stateful `_isReady` / global-counter seeding path that the
+relative-increment logic doesn't account for. Reproduces in **both dev and
+production**.
