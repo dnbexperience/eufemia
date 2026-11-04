@@ -2422,6 +2422,12 @@ describe('Upload aria', () => {
 })
 
 describe('Upload scss', () => {
+  it('includes the circular indicator used by loading rows in its style dependencies', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toContain('.dnb-progress-indicator__circular')
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
