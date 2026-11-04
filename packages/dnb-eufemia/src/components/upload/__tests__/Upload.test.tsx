@@ -2473,7 +2473,7 @@ describe('Upload', () => {
       )
 
       expect(rows).toEqual([
-        ['TH:Tillatte filformater', 'TD:PNG, JPG'],
+        ['TH:Tillatte filer', 'TD:PNG, JPG'],
         ['TH:Maks filstørrelse', 'TD:10 MB'],
         ['TH:Maks antall filer', 'TD:2'],
       ])
@@ -2512,7 +2512,7 @@ describe('Upload', () => {
         nb.fileTypeTableCaption
       )
       expect(rows).toEqual([
-        ['Tillatte filformater', 'Maks filstørrelse'],
+        ['Tillatte filer', 'Maks filstørrelse'],
         ['PNG', '2 MB'],
         ['PDF, DOC', '10 MB'],
       ])

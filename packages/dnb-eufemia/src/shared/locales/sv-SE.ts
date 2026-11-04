@@ -189,8 +189,8 @@ export default {
       text: 'Dra och släpp eller välj vilka filer du vill ladda upp.',
       textSingular:
         'Dra och släpp eller välj vilken fil du vill ladda upp.',
-      fileTypeTableCaption: 'Tillåtna filformat och max filstorlek',
-      fileTypeDescription: 'Tillåtna filformat:',
+      fileTypeTableCaption: 'Tillåtna filer och max filstorlek',
+      fileTypeDescription: 'Tillåtna filer:',
       fileSizeDescription: 'Max filstorlek:',
       fileAmountDescription: 'Max antal filer:',
       fileSizeContent: '%size MB',
