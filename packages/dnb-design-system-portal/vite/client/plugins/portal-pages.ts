@@ -25,7 +25,6 @@ import {
 
 const PAGE_MODULE_PREFIX = 'virtual:portal-page/'
 const DATA_MODULE_ID = 'virtual:portal-data'
-const TOC_MODULE_ID = 'virtual:portal-toc'
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
 const PORTAL_DOCS_SOURCE_PATH =
@@ -310,7 +309,7 @@ export default function portalPagesPlugin(
 
     resolveId(id) {
       if (
-        [VIRTUAL_MODULE_ID, DATA_MODULE_ID, TOC_MODULE_ID].includes(id) ||
+        [VIRTUAL_MODULE_ID, DATA_MODULE_ID].includes(id) ||
         id.startsWith(PAGE_MODULE_PREFIX)
       ) {
         return '\0' + id
@@ -325,11 +324,7 @@ export default function portalPagesPlugin(
         )
       }
       if (
-        [
-          RESOLVED_VIRTUAL_MODULE_ID,
-          '\0' + DATA_MODULE_ID,
-          '\0' + TOC_MODULE_ID,
-        ].includes(id)
+        [RESOLVED_VIRTUAL_MODULE_ID, '\0' + DATA_MODULE_ID].includes(id)
       ) {
         const { files, allMdxNodes, regularMdxNodes } =
           getPortalPages(docsDir)
@@ -353,20 +348,8 @@ export default function portalPagesPlugin(
           )
         }
 
-        if (id === '\0' + TOC_MODULE_ID) {
-          return `export const tableOfContentsNodes = ${JSON.stringify(
-            allMdxNodes.filter(
-              (node) =>
-                node.fields.slug.startsWith(
-                  'contribute/getting-started/'
-                ) && node.tableOfContents
-            )
-          )};`
-        }
-
         if (id === '\0' + DATA_MODULE_ID) {
-          // Routes own redirects. Heading trees are only needed by the
-          // contribution guide, which imports them separately.
+          // Routes own redirects; the browser receives only list metadata.
           const nodes = options?.ssr
             ? allMdxNodes
             : allMdxNodes.map(({ fields, frontmatter }) => {
@@ -494,10 +477,7 @@ export const routeModules = ${JSON.stringify(Object.fromEntries(files.map((file)
         const dataMod = server.moduleGraph.getModuleById(
           '\0' + DATA_MODULE_ID
         )
-        const tocMod = server.moduleGraph.getModuleById(
-          '\0' + TOC_MODULE_ID
-        )
-        for (const data of [dataMod, tocMod]) {
+        for (const data of [dataMod]) {
           if (data) {
             server.moduleGraph.invalidateModule(data)
           }
@@ -552,10 +532,7 @@ export const routeModules = ${JSON.stringify(Object.fromEntries(files.map((file)
         const dataMod = server.moduleGraph.getModuleById(
           '\0' + DATA_MODULE_ID
         )
-        const tocMod = server.moduleGraph.getModuleById(
-          '\0' + TOC_MODULE_ID
-        )
-        for (const data of [dataMod, tocMod]) {
+        for (const data of [dataMod]) {
           if (data) {
             server.moduleGraph.invalidateModule(data)
           }
@@ -563,7 +540,7 @@ export const routeModules = ${JSON.stringify(Object.fromEntries(files.map((file)
         if (mod) {
           server.moduleGraph.invalidateModule(mod)
           return Array.from(
-            new Set([...modules, mod, dataMod, tocMod].filter(Boolean))
+            new Set([...modules, mod, dataMod].filter(Boolean))
           )
         }
       }

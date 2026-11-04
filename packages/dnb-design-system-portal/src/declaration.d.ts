@@ -37,11 +37,6 @@ declare module 'virtual:portal-pages' {
   } from 'virtual:portal-data'
 }
 
-declare module 'virtual:portal-toc' {
-  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
-  export const tableOfContentsNodes: MdxNode[]
-}
-
 declare module 'virtual:portal-data' {
   import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
 
