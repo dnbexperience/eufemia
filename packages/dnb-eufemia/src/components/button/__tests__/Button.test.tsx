@@ -776,6 +776,15 @@ describe('Button scss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('gives large text buttons 1.75rem padding on the text side', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(/--button-padding--large: 1\.75rem;/)
+    expect(css).toMatch(
+      /\.dnb-button--has-text\.dnb-button--size-large \{\s*--button-padding-left: var\(--button-padding--large\);\s*--button-padding-right: var\(--button-padding--large\);/
+    )
+  })
+
   it('shows the focus ring in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
