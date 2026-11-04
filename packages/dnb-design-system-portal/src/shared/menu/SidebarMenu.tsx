@@ -79,7 +79,6 @@ export default function SidebarLayout({
   const menu = (withSpace = false) => (
     <SidebarMenu.Data
       aria-label="Section Content Menu"
-      className="dev-grid"
       data={[
         ...toSidebarMenuData(shared, closeMenu),
         {
