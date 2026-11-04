@@ -98,10 +98,8 @@ for (const [brand, colorScheme] of [
   ['eiendom', 'dark'],
   ['carnegie', 'light'],
 ]) {
-  test(`distinguishes selected and hovered sections in ${brand} ${colorScheme}`, async ({
-    page,
-  }) => {
-    const css = [
+  const themeCss = () =>
+    [
       compile(`style/themes/${brand}/foundation.scss`),
       compile(`style/themes/${brand}/tokens.scss`),
       ...(colorScheme === 'dark'
@@ -109,6 +107,11 @@ for (const [brand, colorScheme] of [
         : []),
       compile('extensions/sidebar-menu/style/dnb-sidebar-menu.scss'),
     ].join('\n')
+
+  test(`distinguishes selected and hovered sections in ${brand} ${colorScheme}`, async ({
+    page,
+  }) => {
+    const css = themeCss()
 
     await page.setContent(`<style>${css}</style>
       <div class="eufemia-theme__color-scheme--${colorScheme}">
@@ -131,5 +134,29 @@ for (const [brand, colorScheme] of [
     expect(await background('#selected')).not.toBe(
       await background('#hovered')
     )
+  })
+
+  test(`draws the section trigger border in ${brand} ${colorScheme}`, async ({
+    page,
+  }) => {
+    await page.setContent(`<style>${themeCss()}</style>
+      <div class="eufemia-theme__color-scheme--${colorScheme}">
+        <span class="dnb-sidebar-menu__sections dnb-dropdown">
+          <button class="dnb-dropdown__trigger dnb-button--secondary" id="trigger">Personal</button>
+        </span>
+      </div>`)
+
+    const [border, background] = await page
+      .locator('#trigger')
+      .evaluate((element) => {
+        const style = getComputedStyle(element)
+        return [
+          style.getPropertyValue('--button-color-border--default'),
+          style.getPropertyValue('--button-color-bg--default'),
+        ]
+      })
+
+    expect(border).not.toBe('')
+    expect(border).not.toBe(background)
   })
 }
