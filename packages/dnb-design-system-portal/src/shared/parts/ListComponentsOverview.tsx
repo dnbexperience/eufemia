@@ -109,7 +109,6 @@ export default function ListComponentsOverview() {
 
   return (
     <>
-
       {categories.map(({ id, title, description, entries }: Category) => (
         <section key={id}>
           <Hr top="x-large" />
