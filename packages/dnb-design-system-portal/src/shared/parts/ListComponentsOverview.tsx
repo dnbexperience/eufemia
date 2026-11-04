@@ -8,8 +8,6 @@ import ReactMarkdown from 'react-markdown'
 import Anchor from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import { basicComponents } from '../../shared/tags'
-import { getSlugFromText } from '../../uilib/utils/slug.mjs'
-import { cardItemStyle } from './ListComponentsOverview.module.scss'
 import {
   categoryOrder,
   excludedSlugs,
