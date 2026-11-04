@@ -85,11 +85,14 @@
     font-style: italic;
   }
 
-  &__responsive-off {
+  // match the specificity of ".dnb-core-style .dnb-h--*" in typographySelectors
+  &__responsive-off,
+  .dnb-core-style &__responsive-off {
     @include typography-mixins.responsiveOff();
   }
 
-  &__responsive-on {
+  &__responsive-on,
+  .dnb-core-style &__responsive-on {
     @include typography-mixins.responsiveOn();
   }
 }

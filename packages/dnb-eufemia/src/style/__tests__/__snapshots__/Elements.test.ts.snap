@@ -1206,7 +1206,7 @@ sub {
   font-style: italic;
 }
 
-.dnb-t__responsive-off {
+.dnb-t__responsive-off, .dnb-core-style .dnb-t__responsive-off {
   --typography-font-size-x-small: var(--font-size-x-small);
   --typography-font-size-small: var(--font-size-small);
   --typography-font-size-basis: var(--font-size-basis);
@@ -1223,7 +1223,7 @@ sub {
   --typography-line-height-xx-large: var(--line-height-xx-large);
 }
 
-.dnb-t__responsive-on {
+.dnb-t__responsive-on, .dnb-core-style .dnb-t__responsive-on {
   --typography-font-size-x-small: var(--responsive-font-size-x-small);
   --typography-font-size-small: var(--responsive-font-size-small);
   --typography-font-size-basis: var(--responsive-font-size-basis);

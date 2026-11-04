@@ -238,3 +238,45 @@ for (const isolated of [false, true]) {
     await expect(nested.locator('.dnb-p')).toHaveCSS('font-size', '18px')
   })
 }
+
+for (const isolated of [false, true]) {
+  test(`responsive headings inside dnb-core-style with isolated=${isolated}`, async ({
+    page,
+  }) => {
+    let css = compileString(
+      `
+      @use 'style/dnb-ui-basis.scss';
+      @use 'style/themes/ui/ui-theme-basis.scss';
+    `,
+      {
+        loadPaths: [path.resolve(__dirname, '../..')],
+        logger: { warn() {}, debug() {} },
+      }
+    ).css
+    if (isolated) {
+      css = (
+        await postcss([
+          isolatedStyleScopePlugin({
+            scopeHash: 'eufemia-scope--native-test',
+            warnOnDeprecatedColorVariables: false,
+          }),
+        ]).process(css, { from: undefined })
+      ).css
+    }
+    await page.setViewportSize({ width: 375, height: 800 })
+    await page.setContent(`
+      <style>${css}</style>
+      <div class="eufemia-scope--native-test">
+        <div class="dnb-core-style">
+          <h1 id="responsive" class="dnb-heading dnb-h--xx-large dnb-t__responsive-on">Responsive</h1>
+          <h1 id="fixed" class="dnb-heading dnb-h--xx-large dnb-t__responsive-off">Fixed</h1>
+        </div>
+      </div>
+    `)
+    await expect(page.locator('#responsive')).toHaveCSS(
+      'font-size',
+      '34px'
+    )
+    await expect(page.locator('#fixed')).toHaveCSS('font-size', '48px')
+  })
+}
