@@ -53,6 +53,7 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
+  max-width: 37rem;
   min-height: 1.5rem;
   padding: 0 1rem;
 }
