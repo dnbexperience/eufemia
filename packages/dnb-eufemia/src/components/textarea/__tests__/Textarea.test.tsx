@@ -445,6 +445,25 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('240px')
   })
 
+  it('preserves the shell height while measuring auto resize and restores its styles', async () => {
+    render(<Textarea autoResize value="A multiline draft" />)
+    const elem = document.querySelector('textarea')
+    const shell = elem.parentElement
+    vi.spyOn(shell, 'getBoundingClientRect').mockReturnValue({
+      height: 96,
+    } as DOMRect)
+    shell.style.minHeight = '20px'
+    const heights: string[] = []
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() => {
+      heights.push(shell.style.minHeight)
+      return 96
+    })
+    await userEvent.type(elem, 'a')
+    expect(heights).toContain('96px')
+    expect(shell.style.minHeight).toBe('20px')
+    expect(elem.style.alignSelf).toBe('')
+  })
+
   it('will correctly auto resize if prop autoResize is used', async () => {
     render(<Textarea rows={1} autoResize={true} autoResizeMaxRows={4} />)
 

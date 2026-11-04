@@ -55,6 +55,18 @@ describe('extractScopeIdentifiers', () => {
     expect(result).toContain('Card')
   })
 
+  it('extracts named AI hooks without adding built-in React hooks', () => {
+    expect(
+      extractScopeIdentifiers(
+        'useState(); useConversation(); useConversationVisibility(); useConversationScrollState()'
+      )
+    ).toEqual([
+      'useConversation',
+      'useConversationVisibility',
+      'useConversationScrollState',
+    ])
+  })
+
   it('extracts namespace roots like Form and Field', () => {
     const result = extractScopeIdentifiers(
       '<Form.Handler><Field.String path="/foo" /></Form.Handler>'
@@ -128,6 +140,24 @@ describe('extractScopeIdentifiers', () => {
 })
 
 describe('injectScope babel plugin', () => {
+  it('includes named AI components and hooks in the live scope', async () => {
+    const input = `
+      import ComponentBox from '../../shared/tags/ComponentBox'
+      import { MessageIndicator, ActivityText, useConversation } from '@dnb/eufemia/src/extensions/ai'
+      export function Demo() {
+        return <ComponentBox>{() => {
+          const { scrollToEnd } = useConversation()
+          return <><MessageIndicator /><ActivityText>Searching</ActivityText></>
+        }}</ComponentBox>
+      }
+    `
+
+    const output = await transformWithFullPipeline(input)
+    expect(output).toMatch(/__buildScope=\{\{[^}]*MessageIndicator/)
+    expect(output).toMatch(/__buildScope=\{\{[^}]*ActivityText/)
+    expect(output).toMatch(/__buildScope=\{\{[^}]*useConversation/)
+  })
+
   it('injects __buildScope with components found in code string', async () => {
     const input = `
       import ComponentBox from '../../shared/tags/ComponentBox'
@@ -159,6 +189,21 @@ describe('injectScope babel plugin', () => {
     expect(output).not.toContain('__scope_Button')
     // Shorthand property: { Button } (same as { Button: Button })
     expect(output).toMatch(/__buildScope[\s\S]*Button/)
+  })
+
+  it('imports named AI exports when a code string has no file-level import', async () => {
+    const output = await transformWithFullPipeline(`
+      import ComponentBox from '../../shared/tags/ComponentBox'
+      export function Demo() {
+        return <ComponentBox><MessageIndicator /></ComponentBox>
+      }
+    `)
+
+    expect(output).toContain(
+      'MessageIndicator as __scope_MessageIndicator'
+    )
+    expect(output).toContain('@dnb/eufemia/src/extensions/ai')
+    expect(output).toContain('MessageIndicator: __scope_MessageIndicator')
   })
 
   it('handles multiple components in one code string', async () => {

@@ -202,8 +202,14 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       if (!elem) {
         return // stop here
       }
+      const shell = elem.parentElement
+      const minHeight = shell.style.minHeight
+      const alignSelf = elem.style.alignSelf
       try {
         const scrollTop = elem.scrollTop
+        // Keep the surrounding layout stable while the textarea measures at auto height.
+        shell.style.minHeight = shell.getBoundingClientRect().height + 'px'
+        elem.style.alignSelf = 'flex-start'
         prepareAutosize()
 
         if (typeof heightOffsetRef.current === 'undefined') {
@@ -242,6 +248,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         heightRef.current = parseFloat(elem.style.height)
       } catch (e) {
         warn('Textarea: Failed to set autosize height:', e)
+      } finally {
+        shell.style.minHeight = minHeight
+        elem.style.alignSelf = alignSelf
       }
     },
     [
