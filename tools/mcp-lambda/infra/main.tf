@@ -8,6 +8,8 @@ locals {
 
   # Built from the topic name so the MCP deploy role needs no SNS access.
   analytics_alert_topic_arn = "arn:aws:sns:${var.aws_region}:${data.aws_caller_identity.current.account_id}:eufemia-${var.environment}-analytics-snapshot-alerts"
+
+  oidc_permissions_boundary_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
 }
 
 data "aws_caller_identity" "current" {}
@@ -48,7 +50,7 @@ resource "aws_sqs_queue_redrive_allow_policy" "mcp_usage" {
 # Lambda function
 resource "aws_lambda_function" "mcp" {
   function_name = local.function_name
-  role          = data.aws_iam_role.lambda.arn
+  role          = aws_iam_role.mcp.arn
   handler       = "lambda-handler.handler"
   runtime       = "nodejs22.x"
   timeout       = 30
@@ -76,8 +78,12 @@ resource "aws_lambda_function" "mcp" {
     }
   }
 
-  depends_on = [aws_cloudwatch_log_group.lambda]
-  tags       = local.tags
+  depends_on = [
+    aws_cloudwatch_log_group.lambda,
+    aws_iam_role_policy_attachment.mcp_usage_enqueue,
+    aws_iam_role_policy_attachment.mcp_logs,
+  ]
+  tags = local.tags
 }
 
 # CloudWatch log group with retention policy.
@@ -89,20 +95,61 @@ resource "aws_cloudwatch_log_group" "lambda" {
   tags              = local.tags
 }
 
-# IAM role for Lambda.
-# Pre-created out-of-band: the OIDC deploy role's permissions boundary
-# forbids iam:CreateRole, so the execution role (with its trust policy and
-# AWSLambdaBasicExecutionRole attachment) is provisioned by an account admin
-# and only referenced here.
-data "aws_iam_role" "lambda" {
-  name = "${local.function_name}-role"
+# The OIDC deploy role may create these roles only under these names and with
+# this boundary, and attach only the policies below; the usage policies live in
+# the OIDC federation repo. prevent_destroy stops a rename from deleting a role
+# the deploy role cannot recreate.
+data "aws_iam_policy_document" "lambda_assume" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
 }
 
-# The MCP role needs only SendMessage on the source queue. The consumer uses a
-# separate pre-created role with basic logging, SQS read/delete permissions on
-# the source queue, and PutObject on the analytics bucket's mcp-usage/* prefix.
-data "aws_iam_role" "usage_consumer" {
-  name = "${local.function_name}-usage-consumer-role"
+resource "aws_iam_role" "mcp" {
+  name                 = "${local.function_name}-lambda"
+  assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
+  permissions_boundary = local.oidc_permissions_boundary_arn
+  tags                 = local.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "mcp_usage_enqueue" {
+  role       = aws_iam_role.mcp.name
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-enqueue"
+}
+
+resource "aws_iam_role_policy_attachment" "mcp_logs" {
+  role       = aws_iam_role.mcp.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role" "usage_consumer" {
+  name                 = "${local.function_name}-usage-consumer-lambda"
+  assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
+  permissions_boundary = local.oidc_permissions_boundary_arn
+  tags                 = local.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "usage_consumer_consume" {
+  role       = aws_iam_role.usage_consumer.name
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-consume"
+}
+
+resource "aws_iam_role_policy_attachment" "usage_consumer_logs" {
+  role       = aws_iam_role.usage_consumer.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_cloudwatch_log_group" "usage_consumer" {
@@ -113,7 +160,7 @@ resource "aws_cloudwatch_log_group" "usage_consumer" {
 
 resource "aws_lambda_function" "usage_consumer" {
   function_name = "${local.function_name}-usage-consumer"
-  role          = data.aws_iam_role.usage_consumer.arn
+  role          = aws_iam_role.usage_consumer.arn
   handler       = "usage-consumer.handler"
   runtime       = "nodejs22.x"
   timeout       = 30
@@ -131,8 +178,12 @@ resource "aws_lambda_function" "usage_consumer" {
     }
   }
 
-  depends_on = [aws_cloudwatch_log_group.usage_consumer]
-  tags       = local.tags
+  depends_on = [
+    aws_cloudwatch_log_group.usage_consumer,
+    aws_iam_role_policy_attachment.usage_consumer_consume,
+    aws_iam_role_policy_attachment.usage_consumer_logs,
+  ]
+  tags = local.tags
 }
 
 resource "aws_lambda_event_source_mapping" "mcp_usage" {

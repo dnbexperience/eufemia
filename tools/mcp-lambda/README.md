@@ -117,10 +117,20 @@ The build & push workflow triggers on:
 
 Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
-The MCP execution role needs `sqs:SendMessage` on the usage queue. The
-pre-created `eufemia-<env>-mcp-usage-consumer-role` needs basic Lambda logging,
-`sqs:ReceiveMessage`/`DeleteMessage`/`GetQueueAttributes` on that queue, and
-`s3:PutObject` on the analytics bucket's `mcp-usage/*` prefix.
+The deploy creates both Lambda execution roles with the OIDC permissions
+boundary. Each gets basic Lambda logging plus one policy from the OIDC
+federation repo, and the deploy role may attach no others:
+
+- `eufemia-<env>-mcp-lambda`: `eufemia-<env>-mcp-usage-enqueue`
+  (`sqs:SendMessage` on the usage queue).
+- `eufemia-<env>-mcp-usage-consumer-lambda`: `eufemia-<env>-mcp-usage-consume`
+  (`sqs:ReceiveMessage`/`DeleteMessage`/`GetQueueAttributes` on that queue and
+  `s3:PutObject` on the analytics bucket's `mcp-usage/*` prefix).
+
+The deploy role can't change a role's trust policy, description or maximum
+session duration; such a change fails the deploy until the OIDC federation repo
+grants it. Renaming a role replaces it, so the new name must be granted there
+first and `prevent_destroy` lifted in the same change.
 
 ### Infrastructure
 
