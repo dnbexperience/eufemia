@@ -248,7 +248,7 @@ describe('analytics infrastructure', () => {
     expect(assume?.match(/identifiers\s+=\s+\[.*\]/g)).toEqual([
       'identifiers = ["lambda.amazonaws.com"]',
     ])
-    expect(role).toMatch(/prevent_destroy\s+=\s+true/)
+    expect(role).toMatch(/^\s+prevent_destroy\s+=\s+true$/m)
   })
 
   it('attaches only the deploy-approved policies to the dashboard role', () => {

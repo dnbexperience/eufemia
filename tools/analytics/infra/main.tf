@@ -694,8 +694,7 @@ data "aws_iam_role" "lambda" {
 
 # The OIDC deploy role may create this role only under this name and with this
 # boundary, and attach only the two policies below; snapshot-read lives in the
-# OIDC federation repo. prevent_destroy stops a rename from deleting a role the
-# deploy role cannot recreate.
+# OIDC federation repo.
 data "aws_iam_policy_document" "dashboard_assume" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -714,6 +713,7 @@ resource "aws_iam_role" "dashboard" {
   tags                 = local.tags
 
   lifecycle {
+    # A rename would delete a role the deploy role cannot recreate.
     prevent_destroy = true
   }
 }
