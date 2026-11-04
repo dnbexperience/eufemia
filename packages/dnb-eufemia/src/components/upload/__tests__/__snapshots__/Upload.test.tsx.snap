@@ -1585,7 +1585,7 @@ html[data-visual-test] .dnb-progress-indicator {
 *
 */
 .dnb-upload {
-  --upload-background: var(--token-color-background-page-background);
+  --upload-background: var(--token-color-background-neutral);
   --upload-background--active: var(--token-color-decorative-third-muted);
   --upload-border: var(--token-color-stroke-action);
   --upload-border--active: var(--token-color-stroke-action-pressed);
@@ -1786,6 +1786,7 @@ html[data-visual-test] .dnb-progress-indicator {
   border-bottom-right-radius: var(--token-radius-lg);
 }
 .dnb-upload--compact {
+  --upload-background: transparent;
   padding: 0;
   border-radius: 0;
 }
