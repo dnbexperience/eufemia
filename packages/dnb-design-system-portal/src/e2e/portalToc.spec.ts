@@ -1,21 +1,21 @@
-import { test, expect, webkit } from '@playwright/test'
+import { test, expect, webkit, type Page } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
   for (const width of [390, 1440]) {
-    for (const { name, path, trigger } of [
+    for (const { name, goto, trigger } of [
       {
         name: 'Portal Tools',
-        path: '/uilib/components/button/',
+        goto: (page: Page) => page.goto('/uilib/components/button/'),
         trigger: '#portal-tools',
       },
       {
         name: 'a drawer',
-        path: '/uilib/components/drawer/demos/',
+        goto: (page: Page) => page.goto('/uilib/components/drawer/demos/'),
         trigger: '[data-visual-test="simple-drawer"] button',
       },
       {
         name: 'a dialog',
-        path: '/uilib/components/dialog/demos/',
+        goto: (page: Page) => page.goto('/uilib/components/dialog/demos/'),
         trigger: '[data-visual-test="dialog-default"] button',
       },
     ]) {
@@ -23,7 +23,7 @@ test.describe('Portal table of contents', () => {
         page,
       }) => {
         await page.setViewportSize({ width, height: 1000 })
-        await page.goto(path)
+        await goto(page)
         const toc = page.locator('#portal-page-toc')
         await expect(toc).toBeVisible()
         if (width === 390) {
