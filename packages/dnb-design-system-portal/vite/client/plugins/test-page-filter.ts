@@ -295,9 +295,21 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
   const pages = new Set<string>()
   const sourceFile = parseSourceFile(filePath)
   const constants = collectStringConstants(sourceFile)
-  const loopValues = collectForOfStringValues(sourceFile)
 
   function visit(node: ts.Node) {
+    // Include destinations declared in tuples and href assertions as well
+    // as calls. A dynamic hash still has a fully known page path.
+    const literal = getLiteralValue(node)
+    if (literal?.startsWith('/')) {
+      addNormalizedUrl(literal, pages)
+    } else if (
+      ts.isTemplateExpression(node) &&
+      node.head.text.startsWith('/') &&
+      /[?#]/.test(node.head.text)
+    ) {
+      addNormalizedUrl(node.head.text, pages)
+    }
+
     if (
       ts.isCallExpression(node) &&
       ts.isPropertyAccessExpression(node.expression) &&
@@ -311,10 +323,6 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
 
       if (rawValue) {
         addNormalizedUrl(rawValue, pages)
-      } else if (ts.isIdentifier(arg)) {
-        loopValues.get(arg.text)?.forEach((value) => {
-          addNormalizedUrl(value, pages)
-        })
       }
     }
 
@@ -323,39 +331,6 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
 
   visit(sourceFile)
   return pages
-}
-
-function collectForOfStringValues(
-  sourceFile: ts.SourceFile
-): Map<string, string[]> {
-  const values = new Map<string, string[]>()
-
-  function visit(node: ts.Node) {
-    if (
-      ts.isForOfStatement(node) &&
-      ts.isVariableDeclarationList(node.initializer) &&
-      ts.isArrayLiteralExpression(node.expression)
-    ) {
-      const [declaration] = node.initializer.declarations
-      if (declaration && ts.isIdentifier(declaration.name)) {
-        const literals = node.expression.elements
-          .map((element) => getLiteralValue(element))
-          .filter((value): value is string => value !== null)
-
-        if (literals.length > 0) {
-          values.set(declaration.name.text, [
-            ...(values.get(declaration.name.text) ?? []),
-            ...literals,
-          ])
-        }
-      }
-    }
-
-    ts.forEachChild(node, visit)
-  }
-
-  visit(sourceFile)
-  return values
 }
 
 function parseSourceFile(filePath: string): ts.SourceFile {

@@ -11,6 +11,34 @@ import testPageFilterPlugin, {
 } from '../../client/plugins/test-page-filter'
 
 describe('test-page-filter plugin', () => {
+  it('keeps pages reached through legacy fragments and sidebar navigation', () => {
+    vi.stubEnv('IS_E2E', '1')
+    try {
+      const plugin = testPageFilterPlugin()
+      const transform = plugin.transform as (
+        code: string,
+        id: string
+      ) => { code: string }
+      const { code } = transform('', 'virtual:portal-pages')
+      const paths = [
+        '/quickguide-designer/motion',
+        '/web/typography/font-weight',
+        '/web/layout-and-typography/typography/css-reference',
+        '/web/components/icon/usage',
+        '/web/styling-and-themes/design-tokens',
+        '/web/forms/getting-started',
+        '/uilib/usage',
+        '/web/usage',
+        '/web/get-started/requirements',
+      ]
+      const routes = paths.map((path) => ({ path }))
+      new Function('routes', code)(routes)
+      expect(routes.map(({ path }) => path)).toEqual(paths)
+    } finally {
+      vi.unstubAllEnvs()
+    }
+  })
+
   it('keeps both dedicated AI pages and their bookmark source in the partial build', () => {
     const pages = collectE2eTestPages()
     for (const path of [

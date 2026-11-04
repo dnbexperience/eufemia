@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+const tokensPath = '/web/styling-and-themes/design-tokens'
+const firstFormPath = '/web/forms/getting-started'
+
 for (const width of [1440, 390]) {
   test(
     'finds shared assets and Web guidance at ' + width,
@@ -54,14 +57,14 @@ for (const width of [1440, 390]) {
       await nav
         .getByRole('link', { name: 'Design tokens', exact: true })
         .click()
-      await expect(page).toHaveURL(new RegExp('/design-tokens/?$'))
+      await expect(page).toHaveURL(new RegExp(tokensPath + '/?$'))
       await expect(page.locator('h1')).toContainText('Design tokens')
       nav = await menu()
       await nav.getByRole('button', { name: 'Forms', exact: true }).click()
       await nav
         .getByRole('link', { name: 'Build your first form', exact: true })
         .click()
-      await expect(page).toHaveURL(new RegExp('/forms/getting-started/?$'))
+      await expect(page).toHaveURL(new RegExp(firstFormPath + '/?$'))
       await expect(page.locator('h1')).toContainText(
         'Build your first form'
       )
