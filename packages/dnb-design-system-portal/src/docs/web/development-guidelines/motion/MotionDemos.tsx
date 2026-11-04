@@ -152,19 +152,14 @@ function MotionStudy({
         className="dnb-motion-demo__stage"
         innerSpace={0}
         responsive={false}
-        backgroundColor="var(--token-color-background-neutral)"
+        backgroundColor="var(--token-color-background-neutral-base)"
       >
         <svg viewBox="0 0 360 240" aria-hidden="true" focusable="false">
           {children}
         </svg>
       </Card>
       <figcaption className="dnb-motion-demo__caption">
-        <H2
-          id={`${id}-title`}
-          size="medium"
-          top={0}
-          bottom={0}
-        >
+        <H2 id={`${id}-title`} size="medium" top={0} bottom={0}>
           {title}
         </H2>
         <P top={0} bottom={0}>
