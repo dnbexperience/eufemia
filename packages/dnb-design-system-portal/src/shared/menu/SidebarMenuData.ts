@@ -12,7 +12,6 @@ export type NavItem = {
   order?: number
   path: string
   status?: string
-  theme?: ThemeNames[]
   title: string
   subheadings?: NavItem[]
   isMenuGroup?: boolean
@@ -21,7 +20,6 @@ export type NavItem = {
 }
 
 export type PortalSidebarMenuItemData = SidebarMenuItemData & {
-  themes?: ThemeNames[]
   items?: PortalSidebarMenuItemData[]
 }
 
@@ -83,7 +81,6 @@ export function toSidebarMenuData(
               subtle: true,
             }
           : undefined,
-        themes: item.theme,
         items: nestedItems,
         type: isGroup ? 'group' : undefined,
         collapsible: nestedItems && !isGroup ? true : undefined,

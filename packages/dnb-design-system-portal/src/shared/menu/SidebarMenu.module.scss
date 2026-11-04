@@ -11,29 +11,6 @@
     }
   }
 
-  .portal-sidebar-menu__theme-badge {
-    flex-shrink: 0;
-    width: 1.5em;
-    height: 1.5em;
-
-    color: var(--token-color-icon-neutral-inverse);
-    background-color: var(--token-color-icon-neutral);
-    border-radius: 50%;
-
-    &--sbanken::before {
-      content: 'Sbanken';
-      display: block;
-      width: 0.7em;
-      height: 1.5rem;
-      padding: 0.0625rem;
-      overflow: hidden;
-
-      font-family: var(--font-family-heading);
-      font-weight: normal;
-      white-space: nowrap;
-    }
-  }
-
   .portal-sidebar-menu__item--active {
     scroll-margin-block: 40vh;
   }

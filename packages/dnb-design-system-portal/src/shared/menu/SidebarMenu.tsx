@@ -18,7 +18,6 @@ import {
 } from './SidebarMenu.module.scss'
 import {
   findActiveSidebarItemId,
-  themeTitles,
   toSidebarMenuData,
 } from './SidebarMenuData'
 import {
@@ -30,7 +29,6 @@ import {
   getWebStorage,
   readWebStorageJSON,
 } from '@dnb/eufemia/src/shared/helpers/webStorage'
-import { useTheme } from '@dnb/eufemia/src/shared'
 import PortalLogo from './graphics/logo'
 import { Link } from '../tags/Anchor'
 
@@ -76,17 +74,13 @@ export default function SidebarLayout({
       savePlatform(selectedSection.id)
     }
   }, [platformSelectedItem])
-  const currentTheme = useTheme()?.name
   const storageKey = 'portal-sidebar-menu-open-items-shared'
   const menu = (withSpace = false) => (
     <SidebarMenu.Data
       aria-label="Section Content Menu"
       className="dev-grid"
       data={[
-        ...addThemeBadges(
-          toSidebarMenuData(shared, closeMenu),
-          currentTheme
-        ),
+        ...toSidebarMenuData(shared, closeMenu),
         {
           id: 'portal-platform-navigation',
           type: 'custom',
@@ -99,10 +93,7 @@ export default function SidebarLayout({
               sections={sections.map(({ icon, items, ...section }) => ({
                 ...section,
                 icon: graphics[icon],
-                items: addThemeBadges(
-                  toSidebarMenuData(items, closeMenu),
-                  currentTheme
-                ),
+                items: toSidebarMenuData(items, closeMenu),
               }))}
               activeSection={platform}
               onActiveSectionChange={(id) => {
@@ -185,35 +176,4 @@ function savePlatform(platform: PortalPlatform) {
   } catch {
     // Platform switching also works when browser storage is full.
   }
-}
-
-function addThemeBadges(
-  items: ReturnType<typeof toSidebarMenuData>,
-  currentTheme: ReturnType<typeof useTheme>['name']
-) {
-  return items.map(({ themes, items, ...item }) => ({
-    ...item,
-    suffix: themes?.includes(currentTheme) ? (
-      <ThemeBadge theme={currentTheme} />
-    ) : undefined,
-    items: items ? addThemeBadges(items, currentTheme) : undefined,
-  }))
-}
-
-function ThemeBadge({
-  theme,
-}: {
-  theme: ReturnType<typeof useTheme>['name']
-}) {
-  const themeTitle = themeTitles[theme]
-
-  return (
-    <span
-      title={`This component is ready for use with the ${themeTitle} theme`}
-      className={clsx(
-        'portal-sidebar-menu__theme-badge',
-        `portal-sidebar-menu__theme-badge--${theme}`
-      )}
-    />
-  )
 }

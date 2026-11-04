@@ -85,7 +85,6 @@ export function createMdxSidebarNavigation(
       title: nav.title || fm.menuTitle || fm.title,
       order: nav.order ?? fm.order,
       icon: fm.icon,
-      theme: fm.theme as NavItem['theme'],
       status: nav.kind === 'placeholder' ? 'todo' : fm.status,
       disabled: nav.kind === 'placeholder',
       isMenuLink: !group && fm.route !== false,
