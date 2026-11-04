@@ -33,6 +33,9 @@ test('keeps Ai.Info and the AI overview on separate routes', async ({
   await page.goto('/uilib/extensions/ai/about/')
   await waitForApp(page)
   await expect(page.locator('h1')).toContainText('AI components')
-  await page.getByRole('link', { name: 'Ai.Info', exact: true }).click()
+  await page
+    .getByRole('heading', { name: 'Ai.Info', exact: true })
+    .getByRole('link', { name: 'Ai.Info', exact: true })
+    .click()
   await expect(page.locator('h1')).toContainText('Ai.Info')
 })

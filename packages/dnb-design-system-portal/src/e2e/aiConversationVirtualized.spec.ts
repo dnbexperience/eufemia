@@ -234,7 +234,17 @@ test('animates appended messages without animating recycled history', async ({
   await demo
     .getByRole('button', { name: 'Go to message 100', exact: true })
     .click()
-  await expect(demo.locator('#history-100')).toBeInViewport()
+  await expect
+    .poll(() =>
+      demo
+        .locator('#history-100')
+        .evaluate(
+          (element) =>
+            element.getBoundingClientRect().top -
+            element.closest('[role="log"]').getBoundingClientRect().top
+        )
+    )
+    .toBeCloseTo(48, 0)
   expect(await animations.evaluate(({ appended }) => appended)).toEqual([
     'history-1000',
     'history-1001',
@@ -405,7 +415,6 @@ test('allows slow scrolling in both directions and resumes following at the end'
   await demo
     .getByRole('button', { name: 'Go to message 100', exact: true })
     .click()
-  await expect(demo.locator('#history-100')).toBeInViewport()
   const message = demo.locator('#history-100')
   const messageTop = () =>
     message.evaluate(
