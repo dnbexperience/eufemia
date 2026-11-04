@@ -95,6 +95,15 @@ describe('Tooltip', () => {
     })
   })
 
+  it('keeps the Popover max width', async () => {
+    render(<Tooltip open>Tooltip content</Tooltip>)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+    expect(getMainElem()).not.toHaveClass('dnb-tooltip--no-max-width')
+  })
+
   it('fades out when a modal opens and restores the show delay and animation', async () => {
     render(
       <OriginalTooltip
@@ -1547,5 +1556,12 @@ describe('Tooltip scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('limits the text to 35rem (560px) plus the content padding', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatch(
+      /\.dnb-tooltip \.dnb-popover__content \{[^}]*max-width: 37rem;/
+    )
   })
 })
