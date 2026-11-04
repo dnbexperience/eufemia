@@ -776,6 +776,25 @@ describe('Button scss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('gives a tertiary button with the icon on top the Figma size and radius', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-button--tertiary\.dnb-button--icon-position-top \{[^}]*border-radius: 1\.25rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-button--tertiary\.dnb-button--icon-position-top \.dnb-button__text \{\s*margin-top: 0\.25rem;\s*margin-bottom: 0\.5rem;\s*font-size: var\(--font-size-x-small\);\s*line-height: var\(--line-height-x-small\);/
+    )
+  })
+
+  it('gives large tertiary icon buttons the same size as large secondary icon buttons', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-button:where\(\.dnb-button--secondary, \.dnb-button--tertiary\):not\(\.dnb-button--has-text\)[^{]*\.dnb-button--size-large \{\s*width: calc\(var\(--button-width--large\) - 0\.5rem\);/
+    )
+  })
+
   it('shows the focus ring in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
