@@ -32,6 +32,7 @@ for (const width of [320, 390, 640]) {
           )
         })
       expect(availableSearchWidth).toBeGreaterThan(24)
+      await expect(header.locator('.dnb-input__icon')).toBeVisible()
       const toolsBox = await tools.boundingBox()
       expect(toolsBox.width).toBeCloseTo(toolsBox.height, 1)
       expect(toolsBox.y + toolsBox.height / 2).toBeCloseTo(
@@ -44,6 +45,20 @@ for (const width of [320, 390, 640]) {
         searchBox.x + searchBox.width
       )
       expect(toolsBox.x + toolsBox.width).toBeLessThanOrEqual(width)
+      await header.locator('#portal-search').fill('button')
+      await expect(header.locator('.dnb-input__icon')).toBeVisible()
+      expect(
+        await header.locator('#portal-search').evaluate((input) => {
+          const style = getComputedStyle(input)
+          return (
+            input.getBoundingClientRect().width -
+            parseFloat(style.paddingLeft) -
+            parseFloat(style.paddingRight)
+          )
+        })
+      ).toBeGreaterThan(24)
+      await header.locator('#portal-search-clear-button').click()
+      await expect(header.locator('#portal-search')).toHaveValue('')
       await page.setViewportSize({ width: 641, height: 900 })
       await expect(tools.locator('.dnb-button__text')).toHaveCSS(
         'clip-path',
@@ -158,7 +173,7 @@ for (const path of [
           /color-scheme--dark/
         )
         await expect(page.locator('button#portal-tools')).toHaveText(
-          'DNB - Dark Settings',
+          path === '/' ? 'Settings' : 'DNB - Dark Settings',
           { useInnerText: true }
         )
         expect(

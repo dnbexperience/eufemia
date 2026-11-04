@@ -10,8 +10,7 @@
   &[data-home] {
     pointer-events: none;
 
-    .leadingStyle,
-    .toolsStyle {
+    .leadingStyle {
       pointer-events: auto;
     }
   }

@@ -31,7 +31,7 @@
     }
   }
 
-  @for $index from 1 through 5 {
+  @for $index from 1 through 6 {
     [data-hanging-item]:nth-child(#{$index}) > span:first-child path {
       animation-duration: 67.2s + $index * 5.92s;
       animation-delay: $index * -18.08s;

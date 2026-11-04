@@ -67,10 +67,12 @@ export default function StickyMenuBar() {
           </Link>
         </span>
 
-        <span className={toolsStyle}>
-          {!home && <SearchBarInput />}
-          <PortalToolsMenu />
-        </span>
+        {!home && (
+          <span className={toolsStyle}>
+            <SearchBarInput />
+            <PortalToolsMenu />
+          </span>
+        )}
       </div>
     </header>
   )

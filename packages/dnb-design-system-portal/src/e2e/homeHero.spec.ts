@@ -24,26 +24,31 @@ test('keeps idle motion off the JavaScript frame loop', async ({
   ).toBeLessThanOrEqual(1)
 })
 
-for (const width of [390, 1600]) {
+for (const width of [320, 390, 1600]) {
   test(
-    'keeps Home settings in the sticky header at ' + width + 'px',
+    'keeps Home settings hanging with the search icon at ' + width + 'px',
     async ({ page }) => {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.setViewportSize({ width, height: 900 })
       await page.goto('/')
       await waitForApp(page)
-      const trigger = page.locator('header #portal-tools')
-      await expect(trigger).toBeVisible()
-      await expect(
-        page.locator('[data-hanging-item=settings]')
-      ).toHaveCount(0)
-      const before = await trigger.boundingBox()
-      await page.evaluate(() =>
-        scrollTo(0, document.documentElement.scrollHeight)
+      await expect(page.locator('header #portal-tools')).toHaveCount(0)
+      const trigger = page.locator(
+        '[data-hanging-item=settings] #portal-tools'
       )
-      await expect
-        .poll(async () => (await trigger.boundingBox())?.y)
-        .toBe(before.y)
+      await expect(trigger).toBeVisible()
+      await expect(trigger).toHaveText('Settings')
+      await expect(trigger).toHaveAccessibleName('Open settings')
+      await expect(trigger.locator('.dnb-button__text')).toHaveCSS(
+        'clip-path',
+        'none'
+      )
+      await expect(
+        page.locator('.portal-search .dnb-input__placeholder')
+      ).toHaveText('Search components and guidance')
+      await expect(
+        page.locator('.portal-search .dnb-input__icon')
+      ).toBeVisible()
       await trigger.click()
       const drawer = page.getByRole('dialog', {
         name: 'Settings',
@@ -60,9 +65,7 @@ for (const width of [390, 1600]) {
 
 for (const brand of ['carnegie', 'eiendom']) {
   test(
-    'starts ' +
-      brand +
-      ' in light mode from Home and names it in Settings',
+    'starts ' + brand + ' in light mode from Home with the Settings label',
     async ({ page }) => {
       await page.emulateMedia({
         colorScheme: 'dark',
@@ -83,11 +86,7 @@ for (const brand of ['carnegie', 'eiendom']) {
           .click()
       }
       await expect(page.locator('body')).toHaveClass(/color-scheme--light/)
-      await expect(page.locator('header #portal-tools')).toHaveText(
-        (brand === 'carnegie' ? 'DNB Carnegie' : 'DNB Eiendom') +
-          ' - Light Settings',
-        { useInnerText: true }
-      )
+      await expect(page.locator('#portal-tools')).toHaveText('Settings')
       const dark = page.getByRole('switch', {
         name: 'Dark mode',
         exact: true,
@@ -199,10 +198,10 @@ for (const width of [1600, 800, 390]) {
         await page.goto('/')
         await waitForApp(page)
         await expect(page.locator('header')).not.toContainText('Search')
-        await expect(page.locator('header #portal-tools')).toBeVisible()
+        await expect(page.locator('#portal-tools')).toBeVisible()
         await expect(page.locator('#portal-search')).toHaveCount(0)
         const specimens = page.locator('[data-hanging-item]')
-        await expect(specimens).toHaveCount(5)
+        await expect(specimens).toHaveCount(6)
         const sampleBrands = () =>
           specimens.evaluateAll((items) =>
             items
@@ -242,7 +241,7 @@ for (const width of [1600, 800, 390]) {
         await expect(page.locator('body')).toHaveClass(
           new RegExp('color-scheme--' + mode)
         )
-        await page.locator('header #portal-tools').click()
+        await page.locator('#portal-tools').click()
         const drawer = page.getByRole('dialog', {
           name: 'Settings',
           exact: true,
@@ -250,7 +249,7 @@ for (const width of [1600, 800, 390]) {
         await expect(drawer).toBeVisible()
         await drawer.locator('.dnb-modal__close-button').click()
         await expect(drawer).toBeHidden()
-        await expect(page.locator('header #portal-tools')).toBeFocused()
+        await expect(page.locator('#portal-tools')).toBeFocused()
         await page
           .getByRole('button', {
             name: 'Switch brand to DNB',
@@ -574,7 +573,7 @@ test('loads optional motion when enabled and keeps controls usable if it fails',
     .focus()
   await page.keyboard.press('Space')
   await expect(page.locator('body')).toHaveClass(/color-scheme--dark/)
-  await page.locator('header #portal-tools').focus()
+  await page.locator('#portal-tools').focus()
   await page.keyboard.press('Enter')
   await expect(
     page.getByRole('dialog', { name: 'Settings', exact: true })
