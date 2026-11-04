@@ -98,7 +98,7 @@ describe('MCP infrastructure', () => {
       'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
     ])
     expect(terraform).not.toMatch(
-      /resource "aws_iam_role_policy" |resource "aws_iam_policy_attachment" |managed_policy_arns|inline_policy/
+      /resource "aws_iam_(role_policy|policy_attachment|role_policy_attachments_exclusive)" |managed_policy_arns|inline_policy/
     )
   })
 })
