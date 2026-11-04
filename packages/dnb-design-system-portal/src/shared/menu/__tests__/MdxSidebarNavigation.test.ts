@@ -172,7 +172,7 @@ describe('MDX-defined Portal navigation', () => {
       expect(links.find((item) => item.path === path)?.title).toBe(title)
       const page = pages.find(({ fields }) => fields.slug === path)
       expect(page.frontmatter.contentTitle || page.frontmatter.title).toBe(
-        slug === 'icon' ? 'Icons' : title
+        title
       )
     }
   })
