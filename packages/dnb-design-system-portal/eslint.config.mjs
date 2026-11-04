@@ -70,8 +70,8 @@ export default [
       'react/no-unescaped-entities': 'off',
       'react/self-closing-comp': 'off', // false positives: MDX components wrapping markdown content appear "empty" to the parser
       'no-unused-expressions': 'off',
-      'import/namespace': 'off',
-      'import/no-unresolved': 'off',
+      'import-x/namespace': 'off',
+      'import-x/no-unresolved': 'off',
       'workspaces/no-absolute-imports': 'off',
       'compat/compat': 'off',
     },

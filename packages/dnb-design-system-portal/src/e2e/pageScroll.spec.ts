@@ -14,24 +14,20 @@ test.describe('Page Scroll', () => {
     await waitForApp(page)
   })
 
-  test('click on a table of content anchor should scroll the page to element', async ({
+  test('click on an in-page link should scroll the page to its destination', async ({
     page,
   }) => {
-    const anchors = await page.locator('main .dnb-ul li a').all()
-    const anchorIndex = 0
+    const anchor = page.locator('main a[href="#spacing-support"]').first()
+    await expect(anchor).toBeVisible()
+    await anchor.click()
 
-    if (anchors.length <= anchorIndex) {
-      return // page structure different, skip
-    }
-
-    await anchors[anchorIndex]?.click()
-
-    await page.waitForFunction(() => window.scrollY > 0, {
-      timeout: 5000,
-    })
-
-    const scrollY = await page.evaluate(() => window.scrollY)
-    expect(scrollY).toBeGreaterThan(0)
+    await expect
+      .poll(() =>
+        page
+          .locator('#spacing-support')
+          .evaluate((element) => element.getBoundingClientRect().top)
+      )
+      .toBeLessThan(300)
   })
 
   test('should scroll to linked hash element', async ({ page }) => {
@@ -43,23 +39,19 @@ test.describe('Page Scroll', () => {
       await page.evaluate(() => window.scrollY)
     ).toBeGreaterThanOrEqual(0)
 
-    // Find an anchor link that has a hash
-    const anchors = await page
-      .locator('main .dnb-ul li a[href*="#"]')
-      .all()
-    if (anchors.length === 0) {
-      return // no hash anchors, skip
-    }
-
-    const anchor = anchors[0]
+    const anchor = page.locator('main a[href="#spacing-support"]').first()
+    await expect(anchor).toBeVisible()
     await anchor.click()
 
     expect(page.url()).toContain('#')
 
-    await page.waitForFunction(() => window.scrollY > 0, {
-      timeout: 5000,
-    })
-    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+    await expect
+      .poll(() =>
+        page
+          .locator('#spacing-support')
+          .evaluate((element) => element.getBoundingClientRect().top)
+      )
+      .toBeLessThan(300)
   })
 
   test('should scroll to hash element after route change', async ({

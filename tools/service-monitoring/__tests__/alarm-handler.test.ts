@@ -79,6 +79,26 @@ it('routes service observations through the same notifier', async () => {
   await handler(event(value))
   expect(mocks.process).toHaveBeenCalledWith(value, expect.any(Object))
 })
+it('passes the region and monitor log groups for incident links', async () => {
+  vi.stubEnv('AWS_REGION', 'eu-north-1')
+  vi.stubEnv('MONITOR_LOG_GROUPS', '{"MCP":"/aws/lambda/monitor-mcp"}')
+  await handler(
+    event({
+      AlarmName: 'missing-mcp',
+      NewStateValue: 'ALARM',
+      StateChangeTime: '2026-10-23T10:00:00Z',
+    })
+  )
+  expect(mocks.process).toHaveBeenCalledWith(
+    expect.any(Object),
+    expect.objectContaining({
+      aws: {
+        region: 'eu-north-1',
+        logGroups: { MCP: '/aws/lambda/monitor-mcp' },
+      },
+    })
+  )
+})
 it('rejects other topics before reading the bot secret', async () => {
   const value = event({})
   value.Records[0].Sns.TopicArn = 'other'

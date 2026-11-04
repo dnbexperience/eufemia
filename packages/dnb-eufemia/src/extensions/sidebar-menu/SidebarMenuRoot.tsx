@@ -8,7 +8,12 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ReactElement, ReactNode, RefObject } from 'react'
+import type {
+  KeyboardEvent,
+  ReactElement,
+  ReactNode,
+  RefObject,
+} from 'react'
 import { clsx } from 'clsx'
 import Space from '../../components/space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -19,6 +24,14 @@ import {
 } from '../../shared/helpers/webStorage'
 import type { WebStorageType } from '../../shared/helpers/webStorage'
 import { SidebarMenuContext } from './SidebarMenuContext'
+import {
+  handleMenuNavigation,
+  isMenuNavigationKey,
+} from '../../shared/helpers/menuKeyboardNavigation'
+import {
+  getSidebarMenuItems,
+  sidebarMenuActionSelector,
+} from './SidebarMenuKeyboard'
 import useTranslation from '../../shared/useTranslation'
 import { useSidebarMenuProps } from './SidebarMenuController'
 import type {
@@ -591,6 +604,10 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       {...rest}
       element="nav"
       ref={menuRef}
+      onKeyDown={(event) => {
+        rest.onKeyDown?.(event)
+        handleKeyDown(event)
+      }}
       className={clsx(
         'dnb-sidebar-menu',
         !animate && 'dnb-sidebar-menu--restoring',
@@ -627,6 +644,26 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       </SidebarMenuContext>
     </Space>
   )
+}
+
+function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
+  const { currentTarget, target } = event
+  const action = target as HTMLElement
+  if (
+    !isMenuNavigationKey(event) ||
+    !action.matches(sidebarMenuActionSelector) ||
+    action.isContentEditable ||
+    action.closest('.dnb-sidebar-menu') !== currentTarget
+  ) {
+    return
+  }
+
+  const items = getSidebarMenuItems(currentTarget)
+  if (!items.includes(action)) {
+    return
+  }
+
+  handleMenuNavigation(event, { items, wrap: false })
 }
 
 function scrollInstantly(element: HTMLElement, top: number) {

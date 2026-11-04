@@ -51,6 +51,14 @@ Set `dividerBefore: true` on a data item to render a separator, or place `Sideba
 
 When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
 
+## Keyboard navigation
+
+Use Arrow Down and Arrow Up to move focus through the visible, enabled menu items in the active section. Home or Page Up moves focus to the first item; End or Page Down moves to the last. Type a character to focus the next item whose label starts with that character. Arrow navigation stops at either end and does not select or activate an item. Collapsed content, headings, dividers, and custom controls are skipped.
+
+Arrow Right opens an accordion and focuses its first enabled item. On an open accordion, it moves focus to the first enabled item. Arrow Left closes the closest accordion and returns focus to its trigger. Linked accordions expand with Arrow Right without following the link.
+
+Tab and Shift+Tab continue to reach all interactive controls. Use Enter to activate a link, and Enter or Space to activate a button or toggle an accordion. The section dropdown keeps its own keyboard navigation.
+
 ## State and scrolling
 
 Use controlled properties when application routing or external state owns the menu:

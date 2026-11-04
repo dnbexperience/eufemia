@@ -1226,7 +1226,6 @@ export function SidebarMenuResponsiveDrawer({
       onClose={(event) => {
         if (isSmallScreenRef.current) {
           close()
-          triggerRef.current?.focus({ preventScroll: true })
         }
         onClose?.(event)
       }}

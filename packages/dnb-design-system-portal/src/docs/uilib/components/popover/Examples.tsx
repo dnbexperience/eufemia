@@ -52,6 +52,7 @@ export function PopoverExampleControlled() {
 
           return (
             <Flex.Stack>
+              <Button text="Another action" variant="secondary" />
               <div ref={anchorRef}>
                 <Button
                   text="Open controlled popover"
@@ -75,7 +76,6 @@ export function PopoverExampleControlled() {
                   <Button text="Done" onClick={() => setOpen(false)} />
                 </Flex.Stack>
               </Popover>
-              <Button text="Another action" variant="secondary" />
             </Flex.Stack>
           )
         }

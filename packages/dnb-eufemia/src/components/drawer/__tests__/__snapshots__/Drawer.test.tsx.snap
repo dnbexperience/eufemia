@@ -1108,7 +1108,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
-  transform: translateY(-0.03125rem);
+  transform: translateY(var(--button-text-translate-y, -0.03125rem));
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1284,8 +1284,20 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-help-button__content .dnb-section {
   --background-color: var(--token-color-background-neutral-subtle);
+  --outset-left: 1.5rem;
+  --outset-right: 1.5rem;
+}
+@media screen and (max-width: 40em) {
+  .dnb-help-button__content .dnb-section {
+    --outset-left: 1rem;
+    --outset-right: 1rem;
+  }
+}
+.dnb-card .dnb-help-button__content .dnb-section {
   --outset-left: 1rem;
   --outset-right: 1rem;
+}
+.dnb-help-button__content .dnb-section {
   --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
 }
 .dnb-help-button__content .dnb-section .dnb-p {

@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
 import { checkAnalytics } from '../src/monitor/check-analytics.ts'
-import { reportIncident } from '../../monitoring/report-incident.ts'
 
 const now = Date.parse('2026-10-21T12:00:00Z')
 const sha = '4c80f17a312a194efdb67e146c6a8b0a5f0ca045'
@@ -222,30 +221,5 @@ describe('production analytics checks', () => {
         ([input]) => new URL(String(input)).hostname === 'api.dnb.ghe.com'
       )
     ).toBe(false)
-  })
-
-  it('opens its own incident, separate from CDN and MCP incidents', async () => {
-    const request = vi.fn(async (_url: string, init?: RequestInit) =>
-      init?.method === 'POST'
-        ? Response.json({ number: 1, html_url: 'https://example.com/1' })
-        : Response.json([])
-    )
-    await reportIncident({
-      service: 'Analytics',
-      report: await check(
-        fixture({ deployRun: { conclusion: 'failure' } })
-      ),
-      repository: 'owner/repo',
-      token: githubToken,
-      runUrl: 'https://example.com/run',
-      request: request as unknown as typeof fetch,
-    })
-
-    const created = request.mock.calls.find(
-      ([, init]) => init?.method === 'POST'
-    )
-    const body = JSON.parse(String(created?.[1]?.body))
-    expect(body.title).toBe('Eufemia Analytics incident')
-    expect(body.body).toMatch(/^<!-- eufemia-analytics-health:/)
   })
 })

@@ -17,6 +17,7 @@ import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVer
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
+import Provider from '../../../../../shared/Provider'
 import type { UploadFileNative, UploadValue } from '../Upload'
 
 const nbForms = nbNOForms['nb-NO']
@@ -96,6 +97,40 @@ describe('Field.Upload', () => {
     expect(firstDd).toHaveTextContent('PDF')
     expect(thirdDd).toHaveTextContent('1 MB')
     expect(fourthDd).toHaveTextContent('2')
+  })
+
+  it('should show the file limits when expanded in the compact variant', () => {
+    render(
+      <Field.Upload
+        variant="compact"
+        acceptedFileTypes={['pdf']}
+        fileMaxSize={1}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-upload__file-limits button'
+    )
+    expect(button).toHaveTextContent(nbShared.Upload.fileLimitsButtonText)
+
+    fireEvent.click(button)
+
+    const cells = Array.from(
+      document.querySelectorAll('.dnb-upload__file-limits__table td')
+    )
+    expect(cells.map((cell) => cell.textContent)).toEqual(['PDF', '1 MB'])
+  })
+
+  it('should hide the file limits when the Provider disables them', () => {
+    render(
+      <Provider Upload={{ fileLimitsButtonText: false }}>
+        <Field.Upload variant="compact" />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-upload__file-limits')
+    ).not.toBeInTheDocument()
   })
 
   it('should render label and text', () => {
