@@ -5,7 +5,7 @@ test.describe('TableOfContent extension', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/uilib/extensions/table-of-content/demos/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/demos/')
     const toc = page.locator(
       '[data-visual-test="table-of-content-declarative"] nav'
     )
@@ -582,7 +582,7 @@ test.describe('TableOfContent extension', () => {
       .toBeGreaterThan(firstMarkerTop)
   })
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/extensions/table-of-content/demos/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/demos/')
   })
 
   test('scrolls only the example article and preserves destination focus', async ({
