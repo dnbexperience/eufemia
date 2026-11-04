@@ -136,13 +136,13 @@ describe('rebaseAssetUrls (copyStyles)', () => {
 
   it('rebases nested theme bundles to their deeper location', () => {
     const css =
-      '@font-face{src:url("../../../assets/fonts/dnb/DNB-Regular.woff2")}'
+      '@font-face{src:url("../../../assets/fonts/dnb/web/DNBSansText-Regular.woff2")}'
     const dest = path.join(
       buildAbs,
       'es/style/themes/ui/ui-theme-basis.css'
     )
     expect(rebaseAssetUrls(css, dest)).toContain(
-      'url("../../../../assets/fonts/dnb/DNB-Regular.woff2")'
+      'url("../../../../assets/fonts/dnb/web/DNBSansText-Regular.woff2")'
     )
   })
 
@@ -1176,7 +1176,7 @@ describe('style build', () => {
         'utf-8'
       )
       expect(normalizeCss(content)).toContain(
-        normalizeCss(`--font-family-default: "DNB", sans-serif;`)
+        normalizeCss(`--font-family-default: "DNB", "Arial", sans-serif;`)
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
@@ -1184,7 +1184,7 @@ describe('style build', () => {
       // bundle, so their relative asset paths gain one extra "../".
       const fontsPrefix = stage === '' ? '../../../' : '../../../../'
       expect(content).toContain(
-        `src: url("${fontsPrefix}assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        `src: url("${fontsPrefix}assets/fonts/dnb/web/DNBSansText-Regular.woff2") format("woff2"),`
       )
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
@@ -1332,7 +1332,7 @@ describe('style build', () => {
     const themeTests = [
       {
         theme: 'ui',
-        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', 'Arial', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
       {
@@ -1343,7 +1343,7 @@ describe('style build', () => {
       },
       {
         theme: 'eiendom',
-        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', 'Arial', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
     ]
@@ -1391,6 +1391,41 @@ describe('review rule metadata build', () => {
     expect(metadata).toContain("level: 'warning'")
     expect(declarations).toContain('ReviewRuleMetadata')
   })
+})
+
+describe('ESM plugins build', () => {
+  it.each(getBuildStages(['/es', '/esm']))(
+    'resolves all relative imports on stage %s',
+    async (stage) => {
+      const buildDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}`
+      )
+      const files = await globby('plugins/**/*.js', {
+        cwd: buildDir,
+        absolute: true,
+      })
+
+      const missingImports = files.flatMap((file) => {
+        const content = fs.readFileSync(file, 'utf-8')
+        return Array.from(
+          content.matchAll(/from '(\.{1,2}\/[^']+)'/g),
+          ([, specifier]) => specifier
+        )
+          .filter(
+            (specifier) =>
+              !fs.existsSync(path.resolve(path.dirname(file), specifier))
+          )
+          .map(
+            (specifier) =>
+              `${path.relative(buildDir, file)} -> ${specifier}`
+          )
+      })
+
+      expect(files.length).toBeGreaterThan(0)
+      expect(missingImports).toEqual([])
+    }
+  )
 })
 
 describe('package.json dependencies', () => {
@@ -1454,6 +1489,24 @@ describe('package.json dependencies', () => {
     })
     expect(packageJson.devDependencies).toMatchObject({
       purgecss: expect.any(String),
+    })
+  })
+
+  it('declares the packages the shipped tools import as optional peer dependencies', () => {
+    // The Stylelint plugin imports "stylelint" and the MCP server imports
+    // "@modelcontextprotocol/server". Strict package managers (like Yarn PnP)
+    // only let the package resolve them when they are declared.
+    const packageJson = fs.readJsonSync(
+      path.resolve(PKG_ROOT, 'package.json')
+    )
+
+    expect(packageJson.peerDependencies).toMatchObject({
+      '@modelcontextprotocol/server': expect.any(String),
+      stylelint: expect.any(String),
+    })
+    expect(packageJson.peerDependenciesMeta).toMatchObject({
+      '@modelcontextprotocol/server': { optional: true },
+      stylelint: { optional: true },
     })
   })
 })

@@ -1,6 +1,8 @@
 import type { PropertiesTableProps } from '../../shared/types'
+import { TypographyProperties } from '../../elements/typography/TypographyDocs'
 
 export const HeadingProperties: PropertiesTableProps = {
+  family: TypographyProperties.family,
   text: {
     doc: 'A heading, can be text or `React.ReactNode`.',
     type: 'React.ReactNode',

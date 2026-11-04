@@ -1107,7 +1107,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
-  transform: translateY(-0.03125rem);
+  transform: translateY(var(--button-text-translate-y, -0.03125rem));
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1614,7 +1614,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  column-gap: 1rem;
+  gap: 1rem;
   width: 100%;
 }
 .dnb-dialog--information .dnb-dialog__actions {

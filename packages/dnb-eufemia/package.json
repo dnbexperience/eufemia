@@ -75,7 +75,8 @@
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
     "publish:release": "./scripts/postbuild/publish-release.sh",
     "reset": "rm -rf ./node_modules ./build",
-    "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
+    "review:tokens": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/figma/reportTokenChanges.ts",
+    "skeleton:font": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js",
     "test": "yarn test:prepare && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts",
     "test:changed": "yarn test:prepare && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runConditionalUnitTests.ts",
     "test:ci": "yarn test && yarn test:scripts",
@@ -137,14 +138,19 @@
     "zod": "4.6.7"
   },
   "peerDependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
     "@tanstack/react-virtual": "^3.14.10",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "purgecss": "^8.0.0",
     "react": "^19",
-    "react-dom": "^19"
+    "react-dom": "^19",
+    "stylelint": "^16.0.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
+    "@modelcontextprotocol/server": {
+      "optional": true
+    },
     "@tanstack/react-virtual": {
       "optional": true
     },
@@ -155,6 +161,9 @@
       "optional": true
     },
     "purgecss": {
+      "optional": true
+    },
+    "stylelint": {
       "optional": true
     }
   },

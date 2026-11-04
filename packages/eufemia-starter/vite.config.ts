@@ -16,7 +16,7 @@ export default defineConfig({
   },
 
   // Expose Eufemia's static assets (fonts) at "/assets/..." for dev environments like StackBlitz
-  // This ensures URLs like "/assets/fonts/dnb/DNB-Regular.woff2" resolve to real files
+  // This ensures URLs like "/assets/fonts/dnb/web/DNBSansText-Regular.woff2" resolve to real files
   publicDir: new URL('../dnb-eufemia/assets', import.meta.url).pathname,
 
   // Add some basic security headers, including a Content Security Policy (CSP)
