@@ -153,19 +153,27 @@ function ComponentsOverviewList({ entries }: { entries: Entry[] }) {
             stack
             responsive={false}
             gap="small"
+            backgroundColor="var(--token-color-background-neutral-base)"
             className={illustrationStyle}
           >
-            <svg
-              viewBox="0 0 240 144"
-              width="240"
-              height="144"
-              aria-hidden="true"
-              focusable="false"
-              fill="none"
-              stroke="none"
+            <Card
+              element="div"
+              innerSpace={0}
+              responsive={false}
+              backgroundColor="var(--token-color-background-neutral)"
             >
-              <use href={`${illustrations}#${slug.split('/').pop()}`} />
-            </svg>
+              <svg
+                viewBox="0 0 240 144"
+                width="240"
+                height="144"
+                aria-hidden="true"
+                focusable="false"
+                fill="none"
+                stroke="none"
+              >
+                <use href={`${illustrations}#${slug.split('/').pop()}`} />
+              </svg>
+            </Card>
             <Span size="medium" weight="medium">
               {title}
             </Span>
