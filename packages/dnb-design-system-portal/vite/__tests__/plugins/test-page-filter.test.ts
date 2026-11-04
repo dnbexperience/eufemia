@@ -21,7 +21,7 @@ describe('test-page-filter plugin', () => {
       ) => { code: string }
       const { code } = transform('', 'virtual:portal-pages')
       const paths = [
-        '/quickguide-designer/motion',
+        '/web/development-guidelines/motion',
         '/web/typography/font-weight',
         '/web/layout-and-typography/typography/css-reference',
         '/web/components/icon/usage',
