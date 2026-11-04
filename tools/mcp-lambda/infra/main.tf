@@ -97,8 +97,7 @@ resource "aws_cloudwatch_log_group" "lambda" {
 
 # The OIDC deploy role may create these roles only under these names and with
 # this boundary, and attach only the policies below; the usage policies live in
-# the OIDC federation repo. prevent_destroy stops a rename from deleting a role
-# the deploy role cannot recreate.
+# the OIDC federation repo.
 data "aws_iam_policy_document" "lambda_assume" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -117,6 +116,7 @@ resource "aws_iam_role" "mcp" {
   tags                 = local.tags
 
   lifecycle {
+    # A rename would delete a role the deploy role cannot recreate.
     prevent_destroy = true
   }
 }
@@ -138,6 +138,7 @@ resource "aws_iam_role" "usage_consumer" {
   tags                 = local.tags
 
   lifecycle {
+    # A rename would delete a role the deploy role cannot recreate.
     prevent_destroy = true
   }
 }

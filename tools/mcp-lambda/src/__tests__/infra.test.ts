@@ -77,7 +77,9 @@ describe('MCP infrastructure', () => {
       expect(role, `${name} role`).toContain(
         'data.aws_iam_policy_document.lambda_assume.json'
       )
-      expect(role, `${name} role`).toMatch(/prevent_destroy\s+=\s+true/)
+      expect(role, `${name} role`).toMatch(
+        /^\s+prevent_destroy\s+=\s+true$/m
+      )
     }
   })
 
