@@ -885,7 +885,7 @@ describe('Anchor scss', () => {
   })
 
   it('keeps the underline on hover, active and focus', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
+    const css = loadScss(require.resolve('../style/deps.scss')) as string
     const selectorsWithoutUnderline = [
       ...css.matchAll(/([^{}]+)\{[^{}]*text-decoration: none;/g),
     ]
