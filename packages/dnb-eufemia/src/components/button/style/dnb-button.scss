@@ -789,9 +789,9 @@
     --button-padding-right: var(--button-padding--large);
   }
 
-  &--secondary:not(#{&}--has-text):not(#{&}--input-button):not(
-      #{&}--control-before
-    ):not(#{&}--control-after)#{&}--size-large {
+  &:where(#{&}--secondary, #{&}--tertiary):not(#{&}--has-text):not(
+      #{&}--input-button
+    ):not(#{&}--control-before):not(#{&}--control-after)#{&}--size-large {
     // Make exception for icon button as it should be smaller than the original large button
     width: calc(var(--button-width--large) - 0.5rem);
     line-height: calc(var(--button-height) - 0.5rem);
