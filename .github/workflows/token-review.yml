@@ -2,6 +2,12 @@ name: Design token review
 
 on:
   pull_request:
+    # Release PRs only bundle token changes that were reviewed in earlier PRs.
+    branches-ignore:
+      - 'release'
+      - 'beta'
+      - 'alpha'
+      - 'next'
     paths:
       - 'packages/dnb-eufemia/src/style/themes/**'
       - 'packages/dnb-eufemia/scripts/figma/**'
