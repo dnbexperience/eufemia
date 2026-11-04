@@ -850,7 +850,7 @@ test.describe('Portal table of contents', () => {
     }
     expect(hydrationErrors).toEqual([])
   })
-  test('balances the mobile TOC between the tabs and content', async ({
+  test('keeps mobile TOC spacing separate from content heading margins', async ({
     page,
   }) => {
     for (const width of [390, 768]) {
@@ -860,7 +860,9 @@ test.describe('Portal table of contents', () => {
       await expect(toc.locator('nav')).toBeVisible()
       const header = await page.locator('.dnb-tabs__tabs').boundingBox()
       const navigation = await toc.boundingBox()
-      const content = await page.locator('#tab-bar-content').boundingBox()
+      const content = await page
+        .locator('[class*="content-grid__content"]')
+        .boundingBox()
       const above = navigation.y - header.y - header.height
       const below = content.y - navigation.y - navigation.height
       expect(above).toBe(0)
