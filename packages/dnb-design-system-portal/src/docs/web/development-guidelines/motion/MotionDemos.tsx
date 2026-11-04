@@ -155,7 +155,12 @@ function MotionStudy({
         outlineWidth={0}
         backgroundColor="var(--token-color-background-selected-subtle)"
       >
-        <svg viewBox="0 0 360 240" aria-hidden="true" focusable="false">
+        <svg
+          className="dnb-motion-demo__artwork"
+          viewBox="0 0 360 240"
+          aria-hidden="true"
+          focusable="false"
+        >
           {children}
         </svg>
       </Card>

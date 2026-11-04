@@ -32,14 +32,12 @@
   margin: 0;
   scroll-margin-top: 10rem;
 
-  &__stage {
-    svg {
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 5 / 3;
-      border-radius: inherit;
-    }
+  &__artwork {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 3;
+    border-radius: inherit;
   }
 
   &__caption {
