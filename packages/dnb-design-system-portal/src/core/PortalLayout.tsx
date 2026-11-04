@@ -4,6 +4,7 @@
 
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
+import useMediaQuery from '@dnb/eufemia/src/shared/useMediaQuery'
 import { useFocusModeCode } from './FocusModeCodeContext'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
@@ -37,6 +38,10 @@ export type PortalLayoutProps = {
 
 export default function PortalLayout(props: PortalLayoutProps) {
   const { pageContext, location, children } = props
+  const desktopToc = useMediaQuery({
+    when: { min: 'large' },
+    matchOnSSR: true,
+  })
 
   const data = useStaticQuery(graphql`
     query {
@@ -184,6 +189,39 @@ export default function PortalLayout(props: PortalLayoutProps) {
     setPortalHeadData(pageContext, headData)
   }
 
+  const toc = !hideToc && (
+    <div
+      key="toc"
+      className={
+        pageLayoutStyles['content-grid__sidebar'] + ' dnb-print-hidden'
+      }
+      id="content-grid-sidebar"
+    >
+      <PortalToc pathname={location.pathname} maxDepth={tocDepth} />
+    </div>
+  )
+  const content = (
+    <div
+      key="content"
+      className={pageLayoutStyles['content-grid__content']}
+    >
+      <Heading.Level reset={2}>
+        <Content
+          sourcePath={editSourcePath}
+          pagePath={`${location.pathname}${location.hash || ''}`}
+          showEditLink={!fmData.hideEditLink}
+          showPropertiesUsage={
+            !pageFm.hidePropertiesUsage &&
+            slug.startsWith('uilib/') &&
+            slug.endsWith('/properties')
+          }
+        >
+          {children}
+        </Content>
+      </Heading.Level>
+    </div>
+  )
+
   return (
     <Layout
       key="layout"
@@ -243,37 +281,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
             )}
           </div>
 
-          {!hideToc && (
-            <div
-              className={
-                pageLayoutStyles['content-grid__sidebar'] +
-                ' dnb-print-hidden'
-              }
-              id="content-grid-sidebar"
-            >
-              <PortalToc
-                pathname={location.pathname}
-                maxDepth={tocDepth}
-              />
-            </div>
-          )}
-
-          <div className={pageLayoutStyles['content-grid__content']}>
-            <Heading.Level reset={2}>
-              <Content
-                sourcePath={editSourcePath}
-                pagePath={`${location.pathname}${location.hash || ''}`}
-                showEditLink={!fmData.hideEditLink}
-                showPropertiesUsage={
-                  !pageFm.hidePropertiesUsage &&
-                  slug.startsWith('uilib/') &&
-                  slug.endsWith('/properties')
-                }
-              >
-                {children}
-              </Content>
-            </Heading.Level>
-          </div>
+          {desktopToc ? [content, toc] : [toc, content]}
         </div>
       )}
     </Layout>

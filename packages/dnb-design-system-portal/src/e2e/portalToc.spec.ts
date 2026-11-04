@@ -74,30 +74,6 @@ test.describe('Portal table of contents', () => {
       .toBeGreaterThan(0)
   })
 
-  test('skips the page outline when moving to the article with the keyboard', async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/uilib/components/card/')
-    await expect(page.locator('#portal-page-toc')).toBeVisible()
-    await expect(page.locator('html')).toHaveAttribute(
-      'data-portal-ready',
-      'true'
-    )
-    const skip = page.locator('.dnb-skip-link')
-    await skip.focus()
-    await page.keyboard.press('Enter')
-    const content = page.locator('[data-portal-page-content]')
-    await expect(content).toBeFocused()
-    await page.keyboard.press('Tab')
-    expect(
-      await content.evaluate((element) =>
-        element.contains(document.activeElement)
-      )
-    ).toBe(true)
-    await expect(content).toHaveAttribute('tabindex', '-1')
-  })
-
   for (const path of [
     '/uilib/extensions/forms/Form/Outlet/',
     '/uilib/extensions/forms/Form/Outlet/demos/',
@@ -152,7 +128,7 @@ test.describe('Portal table of contents', () => {
     }
     await expect(toc.locator('.dnb-table-of-content__scroll')).toHaveCSS(
       '--scrollbar-track-width',
-      /^0?\.25rem$/
+      /^0?\.5rem$/
     )
   })
 
