@@ -116,7 +116,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
       await waitForApp(page)
       await expect(page.locator('#welcome-heading')).toHaveCSS(
         'font-family',
-        'DNB, sans-serif'
+        'DNB, Arial, sans-serif'
       )
 
       await page.getByRole('checkbox', { name: 'DNB Carnegie' }).check()
