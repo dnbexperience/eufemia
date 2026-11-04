@@ -458,6 +458,7 @@
   &__input[disabled][data-checked='true'] ~ &__button {
     --radio-color-border: var(--radio-color-border-on--disabled);
     --radio-border-width--default: 0.0625rem;
+    --radio-border-width--active: 0.0625rem;
   }
   &__input[disabled] ~ &__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--disabled);
