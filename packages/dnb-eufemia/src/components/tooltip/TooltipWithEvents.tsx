@@ -455,7 +455,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         restoreFocus={false}
         preventClose={false}
         noInnerSpace
-        noMaxWidth
         hideOutline
         hideCloseButton
         disableFocusTrap
