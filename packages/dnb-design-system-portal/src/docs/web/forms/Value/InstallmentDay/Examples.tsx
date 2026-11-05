@@ -1,4 +1,4 @@
-import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { P } from '@dnb/eufemia/src'
 import { Value } from '@dnb/eufemia/src/extensions/forms'
 
