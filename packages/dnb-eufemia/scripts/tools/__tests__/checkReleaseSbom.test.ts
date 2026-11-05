@@ -1,6 +1,7 @@
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { load } from 'js-yaml'
 import {
   checkReleases,
   getReleaseAssets,
@@ -199,5 +200,29 @@ describe('gh and npm commands', () => {
     } finally {
       log.mockRestore()
     }
+  })
+})
+
+describe('Release SBOM check workflow', () => {
+  it('also runs daily, for versions npm lists after the release run', () => {
+    const workflow = load(
+      readFileSync(
+        path.resolve(
+          __dirname,
+          '../../../../../.github/workflows/release-sbom-check.yml'
+        ),
+        'utf8'
+      )
+    ) as {
+      on: { schedule?: Array<{ cron: string }> }
+      jobs: { check: { if: string } }
+    }
+
+    expect(workflow.on.schedule).toEqual([
+      { cron: expect.stringMatching(/^\d+ \d+ \* \* \*$/) },
+    ])
+    expect(workflow.jobs.check.if).toContain(
+      "github.event_name == 'schedule'"
+    )
   })
 })

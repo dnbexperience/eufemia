@@ -163,6 +163,11 @@ async function main() {
       process.exitCode = 1
     }
   }
+  if (process.exitCode === 1) {
+    console.log(
+      "To add a missing SBOM or attestation, see 'Software Bill of Materials (SBOM)' in deploy.mdx."
+    )
+  }
 }
 
 const invokedPath = process.argv[1]
