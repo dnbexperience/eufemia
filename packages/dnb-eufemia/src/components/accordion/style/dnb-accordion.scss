@@ -385,6 +385,9 @@
 
       // border
       --accordion-color-border--default: var(--accordion-color-bg);
+
+      // other
+      --accordion-border-width--active: 0.0625rem;
     }
   }
 
