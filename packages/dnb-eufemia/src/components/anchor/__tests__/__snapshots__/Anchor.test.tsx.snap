@@ -294,11 +294,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
   transition: none;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor {
-  text-decoration: none;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   outline: none;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
@@ -315,9 +310,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   --anchor-icon-color: var(--anchor-icon-color--hover);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
-  text-decoration: none;
-}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
 }
@@ -327,17 +319,11 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     --anchor-icon-color: var(--anchor-icon-color--hover);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
   }
-  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
-    text-decoration: none;
-  }
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:active {
   --anchor-color: var(--anchor-color--active);
   --anchor-icon-color: var(--anchor-icon-color--active);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:active, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:active.dnb-anchor {
-  text-decoration: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   transition: box-shadow 200ms ease-in-out, color 200ms ease-in-out, background 200ms ease-in-out;
@@ -440,11 +426,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     --anchor-color: var(--token-color-text-action-focus);
     --anchor-icon-color: var(--token-color-icon-action-focus);
     transition: none;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor {
-    text-decoration: none;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     outline: none;
     --border-color: var(--token-color-stroke-action-focus);
     --border-width: var(--focus-ring-width);
@@ -461,9 +442,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     --anchor-icon-color: var(--anchor-icon-color--hover);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
   }
-  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
-    text-decoration: none;
-  }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
     /* stylelint-disable-next-line scss/operator-no-unspaced */
   }
@@ -473,17 +451,11 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
       --anchor-icon-color: var(--anchor-icon-color--hover);
       box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
     }
-    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
-      text-decoration: none;
-    }
   }
   :not(.dnb-anchor--no-style).dnb-anchor:active {
     --anchor-color: var(--anchor-color--active);
     --anchor-icon-color: var(--anchor-icon-color--active);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:active, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:active.dnb-anchor {
-    text-decoration: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor {
     transition: box-shadow 200ms ease-in-out, color 200ms ease-in-out, background 200ms ease-in-out;
@@ -551,28 +523,17 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   --anchor-icon-color: var(--anchor-icon-color--hover);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
 }
-.dnb-anchor--hover, .dnb-section .dnb-anchor--hover.dnb-anchor {
-  text-decoration: none;
-}
 
 .dnb-anchor--active {
   --anchor-color: var(--anchor-color--active);
   --anchor-icon-color: var(--anchor-icon-color--active);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
 }
-.dnb-anchor--active, .dnb-section .dnb-anchor--active.dnb-anchor {
-  text-decoration: none;
-}
 
 .dnb-anchor--focus {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
   transition: none;
-}
-.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
-  text-decoration: none;
-}
-.dnb-anchor--focus {
   outline: none;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
