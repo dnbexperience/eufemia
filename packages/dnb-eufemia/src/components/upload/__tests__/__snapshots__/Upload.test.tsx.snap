@@ -1720,6 +1720,9 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-upload__text.dnb-p {
   color: var(--upload-text--secondary);
 }
+.dnb-upload__file-limits-list.dnb-dl {
+  padding-top: 0.5rem;
+}
 .dnb-upload__accepted-file-types-table.dnb-table {
   width: fit-content;
 }

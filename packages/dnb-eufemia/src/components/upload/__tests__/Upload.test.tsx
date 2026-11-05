@@ -177,8 +177,14 @@ describe('Upload', () => {
   it('puts 24px between the heading and the file limits', () => {
     render(<Upload {...defaultProps} />)
 
-    expect(document.querySelector('.dnb-upload .dnb-dl')).toHaveClass(
-      'dnb-space__top--x-small'
+    const list = document.querySelector('.dnb-upload .dnb-dl')
+    expect(list).toHaveClass('dnb-upload__file-limits-list')
+    expect(list.className).not.toMatch(/dnb-space__top/)
+
+    // Padding adds to the 16px gap, while a top space would replace it
+    const css = loadScss(require.resolve('../style/dnb-upload.scss'))
+    expect(css).toMatch(
+      /\.dnb-upload__file-limits-list\.dnb-dl \{\s*padding-top: 0\.5rem;/
     )
   })
 

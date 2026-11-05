@@ -165,6 +165,11 @@
     color: var(--upload-text--secondary);
   }
 
+  // Adds to the Flex gap above, as in Figma
+  &__file-limits-list.dnb-dl {
+    padding-top: 0.5rem;
+  }
+
   &__accepted-file-types-table {
     &.dnb-table {
       width: fit-content;
