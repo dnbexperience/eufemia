@@ -650,8 +650,12 @@
     animation: none !important;
   }
 
-  .actionArtworkStyle * {
-    transition: none;
+  .actionArtworkStyle {
+    g,
+    path,
+    rect {
+      transition: none;
+    }
   }
 }
 

@@ -10,7 +10,7 @@ import {
   developArtworkStyle,
 } from './Home.module.scss'
 
-function ButtonArtwork() {
+function ButtonArtwork({ textPath }: { textPath: string }) {
   return (
     <>
       <rect
@@ -19,7 +19,7 @@ function ButtonArtwork() {
         rx="14"
         fill="var(--token-color-decorative-first-subtle)"
       />
-      <path d="m16 15 2-3 3 4 2-2 4 1m3-1 2-2 3 4 2-3 3 1" />
+      <path d={textPath} strokeWidth="2.7" />
     </>
   )
 }
@@ -51,7 +51,7 @@ export default function HomeArtwork({
             />
           </g>
           <g className={artworkButtonStyle} transform="translate(19.6 20)">
-            <ButtonArtwork />
+            <ButtonArtwork textPath="M15 14h18m5 .2h7" />
           </g>
           <circle
             cx="18"
@@ -102,7 +102,7 @@ export default function HomeArtwork({
             rx="5"
           />
           <g className={artworkButtonStyle}>
-            <ButtonArtwork />
+            <ButtonArtwork textPath="M16 14.2h7m5-.3h16" />
           </g>
         </>
       )}
