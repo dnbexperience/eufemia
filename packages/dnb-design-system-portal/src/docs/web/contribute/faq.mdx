@@ -11,6 +11,7 @@ navigation:
   parent: web/contribute
 legacyFragments:
   frequently-asked-questions-faq: /web/contribute/faq/#troubleshooting-and-faq
+  eslint-compat-patch: /web/contribute/faq/#yarn-patches
 redirect_from:
   - /contribute/faq
 ---
@@ -71,9 +72,9 @@ When running `build:mini` scripts, the build will be faster and the output will 
 
 ## Dependency issues
 
-### ESLint compat patch
+### Yarn patches
 
-- We patch `eslint-plugin-compat` to always report APIs, even inside `if` statements. The patch lives in `.yarn/patches/` and is referenced from `packages/dnb-eufemia/package.json` as `patch:eslint-plugin-compat@npm:*`. If you reinstall dependencies, keep the patch or reapply it with `yarn patch-commit`.
+- We patch `eslint-plugin-import-x` 4.17.1 so that it works with minimatch 11. The root `resolutions` move minimatch 9 and 10 to 11 for a security fix, and minimatch 11 no longer exports `makeRe`, which the plugin's `no-internal-modules` rule imports. Without the patch, ESLint fails to start with `does not provide an export named 'makeRe'`. The patch is a port of [un-ts/eslint-plugin-import-x#570](https://github.com/un-ts/eslint-plugin-import-x/pull/570). It lives in `.yarn/patches/` and is applied by the `eslint-plugin-import-x@npm:4.17.1` entry in the root `resolutions`. Remove the patch and that entry when a plugin release includes the fix. If you change the plugin version, `yarn lint:resolutions` fails until you update or remove the entry.
 
 ### Babel
 
