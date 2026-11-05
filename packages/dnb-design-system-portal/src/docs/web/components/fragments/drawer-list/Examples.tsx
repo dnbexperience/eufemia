@@ -6,12 +6,7 @@
 import { useState } from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import {
-  NumberFormat,
-  ToggleButton,
-  HelpButton,
-  Link,
-} from '@dnb/eufemia/src'
+import { NumberFormat, ToggleButton, HelpButton } from '@dnb/eufemia/src'
 import { DrawerList } from '@dnb/eufemia/src/fragments'
 
 export const DrawerListExampleInteractive = () => (
@@ -264,13 +259,7 @@ export const DrawerListExampleSingleItem = () => (
             preventClose
             right
             aria-label="Choose an item"
-            data={() => [
-              <Link key="link" href="/">
-                Go to this Link
-              </Link>,
-              'Or press on me',
-              <CustomComponent key="custom" />,
-            ]}
+            data={() => ['Press on me', <CustomComponent key="custom" />]}
             onChange={({ value }) => {
               console.log('More menu:', value)
             }}
