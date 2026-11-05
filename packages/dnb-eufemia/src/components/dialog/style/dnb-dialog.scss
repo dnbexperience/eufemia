@@ -120,6 +120,11 @@
     z-index: 1;
   }
 
+  &--confirmation &__description {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+
   &__actions {
     padding-top: 1.5rem;
 

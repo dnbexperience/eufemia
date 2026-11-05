@@ -443,6 +443,26 @@ describe('Dialog', () => {
     expect(formStatus.textContent).toBe('Something went wrong')
   })
 
+  it('renders the description in its own element before the content', () => {
+    render(
+      <Dialog
+        {...props}
+        open
+        variant="confirmation"
+        title="Title"
+        description="Description text"
+      >
+        content
+      </Dialog>
+    )
+
+    const description = document.querySelector(
+      '.dnb-dialog__content > .dnb-dialog__description'
+    )
+    expect(description.textContent).toBe('Description text')
+    expect(description.nextSibling.textContent).toBe('content')
+  })
+
   it('connects the status message to the confirm button via aria-describedby', () => {
     render(
       <Dialog
@@ -1227,5 +1247,13 @@ describe('Dialog scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('uses the basis paragraph text for the confirmation description', () => {
+    const css = loadScss(require.resolve('../style/dnb-dialog.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-dialog--confirmation \.dnb-dialog__description \{\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);/
+    )
   })
 })
