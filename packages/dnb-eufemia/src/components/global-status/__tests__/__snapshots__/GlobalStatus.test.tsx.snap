@@ -1472,7 +1472,7 @@ button.dnb-button::-moz-focus-inner {
   --hr-color: var(--global-status-underline-color);
 }
 .dnb-global-status__shell .dnb-hr, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([class*=dnb-space__bottom]) {
-  margin: 0 0 0 1rem;
+  margin: 0;
 }
 .dnb-global-status__shell .dnb-hr::after, .dnb-spacing .dnb-global-status__shell .dnb-hr:not([class*=dnb-space__bottom])::after {
   top: calc(var(--thickness) * -1);

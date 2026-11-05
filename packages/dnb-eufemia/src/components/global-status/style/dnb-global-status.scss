@@ -26,7 +26,7 @@
 
     .dnb-hr,
     .dnb-spacing & .dnb-hr:not([class*='dnb-space__bottom']) {
-      margin: 0 0 0 1rem;
+      margin: 0;
 
       &::after {
         top: calc(var(--thickness) * -1);
