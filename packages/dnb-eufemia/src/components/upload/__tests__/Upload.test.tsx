@@ -539,7 +539,7 @@ describe('Upload', () => {
 
       expect(
         screen.queryByRole('button', {
-          name: nb.buttonText,
+          name: `${nb.title} ${nb.buttonText}`,
         })
       ).toHaveAttribute('disabled')
     })
@@ -660,7 +660,7 @@ describe('Upload', () => {
 
       expect(
         screen.queryByRole('button', {
-          name: nb.buttonTextSingular,
+          name: `${nb.title} ${nb.buttonTextSingular}`,
         })
       ).not.toHaveAttribute('disabled')
     })
@@ -1700,7 +1700,7 @@ describe('Upload', () => {
 
       expect(document.activeElement).toBe(
         screen.queryByRole('button', {
-          name: nb.buttonText,
+          name: `${nb.title} ${nb.buttonText}`,
         })
       )
     })
@@ -2612,6 +2612,55 @@ describe('Upload aria', () => {
   it('should validate', async () => {
     const Component = render(<Upload {...defaultProps} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+
+  it.each(['default', 'compact'] as const)(
+    'names the %s button by the title and its own text, and describes it by the text',
+    (variant) => {
+      render(<Upload {...defaultProps} variant={variant} />)
+
+      const button = document.querySelector(
+        '.dnb-upload__file-input-button'
+      )
+      expect(button).toHaveAccessibleName(`${nb.title} ${nb.buttonText}`)
+      expect(button).toHaveAccessibleDescription(nb.text)
+    }
+  )
+
+  it('names the compact button by its own text without a title', () => {
+    render(<Upload {...defaultProps} variant="compact" title={false} />)
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+    expect(button).toHaveAccessibleName(nb.buttonText)
+    expect(button).toHaveAccessibleDescription(nb.text)
+  })
+
+  it('names the button by its own text without a title and text', () => {
+    render(
+      <Upload
+        {...defaultProps}
+        variant="compact"
+        title={false}
+        text={false}
+      />
+    )
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+    expect(button).toHaveAccessibleName(nb.buttonText)
+    expect(button).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('names the button by the text given in buttonProps', () => {
+    render(
+      <Upload
+        {...defaultProps}
+        variant="compact"
+        buttonProps={{ text: 'Custom text' }}
+      />
+    )
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+    expect(button).toHaveAccessibleName(`${nb.title} Custom text`)
   })
 })
 

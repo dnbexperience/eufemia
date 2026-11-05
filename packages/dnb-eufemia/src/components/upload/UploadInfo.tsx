@@ -79,6 +79,7 @@ const UploadInfo = () => {
   const context = useContext(UploadContext)
 
   const {
+    id,
     title,
     text,
     fileTypeDescription,
@@ -101,9 +102,17 @@ const UploadInfo = () => {
     <Flex.Stack layoutEngine="css" gap="small">
       {(title || text) && (
         <Flex.Stack layoutEngine="css" gap="xx-small">
-          {title && <Lead space="0">{title}</Lead>}
+          {title && (
+            <Lead space="0" id={`${id}-title`}>
+              {title}
+            </Lead>
+          )}
 
-          {text && <P className="dnb-upload__text">{text}</P>}
+          {text && (
+            <P id={`${id}-text`} className="dnb-upload__text">
+              {text}
+            </P>
+          )}
         </Flex.Stack>
       )}
       {children}

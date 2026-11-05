@@ -17,6 +17,10 @@ import FolderIcon from '../../icons/folder'
 // Shared
 import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import {
+  combineDescribedBy,
+  combineLabelledBy,
+} from '../../shared/component-helper'
 
 // Internal
 import { UploadContext } from './UploadContext'
@@ -51,6 +55,8 @@ const UploadFileInput = ({
     filesAmountLimit,
     variant,
     buttonProps,
+    title,
+    text,
   } = context
 
   const openFileDialog = () => fileInput.current?.click()
@@ -101,8 +107,18 @@ const UploadFileInput = ({
           variant="secondary"
           wrap
           disabled={disabled}
-          text={buttonText}
+          // Labels pointing to the button would otherwise replace its own text in its name
+          aria-labelledby={combineLabelledBy(
+            title && `${sharedId}-title`,
+            `${sharedId}-input-text`
+          )}
+          aria-describedby={combineDescribedBy(text && `${sharedId}-text`)}
           {...buttonProps}
+          text={
+            <span id={`${sharedId}-input-text`}>
+              {buttonProps?.text ?? buttonText}
+            </span>
+          }
           className={clsx(
             'dnb-upload__file-input-button',
             buttonProps?.className
