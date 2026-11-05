@@ -776,6 +776,14 @@ describe('Button scss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('uses 20px padding on the icon side of large buttons', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-button--size-large \{[^}]*--button-padding-icon: 1\.25rem;/
+    )
+  })
+
   it('shows the focus ring in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
