@@ -7,6 +7,7 @@ import {
   NON_VISUAL_SOURCE_PATH_PREFIXES,
   PORTAL_DOCS_REPO_PREFIX,
   RUN_ALL_COMMIT_FLAG,
+  RUN_ALL_ENV_VAR,
 } from './config'
 import { createContext } from './context'
 import { loadScssDependencyMap } from './dependencyMaps'
@@ -63,6 +64,12 @@ function getCiBranchName(): string | null {
 function shouldRunAllByBranch(): boolean {
   const branchName = getCiBranchName()
   return branchName ? CI_ALWAYS_RUN_BRANCHES.includes(branchName) : false
+}
+
+export function shouldRunAllByEnvironment(
+  env: NodeJS.ProcessEnv = process.env
+): boolean {
+  return env[RUN_ALL_ENV_VAR] === 'true'
 }
 
 export function resolveCliOptions(argv: string[]): CliOptions {
@@ -242,16 +249,21 @@ export async function runScreenshotsTests() {
   const commitMessage = await getLatestCommitMessage(context)
   const runAllFromCommit = shouldRunAll(commitMessage)
   const runAllFromBranch = shouldRunAllByBranch()
+  const runAllFromEnvironment = shouldRunAllByEnvironment()
+  const runAll =
+    runAllFromCommit || runAllFromBranch || runAllFromEnvironment
   const commandTokens = getBaseCommandTokens(
     context.packageJson,
     context.packageRoot,
-    runAllFromCommit || runAllFromBranch
+    runAll
   )
 
-  if (runAllFromCommit || runAllFromBranch) {
+  if (runAll) {
     const reason = runAllFromCommit
       ? `because ${RUN_ALL_COMMIT_FLAG} was found in the commit message`
-      : `because branch "${getCiBranchName()}" always runs all screenshot tests`
+      : runAllFromBranch
+        ? `because branch "${getCiBranchName()}" always runs all screenshot tests`
+        : `because CI could not list all changed files (${RUN_ALL_ENV_VAR})`
 
     log.info(
       logWithLabel(
