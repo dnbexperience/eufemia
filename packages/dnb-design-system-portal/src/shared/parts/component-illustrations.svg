@@ -1,0 +1,576 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="accordion" viewBox="0 0 240 144">
+    <rect x="31" y="18" width="178" height="108" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="46" y="33" width="73" height="8" rx="4" fill="var(--illustration-ink)" stroke="none"/>
+    <path d="M185 37l4-4 4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="42" y="50" width="156" height="38" rx="5" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="53" y="59" width="99" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="53" y="71" width="67.32000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="172" y="60" width="16" height="6" rx="3" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M42 99h156" fill="none" stroke="var(--illustration-line)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="46" y="109" width="56" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M185 110l4 4 4-4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="anchor" viewBox="0 0 240 144">
+    <rect x="35" y="36" width="170" height="72" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="60" y="64" width="115" height="9" rx="4.5" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M60 77h115" fill="none" stroke="var(--illustration-accent)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M185 65l4 4-4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="aria-live" viewBox="0 0 240 144">
+    <rect x="37" y="30" width="166" height="84" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M93 60H81v24h12l18 13V47Z" fill="var(--illustration-accent)" stroke="var(--illustration-accent)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M124 59q14 13 0 26m12-36q24 23 0 46" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="autocomplete" viewBox="0 0 240 144">
+    <rect x="34" y="19" width="172" height="111" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="48" y="30" width="55" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="48" y="46" width="144" height="29" rx="5" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="59" y="57" width="63" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="174" cy="59" r="4" fill="none" stroke="var(--illustration-accent)"/>
+    <path d="M177 62l4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="48" y="80" width="144" height="38" rx="5" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="53" y="85" width="134" height="13" rx="3" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="61" y="88" width="61" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="61" y="105" width="82" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="avatar" viewBox="0 0 240 144">
+    <rect x="44" y="30" width="152" height="84" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="120" cy="72" r="28" fill="var(--illustration-soft)" stroke="none"/>
+    <circle cx="120" cy="62" r="8" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M103 89c1-22 33-22 34 0" fill="var(--illustration-accent)" stroke="var(--illustration-accent)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="badge" viewBox="0 0 240 144">
+    <rect x="38" y="37" width="164" height="70" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="53" y="52" width="74" height="8" rx="4" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="139" y="47" width="48" height="18" rx="6" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="149" y="53" width="28" height="6" rx="3" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="53" y="75" width="108" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="53" y="87" width="75" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="breadcrumb" viewBox="0 0 240 144">
+    <rect x="23" y="39" width="194" height="66" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="38" y="68" width="28" height="7" rx="3.5" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M76 68l4 4-4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="91" y="68" width="51" height="7" rx="3.5" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M154 68l4 4-4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="171" y="68" width="29" height="7" rx="3.5" fill="var(--illustration-ink)" stroke="none"/>
+  </symbol>
+  <symbol id="button" viewBox="0 0 240 144">
+    <rect x="28" y="36" width="184" height="72" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="66" y="58" width="108" height="28" rx="14.0" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="91.92" y="69" width="56.160000000000004" height="6" rx="3" fill="var(--illustration-surface)" stroke="none"/>
+  </symbol>
+  <symbol id="card" viewBox="0 0 240 144">
+    <rect x="43" y="25" width="154" height="94" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="57" y="46" width="87" height="9" rx="4.5" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="57" y="71" width="113" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="57" y="86" width="88" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="checkbox" viewBox="0 0 240 144">
+    <rect x="34" y="28" width="172" height="88" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="49" y="46" width="18" height="18" rx="4" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M53 55l4 4 7-8" fill="none" stroke="var(--illustration-surface)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="80" y="51" width="84" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="49" y="81" width="18" height="18" rx="4" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="80" y="86" width="64" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="copy-on-click" viewBox="0 0 240 144">
+    <rect x="61" y="22" width="96" height="90" rx="7" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="78" y="36" width="101" height="91" rx="8" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="92" y="53" width="72" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="92" y="65" width="48.96" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M104 98l8 8 18-19" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="country-flag" viewBox="0 0 240 144">
+    <rect x="44" y="26" width="152" height="92" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="71" y="44" width="98" height="56" rx="0" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M102 44v56M71 69h98" fill="none" stroke="var(--illustration-surface)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M102 44v56M71 69h98" fill="none" stroke="var(--illustration-line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="date-format" viewBox="0 0 240 144">
+    <rect x="35" y="35" width="170" height="74" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M51 53v4m0 12v4" fill="none" stroke="var(--illustration-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="69" y="61" width="22" height="13" rx="6.5" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="108" y="61" width="22" height="13" rx="6.5" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="147" y="61" width="42" height="13" rx="6.5" fill="var(--illustration-ink)" stroke="none"/>
+    <circle cx="99" cy="73" r="1.5" fill="var(--illustration-accent)" stroke="none"/>
+    <circle cx="138" cy="73" r="1.5" fill="var(--illustration-accent)" stroke="none"/>
+  </symbol>
+  <symbol id="date-picker" viewBox="0 0 240 144">
+    <rect x="52" y="13" width="136" height="118" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="91" y="25" width="58" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M70 25l-4 4 4 4m100-8 4 4-4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="69" cy="49" r="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="86" cy="49" r="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="103" cy="49" r="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="120" cy="49" r="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="137" cy="49" r="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="154" cy="49" r="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="171" cy="49" r="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="64" y="60" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="81" y="60" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="98" y="60" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="115" y="60" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="132" y="60" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="149" y="60" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="166" y="60" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="64" y="77" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="81" y="77" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="98" y="77" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="115" y="77" width="10" height="7" rx="3" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="132" y="77" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="149" y="77" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="166" y="77" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="64" y="94" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="81" y="94" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="98" y="94" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="115" y="94" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="132" y="94" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="149" y="94" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="166" y="94" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="64" y="111" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="81" y="111" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="98" y="111" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="115" y="111" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="132" y="111" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="149" y="111" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="166" y="111" width="10" height="7" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="dialog" viewBox="0 0 240 144">
+    <rect x="28" y="24" width="184" height="96" rx="8" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="39" width="92" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="51" width="62.56" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="72" width="156" height="32" rx="5" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="63" y="35" width="114" height="80" rx="8" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <circle cx="120" cy="51" r="7" fill="var(--illustration-soft)" stroke="none"/>
+    <path d="M120 48v5m0-13v.5" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="83" y="67" width="74" height="7" rx="3.5" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="83" y="79" width="72" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="83" y="91" width="48.96" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="99" y="101" width="42" height="8" rx="4.0" fill="var(--illustration-accent)" stroke="none"/>
+  </symbol>
+  <symbol id="drawer" viewBox="0 0 240 144">
+    <rect x="25" y="22" width="190" height="100" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="26" y="23" width="106" height="98" rx="7" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="39" y="37" width="73" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="39" y="49" width="49.64" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="39" y="74" width="74" height="28" rx="4" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="132" y="23" width="82" height="98" rx="0" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M199 33l5 5m0-5-5 5" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="144" y="50" width="57" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="144" y="62" width="38.760000000000005" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="144" y="83" width="56" height="19" rx="4" fill="var(--illustration-soft)" stroke="none"/>
+  </symbol>
+  <symbol id="dropdown" viewBox="0 0 240 144">
+    <rect x="33" y="30" width="174" height="84" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="48" y="43" width="59" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="48" y="62" width="144" height="34" rx="5" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="60" y="76" width="80" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M173 77l4 4 4-4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="filter" viewBox="0 0 240 144">
+    <rect x="22" y="27" width="196" height="90" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="37" y="43" width="90" height="25" rx="13" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="49" y="54" width="49" height="3" rx="1.5" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M112 52l6 6m0-6-6 6" fill="none" stroke="var(--illustration-surface)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="135" y="43" width="66" height="25" rx="13" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="148" y="54" width="39" height="3" rx="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="37" y="82" width="65" height="21" rx="11" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="50" y="91" width="36" height="3" rx="1.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="110" y="82" width="91" height="21" rx="11" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="123" y="91" width="64" height="3" rx="1.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="form-label" viewBox="0 0 240 144">
+    <rect x="33" y="30" width="174" height="84" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="48" y="43" width="75" height="9" rx="4.5" fill="var(--illustration-ink)" stroke="none"/>
+    <path d="M134 43v6m-3-3h6" fill="none" stroke="var(--illustration-accent)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="48" y="66" width="144" height="30" rx="5" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="59" y="78" width="57" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="form-status" viewBox="0 0 240 144">
+    <rect x="27" y="23" width="186" height="98" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="43" y="37" width="57" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="43" y="52" width="154" height="25" rx="4" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="43" y="84" width="154" height="25" rx="6" fill="var(--illustration-soft)" stroke="none"/>
+    <circle cx="55" cy="96" r="5" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M55 94v3m0-5v.3" fill="none" stroke="var(--illustration-surface)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="68" y="93" width="83" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="global-error" viewBox="0 0 240 144">
+    <rect x="25" y="30" width="190" height="84" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="120" cy="52" r="10" fill="var(--illustration-soft)" stroke="none"/>
+    <path d="M116 48l8 8m0-8-8 8" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="73" y="72" width="94" height="8" rx="4" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="84" y="88" width="72" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="global-status" viewBox="0 0 240 144">
+    <rect x="27" y="37" width="186" height="70" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="38" y="48" width="164" height="48" rx="6" fill="var(--illustration-soft)" stroke="none"/>
+    <circle cx="54" cy="72" r="8" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M49 72l4 4 7-8" fill="none" stroke="var(--illustration-surface)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="74" y="60" width="106" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="74" y="72" width="72.08" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="heading" viewBox="0 0 240 144">
+    <rect x="29" y="24" width="182" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="46" y="42" width="145" height="13" rx="6.5" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="46" y="62" width="101" height="10" rx="5.0" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="46" y="86" width="144" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="46" y="98" width="97.92" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="height-animation" viewBox="0 0 240 144">
+    <rect x="40" y="19" width="142" height="107" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="55" y="32" width="95" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="55" y="44" width="64.60000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="51" y="64" width="120" height="47" rx="5" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="61" y="75" width="99" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="61" y="87" width="67.32000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M199 63v51m-5-46 5-5 5 5m-10 41 5 5 5-5" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="help-button" viewBox="0 0 240 144">
+    <rect x="36" y="36" width="168" height="72" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="52" y="56" width="79" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="52" y="68" width="53.720000000000006" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="175" cy="72" r="12" fill="var(--illustration-surface)" stroke="var(--illustration-accent)"/>
+    <path d="M172 69c0-5 8-5 6 0-1 2-3 2-3 5" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="175" cy="79" r="1" fill="var(--illustration-accent)" stroke="none"/>
+  </symbol>
+  <symbol id="icon" viewBox="0 0 240 144">
+    <rect x="43" y="27" width="154" height="90" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M120 43l8 18 20 2-15 14 4 20-17-10-17 10 4-20-15-14 20-2Z" fill="var(--illustration-soft)" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="infinity-scroller" viewBox="0 0 240 144">
+    <rect x="48" y="12" width="144" height="120" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="61" y="26" width="118" height="20" rx="4" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="71" y="33" width="82" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="61" y="52" width="118" height="20" rx="4" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="71" y="59" width="65" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="61" y="78" width="118" height="20" rx="4" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="71" y="85" width="78" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M113 116a9 9 0 1 1 15 1" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M124 112l4 5 5-4" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="info-card" viewBox="0 0 240 144">
+    <rect x="29" y="29" width="182" height="86" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="39" y="39" width="162" height="66" rx="6" fill="var(--illustration-soft)" stroke="none"/>
+    <circle cx="55" cy="55" r="7" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M55 52v6m0-9v.5" fill="none" stroke="var(--illustration-surface)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="73" y="47" width="87" height="8" rx="4" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="73" y="65" width="105" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="73" y="77" width="71.4" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="input" viewBox="0 0 240 144">
+    <rect x="35" y="25" width="170" height="94" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="49" y="38" width="55" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="49" y="55" width="142" height="36" rx="5" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="61" y="70" width="68" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M137 65v17" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="input-masked" viewBox="0 0 240 144">
+    <rect x="35" y="25" width="170" height="94" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="49" y="38" width="55" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="49" y="55" width="142" height="36" rx="5" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <circle cx="61" cy="73" r="2" fill="var(--illustration-ink)" stroke="none"/>
+    <circle cx="69" cy="73" r="2" fill="var(--illustration-ink)" stroke="none"/>
+    <circle cx="77" cy="73" r="2" fill="var(--illustration-ink)" stroke="none"/>
+    <circle cx="91" cy="73" r="2" fill="var(--illustration-ink)" stroke="none"/>
+    <circle cx="99" cy="73" r="2" fill="var(--illustration-ink)" stroke="none"/>
+    <circle cx="107" cy="73" r="2" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="123" y="70" width="48" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="list" viewBox="0 0 240 144">
+    <rect x="28" y="24" width="184" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="47" cy="45" r="3" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="60" y="42" width="128" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="47" cy="70" r="3" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="60" y="67" width="101" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="47" cy="95" r="3" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="60" y="92" width="118" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="list-format" viewBox="0 0 240 144">
+    <rect x="27" y="33" width="186" height="78" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="43" y="53" width="38" height="9" rx="4.5" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="93" y="53" width="57" height="9" rx="4.5" fill="var(--illustration-ink)" stroke="none"/>
+    <path d="M85 59l-1 5" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="43" y="79" width="21" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="73" y="77" width="87" height="9" rx="4.5" fill="var(--illustration-ink)" stroke="none"/>
+  </symbol>
+  <symbol id="logo" viewBox="0 0 240 144">
+    <g transform="translate(77 42) scale(.74)" fill="var(--token-color-text-action)" stroke="none">
+      <path d="M111.797 39.9303C111.085 39.3438 110.313 38.8334 109.495 38.4073L109.273 38.2964L109.467 38.1293C110.632 37.043 111.545 35.7132 112.141 34.2339C112.737 32.7547 113.001 31.1622 112.915 29.5693C112.907 25.4029 111.489 22.2943 108.659 20.3273C106.274 18.6363 102.975 17.8095 98.5702 17.8174L85.937 17.8401C85.5858 17.8455 85.2506 17.9881 85.0027 18.2375C84.7548 18.487 84.6138 18.8236 84.6098 19.1758L84.6842 60.7011C84.6849 61.0547 84.8256 61.3935 85.0755 61.6431C85.3253 61.8926 85.6637 62.0325 86.0164 62.0319L100.451 62.0059C104.994 61.9977 108.649 61.0187 111.278 59.0976C112.785 58.0036 113.985 56.5372 114.761 54.8409C115.619 52.93 116.041 50.8511 115.997 48.7559C116.007 47.0623 115.635 45.3883 114.908 43.8598C114.18 42.3312 113.117 40.9877 111.797 39.9303H111.797ZM88.7151 21.9744L98.578 21.9566C102.069 21.9503 104.646 22.5288 106.311 23.6923C107.365 24.4404 108.808 25.8823 108.814 29.5765C108.826 36.1869 103.619 36.7239 102.04 36.7266L88.7415 36.7506L88.7151 21.9744ZM100.443 57.8951L88.7794 57.9161L88.749 40.8614L102.047 40.8375C107.81 40.8271 111.86 44.0965 111.869 48.7634C111.873 51.0134 111.885 57.8746 100.443 57.8951Z"/>
+      <path d="M28.0464 24.5276C26.188 22.2634 23.7944 20.5012 21.0833 19.4014C18.61 18.4374 15.977 17.952 13.3235 17.971L1.32748 17.9926C0.971866 17.9996 0.633279 18.1466 0.384887 18.4018C0.136494 18.6571 -0.00175458 19 1.6815e-05 19.3566L0.0744503 60.8537C0.0751771 61.2073 0.215939 61.5461 0.465783 61.7957C0.715628 62.0452 1.0541 62.1851 1.40677 62.1845L13.4027 62.1629C16.0575 62.1863 18.6914 61.6909 21.1573 60.7045C23.8685 59.615 26.2584 57.8516 28.102 55.5802C32.3316 50.3511 32.957 43.7667 32.9507 40.2947C32.9454 37.3517 32.4611 29.9352 28.0464 24.5277V24.5276ZM24.9114 52.9751C23.4963 54.6352 21.7258 55.9538 19.732 56.8328C17.7381 57.7118 15.5721 58.1285 13.3953 58.052L4.19734 58.0686L4.13301 22.1267L13.3308 22.1102C15.5081 22.0189 17.6777 22.4245 19.6757 23.2966C21.6738 24.1686 23.4483 25.4842 24.8652 27.1441C28.5302 31.6376 28.8192 38.3586 28.8227 40.3021C28.828 43.2194 28.3392 48.747 24.9115 52.9751H24.9114Z"/>
+      <path d="M74.6848 0L74.7942 60.997C74.7997 61.2624 74.7192 61.5223 74.5647 61.7379C74.4102 61.9534 74.19 62.1127 73.9374 62.192C73.8152 62.2465 73.6833 62.2753 73.5496 62.2767C73.3491 62.277 73.1514 62.2294 72.973 62.1377C72.7946 62.046 72.6405 61.913 72.5236 61.7496L45.3387 27.1629L45.4335 79.9926L41.3055 80L41.1959 18.8646C41.1959 18.5967 41.2819 18.3358 41.4412 18.1206C41.6004 17.9054 41.8245 17.7473 42.0804 17.6696C42.2037 17.6219 42.3363 17.6027 42.4681 17.6134C42.6659 17.6107 42.8616 17.6543 43.0396 17.7406C43.2177 17.8269 43.3733 17.9536 43.4941 18.1106L70.6789 52.7259L70.5844 0.007375L74.6848 0Z"/>
+    </g>
+  </symbol>
+  <symbol id="menu" viewBox="0 0 240 144">
+    <rect x="58" y="18" width="124" height="108" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="72" y="33" width="60" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="66" y="51" width="108" height="25" rx="5" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="79" y="60" width="57" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M157 60l4 4-4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="79" y="87" width="67" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="79" y="107" width="47" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="modal" viewBox="0 0 240 144">
+    <rect x="28" y="24" width="184" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="42" y="39" width="92" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="51" width="62.56" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="72" width="156" height="32" rx="5" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="28" y="24" width="184" height="96" rx="8" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="62" y="34" width="116" height="82" rx="8" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <path d="M163 43l5 5m0-5-5 5" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="76" y="54" width="76" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="76" y="66" width="51.68000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="106" y="94" width="58" height="10" rx="5.0" fill="var(--illustration-accent)" stroke="none"/>
+  </symbol>
+  <symbol id="number-format" viewBox="0 0 240 144">
+    <rect x="27" y="35" width="186" height="74" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="46" y="61" width="10" height="18" rx="3" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="62" y="61" width="10" height="18" rx="3" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="85" y="61" width="10" height="18" rx="3" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="101" y="61" width="10" height="18" rx="3" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="117" y="61" width="10" height="18" rx="3" fill="var(--illustration-ink)" stroke="none"/>
+    <path d="M139 76l-2 5" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="151" y="61" width="10" height="18" rx="3" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="167" y="61" width="10" height="18" rx="3" fill="var(--illustration-ink)" stroke="none"/>
+  </symbol>
+  <symbol id="pagination" viewBox="0 0 240 144">
+    <rect x="27" y="36" width="186" height="72" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M49 68l-4 4 4 4m142-8 4 4-4 4" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="80" cy="72" r="3" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="120" cy="72" r="13" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="116" y="70" width="8" height="4" rx="2.0" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="160" cy="72" r="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="payment-card" viewBox="0 0 240 144">
+    <rect x="40" y="27" width="160" height="91" rx="10" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="54" y="44" width="24" height="18" rx="4" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="55" y="80" width="81" height="7" rx="3.5" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="55" y="99" width="51" height="3" rx="1.5" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="169" cy="97" r="9" fill="var(--illustration-soft)" stroke="none"/>
+    <circle cx="181" cy="97" r="9" fill="var(--illustration-surface)" stroke="none"/>
+  </symbol>
+  <symbol id="popover" viewBox="0 0 240 144">
+    <rect x="28" y="24" width="184" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="42" y="39" width="92" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="51" width="62.56" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="72" width="156" height="32" rx="5" fill="var(--illustration-muted)" stroke="none"/>
+    <path d="M111 25H204Q212 25 212 33V83Q212 91 204 91H111Q103 91 103 83V63L94 56 103 49V33Q103 25 111 25Z" fill="var(--illustration-surface)" stroke="var(--illustration-line)" stroke-width="1" stroke-linejoin="round"/>
+    <rect x="118" y="41" width="73" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="118" y="53" width="49.64" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="118" y="66" width="42" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="portal-root" viewBox="0 0 240 144">
+    <rect x="28" y="22" width="145" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="43" y="36" width="97" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="43" y="48" width="65.96000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="43" y="72" width="112" height="28" rx="5" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="116" y="58" width="97" height="65" rx="8" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="130" y="72" width="68" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="130" y="84" width="46.24" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M86 89h43m-5-5 5 5-5 5" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="progress-indicator" viewBox="0 0 240 144">
+    <rect x="39" y="29" width="162" height="86" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="120" cy="72" r="24" fill="none" stroke="var(--illustration-line)" stroke-width="6"/>
+    <path d="M120 48a24 24 0 0 1 24 24" fill="none" stroke="var(--illustration-accent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="radio" viewBox="0 0 240 144">
+    <rect x="34" y="28" width="172" height="88" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="58" cy="55" r="9" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <circle cx="58" cy="55" r="4" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="80" y="51" width="84" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <circle cx="58" cy="90" r="9" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="80" y="86" width="64" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="scroll-view" viewBox="0 0 240 144">
+    <rect x="35" y="18" width="170" height="108" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="50" y="33" width="118" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="50" y="45" width="80.24000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="50" y="64" width="96" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="50" y="76" width="65.28" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="50" y="95" width="110" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="50" y="107" width="74.80000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="191" y="31" width="3" height="81" rx="2" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="191" y="45" width="3" height="28" rx="2" fill="var(--illustration-accent)" stroke="none"/>
+  </symbol>
+  <symbol id="section" viewBox="0 0 240 144">
+    <rect x="27" y="21" width="186" height="102" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="42" y="35" width="84" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="47" width="57.120000000000005" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="28" y="65" width="184" height="35" rx="0" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="42" y="73" width="139" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="85" width="94.52000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="110" width="76" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="sidebar-menu" viewBox="0 0 240 144">
+    <rect x="25" y="20" width="190" height="104" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="26" y="21" width="62" height="102" rx="7" fill="var(--illustration-muted)" stroke="none"/>
+    <rect x="38" y="33" width="37" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="33" y="53" width="48" height="16" rx="8" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="40" y="58" width="29" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="40" y="80" width="25" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="40" y="99" width="30" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="103" y="35" width="86" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="103" y="47" width="58.480000000000004" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="103" y="72" width="96" height="35" rx="5" fill="var(--illustration-soft)" stroke="none"/>
+  </symbol>
+  <symbol id="skeleton" viewBox="0 0 240 144">
+    <rect x="28" y="24" width="184" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="56" cy="54" r="15" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="84" y="43" width="99" height="9" rx="4.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="84" y="59" width="67" height="9" rx="4.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="43" y="88" width="151" height="9" rx="4.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="skip-content" viewBox="0 0 240 144">
+    <rect x="25" y="22" width="190" height="100" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="40" y="34" width="102" height="19" rx="10" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="52" y="42" width="76" height="3" rx="1.5" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="40" y="65" width="112" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="40" y="77" width="76.16000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="40" y="93" width="158" height="17" rx="4" fill="var(--illustration-soft)" stroke="none"/>
+    <path d="M185 42v58m-6-6 6 6 6-6" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="slider" viewBox="0 0 240 144">
+    <rect x="28" y="32" width="184" height="80" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="44" y="46" width="59" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M47 82h147" fill="none" stroke="var(--illustration-line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M47 82h89" fill="none" stroke="var(--illustration-accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="136" cy="82" r="12" fill="var(--illustration-surface)" stroke="var(--illustration-accent)"/>
+    <path d="M132 78l-3 4 3 4m8-8 3 4-3 4" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="stat" viewBox="0 0 240 144">
+    <rect x="32" y="24" width="176" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="48" y="39" width="61" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="48" y="61" width="88" height="15" rx="7.5" fill="var(--illustration-ink)" stroke="none"/>
+    <rect x="48" y="90" width="52" height="7" rx="3.5" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M155 95l13-18 12 7 16-29" fill="none" stroke="var(--illustration-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M190 55h6v6" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="step-indicator" viewBox="0 0 240 144">
+    <rect x="25" y="28" width="190" height="88" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M57 64h126" fill="none" stroke="var(--illustration-line)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="57" cy="64" r="12" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M52 64l4 4 7-8" fill="none" stroke="var(--illustration-surface)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="120" cy="64" r="12" fill="var(--illustration-accent)" stroke="none"/>
+    <circle cx="120" cy="64" r="3" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="183" cy="64" r="12" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <circle cx="183" cy="64" r="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="39" y="89" width="36" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="102" y="89" width="36" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="167" y="89" width="32" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="switch" viewBox="0 0 240 144">
+    <rect x="32" y="32" width="176" height="80" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="48" y="58" width="44" height="28" rx="14" fill="var(--illustration-accent)" stroke="none"/>
+    <circle cx="79" cy="72" r="10" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M74 72l4 4 7-8" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="108" y="68" width="76" height="8" rx="4" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="table" viewBox="0 0 240 144">
+    <rect x="28" y="22" width="184" height="100" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="29" y="23" width="182" height="25" rx="7" fill="var(--illustration-muted)" stroke="none"/>
+    <path d="M28 48h184m-184 24h184m-184 24h184M92 22v100m60-100v100" fill="none" stroke="var(--illustration-line)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="42" y="33" width="35" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="106" y="33" width="29" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="165" y="33" width="30" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="58" width="35" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="106" y="58" width="29" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="165" y="58" width="30" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="82" width="35" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="106" y="82" width="29" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="165" y="82" width="30" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="42" y="107" width="35" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="106" y="107" width="29" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="165" y="107" width="30" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="tabs" viewBox="0 0 240 144">
+    <rect x="28" y="24" width="184" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="42" y="39" width="52" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="111" y="39" width="42" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M28 58h184" fill="none" stroke="var(--illustration-line)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M42 58h52" fill="none" stroke="var(--illustration-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="43" y="74" width="120" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="43" y="86" width="81.60000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="tag" viewBox="0 0 240 144">
+    <rect x="38" y="35" width="164" height="74" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="60" y="59" width="120" height="26" rx="13" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="77" y="69" width="63" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M159 68l7 7m0-7-7 7" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="term-definition" viewBox="0 0 240 144">
+    <rect x="29" y="24" width="182" height="96" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="49" y="41" width="112" height="9" rx="4.5" fill="var(--illustration-ink)" stroke="none"/>
+    <path d="M49 55h112" fill="none" stroke="var(--illustration-accent)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 4"/>
+    <rect x="69" y="70" width="123" height="36" rx="6" fill="var(--illustration-soft)" stroke="none"/>
+    <rect x="80" y="80" width="99" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="80" y="92" width="67.32000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="text-counter" viewBox="0 0 240 144">
+    <rect x="31" y="17" width="178" height="110" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="46" y="30" width="54" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="46" y="49" width="148" height="48" rx="4" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="56" y="60" width="117" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="56" y="72" width="79.56" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="56" y="84" width="67" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="158" y="109" width="35" height="6" rx="3" fill="var(--illustration-accent)" stroke="none"/>
+  </symbol>
+  <symbol id="textarea" viewBox="0 0 240 144">
+    <rect x="31" y="18" width="178" height="108" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="46" y="30" width="66" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="46" y="49" width="148" height="63" rx="5" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="58" y="62" width="119" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="58" y="74" width="80.92" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="58" y="86" width="61" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <path d="M181 101l5-5m-2 8 5-5" fill="none" stroke="var(--illustration-line)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="timeline" viewBox="0 0 240 144">
+    <rect x="39" y="13" width="162" height="118" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M61 35v74" fill="none" stroke="var(--illustration-line)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="61" cy="36" r="6" fill="var(--illustration-accent)" stroke="none"/>
+    <circle cx="61" cy="73" r="6" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <circle cx="61" cy="110" r="6" fill="var(--illustration-surface)" stroke="var(--illustration-line)"/>
+    <rect x="80" y="29" width="91" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="80" y="41" width="61.88" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="80" y="66" width="75" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="80" y="78" width="51.00000000000001" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="80" y="103" width="91" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+    <rect x="80" y="115" width="61.88" height="7" rx="3.5" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="toggle-button" viewBox="0 0 240 144">
+    <rect x="27" y="34" width="186" height="76" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="42" y="58" width="74" height="28" rx="14.0" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="59.76" y="69" width="38.480000000000004" height="6" rx="3" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="124" y="58" width="74" height="28" rx="14" fill="var(--illustration-surface)" stroke="var(--illustration-accent)"/>
+    <rect x="143" y="69" width="37" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="tooltip" viewBox="0 0 240 144">
+    <rect x="35" y="30" width="170" height="87" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="65" y="39" width="110" height="26" rx="9" fill="var(--illustration-ink)" stroke="none"/>
+    <path d="M114 65l6 6 6-6" fill="var(--illustration-ink)" stroke="var(--illustration-ink)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="83" y="49" width="74" height="6" rx="3" fill="var(--illustration-surface)" stroke="none"/>
+    <circle cx="120" cy="94" r="10" fill="var(--illustration-surface)" stroke="var(--illustration-accent)"/>
+    <path d="M117 92c0-4 7-4 5 0-1 2-2 1-2 4m0 4v.3" fill="none" stroke="var(--illustration-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="upload" viewBox="0 0 240 144">
+    <rect x="30" y="22" width="180" height="100" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="42" y="34" width="156" height="76" rx="6" fill="var(--illustration-muted)" stroke="none"/>
+    <path d="M120 79V49m-11 11 11-11 11 11" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M99 81v9h42v-9" fill="none" stroke="var(--illustration-line)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="84" y="100" width="72" height="6" rx="3" fill="var(--illustration-line)" stroke="none"/>
+  </symbol>
+  <symbol id="vipps-wallet-button" viewBox="0 0 240 144">
+    <rect x="27" y="36" width="186" height="72" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <rect x="52" y="52" width="136" height="40" rx="20" fill="var(--illustration-accent)" stroke="none"/>
+    <path transform="translate(88 65.5)" d="M34.088 0C36.392 0.0001 39.087 1.8991 39.087 5.96C39.087 10.2022 36.495 12.2627 33.841 12.2627C32.422 12.2627 31.167 11.717 30.2 10.4239V16H27.3V0.323299H30.2V1.919C31.003 0.828099 32.257 0 34.088 0ZM48.016 0C50.32 0.0003 53.014 1.8993 53.014 5.96C53.014 10.2021 50.422 12.2626 47.769 12.2627C46.349 12.2627 45.094 11.717 44.127 10.4239V16H41.227V0.323299H44.128V1.919C44.93 0.828099 46.185 0 48.016 0ZM12.24 6.586C12.796 6.2022 13.557 6.3635 14.051 7.0909C15.285 8.8685 16.869 10.0811 18.905 10.0811C20.901 10.081 22.032 9.1311 23.102 7.7579C23.677 7.0106 24.439 6.8683 24.953 7.2725C25.508 7.6968 25.529 8.4647 24.953 9.212C23.411 11.2322 21.436 12.4443 18.905 12.4444C16.149 12.4444 13.782 10.9495 12.075 8.3838C11.603 7.7171 11.726 6.9496 12.24 6.586ZM59.145 0C61.531 0 63.28 1.0912 64 3.8389L61.387 4.2422C61.346 2.8486 60.462 2.4249 59.207 2.4248C58.22 2.4248 57.499 2.8489 57.499 3.5157C57.499 4.0407 57.87 4.5862 58.98 4.7881L60.976 5.1514C62.93 5.5156 63.979 6.768 63.979 8.4854C63.979 11.0103 61.654 12.2627 59.474 12.2627C57.17 12.2627 54.619 11.0905 54.208 8.2422L56.82 7.8379C56.964 9.3128 57.89 9.8389 59.371 9.8389C60.502 9.8389 61.264 9.4346 61.264 8.7276C61.264 8.1013 60.914 7.6362 59.68 7.4141L57.869 7.0909C55.956 6.7472 54.784 5.4136 54.784 3.7168C54.784 1.0907 57.211 0.0001 59.145 0ZM5.925 8.1612L8.64 0.302799H11.828L7.097 11.959H4.731L0 0.302799H3.188L5.925 8.1612ZM33.183 2.5049C31.599 2.505 30.2 3.6161 30.2 6.1006C30.2 8.4845 31.599 9.7372 33.162 9.7373C34.643 9.7373 36.166 8.5654 36.166 6.1006C36.166 3.6764 34.643 2.5049 33.183 2.5049ZM47.11 2.5049C45.526 2.5049 44.127 3.616 44.127 6.1006C44.127 8.4846 45.526 9.7373 47.09 9.7373C48.571 9.7373 50.093 8.5654 50.093 6.1006C50.093 3.6765 48.571 2.505 47.11 2.5049ZM21.004 2.0606C21.868 2.0607 22.608 2.7074 22.608 3.6368C22.608 4.5657 21.868 5.2119 21.004 5.212C20.14 5.212 19.4 4.5658 19.399 3.6368C19.399 2.7074 20.14 2.0606 21.004 2.0606Z" fill="var(--illustration-surface)" stroke="none"/>
+  </symbol>
+  <symbol id="visually-hidden" viewBox="0 0 240 144">
+    <rect x="35" y="33" width="170" height="78" rx="8" fill="var(--illustration-surface)" stroke="none"/>
+    <path d="M78 72q42-37 84 0-42 37-84 0Z" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="120" cy="72" r="10" fill="var(--illustration-accent)" stroke="none"/>
+    <path d="M87 41l66 62" fill="none" stroke="var(--illustration-surface)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M87 41l66 62" fill="none" stroke="var(--illustration-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>

@@ -35,21 +35,21 @@ test.describe('Page ids', () => {
   test('should have no duplicate ids on a category page', async ({
     page,
   }) => {
-    await page.goto('/web/components/')
+    await page.goto('/web/components/overview/')
     await expectNoDuplicateIds(page)
   })
 
   test('should have no duplicate ids after client side navigation', async ({
     page,
   }) => {
-    await page.goto('/web/components/')
+    await page.goto('/web/components/overview/')
 
     // Check if app is mounted
     await waitForApp(page)
 
     await page
       .locator('#dnb-app-content')
-      .getByRole('link', { name: 'Button', exact: true })
+      .locator('a[href="/web/components/button"]')
       .click()
     await expect(page).toHaveURL((url) =>
       url.pathname.startsWith('/web/components/button')

@@ -3,11 +3,16 @@ import {
   graphql,
   type StaticQueryConnection,
 } from 'portal-query'
-import { Hr, Li, P, Span, Ul } from '@dnb/eufemia/src'
+import { Card, Hr, P, Span } from '@dnb/eufemia/src'
 import ReactMarkdown from 'react-markdown'
-import Anchor from '../tags/Anchor'
+import Anchor, { Link } from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import basicComponents from '../tags/markdownComponents'
+import {
+  componentsStyle,
+  illustrationStyle,
+} from './ListComponentsOverview.module.scss'
+import illustrations from './component-illustrations.svg?url'
 import {
   categoryOrder,
   excludedSlugs,
@@ -139,23 +144,51 @@ function FormsAndInputsIntro() {
 
 function ComponentsOverviewList({ entries }: { entries: Entry[] }) {
   return (
-    <Ul className="dnb-unstyled-list">
+    <Card.List className={componentsStyle}>
       {entries.map(({ slug, title, description }) => (
-        <Li key={slug}>
-          <Span size="medium">
-            <Anchor href={`/${slug}`}>{title}</Anchor>
-          </Span>
-
-          {description && (
-            <ReactMarkdown
-              // @ts-expect-error -- strictFunctionTypes
-              components={basicComponents}
+        <Card.ListItem key={slug}>
+          <Card.Action
+            to={`/${slug}`}
+            element={Link}
+            stack
+            responsive={false}
+            gap="small"
+            className={illustrationStyle}
+          >
+            <Card
+              element="div"
+              innerSpace={0}
+              responsive={false}
+              outlineWidth={0}
+              backgroundColor="var(--token-color-background-selected-subtle)"
             >
-              {description}
-            </ReactMarkdown>
-          )}
-        </Li>
+              <svg
+                viewBox="0 0 240 144"
+                width="240"
+                height="144"
+                aria-hidden="true"
+                focusable="false"
+                fill="none"
+                stroke="none"
+              >
+                <use href={`${illustrations}#${slug.split('/').pop()}`} />
+              </svg>
+            </Card>
+            <Span size="medium" weight="medium">
+              {title}
+            </Span>
+
+            {description && (
+              <ReactMarkdown
+                // @ts-expect-error -- strictFunctionTypes
+                components={basicComponents}
+              >
+                {description}
+              </ReactMarkdown>
+            )}
+          </Card.Action>
+        </Card.ListItem>
       ))}
-    </Ul>
+    </Card.List>
   )
 }
