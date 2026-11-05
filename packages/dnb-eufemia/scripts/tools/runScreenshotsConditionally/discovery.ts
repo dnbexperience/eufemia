@@ -113,7 +113,9 @@ function toPortalDocsDirectory(
   context: RunnerContext,
   url: string
 ): string | null {
-  url = url.replace(/^\/uilib\//, PORTAL_DOCS_PATH_PREFIX)
+  url = url
+    .replace(/[?#].*$/, '')
+    .replace(/^\/uilib\//, PORTAL_DOCS_PATH_PREFIX)
   if (!url.startsWith(PORTAL_DOCS_PATH_PREFIX)) {
     return null
   }
@@ -129,7 +131,17 @@ function toPortalDocsDirectory(
     pathSegments.pop()
   }
 
-  return path.join(context.portalDocsRoot, ...pathSegments)
+  const docsPath = path.join(context.portalDocsRoot, ...pathSegments)
+
+  // A page file like visual-tests.mdx shows the examples of its folder
+  if (
+    !existsSync(docsPath) &&
+    ['.mdx', '.tsx'].some((extension) => existsSync(docsPath + extension))
+  ) {
+    return path.dirname(docsPath)
+  }
+
+  return docsPath
 }
 
 function toPortalDocsAbsolutePath(
