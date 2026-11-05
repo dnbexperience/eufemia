@@ -9,7 +9,7 @@ import basicComponents from '../tags/markdownComponents'
 
 const components = {
   ...basicComponents,
-  p: (props) => <span {...props} />,
+  p: ({ node, ...props }) => <span {...props} />,
 }
 
 const StyledTable = styled(Table)`

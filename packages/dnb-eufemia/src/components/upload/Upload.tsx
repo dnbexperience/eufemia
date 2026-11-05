@@ -80,10 +80,12 @@ const Upload = (localProps: UploadAllProps) => {
     listAriaLabel,
     buttonProps,
     disableDragAndDrop,
+    locale: localeProp,
     ...props
   } = extendedProps
 
   const id = useId(idProp)
+  const locale = localeProp || context.locale
 
   const { files, setFiles, setInternalFiles, getExistingFile } =
     useUpload(id)
@@ -116,6 +118,7 @@ const Upload = (localProps: UploadAllProps) => {
         acceptedFileTypes,
         errorUnsupportedFile,
         errorLargeFile,
+        locale,
       })
 
       const validFiles = [...verifiedFiles].slice(
@@ -140,6 +143,7 @@ const Upload = (localProps: UploadAllProps) => {
       files,
       filesAmountLimit,
       getExistingFile,
+      locale,
       onChange,
       setFiles,
       setInternalFiles,
@@ -161,6 +165,7 @@ const Upload = (localProps: UploadAllProps) => {
       value={{
         ...extendedProps,
         id,
+        locale,
         onInputUpload,
       }}
     >
@@ -215,9 +220,17 @@ function CompactLabel(props: {
       className="dnb-upload__label"
     >
       <span>
-        {title && <span className="dnb-lead">{title}</span>}
+        {title && (
+          <span id={`${id}-title`} className="dnb-lead">
+            {title}
+          </span>
+        )}
         {title && text && <br />}
-        {text && <span className="dnb-upload__text">{text}</span>}
+        {text && (
+          <span id={`${id}-text`} className="dnb-upload__text">
+            {text}
+          </span>
+        )}
       </span>
     </FormLabel>
   )

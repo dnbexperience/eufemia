@@ -77,10 +77,13 @@ async function prerender() {
   } else {
     console.log('Step 3/4: Generating LLM metadata...')
     try {
-      execSync('node vite/prod/generate-llm-metadata.mts', {
-        cwd: portalRoot,
-        stdio: 'inherit',
-      })
+      execSync(
+        'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON vite/prod/generate-llm-metadata.mts',
+        {
+          cwd: portalRoot,
+          stdio: 'inherit',
+        }
+      )
     } catch {
       console.warn('Warning: LLM metadata generation failed (non-fatal)')
     }

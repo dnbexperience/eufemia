@@ -42,6 +42,16 @@
     "glob@npm:^10.3.3": "14.0.3",
     "glob@npm:^13.0.0": "14.0.3",
     "glob@npm:^13.0.6": "14.0.3",
+    "minimatch@npm:^9.0.0": "11.0.3",
+    "minimatch@npm:^9.0.3 || ^10.1.2": "11.0.3",
+    "minimatch@npm:^10.0.3": "11.0.3",
+    "minimatch@npm:^10.1.1": "11.0.3",
+    "minimatch@npm:^10.2.1": "11.0.3",
+    "minimatch@npm:^10.2.2": "11.0.3",
+    "minimatch@npm:^10.2.4": "11.0.3",
+    "minimatch@npm:^10.2.5": "11.0.3",
+    "minimatch@npm:^10.2.6": "11.0.3",
+    "eslint-plugin-import-x@npm:4.17.1": "patch:eslint-plugin-import-x@npm%3A4.17.1#~/.yarn/patches/eslint-plugin-import-x-npm-4.17.1-9415b177ca.patch",
     "node-gyp@npm:latest": "12.4.0"
   },
   "engines": {
