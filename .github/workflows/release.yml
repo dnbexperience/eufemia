@@ -410,9 +410,10 @@ jobs:
       # Release step failing after publishing: in v11.16.1, semantic-release's
       # success step failed after npm had the version, which skipped the portal
       # deploy, the SBOM and the attestation. A re-run publishes nothing,
-      # because semantic-release finds the earlier attempt's tag, so the
-      # version then comes from that tag: semantic-release puts it on the
-      # release commit, whose parent is this run's commit.
+      # because semantic-release stops when its release commit has moved the
+      # branch past this run's commit. The version then comes from the tag
+      # semantic-release put on that release commit, whose parent is this
+      # run's commit.
       - name: Capture released version
         id: release-info
         continue-on-error: true
