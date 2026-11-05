@@ -122,7 +122,10 @@ export function getStyleOwnerModules(
   }
 
   return Array.from(dependencyMap.keys()).filter((modulePath) => {
-    if (/\/(__tests__|style)\/|Docs\.tsx?$/.test(modulePath)) {
+    if (
+      /\/(__tests__|style)\//.test(modulePath) ||
+      /Docs\.tsx?$/.test(modulePath)
+    ) {
       return false
     }
 
