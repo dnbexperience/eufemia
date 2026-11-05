@@ -90,8 +90,9 @@ export const SCREENSHOT_FILE_PATTERN =
 // Defines which docs files can influence visual composition matching.
 export const PORTAL_FILE_PATTERN = /\.(mdx|tsx|ts|jsx|js)$/
 
-// Parses screenshot URL declarations inside test files.
-export const SCREENSHOT_URL_PATTERN = /url\s*:\s*['"`]([^'"`]+)['"`]/g
+// Parses the portal page paths inside test files, also from constants like `const url = '/web/...'`.
+export const SCREENSHOT_URL_PATTERN =
+  /['"`](\/(?:web|uilib)\/[^'"`]*)['"`]/g
 
 // Parses both Sass syntaxes so dependency graph includes modern @use.
 export const SCSS_IMPORT_PATTERN = /@(import|use)\s+([^;]+);/g

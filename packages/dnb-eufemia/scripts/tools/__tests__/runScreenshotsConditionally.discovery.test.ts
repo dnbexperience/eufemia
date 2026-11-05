@@ -1,6 +1,7 @@
 import {
   collectChangedEntityNames,
   findCompositionImpactedTests,
+  findPortalDocsImpactedTests,
 } from '../runScreenshotsConditionally/discovery'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -74,6 +75,54 @@ describe('runScreenshotsConditionally discovery', () => {
       fs.rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it.each([
+    [
+      'a URL constant',
+      "const url = '/web/forms/Wizard/Container/demos/'\nmakeScreenshot({ url })",
+      'web/forms/Wizard/Container/Examples.tsx',
+    ],
+    [
+      'a URL with a query string',
+      "makeScreenshot({ url: '/web/components/table/demos/?skeleton' })",
+      'web/components/table/Examples.tsx',
+    ],
+    [
+      'a page file instead of a demos folder',
+      "makeScreenshot({ url: '/web/components/button/visual-tests/' })",
+      'web/components/button/visual-tests.mdx',
+    ],
+  ])(
+    'selects the screenshot test when its docs change, for %s',
+    (_, testContent, docsFile) => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-docs-'))
+      try {
+        const docsRoot = path.join(root, 'docs')
+        fs.mkdirSync(path.dirname(path.join(docsRoot, docsFile)), {
+          recursive: true,
+        })
+        fs.writeFileSync(path.join(docsRoot, docsFile), '')
+        fs.writeFileSync(
+          path.join(root, 'Example.screenshot.test.ts'),
+          testContent
+        )
+        const context = {
+          packageRoot: root,
+          portalDocsRoot: docsRoot,
+        } as RunnerContext
+
+        expect(
+          findPortalDocsImpactedTests(
+            context,
+            [`packages/dnb-design-system-portal/src/docs/${docsFile}`],
+            ['Example.screenshot.test.ts']
+          )
+        ).toEqual(['Example.screenshot.test.ts'])
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true })
+      }
+    }
+  )
 
   it('extracts entity names from components and extensions paths', () => {
     const names = collectChangedEntityNames([
