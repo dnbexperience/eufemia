@@ -184,7 +184,7 @@ const TimelineItemIcon = ({
         <IconPrimary
           icon={currentIcon}
           alt={currentAltLabel}
-          size={state === 'current' ? undefined : 'small'}
+          size={state === 'completed' ? 'small' : undefined}
         />
       )}
     </span>
