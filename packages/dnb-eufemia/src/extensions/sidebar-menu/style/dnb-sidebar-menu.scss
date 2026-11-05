@@ -554,11 +554,6 @@
     background-color: var(--token-color-background-neutral-alternative);
   }
 
-  .dnb-drawer-list__option--selected:has(.dnb-sidebar-menu__badge)
-    .dnb-drawer-list__option__inner {
-    column-gap: 0.5rem;
-  }
-
   .dnb-drawer-list__option__inner::before {
     right: 0;
     bottom: -0.5rem;
