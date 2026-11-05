@@ -380,13 +380,12 @@ export async function runScreenshotsTests() {
   const hasScssSourceChanges = sourceChanges.some((filePath) => {
     return filePath.endsWith('.scss')
   })
-  const hasCodeSourceChanges = sourceChanges.some((filePath) => {
-    return !filePath.endsWith('.scss')
-  })
 
-  const dependencyMap = hasCodeSourceChanges
-    ? loadTsDependencyMap(context)
-    : new Map<string, string[]>()
+  // Style changes also need the code graph to find the components that render the styled one
+  const dependencyMap =
+    sourceChanges.length > 0
+      ? loadTsDependencyMap(context)
+      : new Map<string, string[]>()
   const scssDependencyMap = hasScssSourceChanges
     ? loadScssDependencyMap(context)
     : new Map<string, string[]>()

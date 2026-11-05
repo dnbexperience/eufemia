@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import {
+  SCREENSHOT_FILE_PATTERN,
   SCSS_IMPORT_PATTERN,
   SCSS_REVERSE_DEPENDENCY_EXCLUDED_SOURCES,
 } from './config'
@@ -41,13 +42,25 @@ export function expandReverseDependencies(
 
     const dependents = dependencyMap.get(currentFile) || []
     for (const dependent of dependents) {
-      if (dependent.startsWith('src/') && !visited.has(dependent)) {
+      if (
+        dependent.startsWith('src/') &&
+        !visited.has(dependent) &&
+        !isNonVisualTest(dependent)
+      ) {
         queue.push(dependent)
       }
     }
   }
 
   return visited
+}
+
+// Other tests cannot change screenshots, but would select the screenshot tests next to them
+function isNonVisualTest(filePath: string): boolean {
+  return (
+    /\.(test|spec)\.[jt]sx?$/.test(filePath) &&
+    !SCREENSHOT_FILE_PATTERN.test(filePath)
+  )
 }
 
 function extractScssImportSpecifiers(fileContent: string): string[] {

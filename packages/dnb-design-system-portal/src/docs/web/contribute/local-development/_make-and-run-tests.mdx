@@ -132,6 +132,8 @@ Global impact still runs all screenshot tests when shared visual config/style pa
 
 Reverse-dependency selection resolves imports by TypeScript symbol, so an import through a re-export barrel (for example `src/components/index.ts`) is attributed to the module that actually defines the symbol. Pure re-export barrels are therefore transparent, and type-only imports are ignored because they cannot change rendered output.
 
+A changed style file in a component's `style/` directory also selects the screenshot tests of the components that render that component, for example Breadcrumb for an Anchor style change. Unit and e2e test files are not followed, because they cannot change a screenshot.
+
 You can run the same logic locally:
 
 ```bash
@@ -156,6 +158,7 @@ In explain mode, each selected test includes one or more causes:
 
 - `TS/JS dependency impact`
 - `SCSS dependency impact`
+- `Style of a rendered component`
 - `Component usage in demo/examples`
 - `Portal docs/demo impact`
 
