@@ -102,6 +102,18 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
           selector: '[data-visual-test="badge-status"]',
         })
       })
+
+      if (themeName !== 'carnegie') {
+        it('have to match all status variants in dark mode', async () => {
+          await makeScreenshot({
+            selector: '[data-visual-test="badge-status"]',
+            colorScheme: 'dark',
+            wrapperStyle: {
+              background: 'var(--token-color-background-page-background)',
+            },
+          })
+        })
+      }
     })
   }
 )
