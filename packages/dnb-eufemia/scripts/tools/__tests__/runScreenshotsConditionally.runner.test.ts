@@ -1,6 +1,10 @@
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import {
   resolveCliOptions,
   shouldRunAllByEnvironment,
+  writeSkipPlan,
 } from '../runScreenshotsConditionally/runner'
 
 describe('runScreenshotsConditionally runner cli options', () => {
@@ -8,6 +12,7 @@ describe('runScreenshotsConditionally runner cli options', () => {
     expect(resolveCliOptions([])).toEqual({
       shouldExplain: false,
       isDryRun: false,
+      isPlan: false,
       changedFilesMode: 'auto',
     })
   })
@@ -34,8 +39,33 @@ describe('runScreenshotsConditionally runner cli options', () => {
     expect(resolveCliOptions(['--explain'])).toEqual({
       shouldExplain: true,
       isDryRun: true,
+      isPlan: false,
       changedFilesMode: 'auto',
     })
+  })
+
+  it('enables dry-run when plan is used', () => {
+    expect(resolveCliOptions(['--plan'])).toEqual({
+      shouldExplain: false,
+      isDryRun: true,
+      isPlan: true,
+      changedFilesMode: 'auto',
+    })
+  })
+})
+
+describe('runScreenshotsConditionally runner plan', () => {
+  it('writes the skip output for the CI workflow', () => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'visual-plan-'))
+    const outputFile = path.join(directory, 'output')
+
+    try {
+      writeSkipPlan(outputFile)
+
+      expect(readFileSync(outputFile, 'utf8')).toBe('skip=true\n')
+    } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
   })
 })
 
