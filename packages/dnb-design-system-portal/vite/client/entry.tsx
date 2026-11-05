@@ -6,9 +6,11 @@ import PortalApp from './portal-app'
 import { bootstrapPortalApp } from './bootstrap-portal-app'
 import { renderPortalApp } from './render-portal-app'
 import { unregisterLegacyServiceWorkers } from './unregister-legacy-service-workers'
-import { routes } from 'virtual:portal-pages'
+import { getInitialPortalRoutes } from './load-portal-routes'
 
-export const currentRoutes = routes
+export let currentRoutes: Awaited<
+  ReturnType<typeof getInitialPortalRoutes>
+>
 
 // When ?data-visual-test is in the URL, set globalThis.IS_TEST and
 // mark the document so visual-test CSS overrides and test-specific
@@ -26,9 +28,11 @@ if (
 // with stale cached responses.
 unregisterLegacyServiceWorkers()
 
-void bootstrapPortalApp(PortalApp, currentRoutes, {
-  pathname:
-    typeof window !== 'undefined' ? window.location.pathname : undefined,
+void getInitialPortalRoutes().then((routes) => {
+  currentRoutes = routes
+  return bootstrapPortalApp(PortalApp, routes, {
+    pathname: window.location.pathname,
+  })
 })
 
 if (import.meta.hot) {

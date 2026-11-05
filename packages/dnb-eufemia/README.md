@@ -2,7 +2,7 @@
 
 Eufemia is DNB's design system and UI library, providing a consistent and accessible set of components for building modern web applications. It streamlines development by offering reusable elements, design guidelines, and best practices, ensuring a unified user experience across DNB's digital products.
 
-Read more about Eufemia and the [DNB UI Library](https://eufemia.dnb.no/uilib/about-the-lib).
+Read more about Eufemia and the [DNB UI Library](https://eufemia.dnb.no/web/get-started/quick-start).
 
 ## Agent Skills
 
@@ -20,7 +20,7 @@ managed installations. Interactive users should use this selector. CI and other
 non-interactive environments can pass `--target <directory>` because they cannot
 answer terminal prompts.
 
-See the [Agent Skills and MCP documentation](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#agent-skills)
+See the [Agent Skills and MCP documentation](https://eufemia.dnb.no/web/ai-tools-and-resources/developer-tools/#agent-skills)
 for installation targets, npm and pnpm commands, update safety, cloud-agent
 usage, and MCP configuration.
 
@@ -35,7 +35,7 @@ The installer tracks generated files and refuses to replace local changes
 unless `--force` is given. Commit installed project skills when they should be
 available to cloud agents.
 
-Configure the [Eufemia MCP server](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#ai-assistance-and-mcp-server)
+Configure the [Eufemia MCP server](https://eufemia.dnb.no/web/ai-tools-and-resources/developer-tools/#ai-assistance-and-mcp-server)
 before using the skills. The skill files contain workflows, while component
 APIs, tokens, theme support, and other version-sensitive facts remain in
 Eufemia's packaged documentation. The hosted MCP serves the latest release; use

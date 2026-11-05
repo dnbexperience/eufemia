@@ -101,11 +101,12 @@ export const ArrayProperties: PropertiesTableProps = {
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
-  '[Flex.Stack](/uilib/layout/flex/stack/properties)': {
-    doc: 'All Flex.Stack properties.',
-    type: 'Various',
-    status: 'optional',
-  },
+  '[Flex.Stack](/web/layout-and-typography/layout/flex/stack/properties)':
+    {
+      doc: 'All Flex.Stack properties.',
+      type: 'Various',
+      status: 'optional',
+    },
 }
 
 export const ArrayEvents: PropertiesTableProps = {

@@ -245,7 +245,7 @@ export type AutocompleteProps = {
    */
   disableHighlighting?: boolean
   /**
-   * Use `true` to show an Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.
+   * Use `true` to show an Autocomplete button to toggle the [DrawerList](/web/components/fragments/drawer-list). Defaults to `false`.
    */
   showSubmitButton?: boolean
   /**
@@ -329,7 +329,7 @@ export type AutocompleteProps = {
   onSelect?: (event: AutocompleteOnSelectParams) => void
   onClear?: (event: AutocompleteOnClearParams) => void
   /**
-   * Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).
+   * Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).
    */
   onSubmit?: (event: AutocompleteOnSubmitParams) => void
 }

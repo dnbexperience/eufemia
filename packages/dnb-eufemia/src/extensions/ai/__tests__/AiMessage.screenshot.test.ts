@@ -11,7 +11,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
       setupPageScreenshot({
         themeName,
         colorScheme,
-        url: '/uilib/extensions/ai/Message/demos/',
+        url: '/web/patterns-and-extensions/ai/Message/demos/',
       })
       it('matches bubble colors, sender grouping and avatars', async () => {
         await makeScreenshot({

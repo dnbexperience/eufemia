@@ -1,0 +1,41 @@
+---
+title: Conditional fields and values
+description: Task guidance for conditional fields and values.
+navigation:
+  parent: web/forms
+  title: Conditional fields and values
+  order: 1.3
+---
+
+## Field components
+
+In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/web/forms/about-fields/) section.
+
+## Value components
+
+Beside the interactive [Field](/web/forms/all-fields/) components, there are also the static [Value](/web/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+### Inherit visibility from fields
+
+User entered data will always be stored internally in the data context, even if a [Field](/web/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+`Value.*` components will render the value regardless of the visibility of the field.
+
+You can use the `inheritVisibility` property on the [Value.\*](/web/forms/Value/) components to inherit the visibility from the field with the same path.
+
+## Conditionally display content
+
+You can conditionally display content using the [Form.Visibility](/web/forms/Form/Visibility/) component. This allows you to show or hide its children based on the validation (A.) or the value (B.) of another path (data entry).
+
+```tsx
+<Form.Visibility
+  animate
+  visibleWhen={{
+    path: '/myField',
+    hasValue: (value) => value === 'foo', // A. Value based
+    isValid: true, // B. Validation based
+  }}
+>
+  <Field.String path="/myField" />
+</Form.Visibility>
+```

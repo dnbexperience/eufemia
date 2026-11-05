@@ -1,0 +1,39 @@
+.cardItemStyle {
+  @media screen and (min-width: 40em) {
+    flex-basis: calc(50% - 1rem);
+  }
+
+  @media screen and (min-width: 60em) {
+    flex-basis: calc(33.333333% - 1rem);
+  }
+}
+
+.componentsStyle {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+  margin-block-start: 1.5rem;
+
+  :global(.dnb-card) {
+    height: 100%;
+  }
+
+  :global(.dnb-p) {
+    margin-block: 0;
+  }
+}
+
+.illustrationStyle {
+  --illustration-accent: var(--token-color-background-action);
+  --illustration-surface: var(--token-color-background-neutral);
+  --illustration-muted: var(--token-color-background-neutral-subtle);
+  --illustration-line: var(--token-color-stroke-neutral-subtle);
+  --illustration-soft: var(--token-color-background-selected-subtle);
+  --illustration-ink: var(--token-color-text-neutral);
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}

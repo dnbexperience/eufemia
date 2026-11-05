@@ -3,10 +3,18 @@ import { isCI } from 'repo-utils'
 
 export default defineConfig({
   timeout: 30_000,
-  globalTimeout: 1_200_000,
+  globalTimeout: 1_500_000,
   retries: 3,
   reporter: 'list',
   testDir: './src/e2e',
+  projects: [
+    { name: 'firefox' },
+    {
+      name: 'chromium-routes',
+      testMatch: '**/deferredRoutes.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+  ],
 
   use: {
     // Base URL to use in actions like `await page.goto('/')`.

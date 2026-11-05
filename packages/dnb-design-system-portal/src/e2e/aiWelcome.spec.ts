@@ -4,7 +4,7 @@ import waitForApp from './shared/waitForApp'
 test('aligns the welcome greeting, heading and suggestions with Figma', async ({
   page,
 }) => {
-  await page.goto('/uilib/extensions/ai/Welcome/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/Welcome/demos/')
   await waitForApp(page)
 
   const welcome = page.locator(
@@ -57,7 +57,7 @@ test('aligns the welcome greeting, heading and suggestions with Figma', async ({
 test('wraps real long labels without changing standalone suggestions', async ({
   page,
 }) => {
-  await page.goto('/uilib/extensions/ai/Welcome/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/Welcome/demos/')
   await waitForApp(page)
 
   const welcome = page.locator(
@@ -99,7 +99,7 @@ test('wraps real long labels without changing standalone suggestions', async ({
     layout.buttons[1].y - layout.buttons[0].y - layout.buttons[0].height
   ).toBeCloseTo(layout.gap)
 
-  await page.goto('/uilib/extensions/ai/Suggestions/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/Suggestions/demos/')
   await waitForApp(page)
 
   await expect(

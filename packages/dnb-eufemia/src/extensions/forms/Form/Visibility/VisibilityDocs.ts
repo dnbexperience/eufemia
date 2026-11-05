@@ -68,7 +68,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   filterData: {
-    doc: 'Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.',
+    doc: 'Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/web/forms/data-and-state/#filter-data) documentation.',
     type: ['object', 'function'],
     status: 'optional',
   },

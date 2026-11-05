@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const PaginationProperties: PropertiesTableProps = {
   mode: {
-    doc: 'If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.',
+    doc: 'If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/web/components/pagination/infinity-scroller). Defaults to `pagination`.',
     type: ['"pagination"', '"infinity"'],
     status: 'optional',
   },
@@ -132,7 +132,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   barSpace: {
-    doc: 'Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/uilib/layout/space/properties).',
+    doc: 'Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/web/layout-and-typography/layout/space/properties).',
     type: 'Various',
     status: 'optional',
   },
@@ -156,7 +156,7 @@ export const PaginationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

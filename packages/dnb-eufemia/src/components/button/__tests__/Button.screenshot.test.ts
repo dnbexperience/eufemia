@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/button/demos/',
+      url: '/web/components/button/demos/',
     })
 
     describe('primary', () => {
@@ -293,7 +293,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
 describe.each(['dnb', 'sbanken'])(`Button for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/button/demos/',
+    url: '/web/components/button/demos/',
   })
 
   describe.each(['primary', 'secondary', 'tertiary', 'tertiary-icon'])(
@@ -332,7 +332,7 @@ describe.each(['dnb', 'sbanken'])(`Button for %s`, (themeName) => {
 describe.each(['ui'])(`Button for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/button/visual-tests/',
+    url: '/web/components/button/visual-tests/',
   })
 
   describe('primary', () => {

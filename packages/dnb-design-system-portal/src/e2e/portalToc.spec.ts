@@ -9,7 +9,7 @@ test.describe('Portal table of contents', () => {
       const page = await browser.newPage()
       for (const width of [1440, 1194]) {
         await page.setViewportSize({ width, height: 900 })
-        await page.goto(new URL('/uilib/components/card/', baseURL).href)
+        await page.goto(new URL('/web/components/card/', baseURL).href)
         await expect(page.locator('html')).toHaveAttribute(
           'data-portal-ready',
           'true'
@@ -24,7 +24,7 @@ test.describe('Portal table of contents', () => {
           .locator('#portal-sidebar-menu')
           .getByRole('link', { name: 'Button', exact: true })
         await link.click()
-        await expect(page).toHaveURL(/\/uilib\/components\/button\/?$/)
+        await expect(page).toHaveURL(/\/web\/components\/button\/?$/)
         await expect(page.locator('main h1')).toHaveText('Button#')
         await expect
           .poll(() => page.evaluate(() => window.scrollY))
@@ -39,7 +39,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/uilib/components/card/')
+    await page.goto('/web/components/card/')
     const scroll = page.locator(
       '#portal-page-toc .dnb-table-of-content__scroll'
     )
@@ -64,7 +64,7 @@ test.describe('Portal table of contents', () => {
       bottom
     )
 
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     await expect(scroll).toBeVisible()
     await expect(scroll).toHaveCSS('overscroll-behavior-y', 'auto')
     await scroll.hover()
@@ -75,8 +75,8 @@ test.describe('Portal table of contents', () => {
   })
 
   for (const path of [
-    '/uilib/extensions/forms/Form/Outlet/',
-    '/uilib/extensions/forms/Form/Outlet/demos/',
+    '/web/forms/Form/Outlet/',
+    '/web/forms/Form/Outlet/demos/',
   ]) {
     test(
       'hydrates the outlet-first example with its server outline at ' +
@@ -109,7 +109,7 @@ test.describe('Portal table of contents', () => {
   test('keeps a tall outline below the header at the end of the page', async ({
     page,
   }) => {
-    await page.goto('/uilib/extensions/forms/changelog/')
+    await page.goto('/web/forms/changelog/')
     const toc = page.locator('#portal-page-toc')
     for (const width of [1153, 1440, 1920]) {
       for (const height of [700, 900, 1300]) {
@@ -137,7 +137,7 @@ test.describe('Portal table of contents', () => {
   }) => {
     for (const width of [1280, 375]) {
       await page.setViewportSize({ width, height: 900 })
-      await page.goto('/design-system/privacy/')
+      await page.goto('/about/our-story/')
       await expect(page.locator('#dnb-app-content h1')).toBeVisible()
       await expect(page.locator('#portal-page-toc')).toHaveCount(0)
       await expect(page.locator('#content-grid-sidebar')).toBeHidden()
@@ -149,7 +149,7 @@ test.describe('Portal table of contents', () => {
   }) => {
     await page.setViewportSize({ width: 1153, height: 900 })
     await page.goto(
-      '/uilib/extensions/forms/Form/schema-validation/demos/#dependent-schema-across-sections'
+      '/web/forms/Form/schema-validation/demos/#dependent-schema-across-sections'
     )
     const example = page.locator(
       '#DependentSchemaValidation .dnb-live-preview'
@@ -176,7 +176,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 900 })
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     const toc = page.locator('#portal-page-toc')
     await toc
       .getByRole('button', { name: 'On this page', exact: true })
@@ -192,7 +192,9 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/events/')
+    await page.goto(
+      '/web/patterns-and-extensions/table-of-content/events/'
+    )
     const toc = page.locator('#portal-page-toc')
     const link = toc.getByRole('link', {
       name: 'TableOfContent.Item',
@@ -221,7 +223,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 1000 })
-    await page.goto('/uilib/extensions/forms/changelog/')
+    await page.goto('/web/forms/changelog/')
     const toc = page.locator('#portal-page-toc')
     await toc
       .getByRole('button', { name: 'On this page', exact: true })
@@ -258,7 +260,7 @@ test.describe('Portal table of contents', () => {
       [390, 844, 16],
     ]) {
       await page.setViewportSize({ width, height })
-      await page.goto('/uilib/extensions/forms/#quick-start')
+      await page.goto('/web/forms/')
       const toc = page.locator('#portal-page-toc')
       await expect(toc).toBeVisible()
       await expect(page.locator('html')).toHaveAttribute(
@@ -287,7 +289,8 @@ test.describe('Portal table of contents', () => {
             )
           )
       )
-      for (const gap of [20, 1, 0]) {
+      // Narrow layouts can leave less than 20px for the final section.
+      for (const gap of [1, 0.5, 0]) {
         await page.evaluate(
           (gap) =>
             window.scrollTo({
@@ -307,7 +310,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/forms/#quick-start')
+    await page.goto('/web/forms/#quick-start')
     const toc = page.locator('#portal-page-toc')
     await expect(
       toc.getByRole('link', { name: 'Quick start', exact: true })
@@ -351,7 +354,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/forms/#create-your-own-component')
+    await page.goto('/web/forms/#create-your-own-component')
     const toc = page.locator('#portal-page-toc')
     const link = toc.getByRole('link', {
       name: 'Create your own component',
@@ -378,7 +381,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     await page
       .getByRole('tab', { name: 'Properties', exact: true })
       .click()
@@ -410,7 +413,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     const toc = page.locator('#portal-page-toc')
     const toggle = toc.getByRole('button', {
       name: 'On this page',
@@ -470,7 +473,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     const toc = page.locator('#portal-page-toc')
     await expect(
       toc.getByRole('button', { name: 'On this page', exact: true })
@@ -503,7 +506,7 @@ test.describe('Portal table of contents', () => {
     await page.getByRole('tab', { name: 'Info', exact: true }).focus()
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(
-      /\/uilib\/extensions\/table-of-content\/?$/
+      /\/web\/patterns-and-extensions\/table-of-content\/?$/
     )
     await expect(
       page
@@ -532,7 +535,7 @@ test.describe('Portal table of contents', () => {
       async ({ page }) => {
         await page.emulateMedia({ reducedMotion: 'reduce' })
         await page.setViewportSize({ width, height: 1000 })
-        await page.goto('/uilib/extensions/table-of-content/')
+        await page.goto('/web/patterns-and-extensions/table-of-content/')
         const toc = page.locator('#portal-page-toc')
         if (width === 390) {
           await toc
@@ -567,7 +570,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     await page
       .getByRole('tab', { name: 'Properties', exact: true })
       .click()
@@ -600,7 +603,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     await page.evaluate(() => {
       window['portalHeadingAnimations'] = 0
       const original = Element.prototype.animate
@@ -653,9 +656,9 @@ test.describe('Portal table of contents', () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
     for (const path of [
-      '/uilib/extensions/forms/changelog/',
-      '/uilib/extensions/',
-      '/uilib/extensions/table-of-content/',
+      '/web/forms/changelog/',
+      '/web/patterns-and-extensions/using-patterns-and-extensions/',
+      '/web/patterns-and-extensions/table-of-content/',
     ]) {
       await page.goto(path)
       const toc = page.locator('#content-grid-sidebar nav')
@@ -687,7 +690,7 @@ test.describe('Portal table of contents', () => {
       }
       requestAnimationFrame(sample)
     })
-    await page.goto('/uilib/extensions/table-of-content/demos/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/demos/')
     await expect(page.locator('html')).toHaveAttribute(
       'data-toc-at-first-content-paint',
       'true'
@@ -722,7 +725,7 @@ test.describe('Portal table of contents', () => {
           await route.continue()
         })
         try {
-          await page.goto('/uilib/extensions/forms/changelog/', {
+          await page.goto('/web/forms/changelog/', {
             waitUntil: 'commit',
           })
           const content = page.locator('#tab-bar-content')
@@ -812,9 +815,12 @@ test.describe('Portal table of contents', () => {
         await hydration
         await route.continue()
       })
-      await page.goto('/uilib/extensions/table-of-content/demos/', {
-        waitUntil: 'commit',
-      })
+      await page.goto(
+        '/web/patterns-and-extensions/table-of-content/demos/',
+        {
+          waitUntil: 'commit',
+        }
+      )
       const content = page.locator('#tab-bar-content')
       await content.waitFor()
       await expect(content).toHaveCSS('line-height', '24px')
@@ -851,28 +857,60 @@ test.describe('Portal table of contents', () => {
     }
     expect(hydrationErrors).toEqual([])
   })
-  test('balances the mobile TOC between the tabs and content', async ({
-    page,
-  }) => {
-    for (const width of [390, 768]) {
-      await page.setViewportSize({ width, height: 1000 })
-      await page.goto('/uilib/extensions/table-of-content/demos/')
-      const toc = page.locator('#content-grid-sidebar')
-      await expect(toc.locator('nav')).toBeVisible()
-      const header = await page.locator('.dnb-tabs__tabs').boundingBox()
-      const navigation = await toc.boundingBox()
-      const content = await page.locator('#tab-bar-content').boundingBox()
-      const above = navigation.y - header.y - header.height
-      const below = content.y - navigation.y - navigation.height
-      expect(above).toBe(48)
-      expect(above).toBeCloseTo(below, 0)
-    }
-  })
+  for (const path of [
+    '/web/patterns-and-extensions/table-of-content/demos/',
+    '/web/releases-and-upgrades/',
+    '/web/forms/',
+  ]) {
+    test('balances mobile TOC spacing at ' + path, async ({ page }) => {
+      for (const width of [390, 768]) {
+        await page.setViewportSize({ width, height: 1000 })
+        await page.goto(path)
+        await expect(page.locator('html')).toHaveAttribute(
+          'data-portal-ready',
+          'true'
+        )
+        const toc = page.locator('#content-grid-sidebar')
+        await expect(toc.locator('nav')).toBeVisible()
+        const toggle = toc.getByRole('button', {
+          name: 'On this page',
+          exact: true,
+        })
+        const hasTabs = await page
+          .locator('[data-portal-page-tabs]')
+          .count()
+        for (const expanded of [false, true]) {
+          if (
+            (await toggle.getAttribute('aria-expanded')) !==
+            String(expanded)
+          ) {
+            await toggle.click()
+          }
+          await expect(
+            toc.locator('.dnb-height-animation--animating')
+          ).toHaveCount(0)
+          const header = await page
+            .locator('#content-grid-header')
+            .boundingBox()
+          const navigation = await toc.boundingBox()
+          const firstContent = await page
+            .locator('#tab-bar-content > :first-child')
+            .boundingBox()
+          expect(navigation.y - header.y - header.height).toBe(
+            hasTabs ? 24 : 0
+          )
+          expect(firstContent.y - navigation.y - navigation.height).toBe(
+            24
+          )
+        }
+      }
+    })
+  }
   test('avoids destination tooltip flashes and preserves direct anchor focus', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/events')
+    await page.goto('/web/patterns-and-extensions/table-of-content/events')
     const link = page.locator('#content-grid-sidebar').getByRole('link', {
       name: 'TableOfContent.Item',
       exact: true,
@@ -924,7 +962,9 @@ test.describe('Portal table of contents', () => {
         height,
       async ({ page }) => {
         await page.setViewportSize({ width: 1440, height })
-        await page.goto('/uilib/extensions/table-of-content/events')
+        await page.goto(
+          '/web/patterns-and-extensions/table-of-content/events'
+        )
         const toc = page.locator('#content-grid-sidebar nav')
         const link = toc.getByRole('link', {
           name: 'TableOfContent.Item',
@@ -984,7 +1024,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     const toc = page.locator('#content-grid-sidebar nav')
     const link = toc.getByRole('link', {
       name: 'Accessibility',
@@ -1028,7 +1068,7 @@ test.describe('Portal table of contents', () => {
   }) => {
     for (const width of [1280, 1440, 1920]) {
       await page.setViewportSize({ width, height: 1000 })
-      await page.goto('/uilib/extensions/table-of-content/')
+      await page.goto('/web/patterns-and-extensions/table-of-content/')
       const toc = page.locator('#content-grid-sidebar nav')
       await expect(toc.locator('a').first()).toBeVisible()
       const title = await toc
@@ -1036,19 +1076,19 @@ test.describe('Portal table of contents', () => {
         .boundingBox()
       const navigation = await toc.boundingBox()
       const content = await page.locator('#tab-bar-content').boundingBox()
-      const sidebar = await page
-        .locator('#portal-sidebar-menu')
+      const contentArea = await page
+        .locator('.dnb-app-content')
         .boundingBox()
       expect(title.y).toBeCloseTo(104, 0)
       const gap = navigation.x - (content.x + content.width)
-      expect(gap).toBeCloseTo(content.x - (sidebar.x + sidebar.width), 0)
+      expect(gap).toBeCloseTo(content.x - contentArea.x, 0)
     }
   })
   test('keeps the desktop TOC at its starting position from the first scroll', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/components/button/')
+    await page.goto('/web/components/button/')
     const toc = page.locator('#content-grid-sidebar nav')
     await expect(toc.locator('a').first()).toBeVisible()
     const initialTop = (await toc.boundingBox()).y
@@ -1064,7 +1104,7 @@ test.describe('Portal table of contents', () => {
   })
   test('follows headings with non-ASCII ids', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/components/number-format/demos/')
+    await page.goto('/web/components/number-format/demos/')
     const link = page.locator('#content-grid-sidebar').getByRole('link', {
       name: 'National Identification number (Fødselsnummer)',
       exact: true,
@@ -1085,7 +1125,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/components/button/')
+    await page.goto('/web/components/button/')
     const toc = page.locator('#content-grid-sidebar nav')
     const link = toc.getByRole('link', {
       name: 'Accessibility',
@@ -1112,11 +1152,13 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/properties/')
+    await page.goto(
+      '/web/patterns-and-extensions/table-of-content/properties/'
+    )
     await expect(
       page.locator('#content-grid-sidebar a').first()
     ).toBeVisible()
-    await page.goto('/uilib/extensions/forms/Form/Section/')
+    await page.goto('/web/forms/Form/Section/')
     const toc = page.locator('#content-grid-sidebar nav')
     await expect(toc.locator('a').first()).toBeVisible()
     expect(
@@ -1135,7 +1177,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     const toc = page.locator('#content-grid-sidebar nav')
     const toggle = toc.getByRole('button', {
       name: 'On this page',
@@ -1145,7 +1187,7 @@ test.describe('Portal table of contents', () => {
     await toggle.click()
     await expect(toc.getByRole('link').first()).toBeVisible()
     await page.goto(
-      '/uilib/extensions/forms/base-fields/Boolean/?focusmode=CheckboxRequired#import'
+      '/web/forms/base-fields/Boolean/?focusmode=CheckboxRequired#import'
     )
     await expect(
       page.locator('button[aria-label="Quit focus mode"]')
@@ -1162,7 +1204,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 })
-    await page.goto('/contribute/getting-started/')
+    await page.goto('/web/contribute/local-development/')
     await expect(
       page.locator('#content-grid-sidebar nav a').first()
     ).toBeVisible()

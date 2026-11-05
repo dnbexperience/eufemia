@@ -2,12 +2,12 @@
  * Pure utility functions for the SSG prerender pipeline.
  *
  * These functions are extracted from the prerender script for
- * independent unit testing. The prerender.mjs orchestrator
- * uses the same logic inline (since it's a plain .mjs script
- * that can't import .ts directly).
+ * independent unit testing. Shared native modules are also imported by
+ * the prerender.mjs orchestrator.
  */
 
 import path from 'node:path'
+import { modulePreloadTags } from './route-preloads.mts'
 import socialImages from '../../static/og/manifest.json'
 import {
   socialImageTags,
@@ -145,94 +145,7 @@ export function getPageMeta(
   return { title, description }
 }
 
-/**
- * Map a URL to its per-route preload assets from the SSR manifest.
- * Returns JS files for modulepreload and CSS files for stylesheet links.
- *
- * When a client manifest is provided, performs a BFS through chunk
- * imports to discover transitive CSS dependencies. Without this,
- * CSS modules imported by non-route source files (e.g. shared menu
- * components) would only load after JS executes, causing a layout
- * flicker on prerendered pages.
- */
-export function getRoutePreloads(
-  url: string,
-  ssrManifest: SSRManifest,
-  clientManifest?: ClientManifest | null
-): { js: string[]; css: string[] } {
-  const routePath = url.replace(/^\/|\/$/g, '') || 'index'
-
-  const candidates = [
-    `../../src/docs/${routePath}.mdx`,
-    `../../src/docs/${routePath}.tsx`,
-    `../../src/docs/${routePath}/index.mdx`,
-    `../../src/docs/${routePath}/index.tsx`,
-  ]
-
-  const jsPreloads = new Set<string>()
-  const cssPreloads = new Set<string>()
-
-  for (const candidate of candidates) {
-    const assets = ssrManifest[candidate]
-    if (assets) {
-      for (const asset of assets) {
-        if (asset.endsWith('.js')) {
-          jsPreloads.add(asset)
-        } else if (asset.endsWith('.css')) {
-          cssPreloads.add(asset)
-        }
-      }
-    }
-  }
-
-  if (clientManifest && jsPreloads.size > 0) {
-    const fileToEntry = new Map<string, ClientManifestEntry>()
-    for (const entry of Object.values(clientManifest)) {
-      if (entry.file) {
-        fileToEntry.set('/' + entry.file, entry)
-      }
-    }
-
-    const visited = new Set<string>()
-    const queue = Array.from(jsPreloads)
-
-    while (queue.length > 0) {
-      const chunk = queue.shift()!
-      if (visited.has(chunk)) {
-        continue
-      }
-      visited.add(chunk)
-
-      const entry = fileToEntry.get(chunk)
-      if (!entry) {
-        continue
-      }
-
-      if (entry.css) {
-        for (const css of entry.css) {
-          cssPreloads.add('/' + css)
-        }
-      }
-
-      if (entry.imports) {
-        for (const imp of entry.imports) {
-          if (imp === 'index.html') {
-            continue
-          }
-          const impEntry = clientManifest[imp]
-          if (impEntry?.file) {
-            const impPath = '/' + impEntry.file
-            if (!visited.has(impPath)) {
-              queue.push(impPath)
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return { js: Array.from(jsPreloads), css: Array.from(cssPreloads) }
-}
+export { getRoutePreloads } from './route-preloads.mts'
 
 /**
  * Inject prerendered HTML, styles, meta tags, and preloads into the
@@ -281,10 +194,6 @@ export function injectHtml(
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
 
-  // Restore sidebar scroll position before first paint so the menu
-  // doesn't flash at the top before jumping to the saved position.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
-
   const persistedNavigationScript =
     /data-(?:inline-collapsed|open-items|scroll-position|table-of-content-expanded)-storage-key=/.test(
       appHtml
@@ -295,30 +204,21 @@ export function injectHtml(
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedNavigationScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${persistedNavigationScript}</script>`
   )
 
-  // Inject <link> tags for ALL brand theme CSS chunks.
-  // All links are enabled (render-blocking) so the browser fetches them
-  // before the first paint. A head script disables inactive themes
-  // before the browser paints, and a body-opening script adds the
-  // active brand class to <body> so token selectors match immediately.
+  // Resolve the active brand before paint without fetching inactive themes.
+  // Keep their URLs available for later switches and a default without JS.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
       .map(([name, href]) => {
-        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}">`
+        return `    <link rel="stylesheet" crossorigin data-eufemia-href="${href}" data-eufemia-theme="${name}">`
       })
       .join('\n')
 
-    // Head script: determine active theme, disable inactive theme
-    // links, and store the name on globalThis for the body script.
-    // Runs in <head> after the render-blocking links have loaded,
-    // so the disable is instant — no network delay.
-    //
-    // Validate the brand against the themes present (like isValidTheme in the
-    // shim): an unknown brand matches no link and would disable every stylesheet.
-    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.brand||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');var known=[];for(var i=0;i<links.length;i++){known.push(links[i].getAttribute('data-eufemia-theme'))}if(known.length&&known.indexOf(n)<0){n='${defaultTheme}'}for(var j=0;j<links.length;j++){links[j].disabled=known[j]!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
+    // Insert the selected stylesheet during parsing so every browser waits for it.
+    const headThemeScript = `<script>(function(){var n='${defaultTheme}';try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);n=p.get('eufemia-theme')||t.brand||t.name||n}catch(e){}var links=document.querySelectorAll('link[data-eufemia-theme]');var known=[];for(var i=0;i<links.length;i++){known.push(links[i].getAttribute('data-eufemia-theme'))}if(known.indexOf(n)<0){n='${defaultTheme}'}for(var j=0;j<links.length;j++){links[j].disabled=known[j]!==n;if(known[j]===n){document.write(links[j].outerHTML.replace('data-eufemia-href=', 'href='));links[j].remove()}}globalThis.__eufemiaTheme=n})()</script>`
 
     // Body script: add the brand class to <body> immediately after
     // the opening tag, before any content is rendered.
@@ -326,7 +226,7 @@ export function injectHtml(
 
     html = html.replace(
       '</head>',
-      `${linkTags}\n${headThemeScript}\n  </head>`
+      `${linkTags}\n${headThemeScript}\n<noscript><link rel="stylesheet" href="${themeCssPaths[defaultTheme]}"></noscript>\n  </head>`
     )
     html = html.replace(
       /<body[^>]*>/,
@@ -409,9 +309,7 @@ export function injectHtml(
   }
 
   if (preloads.js.length > 0) {
-    const preloadTags = preloads.js
-      .map((p) => `<link rel="modulepreload" crossorigin href="${p}">`)
-      .join('\n    ')
+    const preloadTags = modulePreloadTags(html, preloads.js)
     html = html.replace('</head>', `    ${preloadTags}\n  </head>`)
   }
 
@@ -431,12 +329,19 @@ export function injectHtml(
  * Uses both `<meta http-equiv="refresh">` and a canonical link
  * so search engines follow the redirect correctly.
  */
-export function buildRedirectHtml(redirectUrl: string): string {
+export function buildRedirectHtml(
+  redirectUrl: string,
+  fragments: Record<string, string> = {}
+): string {
   const url = escapeHtml(redirectUrl)
+  const target = JSON.stringify(redirectUrl).replaceAll('<', '\\u003c')
+  const fragmentMap = JSON.stringify(fragments).replaceAll('<', '\\u003c')
+  const script = `<script>var fragments = ${fragmentMap}; var key = location.hash.slice(1); var target = new URL(Object.prototype.hasOwnProperty.call(fragments, key) ? fragments[key] : ${target}, location.href); target.search = target.search || location.search; target.hash = target.hash || location.hash; location.replace(target.href);</script>`
 
   return [
     '<!DOCTYPE html>',
     '<html><head>',
+    script,
     `<meta http-equiv="refresh" content="0;url=${url}">`,
     `<link rel="canonical" href="${url}">`,
     '</head><body></body></html>',

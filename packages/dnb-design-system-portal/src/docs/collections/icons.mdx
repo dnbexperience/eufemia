@@ -1,0 +1,48 @@
+---
+title: Icons
+contentTitle: Icons
+description: List of all Eufemia icons.
+order: 1
+navigation:
+  title: Icons
+  order: 1
+  parent: collections
+legacyFragments:
+  icons-library: /collections/icons/#icons
+  primary-icons: /collections/icons/#icons
+  secondary-icons: /collections/icons/#icons
+  a-list-of-all-primary-icons: /collections/icons/#icons
+  a-list-of-all-secondary-icons: /collections/icons/#icons
+  react-example-usage: /web/components/icon/usage/#react-example-usage
+redirect_from:
+  - /collections
+  - /icons/primary
+  - /icons/secondary
+  - /icons
+legacyPrefixes:
+  - icons
+---
+
+import ListAllIcons from 'dnb-design-system-portal/src/shared/parts/icons/ListAllIcons'
+import { Anchor } from '@dnb/eufemia/src'
+import iconDownload from '@dnb/eufemia/assets/icons/dnb/eufemia-icons.zip?url'
+
+This is a comprehensive list of all available icons, sorted by categories. Primary and secondary icons are shown together in this combined view. You may want to [read more](/web/components/icon/usage) about [the differences](/web/components/icon/usage/#primary-icons) and [how to import](/web/components/icon/usage#react-example-usage) them.
+
+Company and product logos are maintained separately in the [company logos library](/collections/logos).
+
+You can <Anchor href={iconDownload} download="eufemia-icons.zip">download all icons as SVG (ZIP)</Anchor>. The archive contains both the 16 px and 24 px icons in the `svg/` folder. SVGs scale to any size and can be converted to PNG when needed.
+
+- For web, icons are available as public [versioned SVG files](/web/ai-tools-and-resources/asset-cdn/#available-eufemia-assets) and ready-to-use [React components](/web/components/icon/usage#react-example-usage).
+- For Android, there are public [custom XML drawable packages](https://assets.eufemia.dnb.no/icons/dnb/eufemia-icons-xml.tgz) and [categorized XML drawable packages](https://assets.eufemia.dnb.no/icons/dnb/eufemia-icons-xml-categorized.tgz). Use the matching [versioned CDN path](/web/ai-tools-and-resources/asset-cdn/#stable-and-versioned-urls) for reproducible builds.
+- Support for iOS with the PDF format was discontinued in [v10](/web/releases-and-upgrades/versions/eufemia/v10-info/).
+
+## Filled Icons
+
+Some icons support a filled variant where the SVG paths are filled with `currentColor`. Use the toggle below to preview filled icons. Use the `fill` prop on `Icon`. See the [Icon component docs](/web/components/icon#filled-icons) for usage details.
+
+## Animated Icons
+
+Some icons have an optional animated import. Use the toggle below to see which icons support motion, then hover an icon to preview the animation. Animated icons use direct default imports rather than named imports. See the [Icon component docs](/web/components/icon#animated-icons) for where, why, and when to use them.
+
+<ListAllIcons groupBy="category" />

@@ -1,0 +1,50 @@
+{
+  "title": "It's yours. Build with it.",
+  "introduction": "A shared foundation for what you create.",
+  "actions": [
+    {
+      "title": "Design",
+      "description": "Figma UI kits and more",
+      "url": "/web/get-started/design-for-web"
+    },
+    {
+      "title": "Develop",
+      "description": "Get started with installation guides",
+      "url": "/web/get-started/quick-start/"
+    }
+  ],
+  "resources": [
+    {
+      "title": "Components",
+      "url": "/web/components/overview/"
+    },
+    {
+      "title": "AI",
+      "url": "/web/ai-tools-and-resources/ai/mcp-universe/"
+    },
+    {
+      "title": "Forms",
+      "url": "/web/forms/"
+    },
+    {
+      "title": "Motion",
+      "url": "/web/development-guidelines/motion/"
+    },
+    {
+      "title": "Design Tokens",
+      "url": "/web/styling-and-themes/design-tokens/"
+    },
+    {
+      "title": "Theming",
+      "url": "/web/styling-and-themes/brands-and-dark-mode/"
+    },
+    {
+      "title": "Icons",
+      "url": "/collections/icons/"
+    },
+    {
+      "title": "Layout",
+      "url": "/web/layout-and-typography/layout/"
+    }
+  ]
+}

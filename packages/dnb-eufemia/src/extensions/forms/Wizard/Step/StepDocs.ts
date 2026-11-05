@@ -42,12 +42,13 @@ export const StepProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Flex.Container](/uilib/layout/flex/container/properties)': {
-    doc: 'Flex.Container properties.',
-    type: 'Various',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Flex.Container](/web/layout-and-typography/layout/flex/container/properties)':
+    {
+      doc: 'Flex.Container properties.',
+      type: 'Various',
+      status: 'optional',
+    },
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

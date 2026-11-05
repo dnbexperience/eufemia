@@ -3,16 +3,15 @@ import waitForApp from './shared/waitForApp'
 
 async function clearStorage(page: Page) {
   await page.evaluate(() => window.localStorage.clear())
-  await page.evaluate(() => window.sessionStorage.clear())
 }
 
 test.afterEach(async ({ page }) => {
   await clearStorage(page)
 })
 
-test.describe('Portal tools menu', () => {
+test.describe('Settings', () => {
   async function gotoAndWait(page: Page) {
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     await waitForApp(page)
   }
 
@@ -24,10 +23,8 @@ test.describe('Portal tools menu', () => {
       async ({ page }) => {
         await page.setViewportSize({ width, height: 1000 })
         await gotoAndWait(page)
-        await page
-          .getByRole('button', { name: 'Portal Tools', exact: true })
-          .click()
-        const drawer = page.getByRole('dialog', { name: 'Portal Tools' })
+        await page.locator('button#portal-tools').click()
+        const drawer = page.getByRole('dialog', { name: 'Settings' })
         const toggle = drawer.getByRole('switch', {
           name: 'Native app font size',
           exact: true,
@@ -90,7 +87,7 @@ test.describe('Portal tools menu', () => {
           .first()
         await infoTab.focus()
         await infoTab.press('Enter')
-        await expect(page).toHaveURL(/\/uilib\/components\/button\/?$/)
+        await expect(page).toHaveURL(/\/web\/components\/button\/?$/)
         await expect
           .poll(() =>
             page.locator('.eufemia-theme__typography--native').count()
@@ -98,9 +95,7 @@ test.describe('Portal tools menu', () => {
           .toBeGreaterThan(0)
         await page.reload()
         await waitForApp(page)
-        await page
-          .getByRole('button', { name: 'Portal Tools', exact: true })
-          .click()
+        await page.locator('button#portal-tools').click()
         await expect(toggle).toBeChecked()
         await toggle.uncheck()
         await expect
@@ -120,10 +115,8 @@ test.describe('Portal tools menu', () => {
       async ({ page }) => {
         await page.setViewportSize({ width, height: 1000 })
         await gotoAndWait(page)
-        await page
-          .getByRole('button', { name: 'Portal Tools', exact: true })
-          .click()
-        const drawer = page.getByRole('dialog', { name: 'Portal Tools' })
+        await page.locator('button#portal-tools').click()
+        const drawer = page.getByRole('dialog', { name: 'Settings' })
         const skeleton = drawer.locator('.dnb-switch').filter({
           has: page.getByRole('switch', {
             name: 'Show everything behind skeletons',
@@ -141,28 +134,41 @@ test.describe('Portal tools menu', () => {
     )
   }
 
-  test('should keep the drawer open during a page refresh', async ({
-    page,
-  }) => {
-    await gotoAndWait(page)
+  for (const width of [390, 1280]) {
+    test(
+      'starts with settings closed after refresh at ' + width + 'px',
+      async ({ page }) => {
+        await page.setViewportSize({ width, height: 1000 })
+        await gotoAndWait(page)
+        const trigger = page.locator('button#portal-tools')
+        const drawer = page.getByRole('dialog', {
+          name: 'Settings',
+          exact: true,
+        })
+        await trigger.click()
+        await expect(drawer).toBeVisible()
+        await expect(drawer.locator('#change-theme')).toBeFocused()
 
-    const triggerButton = page.locator(
-      'button[id*="portal-tools"], [id="portal-tools"] button'
+        const downloads: string[] = []
+        page.on('request', (request) => {
+          if (/PortalToolsDrawer/.test(request.url())) {
+            downloads.push(request.url())
+          }
+        })
+        await page.reload()
+        await waitForApp(page)
+        await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+        await expect(trigger).not.toHaveAttribute('aria-busy', 'true')
+        await expect(drawer).toHaveCount(0)
+        expect(downloads).toEqual([])
+
+        await trigger.click()
+        await expect(drawer).toBeVisible()
+        await expect(drawer.locator('#change-theme')).toBeFocused()
+        await page.keyboard.press('Escape')
+        await expect(drawer).toBeHidden()
+        await expect(trigger).toBeFocused()
+      }
     )
-
-    await triggerButton.first().click()
-
-    const drawerContent = page.locator('.dnb-drawer__content')
-    await expect(drawerContent).toBeVisible()
-
-    await page.reload()
-    await waitForApp(page)
-
-    await expect(drawerContent).toBeVisible()
-    await expect(
-      page.evaluate(() => {
-        return window.sessionStorage.getItem('portal-tools-open')
-      })
-    ).resolves.toBe('true')
-  })
+  }
 })

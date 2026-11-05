@@ -94,7 +94,7 @@ export type WizardContainerProps = ComponentProps & {
    */
   keepInDOM?: boolean
   /**
-   * Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`.
+   * Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/web/components/card/properties). Defaults to `false`.
    */
   outset?: boolean
   /**

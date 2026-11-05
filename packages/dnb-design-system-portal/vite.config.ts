@@ -124,8 +124,8 @@ export default defineConfig({
 
     // File-system routing and virtual page registry
     withFilter(portalPagesPlugin(), {
-      resolveId: { id: /^virtual:portal-pages$/ },
-      load: { id: /virtual:portal-pages/ },
+      resolveId: { id: /^virtual:portal-(pages$|data$|toc$|page\/)/ },
+      load: { id: /virtual:portal-(pages|data|toc|page\/)/ },
     }),
 
     // Eufemia theme style loading for the portal runtime

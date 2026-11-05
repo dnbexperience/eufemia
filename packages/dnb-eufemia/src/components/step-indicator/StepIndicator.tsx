@@ -110,7 +110,7 @@ export type StepIndicatorProps = Omit<
      */
     openOnFind?: boolean
     /**
-     * Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/uilib/components/card/properties).
+     * Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/web/components/card/properties).
      */
     outset?: boolean
     skeleton?: SkeletonShow

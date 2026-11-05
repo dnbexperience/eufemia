@@ -1,0 +1,100 @@
+---
+description: >-
+  Use the recommended tools, linting rules, and code conventions when developing
+  the Eufemia repository.
+title: Code guide
+order: 1
+navigation:
+  parent: web/contribute/guidelines
+  title: Code guide
+  order: 1
+redirect_from:
+  - /contribute/style-guides/coding
+  - /web/development-guidelines/for-javascript
+  - /uilib/usage/best-practices/for-javascript
+  - /web/usage/best-practices/for-javascript
+legacyFragments:
+  javascript-and-jsx: /web/contribute/guidelines/coding/#javascript-and-jsx
+  clean-code: /web/contribute/guidelines/coding/#javascript-and-jsx
+  dates: /web/contribute/guidelines/coding/#dates
+  react: /web/contribute/guidelines/coding/#react-state
+  handling-of-react-state: /web/contribute/guidelines/coding/#react-state
+  readable-jsx: /web/contribute/guidelines/coding/#readable-jsx
+---
+
+To assure that the source code remains consistent regardless of the amount of contributors, a set of code principles has been established.
+
+For application guidance, see [CSS and styling](/web/development-guidelines/for-styling/), [Typography](/web/development-guidelines/for-typography/) and [Testing frontend code](/web/development-guidelines/for-testing/). This guide covers conventions for contributing to Eufemia.
+
+## Recommended Tools
+
+- Use [Volta](https://volta.sh/) for [Node.js](https://nodejs.org/) version handling.
+- Use [ESLint](https://eslint.org/docs/user-guide/integrations) and [Prettier](https://prettier.io/docs/en/editors.html) plugins in your favorite code editor to show related issues inline.
+- See the helpers section about [Eufemia tools](/web/ai-tools-and-resources/developer-tools) for more recommendations.
+
+## Linting
+
+JavaScript and Style linting is mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) should be tested with both static and integration tests. You may run `yarn test` or `yarn test:update` before you try to commit. You may also write new tests for your code before committing.
+
+The Code Base is based on several Static Tests to help the code to be uniform:
+
+- Prettier
+- ESLint
+- StyleLint
+
+You may consider installing plugins for your editor of choice - to visualize and run the code formatters and linters based on the given config files. This way you can immediately see how the code needs to look.
+
+Either include the plugins in your code editor, or run the following command after you made changes:
+
+```bash
+yarn workspace dnb/eufemia lint:js && yarn workspace @dnb/eufemia lint:styles
+```
+
+For only checking valid formatting, you can run `yarn workspace @dnb/eufemia prettier:check`. You may want to run `yarn workspace @dnb/eufemia prettier:write` to format all relevant files.
+
+Fix the resulting warnings and errors before you commit and merge.
+
+The same command as above applies to the workspace: `yarn workspace dnb-design-system-portal ...`.
+
+## TypeScript and type checking
+
+TypeScript types are mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) should be tested. You may run:
+
+```bash
+yarn workspace @dnb/eufemia test:types
+```
+
+Fix the resulting warnings and errors before you commit and merge.
+
+## CSS code formatting
+
+Eufemia uses [CSS rational order](/web/development-guidelines/for-styling/#styling-structure).
+
+## Code comments
+
+Commenting code can be a helpful hint to understand written code for other developers trying to get a picture of what's going on. But code comments can also quickly become an extra layer of complexity while reading code.
+
+Follow this list below to increase consistent code:
+
+1. An intro at the start of a file can give an overview.
+1. Enhance the naming of variables and functions over comments.
+1. Do not explain what code does, but rather what is the rationale behind a block of code.
+1. Code comments should be optional to consume while reading the code. They should be a helping hand – if needed.
+
+Eufemia has some (`multiline-comment-style` and `spaced-comment`) ESLint and StyleLint rules to enhance consistent code comment styles.
+
+## JavaScript and JSX
+
+Keep components small and use descriptive names. Extract complex expressions into named variables or functions so the markup remains easy to scan. Use the repository's ESLint and Prettier rules to keep contributions consistent.
+
+### Dates
+
+Eufemia uses [date-fns](https://date-fns.org/) for date calculations. Prefer its modular functions and immutable date operations when contributing to the library. Use [DateFormat](/web/components/date-format/) and the [number formatting reference](/design-foundations/number-formatting/) for user-facing output.
+
+### React state
+
+Keep state close to the components that use it. Lift it to a shared parent when necessary, and use context when several descendants need the same data. See [state colocation](https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster) for examples.
+
+### Readable JSX
+
+Arrange a larger module so readers can find its main component first, followed by smaller components and supporting logic. Extract reusable behavior into hooks, and prefer local state when it does not need to be shared.

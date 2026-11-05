@@ -13,7 +13,7 @@ test.describe('motion with enlarged default fonts', () => {
       page,
     }) => {
       await page.emulateMedia({ reducedMotion })
-      await page.goto('/quickguide-designer/motion/')
+      await page.goto('/web/development-guidelines/motion/')
       await waitForApp(page)
       await expect(page.locator('html')).toHaveCSS('font-size', '32px')
       const gallery = page.locator('.dnb-motion-demos')

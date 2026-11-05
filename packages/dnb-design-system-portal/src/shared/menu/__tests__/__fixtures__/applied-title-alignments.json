@@ -1,0 +1,337 @@
+[
+  {
+    "slug": "collections",
+    "menu": "Collections",
+    "h1": "Collections"
+  },
+  {
+    "slug": "web/contribute",
+    "menu": "Ways to contribute",
+    "h1": "Ways to contribute"
+  },
+  {
+    "slug": "collections/icons",
+    "menu": "Icons",
+    "h1": "Icons"
+  },
+  {
+    "slug": "web/contribute/reproduce-a-bug",
+    "menu": "Reproduce a bug",
+    "h1": "Reproduce a bug"
+  },
+  {
+    "slug": "web/get-started/design-for-web",
+    "menu": "Set up Eufemia Web in Figma",
+    "h1": "Set up Eufemia Web in Figma"
+  },
+  {
+    "slug": "collections/logos",
+    "menu": "Company and partner logos",
+    "h1": "Company and partner logos"
+  },
+  {
+    "slug": "web/contribute/deploy",
+    "menu": "Release process",
+    "h1": "Release process"
+  },
+  {
+    "slug": "web/contribute/faq",
+    "menu": "Troubleshooting and FAQ",
+    "h1": "Troubleshooting and FAQ"
+  },
+  {
+    "slug": "web/contribute/first-contribution",
+    "menu": "Your first contribution",
+    "h1": "Your first contribution"
+  },
+  {
+    "slug": "web/contribute/local-development",
+    "menu": "Local development workflow",
+    "h1": "Local development workflow"
+  },
+  {
+    "slug": "web/contribute/rules",
+    "menu": "Development principles",
+    "h1": "Development principles"
+  },
+  {
+    "slug": "web/contribute/social-preview-images",
+    "menu": "Documentation preview images",
+    "h1": "Documentation preview images"
+  },
+  {
+    "slug": "web/contribute/suggest-edit",
+    "menu": "Suggest a documentation change",
+    "h1": "Suggest a documentation change"
+  },
+  {
+    "slug": "web/styling-and-themes/color-guidance",
+    "menu": "Color guidance",
+    "h1": "Color guidance"
+  },
+  {
+    "slug": "about/contact",
+    "menu": "Contact and support",
+    "h1": "Contact and support"
+  },
+  {
+    "slug": "web/components/icon/usage",
+    "menu": "SVG and CSS icon usage",
+    "h1": "SVG and CSS icon usage"
+  },
+  {
+    "slug": "icons/other",
+    "menu": "Other component icons",
+    "h1": "Other component icons"
+  },
+  {
+    "slug": "web/accessibility/design-guidance",
+    "menu": "Accessibility for Web designers",
+    "h1": "Accessibility for Web designers"
+  },
+  {
+    "slug": "design-foundations/motion-principles",
+    "menu": "Motion principles",
+    "h1": "Motion principles"
+  },
+  {
+    "slug": "quickguide-designer/colors",
+    "menu": "Legacy palette (deprecated)",
+    "h1": "Legacy palette (deprecated)"
+  },
+  {
+    "slug": "design-foundations/design-principles",
+    "menu": "Design principles",
+    "h1": "Design principles"
+  },
+  {
+    "slug": "web/layout-and-typography/typography/design-guidance",
+    "menu": "Web typography",
+    "h1": "Web typography"
+  },
+  {
+    "slug": "quickguide-designer/logos",
+    "menu": "DNB brand logos",
+    "h1": "DNB brand logos"
+  },
+  {
+    "slug": "web/development-guidelines/motion",
+    "menu": "Motion examples and implementation",
+    "h1": "Motion examples and implementation"
+  },
+  {
+    "slug": "web/contribute/guidelines/design-and-code-vocabulary",
+    "menu": "Design and code vocabulary",
+    "h1": "Design and code vocabulary"
+  },
+  {
+    "slug": "web/layout-and-typography/layout-principles",
+    "menu": "Web layout principles",
+    "h1": "Web layout principles"
+  },
+  {
+    "slug": "web/layout-and-typography/elements",
+    "menu": "HTML elements",
+    "h1": "HTML elements"
+  },
+  {
+    "slug": "web/ai-tools-and-resources/utilities",
+    "menu": "Shared utilities",
+    "h1": "Shared utilities"
+  },
+  {
+    "slug": "web/get-started/guided-introduction",
+    "menu": "Guided introduction",
+    "h1": "Guided introduction"
+  },
+  {
+    "slug": "web/layout-and-typography/layout",
+    "menu": "Layout components",
+    "h1": "Layout components"
+  },
+  {
+    "slug": "web/layout-and-typography/typography",
+    "menu": "Web typography in code",
+    "h1": "Web typography in code"
+  },
+  {
+    "slug": "web/releases-and-upgrades",
+    "menu": "Releases and upgrades",
+    "h1": "Releases and upgrades"
+  },
+  {
+    "slug": "web/ai-tools-and-resources/ai/ai-skills",
+    "menu": "Agent skills",
+    "h1": "Agent skills"
+  },
+  {
+    "slug": "web/ai-tools-and-resources/ai/mcp-universe",
+    "menu": "MCP server",
+    "h1": "MCP server"
+  },
+  {
+    "slug": "web/contribute/deploy/icons",
+    "menu": "Publish icons",
+    "h1": "Publish icons"
+  },
+  {
+    "slug": "web/contribute/deploy/tokens",
+    "menu": "Publish design tokens",
+    "h1": "Publish design tokens"
+  },
+  {
+    "slug": "contribute/getting-started/clone-repo",
+    "menu": "Clone the repo",
+    "h1": "Clone the repo"
+  },
+  {
+    "slug": "web/contribute/guidelines/naming",
+    "menu": "Code naming conventions",
+    "h1": "Code naming conventions"
+  },
+  {
+    "slug": "web/contribute/guidelines/theming",
+    "menu": "Maintaining themes",
+    "h1": "Maintaining themes"
+  },
+  {
+    "slug": "about/our-story",
+    "menu": "Our story",
+    "h1": "Our story"
+  },
+  {
+    "slug": "about/how-eufemia-evolves",
+    "menu": "How Eufemia evolves",
+    "h1": "How Eufemia evolves"
+  },
+  {
+    "slug": "web/development-guidelines/maintainable-integrations",
+    "menu": "Maintainable integrations",
+    "h1": "Maintainable integrations"
+  },
+  {
+    "slug": "web/components/fragments",
+    "menu": "Fragments",
+    "h1": "Fragments"
+  },
+  {
+    "slug": "web/get-started/requirements",
+    "menu": "Requirements and browser support",
+    "h1": "Requirements and browser support"
+  },
+  {
+    "slug": "web/ai-tools-and-resources/utilities/classes",
+    "menu": "CSS helper classes",
+    "h1": "CSS helper classes"
+  },
+  {
+    "slug": "web/ai-tools-and-resources/utilities/functions",
+    "menu": "JavaScript utilities",
+    "h1": "JavaScript utilities"
+  },
+  {
+    "slug": "web/layout-and-typography/breakpoints",
+    "menu": "Breakpoints and media queries",
+    "h1": "Breakpoints and media queries"
+  },
+  {
+    "slug": "web/patterns-and-extensions/status-icon",
+    "menu": "Status indicators",
+    "h1": "Status indicators"
+  },
+  {
+    "slug": "web/layout-and-typography/typography/css-reference",
+    "menu": "Typography CSS reference",
+    "h1": "Typography CSS reference"
+  },
+  {
+    "slug": "web/accessibility",
+    "menu": "Build accessible interfaces",
+    "h1": "Build accessible interfaces"
+  },
+  {
+    "slug": "web/styling-and-themes/configuration",
+    "menu": "Configure Eufemia",
+    "h1": "Configure Eufemia"
+  },
+  {
+    "slug": "web/forms/about-fields",
+    "menu": "Choose a field",
+    "h1": "Choose a field"
+  },
+  {
+    "slug": "web/forms/base-fields",
+    "menu": "Base fields",
+    "h1": "Base fields"
+  },
+  {
+    "slug": "web/forms/blocks",
+    "menu": "Reusable blocks",
+    "h1": "Reusable blocks"
+  },
+  {
+    "slug": "web/forms/changelog",
+    "menu": "Forms change log",
+    "h1": "Forms change log"
+  },
+  {
+    "slug": "web/forms/create-component",
+    "menu": "Custom fields and values",
+    "h1": "Custom fields and values"
+  },
+  {
+    "slug": "web/forms/feature-fields",
+    "menu": "Ready-made fields",
+    "h1": "Ready-made fields"
+  },
+  {
+    "slug": "web/forms/getting-started",
+    "menu": "Build your first form",
+    "h1": "Build your first form"
+  },
+  {
+    "slug": "web/accessibility/focus",
+    "menu": "Keyboard focus and skip links",
+    "h1": "Keyboard focus and skip links"
+  },
+  {
+    "slug": "web/accessibility/icons",
+    "menu": "Accessible icons",
+    "h1": "Accessible icons"
+  },
+  {
+    "slug": "web/styling-and-themes/legacy-colors",
+    "menu": "Legacy CSS color properties",
+    "h1": "Legacy CSS color properties"
+  },
+  {
+    "slug": "web/styling-and-themes/configuration/component-properties",
+    "menu": "Component properties",
+    "h1": "Component properties"
+  },
+  {
+    "slug": "web/styling-and-themes/configuration/provider",
+    "menu": "Provider and context",
+    "h1": "Provider and context"
+  },
+  {
+    "slug": "web/styling-and-themes/css",
+    "menu": "CSS setup and structure",
+    "h1": "CSS setup and structure"
+  },
+  {
+    "slug": "web/styling-and-themes/brands-and-dark-mode",
+    "menu": "Brands and dark mode",
+    "h1": "Brands and dark mode"
+  },
+  {
+    "slug": "web/ai-tools-and-resources/developer-tools",
+    "menu": "Developer tools",
+    "h1": "Developer tools"
+  },
+  {
+    "slug": "web/styling-and-themes/design-tokens",
+    "menu": "Design tokens",
+    "h1": "Design tokens"
+  }
+]

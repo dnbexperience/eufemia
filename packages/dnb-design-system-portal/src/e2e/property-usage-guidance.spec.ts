@@ -4,13 +4,13 @@ import waitForApp from './shared/waitForApp'
 const guidanceName = 'Read about intended use and customization'
 
 for (const path of [
-  '/uilib/usage/customisation/component-properties/#intended-use-and-customization',
-  '/uilib/components/breadcrumb/events/',
-  '/uilib/extensions/forms/Wizard/properties/',
-  '/uilib/extensions/forms/Form/useSubmit/properties/',
-  '/uilib/extensions/forms/Form/useTranslation/properties/',
-  '/uilib/extensions/forms/create-component/useFieldProps/properties/',
-  '/uilib/extensions/forms/create-component/useValueProps/properties/',
+  '/web/styling-and-themes/configuration/component-properties/#intended-use-and-customization',
+  '/web/components/breadcrumb/events/',
+  '/web/forms/Wizard/properties/',
+  '/web/forms/Form/useSubmit/properties/',
+  '/web/forms/Form/useTranslation/properties/',
+  '/web/forms/create-component/useFieldProps/properties/',
+  '/web/forms/create-component/useValueProps/properties/',
 ]) {
   test(`keeps the property note off ${path}`, async ({ page }) => {
     await page.goto(path)
@@ -23,10 +23,10 @@ for (const path of [
 }
 
 for (const path of [
-  '/uilib/components/button/properties/',
-  '/uilib/components/breadcrumb/properties/',
-  '/uilib/elements/paragraph/properties/',
-  '/uilib/extensions/forms/base-fields/String/properties/',
+  '/web/components/button/properties/',
+  '/web/components/breadcrumb/properties/',
+  '/web/layout-and-typography/elements/paragraph/properties/',
+  '/web/forms/base-fields/String/properties/',
 ]) {
   test(`shows usage guidance once on ${path}`, async ({ page }) => {
     await page.goto(path)
@@ -45,7 +45,7 @@ for (const path of [
 test('links to the shared guidance and stays off other tabs', async ({
   page,
 }) => {
-  await page.goto('/uilib/components/breadcrumb/properties/')
+  await page.goto('/web/components/breadcrumb/properties/')
   await waitForApp(page)
 
   await page.getByRole('link', { name: guidanceName }).click()

@@ -19,7 +19,7 @@ function getCards(page: Page) {
 test.describe('Card.Action with a nested Card', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/uilib/components/card/visual-tests/action-with-nested-card/?data-visual-test'
+      '/web/components/card/visual-tests/action-with-nested-card/?data-visual-test'
     )
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
@@ -64,5 +64,19 @@ test.describe('Card.Action with a nested Card', () => {
 
     expect(await getOutline(ownCard)).not.toBe(ownOutlineAtRest)
     expect(await getOutline(nestedCard)).toBe(nestedOutlineAtRest)
+  })
+
+  test('keeps keyboard focus visible in forced colors without outlining nested cards', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ forcedColors: 'active' })
+    const { action, ownCard, nestedCard } = getCards(page)
+    await page.keyboard.press('Tab')
+    await action.focus()
+    await expect(action).toBeFocused()
+
+    await expect(ownCard).toHaveCSS('outline-style', 'solid')
+    await expect(ownCard).toHaveCSS('outline-width', '4px')
+    await expect(nestedCard).toHaveCSS('outline-style', 'none')
   })
 })

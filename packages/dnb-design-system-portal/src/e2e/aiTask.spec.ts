@@ -4,7 +4,7 @@ import waitForApp from './shared/waitForApp'
 test('renders the renamed task states, results and property docs', async ({
   page,
 }) => {
-  await page.goto('/uilib/extensions/ai/Task/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/Task/demos/')
   await waitForApp(page)
 
   await expect(page).toHaveTitle(/Ai.Task.*Demos/)
@@ -36,7 +36,7 @@ test('renders the renamed task states, results and property docs', async ({
     'The card could not be blocked. Try again later.'
   )
 
-  await page.goto('/uilib/extensions/ai/Task/properties/')
+  await page.goto('/web/patterns-and-extensions/ai/Task/properties/')
   await waitForApp(page)
 
   await expect(page.locator('#dnb-app-content')).toContainText(
@@ -47,7 +47,7 @@ test('renders the renamed task states, results and property docs', async ({
 test('renders simulated framework tool calls through Task in the chat', async ({
   page,
 }) => {
-  await page.goto('/uilib/extensions/ai/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/demos/')
   await waitForApp(page)
 
   const chat = page.locator('[data-visual-test="ai-chat"]')

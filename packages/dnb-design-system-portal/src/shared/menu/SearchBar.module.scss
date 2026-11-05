@@ -1,16 +1,53 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
 .autocompleteStyle {
-  :global {
-    .dnb-autocomplete__shell {
-      &,
-      input {
-        width: 40vw;
+  width: min(40vw, 17.5rem);
+  min-width: 0;
 
-        @include utilities.allBelow(small) {
-          width: 50vw;
+  @include utilities.allBelow(small) {
+    width: min(38vw, 17.5rem);
+
+    :global(.dnb-input.dnb-autocomplete__input) {
+      :global(.dnb-input__input) {
+        flex-shrink: 0;
+      }
+
+      :global(.dnb-input__icon) {
+        left: 0.5rem;
+      }
+
+      :global(.dnb-input__input),
+      :global(.dnb-input__placeholder) {
+        padding-left: 1.75rem;
+        padding-right: 2rem;
+      }
+
+      :global(.dnb-input__submit-element:has(kbd)) {
+        display: none;
+      }
+
+      :global(.dnb-input--clear) {
+        margin-right: 0;
+      }
+
+      &[data-has-content='false'] {
+        :global(.dnb-input__input),
+        :global(.dnb-input__placeholder) {
+          padding-right: 0.5rem;
         }
       }
+    }
+  }
+
+  :global {
+    .dnb-autocomplete__inner,
+    .dnb-autocomplete__shell {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .dnb-autocomplete__shell input {
+      width: 100%;
     }
   }
 }
@@ -34,6 +71,10 @@
   color: var(--token-color-text-neutral-alternative);
 
   pointer-events: none;
+
+  @include utilities.allBelow(small) {
+    display: none;
+  }
 }
 
 .portalClassStyle {

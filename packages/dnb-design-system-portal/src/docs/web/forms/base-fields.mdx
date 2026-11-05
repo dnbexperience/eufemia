@@ -1,0 +1,47 @@
+---
+description: >-
+  Choose base field components for common text, number, selection, and other
+  form inputs.
+title: Base fields
+order: 14
+breadcrumb:
+  - text: Forms
+    href: /web/forms/
+  - text: Base fields
+    href: /web/forms/base-fields/
+navigation:
+  title: Base fields
+  order: 4
+  kind: group
+  pageTitle: Base fields
+  parent: web/forms
+redirect_from:
+  - /uilib/extensions/forms/base-fields
+  - /web/extensions/forms/base-fields
+legacyFragments:
+  webextensionsformsbase-fieldsarrayselection: /web/forms/base-fields/#webformsbase-fieldsarrayselection
+  webextensionsformsbase-fieldsboolean: /web/forms/base-fields/#webformsbase-fieldsboolean
+  webextensionsformsbase-fieldscomposition: /web/forms/base-fields/#webformsbase-fieldscomposition
+  webextensionsformsbase-fieldsindeterminate: /web/forms/base-fields/#webformsbase-fieldsindeterminate
+  webextensionsformsbase-fieldsmultiselection: /web/forms/base-fields/#webformsbase-fieldsmultiselection
+  webextensionsformsbase-fieldsnumber: /web/forms/base-fields/#webformsbase-fieldsnumber
+  webextensionsformsbase-fieldsoption: /web/forms/base-fields/#webformsbase-fieldsoption
+  webextensionsformsbase-fieldsselection: /web/forms/base-fields/#webformsbase-fieldsselection
+  webextensionsformsbase-fieldsslider: /web/forms/base-fields/#webformsbase-fieldsslider
+  webextensionsformsbase-fieldsstring: /web/forms/base-fields/#webformsbase-fieldsstring
+  webextensionsformsbase-fieldstoggle: /web/forms/base-fields/#webformsbase-fieldstoggle
+  webextensionsformsbase-fieldsupload: /web/forms/base-fields/#webformsbase-fieldsupload
+---
+
+import ListBaseFieldComponents from './base-fields/ListBaseFieldComponents'
+
+Base fields are data driven fields you choose depending on the type of input. You can use these directly in your application forms.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.String label="Text field" />)
+```
+
+Here is also a list of [all available fields](/web/forms/all-fields/).
+
+<ListBaseFieldComponents />

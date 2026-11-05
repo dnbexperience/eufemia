@@ -237,6 +237,7 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
+  max-width: 37rem;
   min-height: 1.5rem;
   padding: 0 1rem;
 }
@@ -1322,6 +1323,12 @@ button.dnb-button::-moz-focus-inner {
 .dnb-progress-indicator--horizontal.dnb-progress-indicator--small .dnb-progress-indicator__label {
   padding-left: 0.5rem;
 }
+.dnb-progress-indicator--full-width.dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
+  flex-shrink: 0;
+  max-width: 50%;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
 .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
   padding-top: 0.5rem;
 }
@@ -1790,9 +1797,18 @@ html[data-visual-test] .dnb-progress-indicator {
   padding: 0;
   border-radius: 0;
 }
+.dnb-upload--compact .dnb-upload__label .dnb-lead {
+  vertical-align: top;
+}
+.dnb-upload--compact .dnb-upload__label .dnb-lead ~ .dnb-upload__text {
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+.dnb-upload--compact .dnb-upload__label:has(+ .dnb-upload__file-limits) {
+  margin-bottom: 0.25rem;
+}
 .dnb-upload--compact .dnb-upload__text {
   color: var(--upload-text--secondary);
-  font-size: var(--font-size-small);
 }
 .dnb-upload--compact .dnb-help-button__content .dnb-section {
   margin-bottom: 1rem;

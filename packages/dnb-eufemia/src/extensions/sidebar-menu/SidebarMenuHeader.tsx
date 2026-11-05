@@ -4,6 +4,10 @@ import Context from '../../shared/Context'
 import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
 import type { SidebarMenuHeaderProps } from './types'
 import useId from '../../shared/helpers/useId'
+import {
+  SidebarMenuContext,
+  useSidebarMenuContext,
+} from './SidebarMenuContext'
 
 export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
   const {
@@ -11,11 +15,17 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
     className,
     text,
     children,
+    style,
     headingLevel: _headingLevel,
     ...rest
   } = props
   const titleId = `${useId(id)}-title`
   const { skeleton } = useContext(Context)
+  const context = useSidebarMenuContext()
+  const headerStyle = {
+    ...style,
+    '--sidebar-menu-indent': `${context.indent}rem`,
+  } as React.CSSProperties
   const skeletonClass = createSkeletonClass('font', skeleton)
   const hasText = text !== undefined && text !== null
   const label = hasText ? text : children
@@ -26,6 +36,7 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
       <li
         {...rest}
         id={id}
+        style={headerStyle}
         className={clsx(
           'dnb-sidebar-menu__header',
           skeletonClass,
@@ -41,6 +52,7 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
     <li
       {...rest}
       id={id}
+      style={headerStyle}
       className={clsx(
         'dnb-sidebar-menu__group dnb-sidebar-menu__header-group',
         className
@@ -52,12 +64,19 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
       >
         {label}
       </div>
-      <ul
-        className="dnb-sidebar-menu__list dnb-sidebar-menu__group__list"
-        aria-labelledby={titleId}
+      <SidebarMenuContext
+        value={{
+          ...context,
+          indent: context.indent ? context.indent + 1 : 0,
+        }}
       >
-        {children}
-      </ul>
+        <ul
+          className="dnb-sidebar-menu__list dnb-sidebar-menu__group__list"
+          aria-labelledby={titleId}
+        >
+          {children}
+        </ul>
+      </SidebarMenuContext>
     </li>
   )
 }

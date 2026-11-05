@@ -68,6 +68,8 @@ function withBrand(
 // Simple event emitter for cross-component theme updates
 type Listener = (theme: ThemeState) => void
 const listeners = new Set<Listener>()
+let themeRevision = 0
+let pendingTheme: ThemeState | undefined
 
 function emit(theme: ThemeState) {
   listeners.forEach((fn) => fn(theme))
@@ -111,9 +113,10 @@ export function getTheme(): ThemeState {
 
 export function setTheme(
   themeProps: Partial<ThemeState>,
-  callback?: (theme: ThemeState) => void
+  callback?: (theme: ThemeState) => void,
+  persist = true
 ) {
-  const current = getTheme()
+  const current = pendingTheme ?? getTheme()
   const brand = (themeProps.brand ??
     themeProps.name ??
     current.brand) as ThemeNames
@@ -121,11 +124,28 @@ export function setTheme(
   if (!isValidTheme(brand)) {
     return // stop here
   }
+  const revision = ++themeRevision
 
   // Re-derive both keys so passing only `name` (or only `brand`) can't diverge.
-  const theme = withBrand({ ...current, ...themeProps }, brand)
+  // Start these brands in light mode when selected; explicit appearance choices remain available.
+  const lightOnSelection =
+    (themeProps.brand || themeProps.name) &&
+    (brand === 'carnegie' || brand === 'eiendom')
+  const theme = withBrand(
+    {
+      ...current,
+      ...(lightOnSelection && { colorScheme: 'light' }),
+      ...themeProps,
+    },
+    brand
+  )
+  pendingTheme = theme
 
   const applyAndNotify = () => {
+    if (revision !== themeRevision) {
+      return
+    }
+    pendingTheme = undefined
     // Dev mode: toggle style.disabled on <style> elements
     if (
       typeof window !== 'undefined' &&
@@ -152,7 +172,9 @@ export function setTheme(
     }
 
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
+      if (persist) {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
+      }
     } catch {
       // ignore
     }
@@ -163,7 +185,14 @@ export function setTheme(
 
   // Build mode: lazy-load theme CSS before applying
   if (typeof window !== 'undefined' && window.__loadEufemiaTheme) {
-    window.__loadEufemiaTheme(theme.brand).then(applyAndNotify)
+    window
+      .__loadEufemiaTheme(theme.brand)
+      .then(applyAndNotify)
+      .catch(() => {
+        if (revision === themeRevision) {
+          pendingTheme = undefined
+        }
+      })
   } else {
     applyAndNotify()
   }

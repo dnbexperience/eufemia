@@ -1,5 +1,5 @@
 const DESIGN_TOKENS_GUIDE_URL =
-  'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+  'https://eufemia.dnb.no/web/styling-and-themes/design-tokens/guide/'
 
 const reviewRules = {
   'eufemia/no-deprecated-color-variables': {

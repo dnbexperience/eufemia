@@ -272,9 +272,19 @@
 
     padding: 0;
     border-radius: 0;
+    // Keep the larger title from making its line taller than the line height
+    .dnb-upload__label .dnb-lead {
+      vertical-align: top;
+    }
+    .dnb-upload__label .dnb-lead ~ .dnb-upload__text {
+      display: inline-block;
+      margin-top: 0.25rem;
+    }
+    .dnb-upload__label:has(+ .dnb-upload__file-limits) {
+      margin-bottom: 0.25rem;
+    }
     .dnb-upload__text {
       color: var(--upload-text--secondary);
-      font-size: var(--font-size-small);
     }
     .dnb-help-button__content {
       .dnb-section {

@@ -6,7 +6,7 @@ import {
 
 describe('NumberFormat', () => {
   setupPageScreenshot({
-    url: '/uilib/components/number-format/demos/',
+    url: '/web/components/number-format/demos/',
   })
 
   it('have to match default numbers', async () => {
@@ -79,7 +79,7 @@ describe('NumberFormat', () => {
 
 describe('NumberFormat with skeleton', () => {
   setupPageScreenshot({
-    url: '/uilib/components/number-format/demos/?skeleton',
+    url: '/web/components/number-format/demos/?skeleton',
   })
 
   it('have to match default numbers', async () => {

@@ -9,12 +9,12 @@ import type { ContextState } from '../../DataContext'
 
 export type FormHandlerProps = FormElementProps & {
   /**
-   * Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.
+   * Will set `autoComplete="on"` on all nested [Field.String](/web/forms/base-fields/String/)-fields.
    */
   autoComplete?: boolean
 
   /**
-   * Will not render the form element, so you can place it yourself with `Form.Element`. Read more about [decoupling the form element](/uilib/extensions/forms/Form/Handler/#decoupling-the-form-element).
+   * Will not render the form element, so you can place it yourself with `Form.Element`. Read more about [decoupling the form element](/web/forms/Form/Handler/#decoupling-the-form-element).
    */
   decoupleForm?: boolean
 }

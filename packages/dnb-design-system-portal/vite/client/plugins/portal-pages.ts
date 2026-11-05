@@ -11,13 +11,20 @@ import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from '@11ty/gray-matter'
+import { getSlugFromText } from '../../../src/uilib/utils/slug.mjs'
 import type {
   MdxFrontmatter,
   MdxNode,
   PageFileInfo,
 } from './portal-pages.shared'
-import { compareByOrder, isFirstTabPage } from './portal-pages.shared'
+import {
+  compareByOrder,
+  getPageRedirects,
+  isFirstTabPage,
+} from './portal-pages.shared'
 
+const PAGE_MODULE_PREFIX = 'virtual:portal-page/'
+const DATA_MODULE_ID = 'virtual:portal-data'
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
 const PORTAL_DOCS_SOURCE_PATH =
@@ -80,7 +87,10 @@ export function getPortalPages(docsDir: string = getDefaultDocsDir()) {
 export function toRegularMdxNodes(nodes: MdxNode[]): MdxNode[] {
   return nodes
     .filter(
-      (node) => node.frontmatter?.title && node.frontmatter?.draft !== true
+      (node) =>
+        node.frontmatter?.title &&
+        node.frontmatter?.draft !== true &&
+        node.frontmatter?.route !== false
     )
     .sort((a, b) => {
       return String(a.frontmatter.title).localeCompare(
@@ -128,7 +138,7 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
 
       const relativePath = path.relative(docsDir, fullPath)
       const normalizedRelativePath = relativePath.replace(/\\/g, '/')
-      const slug = normalizedRelativePath
+      let slug = normalizedRelativePath
         .replace(/\.(mdx|tsx)$/, '')
         .replace(/(^|\/)index$/, '$1')
         .replace(/\/$/, '')
@@ -144,6 +154,9 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
         }
       }
 
+      if (typeof frontmatter.slug === 'string') {
+        slug = frontmatter.slug.replace(/^\/+|\/+$/g, '')
+      }
       results.push({
         filePath: fullPath,
         sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
@@ -155,7 +168,63 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
   }
 
   walk(docsDir)
-  return results
+  return inheritTabTitleFragments(results)
+}
+
+function inheritTabTitleFragments(files: PageFileInfo[]): PageFileInfo[] {
+  const pages = new Map(
+    files
+      .filter(({ type }) => type === 'mdx')
+      .map((file) => [file.slug, file])
+  )
+  return files.map((file) => {
+    const fm = file.frontmatter
+    if (
+      file.type !== 'mdx' ||
+      !fm.showTabs ||
+      fm.title ||
+      fm.contentTitle
+    ) {
+      return file
+    }
+    let parentSlug = file.slug
+    let parent: PageFileInfo | undefined
+    while (parentSlug.includes('/') && !parent) {
+      parentSlug = parentSlug.slice(0, parentSlug.lastIndexOf('/'))
+      parent = pages.get(parentSlug)
+    }
+    if (
+      !parent?.frontmatter.title ||
+      !parent.frontmatter.legacyFragments
+    ) {
+      return file
+    }
+    const titleHash = '#' + getSlugFromText(parent.frontmatter.title)
+    const inherited: Record<string, string> = {}
+    for (const [key, target] of Object.entries(
+      parent.frontmatter.legacyFragments
+    )) {
+      const url = new URL(target, 'https://eufemia.dnb.no')
+      if (
+        url.origin === 'https://eufemia.dnb.no' &&
+        url.pathname.replace(/^\/+|\/+$/g, '') === parent.slug &&
+        url.hash === titleHash
+      ) {
+        const slug = isFirstTabPage(file) ? parent.slug : file.slug
+        inherited[key] = '/' + slug + '/' + url.search + titleHash
+      }
+    }
+    if (!Object.keys(inherited).length) {
+      return file
+    }
+    return {
+      ...file,
+      frontmatter: {
+        ...fm,
+        legacyFragments: { ...inherited, ...fm.legacyFragments },
+      },
+    }
+  })
 }
 
 export function readPageFileInfo(
@@ -183,7 +252,7 @@ export function readPageFileInfo(
 
   const relativePath = path.relative(docsDir, filePath)
   const normalizedRelativePath = relativePath.replace(/\\/g, '/')
-  const slug = normalizedRelativePath
+  let slug = normalizedRelativePath
     .replace(/\.(mdx|tsx)$/, '')
     .replace(/(^|\/)index$/, '$1')
     .replace(/\/$/, '')
@@ -200,6 +269,9 @@ export function readPageFileInfo(
     }
   }
 
+  if (typeof frontmatter.slug === 'string') {
+    slug = frontmatter.slug.replace(/^\/+|\/+$/g, '')
+  }
   return {
     filePath,
     sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
@@ -229,25 +301,44 @@ export default function portalPagesPlugin(
 ): Plugin {
   const docsDir = options.docsDir ?? getDefaultDocsDir()
   const normalizedDocsDir = docsDir.replace(/\\/g, '/')
+  const pageModules = new Map<string, string>()
   const pageSignatures = new Map<string, string | null>()
 
   return {
     name: 'vite-plugin-portal-pages',
 
     resolveId(id) {
-      if (id === VIRTUAL_MODULE_ID) {
-        return RESOLVED_VIRTUAL_MODULE_ID
+      if (
+        [VIRTUAL_MODULE_ID, DATA_MODULE_ID].includes(id) ||
+        id.startsWith(PAGE_MODULE_PREFIX)
+      ) {
+        return '\0' + id
       }
     },
 
-    load(id) {
-      if (id === RESOLVED_VIRTUAL_MODULE_ID) {
+    load(id, options) {
+      const pageModule = pageModules.get(id.slice(1))
+      if (pageModule) {
+        return (
+          'export { default } from ' + JSON.stringify(pageModule) + ';'
+        )
+      }
+      if (
+        [RESOLVED_VIRTUAL_MODULE_ID, '\0' + DATA_MODULE_ID].includes(id)
+      ) {
         const { files, allMdxNodes, regularMdxNodes } =
           getPortalPages(docsDir)
 
         const regularMdxNodeIndexes = regularMdxNodes.map((node) =>
           allMdxNodes.indexOf(node)
         )
+
+        for (const file of files) {
+          pageModules.set(
+            PAGE_MODULE_PREFIX + file.slug,
+            file.filePath.split(path.sep).join('/')
+          )
+        }
 
         pageSignatures.clear()
         for (const file of files) {
@@ -257,12 +348,41 @@ export default function portalPagesPlugin(
           )
         }
 
+        if (id === '\0' + DATA_MODULE_ID) {
+          // Routes own redirects; the browser receives only list metadata.
+          const nodes = options?.ssr
+            ? allMdxNodes
+            : allMdxNodes.map(({ fields, frontmatter }) => {
+                const {
+                  redirect_from,
+                  legacyPrefixes,
+                  ...clientFrontmatter
+                } = frontmatter
+                return { fields, frontmatter: clientFrontmatter }
+              })
+          return `
+export const allMdxNodes = ${JSON.stringify(
+            nodes.map(({ fields, ...node }) => [
+              fields.slug,
+              fields.sourcePath.slice(PORTAL_DOCS_SOURCE_PATH.length + 1),
+              node,
+            ])
+          )}.map(([slug, sourcePath, node]) => ({
+  fields: { slug, sourcePath: ${JSON.stringify(PORTAL_DOCS_SOURCE_PATH + '/')} + sourcePath }, ...node,
+}));
+export const regularMdxNodes = ${JSON.stringify(regularMdxNodeIndexes)}.map(index => allMdxNodes[index]);
+export { globPath } from '${path.join(__dirname, 'portal-pages.shared').split(path.sep).join('/')}';
+`
+        }
+
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
-        const redirectDefs: string[] = []
 
         files.forEach((file) => {
-          const importPath = file.filePath.replace(/\\/g, '/')
+          if (file.frontmatter.route === false) {
+            return
+          }
+          const importPath = PAGE_MODULE_PREFIX + file.slug
 
           // First-tab pages (e.g. info.mdx with showTabs but no title)
           // redirect to the parent page instead of rendering separately.
@@ -270,45 +390,21 @@ export default function portalPagesPlugin(
           const isFirstTab = isFirstTabPage(file)
 
           if (isFirstTab) {
-            const parentSlug = file.slug.replace(/\/info$/, '')
-            redirectDefs.push(
-              `  { path: '/${file.slug}', Component: Noop, loader: () => redirect('/${parentSlug}/') },`
-            )
-            redirectDefs.push(
-              `  { path: '/${file.slug}/', Component: Noop, loader: () => redirect('/${parentSlug}/') },`
-            )
+            // The common redirect registry includes first-tab routes.
           } else if (file.slug === '') {
             // Homepage: index route
             routeDefs.push(
-              `  { index: true, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
+              `  { id: 'page:', index: true, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
           } else {
-            // Register both with and without trailing slash so links work either way
+            // React Router also matches URLs with a trailing slash.
             routeDefs.push(
-              `  { path: '/${file.slug}', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
+              `  { id: 'page:${file.slug}', path: '/${file.slug}', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
-            routeDefs.push(
-              `  { path: '/${file.slug}/', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
-            )
-          }
-
-          if (file.type === 'mdx') {
-            // Collect redirect_from frontmatter for redirect routes
-            const redirectFrom = file.frontmatter.redirect_from
-            if (Array.isArray(redirectFrom)) {
-              for (const from of redirectFrom) {
-                const fromPath = String(from).replace(/\/$/, '')
-                const target = `/${file.slug}/`
-                redirectDefs.push(
-                  `  { path: '${fromPath}', Component: Noop, loader: () => redirect('${target}') },`
-                )
-                redirectDefs.push(
-                  `  { path: '${fromPath}/', Component: Noop, loader: () => redirect('${target}') },`
-                )
-              }
-            }
           }
         })
+
+        const redirectData = JSON.stringify(getPageRedirects(files))
 
         // Path matching helper, re-exported so page lists can select pages
         // with the same globs the content queries used.
@@ -321,35 +417,41 @@ export default function portalPagesPlugin(
           .join(docsDir, '404.tsx')
           .replace(/\\/g, '/')
         routeDefs.push(
-          `  { path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: m.default })) },`
+          `  { id: 'portal-not-found', path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: m.default })) },`
         )
 
         return `
 import React from 'react';
-import { redirect } from 'react-router';
+import { Navigate, redirect, useLocation } from 'react-router';
+import { resolvePageRedirect } from '${globModulePath}';
 
-// No-op component for redirect routes so React Router does not warn
-// about a matched leaf route without an element or Component.
-function Noop() {
-  return null;
+function PageRedirect({ target, fragments }) {
+  const source = useLocation();
+  const key = source.hash.slice(1);
+  const destination = Object.prototype.hasOwnProperty.call(fragments, key) ? fragments[key] : target;
+  return React.createElement(Navigate, {
+    replace: true,
+    to: resolvePageRedirect(destination, source.pathname + source.search + source.hash),
+  });
 }
 
+const redirectRoutes = ${redirectData}.flatMap(({ from, to, fragments }) =>
+  [from, from + '/'].map(path => ({
+    id: 'redirect:' + path,
+    path,
+    Component: () => React.createElement(PageRedirect, { target: to, fragments }),
+    handle: { redirectTo: to },
+    loader: typeof window === 'undefined' ? ({ request }) => redirect(resolvePageRedirect(to, request.url)) : undefined,
+  }))
+);
+
 export const routes = [
-${redirectDefs.join('\n')}
+...redirectRoutes,
 ${routeDefs.join('\n')}
 ];
 
-export const allMdxNodes = [
-${allMdxNodes.map((node) => `  ${JSON.stringify(node)},`).join('\n')}
-];
-
-const regularMdxNodeIndexes = [${regularMdxNodeIndexes.join(',')}];
-
-export const regularMdxNodes = regularMdxNodeIndexes.map(
-  (index) => allMdxNodes[index]
-);
-
-export { globPath } from '${globModulePath}';
+export { allMdxNodes, regularMdxNodes, globPath } from 'virtual:portal-data';
+export const routeModules = ${JSON.stringify(Object.fromEntries(files.map((file) => ['page:' + file.slug, PAGE_MODULE_PREFIX + file.slug])))};
 `
       }
     },
@@ -372,6 +474,14 @@ export { globPath } from '${globModulePath}';
         const mod = server.moduleGraph.getModuleById(
           RESOLVED_VIRTUAL_MODULE_ID
         )
+        const dataMod = server.moduleGraph.getModuleById(
+          '\0' + DATA_MODULE_ID
+        )
+        for (const data of [dataMod]) {
+          if (data) {
+            server.moduleGraph.invalidateModule(data)
+          }
+        }
         if (mod) {
           server.moduleGraph.invalidateModule(mod)
           server.ws.send({ type: 'full-reload' })
@@ -419,9 +529,19 @@ export { globPath } from '${globModulePath}';
         const mod = server.moduleGraph.getModuleById(
           RESOLVED_VIRTUAL_MODULE_ID
         )
+        const dataMod = server.moduleGraph.getModuleById(
+          '\0' + DATA_MODULE_ID
+        )
+        for (const data of [dataMod]) {
+          if (data) {
+            server.moduleGraph.invalidateModule(data)
+          }
+        }
         if (mod) {
           server.moduleGraph.invalidateModule(mod)
-          return modules.includes(mod) ? modules : [...modules, mod]
+          return Array.from(
+            new Set([...modules, mod, dataMod].filter(Boolean))
+          )
         }
       }
     },

@@ -1,0 +1,112 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/avatar/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Correct use of Avatar
+
+To ensure the correct use of Avatars, we require using a `Avatar.Group` with `Avatar`-components as children. <br/>
+The required `label`-property in `Avatar.Group` will ensure the correct use of accessibility for screen readers. <br/>
+See more examples below.
+
+### Setting property `size`
+
+#### default `size` is 'medium'
+
+<Examples.AvatarSizeDefault />
+
+#### `size` 'small'
+
+<Examples.AvatarSizeSmall />
+
+#### `size` 'medium'
+
+<Examples.AvatarSizeMedium />
+
+#### `size` 'large'
+
+<Examples.AvatarSizeLarge />
+
+#### `size` 'x-large'
+
+<Examples.AvatarSizeXLarge />
+
+### Setting property `variant`
+
+#### default `variant` is 'primary'
+
+<Examples.AvatarVariantDefault />
+
+#### `variant` 'primary'
+
+<Examples.AvatarVariantPrimary />
+
+#### `variant` 'secondary'
+
+<Examples.AvatarVariantSecondary />
+
+#### `variant` 'tertiary'
+
+<Examples.AvatarVariantTertiary />
+
+### Passing `icon`
+
+#### Auto-size
+
+An icon will automatically be given the correct size (`size="auto"`) unless the icon's `size` property is set.
+
+<Examples.AvatarIconSize />
+
+#### Accepted values
+
+The `icon` property can accept either an imported icon, a primary icon string, or an `<Icon>` or `<IconPrimary>` component.
+
+```
+import {
+  calendar_medium as CalendarMedium,
+} from '@dnb/eufemia/icons'
+```
+
+<Examples.AvatarIconType />
+
+### Passing `children`
+
+<Examples.AvatarDNBLogo />
+
+#### Icon as child
+
+A single `<Icon>` or `<IconPrimary>` component sent as a child will also follow the same auto sizing rules as the `icon` property.
+
+<Examples.AvatarChildIcon />
+
+### Passing image as `src`
+
+<Examples.AvatarImagePinnedTab />
+<Examples.AvatarImageDNB />
+<Examples.AvatarImageTobias />
+<Examples.AvatarImageProps />
+
+### Grouping Avatars
+
+<Examples.GroupedAvatarsSmall />
+<Examples.GroupedAvatarsMedium />
+<Examples.GroupedAvatarsLarge />
+<Examples.GroupedAvatarsXLarge />
+<Examples.GroupedAvatarsImg />
+
+### Customizing colors
+
+<Examples.AvatarCustomColors />
+
+### Avatar with a [CountryFlag](/web/components/country-flag) as a [Badge](/web/components/badge)
+
+<Examples.AvatarCountryFlagBadge />
+
+### Avatar with [CountryFlag](/web/components/country-flag) children
+
+<Examples.GroupedAvatarsCountryFlag />

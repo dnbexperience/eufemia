@@ -12,11 +12,11 @@ import { convertMdxToMd } from '../mdx-to-md.ts'
 
 describe('mdx-to-md converter', () => {
   it.each([
-    ['uilib/extensions/ai.mdx', true],
-    ['uilib/extensions/ai/Message.mdx', true],
-    ['uilib/extensions/ai/Message/properties.mdx', true],
-    ['uilib/extensions/ai/integrations.mdx', true],
-    ['uilib/extensions/ai-other.mdx', false],
+    ['web/patterns-and-extensions/ai.mdx', true],
+    ['web/patterns-and-extensions/ai/Message.mdx', true],
+    ['web/patterns-and-extensions/ai/Message/properties.mdx', true],
+    ['web/patterns-and-extensions/ai/integrations.mdx', true],
+    ['web/patterns-and-extensions/ai-other.mdx', false],
     ['uilib/components/button.mdx', false],
   ])(
     'includes the experimental notice only on AI pages: %s',
@@ -59,7 +59,7 @@ describe('mdx-to-md converter', () => {
 
     expect(output).toContain('need a use case approved by DNB UX')
     expect(output).toContain(
-      '/uilib/usage/customisation/component-properties/#intended-use-and-customization'
+      '/web/styling-and-themes/configuration/component-properties/#intended-use-and-customization'
     )
     expect(output).toContain('Property descriptions.')
   })

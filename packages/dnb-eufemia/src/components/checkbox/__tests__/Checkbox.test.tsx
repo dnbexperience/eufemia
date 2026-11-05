@@ -659,14 +659,60 @@ describe('Checkbox scss', () => {
     )
   })
 
-  it('uses the subtle stroke for disabled unchecked checkboxes', () => {
+  it('uses the Figma tokens for disabled checkboxes', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
 
     expect(css).toMatch(
       /--checkbox-color-border-off--disabled: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
     )
     expect(css).toMatch(
-      /--checkbox-color-border-off--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-neutral-ondark\) 50%,\s*transparent\s*\)/
+      /--checkbox-color-border__indeterminate--disabled: var\(\s*--token-color-stroke-action-disabled\s*\)/
+    )
+    expect(css).toMatch(
+      /\.dnb-checkbox__input\[disabled\]:indeterminate ~ \.dnb-checkbox__button \{\s*--checkbox-color-border: var\(\s*--checkbox-color-border__indeterminate--disabled\s*\);/
+    )
+  })
+
+  it('keeps the disabled mark color for indeterminate checkboxes with an error', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    )
+    const errorSelectors = Array.from(
+      css.matchAll(
+        /([^{}]+)\{[^{}]*\sbackground-color: var\(--checkbox-color-gfx__indeterminate--error\);/g
+      ),
+      ([, selectors]) => selectors.trim()
+    )
+
+    expect(errorSelectors).toEqual([
+      '.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):indeterminate ~ .dnb-checkbox__indeterminate',
+    ])
+  })
+
+  it('uses the Figma on-dark tokens for disabled checkboxes on dark surfaces', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    )
+    const surfaceDark = css.match(
+      /\.dnb-checkbox--surface-dark:where\(:not\(\.dnb-toggle-button--checked \*\)\) \{[^}]*\}/
+    )?.[0]
+
+    // A checked ToggleButton keeps a light button on dark surfaces
+    expect(css).not.toMatch(/\.dnb-checkbox--surface-dark \{/)
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-gfx--disabled: var\(\s*--token-color-icon-action-disabled-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background-on--disabled: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background-off--disabled: transparent;/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-border-off--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-border__indeterminate--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
     )
   })
 

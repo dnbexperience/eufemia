@@ -454,7 +454,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       return // stop here
     }
 
-    if (isInTransitionRef.current) {
+    if (isInTransitionRef.current && !(open === true && !hide)) {
       return // stop here
     }
 
@@ -469,7 +469,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     } else if (isNewProps) {
       if (!hide && open === true) {
         toggleOpenClose(null, true)
-      } else if (hide && open === false) {
+      } else if (hide && open === false && modalActive) {
         toggleOpenClose(null, false)
       }
     }

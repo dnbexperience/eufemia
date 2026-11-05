@@ -16,13 +16,13 @@ describe('createMarkdownCopies', () => {
     const docsRoot = path.join(root, 'docs')
     const outputRoot = path.join(root, 'out')
     const routes = [
-      'uilib/extensions/ai.mdx',
-      'uilib/extensions/ai/Message.mdx',
-      'uilib/extensions/ai/Message/info.mdx',
-      'uilib/extensions/ai/Message/properties.mdx',
-      'uilib/extensions/ai/Message/events.mdx',
-      'uilib/extensions/ai/Message/demos.mdx',
-      'uilib/extensions/ai/integrations.mdx',
+      'web/patterns-and-extensions/ai.mdx',
+      'web/patterns-and-extensions/ai/Message.mdx',
+      'web/patterns-and-extensions/ai/Message/info.mdx',
+      'web/patterns-and-extensions/ai/Message/properties.mdx',
+      'web/patterns-and-extensions/ai/Message/events.mdx',
+      'web/patterns-and-extensions/ai/Message/demos.mdx',
+      'web/patterns-and-extensions/ai/integrations.mdx',
       'uilib/components/button.mdx',
     ]
     for (const route of routes) {
@@ -58,6 +58,57 @@ describe('createMarkdownCopies', () => {
       }
     } finally {
       fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('keeps old Markdown URLs and skips contentless navigation documents', async () => {
+    const tmpRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'llm-md-migration-')
+    )
+    const docsRoot = path.join(tmpRoot, 'docs')
+    const outputRoot = path.join(tmpRoot, 'out')
+    fs.mkdirSync(path.join(docsRoot, 'web'), { recursive: true })
+    fs.writeFileSync(
+      path.join(docsRoot, 'web', 'introduction.mdx'),
+      '---\ntitle: Web introduction\nredirect_from:\n  - /uilib\n  - /web\n---\nOriginal content.'
+    )
+    fs.writeFileSync(
+      path.join(docsRoot, 'web.mdx'),
+      '---\ntitle: Web\nroute: false\n---\n'
+    )
+    fs.writeFileSync(
+      path.join(docsRoot, 'home.mdx'),
+      '---\ntitle: Home\nslug: /\n---\nWelcome home.'
+    )
+    try {
+      await createMarkdownCopies({
+        siteDir: tmpRoot,
+        docsRoot,
+        outputRoot,
+        slugBase: '',
+        publicUrlBase: '',
+      })
+      const canonical = fs.readFileSync(
+        path.join(outputRoot, 'web/introduction.md'),
+        'utf8'
+      )
+      const home = fs.readFileSync(
+        path.join(outputRoot, 'home.md'),
+        'utf8'
+      )
+      expect(home).toContain('Welcome home.')
+      expect(
+        fs.readFileSync(path.join(outputRoot, 'index.md'), 'utf8')
+      ).toBe(home)
+      expect(fs.existsSync(path.join(outputRoot, '.md'))).toBe(false)
+      expect(
+        fs.readFileSync(path.join(outputRoot, 'uilib.md'), 'utf8')
+      ).toBe(canonical)
+      expect(
+        fs.readFileSync(path.join(outputRoot, 'web.md'), 'utf8')
+      ).toBe(canonical)
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true })
     }
   })
 
@@ -157,7 +208,7 @@ describe('createMarkdownCopies', () => {
     expect(output).toContain('<!-- eufemia-properties-usage:end -->')
     expect(output).toContain('need a use case approved by DNB UX')
     expect(output).toContain(
-      '/uilib/usage/customisation/component-properties/#intended-use-and-customization'
+      '/web/styling-and-themes/configuration/component-properties/#intended-use-and-customization'
     )
     expect(
       output.indexOf('need a use case approved by DNB UX')

@@ -21,7 +21,7 @@
 ## Code Style
 
 - Write code in logical blocks and separate them with blank lines.
-- Use American English in code, comments, and documentation, such as `color`, `behavior`, and `canceled`. Keep the spelling of existing public names and URLs, such as `--carnegie-greyscale-*` and `/uilib/usage/customisation/`.
+- Use American English in code, comments, and documentation, such as `color`, `behavior`, and `canceled`. Keep the spelling of existing public names and URLs, such as `--carnegie-greyscale-*` and `/web/styling-and-themes/configuration/`.
 - Use British English in the `en-GB` translations. `en-US` extends `en-GB`, so add a string to the `en-US` files only when the American wording differs.
 - Use TypeScript for type safety.
 - Use React Hooks instead of class components.
@@ -59,7 +59,7 @@
 ### Creating Pull Requests
 
 - Before creating a pull request, check whether one already exists for the branch and review the complete diff against `main`.
-- Pull request titles are used in release logs. Make each title easy for developers to understand without issue, task, or repository context. Format it according to the [Git convention style guide](packages/dnb-design-system-portal/src/docs/contribute/style-guides/git.mdx), using a Conventional Commit decorator and, when targeting a component, a PascalCase scope.
+- Pull request titles are used in release logs. Make each title easy for developers to understand without issue, task, or repository context. Format it according to the [Git convention style guide](packages/dnb-design-system-portal/src/docs/web/contribute/guidelines/git.mdx), using a Conventional Commit decorator and, when targeting a component, a PascalCase scope.
 - Choose the correct title when creating the pull request. Do not change an existing pull request title unless the user explicitly asks.
 - Examples: `fix(Button): prevent double click submission` and `feat(DatePicker): add month-only mode`.
 - For extensions/forms, use the compound name, such as feat(Field.Date): ... or fix(Form.Section): .... Use Forms as the scope for changes that span the whole forms extension.

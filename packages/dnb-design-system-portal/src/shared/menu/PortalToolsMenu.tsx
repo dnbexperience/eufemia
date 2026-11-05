@@ -1,254 +1,167 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
-import { Drawer, Tooltip } from '@dnb/eufemia/src/components'
-import { Anchor, Flex } from '@dnb/eufemia/src'
-import { getTheme } from '../../../vite/client/shims/theme-handler'
-import ToggleGrid from './ToggleGrid'
-import { Context } from '@dnb/eufemia/src/shared'
-import PortalSkeleton from '../../core/PortalSkeleton'
-import ToggleDarkMode from '../../core/ToggleDarkMode'
-import ToggleNativeTypography from '../../core/ToggleNativeTypography'
-import ChangeLocale from '../../core/ChangeLocale'
-import ChangeStyleTheme from '../../core/ChangeStyleTheme'
-import { buttonStyle } from './PortalToolsMenu.module.scss'
+import { Button, Tooltip } from '@dnb/eufemia/src/components'
+import { useTheme } from '@dnb/eufemia/src/shared'
+import { cog } from '@dnb/eufemia/src/icons'
+import { themeTitles } from './SidebarMenuData'
+import {
+  buttonStyle,
+  loadingStyle,
+  darkSchemeStyle,
+  lightSchemeStyle,
+} from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
 import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
+import type PortalToolsDrawer from './PortalToolsDrawer'
 
 type Props = {
+  compactOnSmall?: boolean
   className?: string
   tooltipPosition?: TooltipPlacement
   triggerProps?: ButtonProps
   hideWhenMediaLarge?: boolean
 }
 
-const portalToolsOpenStorageKey = 'portal-tools-open'
-const portalToolsMobileOpenStorageKey = 'portal-tools-open-mobile'
-const disableAnimationResetDelay = 400
-
-function getPortalToolsOpenStorageKey(hideWhenMediaLarge: boolean) {
-  return hideWhenMediaLarge
-    ? portalToolsMobileOpenStorageKey
-    : portalToolsOpenStorageKey
-}
-
-function getStoredPortalToolsOpen(storageKey: string) {
-  if (typeof window === 'undefined') {
-    return false
-  }
-
-  try {
-    return window.sessionStorage.getItem(storageKey) === 'true'
-  } catch (error) {
-    return false
-  }
-}
-
-function setStoredPortalToolsOpen(isOpen: boolean, storageKey: string) {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  try {
-    if (isOpen) {
-      const otherStorageKey =
-        storageKey === portalToolsOpenStorageKey
-          ? portalToolsMobileOpenStorageKey
-          : portalToolsOpenStorageKey
-
-      window.sessionStorage.setItem(storageKey, 'true')
-      window.sessionStorage.removeItem(otherStorageKey)
-    } else {
-      window.sessionStorage.removeItem(storageKey)
-    }
-  } catch (error) {
-    // Ignore storage write failures.
-  }
-}
-
 export default function PortalToolsMenu({
+  compactOnSmall = true,
   className = null,
-  tooltipPosition = 'left',
+  tooltipPosition = 'bottom',
   triggerProps = null,
   hideWhenMediaLarge = false,
   ...props
 }: Props) {
-  const { skeleton } = useContext(Context)
-  const storageKey = getPortalToolsOpenStorageKey(hideWhenMediaLarge)
   const [isOpen, setIsOpen] = useState(false)
-  const { brand, colorScheme } = getTheme()
-  const themeKey = `${brand}:${colorScheme || 'auto'}`
-  // Start with animation disabled so the initial open=false render
-  // uses the immediate close path in Modal, avoiding a 300ms timer
-  // that would race with the restore effect and close the drawer.
-  const [disableAnimation, setDisableAnimation] = useState(true)
-  const previousThemeKeyRef = useRef(themeKey)
-  const themeChanged = previousThemeKeyRef.current !== themeKey
-  const restoredRef = useRef(false)
-  const noAnimation = disableAnimation || themeChanged
-
-  // Restore open state from sessionStorage after hydration to avoid
-  // a mismatch between server (always closed) and client.
-  useEffect(() => {
-    if (restoredRef.current) {
-      return
-    }
-    const stored = getStoredPortalToolsOpen(storageKey)
-    if (stored) {
-      restoredRef.current = true
-      setDisableAnimation(true)
-      setIsOpen(true)
-
-      // When restoring with noAnimation, the Modal skips setting
-      // data-dnb-modal-active, so the header stays on top. Set a
-      // custom attribute so the header's z-index rule applies.
-      document.documentElement.setAttribute(
-        'data-portal-tools-open',
-        'true'
-      )
-
-      // Re-enable animation after the drawer has opened without
-      // animation, so subsequent interactions animate normally.
-      const timeoutId = window.setTimeout(() => {
-        setDisableAnimation(false)
-      }, disableAnimationResetDelay)
-
-      return () => window.clearTimeout(timeoutId)
-    } else {
-      // Nothing to restore — enable animation so the first manual
-      // open animates normally.
-      setDisableAnimation(false)
-    }
-  }, [storageKey])
-
-  useEffect(() => {
-    if (!disableAnimation || restoredRef.current) {
-      return
-    }
-
-    // Only reset after the drawer has been opened at least once,
-    // so the initial true value doesn't get cleared prematurely.
-    if (!isOpen) {
-      return
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setDisableAnimation(false)
-    }, disableAnimationResetDelay)
-
-    return () => {
-      window.clearTimeout(timeoutId)
-    }
-  }, [disableAnimation, isOpen])
-
-  useLayoutEffect(() => {
-    if (themeChanged && isOpen) {
-      setDisableAnimation(true)
-    }
-
-    previousThemeKeyRef.current = themeKey
-  }, [isOpen, themeChanged, themeKey])
+  const [drawerReady, setDrawerReady] = useState(false)
+  const [Drawer, setDrawer] = useState<typeof PortalToolsDrawer>()
+  const [loadFailed, setLoadFailed] = useState(false)
+  const loadFailures = useRef(0)
+  const handleDrawerReady = useCallback(() => setDrawerReady(true), [])
+  const activeTheme = useTheme()
+  const loading = isOpen && !drawerReady
 
   const handleOpen = useCallback(() => {
-    restoredRef.current = false
+    setLoadFailed(false)
     setIsOpen(true)
-    setStoredPortalToolsOpen(true, storageKey)
-  }, [storageKey])
+  }, [])
 
-  const handleClose = useCallback(() => {
-    restoredRef.current = false
-    setDisableAnimation(false)
-    setIsOpen(false)
-    setStoredPortalToolsOpen(false, storageKey)
-    document.documentElement.removeAttribute('data-portal-tools-open')
-  }, [storageKey])
+  const handleClose = useCallback(() => setIsOpen(false), [])
+
+  useEffect(() => {
+    if (!isOpen || Drawer) {
+      return
+    }
+    let active = true
+    const onPreloadError = (event: Event & { payload?: Error }) => {
+      const message = event.payload?.message || ''
+      if (
+        !message.includes('/assets/') ||
+        message.includes('PortalToolsDrawer')
+      ) {
+        event.preventDefault()
+        event.stopImmediatePropagation()
+      }
+    }
+    window.addEventListener('vite:preloadError', onPreloadError, true)
+    // Keep result handling outside Vite's preload wrapper, which may resolve without a module.
+    const loadDrawer = import('./PortalToolsDrawer')
+    void loadDrawer
+      .then((module) => {
+        if (!module?.default) {
+          throw new Error('Could not load settings')
+        }
+        if (active) {
+          loadFailures.current = 0
+          setDrawer(() => module.default)
+        }
+      })
+      .catch(() => {
+        if (active) {
+          handleClose()
+          setLoadFailed(true)
+          // A repeated failure while online may be an outdated chunk after a deploy.
+          if (++loadFailures.current > 1 && navigator.onLine) {
+            window.location.reload()
+          }
+        }
+      })
+      .finally(() =>
+        window.removeEventListener(
+          'vite:preloadError',
+          onPreloadError,
+          true
+        )
+      )
+    return () => {
+      active = false
+    }
+  }, [isOpen, Drawer, handleClose])
 
   return (
-    <Drawer
-      id="portal-tools"
-      title="Portal Tools"
-      open={isOpen}
-      noAnimation={noAnimation}
-      onOpen={handleOpen}
-      onClose={handleClose}
-      triggerProps={{
-        className: clsx(
+    <>
+      <Button
+        id="portal-tools"
+        className={clsx(
           className,
-          buttonStyle,
+          compactOnSmall && buttonStyle,
+          loading && 'dnb-skeleton dnb-skeleton--shape',
+          loading && loadingStyle,
           hideWhenMediaLarge && 'hideWhenMediaLarge'
-        ),
-        size: 'default',
-        icon: 'more',
-        iconSize: 'medium',
-        skeleton: false,
-        left: 'x-small',
-        title: 'Portal Tools',
-        tooltip: (
+        )}
+        text={
+          <>
+            {themeTitles[activeTheme?.brand] || 'DNB'} -{' '}
+            <span className={lightSchemeStyle}>Light</span>
+            <span className={darkSchemeStyle}>Dark</span>
+            <span className="dnb-sr-only"> Settings</span>
+          </>
+        }
+        variant="secondary"
+        icon={cog}
+        iconPosition="right"
+        iconSize="default"
+        skeleton={false}
+        left="x-small"
+        aria-haspopup="dialog"
+        aria-controls="dnb-modal-portal-tools-modal"
+        aria-expanded={isOpen}
+        aria-busy={loading || undefined}
+        tooltip={
           <Tooltip
             placement={tooltipPosition}
-            // Use 4001 to be over header of 4000
             style={{ zIndex: 4001 }}
             fixedPosition
           >
-            Open the portal tools
+            {loadFailed
+              ? 'Could not load settings. Please try again.'
+              : 'Open settings'}
           </Tooltip>
-        ),
-        ...triggerProps,
-      }}
-      {...props}
-    >
-      <Drawer.Body innerSpace={{ block: 'large' }}>
-        <Flex.Stack gap="large">
-          <ChangeStyleTheme
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/uilib/usage/customisation/theming/">
-                  theming
-                </Anchor>
-              </>
-            }
-          />
-          <ChangeLocale
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/uilib/usage/customisation/localization/">
-                  localization
-                </Anchor>
-              </>
-            }
-          />
-
-          <ToggleDarkMode
-            label="Dark mode"
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/uilib/usage/customisation/theming/">
-                  theming
-                </Anchor>
-              </>
-            }
-          />
-
-          <Flex.Stack gap="small">
-            <ToggleNativeTypography />
-            <PortalSkeleton
-              enabled={skeleton}
-              label="Show everything behind skeletons"
-              skeleton={false}
-            />
-            <ToggleGrid label="Show grid" />
-          </Flex.Stack>
-        </Flex.Stack>
-      </Drawer.Body>
-    </Drawer>
+        }
+        {...triggerProps}
+        onClick={() => {
+          if (isOpen) {
+            handleClose()
+          } else {
+            handleOpen()
+          }
+        }}
+      />
+      <span className="dnb-sr-only" role="status">
+        {loading ? 'Loading settings...' : ''}
+      </span>
+      {loadFailed && (
+        <span className="dnb-sr-only" role="alert">
+          Could not load settings. Please try again.
+        </span>
+      )}
+      {Drawer && (
+        <Drawer
+          open={isOpen}
+          onOpen={handleOpen}
+          onClose={handleClose}
+          onReady={handleDrawerReady}
+          {...props}
+        />
+      )}
+    </>
   )
 }

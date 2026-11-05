@@ -9,7 +9,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   countries: {
-    doc: 'List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.',
+    doc: 'List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all countries [sorted by priority](/web/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.',
     type: ['"Scandinavia"', '"Nordic"', '"Europe"', '"Prioritized"'],
     status: 'optional',
   },
@@ -54,7 +54,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   numberMask: {
-    doc: 'See property `mask` of the [InputMasked](/uilib/components/input-masked/properties) component.',
+    doc: 'See property `mask` of the [InputMasked](/web/components/input-masked/properties) component.',
     type: 'Various',
     status: 'optional',
   },
@@ -73,7 +73,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
   labelSrOnly: FieldProperties.labelSrOnly,
   size: StringProperties.size,
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

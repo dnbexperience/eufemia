@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/switch/demos/',
+      url: '/web/components/switch/demos/',
     })
 
     it('have to match switch in unchecked state', async () => {
@@ -71,7 +71,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/switch/demos/',
+      url: '/web/components/switch/demos/',
     })
 
     it('have to match switch in checked state', async () => {

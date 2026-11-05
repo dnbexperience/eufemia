@@ -4,7 +4,11 @@ test('panel close action follows content and viewport height', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 960, height: 800 })
-  await page.goto('/uilib/components/filter/visual-tests/panel-actions/')
+  await page.goto('/web/components/filter/visual-tests/panel-actions/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
 
   const shortPanel = page.locator(
     '[data-visual-test="filter-short-panel"]'

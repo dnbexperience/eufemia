@@ -4,7 +4,7 @@ import waitForApp from './shared/waitForApp'
 test('keeps Ai.Info and the AI overview on separate routes', async ({
   page,
 }) => {
-  await page.goto('/uilib/extensions/ai/Info/')
+  await page.goto('/web/patterns-and-extensions/ai/Info/')
   await waitForApp(page)
   await expect(page.locator('h1')).toContainText('Ai.Info')
   const info = page.locator('.dnb-ai-info').first()
@@ -15,13 +15,13 @@ test('keeps Ai.Info and the AI overview on separate routes', async ({
   )
   await expect(info).toHaveCSS('font-size', '16px')
 
-  await page.goto('/uilib/extensions/ai/Info/info/')
+  await page.goto('/web/patterns-and-extensions/ai/Info/info/')
   await waitForApp(page)
   await expect(page.locator('h1')).toContainText('Ai.Info')
-  await page.goto('/uilib/extensions/ai/Info/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/Info/demos/')
   await waitForApp(page)
   await expect(page.locator('.dnb-ai-info')).toBeVisible()
-  await page.goto('/uilib/extensions/ai/Info/properties/')
+  await page.goto('/web/patterns-and-extensions/ai/Info/properties/')
   await waitForApp(page)
   await expect(page.locator('h1')).toContainText('Ai.Info')
   await expect(
@@ -30,7 +30,7 @@ test('keeps Ai.Info and the AI overview on separate routes', async ({
     })
   ).toBeVisible()
 
-  await page.goto('/uilib/extensions/ai/about/')
+  await page.goto('/web/patterns-and-extensions/ai/about/')
   await waitForApp(page)
   await expect(page.locator('h1')).toContainText('AI components')
   await page

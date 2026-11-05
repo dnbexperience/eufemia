@@ -56,7 +56,7 @@ export type MenuRootProps = {
 }
 
 /**
- * Menu.Button supports all [Button](/uilib/components/button/properties) props
+ * Menu.Button supports all [Button](/web/components/button/properties) props
  * (e.g. `text`, `icon`, `variant`, `size`, `disabled`) in addition to the
  * props listed here.
  */

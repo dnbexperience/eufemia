@@ -18,7 +18,7 @@ Stopped working in version:
 
 Steps to reproduce the behavior:
 
-🍀 Use [this starter](https://eufemia.dnb.no/issue) to reproduce the issue.
+🍀 Use [this starter](https://eufemia.dnb.no/web/contribute/reproduce-a-bug) to reproduce the issue.
 
 ## Expected behavior
 

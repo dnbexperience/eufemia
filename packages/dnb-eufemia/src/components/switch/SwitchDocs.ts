@@ -48,12 +48,12 @@ export const SwitchProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusProps: {
-    doc: 'Use an object to define additional [FormStatus](/uilib/components/form-status/properties/) properties.',
+    doc: 'Use an object to define additional [FormStatus](/web/components/form-status/properties/) properties.',
     type: 'FormStatus',
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'GlobalStatus',
     status: 'optional',
   },
@@ -72,7 +72,7 @@ export const SwitchProperties: PropertiesTableProps = {
     type: 'React.RefObject',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

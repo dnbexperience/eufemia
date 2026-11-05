@@ -6,12 +6,12 @@ test.describe('Page language before hydration', () => {
 
   for (const route of [
     '/',
-    '/uilib/',
-    '/uilib/components/button/',
-    '/uilib/extensions/forms/',
-    '/contribute/',
+    '/web/',
+    '/web/components/button/',
+    '/web/forms/',
+    '/web/contribute/',
     '/EUFEMIA_CHANGELOG/',
-    '/uilib/extensions/forms/Value/BankAccountNumber/',
+    '/web/forms/Value/BankAccountNumber/',
   ]) {
     test(`declares English on ${route}`, async ({ page }) => {
       await page.goto(route)
@@ -24,7 +24,7 @@ test.describe('Page language before hydration', () => {
     page,
   }) => {
     await page.goto(
-      '/uilib/components/autocomplete/demos/#default-autocomplete'
+      '/web/components/autocomplete/demos/#default-autocomplete'
     )
 
     await expect(
@@ -33,7 +33,7 @@ test.describe('Page language before hydration', () => {
   })
 })
 
-test('keeps documentation in English and follows Portal Tools for previews and popups', async ({
+test('keeps documentation in English and follows Settings for previews and popups', async ({
   page,
 }) => {
   const hydrationErrors: string[] = []
@@ -45,7 +45,7 @@ test('keeps documentation in English and follows Portal Tools for previews and p
     }
   })
   await page.goto(
-    '/uilib/components/autocomplete/demos/#default-autocomplete'
+    '/web/components/autocomplete/demos/#default-autocomplete'
   )
   await waitForApp(page)
 
@@ -71,10 +71,7 @@ test('keeps documentation in English and follows Portal Tools for previews and p
   await expectPopupLanguage('nb-NO')
   await input.press('Escape')
 
-  await page
-    .getByRole('button', { name: 'Portal Tools', exact: true })
-    .first()
-    .click()
+  await page.locator('button#portal-tools').click()
   await page.getByLabel('Change components language').click()
   await page
     .locator('li.dnb-drawer-list__option')
@@ -84,7 +81,7 @@ test('keeps documentation in English and follows Portal Tools for previews and p
   await expect(preview).toHaveAttribute('lang', 'en-GB')
   await expect(placeholder).toHaveText('Type and select')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
-  const tools = page.getByRole('dialog', { name: 'Portal Tools' })
+  const tools = page.getByRole('dialog', { name: 'Settings' })
   await tools
     .getByRole('button', { name: /Close|Lukk/ })
     .first()

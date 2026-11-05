@@ -75,7 +75,7 @@ export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
   src?: string
 
   /**
-   * [Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.
+   * [Image properties](/web/layout-and-typography/elements/image) applied to the `img` element if the component is used to display an image.
    */
   imgProps?: ImgProps
 

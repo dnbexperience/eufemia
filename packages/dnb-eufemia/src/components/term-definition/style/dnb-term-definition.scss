@@ -21,6 +21,18 @@
         text-underline-offset: 0.3125em;
       }
     }
+
+    &:hover,
+    &:active,
+    &.dnb-anchor--hover {
+      text-decoration: none;
+    }
+
+    // Keep :focus-visible in its own rule, because Safari before 15.4
+    // drops every rule that uses it
+    &:focus-visible {
+      text-decoration: none;
+    }
   }
 
   .dnb-popover__title strong::first-letter {

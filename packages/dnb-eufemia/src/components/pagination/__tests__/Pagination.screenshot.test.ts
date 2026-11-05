@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Pagination for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/pagination/demos/',
+    url: '/web/components/pagination/demos/',
   })
 
   it('have to match the default pagination bar', async () => {
@@ -128,7 +128,7 @@ describe.each(['ui', 'sbanken'])(`Pagination for %s`, (themeName) => {
 describe('Pagination for ui', () => {
   setupPageScreenshot({
     themeName: 'ui',
-    url: '/uilib/components/pagination/demos/',
+    url: '/web/components/pagination/demos/',
   })
 
   it('have to match pagination with href', async () => {
@@ -168,7 +168,7 @@ describe('Pagination for ui', () => {
 describe.each(['ui', 'sbanken'])(`Pagination for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/pagination/demos/',
+    url: '/web/components/pagination/demos/',
     pageViewport: {
       width: 500,
       height: 600,

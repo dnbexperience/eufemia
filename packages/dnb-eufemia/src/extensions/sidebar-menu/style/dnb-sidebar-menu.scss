@@ -367,6 +367,7 @@
   }
 
   &__header {
+    margin-inline-start: var(--sidebar-menu-indent, 0);
     padding-block: var(--sidebar-menu-action-padding-block);
     padding-inline-start: var(--sidebar-menu-action-padding-inline);
 

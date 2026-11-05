@@ -319,6 +319,35 @@ describe('SidebarMenu', () => {
     expect(list).toHaveAccessibleName('Accounts')
   })
 
+  it('indents nested Header items without indenting their siblings', () => {
+    render(
+      <SidebarMenu.Root defaultOpenItems={['resources']}>
+        <SidebarMenu.Header text="Top level">
+          <SidebarMenu.Item id="home" text="Home" />
+        </SidebarMenu.Header>
+        <SidebarMenu.Accordion id="resources" text="Resources">
+          <SidebarMenu.Header id="ai" text="AI assistance">
+            <SidebarMenu.Item id="skills" text="Agent skills" />
+          </SidebarMenu.Header>
+          <SidebarMenu.Item id="utilities" text="Utilities and helpers" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(document.querySelector('#ai')).toHaveStyle({
+      '--sidebar-menu-indent': '3rem',
+    })
+    expect(
+      document.querySelector('[data-sidebar-menu-id="skills"]')
+    ).toHaveStyle({ '--sidebar-menu-indent': '4rem' })
+    expect(
+      document.querySelector('[data-sidebar-menu-id="utilities"]')
+    ).toHaveStyle({ '--sidebar-menu-indent': '3rem' })
+    expect(
+      document.querySelector('[data-sidebar-menu-id="home"]')
+    ).toHaveStyle({ '--sidebar-menu-indent': '0rem' })
+  })
+
   it('supports legacy Header children as its label', () => {
     render(
       <SidebarMenu.Root>
@@ -3120,7 +3149,7 @@ describe('SidebarMenu', () => {
     vi.useRealTimers()
   })
 
-  it('persists and restores its ScrollView position', () => {
+  it('persists and restores its ScrollView position', async () => {
     const storageKey = 'sidebar-menu-scroll-position'
     sessionStorage.setItem(storageKey, '120')
 
@@ -3139,6 +3168,11 @@ describe('SidebarMenu', () => {
       '.dnb-scroll-view'
     ) as HTMLElement
     expect(scrollView.scrollTop).toBe(120)
+    await act(async () => {
+      await new Promise((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve))
+      })
+    })
 
     scrollView.scrollTop = 240
     fireEvent.scroll(scrollView)
@@ -3147,6 +3181,49 @@ describe('SidebarMenu', () => {
     component.unmount()
     sessionStorage.removeItem(storageKey)
   })
+
+  it.each([93, 400])(
+    'restores its position after nested layout changes from %s',
+    (initialMaximum) => {
+      vi.useFakeTimers()
+      const storageKey = 'sidebar-menu-nested-scroll-position'
+      sessionStorage.setItem(storageKey, '120')
+      let maximumScroll = initialMaximum
+      const originalScrollTo = HTMLElement.prototype.scrollTo
+      HTMLElement.prototype.scrollTo = vi.fn(function (
+        this: HTMLElement,
+        options?: ScrollToOptions | number
+      ) {
+        const top =
+          typeof options === 'number' ? options : (options?.top ?? 0)
+        this.scrollTop = Math.min(top, maximumScroll)
+      })
+
+      try {
+        render(
+          <ScrollView>
+            <SidebarMenu.Root scrollPositionStorageKey={storageKey}>
+              <SidebarMenu.Item id="payments" text="Payments" />
+            </SidebarMenu.Root>
+          </ScrollView>
+        )
+        const scrollView =
+          document.querySelector<HTMLElement>('.dnb-scroll-view')
+        expect(scrollView.scrollTop).toBe(Math.min(120, initialMaximum))
+        scrollView.scrollTop = 93
+        maximumScroll = 400
+
+        act(() => vi.runAllTimers())
+
+        expect(scrollView.scrollTop).toBe(120)
+        expect(sessionStorage.getItem(storageKey)).toBe('120')
+      } finally {
+        HTMLElement.prototype.scrollTo = originalScrollTo
+        sessionStorage.removeItem(storageKey)
+        vi.useRealTimers()
+      }
+    }
+  )
 
   it('does not center the selected item over a restored position', () => {
     vi.useFakeTimers()

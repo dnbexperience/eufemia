@@ -1,0 +1,37 @@
+---
+showTabs: true
+hideInMenu: true
+redirect_from:
+  - /uilib/extensions/forms/Form/InfoOverlay/properties
+  - /web/extensions/forms/Form/InfoOverlay/properties
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  InfoOverlayProperties,
+  InfoOverlaySuccessProperties,
+  InfoOverlayErrorProperties,
+} from '@dnb/eufemia/src/extensions/forms/Form/InfoOverlay/InfoOverlayDocs'
+
+## Properties
+
+<PropertiesTable props={InfoOverlayProperties} />
+
+### Error object
+
+The keys of the `error` property:
+
+<PropertiesTable props={InfoOverlayErrorProperties} />
+
+### Success object
+
+The keys of the `success` property:
+
+<PropertiesTable props={InfoOverlaySuccessProperties} />
+
+## Translations
+
+<TranslationsTable
+  localeKey={['InfoOverlayError', 'InfoOverlaySuccess']}
+/>

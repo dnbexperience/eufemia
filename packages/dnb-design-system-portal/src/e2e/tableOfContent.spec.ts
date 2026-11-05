@@ -5,7 +5,7 @@ test.describe('TableOfContent extension', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/uilib/extensions/table-of-content/demos/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/demos/')
     const toc = page.locator(
       '[data-visual-test="table-of-content-declarative"] nav'
     )
@@ -38,39 +38,6 @@ test.describe('TableOfContent extension', () => {
     await expect
       .poll(() => page.evaluate(() => window.scrollY))
       .toBeGreaterThan(shortTop)
-  })
-
-  test('redirects existing documentation links to the extension pages', async ({
-    page,
-  }) => {
-    for (const path of [
-      '/uilib/components/table-of-content/',
-      '/uilib/components/table-of-content/info/',
-      '/uilib/components/table-of-content/demos/',
-      '/uilib/components/table-of-content/properties/',
-      '/uilib/components/table-of-content/events/',
-      '/uilib/extensions/table-of-content/',
-      '/uilib/extensions/table-of-content/demos/',
-      '/uilib/extensions/table-of-content/properties/',
-      '/uilib/extensions/table-of-content/events/',
-    ]) {
-      await page.goto(path)
-      await expect(page).toHaveURL(
-        new RegExp(
-          path
-            .replace('/components/', '/extensions/')
-            .replace('/info/', '/') + '$'
-        )
-      )
-      await expect(
-        page.getByRole('heading', { name: 'TableOfContent', exact: true })
-      ).toBeVisible()
-      await expect(page.locator('html')).toHaveAttribute(
-        'data-portal-ready',
-        'true'
-      )
-      await page.waitForLoadState('load')
-    }
   })
 
   test('keeps complete article implementations inspectable in collapsed code panels', async ({
@@ -473,7 +440,7 @@ test.describe('TableOfContent extension', () => {
           )
         }, colorScheme)
         await page.goto(
-          '/uilib/extensions/table-of-content/demos/?eufemia-color-scheme=' +
+          '/web/patterns-and-extensions/table-of-content/demos/?eufemia-color-scheme=' +
             colorScheme
         )
         const example = page.locator(
@@ -565,7 +532,7 @@ test.describe('TableOfContent extension', () => {
   test('renders the info page with literal API examples', async ({
     page,
   }) => {
-    await page.goto('/uilib/extensions/table-of-content/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/')
     await expect(
       page.getByText('Something went wrong', { exact: true })
     ).toHaveCount(0)
@@ -615,7 +582,7 @@ test.describe('TableOfContent extension', () => {
       .toBeGreaterThan(firstMarkerTop)
   })
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/extensions/table-of-content/demos/')
+    await page.goto('/web/patterns-and-extensions/table-of-content/demos/')
   })
 
   test('scrolls only the example article and preserves destination focus', async ({

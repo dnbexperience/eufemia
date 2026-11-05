@@ -1,0 +1,223 @@
+---
+title: Typography CSS reference
+description: A list of typography CSS classes
+order: 1
+navigation:
+  title: Typography CSS reference
+  order: 4
+  parent: web/layout-and-typography/typography
+legacyFragments:
+  helper-classes: /web/layout-and-typography/typography/css-reference/#typography-helpers
+  eufemia-has-three-3-font-weights: /web/layout-and-typography/typography/css-reference/#supported-weights
+redirect_from:
+  - /uilib/typography/helper-classes
+  - /web/typography/helper-classes
+  - /web/typography/font-weight
+  - /uilib/typography/font-weight
+  - /web/typography/line-height
+  - /uilib/typography/line-height
+legacyPrefixes:
+  - web/typography/helper-classes
+  - uilib/typography/helper-classes
+---
+
+import { PropValue, PropAsPx } from './_helpers.tsx'
+import { FontWeightByThemeExample } from './Examples'
+import ChangeStyleTheme from '../../../../core/ChangeStyleTheme'
+
+<ChangeStyleTheme label="Change the brand:" bottom="large" />
+
+## Font weights
+
+For details about what values Typographic elements use, have a look at the [Fonts & Typography](/web/layout-and-typography/typography/design-guidance/#web-typography) documentation.
+
+## Supported weights
+
+DNB Sans Text and Mono support Light, Regular, Medium and Bold, each with
+italics. The existing public values for Regular, Medium and Bold are
+unchanged. Other brands retain their own fonts and weights; Light is only
+provided by the DNB faces.
+
+Follow the Eufemia Web Figma library for UI typography: body text and button
+labels use Regular; Lead and headings use Medium. Use Bold for explicit
+emphasis where the design calls for it. Display has one upright weight and
+ignores weight and italic modifiers when selected with its helper class.
+
+| Type                                                                                                 | CSS variable / property | CSS Classname             |
+| ---------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------- |
+| Light (300)                                                                                          | `--font-weight-light`   | `.dnb-t__weight--light`   |
+| <span className="dnb-t__weight--regular">Regular (<PropValue name="--font-weight-regular" />)</span> | `--font-weight-regular` | `.dnb-t__weight--regular` |
+| <span className="dnb-t__weight--medium">Medium (<PropValue name="--font-weight-medium" />)</span>    | `--font-weight-medium`  | `.dnb-t__weight--medium`  |
+| <span className="dnb-t__weight--bold">Bold (<PropValue name="--font-weight-bold" />)</span>          | `--font-weight-bold`    | `.dnb-t__weight--bold`    |
+
+### How to use the weights (CSS)
+
+```css
+/* I am Regular */
+p {
+  font-weight: normal;
+}
+
+/* I am Medium */
+p {
+  font-weight: var(--font-weight-medium); /* 500 */
+}
+
+/* I am Bold */
+p {
+  font-weight: var(--font-weight-bold); /* 600 (in Ui theme) */
+}
+
+/* This will result in loading the Bold Font */
+.my-new-class {
+  font-weight: var(--font-weight-bold);
+}
+```
+
+### Usage in HTML (Helper Classes)
+
+```html
+<!-- Example usage of Weights in Markup -->
+<h3 class="dnb-t__weight--regular">Heading</h3>
+<p class="dnb-t__weight--medium">Paragraph</p>
+<span class="dnb-t__weight--bold">Third Tag</span>
+```
+
+## <VisibilityByTheme.Brand /> weight examples
+
+<FontWeightByThemeExample />
+
+## Line height
+
+The values below come from Figma for the selected brand, using Eufemia's existing CSS variable names. The [Fonts & Typography](/web/layout-and-typography/typography/design-guidance/#web-typography) guide shows the DNB scale.
+
+Line heights are the same in light and dark mode.
+
+## Default `line-height` **rem** table
+
+| Pixel                                      | Type       | Rem                                             | CSS variable / property  | CSS Classname                   | Info             |
+| ------------------------------------------ | ---------- | ----------------------------------------------- | ------------------------ | ------------------------------- | ---------------- |
+| <PropAsPx name="--line-height-x-small" />  | `x-small`  | **<PropValue name="--line-height-x-small" />**  | `--line-height-x-small`  | `.dnb-t__line-height--x-small`  |                  |
+| <PropAsPx name="--line-height-small" />    | `small`    | **<PropValue name="--line-height-small" />**    | `--line-height-small`    | `.dnb-t__line-height--small`    |                  |
+| <PropAsPx name="--line-height-basis" />    | `basis`    | **<PropValue name="--line-height-basis" />**    | `--line-height-basis`    | `.dnb-t__line-height--basis`    |                  |
+| <PropAsPx name="--line-height-lead" />     | `lead`     | **<PropValue name="--line-height-lead" />**     | `--line-height-lead`     | `.dnb-t__line-height--lead`     | Same as `medium` |
+| <PropAsPx name="--line-height-medium" />   | `medium`   | **<PropValue name="--line-height-medium" />**   | `--line-height-medium`   | `.dnb-t__line-height--medium`   |                  |
+| <PropAsPx name="--line-height-large" />    | `large`    | **<PropValue name="--line-height-large" />**    | `--line-height-large`    | `.dnb-t__line-height--large`    |                  |
+| <PropAsPx name="--line-height-x-large" />  | `x-large`  | **<PropValue name="--line-height-x-large" />**  | `--line-height-x-large`  | `.dnb-t__line-height--x-large`  |                  |
+| <PropAsPx name="--line-height-xx-large" /> | `xx-large` | **<PropValue name="--line-height-xx-large" />** | `--line-height-xx-large` | `.dnb-t__line-height--xx-large` |                  |
+
+### Responsive typography (BETA)
+
+**NB**: This feature is in beta and may be subject to change.
+
+Wrap a section of your UI in `<Typography.Context responsive>` to enable typography that adapts automatically across breakpoints.
+Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, will start using the responsive variables in the table below.
+
+You can turn it off for a section using `<Typography.Context responsive={false}>`.
+
+| CSS Variable                        | `← small`                                  | `small → medium`                            | `medium →`                                  |
+| ----------------------------------- | ------------------------------------------ | ------------------------------------------- | ------------------------------------------- |
+| `--responsive-line-height-x-small`  | <PropValue name="--line-height-x-small" /> | <PropValue name="--line-height-x-small" />  | <PropValue name="--line-height-x-small" />  |
+| `--responsive-line-height-small`    | <PropValue name="--line-height-x-small" /> | <PropValue name="--line-height-small" />    | <PropValue name="--line-height-small" />    |
+| `--responsive-line-height-basis`    | <PropValue name="--line-height-small" />   | <PropValue name="--line-height-basis" />    | <PropValue name="--line-height-basis" />    |
+| `--responsive-line-height-medium`   | <PropValue name="--line-height-medium" />  | <PropValue name="--line-height-medium" />   | <PropValue name="--line-height-medium" />   |
+| `--responsive-line-height-large`    | <PropValue name="--line-height-large" />   | <PropValue name="--line-height-large" />    | <PropValue name="--line-height-large" />    |
+| `--responsive-line-height-x-large`  | <PropValue name="--line-height-large" />   | <PropValue name="--line-height-x-large" />  | <PropValue name="--line-height-x-large" />  |
+| `--responsive-line-height-xx-large` | <PropValue name="--line-height-x-large" /> | <PropValue name="--line-height-xx-large" /> | <PropValue name="--line-height-xx-large" /> |
+
+All `--responsive-line-height-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere you can use the `.dnb-t` class.
+
+### Code Editor Extensions
+
+You may be interested in installing an [Eufemia code editor extension](/web/ai-tools-and-resources/developer-tools/#code-editor-extensions) that allows you to quickly auto complete the correct `line-height`.
+
+## Additional `line-height` **em** table
+
+| Pixel | Type           | Em                                                  | Custom Property              | Info   |
+| ----- | -------------- | --------------------------------------------------- | ---------------------------- | ------ |
+| 16px  | `xx-small--em` | **<PropValue name="--line-height-xx-small--em" />** | `--line-height-xx-small--em` |        |
+| 24px  | `basis--em`    | **<PropValue name="--line-height-basis--em" />**    | `--line-height-basis--em`    | **\*** |
+
+**\*** For example: if we sum 1.33333333333\*18 we get 24. Browsers do round CSS values, so we do not need all the decimal numbers for now.
+
+### How to use the line heights (CSS)
+
+```css
+/* I have a default height */
+.dnb-p {
+  line-height: var(--line-height-basis); /* 1.5rem = 24px (in Ui theme) */
+}
+```
+
+## Typography helpers
+
+This is a list of all the typography helper classes available. They are used by the [Span](/web/layout-and-typography/elements/span/) and [Paragraph](/web/layout-and-typography/elements/paragraph/) components, but can also be used on their own.
+
+For visual examples, see the [Paragraph demos](/web/layout-and-typography/elements/paragraph/#paragraph).
+
+For details on sizes and weights, see the [Font weights](/web/layout-and-typography/typography/css-reference/), [Font size](/web/layout-and-typography/typography/font-size/) and [Line Height](/web/layout-and-typography/typography/css-reference/) documentation.
+
+## CSS classes `.dnb-t`
+
+### Font weight
+
+```
+  .dnb-t__weight--light
+  .dnb-t__weight--regular
+  .dnb-t__weight--medium
+  .dnb-t__weight--bold
+```
+
+### Font size
+
+```
+  .dnb-t__size--xx-large
+  .dnb-t__size--x-large
+  .dnb-t__size--large
+  .dnb-t__size--basis
+  .dnb-t__size--medium
+  .dnb-t__size--small
+  .dnb-t__size--x-small
+```
+
+### Line heights
+
+```
+  .dnb-t__line-height--xx-large
+  .dnb-t__line-height--x-large
+  .dnb-t__line-height--large
+  .dnb-t__line-height--basis
+  .dnb-t__line-height--medium
+  .dnb-t__line-height--small
+  .dnb-t__line-height--x-small
+```
+
+### Text alignment
+
+```
+  .dnb-t__align--center
+  .dnb-t__align--left
+  .dnb-t__align--right
+```
+
+### Font family
+
+```
+  .dnb-t__family--basis
+  .dnb-t__family--default
+  .dnb-t__family--heading
+  .dnb-t__family--monospace
+  .dnb-t__family--display
+```
+
+The `basis` and `default` families both select the default text family.
+Use `display` only for [short, expressive headlines](/web/layout-and-typography/typography/#display-headlines).
+Display is **experimental**. [Contact the Eufemia team](/about/contact)
+before using it. It uses the single upright weight and a 110% line height.
+
+### Underline / italic
+
+```
+  .dnb-t__decoration--underline
+  .dnb-t__slant--italic
+```

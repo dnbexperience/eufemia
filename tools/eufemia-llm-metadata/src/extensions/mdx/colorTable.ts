@@ -77,7 +77,7 @@ async function loadColorTableThemes(deps: SpecialMdxRendererDeps) {
 
   const colorTablePath = path.join(
     portalRoot,
-    'src/docs/quickguide-designer/colors/ColorTable.tsx'
+    'src/docs/web/get-started/design-for-web/colors/ColorTable.tsx'
   )
   const { rowsByTheme, propertyModulePaths } =
     await loadColorTableSourceData(colorTablePath)

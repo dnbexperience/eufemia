@@ -5,7 +5,7 @@ import { TypographyProperties } from './TypographyDocs'
 export const HProperties: PropertiesTableProps = {
   family: TypographyProperties.family,
   size: {
-    doc: 'Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Use `auto` to use the size of the heading level. `H` defaults to `xx-large`, and `H1` to `H6` default to `auto`.',
+    doc: 'Define the typography [font-size](/web/layout-and-typography/typography/font-size) by a size _type_, e.g. `x-large`. Use `auto` to use the size of the heading level. `H` defaults to `xx-large`, and `H1` to `H6` default to `auto`.',
     type: [
       '"auto"',
       '"xx-large"',
@@ -19,7 +19,7 @@ export const HProperties: PropertiesTableProps = {
     status: 'optional',
   },
   level: {
-    doc: 'Set to `use` to let the automated [Heading](/uilib/components/heading) levels continue from the level of this element. For example, `<H3 level="use" />` makes the next `Heading` use level 3.',
+    doc: 'Set to `use` to let the automated [Heading](/web/components/heading) levels continue from the level of this element. For example, `<H3 level="use" />` makes the next `Heading` use level 3.',
     type: '"use"',
     status: 'optional',
   },

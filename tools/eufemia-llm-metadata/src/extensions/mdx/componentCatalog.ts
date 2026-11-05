@@ -21,7 +21,9 @@ export type ComponentCategoryId =
   | 'navigation'
   | 'feedback'
   | 'content'
-  | 'other'
+  | 'formatting'
+  | 'accessibility'
+  | 'utilities'
 
 export type ComponentCategoryDefinition = {
   id: ComponentCategoryId
@@ -35,37 +37,49 @@ export const componentCategoryOrder: ReadonlyArray<ComponentCategoryDefinition> 
       id: 'actions',
       title: 'Actions',
       description:
-        'For things people click to do something, open choices, follow a link, or get help.',
+        'Buttons and controls for starting actions or opening choices.',
     },
     {
       id: 'input',
-      title: 'Input',
+      title: 'Inputs',
       description:
-        'For entering information, choosing options, uploading files, or changing values.',
+        'Controls for entering information, choosing options, and uploading files.',
     },
     {
       id: 'navigation',
       title: 'Navigation',
       description:
-        'For helping people move between pages, jump to content, or continue through steps.',
+        'Components for moving between pages, sections, and steps.',
     },
     {
       id: 'feedback',
-      title: 'Feedback',
+      title: 'Feedback and dialogs',
       description:
-        'For messages and panels that tell people what happened, what is happening, or what needs attention.',
+        'Messages, progress indicators, and dialogs that explain what is happening or needs attention.',
     },
     {
       id: 'content',
-      title: 'Content',
+      title: 'Content and layout',
       description:
-        'For showing information, such as text, numbers, tables, icons, lists, and cards.',
+        'Components for organizing and displaying information, images, icons, and tables.',
     },
     {
-      id: 'other',
-      title: 'Other',
+      id: 'formatting',
+      title: 'Formatting and typography',
       description:
-        'For special page behavior that does not fit the groups above.',
+        'Components for formatting dates, numbers, lists, and text.',
+    },
+    {
+      id: 'accessibility',
+      title: 'Accessibility',
+      description:
+        'Components for announcements, keyboard navigation, and screen reader content.',
+    },
+    {
+      id: 'utilities',
+      title: 'Utilities',
+      description:
+        'Components for scrolling, animation, copying, and rendering outside the page flow.',
     },
   ]
 
@@ -74,8 +88,8 @@ const categoryIds = new Set<string>(
 )
 
 export const excludedSlugs = new Set([
-  'uilib/components/fragments',
-  'uilib/components/overview',
+  'web/components/fragments',
+  'web/components/overview',
 ])
 
 export type ComponentCatalogEntry = {
@@ -143,16 +157,26 @@ export function loadComponentCatalog(
 async function buildComponentCatalog(
   docsRoot: string
 ): Promise<ComponentCatalog> {
-  const componentsRoot = path.join(docsRoot, 'uilib', 'components')
+  const catalogRoots = [
+    path.join(docsRoot, 'web', 'components'),
+    path.join(docsRoot, 'web', 'patterns-and-extensions'),
+    path.join(docsRoot, 'web', 'extensions'),
+    path.join(docsRoot, 'uilib', 'components'),
+    path.join(docsRoot, 'uilib', 'extensions'),
+  ]
   const entries: ComponentCatalogEntry[] = []
 
-  let files: string[]
-
-  try {
-    files = await findMdxFiles(componentsRoot)
-  } catch {
-    files = []
-  }
+  const files = (
+    await Promise.all(
+      catalogRoots.map(async (root) => {
+        try {
+          return await findMdxFiles(root)
+        } catch {
+          return []
+        }
+      })
+    )
+  ).flat()
 
   for (const filePath of files) {
     const relativePath = path
@@ -160,7 +184,7 @@ async function buildComponentCatalog(
       .replace(/\\/g, '/')
     const noExt = relativePath.replace(/\.[^/.]+$/, '')
 
-    if (excludedSlugs.has(noExt)) {
+    if (excludedSlugs.has(noExt.replace(/^uilib\//, 'web/'))) {
       continue
     }
 
@@ -170,12 +194,22 @@ async function buildComponentCatalog(
       continue
     }
 
+    if (
+      /^(?:web\/patterns-and-extensions|(?:web|uilib)\/extensions)\//.test(
+        noExt
+      ) &&
+      noExt.split('/').length !== 3
+    ) {
+      continue
+    }
+
     const title =
       typeof frontmatter.title === 'string' ? frontmatter.title.trim() : ''
 
     if (
       !title ||
       frontmatter.draft === true ||
+      frontmatter.route === false ||
       frontmatter.hideInMenu === true
     ) {
       continue
@@ -230,5 +264,5 @@ function getCategoryId(
     return category as ComponentCategoryId
   }
 
-  return 'other'
+  return 'utilities'
 }

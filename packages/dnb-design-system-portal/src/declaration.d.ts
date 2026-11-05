@@ -27,12 +27,18 @@ declare module '*.module.scss' {
 }
 
 declare module 'virtual:portal-pages' {
-  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
+  import type { PortalRoute } from '../vite/client/plugins/portal-pages.shared'
+  export const routes: PortalRoute[]
+  export const routeModules: Record<string, string>
+  export {
+    allMdxNodes,
+    regularMdxNodes,
+    globPath,
+  } from 'virtual:portal-data'
+}
 
-  export const routes: Array<{
-    path: string
-    lazy: () => Promise<{ Component: React.ComponentType }>
-  }>
+declare module 'virtual:portal-data' {
+  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
 
   /**
    * Every MDX page, unfiltered and unsorted.
@@ -51,8 +57,8 @@ declare module 'virtual:portal-pages' {
    *
    * `*` matches within one path segment, `**` matches any number of them:
    *
-   *   globPath(node, 'uilib/elements/*')       direct children
-   *   globPath(node, 'uilib/elements/**')      any depth
+   *   globPath(node, 'web/elements/*')       direct children
+   *   globPath(node, 'web/elements/**')      any depth
    */
   export function globPath(node: MdxNode, pattern: string): boolean
 }
@@ -70,6 +76,7 @@ declare module 'virtual:scroll-position' {
   export function saveScrollPosition(): void
   export function restoreScrollPosition(options?: {
     smooth?: boolean
+    restoreWindow?: boolean
   }): void
   export function useScrollPosition(): void
 }

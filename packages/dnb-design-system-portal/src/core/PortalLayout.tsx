@@ -22,7 +22,7 @@ import { Breadcrumb, Button, P } from '@dnb/eufemia/src'
 import PropertiesUsage from '../docs/_shared/_properties-usage.mdx'
 import { resolveEditSourcePath } from './editSourcePath'
 import { getSuggestEditUrl } from './suggestEdit'
-import AiExperimentalNotice from '../docs/uilib/extensions/ai/ExperimentalNotice'
+import AiExperimentalNotice from '../docs/web/patterns-and-extensions/ai/ExperimentalNotice'
 import type { KnownFrontmatter } from '../../vite/client/plugins/portal-pages.shared'
 
 const ContentWrapper = TabBar.ContentWrapper
@@ -213,13 +213,13 @@ export default function PortalLayout(props: PortalLayoutProps) {
           showEditLink={!fmData.hideEditLink}
           showPropertiesUsage={
             !pageFm.hidePropertiesUsage &&
-            slug.startsWith('uilib/') &&
+            slug.startsWith('web/') &&
             slug.endsWith('/properties')
           }
         >
           {!codeFocusMode &&
-            (slug === 'uilib/extensions/ai' ||
-              slug.startsWith('uilib/extensions/ai/')) && (
+            (slug === 'web/patterns-and-extensions/ai' ||
+              slug.startsWith('web/patterns-and-extensions/ai/')) && (
               <AiExperimentalNotice />
             )}
           {children}

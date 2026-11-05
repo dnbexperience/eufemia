@@ -1,0 +1,74 @@
+---
+title: Motion examples and implementation
+order: 3
+description: Visual examples and implementation guidance for motion in DNB interfaces.
+navigation:
+  title: Motion examples and implementation
+  order: 7
+  parent: web/development-guidelines
+legacyFragments:
+  motion: /web/development-guidelines/motion/#motion-examples-and-implementation
+redirect_from:
+  - /quickguide-designer/motion
+legacyPrefixes:
+  - quickguide-designer/motion
+---
+
+import MotionDemos from './motion/MotionDemos'
+import EasingDemo from './motion/EasingDemo'
+
+Help people understand what changed. Keep feedback close to the action, movement short, and the interface usable while it settles.
+
+Read the [Motion principles](/design-foundations/motion-principles/) for when and why to use motion.
+
+<MotionDemos>
+
+## Implementation
+
+Reuse an Eufemia component's built-in motion before adding a custom animation.
+
+### Components
+
+- [Icon](/web/components/icon/#animated-icons) provides opt-in, individually imported animated icons for event feedback and ongoing activity.
+- [Accordion](/web/components/accordion/) opens and closes content in place.
+- [Table](/web/components/table/#table-with-accordion) lets details settle into an expanding row.
+- [Breadcrumb](/web/components/breadcrumb/#always-be-collapsed-variantcollapse) reveals a collapsed path.
+- [Dialog](/web/components/dialog/) and [Drawer](/web/components/drawer/) enter and leave without moving the page.
+- [Switch](/web/components/switch/) gives short, direct feedback.
+- [TextCounter](/web/components/fragments/text-counter/) makes room for an error message.
+- [HeightAnimation](/web/components/height-animation/) handles expanding or collapsing content with an unknown height.
+
+### Custom motion
+
+#### Timing and easing
+
+Keep direct interaction feedback short. Try around `180ms` for a small movement, and `300ms` to `500ms` for larger transitions or expanding content. Do not delay feedback after a user action.
+
+Prefer animating `transform` and `opacity` when possible. Reuse Eufemia's [animation easing variables](/web/ai-tools-and-resources/utilities#animation-easing).
+
+##### Easing tokens
+
+<EasingDemo />
+
+```css
+transition: transform 300ms var(--easing-default);
+transition: transform 180ms var(--easing-fast-bounce);
+```
+
+#### Reduced motion
+
+Respect the user's reduced-motion preference when writing custom animations. Keep non-animated styles in a meaningful state so disabling motion does not hide content or feedback.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  .dnb-custom-motion {
+    animation: none;
+    transition-delay: 0ms;
+    transition-duration: 0.01ms;
+  }
+}
+```
+
+Eufemia's `HeightAnimation` component already handles this preference. Read more about [reduced motion support](/web/accessibility/about-accessibility#reduced-motion-support).
+
+</MotionDemos>

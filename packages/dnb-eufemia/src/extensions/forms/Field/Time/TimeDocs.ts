@@ -5,7 +5,7 @@ import { getFieldEventsWithTypes } from '../FieldDocs'
 export const TimeProperties: PropertiesTableProps = {
   size: {
     ...InputProperties.size,
-    doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).`,
   },
   showSeconds: {
     doc: 'If set to `true`, a seconds input is shown in addition to hours and minutes.',

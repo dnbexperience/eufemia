@@ -139,7 +139,7 @@ export type PaginationProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.
+   * If set to `infinity`, then the pagination bar will not be shown, but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/web/components/pagination/infinity-scroller). Defaults to `pagination`.
    */
   mode?: PaginationMode
   /**
@@ -216,7 +216,7 @@ export type PaginationProps = {
    */
   loadButton?: PaginationLoadButtonProps
   /**
-   * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/uilib/layout/space/properties).
+   * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/web/layout-and-typography/layout/space/properties).
    */
   barSpace?: SpaceTypeAll
   /**

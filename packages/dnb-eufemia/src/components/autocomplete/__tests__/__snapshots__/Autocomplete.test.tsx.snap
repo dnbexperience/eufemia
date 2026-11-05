@@ -237,6 +237,7 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
+  max-width: 37rem;
   min-height: 1.5rem;
   padding: 0 1rem;
 }
@@ -1344,7 +1345,7 @@ legend.dnb-form-label {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
-  --input-font-size--large: var(--font-size-medium);
+  --input-font-size--large: var(--font-size-basis);
   --input-padding: 1rem;
   --input-padding--small: 1rem;
   --input-padding--medium: 1rem;
@@ -2177,6 +2178,12 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 .dnb-progress-indicator--horizontal.dnb-progress-indicator--small .dnb-progress-indicator__label {
   padding-left: 0.5rem;
+}
+.dnb-progress-indicator--full-width.dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
+  flex-shrink: 0;
+  max-width: 50%;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
 }
 .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
   padding-top: 0.5rem;

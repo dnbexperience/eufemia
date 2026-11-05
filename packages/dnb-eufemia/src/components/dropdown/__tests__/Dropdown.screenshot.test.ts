@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/dropdown/demos/',
+    url: '/web/components/dropdown/demos/',
   })
 
   it('have to match the closed dropdown', async () => {
@@ -145,7 +145,7 @@ describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
 describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/dropdown/demos/',
+    url: '/web/components/dropdown/demos/',
     pageViewport: {
       width: 480,
       height: 480 * 2,
@@ -195,7 +195,7 @@ describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
 describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/dropdown/demos/',
+    url: '/web/components/dropdown/demos/',
   })
 
   it('have to match the tertiary variant opened on left side', async () => {

@@ -6,7 +6,7 @@
  */
 
 import { useNavigate, type To } from 'react-router'
-import { allMdxNodes } from 'virtual:portal-pages'
+import { allMdxNodes } from 'virtual:portal-data'
 import type { MdxNode } from '../plugins/portal-pages.shared'
 import { compareByOrder } from '../plugins/portal-pages.shared'
 
@@ -42,14 +42,20 @@ export function graphql(strings: TemplateStringsArray) {
 // Cache for useStaticQuery results. Since allMdxNodes is static, consumers
 // should treat the returned result for a given query string as read-only.
 const staticQueryCache = new Map<string, unknown>()
+let cachedNodes = allMdxNodes
 
 // useStaticQuery returns the pre-computed allMdx data.
 // Gatsby's GraphQL layer filters (e.g. title != null, draft != true) –
 // replicate the most common filters here so portal code that relies on
-// them (SidebarMenu, ListComponents) doesn't crash on missing titles.
+// them (SidebarMenu, ListComponentsOverview) doesn't crash on missing titles.
 export function useStaticQuery<
   T extends StaticQueryConnections = { allMdx: StaticQueryConnection },
 >(query: unknown): StaticQueryResultFull<T> {
+  if (cachedNodes !== allMdxNodes) {
+    cachedNodes = allMdxNodes
+    staticQueryCache.clear()
+  }
+
   const queryStr = typeof query === 'string' ? query : ''
 
   const cached = staticQueryCache.get(queryStr)
@@ -159,8 +165,8 @@ function buildFilteredEdges(
       // ignore invalid regex
     }
   } else if (globMatch) {
-    // Convert glob like "**/uilib/elements/*" or
-    // "**/uilib/about-the-lib/releases/eufemia/**/*" to a slug prefix
+    // Convert glob like "**/web/layout-and-typography/elements/*" or
+    // "**/web/releases-and-upgrades/versions/eufemia/**/*" to a slug prefix
     const globPattern = globMatch[1]
     const prefix = globPattern
       .replace(/^\*\*\//, '')

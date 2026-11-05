@@ -1,0 +1,46 @@
+.dnb-home-hide {
+  --hide-offset: 0%;
+  --hide-rope-slant: 0rad;
+
+  [data-hanging-item] > span:first-child {
+    background: none;
+    transform: skewX(var(--hide-rope-slant));
+
+    svg {
+      opacity: 1;
+    }
+
+    path {
+      animation: dnb-home-hide-rope 3s ease-in-out infinite alternate;
+    }
+  }
+
+  [data-hanging-item]:focus-within > span:first-child {
+    transform: none;
+  }
+
+  [data-hanging-item]:nth-child(even) > span:first-child path {
+    animation-delay: -2s;
+  }
+
+  [data-home-specimen] {
+    translate: var(--hide-offset);
+
+    &:focus-within {
+      translate: 0;
+    }
+  }
+
+  [data-hanging-item] > span:last-child {
+    opacity: 0;
+  }
+}
+
+@keyframes dnb-home-hide-rope {
+  from {
+    d: path('M32 0 C-288 45 352 125 32 100');
+  }
+  to {
+    d: path('M32 0 C352 45 -288 125 32 100');
+  }
+}

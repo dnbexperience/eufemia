@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/table-of-content/demos/',
+    url: '/web/patterns-and-extensions/table-of-content/demos/',
   })
 
   it('matches nested declarative navigation', async () => {

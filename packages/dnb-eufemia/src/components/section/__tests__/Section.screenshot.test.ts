@@ -21,7 +21,7 @@ const sections = {
 describe.each(['ui', 'sbanken'])(`Section for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/section/demos/',
+    url: '/web/components/section/demos/',
   })
 
   it.each(sections[themeName])(
@@ -37,7 +37,7 @@ describe.each(['ui', 'sbanken'])(`Section for %s`, (themeName) => {
 describe('Responsive', () => {
   it('have to match section on "small" size', async () => {
     await makeScreenshot({
-      url: '/uilib/components/section/demos/',
+      url: '/web/components/section/demos/',
       pageViewport: {
         width: 400,
       },
@@ -47,7 +47,7 @@ describe('Responsive', () => {
 
   it('have to match section on "medium" size', async () => {
     await makeScreenshot({
-      url: '/uilib/components/section/demos/',
+      url: '/web/components/section/demos/',
       pageViewport: {
         width: 800,
       },
@@ -57,7 +57,7 @@ describe('Responsive', () => {
 
   it('have to match section on "large" size', async () => {
     await makeScreenshot({
-      url: '/uilib/components/section/demos/',
+      url: '/web/components/section/demos/',
       pageViewport: {
         width: 1000,
       },

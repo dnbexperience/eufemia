@@ -53,7 +53,7 @@ export type HeadingProps = Pick<TypographyProps, 'family'> & {
   text?: ReactNode
 
   /**
-   * Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.
+   * Define the typography [font-size](/web/layout-and-typography/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.
    */
   size?: HeadingSize
   level?: HeadingLevel

@@ -1,15 +1,84 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
 import testPageFilterPlugin, {
   collectTestFiles,
+  collectE2eTestPages,
   extractVisualTestUrls,
   extractPageGotoUrls,
   normalizePagePath,
 } from '../../client/plugins/test-page-filter'
 
 describe('test-page-filter plugin', () => {
+  it('keeps pages reached through legacy fragments and sidebar navigation', () => {
+    vi.stubEnv('IS_E2E', '1')
+    try {
+      const plugin = testPageFilterPlugin()
+      const transform = plugin.transform as (
+        code: string,
+        id: string
+      ) => { code: string }
+      const { code } = transform('', 'virtual:portal-pages')
+      const paths = [
+        '/web/development-guidelines/motion',
+        '/web/typography/font-weight',
+        '/web/layout-and-typography/typography/css-reference',
+        '/web/components/icon/usage',
+        '/web/styling-and-themes/design-tokens',
+        '/web/forms/getting-started',
+        '/uilib/usage',
+        '/web/usage',
+        '/web/get-started/requirements',
+      ]
+      const routes = paths.map((path) => ({ path }))
+      new Function('routes', code)(routes)
+      expect(routes.map(({ path }) => path)).toEqual(paths)
+    } finally {
+      vi.unstubAllEnvs()
+    }
+  })
+
+  it('keeps both dedicated AI pages and their bookmark source in the partial build', () => {
+    const pages = collectE2eTestPages()
+    for (const path of [
+      '/web/ai-tools-and-resources/ai/ai-skills',
+      '/web/ai-tools-and-resources/ai/mcp-universe',
+      '/uilib/usage/first-steps/tools',
+      '/web/ai-tools-and-resources/developer-tools',
+      '/web/components/button/properties',
+      '/web/components/date-picker/properties',
+      '/uilib/components/date-picker/properties',
+    ]) {
+      expect(pages.has(path)).toBe(true)
+    }
+  })
+  it('retains the canonical destination of a legacy URL used by a test', () => {
+    vi.stubEnv('IS_E2E', '1')
+    try {
+      const plugin = testPageFilterPlugin()
+      const transform = plugin.transform as (
+        code: string,
+        id: string
+      ) => { code: string }
+      const result = transform('', 'virtual:portal-pages')
+      const routes = [
+        {
+          path: '/uilib/components/button/demos/',
+          handle: { redirectTo: '/web/components/button/demos/' },
+        },
+        { path: '/web/components/button/demos/' },
+        { path: '/unrelated-page/' },
+      ]
+      new Function('routes', result.code)(routes)
+      expect(routes.map(({ path }) => path)).toEqual([
+        '/uilib/components/button/demos/',
+        '/web/components/button/demos/',
+      ])
+    } finally {
+      vi.unstubAllEnvs()
+    }
+  })
   describe('plugin interface', () => {
     it('returns a plugin with the correct name', () => {
       const plugin = testPageFilterPlugin()
@@ -301,6 +370,24 @@ describe('test-page-filter plugin', () => {
           '/uilib/changelog',
           '/design-system',
         ])
+      )
+    })
+
+    it('extracts routes reached by client-side navigation', () => {
+      const filePath = writeTsFile(
+        'navigation.e2e.spec.ts',
+        `
+        test('navigation works', async ({ page }) => {
+          await page.goto('/')
+          await page.getByRole('link', { name: 'Design' }).click()
+          await expect(page).toHaveURL('/web/get-started/design-for-web')
+        })
+        `
+      )
+
+      const urls = extractPageGotoUrls(filePath)
+      expect(urls).toEqual(
+        new Set(['/', '/web/get-started/design-for-web'])
       )
     })
 

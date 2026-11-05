@@ -32,7 +32,7 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: '[Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.',
+    doc: '[Primary Icons](/collections/icons) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -81,7 +81,7 @@ export const AnchorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `left` or `right` are supported.',
     type: ['string', 'object'],
     status: 'optional',

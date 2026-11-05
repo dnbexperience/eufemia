@@ -2,12 +2,15 @@ import { test, expect, type Locator } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 const expandAllSidebarItems = async (page) => {
-  const links = page.locator('.dnb-sidebar-menu__expand-button')
-  const linksCount = await links.count()
+  await page
+    .locator('.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]')
+    .evaluateAll((buttons: HTMLButtonElement[]) => {
+      buttons.forEach((button) => button.click())
+    })
 
-  for (let i = 0; i < linksCount; i++) {
-    await links.nth(i).click()
-  }
+  await expect(
+    page.locator('.dnb-height-animation--animating')
+  ).toHaveCount(0)
 }
 
 const getHeadingTextWithoutSrDescription = async (locator: Locator) =>
@@ -24,54 +27,89 @@ test.describe('Page Lists', () => {
     test.describe.configure({ retries: 3 })
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/overview/')
 
       // Check if app is mounted
       await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {
-      await expect(page).toHaveTitle('Components | Eufemia')
+      await expect(page).toHaveTitle('Components by category | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('Components')
+      await expect(headingText).toBe('Components by category')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
     test('should have same amount of components', async ({ page }) => {
       await expandAllSidebarItems(page)
 
-      const listLength = await page
-        .locator(
-          // make exception with:
-          // - "infinity-scroller"
-          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item > a[href*="/uilib/components"]) ul li:is(.l-3:has(> .dnb-sidebar-menu__item > a[href*="/components"]):has(>.dnb-sidebar-menu__item> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))'
-        )
-        .count()
-
       await expect(
-        page.locator(
-          '#tab-bar-content h2:has(a[href*="/uilib/components/"]:not([aria-hidden]))'
+        page.locator('#tab-bar-content a[href="/web/components/overview"]')
+      ).toHaveCount(0)
+
+      const menuPaths = await page
+        .locator(
+          '#portal-sidebar-menu [data-sidebar-menu-id="web-components"] a[href^="/web/components/"]'
         )
-      ).toHaveCount(listLength)
+        .evaluateAll((links) => {
+          return [
+            ...new Set(
+              links
+                .map((link) => link.getAttribute('href'))
+                .filter(
+                  (href) =>
+                    href &&
+                    href !== '/web/components/overview' &&
+                    href !== '/web/components/icon/usage' &&
+                    href !== '/web/components/fragments' &&
+                    !href.startsWith('/web/components/fragments/')
+                )
+            ),
+          ].sort()
+        })
+
+      const overviewPaths = await page
+        .locator('#tab-bar-content a[href^="/web/components/"]')
+        .evaluateAll((links) =>
+          [
+            ...new Set(
+              links
+                .map((link) => link.getAttribute('href'))
+                .filter(
+                  (href) =>
+                    href &&
+                    href !== '/web/components/overview' &&
+                    href !== '/web/components/icon/usage' &&
+                    href !== '/web/components/fragments' &&
+                    !href.startsWith('/web/components/fragments/')
+                )
+            ),
+          ].sort()
+        )
+      expect(overviewPaths).toEqual(menuPaths)
     })
   })
 
   test.describe('of extensions', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/uilib/extensions/')
+      await page.goto(
+        '/web/patterns-and-extensions/using-patterns-and-extensions/'
+      )
 
       // Check if app is mounted
       await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {
-      await expect(page).toHaveTitle('Extensions | Eufemia')
+      await expect(page).toHaveTitle(
+        'Using patterns and extensions | Eufemia'
+      )
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('Extensions')
+      await expect(headingText).toBe('Using patterns and extensions')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
@@ -82,13 +120,13 @@ test.describe('Page Lists', () => {
 
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions"]) ul li.l-3:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions/"])'
+          '#portal-sidebar-menu [data-sidebar-menu-id="web-patterns-and-extensions-extensions"] [data-sidebar-menu-id] > a[href^="/web/extensions/"], #portal-sidebar-menu [data-sidebar-menu-id="web-patterns-and-extensions-extensions"] [data-sidebar-menu-id] > .dnb-sidebar-menu__accordion__trigger a[href^="/web/extensions/"]'
         )
         .count()
 
       await expect(
         page.locator(
-          '#tab-bar-content h2:has(a[href*="/uilib/extensions/":not([aria-hidden]))'
+          '#tab-bar-content h2:has(a[href*="/web/extensions/":not([aria-hidden]))'
         )
       ).toHaveCount(listLength)
     })
@@ -96,32 +134,32 @@ test.describe('Page Lists', () => {
 
   test.describe('of elements', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/uilib/elements/')
+      await page.goto('/web/layout-and-typography/elements/')
 
       // Check if app is mounted
       await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {
-      await expect(page).toHaveTitle('HTML Elements | Eufemia')
+      await expect(page).toHaveTitle('HTML elements | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('HTML Elements')
+      await expect(headingText).toBe('HTML elements')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
     test('should have same amount of elements', async ({ page }) => {
-      const listLength = await page
-        .locator(
-          '#portal-sidebar-menu ul li.l-2:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"]) ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"])'
-        )
-        .count()
-      await expect(
-        page.locator(
-          '#tab-bar-content ul li:has(a[href*="/uilib/elements/"]:not([aria-hidden]))'
-        )
-      ).toHaveCount(listLength)
+      await expandAllSidebarItems(page)
+
+      const sidebarLinks = page.locator(
+        '#portal-sidebar-menu [data-sidebar-menu-id="web-layout-and-typography-elements"] [data-sidebar-menu-id] > a[href^="/web/elements/"]'
+      )
+      const pageLinks = page.locator(
+        '#tab-bar-content ul li a[href^="/web/elements/"]:not([aria-hidden])'
+      )
+
+      await expect(pageLinks).toHaveCount(await sidebarLinks.count())
     })
   })
 })
