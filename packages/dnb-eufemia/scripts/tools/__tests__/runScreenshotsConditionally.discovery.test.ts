@@ -102,6 +102,18 @@ describe('runScreenshotsConditionally discovery', () => {
     ])
   })
 
+  it('uses the namespace for files that its components share', () => {
+    const names = collectChangedEntityNames([
+      'src/extensions/forms/Field/style/dnb-field.scss',
+      'src/extensions/forms/Wizard/hooks/useStep.ts',
+    ])
+
+    expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
+      'Field',
+      'Wizard',
+    ])
+  })
+
   it('selects only the demos that use the changed forms component', () => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-forms-'))
     try {
