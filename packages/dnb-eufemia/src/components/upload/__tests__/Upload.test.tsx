@@ -2390,6 +2390,14 @@ describe('Upload', () => {
       expect(screen.queryByText(nb.title)).toBeInTheDocument()
     })
 
+    it('renders the title with lead typography', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(
+        document.querySelector('.dnb-upload__label .dnb-lead')
+      ).toHaveTextContent(nb.title)
+    })
+
     it('renders the custom title', () => {
       const customTitle = 'custom title'
 

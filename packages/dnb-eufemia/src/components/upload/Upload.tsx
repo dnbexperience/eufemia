@@ -217,7 +217,7 @@ function CompactLabel(props: {
       className="dnb-upload__label"
     >
       <span>
-        {title && <span>{title}</span>}
+        {title && <span className="dnb-lead">{title}</span>}
         {title && text && <br />}
         {text && <span className="dnb-upload__text">{text}</span>}
       </span>
