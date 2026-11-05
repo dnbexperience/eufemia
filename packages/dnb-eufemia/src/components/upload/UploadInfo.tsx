@@ -13,6 +13,7 @@ import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
 import AccordionTertiary from '../accordion/AccordionTertiary'
+import Card from '../card/Card'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
@@ -21,9 +22,13 @@ const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
 
 const formatFileSize = (
   fileSizeContent: ReactNode,
-  size: number | string
+  size: number | string,
+  locale: string
 ) =>
-  String(fileSizeContent).replace('%size', formatNumber(size).toString())
+  String(fileSizeContent).replace(
+    '%size',
+    formatNumber(size, { locale }).toString()
+  )
 
 // The file limits show the descriptions as table headers, without the colon
 const removeTrailingColon = (text: ReactNode) =>
@@ -35,6 +40,7 @@ function useFileLimits() {
     filesAmountLimit,
     fileMaxSize,
     fileSizeContent,
+    locale,
   } = useContext(UploadContext)
 
   const prettifiedAcceptedFileFormats =
@@ -50,7 +56,7 @@ function useFileLimits() {
     isAcceptedFileTypeListOfStrings && fileMaxSize
 
   const fileMaxSizeText = displayFileMaxSizeItem
-    ? formatFileSize(fileSizeContent, fileMaxSize)
+    ? formatFileSize(fileSizeContent, fileMaxSize, locale)
     : null
 
   const displayFilesAmountLimitItem =
@@ -79,6 +85,7 @@ const UploadInfo = () => {
   const context = useContext(UploadContext)
 
   const {
+    id,
     title,
     text,
     fileTypeDescription,
@@ -101,9 +108,17 @@ const UploadInfo = () => {
     <Flex.Stack layoutEngine="css" gap="small">
       {(title || text) && (
         <Flex.Stack layoutEngine="css" gap="xx-small">
-          {title && <Lead space="0">{title}</Lead>}
+          {title && (
+            <Lead space="0" id={`${id}-title`}>
+              {title}
+            </Lead>
+          )}
 
-          {text && <P className="dnb-upload__text">{text}</P>}
+          {text && (
+            <P id={`${id}-text`} className="dnb-upload__text">
+              {text}
+            </P>
+          )}
         </Flex.Stack>
       )}
       {children}
@@ -173,7 +188,14 @@ export function UploadFileLimits() {
       iconPosition="right"
       className="dnb-upload__file-limits"
     >
-      <div className="dnb-upload__file-limits__content">
+      <Card
+        element="div"
+        responsive={false}
+        layoutEngine="css"
+        gap="small"
+        backgroundColor="var(--upload-file-limits-background)"
+        className="dnb-upload__file-limits__content"
+      >
         {displayList && (
           <Table border={false} className="dnb-upload__file-limits__table">
             <tbody>
@@ -210,7 +232,7 @@ export function UploadFileLimits() {
         {displayAcceptedFileFormatsTable && (
           <UploadInfoAcceptedFileTypesTable expandable />
         )}
-      </div>
+      </Card>
     </AccordionTertiary>
   )
 }
@@ -229,6 +251,7 @@ function UploadInfoAcceptedFileTypesTable({
     fileSizeDescription,
     fileSizeContent,
     fileMaxSize,
+    locale,
   } = context
 
   const groupByFileMaxSize = (
@@ -304,7 +327,8 @@ function UploadInfoAcceptedFileTypesTable({
                   )}
                 </Td>
                 <Td>
-                  {key !== '0' && formatFileSize(fileSizeContent, key)}
+                  {key !== '0' &&
+                    formatFileSize(fileSizeContent, key, locale)}
                 </Td>
               </Tr>
             )

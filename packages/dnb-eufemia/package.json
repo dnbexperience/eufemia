@@ -24,7 +24,7 @@
     "postbuild:ci": "./scripts/postbuild/postbuild.sh",
     "build:cjs": "./scripts/postbuild/babel-cjs.sh",
     "build:copy": "./scripts/postbuild/copy-build-artifacts.sh",
-    "build:docs": "babel-node --extensions .js,.ts,.tsx ../../tools/eufemia-llm-metadata/scripts/generateDocs.ts",
+    "build:docs": "babel-node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --extensions .js,.ts,.tsx ../../tools/eufemia-llm-metadata/scripts/generateDocs.ts",
     "build:es": "./scripts/postbuild/babel-es.sh",
     "build:esm": "./scripts/postbuild/babel-esm.sh",
     "build:lebab": "babel-node --extensions .ts ./src/plugins/postcss-isolated-style-scope/scripts/transformToESM",
@@ -43,7 +43,7 @@
     "clean": "cd build && find . -type f ! -name 'CHANGELOG.md' -delete",
     "dev:packages": "nodemon --exec 'yarn build:packages && yarn build:copy' --ext js,html,json,css,scss --watch './src/**/*' --ignore './umd/*'",
     "dev:resources": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/resources/makeResourcesPackage' --ext js,html,json,css,scss --watch './build/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
-    "dev:tasks": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/dev' --watch 'tsdown.config.ts' --ext ts,js,html,json,css,scss --watch './src/components/**/*' --watch './scripts/**/*' --ignore '*.json'",
+    "dev:tasks": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/dev' --watch 'tsdown.config.mts' --ext ts,js,html,json,css,scss --watch './src/components/**/*' --watch './scripts/**/*' --ignore '*.json'",
     "figma": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateAll",
     "figma:icons:dev": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateIcons' --ignore '*.svg' --ignore '*.json'",
     "figma:refetch": "yarn figma --force-refetch",
@@ -85,8 +85,8 @@
     "test:e2e": "playwright test --config=./playwright.config.e2e.ts",
     "test:e2e:ci": "PLAYWRIGHT_BASE_URL=http://localhost:8001 start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
     "test:e2e:watch": "playwright test --config=./playwright.config.e2e.ts --ui",
-    "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/styleSideEffects.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts scripts/postbuild/__tests__/getNextReleaseVersion.test.ts scripts/postbuild/__tests__/verifyReleaseVersion.test.ts scripts/postbuild/__tests__/releaseNotifications.test.ts scripts/postbuild/__tests__/releasePortalDeploy.test.ts",
-    "test:postbuild:publish": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/prepareForRelease.test.ts scripts/postbuild/__tests__/bundleSideEffects.test.ts",
+    "test:postbuild": "vitest run --config vitest.config.postbuild.mts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/styleSideEffects.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts scripts/postbuild/__tests__/getNextReleaseVersion.test.ts scripts/postbuild/__tests__/verifyReleaseVersion.test.ts scripts/postbuild/__tests__/releaseNotifications.test.ts scripts/postbuild/__tests__/releasePortalDeploy.test.ts scripts/postbuild/__tests__/releasePublishedVersion.test.ts",
+    "test:postbuild:publish": "vitest run --config vitest.config.postbuild.mts scripts/postbuild/__tests__/prepareForRelease.test.ts scripts/postbuild/__tests__/bundleSideEffects.test.ts",
     "test:prepare": "yarn build:style-manifest",
     "test:screenshots": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts",
     "test:screenshots:ci": "yarn test:screenshots",
@@ -391,6 +391,7 @@
           "pkgRoot": "."
         }
       ],
+      "../scripts/postbuild/releasePublished.ts",
       [
         "@semantic-release/github",
         {

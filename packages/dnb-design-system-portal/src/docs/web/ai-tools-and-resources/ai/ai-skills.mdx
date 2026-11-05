@@ -31,7 +31,7 @@ retrieve. Component APIs, tokens, theme support, and other version-sensitive
 facts remain in Eufemia's packaged documentation and MCP server rather than
 being copied into the skills.
 
-### Why use skills with MCP?
+## Why use skills with MCP?
 
 The MCP server can provide the same workflows as tools and current
 documentation. Skills complement it by helping an agent recognize relevant
@@ -40,7 +40,7 @@ also make the workflows available in clients that do not support MCP. Keep
 skills focused on discovery and reusable workflow instructions, and retrieve
 version-sensitive facts from the MCP server.
 
-### Install project skills
+## Install project skills
 
 In a project that depends on `@dnb/eufemia`, use the CLI provided by the same
 package:
@@ -76,7 +76,7 @@ Locations with a managed Eufemia installation are selected by default when the
 command runs again. Clearing a location skips its update; it does not uninstall
 the existing files.
 
-#### Automation and CI
+### Automation and CI
 
 Interactive users should use the selector. Scripts and environments without an
 interactive terminal cannot answer it, so automation must provide one project
@@ -98,7 +98,7 @@ cloud agents. The installer also writes `.eufemia-skills-lock.json` in every
 selected skills directory. Commit each lock file together with the generated
 skills so updates can detect local changes.
 
-### Update installed skills
+## Update installed skills
 
 After upgrading `@dnb/eufemia`, update the installed project skills from the
 same package version:
@@ -117,7 +117,7 @@ Run this command in the project rather than through the MCP server. The hosted
 HTTP server cannot access a caller's project files, and the package-local MCP
 server intentionally exposes the same documentation-only tools.
 
-### Manage installed skills
+## Manage installed skills
 
 ```bash
 # Show the skills included in the installed Eufemia package
@@ -137,7 +137,7 @@ any files. `check` reports missing, changed, stale, or version-mismatched files.
 `uninstall` removes only files tracked by Eufemia skills locks and leaves
 unrelated project skills untouched.
 
-### Evaluate skill changes
+## Evaluate skill changes
 
 Eufemia keeps representative output cases and trigger/non-trigger prompts in
 `packages/dnb-eufemia/agent-skills-evals`. Before changed instructions are
@@ -158,14 +158,14 @@ yarn eufemia --version
 yarn eufemia skills --help
 ```
 
-### Connect the documentation
+## Connect the documentation
 
 Install the Agent Skills and configure one of the [MCP options](/web/ai-tools-and-resources/ai/mcp-universe). Skills are
 the reusable workflow; MCP provides the current Eufemia facts. If MCP is not
 available, the skills should say that the relevant information could not be
 verified instead of guessing.
 
-### Read Markdown documentation without MCP
+## Read Markdown documentation without MCP
 
 For tools that can read files or fetch URLs directly, use the Markdown documentation:
 

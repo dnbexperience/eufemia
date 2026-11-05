@@ -3,8 +3,11 @@ import { cleanup, render } from '@testing-library/react'
 import { evaluate } from '@mdx-js/mdx'
 import * as runtime from 'react/jsx-runtime'
 import remarkGfm from 'remark-gfm'
+import ReactMarkdown from 'react-markdown'
+import { MemoryRouter } from 'react-router'
 
 import tags from '../index'
+import markdownComponents from '../markdownComponents'
 
 afterEach(cleanup)
 
@@ -46,5 +49,30 @@ describe('Markdown task lists', () => {
       'First',
       'Second',
     ])
+  })
+})
+
+describe('markdownComponents', () => {
+  it('does not render the react-markdown node as an attribute', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <ReactMarkdown
+          // @ts-expect-error -- strictFunctionTypes
+          components={markdownComponents}
+          remarkPlugins={[remarkGfm]}
+        >
+          {
+            '### Title\n\nUse `code` and [a link](/uilib/).\n\n- An item\n\n```js\nconst a = 1\n```\n'
+          }
+        </ReactMarkdown>
+      </MemoryRouter>
+    )
+
+    expect(container.querySelector('code').textContent).toBe('code')
+    expect(container.querySelector('a[href="/uilib/"]').textContent).toBe(
+      'a link'
+    )
+    expect(container.querySelector('li').textContent).toBe('An item')
+    expect(container.querySelectorAll('[node]')).toHaveLength(0)
   })
 })
