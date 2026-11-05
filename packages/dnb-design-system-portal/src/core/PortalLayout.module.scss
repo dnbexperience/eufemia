@@ -11,6 +11,19 @@
   display: flex;
   flex-direction: column;
 
+  @include utilities.allBelow(large) {
+    &:has(.content-grid__sidebar nav) {
+      .content-grid__header:has([data-portal-page-tabs])
+        ~ .content-grid__sidebar {
+        margin-top: 1.5rem;
+      }
+
+      .content-grid__content [data-portal-page-content] > :first-child {
+        margin-top: 0;
+      }
+    }
+  }
+
   @include utilities.allAbove(large) {
     display: grid;
     grid-template-columns:

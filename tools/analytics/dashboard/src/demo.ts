@@ -5,12 +5,12 @@ import type { DashboardPayload } from './data'
 // configured (see App.tsx), so it never reaches the production bundle.
 
 const pages = [
-  '/uilib/components/button',
-  '/uilib/components/input',
-  '/uilib/components/dropdown',
-  '/uilib/components/table',
+  '/web/components/button',
+  '/web/components/input',
+  '/web/components/dropdown',
+  '/web/components/table',
   '/uilib/patterns/forms',
-  '/uilib/getting-started',
+  '/web/get-started/quick-start',
 ]
 
 // About four months of daily totals ending today, with a weekly rhythm.
@@ -77,11 +77,11 @@ export const demoPayload: DashboardPayload = {
         { name: 'card', count: 6 },
       ],
       perPath: [
-        { name: '/uilib/components/button', count: 20 },
-        { name: '/uilib/components/input', count: 16 },
-        { name: '/uilib/components/dropdown', count: 12 },
+        { name: '/web/components/button', count: 20 },
+        { name: '/web/components/input', count: 16 },
+        { name: '/web/components/dropdown', count: 12 },
         { name: '/uilib/patterns/forms', count: 7 },
-        { name: '/uilib/getting-started', count: 4 },
+        { name: '/web/get-started/quick-start', count: 4 },
       ],
       missedLookups: 7,
       perLikelyComponent: [
@@ -125,9 +125,9 @@ export const demoPayload: DashboardPayload = {
         { name: 'date-picker', count: 3 },
       ],
       perPath: [
-        { name: '/uilib/components/', count: 22 },
-        { name: '/uilib/extensions/', count: 8 },
-        { name: '/uilib/usage/', count: 4 },
+        { name: '/web/components/overview/', count: 22 },
+        { name: '/web/patterns-and-extensions/extensions/', count: 8 },
+        { name: '/web/get-started/quick-start/', count: 4 },
       ],
       perVersion: [
         {

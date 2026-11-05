@@ -18,12 +18,12 @@ export type FieldProviderProps = FieldProps & {
   locale?: DataContextProps<JsonObject>['locale']
 
   /**
-   * Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ "nb-NO": { MyKey: "value" } }`. See [Localization](/uilib/usage/customisation/localization).
+   * Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ "nb-NO": { MyKey: "value" } }`. See [Localization](/web/styling-and-themes/configuration/localization).
    */
   translations?: DataContextProps<JsonObject>['translations']
 
   /**
-   * Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).
+   * Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/web/styling-and-themes/configuration/localization/#load-translations-dynamically).
    */
   translationsLoader?: DataContextProps<JsonObject>['translationsLoader']
 

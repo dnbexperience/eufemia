@@ -107,7 +107,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showSubmitButton: {
-    doc: 'Use `true` to show an Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.',
+    doc: 'Use `true` to show an Autocomplete button to toggle the [DrawerList](/web/components/fragments/drawer-list). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -213,7 +213,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -252,12 +252,12 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: ['string', 'React.Element'],
     status: 'optional',
   },
-  '[DrawerList](/uilib/components/fragments/drawer-list/properties)': {
+  '[DrawerList](/web/components/fragments/drawer-list/properties)': {
     doc: 'All DrawerList properties.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -266,27 +266,27 @@ export const AutocompleteProperties: PropertiesTableProps = {
 
 export const AutocompleteEvents: PropertiesTableProps = {
   onType: {
-    doc: 'Will be called for every key change the user makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called for every key change the user makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onFocus: {
-    doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onBlur: {
-    doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onChange: {
-    doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onSelect: {
-    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
+    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/web/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
@@ -306,7 +306,7 @@ export const AutocompleteEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmit: {
-    doc: 'Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },

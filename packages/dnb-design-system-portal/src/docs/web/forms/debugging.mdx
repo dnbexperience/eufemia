@@ -1,0 +1,51 @@
+---
+title: Debugging forms
+description: Task guidance for debugging forms.
+navigation:
+  parent: web/forms
+  title: Debugging forms
+  order: 1.7
+---
+
+## Debugging
+
+### Logging
+
+You can use the `Tools.Log` component to log data to the console. The whole data context will be logged.
+
+```tsx
+import { Tools } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Tools.Log />
+
+      <Form.Isolation>
+        <Tools.Log />
+      </Form.Isolation>
+    </Form.Handler>
+  )
+}
+```
+
+You can also provide your own data to the `Tools.Log` component by using the `data` property.
+
+### Finding errors
+
+In order to debug your forms, you can use the `Tools.Errors` component. It will render a list of all errors in your form, including the field path and the error message.
+
+- `fieldErrors` will render all field errors.
+- `formErrors` will render all form errors initiated by e.g. `schema`.
+
+```tsx
+import { Tools } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Tools.Errors />
+    </Form.Handler>
+  )
+}
+```

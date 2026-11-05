@@ -31,7 +31,7 @@ test.describe('Grid', () => {
   test('font weight example grid is dimmed in dark mode', async ({
     page,
   }) => {
-    await page.goto('/web/typography/font-weight')
+    await page.goto('/web/layout-and-typography/typography/css-reference')
     await waitForApp(page)
     await page.evaluate(() => {
       window.localStorage.setItem(

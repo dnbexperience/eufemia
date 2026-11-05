@@ -7,17 +7,17 @@ for (const path of [
   '/web/components/breadcrumb/demos/',
   '/web/components/step-indicator/',
   '/web/components/step-indicator/demos/',
-  '/web/extensions/sidebar-menu/',
-  '/web/extensions/sidebar-menu/demos/',
-  '/web/extensions/forms/Wizard/Container/',
-  '/web/extensions/forms/Wizard/Container/demos/',
-  '/web/extensions/forms/Wizard/demos/',
-  '/web/extensions/forms/Wizard/location-hooks/',
-  '/web/extensions/forms/Wizard/location-hooks/demos/',
-  '/web/extensions/forms/Wizard/Step/',
-  '/web/extensions/forms/Wizard/Step/demos/',
-  '/web/extensions/forms/Wizard/useStep/',
-  '/web/extensions/forms/Wizard/useStep/demos/',
+  '/web/patterns-and-extensions/sidebar-menu/',
+  '/web/patterns-and-extensions/sidebar-menu/demos/',
+  '/web/forms/Wizard/Container/',
+  '/web/forms/Wizard/Container/demos/',
+  '/web/forms/Wizard/demos/',
+  '/web/forms/Wizard/location-hooks/',
+  '/web/forms/Wizard/location-hooks/demos/',
+  '/web/forms/Wizard/Step/',
+  '/web/forms/Wizard/Step/demos/',
+  '/web/forms/Wizard/useStep/',
+  '/web/forms/Wizard/useStep/demos/',
   '/web/components/list/visual-tests/action-footer/',
   '/web/components/list/visual-tests/text-layout/',
   '/web/components/filter/visual-tests/panel-actions/',
@@ -37,7 +37,7 @@ for (const path of [
 }
 
 test('Wizard landmark names follow the active step', async ({ page }) => {
-  await page.goto('/web/extensions/forms/Wizard/useStep/demos/')
+  await page.goto('/web/forms/Wizard/useStep/demos/')
   await waitForApp(page)
 
   const firstStep = page.getByRole('region', {

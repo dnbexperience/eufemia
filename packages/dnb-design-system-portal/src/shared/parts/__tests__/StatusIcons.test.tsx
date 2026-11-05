@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, render } from '@testing-library/react'
 
 vi.mock(
-  '../../../docs/web/patterns/status-icon/StatusIcons.module.scss',
+  '../../../docs/web/patterns-and-extensions/status-icon/StatusIcons.module.scss',
   () => ({
     default: {
       example: 'example',
@@ -23,8 +23,8 @@ vi.mock(
   })
 )
 
-import StatusIcons from '../../../docs/web/patterns/status-icon/StatusIcons'
-import styles from '../../../docs/web/patterns/status-icon/StatusIcons.module.scss'
+import StatusIcons from '../../../docs/web/patterns-and-extensions/status-icon/StatusIcons'
+import styles from '../../../docs/web/patterns-and-extensions/status-icon/StatusIcons.module.scss'
 
 afterEach(cleanup)
 

@@ -55,7 +55,7 @@ function renderOverview(catalog: ComponentCatalog): string | null {
     if (category.id === 'input') {
       const prefix = entries[0].slug.split('/').filter(Boolean)[0]
       lines.push(
-        `**NB:** When creating application forms, use [Eufemia Forms](/${prefix}/extensions/forms/) instead of composing forms from the base components below.`,
+        `**NB:** When creating application forms, use [Eufemia Forms](/${prefix === 'web' ? 'web/forms' : 'uilib/extensions/forms'}/) instead of composing forms from the base components below.`,
         ''
       )
     }

@@ -33,7 +33,7 @@ export default function PortalToolsDrawer({
             labelDescription={
               <>
                 Read more about{' '}
-                <Anchor href="/web/usage/customisation/theming/">
+                <Anchor href="/web/styling-and-themes/brands-and-dark-mode/">
                   theming
                 </Anchor>
               </>
@@ -43,7 +43,7 @@ export default function PortalToolsDrawer({
             labelDescription={
               <>
                 Read more about{' '}
-                <Anchor href="/web/usage/customisation/localization/">
+                <Anchor href="/web/styling-and-themes/configuration/localization/">
                   localization
                 </Anchor>
               </>
@@ -55,7 +55,7 @@ export default function PortalToolsDrawer({
             labelDescription={
               <>
                 Read more about{' '}
-                <Anchor href="/web/usage/customisation/theming/">
+                <Anchor href="/web/styling-and-themes/brands-and-dark-mode/">
                   theming
                 </Anchor>
               </>

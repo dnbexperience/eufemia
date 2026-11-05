@@ -1,0 +1,66 @@
+---
+description: >-
+  Choose between reusable extension APIs and patterns composed from existing
+  components.
+title: Using patterns and extensions
+order: 8
+navigation:
+  title: Using patterns and extensions
+  order: 1
+  parent: web/patterns-and-extensions
+redirect_from:
+  - /uilib/extensions
+  - /web/extensions
+  - /web/patterns-and-extensions/extensions
+legacyPrefixes:
+  - web/extensions
+  - uilib/extensions
+legacyFragments:
+  webextensionsforms: /web/patterns-and-extensions/using-patterns-and-extensions/#webforms
+  webextensionspayment-card: >-
+    /web/patterns-and-extensions/using-patterns-and-extensions/#webpatterns-and-extensionspayment-card
+  webextensionssidebar-menu: >-
+    /web/patterns-and-extensions/using-patterns-and-extensions/#webpatterns-and-extensionssidebar-menu
+  webextensionsvipps-wallet-button: >-
+    /web/patterns-and-extensions/using-patterns-and-extensions/#webpatterns-and-extensionsvipps-wallet-button
+  extensions: >-
+    /web/patterns-and-extensions/using-patterns-and-extensions/#using-patterns-and-extensions
+  description: >-
+    /web/patterns-and-extensions/using-patterns-and-extensions/#choose-a-solution
+  import-extensions: >-
+    /web/patterns-and-extensions/using-patterns-and-extensions/#import-extensions
+  import-extensions-styles: /web/patterns-and-extensions/using-patterns-and-extensions/#extension-styles
+  available-extensions: >-
+    /web/patterns-and-extensions/using-patterns-and-extensions/#available-extensions
+---
+
+import ListExtensions from 'dnb-design-system-portal/src/shared/parts/ListExtensions'
+
+## Choose a solution
+
+Use a **pattern** when existing components can be composed to solve a recurring interface problem. Patterns explain when and how to combine those components; they do not add a separate API.
+
+Use an **extension** when you need a reusable solution with its own API, such as Forms, SidebarMenu or TableOfContent. Extensions build on Eufemia components and provide behavior for a larger part of an application.
+
+## Available extensions
+
+<ListExtensions level={3} />
+
+## Import extensions
+
+```tsx
+import { SidebarMenu, TableOfContent } from '@dnb/eufemia/extensions'
+```
+
+## Extension styles
+
+Some extensions require additional styles. Follow each extension's import instructions. For example:
+
+```tsx
+import '@dnb/eufemia/extensions/sidebar-menu/style'
+import '@dnb/eufemia/extensions/table-of-content/style'
+```
+
+## Patterns
+
+- [Status indicators](/web/patterns-and-extensions/status-icon/) – combine an icon, a circular background and semantic colors to communicate status.

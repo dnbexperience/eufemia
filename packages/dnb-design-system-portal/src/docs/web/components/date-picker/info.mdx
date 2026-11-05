@@ -2,13 +2,15 @@
 showTabs: true
 redirect_from:
   - /uilib/components/date-picker/info
+legacyFragments:
+  datepicker: /web/components/date-picker/#date-picker
 ---
 
 import {
   DatePickerDateFnsRangeIsWeekend,
   DatePickerOsloDate,
 } from 'Docs/web/components/date-picker/Examples'
-import WhenToUseForms from 'Docs/web/extensions/forms/when-to-use-forms.mdx'
+import WhenToUseForms from 'Docs/web/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -24,7 +26,7 @@ The DatePicker component should be used whenever the user is to enter a single d
 
 <WhenToUseForms />
 
-The Eufemia Forms equivalent of `DatePicker` is [Field.Date](/web/extensions/forms/feature-fields/Date/).
+The Eufemia Forms equivalent of `DatePicker` is [Field.Date](/web/forms/feature-fields/Date/).
 
 ## Dates from adjacent months
 
@@ -139,7 +141,7 @@ If `minDate` or `maxDate` is given, the return object also contains information 
 
 ### Validation for `minDate`, `maxDate`, and invalid dates
 
-If you need validation of typed input against `minDate` and `maxDate`, use [Field.Date](/web/extensions/forms/feature-fields/Date/) instead. It has [built-in validation](/web/extensions/forms/feature-fields/Date/#date-limit-validation) for `minDate`, `maxDate`, and invalid dates, and will show the user an error message when the entered date is outside the allowed range.
+If you need validation of typed input against `minDate` and `maxDate`, use [Field.Date](/web/forms/feature-fields/Date/) instead. It has [built-in validation](/web/forms/feature-fields/Date/#date-limit-validation) for `minDate`, `maxDate`, and invalid dates, and will show the user an error message when the entered date is outside the allowed range.
 
 Automatically changing the user input leads to worse UX and confusion, as the user might not understand why the date changed. It's best practice to tell the user what is wrong and let them correct it.
 

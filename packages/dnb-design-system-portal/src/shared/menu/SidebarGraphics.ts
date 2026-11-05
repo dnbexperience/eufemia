@@ -4,7 +4,6 @@
  */
 
 import {
-  ai,
   browser,
   brush,
   cog,
@@ -20,19 +19,13 @@ import {
   play,
   table,
   web,
-  widget_android,
 } from '@dnb/eufemia/src/icons'
-import FigmaLogo from '../../docs/contribute/assets/figma-logo'
-import GithubLogo from '../../docs/contribute/assets/github-logo'
 
 const SidebarGraphics = {
-  figma: FigmaLogo,
-  github: GithubLogo,
+  browser,
   brush,
   home,
   lightbulb,
-  ai,
-  browser,
   cog,
   download,
   history,
@@ -44,7 +37,6 @@ const SidebarGraphics = {
   play,
   table,
   web,
-  widget_android,
 }
 
 export default SidebarGraphics

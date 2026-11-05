@@ -63,12 +63,12 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'Various',
     status: 'optional',
   },
   shellSpace: {
-    doc: 'Use it to set an inner margin. It supports the same properties as [Space](/uilib/layout/space/properties). Useful for animation.',
+    doc: 'Use it to set an inner margin. It supports the same properties as [Space](/web/layout-and-typography/layout/space/properties). Useful for animation.',
     type: ['string', 'object'],
     status: 'optional',
   },
@@ -77,7 +77,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

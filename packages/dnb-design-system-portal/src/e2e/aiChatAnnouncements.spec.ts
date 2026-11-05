@@ -4,7 +4,7 @@ import waitForApp from './shared/waitForApp'
 test('keeps streaming out of live regions and announces the final reply', async ({
   page,
 }) => {
-  await page.goto('/web/extensions/ai/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/demos/')
   await waitForApp(page)
   const demo = page.locator('[data-visual-test="ai-chat-announcements"]')
   const log = demo.getByRole('log')

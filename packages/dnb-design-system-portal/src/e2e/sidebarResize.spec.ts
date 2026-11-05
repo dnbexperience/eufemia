@@ -149,7 +149,7 @@ test.describe('Sidebar resize', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/web/extensions/sidebar-menu/demos/')
+    await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
     await waitForApp(page)
 
     const menu = page.locator(

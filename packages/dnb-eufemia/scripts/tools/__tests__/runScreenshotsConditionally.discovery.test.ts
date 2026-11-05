@@ -40,6 +40,41 @@ describe('runScreenshotsConditionally discovery', () => {
       fs.rmSync(root, { recursive: true, force: true })
     }
   })
+  it.each([
+    'web/forms',
+    'web/layout-and-typography',
+    'web/patterns-and-extensions',
+  ])('maps %s screenshot URLs to their docs', (section) => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-routes-'))
+    try {
+      const docsRoot = path.join(root, 'docs')
+      fs.mkdirSync(path.join(docsRoot, section, 'example'), {
+        recursive: true,
+      })
+      fs.writeFileSync(
+        path.join(docsRoot, section, 'example/Examples.tsx'),
+        '<Badge />'
+      )
+      fs.writeFileSync(
+        path.join(root, 'Example.screenshot.test.ts'),
+        'const page = { url: "/' + section + '/example/demos" }'
+      )
+      const context = {
+        packageRoot: root,
+        portalDocsRoot: docsRoot,
+      } as RunnerContext
+      expect(
+        findCompositionImpactedTests(
+          context,
+          ['src/components/badge/Badge.tsx'],
+          ['Example.screenshot.test.ts']
+        )
+      ).toEqual(['Example.screenshot.test.ts'])
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
+
   it('extracts entity names from components and extensions paths', () => {
     const names = collectChangedEntityNames([
       'src/components/badge/style/dnb-badge.scss',

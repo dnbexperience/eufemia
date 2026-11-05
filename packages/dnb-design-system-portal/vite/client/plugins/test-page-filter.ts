@@ -33,18 +33,18 @@ const VISUAL_TEST_FALLBACK_PAGES = ['/visual-tests', '/demos']
 const E2E_TEST_FALLBACK_PAGES = [
   '/',
   '/design-system/',
-  '/web/components/',
-  '/web/extensions/',
-  '/web/elements/',
+  '/web/components/overview/',
+  '/web/patterns-and-extensions/using-patterns-and-extensions/',
+  '/web/layout-and-typography/elements/',
   '/web/components/button/',
   '/web/components/button/demos/',
   '/web/components/textarea/demos/',
-  '/web/about-the-lib/',
+  '/web/get-started/quick-start/',
   '/web/components/card/',
-  '/web/typography/',
-  '/quickguide-designer/colors/',
-  '/quickguide-designer/fonts/',
-  '/contribute/getting-started/',
+  '/web/layout-and-typography/typography/',
+  '/web/styling-and-themes/legacy-colors/',
+  '/web/layout-and-typography/typography/design-guidance/',
+  '/web/contribute/local-development/',
 ]
 
 export default function testPageFilterPlugin(): Plugin {
@@ -295,9 +295,21 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
   const pages = new Set<string>()
   const sourceFile = parseSourceFile(filePath)
   const constants = collectStringConstants(sourceFile)
-  const loopValues = collectForOfStringValues(sourceFile)
 
   function visit(node: ts.Node) {
+    // Include destinations declared in tuples and href assertions as well
+    // as calls. A dynamic hash still has a fully known page path.
+    const literal = getLiteralValue(node)
+    if (literal?.startsWith('/')) {
+      addNormalizedUrl(literal, pages)
+    } else if (
+      ts.isTemplateExpression(node) &&
+      node.head.text.startsWith('/') &&
+      /[?#]/.test(node.head.text)
+    ) {
+      addNormalizedUrl(node.head.text, pages)
+    }
+
     if (
       ts.isCallExpression(node) &&
       ts.isPropertyAccessExpression(node.expression) &&
@@ -311,10 +323,6 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
 
       if (rawValue) {
         addNormalizedUrl(rawValue, pages)
-      } else if (ts.isIdentifier(arg)) {
-        loopValues.get(arg.text)?.forEach((value) => {
-          addNormalizedUrl(value, pages)
-        })
       }
     }
 
@@ -323,39 +331,6 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
 
   visit(sourceFile)
   return pages
-}
-
-function collectForOfStringValues(
-  sourceFile: ts.SourceFile
-): Map<string, string[]> {
-  const values = new Map<string, string[]>()
-
-  function visit(node: ts.Node) {
-    if (
-      ts.isForOfStatement(node) &&
-      ts.isVariableDeclarationList(node.initializer) &&
-      ts.isArrayLiteralExpression(node.expression)
-    ) {
-      const [declaration] = node.initializer.declarations
-      if (declaration && ts.isIdentifier(declaration.name)) {
-        const literals = node.expression.elements
-          .map((element) => getLiteralValue(element))
-          .filter((value): value is string => value !== null)
-
-        if (literals.length > 0) {
-          values.set(declaration.name.text, [
-            ...(values.get(declaration.name.text) ?? []),
-            ...literals,
-          ])
-        }
-      }
-    }
-
-    ts.forEachChild(node, visit)
-  }
-
-  visit(sourceFile)
-  return values
 }
 
 function parseSourceFile(filePath: string): ts.SourceFile {

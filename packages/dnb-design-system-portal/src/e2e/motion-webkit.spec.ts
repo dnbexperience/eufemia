@@ -12,10 +12,10 @@ for (const width of [320, 1280]) {
     }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.emulateMedia({ reducedMotion })
-      await page.goto('/quickguide-designer/motion/')
+      await page.goto('/web/development-guidelines/motion/')
       await waitForApp(page)
       const stage = page.locator(
-        '#show-submission .dnb-motion-demo__stage'
+        '#show-submission .dnb-motion-demo__artwork'
       )
       const glow = stage.locator('.dnb-motion-scene__submit-glow')
       if (reducedMotion === 'no-preference') {
@@ -63,7 +63,7 @@ test('WebKit keeps the house still while the garage opens and closes', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/quickguide-designer/motion/')
+  await page.goto('/web/development-guidelines/motion/')
   await waitForApp(page)
   const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
   await expect(artwork.locator('image')).toHaveCount(0)
@@ -96,7 +96,7 @@ test('WebKit morphs disclosure chevrons and line graph paths', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/quickguide-designer/motion/')
+  await page.goto('/web/development-guidelines/motion/')
   await waitForApp(page)
   for (const [selector, before, after] of [
     [
@@ -138,7 +138,7 @@ test('WebKit autoplays the morph timeline without a pause control', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/quickguide-designer/motion/')
+  await page.goto('/web/development-guidelines/motion/')
   await waitForApp(page)
   await expect(
     page.getByRole('button', { name: 'Pause all', exact: true })
@@ -162,7 +162,7 @@ test('WebKit shows settled path geometry with reduced motion', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/quickguide-designer/motion/')
+  await page.goto('/web/development-guidelines/motion/')
   await waitForApp(page)
   for (const selector of [
     '.dnb-motion-scene__chevron',

@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/logo/demos
+legacyFragments:
+  logo: /web/components/logo/demos/#logos
 ---
 
 import {
@@ -40,7 +42,7 @@ If no svg is provided, the `DnbDefault` logo is used by default:
 
 ### Change logo based on theme
 
-The `svg` property can also accept a function that returns a logo svg based on the current [theme](/web/usage/customisation/theming/theme/) props.
+The `svg` property can also accept a function that returns a logo svg based on the current [theme](/web/styling-and-themes/brands-and-dark-mode/theme/) props.
 
 ```tsx
 import type { ThemeProps } from '@dnb/eufemia/shared/Theme'

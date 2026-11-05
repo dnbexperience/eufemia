@@ -22,12 +22,12 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelSize: {
-    doc: 'Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.',
+    doc: 'Define the font-size of the label based on the [font-size](/web/layout-and-typography/typography/font-size/) table.',
     type: ['"medium"', '"large"'],
     status: 'optional',
   },
   help: {
-    doc: 'Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set `openOnFind` to `true` to open matching inline help from browser find-in-page, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).',
+    doc: 'Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set `openOnFind` to `true` to open matching inline help from browser find-in-page, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/web/components/dialog/) (recommended for larger amounts of content).',
     type: 'object',
     status: 'optional',
   },
@@ -61,7 +61,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: ['string', 'false'],
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -72,7 +72,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
 export const FieldBlockProperties: PropertiesTableProps = {
   ...FieldBlockSharedProperties,
   labelSize: {
-    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
+    doc: 'Define one of the following [heading sizes](/web/layout-and-typography/elements/heading/): `medium` or `large`.',
     type: ['"medium"', '"large"'],
     status: 'optional',
   },
@@ -133,7 +133,7 @@ export const FieldBlockProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fieldState: {
-    doc: 'Shows the inline [SubmitIndicator](/uilib/extensions/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.',
+    doc: 'Shows the inline [SubmitIndicator](/web/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.',
     type: ['"pending"', '"complete"', '"success"', '"error"', '"abort"'],
     status: 'optional',
   },
@@ -148,7 +148,7 @@ export const FieldBlockProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'Set `true` to make the inner [FormLabel](/uilib/components/form-label/) behave as disabled.',
+    doc: 'Set `true` to make the inner [FormLabel](/web/components/form-label/) behave as disabled.',
     type: 'boolean',
     status: 'optional',
   },

@@ -1,0 +1,229 @@
+---
+title: Module formats, SSR and bundles
+description: >-
+  Eufemia uses ESM as their default module format. More info on this topic
+  below.
+order: 8
+navigation:
+  title: Module formats, SSR and bundles
+  order: 4
+  parent: web/ai-tools-and-resources
+legacyFragments:
+  bundles-umd-and-esm-mjs: /web/ai-tools-and-resources/module-formats/#browser-bundles
+  umd-and-esm-bundles: /web/ai-tools-and-resources/module-formats/#browser-bundles
+  module-formats-and-ssr: /web/ai-tools-and-resources/module-formats/#default-module-format
+redirect_from:
+  - /uilib/usage/first-steps/module-formats
+  - /web/usage/first-steps/module-formats
+  - /web/usage/first-steps/bundles
+  - /uilib/usage/first-steps/bundles
+legacyPrefixes:
+  - web/usage/first-steps/module-formats
+  - uilib/usage/first-steps/module-formats
+---
+
+To support every modern front end environment, the `@dnb/eufemia` supports different transpiled module formats:
+
+- `ESM` transpiled [for broad browser compatibility](/web/get-started/requirements/#supported-browsers-and-platforms) (**default**)
+- `CJS` transpiled [for broad browser compatibility](/web/get-started/requirements/#supported-browsers-and-platforms)
+- `ES` with modern JavaScript syntax
+
+**Bundles**
+
+- `ESM` bundle with modern JavaScript syntax
+- `UMD` bundle with modern JavaScript syntax
+
+## Default module format
+
+The `@dnb/eufemia` uses **ESM** as the default module format:
+
+```js
+// Imports only the code needed for the button
+import { Button } from '@dnb/eufemia' // ESM transpiled for broad browser compatibility
+import { Button } from '@dnb/eufemia/es' // Modern JavaScript syntax version
+```
+
+Because the package is published with `"type": "module"`, Node.js treats its `.js` files as ES modules by default. This means you should use `import`/`export` syntax, and `require()` will not work unless you target the `/cjs` build.
+
+## CommonJS (CJS)
+
+[Node.js](https://nodejs.org/) may use [RequireJS](https://requirejs.org) and has [CommonJS](https://requirejs.org/docs/commonjs.html) as their default module format, depending on your version and flags.
+
+### SSR
+
+In case you are using the `@dnb/eufemia` in an environment that can't use ESM, you can import or require everything from the `/cjs` subfolder:
+
+```js
+// Components
+import { Button } from '@dnb/eufemia/cjs'
+const { Button } = require('@dnb/eufemia/cjs/components')
+const Button = require('@dnb/eufemia/cjs/components/Button')
+
+// Styles
+import '@dnb/eufemia/cjs/style'
+require('@dnb/eufemia/cjs/style')
+```
+
+#### Jest/Vitest and ESM (Node testing environments)
+
+Older Jest versions still use CommonJS as the default module format. If you use the default `@dnb/eufemia` imports, then you get a mismatch between ES module and CommonJS formats. To ensure that Jest transforms your code into CJS, you can use the following Jest configuration `--moduleNameMapper`
+
+```bash
+jest --moduleNameMapper '{"@dnb/eufemia(.*)":"@dnb/eufemia/cjs$1"}'
+```
+
+or in a `jest.config.js` or `jest.preset.js` file:
+
+```js
+  module.exports = {
+    ...
+    moduleNameMapper: { '@dnb/eufemia(.*)': '@dnb/eufemia/cjs$1' }
+  }
+```
+
+If you use [Vitest](https://vitest.dev/), configure the alias in `vitest.config.ts`:
+
+```ts
+export default defineConfig({
+  resolve: {
+    alias: { '@dnb/eufemia': '@dnb/eufemia/cjs' },
+  },
+})
+```
+
+## Hydration of the `html` element
+
+When `@dnb/eufemia` loads in the browser, it sets a `data-os` attribute (`mac`, `win` or `linux`) on the `<html>` element before React hydrates. If your application renders `<html>` with React, such as the Next.js App Router, React logs a development warning that the attributes of the server-rendered HTML didn't match. Production builds are not affected.
+
+Add `suppressHydrationWarning` to the `<html>` element to prevent the warning. It only applies to that element, not to its children, so hydration errors in your components are still reported:
+
+```tsx
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+## Browser bundles
+
+The `@dnb/eufemia` also supports ready to use `UMD` and `ESM` bundles.
+
+> **NB:** As these bundles will keep on getting larger once new components arrive, I strongly recommend to only use UMD and ESM bundles as an easy drop-in for simple web pages.
+>
+> For **advanced applications**, I recommend a holistic build step, handling all dependencies together, creating mono page bundles with code splitting in place. This ensures that only code which is used by the application, is sent to the user.
+>
+> The reason for that is the first page load (first paint) which is extremely important for good UX, as it has a whole bunch of negative side effects like page flicker and uncontrolled movements as well as load time.
+>
+> - **Tobias Høegh**, april 2020
+
+All the code examples are only quick demos, showing how to load the bundles. Keep in mind, there are many ways on how to consume them. The example code is in no way recommended for production usage, as it is highly imperative code and you will make code bases hard to read and maintain.
+
+## UMD bundles
+
+Requires `React` and `ReactDOM` as global variables. React 19 no longer ships UMD builds, so [load React from an ESM CDN](https://react.dev/blog/2024/04/25/react-19-upgrade-guide#umd-builds-removed) such as [esm.sh](https://esm.sh/) and assign the globals before the bundles run.
+
+- **dnb-ui-lib.min.js** - includes all [components](/web/components/overview/) and [elements](/web/layout-and-typography/elements/).
+- **dnb-ui-components.min.js** - includes all [components](/web/components/overview/).
+- **dnb-ui-extensions.min.js** - includes all [extensions](/web/patterns-and-extensions/using-patterns-and-extensions/).
+- **dnb-ui-icons.min.js** - includes all [primary icons](/web/components/icon/usage/#primary-icons) in default and medium size.
+- **dnb-ui-basis.min.js** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
+
+### Usage of UMD bundles
+
+Module scripts and scripts with `defer` run in order after the page is parsed, so the bundles run after the globals are assigned, and your code runs after the bundles.
+
+```html
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import React from 'https://esm.sh/react@19'
+    import ReactDOM from 'https://esm.sh/react-dom@19'
+    import { createRoot } from 'https://esm.sh/react-dom@19/client'
+
+    window.React = React
+    window.ReactDOM = { ...ReactDOM, createRoot }
+  </script>
+
+  <script
+    defer
+    src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-icons.min.js"
+  ></script>
+  <script
+    defer
+    src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-lib.min.js"
+  ></script>
+
+  <script type="module">
+    const MyButton = React.createElement(window.dnbLib.Button, {
+      text: 'My Button',
+      icon: 'chevron_right',
+      onClick: (params) => {
+        console.log('onClick', params)
+      },
+    })
+    const root = ReactDOM.createRoot(document.getElementById('app'))
+    root.render(MyButton)
+  </script>
+</body>
+```
+
+## ESM bundles
+
+Requires React and ReactDOM to be loaded as a module resolution ([importmap](https://github.com/WICG/import-maps)). Uses ES modules (**NB:** That is the aim, right now it is also transpiled [for broad browser compatibility](/web/get-started/requirements/#supported-browsers-and-platforms)).
+
+- **dnb-ui-lib.min.mjs** - includes all [components](/web/components/overview/) and [elements](/web/layout-and-typography/elements/).
+- **dnb-ui-components.min.mjs** - includes all [components](/web/components/overview/).
+- **dnb-ui-extensions.min.mjs** - includes all [extensions](/web/patterns-and-extensions/using-patterns-and-extensions/).
+- **dnb-ui-icons.min.mjs** - includes all [primary icons](/web/components/icon/usage/#primary-icons) in default and medium size.
+- **dnb-ui-basis.min.mjs** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
+
+### Usage of ESM bundles
+
+Because `importmap` is still not supported by the majority of browsers, we use a shim, which can be simply removed once the browser support is good enough.
+
+```html
+<body>
+  <div id="app"></div>
+
+  <script
+    defer
+    src="https://unpkg.com/es-module-shims/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap-shim">
+    {
+      "imports": {
+        "react": "...",
+        "react-dom": "...",
+        "react-dom/client": "..."
+      }
+    }
+  </script>
+
+  <script type="module-shim">
+    import React from 'react'
+    import { createRoot } from 'react-dom/client'
+    import { Button } from 'https://unpkg.com/@dnb/eufemia/esm/dnb-ui-lib.min.mjs'
+
+    const MyButton = React.createElement(
+      Button,
+      {
+        text: 'My Button',
+        icon: 'chevron_right',
+        onClick: (params) => {
+          console.log('onClick', params)
+        }
+      }
+    )
+
+    const root = createRoot(document.getElementById('app'))
+    root.render(MyButton)
+  </script>
+</body>
+```
+
+_Note:_ Because React does not deliver an ESM bundle right now, we have to create our own.

@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/heading/info
+legacyFragments:
+  heading-auto-level: /web/components/heading/#heading
 ---
 
 import {
@@ -41,11 +43,11 @@ The first code example is without using context provider. To handle levels in ba
 - A **heading** will inherit the level from its previous sibling.
 - A **level provider** will create an isolated level context (`Heading.Level`).
 - A heading, nested inside a context (`Heading.Level`) will likewise inherit the previous context level.
-- A heading can have a set of different [size](/web/elements/heading) properties. More details below.
+- A heading can have a set of different [size](/web/layout-and-typography/elements/heading) properties. More details below.
 
 ### Defining heading styles / sizes
 
-For the visual part, we simply use [typography styles](/web/elements/heading) with the `size` property, e.g. `size="x-large"`
+For the visual part, we simply use [typography styles](/web/layout-and-typography/elements/heading) with the `size` property, e.g. `size="x-large"`
 
 <HeadingInfoSize />
 

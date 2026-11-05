@@ -7,7 +7,7 @@ test.describe('SidebarMenu toggle', () => {
   }) => {
     await page.setViewportSize({ width: 1600, height: 1000 })
     await page.goto(
-      '/web/extensions/sidebar-menu/demos/#toggle-outside-the-provider'
+      '/web/patterns-and-extensions/sidebar-menu/demos/#toggle-outside-the-provider'
     )
     await waitForApp(page)
     const example = page.locator(
@@ -59,7 +59,7 @@ test.describe('SidebarMenu toggle', () => {
   }) => {
     await page.setViewportSize({ width: 1600, height: 1000 })
     await page.goto(
-      '/web/extensions/sidebar-menu/demos/#toggle-navigation'
+      '/web/patterns-and-extensions/sidebar-menu/demos/#toggle-navigation'
     )
     await waitForApp(page)
     const example = page.locator('[data-sidebar-menu-toggle-example]')
@@ -92,7 +92,7 @@ test.describe('SidebarMenu toggle', () => {
     page,
   }) => {
     const response = await page.request.get(
-      '/web/extensions/sidebar-menu/demos/'
+      '/web/patterns-and-extensions/sidebar-menu/demos/'
     )
     const html = await response.text()
     test.skip(
@@ -106,7 +106,7 @@ test.describe('SidebarMenu toggle', () => {
     )
     await page.route('**/*.js', (route) => route.abort())
     await page.goto(
-      '/web/extensions/sidebar-menu/demos/#toggle-navigation',
+      '/web/patterns-and-extensions/sidebar-menu/demos/#toggle-navigation',
       { waitUntil: 'domcontentloaded' }
     )
     const inline = page.locator(

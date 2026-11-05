@@ -2,7 +2,7 @@ import { it, describe } from 'vitest'
 import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('Iterate.EditContainer', () => {
-  const url = '/web/extensions/forms/Iterate/EditContainer/demos/'
+  const url = '/web/forms/Iterate/EditContainer/demos/'
 
   it('have to match edit container with error', async () => {
     await makeScreenshot({

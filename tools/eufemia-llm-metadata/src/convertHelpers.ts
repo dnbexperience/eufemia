@@ -332,7 +332,12 @@ export async function loadTsDocsForDocPath(rel: string) {
     return createEmptyTsDocs()
   }
 
-  return loadTsDocs(rel.slice(prefix.length))
+  const source = rel
+    .slice(prefix.length)
+    .replace(/^forms[/\\]/, 'extensions/forms/')
+    .replace(/^patterns-and-extensions[/\\]/, 'extensions/')
+    .replace(/^layout-and-typography[/\\]/, '')
+  return loadTsDocs(source)
 }
 
 export function mergeDocs(
@@ -963,9 +968,9 @@ export function buildLlmsText(
   const printed = new Set<string>()
   const pushEntry = (meta: ComponentMetadata) => {
     const slug = String(meta?.slug || '')
-    const prefix = slug.includes('/extensions/forms/Value/')
+    const prefix = /\/(?:extensions\/)?forms\/Value\//.test(slug)
       ? 'Value'
-      : slug.includes('/extensions/forms/feature-fields/')
+      : /\/(?:extensions\/)?forms\/feature-fields\//.test(slug)
         ? 'Field'
         : null
     const hasPrefix =

@@ -72,7 +72,7 @@ describe('convertMdxToMd', () => {
       path.join(os.tmpdir(), 'ai-experimental-md-')
     )
     const docsRoot = path.join(root, 'docs')
-    const directory = path.join(docsRoot, 'web/extensions/ai/Message')
+    const directory = path.join(docsRoot, 'web/patterns-and-extensions/ai/Message')
     fs.mkdirSync(directory, { recursive: true })
     const inputPath = path.join(directory, '../Message.mdx')
     fs.writeFileSync(
@@ -158,7 +158,7 @@ describe('convertMdxToMd', () => {
 
   it('loads TypeScript docs for canonical and legacy web paths only', async () => {
     const nonUilibTsDocs = await loadTsDocsForDocPath(
-      'quickguide-designer/tools.mdx'
+      'web/get-started/design-for-web/tools.mdx'
     )
 
     expect(nonUilibTsDocs).toEqual({
@@ -183,6 +183,23 @@ describe('convertMdxToMd', () => {
     ).toEqual(uilibTsDocs.props)
   })
 
+  it.each([
+    ['forms/Form/Handler.mdx', 'extensions/forms/Form/Handler.mdx'],
+    [
+      'patterns-and-extensions/sidebar-menu.mdx',
+      'extensions/sidebar-menu.mdx',
+    ],
+    [
+      'layout-and-typography/elements/paragraph.mdx',
+      'elements/paragraph.mdx',
+    ],
+  ])('keeps API metadata after moving %s', async (moved, original) => {
+    const expected = await loadTsDocsForDocPath(path.join('web', original))
+    const actual = await loadTsDocsForDocPath(path.join('web', moved))
+    expect(expected.tsDocsDir).not.toBeNull()
+    expect(actual).toEqual(expected)
+  })
+
   it('normalizes repeated slashes in slug bases and public url bases', () => {
     expect(
       toSlugAndDir('guides/getting-started.mdx', '////web////')
@@ -196,9 +213,9 @@ describe('convertMdxToMd', () => {
       dirForExtras: 'icons/',
     })
 
-    expect(toPublicUrl('/icons/', 'https://eufemia.dnb.no////')).toBe(
-      'https://eufemia.dnb.no/icons/'
-    )
+    expect(
+      toPublicUrl('/collections/icons/', 'https://eufemia.dnb.no////')
+    ).toBe('https://eufemia.dnb.no/collections/icons/')
   })
 
   it('replaces PropertiesTable with JSON block', async () => {
@@ -244,11 +261,11 @@ describe('convertMdxToMd', () => {
   })
 
   it.each([
-    'extensions/forms/Wizard',
-    'extensions/forms/Form/useSubmit',
-    'extensions/forms/Form/useTranslation',
-    'extensions/forms/create-component/useFieldProps',
-    'extensions/forms/create-component/useValueProps',
+    'forms/Wizard',
+    'forms/Form/useSubmit',
+    'forms/Form/useTranslation',
+    'forms/create-component/useFieldProps',
+    'forms/create-component/useValueProps',
   ])('omits component customization guidance from %s', async (page) => {
     const docsRoot = path.resolve(
       '../../packages/dnb-design-system-portal/src/docs'
@@ -520,7 +537,6 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'blocks',
       'collection.mdx'
@@ -537,7 +553,7 @@ describe('convertMdxToMd', () => {
 
     expect(output).not.toContain('ListAllBlocks')
     expect(output).toContain(
-      '## [Block.ChildrenWithAge](/web/extensions/forms/blocks/ChildrenWithAge/)'
+      '## [Block.ChildrenWithAge](/web/forms/blocks/ChildrenWithAge/)'
     )
     expect(output).toContain(
       '`ChildrenWithAge` is a block for displaying children with age.'
@@ -559,7 +575,12 @@ describe('convertMdxToMd', () => {
       'dnb-design-system-portal',
       'src'
     )
-    const inputPath = path.join(docsRoot, 'web', 'elements.mdx')
+    const inputPath = path.join(
+      docsRoot,
+      'web',
+      'layout-and-typography',
+      'elements.mdx'
+    )
 
     const output = await convertMdxToMd({
       inputPath,
@@ -571,9 +592,11 @@ describe('convertMdxToMd', () => {
     })
 
     expect(output).not.toContain('ListElements')
-    expect(output).toContain('- [Paragraph](/web/elements/paragraph/):')
     expect(output).toContain(
-      '- [Inline text (span)](/web/elements/span/):'
+      '- [Paragraph](/web/layout-and-typography/elements/paragraph/):'
+    )
+    expect(output).toContain(
+      '- [Inline text (span)](/web/layout-and-typography/elements/span/):'
     )
   })
 
@@ -595,7 +618,6 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'Iterate',
       'Array',
@@ -636,6 +658,7 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
+      'layout-and-typography',
       'layout',
       'flex',
       'item',
@@ -675,7 +698,6 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'Value',
       'Name',
@@ -717,7 +739,6 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'blocks',
       'ChildrenWithAge',
@@ -762,9 +783,8 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'usage',
-      'customisation',
-      'colors.mdx'
+      'styling-and-themes',
+      'legacy-colors.mdx'
     )
 
     const output = await convertMdxToMd({
@@ -861,9 +881,7 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'usage',
-      'customisation',
-      'theming',
+      'styling-and-themes',
       'design-tokens',
       'colors.mdx'
     )
@@ -909,9 +927,7 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'usage',
-      'customisation',
-      'theming',
+      'styling-and-themes',
       'design-tokens',
       'radius.mdx'
     )
@@ -962,7 +978,6 @@ describe('convertMdxToMd', () => {
     const dateOfBirthEventsPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'feature-fields',
       'DateOfBirth',
@@ -971,7 +986,6 @@ describe('convertMdxToMd', () => {
     const selectCurrencyPropertiesPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'feature-fields',
       'SelectCurrency',
@@ -1035,7 +1049,6 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'feature-fields',
       'SelectCountry',
@@ -1074,7 +1087,7 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'extensions',
+      'patterns-and-extensions',
       'payment-card',
       'products.mdx'
     )
@@ -1167,13 +1180,19 @@ describe('convertMdxToMd', () => {
     })
 
     expect(output).toContain(
-      '- [Develop](/web/getting-started/) – Get started with installation guides'
+      '- [Develop](/web/get-started/quick-start/) – Get started with installation guides'
     )
     expect(output).toContain('## Resources')
-    expect(output).toContain('- [Images](/web/elements/image)')
-    expect(output).toContain('- [Brand](/brand)')
-    expect(output).toContain("- [What's new](/whats-new)")
-    expect(output).toContain('- [Eufemia change log](/design-system)')
+    expect(output).toContain(
+      '- [Components](/web/components/overview/)'
+    )
+    expect(output).toContain(
+      '- [AI](/web/ai-tools-and-resources/ai/mcp-universe/)'
+    )
+    expect(output).toContain('- [Forms](/web/forms/)')
+    expect(output).toContain(
+      '- [Motion](/web/development-guidelines/motion/)'
+    )
     expect(output).not.toContain('<Home')
   })
 
@@ -1387,7 +1406,7 @@ describe('convertMdxToMd', () => {
     expect(output).toContain(
       '- [ActionExtension](/web/extensions/action-extension/): Use ActionExtension to complete an action.'
     )
-    expect(output).toContain('[Eufemia Forms](/web/extensions/forms/)')
+    expect(output).toContain('[Eufemia Forms](/web/forms/)')
     expect(output).not.toContain('<ListComponentsOverview')
   })
 
@@ -1409,7 +1428,6 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(
       docsRoot,
       'web',
-      'extensions',
       'forms',
       'feature-fields',
       'Date',

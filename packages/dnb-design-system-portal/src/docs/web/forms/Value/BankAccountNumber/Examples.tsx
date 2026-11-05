@@ -1,0 +1,78 @@
+import ComponentBox from '../../../../../shared/tags/ComponentBox'
+import { P } from '@dnb/eufemia/src'
+import { Value } from '@dnb/eufemia/src/extensions/forms'
+
+export const Empty = () => {
+  return (
+    <ComponentBox>
+      <Value.BankAccountNumber showEmpty />
+    </ComponentBox>
+  )
+}
+
+export const Placeholder = () => {
+  return (
+    <ComponentBox>
+      <Value.BankAccountNumber placeholder="The value was not filled in" />
+    </ComponentBox>
+  )
+}
+
+export const WithValue = () => {
+  return (
+    <ComponentBox socialPreview>
+      <Value.BankAccountNumber value="20001234567" />
+    </ComponentBox>
+  )
+}
+
+export const Label = () => {
+  return (
+    <ComponentBox>
+      <Value.BankAccountNumber label="Label text" showEmpty />
+    </ComponentBox>
+  )
+}
+
+export const LabelAndValue = () => {
+  return (
+    <ComponentBox>
+      <Value.BankAccountNumber label="Label text" value="20001234567" />
+    </ComponentBox>
+  )
+}
+
+export const Inline = () => {
+  return (
+    <ComponentBox>
+      <P>
+        This is before the component{' '}
+        <Value.BankAccountNumber value="20001234567" inline /> This is
+        after the component
+      </P>
+    </ComponentBox>
+  )
+}
+
+export const BankAccountTypes = () => {
+  return (
+    <ComponentBox>
+      <Value.BankAccountNumber
+        bankAccountType="swedishBban"
+        value="50001234567"
+      />
+      <Value.BankAccountNumber
+        bankAccountType="swedishBankgiro"
+        value="59140129"
+      />
+      <Value.BankAccountNumber
+        bankAccountType="swedishPlusgiro"
+        value="1263664"
+      />
+      <Value.BankAccountNumber
+        bankAccountType="iban"
+        value="NO9386011117947"
+      />
+    </ComponentBox>
+  )
+}

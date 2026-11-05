@@ -77,9 +77,9 @@ export const excludedSlugs = new Set([
 ])
 
 const categorizedExtensionSlugs = new Set([
-  'web/extensions/payment-card',
-  'web/extensions/sidebar-menu',
-  'web/extensions/vipps-wallet-button',
+  'web/patterns-and-extensions/payment-card',
+  'web/patterns-and-extensions/sidebar-menu',
+  'web/patterns-and-extensions/vipps-wallet-button',
 ])
 
 export function isCategorizedComponentSlug(slug: string) {

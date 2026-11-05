@@ -8,10 +8,10 @@ test.describe('Page language before hydration', () => {
     '/',
     '/web/',
     '/web/components/button/',
-    '/web/extensions/forms/',
-    '/contribute/',
+    '/web/forms/',
+    '/web/contribute/',
     '/EUFEMIA_CHANGELOG/',
-    '/web/extensions/forms/Value/BankAccountNumber/',
+    '/web/forms/Value/BankAccountNumber/',
   ]) {
     test(`declares English on ${route}`, async ({ page }) => {
       await page.goto(route)

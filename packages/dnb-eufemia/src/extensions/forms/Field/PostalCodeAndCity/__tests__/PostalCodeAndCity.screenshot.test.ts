@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-const url = '/web/extensions/forms/feature-fields/PostalCodeAndCity/demos/'
+const url = '/web/forms/feature-fields/PostalCodeAndCity/demos/'
 
 describe.each(['ui'])(`PostalCodeAndCity for %s`, (themeName) => {
   setupPageScreenshot({

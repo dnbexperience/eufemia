@@ -5,7 +5,7 @@ import sampleMotionStyles from './shared/sampleMotionStyles'
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/quickguide-designer/motion/')
+  await page.goto('/web/development-guidelines/motion/')
   await waitForApp(page)
 })
 
@@ -53,14 +53,14 @@ test('principles and motion link both ways with implementation guidance below th
   ).toBeVisible()
 
   await content
-    .getByRole('link', { name: 'Animation Principles', exact: true })
+    .getByRole('link', { name: 'Motion principles', exact: true })
     .click()
   await expect(page).toHaveURL(
-    /\/quickguide-designer\/animation-principles\/?$/
+    /\/design-foundations\/motion-principles\/?$/
   )
   await expect(
     content.getByRole('heading', {
-      name: 'Animation Principles',
+      name: 'Motion principles',
       level: 1,
     })
   ).toBeVisible()
@@ -69,16 +69,21 @@ test('principles and motion link both ways with implementation guidance below th
     content.getByRole('heading', { name: 'Helpers to use in code' })
   ).toHaveCount(0)
 
-  await content.getByRole('link', { name: 'Motion', exact: true }).click()
-  await expect(page).toHaveURL(/\/quickguide-designer\/motion\/?$/)
+  await content
+    .getByRole('link', {
+      name: 'Web motion examples and implementation',
+      exact: true,
+    })
+    .click()
+  await expect(page).toHaveURL(/\/web\/development-guidelines\/motion\/?$/)
   await expect(content.locator('.dnb-motion-demo')).toHaveCount(13)
 })
 
 test('animation principles can be opened directly', async ({ page }) => {
-  await page.goto('/quickguide-designer/animation-principles/')
+  await page.goto('/design-foundations/motion-principles/')
   await waitForApp(page)
   await expect(
-    page.getByRole('heading', { name: 'Animation Principles', level: 1 })
+    page.getByRole('heading', { name: 'Motion principles', level: 1 })
   ).toBeVisible()
 })
 
@@ -99,7 +104,7 @@ test('all thirteen motion studies autoplay in a loop without a pause control', a
   await expect(studies.locator('button, input, a')).toHaveCount(0)
   await expect(
     studies.locator(
-      '.dnb-motion-demo__stage[aria-hidden="true"][focusable="false"]'
+      '.dnb-motion-demo__stage svg[aria-hidden="true"][focusable="false"]'
     )
   ).toHaveCount(13)
   await expect(studies.getByRole('heading')).toHaveText([
@@ -148,7 +153,7 @@ for (const width of [320, 1280]) {
       ['enter-and-exit', 'Enter and exit'],
       ['animate-an-illustration', 'Animate an illustration'],
     ]) {
-      await page.goto(`/quickguide-designer/motion/#${id}`)
+      await page.goto(`/web/development-guidelines/motion/#${id}`)
       await waitForApp(page)
       await expect
         .poll(() =>
@@ -860,7 +865,7 @@ test('the submit button keeps its label and shape while a tapered border rotates
   const study = page
     .locator('.dnb-motion-demo')
     .filter({ has: page.locator('.dnb-motion-scene__submit-glow') })
-  await expect(study).toHaveCSS('padding-bottom', '8px')
+  await expect(study).toHaveCSS('padding-bottom', '16px')
   await expect(
     study.locator('.dnb-motion-scene__submit-label')
   ).toHaveText('Send')
@@ -1112,7 +1117,7 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
 })
 
 for (const width of [320, 640, 641, 768, 1280]) {
-  test(`study captions switch sides at the small-screen breakpoint at ${width}px`, async ({
+  test(`study illustrations stay above their captions at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
@@ -1125,7 +1130,6 @@ for (const width of [320, 640, 641, 768, 1280]) {
           const description = caption.querySelector('p')
           const stage = study.querySelector('.dnb-motion-demo__stage')
           return {
-            captionFirst: study.firstElementChild === caption,
             figureTop: study.getBoundingClientRect().top,
             headingBottom: heading.getBoundingClientRect().bottom,
             descriptionTop: description.getBoundingClientRect().top,
@@ -1139,17 +1143,11 @@ for (const width of [320, 640, 641, 768, 1280]) {
       )
     expect(captions).toHaveLength(13)
     for (const caption of captions) {
-      expect(caption.captionFirst).toBe(true)
       expect(caption.headingBottom).toBeLessThanOrEqual(
         caption.descriptionTop
       )
-      if (width <= 640) {
-        expect(caption.descriptionBottom).toBeLessThan(caption.stageTop)
-        expect(caption.captionBottom).toBeLessThan(caption.stageTop)
-      } else {
-        expect(caption.stageBottom).toBeLessThan(caption.captionTop)
-        expect(caption.stageTop).toBe(caption.figureTop)
-      }
+      expect(caption.stageBottom).toBeLessThan(caption.captionTop)
+      expect(caption.stageTop).toBeGreaterThan(caption.figureTop)
     }
   })
 
@@ -1172,7 +1170,7 @@ for (const width of [320, 640, 641, 768, 1280]) {
           animation.currentTime = time
         })
         return Array.from(
-          element.querySelectorAll('.dnb-motion-demo__stage')
+          element.querySelectorAll('.dnb-motion-demo__artwork')
         ).map((stage) => {
           const { x, y, width, height } = stage.getBoundingClientRect()
           return { x, y, width, height }
@@ -1182,7 +1180,7 @@ for (const width of [320, 640, 641, 768, 1280]) {
     })
     expect(geometry.after).toEqual(geometry.before)
     geometry.after.forEach((stage) => {
-      expect(stage.width / stage.height).toBeCloseTo(1.5, 1)
+      expect(stage.width / stage.height).toBeCloseTo(5 / 3, 1)
       expect(stage.x).toBeGreaterThanOrEqual(0)
       expect(stage.x + stage.width).toBeLessThanOrEqual(width)
     })

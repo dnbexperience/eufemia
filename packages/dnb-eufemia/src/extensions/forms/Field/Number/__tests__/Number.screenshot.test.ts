@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Number field for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/web/extensions/forms/base-fields/Number/demos/',
+    url: '/web/forms/base-fields/Number/demos/',
   })
 
   describe('with step control buttons', () => {
@@ -82,7 +82,7 @@ describe.each(['ui', 'sbanken'])(`Number field for %s`, (themeName) => {
 
 describe('Field.Number', () => {
   setupPageScreenshot({
-    url: '/web/extensions/forms/base-fields/Number/demos/',
+    url: '/web/forms/base-fields/Number/demos/',
   })
 
   it('have to match widths', async () => {

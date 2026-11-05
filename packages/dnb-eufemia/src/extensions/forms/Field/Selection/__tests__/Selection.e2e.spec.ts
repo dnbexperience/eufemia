@@ -4,9 +4,7 @@ test('keeps composite fields separate when the composition wraps', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 410, height: 900 })
-  await page.goto(
-    '/web/extensions/forms/feature-fields/PhoneNumber/demos/'
-  )
+  await page.goto('/web/forms/feature-fields/PhoneNumber/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
@@ -17,7 +15,7 @@ test('keeps composite fields separate when the composition wraps', async ({
     )
     .first()
     .evaluate((element) => element.outerHTML)
-  await page.goto('/web/extensions/forms/base-fields/Composition/demos/')
+  await page.goto('/web/forms/base-fields/Composition/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
@@ -82,7 +80,7 @@ test('keeps long dropdown text inside a narrow container', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 900 })
-  await page.goto('/web/extensions/forms/base-fields/Selection/demos/')
+  await page.goto('/web/forms/base-fields/Selection/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
@@ -202,7 +200,7 @@ test('keeps short values visible at predefined widths in a parent sized to its c
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 })
-  await page.goto('/web/extensions/forms/base-fields/Selection/demos/')
+  await page.goto('/web/forms/base-fields/Selection/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
@@ -251,7 +249,7 @@ test('preserves the width of horizontal string fields in narrow containers', asy
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 })
-  await page.goto('/web/extensions/forms/base-fields/String/demos/')
+  await page.goto('/web/forms/base-fields/String/demos/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'

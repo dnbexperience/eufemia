@@ -136,7 +136,7 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -180,12 +180,12 @@ export const DropdownProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[DrawerList](/uilib/components/fragments/drawer-list/properties)': {
+  '[DrawerList](/web/components/fragments/drawer-list/properties)': {
     doc: 'All DrawerList properties.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

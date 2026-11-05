@@ -95,12 +95,16 @@ describe('prerender-utils', () => {
     it('collects nested child routes', () => {
       const routes: RouteEntry[] = [
         {
-          path: '/quickguide-designer',
+          path: '/web/get-started/design-for-web',
           children: [
-            { path: '/quickguide-designer/fonts' },
             {
-              path: '/quickguide-designer/colors',
-              children: [{ path: '/quickguide-designer/colors/tables' }],
+              path: '/web/layout-and-typography/typography/design-guidance',
+            },
+            {
+              path: '/web/styling-and-themes/legacy-colors',
+              children: [
+                { path: '/web/styling-and-themes/legacy-colors/tables' },
+              ],
             },
           ],
         },
@@ -110,10 +114,10 @@ describe('prerender-utils', () => {
 
       expect(urls).toEqual([
         '/',
-        '/quickguide-designer/',
-        '/quickguide-designer/fonts/',
-        '/quickguide-designer/colors/',
-        '/quickguide-designer/colors/tables/',
+        '/web/get-started/design-for-web/',
+        '/web/layout-and-typography/typography/design-guidance/',
+        '/web/styling-and-themes/legacy-colors/',
+        '/web/styling-and-themes/legacy-colors/tables/',
       ])
     })
   })
@@ -846,7 +850,7 @@ describe('prerender-utils', () => {
         { js: [], css: [] },
         '',
         {
-          url: '/quickguide-designer/',
+          url: '/web/get-started/design-for-web/',
           title: 'Designer',
           description: '',
         }
@@ -1067,9 +1071,13 @@ describe('prerender-utils', () => {
       )
     })
     it('forwards a moved section fragment to its new document', () => {
-      const html = buildRedirectHtml('/web/usage/first-steps/tools/', {
-        'agent-skills': '/working-with-ai/ai-skills#agent-skills',
-      })
+      const html = buildRedirectHtml(
+        '/web/ai-tools-and-resources/developer-tools/',
+        {
+          'agent-skills':
+            '/web/ai-tools-and-resources/ai/ai-skills#agent-skills',
+        }
+      )
       const script = html.match(/<script>([\s\S]*?)<\/script>/i)[1]
       const replace = vi.fn()
       new Function('location', script)({
@@ -1079,7 +1087,7 @@ describe('prerender-utils', () => {
         replace,
       })
       expect(replace).toHaveBeenCalledWith(
-        'https://eufemia.dnb.no/working-with-ai/ai-skills?from=bookmark#agent-skills'
+        'https://eufemia.dnb.no/web/ai-tools-and-resources/ai/ai-skills?from=bookmark#agent-skills'
       )
     })
 

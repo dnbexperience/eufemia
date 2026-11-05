@@ -254,7 +254,9 @@ const Footer = () => {
 
       <Logo height="40" />
 
-      <Anchor to="/license">Copyright (c) 2018-present DNB.no</Anchor>
+      <Anchor to="/about/license">
+        Copyright (c) 2018-present DNB.no
+      </Anchor>
     </Section>
   )
 }

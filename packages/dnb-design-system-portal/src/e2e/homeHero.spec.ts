@@ -697,7 +697,7 @@ test('does not attach late physics after navigating away', async ({
   await waitForApp(page)
   await request
   await page.getByRole('link', { name: /Develop/ }).click()
-  await expect(page).toHaveURL('/web/getting-started/')
+  await expect(page).toHaveURL('/web/get-started/quick-start/')
   finishDownload()
   await expect(
     page.getByRole('heading', { name: 'Quick start', exact: true })

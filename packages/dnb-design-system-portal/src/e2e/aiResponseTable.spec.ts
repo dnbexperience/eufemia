@@ -5,7 +5,7 @@ test('shows an associated overflow hint, retains keyboard scrolling and updates 
   page,
   browserName,
 }) => {
-  await page.goto('/web/extensions/ai/Response/demos/')
+  await page.goto('/web/patterns-and-extensions/ai/Response/demos/')
   await waitForApp(page)
   const demo = page.locator(
     '[data-visual-test="ai-response-overflow-table"]'

@@ -6,7 +6,7 @@ for (const width of [1440, 390]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/web/usage/customisation/styling/printable-apps/')
+    await page.goto('/web/styling-and-themes/css/printable-apps/')
     await waitForApp(page)
 
     if (width === 390) {

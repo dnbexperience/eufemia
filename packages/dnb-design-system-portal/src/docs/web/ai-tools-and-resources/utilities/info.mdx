@@ -1,0 +1,80 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/helpers/info
+  - /web/helpers/info
+legacyFragments:
+  helpers: /web/ai-tools-and-resources/utilities/#shared-utilities
+---
+
+## Description
+
+All the [components](/web/components/overview) share a couple of commonly used helpers. Your application can also use these helpers, but it's optional.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/shared)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/ai-tools-and-resources/utilities)
+
+## CSS properties
+
+### Animation easing
+
+Eufemia provides reusable easing curves for consistent motion:
+
+- `--easing-default` for standard transitions.
+- `--easing-fast-bounce` for short interactions that should settle with a subtle overshoot.
+
+```css
+.animation-element {
+  transition: transform 400ms var(--easing-default);
+}
+
+.bouncing-animation-element {
+  transition: transform 180ms var(--easing-fast-bounce);
+}
+```
+
+## CSS classes
+
+- [dnb-core-style](/web/ai-tools-and-resources/utilities/classes#core-style): A CSS-reset and core styling, including font, line-height and color.
+- [dnb-tab-focus](/web/ai-tools-and-resources/utilities/classes#tab-focus): Adds a custom visual focus state on tab focus.
+- [dnb-skip-link](/web/ai-tools-and-resources/utilities/classes#skip-link): For adding a link at the top of each page that goes directly to the main content area.
+- [dnb-spacing](/web/ai-tools-and-resources/utilities/classes#spacing): Sets a default spacing on all nested HTML elements.
+- [dnb-scrollbar-appearance](/web/ai-tools-and-resources/utilities/classes#scrollbar-appearance): Defines the DNB scrollbar appearance.
+- [dnb-sr-only](/web/ai-tools-and-resources/utilities/classes#screen-reader-sr-only): An element that is reachable by screen readers, but is visually hidden.
+- [dnb-page-background](/web/ai-tools-and-resources/utilities/classes#page-background): Sets the themed page background color.
+- [dnb-drop-shadow](/web/ai-tools-and-resources/utilities/classes#drop-shadow): Adds the default drop shadow to the component.
+- [dnb-sharp-drop-shadow](/web/ai-tools-and-resources/utilities/classes#sharp-drop-shadow): Adds the sharp drop shadow to the component.
+- [dnb-responsive-component](/web/ai-tools-and-resources/utilities/classes#responsive-component): Makes the component react to small sized screens.
+- [dnb-unstyled-list](/web/ai-tools-and-resources/utilities/classes#unstyled-list): Removes default styling for lists.
+- [dnb-selection](/web/ai-tools-and-resources/utilities/classes#selection): Applies DNB selection colors to selected content.
+
+## Shared state
+
+Use [shared state](/web/ai-tools-and-resources/utilities/shared-state) to share data between components or update it outside React, without a Context provider.
+
+## Functions
+
+- [isTouchDevice](/web/ai-tools-and-resources/utilities/functions#istouchdevice): Checks if the target device has touch support.
+- [toPascalCase](/web/ai-tools-and-resources/utilities/functions#topascalcase): Transforms snake_case to PascalCase.
+- [toKebabCase](/web/ai-tools-and-resources/utilities/functions#tokebabcase): Transforms PascalCase to kebab-case.
+- [filterProps](/web/ai-tools-and-resources/utilities/functions#filterprops): Filter out unwanted entries from either an object or an array.
+- [makeUniqueId](/web/ai-tools-and-resources/utilities/functions#makeuniqueid): Creates a unique hash string.
+- [slugify](/web/ai-tools-and-resources/utilities/functions#slugify): Breaks down phrases of words to be URI compatible.
+- [checkIfHasScrollbar](/web/ai-tools-and-resources/utilities/functions#checkifhasscrollbar): Check if an element has a scrollbar.
+- [convertJsxToString](/web/ai-tools-and-resources/utilities/functions#convertjsxtostring): Convert one or more HTMLElements to a string.
+- [InteractionInvalidation](/web/ai-tools-and-resources/utilities/functions#interactioninvalidation): Invalidates DOM elements so they are not accessible to keyboard or screen reader.
+- [scrollToLocationHashId](/web/ai-tools-and-resources/utilities/functions#scrolltolocationhashid): Scroll to a given HashId with optional offset and delay.
+- [getOffsetTop](/web/ai-tools-and-resources/utilities/functions#getoffsettop): Get the HTML Element offset to the top of the browser window.
+- [applyPageFocus](/web/ai-tools-and-resources/utilities/functions#applypagefocus): Applies a page focus to an element given by the setPageFocusElement.
+- [setPageFocusElement](/web/ai-tools-and-resources/utilities/functions#setpagefocuselement): Defines a focus element to applyPageFocus.
+- [debounce](/web/ai-tools-and-resources/utilities/functions#debounce): Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the debounced function was invoked.
+- [isModifiedClickEvent](/web/ai-tools-and-resources/utilities/functions#ismodifiedclickevent): Checks if a click event uses modifier keys or a non-primary mouse button.
+- [copyToClipboard](/web/ai-tools-and-resources/utilities/functions#copytoclipboard): Copies a given string to the clipboard.
+
+### Device checks
+
+Find out which device your user is currently on using the [Device functions](/web/ai-tools-and-resources/utilities/functions#device-functions).
+
+Or use the built-in [Device constants](/web/ai-tools-and-resources/utilities/functions#device-constants).

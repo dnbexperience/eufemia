@@ -11,13 +11,41 @@ import testPageFilterPlugin, {
 } from '../../client/plugins/test-page-filter'
 
 describe('test-page-filter plugin', () => {
+  it('keeps pages reached through legacy fragments and sidebar navigation', () => {
+    vi.stubEnv('IS_E2E', '1')
+    try {
+      const plugin = testPageFilterPlugin()
+      const transform = plugin.transform as (
+        code: string,
+        id: string
+      ) => { code: string }
+      const { code } = transform('', 'virtual:portal-pages')
+      const paths = [
+        '/web/development-guidelines/motion',
+        '/web/typography/font-weight',
+        '/web/layout-and-typography/typography/css-reference',
+        '/web/components/icon/usage',
+        '/web/styling-and-themes/design-tokens',
+        '/web/forms/getting-started',
+        '/uilib/usage',
+        '/web/usage',
+        '/web/get-started/requirements',
+      ]
+      const routes = paths.map((path) => ({ path }))
+      new Function('routes', code)(routes)
+      expect(routes.map(({ path }) => path)).toEqual(paths)
+    } finally {
+      vi.unstubAllEnvs()
+    }
+  })
+
   it('keeps both dedicated AI pages and their bookmark source in the partial build', () => {
     const pages = collectE2eTestPages()
     for (const path of [
-      '/working-with-ai/ai-skills',
-      '/working-with-ai/mcp-universe',
+      '/web/ai-tools-and-resources/ai/ai-skills',
+      '/web/ai-tools-and-resources/ai/mcp-universe',
       '/uilib/usage/first-steps/tools',
-      '/web/usage/first-steps/tools',
+      '/web/ai-tools-and-resources/developer-tools',
       '/web/components/button/properties',
       '/web/components/date-picker/properties',
       '/uilib/components/date-picker/properties',
@@ -352,13 +380,15 @@ describe('test-page-filter plugin', () => {
         test('navigation works', async ({ page }) => {
           await page.goto('/')
           await page.getByRole('link', { name: 'Design' }).click()
-          await expect(page).toHaveURL('/quickguide-designer')
+          await expect(page).toHaveURL('/web/get-started/design-for-web')
         })
         `
       )
 
       const urls = extractPageGotoUrls(filePath)
-      expect(urls).toEqual(new Set(['/', '/quickguide-designer']))
+      expect(urls).toEqual(
+        new Set(['/', '/web/get-started/design-for-web'])
+      )
     })
 
     it('extracts multiple URLs from a single file', () => {

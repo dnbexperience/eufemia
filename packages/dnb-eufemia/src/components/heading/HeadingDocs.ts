@@ -14,7 +14,7 @@ export const HeadingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.',
+    doc: 'Define the typography [font-size](/web/layout-and-typography/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.',
     type: [
       '"xx-large"',
       '"x-large"',
@@ -91,7 +91,7 @@ export const HeadingProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

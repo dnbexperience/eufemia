@@ -42,7 +42,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    */
   width?: FieldBlockWidth
   /**
-   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).
    */
   size?: InputProps['size'] | TextareaProps['size']
   /**
@@ -78,7 +78,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   /** If `true`, shows a clear button inside the input. */
   clear?: boolean
   /**
-   * Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties).
+   * Input mask, in the same format as the `mask` property of [InputMasked](/web/components/input-masked/properties).
    */
   mask?: InputMaskedProps['mask']
   /** If `true`, allows typing beyond the defined mask boundaries. */

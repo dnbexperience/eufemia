@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-const url = '/web/extensions/forms/base-fields/Composition/demos/'
+const url = '/web/forms/base-fields/Composition/demos/'
 
 describe.each(['ui', 'sbanken'])(`Composition for %s`, (themeName) => {
   setupPageScreenshot({

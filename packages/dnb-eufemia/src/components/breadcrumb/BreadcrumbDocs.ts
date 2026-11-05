@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const BreadcrumbProperties: PropertiesTableProps = {
   data: {
-    doc: 'List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).',
+    doc: 'List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/web/components/breadcrumb/properties#breadcrumbitem-properties).',
     type: 'Array<BreadcrumbItemProps>',
     status: 'optional',
   },
@@ -82,7 +82,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

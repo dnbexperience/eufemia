@@ -37,7 +37,7 @@ export type FieldSelectCurrencyProps = FieldPropsWithExtraValue<
   undefined | string
 > & {
   /**
-   * List only a certain set of currencies: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all currencies [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCurrency/#filter-or-prioritize-currency-listing)). Defaults to `Prioritized`.
+   * List only a certain set of currencies: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all currencies [sorted by priority](/web/forms/feature-fields/SelectCurrency/#filter-or-prioritize-currency-listing)). Defaults to `Prioritized`.
    */
   currencies?: CurrencyFilterSet
 

@@ -102,7 +102,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     id?: SharedStateId
     /**
-     * If needed, you can define a custom [GlobalStatus](/uilib/components/global-status) id. Defaults to `main`.
+     * If needed, you can define a custom [GlobalStatus](/web/components/global-status) id. Defaults to `main`.
      */
     globalStatusId?: string
     /**
@@ -122,7 +122,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     schema?: Schema<Data>
     /**
-     * REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: `import Ajv from "@dnb/eufemia/extensions/forms"` and pass `ajvInstance={makeAjvInstance()}`. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.
+     * REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: `import Ajv from "@dnb/eufemia/extensions/forms"` and pass `ajvInstance={makeAjvInstance()}`. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/web/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.
      */
     ajvInstance?: AjvInstance
     /**
@@ -152,11 +152,11 @@ export type DataContextProviderProps<Data extends JsonObject> =
       | void
       | Promise<EventReturnWithStateObject | void>
     /**
-     * Will be called (on validation success) when the user submits the form (e.g. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.
+     * Will be called (on validation success) when the user submits the form (e.g. by clicking a [Form.SubmitButton](/web/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/web/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.
      */
     onSubmit?: OnSubmit<Data>
     /**
-     * Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `properties` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status) at the form level. Supports async functions.
+     * Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `properties` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/web/components/form-status) at the form level. Supports async functions.
      */
     onSubmitRequest?: OnSubmitRequest
     /**
@@ -203,11 +203,11 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     locale?: ContextProps['locale']
     /**
-     * Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ "nb-NO": { MyKey: "value" } }`. See [Localization](/uilib/usage/customisation/localization).
+     * Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ "nb-NO": { MyKey: "value" } }`. See [Localization](/web/styling-and-themes/configuration/localization).
      */
     translations?: ContextProps['translations']
     /**
-     * Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).
+     * Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/web/styling-and-themes/configuration/localization/#load-translations-dynamically).
      */
     translationsLoader?: ContextProps['translationsLoader']
     /**

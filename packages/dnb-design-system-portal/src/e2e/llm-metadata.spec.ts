@@ -39,7 +39,7 @@ test.describe('LLM integration', () => {
     const body = await res.text()
     expect(body).toContain('# Eufemia')
     expect(body).toMatch(/GeneratedAt:\s*\d{4}-\d{2}-\d{2}T/) // ISO timestamp
-    expect(body).toContain('/web/usage/first-steps/quick-reference.md')
+    expect(body).toContain('/web/get-started/quick-start.md')
     expect(body).toContain('## Machine-readable docs')
     // Ensure visual-tests entries are excluded from llms.txt
     expect(body).not.toContain('/visual-tests/')
@@ -68,7 +68,7 @@ test.describe('LLM integration', () => {
   })
 
   test('top-level docs pages generate markdown copies', async () => {
-    const mdPaths = ['/quickguide-designer.md', '/uilib.md']
+    const mdPaths = ['/web/get-started/design-for-web.md', '/uilib.md']
     const publicDir = path.resolve(__dirname, '..', '..', 'public')
 
     for (const mdPath of mdPaths) {
@@ -83,26 +83,26 @@ test.describe('LLM integration', () => {
       path.join(publicDir, 'uilib.md'),
       'utf-8'
     )
-    expect(uilibBody).toContain('# Web introduction')
+    expect(uilibBody).toContain('# Quick start')
     expect(uilibBody).toContain('The DNB UI library contains ready-to-use')
 
     const iconsMdFile = path.join(publicDir, 'icons.md')
     expect(fs.existsSync(iconsMdFile)).toBeFalsy()
   })
 
-  test('icons pages list concrete icons in rendered output', async ({
+  test('collections-icons pages list concrete icons in rendered output', async ({
     page,
   }) => {
-    await page.goto('/icons/primary/')
+    await page.goto('/collections/icons/')
     await expect(
-      page.getByRole('heading', { name: 'Primary icons', exact: true })
+      page.getByRole('heading', { name: 'Icons', exact: true })
     ).toBeVisible()
     await expect(page.getByRole('heading', { name: 'bell' })).toBeVisible()
 
-    await page.goto('/icons/secondary/')
-    await expect(page.locator('main')).toContainText(
-      'A list of all Secondary Icons'
-    )
+    await page.goto('/collections/icons/')
+    await expect(
+      page.getByRole('heading', { name: 'Icons', exact: true })
+    ).toBeVisible()
     await expect(
       page.getByRole('heading', { name: 'user_feedback' })
     ).toBeVisible()
@@ -112,11 +112,11 @@ test.describe('LLM integration', () => {
     const mdPaths = [
       '/uilib/components/button.md',
       '/uilib/components/card.md',
-      '/quickguide-designer.md',
+      '/web/get-started/design-for-web.md',
       '/uilib.md',
     ]
     const excludedMdPaths = [
-      '/icons.md',
+      '/collections/icons.md',
       '/uilib/extensions/payment-card/products.md',
     ]
     const mdPathsWithCodeBlocks = new Set([

@@ -9,7 +9,7 @@ export const SelectCurrencyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   currencies: {
-    doc: 'List only a certain set of currencies: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all currencies [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCurrency/#filter-or-prioritize-currency-listing)). Defaults to `Prioritized`.',
+    doc: 'List only a certain set of currencies: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all currencies [sorted by priority](/web/forms/feature-fields/SelectCurrency/#filter-or-prioritize-currency-listing)). Defaults to `Prioritized`.',
     type: ['"Scandinavia"', '"Nordic"', '"Europe"', '"Prioritized"'],
     status: 'optional',
   },
@@ -20,7 +20,7 @@ export const SelectCurrencyProperties: PropertiesTableProps = {
   },
   size: {
     ...AutocompleteProperties.size,
-    doc: `${AutocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: `${AutocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).`,
   },
 }
 

@@ -1488,7 +1488,7 @@ describe('isolated-style-scope-plugin', () => {
       expect(warnings).toHaveLength(1)
       expect(warnings[0].text).toContain('--color-sea-green')
       expect(warnings[0].text).toContain(
-        'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+        'https://eufemia.dnb.no/web/styling-and-themes/design-tokens/guide/'
       )
     })
 

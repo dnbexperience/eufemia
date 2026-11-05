@@ -5,7 +5,7 @@ import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import GitHubChangelog, {
   getReleaseType,
   prepareReleaseNotes,
-} from '../../../docs/web/changelog/GitHubChangelog'
+} from '../../../docs/web/releases-and-upgrades/change-log-history/GitHubChangelog'
 import type { GitHubRelease } from '../../../../vite/client/plugins/github-releases'
 
 beforeEach(() => resetLevels(2))

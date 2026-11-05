@@ -48,7 +48,7 @@ export type FormStatusBaseProps = {
    */
   statusNoAnimation?: boolean
   /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   * The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject
 }
@@ -65,7 +65,7 @@ export type FormStatusProps = {
    */
   text?: FormStatusText
   /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   * The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject
   /**
@@ -109,7 +109,7 @@ export type FormStatusProps = {
    */
   role?: string
   /**
-   * Use it to set an inner margin. It supports the same properties as [Space](/uilib/layout/space/properties). Useful for animation.
+   * Use it to set an inner margin. It supports the same properties as [Space](/web/layout-and-typography/layout/space/properties). Useful for animation.
    */
   shellSpace?: SpaceTypeAll
   className?: string

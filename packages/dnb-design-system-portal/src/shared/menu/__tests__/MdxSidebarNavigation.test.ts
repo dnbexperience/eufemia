@@ -45,12 +45,15 @@ describe('MDX-defined Portal navigation', () => {
       ...tree().sections.flatMap(({ items }) => items),
     ])
     for (const [slug, parent] of [
-      ['web/helpers/shared-state', 'web/developer-helpers'],
       [
-        'web/usage/customisation/styling/printable-apps',
-        'web/usage/customisation/styling',
+        'web/ai-tools-and-resources/utilities/shared-state',
+        'web/ai-tools-and-resources/utilities',
       ],
-      ['contribute/social-preview-images', 'contribute'],
+      [
+        'web/styling-and-themes/css/printable-apps',
+        'web/styling-and-themes/css',
+      ],
+      ['web/contribute/social-preview-images', 'web/contribute'],
     ]) {
       const page = pages.find(({ fields }) => fields.slug === slug)
       expect(page.frontmatter.navigation.parent).toBe(parent)
@@ -117,7 +120,7 @@ describe('MDX-defined Portal navigation', () => {
       expect(group.isMenuGroup).toBe(true)
       expect(group.isMenuLink).toBe(false)
       const [data] = toSidebarMenuData([group], () => undefined)
-      expect(data.type).toBe('group')
+      expect(data.type).toBe('header')
       expect(data.collapsible).toBeUndefined()
       expect(group.subheadings.map(({ title }) => title)).toEqual(expected)
     }
@@ -127,7 +130,8 @@ describe('MDX-defined Portal navigation', () => {
     const expectedPaths = pages
       .filter(
         ({ fields, frontmatter }) =>
-          fields.slug.startsWith('web/components/') &&
+          (fields.slug.startsWith('web/components/') ||
+            fields.slug === 'web/components/icon/usage') &&
           frontmatter.navigation &&
           !frontmatter.navigation.hidden &&
           frontmatter.route !== false &&
@@ -159,7 +163,7 @@ describe('MDX-defined Portal navigation', () => {
       ['date-picker', 'Date picker'],
       ['input-masked', 'Masked input'],
       ['country-flag', 'Country flags'],
-      ['icon', 'Icons'],
+      ['icon', 'Icon component'],
       ['logo', 'Logos'],
       ['number-format', 'Number format'],
       ['skip-content', 'Skip content'],
@@ -181,24 +185,27 @@ describe('MDX-defined Portal navigation', () => {
       ['payment-card', 'Payment card'],
       ['sidebar-menu', 'Sidebar menu'],
     ]) {
-      const path = 'web/extensions/' + slug
+      const path = 'web/patterns-and-extensions/' + slug
       const page = pages.find(({ fields }) => fields.slug === path)
       expect(page.frontmatter.title).toBe(title)
       expect(links.filter((item) => item.path === path)).toHaveLength(1)
       expect(links.find((item) => item.path === path)?.title).toBe(title)
     }
     const vipps = pages.find(
-      ({ fields }) => fields.slug === 'web/extensions/vipps-wallet-button'
+      ({ fields }) =>
+        fields.slug === 'web/patterns-and-extensions/vipps-wallet-button'
     )
-    expect(vipps.frontmatter.navigation.parent).toBe('web/extensions')
+    expect(vipps.frontmatter.navigation.parent).toBe(
+      'web/patterns-and-extensions'
+    )
   })
 
   it('uses readable element names without losing element pages', () => {
-    const elements = tree().sections[0].items.find(
-      ({ path }) => path === 'web/elements'
+    const elements = flatten(tree().sections[0].items).find(
+      ({ path }) => path === 'web/layout-and-typography/elements'
     )
     expect(elements.subheadings.map(({ title }) => title)).toEqual([
-      'Using HTML elements',
+      'HTML elements',
       'Block quote',
       'Code',
       'Headings',
@@ -217,10 +224,13 @@ describe('MDX-defined Portal navigation', () => {
       )
     }
     const horizontalRule = pages.find(
-      ({ fields }) => fields.slug === 'web/elements/horizontal-rule'
+      ({ fields }) =>
+        fields.slug ===
+        'web/layout-and-typography/elements/horizontal-rule'
     )
     expect(horizontalRule.frontmatter.legacyFragments).toEqual({
-      horizontalrule: '/web/elements/horizontal-rule/#horizontal-rule',
+      horizontalrule:
+        '/web/layout-and-typography/elements/horizontal-rule/#horizontal-rule',
     })
   })
 
@@ -285,11 +295,10 @@ describe('MDX-defined Portal navigation', () => {
     const { shared, sections } = tree()
     expect(shared.map(({ title }) => title)).toEqual([
       'Home',
+      'Get started',
+      'Design foundations',
+      'Collections',
       'About',
-      'Getting started',
-      'Design language',
-      'Working with AI',
-      'Contribute',
     ])
     expect(sections.map(({ text }) => text)).toEqual([
       'Web',
@@ -299,28 +308,29 @@ describe('MDX-defined Portal navigation', () => {
     expect(sections[0].items.map(({ title }) => title)).toEqual([
       'Get started',
       'Components',
-      'Extensions',
-      'HTML elements',
-      'Layout',
-      'Helpers',
-      'Patterns',
-      'Figma',
-      'GitHub',
+      'Forms',
+      'Patterns and extensions',
+      'Layout and typography',
+      'Styling and themes',
+      'Accessibility',
+      'Development guidelines',
+      'AI, tools and resources',
+      'Contribute to Web',
+      'Releases and upgrades',
     ])
   })
 
   it('keeps Web resource links after a divider and outside native navigation', () => {
     const { sections } = tree()
-    const resources = sections[0].items.slice(-2)
+    const resources = flatten(sections[0].items).filter(({ href }) => href)
     expect(resources.map(({ title }) => title)).toEqual([
-      'Figma',
-      'GitHub',
+      'Figma library',
+      'GitHub repository',
     ])
     expect(toSidebarMenuData(resources, () => undefined)).toMatchObject([
       {
         href: 'https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web',
         dividerBefore: true,
-        icon: expect.any(Function),
         target: '_blank',
         rel: 'noopener noreferrer',
         to: undefined,
@@ -328,7 +338,6 @@ describe('MDX-defined Portal navigation', () => {
       },
       {
         href: 'https://github.com/dnbexperience/eufemia/',
-        icon: expect.any(Function),
         target: '_blank',
         rel: 'noopener noreferrer',
       },
@@ -337,7 +346,7 @@ describe('MDX-defined Portal navigation', () => {
       sections
         .slice(1)
         .flatMap(({ items }) => flatten(items))
-        .some(({ title }) => title === 'Figma' || title === 'GitHub')
+        .some(({ href }) => href)
     ).toBe(false)
   })
 
@@ -345,53 +354,39 @@ describe('MDX-defined Portal navigation', () => {
     const about = tree().shared.find(({ id }) => id === 'about')
     expect(about.subheadings.map(({ title }) => title)).toEqual([
       'About Eufemia',
-      'Story',
-      'Core principles',
-      'Contact',
-      'License & credits',
+      'Contact and support',
+      'Our story',
+      'How Eufemia evolves',
+      'License, credits and privacy',
     ])
-    for (const path of ['design-system/about', 'design-system/contact']) {
+    for (const path of ['about/eufemia', 'about/contact']) {
       const item = about.subheadings.find((item) => item.path === path)
       expect(item).toMatchObject({ isMenuLink: true })
       expect(item.icon).toBeUndefined()
       expect(item.subheadings).toBeUndefined()
     }
-    const principles = about.subheadings.find(
-      ({ title }) => title === 'Core principles'
-    )
-    expect(principles.isMenuLink).toBe(false)
-    expect(principles.subheadings.map(({ title }) => title)).toEqual([
-      'Living system',
-      'Maintainability',
-    ])
     const license = about.subheadings.find(
-      ({ path }) => path === 'license'
+      ({ path }) => path === 'about/license'
     )
-    expect(license.subheadings.map(({ title }) => title)).toEqual([
-      'Licens',
-      'Credits',
-      'Privacy',
-    ])
-    expect(
-      license.subheadings.find(({ title }) => title === 'Privacy').icon
-    ).toBeUndefined()
+    expect(license.isMenuLink).toBe(true)
+    expect(license.subheadings).toBeUndefined()
     expect(getPageRedirects(files)).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           from: '/web/about-the-lib',
-          to: '/web/introduction/',
+          to: '/web/get-started/quick-start/',
         }),
         expect.objectContaining({
           from: '/uilib/about-the-lib',
-          to: '/web/introduction/',
+          to: '/web/get-started/quick-start/',
         }),
         expect.objectContaining({
           from: '/contribute/contact',
-          to: '/design-system/contact/',
+          to: '/about/contact/',
         }),
         expect.objectContaining({
           from: '/design-system/about/living-system',
-          to: '/web/about-the-lib/living-system/',
+          to: '/about/how-eufemia-evolves/',
         }),
       ])
     )
@@ -418,15 +413,20 @@ describe('MDX-defined Portal navigation', () => {
   })
 
   it('keeps Getting started Design entries icon-free', () => {
-    const items = flatten(tree().shared)
-    const design = items.find(({ path }) => path === 'quickguide-designer')
-    expect(design.subheadings.map(({ title }) => title)).toEqual([
-      'Start designing',
-      'Design tools',
-      'UI Resources',
-      'Inspiration',
-    ])
+    const design = flatten(tree().sections[0].items).find(
+      ({ path }) => path === 'web/get-started/design-for-web'
+    )
+    expect(design).toMatchObject({
+      title: 'Set up Eufemia Web in Figma',
+      isMenuLink: true,
+    })
+    expect(design.subheadings).toBeUndefined()
     expect(flatten([design]).every(({ icon }) => !icon)).toBe(true)
+    expect(
+      flatten(tree().shared).find(
+        ({ path }) => path === 'web/get-started/design-for-web'
+      )
+    ).toBeUndefined()
   })
 
   it('keeps icons only on top-level navigation entries', () => {
@@ -439,7 +439,7 @@ describe('MDX-defined Portal navigation', () => {
         flatten(item.subheadings ?? []).filter(({ icon }) => icon)
       ).toEqual([])
     }
-    expect(shared.find(({ id }) => id === 'design-language').icon).toBe(
+    expect(shared.find(({ id }) => id === 'design-foundations').icon).toBe(
       'brush'
     )
     expect(
@@ -450,18 +450,23 @@ describe('MDX-defined Portal navigation', () => {
   it('combines Installation and First steps without a duplicate menu page', () => {
     const items = flatten(tree().sections[0].items)
     expect(
-      items.find(({ id }) => id === 'web-usage-first-steps-page').title
-    ).toBe('Installation and first steps')
+      items
+        .filter(
+          ({ path, isMenuLink }) =>
+            path === 'web/get-started/quick-start' && isMenuLink
+        )
+        .map(({ title }) => title)
+    ).toEqual(['Quick start'])
     expect(items.find(({ path }) => path === 'web/usage')).toBeUndefined()
     expect(getPageRedirects(files)).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           from: '/web/usage',
-          to: '/web/usage/first-steps/',
+          to: '/web/get-started/quick-start/',
         }),
         expect.objectContaining({
           from: '/uilib/usage',
-          to: '/web/usage/first-steps/',
+          to: '/web/get-started/quick-start/',
         }),
       ])
     )
@@ -486,29 +491,24 @@ describe('MDX-defined Portal navigation', () => {
       ...sections.flatMap(({ items }) => items),
     ]).filter(({ isMenuLink }) => isMenuLink)
     for (const slug of [
-      'web/intro',
-      'web/getting-started',
-      'web/introduction',
-      'quickguide-designer',
-      'quickguide-designer/tools',
-      'web/usage/first-steps',
-      'web/usage/first-steps/react',
-      'web/usage/first-steps/module-formats',
-      'web/usage/first-steps/bundles',
-      'web/usage/first-steps/quick-reference',
-      'web/usage/first-steps/tools',
+      'web/get-started/guided-introduction',
+      'web/get-started/quick-start',
+      'web/get-started/design-for-web',
+      'web/get-started/quick-start',
+      'web/get-started/quick-start',
+      'web/ai-tools-and-resources/module-formats',
+      'web/ai-tools-and-resources/module-formats',
+      'web/ai-tools-and-resources/developer-tools',
       'web/components/overview',
-      'web/usage/best-practices/for-formatting',
-      'web/usage/best-practices/for-javascript',
-      'web/usage/best-practices/for-styling',
-      'web/usage/best-practices/for-testing',
-      'web/usage/best-practices/for-typography',
-      'contribute/first-contribution',
-      'contribute/getting-started',
-      'contribute/deploy',
-      'icons/primary',
-      'icons/secondary',
-      'brand',
+      'design-foundations/number-formatting',
+      'web/contribute/guidelines/coding',
+      'web/development-guidelines/for-styling',
+      'web/development-guidelines/for-testing',
+      'web/development-guidelines/for-typography',
+      'web/contribute/first-contribution',
+      'web/contribute/local-development',
+      'web/contribute/deploy',
+      'design-foundations/brand-guidelines',
     ]) {
       const page = pages.find(({ fields }) => fields.slug === slug)
       expect(page.frontmatter.contentTitle || page.frontmatter.title).toBe(
@@ -527,17 +527,20 @@ describe('MDX-defined Portal navigation', () => {
       []
     )
     for (const [path, title] of [
-      ['web/getting-started', 'Quick start'],
-      ['quickguide-designer', 'Start designing'],
-      ['brand', 'Brand guidelines'],
-      ['icons', 'Browse icons'],
-      ['quickguide-designer/motion', 'Motion examples'],
+      ['web/get-started/quick-start', 'Quick start'],
+      ['web/get-started/design-for-web', 'Set up Eufemia Web in Figma'],
+      ['design-foundations/brand-guidelines', 'Brand guidelines'],
+      ['collections/icons', 'Icons'],
+      [
+        'web/development-guidelines/motion',
+        'Motion examples and implementation',
+      ],
       ['web/components/overview', 'Components by category'],
-      ['web/helpers', 'Shared utilities'],
-      ['web/typography', 'Using typography'],
-      ['web/layout/flex', 'Using Flex'],
-      ['contribute/first-contribution', 'Your first contribution'],
-      ['contribute/getting-started', 'Local development workflow'],
+      ['web/ai-tools-and-resources/utilities', 'Shared utilities'],
+      ['web/layout-and-typography/typography', 'Web typography in code'],
+      ['web/layout-and-typography/layout/flex', 'Using Flex'],
+      ['web/contribute/first-contribution', 'Your first contribution'],
+      ['web/contribute/local-development', 'Local development workflow'],
     ]) {
       expect(links.find((item) => item.path === path)?.title).toBe(title)
     }
@@ -558,7 +561,7 @@ describe('MDX-defined Portal navigation', () => {
       flatten(all).find(
         ({ path, isMenuLink }) => path === 'collections' && isMenuLink
       )
-    ).toBeDefined()
+    ).toBeUndefined()
   })
 
   it('selects the parent documentation link for tab routes', () => {
@@ -569,9 +572,9 @@ describe('MDX-defined Portal navigation', () => {
     )
     expect(
       findActiveSidebarItemId(
-        tree('/web/whats-new/upgrade').sections[0].items
+        tree('/web/releases-and-upgrades/upgrade').sections[0].items
       )
-    ).toBe('web-whats-new')
+    ).toBe('web-releases-and-upgrades')
     expect(
       findActiveSidebarItemId(
         tree('/web/components/country-flag/properties').sections[0].items
@@ -579,69 +582,74 @@ describe('MDX-defined Portal navigation', () => {
     ).toBe('web-components-country-flag')
   })
 
-  it("places What's new under Web Get started, not shared navigation", () => {
+  it('keeps releases at Web level and outside shared and native navigation', () => {
     const { shared, sections } = tree()
     expect(
-      flatten(shared).find(({ id }) => id === 'web-whats-new')
+      flatten(shared).find(({ id }) => id === 'web-releases-and-upgrades')
     ).toBeUndefined()
-    const web = sections.find(({ id }) => id === 'web')
     expect(
-      web.items.find(({ id }) => id === 'web-get-started').subheadings
-    ).toContainEqual(
-      expect.objectContaining({
-        id: 'web-whats-new',
-        path: 'web/whats-new',
-      })
-    )
-    for (const section of sections.filter(({ id }) => id !== 'web')) {
-      expect(
-        flatten(section.items).find(({ id }) => id === 'web-whats-new')
-      ).toBeUndefined()
-    }
+      sections[0].items.find(
+        ({ id }) => id === 'web-releases-and-upgrades'
+      )
+    ).toMatchObject({
+      title: 'Releases and upgrades',
+      isMenuLink: true,
+    })
+    expect(
+      sections
+        .slice(1)
+        .flatMap(({ items }) => flatten(items))
+        .find(({ id }) => id === 'web-releases-and-upgrades')
+    ).toBeUndefined()
   })
 
-  it('orders Web getting started with updates first and requirements and CDN last', () => {
+  it('keeps Web onboarding short with design and requirements alongside it', () => {
     const web = tree().sections.find(({ id }) => id === 'web')
-    const gettingStarted = web.items.find(
-      ({ id }) => id === 'web-get-started'
-    )
-    expect(gettingStarted.subheadings.map(({ title }) => title)).toEqual([
-      "What's new",
-      'First steps',
-      'Customization',
-      'Best practices',
-      'Requirements',
-      'Asset CDN',
+    const start = web.items.find(({ id }) => id === 'web-get-started')
+    expect(start.subheadings.map(({ title }) => title)).toEqual([
+      'Quick start',
+      'Guided introduction',
+      'Requirements and browser support',
+      'Set up Eufemia Web in Figma',
     ])
   })
 
   it('groups Web patterns in a contentless accordion without an overview page', () => {
-    const { shared, sections } = tree('/web/patterns/status-icon')
-    const web = sections.find(({ id }) => id === 'web')
-    const patterns = web.items.find(({ id }) => id === 'web-patterns')
+    const { shared, sections } = tree(
+      '/web/patterns-and-extensions/status-icon'
+    )
+    const patterns = sections[0].items.find(
+      ({ id }) => id === 'web-patterns-and-extensions'
+    )
     expect(patterns).toMatchObject({
-      title: 'Patterns',
+      title: 'Patterns and extensions',
       isMenuLink: false,
       isMenuGroup: false,
     })
-    expect(patterns.subheadings).toEqual([
-      expect.objectContaining({
-        id: 'web-patterns-status-icon',
-        path: 'web/patterns/status-icon',
-        isMenuLink: true,
-        isActive: true,
-      }),
+    expect(patterns.subheadings.map(({ title }) => title)).toEqual([
+      'Using patterns and extensions',
+      'Sidebar menu',
+      'AI components',
+      'Payment card',
+      'Vipps wallet button',
+      'Table of contents',
+      'Patterns',
     ])
+    expect(
+      patterns.subheadings
+        .flatMap((item) => item.subheadings ?? [item])
+        .find(
+          ({ path }) => path === 'web/patterns-and-extensions/status-icon'
+        )
+    ).toMatchObject({ isMenuLink: true, isActive: true })
     const [data] = toSidebarMenuData([patterns], () => undefined)
     expect(data).toMatchObject({ collapsible: true })
     expect(data.to).toBeUndefined()
     expect(
       flatten([
         ...shared,
-        ...sections
-          .filter(({ id }) => id !== 'web')
-          .flatMap(({ items }) => items),
-      ]).some(({ id }) => id === 'web-patterns-status-icon')
+        ...sections.slice(1).flatMap(({ items }) => items),
+      ]).some(({ id }) => id === 'web-patterns-and-extensions-status-icon')
     ).toBe(false)
   })
 
@@ -681,12 +689,12 @@ describe('MDX-defined Portal navigation', () => {
           )
       )
     ).toEqual([])
-    const ai = tree().shared.find(
-      ({ title }) => title === 'Working with AI'
+    const ai = flatten(tree().sections[0].items).find(
+      ({ path }) => path === 'web/ai-tools-and-resources/ai'
     )
     expect(ai.subheadings.slice(0, 2).map(({ path }) => path)).toEqual([
-      'working-with-ai/ai-skills',
-      'working-with-ai/mcp-universe',
+      'web/ai-tools-and-resources/ai/mcp-universe',
+      'web/ai-tools-and-resources/ai/ai-skills',
     ])
     expect(
       readdirSync(docs, { recursive: true, encoding: 'utf8' }).filter(

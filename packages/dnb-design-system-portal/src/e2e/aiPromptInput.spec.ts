@@ -231,7 +231,7 @@ test.describe('Ai.PromptInput interaction styles', () => {
   })
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/web/extensions/ai/PromptInput/demos/')
+    await page.goto('/web/patterns-and-extensions/ai/PromptInput/demos/')
     await waitForApp(page)
   })
 
@@ -313,7 +313,7 @@ test.describe('Ai.PromptInput on touch-primary devices', () => {
   test('keeps Enter for newlines and submits with the button', async ({
     page,
   }) => {
-    await page.goto('/web/extensions/ai/PromptInput/demos/')
+    await page.goto('/web/patterns-and-extensions/ai/PromptInput/demos/')
     await waitForApp(page)
     expect(
       await page.evaluate(

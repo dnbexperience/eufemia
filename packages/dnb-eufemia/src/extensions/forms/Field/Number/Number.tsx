@@ -41,7 +41,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
   /** Class name set on the input wrapper (`.dnb-input`) that contains the `<input>` element. */
   inputClassName?: string
   /**
-   * Currency code (ISO 4217) or `true` to use the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set. Uses two decimals by default.
+   * Currency code (ISO 4217) or `true` to use the `currency` of the [Provider](/web/styling-and-themes/configuration/provider/), which is `NOK` unless set. Uses two decimals by default.
    */
   currency?: InputMaskedProps['asCurrency']
   /** How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. Use `false` to hide it. */
@@ -51,7 +51,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
    */
   percent?: InputMaskedProps['asPercent']
   /**
-   * Input mask, in the same format as the `mask` property of [InputMasked](/uilib/components/input-masked/properties). When given, it is used instead of the default number mask. It has no effect together with `currency` or `percent`.
+   * Input mask, in the same format as the `mask` property of [InputMasked](/web/components/input-masked/properties). When given, it is used instead of the default number mask. It has no effect together with `currency` or `percent`.
    */
   mask?: InputMaskedProps['mask']
   /**
@@ -103,7 +103,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
    */
   multipleOf?: number
   /**
-   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default`. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default`. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).
    */
   size?: InputSize
   /**

@@ -28,7 +28,7 @@ test.describe('Chunk load recovery', () => {
     const documents = countDocuments(page)
     let expectedDocuments = 0
     for (const path of [
-      '/contribute/getting-started/',
+      '/web/contribute/local-development/',
       '/web/components/button/properties/',
       '/web/components/stat/properties/',
     ]) {
@@ -64,7 +64,7 @@ test.describe('Chunk load recovery', () => {
         : route.continue()
     })
 
-    await page.goto('/web/extensions/forms/Value/BankAccountNumber/', {
+    await page.goto('/web/forms/Value/BankAccountNumber/', {
       waitUntil: 'commit',
     })
     await waitForApp(page)
@@ -104,7 +104,7 @@ test.describe('Chunk load recovery', () => {
       })
 
       await page.goto(
-        '/web/extensions/forms/Value/BankAccountNumber/?recovery-test#bankaccountnumber',
+        '/web/forms/Value/BankAccountNumber/?recovery-test#bankaccountnumber',
         { waitUntil: 'commit' }
       )
       await waitForApp(page)
@@ -140,7 +140,7 @@ test.describe('Chunk load recovery', () => {
         })
       })
 
-      await page.goto('/web/extensions/forms/Value/BankAccountNumber/', {
+      await page.goto('/web/forms/Value/BankAccountNumber/', {
         waitUntil: 'commit',
       })
       await expect.poll(() => failures).toBeGreaterThanOrEqual(2)

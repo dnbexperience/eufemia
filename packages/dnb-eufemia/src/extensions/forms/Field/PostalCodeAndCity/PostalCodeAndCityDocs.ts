@@ -9,12 +9,12 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   postalCode: {
-    doc: 'Properties for the [Field.String](/uilib/extensions/forms/base-fields/String/) component for postal code.',
+    doc: 'Properties for the [Field.String](/web/forms/base-fields/String/) component for postal code.',
     type: 'object',
     status: 'optional',
   },
   city: {
-    doc: 'Properties for the [Field.String](/uilib/extensions/forms/base-fields/String/) component for city.',
+    doc: 'Properties for the [Field.String](/web/forms/base-fields/String/) component for city.',
     type: 'object',
     status: 'optional',
   },

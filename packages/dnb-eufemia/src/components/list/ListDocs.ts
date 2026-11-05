@@ -50,7 +50,7 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -105,7 +105,7 @@ export const ItemContentProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -136,7 +136,7 @@ export const ItemCenterProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -161,7 +161,7 @@ export const ItemTitleProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -185,7 +185,7 @@ export const ItemOverlineProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -215,7 +215,7 @@ export const ItemSublineProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -228,7 +228,7 @@ export const ItemFooterProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -259,7 +259,7 @@ export const ItemEndProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -290,7 +290,7 @@ export const ItemStartProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -347,7 +347,7 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[List.Item.Basic](/uilib/components/list/properties/#listitembasic)': {
+  '[List.Item.Basic](/web/components/list/properties/#listitembasic)': {
     doc: 'Inherits List.Item.Basic properties (variant, pending, spacing, etc.).',
     type: 'Various',
     status: 'optional',
@@ -360,12 +360,12 @@ export const ItemAccordionHeaderProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+  '[Flex.Item](/web/layout-and-typography/layout/flex/item/properties)': {
     doc: 'Renders as a `Flex.Item`. Supports all `Flex.Item` properties.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -378,7 +378,7 @@ export const ItemAccordionContentProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -462,12 +462,12 @@ export const ItemActionProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[List.Item.Basic](/uilib/components/list/properties/#listitembasic)': {
+  '[List.Item.Basic](/web/components/list/properties/#listitembasic)': {
     doc: 'Inherits List.Item.Basic properties (variant, selected, spacing, etc.).',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -502,12 +502,12 @@ export const CardProperties: PropertiesTableProps = {
     defaultValue: 'true',
     status: 'optional',
   },
-  '[Card](/uilib/components/card/properties)': {
-    doc: 'All [Card](/uilib/components/card) properties are supported. The card renders with `stack` layout by default.',
+  '[Card](/web/components/card/properties)': {
+    doc: 'All [Card](/web/components/card) properties are supported. The card renders with `stack` layout by default.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -535,7 +535,7 @@ export const ScrollViewProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -558,12 +558,12 @@ export const ShowMoreButtonProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[Button](/uilib/components/button/properties)': {
-    doc: 'All [Button](/uilib/components/button) properties are supported except `variant`, `text`, `icon`, and `onClick` which are managed internally.',
+  '[Button](/web/components/button/properties)': {
+    doc: 'All [Button](/web/components/button) properties are supported except `variant`, `text`, `icon`, and `onClick` which are managed internally.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

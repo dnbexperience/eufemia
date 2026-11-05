@@ -6,7 +6,7 @@ import {
 
 describe('Form.SubmitIndicator', () => {
   setupPageScreenshot({
-    url: '/web/extensions/forms/Form/SubmitIndicator/demos/',
+    url: '/web/forms/Form/SubmitIndicator/demos/',
   })
 
   it('have to match submit-indicator-with-label', async () => {

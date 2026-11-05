@@ -64,7 +64,7 @@ export type BreadcrumbProps = {
   skeleton?: SkeletonShow
 
   /**
-   * List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).
+   * List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/web/components/breadcrumb/properties#breadcrumbitem-properties).
    */
   data?: Array<BreadcrumbItemProps>
 

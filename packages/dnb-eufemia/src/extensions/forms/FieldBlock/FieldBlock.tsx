@@ -119,7 +119,7 @@ export type SharedFieldBlockProps = {
    */
   labelDescriptionInline?: boolean
   /**
-   * Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.
+   * Define one of the following [heading sizes](/web/layout-and-typography/elements/heading/): `medium` or `large`.
    */
   labelSize?: 'medium' | 'large'
   /**
@@ -131,7 +131,7 @@ export type SharedFieldBlockProps = {
    */
   contentWidth?: FieldBlockWidth
   /**
-   * Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set `openOnFind` to `true` to open matching inline help from browser find-in-page, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).
+   * Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set `openOnFind` to `true` to open matching inline help from browser find-in-page, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/web/components/dialog/) (recommended for larger amounts of content).
    */
   help?: HelpProps
   /**
@@ -170,7 +170,7 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
      */
     contentClassName?: string
     /**
-     * Shows the inline [SubmitIndicator](/uilib/extensions/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.
+     * Shows the inline [SubmitIndicator](/web/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.
      */
     fieldState?: SubmitState
     /**

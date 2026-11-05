@@ -8,7 +8,7 @@ export type FieldIndeterminateProps = Partial<
   Omit<ToggleAllProps, 'textOn' | 'textOff'>
 > & {
   /**
-   * Provide an array with the related paths of other [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) fields.
+   * Provide an array with the related paths of other [Field.Toggle](/web/forms/base-fields/Toggle/) or [Field.Boolean](/web/forms/base-fields/Boolean/) fields.
    */
   dependencePaths: Array<Path>
 

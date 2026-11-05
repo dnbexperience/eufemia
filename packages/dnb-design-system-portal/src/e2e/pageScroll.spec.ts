@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 test.describe('Page Scroll', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/contribute/getting-started/')
+    await page.goto('/web/contribute/local-development/')
 
     // Ensure we do NOT set `scroll-behavior: smooth;`
     await page.$eval('html', (element) => {
@@ -58,11 +58,11 @@ test.describe('Page Scroll', () => {
     page,
   }) => {
     await page.goto(
-      '/contribute/first-contribution#how-to-report-an-issue-or-suggest-a-new-feature'
+      '/web/contribute/first-contribution#how-to-report-an-issue-or-suggest-a-new-feature'
     )
 
     await expect(page).toHaveURL(
-      /\/contribute\/first-contribution\/?#how-to-report-an-issue-or-suggest-a-new-feature$/
+      /\/web\/contribute\/first-contribution\/?#how-to-report-an-issue-or-suggest-a-new-feature$/
     )
 
     const target = page.locator(

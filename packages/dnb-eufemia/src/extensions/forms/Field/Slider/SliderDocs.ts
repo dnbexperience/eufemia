@@ -38,6 +38,8 @@ export const SliderFieldProperties: PropertiesTableProps = {
   tooltip: SliderProperties.tooltip,
   alwaysShowTooltip: SliderProperties.alwaysShowTooltip,
   extensions: SliderProperties.extensions,
-  '[Space](/uilib/layout/space/properties)':
-    SliderProperties['[Space](/uilib/layout/space/properties)'],
+  '[Space](/web/layout-and-typography/layout/space/properties)':
+    SliderProperties[
+      '[Space](/web/layout-and-typography/layout/space/properties)'
+    ],
 }

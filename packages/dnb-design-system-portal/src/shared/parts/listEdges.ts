@@ -21,7 +21,7 @@ import {
 export function getElements(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/elements/*') &&
+      globPath(node, 'web/layout-and-typography/elements/*') &&
       node.frontmatter.hideInMenu !== true
   )
 }
@@ -30,7 +30,9 @@ export function getElements(pages: MdxNode[]): MdxNode[] {
 export function getExtensions(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/*') &&
+      (node.fields.slug === 'web/forms' ||
+        globPath(node, 'web/patterns-and-extensions/*')) &&
+      node.frontmatter.showTabs === true &&
       node.frontmatter.hideInMenu !== true
   )
 }
@@ -46,16 +48,14 @@ export function getFragments(pages: MdxNode[]): MdxNode[] {
 
 /** The pages listed by `ListAllBlocks`. */
 export function getAllBlocks(pages: MdxNode[]): MdxNode[] {
-  return pages.filter((node) =>
-    globPath(node, 'web/extensions/forms/blocks/*')
-  )
+  return pages.filter((node) => globPath(node, 'web/forms/blocks/*'))
 }
 
 /** The pages listed by `ListBaseFieldComponents`. */
 export function getBaseFieldComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/forms/base-fields/*') &&
       node.frontmatter.componentType?.includes('base')
   )
 }
@@ -64,7 +64,7 @@ export function getBaseFieldComponents(pages: MdxNode[]): MdxNode[] {
 export function getFeatureFieldComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/feature-fields/*') &&
+      globPath(node, 'web/forms/feature-fields/*') &&
       node.frontmatter.showTabs
   )
 }
@@ -73,7 +73,7 @@ export function getFeatureFieldComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseInputComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/forms/base-fields/*') &&
       node.frontmatter.componentType === 'base-input'
   )
 }
@@ -82,7 +82,7 @@ export function getBaseInputComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseSelectionComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/forms/base-fields/*') &&
       node.frontmatter.componentType === 'base-selection'
   )
 }
@@ -91,7 +91,7 @@ export function getBaseSelectionComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseToggleComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/forms/base-fields/*') &&
       node.frontmatter.componentType === 'base-toggle'
   )
 }
@@ -100,7 +100,7 @@ export function getBaseToggleComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseValueComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/Value/**/*') &&
+      globPath(node, 'web/forms/Value/**/*') &&
       node.frontmatter.componentType?.includes('base')
   )
 }
@@ -109,7 +109,7 @@ export function getBaseValueComponents(pages: MdxNode[]): MdxNode[] {
 export function getFeatureValueComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/Value/**/*') &&
+      globPath(node, 'web/forms/Value/**/*') &&
       node.frontmatter.componentType?.includes('feature')
   )
 }
@@ -117,7 +117,7 @@ export function getFeatureValueComponents(pages: MdxNode[]): MdxNode[] {
 /** The pages listed by `ListDataContextComponents`. */
 export function getDataContextComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'web/extensions/forms/DataContext/**/*')
+    globPath(node, 'web/forms/DataContext/**/*')
   )
 }
 
@@ -125,7 +125,7 @@ export function getDataContextComponents(pages: MdxNode[]): MdxNode[] {
 export function getAiComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/ai/*') &&
+      globPath(node, 'web/patterns-and-extensions/ai/*') &&
       node.frontmatter.title &&
       node.frontmatter.componentType !== 'docs' &&
       node.frontmatter.hideInMenu !== true
@@ -136,35 +136,31 @@ export function getAiComponents(pages: MdxNode[]): MdxNode[] {
 export function getFormComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/extensions/forms/Form/**/*') &&
+      globPath(node, 'web/forms/Form/**/*') &&
       node.frontmatter.componentType !== 'docs'
   )
 }
 
 /** The pages listed by `ListIterateComponents`. */
 export function getIterateComponents(pages: MdxNode[]): MdxNode[] {
-  return pages.filter((node) =>
-    globPath(node, 'web/extensions/forms/Iterate/**/*')
-  )
+  return pages.filter((node) => globPath(node, 'web/forms/Iterate/**/*'))
 }
 
 /** The pages listed by `ListWizardComponents`. */
 export function getWizardComponents(pages: MdxNode[]): MdxNode[] {
-  return pages.filter((node) =>
-    globPath(node, 'web/extensions/forms/Wizard/**/*')
-  )
+  return pages.filter((node) => globPath(node, 'web/forms/Wizard/**/*'))
 }
 
 /** The pages listed by `ListEufemiaVersions`. */
 export function getEufemiaVersions(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'web/about-the-lib/releases/eufemia/**/*')
+    globPath(node, 'web/releases-and-upgrades/versions/eufemia/**/*')
   )
 }
 
 /** The pages listed by `ListUiLibVersions`. */
 export function getUiLibVersions(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'web/about-the-lib/releases/dnb-ui-lib/**/*')
+    globPath(node, 'web/releases-and-upgrades/versions/dnb-ui-lib/**/*')
   )
 }

@@ -47,7 +47,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/uilib/components/card/properties).',
+    doc: 'Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/web/components/card/properties).',
     type: 'boolean',
     status: 'optional',
   },
@@ -66,7 +66,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

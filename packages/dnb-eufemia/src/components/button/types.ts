@@ -100,7 +100,7 @@ export type ButtonProps = {
    */
   size?: ButtonSize
   /**
-   * To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).
+   * To be included in the button. [Primary Icons](/collections/icons) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).
    */
   icon?: ButtonIcon
   /**

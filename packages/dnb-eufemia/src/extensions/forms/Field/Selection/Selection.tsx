@@ -116,7 +116,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
   dataPath?: Path
 
   /**
-   * Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.
+   * Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/web/components/dropdown) and [Autocomplete](/web/components/autocomplete) documentation.
    */
   data?: Data
 
@@ -129,17 +129,17 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
    */
   listDriver?: DrawerListDriver
   /**
-   * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. Event handlers run together with the field's own, see [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged). `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
+   * Forward any additional properties to the [Autocomplete](/web/components/autocomplete/) component. Event handlers run together with the field's own, see [how given attributes are merged](/web/forms/about-fields/#how-given-attributes-are-merged). `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
    */
   autocompleteProps?: AutocompleteAllProps
 
   /**
-   * Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component. Event handlers run together with the field's own, see [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged).
+   * Forward any additional properties to the [Dropdown](/web/components/dropdown/) component. Event handlers run together with the field's own, see [how given attributes are merged](/web/forms/about-fields/#how-given-attributes-are-merged).
    */
   dropdownProps?: DropdownAllProps
 
   /**
-   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).
    */
   size?:
     | ToggleButtonGroupProps['size']
@@ -148,7 +148,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
     | DropdownAllProps['size']
 
   /**
-   * For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components and other children. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.
+   * For providing [Field.Option](/web/forms/base-fields/Option/) components and other children. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.
    */
   children?: ReactNode | RenderSelectionChildren
 }

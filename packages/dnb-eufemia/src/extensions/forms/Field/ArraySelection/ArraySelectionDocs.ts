@@ -19,12 +19,12 @@ export const ArraySelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).',
+    doc: 'The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).',
     type: 'string',
     status: 'optional',
   },
   data: {
-    doc: 'Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.',
+    doc: 'Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/web/components/dropdown) and [Autocomplete](/web/components/autocomplete) documentation.',
     type: 'array',
     status: 'optional',
   },

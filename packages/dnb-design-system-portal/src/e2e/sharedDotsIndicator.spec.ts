@@ -11,7 +11,9 @@ for (const kind of ['ai', 'form'] as const) {
     page,
   }) => {
     if (kind === 'ai') {
-      await page.goto('/web/extensions/ai/MessageIndicator/demos/')
+      await page.goto(
+        '/web/patterns-and-extensions/ai/MessageIndicator/demos/'
+      )
     } else {
       await page.goto(
         '/uilib/extensions/forms/Form/SubmitIndicator/demos/'

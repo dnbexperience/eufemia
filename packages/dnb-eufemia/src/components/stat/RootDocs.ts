@@ -18,5 +18,6 @@ export const RootProperties: PropertiesTableProps = {
     type: ['boolean'],
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': spacingProperties,
+  '[Space](/web/layout-and-typography/layout/space/properties)':
+    spacingProperties,
 }

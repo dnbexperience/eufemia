@@ -22,7 +22,7 @@ export const FormLabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `basis`, `medium` or `large`.',
+    doc: 'Define one of the following [heading sizes](/web/layout-and-typography/elements/heading/): `basis`, `medium` or `large`.',
     type: ['"basis"', '"medium"', '"large"'],
     status: 'optional',
   },
@@ -46,7 +46,7 @@ export const FormLabelProperties: PropertiesTableProps = {
     type: 'React.Ref',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

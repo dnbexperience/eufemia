@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/input-masked/info
+legacyFragments:
+  inputmasked: /web/components/input-masked/#masked-input
 ---
 
 import {
@@ -12,7 +14,7 @@ import {
   InputMaskedInfoDecimalsNumberProvider,
   InputMaskedInfoRemoveDecimalLimit,
 } from 'Docs/web/components/input-masked/Examples'
-import WhenToUseForms from 'Docs/web/extensions/forms/when-to-use-forms.mdx'
+import WhenToUseForms from 'Docs/web/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -28,7 +30,7 @@ The InputMasked component uses the basic [Input](/web/components/input) componen
 
 <WhenToUseForms />
 
-For masked numbers and amounts, the Eufemia Forms equivalents are [Field.Number](/web/extensions/forms/base-fields/Number/) and [Field.Currency](/web/extensions/forms/feature-fields/Currency/). For common formatted values, use the dedicated fields such as [Field.PhoneNumber](/web/extensions/forms/feature-fields/PhoneNumber/), [Field.NationalIdentityNumber](/web/extensions/forms/feature-fields/NationalIdentityNumber/), [Field.BankAccountNumber](/web/extensions/forms/feature-fields/BankAccountNumber/), [Field.OrganizationNumber](/web/extensions/forms/feature-fields/OrganizationNumber/), and [Field.Expiry](/web/extensions/forms/feature-fields/Expiry/).
+For masked numbers and amounts, the Eufemia Forms equivalents are [Field.Number](/web/forms/base-fields/Number/) and [Field.Currency](/web/forms/feature-fields/Currency/). For common formatted values, use the dedicated fields such as [Field.PhoneNumber](/web/forms/feature-fields/PhoneNumber/), [Field.NationalIdentityNumber](/web/forms/feature-fields/NationalIdentityNumber/), [Field.BankAccountNumber](/web/forms/feature-fields/BankAccountNumber/), [Field.OrganizationNumber](/web/forms/feature-fields/OrganizationNumber/), and [Field.Expiry](/web/forms/feature-fields/Expiry/).
 
 ## Relevant links
 
@@ -65,7 +67,7 @@ For iOS, it additionally sets `type="number"` during focus (InputModeNumber). Th
 
 ### Mask based on locale
 
-The InputMasked component supports masks based on a given locale. The locale will be inherited from the [Eufemia Provider](/web/usage/customisation/provider) if not specified.
+The InputMasked component supports masks based on a given locale. The locale will be inherited from the [Eufemia Provider](/web/styling-and-themes/configuration/provider) if not specified.
 
 You can enable these masks by setting:
 
@@ -95,7 +97,7 @@ You can also receive a clean number value you can use and pass back in:
 
 You can change the number of decimals by sending in options to the `currencyMask`, `numberMask`, or `maskOptions` (see example above).
 
-This example also shows how to affect every InputMasked component in your application by setting these options on the [Eufemia Provider](/web/usage/customisation/provider).
+This example also shows how to affect every InputMasked component in your application by setting these options on the [Eufemia Provider](/web/styling-and-themes/configuration/provider).
 
 <InputMaskedInfoDecimalsCurrencyProvider />
 <InputMaskedInfoDecimalsNumberProvider />

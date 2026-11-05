@@ -25,7 +25,7 @@ test('keeps the component overview and related links populated', async ({
 test('preserves fragments when following a legacy link within the app', async ({
   page,
 }) => {
-  await page.goto('/design-system/about')
+  await page.goto('/about/eufemia')
   await waitForApp(page)
   await page.evaluate(() => {
     const link = document.createElement('a')
@@ -38,7 +38,7 @@ test('preserves fragments when following a legacy link within the app', async ({
     .getByRole('link', { name: 'Legacy AI link', exact: true })
     .click()
   await expect(page).toHaveURL(
-    '/working-with-ai/ai-skills?from=legacy-link#agent-skills'
+    '/web/ai-tools-and-resources/ai/ai-skills/?from=legacy-link#agent-skills'
   )
 })
 
@@ -72,7 +72,7 @@ test('opens accordion headings without navigating and retains content links', as
     name: 'Section Content Menu',
   })
   await menu
-    .getByRole('button', { name: 'Design language', exact: true })
+    .getByRole('button', { name: 'Layout and typography', exact: true })
     .click()
   const typography = menu.getByRole('button', {
     name: 'Typography',
@@ -82,17 +82,20 @@ test('opens accordion headings without navigating and retains content links', as
   await expect(page).toHaveURL('/')
   await expect(typography).toHaveAttribute('aria-expanded', 'true')
   await menu
-    .getByRole('link', { name: 'Using typography', exact: true })
+    .getByRole('link', { name: 'Web typography in code', exact: true })
     .click()
-  await expect(page).toHaveURL('/web/typography')
+  await expect(page).toHaveURL('/web/layout-and-typography/typography')
   await expect(
-    page.getByRole('heading', { name: 'Typography', exact: true })
+    page.getByRole('heading', {
+      name: 'Web typography in code',
+      exact: true,
+    })
   ).toBeVisible()
 })
 
 for (const path of [
   '/uilib/usage/first-steps/tools?from=bookmark#agent-skills',
-  '/web/usage/first-steps/tools?from=bookmark#agent-skills',
+  '/web/ai-tools-and-resources/developer-tools?from=bookmark#agent-skills',
 ]) {
   test(
     'redirects the old skills section from ' + path,
@@ -100,10 +103,10 @@ for (const path of [
       await page.goto(path)
       await waitForApp(page)
       await expect(page).toHaveURL(
-        /[/]working-with-ai[/]ai-skills[/]?[?]from=bookmark#agent-skills$/
+        /[/]web[/]ai-tools-and-resources[/]ai[/]ai-skills[/]?[?]from=bookmark#agent-skills$/
       )
       await expect(
-        page.getByRole('heading', { name: 'AI skills', exact: true })
+        page.getByRole('heading', { name: 'Agent skills', exact: true })
       ).toBeVisible()
     }
   )
@@ -111,23 +114,23 @@ for (const path of [
 
 for (const path of [
   '/uilib/usage/first-steps/tools#ai-assistance-and-mcp-server',
-  '/web/usage/first-steps/tools#ai-assistance-and-mcp-server',
+  '/web/ai-tools-and-resources/developer-tools#ai-assistance-and-mcp-server',
 ]) {
   test('redirects the old MCP section from ' + path, async ({ page }) => {
     await page.goto(path)
     await waitForApp(page)
     await expect(page).toHaveURL(
-      /[/]working-with-ai[/]mcp-universe[/]?#ai-assistance-and-mcp-server$/
+      /[/]web[/]ai-tools-and-resources[/]ai[/]mcp-universe[/]?#ai-assistance-and-mcp-server$/
     )
     await expect(
-      page.getByRole('heading', { name: 'MCP Universe', exact: true })
+      page.getByRole('heading', { name: 'MCP server', exact: true })
     ).toBeVisible()
   })
 }
 
 for (const path of [
-  '/working-with-ai/ai-skills',
-  '/working-with-ai/mcp-universe',
+  '/web/ai-tools-and-resources/ai/ai-skills',
+  '/web/ai-tools-and-resources/ai/mcp-universe',
 ]) {
   test('opens the dedicated AI page ' + path, async ({ page }) => {
     await page.goto(path)
@@ -142,7 +145,7 @@ test('keeps the introduction and first-tab aliases accessible', async ({
   await page.goto('/uilib?source=legacy#ui-library')
   await waitForApp(page)
   await expect(page).toHaveURL(
-    '/web/introduction/?source=legacy#ui-library'
+    '/web/get-started/quick-start/?source=legacy#quick-start'
   )
   await page.goto('/uilib/components/button/info?source=legacy#sizes')
   await waitForApp(page)

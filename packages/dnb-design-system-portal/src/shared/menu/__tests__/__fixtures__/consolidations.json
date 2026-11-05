@@ -1,0 +1,102 @@
+{
+  "quickguide-designer/logos": {
+    "to": "collections/logos",
+    "section": "dnb-brand-logos"
+  },
+  "quickguide-designer/tools": {
+    "to": "web/get-started/design-for-web",
+    "section": "design-tools"
+  },
+  "quickguide-designer/ui-resources": {
+    "to": "web/get-started/design-for-web",
+    "section": "figma-files"
+  },
+  "quickguide-designer/colors": {
+    "to": "web/styling-and-themes/legacy-colors",
+    "section": "legacy-color-palette"
+  },
+  "icons/primary": {
+    "to": "collections/icons",
+    "section": "icons"
+  },
+  "icons/secondary": {
+    "to": "collections/icons",
+    "section": "icons"
+  },
+  "icons/other": {
+    "to": "web/components/icon/usage",
+    "section": "other-component-icons"
+  },
+  "contribute/getting-started/clone-repo": {
+    "to": "web/contribute/local-development",
+    "section": "clone-the-repo"
+  },
+  "contribute/getting-started/install-dependencies": {
+    "to": "web/contribute/local-development",
+    "section": "install-the-dependencies"
+  },
+  "contribute/getting-started/making-changes": {
+    "to": "web/contribute/local-development",
+    "section": "making-changes"
+  },
+  "contribute/getting-started/make-and-run-tests": {
+    "to": "web/contribute/local-development",
+    "section": "make-and-run-tests"
+  },
+  "contribute/getting-started/update-change-logs": {
+    "to": "web/contribute/local-development",
+    "section": "optional-update-change-logs"
+  },
+  "contribute/getting-started/commit-changes": {
+    "to": "web/contribute/local-development",
+    "section": "commit-changes"
+  },
+  "web/usage/first-steps": {
+    "to": "web/get-started/quick-start",
+    "section": "installation"
+  },
+  "web/usage/first-steps/the-basics": {
+    "to": "web/get-started/quick-start",
+    "section": "installation"
+  },
+  "web/usage/first-steps/react": {
+    "to": "web/get-started/quick-start",
+    "section": "installation"
+  },
+  "web/usage/first-steps/quick-reference": {
+    "to": "web/get-started/quick-start",
+    "section": "installation"
+  },
+  "web/usage/customisation/styling/consume-styles": {
+    "to": "web/styling-and-themes/css",
+    "section": "importing-css"
+  },
+  "web/usage/first-steps/bundles": {
+    "to": "web/ai-tools-and-resources/module-formats",
+    "section": "browser-bundles"
+  },
+  "contribute/style-guides": {
+    "to": "web/contribute",
+    "section": "contribution-guidelines"
+  },
+  "design-system/credits": {
+    "to": "about/license",
+    "section": "credits"
+  },
+  "design-system/privacy": {
+    "to": "about/license",
+    "section": "privacy"
+  },
+  "web/typography/font-weight": {
+    "to": "web/layout-and-typography/typography/css-reference",
+    "section": "font-weights"
+  },
+  "web/typography/line-height": {
+    "to": "web/layout-and-typography/typography/css-reference",
+    "section": "line-height"
+  },
+  "web/get-started/how-eufemia-works": {
+    "to": "web/get-started/quick-start",
+    "section": "what-the-library-provides"
+  }
+}

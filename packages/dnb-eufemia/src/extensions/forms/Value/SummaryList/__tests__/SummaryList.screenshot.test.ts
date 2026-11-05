@@ -6,7 +6,7 @@ import {
 
 describe('Value.SummaryList', () => {
   setupPageScreenshot({
-    url: '/web/extensions/forms/Value/SummaryList/demos/',
+    url: '/web/forms/Value/SummaryList/demos/',
   })
 
   it('have to match default layout', async () => {

@@ -5,7 +5,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type ValueCurrencyProps = NumberValueProps & {
   /**
-   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. Use `true` for the default currency. Defaults to the `currency` of the [Provider](/uilib/usage/customisation/provider/), which is `NOK` unless set.
+   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. Use `true` for the default currency. Defaults to the `currency` of the [Provider](/web/styling-and-themes/configuration/provider/), which is `NOK` unless set.
    */
   currency?: CurrencyISO | true
 }

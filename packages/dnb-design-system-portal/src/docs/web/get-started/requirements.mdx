@@ -1,0 +1,80 @@
+---
+title: Requirements and browser support
+description: >-
+  Eufemia can be used within a UMD, ESM, CJS, or TypeScript environment. The
+  purpose is to use it on top (or inside) of modern JavaScript frontend
+  frameworks and setups.
+order: 1
+navigation:
+  title: Requirements and browser support
+  order: 7
+  parent: web/get-started
+legacyFragments:
+  requirements: /web/get-started/requirements/#requirements-and-browser-support
+redirect_from:
+  - /uilib/getting-started/requirements
+  - /web/getting-started/requirements
+legacyPrefixes:
+  - web/getting-started/requirements
+  - uilib/getting-started/requirements
+---
+
+import WatchingReleases from 'Docs/web/info/about-watching-releases.mdx'
+import {
+  SupportedBrowsersConfig,
+  SupportedBrowsersTable,
+} from 'Docs/web/assets/SupportedBrowsers'
+
+Aside from the peer dependencies, there are no specific technical requirements, except that it is highly recommended to use a compiling process with [tree shaking](/web/ai-tools-and-resources/module-formats/) in place.
+
+## Usage
+
+Eufemia (`@dnb/eufemia`) can be used within a UMD, ESM, CJS, or TypeScript environment. The purpose is to use it on top of (or inside) modern JavaScript frontend frameworks and setups. However, we strongly recommend using Eufemia with a **React stack**, as this makes including the Eufemia tools and components most productive. All the component internal states are handled with React to keep only the most necessary elements in the DOM (HTML elements and event bindings).
+
+## The hard part of a living design system
+
+The hard part of a [living design system](/about/how-eufemia-evolves), like Eufemia, is avoiding the creation of black holes and choosing ways that make **maintainability of user experience** hard and complex. To address this challenge and gain more insight, read on about [**maintainability**](/web/development-guidelines/maintainable-integrations).
+
+## React
+
+Why React is a good choice:
+
+- Declarative and functional
+- Immutable structure
+- Lightweight
+- Centralization of code that should work in context (concepts like writing code like **reading a book**)
+- Can be used with a JAM stack, CSR, and SSR (SPA) using the same code base (App)
+- Flexible frontend stack to create the best user experience, depending on the solution and its needs
+- Can be tailored to different conventions and guidelines
+
+## Using the styles
+
+This library works perfectly with any styling techniques, such as **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules, or SCSS/LESS. You simply consume **ready-to-use CSS files** and CSS Custom Properties (CSS variables).
+
+## License
+
+The `@dnb/eufemia` package is intended for internal DNB development only. Make sure you comply with the [license](/about/license).
+
+<WatchingReleases />
+
+## Public assets
+
+Use the [Asset CDN](/web/ai-tools-and-resources/asset-cdn/) when a web, native, or external consumer needs public URLs for Eufemia fonts, icons, images, flags, browser assets, or company logos.
+
+## Supported Browsers and Platforms
+
+<SupportedBrowsersTable />
+
+See the [DNB browser support report](https://browsers-support-report.pages.dnb.ghe.com/) for more information (DNB sign-in required).
+
+### Configuration and Browserslist
+
+Eufemia uses the [@dnb/browserslist-config](https://github.com/dnbexperience/browserslist-config) configuration for bundle output, defined in `.browserslistrc`:
+
+- `extends @dnb/browserslist-config`
+
+This configuration only affects the JavaScript bundle output, not the CSS bundle output.
+
+To see which browsers this config supports, paste the following config into the [Check compatible browsers](https://browsersl.ist/#q=defaults+and+supports+es6-module) tool:
+
+<SupportedBrowsersConfig />

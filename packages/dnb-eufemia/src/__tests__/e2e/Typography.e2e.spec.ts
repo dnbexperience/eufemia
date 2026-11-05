@@ -120,7 +120,7 @@ for (const width of [390, 1024]) {
 test.describe('Typography for UI', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/fonts/?data-visual-test&eufemia-theme=ui'
+      '/web/layout-and-typography/typography/design-guidance/?data-visual-test&eufemia-theme=ui'
     )
 
     // Check if app is mounted
@@ -207,7 +207,7 @@ test.describe('Typography for UI', () => {
 test.describe('Typography for Sbanken', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/fonts/?data-visual-test&eufemia-theme=sbanken'
+      '/web/layout-and-typography/typography/design-guidance/?data-visual-test&eufemia-theme=sbanken'
     )
 
     // Check if app is mounted (Vite uses #root)

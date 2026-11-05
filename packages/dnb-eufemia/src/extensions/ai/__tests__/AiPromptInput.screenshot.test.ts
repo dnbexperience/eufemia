@@ -9,7 +9,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
     setupPageScreenshot({
       themeName: 'ui',
       colorScheme,
-      url: '/web/extensions/ai/PromptInput/demos/',
+      url: '/web/patterns-and-extensions/ai/PromptInput/demos/',
     })
 
     it('places custom controls around the default toolbar', async () => {

@@ -64,7 +64,10 @@ describe('algolia-helpers', () => {
         shouldIncludeInAlgolia({ slug: 'web/get-started', route: false })
       ).toBe(false)
       expect(
-        shouldIncludeInAlgolia({ slug: 'web/introduction', route: true })
+        shouldIncludeInAlgolia({
+          slug: 'web/get-started/how-eufemia-works',
+          route: true,
+        })
       ).toBe(true)
     })
     it('should include a regular page', () => {

@@ -42,7 +42,7 @@ test('keeps labels and tab panels linked after hydration', async ({
           .filter((id) => !document.getElementById(id))
       )
 
-  await page.goto('/web/extensions/forms/Connectors/Bring/demos/')
+  await page.goto('/web/forms/Connectors/Bring/demos/')
   await waitForApp(page)
   expect(await findBrokenReferences()).toEqual([])
 

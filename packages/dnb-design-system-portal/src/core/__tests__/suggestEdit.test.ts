@@ -19,7 +19,7 @@ describe('suggestEdit', () => {
         'packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx'
       )
     ).toBe(
-      '/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
+      '/web/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
     )
   })
 
@@ -55,7 +55,7 @@ Keep the change focused, preserve the page's MDX structure and formatting, run o
 
   it('includes portal-only deployment details', () => {
     const prompt = createSuggestEditPrompt({
-      pageUrl: 'https://eufemia.dnb.no/design-system/about/',
+      pageUrl: 'https://eufemia.dnb.no/about/eufemia/',
       sourcePath:
         'packages/dnb-design-system-portal/src/docs/design-system/about.mdx',
       requestedChange: 'Correct the team list.',
@@ -75,7 +75,7 @@ Keep the change focused, preserve the page's MDX structure and formatting, run o
   it('handles optional values omitted by Eufemia Forms', () => {
     expect(
       createSuggestEditPrompt({
-        pageUrl: 'https://eufemia.dnb.no/design-system/about/',
+        pageUrl: 'https://eufemia.dnb.no/about/eufemia/',
         sourcePath:
           'packages/dnb-design-system-portal/src/docs/design-system/about.mdx',
         source,

@@ -6,7 +6,7 @@ import {
 
 describe('Selection', () => {
   setupPageScreenshot({
-    url: '/web/extensions/forms/base-fields/Selection/demos/',
+    url: '/web/forms/base-fields/Selection/demos/',
   })
 
   describe('autocomplete', () => {

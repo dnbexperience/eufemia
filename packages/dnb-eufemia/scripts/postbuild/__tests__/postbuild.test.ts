@@ -662,8 +662,8 @@ describeDocsBuild('docs build', () => {
     expect(fs.existsSync(llmsPath)).toBe(false)
 
     const content = fs.readFileSync(readmePath, 'utf-8')
-    expect(content).toContain('/web/usage/first-steps/quick-reference.md')
-    expect(content).toContain('/quickguide-designer/tools.md')
+    expect(content).toContain('/web/get-started/quick-start.md')
+    expect(content).toContain('/web/get-started/design-for-web.md')
     expect(content).toContain('## Machine-readable docs')
     expect(content).not.toContain('https://eufemia.dnb.no')
   })
@@ -675,7 +675,7 @@ describeDocsBuild('docs build', () => {
     )
     const nonUilibMarkdownPath = path.join(
       docsRoot,
-      'quickguide-designer/tools.md'
+      'quickguide-designer.md'
     )
 
     expect(fs.existsSync(markdownPath)).toBe(true)
@@ -696,7 +696,7 @@ describeDocsBuild('docs build', () => {
     expect(markdown).toContain('## `Breadcrumb.Item` events')
     expect(markdown).toMatch(/```json[\s\S]*```/)
     expect(markdown).toMatch(/```tsx[\s\S]*render\(/)
-    expect(nonUilibMarkdown).toContain('# Design tools')
+    expect(nonUilibMarkdown).toContain('# Set up Eufemia Web in Figma')
   })
 
   it('does not write markdown copies for docs excluded by robots', () => {
@@ -712,7 +712,7 @@ describeDocsBuild('docs build', () => {
   it('writes rendered markdown color tables for deprecated colors docs', () => {
     const quickguideColorsPath = path.join(
       docsRoot,
-      'quickguide-designer/colors.md'
+      'web/styling-and-themes/legacy-colors.md'
     )
     const uilibColorsPath = path.join(
       docsRoot,

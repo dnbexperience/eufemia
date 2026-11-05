@@ -13,7 +13,7 @@ import {
 } from '@dnb/eufemia/src'
 import { useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
+import { createRequest } from '../../forms/Form/SubmitIndicator/Examples'
 
 export function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })

@@ -22,7 +22,7 @@ export const TermDefinitionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `left` or `right` are supported.',
     type: ['string', 'object'],
     status: 'optional',

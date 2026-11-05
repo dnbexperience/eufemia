@@ -97,37 +97,60 @@ legacyFragments:
   })
 
   it.each([
-    'helpers/shared-state',
-    'usage/customisation/styling/printable-apps',
-    'usage/customisation/styling/document-styles/visual-tests/plain',
-  ])('preserves new documentation and aliases for %s', (relativePath) => {
-    const files = scanPageFiles(
-      path.resolve(__dirname, '../../../src/docs')
-    )
-    expect(
-      files.find(({ slug }) => slug === 'web/' + relativePath)
-    ).toBeDefined()
-    expect(files.some(({ slug }) => slug.startsWith('uilib/'))).toBe(false)
-    expect(getPageRedirects(files)).toContainEqual(
-      expect.objectContaining({
-        from: '/uilib/' + relativePath,
-        to: '/web/' + relativePath + '/',
-      })
-    )
-  })
-
-  it.each([
-    'components/list/visual-tests/action-footer',
-    'components/card/visual-tests/inside-scroll-view',
-    'extensions/sidebar-menu/visual-tests/first-paint',
+    [
+      'helpers/shared-state',
+      'ai-tools-and-resources/utilities/shared-state',
+    ],
+    [
+      'usage/customisation/styling/printable-apps',
+      'styling-and-themes/css/printable-apps',
+    ],
+    [
+      'usage/customisation/styling/document-styles/visual-tests/plain',
+      'styling-and-themes/css/document-styles/visual-tests/plain',
+    ],
   ])(
-    'preserves the incoming fixture %s and its legacy URL',
-    (fixturePath) => {
+    'preserves new documentation and aliases for %s',
+    (relativePath, targetPath) => {
       const files = scanPageFiles(
         path.resolve(__dirname, '../../../src/docs')
       )
       expect(
-        files.find(({ slug }) => slug === 'web/' + fixturePath)
+        files.find(({ slug }) => slug === 'web/' + targetPath)
+      ).toBeDefined()
+      expect(files.some(({ slug }) => slug.startsWith('uilib/'))).toBe(
+        false
+      )
+      expect(getPageRedirects(files)).toContainEqual(
+        expect.objectContaining({
+          from: '/uilib/' + relativePath,
+          to: '/web/' + targetPath + '/',
+        })
+      )
+    }
+  )
+
+  it.each([
+    [
+      'components/list/visual-tests/action-footer',
+      'components/list/visual-tests/action-footer',
+    ],
+    [
+      'components/card/visual-tests/inside-scroll-view',
+      'components/card/visual-tests/inside-scroll-view',
+    ],
+    [
+      'extensions/sidebar-menu/visual-tests/first-paint',
+      'patterns-and-extensions/sidebar-menu/visual-tests/first-paint',
+    ],
+  ])(
+    'preserves the incoming fixture %s and its legacy URL',
+    (fixturePath, targetPath) => {
+      const files = scanPageFiles(
+        path.resolve(__dirname, '../../../src/docs')
+      )
+      expect(
+        files.find(({ slug }) => slug === 'web/' + targetPath)
       ).toBeDefined()
       expect(
         files.some(({ slug }) => slug === 'uilib/' + fixturePath)
@@ -135,7 +158,7 @@ legacyFragments:
       expect(getPageRedirects(files)).toContainEqual(
         expect.objectContaining({
           from: '/uilib/' + fixturePath,
-          to: '/web/' + fixturePath + '/',
+          to: '/web/' + targetPath + '/',
         })
       )
     }
@@ -226,7 +249,7 @@ legacyFragments:
     expect(client.loader).toBeUndefined()
     expect(client.Component()).toMatchObject({
       replace: true,
-      to: '/working-with-ai/ai-skills?from=link#agent-skills',
+      to: '/web/ai-tools-and-resources/ai/ai-skills/?from=link#agent-skills',
     })
   })
   it('keeps TSX routes and first-tab aliases through MDX-defined prefixes', () => {
@@ -245,7 +268,9 @@ legacyFragments:
       )
     ).toMatchObject({ to: '/web/components/button/' })
     const visual = files.find(
-      ({ slug, type }) => type === 'tsx' && slug.startsWith('web/')
+      ({ slug, type }) =>
+        type === 'tsx' &&
+        slug === 'web/components/date-picker/visual-tests'
     )
     expect(
       redirects.find(
@@ -254,7 +279,7 @@ legacyFragments:
     ).toMatchObject({ to: '/' + visual.slug + '/' })
     for (const file of files.filter(
       ({ slug, frontmatter }) =>
-        slug.startsWith('web/') && frontmatter.route !== false
+        slug.startsWith('web/components/') && frontmatter.route !== false
     )) {
       const old = '/' + file.slug.replace(/^web/, 'uilib')
       expect(
@@ -312,9 +337,11 @@ legacyFragments:
     )
     expect(
       resolvePageRedirect(
-        '/working-with-ai/mcp-universe#telemetry',
+        '/web/ai-tools-and-resources/ai/mcp-universe#telemetry',
         'https://eufemia.dnb.no/uilib/usage/first-steps/tools?fullscreen#telemetry'
       )
-    ).toBe('/working-with-ai/mcp-universe?fullscreen#telemetry')
+    ).toBe(
+      '/web/ai-tools-and-resources/ai/mcp-universe?fullscreen#telemetry'
+    )
   })
 })
