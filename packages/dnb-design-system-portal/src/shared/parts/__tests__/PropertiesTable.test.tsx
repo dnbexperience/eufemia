@@ -10,6 +10,7 @@ describe('PropertiesTable', () => {
     const { container } = render(
       <MemoryRouter>
         <PropertiesTable
+          showDefaultValue={false}
           props={{
             myProp: {
               doc: 'Use `false` to hide it. See [the docs](/uilib/).',
