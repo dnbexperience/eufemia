@@ -404,7 +404,8 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
     )
   }
   if (readOnly) {
-    inputParams['aria-readonly'] = inputParams.readOnly = true
+    // ARIA does not allow aria-readonly on a radio
+    inputParams.readOnly = true
   }
 
   inputParams = Object.assign(inputParams, rest)
