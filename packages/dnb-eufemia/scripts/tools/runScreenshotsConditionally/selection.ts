@@ -105,6 +105,36 @@ export function getOwningDirectory(testPath: string): string {
   return normalizePath(path.dirname(normalizedPath))
 }
 
+// A component's styles also show wherever another component renders it
+export function getStyleOwnerModules(
+  scssFiles: Iterable<string>,
+  dependencyMap: Map<string, string[]>
+): string[] {
+  const ownerDirectories = new Set<string>()
+
+  for (const scssFile of Array.from(scssFiles)) {
+    const styleIndex = scssFile.indexOf('/style/')
+
+    // Skip the global src/style/ files
+    if (styleIndex > 'src'.length) {
+      ownerDirectories.add(scssFile.slice(0, styleIndex))
+    }
+  }
+
+  return Array.from(dependencyMap.keys()).filter((modulePath) => {
+    if (
+      /\/(__tests__|style)\//.test(modulePath) ||
+      /Docs\.tsx?$/.test(modulePath)
+    ) {
+      return false
+    }
+
+    return Array.from(ownerDirectories).some((ownerDirectory) => {
+      return modulePath.startsWith(`${ownerDirectory}/`)
+    })
+  })
+}
+
 export function findMatchingScreenshotTests(
   affectedFiles: Set<string>,
   allScreenshotTests: string[]
@@ -187,8 +217,9 @@ function prioritizeTestCauses(
   const priorityByCause: Record<string, number> = {
     'SCSS dependency impact': 0,
     'TS/JS dependency impact': 1,
-    'Portal docs/demo impact': 2,
-    'Component usage in demo/examples': 3,
+    'Style of a rendered component': 2,
+    'Portal docs/demo impact': 3,
+    'Component usage in demo/examples': 4,
   }
 
   selectedTests.forEach((testPath) => {
@@ -345,12 +376,19 @@ export function analyzeSelection({
     scssSourceChanges,
     scssDependencyMap
   )
+  const affectedByComponentStyles = expandReverseDependencies(
+    getStyleOwnerModules(affectedScssFiles, dependencyMap),
+    dependencyMap
+  )
 
   const combinedAffectedFiles = new Set<string>()
   affectedTsFiles.forEach((filePath) => {
     combinedAffectedFiles.add(filePath)
   })
   affectedScssFiles.forEach((filePath) => {
+    combinedAffectedFiles.add(filePath)
+  })
+  affectedByComponentStyles.forEach((filePath) => {
     combinedAffectedFiles.add(filePath)
   })
 
@@ -360,6 +398,10 @@ export function analyzeSelection({
   )
   const impactedTestsByScss = findMatchingScreenshotTests(
     affectedScssFiles,
+    allScreenshotTests
+  )
+  const impactedTestsByComponentStyles = findMatchingScreenshotTests(
+    affectedByComponentStyles,
     allScreenshotTests
   )
   const impactedTests = findMatchingScreenshotTests(
@@ -375,6 +417,10 @@ export function analyzeSelection({
 
   impactedTestsByScss.forEach((testPath) => {
     addTestCause(testCauses, testPath, 'SCSS dependency impact')
+  })
+
+  impactedTestsByComponentStyles.forEach((testPath) => {
+    addTestCause(testCauses, testPath, 'Style of a rendered component')
   })
 
   compositionImpactedTests.forEach((testPath) => {
