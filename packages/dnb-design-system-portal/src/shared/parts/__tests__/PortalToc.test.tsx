@@ -90,7 +90,7 @@ it('updates links when destinations are hidden, remounted or renamed', async () 
   ).toBe('Form.<wbr>Section')
 })
 
-it.each(['hidden', 'aria-hidden', 'visibility', 'removed'])(
+it.each(['hidden', 'visibility', 'removed'])(
   'removes and restores links when a heading becomes %s',
   async (change) => {
     const main = document.createElement('main')
@@ -177,4 +177,34 @@ it('omits navigation when there are no headings below the page title', () => {
   )
   expect(container.querySelector('nav')).toBeNull()
   expect(container.querySelector('#portal-toc-data')).not.toBeNull()
+})
+
+it('keeps visually rendered headings when background content becomes aria-hidden', async () => {
+  const main = document.createElement('main')
+  main.append(heading('first', 'First'), heading('second', 'Second'))
+  document.body.append(main)
+  render(<PortalToc />)
+  const links = () =>
+    Array.from(document.querySelectorAll('nav a')).map((link) =>
+      link.getAttribute('href')
+    )
+  expect(links()).toEqual(['#first', '#second'])
+
+  act(() => {
+    main.querySelectorAll('*').forEach((element) => {
+      element.setAttribute('aria-hidden', 'true')
+    })
+    window.dispatchEvent(new Event('resize'))
+  })
+  await act(() => new Promise((resolve) => requestAnimationFrame(resolve)))
+  expect(links()).toEqual(['#first', '#second'])
+
+  act(() => {
+    main.querySelectorAll('*').forEach((element) => {
+      element.removeAttribute('aria-hidden')
+    })
+    window.dispatchEvent(new Event('resize'))
+  })
+  await act(() => new Promise((resolve) => requestAnimationFrame(resolve)))
+  expect(links()).toEqual(['#first', '#second'])
 })
