@@ -13,11 +13,7 @@ import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
 import AccordionTertiary from '../accordion/AccordionTertiary'
-import type {
-  UploadAcceptedFileTypeObject,
-  UploadContextValue,
-  UploadProps,
-} from './types'
+import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
@@ -26,7 +22,7 @@ const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
 const formatFileSize = (
   fileSizeContent: ReactNode,
   size: number | string,
-  locale: UploadContextValue['locale']
+  locale: string
 ) =>
   String(fileSizeContent).replace(
     '%size',
