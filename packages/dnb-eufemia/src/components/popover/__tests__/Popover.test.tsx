@@ -2,7 +2,7 @@ import { act } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { Dialog } from '../../'
 import Button from '../../button/Button'
 import Dropdown from '../../dropdown/Dropdown'
@@ -4524,5 +4524,15 @@ describe('Popover', () => {
         await axeComponent(Comp, document.querySelector('.dnb-popover'))
       ).toHaveNoViolations()
     })
+  })
+})
+
+describe('Popover scss', () => {
+  it('aligns the close icon with the content edge', () => {
+    const css = loadScss(require.resolve('../style/dnb-popover.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-popover__close\.dnb-button \{[^}]*top: calc\(var\(--inner-space\) \* 2 - 0\.5rem\);\s*right: calc\(var\(--inner-space\) \* 2 - 0\.5rem\);/
+    )
   })
 })
