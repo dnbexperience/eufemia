@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`HelperClasses for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/helpers/classes/visual-tests/',
+    url: '/web/helpers/classes/visual-tests/',
   })
 
   it('have to match core-style', async () => {
@@ -63,7 +63,7 @@ describe.each(['ui', 'sbanken'])(`HelperClasses for %s`, (themeName) => {
 
 describe('media', () => {
   const selector = '[data-visual-test="helper-media-offset"] ul'
-  const url = '/uilib/helpers/classes/visual-tests/'
+  const url = '/web/helpers/classes/visual-tests/'
 
   it('have to match media offset for "isLarge"', async () => {
     await makeScreenshot({

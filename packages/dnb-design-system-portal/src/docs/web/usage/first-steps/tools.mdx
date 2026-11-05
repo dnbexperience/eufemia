@@ -1,0 +1,200 @@
+---
+title: Developer tools
+contentTitle: Developer tools
+description: Agent Skills, MCP, code editor extensions, and lint plugins for Eufemia development.
+status: beta
+order: 3
+legacyFragments:
+  ai-assistance-and-mcp-server: /working-with-ai/mcp-universe#ai-assistance-and-mcp-server
+  hosted-mcp-server: /working-with-ai/mcp-universe#hosted-mcp-server
+  version-behavior: /working-with-ai/mcp-universe#version-behavior
+  example-claude-cli--raicode-cli: /working-with-ai/mcp-universe#example-claude-cli--raicode-cli
+  local-mcp-server-pinned-to-your-installed-eufemia-version: /working-with-ai/mcp-universe#local-mcp-server-pinned-to-your-installed-eufemia-version
+  example-mcp-config-eg-vscodemcpjson: /working-with-ai/mcp-universe#example-mcp-config-eg-vscodemcpjson
+  using-claude-cli-with-mcp: /working-with-ai/mcp-universe#using-claude-cli-with-mcp
+  using-raicode-cli-with-mcp-using-claude: /working-with-ai/mcp-universe#using-raicode-cli-with-mcp-using-claude
+  how-to-use: /working-with-ai/mcp-universe#how-to-use
+  telemetry: /working-with-ai/mcp-universe#telemetry
+  agent-skills: /working-with-ai/ai-skills#agent-skills
+  why-use-skills-with-mcp: /working-with-ai/ai-skills#why-use-skills-with-mcp
+  install-project-skills: /working-with-ai/ai-skills#install-project-skills
+  automation-and-ci: /working-with-ai/ai-skills#automation-and-ci
+  update-installed-skills: /working-with-ai/ai-skills#update-installed-skills
+  manage-installed-skills: /working-with-ai/ai-skills#manage-installed-skills
+  evaluate-skill-changes: /working-with-ai/ai-skills#evaluate-skill-changes
+  connect-the-documentation: /working-with-ai/ai-skills#connect-the-documentation
+  build-ai-tools-on-eufemia: /working-with-ai/ai-skills#build-ai-tools-on-eufemia
+redirect_from:
+  - /uilib/usage/first-steps/tools
+navigation:
+  parent: web/usage/first-steps
+  title: Developer tools
+  order: 8
+  platform: web
+---
+
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import VSCodeExtensionSpacing from 'Docs/web/usage/first-steps/assets/eufemia-vscode-extension-spacing.png'
+import VSCodeExtensionHover from 'Docs/web/usage/first-steps/assets/eufemia-vscode-extension-hover.png'
+import VSCodeExtensionFontSize from 'Docs/web/usage/first-steps/assets/eufemia-vscode-extension-font-size.png'
+
+For AI assistance, see [AI skills](/working-with-ai/ai-skills) and [MCP Universe](/working-with-ai/mcp-universe).
+
+## Code Editor Extensions
+
+### The Visual Studio Code Extension
+
+It supports:
+
+- plain `px` to `rem` conversion.
+- annotation for `px` and `rem` equivalent values.
+- auto completion for the [spacing system](/web/layout/spacing/).
+- auto completion for [`font-size`](/web/typography/font-size/) and [`line-height`](/web/typography/line-height/).
+
+Install the [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=dnbexperience.vscode-eufemia) or view the
+[source code](https://github.com/dnbexperience/vscode-eufemia).
+
+#### Screenshots
+
+1. Spacing System example
+
+<InlineImg
+  src={VSCodeExtensionSpacing}
+  caption="Auto completion for px/rem spacing system"
+  width="auto"
+  className="blank x-10"
+/>
+
+2. Equivalent to `px` or `rem` value example
+
+<InlineImg
+  src={VSCodeExtensionHover}
+  caption="Tooltip for px/rem equivalent"
+  width="auto"
+  className="blank x-10"
+/>
+
+3. `font-size` example
+
+<InlineImg
+  src={VSCodeExtensionFontSize}
+  caption="Auto completion for font-size"
+  width="auto"
+  className="blank x-10"
+/>
+
+## Lint Plugins
+
+Eufemia ships lint plugins as part of `@dnb/eufemia`, so you can import them directly from the main package.
+
+Install `eslint` and/or `stylelint` in your application if you do not already use them.
+
+### ESLint
+
+Use the recommended flat config preset:
+
+```js
+import eufemiaEslint from '@dnb/eufemia/plugins/eslint.js'
+
+export default [eufemiaEslint.recommended]
+```
+
+If you need full control, register the plugin and configure the rules yourself:
+
+```js
+import eufemiaEslint from '@dnb/eufemia/plugins/eslint.js'
+
+export default [
+  {
+    plugins: {
+      eufemia: eufemiaEslint,
+    },
+    rules: {
+      // All rules
+      ...eufemiaEslint.recommended.rules,
+
+      // Or specific rules
+      'eufemia/no-deprecated-color-variables': 'error',
+    },
+  },
+]
+```
+
+### Stylelint
+
+Use the recommended preset to enable all rules:
+
+```js
+import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
+
+export default eufemiaStylelint.recommended
+```
+
+If you need full control, register individual plugins and configure the rules yourself:
+
+```js
+import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
+
+export default {
+  plugins: [eufemiaStylelint],
+  rules: {
+    'eufemia/no-deprecated-color-variables': [
+      true,
+      { severity: 'warning' },
+    ],
+    'eufemia/token-name-policy': [true, { themePrefixes: { ui: 'dnb' } }],
+  },
+}
+```
+
+Available rules:
+
+- **`eufemia/no-deprecated-color-variables`** — Warns when deprecated `--color-*` CSS variables are used. Suggests design tokens instead.
+- **`eufemia/token-name-policy`** — Validates `--token-*` naming conventions: prefix, category, color semantics, theme prefixes, cross-brand parity, and more. Accepts a `themePrefixes` option to map brand names to their CSS variable prefixes.
+
+### Review rule metadata
+
+Cross-tool review rules expose machine-readable metadata from the same source
+used by the lint plugins:
+
+```js
+import reviewRules from '@dnb/eufemia/plugins/review-rules.js'
+
+const deprecatedColors =
+  reviewRules['eufemia/no-deprecated-color-variables']
+```
+
+Each entry identifies its classification, default severity, documentation,
+supported tools, and whether an automatic fix exists. Projects may override
+lint severity, but should preserve the rule's documented meaning. A
+recommendation or context-dependent migration should not be presented as an
+unsupported API or an automatic fix.
+
+MCP clients can call `review_rules` to retrieve the same catalog with the
+stable rule IDs included in the response. The catalog currently covers the
+cross-tool rules that have published metadata; tool-specific rules can still be
+configured as documented above.
+
+For SCSS files, configure Stylelint with [postcss-scss](https://www.npmjs.com/package/postcss-scss) as the custom syntax.
+
+### PostCSS (Style Isolation)
+
+If you use the [style isolation](/web/usage/customisation/styling/style-isolation/) PostCSS plugin, deprecation warnings for `--color-*` variables are enabled by default at build time:
+
+```js
+import styleScopePlugin from '@dnb/eufemia/plugins/postcss-isolated-style-scope.js'
+
+export default {
+  plugins: [styleScopePlugin()],
+}
+```
+
+To disable the warnings, set `warnOnDeprecatedColorVariables: false`:
+
+```js
+export default {
+  plugins: [styleScopePlugin({ warnOnDeprecatedColorVariables: false })],
+}
+```
+
+Both plugins ship with one rule: `no-deprecated-color-variables`. It reports deprecated `--color-*` CSS variables and guides towards design tokens instead.

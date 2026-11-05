@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/progress-indicator/demos/',
+      url: '/web/components/progress-indicator/demos/',
     })
 
     it('with label inside', async () => {
@@ -65,7 +65,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/progress-indicator/visual-tests/',
+      url: '/web/components/progress-indicator/visual-tests/',
     })
 
     it('have to match static primary circular sizes', async () => {

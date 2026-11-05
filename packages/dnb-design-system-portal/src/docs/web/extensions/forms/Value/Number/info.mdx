@@ -1,0 +1,34 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Value/Number/info
+---
+
+## Import
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.Number />)
+```
+
+## Description
+
+`Value.Number` is a base component for displaying values of the type `number`.
+
+Before using this component, ensure there is not a more specific [value component](/web/extensions/forms/Value/components/) available that better suits your needs.
+
+There is a corresponding [Field.Number](/web/extensions/forms/base-fields/Number) component.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.Number />)
+```
+
+It inherits all the properties from the [NumberFormat](/web/components/number-format/) component.
+
+For a locale-by-locale reference that pairs these components with their rendered output, see [Best Practices for number formatting](/web/usage/best-practices/for-formatting/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Number)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Value/Number)

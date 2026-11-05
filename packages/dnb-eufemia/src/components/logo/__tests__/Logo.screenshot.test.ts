@@ -8,7 +8,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Logo for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/logo/demos/',
+    url: '/web/components/logo/demos/',
   })
 
   it('have to match all logos', async () => {
@@ -51,7 +51,7 @@ describe.each(['ui', 'sbanken'])(`Logo for %s`, (themeName) => {
 describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   `Logo for %s`,
   (themeName) => {
-    setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
+    setupPageScreenshot({ themeName, url: '/web/components/logo/demos' })
 
     it('have to match the theme', async () => {
       await makeScreenshot({

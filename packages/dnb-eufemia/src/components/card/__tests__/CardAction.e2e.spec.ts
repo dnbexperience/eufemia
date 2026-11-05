@@ -19,7 +19,7 @@ function getCards(page: Page) {
 test.describe('Card.Action with a nested Card', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/uilib/components/card/visual-tests/action-with-nested-card/?data-visual-test'
+      '/web/components/card/visual-tests/action-with-nested-card/?data-visual-test'
     )
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',

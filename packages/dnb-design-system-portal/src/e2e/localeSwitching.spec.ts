@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Locale switching', () => {
   async function gotoAndWait(page: Page) {
-    const url = '/uilib/components/button/demos/'
+    const url = '/web/components/button/demos/'
     await page.goto(url)
     await waitForApp(page)
   }

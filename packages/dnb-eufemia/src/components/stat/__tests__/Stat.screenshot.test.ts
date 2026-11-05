@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Stat for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/stat/demos/',
+    url: '/web/components/stat/demos/',
   })
 
   it('has to match basic usage', async () => {

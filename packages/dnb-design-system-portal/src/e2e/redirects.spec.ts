@@ -14,7 +14,7 @@ test.describe('Redirects', () => {
       const response = await page.goto(
         '/uilib/components/button/index.html'
       )
-      expect(page.url()).toMatch(/\/uilib\/components\/button\/?$/)
+      await expect(page).toHaveURL(/\/web\/components\/button\/?$/)
       expect(response?.status()).toBeLessThan(400)
     })
   })
@@ -27,8 +27,8 @@ test.describe('Redirects', () => {
     }
 
     await page.goto('/uilib/components/button/info/')
-    await page.waitForURL(/\/uilib\/components\/button\/?$/)
-    expect(page.url()).toMatch(/\/uilib\/components\/button\/?$/)
+    await page.waitForURL(/\/web\/components\/button\/?$/)
+    expect(page.url()).toMatch(/\/web\/components\/button\/?$/)
   })
 
   test('does not redirect non-info tab pages', async ({ page }) => {
@@ -38,6 +38,6 @@ test.describe('Redirects', () => {
 
     await page.goto('/uilib/components/button/demos/')
     await waitForApp(page)
-    expect(page.url()).toMatch(/\/uilib\/components\/button\/demos\/?$/)
+    expect(page.url()).toMatch(/\/web\/components\/button\/demos\/?$/)
   })
 })

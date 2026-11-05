@@ -1,8 +1,25 @@
 import { test, expect } from '@playwright/test'
 import fs from 'fs'
 import path from 'path'
+import matter from '@11ty/gray-matter'
 
 test.describe('LLM integration', () => {
+  test('all generated Markdown copies have parseable frontmatter', () => {
+    const publicDir = path.resolve(__dirname, '..', '..', 'public')
+    const copies = fs
+      .readdirSync(publicDir, { recursive: true, encoding: 'utf8' })
+      .filter((file) => file.endsWith('.md'))
+    expect(copies.length).toBeGreaterThan(300)
+    const invalid = copies.filter((file) => {
+      try {
+        matter(fs.readFileSync(path.join(publicDir, file), 'utf8'))
+        return false
+      } catch {
+        return true
+      }
+    })
+    expect(invalid).toEqual([])
+  })
   test('index exposes llms.txt via alternate link and is reachable', async ({
     page,
     request,
@@ -22,7 +39,7 @@ test.describe('LLM integration', () => {
     const body = await res.text()
     expect(body).toContain('# Eufemia')
     expect(body).toMatch(/GeneratedAt:\s*\d{4}-\d{2}-\d{2}T/) // ISO timestamp
-    expect(body).toContain('/uilib/usage/first-steps/quick-reference.md')
+    expect(body).toContain('/web/usage/first-steps/quick-reference.md')
     expect(body).toContain('## Machine-readable docs')
     // Ensure visual-tests entries are excluded from llms.txt
     expect(body).not.toContain('/visual-tests/')
@@ -66,7 +83,7 @@ test.describe('LLM integration', () => {
       path.join(publicDir, 'uilib.md'),
       'utf-8'
     )
-    expect(uilibBody).toContain('# UI library')
+    expect(uilibBody).toContain('# Web introduction')
     expect(uilibBody).toContain('The DNB UI library contains ready-to-use')
 
     const iconsMdFile = path.join(publicDir, 'icons.md')
@@ -78,7 +95,7 @@ test.describe('LLM integration', () => {
   }) => {
     await page.goto('/icons/primary/')
     await expect(
-      page.getByRole('heading', { name: 'Primary Icons', exact: true })
+      page.getByRole('heading', { name: 'Primary icons', exact: true })
     ).toBeVisible()
     await expect(page.getByRole('heading', { name: 'bell' })).toBeVisible()
 

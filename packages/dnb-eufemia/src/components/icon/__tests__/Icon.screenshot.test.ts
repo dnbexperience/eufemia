@@ -6,7 +6,7 @@ import {
 
 describe('Icon', () => {
   setupPageScreenshot({
-    url: '/uilib/components/icon/demos/',
+    url: '/web/components/icon/demos/',
   })
 
   it('have to match default icons setup', async () => {
@@ -64,7 +64,7 @@ describe('Icon', () => {
 // eslint-disable-next-line vitest/no-identical-title
 describe('Icon', () => {
   setupPageScreenshot({
-    url: '/uilib/components/icon/visual-tests/',
+    url: '/web/components/icon/visual-tests/',
   })
 
   it('have to match responsive icons', async () => {

@@ -1,0 +1,76 @@
+---
+title: Quick start
+description: A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.
+order: 2
+redirect_from:
+  - /uilib/getting-started
+navigation:
+  parent: getting-started
+  title: Develop
+  order: 3
+  kind: group
+  pageTitle: Quick start
+---
+
+import WelcomeAdvice from 'Docs/welcome-advice.mdx'
+import { Button, Section } from '@dnb/eufemia/src'
+
+Welcome to Eufemia — DNB's design system for building accessible, consistent digital experiences. Pick the guided intro or jump straight into the quick start below.
+
+## Start Here
+
+<Section variant="information" innerSpace>
+  <Button href="/web/intro" size="large" text="Quick Intro" />
+</Section>
+
+## Install and render a component
+
+1. Install the library (React and React DOM are required):
+
+```bash
+npm i @dnb/eufemia react react-dom
+# or
+yarn add @dnb/eufemia react react-dom
+# or
+pnpm add @dnb/eufemia react react-dom
+```
+
+2. Import the CSS once in your app entry (theme included):
+
+```js
+import '@dnb/eufemia/style'
+```
+
+3. Render your first component:
+
+```tsx
+import { Button } from '@dnb/eufemia'
+
+export default function App() {
+  return (
+    <Button text="Hello Eufemia" onClick={() => console.log('clicked')} />
+  )
+}
+```
+
+Learn more about importing CSS in [Importing Styles](/web/usage/customisation/styling/consume-styles/).
+
+## Choose Your Path
+
+- [First steps and basics](/web/usage/first-steps/the-basics)
+- [Quick reference](/web/usage/first-steps/quick-reference)
+- [Use components](/web/components)
+- [Use HTML elements](/web/elements)
+- [Styling and CSS setup](/web/usage/customisation/styling)
+- [Layout](/web/layout)
+- [Theming and brand customization](/web/usage/customisation/theming)
+- [Internationalization (i18n)](/web/usage/customisation/localization)
+- [Helpers and tools](/web/usage/first-steps/tools)
+- [Contribution guide](/contribute)
+- [Forms, validation and schema](/web/extensions/forms)
+
+## Code Editor Extensions
+
+Boost your workflow with the [Eufemia VS Code extension](/web/usage/first-steps/tools/#code-editor-extensions) (spacing, typography and more).
+
+<WelcomeAdvice />

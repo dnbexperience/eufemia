@@ -12,6 +12,7 @@ import {
   categoryOrder,
   excludedSlugs,
   getCategoryId,
+  isCategorizedComponentSlug,
   type CategoryDefinition,
   type CategoryId,
 } from './componentCategories'
@@ -39,9 +40,7 @@ export default function ListComponentsOverview() {
             draft: { ne: true }
             hideInMenu: { ne: true }
           }
-          internal: {
-            contentFilePath: { regex: "/(uilib/components/.*)/" }
-          }
+          internal: { contentFilePath: { regex: "/(web/.*)/" } }
         }
         sort: [
           { frontmatter: { order: ASC } }
@@ -69,7 +68,12 @@ export default function ListComponentsOverview() {
       const slug = node.fields.slug
       const category = getCategoryId(node.frontmatter.category)
 
-      if (excludedSlugs.has(slug) || !category) {
+      if (
+        node.frontmatter.route === false ||
+        excludedSlugs.has(slug) ||
+        !isCategorizedComponentSlug(slug) ||
+        !category
+      ) {
         return items
       }
 
@@ -127,8 +131,8 @@ function FormsAndInputsIntro() {
   return (
     <P>
       <strong>NB:</strong> When creating application forms, use{' '}
-      <Anchor href="/uilib/extensions/forms/">Eufemia Forms</Anchor>{' '}
-      instead of composing forms from the base components below.
+      <Anchor href="/web/extensions/forms/">Eufemia Forms</Anchor> instead
+      of composing forms from the base components below.
     </P>
   )
 }

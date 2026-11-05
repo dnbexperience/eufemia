@@ -2,7 +2,7 @@ import { it, describe } from 'vitest'
 import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('Wizard.Container', () => {
-  const url = '/uilib/extensions/forms/Wizard/Container/demos/'
+  const url = '/web/extensions/forms/Wizard/Container/demos/'
   it('have to match border', async () => {
     await makeScreenshot({
       url,

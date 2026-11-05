@@ -2,7 +2,7 @@ import { it, describe } from 'vitest'
 import { makeScreenshot } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('Form.Section', () => {
-  const url = '/uilib/extensions/forms/Form/Section/demos/'
+  const url = '/web/extensions/forms/Form/Section/demos/'
 
   it('have to match view container', async () => {
     await makeScreenshot({

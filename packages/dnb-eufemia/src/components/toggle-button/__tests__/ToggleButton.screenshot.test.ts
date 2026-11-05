@@ -7,13 +7,13 @@ import {
 describe.each(['ui', 'sbanken'])(`ToggleButton for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/toggle-button/demos/',
+    url: '/web/components/toggle-button/demos/',
   })
 
   describe('ToggleButton unchecked', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/toggle-button/demos/',
+      url: '/web/components/toggle-button/demos/',
     })
 
     it('have to match toggle-button in unchecked state', async () => {
@@ -46,7 +46,7 @@ describe.each(['ui', 'sbanken'])(`ToggleButton for %s`, (themeName) => {
   describe('checked', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/toggle-button/demos/',
+      url: '/web/components/toggle-button/demos/',
     })
 
     it('have to match toggle-button in checked state', async () => {

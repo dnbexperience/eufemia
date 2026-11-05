@@ -6,7 +6,7 @@ import {
 
 describe('Heading', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/heading/demos/',
+    url: '/web/elements/heading/demos/',
   })
 
   it('matches prose max width', async () => {
@@ -25,7 +25,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/elements/heading/demos/',
+      url: '/web/elements/heading/demos/',
     })
 
     it('have to match the default heading examples', async () => {

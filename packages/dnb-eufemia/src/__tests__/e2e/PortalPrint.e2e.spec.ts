@@ -4,7 +4,7 @@ test('prints an empty Input without its placeholder and restores the hint on scr
   page,
 }) => {
   await page.goto(
-    '/uilib/usage/customisation/styling/document-styles/visual-tests/plain/'
+    '/web/usage/customisation/styling/document-styles/visual-tests/plain/'
   )
   const input = page.getByLabel('Empty reference', { exact: true })
   const placeholder = page
@@ -82,12 +82,12 @@ test('prints the selected ToggleButton with a thicker outline', async ({
 })
 
 test('scopes Portal page margins to its named page', async ({ page }) => {
-  await page.goto('/uilib/usage/customisation/styling/printable-apps/')
+  await page.goto('/web/usage/customisation/styling/printable-apps/')
   await expect(page.locator('[data-portal-print-layout]')).toBeVisible()
   await page.emulateMedia({ media: 'print' })
   await expect(page.locator('body')).toHaveCSS('page', 'portal-print')
   await page.goto(
-    '/uilib/usage/customisation/styling/document-styles/visual-tests/plain/'
+    '/web/usage/customisation/styling/document-styles/visual-tests/plain/'
   )
   await expect(
     page.locator('[data-visual-test="style-sample"]')
@@ -120,10 +120,11 @@ test('scopes Portal page margins to its named page', async ({ page }) => {
 test('prints documentation while Portal Tools is open', async ({
   page,
 }) => {
-  await page.goto('/uilib/components/button/properties/')
-  await page
-    .getByRole('button', { name: 'Portal Tools', exact: true })
-    .click()
+  await page.goto('/web/components/button/properties/')
+  await page.waitForFunction(() =>
+    document.documentElement.hasAttribute('data-portal-ready')
+  )
+  await page.locator('#portal-tools').click()
   const tools = page.getByRole('dialog', { name: 'Portal Tools' })
   await expect(tools).toBeVisible()
   await page.emulateMedia({ media: 'print' })
@@ -136,7 +137,7 @@ test('prints documentation while Portal Tools is open', async ({
 test('hides page navigation while retaining tab controls inside examples', async ({
   page,
 }) => {
-  await page.goto('/uilib/components/tabs/demos/')
+  await page.goto('/web/components/tabs/demos/')
   const exampleTabs = page.locator(
     '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs'
   )
@@ -158,7 +159,7 @@ test('uses plain paper for fullscreen documentation', async ({ page }) => {
       JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
     )
   })
-  await page.goto('/uilib/intro/03-accessibility/')
+  await page.goto('/web/intro/03-accessibility/')
   await expect(page.locator('[data-portal-print-layout]')).toHaveClass(
     /\bdnb-print\b/
   )
@@ -178,7 +179,7 @@ test('preserves the document preview print layout', async ({ page }) => {
     )
   })
   await page.goto(
-    '/uilib/usage/customisation/styling/document-styles/preview/'
+    '/web/usage/customisation/styling/document-styles/preview/'
   )
   await expect(page.locator('#letter')).toBeVisible()
   await expect(page.locator('[data-portal-print-layout]')).toHaveCount(0)
@@ -227,7 +228,7 @@ test('preserves printed selection indicators without background graphics', async
   page,
 }) => {
   await page.goto(
-    '/uilib/usage/customisation/styling/document-styles/visual-tests/plain/'
+    '/web/usage/customisation/styling/document-styles/visual-tests/plain/'
   )
   await expect(
     page.getByLabel('Selected option', { exact: true })
@@ -261,9 +262,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         },
         { scheme: colorScheme, brand }
       )
-      await page.goto(
-        '/uilib/usage/customisation/styling/document-styles/'
-      )
+      await page.goto('/web/usage/customisation/styling/document-styles/')
       await expect(
         page.locator('#dnb-app-content h1').first()
       ).toBeVisible()
@@ -288,9 +287,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
       ).toBeVisible()
       await expect(
         page.locator('[data-portal-print-footer]')
-      ).toContainText(
-        '/uilib/usage/customisation/styling/document-styles/'
-      )
+      ).toContainText('/web/usage/customisation/styling/document-styles/')
       const printStyle = await page
         .locator('#dnb-app-content')
         .evaluate((element) => {
@@ -329,7 +326,10 @@ test('keeps documentation available when the mobile menu is open', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 812 })
-  await page.goto('/uilib/components/button/properties/')
+  await page.goto('/web/components/button/properties/')
+  await page.waitForFunction(() =>
+    document.documentElement.hasAttribute('data-portal-ready')
+  )
   await expect(page.locator('#dnb-app-content h1').first()).toBeVisible()
   await page.locator('#toggle-sidebar-menu').click()
   await expect(page.locator('#toggle-sidebar-menu')).toHaveAttribute(
@@ -343,8 +343,12 @@ test('keeps documentation available when the mobile menu is open', async ({
     page.locator('#dnb-app-content table').first()
   ).toBeVisible()
   await page.emulateMedia({ media: 'screen' })
-  await expect(page.locator('#dnb-app-content h1').first()).toBeHidden()
-  await page.locator('#toggle-sidebar-menu').click()
+  const menu = page.getByRole('dialog', { name: 'Menu', exact: true })
+  await expect(menu).toBeVisible()
+  await expect(
+    page.locator('#dnb-app-content h1').first()
+  ).toHaveAttribute('aria-hidden', 'true')
+  await menu.locator('.dnb-modal__close-button').click()
   await expect(page.locator('#toggle-sidebar-menu')).toHaveAttribute(
     'aria-expanded',
     'false'

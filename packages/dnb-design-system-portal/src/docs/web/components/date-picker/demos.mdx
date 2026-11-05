@@ -1,0 +1,103 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/date-picker/demos
+---
+
+import {
+  DatePickerRange,
+  DatePickerTrigger,
+  DatePickerWithInput,
+  DatePickerHiddenNav,
+  DatePickerMonthOnly,
+  DatePickerStatusMessage,
+  DatePickerSuffix,
+  DatePickerLinked,
+  DatePickerNoInputStatus,
+  DatePickerErrorMessage,
+  DatePickerErrorStatus,
+  DatePickerCalendarInline,
+  DatePickerYearNavigation,
+} from './Examples'
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
+
+## Demos
+
+<ChangeLocale
+  bottom
+  label="Locale used in the demos:"
+  listUSLocale={true}
+/>
+
+English (US) is not included in Eufemia by default. You can include it like:
+
+```jsx
+import enUS from '@dnb/eufemia/shared/locales/en-US'
+<EufemiaProvider locale={enUS} ...>
+	App
+</EufemiaProvider>
+```
+
+### Range DatePicker
+
+<VisibleWhenNotVisualTest>
+  <DatePickerRange />
+</VisibleWhenNotVisualTest>
+
+### Default DatePicker
+
+<DatePickerTrigger />
+
+### Default DatePicker with Input
+
+<VisibleWhenNotVisualTest>
+  <DatePickerWithInput />
+</VisibleWhenNotVisualTest>
+
+### Hidden Nav:
+
+<VisibleWhenNotVisualTest>
+  <DatePickerHiddenNav />
+</VisibleWhenNotVisualTest>
+
+### Show days in a specific month
+
+<VisibleWhenNotVisualTest>
+  <DatePickerMonthOnly />
+</VisibleWhenNotVisualTest>
+
+### With info message
+
+<VisibleWhenNotVisualTest>
+  <DatePickerStatusMessage />
+</VisibleWhenNotVisualTest>
+
+### With suffix
+
+<VisibleWhenNotVisualTest>
+  <DatePickerSuffix />
+</VisibleWhenNotVisualTest>
+
+### Linked DatePickers
+
+<DatePickerLinked />
+
+### Year navigation
+
+<DatePickerYearNavigation />
+
+### DatePicker with error status (no input)
+
+<DatePickerNoInputStatus />
+
+### DatePicker with error
+
+<DatePickerErrorMessage />
+
+### DatePicker with error status
+
+<DatePickerErrorStatus />
+
+### Inline DatePicker
+
+<DatePickerCalendarInline />

@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Blockquote for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/elements/blockquote/demos/',
+    url: '/web/elements/blockquote/demos/',
   })
 
   const style = {
@@ -53,7 +53,7 @@ describe.each(['ui', 'sbanken'])(`Blockquote for %s`, (themeName) => {
 describe.each(['sbanken'])(`Blockquote on mobile for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/elements/blockquote/demos/',
+    url: '/web/elements/blockquote/demos/',
     pageViewport: { width: 640 },
   })
 

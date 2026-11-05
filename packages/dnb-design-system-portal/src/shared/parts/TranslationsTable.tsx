@@ -127,11 +127,11 @@ export default function TranslationsTable({
     <>
       <P>
         More info about translations can be found in the{' '}
-        <Anchor href="/uilib/usage/customisation/localization/">
+        <Anchor href="/web/usage/customisation/localization/">
           general localization
         </Anchor>{' '}
         and{' '}
-        <Anchor href="/uilib/extensions/forms/getting-started/#localization-and-translation">
+        <Anchor href="/web/extensions/forms/getting-started/#localization-and-translation">
           Eufemia Forms localization
         </Anchor>{' '}
         docs.

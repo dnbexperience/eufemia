@@ -11,6 +11,14 @@
   min-height: 100dvh;
 }
 
+[skip-isolation] :root body.dnb-page-background {
+  background-color: var(--token-color-background-neutral);
+
+  &:has([data-portal-home]) {
+    background-color: var(--token-color-background-page-background);
+  }
+}
+
 [skip-isolation] body,
 [skip-isolation] body #root {
   height: 100%;
@@ -122,13 +130,4 @@ body.eufemia-theme__color-scheme--dark .typography-box {
 .dnb-page-background {
   // Ensure themed body has a token color for page backgrounds
   background-color: var(--token-color-background-neutral);
-}
-
-// Make the home => pages animation
-.home-background ul {
-  view-transition-name: home;
-}
-
-#portal-sidebar-menu {
-  view-transition-name: home;
 }

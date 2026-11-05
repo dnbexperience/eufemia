@@ -10,7 +10,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
     setupPageScreenshot({
       themeName,
       colorScheme: 'light',
-      url: '/uilib/usage/customisation/styling/document-styles/visual-tests/print/',
+      url: '/web/usage/customisation/styling/document-styles/visual-tests/print/',
       withWrapper: false,
     })
 

@@ -1,0 +1,32 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/base-fields/Toggle/info
+---
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Toggle />)
+```
+
+## Description
+
+`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
+
+Before using this component, ensure there is not a more specific [field component](/web/extensions/forms/feature-fields/) available that better suits your needs.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Toggle path="/myState" />)
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Toggle)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/base-fields/Toggle)
+
+### Indeterminate checkbox
+
+Here is an indeterminate state (partially checked) [working example](/web/extensions/forms/base-fields/Indeterminate/).

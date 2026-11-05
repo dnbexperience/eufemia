@@ -1,0 +1,80 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/payment-card/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import {
+  PaymentCardProperties,
+  PaymentCardData,
+  PaymentCardDesign,
+  PaymentCardDesigns,
+} from '@dnb/eufemia/src/extensions/payment-card/PaymentCardDocs'
+
+## Card Properties
+
+<PropertiesTable props={PaymentCardProperties} />
+
+## Card Data
+
+<PropertiesTable props={PaymentCardData} />
+
+## Card Design
+
+<PropertiesTable props={PaymentCardDesign} />
+
+## List of designs
+
+<PropertiesTable props={PaymentCardDesigns} />
+
+## Types
+
+| Type             |
+| ---------------- |
+| **DNB**          |
+| `Colored`        |
+| `Sbanken`        |
+| **Saga**         |
+| `Gold`           |
+| `Platinum`       |
+| `None`           |
+| **PB**           |
+| `Default`        |
+| `None`           |
+| **Mastercard**   |
+| `Default`        |
+| `Dark`           |
+| **ProductType**  |
+| `Saga`           |
+| `Pluss`          |
+| `Intro`          |
+| `Bedrift`        |
+| `Business`       |
+| `PrivateBanking` |
+| `Corporate`      |
+| `WorldElite`     |
+| `None`           |
+| **CardType**     |
+| `Visa`           |
+| `Mastercard`     |
+| `None`           |
+| **BankAxept**    |
+| `White`          |
+| `Black`          |
+| `Gold`           |
+| `Black20`        |
+| `Gray`           |
+| `GrayDark`       |
+| **Visa**         |
+| `Colored`        |
+| `Platinum`       |
+| **Status**       |
+| `Expired`        |
+| `Blocked`        |
+| `Active`         |
+
+## Translations
+
+<TranslationsTable localeKey="PaymentCard" />

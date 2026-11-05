@@ -22,7 +22,7 @@ test.describe('Route Focus', () => {
       await page.emulateMedia({ reducedMotion })
 
       await page.goto(
-        '/uilib/extensions/sidebar-menu/demos/#responsive-navigation'
+        '/web/extensions/sidebar-menu/demos/#responsive-navigation'
       )
       await page.waitForFunction(
         () =>
@@ -115,7 +115,7 @@ test.describe('Route Focus', () => {
       }
     })
 
-    await page.goto('/uilib/components/accordion#relevant-links')
+    await page.goto('/web/components/accordion#relevant-links')
 
     for (let i = 0; i < 3; i++) {
       await waitForApp(page)
@@ -151,7 +151,12 @@ test.describe('Route Focus', () => {
         await expect(
           page.locator('.dnb-app-content h1').first()
         ).toBeFocused()
-        await page.goBack({ waitUntil: 'networkidle' })
+        await page.goBack({ waitUntil: 'commit' })
+        await expect(page).toHaveURL(
+          (url) =>
+            url.pathname === '/web/components/accordion/' &&
+            url.hash === '#relevant-links'
+        )
       }
     }
   })
@@ -159,7 +164,7 @@ test.describe('Route Focus', () => {
   test('should keep the next tab stop near the linked section on direct hash load', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/accordion#relevant-links')
+    await page.goto('/web/components/accordion#relevant-links')
     await waitForApp(page)
 
     const figmaLink = page
@@ -182,7 +187,7 @@ test.describe('Route Focus', () => {
   })
 
   test('should focus content when no hash is given', async ({ page }) => {
-    await page.goto('/uilib/components/accordion')
+    await page.goto('/web/components/accordion')
     await waitForApp(page)
 
     const skipLink = page.locator('.dnb-skip-link')
@@ -195,15 +200,22 @@ test.describe('Route Focus', () => {
   test('should focus content when navigating to a route without hash', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/')
+    await page.goto('/web/components/')
     await waitForApp(page)
 
     await page
-      .locator('a[href="/uilib/components/accordion"]')
+      .locator('#portal-sidebar-menu .dnb-sidebar-menu__item__action')
+      .first()
+      .hover()
+    await expect(
+      page.locator('.dnb-sidebar-menu-responsive-inline__content')
+    ).toHaveCSS('clip-path', 'inset(0px)')
+    await page
+      .locator('a[href="/web/components/accordion"]')
       .first()
       .click()
 
-    await expect(page).toHaveURL('/uilib/components/accordion')
+    await expect(page).toHaveURL('/web/components/accordion')
 
     const pageHeading = page.locator('.dnb-app-content h1').first()
     const headingLink = page.getByRole('link', {
@@ -232,12 +244,12 @@ test.describe('Route Focus', () => {
   test('should remove the current hash and focus content when navigating to another tab', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/accordion#relevant-links')
+    await page.goto('/web/components/accordion#relevant-links')
     await waitForApp(page)
 
     await page.getByRole('tab', { name: 'Demos' }).click()
 
-    await expect(page).toHaveURL('/uilib/components/accordion/demos')
+    await expect(page).toHaveURL('/web/components/accordion/demos')
 
     const pageHeading = page.locator('.dnb-app-content h1').first()
 
@@ -245,10 +257,10 @@ test.describe('Route Focus', () => {
   })
 
   test('should load the demos tab route directly', async ({ page }) => {
-    await page.goto('/uilib/components/accordion/demos')
+    await page.goto('/web/components/accordion/demos')
     await waitForApp(page)
 
-    await expect(page).toHaveURL('/uilib/components/accordion/demos/')
+    await expect(page).toHaveURL('/web/components/accordion/demos/')
     await expect(page.getByRole('tab', { name: 'Demos' })).toBeVisible()
   })
 
@@ -256,15 +268,15 @@ test.describe('Route Focus', () => {
     page,
   }) => {
     // Keep both routes in the partial E2E build.
-    await page.goto('/uilib/components/list/demos/')
+    await page.goto('/web/components/list/demos/')
     await waitForApp(page)
 
-    await page.goto('/uilib/components/list/')
+    await page.goto('/web/components/list/')
     await waitForApp(page)
 
     const demosTab = page.getByRole('tab', { name: 'Demos' })
     await demosTab.click()
-    await expect(page).toHaveURL('/uilib/components/list/demos')
+    await expect(page).toHaveURL('/web/components/list/demos')
 
     await page.reload()
     await waitForApp(page)
@@ -277,13 +289,13 @@ test.describe('Route Focus', () => {
   test('should preserve the current hash when entering fullscreen', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/accordion#relevant-links')
+    await page.goto('/web/components/accordion#relevant-links')
     await waitForApp(page)
 
     await page.getByRole('link', { name: 'Fullscreen' }).click()
 
     await expect(page).toHaveURL(
-      '/uilib/components/accordion/?fullscreen#relevant-links'
+      '/web/components/accordion/?fullscreen#relevant-links'
     )
   })
 })

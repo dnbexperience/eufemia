@@ -1,0 +1,16 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/elements/image/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ImgProperties } from '@dnb/eufemia/src/elements/img/ImgDocs'
+
+## Properties
+
+`className` targets the wrapping `figure` element. All other native image
+properties target the inner `img` element. Use `figureProps` to pass additional
+native properties to the wrapper.
+
+<PropertiesTable props={ImgProperties} />

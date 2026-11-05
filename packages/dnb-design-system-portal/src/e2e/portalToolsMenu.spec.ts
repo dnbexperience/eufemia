@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Portal tools menu', () => {
   async function gotoAndWait(page: Page) {
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     await waitForApp(page)
   }
 
@@ -90,7 +90,7 @@ test.describe('Portal tools menu', () => {
           .first()
         await infoTab.focus()
         await infoTab.press('Enter')
-        await expect(page).toHaveURL(/\/uilib\/components\/button\/?$/)
+        await expect(page).toHaveURL(/\/web\/components\/button\/?$/)
         await expect
           .poll(() =>
             page.locator('.eufemia-theme__typography--native').count()

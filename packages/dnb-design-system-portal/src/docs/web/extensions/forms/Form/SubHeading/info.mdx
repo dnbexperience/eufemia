@@ -1,0 +1,34 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Form/SubHeading/info
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.SubHeading />)
+```
+
+## Description
+
+`Form.SubHeading` is a standardized subheading for sections, ensuring default layout, spacing, etc.
+
+The font size is set to `large`.
+
+```jsx
+import { Flex, Card } from '@dnb/eufemia'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler onSubmit={submitHandler}>
+    <Flex.Stack>
+      <Form.MainHeading>Header</Form.MainHeading>
+      <Form.Card>
+        <Form.SubHeading>Header</Form.SubHeading>
+        <Field.Email path="/dataPath" />
+      </Form.Card>
+    </Flex.Stack>
+  </Form.Handler>
+)
+```

@@ -1,0 +1,40 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/step-indicator/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import {
+  StepIndicatorProperties,
+  StepIndicatorStepProperties,
+} from '@dnb/eufemia/src/components/step-indicator/StepIndicatorDocs'
+
+## Properties
+
+<PropertiesTable props={StepIndicatorProperties} />
+
+## Step Item Properties
+
+<PropertiesTable props={StepIndicatorStepProperties} />
+
+## Step Items example
+
+```js
+const steps = [
+  { title: 'Active' },
+  { title: 'Active and marked as current', isCurrent: true },
+  { title: 'Not active', inactive: true },
+  { title: 'Disabled', disabled: true },
+  {
+    title: 'Active item with status text',
+    status: 'Status text',
+    statusState: 'warning', // defaults to warning
+  },
+]
+```
+
+## Translations
+
+<TranslationsTable localeKey="StepIndicator" />

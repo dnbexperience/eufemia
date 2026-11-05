@@ -6,7 +6,7 @@ import {
 
 describe('DateFormat', () => {
   setupPageScreenshot({
-    url: '/uilib/components/date-format/demos',
+    url: '/web/components/date-format/demos',
   })
 
   it('have to match date styles', async () => {

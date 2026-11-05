@@ -1,0 +1,20 @@
+---
+title: DataContext.Context
+description: The context object used in `DataContext.Provider`.
+hideInMenu: true
+breadcrumb:
+  - text: Forms
+    href: /web/extensions/forms/
+  - text: DataContext
+    href: /web/extensions/forms/DataContext/
+  - text: Context
+    href: /web/extensions/forms/DataContext/Context/
+redirect_from:
+  - /uilib/extensions/forms/DataContext/Context
+navigation:
+  hidden: true
+---
+
+## Description
+
+The main context for [DataContext.Provider](/web/extensions/forms/DataContext/Provider) which the [Field](/web/extensions/forms/base-fields/) and [Value](/web/extensions/forms/Value/) components connect to (optional) for sources and callbacks when it is present. For custom field and value components, prefer [useFieldProps](/web/extensions/forms/create-component/useFieldProps/), [useValueProps](/web/extensions/forms/create-component/useValueProps/) or [Form.useDataValue](/web/extensions/forms/Form/useDataValue/) instead of consuming `DataContext.Context` directly. Direct reads from `data` or `internalDataRef.current` do not create a data subscription.

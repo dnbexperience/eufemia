@@ -4,7 +4,7 @@ Generates Markdown copies with JSON blocks for documentation pages to aid LLMs.
 
 ## How it works
 
-- Scans `packages/dnb-design-system-portal/src/docs/uilib` for entry MDX pages.
+- Scans `packages/dnb-design-system-portal/src/docs` for entry MDX pages, skipping contentless navigation definitions.
 - Skips draft pages and robots-disallowed slugs.
 - Extracts properties/events tables from `properties.mdx` / `events.mdx` (when present).
 - Builds Markdown copies with JSON blocks for properties/events.

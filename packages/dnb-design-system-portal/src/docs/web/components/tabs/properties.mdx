@@ -1,0 +1,51 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/tabs/properties
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  TabsProperties,
+  TabsDataObject,
+} from '@dnb/eufemia/src/components/tabs/TabsDocs'
+
+## Properties
+
+<PropertiesTable props={TabsProperties} />
+
+## Data object
+
+<PropertiesTable props={TabsDataObject} />
+
+## Key
+
+The key can be a string or a number.
+But if the key is a number (integer), we have to deliver the content directly in the tab item:
+
+```ts
+const tabsDataWithContent = [
+  { title: 'First', key: 1, content: <H2>First</H2> },
+  { title: 'Second', key: 2, content: () => <H2>Second</H2> },
+]
+```
+
+## Example Data
+
+```ts
+const tabsData = [
+  { title: 'First', key: 'first' },
+  { title: 'Second', key: 'second' },
+  { title: 'Third', key: 'third', disabled: true },
+  { title: 'Fourth', key: 'fourth' },
+]
+```
+
+## Current tab
+
+The current Tab content can be a `string`, a function returning content or a `React component`.
+
+## Translations
+
+<TranslationsTable localeKey="Tabs" />

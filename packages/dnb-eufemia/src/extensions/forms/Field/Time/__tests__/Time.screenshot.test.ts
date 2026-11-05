@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Time field for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/forms/feature-fields/Time/demos/',
+    url: '/web/extensions/forms/feature-fields/Time/demos/',
   })
 
   it('have to match the empty state', async () => {
