@@ -82,12 +82,14 @@ export function createMdxSidebarNavigation(
     const item: NavItem = {
       id: slug ? slug.replaceAll('/', '-') : 'portal-home',
       path: slug || '/',
+      href: nav.href,
+      dividerBefore: nav.dividerBefore,
       title: nav.title || fm.menuTitle || fm.title,
       order: nav.order ?? fm.order,
       icon: fm.icon,
       status: nav.kind === 'placeholder' ? 'todo' : fm.status,
       disabled: nav.kind === 'placeholder',
-      isMenuLink: !group && fm.route !== false,
+      isMenuLink: !group && (Boolean(nav.href) || fm.route !== false),
       isMenuGroup: nav.kind === 'category',
       isActive: !group && isActive(slug, fm),
     }

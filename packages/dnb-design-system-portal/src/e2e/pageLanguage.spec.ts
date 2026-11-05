@@ -33,7 +33,7 @@ test.describe('Page language before hydration', () => {
   })
 })
 
-test('keeps documentation in English and follows Portal Tools for previews and popups', async ({
+test('keeps documentation in English and follows Settings for previews and popups', async ({
   page,
 }) => {
   const hydrationErrors: string[] = []
@@ -71,10 +71,7 @@ test('keeps documentation in English and follows Portal Tools for previews and p
   await expectPopupLanguage('nb-NO')
   await input.press('Escape')
 
-  await page
-    .getByRole('button', { name: 'Portal Tools', exact: true })
-    .first()
-    .click()
+  await page.locator('button#portal-tools').click()
   await page.getByLabel('Change components language').click()
   await page
     .locator('li.dnb-drawer-list__option')
@@ -84,7 +81,7 @@ test('keeps documentation in English and follows Portal Tools for previews and p
   await expect(preview).toHaveAttribute('lang', 'en-GB')
   await expect(placeholder).toHaveText('Type and select')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
-  const tools = page.getByRole('dialog', { name: 'Portal Tools' })
+  const tools = page.getByRole('dialog', { name: 'Settings' })
   await tools
     .getByRole('button', { name: /Close|Lukk/ })
     .first()

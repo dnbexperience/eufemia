@@ -83,7 +83,7 @@ test.describe('Page Navigation', () => {
       await expect(noscript).toBeAttached()
     })
 
-    test('should not be able to open portal tools', async ({ page }) => {
+    test('should not be able to open settings', async ({ page }) => {
       if (await isDev(page)) {
         return // stop here
       }

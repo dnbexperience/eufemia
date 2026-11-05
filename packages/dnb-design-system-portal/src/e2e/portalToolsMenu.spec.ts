@@ -10,7 +10,7 @@ test.afterEach(async ({ page }) => {
   await clearStorage(page)
 })
 
-test.describe('Portal tools menu', () => {
+test.describe('Settings', () => {
   async function gotoAndWait(page: Page) {
     await page.goto('/web/components/button/demos/')
     await waitForApp(page)
@@ -24,10 +24,8 @@ test.describe('Portal tools menu', () => {
       async ({ page }) => {
         await page.setViewportSize({ width, height: 1000 })
         await gotoAndWait(page)
-        await page
-          .getByRole('button', { name: 'Portal Tools', exact: true })
-          .click()
-        const drawer = page.getByRole('dialog', { name: 'Portal Tools' })
+        await page.locator('button#portal-tools').click()
+        const drawer = page.getByRole('dialog', { name: 'Settings' })
         const toggle = drawer.getByRole('switch', {
           name: 'Native app font size',
           exact: true,
@@ -98,9 +96,7 @@ test.describe('Portal tools menu', () => {
           .toBeGreaterThan(0)
         await page.reload()
         await waitForApp(page)
-        await page
-          .getByRole('button', { name: 'Portal Tools', exact: true })
-          .click()
+        await page.locator('button#portal-tools').click()
         await expect(toggle).toBeChecked()
         await toggle.uncheck()
         await expect
@@ -120,10 +116,8 @@ test.describe('Portal tools menu', () => {
       async ({ page }) => {
         await page.setViewportSize({ width, height: 1000 })
         await gotoAndWait(page)
-        await page
-          .getByRole('button', { name: 'Portal Tools', exact: true })
-          .click()
-        const drawer = page.getByRole('dialog', { name: 'Portal Tools' })
+        await page.locator('button#portal-tools').click()
+        const drawer = page.getByRole('dialog', { name: 'Settings' })
         const skeleton = drawer.locator('.dnb-switch').filter({
           has: page.getByRole('switch', {
             name: 'Show everything behind skeletons',
