@@ -13,7 +13,11 @@ import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
 import AccordionTertiary from '../accordion/AccordionTertiary'
-import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
+import type {
+  UploadAcceptedFileTypeObject,
+  UploadContextValue,
+  UploadProps,
+} from './types'
 import Flex from '../../components/Flex'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
@@ -21,9 +25,13 @@ const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
 
 const formatFileSize = (
   fileSizeContent: ReactNode,
-  size: number | string
+  size: number | string,
+  locale: UploadContextValue['locale']
 ) =>
-  String(fileSizeContent).replace('%size', formatNumber(size).toString())
+  String(fileSizeContent).replace(
+    '%size',
+    formatNumber(size, { locale }).toString()
+  )
 
 // The file limits show the descriptions as table headers, without the colon
 const removeTrailingColon = (text: ReactNode) =>
@@ -35,6 +43,7 @@ function useFileLimits() {
     filesAmountLimit,
     fileMaxSize,
     fileSizeContent,
+    locale,
   } = useContext(UploadContext)
 
   const prettifiedAcceptedFileFormats =
@@ -50,7 +59,7 @@ function useFileLimits() {
     isAcceptedFileTypeListOfStrings && fileMaxSize
 
   const fileMaxSizeText = displayFileMaxSizeItem
-    ? formatFileSize(fileSizeContent, fileMaxSize)
+    ? formatFileSize(fileSizeContent, fileMaxSize, locale)
     : null
 
   const displayFilesAmountLimitItem =
@@ -229,6 +238,7 @@ function UploadInfoAcceptedFileTypesTable({
     fileSizeDescription,
     fileSizeContent,
     fileMaxSize,
+    locale,
   } = context
 
   const groupByFileMaxSize = (
@@ -304,7 +314,8 @@ function UploadInfoAcceptedFileTypesTable({
                   )}
                 </Td>
                 <Td>
-                  {key !== '0' && formatFileSize(fileSizeContent, key)}
+                  {key !== '0' &&
+                    formatFileSize(fileSizeContent, key, locale)}
                 </Td>
               </Tr>
             )
