@@ -688,6 +688,85 @@ test.describe('List text layout compatibility', () => {
     await expect(row.locator('div')).toHaveCount(0)
   })
 
+  test('centers an end avatar group on the first title line', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1024, height: 900 })
+    const row = page.getByTestId('avatar-group-alignment')
+    await expect(row.locator('.dnb-avatar__group')).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
+    const offset = await row.evaluate((element) => {
+      const title = element.querySelector('.dnb-list__item__title > span')
+      const text = title.firstChild
+      const line = document.createElement('span')
+      line.style.display = 'inline-block'
+      text.replaceWith(line)
+      line.appendChild(text)
+      const titleRect = line.getBoundingClientRect()
+      const groupRect = element
+        .querySelector('.dnb-avatar__group')
+        .getBoundingClientRect()
+      return (
+        groupRect.top +
+        groupRect.height / 2 -
+        (titleRect.top + titleRect.height / 2)
+      )
+    })
+    expect(Math.abs(offset)).toBeLessThanOrEqual(1)
+  })
+
+  for (const width of [400, 1024]) {
+    test(
+      'centers the first title line on large start avatars at ' +
+        width +
+        'px',
+      async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 })
+        await page.evaluate(() => document.fonts.ready)
+        for (const size of ['large', 'x-large']) {
+          const rows = page
+            .getByTestId('avatar-alignment-' + size)
+            .locator('.dnb-list__item')
+          await expect(rows).toHaveCount(3)
+          const offsets = await rows.evaluateAll((items) =>
+            items.map((item) => {
+              const title = item.querySelector(
+                '.dnb-list__item__title > span'
+              )
+              const text = Array.from(title.childNodes).find(
+                (node) =>
+                  node.nodeType === Node.TEXT_NODE &&
+                  node.textContent.trim()
+              )
+              const line = document.createElement('span')
+              line.style.display = 'inline-block'
+              text.replaceWith(line)
+              line.appendChild(text)
+              const titleRect = line.getBoundingClientRect()
+              const avatarRect = item
+                .querySelector('.dnb-avatar')
+                .getBoundingClientRect()
+              const rowRect = item.getBoundingClientRect()
+              return {
+                center:
+                  avatarRect.top +
+                  avatarRect.height / 2 -
+                  (titleRect.top + titleRect.height / 2),
+                top: avatarRect.top - rowRect.top,
+                bottom: rowRect.bottom - avatarRect.bottom,
+              }
+            })
+          )
+          for (const offset of offsets) {
+            expect(Math.abs(offset.center)).toBeLessThanOrEqual(1)
+            expect(offset.top).toBeGreaterThanOrEqual(0)
+            expect(offset.bottom).toBeGreaterThanOrEqual(0)
+          }
+        }
+      }
+    )
+  }
+
   test('keeps limited text rows hidden until expanded', async ({
     page,
   }) => {
@@ -727,6 +806,14 @@ test.describe('List nested row alignment', () => {
       const offsets = await rows.evaluateAll((items) =>
         items.map((item) => {
           const middle = (rect: DOMRect) => rect.top + rect.height / 2
+          // Like in the design, the first line of the end cell is placed
+          // on the title line, also when more lines follow
+          const firstLineMiddle = (element: Element) => {
+            const range = document.createRange()
+            range.selectNodeContents(element)
+            return middle(range.getClientRects()[0])
+          }
+
           const titleText = Array.from(
             item.querySelector('.dnb-list__item__title > span').childNodes
           ).find((node) => node.nodeType === Node.TEXT_NODE)
@@ -745,11 +832,8 @@ test.describe('List nested row alignment', () => {
                   .getBoundingClientRect()
               ) - title,
             end:
-              middle(
-                item
-                  .querySelector('.dnb-list__item__end')
-                  .getBoundingClientRect()
-              ) - title,
+              firstLineMiddle(item.querySelector('.dnb-list__item__end')) -
+              title,
             chevron:
               middle(
                 item

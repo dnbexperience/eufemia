@@ -6,6 +6,7 @@ search: false
 
 import {
   VisuallyHidden,
+  Avatar,
   Button,
   Filter,
   List,
@@ -60,6 +61,37 @@ import {
   <List.Item.Basic>Visible row</List.Item.Basic>
   <List.Item.Basic>Hidden by visibleCount</List.Item.Basic>
 </List.Container>
+
+{['large', 'x-large'].map((size) => (
+
+  <List.Container key={size} data-testid={'avatar-alignment-' + size}>
+    <List.Item.Basic title="Avatar owner">
+      <List.Cell.Start><Avatar size={size}>A</Avatar></List.Cell.Start>
+      <List.Cell.End>Value</List.Cell.End>
+    </List.Item.Basic>
+    <List.Item.Action onClick={() => null}>
+      <List.Cell.Start><Avatar size={size}>B</Avatar></List.Cell.Start>
+      <List.Cell.Title>
+        <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+        {'Avatar owner'}
+        <List.Cell.Title.Subline>Shared account</List.Cell.Title.Subline>
+      </List.Cell.Title>
+      <List.Cell.End>Value</List.Cell.End>
+    </List.Item.Action>
+    <List.Item.Basic>
+      <List.Cell.Start><Avatar size={size}>C</Avatar></List.Cell.Start>
+      <List.Cell.Center>
+        <List.Cell.Title>
+          <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+          {'Avatar '}
+          <span>owner with a longer account title that wraps onto several lines on a narrow screen</span>
+          <List.Cell.Title.Subline>Shared account</List.Cell.Title.Subline>
+        </List.Cell.Title>
+      </List.Cell.Center>
+      <List.Cell.End>Value</List.Cell.End>
+    </List.Item.Basic>
+  </List.Container>
+))}
 <List.ShowMoreButton id={'text-layout-more'} />
 
 <List.Item.Basic
@@ -69,3 +101,18 @@ import {
 >
   Standalone text
 </List.Item.Basic>
+
+<List.Container data-testid="avatar-group-alignment">
+  <List.Item.Basic>
+    <List.Cell.Title>
+      {'Account'}
+      <List.Cell.Title.Subline>Shared account</List.Cell.Title.Subline>
+    </List.Cell.Title>
+    <List.Cell.End>
+      <Avatar.Group label="Account owners">
+        <Avatar>A</Avatar>
+        <Avatar>B</Avatar>
+      </Avatar.Group>
+    </List.Cell.End>
+  </List.Item.Basic>
+</List.Container>

@@ -35,6 +35,8 @@ For secondary buttons or links in `List.Item.Action`, pass a `List.Cell.Footer` 
 
 For a simple `List.Item.Basic` row, use plain text children or the `title` prop. Plain text, including interpolated strings and numbers, wraps with horizontal padding. Use explicit cells to compose more complex rows. `List.Cell.Start` is the leading cell for content such as an avatar, a date, or a form control.
 
+Large and extra-large avatars in `List.Cell.Start` center on the first title line. The title and end value move down to the avatar's center, keeping the avatar inside the row. Overlines stay above that title line, and sublines and wrapped titles continue below it.
+
 ```jsx
 import { List } from '@dnb/eufemia'
 
