@@ -15,7 +15,7 @@ Fields which have the `disabled` property or the `readOnly` property, will skip 
 
 For monitoring and setting your form errors, you can use the [useValidation](/web/forms/Form/useValidation/) hook.
 
-### Validation and the user experience (UX)
+## Validation and the user experience (UX)
 
 Eufemia Forms provides a built-in validation system that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
 
@@ -27,7 +27,7 @@ In general, the validation is based on the following principles:
 
 The validation system is flexible and can be customized to fit your specific needs. You can add your own validation to a field component by using the `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidation` property.
 
-### Validation order
+## Validation order
 
 If there are multiple errors, they will be shown in a specific order, and only the first error in that order will appear.
 
@@ -39,7 +39,7 @@ The validation order is as follows:
 4. `onChangeValidator`
 5. `onBlurValidator`
 
-### Error messages
+## Error messages
 
 Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/web/forms/all-fields/) (field level) and on the [Form.Handler](/web/forms/Form/Handler/) (global level).
 
@@ -54,7 +54,7 @@ However, for overwriting the default error messages on a global level, you can a
 
 Read more about [error messages](/web/forms/Form/error-messages/).
 
-### Summary for errors
+## Summary for errors
 
 To improve user experience communication regarding errors and their locations, WCAG/UU suggests summarizing error messages when errors have occurred.
 
@@ -78,7 +78,7 @@ If you need a custom unique ID, you can just assign `globalStatusId` to the `For
 </Form.Handler>
 ```
 
-### keepInDOM for hidden content
+## keepInDOM for hidden content
 
 Use `keepInDOM` when hidden content still needs to keep its internal state or continue participating in logic such as validation.
 
@@ -95,7 +95,7 @@ Examples where this pattern is used:
 - [Table](/web/components/table/#table) component with `mode="accordion"`.
 - [List](/web/components/list/#list) component with `List.Item.Accordion`.
 
-### required
+## required
 
 Fields are optional by default. Eufemia Forms is designed for more than classical form submissions — it also covers data display, settings, wizards, and layout — so validation is opt-in.
 
@@ -129,7 +129,7 @@ It is possible to customize the suffix text with the `labelSuffix` property, if 
 </Form.Handler>
 ```
 
-#### Optional and supporting label text in designs
+### Optional and supporting label text in designs
 
 When implementing a screenshot or Figma design, identify the role of text around the field before mapping it to a property. In a form where fields are required, use `required={false}` when a label marks one field as optional. Use `labelDescription` for separate supporting information, and add `labelDescriptionInline` when the supporting text appears on the same line as the label. These properties can be used together.
 
@@ -147,7 +147,7 @@ Do not render "optional" or "valgfritt" with the classic Input `suffix`. An inpu
 </Form.Handler>
 ```
 
-### pattern
+## pattern
 
 The `pattern` property is a regular expression (RegExp) that the value of the field must match:
 
@@ -155,7 +155,7 @@ The `pattern` property is a regular expression (RegExp) that the value of the fi
 <Field.PhoneNumber pattern="Your RegExp" />
 ```
 
-### schema
+## schema
 
 The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema.
 
@@ -202,7 +202,7 @@ render(
 )
 ```
 
-### onBlurValidator and onChangeValidator
+## onBlurValidator and onChangeValidator
 
 The `onBlurValidator` and `onChangeValidator` properties accepts a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
 
@@ -218,7 +218,7 @@ render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
 
 You can find more info about error messages in the [error messages](/web/forms/Form/error-messages/) docs.
 
-#### Connect with another field
+### Connect with another field
 
 You can also use the `connectWithPath` (or `connectWithItemPath` for within [Iterate.Array](/web/forms/Iterate/Array/)) function to connect the validator (`onChangeValidator` and `onBlurValidator`) to another field. This allows you to rerun the validator function once the value of the connected field changes:
 
@@ -254,7 +254,7 @@ You can also change this behavior for testing purposes by using the following pr
 - `validateContinuously` will run the validation on every change, including when the connected field changes.
 - `validateUnchanged` will validate without any changes made by the user, including when the connected field changes.
 
-#### Async validation
+### Async validation
 
 Async validation is also supported. The validator function can return a promise (async/await) that resolves to an error message.
 
@@ -290,7 +290,7 @@ render(
 
 Use `runOnSubmit: 'when-changed'` when the validator should run during submit only if the field value changed since the validator last ran. Object and array values are compared by reference.
 
-#### Async validator with debounce
+### Async validator with debounce
 
 When using async validation on every keystroke, it's a good idea to debounce the validation function to avoid unnecessary requests. This can be done by using the [debounceAsync](/web/ai-tools-and-resources/utilities/functions/#debounce) helper function:
 
@@ -310,7 +310,7 @@ const onChangeValidator = debounceAsync(async function myValidator(value) {
 render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
 ```
 
-### error
+## error
 
 The `error` property is a controlled error message that is always displayed by default.
 
