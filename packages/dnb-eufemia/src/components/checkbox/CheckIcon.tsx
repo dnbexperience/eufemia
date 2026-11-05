@@ -18,9 +18,13 @@ function CheckIcon({ size }: CheckIconProps) {
       aria-hidden
     >
       <path
-        d={size === 'large' ? 'M1.5 15L7.5 21L22.5 3' : 'M1 10L5 14L15 2'}
+        d={
+          size === 'large'
+            ? 'M3.6 14.4L8.4 19.2L20.4 4.8'
+            : 'M1 10L5 14L15 2'
+        }
         stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth={size === 'large' ? '1.5' : '2'}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

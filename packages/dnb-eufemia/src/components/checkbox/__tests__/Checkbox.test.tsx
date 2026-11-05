@@ -283,6 +283,24 @@ describe('Checkbox component', () => {
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
   })
 
+  it('renders the check mark with a 1.5px stroke', () => {
+    render(<Checkbox checked />)
+
+    // The 16-unit viewBox renders at 12px, so 2 units give a 1.5px stroke
+    const path = document.querySelector('.dnb-checkbox__gfx path')
+    expect(path).toHaveAttribute('d', 'M1 10L5 14L15 2')
+    expect(path).toHaveAttribute('stroke-width', '2')
+  })
+
+  it('renders the large check mark at the Figma size', () => {
+    render(<Checkbox size="large" checked />)
+
+    // 16.8x14.4px, centered in the 24px icon of the 32px box
+    const path = document.querySelector('.dnb-checkbox__gfx path')
+    expect(path).toHaveAttribute('d', 'M3.6 14.4L8.4 19.2L20.4 4.8')
+    expect(path).toHaveAttribute('stroke-width', '1.5')
+  })
+
   describe('controlled vs uncontrolled', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = useState(true)
