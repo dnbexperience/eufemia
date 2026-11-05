@@ -179,7 +179,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
         | MouseEvent<HTMLInputElement>
     ) => {
       const event = _event
-      if (ownPropsRef.current.readOnly) {
+      if (
+        ownPropsRef.current.readOnly ||
+        groupContextRef.current.readOnly
+      ) {
         return event.preventDefault()
       }
       const value = (event.target as HTMLInputElement).value
@@ -280,7 +283,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
 
   const onClickHandler = useCallback(
     (event: MouseEvent<HTMLInputElement>) => {
-      if (ownPropsRef.current.readOnly) {
+      if (
+        ownPropsRef.current.readOnly ||
+        groupContextRef.current.readOnly
+      ) {
         return event.preventDefault()
       }
 

@@ -83,6 +83,37 @@ describe('Radio group component', () => {
     expect(myEvent.mock.calls[0][0].value).toBe('second')
   })
 
+  it('should not change the value when read-only', async () => {
+    const onChange = vi.fn()
+    render(
+      <Radio.Group
+        label="Label"
+        value="first"
+        readOnly
+        onChange={onChange}
+      >
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" />
+      </Radio.Group>
+    )
+
+    const first = document.querySelector('input#radio-1')
+    const second =
+      document.querySelector<HTMLInputElement>('input#radio-2')
+
+    await userEvent.click(second)
+
+    second.focus()
+    await userEvent.keyboard('{ }')
+    await userEvent.keyboard('{Enter}')
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+    expect(first).toBeChecked()
+    expect(second).not.toBeChecked()
+    expect(first).toHaveAttribute('readonly')
+    expect(second).toHaveAttribute('readonly')
+  })
+
   it('will disable a single button within a group', () => {
     render(
       <Radio.Group>
@@ -330,6 +361,39 @@ describe('Radio ARIA', () => {
         },
       })
     ).toHaveNoViolations()
+  })
+
+  it('should set aria-readonly on the radiogroup when read-only', async () => {
+    const Comp = render(
+      <Radio.Group label="Label" value="first" readOnly>
+        <Radio label="Radio 1" value="first" />
+        <Radio label="Radio 2" value="second" />
+      </Radio.Group>
+    )
+
+    const radiogroup = document.querySelector('[role="radiogroup"]')
+    expect(radiogroup).toHaveAttribute('aria-readonly', 'true')
+    document.querySelectorAll('input').forEach((input) => {
+      expect(input).not.toHaveAttribute('aria-readonly')
+    })
+    expect(
+      await axeComponent(Comp, {
+        rules: {
+          // NVDA fix
+          // because of the role="radio", we have to allow this
+          'aria-allowed-role': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
+
+    Comp.rerender(
+      <Radio.Group label="Label" value="first" readOnly={false}>
+        <Radio label="Radio 1" value="first" />
+        <Radio label="Radio 2" value="second" />
+      </Radio.Group>
+    )
+
+    expect(radiogroup).not.toHaveAttribute('aria-readonly')
   })
 
   it('should validate with ARIA rules for Radio.Group without label', async () => {
