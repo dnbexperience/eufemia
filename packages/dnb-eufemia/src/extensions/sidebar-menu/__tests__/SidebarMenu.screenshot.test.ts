@@ -4,6 +4,19 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
+const scrollDeclarativeMenuIntoView = async () => {
+  document
+    .querySelector('[data-visual-test="sidebar-menu-declarative"]')
+    .scrollIntoView({ block: 'start', behavior: 'instant' })
+  window.scrollTo({
+    top: Math.floor(window.scrollY),
+    behavior: 'instant',
+  })
+  await new Promise<void>((resolve) =>
+    requestAnimationFrame(() => resolve())
+  )
+}
+
 // The declarative demo persists its open accordions, so these
 // snapshots are only reproducible while storage is reset per test.
 describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
@@ -95,23 +108,34 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
       style: { width: '24rem' },
-      executeBeforeSimulate: async () => {
-        document
-          .querySelector('[data-visual-test="sidebar-menu-declarative"]')
-          .scrollIntoView({ block: 'start', behavior: 'instant' })
-        window.scrollTo({
-          top: Math.floor(window.scrollY),
-          behavior: 'instant',
-        })
-        await new Promise<void>((resolve) =>
-          requestAnimationFrame(() => resolve())
-        )
-      },
+      executeBeforeSimulate: scrollDeclarativeMenuIntoView,
       simulate: [
         {
           action: 'click',
           selector:
             '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+        },
+        { keypress: 'ArrowDown' },
+      ],
+    })
+  })
+
+  it('matches a keyboard-focused section option under the mouse pointer', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      executeBeforeSimulate: scrollDeclarativeMenuIntoView,
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+        },
+        {
+          action: 'realhover',
+          // The list ignores keys until it is open and sets this attribute
+          selector:
+            'html[data-dnb-drawer-list-active] .dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
         },
         { keypress: 'ArrowDown' },
       ],
