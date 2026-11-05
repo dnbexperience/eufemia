@@ -274,6 +274,7 @@ for (const isolated of [false, true]) {
           <p id="paragraph-small" class="dnb-p dnb-t__responsive-on">Text <small>Small</small></p>
         </div>
         <h2 id="heading-small-outside" class="dnb-heading dnb-h--x-large dnb-t__responsive-on">Heading <small>Small</small></h2>
+        <h2 id="heading-small-fixed" class="dnb-heading dnb-h--x-large dnb-t__responsive-on">Heading <small class="dnb-t__responsive-off">Small</small></h2>
       </div>
     `)
     await expect(page.locator('#responsive')).toHaveCSS(
@@ -292,6 +293,10 @@ for (const isolated of [false, true]) {
     await expect(page.locator('#paragraph-small small')).toHaveCSS(
       'font-size',
       '14px'
+    )
+    await expect(page.locator('#heading-small-fixed small')).toHaveCSS(
+      'font-size',
+      '34px'
     )
   })
 }

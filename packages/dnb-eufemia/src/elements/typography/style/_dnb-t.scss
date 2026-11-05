@@ -91,10 +91,10 @@
     @include typography-mixins.responsiveOff();
   }
 
-  // <small> resets the size variables itself, so pass the responsive ones on
+  // <small> resets the size vars; :where() lets its own responsive class win
   &__responsive-on,
   .dnb-core-style &__responsive-on,
-  &__responsive-on > small {
+  :where(&__responsive-on) > small {
     @include typography-mixins.responsiveOn();
   }
 }
