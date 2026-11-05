@@ -428,19 +428,11 @@ export function AiPromptInputInline() {
   )
 }
 
-export function AiPromptInputCustomActions({
-  variant = 'default',
-}: {
-  variant?: 'default' | 'compact'
-}) {
+export function AiPromptInputCustomActions() {
   return (
     <ComponentBox
-      data-visual-test={
-        variant === 'compact'
-          ? 'ai-prompt-input-custom-compact'
-          : 'ai-prompt-input-custom'
-      }
-      scope={{ variant, add, microphone, close }}
+      data-visual-test="ai-prompt-input-custom"
+      scope={{ add, microphone, close }}
     >
       {() => {
         const CustomActions = () => {
@@ -448,7 +440,70 @@ export function AiPromptInputCustomActions({
           const [hasAttachment, setHasAttachment] = useState(false)
           return (
             <PromptInput
-              variant={variant}
+              icon={null}
+              value={value}
+              onChange={({ value }) => setValue(value)}
+              onSubmit={() => setValue('')}
+              startActions={
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  bounding
+                  icon={add}
+                  iconSize="default"
+                  aria-label="Add attachment"
+                  tooltip="Add attachment"
+                  disabled={hasAttachment}
+                  onClick={() => setHasAttachment(true)}
+                />
+              }
+              endActions={
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  bounding
+                  icon={microphone}
+                  iconSize="default"
+                  aria-label="Use microphone"
+                  tooltip="Use microphone"
+                  onClick={() => setValue('Show my latest transactions')}
+                />
+              }
+            >
+              {hasAttachment && (
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  bounding
+                  icon={close}
+                  iconSize="default"
+                  text="Budget.pdf"
+                  aria-label="Remove Budget.pdf"
+                  onClick={() => setHasAttachment(false)}
+                />
+              )}
+            </PromptInput>
+          )
+        }
+        return <CustomActions />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiPromptInputCustomActionsCompact() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-prompt-input-custom-compact"
+      scope={{ add, microphone, close }}
+    >
+      {() => {
+        const CustomActions = () => {
+          const [value, setValue] = useState('')
+          const [hasAttachment, setHasAttachment] = useState(false)
+          return (
+            <PromptInput
+              variant="compact"
               icon={null}
               value={value}
               onChange={({ value }) => setValue(value)}
@@ -565,20 +620,9 @@ export function AiPromptInputContext() {
   )
 }
 
-export function AiPromptInputBusy({
-  variant = 'compact',
-}: {
-  variant?: 'default' | 'compact'
-}) {
+export function AiPromptInputBusy() {
   return (
-    <ComponentBox
-      data-visual-test={
-        variant === 'compact'
-          ? 'ai-prompt-input-busy'
-          : 'ai-prompt-input-busy-default'
-      }
-      scope={{ variant }}
-    >
+    <ComponentBox data-visual-test="ai-prompt-input-busy">
       {() => {
         const Chat = () => {
           const [isBusy, setIsBusy] = useState(false)
@@ -593,7 +637,37 @@ export function AiPromptInputBusy({
 
           return (
             <PromptInput
-              variant={variant}
+              variant="compact"
+              isBusy={isBusy}
+              onSubmit={() => setIsBusy(true)}
+              onStop={() => setIsBusy(false)}
+            />
+          )
+        }
+
+        return <Chat />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiPromptInputBusyDefault() {
+  return (
+    <ComponentBox data-visual-test="ai-prompt-input-busy-default">
+      {() => {
+        const Chat = () => {
+          const [isBusy, setIsBusy] = useState(false)
+
+          useEffect(() => {
+            if (!isBusy) {
+              return // stop here
+            }
+            const timeout = setTimeout(() => setIsBusy(false), 4000)
+            return () => clearTimeout(timeout)
+          }, [isBusy])
+
+          return (
+            <PromptInput
               isBusy={isBusy}
               onSubmit={() => setIsBusy(true)}
               onStop={() => setIsBusy(false)}

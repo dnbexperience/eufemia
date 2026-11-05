@@ -103,7 +103,7 @@ export type UploadProps = {
   buttonText?: ReactNode
 
   /**
-   * Custom text for the button that shows the accepted file types and sizes in the `compact` variant. Overrides the default translation. Can be disabled using `false`.
+   * Custom text for the button that shows the accepted file types and sizes in the `compact` variant. Overrides the default translation. Use `false` to remove the button and the file limits.
    */
   fileLimitsButtonText?: ReactNode
   errorLargeFile?: ReactNode

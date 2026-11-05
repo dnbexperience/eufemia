@@ -72,7 +72,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fileLimitsButtonText: {
-    doc: 'Custom text for the button that shows the accepted file types and sizes in the `compact` variant. Overrides the default translation. Can be disabled using `false`.',
+    doc: 'Custom text for the button that shows the accepted file types and sizes in the `compact` variant. Overrides the default translation. Use `false` to remove the button and the file limits.',
     type: 'React.ReactNode',
     status: 'optional',
   },

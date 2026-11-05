@@ -5,6 +5,9 @@ import waitForApp from './shared/waitForApp'
 for (const path of [
   '/web/layout-and-typography/elements/heading/',
   '/web/layout-and-typography/elements/heading/demos/',
+  '/web/ai-tools-and-resources/ai/ai-skills/',
+  '/web/contribute/rules/',
+  '/web/forms/validation/',
 ]) {
   test(`heading levels only increase by one on ${path}`, async ({
     page,

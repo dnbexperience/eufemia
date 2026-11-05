@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process'
+import { appendFileSync } from 'node:fs'
 import path from 'node:path'
 import { log } from '../../lib'
 import {
@@ -7,6 +8,7 @@ import {
   NON_VISUAL_SOURCE_PATH_PREFIXES,
   PORTAL_DOCS_REPO_PREFIX,
   RUN_ALL_COMMIT_FLAG,
+  RUN_ALL_ENV_VAR,
 } from './config'
 import { createContext } from './context'
 import { loadScssDependencyMap } from './dependencyMaps'
@@ -31,6 +33,7 @@ import {
 type CliOptions = {
   shouldExplain: boolean
   isDryRun: boolean
+  isPlan: boolean
   changedFilesMode: ChangedFilesMode
 }
 
@@ -65,10 +68,26 @@ function shouldRunAllByBranch(): boolean {
   return branchName ? CI_ALWAYS_RUN_BRANCHES.includes(branchName) : false
 }
 
+export function shouldRunAllByEnvironment(
+  env: NodeJS.ProcessEnv = process.env
+): boolean {
+  return env[RUN_ALL_ENV_VAR] === 'true'
+}
+
+// Lets the CI workflow skip the portal build when no screenshot test can be affected
+export function writeSkipPlan(
+  outputFile: string | undefined = process.env.GITHUB_OUTPUT
+) {
+  if (outputFile) {
+    appendFileSync(outputFile, 'skip=true\n')
+  }
+}
+
 export function resolveCliOptions(argv: string[]): CliOptions {
   let changedFilesMode: ChangedFilesMode = 'auto'
   const shouldExplain = argv.includes('--explain')
-  const isDryRun = argv.includes('--dry-run') || shouldExplain
+  const isPlan = argv.includes('--plan')
+  const isDryRun = argv.includes('--dry-run') || shouldExplain || isPlan
 
   for (let i = 0; i < argv.length; i += 1) {
     const argument = argv[i]
@@ -103,6 +122,7 @@ export function resolveCliOptions(argv: string[]): CliOptions {
   return {
     shouldExplain,
     isDryRun,
+    isPlan,
     changedFilesMode,
   }
 }
@@ -237,21 +257,26 @@ function printGlobalImpactCauses(
 export async function runScreenshotsTests() {
   const context = createContext()
   const cliOptions = resolveCliOptions(process.argv.slice(2))
-  const { changedFilesMode, shouldExplain, isDryRun } = cliOptions
+  const { changedFilesMode, shouldExplain, isDryRun, isPlan } = cliOptions
 
   const commitMessage = await getLatestCommitMessage(context)
   const runAllFromCommit = shouldRunAll(commitMessage)
   const runAllFromBranch = shouldRunAllByBranch()
+  const runAllFromEnvironment = shouldRunAllByEnvironment()
+  const runAll =
+    runAllFromCommit || runAllFromBranch || runAllFromEnvironment
   const commandTokens = getBaseCommandTokens(
     context.packageJson,
     context.packageRoot,
-    runAllFromCommit || runAllFromBranch
+    runAll
   )
 
-  if (runAllFromCommit || runAllFromBranch) {
+  if (runAll) {
     const reason = runAllFromCommit
       ? `because ${RUN_ALL_COMMIT_FLAG} was found in the commit message`
-      : `because branch "${getCiBranchName()}" always runs all screenshot tests`
+      : runAllFromBranch
+        ? `because branch "${getCiBranchName()}" always runs all screenshot tests`
+        : `because CI could not list all changed files (${RUN_ALL_ENV_VAR})`
 
     log.info(
       logWithLabel(
@@ -273,6 +298,10 @@ export async function runScreenshotsTests() {
 
     if (shouldExplain) {
       printExplainOutput(changedFilesMode, [], [], {})
+    }
+
+    if (isPlan) {
+      writeSkipPlan()
     }
 
     return
@@ -351,6 +380,10 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
+    if (isPlan) {
+      writeSkipPlan()
+    }
+
     return
   }
 
@@ -374,19 +407,32 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
+    if (isPlan) {
+      writeSkipPlan()
+    }
+
+    return
+  }
+
+  // Stop before the dependency graphs, which the test run builds anyway
+  if (isPlan) {
+    log.info(
+      logWithLabel(
+        'Visual changes found. The test run selects the screenshot tests.'
+      )
+    )
     return
   }
 
   const hasScssSourceChanges = sourceChanges.some((filePath) => {
     return filePath.endsWith('.scss')
   })
-  const hasCodeSourceChanges = sourceChanges.some((filePath) => {
-    return !filePath.endsWith('.scss')
-  })
 
-  const dependencyMap = hasCodeSourceChanges
-    ? loadTsDependencyMap(context)
-    : new Map<string, string[]>()
+  // Style changes also need the code graph to find the components that render the styled one
+  const dependencyMap =
+    sourceChanges.length > 0
+      ? loadTsDependencyMap(context)
+      : new Map<string, string[]>()
   const scssDependencyMap = hasScssSourceChanges
     ? loadScssDependencyMap(context)
     : new Map<string, string[]>()

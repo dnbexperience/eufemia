@@ -17,6 +17,7 @@ export function verifyFiles(
     | 'errorLargeFile'
     | 'acceptedFileTypes'
     | 'fileMaxSize'
+    | 'locale'
   >
 ) {
   const {
@@ -24,6 +25,7 @@ export function verifyFiles(
     acceptedFileTypes,
     errorLargeFile,
     errorUnsupportedFile,
+    locale,
   } = context
 
   const getFileType = (
@@ -47,7 +49,7 @@ export function verifyFiles(
       ) {
         return String(errorLargeFile).replace(
           '%size',
-          formatNumber(maxFileSize).toString()
+          formatNumber(maxFileSize, { locale }).toString()
         )
       }
       return null

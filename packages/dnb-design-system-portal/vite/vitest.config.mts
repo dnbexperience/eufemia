@@ -14,19 +14,19 @@ export default defineConfig({
   resolve: {
     alias: {
       'portal-query': path.resolve(
-        __dirname,
+        import.meta.dirname,
         'client/shims/portal-query.tsx'
       ),
       'virtual:portal-data': path.resolve(
-        __dirname,
+        import.meta.dirname,
         '__tests__/mocks/virtual-portal-pages.ts'
       ),
       'virtual:portal-pages': path.resolve(
-        __dirname,
+        import.meta.dirname,
         '__tests__/mocks/virtual-portal-pages.ts'
       ),
       'virtual:build-info': path.resolve(
-        __dirname,
+        import.meta.dirname,
         '__tests__/mocks/virtual-build-info.ts'
       ),
     },

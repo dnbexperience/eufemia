@@ -114,11 +114,11 @@ export const runFactory = async (
           {
             plugins: [
               postcssIsolatePlugin({
-                verbose: true,
+                verbose: false,
               }),
               postcssFontUrlRewritePlugin({
                 ...getFontBasePaths(),
-                verbose: true,
+                verbose: false,
               }),
             ],
           }
