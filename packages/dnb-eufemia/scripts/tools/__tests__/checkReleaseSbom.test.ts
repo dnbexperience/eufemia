@@ -12,6 +12,7 @@ const now = Date.parse('2026-11-02T12:00:00Z')
 const time = {
   created: '2018-01-01T00:00:00Z',
   modified: '2026-11-02T10:00:00Z',
+  '10.104.3': '2026-11-02T09:00:00Z',
   '11.16.1': '2026-10-28T12:53:21Z',
   '11.17.0': '2026-11-02T10:00:00Z',
   '12.0.0-beta.1': '2026-11-01T10:00:00Z',
@@ -42,6 +43,23 @@ describe('checkReleases', () => {
     expect(getAssets).toHaveBeenCalledWith('11.17.0')
     expect(verify).toHaveBeenCalledTimes(1)
     expect(verify).toHaveBeenCalledWith('11.17.0')
+  })
+
+  it('skips 10.x versions, whose release workflow generates no SBOM', async () => {
+    const getAssets = vi.fn(allAssets)
+    const verify = vi.fn(async () => undefined)
+
+    const results = await checkReleases({
+      versions: ['10.104.3', '11.17.0'],
+      time,
+      now,
+      getAssets,
+      verify,
+    })
+
+    expect(results).toEqual([{ version: '11.17.0', problems: [] }])
+    expect(getAssets).toHaveBeenCalledTimes(1)
+    expect(verify).toHaveBeenCalledTimes(1)
   })
 
   it('reports a version without a GitHub release', async () => {
@@ -204,7 +222,7 @@ describe('gh and npm commands', () => {
 })
 
 describe('Release SBOM check workflow', () => {
-  it('also runs daily, for versions npm lists after the release run', () => {
+  it('also runs daily, at night when no release runs', () => {
     const workflow = load(
       readFileSync(
         path.resolve(
@@ -219,7 +237,7 @@ describe('Release SBOM check workflow', () => {
     }
 
     expect(workflow.on.schedule).toEqual([
-      { cron: expect.stringMatching(/^\d+ \d+ \* \* \*$/) },
+      { cron: expect.stringMatching(/^\d+ [0-3] \* \* \*$/) },
     ])
     expect(workflow.jobs.check.if).toContain(
       "github.event_name == 'schedule'"

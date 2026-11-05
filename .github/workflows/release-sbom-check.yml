@@ -10,7 +10,8 @@ on:
     workflows: ['Release']
     types: [completed]
   schedule:
-    - cron: '41 6 * * *'
+    # At night, when no release runs: a release in progress has no SBOM yet.
+    - cron: '41 2 * * *'
   workflow_dispatch:
 
 permissions:
