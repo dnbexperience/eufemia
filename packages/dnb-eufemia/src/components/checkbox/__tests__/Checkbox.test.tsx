@@ -573,6 +573,27 @@ describe('Checkbox component', () => {
     expect(onChange).toHaveBeenCalledTimes(0)
   })
 
+  it.each([
+    { checked: false, keyName: 'Enter', key: '{Enter}' },
+    { checked: true, keyName: 'Enter', key: '{Enter}' },
+    { checked: false, keyName: 'Space', key: ' ' },
+    { checked: true, keyName: 'Space', key: ' ' },
+  ])(
+    'should not toggle on $keyName when readOnly and checked is $checked',
+    async ({ checked, key }) => {
+      const onChange = vi.fn()
+      render(<Checkbox readOnly checked={checked} onChange={onChange} />)
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard(key)
+
+      // Enter has its own handler, so it must check readOnly too (#9754)
+      expect(input.checked).toBe(checked)
+      expect(onChange).toHaveBeenCalledTimes(0)
+    }
+  )
+
   it('should call onKeyUp given as a property', () => {
     const onKeyUp = vi.fn()
     render(<Checkbox onKeyUp={onKeyUp} />)

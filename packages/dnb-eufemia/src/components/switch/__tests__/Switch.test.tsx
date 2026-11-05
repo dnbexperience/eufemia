@@ -4,6 +4,7 @@
  */
 
 import { cleanup, fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
@@ -344,6 +345,28 @@ describe('Switch component', () => {
 
     expect(onChange).toHaveBeenCalledTimes(0)
   })
+
+  it.each([
+    { checked: false, keyName: 'Enter', key: '{Enter}' },
+    { checked: true, keyName: 'Enter', key: '{Enter}' },
+    { checked: false, keyName: 'Space', key: ' ' },
+    { checked: true, keyName: 'Space', key: ' ' },
+  ])(
+    'should not toggle on $keyName when readOnly and checked is $checked',
+    async ({ checked, key }) => {
+      const onChange = vi.fn()
+      render(<Switch readOnly checked={checked} onChange={onChange} />)
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard(key)
+
+      // Enter has its own handler, so it must check readOnly too (#9754)
+      expect(input.checked).toBe(checked)
+      expect(input).toHaveAttribute('aria-checked', String(checked))
+      expect(onChange).toHaveBeenCalledTimes(0)
+    }
+  )
 
   it('should call onKeyUp given as a property', () => {
     const onKeyUp = vi.fn()
