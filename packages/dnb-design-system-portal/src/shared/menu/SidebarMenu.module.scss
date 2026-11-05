@@ -67,8 +67,6 @@
 
 :global(
   html[data-dnb-modal-active]
-    [data-sidebar-menu-responsive-compact='true'][data-sidebar-menu-responsive-scope='portal-sidebar-menu'],
-  html[data-portal-tools-open]
     [data-sidebar-menu-responsive-compact='true'][data-sidebar-menu-responsive-scope='portal-sidebar-menu']
 ) {
   z-index: 2998;

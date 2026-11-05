@@ -3,7 +3,6 @@ import waitForApp from './shared/waitForApp'
 
 async function clearStorage(page: Page) {
   await page.evaluate(() => window.localStorage.clear())
-  await page.evaluate(() => window.sessionStorage.clear())
 }
 
 test.afterEach(async ({ page }) => {
@@ -135,28 +134,41 @@ test.describe('Settings', () => {
     )
   }
 
-  test('should keep the drawer open during a page refresh', async ({
-    page,
-  }) => {
-    await gotoAndWait(page)
+  for (const width of [390, 1280]) {
+    test(
+      'starts with settings closed after refresh at ' + width + 'px',
+      async ({ page }) => {
+        await page.setViewportSize({ width, height: 1000 })
+        await gotoAndWait(page)
+        const trigger = page.locator('button#portal-tools')
+        const drawer = page.getByRole('dialog', {
+          name: 'Settings',
+          exact: true,
+        })
+        await trigger.click()
+        await expect(drawer).toBeVisible()
+        await expect(drawer.locator('#change-theme')).toBeFocused()
 
-    const triggerButton = page.locator(
-      'button[id*="portal-tools"], [id="portal-tools"] button'
+        const downloads: string[] = []
+        page.on('request', (request) => {
+          if (/PortalToolsDrawer/.test(request.url())) {
+            downloads.push(request.url())
+          }
+        })
+        await page.reload()
+        await waitForApp(page)
+        await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+        await expect(trigger).not.toHaveAttribute('aria-busy', 'true')
+        await expect(drawer).toHaveCount(0)
+        expect(downloads).toEqual([])
+
+        await trigger.click()
+        await expect(drawer).toBeVisible()
+        await expect(drawer.locator('#change-theme')).toBeFocused()
+        await page.keyboard.press('Escape')
+        await expect(drawer).toBeHidden()
+        await expect(trigger).toBeFocused()
+      }
     )
-
-    await triggerButton.first().click()
-
-    const drawerContent = page.locator('.dnb-drawer__content')
-    await expect(drawerContent).toBeVisible()
-
-    await page.reload()
-    await waitForApp(page)
-
-    await expect(drawerContent).toBeVisible()
-    await expect(
-      page.evaluate(() => {
-        return window.sessionStorage.getItem('portal-tools-open')
-      })
-    ).resolves.toBe('true')
-  })
+  }
 })

@@ -22,8 +22,7 @@
   z-index: 3201;
 
   /* stylelint-disable-next-line */
-  html[data-dnb-modal-active] &,
-  html[data-portal-tools-open] & {
+  html[data-dnb-modal-active] & {
     /* When a modal/drawer is open, lower the header behind it */
     z-index: 2999;
   }
