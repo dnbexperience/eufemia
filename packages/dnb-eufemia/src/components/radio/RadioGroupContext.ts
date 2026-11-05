@@ -13,6 +13,7 @@ export type RadioGroupContextValue = {
   value?: string
   size?: RadioGroupSize
   disabled?: boolean
+  readOnly?: boolean
   labelPosition?: RadioGroupLabelPosition
   onChange?: (args: { value: string; event: SyntheticEvent }) => void
 }

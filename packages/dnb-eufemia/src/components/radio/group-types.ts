@@ -39,6 +39,7 @@ export type RadioGroupProps = {
   labelPosition?: RadioGroupLabelPosition
   title?: string
   disabled?: boolean
+  readOnly?: boolean
   skeleton?: SkeletonShow
   id?: string
   name?: string
