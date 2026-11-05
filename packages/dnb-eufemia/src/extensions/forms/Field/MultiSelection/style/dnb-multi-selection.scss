@@ -131,8 +131,10 @@
       }
     }
 
-    &--parent:not(&--selected) {
-      --item-background-color: var(--token-color-background-neutral-base);
+    &--parent {
+      --item-background-color: var(
+        --token-color-background-neutral-subtle
+      );
     }
 
     &--select-all {
