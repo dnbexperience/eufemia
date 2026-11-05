@@ -315,7 +315,7 @@ describe('portal-pages plugin', () => {
 
       expect(code).toBeDefined()
       expect(code).toContain('export const routes')
-      expect(code).toContain('export const allMdxNodes')
+      expect(code).toContain("from 'virtual:portal-data'")
       expect(code).toContain('import React')
       expect(code).toContain('redirect')
     }, 60_000)
@@ -711,7 +711,7 @@ describe('portal-pages plugin', () => {
       server.watcher.emit('unlink', path.join(tmpDir, 'old-name.mdx'))
       server.watcher.emit('add', path.join(tmpDir, 'new-name.mdx'))
 
-      expect(server.mocks.invalidateModule).toHaveBeenCalledTimes(2)
+      expect(server.mocks.invalidateModule).toHaveBeenCalledTimes(4)
       expect(server.mocks.send).toHaveBeenCalledTimes(2)
     })
   })

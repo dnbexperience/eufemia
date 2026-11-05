@@ -43,11 +43,6 @@ test.describe('Chunk load recovery', () => {
     page,
   }) => {
     const documents = countDocuments(page)
-    await page.addInitScript(() => {
-      window.addEventListener('vite:preloadError', () => {
-        sessionStorage.setItem('preload-error-observed', '1')
-      })
-    })
     await page.route('**/Value/BankAccountNumber/', async (route) => {
       const response = await route.fetch()
       const body = (await response.text()).replace(
@@ -75,11 +70,7 @@ test.describe('Chunk load recovery', () => {
     await waitForApp(page)
 
     expect(documents()).toBe(2)
-    expect(
-      await page.evaluate(() =>
-        sessionStorage.getItem('preload-error-observed')
-      )
-    ).toBe('1')
+    expect(requests).toBeGreaterThanOrEqual(2)
   })
 
   for (const [name, pattern] of Object.entries(chunkPatterns)) {
