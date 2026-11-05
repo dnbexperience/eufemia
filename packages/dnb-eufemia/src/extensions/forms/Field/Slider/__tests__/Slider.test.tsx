@@ -415,6 +415,16 @@ describe('Field.Slider', () => {
         getButtonHelper()
       )
     })
+
+    it('should use thumbTitle as accessible name when there is no label', () => {
+      const { getByRole } = render(
+        <Field.Slider thumbTitle="Thumb" value={50} />
+      )
+
+      expect(getByRole('slider', { name: 'Thumb' })).toBe(
+        getButtonHelper()
+      )
+    })
   })
 
   it('should call onKeyDown given in htmlAttributes', () => {
