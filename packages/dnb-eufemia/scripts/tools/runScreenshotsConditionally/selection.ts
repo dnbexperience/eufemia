@@ -3,6 +3,7 @@ import {
   DEFAULT_IMPACTED_THRESHOLD,
   GLOBAL_VISUAL_FILES,
   GLOBAL_VISUAL_PATH_PREFIXES,
+  GLOBAL_VISUAL_PORTAL_FILES,
   NON_VISUAL_SOURCE_FILES,
   NON_VISUAL_SOURCE_PATH_PREFIXES,
   PACKAGE_PREFIX,
@@ -41,6 +42,10 @@ export function isGlobalVisualImpact(
   repoRelativePath: string,
   packageRelativePath: string | null
 ): boolean {
+  if (GLOBAL_VISUAL_PORTAL_FILES.has(normalizePath(repoRelativePath))) {
+    return true
+  }
+
   if (!packageRelativePath) {
     return false
   }
@@ -62,6 +67,14 @@ export function getGlobalImpactCauses(
   changedRepoFiles.forEach((repoPath) => {
     const packagePath = toPackageRelativePath(repoPath)
     const normalizedRepoPath = normalizePath(repoPath)
+
+    if (GLOBAL_VISUAL_PORTAL_FILES.has(normalizedRepoPath)) {
+      causes.push({
+        filePath: normalizedRepoPath,
+        reason: 'Portal file around every demo changed',
+      })
+      return
+    }
 
     if (!packagePath) {
       return
