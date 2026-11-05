@@ -56,4 +56,28 @@ describe('Filter.Item', () => {
 
     expect(accordionHeader).toHaveAttribute('aria-expanded', 'true')
   })
+
+  it('shows a right chevron when closed and a down chevron when open', () => {
+    render(
+      <FilterRoot>
+        <FilterItem label="Category" filterKey="/category">
+          <p>Content</p>
+        </FilterItem>
+      </FilterRoot>
+    )
+
+    const accordionHeader = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const activeChevron = () =>
+      accordionHeader
+        .querySelector('.dnb-icon__state--active path')
+        .getAttribute('d')
+
+    expect(activeChevron()).toBe('m6 13 5-5-5-5')
+
+    fireEvent.click(accordionHeader)
+
+    expect(activeChevron()).toBe('m13 5.5-5 5-5-5')
+  })
 })
