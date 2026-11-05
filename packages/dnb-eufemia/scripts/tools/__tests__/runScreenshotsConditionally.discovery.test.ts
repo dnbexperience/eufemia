@@ -132,10 +132,75 @@ describe('runScreenshotsConditionally discovery', () => {
 
     expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
       'Badge',
-      'Form',
-      'Forms',
-      'Snapshot',
+      'Form.Snapshot',
     ])
+  })
+
+  it('names forms components with their namespace', () => {
+    const names = collectChangedEntityNames([
+      'src/extensions/forms/Field/String/String.tsx',
+      'src/extensions/forms/Value/Date/style/dnb-value-date.scss',
+      'src/extensions/forms/FieldBlock/FieldBlock.tsx',
+      'src/extensions/forms/hooks/useFieldProps.ts',
+    ])
+
+    expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
+      'Field.String',
+      'FieldBlock',
+      'Value.Date',
+    ])
+  })
+
+  it('uses the namespace for files that its components share', () => {
+    const names = collectChangedEntityNames([
+      'src/extensions/forms/Field/style/dnb-field.scss',
+      'src/extensions/forms/Wizard/hooks/useStep.ts',
+    ])
+
+    expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
+      'Field',
+      'Wizard',
+    ])
+  })
+
+  it('selects only the demos that use the changed forms component', () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-forms-'))
+    try {
+      const docsRoot = path.join(root, 'docs')
+      for (const [name, content] of [
+        [
+          'composition',
+          '<Field.Composition><Field.String /></Field.Composition>',
+        ],
+        ['number', '<Field.Number /> uses the same Field props'],
+      ]) {
+        fs.mkdirSync(path.join(docsRoot, 'web/forms', name), {
+          recursive: true,
+        })
+        fs.writeFileSync(
+          path.join(docsRoot, 'web/forms', name, 'Examples.tsx'),
+          content
+        )
+        fs.writeFileSync(
+          path.join(root, `${name}.screenshot.test.ts`),
+          `makeScreenshot({ url: '/web/forms/${name}/demos' })`
+        )
+      }
+      const context = {
+        packageRoot: root,
+        portalDocsRoot: docsRoot,
+      } as RunnerContext
+
+      expect(
+        findCompositionImpactedTests(
+          context,
+          ['src/extensions/forms/Field/String/String.tsx'],
+          ['composition.screenshot.test.ts', 'number.screenshot.test.ts']
+        )
+      ).toEqual(['composition.screenshot.test.ts'])
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
   })
 
   it('ignores non-src and technical folder segments', () => {
@@ -145,8 +210,6 @@ describe('runScreenshotsConditionally discovery', () => {
       'src/extensions/forms/__tests__/Form.test.tsx',
     ])
 
-    expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
-      'Forms',
-    ])
+    expect(Array.from(names)).toEqual([])
   })
 })

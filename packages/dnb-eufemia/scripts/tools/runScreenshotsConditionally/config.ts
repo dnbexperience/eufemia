@@ -60,6 +60,9 @@ export const IGNORED_ENTITY_SEGMENTS = new Set([
   'types',
 ])
 
+// Docs name forms components with their namespace (Field.String), so a bare Forms or Field would match every forms demo.
+export const NAMESPACED_ENTITY_PATH_PREFIX = 'src/extensions/forms/'
+
 // Avoids exploding SCSS reverse deps through the global aggregate entrypoint.
 export const SCSS_REVERSE_DEPENDENCY_EXCLUDED_SOURCES = new Set([
   'src/style/dnb-ui-components.scss',
