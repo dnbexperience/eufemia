@@ -2063,6 +2063,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   width: var(--radio-width--medium);
   height: var(--radio-height--medium);
 }
+.dnb-radio__shell:where(:not(.dnb-toggle-button *)) {
+  width: calc(var(--radio-width--medium) - 0.25rem);
+}
 .dnb-radio__button, .dnb-radio__dot {
   position: absolute;
   z-index: 4;
