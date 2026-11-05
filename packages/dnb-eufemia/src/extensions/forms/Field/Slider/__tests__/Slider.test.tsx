@@ -405,6 +405,16 @@ describe('Field.Slider', () => {
       expect(first.getAttribute('aria-labelledby')).toBe(label.id)
       expect(second.getAttribute('aria-labelledby')).toBe(label.id)
     })
+
+    it('should keep the label as accessible name when thumbTitle is set', () => {
+      const { getByRole } = render(
+        <Field.Slider label="Slider" thumbTitle="Thumb" value={50} />
+      )
+
+      expect(getByRole('slider', { name: 'Slider' })).toBe(
+        getButtonHelper()
+      )
+    })
   })
 
   it('should call onKeyDown given in htmlAttributes', () => {
