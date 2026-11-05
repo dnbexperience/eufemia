@@ -6,6 +6,24 @@
 
   @include utilities.allBelow(small) {
     width: min(38vw, 17.5rem);
+
+    :global(.dnb-input.dnb-autocomplete__input) {
+      :global(.dnb-input__icon) {
+        display: none;
+      }
+
+      :global(.dnb-input__input),
+      :global(.dnb-input__placeholder) {
+        padding-left: 0.5rem;
+      }
+
+      &[data-has-content='false'] {
+        :global(.dnb-input__input),
+        :global(.dnb-input__placeholder) {
+          padding-right: 0.5rem;
+        }
+      }
+    }
   }
 
   :global {

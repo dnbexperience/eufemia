@@ -200,7 +200,7 @@ test.describe('Route Focus', () => {
   test('should focus content when navigating to a route without hash', async ({
     page,
   }) => {
-    await page.goto('/web/components/')
+    await page.goto('/web/components/overview/')
     await waitForApp(page)
 
     await page

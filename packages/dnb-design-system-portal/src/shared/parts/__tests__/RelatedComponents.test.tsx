@@ -232,7 +232,7 @@ describe('RelatedComponents', () => {
     )
 
     expect(categoryLink).not.toBeNull()
-    expect(categoryLink?.textContent).toBe('Input')
+    expect(categoryLink?.textContent).toBe('Inputs')
   })
 
   it('shows a short reason derived from each description', () => {

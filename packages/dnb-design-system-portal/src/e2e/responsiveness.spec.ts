@@ -5,7 +5,7 @@ import isDev from './shared/isDev'
 test.describe('Responsiveness', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/web/components/')
+    await page.goto('/web/components/overview/')
 
     // Check if app is mounted
     await waitForApp(page)
@@ -32,7 +32,7 @@ test.describe('Responsiveness', () => {
       await components.click()
     }
     await drawer
-      .getByRole('link', { name: 'All components A–Z', exact: true })
+      .getByRole('link', { name: 'Components by category', exact: true })
       .click()
 
     // Check if app is mounted

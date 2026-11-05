@@ -27,18 +27,18 @@ test.describe('Page Lists', () => {
     test.describe.configure({ retries: 3 })
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('/web/components/')
+      await page.goto('/web/components/overview/')
 
       // Check if app is mounted
       await waitForApp(page)
     })
 
     test('should have correct title', async ({ page }) => {
-      await expect(page).toHaveTitle('Components | Eufemia')
+      await expect(page).toHaveTitle('Components by category | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('Components')
+      await expect(headingText).toBe('Components by category')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
@@ -49,29 +49,44 @@ test.describe('Page Lists', () => {
         page.locator('#tab-bar-content a[href="/web/components/overview"]')
       ).toHaveCount(0)
 
-      const listLength = await page
+      const menuPaths = await page
         .locator(
           '#portal-sidebar-menu [data-sidebar-menu-id="web-components"] a[href^="/web/components/"]'
         )
         .evaluateAll((links) => {
-          return new Set(
-            links
-              .map((link) => link.getAttribute('href'))
-              .filter(
-                (href) =>
-                  href &&
-                  href !== '/web/components/overview' &&
-                  href !== '/web/components/fragments' &&
-                  !href.startsWith('/web/components/fragments/')
-              )
-          ).size
+          return [
+            ...new Set(
+              links
+                .map((link) => link.getAttribute('href'))
+                .filter(
+                  (href) =>
+                    href &&
+                    href !== '/web/components/overview' &&
+                    href !== '/web/components/fragments' &&
+                    !href.startsWith('/web/components/fragments/')
+                )
+            ),
+          ].sort()
         })
 
-      await expect(
-        page.locator(
-          '#tab-bar-content h2:has(a[href*="/web/components/"]:not([aria-hidden])):not(:has(a[href="/web/components/overview"]))'
+      const overviewPaths = await page
+        .locator('#tab-bar-content a[href^="/web/components/"]')
+        .evaluateAll((links) =>
+          [
+            ...new Set(
+              links
+                .map((link) => link.getAttribute('href'))
+                .filter(
+                  (href) =>
+                    href &&
+                    href !== '/web/components/overview' &&
+                    href !== '/web/components/fragments' &&
+                    !href.startsWith('/web/components/fragments/')
+                )
+            ),
+          ].sort()
         )
-      ).toHaveCount(listLength)
+      expect(overviewPaths).toEqual(menuPaths)
     })
   })
 
@@ -120,11 +135,11 @@ test.describe('Page Lists', () => {
     })
 
     test('should have correct title', async ({ page }) => {
-      await expect(page).toHaveTitle('HTML Elements | Eufemia')
+      await expect(page).toHaveTitle('HTML elements | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('HTML Elements')
+      await expect(headingText).toBe('HTML elements')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 

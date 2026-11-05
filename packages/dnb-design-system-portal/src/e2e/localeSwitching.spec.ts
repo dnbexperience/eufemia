@@ -41,6 +41,11 @@ test.describe('Locale switching', () => {
     await page
       .locator('.dnb-drawer__content')
       .waitFor({ state: 'visible', timeout: 5000 })
+    await expect(
+      page
+        .getByRole('dialog', { name: 'Settings', exact: true })
+        .getByRole('button', { name: 'Close', exact: true })
+    ).toBeVisible()
 
     // Click the locale dropdown trigger using its label
     const dropdown = page.getByLabel('Change components language')

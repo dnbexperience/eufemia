@@ -544,39 +544,6 @@ describe('convertMdxToMd', () => {
     )
   })
 
-  it('replaces ListComponents with markdown sections from regex-matched docs', async () => {
-    const repoRoot = path.resolve(process.cwd(), '..', '..')
-    const docsRoot = path.join(
-      repoRoot,
-      'packages',
-      'dnb-design-system-portal',
-      'src',
-      'docs'
-    )
-    const docsBaseRoot = path.join(
-      repoRoot,
-      'packages',
-      'dnb-design-system-portal',
-      'src'
-    )
-    const inputPath = path.join(docsRoot, 'web', 'components.mdx')
-
-    const output = await convertMdxToMd({
-      inputPath,
-      docsRoot,
-      docsBaseRoot,
-      prettierConfig: {},
-      includeFrontmatter: false,
-      state: { mdxCache: new Map(), inProgress: new Set() },
-    })
-
-    expect(output).not.toContain('ListComponents')
-    expect(output).toContain('## [Accordion](/web/components/accordion/)')
-    expect(output).toContain(
-      'Use Accordion to let people open and close sections of related content.'
-    )
-  })
-
   it('replaces ListElements with markdown list items', async () => {
     const repoRoot = path.resolve(process.cwd(), '..', '..')
     const docsRoot = path.join(
@@ -605,7 +572,9 @@ describe('convertMdxToMd', () => {
 
     expect(output).not.toContain('ListElements')
     expect(output).toContain('- [Paragraph](/web/elements/paragraph/):')
-    expect(output).toContain('- [Span](/web/elements/span/):')
+    expect(output).toContain(
+      '- [Inline text (span)](/web/elements/span/):'
+    )
   })
 
   it('replaces re-exported examples referenced through a namespace import', async () => {
@@ -1330,7 +1299,7 @@ describe('convertMdxToMd', () => {
     const listedCount = (output.match(/^- \[/gm) || []).length
     expect(listedCount).toBe(6)
     expect(output).toContain(
-      '[See all in Content](/web/components/overview/#content)'
+      '[See all in Content and layout](/web/components/overview/#content)'
     )
     // Alpha–Foxtrot are shown; Golf and Hotel are beyond the cap.
     expect(output).toContain('- [Alpha](/web/components/alpha/)')
@@ -1408,7 +1377,7 @@ describe('convertMdxToMd', () => {
     })
 
     expect(output).toContain('## Actions')
-    expect(output).toContain('## Input')
+    expect(output).toContain('## Inputs')
     expect(output).toContain(
       '- [Button](/web/components/button/): Use Button to confirm an action.'
     )

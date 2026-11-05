@@ -89,7 +89,7 @@ function renderRelatedComponents(
   const lines = [
     '## Related components',
     '',
-    `${cleanComponentTitle(current.title)} is part of the ${categoryLink} category. Other components for similar needs:`,
+    `${cleanComponentTitle(current.title)} is part of the ${categoryLink} category. More components in this category:`,
     '',
   ]
 

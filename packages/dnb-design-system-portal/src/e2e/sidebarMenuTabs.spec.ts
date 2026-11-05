@@ -123,7 +123,7 @@ test('opens Components on the first click from the Layout page', async ({
 test.describe('Portal SidebarMenu', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/web/components')
+    await page.goto('/web/components/overview/')
     await waitForApp(page)
   })
 
@@ -147,6 +147,7 @@ test.describe('Portal SidebarMenu', () => {
     await menu
       .getByRole('button', { name: 'Design language', exact: true })
       .click()
+    const designLanguage = menu.locator('#design-language-content')
     for (const name of [
       'Design tokens',
       'Design principles',
@@ -159,7 +160,7 @@ test.describe('Portal SidebarMenu', () => {
       'Brand & logos',
     ]) {
       await expect(
-        menu.getByRole(
+        designLanguage.getByRole(
           ['Design tokens', 'Design principles'].includes(name)
             ? 'link'
             : 'button',
@@ -425,7 +426,7 @@ test.describe('Portal SidebarMenu', () => {
       exact: true,
     })
     await patterns.click()
-    await expect(page).toHaveURL(/\/web\/components\/?$/)
+    await expect(page).toHaveURL(/\/web\/components\/overview\/?$/)
     await expect(patterns).toHaveAttribute('aria-expanded', 'true')
     await expect(
       platform.getByRole('link', {

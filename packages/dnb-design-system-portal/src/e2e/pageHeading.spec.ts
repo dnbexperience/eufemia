@@ -21,8 +21,10 @@ for (const path of [
 }
 
 test.describe('Page Heading', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
   test.beforeEach(async ({ page }) => {
-    await page.goto('/web/components/')
+    await page.goto('/web/components/overview/')
 
     // Check if app is mounted
     await waitForApp(page)
@@ -64,19 +66,12 @@ test.describe('Page Heading', () => {
       '#tab-bar-content > p ~ *',
       (element) => element.tagName
     )
-    expect(secondElementTagName).toBe('H2')
+    expect(secondElementTagName).toBe('SECTION')
 
-    // App should re-render
-    await page
-      .locator('#portal-sidebar-menu .dnb-sidebar-menu__item__action')
-      .first()
-      .hover()
-    await expect(
-      page.locator('.dnb-sidebar-menu-responsive-inline__content')
-    ).toHaveCSS('clip-path', 'inset(0px)')
-    await page.click(
-      '#portal-sidebar-menu ul li a[href="/web/components/button"]'
-    )
+    const menu = page.getByRole('navigation', {
+      name: 'Platform Content Menu',
+    })
+    await menu.getByRole('link', { name: 'Button', exact: true }).click()
 
     // On tab pages, the h1 is in the tab bar, still before the content
     await page.waitForSelector('.dnb-tab-bar h1')
