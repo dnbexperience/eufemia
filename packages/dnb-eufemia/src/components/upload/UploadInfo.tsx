@@ -124,7 +124,7 @@ const UploadInfo = () => {
       {children}
 
       {displayList && (
-        <Dl bottom={0} layout="horizontal">
+        <Dl top="x-small" bottom={0} layout="horizontal">
           {displayAcceptedFileFormatsListItem && (
             <Dl.Item>
               <Dt>{fileTypeDescription}</Dt>

@@ -174,6 +174,14 @@ describe('Upload', () => {
     )
   })
 
+  it('puts 24px between the heading and the file limits', () => {
+    render(<Upload {...defaultProps} />)
+
+    expect(document.querySelector('.dnb-upload .dnb-dl')).toHaveClass(
+      'dnb-space__top--x-small'
+    )
+  })
+
   describe('Text', () => {
     it('renders the title', () => {
       render(<Upload {...defaultProps} />)
