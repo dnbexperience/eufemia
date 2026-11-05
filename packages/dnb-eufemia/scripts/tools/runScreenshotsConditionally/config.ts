@@ -24,6 +24,7 @@ export const GLOBAL_VISUAL_PORTAL_FILES = new Set([
   'packages/dnb-design-system-portal/src/shared/parts/PortalStyle.mixins.scss',
   'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.module.scss',
   'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.tsx',
+  'packages/dnb-design-system-portal/src/shared/tags/ComponentBox.tsx',
 ])
 
 // Source paths that should not influence visual screenshot selection.
