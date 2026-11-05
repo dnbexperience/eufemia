@@ -531,6 +531,17 @@ describe('Radio scss', () => {
     )
   })
 
+  it('starts the default circle at the edge, except in toggle buttons', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-radio__shell:where\(:not\(\.dnb-toggle-button \*\)\) \{\s*width: calc\(var\(--radio-width--medium\) - 0\.25rem\);\s*\}/
+    )
+    expect(css).toMatch(
+      /\.dnb-radio--large \.dnb-radio__shell \{\s*width: var\(--radio-width--large\);/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

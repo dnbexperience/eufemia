@@ -146,6 +146,11 @@
 
     width: var(--radio-width--medium);
     height: var(--radio-height--medium);
+
+    // The circle starts at the edge; ToggleButton places its own smaller circle
+    &:where(:not(.dnb-toggle-button *)) {
+      width: calc(var(--radio-width--medium) - 0.25rem);
+    }
   }
 
   &__button,
