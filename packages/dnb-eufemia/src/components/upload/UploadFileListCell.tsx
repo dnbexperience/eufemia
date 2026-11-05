@@ -28,6 +28,7 @@ import type { UploadFile, UploadFileNative } from './types'
 
 // Shared
 import { getClosestParent } from '../../shared/component-helper'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
@@ -106,10 +107,16 @@ const UploadFileListCell = ({
     removeLink,
   } = uploadFile
   const hasWarning = errorMessage != null
+  const { ref: deleteButtonPropsRef, ...restDeleteButtonProps } =
+    deleteButtonProps ?? {}
 
   const imageUrl = useObjectUrl(file)
   const cellRef = useRef<HTMLLIElement>(undefined)
   const deleteButtonRef = useRef<HTMLElement>(null)
+  const combinedDeleteButtonRef = useCombinedRef(
+    deleteButtonRef,
+    deleteButtonPropsRef
+  )
   const restoreFocusRef = useRef(false)
   const exists = useExistsHighlight(id, file)
   const isDuplicate = !allowDuplicates && exists
@@ -205,12 +212,12 @@ const UploadFileListCell = ({
     return (
       <div>
         <Button
-          ref={deleteButtonRef}
           icon={TrashIcon}
           variant="tertiary"
           iconPosition="left"
           disabled={isLoading}
-          {...deleteButtonProps}
+          {...restDeleteButtonProps}
+          ref={combinedDeleteButtonRef}
           onClick={onDeleteHandler}
         >
           {deleteButtonText}

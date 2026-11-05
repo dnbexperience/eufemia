@@ -1520,6 +1520,30 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
+    it('forwards the ref from deleteButtonProps to the delete button', () => {
+      const ref = createRef<HTMLElement>()
+      const id = 'random-id-delete-button-ref'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      act(() =>
+        result.current.setFiles([
+          {
+            file: createMockFile('fileName.png', 100, 'image/png'),
+            deleteButtonProps: { ref },
+          },
+        ])
+      )
+
+      expect(ref.current).toBe(
+        document.querySelector(
+          '.dnb-upload__file-cell .dnb-button--tertiary'
+        )
+      )
+    })
+
     it('shows the file description when provided', async () => {
       const myDescription = 'my description'
       const files = [
