@@ -1223,7 +1223,7 @@ sub {
   --typography-line-height-xx-large: var(--line-height-xx-large);
 }
 
-.dnb-t__responsive-on, .dnb-core-style .dnb-t__responsive-on {
+.dnb-t__responsive-on, .dnb-core-style .dnb-t__responsive-on, :where(.dnb-t__responsive-on) > small {
   --typography-font-size-x-small: var(--responsive-font-size-x-small);
   --typography-font-size-small: var(--responsive-font-size-small);
   --typography-font-size-basis: var(--responsive-font-size-basis);
