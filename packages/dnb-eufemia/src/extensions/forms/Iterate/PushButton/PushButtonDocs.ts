@@ -14,9 +14,9 @@ export const PushButtonProperties: PropertiesTableProps = {
   pushValue: {
     doc: 'The element to add to the array when the button is clicked. Can be a function that returns the push value.',
     type: 'unknown',
-    status: 'optional',
+    status: 'required',
   },
-  '[Button](/uilib/components/button/properties)': {
+  '[Button](/web/components/button/properties)': {
     doc: 'All button properties. A given `onClick` runs before the item is added, instead of replacing it. Return `false` from it to skip adding the item.',
     type: 'Various',
     status: 'optional',

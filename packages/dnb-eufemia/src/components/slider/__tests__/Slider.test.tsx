@@ -1000,6 +1000,29 @@ describe('Slider scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the track and markers in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-slider.scss'))
+
+    // No forced-color-adjust: none on the track and the marker. System
+    // colors are kept without it, and on the marker it would replace the
+    // system focus ring with the brand-colored box-shadow.
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__line \{\s*background-color: Highlight;\s*\}/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__line__after \{\s*background-color: Canvas;\s*outline: 1px solid CanvasText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__state--disabled \.dnb-slider__line \{\s*background-color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__state--disabled \.dnb-slider__line__after \{\s*background-color: Canvas;\s*outline-color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-slider__marker \{\s*background-color: CanvasText;\s*\}/
+    )
+  })
 })
 
 const getButtonHelper = (): HTMLInputElement => {

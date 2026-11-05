@@ -38,7 +38,7 @@ function Log({
           <b>{label}</b>
         </FormLabel>
       )}
-      <pre>
+      <pre style={{ whiteSpace: 'pre-wrap' }}>
         {placeholder && Object.keys((logData ?? data) || {}).length === 0
           ? placeholder
           : JSON.stringify(

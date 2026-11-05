@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const IconProperties: PropertiesTableProps = {
   icon: {
-    doc: 'A React SVG component or an icon name. Names load from the asset CDN. Set `iconBaseUrl` on [Provider](/uilib/usage/customisation/provider) to use self-hosted SVGs. IconPrimary uses bundled primary icons before falling back to the CDN.',
+    doc: 'A React SVG component or an icon name. Names load from the asset CDN. Set `iconBaseUrl` on [Provider](/web/styling-and-themes/configuration/provider) to use self-hosted SVGs. IconPrimary uses bundled primary icons before falling back to the CDN.',
     type: ['React.ReactNode', 'string'],
     status: 'optional',
   },
@@ -42,7 +42,7 @@ export const IconProperties: PropertiesTableProps = {
     status: 'optional',
   },
   color: {
-    doc: 'The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.',
+    doc: 'The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/web/styling-and-themes/legacy-colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.',
     type: 'Various',
     status: 'optional',
   },
@@ -76,7 +76,7 @@ export const IconProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

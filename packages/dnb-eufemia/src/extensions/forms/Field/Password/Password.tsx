@@ -10,7 +10,10 @@ import type { InputProps } from '../../../../components/Input'
 import { SubmitButton } from '../../../../components/Input'
 import Icon from '../../../../components/icon/Icon'
 import IconPrimary from '../../../../components/icon-primary/IconPrimary'
-import { view, hide, view_medium, hide_medium } from '../../../../icons'
+import view from '../../../../icons/view'
+import hide from '../../../../icons/hide'
+import view_medium from '../../../../icons/view_medium'
+import hide_medium from '../../../../icons/hide_medium'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -34,7 +37,7 @@ export type PasswordProps = Omit<StringFieldProps, 'ref'> & {
    */
   onHidePassword?: (event: PasswordVisibilityEvent) => void
   /**
-   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).
    */
   size?: InputProps['size']
   /**

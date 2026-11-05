@@ -21,11 +21,19 @@ import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { MDXProvider } from '@mdx-js/react'
-import { routes, allMdxNodes } from 'virtual:portal-pages'
+import { routes } from 'virtual:portal-pages'
 import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
 import BranchBanner from '../../src/shared/menu/BranchBanner'
+import {
+  PortalTocData,
+  type PortalTocSnapshot,
+} from '../../src/shared/parts/PortalTocData'
+import { getPreHydrationScript as getSidebarMenuScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
+import { getPreHydrationScript as getTableOfContentScript } from '@dnb/eufemia/src/extensions/table-of-content/TableOfContentPreHydrationScript'
+import { readRenderedToc } from './portal-toc'
+import PortalToc from '../../src/shared/parts/PortalToc'
 
 // Cached resolved routes and static handler — populated by prepareRoutes()
 let resolvedRouteConfig: ReturnType<typeof buildRouteConfig> | null = null
@@ -34,6 +42,7 @@ let cachedHandler: ReturnType<typeof createStaticHandler> | null = null
 function buildRouteConfig(resolvedRoutes: typeof routes) {
   return [
     {
+      id: 'portal-root',
       path: '/',
       Component: RootLayout,
       children: resolvedRoutes,
@@ -90,15 +99,32 @@ export async function render(url: string) {
 
   const router = createStaticRouter(resolvedRouteConfig, context)
 
-  // Create a fresh Emotion cache for this render to ensure clean
-  // style extraction per page.
-  const emotionCache = createEmotionCache({ key: 'css' })
-
+  const cache = createEmotionCache({ key: 'css' })
   let appHtml = renderToString(
-    <CacheProvider value={emotionCache}>
+    <CacheProvider value={cache}>
       <StaticRouterProvider router={router} context={context} />
     </CacheProvider>
   )
+  const placeholder =
+    /<template data-portal-toc-depth="(\d+)"><\/template>/
+  const match = appHtml.match(placeholder)
+  if (match) {
+    const pathname = new URL(fetchRequest.url).pathname
+    const toc: PortalTocSnapshot = {
+      pathname,
+      headings: readRenderedToc(appHtml),
+    }
+    const tocHtml = renderToString(
+      <CacheProvider value={cache}>
+        <Provider locale={getLang()} translations={translations}>
+          <PortalTocData value={toc}>
+            <PortalToc pathname={pathname} maxDepth={Number(match[1])} />
+          </PortalTocData>
+        </Provider>
+      </CacheProvider>
+    )
+    appHtml = appHtml.replace(placeholder, () => tocHtml)
+  }
 
   // Extract Emotion <style> tags from the rendered HTML and collect
   // them for injection into <head>. Emotion 11 SSR inlines <style>
@@ -190,11 +216,13 @@ class SSRErrorBoundary extends Component<
  * Export the list of all routes so the prerender script knows
  * which URLs to generate.
  */
-export { routes, allMdxNodes }
+export { routes, allMdxNodes, routeModules } from 'virtual:portal-pages'
 
 /**
  * Re-export FOUC prevention script for the prerender pipeline.
  */
 export { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 
-export { getPreHydrationScript as getSidebarMenuScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
+export function getNavigationScript() {
+  return getSidebarMenuScript() + ';' + getTableOfContentScript()
+}

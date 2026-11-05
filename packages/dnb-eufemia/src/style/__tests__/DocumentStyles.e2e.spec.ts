@@ -112,6 +112,113 @@ test.describe('Document and print styles', () => {
     })
   }
 
+  for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+    for (const isolated of [false, true]) {
+      test(`prints ${brand} dark content on plain paper by default and restores screen colors (isolated: ${isolated})`, async () => {
+        const css = await withIsolation(
+          [
+            coreCss,
+            compile(`themes/${brand}/${brand}-theme-basis.scss`),
+            ...(brand === 'carnegie'
+              ? []
+              : [
+                  compile(`themes/${brand}/${brand}-theme-dark-mode.scss`),
+                ]),
+            compile('../components/anchor/style/dnb-anchor.scss'),
+            `.paper { color: white; background: #123; } .paper::before { content: 'Note'; color: white; background: red; }`,
+            printCss,
+          ].join('\n'),
+          isolated
+        )
+        await page.setContent(`<style>${css}</style>
+          <div class="${isolated ? 'test-scope' : ''}">
+            <div class="eufemia-theme__color-scheme--dark">
+              <section class="dnb-print paper">
+                <p id="paper-text" style="color: white; background: red">Printed content</p>
+                <a id="paper-link" class="dnb-anchor" href="https://example.com">Read more</a>
+                <div id="paper-field" class="dnb-input__shell eufemia-theme__color-scheme--dark">
+                  <input id="paper-value" value="123" style="color: white; background: #123" />
+                </div>
+                <p id="paper-only" class="dnb-print-only">Print only</p>
+                <p id="screen-only" class="dnb-print-hidden">Screen only</p>
+              </section>
+              <p id="outside-plain" style="color: white; background: #123">Outside</p>
+            </div>
+          </div>`)
+        const screen = await styles('#paper-text')
+        expect((await styles('#paper-only')).display).toBe('none')
+        await page.emulateMedia({ media: 'print' })
+        expect(
+          await page
+            .locator('.paper')
+            .evaluate(
+              (element) => getComputedStyle(element).backgroundColor
+            )
+        ).toBe('rgb(255, 255, 255)')
+        for (const selector of [
+          '#paper-text',
+          '#paper-link',
+          '#paper-value',
+        ]) {
+          const colors = await page
+            .locator(selector)
+            .evaluate((element) => {
+              const style = getComputedStyle(element)
+              return {
+                color: style.color,
+                borderColor: style.borderColor,
+                background: style.backgroundColor,
+                image: style.backgroundImage,
+              }
+            })
+          expect(colors).toEqual({
+            color: 'rgb(0, 0, 0)',
+            borderColor: 'rgb(0, 0, 0)',
+            background: 'rgba(0, 0, 0, 0)',
+            image: 'none',
+          })
+        }
+        expect((await styles('#outside-plain')).color).toBe(
+          'rgb(255, 255, 255)'
+        )
+        expect((await styles('#paper-only')).display).not.toBe('none')
+        expect((await styles('#screen-only')).display).toBe('none')
+        await expect(page.locator('.paper')).toHaveCSS(
+          'border-color',
+          'rgb(0, 0, 0)'
+        )
+        await expect(page.locator('#paper-field')).toHaveCSS(
+          'outline-color',
+          'rgb(0, 0, 0)'
+        )
+        expect(
+          await page
+            .locator('#paper-value')
+            .evaluate((element) => getComputedStyle(element).colorScheme)
+        ).toBe('light')
+        expect(
+          await page.locator('.paper').evaluate((element) => ({
+            color: getComputedStyle(element, '::before').color,
+            borderColor: getComputedStyle(element, '::before').borderColor,
+            background: getComputedStyle(element, '::before')
+              .backgroundColor,
+          }))
+        ).toEqual({
+          color: 'rgb(0, 0, 0)',
+          borderColor: 'rgb(0, 0, 0)',
+          background: 'rgba(0, 0, 0, 0)',
+        })
+        await page.locator('.paper').evaluate((element) => {
+          element.classList.add('dnb-print--plain')
+        })
+        expect((await styles('#paper-text')).color).toBe('rgb(0, 0, 0)')
+        await page.emulateMedia({ media: 'screen' })
+        expect(await styles('#paper-text')).toEqual(screen)
+        expect((await styles('#paper-only')).display).toBe('none')
+      })
+    }
+  }
+
   for (const isolated of [false, true]) {
     test(`supports an independent print scope without document styles (isolated: ${isolated})`, async () => {
       const css = await withIsolation(
@@ -144,7 +251,10 @@ test.describe('Document and print styles', () => {
       expect((await styles('#print-heading')).breakAfter).toBe('auto')
       expect((await styles('#print-hidden')).display).toBe('block')
       await page.emulateMedia({ media: 'print' })
-      expect(await styles('#print-text')).toEqual(text)
+      expect(await styles('#print-text')).toEqual({
+        ...text,
+        color: 'rgb(0, 0, 0)',
+      })
       expect((await styles('#print-heading')).breakAfter).toBe('avoid')
       expect((await styles('#print-row')).breakInside).toBe('avoid')
       expect((await styles('#keep-together')).breakInside).toBe('avoid')
@@ -260,11 +370,11 @@ test.describe('Document and print styles', () => {
     expect((await styles('#hidden')).display).toBe('none')
     expect((await styles('#heading')).breakAfter).toBe('avoid')
     expect((await styles('#signature')).breakInside).toBe('avoid')
-    expect((await styles('#component')).color).toBe('rgb(51, 51, 51)')
+    expect((await styles('#component')).color).toBe('rgb(0, 0, 0)')
     expect((await styles('#outside')).fontSize).toBe(18)
   })
 
-  test('preserves the template wrapper layout when print styles load last', async () => {
+  test('preserves the template wrapper layout and removes shadows when printing', async () => {
     await render()
     await page
       .locator('.dnb-document')
@@ -285,17 +395,27 @@ test.describe('Document and print styles', () => {
     })
     expect(layout.maxWidth).toBe('300px')
     expect(layout.overflow).toBe('hidden')
-    expect(layout.shadow).not.toBe('none')
+    expect(layout.shadow).toBe('none')
   })
 
   for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
-    test(`preserves the ${brand} light brand palette in print`, async () => {
+    test(`prints the ${brand} document in pure black and restores its screen palette`, async () => {
       await render(brand)
       const body = await styles('#component')
       const link = await styles('#link')
       await page.emulateMedia({ media: 'print' })
-      expect((await styles('#component')).color).toBe(body.color)
-      expect((await styles('#link')).color).toBe(link.color)
+      for (const selector of [
+        '#plain',
+        '#component',
+        '#link',
+        '#heading',
+        '#cell',
+      ]) {
+        expect((await styles(selector)).color).toBe('rgb(0, 0, 0)')
+      }
+      await page.emulateMedia({ media: 'screen' })
+      expect(await styles('#component')).toEqual(body)
+      await expect.poll(() => styles('#link')).toEqual(link)
     })
   }
 
@@ -428,7 +548,7 @@ test.describe('Document and print styles', () => {
   }
 
   test('separates the import table and keeps code examples close to their introduction', async () => {
-    await page.goto('/uilib/usage/customisation/styling/document-styles/')
+    await page.goto('/web/styling-and-themes/css/document-styles/')
     await expect(
       page.getByText(/^SCSS imports are also available/)
     ).toBeVisible()
@@ -440,7 +560,9 @@ test.describe('Document and print styles', () => {
         const scss = paragraphs.find((element) =>
           element.textContent.startsWith('SCSS imports')
         )
-        const table = root.querySelector('.dnb-table__scroll-view')
+        const table = scss.previousElementSibling.querySelector(
+          '.dnb-table__scroll-view'
+        )
         const intro = paragraphs.find((element) =>
           element.textContent.startsWith('Import dnb-ui-print')
         )
@@ -464,9 +586,7 @@ test.describe('Document and print styles', () => {
   })
 
   test('uses Eufemia preview controls and leaves space above the title', async () => {
-    await page.goto(
-      '/uilib/usage/customisation/styling/document-styles/preview/'
-    )
+    await page.goto('/web/styling-and-themes/css/document-styles/preview/')
     await expect(
       page.locator('[data-document-preview] .dnb-dropdown')
     ).toBeVisible()
@@ -541,7 +661,11 @@ test.describe('Document and print styles', () => {
         )
       }, colorScheme)
       await page.goto(
-        '/uilib/usage/customisation/styling/document-styles/preview/'
+        '/web/styling-and-themes/css/document-styles/preview/'
+      )
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-portal-ready',
+        'true'
       )
       await expect(
         page.getByRole('heading', {

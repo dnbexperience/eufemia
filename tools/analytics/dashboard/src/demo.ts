@@ -5,12 +5,12 @@ import type { DashboardPayload } from './data'
 // configured (see App.tsx), so it never reaches the production bundle.
 
 const pages = [
-  '/uilib/components/button',
-  '/uilib/components/input',
-  '/uilib/components/dropdown',
-  '/uilib/components/table',
+  '/web/components/button',
+  '/web/components/input',
+  '/web/components/dropdown',
+  '/web/components/table',
   '/uilib/patterns/forms',
-  '/uilib/getting-started',
+  '/web/get-started/quick-start',
 ]
 
 // About four months of daily totals ending today, with a weekly rhythm.
@@ -77,16 +77,36 @@ export const demoPayload: DashboardPayload = {
         { name: 'card', count: 6 },
       ],
       perPath: [
-        { name: '/uilib/components/button', count: 20 },
-        { name: '/uilib/components/input', count: 16 },
-        { name: '/uilib/components/dropdown', count: 12 },
+        { name: '/web/components/button', count: 20 },
+        { name: '/web/components/input', count: 16 },
+        { name: '/web/components/dropdown', count: 12 },
         { name: '/uilib/patterns/forms', count: 7 },
-        { name: '/uilib/getting-started', count: 4 },
+        { name: '/web/get-started/quick-start', count: 4 },
       ],
       missedLookups: 7,
       perLikelyComponent: [
         { name: 'date-picker', count: 4 },
         { name: 'input-masked', count: 1 },
+      ],
+      perVersion: [
+        {
+          name: '11.17.0',
+          count: 52,
+          componentLookups: 30,
+          missedLookups: 2,
+        },
+        {
+          name: '11.16.0',
+          count: 30,
+          componentLookups: 21,
+          missedLookups: 5,
+        },
+        {
+          name: '11.15.2',
+          count: 12,
+          componentLookups: null,
+          missedLookups: null,
+        },
       ],
     },
     local: {
@@ -105,14 +125,29 @@ export const demoPayload: DashboardPayload = {
         { name: 'date-picker', count: 3 },
       ],
       perPath: [
-        { name: '/uilib/components/', count: 22 },
-        { name: '/uilib/extensions/', count: 8 },
-        { name: '/uilib/usage/', count: 4 },
+        { name: '/web/components/overview/', count: 22 },
+        { name: '/web/patterns-and-extensions/extensions/', count: 8 },
+        { name: '/web/get-started/quick-start/', count: 4 },
       ],
       perVersion: [
-        { name: '10.79.0', count: 20 },
-        { name: '10.78.1', count: 10 },
-        { name: '10.77.0', count: 4 },
+        {
+          name: '11.16.0',
+          count: 20,
+          componentLookups: 9,
+          missedLookups: 1,
+        },
+        {
+          name: '11.15.2',
+          count: 10,
+          componentLookups: null,
+          missedLookups: null,
+        },
+        {
+          name: '11.15.1',
+          count: 4,
+          componentLookups: null,
+          missedLookups: null,
+        },
       ],
     },
   },

@@ -17,7 +17,13 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ImgProps = SpacingProps &
   HTMLProps<HTMLImageElement> & {
+    /**
+     * The URL of the image.
+     */
     src: string
+    /**
+     * Text alternative for the image, read by screen readers. Use an empty string (`alt=""`) for decorative images.
+     */
     alt: string
     skeleton?: SkeletonShow
     /**

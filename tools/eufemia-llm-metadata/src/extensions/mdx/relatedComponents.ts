@@ -80,7 +80,8 @@ function renderRelatedComponents(
   }
 
   const categoryTitle = getComponentCategoryTitle(current.category)
-  const overviewAnchor = `/uilib/components/overview/#${current.category}`
+  const prefix = current.slug.split('/').filter(Boolean)[0]
+  const overviewAnchor = `/${prefix}/components/overview/#${current.category}`
   const categoryLink = `[${escapeMarkdownLinkText(categoryTitle)}](${escapeMarkdownLinkUrl(overviewAnchor)})`
   const visible = related.slice(0, MAX_VISIBLE_RELATED)
   const hasMore = related.length > visible.length
@@ -88,7 +89,7 @@ function renderRelatedComponents(
   const lines = [
     '## Related components',
     '',
-    `${cleanComponentTitle(current.title)} is part of the ${categoryLink} category. Other components for similar needs:`,
+    `${cleanComponentTitle(current.title)} is part of the ${categoryLink} category. More components in this category:`,
     '',
   ]
 

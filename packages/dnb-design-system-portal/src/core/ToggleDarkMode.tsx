@@ -1,13 +1,10 @@
-import { useState } from 'react'
-import { getTheme, setTheme } from '../../vite/client/shims/theme-handler'
+import { useThemeHandler } from '../../vite/client/shims/theme-handler'
 import type { ThemeColorScheme } from '@dnb/eufemia/src/shared/Theme'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export default function ToggleDarkMode(props) {
   const { disabled, ...rest } = props
-  const [colorScheme, updateColorScheme] = useState(
-    () => getTheme().colorScheme || 'auto'
-  )
+  const { colorScheme = 'auto', setTheme } = useThemeHandler()
 
   return (
     <Field.Selection
@@ -22,7 +19,6 @@ export default function ToggleDarkMode(props) {
       ]}
       onChange={(value: string) => {
         setTheme({ colorScheme: value as ThemeColorScheme })
-        updateColorScheme(value as ThemeColorScheme)
       }}
       {...rest}
     />

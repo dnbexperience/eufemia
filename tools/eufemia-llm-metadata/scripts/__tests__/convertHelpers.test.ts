@@ -2,6 +2,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import { vi } from 'vitest'
+import matter from '@11ty/gray-matter'
 
 vi.mock('prettier', () => ({
   format: async (code: string) => code,
@@ -14,6 +15,7 @@ import {
   extractTitleFromMdx,
   formatUnhandledStandaloneMdxWarnings,
   findUnhandledStandaloneMdxComponents,
+  findSourceInfo,
   loadTsDocsForDocPath,
   recordUnhandledStandaloneMdxWarning,
   resetUnhandledStandaloneMdxWarnings,
@@ -22,8 +24,85 @@ import {
 } from '../../src/convertHelpers.ts'
 
 describe('convertMdxToMd', () => {
+  it('keeps only top-level title and description in generated YAML', async () => {
+    const root = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'mdx-navigation-yaml-')
+    )
+    try {
+      const inputPath = path.join(root, 'button.mdx')
+      fs.writeFileSync(
+        inputPath,
+        [
+          '---',
+          'title: Button',
+          'description: Use Button for actions.',
+          'navigation:',
+          '  title: Actions',
+          '  description: Menu description',
+          'tabs:',
+          '  - title: Info',
+          '    key: /info',
+          '---',
+          '',
+          'Button documentation.',
+        ].join('\n')
+      )
+      const output = await convertMdxToMd({
+        inputPath,
+        docsRoot: root,
+        docsBaseRoot: root,
+        prettierConfig: {},
+        includeFrontmatter: true,
+        state: { mdxCache: new Map(), inProgress: new Set() },
+      })
+      expect(matter(output).data).toEqual({
+        title: 'Button',
+        description: 'Use Button for actions.',
+      })
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
   beforeEach(() => {
     resetUnhandledStandaloneMdxWarnings()
+  })
+
+  it('includes the experimental notice once when composing AI documentation', async () => {
+    const root = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'ai-experimental-md-')
+    )
+    const docsRoot = path.join(root, 'docs')
+    const directory = path.join(docsRoot, 'web/patterns-and-extensions/ai/Message')
+    fs.mkdirSync(directory, { recursive: true })
+    const inputPath = path.join(directory, '../Message.mdx')
+    fs.writeFileSync(
+      inputPath,
+      "---\ntitle: Ai.Message\n---\n\nimport Info from './Message/info'\n\n<Info />"
+    )
+    fs.writeFileSync(
+      path.join(directory, 'info.mdx'),
+      '## Description\n\nMessage details.'
+    )
+    try {
+      const output = await convertMdxToMd({
+        inputPath,
+        docsRoot,
+        docsBaseRoot: docsRoot,
+        prettierConfig: {},
+        includeFrontmatter: true,
+        state: { mdxCache: new Map(), inProgress: new Set() },
+      })
+      expect(output.match(/\*\*Experimental:\*\*/g)).toHaveLength(1)
+      expect(output).toContain(
+        'The AI extension and its component APIs may change in the future.'
+      )
+      expect(output.indexOf('**Experimental:**')).toBeLessThan(
+        output.indexOf('## Description')
+      )
+      expect(output).toContain('Message details.')
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
   })
 
   it('finds unhandled standalone MDX components outside code fences', () => {
@@ -51,7 +130,7 @@ describe('convertMdxToMd', () => {
 
   it('groups repeated unhandled standalone MDX warnings into one summary', () => {
     recordUnhandledStandaloneMdxWarning({
-      inputPath: '/repo/docs/uilib/layout/flex/item.mdx',
+      inputPath: '/repo/docs/web/layout/flex/item.mdx',
       docsRoot: '/repo/docs',
       components: [
         'Examples.UnsupportedAdvanced',
@@ -59,7 +138,7 @@ describe('convertMdxToMd', () => {
       ],
     })
     recordUnhandledStandaloneMdxWarning({
-      inputPath: '/repo/docs/uilib/layout/flex/item/demos.mdx',
+      inputPath: '/repo/docs/web/layout/flex/item/demos.mdx',
       docsRoot: '/repo/docs',
       components: [
         'Examples.UnsupportedBasic',
@@ -71,15 +150,15 @@ describe('convertMdxToMd', () => {
       [
         '[llm-metadata] warnings: unhandled standalone MDX components in 2 files',
         '- Examples.UnsupportedAdvanced, Examples.UnsupportedBasic',
-        '  uilib/layout/flex/item.mdx',
-        '  uilib/layout/flex/item/demos.mdx',
+        '  web/layout/flex/item.mdx',
+        '  web/layout/flex/item/demos.mdx',
       ].join('\n')
     )
   })
 
-  it('only loads ts docs for uilib doc paths', async () => {
+  it('loads TypeScript docs for canonical and legacy web paths only', async () => {
     const nonUilibTsDocs = await loadTsDocsForDocPath(
-      'quickguide-designer/tools.mdx'
+      'web/get-started/design-for-web/tools.mdx'
     )
 
     expect(nonUilibTsDocs).toEqual({
@@ -90,19 +169,43 @@ describe('convertMdxToMd', () => {
     })
 
     const uilibTsDocs = await loadTsDocsForDocPath(
-      path.join('uilib', 'components', 'breadcrumb.mdx')
+      path.join('web', 'components', 'breadcrumb.mdx')
     )
 
     expect(uilibTsDocs.tsDocsDir).not.toBeNull()
     expect(Object.keys(uilibTsDocs.props)).toContain('data')
+    expect(
+      (
+        await loadTsDocsForDocPath(
+          path.join('uilib', 'components', 'breadcrumb.mdx')
+        )
+      ).props
+    ).toEqual(uilibTsDocs.props)
+  })
+
+  it.each([
+    ['forms/Form/Handler.mdx', 'extensions/forms/Form/Handler.mdx'],
+    [
+      'patterns-and-extensions/sidebar-menu.mdx',
+      'extensions/sidebar-menu.mdx',
+    ],
+    [
+      'layout-and-typography/elements/paragraph.mdx',
+      'elements/paragraph.mdx',
+    ],
+  ])('keeps API metadata after moving %s', async (moved, original) => {
+    const expected = await loadTsDocsForDocPath(path.join('web', original))
+    const actual = await loadTsDocsForDocPath(path.join('web', moved))
+    expect(expected.tsDocsDir).not.toBeNull()
+    expect(actual).toEqual(expected)
   })
 
   it('normalizes repeated slashes in slug bases and public url bases', () => {
     expect(
-      toSlugAndDir('guides/getting-started.mdx', '////uilib////')
+      toSlugAndDir('guides/getting-started.mdx', '////web////')
     ).toEqual({
-      slug: '/uilib/guides/getting-started/',
-      dirForExtras: 'uilib/guides/getting-started/',
+      slug: '/web/guides/getting-started/',
+      dirForExtras: 'web/guides/getting-started/',
     })
 
     expect(toSlugAndDir('icons.mdx', '////')).toEqual({
@@ -110,9 +213,9 @@ describe('convertMdxToMd', () => {
       dirForExtras: 'icons/',
     })
 
-    expect(toPublicUrl('/icons/', 'https://eufemia.dnb.no////')).toBe(
-      'https://eufemia.dnb.no/icons/'
-    )
+    expect(
+      toPublicUrl('/collections/icons/', 'https://eufemia.dnb.no////')
+    ).toBe('https://eufemia.dnb.no/collections/icons/')
   })
 
   it('replaces PropertiesTable with JSON block', async () => {
@@ -155,6 +258,31 @@ describe('convertMdxToMd', () => {
     expect(output).toContain('"size"')
     expect(output).toContain('"Size of button"')
     expect(output).not.toContain('PropertiesTable')
+  })
+
+  it.each([
+    'forms/Wizard',
+    'forms/Form/useSubmit',
+    'forms/Form/useTranslation',
+    'forms/create-component/useFieldProps',
+    'forms/create-component/useValueProps',
+  ])('omits component customization guidance from %s', async (page) => {
+    const docsRoot = path.resolve(
+      '../../packages/dnb-design-system-portal/src/docs'
+    )
+    const output = await convertMdxToMd({
+      inputPath: path.join(docsRoot, 'web', page, 'properties.mdx'),
+      docsRoot,
+      docsBaseRoot: path.dirname(docsRoot),
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).not.toContain('usageGuidance')
+    expect(output).not.toContain(
+      'Some properties provide flexibility for specific integrations.'
+    )
   })
 
   it('includes extra attributes when converting PropertiesTable', async () => {
@@ -408,8 +536,7 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'blocks',
       'collection.mdx'
@@ -426,45 +553,10 @@ describe('convertMdxToMd', () => {
 
     expect(output).not.toContain('ListAllBlocks')
     expect(output).toContain(
-      '## [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/)'
+      '## [Block.ChildrenWithAge](/web/forms/blocks/ChildrenWithAge/)'
     )
     expect(output).toContain(
       '`ChildrenWithAge` is a block for displaying children with age.'
-    )
-  })
-
-  it('replaces ListComponents with markdown sections from regex-matched docs', async () => {
-    const repoRoot = path.resolve(process.cwd(), '..', '..')
-    const docsRoot = path.join(
-      repoRoot,
-      'packages',
-      'dnb-design-system-portal',
-      'src',
-      'docs'
-    )
-    const docsBaseRoot = path.join(
-      repoRoot,
-      'packages',
-      'dnb-design-system-portal',
-      'src'
-    )
-    const inputPath = path.join(docsRoot, 'uilib', 'components.mdx')
-
-    const output = await convertMdxToMd({
-      inputPath,
-      docsRoot,
-      docsBaseRoot,
-      prettierConfig: {},
-      includeFrontmatter: false,
-      state: { mdxCache: new Map(), inProgress: new Set() },
-    })
-
-    expect(output).not.toContain('ListComponents')
-    expect(output).toContain(
-      '## [Accordion](/uilib/components/accordion/)'
-    )
-    expect(output).toContain(
-      'Use Accordion to let people open and close sections of related content.'
     )
   })
 
@@ -483,7 +575,12 @@ describe('convertMdxToMd', () => {
       'dnb-design-system-portal',
       'src'
     )
-    const inputPath = path.join(docsRoot, 'uilib', 'elements.mdx')
+    const inputPath = path.join(
+      docsRoot,
+      'web',
+      'layout-and-typography',
+      'elements.mdx'
+    )
 
     const output = await convertMdxToMd({
       inputPath,
@@ -495,8 +592,12 @@ describe('convertMdxToMd', () => {
     })
 
     expect(output).not.toContain('ListElements')
-    expect(output).toContain('- [Paragraph](/uilib/elements/paragraph/):')
-    expect(output).toContain('- [Span](/uilib/elements/span/):')
+    expect(output).toContain(
+      '- [Paragraph](/web/layout-and-typography/elements/paragraph/):'
+    )
+    expect(output).toContain(
+      '- [Inline text (span)](/web/layout-and-typography/elements/span/):'
+    )
   })
 
   it('replaces re-exported examples referenced through a namespace import', async () => {
@@ -516,8 +617,7 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'Iterate',
       'Array',
@@ -557,7 +657,8 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
+      'web',
+      'layout-and-typography',
       'layout',
       'flex',
       'item',
@@ -596,8 +697,7 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'Value',
       'Name',
@@ -638,8 +738,7 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'blocks',
       'ChildrenWithAge',
@@ -683,10 +782,9 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'usage',
-      'customisation',
-      'colors.mdx'
+      'web',
+      'styling-and-themes',
+      'legacy-colors.mdx'
     )
 
     const output = await convertMdxToMd({
@@ -782,10 +880,8 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'usage',
-      'customisation',
-      'theming',
+      'web',
+      'styling-and-themes',
       'design-tokens',
       'colors.mdx'
     )
@@ -830,10 +926,8 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'usage',
-      'customisation',
-      'theming',
+      'web',
+      'styling-and-themes',
       'design-tokens',
       'radius.mdx'
     )
@@ -883,8 +977,7 @@ describe('convertMdxToMd', () => {
 
     const dateOfBirthEventsPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'feature-fields',
       'DateOfBirth',
@@ -892,8 +985,7 @@ describe('convertMdxToMd', () => {
     )
     const selectCurrencyPropertiesPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'feature-fields',
       'SelectCurrency',
@@ -924,11 +1016,19 @@ describe('convertMdxToMd', () => {
     expect(dateOfBirthEvents).toContain('```json')
     expect(dateOfBirthEvents).toContain('"onChange"')
     expect(dateOfBirthEvents).toContain('"onBlur"')
+    expect(dateOfBirthEvents).not.toContain('usageGuidance')
+    expect(dateOfBirthEvents).not.toContain(
+      'Some properties provide flexibility for specific integrations.'
+    )
 
     expect(selectCurrencyProperties).not.toContain('PropertiesTable')
     expect(selectCurrencyProperties).toContain('```json')
     expect(selectCurrencyProperties).toContain('"currencies"')
     expect(selectCurrencyProperties).toContain('"size"')
+    expect(selectCurrencyProperties).toContain('"usageGuidance"')
+    expect(selectCurrencyProperties).toContain(
+      'need a use case approved by DNB UX'
+    )
   })
 
   it('replaces AvailableCountriesTable with a markdown country table', async () => {
@@ -948,8 +1048,7 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'feature-fields',
       'SelectCountry',
@@ -987,8 +1086,8 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
+      'patterns-and-extensions',
       'payment-card',
       'products.mdx'
     )
@@ -1058,10 +1157,49 @@ describe('convertMdxToMd', () => {
     expect(output).not.toContain('Card.List')
   })
 
+  it('renders the portal Home as navigation links', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-home-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    fs.writeFileSync(
+      path.join(docsRoot, 'index.mdx'),
+      [
+        "import Home from 'dnb-design-system-portal/src/shared/home/Home'",
+        '',
+        '<Home />',
+      ].join('\n')
+    )
+    const output = await convertMdxToMd({
+      inputPath: path.join(docsRoot, 'index.mdx'),
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain(
+      '- [Develop](/web/get-started/quick-start/) – Get started with installation guides'
+    )
+    expect(output).toContain('## Resources')
+    expect(output).toContain(
+      '- [Components](/web/components/overview/)'
+    )
+    expect(output).toContain(
+      '- [AI](/web/ai-tools-and-resources/ai/mcp-universe/)'
+    )
+    expect(output).toContain('- [Forms](/web/forms/)')
+    expect(output).toContain(
+      '- [Motion](/web/development-guidelines/motion/)'
+    )
+    expect(output).not.toContain('<Home')
+  })
+
   it('renders RelatedComponents into a related markdown list', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-related-'))
     const docsRoot = path.join(tmpRoot, 'docs')
-    const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    const componentsDir = path.join(docsRoot, 'web', 'components')
     fs.mkdirSync(path.join(componentsDir, 'button'), { recursive: true })
 
     fs.writeFileSync(
@@ -1116,10 +1254,10 @@ describe('convertMdxToMd', () => {
 
     expect(output).toContain('## Related components')
     expect(output).toContain(
-      'Button is part of the [Actions](/uilib/components/overview/#actions) category.'
+      'Button is part of the [Actions](/web/components/overview/#actions) category.'
     )
     expect(output).toContain(
-      '- [Anchor](/uilib/components/anchor/) – to take people to another page.'
+      '- [Anchor](/web/components/anchor/) – to take people to another page.'
     )
     expect(output).not.toContain('<RelatedComponents')
   })
@@ -1129,7 +1267,7 @@ describe('convertMdxToMd', () => {
       path.join(os.tmpdir(), 'mdx-related-cap-')
     )
     const docsRoot = path.join(tmpRoot, 'docs')
-    const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    const componentsDir = path.join(docsRoot, 'web', 'components')
     fs.mkdirSync(path.join(componentsDir, 'current'), { recursive: true })
 
     // The current page plus 8 siblings in the same category (9 total).
@@ -1180,19 +1318,21 @@ describe('convertMdxToMd', () => {
     const listedCount = (output.match(/^- \[/gm) || []).length
     expect(listedCount).toBe(6)
     expect(output).toContain(
-      '[See all in Content](/uilib/components/overview/#content)'
+      '[See all in Content and layout](/web/components/overview/#content)'
     )
     // Alpha–Foxtrot are shown; Golf and Hotel are beyond the cap.
-    expect(output).toContain('- [Alpha](/uilib/components/alpha/)')
-    expect(output).not.toContain('- [Golf](/uilib/components/golf/)')
-    expect(output).not.toContain('- [Hotel](/uilib/components/hotel/)')
+    expect(output).toContain('- [Alpha](/web/components/alpha/)')
+    expect(output).not.toContain('- [Golf](/web/components/golf/)')
+    expect(output).not.toContain('- [Hotel](/web/components/hotel/)')
   })
 
   it('renders ListComponentsOverview grouped by category', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-overview-'))
     const docsRoot = path.join(tmpRoot, 'docs')
-    const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    const componentsDir = path.join(docsRoot, 'web', 'components')
+    const extensionsDir = path.join(docsRoot, 'web', 'extensions')
     fs.mkdirSync(componentsDir, { recursive: true })
+    fs.mkdirSync(extensionsDir, { recursive: true })
 
     fs.writeFileSync(
       path.join(componentsDir, 'button.mdx'),
@@ -1233,6 +1373,19 @@ describe('convertMdxToMd', () => {
       ].join('\n')
     )
 
+    fs.writeFileSync(
+      path.join(extensionsDir, 'action-extension.mdx'),
+      [
+        '---',
+        'title: ActionExtension',
+        "category: 'actions'",
+        "description: 'Use ActionExtension to complete an action.'",
+        '---',
+        '',
+        '# ActionExtension',
+      ].join('\n')
+    )
+
     const output = await convertMdxToMd({
       inputPath: path.join(componentsDir, 'overview.mdx'),
       docsRoot,
@@ -1243,14 +1396,17 @@ describe('convertMdxToMd', () => {
     })
 
     expect(output).toContain('## Actions')
-    expect(output).toContain('## Input')
+    expect(output).toContain('## Inputs')
     expect(output).toContain(
-      '- [Button](/uilib/components/button/): Use Button to confirm an action.'
+      '- [Button](/web/components/button/): Use Button to confirm an action.'
     )
     expect(output).toContain(
-      '- [Checkbox](/uilib/components/checkbox/): Use Checkbox to turn options on or off.'
+      '- [Checkbox](/web/components/checkbox/): Use Checkbox to turn options on or off.'
     )
-    expect(output).toContain('[Eufemia Forms](/uilib/extensions/forms/)')
+    expect(output).toContain(
+      '- [ActionExtension](/web/extensions/action-extension/): Use ActionExtension to complete an action.'
+    )
+    expect(output).toContain('[Eufemia Forms](/web/forms/)')
     expect(output).not.toContain('<ListComponentsOverview')
   })
 
@@ -1271,8 +1427,7 @@ describe('convertMdxToMd', () => {
     )
     const inputPath = path.join(
       docsRoot,
-      'uilib',
-      'extensions',
+      'web',
       'forms',
       'feature-fields',
       'Date',
@@ -1341,5 +1496,26 @@ describe('frontmatter metadata', () => {
     expect(await extractDescriptionFromMdx(mdxPath)).toBe(
       'Use Button to start an action.'
     )
+  })
+})
+
+describe('findSourceInfo', () => {
+  it.each([
+    ['11.16.0', 'v11.16.0'],
+    ['11.16.0+main.4c04cde', 'main'],
+    ['0.0.0-development', 'main'],
+  ])('links the source of version %s to %s', async (version, ref) => {
+    const tsDocsDir = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'source-info-')
+    )
+    fs.writeFileSync(path.join(tsDocsDir, 'index.ts'), '')
+
+    const info = await findSourceInfo({
+      tsDocsDir,
+      name: 'Button',
+      version,
+    })
+
+    expect(info?.fileUrl).toContain(`/blob/${ref}/`)
   })
 })

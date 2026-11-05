@@ -78,7 +78,7 @@ export const PORTAL_DOCS_ROOT_SEGMENTS = [
 ] as const
 
 // Reads screenshot URL paths used inside screenshot test files.
-export const PORTAL_DOCS_PATH_PREFIX = '/uilib/'
+export const PORTAL_DOCS_PATH_PREFIX = '/web/'
 
 // Detects screenshot test files that are candidates for selective runs.
 export const SCREENSHOT_FILE_PATTERN =

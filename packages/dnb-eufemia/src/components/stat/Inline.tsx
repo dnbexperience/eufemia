@@ -10,8 +10,16 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type InlineProps = FlexHorizontalProps & {
+export type InlineProps = Omit<FlexHorizontalProps, 'layoutEngine'> & {
   id?: string
+  /**
+   * Select the internal Flex layout engine. Defaults to `css`. Use `legacy` as a temporary compatibility fallback for custom integrations that depend on the previous wrapper-based layout.
+   * Default: `'css'`
+   */
+  layoutEngine?: FlexHorizontalProps['layoutEngine']
+  /**
+   * Applies skeleton state to the inline container.
+   */
   skeleton?: SkeletonShow
 }
 

@@ -1,6 +1,16 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const ImgProperties: PropertiesTableProps = {
+  src: {
+    doc: 'The URL of the image.',
+    type: 'string',
+    status: 'required',
+  },
+  alt: {
+    doc: 'Text alternative for the image, read by screen readers. Use an empty string (`alt=""`) for decorative images.',
+    type: 'string',
+    status: 'required',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
@@ -36,7 +46,7 @@ export const ImgProperties: PropertiesTableProps = {
     type: ['"eager"', '"lazy"'],
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

@@ -10,7 +10,7 @@ function Email(props: ValueEmailProps) {
 
   const stringProps: ValueEmailProps = {
     ...props,
-    label: props.label ?? translations.label,
+    defaultLabel: props.defaultLabel ?? translations.label,
   }
   return <StringValue {...stringProps} />
 }

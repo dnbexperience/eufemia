@@ -1,0 +1,92 @@
+.dnb-home-bergen {
+  z-index: 4;
+  pointer-events: none;
+
+  [data-hanging-item] {
+    --bergen-scale: 1;
+    --rendered-scale: var(--bergen-scale, 1);
+    --length: 1px;
+    left: 0;
+    z-index: 2;
+  }
+
+  [data-hanging-item] > span:first-child {
+    background: none;
+
+    svg {
+      opacity: 0.5;
+    }
+
+    path {
+      animation: dnb-home-bergen-rope 2.4s ease-in-out infinite alternate;
+    }
+  }
+
+  [data-hanging-item]:nth-child(even) > span:first-child path {
+    animation-direction: alternate-reverse;
+  }
+
+  [data-hanging-item] > span:last-child {
+    opacity: 0;
+  }
+
+  [data-home-specimen]::after {
+    position: absolute;
+    top: -4rem;
+    left: 35%;
+    color: var(--token-color-decorative-second-bold);
+    font-size: 4rem;
+    transform: rotate(-12deg);
+    content: '☂';
+    pointer-events: none;
+  }
+}
+
+.dnb-home-bergen-stage {
+  position: absolute;
+  z-index: -1;
+  height: 14rem;
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse,
+    color-mix(
+      in srgb,
+      var(--token-color-decorative-first-base) 24%,
+      transparent
+    ),
+    transparent 70%
+  );
+
+  &::before {
+    position: absolute;
+    inset: -2rem;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse, #000 30%, transparent 70%);
+    background-image: linear-gradient(
+      110deg,
+      transparent 45%,
+      var(--token-color-decorative-first-bold) 46% 49%,
+      transparent 50%
+    );
+    background-size: 1.5rem 2rem;
+    animation: dnb-home-bergen-rain 0.7s linear infinite;
+    content: '';
+  }
+}
+
+@keyframes dnb-home-bergen-rain {
+  to {
+    background-position: -1.5rem 2rem;
+  }
+}
+
+@keyframes dnb-home-bergen-rope {
+  from {
+    d: path('M32 0 C-20 35 90 75 32 100');
+  }
+  to {
+    d: path('M32 0 C85 35 -20 75 32 100');
+  }
+}

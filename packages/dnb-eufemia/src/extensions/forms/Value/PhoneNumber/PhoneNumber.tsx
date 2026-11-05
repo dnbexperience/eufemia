@@ -11,8 +11,9 @@ export type ValuePhoneNumberProps = StringValueProps
 function PhoneNumber(props: ValuePhoneNumberProps) {
   const translations = useTranslation().PhoneNumber
 
-  const label =
-    props.label ?? (props.inline ? undefined : translations.numberLabel)
+  const defaultLabel =
+    props.defaultLabel ??
+    (props.inline ? undefined : translations.numberLabel)
 
   const toInput = useCallback((value) => {
     if (isValueEmpty(value)) {
@@ -24,7 +25,7 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
 
   const stringValueProps: ValuePhoneNumberProps = {
     ...props,
-    label,
+    defaultLabel,
     toInput,
   }
 

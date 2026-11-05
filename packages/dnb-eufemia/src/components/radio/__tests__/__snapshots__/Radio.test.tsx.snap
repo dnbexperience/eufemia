@@ -261,9 +261,13 @@ button .dnb-form-status__text {
   --radio-border-width--default: 0.0625rem;
   --radio-color-dot-on--default: var(--token-color-background-selected);
   --radio-color-background--default: var(--token-color-background-neutral);
+  --radio-color-background-on--default: var(
+    --token-color-background-selected-subtle
+  );
   --radio-color-border--default: var(
     --token-color-stroke-action-alternative
   );
+  --radio-color-border-on--default: var(--token-color-stroke-selected);
   --radio-color-dot-on--disabled: var(
     --token-color-background-action-disabled
   );
@@ -271,6 +275,9 @@ button .dnb-form-status__text {
     --token-color-background-neutral
   );
   --radio-color-border--disabled: var(--token-color-stroke-neutral-subtle);
+  --radio-color-border-on--disabled: var(
+    --token-color-stroke-action-disabled
+  );
   --radio-border-inset--active: inset;
   --radio-border-width--active: 0.0625rem;
   --radio-color-dot-on--active: var(
@@ -297,11 +304,51 @@ button .dnb-form-status__text {
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
 }
-.dnb-radio--surface-dark {
+.dnb-radio--surface-dark:where(:not(.dnb-toggle-button--checked *)) {
+  --radio-color-dot-on--disabled: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --radio-color-background--disabled: transparent;
   --radio-color-border--disabled: color-mix(
     in srgb,
-    var(--token-color-stroke-neutral-ondark) 50%,
+    var(--token-color-stroke-action-disabled-ondark) 50%,
     transparent
+  );
+  --radio-color-border-on--disabled: var(
+    --token-color-stroke-action-disabled-ondark
+  );
+}
+.dnb-radio--surface-dark:where(:not(.dnb-toggle-button *)) {
+  --radio-color-dot-on--default: var(
+    --token-color-background-selected-ondark
+  );
+  --radio-color-background--default: transparent;
+  --radio-color-background-on--default: var(
+    --token-color-background-selected-subtle-ondark
+  );
+  --radio-color-border--default: var(
+    --token-color-stroke-action-alternative-ondark
+  );
+  --radio-color-border-on--default: var(
+    --token-color-stroke-selected-ondark
+  );
+  --radio-color-dot-on--active: var(
+    --token-color-background-action-pressed-ondark
+  );
+  --radio-color-background--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
+  --radio-color-border--active: var(
+    --token-color-stroke-action-pressed-ondark
+  );
+  --radio-color-dot-on--hover: var(
+    --token-color-background-action-hover-ondark
+  );
+  --radio-color-background--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --radio-color-border--hover: var(
+    --token-color-stroke-action-hover-ondark
   );
 }
 .dnb-radio {
@@ -493,9 +540,9 @@ button .dnb-form-status__text {
 .dnb-radio__input:checked ~ .dnb-radio__button, .dnb-radio__input[data-checked=true] ~ .dnb-radio__button {
   --radio-border-width--default: 0.09375rem;
   --radio-border-width--active: 0.09375rem;
-  --radio-color-border--default: var(--token-color-stroke-selected);
+  --radio-color-border--default: var(--radio-color-border-on--default);
   --radio-color-background--default: var(
-    --token-color-background-selected-subtle
+    --radio-color-background-on--default
   );
 }
 .dnb-radio__input:checked ~ .dnb-radio__dot, .dnb-radio__input[data-checked=true] ~ .dnb-radio__dot {
@@ -524,6 +571,25 @@ button .dnb-form-status__text {
 }
 .dnb-radio__status--error {
   --radio-color-dot-on--default: var(--token-color-background-error);
+}
+.dnb-radio__status--error:where(:not(.dnb-toggle-button *)) .dnb-radio__input ~ .dnb-radio__button {
+  --radio-border-width--active: 0.0625rem;
+  --radio-color-background--hover: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background--active: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background--focus: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-border--hover: var(--token-color-stroke-error);
+  --radio-color-border--active: var(--token-color-stroke-error);
+}
+.dnb-radio__status--error:where(:not(.dnb-toggle-button *)) {
+  --radio-color-dot-on--hover: var(--token-color-background-error);
+  --radio-color-dot-on--active: var(--token-color-background-error);
+  --radio-color-dot-on--focus: var(--token-color-background-error);
 }
 .dnb-radio {
   /** Hover state **/
@@ -579,6 +645,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   .dnb-radio__input[disabled] ~ .dnb-radio__button {
     outline-color: GrayText;
   }
+}
+.dnb-radio__input[disabled]:checked ~ .dnb-radio__button, .dnb-radio__input[disabled][data-checked=true] ~ .dnb-radio__button {
+  --radio-color-border: var(--radio-color-border-on--disabled);
+  --radio-border-width--default: 0.0625rem;
+  --radio-border-width--active: 0.0625rem;
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--disabled);

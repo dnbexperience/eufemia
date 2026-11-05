@@ -76,10 +76,10 @@ describe('portal shim and Eufemia share the same theme storage contract', () => 
 
   it('a colorScheme written by one is preserved by the other', () => {
     setEufemiaTheme({ brand: 'sbanken', colorScheme: 'dark' })
-    setPortalTheme({ brand: 'eiendom' })
+    setPortalTheme({ brand: 'ui' })
 
     expect(getEufemiaTheme()).toMatchObject({
-      brand: 'eiendom',
+      brand: 'ui',
       colorScheme: 'dark',
     })
   })

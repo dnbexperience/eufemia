@@ -10,7 +10,7 @@ const defaults = { wrapperStyle: { margin: '0 !important' } } // because of Scro
 describe.each(['ui', 'sbanken'])(`Table for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/table/demos/',
+    url: '/web/components/table/demos/',
   })
 
   it('have to match the default choice of table styles', async () => {
@@ -202,7 +202,7 @@ describe.each(['ui', 'sbanken'])(`Table for %s`, (themeName) => {
     describe('have to match', () => {
       setupPageScreenshot({
         themeName,
-        url: '/uilib/components/table/demos/',
+        url: '/web/components/table/demos/',
       })
 
       it('sticky header', async () => {
@@ -238,7 +238,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/table/demos/?skeleton',
+      url: '/web/components/table/demos/?skeleton',
     })
 
     it('have to match default table', async () => {
@@ -258,7 +258,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/table/demos/',
+      url: '/web/components/table/demos/',
     })
 
     it('have to match default state', async () => {
@@ -356,7 +356,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/table/demos/',
+      url: '/web/components/table/demos/',
     })
 
     it('have to match default state', async () => {
@@ -464,7 +464,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/table/demos/',
+      url: '/web/components/table/demos/',
     })
 
     it('have to match default state', async () => {
@@ -551,7 +551,7 @@ describe('Table', () => {
       pageViewport: {
         width: 300,
       },
-      url: '/uilib/components/table/demos/',
+      url: '/web/components/table/demos/',
       selector: '[data-visual-test="table-one-td"]',
     })
   })
@@ -565,7 +565,7 @@ describe('Table', () => {
       style: {
         width: '30rem',
       },
-      url: '/uilib/components/table/demos/',
+      url: '/web/components/table/demos/',
       selector: '[data-visual-test="table-one-td"]',
     })
   })
@@ -576,7 +576,7 @@ describe('Table', () => {
       style: {
         width: '40rem',
       },
-      url: '/uilib/components/table/demos/',
+      url: '/web/components/table/demos/',
       selector: '[data-visual-test="table-in-card"]',
     })
   })
@@ -584,6 +584,8 @@ describe('Table', () => {
   it('have to match table in card when the table scrolls', async () => {
     await makeScreenshot({
       ...defaults,
+      // Reserve the scrollbar space even when macOS overlays it.
+      wrapperStyle: { height: '38rem' },
       style: {
         width: '20rem',
       },

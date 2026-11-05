@@ -53,6 +53,9 @@
   }
 
   // weight
+  &__weight--light {
+    font-weight: var(--font-weight-light, 300);
+  }
   &__weight--regular {
     font-weight: var(--font-weight-regular);
   }
@@ -74,17 +77,6 @@
     text-align: right;
   }
 
-  // family
-  &__family--default {
-    font-family: var(--font-family-default);
-  }
-  &__family--heading {
-    font-family: var(--font-family-heading);
-  }
-  &__family--monospace {
-    font-family: var(--font-family-monospace);
-  }
-
   // underline / italic
   &__decoration--underline {
     text-decoration: underline;
@@ -93,11 +85,16 @@
     font-style: italic;
   }
 
-  &__responsive-off {
+  // match the specificity of ".dnb-core-style .dnb-h--*" in typographySelectors
+  &__responsive-off,
+  .dnb-core-style &__responsive-off {
     @include typography-mixins.responsiveOff();
   }
 
-  &__responsive-on {
+  // <small> resets the size vars; :where() lets its own responsive class win
+  &__responsive-on,
+  .dnb-core-style &__responsive-on,
+  :where(&__responsive-on) > small {
     @include typography-mixins.responsiveOn();
   }
 }

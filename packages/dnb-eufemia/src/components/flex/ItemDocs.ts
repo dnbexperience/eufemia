@@ -12,12 +12,12 @@ export const FlexItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   span: {
-    doc: 'To set the span (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).',
+    doc: 'To set the span (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/web/layout-and-typography/breakpoints/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/web/layout-and-typography/layout/flex/container).',
     type: ['number', 'object'],
     status: 'optional',
   },
   gapBefore: {
-    doc: 'With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.',
+    doc: 'With `layoutEngine="css"`, replace the [Flex.Container](/web/layout-and-typography/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.',
     type: [
       '"xx-small"',
       '"x-small"',
@@ -31,7 +31,7 @@ export const FlexItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   gapAfter: {
-    doc: 'With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.',
+    doc: 'With `layoutEngine="css"`, replace the [Flex.Container](/web/layout-and-typography/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.',
     type: [
       '"xx-small"',
       '"x-small"',
@@ -54,7 +54,7 @@ export const FlexItemProperties: PropertiesTableProps = {
     type: 'React.Ref',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

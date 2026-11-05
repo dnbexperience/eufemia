@@ -119,10 +119,11 @@ export default function TabBar({
         tabElement={Link as unknown as TabsTabElement}
         data={preparedTabs}
         selectedKey={selectedKey}
+        breakout={false}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper className={tabsWrapperStyle}>
-              <TabsList>
+              <TabsList className="dnb-print-hidden" data-portal-page-tabs>
                 <Tabs />
                 <Button
                   onClick={wasFullscreen ? quitFullscreen : openFullscreen}
@@ -151,5 +152,10 @@ export default function TabBar({
 }
 
 TabBar.ContentWrapper = (props) => (
-  <Tabs.ContentWrapper id="tab-bar" contentInnerSpace={false} {...props} />
+  <Tabs.ContentWrapper
+    id="tab-bar"
+    contentInnerSpace={false}
+    data-portal-page-content
+    {...props}
+  />
 )

@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Upload for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/upload/demos/',
+    url: '/web/components/upload/demos/',
   })
 
   it('have to match the default', async () => {
@@ -19,6 +19,27 @@ describe.each(['ui', 'sbanken'])(`Upload for %s`, (themeName) => {
   it('have to match the compact variant', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="upload-basic-compact-variant"]',
+    })
+  })
+
+  it('have to match the compact variant with expanded file limits', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="upload-basic-compact-variant"]',
+      simulateSelector:
+        '[data-visual-test="upload-basic-compact-variant"] .dnb-upload__file-limits button',
+      simulate: 'click',
+      recalculateHeightAfterSimulate: true,
+    })
+  })
+
+  it('have to match the compact variant with expanded file max size based on file type', async () => {
+    await makeScreenshot({
+      selector:
+        '[data-visual-test="upload-compact-variant-file-max-size-based-on-file-format"]',
+      simulateSelector:
+        '[data-visual-test="upload-compact-variant-file-max-size-based-on-file-format"] .dnb-upload__file-limits button',
+      simulate: 'click',
+      recalculateHeightAfterSimulate: true,
     })
   })
 
@@ -140,7 +161,7 @@ describe.each(['ui', 'sbanken'])(`Upload for %s`, (themeName) => {
 
 describe('Upload', () => {
   setupPageScreenshot({
-    url: '/uilib/components/upload/demos/',
+    url: '/web/components/upload/demos/',
     pageViewport: {
       width: 480, // 30rem
     },

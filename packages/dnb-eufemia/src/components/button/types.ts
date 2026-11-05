@@ -100,7 +100,7 @@ export type ButtonProps = {
    */
   size?: ButtonSize
   /**
-   * To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).
+   * To be included in the button. [Primary Icons](/collections/icons) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).
    */
   icon?: ButtonIcon
   /**
@@ -145,7 +145,7 @@ export type ButtonProps = {
    */
   customContent?: ReactNode
   /**
-   * If set to `true` the button text will wrap into new lines if the overflow point is reached. Defaults to `false`.
+   * Set to `true` to allow the label to wrap onto multiple lines when it reaches the available width. Defaults to `false` because button labels should be short and easy to scan. If a label needs a line break, consider shortening it or using a different component that better fits the content and interaction.
    */
   wrap?: boolean
   /**

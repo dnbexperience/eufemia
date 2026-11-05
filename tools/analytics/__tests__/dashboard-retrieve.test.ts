@@ -30,7 +30,7 @@ vi.mock('@aws-sdk/client-athena', () => ({
 }))
 
 import {
-  aggregateLocalMcpUsageByVersion,
+  aggregateMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
   retrieveMcpUsageDaily,
@@ -318,26 +318,39 @@ describe('aggregateMcpUsageRaw', () => {
   })
 })
 
-describe('aggregateLocalMcpUsageByVersion', () => {
+describe('aggregateMcpUsageByVersion', () => {
   it('rejects a non-date sinceDt before running any query', async () => {
     await expect(
-      aggregateLocalMcpUsageByVersion("2026'; DROP")
+      aggregateMcpUsageByVersion("2026'; DROP")
     ).rejects.toThrow('YYYY-MM-DD')
   })
 
-  it('groups local-transport rows in the window by version, filtering out web/null rows in the query', async () => {
+  it('counts requests, component lookups and misses per transport and version', async () => {
     mockAthenaRows([
-      ['eufemia_version', 'cnt'],
-      ['10.79.0', '9'],
+      [
+        'transport',
+        'eufemia_version',
+        'cnt',
+        'component_lookups',
+        'missed_lookups',
+      ],
+      ['web', '11.16.0', '9', '6', '1'],
     ])
 
     await expect(
-      aggregateLocalMcpUsageByVersion('2026-06-27')
-    ).resolves.toEqual([{ name: '10.79.0', count: 9 }])
+      aggregateMcpUsageByVersion('2026-06-27')
+    ).resolves.toEqual([
+      {
+        transport: 'web',
+        name: '11.16.0',
+        count: 9,
+        componentLookups: 6,
+        missedLookups: 1,
+      },
+    ])
 
     expect(startedQueryString()).toBe(
-      `SELECT eufemia_version, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-06-27' AND transport = 'local' AND eufemia_version IS NOT NULL AND eufemia_version <> '' GROUP BY eufemia_version ORDER BY cnt DESC`
+      `SELECT coalesce(transport, 'web') AS transport, eufemia_version, count(*) AS cnt, count_if(tool IN ('component_find', 'component_doc', 'component_api', 'component_props')) AS component_lookups, count_if(component_missed) AS missed_lookups FROM "db"."mcp_usage" WHERE dt >= '2026-06-27' AND eufemia_version IS NOT NULL AND eufemia_version <> '' GROUP BY coalesce(transport, 'web'), eufemia_version ORDER BY cnt DESC`
     )
-    expect(startedQueryString()).toContain("transport = 'local'")
   })
 })

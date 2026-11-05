@@ -32,8 +32,14 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
+    doc: 'Defines the state of the status. Can be `error`, `warning`, `information`, `success` or `marketing`. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {
@@ -42,7 +48,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -66,6 +72,21 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  variant: {
+    doc: 'Use `checkbox` or `radio` to show a checkbox or radio button in front of the text of every button. With `radio`, the group gets the `radiogroup` role. Defaults to `default`.',
+    type: ['"default"', '"checkbox"', '"radio"'],
+    status: 'optional',
+  },
+  leftComponent: {
+    doc: 'Custom content shown in front of the text of every button, when `variant` is `default`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  size: {
+    doc: 'The size of the buttons. There is `default`, `small`, `medium` and `large`.',
+    type: ['"default"', '"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
   suffix: {
     doc: 'Text describing the content of the ToggleButtonGroup more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButtonGroup component.',
     type: 'string',
@@ -76,7 +97,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

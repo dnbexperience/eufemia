@@ -31,6 +31,11 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  prerenderFieldProps: {
+    doc: 'If set to `true`, the wizard pre-renders all steps so the props of each field are available in the data context. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   validationMode: {
     doc: 'Determines if and how the validation will be bypassed.',
     type: ['"bypassOnNavigation"'],
@@ -42,7 +47,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`.',
+    doc: 'Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/web/components/card/properties). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -51,7 +56,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

@@ -56,13 +56,26 @@ export type MenuRootProps = {
 }
 
 /**
- * Menu.Button supports all [Button](/uilib/components/button/properties) props
+ * Menu.Button supports all [Button](/web/components/button/properties) props
  * (e.g. `text`, `icon`, `variant`, `size`, `disabled`) in addition to the
  * props listed here.
  */
-export type MenuButtonProps = Omit<ButtonProps, 'children'> & {
+export type MenuButtonProps = Omit<
+  ButtonProps,
+  'children' | 'icon' | 'variant'
+> & {
   /**
-   * Alternative to `text`. Content rendered inside the header.
+   * Icon displayed on the trigger button.
+   * Default: `"more"`
+   */
+  icon?: ButtonProps['icon']
+  /**
+   * Button variant.
+   * Default: `"secondary"`
+   */
+  variant?: ButtonProps['variant']
+  /**
+   * Render function for a custom trigger element. Receives the trigger props to spread on your element, including `active`, `open`, `close` and `toggle`. Use `text` for the label of the default button.
    */
   children?: ReactNode | ((context: MenuTriggerRenderProps) => ReactNode)
 }
@@ -107,7 +120,13 @@ export type MenuActionProps = {
    * Defaults to a semantic `a` element.
    */
   element?: AnchorProps['element']
+  /**
+   * Link target attribute (e.g. `_blank`).
+   */
   target?: string
+  /**
+   * Link rel attribute (e.g. `noopener noreferrer`).
+   */
   rel?: string
   /**
    * Disables the action. Sets `aria-disabled` and prevents click/keyboard activation.

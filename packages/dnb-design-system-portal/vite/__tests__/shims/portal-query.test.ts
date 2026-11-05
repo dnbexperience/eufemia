@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 
 // Mock virtual:portal-pages before importing the portal query shim.
-vi.mock('virtual:portal-pages', () => ({
+vi.mock('virtual:portal-data', () => ({
   allMdxNodes: [
     {
       fields: { slug: 'uilib/components/button' },

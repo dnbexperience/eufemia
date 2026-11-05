@@ -43,6 +43,7 @@ jobs:
           TF_VAR_notifications_enabled: ${{ vars.MONITORING_NOTIFICATIONS_ENABLED || 'false' }}
           TF_VAR_slack_bot_secret_arn: ${{ vars.MONITORING_SLACK_BOT_SECRET_ARN }}
           TF_VAR_github_token_secret_arn: ${{ vars.MONITORING_GITHUB_TOKEN_SECRET_ARN }}
+          TF_VAR_analytics_deploy_repository: ${{ vars.MONITORING_ANALYTICS_DEPLOY_REPO }}
         run: |
           set -euo pipefail
           test -n "$STATE_BUCKET"
@@ -54,12 +55,13 @@ jobs:
             -backend-config="use_lockfile=true"
           terraform apply -auto-approve -input=false
 
-      - name: Smoke test both monitors
+      - name: Smoke test every monitor
         working-directory: infra
         run: |
           set -euo pipefail
-          for SERVICE in CDN MCP; do
-            FUNCTION=$(terraform output -json function_names | jq -r --arg service "$SERVICE" '.[$service]')
+          FUNCTIONS=$(terraform output -json function_names)
+          for SERVICE in $(jq -r 'keys[]' <<< "$FUNCTIONS"); do
+            FUNCTION=$(jq -r --arg service "$SERVICE" '.[$service]' <<< "$FUNCTIONS")
             RESULT=$(aws lambda invoke --cli-read-timeout 500 --function-name "$FUNCTION" --payload '{}' \
               --cli-binary-format raw-in-base64-out /tmp/monitor-result.json)
             if jq -e '.FunctionError' <<< "$RESULT" > /dev/null; then

@@ -18,24 +18,23 @@ import {
 import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import { useTypography } from './Typography'
+import type { TypographyProps } from './Typography'
 
 export type HSize = HeadingSize
 
-type HProps = SpacingProps &
+type HProps = Pick<TypographyProps, 'family'> &
+  SpacingProps &
   HTMLAttributes<HTMLHeadingElement> & {
     /**
-     * Defines the Element Type, like "h1".
-     * Default: `h1`
+     * Defines the HTML element of `H`, like `h2`. `H1` to `H6` always use their own heading element. Defaults to `h1`.
      */
     element?: string
     /**
-     * Makes the component use the elements heading level. e.g. h3 will make the component use level 3
+     * Set to `use` to let the automated [Heading](/web/components/heading) levels continue from the level of this element. For example, `<H3 level="use" />` makes the next `Heading` use level 3.
      */
     level?: 'use'
     /**
-     * Sets the font size based on headingSize_#{HEADING_SIZE} mixins found in typography-mixins.scss. For more detailed information go here: https://eufemia.dnb.no/uilib/typography/font-size/.
-     * Use value 'auto' to base size on heading level
-     * Default: `xx-large`
+     * Define the typography [font-size](/web/layout-and-typography/typography/font-size) by a size _type_, e.g. `x-large`. Use `auto` to use the size of the heading level. `H` defaults to `xx-large`, and `H1` to `H6` default to `auto`.
      */
     size?: HSize | 'auto'
     /**
@@ -53,6 +52,7 @@ const H = (props: HProps) => {
     level,
     size,
     className,
+    family,
     ...rest
   } = useTypography(props)
 
@@ -78,6 +78,7 @@ const H = (props: HProps) => {
       internalClass={clsx(
         targetSize && `dnb-h--${targetSize}`,
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
+        family && `dnb-t__family--${family}`,
         className
       )}
       {...rest}

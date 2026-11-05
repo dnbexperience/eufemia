@@ -5,7 +5,6 @@
 
 import { useEffect, useRef } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
-import { Global, css } from '@emotion/react'
 import { navigate } from 'portal-query'
 import { Anchor, Button, Space } from '@dnb/eufemia/src'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
@@ -19,7 +18,18 @@ const Intro = ({ children }: IntroProps) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const onKeyDownHandler = (e: KeyboardEvent) => {
-      if (/textarea|input/i.test(document.activeElement.tagName)) {
+      const activeElement = document.activeElement as HTMLElement
+      if (
+        e.defaultPrevented ||
+        e.altKey ||
+        e.ctrlKey ||
+        e.metaKey ||
+        e.shiftKey ||
+        activeElement?.closest(
+          'input, textarea, select, button, a[href], pre, [contenteditable]:not([contenteditable="false"])'
+        ) ||
+        activeElement?.tabIndex >= 0
+      ) {
         return
       }
       try {
@@ -60,17 +70,10 @@ type IntroFooterProps = {
 
 export const IntroFooter = ({ href, text }: IntroFooterProps) => (
   <Space top noCollapse className={footerStyle}>
-    <Global
-      styles={css`
-        .dnb-app-content {
-          margin-left: 0;
-        }
-      `}
-    />
     {/* @ts-expect-error -- strictFunctionTypes */}
     <Button href={href} text={text} icon="chevron_right" element={Link} />
     <Button
-      href="/uilib/getting-started"
+      href="/web/get-started/quick-start"
       variant="secondary"
       text="Cancel"
       icon="close"

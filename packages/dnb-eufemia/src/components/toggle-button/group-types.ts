@@ -60,7 +60,13 @@ export type ToggleButtonGroupProps = Omit<
      * Determine whether the ToggleButtonGroup is checked or not. The default will be `false`.
      */
     checked?: boolean
+    /**
+     * Use `checkbox` or `radio` to show a checkbox or radio button in front of the text of every button. With `radio`, the group gets the `radiogroup` role. Defaults to `default`.
+     */
     variant?: ToggleButtonGroupVariant
+    /**
+     * Custom content shown in front of the text of every button, when `variant` is `default`.
+     */
     leftComponent?: ReactNode
     disabled?: boolean
     /**
@@ -77,7 +83,7 @@ export type ToggleButtonGroupProps = Omit<
      */
     value?: ToggleButtonGroupValue
     /**
-     * The size of the button. For now there are `small`, `medium`, `default` and `large`.
+     * The size of the buttons. There is `default`, `small`, `medium` and `large`.
      */
     size?: ButtonSize
     /**

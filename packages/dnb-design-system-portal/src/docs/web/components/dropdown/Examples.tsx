@@ -1,0 +1,733 @@
+/**
+ * UI lib Component Example
+ *
+ */
+
+import ComponentBox from '../../../../shared/tags/ComponentBox'
+import styled from '@emotion/styled'
+import {
+  Dropdown,
+  NumberFormat,
+  Icon,
+  Link,
+  P,
+  Flex,
+  List,
+} from '@dnb/eufemia/src'
+import {
+  chevron_down,
+  chevron_right,
+  newspaper,
+} from '@dnb/eufemia/src/icons'
+
+import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
+
+type VisibleWhenVisualTestReturn = Pick<
+  DropdownAllProps,
+  'open' | 'preventClose' | 'independentWidth' | 'skipPortal' | 'direction'
+>
+
+const Wrapper = styled.div`
+  [data-visual-test='dropdown-list'] .dnb-drawer-list__list {
+    display: block;
+    visibility: visible;
+    position: relative;
+    top: 0;
+    width: var(--dropdown-width);
+  }
+`
+
+const data = [
+  // Every data item can, beside "content" - contain what ever
+  {
+    // (optional) can be what ever
+    selectedKey: 'key_0',
+
+    // (optional) is show instead of "content", once selected
+    selectedValue: 'Item 1 Value',
+
+    // Item content as a string or array
+    content: 'Item 1 Content',
+  },
+  {
+    selectedKey: 'key_1',
+    content: ['Item 2 Value', 'Item 2 Content'],
+  },
+  {
+    selectedKey: 'key_2',
+    selectedValue: 'Item 3 Value',
+    content: ['Item 3 Content A', 'Item 3 Content B'],
+  },
+  {
+    selectedKey: 'key_3',
+    selectedValue: 'Item 4 Value',
+    content: ['Item 4 Content A', <>Custom Component</>],
+  },
+]
+
+export const DropdownFind = () => (
+  <Wrapper>
+    <ComponentBox>
+      {() => {
+        const scrollableData = [
+          {
+            content: 'A',
+          },
+          {
+            content: 'B',
+          },
+          {
+            selectedValue: (
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
+                11345678962
+              </NumberFormat.BankAccountNumber>
+            ),
+            content: [
+              <NumberFormat.BankAccountNumber key="ban-1" alwaysSelectAll>
+                11345678962
+              </NumberFormat.BankAccountNumber>,
+              'C',
+            ],
+          },
+          {
+            selectedValue: (
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
+                15349648901
+              </NumberFormat.BankAccountNumber>
+            ),
+            content: [
+              <NumberFormat.BankAccountNumber key="ban-2" alwaysSelectAll>
+                15349648901
+              </NumberFormat.BankAccountNumber>,
+              'D',
+            ],
+          },
+          {
+            content: 'E',
+          },
+          {
+            selectedKey: 'key_1',
+            selectedValue: 'Find me by keypress',
+            content: ['F', 'F', 'F', 'F'],
+          },
+          {
+            content: 'G',
+          },
+          {
+            content: 'H',
+          },
+        ]
+
+        return (
+          <Dropdown
+            data={scrollableData}
+            value="key_1" // use either index (5) or selectedKey: 'key_1'
+            label="Label"
+          />
+        )
+      }}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownNoValue = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-closed">
+      {() => {
+        const data = [
+          // Every data item can, beside "content" - contain what ever
+          {
+            // (optional) can be what ever
+            selectedKey: 'key_0',
+
+            // (optional) is show instead of "content", once selected
+            selectedValue: 'Item 1 Value',
+
+            // Item content as a string or array
+            content: 'Item 1 Content',
+          },
+          {
+            selectedKey: 'key_1',
+            content: ['Item 2 Value', 'Item 2 Content'],
+          },
+          {
+            selectedValue: (
+              <NumberFormat.BankAccountNumber alwaysSelectAll>
+                11345678962
+              </NumberFormat.BankAccountNumber>
+            ),
+            content: [
+              <NumberFormat.BankAccountNumber key="ban" alwaysSelectAll>
+                11345678962
+              </NumberFormat.BankAccountNumber>,
+              'Bank account number',
+            ],
+          },
+          {
+            selectedKey: 'key_2',
+            selectedValue: 'Item 3 Value',
+            content: ['Item 3 Content A', 'Item 3 Content B'],
+          },
+          {
+            selectedKey: 'key_3',
+            selectedValue: 'Item 4 Value',
+            content: ['Item 4 Content A', <>Custom Component</>],
+          },
+        ]
+
+        return (
+          <Dropdown
+            data={data}
+            label="Label"
+            title="Please select a value"
+            onChange={({ data }) => {
+              console.log('onChange', data)
+            }}
+          />
+        )
+      }}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownEllipsisOverflow = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-ellipsis">
+      <Dropdown
+        data={['Long text that will overflow with CSS ellipsis']}
+        value={0}
+        label="Label"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownDirections = () => {
+  const visualTestProps = (
+    enabled: boolean
+  ): VisibleWhenVisualTestReturn => {
+    if (!enabled) {
+      return {}
+    }
+    return {
+      direction: 'top',
+    }
+  }
+  return (
+    <Wrapper>
+      <ComponentBox
+        scope={{ visualTestProps }}
+        data-visual-test="dropdown-item-directions"
+      >
+        <Dropdown
+          label="Label"
+          data={[
+            ['Vertical', 'alignment'],
+            <>
+              <P weight="medium">Vertical</P>
+              <P>alignment</P>
+            </>,
+            <Dropdown.HorizontalItem key="item-1">
+              <P weight="medium" right="x-small">
+                Horizontal
+              </P>
+              <P>alignment</P>
+            </Dropdown.HorizontalItem>,
+          ]}
+          {...visualTestProps(globalThis.IS_TEST)}
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownIconLeft = () => (
+  <Wrapper>
+    <ComponentBox scope={{ data }} data-visual-test="dropdown-left-icon">
+      <Dropdown
+        label="Label"
+        iconPosition="left"
+        data={data}
+        value={3}
+        skipPortal={true}
+        onChange={({ data: selectedDataItem }) => {
+          console.log('onChange', selectedDataItem)
+        }}
+        onOpen={() => {
+          console.log('onOpen')
+        }}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownTertiary = () => (
+  <Wrapper>
+    <ComponentBox scope={{ data }} data-visual-test="dropdown-tertiary">
+      <Dropdown
+        variant="tertiary"
+        direction="bottom"
+        independentWidth={true}
+        iconPosition="left"
+        align="left"
+        data={data}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownTertiaryRight = () => (
+  <Wrapper>
+    <ComponentBox
+      scope={{ data }}
+      data-visual-test="dropdown-tertiary-right"
+    >
+      <Dropdown
+        variant="tertiary"
+        direction="bottom"
+        independentWidth={true}
+        iconPosition="right"
+        align="right"
+        data={data}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownIndependentWidthLeft = () => {
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="dropdown-independent_width_left">
+        <Dropdown
+          independentWidth={true}
+          iconPosition="left"
+          direction="top"
+          title="Choose an item"
+          data={() => [
+            <Link href="/" key="item-1">
+              Go to this Link
+            </Link>,
+            'Or press on me',
+            <>Custom component</>,
+          ]}
+          right="small"
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownIndependentWidthRight = () => {
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="dropdown-independent_width_right">
+        <Dropdown
+          independentWidth={true}
+          iconPosition="right"
+          direction="top"
+          title="Choose an item"
+          data={() => [
+            <Link href="/" key="item-1">
+              Go to this Link
+            </Link>,
+            'Or press on me',
+            <>Custom component</>,
+          ]}
+          right="small"
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownDisabled = () => (
+  <Wrapper>
+    <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
+      <Dropdown disabled data={['Disabled Dropdown']} label="Label" />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownDisabledOptions = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-disabled-options">
+      <Dropdown
+        data={[
+          {
+            content: 'Item 1 Content',
+          },
+          { content: 'Item 2 Content', disabled: true },
+          { content: 'Item 3 Content', disabled: true },
+          {
+            content: 'Item 4 Content A',
+          },
+        ]}
+        label="Label"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownDisabledTertiary = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-disabled-tertiary">
+      <Dropdown
+        disabled
+        variant="tertiary"
+        data={['Disabled Dropdown']}
+        label="Disabled tertiary dropdown"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownSizes = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
+      <Flex.Vertical>
+        <Dropdown label="Label" size="default" data={() => data} />
+        <Dropdown label="Label" size="medium" data={() => data} />
+        <Dropdown label="Label" size="large" data={() => data} />
+      </Flex.Vertical>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownCustomWidth = () => (
+  <Wrapper>
+    <ComponentBox scope={{ data }}>
+      {() => {
+        const CustomWidthOne = styled(Dropdown)`
+          .dnb-dropdown__shell {
+            width: 10rem;
+          }
+        `
+        const CustomWidthTwo = styled(Dropdown)`
+          &.dnb-dropdown--is-popup .dnb-drawer-list__root {
+            width: 12rem;
+          }
+        `
+        const CustomWidthThree = styled(Dropdown)`
+          /** Change the "__shell" width */
+          .dnb-dropdown__shell {
+            width: 10rem;
+          }
+
+          /** Change the "__list" width */
+          .dnb-drawer-list__root {
+            width: 20rem;
+          }
+        `
+        const CustomWidthFour = styled(Dropdown)`
+          width: 60%;
+          min-width: 224px; /** 14rem (please use pixels on min-width!) */
+          max-width: 25rem;
+
+          /** In case we have a label */
+          .dnb-form-label + .dnb-dropdown__inner {
+            width: 100%;
+          }
+        `
+
+        return (
+          <Flex.Vertical>
+            <CustomWidthOne
+              label="Label"
+              size="default"
+              iconPosition="left"
+              data={data}
+            />
+            <CustomWidthTwo
+              label="Label"
+              size="small"
+              preventSelection
+              title={null}
+              data={data}
+            />
+            <CustomWidthThree
+              label="Label"
+              size="large"
+              align="right"
+              data={data}
+            />
+            <CustomWidthFour
+              title="Min and max width"
+              stretch={true}
+              data={data}
+            />
+          </Flex.Vertical>
+        )
+      }}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownStatusVertical = () => (
+  <Wrapper>
+    <ComponentBox
+      data-visual-test="dropdown-status-error"
+      scope={{ data }}
+    >
+      <Dropdown data={data} label="Label" status="Message to the user" />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownListOpened = () => (
+  <Wrapper>
+    <ComponentBox
+      data-visual-test="dropdown-list"
+      scope={{ data }}
+      hideCode
+    >
+      <span className="dnb-drawer-list dnb-drawer-list--open">
+        <span className="dnb-drawer-list__list">
+          <ul className="dnb-drawer-list__options">
+            <li className="dnb-drawer-list__option first-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                Brukskonto - Kari Nordmann
+              </span>
+            </li>
+            <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber
+                    alwaysSelectAll
+                    key="n-1"
+                  >
+                    12345678902
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
+              </span>
+            </li>
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber
+                    alwaysSelectAll
+                    key="n-2"
+                  >
+                    11345678962
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
+              </span>
+            </li>
+            <li className="dnb-drawer-list__option last-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber
+                    alwaysSelectAll
+                    key="n-3"
+                  >
+                    15349648901
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
+              </span>
+            </li>
+            <li className="dnb-drawer-list__arrow" />
+          </ul>
+        </span>
+      </span>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownCustomizedLook = () => {
+  return (
+    <Wrapper>
+      <ComponentBox scope={{ chevron_right, newspaper, chevron_down }}>
+        {() => {
+          const styles = {
+            customTrigger: {
+              backgroundColor: '#d4ecc5',
+              color: '#14555a',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '8px 16px',
+              fontWeight: 600,
+            },
+            customMenuItem: {
+              display: 'flex',
+              flexFlow: 'row nowrap',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+            customMenuItemTitle: {
+              display: 'flex',
+              flexFlow: 'column',
+              gap: '0.5rem',
+            },
+          }
+
+          const MenuItem = ({ title, content, key }) => (
+            <span style={styles.customMenuItem} key="item-1">
+              <span style={styles.customMenuItemTitle}>
+                {title}
+                <span>{content}</span>
+              </span>
+              <Icon icon={chevron_right} />
+            </span>
+          )
+
+          const data = {
+            accounts: (
+              <MenuItem
+                key="item-1"
+                title="Accounts"
+                content={'Bills, Savings'}
+              />
+            ),
+            loans: (
+              <MenuItem
+                key="item-2"
+                title="Loans"
+                content={'Mortgage, Car'}
+              />
+            ),
+            cards: (
+              <MenuItem
+                key="item-3"
+                title="Cards"
+                content={'Visa, Mastercard'}
+              />
+            ),
+            stocks: (
+              <MenuItem
+                key="item-4"
+                title="Stocks"
+                content={'Nvidia, Apple'}
+              />
+            ),
+          }
+
+          return (
+            <Dropdown
+              data={data}
+              preventSelection
+              triggerElement={(props) => (
+                <button {...props} style={styles.customTrigger}>
+                  <Icon icon={newspaper} /> Custom trigger{' '}
+                  <Icon icon={chevron_down} />
+                </button>
+              )}
+            />
+          )
+        }}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownWithListItemContent = () => {
+  return (
+    <Wrapper>
+      <ComponentBox
+        scope={{ List }}
+        data-visual-test="dropdown-list-item-content"
+      >
+        {() => {
+          // A List row keeps its end cell at content width. Give the
+          // Dropdown room for both cells, without exceeding the demo width.
+          const AccountDropdown = styled(Dropdown)`
+            width: 22rem;
+            max-width: 100%;
+
+            .dnb-dropdown__shell,
+            .dnb-drawer-list__root {
+              width: 100%;
+              min-width: 0;
+            }
+          `
+
+          const data = [
+            {
+              selectedKey: 'accounts',
+              selectedValue: 'Accounts',
+              // The option is already an <li> and wraps its content in spans.
+              // Use spans for the List row and cells to keep the markup valid.
+              content: (
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">
+                    Accounts
+                  </List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Bills, Savings
+                  </List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+            {
+              selectedKey: 'loans',
+              selectedValue: 'Loans',
+              content: (
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Loans</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Mortgage, Car
+                  </List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+            {
+              selectedKey: 'cards',
+              selectedValue: 'Cards',
+              content: (
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Cards</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Visa, Mastercard
+                  </List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+          ]
+
+          return <AccountDropdown data={data} value="accounts" stretch />
+        }}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownGroups = () => {
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="dropdown-groups">
+        <Dropdown
+          groups={[undefined, 'Pets', 'Cars']}
+          data={[
+            { groupIndex: 0, content: 'Default 2' },
+            { groupIndex: 0, content: 'Default 1' },
+            { groupIndex: 1, content: 'Cat' },
+            { groupIndex: 1, content: 'Dog' },
+            { groupIndex: 2, content: 'Jeep' },
+            { groupIndex: 2, content: 'Van' },
+          ]}
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownNoDivider = () => {
+  return (
+    <Wrapper>
+      <ComponentBox>
+        <Dropdown
+          noDivider
+          data={['Cat', 'Dog', 'Canary', 'Hamster', 'Piglet']}
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}

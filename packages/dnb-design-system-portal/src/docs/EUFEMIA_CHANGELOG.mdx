@@ -1,53 +1,67 @@
 ---
-description: 'Design system updates for designers and developers, including new components, interaction patterns, accessibility, and guidance.'
+description: >-
+  Design system updates for designers and developers, including new components,
+  interaction patterns, accessibility, and guidance.
 ---
 
 {/* Highlight design system changes relevant to both designers and developers: shared components, visual design, interaction patterns, accessibility, and guidance. Keep implementation details, configuration, migration steps, and minor fixes in package release notes. */}
 
+## November, 5. 2026
+
+<span id="october-30-2026" />
+
+- [DNB fonts](/web/layout-and-typography/typography/#font-roles): updated DNB Sans Text and Mono, including Light and genuine italics. Text remains the default for interfaces and documents. Experimental [DNB Sans Display](/web/layout-and-typography/typography/#display-headlines) is available for short, expressive headlines.
+- New extension: [TableOfContent](/web/patterns-and-extensions/table-of-content/) helps readers navigate long pages, with nested section links, a current-section indicator, and a collapsible outline on smaller screens.
+- New experimental [Ai extension](https://github.com/dnbexperience/eufemia/pull/9607): building blocks for AI chat experiences, including conversations, messages, prompt input, streamed Markdown responses, suggestions, and source references.
+
+## November, 2. 2026
+
+- [Design tokens](/web/styling-and-themes/design-tokens/colors#migrating-information-and-neutral-colors): information colors are now blue across DNB, Sbanken and Carnegie. Neutral colors and secondary text have been adjusted. Applications using custom neutral backgrounds or foundation color variables should follow the migration guidance when upgrading.
+
 ## October, 23. 2026
 
-- New component: [Popover](/uilib/components/popover) for accessible floating panels anchored to a trigger, with flexible content.
-- [Card.Info](/uilib/components/card/#cardinfo): added information cards with image and video layouts, close buttons, and media controls.
-- [CopyOnClick](/uilib/components/copy-on-click): added an accessible copy button with confirmation feedback.
-- [SidebarMenu](/uilib/extensions/sidebar-menu): added compact responsive navigation with an expandable icon rail and scrolling that reveals opened accordion content.
-- [Typography](/uilib/usage/customisation/theming/design-tokens/typography): aligned font sizes and line heights with Figma design tokens, including larger Carnegie headings and increased line heights for responsive headings.
+- New component: [Popover](/web/components/popover) for accessible floating panels anchored to a trigger, with flexible content.
+- [Card.Info](/web/components/card/#cardinfo): added information cards with image and video layouts, close buttons, and media controls.
+- [CopyOnClick](/web/components/copy-on-click): added an accessible copy button with confirmation feedback.
+- [SidebarMenu](/web/patterns-and-extensions/sidebar-menu): added compact responsive navigation with an expandable icon rail and scrolling that reveals opened accordion content.
+- [Typography](/web/styling-and-themes/design-tokens/typography): aligned font sizes and line heights with Figma design tokens, including larger Carnegie headings and increased line heights for responsive headings.
 
 ## September, 29. 2026
 
-- [Tabs](/uilib/components/tabs): added tooltips for disabled tabs.
-- [Company logo library](/collections/logos) and [public asset CDN](/uilib/usage/assets/): added documentation for versioned company logos, fonts, icons, and other Eufemia assets.
-- [Textarea](/uilib/components/textarea): added a resize handle when automatic resizing is enabled.
-- New [Icon](/icons/secondary): `sidebar`.
+- [Tabs](/web/components/tabs): added tooltips for disabled tabs.
+- [Company logo library](/collections/logos) and [public asset CDN](/web/ai-tools-and-resources/asset-cdn/): added documentation for versioned company logos, fonts, icons, and other Eufemia assets.
+- [Textarea](/web/components/textarea): added a resize handle when automatic resizing is enabled.
+- New [Icon](/collections/icons): `sidebar`.
 
 ## September, 16. 2026
 
-- New extension: [SidebarMenu](/uilib/extensions/sidebar-menu) for persistent navigation with switchable sections, deeply nested accordion groups, and declarative or data-driven composition.
-- New [Icons](/icons/secondary):
+- New extension: [SidebarMenu](/web/patterns-and-extensions/sidebar-menu) for persistent navigation with switchable sections, deeply nested accordion groups, and declarative or data-driven composition.
+- New [Icons](/collections/icons):
   - `add_reaction`
   - `solve`
 
 ## September, 10. 2026
 
-- [Animation Principles](/quickguide-designer/animation-principles/): added visual guidance for motion character, easing, and common interface transitions.
-- [Icon](/uilib/components/icon/#animated-icons): added opt-in animated icons for interface feedback and transitions.
-- [Tabs](/uilib/components/tabs): added an animated active underline.
-- [Forms](/uilib/extensions/forms/): added a `radio-button` variant to Field.Selection, Field.Boolean, and Field.Toggle.
-- [Autocomplete](/uilib/components/autocomplete), [Dropdown](/uilib/components/dropdown), [Field.Selection](/uilib/extensions/forms/base-fields/Selection), and [Field.MultiSelection](/uilib/extensions/forms/base-fields/MultiSelection): added opt-in virtualized lists for large data sets.
+- [Animation Principles](/design-foundations/motion-principles/): added visual guidance for motion character, easing, and common interface transitions.
+- [Icon](/web/components/icon/#animated-icons): added opt-in animated icons for interface feedback and transitions.
+- [Tabs](/web/components/tabs): added an animated active underline.
+- [Forms](/web/forms/): added a `radio-button` variant to Field.Selection, Field.Boolean, and Field.Toggle.
+- [Autocomplete](/web/components/autocomplete), [Dropdown](/web/components/dropdown), [Field.Selection](/web/forms/base-fields/Selection), and [Field.MultiSelection](/web/forms/base-fields/MultiSelection): added opt-in virtualized lists for large data sets.
 
 ## September, 3. 2026
 
-- [Accessibility](/uilib/usage/accessibility/checklist/#find-in-page-for-collapsed-content): added `openOnFind` support to reveal collapsed content through browser find-in-page in supported browsers.
-- [Typography](/uilib/typography/font-size/#optional-javascript-root-scaling): added opt-in iOS Dynamic Type scaling that preserves the default text size and follows changes to the system text-size setting.
+- [Accessibility](/web/accessibility/checklist/#find-in-page-for-collapsed-content): added `openOnFind` support to reveal collapsed content through browser find-in-page in supported browsers.
+- [Typography](/web/layout-and-typography/typography/font-size/#optional-javascript-root-scaling): added opt-in iOS Dynamic Type scaling that preserves the default text size and follows changes to the system text-size setting.
 
 ## August, 14. 2026
 
-- New component: [ScrollView](/uilib/components/scroll-view) for horizontal and vertical scrolling areas. The previous import from `@dnb/eufemia/fragments` is deprecated and will be removed in v13.
-- [FormStatus](/uilib/components/form-status): updated visual appearance with larger rounded corners and balanced content spacing.
+- New component: [ScrollView](/web/components/scroll-view) for horizontal and vertical scrolling areas. The previous import from `@dnb/eufemia/fragments` is deprecated and will be removed in v13.
+- [FormStatus](/web/components/form-status): updated visual appearance with larger rounded corners and balanced content spacing.
 
 ## June, 11. 2026
 
-- New component: [Filter](/uilib/components/filter) for composable, data-model-agnostic filter UIs with shared state via hooks.
-- New [Icons](/icons/secondary):
+- New component: [Filter](/web/components/filter) for composable, data-model-agnostic filter UIs with shared state via hooks.
+- New [Icons](/collections/icons):
   - `accessibility`
   - `ai`
   - `clearing_house`
@@ -61,67 +75,67 @@ description: 'Design system updates for designers and developers, including new 
 
 ## May, 19. 2026
 
-- [Field.MultiSelection](/uilib/extensions/forms/base-fields/MultiSelection): aligned popover spacing and rounded corners for nested and scrollable lists.
+- [Field.MultiSelection](/web/forms/base-fields/MultiSelection): aligned popover spacing and rounded corners for nested and scrollable lists.
 
 ## May, 1. 2026
 
-- Deprecated the `--color-*` CSS custom properties. Use [Design Tokens – Colors](/uilib/usage/customisation/theming/design-tokens/colors) instead.
+- Deprecated the `--color-*` CSS custom properties. Use [Design Tokens – Colors](/web/styling-and-themes/design-tokens/colors) instead.
 
 ## April, 21. 2026
 
-- [New major version 11](/uilib/about-the-lib/releases/eufemia/v11-info/)
-- [InputMasked](/uilib/components/input-masked) and all related masked input fields have been rewritten with a new appearance.
-- [DatePicker](/uilib/components/date-picker) and [Field.Expiry](/uilib/extensions/forms/feature-fields/Expiry) have changed interaction behavior and no longer support a real cursor.
-- [Card](/uilib/components/card): adjusted outline thickness and border radius to new design.
-- [List](/uilib/components/list): added `List.ShowMoreButton` for expandable lists.
-- [Button](/uilib/components/button): removed `variant="signal"`. Use `variant="primary"` or `variant="secondary"` instead.
-- [Forms](/uilib/extensions/forms/): removed default outset from `Form.Card`, `Wizard`, and inline help; removed heading auto-indent.
-- [Forms](/uilib/extensions/forms/): removed included Ajv instance creation from `Form.Handler` and fields.
-- New component: [Menu](/uilib/components/menu) for accessible dropdown menus with keyboard navigation and nested menu support.
+- [New major version 11](/web/releases-and-upgrades/versions/eufemia/v11-info/)
+- [InputMasked](/web/components/input-masked) and all related masked input fields have been rewritten with a new appearance.
+- [DatePicker](/web/components/date-picker) and [Field.Expiry](/web/forms/feature-fields/Expiry) have changed interaction behavior and no longer support a real cursor.
+- [Card](/web/components/card): adjusted outline thickness and border radius to new design.
+- [List](/web/components/list): added `List.ShowMoreButton` for expandable lists.
+- [Button](/web/components/button): removed `variant="signal"`. Use `variant="primary"` or `variant="secondary"` instead.
+- [Forms](/web/forms/): removed default outset from `Form.Card`, `Wizard`, and inline help; removed heading auto-indent.
+- [Forms](/web/forms/): removed included Ajv instance creation from `Form.Handler` and fields.
+- New component: [Menu](/web/components/menu) for accessible dropdown menus with keyboard navigation and nested menu support.
 - New focus color for components when using design tokens.
 
 ## February, 27. 2026
 
-- New component: [Stat](/uilib/components/stat), including `Stat.Currency`, `Stat.Percent`, `Stat.Trend`, and `Stat.Label` for prominent metric formatting.
+- New component: [Stat](/web/components/stat), including `Stat.Currency`, `Stat.Percent`, `Stat.Trend`, and `Stat.Label` for prominent metric formatting.
 
 ## February, 12. 2026
 
-- Added formatting guidance in [Best Practices](/uilib/usage/best-practices/for-formatting/).
+- Added formatting guidance in [Best Practices](/design-foundations/number-formatting/).
 
 ## January, 30. 2025
 
-- New component: [List](/uilib/components/list) for structured list layouts with items, navigation, accordion, and selection variants.
+- New component: [List](/web/components/list) for structured list layouts with items, navigation, accordion, and selection variants.
 
 ## November, 28. 2025
 
-- New component: [TermDefinition](/uilib/components/term-definition).
+- New component: [TermDefinition](/web/components/term-definition).
 
 ## August, 15. 2025
 
-- [DateFormat](/uilib/components/date-format) now supports relative time (auto updates).
+- [DateFormat](/web/components/date-format) now supports relative time (auto updates).
 - Added DNB Carnegie font ArizonaFlare to CDN.
 
 ## June, 20. 2025
 
-- Added [style isolation](/uilib/usage/customisation/styling/style-isolation/) support to scope Eufemia styles.
-- New component: [DateFormat](/uilib/components/date-format).
-- Added React [PortalRoot](/uilib/components/portal-root) and adopted it across overlays.
-- Updated Sbanken info color to green in [Section](/uilib/components/section), [FormStatus](/uilib/components/form-status) and [GlobalStatus](/uilib/components/global-status).
+- Added [style isolation](/web/styling-and-themes/css/style-isolation/) support to scope Eufemia styles.
+- New component: [DateFormat](/web/components/date-format).
+- Added React [PortalRoot](/web/components/portal-root) and adopted it across overlays.
+- Updated Sbanken info color to green in [Section](/web/components/section), [FormStatus](/web/components/form-status) and [GlobalStatus](/web/components/global-status).
 
 ## May, 8. 2025
 
-- New [Icons](/icons/secondary):
+- New [Icons](/collections/icons):
   - `digital_advise`
   - `aino`
   - `lightningstrike`
 
 ## April, 15. 2025
 
-- New v3 [StepIndicator](/uilib/components/step-indicator) with new look and behavior.
+- New v3 [StepIndicator](/web/components/step-indicator) with new look and behavior.
 
 ## February, 10. 2025
 
-- New [Icons](/icons/secondary):
+- New [Icons](/collections/icons):
   - `digipass_corporate`
   - `digipass_private`
   - `calendar_add`
@@ -133,92 +147,92 @@ description: 'Design system updates for designers and developers, including new 
 
 ## March, 20. 2025
 
-- [Forms](/uilib/extensions/forms/): new currency field: [Field.SelectCurrency](/uilib/extensions/forms/feature-fields/SelectCurrency/).
+- [Forms](/web/forms/): new currency field: [Field.SelectCurrency](/web/forms/feature-fields/SelectCurrency/).
 
 ## February, 16. 2025
 
-- New Forms connector: [Bring](/uilib/extensions/forms/Connectors/Bring/) for postal code validation and address suggestions (autofill).
-- [Forms](/uilib/extensions/forms/): new address fields: [Field.Address.Street](/uilib/extensions/forms/feature-fields/Address/) and [Field.Address.Postal](/uilib/extensions/forms/feature-fields/Address/).
+- New Forms connector: [Bring](/web/forms/Connectors/Bring/) for postal code validation and address suggestions (autofill).
+- [Forms](/web/forms/): new address fields: [Field.Address.Street](/web/forms/feature-fields/Address/) and [Field.Address.Postal](/web/forms/feature-fields/Address/).
 
 ## December, 11. 2024
 
 - Updated Sbanken logo.
-- [Upload](/uilib/components/upload): async file actions (open/download/delete) and optional `id`.
+- [Upload](/web/components/upload): async file actions (open/download/delete) and optional `id`.
 
 ## November, 21. 2024
 
-- New component: [ListFormat](/uilib/components/list-format)
-- [Forms](/uilib/extensions/forms/): new `Value.Upload` value component.
-- [Card](/uilib/components/card) and [Section](/uilib/components/section): new `outset` property for moderate layout breakout.
-- Typography: added `.dnb-t` [helper class](/uilib/typography) for general paragraph styling (body text).
-- [Forms](/uilib/extensions/forms/): new `Form.Card` container for forms.
+- New component: [ListFormat](/web/components/list-format)
+- [Forms](/web/forms/): new `Value.Upload` value component.
+- [Card](/web/components/card) and [Section](/web/components/section): new `outset` property for moderate layout breakout.
+- Typography: added `.dnb-t` [helper class](/web/layout-and-typography/typography) for general paragraph styling (body text).
+- [Forms](/web/forms/): new `Form.Card` container for forms.
 
 ## October, 30. 2024
 
-- New component: [CountryFlag](/uilib/components/country-flag)
+- New component: [CountryFlag](/web/components/country-flag)
 
 ## July, 22. 2024
 
-- [Forms](/uilib/extensions/forms/): new Upload field.
-- [Table](/uilib/components/table): new [navigation](/uilib/components/table/#table-with-clickable-rows-navigation-mode) mode.
+- [Forms](/web/forms/): new Upload field.
+- [Table](/web/components/table): new [navigation](/web/components/table/#table-with-clickable-rows-navigation-mode) mode.
 
 ## September, 29. 2024
 
-- [Forms](/uilib/extensions/forms/): new `Form.SubmitConfirmation` to confirm submits.
+- [Forms](/web/forms/): new `Form.SubmitConfirmation` to confirm submits.
 
 ## August, 27. 2024
 
-- New component: [CopyOnClick](/uilib/components/copy-on-click)
+- New component: [CopyOnClick](/web/components/copy-on-click)
 
 ## June, 2. 2024
 
-- Changed Sbanken info color to purple in [FormStatus](/uilib/components/form-status) and [Section](/uilib/components/section).
-- [Forms](/uilib/extensions/forms/): added edit and view containers to `Form.Section`.
+- Changed Sbanken info color to purple in [FormStatus](/web/components/form-status) and [Section](/web/components/section).
+- [Forms](/web/forms/): added edit and view containers to `Form.Section`.
 
 ## May, 31. 2024
 
-- New Eufemia [Forms](/uilib/extensions/forms/) block: [ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
+- New Eufemia [Forms](/web/forms/) block: [ChildrenWithAge](/web/forms/blocks/ChildrenWithAge/).
 
 ## April, 23. 2024
 
-- New extension: [Forms](/uilib/extensions/forms/) for applications, including fields such as:
-  - [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/)
-  - [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/)
-  - [Field.Date](/uilib/extensions/forms/feature-fields/Date/)
-  - [Field.Email](/uilib/extensions/forms/feature-fields/Email/)
-  - [Field.Expiry](/uilib/extensions/forms/feature-fields/Expiry/)
-  - [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/)
-  - [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/)
-  - [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/)
-  - [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/)
-  - [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/)
+- New extension: [Forms](/web/forms/) for applications, including fields such as:
+  - [Field.PhoneNumber](/web/forms/feature-fields/PhoneNumber/)
+  - [Field.Currency](/web/forms/feature-fields/Currency/)
+  - [Field.Date](/web/forms/feature-fields/Date/)
+  - [Field.Email](/web/forms/feature-fields/Email/)
+  - [Field.Expiry](/web/forms/feature-fields/Expiry/)
+  - [Field.NationalIdentityNumber](/web/forms/feature-fields/NationalIdentityNumber/)
+  - [Field.BankAccountNumber](/web/forms/feature-fields/BankAccountNumber/)
+  - [Field.OrganizationNumber](/web/forms/feature-fields/OrganizationNumber/)
+  - [Field.PostalCodeAndCity](/web/forms/feature-fields/PostalCodeAndCity/)
+  - [Field.SelectCountry](/web/forms/feature-fields/SelectCountry/)
 
 ## January, 18. 2024
 
-- New component: [AriaLive](/uilib/components/aria-live) (for screen readers).
+- New component: [AriaLive](/web/components/aria-live) (for screen readers).
 
 ## December, 15. 2023
 
-- [Icons](/icons/secondary): `browser`, `digipass`, `envelope_open`, `laptop`, `mobile`, `money_left`, `teenager`.
-- [Section](/uilib/components/section): add `dropShadow` support.
+- [Icons](/collections/icons): `browser`, `digipass`, `envelope_open`, `laptop`, `mobile`, `money_left`, `teenager`.
+- [Section](/web/components/section): add `dropShadow` support.
 
 ## November 03, 2023
 
-- Add responsive properties for [Section](/uilib/components/section/) component.
+- Add responsive properties for [Section](/web/components/section/) component.
 
 ## October 19, 2023
 
 - New components released:
-  - [Card](/uilib/components/card/)
-  - [Flex](/uilib/layout/flex/)
-  - [Grid](/uilib/layout/grid/)
+  - [Card](/web/components/card/)
+  - [Flex](/web/layout-and-typography/layout/flex/)
+  - [Grid](/web/layout-and-typography/layout/grid/)
 
 ## May, 31. 2023
 
-- [New major version 10](/uilib/about-the-lib/releases/eufemia/v10-info/)
-- New component: [SkipContent](/uilib/components/skip-content)
-- [GlobalError](/uilib/components/global-error) got new styles (without illustrations).
-- New [Icons](/icons/secondary):
+- [New major version 10](/web/releases-and-upgrades/versions/eufemia/v10-info/)
+- New component: [SkipContent](/web/components/skip-content)
+- [GlobalError](/web/components/global-error) got new styles (without illustrations).
+- New [Icons](/collections/icons):
   - `handshake`
   - `heavy_equipment`
   - `id_card`
@@ -235,29 +249,29 @@ description: 'Design system updates for designers and developers, including new 
 
 ## November, 22. 2022
 
-- New default [Table](/uilib/components/table) styles.
-- Support `medium` and `small` [Table](/uilib/components/table) sizes.
+- New default [Table](/web/components/table) styles.
+- Support `medium` and `small` [Table](/web/components/table) sizes.
 
 ## November, 15. 2022
 
-- Add [typography](/uilib/typography) styling for superscript `<sup>` and subscript `<sub>` HTML elements.
+- Add [typography](/web/layout-and-typography/typography) styling for superscript `<sup>` and subscript `<sub>` HTML elements.
 
 ## October, 27. 2022
 
 - New components released:
-  - [Upload](/uilib/components/upload)
-  - [useMedia](/uilib/layout/media-queries/#usemedia-hook-usage)
+  - [Upload](/web/components/upload)
+  - [useMedia](/web/layout-and-typography/breakpoints/#usemedia-hook-usage)
 
 ## October, 5. 2022
 
-- New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](/uilib/elements/lists/#definition-list-in-horizontal-direction).
+- New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](/web/layout-and-typography/elements/lists/#definition-list-in-horizontal-direction).
 - New components released:
-  - [Badge](/uilib/components/badge)
-  - [HeightAnimation](/uilib/components/height-animation)
+  - [Badge](/web/components/badge)
+  - [HeightAnimation](/web/components/height-animation)
 
 ## June, 10. 2022
 
-- Change colors of [Table](/uilib/components/table):
+- Change colors of [Table](/web/components/table):
   - Header text gets `black`
   - Header background gets `white`
   - Even rows gets `lavender`
@@ -266,16 +280,16 @@ description: 'Design system updates for designers and developers, including new 
 ## February, 15. 2022
 
 - New components released:
-  - [Dialog](/uilib/components/dialog)
-  - [Drawer](/uilib/components/drawer)
-  - [Modal](/uilib/components/modal) (redefined)
+  - [Dialog](/web/components/dialog)
+  - [Drawer](/web/components/drawer)
+  - [Modal](/web/components/modal) (redefined)
 
 ## February, 8. 2022
 
 - New components released:
-  - [VisuallyHidden](/uilib/components/visually-hidden)
+  - [VisuallyHidden](/web/components/visually-hidden)
 
-- New [Icons](/icons/secondary):
+- New [Icons](/collections/icons):
   - secondary `credit_note`
   - secondary `deleted_invoice`
   - secondary `speedometer`
@@ -284,22 +298,22 @@ description: 'Design system updates for designers and developers, including new 
 ## January, 26. 2022
 
 - New components released:
-  - [Avatar](/uilib/components/avatar)
-  - [InfoCard](/uilib/components/info-card)
-  - [Tag](/uilib/components/tag)
-  - [Timeline](/uilib/components/timeline)
+  - [Avatar](/web/components/avatar)
+  - [InfoCard](/web/components/info-card)
+  - [Tag](/web/components/tag)
+  - [Timeline](/web/components/timeline)
 
 ## November, 23. 2021
 
-- New design for component [GlobalStatus](/uilib/components/global-status) with brighter colors.
+- New design for component [GlobalStatus](/web/components/global-status) with brighter colors.
 
 ## November, 12. 2021
 
-- Updated icon sizes for component [Button](/uilib/components/button) variant tertiary (16px default, 24px for icon position top).
+- Updated icon sizes for component [Button](/web/components/button) variant tertiary (16px default, 24px for icon position top).
 
 ## November, 05. 2021
 
-- New component [Breadcrumb](/uilib/components/breadcrumb).
+- New component [Breadcrumb](/web/components/breadcrumb).
 
 ## October, 08. 2021
 
@@ -307,7 +321,7 @@ description: 'Design system updates for designers and developers, including new 
 
 ## August, 17. 2021
 
-- New v2 [StepIndicator](/uilib/components/step-indicator) with new look and behavior. v1 can still be used for legacy reasons until the next breaking release.
+- New v2 [StepIndicator](/web/components/step-indicator) with new look and behavior. v1 can still be used for legacy reasons until the next breaking release.
 
 ## April, 5. 2021
 
@@ -327,9 +341,9 @@ description: 'Design system updates for designers and developers, including new 
 
 ## January, 28. 2021
 
-- Change the [Number](/uilib/components/number-format) currency display from `symbol` to `narrowSymbol` when locale is `no`.
-- Change the [Tabs](/uilib/components/tabs) spacing from 80px to 40px as basis, and use 32px for small viewports.
-- Change the [Tabs](/uilib/components/tabs) line color from `mint-green-50` to `black-8`.
+- Change the [Number](/web/components/number-format) currency display from `symbol` to `narrowSymbol` when locale is `no`.
+- Change the [Tabs](/web/components/tabs) spacing from 80px to 40px as basis, and use 32px for small viewports.
+- Change the [Tabs](/web/components/tabs) line color from `mint-green-50` to `black-8`.
 
 ## December, 15. 2020
 
@@ -355,20 +369,20 @@ These icons got replaced:
 
 ## November, 8. 2020
 
-- New [grey colors](/uilib/usage/customisation/colors):
+- New [grey colors](/web/styling-and-themes/legacy-colors):
   - `black-55` (#737373)
   - `black-20` (#cccccc) which replaces `black-30` (~~#b3b3b3~~)
   - `black-8` (#ebebeb)
   - `black-3` (#f8f8f8)
-- New docs about [maintainability](/uilib/about-the-lib/maintainability).
-- New component [Skeleton](/uilib/components/skeleton)
-- Updated Modal & Drawer UI [Modal & Drawer](/uilib/components/modal)
+- New docs about [maintainability](/web/development-guidelines/maintainable-integrations).
+- New component [Skeleton](/web/components/skeleton)
+- Updated Modal & Drawer UI [Modal & Drawer](/web/components/modal)
 - **Ol Lists** do now support the `type` HTML attribute in order to use like _letters_ and _roman numerals_
 - **DNB Medium** font got an enhancement regarding readability on Windows.
 
 ## July, 3. 2020
 
-New [Icons](/icons/secondary):
+New [Icons](/collections/icons):
 
 - secondary `chatbot`
 - secondary `location`
@@ -377,7 +391,7 @@ New [Icons](/icons/secondary):
 
 ## June, 18. 2020
 
-New [Icons](/icons/secondary):
+New [Icons](/collections/icons):
 
 - secondary `bankid`
 - secondary `bankid_on_mobile`
@@ -387,22 +401,22 @@ New [Icons](/icons/secondary):
 
 ## June, 4. 2020
 
-- The [color](/quickguide-designer/colors) `Sea green alt` is removed and got replaced by `Sea green`
+- The [color](/web/styling-and-themes/legacy-colors) `Sea green alt` is removed and got replaced by `Sea green`
 - The `DNB` font got updates on the bold weight, mostly affected Windows users
-- New component [Autocomplete](/uilib/components/autocomplete)
-- New component [Pagination](/uilib/components/pagination) including infinity scroller
-- New component [Heading](/uilib/components/heading)
-- New [secondary icons](/icons/secondary): `pay_from`, `transfer_to`
-- Modal got a [Drawer mode](/uilib/components/drawer/) and has now a dark background color
-- **Breaking Changes** to the UMD [bundles](/uilib/usage/first-steps/bundles) structure (v7), including ESM (mjs)
+- New component [Autocomplete](/web/components/autocomplete)
+- New component [Pagination](/web/components/pagination) including infinity scroller
+- New component [Heading](/web/components/heading)
+- New [secondary icons](/collections/icons): `pay_from`, `transfer_to`
+- Modal got a [Drawer mode](/web/components/drawer/) and has now a dark background color
+- **Breaking Changes** to the UMD [bundles](/web/ai-tools-and-resources/module-formats) structure (v7), including ESM (mjs)
 - **Breaking Changes** to headings:
   - `.dnb-h1` is now `.dnb-h--xx-large`
   - `.dnb-h1--small` is now `.dnb-h--x-large`
   - `.dnb-h2` is now `.dnb-h--large`
   - `.dnb-h3` is now `.dnb-h--medium` / `.dnb-lead`
-  - For `.dnb-h4`, `.dnb-h5` and `.dnb-h6` see [v7 release notes](/uilib/about-the-lib/releases/dnb-ui-lib/v7-info#heading-changes)
+  - For `.dnb-h4`, `.dnb-h5` and `.dnb-h6` see [v7 release notes](/web/releases-and-upgrades/versions/dnb-ui-lib/v7-info#heading-changes)
 
-Check out the [detailed migration guide](/uilib/about-the-lib/releases/dnb-ui-lib/v7-info#migration)
+Check out the [detailed migration guide](/web/releases-and-upgrades/versions/dnb-ui-lib/v7-info#migration)
 
 Figma typography styles got updated as well:
 
@@ -420,7 +434,7 @@ Figma typography styles got updated as well:
 
 General information: All existing and new components uses the new (and slightly larger) text styles, but the existing height of the components is not affected by this and has NOT changed.
 
-[Typography](/uilib/typography) changes:
+[Typography](/web/layout-and-typography/typography) changes:
 
 - **h1** `DNB Sans Medium` 48px / 56px line height
 - **h1 small** `DNB Sans Medium` 34px / 40px line height
@@ -437,13 +451,13 @@ General information: All existing and new components uses the new (and slightly 
 
 ### Colors
 
-[Colors](/uilib/usage/customisation/colors) changes:
+[Colors](/web/styling-and-themes/legacy-colors) changes:
 
 - `accent-yellow`, which replaces `signal-yellow`
 - `accent-yellow-30`, which replaces `signal-yellow-30`
 - `signal-orange` is moved from Profile to UX color
 
-New [Colors](/uilib/usage/customisation/colors):
+New [Colors](/web/styling-and-themes/legacy-colors):
 
 - Profile color `lavender`
 - Profile color `sand-yellow`
@@ -456,7 +470,7 @@ New [Colors](/uilib/usage/customisation/colors):
 
 ### Components and Elements
 
-[Components](/uilib/components) and [Elements](/uilib/elements) features and changes:
+[Components](/web/components/overview) and [Elements](/web/layout-and-typography/elements) features and changes:
 
 ### Components changes
 
@@ -469,11 +483,11 @@ New [Colors](/uilib/usage/customisation/colors):
   - dropdown text error state color: `fire-red`
 - **Table** header icon change: from `chevron` to `arrow`
 
-Get more details about the `@dnb/eufemia` [v6 release](/uilib/about-the-lib/releases/dnb-ui-lib/v6-info)
+Get more details about the `@dnb/eufemia` [v6 release](/web/releases-and-upgrades/versions/dnb-ui-lib/v6-info)
 
 ## November, 30. 2019
 
-New [Icons](/icons):
+New [Icons](/collections/icons):
 
 - primary `reset`
 - primary `reset`
@@ -488,22 +502,22 @@ New [Icons](/icons):
 - secondary `view_on`
 - secondary `view_off`
 
-Get more details about the `@dnb/eufemia` [v5.8 release](/uilib/about-the-lib/releases/dnb-ui-lib/v5.8-info)
+Get more details about the `@dnb/eufemia` [v5.8 release](/web/releases-and-upgrades/versions/dnb-ui-lib/v5.8-info)
 
 ## November, 16. 2019
 
-- New [secondary icons](/icons/secondary): `arrow_up`, `arrow_down`, `arrow_right`, `arrow_left`, `view`, `view_off`, `settings`, `refresh`, `add_file`
+- New [secondary icons](/collections/icons): `arrow_up`, `arrow_down`, `arrow_right`, `arrow_left`, `view`, `view_off`, `settings`, `refresh`, `add_file`
 
 ## November, 6. 2019
 
-- [GlobalStatus](/uilib/components/global-status): modified background color
-- [Icon](/uilib/components/icon): new feature; rounded border
+- [GlobalStatus](/web/components/global-status): modified background color
+- [Icon](/web/components/icon): new feature; rounded border
 - Made the `core` and `basis` CSS packages more robust on running in ePlatform environment
 
 ## October, 30. 2019
 
-- New component in the `@dnb/eufemia`: [Number](/uilib/components/number-format)
-- New [colors](/uilib/usage/customisation/colors):
+- New component in the `@dnb/eufemia`: [Number](/web/components/number-format)
+- New [colors](/web/styling-and-themes/legacy-colors):
   1. `fire-red`, which replaces `cherry-red` (_default error color_)
   1. `fire-red-8`, which replaces `cherry-red-8`
 - Icons changes:
@@ -511,42 +525,42 @@ Get more details about the `@dnb/eufemia` [v5.8 release](/uilib/about-the-lib/re
   1. secondary `save_alt_01` is now => primary `save`
   1. primary `error` got removed
 
-Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/releases/dnb-ui-lib/v5-info)
+Get more details about the `@dnb/eufemia` [v5 release](/web/releases-and-upgrades/versions/dnb-ui-lib/v5-info)
 
 ## October, 14. 2019
 
-- New [secondary icons](/icons/secondary): `undo` and `redo`
+- New [secondary icons](/collections/icons): `undo` and `redo`
 
 ## October, 2. 2019
 
-- New [secondary icons](/icons/secondary): `send` and `upload`
+- New [secondary icons](/collections/icons): `send` and `upload`
 
 ## September, 23. 2019
 
-- New component to show `404` and `500` status: [GlobalError](/uilib/components/global-error)
+- New component to show `404` and `500` status: [GlobalError](/web/components/global-error)
 
 ## August, 24. 2019
 
-- Read more about the `@dnb/eufemia` [v4.10 release](/uilib/about-the-lib/releases/dnb-ui-lib/v4.10-info)
-- New component in the `@dnb/eufemia`: [GlobalStatus](/uilib/components/global-status)
-- Updated [FormStatus](/uilib/components/form-status) with new text color and new icon
-- Added link to example usage of a [Table](/uilib/components/table) styles using `react-table`
-- Added info about [Custom project Icons](/uilib/components/icon#custom-project-icons)
+- Read more about the `@dnb/eufemia` [v4.10 release](/web/releases-and-upgrades/versions/dnb-ui-lib/v4.10-info)
+- New component in the `@dnb/eufemia`: [GlobalStatus](/web/components/global-status)
+- Updated [FormStatus](/web/components/form-status) with new text color and new icon
+- Added link to example usage of a [Table](/web/components/table) styles using `react-table`
+- Added info about [Custom project Icons](/web/components/icon#custom-project-icons)
 
 ## July, 21. 2019
 
-- Major Release of `@dnb/eufemia`: Read more about the [v4 release](/uilib/about-the-lib/releases/dnb-ui-lib/v4-info)
-- New component in the `@dnb/eufemia`: [Space](/uilib/layout/space) for easy spacing capabilities
-- New component in the `@dnb/eufemia`: [Slider](/uilib/components/slider) with add/subtract buttons
+- Major Release of `@dnb/eufemia`: Read more about the [v4 release](/web/releases-and-upgrades/versions/dnb-ui-lib/v4-info)
+- New component in the `@dnb/eufemia`: [Space](/web/layout-and-typography/layout/space) for easy spacing capabilities
+- New component in the `@dnb/eufemia`: [Slider](/web/components/slider) with add/subtract buttons
 
 ## June, 26. 2019
 
-- The `@dnb/eufemia` got new helpers for [Spacing](/uilib/layout/spacing#spacing-helpers) and [Layout](/uilib/layout)
+- The `@dnb/eufemia` got new helpers for [Spacing](/web/layout-and-typography/spacing#spacing-helpers) and [Layout](/web/layout-and-typography/layout)
 - Added first Demo App
 
 ## June, 19. 2019
 
-- New components in the `@dnb/eufemia`: [ToggleButton](/uilib/components/toggle-button) as well as two layout components FormSet and FormRow
+- New components in the `@dnb/eufemia`: [ToggleButton](/web/components/toggle-button) as well as two layout components FormSet and FormRow
 
 ## June, 5. 2019
 
@@ -554,25 +568,25 @@ Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/rele
 
 ## June, 3. 2019
 
-- New component in the `@dnb/eufemia`: [Textarea](/uilib/components/textarea). Got also a wider corner radius by `16px (1rem)`
+- New component in the `@dnb/eufemia`: [Textarea](/web/components/textarea). Got also a wider corner radius by `16px (1rem)`
 
 ## May, 27. 2019
 
-- New components in the `@dnb/eufemia`: [Checkbox](/uilib/components/checkbox) and [Radio](/uilib/components/radio) button
+- New components in the `@dnb/eufemia`: [Checkbox](/web/components/checkbox) and [Radio](/web/components/radio) button
 
 ## May, 19. 2019
 
-- New component in the `@dnb/eufemia`: Circular [ProgressIndicator](/uilib/components/progress-indicator) bar (spinner with animation)
+- New component in the `@dnb/eufemia`: Circular [ProgressIndicator](/web/components/progress-indicator) bar (spinner with animation)
 
 ## May, 8. 2019
 
-- New component in the `@dnb/eufemia`: [DatePicker](/uilib/components/date-picker) with range/period support
+- New component in the `@dnb/eufemia`: [DatePicker](/web/components/date-picker) with range/period support
 
 ## April, 26. 2019
 
 **Changes to the default styles**
 
-- DNB [section](/uilib/components/section) `.dnb-section` got two new default colors `.dnb-section--emerald-green` and `.dnb-section--signal-orange`.
+- DNB [section](/web/components/section) `.dnb-section` got two new default colors `.dnb-section--emerald-green` and `.dnb-section--signal-orange`.
 
 ## March, 22. 2019
 
@@ -608,7 +622,7 @@ Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/rele
 
 **UI library**
 
-- **Breaking change:** [Styles](/uilib/usage/customisation/styling) got new structure. You have now to declare the [HTML Elements with a class](/uilib/elements)
+- **Breaking change:** [Styles](/web/styling-and-themes/css) got new structure. You have now to declare the [HTML Elements with a class](/web/layout-and-typography/elements)
 
 ---
 
@@ -630,6 +644,6 @@ Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/rele
 - Hover on Tabs looks more like an anchor
 - Color change: Sea Green 4% -> Mint Green 12%
 
-Get more [details about releases](/web/whats-new/upgrade) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+Get more [details about releases](/web/releases-and-upgrades/upgrade) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
 
 ---

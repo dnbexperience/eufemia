@@ -12,20 +12,18 @@ import ProgressIndicator from '../../components/progress-indicator'
 import P from '../../elements/P'
 
 // Icons
-import {
-  trash as TrashIcon,
-  exclamation_medium as ExclamationIcon,
-  file_png_medium as PngIcon,
-  file_jpg_medium as JpgIcon,
-  file_word_medium as DocIcon,
-  file_pdf_medium as PdfIcon,
-  file_xls_medium as XlsIcon,
-  file_ppt_medium as PptIcon,
-  file_csv_medium as CsvIcon,
-  file_txt_medium as TxtIcon,
-  file_xml_medium as XmlIcon,
-  file_medium as FileIcon,
-} from '../../icons'
+import TrashIcon from '../../icons/trash'
+import ExclamationIcon from '../../icons/exclamation_medium'
+import PngIcon from '../../icons/file_png_medium'
+import JpgIcon from '../../icons/file_jpg_medium'
+import DocIcon from '../../icons/file_word_medium'
+import PdfIcon from '../../icons/file_pdf_medium'
+import XlsIcon from '../../icons/file_xls_medium'
+import PptIcon from '../../icons/file_ppt_medium'
+import CsvIcon from '../../icons/file_csv_medium'
+import TxtIcon from '../../icons/file_txt_medium'
+import XmlIcon from '../../icons/file_xml_medium'
+import FileIcon from '../../icons/file_medium'
 import type { UploadFile, UploadFileNative } from './types'
 
 // Shared

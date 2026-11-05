@@ -6,7 +6,7 @@ export const RemoveButtonProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Button](/uilib/components/button/properties)': {
+  '[Button](/web/components/button/properties)': {
     doc: 'All button properties. A given `onClick` runs before the item is removed, instead of replacing it. Return `false` from it to keep the item. With `showConfirmDialog`, it runs when the dialog opens.',
     type: 'Various',
     status: 'optional',

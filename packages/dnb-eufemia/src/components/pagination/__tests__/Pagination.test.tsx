@@ -1243,4 +1243,18 @@ describe('Pagination scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the current page in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-pagination.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-pagination__button\.dnb-button\[aria-current=page\] \{\s*background-color: Highlight;\s*color: HighlightText;\s*outline-color: Highlight;/
+    )
+    expect(css).toMatch(
+      /\.dnb-pagination__button\.dnb-button\[aria-current=page\] \.dnb-button__text \{\s*forced-color-adjust: none;/
+    )
+    expect(css).toMatch(
+      /\.dnb-pagination__button\.dnb-button\[aria-current=page\]:focus-visible:not\(\[disabled\]\) \{\s*outline-color: CanvasText;/
+    )
+  })
 })

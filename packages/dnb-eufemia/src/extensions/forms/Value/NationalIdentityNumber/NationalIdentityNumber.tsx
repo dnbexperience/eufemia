@@ -23,7 +23,9 @@ function NationalIdentityNumber(props: ValueNationalIdentityNumberProps) {
 
   const stringValueProps: ValueNationalIdentityNumberProps = {
     ...props,
-    label: props.label ?? (props.inline ? undefined : translations.label),
+    defaultLabel:
+      props.defaultLabel ??
+      (props.inline ? undefined : translations.label),
     toInput,
   }
   return <StringValue {...stringValueProps} />

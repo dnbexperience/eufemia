@@ -17,7 +17,9 @@ type BooleanProps = {
    * Choice of input feature. Defaults to `checkbox`.
    */
   variant?: ToggleFieldProps['variant']
-  /** The size of the toggle. Available sizes: `small`, `medium` (default), `large`. */
+  /**
+   * The size of the toggle. Can be `default`, `medium` or `large`. The button variants also support `small`.
+   */
   size?: ToggleFieldProps['size']
   /**
    * Will be called on click.

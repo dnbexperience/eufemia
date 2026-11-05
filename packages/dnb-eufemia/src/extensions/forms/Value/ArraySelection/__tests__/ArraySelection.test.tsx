@@ -194,6 +194,18 @@ describe('Value.ArraySelection', () => {
     ).toHaveTextContent('Baz, Bar and Foo')
   })
 
+  it('formats value with the locale property', () => {
+    render(
+      <Value.ArraySelection value={['Baz', 'Bar', 'Foo']} locale="en-GB" />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Baz, Bar and Foo')
+  })
+
   it('should use Field.Option title rendered in Field.ArraySelection', () => {
     render(
       <Form.Handler

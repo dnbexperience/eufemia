@@ -48,6 +48,10 @@ export type FlexContainerProps = {
    */
   wrapChildrenInSpace?: boolean
   rowGap?: FlexGap
+  /**
+   * Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/web/layout-and-typography/layout/flex/item).
+   * Default: `12`
+   */
   sizeCount?: number
   /**
    * Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement.
@@ -65,7 +69,9 @@ export type FlexContainerProps = {
    * Default: `'flex-start'`
    */
   align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline'
-  /** For when used as a flex item in an outer container in addition to being a container: */
+  /**
+   * Align the container itself when it is a flex item in an outer container (CSS `align-self`).
+   */
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   /**
    * How to separate sub components.

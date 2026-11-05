@@ -20,7 +20,7 @@ export const TypographyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   lineHeight: {
-    doc: 'Sets the line height, will use same value as `size` if not set.',
+    doc: 'Sets the line height. Defaults to the size, or the Display line height when family is display.',
     type: [
       '"x-small"',
       '"small"',
@@ -38,13 +38,19 @@ export const TypographyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   family: {
-    doc: 'Sets the font family.',
-    type: ['"basis"', '"heading"', '"monospace"'],
+    doc: 'Sets the font family. Display is experimental. [Contact the Eufemia team](/design-system/contact) before use. Use it only for short, expressive headlines. Display has one upright weight.',
+    type: [
+      '"basis"',
+      '"default"',
+      '"heading"',
+      '"monospace"',
+      '"display"',
+    ],
     status: 'optional',
   },
   weight: {
     doc: 'Sets the font weight.',
-    type: ['"regular"', '"medium"'],
+    type: ['"light"', '"regular"', '"medium"', '"bold"'],
     status: 'optional',
   },
   decoration: {
@@ -62,7 +68,7 @@ export const TypographyProperties: PropertiesTableProps = {
     type: ['number', 'boolean'],
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

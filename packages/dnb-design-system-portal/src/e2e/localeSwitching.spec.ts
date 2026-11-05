@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Locale switching', () => {
   async function gotoAndWait(page: Page) {
-    const url = '/uilib/components/button/demos/'
+    const url = '/web/components/button/demos/'
     await page.goto(url)
     await waitForApp(page)
   }
@@ -28,10 +28,10 @@ test.describe('Locale switching', () => {
     expect(locale === null || locale === 'nb-NO').toBe(true)
   })
 
-  test('should switch locale via portal tools', async ({ page }) => {
+  test('should switch locale via settings', async ({ page }) => {
     await gotoAndWait(page)
 
-    // Open portal tools drawer
+    // Open settings drawer
     const triggerButton = page.locator(
       'button[id*="portal-tools"], [id="portal-tools"] button'
     )
@@ -41,6 +41,11 @@ test.describe('Locale switching', () => {
     await page
       .locator('.dnb-drawer__content')
       .waitFor({ state: 'visible', timeout: 5000 })
+    await expect(
+      page
+        .getByRole('dialog', { name: 'Settings', exact: true })
+        .getByRole('button', { name: 'Close', exact: true })
+    ).toBeVisible()
 
     // Click the locale dropdown trigger using its label
     const dropdown = page.getByLabel('Change components language')

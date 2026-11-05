@@ -2,7 +2,7 @@ import { useCallback, useContext } from 'react'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
-import { edit } from '../../../../icons'
+import edit from '../../../../icons/edit'
 
 export default function EditButton() {
   const iterateItemContext = useContext(IterateItemContext)

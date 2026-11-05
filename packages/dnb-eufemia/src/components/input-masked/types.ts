@@ -94,15 +94,15 @@ export type InputMaskedProps = Omit<
      */
     maskOptions?: InputMaskedMaskOptions
     /**
-     * Use an object with [NumberFormat](/uilib/components/number-format/properties).
+     * Use an object with [NumberFormat](/web/components/number-format/properties).
      */
     numberFormat?: NumberFormatProps
     /**
-     * Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.
+     * Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/web/styling-and-themes/configuration/provider) if not given. Defaults to `nb-NO`.
      */
     locale?: InternalLocale
     /**
-     * Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.
+     * Set to `true` to use the `currency` of the [Provider](/web/styling-and-themes/configuration/provider/), which is `NOK` unless set, or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.
      */
     asCurrency?: InputMaskedAsCurrency
     /**

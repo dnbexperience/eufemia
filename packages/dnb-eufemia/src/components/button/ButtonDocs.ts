@@ -32,7 +32,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).',
+    doc: 'To be included in the button. [Primary Icons](/collections/icons) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
@@ -72,7 +72,7 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   wrap: {
-    doc: 'If set to `true` the button text will wrap into new lines if the overflow point is reached. Defaults to `false`.',
+    doc: 'Set to `true` to allow the label to wrap onto multiple lines when it reaches the available width. Defaults to `false` because button labels should be short and easy to scan. If a label needs a line break, consider shortening it or using a different component that better fits the content and interaction.',
     type: 'boolean',
     status: 'optional',
   },
@@ -112,8 +112,14 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
+    doc: 'Defines the state of the status. Can be `error`, `warning`, `information`, `success` or `marketing`. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {
@@ -122,11 +128,11 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'object',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

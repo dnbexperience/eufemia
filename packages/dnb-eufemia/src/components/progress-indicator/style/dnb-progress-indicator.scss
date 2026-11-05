@@ -16,7 +16,7 @@
     var(--progress-indicator-circular-size) / 8
   );
   --progress-indicator-circular-background-color: var(
-    --token-color-background-neutral-alternative
+    --token-color-background-neutral-subtle
   );
   --progress-indicator-circular-bar-color: var(
     --token-color-background-action
@@ -62,6 +62,14 @@
   }
   &--horizontal#{&}--small &__label {
     padding-left: 0.5rem;
+  }
+
+  // linear variant: one line next to the bar, wraps only beyond half the width
+  &--full-width#{&}--horizontal &__label {
+    flex-shrink: 0;
+    max-width: 50%;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
   }
 
   &--vertical &__label {
@@ -212,6 +220,12 @@
     height: var(--progress-indicator-linear-size);
     border-radius: var(--token-radius-full);
 
+    // Forced colors mode removes the background colors of the track and the
+    // bar, so outline the track and use a system color for the bar
+    @media (forced-colors: active) {
+      outline: 1px solid CanvasText;
+    }
+
     &__bar {
       background-color: var(--progress-indicator-linear-bar-color);
       width: 100%;
@@ -221,6 +235,11 @@
       top: 0;
       transform-origin: left;
       border-radius: inherit;
+
+      // !important, so that it also wins over the inline customColors.line
+      @media (forced-colors: active) {
+        background-color: Highlight !important;
+      }
     }
 
     &__bar-transition {

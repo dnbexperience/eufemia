@@ -12,7 +12,7 @@ export const InputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   asCurrency: {
-    doc: 'Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.',
+    doc: 'Set to `true` to use the `currency` of the [Provider](/web/styling-and-themes/configuration/provider/), which is `NOK` unless set, or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.',
     type: ['boolean', 'string'],
     status: 'optional',
   },
@@ -32,12 +32,12 @@ export const InputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   numberFormat: {
-    doc: 'Use an object with [NumberFormat](/uilib/components/number-format/properties).',
+    doc: 'Use an object with [NumberFormat](/web/components/number-format/properties).',
     type: 'object',
     status: 'optional',
   },
   locale: {
-    doc: 'Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.',
+    doc: 'Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/web/styling-and-themes/configuration/provider) if not given. Defaults to `nb-NO`.',
     type: 'string',
     status: 'optional',
   },
@@ -61,12 +61,12 @@ export const InputMaskedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
   },
-  '[Input](/uilib/components/input/properties)': {
+  '[Input](/web/components/input/properties)': {
     doc: 'All `Input` properties are supported.',
     type: 'Various',
     status: 'optional',
@@ -79,7 +79,7 @@ export const InputMaskedEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  '[Input](/uilib/components/input/events)': {
+  '[Input](/web/components/input/events)': {
     doc: 'All `Input` events are supported.',
     type: 'Various',
     status: 'optional',

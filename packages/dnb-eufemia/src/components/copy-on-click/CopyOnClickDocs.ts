@@ -54,7 +54,7 @@ export const CopyOnClickButtonProperties: PropertiesTableProps = {
     type: ['"primary"', '"secondary"', '"tertiary"'],
     status: 'optional',
   },
-  '[Button](/uilib/components/button/properties)': {
+  '[Button](/web/components/button/properties)': {
     doc: 'All button properties. A `tooltip` is hidden while the copy confirmation is shown.',
     type: 'Various',
     status: 'optional',

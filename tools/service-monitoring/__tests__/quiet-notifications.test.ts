@@ -19,6 +19,7 @@ function setup() {
         String(++id) + '.001'
     ),
     update: vi.fn(async (_ts: string, _text: string) => {}),
+    aws: undefined as Parameters<typeof processNotification>[1]['aws'],
   }
   return {
     dependencies,
@@ -29,7 +30,8 @@ function setup() {
 function check(
   status: 'healthy' | 'unhealthy' | 'pending',
   minute: number,
-  failures = ['HTTP health']
+  failures = ['HTTP health'],
+  detail = 'test'
 ): Observation {
   return {
     kind: 'service',
@@ -41,7 +43,7 @@ function check(
         name,
         ok: status === 'healthy',
         pending: status === 'pending',
-        detail: 'test',
+        detail,
       })),
     },
   }
@@ -73,6 +75,42 @@ describe('quiet notifications', () => {
     )
     expect(test.state().sources.MCP?.downtimeMs).toBe(180000)
     expect(test.state().sources.MCP?.incidents).toBe(1)
+  })
+  it('names failure reasons and links the service and logs in the outage post only', async () => {
+    const test = setup()
+    test.dependencies.aws = {
+      region: 'eu-north-1',
+      logGroups: { MCP: '/aws/lambda/monitor-mcp' },
+    }
+    await test.run(
+      check('unhealthy', 1, ['HTTP health'], 'HTTP 403 <!channel>')
+    )
+    expect(test.dependencies.post.mock.calls[0]?.[0]).toBe(
+      [
+        'Eufemia MCP incident detected.',
+        '• HTTP health: HTTP 403 &lt;!channel&gt;',
+        'First observed: 2026-10-23T10:01:00.000Z',
+        'Service: https://server.eufemia.dnb.no/healthz',
+        'Monitor logs: <https://eu-north-1.console.aws.amazon.com/cloudwatch/home?region=eu-north-1#logsV2:log-groups/log-group/$252Faws$252Flambda$252Fmonitor-mcp|CloudWatch>',
+      ].join('\n')
+    )
+    await test.run(check('healthy', 2))
+    expect(test.dependencies.post.mock.calls.at(-1)?.[0]).not.toContain(
+      'https://'
+    )
+  })
+  it('links the alarm that opened a monitoring incident', async () => {
+    const test = setup()
+    test.dependencies.aws = { region: 'eu-north-1', logGroups: {} }
+    await test.run({
+      kind: 'alarm',
+      name: 'missing-cdn',
+      status: 'ALARM',
+      at: new Date(Date.UTC(2026, 9, 23, 10, 1)).toISOString(),
+    })
+    expect(test.dependencies.post.mock.calls[0]?.[0]).toContain(
+      'Alarm: <https://eu-north-1.console.aws.amazon.com/cloudwatch/home?region=eu-north-1#alarmsV2:alarm/missing-cdn|missing-cdn>'
+    )
   })
   it('ignores duplicate and stale observations including recovered alarm retries', async () => {
     const test = setup()

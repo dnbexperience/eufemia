@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/badge/demos/',
+      url: '/web/components/badge/demos/',
     })
 
     describe('variant', () => {
@@ -17,6 +17,25 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         await makeScreenshot({
           selector:
             '[data-visual-test="badge-variant-notification"] .dnb-badge',
+        })
+      })
+      it('keeps notification numbers independent of inherited line height', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-notification-numbers"]',
+          executeBeforeSimulate: () => {
+            const container = document.querySelector<HTMLElement>(
+              '[data-visual-test="badge-notification-numbers"] .dnb-flex-container'
+            )
+            container.style.lineHeight = '40px'
+
+            for (const badge of container.querySelectorAll('.dnb-badge')) {
+              if (getComputedStyle(badge).lineHeight === '40px') {
+                throw new Error(
+                  'Notification numbers must not inherit the surrounding control line height'
+                )
+              }
+            }
+          },
         })
       })
       it('have to match variant notification inline with text', async () => {
@@ -83,6 +102,18 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
           selector: '[data-visual-test="badge-status"]',
         })
       })
+
+      if (themeName !== 'carnegie') {
+        it('have to match all status variants in dark mode', async () => {
+          await makeScreenshot({
+            selector: '[data-visual-test="badge-status"]',
+            colorScheme: 'dark',
+            wrapperStyle: {
+              background: 'var(--token-color-background-page-background)',
+            },
+          })
+        })
+      }
     })
   }
 )

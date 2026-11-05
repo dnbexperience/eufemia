@@ -23,7 +23,9 @@ function OrganizationNumber(props: ValueOrganizationNumberProps) {
 
   const stringValueProps: ValueOrganizationNumberProps = {
     ...props,
-    label: props.label ?? (props.inline ? undefined : translations.label),
+    defaultLabel:
+      props.defaultLabel ??
+      (props.inline ? undefined : translations.label),
     toInput,
   }
   return <StringValue {...stringValueProps} />

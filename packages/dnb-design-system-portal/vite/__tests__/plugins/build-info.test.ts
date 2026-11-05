@@ -20,11 +20,9 @@ describe('build-info plugin', () => {
     it('returns default values when files are missing', () => {
       const info = getBuildInfo({
         packageJsonPath: path.join(tmpDir, 'missing.json'),
-        changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
       expect(info.releaseVersion).toBe('[LOCAL BUILD]')
-      expect(info.changelogVersion).toBe('[LOCAL BUILD]')
       expect(info.buildVersion).toMatch(/\d/)
     })
 
@@ -37,7 +35,6 @@ describe('build-info plugin', () => {
 
       const info = getBuildInfo({
         packageJsonPath: pkgPath,
-        changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
       expect(info.releaseVersion).toBe('11.0.4')
@@ -52,31 +49,14 @@ describe('build-info plugin', () => {
 
       const info = getBuildInfo({
         packageJsonPath: pkgPath,
-        changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
       expect(info.releaseVersion).toBe('[LOCAL BUILD]')
     })
 
-    it('extracts changelogVersion from the first heading', () => {
-      const changelogPath = path.join(tmpDir, 'CHANGELOG.mdx')
-      fs.writeFileSync(
-        changelogPath,
-        '## May, 1. 2026\n\n- Some change\n\n## April, 21. 2026\n'
-      )
-
-      const info = getBuildInfo({
-        packageJsonPath: path.join(tmpDir, 'missing.json'),
-        changelogPath,
-      })
-
-      expect(info.changelogVersion).toBe('May, 1. 2026')
-    })
-
     it('generates buildVersion as a date string', () => {
       const info = getBuildInfo({
         packageJsonPath: path.join(tmpDir, 'missing.json'),
-        changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
       // Should be a Norwegian locale date string like "3.5.2026, 19:30:00"
@@ -119,7 +99,6 @@ describe('build-info plugin', () => {
       expect(result).toBeDefined()
       expect(result).toContain('export const releaseVersion')
       expect(result).toContain('export const buildVersion')
-      expect(result).toContain('export const changelogVersion')
     })
 
     it('loads buildInfo.ts file with build info exports', () => {
@@ -135,7 +114,6 @@ describe('build-info plugin', () => {
       expect(result).toBeDefined()
       expect(result).toContain('export const releaseVersion')
       expect(result).toContain('export const buildVersion')
-      expect(result).toContain('export const changelogVersion')
     })
 
     it('does not load other module ids', () => {

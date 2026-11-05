@@ -3,17 +3,21 @@ import {
   graphql,
   type StaticQueryConnection,
 } from 'portal-query'
-import { Card, Hr, Li, P, Span, Ul } from '@dnb/eufemia/src'
+import { Card, Hr, P, Span } from '@dnb/eufemia/src'
 import ReactMarkdown from 'react-markdown'
-import Anchor from '../tags/Anchor'
+import Anchor, { Link } from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
-import { basicComponents } from '../../shared/tags'
-import { getSlugFromText } from '../../uilib/utils/slug.mjs'
-import { cardItemStyle } from '../menu/MainMenu.module.scss'
+import basicComponents from '../tags/markdownComponents'
+import {
+  componentsStyle,
+  illustrationStyle,
+} from './ListComponentsOverview.module.scss'
+import illustrations from './component-illustrations.svg?url'
 import {
   categoryOrder,
   excludedSlugs,
   getCategoryId,
+  isCategorizedComponentSlug,
   type CategoryDefinition,
   type CategoryId,
 } from './componentCategories'
@@ -41,9 +45,7 @@ export default function ListComponentsOverview() {
             draft: { ne: true }
             hideInMenu: { ne: true }
           }
-          internal: {
-            contentFilePath: { regex: "/(uilib/components/.*)/" }
-          }
+          internal: { contentFilePath: { regex: "/(web/.*)/" } }
         }
         sort: [
           { frontmatter: { order: ASC } }
@@ -71,7 +73,12 @@ export default function ListComponentsOverview() {
       const slug = node.fields.slug
       const category = getCategoryId(node.frontmatter.category)
 
-      if (excludedSlugs.has(slug) || !category) {
+      if (
+        node.frontmatter.route === false ||
+        excludedSlugs.has(slug) ||
+        !isCategorizedComponentSlug(slug) ||
+        !category
+      ) {
         return items
       }
 
@@ -107,8 +114,6 @@ export default function ListComponentsOverview() {
 
   return (
     <>
-      <CategoriesTableOfContents categories={categories} />
-
       {categories.map(({ id, title, description, entries }: Category) => (
         <section key={id}>
           <Hr top="x-large" />
@@ -127,61 +132,63 @@ export default function ListComponentsOverview() {
   )
 }
 
-function CategoriesTableOfContents({
-  categories,
-}: {
-  categories: Category[]
-}) {
-  return (
-    <nav aria-label="Component categories">
-      <Card.List bottom="large">
-        {categories.map(({ id, title, description }) => (
-          <Card.ListItem
-            key={id}
-            center="when-small"
-            className={cardItemStyle}
-          >
-            <Card.Action href={`#${getSlugFromText(id)}`} stack dropShadow>
-              <Span size="x-large">{title}</Span>
-
-              <P top="small">{description}</P>
-            </Card.Action>
-          </Card.ListItem>
-        ))}
-      </Card.List>
-    </nav>
-  )
-}
-
 function FormsAndInputsIntro() {
   return (
     <P>
       <strong>NB:</strong> When creating application forms, use{' '}
-      <Anchor href="/uilib/extensions/forms/">Eufemia Forms</Anchor>{' '}
-      instead of composing forms from the base components below.
+      <Anchor href="/web/extensions/forms/">Eufemia Forms</Anchor> instead
+      of composing forms from the base components below.
     </P>
   )
 }
 
 function ComponentsOverviewList({ entries }: { entries: Entry[] }) {
   return (
-    <Ul className="dnb-unstyled-list">
+    <Card.List className={componentsStyle}>
       {entries.map(({ slug, title, description }) => (
-        <Li key={slug}>
-          <Span size="medium">
-            <Anchor href={`/${slug}`}>{title}</Anchor>
-          </Span>
-
-          {description && (
-            <ReactMarkdown
-              // @ts-expect-error -- strictFunctionTypes
-              components={basicComponents}
+        <Card.ListItem key={slug}>
+          <Card.Action
+            to={`/${slug}`}
+            element={Link}
+            stack
+            responsive={false}
+            gap="small"
+            className={illustrationStyle}
+          >
+            <Card
+              element="div"
+              innerSpace={0}
+              responsive={false}
+              outlineWidth={0}
+              backgroundColor="var(--token-color-background-selected-subtle)"
             >
-              {description}
-            </ReactMarkdown>
-          )}
-        </Li>
+              <svg
+                viewBox="0 0 240 144"
+                width="240"
+                height="144"
+                aria-hidden="true"
+                focusable="false"
+                fill="none"
+                stroke="none"
+              >
+                <use href={`${illustrations}#${slug.split('/').pop()}`} />
+              </svg>
+            </Card>
+            <Span size="medium" weight="medium">
+              {title}
+            </Span>
+
+            {description && (
+              <ReactMarkdown
+                // @ts-expect-error -- strictFunctionTypes
+                components={basicComponents}
+              >
+                {description}
+              </ReactMarkdown>
+            )}
+          </Card.Action>
+        </Card.ListItem>
       ))}
-    </Ul>
+    </Card.List>
   )
 }

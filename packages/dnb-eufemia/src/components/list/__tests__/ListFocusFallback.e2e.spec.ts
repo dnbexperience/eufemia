@@ -119,7 +119,7 @@ const primaryTarget = (item: Locator) =>
   )
 
 async function openPage(page: Page) {
-  await page.goto('/uilib/components/list/visual-tests/focus-fallback/')
+  await page.goto('/web/components/list/visual-tests/focus-fallback/')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'

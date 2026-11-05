@@ -35,8 +35,8 @@ const meta: FigmaLocalVariables = {
         { modeId: '1:2', name: 'sbanken-light' },
         { modeId: '1:3', name: 'sbanken-dark' },
         { modeId: '1:4', name: 'dnbcarnegie-light' },
-        { modeId: '1:5', name: 'dnbeiendom-light (test)' },
-        { modeId: '1:6', name: 'dnbeiendom-dark (test)' },
+        { modeId: '1:5', name: 'dnbeiendom-light' },
+        { modeId: '1:6', name: 'dnbeiendom-dark' },
       ],
       defaultModeId: '1:0',
       variableIds: [
@@ -172,6 +172,27 @@ describe('TOKEN_EXPORTS', () => {
 })
 
 describe('convertVariablesToTokens', () => {
+  it('rejects a semantic token whose WEB code syntax names another token', () => {
+    expect(() =>
+      convertVariablesToTokens({
+        meta: {
+          ...meta,
+          variables: {
+            ...meta.variables,
+            'VariableID:1:2': {
+              ...meta.variables['VariableID:1:2'],
+              codeSyntax: { WEB: '--token-color-background-neutral' },
+            },
+          },
+        },
+        collection: 'brand',
+        mode: 'dnb-light',
+      })
+    ).toThrow(
+      'The Figma variable "color/background/page-background" must use WEB code syntax "--token-color-background-page-background"'
+    )
+  })
+
   it('converts an aliased color to the resolved value and alias data', () => {
     const tokens = convertVariablesToTokens({
       meta,

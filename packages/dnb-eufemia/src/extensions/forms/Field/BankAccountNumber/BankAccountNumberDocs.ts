@@ -3,6 +3,9 @@ import { StringProperties } from '../String/StringDocs'
 
 export const BankAccountNumberProperties: PropertiesTableProps = {
   ...StringProperties,
+  // The field sets its own mask
+  mask: undefined,
+  allowOverflow: undefined,
   bankAccountType: {
     doc: 'The type of bank account number, used for input mask, label, and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Validation is currently only supported for `norwegianBban`. Defaults to `norwegianBban`.',
     type: 'string',
@@ -10,6 +13,11 @@ export const BankAccountNumberProperties: PropertiesTableProps = {
   },
   validate: {
     doc: 'Using this prop you can disable the default validation.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  omitMask: {
+    doc: 'Shows the number without spaces or dashes between the digit groups, e.g. `12345678901` instead of `1234 56 78901`.',
     type: 'boolean',
     status: 'optional',
   },

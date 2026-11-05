@@ -27,12 +27,12 @@ export type TimelineProps = {
   skeleton?: SkeletonShow
 
   /**
-   * List of [timeline items](/uilib/components/timeline/properties#timelineitem-properties) to render. Each object in data can include all properties from [Timeline.Item properties](/uilib/components/timeline/properties#timelineitem-properties).
+   * List of [timeline items](/web/components/timeline/properties#timelineitem-properties) to render. Each object in data can include all properties from [Timeline.Item properties](/web/components/timeline/properties#timelineitem-properties).
    */
   data?: TimelineItemProps[]
 
   /**
-   * Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.
+   * Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/web/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.
    */
   children?:
     | ReactElement<TimelineItemProps>[]

@@ -5,7 +5,7 @@ for (const variant of ['dialog', 'drawer']) {
     page,
   }) => {
     await page.goto(
-      '/uilib/components/tooltip/visual-tests/modal-dismissal/'
+      '/web/components/tooltip/visual-tests/modal-dismissal/'
     )
     await page.waitForFunction(() =>
       document.documentElement.hasAttribute('data-portal-ready')

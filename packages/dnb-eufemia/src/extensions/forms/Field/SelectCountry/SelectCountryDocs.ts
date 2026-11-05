@@ -9,7 +9,7 @@ export const SelectCountryProperties: PropertiesTableProps = {
     status: 'optional',
   },
   countries: {
-    doc: 'List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.',
+    doc: 'List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all countries [sorted by priority](/web/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.',
     type: ['"Scandinavia"', '"Nordic"', '"Europe"', '"Prioritized"'],
     status: 'optional',
   },
@@ -20,7 +20,7 @@ export const SelectCountryProperties: PropertiesTableProps = {
   },
   size: {
     ...AutocompleteProperties.size,
-    doc: `${AutocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: `${AutocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).`,
   },
 }
 

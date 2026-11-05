@@ -12,7 +12,7 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   contentStyle: {
-    doc: 'To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
+    doc: 'To enable the visual helper `.dnb-section` onto the content wrapper. Use a supported modifier from the [Section component](/web/components/section/properties). Defaults to `null`.',
     type: ['"divider"', '"white"', '"transparent"'],
     status: 'optional',
   },
@@ -22,7 +22,7 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   tabsStyle: {
-    doc: 'To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
+    doc: 'To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/web/components/section/properties). Defaults to `null`.',
     type: ['"divider"', '"white"', '"transparent"'],
     status: 'optional',
   },
@@ -33,10 +33,10 @@ export const TabsProperties: PropertiesTableProps = {
   },
   tabElement: {
     doc: "Define what HTML element should be used. You can provide e.g. `tabElement={Link}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.",
-    type: 'React.ReactNode',
+    type: ['string', 'React.ElementType'],
     status: 'optional',
   },
-  '[data](/uilib/components/tabs/properties/#data-object)': {
+  '[data](/web/components/tabs/properties/#data-object)': {
     doc: 'Defines the data structure to load as an object.',
     type: 'object',
     status: 'optional',
@@ -91,7 +91,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

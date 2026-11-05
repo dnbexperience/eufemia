@@ -65,9 +65,7 @@
   --drawer-list-list-line-height: var(--line-height-basis);
   // Group
   --drawer-list-group-title-color: var(--token-color-text-neutral);
-  --drawer-list-group-title-bg: var(
-    --token-color-background-neutral-alternative
-  );
+  --drawer-list-group-title-bg: var(--token-color-background-neutral);
 
   display: block; // has to be block element so we can se the content
   position: relative;

@@ -13,7 +13,7 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Theme', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/')
+    await page.goto('/web/components/')
 
     // Check if app is mounted
     await waitForApp(page)
@@ -58,9 +58,9 @@ test.describe('Theme', () => {
     ).toBe(false)
 
     const uiLink = page.locator('link[data-eufemia-theme="ui"]')
-    expect(
-      await uiLink.evaluate((el: HTMLLinkElement) => el.disabled)
-    ).toBe(true)
+    await expect
+      .poll(() => uiLink.evaluate((el: HTMLLinkElement) => el.disabled))
+      .toBe(true)
   })
 
   test('should set local storage', async ({ page }) => {
@@ -152,7 +152,7 @@ test('should apply the brand from the URL after hydration', async ({
     }
   })
 
-  await page.goto('/uilib/components/logo/demos/?eufemia-theme=sbanken')
+  await page.goto('/web/components/logo/demos/?eufemia-theme=sbanken')
   await waitForApp(page)
 
   await expect(page.locator('#change-theme')).toHaveAttribute(
@@ -163,7 +163,7 @@ test('should apply the brand from the URL after hydration', async ({
 })
 
 test.describe('Dark mode', () => {
-  const url = '/uilib/components/'
+  const url = '/web/components/'
 
   async function gotoAndWait(page: Page) {
     await page.goto(url)

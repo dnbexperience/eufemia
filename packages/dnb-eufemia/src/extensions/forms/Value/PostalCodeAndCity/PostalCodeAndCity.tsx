@@ -21,13 +21,13 @@ function PostalCodeAndCity(props: ValuePostalCodeAndCityProps) {
       : undefined) ||
       undefined)
 
-  const label =
-    props.label ?? (props.inline ? undefined : translations.label)
+  const defaultLabel =
+    props.defaultLabel ?? (props.inline ? undefined : translations.label)
 
   const stringValueProps: ValuePostalCodeAndCityProps = {
     ...props,
     value,
-    label,
+    defaultLabel,
   }
 
   return <StringValue {...stringValueProps} />

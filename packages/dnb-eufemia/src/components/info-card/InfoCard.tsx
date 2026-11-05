@@ -13,7 +13,7 @@ import Space from '../space/Space'
 import P from '../../elements/P'
 
 // Icons
-import { lightbulb_medium as LightbulbIcon } from '../../icons'
+import LightbulbIcon from '../../icons/lightbulb_medium'
 
 // Shared
 import { useSpacing } from '../space/SpacingUtils'
@@ -46,7 +46,7 @@ export type InfoCardProps = {
    */
   icon?: IconIcon
   /**
-   * [Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.
+   * [Image properties](/web/layout-and-typography/elements/image) applied to the `img` element if the component is used to display an image.
    */
   imgProps?: ImgProps
   /**

@@ -13,6 +13,7 @@
  */
 
 import type { Plugin } from 'vite'
+import path from 'node:path'
 
 const VIRTUAL_MODULE_ID = 'virtual:prefetch-on-hover'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -38,35 +39,26 @@ export default function prefetchOnHoverPlugin(): Plugin {
 /**
  * Client-side runtime code served as the virtual module.
  *
- * Imports routes from virtual:portal-pages and sets up document-level
- * event listeners for pointerover and focusin. Each matching internal
- * link triggers the route's lazy() import exactly once.
+ * Discovers routes on pointerover, focusin, or pointerdown. Each matching
+ * internal link triggers the route's lazy() import once per successful load.
  */
 const RUNTIME_CODE = `
 import { useEffect } from 'react'
-import { routes } from 'virtual:portal-pages'
-
-const routeMap = new Map()
-for (const route of routes) {
-  if (route.path && route.lazy) {
-    routeMap.set(route.path, route)
-  }
-}
+import { prefetchPortalRoute } from '${path.resolve(__dirname, '../load-portal-routes').replace(/\\/g, '/')}'
 
 const prefetchedPaths = new Set()
 
-function prefetchRoute(pathname) {
+async function prefetchRoute(pathname) {
   if (prefetchedPaths.has(pathname)) {
     return
   }
 
-  const withSlash = pathname.endsWith('/') ? pathname : pathname + '/'
-  const withoutSlash = pathname.replace(/\\/$/, '')
-  const route = routeMap.get(withSlash) || routeMap.get(withoutSlash)
-
-  if (route?.lazy) {
-    prefetchedPaths.add(pathname)
-    route.lazy()
+  prefetchedPaths.add(pathname)
+  try {
+    await prefetchPortalRoute(pathname)
+  } catch {
+    // Speculation must not interrupt the current page. Navigation can retry.
+    prefetchedPaths.delete(pathname)
   }
 }
 
@@ -78,15 +70,19 @@ function getInternalPathname(anchor) {
 
   if (
     anchor.hasAttribute('download') ||
-    anchor.getAttribute('rel') === 'external' ||
+    anchor.relList.contains('external') ||
     (anchor.target && anchor.target !== '_self')
   ) {
     return null
   }
 
   try {
-    const url = new URL(href, window.location.origin)
+    const url = new URL(href, window.location.href)
     if (url.origin !== window.location.origin) {
+      return null
+    }
+
+    if (url.pathname.replace(/\\/+$/, '') === window.location.pathname.replace(/\\/+$/, '')) {
       return null
     }
 
@@ -115,10 +111,12 @@ function handleAnchorEvent(e) {
 export function setupPrefetchOnHover() {
   document.addEventListener('pointerover', handleAnchorEvent)
   document.addEventListener('focusin', handleAnchorEvent)
+  document.addEventListener('pointerdown', handleAnchorEvent)
 
   return () => {
     document.removeEventListener('pointerover', handleAnchorEvent)
     document.removeEventListener('focusin', handleAnchorEvent)
+    document.removeEventListener('pointerdown', handleAnchorEvent)
   }
 }
 

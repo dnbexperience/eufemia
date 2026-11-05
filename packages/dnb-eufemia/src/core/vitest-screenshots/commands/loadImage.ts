@@ -3,9 +3,13 @@
  * `toMatchImageSnapshot` shim.
  *
  * `loadImage` reads a file from disk and ships it to the iframe as
- * base64. `matchImageSnapshot` runs the same diff pipeline as the
- * screenshot engine on a buffer that was loaded from disk by the
- * test (Logo's PNG asset comparison).
+ * base64. `matchImageSnapshot` compares a buffer the test loaded from
+ * disk against a stored snapshot (Logo's PNG asset comparison).
+ *
+ * The comparison mirrors the screenshot engine, but differs in that
+ * it always updates the snapshot, regardless of any threshold value.
+ * Because we are comparing image assets, and assets do not have the same
+ * "fuzziness" as when generating screenshots.
  */
 
 import fs from 'node:fs/promises'

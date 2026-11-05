@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/form-status/demos/',
+      url: '/web/components/form-status/demos/',
     })
 
     const style = {
@@ -91,6 +91,23 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       await makeScreenshot({
         style,
         selector: '[data-visual-test="form-status-all-variants"]',
+      })
+    })
+  }
+)
+
+describe.each(['ui', 'sbanken', 'eiendom'])(
+  'FormStatus error colors for %s dark',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      colorScheme: 'dark',
+      url: '/uilib/components/form-status/demos/',
+    })
+
+    it('matches the error icon and outline', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="form-status"] .dnb-form-status',
       })
     })
   }

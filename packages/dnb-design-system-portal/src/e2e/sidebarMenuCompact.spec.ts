@@ -1,12 +1,65 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+for (const dir of ['ltr', 'rtl']) {
+  for (const width of [1200, 1600]) {
+    test(`slides nested items only when the compact rail expands at ${width}px in ${dir}`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(
+        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+      )
+      await waitForApp(page)
+      const shell = page.locator('[data-sidebar-menu-responsive-example]')
+      await shell.evaluate(
+        (element, dir) => element.setAttribute('dir', dir),
+        dir
+      )
+      const inline = shell.locator('.dnb-sidebar-menu-responsive-inline')
+      const toggle = inline.locator(
+        '.dnb-sidebar-menu-responsive-inline__toggle'
+      )
+      await expect(inline).toHaveClass(/--transitions-ready/)
+      await page.clock.install()
+      await page.clock.pauseAt(new Date())
+      if (width === 1200) {
+        await toggle.evaluate((element: HTMLElement) => element.click())
+        await page.clock.runFor(300)
+      }
+      const products = shell.locator(
+        '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
+      )
+      await products.evaluate((element: HTMLElement) => element.click())
+      await page.clock.runFor(500)
+      const accounts = shell.locator(
+        '[data-sidebar-menu-id="accounts"] > .dnb-sidebar-menu__item__action'
+      )
+      await expect(accounts).toHaveCSS('animation-name', 'none')
+      await expect(accounts).toHaveCSS('transform', 'none')
+      if (width === 1200) {
+        await toggle.evaluate((element: HTMLElement) => element.click())
+        await page.clock.runFor(300)
+        await toggle.evaluate((element: HTMLElement) => element.click())
+        await expect(accounts).toHaveCSS(
+          'animation-name',
+          'dnb-sidebar-menu-show-nested-item'
+        )
+        await page.clock.runFor(300)
+        await expect(accounts).toHaveCSS('animation-name', 'none')
+      }
+      await page.clock.resume()
+    })
+  }
+}
+
 test('keeps selected nested accordion labels stable while closing', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1400, height: 900 })
   await page.goto(
-    '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation#cards'
+    '/web/patterns-and-extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation#cards'
   )
   await waitForApp(page)
 
@@ -62,7 +115,7 @@ for (const dir of ['ltr', 'rtl']) {
       await page.emulateMedia({ reducedMotion: 'no-preference' })
       await page.setViewportSize({ width: 1200, height: 900 })
       await page.goto(
-        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+        '/web/patterns-and-extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
       )
       await waitForApp(page)
       const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -124,7 +177,7 @@ for (const dir of ['ltr', 'rtl']) {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.setViewportSize({ width: 1200, height: 900 })
       await page.goto(
-        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+        '/web/patterns-and-extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
       )
       await waitForApp(page)
       const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -189,7 +242,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -346,7 +399,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
   await scrollView.evaluate((element) => {
     element.style.height = '8rem'
     element.style.maxHeight = '8rem'
-    element.scrollTop = 200
+    element.scrollTo({ top: 200, behavior: 'instant' })
   })
   await expect
     .poll(() => scrollView.evaluate((element) => element.scrollTop))
@@ -517,7 +570,7 @@ test('dismisses a hover-expanded compact menu with Escape', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -546,7 +599,7 @@ test('uses the active theme corner radius in compact mode', async ({
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
   await page.goto(
-    '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation&eufemia-theme=carnegie#cards'
+    '/web/patterns-and-extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation&eufemia-theme=carnegie#cards'
   )
   await waitForApp(page)
 
@@ -563,7 +616,7 @@ for (const width of [1200, 1440]) {
   }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto(
-      '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+      '/web/patterns-and-extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
     )
     await waitForApp(page)
     const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -610,7 +663,7 @@ test('supports section dropdowns and headings in compact mode', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -745,7 +798,7 @@ test('aligns the section dropdown with items in the Drawer', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 600, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -780,7 +833,7 @@ test('aligns nested button and link items in the Drawer', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -828,7 +881,7 @@ test('opens but never closes an accordion from the closed compact rail', async (
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -856,7 +909,7 @@ test('animates a selected first nested item from its compact background', async 
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -896,7 +949,7 @@ test('keeps page content stable when compact expansion is interrupted', async ({
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.setViewportSize({ width: 1200, height: 900 })
   await page.goto(
-    '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation#without-icon'
+    '/web/patterns-and-extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation#without-icon'
   )
   await waitForApp(page)
   await page.mouse.move(1190, 890)
@@ -959,7 +1012,7 @@ test('keeps compact labels on one line while opening', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -989,7 +1042,7 @@ test('keeps compact labels on one line while opening', async ({
 
 test('keeps the section icon fixed while closing', async ({ page }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -1036,7 +1089,7 @@ test('keeps scaled compact labels clear of accordion indicators', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
   await page.locator('html').evaluate((element) => {
     element.style.fontSize = '32px'
@@ -1076,7 +1129,7 @@ test('resizes the full SidebarMenu and restores that width', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1400, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -1168,7 +1221,7 @@ test('resizes the full SidebarMenu from anywhere on the resize handle', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1400, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -1213,7 +1266,7 @@ test('dismisses the full SidebarMenu by dragging and restores it', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1400, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -1287,7 +1340,7 @@ test('keeps the current page, notifications and dividers visible in forced color
 }) => {
   await page.emulateMedia({ forcedColors: 'active' })
   await page.setViewportSize({ width: 1400, height: 900 })
-  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await page.goto('/web/patterns-and-extensions/sidebar-menu/demos/')
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')

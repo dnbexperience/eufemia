@@ -156,6 +156,7 @@ type BrowserSlot = {
 
 const browserSlots: BrowserSlot[] = []
 const sessionToSlot = new Map<string, BrowserSlot>()
+const startingSessions = new Set<string>()
 let playwrightModule: { firefox: BrowserType } | null = null
 let poolCleanedUp = false
 
@@ -176,6 +177,10 @@ const getBrowserSlot = async (sessionId: string): Promise<BrowserSlot> => {
   // Find a free slot by checking if the previous session's vitest
   // page is closed (meaning the worker moved to a new test file).
   for (const slot of browserSlots) {
+    if (slot.busy) {
+      continue
+    }
+
     if (!slot.currentSessionId) {
       slot.busy = true
       slot.currentSessionId = sessionId
@@ -184,33 +189,41 @@ const getBrowserSlot = async (sessionId: string): Promise<BrowserSlot> => {
       return slot
     }
 
+    if (startingSessions.has(slot.currentSessionId)) {
+      continue
+    }
+
     const prevSession = sessions.get(slot.currentSessionId)
-    if (prevSession && prevSession.vitestPage.isClosed()) {
+    if (!prevSession || prevSession.vitestPage.isClosed()) {
       // Mark slot as busy so the cleanup interval does not tear
       // down the browser while we are recycling it.
       slot.busy = true
 
-      // Previous session ended — clean up and reuse slot
-      if (!prevSession.page.isClosed()) {
-        await prevSession.page.close().catch(() => undefined)
+      try {
+        if (prevSession) {
+          if (!prevSession.page.isClosed()) {
+            await prevSession.page.close().catch(() => undefined)
+          }
+          resetPageBootstrapMemo(prevSession.page)
+        }
+
+        // Release resources retained by the previous test file.
+        await slot.context.close()
+        if (slot.browser.isConnected()) {
+          slot.context = await slot.browser.newContext({
+            viewport: config.pageViewport,
+            ignoreHTTPSErrors: true,
+          })
+        }
+
+        sessions.delete(slot.currentSessionId)
+        sessionToSlot.delete(slot.currentSessionId)
+        slot.currentSessionId = sessionId
+        sessionToSlot.set(sessionId, slot)
+        return slot
+      } finally {
+        slot.busy = false
       }
-      resetPageBootstrapMemo(prevSession.page)
-      sessions.delete(slot.currentSessionId)
-      sessionToSlot.delete(slot.currentSessionId)
-
-      slot.currentSessionId = sessionId
-      sessionToSlot.set(sessionId, slot)
-      slot.busy = false
-      return slot
-    }
-
-    if (!prevSession) {
-      slot.busy = true
-      sessionToSlot.delete(slot.currentSessionId)
-      slot.currentSessionId = sessionId
-      sessionToSlot.set(sessionId, slot)
-      slot.busy = false
-      return slot
     }
   }
 
@@ -387,6 +400,15 @@ const applyScreenshotColorScheme = () => {
   }
 }
 
+const createScreenshotPage = async (context: BrowserContext) => {
+  const page = await context.newPage()
+  await page.addInitScript(() => {
+    ;(globalThis as Record<string, unknown>).IS_TEST = true
+  })
+  await page.addInitScript(applyScreenshotColorScheme)
+  return page
+}
+
 const ensureSession = async (
   sessionId: string,
   vitestPage: Page
@@ -419,39 +441,37 @@ const ensureSession = async (
     sessions.delete(id)
   }
 
-  // Get a dedicated Firefox browser slot for this session
-  const slot = await getBrowserSlot(sessionId)
+  // Reserve the session until its page and initialization scripts are ready.
+  startingSessions.add(sessionId)
+  try {
+    // Get a dedicated Firefox browser slot for this session
+    const slot = await getBrowserSlot(sessionId)
 
-  // Guard: if the browser was closed (e.g. by a late cleanup tick),
-  // replace it with a fresh one so the session can proceed.
-  if (!slot.browser.isConnected()) {
-    const pw = await getPlaywright()
-    slot.browser = await pw.firefox.launch({ headless: true })
-    slot.context = await slot.browser.newContext({
-      viewport: config.pageViewport,
-      ignoreHTTPSErrors: true,
-    })
+    // Guard: if the browser was closed (e.g. by a late cleanup tick),
+    // replace it with a fresh one so the session can proceed.
+    if (!slot.browser.isConnected()) {
+      const pw = await getPlaywright()
+      slot.browser = await pw.firefox.launch({ headless: true })
+      slot.context = await slot.browser.newContext({
+        viewport: config.pageViewport,
+        ignoreHTTPSErrors: true,
+      })
+    }
+
+    const page = await createScreenshotPage(slot.context)
+
+    state = {
+      page,
+      vitestPage,
+      navigatedUrl: null,
+      mutationKind: 'none' as PageMutationKind,
+      currentRootClassName: null,
+    }
+    sessions.set(sessionId, state)
+    return state
+  } finally {
+    startingSessions.delete(sessionId)
   }
-
-  const page = await slot.context.newPage()
-
-  // Match the original setup: set IS_TEST before any page script
-  // runs so VisibleWhenVisualTest renders its children on the
-  // initial React render.
-  await page.addInitScript(() => {
-    ;(globalThis as Record<string, unknown>).IS_TEST = true
-  })
-  await page.addInitScript(applyScreenshotColorScheme)
-
-  state = {
-    page,
-    vitestPage,
-    navigatedUrl: null,
-    mutationKind: 'none' as PageMutationKind,
-    currentRootClassName: null,
-  }
-  sessions.set(sessionId, state)
-  return state
 }
 
 // ── helpers: page bootstrap ──────────────────────────────────────────
@@ -871,24 +891,37 @@ const navigateToFreshPage = async (
   state.mutationKind = 'none'
 }
 
+const pageReloadCounts = new WeakMap<Page, number>()
+const MAX_PAGE_RELOADS = 5
+
 const hardResetPage = async (
   state: SessionState,
   pageViewport: { width?: number; height?: number } | null | undefined,
   headers: Record<string, string> | null | undefined
 ) => {
   await clearBrowserStorage(state.page)
-  await state.page.reload({
-    waitUntil: config.waitUntil,
-    timeout: config.timeout,
-  })
-  await applyPageSettings(state.page, pageViewport, headers)
-
-  // Clear the bootstrap memo BEFORE re-injecting. A reload destroys
-  // the injected stylesheet and test configuration, so the WeakSets
-  // must be cleared first — otherwise the bootstrap helpers see a
-  // stale "already done" flag and return early.
+  const reloadCount = pageReloadCounts.get(state.page) ?? 0
   resetPageBootstrapMemo(state.page)
-
+  if (reloadCount >= MAX_PAGE_RELOADS) {
+    const previousPage = state.page
+    const url = previousPage.url()
+    // Keep a live page registered so another worker cannot evict this session.
+    const page = await createScreenshotPage(previousPage.context())
+    state.page = page
+    await previousPage.close()
+    await applyPageSettings(state.page, pageViewport, headers)
+    await state.page.goto(url, {
+      waitUntil: config.waitUntil,
+      timeout: config.timeout,
+    })
+  } else {
+    await state.page.reload({
+      waitUntil: config.waitUntil,
+      timeout: config.timeout,
+    })
+    pageReloadCounts.set(state.page, reloadCount + 1)
+    await applyPageSettings(state.page, pageViewport, headers)
+  }
   await applyTestConfiguration(state.page)
   await addTestStylesheet(state.page)
   await waitForVisualStability(state.page)
@@ -1146,7 +1179,6 @@ const handleWrapper = async (
     wrapperStyle ?? null,
     background
   )
-  const yDecimals = initialBox.y.toString().split('.')[1] || 0
 
   // Snap dimensions to an 8 px grid. Firefox's font shaping can
   // shift text metrics by a few sub-pixels between runs (even with
@@ -1158,7 +1190,7 @@ const handleWrapper = async (
   const styleStr = makeStyles({
     display: 'inline-block',
     background: background ?? '',
-    top: `0.${yDecimals}px`,
+    top: '0px',
     'min-width': measuredWidth
       ? `${Math.ceil(measuredWidth / 8) * 8}px`
       : null,
@@ -1177,6 +1209,10 @@ const handleWrapper = async (
       element.parentNode.insertBefore(wrapperEl, element)
       wrapperEl.appendChild(element)
       wrapperEl.setAttribute('style', style)
+
+      // Align in document coordinates, independent of the current scroll.
+      const top = wrapperEl.getBoundingClientRect().top + window.scrollY
+      wrapperEl.style.top = `${Math.floor(top) - top}px`
 
       const elRec = element.getBoundingClientRect()
       const wrRec = wrapperEl.getBoundingClientRect()
@@ -1491,7 +1527,20 @@ const takeScreenshot = async (
   const target = screenshotSelector || screenshotTargetSelector || selector
   if (target) {
     await page.waitForSelector(target, { state: 'attached' })
-    return await page.locator(target).first().screenshot()
+    const locator = page.locator(target).first()
+    await locator.scrollIntoViewIfNeeded()
+    // Fractional scrolling can clip inset borders in Firefox screenshots.
+    await page.evaluate(() => {
+      window.scrollTo({
+        left: Math.floor(window.scrollX),
+        top: Math.floor(window.scrollY),
+        behavior: 'instant',
+      })
+      return new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      )
+    })
+    return await locator.screenshot()
   }
 
   const isAttached = await screenshotElement
@@ -1524,7 +1573,7 @@ async function performScreenshot(
   const effectiveWithWrapper = payload.withWrapper ?? true
 
   // Match the original Playwright setup: any simulate, script
-  // execution, or rootClassName triggers a page reload before the
+  // execution, or rootClassName triggers a page reset before the
   // next test. This avoids fragile cleanup logic and stale state.
   const shouldReloadAfter = Boolean(
     payload.simulate ||
@@ -1540,11 +1589,15 @@ async function performScreenshot(
   let lastMouseAction: ActionName | undefined
   let delaySimulation: number
   let wrapperWasAdded = false
-  const { page } = state
+  let { page } = state
 
   try {
-    await page.emulateMedia({ media: payload.media ?? 'screen' })
     await makePageReady(state, payload)
+    page = state.page
+    await page.emulateMedia({ media: payload.media ?? 'screen' })
+    await page.waitForFunction(() =>
+      document.documentElement.hasAttribute('data-portal-ready')
+    )
 
     const elementResult = await handleElement(state, payload)
     styleCleanup = elementResult.styleCleanup
@@ -1681,20 +1734,30 @@ async function performScreenshot(
 
 // ── snapshot pipeline ────────────────────────────────────────────────
 
+/**
+ * Writes the screenshot and removes the diff and actual images a previous
+ * mismatch may have left behind.
+ */
+async function updateScreenshot(
+  payload: MakeScreenshotPayload,
+  actualBytes: Buffer,
+  status: 'created' | 'updated'
+): Promise<MakeScreenshotResult> {
+  await writeFile(payload.snapshotPath, actualBytes)
+  await removeIfExists(payload.diffPath)
+  await removeIfExists(payload.actualPath)
+
+  return { status, snapshotPath: payload.snapshotPath }
+}
+
 async function diffAndPersist(
   payload: MakeScreenshotPayload,
   actualBytes: Buffer
 ): Promise<MakeScreenshotResult> {
   const reference = await readFileIfExists(payload.snapshotPath)
 
-  if (!reference || payload.update) {
-    await writeFile(payload.snapshotPath, actualBytes)
-    await removeIfExists(payload.diffPath)
-    await removeIfExists(payload.actualPath)
-    return {
-      status: reference ? 'updated' : 'created',
-      snapshotPath: payload.snapshotPath,
-    }
+  if (!reference) {
+    return updateScreenshot(payload, actualBytes, 'created')
   }
 
   // Decode both PNGs in scoped variables so we can null them out as
@@ -1709,6 +1772,16 @@ async function diffAndPersist(
   const actHeight = actualPng.height
 
   if (refWidth !== actWidth || refHeight !== actHeight) {
+    if (payload.update) {
+      // Help V8 reclaim memory before return
+      // eslint-disable-next-line no-useless-assignment
+      referencePng = null
+      // eslint-disable-next-line no-useless-assignment
+      actualPng = null
+
+      return updateScreenshot(payload, actualBytes, 'updated')
+    }
+
     let diff: PNG | null = createSizeMismatchDiff(referencePng, actualPng)
     await writeFile(payload.actualPath, actualBytes)
     await writeFile(payload.diffPath, PNG.sync.write(diff))
@@ -1754,6 +1827,18 @@ async function diffAndPersist(
   const ratio = totalPixels === 0 ? 0 : diffPixels / totalPixels
 
   if (ratio > payload.allowedMismatchedPixelRatio) {
+    if (payload.update) {
+      // Help V8 reclaim memory before return
+      // eslint-disable-next-line no-useless-assignment
+      referencePng = null
+      // eslint-disable-next-line no-useless-assignment
+      actualPng = null
+      // eslint-disable-next-line no-useless-assignment
+      diff = null
+
+      return updateScreenshot(payload, actualBytes, 'updated')
+    }
+
     await writeFile(payload.actualPath, actualBytes)
     await writeFile(payload.diffPath, PNG.sync.write(diff))
     recordFailure({
@@ -1864,11 +1949,15 @@ export const makeScreenshot = defineBrowserCommand<
 export const _testing = {
   buildUrl,
   applyScreenshotColorScheme,
+  diffAndPersist,
   sessions,
   browserSlots,
   sessionToSlot,
   getBrowserSlot,
   cleanupBrowserPool,
+  takeScreenshot,
+  hardResetPage,
+  ensureSession,
   resetPoolCleanedUp: () => {
     poolCleanedUp = false
   },

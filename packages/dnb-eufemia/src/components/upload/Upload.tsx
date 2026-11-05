@@ -23,7 +23,7 @@ import { verifyFiles } from './UploadVerify'
 
 import type { UploadFile, UploadAllProps } from './types'
 import UploadFileList from './UploadFileList'
-import UploadInfo from './UploadInfo'
+import UploadInfo, { UploadFileLimits } from './UploadInfo'
 import FormLabel from '../FormLabel'
 
 export type * from './types'
@@ -70,6 +70,7 @@ const Upload = (localProps: UploadAllProps) => {
     fileAmountDescription,
     fileSizeContent,
     buttonText,
+    fileLimitsButtonText,
     loadingText,
     errorLargeFile,
     errorUnsupportedFile,
@@ -188,6 +189,7 @@ const Upload = (localProps: UploadAllProps) => {
               {props?.children}
             </>
           )}
+          {variant === 'compact' && <UploadFileLimits />}
 
           <UploadFileInput
             disabled={props.disabled}
@@ -215,7 +217,7 @@ function CompactLabel(props: {
       className="dnb-upload__label"
     >
       <span>
-        {title && <span>{title}</span>}
+        {title && <span className="dnb-lead">{title}</span>}
         {title && text && <br />}
         {text && <span className="dnb-upload__text">{text}</span>}
       </span>

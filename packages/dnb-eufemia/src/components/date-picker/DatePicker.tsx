@@ -116,11 +116,11 @@ export type DatePickerProps = {
    */
   endMonth?: DatePickerDateType
   /**
-   * To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.
+   * To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/web/forms/feature-fields/Date/) for input validation. Defaults to `null`.
    */
   minDate?: DatePickerDateType
   /**
-   * To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.
+   * To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/web/forms/feature-fields/Date/) for input validation. Defaults to `null`.
    */
   maxDate?: DatePickerDateType
   /**
@@ -299,7 +299,7 @@ export type DatePickerProps = {
   yearNavigation?: boolean
   className?: string
   /**
-   * Will be called before the days of each calendar view are rendered, and again on interactions such as hover and selection. Receives the `days` array and the calendar number (`0` for the first calendar, `1` for the second in range mode). Change the day objects, or return a new array, to customize the days. See [Manipulate the days in the calendar view](/uilib/components/date-picker/#manipulate-the-days-in-the-calendar-view).
+   * Will be called before the days of each calendar view are rendered, and again on interactions such as hover and selection. Receives the `days` array and the calendar number (`0` for the first calendar, `1` for the second in range mode). Change the day objects, or return a new array, to customize the days. See [Manipulate the days in the calendar view](/web/components/date-picker/#manipulate-the-days-in-the-calendar-view).
    */
   onDaysRender?: (
     days: Array<DatePickerCalendarDay>,

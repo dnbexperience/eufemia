@@ -30,16 +30,22 @@ type MediaSpans = {
 export type FlexSpan = MediaSpans | FlexSpans
 
 export type FlexItemProps = {
+  /**
+   * True to expand in width/height when there is more space available. Defaults to `false`.
+   */
   grow?: boolean
+  /**
+   * True to shrink in width/height when there is not enough space available for all components within the container. Defaults to `false`.
+   */
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   span?: FlexSpan
   /**
-   * With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.
+   * With `layoutEngine="css"`, replace the [Flex.Container](/web/layout-and-typography/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.
    */
   gapBefore?: FlexGap
   /**
-   * With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.
+   * With `layoutEngine="css"`, replace the [Flex.Container](/web/layout-and-typography/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.
    */
   gapAfter?: FlexGap
   ref?: Ref<HTMLElement>

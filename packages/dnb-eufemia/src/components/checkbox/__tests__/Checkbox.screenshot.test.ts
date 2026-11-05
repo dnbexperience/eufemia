@@ -8,7 +8,7 @@ describe.each(['ui', 'sbanken'])(`Checkbox for %s`, (themeName) => {
   describe('unchecked', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/checkbox/demos/',
+      url: '/web/components/checkbox/demos/',
     })
 
     it('have to match checkbox in unchecked state', async () => {
@@ -85,8 +85,12 @@ describe.each(['ui', 'sbanken'])(`Checkbox for %s`, (themeName) => {
     })
 
     it('have to match disabled checkbox', async () => {
+      // Hover must not change a disabled Checkbox
       await makeScreenshot({
         selector: '[data-visual-test="checkbox-disabled"]',
+        simulateSelector:
+          '[data-visual-test="checkbox-disabled"] .dnb-checkbox--surface-dark .dnb-checkbox__input:checked',
+        simulate: 'hover',
       })
     })
 

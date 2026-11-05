@@ -15,7 +15,8 @@ import type {
 } from 'react'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
-import { chevron_down, chevron_up } from '../../../icons'
+import chevron_down from '../../../icons/chevron_down'
+import chevron_up from '../../../icons/chevron_up'
 import Icon from '../../icon/Icon'
 import {
   TableClickableButtonTd,

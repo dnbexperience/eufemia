@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/dropdown/demos/',
+    url: '/web/components/dropdown/demos/',
   })
 
   it('have to match the closed dropdown', async () => {
@@ -145,7 +145,7 @@ describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
 describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/dropdown/demos/',
+    url: '/web/components/dropdown/demos/',
     pageViewport: {
       width: 480,
       height: 480 * 2,
@@ -195,7 +195,7 @@ describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
 describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/dropdown/demos/',
+    url: '/web/components/dropdown/demos/',
   })
 
   it('have to match the tertiary variant opened on left side', async () => {
@@ -226,3 +226,21 @@ describe.each(['ui', 'sbanken'])(`Dropdown for %s`, (themeName) => {
     })
   })
 })
+
+describe.each(['ui', 'sbanken', 'eiendom'])(
+  'Dropdown error colors for %s dark',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      colorScheme: 'dark',
+      url: '/uilib/components/dropdown/demos/',
+    })
+
+    it('matches the error text, arrow and border', async () => {
+      await makeScreenshot({
+        selector:
+          '[data-visual-test="dropdown-status-error"] .dnb-dropdown__inner',
+      })
+    })
+  }
+)

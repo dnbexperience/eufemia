@@ -22,12 +22,12 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelSize: {
-    doc: 'Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.',
+    doc: 'Define the font-size of the label based on the [font-size](/web/layout-and-typography/typography/font-size/) table.',
     type: ['"medium"', '"large"'],
     status: 'optional',
   },
   help: {
-    doc: 'Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set `openOnFind` to `true` to open matching inline help from browser find-in-page, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).',
+    doc: 'Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set `openOnFind` to `true` to open matching inline help from browser find-in-page, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/web/components/dialog/) (recommended for larger amounts of content).',
     type: 'object',
     status: 'optional',
   },
@@ -61,7 +61,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: ['string', 'false'],
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -72,12 +72,43 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
 export const FieldBlockProperties: PropertiesTableProps = {
   ...FieldBlockSharedProperties,
   labelSize: {
-    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
+    doc: 'Define one of the following [heading sizes](/web/layout-and-typography/elements/heading/): `medium` or `large`.',
     type: ['"medium"', '"large"'],
+    status: 'optional',
+  },
+  labelSuffix: {
+    doc: 'Will append additional text to the label, like "(optional)" or "(recommended)", displayed in a secondary text color.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelHeight: {
     doc: 'Defines the height of a component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
+    type: ['"default"', '"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
+  info: {
+    doc: 'Info message shown below the content by default. Use `statusPosition="above"` to show status messages above the content.',
+    type: ['React.ReactNode', 'Array<React.ReactNode>'],
+    status: 'optional',
+  },
+  warning: {
+    doc: 'Warning message shown below the content by default. Use `statusPosition="above"` to show status messages above the content.',
+    type: ['React.ReactNode', 'Array<React.ReactNode>'],
+    status: 'optional',
+  },
+  error: {
+    doc: 'Error message shown below the content by default. Use `statusPosition="above"` to show status messages above the content.',
+    type: [
+      'string',
+      'React.Element',
+      'Error',
+      'FormError',
+      'Array<string | React.Element | Error | FormError>',
+    ],
+    status: 'optional',
+  },
+  forId: {
+    doc: 'The `id` of the form element the label belongs to. It is used as the `for` attribute of the label.',
     type: 'string',
     status: 'optional',
   },
@@ -86,9 +117,24 @@ export const FieldBlockProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  fieldsetRole: {
+    doc: 'The `role` of the fieldset element, when a fieldset is used.',
+    type: 'string',
+    status: 'optional',
+  },
   align: {
     doc: '`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.',
-    type: ['string', 'false'],
+    type: ['"center"', '"bottom"'],
+    status: 'optional',
+  },
+  contentClassName: {
+    doc: 'Class name for the element that wraps the content (`children`).',
+    type: 'string',
+    status: 'optional',
+  },
+  fieldState: {
+    doc: 'Shows the inline [SubmitIndicator](/web/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.',
+    type: ['"pending"', '"complete"', '"success"', '"error"', '"abort"'],
     status: 'optional',
   },
   disableStatusSummary: {
@@ -102,7 +148,7 @@ export const FieldBlockProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'Set `true` to make the inner [FormLabel](/uilib/components/form-label/) behave as disabled.',
+    doc: 'Set `true` to make the inner [FormLabel](/web/components/form-label/) behave as disabled.',
     type: 'boolean',
     status: 'optional',
   },

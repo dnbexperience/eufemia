@@ -12,37 +12,49 @@ export const categoryOrder = [
     id: 'actions',
     title: 'Actions',
     description:
-      'For things people click to do something, open choices, follow a link, or get help.',
+      'Buttons and controls for starting actions or opening choices.',
   },
   {
     id: 'input',
-    title: 'Input',
+    title: 'Inputs',
     description:
-      'For entering information, choosing options, uploading files, or changing values.',
+      'Controls for entering information, choosing options, and uploading files.',
   },
   {
     id: 'navigation',
     title: 'Navigation',
     description:
-      'For helping people move between pages, jump to content, or continue through steps.',
+      'Components for moving between pages, sections, and steps.',
   },
   {
     id: 'feedback',
-    title: 'Feedback',
+    title: 'Feedback and dialogs',
     description:
-      'For messages and panels that tell people what happened, what is happening, or what needs attention.',
+      'Messages, progress indicators, and dialogs that explain what is happening or needs attention.',
   },
   {
     id: 'content',
-    title: 'Content',
+    title: 'Content and layout',
     description:
-      'For showing information, such as text, numbers, tables, icons, lists, and cards.',
+      'Components for organizing and displaying information, images, icons, and tables.',
   },
   {
-    id: 'other',
-    title: 'Other',
+    id: 'formatting',
+    title: 'Formatting and typography',
     description:
-      'For special page behavior that does not fit the groups above.',
+      'Components for formatting dates, numbers, lists, and text.',
+  },
+  {
+    id: 'accessibility',
+    title: 'Accessibility',
+    description:
+      'Components for announcements, keyboard navigation, and screen reader content.',
+  },
+  {
+    id: 'utilities',
+    title: 'Utilities',
+    description:
+      'Components for scrolling, animation, copying, and rendering outside the page flow.',
   },
 ] as const
 
@@ -60,9 +72,22 @@ export const categoryIds = new Set<string>(
 )
 
 export const excludedSlugs = new Set([
-  'uilib/components/fragments',
-  'uilib/components/overview',
+  'web/components/fragments',
+  'web/components/overview',
 ])
+
+const categorizedExtensionSlugs = new Set([
+  'web/patterns-and-extensions/payment-card',
+  'web/patterns-and-extensions/sidebar-menu',
+  'web/patterns-and-extensions/vipps-wallet-button',
+])
+
+export function isCategorizedComponentSlug(slug: string) {
+  return (
+    slug.startsWith('web/components/') ||
+    categorizedExtensionSlugs.has(slug)
+  )
+}
 
 export function isCategoryId(
   category: CategoryValue
@@ -81,7 +106,7 @@ export function getCategoryId(
     return category
   }
 
-  return 'other'
+  return 'utilities'
 }
 
 export function getCategoryTitle(id: CategoryId): string {

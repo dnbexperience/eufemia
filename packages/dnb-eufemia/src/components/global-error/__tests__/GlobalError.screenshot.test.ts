@@ -12,7 +12,7 @@ describe.each(['ui', 'sbanken'])(`GlobalError for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     pageViewport,
-    url: '/uilib/components/global-error/demos/',
+    url: '/web/components/global-error/demos/',
   })
 
   it('have to match the 404 status', async () => {

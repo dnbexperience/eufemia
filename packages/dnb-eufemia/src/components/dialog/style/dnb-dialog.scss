@@ -120,13 +120,18 @@
     z-index: 1;
   }
 
+  &--confirmation &__description {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+
   &__actions {
     padding-top: 1.5rem;
 
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    column-gap: 1rem;
+    gap: 1rem;
     width: 100%;
   }
 

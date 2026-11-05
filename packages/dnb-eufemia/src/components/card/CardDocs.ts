@@ -13,17 +13,31 @@ export const CardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stack: {
-    doc: 'True to stack the sub components with space between. The `spacing` will default to `medium`. Defaults to `false`.',
+    doc: 'True to stack the sub components with space between. The `gap` will default to `medium`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   direction: {
-    doc: 'Defaults to `vertical`.',
+    doc: 'Direction of sub components. Can be: `horizontal` or `vertical`. Defaults to `vertical`.',
     type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
+  gap: {
+    doc: 'How much space between the sub components. Use `false` for no space. Defaults to `false`, or `medium` when `stack` is set.',
+    type: [
+      '"xx-small"',
+      '"x-small"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
+      'false',
+    ],
+    status: 'optional',
+  },
   alignSelf: {
-    doc: 'Defaults to `stretch`.',
+    doc: 'Align the Card itself when it is a flex item in an outer container (CSS `align-self`). Defaults to `stretch`.',
     type: [
       '"flex-start"',
       '"flex-end"',
@@ -78,17 +92,18 @@ export const CardProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Flex.Container](/uilib/layout/flex/container/properties)': {
-    doc: 'Flex.Container properties.',
-    type: 'Various',
-    status: 'optional',
-  },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+  '[Flex.Container](/web/layout-and-typography/layout/flex/container/properties)':
+    {
+      doc: 'Flex.Container properties.',
+      type: 'Various',
+      status: 'optional',
+    },
+  '[Flex.Item](/web/layout-and-typography/layout/flex/item/properties)': {
     doc: 'Flex.Item properties.',
     type: 'Various',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -127,7 +142,7 @@ export const CardActionProperties: PropertiesTableProps = {
     status: 'required',
   },
   'Card properties': {
-    doc: '[Card](/uilib/components/card/properties) properties are supported. A whole-card action must not contain nested interactive controls.',
+    doc: '[Card](/web/components/card/properties) properties are supported. A whole-card action must not contain nested interactive controls.',
     type: 'Various',
     status: 'optional',
   },
@@ -148,12 +163,12 @@ export const CardInfoProperties: PropertiesTableProps = {
     status: 'required',
   },
   'Card properties': {
-    doc: 'All [Card](/uilib/components/card/properties) properties are supported. Defaults to responsive=false, dropShadow=true, stack=true, gap="small", and innerSpace="small" on small screens or "medium" on larger screens. All defaults can be overridden.',
+    doc: 'All [Card](/web/components/card/properties) properties are supported. Defaults to responsive=false, dropShadow=true, stack=true, gap="small", and innerSpace="small" on small screens or "medium" on larger screens. All defaults can be overridden.',
     type: 'Various',
     status: 'optional',
   },
   'Card.Action properties': {
-    doc: '[Card.Action](/uilib/components/card/properties/#cardaction-properties) properties are supported for a whole-card link or action. Set href, to, or onClick to make Card.Info interactive. Do not nest Card.Info.CloseButton, Card.Info.MediaButton, or other interactive controls in an interactive card.',
+    doc: '[Card.Action](/web/components/card/properties/#cardaction-properties) properties are supported for a whole-card link or action. Set href, to, or onClick to make Card.Info interactive. Do not nest Card.Info.CloseButton, Card.Info.MediaButton, or other interactive controls in an interactive card.',
     type: 'Various',
     status: 'optional',
   },
@@ -165,7 +180,7 @@ export const CardListProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -183,7 +198,7 @@ export const CardListItemProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

@@ -44,6 +44,17 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: `'flex-start'`,
     status: 'optional',
   },
+  alignSelf: {
+    doc: 'Align the container itself when it is a flex item in an outer container (CSS `align-self`).',
+    type: [
+      '"flex-start"',
+      '"flex-end"',
+      '"center"',
+      '"baseline"',
+      '"stretch"',
+    ],
+    status: 'optional',
+  },
   divider: {
     doc: 'How to separate sub components.',
     type: ['"space"', '"line"', '"line-framed"'],
@@ -51,7 +62,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   sizeCount: {
-    doc: 'Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/uilib/layout/flex/item).',
+    doc: 'Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/web/layout-and-typography/layout/flex/item).',
     type: 'number',
     defaultValue: '12',
     status: 'optional',
@@ -103,7 +114,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: 'true',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: 'Various',
     status: 'optional',

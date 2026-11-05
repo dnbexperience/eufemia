@@ -2,10 +2,10 @@
 
 .dnb-menu {
   --menu-action-padding-inline: 1rem;
-  --menu-action-padding-block: 0.75rem;
-  --menu-action-gap: 1rem;
-  --menu-action-min-height: 2.5rem;
-  --menu-action-border-radius: var(--token-radius-md);
+  --menu-action-padding-block: 1rem;
+  --menu-action-gap: 0.5rem;
+  --menu-action-min-height: 3.5rem;
+  --menu-action-border-radius: var(--token-radius-sm);
   --menu-action-background-color: transparent;
   --menu-action-background-color--hover: var(
     --token-color-background-neutral-subtle
@@ -25,11 +25,18 @@
     --token-color-icon-action-disabled
   );
   --menu-divider-color: var(--token-color-stroke-neutral-subtle);
-  --menu-content-padding: 0.25rem;
+  --menu-content-padding: 0rem; // keep the unit, MenuList uses it in calc()
 
   // Menu width should fit its content. Override Popover's min-width.
   &.dnb-popover {
     min-width: auto;
+
+    @include utilities.sharpDropShadow();
+  }
+
+  // Nested menus keep the Popover shadow
+  & &.dnb-popover {
+    @include utilities.defaultDropShadow();
   }
 
   &__popover-content {
@@ -45,6 +52,11 @@
   // Do not wrap text in nested lists, but allow wrapping in the top-level list to support narrow containers.
   &__list &__list {
     white-space: nowrap;
+  }
+
+  // Sub-menus render inside the parent list
+  &__list & &__popover-content {
+    padding: 0.5rem;
   }
 
   &__action {
@@ -96,7 +108,8 @@
         --menu-action-text-color: var(--token-color-text-action-focus);
         --menu-action-icon-color: var(--token-color-icon-action-focus);
 
-        @include utilities.focusRing('always');
+        // Inside, as in Figma, so a scrollable list does not clip it
+        @include utilities.focusRing('always', $inset: inset);
       }
     }
 
@@ -142,6 +155,10 @@
     &--has-submenu {
       .dnb-menu__action__submenu-indicator {
         margin-inline-start: auto;
+
+        // Keep a wider space between the text and the arrow,
+        // because the menu width fits its content.
+        padding-inline-start: var(--menu-action-gap);
       }
     }
   }
@@ -156,12 +173,16 @@
   &__header {
     padding: var(--menu-action-padding-block)
       var(--menu-action-padding-inline);
-    padding-block-end: 0;
+    padding-block-end: 0.25rem;
 
     list-style: none;
 
+    // Block, so the list item's own line box doesn't add height
     &__text.dnb-lead {
+      display: block;
+
       font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
     }
   }
 
@@ -188,6 +209,7 @@
       align-items: center;
       flex-shrink: 0;
       margin-inline-start: auto;
+      padding-inline-start: var(--menu-action-gap);
     }
 
     &--open > &__trigger &__indicator .dnb-icon {
@@ -198,6 +220,9 @@
     }
 
     .dnb-menu__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
       padding-inline-start: var(--menu-action-padding-inline);
     }
   }

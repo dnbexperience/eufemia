@@ -30,6 +30,13 @@ const withFocusVisible =
 const withoutFocusVisible =
   '(not (selector(:has(*)))) and (not (selector(:focus-visible)))'
 
+const cellBoxHeight =
+  'clamp(var(--line-height-basis), calc(var(--list-item-height) - 2 * var(--list-item-padding)), 2rem)'
+
+// Sass keeps the line breaks of a custom property value
+const normalize = (value: string) =>
+  value.replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')')
+
 describe('List scss', () => {
   it('should show the outline of a focused item in browsers without :has()', () => {
     expect(getFallbackRules()).toEqual([
@@ -80,5 +87,121 @@ describe('List scss', () => {
     for (const { selector } of withoutFocusVisibleRules) {
       expect(selector).not.toContain(':focus-visible')
     }
+  })
+
+  // A row outside a List.Container, like in a Dropdown or Autocomplete
+  // option, has no padding of its own, so fixed cell sizes make it taller.
+  it('should only give the cells a fixed height on a List surface', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const cell =
+      /\.dnb-list__item__(title|end|icon|start|chevron|center)\b|\.dnb-anchor__launch-icon/
+    const surfaces: Array<string> = []
+    const fixedOutsideSurface: Array<string> = []
+
+    postcss.parse(css).walkDecls((decl) => {
+      const rule = decl.parent as postcss.Rule
+
+      if (decl.prop === '--list-item-cell-height') {
+        surfaces.push(rule.selector)
+      }
+
+      if (
+        /^(min-height|padding-top|margin-top|margin-bottom)$/.test(
+          decl.prop
+        ) &&
+        rule.selectors?.some((selector) => cell.test(selector))
+      ) {
+        // Without a List surface, the custom property uses its fallback
+        const value = decl.value.replace(
+          /var\(--list-item-cell-height, (var\([^)]*\)|[^)]*)\)/g,
+          '$1'
+        )
+        if (
+          /\d(rem|px|em)\b/.test(value.replace(/\b0px\b/g, '0')) &&
+          !rule.selector.includes('.dnb-list--variant-basic')
+        ) {
+          fixedOutsideSurface.push(
+            `${rule.selector} { ${decl.prop}: ${decl.value} }`
+          )
+        }
+      }
+    })
+
+    expect(fixedOutsideSurface).toEqual([])
+    expect(surfaces).toHaveLength(3)
+    for (const surface of surfaces) {
+      expect(surface).toContain('.dnb-list--variant-basic')
+    }
+  })
+
+  it('should only set the height of the cell box in one place', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const boxHeights: Array<string> = []
+
+    postcss.parse(css).walkDecls((decl) => {
+      if (/(^|[^.\d])2rem\b/.test(decl.value)) {
+        const rule = decl.parent as postcss.Rule
+        boxHeights.push(`${rule.selector} { ${decl.prop} }`)
+      }
+    })
+
+    expect(boxHeights).toEqual([
+      '.dnb-list--variant-basic { --list-item-cell-height }',
+    ])
+  })
+
+  // A lower --list-item-height makes the rows lower, like before the cells
+  // got a box. The box stays between one text line and 2rem.
+  it('should derive the cell box from the row height', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const cellHeights: Array<string> = []
+
+    postcss.parse(css).walkDecls('--list-item-cell-height', (decl) => {
+      if (
+        (decl.parent as postcss.Rule).selector ===
+        '.dnb-list--variant-basic'
+      ) {
+        cellHeights.push(normalize(decl.value))
+      }
+    })
+
+    expect(cellHeights).toEqual([cellBoxHeight])
+  })
+
+  // Like in the design, a control taller than the cell box (a 40px Button)
+  // is centered on the title line and reaches into the row padding.
+  it('should keep an end cell with only a control as tall as the cell box', () => {
+    const css = loadScss(require.resolve('../style/dnb-list.scss'))
+    const maxHeights: Array<{
+      media: string
+      selector: string
+      value: string
+    }> = []
+
+    postcss.parse(css).walkDecls('max-height', (decl) => {
+      const rule = decl.parent as postcss.Rule
+      if (rule.selector.includes('.dnb-list__item__end')) {
+        maxHeights.push({
+          media: (rule.parent as postcss.AtRule).params,
+          selector: rule.selector,
+          value: decl.value,
+        })
+      }
+    })
+
+    expect(maxHeights).toHaveLength(1)
+
+    const [{ media, selector, value }] = maxHeights
+
+    // On small screens, the end cell is placed below the text
+    expect(media).toContain('min-width')
+    expect(selector).toContain('.dnb-button')
+    expect(selector).toContain(':only-child')
+
+    // A horizontal flex container can wrap onto more lines
+    expect(selector).toContain(':not(.dnb-flex-container)')
+
+    // Rows outside a List.Container keep their own height
+    expect(value).toBe('var(--list-item-cell-height, none)')
   })
 })

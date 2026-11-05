@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Skeleton for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/skeleton/demos/',
+    url: '/web/components/skeleton/demos/',
   })
 
   it('have to match skeleton article figure', async () => {
@@ -19,6 +19,17 @@ describe.each(['ui', 'sbanken'])(`Skeleton for %s`, (themeName) => {
 
   it('have to match excluded components', async () => {
     await makeScreenshot({
+      style: { width: '20rem', height: '20rem' },
+      selector: '[data-visual-test="skeleton-exclude"]',
+    })
+  })
+
+  it('have to match dark skeletons', async () => {
+    await makeScreenshot({
+      colorScheme: 'dark',
+      wrapperStyle: {
+        background: 'var(--token-color-background-page-background)',
+      },
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-exclude"]',
     })

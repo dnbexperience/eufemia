@@ -16,12 +16,22 @@
 
 .dnb-help-button__content {
   .dnb-section {
-    --background-color: var(--token-color-background-neutral-subtle);
-    --outset-left: 1rem;
-    --outset-right: 1rem;
+    --background-color: var(--token-color-background-neutral-base);
+    --outset-left: 1.5rem;
+    --outset-right: 1.5rem;
 
-    // Because we don't use/need an outline, we need to add to get a wider corner radius.
-    --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
+    @include utilities.allBelow(small) {
+      --outset-left: 1rem;
+      --outset-right: 1rem;
+    }
+
+    // Match the Card padding, so the background ends at the Card edges
+    .dnb-card & {
+      --outset-left: 1rem;
+      --outset-right: 1rem;
+    }
+
+    --rounded-corner--value: var(--token-radius-sm);
 
     .dnb-p {
       max-width: var(--prose-max-width); // to enhance readability;

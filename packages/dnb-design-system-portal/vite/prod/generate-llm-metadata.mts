@@ -11,8 +11,10 @@
  */
 
 import path from 'path'
+import fs from 'node:fs'
+import matter from '@11ty/gray-matter'
 import { fileURLToPath } from 'url'
-import { getNextReleaseVersion } from 'eufemia-llm-metadata/src/getNextReleaseVersion.ts'
+import { getDocsVersion } from 'eufemia-llm-metadata/src/docsVersion.ts'
 import {
   buildMetadata,
   createMarkdownCopies,
@@ -41,7 +43,7 @@ async function main() {
   resetUnhandledStandaloneMdxWarnings()
   console.log('[llm-metadata] Scanning MDX docs for entries')
 
-  const version = await getNextReleaseVersion()
+  const version = await getDocsVersion()
   const robots = await loadRobots(path.join(portalRoot, 'static'))
   const entryFiles = await findEntryMdxFiles(docsRoot)
   const allowedEntryFiles: string[] = []
@@ -58,7 +60,11 @@ async function main() {
 
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel, '')
+    const { slug } = toSlugAndDir(
+      rel,
+      '',
+      matter(fs.readFileSync(file, 'utf8')).data.slug
+    )
 
     if (!isAllowed(slug, robots)) {
       continue

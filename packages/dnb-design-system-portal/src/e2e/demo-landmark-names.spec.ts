@@ -3,23 +3,24 @@ import { AxeBuilder } from '@axe-core/playwright'
 import waitForApp from './shared/waitForApp'
 
 for (const path of [
-  '/uilib/components/breadcrumb/',
-  '/uilib/components/breadcrumb/demos/',
-  '/uilib/components/step-indicator/',
-  '/uilib/components/step-indicator/demos/',
-  '/uilib/extensions/sidebar-menu/',
-  '/uilib/extensions/sidebar-menu/demos/',
-  '/uilib/extensions/forms/Wizard/Container/',
-  '/uilib/extensions/forms/Wizard/Container/demos/',
-  '/uilib/extensions/forms/Wizard/demos/',
-  '/uilib/extensions/forms/Wizard/location-hooks/',
-  '/uilib/extensions/forms/Wizard/location-hooks/demos/',
-  '/uilib/extensions/forms/Wizard/Step/',
-  '/uilib/extensions/forms/Wizard/Step/demos/',
-  '/uilib/extensions/forms/Wizard/useStep/',
-  '/uilib/extensions/forms/Wizard/useStep/demos/',
-  '/uilib/components/list/visual-tests/action-footer/',
-  '/uilib/components/list/visual-tests/text-layout/',
+  '/web/components/breadcrumb/',
+  '/web/components/breadcrumb/demos/',
+  '/web/components/step-indicator/',
+  '/web/components/step-indicator/demos/',
+  '/web/patterns-and-extensions/sidebar-menu/',
+  '/web/patterns-and-extensions/sidebar-menu/demos/',
+  '/web/forms/Wizard/Container/',
+  '/web/forms/Wizard/Container/demos/',
+  '/web/forms/Wizard/demos/',
+  '/web/forms/Wizard/location-hooks/',
+  '/web/forms/Wizard/location-hooks/demos/',
+  '/web/forms/Wizard/Step/',
+  '/web/forms/Wizard/Step/demos/',
+  '/web/forms/Wizard/useStep/',
+  '/web/forms/Wizard/useStep/demos/',
+  '/web/components/list/visual-tests/action-footer/',
+  '/web/components/list/visual-tests/text-layout/',
+  '/web/components/filter/visual-tests/panel-actions/',
 ]) {
   test(`landmarks have distinguishable names on ${path}`, async ({
     page,
@@ -36,7 +37,7 @@ for (const path of [
 }
 
 test('Wizard landmark names follow the active step', async ({ page }) => {
-  await page.goto('/uilib/extensions/forms/Wizard/useStep/demos/')
+  await page.goto('/web/forms/Wizard/useStep/demos/')
   await waitForApp(page)
 
   const firstStep = page.getByRole('region', {

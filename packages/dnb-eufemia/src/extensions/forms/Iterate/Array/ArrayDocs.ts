@@ -28,6 +28,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  errorMessages: {
+    doc: "Custom error messages for the validation states, e.g. `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.",
+    type: 'object',
+    status: 'optional',
+  },
   minItems: {
     doc: 'The minimum amount of items required to iterate over.',
     type: 'number',
@@ -96,11 +101,12 @@ export const ArrayProperties: PropertiesTableProps = {
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
-  '[Flex.Stack](/uilib/layout/flex/stack/properties)': {
-    doc: 'All Flex.Stack properties.',
-    type: 'Various',
-    status: 'optional',
-  },
+  '[Flex.Stack](/web/layout-and-typography/layout/flex/stack/properties)':
+    {
+      doc: 'All Flex.Stack properties.',
+      type: 'Various',
+      status: 'optional',
+    },
 }
 
 export const ArrayEvents: PropertiesTableProps = {

@@ -30,6 +30,7 @@ function Upload(props: ValueUploadProps) {
 
   const {
     value,
+    locale,
     format,
     className,
     variant = 'text',
@@ -62,6 +63,7 @@ function Upload(props: ValueUploadProps) {
       return (
         <ListFormat
           value={valueToUse}
+          locale={locale}
           format={format}
           variant={variant}
           listType={listType}
@@ -75,6 +77,7 @@ function Upload(props: ValueUploadProps) {
     download,
     displaySize,
     onFileClick,
+    locale,
     format,
     variant,
     listType,

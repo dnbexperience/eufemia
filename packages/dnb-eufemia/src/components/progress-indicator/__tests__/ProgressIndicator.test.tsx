@@ -528,4 +528,29 @@ describe('ProgressIndicator scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the linear track and bar in forced colors mode', () => {
+    const css = loadScss(
+      require.resolve('../style/dnb-progress-indicator.scss')
+    )
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear \{\s*outline: 1px solid CanvasText;/
+    )
+    // !important, so that it also wins over the inline customColors.line.
+    // No forced-color-adjust: none, as system colors are kept without it.
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear__bar \{\s*background-color: Highlight !important;\s*\}/
+    )
+  })
+
+  it('keeps the horizontal label of the linear type small and next to the bar', () => {
+    const css = loadScss(
+      require.resolve('../style/dnb-progress-indicator.scss')
+    )
+
+    expect(css).toMatch(
+      /\.dnb-progress-indicator--full-width\.dnb-progress-indicator--horizontal \.dnb-progress-indicator__label \{\s*flex-shrink: 0;\s*max-width: 50%;\s*font-size: var\(--font-size-small\);\s*line-height: var\(--line-height-small\);\s*\}/
+    )
+  })
 })

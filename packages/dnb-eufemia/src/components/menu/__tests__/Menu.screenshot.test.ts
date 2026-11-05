@@ -7,14 +7,14 @@ import {
 describe.each(['ui', 'sbanken'])(`Menu for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/menu/demos/',
+    url: '/web/components/menu/demos/',
   })
 
   it('have to match menu with accordion item', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="menu-accordion"]',
       style: {
-        'padding-bottom': '14rem',
+        'padding-bottom': '16.5rem',
         width: '12rem',
       },
       simulate: 'click',

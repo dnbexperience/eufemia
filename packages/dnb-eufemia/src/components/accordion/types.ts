@@ -124,7 +124,7 @@ export type AccordionProps = Omit<
      */
     variant?: AccordionVariant
     /**
-     * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
+     * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`. The icon then moves to the right, unless `iconPosition` is set.
      */
     leftComponent?: ReactNode
     /**
@@ -157,7 +157,7 @@ export type AccordionProps = Omit<
      */
     icon?: AccordionIcon
     /**
-     * Will set the placement of the icon. Defaults to `left`.
+     * Will set the placement of the icon. Defaults to `left`, or `right` when `leftComponent` is set.
      */
     iconPosition?: AccordionIconPosition
     /**

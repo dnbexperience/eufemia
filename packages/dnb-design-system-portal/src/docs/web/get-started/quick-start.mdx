@@ -1,0 +1,209 @@
+---
+title: Quick start
+description: >-
+  A fast path to using Eufemia in your app. Install, import styles, render your
+  first component, and explore theming and customization.
+order: 2
+navigation:
+  title: Quick start
+  order: 1
+  parent: web/get-started
+legacyFragments:
+  how-eufemia-works: /web/get-started/quick-start/#quick-start
+  ui-library: /web/get-started/quick-start/#quick-start
+  web-introduction: /web/get-started/quick-start/#quick-start
+  only-html-elements-no: /web/get-started/quick-start/#design-and-development
+  the-library: /web/get-started/quick-start/#what-the-library-provides
+  developers--what-to-expect: /web/get-started/quick-start/#what-the-library-provides
+  developers-what-to-expect: /web/get-started/quick-start/#what-the-library-provides
+  collaboration: /web/get-started/quick-start/#design-and-development
+  technical-aspects: /web/get-started/quick-start/#imports-and-typescript
+  production-ready: /web/get-started/requirements/#supported-browsers-and-platforms
+  components-elements-and-extensions: /web/get-started/quick-start/#what-the-library-provides
+  where-do-i-go-next: /web/get-started/quick-start/#continue
+  next-steps: /web/get-started/quick-start/#continue
+  ai-instructions-and-skills: /web/ai-tools-and-resources/ai/ai-skills/#connect-the-documentation
+  versioned-documentation-preferred: /web/ai-tools-and-resources/ai/ai-skills/#read-markdown-documentation-without-mcp
+  non-versioned-documentation: /web/ai-tools-and-resources/ai/ai-skills/#read-markdown-documentation-without-mcp
+  installation-and-first-steps: /web/get-started/quick-start/#installation
+  the-basics: /web/get-started/quick-start/#interaction-states
+  react--typescript: /web/get-started/quick-start/#imports-and-typescript
+  start-here: /web/get-started/quick-start/#continue
+  install-and-render-a-component: /web/get-started/quick-start/#installation
+  choose-your-path: /web/get-started/quick-start/#continue
+  code-editor-extensions: /web/get-started/quick-start/#continue
+  please-contribute: /web/get-started/quick-start/#quick-start
+  eufemia-quick-reference: /web/get-started/quick-start/#before-you-build
+  setup: /web/get-started/quick-start/#installation
+  detailed-references: /web/get-started/quick-start/#continue
+  react-and-typescript: /web/get-started/quick-start/#imports-and-typescript
+  basic-buttons: /web/get-started/quick-start/#render-a-component
+  importing-the-components: /web/get-started/quick-start/#imports-and-typescript
+  core-concepts: /web/get-started/quick-start/#interaction-states
+  html-elements-and-styling: /web/get-started/quick-start/#key-conventions
+  pixel-perfect: /web/get-started/quick-start/#key-conventions
+  states: /web/get-started/quick-start/#interaction-states
+  css-styles: /web/get-started/quick-start/#installation
+  compiler: /web/get-started/quick-start/#render-a-component
+  importing-components-and-elements: /web/get-started/quick-start/#imports-and-typescript
+  importing-extensions: /web/get-started/quick-start/#imports-and-typescript
+  importing-icons: /web/get-started/quick-start/#imports-and-typescript
+  umd: /web/get-started/quick-start/#imports-and-typescript
+  install-and-set-up: /web/get-started/quick-start/#installation
+  good-to-know: /web/get-started/quick-start/#continue
+  technical-foundation: /web/get-started/quick-start/#imports-and-typescript
+  license: /web/get-started/requirements/#license
+  the-eufemia-repository: /web/get-started/quick-start/#installation
+  public-assets: /web/get-started/requirements/#public-assets
+  supported-browsers-and-platforms: /web/get-started/requirements/#supported-browsers-and-platforms
+  configuration-and-browserslist: /web/get-started/requirements/#configuration-and-browserslist
+  '': /web/get-started/quick-start/#quick-start
+redirect_from:
+  - /web/get-started/how-eufemia-works
+  - /uilib/get-started/how-eufemia-works
+  - /uilib
+  - /web
+  - /web/about-the-lib
+  - /uilib/about-the-lib
+  - /web/introduction
+  - /uilib/getting-started
+  - /web/getting-started
+  - /web/usage/first-steps
+  - /uilib/usage/first-steps
+  - /web/usage
+  - /uilib/usage
+  - /web/usage/first-steps/the-basics
+  - /uilib/usage/first-steps/the-basics
+  - /web/usage/first-steps/react
+  - /uilib/usage/first-steps/react
+  - /web/usage/first-steps/quick-reference
+  - /uilib/usage/first-steps/quick-reference
+legacyPrefixes:
+  - web/introduction
+  - uilib/introduction
+  - web/getting-started
+  - uilib/getting-started
+---
+
+import WelcomeAdvice from 'Docs/welcome-advice.mdx'
+import {
+  BasicButtonsExample,
+  EventsExample,
+} from 'Docs/web/get-started/_examples/Examples'
+
+The DNB UI library contains ready-to-use components, HTML elements, and extensions for Web applications. Use this guide to understand the building blocks, install Eufemia, and render your first component.
+
+## What the library provides
+
+- [Components](/web/components/overview/) and [HTML elements](/web/layout-and-typography/elements/) with DNB styles, fonts, and icons.
+- [Forms](/web/forms/) and other [extensions](/web/patterns-and-extensions/using-patterns-and-extensions/) for larger reusable solutions.
+- Shared [themes and tokens](/web/styling-and-themes/brands-and-dark-mode/), [layout](/web/layout-and-typography/layout/), and [accessibility guidance](/web/accessibility/).
+- Versioned [releases and upgrade guides](/web/releases-and-upgrades/) to help applications adopt changes.
+
+### Design and development
+
+Eufemia connects design and development through shared components, naming, spacing, and tokens. Use the same foundations in Figma and code so handovers and implemented interfaces stay aligned. See [Figma setup](/web/get-started/design-for-web/) for the maintained design resources.
+
+## Installation
+
+Install Eufemia with React and React DOM using your project's package manager:
+
+```bash
+npm i @dnb/eufemia react react-dom
+# or
+yarn add @dnb/eufemia react react-dom
+# or
+pnpm add @dnb/eufemia react react-dom
+```
+
+Import styles once in your application entry. The default import includes the DNB theme, components, and Forms styles:
+
+```tsx
+import '@dnb/eufemia/style'
+```
+
+For other brands, scoped styles, or smaller CSS bundles, see [CSS setup and structure](/web/styling-and-themes/css/). Check [requirements and browser support](/web/get-started/requirements/) before choosing your application setup.
+
+## Render a component
+
+```tsx
+import { Button } from '@dnb/eufemia'
+
+export default function App() {
+  return (
+    <Button text="Hello Eufemia" onClick={() => console.log('clicked')} />
+  )
+}
+```
+
+<BasicButtonsExample />
+
+## Imports and TypeScript
+
+The default package uses ESM and supports tree shaking. Import components, elements, and their TypeScript types from the public package. Import Forms and icons from their own entries:
+
+```tsx
+import { Button, Input, H1, P, Flex } from '@dnb/eufemia'
+import { Form, Field, Value, Wizard } from '@dnb/eufemia/extensions/forms'
+import { bell_medium } from '@dnb/eufemia/icons'
+```
+
+You can also use component entries such as `@dnb/eufemia/components/button`. See [module formats, SSR, and bundles](/web/ai-tools-and-resources/module-formats/) for CommonJS, server rendering, or scripts without an application build.
+
+## Events
+
+Component event handlers receive the values documented on each component's Events tab:
+
+<EventsExample />
+
+## How given props are merged
+
+Eufemia components apply the props you give them on top of the ones they set themselves, either directly or through a prop object such as `closeButtonProps`. When you set the same prop as the component, the two are combined instead of yours replacing the component's:
+
+- An event handler is called together with the component's own handler for the same event, so the component keeps doing what it does. A `Drawer` still closes, and a `Wizard.NextButton` still moves to the next step.
+- A `className` is added to the component's own classes.
+- A `style` is merged with the component's own, where your values win.
+- For every other prop, your value wins. Avoid setting what the component controls itself, and use the property it offers for it instead.
+
+To keep a component from doing what it normally does, use the property it offers for that, such as [`preventClose`](/web/components/drawer/properties/) on a `Drawer`, or the `preventNavigation` function that [`onStepChange`](/web/forms/Wizard/Container/events/) gives you on a `Wizard.Container`.
+
+Fields in [Eufemia Forms](/web/forms/) merge the same way. See [how given attributes are merged](/web/forms/about-fields/#how-given-attributes-are-merged) for what that means for a field's value and validation.
+
+## Interaction states
+
+Components provide hover, active, focus, and disabled states. Use their documented properties and theme tokens rather than reproducing those states in application CSS.
+
+## Before you build
+
+1. Choose a [brand and color scheme](/web/styling-and-themes/brands-and-dark-mode/).
+2. Use [Forms](/web/forms/) for data input, validation, and read-only values. Start with [Build your first form](/web/forms/getting-started/).
+3. Use [Wizard](/web/forms/Wizard/) for journeys with several steps.
+4. Plan [loading states](/web/components/skeleton/) and [localization](/web/styling-and-themes/configuration/localization/).
+5. Choose [global or isolated styles](/web/styling-and-themes/css/style-isolation/) for the application around Eufemia.
+
+## Key conventions
+
+- Use [Flex](/web/layout-and-typography/layout/flex/), [Space](/web/layout-and-typography/layout/space/), and the [spacing system](/web/layout-and-typography/spacing/) for consistent layout.
+- Prefer `Field.*` for user input, `Value.*` for read-only content, and [HTML elements](/web/layout-and-typography/elements/) for semantic text.
+- Use [semantic tokens](/web/styling-and-themes/design-tokens/) and [typography helpers](/web/layout-and-typography/typography/css-reference/) before adding custom values.
+- Keep [keyboard focus, labels, and error messages accessible](/web/accessibility/).
+- Test browser zoom, enlarged default fonts, narrow layouts, and the devices you support. Use `rem` for scalable dimensions.
+- Reuse [shared utilities](/web/ai-tools-and-resources/utilities/) for common behavior.
+
+## Forms essentials
+
+- [Form.Handler](/web/forms/Form/Handler/) handles submission and validation. [GlobalStatus](/web/components/global-status/) can summarize errors.
+- Use [Form.Outlet](/web/forms/Form/Outlet/) with a shared `formHandlerId` when a field or form control lives outside the handler subtree.
+- Use [Form.Section](/web/forms/Form/Section/) for edit and view modes.
+- Most fields have a matching value component. [Value.SummaryList](/web/forms/Value/SummaryList/) builds a read-only summary.
+- Use Zod or [AJV JSON Schema](/web/forms/Connectors/) when validation comes from a schema.
+
+## Continue
+
+- Follow the [guided introduction](/web/get-started/guided-introduction/) for a walkthrough.
+- Browse [components](/web/components/overview/), [layout](/web/layout-and-typography/layout/), and [Web typography](/web/layout-and-typography/typography/).
+- Set up [developer tools](/web/ai-tools-and-resources/developer-tools/) for your editor and workflow.
+- Follow [releases and upgrades](/web/releases-and-upgrades/) and [watch the repository](/web/get-started/requirements/#the-eufemia-repository) for updates.
+- For AI assistance, install [Agent skills](/web/ai-tools-and-resources/ai/ai-skills/) and connect the [MCP server](/web/ai-tools-and-resources/ai/mcp-universe/).
+
+<WelcomeAdvice />

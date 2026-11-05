@@ -27,7 +27,7 @@ import useMediaQuery from '../../shared/useMediaQuery'
 import Context from '../../shared/Context'
 import { defaultBreakpoints } from '../../shared/MediaQueryUtils'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
-import { hamburger } from '../../icons'
+import hamburger from '../../icons/hamburger'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useUniqueId from '../../shared/helpers/useId'
@@ -532,8 +532,14 @@ export function SidebarMenuResponsiveTrigger({
         (!isSmallScreen && inlineCollapsed ? animatedHamburger : hamburger)
       }
       variant={variant}
-      title={
-        title ?? (open ? translation.closeMenu : translation.openMenu)
+      title={title}
+      aria-label={
+        props['aria-label'] ??
+        (props.text || props.children || title
+          ? undefined
+          : open
+            ? translation.closeMenu
+            : translation.openMenu)
       }
       aria-haspopup={!isHydrated || isSmallScreen ? 'dialog' : undefined}
       aria-controls={
@@ -596,6 +602,7 @@ export function SidebarMenuResponsiveInline({
   onFocusCapture,
   onBlurCapture,
   onKeyDownCapture,
+  onPointerDownCapture,
   onPointerEnter,
   onPointerLeave,
   onPointerMove,
@@ -823,6 +830,7 @@ export function SidebarMenuResponsiveInline({
       className={clsx(
         'dnb-sidebar-menu-responsive-inline',
         compactOpen && 'dnb-sidebar-menu-responsive-inline--expanded',
+        compactOpening && 'dnb-sidebar-menu-responsive-inline--opening',
         compactClosing && 'dnb-sidebar-menu-responsive-inline--closing',
         transitionsReady &&
           'dnb-sidebar-menu-responsive-inline--transitions-ready',
@@ -933,6 +941,23 @@ export function SidebarMenuResponsiveInline({
           setCompactExpanded(true)
           setCompactDismissed(false)
         }
+      }}
+      onPointerDownCapture={(event) => {
+        onPointerDownCapture?.(event)
+        if (
+          !isCompact ||
+          (compactOpen && !compactOpening) ||
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.pointerType !== 'mouse'
+        ) {
+          return
+        }
+        const trigger = (event.target as Element).closest<HTMLElement>(
+          'button.dnb-sidebar-menu__accordion__trigger'
+        )
+        // Keep the click on its button when compact expansion moves the rows.
+        trigger?.setPointerCapture(event.pointerId)
       }}
       onPointerEnter={(event) => {
         onPointerEnter?.(event)
@@ -1135,8 +1160,17 @@ function getFirstPaintCss(
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
   DrawerAllProps,
-  'onClose' | 'open'
+  'onClose' | 'open' | 'id' | 'dialogTitle'
 > & {
+  /**
+   * Id of the Drawer. Toggle and ResponsiveTrigger reference it with `aria-controls` automatically.
+   * Default: `"sidebar-menu-responsive-drawer"`
+   */
+  id?: string
+  /**
+   * Accessible name of the Drawer. Defaults to the translated menu label.
+   */
+  dialogTitle?: DrawerAllProps['dialogTitle']
   onClose?: DrawerAllProps['onClose']
 }
 
@@ -1210,7 +1244,6 @@ export function SidebarMenuResponsiveDrawer({
       onClose={(event) => {
         if (isSmallScreenRef.current) {
           close()
-          triggerRef.current?.focus({ preventScroll: true })
         }
         onClose?.(event)
       }}

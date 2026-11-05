@@ -16,6 +16,11 @@ export { default as useMedia } from './useMedia'
 export { default as useHasScrolled } from './useHasScrolled'
 export { default as useTranslation } from './useTranslation'
 export { default as useSharedContext } from './useSharedContext'
+export {
+  default as useSharedState,
+  useWeakSharedState,
+  createSharedState,
+} from './useSharedState'
 export { default as Translation } from './Translation'
 export { default as renderWithFormatting } from './renderWithFormatting'
 export * from './Translation'
@@ -24,3 +29,4 @@ export { icu } from './icuFormatMessage'
 
 export type { ThemeNames } from './Theme'
 export type { ICUFormatMessage } from './icuFormatMessage'
+export type { SharedStateId, SharedStateReturn } from './useSharedState'

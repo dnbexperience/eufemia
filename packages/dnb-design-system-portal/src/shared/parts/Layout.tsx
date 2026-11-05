@@ -3,22 +3,21 @@
  *
  */
 
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import Anchor from '../tags/Anchor'
 import { clsx } from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { releaseVersion, buildVersion } from '../buildInfo'
-import {
-  SidebarMenuProvider,
-  SidebarMenuContext,
-} from '../menu/SidebarMenuContext'
+import * as EufemiaSidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus, Section } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
+import '@dnb/eufemia/src/style/dnb-ui-print.scss'
 import {
   portalStyle,
+  portalPrintStyle,
   mainStyle,
   footerStyle,
   contentStyle,
@@ -29,40 +28,22 @@ import {
 import SidebarMenu from '../menu/SidebarMenu'
 import { useFocusModeCode } from '../../core/FocusModeCodeContext'
 
-const SIDEBAR_SELECTOR = '#portal-sidebar-menu'
-const SIDEBAR_SCROLL_KEY = 'scroll-' + SIDEBAR_SELECTOR
-
-function restoreSidebarScroll() {
-  try {
-    const el = document.querySelector(SIDEBAR_SELECTOR) as HTMLElement
-    if (!el) {
-      return // stop here
-    }
-
-    const stored = parseFloat(
-      sessionStorage.getItem(SIDEBAR_SCROLL_KEY) || '0'
-    )
-    if (stored) {
-      el.style.scrollBehavior = 'auto'
-      el.scrollTop = stored
-      el.style.scrollBehavior = ''
-    }
-  } catch {
-    // ignore
-  }
-}
-
 type LayoutProps = {
   fullscreen?: boolean
   hideSidebar?: boolean
+  printLayout?: 'default' | 'custom'
   children: ReactNode
   location: Location
 }
 
 function Layout(props: LayoutProps) {
   const mainRef = useRef<HTMLElement>(undefined)
+  const portalRef = useRef<HTMLDivElement>(null)
 
-  const { fullscreen, location, hideSidebar, children } = props
+  const { fullscreen, location, hideSidebar, printLayout, children } =
+    props
+  const portalPrintEnabled =
+    printLayout !== 'custom' && !globalThis.IS_TEST
 
   // Prop-based and IS_TEST fullscreen are known at SSR time
   const ssrFullscreen = fullscreen || globalThis.IS_TEST
@@ -90,8 +71,22 @@ function Layout(props: LayoutProps) {
   const codeFocusMode = focusModeCodeId !== null
 
   const fs = ssrFullscreen || urlFullscreen || codeFocusMode
+  const updateSidebarWidth = useCallback(
+    (width: number) => {
+      if (!fs && !hideSidebar) {
+        portalRef.current?.style.setProperty('--aside-width', `${width}px`)
+      }
+    },
+    [fs, hideSidebar]
+  )
 
-  // Restore scroll and sidebar position after exiting any fullscreen mode
+  useEffect(() => {
+    if (fs || hideSidebar) {
+      portalRef.current?.style.setProperty('--aside-width', '0px')
+    }
+  }, [fs, hideSidebar])
+
+  // Restore the page position after exiting any fullscreen mode
   const wasFullscreenRef = useRef(false)
   useEffect(() => {
     if (fs) {
@@ -113,8 +108,6 @@ function Layout(props: LayoutProps) {
           if (scrollTarget) {
             window.scrollTo({ top: scrollTarget, behavior: 'instant' })
           }
-
-          restoreSidebarScroll()
         })
       })
       return () => {
@@ -147,27 +140,38 @@ function Layout(props: LayoutProps) {
 
   return (
     <div
+      ref={portalRef}
+      data-portal-print-layout={portalPrintEnabled || undefined}
       className={clsx(
         portalStyle,
+        portalPrintEnabled && [portalPrintStyle, 'dnb-print'],
         fs && fullscreenStyle,
         hideSidebar && hideSidebarStyle,
         codeFocusMode && 'focusmode'
       )}
     >
       <a
-        className="dnb-skip-link"
+        className="dnb-skip-link dnb-print-hidden"
         href="#dnb-app-content"
         onClick={skipToContentHandler}
       >
         Skip to content
       </a>
 
-      <SidebarMenuProvider>
+      <EufemiaSidebarMenu.ResponsiveProvider
+        scopeId="portal-sidebar-menu"
+        drawerAt="medium"
+        compactAt="large"
+        compactOffset="10em"
+      >
         {!fs && <StickyMenuBar />}
 
         <div className={wrapperStyle}>
           {!fs && !hideSidebar && (
-            <SidebarMenu location={location} showAll={false} />
+            <SidebarMenu
+              location={location}
+              onWidthChange={updateSidebarWidth}
+            />
           )}
 
           <Content key="content" fullscreen={fs}>
@@ -180,11 +184,19 @@ function Layout(props: LayoutProps) {
             </MainContent>
 
             {!codeFocusMode && <Footer />}
+            {portalPrintEnabled && !codeFocusMode && (
+              <footer
+                className="dnb-print-only dnb-print__keep-together"
+                data-portal-print-footer
+              >
+                Eufemia · {location.pathname} · Version {releaseVersion}
+              </footer>
+            )}
           </Content>
 
           {fs && <ToggleGrid hidden />}
         </div>
-      </SidebarMenuProvider>
+      </EufemiaSidebarMenu.ResponsiveProvider>
 
       <GridActivator />
     </div>
@@ -200,12 +212,6 @@ const Content = ({
   className = null,
   children,
 }: ContentProps) => {
-  const { isOpen, isClosing } = useContext(SidebarMenuContext)
-
-  if (isOpen || isClosing) {
-    return null
-  }
-
   return (
     <div
       className={clsx(
@@ -235,7 +241,12 @@ const MainContent = ({ mainRef, ...props }) => (
 
 const Footer = () => {
   return (
-    <Section element="footer" innerSpace className={footerStyle}>
+    <Section
+      element="footer"
+      innerSpace
+      variant="transparent"
+      className={footerStyle}
+    >
       <P size="small">
         Package release: {releaseVersion} <br />
         Portal update: {buildVersion}
@@ -243,7 +254,9 @@ const Footer = () => {
 
       <Logo height="40" />
 
-      <Anchor to="/license">Copyright (c) 2018-present DNB.no</Anchor>
+      <Anchor to="/about/license">
+        Copyright (c) 2018-present DNB.no
+      </Anchor>
     </Section>
   )
 }

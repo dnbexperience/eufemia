@@ -1939,6 +1939,26 @@ describe('InputMasked component asCurrency', () => {
     expect(document.querySelector('input').value).toBe('12 345,67 kr')
   })
 
+  it('uses the currency from the Provider', () => {
+    render(
+      <Provider currency="USD">
+        <InputMasked value="12345.678" asCurrency />
+      </Provider>
+    )
+
+    expect(document.querySelector('input').value).toBe('12 345,67 $')
+  })
+
+  it('uses its own currency over the Provider currency', () => {
+    render(
+      <Provider currency="USD">
+        <InputMasked value="12345.678" asCurrency="EUR" />
+      </Provider>
+    )
+
+    expect(document.querySelector('input').value).toBe('12 345,67 €')
+  })
+
   it('should merge "currencyMask" properties', () => {
     render(
       <InputMasked

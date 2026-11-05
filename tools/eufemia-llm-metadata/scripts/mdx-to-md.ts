@@ -7,6 +7,8 @@ import { parse } from '@babel/parser'
 import traverseModule from '@babel/traverse'
 import generateModule from '@babel/generator'
 import * as t from '@babel/types'
+import { readPropertiesUsage } from '../src/shared/propertiesUsage.ts'
+import { getDocumentationNotice } from '../src/shared/documentationNotices.ts'
 
 const traverse = (traverseModule as any).default ?? traverseModule
 const generate = (generateModule as any).default ?? generateModule
@@ -336,7 +338,16 @@ export async function convertMdxToMd({
   const outputFrontmatter = includeFrontmatter
     ? addDocLinksToFrontmatter(frontmatter)
     : ''
-  const output = [outputFrontmatter, outputBody.trim()]
+  const notice = includeFrontmatter
+    ? getDocumentationNotice(inputPath, docsRoot)
+    : ''
+  const propertiesUsage = await readPropertiesUsage(inputPath)
+  const output = [
+    outputFrontmatter,
+    notice,
+    propertiesUsage,
+    outputBody.trim(),
+  ]
     .filter(Boolean)
     .join('\n\n')
   const formattedOutput = await prettier.format(output, {

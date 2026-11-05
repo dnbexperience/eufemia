@@ -3,7 +3,7 @@ import { ToggleProperties } from '../Toggle/ToggleDocs'
 
 export const IndeterminateProperties: PropertiesTableProps = {
   dependencePaths: {
-    doc: 'Provide an array with the related paths of other [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) fields.',
+    doc: 'Provide an array with the related paths of other [Field.Toggle](/web/forms/base-fields/Toggle/) or [Field.Boolean](/web/forms/base-fields/Boolean/) fields.',
     type: 'array',
     status: 'required',
   },

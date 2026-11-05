@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/quickguide-designer/animation-principles/')
+  await page.goto('/design-foundations/motion-principles/')
   await waitForApp(page)
 })
 
@@ -15,15 +15,15 @@ test('motion character belongs to animation principles, not design principles', 
       exact: true,
     })
   ).toBeVisible()
-  await page.goto('/quickguide-designer/design-principles/')
+  await page.goto('/design-foundations/design-principles/')
   await waitForApp(page)
   await expect(page.locator('.dnb-motion-character')).toHaveCount(0)
   await page
-    .getByRole('main')
-    .getByRole('link', { name: 'Animation Principles', exact: true })
+    .locator('#tab-bar-content')
+    .getByRole('link', { name: 'Motion principles', exact: true })
     .click()
   await expect(page).toHaveURL(
-    /\/quickguide-designer\/animation-principles\/?$/
+    /\/design-foundations\/motion-principles\/?$/
   )
   await expect(page.locator('.dnb-motion-character')).toBeVisible()
 })

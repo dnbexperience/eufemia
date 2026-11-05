@@ -6,7 +6,7 @@ test.use({ browserName: 'webkit' })
 test.describe('easing previews', () => {
   test.beforeEach(async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' })
-    await page.goto('/quickguide-designer/motion/')
+    await page.goto('/web/development-guidelines/motion/')
     await waitForApp(page)
   })
 
@@ -239,7 +239,10 @@ test.describe('easing previews', () => {
       page,
     }) => {
       await page.setViewportSize({ width, height: 900 })
-      await page.goto('/quickguide-designer/motion/#timing-and-easing')
+      await page.evaluate(() => document.fonts.ready)
+      await page.goto(
+        '/web/development-guidelines/motion/#timing-and-easing'
+      )
       await waitForApp(page)
       await expect
         .poll(() =>

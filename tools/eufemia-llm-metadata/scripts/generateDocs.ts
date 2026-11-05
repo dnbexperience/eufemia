@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
+import matter from '@11ty/gray-matter'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { isAllowed, loadRobots } from '../src/robots.ts'
 import {
@@ -22,10 +23,7 @@ import type {
   DocEntryMap,
   LlmsResultEntry,
 } from '../src/convertHelpers.ts'
-import {
-  getNextReleaseVersion,
-  getCommitHash,
-} from '../src/getNextReleaseVersion.ts'
+import { getDocsVersion, getCommitHash } from '../src/docsVersion.ts'
 
 const PUBLIC_URL_BASE = ''
 
@@ -71,7 +69,7 @@ export async function generateDocs() {
   const outputRoot = path.join(packageRoot, 'build', 'docs')
   await fs.emptyDir(outputRoot)
 
-  const version = await getNextReleaseVersion()
+  const version = await getDocsVersion()
   const commit = await getCommitHash()
   const generatedAt = new Date().toISOString()
   const robots = await loadRobots(robotsRoot)
@@ -89,7 +87,11 @@ export async function generateDocs() {
   >()
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel, '')
+    const { slug } = toSlugAndDir(
+      rel,
+      '',
+      matter(await fs.readFile(file, 'utf8')).data.slug
+    )
 
     if (!isAllowed(slug, robots)) {
       continue

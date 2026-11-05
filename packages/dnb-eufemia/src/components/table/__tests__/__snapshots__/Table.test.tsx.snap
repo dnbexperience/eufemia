@@ -14,8 +14,8 @@ exports[`Table scss > should match style dependencies css 1`] = `
  */
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
-  --table-highlight-background: var(--token-color-decorative-first-muted);
-  --table-th-highlight-border: var(--token-color-decorative-first-subtle);
+  --table-highlight-background: var(--token-color-decorative-first-subtle);
+  --table-th-highlight-border: var(--token-color-stroke-neutral-subtle);
   display: table;
   table-layout: auto;
   width: 100%;
@@ -857,6 +857,11 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   transform: translate3d(0, var(--table-offset, 0), 0);
 }
 
+@media print {
+  .dnb-table tr.sticky {
+    transform: none;
+  }
+}
 .dnb-table tr.sticky.css-position {
   top: var(--table-top, 0);
 }

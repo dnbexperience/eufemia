@@ -6,7 +6,7 @@ import {
 
 describe('HelpButton', () => {
   setupPageScreenshot({
-    url: '/uilib/components/help-button/demos/',
+    url: '/web/components/help-button/demos/',
   })
 
   it('have to match default help button', async () => {

@@ -22,8 +22,29 @@ export default defineConfig({
       use: { browserName: 'firefox' },
     },
     {
+      name: 'chromium-fonts',
+      testMatch: [
+        '**/style/__tests__/Fonts.e2e.spec.ts',
+        '**/style/__tests__/FontMetrics.e2e.spec.ts',
+      ],
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'webkit-fonts',
+      testMatch: [
+        '**/style/__tests__/Fonts.e2e.spec.ts',
+        '**/style/__tests__/FontMetrics.e2e.spec.ts',
+      ],
+      use: { browserName: 'webkit' },
+    },
+    {
       name: 'chromium-document-styles',
       testMatch: 'DocumentStyles.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'chromium-portal-print',
+      testMatch: 'PortalPrint.e2e.spec.ts',
       use: { browserName: 'chromium' },
     },
     {

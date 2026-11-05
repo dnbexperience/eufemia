@@ -169,13 +169,13 @@ export const TOKEN_EXPORTS: ReadonlyArray<{
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-light (test)',
+    mode: 'dnbeiendom-light',
     fileName: 'brand/dnbeiendom-light.tokens.json',
   },
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-dark (test)',
+    mode: 'dnbeiendom-dark',
     fileName: 'brand/dnbeiendom-dark.tokens.json',
   },
 ]
@@ -528,6 +528,19 @@ export const convertVariablesToTokens = ({
     // A deleted variable keeps its name, and can collide with the one that replaced it
     if (!variable || variable.deletedButReferenced) {
       continue
+    }
+
+    const webCodeSyntax = variable.codeSyntax?.WEB
+    const expectedCodeSyntax = `--token-${variable.name.replaceAll('/', '-')}`
+
+    if (
+      /^(color|radius)\//.test(variable.name) &&
+      webCodeSyntax &&
+      webCodeSyntax !== expectedCodeSyntax
+    ) {
+      throw new Error(
+        `The Figma variable "${variable.name}" must use WEB code syntax "${expectedCodeSyntax}"`
+      )
     }
 
     addTokenLeaf(

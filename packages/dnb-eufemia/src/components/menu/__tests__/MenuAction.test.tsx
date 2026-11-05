@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import MenuAction from '../MenuAction'
 import { MenuContext, MenuTriggerContext } from '../MenuContext'
 import { createMockContext, renderWithContext } from './testHelpers'
@@ -276,5 +276,17 @@ describe('MenuAction', () => {
 
       expect(await axeComponent(container)).toHaveNoViolations()
     })
+  })
+
+  it('draws the focus ring inside the item, so a scrollable list does not clip it', () => {
+    const css = String(loadScss(require.resolve('../style/dnb-menu.scss')))
+    const focusRule = css.match(
+      /\.dnb-menu__action:focus:not\(\[disabled\]\) \{[^}]*\}/
+    )?.[0]
+
+    expect(focusRule).toMatch(/--border-width: var\(--focus-ring-width\);/)
+    expect(focusRule).toMatch(
+      /box-shadow: inset 0 0 0 var\(--border-width\) var\(--border-color\)/
+    )
   })
 })

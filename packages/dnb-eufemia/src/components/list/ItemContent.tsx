@@ -22,7 +22,7 @@ export type ItemContentProps = {
    * Default: `'li'`
    */
   element?: DynamicElement
-} & FlexProps
+} & Omit<FlexProps, 'element'>
 
 function ItemContent(props: ItemContentProps) {
   const {

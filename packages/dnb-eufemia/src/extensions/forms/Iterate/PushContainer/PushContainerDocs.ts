@@ -3,12 +3,12 @@ import { IsolationEvents } from '../../Form/Isolation/IsolationDocs'
 
 export const PushContainerProperties: PropertiesTableProps = {
   path: {
-    doc: 'The path to the array to add the new item to.',
+    doc: 'The path to the array to add the new item to. Required when `itemPath` is not given.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   itemPath: {
-    doc: 'The path to the item in a nested array, to add the new item to.',
+    doc: 'The path to the item in a nested array, to add the new item to. Required when `path` is not given.',
     type: 'string',
     status: 'optional',
   },
@@ -87,7 +87,7 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

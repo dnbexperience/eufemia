@@ -18,9 +18,13 @@
   --radio-border-width--default: 0.0625rem;
   --radio-color-dot-on--default: var(--token-color-background-selected);
   --radio-color-background--default: var(--token-color-background-neutral);
+  --radio-color-background-on--default: var(
+    --token-color-background-selected-subtle
+  );
   --radio-color-border--default: var(
     --token-color-stroke-action-alternative
   );
+  --radio-color-border-on--default: var(--token-color-stroke-selected);
 
   // Disabled state
   --radio-color-dot-on--disabled: var(
@@ -30,6 +34,9 @@
     --token-color-background-neutral
   );
   --radio-color-border--disabled: var(--token-color-stroke-neutral-subtle);
+  --radio-color-border-on--disabled: var(
+    --token-color-stroke-action-disabled
+  );
 
   // Active state
   --radio-border-inset--active: inset;
@@ -64,11 +71,55 @@
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
 
-  &--surface-dark {
+  // A checked ToggleButton keeps a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button--checked *)) {
+    --radio-color-dot-on--disabled: var(
+      --token-color-background-action-disabled-ondark
+    );
+    --radio-color-background--disabled: transparent;
+    // Figma shows unchecked disabled radio buttons on dark surfaces at 50% opacity
     --radio-color-border--disabled: color-mix(
       in srgb,
-      var(--token-color-stroke-neutral-ondark) 50%,
+      var(--token-color-stroke-action-disabled-ondark) 50%,
       transparent
+    );
+    --radio-color-border-on--disabled: var(
+      --token-color-stroke-action-disabled-ondark
+    );
+  }
+
+  // Checked and error ToggleButtons keep a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button *)) {
+    --radio-color-dot-on--default: var(
+      --token-color-background-selected-ondark
+    );
+    --radio-color-background--default: transparent;
+    --radio-color-background-on--default: var(
+      --token-color-background-selected-subtle-ondark
+    );
+    --radio-color-border--default: var(
+      --token-color-stroke-action-alternative-ondark
+    );
+    --radio-color-border-on--default: var(
+      --token-color-stroke-selected-ondark
+    );
+    --radio-color-dot-on--active: var(
+      --token-color-background-action-pressed-ondark
+    );
+    --radio-color-background--active: var(
+      --token-color-background-action-pressed-subtle-ondark
+    );
+    --radio-color-border--active: var(
+      --token-color-stroke-action-pressed-ondark
+    );
+    --radio-color-dot-on--hover: var(
+      --token-color-background-action-hover-ondark
+    );
+    --radio-color-background--hover: var(
+      --token-color-background-action-hover-subtle-ondark
+    );
+    --radio-color-border--hover: var(
+      --token-color-stroke-action-hover-ondark
     );
   }
 
@@ -322,9 +373,9 @@
   &__input[data-checked='true'] ~ &__button {
     --radio-border-width--default: 0.09375rem;
     --radio-border-width--active: 0.09375rem;
-    --radio-color-border--default: var(--token-color-stroke-selected);
+    --radio-color-border--default: var(--radio-color-border-on--default);
     --radio-color-background--default: var(
-      --token-color-background-selected-subtle
+      --radio-color-background-on--default
     );
   }
   &__input:checked ~ &__dot,
@@ -360,6 +411,27 @@
   }
   &__status--error {
     --radio-color-dot-on--default: var(--token-color-background-error);
+  }
+
+  // Hover, pressed and focus keep the error colors (a ToggleButton has its own)
+  &__status--error:where(:not(.dnb-toggle-button *)) &__input ~ &__button {
+    --radio-border-width--active: 0.0625rem;
+    --radio-color-background--hover: var(
+      --token-color-background-error-subtle
+    );
+    --radio-color-background--active: var(
+      --token-color-background-error-subtle
+    );
+    --radio-color-background--focus: var(
+      --token-color-background-error-subtle
+    );
+    --radio-color-border--hover: var(--token-color-stroke-error);
+    --radio-color-border--active: var(--token-color-stroke-error);
+  }
+  &__status--error:where(:not(.dnb-toggle-button *)) {
+    --radio-color-dot-on--hover: var(--token-color-background-error);
+    --radio-color-dot-on--active: var(--token-color-background-error);
+    --radio-color-dot-on--focus: var(--token-color-background-error);
   }
 
   /** Hover state **/
@@ -420,6 +492,12 @@
     @media (forced-colors: active) {
       outline-color: GrayText;
     }
+  }
+  &__input[disabled]:checked ~ &__button,
+  &__input[disabled][data-checked='true'] ~ &__button {
+    --radio-color-border: var(--radio-color-border-on--disabled);
+    --radio-border-width--default: 0.0625rem;
+    --radio-border-width--active: 0.0625rem;
   }
   &__input[disabled] ~ &__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--disabled);

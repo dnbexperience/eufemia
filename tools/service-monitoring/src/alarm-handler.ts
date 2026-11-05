@@ -8,6 +8,7 @@ import { parseSlackConfig, slackApi } from './slack-api.ts'
 import { processNotification } from './notifications.ts'
 import type { NotificationState, Observation } from './notifications.ts'
 import { logFailure } from './diagnostics.ts'
+import { services } from './monitor.ts'
 
 const db = new DynamoDBClient({
   maxAttempts: 2,
@@ -23,7 +24,7 @@ function parseObservation(message: string): Observation {
   const value = JSON.parse(message)
   if (value.kind === 'service') {
     if (
-      !['CDN', 'MCP'].includes(value.service) ||
+      !services.includes(value.service) ||
       !['healthy', 'unhealthy', 'pending'].includes(
         value.report?.status
       ) ||
@@ -77,6 +78,15 @@ export async function handler(event: Event) {
       }
       return parseObservation(record.Sns.Message)
     })
+    const region = process.env.AWS_REGION
+    const aws = region
+      ? {
+          region,
+          logGroups: JSON.parse(
+            process.env.MONITOR_LOG_GROUPS || '{}'
+          ) as Record<string, string>,
+        }
+      : undefined
     stage = 'Slack bot configuration'
     const slack = slackApi(parseSlackConfig(await readSecret(secret)))
     const key = { service: { S: 'notifications' } }
@@ -104,6 +114,7 @@ export async function handler(event: Event) {
           )
         },
         ...slack,
+        aws,
       })
     }
   } catch (error) {

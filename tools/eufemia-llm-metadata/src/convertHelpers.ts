@@ -32,6 +32,8 @@ import type {
 import { findUnhandledStandaloneMdxComponents } from './extensions/mdx/detector.ts'
 import { applySpecialMdxComponentRenderers } from './extensions/mdx/registry.ts'
 import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
+import { readPropertiesUsage } from './shared/propertiesUsage.ts'
+import { getDocumentationNotice } from './shared/documentationNotices.ts'
 
 export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
@@ -322,13 +324,20 @@ function createEmptyTsDocs(): Awaited<ReturnType<typeof loadTsDocs>> {
 }
 
 export async function loadTsDocsForDocPath(rel: string) {
-  const uilibPrefix = `uilib${path.sep}`
+  const prefix = ['web', 'uilib']
+    .map((name) => name + path.sep)
+    .find((value) => rel.startsWith(value))
 
-  if (!rel.startsWith(uilibPrefix)) {
+  if (!prefix) {
     return createEmptyTsDocs()
   }
 
-  return loadTsDocs(rel.slice(uilibPrefix.length))
+  const source = rel
+    .slice(prefix.length)
+    .replace(/^forms[/\\]/, 'extensions/forms/')
+    .replace(/^patterns-and-extensions[/\\]/, 'extensions/')
+    .replace(/^layout-and-typography[/\\]/, '')
+  return loadTsDocs(source)
 }
 
 export function mergeDocs(
@@ -414,7 +423,7 @@ export function buildMetadata({
     description,
     group,
     slug,
-    docs: `${slug.replace(/\/$/, '')}.md`,
+    docs: `${slug === '/' ? '/home' : slug.replace(/\/$/, '')}.md`,
     props: propsList,
     events: eventsList,
     related: relatedList,
@@ -505,8 +514,14 @@ export function toWorkspacePath(abs: string, siteDir: string) {
 
 export function toSlugAndDir(
   rel: string,
-  slugBase: string = LLM_DOCS_SLUG_PREFIX
+  slugBase: string = LLM_DOCS_SLUG_PREFIX,
+  canonicalSlug?: string
 ) {
+  if (typeof canonicalSlug === 'string') {
+    const normalized = trimEdgeSlashes(canonicalSlug)
+    const slug = '/' + normalized + (normalized ? '/' : '')
+    return { slug, dirForExtras: slug.slice(1) }
+  }
   const noExt = rel.replace(/\.[^/.]+$/, '')
   const normalizedSlugBase = trimEdgeSlashes(slugBase)
   const slugSegments = [
@@ -622,6 +637,9 @@ async function isDraftMdx(file: string) {
   try {
     const src = await fs.readFile(file, 'utf-8')
     const { data: attributes } = fm(src)
+    if (attributes.route === false) {
+      return true
+    }
     const raw = attributes && attributes.draft
 
     if (raw === true) {
@@ -830,10 +848,7 @@ export async function findSourceInfo({
       .relative(repoRoot, fileAbs)
       .replace(/\\/g, '/')
     const dirRepoPath = path.posix.dirname(fileRepoPath)
-    const tag =
-      /^\d+/.test(String(version)) && !version.includes('-')
-        ? `v${version}`
-        : 'main'
+    const tag = /^\d+\.\d+\.\d+$/.test(version) ? `v${version}` : 'main'
     const fileUrl = `${REPO_URL}/blob/${tag}/${fileRepoPath}`
     const dirUrl = `${REPO_URL}/tree/${tag}/${dirRepoPath}`
 
@@ -953,9 +968,9 @@ export function buildLlmsText(
   const printed = new Set<string>()
   const pushEntry = (meta: ComponentMetadata) => {
     const slug = String(meta?.slug || '')
-    const prefix = slug.includes('/extensions/forms/Value/')
+    const prefix = /\/(?:extensions\/)?forms\/Value\//.test(slug)
       ? 'Value'
-      : slug.includes('/extensions/forms/feature-fields/')
+      : /\/(?:extensions\/)?forms\/feature-fields\//.test(slug)
         ? 'Field'
         : null
     const hasPrefix =
@@ -1400,11 +1415,12 @@ export async function createMarkdownCopies({
 
   for (const file of markdownEntryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel, slugBase)
+    const { data: attributes } = fm(await fs.readFile(file, 'utf8'))
+    const { slug } = toSlugAndDir(rel, slugBase, attributes.slug)
     const resolvedOutputRoot = outputRoot || path.join(siteDir, 'public')
     const mdOutputPath = path.join(
       resolvedOutputRoot,
-      slug.replace(/\/$/, '') + '.md'
+      (slug === '/' ? '/home' : slug.replace(/\/$/, '')) + '.md'
     )
     const outputDir = path.dirname(mdOutputPath)
     const entryLinks = {
@@ -1462,6 +1478,23 @@ export async function createMarkdownCopies({
       .join('\n\n')
     await fs.ensureDir(outputDir)
     await fs.writeFile(mdOutputPath, `${combinedMd.trim()}\n`, 'utf-8')
+
+    const aliases = [
+      ...(attributes.redirect_from ?? []),
+      ...(slug === '/' ? ['/index'] : []),
+    ]
+    for (const alias of aliases) {
+      const aliasSlug = String(alias).replace(/^\/+|\/+$/g, '')
+      if (
+        !aliasSlug ||
+        aliasSlug.split('/').some((part) => part === '.' || part === '..')
+      ) {
+        continue
+      }
+      const aliasPath = path.join(resolvedOutputRoot, aliasSlug + '.md')
+      await fs.ensureDir(path.dirname(aliasPath))
+      await fs.writeFile(aliasPath, `${combinedMd.trim()}\n`, 'utf8')
+    }
   }
 }
 
@@ -1530,12 +1563,14 @@ export async function convertMdxToMd({
 
   const links = frontmatterLinks || {}
   const fallbackLink = resolveFallbackLink(inputPath, links)
+  const propertiesUsage = await readPropertiesUsage(inputPath)
   outputBody = await replacePropertiesTableWithJsonBlock(outputBody, {
     fallbackLink,
     importsByFile,
     inputDir: path.dirname(inputPath),
     docsRoot,
     docsBaseRoot,
+    propertiesUsage,
   })
   outputBody = await replaceTranslationsTableWithJsonBlock(outputBody, {
     importsByFile,
@@ -1588,7 +1623,20 @@ export async function convertMdxToMd({
   const outputFrontmatter = includeFrontmatter
     ? addDocLinksToFrontmatter(frontmatter, links)
     : ''
-  const output = [outputFrontmatter, titleHeading, outputBody.trim()]
+  const notice = includeFrontmatter
+    ? getDocumentationNotice(inputPath, docsRoot)
+    : ''
+  const output = [
+    outputFrontmatter,
+    titleHeading,
+    notice,
+    propertiesUsage
+      ? `<!-- eufemia-properties-usage:start -->
+${propertiesUsage}
+<!-- eufemia-properties-usage:end -->`
+      : '',
+    outputBody.trim(),
+  ]
     .filter(Boolean)
     .join('\n\n')
 
@@ -1611,12 +1659,14 @@ async function replacePropertiesTableWithJsonBlock(
     inputDir,
     docsRoot,
     docsBaseRoot,
+    propertiesUsage,
   }: {
     fallbackLink: { label: string; url: string } | null
     importsByFile: Map<string, string[]>
     inputDir: string
     docsRoot: string
     docsBaseRoot: string
+    propertiesUsage: string
   }
 ) {
   const regex = /<PropertiesTable\b[\s\S]*?\/>/g
@@ -1631,6 +1681,7 @@ async function replacePropertiesTableWithJsonBlock(
   let output = ''
   let lastIndex = 0
   let match: RegExpExecArray | null
+  let includeUsageGuidance = Boolean(propertiesUsage)
 
   while ((match = regex.exec(body))) {
     output += body.slice(lastIndex, match.index)
@@ -1652,6 +1703,9 @@ async function replacePropertiesTableWithJsonBlock(
     if (propsValue) {
       const metadata: Record<string, any> = {
         props: propsValue,
+        ...(includeUsageGuidance
+          ? { usageGuidance: propertiesUsage }
+          : {}),
       }
 
       for (const [name, attr] of Object.entries(attrs)) {
@@ -1669,6 +1723,7 @@ async function replacePropertiesTableWithJsonBlock(
       }
 
       output += renderJsonBlock(metadata)
+      includeUsageGuidance = false
     } else {
       if (fallbackLink) {
         output += `See ${fallbackLink.label}: ${fallbackLink.url}`
@@ -2378,7 +2433,7 @@ function addDocLinksToFrontmatter(
     if (!trimmed) {
       continue
     }
-    const keyMatch = /^([A-Za-z0-9_-]+):/.exec(trimmed)
+    const keyMatch = /^([A-Za-z0-9_-]+):/.exec(line)
 
     if (!keyMatch) {
       continue

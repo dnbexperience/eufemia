@@ -56,7 +56,7 @@ export type SliderProps = {
   statusNoAnimation?: boolean
 
   /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   * The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject
 
@@ -121,7 +121,7 @@ export type SliderProps = {
   stretch?: boolean
 
   /**
-   * Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.
+   * Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/web/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.
    */
   numberFormat?: SliderNumberFormat
 

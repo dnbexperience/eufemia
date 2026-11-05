@@ -219,9 +219,9 @@ ${loaderEntries}
   // dynamic import() is cached — once a theme module has been
   // imported, re-importing it won't re-inject its <link>.
   const themeLinks = {};
+  let requestedTheme;
 
-  // Pick up pre-injected <link> elements for all themes that were
-  // added as render-blocking stylesheets during prerendering.
+  // Pick up theme links prepared before the first paint.
   document.querySelectorAll('link[data-eufemia-theme]').forEach(function(el) {
     themeLinks[el.getAttribute('data-eufemia-theme')] = el;
   });
@@ -231,6 +231,7 @@ ${loaderEntries}
     if (!loader) {
       return Promise.resolve();
     }
+    requestedTheme = name;
 
     // If the theme's <link> is already in the DOM (pre-injected during
     // prerender), it may still be disabled and not yet fetched. Wait for
@@ -285,11 +286,20 @@ ${loaderEntries}
       });
 
       // Enable so the browser starts loading it.
+      if (!newLink.hasAttribute('href') && newLink.dataset.eufemiaHref) {
+        newLink.href = newLink.dataset.eufemiaHref;
+      }
       newLink.disabled = false;
     });
   }
 
   function activateTheme(name) {
+    if (name !== requestedTheme) {
+      if (themeLinks[name]) {
+        themeLinks[name].disabled = true;
+      }
+      return;
+    }
     // Enable the new theme
     if (themeLinks[name]) {
       themeLinks[name].disabled = false;

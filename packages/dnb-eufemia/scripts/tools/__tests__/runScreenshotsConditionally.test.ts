@@ -35,7 +35,7 @@ describe('runScreenshotsConditionally', () => {
     const selection = select({
       changedRepoFiles: [
         'README.md',
-        'packages/dnb-design-system-portal/src/docs/contribute/faq.mdx',
+        'packages/dnb-design-system-portal/src/docs/web/contribute/faq.mdx',
       ],
     })
 

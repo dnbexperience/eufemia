@@ -26,7 +26,7 @@ export type UploadProps = {
   variant?: 'default' | 'compact'
 
   /**
-   * List of accepted file types. Either as a string or an [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).
+   * List of accepted file types. Either as a string or an [AcceptedFileType](/web/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/web/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/web/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).
    */
   acceptedFileTypes:
     | UploadAcceptedFiles
@@ -86,7 +86,7 @@ export type UploadProps = {
   disableDragAndDrop?: boolean
 
   /**
-   * Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.
+   * Define any valid Eufemia [Button properties](/web/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.
    */
   buttonProps?: ButtonProps
 
@@ -101,6 +101,11 @@ export type UploadProps = {
   fileAmountDescription?: ReactNode
   fileSizeContent?: ReactNode
   buttonText?: ReactNode
+
+  /**
+   * Custom text for the button that shows the accepted file types and sizes in the `compact` variant. Overrides the default translation. Can be disabled using `false`.
+   */
+  fileLimitsButtonText?: ReactNode
   errorLargeFile?: ReactNode
   errorUnsupportedFile?: ReactNode
   errorAmountLimit?: ReactNode

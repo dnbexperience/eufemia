@@ -1,8 +1,53 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
-.buttonStyle {
-  @include utilities.allBelow(medium) {
+// The theme class is applied before paint, including stored and system preferences.
+.darkSchemeStyle {
+  display: none;
+}
+
+:global(.eufemia-theme__color-scheme--dark) {
+  .lightSchemeStyle {
     display: none;
+  }
+
+  .darkSchemeStyle {
+    display: inline;
+  }
+}
+
+.loadingStyle {
+  // Keep the loading trigger available for canceling a pending open.
+  &:global(.dnb-skeleton--shape) {
+    pointer-events: auto;
+
+    @include utilities.focusVisible() {
+      outline: var(--focus-ring-width) solid
+        var(--token-color-stroke-action-focus);
+      outline-offset: 0.125rem;
+    }
+  }
+}
+
+.buttonStyle {
+  flex-shrink: 0;
+
+  &[aria-busy='true'] {
+    cursor: progress;
+  }
+
+  @include utilities.allBelow(small) {
+    &:global(.dnb-button) {
+      width: 2.5rem;
+      padding-inline: 0;
+    }
+
+    :global(.dnb-button__text) {
+      @include utilities.srOnly();
+    }
+
+    :global(.dnb-button__icon) {
+      margin: 0;
+    }
   }
 
   &:global(.hideWhenMediaLarge) {

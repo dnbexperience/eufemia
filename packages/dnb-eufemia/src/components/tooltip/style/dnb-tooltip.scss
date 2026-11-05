@@ -48,6 +48,7 @@
   .dnb-popover {
     &__content {
       min-width: 2rem;
+      max-width: 37rem; // 35rem text + padding
       min-height: 1.5rem;
 
       padding: 0 1rem;

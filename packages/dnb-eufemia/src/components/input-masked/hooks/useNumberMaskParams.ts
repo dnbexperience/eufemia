@@ -23,7 +23,7 @@ import {
 import { useTranslation } from './useTranslation'
 
 export const useNumberMaskParams = () => {
-  const { props } = useContext(InputMaskedContext)
+  const { props, context } = useContext(InputMaskedContext)
   const locale = useTranslation()
 
   if (!isRequestingNumberMask(props)) {
@@ -63,7 +63,7 @@ export const useNumberMaskParams = () => {
         thousandsSeparatorSymbol,
         currency: getCurrencySymbol(
           locale,
-          typeof asCurrency === 'string' ? asCurrency : null,
+          typeof asCurrency === 'string' ? asCurrency : context?.currency,
           currencyMask?.currencyDisplay,
           value
         ),

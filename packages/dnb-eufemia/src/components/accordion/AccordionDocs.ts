@@ -52,7 +52,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   iconPosition: {
-    doc: 'Will set the placement of the icon. Defaults to `left`.',
+    doc: 'Will set the placement of the icon. Defaults to `left`, or `right` when `leftComponent` is set.',
     type: ['"left"', '"right"'],
     status: 'optional',
   },
@@ -62,7 +62,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   leftComponent: {
-    doc: 'Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.',
+    doc: 'Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`. The icon then moves to the right, unless `iconPosition` is set.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -164,7 +164,7 @@ export const AccordionContentProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

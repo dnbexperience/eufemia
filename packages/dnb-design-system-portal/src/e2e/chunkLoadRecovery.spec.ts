@@ -4,7 +4,7 @@ import waitForApp from './shared/waitForApp'
 const chunkPatterns = {
   entry: /\/assets\/index-[^/]+\.js$/,
   dependency: /\/assets\/jsx-runtime-[^/]+\.js$/,
-  layout: /\/assets\/ChangeStyleTheme-[^/]+\.js$/,
+  layout: /\/assets\/SpacingUtils-[^/]+\.js$/,
   page: /\/assets\/BankAccountNumber-[^/]+\.js$/,
 }
 
@@ -28,9 +28,9 @@ test.describe('Chunk load recovery', () => {
     const documents = countDocuments(page)
     let expectedDocuments = 0
     for (const path of [
-      '/contribute/getting-started/',
-      '/uilib/components/button/properties/',
-      '/uilib/components/stat/properties/',
+      '/web/contribute/local-development/',
+      '/web/components/button/properties/',
+      '/web/components/stat/properties/',
     ]) {
       await page.goto(path)
       await waitForApp(page)
@@ -43,11 +43,6 @@ test.describe('Chunk load recovery', () => {
     page,
   }) => {
     const documents = countDocuments(page)
-    await page.addInitScript(() => {
-      window.addEventListener('vite:preloadError', () => {
-        sessionStorage.setItem('preload-error-observed', '1')
-      })
-    })
     await page.route('**/Value/BankAccountNumber/', async (route) => {
       const response = await route.fetch()
       const body = (await response.text()).replace(
@@ -69,17 +64,13 @@ test.describe('Chunk load recovery', () => {
         : route.continue()
     })
 
-    await page.goto('/uilib/extensions/forms/Value/BankAccountNumber/', {
+    await page.goto('/web/forms/Value/BankAccountNumber/', {
       waitUntil: 'commit',
     })
     await waitForApp(page)
 
     expect(documents()).toBe(2)
-    expect(
-      await page.evaluate(() =>
-        sessionStorage.getItem('preload-error-observed')
-      )
-    ).toBe('1')
+    expect(requests).toBeGreaterThanOrEqual(2)
   })
 
   for (const [name, pattern] of Object.entries(chunkPatterns)) {
@@ -113,7 +104,7 @@ test.describe('Chunk load recovery', () => {
       })
 
       await page.goto(
-        '/uilib/extensions/forms/Value/BankAccountNumber/?recovery-test#bankaccountnumber',
+        '/web/forms/Value/BankAccountNumber/?recovery-test#bankaccountnumber',
         { waitUntil: 'commit' }
       )
       await waitForApp(page)
@@ -149,7 +140,7 @@ test.describe('Chunk load recovery', () => {
         })
       })
 
-      await page.goto('/uilib/extensions/forms/Value/BankAccountNumber/', {
+      await page.goto('/web/forms/Value/BankAccountNumber/', {
         waitUntil: 'commit',
       })
       await expect.poll(() => failures).toBeGreaterThanOrEqual(2)

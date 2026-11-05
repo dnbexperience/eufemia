@@ -10,7 +10,7 @@ import {
 } from '../hooks'
 import type { Path } from '../../types'
 import { omitDataValueReadWriteProps } from '../../types'
-import { add } from '../../../../icons'
+import add from '../../../../icons/add'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { usePath } from '../../hooks'

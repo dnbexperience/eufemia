@@ -17,6 +17,16 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  variant: {
+    doc: 'Use `checkbox` or `radio` to show a checkbox or radio button in front of the text. Defaults to `default`.',
+    type: ['"default"', '"checkbox"', '"radio"'],
+    status: 'optional',
+  },
+  leftComponent: {
+    doc: 'Custom content shown in front of the text, when `variant` is `default`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   title: {
     doc: 'The `title` of the input - describing it a bit further for accessibility reasons.',
     type: 'string',
@@ -25,6 +35,16 @@ export const ToggleButtonProperties: PropertiesTableProps = {
   label: {
     doc: 'Use either the `label` property or provide a custom one.',
     type: 'string',
+    status: 'optional',
+  },
+  labelDirection: {
+    doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `vertical`.',
+    type: ['"vertical"', '"horizontal"'],
+    status: 'optional',
+  },
+  labelSrOnly: {
+    doc: 'Use `true` to make the label only readable by screen readers.',
+    type: 'boolean',
     status: 'optional',
   },
   icon: {
@@ -43,15 +63,25 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   tooltip: ButtonProperties.tooltip,
-  size: ButtonProperties.size,
+  size: {
+    doc: 'The size of the button. There is `default`, `small`, `medium` and `large`.',
+    type: ['"default"', '"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
     type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
-    type: ['"error"', '"information"'],
+    doc: 'Defines the state of the status. Can be `error`, `warning`, `information`, `success` or `marketing`. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
     status: 'optional',
   },
   statusProps: {
@@ -60,7 +90,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatus: {
-    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/web/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/web/components/global-status).',
     type: 'object',
     status: 'optional',
   },
@@ -74,7 +104,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

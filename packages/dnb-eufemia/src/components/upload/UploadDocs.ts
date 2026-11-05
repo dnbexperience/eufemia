@@ -17,7 +17,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   acceptedFileTypes: {
-    doc: 'List of accepted file types. Either as a string or an [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).',
+    doc: 'List of accepted file types. Either as a string or an [AcceptedFileType](/web/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/web/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/web/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).',
     type: ['Array<string>', 'Array<AcceptedFileType>'],
     status: 'required',
   },
@@ -57,7 +57,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   buttonProps: {
-    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.',
+    doc: 'Define any valid Eufemia [Button properties](/web/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.',
     type: 'ButtonProps',
     status: 'optional',
   },
@@ -68,6 +68,11 @@ export const UploadProperties: PropertiesTableProps = {
   },
   buttonText: {
     doc: 'Custom text for the upload button. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  fileLimitsButtonText: {
+    doc: 'Custom text for the button that shows the accepted file types and sizes in the `compact` variant. Overrides the default translation. Can be disabled using `false`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -131,7 +136,7 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
@@ -145,7 +150,7 @@ export const AcceptedFileTypeProperties: PropertiesTableProps = {
     status: 'required',
   },
   fileMaxSize: {
-    doc: 'Defines the max file size of the given file type in MB. Use either `0` or `false` to disable. If not provided, it defaults to the value of [Uploads](/uilib/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.',
+    doc: 'Defines the max file size of the given file type in MB. Use either `0` or `false` to disable. If not provided, it defaults to the value of [Uploads](/web/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.',
     type: ['number', 'false'],
     status: 'optional',
   },
@@ -206,7 +211,7 @@ export const FileItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   deleteButtonProps: {
-    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+    doc: 'Define any valid Eufemia [Button properties](/web/components/button/properties) or HTML attribute inside an object.',
     type: 'ButtonProps',
     status: 'optional',
   },

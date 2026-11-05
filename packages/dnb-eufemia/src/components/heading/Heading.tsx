@@ -7,7 +7,6 @@ import { useContext, useEffect, useId, useState } from 'react'
 import type { HTMLProps, JSX } from 'react'
 import { clsx } from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import '../../shared/helpers'
 import { useSpacing } from '../space/SpacingUtils'
 import type { HeadingContextValue } from './HeadingContext'
 import HeadingContext from './HeadingContext'
@@ -62,6 +61,7 @@ export default function Heading(props: HeadingAllProps) {
     skeleton: _skeleton,
     element: _element,
     className,
+    family,
     children,
     ...rest
   } = useTypography(props)
@@ -255,6 +255,7 @@ export default function Heading(props: HeadingAllProps) {
     ...attributes,
     className: clsx(
       'dnb-heading',
+      family && `dnb-t__family--${family}`,
       context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
       `dnb-h--${size}`,
       createSkeletonClass('font', skeleton, headingContext),

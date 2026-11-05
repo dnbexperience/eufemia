@@ -237,6 +237,7 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
+  max-width: 37rem;
   min-height: 1.5rem;
   padding: 0 1rem;
 }
@@ -1103,7 +1104,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   font-size: var(--button-font-size);
   line-height: var(--line-height-basis);
   color: inherit;
-  transform: translateY(-0.03125rem);
+  transform: translateY(var(--button-text-translate-y, -0.03125rem));
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1369,7 +1370,7 @@ legend.dnb-form-label {
   --button-color-bg--active: var(--token-color-background-neutral);
   --button-color-border--default: var(--token-color-stroke-error);
   --button-color-border--hover: var(
-    --token-color-component-button-stroke-action-destructive
+    --token-color-component-button-stroke-action-destructive-hover
   );
   --button-color-border--active: var(
     --token-color-component-button-stroke-action-destructive-pressed
@@ -1684,7 +1685,7 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
   --button-color-bg--active: var(--token-color-background-neutral);
   --button-color-border--default: var(--token-color-stroke-error);
   --button-color-border--hover: var(
-    --token-color-component-button-stroke-action-destructive
+    --token-color-component-button-stroke-action-destructive-hover
   );
   --button-color-border--active: var(
     --token-color-component-button-stroke-action-destructive-pressed

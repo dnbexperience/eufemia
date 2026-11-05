@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/dialog/demos/',
+      url: '/web/components/dialog/demos/',
       pageViewport: {
         width: 700,
         height: 600,
@@ -171,7 +171,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     describe('scrollable content', () => {
       setupPageScreenshot({
         themeName,
-        url: '/uilib/components/dialog/demos/',
+        url: '/web/components/dialog/demos/',
         pageViewport: {
           width: 400,
           height: 400,
@@ -207,7 +207,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     describe('scrollable content in variant info', () => {
       setupPageScreenshot({
         themeName,
-        url: '/uilib/components/dialog/demos/',
+        url: '/web/components/dialog/demos/',
         pageViewport: {
           width: 375,
           height: 667, // Set viewport size to iPhone 6 dimensions
@@ -236,6 +236,29 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
           simulateAfter: { keypress: 'Escape' },
           screenshotSelector: '.dnb-modal__content',
           rootClassName: ['hide-page-content', 'scroll-to-bottom-info'],
+        })
+      })
+    })
+
+    describe('narrow screen', () => {
+      setupPageScreenshot({
+        themeName,
+        url: '/uilib/components/dialog/demos/',
+        pageViewport: {
+          width: 375,
+          height: 667,
+        },
+      })
+
+      it('have to match wrapped action buttons', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="dialog-confirm-wrapped-actions"]', // only to make sure we have a valid selector
+          simulate: 'click',
+          simulateSelector:
+            '[data-visual-test="dialog-confirm-wrapped-actions"] button:first-of-type',
+          simulateAfter: { keypress: 'Escape' },
+          screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
+          rootClassName: 'hide-page-content',
         })
       })
     })

@@ -76,3 +76,42 @@ test('dispatches the reviewed SHA and verifies its exact publication and public 
     await rm(root, { recursive: true, force: true })
   }
 })
+
+test('waits at least as long as the internal publisher may run', async () => {
+  const minutes = (source: string) =>
+    [...source.matchAll(/timeout-minutes: (\d+)/g)].map((match) =>
+      Number(match[1])
+    )
+  const publisher = await readFile(
+    new URL(
+      '../../../../tools/assets/ghe-og-workflow.yml',
+      import.meta.url
+    ),
+    'utf8'
+  )
+  const requester = await readFile(
+    new URL(
+      '../../../../.github/workflows/portal-og-images.yml',
+      import.meta.url
+    ),
+    'utf8'
+  )
+  const deadline = Number(
+    /const deadline = Date\.now\(\) \+ (\d+) \* 60 \* 1000/.exec(
+      await readFile(script, 'utf8')
+    )?.[1]
+  )
+  const internal = minutes(publisher).reduce(
+    (sum, value) => sum + value,
+    0
+  )
+  const generate = minutes(requester.split('\n  publish:\n')[0])
+  assert.equal(minutes(publisher).length, 3)
+  assert.equal(generate.length, 1)
+  assert.ok(deadline >= internal, deadline + ' < ' + internal)
+  // Leave room for the steps before and after the wait in the same job.
+  assert.ok(
+    generate[0] >= deadline + 10,
+    generate[0] + ' < ' + (deadline + 10)
+  )
+})

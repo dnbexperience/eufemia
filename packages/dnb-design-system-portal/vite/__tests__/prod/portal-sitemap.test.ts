@@ -24,7 +24,7 @@ describe('Portal sitemap', () => {
         { fields: { slug: 'uilib/button' }, frontmatter: {} },
         { fields: { slug: 'uilib/anchor' } },
         {
-          fields: { slug: 'contribute/draft' },
+          fields: { slug: 'web/contribute/draft' },
           frontmatter: { draft: true },
         },
       ])

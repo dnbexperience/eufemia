@@ -94,12 +94,11 @@ export type WizardContainerProps = ComponentProps & {
    */
   keepInDOM?: boolean
   /**
-   * Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`.
+   * Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/web/components/card/properties). Defaults to `false`.
    */
   outset?: boolean
   /**
-   * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
-   * Defaults to `true`.
+   * If set to `true`, the wizard pre-renders all steps so the props of each field are available in the data context. Defaults to `true`.
    */
   prerenderFieldProps?: boolean
 

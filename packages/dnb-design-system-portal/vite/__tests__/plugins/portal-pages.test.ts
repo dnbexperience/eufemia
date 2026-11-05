@@ -8,9 +8,7 @@ import portalPagesPlugin, {
   readPageFileInfo,
   shouldIgnore,
   scanPageFiles,
-  extractTableOfContents,
 } from '../../client/plugins/portal-pages'
-import { headingIdCases } from '../../../src/uilib/utils/__tests__/headingIdCases'
 
 describe('portal-pages plugin', () => {
   describe('shouldIgnore', () => {
@@ -24,28 +22,26 @@ describe('portal-pages plugin', () => {
     })
 
     it('ignores assets directories', () => {
-      expect(shouldIgnore('/src/docs/uilib/assets/icon.tsx')).toBe(true)
+      expect(shouldIgnore('/src/docs/web/assets/icon.tsx')).toBe(true)
     })
 
     it('ignores __utils__ directories', () => {
-      expect(shouldIgnore('/src/docs/uilib/__utils__/helper.tsx')).toBe(
-        true
-      )
+      expect(shouldIgnore('/src/docs/web/__utils__/helper.tsx')).toBe(true)
     })
 
     it('ignores helper components with PascalCase names', () => {
       expect(
-        shouldIgnore('/src/docs/uilib/changelog/GitHubChangelog.tsx')
-      ).toBe(true)
-      expect(
         shouldIgnore(
-          '/src/docs/uilib/extensions/payment-card/CardProductsTable.tsx'
+          '/src/docs/web/releases-and-upgrades/change-log-history/GitHubChangelog.tsx'
         )
       ).toBe(true)
       expect(
         shouldIgnore(
-          '/src/docs/uilib/extensions/forms/Form/ListFormComponents.tsx'
+          '/src/docs/web/patterns-and-extensions/payment-card/CardProductsTable.tsx'
         )
+      ).toBe(true)
+      expect(
+        shouldIgnore('/src/docs/web/forms/Form/ListFormComponents.tsx')
       ).toBe(true)
     })
 
@@ -54,29 +50,29 @@ describe('portal-pages plugin', () => {
       expect(shouldIgnore('/src/docs/index.tsx')).toBe(false)
       expect(
         shouldIgnore(
-          '/src/docs/uilib/components/date-picker/visual-tests.tsx'
+          '/src/docs/web/components/date-picker/visual-tests.tsx'
         )
       ).toBe(false)
     })
 
     it('ignores ColorTable.tsx', () => {
-      expect(shouldIgnore('/src/docs/uilib/ColorTable.tsx')).toBe(true)
+      expect(shouldIgnore('/src/docs/web/ColorTable.tsx')).toBe(true)
     })
 
     it('ignores underscore-prefixed files', () => {
-      expect(shouldIgnore('/src/docs/uilib/typography/_helpers.tsx')).toBe(
-        true
-      )
       expect(
         shouldIgnore(
-          '/src/docs/uilib/components/drawer-list/_prop-data.mdx'
+          '/src/docs/web/layout-and-typography/typography/_helpers.tsx'
         )
+      ).toBe(true)
+      expect(
+        shouldIgnore('/src/docs/web/components/drawer-list/_prop-data.mdx')
       ).toBe(true)
     })
 
     it('does not ignore regular page files', () => {
       expect(shouldIgnore('/src/docs/button/info.mdx')).toBe(false)
-      expect(shouldIgnore('/src/docs/uilib/index.tsx')).toBe(false)
+      expect(shouldIgnore('/src/docs/web/index.tsx')).toBe(false)
     })
   })
 
@@ -137,14 +133,14 @@ describe('portal-pages plugin', () => {
 
     it('strips index from slug while preserving the case-sensitive source filename', () => {
       createFile(
-        'uilib/extensions/forms/Form/Section/index.mdx',
+        'web/forms/Form/Section/index.mdx',
         '---\ntitle: Form.Section\n---'
       )
 
       const files = scanPageFiles(tmpDir)
-      expect(files[0].slug).toBe('uilib/extensions/forms/Form/Section')
+      expect(files[0].slug).toBe('web/forms/Form/Section')
       expect(files[0].sourcePath).toBe(
-        'packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/Section/index.mdx'
+        'packages/dnb-design-system-portal/src/docs/web/forms/Form/Section/index.mdx'
       )
     })
 
@@ -160,6 +156,24 @@ describe('portal-pages plugin', () => {
         order: 3,
         draft: true,
       })
+    })
+
+    it('extracts redirects for a moved page', () => {
+      createFile(
+        'new/page.mdx',
+        [
+          '---',
+          'title: My Page',
+          'redirect_from:',
+          '  - /old/page',
+          '---',
+        ].join('\n')
+      )
+
+      const files = scanPageFiles(tmpDir)
+
+      expect(files[0].slug).toBe('new/page')
+      expect(files[0].frontmatter.redirect_from).toEqual(['/old/page'])
     })
 
     it('returns empty frontmatter for TSX files', () => {
@@ -303,7 +317,7 @@ describe('portal-pages plugin', () => {
 
       expect(code).toBeDefined()
       expect(code).toContain('export const routes')
-      expect(code).toContain('export const allMdxNodes')
+      expect(code).toContain("from 'virtual:portal-data'")
       expect(code).toContain('import React')
       expect(code).toContain('redirect')
     }, 60_000)
@@ -330,7 +344,7 @@ describe('portal-pages plugin', () => {
       }) => unknown
 
       const result = handleHotUpdate({
-        file: '/src/docs/uilib/components/button/Examples.tsx',
+        file: '/src/docs/web/components/button/Examples.tsx',
         server: {
           moduleGraph: {
             getModuleById,
@@ -554,154 +568,6 @@ describe('portal-pages plugin', () => {
     })
   })
 
-  describe('extractTableOfContents', () => {
-    it('extracts h2 headings as top-level items', () => {
-      const content = '## First\n\nSome text\n\n## Second\n'
-      const toc = extractTableOfContents(content)
-
-      expect(toc).toEqual({
-        items: [
-          { url: '#first', title: 'First' },
-          { url: '#second', title: 'Second' },
-        ],
-      })
-    })
-
-    it('nests h3 headings under the preceding h2', () => {
-      const content =
-        '## Parent\n\n### Child One\n\n### Child Two\n\n## Another\n'
-      const toc = extractTableOfContents(content)
-
-      expect(toc).toEqual({
-        items: [
-          {
-            url: '#parent',
-            title: 'Parent',
-            items: [
-              { url: '#child-one', title: 'Child One' },
-              { url: '#child-two', title: 'Child Two' },
-            ],
-          },
-          { url: '#another', title: 'Another' },
-        ],
-      })
-    })
-
-    it('returns undefined for content without headings', () => {
-      expect(extractTableOfContents('Just text')).toBeUndefined()
-    })
-
-    it('lists h3 headings as top-level items when the file has no h2', () => {
-      const content = '### First\n\nSome text\n\n### Second\n'
-      const toc = extractTableOfContents(content)
-
-      expect(toc).toEqual({
-        items: [
-          { url: '#first', title: 'First' },
-          { url: '#second', title: 'Second' },
-        ],
-      })
-    })
-
-    it('skips an h3 that appears before the first h2', () => {
-      const content = '### Orphan\n\n## Parent\n\n### Child\n'
-      const toc = extractTableOfContents(content)
-
-      expect(toc).toEqual({
-        items: [
-          {
-            url: '#parent',
-            title: 'Parent',
-            items: [{ url: '#child', title: 'Child' }],
-          },
-        ],
-      })
-    })
-
-    it('ignores h1 headings', () => {
-      const content = '# Title\n\n## Section\n'
-      const toc = extractTableOfContents(content)
-
-      expect(toc).toEqual({
-        items: [{ url: '#section', title: 'Section' }],
-      })
-    })
-
-    it('ignores h4+ headings', () => {
-      const content = '## Section\n\n#### Deep\n'
-      const toc = extractTableOfContents(content)
-
-      expect(toc).toEqual({
-        items: [{ url: '#section', title: 'Section' }],
-      })
-    })
-
-    it.each(headingIdCases)(
-      'links $name to the id the page renders',
-      ({ markdown, id }) => {
-        const toc = extractTableOfContents(`## ${markdown}\n`)
-
-        expect(toc?.items[0].url).toBe(`#${id}`)
-      }
-    )
-  })
-
-  describe('scanPageFiles tableOfContents', () => {
-    let tmpDir: string
-
-    function createFile(relativePath: string, content = '') {
-      const full = path.join(tmpDir, relativePath)
-      fs.mkdirSync(path.dirname(full), { recursive: true })
-      fs.writeFileSync(full, content)
-    }
-
-    beforeEach(() => {
-      tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-pages-toc-'))
-    })
-
-    afterEach(() => {
-      fs.rmSync(tmpDir, { recursive: true, force: true })
-    })
-
-    it('includes tableOfContents for MDX files with headings', () => {
-      createFile(
-        'page.mdx',
-        '---\ntitle: Page\norder: 1\n---\n\n## Getting started\n\n### Step one\n\n### Step two\n'
-      )
-
-      const files = scanPageFiles(tmpDir)
-      expect(files[0].tableOfContents).toEqual({
-        items: [
-          {
-            url: '#getting-started',
-            title: 'Getting started',
-            items: [
-              { url: '#step-one', title: 'Step one' },
-              { url: '#step-two', title: 'Step two' },
-            ],
-          },
-        ],
-      })
-    })
-
-    it('omits tableOfContents for MDX files without headings', () => {
-      createFile(
-        'page.mdx',
-        '---\ntitle: Page\n---\n\nJust some content.\n'
-      )
-
-      const files = scanPageFiles(tmpDir)
-      expect(files[0].tableOfContents).toBeUndefined()
-    })
-
-    it('omits tableOfContents for TSX files', () => {
-      createFile('page.tsx', 'export default () => <div/>')
-
-      const files = scanPageFiles(tmpDir)
-      expect(files[0].tableOfContents).toBeUndefined()
-    })
-  })
-
   describe('configureServer file watcher', () => {
     let tmpDir: string
 
@@ -847,7 +713,7 @@ describe('portal-pages plugin', () => {
       server.watcher.emit('unlink', path.join(tmpDir, 'old-name.mdx'))
       server.watcher.emit('add', path.join(tmpDir, 'new-name.mdx'))
 
-      expect(server.mocks.invalidateModule).toHaveBeenCalledTimes(2)
+      expect(server.mocks.invalidateModule).toHaveBeenCalledTimes(4)
       expect(server.mocks.send).toHaveBeenCalledTimes(2)
     })
   })

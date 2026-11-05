@@ -14,7 +14,7 @@ for (const width of [400, 1024]) {
       await page.addInitScript(() => {
         window['IS_TEST'] = true
       })
-      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.goto('/web/components/list/visual-tests/action-footer/')
       await page.waitForFunction(() =>
         document.documentElement.hasAttribute('data-portal-ready')
       )
@@ -248,6 +248,8 @@ for (const width of [400, 1024]) {
         'keeps the accordion hover outline after mouse navigation in ' +
           colorScheme,
         async ({ page }) => {
+          // Finish hash scrolling before hovering and measuring the outline.
+          await page.emulateMedia({ reducedMotion: 'reduce' })
           await page.addInitScript((colorScheme) => {
             window['IS_TEST'] = true
             localStorage.setItem(
@@ -256,7 +258,7 @@ for (const width of [400, 1024]) {
             )
           }, colorScheme)
           await page.goto(
-            '/uilib/components/list/visual-tests/action-footer/'
+            '/web/components/list/visual-tests/action-footer/'
           )
           await page.waitForFunction(() =>
             document.documentElement.hasAttribute('data-portal-ready')
@@ -521,7 +523,7 @@ for (const width of [400, 1024]) {
     test('pads plain text and title-only rows on both sides', async ({
       page,
     }) => {
-      await page.goto('/uilib/components/list/demos/?data-visual-test')
+      await page.goto('/web/components/list/demos/?data-visual-test')
 
       const list = page.locator(
         '[data-visual-test="list-plain-text"] .dnb-list'
@@ -601,7 +603,9 @@ for (const width of [400, 1024]) {
 
 test.describe('List text layout compatibility', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/list/visual-tests/text-layout/')
+    await page.goto('/web/components/list/visual-tests/text-layout/', {
+      waitUntil: 'domcontentloaded',
+    })
     await page.waitForFunction(() =>
       document.documentElement.hasAttribute('data-portal-ready')
     )
@@ -686,6 +690,85 @@ test.describe('List text layout compatibility', () => {
     await expect(row.locator('div')).toHaveCount(0)
   })
 
+  test('centers an end avatar group on the first title line', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1024, height: 900 })
+    const row = page.getByTestId('avatar-group-alignment')
+    await expect(row.locator('.dnb-avatar__group')).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
+    const offset = await row.evaluate((element) => {
+      const title = element.querySelector('.dnb-list__item__title > span')
+      const text = title.firstChild
+      const line = document.createElement('span')
+      line.style.display = 'inline-block'
+      text.replaceWith(line)
+      line.appendChild(text)
+      const titleRect = line.getBoundingClientRect()
+      const groupRect = element
+        .querySelector('.dnb-avatar__group')
+        .getBoundingClientRect()
+      return (
+        groupRect.top +
+        groupRect.height / 2 -
+        (titleRect.top + titleRect.height / 2)
+      )
+    })
+    expect(Math.abs(offset)).toBeLessThanOrEqual(1)
+  })
+
+  for (const width of [400, 1024]) {
+    test(
+      'centers the first title line on large start avatars at ' +
+        width +
+        'px',
+      async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 })
+        await page.evaluate(() => document.fonts.ready)
+        for (const size of ['large', 'x-large']) {
+          const rows = page
+            .getByTestId('avatar-alignment-' + size)
+            .locator('.dnb-list__item')
+          await expect(rows).toHaveCount(3)
+          const offsets = await rows.evaluateAll((items) =>
+            items.map((item) => {
+              const title = item.querySelector(
+                '.dnb-list__item__title > span'
+              )
+              const text = Array.from(title.childNodes).find(
+                (node) =>
+                  node.nodeType === Node.TEXT_NODE &&
+                  node.textContent.trim()
+              )
+              const line = document.createElement('span')
+              line.style.display = 'inline-block'
+              text.replaceWith(line)
+              line.appendChild(text)
+              const titleRect = line.getBoundingClientRect()
+              const avatarRect = item
+                .querySelector('.dnb-avatar')
+                .getBoundingClientRect()
+              const rowRect = item.getBoundingClientRect()
+              return {
+                center:
+                  avatarRect.top +
+                  avatarRect.height / 2 -
+                  (titleRect.top + titleRect.height / 2),
+                top: avatarRect.top - rowRect.top,
+                bottom: rowRect.bottom - avatarRect.bottom,
+              }
+            })
+          )
+          for (const offset of offsets) {
+            expect(Math.abs(offset.center)).toBeLessThanOrEqual(1)
+            expect(offset.top).toBeGreaterThanOrEqual(0)
+            expect(offset.bottom).toBeGreaterThanOrEqual(0)
+          }
+        }
+      }
+    )
+  }
+
   test('keeps limited text rows hidden until expanded', async ({
     page,
   }) => {
@@ -702,9 +785,7 @@ test.describe('List nested row alignment', () => {
   test.use({ viewport: { width: 1024, height: 900 } })
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(
-      '/uilib/components/list/visual-tests/nested-alignment/'
-    )
+    await page.goto('/web/components/list/visual-tests/nested-alignment/')
     await page.evaluate(() => document.fonts.ready)
   })
 
@@ -725,18 +806,23 @@ test.describe('List nested row alignment', () => {
       const offsets = await rows.evaluateAll((items) =>
         items.map((item) => {
           const middle = (rect: DOMRect) => rect.top + rect.height / 2
-          const textMiddle = (element: Element) => {
+          // Like in the design, the first line of the end cell is placed
+          // on the title line, also when more lines follow
+          const firstLineMiddle = (element: Element) => {
             const range = document.createRange()
             range.selectNodeContents(element)
-            return middle(range.getBoundingClientRect())
+            return middle(range.getClientRects()[0])
           }
 
           const titleText = Array.from(
             item.querySelector('.dnb-list__item__title > span').childNodes
           ).find((node) => node.nodeType === Node.TEXT_NODE)
-          const titleRange = document.createRange()
-          titleRange.selectNodeContents(titleText)
-          const title = middle(titleRange.getBoundingClientRect())
+          // Compare line boxes, since glyph bounds differ across font weights and platforms.
+          const titleLine = document.createElement('span')
+          titleLine.style.display = 'inline-block'
+          titleText.replaceWith(titleLine)
+          titleLine.appendChild(titleText)
+          const title = middle(titleLine.getBoundingClientRect())
 
           return {
             icon:
@@ -746,7 +832,7 @@ test.describe('List nested row alignment', () => {
                   .getBoundingClientRect()
               ) - title,
             end:
-              textMiddle(item.querySelector('.dnb-list__item__end')) -
+              firstLineMiddle(item.querySelector('.dnb-list__item__end')) -
               title,
             chevron:
               middle(

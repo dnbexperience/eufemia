@@ -64,8 +64,13 @@ export const MenuButtonProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  children: {
+    doc: 'Render function for a custom trigger element. Receives the trigger props to spread on your element, including `active`, `open`, `close` and `toggle`. Use `text` for the label of the default button.',
+    type: 'function',
+    status: 'optional',
+  },
   '[Button props]': {
-    doc: 'All [Button](/uilib/components/button/properties) props are supported.',
+    doc: 'All [Button](/web/components/button/properties) props are supported.',
     type: 'Various',
     status: 'optional',
   },
@@ -126,12 +131,6 @@ export const MenuActionProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  openOnFind: {
-    doc: "Keeps collapsed menu items findable by the browser's find-in-page feature. Matching content opens the accordion.",
-    type: 'boolean',
-    defaultValue: 'false',
-    status: 'optional',
-  },
   children: {
     doc: 'Custom content rendered inside the action item.',
     type: 'React.ReactNode',
@@ -160,6 +159,12 @@ export const MenuAccordionProperties: PropertiesTableProps = {
   },
   disabled: {
     doc: 'Disables the accordion trigger. Sets `aria-disabled` and prevents toggling.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: "Keeps collapsed menu items findable by the browser's find-in-page feature. Matching content opens the accordion.",
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',

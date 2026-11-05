@@ -102,6 +102,37 @@
       --button-color-text--default: var(--token-color-text-action-inverse);
       --button-color-text--hover: var(--token-color-text-action-hover);
     }
+
+    // Forced colors mode removes the background color that marks the current
+    // page, so use the system colors for selected items
+    &.dnb-button[aria-current='page'] {
+      @media (forced-colors: active) {
+        background-color: Highlight;
+        color: HighlightText;
+        outline-color: Highlight;
+
+        // Else the browser draws a backplate in the canvas color behind the
+        // text, which hides it
+        .dnb-button__text {
+          forced-color-adjust: none;
+        }
+
+        &[disabled] {
+          background-color: GrayText;
+          color: Canvas;
+          outline-color: GrayText;
+        }
+      }
+
+      // The focus ring would have the same color as the background
+      @include utilities.whatInputNot('touch') {
+        &:focus-visible:not([disabled]) {
+          @media (forced-colors: active) {
+            outline-color: CanvasText;
+          }
+        }
+      }
+    }
   }
 
   &__button--large-number {

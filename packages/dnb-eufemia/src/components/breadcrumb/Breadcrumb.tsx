@@ -31,7 +31,8 @@ import type {
   SpaceTypeMedia,
   SpacingProps,
 } from '../../shared/types'
-import { chevron_down, chevron_up } from '../../icons'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 const toggleIcon = Icon.transition({
@@ -63,7 +64,7 @@ export type BreadcrumbProps = {
   skeleton?: SkeletonShow
 
   /**
-   * List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).
+   * List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/web/components/breadcrumb/properties#breadcrumbitem-properties).
    */
   data?: Array<BreadcrumbItemProps>
 

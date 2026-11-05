@@ -27,10 +27,12 @@
       overflow: hidden;
       position: absolute;
       z-index: 2; // Render the badge on top of a potential .dnb-img img.
+      pointer-events: none;
     }
   }
 
   &--variant-notification {
+    line-height: normal;
     color: var(--token-color-text-neutral-ondark);
     background-color: var(--token-color-background-error);
     padding: 0 0.25rem;
@@ -101,7 +103,7 @@
   }
 
   &--status-neutral {
-    --badge-information-bg: var(--token-color-background-neutral-bold);
+    --badge-information-bg: var(--token-color-background-neutral-base);
 
     // subtle
     --badge-information-subtle-bg: var(
@@ -126,6 +128,7 @@
 
   &--status-warning {
     --badge-information-bg: var(--token-color-background-warning);
+    --badge-information-color: var(--token-color-text-neutral-onlight);
 
     // subtle
     --badge-information-subtle-bg: var(
@@ -137,7 +140,7 @@
 
   &--status-negative {
     --badge-information-bg: var(--token-color-background-error);
-    --badge-information-color: var(--token-color-text-neutral-inverse);
+    --badge-information-color: var(--token-color-text-neutral-ondark);
 
     // subtle
     --badge-information-subtle-bg: var(

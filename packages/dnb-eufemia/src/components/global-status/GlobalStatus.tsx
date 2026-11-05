@@ -24,7 +24,6 @@ import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import Context from '../../shared/Context'
 import {
   warn,
-  makeUniqueId,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -144,6 +143,7 @@ function hasContent(globalStatus: GlobalStatusResult | null | undefined) {
 function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const context = useContext(Context)
   const fallbackStatusId = useId(ownProps.statusId)
+  const fallbackItemId = useId()
 
   // Refs
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -357,21 +357,30 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
           isElementVisible(element, (elem) => {
             try {
-              // remove the blink animation again
-              elem.addEventListener('blur', (e) => {
-                if ((e.target as HTMLElement).classList) {
-                  ;(e.target as HTMLElement).removeAttribute('tabindex')
-                }
-              })
+              const hasTabIndex = elem.hasAttribute('tabindex')
+              const hasNoFocus = elem.classList.contains('dnb-no-focus')
 
-              // we don't want a visual focus style, we have our own
-              elem.classList.add('dnb-no-focus')
+              // No focus ring, FormStatus shows an "attention-focus" animation
+              if (!hasNoFocus) {
+                elem.classList.add('dnb-no-focus')
+              }
+              if (!hasTabIndex) {
+                elem.setAttribute('tabindex', '-1')
+              }
 
-              // in order to use the blur event
-              elem.setAttribute('tabindex', '-1')
+              elem.addEventListener(
+                'blur',
+                () => {
+                  if (!hasTabIndex) {
+                    elem.removeAttribute('tabindex')
+                  }
+                  if (!hasNoFocus) {
+                    elem.classList.remove('dnb-no-focus')
+                  }
+                },
+                { once: true }
+              )
 
-              // now show the animation
-              // we use "attention-focus" in #form-status theme
               elem.focus({ preventScroll: true })
             } catch (e) {
               warn('GlobalStatus: Failed to focus status element:', e)
@@ -556,8 +565,11 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       return null // skip this item if no content is given
     }
 
-    const id =
-      item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
+    const id = item.id
+      ? String(item.id)
+      : item.itemId
+        ? `${item.itemId}-${i}`
+        : `${fallbackItemId}-${i}`
 
     let anchorText: ReactNode
 

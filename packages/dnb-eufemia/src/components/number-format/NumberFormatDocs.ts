@@ -28,7 +28,7 @@ const decimalsAndFormattingProps: PropertiesTableProps = {
     status: 'optional',
   },
   signDisplay: {
-    doc: 'When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.',
+    doc: 'When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only, excluding negative zero, or `never` to never display sign.',
     type: ['"auto"', '"always"', '"exceptZero"', '"negative"', '"never"'],
     status: 'optional',
   },
@@ -82,7 +82,7 @@ const presentationProps: PropertiesTableProps = {
     status: 'optional',
   },
   monospace: {
-    doc: 'Sets the font to [DNB Mono Regular](/quickguide-designer/fonts/#dnbmono-regular).',
+    doc: 'Sets the font to [DNB Mono Regular](/web/layout-and-typography/typography/design-guidance/#dnbmono-regular).',
     type: 'boolean',
     status: 'optional',
   },
@@ -109,7 +109,7 @@ const presentationProps: PropertiesTableProps = {
 }
 
 const spacingProps: PropertiesTableProps = {
-  '[Space](/uilib/layout/space/properties)': {
+  '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',

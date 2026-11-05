@@ -69,6 +69,35 @@ test('treats a missing CDN key as an unpublished catalogue', async () => {
     await rm(root, { recursive: true, force: true })
   }
 })
+test('reports a missing catalogue as a warning in optional restores', async () => {
+  const root = await mkdtemp(
+      path.join(tmpdir(), 'og-cdn-missing-warning-')
+    ),
+    original = globalThis.fetch,
+    { log, warn } = console
+  const messages: Array<[string, string]> = []
+  try {
+    console.log = (message: string) => messages.push(['log', message])
+    console.warn = (message: string) => messages.push(['warn', message])
+    globalThis.fetch = async () => new Response('', { status: 403 })
+    await restoreCatalogue(root)
+    await restoreCatalogue(root, { optional: true })
+    assert.deepEqual(
+      messages.map(([kind, message]) => [
+        kind,
+        message.startsWith('::warning::'),
+      ]),
+      [
+        ['log', false],
+        ['warn', true],
+      ]
+    )
+  } finally {
+    globalThis.fetch = original
+    Object.assign(console, { log, warn })
+    await rm(root, { recursive: true, force: true })
+  }
+})
 test('requires a verified publication to be present', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'og-cdn-publication-')),
     original = globalThis.fetch,

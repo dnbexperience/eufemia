@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import App from '../App'
@@ -284,6 +290,63 @@ describe('App (smoke)', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
     expect(container.textContent).not.toContain('Eufemia versions')
+  })
+
+  it('lists missed lookups only for versions that report them, newest first', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        mcpUsage: {
+          ...populated.mcpUsage,
+          web: {
+            ...populated.mcpUsage?.web,
+            perVersion: [
+              {
+                name: '11.9.0',
+                count: 9,
+                componentLookups: 8,
+                missedLookups: 2,
+              },
+              {
+                name: '11.16.0',
+                count: 5,
+                componentLookups: 4,
+                missedLookups: 0,
+              },
+              {
+                name: '11.15.2',
+                count: 3,
+                componentLookups: null,
+                missedLookups: null,
+              },
+            ],
+          },
+        },
+      },
+    })
+
+    render(<App />)
+
+    await waitFor(() => screen.getByRole('tab', { name: 'Web MCP' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
+
+    const table = screen.getByRole('table', {
+      name: 'Web MCP missed lookups per version, last 90 days',
+    })
+    const rows = within(table)
+      .getAllByRole('row')
+      .slice(1)
+      .map((row) =>
+        within(row)
+          .getAllByRole('cell')
+          .map((cell) => cell.textContent)
+      )
+
+    expect(rows).toEqual([
+      ['11.16.0', '4', '0', '0%'],
+      ['11.9.0', '8', '2', '25%'],
+    ])
   })
 
   it('renders missed component lookups in the Web MCP tab when there are misses', async () => {
