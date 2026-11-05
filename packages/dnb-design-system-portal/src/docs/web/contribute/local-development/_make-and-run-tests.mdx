@@ -153,6 +153,7 @@ yarn workspace @dnb/eufemia test:screenshots:ci:conditional:explain --uncommitte
 - Local: combines `uncommitted` + `branch` files (deduplicated).
 - CI: uses `VISUAL_TEST_CHANGED_FILES`, which GitHub Actions lists from the pull request files, or on a push from a comparison with `main`. Renamed files count with both their old and new path.
 - CI does not fallback to git history. When GitHub cannot list all changed files (a comparison lists at most 300 files, a pull request 3000) or the list cannot be fetched, CI sets `VISUAL_TEST_RUN_ALL` and runs all screenshot tests.
+- CI first runs the selection with `--plan`. When no screenshot test can be affected, it skips the Playwright setup, the portal build and the test run.
 
 In explain mode, each selected test includes one or more causes:
 
