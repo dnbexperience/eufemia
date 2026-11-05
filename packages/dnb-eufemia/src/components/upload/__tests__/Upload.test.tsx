@@ -580,6 +580,53 @@ describe('Upload', () => {
       expect(screen.queryByText(nb.title)).toBeInTheDocument()
     })
 
+    it('formats the file sizes with the locale from the Provider', () => {
+      render(
+        <Provider locale="en-GB">
+          <Upload
+            acceptedFileTypes={['png']}
+            fileMaxSize={1.5}
+            errorLargeFile="Too large %size"
+          />
+        </Provider>
+      )
+
+      expect(document.querySelector('.dnb-upload dl')).toHaveTextContent(
+        '1.5 MB'
+      )
+
+      fireEvent.change(document.querySelector('.dnb-upload__file-input'), {
+        target: {
+          files: [createMockFile('file.png', 100000000, 'image/png')],
+        },
+      })
+
+      expect(
+        document.querySelector('.dnb-upload__file-list')
+      ).toHaveTextContent('Too large 1.5')
+    })
+
+    it('formats the file sizes with the locale property', () => {
+      render(
+        <Upload
+          acceptedFileTypes={[{ fileType: 'png', fileMaxSize: 1.5 }]}
+          variant="compact"
+          locale="en-GB"
+        />
+      )
+
+      fireEvent.click(
+        document.querySelector('.dnb-upload__file-limits button')
+      )
+
+      expect(
+        document.querySelector('.dnb-upload__file-limits__table tbody')
+      ).toHaveTextContent('1.5 MB')
+      expect(
+        document.querySelector('.dnb-upload__file-input')
+      ).not.toHaveAttribute('locale')
+    })
+
     it('should support spacing props', () => {
       render(<Upload top="2rem" {...defaultProps} />)
 
