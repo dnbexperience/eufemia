@@ -497,16 +497,7 @@ const topMovies = [
   },
   { content: ['The Godfather', 'Line with more info'], year: 1972 },
   {
-    content: [
-      'The Godfather: Part II',
-      <a key="a-1" className="dnb-anchor" href="/">
-        Anchor 1
-      </a>,
-      <a key="a-2" className="dnb-anchor" href="/">
-        Anchor 2
-      </a>,
-      'Line with more info',
-    ],
+    content: ['The Godfather: Part II', 'Line with more info'],
     year: 1974,
   },
   { content: 'The Dark Knight', year: 2008 },
