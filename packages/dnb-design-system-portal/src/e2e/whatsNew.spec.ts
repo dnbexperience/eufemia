@@ -55,12 +55,11 @@ test.describe('Releases and upgrades', () => {
     ).toHaveAttribute('aria-selected', 'true')
     await expect(
       page
-        .locator('main')
-        .getByRole('link', { name: 'details about releases' })
-        .first()
-    ).toHaveAttribute('href', '/web/releases-and-upgrades/upgrade', {
-      timeout: 15000,
-    })
+        .getByRole('tabpanel')
+        .getByText("See what's new in Eufemia's design system", {
+          exact: false,
+        })
+    ).toBeVisible()
     await page.getByRole('tab', { name: 'Releases', exact: true }).click()
     await expect(page).toHaveURL('/web/releases-and-upgrades/releases')
     await expect(
@@ -69,6 +68,11 @@ test.describe('Releases and upgrades', () => {
     await expect(
       page.getByRole('region', { name: 'Eufemia release history' })
     ).toBeVisible()
+    await expect(
+      page
+        .getByRole('tabpanel')
+        .getByRole('link', { name: 'Upgrade', exact: true })
+    ).toHaveAttribute('href', '/web/releases-and-upgrades/upgrade/')
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
     await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade')
     await expect(

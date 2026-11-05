@@ -857,27 +857,55 @@ test.describe('Portal table of contents', () => {
     }
     expect(hydrationErrors).toEqual([])
   })
-  test('keeps mobile TOC spacing separate from content heading margins', async ({
-    page,
-  }) => {
-    for (const width of [390, 768]) {
-      await page.setViewportSize({ width, height: 1000 })
-      await page.goto(
-        '/web/patterns-and-extensions/table-of-content/demos/'
-      )
-      const toc = page.locator('#content-grid-sidebar')
-      await expect(toc.locator('nav')).toBeVisible()
-      const header = await page.locator('.dnb-tabs__tabs').boundingBox()
-      const navigation = await toc.boundingBox()
-      const content = await page
-        .locator('[class*="content-grid__content"]')
-        .boundingBox()
-      const above = navigation.y - header.y - header.height
-      const below = content.y - navigation.y - navigation.height
-      expect(above).toBe(0)
-      expect(below).toBe(24)
-    }
-  })
+  for (const path of [
+    '/web/patterns-and-extensions/table-of-content/demos/',
+    '/web/releases-and-upgrades/',
+    '/web/forms/',
+  ]) {
+    test('balances mobile TOC spacing at ' + path, async ({ page }) => {
+      for (const width of [390, 768]) {
+        await page.setViewportSize({ width, height: 1000 })
+        await page.goto(path)
+        await expect(page.locator('html')).toHaveAttribute(
+          'data-portal-ready',
+          'true'
+        )
+        const toc = page.locator('#content-grid-sidebar')
+        await expect(toc.locator('nav')).toBeVisible()
+        const toggle = toc.getByRole('button', {
+          name: 'On this page',
+          exact: true,
+        })
+        const hasTabs = await page
+          .locator('[data-portal-page-tabs]')
+          .count()
+        for (const expanded of [false, true]) {
+          if (
+            (await toggle.getAttribute('aria-expanded')) !==
+            String(expanded)
+          ) {
+            await toggle.click()
+          }
+          await expect(
+            toc.locator('.dnb-height-animation--animating')
+          ).toHaveCount(0)
+          const header = await page
+            .locator('#content-grid-header')
+            .boundingBox()
+          const navigation = await toc.boundingBox()
+          const firstContent = await page
+            .locator('#tab-bar-content > :first-child')
+            .boundingBox()
+          expect(navigation.y - header.y - header.height).toBe(
+            hasTabs ? 24 : 0
+          )
+          expect(firstContent.y - navigation.y - navigation.height).toBe(
+            24
+          )
+        }
+      }
+    })
+  }
   test('avoids destination tooltip flashes and preserves direct anchor focus', async ({
     page,
   }) => {
