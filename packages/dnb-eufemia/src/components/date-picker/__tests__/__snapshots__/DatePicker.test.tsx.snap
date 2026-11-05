@@ -3297,7 +3297,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker--large .dnb-segmented-field__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
   margin-right: 3rem;
 }
-.dnb-date-picker--medium .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker--large .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type {
+.dnb-date-picker .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type {
   margin-left: 0.5rem;
 }
 .dnb-date-picker .dnb-input__shell {
