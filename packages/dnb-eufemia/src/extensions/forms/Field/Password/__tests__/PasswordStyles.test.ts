@@ -13,4 +13,12 @@ describe('Password error colors', () => {
       /--button-color-text--hover: var\(\s*--token-color-component-button-text-neutral-destructive\s*\)/
     )
   })
+
+  it('keeps the input button separator red on error', () => {
+    const css = loadScss(require.resolve('../style/dnb-password.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-input__status--error \.dnb-input__submit-button__button \{[^}]*--button-input-separator-color--default: var\(\s*--token-color-background-error\s*\)/
+    )
+  })
 })
