@@ -109,6 +109,7 @@ const UploadFileListCell = ({
 
   const imageUrl = useObjectUrl(file)
   const cellRef = useRef<HTMLLIElement>(undefined)
+  const deleteButtonRef = useRef<HTMLElement>(null)
   const restoreFocusRef = useRef(false)
   const exists = useExistsHighlight(id, file)
   const isDuplicate = !allowDuplicates && exists
@@ -128,11 +129,7 @@ const UploadFileListCell = ({
     const uploadElement = getClosestParent('.dnb-upload', cellRef.current)
 
     return () => {
-      const activeElement = document.activeElement
-      if (
-        restoreFocusRef.current &&
-        (!activeElement || activeElement === document.body)
-      ) {
+      if (restoreFocusRef.current && hasLostFocus()) {
         const focusElement = uploadElement?.querySelector(
           '.dnb-upload__file-input-button'
         ) as HTMLButtonElement
@@ -141,9 +138,12 @@ const UploadFileListCell = ({
     }
   }, [])
 
-  // A failed async delete keeps the file, so it should not take the focus later
+  // A failed async delete keeps the file, so give the focus back to its delete button
   useEffect(() => {
     if (!isLoading) {
+      if (restoreFocusRef.current && hasLostFocus()) {
+        deleteButtonRef.current?.focus({ preventScroll: true })
+      }
       restoreFocusRef.current = false
     }
   }, [isLoading])
@@ -205,6 +205,7 @@ const UploadFileListCell = ({
     return (
       <div>
         <Button
+          ref={deleteButtonRef}
           icon={TrashIcon}
           variant="tertiary"
           iconPosition="left"
@@ -238,6 +239,12 @@ const UploadFileListCell = ({
 }
 
 export default UploadFileListCell
+
+function hasLostFocus() {
+  return (
+    !document.activeElement || document.activeElement === document.body
+  )
+}
 
 function useExistsHighlight(id: string, file: File) {
   const { internalFiles } = useUpload(id)

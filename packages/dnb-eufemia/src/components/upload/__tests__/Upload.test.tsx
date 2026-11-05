@@ -1757,6 +1757,50 @@ describe('Upload', () => {
       }
     )
 
+    it('sets focus back on the delete button when an async delete fails, and the files amount limit hid the choose button', async () => {
+      const id = 'upload-delete-fails-at-limit'
+
+      render(
+        <Upload
+          {...defaultProps}
+          id={id}
+          filesAmountLimit={1}
+          onFileDelete={async () => {
+            throw new Error('Delete failed')
+          }}
+        />
+      )
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      act(() =>
+        result.current.setFiles([
+          { file: createMockFile('fileName.png', 100, 'image/png') },
+        ])
+      )
+
+      const deleteButton = document.querySelector(
+        '.dnb-upload__file-cell .dnb-button--tertiary'
+      ) as HTMLButtonElement
+      deleteButton.focus()
+      fireEvent.click(deleteButton)
+
+      // Browsers move the focus to the body when the focused button gets disabled
+      expect(deleteButton).toBeDisabled()
+      const focusPlaceholder = document.createElement('input')
+      document.body.appendChild(focusPlaceholder)
+      focusPlaceholder.focus()
+      focusPlaceholder.remove()
+      expect(document.activeElement).toBe(document.body)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-upload__file-cell')
+        ).toHaveTextContent('Delete failed')
+      })
+      expect(document.activeElement).toBe(deleteButton)
+    })
+
     it('does not move the focus when a file is removed without its delete button', () => {
       const id = 'upload-remove-without-delete'
       const files = [
