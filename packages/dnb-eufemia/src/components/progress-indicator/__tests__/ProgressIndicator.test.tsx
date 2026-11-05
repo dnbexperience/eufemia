@@ -543,4 +543,14 @@ describe('ProgressIndicator scss', () => {
       /@media \(forced-colors: active\) \{\s*\.dnb-progress-indicator__linear__bar \{\s*background-color: Highlight !important;\s*\}/
     )
   })
+
+  it('keeps the horizontal label of the linear type small and next to the bar', () => {
+    const css = loadScss(
+      require.resolve('../style/dnb-progress-indicator.scss')
+    )
+
+    expect(css).toMatch(
+      /\.dnb-progress-indicator--full-width\.dnb-progress-indicator--horizontal \.dnb-progress-indicator__label \{\s*flex-shrink: 0;\s*max-width: 50%;\s*font-size: var\(--font-size-small\);\s*line-height: var\(--line-height-small\);\s*\}/
+    )
+  })
 })
