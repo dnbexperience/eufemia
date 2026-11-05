@@ -1,0 +1,67 @@
+.dnb-home-sleep {
+  --sleep-wake: 0;
+  --sleep-turn: 0rad;
+  --sleep-scale: 1;
+
+  [data-hanging-item='carnegie'] {
+    --sleep-scale: 0.84;
+  }
+
+  [data-home-specimen] > * {
+    scale: calc(var(--sleep-scale) * (1 + var(--sleep-wake) * 2.2));
+    rotate: calc(var(--sleep-turn) * (1 - var(--sleep-wake)));
+    transform-origin: 50% 0;
+  }
+
+  [data-sleep-wake] {
+    z-index: 30;
+  }
+
+  [data-hanging-item] > span:first-child {
+    background: none;
+
+    svg {
+      left: calc(0.03125rem - 8rem);
+      width: 16rem;
+      opacity: 1;
+    }
+
+    path {
+      animation: dnb-home-sleep-rope 80s ease-in-out infinite alternate;
+    }
+  }
+
+  @for $index from 1 through 6 {
+    [data-hanging-item]:nth-child(#{$index}) > span:first-child path {
+      animation-duration: 67.2s + $index * 5.92s;
+      animation-delay: $index * -18.08s;
+    }
+  }
+
+  [data-hanging-item]:nth-child(even) > span:first-child path {
+    animation-direction: alternate-reverse;
+  }
+
+  [data-hanging-item] > span:last-child {
+    opacity: calc(0.6 - var(--sleep-wake) * 0.25);
+    filter: blur(calc(0.15rem + var(--sleep-wake) * 0.5rem));
+    transform: translateX(calc(var(--sleep-wake) * -1.25rem))
+      scale(
+        calc(var(--sleep-scale) * (1 + var(--sleep-wake) * 1.2)),
+        calc(0.45 + var(--sleep-wake) * 0.35)
+      );
+  }
+}
+
+@keyframes dnb-home-sleep-rope {
+  from {
+    d: path(
+      'M32 0 C32 32 58 48 52 60 C46 72 8 72 14 84 C20 96 42 96 32 100'
+    );
+  }
+  to {
+    d: path(
+      'M32 0 C32 32 8 48 14 60 C20 72 58 72 52 84 C46 96 22 96 32 100'
+    );
+  }
+}

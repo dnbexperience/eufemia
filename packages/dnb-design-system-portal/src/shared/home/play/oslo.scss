@@ -1,0 +1,54 @@
+.dnb-home-oslo {
+  z-index: 4;
+  pointer-events: none;
+
+  [data-hanging-item] {
+    --rendered-scale: 0.85;
+    --length: 1px;
+    left: 0;
+
+    @media (max-width: 48em) {
+      --rendered-scale: 0.65;
+    }
+  }
+
+  [data-hanging-item] > span:first-child {
+    background: none;
+
+    svg {
+      opacity: 0.5;
+    }
+
+    path {
+      animation: dnb-home-oslo-rope 3s ease-in-out infinite alternate;
+    }
+  }
+
+  [data-hanging-item]:nth-child(even) > span:first-child path {
+    animation-direction: alternate-reverse;
+  }
+
+  [data-hanging-item] > span:last-child {
+    opacity: 0;
+  }
+
+  [data-home-specimen]::after {
+    position: absolute;
+    top: -1.75rem;
+    left: 50%;
+    font-size: 3rem;
+    line-height: 1;
+    translate: -50%;
+    content: '🕶️';
+    pointer-events: none;
+  }
+}
+
+@keyframes dnb-home-oslo-rope {
+  from {
+    d: path('M32 0 C-35 35 90 75 32 100');
+  }
+  to {
+    d: path('M32 0 C90 35 -35 75 32 100');
+  }
+}

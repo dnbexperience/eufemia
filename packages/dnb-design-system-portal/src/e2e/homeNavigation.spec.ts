@@ -28,7 +28,7 @@ for (const width of [1440, 390]) {
       await expect(page).toHaveURL('/')
       await expect(
         page.getByRole('heading', {
-          name: 'Welcome to Eufemia',
+          name: "It's yours. Build with it.",
           exact: true,
         })
       ).toBeVisible()

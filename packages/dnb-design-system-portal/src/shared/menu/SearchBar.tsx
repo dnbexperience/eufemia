@@ -39,8 +39,20 @@ const ShortcutHint = ({ hint }: { hint: string }) => (
   </kbd>
 )
 
-export const SearchBarInput = () => {
+export const SearchBarInput = ({
+  id = searchInputId,
+  placeholder = 'Search ...',
+  stretch = false,
+  onQuery,
+}: {
+  id?: string
+  placeholder?: string
+  stretch?: boolean
+  onQuery?: (value: string) => boolean | void
+} = {}) => {
   const searchIndex = useRef(null)
+  const searchRevision = useRef(0)
+  const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [status, setStatus] = useState(null)
   const [hasValue, setHasValue] = useState(false)
   const shortcutHint = useSyncExternalStore(
@@ -55,37 +67,72 @@ export const SearchBarInput = () => {
         (event.metaKey || event.ctrlKey) &&
         (event.key === 'k' || event.key === 'K')
       ) {
+        const search =
+          document.getElementById('portal-home-search') ||
+          document.getElementById(searchInputId)
+        if (search?.id !== id) {
+          return
+        }
         event.preventDefault()
-        document.getElementById(searchInputId)?.focus()
+        search?.focus()
       }
     }
 
     document.addEventListener('keydown', onKeyDown)
 
     return () => {
+      clearTimeout(hideTimer.current)
       document.removeEventListener('keydown', onKeyDown)
     }
-  }, [])
+  }, [id])
 
   const onTypeHandler = ({
     value,
     setHidden,
+    setVisible,
     showIndicator,
     hideIndicator,
     showNoOptionsItem,
     updateData,
     debounce,
   }) => {
+    const revision = ++searchRevision.current
+    clearTimeout(hideTimer.current)
     setHasValue(Boolean(value))
+    setStatus(null)
+    if (onQuery?.(value)) {
+      hideTimer.current = setTimeout(() => {
+        if (revision === searchRevision.current) {
+          searchRevision.current++
+          setHidden(true)
+          hideIndicator()
+        }
+      }, 1500)
+    }
+    if (!value.trim()) {
+      setHidden(true)
+      hideIndicator()
+      updateData([])
+      return
+    }
 
     debounce(
-      ({ value }) => {
+      ({ value, revision }) => {
+        if (revision !== searchRevision.current) {
+          return
+        }
         searchIndex.current
           ?.search(value)
           .then(({ hits }) => {
+            if (revision !== searchRevision.current) {
+              return
+            }
             const searchableHits = hits.filter(
               ({ search }) => search !== false
             )
+            if (document.activeElement?.id === id) {
+              setVisible()
+            }
             updateData(
               makeHitsHumanFriendly({ hits: searchableHits, setHidden })
             )
@@ -95,11 +142,14 @@ export const SearchBarInput = () => {
             }
           })
           .catch((err) => {
+            if (revision !== searchRevision.current) {
+              return
+            }
             setStatus(err.message || err)
             hideIndicator()
           })
       },
-      { value }
+      { value, revision }
     )
     showIndicator()
   }
@@ -140,7 +190,8 @@ export const SearchBarInput = () => {
 
   return (
     <Autocomplete
-      id={searchInputId}
+      id={id}
+      stretch={stretch}
       className={clsx(autocompleteStyle, 'portal-search')}
       mode="async"
       showClearButton
@@ -150,7 +201,7 @@ export const SearchBarInput = () => {
       fixedPosition
       size="medium"
       align="right"
-      placeholder="Search ..."
+      placeholder={placeholder}
       label="Search the Eufemia documentation"
       labelSrOnly
       aria-keyshortcuts="Meta+K Control+K"
@@ -160,7 +211,12 @@ export const SearchBarInput = () => {
       onType={onTypeHandler}
       onChange={onChangeHandler}
       onFocus={onFocusHandler}
-      onClear={() => setHasValue(false)}
+      onClear={() => {
+        clearTimeout(hideTimer.current)
+        searchRevision.current++
+        setHasValue(false)
+        onQuery?.('')
+      }}
       submitElement={
         !hasValue && shortcutHint ? (
           <ShortcutHint hint={shortcutHint} />

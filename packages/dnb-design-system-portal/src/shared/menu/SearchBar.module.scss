@@ -8,13 +8,26 @@
     width: min(38vw, 17.5rem);
 
     :global(.dnb-input.dnb-autocomplete__input) {
+      :global(.dnb-input__input) {
+        flex-shrink: 0;
+      }
+
       :global(.dnb-input__icon) {
-        display: none;
+        left: 0.5rem;
       }
 
       :global(.dnb-input__input),
       :global(.dnb-input__placeholder) {
-        padding-left: 0.5rem;
+        padding-left: 1.75rem;
+        padding-right: 2rem;
+      }
+
+      :global(.dnb-input__submit-element:has(kbd)) {
+        display: none;
+      }
+
+      :global(.dnb-input--clear) {
+        margin-right: 0;
       }
 
       &[data-has-content='false'] {

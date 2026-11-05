@@ -28,7 +28,7 @@ export type PortalSidebarMenuItemData = SidebarMenuItemData & {
 export const themeTitles: Partial<Record<ThemeNames, string>> = {
   ui: 'DNB',
   sbanken: 'Sbanken',
-  eiendom: 'Eiendom',
+  eiendom: 'DNB Eiendom',
   carnegie: 'DNB Carnegie',
 }
 

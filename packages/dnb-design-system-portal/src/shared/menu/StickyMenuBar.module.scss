@@ -7,6 +7,13 @@
 }
 
 .headerStyle {
+  &[data-home] {
+    pointer-events: none;
+
+    .leadingStyle {
+      pointer-events: auto;
+    }
+  }
   position: fixed;
 
   // When using view transitions, like in the table component,
@@ -120,6 +127,7 @@
 .leadingStyle {
   flex-shrink: 0;
   display: none;
+  min-height: 2.5rem;
 
   &[data-compact='true'],
   &[data-inline-collapsed='true'] {
@@ -135,7 +143,7 @@
     &::before {
       position: absolute;
       z-index: -1;
-      inset: -0.6875rem -1rem;
+      inset: -0.125rem -1rem;
       pointer-events: none;
 
       border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
@@ -173,7 +181,6 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    min-height: 2.5rem;
 
     &::before {
       position: absolute;
