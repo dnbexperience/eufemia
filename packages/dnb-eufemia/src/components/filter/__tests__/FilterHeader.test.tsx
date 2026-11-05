@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { loadScss } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterHeader from '../FilterHeader'
 import FilterToolbar from '../FilterToolbar'
@@ -36,7 +37,7 @@ describe('Filter.Header', () => {
 })
 
 describe('Filter.Toolbar.Actions', () => {
-  it('uses the CSS gap layout engine', () => {
+  it('uses the CSS gap layout engine with the Figma gaps', () => {
     render(
       <FilterRoot>
         <FilterToolbar>
@@ -51,7 +52,8 @@ describe('Filter.Toolbar.Actions', () => {
       document.querySelector('.dnb-filter__toolbar-actions')
     ).toHaveClass(
       'dnb-flex-container--css-gap',
-      'dnb-flex-container--spacing-small'
+      'dnb-flex-container--spacing-medium',
+      'dnb-flex-container--row-gap-small'
     )
   })
 
@@ -87,5 +89,15 @@ describe('Filter.Toolbar.Actions', () => {
 
     expect(actions.classList).toContain('dnb-filter__toolbar-actions')
     expect(actions.classList).toContain('my-actions')
+  })
+})
+
+describe('Filter.Toolbar scss', () => {
+  it('uses the Figma gaps between the search and the actions', () => {
+    const css = loadScss(require.resolve('../style/dnb-filter.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-filter__toolbar \{[^}]*gap: 1\.5rem 2\.5rem;/
+    )
   })
 })

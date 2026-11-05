@@ -27,7 +27,7 @@ function FilterToolbarActions({
   return (
     <Flex.Horizontal
       layoutEngine="css"
-      gap="small"
+      gap="medium"
       align="center"
       className={clsx('dnb-filter__toolbar-actions', className)}
     >
