@@ -184,11 +184,9 @@ const Upload = (localProps: UploadAllProps) => {
         >
           {variant !== 'compact' && <UploadInfo />}
           {variant === 'compact' && (title || text) && (
-            <>
-              <CompactLabel id={id} title={title} text={text} />
-              {props?.children}
-            </>
+            <CompactLabel id={id} title={title} text={text} />
           )}
+          {variant === 'compact' && props?.children}
           {variant === 'compact' && <UploadFileLimits />}
 
           <UploadFileInput

@@ -2398,6 +2398,24 @@ describe('Upload', () => {
       ).toHaveTextContent(nb.title)
     })
 
+    it('renders children without a title and text', () => {
+      render(
+        <Upload
+          {...defaultProps}
+          variant="compact"
+          title={false}
+          text={false}
+        >
+          <span className="custom-content">My custom content</span>
+        </Upload>
+      )
+
+      expect(document.querySelector('.dnb-upload__label')).toBeNull()
+      expect(document.querySelector('.custom-content')).toHaveTextContent(
+        'My custom content'
+      )
+    })
+
     it('renders the custom title', () => {
       const customTitle = 'custom title'
 
