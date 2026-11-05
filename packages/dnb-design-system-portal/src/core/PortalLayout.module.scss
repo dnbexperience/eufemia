@@ -14,7 +14,7 @@
   @include utilities.allBelow(large) {
     &:has(.content-grid__sidebar nav) {
       .content-grid__header:has([data-portal-page-tabs])
-        + .content-grid__sidebar {
+        ~ .content-grid__sidebar {
         margin-top: 1.5rem;
       }
 
