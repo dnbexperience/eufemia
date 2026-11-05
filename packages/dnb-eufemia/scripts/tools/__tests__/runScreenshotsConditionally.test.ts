@@ -1,3 +1,6 @@
+import { existsSync } from 'node:fs'
+import path from 'node:path'
+import { GLOBAL_VISUAL_PORTAL_FILES } from '../runScreenshotsConditionally/config'
 import {
   buildDependencyMap,
   buildScssDependencyMap,
@@ -82,6 +85,29 @@ describe('runScreenshotsConditionally', () => {
 
     expect(selection.mode).toBe('all')
     expect(selection.reason).toMatch(/Global visual impact detected/i)
+  })
+
+  it('runs all tests when the portal styles around every demo change', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-design-system-portal/src/core/PortalLayout.module.scss',
+      ],
+    })
+
+    expect(selection.mode).toBe('all')
+    expect(selection.reason).toMatch(
+      /Portal file around every demo changed/
+    )
+  })
+
+  it('skips for other portal files outside the docs', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-design-system-portal/src/shared/menu/PortalToolsMenu.tsx',
+      ],
+    })
+
+    expect(selection.mode).toBe('skip')
   })
 
   it('does not treat unrelated core jest helpers as global visual impact', () => {
@@ -372,6 +398,23 @@ describe('path helpers', () => {
         null
       )
     ).toBe(false)
+  })
+
+  it('treats the portal demo wrapper as global visual impact', () => {
+    expect(
+      isGlobalVisualImpact(
+        'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.module.scss',
+        null
+      )
+    ).toBe(true)
+  })
+
+  it('lists only portal files that exist', () => {
+    const repoRoot = path.resolve(__dirname, '../../../../..')
+
+    for (const filePath of Array.from(GLOBAL_VISUAL_PORTAL_FILES)) {
+      expect(existsSync(path.join(repoRoot, filePath))).toBe(true)
+    }
   })
 
   it('treats theme selection as global visual impact', () => {

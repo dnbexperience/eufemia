@@ -16,6 +16,17 @@ export const GLOBAL_VISUAL_PATH_PREFIXES = [
   'src/core/vitest-screenshots/',
 ]
 
+// Portal files that style or wrap every demo, so a change can move any screenshot (repository paths).
+export const GLOBAL_VISUAL_PORTAL_FILES = new Set([
+  'packages/dnb-design-system-portal/src/core/PortalLayout.module.scss',
+  'packages/dnb-design-system-portal/src/shared/parts/Layout.module.scss',
+  'packages/dnb-design-system-portal/src/shared/parts/PortalStyle.scss',
+  'packages/dnb-design-system-portal/src/shared/parts/PortalStyle.mixins.scss',
+  'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.module.scss',
+  'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.tsx',
+  'packages/dnb-design-system-portal/src/shared/tags/ComponentBox.tsx',
+])
+
 // Source paths that should not influence visual screenshot selection.
 export const NON_VISUAL_SOURCE_PATH_PREFIXES = ['src/mcp/']
 
