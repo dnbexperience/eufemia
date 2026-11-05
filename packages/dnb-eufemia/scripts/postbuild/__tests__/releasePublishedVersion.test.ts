@@ -205,6 +205,7 @@ describe('published version from semantic-release', () => {
     )
 
     expect(npm).toBeGreaterThanOrEqual(0)
+    expect(plugins[npm][1].npmPublish).toBe(true)
     expect(plugins[npm + 1]).toBe(
       '../scripts/postbuild/releasePublished.ts'
     )
