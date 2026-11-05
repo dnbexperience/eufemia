@@ -34,6 +34,9 @@ export const RUN_ALL_COMMIT_FLAG = '--run-all'
 // CI provides changed files through this environment variable.
 export const CHANGED_FILES_ENV_VAR = 'VISUAL_TEST_CHANGED_FILES'
 
+// CI sets this to 'true' when it cannot list all changed files.
+export const RUN_ALL_ENV_VAR = 'VISUAL_TEST_RUN_ALL'
+
 // Optional override for local/base ref selection when diffing a branch.
 export const BASE_REF_ENV_VAR = 'VISUAL_TEST_BASE_REF'
 

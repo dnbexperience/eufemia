@@ -64,17 +64,25 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
-            let changedFiles = []
+            // Without a complete file list, run all screenshot tests rather than none
+            const runAll = (message) => {
+              core.warning(`${message} Running all screenshot tests.`)
+              core.exportVariable('VISUAL_TEST_RUN_ALL', 'true')
+            }
+
+            // GitHub lists at most 3000 files of a pull request and 300 of a comparison
+            let fileLimit = 0
+            let files = []
 
             if (context.eventName === 'pull_request') {
               const pullNumber = context.payload.pull_request?.number
 
               if (!pullNumber) {
-                core.warning('No pull request number found. VISUAL_TEST_CHANGED_FILES was not set.')
-                return
+                return runAll('No pull request number found.')
               }
 
-              const files = await github.paginate(
+              fileLimit = 3000
+              files = await github.paginate(
                 github.rest.pulls.listFiles,
                 {
                   owner: context.repo.owner,
@@ -83,20 +91,16 @@ jobs:
                   per_page: 100,
                 }
               )
-
-              changedFiles = files
-                .map((file) => file.filename)
-                .filter(Boolean)
             } else if (context.eventName === 'push') {
               const head = context.payload.after || context.sha
               const defaultBranch =
                 context.payload.repository?.default_branch || 'main'
 
               if (!head) {
-                core.warning('Missing push head SHA. VISUAL_TEST_CHANGED_FILES was not set.')
-                return
+                return runAll('Missing push head SHA.')
               }
 
+              fileLimit = 300
               try {
                 const comparison = await github.rest.repos.compareCommitsWithBasehead({
                   owner: context.repo.owner,
@@ -104,15 +108,12 @@ jobs:
                   basehead: `${defaultBranch}...${head}`,
                 })
 
-                changedFiles = (comparison.data.files || [])
-                  .map((file) => file.filename)
-                  .filter(Boolean)
+                files = comparison.data.files || []
               } catch {
                 const base = context.payload.before
 
                 if (!base) {
-                  core.warning('Missing push base SHA. VISUAL_TEST_CHANGED_FILES was not set.')
-                  return
+                  return runAll('Missing push base SHA.')
                 }
 
                 const comparison = await github.rest.repos.compareCommits({
@@ -122,14 +123,20 @@ jobs:
                   head,
                 })
 
-                changedFiles = (comparison.data.files || [])
-                  .map((file) => file.filename)
-                  .filter(Boolean)
+                files = comparison.data.files || []
               }
             } else {
-              core.warning(`Unsupported event: ${context.eventName}`)
-              return
+              return runAll(`Unsupported event: ${context.eventName}.`)
             }
+
+            if (files.length >= fileLimit) {
+              return runAll(`GitHub listed ${files.length} changed files, so the list may be truncated.`)
+            }
+
+            // A renamed file also affects the tests of the directory it was moved from
+            const changedFiles = files
+              .flatMap((file) => [file.filename, file.previous_filename])
+              .filter(Boolean)
 
             core.exportVariable(
               'VISUAL_TEST_CHANGED_FILES',

@@ -1,4 +1,7 @@
-import { resolveCliOptions } from '../runScreenshotsConditionally/runner'
+import {
+  resolveCliOptions,
+  shouldRunAllByEnvironment,
+} from '../runScreenshotsConditionally/runner'
 
 describe('runScreenshotsConditionally runner cli options', () => {
   it('defaults to auto mode', () => {
@@ -33,5 +36,20 @@ describe('runScreenshotsConditionally runner cli options', () => {
       isDryRun: true,
       changedFilesMode: 'auto',
     })
+  })
+})
+
+describe('runScreenshotsConditionally runner environment', () => {
+  it('runs all tests when CI could not list all changed files', () => {
+    expect(
+      shouldRunAllByEnvironment({ VISUAL_TEST_RUN_ALL: 'true' })
+    ).toBe(true)
+  })
+
+  it('selects tests when the run-all flag is missing or not true', () => {
+    expect(shouldRunAllByEnvironment({})).toBe(false)
+    expect(
+      shouldRunAllByEnvironment({ VISUAL_TEST_RUN_ALL: 'false' })
+    ).toBe(false)
   })
 })
