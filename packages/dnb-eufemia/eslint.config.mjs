@@ -30,7 +30,7 @@ const ignorePatterns = [
   '*not_in_use*',
 ]
 
-const tsConfigFiles = ['**/*.ts', '**/*.tsx']
+const tsConfigFiles = ['**/*.ts', '**/*.mts', '**/*.tsx']
 const restrictedSyntax = [
   'IfStatement > ExpressionStatement > AssignmentExpression',
   {

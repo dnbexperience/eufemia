@@ -44,9 +44,10 @@ package-scripts.js
 static.config.js
 vitest.config.ts
 vitest.config.*.ts
+vitest.config.*.mts
 vitest.d.ts
 lebab.d.ts
-tsdown.config.ts
+tsdown.config.mts
 postcss.config.js
 
 # misc
