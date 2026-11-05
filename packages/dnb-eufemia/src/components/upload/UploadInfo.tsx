@@ -13,6 +13,7 @@ import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
 import AccordionTertiary from '../accordion/AccordionTertiary'
+import Card from '../card/Card'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
@@ -178,7 +179,14 @@ export function UploadFileLimits() {
       iconPosition="right"
       className="dnb-upload__file-limits"
     >
-      <div className="dnb-upload__file-limits__content">
+      <Card
+        element="div"
+        responsive={false}
+        layoutEngine="css"
+        gap="small"
+        backgroundColor="var(--upload-file-limits-background)"
+        className="dnb-upload__file-limits__content"
+      >
         {displayList && (
           <Table border={false} className="dnb-upload__file-limits__table">
             <tbody>
@@ -215,7 +223,7 @@ export function UploadFileLimits() {
         {displayAcceptedFileFormatsTable && (
           <UploadInfoAcceptedFileTypesTable expandable />
         )}
-      </div>
+      </Card>
     </AccordionTertiary>
   )
 }

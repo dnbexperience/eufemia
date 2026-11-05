@@ -2555,6 +2555,23 @@ describe('Upload', () => {
       ).toHaveAttribute('scope', 'row')
     })
 
+    it('shows the expanded file limits in a Card', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      fireEvent.click(
+        document.querySelector('.dnb-upload__file-limits button')
+      )
+
+      const content = document.querySelector(
+        '.dnb-upload__file-limits__content'
+      )
+      expect(content).toHaveClass('dnb-card')
+      expect(content.tagName).toBe('DIV')
+      expect(
+        content.querySelector('.dnb-upload__file-limits__table')
+      ).toBeInTheDocument()
+    })
+
     it('shows the file max size per file type when expanded', () => {
       render(
         <Upload
