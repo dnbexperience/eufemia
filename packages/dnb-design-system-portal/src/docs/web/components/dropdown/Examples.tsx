@@ -9,6 +9,7 @@ import {
   Dropdown,
   NumberFormat,
   Icon,
+  Link,
   P,
   Flex,
   List,
@@ -303,7 +304,9 @@ export const DropdownIndependentWidthLeft = () => {
           direction="top"
           title="Choose an item"
           data={() => [
-            'Press on me',
+            <Link href="/" key="item-1">
+              Go to this Link
+            </Link>,
             'Or press on me',
             <>Custom component</>,
           ]}
@@ -324,7 +327,9 @@ export const DropdownIndependentWidthRight = () => {
           direction="top"
           title="Choose an item"
           data={() => [
-            'Press on me',
+            <Link href="/" key="item-1">
+              Go to this Link
+            </Link>,
             'Or press on me',
             <>Custom component</>,
           ]}
