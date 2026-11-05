@@ -109,6 +109,7 @@ const UploadFileListCell = ({
 
   const imageUrl = useObjectUrl(file)
   const cellRef = useRef<HTMLLIElement>(undefined)
+  const restoreFocusRef = useRef(false)
   const exists = useExistsHighlight(id, file)
   const isDuplicate = !allowDuplicates && exists
 
@@ -119,7 +120,33 @@ const UploadFileListCell = ({
       cellElement
     )?.querySelector('.dnb-upload__file-input-button') as HTMLButtonElement
     focusElement?.focus({ preventScroll: true })
+    restoreFocusRef.current = !focusElement
   }, [cellRef])
+
+  // The files amount limit hides the choose button, so focus it once the deleted file is gone
+  useEffect(() => {
+    const uploadElement = getClosestParent('.dnb-upload', cellRef.current)
+
+    return () => {
+      const activeElement = document.activeElement
+      if (
+        restoreFocusRef.current &&
+        (!activeElement || activeElement === document.body)
+      ) {
+        const focusElement = uploadElement?.querySelector(
+          '.dnb-upload__file-input-button'
+        ) as HTMLButtonElement
+        focusElement?.focus({ preventScroll: true })
+      }
+    }
+  }, [])
+
+  // A failed async delete keeps the file, so it should not take the focus later
+  useEffect(() => {
+    if (!isLoading) {
+      restoreFocusRef.current = false
+    }
+  }, [isLoading])
 
   const onDeleteHandler = useCallback(() => {
     handleDisappearFocus()

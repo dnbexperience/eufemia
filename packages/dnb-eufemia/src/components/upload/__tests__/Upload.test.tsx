@@ -1,5 +1,6 @@
 import { createRef, useEffect } from 'react'
 import {
+  act,
   fireEvent,
   render,
   screen,
@@ -1703,6 +1704,76 @@ describe('Upload', () => {
           name: nb.buttonText,
         })
       )
+    })
+
+    it.each([
+      ['sync', undefined],
+      ['async', async () => null],
+    ])(
+      'sets focus on the choose button after a %s delete, when the files amount limit hid it',
+      async (_, onFileDelete) => {
+        const id = 'upload-delete-at-limit'
+
+        render(
+          <Upload
+            {...defaultProps}
+            id={id}
+            filesAmountLimit={1}
+            onFileDelete={onFileDelete}
+          />
+        )
+
+        const MockComponent = () => {
+          const { setFiles } = useUpload(id)
+
+          useEffect(
+            () =>
+              setFiles([
+                { file: createMockFile('fileName.png', 100, 'image/png') },
+              ]),
+            []
+          )
+
+          return null
+        }
+
+        render(<MockComponent />)
+
+        expect(
+          document.querySelector('.dnb-upload__file-input-button')
+        ).toBeNull()
+
+        const deleteButton = document.querySelector(
+          '.dnb-upload__file-cell .dnb-button--tertiary'
+        ) as HTMLButtonElement
+        deleteButton.focus()
+        fireEvent.click(deleteButton)
+
+        await waitFor(() => {
+          expect(document.activeElement).toBe(
+            document.querySelector('.dnb-upload__file-input-button')
+          )
+        })
+      }
+    )
+
+    it('does not move the focus when a file is removed without its delete button', () => {
+      const id = 'upload-remove-without-delete'
+      const files = [
+        { file: createMockFile('fileName.png', 100, 'image/png') },
+      ]
+
+      render(<Upload {...defaultProps} id={id} filesAmountLimit={1} />)
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      act(() => result.current.setFiles(files))
+      act(() => result.current.setFiles([]))
+
+      expect(
+        document.querySelector('.dnb-upload__file-input-button')
+      ).toBeInTheDocument()
+      expect(document.activeElement).toBe(document.body)
     })
 
     it('returns the file size error message', async () => {
