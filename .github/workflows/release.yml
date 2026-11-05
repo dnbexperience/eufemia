@@ -400,36 +400,33 @@ jobs:
       # target the matching GitHub Release and stamp the SBOM. Empty or the
       # placeholder version means nothing was published.
       #
-      # When the Release step succeeded with a stamped version, this run
-      # published it: semantic-release stops at the first publish plugin that
-      # fails, so it only succeeds once `npm publish` has. npm is not asked
-      # then, because it lists a version only after processing it, which took
-      # 5 to 55 minutes for every release from v11.14.0 to v11.17.0.
+      # The Release step records `published` once `npm publish` has succeeded
+      # (see releasePublished.ts), also when a later semantic-release step
+      # fails: in v11.16.1, the success step failed after the publish, which
+      # skipped the portal deploy, the SBOM and the attestation. npm is not
+      # asked then, because it lists a version only after processing it, which
+      # took 5 to 55 minutes for every release from v11.14.0 to v11.17.0.
       #
-      # Otherwise it is set only once npm has the version. That covers the
-      # Release step failing after publishing: in v11.16.1, semantic-release's
-      # success step failed after npm had the version, which skipped the portal
-      # deploy, the SBOM and the attestation. A re-run publishes nothing,
-      # because semantic-release stops when its release commit has moved the
-      # branch past this run's commit. The version then comes from the tag
-      # semantic-release put on that release commit, whose parent is this
-      # run's commit.
+      # Otherwise it is set only once npm has the version. A re-run publishes
+      # nothing, because semantic-release stops when its release commit has
+      # moved the branch past this run's commit. The version then comes from
+      # the tag semantic-release put on that release commit, whose parent is
+      # this run's commit.
       - name: Capture released version
         id: release-info
         continue-on-error: true
         if: ${{ !cancelled() && steps.release.outcome != 'skipped' }}
         working-directory: packages/dnb-eufemia
         env:
-          RELEASE_OUTCOME: ${{ steps.release.outcome }}
+          PUBLISHED: ${{ steps.release.outputs.published }}
           RUN_COMMIT: ${{ github.sha }}
         run: |
-          version="$(node -p "require('./build/package.json').version")"
-          if [ "$RELEASE_OUTCOME" = "success" ] &&
-            [ "$version" != "0.0.0-development" ]; then
-            echo "released=$version" >> "$GITHUB_OUTPUT"
-            echo "Released version: $version"
+          if [ -n "$PUBLISHED" ]; then
+            echo "released=$PUBLISHED" >> "$GITHUB_OUTPUT"
+            echo "Released version: $PUBLISHED"
             exit 0
           fi
+          version="$(node -p "require('./build/package.json').version")"
           if [ "$version" = "0.0.0-development" ]; then
             version=""
             # The same fetch semantic-release runs: the checkout is shallow.

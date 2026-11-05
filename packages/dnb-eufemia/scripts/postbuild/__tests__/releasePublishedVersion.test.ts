@@ -1,4 +1,4 @@
-import { spawnSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import {
   mkdirSync,
   mkdtempSync,
@@ -113,7 +113,7 @@ describe('released version in release.yml', () => {
 
   const captureVersion = (
     version: string,
-    releaseOutcome: string,
+    published: string,
     listedAfter: string
   ) => {
     writeFileSync(
@@ -121,36 +121,36 @@ describe('released version in release.yml', () => {
       JSON.stringify({ version })
     )
     return run(capture?.run ?? '', {
-      RELEASE_OUTCOME: releaseOutcome,
+      PUBLISHED: published,
       RUN_COMMIT: 'run-commit',
       LISTED_AFTER: listedAfter,
     })
   }
 
-  it('passes the Release step outcome to the capture step', () => {
-    expect(capture?.env?.RELEASE_OUTCOME).toBe(
-      '${{ steps.release.outcome }}'
+  it('passes the version the Release step published to the capture step', () => {
+    expect(capture?.env?.PUBLISHED).toBe(
+      '${{ steps.release.outputs.published }}'
     )
   })
 
   it('reports a version the Release step published without waiting for npm', () => {
-    const result = captureVersion('11.17.0', 'success', 'never')
+    const result = captureVersion('11.17.0', '11.17.0', 'never')
 
     expect(result.status).toBe(0)
     expect(result.output).toBe('released=11.17.0\n')
     expect(result.npm).toEqual([])
   })
 
-  it('reports the version after a failed Release step only once npm lists it', () => {
-    const result = captureVersion('11.17.0', 'failure', '40')
+  it('reports a version without a recorded publish only once npm lists it', () => {
+    const result = captureVersion('11.17.0', '', '40')
 
     expect(result.status).toBe(0)
     expect(result.output).toBe('released=11.17.0\n')
     expect(result.npm).toHaveLength(3)
   })
 
-  it('fails without a version when npm does not list it after a failed Release step', () => {
-    const result = captureVersion('11.17.0', 'failure', 'never')
+  it('fails without a version when npm does not list a version without a recorded publish', () => {
+    const result = captureVersion('11.17.0', '', 'never')
 
     expect(result.status).toBe(1)
     expect(result.output).toBe('')
@@ -186,5 +186,116 @@ describe('released version in release.yml', () => {
     expect(result.waited).toBeLessThan(
       ((jobs.attest['timeout-minutes'] ?? 0) - 5) * 60
     )
+  })
+})
+
+describe('published version from semantic-release', () => {
+  const plugin = path.join(
+    packageRoot,
+    'scripts/postbuild/releasePublished.ts'
+  )
+
+  it('records the version right after the npm publish', () => {
+    const { plugins } = JSON.parse(
+      readFileSync(path.join(packageRoot, 'package.json'), 'utf8')
+    ).release
+    const npm = plugins.findIndex(
+      (entry) =>
+        Array.isArray(entry) && entry[0] === '@semantic-release/npm'
+    )
+
+    expect(npm).toBeGreaterThanOrEqual(0)
+    expect(plugins[npm + 1]).toBe(
+      '../scripts/postbuild/releasePublished.ts'
+    )
+  })
+
+  it.each([
+    {
+      name: 'once the npm publish succeeded, also when a later publish fails',
+      npmPublish: "() => ({ name: 'npm' })",
+      output: 'published=1.0.1\n',
+    },
+    {
+      name: 'nothing when the npm publish fails',
+      npmPublish: "() => { throw new Error('npm publish failed') }",
+      output: '',
+    },
+  ])('records $name', ({ npmPublish, output }) => {
+    const directory = mkdtempSync(
+      path.join(tmpdir(), 'eufemia-published-')
+    )
+    try {
+      const git = (...args: string[]) =>
+        execFileSync('git', args, { cwd: directory, stdio: 'pipe' })
+      git('init', '--quiet', '--initial-branch=release')
+      git('config', 'user.email', 'test@dnb.no')
+      git('config', 'user.name', 'Eufemia test')
+      git('config', 'commit.gpgsign', 'false')
+      git('remote', 'add', 'origin', directory)
+
+      // Stand in for @semantic-release/npm and @semantic-release/github.
+      const npm = path.join(directory, 'npm.cjs')
+      writeFileSync(
+        npm,
+        `module.exports = { analyzeCommits: () => 'patch', publish: ${npmPublish} }`
+      )
+      const github = path.join(directory, 'github.cjs')
+      writeFileSync(
+        github,
+        "module.exports = { publish: () => { throw new Error('GitHub release failed') } }"
+      )
+      writeFileSync(
+        path.join(directory, 'package.json'),
+        JSON.stringify({
+          name: 'release-fixture',
+          version: '1.0.0',
+          release: {
+            repositoryUrl: directory,
+            branches: ['release'],
+            ci: false,
+            plugins: [npm, plugin, github],
+          },
+        })
+      )
+      git('add', '.')
+      git('commit', '--quiet', '--message', 'chore: initial commit')
+      git('tag', 'v1.0.0')
+      git(
+        'commit',
+        '--quiet',
+        '--allow-empty',
+        '--message',
+        'fix: regression'
+      )
+      const outputFile = path.join(directory, 'output')
+      writeFileSync(outputFile, '')
+
+      const result = spawnSync(
+        process.execPath,
+        [
+          path.resolve(
+            packageRoot,
+            '../../node_modules/semantic-release/bin/semantic-release.js'
+          ),
+        ],
+        {
+          cwd: directory,
+          encoding: 'utf8',
+          env: {
+            ...process.env,
+            GITHUB_ACTIONS: '',
+            GITHUB_REF: '',
+            GITHUB_HEAD_REF: '',
+            GITHUB_OUTPUT: outputFile,
+          },
+        }
+      )
+
+      expect(result.status).not.toBe(0)
+      expect(readFileSync(outputFile, 'utf8')).toBe(output)
+    } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
   })
 })

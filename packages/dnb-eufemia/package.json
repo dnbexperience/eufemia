@@ -391,6 +391,7 @@
           "pkgRoot": "."
         }
       ],
+      "../scripts/postbuild/releasePublished.ts",
       [
         "@semantic-release/github",
         {
