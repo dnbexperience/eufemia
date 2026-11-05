@@ -1345,7 +1345,7 @@ legend.dnb-form-label {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
-  --input-font-size--large: var(--font-size-medium);
+  --input-font-size--large: var(--font-size-basis);
   --input-padding: 1rem;
   --input-padding--small: 1rem;
   --input-padding--medium: 1rem;
