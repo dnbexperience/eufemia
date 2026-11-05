@@ -240,7 +240,7 @@ for (const isolated of [false, true]) {
 }
 
 for (const isolated of [false, true]) {
-  test(`responsive headings inside dnb-core-style with isolated=${isolated}`, async ({
+  test(`responsive typography with isolated=${isolated}`, async ({
     page,
   }) => {
     let css = compileString(
@@ -270,7 +270,10 @@ for (const isolated of [false, true]) {
         <div class="dnb-core-style">
           <h1 id="responsive" class="dnb-heading dnb-h--xx-large dnb-t__responsive-on">Responsive</h1>
           <h1 id="fixed" class="dnb-heading dnb-h--xx-large dnb-t__responsive-off">Fixed</h1>
+          <h2 id="heading-small" class="dnb-heading dnb-h--x-large dnb-t__responsive-on">Heading <small>Small</small></h2>
+          <p id="paragraph-small" class="dnb-p dnb-t__responsive-on">Text <small>Small</small></p>
         </div>
+        <h2 id="heading-small-outside" class="dnb-heading dnb-h--x-large dnb-t__responsive-on">Heading <small>Small</small></h2>
       </div>
     `)
     await expect(page.locator('#responsive')).toHaveCSS(
@@ -278,5 +281,17 @@ for (const isolated of [false, true]) {
       '34px'
     )
     await expect(page.locator('#fixed')).toHaveCSS('font-size', '48px')
+    await expect(page.locator('#heading-small small')).toHaveCSS(
+      'font-size',
+      '26px'
+    )
+    await expect(page.locator('#heading-small-outside small')).toHaveCSS(
+      'font-size',
+      '26px'
+    )
+    await expect(page.locator('#paragraph-small small')).toHaveCSS(
+      'font-size',
+      '14px'
+    )
   })
 }
