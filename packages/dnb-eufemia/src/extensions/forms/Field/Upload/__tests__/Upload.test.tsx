@@ -141,6 +141,23 @@ describe('Field.Upload', () => {
     expect(text).toHaveTextContent('My Text')
   })
 
+  it.each(['default', 'compact'] as const)(
+    'should name the %s button by the label and its own text',
+    (variant) => {
+      render(
+        <Field.Upload variant={variant} label="My Label" text="My Text" />
+      )
+
+      const button = document.querySelector(
+        '.dnb-upload__file-input-button'
+      )
+      expect(button).toHaveAccessibleName(
+        `My Label ${nbShared.Upload.buttonText}`
+      )
+      expect(button).toHaveAccessibleDescription('My Text')
+    }
+  )
+
   it('should add (optional) text to the label if required={false}', () => {
     render(
       <Form.Handler required>

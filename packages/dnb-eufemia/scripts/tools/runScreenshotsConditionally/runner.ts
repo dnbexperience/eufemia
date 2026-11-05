@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process'
+import { appendFileSync } from 'node:fs'
 import path from 'node:path'
 import { log } from '../../lib'
 import {
@@ -32,6 +33,7 @@ import {
 type CliOptions = {
   shouldExplain: boolean
   isDryRun: boolean
+  isPlan: boolean
   changedFilesMode: ChangedFilesMode
 }
 
@@ -72,10 +74,20 @@ export function shouldRunAllByEnvironment(
   return env[RUN_ALL_ENV_VAR] === 'true'
 }
 
+// Lets the CI workflow skip the portal build when no screenshot test can be affected
+export function writeSkipPlan(
+  outputFile: string | undefined = process.env.GITHUB_OUTPUT
+) {
+  if (outputFile) {
+    appendFileSync(outputFile, 'skip=true\n')
+  }
+}
+
 export function resolveCliOptions(argv: string[]): CliOptions {
   let changedFilesMode: ChangedFilesMode = 'auto'
   const shouldExplain = argv.includes('--explain')
-  const isDryRun = argv.includes('--dry-run') || shouldExplain
+  const isPlan = argv.includes('--plan')
+  const isDryRun = argv.includes('--dry-run') || shouldExplain || isPlan
 
   for (let i = 0; i < argv.length; i += 1) {
     const argument = argv[i]
@@ -110,6 +122,7 @@ export function resolveCliOptions(argv: string[]): CliOptions {
   return {
     shouldExplain,
     isDryRun,
+    isPlan,
     changedFilesMode,
   }
 }
@@ -244,7 +257,7 @@ function printGlobalImpactCauses(
 export async function runScreenshotsTests() {
   const context = createContext()
   const cliOptions = resolveCliOptions(process.argv.slice(2))
-  const { changedFilesMode, shouldExplain, isDryRun } = cliOptions
+  const { changedFilesMode, shouldExplain, isDryRun, isPlan } = cliOptions
 
   const commitMessage = await getLatestCommitMessage(context)
   const runAllFromCommit = shouldRunAll(commitMessage)
@@ -285,6 +298,10 @@ export async function runScreenshotsTests() {
 
     if (shouldExplain) {
       printExplainOutput(changedFilesMode, [], [], {})
+    }
+
+    if (isPlan) {
+      writeSkipPlan()
     }
 
     return
@@ -363,6 +380,10 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
+    if (isPlan) {
+      writeSkipPlan()
+    }
+
     return
   }
 
@@ -386,6 +407,20 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
+    if (isPlan) {
+      writeSkipPlan()
+    }
+
+    return
+  }
+
+  // Stop before the dependency graphs, which the test run builds anyway
+  if (isPlan) {
+    log.info(
+      logWithLabel(
+        'Visual changes found. The test run selects the screenshot tests.'
+      )
+    )
     return
   }
 

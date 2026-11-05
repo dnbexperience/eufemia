@@ -125,10 +125,10 @@ Selection includes:
 - Direct screenshot owners of changed files.
 - Reverse TypeScript/JavaScript dependencies.
 - Reverse SCSS dependencies.
-- Demo/example composition usage from Portal docs.
+- Demo/example composition usage from Portal docs. Forms components count by their namespaced name, such as `Field.String`.
 - Portal docs/demo path impact (changed docs can trigger only related screenshot tests).
 
-Global impact still runs all screenshot tests when shared visual config/style paths are changed (for example `packages/dnb-eufemia/package.json`, `src/style/*` or it runs on the `main` branch).
+Global impact still runs all screenshot tests when shared visual config/style paths are changed (for example `packages/dnb-eufemia/package.json`, `src/style/*` or it runs on the `main` branch). The same applies to the portal files that style or wrap every demo, such as `PortalLayout.module.scss` and `CodeBlock.module.scss`.
 
 Reverse-dependency selection resolves imports by TypeScript symbol, so an import through a re-export barrel (for example `src/components/index.ts`) is attributed to the module that actually defines the symbol. Pure re-export barrels are therefore transparent, and type-only imports are ignored because they cannot change rendered output.
 
@@ -153,6 +153,7 @@ yarn workspace @dnb/eufemia test:screenshots:ci:conditional:explain --uncommitte
 - Local: combines `uncommitted` + `branch` files (deduplicated).
 - CI: uses `VISUAL_TEST_CHANGED_FILES`, which GitHub Actions lists from the pull request files, or on a push from a comparison with `main`. Renamed files count with both their old and new path.
 - CI does not fallback to git history. When GitHub cannot list all changed files (a comparison lists at most 300 files, a pull request 3000) or the list cannot be fetched, CI sets `VISUAL_TEST_RUN_ALL` and runs all screenshot tests.
+- CI first runs the selection with `--plan`. When no screenshot test can be affected, it skips the Playwright setup, the portal build and the test run.
 
 In explain mode, each selected test includes one or more causes:
 

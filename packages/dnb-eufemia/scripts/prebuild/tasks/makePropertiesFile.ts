@@ -798,6 +798,8 @@ const makeDesignTokenSCSS = async ({
     const stylelintResult = await stylelint.lint({
       code: outputScssContent,
       fix: true,
+      // Babel compiles this script to CommonJS, so it can only use the CommonJS API
+      quietDeprecationWarnings: true,
     })
 
     // `code` holds the autofixed output; `output` is deprecated in stylelint 16
