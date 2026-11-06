@@ -39,14 +39,14 @@ export const fontSizeProperty: PropertiesTableProps[string] = {
 }
 
 export const mainWeightProperty: PropertiesTableProps[string] = {
-  doc: 'Typography weight for the main content.',
+  doc: 'Typography weight for the main content. When omitted, sizes above `basis` use the theme heading weight (`medium` in the DNB theme), except inside `Stat.Trend` and `Stat.Info`.',
   type: ['"regular"', '"medium"'],
-  defaultValue: 'medium',
+  defaultValue: 'theme heading weight above `basis`, otherwise `medium`',
   status: 'optional',
 }
 
 export const auxiliaryWeightProperty: PropertiesTableProps[string] = {
-  doc: 'Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, `medium` is used.',
+  doc: 'Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, the default weight of the main content is used.',
   type: ['"regular"', '"medium"'],
   status: 'optional',
 }
