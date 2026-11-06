@@ -283,9 +283,11 @@ describe('Checkbox component', () => {
         { mode: 'onClick', activation: 'label' },
         { mode: 'onClick', activation: 'input' },
         { mode: 'onClick', activation: 'Space' },
+        { mode: 'onClick', activation: 'Enter' },
         { mode: 'readOnly', activation: 'label' },
         { mode: 'readOnly', activation: 'input' },
         { mode: 'readOnly', activation: 'Space' },
+        { mode: 'readOnly', activation: 'Enter' },
       ] as const)(
         'keeps the state through a render and the next allowed activation after $mode blocks $activation',
         async ({ mode, activation }) => {
@@ -320,9 +322,11 @@ describe('Checkbox component', () => {
           const label = document.querySelector('label')
           const output = document.querySelector('output')
           const activate = async () => {
-            if (activation === 'Space') {
+            if (activation === 'Space' || activation === 'Enter') {
               input.focus()
-              await userEvent.keyboard(' ')
+              await userEvent.keyboard(
+                activation === 'Space' ? ' ' : '{Enter}'
+              )
             } else {
               await userEvent.click(activation === 'label' ? label : input)
             }
@@ -464,9 +468,14 @@ describe('Checkbox component', () => {
 
   it('allows Enter after a canceled click', async () => {
     const onChange = vi.fn()
+    let blocked = true
     render(
       <Checkbox
-        onClick={({ preventDefault }) => preventDefault()}
+        onClick={({ preventDefault }) => {
+          if (blocked) {
+            preventDefault()
+          }
+        }}
         onChange={onChange}
       />
     )
@@ -476,6 +485,8 @@ describe('Checkbox component', () => {
     expect(input.checked).toBe(false)
     expect(onChange).not.toHaveBeenCalled()
 
+    // Enter follows preventDefault in onClick too, so stop blocking
+    blocked = false
     await userEvent.keyboard('{Enter}')
     expect(input.checked).toBe(true)
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -796,6 +807,63 @@ describe('Checkbox component', () => {
       ).toBe(false)
     })
   })
+
+  // The numpad Enter key has the same key, but another code
+  it.each([
+    { keyName: 'Enter', code: 'Enter' },
+    { keyName: 'numpad Enter', code: 'NumpadEnter' },
+  ])('should toggle on $keyName and call onClick', ({ code }) => {
+    const onClick = vi.fn()
+    const onChange = vi.fn()
+    render(<Checkbox onClick={onClick} onChange={onChange} />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code })
+
+    expect(input.checked).toBe(true)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+  })
+
+  it('sets the input indeterminate to false on Enter, as a click does', () => {
+    render(<Checkbox indeterminate />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' })
+
+    expect(input.checked).toBe(true)
+    expect(input.indeterminate).toBe(false)
+  })
+
+  // One key press must not change the checkbox and send the form at once.
+  // Enter never submits the form, also when the checkbox does not change.
+  it.each([{ readOnly: false }, { readOnly: true }])(
+    'should not submit the form on Enter when readOnly is $readOnly',
+    async ({ readOnly }) => {
+      const onSubmit = vi.fn((event) => event.preventDefault())
+      const onChange = vi.fn()
+      render(
+        <form onSubmit={onSubmit}>
+          <Checkbox readOnly={readOnly} onChange={onChange} />
+          <button type="submit">Submit</button>
+        </form>
+      )
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard('{Enter}')
+
+      expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      // Control: the form can be submitted
+      await userEvent.click(document.querySelector('button'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    }
+  )
 
   it('should call onKeyDown given as a property', () => {
     const onKeyDown = vi.fn()

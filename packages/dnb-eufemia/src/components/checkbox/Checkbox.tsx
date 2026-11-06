@@ -102,7 +102,7 @@ export type CheckboxProps = {
    */
   onChange?: (args: CheckboxOnChangeParams) => void
   /**
-   * Will be called on click.
+   * Will be called on click, and when the user presses Space or Enter. Call `preventDefault()` to keep the checkbox from changing.
    */
   onClick?: (args: CheckboxOnClickParams) => void
   /**
@@ -262,11 +262,17 @@ function Checkbox(localProps: CheckboxProps) {
     (event: KeyboardEvent<HTMLInputElement>) => {
       onKeyDown?.(event)
 
+      // A checkbox does not react to Enter by itself, so we click it.
+      // Then Enter follows the same rules as Space and a mouse click,
+      // e.g. readOnly and preventDefault in onClick.
+      // By default, Enter also submits the form. We stop that, so one
+      // key press does not change the checkbox and send the form at once.
       if (!event.defaultPrevented && event.key === 'Enter') {
-        handleChange(event as unknown as CheckboxOnChangeParams['event'])
+        event.preventDefault()
+        event.currentTarget.click()
       }
     },
-    [handleChange, onKeyDown]
+    [onKeyDown]
   )
 
   const showStatus = getStatusState(status)
