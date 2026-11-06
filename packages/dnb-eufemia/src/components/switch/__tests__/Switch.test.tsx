@@ -373,6 +373,33 @@ describe('Switch component', () => {
         expect(input).toHaveAttribute('aria-checked', 'false')
       }
     )
+
+    // One key press must not change the switch and send the form at once.
+    // Enter never submits the form, also when the switch does not change.
+    it.each([{ readOnly: false }, { readOnly: true }])(
+      'should not submit the form on Enter when readOnly is $readOnly',
+      async ({ readOnly }) => {
+        const onSubmit = vi.fn((event) => event.preventDefault())
+        const onChange = vi.fn()
+        render(
+          <form onSubmit={onSubmit}>
+            <Switch readOnly={readOnly} onChange={onChange} />
+            <button type="submit">Submit</button>
+          </form>
+        )
+
+        const input = document.querySelector('input')
+        input.focus()
+        await userEvent.keyboard('{Enter}')
+
+        expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+        expect(onSubmit).not.toHaveBeenCalled()
+
+        // Control: the form can be submitted
+        await userEvent.click(document.querySelector('button'))
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      }
+    )
   })
 
   it('should call onKeyDown given as a property', () => {
