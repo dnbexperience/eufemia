@@ -1,0 +1,26 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/Confirmation/properties
+  - /web/extensions/ai/Confirmation/properties
+  - /uilib/extensions/ai/Confirmation/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ChatConfirmationProperties } from '@dnb/eufemia/src/extensions/chat/ChatDocs'
+
+## Properties
+
+<PropertiesTable props={ChatConfirmationProperties} />
+
+## Translations
+
+| Key                     | Purpose                                  |
+| ----------------------- | ---------------------------------------- |
+| `confirmationYes`       | Default confirm button label.            |
+| `confirmationNo`        | Default decline button label.            |
+| `confirmationPending`   | Accessible label for a pending decision. |
+| `confirmationRequired`  | Required status label.                   |
+| `confirmationConfirmed` | Confirmed status label.                  |
+| `confirmationDeclined`  | Declined status label.                   |
+| `confirmationExpired`   | Expired status label.                    |

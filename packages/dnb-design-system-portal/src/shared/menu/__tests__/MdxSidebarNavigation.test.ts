@@ -629,7 +629,7 @@ describe('MDX-defined Portal navigation', () => {
     expect(patterns.subheadings.map(({ title }) => title)).toEqual([
       'Using patterns and extensions',
       'Sidebar menu',
-      'AI components',
+      'Chat components',
       'Payment card',
       'Vipps wallet button',
       'Table of contents',
