@@ -37,7 +37,7 @@ type AmountOwnProps = Omit<
    */
   mainSize?: TypographySize
   /**
-   * Typography weight for the main content. Defaults to `medium`.
+   * Typography weight for the main content. When omitted, sizes above `basis` use the theme heading weight (`medium` in the DNB theme).
    */
   mainWeight?: TypographyWeight
   /**
@@ -45,7 +45,7 @@ type AmountOwnProps = Omit<
    */
   auxiliarySize?: TypographySize
   /**
-   * Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, `medium` is used.
+   * Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, the default weight of the main content is used.
    */
   auxiliaryWeight?: TypographyWeight
   /**
@@ -174,32 +174,42 @@ function AmountBase(props: AmountProps) {
   const resolvedAuxiliaryLineHeight = getHeadingLineHeightSize(
     resolvedAuxiliarySize
   )
-  const resolvedMainWeight = mainWeight ?? defaultMainWeight ?? 'medium'
+  // Like headings, basis and smaller sizes keep the body font
+  const useHeadingFont =
+    !useBasisSize &&
+    !['basis', 'small', 'x-small'].includes(resolvedMainSize)
+  const defaultWeight = useHeadingFont ? 'heading' : 'medium'
+  const resolvedMainWeight =
+    mainWeight ?? defaultMainWeight ?? defaultWeight
   const resolvedAuxWeight =
     auxiliaryWeight ??
     (typeof mainWeight === 'undefined' &&
     resolvedMainSize === resolvedAuxiliarySize
-      ? 'medium'
+      ? defaultWeight
       : null)
+  const getWeightClass = (weight: TypographyWeight | 'heading') =>
+    weight === 'heading'
+      ? 'dnb-stat__heading-weight'
+      : weight && `dnb-t__weight--${weight}`
   const numericValue = Number(rawValue)
 
   const currencyClass = clsx(
     'dnb-stat__currency',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
+    getWeightClass(resolvedAuxWeight)
   )
   const amountClass = clsx(
     'dnb-stat__amount',
     `dnb-t__size--${resolvedMainSize}`,
     `dnb-t__line-height--${resolvedMainLineHeight}`,
-    `dnb-t__weight--${resolvedMainWeight}`
+    getWeightClass(resolvedMainWeight)
   )
   const percentClass = clsx(
     'dnb-stat__percent',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
+    getWeightClass(resolvedAuxWeight)
   )
 
   let content = (
@@ -211,7 +221,7 @@ function AmountBase(props: AmountProps) {
               'dnb-stat__sign',
               `dnb-t__size--${resolvedMainSize}`,
               `dnb-t__line-height--${resolvedMainLineHeight}`,
-              `dnb-t__weight--${resolvedMainWeight}`
+              getWeightClass(resolvedMainWeight)
             )}
           >
             {renderSign}
@@ -258,7 +268,7 @@ function AmountBase(props: AmountProps) {
         'dnb-stat__prefix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
+        getWeightClass(resolvedAuxWeight)
       )
     )
     content = (
@@ -278,7 +288,7 @@ function AmountBase(props: AmountProps) {
         'dnb-stat__suffix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
+        getWeightClass(resolvedAuxWeight)
       )
     )
     const suffixSpace = suffixStartsWithSlash ? '' : '\u00A0'
@@ -308,7 +318,13 @@ function AmountBase(props: AmountProps) {
       skeleton={skeleton}
       textClassName={false}
     >
-      <span className="dnb-stat__content" aria-hidden>
+      <span
+        className={clsx(
+          'dnb-stat__content',
+          useHeadingFont && 'dnb-stat__content--heading'
+        )}
+        aria-hidden
+      >
         {content}
       </span>
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}

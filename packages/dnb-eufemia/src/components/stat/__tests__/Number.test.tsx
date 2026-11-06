@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
 import {
   axeComponent,
+  loadScss,
   spyOnEufemiaWarn,
 } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
@@ -173,12 +174,35 @@ describe('Stat.Number', () => {
     expect(amount.classList).toContain('dnb-t__line-height--large')
   })
 
-  it('defaults to medium weight', () => {
+  it('defaults to the theme heading weight', () => {
+    render(<Stat.Number value={1234} signDisplay="always" />)
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const sign = document.querySelector('.dnb-stat__sign')
+
+    expect(amount.classList).toContain('dnb-stat__heading-weight')
+    expect(amount.classList).not.toContain('dnb-t__weight--medium')
+    expect(sign.classList).toContain('dnb-stat__heading-weight')
+  })
+
+  it('uses the heading font for the value, as headings do', () => {
     render(<Stat.Number value={1234} />)
+
+    expect(
+      document.querySelector('.dnb-stat__content').classList
+    ).toContain('dnb-stat__content--heading')
+  })
+
+  it('keeps the body font and medium weight at basis size and below', () => {
+    render(<Stat.Number value={1234} fontSize="basis" />)
 
     const amount = document.querySelector('.dnb-stat__amount')
 
+    expect(
+      document.querySelector('.dnb-stat__content').classList
+    ).not.toContain('dnb-stat__content--heading')
     expect(amount.classList).toContain('dnb-t__weight--medium')
+    expect(amount.classList).not.toContain('dnb-stat__heading-weight')
   })
 
   it('supports custom mainWeight', () => {
@@ -214,7 +238,7 @@ describe('Stat.Number', () => {
     expect(prefix.classList).toContain('dnb-t__weight--bold')
   })
 
-  it('uses medium auxiliaryWeight when main and auxiliary sizes are equal and mainWeight is omitted', () => {
+  it('uses the heading auxiliaryWeight when main and auxiliary sizes are equal and mainWeight is omitted', () => {
     render(
       <Stat.Number
         value={12345.67}
@@ -226,7 +250,7 @@ describe('Stat.Number', () => {
 
     const currency = document.querySelector('.dnb-stat__currency')
 
-    expect(currency.classList).toContain('dnb-t__weight--medium')
+    expect(currency.classList).toContain('dnb-stat__heading-weight')
   })
 
   it('does not force medium auxiliaryWeight when mainWeight is set', () => {
@@ -243,6 +267,7 @@ describe('Stat.Number', () => {
     const currency = document.querySelector('.dnb-stat__currency')
 
     expect(currency.classList).not.toContain('dnb-t__weight--medium')
+    expect(currency.classList).not.toContain('dnb-stat__heading-weight')
   })
 
   it('uses basis size by default when rendered inside Stat.Trend', () => {
@@ -316,6 +341,9 @@ describe('Stat.Number', () => {
 
     expect(amount.classList).toContain('dnb-t__weight--medium')
     expect(amount.classList).not.toContain('dnb-t__weight--regular')
+    expect(
+      document.querySelector('.dnb-stat__content').classList
+    ).not.toContain('dnb-stat__content--heading')
   })
 
   it('supports signDisplay and renders plus for positive values', () => {
@@ -610,5 +638,18 @@ describe('Stat.Number', () => {
     expect(element.getAttribute('decimals')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
     expect(element.getAttribute('colorizeBySign')).toBeNull()
+  })
+})
+
+describe('Stat.Number scss', () => {
+  it('gives the value the theme heading font and weight', () => {
+    const css = loadScss(require.resolve('../style/dnb-stat.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-stat__content--heading \.dnb-stat__sign,\s*\.dnb-stat__content--heading \.dnb-stat__amount,\s*\.dnb-stat__content--heading \.dnb-stat__currency,\s*\.dnb-stat__content--heading \.dnb-stat__percent \{\s*font-family: var\(--font-family-heading\);\s*\}/
+    )
+    expect(css).toMatch(
+      /\.dnb-stat__heading-weight \{\s*font-weight: var\(--typography-h-large-weight\);\s*\}/
+    )
   })
 })
