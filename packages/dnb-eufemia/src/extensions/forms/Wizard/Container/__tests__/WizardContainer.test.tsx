@@ -1674,19 +1674,15 @@ describe('Wizard.Container', () => {
     })
 
     it.each([
-      {
-        difference: 'title',
-        firstStep: { title: 'Step 1' },
-        secondStep: { title: 'Step 2' },
-      },
-      {
-        difference: 'id',
-        firstStep: { title: 'Step', id: 'step-1' },
-        secondStep: { title: 'Step', id: 'step-2' },
-      },
+      ['title', { title: 'Step 1' }, { title: 'Step 2' }],
+      [
+        'id',
+        { title: 'Step', id: 'step-1' },
+        { title: 'Step', id: 'step-2' },
+      ],
     ])(
-      'should animate when the active step gets replaced by a step with another $difference',
-      async ({ firstStep, secondStep }) => {
+      'should animate when the active step gets replaced by a step with another %s',
+      async (difference, firstStep, secondStep) => {
         render(
           <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
             <Field.Selection path="/enabledStep" variant="button">
