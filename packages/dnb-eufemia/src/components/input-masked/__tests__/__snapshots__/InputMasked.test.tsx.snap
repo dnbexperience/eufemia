@@ -1151,7 +1151,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--size-large {
   --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
+  --button-padding-icon: 1.25rem;
   width: var(--button-width--large);
 }
 .dnb-button--has-text.dnb-button--size-large {
