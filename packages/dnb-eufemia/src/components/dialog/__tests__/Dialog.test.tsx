@@ -1244,19 +1244,6 @@ describe('Dialog triggerProps', () => {
 })
 
 describe('Dialog scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('uses the basis paragraph text for the confirmation description', () => {
-    const css = loadScss(require.resolve('../style/dnb-dialog.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-dialog--confirmation \.dnb-dialog__description \{\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);/
-    )
-  })
-
   it('uses 2rem between the close button and the heading in information dialogs, and 1rem on small screens', () => {
     const css = loadScss(require.resolve('../style/dnb-dialog.scss'))
 
@@ -1268,6 +1255,19 @@ describe('Dialog scss', () => {
     )
     expect(css).toMatch(
       /@media screen and \(max-width: 40em\) \{\s*\.dnb-dialog--spacing\.dnb-dialog--information \.dnb-dialog__navigation\.dnb-section:has\(> \.dnb-modal__header__bar__close\) \{\s*margin-bottom: calc\(var\(--dialog-spacing\) \/ 2\);/
+    )
+  })
+
+  it('should match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
+  })
+
+  it('uses the basis paragraph text for the confirmation description', () => {
+    const css = loadScss(require.resolve('../style/dnb-dialog.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-dialog--confirmation \.dnb-dialog__description \{\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);/
     )
   })
 })
