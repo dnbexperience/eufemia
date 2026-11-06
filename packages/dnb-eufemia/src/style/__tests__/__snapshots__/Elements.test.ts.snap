@@ -45,7 +45,7 @@ exports[`Elements scss > has to match style dependencies css 1`] = `
   padding: 1.5rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
-  border-radius: var(--token-radius-lg);
+  border-radius: var(--token-radius-xl);
   color: var(--token-color-text-action-ondark);
   background-color: var(--token-color-decorative-first-intense-static);
   position: relative;
@@ -88,7 +88,7 @@ exports[`Elements scss > has to match style dependencies css 1`] = `
   display: block;
   margin-top: 1rem;
   font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-basis);
+  line-height: var(--line-height-small);
   font-style: var(--blockquote-cite-style);
 }
 .dnb-blockquote .dnb-cite::before,
