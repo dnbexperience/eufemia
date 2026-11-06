@@ -627,6 +627,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border__indeterminate);
+  --checkbox-border-width--default: 0.09375rem;
   background-color: var(--checkbox-color-background__indeterminate);
 }
 .dnb-checkbox__input:indeterminate:hover ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__gfx {
@@ -672,6 +673,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   --checkbox-color-border: var(
     --checkbox-color-border__indeterminate--disabled
   );
+  --checkbox-border-width--default: 0.0625rem;
   background-color: var(--checkbox-color-background__indeterminate--disabled);
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__gfx {
@@ -727,6 +729,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border--error);
+  --checkbox-border-width--default: 0.0625rem;
   background-color: var(--checkbox-color-background-off--error);
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:indeterminate) ~ .dnb-checkbox__gfx {
