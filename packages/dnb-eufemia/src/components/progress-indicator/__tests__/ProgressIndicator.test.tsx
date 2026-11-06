@@ -555,8 +555,8 @@ describe('ProgressIndicator scss', () => {
   })
 
   it('keeps 1rem between the bar and the horizontal label of the linear type at size small', () => {
-    const css = loadScss(
-      require.resolve('../style/dnb-progress-indicator.scss')
+    const css = String(
+      loadScss(require.resolve('../style/dnb-progress-indicator.scss'))
     )
 
     const circularSmall = css.search(
