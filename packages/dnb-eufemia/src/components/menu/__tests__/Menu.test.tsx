@@ -602,7 +602,10 @@ describe('Menu scss', () => {
     const css = loadScss(require.resolve('../style/dnb-menu.scss'))
 
     expect(css).toMatch(
-      /\.dnb-menu__accordion \.dnb-menu__list \{\s*display: flex;\s*flex-direction: column;\s*gap: 0\.25rem;\s*padding-top: 0\.25rem;\s*padding-inline-start: var\(--menu-action-padding-inline\);\s*\}/
+      /\.dnb-menu__accordion \.dnb-menu__list \{\s*display: flex;\s*flex-direction: column;\s*gap: 0\.25rem;\s*padding-inline-start: var\(--menu-action-padding-inline\);\s*\}/
+    )
+    expect(css).toMatch(
+      /\.dnb-menu__accordion > \.dnb-height-animation > \.dnb-menu__list \{\s*padding-top: 0\.25rem;\s*\}/
     )
   })
 })

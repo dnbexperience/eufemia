@@ -223,8 +223,12 @@
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
-      padding-top: 0.25rem;
       padding-inline-start: var(--menu-action-padding-inline);
+    }
+
+    // Only the accordion's own list, not sub-menus rendered inside it
+    > .dnb-height-animation > .dnb-menu__list {
+      padding-top: 0.25rem;
     }
   }
 }
