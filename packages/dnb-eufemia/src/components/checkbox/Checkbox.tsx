@@ -102,7 +102,7 @@ export type CheckboxProps = {
    */
   onChange?: (args: CheckboxOnChangeParams) => void
   /**
-   * Will be called on click.
+   * Will be called on click, and when the user presses Space or Enter. Call `preventDefault()` to keep the checkbox from changing.
    */
   onClick?: (args: CheckboxOnClickParams) => void
   /**
@@ -234,8 +234,13 @@ function Checkbox(localProps: CheckboxProps) {
 
         if (event.target['checked'] !== isCheckedRef.current) {
           preventChangeRef.current = true
-          isCheckedRef.current = !isCheckedRef.current
-          forceUpdate()
+
+          // Keep the saved value intact while native and React restoration run.
+          queueMicrotask(() => {
+            if (internalRef.current) {
+              internalRef.current.checked = isCheckedRef.current
+            }
+          })
         }
       }
 
@@ -257,12 +262,14 @@ function Checkbox(localProps: CheckboxProps) {
     (event: KeyboardEvent<HTMLInputElement>) => {
       onKeyDown?.(event)
 
-      // Enter does not go through onClickHandler, so check readOnly here too
-      if (!event.defaultPrevented && event.key === 'Enter' && !readOnly) {
-        handleChange(event as unknown as CheckboxOnChangeParams['event'])
+      // A checkbox does not react to Enter by itself, so we click it.
+      // Then Enter follows the same rules as Space and a mouse click,
+      // e.g. readOnly and preventDefault in onClick.
+      if (!event.defaultPrevented && event.key === 'Enter') {
+        event.currentTarget.click()
       }
     },
-    [handleChange, onKeyDown, readOnly]
+    [onKeyDown]
   )
 
   const showStatus = getStatusState(status)
