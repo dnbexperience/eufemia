@@ -1920,7 +1920,10 @@ describe('DrawerList portal', () => {
       const rect = vi.spyOn(root, 'getBoundingClientRect')
       rect.mockReturnValue({ width: 280, top: 40, left: 120 } as DOMRect)
       act(() =>
-        onResize([{ target: root }] as ResizeObserverEntry[], null)
+        onResize(
+          [{ target: root }] as unknown as ResizeObserverEntry[],
+          null
+        )
       )
       expect(portal.style.width).toBe('280px')
       expect(portal.style.left).toBe('120px')
@@ -1928,7 +1931,9 @@ describe('DrawerList portal', () => {
       rect.mockReturnValue({ width: 160, top: 40, left: 240 } as DOMRect)
       act(() =>
         onResize(
-          [{ target: root.parentElement }] as ResizeObserverEntry[],
+          [
+            { target: root.parentElement },
+          ] as unknown as ResizeObserverEntry[],
           null
         )
       )

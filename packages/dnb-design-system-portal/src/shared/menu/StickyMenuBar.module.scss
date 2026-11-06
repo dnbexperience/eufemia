@@ -215,16 +215,14 @@
     }
 
     &:focus-within,
-    &:global(.dnb-autocomplete--open),
-    &:has(:global(.dnb-input[data-input-state='focus'])),
+    &:has(:global(input[aria-expanded='true'])),
     &:has(:global(.dnb-input[data-has-content='true'])) {
       width: min(40vw, 17.5rem);
     }
 
     @include utilities.allBelow(small) {
       &:focus-within,
-      &:global(.dnb-autocomplete--open),
-      &:has(:global(.dnb-input[data-input-state='focus'])),
+      &:has(:global(input[aria-expanded='true'])),
       &:has(:global(.dnb-input[data-has-content='true'])) {
         width: min(38vw, 17.5rem);
       }
