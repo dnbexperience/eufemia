@@ -100,6 +100,15 @@
     @include utilities.allBelow(medium) {
       margin-top: calc(var(--dialog-spacing) / 2); // 1rem (16px)
     }
+
+    // hideCloseButton still renders an empty navigation
+    &:has(> .dnb-modal__header__bar__close) {
+      margin-bottom: calc(var(--dialog-spacing)); // 2rem (32px)
+
+      @include utilities.allBelow(small) {
+        margin-bottom: calc(var(--dialog-spacing) / 2); // 1rem (16px)
+      }
+    }
   }
 
   &--spacing#{&}--confirmation &__inner {

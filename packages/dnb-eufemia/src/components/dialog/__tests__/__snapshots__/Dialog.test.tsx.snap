@@ -1612,6 +1612,14 @@ html[data-dnb-modal-active] .eufemia-portal-root {
     margin-top: calc(var(--dialog-spacing) / 2);
   }
 }
+.dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section:has(> .dnb-modal__header__bar__close) {
+  margin-bottom: calc(var(--dialog-spacing));
+}
+@media screen and (max-width: 40em) {
+  .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section:has(> .dnb-modal__header__bar__close) {
+    margin-bottom: calc(var(--dialog-spacing) / 2);
+  }
+}
 .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
   padding: calc(var(--dialog-spacing));
 }
