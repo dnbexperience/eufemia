@@ -597,4 +597,12 @@ describe('Menu scss', () => {
       /\.dnb-menu \.dnb-menu\.dnb-popover \{\s*box-shadow: var\(--shadow-default\);\s*\}/
     )
   })
+
+  it('puts 4px between an open accordion trigger and its first child, and none after the last child', () => {
+    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-menu__accordion \.dnb-menu__list \{\s*display: flex;\s*flex-direction: column;\s*gap: 0\.25rem;\s*padding-top: 0\.25rem;\s*padding-inline-start: var\(--menu-action-padding-inline\);\s*\}/
+    )
+  })
 })
