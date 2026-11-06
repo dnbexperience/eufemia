@@ -5,7 +5,10 @@ export default defineConfig({
   timeout: 30_000,
   globalTimeout: 1_500_000,
   retries: 3,
-  reporter: 'list',
+  reporter: [
+    ['list'],
+    ['json', { outputFile: 'test-results/e2e-results.json' }],
+  ],
   testDir: './src/e2e',
   projects: [
     { name: 'firefox' },
