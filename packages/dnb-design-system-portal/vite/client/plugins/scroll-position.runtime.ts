@@ -34,7 +34,7 @@ export function restoreScrollPosition({
       if (storedWindowScroll) {
         window.scrollTo({
           top: storedWindowScroll,
-          behavior: smooth ? 'smooth' : 'auto',
+          behavior: smooth ? 'smooth' : 'instant',
         })
       }
     }

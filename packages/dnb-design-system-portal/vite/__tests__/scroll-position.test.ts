@@ -55,7 +55,7 @@ describe('restoreScrollPosition', () => {
 
     expect(scrollToSpy).toHaveBeenCalledWith({
       top: 300,
-      behavior: 'auto',
+      behavior: 'instant',
     })
   })
 
