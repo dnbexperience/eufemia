@@ -461,11 +461,14 @@
   }
 
   // Only real inputs, as segmented fields use this class on their sections
-  &--has-submit-element:not(#{&}--small, #{&}--has-clear-button) {
-    .dnb-input__placeholder,
+  &--has-submit-element:not(#{&}--small, #{&}--has-clear-button)
     input.dnb-input__input {
-      padding-right: calc(var(--input-submit-button-width) + 1rem);
-    }
+    padding-right: calc(var(--input-submit-button-width) + 1rem);
+  }
+
+  // The clear button is hidden while the placeholder shows
+  &--has-submit-element:not(#{&}--small) &__placeholder {
+    padding-right: calc(var(--input-submit-button-width) + 1rem);
   }
 
   &__align--center &__placeholder,

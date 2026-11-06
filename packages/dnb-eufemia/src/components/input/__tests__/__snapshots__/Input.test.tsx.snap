@@ -1659,8 +1659,10 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input--clear.dnb-input__submit-element {
   margin-left: -2.25rem;
 }
-.dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) .dnb-input__placeholder,
 .dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) input.dnb-input__input {
+  padding-right: calc(var(--input-submit-button-width) + 1rem);
+}
+.dnb-input--has-submit-element:not(.dnb-input--small) .dnb-input__placeholder {
   padding-right: calc(var(--input-submit-button-width) + 1rem);
 }
 .dnb-input__align--center .dnb-input__placeholder, .dnb-input__align--center .dnb-input__input {

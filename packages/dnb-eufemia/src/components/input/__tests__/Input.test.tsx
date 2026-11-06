@@ -1523,6 +1523,9 @@ describe('Input scss', () => {
     expect(css).toContain(
       '.dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) input.dnb-input__input {\n  padding-right: calc(var(--input-submit-button-width) + 1rem);\n}'
     )
+    expect(css).toContain(
+      '.dnb-input--has-submit-element:not(.dnb-input--small) .dnb-input__placeholder {\n  padding-right: calc(var(--input-submit-button-width) + 1rem);\n}'
+    )
   })
 
   it('has to match style dependencies css', () => {

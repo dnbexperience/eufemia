@@ -1663,8 +1663,10 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input--clear.dnb-input__submit-element {
   margin-left: -2.25rem;
 }
-.dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) .dnb-input__placeholder,
 .dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) input.dnb-input__input {
+  padding-right: calc(var(--input-submit-button-width) + 1rem);
+}
+.dnb-input--has-submit-element:not(.dnb-input--small) .dnb-input__placeholder {
   padding-right: calc(var(--input-submit-button-width) + 1rem);
 }
 .dnb-input__align--center .dnb-input__placeholder, .dnb-input__align--center .dnb-input__input {
@@ -2558,7 +2560,7 @@ html[data-visual-test] .dnb-progress-indicator {
   margin: 0;
 }
 .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__inner__element {
-  margin-right: 2.5rem !important;
+  margin-right: calc(var(--input-submit-button-width) + 0.5rem) !important;
 }
 .dnb-autocomplete--icon-position-right .dnb-input__inner__element.dnb-p {
   padding-right: 3rem;
@@ -2805,7 +2807,7 @@ exports[`Autocomplete scss > have to match default theme snapshot 1`] = `
   margin: 0;
 }
 .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__inner__element {
-  margin-right: 2.5rem !important;
+  margin-right: calc(var(--input-submit-button-width) + 0.5rem) !important;
 }
 .dnb-autocomplete--icon-position-right .dnb-input__inner__element.dnb-p {
   padding-right: 3rem;
