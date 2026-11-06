@@ -103,7 +103,7 @@
     width: 100%;
     gap: 1rem;
 
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     padding: 1rem;
 
     border-radius: var(--token-radius-xl);
@@ -123,7 +123,12 @@
 
   &__panel-actions {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
+    padding-block: 0.5rem;
+  }
+
+  &__panel-close {
+    margin-block: 0.5rem;
   }
 
   &__panel-content {
