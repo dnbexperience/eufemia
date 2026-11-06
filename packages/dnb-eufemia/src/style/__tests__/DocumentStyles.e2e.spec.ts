@@ -5,8 +5,15 @@ import { test, expect, type Page } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
 
 const styleRoot = path.resolve(__dirname, '..')
-const compile = (file: string) =>
-  sass.compile(path.join(styleRoot, file)).css
+const compiledStyles = new Map<string, string>()
+const compile = (file: string) => {
+  const filePath = path.resolve(styleRoot, file)
+  if (!compiledStyles.has(filePath)) {
+    compiledStyles.set(filePath, sass.compile(filePath).css)
+  }
+
+  return compiledStyles.get(filePath)
+}
 
 test.describe('Document and print styles', () => {
   let page: Page
