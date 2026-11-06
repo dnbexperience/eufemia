@@ -3,7 +3,7 @@
  *
  */
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { clsx } from 'clsx'
 import { allMdxNodes } from 'virtual:portal-data'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
@@ -43,6 +43,13 @@ export default function SidebarLayout({
   onWidthChange,
 }: SidebarLayoutProps) {
   const { close: closeMenu } = SidebarMenu.useResponsive()
+  const [hasScrolled, setHasScrolled] = useState(false)
+  const updateHasScrolled = useCallback(
+    (element: HTMLDivElement | null) => {
+      setHasScrolled((element?.scrollTop ?? 0) > 0)
+    },
+    []
+  )
 
   useEffect(() => {
     setPageFocusElement(
@@ -147,6 +154,10 @@ export default function SidebarLayout({
         resizeHandleProps={{ minWidth: 240, maxWidth: 560 }}
         onWidthChange={onWidthChange}
         scrollViewProps={{
+          ref: updateHasScrolled,
+          onScroll: (event) => {
+            updateHasScrolled(event.currentTarget)
+          },
           className: clsx(
             'portal-sidebar-scroll-view',
             'dnb-scrollbar-appearance'
@@ -154,13 +165,14 @@ export default function SidebarLayout({
         }}
         contentProps={{ className: scrollContentStyle }}
       >
-        <Link
-          href="/"
-          className={clsx(sidebarLogoStyle, 'dnb-tab-focus')}
-          title="Go to Eufemia home"
+        <div
+          className={sidebarLogoStyle}
+          data-scrolled={hasScrolled || undefined}
         >
-          <PortalLogo />
-        </Link>
+          <Link href="/" title="Go to Eufemia home">
+            <PortalLogo />
+          </Link>
+        </div>
         {menu(true)}
       </SidebarMenu.ResponsiveAside>
       <SidebarMenu.PreHydrationScript />

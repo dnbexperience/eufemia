@@ -60,13 +60,7 @@ test('restores sidebar scroll before the rest of a streamed page arrives', async
     await expect
       .poll(() => view.evaluate((element) => element.scrollTop))
       .toBe(900)
-    await expect
-      .poll(() =>
-        view
-          .locator('[title="Go to Eufemia home"]')
-          .evaluate((element) => element.getBoundingClientRect().bottom)
-      )
-      .toBeLessThan(0)
+    await expect(view.getByTitle('Go to Eufemia home')).toBeInViewport()
     await expect(page.locator('main')).toHaveCount(0)
     finishResponse()
     await waitForApp(page)
