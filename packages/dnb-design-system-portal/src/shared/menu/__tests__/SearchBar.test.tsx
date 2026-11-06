@@ -152,6 +152,28 @@ describe('SearchBar', () => {
 })
 
 describe('SearchBarInput', () => {
+  it('keeps results attached to an expanding header search', async () => {
+    search.mockResolvedValueOnce({
+      hits: [{ slug: 'web/components/button', title: 'Button' }],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput skipPortal />
+      </MemoryRouter>
+    )
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'button' } })
+
+    await waitFor(() =>
+      expect(
+        document.querySelector(
+          '.portal-search a[href="/web/components/button"]'
+        )
+      ).not.toBeNull()
+    )
+  })
+
   it('keeps searching when the query callback returns a value', async () => {
     search.mockResolvedValueOnce({
       hits: [
@@ -382,7 +404,7 @@ describe('SearchBarInput', () => {
     platformSpy.mockRestore()
   })
 
-  it('hides the keyboard shortcut hint when the input has a value', () => {
+  it('replaces the keyboard shortcut with the clear button when typing', () => {
     render(<SearchBarInput />)
 
     expect(document.querySelector('kbd')).not.toBeNull()
@@ -393,5 +415,9 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'button' } })
 
     expect(document.querySelector('kbd')).toBeNull()
+
+    fireEvent.click(document.querySelector('#portal-search-clear-button'))
+    expect(input.value).toBe('')
+    expect(document.querySelector('kbd')).not.toBeNull()
   })
 })

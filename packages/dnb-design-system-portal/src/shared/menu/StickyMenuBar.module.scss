@@ -205,4 +205,37 @@
   flex-wrap: nowrap;
   align-items: center;
   min-width: 0;
+
+  :global(.portal-search) {
+    width: min(30vw, 10rem);
+    transition: width 250ms var(--easing-default);
+
+    :global(.dnb-autocomplete__row) {
+      width: 100%;
+    }
+
+    :global(.dnb-drawer-list) {
+      white-space: normal;
+    }
+
+    &:focus-within,
+    &:global(.dnb-autocomplete--open),
+    &:has(:global(.dnb-input[data-input-state='focus'])),
+    &:has(:global(.dnb-input[data-has-content='true'])) {
+      width: min(40vw, 17.5rem);
+    }
+
+    @include utilities.allBelow(small) {
+      &:focus-within,
+      &:global(.dnb-autocomplete--open),
+      &:has(:global(.dnb-input[data-input-state='focus'])),
+      &:has(:global(.dnb-input[data-has-content='true'])) {
+        width: min(38vw, 17.5rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
 }

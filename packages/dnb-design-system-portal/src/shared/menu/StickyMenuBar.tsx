@@ -69,7 +69,7 @@ export default function StickyMenuBar() {
 
         {!home && (
           <span className={toolsStyle}>
-            <SearchBarInput />
+            <SearchBarInput skipPortal />
             <PortalToolsMenu />
           </span>
         )}
