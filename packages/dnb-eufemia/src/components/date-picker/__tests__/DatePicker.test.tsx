@@ -7496,6 +7496,16 @@ describe('DatePicker scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('should indent the first date segment the same in every size', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-date-picker.scss'))
+    )
+
+    expect(css).toMatch(
+      /(^|\n)\.dnb-date-picker \.dnb-segmented-field__fieldset:first-of-type \.dnb-input__input\.dnb-date-picker__input:first-of-type \{\s*margin-left: 0\.5rem;/
+    )
+  })
 })
 
 describe('Custom text for buttons', () => {
