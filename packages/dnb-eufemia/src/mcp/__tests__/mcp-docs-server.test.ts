@@ -959,6 +959,51 @@ describe('component_props', () => {
   )
 })
 
+describe('multi-word component names', () => {
+  const props = [{ props: { date: { type: 'string' } } }]
+  let docsRoot: string
+  let cleanup: () => void
+
+  beforeAll(() => {
+    const fixture = createDocsFixture()
+    docsRoot = fixture.docsRoot
+    cleanup = fixture.cleanup
+    fs.writeFileSync(
+      path.join(docsRoot, 'uilib', 'components', 'date-picker.md'),
+      ['# DatePicker', '```json', JSON.stringify(props[0]), '```'].join(
+        '\n'
+      )
+    )
+  })
+
+  afterAll(() => cleanup())
+
+  it.each(['DatePicker', 'datepicker', 'Date-Picker', 'date-picker'])(
+    'component_find resolves %s to the hyphenated doc',
+    async (name) => {
+      const tools = createDocsTools({ docsRoot })
+      const info = JSON.parse(getText(await tools.componentFind({ name })))
+      expect(info.doc).toBe('/uilib/components/date-picker.md')
+      expect(info.docExists).toBe(true)
+    }
+  )
+
+  it('returns the doc, props and API of a PascalCase name', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const name = 'DatePicker'
+
+    expect(getText(await tools.componentDoc({ name }))).toContain(
+      '# DatePicker'
+    )
+    expect(
+      JSON.parse(getText(await tools.componentProps({ name })))
+    ).toEqual(props)
+    expect(
+      JSON.parse(getText(await tools.componentApi({ name }))).jsonBlocks
+    ).toEqual(props)
+  })
+})
+
 describe('createUsageResolver', () => {
   let resolver: UsageResolver
   let cleanup: () => void
