@@ -686,6 +686,15 @@ describe('NumberFormat component', () => {
     expect(anchor.getAttribute('href')).toBe('tel:+47123451234')
   })
 
+  it('should give the phone link an accessible name', async () => {
+    const { container } = render(
+      <NumberFormat.PhoneNumber link value="99999999" />
+    )
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toHaveAttribute('aria-label', '99 99 99 99')
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
   it('have to match bank account number', () => {
     const { rerender } = render(
       <NumberFormat.BankAccountNumber>
