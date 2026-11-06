@@ -234,8 +234,13 @@ function Checkbox(localProps: CheckboxProps) {
 
         if (event.target['checked'] !== isCheckedRef.current) {
           preventChangeRef.current = true
-          isCheckedRef.current = !isCheckedRef.current
-          forceUpdate()
+
+          // Keep the saved value intact while native and React restoration run.
+          queueMicrotask(() => {
+            if (internalRef.current) {
+              internalRef.current.checked = isCheckedRef.current
+            }
+          })
         }
       }
 

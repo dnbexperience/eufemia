@@ -273,6 +273,273 @@ describe('Checkbox component', () => {
     expect(onChange).toHaveBeenCalledWith(true)
   })
 
+  describe.each([
+    { initialChecked: false, nextChecked: true },
+    { initialChecked: true, nextChecked: false },
+  ])(
+    'canceled changes with checked=$initialChecked',
+    ({ initialChecked, nextChecked }) => {
+      it.each([
+        { mode: 'onClick', activation: 'label' },
+        { mode: 'onClick', activation: 'input' },
+        { mode: 'onClick', activation: 'Space' },
+        { mode: 'readOnly', activation: 'label' },
+        { mode: 'readOnly', activation: 'input' },
+        { mode: 'readOnly', activation: 'Space' },
+      ] as const)(
+        'keeps the state through a render and the next allowed activation after $mode blocks $activation',
+        async ({ mode, activation }) => {
+          const onChange = vi.fn()
+
+          function Controlled({ blocked }: { blocked: boolean }) {
+            const [checked, setChecked] = useState(initialChecked)
+
+            return (
+              <>
+                <Checkbox
+                  label="Consent"
+                  checked={checked}
+                  readOnly={mode === 'readOnly' && blocked}
+                  onClick={({ preventDefault }) => {
+                    if (mode === 'onClick' && blocked) {
+                      preventDefault()
+                    }
+                  }}
+                  onChange={({ checked }) => {
+                    onChange(checked)
+                    setChecked(checked)
+                  }}
+                />
+                <output>{String(checked)}</output>
+              </>
+            )
+          }
+
+          const { rerender } = render(<Controlled blocked />)
+          const input = document.querySelector('input')
+          const label = document.querySelector('label')
+          const output = document.querySelector('output')
+          const activate = async () => {
+            if (activation === 'Space') {
+              input.focus()
+              await userEvent.keyboard(' ')
+            } else {
+              await userEvent.click(activation === 'label' ? label : input)
+            }
+          }
+
+          expect(input.checked).toBe(initialChecked)
+          expect(output).toHaveTextContent(String(initialChecked))
+
+          await activate()
+          expect(input.checked).toBe(initialChecked)
+          expect(output).toHaveTextContent(String(initialChecked))
+          expect(onChange).not.toHaveBeenCalled()
+
+          // The canceled value must not reappear when the parent renders.
+          rerender(<Controlled blocked />)
+          expect(input.checked).toBe(initialChecked)
+          expect(output).toHaveTextContent(String(initialChecked))
+          expect(onChange).not.toHaveBeenCalled()
+
+          rerender(<Controlled blocked={false} />)
+          expect(input.checked).toBe(initialChecked)
+          expect(output).toHaveTextContent(String(initialChecked))
+          expect(onChange).not.toHaveBeenCalled()
+
+          await activate()
+          expect(input.checked).toBe(nextChecked)
+          expect(output).toHaveTextContent(String(nextChecked))
+          expect(onChange).toHaveBeenCalledTimes(1)
+          expect(onChange).toHaveBeenLastCalledWith(nextChecked)
+
+          await activate()
+          expect(input.checked).toBe(initialChecked)
+          expect(output).toHaveTextContent(String(initialChecked))
+          expect(onChange).toHaveBeenCalledTimes(2)
+          expect(onChange).toHaveBeenLastCalledWith(initialChecked)
+        }
+      )
+    }
+  )
+
+  it('keeps an uncontrolled value through a canceled click and a render', async () => {
+    let blocked = true
+    const onChange = vi.fn()
+    const onClick: CheckboxProps['onClick'] = ({ preventDefault }) => {
+      if (blocked) {
+        preventDefault()
+      }
+    }
+    const element = (
+      <Checkbox label="Consent" onClick={onClick} onChange={onChange} />
+    )
+    const { rerender } = render(element)
+    const input = document.querySelector('input')
+    const label = document.querySelector('label')
+
+    await userEvent.click(label)
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+
+    rerender(
+      <Checkbox
+        label="Consent again"
+        onClick={onClick}
+        onChange={onChange}
+      />
+    )
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+
+    blocked = false
+    await userEvent.click(label)
+    expect(input.checked).toBe(true)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+  })
+
+  it('accepts an external checked change after a canceled click', async () => {
+    const onClick: CheckboxProps['onClick'] = ({ preventDefault }) =>
+      preventDefault()
+    const onChange = vi.fn()
+    const { rerender } = render(
+      <Checkbox
+        label="Consent"
+        checked={false}
+        onClick={onClick}
+        onChange={onChange}
+      />
+    )
+    const input = document.querySelector('input')
+
+    await userEvent.click(document.querySelector('label'))
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+
+    rerender(
+      <Checkbox
+        label="Consent"
+        checked
+        onClick={onClick}
+        onChange={onChange}
+      />
+    )
+    expect(input.checked).toBe(true)
+    expect(onChange).not.toHaveBeenCalled()
+
+    await userEvent.click(document.querySelector('label'))
+    expect(input.checked).toBe(true)
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('keeps native click cancellation and indeterminate state', async () => {
+    const onChange = vi.fn()
+    const onInput = vi.fn()
+    const onClick = vi.fn((event) => {
+      expect(event.defaultPrevented).toBe(true)
+    })
+    render(
+      <Checkbox
+        indeterminate
+        onInput={onInput}
+        onChange={onChange}
+        onClick={({ preventDefault, event }) => {
+          preventDefault()
+          onClick(event)
+        }}
+      />
+    )
+    const input = document.querySelector('input')
+
+    await userEvent.click(input)
+    expect(input.checked).toBe(false)
+    expect(input.indeterminate).toBe(true)
+    expect(onChange).not.toHaveBeenCalled()
+    expect(onInput).not.toHaveBeenCalled()
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('allows Enter after a canceled click', async () => {
+    const onChange = vi.fn()
+    render(
+      <Checkbox
+        onClick={({ preventDefault }) => preventDefault()}
+        onChange={onChange}
+      />
+    )
+    const input = document.querySelector('input')
+
+    await userEvent.click(input)
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+
+    await userEvent.keyboard('{Enter}')
+    expect(input.checked).toBe(true)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+  })
+
+  it('does not restore a Checkbox that unmounted after a canceled click', () => {
+    const onChange = vi.fn()
+    const { unmount } = render(
+      <Checkbox
+        onClick={({ preventDefault }) => preventDefault()}
+        onChange={onChange}
+      />
+    )
+    const input = document.querySelector('input')
+    const queue = vi
+      .spyOn(globalThis, 'queueMicrotask')
+      .mockImplementation(() => {})
+
+    try {
+      fireEvent.click(input)
+      expect(queue).toHaveBeenCalledTimes(1)
+      const restore = queue.mock.calls[0][0]
+
+      unmount()
+      expect(input.isConnected).toBe(false)
+      expect(() => restore()).not.toThrow()
+      expect(onChange).not.toHaveBeenCalled()
+    } finally {
+      queue.mockRestore()
+    }
+  })
+
+  it('restores the latest checked value after a canceled click', () => {
+    const onClick: CheckboxProps['onClick'] = ({ preventDefault }) =>
+      preventDefault()
+    const onChange = vi.fn()
+    const { rerender } = render(
+      <Checkbox checked={false} onClick={onClick} onChange={onChange} />
+    )
+    const input = document.querySelector('input')
+    const queue = vi
+      .spyOn(globalThis, 'queueMicrotask')
+      .mockImplementation(() => {})
+
+    try {
+      fireEvent.click(input)
+      expect(queue).toHaveBeenCalledTimes(1)
+      const restore = queue.mock.calls[0][0]
+
+      rerender(<Checkbox checked onClick={onClick} onChange={onChange} />)
+      expect(input.checked).toBe(true)
+
+      // A queued restore must not replace a newer value from the parent.
+      restore()
+      expect(input.checked).toBe(true)
+      expect(onChange).not.toHaveBeenCalled()
+    } finally {
+      queue.mockRestore()
+    }
+  })
+
   it('has "onChange" event which will trigger on an input change', () => {
     const myEvent = vi.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
