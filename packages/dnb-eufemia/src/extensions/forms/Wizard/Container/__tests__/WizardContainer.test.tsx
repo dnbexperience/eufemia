@@ -1673,53 +1673,67 @@ describe('Wizard.Container', () => {
       expect(document.querySelector('.appear-fx')).toBeNull()
     })
 
-    it('should animate when the active step gets replaced by another step', async () => {
-      render(
-        <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
-          <Field.Selection path="/enabledStep" variant="button">
-            <Field.Option value="group-1" title="1" />
-            <Field.Option value="group-2" title="2" />
-          </Field.Selection>
+    it.each([
+      {
+        difference: 'title',
+        firstStep: { title: 'Step 1' },
+        secondStep: { title: 'Step 2' },
+      },
+      {
+        difference: 'id',
+        firstStep: { title: 'Step', id: 'step-1' },
+        secondStep: { title: 'Step', id: 'step-2' },
+      },
+    ])(
+      'should animate when the active step gets replaced by a step with another $difference',
+      async ({ firstStep, secondStep }) => {
+        render(
+          <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
+            <Field.Selection path="/enabledStep" variant="button">
+              <Field.Option value="group-1" title="1" />
+              <Field.Option value="group-2" title="2" />
+            </Field.Selection>
 
-          <Wizard.Container>
-            <Wizard.Step
-              title="Step 1"
-              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
-            >
-              <output>Step 1</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
+            <Wizard.Container>
+              <Wizard.Step
+                {...firstStep}
+                includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+              >
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
 
-            <Wizard.Step
-              title="Step 2"
-              includeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
-            >
-              <output>Step 2</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
+              <Wizard.Step
+                {...secondStep}
+                includeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+              >
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
 
-            <Wizard.Step
-              title="Step 3"
-              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
-            >
-              <output>Step 3</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-          </Wizard.Container>
-        </Form.Handler>
-      )
+              <Wizard.Step
+                title="Step 3"
+                includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+              >
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
 
-      const [groupOne] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
-      )
+        const [groupOne] = Array.from(
+          document.querySelectorAll('.dnb-toggle-button button')
+        )
 
-      await userEvent.click(groupOne)
+        await userEvent.click(groupOne)
 
-      expect(output()).toHaveTextContent('Step 1')
-      await waitFor(() => {
-        expect(document.querySelector('.appear-fx')).toBeInTheDocument()
-      })
-    })
+        expect(output()).toHaveTextContent('Step 1')
+        await waitFor(() => {
+          expect(document.querySelector('.appear-fx')).toBeInTheDocument()
+        })
+      }
+    )
   })
 
   describe('async step change', () => {

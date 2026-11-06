@@ -784,7 +784,7 @@ function WizardContainer(props: WizardContainerProps) {
     return count !== 0 && previousCount !== 0 && count !== previousCount
   }, [])
 
-  // - Step list changed (e.g. via includeWhen): call onStepChange, and animate only if another step became active
+  // - Step list changed (e.g. via includeWhen): animate only when another step became active
   useLayoutEffect(() => {
     if (stepsLengthDidChange()) {
       callOnStepChange(activeIndexRef.current, 'stepListModified')
