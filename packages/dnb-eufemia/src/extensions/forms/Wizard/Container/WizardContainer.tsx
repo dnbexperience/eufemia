@@ -393,11 +393,21 @@ function WizardContainer(props: WizardContainerProps) {
   const { setFocus, scrollToTop, isInteractionRef } =
     useHandleLayoutEffect({ elementRef, stepElementRef })
 
+  const stepsLengthDidChange = useCallback(() => {
+    const previousCount = previousTotalStepsRef.current
+    if (previousCount === undefined) {
+      return false
+    }
+    const count = totalStepsRef.current
+    return count !== 0 && previousCount !== 0 && count !== previousCount
+  }, [])
+
   const executeLayoutAnimationRef = useRef<() => void>(undefined)
   useStepAnimation({
     activeIndexRef,
     stepElementRef,
     executeLayoutAnimationRef,
+    stepsLengthDidChange,
   })
 
   const handleLayoutEffect = useCallback(() => {
@@ -775,15 +785,6 @@ function WizardContainer(props: WizardContainerProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepsRef.current])
 
-  const stepsLengthDidChange = useCallback(() => {
-    const previousCount = previousTotalStepsRef.current
-    if (previousCount === undefined) {
-      return false
-    }
-    const count = totalStepsRef.current
-    return count !== 0 && previousCount !== 0 && count !== previousCount
-  }, [])
-
   // - Step list changed (e.g. via includeWhen): animate only when another step became active
   useLayoutEffect(() => {
     if (stepsLengthDidChange()) {
@@ -793,6 +794,8 @@ function WizardContainer(props: WizardContainerProps) {
       const previousActiveStep = previousActiveStepRef.current
       if (
         activeStep?.id !== previousActiveStep?.id ||
+        activeStep?.title?.['props']?.id !==
+          previousActiveStep?.title?.['props']?.id ||
         activeStep?.stringifiedTitle !==
           previousActiveStep?.stringifiedTitle
       ) {

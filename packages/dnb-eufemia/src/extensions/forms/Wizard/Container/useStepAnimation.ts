@@ -8,10 +8,12 @@ export default function useStepAnimation({
   activeIndexRef,
   stepElementRef,
   executeLayoutAnimationRef,
+  stepsLengthDidChange,
 }: {
   activeIndexRef: RefObject<StepIndex>
   stepElementRef: RefObject<HTMLElement>
   executeLayoutAnimationRef: RefObject<() => void>
+  stepsLengthDidChange: () => boolean
 }) {
   const activeIndex = activeIndexRef.current
   const indexRef = useRef(activeIndex)
@@ -44,10 +46,11 @@ export default function useStepAnimation({
   useLayoutEffect(() => {
     // Use layout effect to compare the active step before we update the cached indexRef
     // This way we don't have an animation on the first render, but only on a step change.
-    if (activeIndex === indexRef.current) {
+    // When the step count changes, WizardContainer decides by comparing the active step instead.
+    if (activeIndex === indexRef.current || stepsLengthDidChange()) {
       return // stop here
     }
 
     executeLayoutAnimation()
-  }, [activeIndex, executeLayoutAnimation])
+  }, [activeIndex, executeLayoutAnimation, stepsLengthDidChange])
 }
