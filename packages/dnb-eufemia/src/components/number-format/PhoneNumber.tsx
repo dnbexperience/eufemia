@@ -44,8 +44,11 @@ function NumberFormatPhoneNumber({
     .filter(Boolean)
     .join(' ')
 
+  // The number is aria-hidden until hover, so name the link explicitly
+  const ariaLabel = formatPhoneNumber(rest.value)
+
   return (
-    <a href={href} className={anchorClassName}>
+    <a href={href} className={anchorClassName} aria-label={ariaLabel}>
       <NumberFormatBase {...rest} __format={formatPhoneNumber} />
     </a>
   )
