@@ -1,3 +1,6 @@
+import { act } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import DataContext from '../../../DataContext/Context'
@@ -1863,6 +1866,59 @@ describe('Field.Toggle', () => {
       })
     })
   })
+
+  describe.each(['checkbox', 'switch'] as const)(
+    'variant: %s with server-rendered markup',
+    (variant) => {
+      it('should undo a change made before hydration when onClick calls preventDefault', async () => {
+        const onClick = vi.fn((value, { preventDefault }) => {
+          preventDefault()
+        })
+        const onChange = vi.fn()
+        const element = (
+          <Field.Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            value="off"
+            variant={variant}
+            onClick={onClick}
+            onChange={onChange}
+          />
+        )
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(element)
+        document.body.appendChild(container)
+
+        // The user changes the field before the JavaScript has loaded
+        const input = container.querySelector('input')
+        input.checked = true
+
+        let root: ReturnType<typeof hydrateRoot>
+        act(() => {
+          root = hydrateRoot(container, element)
+        })
+
+        expect(input.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(onClick).toHaveBeenLastCalledWith(
+          'off',
+          expect.objectContaining({ checked: false })
+        )
+        expect(onChange).not.toHaveBeenCalled()
+
+        // One more vetoed click after hydration
+        await userEvent.click(input)
+
+        expect(input.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(2)
+        expect(onChange).not.toHaveBeenCalled()
+
+        act(() => root.unmount())
+        container.remove()
+      })
+    }
+  )
 
   describe.each(['checkbox', 'switch'] as const)(
     'variant: %s with labelDescription',
