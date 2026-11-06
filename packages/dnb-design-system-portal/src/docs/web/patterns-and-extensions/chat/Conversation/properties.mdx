@@ -1,0 +1,45 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/Conversation/properties
+  - /web/extensions/ai/Conversation/properties
+  - /uilib/extensions/ai/Conversation/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  ChatConversationProperties,
+  ChatConversationControls,
+  ChatConversationVisibility,
+  ChatConversationScrollState,
+} from '@dnb/eufemia/src/extensions/chat/ChatDocs'
+
+## Properties
+
+<PropertiesTable props={ChatConversationProperties} />
+
+## Chat.useConversation
+
+`Chat.useConversation(id)` returns these functions. Without an `id`, it uses the conversation it is inside.
+
+<PropertiesTable props={ChatConversationControls} />
+
+## Chat.useConversationVisibility
+
+`Chat.useConversationVisibility(id)` returns these values. Without an `id`, it uses the conversation it is inside. The messages are only tracked while the hook is used.
+
+<PropertiesTable props={ChatConversationVisibility} />
+
+## Chat.useConversationScrollState
+
+`Chat.useConversationScrollState(id)` returns these values. Without an `id`, it uses the conversation it is inside.
+
+<PropertiesTable props={ChatConversationScrollState} />
+
+## Translations
+
+| Key                 | nb-NO                | en-GB                | sv-SE                       | da-DK                 |
+| ------------------- | -------------------- | -------------------- | --------------------------- | --------------------- |
+| `conversationLabel` | Samtale              | Conversation         | Konversation                | Samtale               |
+| `scrollToBottom`    | Gå til siste melding | Go to latest message | Gå till senaste meddelandet | Gå til seneste besked |
+| `newMessage`        | Ny melding           | New message          | Nytt meddelande             | Ny besked             |

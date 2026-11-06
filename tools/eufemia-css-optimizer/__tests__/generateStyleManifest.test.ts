@@ -35,6 +35,13 @@ describe('generateStyleManifest', () => {
     expect(button.group).toBe('components')
   })
 
+  it('keeps the existing Chat CSS hooks when using either extension name', () => {
+    expect(manifest.entries.chat.classPrefix).toBe('dnb-ai')
+    expect(manifest.entries.ai.classPrefix).toBe('dnb-ai')
+    expect(manifest.entries.ai.dependencies).toContain('chat')
+    expect(manifest.entries.chat.dependencies).toContain('textarea')
+  })
+
   it('throws when the source root does not exist', () => {
     expect(() =>
       generateStyleManifest({ sourceRoot: '/no/such/eufemia/src' })

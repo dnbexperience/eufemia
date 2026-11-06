@@ -12,7 +12,7 @@ for (const kind of ['ai', 'form'] as const) {
   }) => {
     if (kind === 'ai') {
       await page.goto(
-        '/web/patterns-and-extensions/ai/MessageIndicator/demos/'
+        '/web/patterns-and-extensions/chat/MessageIndicator/demos/'
       )
     } else {
       await page.goto(

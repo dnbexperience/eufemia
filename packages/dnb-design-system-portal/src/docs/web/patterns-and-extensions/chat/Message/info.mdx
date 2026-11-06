@@ -1,0 +1,27 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/Message/info
+  - /web/extensions/ai/Message/info
+  - /uilib/extensions/ai/Message/info
+---
+
+## Import
+
+```tsx
+import { Message } from '@dnb/eufemia/extensions/chat'
+import '@dnb/eufemia/extensions/chat/style'
+render(<Message />)
+```
+
+## Description
+
+Bubble messages use theme colors and radius, small text and `0.5rem` by `1rem` padding. Avatars sit beside the bubble. Use the same avatar with the grouped prop on follow-up messages to retain alignment without repeating the icon; user avatars, names and timestamps are optional.
+
+For a customer-service handover, use `from="assistant"`, an Avatar with the `customer_service` icon and omit `aiGenerated`. This represents the conversation side without labeling a person as AI.
+
+`Chat.Message` shows a message from either side of a conversation, with an optional header (avatar, name and time) and actions. `from="user"` places the current user on the right. `from="assistant"` places the other participant on the left, including a human support adviser. These values control presentation; they do not label a message as AI-generated. The optional `aiGenerated` prop adds that label explicitly.
+
+Compose the content inside `Chat.Message` using children: plain text, [Chat.Response](/web/patterns-and-extensions/chat/Response/) for markdown, [Chat.Task](/web/patterns-and-extensions/chat/Task/), or [Chat.Sources](/web/patterns-and-extensions/chat/Sources/). String children preserve line breaks. Set `from="user"` for user messages and give each message a unique DOM `id` to use the conversation scrolling and visibility hooks.
+
+See [Integrations](/web/patterns-and-extensions/chat/integrations/) for connecting your chat data to these components.

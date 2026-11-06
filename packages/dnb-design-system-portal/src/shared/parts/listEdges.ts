@@ -121,11 +121,11 @@ export function getDataContextComponents(pages: MdxNode[]): MdxNode[] {
   )
 }
 
-/** The pages listed by `ListAiComponents`. */
-export function getAiComponents(pages: MdxNode[]): MdxNode[] {
+/** The pages listed by `ListChatComponents`. */
+export function getChatComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'web/patterns-and-extensions/ai/*') &&
+      globPath(node, 'web/patterns-and-extensions/chat/*') &&
       node.frontmatter.title &&
       node.frontmatter.componentType !== 'docs' &&
       node.frontmatter.hideInMenu !== true

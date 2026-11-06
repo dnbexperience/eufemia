@@ -1,0 +1,57 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/PromptInput/demos
+  - /web/extensions/ai/PromptInput/demos
+  - /uilib/extensions/ai/PromptInput/demos
+---
+
+import * as Examples from '../Examples'
+
+## Demos
+
+### Prompt input
+
+On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices, Enter adds a new line and the send button submits.
+
+<Examples.ChatPromptInputDefault />
+
+### Compact prompt input
+
+<Examples.ChatPromptInputCompact />
+
+### Inline compact prompt input
+
+Use `dropShadow={false}` for the flat inline surface.
+
+<Examples.ChatPromptInputInline />
+
+### Custom actions
+
+Compose attachment and microphone buttons with `startActions` and `endActions`. Here, attachment adds an example document and microphone inserts example dictated text. Connect these controls to your application's file picker and speech recognition.
+
+<Examples.ChatPromptInputCustomActions />
+
+<Examples.ChatPromptInputCustomActionsCompact />
+
+### Prompt input with context
+
+Pass your context as children. The application owns the reference and its removal. The custom action adds it again after removal.
+
+<Examples.ChatPromptInputContext />
+
+### Stop while streaming
+
+Set `isBusy` and pass `onStop` to show a stop button while the reply streams in.
+
+<Examples.ChatPromptInputBusy />
+
+<Examples.ChatPromptInputBusyDefault />
+
+### Prompt input with an error
+
+<Examples.ChatPromptInputError />
+
+### Disabled prompt input
+
+<Examples.ChatPromptInputDisabled />

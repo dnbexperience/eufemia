@@ -12,14 +12,14 @@ import { convertMdxToMd } from '../mdx-to-md.ts'
 
 describe('mdx-to-md converter', () => {
   it.each([
-    ['web/patterns-and-extensions/ai.mdx', true],
-    ['web/patterns-and-extensions/ai/Message.mdx', true],
-    ['web/patterns-and-extensions/ai/Message/properties.mdx', true],
-    ['web/patterns-and-extensions/ai/integrations.mdx', true],
-    ['web/patterns-and-extensions/ai-other.mdx', false],
+    ['web/patterns-and-extensions/chat.mdx', true],
+    ['web/patterns-and-extensions/chat/Message.mdx', true],
+    ['web/patterns-and-extensions/chat/Message/properties.mdx', true],
+    ['web/patterns-and-extensions/chat/integrations.mdx', true],
+    ['web/patterns-and-extensions/chat-other.mdx', false],
     ['uilib/components/button.mdx', false],
   ])(
-    'includes the experimental notice only on AI pages: %s',
+    'includes the experimental notice only on Chat pages: %s',
     async (route, experimental) => {
       const root = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-notice-'))
       const inputPath = path.join(root, route)
