@@ -85,7 +85,7 @@ export const CheckboxEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onClick: {
-    doc: 'Will be called on click.',
+    doc: 'Will be called on click, and when the user presses Space or Enter. Call `preventDefault()` to keep the checkbox from changing.',
     type: '({ checked: boolean; event: MouseEvent, preventDefault: () => void }) => void',
     status: 'optional',
   },
