@@ -411,7 +411,7 @@ del .dnb-code {
   position: absolute;
   left: -10rem;
   width: 10rem;
-  padding-right: 0.25rem;
+  padding-right: 0.5rem;
   text-align: right;
 }
 .dnb-ul--inside li::before {
@@ -468,7 +468,7 @@ del .dnb-code {
   position: absolute;
   left: -10rem;
   width: 10rem;
-  padding-right: 0.25rem;
+  padding-right: 0.5rem;
   text-align: right;
 }
 .dnb-ol--inside li::before {
@@ -504,7 +504,7 @@ del .dnb-code {
   position: absolute;
   left: -10rem;
   width: 10rem;
-  padding-right: 0.25rem;
+  padding-right: 0.5rem;
   text-align: right;
 }
 .dnb-ol--inside li::before {

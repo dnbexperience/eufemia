@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
 import type { DlAllProps } from '../Dl'
@@ -75,6 +75,19 @@ describe('lists surface', () => {
       ).toBe(true)
     }
   )
+})
+
+describe('Lists scss', () => {
+  it('ends the nested list number box 8px before the text', () => {
+    const css = loadScss(require.resolve('../style/dnb-lists.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-ol li::before, \.dnb-ol--outside li::before \{[^}]*padding-right: 0\.5rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-ol--inside li::before \{[^}]*padding-right: 0;/
+    )
+  })
 })
 
 describe('Dl', () => {
