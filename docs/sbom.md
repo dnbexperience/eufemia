@@ -114,7 +114,10 @@ package itself.
   release is the pre-publish dependency audit, not this step; if
   generation ever fails, the release still completes and the artifacts
   can be regenerated afterwards.
-- The **Release SBOM check** workflow runs after every release run. It
+- The **Release SBOM check** workflow runs after every release run, and
+  daily, because npm can list a version after that run has finished. It
   fails when a version that npm published in the last three days has no
   GitHub release, lacks either file on it, or has no attestation for its
-  npm tarball that `gh attestation verify` accepts.
+  npm tarball that `gh attestation verify` accepts. It skips 10.x
+  versions, because the release workflow of the 10.x branch generates no
+  SBOM.
