@@ -219,7 +219,8 @@ function WizardContainer(props: WizardContainerProps) {
   const stepElementRef = useRef<HTMLElement>(undefined)
   const preventNextStepRef = useRef(false)
   const stepsRef = useRef<Steps>(new Map())
-  const tmpStepsRef = useRef<number>(undefined)
+  const previousTotalStepsRef = useRef<number>(undefined)
+  const previousActiveStepRef = useRef<ReturnType<Steps['get']>>(undefined)
   const stepIndexRef = useRef<number>(-1)
   const updateTitlesRef = useRef<() => void>(undefined)
   const prerenderFieldPropsRef = useRef<
@@ -775,22 +776,31 @@ function WizardContainer(props: WizardContainerProps) {
   }, [stepsRef.current])
 
   const stepsLengthDidChange = useCallback(() => {
-    const tmpCount = tmpStepsRef.current
-    if (tmpCount === undefined) {
+    const previousCount = previousTotalStepsRef.current
+    if (previousCount === undefined) {
       return false
     }
     const count = totalStepsRef.current
-    return count !== 0 && tmpCount !== 0 && count !== tmpCount
+    return count !== 0 && previousCount !== 0 && count !== previousCount
   }, [])
 
-  // - Call onStepChange when step gets replaced or added (e.g. via includeWhen)
+  // - Step list changed (e.g. via includeWhen): call onStepChange, and animate only if another step became active
   useLayoutEffect(() => {
     if (stepsLengthDidChange()) {
       callOnStepChange(activeIndexRef.current, 'stepListModified')
-      executeLayoutAnimationRef.current?.()
+
+      const activeStep = stepsRef.current.get(activeIndexRef.current)
+      const previousActiveStep = previousActiveStepRef.current
+      if (
+        activeStep?.id !== previousActiveStep?.id ||
+        activeStep?.stringifiedTitle !==
+          previousActiveStep?.stringifiedTitle
+      ) {
+        executeLayoutAnimationRef.current?.()
+      }
     }
 
-    tmpStepsRef.current = totalStepsRef.current
+    previousTotalStepsRef.current = totalStepsRef.current
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -798,6 +808,15 @@ function WizardContainer(props: WizardContainerProps) {
     callOnStepChange,
     stepsLengthDidChange,
   ])
+
+  // Skip while the step count is changing, so the effect above compares against the old step
+  useLayoutEffect(() => {
+    if (!stepsLengthDidChange()) {
+      previousActiveStepRef.current = stepsRef.current.get(
+        activeIndexRef.current
+      )
+    }
+  })
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')
