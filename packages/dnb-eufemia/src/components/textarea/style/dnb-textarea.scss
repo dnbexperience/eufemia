@@ -253,10 +253,12 @@
 
   &--disabled {
     --textarea-color-background: var(
-      --token-color-background-neutral-subtle
+      --token-color-background-action-disabled
     );
     --textarea-color-text: var(--token-color-text-neutral-alternative);
-    --textarea-color-placeholder: var(--token-color-text-action-disabled);
+    --textarea-color-placeholder: var(
+      --token-color-text-neutral-alternative
+    );
     --textarea-color-border: var(--token-color-stroke-action-disabled);
   }
 
@@ -373,7 +375,7 @@
 
   //  hover
   &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
-    --textarea-color-border: var(--token-color-stroke-action-hover);
+    --textarea-color-border: var(--token-color-stroke-action-pressed);
   }
 
   // with statusState = "error"
