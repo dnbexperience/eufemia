@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
+import { loadScss } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterSearch from '../FilterSearch'
 import FilterPanel from '../FilterPanel'
@@ -823,5 +824,19 @@ describe('behavior="manual"', () => {
       search: '',
       filters: {},
     })
+  })
+})
+
+describe('Filter.Panel spacing scss', () => {
+  it('uses the Figma space above the panel and around its action buttons', () => {
+    const css = loadScss(require.resolve('../style/dnb-filter.scss'))
+
+    expect(css).toMatch(/\.dnb-filter__panel \{[^}]*margin-top: 1\.5rem;/)
+    expect(css).toMatch(
+      /\.dnb-filter__panel-actions \{[^}]*gap: 1\.5rem;\s*padding-block: 0\.5rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-filter__panel-close \{[^}]*margin-block: 0\.5rem;/
+    )
   })
 })
