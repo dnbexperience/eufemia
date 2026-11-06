@@ -73,9 +73,15 @@ export function useScrollPosition() {
   useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration
     window.history.scrollRestoration = 'manual'
-    requestAnimationFrame(() => {
-      restoreScrollPosition({ restoreWindow: !window.location.hash })
-    })
+    if (
+      !document.documentElement.hasAttribute(
+        'data-portal-scroll-interacted'
+      )
+    ) {
+      requestAnimationFrame(() => {
+        restoreScrollPosition({ restoreWindow: !window.location.hash })
+      })
+    }
 
     window.addEventListener('beforeunload', saveScrollPosition)
 
