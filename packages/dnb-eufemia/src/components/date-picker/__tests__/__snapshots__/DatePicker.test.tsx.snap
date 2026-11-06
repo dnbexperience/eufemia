@@ -1355,6 +1355,7 @@ legend.dnb-form-label {
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-height-current: var(--input-height);
+  --input-submit-button-width: var(--input-height-current);
   --input-background-color: var(--token-color-background-neutral);
   --input-background-color--disabled: var(
     --token-color-background-neutral-subtle
@@ -1631,6 +1632,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--large {
   --input-height-current: var(--input-height--large);
+  --input-submit-button-width: 3.5rem;
   line-height: var(--input-height--large);
 }
 .dnb-input--large .dnb-input__shell,
@@ -1644,18 +1646,26 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   font-size: var(--input-font-size--large);
 }
 .dnb-input--large .dnb-input__submit-element {
-  margin-left: calc(var(--input-height--large) * -1);
+  margin-left: calc(var(--input-submit-button-width) * -1);
 }
 .dnb-input--large .dnb-input__submit-element .dnb-button--input-button {
-  width: var(--input-height--large);
+  width: var(--input-submit-button-width);
   height: var(--input-height--large);
   line-height: var(--input-height--large);
 }
 .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder, .dnb-input--large.dnb-input--has-submit-element .dnb-input__input, .dnb-input--large.dnb-input--has-clear-button .dnb-input__placeholder, .dnb-input--large.dnb-input--has-clear-button .dnb-input__input {
   padding-right: calc(var(--input-padding--large) * 3.5);
 }
-.dnb-input--large.dnb-input--has-clear-button:not(.dnb-input--has-submit-element) .dnb-input__submit-element {
-  margin-left: calc(var(--input-height--large) - 0.5rem);
+.dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input__placeholder,
+.dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input__input {
+  padding-right: 3rem;
+}
+.dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input--clear.dnb-input__submit-element {
+  margin-left: -2.25rem;
+}
+.dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) .dnb-input__placeholder,
+.dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) input.dnb-input__input {
+  padding-right: calc(var(--input-submit-button-width) + 1rem);
 }
 .dnb-input__align--center .dnb-input__placeholder, .dnb-input__align--center .dnb-input__input {
   text-align: center;
@@ -1694,17 +1704,12 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   opacity: 1;
   pointer-events: auto;
 }
-.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 2.5rem;
+.dnb-input--has-submit-element:not(.dnb-input--small) .dnb-input--clear.dnb-input__submit-element {
+  margin-left: calc(var(--input-height-current) * -1 + 0.25rem);
+  margin-right: calc(var(--input-submit-button-width) + 0.25rem);
 }
 .dnb-input--small.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
   margin-right: 2rem;
-}
-.dnb-input--medium.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 3rem;
-}
-.dnb-input--large.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 3.5rem;
 }
 .dnb-input__inner > .dnb-form-status {
   order: 2;
@@ -1775,13 +1780,13 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   padding-right: 3rem;
 }
 .dnb-input--icon-position-right.dnb-input--has-submit-element .dnb-input__icon {
-  right: calc(var(--input-height-current) + 1rem);
+  right: calc(var(--input-submit-button-width) + 1rem);
 }
 .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input, .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__placeholder {
-  padding-right: calc(var(--input-height-current) + 2.5rem);
+  padding-right: calc(var(--input-submit-button-width) + 2.5rem);
 }
 .dnb-input--has-submit-element:where(:not(.dnb-input--has-clear-button, .dnb-input--has-inner-element, .dnb-input--password)) input.dnb-input__input {
-  clip-path: inset(0 var(--input-height-current) 0 0);
+  clip-path: inset(0 var(--input-submit-button-width) 0 0);
 }
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--token-color-background-neutral);
@@ -3292,6 +3297,9 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 }
 .dnb-date-picker .dnb-input__shell {
   display: none;
+}
+.dnb-date-picker .dnb-input {
+  --input-submit-button-width: var(--input-height-current);
 }
 .dnb-date-picker--show-input .dnb-input__shell {
   display: flex;

@@ -1481,6 +1481,50 @@ describe('Input scss', () => {
     )
   })
 
+  it('places the clear button without a submit button 16px from the edge, also in large inputs', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+    const selector =
+      '.dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element)'
+
+    expect(css).toContain(
+      `${selector} .dnb-input--clear.dnb-input__submit-element {\n  margin-left: -2.25rem;\n}`
+    )
+    expect(css).toContain(
+      `${selector} .dnb-input__input {\n  padding-right: 3rem;\n}`
+    )
+    expect(css).not.toContain('calc(var(--input-height--large) - 0.5rem)')
+  })
+
+  it('places the clear button 8px before the submit button', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+
+    expect(css).toContain(
+      '.dnb-input--has-submit-element:not(.dnb-input--small) .dnb-input--clear.dnb-input__submit-element {\n  margin-left: calc(var(--input-height-current) * -1 + 0.25rem);\n  margin-right: calc(var(--input-submit-button-width) + 0.25rem);\n}'
+    )
+  })
+
+  it('uses a 3.5rem wide submit button in large inputs', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-input--large \{[^}]*--input-submit-button-width: 3\.5rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-input--large \.dnb-input__submit-element \{\s*margin-left: calc\(var\(--input-submit-button-width\) \* -1\);/
+    )
+    expect(css).toMatch(
+      /\.dnb-input--large \.dnb-input__submit-element \.dnb-button--input-button \{\s*width: var\(--input-submit-button-width\);\s*height: var\(--input-height--large\);/
+    )
+  })
+
+  it('ends the text 16px before the submit button', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+
+    expect(css).toContain(
+      '.dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) input.dnb-input__input {\n  padding-right: calc(var(--input-submit-button-width) + 1rem);\n}'
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

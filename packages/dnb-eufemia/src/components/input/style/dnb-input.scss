@@ -48,6 +48,7 @@
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-height-current: var(--input-height);
+  --input-submit-button-width: var(--input-height-current);
   --input-background-color: var(--token-color-background-neutral);
   --input-background-color--disabled: var(
     --token-color-background-neutral-subtle
@@ -415,6 +416,7 @@
 
   &--large {
     --input-height-current: var(--input-height--large);
+    --input-submit-button-width: 3.5rem;
 
     line-height: var(--input-height--large);
 
@@ -431,10 +433,10 @@
     }
 
     .dnb-input__submit-element {
-      margin-left: calc(var(--input-height--large) * -1);
+      margin-left: calc(var(--input-submit-button-width) * -1);
 
       .dnb-button--input-button {
-        width: var(--input-height--large);
+        width: var(--input-submit-button-width);
         height: var(--input-height--large);
         line-height: var(--input-height--large);
       }
@@ -446,9 +448,24 @@
   &--large#{&}--has-clear-button &__input {
     padding-right: calc(var(--input-padding--large) * 3.5);
   }
-  &--large#{&}--has-clear-button:not(#{&}--has-submit-element)
-    .dnb-input__submit-element {
-    margin-left: calc(var(--input-height--large) + 0.5rem * -1);
+
+  &--has-clear-button:not(#{&}--small, #{&}--has-submit-element) {
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding-right: 3rem;
+    }
+
+    .dnb-input--clear.dnb-input__submit-element {
+      margin-left: -2.25rem;
+    }
+  }
+
+  // Only real inputs, as segmented fields use this class on their sections
+  &--has-submit-element:not(#{&}--small, #{&}--has-clear-button) {
+    .dnb-input__placeholder,
+    input.dnb-input__input {
+      padding-right: calc(var(--input-submit-button-width) + 1rem);
+    }
   }
 
   &__align--center &__placeholder,
@@ -508,17 +525,13 @@
     pointer-events: auto;
   }
 
-  &--has-submit-element &--clear.dnb-input__submit-element {
-    margin-right: 2.5rem;
+  &--has-submit-element:not(#{&}--small)
+    &--clear.dnb-input__submit-element {
+    margin-left: calc(var(--input-height-current) * -1 + 0.25rem);
+    margin-right: calc(var(--input-submit-button-width) + 0.25rem);
   }
   &--small#{&}--has-submit-element &--clear.dnb-input__submit-element {
     margin-right: 2rem;
-  }
-  &--medium#{&}--has-submit-element &--clear.dnb-input__submit-element {
-    margin-right: 3rem;
-  }
-  &--large#{&}--has-submit-element &--clear.dnb-input__submit-element {
-    margin-right: 3.5rem;
   }
 
   &__inner > .dnb-form-status {
@@ -618,14 +631,14 @@
   // When an icon is positioned to the right together with a submit button,
   // place the icon to the left of the button so they don't overlap.
   &--icon-position-right#{&}--has-submit-element &__icon {
-    right: calc(var(--input-height-current) + 1rem);
+    right: calc(var(--input-submit-button-width) + 1rem);
   }
 
   // Make room for both the icon and the submit button
   &--icon-position-right#{&}--has-icon#{&}--has-submit-element &__input,
   &--icon-position-right#{&}--has-icon#{&}--has-submit-element
     &__placeholder {
-    padding-right: calc(var(--input-height-current) + 2.5rem);
+    padding-right: calc(var(--input-submit-button-width) + 2.5rem);
   }
 
   // Browsers paint their autofill background on the whole input box, which
@@ -639,7 +652,7 @@
       :not(#{&}--has-clear-button, #{&}--has-inner-element, #{&}--password)
     )
     input#{&}__input {
-    clip-path: inset(0 var(--input-height-current) 0 0);
+    clip-path: inset(0 var(--input-submit-button-width) 0 0);
   }
 
   html[data-visual-test] &__input {
