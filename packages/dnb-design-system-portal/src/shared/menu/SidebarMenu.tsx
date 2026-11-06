@@ -175,6 +175,12 @@ export default function SidebarLayout({
         {menu(true)}
       </SidebarMenu.ResponsiveAside>
       <SidebarMenu.PreHydrationScript />
+      <script
+        dangerouslySetInnerHTML={{
+          __html:
+            "document.getElementById('portal-sidebar-scroll-restoration')?.remove()",
+        }}
+      />
     </Provider>
   )
 }
