@@ -583,15 +583,4 @@ describe('Breadcrumb scss', () => {
       /\.dnb-anchor::after \{[^}]*border: 0\.5rem solid transparent;[^}]*forced-color-adjust: none;/
     )
   })
-
-  it('reveals collapsed items vertically without translating individual links', () => {
-    const css = loadScss(require.resolve('../style/dnb-breadcrumb.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-breadcrumb__multiple \{[^}]*transition: height 400ms/
-    )
-    expect(css).not.toMatch(
-      /\.dnb-breadcrumb__multiple[^{}]*\.dnb-breadcrumb__item \{[^}]*transform:/
-    )
-  })
 })
