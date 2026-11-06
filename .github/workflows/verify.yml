@@ -167,20 +167,23 @@ jobs:
 
       - name: Run type checks
         # Every workspace with a type-check script runs here — keep this list
-        # complete when adding one.
+        # complete when adding one. A failure does not stop the others, so one
+        # run reports the type errors of every workspace.
         run: |
-          yarn workspace @dnb/eufemia test:types
-          yarn workspace @dnb/eufemia test:types:definitions
-          yarn workspace dnb-design-system-portal test:types
-          yarn workspace react-live-ssr-adapter test:types
-          yarn workspace eufemia-css-optimizer test:types
-          yarn workspace eufemia-llm-metadata test:types
-          yarn workspace eufemia-raiwork-plugin test:types
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
-          yarn workspace eufemia-mcp-lambda typecheck
-          yarn workspace eufemia-usage-ingest typecheck
-          yarn workspace eufemia-analytics test:types
-          yarn workspace eufemia-analytics-dashboard test:types
+          failed=0
+          yarn workspace @dnb/eufemia test:types || failed=1
+          yarn workspace @dnb/eufemia test:types:definitions || failed=1
+          yarn workspace dnb-design-system-portal test:types || failed=1
+          yarn workspace react-live-ssr-adapter test:types || failed=1
+          yarn workspace eufemia-css-optimizer test:types || failed=1
+          yarn workspace eufemia-llm-metadata test:types || failed=1
+          yarn workspace eufemia-raiwork-plugin test:types || failed=1
+          yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck || failed=1
+          yarn workspace eufemia-mcp-lambda typecheck || failed=1
+          yarn workspace eufemia-usage-ingest typecheck || failed=1
+          yarn workspace eufemia-analytics test:types || failed=1
+          yarn workspace eufemia-analytics-dashboard test:types || failed=1
+          exit $failed
 
   test:
     name: Run tests
