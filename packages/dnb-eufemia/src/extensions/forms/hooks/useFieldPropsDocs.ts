@@ -174,6 +174,11 @@ export const useFieldPropsParameters: PropertiesTableProps = {
  * Documentation for the useFieldProps hook return values.
  */
 export const useFieldPropsReturns: PropertiesTableProps = {
+  fieldBlockProps: {
+    doc: 'Props to pass directly to FieldBlock, including during server rendering.',
+    type: 'FieldBlockProps',
+    status: 'required',
+  },
   value: {
     doc: 'The current transformed field value, ready for display.',
     type: '{valueType}',

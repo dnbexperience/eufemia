@@ -128,6 +128,7 @@ function UploadComponent(props: FieldUploadProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     className,
     width: widthProp = 'stretch',
@@ -439,6 +440,7 @@ function UploadComponent(props: FieldUploadProps) {
 
   const width = widthProp as FieldBlockWidth
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     id,
     forId: `${id}-input`,
     labelSrOnly: true,
