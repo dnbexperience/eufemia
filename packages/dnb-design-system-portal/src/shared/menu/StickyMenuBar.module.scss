@@ -214,10 +214,6 @@
       width: 100%;
     }
 
-    :global(.dnb-drawer-list) {
-      white-space: normal;
-    }
-
     &:focus-within,
     &:global(.dnb-autocomplete--open),
     &:has(:global(.dnb-input[data-input-state='focus'])),

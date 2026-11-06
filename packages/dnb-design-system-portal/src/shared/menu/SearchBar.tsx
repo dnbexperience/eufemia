@@ -43,13 +43,11 @@ export const SearchBarInput = ({
   id = searchInputId,
   placeholder = 'Search ...',
   stretch = false,
-  skipPortal = false,
   onQuery,
 }: {
   id?: string
   placeholder?: string
   stretch?: boolean
-  skipPortal?: boolean
   onQuery?: (value: string) => boolean | void
 } = {}) => {
   const searchIndex = useRef(null)
@@ -201,7 +199,6 @@ export const SearchBarInput = ({
       preventSelection
       search={{ filter: false }}
       fixedPosition
-      skipPortal={skipPortal}
       size="medium"
       align="right"
       placeholder={placeholder}

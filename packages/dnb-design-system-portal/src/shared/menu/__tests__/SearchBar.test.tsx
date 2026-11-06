@@ -152,13 +152,13 @@ describe('SearchBar', () => {
 })
 
 describe('SearchBarInput', () => {
-  it('keeps results attached to an expanding header search', async () => {
+  it('renders search results in the portal', async () => {
     search.mockResolvedValueOnce({
       hits: [{ slug: 'web/components/button', title: 'Button' }],
     })
     render(
       <MemoryRouter>
-        <SearchBarInput skipPortal />
+        <SearchBarInput />
       </MemoryRouter>
     )
     const input = document.querySelector('#portal-search')
@@ -168,7 +168,7 @@ describe('SearchBarInput', () => {
     await waitFor(() =>
       expect(
         document.querySelector(
-          '.portal-search a[href="/web/components/button"]'
+          '#eufemia-portal-root a[href="/web/components/button"]'
         )
       ).not.toBeNull()
     )
