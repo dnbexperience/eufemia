@@ -1256,4 +1256,18 @@ describe('Dialog scss', () => {
       /\.dnb-dialog--confirmation \.dnb-dialog__description \{\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);/
     )
   })
+
+  it('uses 2rem between the close button and the heading in information dialogs, and 1rem on small screens', () => {
+    const css = loadScss(require.resolve('../style/dnb-dialog.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-dialog--spacing\.dnb-dialog--information \.dnb-dialog__navigation\.dnb-section \{\s*margin-top: calc\(var\(--dialog-spacing\)\);\s*margin-bottom: calc\(var\(--dialog-spacing\) \/ 2\);/
+    )
+    expect(css).toMatch(
+      /\.dnb-dialog--spacing\.dnb-dialog--information \.dnb-dialog__navigation\.dnb-section:has\(> \.dnb-modal__header__bar__close\) \{\s*margin-bottom: calc\(var\(--dialog-spacing\)\);\s*\}/
+    )
+    expect(css).toMatch(
+      /@media screen and \(max-width: 40em\) \{\s*\.dnb-dialog--spacing\.dnb-dialog--information \.dnb-dialog__navigation\.dnb-section:has\(> \.dnb-modal__header__bar__close\) \{\s*margin-bottom: calc\(var\(--dialog-spacing\) \/ 2\);/
+    )
+  })
 })
