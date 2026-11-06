@@ -15,7 +15,6 @@ redirect_from:
 ---
 
 import { DocumentLetter } from './document-styles/Examples'
-import { Space } from '@dnb/eufemia/src/components'
 
 > **Beta:** These styles are a proposed starting point. Typography, spacing,
 > print behavior and the implementation may change as we gather feedback.
@@ -47,8 +46,6 @@ to switch brands, try a multi-page table and inspect print behavior.
 These proposed sizes apply to the document style on screen and in print.
 Regular app content keeps its existing typography.
 
-<Space bottom="medium">
-
 | Role                      | Size at the default root | Line height |
 | ------------------------- | ------------------------ | ----------- |
 | Body and salutation       | 11pt                     | 1.4         |
@@ -57,8 +54,6 @@ Regular app content keeps its existing typography.
 | Subheadings and lead text | 12pt                     | 1.3         |
 | Signature and table cells | 10pt                     | 1.4         |
 | Footer and return address | 9pt                      | 1.4         |
-
-</Space>
 
 Point sizes assume a 16px root font size and normal PDF scaling. The
 implementation uses relative units so browser font preferences still work.
@@ -96,15 +91,11 @@ typography shown above. App navigation, content selection and page layout
 still need to be handled by the app. These styles do not provide print
 representations for every Eufemia component.
 
-<Space bottom="large">
-
 | Need                                                            | Import                                 | Scope                     |
 | --------------------------------------------------------------- | -------------------------------------- | ------------------------- |
 | Pure black paper output and pagination with existing typography | `dnb-ui-print.min.css`                 | `.dnb-print`              |
 | Document typography and spacing on screen and in print          | `dnb-ui-document.min.css`              | `.dnb-document`           |
 | Document formatting with print/PDF behavior                     | Both, with `dnb-ui-print.min.css` last | `.dnb-document.dnb-print` |
-
-</Space>
 
 SCSS imports are also available through `@dnb/eufemia/style/print` and
 `@dnb/eufemia/style/document`. For [isolated styles](/web/styling-and-themes/css/style-isolation/),
