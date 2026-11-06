@@ -567,7 +567,7 @@
   position: relative;
 
   height: 100%;
-  min-height: 10rem;
+  min-height: 11rem;
   padding: 1.5rem;
 
   color: var(--token-color-text-neutral);
@@ -584,76 +584,62 @@
 
 .actionArtworkStyle {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
 
-  width: 5.25rem;
-  height: 5.25rem;
-  opacity: 0.85;
+  width: 8rem;
+  height: auto;
+  color: var(--token-color-stroke-neutral);
   pointer-events: none;
-  transition: transform 400ms var(--easing-default);
-}
 
-.designArtworkStyle {
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    transition: transform 400ms var(--easing-default);
-  }
-
-  &::before {
-    right: 0;
-    width: 3rem;
-    height: 3rem;
-    border: 1px solid var(--token-color-stroke-action);
-  }
-
-  &::after {
-    left: 0.75rem;
-    bottom: 0.25rem;
-    width: 2.25rem;
-    height: 2.25rem;
-    background-color: var(--token-color-decorative-first-subtle);
+  g,
+  path,
+  rect {
+    transition:
+      transform 550ms var(--easing-fast-bounce),
+      opacity 550ms var(--easing-default);
   }
 }
 
-.developArtworkStyle {
-  border: 1px dashed var(--token-color-stroke-neutral);
-  border-radius: var(--token-radius-sm);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 3rem;
-    height: 3rem;
-    border: 1px solid var(--token-color-stroke-action);
-    border-radius: var(--token-radius-sm);
-    transition: transform 400ms var(--easing-default);
-  }
+.artworkSurfaceStyle {
+  fill: var(--token-color-background-neutral);
 }
 
-.actionStyle:hover {
+.artworkSelectionStyle {
+  transform-origin: 10px 12px;
+}
+
+.artworkBrowserStyle {
+  transform-origin: 52px 49px;
+}
+
+.developArtworkStyle .artworkButtonStyle {
+  transform: translate(46px, 53px);
+}
+
+.actionStyle:hover,
+:global(.dnb-card-action):focus .actionStyle {
   .designArtworkStyle {
-    transform: rotate(6deg);
-
-    &::before {
-      transform: translate(-0.5rem, 0.5rem);
+    .artworkSelectionStyle {
+      transform: scale(1.1);
     }
 
-    &::after {
-      transform: translate(0.5rem, -0.5rem);
+    .artworkCursorStyle {
+      transform: translate(7.2px, 4px);
     }
   }
 
   .developArtworkStyle {
-    transform: rotate(-3deg);
+    .artworkBrowserStyle {
+      transform: scale(1.1);
+    }
 
-    &::before {
-      transform: translate(-0.75rem, 0.75rem);
+    .artworkButtonStyle {
+      transform: translate(22px, 35px);
+    }
+
+    .artworkFadeStyle {
+      opacity: 0;
     }
   }
 }
@@ -664,18 +650,18 @@
     animation: none !important;
   }
 
-  .actionArtworkStyle,
-  .designArtworkStyle::before,
-  .designArtworkStyle::after,
-  .developArtworkStyle::before {
-    transform: none !important;
-    transition: none;
+  .actionArtworkStyle {
+    g,
+    path,
+    rect {
+      transition: none;
+    }
   }
 }
 
 .actionTitleStyle {
   z-index: 1;
-  max-width: calc(100% - 5.25rem);
+  max-width: calc(100% - 7rem);
 }
 
 .actionDescriptionStyle {
