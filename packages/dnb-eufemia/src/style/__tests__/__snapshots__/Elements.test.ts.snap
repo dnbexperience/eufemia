@@ -227,6 +227,9 @@ del .dnb-code {
   position: relative;
   padding: 0;
   width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: stretch;
   height: 0;
   display: flow-root;
 }

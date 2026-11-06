@@ -29,3 +29,13 @@ export const HorizontalRuleDashedExample = () => (
     <P>After</P>
   </ComponentBox>
 )
+
+export const HorizontalRuleInsetExample = () => (
+  <ComponentBox background="plain">
+    <P>Before</P>
+    <Hr top="x-small" right="small" bottom="x-small" left="small" />
+    <P>Between</P>
+    <Hr top="x-small" bottom="x-small" left="small" />
+    <P>After</P>
+  </ComponentBox>
+)

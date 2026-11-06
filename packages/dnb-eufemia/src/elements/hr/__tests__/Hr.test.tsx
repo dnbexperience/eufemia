@@ -5,6 +5,7 @@
 
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
+import { loadScss } from '../../../core/test-utils/testSetup'
 import Hr from '../Hr'
 
 describe('Hr', () => {
@@ -30,5 +31,15 @@ describe('Hr', () => {
 
       expect(element.classList.contains('dnb-hr--surface-dark')).toBe(true)
     })
+  })
+})
+
+describe('Hr scss', () => {
+  it('fills the container minus the left and right spacing', () => {
+    const css = loadScss(require.resolve('../style/dnb-hr.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-hr \{[^}]*width: 100%;\s*width: -moz-available;\s*width: -webkit-fill-available;\s*width: stretch;/
+    )
   })
 })
