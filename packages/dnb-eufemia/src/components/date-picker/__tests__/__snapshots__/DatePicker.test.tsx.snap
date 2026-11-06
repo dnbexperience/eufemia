@@ -3425,6 +3425,12 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   height: var(--date-picker-day-width);
   margin: var(--date-picker-day-horizontal-spacing) 0;
 }
+.dnb-date-picker__days:last-child .dnb-date-picker__day {
+  margin-bottom: 0;
+}
+.dnb-date-picker--inline .dnb-date-picker__days:last-child .dnb-date-picker__day {
+  margin-bottom: var(--date-picker-day-horizontal-spacing);
+}
 .dnb-date-picker__day .dnb-button {
   position: absolute;
   top: 0;
