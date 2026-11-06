@@ -211,3 +211,25 @@ it('retains tests with dynamic routes or broad Portal sections', () => {
     expect(run({ tests: [test, ...tests] }).tests).toContain(test.path)
   }
 })
+
+it.each(['check+box', 'check(box', 'check[box', 'check|box'])(
+  'matches component names literally in fixtures: %s',
+  (owner) => {
+    const name = owner[0].toUpperCase() + owner.slice(1)
+    for (const content of [
+      '<' + name + ' />',
+      'import { ' + name + ' as Check } from "example"',
+    ]) {
+      const plan = run({
+        changedFiles: [component(owner)],
+        docs: [
+          {
+            path: PORTAL + 'src/docs/web/components/filter/Examples.tsx',
+            content,
+          },
+        ],
+      })
+      expect(plan.tests).toContain(spec('filter').path)
+    }
+  }
+)

@@ -156,7 +156,7 @@ export function selectE2eTests({
   ])
   for (const doc of docs) {
     const usesAffected = Array.from(names).some((name) => {
-      const escaped = name.replace(/\./g, '\\.')
+      const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
       return (
         new RegExp('<' + escaped + '(?:[\\s.>/])').test(doc.content) ||
         new RegExp(
