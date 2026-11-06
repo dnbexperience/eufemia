@@ -70,6 +70,17 @@
     user-select: none; // prevent selection on double-click
   }
 
+  // Center the chevron on the first line of text
+  &__tr:not(&__tr--vertical-align-middle):not(&__tr--vertical-align-bottom)
+    > &__td__button-icon.dnb-table__td {
+    vertical-align: top;
+    padding-top: 1rem;
+
+    .dnb-table__size--small & {
+      padding-top: 0.75rem;
+    }
+  }
+
   &__tr--clickable &__button {
     display: flex; // to ensure we inherit the correct size from its content
     justify-content: center;
