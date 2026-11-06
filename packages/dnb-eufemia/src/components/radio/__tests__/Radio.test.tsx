@@ -387,6 +387,20 @@ describe('Radio ARIA', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
+  it('should validate with ARIA rules when read-only', async () => {
+    const Comp = render(
+      <>
+        <Radio label="Single" readOnly checked />
+        <Radio label="Grouped" group="group" value="a" readOnly />
+      </>
+    )
+
+    const inputs = document.querySelectorAll('input')
+    expect(inputs[0]).not.toHaveAttribute('aria-readonly')
+    expect(inputs[1]).not.toHaveAttribute('aria-readonly')
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
   it('gets valid ref element', () => {
     let ref: RefObject<HTMLInputElement>
 
