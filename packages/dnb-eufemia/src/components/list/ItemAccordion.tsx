@@ -20,7 +20,6 @@ import ItemContent from './ItemContent'
 import FlexItem from '../flex/Item'
 import type { IconIcon } from '../icon/Icon'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import Hr from '../../elements/Hr'
 import { ChevronIcon } from './ItemAction'
 import Space from '../space/Space'
 import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
@@ -241,7 +240,9 @@ function AccordionHeader(props: AccordionHeaderProps) {
       onKeyDown={handleKeyDown}
       {...rest}
     >
-      {chevronPosition === 'left' && <ChevronIcon expanded={openState} />}
+      {chevronPosition === 'left' && (
+        <ChevronIcon expanded={openState} position="left" />
+      )}
       {icon && <ItemIcon>{icon}</ItemIcon>}
       {title !== undefined && <ItemTitle>{title}</ItemTitle>}
       {children}
@@ -305,7 +306,6 @@ function AccordionContent(props: ItemContentProps) {
           }
         }}
       >
-        <Hr bottom={false} />
         <Space
           className={clsx(
             'dnb-list__item__accordion__inner',

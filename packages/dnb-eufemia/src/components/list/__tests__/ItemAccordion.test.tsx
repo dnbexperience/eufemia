@@ -674,6 +674,70 @@ describe('ItemAccordion', () => {
     expect(header.className).toContain('dnb-list__item--chevron-left')
   })
 
+  it('shows a right chevron when closed and a down chevron when open, when chevronPosition is left', () => {
+    render(
+      <ItemAccordion chevronPosition="left">
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+    const activeChevron = () =>
+      header
+        .querySelector('.dnb-icon__state--active path')
+        .getAttribute('d')
+
+    expect(activeChevron()).toBe('m6 13 5-5-5-5')
+
+    fireEvent.click(header)
+
+    expect(activeChevron()).toBe('m13 5.5-5 5-5-5')
+  })
+
+  it('shows a down chevron when closed and an up chevron when open, when chevronPosition is right', () => {
+    render(
+      <ItemAccordion>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+    const activeChevron = () =>
+      header
+        .querySelector('.dnb-icon__state--active path')
+        .getAttribute('d')
+
+    expect(activeChevron()).toBe('m13 5.5-5 5-5-5')
+
+    fireEvent.click(header)
+
+    expect(activeChevron()).toBe('m3 10.5 5-5 5 5')
+  })
+
+  it('renders no line of its own between the header and the open content', () => {
+    render(
+      <ItemAccordion open>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const content = document.querySelector(
+      '.dnb-list__item__accordion__content'
+    )
+
+    expect(content).toHaveTextContent('Content')
+    expect(
+      document.querySelector('.dnb-list__item__accordion .dnb-hr')
+    ).toBeNull()
+  })
+
   it('declares _supportsSpacingProps for flex layout', () => {
     expect((ItemAccordion as ComponentMarkers)._supportsSpacingProps).toBe(
       true
