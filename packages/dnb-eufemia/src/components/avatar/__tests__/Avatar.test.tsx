@@ -877,7 +877,24 @@ describe('Avatar scss', () => {
       /\.dnb-avatar__group \.dnb-avatar--size-large \{\s*margin-left: -1rem;/
     )
     expect(css).toMatch(
-      /\.dnb-avatar__group \.dnb-avatar--size-x-large \{\s*margin-left: -1\.5rem;/
+      /\.dnb-avatar__group \.dnb-avatar--size-x-large \{\s*margin-left: -1\.375rem;/
+    )
+  })
+
+  it('spaces the "elements left" text from the last avatar by the Figma gap', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-avatar__group--elements-left--size-small \{[^}]*margin-left: 0\.375rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-avatar__group--elements-left--size-medium \{[^}]*margin-left: 0\.375rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-avatar__group--elements-left--size-large \{[^}]*margin-left: 0\.25rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-avatar__group--elements-left--size-x-large \{[^}]*margin-left: 0\.75rem;/
     )
   })
 })
