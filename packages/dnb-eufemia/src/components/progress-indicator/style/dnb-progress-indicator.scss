@@ -68,6 +68,7 @@
   &--full-width#{&}--horizontal &__label {
     flex-shrink: 0;
     max-width: 50%;
+    padding-left: 1rem;
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
   }
