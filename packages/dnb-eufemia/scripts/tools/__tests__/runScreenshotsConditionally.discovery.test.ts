@@ -203,6 +203,44 @@ describe('runScreenshotsConditionally discovery', () => {
     }
   })
 
+  it.each([
+    ['src/components/[id]/Item.tsx', '<Card id="d" />'],
+    ['src/components/legacy(/Legacy.tsx', '<Legacy />'],
+  ])(
+    'matches the entity name of %s as plain text in the docs',
+    (sourcePath, docsContent) => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-escape-'))
+      try {
+        const docsRoot = path.join(root, 'docs')
+        fs.mkdirSync(path.join(docsRoot, 'web/components/card'), {
+          recursive: true,
+        })
+        fs.writeFileSync(
+          path.join(docsRoot, 'web/components/card/Examples.tsx'),
+          docsContent
+        )
+        fs.writeFileSync(
+          path.join(root, 'Card.screenshot.test.ts'),
+          "makeScreenshot({ url: '/web/components/card/demos' })"
+        )
+        const context = {
+          packageRoot: root,
+          portalDocsRoot: docsRoot,
+        } as RunnerContext
+
+        expect(
+          findCompositionImpactedTests(
+            context,
+            [sourcePath],
+            ['Card.screenshot.test.ts']
+          )
+        ).toEqual([])
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true })
+      }
+    }
+  )
+
   it('ignores non-src and technical folder segments', () => {
     const names = collectChangedEntityNames([
       'packages/dnb-eufemia/scripts/tools/runScreenshotsConditionally/runner.ts',
