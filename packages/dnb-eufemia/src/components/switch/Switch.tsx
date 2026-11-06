@@ -162,18 +162,14 @@ function Switch(props: SwitchProps) {
     (event: KeyboardEvent<HTMLInputElement>) => {
       onKeyDown?.(event)
 
-      // Enter does not go through onClickHandler, so check readOnly here too
-      if (event.defaultPrevented || readOnly) {
-        return
-      }
-
-      switch (event.code) {
-        case 'Enter':
-          onChangeHandler(event)
-          break
+      // A switch does not react to Enter by itself, so we click it.
+      // Then Enter follows the same rules as Space and a mouse click,
+      // e.g. readOnly and preventDefault in onClick.
+      if (!event.defaultPrevented && event.key === 'Enter') {
+        event.currentTarget.click()
       }
     },
-    [onChangeHandler, onKeyDown, readOnly]
+    [onKeyDown]
   )
 
   const showStatus = useMemo(() => getStatusState(status), [status])
