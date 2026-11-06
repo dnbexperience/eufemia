@@ -18,6 +18,7 @@
   "bin": "./cli/eufemia.js",
   "scripts": {
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
+    "audit:repository-advisories": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/checkRepositoryAdvisories",
     "build": "./scripts/prebuild/local-prebuild.sh",
     "prebuild:ci": "yarn build:prebuild && yarn verify:generated-entries:ci",
     "build:ci": "yarn prebuild:ci && yarn postbuild:ci && yarn publish:prepare",
