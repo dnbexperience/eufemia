@@ -195,7 +195,7 @@ export type InputProps = Omit<
      */
     icon?: IconIcon
     /**
-     * The size of the icon. Defaults to `medium`.
+     * The size of the icon. Defaults to `default`.
      */
     iconSize?: IconSize
     /**
@@ -259,7 +259,7 @@ export type InputSubmitButtonProps = Omit<
      */
     icon?: IconIcon
     /**
-     * The size of the icon. Defaults to `medium`.
+     * The size of the icon. Defaults to `default`.
      */
     iconSize?: IconSize
     onSubmit?: (event: InputEvent) => void
