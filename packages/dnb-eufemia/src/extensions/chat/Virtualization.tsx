@@ -144,7 +144,7 @@ function VirtualizedConversation(
         ? peek
         : 0,
     anchorTo: 'end',
-    followOnAppend: false,
+    followOnAppend: following.current ? navigationBehavior() : false,
     scrollEndThreshold: following.current ? 1 : -Infinity,
   })
   const latest = useRef({ items, metadata, virtualizer })
@@ -434,9 +434,14 @@ function VirtualizedConversation(
         : 0
     )
     previous.current = { first, last, turn: turnId, mode: scrollBehavior }
+    const animateAppend =
+      before && !reset && appended.length > 0 && following.current
+    if (animateAppend) {
+      setNavigation({ id: null, behavior: navigationBehavior() })
+    }
     cancelAnimationFrame(frame.current)
     frame.current = requestAnimationFrame(() => {
-      if (navigation) {
+      if (navigation || animateAppend) {
         updateState()
         return
       }
