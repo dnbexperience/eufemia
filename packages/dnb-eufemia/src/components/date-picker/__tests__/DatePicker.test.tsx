@@ -7492,11 +7492,6 @@ describe('DatePicker calc', () => {
 })
 
 describe('DatePicker scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
   it('leaves only the calendar padding below the last week row', () => {
     const css = loadScss(require.resolve('../style/dnb-date-picker.scss'))
 
@@ -7506,6 +7501,11 @@ describe('DatePicker scss', () => {
     expect(css).toMatch(
       /\.dnb-date-picker--inline \.dnb-date-picker__days:last-child \.dnb-date-picker__day \{\s*margin-bottom: var\(--date-picker-day-horizontal-spacing\);\s*\}/
     )
+  })
+
+  it('should match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
   })
 })
 
