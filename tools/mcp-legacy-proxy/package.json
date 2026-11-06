@@ -9,7 +9,7 @@
     "deploy": "wrangler deploy",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'"
+    "lint": "node ../../node_modules/.bin/eslint --quiet 'src/**/*.ts'"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260617.1",
