@@ -1,6 +1,6 @@
 import { createRef } from 'react'
 import { act, render, fireEvent, waitFor } from '@testing-library/react'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterPanel from '../FilterPanel'
 import FilterPanelButton from '../FilterPanelButton'
@@ -546,5 +546,22 @@ describe('Filter.Toolbar.Actions', () => {
 
     expect(actions).toBeInTheDocument()
     expect(actions.querySelector('button')).toBeInTheDocument()
+  })
+})
+
+describe('Filter.Panel scss', () => {
+  it('stacks collapsed filter groups without extra space', () => {
+    const css = loadScss(require.resolve('../style/dnb-filter.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-filter__panel \{[^}]*padding: 1rem 1\.5rem;/
+    )
+    expect(css).toMatch(/\.dnb-filter__panel-content \{[^}]*gap: 0;/)
+    expect(css).toMatch(
+      /\.dnb-filter__panel \.dnb-accordion__tertiary-content \{[^}]*padding: 0 0\.5rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-filter__panel \.dnb-filter__item-content \{[^}]*padding-top: 0\.5rem;/
+    )
   })
 })
