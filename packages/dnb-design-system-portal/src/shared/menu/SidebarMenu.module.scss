@@ -1,5 +1,5 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
-@use './logo-background';
+@use './floating-island';
 
 :global {
   :root {
@@ -127,11 +127,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-block: 0.75rem 0.5rem;
+  padding-block: 1rem 0.5rem;
 
   &[data-scrolled='true'] > a::before {
-    opacity: 1;
-    transform: scale(1);
+    @include floating-island.visible();
   }
 
   > a {
@@ -144,18 +143,12 @@
     outline: none;
 
     &::before {
-      @include logo-background.background();
+      @include floating-island.background();
     }
 
     @include utilities.focusVisible() {
       &::after {
-        @include logo-background.focus();
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      &::before {
-        transition: none;
+        @include floating-island.focus();
       }
     }
   }

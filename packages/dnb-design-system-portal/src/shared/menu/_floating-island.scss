@@ -1,9 +1,10 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
-@mixin frame($inset) {
+@mixin frame($inset-inline) {
   position: absolute;
   z-index: -1;
-  inset: $inset;
+  inset-block: -0.5rem;
+  inset-inline: $inset-inline;
   pointer-events: none;
 
   border-radius: 2rem;
@@ -11,8 +12,8 @@
   content: '';
 }
 
-@mixin background($inset: -0.125rem -1rem) {
-  @include frame($inset);
+@mixin background($inset-inline: -1rem) {
+  @include frame($inset-inline);
 
   border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
 
@@ -23,9 +24,18 @@
   transition:
     opacity 180ms ease,
     transform 180ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 }
 
-@mixin focus($inset: -0.125rem -1rem) {
-  @include frame($inset);
+@mixin visible() {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@mixin focus($inset-inline: -1rem) {
+  @include frame($inset-inline);
   @include utilities.focusRing('always');
 }
