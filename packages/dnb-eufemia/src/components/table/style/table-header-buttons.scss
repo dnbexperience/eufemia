@@ -6,6 +6,7 @@
   & &__th#{&}--sortable {
     .dnb-table__sort-button.dnb-button {
       --button-color-text--default: var(--table-th-text-color);
+      --button-icon-margin-left: 0.25rem;
 
       > .dnb-icon {
         opacity: 0;
@@ -128,6 +129,7 @@
 
           .dnb-button__icon {
             margin-left: -0.5rem;
+            margin-right: 0.25rem;
           }
           .dnb-button__text {
             padding-right: 0;

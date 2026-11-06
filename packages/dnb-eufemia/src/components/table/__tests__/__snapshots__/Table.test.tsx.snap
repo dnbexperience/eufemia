@@ -142,6 +142,7 @@ html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container 
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button {
   --button-color-text--default: var(--table-th-text-color);
+  --button-icon-margin-left: 0.25rem;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
   opacity: 0;
@@ -268,6 +269,7 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__icon, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__icon {
   margin-left: -0.5rem;
+  margin-right: 0.25rem;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text {
   padding-right: 0;
@@ -1053,6 +1055,15 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 
 .dnb-table__td.dnb-table__td__button-icon {
   user-select: none;
+}
+
+.dnb-table__tr:not(.dnb-table__tr--vertical-align-middle):not(.dnb-table__tr--vertical-align-bottom) > .dnb-table__td__button-icon.dnb-table__td {
+  vertical-align: top;
+  padding-top: 1rem;
+}
+
+.dnb-table__size--small .dnb-table__tr:not(.dnb-table__tr--vertical-align-middle):not(.dnb-table__tr--vertical-align-bottom) > .dnb-table__td__button-icon.dnb-table__td {
+  padding-top: 0.75rem;
 }
 
 .dnb-table__tr--clickable .dnb-table__button {
