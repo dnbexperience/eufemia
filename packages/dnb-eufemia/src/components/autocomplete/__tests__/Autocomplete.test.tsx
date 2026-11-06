@@ -6173,6 +6173,14 @@ describe('Autocomplete scss', () => {
     const css = loadScss(require.resolve('../style/dnb-autocomplete.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('keeps the suffix value clear of the submit button at every size', () => {
+    const css = loadScss(require.resolve('../style/dnb-autocomplete.scss'))
+
+    expect(css).toContain(
+      '.dnb-autocomplete .dnb-input--has-submit-element .dnb-input__inner__element {\n  margin-right: calc(var(--input-submit-button-width) + 0.5rem) !important;\n}'
+    )
+  })
 })
 
 const keyDownOnInput = (key) => {

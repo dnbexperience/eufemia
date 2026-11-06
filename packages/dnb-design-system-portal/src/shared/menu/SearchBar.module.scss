@@ -28,6 +28,7 @@
       }
 
       :global(.dnb-input--clear) {
+        margin-left: calc(var(--input-height-current) * -1);
         margin-right: 0;
       }
 
