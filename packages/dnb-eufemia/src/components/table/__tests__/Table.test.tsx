@@ -374,4 +374,26 @@ describe('Table scss', () => {
       /^\.dnb-card--no-inner-space > [^{]*\{[^}]*clip-path/m
     )
   })
+
+  it('should have 4px between the sort button text and its icon', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-table__th\.dnb-table--sortable \.dnb-table__sort-button\.dnb-button \{\s*--button-color-text--default: var\(--table-th-text-color\);\s*--button-icon-margin-left: 0\.25rem;/
+    )
+    expect(css).toContain(
+      '.dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__icon {\n  margin-left: -0.5rem;\n  margin-right: 0.25rem;\n}'
+    )
+  })
+
+  it('should align the accordion chevron with the first line of text', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toContain(
+      '.dnb-table__tr:not(.dnb-table__tr--vertical-align-middle):not(.dnb-table__tr--vertical-align-bottom) > .dnb-table__td__button-icon.dnb-table__td {\n  vertical-align: top;\n  padding-top: 1rem;\n}'
+    )
+    expect(css).toContain(
+      '.dnb-table__size--small .dnb-table__tr:not(.dnb-table__tr--vertical-align-middle):not(.dnb-table__tr--vertical-align-bottom) > .dnb-table__td__button-icon.dnb-table__td {\n  padding-top: 0.75rem;\n}'
+    )
+  })
 })
