@@ -1244,6 +1244,17 @@ describe('Pagination scss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('limits the page buttons to the Figma width of 53px', () => {
+    const css = loadScss(require.resolve('../style/dnb-pagination.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-pagination__button \{\s*max-width: 3\.3125rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-pagination__button--large-number \{\s*max-width: unset;/
+    )
+  })
+
   it('shows the current page in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-pagination.scss'))
 
