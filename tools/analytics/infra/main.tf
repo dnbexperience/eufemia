@@ -789,11 +789,8 @@ resource "aws_lambda_function" "analytics" {
 
   environment {
     variables = {
-      NODE_OPTIONS     = "--enable-source-maps"
-      DATA_BUCKET      = aws_s3_bucket.data.id
-      GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE       = aws_glue_catalog_table.portal_views.name
-      ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
+      NODE_OPTIONS = "--enable-source-maps"
+      DATA_BUCKET  = aws_s3_bucket.data.id
 
       # Shared secret for the X-Edge-Auth origin check (injected by Akamai).
       EDGE_AUTH_SECRET = var.edge_auth_secret

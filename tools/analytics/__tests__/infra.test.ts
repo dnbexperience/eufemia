@@ -247,6 +247,15 @@ describe('analytics infrastructure', () => {
     expect(terraform).not.toMatch(
       /data "aws_iam_role"|resource "aws_iam_(role_policy|policy_attachment|role_policy_attachments_exclusive)" |managed_policy_arns|inline_policy/
     )
+
+    // The per-role checks below find attachments by this reference.
+    for (const attachment of resourceBlocks(
+      'aws_iam_role_policy_attachment'
+    )) {
+      expect(attachment).toMatch(
+        /^\s+role\s+=\s+aws_iam_role\.\w+\.name$/m
+      )
+    }
   })
 
   it.each([
