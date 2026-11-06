@@ -6,7 +6,10 @@ import {
   waitFor,
 } from '@testing-library/react'
 import { afterAll, beforeEach, vi } from 'vitest'
-import { axeComponent } from '../../../../../core/test-utils/testSetup'
+import {
+  axeComponent,
+  loadScss,
+} from '../../../../../core/test-utils/testSetup'
 import { Provider } from '../../../../../shared'
 import { Field, Form } from '../../..'
 import { createMultiSelectionVirtualization } from '../Virtualization'
@@ -3613,5 +3616,17 @@ describe('MultiSelection', () => {
         ).toHaveTextContent('0 of 2 selected')
       })
     })
+  })
+})
+
+describe('MultiSelection scss', () => {
+  it('places the confirm and cancel buttons 2rem below the option list', () => {
+    const css = loadScss(
+      require.resolve('../style/dnb-multi-selection.scss')
+    )
+
+    expect(css).toMatch(
+      /\.dnb-forms-field-multi-selection__actions \{[^}]*padding-top: 2rem;/
+    )
   })
 })
