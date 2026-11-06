@@ -37,7 +37,7 @@ type AmountOwnProps = Omit<
    */
   mainSize?: TypographySize
   /**
-   * Typography weight for the main content. When omitted, sizes above `basis` use the theme heading weight (`medium` in the DNB theme).
+   * Typography weight for the main content. When omitted, sizes above `basis` use the theme heading weight (`medium` in the DNB theme), except inside `Stat.Trend` and `Stat.Info`.
    */
   mainWeight?: TypographyWeight
   /**
@@ -187,6 +187,9 @@ function AmountBase(props: AmountProps) {
     resolvedMainSize === resolvedAuxiliarySize
       ? defaultWeight
       : null)
+  // Prefix and suffix are not part of the value, so they keep the body weight
+  const resolvedAffixWeight =
+    resolvedAuxWeight === 'heading' ? 'medium' : resolvedAuxWeight
   const getWeightClass = (weight: TypographyWeight | 'heading') =>
     weight === 'heading'
       ? 'dnb-stat__heading-weight'
@@ -268,7 +271,7 @@ function AmountBase(props: AmountProps) {
         'dnb-stat__prefix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-        getWeightClass(resolvedAuxWeight)
+        getWeightClass(resolvedAffixWeight)
       )
     )
     content = (
@@ -288,7 +291,7 @@ function AmountBase(props: AmountProps) {
         'dnb-stat__suffix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
-        getWeightClass(resolvedAuxWeight)
+        getWeightClass(resolvedAffixWeight)
       )
     )
     const suffixSpace = suffixStartsWithSlash ? '' : '\u00A0'

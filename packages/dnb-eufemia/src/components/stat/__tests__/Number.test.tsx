@@ -205,6 +205,21 @@ describe('Stat.Number', () => {
     expect(amount.classList).not.toContain('dnb-stat__heading-weight')
   })
 
+  it('keeps the medium weight for prefix and suffix', () => {
+    render(<Stat.Number value={1234} prefix="from" suffix="per month" />)
+
+    const prefix = document.querySelector('.dnb-stat__prefix')
+    const suffix = document.querySelector('.dnb-stat__suffix')
+
+    expect(
+      document.querySelector('.dnb-stat__amount').classList
+    ).toContain('dnb-stat__heading-weight')
+    expect(prefix.classList).toContain('dnb-t__weight--medium')
+    expect(prefix.classList).not.toContain('dnb-stat__heading-weight')
+    expect(suffix.classList).toContain('dnb-t__weight--medium')
+    expect(suffix.classList).not.toContain('dnb-stat__heading-weight')
+  })
+
   it('supports custom mainWeight', () => {
     render(
       <Stat.Number

@@ -39,9 +39,9 @@ export const fontSizeProperty: PropertiesTableProps[string] = {
 }
 
 export const mainWeightProperty: PropertiesTableProps[string] = {
-  doc: 'Typography weight for the main content. When omitted, sizes above `basis` use the theme heading weight (`medium` in the DNB theme).',
+  doc: 'Typography weight for the main content. When omitted, sizes above `basis` use the theme heading weight (`medium` in the DNB theme), except inside `Stat.Trend` and `Stat.Info`.',
   type: ['"regular"', '"medium"'],
-  defaultValue: 'medium',
+  defaultValue: 'theme heading weight above `basis`, otherwise `medium`',
   status: 'optional',
 }
 
