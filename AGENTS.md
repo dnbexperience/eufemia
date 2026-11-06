@@ -41,6 +41,11 @@
 
 - Write tests for new functionality and bug fixes. Tests are a contract for the intended behavior.
 - For a bug fix, write and run a regression test before implementing the fix, and verify that it fails for the expected reason.
+- Before adding coverage, inspect existing unit, visual, and E2E tests for the same behavior. Extend the smallest relevant test instead of adding a duplicate.
+- Use unit or rendering tests for logic, markup, and static documentation. Use visual tests for appearance. Add E2E tests when the contract needs a real browser, such as native keyboard behavior, focus, scrolling, hit testing, font loading, or print behavior.
+- Do not repeat visual coverage with E2E style assertions unless an exact computed value or browser behavior is part of the contract. Verify the same fixture, viewport, theme, and state are covered before removing or replacing a test.
+- Group read-only layout comparisons that use the same fixture and viewport into one browser test with named steps. Keep independent interactions isolated, avoid repeated page loads and Sass compilation, and prefer observable conditions over fixed delays.
+- When changing test infrastructure or adding a large test matrix, measure focused runtime before and after the change. Preserve meaningful assertions and include affected source, shared dependencies, and fixtures in conditional test selection.
 - Prefer `document.querySelector` over `screen` from `@testing-library/react`.
 - Follow the existing Prettier and ESLint configurations and run the relevant checks on changed files.
 - Format files with the workspace version: `yarn exec prettier --write <file>`. Do not use `npx prettier`, because it bypasses Yarn PnP resolution and may select the wrong version.
