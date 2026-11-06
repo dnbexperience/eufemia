@@ -711,6 +711,17 @@ describe('Popover', () => {
     )
   })
 
+  it('stays open when a released key lands on body', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    fireEvent.keyUp(document.body, { key: 'ArrowDown' })
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
   it('stays open when touch scrolls outside before ending', async () => {
     renderWithTrigger()
 
