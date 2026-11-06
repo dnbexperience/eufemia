@@ -5,8 +5,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-term-definition {
-  --inner-space: 0.5rem;
-
   &__trigger {
     &:not(:hover) {
       color: inherit;

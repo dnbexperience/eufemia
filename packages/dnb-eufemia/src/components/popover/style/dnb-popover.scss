@@ -178,8 +178,10 @@
     --button-color-icon--default: var(--popover-color-icon);
 
     position: absolute;
-    top: var(--inner-space);
-    right: var(--inner-space);
+
+    // Aligns the 16px icon with the content edge
+    top: calc(var(--inner-space) * 2 - 0.5rem);
+    right: calc(var(--inner-space) * 2 - 0.5rem);
 
     // Make long pressing easier on touch devices
     user-select: none;
