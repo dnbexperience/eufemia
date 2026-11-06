@@ -1601,6 +1601,25 @@ describe('Tabs scss', () => {
     const css = loadScss(require.resolve('../style/dnb-tabs.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('places labels 40px apart with the hover background, underline and focus ring based on the label width', () => {
+    const css = loadScss(require.resolve('../style/dnb-tabs.scss'))
+
+    expect(css).toMatch(/\.dnb-tabs__button \{[^}]*\n {2}padding: 0;/)
+    expect(css).toMatch(
+      /\.dnb-tabs__button__snap \{[^}]*padding: 0 1\.25rem;/
+    )
+    expect(css).toMatch(
+      /:focus-visible::before \{[^}]*left: -0\.5rem;[^}]*right: -0\.5rem;/
+    )
+    expect(css).toMatch(/:has\(> \.dnb-badge\)::after \{[^}]*left: 0;/)
+    expect(css).toMatch(
+      /:first-of-type\.focus \.dnb-tabs__button:focus-visible \{\s*margin-left: 0\.625rem;/
+    )
+    expect(css).toMatch(
+      /:last-of-type\.focus \.dnb-tabs__button:focus-visible \{\s*margin-right: 0\.625rem;/
+    )
+  })
 })
 
 describe('Tabs ARIA', () => {
