@@ -1570,15 +1570,6 @@ button.dnb-button::-moz-focus-inner {
     transition-duration: 0.01ms;
   }
 }
-.dnb-breadcrumb__multiple .dnb-breadcrumb__item {
-  transition: transform 400ms var(--easing-default) calc(var(--delay) * 50ms);
-  transform: translateX(-1rem);
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
-    transition-duration: 0.01ms;
-  }
-}
 .dnb-breadcrumb__collapse .dnb-breadcrumb__item {
   padding: 0;
 }
@@ -1587,9 +1578,6 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__collapse .dnb-breadcrumb__item:not(:first-child) .dnb-breadcrumb__item__span__icon {
   display: none;
-}
-.dnb-breadcrumb__multiple.dnb-height-animation--parallax .dnb-breadcrumb__item {
-  transform: translateX(0);
 }
 @media screen and (max-width: 40em) {
   .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__bar .dnb-breadcrumb__multiple {
