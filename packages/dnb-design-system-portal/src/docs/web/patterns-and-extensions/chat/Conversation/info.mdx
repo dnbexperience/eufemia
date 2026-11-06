@@ -20,9 +20,9 @@ render(<Conversation />)
 
 By default, a new message from the user is scrolled near the top, with a peek of the previous reply above it. The reply then streams in below, and the view stays where it is, so the user can read in peace. When the reply goes below the view, a button to go to the latest message is shown. When the user scrolls to the end, or presses the button, the conversation follows the reply as it streams in.
 
-Use `scrollBehavior="end"` to always follow the end of the conversation instead, until the user scrolls up.
+Use `scrollBehavior="end"` to follow the end of the conversation instead, until the user scrolls up. New appended messages scroll into view smoothly while following. Initial history appears immediately, and loading older messages above preserves the reading position. Reduced motion disables smooth scrolling.
 
-The conversation only moves when the user sends a message or asks for it. Content that changes, like a reply that streams in or older messages that are added above, does not move what the user reads. Short conversations start at the bottom, like in most chats.
+Automatic scrolling follows new content only while following the latest messages. Scrolling back pauses following; streamed updates and older messages added above preserve the reading position. Sending a new user message or using the latest-message button resumes navigation. Short conversations start at the bottom, and existing messages move upward smoothly as new messages are appended, before scrolling is needed. This behavior applies to both human and AI conversations.
 
 Give it a height, e.g. with `style` or by placing it in a flex layout. The conversation can be scrolled with the keyboard when its content overflows.
 
