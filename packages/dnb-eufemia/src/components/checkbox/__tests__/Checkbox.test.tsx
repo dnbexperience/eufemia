@@ -595,6 +595,33 @@ describe('Checkbox component', () => {
     expect(input.indeterminate).toBe(false)
   })
 
+  // One key press must not change the checkbox and send the form at once.
+  // Enter never submits the form, also when the checkbox does not change.
+  it.each([{ readOnly: false }, { readOnly: true }])(
+    'should not submit the form on Enter when readOnly is $readOnly',
+    async ({ readOnly }) => {
+      const onSubmit = vi.fn((event) => event.preventDefault())
+      const onChange = vi.fn()
+      render(
+        <form onSubmit={onSubmit}>
+          <Checkbox readOnly={readOnly} onChange={onChange} />
+          <button type="submit">Submit</button>
+        </form>
+      )
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard('{Enter}')
+
+      expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      // Control: the form can be submitted
+      await userEvent.click(document.querySelector('button'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    }
+  )
+
   it('should call onKeyDown given as a property', () => {
     const onKeyDown = vi.fn()
     const onChange = vi.fn()
