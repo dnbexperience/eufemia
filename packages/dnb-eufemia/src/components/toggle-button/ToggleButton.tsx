@@ -353,7 +353,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     )
   }
   if (readOnly) {
-    buttonParams['aria-readonly'] = true
+    // ARIA allows aria-readonly on a checkbox, but not on a button or radio
+    if (role === 'checkbox') {
+      buttonParams['aria-readonly'] = true
+    }
     buttonParams['readOnly'] = true
   }
 
