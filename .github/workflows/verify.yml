@@ -70,9 +70,10 @@ jobs:
       #   re-check its component. The patterns mirror the rule
       #   (`Docs\.[jt]sx?$`), as hashFiles does not support {a,b} braces.
       # - compat/compat reads the browser targets from .browserslistrc.
-      # - import/named, import/default and import/no-named-as-default read the
-      #   module that a file imports. With no TypeScript resolver, they only
-      #   resolve .js, .mjs and .cjs files, so those files are in the hash.
+      # - import-x/named, import-x/default and import-x/no-named-as-default read
+      #   the module that a file imports. They only read .js, .mjs and .cjs
+      #   modules (the default `import-x/extensions`), so those files are in
+      #   the hash.
       - name: Use ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -118,10 +119,10 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       # Same as the library cache above: ESLint does not see an upgrade of a
-      # plugin without version metadata (eslint-plugin-react, -import and
-      # -workspaces here) as a config change. The portal config extends the
-      # library config, so the local rules are in the hash too, even though no
-      # portal file uses them today.
+      # plugin without version metadata (eslint-plugin-react and
+      # eslint-plugin-workspaces here) as a config change. The portal config
+      # extends the library config, so the local rules are in the hash too,
+      # even though no portal file uses them today.
       - name: Use ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
