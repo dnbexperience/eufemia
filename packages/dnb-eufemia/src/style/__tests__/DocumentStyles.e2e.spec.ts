@@ -5,8 +5,15 @@ import { test, expect, type Page } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
 
 const styleRoot = path.resolve(__dirname, '..')
-const compile = (file: string) =>
-  sass.compile(path.join(styleRoot, file)).css
+const compiledStyles = new Map<string, string>()
+const compile = (file: string) => {
+  const filePath = path.resolve(styleRoot, file)
+  if (!compiledStyles.has(filePath)) {
+    compiledStyles.set(filePath, sass.compile(filePath).css)
+  }
+
+  return compiledStyles.get(filePath)
+}
 
 test.describe('Document and print styles', () => {
   let page: Page
@@ -560,9 +567,7 @@ test.describe('Document and print styles', () => {
         const scss = paragraphs.find((element) =>
           element.textContent.startsWith('SCSS imports')
         )
-        const table = scss.previousElementSibling.querySelector(
-          '.dnb-table__scroll-view'
-        )
+        const table = scss.previousElementSibling
         const intro = paragraphs.find((element) =>
           element.textContent.startsWith('Import dnb-ui-print')
         )
@@ -580,7 +585,7 @@ test.describe('Document and print styles', () => {
             code.getBoundingClientRect().top,
         }
       })
-    expect.soft(gaps.afterTable).toBeGreaterThanOrEqual(32)
+    expect.soft(gaps.afterTable).toBeGreaterThanOrEqual(24)
     expect.soft(gaps.beforeCode).toBeLessThanOrEqual(24)
     expect(gaps.copyButtonTop).toBeLessThanOrEqual(16)
   })

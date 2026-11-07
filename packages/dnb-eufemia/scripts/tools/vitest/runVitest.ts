@@ -25,7 +25,7 @@ const presets: Record<string, Preset> = {
     ],
   },
   scripts: {
-    config: 'vitest.config.scripts.ts',
+    config: 'vitest.config.scripts.mts',
     includeGlobs: ['scripts/**/__tests__/**/*.test.{ts,tsx,js,jsx}'],
     ignoreGlobs: ['**/scripts/postbuild/**', '**/node_modules/**'],
   },

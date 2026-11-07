@@ -37,8 +37,7 @@ type MetricName =
 /**
  * Emit a CloudWatch metric using the Embedded Metric Format (a structured log
  * line). EMF needs only the Lambda's existing log permissions, so the
- * pre-provisioned execution role stays as-is (it cannot be granted
- * cloudwatch:PutMetricData in Terraform, ADR 0004).
+ * execution role needs no cloudwatch:PutMetricData grant.
  *
  * Each metric has an alarm in infra/main.tf that describes what it catches.
  */
@@ -344,7 +343,7 @@ export async function buildComponentUsage(
  *
  * Refreshes the durable daily rollups, reads the page-view trends, the MCP
  * usage section and (when enabled) the component usage section from Athena, and
- * writes the snapshot to S3. Runs under the analytics execution role (Athena +
+ * writes the snapshot to S3. Runs under its own execution role (Athena +
  * S3 write); keeping it separate from the read endpoint lets that endpoint run
  * with a read-only role.
  *

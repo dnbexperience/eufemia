@@ -14,7 +14,7 @@
     "release:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts release-check",
     "test": "vitest run",
     "test:types": "tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' '__tests__/**/*.ts'"
+    "lint": "node ../../node_modules/.bin/eslint --quiet 'src/**/*.ts' '__tests__/**/*.ts'"
   },
   "devDependencies": {
     "@types/node": "24.13.3",

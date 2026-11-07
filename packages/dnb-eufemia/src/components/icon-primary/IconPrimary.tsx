@@ -10,7 +10,7 @@ import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-// NB: The path reflects the tsdown.config.ts -> external: '../../icons/dnb/primary_icons'
+// NB: The path reflects the tsdown.config.mts -> external: '../../icons/dnb/primary_icons'
 import * as primaryIcons from '../../icons/dnb/primary_icons'
 import * as primaryIconsMedium from '../../icons/dnb/primary_icons_medium'
 

@@ -2,11 +2,16 @@ name: Release SBOM check
 
 # The release workflow keeps the SBOM and its attestation non-blocking, so a
 # release can finish without them. Once a release run has completed, this
-# checks every version npm published in the last three days.
+# checks every version npm published in the last three days. It also runs
+# daily, because npm lists a version only after processing it, which took up
+# to 55 minutes, and the release run can finish before that.
 on:
   workflow_run:
     workflows: ['Release']
     types: [completed]
+  schedule:
+    # At night, when no release runs: a release in progress has no SBOM yet.
+    - cron: '41 2 * * *'
   workflow_dispatch:
 
 permissions:
@@ -21,6 +26,7 @@ jobs:
     if: >-
       github.repository == 'dnbexperience/eufemia' &&
       (github.event_name == 'workflow_dispatch' ||
+       github.event_name == 'schedule' ||
        (github.event.workflow_run.event == 'push' &&
         github.event.workflow_run.repository.full_name == github.repository))
     runs-on: ubuntu-latest

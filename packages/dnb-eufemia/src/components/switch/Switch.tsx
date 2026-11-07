@@ -162,7 +162,8 @@ function Switch(props: SwitchProps) {
     (event: KeyboardEvent<HTMLInputElement>) => {
       onKeyDown?.(event)
 
-      if (event.defaultPrevented) {
+      // Enter does not go through onClickHandler, so check readOnly here too
+      if (event.defaultPrevented || readOnly) {
         return
       }
 
@@ -172,7 +173,7 @@ function Switch(props: SwitchProps) {
           break
       }
     },
-    [onChangeHandler, onKeyDown]
+    [onChangeHandler, onKeyDown, readOnly]
   )
 
   const showStatus = useMemo(() => getStatusState(status), [status])

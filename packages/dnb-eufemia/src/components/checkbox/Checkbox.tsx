@@ -257,11 +257,12 @@ function Checkbox(localProps: CheckboxProps) {
     (event: KeyboardEvent<HTMLInputElement>) => {
       onKeyDown?.(event)
 
-      if (!event.defaultPrevented && event.key === 'Enter') {
+      // Enter does not go through onClickHandler, so check readOnly here too
+      if (!event.defaultPrevented && event.key === 'Enter' && !readOnly) {
         handleChange(event as unknown as CheckboxOnChangeParams['event'])
       }
     },
-    [handleChange, onKeyDown]
+    [handleChange, onKeyDown, readOnly]
   )
 
   const showStatus = getStatusState(status)

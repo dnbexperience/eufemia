@@ -400,21 +400,32 @@ jobs:
       # target the matching GitHub Release and stamp the SBOM. Empty or the
       # placeholder version means nothing was published.
       #
-      # It is set only once npm has the version, and also when the Release
-      # step failed after publishing: in v11.16.1, semantic-release's success
-      # step failed after npm had the version, which skipped the portal
-      # deploy, the SBOM and the attestation. A re-run publishes nothing,
-      # because semantic-release finds the earlier attempt's tag, so the
-      # version then comes from that tag: semantic-release puts it on the
-      # release commit, whose parent is this run's commit.
+      # The Release step records `published` once `npm publish` has succeeded
+      # (see releasePublished.ts), also when a later semantic-release step
+      # fails: in v11.16.1, the success step failed after the publish, which
+      # skipped the portal deploy, the SBOM and the attestation. npm is not
+      # asked then, because it lists a version only after processing it, which
+      # took 5 to 55 minutes for every release from v11.14.0 to v11.17.0.
+      #
+      # Otherwise it is set only once npm has the version. A re-run publishes
+      # nothing, because semantic-release stops when its release commit has
+      # moved the branch past this run's commit. The version then comes from
+      # the tag semantic-release put on that release commit, whose parent is
+      # this run's commit.
       - name: Capture released version
         id: release-info
         continue-on-error: true
         if: ${{ !cancelled() && steps.release.outcome != 'skipped' }}
         working-directory: packages/dnb-eufemia
         env:
+          PUBLISHED: ${{ steps.release.outputs.published }}
           RUN_COMMIT: ${{ github.sha }}
         run: |
+          if [ -n "$PUBLISHED" ]; then
+            echo "released=$PUBLISHED" >> "$GITHUB_OUTPUT"
+            echo "Released version: $PUBLISHED"
+            exit 0
+          fi
           version="$(node -p "require('./build/package.json').version")"
           if [ "$version" = "0.0.0-development" ]; then
             version=""
@@ -442,7 +453,7 @@ jobs:
               exit 0
             fi
           done
-          echo "::error::npm does not list @dnb/eufemia@$version. If it still does not, and the v$version tag is on the branch, read 'Releases queue' in deploy.mdx before the next release."
+          echo "::error::npm does not list @dnb/eufemia@$version yet. npm can take up to an hour to list a published version; once it does, re-run the publish job. If it never does and the v$version tag is on the branch, read 'Releases queue' in deploy.mdx before the next release."
           exit 1
 
   # Notifications can be retried without publishing or deploying again.
@@ -694,7 +705,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 15
+    # The first step waits up to an hour for npm.
+    timeout-minutes: 75
 
     permissions:
       contents: write # Attach assets to the GitHub Release
@@ -708,6 +720,11 @@ jobs:
       # v11.16.1 it had the same SHA-1 as npm's `dist.shasum`. No artifact
       # carries it, so no job in this run can replace it, and a re-run can
       # still attest after the run's artifacts have expired.
+      #
+      # npm lists a version only after processing it, which took up to 55
+      # minutes after publishing (v11.15.0 and v11.16.1), so this waits up to
+      # an hour. Without `--prefer-online`, `npm pack` reuses the registry data
+      # it cached for 5 minutes.
       - name: Get the released tarball from npm
         id: subject
         continue-on-error: true
@@ -719,10 +736,13 @@ jobs:
             echo "::error::No released version to attest."
             exit 1
           fi
-          for attempt in 1 2 3 4 5; do
-            [ "$attempt" = 1 ] || sleep 20
+          for attempt in $(seq 120); do
+            [ "$attempt" = 1 ] || sleep 30
+            if [ "$(npm view "@dnb/eufemia@$RELEASED_VERSION" version 2>/dev/null)" != "$RELEASED_VERSION" ]; then
+              continue
+            fi
             if out="$(npm pack "@dnb/eufemia@$RELEASED_VERSION" \
-              --ignore-scripts --pack-destination "$RUNNER_TEMP")"; then
+              --ignore-scripts --prefer-online --pack-destination "$RUNNER_TEMP")"; then
               tarball="$RUNNER_TEMP/$(printf '%s\n' "$out" | tail -1)"
               if [ -f "$tarball" ]; then
                 echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
@@ -747,8 +767,8 @@ jobs:
           path: packages/dnb-eufemia
 
       # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
-      # the npm tarball. Complements npm provenance; verify with
-      # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
+      # the npm tarball. Complements npm provenance; docs/sbom.md shows how to
+      # verify it.
       - name: Attest the SBOM
         continue-on-error: true
         if: steps.subject.outcome == 'success' &&

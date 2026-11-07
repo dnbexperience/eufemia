@@ -1,0 +1,31 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
+@mixin frame($inset) {
+  position: absolute;
+  z-index: -1;
+  inset: $inset;
+  pointer-events: none;
+
+  border-radius: 2rem;
+
+  content: '';
+}
+
+@mixin background($inset: -0.125rem -1rem) {
+  @include frame($inset);
+
+  border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+
+  background-color: var(--token-color-background-neutral);
+  opacity: 0;
+  transform: scale(0.96);
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+@mixin focus($inset: -0.125rem -1rem) {
+  @include frame($inset);
+  @include utilities.focusRing('always');
+}

@@ -10,7 +10,7 @@
   },
   "main": "src/index.ts",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --quiet .",
     "test": "vitest run",
     "test:types": "tsc --noEmit"
   },

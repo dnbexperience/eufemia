@@ -539,7 +539,7 @@ describe('Upload', () => {
 
       expect(
         screen.queryByRole('button', {
-          name: nb.buttonText,
+          name: `${nb.title} ${nb.buttonText}`,
         })
       ).toHaveAttribute('disabled')
     })
@@ -578,6 +578,53 @@ describe('Upload', () => {
       )
 
       expect(screen.queryByText(nb.title)).toBeInTheDocument()
+    })
+
+    it('formats the file sizes with the locale from the Provider', () => {
+      render(
+        <Provider locale="en-GB">
+          <Upload
+            acceptedFileTypes={['png']}
+            fileMaxSize={1.5}
+            errorLargeFile="Too large %size"
+          />
+        </Provider>
+      )
+
+      expect(document.querySelector('.dnb-upload dl')).toHaveTextContent(
+        '1.5 MB'
+      )
+
+      fireEvent.change(document.querySelector('.dnb-upload__file-input'), {
+        target: {
+          files: [createMockFile('file.png', 100000000, 'image/png')],
+        },
+      })
+
+      expect(
+        document.querySelector('.dnb-upload__file-list')
+      ).toHaveTextContent('Too large 1.5')
+    })
+
+    it('formats the file sizes with the locale property', () => {
+      render(
+        <Upload
+          acceptedFileTypes={[{ fileType: 'png', fileMaxSize: 1.5 }]}
+          variant="compact"
+          locale="en-GB"
+        />
+      )
+
+      fireEvent.click(
+        document.querySelector('.dnb-upload__file-limits button')
+      )
+
+      expect(
+        document.querySelector('.dnb-upload__file-limits__table tbody')
+      ).toHaveTextContent('1.5 MB')
+      expect(
+        document.querySelector('.dnb-upload__file-input')
+      ).not.toHaveAttribute('locale')
     })
 
     it('should support spacing props', () => {
@@ -660,7 +707,7 @@ describe('Upload', () => {
 
       expect(
         screen.queryByRole('button', {
-          name: nb.buttonTextSingular,
+          name: `${nb.title} ${nb.buttonTextSingular}`,
         })
       ).not.toHaveAttribute('disabled')
     })
@@ -1700,7 +1747,7 @@ describe('Upload', () => {
 
       expect(document.activeElement).toBe(
         screen.queryByRole('button', {
-          name: nb.buttonText,
+          name: `${nb.title} ${nb.buttonText}`,
         })
       )
     })
@@ -2398,6 +2445,24 @@ describe('Upload', () => {
       ).toHaveTextContent(nb.title)
     })
 
+    it('renders children without a title and text', () => {
+      render(
+        <Upload
+          {...defaultProps}
+          variant="compact"
+          title={false}
+          text={false}
+        >
+          <span className="custom-content">My custom content</span>
+        </Upload>
+      )
+
+      expect(document.querySelector('.dnb-upload__label')).toBeNull()
+      expect(document.querySelector('.custom-content')).toHaveTextContent(
+        'My custom content'
+      )
+    })
+
     it('renders the custom title', () => {
       const customTitle = 'custom title'
 
@@ -2488,6 +2553,23 @@ describe('Upload', () => {
       expect(
         document.querySelector('.dnb-upload__file-limits__table th')
       ).toHaveAttribute('scope', 'row')
+    })
+
+    it('shows the expanded file limits in a Card', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      fireEvent.click(
+        document.querySelector('.dnb-upload__file-limits button')
+      )
+
+      const content = document.querySelector(
+        '.dnb-upload__file-limits__content'
+      )
+      expect(content).toHaveClass('dnb-card')
+      expect(content.tagName).toBe('DIV')
+      expect(
+        content.querySelector('.dnb-upload__file-limits__table')
+      ).toBeInTheDocument()
     })
 
     it('shows the file max size per file type when expanded', () => {
@@ -2612,6 +2694,55 @@ describe('Upload aria', () => {
   it('should validate', async () => {
     const Component = render(<Upload {...defaultProps} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+
+  it.each(['default', 'compact'] as const)(
+    'names the %s button by the title and its own text, and describes it by the text',
+    (variant) => {
+      render(<Upload {...defaultProps} variant={variant} />)
+
+      const button = document.querySelector(
+        '.dnb-upload__file-input-button'
+      )
+      expect(button).toHaveAccessibleName(`${nb.title} ${nb.buttonText}`)
+      expect(button).toHaveAccessibleDescription(nb.text)
+    }
+  )
+
+  it('names the compact button by its own text without a title', () => {
+    render(<Upload {...defaultProps} variant="compact" title={false} />)
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+    expect(button).toHaveAccessibleName(nb.buttonText)
+    expect(button).toHaveAccessibleDescription(nb.text)
+  })
+
+  it('names the button by its own text without a title and text', () => {
+    render(
+      <Upload
+        {...defaultProps}
+        variant="compact"
+        title={false}
+        text={false}
+      />
+    )
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+    expect(button).toHaveAccessibleName(nb.buttonText)
+    expect(button).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('names the button by the text given in buttonProps', () => {
+    render(
+      <Upload
+        {...defaultProps}
+        variant="compact"
+        buttonProps={{ text: 'Custom text' }}
+      />
+    )
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+    expect(button).toHaveAccessibleName(`${nb.title} Custom text`)
   })
 })
 

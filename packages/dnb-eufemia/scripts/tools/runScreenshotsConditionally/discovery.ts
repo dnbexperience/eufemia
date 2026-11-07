@@ -7,6 +7,7 @@ import {
 import path from 'node:path'
 import {
   IGNORED_ENTITY_SEGMENTS,
+  NAMESPACED_ENTITY_PATH_PREFIX,
   PORTAL_DOCS_REPO_PREFIX,
   PORTAL_DOCS_PATH_PREFIX,
   PORTAL_FILE_PATTERN,
@@ -15,6 +16,8 @@ import {
 } from './config'
 import { normalizePath, toPascalCase } from './context'
 import type { RunnerContext } from './types'
+
+const PASCAL_CASE_PATTERN = /^[A-Z][A-Za-z0-9]*$/
 
 export function collectFilesRecursively(
   rootDirectory: string,
@@ -113,7 +116,9 @@ function toPortalDocsDirectory(
   context: RunnerContext,
   url: string
 ): string | null {
-  url = url.replace(/^\/uilib\//, PORTAL_DOCS_PATH_PREFIX)
+  url = url
+    .replace(/[?#].*$/, '')
+    .replace(/^\/uilib\//, PORTAL_DOCS_PATH_PREFIX)
   if (!url.startsWith(PORTAL_DOCS_PATH_PREFIX)) {
     return null
   }
@@ -129,7 +134,17 @@ function toPortalDocsDirectory(
     pathSegments.pop()
   }
 
-  return path.join(context.portalDocsRoot, ...pathSegments)
+  const docsPath = path.join(context.portalDocsRoot, ...pathSegments)
+
+  // A page file like visual-tests.mdx shows the examples of its folder
+  if (
+    !existsSync(docsPath) &&
+    ['.mdx', '.tsx'].some((extension) => existsSync(docsPath + extension))
+  ) {
+    return path.dirname(docsPath)
+  }
+
+  return docsPath
 }
 
 function toPortalDocsAbsolutePath(
@@ -166,6 +181,22 @@ export function collectChangedEntityNames(
       continue
     }
 
+    if (normalizedPath.startsWith(NAMESPACED_ENTITY_PATH_PREFIX)) {
+      const [namespace, name, ...rest] = normalizedPath
+        .slice(NAMESPACED_ENTITY_PATH_PREFIX.length)
+        .split('/')
+
+      if (PASCAL_CASE_PATTERN.test(namespace)) {
+        entityNames.add(
+          rest.length > 0 && PASCAL_CASE_PATTERN.test(name)
+            ? `${namespace}.${name}`
+            : namespace
+        )
+      }
+
+      continue
+    }
+
     const meaningfulSegments = pathSegments.slice(2).filter((segment) => {
       return !segment.includes('.')
     })
@@ -187,7 +218,7 @@ export function collectChangedEntityNames(
         return
       }
 
-      if (/^[A-Z][A-Za-z0-9]*$/.test(segment)) {
+      if (PASCAL_CASE_PATTERN.test(segment)) {
         entityNames.add(segment)
       }
     })
@@ -256,7 +287,11 @@ export function findCompositionImpactedTests(
             return
           }
 
-          const entityPattern = new RegExp(`\\b${entityName}\\b`)
+          const escapedEntityName = entityName.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            '\\$&'
+          )
+          const entityPattern = new RegExp(`\\b${escapedEntityName}\\b`)
           if (entityPattern.test(docsContent)) {
             hasCompositionImpact = true
             impactedTests.add(screenshotTest)

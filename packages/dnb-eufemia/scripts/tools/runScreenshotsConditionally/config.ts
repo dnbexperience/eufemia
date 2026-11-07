@@ -16,6 +16,17 @@ export const GLOBAL_VISUAL_PATH_PREFIXES = [
   'src/core/vitest-screenshots/',
 ]
 
+// Portal files that style or wrap every demo, so a change can move any screenshot (repository paths).
+export const GLOBAL_VISUAL_PORTAL_FILES = new Set([
+  'packages/dnb-design-system-portal/src/core/PortalLayout.module.scss',
+  'packages/dnb-design-system-portal/src/shared/parts/Layout.module.scss',
+  'packages/dnb-design-system-portal/src/shared/parts/PortalStyle.scss',
+  'packages/dnb-design-system-portal/src/shared/parts/PortalStyle.mixins.scss',
+  'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.module.scss',
+  'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.tsx',
+  'packages/dnb-design-system-portal/src/shared/tags/ComponentBox.tsx',
+])
+
 // Source paths that should not influence visual screenshot selection.
 export const NON_VISUAL_SOURCE_PATH_PREFIXES = ['src/mcp/']
 
@@ -33,6 +44,9 @@ export const RUN_ALL_COMMIT_FLAG = '--run-all'
 
 // CI provides changed files through this environment variable.
 export const CHANGED_FILES_ENV_VAR = 'VISUAL_TEST_CHANGED_FILES'
+
+// CI sets this to 'true' when it cannot list all changed files.
+export const RUN_ALL_ENV_VAR = 'VISUAL_TEST_RUN_ALL'
 
 // Optional override for local/base ref selection when diffing a branch.
 export const BASE_REF_ENV_VAR = 'VISUAL_TEST_BASE_REF'
@@ -56,6 +70,9 @@ export const IGNORED_ENTITY_SEGMENTS = new Set([
   'hooks',
   'types',
 ])
+
+// Docs name forms components with their namespace (Field.String), so a bare Forms or Field would match every forms demo.
+export const NAMESPACED_ENTITY_PATH_PREFIX = 'src/extensions/forms/'
 
 // Avoids exploding SCSS reverse deps through the global aggregate entrypoint.
 export const SCSS_REVERSE_DEPENDENCY_EXCLUDED_SOURCES = new Set([
@@ -87,8 +104,9 @@ export const SCREENSHOT_FILE_PATTERN =
 // Defines which docs files can influence visual composition matching.
 export const PORTAL_FILE_PATTERN = /\.(mdx|tsx|ts|jsx|js)$/
 
-// Parses screenshot URL declarations inside test files.
-export const SCREENSHOT_URL_PATTERN = /url\s*:\s*['"`]([^'"`]+)['"`]/g
+// Parses the portal page paths inside test files, also from constants like `const url = '/web/...'`.
+export const SCREENSHOT_URL_PATTERN =
+  /['"`](\/(?:web|uilib)\/[^'"`]*)['"`]/g
 
 // Parses both Sass syntaxes so dependency graph includes modern @use.
 export const SCSS_IMPORT_PATTERN = /@(import|use)\s+([^;]+);/g

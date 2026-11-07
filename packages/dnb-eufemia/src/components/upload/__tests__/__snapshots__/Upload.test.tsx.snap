@@ -1744,11 +1744,16 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-upload__file-limits .dnb-accordion__tertiary-content {
   border-radius: var(--token-radius-xl);
 }
+.dnb-card .dnb-upload__file-limits .dnb-accordion__tertiary-content {
+  border-radius: var(--token-radius-lg);
+}
 .dnb-upload__file-limits__content {
-  padding: 1rem;
-  background-color: var(--upload-file-limits-background);
-  border: 0.0625rem solid var(--upload-file-limits-border);
-  border-radius: var(--token-radius-xl);
+  margin: var(--card-outline-width);
+}
+@media (forced-colors: active) {
+  .dnb-upload__file-limits__content {
+    outline: var(--card-outline-width) solid transparent;
+  }
 }
 .dnb-upload__file-limits__table.dnb-table {
   --table-th-background-color: transparent;
@@ -1757,9 +1762,6 @@ html[data-visual-test] .dnb-progress-indicator {
 }
 .dnb-upload__file-limits__table.dnb-table:not(:only-child) {
   width: auto;
-}
-.dnb-upload__file-limits__table.dnb-table + .dnb-upload__file-limits__table.dnb-table {
-  margin-top: 1rem;
 }
 .dnb-upload__file-limits__table.dnb-table thead th {
   padding: 0.5rem 1rem 0.75rem;
