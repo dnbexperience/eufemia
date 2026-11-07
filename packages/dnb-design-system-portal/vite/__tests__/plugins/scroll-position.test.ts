@@ -113,7 +113,7 @@ describe('scroll-position plugin', () => {
       const code = await loadRuntimeCode()
 
       expect(code).toContain('smooth')
-      expect(code).toContain("behavior: smooth ? 'smooth' : 'auto'")
+      expect(code).toContain("behavior: smooth ? 'smooth' : 'instant'")
     })
   })
 

@@ -17,6 +17,26 @@ export default function scrollPositionPlugin(): Plugin {
   return {
     name: 'vite-plugin-scroll-position',
 
+    async transformIndexHtml(html) {
+      const scripts = await Promise.all(
+        [
+          'scroll-restoration-preload.runtime.ts',
+          'scroll-restoration.runtime.ts',
+        ].map(async (name) => {
+          const runtimeFile = path.resolve(__dirname, name)
+          const code = fs.readFileSync(runtimeFile, 'utf-8')
+          const result = await transformWithOxc(code, runtimeFile, {
+            lang: 'ts',
+          })
+          return '<script>' + result.code + '</script>'
+        })
+      )
+      return html.replace(
+        '<div id="root"></div>',
+        (root) => scripts[0] + root + scripts[1]
+      )
+    },
+
     resolveId(id) {
       if (id === VIRTUAL_MODULE_ID) {
         return RESOLVED_VIRTUAL_MODULE_ID
