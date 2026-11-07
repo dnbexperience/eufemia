@@ -10,7 +10,8 @@ import getVisibleSection from './getVisibleSection'
 export default function useCurrentSectionId(
   sections: TableOfContentSection[],
   currentSectionOffset = 0,
-  enabled = true
+  enabled = true,
+  paused = false
 ): string | null {
   const [currentId, setCurrentId] = useState<string | null>(null)
   const initialHash = useRef<
@@ -26,6 +27,9 @@ export default function useCurrentSectionId(
     }
     if (!enabled || sections.length === 0) {
       setCurrentId(null)
+      return undefined
+    }
+    if (paused) {
       return undefined
     }
 
@@ -159,7 +163,7 @@ export default function useCurrentSectionId(
         cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [sections, currentSectionOffset, enabled])
+  }, [sections, currentSectionOffset, enabled, paused])
 
   return currentId
 }
