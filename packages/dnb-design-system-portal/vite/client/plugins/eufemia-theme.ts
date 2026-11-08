@@ -13,10 +13,11 @@
  */
 
 import { type Plugin } from 'vite'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
-import { hasPrebuild } from './eufemia-prebuild'
+import { hasPrebuild } from './eufemia-prebuild.ts'
 import { getTextScaleScript } from '@dnb/eufemia/src/shared/TextScaleScriptUtils'
 import {
   getHeadScript,
@@ -76,7 +77,7 @@ function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
 }
 
 function collectThemeFiles(config: ThemeConfig): string[] {
-  const portalDir = path.resolve(__dirname, '../../..')
+  const portalDir = path.resolve(import.meta.dirname, '../../..')
   const packageRoot = path.dirname(
     require.resolve('@dnb/eufemia', { paths: [portalDir] })
   )

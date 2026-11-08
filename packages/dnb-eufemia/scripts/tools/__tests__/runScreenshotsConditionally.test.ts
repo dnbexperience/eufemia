@@ -429,9 +429,9 @@ describe('path helpers', () => {
   it('treats the screenshot vitest config as global visual impact', () => {
     expect(
       isGlobalVisualImpact(
-        'packages/dnb-eufemia/vitest.config.screenshots.ts',
+        'packages/dnb-eufemia/vitest.config.screenshots.mts',
         toPackageRelativePath(
-          'packages/dnb-eufemia/vitest.config.screenshots.ts'
+          'packages/dnb-eufemia/vitest.config.screenshots.mts'
         )
       )
     ).toBe(true)

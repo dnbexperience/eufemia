@@ -44,7 +44,7 @@ export default function prefetchOnHoverPlugin(): Plugin {
  */
 const RUNTIME_CODE = `
 import { useEffect } from 'react'
-import { prefetchPortalRoute } from '${path.resolve(__dirname, '../load-portal-routes').replace(/\\/g, '/')}'
+import { prefetchPortalRoute } from '${path.resolve(import.meta.dirname, '../load-portal-routes').replace(/\\/g, '/')}'
 
 const prefetchedPaths = new Set()
 

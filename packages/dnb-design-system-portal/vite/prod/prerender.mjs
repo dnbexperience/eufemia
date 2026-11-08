@@ -49,7 +49,7 @@ async function prerender() {
   // Step 1: Build client bundle with SSR manifest for chunk tracking
   console.log('Step 1/4: Building client bundle...')
   await build({
-    configFile: path.resolve(portalRoot, 'vite.config.ts'),
+    configFile: path.resolve(portalRoot, 'vite.config.mts'),
     build: {
       outDir,
       ssrManifest: true,
@@ -60,7 +60,7 @@ async function prerender() {
   // Step 2: Build SSR bundle
   console.log('Step 2/4: Building SSR bundle...')
   await build({
-    configFile: path.resolve(portalRoot, 'vite.config.ts'),
+    configFile: path.resolve(portalRoot, 'vite.config.mts'),
     build: {
       outDir: path.resolve(outDir, 'server'),
       ssr: path.resolve(__dirname, 'entry-server.tsx'),

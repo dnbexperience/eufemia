@@ -11,7 +11,10 @@
  */
 
 import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import path from 'node:path'
+
+const require = createRequire(import.meta.url)
 
 export type ScopeImportInfo = {
   source: string

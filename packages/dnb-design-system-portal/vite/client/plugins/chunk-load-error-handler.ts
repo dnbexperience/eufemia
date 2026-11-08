@@ -18,7 +18,7 @@ export default function chunkLoadErrorHandlerPlugin(): Plugin {
             target: buildTargets,
             lib: {
               entry: path.resolve(
-                __dirname,
+                import.meta.dirname,
                 '../chunk-load-error-handler.ts'
               ),
               name: 'portalChunkRecovery',
