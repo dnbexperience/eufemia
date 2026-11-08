@@ -321,12 +321,96 @@ describe('Switch component', () => {
     expect(onChange).toHaveBeenCalledWith(true)
   })
 
+  describe('Enter', () => {
+    const Controlled = ({
+      onClick,
+    }: {
+      onClick: SwitchProps['onClick']
+    }) => {
+      const [checked, setChecked] = useState(false)
+
+      return (
+        <Switch
+          checked={checked}
+          onChange={({ checked }) => setChecked(checked)}
+          onClick={onClick}
+        />
+      )
+    }
+
+    // The numpad Enter key has the same key, but another code
+    it.each([
+      { keyName: 'Enter', code: 'Enter' },
+      { keyName: 'numpad Enter', code: 'NumpadEnter' },
+    ])('should toggle on $keyName and call onClick', ({ code }) => {
+      const onClick = vi.fn()
+      render(<Controlled onClick={onClick} />)
+
+      const input = document.querySelector('input')
+      fireEvent.keyDown(input, { key: 'Enter', code })
+
+      expect(input.checked).toBe(true)
+      expect(input).toHaveAttribute('aria-checked', 'true')
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it.each([
+      { keyName: 'Enter', key: '{Enter}' },
+      { keyName: 'Space', key: ' ' },
+    ])(
+      'should not toggle on $keyName when preventDefault is called in onClick',
+      async ({ key }) => {
+        const onClick = vi.fn(({ preventDefault }) => preventDefault())
+        render(<Controlled onClick={onClick} />)
+
+        const input = document.querySelector('input')
+        input.focus()
+        await userEvent.keyboard(key)
+
+        // Enter must follow the same rules as Space and a click
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(input.checked).toBe(false)
+        expect(input).toHaveAttribute('aria-checked', 'false')
+      }
+    )
+
+    // One key press must not change the switch and send the form at once.
+    // Enter never submits the form, also when the switch does not change.
+    it.each([{ readOnly: false }, { readOnly: true }])(
+      'should not submit the form on Enter when readOnly is $readOnly',
+      async ({ readOnly }) => {
+        const onSubmit = vi.fn((event) => event.preventDefault())
+        const onChange = vi.fn()
+        render(
+          <form onSubmit={onSubmit}>
+            <Switch readOnly={readOnly} onChange={onChange} />
+            <button type="submit">Submit</button>
+          </form>
+        )
+
+        const input = document.querySelector('input')
+        input.focus()
+        await userEvent.keyboard('{Enter}')
+
+        expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+        expect(onSubmit).not.toHaveBeenCalled()
+
+        // Control: the form can be submitted
+        await userEvent.click(document.querySelector('button'))
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      }
+    )
+  })
+
   it('should call onKeyDown given as a property', () => {
     const onKeyDown = vi.fn()
     const onChange = vi.fn()
     render(<Switch onKeyDown={onKeyDown} onChange={onChange} />)
 
-    fireEvent.keyDown(document.querySelector('input'), { code: 'Enter' })
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: 'Enter',
+      code: 'Enter',
+    })
 
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -341,7 +425,10 @@ describe('Switch component', () => {
       />
     )
 
-    fireEvent.keyDown(document.querySelector('input'), { code: 'Enter' })
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: 'Enter',
+      code: 'Enter',
+    })
 
     expect(onChange).toHaveBeenCalledTimes(0)
   })
@@ -361,7 +448,7 @@ describe('Switch component', () => {
       input.focus()
       await userEvent.keyboard(key)
 
-      // Enter has its own handler, so it must check readOnly too (#9754)
+      // Enter must follow the same readOnly rule as Space (#9754)
       expect(input.checked).toBe(checked)
       expect(input).toHaveAttribute('aria-checked', String(checked))
       expect(onChange).toHaveBeenCalledTimes(0)
