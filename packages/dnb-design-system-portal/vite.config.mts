@@ -32,21 +32,36 @@ const nodeRequire = createRequire(import.meta.url)
 const { requireConfigTimeEufemiaModule } = nodeRequire(
   './vite/shared/eufemia-prebuild-paths.cjs'
 )
-
-// PostCSS plugins used by the portal
-const postcssIsolatePlugin = requireConfigTimeEufemiaModule(
-  '@dnb/eufemia/src/plugins/postcss-isolated-style-scope',
-  nodeRequire
-)
-const { getStyleScopeHash } = requireConfigTimeEufemiaModule(
-  '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs',
-  nodeRequire
-)
 const postcssThemeScopePlugin = nodeRequire(
   './postcss-eufemia-theme-scope.cjs'
 )
 
-export default defineConfig({
+// PostCSS plugins used by the portal
+function getPostcssPlugins() {
+  const postcssIsolatePlugin = requireConfigTimeEufemiaModule(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope',
+    nodeRequire
+  )
+  const { getStyleScopeHash } = requireConfigTimeEufemiaModule(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs',
+    nodeRequire
+  )
+
+  return [
+    postcssIsolatePlugin({
+      scopeHash: 'eufemia-scope--portal',
+      skipClassNames: ['eufemia-scope--default'],
+      replaceClassNames: {
+        [getStyleScopeHash()]: 'eufemia-scope--portal',
+      },
+      verbose: false,
+      warnOnDeprecatedColorVariables: false,
+    }),
+    postcssThemeScopePlugin(),
+  ]
+}
+
+const config = defineConfig({
   root: path.resolve(import.meta.dirname, 'vite/client'),
 
   // Serve static files from the portal's static/ directory (favicons, images, etc.)
@@ -177,27 +192,6 @@ export default defineConfig({
     },
   },
 
-  css: {
-    // Override postcss.config.js to exclude the production-only font URL
-    // rewrite. In release builds it targets the matching assets.eufemia.dnb.no
-    // version.
-    // In dev, fonts load from relative paths resolved by Vite.
-    postcss: {
-      plugins: [
-        postcssIsolatePlugin({
-          scopeHash: 'eufemia-scope--portal',
-          skipClassNames: ['eufemia-scope--default'],
-          replaceClassNames: {
-            [getStyleScopeHash()]: 'eufemia-scope--portal',
-          },
-          verbose: false,
-          warnOnDeprecatedColorVariables: false,
-        }),
-        postcssThemeScopePlugin(),
-      ],
-    },
-  },
-
   optimizeDeps: {
     include: [
       'react',
@@ -236,3 +230,16 @@ export default defineConfig({
     'process.env.isCI': JSON.stringify(false),
   },
 })
+
+export default defineConfig(({ isPreview }) => ({
+  ...config,
+
+  // Override postcss.config.js to exclude the production-only font URL
+  // rewrite. In release builds it targets the matching assets.eufemia.dnb.no
+  // version.
+  // In dev, fonts load from relative paths resolved by Vite.
+  // The preview server only serves built files, so it needs no PostCSS plugins.
+  css: isPreview
+    ? undefined
+    : { postcss: { plugins: getPostcssPlugins() } },
+}))
