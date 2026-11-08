@@ -90,9 +90,9 @@ it('keeps successful tests without retries to a single result line', () => {
 })
 
 it.each([
-  ['true', false],
-  ['false', true],
-])('prints the visited portal URLs with CI=%s: %s', (ci, printsUrl) => {
+  ['prints', 'false', true],
+  ['leaves out', 'true', false],
+])('%s the visited portal URLs with CI=%s', (_, ci, printsUrl) => {
   vi.stubEnv('CI', ci)
   const write = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
   const testCase = {

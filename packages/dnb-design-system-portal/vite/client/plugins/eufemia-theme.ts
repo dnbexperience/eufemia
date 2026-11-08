@@ -18,11 +18,11 @@ import path from 'node:path'
 import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
 import { hasPrebuild } from './eufemia-prebuild.ts'
-import { getTextScaleScript } from '@dnb/eufemia/src/shared/TextScaleScriptUtils'
+import { getTextScaleScript } from '@dnb/eufemia/src/shared/TextScaleScriptUtils.ts'
 import {
   getHeadScript,
   getBodyScript,
-} from '@dnb/eufemia/src/shared/ColorSchemeScriptUtils'
+} from '@dnb/eufemia/src/shared/ColorSchemeScriptUtils.ts'
 
 const require = createRequire(import.meta.url)
 
