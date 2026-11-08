@@ -140,9 +140,8 @@ docs accordingly. It is **on by default** and **opt-out**.
 - the tool name (from the fixed set of registered tools);
 - for a component tool, the component name (e.g. `Button`, `Field.Address`),
   only when the docs contain it;
-- for a component name the docs do not contain, a miss flag, plus the real
-  component it matches when case and hyphens are ignored; the name itself is
-  never sent;
+- for a component name the docs do not contain, a miss flag; the name itself
+  is never sent;
 - for `docs_read` / `docs_list`, the leading documentation area (e.g.
   `/web/components/overview/`), gated against the areas this server's own docs
   actually contain — a path outside the docs (or a model's guess) is dropped
