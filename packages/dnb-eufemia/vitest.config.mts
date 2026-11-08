@@ -5,7 +5,6 @@
 
 import { defineConfig } from 'vitest/config'
 import { isCI } from 'repo-utils'
-import path from 'node:path'
 
 export default defineConfig({
   test: {
@@ -29,13 +28,15 @@ export default defineConfig({
     // transient flakiness (mirrors the screenshot suite's retry policy).
     retry: isCI ? 2 : 0,
 
+    // The default 300 ms lists hundreds of passing tests in every CI log
+    slowTestThreshold: isCI ? 1000 : 300,
+
     // Changing shared test infrastructure invalidates the whole suite, so a
     // `--changed` run must fall back to running everything. Vitest already
     // appends `setupFiles` to these triggers automatically; the entries below
-    // extend that to the cross-cutting mocks and helpers that are pulled in
-    // through the resolve aliases rather than imported directly. The Vitest
-    // defaults (package.json, vitest/vite config) are restated because setting
-    // this option replaces them.
+    // extend that to the shared mocks and test helpers. The Vitest defaults
+    // (package.json, vitest/vite config) are restated because setting this
+    // option replaces them.
     forceRerunTriggers: [
       '**/package.json/**',
       '**/{vitest,vite}.config.*/**',
@@ -76,18 +77,6 @@ export default defineConfig({
   },
 
   resolve: {
-    alias: {
-      // Mock image imports for test environments.
-      '\\.(jpg|jpeg|png)$': path.resolve(
-        __dirname,
-        'src/core/test-utils/fileMock.ts'
-      ),
-      // Mock SVG imports
-      '\\.(svg)$': path.resolve(
-        __dirname,
-        'src/core/test-utils/jsxMock.tsx'
-      ),
-    },
     extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json'],
   },
 })
