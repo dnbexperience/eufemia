@@ -24,6 +24,8 @@ import {
   getBodyScript,
 } from '@dnb/eufemia/src/shared/ColorSchemeScriptUtils'
 
+const require = createRequire(import.meta.url)
+
 // The portal scopes its styles to itself rather than to an Eufemia version.
 const SCOPE_HASH = 'eufemia-scope--portal'
 
