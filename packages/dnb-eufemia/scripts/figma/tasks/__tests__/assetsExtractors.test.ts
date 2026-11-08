@@ -337,6 +337,7 @@ describe('assetsExtractors', () => {
     const consoleLog = vi
       .spyOn(console, 'log')
       .mockImplementation(() => undefined)
+    onTestFinished(() => consoleLog.mockRestore())
 
     await expect(runMock()).rejects.toBe(error)
     expect(consoleLog).toHaveBeenCalledWith(
@@ -346,8 +347,6 @@ describe('assetsExtractors', () => {
       'Error: Download generation failed',
       '\n---\n\n'
     )
-
-    consoleLog.mockRestore()
   })
 
   it('deduplicates exports for download fingerprints and Android packages', async () => {
