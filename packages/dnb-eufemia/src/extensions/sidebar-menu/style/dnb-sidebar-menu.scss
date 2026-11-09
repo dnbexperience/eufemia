@@ -379,7 +379,14 @@
     list-style: none;
   }
 
-  &__header-group,
+  &__header-group {
+    gap: 0;
+
+    &:not(:first-child) {
+      margin-block-start: 1rem;
+    }
+  }
+
   &__header-group > &__list {
     gap: 1rem;
   }

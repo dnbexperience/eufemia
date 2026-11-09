@@ -180,6 +180,27 @@ export function SidebarMenuDeclarative() {
   )
 }
 
+export function SidebarMenuHeaders() {
+  return (
+    <ComponentBox hideCode data-visual-test="sidebar-menu-headers">
+      <SidebarMenu.Root
+        aria-label="Grouped banking navigation"
+        defaultOpenItems={['banking']}
+      >
+        <SidebarMenu.Accordion id="banking" text="Banking">
+          <SidebarMenu.Header text="Everyday banking">
+            <SidebarMenu.Item id="header-accounts" text="Accounts" />
+            <SidebarMenu.Item id="header-cards" text="Cards" />
+          </SidebarMenu.Header>
+          <SidebarMenu.Header text="Support">
+            <SidebarMenu.Item id="header-contact" text="Contact us" />
+          </SidebarMenu.Header>
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    </ComponentBox>
+  )
+}
+
 export function SidebarMenuContentController() {
   return (
     <ComponentBox hideCode scope={{ useId, home, pay_from, styles }}>

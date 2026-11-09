@@ -58,6 +58,13 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
+  it('matches adjacent header groups inside an accordion', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-headers"]',
+      style: { width: '24rem' },
+    })
+  })
+
   it('matches wrapped accordion labels', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-data"]',
