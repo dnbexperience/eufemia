@@ -10,6 +10,26 @@ import Radio from '../Radio'
 import { Provider } from '../../../shared'
 
 describe('Radio group component', () => {
+  it('keeps an empty option value separate from the selected group value', async () => {
+    const user = userEvent.setup()
+    render(
+      <Radio.Group label="Account" value="savings">
+        <Radio label="All accounts" value="" />
+        <Radio label="Savings" value="savings" />
+      </Radio.Group>
+    )
+    const [all, savings] = document.querySelectorAll('input')
+    expect(all).toHaveAttribute('value', '')
+    expect(all).not.toBeChecked()
+    expect(savings).toBeChecked()
+
+    for (const input of [all, savings, all, savings]) {
+      await user.click(input)
+      expect(input).toBeChecked()
+      expect(input === all ? savings : all).not.toBeChecked()
+    }
+  })
+
   it('should not have _formElement property', () => {
     expect(Radio.Group['_formElement']).toBeUndefined()
   })
