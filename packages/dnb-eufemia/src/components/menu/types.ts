@@ -26,8 +26,7 @@ export type MenuRootProps = {
    */
   placement?: PopoverPlacement
   /**
-   * Position of the popover arrow relative to the popover. `top` and `bottom` positions are only applicable when `placement` is `left` or `right`, and vice versa.
-   * Default: `"center"`
+   * Shows a popover arrow at the given position relative to the popover. When not set, no arrow is shown. `top` and `bottom` positions are only applicable when `placement` is `left` or `right`, and vice versa.
    */
   arrowPosition?: PopoverArrow
   /**
