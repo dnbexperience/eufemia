@@ -3863,6 +3863,77 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[newValue])
   })
 
+  it.each([
+    [
+      'the disabled prop',
+      (props: AutocompleteAllProps, disabled: boolean) => (
+        <Autocomplete {...props} disabled={disabled} />
+      ),
+    ],
+    [
+      'Provider formElement',
+      (props: AutocompleteAllProps, disabled: boolean) => (
+        <Provider formElement={{ disabled }}>
+          <Autocomplete {...props} />
+        </Provider>
+      ),
+    ],
+    [
+      'Provider Autocomplete',
+      (props: AutocompleteAllProps, disabled: boolean) => (
+        <Provider Autocomplete={{ disabled }}>
+          <Autocomplete {...props} />
+        </Provider>
+      ),
+    ],
+  ])(
+    'ignores selection after the open Autocomplete becomes disabled via %s',
+    async (_, renderAutocomplete) => {
+      const onChange = vi.fn()
+      const onSelect = vi.fn()
+      const props: AutocompleteAllProps = {
+        ...mockProps,
+        data: ['Apple', 'Orange'],
+        value: 0,
+        showSubmitButton: true,
+        onChange,
+        onSelect,
+      }
+      const { rerender } = render(renderAutocomplete(props, false))
+      const user = userEvent.setup()
+      await user.click(
+        document.querySelector(
+          'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+        )
+      )
+      rerender(renderAutocomplete(props, true))
+      expect(document.querySelector('.dnb-input__input')).toBeDisabled()
+      const option = document.querySelectorAll<HTMLElement>(
+        'li.dnb-drawer-list__option'
+      )[1]
+      expect(option).toHaveTextContent('Orange')
+      await user.click(option)
+
+      expect(onChange).not.toHaveBeenCalled()
+      expect(onSelect).not.toHaveBeenCalled()
+      expect(document.querySelector('.dnb-input__input')).toHaveValue(
+        'Apple'
+      )
+
+      rerender(renderAutocomplete(props, false))
+      await user.click(
+        document.querySelectorAll<HTMLElement>(
+          'li.dnb-drawer-list__option'
+        )[1]
+      )
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onSelect).toHaveBeenCalledTimes(1)
+      expect(document.querySelector('.dnb-input__input')).toHaveValue(
+        'Orange'
+      )
+    }
+  )
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
