@@ -67,9 +67,26 @@ describe('MDX-defined Portal navigation', () => {
     const components = tree().sections[0].items.find(
       ({ path }) => path === 'web/components'
     )
-    const [overview, ...items] = components.subheadings
+    const [overview, heading, ...items] = components.subheadings
     expect(overview.title).toBe('Components by category')
-    const general = items.filter(({ order }) => !order)
+    expect(heading).toMatchObject({
+      title: 'Actions, inputs and more',
+      isMenuGroup: true,
+      isMenuLink: false,
+    })
+    expect(toSidebarMenuData([heading], () => undefined)[0]).toMatchObject(
+      {
+        type: 'header',
+        to: undefined,
+        items: expect.arrayContaining([
+          expect.objectContaining({
+            text: 'Accordion',
+            to: 'web/components/accordion',
+          }),
+        ]),
+      }
+    )
+    const general = heading.subheadings
     const titles = general.map(({ title }) => title)
     expect(titles).toEqual([...titles].sort((a, b) => a.localeCompare(b)))
     expect(titles).toEqual(
@@ -97,7 +114,7 @@ describe('MDX-defined Portal navigation', () => {
       'Utilities',
       'Fragments',
     ])
-    expect(items.slice(general.length)).toEqual(groups)
+    expect(items).toEqual(groups)
     const expectedGroups = {
       Graphics: ['Country flags', 'Icons', 'Logos'],
       'Formatting and typography': [
