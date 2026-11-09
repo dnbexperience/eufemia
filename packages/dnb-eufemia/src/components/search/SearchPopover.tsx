@@ -196,7 +196,6 @@ function getTabbableElements(root: ParentNode) {
 
 withComponentMarkers(SearchPopover, {
   _formElement: true,
-  _supportsSpacingProps: true,
 })
 
 export default SearchPopover
