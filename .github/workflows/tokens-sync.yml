@@ -12,8 +12,8 @@ on:
         description: Generate screenshots
         type: boolean
         default: true
-      skip_token_review:
-        description: Skip token review
+      continue_on_token_review_failure:
+        description: Continue on token review failure
         type: boolean
         default: false
       skip_snapshot_update:
@@ -61,7 +61,7 @@ jobs:
         env:
           OUTPUT_BRANCH: ${{ inputs.output_branch }}
           GENERATE_SCREENSHOTS: ${{ inputs.generate_screenshots }}
-          SKIP_TOKEN_REVIEW: ${{ inputs.skip_token_review }}
+          CONTINUE_ON_TOKEN_REVIEW_FAILURE: ${{ inputs.continue_on_token_review_failure }}
           SKIP_SNAPSHOT_UPDATE: ${{ inputs.skip_snapshot_update }}
         run: |
           if [ -n "$OUTPUT_BRANCH" ]; then
@@ -90,7 +90,7 @@ jobs:
             echo "- Run from: \`$GITHUB_REF_NAME\`"
             echo "- Target branch to commit to: \`$branch\`"
             echo "- Generate screenshots: $GENERATE_SCREENSHOTS"
-            echo "- Skip token review: $SKIP_TOKEN_REVIEW"
+            echo "- Continue on token review failure: $CONTINUE_ON_TOKEN_REVIEW_FAILURE"
             echo "- Skip snapshot update: $SKIP_SNAPSHOT_UPDATE"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -148,11 +148,13 @@ jobs:
           fi
 
       - name: Review resolved token values and text contrast
-        if: steps.changes.outputs.changed == 'true' && !inputs.skip_token_review
+        if: steps.changes.outputs.changed == 'true'
+        # The report is still written and published, the run just keeps going
+        continue-on-error: ${{ inputs.continue_on_token_review_failure }}
         run: yarn workspace @dnb/eufemia review:tokens origin/main "$RUNNER_TEMP/token-review.md"
 
       - name: Publish token review summary
-        if: always() && steps.changes.outputs.changed == 'true' && !inputs.skip_token_review
+        if: always() && steps.changes.outputs.changed == 'true'
         run: |
           if [ -f "$RUNNER_TEMP/token-review.md" ]; then
             cat "$RUNNER_TEMP/token-review.md" >> "$GITHUB_STEP_SUMMARY"
