@@ -4,7 +4,10 @@ import { isCI } from 'repo-utils'
 export default defineConfig({
   timeout: 30000,
   globalTimeout: 600000,
-  reporter: 'list',
+  reporter: [
+    ['list'],
+    ['json', { outputFile: 'test-results/e2e-results.json' }],
+  ],
   testDir: './src/',
   testMatch: '*.e2e.spec.ts',
 

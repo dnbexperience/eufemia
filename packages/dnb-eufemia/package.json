@@ -84,6 +84,7 @@
     "test:deps": "depcruise -c .dependency-cruiser.js src",
     "test:e2e": "playwright test --config=./playwright.config.e2e.ts",
     "test:e2e:ci": "PLAYWRIGHT_BASE_URL=http://localhost:8001 start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
+    "test:e2e:explain": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/runE2eConditionally/cli.ts",
     "test:e2e:watch": "playwright test --config=./playwright.config.e2e.ts --ui",
     "test:postbuild": "vitest run --config vitest.config.postbuild.mts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/styleSideEffects.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts scripts/postbuild/__tests__/getNextReleaseVersion.test.ts scripts/postbuild/__tests__/verifyReleaseVersion.test.ts scripts/postbuild/__tests__/releaseNotifications.test.ts scripts/postbuild/__tests__/releasePortalDeploy.test.ts scripts/postbuild/__tests__/releasePublishedVersion.test.ts",
     "test:postbuild:publish": "vitest run --config vitest.config.postbuild.mts scripts/postbuild/__tests__/prepareForRelease.test.ts scripts/postbuild/__tests__/bundleSideEffects.test.ts",
