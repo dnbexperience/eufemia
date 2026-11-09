@@ -248,7 +248,11 @@ describe('lambda-handler protocol versions', () => {
 
   it('ends a subscriptions/listen stream at once', async () => {
     const listen = await postModern(4, 'subscriptions/listen', {
-      notifications: { toolsListChanged: true },
+      notifications: {
+        toolsListChanged: true,
+        promptsListChanged: true,
+        resourcesListChanged: true,
+      },
     })
 
     expect(listen.statusCode).toBe(200)
