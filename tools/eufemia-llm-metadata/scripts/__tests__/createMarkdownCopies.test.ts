@@ -11,18 +11,18 @@ vi.mock('prettier', () => ({
 import { createMarkdownCopies } from '../../src/convertHelpers.ts'
 
 describe('createMarkdownCopies', () => {
-  it('marks every generated AI page once, including appended properties and events', async () => {
+  it('marks every generated Chat page once, including appended properties and events', async () => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-ai-notice-'))
     const docsRoot = path.join(root, 'docs')
     const outputRoot = path.join(root, 'out')
     const routes = [
-      'web/patterns-and-extensions/ai.mdx',
-      'web/patterns-and-extensions/ai/Message.mdx',
-      'web/patterns-and-extensions/ai/Message/info.mdx',
-      'web/patterns-and-extensions/ai/Message/properties.mdx',
-      'web/patterns-and-extensions/ai/Message/events.mdx',
-      'web/patterns-and-extensions/ai/Message/demos.mdx',
-      'web/patterns-and-extensions/ai/integrations.mdx',
+      'web/patterns-and-extensions/chat.mdx',
+      'web/patterns-and-extensions/chat/Message.mdx',
+      'web/patterns-and-extensions/chat/Message/info.mdx',
+      'web/patterns-and-extensions/chat/Message/properties.mdx',
+      'web/patterns-and-extensions/chat/Message/events.mdx',
+      'web/patterns-and-extensions/chat/Message/demos.mdx',
+      'web/patterns-and-extensions/chat/integrations.mdx',
       'uilib/components/button.mdx',
     ]
     for (const route of routes) {
@@ -47,7 +47,7 @@ describe('createMarkdownCopies', () => {
           'utf-8'
         )
         expect(output.match(/\*\*Experimental:\*\*/g) || []).toHaveLength(
-          route.includes('/ai') ? 1 : 0
+          route.includes('/chat') ? 1 : 0
         )
         if (
           route.endsWith('/properties.mdx') ||

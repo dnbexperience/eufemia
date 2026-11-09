@@ -1,0 +1,19 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/Sources/info
+  - /web/extensions/ai/Sources/info
+  - /uilib/extensions/ai/Sources/info
+---
+
+## Import
+
+```tsx
+import { Sources } from '@dnb/eufemia/extensions/chat'
+import '@dnb/eufemia/extensions/chat/style'
+render(<Sources />)
+```
+
+## Description
+
+`Chat.Sources` shows a collapsible list of sources. Pass `sources` as an array of `{ url, title }` objects. Put it inside `Chat.Message` where the sources should appear. URLs are checked before links are rendered.
