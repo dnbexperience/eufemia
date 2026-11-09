@@ -178,6 +178,18 @@ export const TOKEN_EXPORTS: ReadonlyArray<{
     mode: 'dnbeiendom-dark',
     fileName: 'brand/dnbeiendom-dark.tokens.json',
   },
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'sbanken-new-light',
+    fileName: 'brand/sbanken-new-light.tokens.json',
+  },
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'sbanken-new-dark',
+    fileName: 'brand/sbanken-new-dark.tokens.json',
+  },
 ]
 
 const TOKEN_TYPES: Record<

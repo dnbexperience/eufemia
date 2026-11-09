@@ -20,7 +20,7 @@ const white = { r: 1, g: 1, b: 1, a: 1 }
 const green = { r: 0, g: 0.4470588266849518, b: 0.4470588266849518, a: 1 }
 
 /** The remaining brand modes only exist so every configured export can be written */
-const restModes = ['1:2', '1:3', '1:4', '1:5', '1:6']
+const restModes = ['1:2', '1:3', '1:4', '1:5', '1:6', '1:7', '1:8']
 const inAllModes = <Value>(value: Value) =>
   Object.fromEntries(restModes.map((modeId) => [modeId, value]))
 
@@ -37,6 +37,8 @@ const meta: FigmaLocalVariables = {
         { modeId: '1:4', name: 'dnbcarnegie-light' },
         { modeId: '1:5', name: 'dnbeiendom-light' },
         { modeId: '1:6', name: 'dnbeiendom-dark' },
+        { modeId: '1:7', name: 'sbanken-new-light' },
+        { modeId: '1:8', name: 'sbanken-new-dark' },
       ],
       defaultModeId: '1:0',
       variableIds: [
@@ -399,10 +401,10 @@ describe('convertVariablesToTokens', () => {
       convertVariablesToTokens({
         meta,
         collection: 'brand',
-        mode: 'dnbcarnegie-dark',
+        mode: 'non-exported-name',
       })
     ).toThrow(
-      'has no mode named "dnbcarnegie-dark", only: dnb-light, dnb-dark'
+      'has no mode named "non-exported-name", only: dnb-light, dnb-dark'
     )
   })
 
@@ -533,7 +535,7 @@ describe('warnAboutSkippedModes', () => {
           modes: [
             ...meta.variableCollections['VariableCollectionId:53684:1279']
               .modes,
-            { modeId: '1:7', name: 'dnbcarnegie-dark' },
+            { modeId: '1:9', name: 'non-exported-name' },
           ],
         },
       },
@@ -541,7 +543,7 @@ describe('warnAboutSkippedModes', () => {
 
     expect(log.warn).toHaveBeenCalledWith(
       expect.stringContaining(
-        'The variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
+        'The variable collection "brand" has modes that are not exported: non-exported-name'
       )
     )
   })
@@ -561,7 +563,7 @@ describe('warnAboutSkippedModes', () => {
           modes: [
             ...meta.variableCollections['VariableCollectionId:53684:1279']
               .modes,
-            { modeId: '1:7', name: 'sbanken-new-light' },
+            { modeId: '1:9', name: 'non-exported-name' },
           ],
         },
       },
@@ -569,7 +571,7 @@ describe('warnAboutSkippedModes', () => {
 
     expect(write).toHaveBeenCalledWith(
       expect.stringContaining(
-        '::warning::The variable collection "brand" has modes that are not exported: sbanken-new-light'
+        '::warning::The variable collection "brand" has modes that are not exported: non-exported-name'
       )
     )
   })
@@ -634,8 +636,10 @@ describe('extractTokens', () => {
       '/tokens/brand/dnbcarnegie-light.tokens.json',
       '/tokens/brand/dnbeiendom-light.tokens.json',
       '/tokens/brand/dnbeiendom-dark.tokens.json',
+      '/tokens/brand/sbanken-new-light.tokens.json',
+      '/tokens/brand/sbanken-new-dark.tokens.json',
     ])
-    expect(fs.outputFile).toHaveBeenCalledTimes(8)
+    expect(fs.outputFile).toHaveBeenCalledTimes(10)
   })
 
   it('names the failing collection and mode', async () => {
