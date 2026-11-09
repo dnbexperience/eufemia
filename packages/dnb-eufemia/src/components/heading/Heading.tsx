@@ -32,6 +32,7 @@ import { initCounter } from './HeadingCounter'
 import { useTheme, Context } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTypography } from '../../elements/typography/Typography'
+import useHeadingOrder from './useHeadingOrder'
 import type {
   HeadingAllProps,
   HeadingProps,
@@ -44,6 +45,7 @@ export default function Heading(props: HeadingAllProps) {
   const context = useContext(Context)
   const headingContext = useContext(HeadingContext)
   const id = useId()
+  const elementRef = useHeadingOrder(props.ref)
 
   const {
     text,
@@ -266,7 +268,7 @@ export default function Heading(props: HeadingAllProps) {
   })
 
   return (
-    <Element {...elementProps}>
+    <Element {...elementProps} ref={elementRef}>
       {debug && (
         <span className="dnb-heading__debug">
           {`[h${headingLevel || '6'}] `}
