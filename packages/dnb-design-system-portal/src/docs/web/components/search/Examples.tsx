@@ -1,0 +1,241 @@
+import {
+  Search,
+  Flex,
+  FormLabel,
+  ToggleButton,
+  Menu,
+  P,
+} from '@dnb/eufemia/src'
+import { useState } from 'react'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
+
+export const SearchDefault = () => (
+  <ComponentBox data-visual-test="search-default">
+    <Search.Input label="Search content" />
+  </ComponentBox>
+)
+
+export const SearchHero = () => (
+  <ComponentBox data-visual-test="search-hero">
+    <Search.Input
+      variant="hero"
+      label="Search components and guidance"
+      placeholder="Search components and guidance"
+    />
+  </ComponentBox>
+)
+
+export const SearchCompact = () => (
+  <ComponentBox data-visual-test="search-compact">
+    <Search.Input variant="compact" shortcut label="Search content" />
+  </ComponentBox>
+)
+
+export const SearchPill = () => (
+  <ComponentBox data-visual-test="search-pill">
+    <>
+      <Search.Input
+        variant="hero"
+        pill
+        label="Search content"
+        bottom="small"
+      />
+      <Search.Autocomplete
+        variant="hero"
+        pill
+        label="Search components"
+        data={['Button', 'Input', 'Table']}
+      />
+    </>
+  </ComponentBox>
+)
+
+export const SearchAutocomplete = () => (
+  <ComponentBox data-visual-test="search-autocomplete">
+    <Search.Autocomplete
+      label="Search components"
+      data={['Button', 'Input', 'Table']}
+    />
+  </ComponentBox>
+)
+
+export const SearchAutocompleteHero = () => (
+  <ComponentBox data-visual-test="search-autocomplete-hero">
+    <Search.Autocomplete
+      variant="hero"
+      label="Search components and guidance"
+      placeholder="Search components and guidance"
+      data={['Button', 'Input', 'Table']}
+    />
+  </ComponentBox>
+)
+
+export const SearchAutocompleteCompact = () => (
+  <ComponentBox data-visual-test="search-autocomplete-compact">
+    <Search.Autocomplete
+      variant="compact"
+      shortcut
+      label="Search components"
+      data={['Button', 'Input', 'Table']}
+    />
+  </ComponentBox>
+)
+
+export const SearchAsync = () => (
+  <ComponentBox data-visual-test="search-async">
+    <Search.Autocomplete
+      label="Search components"
+      mode="async"
+      onType={({ value, updateData, setHidden, showNoOptionsItem }) => {
+        const results = ['Button', 'Input', 'Table'].filter((item) =>
+          item.toLowerCase().includes(value.toLowerCase())
+        )
+        updateData(value.trim() ? results : [])
+        if (!value.trim()) {
+          setHidden()
+        } else if (!results.length) {
+          showNoOptionsItem()
+        }
+      }}
+    />
+  </ComponentBox>
+)
+
+export const SearchPopover = () => (
+  <ComponentBox data-visual-test="search-popover">
+    {() => {
+      const Example = () => {
+        const [category, setCategory] = useState('all')
+        const [sort, setSort] = useState('relevance')
+        const sortLabel =
+          sort === 'relevance' ? 'Relevance' : 'Alphabetical'
+        const [selected, setSelected] = useState('')
+        const items = [
+          { content: 'Input', category: 'components' },
+          { content: 'Button', category: 'components' },
+          { content: 'Table', category: 'components' },
+          { content: 'Accessibility', category: 'guidance' },
+          { content: 'Getting started', category: 'guidance' },
+        ]
+        const data = items.filter(
+          (item) => category === 'all' || item.category === category
+        )
+        if (sort === 'alphabetical') {
+          data.sort((a, b) => a.content.localeCompare(b.content))
+        }
+
+        return (
+          <Flex.Stack>
+            <Search.Popover
+              variant="compact"
+              shortcut
+              label="Search with filters"
+              data={data}
+              search={{ reorder: sort === 'relevance' }}
+              onChange={({ data }) => {
+                if (data && typeof data !== 'string') {
+                  setSelected(String(data.content))
+                }
+              }}
+            >
+              {({ results }) => (
+                <Flex.Stack layoutEngine="css" gap="small">
+                  <Flex.Container
+                    layoutEngine="css"
+                    justify="space-between"
+                    align="center"
+                    gap="x-small"
+                    wrap
+                  >
+                    <FormLabel element="span">Show results from</FormLabel>
+                    <Menu.Root
+                      skipPortal
+                      alignOnTarget="right"
+                      arrowPosition="right"
+                      arrowPositionSelector=".dnb-button__icon"
+                    >
+                      <Menu.Button
+                        variant="tertiary"
+                        icon="chevron_down"
+                        text={sortLabel}
+                        aria-label={`Sort results: ${sortLabel}`}
+                      />
+                      <Menu.List
+                        aria-label="Sort results"
+                        style={{ whiteSpace: 'nowrap' }}
+                      >
+                        <Menu.Action
+                          text="Relevance"
+                          icon={sort === 'relevance' ? 'check' : undefined}
+                          onClick={() => setSort('relevance')}
+                        />
+                        <Menu.Action
+                          text="Alphabetical"
+                          icon={
+                            sort === 'alphabetical' ? 'check' : undefined
+                          }
+                          onClick={() => setSort('alphabetical')}
+                        />
+                      </Menu.List>
+                    </Menu.Root>
+                  </Flex.Container>
+                  <ToggleButton.Group
+                    label="Show results from"
+                    labelSrOnly
+                    value={category}
+                    onChange={({ value }) => setCategory(String(value))}
+                  >
+                    <ToggleButton text="All" value="all" />
+                    <ToggleButton text="Components" value="components" />
+                    <ToggleButton text="Guidance" value="guidance" />
+                  </ToggleButton.Group>
+                  {results}
+                </Flex.Stack>
+              )}
+            </Search.Popover>
+            <P aria-live="polite">
+              {selected
+                ? `Selected: ${selected}`
+                : 'Select a result to try the search.'}
+            </P>
+          </Flex.Stack>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
+export const SearchPopoverAlignment = () => (
+  <ComponentBox data-visual-test="search-popover-alignment">
+    {() => {
+      const Example = () => {
+        const [align, setAlign] = useState<'left' | 'center' | 'right'>(
+          'left'
+        )
+
+        return (
+          <Flex.Stack>
+            <ToggleButton.Group
+              label="Results alignment"
+              value={align}
+              onChange={({ value }) => setAlign(value as typeof align)}
+            >
+              <ToggleButton text="Left" value="left" />
+              <ToggleButton text="Center" value="center" />
+              <ToggleButton text="Right" value="right" />
+            </ToggleButton.Group>
+            <Search.Popover
+              align={align}
+              label="Search alignment example"
+              data={['Button', 'Input', 'Table']}
+            />
+          </Flex.Stack>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)

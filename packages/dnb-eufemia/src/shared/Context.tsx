@@ -17,6 +17,7 @@ import type { ScrollViewProps } from '../components/scroll-view/ScrollView'
 import type { AnchorProps } from '../components/Anchor'
 import type { AutocompleteProps } from '../components/autocomplete/Autocomplete'
 import type { ChipProps, ChipGroupProps } from '../components/chip/types'
+import type { SearchProps } from '../components/search/types'
 import type { ButtonProps } from '../components/button/Button'
 import type { FlexContainerProps } from '../components/flex/Container'
 import type { AvatarProps } from '../components/avatar/Avatar'
@@ -78,6 +79,7 @@ export type ContextComponents = {
   Flex?: Pick<FlexContainerProps, 'layoutEngine'>
   Anchor?: Partial<AnchorProps>
   Autocomplete?: Partial<AutocompleteProps>
+  Search?: Partial<SearchProps>
   Avatar?: Partial<AvatarProps>
   AvatarGroup?: Partial<AvatarGroupProps>
   Badge?: Partial<BadgeProps>

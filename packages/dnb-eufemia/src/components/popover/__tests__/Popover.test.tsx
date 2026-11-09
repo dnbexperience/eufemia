@@ -520,6 +520,31 @@ describe('Popover', () => {
     )
   })
 
+  it('retries when the content cannot receive focus yet', async () => {
+    const originalFocus = HTMLElement.prototype.focus
+    let attempts = 0
+    const focusSpy = vi
+      .spyOn(HTMLElement.prototype, 'focus')
+      .mockImplementation(function (this: HTMLElement) {
+        attempts += 1
+        if (attempts > 2) {
+          originalFocus.call(this)
+        }
+      })
+
+    try {
+      renderWithTrigger({ open: true, noAnimation: true })
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-popover__content')
+        ).toHaveFocus()
+      )
+    } finally {
+      focusSpy.mockRestore()
+    }
+  })
+
   it('calls onFocusComplete after focus sequence finishes', async () => {
     const onFocusComplete = vi.fn()
 

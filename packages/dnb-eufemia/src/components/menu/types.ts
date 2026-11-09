@@ -9,6 +9,7 @@ import type { AnchorProps } from '../anchor/Anchor'
 import type { ButtonProps } from '../button/Button'
 import type {
   PopoverArrow,
+  PopoverAlign,
   PopoverPlacement,
   PopoverAutoAlignMode,
   PopoverTriggerRenderProps,
@@ -29,6 +30,15 @@ export type MenuRootProps = {
    * Shows a popover arrow at the given position relative to the popover. When not set, no arrow is shown. `top` and `bottom` positions are only applicable when `placement` is `left` or `right`, and vice versa.
    */
   arrowPosition?: PopoverArrow
+  /**
+   * Adjust horizontal alignment of the menu when `placement` is `top` or `bottom`.
+   * Default: `"center"`
+   */
+  alignOnTarget?: PopoverAlign
+  /**
+   * CSS selector for the element the menu arrow should point to. Use `.dnb-button__icon` to align with the trigger icon.
+   */
+  arrowPositionSelector?: string
   /**
    * Controlled open state. Use together with `onOpenChange`.
    */
