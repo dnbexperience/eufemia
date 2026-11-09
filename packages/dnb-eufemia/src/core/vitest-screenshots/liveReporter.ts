@@ -2,10 +2,10 @@
  * Custom Vitest reporter for the screenshot suite.
  *
  * Streams test results live as each test finishes, prints the portal
- * URL each time the engine performs a fresh navigation, and runs an
- * explicit `global.gc()` between test files to keep the long-running
- * Node worker process from accumulating PNG buffers / decoded pixel
- * data across the suite.
+ * URL each time the engine performs a fresh navigation (outside CI),
+ * and runs an explicit `global.gc()` between test files to keep the
+ * long-running Node worker process from accumulating PNG buffers /
+ * decoded pixel data across the suite.
  *
  * Pairs with `ScreenshotReporter` (which writes the HTML diff at the
  * end) and `SummaryOnlyReporter`, which preserves Vitest's final
@@ -16,7 +16,6 @@ import fs from 'node:fs'
 import { createRequire } from 'node:module'
 import os from 'node:os'
 import path from 'node:path'
-import { version as playwrightVersion } from 'playwright/package.json'
 import { isCICheck } from 'repo-utils'
 import type {
   Reporter,
@@ -25,9 +24,11 @@ import type {
   TestRunEndReason,
   TestSpecification,
 } from 'vitest/node'
-import { drainNavigations } from './failures'
+import { drainNavigations } from './failures.ts'
 
-const require = createRequire(__filename)
+// @ts-expect-error -- the package tsconfig targets CommonJS
+const require = createRequire(import.meta.url)
+const { version: playwrightVersion } = require('playwright/package.json')
 
 const COLORS = {
   reset: '\x1b[0m',
@@ -52,6 +53,12 @@ const write = (line: string) => {
 
 const flushNavigations = () => {
   const urls = drainNavigations()
+
+  // In CI, parallel workers interleave the URLs with unrelated results
+  if (isCICheck()) {
+    return // stop here
+  }
+
   for (const url of urls) {
     write(color('dim', url))
   }

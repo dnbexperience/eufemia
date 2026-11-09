@@ -4,7 +4,9 @@ import type {
 } from './NumberFormatBase'
 import NumberFormatBase from './NumberFormatBase'
 import { formatPhoneNumber } from './utils'
+import type { NumberFormatValue } from './utils/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { convertJsxToString } from '../../shared/component-helper'
 
 export type NumberFormatPhoneNumberProps = Omit<
   NumberFormatAllProps,
@@ -38,14 +40,28 @@ function NumberFormatPhoneNumber({
   }
 
   const scheme = link === true ? 'tel' : link
-  const sanitizedValue = String(rest.value ?? '').replace(/[^\d+]/g, '')
+  const value = (rest.value ?? rest.children) as NumberFormatValue
+  const sanitizedValue = String(value ?? '').replace(/[^\d+]/g, '')
   const href = `${scheme}:${sanitizedValue}`
   const anchorClassName = ['dnb-anchor', className]
     .filter(Boolean)
     .join(' ')
 
+  // The number is aria-hidden until hover, so name the link explicitly
+  const ariaLabel = [
+    rest.srLabel,
+    rest.prefix,
+    formatPhoneNumber(value),
+    rest.suffix,
+  ]
+    .map((part) =>
+      convertJsxToString(typeof part === 'function' ? part() : part)
+    )
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <a href={href} className={anchorClassName}>
+    <a href={href} className={anchorClassName} aria-label={ariaLabel}>
       <NumberFormatBase {...rest} __format={formatPhoneNumber} />
     </a>
   )

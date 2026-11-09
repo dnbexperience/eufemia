@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
 import {
   axeComponent,
+  loadScss,
   spyOnEufemiaWarn,
 } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
@@ -162,5 +163,15 @@ describe('Stat.Info', () => {
 
     expect(info.getAttribute('variant')).toBeNull()
     expect(info.getAttribute('skeleton')).toBeNull()
+  })
+})
+
+describe('Stat.Info scss', () => {
+  it('uses the small line height', () => {
+    const css = loadScss(require.resolve('../style/dnb-stat.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-stat__info \{\s*font-size: var\(--font-size-small\);\s*line-height: var\(--line-height-small\);/
+    )
   })
 })

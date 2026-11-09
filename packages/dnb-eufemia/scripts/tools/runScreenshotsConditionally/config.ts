@@ -7,7 +7,7 @@
 // Entries are matched against package-relative paths, so they need the extension.
 export const GLOBAL_VISUAL_FILES = new Set([
   'package.json',
-  'vitest.config.screenshots.ts',
+  'vitest.config.screenshots.mts',
 ])
 
 // Shared style/test infra paths are cross-cutting; selective mapping is too error-prone here.
