@@ -17,7 +17,6 @@ function SearchInput(localProps: SearchInputProps) {
 
 withComponentMarkers(SearchInput, {
   _formElement: true,
-  _supportsSpacingProps: true,
 })
 
 export default SearchInput
