@@ -92,6 +92,10 @@ export default {
     Dropdown: {
       title: 'Vælg',
     },
+    Search: {
+      label: 'Søg',
+      placeholder: 'Søg ...',
+    },
     Autocomplete: {
       title: 'Skriv og vælg',
       submitButtonTitle: 'Vis muligheder',
