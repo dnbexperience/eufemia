@@ -117,6 +117,55 @@ describe('Chat.Conversation', () => {
     expect(scrollTo).not.toHaveBeenCalled()
   })
 
+  it('animates appended messages at the end without animating the initial history', () => {
+    const view = (reply = false) => (
+      <Conversation scrollBehavior="end">
+        <Message key="first">Hello</Message>
+        {reply && <Message key="reply">A new reply</Message>}
+      </Conversation>
+    )
+    const { rerender } = render(view())
+    Object.defineProperty(getScroll(), 'scrollHeight', {
+      configurable: true,
+      value: 1000,
+    })
+    Object.defineProperty(getScroll(), 'clientHeight', {
+      configurable: true,
+      value: 400,
+    })
+    const scrollTo = vi.mocked(Element.prototype.scrollTo)
+    act(() => resizeCallback([], null))
+    expect(scrollTo).toHaveBeenLastCalledWith({
+      top: 1000,
+      behavior: 'auto',
+    })
+    getScroll().scrollTop = 600
+
+    rerender(view(true))
+    Object.defineProperty(getScroll(), 'scrollHeight', {
+      configurable: true,
+      value: 1200,
+    })
+    act(() => resizeCallback([], null))
+    expect(scrollTo).toHaveBeenLastCalledWith({
+      top: 1200,
+      behavior: 'smooth',
+    })
+
+    // Intermediate animation frames must not pause automatic following.
+    getScroll().scrollTop = 650
+    fireEvent.scroll(getScroll())
+    Object.defineProperty(getScroll(), 'scrollHeight', {
+      configurable: true,
+      value: 1300,
+    })
+    act(() => resizeCallback([], null))
+    expect(scrollTo).toHaveBeenLastCalledWith({
+      top: 1300,
+      behavior: 'smooth',
+    })
+  })
+
   it('keeps following when content grows without the user scrolling', () => {
     render(<Conversation scrollBehavior="end" />)
     const scrollTo = vi.mocked(Element.prototype.scrollTo)
@@ -243,7 +292,7 @@ describe('Chat.Conversation', () => {
     act(() => resizeCallback([], null))
     expect(scrollTo).toHaveBeenLastCalledWith({
       top: 1000,
-      behavior: 'auto',
+      behavior: 'smooth',
     })
   })
 

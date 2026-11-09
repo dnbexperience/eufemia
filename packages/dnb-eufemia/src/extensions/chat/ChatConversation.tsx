@@ -98,6 +98,8 @@ function ConversationContent(props: ChatConversationProps) {
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false)
   const unreadRef = useRef(false)
   const previousLastMessage = useRef<Element>(null)
+  const layoutAnimations = useRef(new Map<HTMLElement, Animation>())
+  const handleContentChangeRef = useRef<() => void>(null)
 
   const api = useMemo<ConversationApi>(() => {
     const scrollToTarget = (element: Element, top: number) => {
@@ -163,6 +165,13 @@ function ConversationContent(props: ChatConversationProps) {
     },
     []
   )
+  useLayoutEffect(
+    () => () => {
+      layoutAnimations.current.forEach((animation) => animation.cancel())
+      layoutAnimations.current.clear()
+    },
+    []
+  )
 
   const updateState = useCallback(() => {
     const scroll = scrollRef.current
@@ -216,12 +225,28 @@ function ConversationContent(props: ChatConversationProps) {
       spacerRef.current,
       null
     )
+    let lastItem: Element = null
+    let firstItem: HTMLElement = null
+    let firstTop = 0
 
     const handleResize = () => {
       const scroll = scrollRef.current
       const content = contentRef.current
       const isFirstRun = anchorRef.current === undefined
       const target = scrollTargetRef.current
+      const currentLastItem = content.lastElementChild
+      const hasNewMessage =
+        !isFirstRun &&
+        currentLastItem !== lastItem &&
+        currentLastItem &&
+        !seenItemsRef.current.has(currentLastItem)
+      if (hasNewMessage && !prefersReducedMotion()) {
+        currentLastItem.setAttribute('data-entering', '')
+      }
+      const currentFirstItem = content.firstElementChild as HTMLElement
+      const currentFirstTop = currentFirstItem?.offsetTop ?? 0
+      const layoutShift =
+        firstItem === currentFirstItem ? firstTop - currentFirstTop : 0
 
       const anchors = content.querySelectorAll(ANCHOR_SELECTOR)
       const anchor = anchors[anchors.length - 1] ?? null
@@ -253,7 +278,15 @@ function ConversationContent(props: ChatConversationProps) {
           : { element: anchor, top }
         scrollTo(scroll, top, !isFirstRun)
       } else if (isFollowingRef.current || (isFirstRun && !anchor)) {
-        scrollTo(scroll, scroll.scrollHeight)
+        const top = scroll.scrollHeight
+        if (hasNewMessage || target) {
+          if (!target || target.top !== top) {
+            scrollTargetRef.current = { top }
+            scrollTo(scroll, top, true)
+          }
+        } else {
+          scrollTo(scroll, top)
+        }
       } else if (target) {
         // Messages above can change size on the way, like when they render
         const top = target.element
@@ -276,28 +309,68 @@ function ConversationContent(props: ChatConversationProps) {
         }
       }
 
+      // Bottom alignment moves short histories before there is any scroll range.
+      if (
+        hasNewMessage &&
+        isFollowingRef.current &&
+        layoutShift > 1 &&
+        !prefersReducedMotion()
+      ) {
+        for (const item of Array.from(content.children) as HTMLElement[]) {
+          if (!seenItemsRef.current.has(item) || !item.animate) {
+            continue
+          }
+          const previous = layoutAnimations.current.get(item)
+          const offset = previous
+            ? parseFloat(getComputedStyle(item).translate.split(' ')[1]) ||
+              0
+            : 0
+          previous?.cancel()
+          const animation = item.animate(
+            [
+              { translate: `0 ${layoutShift + offset}px` },
+              { translate: '0 0' },
+            ],
+            { duration: 300, easing: 'ease-out' }
+          )
+          layoutAnimations.current.set(item, animation)
+          animation.onfinish = () => layoutAnimations.current.delete(item)
+        }
+      }
+
       // Fade in new content, but not the content shown from the start
       for (const item of Array.from(content.children)) {
         if (!seenItemsRef.current.has(item)) {
           seenItemsRef.current.add(item)
-          if (!isFirstRun) {
+          if (!isFirstRun && !prefersReducedMotion()) {
             item.setAttribute('data-entering', '')
           }
         }
       }
 
       anchorRef.current = anchor
+      lastItem = currentLastItem
+      firstItem = currentFirstItem
+      firstTop = currentFirstTop
       referenceRef.current = getReference(scroll, content, anchor)
       sizeRef.current = getSize(scroll, content)
       updateState()
     }
 
     const observer = new ResizeObserver(handleResize)
+    handleContentChangeRef.current = handleResize
     observer.observe(contentRef.current)
     observer.observe(scrollRef.current)
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      handleContentChangeRef.current = null
+    }
   }, [scrollBehavior, updateState])
+
+  useLayoutEffect(() => {
+    handleContentChangeRef.current?.()
+  }, [children, items])
 
   const handleScroll = () => {
     const scroll = scrollRef.current
@@ -349,6 +422,12 @@ function ConversationContent(props: ChatConversationProps) {
 
   const handleUserScroll = () => {
     isUserScrollingRef.current = true
+    layoutAnimations.current.forEach((animation) => animation.cancel())
+    layoutAnimations.current.clear()
+    if (scrollTargetRef.current) {
+      scrollTargetRef.current = null
+      scrollTo(scrollRef.current, scrollRef.current.scrollTop)
+    }
   }
 
   const stopFollowing = () => {
@@ -404,7 +483,17 @@ function ConversationContent(props: ChatConversationProps) {
             }
           }}
         >
-          <div ref={contentRef} className="dnb-ai-conversation__content">
+          <div
+            ref={contentRef}
+            className="dnb-ai-conversation__content"
+            onAnimationEnd={(event) => {
+              if (event.animationName === 'dnb-ai-conversation-enter') {
+                const item = event.target as HTMLElement
+                item.style.containIntrinsicBlockSize = `auto ${item.offsetHeight}px`
+                item.removeAttribute('data-entering')
+              }
+            }}
+          >
             {items
               ? items.map((item, index) => (
                   <div
