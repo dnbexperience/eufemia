@@ -28,15 +28,15 @@ Search helps people find content. Choose `Search.Input` for a search field, `Sea
 
 Give the component a descriptive `label`, such as "Search products", when the search scope needs explanation. Set `labelSrOnly={false}` to show the label.
 
-### Search.Input
+### Input behavior
 
 Search.Input builds on [Input](/web/components/input). Use `onChange` to receive the query and `onSubmit` to search when Enter is pressed. It renders a native search input without a suggestions list.
 
-### Search.Autocomplete
+### Autocomplete behavior
 
 Search.Autocomplete builds on [Autocomplete](/web/components/autocomplete), including accessible suggestions, keyboard navigation, loading indicators, clear buttons, and asynchronous results. Provide `data` for local suggestions or use `mode="async"` and `onType` to load results. Use `onChange` to open a selected result and `onSubmit` to handle a query without a selected result. Selecting a result does not replace the query by default.
 
-### Search.Popover
+### Popover behavior
 
 Search.Popover combines Autocomplete's inline results with [Popover](/web/components/popover). It opens on focus by default and includes Popover's close button. Results render through a React portal, avoiding clipping by the input's container. The surface aligns with the input's left edge by default. Set `align="center"` or `align="right"` to change this; the surface stays inside the viewport. Use a render function to place filters, sorting, or actions around the provided `results`. These controls stay outside the listbox and retain their own keyboard behavior.
 
