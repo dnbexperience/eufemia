@@ -1427,16 +1427,16 @@ function AutocompleteComponent({
       // Typing is a clear intent to (re)open and filter the list.
       preventReopenRef.current = false
 
+      const trimmed = String(val).trim()
+      runFilterWithSideEffects(trimmed)
+      // Refocusing during the same event must use the updated query.
+      inputValueRef.current = val
+
       dispatchCustomElementEvent(propsRef.current, 'onType', {
         value: val,
         event,
         ...getEventObjects('onType'),
       })
-
-      const trimmed = String(val).trim()
-      runFilterWithSideEffects(trimmed)
-      // Refocusing during the same event must use the updated query.
-      inputValueRef.current = val
     },
     [runFilterWithSideEffects]
   )

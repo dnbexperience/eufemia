@@ -11,8 +11,8 @@ import {
   SearchAutocompleteHero,
   SearchAutocompleteCompact,
   SearchAsync,
-  SearchPopover,
-  SearchPopoverAlignment,
+  SearchPanel,
+  SearchPanelAlignment,
 } from 'Docs/web/components/search/Examples'
 
 ## Demos
@@ -59,16 +59,16 @@ The `onType` callback receives the same result and loading methods as Autocomple
 
 <SearchAsync />
 
-### Search.Popover
+### Search.Panel
 
-Use a popover when results need additional controls. This example filters by category with toggle buttons and sorts by relevance or alphabetically. The controls belong to the application, so the component also works with other filters or actions.
+Use a panel when results need additional controls. This example filters by category with toggle buttons and sorts by relevance or alphabetically. The controls belong to the application, so the component also works with other filters or actions.
 
 The render function receives `results`, the inline Autocomplete list, and `close`. Keep controls outside `results` so they retain their own keyboard behavior. Up and Down navigate results while the input has focus, Enter selects, and Tab reaches the controls. Escape closes the surface and returns focus to the input.
 
-<SearchPopover />
+<SearchPanel />
 
 #### Results alignment
 
-Results render through a React portal and align with the input's left edge by default. Choose `align="center"` or `align="right"` when that fits the surrounding layout. The popover stays inside the viewport near either edge.
+Results render through a React portal and align with the input's left edge by default. Choose `align="center"` or `align="right"` when that fits the surrounding layout. The panel stays inside the viewport near either edge.
 
-<SearchPopoverAlignment />
+<SearchPanelAlignment />

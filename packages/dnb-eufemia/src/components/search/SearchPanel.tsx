@@ -8,12 +8,12 @@ import type { SearchAutocompleteProps } from './SearchAutocomplete'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useSearchProps from './useSearchProps'
 
-export type SearchPopoverContentProps = {
+export type SearchPanelContentProps = {
   results: ReactNode
   close: () => void
 }
 
-export type SearchPopoverProps = Omit<
+export type SearchPanelProps = Omit<
   SearchAutocompleteProps,
   | 'inline'
   | 'resultsRender'
@@ -25,7 +25,7 @@ export type SearchPopoverProps = Omit<
   /** Align the results surface with the input. Defaults to `left`. */
   align?: 'left' | 'center' | 'right'
   /** Place the inline results alongside custom controls outside the listbox. */
-  children?: (props: SearchPopoverContentProps) => ReactNode
+  children?: (props: SearchPanelContentProps) => ReactNode
   /** Configure the position and appearance of the results surface. */
   popoverProps?: Pick<
     PopoverProps,
@@ -37,7 +37,7 @@ export type SearchPopoverProps = Omit<
   >
 }
 
-function SearchPopover(localProps: SearchPopoverProps) {
+function SearchPanel(localProps: SearchPanelProps) {
   const {
     children,
     popoverProps,
@@ -50,6 +50,7 @@ function SearchPopover(localProps: SearchPopoverProps) {
     noScrollAnimation: true,
     openOnFocus: true,
   })
+  const triggerOffset = popoverProps?.triggerOffset ?? 24
   const targetRef = useRef<HTMLInputElement>(null)
   const setInputRef = useCallback(
     (element: HTMLInputElement | null) => {
@@ -68,20 +69,21 @@ function SearchPopover(localProps: SearchPopoverProps) {
       {...props}
       inputRef={setInputRef}
       resultsRender={({ results, open, close, resultsRef }) => (
-        <SearchPopoverSurface
+        <SearchPanelSurface
           {...popoverProps}
-          className={clsx('dnb-search__popover', popoverProps?.className)}
+          className={clsx('dnb-search__panel', popoverProps?.className)}
           inputRef={targetRef}
           contentRef={resultsRef}
+          triggerOffset={triggerOffset}
           targetElement={targetRef}
           alignOnTarget={align}
           arrowPosition={align}
           arrowEdgeOffset={0}
           horizontalOffset={
             align === 'left'
-              ? (popoverProps?.triggerOffset ?? 0)
+              ? triggerOffset
               : align === 'right'
-                ? -(popoverProps?.triggerOffset ?? 0)
+                ? -triggerOffset
                 : 0
           }
           open={open && !props.disabled}
@@ -107,19 +109,16 @@ function SearchPopover(localProps: SearchPopoverProps) {
           noMaxWidth
           omitDescribedBy
         >
-          <span
-            className="dnb-search__popover-content"
-            role="presentation"
-          >
+          <span className="dnb-search__panel-content" role="presentation">
             {children ? children({ results, close }) : results}
           </span>
-        </SearchPopoverSurface>
+        </SearchPanelSurface>
       )}
     />
   )
 }
 
-function SearchPopoverSurface({
+function SearchPanelSurface({
   inputRef,
   ...props
 }: PopoverProps & {
@@ -194,8 +193,8 @@ function getTabbableElements(root: ParentNode) {
   )
 }
 
-withComponentMarkers(SearchPopover, {
+withComponentMarkers(SearchPanel, {
   _formElement: true,
 })
 
-export default SearchPopover
+export default SearchPanel

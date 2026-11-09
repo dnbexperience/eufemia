@@ -12,7 +12,7 @@ it.each([
     'Autocomplete',
     true,
   ],
-  ['namespace Popover', 'src/components/search/index.ts', 'Popover', true],
+  ['namespace Panel', 'src/components/search/index.ts', 'Panel', true],
 ])(
   'bundles only the dependencies used by Search.%s',
   async (_, entry, member, autocomplete) => {
@@ -80,7 +80,7 @@ it.each([
       modules.some((id) => id.endsWith('/drawer-list/DrawerList.tsx'))
     ).toBe(autocomplete)
     expect(
-      modules.some((id) => id.endsWith('/search/SearchPopover.tsx'))
-    ).toBe(member === 'Popover')
+      modules.some((id) => id.endsWith('/search/SearchPanel.tsx'))
+    ).toBe(member === 'Panel')
   }
 )

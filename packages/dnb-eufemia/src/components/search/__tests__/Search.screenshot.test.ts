@@ -71,21 +71,21 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     })
 
     it.each(['default', 'dark', 'small', 'sorting', 'keyboard'])(
-      'matches the popover with controls in %s mode',
+      'matches the panel with controls in %s mode',
       async (mode) => {
         await makeScreenshot({
-          selector: '[data-visual-test="search-popover"]',
+          selector: '[data-visual-test="search-panel"]',
           simulate: [
             {
               action: 'focus',
-              selector: '[data-visual-test="search-popover"] input',
+              selector: '[data-visual-test="search-panel"] input',
             },
             ...(mode === 'sorting'
               ? [
                   {
                     action: 'click' as const,
                     selector:
-                      '.dnb-search__popover .dnb-button[aria-haspopup="menu"]',
+                      '.dnb-search__panel .dnb-button[aria-haspopup="menu"]',
                   },
                 ]
               : []),
