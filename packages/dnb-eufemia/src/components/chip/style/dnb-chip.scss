@@ -237,6 +237,47 @@
     }
   }
 
+  // The icon has author colors, so use the system colors of the button state
+  @media (forced-colors: active) {
+    &--add-remove .dnb-toggle-button__button svg {
+      outline-color: CanvasText;
+
+      .dnb-icon-close-circle-path {
+        fill: Canvas;
+      }
+
+      .dnb-icon-close-cross-path {
+        stroke: CanvasText;
+      }
+    }
+
+    &--add-remove.dnb-toggle-button--checked
+      .dnb-toggle-button__button
+      svg {
+      outline-color: transparent;
+
+      .dnb-icon-close-circle-path {
+        fill: HighlightText;
+      }
+
+      .dnb-icon-close-cross-path {
+        stroke: Highlight;
+      }
+    }
+
+    &--add-remove .dnb-toggle-button__button[disabled] svg {
+      outline-color: GrayText;
+
+      .dnb-icon-close-circle-path {
+        fill: Canvas;
+      }
+
+      .dnb-icon-close-cross-path {
+        stroke: GrayText;
+      }
+    }
+  }
+
   &-group.dnb-toggle-button-group {
     --toggle-button-group-column-gap: 0.5rem;
     --toggle-button-group-row-gap: 0.5rem;

@@ -65,6 +65,35 @@ describe('Chip', () => {
     expect(document.querySelector('input')).not.toBeInTheDocument()
   })
 
+  it('uses the checkbox role for the checkbox variant', () => {
+    render(<Chip text="Housing" variant="checkbox" checked />)
+
+    const button = document.querySelector('button')
+
+    expect(button).toHaveAttribute('role', 'checkbox')
+    expect(button).toHaveAttribute('aria-checked', 'true')
+    expect(button).not.toHaveAttribute('aria-pressed')
+  })
+
+  it('uses the radio role for the radio variant', () => {
+    render(<Chip text="Housing" variant="radio" />)
+
+    const button = document.querySelector('button')
+
+    expect(button).toHaveAttribute('role', 'radio')
+    expect(button).toHaveAttribute('aria-checked', 'false')
+    expect(button).not.toHaveAttribute('aria-pressed')
+  })
+
+  it('lets a role property win over the variant role', () => {
+    render(<Chip text="Housing" variant="radio" role="checkbox" />)
+
+    expect(document.querySelector('button')).toHaveAttribute(
+      'role',
+      'checkbox'
+    )
+  })
+
   it('renders a radio button for the radio variant', () => {
     render(<Chip text="Housing" variant="radio" />)
 
@@ -246,12 +275,13 @@ describe('Chip.Group', () => {
       'role',
       'radiogroup'
     )
-    expect(housing).toHaveAttribute('aria-pressed', 'true')
+    expect(housing).toHaveAttribute('role', 'radio')
+    expect(housing).toHaveAttribute('aria-checked', 'true')
 
     fireEvent.click(cars)
 
-    expect(housing).toHaveAttribute('aria-pressed', 'false')
-    expect(cars).toHaveAttribute('aria-pressed', 'true')
+    expect(housing).toHaveAttribute('aria-checked', 'false')
+    expect(cars).toHaveAttribute('aria-checked', 'true')
     expect(onChange).toHaveBeenLastCalledWith(
       expect.objectContaining({ value: 'cars' })
     )
@@ -295,6 +325,18 @@ describe('Chip.Group', () => {
     expect(
       document.querySelector('.dnb-form-status__text')
     ).toHaveTextContent('Choose a category')
+  })
+
+  it('describes the group with its status message', () => {
+    render(
+      <Chip.Group label="Category" status="Choose a category">
+        <Chip text="Housing" value="housing" />
+      </Chip.Group>
+    )
+
+    expect(document.querySelector('fieldset')).toHaveAccessibleDescription(
+      'Choose a category'
+    )
   })
 
   it('does not give the chips the error style for other status states', () => {

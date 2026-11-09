@@ -215,6 +215,27 @@ describe('ToggleButton group component', () => {
       expect(legend).toHaveAttribute('id')
     })
 
+    it('should describe the fieldset with the status message and suffix', () => {
+      render(
+        <ToggleButton.Group
+          label="Legend"
+          status="Status message"
+          suffix="Suffix text"
+        >
+          <ToggleButton text="First" value="first" />
+        </ToggleButton.Group>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+
+      expect(fieldset).toHaveAccessibleDescription(
+        'Status message Suffix text'
+      )
+      expect(
+        document.querySelector('.dnb-toggle-button-group__shell')
+      ).not.toHaveAttribute('aria-describedby')
+    })
+
     it('should not have aria-labelledby or role when no label is given', () => {
       render(
         <ToggleButton.Group>

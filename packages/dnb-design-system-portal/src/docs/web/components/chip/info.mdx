@@ -36,7 +36,9 @@ The Chip is based on the [ToggleButton](/web/components/toggle-button), and supp
 
 ## Accessibility
 
-Every Chip is a native `button` that tells screen readers whether it is pressed. `Chip.Group` renders a `fieldset` with the `label` as its `legend`, so screen readers announce what the Chips select. Icons are only decorative, so the text of a Chip has to describe it.
+Every Chip is a native `button`. With the `default` and `add-remove` variants, it tells screen readers whether it is pressed. With `checkbox` and `radio`, it gets the `checkbox` or `radio` role and tells whether it is checked.
+
+`Chip.Group` renders a `fieldset` with the `label` as its `legend`, so screen readers announce what the Chips select. A status message on the group describes the `fieldset`, so screen readers announce it together with the group. Icons are only decorative, so the text of a Chip has to describe it.
 
 ## Relevant links
 

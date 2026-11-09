@@ -221,6 +221,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   // also used for code markup simulation
   validateDOMAttributes(ownProps, params)
 
+  const { 'aria-describedby': describedBy, ...shellParams } = params
+
   const setContext = useCallback(
     (
       contextArg:
@@ -270,6 +272,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
         <Fieldset
           className="dnb-toggle-button-group__fieldset"
           aria-labelledby={label ? id + '-label' : undefined}
+          aria-describedby={describedBy}
           role={variant === 'radio' ? 'radiogroup' : 'group'}
         >
           <Flex.Container
@@ -296,7 +299,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
               element="span"
               id={id}
               className="dnb-toggle-button-group__shell"
-              {...params}
+              {...shellParams}
             >
               <FormStatus
                 show={showStatus}

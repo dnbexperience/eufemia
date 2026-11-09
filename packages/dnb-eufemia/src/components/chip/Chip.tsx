@@ -50,11 +50,14 @@ function Chip({
   const groupContext = useContext(ChipGroupContext)
   const variant = variantProp ?? groupContext.variant ?? 'default'
   const isAddRemove = variant === 'add-remove'
+  const role =
+    variant === 'radio' || variant === 'checkbox' ? variant : undefined
 
   return (
     <ToggleButton
       className={clsx('dnb-chip', `dnb-chip--${variant}`, className)}
       variant={isAddRemove ? 'default' : variant}
+      role={role}
       leftComponent={
         leftComponent ?? (icon ? <IconPrimary icon={icon} /> : undefined)
       }

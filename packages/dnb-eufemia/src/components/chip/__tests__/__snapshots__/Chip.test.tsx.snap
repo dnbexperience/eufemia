@@ -2901,6 +2901,35 @@ html:not([data-whatintent=touch]) .dnb-chip--add-remove.dnb-toggle-button--check
   --chip-icon-fill: var(--token-color-background-action-disabled);
   --chip-icon-stroke: var(--token-color-icon-neutral-inverse);
 }
+@media (forced-colors: active) {
+  .dnb-chip--add-remove .dnb-toggle-button__button svg {
+    outline-color: CanvasText;
+  }
+  .dnb-chip--add-remove .dnb-toggle-button__button svg .dnb-icon-close-circle-path {
+    fill: Canvas;
+  }
+  .dnb-chip--add-remove .dnb-toggle-button__button svg .dnb-icon-close-cross-path {
+    stroke: CanvasText;
+  }
+  .dnb-chip--add-remove.dnb-toggle-button--checked .dnb-toggle-button__button svg {
+    outline-color: transparent;
+  }
+  .dnb-chip--add-remove.dnb-toggle-button--checked .dnb-toggle-button__button svg .dnb-icon-close-circle-path {
+    fill: HighlightText;
+  }
+  .dnb-chip--add-remove.dnb-toggle-button--checked .dnb-toggle-button__button svg .dnb-icon-close-cross-path {
+    stroke: Highlight;
+  }
+  .dnb-chip--add-remove .dnb-toggle-button__button[disabled] svg {
+    outline-color: GrayText;
+  }
+  .dnb-chip--add-remove .dnb-toggle-button__button[disabled] svg .dnb-icon-close-circle-path {
+    fill: Canvas;
+  }
+  .dnb-chip--add-remove .dnb-toggle-button__button[disabled] svg .dnb-icon-close-cross-path {
+    stroke: GrayText;
+  }
+}
 .dnb-chip-group.dnb-toggle-button-group {
   --toggle-button-group-column-gap: 0.5rem;
   --toggle-button-group-row-gap: 0.5rem;
