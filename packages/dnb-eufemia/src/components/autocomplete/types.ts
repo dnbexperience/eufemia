@@ -193,7 +193,7 @@ export type AutocompleteProps = {
    */
   inputRef?: AutocompleteInputRef
   /**
-   * Render the inline result list in a custom surface. Receives `results`, `open`, `close`, and `resultsRef`. Attach `resultsRef` to a custom surface that renders through a portal so interacting with its controls keeps the results open. Keep custom controls outside the listbox. The input retains result navigation. See [Search.Panel](/web/components/search/demos#searchpanel) for a composed example.
+   * Render the inline result list in a custom surface. Receives `results`, `open`, `close`, and `resultsRef`. `open` is true when the list is expanded and contains results or an explicit loading or no-options item. Attach `resultsRef` to a custom surface that renders through a portal so interacting with its controls keeps the results open. Keep custom controls outside the listbox. The input retains result navigation. See [Search.Panel](/web/components/search/demos#searchpanel) for a composed example.
    */
   resultsRender?: AutocompleteResultsRender
   /**
