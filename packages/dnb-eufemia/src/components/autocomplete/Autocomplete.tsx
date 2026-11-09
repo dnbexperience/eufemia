@@ -2283,7 +2283,7 @@ function AutocompleteComponent({
             {resultsRender
               ? resultsRender({
                   results,
-                  open: Boolean(open),
+                  open: isExpanded,
                   close: setHidden,
                   resultsRef,
                 })

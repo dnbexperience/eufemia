@@ -53,12 +53,6 @@ All three components use the theme's normal corner radius by default, including 
 
 <SearchPill />
 
-#### Asynchronous results
-
-The `onType` callback receives the same result and loading methods as Autocomplete. This example filters a local list. For remote results, see [loading data asynchronously](/web/components/autocomplete/events#dynamically-change-data).
-
-<SearchAsync />
-
 ### Search.Panel
 
 Use a panel when results need additional controls. This example filters by category with toggle buttons and sorts by relevance or alphabetically. The controls belong to the application, so the component also works with other filters or actions.
@@ -72,3 +66,11 @@ The render function receives `results`, the inline Autocomplete list, and `close
 Results render through a React portal and align with the input's left edge by default. Choose `align="center"` or `align="right"` when that fits the surrounding layout. The panel stays inside the viewport near either edge.
 
 <SearchPanelAlignment />
+
+### Asynchronous results
+
+Both Search.Autocomplete and Search.Panel support `mode="async"`. These examples simulate a delayed response with Autocomplete's managed `debounce` method. Focusing an empty input keeps the results closed. The input shows a loading indicator while waiting, then opens the results or an explicit no-results message. Clearing the query closes the results and cancels the pending response.
+
+The `onType` callback receives the same result and loading methods as Autocomplete. For remote results, see [loading data asynchronously](/web/components/autocomplete/events#dynamically-change-data). Ignore outdated responses when a newer query is typed or the input is cleared.
+
+<SearchAsync />
