@@ -273,6 +273,46 @@ describe('Chip.Group', () => {
     expect(cars).toHaveAttribute('aria-pressed', 'true')
   })
 
+  it('gives every chip the error style when the group has an error status', () => {
+    render(
+      <Chip.Group label="Category" status="Choose a category">
+        <Chip text="Housing" value="housing" />
+        <Chip text="Cars" value="cars" />
+      </Chip.Group>
+    )
+
+    const chips = Array.from(document.querySelectorAll('.dnb-chip'))
+
+    for (const chip of chips) {
+      expect(chip).toHaveClass('dnb-toggle-button__status--error')
+      expect(
+        chip.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    }
+    expect(
+      document.querySelectorAll('.dnb-form-status__text')
+    ).toHaveLength(1)
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Choose a category')
+  })
+
+  it('does not give the chips the error style for other status states', () => {
+    render(
+      <Chip.Group
+        label="Category"
+        status="Choose a category"
+        statusState="information"
+      >
+        <Chip text="Housing" value="housing" />
+      </Chip.Group>
+    )
+
+    expect(document.querySelector('.dnb-chip')).not.toHaveClass(
+      'dnb-toggle-button__status--error'
+    )
+  })
+
   it('disables every chip', () => {
     render(
       <Chip.Group label="Category" disabled>

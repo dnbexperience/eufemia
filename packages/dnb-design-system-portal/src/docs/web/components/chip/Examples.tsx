@@ -107,12 +107,17 @@ export const ChipStatus = () => (
         status="Choose at least one account type"
         values={['bsu']}
       >
-        <Chip text="BSU" value="bsu" status="error" />
-        <Chip text="Savings" value="savings" status="error" />
+        <Chip text="BSU" value="bsu" />
+        <Chip text="Savings" value="savings" />
       </Chip.Group>
-      <Chip.Group label="Period" variant="radio" value="month">
-        <Chip text="Week" value="week" status="error" />
-        <Chip text="Month" value="month" status="error" />
+      <Chip.Group
+        label="Period"
+        variant="radio"
+        status="error"
+        value="month"
+      >
+        <Chip text="Week" value="week" />
+        <Chip text="Month" value="month" />
       </Chip.Group>
     </Flex.Stack>
   </ComponentBox>

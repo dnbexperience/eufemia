@@ -88,7 +88,11 @@ export const ChipGroupProperties: PropertiesTableProps = {
   labelDirection: ToggleButtonGroupProperties.labelDirection,
   labelSrOnly: ToggleButtonGroupProperties.labelSrOnly,
   layoutDirection: ToggleButtonGroupProperties.layoutDirection,
-  status: ToggleButtonGroupProperties.status,
+  status: {
+    doc: 'Text with a status message, shown below the group. Use `"error"` to only get the status color, without a message. With the `error` state, every Chip in the group gets the error style.',
+    type: ['string', '"error"', 'boolean'],
+    status: 'optional',
+  },
   statusState: ToggleButtonGroupProperties.statusState,
   statusProps: ToggleButtonGroupProperties.statusProps,
   globalStatus: ToggleButtonGroupProperties.globalStatus,
@@ -111,7 +115,7 @@ export const ChipEvents: PropertiesTableProps = {
 
 export const ChipGroupEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Will be called once a Chip in the group changes the state. Returns an object `{ value, values, event }`. `values` is only set when `multiselect` is `true`.',
+    doc: 'Will be called once a Chip in the group changes the state. Returns an object `{ value, values, event }`. `values` holds every checked value when `multiselect` is `true`.',
     type: 'function',
     status: 'optional',
   },

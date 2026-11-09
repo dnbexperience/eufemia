@@ -3,6 +3,7 @@ import type { ChipVariant } from './Chip'
 
 export type ChipGroupContextValue = {
   variant?: ChipVariant
+  status?: 'error'
 }
 
 const ChipGroupContext = createContext<ChipGroupContextValue>({})

@@ -7,6 +7,7 @@ import { clsx } from 'clsx'
 import ToggleButtonGroup from '../toggle-button/ToggleButtonGroup'
 import type { ToggleButtonGroupProps } from '../toggle-button/ToggleButtonGroup'
 import ChipGroupContext from './ChipGroupContext'
+import type { ChipGroupContextValue } from './ChipGroupContext'
 import type { ChipVariant } from './Chip'
 
 export type ChipGroupProps = Omit<
@@ -25,7 +26,11 @@ function ChipGroup({
   className,
   ...props
 }: ChipGroupProps) {
-  const context = useMemo(() => ({ variant }), [variant])
+  const status: ChipGroupContextValue['status'] =
+    props.status && (props.statusState ?? 'error') === 'error'
+      ? 'error'
+      : undefined
+  const context = useMemo(() => ({ variant, status }), [variant, status])
 
   return (
     <ChipGroupContext value={context}>

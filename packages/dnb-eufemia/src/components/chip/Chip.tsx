@@ -12,6 +12,8 @@ import { getCloseCircleIcon } from '../tag/CloseCircleIcon'
 import ChipGroup from './ChipGroup'
 import ChipGroupContext from './ChipGroupContext'
 
+export type { ChipGroupProps } from './ChipGroup'
+
 export type ChipVariant = 'default' | 'add-remove' | 'checkbox' | 'radio'
 
 export type ChipProps = Omit<
@@ -41,6 +43,7 @@ function Chip({
   variant: variantProp,
   icon,
   leftComponent,
+  status,
   className,
   ...props
 }: ChipProps) {
@@ -56,6 +59,7 @@ function Chip({
         leftComponent ?? (icon ? <IconPrimary icon={icon} /> : undefined)
       }
       icon={isAddRemove ? getCloseCircleIcon() : undefined}
+      status={status ?? groupContext.status}
       {...props}
     />
   )
