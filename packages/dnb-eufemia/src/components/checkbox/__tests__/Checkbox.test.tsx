@@ -783,6 +783,34 @@ describe('Checkbox scss', () => {
     )
   })
 
+  it('uses a 1.5px border for indeterminate checkboxes, and 1px when disabled or with an error', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    ).replace(/\/\*[\s\S]*?\*\//g, '')
+    const borderWidths = Array.from(
+      css.matchAll(
+        /([^{}]+)\{[^{}]*\s--checkbox-border-width--default: ([^;]+);/g
+      ),
+      ([, selectors, width]) => [selectors.trim(), width]
+    )
+
+    expect(borderWidths).toEqual([
+      ['.dnb-checkbox', '0.0625rem'],
+      [
+        '.dnb-checkbox__input:indeterminate ~ .dnb-checkbox__button',
+        '0.09375rem',
+      ],
+      [
+        '.dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__button',
+        '0.0625rem',
+      ],
+      [
+        '.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button',
+        '0.0625rem',
+      ],
+    ])
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
