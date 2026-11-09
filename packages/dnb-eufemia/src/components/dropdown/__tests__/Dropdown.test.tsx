@@ -258,6 +258,40 @@ describe('Dropdown component', () => {
     ).not.toHaveAttribute('aria-invalid')
   })
 
+  it('ignores selection after the open Dropdown becomes disabled', async () => {
+    const onChange = vi.fn()
+    const onSelect = vi.fn()
+    const props: DropdownAllProps = {
+      data: ['Apple', 'Orange'],
+      defaultValue: 0,
+      noAnimation: true,
+      skipPortal: true,
+      onChange,
+      onSelect,
+    }
+    const { rerender } = render(<Dropdown {...props} />)
+    const user = userEvent.setup()
+    await user.click(document.querySelector('.dnb-dropdown__trigger'))
+    rerender(<Dropdown {...props} disabled />)
+    const option =
+      document.querySelectorAll<HTMLElement>('[role="option"]')[1]
+    expect(option).toHaveTextContent('Orange')
+    await user.click(option)
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(onSelect).not.toHaveBeenCalled()
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner')
+    ).toHaveTextContent('Apple')
+
+    rerender(<Dropdown {...props} />)
+    await user.click(
+      document.querySelectorAll<HTMLElement>('[role="option"]')[1]
+    )
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onSelect).toHaveBeenCalledTimes(1)
+  })
+
   it('will stay open when keepOpen and a selection is made', () => {
     const onChange = vi.fn()
     render(
