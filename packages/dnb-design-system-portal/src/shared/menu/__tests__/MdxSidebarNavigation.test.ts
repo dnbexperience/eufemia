@@ -68,9 +68,15 @@ describe('MDX-defined Portal navigation', () => {
       ({ path }) => path === 'web/components'
     )
     const [overview, heading, ...items] = components.subheadings
-    expect(overview.title).toBe('Components by category')
+    expect(overview).toMatchObject({
+      title: 'Components by category',
+      icon: 'layout_grid',
+    })
+    expect(toSidebarMenuData([overview], () => undefined)[0].icon).toBe(
+      graphics.layout_grid
+    )
     expect(heading).toMatchObject({
-      title: 'Actions, inputs and more',
+      title: 'Main components',
       isMenuGroup: true,
       isMenuLink: false,
     })
@@ -446,14 +452,16 @@ describe('MDX-defined Portal navigation', () => {
     ).toBeUndefined()
   })
 
-  it('keeps icons only on top-level navigation entries', () => {
+  it('keeps nested navigation icon-free except for the category overview', () => {
     const { shared, sections } = tree()
     for (const item of [
       ...shared,
       ...sections.flatMap(({ items }) => items),
     ]) {
       expect(
-        flatten(item.subheadings ?? []).filter(({ icon }) => icon)
+        flatten(item.subheadings ?? []).filter(
+          ({ icon, path }) => icon && path !== 'web/components/overview'
+        )
       ).toEqual([])
     }
     expect(shared.find(({ id }) => id === 'design-foundations').icon).toBe(
