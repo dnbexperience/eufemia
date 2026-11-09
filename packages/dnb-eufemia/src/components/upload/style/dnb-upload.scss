@@ -161,6 +161,11 @@
     }
   }
 
+  // Like the compact title (.dnb-lead), use the heading font
+  &__title.dnb-p {
+    font-family: var(--font-family-heading);
+  }
+
   &__text.dnb-p {
     color: var(--upload-text--secondary);
   }
