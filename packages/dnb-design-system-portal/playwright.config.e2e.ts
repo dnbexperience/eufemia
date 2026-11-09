@@ -13,6 +13,11 @@ export default defineConfig({
   projects: [
     { name: 'firefox' },
     {
+      name: 'chromium-search',
+      testMatch: '**/portalSearch.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
       name: 'chromium-routes',
       testMatch: '**/deferredRoutes.spec.ts',
       use: { browserName: 'chromium' },
