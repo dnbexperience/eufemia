@@ -88,7 +88,6 @@ exports[`Elements scss > has to match style dependencies css 1`] = `
   display: block;
   margin-top: 1rem;
   font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-small);
   font-style: var(--blockquote-cite-style);
 }
 .dnb-blockquote .dnb-cite::before,
