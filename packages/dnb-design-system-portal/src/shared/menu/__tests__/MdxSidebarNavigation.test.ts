@@ -469,7 +469,7 @@ describe('MDX-defined Portal navigation', () => {
     )
     expect(
       sections[0].items.find(({ id }) => id === 'web-components').icon
-    ).toBe('layout_grid')
+    ).toBe('list')
   })
 
   it('combines Installation and First steps without a duplicate menu page', () => {
