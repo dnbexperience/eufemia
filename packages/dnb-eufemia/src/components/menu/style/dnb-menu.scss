@@ -177,15 +177,9 @@
 
     list-style: none;
 
-    // Block, so the list item's own line box doesn't add height.
-    // Nested, to beat the heading font of `.dnb-core-style .dnb-lead`.
-    & &__text.dnb-lead {
+    // Block, so the list item's own line box doesn't add height
+    &__text {
       display: block;
-
-      font-family: var(--font-family-default);
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-      line-height: var(--line-height-small);
     }
   }
 
