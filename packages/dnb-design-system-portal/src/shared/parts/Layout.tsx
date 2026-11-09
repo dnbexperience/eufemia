@@ -217,6 +217,7 @@ const Content = ({
       className={clsx(
         contentStyle,
         'dnb-app-content',
+        'portal-reveal-page',
         fullscreen && 'fullscreen-page',
         className
       )}

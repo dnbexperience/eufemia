@@ -335,51 +335,41 @@ test.describe('Responsiveness', () => {
     await expect(dialog).toBeVisible()
     await expect(menuButton).toHaveAttribute('aria-expanded', 'true')
 
-    const drawer = page.locator('.dnb-drawer--left')
+    const drawer = page.locator('#portal-sidebar-menu-drawer .dnb-drawer')
     const closeButton = drawer.locator('.dnb-modal__close-button')
     const drawerLogo = drawer.getByRole('link', {
       name: 'Go to Eufemia home',
     })
-    await expect(drawer).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
+    await expect(drawer).toHaveCSS('transform', 'none')
     await expect(closeButton).toBeVisible()
-    await expect(drawerLogo).toBeVisible()
+    await expect(drawerLogo).toHaveCount(0)
     await expect(page.getByRole('dialog', { name: 'Menu' })).toBeVisible()
     await expect(drawer.locator('.dnb-drawer__title')).toHaveCount(0)
     const drawerBox = await drawer.boundingBox()
-    const drawerContentBox = await drawer
-      .locator('.dnb-drawer__content')
-      .boundingBox()
     const closeButtonBox = await closeButton.boundingBox()
-    const firstMenuActionBox = await drawer
-      .locator('.dnb-sidebar-menu__item__action')
-      .first()
-      .boundingBox()
-    const drawerLogoBox = await drawerLogo.boundingBox()
     const drawerNavigationBox = await drawer
       .locator('.dnb-drawer__navigation')
       .boundingBox()
     expect(drawerBox.x).toBe(0)
     expect(drawerBox.width).toBeCloseTo(375 * 0.9, 0)
     expect(drawerBox.height).toBe(667)
-    expect(
-      Math.abs((closeButtonBox?.x ?? 0) - (firstMenuActionBox?.x ?? 0))
-    ).toBeLessThanOrEqual(4)
-    await expect(
-      closeButton.evaluate((element) => {
-        const rect = element.getBoundingClientRect()
-        return element.contains(
-          document.elementFromPoint(
-            rect.left + rect.width / 2,
-            rect.top + rect.height / 2
-          )
-        )
-      })
-    ).resolves.toBe(true)
-    expect(drawerLogoBox.x + drawerLogoBox.width / 2).toBeCloseTo(
-      drawerContentBox.x + drawerContentBox.width / 2,
-      0
+    expect(closeButtonBox.x).toBeGreaterThan(
+      drawerNavigationBox.x + drawerNavigationBox.width / 2
     )
-    expect(drawerLogoBox.y + drawerLogoBox.height / 2).toBeCloseTo(
+    await expect
+      .poll(() =>
+        closeButton.evaluate((element) => {
+          const rect = element.getBoundingClientRect()
+          return element.contains(
+            document.elementFromPoint(
+              rect.left + rect.width / 2,
+              rect.top + rect.height / 2
+            )
+          )
+        })
+      )
+      .toBe(true)
+    expect(closeButtonBox.y + closeButtonBox.height / 2).toBeCloseTo(
       drawerNavigationBox.y + drawerNavigationBox.height / 2,
       0
     )

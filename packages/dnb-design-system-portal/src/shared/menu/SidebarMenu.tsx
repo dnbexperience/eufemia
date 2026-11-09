@@ -7,12 +7,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { clsx } from 'clsx'
 import { allMdxNodes } from 'virtual:portal-data'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
+import { createDrawerReveal } from '@dnb/eufemia/src/components/drawer/DrawerReveal'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import {
   navStyle,
-  mobileDrawerStyle,
-  mobileDrawerLogoStyle,
   scrollContentStyle,
   sidebarLogoStyle,
 } from './SidebarMenu.module.scss'
@@ -32,6 +31,10 @@ import {
 import { Provider } from '@dnb/eufemia/src/shared'
 import PortalLogo from './graphics/logo'
 import { Link } from '../tags/Anchor'
+
+const sidebarReveal = createDrawerReveal({
+  target: '.portal-reveal-page, .sticky-menu',
+})
 
 type SidebarLayoutProps = {
   location: Location
@@ -127,18 +130,9 @@ export default function SidebarLayout({
   return (
     <Provider locale="en-GB">
       <SidebarMenu.ResponsiveDrawer
+        renderDriver={sidebarReveal}
         id="portal-sidebar-menu-drawer"
-        className={mobileDrawerStyle}
         dialogTitle="Menu"
-        navContent={
-          <Link
-            href="/"
-            className={clsx(mobileDrawerLogoStyle, 'dnb-tab-focus')}
-            title="Go to Eufemia home"
-          >
-            <PortalLogo />
-          </Link>
-        }
       >
         {menu()}
       </SidebarMenu.ResponsiveDrawer>

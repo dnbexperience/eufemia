@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerProperties: PropertiesTableProps = {
+  renderDriver: {
+    doc: 'Optional rendering behavior. Import `createDrawerReveal` separately from `@dnb/eufemia/components/drawer/DrawerReveal` to reveal a stationary left Drawer by moving the page. Unused drivers are excluded from ordinary Drawer bundles.',
+    type: 'DrawerDriver',
+    status: 'optional',
+  },
   containerPlacement: {
     doc: 'Defines on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.',
     type: ['"left"', '"right"', '"top"', '"bottom"'],

@@ -266,7 +266,7 @@ Use the responsive compound parts when the same navigation should be inline on l
 - `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
 - `ResponsiveAside` combines `ResponsiveInline`, the sidebar surface, `ScrollView`, spacing, and optional `ResizeHandle` into a ready-to-use navigation sidebar.
 - `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column at or below `drawerAt`.
-- `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
+- `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left by default, or on the right with the reveal driver.
 - `useResponsive().close()` closes the Drawer after navigating from it.
 
 An icon-only `ResponsiveTrigger` has a localized accessible name by default. Set `aria-label` when a more specific name helps people identify the navigation, and use `tooltip` for a visible hint on hover and keyboard focus. Keep both texts the same and omit `title` to avoid a second native browser tooltip. The label is available to screen readers even when the tooltip is hidden.
@@ -322,6 +322,36 @@ Use `inlineCollapsed` with `onInlineCollapsedChange` when application state cont
 Set `inlineCollapsedStorageKey` on `ResponsiveProvider` to remember inline dismissal across navigation and reloads. Session storage is the default, matching `openItemsStorageKey`; use `inlineCollapsedStorage="local"` to retain the choice across browser restarts. A saved boolean takes precedence over `defaultInlineCollapsed`. Controlled `inlineCollapsed` does not read or write storage. Compact hover expansion and the Drawer's open state remain temporary.
 
 Persistence uses the same shared Web Storage helpers as open menu items. The responsive parts share state through their provider's React context. For SSR or SSG, the same `PreHydrationScript` also restores inline dismissal before the first paint.
+
+### Reveal navigation
+
+Pass the separately imported Drawer reveal driver to `ResponsiveDrawer` to move your page above a stationary menu on narrow screens. The inline sidebar on wider screens keeps its usual behavior.
+
+```tsx
+import { createDrawerReveal } from '@dnb/eufemia/components/drawer/DrawerReveal'
+
+const reveal = createDrawerReveal({ target: '#app-page' })
+
+function App() {
+  return (
+    <SidebarMenu.ResponsiveProvider drawerAt="medium">
+      <div id="app-page">
+        <SidebarMenu.ResponsiveTrigger />
+        Page content
+      </div>
+      <SidebarMenu.ResponsiveDrawer renderDriver={reveal}>
+        <SidebarMenu.Root aria-label="Main navigation">
+          <SidebarMenu.Item id="home" text="Home" href="/" />
+        </SidebarMenu.Root>
+      </SidebarMenu.ResponsiveDrawer>
+    </SidebarMenu.ResponsiveProvider>
+  )
+}
+```
+
+Create the driver once outside rendering, or memoize it. `target` accepts a CSS selector for one or more page surfaces, including a separate sticky header. Keep the Drawer and its portal outside the target surfaces. Keep a menu button available as an alternative to dragging.
+
+The reveal driver provides touch dragging, page opacity, and the menu-facing edge shadow. Drawer keeps focus inside the menu, blocks page interaction, supports Escape, and restores focus on close. Reduced motion is respected. Ordinary Drawer and SidebarMenu imports exclude the reveal JavaScript; only the additional CSS is included by default. See [the demo](/web/patterns-and-extensions/sidebar-menu/demos/#reveal-navigation-on-narrow-screens) and [Drawer setup](/web/components/drawer/#reveal-the-page).
 
 ### Dismissible inline navigation
 

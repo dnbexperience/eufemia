@@ -688,8 +688,8 @@ test.describe('Portal SidebarMenu', () => {
     await page.goto('/about/eufemia')
     await waitForApp(page)
     await page.locator('#toggle-sidebar-menu').click()
-    const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
-    await expect(drawer).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
+    const drawer = page.locator('#portal-sidebar-menu-drawer .dnb-drawer')
+    await expect(drawer).toBeVisible()
     await expect(
       drawer.locator('.dnb-height-animation--animating')
     ).toHaveCount(0)
@@ -726,16 +726,16 @@ test.describe('Portal SidebarMenu', () => {
     await waitForApp(page)
 
     const trigger = page.locator('#toggle-sidebar-menu')
-    const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
+    const drawer = page.locator('#portal-sidebar-menu-drawer .dnb-drawer')
     const expectedScrollTop = 120
     const positions: number[] = []
 
     for (let index = 0; index < 4; index += 1) {
       await trigger.click()
       await drawer.waitFor({ state: 'visible' })
-      await expect(drawer).toHaveCSS(
-        'transform',
-        'matrix(1, 0, 0, 1, 0, 0)'
+      await expect(page.locator('.portal-reveal-page')).toHaveCSS(
+        'opacity',
+        '0.68'
       )
       await expect(
         drawer.locator('.dnb-height-animation--animating')

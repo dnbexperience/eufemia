@@ -1,8 +1,27 @@
-import type { ReactNode } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import type { ScrollViewAllProps } from '../scroll-view/ScrollView'
 import type { ModalAllProps } from '../modal/Modal'
 
+export type DrawerDriverProps = Omit<
+  DrawerProps & DrawerContentProps,
+  'renderDriver'
+> & {
+  renderDrawer: (
+    props: Omit<DrawerProps & DrawerContentProps, 'renderDriver'>,
+    content?: ReactNode
+  ) => ReactNode
+}
+
+export type DrawerDriver = {
+  Renderer: ComponentType<DrawerDriverProps>
+}
+
 export type DrawerProps = {
+  /**
+   * Optional rendering behavior. Import `createDrawerReveal` separately from `@dnb/eufemia/components/drawer/DrawerReveal` to reveal a stationary left Drawer by moving the page. Unused drivers are excluded from ordinary Drawer bundles.
+   */
+  renderDriver?: DrawerDriver
+
   /**
    * Defines on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
    */
