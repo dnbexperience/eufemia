@@ -695,6 +695,32 @@ describe('NumberFormat component', () => {
     expect(await axeComponent(container)).toHaveNoViolations()
   })
 
+  it('should use the number given as children for the phone link', () => {
+    render(
+      <NumberFormat.PhoneNumber link>99999999</NumberFormat.PhoneNumber>
+    )
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toHaveAttribute('aria-label', '99 99 99 99')
+    expect(anchor.getAttribute('href')).toBe('tel:99999999')
+  })
+
+  it('should include srLabel, prefix and suffix in the phone link name', () => {
+    render(
+      <NumberFormat.PhoneNumber
+        link
+        value="99999999"
+        srLabel="Call"
+        prefix="Tel:"
+        suffix={() => <i>(mobile)</i>}
+      />
+    )
+    const anchor = document.querySelector('a.dnb-anchor')
+    expect(anchor).toHaveAttribute(
+      'aria-label',
+      'Call Tel: 99 99 99 99 (mobile)'
+    )
+  })
+
   it('have to match bank account number', () => {
     const { rerender } = render(
       <NumberFormat.BankAccountNumber>
