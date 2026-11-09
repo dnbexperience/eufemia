@@ -23,5 +23,10 @@ export const usageCaptureOptions = {
 }
 
 export async function createServer() {
-  return (await createDocsServer({ docsRoot })).server
+  const { server } = await createDocsServer({ docsRoot })
+
+  // Lambda can't keep listen streams open; this makes the SDK end them.
+  server.server.registerCapabilities({ tools: { listChanged: false } })
+
+  return server
 }
