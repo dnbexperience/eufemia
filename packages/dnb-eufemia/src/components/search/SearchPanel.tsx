@@ -47,7 +47,6 @@ function SearchPanel(localProps: SearchPanelProps) {
   } = useSearchProps(localProps, {
     preventSelection: true,
     keepValue: true,
-    noScrollAnimation: true,
     openOnFocus: true,
   })
   const triggerOffset = popoverProps?.triggerOffset ?? 8

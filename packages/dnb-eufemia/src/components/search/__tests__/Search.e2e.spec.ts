@@ -136,6 +136,109 @@ for (const name of [
   })
 }
 
+type ScrollableResults = HTMLElement & {
+  scrollPositions: number[]
+  scrollFinished: Promise<void>
+}
+
+for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+  test(`panel scrolls only past the visible results with ${reducedMotion} motion`, async ({
+    page,
+  }) => {
+    const input = page
+      .locator('[data-visual-test="search-panel"]')
+      .getByRole('combobox', { name: 'Search with filters' })
+    const results = page.getByRole('listbox', {
+      name: 'Search with filters',
+    })
+    await input.scrollIntoViewIfNeeded()
+    await page.emulateMedia({ reducedMotion })
+    await input.focus()
+    await expect(results).toBeVisible()
+    await results.evaluate((list: ScrollableResults) => {
+      list.style.maxHeight = '7rem'
+      list.scrollPositions = []
+      list.addEventListener('scroll', () => {
+        list.scrollPositions.push(list.scrollTop)
+      })
+    })
+    const pageScroll = await page.evaluate(() => window.scrollY)
+    const options = results.getByRole('option')
+    const count = await options.count()
+    const positions = []
+    let animated = false
+
+    for (const [key, indexes] of [
+      ['ArrowDown', Array.from({ length: count }, (_, index) => index)],
+      [
+        'ArrowUp',
+        Array.from({ length: count - 1 }, (_, index) => count - index - 2),
+      ],
+    ] as const) {
+      for (const index of indexes) {
+        const before = await options.nth(index).evaluate((option) => {
+          const list = option.closest(
+            '[role="listbox"]'
+          ) as ScrollableResults
+          const box = list.getBoundingClientRect()
+          const item = option.getBoundingClientRect()
+          const visible =
+            item.top >= box.top + 8 && item.bottom <= box.bottom - 8
+          list.scrollPositions = []
+          list.scrollFinished = visible
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                list.addEventListener('scrollend', () => resolve(), {
+                  once: true,
+                })
+              })
+          return { scrollTop: list.scrollTop, visible }
+        })
+        await input.press(key)
+        await expect(options.nth(index)).toHaveClass(
+          /dnb-drawer-list__option--focus/
+        )
+        await results.evaluate(
+          (list: ScrollableResults) => list.scrollFinished
+        )
+        await expect
+          .poll(() =>
+            options.nth(index).evaluate((option) => {
+              const box = option
+                .closest('[role="listbox"]')
+                .getBoundingClientRect()
+              const item = option.getBoundingClientRect()
+              return (
+                item.top >= box.top + 7.5 &&
+                item.bottom <= box.bottom - 7.5
+              )
+            })
+          )
+          .toBe(true)
+        const after = await results.evaluate((list) => list.scrollTop)
+        if (before.visible) {
+          expect(after).toBeCloseTo(before.scrollTop, 0)
+        }
+        const intermediate = await results.evaluate(
+          (list: ScrollableResults, start) =>
+            list.scrollPositions.some(
+              (position) =>
+                position > Math.min(start, list.scrollTop) + 1 &&
+                position < Math.max(start, list.scrollTop) - 1
+            ),
+          before.scrollTop
+        )
+        animated ||= intermediate
+        positions.push(after)
+        expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
+      }
+    }
+    expect(Math.max(...positions)).toBeGreaterThan(0)
+    expect(positions.at(-1)).toBeCloseTo(0, 1)
+    expect(animated).toBe(reducedMotion === 'no-preference')
+  })
+}
+
 test('keeps both input types within a narrow container', async ({
   page,
 }) => {
