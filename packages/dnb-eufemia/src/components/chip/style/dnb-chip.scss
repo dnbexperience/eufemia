@@ -1,8 +1,45 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-chip {
+  --chip-height: 2.5rem;
+  --chip-padding-block: 0.5rem;
+  --chip-padding-inline: 1rem;
+  --chip-font-size: var(--font-size-basis);
+
   max-width: 100%;
   vertical-align: middle;
+
+  &--size-small {
+    --chip-height: 1.5rem;
+    --chip-padding-block: 0rem;
+    --chip-padding-inline: 0.75rem;
+    --chip-font-size: var(--font-size-small);
+  }
+
+  &--size-medium {
+    --chip-height: 2rem;
+    --chip-padding-block: 0.25rem;
+  }
+
+  &--size-large {
+    --chip-height: 3rem;
+    --chip-padding-block: 0.75rem;
+    --chip-padding-inline: 1.5rem;
+  }
+
+  &__wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+
+  &__suffix {
+    flex: none;
+    padding-left: 0;
+  }
 
   .dnb-checkbox__order,
   .dnb-radio__row {
@@ -10,6 +47,7 @@
     --chip-border-width: 0.0625rem;
     --chip-background: var(--token-color-background-neutral);
     --chip-control-border: var(--token-color-stroke-action-alternative);
+    --chip-control-border-width: 0.0625rem;
     --chip-control-background: var(--token-color-background-neutral);
     --chip-control-selected: var(--token-color-background-selected);
     --chip-action-background: var(--token-color-background-neutral-base);
@@ -22,9 +60,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    min-height: 2.5rem;
+    min-height: var(--chip-height);
     max-width: 100%;
-    padding: 0.5rem 1rem;
+    padding: var(--chip-padding-block) var(--chip-padding-inline);
     border-radius: var(--token-radius-xl);
     background-color: var(--chip-background);
     box-shadow: inset 0 0 0 var(--chip-border-width) var(--chip-border);
@@ -32,10 +70,17 @@
     @include utilities.forcedColorsOutline(0.0625rem, inset);
 
     &:has(input:checked) {
-      --chip-border: var(--token-color-component-button-stroke-selected);
+      --chip-border: var(
+        --chip-selected-border,
+        var(--token-color-component-button-stroke-selected)
+      );
       --chip-border-width: 0.125rem;
       --chip-background: var(--token-color-background-selected-subtle);
       --chip-control-border: var(--token-color-stroke-selected);
+      --chip-control-border-width: var(
+        --chip-control-selected-border-width,
+        0.0625rem
+      );
       --chip-control-background: var(
         --token-color-background-selected-subtle
       );
@@ -45,9 +90,13 @@
     }
 
     &:has(input:not(:disabled):hover) {
-      --chip-border: var(--token-color-stroke-action-hover);
+      --chip-border: var(
+        --chip-hover-border,
+        var(--token-color-stroke-action-hover)
+      );
       --chip-border-width: 0.125rem;
       --chip-control-border: var(--token-color-stroke-action-hover);
+      --chip-control-border-width: 0.125rem;
       --chip-control-background: var(
         --token-color-background-action-hover-subtle
       );
@@ -66,14 +115,15 @@
     }
 
     &:has(input:not(:disabled):active) {
-      --chip-border: var(--token-color-stroke-action-pressed);
-      --chip-border-width: 0.0625rem;
-      --chip-control-border: var(--token-color-stroke-action-pressed);
-      --chip-control-background: var(
-        --token-color-background-action-pressed-subtle
+      --chip-border: var(
+        --chip-active-border,
+        var(--token-color-stroke-action-pressed)
       );
-      --chip-control-selected: var(
-        --token-color-background-action-pressed
+      --chip-border-width: 0.0625rem;
+      --chip-control-border: var(--token-color-stroke-action-hover);
+      --chip-control-border-width: 0.125rem;
+      --chip-control-background: var(
+        --token-color-background-action-hover-subtle
       );
       --chip-action-background: var(
         --token-color-background-action-pressed-subtle
@@ -84,6 +134,17 @@
     }
 
     &:has(input:checked:not(:disabled):active) {
+      --chip-control-border: var(--token-color-stroke-action-pressed);
+      --chip-control-border-width: var(
+        --chip-control-selected-border-width,
+        0.0625rem
+      );
+      --chip-control-background: var(
+        --token-color-background-action-pressed-subtle
+      );
+      --chip-control-selected: var(
+        --token-color-background-action-pressed
+      );
       --chip-action-background: var(
         --token-color-background-action-pressed
       );
@@ -99,6 +160,7 @@
       --chip-border: var(--token-color-stroke-neutral-subtle);
       --chip-border-width: 0.0625rem;
       --chip-control-border: var(--token-color-stroke-neutral-subtle);
+      --chip-control-border-width: 0.0625rem;
       --chip-control-background: var(--token-color-background-neutral);
       --chip-control-selected: var(
         --token-color-background-action-disabled
@@ -168,12 +230,16 @@
 
       &__button,
       &__dot,
-      &__gfx {
+      &__gfx,
+      &__indeterminate {
         z-index: 0;
         pointer-events: none;
       }
 
-      &__input ~ .dnb-#{$control}__button {
+      &__input ~ .dnb-#{$control}__button,
+      html[data-whatinput='keyboard']
+        &__input:not([disabled]):not(:checked):focus
+        ~ .dnb-#{$control}__button {
         width: 1rem;
         height: 1rem;
         background-color: var(--chip-control-background);
@@ -181,11 +247,15 @@
           0
           0
           0
-          var(--chip-border-width)
+          var(--chip-control-border-width)
           var(--chip-control-border);
       }
 
-      &__focus {
+      &__focus,
+      html[data-whatinput='keyboard']
+        &__input:not([disabled]):focus
+        ~ .dnb-#{$control}__button
+        .dnb-#{$control}__focus {
         display: none;
       }
     }
@@ -195,61 +265,100 @@
       align-items: center;
       gap: 0.25rem;
       min-width: 0;
-      padding: 0;
       margin: 0;
       color: var(--token-color-text-neutral);
-      font-size: var(--font-size-basis);
+      font-size: var(--chip-font-size);
       line-height: 1.5rem;
       pointer-events: none;
     }
 
-    &.dnb-#{$control}__status--error {
+    &.dnb-#{$control} .dnb-#{$control}__order .dnb-form-label {
+      padding: 0;
+    }
+
+    &.dnb-#{$control}.dnb-#{$control}__status--error {
       .dnb-checkbox__order:has(input:not(:disabled)),
       .dnb-radio__row:has(input:not(:disabled)) {
-        --chip-border: var(
-          --token-color-component-button-stroke-action-destructive
-        );
-        --chip-control-border: var(--token-color-stroke-error);
-        --chip-control-selected: var(--token-color-background-error);
-
-        &:has(input:checked) {
-          --chip-background: var(--token-color-background-error-subtle);
+        &,
+        &:has(input:hover),
+        &:has(input:active) {
+          --chip-border: var(
+            --token-color-component-button-stroke-action-destructive
+          );
+          --chip-control-border: var(--token-color-stroke-error);
           --chip-control-background: var(
             --token-color-background-error-subtle
           );
+          --chip-control-selected: var(--token-color-background-error);
+        }
+
+        &:has(input:checked) {
+          --chip-background: var(--token-color-background-error-subtle);
+          --chip-control-border-width: 0.0625rem;
         }
 
         &:has(input:hover) {
+          --chip-control-border-width: 0.125rem;
           --chip-border: var(
             --token-color-component-button-stroke-action-destructive-hover
           );
         }
 
         &:has(input:active) {
+          --chip-control-border-width: var(
+            --chip-control-error-pressed-border-width,
+            0.125rem
+          );
           --chip-border: var(
             --token-color-component-button-stroke-action-destructive-pressed
           );
+        }
+
+        &:has(input:checked:active) {
+          --chip-control-border-width: 0.0625rem;
         }
       }
     }
   }
 
-  .dnb-checkbox__input:checked ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:checked ~ .dnb-checkbox__button,
+  html[data-whatinput='keyboard']
+    &
+    .dnb-checkbox__input:not([disabled]):checked:not(:indeterminate):focus
+    ~ .dnb-checkbox__button {
     background-color: var(--chip-control-selected);
-    box-shadow: inset 0 0 0 var(--chip-border-width)
+    box-shadow: inset 0 0 0 var(--chip-control-border-width)
       var(--chip-control-selected);
+
+    @media (forced-colors: active) {
+      background-color: CanvasText;
+    }
   }
 
-  .dnb-checkbox__input ~ .dnb-checkbox__gfx {
-    width: 0.875rem;
-    height: 0.875rem;
+  .dnb-checkbox__input ~ .dnb-checkbox__gfx,
+  html[data-whatinput='keyboard']
+    &
+    .dnb-checkbox__input:not([disabled]):focus
+    ~ .dnb-checkbox__gfx {
+    width: 0.6rem;
+    height: 0.6rem;
     color: var(--token-color-icon-neutral-inverse);
+
+    @media (forced-colors: active) {
+      color: Canvas;
+      forced-color-adjust: none;
+    }
   }
 
-  .dnb-radio__input ~ .dnb-radio__dot {
-    width: 0.625rem;
-    height: 0.625rem;
+  .dnb-radio__input ~ .dnb-radio__dot,
+  .dnb-radio__input:checked ~ .dnb-radio__dot {
+    width: 0.6rem;
+    height: 0.6rem;
     background-color: var(--chip-control-selected);
+  }
+
+  &--default {
+    --chip-selected-border: var(--token-color-stroke-selected);
   }
 
   &--default,
@@ -268,10 +377,21 @@
     }
   }
 
+  &--default:has(input:not(:checked)),
+  &--addable {
+    --chip-hover-border: var(
+      --token-color-component-button-icon-action-hover
+    );
+  }
+
+  &--default:has(input:checked) {
+    --chip-active-border: var(--token-color-icon-action-pressed);
+  }
+
   &--checkbox {
     .dnb-radio__button,
     .dnb-checkbox__input ~ .dnb-checkbox__button {
-      border-radius: 0.125rem;
+      border-radius: 0.25rem;
     }
 
     .dnb-radio__input:checked ~ .dnb-radio__button {
@@ -286,7 +406,7 @@
   &__check {
     position: absolute;
     top: calc(50% - 0.5rem);
-    left: 1rem;
+    left: var(--chip-padding-inline);
     display: none;
     width: 1rem;
     height: 1rem;
@@ -294,8 +414,8 @@
     pointer-events: none;
 
     .dnb-checkbox__gfx {
-      width: 0.875rem;
-      height: 0.875rem;
+      width: 0.6rem;
+      height: 0.6rem;
     }
   }
 
@@ -306,6 +426,9 @@
   }
 
   &--radio {
+    --chip-control-selected-border-width: 0.09375rem;
+    --chip-control-error-pressed-border-width: 0.0625rem;
+
     .dnb-checkbox__input ~ .dnb-checkbox__button {
       display: flex;
       align-items: center;
@@ -313,8 +436,8 @@
       border-radius: 50%;
 
       &::after {
-        width: 0.625rem;
-        height: 0.625rem;
+        width: 0.6rem;
+        height: 0.6rem;
         border-radius: 50%;
         background-color: var(--chip-control-selected);
         content: '';
@@ -322,13 +445,27 @@
       }
     }
 
-    .dnb-checkbox__input:checked ~ .dnb-checkbox__button {
+    .dnb-checkbox__input:checked ~ .dnb-checkbox__button,
+    html[data-whatinput='keyboard']
+      &
+      .dnb-checkbox__input:not([disabled]):checked:not(
+        :indeterminate
+      ):focus
+      ~ .dnb-checkbox__button {
       background-color: var(--chip-control-background);
-      box-shadow: inset 0 0 0 var(--chip-border-width)
+      box-shadow: inset 0 0 0 var(--chip-control-border-width)
         var(--chip-control-border);
 
       &::after {
         opacity: 1;
+
+        @media (forced-colors: active) {
+          background-color: CanvasText;
+        }
+      }
+
+      @media (forced-colors: active) {
+        background-color: Canvas;
       }
     }
 
@@ -345,11 +482,16 @@
     }
   }
 
+  .dnb-checkbox__gfx path {
+    stroke-width: 2.5;
+  }
+
   .dnb-alignment-helper {
     display: none;
   }
 
   &__text {
+    transform: translateY(-0.03125rem);
     overflow-wrap: anywhere;
   }
 
@@ -394,8 +536,7 @@
       forced-color-adjust: none;
     }
 
-    .dnb-checkbox__input:checked ~ .dnb-checkbox__button,
-    .dnb-radio__input ~ .dnb-radio__dot {
+    .dnb-radio__input:checked ~ .dnb-radio__dot {
       background-color: CanvasText;
     }
 
@@ -408,6 +549,23 @@
 
     &__action {
       outline: 0.0625rem solid;
+      background-color: Canvas;
+      color: CanvasText;
+      forced-color-adjust: none;
+    }
+
+    &:has(input:checked) &__action {
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    &:has(input:disabled) &__action {
+      color: GrayText;
+    }
+
+    &:has(input:disabled:checked) &__action {
+      background-color: GrayText;
+      color: Canvas;
     }
 
     &--checkbox .dnb-radio__input:checked ~ .dnb-radio__button {

@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import type { KeyboardEvent } from 'react'
 import { clsx } from 'clsx'
 import Checkbox from '../checkbox/Checkbox'
@@ -6,15 +6,20 @@ import Radio from '../radio/Radio'
 import RadioGroupContext from '../radio/RadioGroupContext'
 import CheckIcon from '../checkbox/CheckIcon'
 import Icon from '../icon/Icon'
+import Tooltip from '../tooltip/Tooltip'
+import Space from '../space/Space'
+import Suffix from '../../shared/helpers/Suffix'
 import add from '../../icons/dnb/add'
 import close from '../../icons/dnb/close'
 import Context from '../../shared/Context'
 import {
   combineDescribedBy,
+  convertJsxToString,
   extendPropsWithContext,
   getStatusState,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { ChipProps } from './types'
@@ -31,9 +36,19 @@ function Chip(localProps: ChipProps) {
     variant = groupContext?.variant ?? 'default',
     text,
     children,
-    label,
+    labelSrOnly,
+    tooltip,
+    suffix,
     icon,
     className,
+    style,
+    size = groupContext?.size ?? 'default',
+    top,
+    right,
+    bottom,
+    left,
+    space,
+    innerSpace,
     value = '',
     onChange,
     onKeyDown,
@@ -46,10 +61,13 @@ function Chip(localProps: ChipProps) {
     context.Chip
   )
 
-  const singleSelection = groupContext && !groupContext.multiselect
+  const singleSelection =
+    groupContext && groupContext.selectionMode === 'single'
   const isRadio = groupContext ? singleSelection : variant === 'radio'
   const Control = isRadio ? Radio : Checkbox
   const id = useId(props.id)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const combinedRef = useCombinedRef(inputRef, props.ref)
   const checked = groupContext
     ? singleSelection
       ? groupContext.value === value
@@ -57,10 +75,21 @@ function Chip(localProps: ChipProps) {
     : isRadio && radioGroupContext.value !== undefined
       ? radioGroupContext.value === value
       : props.checked
+  const spacingProps = {
+    top,
+    right,
+    bottom,
+    left,
+    space,
+    ...(innerSpace !== undefined && { innerSpace }),
+  }
 
-  return (
+  const control = (
     <Control
       {...props}
+      {...(!suffix && spacingProps)}
+      style={suffix ? undefined : style}
+      ref={combinedRef}
       id={id}
       checked={checked}
       name={groupContext?.name ?? props.name}
@@ -77,16 +106,18 @@ function Chip(localProps: ChipProps) {
       aria-describedby={combineDescribedBy(
         props['aria-describedby'],
         groupContext?.describedBy,
+        suffix ? `${id}-suffix` : undefined,
         getStatusState(props.status) ? `${id}-status` : undefined
       )}
       className={clsx(
         'dnb-chip',
         `dnb-chip--${variant}`,
+        `dnb-chip--size-${size}`,
         groupContext?.invalid &&
           `dnb-${isRadio ? 'radio' : 'checkbox'}__status--error`,
         className
       )}
-      value={value}
+      value={String(value)}
       labelPosition="right"
       label={
         <>
@@ -98,8 +129,13 @@ function Chip(localProps: ChipProps) {
           {icon && (
             <Icon className="dnb-chip__icon" icon={icon} aria-hidden />
           )}
-          <span className="dnb-chip__text">
-            {text ?? children ?? label}
+          <span
+            className={clsx(
+              'dnb-chip__text',
+              labelSrOnly && 'dnb-sr-only'
+            )}
+          >
+            {text ?? children}
           </span>
           {variant === 'addable' && (
             <span className="dnb-chip__action" aria-hidden>
@@ -136,13 +172,49 @@ function Chip(localProps: ChipProps) {
       }}
     />
   )
+
+  return (
+    <>
+      {suffix ? (
+        <Space
+          element="span"
+          {...spacingProps}
+          style={style}
+          className="dnb-chip__wrapper"
+        >
+          {control}
+          <Suffix
+            className="dnb-chip__suffix"
+            id={`${id}-suffix`}
+            context={props}
+            skeleton={props.skeleton ?? groupContext?.skeleton}
+          >
+            {suffix}
+          </Suffix>
+        </Space>
+      ) : (
+        control
+      )}
+      {tooltip && (
+        <Tooltip
+          key={isRadio ? 'radio' : 'checkbox'}
+          id={`${id}-tooltip`}
+          targetElement={inputRef}
+          tooltip={tooltip}
+          omitDescribedBy={
+            convertJsxToString(tooltip) ===
+            convertJsxToString(props['aria-label'] ?? text ?? children)
+          }
+        />
+      )}
+    </>
+  )
 }
 
 Chip.Group = ChipGroup
 
 withComponentMarkers(Chip, {
   _formElement: true,
-  _supportsSpacingProps: true,
 })
 
 export default Chip

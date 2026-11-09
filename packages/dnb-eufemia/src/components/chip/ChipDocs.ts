@@ -4,7 +4,7 @@ import { RadioGroupProperties } from '../radio/RadioDocs'
 
 export const ChipProperties: PropertiesTableProps = {
   text: {
-    doc: 'The visible name of the chip. Takes precedence over `children` and `label`. Use text and decorative content only.',
+    doc: 'The visible name of the chip. Takes precedence over `children`. Use text and decorative content only.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -13,19 +13,34 @@ export const ChipProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  label: {
-    doc: 'The visible name when neither `text` nor `children` is provided.',
-    type: 'React.ReactNode',
-    status: 'optional',
-  },
   variant: {
     doc: 'Choose the appearance. Chip.Group controls single or multiple selection independently of the appearance. Defaults to `default`. The addable icon switches between add and remove; the chip stays visible.',
     type: ['"default"', '"addable"', '"radio"', '"checkbox"'],
     status: 'optional',
   },
+  size: {
+    doc: 'The size of the chip. Inherits from Chip.Group. Defaults to `default`. Small, medium, default, and large have minimum heights of 1.5, 2, 2.5, and 3 rem respectively.',
+    type: ['"default"', '"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
+  suffix: {
+    doc: 'Additional guidance or a help button outside the clickable pill. Associated with the input through `aria-describedby`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   icon: {
     doc: 'Optional decorative icon, flag, or logo before the text. Accepts an [Icon](/web/components/icon/) name or React element.',
     type: ['string', 'React.ReactNode'],
+    status: 'optional',
+  },
+  labelSrOnly: {
+    doc: 'Hides the name visually while keeping it available to screen readers. Icons and selection indicators remain visible. Use a recognizable icon or indicator and provide a tooltip for the hidden name.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  tooltip: {
+    doc: 'Additional information shown on hover or keyboard focus. Accepts text, React content, or a [Tooltip](/web/components/tooltip/) component for configuration. A tooltip that repeats the chip name is not announced twice.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   checked: {
@@ -34,8 +49,8 @@ export const ChipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   value: {
-    doc: 'The value returned by `onChange` and submitted with `name` when selected. Defaults to an empty string. Give every option in Chip.Group a unique value.',
-    type: 'string',
+    doc: 'The option identifier. Events preserve its string or number type; native form submission uses a string. Defaults to an empty string. Give every option in Chip.Group a unique value, including after conversion to a string.',
+    type: ['string', 'number'],
     status: 'optional',
   },
   disabled: {
@@ -63,7 +78,7 @@ export const ChipProperties: PropertiesTableProps = {
 export const ChipEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Called once when the user changes the selection. Returns `{ checked, value, event }`. For single selection, use Chip.Group onChange to receive the selected value.',
-    type: '({ checked: boolean; value: string; event: React.SyntheticEvent<HTMLInputElement> }) => void',
+    type: '({ checked: boolean; value: string | number; event: React.SyntheticEvent<HTMLInputElement> }) => void',
     status: 'optional',
   },
 }
@@ -71,18 +86,18 @@ export const ChipEvents: PropertiesTableProps = {
 export const ChipGroupProperties: PropertiesTableProps = {
   label: RadioGroupProperties.label,
   value: {
-    doc: 'The selected chip value in single selection mode. Must match the unique `value` of a nested Chip. User interaction updates the selection, and a changed `value` property synchronizes it. Set it to `undefined` to clear the selection.',
-    type: 'string',
+    doc: 'The selected chip value with `selectionMode="single"` (the default). Must match the value and type of a nested Chip. User interaction updates the selection, and a changed `value` property synchronizes it. Set it to `undefined` to clear the selection.',
+    type: ['string', 'number'],
     status: 'optional',
   },
   values: {
-    doc: 'The selected values in multiselect mode. User interaction updates the selection, and a changed array synchronizes it. Use an empty array to clear the selection.',
-    type: 'Array<string>',
+    doc: 'The selected values with `selectionMode="multiple"`. User interaction updates the selection, and a changed array synchronizes it. Use an empty array to clear the selection.',
+    type: 'Array<string | number>',
     status: 'optional',
   },
-  multiselect: {
-    doc: 'Select several options using `values`. Defaults to false.',
-    type: 'boolean',
+  selectionMode: {
+    doc: 'Select one option using `value`, or several options using `values`. Defaults to `single`.',
+    type: ['"single"', '"multiple"'],
     status: 'optional',
   },
   variant: {
@@ -93,6 +108,11 @@ export const ChipGroupProperties: PropertiesTableProps = {
   name: {
     doc: 'The shared native input name. A unique name is generated when omitted.',
     type: 'string',
+    status: 'optional',
+  },
+  size: {
+    doc: 'Shared size. Each Chip can override it. Defaults to `default`.',
+    type: ChipProperties.size.type,
     status: 'optional',
   },
   disabled: {
@@ -132,7 +152,7 @@ export const ChipGroupProperties: PropertiesTableProps = {
 export const ChipGroupEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Called once when the user changes the selection. Returns `{ value, values, checked, event }`. `value` identifies the changed chip; `values` contains all selected values. In single selection mode, `checked` is always true.',
-    type: '({ value: string; values: string[]; checked: boolean; event: React.SyntheticEvent<HTMLInputElement> }) => void',
+    type: '({ value: string | number; values: Array<string | number>; checked: boolean; event: React.SyntheticEvent<HTMLInputElement> }) => void',
     status: 'optional',
   },
 }

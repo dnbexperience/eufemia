@@ -5,6 +5,93 @@ import { Provider } from '../../../shared'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 
 describe('Chip.Group', () => {
+  it('inherits sizes while allowing per-chip and nested-group overrides', () => {
+    render(
+      <Chip.Group label="Account" size="large">
+        <Chip value="savings">Savings</Chip>
+        <Chip value="funds" size="small">
+          Funds
+        </Chip>
+        <Chip value="loans" size="default">
+          Loans
+        </Chip>
+        <Chip.Group label="Filters" selectionMode="multiple" size="medium">
+          <Chip value="active">Active</Chip>
+        </Chip.Group>
+      </Chip.Group>
+    )
+    const chips = document.querySelectorAll('.dnb-chip')
+    expect(chips[0]).toHaveClass('dnb-chip--size-large')
+    expect(chips[1]).toHaveClass('dnb-chip--size-small')
+    expect(chips[2]).toHaveClass('dnb-chip--size-default')
+    expect(chips[3]).toHaveClass('dnb-chip--size-medium')
+    expect(document.querySelector('.dnb-chip-group')).not.toHaveAttribute(
+      'size'
+    )
+  })
+
+  it('preserves numeric single selections, including zero, and synchronizes changes', async () => {
+    const user = userEvent.setup()
+    const onChange = vi.fn()
+    const example = (value: number | undefined) => (
+      <Chip.Group label="Account" value={value} onChange={onChange}>
+        <Chip value={0}>Savings</Chip>
+        <Chip value={1.5}>Funds</Chip>
+      </Chip.Group>
+    )
+    const { rerender } = render(example(0))
+    const [savings, funds] = document.querySelectorAll('input')
+    expect(savings).toBeChecked()
+    await user.click(funds)
+    expect(funds).toBeChecked()
+    expect(savings).not.toBeChecked()
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 1.5, values: [1.5], checked: true })
+    )
+    await user.keyboard('{Enter}')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    rerender(example(undefined))
+    expect(savings).not.toBeChecked()
+    expect(funds).not.toBeChecked()
+    rerender(example(0))
+    expect(savings).toBeChecked()
+  })
+
+  it('preserves numeric and string values in multiple selection mode when adding, removing, and synchronizing', async () => {
+    const user = userEvent.setup()
+    const onChange = vi.fn()
+    const example = (values: Array<string | number>) => (
+      <Chip.Group
+        label="Filters"
+        selectionMode="multiple"
+        values={values}
+        onChange={onChange}
+      >
+        <Chip value={0}>Savings</Chip>
+        <Chip value={-2}>Funds</Chip>
+        <Chip value="all">All accounts</Chip>
+      </Chip.Group>
+    )
+    const { rerender } = render(example([0]))
+    const [savings, funds, all] = document.querySelectorAll('input')
+    await user.click(funds)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: -2, values: [0, -2] })
+    )
+    await user.click(savings)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 0, values: [-2], checked: false })
+    )
+    await user.click(all)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'all', values: [-2, 'all'] })
+    )
+    rerender(example([0]))
+    expect(savings).toBeChecked()
+    expect(funds).not.toBeChecked()
+    expect(all).not.toBeChecked()
+  })
+
   it('distinguishes no selection from an empty-string value', async () => {
     const user = userEvent.setup()
     const onChange = vi.fn()
@@ -34,15 +121,22 @@ describe('Chip.Group', () => {
     }
   })
 
-  it.each(['default', 'addable', 'checkbox', 'radio'] as const)(
-    'supports single selection with the %s appearance',
-    async (variant) => {
+  it.each([
+    ['default', undefined],
+    ['default', 'single'],
+    ['addable', 'single'],
+    ['checkbox', 'single'],
+    ['radio', 'single'],
+  ] as const)(
+    'supports single selection with the %s appearance and selectionMode=%s',
+    async (variant, selectionMode) => {
       const user = userEvent.setup()
       const onChange = vi.fn()
       const onChipChange = vi.fn()
       render(
         <Chip.Group
           label="Account"
+          selectionMode={selectionMode}
           variant={variant}
           value="savings"
           onChange={onChange}
@@ -94,7 +188,7 @@ describe('Chip.Group', () => {
         <Chip.Group
           label="Filters"
           variant={variant}
-          multiselect
+          selectionMode="multiple"
           values={['savings']}
           onChange={onChange}
         >
@@ -171,14 +265,18 @@ describe('Chip.Group', () => {
       </>
     )
     const { rerender } = render(
-      <Chip.Group multiselect label="Filters" values={['savings']}>
+      <Chip.Group
+        selectionMode="multiple"
+        label="Filters"
+        values={['savings']}
+      >
         {children}
       </Chip.Group>
     )
     const [savings, funds] = document.querySelectorAll('input')
     rerender(
       <Chip.Group
-        multiselect
+        selectionMode="multiple"
         label="Filters"
         values={['funds']}
         onChange={onChange}
@@ -194,7 +292,7 @@ describe('Chip.Group', () => {
     )
     rerender(
       <Chip.Group
-        multiselect
+        selectionMode="multiple"
         label="Filters"
         values={[]}
         onChange={onChange}
@@ -206,14 +304,14 @@ describe('Chip.Group', () => {
     expect(funds).not.toBeChecked()
   })
 
-  it.each([false, true])(
-    'submits selected enabled values with multiselect=%s',
-    (multiselect) => {
+  it.each(['single', 'multiple'] as const)(
+    'submits selected enabled values with selectionMode=%s',
+    (selectionMode) => {
       render(
         <form>
           <Chip.Group
             name="account"
-            multiselect={multiselect}
+            selectionMode={selectionMode}
             value="savings"
             values={['savings', 'funds', 'loans']}
           >
@@ -229,18 +327,20 @@ describe('Chip.Group', () => {
       )
       expect(
         new FormData(document.querySelector('form')).getAll('account')
-      ).toEqual(multiselect ? ['savings', 'funds'] : ['savings'])
+      ).toEqual(
+        selectionMode === 'multiple' ? ['savings', 'funds'] : ['savings']
+      )
     }
   )
 
-  it.each([false, true])(
-    'inherits group states with multiselect=%s and permits explicit overrides',
-    async (multiselect) => {
+  it.each(['single', 'multiple'] as const)(
+    'inherits group states with selectionMode=%s and permits explicit overrides',
+    async (selectionMode) => {
       const user = userEvent.setup()
       const onChange = vi.fn()
       const { rerender } = render(
         <Provider
-          ChipGroup={{ multiselect, variant: 'addable', disabled: true }}
+          ChipGroup={{ selectionMode, variant: 'addable', disabled: true }}
         >
           <Chip.Group label="Filters" onChange={onChange}>
             <Chip value="savings">Savings</Chip>
@@ -248,9 +348,25 @@ describe('Chip.Group', () => {
               Funds
             </Chip>
           </Chip.Group>
+          <Chip.Group
+            label="Mode override"
+            selectionMode={
+              selectionMode === 'single' ? 'multiple' : 'single'
+            }
+          >
+            <Chip value="override">Override</Chip>
+          </Chip.Group>
         </Provider>
       )
-      const [savings, funds] = document.querySelectorAll('input')
+      const [savings, funds, override] = document.querySelectorAll('input')
+      expect(savings).toHaveAttribute(
+        'type',
+        selectionMode === 'single' ? 'radio' : 'checkbox'
+      )
+      expect(override).toHaveAttribute(
+        'type',
+        selectionMode === 'single' ? 'checkbox' : 'radio'
+      )
       expect(savings).toBeDisabled()
       expect(funds).toBeEnabled()
       expect(document.querySelector('.dnb-chip')).toHaveClass(
@@ -267,7 +383,7 @@ describe('Chip.Group', () => {
       rerender(
         <Chip.Group
           label="Filters"
-          multiselect={multiselect}
+          selectionMode={selectionMode}
           readOnly
           onChange={onChange}
         >
@@ -282,7 +398,7 @@ describe('Chip.Group', () => {
       expect(input).toHaveFocus()
 
       rerender(
-        <Chip.Group label="Filters" multiselect={multiselect} skeleton>
+        <Chip.Group label="Filters" selectionMode={selectionMode} skeleton>
           <Chip value="savings">Savings</Chip>
         </Chip.Group>
       )
@@ -290,16 +406,16 @@ describe('Chip.Group', () => {
     }
   )
 
-  it.each([false, true])(
-    'has a named, described accessible group with multiselect=%s',
-    async (multiselect) => {
+  it.each(['single', 'multiple'] as const)(
+    'has a named, described accessible group with selectionMode=%s',
+    async (selectionMode) => {
       const component = render(
         <>
           <p id="hint">Choose an account</p>
           <Chip.Group
             id="accounts"
             label="Accounts"
-            multiselect={multiselect}
+            selectionMode={selectionMode}
             aria-describedby="hint"
             status="Select an option"
             suffix="More information"
@@ -310,7 +426,7 @@ describe('Chip.Group', () => {
         </>
       )
       const group = document.querySelector(
-        `[role="${multiselect ? 'group' : 'radiogroup'}"]`
+        `[role="${selectionMode === 'multiple' ? 'group' : 'radiogroup'}"]`
       )
       expect(group).toHaveAccessibleName('Accounts')
       expect(group).toHaveAccessibleDescription(
@@ -329,13 +445,53 @@ describe('Chip.Group', () => {
     }
   )
 
+  it.each(['single', 'multiple'] as const)(
+    'propagates only error status to chips with selectionMode=%s',
+    (selectionMode) => {
+      const example = (statusState: 'error' | 'information') => (
+        <Chip.Group
+          label="Accounts"
+          selectionMode={selectionMode}
+          status="Select an account"
+          statusState={statusState}
+        >
+          {(['default', 'addable', 'checkbox', 'radio'] as const).map(
+            (variant) => (
+              <Chip key={variant} value={variant} variant={variant}>
+                {variant}
+              </Chip>
+            )
+          )}
+        </Chip.Group>
+      )
+      const { rerender } = render(example('error'))
+      const errorClass = `dnb-${selectionMode === 'multiple' ? 'checkbox' : 'radio'}__status--error`
+
+      for (const chip of document.querySelectorAll('.dnb-chip')) {
+        expect(chip).toHaveClass(errorClass)
+      }
+
+      rerender(example('information'))
+
+      for (const chip of document.querySelectorAll('.dnb-chip')) {
+        expect(chip).not.toHaveClass(errorClass)
+        expect(chip.querySelector('input')).not.toHaveAttribute(
+          'aria-invalid'
+        )
+      }
+      expect(
+        document.querySelectorAll('.dnb-form-status__text')
+      ).toHaveLength(1)
+    }
+  )
+
   it('supports aria-label and independent nested groups', async () => {
     const user = userEvent.setup()
     const onChange = vi.fn()
     render(
       <Chip.Group aria-label="Outer" onChange={onChange}>
         <Chip value="outer">Outer option</Chip>
-        <Chip.Group aria-label="Inner" multiselect>
+        <Chip.Group aria-label="Inner" selectionMode="multiple">
           <Chip value="inner">Inner option</Chip>
         </Chip.Group>
       </Chip.Group>
