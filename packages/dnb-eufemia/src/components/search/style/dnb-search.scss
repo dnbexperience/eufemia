@@ -182,17 +182,18 @@
 
     .dnb-popover__close.dnb-button {
       top: 1rem;
-      right: 1.5rem;
+      right: 1rem;
     }
 
     .dnb-drawer-list {
       display: block;
-      width: 100%;
-      margin-top: 0;
+      width: calc(100% + 3rem);
+      margin: -0.5rem -1.5rem 0;
     }
 
     .dnb-drawer-list--inline .dnb-drawer-list__list {
       z-index: 0;
+      width: 100%;
     }
 
     .dnb-drawer-list--inline .dnb-drawer-list__options {
