@@ -548,6 +548,80 @@ describe('Checkbox component', () => {
     })
   })
 
+  // The numpad Enter key has the same key, but another code
+  it.each([
+    { keyName: 'Enter', code: 'Enter' },
+    { keyName: 'numpad Enter', code: 'NumpadEnter' },
+  ])('should toggle on $keyName and call onClick', ({ code }) => {
+    const onClick = vi.fn()
+    const onChange = vi.fn()
+    render(<Checkbox onClick={onClick} onChange={onChange} />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code })
+
+    expect(input.checked).toBe(true)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+  })
+
+  it('should not toggle on Enter when onClick calls preventDefault', async () => {
+    const onChange = vi.fn()
+    render(
+      <Checkbox
+        onClick={({ preventDefault }) => preventDefault()}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+    input.focus()
+    await userEvent.keyboard('{Enter}')
+
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('sets the input indeterminate to false on Enter, as a click does', () => {
+    render(<Checkbox indeterminate />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' })
+
+    expect(input.checked).toBe(true)
+    expect(input.indeterminate).toBe(false)
+  })
+
+  // One key press must not change the checkbox and send the form at once.
+  // Enter never submits the form, also when the checkbox does not change.
+  it.each([{ readOnly: false }, { readOnly: true }])(
+    'should not submit the form on Enter when readOnly is $readOnly',
+    async ({ readOnly }) => {
+      const onSubmit = vi.fn((event) => event.preventDefault())
+      const onChange = vi.fn()
+      render(
+        <form onSubmit={onSubmit}>
+          <Checkbox readOnly={readOnly} onChange={onChange} />
+          <button type="submit">Submit</button>
+        </form>
+      )
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard('{Enter}')
+
+      expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      // Control: the form can be submitted
+      await userEvent.click(document.querySelector('button'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    }
+  )
+
   it('should call onKeyDown given as a property', () => {
     const onKeyDown = vi.fn()
     const onChange = vi.fn()
@@ -588,7 +662,7 @@ describe('Checkbox component', () => {
       input.focus()
       await userEvent.keyboard(key)
 
-      // Enter has its own handler, so it must check readOnly too (#9754)
+      // Enter clicks the input, so readOnly blocks it as it blocks Space (#9754)
       expect(input.checked).toBe(checked)
       expect(onChange).toHaveBeenCalledTimes(0)
     }
