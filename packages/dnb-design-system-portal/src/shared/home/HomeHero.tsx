@@ -127,7 +127,6 @@ export default function HomeHero() {
             id="portal-home-search"
             placeholder="Search components and guidance"
             variant="hero"
-            pill
             onQuery={handleQuery}
           />
         </div>
