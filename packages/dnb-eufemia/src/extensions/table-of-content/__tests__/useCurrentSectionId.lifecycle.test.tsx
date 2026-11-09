@@ -1,4 +1,4 @@
-import { act, render, waitFor } from '@testing-library/react'
+import { act, render, renderHook, waitFor } from '@testing-library/react'
 import useCurrentSectionId from '../useCurrentSectionId'
 
 const sections = [
@@ -44,6 +44,39 @@ it('tracks replacement headings with the same id without changing the data', asy
   await waitFor(() =>
     expect(document.querySelector('output')).toHaveTextContent('second')
   )
+})
+
+it('keeps the selection while paused and measures the settled headings on resume', async () => {
+  const first = heading('first', -50)
+  const second = heading('second', 300)
+  const { result, rerender } = renderHook(
+    (paused) => useCurrentSectionId(sections, 0, true, paused),
+    { initialProps: false }
+  )
+  expect(result.current).toBe('first')
+  rerender(true)
+  const measure = vi
+    .spyOn(second, 'getBoundingClientRect')
+    .mockReturnValue({ top: -10, bottom: 22 } as DOMRect)
+
+  await act(async () => {
+    window.dispatchEvent(new Event('scroll'))
+    window.dispatchEvent(new Event('resize'))
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => resolve())
+    )
+  })
+  expect(measure).not.toHaveBeenCalled()
+  expect(result.current).toBe('first')
+
+  rerender(false)
+  expect(result.current).toBe('second')
+  act(() => {
+    first.getBoundingClientRect = () => ({ top: 0, bottom: 32 }) as DOMRect
+    measure.mockReturnValue({ top: 300, bottom: 332 } as DOMRect)
+    window.dispatchEvent(new Event('scroll'))
+  })
+  await waitFor(() => expect(result.current).toBe('first'))
 })
 
 it('selects a visible final heading at the document end and resumes the offset when scrolling up', async () => {
