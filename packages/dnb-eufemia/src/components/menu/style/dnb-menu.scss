@@ -181,7 +181,9 @@
     &__text.dnb-lead {
       display: block;
 
+      font-family: var(--font-family-default);
       font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
       line-height: var(--line-height-small);
     }
   }

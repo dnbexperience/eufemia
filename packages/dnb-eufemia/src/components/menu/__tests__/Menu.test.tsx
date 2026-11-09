@@ -587,6 +587,14 @@ describe('Menu integration', () => {
 })
 
 describe('Menu scss', () => {
+  it('uses the medium body font for the group heading in every brand', () => {
+    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-menu__header__text\.dnb-lead \{\s*display: block;\s*font-family: var\(--font-family-default\);\s*font-size: var\(--font-size-small\);\s*font-weight: var\(--font-weight-medium\);\s*line-height: var\(--line-height-small\);\s*\}/
+    )
+  })
+
   it('uses the sharp shadow for the menu panel and the Popover shadow for nested menus', () => {
     const css = loadScss(require.resolve('../style/dnb-menu.scss'))
 
