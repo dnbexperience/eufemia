@@ -6,7 +6,7 @@ import {
   createCanonicalUrls,
   createPortalSitemap,
 } from './portal-sitemap.mts'
-// Type-only, so Node does not load this typeless .ts file
+// Type-only, so Node does not load this .ts file
 import type { PageFileInfo } from '../client/plugins/portal-pages.shared.ts'
 
 main()

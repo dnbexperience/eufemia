@@ -39,7 +39,7 @@ const result = spawnSync(
     'vitest',
     ...(watch ? [] : ['run']),
     '--config',
-    'vitest.config.screenshots.ts',
+    'vitest.config.screenshots.mts',
     ...vitestArgs,
   ],
   {

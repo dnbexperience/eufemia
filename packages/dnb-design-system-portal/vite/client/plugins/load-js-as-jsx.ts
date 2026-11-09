@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { transformWithOxc, type Plugin } from 'vite'
 
-const portalRoot = path.resolve(__dirname, '..', '..', '..')
+const portalRoot = path.resolve(import.meta.dirname, '..', '..', '..')
 
 export function convertCjsToEsm(code: string): string | null {
   const isCjs = /\brequire\s*\(/.test(code) || /\bexports\./.test(code)

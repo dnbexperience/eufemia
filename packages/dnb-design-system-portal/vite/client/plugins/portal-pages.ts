@@ -16,12 +16,12 @@ import type {
   MdxFrontmatter,
   MdxNode,
   PageFileInfo,
-} from './portal-pages.shared'
+} from './portal-pages.shared.ts'
 import {
   compareByOrder,
   getPageRedirects,
   isFirstTabPage,
-} from './portal-pages.shared'
+} from './portal-pages.shared.ts'
 
 const PAGE_MODULE_PREFIX = 'virtual:portal-page/'
 const DATA_MODULE_ID = 'virtual:portal-data'
@@ -46,7 +46,7 @@ export type {
   MdxFrontmatter,
   MdxNode,
   PageFileInfo,
-} from './portal-pages.shared'
+} from './portal-pages.shared.ts'
 
 export type PortalPagesPluginOptions = {
   docsDir?: string
@@ -58,7 +58,7 @@ export function shouldIgnore(filePath: string): boolean {
 
 /** Where the portal's pages live, when no other location is given. */
 export function getDefaultDocsDir() {
-  return path.resolve(__dirname, '../../../src/docs')
+  return path.resolve(import.meta.dirname, '../../../src/docs')
 }
 
 /**
@@ -371,7 +371,10 @@ export const allMdxNodes = ${JSON.stringify(
   fields: { slug, sourcePath: ${JSON.stringify(PORTAL_DOCS_SOURCE_PATH + '/')} + sourcePath }, ...node,
 }));
 export const regularMdxNodes = ${JSON.stringify(regularMdxNodeIndexes)}.map(index => allMdxNodes[index]);
-export { globPath } from '${path.join(__dirname, 'portal-pages.shared').split(path.sep).join('/')}';
+export { globPath } from '${path
+            .join(import.meta.dirname, 'portal-pages.shared')
+            .split(path.sep)
+            .join('/')}';
 `
         }
 
@@ -409,7 +412,7 @@ export { globPath } from '${path.join(__dirname, 'portal-pages.shared').split(pa
         // Path matching helper, re-exported so page lists can select pages
         // with the same globs the content queries used.
         const globModulePath = path
-          .join(__dirname, 'portal-pages.shared')
+          .join(import.meta.dirname, 'portal-pages.shared')
           .replace(/\\/g, '/')
 
         // Add catch-all 404 route

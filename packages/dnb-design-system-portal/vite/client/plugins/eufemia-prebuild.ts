@@ -17,7 +17,10 @@
 
 import { type Plugin, type ResolvedConfig } from 'vite'
 import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import path from 'node:path'
+
+const require = createRequire(import.meta.url)
 
 const EUFEMIA_PACKAGE_NAME = '@dnb/eufemia'
 const EXPLICIT_PREBUILD_TARGETS = new Set([

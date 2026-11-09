@@ -11,16 +11,15 @@
 import { defineConfig } from 'vitest/config'
 import { playwright } from '@vitest/browser-playwright'
 import { isCI } from 'repo-utils'
-import path from 'node:path'
 
-import { makeScreenshot } from './src/core/vitest-screenshots/commands/screenshotEngine'
+import { makeScreenshot } from './src/core/vitest-screenshots/commands/screenshotEngine.ts'
 import {
   loadImage,
   matchImageSnapshot,
-} from './src/core/vitest-screenshots/commands/loadImage'
-import ScreenshotReporter from './src/core/vitest-screenshots/screenshotReporter'
-import LiveReporter from './src/core/vitest-screenshots/liveReporter'
-import SummaryOnlyReporter from './src/core/vitest-screenshots/summaryOnlyReporter'
+} from './src/core/vitest-screenshots/commands/loadImage.ts'
+import ScreenshotReporter from './src/core/vitest-screenshots/screenshotReporter.ts'
+import LiveReporter from './src/core/vitest-screenshots/liveReporter.ts'
+import SummaryOnlyReporter from './src/core/vitest-screenshots/summaryOnlyReporter.ts'
 
 export default defineConfig({
   test: {
@@ -69,14 +68,6 @@ export default defineConfig({
       // The helper drives navigation directly via the Playwright page,
       // so we don't need Vitest to take screenshots on failure.
       screenshotFailures: false,
-    },
-  },
-
-  resolve: {
-    alias: {
-      // Tests still import the `selectThemes` / `onMain` helpers from
-      // the old playwright module. Keep those reachable.
-      'repo-utils': path.resolve(__dirname, '../../tools/repo-utils'),
     },
   },
 
