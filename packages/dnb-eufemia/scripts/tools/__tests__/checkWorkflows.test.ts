@@ -139,7 +139,7 @@ jobs:
     ])
   })
 
-  it('ignores `uses:` in a run script', () => {
+  it('ignores `uses:` that does not start a line, as in a run script', () => {
     const text = `permissions:
   contents: read
 
@@ -149,6 +149,86 @@ jobs:
     steps:
       - run: |
           echo "uses: actions/checkout@v7"
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([])
+  })
+
+  it('reads `uses:` in a flow mapping and with a quoted key', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - { uses: actions/checkout@v7 }
+      - { name: Cache, uses: 'actions/cache@main' }
+      - "uses": someone/action@v1
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: `actions/checkout@v7` must be pinned to a full-length commit SHA',
+      '.github/workflows/test.yml: `actions/cache@main` must be pinned to a full-length commit SHA',
+      '.github/workflows/test.yml: `someone/action@v1` must be pinned to a full-length commit SHA',
+    ])
+  })
+
+  it('reports local actions outside .github, which it does not read', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./tools/setup
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: `./tools/setup` is a local action outside `.github`, which this check does not read',
+    ])
+  })
+
+  it('reads quoted job ids', () => {
+    const text = `on: push
+
+jobs:
+  a:
+    runs-on: ubuntu-latest
+  "b":
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: job `a` sets no `permissions`, and neither does its workflow',
+    ])
+  })
+
+  it('reports a job line it cannot read', () => {
+    const text = `on: push
+
+jobs:
+  <<: *defaults
+  build:
+    permissions: {}
+    runs-on: ubuntu-latest
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: cannot read the job on line 4',
+    ])
+  })
+
+  it('reads a file that starts with a byte order mark', () => {
+    const text = `\uFEFFpermissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
 `
 
     expect(checkWorkflowFile({ file, text })).toEqual([])

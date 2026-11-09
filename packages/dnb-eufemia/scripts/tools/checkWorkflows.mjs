@@ -13,7 +13,8 @@
  * they would first fail after the merge.
  *
  * Prettier formats these files, so this reads them line by line instead of
- * parsing YAML. It reports a workflow whose jobs it cannot find.
+ * parsing YAML. It reports what it cannot read, such as a job line it does
+ * not understand, instead of passing it.
  *
  * Usage: node ./scripts/tools/checkWorkflows.mjs
  */
@@ -38,16 +39,20 @@ export const ALLOWED_THIRD_PARTY_ACTIONS = ['hashicorp/setup-terraform']
 // GitHub creates the actions of these owners
 const GITHUB_OWNERS = ['actions', 'github']
 
+// `uses:` that starts a line, or that is a key of a flow mapping such as
+// `- { uses: … }`. The key may be quoted.
+const USES =
+  /(?:^[ \t]*(?:- )?|[{,][ \t]*)["']?uses["']?[ \t]*:[ \t]*["']?([^"'\s,}#]+)/gm
+
 export function checkWorkflowFile({
   file,
   text,
   allowed = ALLOWED_THIRD_PARTY_ACTIONS,
 }) {
+  const content = text.replace(/^\uFEFF/, '')
   const problems = []
 
-  for (const [, value] of text.matchAll(
-    /^[ \t]*(?:- )?uses:[ \t]*['"]?([^'"\s#]+)/gm
-  )) {
+  for (const [, value] of content.matchAll(USES)) {
     const problem = checkUses(value, allowed)
     if (problem) {
       problems.push(`${file}: ${problem}`)
@@ -55,7 +60,7 @@ export function checkWorkflowFile({
   }
 
   if (file.startsWith('.github/workflows/')) {
-    for (const problem of checkPermissions(text)) {
+    for (const problem of checkPermissions(content)) {
       problems.push(`${file}: ${problem}`)
     }
   }
@@ -65,7 +70,9 @@ export function checkWorkflowFile({
 
 function checkUses(value, allowed) {
   if (value.startsWith('./')) {
-    return null
+    return value.startsWith('./.github/')
+      ? null
+      : `\`${value}\` is a local action outside \`.github\`, which this check does not read`
   }
 
   if (value.startsWith('docker://')) {
@@ -74,12 +81,12 @@ function checkUses(value, allowed) {
       : `\`${value}\` must be pinned to an image digest (\`@sha256:…\`)`
   }
 
-  const match = /^([^/@]+)\/([^/@]+)(?:\/[^@]*)?@(.+)$/.exec(value)
-  if (!match) {
+  const [target, ref, ...rest] = value.split('@')
+  const [owner, repo] = target.split('/')
+  if (!owner || !repo || !ref || rest.length > 0) {
     return `\`${value}\` is not an \`owner/repo@ref\` reference`
   }
 
-  const [, owner, repo, ref] = match
   if (!/^[0-9a-f]{40}$/.test(ref)) {
     return `\`${value}\` must be pinned to a full-length commit SHA`
   }
@@ -101,37 +108,56 @@ function checkPermissions(text) {
     return []
   }
 
+  const problems = []
   const jobs = []
   let inJobs = false
-  for (const line of lines) {
+  for (const [index, line] of lines.entries()) {
     if (/^[^\s#]/.test(line)) {
       inJobs = line.startsWith('jobs:')
-      continue
-    }
-    if (!inJobs) {
-      continue
-    }
-
-    const job = /^ {2}([\w-]+):/.exec(line)
-    if (job) {
-      jobs.push({ id: job[1], permissions: false })
-    } else if (jobs.length > 0 && /^ {4}permissions:/.test(line)) {
+    } else if (inJobs && /^ {2}[^\s#]/.test(line)) {
+      const job = /^ {2}["']?([\w-]+)["']?:/.exec(line)
+      if (job) {
+        jobs.push({ id: job[1], permissions: false })
+      } else {
+        problems.push(`cannot read the job on line ${index + 1}`)
+      }
+    } else if (
+      inJobs &&
+      jobs.length > 0 &&
+      /^ {4}permissions:/.test(line)
+    ) {
       jobs[jobs.length - 1].permissions = true
     }
   }
 
-  if (jobs.length === 0) {
+  if (jobs.length === 0 && problems.length === 0) {
     return [
       'found no jobs at two-space indentation; format it with Prettier',
     ]
   }
 
-  return jobs
-    .filter((job) => !job.permissions)
-    .map(
-      (job) =>
-        `job \`${job.id}\` sets no \`permissions\`, and neither does its workflow`
-    )
+  return [
+    ...problems,
+    ...jobs
+      .filter((job) => !job.permissions)
+      .map(
+        (job) =>
+          `job \`${job.id}\` sets no \`permissions\`, and neither does its workflow`
+      ),
+  ]
+}
+
+// Composite actions anywhere in `.github`, except the workflows folder
+function findActionFiles(dir) {
+  return readdirSync(path.join(REPO_ROOT, dir), {
+    withFileTypes: true,
+  }).flatMap((entry) => {
+    const file = `${dir}/${entry.name}`
+    if (entry.isDirectory()) {
+      return file === '.github/workflows' ? [] : findActionFiles(file)
+    }
+    return /^action\.ya?ml$/.test(entry.name) ? [file] : []
+  })
 }
 
 function listFiles() {
@@ -139,13 +165,8 @@ function listFiles() {
     .filter((name) => /\.ya?ml$/.test(name))
     .map((name) => `.github/workflows/${name}`)
 
-  const actionsDir = path.join(REPO_ROOT, '.github/actions')
-  const actions = existsSync(actionsDir)
-    ? readdirSync(actionsDir).flatMap((dir) =>
-        ['action.yml', 'action.yaml']
-          .map((name) => `.github/actions/${dir}/${name}`)
-          .filter((file) => existsSync(path.join(REPO_ROOT, file)))
-      )
+  const actions = existsSync(path.join(REPO_ROOT, '.github'))
+    ? findActionFiles('.github')
     : []
 
   return [...workflows, ...actions].sort()
