@@ -14,10 +14,8 @@ locals {
   }
 }
 
-# The OIDC deploy role may create these roles only under these names and with
-# this boundary, and attach only the policies below; each role's own policy
-# lives in the OIDC federation repo. The roles are delete-protected because a
-# rename would delete a role the deploy role cannot recreate.
+# The OIDC deploy role pins these names, the boundary and the attachable policies.
+# prevent_destroy: the deploy role cannot recreate a renamed role.
 locals {
   permissions_boundary  = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
   tooling_policy_prefix = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.prefix}"

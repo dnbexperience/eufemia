@@ -84,7 +84,9 @@ it.each([
       terraform.match(
         /^resource "aws_iam_role_policy_attachment" "\w+" \{[\s\S]*?^\}/gm
       ) ?? []
-    ).filter((block) => block.includes(`aws_iam_role.${role}.name`))
+    ).filter((block) =>
+      new RegExp(`aws_iam_role\\.${role}\\.(name|id)\\b`).test(block)
+    )
 
     expect(roleBlock).toMatch(
       /^\s+permissions_boundary\s+=\s+local\.permissions_boundary$/m
