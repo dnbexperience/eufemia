@@ -50,7 +50,7 @@ function SearchPanel(localProps: SearchPanelProps) {
     noScrollAnimation: true,
     openOnFocus: true,
   })
-  const triggerOffset = popoverProps?.triggerOffset ?? 24
+  const triggerOffset = popoverProps?.triggerOffset ?? 8
   const targetRef = useRef<HTMLInputElement>(null)
   const setInputRef = useCallback(
     (element: HTMLInputElement | null) => {
