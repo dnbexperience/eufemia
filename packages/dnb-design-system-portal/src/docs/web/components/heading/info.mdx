@@ -45,6 +45,10 @@ The first code example is without using context provider. To handle levels in ba
 - A heading, nested inside a context (`Heading.Level`) will likewise inherit the previous context level.
 - A heading can have a set of different [size](/web/layout-and-typography/elements/heading) properties. More details below.
 
+When headings are inserted or removed inside a level provider, the scope is recalculated from its entry level. Relative properties such as `up`, `down`, and `inherit` are applied again, and plain headings follow their new previous sibling. Use an explicit `level` when a heading needs a specific level, subject to the correction rules below.
+
+A nested provider isolates its level changes from following headings in the outer scope. Use `inherit` to continue from the last heading inside that provider.
+
 ### Defining heading styles / sizes
 
 For the visual part, we simply use [typography styles](/web/layout-and-typography/elements/heading) with the `size` property, e.g. `size="x-large"`
@@ -71,6 +75,8 @@ In order to control leveling of headings systematically, you can make use of the
 They are optional in client-only apps and can simplify asynchronous or isolated content.
 
 <HeadingInfoLevel />
+
+`reset={1}` starts a new document outline, so its first heading is corrected to h1. `reset={2}` through `reset={6}` establish a baseline at that level. For example, the first heading with `up` inside `reset={2}` becomes h3. A bare `reset` or `reset={true}` uses 2.
 
 #### Server rendering
 

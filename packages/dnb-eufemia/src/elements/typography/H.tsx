@@ -4,7 +4,7 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useContext } from 'react'
+import { use, useContext } from 'react'
 import type { HTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 import type { SpacingProps } from '../../shared/types'
@@ -17,6 +17,7 @@ import {
 } from '../../components/heading/HeadingHelpers'
 import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
+import HeadingContext from '../../components/heading/HeadingContext'
 import { useTypography } from './Typography'
 import type { TypographyProps } from './Typography'
 
@@ -60,6 +61,7 @@ const H = (props: HProps) => {
   const numSiz = parseFloat(String(resolvedElement).substring(1))
 
   if (level === 'use') {
+    use(HeadingContext)
     setNextLevel(numSiz)
   }
 

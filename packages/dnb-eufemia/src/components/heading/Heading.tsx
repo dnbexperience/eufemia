@@ -14,6 +14,7 @@ import HeadingProvider from './HeadingProvider'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   correctInternalHeadingLevel,
+  hasHeadingLevelChanged,
   resetLevels,
   resetAllLevels,
   setNextLevel,
@@ -74,7 +75,7 @@ export default function Heading(props: HeadingAllProps) {
     headingContext?: HeadingContextValue
     id: string
     notifyScopeRevision?: number
-    prevLevel?: InternalHeadingLevel
+    prevProps: HeadingAllProps
     recalculate?: () => void
     ref: HeadingAllProps
   }
@@ -89,6 +90,7 @@ export default function Heading(props: HeadingAllProps) {
       id,
       recalculate: headingContext.heading?.recalculate,
       ref: props,
+      prevProps: props,
     }
 
     state.counter = initCounter(props)
@@ -121,7 +123,6 @@ export default function Heading(props: HeadingAllProps) {
     globalSyncCounter.current = state.counter
 
     state.level = state.counter.level
-    state.prevLevel = parseFloat(String(props.level))
 
     return state
   })
@@ -152,36 +153,36 @@ export default function Heading(props: HeadingAllProps) {
   if (state.contextRevision !== contextRevision) {
     state = {
       ...state,
-      level: recalculateLevel(
-        Number.isNaN(level) && headingContext.heading?.preserveLevels
-          ? state.level
-          : level
-      ),
+      level: recalculateLevel(level),
       contextRevision,
       headingContext,
-      prevLevel: level,
+      prevProps: props,
       recalculate: headingContext.heading?.recalculate,
     }
     setState(state)
-  } else if (
-    state.prevLevel !== level &&
-    level > 0 &&
-    level !== state.level
-  ) {
+  } else if (hasHeadingLevelChanged(state.prevProps, props)) {
+    if (!(level > 0)) {
+      state.counter.level = state.counter.entry
+    }
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,
       isRerender: true,
       level,
+      inherit: props.inherit,
+      reset: props.reset,
+      increase: props.increase || props.up,
+      decrease: props.decrease || props.down,
       bypassChecks:
         props.skipCorrection || headingContext.heading?.skipCorrection,
       source: props.text || props.children,
       debug: props.debug || headingContext.heading?.debug,
     })
+    globalSyncCounter.current = state.counter
     state = {
       ...state,
       level: newLevel,
       notifyScopeRevision: (state.notifyScopeRevision || 0) + 1,
-      prevLevel: level,
+      prevProps: props,
     }
     setState(state)
   }
@@ -203,6 +204,7 @@ export default function Heading(props: HeadingAllProps) {
   useEffect(() => {
     windupHeadings()
     counter.windup()
+    recalculate?.()
 
     return () => {
       releaseHeadingLevel(counterRef, counterId, counter)
