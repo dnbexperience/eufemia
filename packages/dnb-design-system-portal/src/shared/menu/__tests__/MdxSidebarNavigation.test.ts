@@ -108,6 +108,7 @@ describe('MDX-defined Portal navigation', () => {
         'Input',
         'Masked input',
         'Radio button',
+        'Search',
         'Switch',
         'Text area',
         'Upload',
