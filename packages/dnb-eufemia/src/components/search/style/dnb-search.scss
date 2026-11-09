@@ -101,6 +101,11 @@
       right: 1rem;
     }
 
+    &.dnb-input--medium .dnb-input--clear.dnb-input__submit-element,
+    .dnb-input--medium .dnb-input--clear.dnb-input__submit-element {
+      transform: translateX(1rem);
+    }
+
     @include utilities.allAbove(small) {
       &.dnb-input[data-has-content='false']:has(.dnb-search__shortcut),
       .dnb-input[data-has-content='false']:has(.dnb-search__shortcut) {
