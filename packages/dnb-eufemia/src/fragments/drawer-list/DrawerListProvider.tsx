@@ -751,7 +751,25 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                     (window as Window & { IS_TEST?: boolean })['IS_TEST']
                   )
 
-                if (instantScroll) {
+                if (propsRef.current.inline) {
+                  const listRect = ulElement.getBoundingClientRect()
+                  const itemRect = liElement.getBoundingClientRect()
+                  const top = itemRect.top - listRect.top - 8
+                  const bottom =
+                    itemRect.bottom -
+                    listRect.top -
+                    ulElement.clientHeight +
+                    8
+                  const offset = top < 0 ? top : bottom > 0 ? bottom : 0
+
+                  // Reveal only the hidden edge, without scrolling the page.
+                  if (offset) {
+                    ulElement.scrollTo({
+                      top: ulElement.scrollTop + offset,
+                      behavior: instantScroll ? 'instant' : 'auto',
+                    })
+                  }
+                } else if (instantScroll) {
                   // must have both css and js use "auto" to get instant scroll.
                   ulElement.style.scrollBehavior = 'auto'
 
@@ -865,7 +883,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             }
           }
 
-          if (propsRef.current.noAnimation) {
+          if (propsRef.current.noAnimation && !propsRef.current.inline) {
             scrollTo = false
           }
 
