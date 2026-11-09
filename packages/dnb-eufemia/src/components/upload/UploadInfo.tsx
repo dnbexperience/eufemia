@@ -109,7 +109,7 @@ const UploadInfo = () => {
       {(title || text) && (
         <Flex.Stack layoutEngine="css" gap="xx-small">
           {title && (
-            <Lead space="0" id={`${id}-title`}>
+            <Lead space="0" id={`${id}-title`} family="heading">
               {title}
             </Lead>
           )}
