@@ -9,7 +9,6 @@ import {
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
-import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Flex from '../Flex'
 import Space from '../Space'
 import FormLabel from '../FormLabel'
@@ -37,7 +36,8 @@ function ChipGroup(localProps: ChipGroupProps) {
     vertical,
     layoutDirection = 'row',
     variant = 'default',
-    multiselect = false,
+    size,
+    selectionMode = 'single',
     disabled,
     readOnly,
     skeleton,
@@ -74,6 +74,7 @@ function ChipGroup(localProps: ChipGroupProps) {
     setValues(valuesProp ?? [])
   }
 
+  const multipleSelection = selectionMode === 'multiple'
   const showStatus = getStatusState(status)
   const invalid = Boolean(showStatus && statusState === 'error')
   const describedBy = combineDescribedBy(
@@ -83,7 +84,7 @@ function ChipGroup(localProps: ChipGroupProps) {
   )
 
   const handleChange = (change: ChipChangeEvent) => {
-    const nextValues = multiselect
+    const nextValues = multipleSelection
       ? change.checked
         ? Array.from(new Set([...values, change.value]))
         : values.filter((value) => value !== change.value)
@@ -109,7 +110,8 @@ function ChipGroup(localProps: ChipGroupProps) {
         value,
         values,
         variant,
-        multiselect,
+        size,
+        selectionMode,
         disabled,
         readOnly,
         skeleton,
@@ -120,11 +122,11 @@ function ChipGroup(localProps: ChipGroupProps) {
     >
       <RadioGroupContext
         value={
-          multiselect
+          multipleSelection
             ? {}
             : value === undefined
               ? { name }
-              : { name, value }
+              : { name, value: String(value) }
         }
       >
         <Space
@@ -134,7 +136,7 @@ function ChipGroup(localProps: ChipGroupProps) {
         >
           <Fieldset
             className="dnb-chip-group__fieldset"
-            role={multiselect ? 'group' : 'radiogroup'}
+            role={multipleSelection ? 'group' : 'radiogroup'}
             {...fieldsetProps}
           >
             <Flex.Container
@@ -198,7 +200,5 @@ function ChipGroup(localProps: ChipGroupProps) {
     </ChipGroupContext>
   )
 }
-
-withComponentMarkers(ChipGroup, { _supportsSpacingProps: true })
 
 export default ChipGroup

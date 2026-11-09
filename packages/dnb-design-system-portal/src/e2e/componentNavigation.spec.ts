@@ -55,6 +55,7 @@ for (const width of [1440, 390]) {
         'Button',
         'Input',
         'Checkbox',
+        'Chip',
         'Radio button',
         'Upload',
         'Date picker',

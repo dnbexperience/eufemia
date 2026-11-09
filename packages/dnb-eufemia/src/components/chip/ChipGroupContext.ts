@@ -1,12 +1,18 @@
 import { createContext } from 'react'
-import type { ChipChangeEvent, ChipGroupProps } from './types'
+import type { ChipChangeEvent, ChipGroupProps, ChipValue } from './types'
 
 type ChipGroupContextValue = Pick<
   ChipGroupProps,
-  'name' | 'variant' | 'multiselect' | 'disabled' | 'readOnly' | 'skeleton'
+  | 'name'
+  | 'variant'
+  | 'size'
+  | 'selectionMode'
+  | 'disabled'
+  | 'readOnly'
+  | 'skeleton'
 > & {
-  value?: string
-  values: string[]
+  value?: ChipValue
+  values: ChipValue[]
   invalid: boolean
   describedBy?: string
   onChange: (event: ChipChangeEvent) => void

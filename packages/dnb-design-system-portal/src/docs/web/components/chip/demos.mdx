@@ -6,7 +6,11 @@ import {
   MultipleSelection,
   SingleSelection,
   Variants,
+  FlagsAndLogos,
   Groups,
+  Tooltips,
+  Sizes,
+  OptionHelp,
   GroupAppearances,
   Error,
   DarkSurface,
@@ -31,15 +35,39 @@ Use Chip.Group to label and manage mutually exclusive choices. Set `variant="rad
 
 ### Variants and icons
 
-Choose the visual cue that fits the task. In Chip.Group, the selection mode is controlled by `multiselect`, independently of the appearance.
+Choose the visual cue that fits the task. In Chip.Group, the selection mode is controlled by `selectionMode`, independently of the appearance.
 
 <Variants />
+
+### Flags and logos
+
+Use `icon` for a CountryFlag or an Avatar with a logo. Keep the image decorative and give the chip a visible text label. The DNB logo in the Figma design is a circular avatar, shown here at 16 × 16 pixels.
+
+<FlagsAndLogos />
 
 ### Group labels, layout, and status
 
 Share selection state and a label with Chip.Group. Use `layoutDirection="column"` to stack the options, `suffix` for guidance, and `status` for a group message.
 
 <Groups />
+
+### Sizes
+
+Use the same size names as ToggleButton: `small`, `medium`, `default`, and `large`. Set `size` on Chip.Group for all options, or on an individual Chip to override it.
+
+<Sizes />
+
+### Per-option help
+
+Use `suffix` for guidance or a HelpButton beside an option. It stays outside the clickable pill, so opening help does not change the selection. Values can be strings or numbers; the numeric values in this example stay numeric in change events.
+
+<OptionHelp />
+
+### Tooltips and hidden labels
+
+Use `tooltip` for extra context. With `labelSrOnly`, the name is available to screen readers while the icon and selection indicator stay visible. Use a recognizable icon and repeat the hidden name in the tooltip so it is available on hover and keyboard focus.
+
+<Tooltips />
 
 ### Error messages
 

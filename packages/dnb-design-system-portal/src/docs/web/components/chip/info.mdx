@@ -12,21 +12,32 @@ import { Chip } from '@dnb/eufemia'
 
 Chip is a compact, selectable option for filters, categories, and short choices. The component name is singular because each instance represents one chip.
 
-Use Chip.Group to manage related choices, their label, and shared name. The group selects one option by default using `value`. Set `multiselect` and use `values` when several options can be selected. Set a shared `variant` on the group to choose the appearance independently of the selection mode. The `addable` variant changes its icon between add and remove as the selection changes. It keeps the chip visible so the user can select it again.
+Use Chip.Group to manage related choices, their label, and shared name. The group selects one option by default using `value`. Set `selectionMode="multiple"` and use `values` when several options can be selected. Set a shared `variant` on the group to choose the appearance independently of the selection mode. The `addable` variant changes its icon between add and remove as the selection changes. It keeps the chip visible so the user can select it again.
 
 Use [Tag](/web/components/tag/) for compact labels or removable values, [Badge](/web/components/badge/) for counts and statuses, and [Button](/web/components/button/) for actions.
 
 ## Toggle buttons
 
-Use Chip like a toggle button to select or deselect an option. Use Chip.Group for mutually exclusive choices, or add `multiselect` to allow several selections. Use Chip for new implementations instead of [ToggleButton](/web/components/toggle-button/), which will be deprecated in a future release.
+Use Chip like a toggle button to select or deselect an option. Use Chip.Group for mutually exclusive choices, or set `selectionMode="multiple"` to allow several selections. Use Chip for new implementations instead of [ToggleButton](/web/components/toggle-button/), which will be deprecated in a future release.
+
+When moving from ToggleButton, keep `checked`, `value`, `values`, `variant`, `size`, and `layoutDirection`. Check these differences:
+
+| Feature           | Chip                                                                                                                                                                                                                                             |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Labels            | Use `text` or `children` for the option name. Move an external ToggleButton label to Chip.Group. `labelSrOnly` on Chip hides the option name; on Chip.Group it hides the group label.                                                            |
+| Selection mode    | Replace `multiselect` with `selectionMode="multiple"`. Single selection is the default (`selectionMode="single"`).                                                                                                                               |
+| Initial selection | Set `value` on a single selection group, or `values` with `selectionMode="multiple"`. A nested Chip's `checked` does not initialize its group. Use `checked` for standalone chips.                                                               |
+| Change events     | Chip returns `{ checked, value, event }`. Chip.Group also returns `values` containing all selected options, including in single selection mode. `value` identifies the changed option. The event target and ref are native inputs.               |
+| Values            | Strings and numbers preserve their type in change events. Use matching types for group and option values, and keep values unique after conversion to strings. Map objects and arrays to stable identifiers. Native form submission uses strings. |
+| Appearance        | Chip.Group controls single or multiple selection independently of `variant`. Use `icon` for decorative content before the name and `suffix` for per-option help outside the pill.                                                                |
 
 ## Accessibility
 
-Give every chip a short, visible name using `text`, `children`, or `label`, in that order of precedence. Keep the content to text and decorative icons. Links, buttons, and other interactive elements must be outside the chip. An icon, flag, or logo must not be the only way to distinguish options.
+Give every chip a short name using `text` or `children`. `text` takes precedence over `children`. Prefer visible names. Use `labelSrOnly` with a recognizable icon when space is limited, and provide the hidden name in `tooltip` so it is available on hover and keyboard focus. Keep the content to text and decorative icons. Links, buttons, and other interactive elements must be outside the chip.
 
 Chip uses a native checkbox or radio input. Its selected state is announced by assistive technology and its `name` and `value` participate in native form submission. Only selected, enabled chips are submitted.
 
-Give Chip.Group a visible `label`. A single selection group uses native radio inputs; a multiselect group uses native checkboxes, regardless of the visual variant. Tab moves between checkboxes and enters or leaves a radio group. Space or Enter selects an option; arrow keys move between radio options. Disabled options are skipped. Standalone chips use checkboxes except for the `radio` variant.
+Give Chip.Group a visible `label`. A single selection group uses native radio inputs; a multiple selection group uses native checkboxes, regardless of the visual variant. Tab moves between checkboxes and enters or leaves a radio group. Space or Enter selects an option; arrow keys move between radio options. Disabled options are skipped. Standalone chips use checkboxes except for the `radio` variant.
 
 Use `status` for an error message that explains how to resolve the problem. `readOnly` preserves the selection while keeping the chip focusable. `disabled` removes it from keyboard navigation and form submission.
 

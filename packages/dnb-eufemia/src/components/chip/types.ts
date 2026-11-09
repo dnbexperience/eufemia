@@ -4,26 +4,31 @@ import type { RadioGroupProps } from '../radio/group-types'
 import type { IconIcon } from '../icon/Icon'
 
 export type ChipVariant = 'default' | 'addable' | 'radio' | 'checkbox'
+export type ChipSize = 'default' | 'small' | 'medium' | 'large'
+export type ChipValue = string | number
 
 export type ChipChangeEvent = {
   checked: boolean
-  value: string
+  value: ChipValue
   event: SyntheticEvent<HTMLInputElement>
 }
 
 export type ChipGroupChangeEvent = ChipChangeEvent & {
-  values: string[]
+  values: ChipValue[]
 }
 
 export type ChipGroupProps = Omit<
   RadioGroupProps,
-  'labelPosition' | 'size' | 'onChange'
+  'labelPosition' | 'size' | 'value' | 'onChange'
 > &
   Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> & {
-    /** Select several options using `values`. Defaults to false. */
-    multiselect?: boolean
-    /** The selected values in multiselect mode. User interaction updates the selection, and a changed array synchronizes it. Use an empty array to clear the selection. */
-    values?: string[]
+    /** Select one option using `value`, or several options using `values`. Defaults to `single`. */
+    selectionMode?: 'single' | 'multiple'
+    /** The selected values with `selectionMode="multiple"`. User interaction updates the selection, and a changed array synchronizes it. Use an empty array to clear the selection. */
+    values?: ChipValue[]
+    value?: ChipValue
+    /** Shared size. Each Chip can override it. Defaults to `default`. */
+    size?: ChipSize
     /** Shared appearance. Each Chip can override it. Defaults to `default`. */
     variant?: ChipVariant
     readOnly?: boolean
@@ -36,17 +41,25 @@ export type ChipProps = Omit<
   | 'type'
   | 'role'
   | 'size'
+  | 'value'
+  | 'label'
   | 'labelPosition'
-  | 'labelSrOnly'
   | 'indeterminate'
   | 'defaultChecked'
   | 'children'
   | 'onChange'
   | 'onClick'
-  | 'suffix'
 > & {
   /**
-   * The visible name of the chip. Takes precedence over `children` and `label`. Use text and decorative content only.
+   * The size of the chip. Inherits from Chip.Group. Defaults to `default`. Small, medium, default, and large have minimum heights of 1.5, 2, 2.5, and 3 rem respectively.
+   */
+  size?: ChipSize
+  /**
+   * The option identifier. Events preserve its string or number type; native form submission uses a string. Defaults to an empty string. Give every option in Chip.Group a unique value, including after conversion to a string.
+   */
+  value?: ChipValue
+  /**
+   * The visible name of the chip. Takes precedence over `children`. Use text and decorative content only.
    */
   text?: ReactNode
   children?: ReactNode
@@ -58,5 +71,7 @@ export type ChipProps = Omit<
    * Optional decorative icon, flag, or logo before the text. Accepts an [Icon](/web/components/icon/) name or React element.
    */
   icon?: IconIcon
+  /** Additional information shown on hover or keyboard focus. Accepts text, React content, or a [Tooltip](/web/components/tooltip/) component for configuration. A tooltip that repeats the chip name is not announced twice. */
+  tooltip?: ReactNode
   onChange?: (event: ChipChangeEvent) => void
 }

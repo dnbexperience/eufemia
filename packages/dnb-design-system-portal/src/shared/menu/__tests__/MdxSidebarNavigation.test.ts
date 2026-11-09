@@ -101,6 +101,7 @@ describe('MDX-defined Portal navigation', () => {
         'Autocomplete',
         'Button',
         'Checkbox',
+        'Chip',
         'Date picker',
         'Dialog',
         'Dropdown',

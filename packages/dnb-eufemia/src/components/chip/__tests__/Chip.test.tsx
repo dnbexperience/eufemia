@@ -1,11 +1,97 @@
 import { createRef } from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Chip from '../Chip'
+import Tooltip from '../../tooltip/Tooltip'
 import { Provider } from '../../../shared'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 
 describe('Chip', () => {
+  it.each(['default', 'small', 'medium', 'large'] as const)(
+    'supports the %s size without passing it to the native input',
+    (size) => {
+      render(<Chip size={size}>Savings</Chip>)
+      expect(document.querySelector('.dnb-chip')).toHaveClass(
+        `dnb-chip--size-${size}`
+      )
+      expect(document.querySelector('input')).not.toHaveAttribute('size')
+    }
+  )
+
+  it.each(['default', 'radio'] as const)(
+    'keeps a %s suffix outside the label and preserves all descriptions',
+    async (variant) => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(
+        <>
+          <p id="hint">Choose an account</p>
+          <Chip
+            id="account"
+            variant={variant}
+            aria-describedby="hint"
+            status="Select an option"
+            suffix={<button type="button">About savings</button>}
+            onChange={onChange}
+            right="small"
+          >
+            Savings
+          </Chip>
+        </>
+      )
+      const input = document.querySelector('input')
+      const suffix = document.querySelector<HTMLElement>(
+        '.dnb-chip__suffix'
+      )
+      expect(input).toHaveAccessibleName('Savings')
+      expect(input).toHaveAccessibleDescription(
+        'Choose an account About savings Select an option'
+      )
+      expect(document.querySelector('label')).not.toContainElement(suffix)
+      expect(document.querySelector('.dnb-chip')).not.toContainElement(
+        suffix
+      )
+      expect(document.querySelector('.dnb-chip__wrapper')).toHaveClass(
+        'dnb-space__right--small'
+      )
+      expect(document.querySelector('.dnb-chip')).not.toHaveClass(
+        'dnb-space__right--small'
+      )
+      await user.click(document.querySelector('button'))
+      expect(input).not.toBeChecked()
+      expect(onChange).not.toHaveBeenCalled()
+      await user.click(input)
+      expect(onChange).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it.each(['default', 'radio'] as const)(
+    'preserves numeric values in %s events and serializes native form values',
+    async (variant) => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(
+        <form>
+          <Chip
+            variant={variant}
+            name="account"
+            value={0}
+            onChange={onChange}
+          >
+            Savings
+          </Chip>
+        </form>
+      )
+      await user.click(document.querySelector('input'))
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ value: 0, checked: true })
+      )
+      expect(
+        new FormData(document.querySelector('form')).get('account')
+      ).toBe('0')
+    }
+  )
+
   it.each(['default', 'addable', 'checkbox'] as const)(
     'provides a named native checkbox for %s',
     (variant) => {
@@ -20,9 +106,12 @@ describe('Chip', () => {
     }
   )
 
-  it('supports text and label, preserving an explicit empty text', () => {
-    const { rerender } = render(<Chip label="Savings" />)
+  it('supports text and children, preserving an explicit empty text', () => {
+    const { rerender } = render(<Chip>Savings</Chip>)
     expect(document.querySelector('input')).toHaveAccessibleName('Savings')
+
+    rerender(<Chip text="Funds" />)
+    expect(document.querySelector('input')).toHaveAccessibleName('Funds')
 
     rerender(<Chip text="Funds">Savings</Chip>)
     expect(document.querySelector('input')).toHaveAccessibleName('Funds')
@@ -34,6 +123,128 @@ describe('Chip', () => {
     )
     expect(document.querySelector('.dnb-chip__text')).toBeEmptyDOMElement()
   })
+
+  it.each(['default', 'addable', 'radio', 'checkbox'] as const)(
+    'hides only the text when %s uses labelSrOnly',
+    (variant) => {
+      render(
+        <Chip variant={variant} icon="bell" labelSrOnly>
+          Notifications
+        </Chip>
+      )
+
+      expect(document.querySelector('input')).toHaveAccessibleName(
+        'Notifications'
+      )
+      expect(document.querySelector('.dnb-chip__text')).toHaveClass(
+        'dnb-sr-only'
+      )
+      expect(document.querySelector('label')).not.toHaveClass(
+        'dnb-sr-only'
+      )
+      expect(document.querySelector('.dnb-chip__icon')).toBeInTheDocument()
+    }
+  )
+
+  it.each(['default', 'radio'] as const)(
+    'shows a tooltip on %s input focus and preserves existing descriptions and refs',
+    async (variant) => {
+      const user = userEvent.setup()
+      const ref = createRef<HTMLInputElement>()
+      render(
+        <>
+          <p id="description">Choose an account</p>
+          <Chip
+            ref={ref}
+            variant={variant}
+            id="chip"
+            status="Select an option"
+            aria-describedby="description"
+            tooltip={
+              <Tooltip showDelay={0} hideDelay={0}>
+                <strong>Earn interest</strong> on your savings
+              </Tooltip>
+            }
+          >
+            Savings
+          </Chip>
+        </>
+      )
+      const input = document.querySelector('input')
+      expect(ref.current).toBe(input)
+      expect(input).not.toHaveAttribute('tooltip')
+      await user.tab()
+
+      await waitFor(() => {
+        expect(input).toHaveAccessibleDescription(
+          'Choose an account Select an option Earn interest on your savings'
+        )
+      })
+      expect(
+        document.querySelector('[role="tooltip"] strong')
+      ).toHaveTextContent('Earn interest')
+      await user.keyboard('{Escape}')
+      await waitFor(() => {
+        expect(input).toHaveAccessibleDescription(
+          'Choose an account Select an option'
+        )
+      })
+    }
+  )
+
+  it('shows a tooltip on hover without repeating the accessible name', async () => {
+    const user = userEvent.setup()
+    const { rerender } = render(
+      <Chip icon="bell" labelSrOnly tooltip="Notifications">
+        Notifications
+      </Chip>
+    )
+    const input = document.querySelector('input')
+    await user.hover(input)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toHaveTextContent('Notifications')
+    })
+    expect(input).toHaveAccessibleName('Notifications')
+    expect(input).not.toHaveAttribute('aria-describedby')
+
+    rerender(
+      <Chip icon="bell" labelSrOnly>
+        Notifications
+      </Chip>
+    )
+    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
+    expect(input).toHaveAccessibleName('Notifications')
+  })
+
+  it.each(['default', 'radio'] as const)(
+    'moves the tooltip target when switching to %s',
+    async (variant) => {
+      const user = userEvent.setup()
+      const tooltip = <Tooltip showDelay={0}>Earn interest</Tooltip>
+      const { rerender } = render(
+        <Chip
+          variant={variant === 'default' ? 'radio' : 'default'}
+          tooltip={tooltip}
+        >
+          Savings
+        </Chip>
+      )
+
+      rerender(
+        <Chip variant={variant} tooltip={tooltip}>
+          Savings
+        </Chip>
+      )
+      const input = document.querySelector('input')
+      await user.tab()
+      await waitFor(() => {
+        expect(input).toHaveAccessibleDescription('Earn interest')
+      })
+    }
+  )
 
   it('toggles with pointer and Space and emits the current value once', async () => {
     const user = userEvent.setup()
