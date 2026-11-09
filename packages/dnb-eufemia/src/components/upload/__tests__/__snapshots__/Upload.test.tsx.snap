@@ -1717,9 +1717,6 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-upload__file-cell__text-container .dnb-button {
   justify-content: flex-start;
 }
-.dnb-upload__title.dnb-p {
-  font-family: var(--font-family-heading);
-}
 .dnb-upload__text.dnb-p {
   color: var(--upload-text--secondary);
 }
