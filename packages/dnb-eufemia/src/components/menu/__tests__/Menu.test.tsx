@@ -591,7 +591,7 @@ describe('Menu scss', () => {
     const css = loadScss(require.resolve('../style/dnb-menu.scss'))
 
     expect(css).toMatch(
-      /\.dnb-menu__header__text\.dnb-lead \{\s*display: block;\s*font-family: var\(--font-family-default\);\s*font-size: var\(--font-size-small\);\s*font-weight: var\(--font-weight-medium\);\s*line-height: var\(--line-height-small\);\s*\}/
+      /\.dnb-menu__header \.dnb-menu__header__text\.dnb-lead \{\s*display: block;\s*font-family: var\(--font-family-default\);\s*font-size: var\(--font-size-small\);\s*font-weight: var\(--font-weight-medium\);\s*line-height: var\(--line-height-small\);\s*\}/
     )
   })
 
