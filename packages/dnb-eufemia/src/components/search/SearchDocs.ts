@@ -18,7 +18,7 @@ export const SearchProperties: PropertiesTableProps = {
   },
 }
 
-export const SearchPopoverProperties: PropertiesTableProps = {
+export const SearchPanelProperties: PropertiesTableProps = {
   align: {
     doc: 'Align the results surface with the input using `left`, `center`, or `right`. Defaults to `left`. The surface stays within the viewport when there is insufficient space.',
     type: ['"left"', '"center"', '"right"'],
@@ -30,7 +30,7 @@ export const SearchPopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   popoverProps: {
-    doc: 'Configure the underlying [Popover](/web/components/popover/properties) with `placement`, `triggerOffset`, `autoAlignMode`, `className`, or `noAnimation`.',
+    doc: 'Configure the underlying [Popover](/web/components/popover/properties) with `placement`, `triggerOffset`, `autoAlignMode`, `className`, or `noAnimation`. The default `triggerOffset` is `24` pixels.',
     type: 'object',
     status: 'optional',
   },

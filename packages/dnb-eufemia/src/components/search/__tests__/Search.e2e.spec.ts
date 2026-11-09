@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
 for (const fixture of [
   'search-compact',
   'search-autocomplete-compact',
-  'search-popover',
+  'search-panel',
 ]) {
   test(`${fixture} expands with the shortcut and collapses after clearing`, async ({
     page,
@@ -105,10 +105,10 @@ test('keeps both input types within a narrow container', async ({
   }
 })
 
-test('popover keeps the keyboard focus outline inside the results viewport', async ({
+test('panel keeps the keyboard focus outline inside the results viewport', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-popover"]')
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -137,10 +137,10 @@ test('popover keeps the keyboard focus outline inside the results viewport', asy
   expect(focusRing.right).toBeGreaterThanOrEqual(focusRing.spread)
 })
 
-test('popover restores results and keyboard navigation after clearing the query', async ({
+test('panel restores results and keyboard navigation after clearing the query', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-popover"]')
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -172,7 +172,7 @@ test('popover restores results and keyboard navigation after clearing the query'
   await expect(input).toHaveAttribute('aria-expanded', 'false')
 })
 
-test('popover supports results, toggle filters, sorting, and natural keyboard focus', async ({
+test('panel supports results, toggle filters, sorting, and natural keyboard focus', async ({
   page,
   browserName,
 }) => {
@@ -180,7 +180,7 @@ test('popover supports results, toggle filters, sorting, and natural keyboard fo
   const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
   const reverseTab =
     browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
-  const fixture = page.locator('[data-visual-test="search-popover"]')
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -258,11 +258,11 @@ test('popover supports results, toggle filters, sorting, and natural keyboard fo
   await expect(input).toHaveAttribute('aria-expanded', 'false')
 })
 
-test('popover sorting menu stays above results and supports pointer selection', async ({
+test('panel sorting menu stays above results and supports pointer selection', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  const fixture = page.locator('[data-visual-test="search-popover"]')
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   await fixture
     .getByRole('combobox', { name: 'Search with filters' })
     .focus()
@@ -299,10 +299,10 @@ test('popover sorting menu stays above results and supports pointer selection', 
   ).toHaveText('Accessibility')
 })
 
-test('popover closes from controls and preserves outside interaction focus', async ({
+test('panel closes from controls and preserves outside interaction focus', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-popover"]')
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -331,14 +331,14 @@ test('popover closes from controls and preserves outside interaction focus', asy
   await expect(outsideInput).toBeFocused()
 })
 
-test('keeps the popover within the viewport near either edge', async ({
+test('keeps the panel within the viewport near either edge', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-popover"]')
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
-  const popover = page.locator('.dnb-search__popover')
+  const popover = page.locator('.dnb-search__panel')
 
   for (const width of [1000, 320]) {
     await page.setViewportSize({ width, height: 900 })
@@ -368,12 +368,12 @@ test('keeps the popover within the viewport near either edge', async ({
 
 test('aligns the portaled surface with the input', async ({ page }) => {
   const fixture = page.locator(
-    '[data-visual-test="search-popover-alignment"]'
+    '[data-visual-test="search-panel-alignment"]'
   )
   const input = fixture.getByRole('combobox', {
     name: 'Search alignment example',
   })
-  const popover = page.locator('.dnb-search__popover')
+  const popover = page.locator('.dnb-search__panel')
   await fixture.evaluate((element) => {
     element.style.cssText =
       'position: fixed; top: 100px; left: 400px; width: 400px;'
@@ -395,6 +395,13 @@ test('aligns the portaled surface with the input', async ({ page }) => {
         )
       })
       .toBeLessThan(1)
+    await expect
+      .poll(async () => {
+        const target = await input.boundingBox()
+        const surface = await popover.boundingBox()
+        return Math.abs(surface.y - target.y - target.height - 24)
+      })
+      .toBeLessThan(1)
     await input.press('Escape')
   }
 })
@@ -406,7 +413,7 @@ test('keeps search results above the Portal sidebar', async ({ page }) => {
     'true'
   )
   const fixture = page.locator(
-    '[data-visual-test="search-popover-alignment"]'
+    '[data-visual-test="search-panel-alignment"]'
   )
   const input = fixture.getByRole('combobox', {
     name: 'Search alignment example',

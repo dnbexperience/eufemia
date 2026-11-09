@@ -101,8 +101,8 @@ export const SearchAsync = () => (
   </ComponentBox>
 )
 
-export const SearchPopover = () => (
-  <ComponentBox data-visual-test="search-popover">
+export const SearchPanel = () => (
+  <ComponentBox data-visual-test="search-panel">
     {() => {
       const Example = () => {
         const [category, setCategory] = useState('all')
@@ -126,7 +126,7 @@ export const SearchPopover = () => (
 
         return (
           <Flex.Stack>
-            <Search.Popover
+            <Search.Panel
               variant="compact"
               shortcut
               label="Search with filters"
@@ -192,7 +192,7 @@ export const SearchPopover = () => (
                   {results}
                 </Flex.Stack>
               )}
-            </Search.Popover>
+            </Search.Panel>
             <P aria-live="polite">
               {selected
                 ? `Selected: ${selected}`
@@ -207,8 +207,8 @@ export const SearchPopover = () => (
   </ComponentBox>
 )
 
-export const SearchPopoverAlignment = () => (
-  <ComponentBox data-visual-test="search-popover-alignment">
+export const SearchPanelAlignment = () => (
+  <ComponentBox data-visual-test="search-panel-alignment">
     {() => {
       const Example = () => {
         const [align, setAlign] = useState<'left' | 'center' | 'right'>(
@@ -226,7 +226,7 @@ export const SearchPopoverAlignment = () => (
               <ToggleButton text="Center" value="center" />
               <ToggleButton text="Right" value="right" />
             </ToggleButton.Group>
-            <Search.Popover
+            <Search.Panel
               align={align}
               label="Search alignment example"
               data={['Button', 'Input', 'Table']}
