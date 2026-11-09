@@ -413,6 +413,10 @@
     padding-block-start: 0;
   }
 
+  &__divider-item + &__header-group {
+    margin-block-start: 0;
+  }
+
   // Forced colors mode removes the backgrounds and box-shadows used for these
   @media (forced-colors: active) {
     .dnb-sidebar-menu__item__action[aria-current='page'] {

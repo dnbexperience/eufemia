@@ -195,7 +195,18 @@ export function SidebarMenuHeaders() {
           <SidebarMenu.Header text="Support">
             <SidebarMenu.Item id="header-contact" text="Contact us" />
           </SidebarMenu.Header>
+          <SidebarMenu.Divider />
+          <SidebarMenu.Header text="Settings">
+            <SidebarMenu.Item id="header-profile" text="Profile" />
+          </SidebarMenu.Header>
         </SidebarMenu.Accordion>
+        <SidebarMenu.Divider />
+        <SidebarMenu.Header text="Help">
+          <SidebarMenu.Item
+            id="header-faq"
+            text="Frequently asked questions"
+          />
+        </SidebarMenu.Header>
       </SidebarMenu.Root>
     </ComponentBox>
   )

@@ -58,7 +58,7 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
-  it('matches adjacent header groups inside an accordion', async () => {
+  it('matches header groups with and without dividers', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-headers"]',
       style: { width: '24rem' },
