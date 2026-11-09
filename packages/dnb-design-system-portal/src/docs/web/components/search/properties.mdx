@@ -25,7 +25,7 @@ Supports [Autocomplete properties](/web/components/autocomplete/properties) and 
 
 ## Search.Panel
 
-Supports the same Autocomplete properties and events as `Search.Autocomplete`, with `openOnFocus` enabled by default. It owns `inline`, `resultsRender`, `skipPortal`, and `preventClose` to compose the results inside the panel. Use `popoverProps` for the supported surface options.
+Supports the same Autocomplete properties and events as `Search.Autocomplete`, with `openOnFocus` enabled by default. It owns `inline`, `resultsRender`, `skipPortal`, and `preventClose` to compose the results inside the panel. Keyboard navigation keeps visible results in place and smoothly scrolls results into view at the edge. Scrolling respects reduced motion; use `noScrollAnimation` to disable it. Use `popoverProps` for the supported surface options.
 
 <PropertiesTable props={SearchPanelProperties} />
 
