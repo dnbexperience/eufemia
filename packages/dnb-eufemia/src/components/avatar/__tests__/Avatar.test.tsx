@@ -891,7 +891,7 @@ describe('Avatar scss', () => {
       /\.dnb-avatar__group--elements-left--size-medium \{[^}]*margin-left: 0\.375rem;/
     )
     expect(css).toMatch(
-      /\.dnb-avatar__group--elements-left--size-large \{[^}]*margin-left: 0\.25rem;/
+      /\.dnb-avatar__group--elements-left--size-large \{[^}]*margin-left: 0\.375rem;/
     )
     expect(css).toMatch(
       /\.dnb-avatar__group--elements-left--size-x-large \{[^}]*margin-left: 0\.75rem;/
