@@ -16,6 +16,7 @@ import type { ScrollViewProps } from '../components/scroll-view/ScrollView'
 // All TypeScript based Eufemia components
 import type { AnchorProps } from '../components/Anchor'
 import type { AutocompleteProps } from '../components/autocomplete/Autocomplete'
+import type { ChipProps, ChipGroupProps } from '../components/chip/types'
 import type { ButtonProps } from '../components/button/Button'
 import type { AvatarProps } from '../components/avatar/Avatar'
 import type { AvatarGroupProps } from '../components/avatar/AvatarGroup'
@@ -81,6 +82,8 @@ export type ContextComponents = {
   Breadcrumb?: Partial<BreadcrumbProps>
   BreadcrumbItem?: Partial<BreadcrumbItemProps>
   Checkbox?: Partial<CheckboxProps>
+  Chip?: Partial<ChipProps>
+  ChipGroup?: Partial<ChipGroupProps>
   InfoCard?: Partial<InfoCardProps>
   Slider?: Partial<SliderProps>
   Tag?: Partial<TagProps>

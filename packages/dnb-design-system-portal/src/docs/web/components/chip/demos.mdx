@@ -1,0 +1,70 @@
+---
+showTabs: true
+---
+
+import {
+  MultipleSelection,
+  SingleSelection,
+  Variants,
+  Groups,
+  GroupAppearances,
+  Error,
+  DarkSurface,
+  Skeleton,
+  States,
+  LongLabels,
+} from 'Docs/web/components/chip/Examples'
+
+## Demos
+
+### Multiple selection
+
+Keep selected values in state when they are used to filter content. Every option remains available after selection.
+
+<MultipleSelection />
+
+### Single selection
+
+Use Chip.Group to label and manage mutually exclusive choices. Set `variant="radio"` on the group to show radio indicators, or use the default appearance. Give each chip a unique value.
+
+<SingleSelection />
+
+### Variants and icons
+
+Choose the visual cue that fits the task. In Chip.Group, the selection mode is controlled by `multiselect`, independently of the appearance.
+
+<Variants />
+
+### Group labels, layout, and status
+
+Share selection state and a label with Chip.Group. Use `layoutDirection="column"` to stack the options, `suffix` for guidance, and `status` for a group message.
+
+<Groups />
+
+### Error messages
+
+<Error />
+
+### Dark surface
+
+<DarkSurface />
+
+### Skeleton
+
+<Skeleton />
+
+### Selected, disabled, and read-only states
+
+<States />
+
+### Group appearances
+
+Each appearance supports both single and multiple selection. Shared `disabled`, `readOnly`, and `skeleton` properties can also be set on the group.
+
+<GroupAppearances />
+
+### Long labels
+
+Keep labels short where possible. Longer text wraps within the available width.
+
+<LongLabels />
