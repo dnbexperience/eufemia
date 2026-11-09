@@ -77,7 +77,7 @@
 
   &__info {
     font-size: var(--font-size-small);
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
 
     &--plain {
       color: var(--token-color-text-neutral);
@@ -123,8 +123,8 @@
 
   &__trend {
     display: inline-flex;
-    padding: 0.25rem 0.5rem;
-    font-size: var(--font-size-small);
+    padding: 0.25rem 1rem;
+    font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
     font-weight: var(--font-weight-medium);
 

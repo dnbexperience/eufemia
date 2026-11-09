@@ -1,0 +1,24 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/Task/properties
+  - /web/extensions/ai/Task/properties
+  - /uilib/extensions/ai/Task/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ChatTaskProperties } from '@dnb/eufemia/src/extensions/chat/ChatDocs'
+
+## Properties
+
+<PropertiesTable props={ChatTaskProperties} />
+
+## Translations
+
+| Key                        | nb-NO                 | en-GB                    | sv-SE                 | da-DK                 |
+| -------------------------- | --------------------- | ------------------------ | --------------------- | --------------------- |
+| `taskRunning`              | Pågår                 | In progress              | Pågår                 | I gang                |
+| `taskDone`                 | Fullført              | Completed                | Slutförd              | Fuldført              |
+| `taskError`                | Feilet                | Failed                   | Misslyckades          | Mislykkedes           |
+| `taskAwaitingConfirmation` | Venter på bekreftelse | Waiting for confirmation | Väntar på bekräftelse | Venter på bekræftelse |
+| `canceled`                 | Avbrutt               | Cancelled                | Avbruten              | Annulleret            |

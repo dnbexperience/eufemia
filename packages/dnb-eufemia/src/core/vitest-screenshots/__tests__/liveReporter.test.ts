@@ -4,9 +4,9 @@ import { afterEach, expect, it, vi } from 'vitest'
 import type { TestCase } from 'vitest/node'
 import fs from 'node:fs'
 import os from 'node:os'
+import { version as playwrightVersion } from 'playwright/package.json'
 import LiveReporter from '../liveReporter'
-
-vi.mock('playwright/package.json', () => ({ version: '1.2.3' }))
+import { recordNavigation } from '../failures'
 
 afterEach(() => {
   vi.restoreAllMocks()
@@ -41,7 +41,7 @@ it.each(['true', '1', 'false', undefined])(
       'utf-8'
     )
     expect(output).toContain(
-      'Visual tests: Playwright 1.2.3 | bundled Firefox 124.0 (build 222)'
+      `Visual tests: Playwright ${playwrightVersion} | bundled Firefox 124.0 (build 222)`
     )
     expect(output).toContain(
       `Environment: Node ${process.version} | linux 6.8.0 (x64) | ${
@@ -87,4 +87,24 @@ it('keeps successful tests without retries to a single result line', () => {
 
   expect(write).toHaveBeenCalledTimes(1)
   expect(String(write.mock.calls[0][0])).toContain('Tag > active')
+})
+
+it.each([
+  ['prints', 'false', true],
+  ['leaves out', 'true', false],
+])('%s the visited portal URLs with CI=%s', (_, ci, printsUrl) => {
+  vi.stubEnv('CI', ci)
+  const write = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+  const testCase = {
+    fullName: 'Tag > active',
+    result: () => ({ state: 'passed' }),
+    diagnostic: () => ({ retryCount: 0, duration: 100 }),
+  } as unknown as TestCase
+
+  recordNavigation('http://localhost:8000/web/components/tag/demos/')
+  new LiveReporter().onTestCaseResult(testCase)
+
+  const output = write.mock.calls.map(([text]) => String(text)).join('')
+  expect(output.includes('/web/components/tag/demos/')).toBe(printsUrl)
+  expect(output).toContain('Tag > active')
 })

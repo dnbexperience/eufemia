@@ -11,7 +11,10 @@
  */
 
 import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import path from 'node:path'
+
+const require = createRequire(import.meta.url)
 
 export type ScopeImportInfo = {
   source: string
@@ -131,10 +134,10 @@ for (const name of parseExtensionExports(
 }
 
 for (const name of parseExtensionExports(
-  path.join(eufemiaSrc, 'extensions/ai/AiExport.ts')
+  path.join(eufemiaSrc, 'extensions/chat/ChatExport.ts')
 )) {
   importInfoMap.set(name, {
-    source: '@dnb/eufemia/src/extensions/ai',
+    source: '@dnb/eufemia/src/extensions/chat',
     isDefault: false,
   })
   allNames.push(name)

@@ -61,26 +61,27 @@ test.describe('Releases and upgrades', () => {
         })
     ).toBeVisible()
     await page.getByRole('tab', { name: 'Releases', exact: true }).click()
+    // Lazy route content can commit after the URL and selected tab update.
+    await expect(
+      page.getByRole('region', { name: 'Eufemia release history' })
+    ).toBeVisible({ timeout: 15_000 })
     await expect(page).toHaveURL('/web/releases-and-upgrades/releases')
     await expect(
       page.getByRole('tab', { name: 'Releases', exact: true })
     ).toHaveAttribute('aria-selected', 'true')
-    await expect(
-      page.getByRole('region', { name: 'Eufemia release history' })
-    ).toBeVisible()
     await expect(
       page
         .getByRole('tabpanel')
         .getByRole('link', { name: 'Upgrade', exact: true })
     ).toHaveAttribute('href', '/web/releases-and-upgrades/upgrade/')
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
+    await expect(
+      page.locator('main').getByRole('link', { name: 'v11', exact: true })
+    ).toBeVisible({ timeout: 15_000 })
     await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade')
     await expect(
       page.locator('main a[href*="form-set-row-deprecation-v11"]')
     ).toHaveCount(0)
-    await expect(
-      page.locator('main').getByRole('link', { name: 'v11', exact: true })
-    ).toBeVisible()
     await page
       .locator('main')
       .getByRole('link', { name: 'v11', exact: true })

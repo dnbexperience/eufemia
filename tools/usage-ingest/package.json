@@ -10,7 +10,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' && node ../../node_modules/.bin/prettier --check 'src/**/*.ts'",
+    "lint": "node ../../node_modules/.bin/eslint --quiet 'src/**/*.ts' && node ../../node_modules/.bin/prettier --check 'src/**/*.ts'",
     "typecheck": "../../node_modules/.bin/tsc --noEmit"
   },
   "volta": {

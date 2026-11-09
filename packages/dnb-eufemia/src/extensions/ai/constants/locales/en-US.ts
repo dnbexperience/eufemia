@@ -1,12 +1,5 @@
-import en from './en-GB'
-
-const enGB = en['en-GB']
+import translations from '../../../chat/constants/locales/en-US'
 
 export default {
-  'en-US': {
-    Ai: {
-      ...enGB.Ai,
-      canceled: 'Canceled',
-    },
-  } satisfies typeof enGB,
+  'en-US': { Ai: translations['en-US'].Chat },
 }

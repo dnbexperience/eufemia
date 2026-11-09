@@ -38,11 +38,6 @@ const postcssIsolateStyle = (opts = {}) => {
   let countBefore = 0
   let countAfter = 0
 
-  if (!verbose && !global.__didLog && process.env.NODE_ENV !== 'test') {
-    global.__didLog = true
-    console.log('✨ @dnb/eufemia/plugins/postcss-isolated-style-scope')
-  }
-
   return {
     postcssPlugin: 'isolated-style-scope-plugin',
 

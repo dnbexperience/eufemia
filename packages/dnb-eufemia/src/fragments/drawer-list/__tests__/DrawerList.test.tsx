@@ -1889,6 +1889,64 @@ describe('DrawerList portal', () => {
     })
   })
 
+  it('updates the portal when its trigger resizes without a body resize', async () => {
+    const observe = vi.fn()
+    const disconnect = vi.fn()
+    let onResize: ResizeObserverCallback
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          onResize = callback
+        }
+        observe = observe
+        disconnect = disconnect
+      }
+    )
+
+    try {
+      const { unmount } = render(<DrawerList open noAnimation />)
+      const root = document.querySelector<HTMLElement>(
+        '.dnb-drawer-list__root'
+      )
+      const portal = document.querySelector<HTMLElement>(
+        '.dnb-drawer-list__portal__style'
+      )
+      await waitFor(() => expect(portal.style.width).not.toBe(''))
+      expect(observe).toHaveBeenCalledWith(document.body)
+      expect(observe).toHaveBeenCalledWith(root)
+      expect(observe).toHaveBeenCalledWith(root.parentElement)
+
+      const rect = vi.spyOn(root, 'getBoundingClientRect')
+      rect.mockReturnValue({ width: 280, top: 40, left: 120 } as DOMRect)
+      act(() =>
+        onResize(
+          [{ target: root }] as unknown as ResizeObserverEntry[],
+          null
+        )
+      )
+      expect(portal.style.width).toBe('280px')
+      expect(portal.style.left).toBe('120px')
+
+      rect.mockReturnValue({ width: 160, top: 40, left: 240 } as DOMRect)
+      act(() =>
+        onResize(
+          [
+            { target: root.parentElement },
+          ] as unknown as ResizeObserverEntry[],
+          null
+        )
+      )
+      expect(portal.style.width).toBe('160px')
+      expect(portal.style.left).toBe('240px')
+
+      unmount()
+      expect(disconnect).toHaveBeenCalled()
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
   it('will set correct width when independentWidth is set and isolated style scope is used', async () => {
     const style = {
       getPropertyValue: () => 20,

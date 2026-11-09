@@ -23,7 +23,7 @@ export type BuildInfo = {
   buildVersion: string
 }
 
-const portalRoot = path.resolve(__dirname, '..', '..', '..')
+const portalRoot = path.resolve(import.meta.dirname, '..', '..', '..')
 
 export function getBuildInfo({
   packageJsonPath = path.resolve(portalRoot, 'package.json'),

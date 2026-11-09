@@ -1,0 +1,19 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/DateMarker/info
+  - /web/extensions/ai/DateMarker/info
+  - /uilib/extensions/ai/DateMarker/info
+---
+
+## Import
+
+```tsx
+import { DateMarker } from '@dnb/eufemia/extensions/chat'
+import '@dnb/eufemia/extensions/chat/style'
+render(<DateMarker />)
+```
+
+## Description
+
+`Chat.DateMarker` shows the date with the weekday, followed by a line, above the messages of that day in [Chat.Conversation](/web/patterns-and-extensions/chat/Conversation/). The date is formatted with [DateFormat](/web/components/date-format/) in the current locale.

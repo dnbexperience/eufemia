@@ -6,7 +6,7 @@
  * the guard tests that `--changed` cannot see, and the tests that read a
  * changed style or snapshot file from disk. Changes to global test infra
  * already fall back to the full suite via `forceRerunTriggers` in
- * `vitest.config.ts`. The base ref must be fetched (CI uses `fetch-depth: 0`);
+ * `vitest.config.mts`. The base ref must be fetched (CI uses `fetch-depth: 0`);
  * a missing ref fails loudly rather than silently running the wrong set.
  */
 

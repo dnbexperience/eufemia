@@ -1,4 +1,5 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+@use './logo-background';
 
 :global {
   html {
@@ -125,6 +126,9 @@
 }
 
 .leadingStyle {
+  position: relative;
+  isolation: isolate;
+
   flex-shrink: 0;
   display: none;
   min-height: 2.5rem;
@@ -137,28 +141,13 @@
   }
 
   &[data-compact='true'] {
-    position: relative;
-    isolation: isolate;
-
     &::before {
-      position: absolute;
-      z-index: -1;
-      inset: -0.125rem -1rem;
-      pointer-events: none;
-
-      border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
-      border-radius: 2rem;
-
-      background-color: var(--token-color-background-neutral);
-      opacity: 0;
-      transform: scale(0.96);
-
-      transition:
-        opacity 180ms ease,
-        transform 180ms ease;
-
-      content: '';
+      @include logo-background.background();
     }
+  }
+
+  &:has(> a:focus-visible)::after {
+    @include logo-background.focus();
   }
 
   &[data-inline-collapsed='true'] {
@@ -175,7 +164,6 @@
 
   @include utilities.allBelow(medium) {
     position: relative;
-    isolation: isolate;
     inset: auto;
 
     display: flex;
@@ -183,23 +171,13 @@
     gap: 0.5rem;
 
     &::before {
-      position: absolute;
-      z-index: -1;
-      inset: -0.125rem -1rem -0.375rem -0.25rem;
-      pointer-events: none;
+      @include logo-background.background(
+        -0.125rem -1rem -0.375rem -0.25rem
+      );
+    }
 
-      border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
-      border-radius: 2rem;
-
-      background-color: var(--token-color-background-neutral);
-      opacity: 0;
-      transform: scale(0.96);
-
-      transition:
-        opacity 180ms ease,
-        transform 180ms ease;
-
-      content: '';
+    &:has(> a:focus-visible)::after {
+      @include logo-background.focus(-0.125rem -1rem -0.375rem -0.25rem);
     }
   }
 }
@@ -209,6 +187,7 @@
   align-items: center;
 
   font-size: var(--font-size-basis);
+  outline: none;
 
   :global(svg path) {
     stroke: none;
@@ -226,4 +205,31 @@
   flex-wrap: nowrap;
   align-items: center;
   min-width: 0;
+
+  :global(.portal-search) {
+    width: min(30vw, 10rem);
+    transition: width 250ms var(--easing-default);
+
+    :global(.dnb-autocomplete__row) {
+      width: 100%;
+    }
+
+    &:focus-within,
+    &:has(:global(input[aria-expanded='true'])),
+    &:has(:global(.dnb-input[data-has-content='true'])) {
+      width: min(40vw, 17.5rem);
+    }
+
+    @include utilities.allBelow(small) {
+      &:focus-within,
+      &:has(:global(input[aria-expanded='true'])),
+      &:has(:global(.dnb-input[data-has-content='true'])) {
+        width: min(38vw, 17.5rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
 }

@@ -433,6 +433,22 @@ describe('ToggleButton component', () => {
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should validate with ARIA rules when read-only', async () => {
+    const Comp = render(
+      <>
+        <ToggleButton text="Pressed" readOnly />
+        <ToggleButton text="Radio" role="radio" readOnly />
+        <ToggleButton text="Checkbox" role="checkbox" readOnly />
+      </>
+    )
+
+    const buttons = document.querySelectorAll('button')
+    expect(buttons[0]).not.toHaveAttribute('aria-readonly')
+    expect(buttons[1]).not.toHaveAttribute('aria-readonly')
+    expect(buttons[2]).toHaveAttribute('aria-readonly', 'true')
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
 })
 
 describe('ToggleButton scss', () => {

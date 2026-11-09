@@ -1,1 +1,1 @@
-import './style/dnb-ai.scss'
+import '../chat/style'

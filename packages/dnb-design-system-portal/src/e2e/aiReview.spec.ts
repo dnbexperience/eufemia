@@ -5,7 +5,7 @@ test('preserves reply action focus rings and expanded touch areas', async ({
   page,
   browserName,
 }) => {
-  await page.goto('/web/patterns-and-extensions/ai/demos/')
+  await page.goto('/web/patterns-and-extensions/chat/demos/')
   await waitForApp(page)
   const chat = page.locator('[data-visual-test="ai-chat"]')
   await chat
@@ -69,7 +69,7 @@ test('preserves reply action focus rings and expanded touch areas', async ({
 test('matches bubble tokens, spacing, avatars and sender groups', async ({
   page,
 }) => {
-  await page.goto('/web/patterns-and-extensions/ai/Message/demos/')
+  await page.goto('/web/patterns-and-extensions/chat/Message/demos/')
   await waitForApp(page)
   const demo = page.locator('[data-visual-test="ai-message-design"]')
   const messages = demo.locator('.dnb-ai-message')
@@ -129,7 +129,7 @@ test('shows the prompt outline in forced colors', async ({
     browserName !== 'chromium',
     'Forced colors emulation is verified in Chromium'
   )
-  await page.goto('/web/patterns-and-extensions/ai/PromptInput/demos/')
+  await page.goto('/web/patterns-and-extensions/chat/PromptInput/demos/')
   await waitForApp(page)
   await page.emulateMedia({ forcedColors: 'active' })
   const form = page.locator(
@@ -147,8 +147,8 @@ for (const virtualized of [false, true]) {
     async ({ page }) => {
       await page.goto(
         virtualized
-          ? '/web/patterns-and-extensions/ai/Conversation/demos/'
-          : '/web/patterns-and-extensions/ai/demos/'
+          ? '/web/patterns-and-extensions/chat/Conversation/demos/'
+          : '/web/patterns-and-extensions/chat/demos/'
       )
       await waitForApp(page)
       const demo = page.locator(
@@ -194,7 +194,7 @@ for (const virtualized of [false, true]) {
 test('keeps response block spacing in application styles, outside the portal reset', async ({
   page,
 }) => {
-  await page.goto('/web/patterns-and-extensions/ai/Response/demos/')
+  await page.goto('/web/patterns-and-extensions/chat/Response/demos/')
   await waitForApp(page)
   const response = page.locator(
     '[data-visual-test="ai-response"] .dnb-ai-response'
@@ -235,7 +235,7 @@ test('does not request untrusted images in a response', async ({
       requests.push(request.url())
     }
   })
-  await page.goto('/web/patterns-and-extensions/ai/Response/demos/')
+  await page.goto('/web/patterns-and-extensions/chat/Response/demos/')
   await waitForApp(page)
   const response = page.locator(
     '[data-visual-test="ai-response-image-policy"] .dnb-ai-response'
@@ -251,7 +251,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
       'keeps task text legible in ' + brand + ' ' + scheme + ' bubbles',
       async ({ page }) => {
         await page.goto(
-          '/web/patterns-and-extensions/ai/Task/demos/?eufemia-theme=' +
+          '/web/patterns-and-extensions/chat/Task/demos/?eufemia-theme=' +
             brand +
             '&eufemia-color-scheme=' +
             scheme
@@ -309,7 +309,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
 test('keeps suggestion and regenerate focus in the prompt', async ({
   page,
 }) => {
-  await page.goto('/web/patterns-and-extensions/ai/demos/')
+  await page.goto('/web/patterns-and-extensions/chat/demos/')
   await waitForApp(page)
   const chat = page.locator('[data-visual-test="ai-chat"]')
   await chat.getByRole('button', { name: /Block my Visa card/ }).click()
@@ -326,7 +326,7 @@ test('keeps suggestion and regenerate focus in the prompt', async ({
 test('opens and closes the chat window with focus restored to its trigger', async ({
   page,
 }) => {
-  await page.goto('/web/patterns-and-extensions/ai/demos/')
+  await page.goto('/web/patterns-and-extensions/chat/demos/')
   await waitForApp(page)
   const trigger = page.getByRole('button', {
     name: 'Open chat window',

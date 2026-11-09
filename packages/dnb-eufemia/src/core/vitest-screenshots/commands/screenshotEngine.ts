@@ -24,11 +24,11 @@ import type {
 import {
   getPageResetStrategyFromMutation,
   type PageMutationKind,
-} from '../pageResetStrategy'
-import { clearBrowserStorages } from '../storageReset'
-import { forceFontDisplayBlock } from '../fontDisplay'
-import { recordFailure, recordNavigation } from '../failures'
-import { createSizeMismatchDiff } from '../sizeMismatchDiff'
+} from '../pageResetStrategy.ts'
+import { clearBrowserStorages } from '../storageReset.ts'
+import { forceFontDisplayBlock } from '../fontDisplay.ts'
+import { recordFailure, recordNavigation } from '../failures.ts'
+import { createSizeMismatchDiff } from '../sizeMismatchDiff.ts'
 
 // ── shared types ─────────────────────────────────────────────────────
 
@@ -313,7 +313,8 @@ const stylesheetCache = (() => {
   return () => {
     if (!cached) {
       cached = fs.readFile(
-        path.resolve(__dirname, '../screenshotTestStyles.css'),
+        // @ts-expect-error -- the package tsconfig targets CommonJS
+        path.resolve(import.meta.dirname, '../screenshotTestStyles.css'),
         'utf-8'
       )
     }

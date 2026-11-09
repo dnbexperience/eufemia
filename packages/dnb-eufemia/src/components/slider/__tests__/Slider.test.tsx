@@ -98,6 +98,42 @@ describe('Slider component', () => {
     ).not.toHaveAttribute('aria-label')
   })
 
+  it('should name the range inputs with thumbTitle', async () => {
+    const { container, getAllByRole } = render(
+      <Slider
+        {...props}
+        label={undefined}
+        value={[20, 60]}
+        thumbTitle="Interest rate"
+        hideButtons
+      />
+    )
+
+    expect(getAllByRole('slider', { name: 'Interest rate' })).toHaveLength(
+      2
+    )
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
+  it('should prefer aria-label and label over thumbTitle', () => {
+    const { rerender, getByRole } = render(
+      <Slider
+        {...props}
+        label={undefined}
+        aria-label="Amount"
+        thumbTitle="Interest rate"
+      />
+    )
+
+    expect(getByRole('slider', { name: 'Amount' })).toBe(
+      getRangeElement(0)
+    )
+
+    rerender(<Slider {...props} thumbTitle="Interest rate" />)
+
+    expect(getByRole('slider', { name: 'Label' })).toBe(getRangeElement(0))
+  })
+
   it('should set aria-invalid and aria-required on the range input', () => {
     render(<Slider {...props} aria-invalid="true" aria-required="true" />)
 

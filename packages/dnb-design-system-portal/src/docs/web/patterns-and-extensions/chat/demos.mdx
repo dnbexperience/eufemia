@@ -1,0 +1,49 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/demos
+  - /web/extensions/ai/demos
+  - /uilib/extensions/ai/demos
+---
+
+import * as Examples from './Examples'
+
+## Examples
+
+### Human support chat
+
+Messages can come from people without an AI service. Use `from="user"` for the current user and `from="assistant"` for the support adviser. Provide their names and avatars, and omit `aiGenerated`. `scrollBehavior="end"` follows the latest messages while preserving the reader's position when they scroll back. The application owns delivery and any typing signal.
+
+<Examples.HumanSupportChat />
+
+### Full chat experience
+
+A complete chat with an AI assistant. Choose a suggestion or write a message, e.g. "Block my card" or "Compare my spending", to see the tools, answer and sources stream in. Press stop to end the reply, or regenerate the last answer.
+
+The demo uses scripted replies and local chat state. Connect your own messages, status, send, stop and regenerate actions to the components in your app.
+
+New chat opens an empty conversation and clears any draft or pending reply. The demo content and component labels are in English. See [Translations](/web/patterns-and-extensions/chat/translations/) for changing component labels; your application supplies translated chat content.
+
+<Examples.ChatExample />
+
+### Chat window and customer-service handover
+
+Compose a chat window with Dialog for its keyboard focus, close controls and responsive modal behavior. The input uses the large radius token inside the window. Suggestions sit above the input; the application owns sending them. A customer-service reply uses the assistant side with a headset avatar and no AI-generated label.
+
+<Examples.ChatWindow />
+
+### Streamed reply announcements
+
+The application keeps a separate `AriaLive` region mounted and updates it once when the reply ends, including when Stop preserves a partial answer. The conversation's automatic live announcements are disabled to avoid duplicates. See [Screen reader announcements](/web/patterns-and-extensions/chat/integrations/#screen-reader-announcements) for the application helper and failure handling.
+
+<Examples.ChatAnnouncements />
+
+### Chat with compact input
+
+<Examples.ChatCompact />
+
+### Chat with content in the conversation
+
+User messages are placed on the right. Content like a list can be shown without a bubble by using `variant="plain"`.
+
+<Examples.ChatConversation />

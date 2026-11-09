@@ -686,16 +686,14 @@ resource "aws_athena_workgroup" "analytics" {
 # Lambda
 # ---------------------------------------------------------------------------
 
-# Pre-created out-of-band by an account admin and only referenced here. See the
-# "One-time bootstrap" section in README.md for its trust policy and permissions.
-data "aws_iam_role" "lambda" {
-  name = "${local.function_name}-role"
+# The OIDC deploy role may create these roles only under these names and with
+# this boundary, and attach only AWSLambdaBasicExecutionRole plus each role's
+# own policy, which lives in the OIDC federation repo.
+locals {
+  lambda_permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
 }
 
-# The OIDC deploy role may create this role only under this name and with this
-# boundary, and attach only the two policies below; snapshot-read lives in the
-# OIDC federation repo.
-data "aws_iam_policy_document" "dashboard_assume" {
+data "aws_iam_policy_document" "lambda_assume" {
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -706,10 +704,54 @@ data "aws_iam_policy_document" "dashboard_assume" {
   }
 }
 
+resource "aws_iam_role" "analytics" {
+  name                 = "${local.function_name}-lambda"
+  assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
+  permissions_boundary = local.lambda_permissions_boundary
+  tags                 = local.tags
+
+  lifecycle {
+    # A rename would delete a role the deploy role cannot recreate.
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "analytics_collect" {
+  role       = aws_iam_role.analytics.name
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-collect"
+}
+
+resource "aws_iam_role_policy_attachment" "analytics_logs" {
+  role       = aws_iam_role.analytics.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role" "snapshot" {
+  name                 = "${local.function_name}-snapshot-lambda"
+  assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
+  permissions_boundary = local.lambda_permissions_boundary
+  tags                 = local.tags
+
+  lifecycle {
+    # A rename would delete a role the deploy role cannot recreate.
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "snapshot_build" {
+  role       = aws_iam_role.snapshot.name
+  policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-snapshot-build"
+}
+
+resource "aws_iam_role_policy_attachment" "snapshot_logs" {
+  role       = aws_iam_role.snapshot.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
 resource "aws_iam_role" "dashboard" {
   name                 = "eufemia-${var.environment}-dashboard-lambda"
-  assume_role_policy   = data.aws_iam_policy_document.dashboard_assume.json
-  permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
+  assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
+  permissions_boundary = local.lambda_permissions_boundary
   tags                 = local.tags
 
   lifecycle {
@@ -736,7 +778,7 @@ resource "aws_cloudwatch_log_group" "lambda" {
 
 resource "aws_lambda_function" "analytics" {
   function_name = local.function_name
-  role          = data.aws_iam_role.lambda.arn
+  role          = aws_iam_role.analytics.arn
   handler       = "index.handler"
   runtime       = "nodejs22.x"
   timeout       = 30
@@ -747,19 +789,20 @@ resource "aws_lambda_function" "analytics" {
 
   environment {
     variables = {
-      NODE_OPTIONS     = "--enable-source-maps"
-      DATA_BUCKET      = aws_s3_bucket.data.id
-      GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE       = aws_glue_catalog_table.portal_views.name
-      ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
+      NODE_OPTIONS = "--enable-source-maps"
+      DATA_BUCKET  = aws_s3_bucket.data.id
 
       # Shared secret for the X-Edge-Auth origin check (injected by Akamai).
       EDGE_AUTH_SECRET = var.edge_auth_secret
     }
   }
 
-  depends_on = [aws_cloudwatch_log_group.lambda]
-  tags       = local.tags
+  depends_on = [
+    aws_cloudwatch_log_group.lambda,
+    aws_iam_role_policy_attachment.analytics_collect,
+    aws_iam_role_policy_attachment.analytics_logs,
+  ]
+  tags = local.tags
 }
 
 # ---------------------------------------------------------------------------
@@ -938,8 +981,8 @@ resource "aws_lambda_function" "dashboard_read" {
 # ---------------------------------------------------------------------------
 
 # Regenerates the dashboard snapshot on a schedule so the read Lambda can stay
-# read-only. Runs under the analytics role (Athena + S3 write) and reuses the
-# shared build artifact (index.snapshot).
+# read-only. Runs under its own role (Athena + S3 write) and reuses the shared
+# build artifact (index.snapshot).
 resource "aws_cloudwatch_log_group" "snapshot" {
   name              = "/aws/lambda/eufemia-${var.environment}-analytics-snapshot"
   retention_in_days = 30
@@ -948,7 +991,7 @@ resource "aws_cloudwatch_log_group" "snapshot" {
 
 resource "aws_lambda_function" "snapshot" {
   function_name = "eufemia-${var.environment}-analytics-snapshot"
-  role          = data.aws_iam_role.lambda.arn
+  role          = aws_iam_role.snapshot.arn
   handler       = "index.snapshot"
   runtime       = "nodejs22.x"
   timeout       = 900
@@ -974,8 +1017,12 @@ resource "aws_lambda_function" "snapshot" {
     }
   }
 
-  depends_on = [aws_cloudwatch_log_group.snapshot]
-  tags       = local.tags
+  depends_on = [
+    aws_cloudwatch_log_group.snapshot,
+    aws_iam_role_policy_attachment.snapshot_build,
+    aws_iam_role_policy_attachment.snapshot_logs,
+  ]
+  tags = local.tags
 }
 
 resource "aws_cloudwatch_event_rule" "snapshot" {

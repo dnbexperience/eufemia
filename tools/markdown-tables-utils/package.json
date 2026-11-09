@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "vitest run",
-    "lint": "node ../../node_modules/.bin/eslint **/*.ts"
+    "lint": "node ../../node_modules/.bin/eslint --quiet **/*.ts"
   },
   "devDependencies": {
     "vitest": "4.1.12"

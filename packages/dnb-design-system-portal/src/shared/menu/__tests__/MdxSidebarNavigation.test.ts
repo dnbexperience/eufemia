@@ -67,9 +67,32 @@ describe('MDX-defined Portal navigation', () => {
     const components = tree().sections[0].items.find(
       ({ path }) => path === 'web/components'
     )
-    const [overview, ...items] = components.subheadings
-    expect(overview.title).toBe('Components by category')
-    const general = items.filter(({ order }) => !order)
+    const [overview, heading, ...items] = components.subheadings
+    expect(overview).toMatchObject({
+      title: 'Components by category',
+      icon: 'layout_grid',
+    })
+    expect(toSidebarMenuData([overview], () => undefined)[0].icon).toBe(
+      graphics.layout_grid
+    )
+    expect(heading).toMatchObject({
+      title: 'Main components',
+      isMenuGroup: true,
+      isMenuLink: false,
+    })
+    expect(toSidebarMenuData([heading], () => undefined)[0]).toMatchObject(
+      {
+        type: 'header',
+        to: undefined,
+        items: expect.arrayContaining([
+          expect.objectContaining({
+            text: 'Accordion',
+            to: 'web/components/accordion',
+          }),
+        ]),
+      }
+    )
+    const general = heading.subheadings
     const titles = general.map(({ title }) => title)
     expect(titles).toEqual([...titles].sort((a, b) => a.localeCompare(b)))
     expect(titles).toEqual(
@@ -97,7 +120,7 @@ describe('MDX-defined Portal navigation', () => {
       'Utilities',
       'Fragments',
     ])
-    expect(items.slice(general.length)).toEqual(groups)
+    expect(items).toEqual(groups)
     const expectedGroups = {
       Graphics: ['Country flags', 'Icons', 'Logos'],
       'Formatting and typography': [
@@ -429,14 +452,16 @@ describe('MDX-defined Portal navigation', () => {
     ).toBeUndefined()
   })
 
-  it('keeps icons only on top-level navigation entries', () => {
+  it('keeps nested navigation icon-free except for the category overview', () => {
     const { shared, sections } = tree()
     for (const item of [
       ...shared,
       ...sections.flatMap(({ items }) => items),
     ]) {
       expect(
-        flatten(item.subheadings ?? []).filter(({ icon }) => icon)
+        flatten(item.subheadings ?? []).filter(
+          ({ icon, path }) => icon && path !== 'web/components/overview'
+        )
       ).toEqual([])
     }
     expect(shared.find(({ id }) => id === 'design-foundations').icon).toBe(
@@ -444,7 +469,7 @@ describe('MDX-defined Portal navigation', () => {
     )
     expect(
       sections[0].items.find(({ id }) => id === 'web-components').icon
-    ).toBe('layout_grid')
+    ).toBe('list')
   })
 
   it('combines Installation and First steps without a duplicate menu page', () => {
@@ -629,7 +654,7 @@ describe('MDX-defined Portal navigation', () => {
     expect(patterns.subheadings.map(({ title }) => title)).toEqual([
       'Using patterns and extensions',
       'Sidebar menu',
-      'AI components',
+      'Chat components',
       'Payment card',
       'Vipps wallet button',
       'Table of contents',

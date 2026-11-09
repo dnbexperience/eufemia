@@ -55,7 +55,7 @@ describe('restoreScrollPosition', () => {
 
     expect(scrollToSpy).toHaveBeenCalledWith({
       top: 300,
-      behavior: 'auto',
+      behavior: 'instant',
     })
   })
 
@@ -103,6 +103,28 @@ describe('restoreScrollPosition', () => {
 })
 
 describe('useScrollPosition', () => {
+  it('does not replay the saved position after the user interacts during refresh', () => {
+    const frame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockReturnValue(1)
+    document.documentElement.setAttribute(
+      'data-portal-scroll-interacted',
+      'true'
+    )
+    function Consumer() {
+      useScrollPosition()
+      return null
+    }
+    const { unmount } = render(
+      createElement(MemoryRouter, null, createElement(Consumer))
+    )
+    expect(frame).not.toHaveBeenCalled()
+    unmount()
+    document.documentElement.removeAttribute(
+      'data-portal-scroll-interacted'
+    )
+  })
+
   it('resets page navigation instantly even when the document scrolls smoothly', () => {
     const scrollTo = vi
       .spyOn(window, 'scrollTo')

@@ -598,15 +598,17 @@ test('skips the physics download for reduced motion', async ({ page }) => {
   await page
     .getByRole('button', { name: 'Switch brand to Sbanken', exact: true })
     .hover()
-  const design = page
+  const cards = page
     .getByRole('navigation', { name: 'Get started' })
     .getByRole('link')
-    .first()
-  await design.hover()
-  await expect(design.locator('span[aria-hidden]').first()).toHaveCSS(
-    'transform',
-    'none'
-  )
+  for (const card of await cards.all()) {
+    await card.hover()
+    const artwork = card.locator('svg[aria-hidden]')
+    await expect(artwork).toBeVisible()
+    for (const part of await artwork.locator('g, path, rect').all()) {
+      await expect(part).toHaveCSS('transition-property', 'none')
+    }
+  }
   await page.clock.fastForward(30_000)
   expect(requests).toHaveLength(0)
 })

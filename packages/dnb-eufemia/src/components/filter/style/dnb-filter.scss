@@ -104,20 +104,25 @@
     gap: 1rem;
 
     margin-top: 1rem;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
 
     border-radius: var(--token-radius-xl);
     background-color: var(--token-color-background-neutral);
 
     .dnb-filter__hr {
-      width: calc(100% + 2rem);
-      margin-left: -1rem;
+      width: calc(100% + 3rem);
+      margin-left: -1.5rem;
     }
 
     .dnb-accordion__tertiary-content {
       margin-left: 1rem;
-      padding: 0.5rem 0.5rem 0;
+      padding: 0 0.5rem;
       border-radius: var(--token-radius-md);
+    }
+
+    // Only rendered while the group is open, so closed groups keep the button height
+    .dnb-filter__item-content {
+      padding-top: 0.5rem;
     }
   }
 
@@ -131,7 +136,7 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    gap: 1rem;
+    gap: 0;
   }
 
   // Only a fallback for when skeleton loading is shown
