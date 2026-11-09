@@ -80,6 +80,62 @@ test('supports native keyboard result selection and Escape', async ({
   await expect(input).toBeFocused()
 })
 
+for (const name of [
+  'Search components asynchronously',
+  'Search components asynchronously in a panel',
+]) {
+  test(`${name} waits for data and cancels cleared queries`, async ({
+    page,
+  }) => {
+    const fixture = page.locator('[data-visual-test="search-async"]')
+    const input = fixture.getByRole('combobox', { name, exact: true })
+    const search = fixture.locator('.dnb-search').filter({
+      has: page.getByRole('combobox', { name, exact: true }),
+    })
+    const results = page.getByRole('listbox', { name, exact: true })
+    await page.clock.install()
+
+    await input.click()
+    await expect(input).toHaveAttribute('aria-expanded', 'false')
+    await expect(page.locator('.dnb-search__panel')).toHaveCount(0)
+    await input.fill('But')
+    await expect(search).toHaveClass(/dnb-autocomplete--show-indicator/)
+    await expect(input).toHaveAttribute('aria-expanded', 'false')
+    await expect(page.locator('.dnb-search__panel')).toHaveCount(0)
+
+    await search.locator('.dnb-input__clear-button').click()
+    await page.clock.runFor(600)
+    await expect(input).toHaveValue('')
+    await expect(input).toHaveAttribute('aria-expanded', 'false')
+    await expect(search).not.toHaveClass(
+      /dnb-autocomplete--show-indicator/
+    )
+    await expect(page.locator('.dnb-search__panel')).toHaveCount(0)
+
+    await input.fill('But')
+    await page.clock.runFor(600)
+    await expect(results).toBeVisible()
+    await expect(results.getByRole('option').first()).toHaveText('Button')
+    await page.clock.runFor(250)
+    await input.press('ArrowDown')
+    await expect(input).toHaveAttribute('aria-activedescendant', /option-/)
+    await input.press('Enter')
+    await page.clock.runFor(250)
+    await expect(input).toHaveAttribute('aria-expanded', 'false')
+
+    await input.fill('zzzz')
+    await page.clock.runFor(600)
+    await expect(results).toBeVisible()
+    await expect(
+      results.locator('.dnb-autocomplete__no-options')
+    ).toBeVisible()
+    await search.locator('.dnb-input__clear-button').click()
+    await page.clock.runFor(250)
+    await expect(input).toHaveAttribute('aria-expanded', 'false')
+    await expect(page.locator('.dnb-search__panel')).toHaveCount(0)
+  })
+}
+
 test('keeps both input types within a narrow container', async ({
   page,
 }) => {
