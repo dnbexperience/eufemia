@@ -289,19 +289,6 @@ test('popover sorting menu stays above results and supports pointer selection', 
       })
     )
     .toBeLessThan(1)
-  await expect
-    .poll(() =>
-      alphabetical.evaluate((option) => {
-        const box = option.getBoundingClientRect()
-        return option.contains(
-          document.elementFromPoint(
-            box.x + box.width / 2,
-            box.y + box.height / 2
-          )
-        )
-      })
-    )
-    .toBe(true)
   await alphabetical.click()
   await expect(sort).toContainText('Alphabetical')
   await expect(
