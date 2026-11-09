@@ -399,7 +399,7 @@ test('aligns the portaled surface with the input', async ({ page }) => {
       .poll(async () => {
         const target = await input.boundingBox()
         const surface = await popover.boundingBox()
-        return Math.abs(surface.y - target.y - target.height - 24)
+        return Math.abs(surface.y - target.y - target.height - 8)
       })
       .toBeLessThan(1)
     await input.press('Escape')
