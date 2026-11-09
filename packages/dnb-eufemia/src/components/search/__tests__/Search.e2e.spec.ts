@@ -53,6 +53,40 @@ for (const fixture of [
   })
 }
 
+for (const fixture of ['search-hero', 'search-autocomplete-hero']) {
+  test(`${fixture} replaces the shortcut with an aligned clear button`, async ({
+    page,
+  }) => {
+    const search = page.locator(
+      `[data-visual-test="${fixture}"] .dnb-search`
+    )
+    const input = search.locator('input')
+    const shortcut = search.locator('kbd')
+    const clear = search.locator('.dnb-input__clear-button')
+    await input.scrollIntoViewIfNeeded()
+    await expect(shortcut).toBeVisible()
+    const width = (await input.boundingBox()).width
+
+    await input.fill('Button')
+    await expect(shortcut).toBeHidden()
+    await expect(clear).toBeVisible()
+    const inputBox = await input.boundingBox()
+    const clearBox = await clear.boundingBox()
+    expect(inputBox.x + inputBox.width - clearBox.x - clearBox.width).toBe(
+      16
+    )
+    expect(inputBox.width).toBe(width)
+
+    await clear.click()
+    await expect(input).toHaveValue('')
+    await expect(input).toBeFocused()
+    await expect(shortcut).toBeVisible()
+    await expect(clear).toBeDisabled()
+    await expect(clear).toHaveAttribute('aria-hidden', 'true')
+    expect((await input.boundingBox()).width).toBe(width)
+  })
+}
+
 test('supports native keyboard result selection and Escape', async ({
   page,
 }) => {

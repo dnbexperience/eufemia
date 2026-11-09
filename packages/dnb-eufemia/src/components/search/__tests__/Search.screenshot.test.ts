@@ -49,6 +49,25 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
 
+    it.each(['hero', 'autocomplete-hero'])(
+      'matches the %s clear button',
+      async (variant) => {
+        await makeScreenshot({
+          selector: `[data-visual-test="search-${variant}"]`,
+          simulate: [
+            {
+              action: 'focus',
+              selector: `[data-visual-test="search-${variant}"] input`,
+            },
+            { keypress: 'b' },
+            ...(variant === 'autocomplete-hero'
+              ? [{ keypress: 'Escape' }]
+              : []),
+          ],
+        })
+      }
+    )
+
     it('matches the opt-in pill shape for both inputs', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="search-pill"]',
@@ -75,6 +94,11 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       async (mode) => {
         await makeScreenshot({
           selector: '[data-visual-test="search-panel"]',
+          executeBeforeSimulate: () => {
+            document
+              .querySelector('[data-visual-test="search-panel"]')
+              .scrollIntoView({ block: 'start' })
+          },
           simulate: [
             {
               action: 'focus',
