@@ -24,6 +24,8 @@ Use `onType` to receive query changes and load suggestions. Use `onChange` to ha
 
 `onSubmit` handles Enter when no result is active or selected. Selecting a result keeps the query by default.
 
+With `mode="async"`, use `updateData` when results arrive and `showNoOptionsItem` when the search returns no results. `showIndicator` displays loading inside the input without opening an empty panel. Clearing an asynchronous query should clear the data, hide loading, and ignore any pending response.
+
 <PropertiesTable props={AutocompleteEvents} />
 
 The callbacks also provide methods such as `updateData`, `showIndicator`, `hideIndicator`, and `setHidden`. Search.Panel also passes `close` to its children render function for custom actions that close the surface. See [Autocomplete events](/web/components/autocomplete/events) and [dynamically changing data](/web/components/autocomplete/events#dynamically-change-data).

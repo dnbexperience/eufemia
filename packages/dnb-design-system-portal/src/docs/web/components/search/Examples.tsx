@@ -83,21 +83,68 @@ export const SearchAutocompleteCompact = () => (
 
 export const SearchAsync = () => (
   <ComponentBox data-visual-test="search-async">
-    <Search.Autocomplete
-      label="Search components"
-      mode="async"
-      onType={({ value, updateData, setHidden, showNoOptionsItem }) => {
-        const results = ['Button', 'Input', 'Table'].filter((item) =>
-          item.toLowerCase().includes(value.toLowerCase())
-        )
-        updateData(value.trim() ? results : [])
-        if (!value.trim()) {
+    {() => {
+      const onType = ({
+        value,
+        event,
+        updateData,
+        setHidden,
+        setVisible,
+        showIndicator,
+        hideIndicator,
+        showNoOptionsItem,
+        debounce,
+      }) => {
+        if (value.trim()) {
+          showIndicator()
+        } else {
+          updateData([])
           setHidden()
-        } else if (!results.length) {
-          showNoOptionsItem()
+          hideIndicator()
         }
-      }}
-    />
+
+        debounce(
+          ({ value, input }) => {
+            if (!value.trim()) {
+              return
+            }
+
+            const results = ['Button', 'Input', 'Table'].filter((item) =>
+              item.toLowerCase().includes(value.trim().toLowerCase())
+            )
+            if (document.activeElement === input) {
+              setVisible()
+            }
+            updateData(results)
+            hideIndicator()
+            if (!results.length) {
+              showNoOptionsItem()
+            }
+          },
+          { value, input: event.target },
+          500
+        )
+      }
+
+      return (
+        <Flex.Stack>
+          <Search.Autocomplete
+            label="Search components asynchronously"
+            labelSrOnly={false}
+            mode="async"
+            onType={onType}
+          />
+          <Search.Panel
+            label="Search components asynchronously in a panel"
+            labelSrOnly={false}
+            variant="compact"
+            shortcut
+            mode="async"
+            onType={onType}
+          />
+        </Flex.Stack>
+      )
+    }}
   </ComponentBox>
 )
 
