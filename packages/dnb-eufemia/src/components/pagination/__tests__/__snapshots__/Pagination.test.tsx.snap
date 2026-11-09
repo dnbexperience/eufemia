@@ -1652,7 +1652,7 @@ html[data-visual-test] .dnb-progress-indicator {
   text-decoration: none;
 }
 .dnb-pagination__button {
-  max-width: 3.5rem;
+  max-width: 3.3125rem;
 }
 .dnb-pagination__button.dnb-button--secondary {
   --button-color-border--hover: var(--token-color-stroke-action-hover);
