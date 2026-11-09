@@ -550,7 +550,23 @@ describe('ProgressIndicator scss', () => {
     )
 
     expect(css).toMatch(
-      /\.dnb-progress-indicator--full-width\.dnb-progress-indicator--horizontal \.dnb-progress-indicator__label \{\s*flex-shrink: 0;\s*max-width: 50%;\s*font-size: var\(--font-size-small\);\s*line-height: var\(--line-height-small\);\s*\}/
+      /\.dnb-progress-indicator--full-width\.dnb-progress-indicator--horizontal \.dnb-progress-indicator__label \{\s*flex-shrink: 0;\s*max-width: 50%;[^}]*font-size: var\(--font-size-small\);\s*line-height: var\(--line-height-small\);\s*\}/
     )
+  })
+
+  it('keeps 1rem between the bar and the horizontal label of the linear type at size small', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-progress-indicator.scss'))
+    )
+
+    const circularSmall = css.search(
+      /\.dnb-progress-indicator--horizontal\.dnb-progress-indicator--small \.dnb-progress-indicator__label \{\s*padding-left: 0\.5rem;\s*\}/
+    )
+    const linear = css.search(
+      /\.dnb-progress-indicator--full-width\.dnb-progress-indicator--horizontal \.dnb-progress-indicator__label \{[^}]*padding-left: 1rem;/
+    )
+
+    expect(circularSmall).toBeGreaterThan(-1)
+    expect(linear).toBeGreaterThan(circularSmall)
   })
 })

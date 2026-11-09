@@ -67,17 +67,20 @@ describe('convertMdxToMd', () => {
     resetUnhandledStandaloneMdxWarnings()
   })
 
-  it('includes the experimental notice once when composing AI documentation', async () => {
+  it('includes the experimental notice once when composing Chat documentation', async () => {
     const root = fs.mkdtempSync(
       path.join(os.tmpdir(), 'ai-experimental-md-')
     )
     const docsRoot = path.join(root, 'docs')
-    const directory = path.join(docsRoot, 'web/patterns-and-extensions/ai/Message')
+    const directory = path.join(
+      docsRoot,
+      'web/patterns-and-extensions/chat/Message'
+    )
     fs.mkdirSync(directory, { recursive: true })
     const inputPath = path.join(directory, '../Message.mdx')
     fs.writeFileSync(
       inputPath,
-      "---\ntitle: Ai.Message\n---\n\nimport Info from './Message/info'\n\n<Info />"
+      "---\ntitle: Chat.Message\n---\n\nimport Info from './Message/info'\n\n<Info />"
     )
     fs.writeFileSync(
       path.join(directory, 'info.mdx'),
@@ -94,7 +97,7 @@ describe('convertMdxToMd', () => {
       })
       expect(output.match(/\*\*Experimental:\*\*/g)).toHaveLength(1)
       expect(output).toContain(
-        'The AI extension and its component APIs may change in the future.'
+        'The Chat extension and its component APIs may change in the future.'
       )
       expect(output.indexOf('**Experimental:**')).toBeLessThan(
         output.indexOf('## Description')
@@ -1183,9 +1186,7 @@ describe('convertMdxToMd', () => {
       '- [Develop](/web/get-started/quick-start/) – Get started with installation guides'
     )
     expect(output).toContain('## Resources')
-    expect(output).toContain(
-      '- [Components](/web/components/overview/)'
-    )
+    expect(output).toContain('- [Components](/web/components/overview/)')
     expect(output).toContain(
       '- [AI](/web/ai-tools-and-resources/ai/mcp-universe/)'
     )

@@ -75,26 +75,15 @@ html[show-dev-grid] .dev-grid > .dnb-h--xx-large {
 html[show-dev-grid] .dev-grid {
   @include PortalMixins.gridStyle();
 
-  --grid-rgb: 220 220 220;
+  --grid-rgb: 0 0 0;
+  --grid-opacity: 0.04;
+  --grid-opacity-bold: 0.08;
+}
 
-  /* stylelint-disable no-descending-specificity */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  p > a,
-  p > code,
-  p > small {
-    background-color: rgb(255 255 122 / 35%);
-
-    :only-child {
-      background-color: rgb(0 200 200 / 25%);
-    }
-  }
-  /* stylelint-enable */
+html[show-dev-grid] body.eufemia-theme__color-scheme--dark .dev-grid {
+  --grid-rgb: 255 255 255;
+  --grid-opacity: 0.025;
+  --grid-opacity-bold: 0.05;
 }
 
 body.eufemia-theme__color-scheme--dark .typography-box {

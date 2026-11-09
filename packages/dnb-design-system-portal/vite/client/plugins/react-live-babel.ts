@@ -1,9 +1,11 @@
 import path from 'node:path'
+import { createRequire } from 'node:module'
 import type { Plugin } from 'vite'
 import type BabelTypes from '@babel/types'
-import { injectScope } from './inject-scope'
+import { injectScope } from './inject-scope.ts'
 
-const portalRoot = path.resolve(__dirname, '..', '..', '..')
+const require = createRequire(import.meta.url)
+const portalRoot = path.resolve(import.meta.dirname, '..', '..', '..')
 
 export default function reactLiveBabelPlugin(): Plugin {
   return {

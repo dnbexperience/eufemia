@@ -77,12 +77,12 @@ export type SwitchProps = {
    */
   onChange?: SwitchOnChange
   /**
-   * Will be called on state changes made by the user, but with a delay. This way the user sees the animation before e.g. an error will be removed. Returns a boolean `{ checked, event }`.
-   */
-  /**
-   * Will be called on click.
+   * Will be called on click, and when the user presses Space or Enter. Call `preventDefault()` to keep the switch from changing.
    */
   onClick?: (args: SwitchOnClickParams) => void
+  /**
+   * Will be called on state changes made by the user, but with a delay. This way the user sees the animation before e.g. an error will be removed. Returns a boolean { checked, event }.
+   */
   onChangeEnd?: SwitchOnChange
   /**
    * By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.

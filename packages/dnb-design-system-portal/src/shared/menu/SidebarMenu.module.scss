@@ -1,4 +1,5 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+@use './logo-background';
 
 :global {
   :root {
@@ -38,6 +39,7 @@
     var(--token-color-stroke-neutral-subtle);
 
   :global(.dnb-sidebar-menu-responsive-aside__content) {
+    padding-block-start: 0;
     padding-inline: 1.5rem;
   }
 
@@ -118,14 +120,45 @@
 }
 
 .sidebarLogoStyle {
+  position: sticky;
+  z-index: 5;
+  top: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  align-self: center;
-  width: fit-content;
-  margin: 1.0625rem auto;
+  padding-block: 0.75rem 0.5rem;
 
-  background-color: var(--token-color-background-neutral);
+  &[data-scrolled='true'] > a::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  > a {
+    position: relative;
+    isolation: isolate;
+
+    display: flex;
+    align-items: center;
+    min-height: 2.5rem;
+    outline: none;
+
+    &::before {
+      @include logo-background.background();
+    }
+
+    @include utilities.focusVisible() {
+      &::after {
+        @include logo-background.focus();
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::before {
+        transition: none;
+      }
+    }
+  }
 
   :global(svg path) {
     stroke: none;

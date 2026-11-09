@@ -18,9 +18,9 @@ import { defineBrowserCommand } from '@vitest/browser-playwright'
 import blazediff from '@blazediff/core'
 import { PNG } from 'pngjs'
 
-import type { MakeScreenshotResult } from './screenshotEngine'
-import { recordFailure } from '../failures'
-import { createSizeMismatchDiff } from '../sizeMismatchDiff'
+import type { MakeScreenshotResult } from './screenshotEngine.ts'
+import { recordFailure } from '../failures.ts'
+import { createSizeMismatchDiff } from '../sizeMismatchDiff.ts'
 
 export type LoadImagePayload = {
   imagePath: string

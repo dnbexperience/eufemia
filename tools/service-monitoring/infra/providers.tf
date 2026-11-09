@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.10"
+  required_version = "~> 1.14"
 
   backend "s3" {
     workspace_key_prefix = "service-monitoring/workspaces"

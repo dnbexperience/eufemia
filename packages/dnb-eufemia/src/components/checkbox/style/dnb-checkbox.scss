@@ -467,6 +467,7 @@
 
   &__input:indeterminate ~ &__button {
     --checkbox-color-border: var(--checkbox-color-border__indeterminate);
+    --checkbox-border-width--default: 0.09375rem;
     background-color: var(--checkbox-color-background__indeterminate);
   }
 
@@ -526,6 +527,7 @@
     --checkbox-color-border: var(
       --checkbox-color-border__indeterminate--disabled
     );
+    --checkbox-border-width--default: 0.0625rem;
     background-color: var(
       --checkbox-color-background__indeterminate--disabled
     );
@@ -588,6 +590,7 @@
   // General
   &__status--error &__input:not([disabled]) ~ &__button {
     --checkbox-color-border: var(--checkbox-color-border--error);
+    --checkbox-border-width--default: 0.0625rem;
     background-color: var(--checkbox-color-background-off--error);
   }
 

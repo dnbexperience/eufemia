@@ -11,6 +11,28 @@
 
 const search = location.search
 
+try {
+  const stored = sessionStorage.getItem(
+    'portal-sidebar-menu-open-items-shared-scroll-position'
+  )
+  if (
+    stored !== null &&
+    Number.isFinite(Number(stored)) &&
+    Number(stored) > 0
+  ) {
+    const style = document.createElement('style')
+    style.id = 'portal-sidebar-scroll-restoration'
+    style.textContent =
+      '#portal-sidebar-menu .portal-sidebar-scroll-view{visibility:hidden!important}'
+    document.head.appendChild(style)
+    document.addEventListener('DOMContentLoaded', () => style.remove(), {
+      once: true,
+    })
+  }
+} catch {
+  // The menu remains visible when storage is unavailable.
+}
+
 if (
   search.includes('fullscreen') ||
   search.includes('focusmode') ||

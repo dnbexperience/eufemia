@@ -11,16 +11,24 @@ on:
       - '!release'
       - '!beta'
       - '!alpha'
+  # A release pull request runs once, when it is opened. A pull request from a
+  # fork has no push run in this repository, so it runs on every update. Any
+  # other pull request gets the push run, so here its jobs are skipped under
+  # another name: a skipped job counts as success, and must never stand in for
+  # the push check of the same name.
   pull_request:
     branches:
+      - 'main'
       - 'release'
       - 'beta'
       - 'alpha'
       - 'next'
-    types: [opened]
+    types: [opened, synchronize, reopened]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # A run whose jobs are all skipped gets a group of its own, so it cannot
+  # cancel a release pull request run that is in progress.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}${{ !(github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')) && format('-{0}', github.run_id) || '' }}
   cancel-in-progress: true
 
 permissions:
@@ -37,13 +45,15 @@ env:
 
 jobs:
   changes:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')
     uses: ./.github/workflows/detect-standalone-tools-only.yml
 
   visual-regression:
-    name: Run visual-regression tests
+    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')) && 'Run visual-regression tests' || 'Run visual-regression tests (fork pull requests only)' }}
     needs: changes
     # A skipped job counts as success for the required check; it still runs if detection fails.
-    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
+    # `!cancelled()` would also run it when `changes` is skipped, so the pull request rule is repeated here.
+    if: ${{ !cancelled() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')) && needs.changes.outputs.standalone-tools-only != 'true' }}
 
     runs-on: macos-26
 
@@ -178,16 +188,17 @@ jobs:
         run: |
           (
             while sleep 60; do
-              ps -axo rss,comm | awk '
+              swap_used="$(sysctl -n vm.swapusage | awk '{ print $6 }')"
+              ps -axo rss,comm | awk -v swap_used="$swap_used" '
                 /Nightly.app/ { firefox += $1 }
                 /node$/ { node += $1 }
-                END { printf "Memory: Firefox %.0f MiB, Node %.0f MiB\n", firefox / 1024, node / 1024 }
+                END { printf "Memory: Firefox %.0f MiB, Node %.0f MiB, swap used %s\n", firefox / 1024, node / 1024, swap_used }
               '
-              sysctl vm.swapusage
             done
-          ) &
+          ) 2>/dev/null &
           monitor_pid=$!
-          trap 'kill "$monitor_pid" 2>/dev/null || true' EXIT
+          # Stop the pending sleep too, so no orphaned process is left for the runner to clean up
+          trap 'pkill -P "$monitor_pid" 2>/dev/null || true; kill "$monitor_pid" 2>/dev/null || true' EXIT
           yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
 
       - name: Store visual test artifacts

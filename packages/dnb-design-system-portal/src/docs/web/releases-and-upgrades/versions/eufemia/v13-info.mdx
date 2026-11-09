@@ -334,6 +334,23 @@ After:
  }
 ```
 
+## Chat extension
+
+The `Ai` extension is now named [Chat](/web/patterns-and-extensions/chat/) because the components support human-to-human conversations as well as AI experiences.
+
+```diff
+-import { Ai } from '@dnb/eufemia/extensions'
+-import '@dnb/eufemia/extensions/ai/style'
++import { Chat } from '@dnb/eufemia/extensions'
++import '@dnb/eufemia/extensions/chat/style'
+```
+
+Replace `Ai.Message`, `Ai.Conversation` and other namespace uses with `Chat.*`. Named component imports move from `@dnb/eufemia/extensions/ai` to `@dnb/eufemia/extensions/chat`; public types use the `Chat` prefix, such as `ChatMessageProps`. The optional virtualization driver and isolated styles are also available under `extensions/chat/Virtualization` and `extensions/chat/style/isolated`.
+
+**Ai remains available as a compatibility fallback for now.** Existing imports, `Ai*` types, locale imports and style entry points still use the same implementation. Existing `.dnb-ai-*` CSS classes and `--ai-*` custom properties remain unchanged. Documentation URLs redirect to Chat.
+
+Use the `Chat` namespace for translation overrides. Legacy `Ai` overrides still work; `Chat` takes precedence for keys provided in both namespaces. The extension remains experimental. AI-specific features such as `aiGenerated` are still opt-in; use them only when they describe the content correctly.
+
 ## Deprecations
 
 Deprecated APIs remain available for compatibility. Replacing them is recommended, but deprecation alone does not require a change to upgrade to v13. Removal is a separate breaking change and is documented explicitly.

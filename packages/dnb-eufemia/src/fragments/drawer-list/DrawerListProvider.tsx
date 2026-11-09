@@ -1172,6 +1172,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         closeOnSelection = false,
       } = {}
     ) => {
+      if (event && propsRef.current.disabled) {
+        return false
+      }
+
       if (itemToSelect === -1) {
         itemToSelect = null
       }

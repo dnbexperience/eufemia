@@ -1244,6 +1244,17 @@ describe('Pagination scss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('limits the page buttons to the Figma width of 53px', () => {
+    const css = loadScss(require.resolve('../style/dnb-pagination.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-pagination__button \{\s*max-width: 3\.3125rem;/
+    )
+    expect(css).toMatch(
+      /\.dnb-pagination__button--large-number \{\s*max-width: unset;/
+    )
+  })
+
   it('shows the current page in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-pagination.scss'))
 
@@ -1255,6 +1266,14 @@ describe('Pagination scss', () => {
     )
     expect(css).toMatch(
       /\.dnb-pagination__button\.dnb-button\[aria-current=page\]:focus-visible:not\(\[disabled\]\) \{\s*outline-color: CanvasText;/
+    )
+  })
+
+  it('places the previous and next buttons 40px apart and wraps them on narrow screens', () => {
+    const css = loadScss(require.resolve('../style/dnb-pagination.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-pagination__bar__skip \{\s*display: flex;\s*flex-wrap: wrap;\s*gap: 0\.5rem 2\.5rem;\s*\}/
     )
   })
 })

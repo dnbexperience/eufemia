@@ -25,8 +25,81 @@ test.describe('Grid', () => {
       state: 'attached',
     })
     const elem = page.locator('html[show-dev-grid="true"]')
-    expect(elem).toBeAttached()
+    await expect(elem).toBeAttached()
   })
+
+  for (const colorScheme of ['light', 'dark'] as const) {
+    test(`keeps the ${colorScheme} grid subtle and outside the sidebar`, async ({
+      page,
+    }) => {
+      await page.evaluate((scheme) => {
+        localStorage.setItem(
+          'eufemia-theme',
+          JSON.stringify({ colorScheme: scheme })
+        )
+      }, colorScheme)
+      await page.reload()
+      await waitForApp(page)
+
+      const sidebar = page.locator('#portal-sidebar-menu')
+      const heading = page.locator('main h1').first()
+      const headingBackground = await heading.evaluate(
+        (element) => getComputedStyle(element).backgroundColor
+      )
+      const sidebarItems = sidebar.locator('.dnb-sidebar-menu')
+      const sidebarBackgrounds = await sidebarItems.evaluateAll((items) =>
+        items.map((item) => getComputedStyle(item).backgroundColor)
+      )
+
+      await page.click('#portal-tools')
+      await page.click('#switch-grid')
+      await page.locator('.dnb-modal__close-button').click()
+      await expect(page.locator('#switch-grid')).toBeHidden()
+
+      await expect(page.locator('html')).toHaveAttribute(
+        'show-dev-grid',
+        'true'
+      )
+      await expect(sidebar.locator('.dev-grid')).toHaveCount(0)
+      expect(
+        await sidebarItems.evaluateAll((items) =>
+          items.map((item) => getComputedStyle(item).backgroundColor)
+        )
+      ).toEqual(sidebarBackgrounds)
+      expect(
+        await heading.evaluate(
+          (element) => getComputedStyle(element).backgroundColor
+        )
+      ).toBe(headingBackground)
+
+      const grid = page.locator('main .dev-grid').first()
+      const opacity = await grid.evaluate((element) => {
+        const style = getComputedStyle(element)
+        return {
+          minor: Number(style.getPropertyValue('--grid-opacity')),
+          major: Number(style.getPropertyValue('--grid-opacity-bold')),
+          background: getComputedStyle(element, '::after').backgroundImage,
+        }
+      })
+      expect(opacity.background).toContain('repeating-linear-gradient')
+      expect(opacity.minor).toBeGreaterThan(0)
+      expect(opacity.major).toBeGreaterThan(opacity.minor)
+      expect(opacity.major).toBeLessThanOrEqual(0.15)
+
+      await page.reload()
+      await waitForApp(page)
+      await expect(page.locator('html')).toHaveAttribute(
+        'show-dev-grid',
+        'true'
+      )
+
+      await page.click('#portal-tools')
+      await page.click('#switch-grid')
+      await expect(page.locator('html')).not.toHaveAttribute(
+        'show-dev-grid'
+      )
+    })
+  }
 
   test('font weight example grid is dimmed in dark mode', async ({
     page,

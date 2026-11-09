@@ -34,6 +34,7 @@ import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLay
 import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+import Context from '../../shared/Context'
 import { useSpacing } from '../space/SpacingUtils'
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -724,10 +725,21 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
   const id = useId(props.id)
   const { preventSelection, children, data } = props
 
+  // Include disabled from context (e.g. Provider or Form.Handler),
+  // so the open list ignores selection as well
+  const context = useContext(Context)
+  const { disabled } = extendPropsWithContext(
+    props,
+    dropdownDefaultProps,
+    pickFormElementProps(context?.formElement),
+    context?.Dropdown
+  )
+
   return (
     <DrawerListProvider
       {...(props as any)}
       id={id}
+      disabled={disabled}
       data={(data || children) as any}
       open={false}
       tagName="dnb-dropdown"

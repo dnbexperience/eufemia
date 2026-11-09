@@ -34,7 +34,7 @@ export function restoreScrollPosition({
       if (storedWindowScroll) {
         window.scrollTo({
           top: storedWindowScroll,
-          behavior: smooth ? 'smooth' : 'auto',
+          behavior: smooth ? 'smooth' : 'instant',
         })
       }
     }
@@ -73,9 +73,15 @@ export function useScrollPosition() {
   useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration
     window.history.scrollRestoration = 'manual'
-    requestAnimationFrame(() => {
-      restoreScrollPosition({ restoreWindow: !window.location.hash })
-    })
+    if (
+      !document.documentElement.hasAttribute(
+        'data-portal-scroll-interacted'
+      )
+    ) {
+      requestAnimationFrame(() => {
+        restoreScrollPosition({ restoreWindow: !window.location.hash })
+      })
+    }
 
     window.addEventListener('beforeunload', saveScrollPosition)
 

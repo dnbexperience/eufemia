@@ -1617,6 +1617,197 @@ describe('Wizard.Container', () => {
         totalSteps: 2,
       })
     })
+
+    it('should animate when navigating to the next step', async () => {
+      render(
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      await wait(50)
+      expect(document.querySelector('.appear-fx')).toBeNull()
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      await waitFor(() => {
+        expect(document.querySelector('.appear-fx')).toBeInTheDocument()
+      })
+    })
+
+    it('should not animate the active step when another step is added or removed', async () => {
+      const onStepChange = vi.fn()
+
+      render(
+        <Form.Handler defaultData={{ showStep: 'no' }}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <Field.Selection path="/showStep" variant="button">
+                <Field.Option value="no" title="Hide" />
+                <Field.Option value="yes" title="Show" />
+              </Field.Selection>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 2"
+              includeWhen={{ path: '/showStep', hasValue: 'yes' }}
+            >
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 3">
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const [hideButton, showButton] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button button')
+      )
+
+      await userEvent.click(showButton)
+      await wait(50)
+
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        expect.objectContaining({ totalSteps: 3 })
+      )
+      expect(document.querySelector('.appear-fx')).toBeNull()
+
+      await userEvent.click(hideButton)
+      await wait(50)
+
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        expect.objectContaining({ totalSteps: 2 })
+      )
+      expect(document.querySelector('.appear-fx')).toBeNull()
+    })
+
+    it('should not animate the last step when a step before it is removed', async () => {
+      const onStepChange = vi.fn()
+
+      render(
+        <Form.Handler defaultData={{ showStep: 'yes' }}>
+          <Wizard.Container
+            initialActiveIndex={2}
+            onStepChange={onStepChange}
+          >
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 2"
+              includeWhen={{ path: '/showStep', hasValue: 'yes' }}
+            >
+              <output>Step 2</output>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 3">
+              <output>Step 3</output>
+              <Field.Selection path="/showStep" variant="button">
+                <Field.Option value="no" title="Hide" />
+                <Field.Option value="yes" title="Show" />
+              </Field.Selection>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const [hideButton] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button button')
+      )
+
+      await userEvent.click(hideButton)
+      await wait(50)
+
+      expect(output()).toHaveTextContent('Step 3')
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        1,
+        'stepListModified',
+        expect.objectContaining({ totalSteps: 2 })
+      )
+      expect(document.querySelector('.appear-fx')).toBeNull()
+    })
+
+    it.each([
+      ['title', { title: 'Step 1' }, { title: 'Step 2' }],
+      [
+        'id',
+        { title: 'Step', id: 'step-1' },
+        { title: 'Step', id: 'step-2' },
+      ],
+      [
+        'translation id',
+        { title: <Translation id="Modal.dialogTitle" /> },
+        { title: <Translation id="HelpButton.title" /> },
+      ],
+    ])(
+      'should animate when the active step gets replaced by a step with another %s',
+      async (difference, firstStep, secondStep) => {
+        render(
+          <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
+            <Field.Selection path="/enabledStep" variant="button">
+              <Field.Option value="group-1" title="1" />
+              <Field.Option value="group-2" title="2" />
+            </Field.Selection>
+
+            <Wizard.Container>
+              <Wizard.Step
+                {...firstStep}
+                includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+              >
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step
+                {...secondStep}
+                includeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+              >
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step
+                title="Step 3"
+                includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+              >
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        const [groupOne] = Array.from(
+          document.querySelectorAll('.dnb-toggle-button button')
+        )
+
+        await userEvent.click(groupOne)
+
+        expect(output()).toHaveTextContent('Step 1')
+        await waitFor(() => {
+          expect(document.querySelector('.appear-fx')).toBeInTheDocument()
+        })
+      }
+    )
   })
 
   describe('async step change', () => {

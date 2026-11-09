@@ -3,7 +3,7 @@
  *
  * In-iframe client surface. Heavy lifting (navigation, screenshot,
  * diff) happens server-side via the `makeScreenshot` BrowserCommand
- * registered in `vitest.config.screenshots.ts`.
+ * registered in `vitest.config.screenshots.mts`.
  */
 
 import {
