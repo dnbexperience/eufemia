@@ -14,12 +14,106 @@ locals {
   }
 }
 
-data "aws_iam_role" "lambda" {
-  name = "${local.prefix}-lambda"
+# The OIDC deploy role may create these roles only under these names and with
+# this boundary, and attach only the policies below; each role's own policy
+# lives in the OIDC federation repo. The roles are delete-protected because a
+# rename would delete a role the deploy role cannot recreate.
+locals {
+  permissions_boundary  = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
+  tooling_policy_prefix = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.prefix}"
+  lambda_logs_policy    = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-data "aws_iam_role" "scheduler" {
-  name = "${local.prefix}-scheduler"
+data "aws_iam_policy_document" "lambda_assume" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "scheduler_assume" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["scheduler.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:SourceArn"
+      values   = [aws_scheduler_schedule_group.monitors.arn]
+    }
+  }
+}
+
+resource "aws_iam_role" "check" {
+  name                 = "${local.prefix}-check-lambda"
+  assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
+  permissions_boundary = local.permissions_boundary
+  tags                 = local.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "check" {
+  role       = aws_iam_role.check.name
+  policy_arn = "${local.tooling_policy_prefix}-check"
+}
+
+resource "aws_iam_role_policy_attachment" "check_logs" {
+  role       = aws_iam_role.check.name
+  policy_arn = local.lambda_logs_policy
+}
+
+resource "aws_iam_role" "notifier" {
+  name                 = "${local.prefix}-alarms-lambda"
+  assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
+  permissions_boundary = local.permissions_boundary
+  tags                 = local.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "notifier" {
+  role       = aws_iam_role.notifier.name
+  policy_arn = "${local.tooling_policy_prefix}-notify"
+}
+
+resource "aws_iam_role_policy_attachment" "notifier_logs" {
+  role       = aws_iam_role.notifier.name
+  policy_arn = local.lambda_logs_policy
+}
+
+resource "aws_iam_role" "scheduler" {
+  name                 = "${local.prefix}-scheduler-invoke"
+  assume_role_policy   = data.aws_iam_policy_document.scheduler_assume.json
+  permissions_boundary = local.permissions_boundary
+  tags                 = local.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "scheduler" {
+  role       = aws_iam_role.scheduler.name
+  policy_arn = "${local.tooling_policy_prefix}-invoke"
 }
 
 resource "aws_dynamodb_table" "state" {
@@ -62,7 +156,7 @@ resource "aws_cloudwatch_log_group" "monitor" {
 resource "aws_lambda_function" "monitor" {
   for_each                       = local.services
   function_name                  = "${local.prefix}-${lower(each.key)}"
-  role                           = data.aws_iam_role.lambda.arn
+  role                           = aws_iam_role.check.arn
   handler                        = "index.handler"
   runtime                        = "nodejs22.x"
   timeout                        = 480
@@ -78,13 +172,17 @@ resource "aws_lambda_function" "monitor" {
       NOTIFICATIONS_ENABLED   = tostring(var.notifications_enabled)
       GITHUB_TOKEN_SECRET_ARN = each.key == "CDN" ? "" : var.github_token_secret_arn
       }, each.key == "Analytics" ? {
-      # Read by name: the bootstrap grant matches the name plus Secrets Manager's suffix.
+      # Read by name: the check policy grants this name plus Secrets Manager's suffix.
       GHE_TOKEN_SECRET            = "eufemia/${var.environment}/monitoring/ghe-analytics-token"
       ANALYTICS_DEPLOY_REPOSITORY = var.analytics_deploy_repository
     } : {})
   }
-  depends_on = [aws_cloudwatch_log_group.monitor]
-  tags       = local.tags
+  depends_on = [
+    aws_cloudwatch_log_group.monitor,
+    aws_iam_role_policy_attachment.check,
+    aws_iam_role_policy_attachment.check_logs,
+  ]
+  tags = local.tags
 }
 
 resource "aws_lambda_function_event_invoke_config" "monitor" {
@@ -110,7 +208,7 @@ resource "aws_scheduler_schedule" "monitor" {
   }
   target {
     arn      = aws_lambda_function.monitor[each.key].arn
-    role_arn = data.aws_iam_role.scheduler.arn
+    role_arn = aws_iam_role.scheduler.arn
     input    = "{}"
     retry_policy {
       maximum_event_age_in_seconds = 900
@@ -120,7 +218,10 @@ resource "aws_scheduler_schedule" "monitor" {
       arn = aws_sqs_queue.failures.arn
     }
   }
-  depends_on = [aws_lambda_function_event_invoke_config.monitor]
+  depends_on = [
+    aws_lambda_function_event_invoke_config.monitor,
+    aws_iam_role_policy_attachment.scheduler,
+  ]
 }
 
 resource "aws_sns_topic" "alerts" {
@@ -180,10 +281,6 @@ resource "aws_cloudwatch_metric_alarm" "failures" {
   tags                = local.tags
 }
 
-data "aws_iam_role" "notifier" {
-  name = "${local.prefix}-notifier"
-}
-
 resource "aws_cloudwatch_log_group" "notifier" {
   name              = "/aws/lambda/${local.prefix}-alarms"
   retention_in_days = 30
@@ -192,7 +289,7 @@ resource "aws_cloudwatch_log_group" "notifier" {
 
 resource "aws_lambda_function" "notifier" {
   function_name                  = "${local.prefix}-alarms"
-  role                           = data.aws_iam_role.notifier.arn
+  role                           = aws_iam_role.notifier.arn
   handler                        = "alarms.handler"
   runtime                        = "nodejs22.x"
   timeout                        = 120
@@ -215,8 +312,12 @@ resource "aws_lambda_function" "notifier" {
       error_message = "Configure the Slack bot secret before enabling threaded notifications."
     }
   }
-  depends_on = [aws_cloudwatch_log_group.notifier]
-  tags       = local.tags
+  depends_on = [
+    aws_cloudwatch_log_group.notifier,
+    aws_iam_role_policy_attachment.notifier,
+    aws_iam_role_policy_attachment.notifier_logs,
+  ]
+  tags = local.tags
 }
 
 resource "aws_lambda_function_event_invoke_config" "notifier" {
