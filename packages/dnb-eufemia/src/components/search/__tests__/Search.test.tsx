@@ -10,7 +10,7 @@ import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 describe.each([
   ['Input', Search.Input],
   ['Autocomplete', Search.Autocomplete],
-  ['Popover', Search.Popover],
+  ['Panel', Search.Panel],
 ] as const)('Search.%s', (_, Component) => {
   it('is recognized as a form element when grouping fields', () => {
     render(
@@ -272,8 +272,40 @@ it('compiles shared search styles with only Input dependencies', () => {
 
 describe.each([
   ['Autocomplete', Search.Autocomplete],
-  ['Popover', Search.Popover],
+  ['Panel', Search.Panel],
 ] as const)('Search.%s results', (_, Component) => {
+  it('lets async searches clear their results and close when the query is cleared', async () => {
+    render(
+      <Component
+        mode="async"
+        search={{ filter: false }}
+        onType={({ value, updateData, setHidden }) => {
+          updateData(value ? ['Button'] : [])
+          if (!value) {
+            setHidden()
+          }
+        }}
+      />
+    )
+    const input = document.querySelector('input')
+    await userEvent.type(input, 'But')
+    await waitFor(() =>
+      expect(document.querySelector('[role="option"]')).toHaveTextContent(
+        'Button'
+      )
+    )
+    await userEvent.click(
+      document.querySelector('.dnb-input__clear-button')
+    )
+
+    expect(input).toHaveValue('')
+    expect(input).toHaveFocus()
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    )
+    expect(document.querySelector('[role="option"]')).toBeNull()
+  })
+
   it('restores all results when clearing a filtered query', async () => {
     render(
       <Component
@@ -376,10 +408,10 @@ describe('Search.Input', () => {
   })
 })
 
-describe('Search.Popover', () => {
+describe('Search.Panel', () => {
   it('renders results in the shared portal outside the input container', async () => {
     const { container } = render(
-      <Search.Popover data={['Button', 'Input']} />
+      <Search.Panel data={['Button', 'Input']} />
     )
     await userEvent.click(document.querySelector('input'))
 
@@ -390,7 +422,7 @@ describe('Search.Popover', () => {
   })
 
   it('closes with the built-in close button and returns focus to the input', async () => {
-    render(<Search.Popover data={['Button', 'Input']} />)
+    render(<Search.Panel data={['Button', 'Input']} />)
     const input = document.querySelector('input')
     await userEvent.click(input)
 
@@ -406,18 +438,18 @@ describe('Search.Popover', () => {
 
   it('forwards both supported input ref forms to the positioning target', () => {
     const ref = createRef<HTMLInputElement>()
-    const { rerender } = render(<Search.Popover inputRef={ref} />)
+    const { rerender } = render(<Search.Panel inputRef={ref} />)
     const input = document.querySelector('input')
     expect(ref.current).toBe(input)
 
     const callback = vi.fn()
-    rerender(<Search.Popover inputRef={callback} />)
+    rerender(<Search.Panel inputRef={callback} />)
     expect(callback).toHaveBeenLastCalledWith(input)
   })
 
   it('uses one combobox and composes controls outside the inline listbox', async () => {
     render(
-      <Search.Popover id="search" data={['Button', 'Input']}>
+      <Search.Panel id="search" data={['Button', 'Input']}>
         {({ results, close }) => (
           <>
             <button type="button" onClick={close}>
@@ -426,7 +458,7 @@ describe('Search.Popover', () => {
             {results}
           </>
         )}
-      </Search.Popover>
+      </Search.Panel>
     )
     fireEvent.focus(document.querySelector('input'))
     await waitFor(() =>
@@ -441,7 +473,7 @@ describe('Search.Popover', () => {
     expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
       'dnb-drawer-list--inline'
     )
-    fireEvent.click(document.querySelector('.dnb-search__popover button'))
+    fireEvent.click(document.querySelector('.dnb-search__panel button'))
     await waitFor(() =>
       expect(document.querySelector('input')).toHaveAttribute(
         'aria-expanded',

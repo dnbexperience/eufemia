@@ -18,7 +18,7 @@ Use `onChange` to receive query changes and `onSubmit` to handle Enter. Both rec
 
 See [Input events](/web/components/input/events) for details about changing or preventing an input value.
 
-### Search.Autocomplete and Search.Popover
+### Search.Autocomplete and Search.Panel
 
 Use `onType` to receive query changes and load suggestions. Use `onChange` to handle a confirmed result, and `onSelect` to follow the active result during keyboard navigation.
 
@@ -26,4 +26,4 @@ Use `onType` to receive query changes and load suggestions. Use `onChange` to ha
 
 <PropertiesTable props={AutocompleteEvents} />
 
-The callbacks also provide methods such as `updateData`, `showIndicator`, `hideIndicator`, and `setHidden`. Search.Popover also passes `close` to its children render function for custom actions that close the surface. See [Autocomplete events](/web/components/autocomplete/events) and [dynamically changing data](/web/components/autocomplete/events#dynamically-change-data).
+The callbacks also provide methods such as `updateData`, `showIndicator`, `hideIndicator`, and `setHidden`. Search.Panel also passes `close` to its children render function for custom actions that close the surface. See [Autocomplete events](/web/components/autocomplete/events) and [dynamically changing data](/web/components/autocomplete/events#dynamically-change-data).
