@@ -194,24 +194,28 @@ function AmountBase(props: AmountProps) {
     weight === 'heading'
       ? 'dnb-stat__heading-weight'
       : weight && `dnb-t__weight--${weight}`
+  const familyClass = useHeadingFont && 'dnb-t__family--heading'
   const numericValue = Number(rawValue)
 
   const currencyClass = clsx(
     'dnb-stat__currency',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
+    familyClass,
     getWeightClass(resolvedAuxWeight)
   )
   const amountClass = clsx(
     'dnb-stat__amount',
     `dnb-t__size--${resolvedMainSize}`,
     `dnb-t__line-height--${resolvedMainLineHeight}`,
+    familyClass,
     getWeightClass(resolvedMainWeight)
   )
   const percentClass = clsx(
     'dnb-stat__percent',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
+    familyClass,
     getWeightClass(resolvedAuxWeight)
   )
 
@@ -224,6 +228,7 @@ function AmountBase(props: AmountProps) {
               'dnb-stat__sign',
               `dnb-t__size--${resolvedMainSize}`,
               `dnb-t__line-height--${resolvedMainLineHeight}`,
+              familyClass,
               getWeightClass(resolvedMainWeight)
             )}
           >
@@ -321,13 +326,7 @@ function AmountBase(props: AmountProps) {
       skeleton={skeleton}
       textClassName={false}
     >
-      <span
-        className={clsx(
-          'dnb-stat__content',
-          useHeadingFont && 'dnb-stat__content--heading'
-        )}
-        aria-hidden
-      >
+      <span className="dnb-stat__content" aria-hidden>
         {content}
       </span>
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}

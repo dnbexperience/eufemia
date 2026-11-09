@@ -22,15 +22,6 @@
 
     // Ensure numbers are not broken in the middle, but allow breaking between currency and amount, or between prefix/suffix and the amount.
     word-break: keep-all;
-
-    &--heading {
-      .dnb-stat__sign,
-      .dnb-stat__amount,
-      .dnb-stat__currency,
-      .dnb-stat__percent {
-        font-family: var(--font-family-heading);
-      }
-    }
   }
   &__content-item {
     @include utilities.spaceReset();

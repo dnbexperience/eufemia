@@ -186,11 +186,25 @@ describe('Stat.Number', () => {
   })
 
   it('uses the heading font for the value, as headings do', () => {
-    render(<Stat.Number value={1234} />)
+    render(
+      <Stat.Currency
+        value={1234}
+        signDisplay="always"
+        prefix="from"
+        suffix="per month"
+      />
+    )
 
-    expect(
-      document.querySelector('.dnb-stat__content').classList
-    ).toContain('dnb-stat__content--heading')
+    for (const part of ['sign', 'amount', 'currency']) {
+      expect(
+        document.querySelector(`.dnb-stat__${part}`).classList
+      ).toContain('dnb-t__family--heading')
+    }
+    for (const affix of ['prefix', 'suffix']) {
+      expect(
+        document.querySelector(`.dnb-stat__${affix}`).classList
+      ).not.toContain('dnb-t__family--heading')
+    }
   })
 
   it('keeps the body font and medium weight at basis size and below', () => {
@@ -198,9 +212,7 @@ describe('Stat.Number', () => {
 
     const amount = document.querySelector('.dnb-stat__amount')
 
-    expect(
-      document.querySelector('.dnb-stat__content').classList
-    ).not.toContain('dnb-stat__content--heading')
+    expect(amount.classList).not.toContain('dnb-t__family--heading')
     expect(amount.classList).toContain('dnb-t__weight--medium')
     expect(amount.classList).not.toContain('dnb-stat__heading-weight')
   })
@@ -356,9 +368,7 @@ describe('Stat.Number', () => {
 
     expect(amount.classList).toContain('dnb-t__weight--medium')
     expect(amount.classList).not.toContain('dnb-t__weight--regular')
-    expect(
-      document.querySelector('.dnb-stat__content').classList
-    ).not.toContain('dnb-stat__content--heading')
+    expect(amount.classList).not.toContain('dnb-t__family--heading')
   })
 
   it('supports signDisplay and renders plus for positive values', () => {
@@ -657,12 +667,9 @@ describe('Stat.Number', () => {
 })
 
 describe('Stat.Number scss', () => {
-  it('gives the value the theme heading font and weight', () => {
+  it('gives the value the theme heading weight', () => {
     const css = loadScss(require.resolve('../style/dnb-stat.scss'))
 
-    expect(css).toMatch(
-      /\.dnb-stat__content--heading \.dnb-stat__sign,\s*\.dnb-stat__content--heading \.dnb-stat__amount,\s*\.dnb-stat__content--heading \.dnb-stat__currency,\s*\.dnb-stat__content--heading \.dnb-stat__percent \{\s*font-family: var\(--font-family-heading\);\s*\}/
-    )
     expect(css).toMatch(
       /\.dnb-stat__heading-weight \{\s*font-weight: var\(--typography-h-large-weight\);\s*\}/
     )
