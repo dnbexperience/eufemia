@@ -2,7 +2,7 @@ import { act } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Dialog } from '../../'
 import Button from '../../button/Button'
 import Dropdown from '../../dropdown/Dropdown'
@@ -369,6 +369,18 @@ describe('Popover', () => {
       expect(document.activeElement).toBe(
         document.querySelector('.dnb-popover__content')
       )
+    )
+  })
+
+  it('gives the title the body font, also inside dnb-core-style', async () => {
+    renderWithTrigger({ title: 'Definition' })
+
+    await userEvent.click(document.querySelector('button[aria-controls]'))
+
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-popover__title strong')
+      ).toHaveClass('dnb-h--basis', 'dnb-t__family--basis')
     )
   })
 
@@ -4512,15 +4524,5 @@ describe('Popover', () => {
         await axeComponent(Comp, document.querySelector('.dnb-popover'))
       ).toHaveNoViolations()
     })
-  })
-})
-
-describe('Popover scss', () => {
-  it('uses the body font for the title, also inside dnb-core-style', () => {
-    const css = loadScss(require.resolve('../style/dnb-popover.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-popover__title strong\.dnb-h--basis \{\s*font-family: var\(--font-family-default\);\s*\}/
-    )
   })
 })

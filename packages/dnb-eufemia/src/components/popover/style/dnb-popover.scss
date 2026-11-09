@@ -104,11 +104,6 @@
       font-weight: var(--font-weight-medium);
       color: inherit;
     }
-
-    // Beats the heading font that `.dnb-core-style .dnb-h--basis` sets
-    strong.dnb-h--basis {
-      font-family: var(--font-family-default);
-    }
   }
 
   &__body {
