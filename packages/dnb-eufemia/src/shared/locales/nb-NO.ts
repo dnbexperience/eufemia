@@ -90,6 +90,10 @@ export default {
     Dropdown: {
       title: 'Velg',
     },
+    Search: {
+      label: 'Søk',
+      placeholder: 'Søk ...',
+    },
     Autocomplete: {
       title: 'Skriv og velg',
       submitButtonTitle: 'Vis alternativer',

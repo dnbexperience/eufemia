@@ -49,6 +49,11 @@
   display: flow-root;
 }
 
+// Keep portaled search results above the compact sidebar and header.
+.dnb-search__popover {
+  --popover-z-index: 3203;
+}
+
 .dnb-live-preview p.dnb-p {
   &:not([class*='dnb-space__bottom']) {
     margin-bottom: 0;

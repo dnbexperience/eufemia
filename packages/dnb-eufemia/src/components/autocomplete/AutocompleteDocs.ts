@@ -106,6 +106,11 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  resultsRender: {
+    doc: 'Render the inline result list in a custom surface. Receives `results`, `open`, `close`, and `resultsRef`. Attach `resultsRef` to a custom surface that renders through a portal so interacting with its controls keeps the results open. Keep custom controls outside the listbox. The input retains result navigation. See [Search.Popover](/web/components/search/demos#searchpopover) for a composed example.',
+    type: '({ results: React.ReactNode, open: boolean, close: () => void, resultsRef: React.RefObject<HTMLSpanElement> }) => React.ReactNode',
+    status: 'optional',
+  },
   showSubmitButton: {
     doc: 'Use `true` to show an Autocomplete button to toggle the [DrawerList](/web/components/fragments/drawer-list). Defaults to `false`.',
     type: 'boolean',
