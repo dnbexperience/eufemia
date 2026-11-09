@@ -492,16 +492,18 @@ function PopoverContainer(props: PopoverContainerProps) {
         const alignmentRect = alignmentElement.getBoundingClientRect()
         if (isInitialVertical) {
           anchorX =
-            scrollX +
             alignmentRect.left +
             alignmentRect.width / 2 -
-            offsetLeft.current
+            (skipPortal
+              ? (containerRect?.left ?? 0)
+              : offsetLeft.current - scrollX)
         } else {
           anchorY =
-            scrollYOffset +
             alignmentRect.top +
             alignmentRect.height / 2 -
-            offsetTop.current
+            (skipPortal
+              ? (containerRect?.top ?? 0)
+              : offsetTop.current - scrollYOffset)
         }
       }
     }
@@ -750,24 +752,24 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     let actualLeft = nextLeft
 
-    if (!skipPortal) {
-      const elementWidthWithMargins = elementWidth + marginRight
-      const rightBoundary = window.innerWidth - viewportMargin
-      const actualRight = actualLeft + elementWidthWithMargins
+    const horizontalOrigin = skipPortal ? (containerRect?.left ?? 0) : 0
+    const leftBoundary = viewportMargin - horizontalOrigin
+    const rightBoundary =
+      window.innerWidth - viewportMargin - horizontalOrigin
+    const elementWidthWithMargins = elementWidth + marginRight
 
-      if (actualRight > rightBoundary) {
-        const allowedLeft = rightBoundary - elementWidthWithMargins
-        actualLeft = Math.max(viewportMargin, allowedLeft)
-      }
-
-      if (actualLeft < viewportMargin) {
-        actualLeft = viewportMargin
-      }
-
-      computedStyle.left = actualLeft - marginLeft
-    } else {
-      computedStyle.left = nextLeft - marginLeft
+    if (actualLeft + elementWidthWithMargins > rightBoundary) {
+      actualLeft = Math.max(
+        leftBoundary,
+        rightBoundary - elementWidthWithMargins
+      )
     }
+
+    if (actualLeft < leftBoundary) {
+      actualLeft = leftBoundary
+    }
+
+    computedStyle.left = actualLeft - marginLeft
     computedStyle.top = nextTop
 
     const actualTop = nextTop

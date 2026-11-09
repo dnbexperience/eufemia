@@ -91,6 +91,10 @@ export default {
     Dropdown: {
       title: 'Välj',
     },
+    Search: {
+      label: 'Sök',
+      placeholder: 'Sök ...',
+    },
     Autocomplete: {
       title: 'Skriv och välj',
       submitButtonTitle: 'Visa alternativ',

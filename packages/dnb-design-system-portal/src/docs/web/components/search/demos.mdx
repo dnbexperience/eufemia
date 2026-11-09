@@ -1,0 +1,74 @@
+---
+showTabs: true
+---
+
+import {
+  SearchDefault,
+  SearchHero,
+  SearchCompact,
+  SearchPill,
+  SearchAutocomplete,
+  SearchAutocompleteHero,
+  SearchAutocompleteCompact,
+  SearchAsync,
+  SearchPopover,
+  SearchPopoverAlignment,
+} from 'Docs/web/components/search/Examples'
+
+## Demos
+
+### Search.Input
+
+Use `Search.Input` for a search field without suggestions. It supports Input's `onChange` and `onSubmit` events.
+
+<SearchDefault />
+
+#### Hero input
+
+<SearchHero />
+
+#### Compact input with keyboard shortcut
+
+<SearchCompact />
+
+### Search.Autocomplete
+
+Opt in to suggestions with `Search.Autocomplete`. Its Autocomplete and DrawerList dependencies are excluded when only `Search.Input` is used in a production bundle.
+
+<SearchAutocomplete />
+
+#### Hero with suggestions
+
+<SearchAutocompleteHero />
+
+#### Compact autocomplete with keyboard shortcut
+
+Both compact examples expand on focus and display the shortcut inside the input. When several examples enable the shortcut, Cmd+K or Ctrl+K focuses the first visible one.
+
+<SearchAutocompleteCompact />
+
+### Pill shape
+
+All three components use the theme's normal corner radius by default, including the hero variant. Add `pill` to opt in to a pill shape with any variant.
+
+<SearchPill />
+
+#### Asynchronous results
+
+The `onType` callback receives the same result and loading methods as Autocomplete. This example filters a local list. For remote results, see [loading data asynchronously](/web/components/autocomplete/events#dynamically-change-data).
+
+<SearchAsync />
+
+### Search.Popover
+
+Use a popover when results need additional controls. This example filters by category with toggle buttons and sorts by relevance or alphabetically. The controls belong to the application, so the component also works with other filters or actions.
+
+The render function receives `results`, the inline Autocomplete list, and `close`. Keep controls outside `results` so they retain their own keyboard behavior. Up and Down navigate results while the input has focus, Enter selects, and Tab reaches the controls. Escape closes the surface and returns focus to the input.
+
+<SearchPopover />
+
+#### Results alignment
+
+Results render through a React portal and align with the input's left edge by default. Choose `align="center"` or `align="right"` when that fits the surrounding layout. The popover stays inside the viewport near either edge.
+
+<SearchPopoverAlignment />

@@ -5215,41 +5215,45 @@ describe('Autocomplete component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should not reopen the drawer when the parent passes a new data reference on every render after a selection', async () => {
-    function Parent() {
-      const [, forceRender] = useState(0)
+  it.each([false, true])(
+    'should not reopen the drawer when the parent passes a new data reference after selection with preventSelection=%s',
+    async (preventSelection) => {
+      function Parent() {
+        const [, forceRender] = useState(0)
 
-      // New array reference on every render, mimicking Field.Selection.
-      const data = ['AA', 'AB', 'BB'].map((item) => item)
+        // New array reference on every render, mimicking Field.Selection.
+        const data = ['AA', 'AB', 'BB'].map((item) => item)
 
-      return (
-        <Autocomplete
-          {...mockProps}
-          data={data}
-          onChange={() => {
-            setTimeout(() => forceRender((n) => n + 1), 10)
-          }}
-        />
-      )
+        return (
+          <Autocomplete
+            {...mockProps}
+            data={data}
+            preventSelection={preventSelection}
+            onChange={() => {
+              setTimeout(() => forceRender((n) => n + 1), 10)
+            }}
+          />
+        )
+      }
+
+      render(<Parent />)
+
+      keyDownOnInput('ArrowDown')
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).toBeInTheDocument()
+
+      fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
+
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50))
+      })
+
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).not.toBeInTheDocument()
     }
-
-    render(<Parent />)
-
-    keyDownOnInput('ArrowDown')
-    expect(
-      document.querySelector('.dnb-drawer-list__options')
-    ).toBeInTheDocument()
-
-    fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
-
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 50))
-    })
-
-    expect(
-      document.querySelector('.dnb-drawer-list__options')
-    ).not.toBeInTheDocument()
-  })
+  )
 
   it('should not reopen the drawer when the data prop changes after typing and selecting with the keyboard', async () => {
     function Parent() {

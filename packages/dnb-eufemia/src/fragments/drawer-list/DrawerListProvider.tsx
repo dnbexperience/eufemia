@@ -161,6 +161,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
         event?: SyntheticEvent | Event
       }
     ) => void
+    _refResults?: RefObject<HTMLSpanElement>
     _refShell?: RefObject<HTMLSpanElement>
     _refUl?: RefObject<HTMLUListElement>
     _refRoot?: RefObject<HTMLSpanElement>
@@ -934,10 +935,16 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     removeOutsideClickObserver()
 
     outsideClickRef.current = detectOutsideClick(
-      [stateRef.current.wrapperElement, _refRoot.current, _refUl.current],
+      [
+        { current: stateRef.current.wrapperElement },
+        _refRoot,
+        _refUl,
+        propsRef.current._refResults,
+      ],
       ({ event }) => {
         setHiddenFnRef.current({
           preventHideFocus:
+            propsRef.current.inline ||
             event.type !== 'keydown' ||
             (event as KeyboardEvent).key !== 'Tab',
         })
@@ -1274,7 +1281,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       key,
     })
 
-    if (propsRef.current.preventClose) {
+    if (propsRef.current.preventClose || propsRef.current.inline) {
       let isSameDrawer = false
       try {
         const activeElement = document.activeElement
