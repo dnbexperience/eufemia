@@ -124,7 +124,11 @@ const UploadInfo = () => {
       {children}
 
       {displayList && (
-        <Dl bottom={0} layout="horizontal">
+        <Dl
+          className="dnb-upload__file-limits-list"
+          bottom={0}
+          layout="horizontal"
+        >
           {displayAcceptedFileFormatsListItem && (
             <Dl.Item>
               <Dt>{fileTypeDescription}</Dt>
