@@ -19,6 +19,7 @@ export const SearchHero = () => (
   <ComponentBox data-visual-test="search-hero">
     <Search.Input
       variant="hero"
+      shortcut
       label="Search components and guidance"
       placeholder="Search components and guidance"
     />
@@ -63,6 +64,7 @@ export const SearchAutocompleteHero = () => (
   <ComponentBox data-visual-test="search-autocomplete-hero">
     <Search.Autocomplete
       variant="hero"
+      shortcut
       label="Search components and guidance"
       placeholder="Search components and guidance"
       data={['Button', 'Input', 'Table']}
