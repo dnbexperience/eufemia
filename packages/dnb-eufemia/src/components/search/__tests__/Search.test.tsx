@@ -1,6 +1,6 @@
 import { createRef } from 'react'
 import { renderToString } from 'react-dom/server'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Search from '../Search'
 import { Provider } from '../../../shared'
@@ -409,6 +409,76 @@ describe('Search.Input', () => {
 })
 
 describe('Search.Panel', () => {
+  it('keeps an async panel closed until results arrive', async () => {
+    const onType = vi.fn()
+    render(
+      <Search.Panel
+        mode="async"
+        noAnimation
+        onType={(event) => {
+          event.showIndicator()
+          onType(event)
+        }}
+      >
+        {({ results }) => <div>Search controls{results}</div>}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    const panel = () => document.querySelector('.dnb-search__panel')
+
+    fireEvent.focus(input)
+    expect(panel()).toBeNull()
+    await userEvent.click(input)
+    expect(panel()).toBeNull()
+    expect(input).toHaveAttribute('aria-expanded', 'false')
+
+    fireEvent.change(input, { target: { value: 'But' } })
+    expect(panel()).toBeNull()
+    expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
+      'dnb-autocomplete--show-indicator'
+    )
+
+    const { updateData, hideIndicator, setHidden } =
+      onType.mock.calls[0][0]
+    act(() => {
+      updateData(['Button'])
+      hideIndicator()
+    })
+    await waitFor(() => expect(panel()).not.toBeNull())
+    expect(input).toHaveAttribute('aria-expanded', 'true')
+    expect(document.querySelector('[role="option"]')).toHaveTextContent(
+      'Button'
+    )
+
+    act(() => {
+      updateData([])
+      setHidden()
+    })
+    await waitFor(() => expect(panel()).toBeNull())
+    await userEvent.click(input)
+    expect(panel()).toBeNull()
+  })
+
+  it.each(['showIndicatorItem', 'showNoOptionsItem'] as const)(
+    'opens an async panel for an explicit %s',
+    async (method) => {
+      render(
+        <Search.Panel
+          mode="async"
+          noAnimation
+          onType={(event) => event[method]()}
+        />
+      )
+      await userEvent.type(document.querySelector('input'), 'But')
+
+      expect(document.querySelector('.dnb-search__panel')).not.toBeNull()
+      expect(document.querySelector('input')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    }
+  )
+
   it('renders results in the shared portal outside the input container', async () => {
     const { container } = render(
       <Search.Panel data={['Button', 'Input']} />
