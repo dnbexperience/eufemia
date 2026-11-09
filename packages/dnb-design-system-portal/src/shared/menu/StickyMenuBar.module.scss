@@ -203,33 +203,16 @@
   display: flex;
   flex: 0 1 auto;
   flex-wrap: nowrap;
+  justify-content: flex-end;
   align-items: center;
   min-width: 0;
 
   :global(.portal-search) {
-    width: min(30vw, 10rem);
-    transition: width 250ms var(--easing-default);
-
-    :global(.dnb-autocomplete__row) {
-      width: 100%;
-    }
-
-    &:focus-within,
-    &:has(:global(input[aria-expanded='true'])),
-    &:has(:global(.dnb-input[data-has-content='true'])) {
-      width: min(40vw, 17.5rem);
-    }
+    --search-compact-width: min(30vw, 10rem);
+    --search-width: min(40vw, 17.5rem);
 
     @include utilities.allBelow(small) {
-      &:focus-within,
-      &:has(:global(input[aria-expanded='true'])),
-      &:has(:global(.dnb-input[data-has-content='true'])) {
-        width: min(38vw, 17.5rem);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      transition: none;
+      --search-width: min(38vw, 17.5rem);
     }
   }
 }
