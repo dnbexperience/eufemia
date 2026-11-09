@@ -2709,6 +2709,7 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
 */
 .dnb-chip.dnb-toggle-button .dnb-toggle-button__button {
   --button-border-radius: var(--token-radius-xl);
+  --button-border-width--active: 0.0625rem;
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(--token-color-background-neutral);
   --button-color-bg--active: var(--token-color-background-neutral);
@@ -2742,6 +2743,14 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
 .dnb-chip.dnb-toggle-button .dnb-toggle-button__button .dnb-radio {
   margin-inline: -0.25rem;
 }
+.dnb-chip--default .dnb-toggle-button__component, .dnb-chip--add-remove .dnb-toggle-button__component {
+  padding-inline-end: 0.25rem;
+}
+.dnb-chip--default:not(.dnb-toggle-button--checked) .dnb-toggle-button__button, .dnb-chip--add-remove.dnb-toggle-button .dnb-toggle-button__button {
+  --button-color-border--hover: var(
+    --token-color-component-button-icon-action-hover
+  );
+}
 .dnb-chip.dnb-toggle-button--checked .dnb-toggle-button__button {
   --button-border-width--default: 0.125rem;
   --button-color-bg--default: var(
@@ -2763,6 +2772,9 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
     --token-color-stroke-neutral-base
   );
 }
+.dnb-chip--default.dnb-toggle-button--checked .dnb-toggle-button__button {
+  --button-color-border--active: var(--token-color-icon-action-pressed);
+}
 .dnb-chip.dnb-toggle-button__status--error .dnb-toggle-button__button {
   --button-color-border--default: var(
     --token-color-component-button-stroke-action-destructive
@@ -2783,12 +2795,45 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
     --token-color-component-button-background-action-destructive-pressed-subtle
   );
 }
+.dnb-chip.dnb-toggle-button__status--error .dnb-checkbox {
+  --checkbox-color-background-off--hover: var(
+    --token-color-background-error-subtle
+  );
+  --checkbox-color-background-on--hover: var(
+    --token-color-background-error
+  );
+  --checkbox-color-border--hover: var(--token-color-stroke-error);
+  --checkbox-color-background-off--active: var(
+    --token-color-background-error-subtle
+  );
+  --checkbox-color-background-on--active: var(
+    --token-color-background-error
+  );
+  --checkbox-color-border-on--active: var(
+    --token-color-background-error
+  );
+}
+.dnb-chip.dnb-toggle-button__status--error .dnb-radio {
+  --radio-color-background--hover: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-background--active: var(
+    --token-color-background-error-subtle
+  );
+  --radio-color-border--hover: var(--token-color-stroke-error);
+  --radio-color-border--active: var(--token-color-stroke-error);
+  --radio-color-dot-on--hover: var(--token-color-background-error);
+  --radio-color-dot-on--active: var(--token-color-background-error);
+}
+.dnb-chip.dnb-toggle-button__status--error .dnb-radio .dnb-radio__button {
+  --radio-border-width--active: 0.0625rem;
+}
 .dnb-chip--add-remove .dnb-toggle-button__button {
   --chip-icon-fill: var(--token-color-background-neutral-base);
   --chip-icon-stroke: var(--token-color-icon-neutral);
   --chip-icon-border-color: var(--token-color-stroke-neutral-base);
-  --chip-icon-border-width: 0.0625rem;
-  --chip-icon-border-offset: -0.0625rem;
+  --chip-icon-border-width: 0.09375rem;
+  --chip-icon-border-offset: -0.09375rem;
   --chip-icon-rotation: 45deg;
 }
 .dnb-chip--add-remove .dnb-toggle-button__button svg {
@@ -2842,7 +2887,7 @@ html:not([data-whatintent=touch]) .dnb-chip--add-remove.dnb-toggle-button--check
 html:not([data-whatintent=touch]) .dnb-chip--add-remove.dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) {
   --chip-icon-fill: var(--token-color-background-action-hover);
   --chip-icon-stroke: var(--token-color-icon-neutral-inverse);
-  --chip-icon-border-color: transparent;
+  --chip-icon-border-color: var(--token-color-stroke-action-hover);
 }
 .dnb-chip--add-remove.dnb-toggle-button--checked .dnb-toggle-button__button:active[disabled], html:not([data-whatintent=touch]) .dnb-chip--add-remove.dnb-toggle-button--checked .dnb-toggle-button__button:active[disabled] {
   cursor: not-allowed;
