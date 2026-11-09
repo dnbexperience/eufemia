@@ -12,6 +12,10 @@ on:
         description: Generate screenshots
         type: boolean
         default: true
+      skip_token_review:
+        description: Skip token review
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -53,6 +57,7 @@ jobs:
         env:
           OUTPUT_BRANCH: ${{ inputs.output_branch }}
           GENERATE_SCREENSHOTS: ${{ inputs.generate_screenshots }}
+          SKIP_TOKEN_REVIEW: ${{ inputs.skip_token_review }}
         run: |
           if [ -n "$OUTPUT_BRANCH" ]; then
             branch=$OUTPUT_BRANCH
@@ -80,6 +85,7 @@ jobs:
             echo "- Run from: \`$GITHUB_REF_NAME\`"
             echo "- Target branch to commit to: \`$branch\`"
             echo "- Generate screenshots: $GENERATE_SCREENSHOTS"
+            echo "- Skip token review: $SKIP_TOKEN_REVIEW"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check if branch has PR
@@ -136,11 +142,11 @@ jobs:
           fi
 
       - name: Review resolved token values and text contrast
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.changes.outputs.changed == 'true' && !inputs.skip_token_review
         run: yarn workspace @dnb/eufemia review:tokens origin/main "$RUNNER_TEMP/token-review.md"
 
       - name: Publish token review summary
-        if: always() && steps.changes.outputs.changed == 'true'
+        if: always() && steps.changes.outputs.changed == 'true' && !inputs.skip_token_review
         run: |
           if [ -f "$RUNNER_TEMP/token-review.md" ]; then
             cat "$RUNNER_TEMP/token-review.md" >> "$GITHUB_STEP_SUMMARY"
