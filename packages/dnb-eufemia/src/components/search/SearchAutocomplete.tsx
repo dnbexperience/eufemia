@@ -18,7 +18,6 @@ function SearchAutocomplete(localProps: SearchAutocompleteProps) {
 
 withComponentMarkers(SearchAutocomplete, {
   _formElement: true,
-  _supportsSpacingProps: true,
 })
 
 export default SearchAutocomplete
