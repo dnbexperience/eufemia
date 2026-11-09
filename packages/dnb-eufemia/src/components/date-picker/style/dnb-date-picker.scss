@@ -325,6 +325,15 @@
     height: var(--date-picker-day-width); // medium size
     margin: var(--date-picker-day-horizontal-spacing) 0;
 
+    .dnb-date-picker__days:last-child & {
+      margin-bottom: 0;
+
+      // inline calendars have no padding below the last row
+      .dnb-date-picker--inline & {
+        margin-bottom: var(--date-picker-day-horizontal-spacing);
+      }
+    }
+
     .dnb-button {
       position: absolute;
       top: 0;

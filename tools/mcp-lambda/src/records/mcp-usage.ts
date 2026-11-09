@@ -80,9 +80,12 @@ async function recordFromMessage(
   const rawComponent = COMPONENT_TOOLS.has(tool)
     ? parseComponentName(args.name)
     : ''
+  // Store "DatePicker" as its doc name "date-picker", so both aggregate
   const component =
     rawComponent && (await resolver.component(rawComponent))
-      ? normalizeComponent(rawComponent)
+      ? normalizeComponent(
+          (await resolver.likelyComponent(rawComponent)) ?? rawComponent
+        )
       : ''
   const componentMissed = rawComponent !== '' && component === ''
   const likelyComponent = componentMissed

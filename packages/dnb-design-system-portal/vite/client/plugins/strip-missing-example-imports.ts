@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-const portalRoot = path.resolve(__dirname, '..', '..', '..')
+const portalRoot = path.resolve(import.meta.dirname, '..', '..', '..')
 const EXAMPLES_IMPORT_RE =
   /import\s*\{([^}]+)\}\s*from\s*['"]([^'"]*Examples)['"]/g
 const EXAMPLES_EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js']

@@ -101,11 +101,17 @@ public GitHub (.github/workflows/analytics-lambda.yml)
 
 Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
-### One-time bootstrap (admin, out-of-band)
+### Lambda execution roles
 
-An admin must pre-create the Lambda execution role `eufemia-<env>-analytics-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an inline policy granting: `s3:GetObject`/`PutObject` on the data bucket's objects and `s3:ListBucket`/`GetBucketLocation` on the bucket (bucket-wide, so it covers every analytics prefix — `portal-views/`, `mcp-usage/`, `mcp-usage-daily/`, `component-usage/`, `component-usage-daily/`, `snapshots/`, `athena-results/`), `athena:StartQueryExecution`/`StopQueryExecution`/`GetQueryExecution`/`GetQueryResults`/`GetWorkGroup` on the workgroup, and `glue:GetDatabase`/`GetTable`/`GetPartition`/`GetPartitions` on the Glue catalog, the analytics database and its tables. The GHE deploy repo and its OIDC role/federation entry must also be provisioned, as with the MCP pipeline.
+The deploy creates the three Lambda execution roles with the OIDC permissions boundary. Each gets basic Lambda logging plus one policy from the OIDC federation repo, and the deploy role may attach no others:
 
-The dashboard-read execution role `eufemia-<env>-dashboard-lambda` needs no admin step: the deploy creates it (see [Infrastructure](#infrastructure)). The snapshot generator Lambda reuses `eufemia-<env>-analytics-role` (it needs the same Athena + S3 access), so it requires no additional role.
+- `eufemia-<env>-analytics-lambda` (ingest): `eufemia-<env>-analytics-collect` (`s3:PutObject` on the data bucket's `portal-views/*` and `mcp-usage/*` prefixes).
+- `eufemia-<env>-analytics-snapshot-lambda` (snapshot generator): `eufemia-<env>-analytics-snapshot-build` (read and write the data bucket, run Athena queries in the workgroup, read the analytics Glue tables).
+- `eufemia-<env>-dashboard-lambda` (dashboard read): `eufemia-<env>-dashboard-snapshot-read` (`s3:GetObject` on `snapshots/*`).
+
+The deploy role can't change a role's trust policy, description or maximum session duration; such a change fails the deploy until the OIDC federation repo grants it. Renaming a role replaces it, so the new name must be granted there first and `prevent_destroy` lifted in the same change.
+
+The GHE deploy repo and its OIDC role/federation entry must be provisioned once, as with the MCP pipeline.
 
 ## Infrastructure
 
@@ -139,9 +145,9 @@ Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `colo
 > **Note:** the `component_usage*` tables and `component-usage*` prefixes are scaffold for a future Nucleus component-usage producer. There is no producer yet, so the snapshot generator does **not** query them (to avoid running Athena against empty tables) and the section ships empty. Once a producer writes data, set `COMPONENT_USAGE_ENABLED = "true"` on the snapshot Lambda in `infra/main.tf`.
 
 - **Athena workgroup** for the retrieve queries.
-- **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band and only referenced here.
-- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only dashboard role (next bullet), plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `snapshots/dashboard.json` off the request path. CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), a run that succeeds but writes a snapshot with no page views (the `SnapshotPortalViewCount` EMF metric stays below 1), and a run that fails to refresh, or falls back to an empty, MCP usage or component usage section (the `McpUsageBuildFailure`/`ComponentUsageBuildFailure` EMF metrics). The EMF-based alarms need no extra role permissions. All alarms notify an SNS topic (`snapshot_alerts`); set `snapshot_alert_email` to subscribe an address (SNS emails a confirmation link that must be clicked once), or add another `aws_sns_topic_subscription` pointed at a different target, such as AWS Chatbot or a formatting Lambda for Slack (a raw incoming webhook can't complete the SNS subscription handshake, so it isn't a drop-in target).
-- **Dashboard role** `eufemia-<env>-dashboard-lambda`, created with the OIDC permissions boundary. Its only policies are `AWSLambdaBasicExecutionRole` and `eufemia-<env>-dashboard-snapshot-read` (`s3:GetObject` on `snapshots/*`), which lives in the OIDC federation repo; the deploy role may attach no others. It also can't change the role's trust policy, description or maximum session duration; such a change fails the deploy until the OIDC federation repo grants it. Renaming the role replaces it, so the new name must be granted there first and `prevent_destroy` lifted in the same change.
+- **Lambda function** (`nodejs22.x`) serving the ingest routes under `eufemia-<env>-analytics-lambda`.
+- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only dashboard role, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-snapshot-lambda` and refreshes `snapshots/dashboard.json` off the request path. CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), a run that succeeds but writes a snapshot with no page views (the `SnapshotPortalViewCount` EMF metric stays below 1), and a run that fails to refresh, or falls back to an empty, MCP usage or component usage section (the `McpUsageBuildFailure`/`ComponentUsageBuildFailure` EMF metrics). The EMF-based alarms need no extra role permissions. All alarms notify an SNS topic (`snapshot_alerts`); set `snapshot_alert_email` to subscribe an address (SNS emails a confirmation link that must be clicked once), or add another `aws_sns_topic_subscription` pointed at a different target, such as AWS Chatbot or a formatting Lambda for Slack (a raw incoming webhook can't complete the SNS subscription handshake, so it isn't a drop-in target).
+- **Lambda execution roles** for the three Lambdas, created by the deploy (see [Lambda execution roles](#lambda-execution-roles)).
 - The generator is also invoked once at the end of every deploy (the `Seed snapshot` step in `ghe-deploy-workflow.yml`), so the dashboard has data immediately instead of waiting for the first scheduled run, and a generator failure fails the deploy rather than surfacing later as a silently unavailable dashboard.
 - **API Gateway HTTP API** with the `/collect-portal-views` and `/collect-local-mcp-usage` ingest routes (plus `/healthz`) and throttling.
 
@@ -152,7 +158,7 @@ The dashboard is hosted separately as a static site:
 
 The dashboard API's CORS allows the dashboard's canonical origin (`DASHBOARD_PUBLIC_URL`, the custom domain) plus any extra origins from the optional `dashboard_origins` Terraform variable, such as a local-dev URL. The raw `*.cloudfront.net` origin is intentionally not allow-listed, since the dashboard is served via the custom domain (Akamai + WAF); direct access to the raw `*.cloudfront.net` origin is blocked at CloudFront by the `X-Origin-Verify` viewer-request function above, so only the Akamai edge (which injects the header) can reach it. After the first deploy, add the dashboard URL as a redirect URI on the app registration.
 
-Prerequisites for sign-in and data to work end to end: the app registration must expose a `Dashboard.Read` scope under App ID URI `api://<clientId>` and issue v2 access tokens (`requestedAccessTokenVersion = 2`). The deploy role's CloudFront, S3, and SNS permissions are provisioned in the OIDC federation repo, alongside the Lambda execution role.
+Prerequisites for sign-in and data to work end to end: the app registration must expose a `Dashboard.Read` scope under App ID URI `api://<clientId>` and issue v2 access tokens (`requestedAccessTokenVersion = 2`). The deploy role's CloudFront, S3, and SNS permissions are provisioned in the OIDC federation repo, alongside the Lambda execution role policies.
 
 Terraform state reuses the shared `eufemia-mcp-terraform-state` bucket under the `analytics/` key.
 

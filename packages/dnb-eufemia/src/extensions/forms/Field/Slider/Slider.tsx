@@ -186,7 +186,8 @@ function SliderComponent(props: FieldSliderProps) {
     reverse,
     hideButtons,
     multiThumbBehavior,
-    thumbTitle,
+    // The label names the thumbs through its "for" or aria-labelledby
+    thumbTitle: label ? undefined : thumbTitle,
     subtractTitle,
     addTitle,
     numberFormat,

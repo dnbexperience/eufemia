@@ -294,6 +294,10 @@ async function checkAgainstDocs(
       if (likely) {
         record.likelyComponent = likely
       }
+    } else {
+      // Store "DatePicker" as its doc name "date-picker", so both aggregate
+      record.component =
+        (await resolver.likelyComponent(name)) ?? record.component
     }
   }
 

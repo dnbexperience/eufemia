@@ -14,47 +14,49 @@ for (const width of [1024, 360]) {
       await page.waitForFunction(() => document.fonts.status === 'loaded')
     })
 
-    for (const testId of ['inline', 'components', 'fragment']) {
-      test(`places the cells like the legacy layout (${testId})`, async ({
-        page,
-      }) => {
-        // Measure both rows at once, so they share the same font state
-        const [expected, actual] = await page.evaluate(
-          (rowTestIds) =>
-            rowTestIds.map((rowTestId) => {
-              const row = document.querySelector(
-                `[data-testid="${rowTestId}"]`
-              )
-              const rowRect = row.getBoundingClientRect()
-              const box = (selector: string) => {
-                const rect = row
-                  .querySelector(selector)
-                  .getBoundingClientRect()
-                return {
-                  top: rect.top - rowRect.top,
-                  left: rect.left - rowRect.left,
-                  width: rect.width,
-                  height: rect.height,
+    test('places custom cells like the legacy layout', async ({
+      page,
+    }) => {
+      for (const testId of ['inline', 'components', 'fragment']) {
+        await test.step(`places the cells like the legacy layout (${testId})`, async () => {
+          // Measure both rows at once, so they share the same font state
+          const [expected, actual] = await page.evaluate(
+            (rowTestIds) =>
+              rowTestIds.map((rowTestId) => {
+                const row = document.querySelector(
+                  `[data-testid="${rowTestId}"]`
+                )
+                const rowRect = row.getBoundingClientRect()
+                const box = (selector: string) => {
+                  const rect = row
+                    .querySelector(selector)
+                    .getBoundingClientRect()
+                  return {
+                    top: rect.top - rowRect.top,
+                    left: rect.left - rowRect.left,
+                    width: rect.width,
+                    height: rect.height,
+                  }
                 }
-              }
 
-              return {
-                height: rowRect.height,
-                icon: box('.dnb-list__item__icon'),
-                title: box('.dnb-list__item__title'),
-                end: box('.dnb-list__item__end'),
-                footer: box('.dnb-list__item__footer'),
-              }
-            }),
-          ['legacy', testId]
-        )
+                return {
+                  height: rowRect.height,
+                  icon: box('.dnb-list__item__icon'),
+                  title: box('.dnb-list__item__title'),
+                  end: box('.dnb-list__item__end'),
+                  footer: box('.dnb-list__item__footer'),
+                }
+              }),
+            ['legacy', testId]
+          )
 
-        // In the reference, the title follows the icon and the end cell
-        // is not placed right after the title.
-        expect(expected.title.left).toBeGreaterThan(expected.icon.left)
+          // In the reference, the title follows the icon and the end cell
+          // is not placed right after the title.
+          expect(expected.title.left).toBeGreaterThan(expected.icon.left)
 
-        expect(actual).toEqual(expected)
-      })
-    }
+          expect(actual).toEqual(expected)
+        })
+      }
+    })
   })
 }

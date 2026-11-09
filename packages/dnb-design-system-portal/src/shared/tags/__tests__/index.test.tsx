@@ -62,7 +62,7 @@ describe('markdownComponents', () => {
           remarkPlugins={[remarkGfm]}
         >
           {
-            '### Title\n\nUse `code` and [a link](/uilib/).\n\n- An item\n\n```js\nconst a = 1\n```\n'
+            '# Title\n\nUse `code` and [a link](/uilib/).\n\n- An item\n\n```js\nconst a = 1\n```\n'
           }
         </ReactMarkdown>
       </MemoryRouter>

@@ -2189,6 +2189,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 .dnb-progress-indicator--full-width.dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
   flex-shrink: 0;
   max-width: 50%;
+  padding-left: 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }

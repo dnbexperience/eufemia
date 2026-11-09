@@ -331,6 +331,13 @@ describe('Table scss', () => {
     )
   })
 
+  it('should give the caption a 56px height with small text', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toContain(
+      '.dnb-table > caption {\n  position: relative;\n  caption-side: bottom;\n  padding: 1.125rem 1rem;\n  font-size: var(--font-size-small);\n  line-height: var(--line-height-small);'
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

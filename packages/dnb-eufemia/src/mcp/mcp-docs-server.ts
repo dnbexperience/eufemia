@@ -181,6 +181,20 @@ function normalizeName(name: unknown) {
     .toLowerCase()
 }
 
+const COMPONENT_DOC_FILE = /^\/uilib\/components\/([^/]+)\.md$/
+
+function ignoreCaseAndHyphens(name: string) {
+  return normalizeName(name).replaceAll('-', '')
+}
+
+// Matches "DatePicker" or "datepicker" to the "date-picker" doc
+function findComponentDocName(files: string[], name: string) {
+  const key = ignoreCaseAndHyphens(name)
+  return files
+    .map((file) => COMPONENT_DOC_FILE.exec(file)?.[1])
+    .find((doc) => doc && ignoreCaseAndHyphens(doc) === key)
+}
+
 function conventionalDocPath(name: string): string[] {
   // Handle dot notation like "Field.Address" or "Value.Address"
   if (name.includes('.')) {
@@ -349,6 +363,16 @@ function createDocsContext(source: DocsSource) {
       } catch {
         // ignore and try next path
         continue
+      }
+    }
+
+    if (!doc) {
+      const docName = findComponentDocName(
+        await getMarkdownFilesCached(),
+        name
+      )
+      if (docName) {
+        doc = `/uilib/components/${docName}.md`
       }
     }
 
@@ -642,12 +666,6 @@ export type UsageResolver = {
   docsDir: (path: string) => Promise<boolean>
 }
 
-const COMPONENT_DOC_FILE = /^\/uilib\/components\/([^/]+)\.md$/
-
-function ignoreCaseAndHyphens(name: string) {
-  return normalizeName(name).replaceAll('-', '')
-}
-
 export function createUsageResolver(source: DocsSource): UsageResolver {
   const context = createDocsContext(source)
 
@@ -655,11 +673,10 @@ export function createUsageResolver(source: DocsSource): UsageResolver {
     component: async (name) =>
       (await context.resolveComponentPaths(name)).docExists,
     likelyComponent: async (guess) => {
-      const key = ignoreCaseAndHyphens(guess)
-      const files = await context.getMarkdownFilesCached()
-      const name = files
-        .map((file) => COMPONENT_DOC_FILE.exec(file)?.[1])
-        .find((doc) => doc && ignoreCaseAndHyphens(doc) === key)
+      const name = findComponentDocName(
+        await context.getMarkdownFilesCached(),
+        guess
+      )
 
       return name ? normalizeName(name) : null
     },

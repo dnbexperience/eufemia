@@ -136,7 +136,7 @@ export default function TranslationsTable({
         </Anchor>{' '}
         docs.
       </P>
-      <Table.ScrollView>
+      <Table.ScrollView bottom="medium">
         <StyledTable border={false}>
           <thead>
             <Tr>

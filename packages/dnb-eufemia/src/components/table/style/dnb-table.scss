@@ -36,9 +36,10 @@
   & > caption {
     position: relative;
     caption-side: bottom;
-    padding: 0.5rem 0 0.5rem 1rem;
+    padding: 1.125rem 1rem;
 
-    font-size: var(--font-size-basis);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
     background-color: var(--token-color-background-neutral);
     text-align: left;
 

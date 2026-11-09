@@ -2204,6 +2204,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border__indeterminate);
+  --checkbox-border-width--default: 0.09375rem;
   background-color: var(--checkbox-color-background__indeterminate);
 }
 .dnb-checkbox__input:indeterminate:hover ~ .dnb-checkbox__gfx, .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__gfx {
@@ -2249,6 +2250,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   --checkbox-color-border: var(
     --checkbox-color-border__indeterminate--disabled
   );
+  --checkbox-border-width--default: 0.0625rem;
   background-color: var(--checkbox-color-background__indeterminate--disabled);
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__gfx {
@@ -2304,6 +2306,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border--error);
+  --checkbox-border-width--default: 0.0625rem;
   background-color: var(--checkbox-color-background-off--error);
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:indeterminate) ~ .dnb-checkbox__gfx {
@@ -3434,6 +3437,12 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   width: var(--date-picker-day-width);
   height: var(--date-picker-day-width);
   margin: var(--date-picker-day-horizontal-spacing) 0;
+}
+.dnb-date-picker__days:last-child .dnb-date-picker__day {
+  margin-bottom: 0;
+}
+.dnb-date-picker--inline .dnb-date-picker__days:last-child .dnb-date-picker__day {
+  margin-bottom: var(--date-picker-day-horizontal-spacing);
 }
 .dnb-date-picker__day .dnb-button {
   position: absolute;

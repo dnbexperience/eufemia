@@ -388,7 +388,11 @@ export function generateStyleManifest(
       entries[name] = {
         name,
         group,
-        classPrefix: `dnb-${name}`,
+        // Chat retains its shipped CSS hooks while Ai remains an alias.
+        classPrefix:
+          group === 'extensions' && name === 'chat'
+            ? 'dnb-ai'
+            : `dnb-${name}`,
         dependencies: [],
       }
     }

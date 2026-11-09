@@ -17,7 +17,7 @@ export default function preloadStylesPlugin(): Plugin {
 
     async transformIndexHtml(html) {
       const runtimeFile = path.resolve(
-        __dirname,
+        import.meta.dirname,
         'preload-styles.runtime.ts'
       )
       const code = fs.readFileSync(runtimeFile, 'utf-8')

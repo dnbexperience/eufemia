@@ -23,11 +23,16 @@ on:
       - '!release'
       - '!beta'
       - '!alpha'
+  # Every pull request is analysed once, when it is opened. A pull request from
+  # a fork has no push run in this repository, so it is analysed on every
+  # update. Other pull request updates are skipped as before, now under
+  # another name: a skipped job counts as success, and must never stand in for
+  # the push check of the same name.
   pull_request:
     branches:
       - 'dependabot/**'
       - 'main'
-    types: [opened]
+    types: [opened, synchronize, reopened]
   schedule:
     - cron: '44 3 * * 5'
 
@@ -36,13 +41,18 @@ permissions:
   security-events: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # A run whose job is skipped gets a group of its own, so it cannot cancel an
+  # analysis that is in progress.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}${{ !(github.event_name != 'pull_request' || github.event.action == 'opened' || github.event.pull_request.head.repo.full_name != github.repository) && format('-{0}', github.run_id) || '' }}
   # A canceled run reports a failed analysis to code scanning; let main runs finish.
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   analyze:
-    name: Run analysis
+    # The name includes the matrix value itself, so it stays exactly the
+    # required check name `Run analysis (javascript)`.
+    name: ${{ (github.event_name != 'pull_request' || github.event.action == 'opened' || github.event.pull_request.head.repo.full_name != github.repository) && format('Run analysis ({0})', matrix.language) || 'Run analysis (fork pull requests only)' }}
+    if: github.event_name != 'pull_request' || github.event.action == 'opened' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
 
     strategy:

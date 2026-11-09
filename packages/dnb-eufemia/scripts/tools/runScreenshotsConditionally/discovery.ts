@@ -287,9 +287,11 @@ export function findCompositionImpactedTests(
             return
           }
 
-          const entityPattern = new RegExp(
-            `\\b${entityName.replace(/\./g, '\\.')}\\b`
+          const escapedEntityName = entityName.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            '\\$&'
           )
+          const entityPattern = new RegExp(`\\b${escapedEntityName}\\b`)
           if (entityPattern.test(docsContent)) {
             hasCompositionImpact = true
             impactedTests.add(screenshotTest)

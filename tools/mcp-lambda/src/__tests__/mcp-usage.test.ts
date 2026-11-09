@@ -223,16 +223,16 @@ describe('usageRecordsFromRequestBody', () => {
   )
 
   it.each(['DatePicker', 'datepicker', 'DATE-PICKER-'])(
-    'stores the likely component for the missed guess %s',
+    'stores the guess %s under its doc name',
     async (name) => {
       const [record] = await usageRecordsFromRequestBody(
         body(toolCall('component_doc', { name })),
         { env: 'dev', now: NOW, resolver }
       )
 
-      expect(record?.component).toBe('')
-      expect(record?.component_missed).toBe(true)
-      expect(record?.likely_component).toBe('date-picker')
+      expect(record?.component).toBe('date-picker')
+      expect(record?.component_missed).toBe(false)
+      expect(record?.likely_component).toBe('')
       expect(JSON.stringify(record)).not.toContain(name)
     }
   )

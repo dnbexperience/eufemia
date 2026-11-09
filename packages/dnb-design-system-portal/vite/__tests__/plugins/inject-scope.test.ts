@@ -55,7 +55,7 @@ describe('extractScopeIdentifiers', () => {
     expect(result).toContain('Card')
   })
 
-  it('extracts named AI hooks without adding built-in React hooks', () => {
+  it('extracts named Chat hooks without adding built-in React hooks', () => {
     expect(
       extractScopeIdentifiers(
         'useState(); useConversation(); useConversationVisibility(); useConversationScrollState()'
@@ -140,10 +140,10 @@ describe('extractScopeIdentifiers', () => {
 })
 
 describe('injectScope babel plugin', () => {
-  it('includes named AI components and hooks in the live scope', async () => {
+  it('includes named Chat components and hooks in the live scope', async () => {
     const input = `
       import ComponentBox from '../../shared/tags/ComponentBox'
-      import { MessageIndicator, ActivityText, useConversation } from '@dnb/eufemia/src/extensions/ai'
+      import { MessageIndicator, ActivityText, useConversation } from '@dnb/eufemia/src/extensions/chat'
       export function Demo() {
         return <ComponentBox>{() => {
           const { scrollToEnd } = useConversation()
@@ -191,7 +191,7 @@ describe('injectScope babel plugin', () => {
     expect(output).toMatch(/__buildScope[\s\S]*Button/)
   })
 
-  it('imports named AI exports when a code string has no file-level import', async () => {
+  it('imports named Chat exports when a code string has no file-level import', async () => {
     const output = await transformWithFullPipeline(`
       import ComponentBox from '../../shared/tags/ComponentBox'
       export function Demo() {
@@ -202,7 +202,7 @@ describe('injectScope babel plugin', () => {
     expect(output).toContain(
       'MessageIndicator as __scope_MessageIndicator'
     )
-    expect(output).toContain('@dnb/eufemia/src/extensions/ai')
+    expect(output).toContain('@dnb/eufemia/src/extensions/chat')
     expect(output).toContain('MessageIndicator: __scope_MessageIndicator')
   })
 

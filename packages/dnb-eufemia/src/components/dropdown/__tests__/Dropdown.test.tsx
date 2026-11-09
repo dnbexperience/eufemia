@@ -258,6 +258,69 @@ describe('Dropdown component', () => {
     ).not.toHaveAttribute('aria-invalid')
   })
 
+  it.each([
+    [
+      'the disabled prop',
+      (props: DropdownAllProps, disabled: boolean) => (
+        <Dropdown {...props} disabled={disabled} />
+      ),
+    ],
+    [
+      'Provider formElement',
+      (props: DropdownAllProps, disabled: boolean) => (
+        <Provider formElement={{ disabled }}>
+          <Dropdown {...props} />
+        </Provider>
+      ),
+    ],
+    [
+      'Provider Dropdown',
+      (props: DropdownAllProps, disabled: boolean) => (
+        <Provider Dropdown={{ disabled }}>
+          <Dropdown {...props} />
+        </Provider>
+      ),
+    ],
+  ])(
+    'ignores selection after the open Dropdown becomes disabled via %s',
+    async (_, renderDropdown) => {
+      const onChange = vi.fn()
+      const onSelect = vi.fn()
+      const props: DropdownAllProps = {
+        data: ['Apple', 'Orange'],
+        defaultValue: 0,
+        noAnimation: true,
+        skipPortal: true,
+        onChange,
+        onSelect,
+      }
+      const { rerender } = render(renderDropdown(props, false))
+      const user = userEvent.setup()
+      await user.click(document.querySelector('.dnb-dropdown__trigger'))
+      rerender(renderDropdown(props, true))
+      expect(
+        document.querySelector('.dnb-dropdown__trigger')
+      ).toBeDisabled()
+      const option =
+        document.querySelectorAll<HTMLElement>('[role="option"]')[1]
+      expect(option).toHaveTextContent('Orange')
+      await user.click(option)
+
+      expect(onChange).not.toHaveBeenCalled()
+      expect(onSelect).not.toHaveBeenCalled()
+      expect(
+        document.querySelector('.dnb-dropdown__text__inner')
+      ).toHaveTextContent('Apple')
+
+      rerender(renderDropdown(props, false))
+      await user.click(
+        document.querySelectorAll<HTMLElement>('[role="option"]')[1]
+      )
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onSelect).toHaveBeenCalledTimes(1)
+    }
+  )
+
   it('will stay open when keepOpen and a selection is made', () => {
     const onChange = vi.fn()
     render(

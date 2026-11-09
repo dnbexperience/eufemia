@@ -60,7 +60,7 @@ export default function StickyMenuBar() {
 
           <Link
             href="/"
-            className={clsx(mobileLogoStyle, 'dnb-tab-focus')}
+            className={mobileLogoStyle}
             title="Go to Eufemia home"
           >
             <PortalLogo />

@@ -6,14 +6,12 @@ import Anchor, { Link } from '../tags/Anchor'
 import { Card, H2, P, Span } from '@dnb/eufemia/src'
 import homeData from './HomeData.json'
 import HomeHero from './HomeHero'
+import HomeArtwork from './HomeArtwork'
 import {
-  actionArtworkStyle,
   actionDescriptionStyle,
   actionGridStyle,
   actionStyle,
   actionTitleStyle,
-  developArtworkStyle,
-  designArtworkStyle,
   resourceGridStyle,
   resourcesStyle,
   rootStyle,
@@ -38,9 +36,8 @@ export default function Home() {
                 backgroundColor="var(--token-color-background-neutral-subtle)"
                 outline="var(--token-color-stroke-neutral-subtle)"
               >
-                <span
-                  className={`${actionArtworkStyle} ${index === 0 ? designArtworkStyle : developArtworkStyle}`}
-                  aria-hidden
+                <HomeArtwork
+                  variant={index === 0 ? 'design' : 'develop'}
                 />
                 <H2
                   className={actionTitleStyle}

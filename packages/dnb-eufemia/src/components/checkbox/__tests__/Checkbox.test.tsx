@@ -548,6 +548,80 @@ describe('Checkbox component', () => {
     })
   })
 
+  // The numpad Enter key has the same key, but another code
+  it.each([
+    { keyName: 'Enter', code: 'Enter' },
+    { keyName: 'numpad Enter', code: 'NumpadEnter' },
+  ])('should toggle on $keyName and call onClick', ({ code }) => {
+    const onClick = vi.fn()
+    const onChange = vi.fn()
+    render(<Checkbox onClick={onClick} onChange={onChange} />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code })
+
+    expect(input.checked).toBe(true)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+  })
+
+  it('should not toggle on Enter when onClick calls preventDefault', async () => {
+    const onChange = vi.fn()
+    render(
+      <Checkbox
+        onClick={({ preventDefault }) => preventDefault()}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+    input.focus()
+    await userEvent.keyboard('{Enter}')
+
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('sets the input indeterminate to false on Enter, as a click does', () => {
+    render(<Checkbox indeterminate />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' })
+
+    expect(input.checked).toBe(true)
+    expect(input.indeterminate).toBe(false)
+  })
+
+  // One key press must not change the checkbox and send the form at once.
+  // Enter never submits the form, also when the checkbox does not change.
+  it.each([{ readOnly: false }, { readOnly: true }])(
+    'should not submit the form on Enter when readOnly is $readOnly',
+    async ({ readOnly }) => {
+      const onSubmit = vi.fn((event) => event.preventDefault())
+      const onChange = vi.fn()
+      render(
+        <form onSubmit={onSubmit}>
+          <Checkbox readOnly={readOnly} onChange={onChange} />
+          <button type="submit">Submit</button>
+        </form>
+      )
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard('{Enter}')
+
+      expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      // Control: the form can be submitted
+      await userEvent.click(document.querySelector('button'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    }
+  )
+
   it('should call onKeyDown given as a property', () => {
     const onKeyDown = vi.fn()
     const onChange = vi.fn()
@@ -572,6 +646,27 @@ describe('Checkbox component', () => {
 
     expect(onChange).toHaveBeenCalledTimes(0)
   })
+
+  it.each([
+    { checked: false, keyName: 'Enter', key: '{Enter}' },
+    { checked: true, keyName: 'Enter', key: '{Enter}' },
+    { checked: false, keyName: 'Space', key: ' ' },
+    { checked: true, keyName: 'Space', key: ' ' },
+  ])(
+    'should not toggle on $keyName when readOnly and checked is $checked',
+    async ({ checked, key }) => {
+      const onChange = vi.fn()
+      render(<Checkbox readOnly checked={checked} onChange={onChange} />)
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard(key)
+
+      // Enter clicks the input, so readOnly blocks it as it blocks Space (#9754)
+      expect(input.checked).toBe(checked)
+      expect(onChange).toHaveBeenCalledTimes(0)
+    }
+  )
 
   it('should call onKeyUp given as a property', () => {
     const onKeyUp = vi.fn()
@@ -760,6 +855,34 @@ describe('Checkbox scss', () => {
     expect(block).toMatch(
       /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\);/
     )
+  })
+
+  it('uses a 1.5px border for indeterminate checkboxes, and 1px when disabled or with an error', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    ).replace(/\/\*[\s\S]*?\*\//g, '')
+    const borderWidths = Array.from(
+      css.matchAll(
+        /([^{}]+)\{[^{}]*\s--checkbox-border-width--default: ([^;]+);/g
+      ),
+      ([, selectors, width]) => [selectors.trim(), width]
+    )
+
+    expect(borderWidths).toEqual([
+      ['.dnb-checkbox', '0.0625rem'],
+      [
+        '.dnb-checkbox__input:indeterminate ~ .dnb-checkbox__button',
+        '0.09375rem',
+      ],
+      [
+        '.dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__button',
+        '0.0625rem',
+      ],
+      [
+        '.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button',
+        '0.0625rem',
+      ],
+    ])
   })
 
   it('should match style dependencies css', () => {

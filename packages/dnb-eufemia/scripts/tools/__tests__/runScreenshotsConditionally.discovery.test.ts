@@ -203,6 +203,43 @@ describe('runScreenshotsConditionally discovery', () => {
     }
   })
 
+  it('matches entity names literally, not as regex patterns', () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-literal-'))
+    try {
+      const docsRoot = path.join(root, 'docs')
+      for (const [name, content] of [
+        ['literal', '<A+b />'],
+        ['pattern', '<AAb />'],
+      ]) {
+        fs.mkdirSync(path.join(docsRoot, 'web/components', name), {
+          recursive: true,
+        })
+        fs.writeFileSync(
+          path.join(docsRoot, 'web/components', name, 'Examples.tsx'),
+          content
+        )
+        fs.writeFileSync(
+          path.join(root, `${name}.screenshot.test.ts`),
+          `makeScreenshot({ url: '/web/components/${name}/demos' })`
+        )
+      }
+      const context = {
+        packageRoot: root,
+        portalDocsRoot: docsRoot,
+      } as RunnerContext
+
+      expect(
+        findCompositionImpactedTests(
+          context,
+          ['src/components/a+b/AB.tsx'],
+          ['literal.screenshot.test.ts', 'pattern.screenshot.test.ts']
+        )
+      ).toEqual(['literal.screenshot.test.ts'])
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
+
   it('ignores non-src and technical folder segments', () => {
     const names = collectChangedEntityNames([
       'packages/dnb-eufemia/scripts/tools/runScreenshotsConditionally/runner.ts',

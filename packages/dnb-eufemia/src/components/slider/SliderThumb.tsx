@@ -51,6 +51,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     numberFormat,
     tooltip,
     alwaysShowTooltip,
+    thumbTitle,
   } = allProps
 
   const index = thumbIndex.current
@@ -94,6 +95,12 @@ function Thumb({ value, currentIndex }: ThumbProps) {
       helperParams,
       id + '-label'
     )
+  } else if (
+    thumbTitle &&
+    !helperParams['aria-label'] &&
+    !helperParams['aria-labelledby']
+  ) {
+    helperParams['aria-label'] = thumbTitle
   }
 
   if (showStatus || suffix) {

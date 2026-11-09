@@ -767,8 +767,8 @@ jobs:
           path: packages/dnb-eufemia
 
       # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
-      # the npm tarball. Complements npm provenance; verify with
-      # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
+      # the npm tarball. Complements npm provenance; docs/sbom.md shows how to
+      # verify it.
       - name: Attest the SBOM
         continue-on-error: true
         if: steps.subject.outcome == 'success' &&

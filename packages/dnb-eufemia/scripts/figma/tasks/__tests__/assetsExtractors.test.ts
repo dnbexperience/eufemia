@@ -334,7 +334,19 @@ describe('assetsExtractors', () => {
   it('propagates download generation failures from extractIcons', async () => {
     const error = new Error('Download generation failed')
     vi.mocked(createIconDownloads).mockRejectedValueOnce(error)
+    const consoleLog = vi
+      .spyOn(console, 'log')
+      .mockImplementation(() => undefined)
+    onTestFinished(() => consoleLog.mockRestore())
+
     await expect(runMock()).rejects.toBe(error)
+    expect(consoleLog).toHaveBeenCalledWith(
+      '\n\n',
+      'Download generation failed (error code 100)',
+      '\n---',
+      'Error: Download generation failed',
+      '\n---\n\n'
+    )
   })
 
   it('deduplicates exports for download fingerprints and Android packages', async () => {
