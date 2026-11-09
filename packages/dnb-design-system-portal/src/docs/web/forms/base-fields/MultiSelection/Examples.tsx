@@ -236,7 +236,7 @@ export const WithSearch = () => (
 )
 
 export const WithConfirmCancel = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="multi-selection-confirm-cancel">
     {() => {
       const cities = [
         { value: 'oslo', title: 'Oslo', text: 'Capital of Norway' },
