@@ -12,4 +12,6 @@ Selection reuses the screenshot suite's TypeScript and SCSS dependency helpers. 
 
 Protected branches and release PRs keep full coverage. Portal content and shared source, assets, configuration, build, and dependency changes also receive full coverage. Static unit expectations and agent guidance alone do not add browser coverage. Source-driven style matrices and tests without a resolved owner remain included for product changes.
 
+Use a component-only branch to verify that CI proposes a partial selection and measure the preview step's duration, including TypeScript dependency analysis. Workflow changes select all tests before building dependency graphs, so those runs do not measure partial selection.
+
 Before enabling selective execution, compare the proposed selection with full CI results across component, composed-fixture, Portal, shared-style, asset and configuration changes. In particular, dynamic route construction, imports under aliases, redirects, file reads, and dependency changes need review. The preview does not authorize reducing coverage simply because a component name was absent from a route.

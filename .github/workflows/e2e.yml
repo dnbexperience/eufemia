@@ -61,6 +61,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Preview affected E2E tests
+        continue-on-error: true
         run: yarn workspace @dnb/eufemia test:e2e:explain
         env:
           E2E_TEST_BASE_REF: origin/${{ github.base_ref || 'main' }}
