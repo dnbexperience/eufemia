@@ -9,22 +9,22 @@ import { Search } from '@dnb/eufemia'
 
 <Search.Input label="Search products" />
 <Search.Autocomplete label="Search products" data={['Cards', 'Loans']} />
-<Search.Popover label="Search products" data={['Cards', 'Loans']} />
+<Search.Panel label="Search products" data={['Cards', 'Loans']} />
 ```
 
-The namespace export follows [List](/web/components/list). A production bundler includes the parts you use. `Search.Input` uses Input and does not include Autocomplete or DrawerList. Using `Search.Autocomplete` or `Search.Popover` opts in to those dependencies. The Search.Popover implementation is excluded when you use either of the other components.
+The namespace export follows [List](/web/components/list). A production bundler includes the parts you use. `Search.Input` uses Input and does not include Autocomplete or DrawerList. Using `Search.Autocomplete` or `Search.Panel` opts in to those dependencies. The Search.Panel implementation is excluded when you use either of the other components.
 
 You can also import each component directly:
 
 ```tsx
 import SearchInput from '@dnb/eufemia/components/search/SearchInput'
 import SearchAutocomplete from '@dnb/eufemia/components/search/SearchAutocomplete'
-import SearchPopover from '@dnb/eufemia/components/search/SearchPopover'
+import SearchPanel from '@dnb/eufemia/components/search/SearchPanel'
 ```
 
 ## Description
 
-Search helps people find content. Choose `Search.Input` for a search field, `Search.Autocomplete` for suggestions as people type, or `Search.Popover` to combine suggestions with filters and sorting. All three keep the query on blur, have a translated screen reader label, and support the same variants, shortcut hint, and focus expansion.
+Search helps people find content. Choose `Search.Input` for a search field, `Search.Autocomplete` for suggestions as people type, or `Search.Panel` to combine suggestions with filters and sorting. All three keep the query on blur, have a translated screen reader label, and support the same variants, shortcut hint, and focus expansion.
 
 Give the component a descriptive `label`, such as "Search products", when the search scope needs explanation. Set `labelSrOnly={false}` to show the label.
 
@@ -36,22 +36,22 @@ Search.Input builds on [Input](/web/components/input). Use `onChange` to receive
 
 Search.Autocomplete builds on [Autocomplete](/web/components/autocomplete), including accessible suggestions, keyboard navigation, loading indicators, clear buttons, and asynchronous results. Provide `data` for local suggestions or use `mode="async"` and `onType` to load results. Use `onChange` to open a selected result and `onSubmit` to handle a query without a selected result. Selecting a result does not replace the query by default.
 
-### Popover behavior
+### Panel behavior
 
-Search.Popover combines Autocomplete's inline results with [Popover](/web/components/popover). It opens on focus by default and includes Popover's close button. Results render through a React portal, avoiding clipping by the input's container. The surface aligns with the input's left edge by default. Set `align="center"` or `align="right"` to change this; the surface stays inside the viewport. Use a render function to place filters, sorting, or actions around the provided `results`. These controls stay outside the listbox and retain their own keyboard behavior.
+Search.Panel combines Autocomplete's inline results with [Popover](/web/components/popover). It opens on focus by default and includes Popover's close button. Results render through a React portal, avoiding clipping by the input's container. The rounded panel uses the same corner radius and horizontal padding as Filter.Panel, with a 1.5rem gap below the input and space for the close button. The surface aligns with the input's left edge by default. Set `align="center"` or `align="right"` to change this; the surface stays inside the viewport. Use a render function to place filters, sorting, or actions around the provided `results`. These controls stay outside the listbox and retain their own keyboard behavior.
 
 ```tsx
-<Search.Popover label="Search products" data={['Cards', 'Loans']}>
+<Search.Panel label="Search products" data={['Cards', 'Loans']}>
   {({ results }) => (
     <Flex.Stack>
       <P>Choose a product</P>
       {results}
     </Flex.Stack>
   )}
-</Search.Popover>
+</Search.Panel>
 ```
 
-Up and Down navigate results while the input has focus, and Enter selects a result. Tab moves between the input and custom controls without trapping focus. Escape closes the results and returns focus to the input. See the [sorting and filter example](/web/components/search/demos#searchpopover).
+Up and Down navigate results while the input has focus, and Enter selects a result. Tab moves between the input and custom controls without trapping focus. Escape closes the results and returns focus to the input. See the [sorting and filter example](/web/components/search/demos#searchpanel).
 
 ### Variants
 
