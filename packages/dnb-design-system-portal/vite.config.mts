@@ -8,54 +8,69 @@ import { defineConfig, withFilter } from 'vite'
 import react from '@vitejs/plugin-react'
 import buildTargets from '@dnb/browserslist-config/buildTargets.mjs'
 import { createRequire } from 'node:module'
-import stripMissingExampleImportsPlugin from './vite/client/plugins/strip-missing-example-imports'
-import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel'
-import loadJsAsJsxPlugin from './vite/client/plugins/load-js-as-jsx'
-import portalMdxPlugin from './vite/client/plugins/portal-mdx'
-import portalPagesPlugin from './vite/client/plugins/portal-pages'
-import eufemiaThemePlugin from './vite/client/plugins/eufemia-theme'
-import redirectIndexHtmlPlugin from './vite/client/plugins/redirect-index-html'
-import prefetchOnHoverPlugin from './vite/client/plugins/prefetch-on-hover'
-import catchLinksPlugin from './vite/client/plugins/catch-links'
-import scrollPositionPlugin from './vite/client/plugins/scroll-position'
-import preloadStylesPlugin from './vite/client/plugins/preload-styles'
-import chunkLoadErrorHandlerPlugin from './vite/client/plugins/chunk-load-error-handler'
-import testPageFilterPlugin from './vite/client/plugins/test-page-filter'
-import buildInfoPlugin from './vite/client/plugins/build-info'
-import githubReleasesPlugin from './vite/client/plugins/github-releases'
-import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild'
-import gitBranchPlugin from './vite/client/plugins/git-branch'
-import analyticsCollectDevPlugin from './vite/client/plugins/analytics-collect-dev'
+import stripMissingExampleImportsPlugin from './vite/client/plugins/strip-missing-example-imports.ts'
+import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel.ts'
+import loadJsAsJsxPlugin from './vite/client/plugins/load-js-as-jsx.ts'
+import portalMdxPlugin from './vite/client/plugins/portal-mdx.ts'
+import portalPagesPlugin from './vite/client/plugins/portal-pages.ts'
+import eufemiaThemePlugin from './vite/client/plugins/eufemia-theme.ts'
+import redirectIndexHtmlPlugin from './vite/client/plugins/redirect-index-html.ts'
+import prefetchOnHoverPlugin from './vite/client/plugins/prefetch-on-hover.ts'
+import catchLinksPlugin from './vite/client/plugins/catch-links.ts'
+import scrollPositionPlugin from './vite/client/plugins/scroll-position.ts'
+import preloadStylesPlugin from './vite/client/plugins/preload-styles.ts'
+import chunkLoadErrorHandlerPlugin from './vite/client/plugins/chunk-load-error-handler.ts'
+import testPageFilterPlugin from './vite/client/plugins/test-page-filter.ts'
+import buildInfoPlugin from './vite/client/plugins/build-info.ts'
+import githubReleasesPlugin from './vite/client/plugins/github-releases.ts'
+import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild.ts'
+import gitBranchPlugin from './vite/client/plugins/git-branch.ts'
+import analyticsCollectDevPlugin from './vite/client/plugins/analytics-collect-dev.ts'
 import path from 'node:path'
 
 const nodeRequire = createRequire(import.meta.url)
 const { requireConfigTimeEufemiaModule } = nodeRequire(
   './vite/shared/eufemia-prebuild-paths.cjs'
 )
-
-// PostCSS plugins used by the portal
-const postcssIsolatePlugin = requireConfigTimeEufemiaModule(
-  '@dnb/eufemia/src/plugins/postcss-isolated-style-scope',
-  nodeRequire
-)
-const { getStyleScopeHash } = requireConfigTimeEufemiaModule(
-  '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs',
-  nodeRequire
-)
 const postcssThemeScopePlugin = nodeRequire(
   './postcss-eufemia-theme-scope.cjs'
 )
 
-export default defineConfig({
-  root: path.resolve(__dirname, 'vite/client'),
+// PostCSS plugins used by the portal
+function getPostcssPlugins() {
+  const postcssIsolatePlugin = requireConfigTimeEufemiaModule(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope',
+    nodeRequire
+  )
+  const { getStyleScopeHash } = requireConfigTimeEufemiaModule(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs',
+    nodeRequire
+  )
+
+  return [
+    postcssIsolatePlugin({
+      scopeHash: 'eufemia-scope--portal',
+      skipClassNames: ['eufemia-scope--default'],
+      replaceClassNames: {
+        [getStyleScopeHash()]: 'eufemia-scope--portal',
+      },
+      verbose: false,
+      warnOnDeprecatedColorVariables: false,
+    }),
+    postcssThemeScopePlugin(),
+  ]
+}
+
+const config = defineConfig({
+  root: path.resolve(import.meta.dirname, 'vite/client'),
 
   // Serve static files from the portal's static/ directory (favicons, images, etc.)
-  publicDir: path.resolve(__dirname, 'static'),
+  publicDir: path.resolve(import.meta.dirname, 'static'),
 
   // pipelines work unchanged.
   build: {
     target: buildTargets,
-    outDir: path.resolve(__dirname, 'public'),
+    outDir: path.resolve(import.meta.dirname, 'public'),
     emptyOutDir: true,
     chunkSizeWarningLimit: 4000,
   },
@@ -168,33 +183,12 @@ export default defineConfig({
     alias: {
       // Portal data query layer (useStaticQuery, graphql, navigate)
       'portal-query': path.resolve(
-        __dirname,
+        import.meta.dirname,
         'vite/client/shims/portal-query.tsx'
       ),
 
       // Match Docs alias
-      Docs: path.resolve(__dirname, 'src/docs'),
-    },
-  },
-
-  css: {
-    // Override postcss.config.js to exclude the production-only font URL
-    // rewrite. In release builds it targets the matching assets.eufemia.dnb.no
-    // version.
-    // In dev, fonts load from relative paths resolved by Vite.
-    postcss: {
-      plugins: [
-        postcssIsolatePlugin({
-          scopeHash: 'eufemia-scope--portal',
-          skipClassNames: ['eufemia-scope--default'],
-          replaceClassNames: {
-            [getStyleScopeHash()]: 'eufemia-scope--portal',
-          },
-          verbose: false,
-          warnOnDeprecatedColorVariables: false,
-        }),
-        postcssThemeScopePlugin(),
-      ],
+      Docs: path.resolve(import.meta.dirname, 'src/docs'),
     },
   },
 
@@ -236,3 +230,16 @@ export default defineConfig({
     'process.env.isCI': JSON.stringify(false),
   },
 })
+
+export default defineConfig(({ isPreview }) => ({
+  ...config,
+
+  // Override postcss.config.js to exclude the production-only font URL
+  // rewrite. In release builds it targets the matching assets.eufemia.dnb.no
+  // version.
+  // In dev, fonts load from relative paths resolved by Vite.
+  // The preview server only serves built files, so it needs no PostCSS plugins.
+  css: isPreview
+    ? undefined
+    : { postcss: { plugins: getPostcssPlugins() } },
+}))

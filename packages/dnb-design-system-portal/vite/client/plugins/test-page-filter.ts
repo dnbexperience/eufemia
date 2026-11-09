@@ -24,7 +24,14 @@ import { readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import ts from 'typescript'
 
-const repoRoot = path.resolve(__dirname, '..', '..', '..', '..', '..')
+const repoRoot = path.resolve(
+  import.meta.dirname,
+  '..',
+  '..',
+  '..',
+  '..',
+  '..'
+)
 
 const GENERAL_TEST_PAGES = ['/404', '/404.html', '/500', '/500.html']
 

@@ -90,6 +90,31 @@ describe('MenuAccordion', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false')
   })
 
+  it('renders its list as a direct child of the height animation', () => {
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as">
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-menu__accordion__trigger')
+    )
+
+    // The padding-top in dnb-menu.scss depends on this structure
+    expect(
+      document.querySelector(
+        '.dnb-menu__accordion > .dnb-height-animation > .dnb-menu__list'
+      ).textContent
+    ).toBe('PDF')
+  })
+
   it('opens on Enter key', () => {
     const ctx = createMockContext()
 

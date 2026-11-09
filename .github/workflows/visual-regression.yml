@@ -178,16 +178,17 @@ jobs:
         run: |
           (
             while sleep 60; do
-              ps -axo rss,comm | awk '
+              swap_used="$(sysctl -n vm.swapusage | awk '{ print $6 }')"
+              ps -axo rss,comm | awk -v swap_used="$swap_used" '
                 /Nightly.app/ { firefox += $1 }
                 /node$/ { node += $1 }
-                END { printf "Memory: Firefox %.0f MiB, Node %.0f MiB\n", firefox / 1024, node / 1024 }
+                END { printf "Memory: Firefox %.0f MiB, Node %.0f MiB, swap used %s\n", firefox / 1024, node / 1024, swap_used }
               '
-              sysctl vm.swapusage
             done
-          ) &
+          ) 2>/dev/null &
           monitor_pid=$!
-          trap 'kill "$monitor_pid" 2>/dev/null || true' EXIT
+          # Stop the pending sleep too, so no orphaned process is left for the runner to clean up
+          trap 'pkill -P "$monitor_pid" 2>/dev/null || true; kill "$monitor_pid" 2>/dev/null || true' EXIT
           yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
 
       - name: Store visual test artifacts

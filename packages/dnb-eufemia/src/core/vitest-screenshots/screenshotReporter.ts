@@ -19,7 +19,7 @@ import type {
   TestRunEndReason,
   TestSuite,
 } from 'vitest/node'
-import { drainFailures, type ScreenshotFailureRecord } from './failures'
+import { drainFailures, type ScreenshotFailureRecord } from './failures.ts'
 
 // eslint-disable-next-line no-control-regex
 const ANSI_ESCAPE_SEQUENCE = /\u001B\[[0-?]*[ -/]*[@-~]/g

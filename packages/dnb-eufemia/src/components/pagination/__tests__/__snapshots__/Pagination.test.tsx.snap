@@ -1322,6 +1322,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-progress-indicator--full-width.dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
   flex-shrink: 0;
   max-width: 50%;
+  padding-left: 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
@@ -1651,7 +1652,7 @@ html[data-visual-test] .dnb-progress-indicator {
   text-decoration: none;
 }
 .dnb-pagination__button {
-  max-width: 3.5rem;
+  max-width: 3.3125rem;
 }
 .dnb-pagination__button.dnb-button--secondary {
   --button-color-border--hover: var(--token-color-stroke-action-hover);
@@ -1732,7 +1733,8 @@ html[data-visual-test] .dnb-progress-indicator {
 }
 .dnb-pagination__bar__skip {
   display: flex;
-  column-gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 2.5rem;
 }
 
 @keyframes show-page {

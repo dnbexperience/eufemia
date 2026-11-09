@@ -64,7 +64,7 @@ console.log(
 )
 
 execSync(
-  'yarn vitest run --config vitest.config.screenshots.ts --update',
+  'yarn vitest run --config vitest.config.screenshots.mts --update',
   {
     stdio: 'inherit',
     env: { ...process.env, SCREENSHOT_INCLUDE: testFiles.join(',') },

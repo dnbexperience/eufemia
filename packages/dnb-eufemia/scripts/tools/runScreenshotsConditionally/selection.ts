@@ -30,7 +30,7 @@ export function toPackageRelativePath(
     normalizedPath.startsWith('src/') ||
     normalizedPath.startsWith('scripts/') ||
     normalizedPath === 'package.json' ||
-    normalizedPath === 'vitest.config.screenshots.ts'
+    normalizedPath === 'vitest.config.screenshots.mts'
   ) {
     return normalizedPath
   }

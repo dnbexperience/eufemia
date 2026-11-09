@@ -23,7 +23,7 @@ export default function scrollPositionPlugin(): Plugin {
           'scroll-restoration-preload.runtime.ts',
           'scroll-restoration.runtime.ts',
         ].map(async (name) => {
-          const runtimeFile = path.resolve(__dirname, name)
+          const runtimeFile = path.resolve(import.meta.dirname, name)
           const code = fs.readFileSync(runtimeFile, 'utf-8')
           const result = await transformWithOxc(code, runtimeFile, {
             lang: 'ts',
@@ -46,7 +46,7 @@ export default function scrollPositionPlugin(): Plugin {
     async load(id) {
       if (id === RESOLVED_VIRTUAL_MODULE_ID) {
         const runtimeFile = path.resolve(
-          __dirname,
+          import.meta.dirname,
           'scroll-position.runtime.ts'
         )
         const code = fs.readFileSync(runtimeFile, 'utf-8')

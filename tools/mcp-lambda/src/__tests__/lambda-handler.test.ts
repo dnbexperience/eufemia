@@ -190,6 +190,28 @@ describe('lambda-handler protocol versions', () => {
     }
   }
 
+  function postModern(id: number, method: string, params = {}) {
+    return postMcp(
+      {
+        jsonrpc: '2.0',
+        id,
+        method,
+        params: {
+          ...params,
+          _meta: {
+            'io.modelcontextprotocol/protocolVersion': '2026-07-28',
+            'io.modelcontextprotocol/clientInfo': {
+              name: 'modern-test',
+              version: '1.0.0',
+            },
+            'io.modelcontextprotocol/clientCapabilities': {},
+          },
+        },
+      },
+      { 'mcp-protocol-version': '2026-07-28', 'mcp-method': method }
+    )
+  }
+
   it('serves MCP 2025 and 2026 from /mcp', async () => {
     const legacy = await postMcp({
       jsonrpc: '2.0',
@@ -207,44 +229,14 @@ describe('lambda-handler protocol versions', () => {
       '2025-11-25'
     )
 
-    const requestMeta = {
-      'io.modelcontextprotocol/protocolVersion': '2026-07-28',
-      'io.modelcontextprotocol/clientInfo': {
-        name: 'modern-test',
-        version: '1.0.0',
-      },
-      'io.modelcontextprotocol/clientCapabilities': {},
-    }
-    const modern = await postMcp(
-      {
-        jsonrpc: '2.0',
-        id: 2,
-        method: 'server/discover',
-        params: { _meta: requestMeta },
-      },
-      {
-        'mcp-protocol-version': '2026-07-28',
-        'mcp-method': 'server/discover',
-      }
-    )
+    const modern = await postModern(2, 'server/discover')
 
     expect(modern.statusCode).toBe(200)
     expect(JSON.parse(modern.body).result.supportedVersions).toContain(
       '2026-07-28'
     )
 
-    const tools = await postMcp(
-      {
-        jsonrpc: '2.0',
-        id: 3,
-        method: 'tools/list',
-        params: { _meta: requestMeta },
-      },
-      {
-        'mcp-protocol-version': '2026-07-28',
-        'mcp-method': 'tools/list',
-      }
-    )
+    const tools = await postModern(3, 'tools/list')
 
     expect(tools.statusCode).toBe(200)
     expect(
@@ -253,6 +245,22 @@ describe('lambda-handler protocol versions', () => {
       )
     ).toContain('docs_entry')
   })
+
+  it('ends a subscriptions/listen stream at once', async () => {
+    const listen = await postModern(4, 'subscriptions/listen', {
+      notifications: {
+        toolsListChanged: true,
+        promptsListChanged: true,
+        resourcesListChanged: true,
+      },
+    })
+
+    expect(listen.statusCode).toBe(200)
+    expect(listen.body).toContain(
+      'notifications/subscriptions/acknowledged'
+    )
+    expect(listen.body).toContain('"resultType":"complete"')
+  }, 2000)
 })
 
 describe('lambda-handler error handling', () => {

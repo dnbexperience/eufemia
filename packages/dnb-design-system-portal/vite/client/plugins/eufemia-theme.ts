@@ -13,15 +13,21 @@
  */
 
 import { type Plugin } from 'vite'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
-import { hasPrebuild } from './eufemia-prebuild'
-import { getTextScaleScript } from '@dnb/eufemia/src/shared/TextScaleScriptUtils'
-import {
-  getHeadScript,
-  getBodyScript,
-} from '@dnb/eufemia/src/shared/ColorSchemeScriptUtils'
+import { hasPrebuild } from './eufemia-prebuild.ts'
+import type * as TextScaleScriptUtils from '@dnb/eufemia/src/shared/TextScaleScriptUtils.ts'
+import type * as ColorSchemeScriptUtils from '@dnb/eufemia/src/shared/ColorSchemeScriptUtils.ts'
+
+const require = createRequire(import.meta.url)
+
+// require, as an import makes Node warn that @dnb/eufemia has no "type" field
+const { getTextScaleScript } =
+  require('@dnb/eufemia/src/shared/TextScaleScriptUtils.ts') as typeof TextScaleScriptUtils
+const { getHeadScript, getBodyScript } =
+  require('@dnb/eufemia/src/shared/ColorSchemeScriptUtils.ts') as typeof ColorSchemeScriptUtils
 
 // The portal scopes its styles to itself rather than to an Eufemia version.
 const SCOPE_HASH = 'eufemia-scope--portal'
@@ -76,7 +82,7 @@ function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
 }
 
 function collectThemeFiles(config: ThemeConfig): string[] {
-  const portalDir = path.resolve(__dirname, '../../..')
+  const portalDir = path.resolve(import.meta.dirname, '../../..')
   const packageRoot = path.dirname(
     require.resolve('@dnb/eufemia', { paths: [portalDir] })
   )
