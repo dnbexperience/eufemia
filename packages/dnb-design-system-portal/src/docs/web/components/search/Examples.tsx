@@ -147,37 +147,47 @@ export const SearchPanel = () => (
                     gap="x-small"
                     wrap
                   >
-                    <FormLabel element="span">Show results from</FormLabel>
-                    <Menu.Root
-                      skipPortal
-                      alignOnTarget="right"
-                      arrowPosition="right"
-                      arrowPositionSelector=".dnb-button__icon"
+                    <FormLabel
+                      element="span"
+                      vertical={false}
+                      right={false}
                     >
-                      <Menu.Button
-                        variant="tertiary"
-                        icon="chevron_down"
-                        text={sortLabel}
-                        aria-label={`Sort results: ${sortLabel}`}
-                      />
-                      <Menu.List
-                        aria-label="Sort results"
-                        style={{ whiteSpace: 'nowrap' }}
+                      Show results from
+                    </FormLabel>
+                    <Flex.Item style={{ marginLeft: 'auto' }}>
+                      <Menu.Root
+                        skipPortal
+                        alignOnTarget="right"
+                        arrowPosition="right"
+                        arrowPositionSelector=".dnb-button__icon"
                       >
-                        <Menu.Action
-                          text="Relevance"
-                          icon={sort === 'relevance' ? 'check' : undefined}
-                          onClick={() => setSort('relevance')}
+                        <Menu.Button
+                          variant="tertiary"
+                          icon="chevron_down"
+                          text={sortLabel}
+                          aria-label={`Sort results: ${sortLabel}`}
                         />
-                        <Menu.Action
-                          text="Alphabetical"
-                          icon={
-                            sort === 'alphabetical' ? 'check' : undefined
-                          }
-                          onClick={() => setSort('alphabetical')}
-                        />
-                      </Menu.List>
-                    </Menu.Root>
+                        <Menu.List
+                          aria-label="Sort results"
+                          style={{ whiteSpace: 'nowrap' }}
+                        >
+                          <Menu.Action
+                            text="Relevance"
+                            icon={
+                              sort === 'relevance' ? 'check' : undefined
+                            }
+                            onClick={() => setSort('relevance')}
+                          />
+                          <Menu.Action
+                            text="Alphabetical"
+                            icon={
+                              sort === 'alphabetical' ? 'check' : undefined
+                            }
+                            onClick={() => setSort('alphabetical')}
+                          />
+                        </Menu.List>
+                      </Menu.Root>
+                    </Flex.Item>
                   </Flex.Container>
                   <ToggleButton.Group
                     label="Show results from"

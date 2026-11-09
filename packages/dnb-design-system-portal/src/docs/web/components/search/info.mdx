@@ -38,7 +38,7 @@ Search.Autocomplete builds on [Autocomplete](/web/components/autocomplete), incl
 
 ### Panel behavior
 
-Search.Panel combines Autocomplete's inline results with [Popover](/web/components/popover). It opens on focus by default and includes Popover's close button. Results render through a React portal, avoiding clipping by the input's container. The rounded panel uses the same corner radius and horizontal padding as Filter.Panel, with a 1.5rem gap below the input and space for the close button. The surface aligns with the input's left edge by default. Set `align="center"` or `align="right"` to change this; the surface stays inside the viewport. Use a render function to place filters, sorting, or actions around the provided `results`. These controls stay outside the listbox and retain their own keyboard behavior.
+Search.Panel combines Autocomplete's inline results with [Popover](/web/components/popover). It opens on focus by default and includes Popover's close button. Results render through a React portal, avoiding clipping by the input's container. The rounded panel uses the same corner radius and horizontal padding as Filter.Panel, with a 0.5rem gap below the input and space for the close button. The surface aligns with the input's left edge by default. Set `align="center"` or `align="right"` to change this; the surface stays inside the viewport. Use a render function to place filters, sorting, or actions around the provided `results`. These controls stay outside the listbox and retain their own keyboard behavior.
 
 ```tsx
 <Search.Panel label="Search products" data={['Cards', 'Loans']}>
