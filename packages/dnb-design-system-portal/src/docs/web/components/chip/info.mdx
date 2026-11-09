@@ -1,0 +1,47 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Chip } from '@dnb/eufemia'
+```
+
+## Description
+
+A Chip lets people make and change a selection in context. Each Chip represents one value, such as a filter, a category or a choice.
+
+Unlike a [Button](/web/components/button), a Chip does not perform a task or navigate. It holds a state. Chips almost always appear in a group, and the group as a whole shows the current selection. Use `Chip.Group` with a `label` to describe what the Chips select.
+
+The Chip is based on the [ToggleButton](/web/components/toggle-button), and supports the same selection logic, status and keyboard behavior.
+
+### Variants
+
+- `default`: turns a value on or off.
+- `add-remove`: shows an add icon that turns into a remove icon when the Chip is checked.
+- `checkbox`: shows a checkbox in front of the text. More than one Chip can be checked.
+- `radio`: shows a radio button in front of the text. Only one Chip can be checked.
+
+### When not to use a Chip
+
+| Need                               | Use instead                                                                                                          |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Perform an action or submit a form | [Button](/web/components/button)                                                                                     |
+| Navigate somewhere                 | [Anchor](/web/components/anchor) or a tertiary [Button](/web/components/button)                                      |
+| Show read-only, static metadata    | [Tag](/web/components/tag)                                                                                           |
+| Choose from more than ~10 options  | [Autocomplete](/web/components/autocomplete) or [Dropdown](/web/components/dropdown)                                 |
+| A single on or off setting         | [Switch](/web/components/switch) or [Checkbox](/web/components/checkbox)                                             |
+| Long, sentence-like options        | [Field.Selection](/web/forms/base-fields/Selection) or [Field.ArraySelection](/web/forms/base-fields/ArraySelection) |
+
+## Accessibility
+
+Every Chip is a native `button` that tells screen readers whether it is pressed. `Chip.Group` renders a `fieldset` with the `label` as its `legend`, so screen readers announce what the Chips select. Icons are only decorative, so the text of a Chip has to describe it.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=70338-7697)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/chip)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/chip)
+
+<RelatedComponents />

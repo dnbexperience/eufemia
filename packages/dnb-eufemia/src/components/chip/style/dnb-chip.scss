@@ -1,0 +1,186 @@
+/*
+* Chip component
+*
+*/
+
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-chip {
+  &.dnb-toggle-button .dnb-toggle-button__button {
+    --button-border-radius: var(--token-radius-xl);
+
+    // Background
+    --button-color-bg--default: var(--token-color-background-neutral);
+    --button-color-bg--hover: var(--token-color-background-neutral);
+    --button-color-bg--active: var(--token-color-background-neutral);
+    --button-color-bg--disabled: var(--token-color-background-neutral);
+
+    // Border
+    --button-color-border--default: var(--token-color-stroke-neutral-bold);
+    --button-color-border--hover: var(--token-color-stroke-action-hover);
+    --button-color-border--active: var(
+      --token-color-stroke-action-pressed
+    );
+    --button-color-border--disabled: var(
+      --token-color-stroke-neutral-subtle
+    );
+
+    // Icon
+    --button-color-icon--default: var(--token-color-icon-neutral);
+    --button-color-icon--hover: var(--token-color-icon-neutral);
+    --button-color-icon--active: var(--token-color-icon-neutral);
+    --button-color-icon--disabled: var(--token-color-icon-action-disabled);
+
+    // Text
+    --button-color-text--default: var(--token-color-text-neutral);
+    --button-color-text--hover: var(--token-color-text-neutral);
+    --button-color-text--active: var(--token-color-text-neutral);
+    --button-color-text--disabled: var(--token-color-text-action-disabled);
+
+    .dnb-button__text {
+      font-weight: var(--font-weight-regular);
+    }
+
+    &.dnb-button--has-text {
+      padding-inline: 1rem;
+    }
+
+    // The indicators are smaller than their boxes, so align their visible edges
+    .dnb-checkbox {
+      margin-inline: -0.125rem;
+    }
+
+    .dnb-radio {
+      margin-inline: -0.25rem;
+    }
+  }
+
+  &.dnb-toggle-button--checked .dnb-toggle-button__button {
+    --button-border-width--default: 0.125rem;
+
+    // Background
+    --button-color-bg--default: var(
+      --token-color-background-selected-subtle
+    );
+    --button-color-bg--hover: var(
+      --token-color-background-selected-subtle
+    );
+    --button-color-bg--active: var(
+      --token-color-background-selected-subtle
+    );
+    --button-color-bg--disabled: var(
+      --token-color-background-neutral-subtle
+    );
+
+    // Border
+    --button-color-border--default: var(
+      --token-color-component-button-stroke-selected
+    );
+    --button-color-border--disabled: var(
+      --token-color-stroke-neutral-base
+    );
+  }
+
+  &.dnb-toggle-button__status--error .dnb-toggle-button__button {
+    // Border
+    --button-color-border--default: var(
+      --token-color-component-button-stroke-action-destructive
+    );
+    --button-color-border--hover: var(
+      --token-color-component-button-stroke-action-destructive-hover
+    );
+    --button-color-border--active: var(
+      --token-color-component-button-stroke-action-destructive-pressed
+    );
+  }
+
+  &.dnb-toggle-button__status--error.dnb-toggle-button--checked
+    .dnb-toggle-button__button {
+    // Background
+    --button-color-bg--default: var(--token-color-background-error-subtle);
+    --button-color-bg--hover: var(
+      --token-color-component-button-background-action-destructive-hover-subtle
+    );
+    --button-color-bg--active: var(
+      --token-color-component-button-background-action-destructive-pressed-subtle
+    );
+  }
+
+  &--add-remove .dnb-toggle-button__button {
+    --chip-icon-fill: var(--token-color-background-neutral-base);
+    --chip-icon-stroke: var(--token-color-icon-neutral);
+    --chip-icon-border-color: var(--token-color-stroke-neutral-base);
+    --chip-icon-border-width: 0.0625rem;
+    --chip-icon-border-offset: -0.0625rem;
+    --chip-icon-rotation: 45deg;
+
+    svg {
+      border-radius: 50%;
+      outline: var(--chip-icon-border-width) solid
+        var(--chip-icon-border-color);
+      outline-offset: var(--chip-icon-border-offset);
+      transform: rotate(var(--chip-icon-rotation));
+
+      .dnb-icon-close-circle-path {
+        fill: var(--chip-icon-fill);
+      }
+
+      .dnb-icon-close-cross-path {
+        stroke: var(--chip-icon-stroke);
+      }
+    }
+
+    @include utilities.hover() {
+      --chip-icon-fill: var(--token-color-background-action-hover-subtle);
+      --chip-icon-stroke: var(--token-color-icon-action-hover);
+      --chip-icon-border-color: var(--token-color-stroke-action-hover);
+      --chip-icon-border-width: 0.125rem;
+      --chip-icon-border-offset: 0;
+    }
+
+    @include utilities.active() {
+      --chip-icon-fill: var(
+        --token-color-background-action-pressed-subtle
+      );
+      --chip-icon-stroke: var(--token-color-icon-action-pressed);
+      --chip-icon-border-color: var(--token-color-stroke-action-pressed);
+      --chip-icon-border-width: 0.0625rem;
+      --chip-icon-border-offset: -0.0625rem;
+    }
+
+    &[disabled] {
+      --chip-icon-fill: var(--token-color-background-neutral-subtle);
+      --chip-icon-stroke: var(--token-color-icon-action-disabled);
+      --chip-icon-border-color: var(--token-color-stroke-neutral-subtle);
+    }
+  }
+
+  &--add-remove.dnb-toggle-button--checked .dnb-toggle-button__button {
+    --chip-icon-fill: var(--token-color-background-action);
+    --chip-icon-stroke: var(--token-color-icon-neutral-inverse);
+    --chip-icon-border-color: transparent;
+    --chip-icon-rotation: 0deg;
+
+    @include utilities.hover() {
+      --chip-icon-fill: var(--token-color-background-action-hover);
+      --chip-icon-stroke: var(--token-color-icon-neutral-inverse);
+      --chip-icon-border-color: transparent;
+    }
+
+    @include utilities.active() {
+      --chip-icon-fill: var(--token-color-background-action-pressed);
+      --chip-icon-stroke: var(--token-color-icon-neutral-inverse);
+      --chip-icon-border-color: transparent;
+    }
+
+    &[disabled] {
+      --chip-icon-fill: var(--token-color-background-action-disabled);
+      --chip-icon-stroke: var(--token-color-icon-neutral-inverse);
+    }
+  }
+
+  &-group.dnb-toggle-button-group {
+    --toggle-button-group-column-gap: 0.5rem;
+    --toggle-button-group-row-gap: 0.5rem;
+  }
+}

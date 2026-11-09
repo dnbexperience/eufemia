@@ -1,0 +1,63 @@
+---
+showTabs: true
+---
+
+import {
+  ChipDefault,
+  ChipAddRemove,
+  ChipCheckbox,
+  ChipRadio,
+  ChipIcon,
+  ChipStandalone,
+  ChipControlled,
+  ChipDisabled,
+  ChipStatus,
+} from 'Docs/web/components/chip/Examples'
+
+## Demos
+
+### Default Chip group
+
+More than one Chip can be checked, unless `multiselect` is set to `false`.
+
+<ChipDefault />
+
+### Add and remove
+
+`variant="add-remove"`.
+
+<ChipAddRemove />
+
+### Checkbox
+
+`variant="checkbox"`.
+
+<ChipCheckbox />
+
+### Radio
+
+With `variant="radio"`, only one Chip can be checked.
+
+<ChipRadio />
+
+### With an icon or a flag
+
+Use `icon` for an icon, or `leftComponent` for other content, like a [CountryFlag](/web/components/country-flag). Hide the flag from screen readers with `aria-hidden`, so they only read the text of the Chip.
+
+<ChipIcon />
+
+### Single Chip
+
+<ChipStandalone />
+
+### Controlled Chip group
+
+<ChipControlled />
+
+### Disabled
+
+<ChipDisabled />
+
+### With error status
+
+<ChipStatus />
