@@ -222,6 +222,11 @@
   }
 
   &__tr__accordion-content {
+    &[hidden='until-found'] {
+      // content-visibility does not apply to table rows.
+      display: block;
+    }
+
     &__inner {
       overflow: hidden;
       will-change: height;

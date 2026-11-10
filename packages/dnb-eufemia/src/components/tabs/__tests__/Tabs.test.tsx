@@ -808,29 +808,58 @@ describe('Tabs aria-controls', () => {
     expect(document.getElementById('internal-content')).toBeTruthy()
   })
 
-  it('references the tabpanel provided by an external Tabs.Content', () => {
-    render(
-      <>
-        <Tabs
-          id="linked"
-          data={tablistData}
-          selectedKey={startupSelectedKey}
-        />
-        <Tabs.Content id="linked">
-          {({ key }) => <h2>{key}</h2>}
-        </Tabs.Content>
-      </>
-    )
+  it.each([
+    {},
+    { openOnFind: true },
+    { keepInDOM: true },
+    { preventRerender: true },
+  ])(
+    'references only the tabpanel provided by an external Tabs.Content with %o',
+    (cacheProps) => {
+      render(
+        <>
+          <Tabs
+            id="linked"
+            data={tablistData}
+            selectedKey={startupSelectedKey}
+            {...cacheProps}
+          />
+          <Tabs.Content id="linked">
+            {({ key }) => <h2>{key}</h2>}
+          </Tabs.Content>
+        </>
+      )
 
-    const selectedTab = document.querySelector(
-      `button[data-tab-key="${startupSelectedKey}"]`
-    )
+      const selectedTab = document.querySelector(
+        `button[data-tab-key="${startupSelectedKey}"]`
+      )
 
-    expect(selectedTab.getAttribute('aria-controls')).toBe(
-      'linked-content'
-    )
-    expect(document.getElementById('linked-content')).toBeTruthy()
-  })
+      expect(selectedTab.getAttribute('aria-controls')).toBe(
+        'linked-content'
+      )
+      expect(document.getElementById('linked-content')).toBeTruthy()
+      expect(document.querySelectorAll('[role="tabpanel"]')).toHaveLength(
+        1
+      )
+      expect(
+        document.querySelector('[role="tabpanel"]')
+      ).toHaveTextContent(startupSelectedKey)
+
+      fireEvent.click(
+        document.querySelector('button[data-tab-key="third"]')
+      )
+
+      expect(document.querySelectorAll('[role="tabpanel"]')).toHaveLength(
+        1
+      )
+      expect(
+        document.querySelector('[role="tabpanel"]')
+      ).toHaveTextContent('third')
+      expect(
+        document.querySelector('button[data-tab-key="third"]')
+      ).toHaveAttribute('aria-controls', 'linked-content')
+    }
+  )
 
   it('does not set a dangling aria-controls when no tabpanel is rendered', () => {
     render(
@@ -1235,6 +1264,32 @@ describe('A single Tab component', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ key: 'two' })
     )
+  })
+
+  it('opens matching content when the selected tab has no content', () => {
+    render(
+      <Tabs
+        {...props}
+        openOnFind
+        data={[
+          { title: 'One', key: 'one' },
+          { title: 'Two', key: 'two', content: 'Findable content' },
+        ]}
+      />
+    )
+
+    const content = document.querySelector('.dnb-tabs__cached')
+    expect(content).toHaveAttribute('hidden', 'until-found')
+    expect(content).toHaveTextContent('Findable content')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(content).not.toHaveAttribute('hidden')
+    expect(
+      document.querySelector('button[data-tab-key="two"]')
+    ).toHaveAttribute('aria-selected', 'true')
   })
 
   it('allows openOnFind to be disabled when keepInDOM is true', () => {

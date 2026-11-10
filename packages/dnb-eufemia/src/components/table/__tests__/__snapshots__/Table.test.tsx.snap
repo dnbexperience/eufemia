@@ -1185,6 +1185,10 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
   color: var(--table-accordion-icon-color--disabled);
 }
 
+.dnb-table__tr__accordion-content[hidden=until-found] {
+  display: block;
+}
+
 .dnb-table__tr__accordion-content__inner {
   overflow: hidden;
   will-change: height;

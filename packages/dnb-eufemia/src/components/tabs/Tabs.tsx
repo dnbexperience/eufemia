@@ -1196,22 +1196,25 @@ function TabsComponent(ownProps: TabsProps) {
         }
       }
 
-      content = Object.entries(cacheRef.current).map(
-        ([key, { content: cachedContent }]) => {
-          const hide = key !== String(currentSelectedKey)
-          return (
-            <CachedContent
-              key={key}
-              tabKey={key}
-              hidden={hide}
-              openOnFind={shouldOpenOnFind}
-              onBeforeMatch={(event) => openTab(key, event)}
-            >
-              {cachedContent}
-            </CachedContent>
-          )
-        }
+      const cachedEntries = Object.entries(cacheRef.current).filter(
+        ([, { content }]) => content
       )
+      content = cachedEntries.length
+        ? cachedEntries.map(([key, { content: cachedContent }]) => {
+            const hide = key !== String(currentSelectedKey)
+            return (
+              <CachedContent
+                key={key}
+                tabKey={key}
+                hidden={hide}
+                openOnFind={shouldOpenOnFind}
+                onBeforeMatch={(event) => openTab(key, event)}
+              >
+                {cachedContent}
+              </CachedContent>
+            )
+          })
+        : null
     } else {
       content = selectedContent
     }
