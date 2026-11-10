@@ -50,8 +50,9 @@ concurrency:
 
 jobs:
   analyze:
-    # The name includes the matrix value itself, so it stays exactly the
-    # required check name `Run analysis (javascript)`.
+    # The name includes the matrix value itself, so the JavaScript job keeps
+    # exactly the required check name `Run analysis (javascript)`.
+    # `Run analysis (actions)` is not a required check.
     name: ${{ (github.event_name != 'pull_request' || github.event.action == 'opened' || github.event.pull_request.head.repo.full_name != github.repository || startsWith(github.head_ref, 'dependabot/')) && format('Run analysis ({0})', matrix.language) || 'Run analysis (fork and Dependabot pull requests only)' }}
     if: github.event_name != 'pull_request' || github.event.action == 'opened' || github.event.pull_request.head.repo.full_name != github.repository || startsWith(github.head_ref, 'dependabot/')
     runs-on: ubuntu-latest
@@ -59,10 +60,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['javascript']
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
-        # Learn more:
-        # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
+        # `actions` analyses the workflows and composite actions in `.github`.
+        language: ['javascript', 'actions']
 
     steps:
       - name: Git checkout
