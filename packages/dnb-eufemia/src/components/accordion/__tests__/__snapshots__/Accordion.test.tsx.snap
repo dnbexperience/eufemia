@@ -399,6 +399,9 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
     transition-duration: 0.01ms;
   }
 }
+.dnb-accordion__content.dnb-height-animation--animating > * {
+  align-self: flex-start;
+}
 .dnb-accordion__content__inner {
   width: 100%;
   margin: var(--accordion-content-margin);

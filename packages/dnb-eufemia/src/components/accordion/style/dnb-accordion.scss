@@ -261,6 +261,11 @@
       transition-duration: 0.01ms;
     }
 
+    // Clip the content while the height animates, instead of stretching it to the animated height
+    &.dnb-height-animation--animating > * {
+      align-self: flex-start;
+    }
+
     &__inner {
       width: 100%;
       margin: var(--accordion-content-margin);
