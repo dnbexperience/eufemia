@@ -8,20 +8,6 @@ on:
       - '!**--visual-reports'
       - '!wip/**'
       - '!experiments/**'
-  # A pull request from a fork has no push run in this repository, so without
-  # this trigger its required checks wait forever. A same-repo pull request
-  # gets the push run, so here its jobs are skipped under another name: a
-  # skipped job counts as success, and must never stand in for the push
-  # check of the same name.
-  pull_request:
-    branches:
-      - 'main'
-      - 'release'
-      - 'beta'
-      - 'alpha'
-      - 'next'
-    types: [opened, synchronize, reopened]
-
 permissions:
   contents: read
 
@@ -30,13 +16,11 @@ concurrency:
   cancel-in-progress: true
 
 # No job-wide `env:` on purpose: these jobs only install, lint, type-check,
-# test and build — none need repository secrets (least privilege). A fork
-# pull request gets no secrets and a read-only token.
+# test and build — none need repository secrets (least privilege).
 
 jobs:
   setup:
-    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) && 'Install dependencies' || 'Install dependencies (fork pull requests only)' }}
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    name: Install dependencies
 
     runs-on: ubuntu-latest
 
@@ -54,9 +38,8 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
   lint:
-    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) && 'Run lint' || 'Run lint (fork pull requests only)' }}
+    name: Run lint
     needs: setup
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
 
     runs-on: ubuntu-latest
 
@@ -117,9 +100,8 @@ jobs:
           yarn workspace eufemia-starter lint
 
   lint-portal:
-    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) && 'Run portal lint' || 'Run portal lint (fork pull requests only)' }}
+    name: Run portal lint
     needs: setup
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
 
     runs-on: ubuntu-latest
 
@@ -152,9 +134,8 @@ jobs:
         run: yarn workspace dnb-design-system-portal lint:ci
 
   typecheck:
-    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) && 'Run type checks' || 'Run type checks (fork pull requests only)' }}
+    name: Run type checks
     needs: setup
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
 
     runs-on: ubuntu-latest
 
@@ -203,9 +184,8 @@ jobs:
           yarn workspace eufemia-analytics-dashboard test:types
 
   test:
-    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) && 'Run tests' || 'Run tests (fork pull requests only)' }}
+    name: Run tests
     needs: setup
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
 
     runs-on: ubuntu-latest
 
@@ -254,9 +234,8 @@ jobs:
           yarn workspace repo-utils test:ci
 
   deps:
-    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) && 'Run dependency checks' || 'Run dependency checks (fork pull requests only)' }}
+    name: Run dependency checks
     needs: setup
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
 
     runs-on: ubuntu-latest
 
@@ -277,8 +256,7 @@ jobs:
         run: yarn workspace @dnb/eufemia test:deps
 
   build-check:
-    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) && 'Run build tests' || 'Run build tests (fork pull requests only)' }}
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    name: Run build tests
 
     runs-on: ubuntu-latest
 
@@ -317,9 +295,5 @@ jobs:
 
       - name: Check bundle sizes
         env:
-          # A fork pull request gets a read-only token that cannot post the
-          # bundlewatch commit status. Without a token, bundlewatch skips the
-          # status but still fails this step when a file exceeds its maxSize.
-          # So require this job (Run build tests), not the bundlewatch status.
-          BUNDLEWATCH_GITHUB_TOKEN: ${{ github.event_name == 'push' && github.token || '' }}
+          BUNDLEWATCH_GITHUB_TOKEN: ${{ github.token }}
         run: yarn workspace @dnb/eufemia build:size
