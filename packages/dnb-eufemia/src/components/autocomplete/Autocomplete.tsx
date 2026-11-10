@@ -195,6 +195,9 @@ function Autocomplete(ownProps: AutocompleteAllProps) {
     id: _id,
     data: ownProps.data || ownProps.children,
     inline,
+    // Include disabled from context (e.g. Provider or Form.Handler),
+    // so the open list ignores selection as well
+    disabled,
     open: inline ? true : null,
     noAnimation: inline || ownProps.noAnimation,
     preventClose: inline || ownProps.preventClose,

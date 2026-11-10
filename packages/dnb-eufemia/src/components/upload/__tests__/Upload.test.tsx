@@ -203,6 +203,15 @@ describe('Upload', () => {
       expect(screen.queryByText(customTitle)).toBeInTheDocument()
     })
 
+    it('gives the title the heading font, like the compact title', () => {
+      render(<Upload {...defaultProps} />)
+
+      const title = document.querySelector('.dnb-upload .dnb-p--lead')
+
+      expect(title.textContent).toBe(nb.title)
+      expect(title).toHaveClass('dnb-t__family--heading')
+    })
+
     it('renders the text', () => {
       render(<Upload {...defaultProps} />)
 

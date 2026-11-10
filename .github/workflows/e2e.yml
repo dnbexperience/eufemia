@@ -11,19 +11,27 @@ on:
       - '!release'
       - '!beta'
       - '!alpha'
+  # A release pull request runs once, when it is opened. A pull request from a
+  # fork has no push run in this repository, so it runs on every update. Any
+  # other pull request gets the push run, so here its jobs are skipped under
+  # another name: a skipped job counts as success, and must never stand in for
+  # the push check of the same name.
   pull_request:
     branches:
+      - 'main'
       - 'release'
       - 'beta'
       - 'alpha'
       - 'next'
-    types: [opened]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # A run whose jobs are all skipped gets a group of its own, so it cannot
+  # cancel a release pull request run that is in progress.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}${{ !(github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')) && format('-{0}', github.run_id) || '' }}
   cancel-in-progress: true
 
 env:
@@ -34,13 +42,15 @@ env:
 
 jobs:
   changes:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')
     uses: ./.github/workflows/detect-standalone-tools-only.yml
 
   e2e:
-    name: Run e2e tests
+    name: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')) && 'Run e2e tests' || 'Run e2e tests (fork pull requests only)' }}
     needs: changes
     # A skipped job counts as success for the required check; it still runs if detection fails.
-    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
+    # `!cancelled()` would also run it when `changes` is skipped, so the pull request rule is repeated here.
+    if: ${{ !cancelled() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || (github.event.action == 'opened' && github.base_ref != 'main')) && needs.changes.outputs.standalone-tools-only != 'true' }}
 
     # Pinned until Playwright can install its system dependencies on Ubuntu 26.04
     runs-on: ubuntu-24.04

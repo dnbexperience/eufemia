@@ -178,11 +178,8 @@
     list-style: none;
 
     // Block, so the list item's own line box doesn't add height
-    &__text.dnb-lead {
+    &__text {
       display: block;
-
-      font-size: var(--font-size-small);
-      line-height: var(--line-height-small);
     }
   }
 

@@ -379,7 +379,14 @@
     list-style: none;
   }
 
-  &__header-group,
+  &__header-group {
+    gap: 0;
+
+    &:not(:first-child) {
+      margin-block-start: 1rem;
+    }
+  }
+
   &__header-group > &__list {
     gap: 1rem;
   }
@@ -404,6 +411,10 @@
 
   &__divider-item + &__custom {
     padding-block-start: 0;
+  }
+
+  &__divider-item + &__header-group {
+    margin-block-start: 0;
   }
 
   // Forced colors mode removes the backgrounds and box-shadows used for these

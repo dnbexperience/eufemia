@@ -780,7 +780,9 @@ export default function Popover(props: PopoverProps) {
       >
         {title && (
           <span className="dnb-popover__title">
-            <strong className="dnb-h--basis">{title}</strong>
+            <strong className="dnb-h--basis dnb-t__family--basis">
+              {title}
+            </strong>
           </span>
         )}
         <span className="dnb-popover__body">{userContent}</span>
