@@ -35,6 +35,8 @@ jobs:
             ref: 'refs/heads/{0}'
           - workflow: Windows font compatibility
             ref: 'refs/heads/{0}'
+          - workflow: Icons Library
+            ref: 'refs/heads/{0}'
           - workflow: E2E Tests
             ref: '{1}'
             label: E2E Tests (pull request)
