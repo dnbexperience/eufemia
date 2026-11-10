@@ -34,13 +34,13 @@ env:
 
 jobs:
   changes:
-    uses: ./.github/workflows/detect-standalone-tools-only.yml
+    uses: ./.github/workflows/detect-changes.yml
 
   e2e:
     name: Run e2e tests
     needs: changes
     # A skipped job counts as success for the required check; it still runs if detection fails.
-    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
+    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' && needs.changes.outputs.tests-only != 'true' }}
 
     # Pinned until Playwright can install its system dependencies on Ubuntu 26.04
     runs-on: ubuntu-24.04

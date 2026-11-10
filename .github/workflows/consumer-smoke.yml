@@ -10,7 +10,8 @@ on:
   # span the whole repo (root package.json/yarn.lock, .github/actions/setup and
   # the tools/* packages used by build:ci), so a narrow filter would let a
   # build-breaking change skip the check. Runs on every pull request, plus
-  # manual dispatch.
+  # manual dispatch. Changes to unit tests only skip the steps below instead
+  # (tools/repo-utils/src/detect-changes.mjs): no build reads them.
   pull_request:
   workflow_dispatch:
 
@@ -33,8 +34,16 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Detect changes
+        id: changes
+        continue-on-error: true
+        run: node tools/repo-utils/src/detect-changes.mjs
 
       - name: Setup dependencies
+        if: steps.changes.outputs.tests-only != 'true'
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
@@ -46,12 +55,14 @@ jobs:
 
       # Full publishable build (also runs the package-content validation gate).
       - name: Build library
+        if: steps.changes.outputs.tests-only != 'true'
         run: yarn workspace @dnb/eufemia build:ci
 
       # Pack the built library ONCE so both consumers install and test the exact
       # same tarball (build once, pack once, test that artifact).
       - name: Pack @dnb/eufemia tarball
         id: pack
+        if: steps.changes.outputs.tests-only != 'true'
         run: |
           tarball=$(cd packages/dnb-eufemia/build && npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP" 2>/dev/null | tail -1)
           echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
@@ -59,6 +70,7 @@ jobs:
       # Both consumers in one step: run-smoke.mjs builds them in parallel. That
       # took 48-66 s, against 39 + 51 s in turn.
       - name: Vite and Next.js consumer smoke tests
+        if: steps.changes.outputs.tests-only != 'true'
         env:
           TARBALL: ${{ steps.pack.outputs.tarball }}
         run: node smoke/run-smoke.mjs vite nextjs --tarball "$TARBALL"
