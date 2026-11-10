@@ -12,7 +12,7 @@ test('keeps the component overview and related links populated', async ({
     page.locator('#portal-page-toc').getByRole('link')
   ).toHaveCount(await headings.count())
   await expect(
-    page.locator('main a[href="/web/components/button"]')
+    page.locator('main a[href="/web/components/button/"]')
   ).toBeVisible()
   await expect(page.locator('main a[href*="/categories/"]')).toHaveCount(0)
   await page.goto('/web/components/button')
@@ -55,7 +55,7 @@ test('keeps old component routes, query strings, fragments and tabs working', as
   ).toBeVisible()
   await page.getByRole('tab', { name: 'Properties', exact: true }).click()
   await expect(page).toHaveURL(
-    '/web/components/button/properties?eufemia-theme=sbanken'
+    '/web/components/button/properties/?eufemia-theme=sbanken'
   )
   await expect(
     page.getByRole('tab', { name: 'Properties', exact: true })
@@ -84,7 +84,7 @@ test('opens accordion headings without navigating and retains content links', as
   await menu
     .getByRole('link', { name: 'Web typography in code', exact: true })
     .click()
-  await expect(page).toHaveURL('/web/layout-and-typography/typography')
+  await expect(page).toHaveURL('/web/layout-and-typography/typography/')
   await expect(
     page.getByRole('heading', {
       name: 'Web typography in code',

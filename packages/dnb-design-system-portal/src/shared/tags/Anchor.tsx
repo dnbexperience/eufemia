@@ -7,6 +7,7 @@ import type { AnchorHTMLAttributes, DetailedHTMLProps, Ref } from 'react'
 import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
 import type { AnchorAllProps as Props } from '@dnb/eufemia/src/components/Anchor'
 import { Link as RouterLink, type LinkProps } from 'react-router'
+import { withTrailingSlash } from '../../../vite/client/with-trailing-slash'
 
 export type AnchorProps = Props &
   DetailedHTMLProps<
@@ -23,7 +24,7 @@ function PortalLink({
 }: AnchorProps) {
   return (
     <RouterLink
-      to={to}
+      to={withTrailingSlash(to)}
       ref={ref as Ref<HTMLAnchorElement>}
       {...(props as Omit<LinkProps, 'ref' | 'onClick' | 'to'>)}
       onClick={onClick}

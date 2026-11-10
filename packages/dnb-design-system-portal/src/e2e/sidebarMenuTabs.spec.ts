@@ -21,7 +21,7 @@ test.describe('SidebarMenu documentation tabs', () => {
     await properties.click()
 
     await expect(page).toHaveURL(
-      '/web/patterns-and-extensions/sidebar-menu/properties'
+      '/web/patterns-and-extensions/sidebar-menu/properties/'
     )
     await expect(properties).toHaveAttribute('aria-selected', 'true')
     await expect(
@@ -38,7 +38,7 @@ test.describe('SidebarMenu documentation tabs', () => {
     await events.click()
 
     await expect(page).toHaveURL(
-      '/web/patterns-and-extensions/sidebar-menu/events'
+      '/web/patterns-and-extensions/sidebar-menu/events/'
     )
     await expect(events).toHaveAttribute('aria-selected', 'true')
     await expect(
@@ -160,7 +160,7 @@ test.describe('Portal SidebarMenu', () => {
         name: 'Releases and upgrades',
         exact: true,
       })
-    ).toHaveAttribute('href', '/web/releases-and-upgrades')
+    ).toHaveAttribute('href', '/web/releases-and-upgrades/')
     await expect(platform.getByRole('combobox')).toHaveAccessibleName(
       'Platform Web'
     )
@@ -219,14 +219,14 @@ test.describe('Portal SidebarMenu', () => {
     await expect(quickStart).toHaveAttribute('aria-current', 'page')
     await expect(quickStart).toHaveAttribute(
       'href',
-      '/web/get-started/quick-start'
+      '/web/get-started/quick-start/'
     )
     await expect(
       menu.getByRole('link', {
         name: 'Set up Eufemia Web in Figma',
         exact: true,
       })
-    ).toHaveAttribute('href', '/web/get-started/design-for-web')
+    ).toHaveAttribute('href', '/web/get-started/design-for-web/')
     await expect(
       menu.locator(
         '[data-sidebar-menu-id=quickguide-designer] .dnb-sidebar-menu__item__icon'
@@ -352,7 +352,7 @@ test.describe('Portal SidebarMenu', () => {
       name: 'License, credits and privacy',
       exact: true,
     })
-    await expect(license).toHaveAttribute('href', '/about/license')
+    await expect(license).toHaveAttribute('href', '/about/license/')
     await expect(
       about.getByRole('button', {
         name: 'License, credits and privacy',
@@ -360,7 +360,7 @@ test.describe('Portal SidebarMenu', () => {
       })
     ).toHaveCount(0)
     await license.click()
-    await expect(page).toHaveURL('/about/license')
+    await expect(page).toHaveURL('/about/license/')
     for (const id of ['license', 'credits', 'privacy']) {
       await expect(page.locator('#' + id)).toBeAttached()
     }
@@ -420,7 +420,7 @@ test.describe('Portal SidebarMenu', () => {
     })
     await statusIcon.click()
     await expect(page).toHaveURL(
-      '/web/patterns-and-extensions/status-icon'
+      '/web/patterns-and-extensions/status-icon/'
     )
     await expect(statusIcon).toHaveAttribute('aria-current', 'page')
     await expect(
@@ -454,7 +454,7 @@ test.describe('Portal SidebarMenu', () => {
       .click()
     await expect(
       menu.getByRole('link', { name: 'Design tokens', exact: true })
-    ).toHaveAttribute('href', '/web/styling-and-themes/design-tokens')
+    ).toHaveAttribute('href', '/web/styling-and-themes/design-tokens/')
     const components = menu.getByRole('button', {
       name: 'Components',
       exact: true,
@@ -468,7 +468,7 @@ test.describe('Portal SidebarMenu', () => {
         name: 'SVG and CSS icon usage',
         exact: true,
       })
-    ).toHaveAttribute('href', '/web/components/icon/usage')
+    ).toHaveAttribute('href', '/web/components/icon/usage/')
     await menu
       .getByRole('button', { name: 'Collections', exact: true })
       .click()
@@ -476,7 +476,7 @@ test.describe('Portal SidebarMenu', () => {
       menu
         .locator('#collections-content')
         .getByRole('link', { name: 'Logos', exact: true })
-    ).toHaveAttribute('href', '/collections/logos')
+    ).toHaveAttribute('href', '/collections/logos/')
     await expect(
       menu.locator('[data-sidebar-menu-id="collections-page"]')
     ).toHaveCount(0)
@@ -485,7 +485,7 @@ test.describe('Portal SidebarMenu', () => {
       .click()
     await expect(
       menu.getByRole('link', { name: 'Reproduce a bug', exact: true })
-    ).toHaveAttribute('href', '/web/contribute/reproduce-a-bug')
+    ).toHaveAttribute('href', '/web/contribute/reproduce-a-bug/')
     await expect(
       menu.locator('a[href*="/releases/eufemia/"]')
     ).toHaveCount(0)
@@ -538,7 +538,7 @@ test.describe('Portal SidebarMenu', () => {
       .getByRole('link', { name: 'Next - Common Design Patterns' })
       .click()
     await expect(page).toHaveURL(
-      '/web/get-started/guided-introduction/02-common-patterns'
+      '/web/get-started/guided-introduction/02-common-patterns/'
     )
     await expect(
       page.getByRole('navigation', { name: 'Section Content Menu' })
@@ -664,7 +664,7 @@ test.describe('Portal SidebarMenu', () => {
     await menu
       .getByRole('link', { name: 'About Eufemia', exact: true })
       .click()
-    await expect(page).toHaveURL('/about/eufemia')
+    await expect(page).toHaveURL('/about/eufemia/')
     await expect(
       menu.getByRole('link', { name: 'About Eufemia', exact: true })
     ).toHaveAttribute('aria-current', 'page')

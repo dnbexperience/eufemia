@@ -28,7 +28,7 @@ for (const width of [1440, 390]) {
           name: 'Components by category',
           exact: true,
         })
-      ).toHaveAttribute('href', '/web/components/overview')
+      ).toHaveAttribute('href', '/web/components/overview/')
       const entries = menu.locator('#web-components-content > li')
       const titles = await entries.evaluateAll((items) =>
         items
@@ -66,7 +66,7 @@ for (const width of [1440, 390]) {
       await menu
         .getByRole('link', { name: 'Masked input', exact: true })
         .click()
-      await expect(page).toHaveURL('/web/components/input-masked')
+      await expect(page).toHaveURL('/web/components/input-masked/')
       await expect(
         page.getByRole('heading', { name: 'Masked input', exact: true })
       ).toBeVisible()
@@ -88,7 +88,7 @@ for (const width of [1440, 390]) {
       await menu
         .getByRole('link', { name: 'Country flags', exact: true })
         .click()
-      await expect(page).toHaveURL('/web/components/country-flag')
+      await expect(page).toHaveURL('/web/components/country-flag/')
       await expect(
         page.getByRole('heading', { name: 'Country flags', exact: true })
       ).toBeVisible()
@@ -96,7 +96,7 @@ for (const width of [1440, 390]) {
         .getByRole('tab', { name: 'Properties', exact: true })
         .click()
       await expect(page).toHaveURL(
-        '/web/components/country-flag/properties'
+        '/web/components/country-flag/properties/'
       )
       await expect(page.locator('.dnb-tab-bar > h1')).toHaveAccessibleName(
         'Country flags'
@@ -154,7 +154,7 @@ test('uses readable HTML element names and preserves old anchors', async ({
   await menu
     .getByRole('link', { name: 'Lead paragraph', exact: true })
     .click()
-  await expect(page).toHaveURL('/web/layout-and-typography/elements/lead')
+  await expect(page).toHaveURL('/web/layout-and-typography/elements/lead/')
   await expect(
     page.getByRole('heading', { name: 'Lead paragraph', exact: true })
   ).toBeVisible()
@@ -191,7 +191,7 @@ test('opens the Vipps wallet button from Extensions without changing its URL', a
     .getByRole('link', { name: 'Vipps wallet button', exact: true })
     .click()
   await expect(page).toHaveURL(
-    '/web/patterns-and-extensions/vipps-wallet-button'
+    '/web/patterns-and-extensions/vipps-wallet-button/'
   )
   await expect(
     page.getByRole('heading', { name: 'Vipps wallet button', exact: true })
