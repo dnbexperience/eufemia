@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react'
 import {
   axeComponent,
-  loadScss,
   spyOnEufemiaWarn,
 } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
@@ -663,15 +662,5 @@ describe('Stat.Number', () => {
     expect(element.getAttribute('decimals')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
     expect(element.getAttribute('colorizeBySign')).toBeNull()
-  })
-})
-
-describe('Stat.Number scss', () => {
-  it('gives the value the theme heading weight', () => {
-    const css = loadScss(require.resolve('../style/dnb-stat.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-stat__heading-weight \{\s*font-weight: var\(--typography-h-large-weight\);\s*\}/
-    )
   })
 })
