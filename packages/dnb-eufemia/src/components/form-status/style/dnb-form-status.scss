@@ -155,6 +155,11 @@
     width: 100%;
   }
 
+  // Clip the shell while the height animates, instead of stretching it to the animated height
+  &.dnb-height-animation--animating > &__shell {
+    align-self: flex-start;
+  }
+
   &[hidden] {
     display: none;
   }
