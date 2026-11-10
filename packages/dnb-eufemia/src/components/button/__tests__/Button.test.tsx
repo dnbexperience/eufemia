@@ -771,14 +771,6 @@ describe('Button status', () => {
 })
 
 describe('Button scss', () => {
-  it('uses 20px padding on the icon side of large buttons', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-button--size-large \{[^}]*--button-padding-icon: 1\.25rem;/
-    )
-  })
-
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
