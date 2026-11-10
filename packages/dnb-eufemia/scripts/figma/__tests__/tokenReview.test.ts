@@ -133,6 +133,10 @@ it('loads every shipped palette and resolves the colors used by the contrast che
     'DNB dark',
     'Sbanken light',
     'Sbanken dark',
+    // @deprecated Transitional "sbanken-new" brand
+    'Sbanken New light',
+    // @deprecated Transitional "sbanken-new" brand
+    'Sbanken New dark',
     'Carnegie light',
   ])
   for (const { tokens } of modes) {

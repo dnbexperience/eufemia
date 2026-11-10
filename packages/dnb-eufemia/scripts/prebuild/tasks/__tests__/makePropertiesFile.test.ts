@@ -27,14 +27,21 @@ describe('makePropertiesFile', () => {
     uiTokensDark: null,
     sbankenTokens: null,
     sbankenTokensDark: null,
+    // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+    sbankenNewTokens: null,
+    // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+    sbankenNewTokensDark: null,
     carnegieTokens: null,
     uiFoundation: null,
     sbankenFoundation: null,
+    sbankenNewFoundation: null,
     carnegieFoundation: null,
     uiTokensTailwind: null,
     uiTokensDarkTailwind: null,
     sbankenTokensTailwind: null,
     sbankenTokensDarkTailwind: null,
+    sbankenNewTokensTailwind: null,
+    sbankenNewTokensDarkTailwind: null,
     carnegieTokensTailwind: null,
   }
 
@@ -81,6 +88,18 @@ describe('makePropertiesFile', () => {
       path.resolve('src/style/themes/sbanken/foundation.scss'),
       'utf-8'
     )
+    global.sbankenNewTokens = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken-new/tokens.scss'),
+      'utf-8'
+    )
+    global.sbankenNewTokensDark = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken-new/tokens-dark.scss'),
+      'utf-8'
+    )
+    global.sbankenNewFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken-new/foundation.scss'),
+      'utf-8'
+    )
     global.carnegieTokens = fs.readFileSync(
       path.resolve('src/style/themes/carnegie/tokens.scss'),
       'utf-8'
@@ -104,6 +123,16 @@ describe('makePropertiesFile', () => {
     )
     global.sbankenTokensDarkTailwind = fs.readFileSync(
       path.resolve('src/style/themes/sbanken/tokens-dark-tailwind.css'),
+      'utf-8'
+    )
+    global.sbankenNewTokensTailwind = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken-new/tokens-tailwind.css'),
+      'utf-8'
+    )
+    global.sbankenNewTokensDarkTailwind = fs.readFileSync(
+      path.resolve(
+        'src/style/themes/sbanken-new/tokens-dark-tailwind.css'
+      ),
       'utf-8'
     )
     global.carnegieTokensTailwind = fs.readFileSync(
@@ -144,6 +173,12 @@ describe('makePropertiesFile', () => {
       expect(global.sbankenTokens).toMatchSnapshot()
       expect(global.sbankenTokensDark).toMatchSnapshot()
       expect(global.sbankenFoundation).toMatchSnapshot()
+    })
+
+    it('sbanken-new', () => {
+      expect(global.sbankenNewTokens).toMatchSnapshot()
+      expect(global.sbankenNewTokensDark).toMatchSnapshot()
+      expect(global.sbankenNewFoundation).toMatchSnapshot()
     })
 
     it('carnegie', () => {
@@ -237,7 +272,7 @@ describe('makePropertiesFile', () => {
           )
         ).font
 
-      for (const brand of ['dnb', 'sbanken']) {
+      for (const brand of ['dnb', 'sbanken', 'sbanken-new']) {
         const light = readFont(brand, 'light')
         const dark = readFont(brand, 'dark')
         for (const group of ['size', 'height']) {
@@ -265,15 +300,16 @@ describe('makePropertiesFile', () => {
 
       expect(read('ui')).toContain('--font-size-xx-large: 3rem;')
       expect(read('sbanken')).toContain('--font-size-xx-large: 3rem;')
+      expect(read('sbanken-new')).toContain('--font-size-xx-large: 3rem;')
       expect(read('carnegie')).toContain('--font-size-xx-large: 3.5rem;')
       expect(read('carnegie')).toContain(
         '--line-height-xx-large: 4.25rem;'
       )
-      for (const theme of ['ui', 'sbanken', 'carnegie']) {
+      for (const theme of ['ui', 'sbanken', 'sbanken-new', 'carnegie']) {
         expect(read(theme)).toContain('\n:root {\n')
         expect(read(theme)).not.toContain('.eufemia-theme__')
       }
-      for (const theme of ['ui', 'sbanken']) {
+      for (const theme of ['ui', 'sbanken', 'sbanken-new']) {
         expect(
           fs.existsSync(
             path.resolve(
@@ -307,13 +343,20 @@ describe('makePropertiesFile', () => {
       expect(getValues('ui')).toEqual(['3rem', '3rem'])
       expect(getValues('eiendom')).toEqual(['3rem', '3rem'])
       expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
+      expect(getValues('sbanken-new')).toEqual(['3rem', '3rem'])
       expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
     })
 
     it('declares the typography scale only on :root, so :root overrides also apply inside a theme', async () => {
       const sass = await import('sass')
       const path = await import('path')
-      for (const theme of ['ui', 'eiendom', 'sbanken', 'carnegie']) {
+      for (const theme of [
+        'ui',
+        'eiendom',
+        'sbanken',
+        'sbanken-new',
+        'carnegie',
+      ]) {
         const css = sass
           .compile(
             path.resolve(
@@ -339,7 +382,7 @@ describe('makePropertiesFile', () => {
         expect(selectors).toContain(':root')
         expect(
           selectors.filter((selector) =>
-            /\.eufemia-theme__(?:ui|sbanken|carnegie|eiendom)\b/.test(
+            /\.eufemia-theme__(?:ui|sbanken-new|sbanken|carnegie|eiendom)\b/.test(
               selector
             )
           )
@@ -353,6 +396,7 @@ describe('makePropertiesFile', () => {
       for (const [brand, source] of [
         ['ui', 'dnb-light'],
         ['sbanken', 'sbanken-light'],
+        ['sbanken-new', 'sbanken-new-light'],
         ['carnegie', 'dnbcarnegie-light'],
       ]) {
         const tokens = JSON.parse(
@@ -397,7 +441,7 @@ describe('makePropertiesFile', () => {
     it('keeps typography out of the dark stylesheets', async () => {
       const sass = await import('sass')
       const path = await import('path')
-      for (const theme of ['ui', 'sbanken', 'eiendom']) {
+      for (const theme of ['ui', 'sbanken', 'sbanken-new', 'eiendom']) {
         const css = sass.compile(
           path.resolve(
             'src/style/themes/' +
@@ -969,7 +1013,13 @@ describe('makePropertiesFile', () => {
         )
 
       expect(read('ui', 'properties.scss')).not.toContain('@use')
-      for (const theme of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
+      for (const theme of [
+        'ui',
+        'sbanken',
+        'sbanken-new',
+        'carnegie',
+        'eiendom',
+      ]) {
         expect(read(theme, 'theme-mapping.scss')).toContain(
           'typography-properties.scss'
         )
@@ -1181,6 +1231,23 @@ describe('makePropertiesFile', () => {
       }
     })
 
+    it('includes only variables used by tokens for sbanken-new', () => {
+      const tokenVariables = extractReferencedCssVariables(
+        global.sbankenNewTokens + global.sbankenNewTokensDark
+      )
+      const foundationVariables = new Set(
+        [
+          ...global.sbankenNewFoundation.matchAll(
+            /^\s*(--[a-z0-9-]+)\s*:/gim
+          ),
+        ].map((match) => match[1])
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
+    })
+
     it('includes only variables used by tokens for carnegie', () => {
       const tokenVariables = extractReferencedCssVariables(
         global.carnegieTokens
@@ -1210,6 +1277,13 @@ describe('makePropertiesFile', () => {
         () => [
           global.sbankenTokens + global.sbankenTokensDark,
           global.sbankenFoundation,
+        ],
+      ],
+      [
+        'sbanken-new',
+        () => [
+          global.sbankenNewTokens + global.sbankenNewTokensDark,
+          global.sbankenNewFoundation,
         ],
       ],
       [

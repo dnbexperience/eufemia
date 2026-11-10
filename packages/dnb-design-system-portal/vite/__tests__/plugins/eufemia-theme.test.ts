@@ -16,6 +16,7 @@ describe('eufemia-theme plugin', () => {
       expect(Object.keys(config.themes)).toEqual([
         'ui',
         'sbanken',
+        'sbanken-new',
         'eiendom',
         'carnegie',
       ])

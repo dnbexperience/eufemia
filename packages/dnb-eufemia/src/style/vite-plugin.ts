@@ -42,8 +42,10 @@ export type EufemiaCssOptimizerPlugin = {
   closeBundle: () => void
 }
 
+// @deprecated The "sbanken-new" alternative is transitional and removed with
+// that brand. It has to precede "sbanken", so the longer name matches first.
 const AGGREGATE_STYLE_PATTERN =
-  /(?:^|\/)(?:dnb-ui-(?:components|extensions|forms|fragments)|(?:ui|sbanken|carnegie|eiendom)-theme-(?:components|extensions|forms))(?:--isolated)?(?:\.min)?\.(?:css|scss)(?:\?|$)/
+  /(?:^|\/)(?:dnb-ui-(?:components|extensions|forms|fragments)|(?:ui|sbanken-new|sbanken|carnegie|eiendom)-theme-(?:components|extensions|forms))(?:--isolated)?(?:\.min)?\.(?:css|scss)(?:\?|$)/
 const EUFEMIA_PACKAGE_PATTERN =
   /(?:^|\/)(?:node_modules\/@dnb\/eufemia|packages\/dnb-eufemia)\/(?:build\/)?(?:src\/)?style\//
 

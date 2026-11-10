@@ -9,6 +9,10 @@ export const tokenModes = [
   { brand: 'ui', mode: 'dark', name: 'DNB dark' },
   { brand: 'sbanken', mode: 'light', name: 'Sbanken light' },
   { brand: 'sbanken', mode: 'dark', name: 'Sbanken dark' },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+  { brand: 'sbanken-new', mode: 'light', name: 'Sbanken New light' },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+  { brand: 'sbanken-new', mode: 'dark', name: 'Sbanken New dark' },
   { brand: 'carnegie', mode: 'light', name: 'Carnegie light' },
 ] as const
 
@@ -173,15 +177,35 @@ export const loadTokenModes = (
           encoding: 'utf8',
         })
       : readFileSync(path.join(repositoryRoot, file), 'utf8')
-  return tokenModes.map(({ brand, mode, name }) => {
+
+  // A theme added after the base revision has no files to compare against
+  const existsInRevision = (file: string) => {
+    if (!revision) {
+      return true
+    }
+    try {
+      execFileSync('git', ['cat-file', '-e', revision + ':' + file], {
+        cwd: repositoryRoot,
+        stdio: 'ignore',
+      })
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  return tokenModes.flatMap(({ brand, mode, name }) => {
     const root = 'packages/dnb-eufemia/src/style/themes/' + brand + '/'
-    const css = sass.compileString(
-      read(root + 'foundation.scss') +
-        '\n' +
-        read(root + 'tokens.scss') +
-        (mode === 'dark' ? '\n' + read(root + 'tokens-dark.scss') : '')
-    ).css
-    return { name, tokens: resolveTokenValues(css) }
+    const files = [root + 'foundation.scss', root + 'tokens.scss'].concat(
+      mode === 'dark' ? [root + 'tokens-dark.scss'] : []
+    )
+
+    if (!files.every(existsInRevision)) {
+      return []
+    }
+
+    const css = sass.compileString(files.map(read).join('\n')).css
+    return [{ name, tokens: resolveTokenValues(css) }]
   })
 }
 
@@ -273,10 +297,11 @@ export const reviewTokenChanges = (
   const existingFailures: string[] = []
   for (const current of after) {
     const previous = before.find(({ name }) => name === current.name)
-    if (!previous) {
-      throw new Error('Missing base theme: ' + current.name)
-    }
-    for (const change of changedTokens(previous.tokens, current.tokens)) {
+    // A theme introduced in this change has no base to compare against, so
+    // its values are all new and none of its pairs can have regressed
+    const baseTokens = previous?.tokens ?? {}
+
+    for (const change of changedTokens(baseTokens, current.tokens)) {
       lines.push(
         '| ' +
           [
@@ -309,11 +334,26 @@ export const reviewTokenChanges = (
           tokens['--token-color-background-page-background']
         )
       }
-      const oldRatio = ratio(previous.tokens)
       const newRatio = ratio(current.tokens)
       if (newRatio >= pair.minimum) {
         continue
       }
+      if (!previous) {
+        existingFailures.push(
+          current.name +
+            ': ' +
+            pair.foreground +
+            ' on ' +
+            pair.background +
+            ' (new theme; ' +
+            newRatio.toFixed(2) +
+            ':1; target ' +
+            pair.minimum +
+            ':1)'
+        )
+        continue
+      }
+      const oldRatio = ratio(previous.tokens)
       const detail =
         current.name +
         ': ' +

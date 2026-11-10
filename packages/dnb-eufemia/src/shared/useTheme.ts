@@ -11,6 +11,13 @@ export type UseThemeReturn =
   | (ThemeProps & {
       isUi: boolean
       isSbanken: boolean
+      /**
+       * `true` for the transitional "sbanken-new" brand only, so code can
+       * tell it apart from `sbanken` while both exist.
+       *
+       * @deprecated Removed together with the "sbanken-new" brand.
+       */
+      isSbankenNew: boolean
       isEiendom: boolean
       isCarnegie: boolean
     })
@@ -29,7 +36,10 @@ export default function useTheme(): UseThemeReturn {
       density,
       size: density,
       isUi: brand === 'ui',
-      isSbanken: brand === 'sbanken',
+      // "sbanken-new" is a transitional brand that replaces "sbanken", so it
+      // reports as Sbanken. Use "isSbankenNew" to tell the two apart.
+      isSbanken: brand === 'sbanken' || brand === 'sbanken-new',
+      isSbankenNew: brand === 'sbanken-new',
       isEiendom: brand === 'eiendom',
       isCarnegie: brand === 'carnegie',
     }

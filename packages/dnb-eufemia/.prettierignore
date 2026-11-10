@@ -3,4 +3,6 @@
 .cache/
 **/icons-meta.json
 **/sbanken/fonts.scss
+# @deprecated Transitional "sbanken-new" brand, removed with the redesign
+**/sbanken-new/fonts.scss
 **/style/themes/figma/**/*.json

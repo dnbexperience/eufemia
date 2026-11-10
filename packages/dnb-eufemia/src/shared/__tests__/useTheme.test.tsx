@@ -39,6 +39,24 @@ describe('useTheme', () => {
       name: 'sbanken',
       isEiendom: false,
       isSbanken: true,
+      isSbankenNew: false,
+      isUi: false,
+      isCarnegie: false,
+    })
+  })
+
+  it('treats the transitional sbanken-new brand as Sbanken', () => {
+    const wrapper = ({ children }) => (
+      <Theme brand="sbanken-new">{children}</Theme>
+    )
+    const { result } = renderHook(() => useTheme(), { wrapper })
+
+    expect(result.current).toEqual({
+      brand: 'sbanken-new',
+      name: 'sbanken-new',
+      isEiendom: false,
+      isSbanken: true,
+      isSbankenNew: true,
       isUi: false,
       isCarnegie: false,
     })
@@ -86,6 +104,7 @@ describe('useTheme', () => {
       name: undefined,
       isEiendom: false,
       isSbanken: false,
+      isSbankenNew: false,
       isUi: false,
       isCarnegie: false,
     })

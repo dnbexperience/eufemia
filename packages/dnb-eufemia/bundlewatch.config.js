@@ -87,6 +87,35 @@ const cssBundles = [
     path: 'build/style/themes/sbanken/sbanken-theme-forms.min.css',
     maxSize: '10kB',
   },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+  {
+    path: 'build/style/themes/sbanken-new/sbanken-new-theme-basis.min.css',
+    maxSize: '10kB',
+  },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+
+  {
+    path: 'build/style/themes/sbanken-new/sbanken-new-theme-components.min.css',
+    maxSize: '65kB',
+  },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+
+  {
+    path: 'build/style/themes/sbanken-new/sbanken-new-theme-elements.min.css',
+    maxSize: '10kB',
+  },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+
+  {
+    path: 'build/style/themes/sbanken-new/sbanken-new-theme-extensions.min.css',
+    maxSize: '15.2kB',
+  },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+
+  {
+    path: 'build/style/themes/sbanken-new/sbanken-new-theme-forms.min.css',
+    maxSize: '10kB',
+  },
   {
     path: 'build/style/themes/ui/ui-theme-basis.min.css',
     maxSize: '10kB',

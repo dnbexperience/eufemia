@@ -62,7 +62,10 @@ function Logo(localProps: LogoProps) {
       name: themeBrand,
       size,
       isUi: themeBrand === 'ui',
-      isSbanken: themeBrand === 'sbanken',
+      // "sbanken-new" is a transitional brand that replaces "sbanken", so it
+      // reports as Sbanken. Use "isSbankenNew" to tell the two apart.
+      isSbanken: themeBrand === 'sbanken' || themeBrand === 'sbanken-new',
+      isSbankenNew: themeBrand === 'sbanken-new',
       isEiendom: themeBrand === 'eiendom',
       isCarnegie: themeBrand === 'carnegie',
     }

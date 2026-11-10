@@ -2,7 +2,11 @@
 
 import fs from 'fs'
 import path from 'path'
-import { themeCapabilities, themeNames } from '../capabilities'
+import {
+  themeCapabilities,
+  themeNames,
+  transitionalThemeNames,
+} from '../capabilities'
 
 describe('themeCapabilities', () => {
   it('defines every supported Theme name', () => {
@@ -66,6 +70,14 @@ describe('themeCapabilities', () => {
       const supportsDarkSurface = capability.supportsDarkSurface
         ? 'Yes'
         : 'No'
+
+      // @deprecated A transitional brand such as "sbanken-new" is
+      // intentionally undocumented, because the brand it replaces is
+      // already documented
+      if (transitionalThemeNames.includes(name as never)) {
+        expect(rows.map(([theme]) => theme)).not.toContain(`\`${name}\``)
+        continue
+      }
 
       expect(rows).toContainEqual([
         `\`${name}\``,

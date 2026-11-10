@@ -41,6 +41,8 @@ type ThemeColorScheme = 'auto' | 'light' | 'dark'
 const availableThemes: Record<string, { name: string; hide?: boolean }> = {
   ui: { name: 'DNB' },
   sbanken: { name: 'Sbanken (WIP)' },
+  // @deprecated Transitional "sbanken-new" brand, removed with the redesign
+  'sbanken-new': { name: 'Sbanken New (WIP)' },
   eiendom: { name: 'DNB Eiendom' },
   carnegie: { name: 'DNB Carnegie (WIP)' },
 }
