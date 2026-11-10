@@ -180,7 +180,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   /* stylelint-disable-next-line */
   -webkit-user-select: none;
   margin: 0;
-  padding: 0 0.125rem; /* 1/16*4 */
+  padding: 0;
   background-color: transparent;
   border-bottom: 1px solid transparent;
   cursor: pointer;
@@ -323,9 +323,9 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   position: absolute;
   z-index: -1;
   top: 0.5rem;
-  left: -0.375rem;
+  left: -0.5rem;
   bottom: 0.5rem;
-  right: -0.375rem;
+  right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
   background-color: var(--token-color-background-action-focus-subtle);
@@ -350,7 +350,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
 }
 .dnb-tabs__button__snap:first-of-type {
   padding-left: 0;
@@ -400,10 +400,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([di
   background-color: var(--token-color-background-action-pressed);
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-left: 0.5rem;
+  margin-left: 0.625rem;
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-right: 0.5rem;
+  margin-right: 0.625rem;
 }
 .dnb-tabs__cached {
   opacity: 1;
@@ -467,7 +467,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   z-index: -1;
   grid-column: 1/2;
   grid-row: 1;
-  left: -0.125rem;
+  left: 0;
   right: 0;
 }
 .dnb-tabs__button__title:has(> .dnb-badge)::before {
@@ -666,7 +666,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   /* stylelint-disable-next-line */
   -webkit-user-select: none;
   margin: 0;
-  padding: 0 0.125rem; /* 1/16*4 */
+  padding: 0;
   background-color: transparent;
   border-bottom: 1px solid transparent;
   cursor: pointer;
@@ -809,9 +809,9 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   position: absolute;
   z-index: -1;
   top: 0.5rem;
-  left: -0.375rem;
+  left: -0.5rem;
   bottom: 0.5rem;
-  right: -0.375rem;
+  right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
   background-color: var(--token-color-background-action-focus-subtle);
@@ -836,7 +836,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
 }
 .dnb-tabs__button__snap:first-of-type {
   padding-left: 0;
@@ -886,10 +886,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([di
   background-color: var(--token-color-background-action-pressed);
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-left: 0.5rem;
+  margin-left: 0.625rem;
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-right: 0.5rem;
+  margin-right: 0.625rem;
 }
 .dnb-tabs__cached {
   opacity: 1;
@@ -953,7 +953,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   z-index: -1;
   grid-column: 1/2;
   grid-row: 1;
-  left: -0.125rem;
+  left: 0;
   right: 0;
 }
 .dnb-tabs__button__title:has(> .dnb-badge)::before {
