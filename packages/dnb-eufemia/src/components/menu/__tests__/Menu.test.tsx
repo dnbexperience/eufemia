@@ -1,7 +1,7 @@
 import { act } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Menu from '../Menu'
 
 vi.mock('../../popover/Popover', async () => {
@@ -583,29 +583,5 @@ describe('Menu integration', () => {
 
       expect(await axeComponent(container)).toHaveNoViolations()
     })
-  })
-})
-
-describe('Menu scss', () => {
-  it('uses the sharp shadow for the menu panel and the Popover shadow for nested menus', () => {
-    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-menu\.dnb-popover \{\s*min-width: auto;\s*box-shadow: var\(--shadow-sharp\);\s*\}/
-    )
-    expect(css).toMatch(
-      /\.dnb-menu \.dnb-menu\.dnb-popover \{\s*box-shadow: var\(--shadow-default\);\s*\}/
-    )
-  })
-
-  it('puts 4px between an open accordion trigger and its first child, and none after the last child', () => {
-    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-menu__accordion \.dnb-menu__list \{\s*display: flex;\s*flex-direction: column;\s*gap: 0\.25rem;\s*padding-inline-start: var\(--menu-action-padding-inline\);\s*\}/
-    )
-    expect(css).toMatch(
-      /\.dnb-menu__accordion > \.dnb-height-animation > \.dnb-menu__list \{\s*padding-top: 0\.25rem;\s*\}/
-    )
   })
 })

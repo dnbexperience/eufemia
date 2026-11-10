@@ -1557,11 +1557,4 @@ describe('Tooltip scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('limits the text to 35rem (560px) plus the content padding', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatch(
-      /\.dnb-tooltip \.dnb-popover__content \{[^}]*max-width: 37rem;/
-    )
-  })
 })

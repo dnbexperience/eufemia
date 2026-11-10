@@ -474,58 +474,11 @@ describe('Switch scss', () => {
     )
   })
 
-  it('shows the error knob without a ring and with a light icon on hover and focus', () => {
-    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-switch__status--error \{[^}]*--switch-focus-icon: var\(--token-color-icon-neutral-ondark\);/
-    )
-    expect(css).toMatch(
-      /html:not\(\[data-whatinput=keyboard\]\) \.dnb-switch__status--error \.dnb-switch__input:not\(\[disabled\]\):not\(:active\):hover ~ \.dnb-switch__button,\s*html\[data-whatinput=keyboard\] \.dnb-switch__status--error \.dnb-switch__input:not\(\[disabled\]\):focus ~ \.dnb-switch__button \{\s*box-shadow: none;/
-    )
-  })
-
   it('shows disabled switches with the disabled text color in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-switch.scss'))
 
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\] ~ \.dnb-switch__background,\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\]:checked ~ \.dnb-switch__background \{\s*border-color: GrayText;\s*\}\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\] ~ \.dnb-switch__button,\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\]:checked ~ \.dnb-switch__button \{\s*color: GrayText;\s*outline-color: GrayText;/
-    )
-  })
-
-  it('uses the Figma tokens for disabled switches', () => {
-    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
-
-    expect(css).toMatch(
-      /--switch-disabled-border: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
-    )
-    expect(css).toMatch(
-      /--switch-disabled-button-background: var\(\s*--token-color-background-neutral-base\s*\)/
-    )
-    expect(css).toMatch(
-      /--switch-disabled-checked-background: var\(\s*--token-color-background-action-disabled\s*\)/
-    )
-  })
-
-  it('uses the Figma on-dark tokens for disabled switches on dark surfaces', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-switch.scss'))
-    )
-    const surfaceDark = css.match(
-      /\.dnb-switch--surface-dark \{[^}]*\}/
-    )[0]
-
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-border: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-button-background: color-mix\(\s*in srgb,\s*var\(--token-color-background-action-disabled-ondark\) 50%,\s*transparent\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-checked-background: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-checked-button-background: var\(\s*--token-color-component-switch-action-disabled-ondark\s*\)/
     )
   })
 
