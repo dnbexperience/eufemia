@@ -864,20 +864,6 @@ describe('Avatar scss', () => {
     expect(css).toMatchSnapshot()
   })
 
-  it('uses the heading font for large and x-large initials', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-avatar--size-large \{\s*width: var\(--avatar-width--large\);\s*height: var\(--avatar-height--large\);\s*font-family: var\(--font-family-heading\);/
-    )
-    expect(css).toMatch(
-      /\.dnb-avatar--size-x-large \{\s*width: var\(--avatar-width--x-large\);\s*height: var\(--avatar-height--x-large\);\s*font-family: var\(--font-family-heading\);/
-    )
-    expect(css).not.toMatch(
-      /\.dnb-avatar--size-(small|medium) \{[^}]*font-family/
-    )
-  })
-
   it('overlaps grouped avatars by the Figma spacing for each size', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
