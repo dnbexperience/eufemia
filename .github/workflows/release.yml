@@ -464,10 +464,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    # The notifications use GH_TOKEN, so the job token only needs to read.
     permissions:
       contents: read
-      pull-requests: write
-      issues: write
 
     steps:
       - name: Git checkout
