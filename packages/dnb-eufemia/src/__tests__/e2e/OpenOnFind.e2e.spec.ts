@@ -1,6 +1,73 @@
 import { expect, test } from '@playwright/test'
+import path from 'node:path'
+import { compile } from 'sass'
+import postcss from 'postcss'
+import isolatedStyleScopePlugin from '../../plugins/postcss-isolated-style-scope/isolated-style-scope-plugin.js'
+
+async function createResetStyles(mode: string) {
+  const entry = mode.endsWith('basis') ? 'basis' : 'core'
+  const css = compile(
+    path.resolve(__dirname, `../../style/dnb-ui-${entry}.scss`),
+    { logger: { warn() {}, debug() {} } }
+  ).css
+
+  if (mode.startsWith('isolated')) {
+    return (
+      await postcss([
+        isolatedStyleScopePlugin({
+          scopeHash: 'eufemia-scope--open-on-find-test',
+          warnOnDeprecatedColorVariables: false,
+        }),
+      ]).process(css, { from: undefined })
+    ).css
+  }
+
+  return css
+}
 
 test.describe('openOnFind', () => {
+  test('preserves native reveal with core and isolated reset styles', async ({
+    page,
+  }) => {
+    for (const mode of ['core', 'isolated-basis', 'isolated-core']) {
+      await test.step(mode, async () => {
+        const css = await createResetStyles(mode)
+
+        await page.setContent(`
+          <style>${css}</style>
+          <div class="eufemia-scope--open-on-find-test">
+            <div class="dnb-core-style">
+              <div id="hidden-content" hidden>Hidden content</div>
+              <div id="findable-content" hidden="until-found">
+                <p id="${mode}-match">Searchable content</p>
+              </div>
+            </div>
+          </div>
+        `)
+
+        await expect(page.locator('#hidden-content')).toHaveCSS(
+          'display',
+          'none'
+        )
+        await expect(page.locator('#findable-content')).toHaveCSS(
+          'display',
+          'block'
+        )
+        await expect(page.locator(`#${mode}-match`)).toBeHidden()
+
+        await page.evaluate((id) => {
+          window.location.hash = id
+        }, `${mode}-match`)
+
+        await expect(
+          page.locator('#findable-content')
+        ).not.toHaveAttribute('hidden')
+        await expect(page.locator(`#${mode}-match`)).toBeVisible()
+        await expect(page.locator('#hidden-content')).toBeHidden()
+      })
+    }
+  })
+
   test('selects the tab from native fragment navigation', async ({
     page,
   }) => {
