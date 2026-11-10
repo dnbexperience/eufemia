@@ -764,7 +764,7 @@ describe('Heading component', () => {
     expect(debug).not.toHaveBeenCalled()
   })
 
-  it('should keep context level after state update', () => {
+  it('should recalculate relative levels after state updates', () => {
     const { rerender } = render(<StateChanges />)
 
     let i = -1
@@ -773,7 +773,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h2] h2')
     expect(elem[++i].textContent).toBe('[h3] h3')
     expect(elem[++i].textContent).toBe('[h3] h3 before')
-    expect(elem[++i].textContent).toBe('[h3] h3 after')
+    expect(elem[++i].textContent).toBe('[h3] Following')
     expect(elem[i + 1].textContent).toBe('[h2] h2')
 
     rerender(<StateChanges showHeading3={true} />)
@@ -787,7 +787,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h4] h4 1')
     expect(elem[++i].textContent).toBe('[h4] h4 2')
     expect(elem[++i].textContent).toBe('[h5] h5 1')
-    expect(elem[++i].textContent).toBe('[h3] h3 after')
+    expect(elem[++i].textContent).toBe('[h5] Following')
     expect(elem[i + 1].textContent).toBe('[h2] h2')
 
     rerender(<StateChanges showHeading4={true} />)
@@ -801,10 +801,10 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h4] h4 1')
     expect(elem[++i].textContent).toBe('[h4] h4 2')
     expect(elem[++i].textContent).toBe('[h5] h5 1')
-    expect(elem[++i].textContent).toBe('[h3] h3 after')
-    expect(elem[++i].textContent).toBe('[h4] h4 1')
-    expect(elem[++i].textContent).toBe('[h4] h4 2')
-    expect(elem[++i].textContent).toBe('[h5] h5 1')
+    expect(elem[++i].textContent).toBe('[h5] Following')
+    expect(elem[++i].textContent).toBe('[h6] h4 1')
+    expect(elem[++i].textContent).toBe('[h6] h4 2')
+    expect(elem[++i].textContent).toBe('[h6] h5 1')
     expect(elem[i + 1].textContent).toBe('[h2] h2')
 
     rerender(<StateChanges showHeading4={false} />)
@@ -823,10 +823,10 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h4] h4 1')
     expect(elem[++i].textContent).toBe('[h4] h4 2')
     expect(elem[++i].textContent).toBe('[h5] h5 1')
-    expect(elem[++i].textContent).toBe('[h3] h3 after')
-    expect(elem[++i].textContent).toBe('[h4] h4 1')
-    expect(elem[++i].textContent).toBe('[h4] h4 2')
-    expect(elem[++i].textContent).toBe('[h5] h5 1')
+    expect(elem[++i].textContent).toBe('[h5] Following')
+    expect(elem[++i].textContent).toBe('[h6] h4 1')
+    expect(elem[++i].textContent).toBe('[h6] h4 2')
+    expect(elem[++i].textContent).toBe('[h6] h5 1')
     expect(elem[i + 1].textContent).toBe('[h2] h2')
   })
 
@@ -991,7 +991,7 @@ function StateChanges({
             <Heading increase>h5 1</Heading>
           </StrictMode>
         )}
-        <Heading>h3 after</Heading>
+        <Heading>Following</Heading>
 
         <Heading.Increase group="C">
           {state.showHeading4 && (

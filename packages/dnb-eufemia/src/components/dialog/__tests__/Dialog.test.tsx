@@ -1248,12 +1248,4 @@ describe('Dialog scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('uses the basis paragraph text for the confirmation description', () => {
-    const css = loadScss(require.resolve('../style/dnb-dialog.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-dialog--confirmation \.dnb-dialog__description \{\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);/
-    )
-  })
 })

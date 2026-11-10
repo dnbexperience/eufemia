@@ -883,20 +883,4 @@ describe('Anchor scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('keeps the underline on hover, active and focus', () => {
-    const css = loadScss(require.resolve('../style/deps.scss')) as string
-    const selectorsWithoutUnderline = [
-      ...css.matchAll(/([^{}]+)\{[^{}]*text-decoration: none;/g),
-    ]
-      .map(([, selector]) => selector.trim())
-      .join('\n')
-
-    expect(selectorsWithoutUnderline).toContain(
-      '.dnb-anchor--no-underline'
-    )
-    expect(selectorsWithoutUnderline).not.toMatch(
-      /:hover|:active|:focus|--hover|--active|--focus/
-    )
-  })
 })

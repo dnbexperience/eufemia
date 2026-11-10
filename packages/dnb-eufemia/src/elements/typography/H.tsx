@@ -17,6 +17,7 @@ import {
 } from '../../components/heading/HeadingHelpers'
 import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
+import useHeadingOrder from '../../components/heading/useHeadingOrder'
 import { useTypography } from './Typography'
 import type { TypographyProps } from './Typography'
 
@@ -46,6 +47,8 @@ type HProps = Pick<TypographyProps, 'family'> &
 export type SharedHProps = Omit<HProps, 'element'>
 
 const H = (props: HProps) => {
+  const elementRef = useHeadingOrder(props.ref, props.level === 'use')
+
   const {
     element = 'h1',
     is,
@@ -82,6 +85,7 @@ const H = (props: HProps) => {
         className
       )}
       {...rest}
+      ref={elementRef}
     />
   )
 }
