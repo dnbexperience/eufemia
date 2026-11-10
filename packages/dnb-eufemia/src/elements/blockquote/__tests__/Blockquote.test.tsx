@@ -4,6 +4,7 @@
  */
 
 import { render } from '@testing-library/react'
+import { loadScss } from '../../../core/test-utils/testSetup'
 import Blockquote from '../Blockquote'
 import Code from '../../code/Code'
 
