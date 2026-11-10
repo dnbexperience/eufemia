@@ -7,6 +7,13 @@ legacyFragments:
 ---
 
 import WhenToUseForms from 'Docs/web/forms/when-to-use-forms.mdx'
+import { Blockquote } from '@dnb/eufemia/src'
+
+<Blockquote top="large">
+
+**Deprecated:** ToggleButton and ToggleButton.Group are deprecated in favor of [Chip](/web/components/chip/). Existing imports, styles, and behavior remain supported. See the [migration guide](/web/releases-and-upgrades/versions/eufemia/v13-info/#togglebutton) when updating an application.
+
+</Blockquote>
 
 ## Import
 
@@ -22,7 +29,7 @@ The ToggleButton component is used to toggle on or off a limited number of choic
 
 <WhenToUseForms />
 
-The Eufemia Forms equivalent of `ToggleButton` is [Field.Selection](/web/forms/base-fields/Selection/) with the buttons variant (`variant="buttons"`), or [Field.Boolean](/web/forms/base-fields/Boolean/) with the button variant for on/off choices.
+The Eufemia Forms equivalent of `ToggleButton` is [Field.Selection](/web/forms/base-fields/Selection/) with the button variant (`variant="button"`), or [Field.Boolean](/web/forms/base-fields/Boolean/) with the button variant for on/off choices.
 
 ## Relevant links
 

@@ -69,6 +69,7 @@ function parseValues(props: ToggleButtonGroupProps) {
   return props.values
 }
 
+/** @deprecated Use Chip.Group instead. */
 function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const context = useContext(Context)
 
