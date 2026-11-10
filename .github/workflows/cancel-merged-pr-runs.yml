@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        # Must match each workflow's name and concurrency group ({0}: branch, {1}: PR number).
+        # Must match each workflow's concurrency group prefix (usually its name) and ref ({0}: branch, {1}: PR number).
         include:
           - workflow: Verify
             ref: 'refs/heads/{0}'
@@ -32,6 +32,8 @@ jobs:
           - workflow: Dev Preview
             ref: 'refs/heads/{0}'
           - workflow: CodeQL Analysis
+            ref: 'refs/heads/{0}'
+          - workflow: Windows font compatibility
             ref: 'refs/heads/{0}'
           - workflow: E2E Tests
             ref: '{1}'
@@ -57,6 +59,11 @@ jobs:
             ref: 'refs/pull/{1}/merge'
           - workflow: Service Monitoring Lambda
             ref: 'refs/pull/{1}/merge'
+          - workflow: Design token review
+            ref: 'refs/pull/{1}/merge'
+          - workflow: portal-hydration
+            ref: 'refs/pull/{1}/merge'
+            label: Portal hydration
 
     concurrency:
       group: ${{ matrix.workflow }}-${{ format(matrix.ref, github.head_ref, github.event.pull_request.number) }}
