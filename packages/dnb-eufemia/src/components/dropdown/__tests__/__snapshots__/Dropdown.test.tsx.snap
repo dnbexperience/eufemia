@@ -417,6 +417,9 @@ button .dnb-form-status__text {
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
 }
+.dnb-form-status.dnb-height-animation--animating > .dnb-form-status__shell {
+  align-self: flex-start;
+}
 .dnb-form-status[hidden] {
   display: none;
 }
