@@ -269,31 +269,47 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          fetch-depth: 20 # The "postbuild:ci" method "getCommittedFiles" needs all history
+          # Change detection diffs against main, and "postbuild:ci" (getCommittedFiles)
+          # reads recent commits. Both need commit history but no blobs.
+          fetch-depth: 0
+          filter: blob:none
+
+      # A step, not a separate job, so other changes don't wait for a second runner.
+      - name: Detect changes
+        id: changes
+        continue-on-error: true
+        run: node tools/repo-utils/src/detect-changes.mjs
 
       - name: Setup dependencies
+        if: steps.changes.outputs.tests-only != 'true'
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Verify isCI
+        if: steps.changes.outputs.tests-only != 'true'
         run: yarn workspace repo-utils test:ci
 
       - name: Prebuild Library
+        if: steps.changes.outputs.tests-only != 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Postbuild Library
+        if: steps.changes.outputs.tests-only != 'true'
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Build marketplace plugins
+        if: steps.changes.outputs.tests-only != 'true'
         run: yarn workspace eufemia-raiwork-plugin build:all
 
       # The starter is published as a consumer template (see dev.yml) and has
       # no other CI coverage.
       - name: Build starter template
+        if: steps.changes.outputs.tests-only != 'true'
         run: yarn workspace eufemia-starter build
 
       - name: Check bundle sizes
+        if: steps.changes.outputs.tests-only != 'true'
         env:
           BUNDLEWATCH_GITHUB_TOKEN: ${{ github.token }}
         run: yarn workspace @dnb/eufemia build:size

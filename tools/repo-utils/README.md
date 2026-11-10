@@ -14,6 +14,10 @@ Exposed helpers:
 - `matchFiltersToFiles(filters, candidateFiles)` – maps each filter to the files it matches.
 - `prepareVitestRun(args, matchingFilesByFilter)` – resolves the filters, Vitest args and test files for a run.
 
+`src/detect-changes.mjs` is run by CI workflows to report whether a branch
+changes only standalone tools or only unit tests, so jobs that nothing in the
+change can affect are skipped. See `.github/workflows/detect-changes.yml`.
+
 ## Usage
 
 ```ts
