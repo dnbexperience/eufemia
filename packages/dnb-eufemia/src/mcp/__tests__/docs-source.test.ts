@@ -73,6 +73,10 @@ function createDocsFixture(): DocsFixture {
       'Multi selection field for forms (multi select).',
     ].join('\n')
   )
+  fs.writeFileSync(
+    path.join(multiSelectionDir, 'String.mdx'),
+    '# Field.String'
+  )
 
   return {
     docsRoot,
@@ -126,6 +130,7 @@ describe('createNodeDocsSource', () => {
         'llm.md',
         'uilib/components/button.md',
         'uilib/extensions/forms/base-fields/MultiSelection.md',
+        'uilib/extensions/forms/base-fields/String.mdx',
       ])
     )
     expect(md).not.toContain('notes.txt')

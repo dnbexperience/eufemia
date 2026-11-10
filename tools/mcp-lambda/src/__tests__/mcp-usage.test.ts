@@ -120,7 +120,7 @@ describe('usageRecordsFromRequestBody', () => {
     '/uilib\\components/button.md',
     '/uilib\\components/./button.md\\',
   ])(
-    'stores %s under the key the docs server normalises it to',
+    'stores %s under the key the docs server normalizes it to',
     async (path) => {
       const [record] = await usageRecordsFromRequestBody(
         body(toolCall('docs_read', { path })),
