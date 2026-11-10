@@ -1185,6 +1185,32 @@ test.describe('Portal table of contents', () => {
     await page.goto('/web/components/button/')
     const toc = page.locator('#content-grid-sidebar nav')
     await expect(toc.locator('a').first()).toBeVisible()
+    // Clipped ancestors make the sticky TOC flicker while scrolling in Safari.
+    expect(
+      await toc.evaluate((element) => {
+        const clippedAncestors = []
+        for (
+          let ancestor = element.parentElement;
+          ancestor;
+          ancestor = ancestor.parentElement
+        ) {
+          const { overflowX, overflowY } = getComputedStyle(ancestor)
+          if (overflowX !== 'visible' || overflowY !== 'visible') {
+            clippedAncestors.push({
+              className: ancestor.className,
+              overflowX,
+              overflowY,
+            })
+          }
+        }
+        return clippedAncestors
+      })
+    ).toEqual([])
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true)
     const initialTop = (await toc.boundingBox()).y
     for (const top of [16, 48, 160, 500]) {
       await page.evaluate(
