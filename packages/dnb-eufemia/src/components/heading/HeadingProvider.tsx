@@ -21,6 +21,9 @@ import type { HeadingCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
 import type { InternalHeadingLevel, HeadingProps } from './Heading'
 
+import { createHeadingOrder } from './useHeadingOrder'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+
 export type HeadingProviderProps = HeadingProps
 export type HeadingProviderAllProps = HeadingProviderProps &
   HTMLProps<HTMLElement>
@@ -36,6 +39,15 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
     (revision) => revision + 1,
     0
   )
+
+  const [order] = useState(
+    () => existingContext?.order || createHeadingOrder(recalculate)
+  )
+  useIsomorphicLayoutEffect(() => {
+    if (!existingContext?.order) {
+      order.check()
+    }
+  })
 
   type State = {
     level?: InternalHeadingLevel
@@ -186,6 +198,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
           counter: state.counter,
           revision: state.revision,
           recalculate,
+          order,
         },
       }}
     >
