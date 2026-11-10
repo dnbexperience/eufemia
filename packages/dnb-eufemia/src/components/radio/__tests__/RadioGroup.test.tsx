@@ -114,6 +114,32 @@ describe('Radio group component', () => {
     expect(second).toHaveAttribute('readonly')
   })
 
+  it('should move focus but keep the value on arrow keys when read-only', async () => {
+    const onChange = vi.fn()
+    render(
+      <Radio.Group
+        label="Label"
+        value="first"
+        readOnly
+        onChange={onChange}
+      >
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" />
+      </Radio.Group>
+    )
+
+    const first = document.querySelector<HTMLInputElement>('input#radio-1')
+    const second = document.querySelector('input#radio-2')
+
+    first.focus()
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(document.activeElement).toBe(second)
+    expect(onChange).toHaveBeenCalledTimes(0)
+    expect(first).toBeChecked()
+    expect(second).not.toBeChecked()
+  })
+
   it('will disable a single button within a group', () => {
     render(
       <Radio.Group>
