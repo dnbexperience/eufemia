@@ -8,6 +8,7 @@ import { readSecret } from './secrets.ts'
 import { checkCdn } from '../../assets/check-cdn.ts'
 import { checkHttpMcp } from '../../mcp-lambda/src/check-http.ts'
 import { checkAnalytics } from '../../analytics/src/monitor/check-analytics.ts'
+import { checkTokens } from './check-tokens.ts'
 import { runMonitor, services } from './monitor.ts'
 import type { Service, State } from './monitor.ts'
 import type { Report } from '../../monitoring/report-incident.ts'
@@ -121,18 +122,21 @@ export async function handler() {
             'GitHub verification credential',
             process.env.GITHUB_TOKEN_SECRET_ARN
           )
-          report =
-            service === 'MCP'
-              ? await checkHttpMcp({ ...options, githubToken })
-              : await checkAnalytics({
-                  ...options,
-                  githubToken,
-                  gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
-                  gheToken: await credential(
-                    'GHE deploy credential',
-                    required('GHE_TOKEN_SECRET')
-                  ),
-                })
+          if (service === 'Tokens') {
+            report = await checkTokens({ ...options, githubToken })
+          } else if (service === 'MCP') {
+            report = await checkHttpMcp({ ...options, githubToken })
+          } else {
+            report = await checkAnalytics({
+              ...options,
+              githubToken,
+              gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
+              gheToken: await credential(
+                'GHE deploy credential',
+                required('GHE_TOKEN_SECRET')
+              ),
+            })
+          }
         }
         for (const label of unreadable) {
           report.checks.push({

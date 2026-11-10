@@ -1,6 +1,6 @@
 # Eufemia service monitoring
 
-Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods.
+Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. A fourth check, Tokens, reports when the latest scheduled run of the daily GHE token expiry workflow failed, or when no scheduled run has finished in 48 hours. That workflow posts its expiry warnings through its own Slack webhook, and GitHub emails a failed scheduled run only to the last editor of its schedule. After fixing the cause, re-run the failed scheduled run to clear the alert; manual runs do not count.
 
 ## Deployment
 
@@ -8,7 +8,7 @@ The public Service Monitoring Lambda workflow tests and bundles the checks, then
 
 Each service has a separate Node.js 22 Lambda using the same bundle, with 256 MB memory and one reserved concurrent execution. The HTTP budget is 330 seconds; Lambda allows 480 seconds for checks, persistence and notifications. There is no public inbound endpoint, runtime checkout, docs build or package installation. The production checks always use the public edge, including npm and GitHub for freshness verification.
 
-EventBridge Scheduler runs CDN at :07, MCP at :11 and Analytics at :17 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
+EventBridge Scheduler runs CDN at :07, MCP at :11, Analytics at :17 and Tokens at :23 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
 
 ## One-time setup
 
@@ -38,7 +38,7 @@ State uses the default Terraform workspace at service-monitoring/terraform.tfsta
 
 The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secrets are created by an administrator; the Lambdas read their values at runtime. Terraform passes the GitHub and Slack bot secrets by ARN. The analytics check reads its GHE token by the fixed name eufemia/<environment>/monitoring/ghe-analytics-token: a dnb.ghe.com fine-grained token with Actions read on the analytics deployment repository only, stored as plain text with the default Secrets Manager key. Create it before deploying the analytics function; without it the analytics check reports unhealthy and the smoke test fails.
 
-The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification uses the unauthenticated API limit. A 403/429 makes the deployment-source check unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
+The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification and the Tokens workflow check use the unauthenticated API limit. A 403/429 makes those checks unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
 
 Functions use Lambda's default network with outbound HTTPS. If account policy requires a VPC, provide approved outbound connectivity to the public edge, npm, GitHub, Slack and AWS services before deployment.
 

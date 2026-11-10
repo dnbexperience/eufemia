@@ -40,6 +40,8 @@ type Dependencies = {
 const serviceUrls: Partial<Record<Service, string>> = {
   MCP: 'https://server.eufemia.dnb.no/healthz',
   Analytics: 'https://dashboard.eufemia.dnb.no/',
+  Tokens:
+    'https://github.com/dnbexperience/eufemia/actions/workflows/ghe-token-expiry.yml',
 }
 
 // Check details can quote response bodies, so Slack control sequences are escaped.

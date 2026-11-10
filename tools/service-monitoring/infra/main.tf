@@ -4,6 +4,7 @@ locals {
     CDN       = "cron(7 * * * ? *)"
     MCP       = "cron(11 * * * ? *)"
     Analytics = "cron(17 * * * ? *)"
+    Tokens    = "cron(23 * * * ? *)"
   }
   services = toset(keys(local.schedules))
   tags = {
