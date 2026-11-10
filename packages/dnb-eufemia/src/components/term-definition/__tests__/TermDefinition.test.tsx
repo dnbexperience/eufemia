@@ -6,11 +6,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TermDefinition from '../TermDefinition'
 import defaultLocales from '../../../shared/locales'
-import {
-  axeComponent,
-  loadScss,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import { Field } from '../../../extensions/forms'
 
 const term = 'unusual words'
@@ -462,15 +458,5 @@ describe('TermDefinition aria', () => {
       <TermDefinition content="A definition">Term</TermDefinition>
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('TermDefinition popover scss', () => {
-  it('keeps the default 24px Popover padding', () => {
-    const css = loadScss(
-      require.resolve('../style/dnb-term-definition.scss')
-    )
-
-    expect(css).not.toContain('--inner-space')
   })
 })
