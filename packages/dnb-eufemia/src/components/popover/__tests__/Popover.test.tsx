@@ -372,6 +372,18 @@ describe('Popover', () => {
     )
   })
 
+  it('gives the title the body font, also inside dnb-core-style', async () => {
+    renderWithTrigger({ title: 'Definition' })
+
+    await userEvent.click(document.querySelector('button[aria-controls]'))
+
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-popover__title strong')
+      ).toHaveClass('dnb-h--basis', 'dnb-t__family--basis')
+    )
+  })
+
   it('does not mark direct Button triggers as selected automatically', async () => {
     render(
       <Popover
