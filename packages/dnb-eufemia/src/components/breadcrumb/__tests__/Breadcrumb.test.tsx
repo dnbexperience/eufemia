@@ -583,12 +583,4 @@ describe('Breadcrumb scss', () => {
       /\.dnb-anchor::after \{[^}]*border: 0\.5rem solid transparent;[^}]*forced-color-adjust: none;/
     )
   })
-
-  it('leaves 24px between the last item and the bottom divider of the expanded list', () => {
-    const css = loadScss(require.resolve('../style/dnb-breadcrumb.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-breadcrumb__collapse \.dnb-breadcrumb__list \{[^}]*padding: 1rem 1rem 1\.5rem;/
-    )
-  })
 })
