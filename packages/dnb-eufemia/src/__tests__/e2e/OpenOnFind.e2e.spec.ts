@@ -103,6 +103,8 @@ test.describe('openOnFind', () => {
 
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')
     await expect(row).toHaveAttribute('hidden', 'until-found')
+    await expect(row).toHaveJSProperty('offsetHeight', 0)
+    await expect(matchingContent).toBeHidden()
 
     await page.evaluate(() => {
       window.location.hash = 'accordion-table-1-open-on-find-match'
