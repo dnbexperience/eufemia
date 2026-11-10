@@ -82,6 +82,7 @@
   &--size-large {
     width: var(--avatar-width--large);
     height: var(--avatar-height--large);
+    font-family: var(--font-family-heading);
     font-size: var(--avatar-font-size--large);
     line-height: var(--avatar-line-height--large);
 
@@ -93,6 +94,7 @@
   &--size-x-large {
     width: var(--avatar-width--x-large);
     height: var(--avatar-height--x-large);
+    font-family: var(--font-family-heading);
     font-size: var(--avatar-font-size--x-large);
     line-height: var(--avatar-line-height--x-large);
 
