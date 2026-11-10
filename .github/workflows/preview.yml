@@ -103,17 +103,9 @@ jobs:
 
           echo "$OUTPUT"
 
-          ALIAS_URL="$(echo "$OUTPUT" | sed -nE 's/.*Deployment alias URL:\s*(https:\/\/[^ ]+).*/\1/p')"
           DEPLOYMENT_URL="$(echo "$OUTPUT" | sed -nE 's/.*Take a peek over at\s*(https:\/\/[^ ]+).*/\1/p')"
 
-          echo "alias_url=$ALIAS_URL" >> "$GITHUB_OUTPUT"
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
-
-          {
-            echo "**Branch preview (stable):** $ALIAS_URL"
-            echo
-            echo "**Deployment (unique):** $DEPLOYMENT_URL"
-          } >> "$GITHUB_STEP_SUMMARY"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -125,7 +117,8 @@ jobs:
         if: steps.changes.outputs.packages-unaffected != 'true' && steps.gate.outputs.skip != 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
-          ALIAS_URL: ${{ steps.pages_deploy.outputs.alias_url }}
+          # The alias of the `pr-<number>` branch deployed above.
+          PREVIEW_URL: 'https://pr-${{ github.event.pull_request.number }}.eufemia-e25.pages.dev'
           DEPLOYMENT_URL: ${{ steps.pages_deploy.outputs.deployment_url }}
         with:
           script: |
@@ -148,9 +141,14 @@ jobs:
               repo,
               deployment_id: deployment.id,
               state: 'success',
-              environment_url: process.env.ALIAS_URL,
+              environment_url: process.env.PREVIEW_URL,
               log_url: `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`,
               description: process.env.DEPLOYMENT_URL,
               // Keep the previews of other pull requests active.
               auto_inactive: false,
             })
+
+            await core.summary
+              .addRaw(`**Branch preview (stable):** ${process.env.PREVIEW_URL}\n\n`)
+              .addRaw(`**Deployment (unique):** ${process.env.DEPLOYMENT_URL}\n`)
+              .write()
