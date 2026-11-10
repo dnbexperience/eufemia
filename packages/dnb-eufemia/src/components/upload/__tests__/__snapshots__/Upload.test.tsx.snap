@@ -504,7 +504,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
     --button-tertiary-focus-overflow--icon-top
   );
   flex-direction: column;
-  border-radius: var(--token-radius-md);
+  border-radius: 1.25rem;
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
@@ -514,12 +514,16 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   align-self: center;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
-  margin-top: 0;
-  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
   font-size: var(--font-size-x-small);
+  line-height: var(--line-height-x-small);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--size-large .dnb-button__text {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
   font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__alignment {
   order: 3;
@@ -578,7 +582,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   --button-padding--default: 1.5rem;
   --button-padding--small: 1rem;
   --button-padding--medium: 1rem;
-  --button-padding--large: 2rem;
+  --button-padding--large: 1.75rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
@@ -1151,14 +1155,14 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--size-large {
   --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
+  --button-padding-icon: 1.25rem;
   width: var(--button-width--large);
 }
 .dnb-button--has-text.dnb-button--size-large {
   --button-padding-left: var(--button-padding--large);
   --button-padding-right: var(--button-padding--large);
 }
-.dnb-button--secondary:not(.dnb-button--has-text):not(.dnb-button--input-button):not(.dnb-button--control-before):not(.dnb-button--control-after).dnb-button--size-large {
+.dnb-button:where(.dnb-button--secondary, .dnb-button--tertiary):not(.dnb-button--has-text):not(.dnb-button--input-button):not(.dnb-button--control-before):not(.dnb-button--control-after).dnb-button--size-large {
   width: calc(var(--button-width--large) - 0.5rem);
   line-height: calc(var(--button-height) - 0.5rem);
 }
@@ -1326,6 +1330,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-progress-indicator--full-width.dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
   flex-shrink: 0;
   max-width: 50%;
+  padding-left: 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
@@ -1720,6 +1725,9 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-upload__text.dnb-p {
   color: var(--upload-text--secondary);
 }
+.dnb-upload__file-limits-list.dnb-dl {
+  padding-top: 0.5rem;
+}
 .dnb-upload__accepted-file-types-table.dnb-table {
   width: fit-content;
 }
@@ -1744,11 +1752,16 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-upload__file-limits .dnb-accordion__tertiary-content {
   border-radius: var(--token-radius-xl);
 }
+.dnb-card .dnb-upload__file-limits .dnb-accordion__tertiary-content {
+  border-radius: var(--token-radius-lg);
+}
 .dnb-upload__file-limits__content {
-  padding: 1rem;
-  background-color: var(--upload-file-limits-background);
-  border: 0.0625rem solid var(--upload-file-limits-border);
-  border-radius: var(--token-radius-xl);
+  margin: var(--card-outline-width);
+}
+@media (forced-colors: active) {
+  .dnb-upload__file-limits__content {
+    outline: var(--card-outline-width) solid transparent;
+  }
 }
 .dnb-upload__file-limits__table.dnb-table {
   --table-th-background-color: transparent;
@@ -1757,9 +1770,6 @@ html[data-visual-test] .dnb-progress-indicator {
 }
 .dnb-upload__file-limits__table.dnb-table:not(:only-child) {
   width: auto;
-}
-.dnb-upload__file-limits__table.dnb-table + .dnb-upload__file-limits__table.dnb-table {
-  margin-top: 1rem;
 }
 .dnb-upload__file-limits__table.dnb-table thead th {
   padding: 0.5rem 1rem 0.75rem;

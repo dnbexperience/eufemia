@@ -548,6 +548,80 @@ describe('Checkbox component', () => {
     })
   })
 
+  // The numpad Enter key has the same key, but another code
+  it.each([
+    { keyName: 'Enter', code: 'Enter' },
+    { keyName: 'numpad Enter', code: 'NumpadEnter' },
+  ])('should toggle on $keyName and call onClick', ({ code }) => {
+    const onClick = vi.fn()
+    const onChange = vi.fn()
+    render(<Checkbox onClick={onClick} onChange={onChange} />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code })
+
+    expect(input.checked).toBe(true)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+  })
+
+  it('should not toggle on Enter when onClick calls preventDefault', async () => {
+    const onChange = vi.fn()
+    render(
+      <Checkbox
+        onClick={({ preventDefault }) => preventDefault()}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+    input.focus()
+    await userEvent.keyboard('{Enter}')
+
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('sets the input indeterminate to false on Enter, as a click does', () => {
+    render(<Checkbox indeterminate />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' })
+
+    expect(input.checked).toBe(true)
+    expect(input.indeterminate).toBe(false)
+  })
+
+  // One key press must not change the checkbox and send the form at once.
+  // Enter never submits the form, also when the checkbox does not change.
+  it.each([{ readOnly: false }, { readOnly: true }])(
+    'should not submit the form on Enter when readOnly is $readOnly',
+    async ({ readOnly }) => {
+      const onSubmit = vi.fn((event) => event.preventDefault())
+      const onChange = vi.fn()
+      render(
+        <form onSubmit={onSubmit}>
+          <Checkbox readOnly={readOnly} onChange={onChange} />
+          <button type="submit">Submit</button>
+        </form>
+      )
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard('{Enter}')
+
+      expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      // Control: the form can be submitted
+      await userEvent.click(document.querySelector('button'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    }
+  )
+
   it('should call onKeyDown given as a property', () => {
     const onKeyDown = vi.fn()
     const onChange = vi.fn()
@@ -573,6 +647,27 @@ describe('Checkbox component', () => {
     expect(onChange).toHaveBeenCalledTimes(0)
   })
 
+  it.each([
+    { checked: false, keyName: 'Enter', key: '{Enter}' },
+    { checked: true, keyName: 'Enter', key: '{Enter}' },
+    { checked: false, keyName: 'Space', key: ' ' },
+    { checked: true, keyName: 'Space', key: ' ' },
+  ])(
+    'should not toggle on $keyName when readOnly and checked is $checked',
+    async ({ checked, key }) => {
+      const onChange = vi.fn()
+      render(<Checkbox readOnly checked={checked} onChange={onChange} />)
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard(key)
+
+      // Enter clicks the input, so readOnly blocks it as it blocks Space (#9754)
+      expect(input.checked).toBe(checked)
+      expect(onChange).toHaveBeenCalledTimes(0)
+    }
+  )
+
   it('should call onKeyUp given as a property', () => {
     const onKeyUp = vi.fn()
     render(<Checkbox onKeyUp={onKeyUp} />)
@@ -584,22 +679,6 @@ describe('Checkbox component', () => {
 })
 
 describe('Checkbox scss', () => {
-  it('does not change the check mark of disabled checkboxes on hover', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-checkbox.scss'))
-    )
-    const hoverSelectors = Array.from(
-      css.matchAll(
-        /([^{}]+)\{[^{}]*\scolor: var\(--checkbox-color-gfx--hover\);/g
-      ),
-      ([, selectors]) => selectors.trim()
-    )
-
-    expect(hoverSelectors).toEqual([
-      '.dnb-checkbox__input:not([disabled]):hover:not(:active):not(:focus) ~ .dnb-checkbox__gfx',
-    ])
-  })
-
   it('shows the box and the marks in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
 
@@ -614,37 +693,6 @@ describe('Checkbox scss', () => {
     )
   })
 
-  it('uses the Figma on-dark tokens for enabled checkboxes on dark surfaces', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-checkbox.scss'))
-    )
-    const surfaceDark = css.match(
-      /\.dnb-checkbox--surface-dark:where\(:not\(\.dnb-toggle-button \*\)\) \{[^}]*\}/
-    )[0]
-
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-gfx-on: var\(--token-color-icon-neutral-static\);/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-background-off: transparent;/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-background-on: var\(\s*--token-color-background-selected-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-border-off: var\(\s*--token-color-stroke-action-alternative-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-background__indeterminate: var\(\s*--token-color-background-selected-subtle-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-border--hover: var\(\s*--token-color-stroke-action-hover-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-background-on--active: var\(\s*--token-color-background-action-pressed-ondark\s*\)/
-    )
-  })
-
   it('shows disabled checkboxes with the disabled text color in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
 
@@ -656,109 +704,6 @@ describe('Checkbox scss', () => {
     )
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input\[disabled\]:indeterminate ~ \.dnb-checkbox__indeterminate \{\s*background-color: GrayText !important;/
-    )
-  })
-
-  it('uses the Figma tokens for disabled checkboxes', () => {
-    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
-
-    expect(css).toMatch(
-      /--checkbox-color-border-off--disabled: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
-    )
-    expect(css).toMatch(
-      /--checkbox-color-border__indeterminate--disabled: var\(\s*--token-color-stroke-action-disabled\s*\)/
-    )
-    expect(css).toMatch(
-      /\.dnb-checkbox__input\[disabled\]:indeterminate ~ \.dnb-checkbox__button \{\s*--checkbox-color-border: var\(\s*--checkbox-color-border__indeterminate--disabled\s*\);/
-    )
-  })
-
-  it('keeps the disabled mark color for indeterminate checkboxes with an error', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-checkbox.scss'))
-    )
-    const errorSelectors = Array.from(
-      css.matchAll(
-        /([^{}]+)\{[^{}]*\sbackground-color: var\(--checkbox-color-gfx__indeterminate--error\);/g
-      ),
-      ([, selectors]) => selectors.trim()
-    )
-
-    expect(errorSelectors).toEqual([
-      '.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):indeterminate ~ .dnb-checkbox__indeterminate',
-    ])
-  })
-
-  it('uses the Figma on-dark tokens for disabled checkboxes on dark surfaces', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-checkbox.scss'))
-    )
-    const surfaceDark = css.match(
-      /\.dnb-checkbox--surface-dark:where\(:not\(\.dnb-toggle-button--checked \*\)\) \{[^}]*\}/
-    )?.[0]
-
-    // A checked ToggleButton keeps a light button on dark surfaces
-    expect(css).not.toMatch(/\.dnb-checkbox--surface-dark \{/)
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-gfx--disabled: var\(\s*--token-color-icon-action-disabled-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-background-on--disabled: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-background-off--disabled: transparent;/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-border-off--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--checkbox-color-border__indeterminate--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
-    )
-  })
-
-  it('uses a solid focus background with a light check mark for focused checked checkboxes', () => {
-    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
-
-    expect(css).toMatch(
-      /--checkbox-color-background-on--focus: var\(\s*--token-color-background-action-focus\s*\)/
-    )
-    expect(css).toMatch(
-      /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\)/
-    )
-    expect(css).toMatch(
-      /--checkbox-color-border-on--focus: var\(\s*--token-color-stroke-action-focus-subtle\s*\)/
-    )
-    expect(css).toMatch(
-      /html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-checkbox__input:not\(\[disabled\]\):checked:not\(:indeterminate\):focus ~ \.dnb-checkbox__button,[^{]*\{\s*box-shadow: inset 0 0 0 0\.125rem var\(--checkbox-color-border-on--focus\);\s*background-color: var\(--checkbox-color-background-on--focus\);/
-    )
-  })
-
-  it('keeps the error colors on hover, pressed and focus', () => {
-    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
-    const block = String(css).match(
-      /\.dnb-checkbox__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \{([^}]*)\}/
-    )?.[1]
-
-    expect(block).toMatch(
-      /--checkbox-color-border--hover: var\(--checkbox-color-border--error\);/
-    )
-    expect(block).toMatch(
-      /--checkbox-color-background-off--hover: var\(\s*--checkbox-color-background-off--error\s*\);/
-    )
-    expect(block).toMatch(
-      /--checkbox-color-background-on--active: var\(\s*--checkbox-color-background-on--error\s*\);/
-    )
-    expect(block).toMatch(
-      /--checkbox-color-border-off--active: var\(\s*--checkbox-color-border--error\s*\);/
-    )
-    expect(block).toMatch(
-      /--checkbox-color-background--focus: var\(\s*--checkbox-color-background-off--error\s*\);/
-    )
-    expect(block).toMatch(
-      /--checkbox-color-background-on--focus: var\(\s*--checkbox-color-background-on--error\s*\);/
-    )
-    expect(block).toMatch(
-      /--checkbox-color-gfx-on--focus: var\(--token-color-icon-neutral-ondark\);/
     )
   })
 

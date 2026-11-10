@@ -165,6 +165,11 @@
     color: var(--upload-text--secondary);
   }
 
+  // Adds to the Flex gap above, as in Figma
+  &__file-limits-list.dnb-dl {
+    padding-top: 0.5rem;
+  }
+
   &__accepted-file-types-table {
     &.dnb-table {
       width: fit-content;
@@ -194,14 +199,18 @@
     // Let the focus ring follow the rounded corners of the content
     .dnb-accordion__tertiary-content {
       border-radius: var(--token-radius-xl);
+
+      // A Card inside another Card gets smaller corners
+      .dnb-card & {
+        border-radius: var(--token-radius-lg);
+      }
     }
 
+    // The Card outline is drawn outside its box, so keep it within the Upload
     &__content {
-      padding: 1rem;
+      margin: var(--card-outline-width);
 
-      background-color: var(--upload-file-limits-background);
-      border: 0.0625rem solid var(--upload-file-limits-border);
-      border-radius: var(--token-radius-xl);
+      @include utilities.forcedColorsOutline(var(--card-outline-width));
     }
 
     &__table.dnb-table {
@@ -214,10 +223,6 @@
       // Keep the files amount table from stretching to the file types table
       &:not(:only-child) {
         width: auto;
-      }
-
-      & + & {
-        margin-top: 1rem;
       }
 
       thead th {

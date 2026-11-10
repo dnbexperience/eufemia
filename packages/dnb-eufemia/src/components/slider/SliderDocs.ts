@@ -47,7 +47,7 @@ export const SliderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   thumbTitle: {
-    doc: 'Give the slider thumb button a title for accessibility reasons. Defaults to `null`.',
+    doc: 'Gives the slider thumbs an accessible name when there is no `label`, `aria-label` or `aria-labelledby`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },

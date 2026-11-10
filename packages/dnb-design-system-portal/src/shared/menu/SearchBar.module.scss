@@ -4,6 +4,26 @@
   width: min(40vw, 17.5rem);
   min-width: 0;
 
+  :global(.dnb-input__row:has(kbd)) {
+    position: relative;
+
+    > :global(.dnb-input__submit-element) {
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: 0;
+      margin: 0;
+    }
+  }
+
+  @include utilities.allAbove(small) {
+    :global(.dnb-input:has(kbd)) {
+      :global(.dnb-input__input),
+      :global(.dnb-input__placeholder) {
+        padding-right: 3.5rem;
+      }
+    }
+  }
+
   @include utilities.allBelow(small) {
     width: min(38vw, 17.5rem);
 
@@ -28,6 +48,7 @@
       }
 
       :global(.dnb-input--clear) {
+        margin-left: calc(var(--input-height-current) * -1);
         margin-right: 0;
       }
 
@@ -69,7 +90,9 @@
 
   font-family: inherit;
   font-size: var(--font-size-x-small);
+  line-height: 1;
   color: var(--token-color-text-neutral-alternative);
+  white-space: nowrap;
 
   pointer-events: none;
 
@@ -80,6 +103,10 @@
 
 .portalClassStyle {
   z-index: 6000;
+
+  &:global(.dnb-drawer-list__portal__style) {
+    transition: none;
+  }
 }
 
 .drawerClassStyle {

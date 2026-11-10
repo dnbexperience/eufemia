@@ -144,7 +144,9 @@
 
     &--has-submit-element .dnb-input__inner__element {
       // same width of submit button
-      margin-right: 2.5rem !important; // use important so we avoid to have all sizes in addition
+      margin-right: calc(
+        var(--input-submit-button-width) + 0.5rem
+      ) !important; // use important so we avoid to have all sizes in addition
     }
   }
   &--icon-position-right .dnb-input {

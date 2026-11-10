@@ -4,7 +4,7 @@
  *
  * The MCP server moved to `https://server.eufemia.dnb.no/mcp/web`. This Worker
  * keeps the old URL working during the migration window and surfaces the new
- * URL to both clients and agents. Behaviour is controlled by the `MODE` var so
+ * URL to both clients and agents. Behavior is controlled by the `MODE` var so
  * the endpoint can be phased down without code changes:
  *
  *   - `proxy`    (default) — forward the request to the new endpoint, add
@@ -133,7 +133,7 @@ function buildUpstreamHeaders(source: Headers): Headers {
   return headers
 }
 
-/** Add deprecation signalling and CORS to any outgoing response. */
+/** Add deprecation signaling and CORS to any outgoing response. */
 function decorate(response: Response, env: Env): Response {
   const headers = new Headers(response.headers)
 

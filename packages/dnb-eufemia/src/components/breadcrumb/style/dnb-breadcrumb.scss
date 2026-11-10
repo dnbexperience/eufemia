@@ -158,16 +158,6 @@
     }
   }
 
-  &__multiple &__item {
-    transition: transform 400ms var(--easing-default)
-      calc(var(--delay) * 50ms);
-    transform: translateX(-1rem);
-
-    @include utilities.reducedMotion() {
-      transition-duration: 0.01ms;
-    }
-  }
-
   &__collapse &__item {
     padding: 0;
 
@@ -178,10 +168,6 @@
         display: none;
       }
     }
-  }
-
-  &__multiple.dnb-height-animation--parallax &__item {
-    transform: translateX(0);
   }
 
   &--variant-responsive &__bar &__multiple {
@@ -207,6 +193,6 @@
 
     margin: 0;
 
-    padding: 1rem 1rem 2rem;
+    padding: 1rem 1rem 1.5rem;
   }
 }

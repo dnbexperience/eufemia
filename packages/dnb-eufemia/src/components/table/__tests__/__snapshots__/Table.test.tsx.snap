@@ -34,8 +34,9 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-table > caption {
   position: relative;
   caption-side: bottom;
-  padding: 0.5rem 0 0.5rem 1rem;
-  font-size: var(--font-size-basis);
+  padding: 1.125rem 1rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
   background-color: var(--token-color-background-neutral);
   text-align: left;
 }
@@ -1182,6 +1183,10 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
 
 .dnb-table__tr--clickable.dnb-table__tr--disabled .dnb-table__td__button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--disabled);
+}
+
+.dnb-table__tr__accordion-content[hidden=until-found] {
+  display: block;
 }
 
 .dnb-table__tr__accordion-content__inner {

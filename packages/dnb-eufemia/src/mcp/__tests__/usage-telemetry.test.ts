@@ -383,6 +383,24 @@ describe('createUsageReporter', () => {
     expect(body.likelyComponent).toBeUndefined()
   })
 
+  it('sends a resolved component under its doc name, never the name passed', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      resolver: { ...resolver, component: async () => true },
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('component_doc', { name: 'DatePicker' })
+    await vi.runAllTimersAsync()
+
+    const { body } = fetchImpl.mock.calls[0][1]
+    expect(JSON.parse(body)).toMatchObject({ component: 'date-picker' })
+    expect(body).not.toContain('DatePicker')
+  })
+
   it('sends no component or path without a resolver', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
     const reporter = createUsageReporter({

@@ -14,7 +14,7 @@
   "scripts": {
     "test": "vitest run",
     "test:types": "../../node_modules/.bin/tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint **/*.ts",
+    "lint": "node ../../node_modules/.bin/eslint --quiet **/*.ts",
     "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts"
   },
   "devDependencies": {

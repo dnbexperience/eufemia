@@ -1,3 +1,6 @@
+import { existsSync } from 'node:fs'
+import path from 'node:path'
+import { GLOBAL_VISUAL_PORTAL_FILES } from '../runScreenshotsConditionally/config'
 import {
   buildDependencyMap,
   buildScssDependencyMap,
@@ -82,6 +85,29 @@ describe('runScreenshotsConditionally', () => {
 
     expect(selection.mode).toBe('all')
     expect(selection.reason).toMatch(/Global visual impact detected/i)
+  })
+
+  it('runs all tests when the portal styles around every demo change', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-design-system-portal/src/core/PortalLayout.module.scss',
+      ],
+    })
+
+    expect(selection.mode).toBe('all')
+    expect(selection.reason).toMatch(
+      /Portal file around every demo changed/
+    )
+  })
+
+  it('skips for other portal files outside the docs', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-design-system-portal/src/shared/menu/PortalToolsMenu.tsx',
+      ],
+    })
+
+    expect(selection.mode).toBe('skip')
   })
 
   it('does not treat unrelated core jest helpers as global visual impact', () => {
@@ -223,6 +249,103 @@ describe('runScreenshotsConditionally', () => {
     ])
   })
 
+  it('selects tests of components that render a component with changed styles', () => {
+    const scssDependencyMap = buildScssDependencyMap([
+      {
+        path: 'src/components/input/style/dnb-input.scss',
+        content: '',
+      },
+    ])
+    const dependencyMap = buildDependencyMap([
+      {
+        source: 'src/components/input/Input.tsx',
+        dependents: ['src/components/tag/Tag.tsx'],
+      },
+      {
+        source: 'src/components/input/InputDocs.ts',
+        dependents: ['src/components/badge/BadgeDocs.ts'],
+      },
+    ])
+
+    const analysis = analyzeSelection({
+      allScreenshotTests,
+      changedRepoFiles: [
+        'packages/dnb-eufemia/src/components/input/style/dnb-input.scss',
+      ],
+      dependencyMap,
+      scssDependencyMap,
+      impactedThreshold: 1,
+    })
+
+    expect(analysis.selection.tests).toEqual([
+      'src/components/input/__tests__/Input.screenshot.test.ts',
+      'src/components/tag/__tests__/Tag.screenshot.test.ts',
+    ])
+    expect(
+      analysis.details.testCauses[
+        'src/components/tag/__tests__/Tag.screenshot.test.ts'
+      ]
+    ).toEqual(['Style of a rendered component'])
+  })
+
+  it('does not treat global style files as owned by a component', () => {
+    const scssDependencyMap = buildScssDependencyMap([
+      {
+        path: 'src/components/button/style/themes/dnb-button-theme-ui.scss',
+        content: '',
+      },
+      {
+        path: 'src/style/themes/ui/ui-theme-components.scss',
+        content:
+          "@use '../../../components/button/style/themes/dnb-button-theme-ui.scss';",
+      },
+    ])
+    const dependencyMap = buildDependencyMap([
+      {
+        source: 'src/components/modal/Modal.tsx',
+        dependents: ['src/components/tabs/Tabs.tsx'],
+      },
+    ])
+
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-eufemia/src/components/button/style/themes/dnb-button-theme-ui.scss',
+      ],
+      dependencyMap,
+      scssDependencyMap,
+      impactedThreshold: 1,
+    })
+
+    expect(selection.tests).toEqual([
+      'src/components/button/__tests__/Button.screenshot.test.ts',
+    ])
+  })
+
+  it('does not select screenshot tests through other test files', () => {
+    const dependencyMap = buildDependencyMap([
+      {
+        source: 'src/components/button/Button.tsx',
+        dependents: [
+          'src/components/tabs/__tests__/TabsExports.test.ts',
+          'src/components/input/Input.tsx',
+        ],
+      },
+    ])
+
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-eufemia/src/components/button/Button.tsx',
+      ],
+      dependencyMap,
+      impactedThreshold: 1,
+    })
+
+    expect(selection.tests).toEqual([
+      'src/components/button/__tests__/Button.screenshot.test.ts',
+      'src/components/input/__tests__/Input.screenshot.test.ts',
+    ])
+  })
+
   it('includes tests impacted by composition usage in demos', () => {
     const selection = select({
       changedRepoFiles: [
@@ -277,6 +400,23 @@ describe('path helpers', () => {
     ).toBe(false)
   })
 
+  it('treats the portal demo wrapper as global visual impact', () => {
+    expect(
+      isGlobalVisualImpact(
+        'packages/dnb-design-system-portal/src/shared/tags/CodeBlock.module.scss',
+        null
+      )
+    ).toBe(true)
+  })
+
+  it('lists only portal files that exist', () => {
+    const repoRoot = path.resolve(__dirname, '../../../../..')
+
+    for (const filePath of Array.from(GLOBAL_VISUAL_PORTAL_FILES)) {
+      expect(existsSync(path.join(repoRoot, filePath))).toBe(true)
+    }
+  })
+
   it('treats theme selection as global visual impact', () => {
     expect(
       isGlobalVisualImpact(
@@ -289,9 +429,9 @@ describe('path helpers', () => {
   it('treats the screenshot vitest config as global visual impact', () => {
     expect(
       isGlobalVisualImpact(
-        'packages/dnb-eufemia/vitest.config.screenshots.ts',
+        'packages/dnb-eufemia/vitest.config.screenshots.mts',
         toPackageRelativePath(
-          'packages/dnb-eufemia/vitest.config.screenshots.ts'
+          'packages/dnb-eufemia/vitest.config.screenshots.mts'
         )
       )
     ).toBe(true)

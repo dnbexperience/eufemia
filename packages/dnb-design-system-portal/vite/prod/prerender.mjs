@@ -43,27 +43,42 @@ const socialImages = JSON.parse(
   fs.readFileSync(path.join(portalRoot, 'static/og/manifest.json'), 'utf8')
 )
 
+// Test builds leave out the size report of every asset and the plugin timings
+const isTestBuild =
+  process.env.IS_E2E === '1' || process.env.IS_VISUAL_TEST === '1'
+const logLevel = isTestBuild ? 'warn' : undefined
+const bundlerTimings = !isTestBuild
+
 async function prerender() {
   const startTime = Date.now()
 
   // Step 1: Build client bundle with SSR manifest for chunk tracking
   console.log('Step 1/4: Building client bundle...')
   await build({
-    configFile: path.resolve(portalRoot, 'vite.config.ts'),
+    configFile: path.resolve(portalRoot, 'vite.config.mts'),
+    logLevel,
     build: {
       outDir,
       ssrManifest: true,
       manifest: true,
+      rolldownOptions: {
+        checks: { bundlerTimings },
+      },
     },
   })
 
   // Step 2: Build SSR bundle
   console.log('Step 2/4: Building SSR bundle...')
   await build({
-    configFile: path.resolve(portalRoot, 'vite.config.ts'),
+    configFile: path.resolve(portalRoot, 'vite.config.mts'),
+    logLevel,
     build: {
       outDir: path.resolve(outDir, 'server'),
       ssr: path.resolve(__dirname, 'entry-server.tsx'),
+      rolldownOptions: {
+        // The server entry imports the pages statically on purpose
+        checks: { bundlerTimings, ineffectiveDynamicImport: false },
+      },
     },
   })
 
@@ -77,10 +92,13 @@ async function prerender() {
   } else {
     console.log('Step 3/4: Generating LLM metadata...')
     try {
-      execSync('node vite/prod/generate-llm-metadata.mts', {
-        cwd: portalRoot,
-        stdio: 'inherit',
-      })
+      execSync(
+        'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON vite/prod/generate-llm-metadata.mts',
+        {
+          cwd: portalRoot,
+          stdio: 'inherit',
+        }
+      )
     } catch {
       console.warn('Warning: LLM metadata generation failed (non-fatal)')
     }

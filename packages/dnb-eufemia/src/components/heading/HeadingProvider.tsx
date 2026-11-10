@@ -11,6 +11,7 @@ import {
   globalSyncCounter,
   globalHeadingCounter,
   correctInternalHeadingLevel,
+  hasHeadingLevelChanged,
   windupHeadings,
   teardownHeadings,
   debugCounter,
@@ -19,6 +20,9 @@ import {
 import type { HeadingCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
 import type { InternalHeadingLevel, HeadingProps } from './Heading'
+
+import { createHeadingOrder } from './useHeadingOrder'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type HeadingProviderProps = HeadingProps
 export type HeadingProviderAllProps = HeadingProviderProps &
@@ -36,13 +40,21 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
     0
   )
 
+  const [order] = useState(
+    () => existingContext?.order || createHeadingOrder(recalculate)
+  )
+  useIsomorphicLayoutEffect(() => {
+    if (!existingContext?.order) {
+      order.check()
+    }
+  })
+
   type State = {
     level?: InternalHeadingLevel
     counter?: HeadingCounter
     contextRevision?: number
     notifyParentRevision?: number
-    preserveLevels: boolean
-    prevLevel?: InternalHeadingLevel
+    prevProps: HeadingProviderAllProps
     recalculate?: () => void
     revision: number
     scopeRevision: number
@@ -52,13 +64,13 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
 
   const [currentState, setState] = useState(() => {
     const state: State = {
-      preserveLevels: false,
       contextRevision: existingContext?.revision,
       recalculate: existingContext?.recalculate,
       revision: 0,
       scopeRevision,
       id,
       ref: props,
+      prevProps: props,
     }
 
     // Here we create a new counter, but use the last global level
@@ -91,25 +103,23 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
     // This will require a new Counter "group" - not the global.
     // We basically start again counting from this one.
     state.level = state.counter.level
-    state.prevLevel =
-      parseFloat(String(newProps.level)) || state.counter.level
     return state
   })
 
   let state = currentState
 
   const level = parseFloat(String(props.level))
-  const levelChanged =
-    state.prevLevel !== level && level > 0 && level !== state.level
+  const levelChanged = hasHeadingLevelChanged(state.prevProps, props)
   const contextChanged =
     state.contextRevision !== existingContext?.revision
 
-  if (state.scopeRevision !== scopeRevision || contextChanged) {
-    const preserveLevels =
-      state.scopeRevision !== scopeRevision ||
-      existingContext?.preserveLevels
+  if (
+    state.scopeRevision !== scopeRevision ||
+    contextChanged ||
+    (!levelChanged && state.prevProps.children !== props.children)
+  ) {
     state.counter.restartContext()
-    if (contextChanged && !existingContext?.preserveLevels) {
+    if (contextChanged) {
       state.counter = correctInternalHeadingLevel({
         counter: state.counter,
         level: parseFloat(String(props.level)),
@@ -127,8 +137,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       ...state,
       contextRevision: existingContext?.revision,
       level: state.counter.level,
-      preserveLevels,
-      prevLevel: level || state.counter.level,
+      prevProps: props,
       recalculate: existingContext?.recalculate,
       revision: state.revision + 1,
       scopeRevision,
@@ -138,6 +147,10 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,
       level,
+      inherit: props.inherit,
+      reset: props.reset,
+      increase: props.increase || props.up,
+      decrease: props.decrease || props.down,
       bypassChecks: newProps.skipCorrection,
       source: props.text || props.children,
       debug: newProps.debug,
@@ -146,8 +159,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       ...state,
       level: newLevel,
       notifyParentRevision: (state.notifyParentRevision || 0) + 1,
-      preserveLevels: false,
-      prevLevel: level,
+      prevProps: props,
       revision: state.revision + 1,
     }
     setState(state)
@@ -184,9 +196,9 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
           ...newProps,
           level: state.level as HeadingProps['level'],
           counter: state.counter,
-          preserveLevels: state.preserveLevels,
           revision: state.revision,
           recalculate,
+          order,
         },
       }}
     >

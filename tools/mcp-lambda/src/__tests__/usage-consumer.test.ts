@@ -62,6 +62,7 @@ describe('usage consumer', () => {
       )
     )
 
+    expect(storeMcpUsage).toHaveBeenCalledTimes(1)
     expect(storeMcpUsage).toHaveBeenCalledWith(
       'my-bucket',
       expect.arrayContaining([

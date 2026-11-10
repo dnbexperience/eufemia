@@ -66,7 +66,7 @@ export type SliderProps = {
   suffix?: SuffixChildren
 
   /**
-   * Give the slider thumb button a title for accessibility reasons. Defaults to `null`.
+   * Gives the slider thumbs an accessible name when there is no `label`, `aria-label` or `aria-labelledby`. Defaults to `null`.
    */
   thumbTitle?: string
 

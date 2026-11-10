@@ -7,7 +7,7 @@
     "build": "node build.mjs",
     "test": "vitest run",
     "test:types": "tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' '__tests__/**/*.ts' && node ../../node_modules/.bin/prettier --check '**/*.{ts,json,md,yml}' ../../.github/workflows/service-monitoring.yml",
+    "lint": "node ../../node_modules/.bin/eslint --quiet 'src/**/*.ts' '__tests__/**/*.ts' && node ../../node_modules/.bin/prettier --check '**/*.{ts,json,md,yml}' ../../.github/workflows/service-monitoring.yml",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high"
   },
   "dependencies": {

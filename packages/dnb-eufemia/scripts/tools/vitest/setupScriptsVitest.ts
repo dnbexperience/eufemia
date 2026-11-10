@@ -1,5 +1,5 @@
 /**
- * Setup for the build script tests (vitest.config.scripts.ts).
+ * Setup for the build script tests (vitest.config.scripts.mts).
  */
 
 import type { Ora } from 'ora'

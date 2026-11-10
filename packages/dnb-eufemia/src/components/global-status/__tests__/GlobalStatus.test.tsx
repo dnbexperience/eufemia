@@ -1176,6 +1176,17 @@ describe('GlobalStatus component', () => {
     ).toHaveClass('dnb-button--tertiary')
   })
 
+  it('should render the close button in the default size', () => {
+    render(<GlobalStatus title="Title" show noAnimation />)
+
+    const closeButton = document.querySelector(
+      '.dnb-global-status__close-button'
+    )
+
+    expect(closeButton).toHaveClass('dnb-button--tertiary')
+    expect(closeButton).not.toHaveClass('dnb-button--size-medium')
+  })
+
   it('should support setting icon as Icon', () => {
     render(
       <GlobalStatus

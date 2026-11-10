@@ -643,7 +643,6 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
                 className="dnb-global-status__close-button"
                 icon="close"
                 onClick={closeHandler}
-                size="medium"
                 iconPosition="left"
               />
             )}

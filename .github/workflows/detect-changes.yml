@@ -1,0 +1,41 @@
+name: Detect changes
+
+# Reports what a feature branch or pull request changes since main, so callers
+# can skip jobs that the change cannot affect. The path rules live in
+# tools/repo-utils/src/detect-changes.mjs.
+on:
+  workflow_call:
+    outputs:
+      standalone-tools-only:
+        description: "'true' when only tools that neither the library nor the portal is built from changed."
+        value: ${{ jobs.detect.outputs.standalone-tools-only }}
+      tests-only:
+        description: "'true' when only unit tests that the Run tests job runs changed."
+        value: ${{ jobs.detect.outputs.tests-only }}
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: Detect changes
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    outputs:
+      standalone-tools-only: ${{ steps.detect.outputs.standalone-tools-only }}
+      tests-only: ${{ steps.detect.outputs.tests-only }}
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Detect changes
+        id: detect
+        run: node tools/repo-utils/src/detect-changes.mjs

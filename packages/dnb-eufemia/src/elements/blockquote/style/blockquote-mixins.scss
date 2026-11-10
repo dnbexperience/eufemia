@@ -21,7 +21,7 @@
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 
-  border-radius: var(--token-radius-lg);
+  border-radius: var(--token-radius-xl);
 
   color: var(--token-color-text-action-ondark);
   background-color: var(--token-color-decorative-first-intense-static);
@@ -74,7 +74,6 @@
     margin-top: 1rem;
 
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-basis);
     font-style: var(--blockquote-cite-style);
 
     &::before {

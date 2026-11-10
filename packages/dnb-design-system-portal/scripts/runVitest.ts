@@ -10,7 +10,7 @@ const includeGlobs = [
   'vite/__tests__/**/*.test.{ts,tsx}',
   'src/**/__tests__/**/*.test.{ts,tsx}',
 ]
-const config = 'vite/vitest.config.ts'
+const config = 'vite/vitest.config.mts'
 
 const rawArgs = process.argv.slice(2)
 const watch = rawArgs.includes('--watch')

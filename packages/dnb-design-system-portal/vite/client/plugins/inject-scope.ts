@@ -17,11 +17,14 @@
  */
 
 import type BabelTypes from '@babel/types'
+import { createRequire } from 'node:module'
 import {
   allScopeNames,
   builtinScopeNames,
   getImportInfo,
-} from './scope-registry'
+} from './scope-registry.ts'
+
+const require = createRequire(import.meta.url)
 
 export function injectScope(babel: { types: typeof BabelTypes }) {
   const { types: t } = babel

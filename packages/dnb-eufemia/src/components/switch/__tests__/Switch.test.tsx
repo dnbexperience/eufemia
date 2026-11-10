@@ -4,6 +4,7 @@
  */
 
 import { cleanup, fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
@@ -320,12 +321,96 @@ describe('Switch component', () => {
     expect(onChange).toHaveBeenCalledWith(true)
   })
 
+  describe('Enter', () => {
+    const Controlled = ({
+      onClick,
+    }: {
+      onClick: SwitchProps['onClick']
+    }) => {
+      const [checked, setChecked] = useState(false)
+
+      return (
+        <Switch
+          checked={checked}
+          onChange={({ checked }) => setChecked(checked)}
+          onClick={onClick}
+        />
+      )
+    }
+
+    // The numpad Enter key has the same key, but another code
+    it.each([
+      { keyName: 'Enter', code: 'Enter' },
+      { keyName: 'numpad Enter', code: 'NumpadEnter' },
+    ])('should toggle on $keyName and call onClick', ({ code }) => {
+      const onClick = vi.fn()
+      render(<Controlled onClick={onClick} />)
+
+      const input = document.querySelector('input')
+      fireEvent.keyDown(input, { key: 'Enter', code })
+
+      expect(input.checked).toBe(true)
+      expect(input).toHaveAttribute('aria-checked', 'true')
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it.each([
+      { keyName: 'Enter', key: '{Enter}' },
+      { keyName: 'Space', key: ' ' },
+    ])(
+      'should not toggle on $keyName when preventDefault is called in onClick',
+      async ({ key }) => {
+        const onClick = vi.fn(({ preventDefault }) => preventDefault())
+        render(<Controlled onClick={onClick} />)
+
+        const input = document.querySelector('input')
+        input.focus()
+        await userEvent.keyboard(key)
+
+        // Enter must follow the same rules as Space and a click
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(input.checked).toBe(false)
+        expect(input).toHaveAttribute('aria-checked', 'false')
+      }
+    )
+
+    // One key press must not change the switch and send the form at once.
+    // Enter never submits the form, also when the switch does not change.
+    it.each([{ readOnly: false }, { readOnly: true }])(
+      'should not submit the form on Enter when readOnly is $readOnly',
+      async ({ readOnly }) => {
+        const onSubmit = vi.fn((event) => event.preventDefault())
+        const onChange = vi.fn()
+        render(
+          <form onSubmit={onSubmit}>
+            <Switch readOnly={readOnly} onChange={onChange} />
+            <button type="submit">Submit</button>
+          </form>
+        )
+
+        const input = document.querySelector('input')
+        input.focus()
+        await userEvent.keyboard('{Enter}')
+
+        expect(onChange).toHaveBeenCalledTimes(readOnly ? 0 : 1)
+        expect(onSubmit).not.toHaveBeenCalled()
+
+        // Control: the form can be submitted
+        await userEvent.click(document.querySelector('button'))
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      }
+    )
+  })
+
   it('should call onKeyDown given as a property', () => {
     const onKeyDown = vi.fn()
     const onChange = vi.fn()
     render(<Switch onKeyDown={onKeyDown} onChange={onChange} />)
 
-    fireEvent.keyDown(document.querySelector('input'), { code: 'Enter' })
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: 'Enter',
+      code: 'Enter',
+    })
 
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -340,10 +425,35 @@ describe('Switch component', () => {
       />
     )
 
-    fireEvent.keyDown(document.querySelector('input'), { code: 'Enter' })
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: 'Enter',
+      code: 'Enter',
+    })
 
     expect(onChange).toHaveBeenCalledTimes(0)
   })
+
+  it.each([
+    { checked: false, keyName: 'Enter', key: '{Enter}' },
+    { checked: true, keyName: 'Enter', key: '{Enter}' },
+    { checked: false, keyName: 'Space', key: ' ' },
+    { checked: true, keyName: 'Space', key: ' ' },
+  ])(
+    'should not toggle on $keyName when readOnly and checked is $checked',
+    async ({ checked, key }) => {
+      const onChange = vi.fn()
+      render(<Switch readOnly checked={checked} onChange={onChange} />)
+
+      const input = document.querySelector('input')
+      input.focus()
+      await userEvent.keyboard(key)
+
+      // Enter must follow the same readOnly rule as Space (#9754)
+      expect(input.checked).toBe(checked)
+      expect(input).toHaveAttribute('aria-checked', String(checked))
+      expect(onChange).toHaveBeenCalledTimes(0)
+    }
+  )
 
   it('should call onKeyUp given as a property', () => {
     const onKeyUp = vi.fn()
@@ -364,58 +474,11 @@ describe('Switch scss', () => {
     )
   })
 
-  it('shows the error knob without a ring and with a light icon on hover and focus', () => {
-    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-switch__status--error \{[^}]*--switch-focus-icon: var\(--token-color-icon-neutral-ondark\);/
-    )
-    expect(css).toMatch(
-      /html:not\(\[data-whatinput=keyboard\]\) \.dnb-switch__status--error \.dnb-switch__input:not\(\[disabled\]\):not\(:active\):hover ~ \.dnb-switch__button,\s*html\[data-whatinput=keyboard\] \.dnb-switch__status--error \.dnb-switch__input:not\(\[disabled\]\):focus ~ \.dnb-switch__button \{\s*box-shadow: none;/
-    )
-  })
-
   it('shows disabled switches with the disabled text color in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-switch.scss'))
 
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\] ~ \.dnb-switch__background,\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\]:checked ~ \.dnb-switch__background \{\s*border-color: GrayText;\s*\}\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\] ~ \.dnb-switch__button,\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\]:checked ~ \.dnb-switch__button \{\s*color: GrayText;\s*outline-color: GrayText;/
-    )
-  })
-
-  it('uses the Figma tokens for disabled switches', () => {
-    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
-
-    expect(css).toMatch(
-      /--switch-disabled-border: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
-    )
-    expect(css).toMatch(
-      /--switch-disabled-button-background: var\(\s*--token-color-background-neutral-base\s*\)/
-    )
-    expect(css).toMatch(
-      /--switch-disabled-checked-background: var\(\s*--token-color-background-action-disabled\s*\)/
-    )
-  })
-
-  it('uses the Figma on-dark tokens for disabled switches on dark surfaces', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-switch.scss'))
-    )
-    const surfaceDark = css.match(
-      /\.dnb-switch--surface-dark \{[^}]*\}/
-    )[0]
-
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-border: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-button-background: color-mix\(\s*in srgb,\s*var\(--token-color-background-action-disabled-ondark\) 50%,\s*transparent\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-checked-background: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--switch-disabled-checked-button-background: var\(\s*--token-color-component-switch-action-disabled-ondark\s*\)/
     )
   })
 

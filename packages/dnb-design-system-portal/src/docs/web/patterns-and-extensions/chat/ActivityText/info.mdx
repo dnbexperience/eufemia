@@ -1,0 +1,25 @@
+---
+showTabs: true
+redirect_from:
+  - /web/patterns-and-extensions/ai/ActivityText/info
+  - /web/extensions/ai/ActivityText/info
+  - /uilib/extensions/ai/ActivityText/info
+---
+
+## Import
+
+```tsx
+import { ActivityText } from '@dnb/eufemia/extensions/chat'
+import '@dnb/eufemia/extensions/chat/style'
+render(<ActivityText>Searching …</ActivityText>)
+```
+
+## Description
+
+`Chat.ActivityText` describes an ongoing activity in the conversation, such as “Searching” or “Preparing your answer”. The activity can be performed by a person, an AI assistant or the application. Provide the activity text as `children`. It inherits the surrounding text color.
+
+The current visual treatment uses a moving highlight. When the user prefers reduced motion, the text is shown without animation.
+
+Use [Chat.MessageIndicator](/web/patterns-and-extensions/chat/MessageIndicator/) to indicate that a reply is being prepared before its content arrives. Use `Chat.ActivityText` when you have a specific activity to describe.
+
+`ActivityText` only provides presentation. It does not create a live region or announce text changes. When the activity needs to be announced, place it in [AriaLive](/web/components/aria-live/) with `variant="content"` and `atomic`. Keep that region mounted while its text changes, and avoid nesting it in another live region.

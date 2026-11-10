@@ -95,6 +95,35 @@ describe('Autocomplete component', () => {
     ).toHaveLength(3)
   })
 
+  it('uses the default icon size at size="large"', () => {
+    render(<Autocomplete {...mockProps} data={mockData} size="large" />)
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-icon--default'
+    )
+    expect(document.querySelector('.dnb-input')).not.toHaveClass(
+      'dnb-input--icon-size-medium'
+    )
+  })
+
+  it('uses a given iconSize at size="large"', () => {
+    render(
+      <Autocomplete
+        {...mockProps}
+        data={mockData}
+        size="large"
+        iconSize="medium"
+      />
+    )
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-icon--medium'
+    )
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--icon-size-medium'
+    )
+  })
+
   it('has correct word and in-word highlighting', () => {
     render(
       <Autocomplete
@@ -3687,6 +3716,33 @@ describe('Autocomplete component', () => {
       })
     })
 
+    it('shows a small ProgressIndicator at size="large"', async () => {
+      render(
+        <Autocomplete
+          {...mockProps}
+          mode="async"
+          data={mockData}
+          size="large"
+          onType={onTypeHandler}
+          showSubmitButton
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-input__icon .dnb-progress-indicator'
+          )
+        ).toHaveClass('dnb-progress-indicator--small')
+      })
+    })
+
     it('does not show a ProgressIndicator while loading when icon is null', async () => {
       render(
         <Autocomplete
@@ -3862,6 +3918,77 @@ describe('Autocomplete component', () => {
         .value
     ).toBe(mockData[newValue])
   })
+
+  it.each([
+    [
+      'the disabled prop',
+      (props: AutocompleteAllProps, disabled: boolean) => (
+        <Autocomplete {...props} disabled={disabled} />
+      ),
+    ],
+    [
+      'Provider formElement',
+      (props: AutocompleteAllProps, disabled: boolean) => (
+        <Provider formElement={{ disabled }}>
+          <Autocomplete {...props} />
+        </Provider>
+      ),
+    ],
+    [
+      'Provider Autocomplete',
+      (props: AutocompleteAllProps, disabled: boolean) => (
+        <Provider Autocomplete={{ disabled }}>
+          <Autocomplete {...props} />
+        </Provider>
+      ),
+    ],
+  ])(
+    'ignores selection after the open Autocomplete becomes disabled via %s',
+    async (_, renderAutocomplete) => {
+      const onChange = vi.fn()
+      const onSelect = vi.fn()
+      const props: AutocompleteAllProps = {
+        ...mockProps,
+        data: ['Apple', 'Orange'],
+        value: 0,
+        showSubmitButton: true,
+        onChange,
+        onSelect,
+      }
+      const { rerender } = render(renderAutocomplete(props, false))
+      const user = userEvent.setup()
+      await user.click(
+        document.querySelector(
+          'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+        )
+      )
+      rerender(renderAutocomplete(props, true))
+      expect(document.querySelector('.dnb-input__input')).toBeDisabled()
+      const option = document.querySelectorAll<HTMLElement>(
+        'li.dnb-drawer-list__option'
+      )[1]
+      expect(option).toHaveTextContent('Orange')
+      await user.click(option)
+
+      expect(onChange).not.toHaveBeenCalled()
+      expect(onSelect).not.toHaveBeenCalled()
+      expect(document.querySelector('.dnb-input__input')).toHaveValue(
+        'Apple'
+      )
+
+      rerender(renderAutocomplete(props, false))
+      await user.click(
+        document.querySelectorAll<HTMLElement>(
+          'li.dnb-drawer-list__option'
+        )[1]
+      )
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onSelect).toHaveBeenCalledTimes(1)
+      expect(document.querySelector('.dnb-input__input')).toHaveValue(
+        'Orange'
+      )
+    }
+  )
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(

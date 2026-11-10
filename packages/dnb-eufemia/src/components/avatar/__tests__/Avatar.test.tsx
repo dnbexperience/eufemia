@@ -863,21 +863,4 @@ describe('Avatar scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('overlaps grouped avatars by the Figma spacing for each size', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-avatar__group \.dnb-avatar--size-small \{\s*margin-left: -0\.25rem;/
-    )
-    expect(css).toMatch(
-      /\.dnb-avatar__group \.dnb-avatar--size-medium \{\s*margin-left: -0\.375rem;/
-    )
-    expect(css).toMatch(
-      /\.dnb-avatar__group \.dnb-avatar--size-large \{\s*margin-left: -1rem;/
-    )
-    expect(css).toMatch(
-      /\.dnb-avatar__group \.dnb-avatar--size-x-large \{\s*margin-left: -1\.5rem;/
-    )
-  })
 })

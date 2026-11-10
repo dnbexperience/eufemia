@@ -44,7 +44,7 @@ function routeCodeBlocks() {
                   type: 'Literal',
                   value: path
                     .resolve(
-                      __dirname,
+                      import.meta.dirname,
                       '../../../src/shared/tags/MarkdownCodeBlock.tsx'
                     )
                     .replaceAll('\\', '/'),

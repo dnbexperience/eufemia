@@ -60,6 +60,17 @@ describe('MultiSelection', () => {
     })
   })
 
+  it('should match the confirm and cancel buttons below the option list', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="multi-selection-confirm-cancel"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="multi-selection-confirm-cancel"] .dnb-dropdown__trigger',
+      screenshotSelector:
+        '.dnb-forms-field-multi-selection__popover .dnb-popover__content',
+    })
+  })
+
   it('should match hover state of item', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="multi-selection-variant-inline"]',

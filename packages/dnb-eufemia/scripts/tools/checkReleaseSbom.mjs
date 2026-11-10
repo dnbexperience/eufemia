@@ -22,6 +22,9 @@ const DAY = 24 * 60 * 60 * 1000
 // Long enough to cover a re-run of the release run that published it.
 const WINDOW_DAYS = 3
 
+// The release workflow of the 10.x branch generates no SBOM.
+const FIRST_MAJOR_WITH_SBOM = 11
+
 const SBOM_FILES = ['sbom.cdx.json', 'vulnerability-report.json']
 
 /**
@@ -41,7 +44,9 @@ export async function checkReleases({
   // `versions`, not the keys of `time`, which also lists unpublished versions.
   const recent = versions.filter(
     (version) =>
-      time[version] && now - Date.parse(time[version]) <= WINDOW_DAYS * DAY
+      Number.parseInt(version, 10) >= FIRST_MAJOR_WITH_SBOM &&
+      time[version] &&
+      now - Date.parse(time[version]) <= WINDOW_DAYS * DAY
   )
 
   const results = []
@@ -144,7 +149,7 @@ async function main() {
 
   const summary =
     results.length === 0
-      ? `npm published no version in the last ${WINDOW_DAYS} days.`
+      ? `npm published no v${FIRST_MAJOR_WITH_SBOM} or later version in the last ${WINDOW_DAYS} days.`
       : results
           .map(({ version, problems }) =>
             problems.length === 0
@@ -162,6 +167,11 @@ async function main() {
       console.log(`::error::v${version}: ${problems.join('; ')}`)
       process.exitCode = 1
     }
+  }
+  if (process.exitCode === 1) {
+    console.log(
+      "To add a missing SBOM or attestation, see 'Software Bill of Materials (SBOM)' in deploy.mdx."
+    )
   }
 }
 

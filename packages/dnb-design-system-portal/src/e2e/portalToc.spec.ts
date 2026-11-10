@@ -736,6 +736,38 @@ test.describe('Portal table of contents', () => {
       }
     }
   })
+  test('keeps the title spacing above the first content heading on desktop', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    for (const { path, above, gap } of [
+      {
+        path: '/design-foundations/design-principles/',
+        above: 'h1',
+        gap: 40,
+      },
+      {
+        path: '/web/components/button/',
+        above: '[data-portal-page-tabs]',
+        gap: 48,
+      },
+    ]) {
+      await page.goto(path)
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-portal-ready',
+        'true'
+      )
+      await expect(page.locator('#content-grid-sidebar nav')).toBeVisible()
+      const title = await page
+        .locator('#content-grid-header')
+        .locator(above)
+        .boundingBox()
+      const firstContent = await page
+        .locator('#tab-bar-content > :first-child')
+        .boundingBox()
+      expect(firstContent.y - title.y - title.height).toBe(gap)
+    }
+  })
   test('renders the TOC in the first frame containing page headings', async ({
     page,
   }) => {
@@ -1153,6 +1185,32 @@ test.describe('Portal table of contents', () => {
     await page.goto('/web/components/button/')
     const toc = page.locator('#content-grid-sidebar nav')
     await expect(toc.locator('a').first()).toBeVisible()
+    // Clipped ancestors make the sticky TOC flicker while scrolling in Safari.
+    expect(
+      await toc.evaluate((element) => {
+        const clippedAncestors = []
+        for (
+          let ancestor = element.parentElement;
+          ancestor;
+          ancestor = ancestor.parentElement
+        ) {
+          const { overflowX, overflowY } = getComputedStyle(ancestor)
+          if (overflowX !== 'visible' || overflowY !== 'visible') {
+            clippedAncestors.push({
+              className: ancestor.className,
+              overflowX,
+              overflowY,
+            })
+          }
+        }
+        return clippedAncestors
+      })
+    ).toEqual([])
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true)
     const initialTop = (await toc.boundingBox()).y
     for (const top of [16, 48, 160, 500]) {
       await page.evaluate(

@@ -57,7 +57,7 @@ describe('validateComponentUsage', () => {
     }
   })
 
-  it('drops an unrecognised env rather than failing the batch', () => {
+  it('drops an unrecognized env rather than failing the batch', () => {
     const result = validateComponentUsage([
       { app: 'app-a', component: 'Button', version: '1.0.0', env: 'NOPE' },
     ])
@@ -95,7 +95,7 @@ describe('validateComponentUsage', () => {
 describe('buildComponentUsageRecord', () => {
   const now = new Date('2026-09-16T12:00:00.000Z')
 
-  it('canonicalises the component name and stamps timestamps', () => {
+  it('canonicalizes the component name and stamps timestamps', () => {
     const record = buildComponentUsageRecord(
       { app: ' app-a ', component: 'Button', version: ' 10.72.0 ' },
       now
@@ -128,7 +128,7 @@ describe('buildComponentUsageRecord', () => {
     expect(record.created_at).toBe('2026-09-16T12:00:00.000Z')
   })
 
-  it('degrades an unrecognised env to unknown', () => {
+  it('degrades an unrecognized env to unknown', () => {
     const record = buildComponentUsageRecord(
       { app: 'app-a', component: 'Button', version: '1.0.0', env: 'NOPE' },
       now

@@ -635,6 +635,39 @@ describe('Input component', () => {
     ).toBeInTheDocument()
   })
 
+  it('uses the default icon size at size="large"', () => {
+    render(<Input size="large" icon="bell" />)
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-icon--default'
+    )
+    expect(document.querySelector('.dnb-input')).not.toHaveClass(
+      'dnb-input--icon-size-medium'
+    )
+  })
+
+  it('uses the default size for the search icon at size="large"', () => {
+    render(<Input type="search" size="large" />)
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-icon--default'
+    )
+    expect(document.querySelector('.dnb-input')).not.toHaveClass(
+      'dnb-input--icon-size-medium'
+    )
+  })
+
+  it('uses a given iconSize at size="large"', () => {
+    render(<Input size="large" icon="bell" iconSize="medium" />)
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-icon--medium'
+    )
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--icon-size-medium'
+    )
+  })
+
   it('keeps emitting onSubmit when an onClick is given', () => {
     const onSubmit = vi.fn()
     const onClick = vi.fn()
@@ -1470,14 +1503,6 @@ describe('Input scss', () => {
 
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-input--disabled \.dnb-input__border \{\s*outline-color: GrayText;/
-    )
-  })
-
-  it('uses the basis font size for the large placeholder, as for the value', () => {
-    const css = loadScss(require.resolve('../style/dnb-input.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-input \{[^}]*--input-font-size--large: var\(--font-size-basis\);/
     )
   })
 

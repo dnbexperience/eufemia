@@ -36,7 +36,7 @@ describe('Filter.Header', () => {
 })
 
 describe('Filter.Toolbar.Actions', () => {
-  it('uses the CSS gap layout engine', () => {
+  it('uses the CSS gap layout engine with the Figma gaps', () => {
     render(
       <FilterRoot>
         <FilterToolbar>
@@ -51,7 +51,8 @@ describe('Filter.Toolbar.Actions', () => {
       document.querySelector('.dnb-filter__toolbar-actions')
     ).toHaveClass(
       'dnb-flex-container--css-gap',
-      'dnb-flex-container--spacing-small'
+      'dnb-flex-container--spacing-medium',
+      'dnb-flex-container--row-gap-small'
     )
   })
 

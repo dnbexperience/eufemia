@@ -139,19 +139,29 @@
     &__input:last-of-type {
     margin-right: 3rem; // space for the button
   }
-  &--medium
-    .dnb-segmented-field__fieldset:first-of-type
-    .dnb-input__input#{&}__input:first-of-type,
-  &--large
-    .dnb-segmented-field__fieldset:first-of-type
+  .dnb-segmented-field__fieldset:first-of-type
     .dnb-input__input#{&}__input:first-of-type {
     margin-left: 0.5rem;
+  }
+  .dnb-segmented-field__fieldset:last-of-type
+    .dnb-input__input#{&}__input:last-of-type {
+    padding-right: 1rem;
   }
 
   .dnb-input__shell {
     display: none;
   }
+  // Keep the calendar button square, also in large inputs
+  .dnb-input {
+    --input-submit-button-width: var(--input-height-current);
+  }
+  &--small .dnb-input {
+    --input-font-size--small: var(--font-size-small);
+  }
   &--show-input .dnb-input__shell {
+    display: flex;
+  }
+  &--show-input .dnb-input__submit-element {
     display: flex;
   }
   &:not(#{&}--show-input) .dnb-input__status--error .dnb-input__shell {
@@ -288,6 +298,7 @@
       padding-bottom: 0.5rem;
 
       text-transform: capitalize;
+      font-family: var(--font-family-heading);
       font-weight: var(--font-weight-medium);
       color: var(--token-color-text-neutral);
     }
@@ -320,6 +331,15 @@
     width: var(--date-picker-day-width); // medium size
     height: var(--date-picker-day-width); // medium size
     margin: var(--date-picker-day-horizontal-spacing) 0;
+
+    .dnb-date-picker__days:last-child & {
+      margin-bottom: 0;
+
+      // inline calendars have no padding below the last row
+      .dnb-date-picker--inline & {
+        margin-bottom: var(--date-picker-day-horizontal-spacing);
+      }
+    }
 
     .dnb-button {
       position: absolute;

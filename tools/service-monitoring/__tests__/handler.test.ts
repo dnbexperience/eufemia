@@ -23,6 +23,9 @@ vi.mock('../../mcp-lambda/src/check-http.ts', () => ({
 vi.mock('../../analytics/src/monitor/check-analytics.ts', () => ({
   checkAnalytics: mocks.check,
 }))
+vi.mock('../src/check-tokens.ts', () => ({
+  checkTokens: mocks.check,
+}))
 vi.mock('../src/secrets.ts', () => ({ readSecret: mocks.secret }))
 vi.mock('../src/publish-observation.ts', () => ({
   publishObservation: mocks.publish,
@@ -134,6 +137,19 @@ it('reports an unreadable analytics GHE credential without exposing the error', 
   ).toContainEqual(
     expect.objectContaining({ name: 'GHE deploy credential', ok: false })
   )
+})
+it('passes the optional GitHub credential to the Tokens check', async () => {
+  vi.stubEnv('SERVICE', 'Tokens')
+  vi.stubEnv('GITHUB_TOKEN_SECRET_ARN', 'test-secret')
+  mocks.secret.mockResolvedValue('github-token')
+  expect(await handler()).toEqual({ service: 'Tokens', status: 'healthy' })
+  expect(mocks.secret).toHaveBeenCalledWith('test-secret')
+  expect(mocks.check).toHaveBeenCalledWith(
+    expect.objectContaining({ githubToken: 'github-token' })
+  )
+  expect(mocks.save.mock.calls[0]?.[0].input.Key).toEqual({
+    service: { S: 'Tokens' },
+  })
 })
 it('reports SNS failure with a safe stage and no completion metric', async () => {
   mocks.publish.mockRejectedValue(

@@ -347,7 +347,7 @@
    * Add the correct display in all browsers.
    */
 
-  [hidden] {
+  [hidden]:where(:not([hidden='until-found'])) {
     display: none;
   }
 

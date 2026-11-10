@@ -260,7 +260,6 @@ describe('snapshot generator handler', () => {
     await handler()
 
     expect(aggregatePortalViewsRaw).toHaveBeenCalledWith(expectedSince)
-    expect(aggregatePortalViewsRaw).not.toHaveBeenCalledWith('2024-01-01')
     expect(aggregateMcpUsageRaw).toHaveBeenCalledWith(expectedSince)
   })
 

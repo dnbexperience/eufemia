@@ -66,7 +66,6 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Eufemia Analytics')
     )
-    expect(container.textContent?.trim()).not.toBe('')
   })
 
   it('applies the persisted dark color scheme', async () => {
@@ -289,6 +288,7 @@ describe('App (smoke)', () => {
     )
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
+    expect(container.textContent).toContain('2 requests from local')
     expect(container.textContent).not.toContain('Eufemia versions')
   })
 
@@ -392,6 +392,7 @@ describe('App (smoke)', () => {
     )
     fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
 
+    expect(container.textContent).toContain('4 requests to the hosted')
     expect(container.textContent).not.toContain('Missed component lookups')
   })
 

@@ -10,6 +10,7 @@ export type HeadingCounter = Counter
 export type HeadingDebugCounter = boolean | (() => void)
 export type ContextCounter = {
   level: InternalHeadingLevel
+  lastHeadingLevel: InternalHeadingLevel
   entry: InternalHeadingLevel
   countHeadings: number
   _initCount: number
@@ -44,6 +45,8 @@ export type CounterProps = {
 
 export class Counter {
   level: InternalHeadingLevel = 0
+  lastHeadingLevel: InternalHeadingLevel = 0
+  entryHeadingLevel: InternalHeadingLevel = 0
   entry: InternalHeadingLevel = 0
   lastResetLevel: InternalHeadingLevel = null
   _isReady = false
@@ -127,19 +130,20 @@ export class Counter {
     this.contextCounter._initCount--
   }
 
-  makeMeReady({ level }: { level?: InternalHeadingLevel } = {}) {
+  makeMeReady() {
     if (!this.hasCorrection()) {
-      if (this.contextCounter.level > 1) {
-        this.level = this.contextCounter.level
-      } else if (this.contextCounter._isReady) {
-        if (!this.bypassChecks) {
-          this.level = 2
-        }
-      } else if (!this.contextCounter._isReady) {
+      const contextLevel = this.contextCounter.level
+      this.level =
+        contextLevel > 1 || this.contextCounter._isReady ? contextLevel : 0
+
+      if (this.bypassChecks) {
+        this.level = Math.max(1, this.level)
+      }
+
+      if (this.isHeading) {
         this.contextCounter._isReady = true
-        if (!this.bypassChecks && !level) {
-          this.level = 1
-        }
+      } else {
+        this._isReady = this.contextCounter._isReady
       }
 
       if (this.entry === 0) {
@@ -185,23 +189,18 @@ export class Counter {
   }
 
   setLevel(level: InternalHeadingLevel, action = 'set') {
-    level = parseFloat(String(level))
+    level = Math.trunc(parseFloat(String(level)))
 
     const report = []
 
-    if (globalSyncCounter.current?.level > 0) {
-      level = this.factorCheck({
-        action,
-        level,
-        current: globalSyncCounter.current.level,
-        report,
-      })
-    }
-
+    // Providers change the baseline without adding a heading to the outline.
+    const previousLevel =
+      globalSyncCounter.current?.lastHeadingLevel ??
+      this.contextCounter.lastHeadingLevel
     level = this.factorCheck({
       action,
       level,
-      current: this.level,
+      current: previousLevel,
       report,
     })
 
@@ -211,7 +210,7 @@ export class Counter {
           `Cannot [${action}] heading level higher than 6! Got:`,
           level,
           'and had before',
-          this.level
+          previousLevel
         )
       }
       level = 6
@@ -221,24 +220,24 @@ export class Counter {
           `Cannot [${action}] heading level lower than 1! Got:`,
           level,
           'and had before',
-          this.level
+          previousLevel
         )
       }
       level = 1
-    } else if (!this.bypassChecks && level === 1 && this.level === 1) {
+    } else if (!this.bypassChecks && level === 1 && previousLevel === 1) {
       report.push(
         `Cannot set ([${action}]) heading level 1 several times! Got:`,
         level,
         'and had before',
-        this.level
+        previousLevel
       )
       level = 2
-    } else if (!this.bypassChecks && level < 2 && this.level === 2) {
+    } else if (!this.bypassChecks && level < 2 && previousLevel >= 2) {
       report.push(
         'Cannot decrease to heading level 1! Had before',
-        this.level
+        previousLevel
       )
-      level = this.level
+      level = 2
     }
 
     if (report.length > 0) {
@@ -247,13 +246,17 @@ export class Counter {
     }
 
     this.level = level
+    this.lastHeadingLevel =
+      this.isHeading || this.bypassChecks ? level : previousLevel
 
     if (this.isHeading) {
       // update the context to the last level
       this.contextCounter.level = level
+      this.contextCounter.lastHeadingLevel = level
     } else {
       // if it is a context, update only the entry to the latest
       this.entry = level
+      this.entryHeadingLevel = this.lastHeadingLevel
     }
   }
 
@@ -271,6 +274,7 @@ export class Counter {
 
   restartContext() {
     this.level = this.entry
+    this.lastHeadingLevel = this.entryHeadingLevel
     this._isReady = false
   }
 
@@ -281,12 +285,22 @@ export class Counter {
   }
 
   reset(toLevel = null) {
-    toLevel = parseFloat(toLevel) || 2
+    toLevel = Math.max(
+      1,
+      Math.min(6, Math.trunc(parseFloat(toLevel) || 2))
+    )
 
     this.level = this.entry = this.lastResetLevel = toLevel
+    this.lastHeadingLevel = this.entryHeadingLevel =
+      this.isHeading || toLevel > 1 ? toLevel : 0
 
     if (this.contextCounter) {
       this.contextCounter.level = this.contextCounter.entry
+      if (this.isHeading) {
+        this.contextCounter.level = toLevel
+        this.contextCounter.lastHeadingLevel = toLevel
+        this.contextCounter._isReady = true
+      }
     }
 
     if (toLevel === 1 && globalHeadingCounter.current) {

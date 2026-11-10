@@ -4,6 +4,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode, Ref, RefObject } from 'react'
+import { flushSync } from 'react-dom'
 import { clsx } from 'clsx'
 import {
   warn,
@@ -91,6 +92,7 @@ function DrawerListPortal({
 
   useEffect(() => {
     if (!open) {
+      removePositionObserver()
       setCanTransitionPosition(false)
       return undefined // stop here
     }
@@ -106,7 +108,7 @@ function DrawerListPortal({
     })
 
     return () => window.cancelAnimationFrame(frame)
-  }, [open])
+  }, [open, removePositionObserver])
 
   const makeStyle = useCallback(() => {
     if (typeof window === 'undefined' || !isMounted) {
@@ -212,8 +214,16 @@ function DrawerListPortal({
     customElem.current.addEventListener('scroll', setPosition.current)
 
     try {
-      resizeObserver.current = new ResizeObserver(setPosition.current)
+      resizeObserver.current = new ResizeObserver((entries) => {
+        if (entries.some(({ target }) => target !== document.body)) {
+          flushSync(() => setForceRerender((value) => (value ?? 0) + 1))
+        } else {
+          setPosition.current?.()
+        }
+      })
       resizeObserver.current.observe(document.body)
+      resizeObserver.current.observe(rootRef.current)
+      resizeObserver.current.observe(rootRef.current.parentElement)
     } catch (e) {
       window.addEventListener('resize', setPosition.current)
     }

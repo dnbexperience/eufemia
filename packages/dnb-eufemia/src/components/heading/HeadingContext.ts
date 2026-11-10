@@ -6,12 +6,13 @@ import { createContext } from 'react'
 
 import type { SkeletonContextValue } from '../skeleton/SkeletonHelper'
 import type { HeadingProps } from './Heading'
+import type { createHeadingOrder } from './useHeadingOrder'
 
 export type HeadingContextValue = {
   heading?: HeadingProps & {
-    preserveLevels?: boolean
     revision?: number
     recalculate?: () => void
+    order?: ReturnType<typeof createHeadingOrder>
   }
 } & SkeletonContextValue
 

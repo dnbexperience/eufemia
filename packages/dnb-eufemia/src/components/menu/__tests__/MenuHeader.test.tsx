@@ -74,6 +74,18 @@ describe('MenuHeader', () => {
     expect(text.textContent).toBe('From text')
   })
 
+  it('uses small medium body text, like the menu items', () => {
+    render(
+      <ul role="menu">
+        <Menu.Header text="Section" />
+      </ul>
+    )
+
+    const text = document.querySelector('.dnb-menu__header__text')
+    expect(text).toHaveClass('dnb-t__size--small', 'dnb-t__weight--medium')
+    expect(text).not.toHaveClass('dnb-lead')
+  })
+
   it('works inside Menu.Root', () => {
     render(
       <Menu.Root open>

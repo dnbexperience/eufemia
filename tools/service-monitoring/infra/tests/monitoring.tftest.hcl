@@ -1,12 +1,15 @@
 mock_provider "aws" {
-  mock_data "aws_iam_role" {
-    defaults = { arn = "arn:aws:iam::123456789012:role/test-monitor" }
-  }
   mock_data "aws_caller_identity" {
     defaults = { account_id = "123456789012" }
   }
   mock_data "aws_partition" {
     defaults = { partition = "aws" }
+  }
+  mock_data "aws_iam_policy_document" {
+    defaults = { json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}" }
+  }
+  mock_resource "aws_iam_role" {
+    defaults = { arn = "arn:aws:iam::123456789012:role/test-monitor" }
   }
   mock_resource "aws_lambda_function" {
     defaults = { arn = "arn:aws:lambda:eu-north-1:123456789012:function:test-monitor" }
@@ -56,10 +59,11 @@ run "shadow_rollout" {
       aws_lambda_function.monitor["Analytics"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["MCP"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["CDN"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == "" &&
+      aws_lambda_function.monitor["Tokens"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["Analytics"].environment[0].variables["ANALYTICS_DEPLOY_REPOSITORY"] == "owner/deploy-repo" &&
       !contains(keys(aws_lambda_function.monitor["MCP"].environment[0].variables), "GHE_TOKEN_SECRET")
     )
-    error_message = "MCP and analytics get the GitHub token; only analytics gets the GHE credential and deploy repository."
+    error_message = "MCP, analytics and Tokens get the GitHub token; only analytics gets the GHE credential and deploy repository."
   }
   assert {
     condition     = jsondecode(aws_lambda_function.notifier.environment[0].variables["MONITOR_LOG_GROUPS"])["Analytics"] == aws_cloudwatch_log_group.monitor["Analytics"].name

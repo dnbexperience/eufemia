@@ -9,7 +9,7 @@ import basicComponents from '../tags/markdownComponents'
 
 const components = {
   ...basicComponents,
-  p: (props) => <span {...props} />,
+  p: ({ node, ...props }) => <span {...props} />,
 }
 
 const StyledTable = styled(Table)`
@@ -207,7 +207,7 @@ export default function PropertiesTable({
   })
 
   return (
-    <Table.ScrollView>
+    <Table.ScrollView bottom="medium">
       <StyledTable outline border>
         <thead>
           <Tr>

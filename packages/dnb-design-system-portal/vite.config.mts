@@ -1,0 +1,245 @@
+/**
+ * Vite configuration for the Eufemia documentation portal.
+ *
+ * See vite/README.md for architecture details and plugin documentation.
+ */
+
+import { defineConfig, withFilter } from 'vite'
+import react from '@vitejs/plugin-react'
+import buildTargets from '@dnb/browserslist-config/buildTargets.mjs'
+import { createRequire } from 'node:module'
+import stripMissingExampleImportsPlugin from './vite/client/plugins/strip-missing-example-imports.ts'
+import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel.ts'
+import loadJsAsJsxPlugin from './vite/client/plugins/load-js-as-jsx.ts'
+import portalMdxPlugin from './vite/client/plugins/portal-mdx.ts'
+import portalPagesPlugin from './vite/client/plugins/portal-pages.ts'
+import eufemiaThemePlugin from './vite/client/plugins/eufemia-theme.ts'
+import redirectIndexHtmlPlugin from './vite/client/plugins/redirect-index-html.ts'
+import prefetchOnHoverPlugin from './vite/client/plugins/prefetch-on-hover.ts'
+import catchLinksPlugin from './vite/client/plugins/catch-links.ts'
+import scrollPositionPlugin from './vite/client/plugins/scroll-position.ts'
+import preloadStylesPlugin from './vite/client/plugins/preload-styles.ts'
+import chunkLoadErrorHandlerPlugin from './vite/client/plugins/chunk-load-error-handler.ts'
+import testPageFilterPlugin from './vite/client/plugins/test-page-filter.ts'
+import buildInfoPlugin from './vite/client/plugins/build-info.ts'
+import githubReleasesPlugin from './vite/client/plugins/github-releases.ts'
+import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild.ts'
+import gitBranchPlugin from './vite/client/plugins/git-branch.ts'
+import analyticsCollectDevPlugin from './vite/client/plugins/analytics-collect-dev.ts'
+import path from 'node:path'
+
+const nodeRequire = createRequire(import.meta.url)
+const { requireConfigTimeEufemiaModule } = nodeRequire(
+  './vite/shared/eufemia-prebuild-paths.cjs'
+)
+const postcssThemeScopePlugin = nodeRequire(
+  './postcss-eufemia-theme-scope.cjs'
+)
+
+// PostCSS plugins used by the portal
+function getPostcssPlugins() {
+  const postcssIsolatePlugin = requireConfigTimeEufemiaModule(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope',
+    nodeRequire
+  )
+  const { getStyleScopeHash } = requireConfigTimeEufemiaModule(
+    '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs',
+    nodeRequire
+  )
+
+  return [
+    postcssIsolatePlugin({
+      scopeHash: 'eufemia-scope--portal',
+      skipClassNames: ['eufemia-scope--default'],
+      replaceClassNames: {
+        [getStyleScopeHash()]: 'eufemia-scope--portal',
+      },
+      verbose: false,
+      warnOnDeprecatedColorVariables: false,
+    }),
+    postcssThemeScopePlugin(),
+  ]
+}
+
+const config = defineConfig({
+  root: path.resolve(import.meta.dirname, 'vite/client'),
+
+  // Serve static files from the portal's static/ directory (favicons, images, etc.)
+  publicDir: path.resolve(import.meta.dirname, 'static'),
+
+  // pipelines work unchanged.
+  build: {
+    target: buildTargets,
+    outDir: path.resolve(import.meta.dirname, 'public'),
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 4000,
+  },
+
+  plugins: [
+    // Redirect /path/index.html → /path/ for SPA navigation and cleaner URLs
+    redirectIndexHtmlPlugin(),
+
+    // Serve current git branch name at /__git-branch (dev only)
+    gitBranchPlugin(),
+
+    // Dev-only /collect logger so page-view tracking can be exercised locally
+    analyticsCollectDevPlugin(),
+
+    // Prefetch route chunks when internal links are hovered or focused
+    withFilter(prefetchOnHoverPlugin(), {
+      resolveId: { id: /^virtual:prefetch-on-hover$/ },
+      load: { id: /virtual:prefetch-on-hover/ },
+    }),
+
+    // Intercept internal link clicks for SPA navigation
+    withFilter(catchLinksPlugin(), {
+      resolveId: { id: /^virtual:catch-links$/ },
+      load: { id: /virtual:catch-links/ },
+    }),
+
+    // Persist sidebar scroll position across route changes
+    withFilter(scrollPositionPlugin(), {
+      resolveId: { id: /^virtual:scroll-position$/ },
+      load: { id: /virtual:scroll-position/ },
+    }),
+
+    // Inject preload styles to prevent layout flicker
+    preloadStylesPlugin(),
+    chunkLoadErrorHandlerPlugin(),
+
+    // Filter pages for test builds (IS_VISUAL_TEST, IS_E2E)
+    withFilter(testPageFilterPlugin(), {
+      transform: { id: /virtual:portal-pages/ },
+    }),
+
+    // Use pre-built @dnb/eufemia package when available in production builds
+    eufemiaPrebuildPlugin(),
+
+    // MDX support — must come before React plugin so .mdx files
+    // are transformed to JSX before React processes them
+    withFilter(portalMdxPlugin(), {
+      transform: { id: /\.mdx/ },
+    }),
+
+    withFilter(stripMissingExampleImportsPlugin(), {
+      transform: {
+        id: /\.(mdx|tsx)($|\?)/,
+        code: /from\s*['"][^'"]*Examples['"]/,
+      },
+    }),
+
+    withFilter(reactLiveBabelPlugin(), {
+      transform: { id: /Examples\.tsx/ },
+    }),
+
+    // React plugin for JSX transform and Fast Refresh
+    react({
+      include: /\.(jsx|tsx|ts|js|mdx)$/,
+    }),
+
+    // File-system routing and virtual page registry
+    withFilter(portalPagesPlugin(), {
+      resolveId: { id: /^virtual:portal-(pages$|data$|toc$|page\/)/ },
+      load: { id: /virtual:portal-(pages|data|toc|page\/)/ },
+    }),
+
+    // Eufemia theme style loading for the portal runtime
+    withFilter(eufemiaThemePlugin(), {
+      resolveId: { id: /^virtual:eufemia-theme/ },
+      load: { id: /virtual:eufemia-theme/ },
+    }),
+
+    // Portal build information (release version, build timestamp, changelog)
+    withFilter(buildInfoPlugin(), {
+      resolveId: { id: /^virtual:build-info$/ },
+      load: { id: /virtual:build-info|buildInfo/ },
+    }),
+
+    withFilter(githubReleasesPlugin(), {
+      resolveId: { id: /^virtual:github-releases$/ },
+      load: { id: /virtual:github-releases/ },
+    }),
+
+    withFilter(loadJsAsJsxPlugin(), {
+      transform: {
+        id: { include: /\.js($|\?)/, exclude: /node_modules/ },
+      },
+    }),
+  ],
+
+  resolve: {
+    // Allow importing .mdx and .tsx files without extensions
+    extensions: [
+      '.mjs',
+      '.js',
+      '.mts',
+      '.ts',
+      '.jsx',
+      '.tsx',
+      '.json',
+      '.mdx',
+    ],
+
+    alias: {
+      // Portal data query layer (useStaticQuery, graphql, navigate)
+      'portal-query': path.resolve(
+        import.meta.dirname,
+        'vite/client/shims/portal-query.tsx'
+      ),
+
+      // Match Docs alias
+      Docs: path.resolve(import.meta.dirname, 'src/docs'),
+    },
+  },
+
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router',
+      '@emotion/react',
+      '@emotion/cache',
+      '@mdx-js/react',
+      'react/jsx-runtime',
+      'react-markdown',
+    ],
+  },
+
+  server: {
+    port: 8000,
+  },
+
+  define: {
+    // Some dependencies reference Node's `global`
+    global: 'globalThis',
+
+    // Algolia search
+    'process.env.ALGOLIA_INDEX_NAME': JSON.stringify(
+      process.env.ALGOLIA_INDEX_NAME || 'dev_eufemia_docs'
+    ),
+    'process.env.ALGOLIA_APP_ID': JSON.stringify(
+      process.env.ALGOLIA_APP_ID || 'SLD6KEYMQ9'
+    ),
+    'process.env.ALGOLIA_SEARCH_KEY': JSON.stringify(
+      process.env.ALGOLIA_SEARCH_KEY || '6cf238b7456ffd9f7a400d8de37318a3'
+    ),
+
+    // Style scope flags
+    'process.env.ENABLE_BUILD_STYLE_SCOPE': JSON.stringify(false),
+    'process.env.ENABLE_PORTAL_STYLE_SCOPE': JSON.stringify(true),
+    'process.env.isCI': JSON.stringify(false),
+  },
+})
+
+export default defineConfig(({ isPreview }) => ({
+  ...config,
+
+  // Override postcss.config.js to exclude the production-only font URL
+  // rewrite. In release builds it targets the matching assets.eufemia.dnb.no
+  // version.
+  // In dev, fonts load from relative paths resolved by Vite.
+  // The preview server only serves built files, so it needs no PostCSS plugins.
+  css: isPreview
+    ? undefined
+    : { postcss: { plugins: getPostcssPlugins() } },
+}))

@@ -5,8 +5,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-term-definition {
-  --inner-space: 0.5rem;
-
   &__trigger {
     &:not(:hover) {
       color: inherit;
@@ -37,5 +35,14 @@
 
   .dnb-popover__title strong::first-letter {
     text-transform: uppercase;
+  }
+
+  .dnb-popover__body {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+
+    &:not(:first-child) {
+      margin-top: 0.25rem;
+    }
   }
 }

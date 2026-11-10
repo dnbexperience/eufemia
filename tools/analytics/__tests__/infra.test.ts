@@ -81,13 +81,39 @@ describe('analytics infrastructure', () => {
     }
   })
 
-  it('alarms when the snapshot Lambda fails or stops running', () => {
-    for (const name of ['snapshot_errors', 'snapshot_not_running']) {
-      expect(terraform).toContain(
+  it.each([
+    {
+      when: 'fails',
+      name: 'snapshot_errors',
+      metric: 'Errors',
+      comparison: 'GreaterThanOrEqualToThreshold',
+      missingData: 'notBreaching',
+    },
+    {
+      // No invocations means no datapoints, so missing data must breach.
+      when: 'stops running',
+      name: 'snapshot_not_running',
+      metric: 'Invocations',
+      comparison: 'LessThanThreshold',
+      missingData: 'breaching',
+    },
+  ])(
+    'alarms when the snapshot Lambda $when',
+    ({ name, metric, comparison, missingData }) => {
+      const alarm = terraformBlock(
         `resource "aws_cloudwatch_metric_alarm" "${name}"`
       )
+      const attribute = (key: string, value: string) =>
+        new RegExp(`^\\s+${key}\\s+=\\s+"${value}"$`, 'm')
+
+      expect(alarm).toMatch(attribute('metric_name', metric))
+      expect(alarm).toMatch(
+        /FunctionName\s+=\s+aws_lambda_function\.snapshot\.function_name/
+      )
+      expect(alarm).toMatch(attribute('comparison_operator', comparison))
+      expect(alarm).toMatch(attribute('treat_missing_data', missingData))
     }
-  })
+  )
 
   it.each([
     {
@@ -233,37 +259,83 @@ describe('analytics infrastructure', () => {
     )
   })
 
-  it('creates the dashboard role with the OIDC boundary, Lambda-only trust and delete protection', () => {
-    const role = terraformBlock('resource "aws_iam_role" "dashboard"')
+  it('creates the Lambda roles with the OIDC boundary and Lambda-only trust, never pre-created or with inline policies', () => {
     const assume = terraformBlock(
-      'data "aws_iam_policy_document" "dashboard_assume"'
+      'data "aws_iam_policy_document" "lambda_assume"'
     )
 
-    expect(role).toMatch(
-      /permissions_boundary\s+=\s+".*:policy\/tlz\/oidc-tooling-github-permissionboundarypolicy"/
-    )
-    expect(role).toContain(
-      'data.aws_iam_policy_document.dashboard_assume.json'
+    expect(terraform).toMatch(
+      /lambda_permissions_boundary\s+=\s+".*:policy\/tlz\/oidc-tooling-github-permissionboundarypolicy"/
     )
     expect(assume?.match(/identifiers\s+=\s+\[.*\]/g)).toEqual([
       'identifiers = ["lambda.amazonaws.com"]',
     ])
-    expect(role).toMatch(/^\s+prevent_destroy\s+=\s+true$/m)
-  })
-
-  it('attaches only the deploy-approved policies to the dashboard role', () => {
-    const attachedPolicies = resourceBlocks(
-      'aws_iam_role_policy_attachment'
-    )
-      .filter((block) => block.includes('aws_iam_role.dashboard.'))
-      .map((block) => block.match(/policy_arn\s+=\s+"(.*)"/)?.[1])
-
-    expect(attachedPolicies).toEqual([
-      'arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/eufemia-${var.environment}-dashboard-snapshot-read',
-      'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
-    ])
     expect(terraform).not.toMatch(
-      /resource "aws_iam_(role_policy|policy_attachment|role_policy_attachments_exclusive)" |managed_policy_arns|inline_policy/
+      /data "aws_iam_role"|resource "aws_iam_(role_policy|policy_attachment|role_policy_attachments_exclusive)" |managed_policy_arns|inline_policy/
     )
+
+    // The per-role checks below find attachments by this reference.
+    for (const attachment of resourceBlocks(
+      'aws_iam_role_policy_attachment'
+    )) {
+      expect(attachment).toMatch(
+        /^\s+role\s+=\s+aws_iam_role\.\w+\.name$/m
+      )
+    }
   })
+
+  it.each([
+    {
+      lambda: 'analytics',
+      role: 'analytics',
+      policy: '${local.function_name}-collect',
+    },
+    {
+      lambda: 'snapshot',
+      role: 'snapshot',
+      policy: '${local.function_name}-snapshot-build',
+    },
+    {
+      lambda: 'dashboard_read',
+      role: 'dashboard',
+      policy: 'eufemia-${var.environment}-dashboard-snapshot-read',
+    },
+  ])(
+    'runs the $lambda Lambda under the delete-protected $role role, once only its approved policies are attached',
+    ({ lambda, role, policy }) => {
+      const roleBlock = terraformBlock(`resource "aws_iam_role" "${role}"`)
+      const lambdaBlock = terraformBlock(
+        `resource "aws_lambda_function" "${lambda}"`
+      )
+      const attachments = resourceBlocks(
+        'aws_iam_role_policy_attachment'
+      ).filter((block) => block.includes(`aws_iam_role.${role}.`))
+
+      expect(roleBlock).toMatch(
+        /permissions_boundary\s+=\s+local\.lambda_permissions_boundary$/m
+      )
+      expect(roleBlock).toContain(
+        'data.aws_iam_policy_document.lambda_assume.json'
+      )
+      expect(roleBlock).toMatch(/^\s+prevent_destroy\s+=\s+true$/m)
+      expect(
+        attachments.map(
+          (block) => block.match(/policy_arn\s+=\s+"(.*)"/)?.[1]
+        )
+      ).toEqual([
+        `arn:aws:iam::\${data.aws_caller_identity.current.account_id}:policy/tooling/${policy}`,
+        'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
+      ])
+      expect(lambdaBlock).toMatch(
+        new RegExp(`^\\s+role\\s+=\\s+aws_iam_role\\.${role}\\.arn$`, 'm')
+      )
+      for (const name of attachments.map(
+        (block) => block.match(/"(\w+)" \{/)?.[1]
+      )) {
+        expect(lambdaBlock).toContain(
+          `aws_iam_role_policy_attachment.${name},`
+        )
+      }
+    }
+  )
 })

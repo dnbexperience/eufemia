@@ -34,13 +34,13 @@ env:
 
 jobs:
   changes:
-    uses: ./.github/workflows/detect-standalone-tools-only.yml
+    uses: ./.github/workflows/detect-changes.yml
 
   e2e:
     name: Run e2e tests
     needs: changes
     # A skipped job counts as success for the required check; it still runs if detection fails.
-    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
+    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' && needs.changes.outputs.tests-only != 'true' }}
 
     # Pinned until Playwright can install its system dependencies on Ubuntu 26.04
     runs-on: ubuntu-24.04
@@ -52,11 +52,20 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Preview affected E2E tests
+        continue-on-error: true
+        run: yarn workspace @dnb/eufemia test:e2e:explain
+        env:
+          E2E_TEST_BASE_REF: origin/${{ github.base_ref || 'main' }}
+          E2E_TEST_RUN_ALL: ${{ github.event_name == 'pull_request' }}
 
       - name: Prepare apt package cache
         run: |
@@ -102,6 +111,17 @@ jobs:
       - name: Run Playwright on Eufemia Components
         run: yarn workspace @dnb/eufemia test:e2e:ci
 
+      - name: Store E2E timings
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: e2e-timings
+          retention-days: 7
+          if-no-files-found: ignore
+          path: |
+            ./packages/dnb-design-system-portal/test-results/e2e-results.json
+            ./packages/dnb-eufemia/test-results/e2e-results.json
+
       - name: Store Playwright artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
@@ -110,3 +130,4 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/test-results
             ./packages/dnb-design-system-portal/playwright-report
+            ./packages/dnb-eufemia/test-results

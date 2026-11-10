@@ -504,7 +504,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
     --button-tertiary-focus-overflow--icon-top
   );
   flex-direction: column;
-  border-radius: var(--token-radius-md);
+  border-radius: 1.25rem;
   vertical-align: middle;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
@@ -514,12 +514,16 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   align-self: center;
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
-  margin-top: 0;
-  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
   font-size: var(--font-size-x-small);
+  line-height: var(--line-height-x-small);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--size-large .dnb-button__text {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
   font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__alignment {
   order: 3;
@@ -578,7 +582,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   --button-padding--default: 1.5rem;
   --button-padding--small: 1rem;
   --button-padding--medium: 1rem;
-  --button-padding--large: 2rem;
+  --button-padding--large: 1.75rem;
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
@@ -1151,14 +1155,14 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--size-large {
   --button-height: var(--button-height--large);
-  --button-padding-icon: 1.5rem;
+  --button-padding-icon: 1.25rem;
   width: var(--button-width--large);
 }
 .dnb-button--has-text.dnb-button--size-large {
   --button-padding-left: var(--button-padding--large);
   --button-padding-right: var(--button-padding--large);
 }
-.dnb-button--secondary:not(.dnb-button--has-text):not(.dnb-button--input-button):not(.dnb-button--control-before):not(.dnb-button--control-after).dnb-button--size-large {
+.dnb-button:where(.dnb-button--secondary, .dnb-button--tertiary):not(.dnb-button--has-text):not(.dnb-button--input-button):not(.dnb-button--control-before):not(.dnb-button--control-after).dnb-button--size-large {
   width: calc(var(--button-width--large) - 0.5rem);
   line-height: calc(var(--button-height) - 0.5rem);
 }
@@ -1355,6 +1359,7 @@ legend.dnb-form-label {
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-height-current: var(--input-height);
+  --input-submit-button-width: var(--input-height-current);
   --input-background-color: var(--token-color-background-neutral);
   --input-background-color--disabled: var(
     --token-color-background-neutral-subtle
@@ -1631,6 +1636,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--large {
   --input-height-current: var(--input-height--large);
+  --input-submit-button-width: 3.5rem;
   line-height: var(--input-height--large);
 }
 .dnb-input--large .dnb-input__shell,
@@ -1644,18 +1650,28 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   font-size: var(--input-font-size--large);
 }
 .dnb-input--large .dnb-input__submit-element {
-  margin-left: calc(var(--input-height--large) * -1);
+  margin-left: calc(var(--input-submit-button-width) * -1);
 }
 .dnb-input--large .dnb-input__submit-element .dnb-button--input-button {
-  width: var(--input-height--large);
+  width: var(--input-submit-button-width);
   height: var(--input-height--large);
   line-height: var(--input-height--large);
 }
 .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder, .dnb-input--large.dnb-input--has-submit-element .dnb-input__input, .dnb-input--large.dnb-input--has-clear-button .dnb-input__placeholder, .dnb-input--large.dnb-input--has-clear-button .dnb-input__input {
   padding-right: calc(var(--input-padding--large) * 3.5);
 }
-.dnb-input--large.dnb-input--has-clear-button:not(.dnb-input--has-submit-element) .dnb-input__submit-element {
-  margin-left: calc(var(--input-height--large) - 0.5rem);
+.dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input__placeholder,
+.dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input__input {
+  padding-right: 3rem;
+}
+.dnb-input--has-clear-button:not(.dnb-input--small, .dnb-input--has-submit-element) .dnb-input--clear.dnb-input__submit-element {
+  margin-left: -2.25rem;
+}
+.dnb-input--has-submit-element:not(.dnb-input--small, .dnb-input--has-clear-button) input.dnb-input__input {
+  padding-right: calc(var(--input-submit-button-width) + 1rem);
+}
+.dnb-input--has-submit-element:not(.dnb-input--small) .dnb-input__placeholder {
+  padding-right: calc(var(--input-submit-button-width) + 1rem);
 }
 .dnb-input__align--center .dnb-input__placeholder, .dnb-input__align--center .dnb-input__input {
   text-align: center;
@@ -1694,17 +1710,12 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   opacity: 1;
   pointer-events: auto;
 }
-.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 2.5rem;
+.dnb-input--has-submit-element:not(.dnb-input--small) .dnb-input--clear.dnb-input__submit-element {
+  margin-left: calc(var(--input-height-current) * -1 + 0.25rem);
+  margin-right: calc(var(--input-submit-button-width) + 0.25rem);
 }
 .dnb-input--small.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
   margin-right: 2rem;
-}
-.dnb-input--medium.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 3rem;
-}
-.dnb-input--large.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
-  margin-right: 3.5rem;
 }
 .dnb-input__inner > .dnb-form-status {
   order: 2;
@@ -1775,13 +1786,13 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   padding-right: 3rem;
 }
 .dnb-input--icon-position-right.dnb-input--has-submit-element .dnb-input__icon {
-  right: calc(var(--input-height-current) + 1rem);
+  right: calc(var(--input-submit-button-width) + 1rem);
 }
 .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input, .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__placeholder {
-  padding-right: calc(var(--input-height-current) + 2.5rem);
+  padding-right: calc(var(--input-submit-button-width) + 2.5rem);
 }
 .dnb-input--has-submit-element:where(:not(.dnb-input--has-clear-button, .dnb-input--has-inner-element, .dnb-input--password)) input.dnb-input__input {
-  clip-path: inset(0 var(--input-height-current) 0 0);
+  clip-path: inset(0 var(--input-submit-button-width) 0 0);
 }
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--token-color-background-neutral);
@@ -2182,6 +2193,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 .dnb-progress-indicator--full-width.dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
   flex-shrink: 0;
   max-width: 50%;
+  padding-left: 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
@@ -2553,7 +2565,7 @@ html[data-visual-test] .dnb-progress-indicator {
   margin: 0;
 }
 .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__inner__element {
-  margin-right: 2.5rem !important;
+  margin-right: calc(var(--input-submit-button-width) + 0.5rem) !important;
 }
 .dnb-autocomplete--icon-position-right .dnb-input__inner__element.dnb-p {
   padding-right: 3rem;
@@ -2800,7 +2812,7 @@ exports[`Autocomplete scss > have to match default theme snapshot 1`] = `
   margin: 0;
 }
 .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__inner__element {
-  margin-right: 2.5rem !important;
+  margin-right: calc(var(--input-submit-button-width) + 0.5rem) !important;
 }
 .dnb-autocomplete--icon-position-right .dnb-input__inner__element.dnb-p {
   padding-right: 3rem;

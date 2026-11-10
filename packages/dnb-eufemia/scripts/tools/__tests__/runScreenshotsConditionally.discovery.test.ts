@@ -1,6 +1,7 @@
 import {
   collectChangedEntityNames,
   findCompositionImpactedTests,
+  findPortalDocsImpactedTests,
 } from '../runScreenshotsConditionally/discovery'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -75,6 +76,54 @@ describe('runScreenshotsConditionally discovery', () => {
     }
   })
 
+  it.each([
+    [
+      'a URL constant',
+      "const url = '/web/forms/Wizard/Container/demos/'\nmakeScreenshot({ url })",
+      'web/forms/Wizard/Container/Examples.tsx',
+    ],
+    [
+      'a URL with a query string',
+      "makeScreenshot({ url: '/web/components/table/demos/?skeleton' })",
+      'web/components/table/Examples.tsx',
+    ],
+    [
+      'a page file instead of a demos folder',
+      "makeScreenshot({ url: '/web/components/button/visual-tests/' })",
+      'web/components/button/visual-tests.mdx',
+    ],
+  ])(
+    'selects the screenshot test when its docs change, for %s',
+    (_, testContent, docsFile) => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-docs-'))
+      try {
+        const docsRoot = path.join(root, 'docs')
+        fs.mkdirSync(path.dirname(path.join(docsRoot, docsFile)), {
+          recursive: true,
+        })
+        fs.writeFileSync(path.join(docsRoot, docsFile), '')
+        fs.writeFileSync(
+          path.join(root, 'Example.screenshot.test.ts'),
+          testContent
+        )
+        const context = {
+          packageRoot: root,
+          portalDocsRoot: docsRoot,
+        } as RunnerContext
+
+        expect(
+          findPortalDocsImpactedTests(
+            context,
+            [`packages/dnb-design-system-portal/src/docs/${docsFile}`],
+            ['Example.screenshot.test.ts']
+          )
+        ).toEqual(['Example.screenshot.test.ts'])
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true })
+      }
+    }
+  )
+
   it('extracts entity names from components and extensions paths', () => {
     const names = collectChangedEntityNames([
       'src/components/badge/style/dnb-badge.scss',
@@ -83,10 +132,112 @@ describe('runScreenshotsConditionally discovery', () => {
 
     expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
       'Badge',
-      'Form',
-      'Forms',
-      'Snapshot',
+      'Form.Snapshot',
     ])
+  })
+
+  it('names forms components with their namespace', () => {
+    const names = collectChangedEntityNames([
+      'src/extensions/forms/Field/String/String.tsx',
+      'src/extensions/forms/Value/Date/style/dnb-value-date.scss',
+      'src/extensions/forms/FieldBlock/FieldBlock.tsx',
+      'src/extensions/forms/hooks/useFieldProps.ts',
+    ])
+
+    expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
+      'Field.String',
+      'FieldBlock',
+      'Value.Date',
+    ])
+  })
+
+  it('uses the namespace for files that its components share', () => {
+    const names = collectChangedEntityNames([
+      'src/extensions/forms/Field/style/dnb-field.scss',
+      'src/extensions/forms/Wizard/hooks/useStep.ts',
+    ])
+
+    expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
+      'Field',
+      'Wizard',
+    ])
+  })
+
+  it('selects only the demos that use the changed forms component', () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-forms-'))
+    try {
+      const docsRoot = path.join(root, 'docs')
+      for (const [name, content] of [
+        [
+          'composition',
+          '<Field.Composition><Field.String /></Field.Composition>',
+        ],
+        ['number', '<Field.Number /> uses the same Field props'],
+      ]) {
+        fs.mkdirSync(path.join(docsRoot, 'web/forms', name), {
+          recursive: true,
+        })
+        fs.writeFileSync(
+          path.join(docsRoot, 'web/forms', name, 'Examples.tsx'),
+          content
+        )
+        fs.writeFileSync(
+          path.join(root, `${name}.screenshot.test.ts`),
+          `makeScreenshot({ url: '/web/forms/${name}/demos' })`
+        )
+      }
+      const context = {
+        packageRoot: root,
+        portalDocsRoot: docsRoot,
+      } as RunnerContext
+
+      expect(
+        findCompositionImpactedTests(
+          context,
+          ['src/extensions/forms/Field/String/String.tsx'],
+          ['composition.screenshot.test.ts', 'number.screenshot.test.ts']
+        )
+      ).toEqual(['composition.screenshot.test.ts'])
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('matches entity names literally, not as regex patterns', () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'portal-literal-'))
+    try {
+      const docsRoot = path.join(root, 'docs')
+      for (const [name, content] of [
+        ['literal', '<A+b />'],
+        ['pattern', '<AAb />'],
+      ]) {
+        fs.mkdirSync(path.join(docsRoot, 'web/components', name), {
+          recursive: true,
+        })
+        fs.writeFileSync(
+          path.join(docsRoot, 'web/components', name, 'Examples.tsx'),
+          content
+        )
+        fs.writeFileSync(
+          path.join(root, `${name}.screenshot.test.ts`),
+          `makeScreenshot({ url: '/web/components/${name}/demos' })`
+        )
+      }
+      const context = {
+        packageRoot: root,
+        portalDocsRoot: docsRoot,
+      } as RunnerContext
+
+      expect(
+        findCompositionImpactedTests(
+          context,
+          ['src/components/a+b/AB.tsx'],
+          ['literal.screenshot.test.ts', 'pattern.screenshot.test.ts']
+        )
+      ).toEqual(['literal.screenshot.test.ts'])
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
   })
 
   it('ignores non-src and technical folder segments', () => {
@@ -96,8 +247,6 @@ describe('runScreenshotsConditionally discovery', () => {
       'src/extensions/forms/__tests__/Form.test.tsx',
     ])
 
-    expect(Array.from(names).sort((a, b) => a.localeCompare(b))).toEqual([
-      'Forms',
-    ])
+    expect(Array.from(names)).toEqual([])
   })
 })

@@ -2,11 +2,6 @@ import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import {
-  WebStandardStreamableHTTPServerTransport,
-  type McpServer,
-} from '@modelcontextprotocol/server'
-import { createDocsServer } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 
 async function createTempDocs(): Promise<string> {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'mcp-handler-test-'))
@@ -17,99 +12,12 @@ async function createTempDocs(): Promise<string> {
   return dir
 }
 
-// Mirror the legacy per-invocation lifecycle used by the Lambda handler:
-// create a fresh server and transport, handle one request, then close.
-async function invoke(
-  createServer: () => Promise<McpServer>,
-  body: unknown
-): Promise<{ status: number; json: unknown }> {
-  const server = await createServer()
-  const transport = new WebStandardStreamableHTTPServerTransport({
-    sessionIdGenerator: undefined,
-    enableJsonResponse: true,
-  })
-
-  await server.connect(transport)
-
-  try {
-    const request = new Request('https://example.test/mcp', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        accept: 'application/json, text/event-stream',
-      },
-      body: JSON.stringify(body),
-    })
-
-    const response = await transport.handleRequest(request)
-    const text = await response.text()
-
-    return { status: response.status, json: JSON.parse(text) }
-  } finally {
-    await transport.close()
-  }
-}
-
 const toolsListRequest = {
   jsonrpc: '2.0',
   id: 1,
   method: 'tools/list',
   params: {},
 }
-
-describe('lambda-handler stateless transport lifecycle', () => {
-  let docsRoot: string
-
-  beforeAll(async () => {
-    docsRoot = await createTempDocs()
-  })
-
-  afterAll(async () => {
-    await fs.rm(docsRoot, { recursive: true, force: true })
-  })
-
-  const createServer = async () =>
-    (await createDocsServer({ docsRoot })).server
-
-  it('handles two sequential invocations with fresh server instances', async () => {
-    const first = await invoke(createServer, toolsListRequest)
-    const second = await invoke(createServer, {
-      ...toolsListRequest,
-      id: 2,
-    })
-
-    expect(first.status).toBe(200)
-    expect(second.status).toBe(200)
-
-    const firstTools = (
-      first.json as { result: { tools: Array<{ name: string }> } }
-    ).result.tools.map((tool) => tool.name)
-    const secondTools = (
-      second.json as { result: { tools: Array<{ name: string }> } }
-    ).result.tools.map((tool) => tool.name)
-
-    // The full tool set is served identically with no state shared between
-    // invocations.
-    expect(firstTools).toContain('docs_entry')
-    expect(firstTools).toContain('review_rules')
-    expect(firstTools).toContain('component_props')
-    expect(secondTools).toEqual(firstTools)
-  })
-
-  it('echoes the request id per invocation', async () => {
-    const first = await invoke(createServer, {
-      ...toolsListRequest,
-      id: 41,
-    })
-    const second = await invoke(createServer, {
-      ...toolsListRequest,
-      id: 42,
-    })
-
-    expect((first.json as { id: number }).id).toBe(41)
-    expect((second.json as { id: number }).id).toBe(42)
-  })
-})
 
 describe('lambda-handler health check', () => {
   let docsRoot: string
@@ -190,6 +98,28 @@ describe('lambda-handler protocol versions', () => {
     }
   }
 
+  function postModern(id: number, method: string, params = {}) {
+    return postMcp(
+      {
+        jsonrpc: '2.0',
+        id,
+        method,
+        params: {
+          ...params,
+          _meta: {
+            'io.modelcontextprotocol/protocolVersion': '2026-07-28',
+            'io.modelcontextprotocol/clientInfo': {
+              name: 'modern-test',
+              version: '1.0.0',
+            },
+            'io.modelcontextprotocol/clientCapabilities': {},
+          },
+        },
+      },
+      { 'mcp-protocol-version': '2026-07-28', 'mcp-method': method }
+    )
+  }
+
   it('serves MCP 2025 and 2026 from /mcp', async () => {
     const legacy = await postMcp({
       jsonrpc: '2.0',
@@ -207,44 +137,14 @@ describe('lambda-handler protocol versions', () => {
       '2025-11-25'
     )
 
-    const requestMeta = {
-      'io.modelcontextprotocol/protocolVersion': '2026-07-28',
-      'io.modelcontextprotocol/clientInfo': {
-        name: 'modern-test',
-        version: '1.0.0',
-      },
-      'io.modelcontextprotocol/clientCapabilities': {},
-    }
-    const modern = await postMcp(
-      {
-        jsonrpc: '2.0',
-        id: 2,
-        method: 'server/discover',
-        params: { _meta: requestMeta },
-      },
-      {
-        'mcp-protocol-version': '2026-07-28',
-        'mcp-method': 'server/discover',
-      }
-    )
+    const modern = await postModern(2, 'server/discover')
 
     expect(modern.statusCode).toBe(200)
     expect(JSON.parse(modern.body).result.supportedVersions).toContain(
       '2026-07-28'
     )
 
-    const tools = await postMcp(
-      {
-        jsonrpc: '2.0',
-        id: 3,
-        method: 'tools/list',
-        params: { _meta: requestMeta },
-      },
-      {
-        'mcp-protocol-version': '2026-07-28',
-        'mcp-method': 'tools/list',
-      }
-    )
+    const tools = await postModern(3, 'tools/list')
 
     expect(tools.statusCode).toBe(200)
     expect(
@@ -253,6 +153,44 @@ describe('lambda-handler protocol versions', () => {
       )
     ).toContain('docs_entry')
   })
+
+  it('serves repeated 2025 requests statelessly, echoing each request id', async () => {
+    const first = await postMcp({ ...toolsListRequest, id: 41 })
+    const second = await postMcp({ ...toolsListRequest, id: 42 })
+    const toolNames = (response: { body: string }) =>
+      JSON.parse(response.body).result.tools.map(
+        (tool: { name: string }) => tool.name
+      )
+
+    expect(first.statusCode).toBe(200)
+    expect(second.statusCode).toBe(200)
+    expect(JSON.parse(first.body).id).toBe(41)
+    expect(JSON.parse(second.body).id).toBe(42)
+    expect(toolNames(first)).toEqual(
+      expect.arrayContaining([
+        'docs_entry',
+        'review_rules',
+        'component_props',
+      ])
+    )
+    expect(toolNames(second)).toEqual(toolNames(first))
+  })
+
+  it('ends a subscriptions/listen stream at once', async () => {
+    const listen = await postModern(4, 'subscriptions/listen', {
+      notifications: {
+        toolsListChanged: true,
+        promptsListChanged: true,
+        resourcesListChanged: true,
+      },
+    })
+
+    expect(listen.statusCode).toBe(200)
+    expect(listen.body).toContain(
+      'notifications/subscriptions/acknowledged'
+    )
+    expect(listen.body).toContain('"resultType":"complete"')
+  }, 2000)
 })
 
 describe('lambda-handler error handling', () => {
@@ -337,30 +275,23 @@ describe('lambda-handler origin auth (X-Edge-Auth)', () => {
     }
   }
 
-  it('rejects with 403 when the secret is set but the header is missing', async () => {
-    process.env.EDGE_AUTH_SECRET = secret
-    const { handler } = await import('../transports/lambda-handler.js')
+  it.each([
+    ['missing', {}],
+    ['wrong', { 'x-edge-auth': 'wrong-secret' }],
+  ])(
+    'rejects with 403 when the secret is set and the header is %s',
+    async (_label, headers: Record<string, string>) => {
+      process.env.EDGE_AUTH_SECRET = secret
+      const { handler } = await import('../transports/lambda-handler.js')
 
-    const result = (await handler(
-      mcpEvent({}) as Parameters<typeof handler>[0]
-    )) as { statusCode: number; body: string }
+      const result = (await handler(
+        mcpEvent(headers) as Parameters<typeof handler>[0]
+      )) as { statusCode: number; body: string }
 
-    expect(result.statusCode).toBe(403)
-    expect(JSON.parse(result.body).error.message).toBe('Forbidden')
-  })
-
-  it('rejects with 403 when the header does not match', async () => {
-    process.env.EDGE_AUTH_SECRET = secret
-    const { handler } = await import('../transports/lambda-handler.js')
-
-    const result = (await handler(
-      mcpEvent({ 'x-edge-auth': 'wrong-secret' }) as Parameters<
-        typeof handler
-      >[0]
-    )) as { statusCode: number }
-
-    expect(result.statusCode).toBe(403)
-  })
+      expect(result.statusCode).toBe(403)
+      expect(JSON.parse(result.body).error.message).toBe('Forbidden')
+    }
+  )
 
   it('lets the request through when the header matches', async () => {
     process.env.EDGE_AUTH_SECRET = secret
@@ -370,7 +301,7 @@ describe('lambda-handler origin auth (X-Edge-Auth)', () => {
       mcpEvent({ 'x-edge-auth': secret }) as Parameters<typeof handler>[0]
     )) as { statusCode: number }
 
-    expect(result.statusCode).not.toBe(403)
+    expect(result.statusCode).toBe(200)
   })
 
   it('rejects with 403 when the secret is unset (fail-closed)', async () => {
