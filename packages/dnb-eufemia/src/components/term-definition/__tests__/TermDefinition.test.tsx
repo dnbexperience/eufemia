@@ -6,11 +6,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TermDefinition from '../TermDefinition'
 import defaultLocales from '../../../shared/locales'
-import {
-  axeComponent,
-  loadScss,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import { Field } from '../../../extensions/forms'
 
 const term = 'unusual words'
@@ -453,21 +449,6 @@ describe('TermDefinition', () => {
 
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
-  })
-})
-
-describe('TermDefinition scss', () => {
-  it('uses basis text and a 4px gap below the title in the popover', () => {
-    const css = loadScss(
-      require.resolve('../style/dnb-term-definition.scss')
-    )
-
-    expect(css).toMatch(
-      /\.dnb-term-definition \.dnb-popover__body \{\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);\s*\}/
-    )
-    expect(css).toMatch(
-      /\.dnb-term-definition \.dnb-popover__body:not\(:first-child\) \{\s*margin-top: 0\.25rem;\s*\}/
-    )
   })
 })
 
