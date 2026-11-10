@@ -30,6 +30,7 @@ vi.mock('@aws-sdk/client-athena', () => ({
 }))
 
 import {
+  aggregateComponentUsageRaw,
   aggregateMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
@@ -92,6 +93,30 @@ afterEach(() => {
   delete process.env.ATHENA_WORKGROUP
 })
 
+describe('sinceDt validation', () => {
+  it.each<[string, (sinceDt: string) => Promise<unknown>]>([
+    ['aggregatePortalViewsRaw', aggregatePortalViewsRaw],
+    ['retrievePortalViewsPerDay', retrievePortalViewsPerDay],
+    [
+      'retrieveTopPortalPathsPerMonth',
+      (sinceDt) => retrieveTopPortalPathsPerMonth(sinceDt, 20),
+    ],
+    [
+      'retrievePortalViewsPerLocaleAndTheme',
+      retrievePortalViewsPerLocaleAndTheme,
+    ],
+    ['aggregateMcpUsageRaw', aggregateMcpUsageRaw],
+    ['aggregateMcpUsageByVersion', aggregateMcpUsageByVersion],
+    ['aggregateComponentUsageRaw', aggregateComponentUsageRaw],
+  ])(
+    '%s rejects a non-date sinceDt before running any query',
+    async (_name, query) => {
+      await expect(query("2026'; DROP")).rejects.toThrow('YYYY-MM-DD')
+      expect(send).not.toHaveBeenCalled()
+    }
+  )
+})
+
 describe('retrievePortalViewsPerDay', () => {
   it('sums the rollup per day and environment from the window start', async () => {
     mockAthenaRows([
@@ -106,13 +131,6 @@ describe('retrievePortalViewsPerDay', () => {
     expect(startedQueryString()).toBe(
       `SELECT dt, coalesce(env, 'unknown') AS env, sum(count) AS views FROM "db"."portal_views_daily" WHERE dt >= '2025-10-01' GROUP BY dt, coalesce(env, 'unknown') ORDER BY dt`
     )
-  })
-
-  it('rejects a non-date sinceDt before running any query', async () => {
-    await expect(retrievePortalViewsPerDay("2026'; DROP")).rejects.toThrow(
-      'YYYY-MM-DD'
-    )
-    expect(send).not.toHaveBeenCalled()
   })
 })
 
@@ -145,13 +163,6 @@ describe('retrieveTopPortalPathsPerMonth', () => {
       `SELECT month, env, path, views FROM (SELECT month, env, path, views, row_number() OVER (PARTITION BY month, env ORDER BY views DESC, path) AS position FROM (SELECT month, CASE WHEN grouping(env) = 1 THEN '' ELSE env END AS env, path, sum(count) AS views FROM (SELECT substr(dt, 1, 7) AS month, coalesce(env, 'unknown') AS env, path, count FROM "db"."portal_views_daily" WHERE dt >= '2025-10-01') GROUP BY GROUPING SETS ((month, env, path), (month, path)))) WHERE position <= 20 ORDER BY month, env, views DESC`
     )
   })
-
-  it('rejects a non-date sinceDt before running any query', async () => {
-    await expect(
-      retrieveTopPortalPathsPerMonth("2026'; DROP", 20)
-    ).rejects.toThrow('YYYY-MM-DD')
-    expect(send).not.toHaveBeenCalled()
-  })
 })
 
 describe('retrievePortalViewsPerLocaleAndTheme', () => {
@@ -170,13 +181,6 @@ describe('retrievePortalViewsPerLocaleAndTheme', () => {
     expect(startedQueryString()).toBe(
       `SELECT coalesce(env, 'unknown') AS env, coalesce(locale, 'unknown') AS locale, coalesce(theme, 'unknown') AS theme, sum(count) AS views FROM "db"."portal_views_daily" WHERE dt >= '2025-10-01' GROUP BY coalesce(env, 'unknown'), coalesce(locale, 'unknown'), coalesce(theme, 'unknown')`
     )
-  })
-
-  it('rejects a non-date sinceDt before running any query', async () => {
-    await expect(
-      retrievePortalViewsPerLocaleAndTheme("2026'; DROP")
-    ).rejects.toThrow('YYYY-MM-DD')
-    expect(send).not.toHaveBeenCalled()
   })
 })
 
@@ -319,12 +323,6 @@ describe('aggregateMcpUsageRaw', () => {
 })
 
 describe('aggregateMcpUsageByVersion', () => {
-  it('rejects a non-date sinceDt before running any query', async () => {
-    await expect(
-      aggregateMcpUsageByVersion("2026'; DROP")
-    ).rejects.toThrow('YYYY-MM-DD')
-  })
-
   it('counts requests, component lookups and misses per transport and version', async () => {
     mockAthenaRows([
       [

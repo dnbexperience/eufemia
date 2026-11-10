@@ -81,13 +81,39 @@ describe('analytics infrastructure', () => {
     }
   })
 
-  it('alarms when the snapshot Lambda fails or stops running', () => {
-    for (const name of ['snapshot_errors', 'snapshot_not_running']) {
-      expect(terraform).toContain(
+  it.each([
+    {
+      when: 'fails',
+      name: 'snapshot_errors',
+      metric: 'Errors',
+      comparison: 'GreaterThanOrEqualToThreshold',
+      missingData: 'notBreaching',
+    },
+    {
+      // No invocations means no datapoints, so missing data must breach.
+      when: 'stops running',
+      name: 'snapshot_not_running',
+      metric: 'Invocations',
+      comparison: 'LessThanThreshold',
+      missingData: 'breaching',
+    },
+  ])(
+    'alarms when the snapshot Lambda $when',
+    ({ name, metric, comparison, missingData }) => {
+      const alarm = terraformBlock(
         `resource "aws_cloudwatch_metric_alarm" "${name}"`
       )
+      const attribute = (key: string, value: string) =>
+        new RegExp(`^\\s+${key}\\s+=\\s+"${value}"$`, 'm')
+
+      expect(alarm).toMatch(attribute('metric_name', metric))
+      expect(alarm).toMatch(
+        /FunctionName\s+=\s+aws_lambda_function\.snapshot\.function_name/
+      )
+      expect(alarm).toMatch(attribute('comparison_operator', comparison))
+      expect(alarm).toMatch(attribute('treat_missing_data', missingData))
     }
-  })
+  )
 
   it.each([
     {

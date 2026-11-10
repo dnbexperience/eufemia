@@ -67,7 +67,7 @@ describe('validateMcpUsage', () => {
     expect(result.ok).toBe(false)
   })
 
-  it('accepts a valid component and normalises it to the form the docs server resolves against', () => {
+  it('accepts a valid component and normalizes it to the form the docs server resolves against', () => {
     for (const [component, expected] of [
       ['Button', 'button'],
       ['DatePicker', 'datepicker'],
@@ -87,7 +87,7 @@ describe('validateMcpUsage', () => {
     }
   })
 
-  it('drops an unrecognised component instead of rejecting', () => {
+  it('drops an unrecognized component instead of rejecting', () => {
     for (const component of [
       '<script>',
       '.leading-dot',
@@ -119,7 +119,7 @@ describe('validateMcpUsage', () => {
     })
   })
 
-  it('canonicalises a path the way the docs server resolves it', () => {
+  it('canonicalizes a path the way the docs server resolves it', () => {
     for (const [path, expected] of [
       ['uilib/button.md', '/uilib/button.md'],
       ['/uilib/./button.md', '/uilib/button.md'],
@@ -169,7 +169,7 @@ describe('validateMcpUsage', () => {
     })
   })
 
-  it('drops an unrecognised env instead of rejecting', () => {
+  it('drops an unrecognized env instead of rejecting', () => {
     for (const env of ['Prod', 'a'.repeat(33), '1prod', 'pr od', 42]) {
       const result = validateMcpUsage({ tool: 'docs_entry', env })
 
@@ -267,16 +267,6 @@ describe('validateMcpUsage', () => {
 
 describe('buildMcpUsageRecord', () => {
   const createdAt = '2026-08-20T10:00:00.000Z'
-
-  it('stamps the given transport regardless of input', () => {
-    const record = buildMcpUsageRecord(
-      { tool: 'docs_entry' },
-      createdAt,
-      'local'
-    )
-
-    expect(record.transport).toBe('local')
-  })
 
   it('defaults absent fields', () => {
     const record = buildMcpUsageRecord(

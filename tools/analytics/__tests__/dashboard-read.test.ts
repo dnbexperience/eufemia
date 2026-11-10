@@ -74,19 +74,11 @@ describe('dashboard-read handler', () => {
 
     expect(res.statusCode).toBe(200)
     expect(JSON.parse(res.body)).toEqual(snapshot)
+    expect((send.mock.calls[0][0] as Command).input).toEqual({
+      Bucket: 'my-bucket',
+      Key: 'snapshots/dashboard.json',
+    })
     expect(putCalls()).toHaveLength(0)
-  })
-
-  it('reads the snapshot from the expected key', async () => {
-    send.mockResolvedValue(
-      getResult({ generatedAt: 't', portalViewTrends: {} })
-    )
-
-    await handler()
-
-    expect((send.mock.calls[0][0] as Command).input.Key).toBe(
-      'snapshots/dashboard.json'
-    )
   })
 
   it('returns an empty payload when no snapshot exists yet', async () => {
