@@ -3404,6 +3404,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
   text-transform: capitalize;
+  font-family: var(--font-family-heading);
   font-weight: var(--font-weight-medium);
   color: var(--token-color-text-neutral);
 }
