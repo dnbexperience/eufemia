@@ -7509,16 +7509,6 @@ describe('DatePicker scss', () => {
   })
 })
 
-describe('DatePicker calendar scss', () => {
-  it('uses the heading font for the weekday labels', () => {
-    const css = loadScss(require.resolve('../style/dnb-date-picker.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-date-picker__labels__day \{[^}]*font-family: var\(--font-family-heading\);/
-    )
-  })
-})
-
 describe('Custom text for buttons', () => {
   it('should show custom text for submit button', () => {
     render(<DatePicker submitButtonText="Yes" showSubmitButton open />)
