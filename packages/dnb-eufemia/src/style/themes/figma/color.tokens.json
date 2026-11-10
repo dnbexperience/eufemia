@@ -702,7 +702,7 @@
           ]
         }
       },
-      "500 Pink": {
+      "500": {
         "$type": "color",
         "$value": {
           "colorSpace": "srgb",

@@ -4337,7 +4337,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:d7ebcac13ff25c240abd7ba84bdd7450bf53ba01/6740:410",
-              "targetVariableName": "sbanken-new/pink/500 Pink",
+              "targetVariableName": "sbanken-new/pink/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4365,7 +4365,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:d7ebcac13ff25c240abd7ba84bdd7450bf53ba01/6740:410",
-              "targetVariableName": "sbanken-new/pink/500 Pink",
+              "targetVariableName": "sbanken-new/pink/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
