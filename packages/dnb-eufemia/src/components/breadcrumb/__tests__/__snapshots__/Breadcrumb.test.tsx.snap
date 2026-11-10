@@ -1599,6 +1599,6 @@ button.dnb-button::-moz-focus-inner {
   align-items: flex-start;
   row-gap: 1.5rem;
   margin: 0;
-  padding: 1rem 1rem 2rem;
+  padding: 1rem 1rem 1.5rem;
 }"
 `;
