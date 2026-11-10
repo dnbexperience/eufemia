@@ -33,7 +33,7 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  # Pull requests only verify; let main deploys finish.
+  # Pull request runs only verify; runs on main deploy.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
