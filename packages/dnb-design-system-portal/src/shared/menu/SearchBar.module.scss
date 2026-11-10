@@ -90,7 +90,9 @@
 
   font-family: inherit;
   font-size: var(--font-size-x-small);
+  line-height: 1;
   color: var(--token-color-text-neutral-alternative);
+  white-space: nowrap;
 
   pointer-events: none;
 
