@@ -15,7 +15,8 @@ permissions:
 
 concurrency:
   group: portal-hydration-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
-  cancel-in-progress: false
+  # Pull request runs only scan; runs on main update the issues.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   scan:
