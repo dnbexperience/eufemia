@@ -13,7 +13,7 @@ instructions and JSON-RPC error messages).
 The new server is stateless, POST-only, unauthenticated, and returns JSON (not
 SSE), so this proxy is deliberately small.
 
-## Behaviour (`MODE`)
+## Behavior (`MODE`)
 
 The endpoint is phased down by changing the `MODE` var — no code change needed:
 
