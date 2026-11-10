@@ -76,7 +76,7 @@
         --button-tertiary-focus-overflow--icon-top
       );
       flex-direction: column;
-      border-radius: var(--token-radius-md);
+      border-radius: 1.25rem;
       vertical-align: middle;
 
       &.dnb-button--has-text {
@@ -87,13 +87,18 @@
       }
 
       .dnb-button__text {
-        margin-top: 0;
-        margin-bottom: 0.25rem;
+        margin-top: 0.25rem;
+        margin-bottom: 0.5rem;
         font-size: var(--font-size-x-small);
+        line-height: var(--line-height-x-small);
       }
       &.dnb-button--size-large {
+        // Not in Figma, so it keeps its previous spacing
         .dnb-button__text {
+          margin-top: 0;
+          margin-bottom: 0.25rem;
           font-size: var(--font-size-small);
+          line-height: var(--line-height-basis);
         }
       }
 
