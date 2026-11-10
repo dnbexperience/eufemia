@@ -11,7 +11,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ReactElement, ReactNode, SyntheticEvent } from 'react'
+import type { ReactNode, SyntheticEvent } from 'react'
 import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
@@ -438,10 +438,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 }
 
-const MemoizedToggleButton = memo(ToggleButton) as unknown as {
-  (props: ToggleButtonProps): ReactElement
-  Group: typeof ToggleButtonGroup
-}
+/** @deprecated Use Chip instead. */
+const MemoizedToggleButton = memo(
+  ToggleButton
+) as unknown as ToggleButtonComponent
 
 MemoizedToggleButton.Group = ToggleButtonGroup
 
@@ -450,7 +450,7 @@ withComponentMarkers(MemoizedToggleButton, {
   _supportsSpacingProps: true,
 })
 
-export default MemoizedToggleButton as unknown as ToggleButtonComponent
+export default MemoizedToggleButton
 
 // Type definitions
 
