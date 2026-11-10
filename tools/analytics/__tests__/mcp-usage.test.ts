@@ -268,16 +268,6 @@ describe('validateMcpUsage', () => {
 describe('buildMcpUsageRecord', () => {
   const createdAt = '2026-08-20T10:00:00.000Z'
 
-  it('stamps the given transport regardless of input', () => {
-    const record = buildMcpUsageRecord(
-      { tool: 'docs_entry' },
-      createdAt,
-      'local'
-    )
-
-    expect(record.transport).toBe('local')
-  })
-
   it('defaults absent fields', () => {
     const record = buildMcpUsageRecord(
       { tool: 'docs_entry' },

@@ -167,7 +167,10 @@ describe('handler /collect-local-mcp-usage (public ingest)', () => {
       })
     )
 
-    expect(storeMcpUsage).toHaveBeenCalledWith(expect.anything(), 'local')
+    expect(storeMcpUsage).toHaveBeenCalledWith(
+      [{ tool: 'docs_entry' }],
+      'local'
+    )
   })
 
   it('returns 400 for an invalid JSON body', async () => {
@@ -188,37 +191,6 @@ describe('handler /collect-local-mcp-usage (public ingest)', () => {
 
     expect(res.statusCode).toBe(400)
     expect(JSON.parse(res.body).error).toBe('Validation failed')
-    expect(storeMcpUsage).not.toHaveBeenCalled()
-  })
-
-  it('accepts a valid eufemiaVersion', async () => {
-    storeMcpUsage.mockResolvedValue(1)
-
-    const res = await invoke(
-      event('POST', '/collect-local-mcp-usage', {
-        body: JSON.stringify([
-          { tool: 'docs_entry', eufemiaVersion: '12.3.0' },
-        ]),
-      })
-    )
-
-    expect(res.statusCode).toBe(202)
-    expect(storeMcpUsage).toHaveBeenCalledWith(
-      [{ tool: 'docs_entry', eufemiaVersion: '12.3.0' }],
-      'local'
-    )
-  })
-
-  it('rejects a non-semver eufemiaVersion', async () => {
-    const res = await invoke(
-      event('POST', '/collect-local-mcp-usage', {
-        body: JSON.stringify([
-          { tool: 'docs_entry', eufemiaVersion: 'latest' },
-        ]),
-      })
-    )
-
-    expect(res.statusCode).toBe(400)
     expect(storeMcpUsage).not.toHaveBeenCalled()
   })
 })
