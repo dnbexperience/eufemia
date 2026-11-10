@@ -117,25 +117,26 @@ export async function handler() {
         let report: Report
         if (service === 'CDN') {
           report = await checkCdn(options)
-        } else if (service === 'Tokens') {
-          report = await checkTokens(options)
         } else {
           const githubToken = await credential(
             'GitHub verification credential',
             process.env.GITHUB_TOKEN_SECRET_ARN
           )
-          report =
-            service === 'MCP'
-              ? await checkHttpMcp({ ...options, githubToken })
-              : await checkAnalytics({
-                  ...options,
-                  githubToken,
-                  gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
-                  gheToken: await credential(
-                    'GHE deploy credential',
-                    required('GHE_TOKEN_SECRET')
-                  ),
-                })
+          if (service === 'Tokens') {
+            report = await checkTokens({ ...options, githubToken })
+          } else if (service === 'MCP') {
+            report = await checkHttpMcp({ ...options, githubToken })
+          } else {
+            report = await checkAnalytics({
+              ...options,
+              githubToken,
+              gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
+              gheToken: await credential(
+                'GHE deploy credential',
+                required('GHE_TOKEN_SECRET')
+              ),
+            })
+          }
         }
         for (const label of unreadable) {
           report.checks.push({

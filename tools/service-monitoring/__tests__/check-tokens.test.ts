@@ -15,8 +15,13 @@ function respond(github: () => Response) {
   return vi.fn<typeof fetch>(async () => github())
 }
 
-async function check(request: typeof fetch) {
-  return checkTokens({ fetch: request, sleep: async () => {}, now })
+async function check(request: typeof fetch, githubToken?: string) {
+  return checkTokens({
+    fetch: request,
+    sleep: async () => {},
+    now,
+    githubToken,
+  })
 }
 
 it('reads only finished scheduled runs and is healthy after a successful run', async () => {
@@ -29,8 +34,19 @@ it('reads only finished scheduled runs and is healthy after a successful run', a
     checkedAt: '2026-11-03T12:00:00.000Z',
     checks: [{ name: 'PAT expiry workflow', ok: true, detail: 'OK' }],
   })
-  expect(request.mock.calls[0]?.[0]).toContain(
+  const [[url, init]] = request.mock.calls
+  expect(url).toContain(
     '/workflows/ghe-token-expiry.yml/runs?event=schedule&status=completed'
+  )
+  expect(new Headers(init?.headers).has('Authorization')).toBe(false)
+})
+
+it('sends the optional GitHub token', async () => {
+  const request = respond(runs(success))
+  await check(request, 'github-token')
+  const [[, init]] = request.mock.calls
+  expect(new Headers(init?.headers).get('Authorization')).toBe(
+    'Bearer github-token'
   )
 })
 
@@ -60,7 +76,7 @@ it.each([
   })
 })
 
-it('retries GitHub errors three times before reporting the status', async () => {
+it('tries GitHub three times before reporting the status', async () => {
   const request = respond(() => new Response('', { status: 503 }))
   const report = await check(request)
   expect(request).toHaveBeenCalledTimes(3)

@@ -10,14 +10,18 @@ const impact = ', so PAT expiry warnings may not reach Slack'
 type Options = {
   fetch: typeof fetch
   sleep: (ms: number) => Promise<void>
+  githubToken?: string
   now?: number
 }
 
 type Run = { conclusion: string | null; run_started_at?: string }
 
-async function readLatestRun(request: typeof fetch) {
+async function readLatestRun(request: typeof fetch, token?: string) {
   const response = await request(latestScheduledRun, {
-    headers: { Accept: 'application/vnd.github+json' },
+    headers: {
+      Accept: 'application/vnd.github+json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     redirect: 'error',
     signal: AbortSignal.timeout(20_000),
   })
@@ -51,7 +55,7 @@ async function checkLatestRun(
 ): Promise<Check> {
   const name = 'PAT expiry workflow'
   const run = await withRetries(
-    () => readLatestRun(options.fetch),
+    () => readLatestRun(options.fetch, options.githubToken),
     options.sleep
   )
   if (run instanceof Error) {

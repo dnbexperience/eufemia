@@ -59,11 +59,11 @@ run "shadow_rollout" {
       aws_lambda_function.monitor["Analytics"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["MCP"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["CDN"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == "" &&
-      aws_lambda_function.monitor["Tokens"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == "" &&
+      aws_lambda_function.monitor["Tokens"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["Analytics"].environment[0].variables["ANALYTICS_DEPLOY_REPOSITORY"] == "owner/deploy-repo" &&
       !contains(keys(aws_lambda_function.monitor["MCP"].environment[0].variables), "GHE_TOKEN_SECRET")
     )
-    error_message = "MCP and analytics get the GitHub token; only analytics gets the GHE credential and deploy repository."
+    error_message = "MCP, analytics and Tokens get the GitHub token; only analytics gets the GHE credential and deploy repository."
   }
   assert {
     condition     = jsondecode(aws_lambda_function.notifier.environment[0].variables["MONITOR_LOG_GROUPS"])["Analytics"] == aws_cloudwatch_log_group.monitor["Analytics"].name

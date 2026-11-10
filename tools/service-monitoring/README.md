@@ -1,6 +1,6 @@
 # Eufemia service monitoring
 
-Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. A fourth check, Tokens, reports when the latest scheduled run of the daily GHE token expiry workflow failed, or when no scheduled run has finished in 48 hours. That workflow posts its expiry warnings through its own Slack webhook, and GitHub emails a failed scheduled run only to the last editor of its schedule.
+Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. A fourth check, Tokens, reports when the latest scheduled run of the daily GHE token expiry workflow failed, or when no scheduled run has finished in 48 hours. That workflow posts its expiry warnings through its own Slack webhook, and GitHub emails a failed scheduled run only to the last editor of its schedule. After fixing the cause, re-run the failed scheduled run to clear the alert; manual runs do not count.
 
 ## Deployment
 
@@ -38,7 +38,7 @@ State uses the default Terraform workspace at service-monitoring/terraform.tfsta
 
 The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secrets are created by an administrator; the Lambdas read their values at runtime. Terraform passes the GitHub and Slack bot secrets by ARN. The analytics check reads its GHE token by the fixed name eufemia/<environment>/monitoring/ghe-analytics-token: a dnb.ghe.com fine-grained token with Actions read on the analytics deployment repository only, stored as plain text with the default Secrets Manager key. Create it before deploying the analytics function; without it the analytics check reports unhealthy and the smoke test fails.
 
-The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification uses the unauthenticated API limit. A 403/429 makes the deployment-source check unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
+The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification and the Tokens workflow check use the unauthenticated API limit. A 403/429 makes those checks unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
 
 Functions use Lambda's default network with outbound HTTPS. If account policy requires a VPC, provide approved outbound connectivity to the public edge, npm, GitHub, Slack and AWS services before deployment.
 
