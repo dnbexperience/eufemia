@@ -153,6 +153,7 @@ it('posts one Slack message for expired and missing tokens', async () => {
       'SLACK GHE access tokens need attention:',
       '• GHE_DEPLOY_PAT: expired or revoked',
       '• GHE_MONITORING_DEPLOY_PAT: secret is not set',
+      'Renew the tokens: https://dnb.ghe.com/settings/personal-access-tokens',
       'Update the secrets: https://github.com/dnbexperience/eufemia/settings/secrets/actions',
     ].join('\n')
   )
@@ -173,6 +174,7 @@ it('leaves out the secrets link when only GHE is unavailable', async () => {
     ].join('\n') + '\n'
   )
   expect(stdout).not.toContain('Update the secrets')
+  expect(stdout).not.toContain('Renew the tokens')
 })
 
 it('stays quiet while both tokens are far from expiry', async () => {
@@ -203,6 +205,11 @@ it.each([
 
   expect(stdout).toContain('FAIL GHE_DEPLOY_PAT: expires')
   expect(stdout.includes('SLACK')).toBe(posts)
+  expect(
+    stdout.includes(
+      'Renew the tokens: https://dnb.ghe.com/settings/personal-access-tokens'
+    )
+  ).toBe(posts)
 })
 
 it('fails on every run when no webhook is set', async () => {

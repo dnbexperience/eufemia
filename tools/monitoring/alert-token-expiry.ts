@@ -91,6 +91,7 @@ async function main() {
         ...(alerts.every((check) => check.gheUnavailable)
           ? []
           : [
+              'Renew the tokens: https://dnb.ghe.com/settings/personal-access-tokens',
               `Update the secrets: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/secrets/actions`,
             ]),
       ].join('\n'),
