@@ -9,7 +9,6 @@ import type { HeadingProps } from './Heading'
 
 export type HeadingContextValue = {
   heading?: HeadingProps & {
-    preserveLevels?: boolean
     revision?: number
     recalculate?: () => void
   }

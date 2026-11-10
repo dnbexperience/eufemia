@@ -42,6 +42,25 @@ type CorrectInternalHeadingLevel = {
   debug?: HeadingAllProps['debug']
 }
 
+export function hasHeadingLevelChanged(
+  previous: HeadingAllProps,
+  next: HeadingAllProps
+) {
+  return (
+    !Object.is(
+      parseFloat(String(previous.level)),
+      parseFloat(String(next.level))
+    ) ||
+    previous.reset !== next.reset ||
+    previous.inherit !== next.inherit ||
+    Boolean(previous.increase || previous.up) !==
+      Boolean(next.increase || next.up) ||
+    Boolean(previous.decrease || previous.down) !==
+      Boolean(next.decrease || next.down) ||
+    previous.skipCorrection !== next.skipCorrection
+  )
+}
+
 export const correctInternalHeadingLevel = ({
   counter,
   id = null,
@@ -68,17 +87,9 @@ export const correctInternalHeadingLevel = ({
     counter.enableBypassChecks()
   }
 
-  const hasCounterWasCorrectedToLevel2 = () => {
-    return (
-      globalSyncCounter?.current?.level === 1 &&
-      globalHeadingCounter?.current?.hasCorrection() &&
-      counter?.getLevel() === 2
-    )
-  }
-
   const update = (level: InternalHeadingLevel) => {
     if (!isRerender) {
-      counter.makeMeReady({ level })
+      counter.makeMeReady()
     }
 
     if (inherit) {
@@ -98,8 +109,15 @@ export const correctInternalHeadingLevel = ({
       counter.setLevel(level)
     } else if (decrease) {
       counter.decrement()
-    } else if (increase && !hasCounterWasCorrectedToLevel2()) {
+    } else if (increase) {
       counter.increment()
+    } else if (counter.isHeading || inherit) {
+      counter.setLevel(counter.level || 1)
+    } else {
+      counter.lastHeadingLevel =
+        globalSyncCounter.current?.lastHeadingLevel ??
+        counter.contextCounter.lastHeadingLevel
+      counter.entryHeadingLevel = counter.lastHeadingLevel
     }
 
     if (
