@@ -58,6 +58,11 @@ describe('storePortalViews', () => {
       timestamp: '2026-08-20T10:00:00.000Z',
     })
     expect(lines[0].created_at).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+    expect(lines[1]).toMatchObject({
+      path: '/b',
+      env: 'unknown',
+      timestamp: lines[1].created_at,
+    })
   })
 
   it('throws when DATA_BUCKET is not set', async () => {

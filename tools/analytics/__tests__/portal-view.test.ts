@@ -76,22 +76,22 @@ describe('validatePortalViews', () => {
   const dimensions: Array<{
     field: string
     valid: unknown[]
-    unrecognised: unknown[]
+    unrecognized: unknown[]
   }> = [
     {
       field: 'env',
       valid: ['prod'],
-      unrecognised: ['Prod', 'a'.repeat(33), '1prod', 'pr od', 42],
+      unrecognized: ['Prod', 'a'.repeat(33), '1prod', 'pr od', 42],
     },
     {
       field: 'locale',
       valid: ['nb-NO', 'en-GB', 'sv-SE', 'da-DK', 'en-US'],
-      unrecognised: ['nb', 'NB-no', 'en_GB', 'english', 'de-DE', 42],
+      unrecognized: ['nb', 'NB-no', 'en_GB', 'english', 'de-DE', 42],
     },
     {
       field: 'theme',
       valid: ['ui', 'sbanken', 'eiendom', 'carnegie'],
-      unrecognised: [
+      unrecognized: [
         'UI',
         'the brand',
         'customer-123',
@@ -102,17 +102,17 @@ describe('validatePortalViews', () => {
     {
       field: 'color_scheme',
       valid: ['light', 'dark'],
-      unrecognised: ['auto', 'Light', 'dark mode', 42],
+      unrecognized: ['auto', 'Light', 'dark mode', 42],
     },
     {
       field: 'referrer',
       valid: ['search', 'internal', 'direct', 'external'],
-      unrecognised: ['https://example.com', 'Search', 'social', 42],
+      unrecognized: ['https://example.com', 'Search', 'social', 42],
     },
     {
       field: 'via_search',
       valid: ['yes', 'no'],
-      unrecognised: ['Yes', 'true', true, 1],
+      unrecognized: ['Yes', 'true', true, 1],
     },
   ]
 
@@ -120,7 +120,7 @@ describe('validatePortalViews', () => {
     dimensions.flatMap(({ field, valid }) =>
       valid.map((value) => [field, value] as const)
     )
-  )('accepts the %s %s', (field, value) => {
+  )('accepts the %s %j', (field, value) => {
     expect(validatePortalViews({ path: '/a', [field]: value })).toEqual({
       ok: true,
       value: [{ path: '/a', [field]: value }],
@@ -128,11 +128,11 @@ describe('validatePortalViews', () => {
   })
 
   it.each(
-    dimensions.flatMap(({ field, unrecognised }) =>
-      unrecognised.map((value) => [field, value] as const)
+    dimensions.flatMap(({ field, unrecognized }) =>
+      unrecognized.map((value) => [field, value] as const)
     )
   )(
-    'drops the unrecognised %s %s instead of rejecting',
+    'drops the unrecognized %s %j instead of rejecting',
     (field, value) => {
       expect(validatePortalViews({ path: '/a', [field]: value })).toEqual({
         ok: true,
@@ -177,7 +177,7 @@ describe('validatePortalViews', () => {
 describe('buildPortalViewRecord', () => {
   const createdAt = '2026-09-07T12:00:00.000Z'
 
-  it('minimises the path when building the record', () => {
+  it('minimizes the path when building the record', () => {
     const record = buildPortalViewRecord(
       { path: '/a?q=secret&fullscreen#example' },
       createdAt
@@ -222,7 +222,7 @@ describe('buildPortalViewRecord', () => {
     })
   })
 
-  it('coerces unrecognised dimensions to "unknown" in the stored record', () => {
+  it('coerces unrecognized dimensions to "unknown" in the stored record', () => {
     const result = validatePortalViews({
       path: '/a',
       env: 'Prod',
