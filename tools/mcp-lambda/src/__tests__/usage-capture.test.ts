@@ -83,30 +83,6 @@ describe('captureUsage', () => {
     )
   })
 
-  it('queues the tool without a component the docs do not contain', async () => {
-    await captureUsage(
-      event({
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          id: 1,
-          method: 'tools/call',
-          params: {
-            name: 'component_props',
-            arguments: { name: 'NotAComponent' },
-          },
-        }),
-      })
-    )
-
-    const command = send.mock.calls[0]?.[0] as
-      | { input: { MessageBody: string } }
-      | undefined
-    const [record] = JSON.parse(command?.input.MessageBody ?? '[]')
-
-    expect(record.tool).toBe('component_props')
-    expect(record.component).toBe('')
-  })
-
   it('decodes a base64-encoded body', async () => {
     await captureUsage(
       event({

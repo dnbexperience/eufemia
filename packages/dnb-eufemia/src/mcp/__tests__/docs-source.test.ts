@@ -43,6 +43,8 @@ function createDocsFixture(): DocsFixture {
     path.join(docsRoot, 'llm.md'),
     '# Eufemia Docs\n\nWelcome to the docs.'
   )
+  fs.writeFileSync(path.join(docsRoot, 'notes.txt'), 'Not markdown.')
+  fs.writeFileSync(path.join(docsRoot, '.hidden.md'), '# Hidden')
 
   fs.writeFileSync(
     path.join(componentsDir, 'button.md'),
@@ -79,16 +81,22 @@ function createDocsFixture(): DocsFixture {
 }
 
 describe('normalizeDocsPath', () => {
-  it('strips leading slashes and back-slashes', () => {
-    expect(normalizeDocsPath('/uilib/components/button.md')).toBe(
-      'uilib/components/button.md'
-    )
-    expect(normalizeDocsPath('uilib\\components\\button.md')).toBe(
-      'uilib/components/button.md'
-    )
+  it.each([
+    ['/uilib/components/button.md', 'uilib/components/button.md'],
+    ['uilib\\components\\button.md', 'uilib/components/button.md'],
+    ['///foo/bar.md', 'foo/bar.md'],
+    ['uilib//components///button.md', 'uilib/components/button.md'],
+    ['./uilib/./components/button.md', 'uilib/components/button.md'],
+    ['llm.md', 'llm.md'],
+    ['', ''],
+  ])('normalizes %j to %j', (input, expected) => {
+    expect(normalizeDocsPath(input)).toBe(expected)
   })
 
   it('rejects parent directory traversal', () => {
+    expect(() => normalizeDocsPath('../etc/passwd')).toThrow(
+      /escapes docs root/
+    )
     expect(() => normalizeDocsPath('uilib/../../etc/passwd')).toThrow(
       /escapes docs root/
     )
@@ -120,11 +128,18 @@ describe('createNodeDocsSource', () => {
         'uilib/extensions/forms/base-fields/MultiSelection.md',
       ])
     )
+    expect(md).not.toContain('notes.txt')
+    expect(md).not.toContain('.hidden.md')
   })
 
   it('reads a known file and returns null for missing ones', async () => {
     expect(await source.read('llm.md')).toContain('Eufemia')
     expect(await source.read('does/not/exist.md')).toBeNull()
+  })
+
+  it('finds nothing at a path that escapes the docs root', async () => {
+    expect(await source.read('../../../etc/passwd')).toBeNull()
+    expect((await source.stat('../../etc')).kind).toBe('missing')
   })
 
   it('reports stat for files, directories, and missing paths', async () => {
@@ -142,6 +157,47 @@ describe('createNodeDocsSource', () => {
 
     const components = await source.listDir('uilib/components')
     expect(components).toEqual(['button.md'])
+  })
+})
+
+describe('createNodeDocsSource with a symlink out of the docs root', () => {
+  const dirs: string[] = []
+
+  function createLeakingRoot(name: string, target: string) {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'eufemia-mcp-'))
+    const outside = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'eufemia-mcp-outside-')
+    )
+    dirs.push(root, outside)
+
+    fs.writeFileSync(path.join(root, 'llm.md'), '# Docs')
+    fs.writeFileSync(path.join(outside, 'secret.md'), 'top secret')
+    fs.symlinkSync(path.join(outside, target), path.join(root, name))
+
+    return root
+  }
+
+  afterAll(() => {
+    dirs.forEach((dir) => fs.rmSync(dir, { recursive: true, force: true }))
+  })
+
+  it('does not read or stat through a file symlink', async () => {
+    const source = await createNodeDocsSource(
+      createLeakingRoot('leak.md', 'secret.md')
+    )
+
+    expect(await source.read('leak.md')).toBeNull()
+    expect((await source.stat('leak.md')).kind).toBe('missing')
+  })
+
+  it('does not list through a directory symlink', async () => {
+    const source = await createNodeDocsSource(
+      createLeakingRoot('leak', '')
+    )
+
+    expect((await source.stat('leak')).kind).toBe('missing')
+    expect(await source.listDir('leak')).toEqual([])
+    expect(await source.listMarkdown()).toEqual(['llm.md'])
   })
 })
 

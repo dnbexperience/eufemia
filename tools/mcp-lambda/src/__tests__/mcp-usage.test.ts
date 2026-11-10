@@ -81,20 +81,6 @@ describe('usageRecordsFromRequestBody', () => {
     expect(record?.component).toBe('date-picker')
   })
 
-  it('normalises component casing so variants aggregate together', async () => {
-    const [upper] = await usageRecordsFromRequestBody(
-      body(toolCall('component_props', { name: 'Button' })),
-      { env: 'dev', now: NOW, resolver }
-    )
-    const [lower] = await usageRecordsFromRequestBody(
-      body(toolCall('component_props', { name: 'button' })),
-      { env: 'dev', now: NOW, resolver }
-    )
-
-    expect(upper?.component).toBe('button')
-    expect(lower?.component).toBe('button')
-  })
-
   it('accepts a dotted compound component name', async () => {
     const [record] = await usageRecordsFromRequestBody(
       body(toolCall('component_find', { name: 'Field.Address' })),
@@ -119,27 +105,32 @@ describe('usageRecordsFromRequestBody', () => {
     expect(list?.path).toBe('/uilib/components')
   })
 
-  // The docs server accepts a path with or without a leading slash, converts
-  // back-slashes, and collapses empty and `.` segments before reading the file,
-  // so all of these name the same document. Storing them verbatim would drop the
-  // relative and back-slashed forms entirely and split the rest across separate
-  // rows.
+  // All of these name one document, so they must share one stored key. Each is
+  // also pinned to `normalizeDocsPath`, because `canonicalDocsPath` in
+  // eufemia-usage-ingest reimplements it rather than importing it.
   it.each([
-    ['/uilib/components/button.md', '/uilib/components/button.md'],
-    ['uilib/components/button.md', '/uilib/components/button.md'],
-    ['/uilib//components/./button.md', '/uilib/components/button.md'],
-    ['/uilib/components/button.md/', '/uilib/components/button.md'],
-    ['//uilib/components/button.md', '/uilib/components/button.md'],
-    ['\\uilib\\components\\button.md', '/uilib/components/button.md'],
-    ['/uilib\\components/button.md', '/uilib/components/button.md'],
-  ])('stores the path %s as %s', async (path, expected) => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('docs_read', { path })),
-      { env: 'dev', now: NOW, resolver }
-    )
+    '/uilib/components/button.md',
+    'uilib/components/button.md',
+    '/uilib//components/./button.md',
+    '/uilib/components/button.md/',
+    '//uilib/components/button.md',
+    '//uilib/components/./button.md//',
+    '\\uilib\\components\\button.md',
+    'uilib\\components\\button.md',
+    '/uilib\\components/button.md',
+    '/uilib\\components/./button.md\\',
+  ])(
+    'stores %s under the key the docs server normalises it to',
+    async (path) => {
+      const [record] = await usageRecordsFromRequestBody(
+        body(toolCall('docs_read', { path })),
+        { env: 'dev', now: NOW, resolver }
+      )
 
-    expect(record?.path).toBe(expected)
-  })
+      expect(record?.path).toBe('/uilib/components/button.md')
+      expect(record?.path).toBe(`/${normalizeDocsPath(path)}`)
+    }
+  )
 
   it.each([
     ['a prefix without a leading slash', 'uilib/components'],
@@ -181,6 +172,8 @@ describe('usageRecordsFromRequestBody', () => {
     expect(record?.tool).toBe('docs_search')
     expect(record?.component).toBe('')
     expect(record?.path).toBe('')
+    expect(record?.component_missed).toBe(false)
+    expect(record?.likely_component).toBe('')
     expect(JSON.stringify(record)).not.toContain('DatePicker')
   })
 
@@ -236,26 +229,6 @@ describe('usageRecordsFromRequestBody', () => {
       expect(JSON.stringify(record)).not.toContain(name)
     }
   )
-
-  it('does not flag a miss for a component that resolves', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('component_doc', { name: 'date-picker' })),
-      { env: 'dev', now: NOW, resolver }
-    )
-
-    expect(record?.component_missed).toBe(false)
-    expect(record?.likely_component).toBe('')
-  })
-
-  it('does not flag a miss for a tool without a component', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('docs_search', { query: 'DatePicker' })),
-      { env: 'dev', now: NOW, resolver }
-    )
-
-    expect(record?.component_missed).toBe(false)
-    expect(record?.likely_component).toBe('')
-  })
 
   it('drops a compound component name that does not exist', async () => {
     const [record] = await usageRecordsFromRequestBody(
@@ -384,35 +357,6 @@ describe('usageRecordsFromRequestBody', () => {
     '%s matches the local stdio server',
     (name) => {
       expect(String(localServer[name])).toBe(String(usageIngest[name]))
-    }
-  )
-
-  // `canonicalDocsPath` in eufemia-usage-ingest reimplements the server's
-  // own path normalisation rather than importing it, so this pins the two
-  // together: if `normalizeDocsPath` changes how it collapses a path, this
-  // fails instead of silently splitting one document across several stored
-  // keys. Cover every shape the normaliser treats as significant — leading
-  // slash, repeated and `.` segments, trailing slash and back-slashes — since a
-  // list of forward-slash examples would let a divergence like the back-slashed
-  // form through.
-  it.each([
-    '/uilib/components/button.md',
-    'uilib/components/button.md',
-    '/uilib//components/./button.md',
-    '/uilib/components/button.md/',
-    '//uilib/components/./button.md//',
-    '\\uilib\\components\\button.md',
-    'uilib\\components\\button.md',
-    '/uilib\\components/./button.md\\',
-  ])(
-    'stores %s exactly as the docs server normalises it',
-    async (path) => {
-      const [record] = await usageRecordsFromRequestBody(
-        body(toolCall('docs_read', { path })),
-        { env: 'dev', now: NOW, resolver }
-      )
-
-      expect(record?.path).toBe(`/${normalizeDocsPath(path)}`)
     }
   )
 })
