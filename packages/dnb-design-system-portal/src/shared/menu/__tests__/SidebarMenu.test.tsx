@@ -23,7 +23,7 @@ describe('portal SidebarMenu data', () => {
         {
           id: '-uilib-components',
           path: '/uilib/components',
-          title: 'Web.Components',
+          title: 'Components',
           status: 'new',
           subheadings: [
             {
