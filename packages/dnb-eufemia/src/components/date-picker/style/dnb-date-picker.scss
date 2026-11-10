@@ -143,6 +143,10 @@
     .dnb-input__input#{&}__input:first-of-type {
     margin-left: 0.5rem;
   }
+  .dnb-segmented-field__fieldset:last-of-type
+    .dnb-input__input#{&}__input:last-of-type {
+    padding-right: 1rem;
+  }
 
   .dnb-input__shell {
     display: none;
@@ -151,7 +155,13 @@
   .dnb-input {
     --input-submit-button-width: var(--input-height-current);
   }
+  &--small .dnb-input {
+    --input-font-size--small: var(--font-size-small);
+  }
   &--show-input .dnb-input__shell {
+    display: flex;
+  }
+  &--show-input .dnb-input__submit-element {
     display: flex;
   }
   &:not(#{&}--show-input) .dnb-input__status--error .dnb-input__shell {
