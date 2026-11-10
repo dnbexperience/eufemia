@@ -168,7 +168,7 @@ describe('SearchBarInput', () => {
     await waitFor(() =>
       expect(
         document.querySelector(
-          '#eufemia-portal-root a[href="/web/components/button"]'
+          '#eufemia-portal-root a[href="/web/components/button/"]'
         )
       ).not.toBeNull()
     )
@@ -195,7 +195,7 @@ describe('SearchBarInput', () => {
     await waitFor(() =>
       expect(
         document.querySelector(
-          'a[href="/web/layout-and-typography/layout/space"]'
+          'a[href="/web/layout-and-typography/layout/space/"]'
         )
       ).not.toBeNull()
     )
@@ -215,7 +215,7 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'bu' } })
     await waitFor(() =>
       expect(
-        document.querySelector('a[href="/web/components/button"]')
+        document.querySelector('a[href="/web/components/button/"]')
       ).not.toBeNull()
     )
     search.mockResolvedValue({
@@ -224,7 +224,7 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'card' } })
     await waitFor(() =>
       expect(
-        document.querySelector('a[href="/web/components/card"]')
+        document.querySelector('a[href="/web/components/card/"]')
       ).not.toBeNull()
     )
     expect(
@@ -250,7 +250,7 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'button' } })
     await waitFor(() =>
       expect(
-        document.querySelector('a[href="/web/components/button"]')
+        document.querySelector('a[href="/web/components/button/"]')
       ).not.toBeNull()
     )
     expect(
@@ -307,7 +307,7 @@ describe('SearchBarInput', () => {
 
     await waitFor(() => {
       expect(
-        document.querySelector('a[href="/uilib/components/list"]')
+        document.querySelector('a[href="/uilib/components/list/"]')
       ).not.toBeNull()
     })
     expect(document.body.textContent).not.toContain('List visual test')

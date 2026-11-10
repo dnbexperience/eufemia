@@ -150,7 +150,7 @@ test.describe('Page Navigation', () => {
 
       await page.goto('/web/components/overview/')
 
-      const href = '/web/components/button'
+      const href = '/web/components/button/'
       const link = page.locator(`#tab-bar-content a[href="${href}"]`)
       await link.click()
 
@@ -181,7 +181,7 @@ test.describe('Page Navigation', () => {
         .getByRole('navigation', { name: 'Get started', exact: true })
         .getByRole('link', { name: /^Design/ })
         .click()
-      await expect(page).toHaveURL('/web/get-started/design-for-web')
+      await expect(page).toHaveURL('/web/get-started/design-for-web/')
       await expectCurrentDocument(page)
     })
 
@@ -272,7 +272,7 @@ test.describe('Page Navigation', () => {
         .getByRole('navigation', { name: 'Get started', exact: true })
         .getByRole('link', { name: /^Design/ })
         .click()
-      await expect(page).toHaveURL('/web/get-started/design-for-web')
+      await expect(page).toHaveURL('/web/get-started/design-for-web/')
       await waitForApp(page)
       await expect(
         page.getByRole('heading', { name: 'Set up Eufemia Web in Figma' })
