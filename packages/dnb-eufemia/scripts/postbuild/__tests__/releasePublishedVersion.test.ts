@@ -23,7 +23,14 @@ const { jobs } = load(
     'utf8'
   )
 ) as {
-  jobs: Record<string, { 'timeout-minutes'?: number; steps: Step[] }>
+  jobs: Record<
+    string,
+    {
+      'timeout-minutes'?: number
+      permissions?: Record<string, string>
+      steps: Step[]
+    }
+  >
 }
 
 const capture = jobs.action.steps.find(
@@ -298,5 +305,19 @@ describe('published version from semantic-release', () => {
     } finally {
       rmSync(directory, { recursive: true, force: true })
     }
+  })
+})
+
+describe('publish job token in release.yml', () => {
+  it('publishes with GH_TOKEN and OIDC, so the job token only reads', () => {
+    const release = jobs.action.steps.find(
+      (step) => step.name === 'Release'
+    )
+
+    expect(release?.env?.GH_TOKEN).toBe('${{ secrets.GH_TOKEN }}')
+    expect(jobs.action.permissions).toEqual({
+      contents: 'read',
+      'id-token': 'write',
+    })
   })
 })

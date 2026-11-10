@@ -154,7 +154,7 @@ At release time, `release.yml` independently enforces the dependency audit, pack
 
 ### Permissions and trigger
 
-The build and validation job runs with `contents: read` and cannot request an npm OIDC token. The separate release job runs with `contents: write` (so `semantic-release` can push the changelog commit and version tag), `issues: write` and `pull-requests: write` (release comments), and `id-token: write` (OIDC publishing and provenance). Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
+The build and validation job runs with `contents: read` and cannot request an npm OIDC token. The separate release job runs with `contents: read` and `id-token: write` (OIDC publishing and provenance). `semantic-release` uses the `GH_TOKEN` secret to push the changelog commit and version tag and to create the GitHub release. Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
 
 ### Releases queue, and are never canceled mid-flight
 
