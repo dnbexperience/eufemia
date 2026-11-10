@@ -282,7 +282,7 @@ test('numeric radio values support arrow keys with help buttons between options'
   await expect(funds).not.toBeChecked()
 })
 
-test('hidden labels preserve icons, the hit area, and tooltip keyboard access', async ({
+test('tooltips describe chips and can be dismissed with Escape', async ({
   page,
 }) => {
   const fixture = page.locator('[data-visual-test="chip-tooltips"]')
@@ -300,37 +300,39 @@ test('hidden labels preserve icons, the hit area, and tooltip keyboard access', 
   )
   await savings.press('Escape')
   await expect(page.getByRole('tooltip')).toBeHidden()
-
-  for (const { name, role } of [
-    { name: 'Savings accounts', role: 'checkbox' },
-    { name: 'Notifications', role: 'radio' },
-  ] as const) {
-    await test.step(name, async () => {
-      const input = fixture.getByRole(role, { name, exact: true })
-      const chip = fixture.locator('.dnb-chip').filter({
-        has: page.getByRole(role, { name, exact: true }),
-      })
-      const text = chip.locator('.dnb-chip__text')
-
-      await expect(chip.locator('.dnb-chip__icon')).toBeVisible()
-      const textSize = await text.boundingBox()
-      expect(textSize.width).toBeLessThanOrEqual(1)
-      expect(textSize.height).toBeLessThanOrEqual(1)
-      const inputSize = await input.boundingBox()
-      expect(inputSize.width).toBeGreaterThanOrEqual(40)
-      expect(inputSize.height).toBeGreaterThanOrEqual(40)
-
-      await input.focus()
-      await expect(page.getByRole('tooltip')).toHaveText(name)
-      await expect(input).not.toHaveAttribute('aria-describedby')
-      await input.press('Escape')
-      await expect(page.getByRole('tooltip')).toBeHidden()
-      await input.click({ position: { x: 2, y: 2 } })
-      await expect(input).toBeChecked()
-      await input.press('Escape')
-    })
-  }
 })
+
+for (const { name, role } of [
+  { name: 'Savings accounts', role: 'checkbox' },
+  { name: 'Notifications', role: 'radio' },
+] as const) {
+  test(`hidden ${role} labels preserve icons, the hit area, and tooltip keyboard access`, async ({
+    page,
+  }) => {
+    const fixture = page.locator('[data-visual-test="chip-tooltips"]')
+    const input = fixture.getByRole(role, { name, exact: true })
+    const chip = fixture.locator('.dnb-chip').filter({
+      has: page.getByRole(role, { name, exact: true }),
+    })
+    const text = chip.locator('.dnb-chip__text')
+
+    await expect(chip.locator('.dnb-chip__icon')).toBeVisible()
+    const textSize = await text.boundingBox()
+    expect(textSize.width).toBeLessThanOrEqual(1)
+    expect(textSize.height).toBeLessThanOrEqual(1)
+    const inputSize = await input.boundingBox()
+    expect(inputSize.width).toBeGreaterThanOrEqual(40)
+    expect(inputSize.height).toBeGreaterThanOrEqual(40)
+
+    await input.focus()
+    await expect(page.getByRole('tooltip')).toHaveText(name)
+    await expect(input).not.toHaveAttribute('aria-describedby')
+    await input.press('Escape')
+    await expect(page.getByRole('tooltip')).toBeHidden()
+    await input.click({ position: { x: 2, y: 2 } })
+    await expect(input).toBeChecked()
+  })
+}
 
 test('addable shows one action icon and keeps the option available', async ({
   page,
