@@ -11,6 +11,19 @@ export function daysUntilExpiry(headers: Headers, now = Date.now()) {
     : Math.floor(expiresAt / DAY) - Math.floor(now / DAY)
 }
 
+// The response headers carry the token's expiry date.
+export function requestGheRateLimit(request: typeof fetch, token: string) {
+  return request('https://api.dnb.ghe.com/rate_limit', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+    redirect: 'error',
+    signal: AbortSignal.timeout(15_000),
+  })
+}
+
 export function tokenExpiryCheck(
   name: string,
   headers: Headers,

@@ -138,14 +138,26 @@ it('reports an unreadable analytics GHE credential without exposing the error', 
     expect.objectContaining({ name: 'GHE deploy credential', ok: false })
   )
 })
-it('passes the optional GitHub credential to the Tokens check', async () => {
+it('passes both credentials to the Tokens check', async () => {
   vi.stubEnv('SERVICE', 'Tokens')
   vi.stubEnv('GITHUB_TOKEN_SECRET_ARN', 'test-secret')
-  mocks.secret.mockResolvedValue('github-token')
+  vi.stubEnv(
+    'GHE_TOKEN_SECRET',
+    'eufemia/dev/monitoring/ghe-analytics-token'
+  )
+  mocks.secret.mockImplementation(async (secret: string) =>
+    secret === 'test-secret' ? 'github-token' : 'ghe-token'
+  )
   expect(await handler()).toEqual({ service: 'Tokens', status: 'healthy' })
   expect(mocks.secret).toHaveBeenCalledWith('test-secret')
+  expect(mocks.secret).toHaveBeenCalledWith(
+    'eufemia/dev/monitoring/ghe-analytics-token'
+  )
   expect(mocks.check).toHaveBeenCalledWith(
-    expect.objectContaining({ githubToken: 'github-token' })
+    expect.objectContaining({
+      githubToken: 'github-token',
+      gheToken: 'ghe-token',
+    })
   )
   expect(mocks.save.mock.calls[0]?.[0].input.Key).toEqual({
     service: { S: 'Tokens' },

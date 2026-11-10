@@ -1,4 +1,8 @@
 import type { Check, Report } from '../../monitoring/report-incident.ts'
+import {
+  requestGheRateLimit,
+  tokenExpiryCheck,
+} from '../../monitoring/token-expiry.ts'
 
 const latestScheduledRun =
   'https://api.github.com/repos/dnbexperience/eufemia/actions/workflows/ghe-token-expiry.yml/runs?event=schedule&status=completed&per_page=1'
@@ -11,6 +15,7 @@ type Options = {
   fetch: typeof fetch
   sleep: (ms: number) => Promise<void>
   githubToken?: string
+  gheToken?: string
   now?: number
 }
 
@@ -33,6 +38,16 @@ async function readLatestRun(request: typeof fetch, token?: string) {
   return data.workflow_runs?.[0] as Run | undefined
 }
 
+// Resolves on 401: retrying cannot revive an expired token.
+async function readTokenStatus(request: typeof fetch, token: string) {
+  const response = await requestGheRateLimit(request, token)
+  await response.body?.cancel()
+  if (response.status !== 200 && response.status !== 401) {
+    throw new Error(`HTTP ${response.status} from GHE`)
+  }
+  return response
+}
+
 async function withRetries<T>(
   read: () => Promise<T>,
   sleep: Options['sleep']
@@ -47,6 +62,29 @@ async function withRetries<T>(
   return read().catch((error: unknown) =>
     error instanceof Error ? error : new Error('Request failed')
   )
+}
+
+async function checkAnalyticsToken(
+  options: Options,
+  now: number
+): Promise<Check> {
+  const name = 'Analytics GHE token'
+  const token = options.gheToken
+  if (!token) {
+    return { name, ok: false, detail: 'No token to check' }
+  }
+
+  const response = await withRetries(
+    () => readTokenStatus(options.fetch, token),
+    options.sleep
+  )
+  if (response instanceof Error) {
+    return { name, ok: false, detail: response.message }
+  }
+  if (response.status === 401) {
+    return { name, ok: false, detail: 'expired or revoked' }
+  }
+  return tokenExpiryCheck(name, response.headers, now)
 }
 
 async function checkLatestRun(
@@ -83,7 +121,10 @@ async function checkLatestRun(
 
 export async function checkTokens(options: Options): Promise<Report> {
   const now = options.now ?? Date.now()
-  const checks = [await checkLatestRun(options, now)]
+  const checks = await Promise.all([
+    checkLatestRun(options, now),
+    checkAnalyticsToken(options, now),
+  ])
   return {
     status: checks.every((check) => check.ok) ? 'healthy' : 'unhealthy',
     checkedAt: new Date(now).toISOString(),

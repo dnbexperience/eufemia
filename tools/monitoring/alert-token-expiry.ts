@@ -1,6 +1,10 @@
 import { appendFileSync } from 'node:fs'
 import type { Check } from './report-incident.ts'
-import { daysUntilExpiry, tokenExpiryCheck } from './token-expiry.ts'
+import {
+  daysUntilExpiry,
+  requestGheRateLimit,
+  tokenExpiryCheck,
+} from './token-expiry.ts'
 
 const TOKENS = ['GHE_DEPLOY_PAT', 'GHE_MONITORING_DEPLOY_PAT']
 const ALERT_DAYS = [14, 7, 3, 1, 0]
@@ -14,15 +18,7 @@ async function checkToken(
   }
 
   try {
-    const response = await fetch('https://api.dnb.ghe.com/rate_limit', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-      signal: AbortSignal.timeout(15_000),
-      redirect: 'error',
-    })
+    const response = await requestGheRateLimit(fetch, token)
     if (response.status === 401) {
       return { name, ok: false, detail: 'expired or revoked' }
     }

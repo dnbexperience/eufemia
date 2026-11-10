@@ -170,9 +170,10 @@ resource "aws_lambda_function" "monitor" {
       ALERT_TOPIC_ARN         = aws_sns_topic.alerts.arn
       NOTIFICATIONS_ENABLED   = tostring(var.notifications_enabled)
       GITHUB_TOKEN_SECRET_ARN = each.key == "CDN" ? "" : var.github_token_secret_arn
-      }, each.key == "Analytics" ? {
+      }, contains(["Analytics", "Tokens"], each.key) ? {
       # Read by name: the check policy grants this name plus Secrets Manager's suffix.
-      GHE_TOKEN_SECRET            = "eufemia/${var.environment}/monitoring/ghe-analytics-token"
+      GHE_TOKEN_SECRET = "eufemia/${var.environment}/monitoring/ghe-analytics-token"
+      } : {}, each.key == "Analytics" ? {
       ANALYTICS_DEPLOY_REPOSITORY = var.analytics_deploy_repository
     } : {})
   }

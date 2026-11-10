@@ -114,30 +114,32 @@ export async function handler() {
           }
         }
         const options = { fetch: request, sleep }
-        let report: Report
-        if (service === 'CDN') {
-          report = await checkCdn(options)
-        } else {
+        async function runCheck(): Promise<Report> {
+          if (service === 'CDN') {
+            return checkCdn(options)
+          }
           const githubToken = await credential(
             'GitHub verification credential',
             process.env.GITHUB_TOKEN_SECRET_ARN
           )
-          if (service === 'Tokens') {
-            report = await checkTokens({ ...options, githubToken })
-          } else if (service === 'MCP') {
-            report = await checkHttpMcp({ ...options, githubToken })
-          } else {
-            report = await checkAnalytics({
-              ...options,
-              githubToken,
-              gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
-              gheToken: await credential(
-                'GHE deploy credential',
-                required('GHE_TOKEN_SECRET')
-              ),
-            })
+          if (service === 'MCP') {
+            return checkHttpMcp({ ...options, githubToken })
           }
+          const gheToken = await credential(
+            'GHE deploy credential',
+            required('GHE_TOKEN_SECRET')
+          )
+          if (service === 'Tokens') {
+            return checkTokens({ ...options, githubToken, gheToken })
+          }
+          return checkAnalytics({
+            ...options,
+            githubToken,
+            gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
+            gheToken,
+          })
         }
+        const report = await runCheck()
         for (const label of unreadable) {
           report.checks.push({
             name: label,
