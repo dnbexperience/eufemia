@@ -22,7 +22,7 @@ redirect URI registered on the app registration.
 
 ## Sign-in
 
-Access is limited to authorised DnB users via Entra (Azure AD). The page runs an
+Access is limited to authorized DnB users via Entra (Azure AD). The page runs an
 OAuth 2.0 sign-in (authorization code + PKCE, no secret in the browser);
 only users assigned to the app registration receive a token, which controls who
 can sign in.

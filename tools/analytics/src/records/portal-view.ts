@@ -250,7 +250,7 @@ export function validatePortalViews(
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
           : {}),
-        // An unrecognised dimension is dropped here (built as `unknown`), so a
+        // An unrecognized dimension is dropped here (built as `unknown`), so a
         // stale or drifted value costs one dimension, not the view.
         ...(isOneOf(PORTAL_VIEW_LOCALES, locale) ? { locale } : {}),
         ...(isOneOf(PORTAL_VIEW_THEMES, theme) ? { theme } : {}),

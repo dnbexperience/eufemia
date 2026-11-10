@@ -152,7 +152,7 @@ export function validateMcpUsage(
     }
 
     if (valid) {
-      // An unrecognised optional dimension is dropped (the built record
+      // An unrecognized optional dimension is dropped (the built record
       // defaults it), so a stale or malformed value costs one dimension.
       const normalizedComponent = normalizeComponent(
         parseComponentName(component)

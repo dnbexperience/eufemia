@@ -8,7 +8,7 @@
  * before PutObject so the stored shape stays in one place. Each analytics data
  * type gets its own sibling module under `src/records/`.
  *
- * SCAFFOLD: the exact dimensions are not finalised (tracked in EDS-843); this is
+ * SCAFFOLD: the exact dimensions are not finalized (tracked in EDS-843); this is
  * the minimal viable shape (app + component + version + env). It is safe to
  * evolve while there is no producer and no stored data.
  */
@@ -135,7 +135,7 @@ export function validateComponentUsage(
 
 /**
  * Build the stored record from one validated fact. Component names are
- * canonicalised; an unrecognised `env` degrades to `unknown` and a `timestamp`
+ * canonicalized; an unrecognized `env` degrades to `unknown` and a `timestamp`
  * that isn't in canonical ISO form degrades to the write time, so a drifted
  * producer value costs one dimension, not the row.
  */
