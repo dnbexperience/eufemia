@@ -41,6 +41,7 @@ import PortalLayout from '../../src/core/PortalLayout'
 import { FocusModeCodeProvider } from '../../src/core/FocusModeCodeContext'
 import BranchBanner from '../../src/shared/menu/BranchBanner'
 import ErrorBoundary from '../../src/core/ErrorBoundary'
+import NavigationProgress from '../../src/core/NavigationProgress'
 import { discoverPortalRoutes, loadHints } from './load-portal-routes'
 import { allMdxNodes } from 'virtual:portal-data'
 import { resolvePageRedirect } from './plugins/portal-pages.shared'
@@ -95,6 +96,7 @@ function RootLayout() {
                     <PageWrapper />
                   </MDXProvider>
                   <BranchBanner />
+                  <NavigationProgress />
                 </ErrorBoundary>
               </Theme>
             </SkeletonEnabled>
