@@ -1,7 +1,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import type { ComponentProps, JSX, ReactNode } from 'react'
 import { clsx } from 'clsx'
-import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
+import { Checkbox, HelpButton, Chip } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -10,7 +10,6 @@ import { checkForError } from '../../hooks/useFieldProps'
 import type { DefaultErrorMessages, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import mergeProps from '../../../../shared/helpers/mergeProps'
-import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type { Data } from '../Selection'
 import { countOptions, mapOptions } from '../Selection'
@@ -18,7 +17,8 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import type { FormError } from '../../utils'
 import type { CheckboxProps } from '../../../../components/Checkbox'
-import type { ToggleButtonProps } from '../../../../components/ToggleButton'
+import type { ChipProps } from '../../../../components/Chip'
+import ChipGroupContext from '../../../../components/chip/ChipGroupContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type OptionProps = ComponentProps<
@@ -30,7 +30,7 @@ type OptionProps = ComponentProps<
     className: string
     children: ReactNode
     handleSelect: () => void
-    size?: ToggleButtonProps['size'] | CheckboxProps['size']
+    size?: ChipProps['size'] | CheckboxProps['size']
   }) => JSX.Element
 >
 
@@ -65,7 +65,7 @@ export type FieldArraySelectionProps = FieldProps<
   /**
    * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).
    */
-  size?: ToggleButtonProps['size'] | CheckboxProps['size']
+  size?: ChipProps['size'] | CheckboxProps['size']
 
   errorMessages?: DefaultErrorMessages & {
     minItems?: string
@@ -154,24 +154,11 @@ function ArraySelection(props: FieldArraySelectionProps) {
     },
   })
 
-  switch (variant) {
-    case 'checkbox':
-      return <FieldBlock {...fieldBlockProps}>{options}</FieldBlock>
-    default:
-      return (
-        <FieldBlock {...fieldBlockProps}>
-          <ToggleButtonGroupContext
-            value={{
-              status: hasError ? 'error' : undefined,
-              disabled,
-              size,
-            }}
-          >
-            {options}
-          </ToggleButtonGroupContext>
-        </FieldBlock>
-      )
-  }
+  return (
+    <ChipGroupContext value={undefined}>
+      <FieldBlock {...fieldBlockProps}>{options}</FieldBlock>
+    </ChipGroupContext>
+  )
 }
 
 function resolveChildren(
@@ -264,8 +251,8 @@ export function useCheckboxOrToggleOptions({
       }
 
       const Component = (
-        variant === 'checkbox' ? Checkbox : ToggleButton
-      ) as typeof Checkbox & typeof ToggleButton
+        variant === 'checkbox' ? Checkbox : Chip
+      ) as typeof Checkbox & typeof Chip
 
       return (
         <Component
@@ -273,9 +260,8 @@ export function useCheckboxOrToggleOptions({
           key={`option-${i}`}
           variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
           size={size}
-          label={variant === 'checkbox' ? label : undefined}
-          text={variant !== 'checkbox' ? label : undefined}
-          value={value}
+          {...(variant === 'checkbox' ? { label } : { text: label })}
+          value={active}
           disabled={disabled}
           checked={value?.includes(active)}
           status={
@@ -284,7 +270,6 @@ export function useCheckboxOrToggleOptions({
               : undefined
           }
           suffix={suffix}
-          role="checkbox"
           {...mergeProps(
             {
               className: clsx(

@@ -1307,7 +1307,7 @@ describe('Wizard.Container', () => {
 
       await expandStepIndicator()
       const [groupOne, groupTwo] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
+        document.querySelectorAll('.dnb-chip input')
       )
 
       expect(output()).toHaveTextContent('Step 2')
@@ -1345,7 +1345,7 @@ describe('Wizard.Container', () => {
       expect(nextButton()).toBeNull()
 
       await userEvent.click(
-        document.querySelectorAll('.dnb-toggle-button button')[2]
+        document.querySelectorAll('.dnb-chip input')[2]
       )
 
       expect(output()).toBeNull()
@@ -1437,7 +1437,7 @@ describe('Wizard.Container', () => {
 
       await expandStepIndicator()
       const [groupOne] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
+        document.querySelectorAll('.dnb-chip input')
       )
 
       expect(output()).toHaveTextContent('Step 2')
@@ -1506,7 +1506,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenCalledTimes(0)
 
       const [groupOne, groupTwo] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
+        document.querySelectorAll('.dnb-chip input')
       )
 
       await userEvent.click(groupOne)
@@ -1675,7 +1675,7 @@ describe('Wizard.Container', () => {
       )
 
       const [hideButton, showButton] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
+        document.querySelectorAll('.dnb-chip input')
       )
 
       await userEvent.click(showButton)
@@ -1731,7 +1731,7 @@ describe('Wizard.Container', () => {
       )
 
       const [hideButton] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button button')
+        document.querySelectorAll('.dnb-chip input')
       )
 
       await userEvent.click(hideButton)
@@ -1797,7 +1797,7 @@ describe('Wizard.Container', () => {
         )
 
         const [groupOne] = Array.from(
-          document.querySelectorAll('.dnb-toggle-button button')
+          document.querySelectorAll('.dnb-chip input')
         )
 
         await userEvent.click(groupOne)

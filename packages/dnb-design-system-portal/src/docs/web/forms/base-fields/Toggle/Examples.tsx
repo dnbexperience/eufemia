@@ -209,7 +209,7 @@ export const VariantButton = () => {
         valueOn="on"
         valueOff="off"
         variant="button"
-        label="Toggle button variant"
+        label="Chip variant"
         value="on"
         onChange={(value) => console.log('onChange', value)}
       />

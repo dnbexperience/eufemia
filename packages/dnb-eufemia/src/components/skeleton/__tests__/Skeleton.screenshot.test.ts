@@ -40,7 +40,7 @@ describe.each(['ui', 'sbanken'])(`Skeleton for %s`, (themeName) => {
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-exclude"]',
       simulateSelector:
-        '[data-visual-test="skeleton-exclude"] .dnb-button',
+        '[data-visual-test="skeleton-exclude"] .dnb-chip input',
       simulate: 'click',
     })
   })

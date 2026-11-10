@@ -404,11 +404,7 @@
   touch-action: none;
   user-select: none;
 
-  > :global(.eufemia-theme) > :global(.dnb-button),
-  :global(.dnb-toggle-button),
-  :global(.dnb-toggle-button__inner),
-  :global(.dnb-toggle-button__shell),
-  :global(.dnb-toggle-button__button) {
+  > :global(.eufemia-theme) > :global(.dnb-button) {
     width: 100%;
   }
 
@@ -427,8 +423,7 @@
 
   :global(.dnb-button),
   :global(.dnb-checkbox),
-  :global(.dnb-switch),
-  :global(.dnb-toggle-button) {
+  :global(.dnb-switch) {
     margin: 0;
     cursor: grab;
   }

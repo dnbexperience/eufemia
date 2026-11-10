@@ -80,7 +80,7 @@ function ChipGroup(localProps: ChipGroupProps) {
 
   const multipleSelection = selectionMode === 'multiple'
   const showStatus = getStatusState(status)
-  const invalid = Boolean(showStatus && statusState === 'error')
+  const invalid = Boolean(status && statusState === 'error')
   const describedBy = combineDescribedBy(
     describedByProp,
     showStatus ? `${id}-status` : undefined,
