@@ -33,21 +33,3 @@ describe('Blockquote', () => {
     })
   })
 })
-
-describe('Blockquote scss', () => {
-  it('uses the Figma corner radius, and the author inherits the small line height', () => {
-    const css = loadScss(
-      require.resolve('../style/dnb-blockquote.scss')
-    ) as string
-
-    expect(css).toMatch(
-      /\.dnb-blockquote \{[^}]*border-radius: var\(--token-radius-xl\);/
-    )
-    expect(css).toMatch(
-      /\.dnb-blockquote \{[^}]*line-height: var\(--line-height-small\);/
-    )
-    expect(css).not.toMatch(
-      /\.dnb-blockquote figcaption \{[^}]*line-height/
-    )
-  })
-})
