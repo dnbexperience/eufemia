@@ -11,8 +11,8 @@ export type RankedTableProps = {
   emptyText?: string
 }
 
-// A ranked list rendered as an accessible Eufemia table: a labelled name and
-// count column, plus a decorative bar cell that visualises the count.
+// A ranked list rendered as an accessible Eufemia table: a labeled name and
+// count column, plus a decorative bar cell that visualizes the count.
 export default function RankedTable({
   items,
   caption,
