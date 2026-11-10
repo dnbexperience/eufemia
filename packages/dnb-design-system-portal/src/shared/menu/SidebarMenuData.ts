@@ -67,7 +67,7 @@ export function toSidebarMenuData(
         className: item.isActive
           ? 'portal-sidebar-menu__item--active'
           : undefined,
-        text: (item.menuTitle || item.title).replace(/^[A-Z][a-z]*\./, ''),
+        text: item.menuTitle || item.title,
         href: item.href,
         target: item.href ? '_blank' : undefined,
         rel: item.href ? 'noopener noreferrer' : undefined,

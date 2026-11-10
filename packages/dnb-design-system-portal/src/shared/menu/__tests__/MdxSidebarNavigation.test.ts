@@ -199,6 +199,36 @@ describe('MDX-defined Portal navigation', () => {
       )
     }
   })
+
+  it('shows sidebar labels as written and keeps breadcrumbs in the same casing', () => {
+    const items = flatten([
+      ...tree().shared,
+      ...tree().sections.flatMap(({ items }) => items),
+    ])
+    expect(
+      items.filter(({ title }) => /^[A-Z][a-z]*\.[A-Za-z]/.test(title))
+    ).toEqual([])
+    expect(
+      toSidebarMenuData(
+        [{ id: 'handler', path: 'handler', title: 'Form.Handler' }],
+        () => undefined
+      )[0].text
+    ).toBe('Form.Handler')
+
+    const codeCasedLeaves = pages.flatMap(
+      ({ fields, frontmatter: fm }) => {
+        const leaf = fm.breadcrumb?.at(-1)?.text
+        const label = fm.navigation?.title || fm.menuTitle || fm.title
+        if (!fm.navigation || fm.navigation.hidden || leaf === label) {
+          return []
+        }
+        return /[a-z][A-Z]/.test(leaf ?? '')
+          ? [`${fields.slug}: ${leaf}`]
+          : []
+      }
+    )
+    expect(codeCasedLeaves).toEqual([])
+  })
   it('aligns extension headings and keeps the Vipps button under Extensions', () => {
     const links = flatten(tree().sections[0].items).filter(
       ({ isMenuLink }) => isMenuLink
