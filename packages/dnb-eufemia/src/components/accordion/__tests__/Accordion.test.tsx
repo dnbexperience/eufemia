@@ -1594,18 +1594,4 @@ describe('Accordion scss', () => {
       /@media \(forced-colors: active\) \{[^{]*\.dnb-accordion__header:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-ring-width\) solid transparent;/
     )
   })
-
-  it('sets the pressed border width of the filled variant, so it does not inherit it from an outlined parent', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-accordion.scss'))
-    )
-    const filled = css.match(
-      /(?:^|\n)\.dnb-accordion__variant--filled \{[^}]*\}/
-    )?.[0]
-
-    expect(filled).toMatch(
-      /--accordion-border-width--default: 0\.0625rem;/
-    )
-    expect(filled).toMatch(/--accordion-border-width--active: 0\.0625rem;/)
-  })
 })

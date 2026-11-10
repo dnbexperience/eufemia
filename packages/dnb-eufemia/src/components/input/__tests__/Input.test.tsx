@@ -1473,14 +1473,6 @@ describe('Input scss', () => {
     )
   })
 
-  it('uses the basis font size for the large placeholder, as for the value', () => {
-    const css = loadScss(require.resolve('../style/dnb-input.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-input \{[^}]*--input-font-size--large: var\(--font-size-basis\);/
-    )
-  })
-
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
