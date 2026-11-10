@@ -44,10 +44,13 @@ export function isRunTestsOnlyPath(path) {
 
 export function classifyChanges(files) {
   const hasFiles = files.length > 0
+  const standaloneToolsOnly = hasFiles && files.every(isStandaloneToolPath)
+  const testsOnly = hasFiles && files.every(isRunTestsOnlyPath)
 
   return {
-    standaloneToolsOnly: hasFiles && files.every(isStandaloneToolPath),
-    testsOnly: hasFiles && files.every(isRunTestsOnlyPath),
+    standaloneToolsOnly,
+    testsOnly,
+    packagesUnaffected: standaloneToolsOnly || testsOnly,
   }
 }
 
@@ -78,8 +81,14 @@ if (
         .filter(Boolean)
     : []
 
-  const { standaloneToolsOnly, testsOnly } = classifyChanges(files)
-  const outputs = `standalone-tools-only=${standaloneToolsOnly}\ntests-only=${testsOnly}\n`
+  const { standaloneToolsOnly, testsOnly, packagesUnaffected } =
+    classifyChanges(files)
+  const outputs = [
+    `standalone-tools-only=${standaloneToolsOnly}`,
+    `tests-only=${testsOnly}`,
+    `packages-unaffected=${packagesUnaffected}`,
+    '',
+  ].join('\n')
 
   console.log(outputs)
   appendFileSync(process.env.GITHUB_OUTPUT, outputs)
