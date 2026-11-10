@@ -284,7 +284,6 @@ jobs:
 
     permissions:
       contents: read
-      pull-requests: write
       statuses: write
 
     steps:
