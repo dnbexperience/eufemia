@@ -423,11 +423,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const usedIcon =
     icon || (type === 'search' && !hasSubmitButton ? 'loupe' : null)
 
-  const usedIconSize =
-    size === 'large' && (iconSize === 'default' || !iconSize)
-      ? 'medium'
-      : iconSize
-
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-input',
@@ -442,7 +437,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       disabled && 'dnb-input--disabled',
       usedIcon && `dnb-input--icon-position-${iconPosition}`,
       usedIcon && 'dnb-input--has-icon',
-      usedIcon && usedIconSize && `dnb-input--icon-size-${usedIconSize}`,
+      usedIcon && iconSize && `dnb-input--icon-size-${iconSize}`,
       labelDirection && `dnb-input--${labelDirection}`,
       stretch && `dnb-input--stretch`,
       keepPlaceholder && 'dnb-input--keep-placeholder',
@@ -586,7 +581,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
               <InputIcon
                 className="dnb-input__icon"
                 icon={usedIcon}
-                size={usedIconSize}
+                size={iconSize}
               />
             )}
 

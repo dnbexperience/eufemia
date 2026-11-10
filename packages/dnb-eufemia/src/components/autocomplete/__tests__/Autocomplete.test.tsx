@@ -95,6 +95,35 @@ describe('Autocomplete component', () => {
     ).toHaveLength(3)
   })
 
+  it('uses the default icon size at size="large"', () => {
+    render(<Autocomplete {...mockProps} data={mockData} size="large" />)
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-icon--default'
+    )
+    expect(document.querySelector('.dnb-input')).not.toHaveClass(
+      'dnb-input--icon-size-medium'
+    )
+  })
+
+  it('uses a given iconSize at size="large"', () => {
+    render(
+      <Autocomplete
+        {...mockProps}
+        data={mockData}
+        size="large"
+        iconSize="medium"
+      />
+    )
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-icon--medium'
+    )
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--icon-size-medium'
+    )
+  })
+
   it('has correct word and in-word highlighting', () => {
     render(
       <Autocomplete
@@ -3684,6 +3713,33 @@ describe('Autocomplete component', () => {
             '.dnb-input__icon .dnb-progress-indicator'
           )
         ).toBeInTheDocument()
+      })
+    })
+
+    it('shows a small ProgressIndicator at size="large"', async () => {
+      render(
+        <Autocomplete
+          {...mockProps}
+          mode="async"
+          data={mockData}
+          size="large"
+          onType={onTypeHandler}
+          showSubmitButton
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-input__icon .dnb-progress-indicator'
+          )
+        ).toHaveClass('dnb-progress-indicator--small')
       })
     })
 
