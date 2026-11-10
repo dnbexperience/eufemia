@@ -1,6 +1,6 @@
 # Eufemia service monitoring
 
-Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods.
+Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. A fourth check, Tokens, reports when the latest scheduled run of the daily GHE token expiry workflow failed, or when no scheduled run has finished in 48 hours. That workflow posts its expiry warnings through its own Slack webhook, and GitHub emails a failed scheduled run only to the last editor of its schedule.
 
 ## Deployment
 
@@ -8,7 +8,7 @@ The public Service Monitoring Lambda workflow tests and bundles the checks, then
 
 Each service has a separate Node.js 22 Lambda using the same bundle, with 256 MB memory and one reserved concurrent execution. The HTTP budget is 330 seconds; Lambda allows 480 seconds for checks, persistence and notifications. There is no public inbound endpoint, runtime checkout, docs build or package installation. The production checks always use the public edge, including npm and GitHub for freshness verification.
 
-EventBridge Scheduler runs CDN at :07, MCP at :11 and Analytics at :17 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
+EventBridge Scheduler runs CDN at :07, MCP at :11, Analytics at :17 and Tokens at :23 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
 
 ## One-time setup
 

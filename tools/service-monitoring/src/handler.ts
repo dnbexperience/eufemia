@@ -8,6 +8,7 @@ import { readSecret } from './secrets.ts'
 import { checkCdn } from '../../assets/check-cdn.ts'
 import { checkHttpMcp } from '../../mcp-lambda/src/check-http.ts'
 import { checkAnalytics } from '../../analytics/src/monitor/check-analytics.ts'
+import { checkTokens } from './check-tokens.ts'
 import { runMonitor, services } from './monitor.ts'
 import type { Service, State } from './monitor.ts'
 import type { Report } from '../../monitoring/report-incident.ts'
@@ -116,6 +117,8 @@ export async function handler() {
         let report: Report
         if (service === 'CDN') {
           report = await checkCdn(options)
+        } else if (service === 'Tokens') {
+          report = await checkTokens(options)
         } else {
           const githubToken = await credential(
             'GitHub verification credential',

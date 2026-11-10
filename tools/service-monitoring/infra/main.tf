@@ -4,6 +4,7 @@ locals {
     CDN       = "cron(7 * * * ? *)"
     MCP       = "cron(11 * * * ? *)"
     Analytics = "cron(17 * * * ? *)"
+    Tokens    = "cron(23 * * * ? *)"
   }
   services = toset(keys(local.schedules))
   tags = {
@@ -168,7 +169,7 @@ resource "aws_lambda_function" "monitor" {
       STATE_TABLE             = aws_dynamodb_table.state.name
       ALERT_TOPIC_ARN         = aws_sns_topic.alerts.arn
       NOTIFICATIONS_ENABLED   = tostring(var.notifications_enabled)
-      GITHUB_TOKEN_SECRET_ARN = each.key == "CDN" ? "" : var.github_token_secret_arn
+      GITHUB_TOKEN_SECRET_ARN = contains(["MCP", "Analytics"], each.key) ? var.github_token_secret_arn : ""
       }, each.key == "Analytics" ? {
       # Read by name: the check policy grants this name plus Secrets Manager's suffix.
       GHE_TOKEN_SECRET            = "eufemia/${var.environment}/monitoring/ghe-analytics-token"

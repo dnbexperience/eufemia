@@ -59,6 +59,7 @@ run "shadow_rollout" {
       aws_lambda_function.monitor["Analytics"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["MCP"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == var.github_token_secret_arn &&
       aws_lambda_function.monitor["CDN"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == "" &&
+      aws_lambda_function.monitor["Tokens"].environment[0].variables["GITHUB_TOKEN_SECRET_ARN"] == "" &&
       aws_lambda_function.monitor["Analytics"].environment[0].variables["ANALYTICS_DEPLOY_REPOSITORY"] == "owner/deploy-repo" &&
       !contains(keys(aws_lambda_function.monitor["MCP"].environment[0].variables), "GHE_TOKEN_SECRET")
     )
