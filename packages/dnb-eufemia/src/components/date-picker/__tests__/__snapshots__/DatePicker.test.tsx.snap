@@ -3307,13 +3307,22 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker .dnb-segmented-field__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type {
   margin-left: 0.5rem;
 }
+.dnb-date-picker .dnb-segmented-field__fieldset:last-of-type .dnb-input__input.dnb-date-picker__input:last-of-type {
+  padding-right: 1rem;
+}
 .dnb-date-picker .dnb-input__shell {
   display: none;
 }
 .dnb-date-picker .dnb-input {
   --input-submit-button-width: var(--input-height-current);
 }
+.dnb-date-picker--small .dnb-input {
+  --input-font-size--small: var(--font-size-small);
+}
 .dnb-date-picker--show-input .dnb-input__shell {
+  display: flex;
+}
+.dnb-date-picker--show-input .dnb-input__submit-element {
   display: flex;
 }
 .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__status--error .dnb-input__shell {
