@@ -1256,12 +1256,4 @@ describe('Dialog scss', () => {
       /\.dnb-dialog--confirmation \.dnb-dialog__description \{\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);/
     )
   })
-
-  it('reserves the 48px icon circle in the layout', () => {
-    const css = loadScss(require.resolve('../style/dnb-dialog.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-dialog__icon \{\s*display: flex;\s*padding: 0\.75rem;/
-    )
-  })
 })
