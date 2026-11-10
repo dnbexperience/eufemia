@@ -107,10 +107,12 @@ export default function TableOfContentNavigation({
   )
   const showAllRef = useRef<HTMLButtonElement>(null)
   const focusRevealed = useRef(false)
+  const [disclosureAnimating, setDisclosureAnimating] = useState(false)
   const detectedId = useCurrentSectionId(
     sections,
     currentSectionOffset,
-    currentId === undefined
+    currentId === undefined,
+    disclosureAnimating
   )
   const sectionIds = useMemo(
     () => sections.map(({ id }) => id),
@@ -374,6 +376,8 @@ export default function TableOfContentNavigation({
             id={listId}
             open={isSidebar || isExpanded}
             animate={!isSidebar && animateReady}
+            onAnimationStart={() => setDisclosureAnimating(true)}
+            onAnimationEnd={() => setDisclosureAnimating(false)}
             openOnFind
             onBeforeMatch={() => {
               flushSync(() => {
