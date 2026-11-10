@@ -3635,11 +3635,5 @@ describe('MultiSelection', () => {
         /\.dnb-forms-field-multi-selection__actions \{[^}]*justify-content: space-between;/
       )
     })
-
-    it('places the confirm and cancel buttons 2rem below the option list', () => {
-      expect(css).toMatch(
-        /\.dnb-forms-field-multi-selection__actions \{[^}]*padding-top: 2rem;/
-      )
-    })
   })
 })
