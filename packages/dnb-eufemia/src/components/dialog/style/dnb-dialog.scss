@@ -269,6 +269,8 @@
 
   &__icon {
     display: flex;
+    padding: 0.75rem; // the circle is drawn 50% outside the 24px icon
+
     // Modify the border prop from the icon component
     &__primary.dnb-icon--border {
       --icon-border-positioning--default: var(--dialog-icon-positioning);

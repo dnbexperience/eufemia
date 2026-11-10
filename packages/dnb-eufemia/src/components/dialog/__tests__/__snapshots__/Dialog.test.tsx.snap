@@ -1759,6 +1759,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 }
 .dnb-dialog__icon {
   display: flex;
+  padding: 0.75rem;
 }
 .dnb-dialog__icon__primary.dnb-icon--border {
   --icon-border-positioning--default: var(--dialog-icon-positioning);
