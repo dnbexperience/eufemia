@@ -27,6 +27,48 @@ describe.each(['ui', 'sbanken'])(`DatePicker for %s`, (themeName) => {
   it('have to match the sizes', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="date-picker-sizes"]',
+      executeBeforeSimulate: () => {
+        document
+          .querySelectorAll(
+            '[data-visual-test="date-picker-sizes"] .dnb-date-picker'
+          )
+          .forEach((picker) => {
+            const sections = picker.querySelectorAll(
+              '.dnb-date-picker__input'
+            )
+            const shell = picker
+              .querySelector('.dnb-input__shell')
+              .getBoundingClientRect()
+            const button = picker
+              .querySelector('.dnb-input__submit-element button')
+              .getBoundingClientRect()
+            const range = document.createRange()
+            range.selectNodeContents(sections[0])
+            const left = range.getBoundingClientRect().left - shell.left
+            range.selectNodeContents(sections[sections.length - 1])
+            const right = button.left - range.getBoundingClientRect().right
+            const fontSize = Number.parseFloat(
+              getComputedStyle(sections[0]).fontSize
+            )
+            const expectedFontSize = picker.classList.contains(
+              'dnb-date-picker--small'
+            )
+              ? 16
+              : 18
+
+            if (
+              Math.abs(left - 16) > 0.1 ||
+              Math.abs(right - 16) > 0.1 ||
+              Math.abs(button.top - shell.top) > 0.1 ||
+              Math.abs(button.bottom - shell.bottom) > 0.1 ||
+              fontSize !== expectedFontSize
+            ) {
+              throw new Error(
+                `DatePicker input alignment: ${JSON.stringify({ left, right, fontSize, expectedFontSize, shell, button })}`
+              )
+            }
+          })
+      },
     })
   })
 
