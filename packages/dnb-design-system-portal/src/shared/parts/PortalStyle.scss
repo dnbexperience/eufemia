@@ -61,6 +61,13 @@ so it's not visible "over" the sidebar.
 */
 .dnb-app-content {
   overflow-x: clip;
+
+  @include utilities.allAbove(large) {
+    &:not(.fullscreen-page):has(#content-grid-sidebar nav) {
+      // Clipping a sticky ancestor makes the TOC flicker in Safari.
+      overflow-x: visible;
+    }
+  }
 }
 
 main > .dnb-global-status {

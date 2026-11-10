@@ -55,6 +55,11 @@
     grid-column: content-start / content-end;
     grid-row: 1;
     min-width: 0;
+
+    margin-left: calc(var(--content-gutter-size) * -1);
+    margin-right: calc(var(--content-gutter-size) * -1);
+    padding: 0 var(--content-gutter-size);
+    overflow-x: clip;
   }
 }
 
