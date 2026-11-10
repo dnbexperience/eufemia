@@ -30,9 +30,10 @@ permissions:
   contents: read
 
 # No workflow-wide `env:` on purpose: secrets are scoped to the individual steps
-# that need them. The build job has no publish authority; npm OIDC and GitHub
-# write permissions exist only in the release job. FIGMA_* is not used by the
-# release flow, so it is intentionally not injected anywhere.
+# that need them. The build job has no publish authority; npm OIDC exists only
+# in the release job, and only it and notify-release get a release bot token.
+# FIGMA_* is not used by the release flow, so it is intentionally not injected
+# anywhere.
 
 jobs:
   build:
