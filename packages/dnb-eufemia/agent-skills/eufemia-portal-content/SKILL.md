@@ -65,10 +65,10 @@ commands, files, or validation steps.
      before promising release behavior.
 8. Open or update the pull request against `main` with a short
    motivation-focused description. After the preview workflow finishes, read
-   its stable Branch Preview URL, append the affected page path and anchor,
-   verify that exact link, and update the description. Include a short
-   release-priority line. Do not list changed files or validation steps. A
-   suitable shape is:
+   the stable preview URL from the pull request's `Preview` deployment, append
+   the affected page path and anchor, verify that exact link, and update the
+   description. Include a short release-priority line. Do not list changed
+   files or validation steps. A suitable shape is:
 
    ```markdown
    Explains the problem and why the content change matters.
