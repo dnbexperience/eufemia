@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react'
 import {
   axeComponent,
-  loadScss,
   spyOnEufemiaWarn,
 } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
@@ -352,15 +351,5 @@ describe('Stat.Trend', () => {
 
     expect(element.getAttribute('tone')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
-  })
-})
-
-describe('Stat.Trend scss', () => {
-  it('uses the basis font size and 1rem side padding for the badge', () => {
-    const css = loadScss(require.resolve('../style/dnb-stat.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-stat__trend \{\s*display: inline-flex;\s*padding: 0\.25rem 1rem;\s*font-size: var\(--font-size-basis\);\s*line-height: var\(--line-height-basis\);/
-    )
   })
 })

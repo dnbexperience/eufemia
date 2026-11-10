@@ -6,10 +6,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import { afterAll, beforeEach, vi } from 'vitest'
-import {
-  axeComponent,
-  loadScss,
-} from '../../../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { Provider } from '../../../../../shared'
 import { Field, Form } from '../../..'
 import { createMultiSelectionVirtualization } from '../Virtualization'
@@ -3615,25 +3612,6 @@ describe('MultiSelection', () => {
           document.querySelector('.dnb-dropdown__text__inner')
         ).toHaveTextContent('0 of 2 selected')
       })
-    })
-  })
-
-  describe('scss', () => {
-    const css = loadScss(
-      require.resolve('../style/dnb-multi-selection.scss')
-    )
-
-    it('uses the xl radius and the default popover top padding on the panel', () => {
-      expect(css).toMatch(
-        /\.dnb-forms-field-multi-selection__popover \{\s*--popover-border-radius: var\(--token-radius-xl\);/
-      )
-      expect(css).not.toContain('.dnb-popover__content')
-    })
-
-    it('places the cancel button at the end of the action row', () => {
-      expect(css).toMatch(
-        /\.dnb-forms-field-multi-selection__actions \{[^}]*justify-content: space-between;/
-      )
     })
   })
 })

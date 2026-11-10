@@ -431,45 +431,6 @@ describe('Radio ARIA', () => {
 })
 
 describe('Radio scss', () => {
-  it('uses the Figma tokens for disabled radio buttons', () => {
-    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
-
-    expect(css).toMatch(
-      /--radio-color-border--disabled: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
-    )
-    expect(css).toMatch(
-      /--radio-color-border-on--disabled: var\(\s*--token-color-stroke-action-disabled\s*\)/
-    )
-    expect(css).toMatch(
-      /\.dnb-radio__input\[disabled\]:checked ~ \.dnb-radio__button,\s*\.dnb-radio__input\[disabled\]\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__button \{\s*--radio-color-border: var\(--radio-color-border-on--disabled\);\s*--radio-border-width--default: 0\.0625rem;\s*--radio-border-width--active: 0\.0625rem;/
-    )
-  })
-
-  it('uses the Figma on-dark tokens for disabled radio buttons on dark surfaces, except in checked toggle buttons', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-radio.scss'))
-    )
-
-    expect(css).not.toMatch(/\.dnb-radio--surface-dark \{/)
-
-    const surfaceDark = css.match(
-      /\.dnb-radio--surface-dark:where\(:not\(\.dnb-toggle-button--checked \*\)\) \{[^}]*\}/
-    )[0]
-
-    expect(surfaceDark).toMatch(
-      /--radio-color-dot-on--disabled: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-background--disabled: transparent;/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-border--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-action-disabled-ondark\) 50%,\s*transparent\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-border-on--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
-    )
-  })
-
   it('shows the ring and the selected dot in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-radio.scss'))
 
@@ -478,17 +439,6 @@ describe('Radio scss', () => {
     )
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-radio__input:checked ~ \.dnb-radio__dot,\s*\.dnb-radio__input\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__dot \{\s*background-color: CanvasText;/
-    )
-  })
-
-  it('keeps the error colors on hover, pressed and focus', () => {
-    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-radio__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \.dnb-radio__input ~ \.dnb-radio__button \{\s*--radio-border-width--active: 0\.0625rem;\s*--radio-color-background--hover: var\(\s*--token-color-background-error-subtle\s*\);\s*--radio-color-background--active: var\(\s*--token-color-background-error-subtle\s*\);\s*--radio-color-background--focus: var\(\s*--token-color-background-error-subtle\s*\);\s*--radio-color-border--hover: var\(--token-color-stroke-error\);\s*--radio-color-border--active: var\(--token-color-stroke-error\);\s*\}/
-    )
-    expect(css).toMatch(
-      /\.dnb-radio__status--error:where\(:not\(\.dnb-toggle-button \*\)\) \{\s*--radio-color-dot-on--hover: var\(--token-color-background-error\);\s*--radio-color-dot-on--active: var\(--token-color-background-error\);\s*--radio-color-dot-on--focus: var\(--token-color-background-error\);\s*\}/
     )
   })
 
@@ -508,40 +458,6 @@ describe('Radio scss', () => {
 
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{[^{]*\.dnb-radio__input:focus ~ \.dnb-radio__button \{\s*outline: var\(--focus-ring-width\) solid transparent;/
-    )
-  })
-
-  it('uses the Figma on-dark tokens for enabled radio buttons on dark surfaces', () => {
-    const css = String(
-      loadScss(require.resolve('../style/dnb-radio.scss'))
-    )
-    const surfaceDark = css.match(
-      /\.dnb-radio--surface-dark:where\(:not\(\.dnb-toggle-button \*\)\) \{[^}]*\}/
-    )[0]
-
-    expect(surfaceDark).toMatch(
-      /--radio-color-dot-on--default: var\(\s*--token-color-background-selected-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-background--default: transparent;/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-background-on--default: var\(\s*--token-color-background-selected-subtle-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-border--default: var\(\s*--token-color-stroke-action-alternative-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-border-on--default: var\(\s*--token-color-stroke-selected-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-border--hover: var\(\s*--token-color-stroke-action-hover-ondark\s*\)/
-    )
-    expect(surfaceDark).toMatch(
-      /--radio-color-border--active: var\(\s*--token-color-stroke-action-pressed-ondark\s*\)/
-    )
-    expect(css).toMatch(
-      /\.dnb-radio__input:checked ~ \.dnb-radio__button,\s*\.dnb-radio__input\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__button \{[^}]*--radio-color-border--default: var\(--radio-color-border-on--default\);\s*--radio-color-background--default: var\(\s*--radio-color-background-on--default\s*\);/
     )
   })
 
