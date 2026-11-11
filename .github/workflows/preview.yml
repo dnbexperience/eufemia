@@ -14,14 +14,19 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-# No job-wide `env:` on purpose: the build needs no repository secrets, and the
-# Cloudflare credentials are scoped to the deploy step that uses them.
+# No secrets in a job-wide `env:` on purpose: the build needs no repository
+# secrets, and the Cloudflare credentials are scoped to the deploy step that
+# uses them.
 
 jobs:
   deploy-preview:
     name: Build and deploy (branch preview)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+
+    env:
+      # The stable alias of the `pr-<number>` branch deployed below.
+      PREVIEW_URL: 'https://pr-${{ github.event.pull_request.number }}.eufemia-e25.pages.dev'
 
     permissions:
       contents: read
@@ -57,7 +62,7 @@ jobs:
         if: steps.changes.outputs.packages-unaffected != 'true'
         run: yarn workspace dnb-design-system-portal build
         env:
-          PORTAL_PUBLIC_ORIGIN: 'https://pr-${{ github.event.pull_request.number }}.eufemia-e25.pages.dev'
+          PORTAL_PUBLIC_ORIGIN: ${{ env.PREVIEW_URL }}
           VITE_EUFEMIA_STACKBLITZ_VERSION: 'https://pkg.pr.new/@dnb/eufemia@${{ github.event.pull_request.head.sha }}'
           VITE_GITHUB_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
           VITE_GITHUB_EDIT_REF: ${{ github.event.pull_request.head.ref }}
@@ -117,11 +122,15 @@ jobs:
         if: steps.changes.outputs.packages-unaffected != 'true' && steps.gate.outputs.skip != 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
-          # The alias of the `pr-<number>` branch deployed above.
-          PREVIEW_URL: 'https://pr-${{ github.event.pull_request.number }}.eufemia-e25.pages.dev'
           DEPLOYMENT_URL: ${{ steps.pages_deploy.outputs.deployment_url }}
         with:
           script: |
+            // Written first, so a failing API call still leaves both URLs.
+            await core.summary
+              .addRaw(`**Branch preview (stable):** ${process.env.PREVIEW_URL}\n\n`)
+              .addRaw(`**Deployment (unique):** ${process.env.DEPLOYMENT_URL}\n`)
+              .write()
+
             const { owner, repo } = context.repo
 
             const { data: deployment } = await github.rest.repos.createDeployment({
@@ -147,8 +156,3 @@ jobs:
               // Keep the previews of other pull requests active.
               auto_inactive: false,
             })
-
-            await core.summary
-              .addRaw(`**Branch preview (stable):** ${process.env.PREVIEW_URL}\n\n`)
-              .addRaw(`**Deployment (unique):** ${process.env.DEPLOYMENT_URL}\n`)
-              .write()
