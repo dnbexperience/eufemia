@@ -21,7 +21,7 @@ export type SearchProps = Pick<
    */
   variant?: 'default' | 'hero' | 'compact'
   /**
-   * Enable Cmd+K and Ctrl+K to focus the first visible, enabled Search with a shortcut. Shows a platform-specific hint when the input is empty. Defaults to `false`.
+   * Enable Cmd+K on Mac and Ctrl+K elsewhere to focus the first visible, enabled Search with a shortcut. Leaves shortcuts to other focused text fields and editors. Shows a platform-specific hint when the input is empty. Defaults to `false`.
    */
   shortcut?: boolean
 }
