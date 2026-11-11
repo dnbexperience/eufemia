@@ -124,6 +124,7 @@ describe('Table.ScrollView', () => {
     expect(button).toHaveAccessibleName('See more columns')
     expect(button).not.toHaveAttribute('title')
     expect(element).toHaveAttribute('data-scroll-indicator')
+    expect(element).not.toHaveAttribute('data-scroll-indicator-rtl')
     expect(
       element.style.getPropertyValue('--table-scroll-indicator-opacity')
     ).toBe('1')
@@ -180,6 +181,7 @@ describe('Table.ScrollView', () => {
 
     fireEvent.scroll(element)
     expect(element).toHaveAttribute('data-scroll-indicator')
+    expect(element).toHaveAttribute('data-scroll-indicator-rtl')
 
     fireEvent.scroll(element, { target: { scrollLeft: -20 } })
     expect(
