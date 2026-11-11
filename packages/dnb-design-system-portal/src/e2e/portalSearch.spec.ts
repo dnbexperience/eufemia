@@ -67,3 +67,51 @@ test('keeps search and settings right aligned while search expands', async ({
     })
   }
 })
+
+test('shows search results across small screens', async ({ page }) => {
+  await page.route(/algolia(net)?\.(net|com)\//, (route) =>
+    route.fulfill({
+      json: {
+        hits: [
+          {
+            objectID: 'date-picker',
+            slug: 'web/components/date-picker',
+            title: 'Date picker',
+            description:
+              'Use DatePicker when people need to choose one date or a date range.',
+          },
+        ],
+        nbHits: 1,
+        page: 0,
+        nbPages: 1,
+        hitsPerPage: 20,
+        processingTimeMS: 1,
+        query: 'date',
+        params: '',
+      },
+    })
+  )
+  const search = page.locator('header.sticky-menu .portal-search')
+  const input = search.locator('input')
+  const results = page.locator('#portal-search-ul')
+
+  for (const [width, getExpectedWidth] of [
+    [375, () => 375 - 32],
+    [1440, (inputWidth: number) => inputWidth],
+  ] as const) {
+    await test.step(`${width}px`, async () => {
+      await page.setViewportSize({ width, height: 800 })
+      await input.fill('')
+      await input.focus()
+      await input.fill('date')
+      await expect(results.getByRole('option')).toHaveCount(1)
+
+      const box = await results.boundingBox()
+      const inputBox = await search.boundingBox()
+      expect(box.x).toBeGreaterThanOrEqual(15)
+      expect(box.x + box.width).toBeLessThanOrEqual(width - 15)
+      expect(box.width).toBeCloseTo(getExpectedWidth(inputBox.width), 0)
+      await input.press('Escape')
+    })
+  }
+})
