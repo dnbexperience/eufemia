@@ -234,6 +234,10 @@ test.describe('Table.ScrollView', () => {
         await scrollView.evaluate((element: HTMLElement, direction) => {
           element.dir = direction
         }, direction)
+        await expect(button.locator('.dnb-icon')).toHaveCSS(
+          'transform',
+          direction === 'rtl' ? 'matrix(-1, 0, 0, -1, 0, 0)' : 'none'
+        )
         const motion = await icon.evaluate((element) => {
           const animation = element.getAnimations()[0]
           animation.currentTime = 0
