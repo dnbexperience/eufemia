@@ -12,7 +12,7 @@ import useSearchProps from './useSearchProps'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 const interactiveSelector =
-  'a[href], button, input, select, textarea, label, summary, [contenteditable="true"], [tabindex]:not([tabindex="-1"])'
+  'a[href], button, input, select, textarea, label, summary, [contenteditable]:not([contenteditable="false"]), [tabindex]:not([tabindex="-1"])'
 
 export type SearchPanelContentProps = {
   results: ReactNode
