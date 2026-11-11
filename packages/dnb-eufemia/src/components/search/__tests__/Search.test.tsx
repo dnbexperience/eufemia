@@ -18,6 +18,18 @@ describe.each([
     },
   ],
 ] as const)('Search.%s', (_, Component, requiredProps) => {
+  let platformSpy: ReturnType<typeof vi.spyOn>
+
+  beforeEach(() => {
+    platformSpy = vi
+      .spyOn(navigator, 'platform', 'get')
+      .mockReturnValue('MacIntel')
+  })
+
+  afterEach(() => {
+    platformSpy.mockRestore()
+  })
+
   it('is recognized as a form element when grouping fields', () => {
     render(
       <FieldBlock label="Search scopes">
@@ -138,19 +150,68 @@ describe.each([
     )
   })
 
-  it.each([{ metaKey: true }, { ctrlKey: true }])(
-    'focuses with the shortcut %s',
-    (modifier) => {
+  it.each([
+    ['MacIntel', { metaKey: true }, { ctrlKey: true }, 'Meta+K'],
+    ['Win32', { ctrlKey: true }, { metaKey: true }, 'Control+K'],
+  ] as const)(
+    'uses only the platform shortcut on %s',
+    (platform, modifier, otherModifier, ariaShortcut) => {
+      platformSpy.mockReturnValue(platform)
       render(<Component {...requiredProps} shortcut />)
       const input = document.querySelector('input')
-      expect(input).toHaveAttribute(
-        'aria-keyshortcuts',
-        'Meta+K Control+K'
-      )
+      expect(input).toHaveAttribute('aria-keyshortcuts', ariaShortcut)
+      const event = new KeyboardEvent('keydown', {
+        key: 'k',
+        ...otherModifier,
+        cancelable: true,
+      })
+      document.dispatchEvent(event)
+      expect(event.defaultPrevented).toBe(false)
+      expect(input).not.toHaveFocus()
       fireEvent.keyDown(document, { key: 'k', ...modifier })
       expect(input).toHaveFocus()
     }
   )
+
+  it.each(['input', 'textarea', 'select'] as const)(
+    'leaves shortcuts to another focused %s',
+    (tagName) => {
+      render(
+        <>
+          <Component {...requiredProps} shortcut />
+          {tagName === 'input' ? <input id="editor" /> : null}
+          {tagName === 'textarea' ? <textarea id="editor" /> : null}
+          {tagName === 'select' ? <select id="editor" /> : null}
+        </>
+      )
+      const editor = document.querySelector<HTMLElement>('#editor')
+      editor.focus()
+      const event = new KeyboardEvent('keydown', {
+        key: 'k',
+        metaKey: true,
+        bubbles: true,
+        cancelable: true,
+      })
+      editor.dispatchEvent(event)
+      expect(event.defaultPrevented).toBe(false)
+      expect(editor).toHaveFocus()
+    }
+  )
+
+  it('keeps the shortcut available in its Search input', () => {
+    render(<Component {...requiredProps} shortcut />)
+    const input = document.querySelector('input')
+    input.focus()
+    const event = new KeyboardEvent('keydown', {
+      key: 'k',
+      metaKey: true,
+      bubbles: true,
+      cancelable: true,
+    })
+    input.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(true)
+    expect(input).toHaveFocus()
+  })
 
   it('focuses one enabled visible instance and cleans up on unmount', () => {
     const { unmount } = render(
@@ -229,7 +290,7 @@ describe.each([
   it('allows disabling the shortcut after mount', () => {
     const { rerender } = render(<Component {...requiredProps} shortcut />)
     rerender(<Component {...requiredProps} shortcut={false} />)
-    fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
+    fireEvent.keyDown(document, { key: 'k', metaKey: true })
     expect(document.querySelector('input')).not.toHaveFocus()
   })
 
@@ -237,16 +298,13 @@ describe.each([
     ['MacIntel', '⌘ K'],
     ['Win32', 'Ctrl K'],
   ])('shows the %s hint', (platform, hint) => {
-    const spy = vi
-      .spyOn(navigator, 'platform', 'get')
-      .mockReturnValue(platform)
+    platformSpy.mockReturnValue(platform)
     render(<Component {...requiredProps} shortcut />)
     expect(document.querySelector('kbd')).toHaveTextContent(hint)
     expect(document.querySelector('kbd')).toHaveAttribute(
       'aria-hidden',
       'true'
     )
-    spy.mockRestore()
   })
 
   it('renders stable server markup without a platform-specific hint', () => {

@@ -14,20 +14,13 @@ const searchDefaultProps: Partial<SearchProps> = {
 }
 
 const subscribeToPlatform = () => () => undefined
-const getShortcutHint = () => (isMac() ? '⌘ K' : 'Ctrl K')
-const getServerShortcutHint = () => null
+const getServerPlatform = () => null
 
 // Autocomplete injects trigger props, so keep them off the native element.
-function ShortcutHint() {
-  const hint = useSyncExternalStore(
-    subscribeToPlatform,
-    getShortcutHint,
-    getServerShortcutHint
-  )
-
-  return hint ? (
+function ShortcutHint({ mac }: { mac: boolean | null }) {
+  return mac !== null ? (
     <kbd className="dnb-search__shortcut" aria-hidden="true">
-      {hint}
+      {mac ? '⌘ K' : 'Ctrl K'}
     </kbd>
   ) : null
 }
@@ -37,6 +30,11 @@ export default function useSearchProps<Props extends SearchProps>(
   defaults: Partial<Props>
 ) {
   const context = useContext(Context)
+  const mac = useSyncExternalStore(
+    subscribeToPlatform,
+    isMac,
+    getServerPlatform
+  )
   const { variant, shortcut, className, ...props } =
     extendPropsWithContext(
       Object.fromEntries(
@@ -61,7 +59,9 @@ export default function useSearchProps<Props extends SearchProps>(
         event.repeat ||
         event.altKey ||
         event.shiftKey ||
-        !(event.metaKey || event.ctrlKey) ||
+        (isMac()
+          ? !event.metaKey || event.ctrlKey
+          : !event.ctrlKey || event.metaKey) ||
         event.key.toLowerCase() !== 'k'
       ) {
         return
@@ -87,6 +87,16 @@ export default function useSearchProps<Props extends SearchProps>(
           (input.checkVisibility?.({ checkVisibilityCSS: true }) ?? true)
       )
 
+      const activeElement = document.activeElement
+      if (
+        activeElement instanceof HTMLElement &&
+        activeElement !== input &&
+        (activeElement.matches('input, textarea, select') ||
+          activeElement.isContentEditable)
+      ) {
+        return
+      }
+
       if (input) {
         event.preventDefault()
         input.focus()
@@ -106,13 +116,15 @@ export default function useSearchProps<Props extends SearchProps>(
       className
     ),
     'aria-keyshortcuts':
-      shortcut && !props.disabled
-        ? 'Meta+K Control+K'
+      shortcut && !props.disabled && mac !== null
+        ? mac
+          ? 'Meta+K'
+          : 'Control+K'
         : props['aria-keyshortcuts'],
     submitElement:
       props.submitElement ??
       (shortcut && !props.showSubmitButton && !props.disabled ? (
-        <ShortcutHint />
+        <ShortcutHint mac={mac} />
       ) : undefined),
   }
 }

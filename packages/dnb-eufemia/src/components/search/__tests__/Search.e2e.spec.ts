@@ -67,6 +67,36 @@ for (const platform of ['MacIntel', 'Win32']) {
         expect(textRight).toBeLessThanOrEqual(shortcutLeft)
       })
     }
+
+    await test.step('uses the platform modifier and respects other editors', async () => {
+      const input = page.locator('[data-testid="search-compact"] input')
+      const shortcut = platform === 'MacIntel' ? 'Meta+k' : 'Control+k'
+      const otherShortcut =
+        platform === 'MacIntel' ? 'Control+k' : 'Meta+k'
+      await page.keyboard.press(otherShortcut)
+      await expect(input).not.toBeFocused()
+      await page.keyboard.press(shortcut)
+      await expect(input).toBeFocused()
+
+      await page.evaluate(() => {
+        const fixture = document.createElement('div')
+        fixture.id = 'shortcut-editors'
+        fixture.innerHTML =
+          '<input /><textarea></textarea><select><option>Option</option></select><div contenteditable="true"><span>Editable text</span></div>'
+        document.body.append(fixture)
+      })
+      for (const selector of [
+        'input',
+        'textarea',
+        'select',
+        '[contenteditable]',
+      ]) {
+        const editor = page.locator('#shortcut-editors').locator(selector)
+        await editor.focus()
+        await page.keyboard.press(shortcut)
+        await expect(editor).toBeFocused()
+      }
+    })
   })
 }
 
@@ -91,7 +121,11 @@ for (const fixture of [
           }
         })
       }, fixture)
-    await page.keyboard.press('Control+k')
+    await page.keyboard.press(
+      (await search.locator('kbd').textContent()).includes('⌘')
+        ? 'Meta+k'
+        : 'Control+k'
+    )
     await expect(input).toBeFocused()
     await expect
       .poll(async () => (await search.boundingBox()).width)
