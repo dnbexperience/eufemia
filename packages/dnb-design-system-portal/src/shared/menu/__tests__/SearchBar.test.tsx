@@ -352,6 +352,9 @@ describe('SearchBarInput', () => {
   it.each(['hero', 'compact'] as const)(
     'uses the %s Search variant',
     (variant) => {
+      const platformSpy = vi
+        .spyOn(navigator, 'platform', 'get')
+        .mockReturnValue('Win32')
       render(<SearchBarInput variant={variant} />)
 
       expect(
@@ -363,7 +366,8 @@ describe('SearchBarInput', () => {
         document
           .querySelector('#portal-search')
           ?.getAttribute('aria-keyshortcuts')
-      ).toBe('Meta+K Control+K')
+      ).toBe('Control+K')
+      platformSpy.mockRestore()
     }
   )
 })
