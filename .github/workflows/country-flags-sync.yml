@@ -38,7 +38,6 @@ jobs:
     outputs:
       artifact-id: ${{ steps.bundle.outputs.artifact-id }}
       remote-sha: ${{ steps.branch.outputs.remote_sha }}
-      pr-url: ${{ steps.existing-pr.outputs.url }}
       pr-title: ${{ steps.update.outputs.title }}
 
     steps:
@@ -210,11 +209,24 @@ jobs:
           client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
           private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
 
-      - name: Turn the open pull request back into a draft
-        if: needs.sync-flags.outputs.pr-url != ''
+      - name: Find the open flag update pull request
+        id: pr
         env:
           GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          PR_URL: ${{ needs.sync-flags.outputs.pr-url }}
+        run: |
+          url=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Turn the open pull request back into a draft
+        if: steps.pr.outputs.url != ''
+        env:
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+          PR_URL: ${{ steps.pr.outputs.url }}
         run: |
           is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
           if [ "$is_draft" != true ]; then
@@ -238,11 +250,16 @@ jobs:
             packages/dnb-eufemia/src/components/country-flag/style/dnb-country-flag-icons.scss
             packages/dnb-eufemia/src/components/country-flag/__tests__/__image_snapshots__/**
             packages/dnb-eufemia/src/components/avatar/__tests__/__image_snapshots__/*country-flag-as-a-badge*.png
+          # The check from this run's commit, not from the commits it checks
+          verify: |
+            script="$RUNNER_TEMP/checkFlagIconsUpdate.mjs"
+            git show "$GITHUB_SHA:packages/dnb-eufemia/scripts/tools/checkFlagIconsUpdate.mjs" > "$script"
+            node "$script" "$BASE"
 
       - name: Create or update draft pull request
         env:
           GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          PR_URL: ${{ needs.sync-flags.outputs.pr-url }}
+          PR_URL: ${{ steps.pr.outputs.url }}
           PR_TITLE: ${{ needs.sync-flags.outputs.pr-title }}
           PR_BODY: ${{ steps.push.outputs.directory }}/country-flags-pr.md
         run: |
