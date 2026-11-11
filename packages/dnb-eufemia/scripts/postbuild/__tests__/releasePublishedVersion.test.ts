@@ -11,6 +11,8 @@ import path from 'node:path'
 import { load } from 'js-yaml'
 
 type Step = {
+  id?: string
+  if?: string
   name?: string
   run?: string
   env?: Record<string, string>
@@ -309,12 +311,20 @@ describe('published version from semantic-release', () => {
 })
 
 describe('publish job token in release.yml', () => {
-  it('publishes with GH_TOKEN and OIDC, so the job token only reads', () => {
+  it('publishes with the release bot token and OIDC, so the job token only reads', () => {
     const release = jobs.action.steps.find(
       (step) => step.name === 'Release'
     )
+    const token = jobs.action.steps.find(
+      (step) => step.id === 'release-bot'
+    )
 
-    expect(release?.env?.GH_TOKEN).toBe('${{ secrets.GH_TOKEN }}')
+    // semantic-release prefers GH_TOKEN, which lacks the x-access-token user
+    expect(release?.env?.GH_TOKEN).toBeUndefined()
+    expect(release?.env?.GITHUB_TOKEN).toBe(
+      '${{ steps.release-bot.outputs.token }}'
+    )
+    expect(token?.if).toBe(release?.if)
     expect(jobs.action.permissions).toEqual({
       contents: 'read',
       'id-token': 'write',
