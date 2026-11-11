@@ -35,7 +35,6 @@ const DEFAULT_TARGET = 'https://server.eufemia.dnb.no/mcp/web'
 // The endpoint moved on 2026-08-17; RFC 9745 sf-date (seconds since epoch).
 const DEFAULT_DEPRECATION = '@1786924800'
 
-// Provisional — replace once the sunset date is formally agreed.
 const DEFAULT_SUNSET = 'Sun, 15 Nov 2026 00:00:00 GMT'
 
 const MIGRATION_NOTICE =

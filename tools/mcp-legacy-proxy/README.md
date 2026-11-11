@@ -67,6 +67,3 @@ yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy --var MODE:gone
    recorded.
 3. When legacy traffic is low, switch to `redirect` (`308`).
 4. After the final support period, switch to `gone` (`410`).
-
-Update the `SUNSET` / `DEPRECATION_DATE` vars in [`wrangler.toml`](./wrangler.toml)
-once the dates are agreed.

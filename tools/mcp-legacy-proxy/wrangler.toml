@@ -5,11 +5,11 @@ workers_dev = true
 
 # Phase the endpoint down by changing MODE and re-deploying (or
 # `wrangler deploy --var MODE:redirect`):
-#   proxy    -> forward to the new endpoint (default, safest)
+#   proxy    -> forward to the new endpoint
 #   redirect -> 308 Permanent Redirect to the new endpoint
 #   gone     -> 410 Gone
 [vars]
-MODE = "proxy"
+MODE = "gone"
 TARGET_URL = "https://server.eufemia.dnb.no/mcp/web"
 SUNSET = "Sun, 15 Nov 2026 00:00:00 GMT"
 DEPRECATION_DATE = "@1786924800"
