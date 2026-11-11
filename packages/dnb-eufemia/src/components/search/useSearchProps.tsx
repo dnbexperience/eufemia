@@ -91,7 +91,7 @@ export default function useSearchProps<Props extends SearchProps>(
       if (
         activeElement instanceof HTMLElement &&
         activeElement !== input &&
-        (activeElement.matches('input, textarea, select') ||
+        (activeElement.matches(':read-write') ||
           activeElement.isContentEditable)
       ) {
         return

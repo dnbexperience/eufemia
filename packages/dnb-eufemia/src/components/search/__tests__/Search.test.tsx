@@ -173,7 +173,7 @@ describe.each([
     }
   )
 
-  it.each(['input', 'textarea', 'select'] as const)(
+  it.each(['input', 'textarea'] as const)(
     'leaves shortcuts to another focused %s',
     (tagName) => {
       render(
@@ -181,7 +181,6 @@ describe.each([
           <Component {...requiredProps} shortcut />
           {tagName === 'input' ? <input id="editor" /> : null}
           {tagName === 'textarea' ? <textarea id="editor" /> : null}
-          {tagName === 'select' ? <select id="editor" /> : null}
         </>
       )
       const editor = document.querySelector<HTMLElement>('#editor')
@@ -197,6 +196,32 @@ describe.each([
       expect(editor).toHaveFocus()
     }
   )
+
+  it.each([
+    'checkbox',
+    'radio',
+    'range',
+    'button',
+    'select',
+    'readonly',
+  ] as const)('moves focus from a focused %s control', (type) => {
+    render(
+      <>
+        <Component {...requiredProps} shortcut />
+        {type === 'select' ? (
+          <select id="control" />
+        ) : type === 'readonly' ? (
+          <input id="control" readOnly />
+        ) : (
+          <input id="control" type={type} />
+        )}
+      </>
+    )
+    const control = document.querySelector<HTMLElement>('#control')
+    control.focus()
+    fireEvent.keyDown(control, { key: 'k', metaKey: true })
+    expect(document.querySelector('.dnb-search input')).toHaveFocus()
+  })
 
   it('keeps the shortcut available in its Search input', () => {
     render(<Component {...requiredProps} shortcut />)
