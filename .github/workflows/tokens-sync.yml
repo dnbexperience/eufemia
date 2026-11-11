@@ -40,13 +40,7 @@ jobs:
     outputs:
       artifact-id: ${{ steps.bundle.outputs.artifact-id }}
       branch: ${{ steps.target.outputs.branch }}
-      branch-exists: ${{ steps.target.outputs.exists }}
-      branch-created: ${{ steps.commit.outputs.branch_created }}
       remote-sha: ${{ steps.commit.outputs.remote_sha }}
-      base-sha: ${{ steps.commit.outputs.base_sha }}
-      commits: ${{ steps.commit.outputs.commits }}
-      existing-pr: ${{ steps.existing-pr.outputs.exists }}
-      pr-url: ${{ steps.existing-pr.outputs.url }}
 
     steps:
       - name: Git checkout
@@ -287,7 +281,37 @@ jobs:
 
     timeout-minutes: 15
 
+    env:
+      BRANCH: ${{ needs.process-tokens.outputs.branch }}
+      REMOTE_SHA: ${{ needs.process-tokens.outputs.remote-sha }}
+
     steps:
+      # The build job's outputs are as untrusted as its code, so the branch
+      # has to be one this run may write to
+      - name: Check the design token branch
+        env:
+          OUTPUT_BRANCH: ${{ inputs.output_branch }}
+        run: |
+          if [ -n "$OUTPUT_BRANCH" ]; then
+            expected=$OUTPUT_BRANCH
+          elif [ "$GITHUB_REF_NAME" = main ]; then
+            expected="$AUTOMATION_BRANCH-*"
+          else
+            expected=$GITHUB_REF_NAME
+          fi
+
+          # shellcheck disable=SC2053 # The automation branch is a pattern
+          if [[ "$BRANCH" != $expected ]]; then
+            echo "::error::This run may not write to the branch \"$BRANCH\"."
+            exit 1
+          fi
+          case "$BRANCH" in
+            main | release | beta | alpha | next | *.x)
+              echo "::error::The design tokens cannot be committed to a branch named \"$BRANCH\"."
+              exit 1
+              ;;
+          esac
+
       # Only the local actions are needed in the working tree; git reads the
       # rest of the history it needs on demand
       - name: Git checkout
@@ -313,8 +337,8 @@ jobs:
         uses: ./.github/actions/push-sync-commits
         with:
           artifact-id: ${{ needs.process-tokens.outputs.artifact-id }}
-          branch: ${{ needs.process-tokens.outputs.branch }}
-          remote-sha: ${{ needs.process-tokens.outputs.remote-sha }}
+          branch: ${{ env.BRANCH }}
+          remote-sha: ${{ env.REMOTE_SHA }}
           token: ${{ steps.automation-bot.outputs.token }}
           allowed-paths: |
             packages/dnb-eufemia/src/style/themes
@@ -325,33 +349,40 @@ jobs:
       # pushed branch unmentioned
       - name: Report the pushed branch
         env:
-          BRANCH: ${{ needs.process-tokens.outputs.branch }}
-          BRANCH_EXISTS: ${{ needs.process-tokens.outputs.branch-exists }}
-          COMMITS: ${{ needs.process-tokens.outputs.commits }}
+          BASE_SHA: ${{ steps.push.outputs.base }}
         run: |
-          if [ "$BRANCH_EXISTS" != true ]; then
+          if [ -z "$REMOTE_SHA" ]; then
             branch_action="Created branch"
           else
             branch_action="Updated branch"
           fi
+          commits=$(git rev-list --count "$BASE_SHA..HEAD")
 
           {
             echo ""
             echo "# Summary:"
             echo ""
-            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $COMMITS commit(s)"
+            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $commits commit(s)"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create or comment on the design token pull request
         env:
           GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          BRANCH: ${{ needs.process-tokens.outputs.branch }}
-          EXISTING_PR: ${{ needs.process-tokens.outputs.existing-pr }}
-          PR_URL: ${{ needs.process-tokens.outputs.pr-url }}
-          BRANCH_CREATED: ${{ needs.process-tokens.outputs.branch-created }}
-          BASE_SHA: ${{ needs.process-tokens.outputs.base-sha }}
+          BASE_SHA: ${{ steps.push.outputs.base }}
           TOKEN_REVIEW: ${{ steps.push.outputs.directory }}/token-review.md
         run: |
+          PR_URL=$(gh pr list \
+            --head "$BRANCH" \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          if [ -n "$PR_URL" ]; then
+            EXISTING_PR=true
+          fi
+          if [ -z "$REMOTE_SHA" ]; then
+            BRANCH_CREATED=true
+          fi
+
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
 

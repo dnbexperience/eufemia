@@ -32,10 +32,7 @@ jobs:
 
     outputs:
       artifact-id: ${{ steps.bundle.outputs.artifact-id }}
-      branch: ${{ steps.manual-branch.outputs.branch || github.ref_name }}
       remote-sha: ${{ steps.commit.outputs.remote_sha }}
-      existing-pr: ${{ steps.existing-pr.outputs.exists }}
-      pr-url: ${{ steps.existing-pr.outputs.url }}
 
     steps:
       - name: Git checkout
@@ -187,6 +184,10 @@ jobs:
 
     timeout-minutes: 15
 
+    # Not taken from the build job, whose outputs are as untrusted as its code
+    env:
+      BRANCH: ${{ github.event_name == 'workflow_dispatch' && 'icons/automation-figma-sync' || github.ref_name }}
+
     steps:
       # Only the local actions are needed in the working tree; git reads the
       # rest of the history it needs on demand
@@ -211,7 +212,7 @@ jobs:
         uses: ./.github/actions/push-sync-commits
         with:
           artifact-id: ${{ needs.process-icons.outputs.artifact-id }}
-          branch: ${{ needs.process-icons.outputs.branch }}
+          branch: ${{ env.BRANCH }}
           remote-sha: ${{ needs.process-icons.outputs.remote-sha }}
           token: ${{ steps.automation-bot.outputs.token }}
           git-name: ${{ steps.automation-bot.outputs.git-name }}
@@ -225,11 +226,15 @@ jobs:
       - name: Create draft icon update pull request
         if: github.event_name == 'workflow_dispatch'
         env:
-          BRANCH: ${{ needs.process-icons.outputs.branch }}
           GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          EXISTING_PR: ${{ needs.process-icons.outputs.existing-pr }}
-          PR_URL: ${{ needs.process-icons.outputs.pr-url }}
         run: |
+          PR_URL=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+
           icon_names() {
             git diff --name-only "origin/main...HEAD" --diff-filter="$1" \
               -- 'packages/dnb-eufemia/assets/icons/dnb/*.svg' |
@@ -276,7 +281,7 @@ jobs:
             echo ""
             echo "Review names, tags, removals, changelog and visual snapshots before marking the pull request ready."
           } >> "$GITHUB_STEP_SUMMARY"
-          if [ "$EXISTING_PR" = true ]; then
+          if [ -n "$PR_URL" ]; then
             gh pr edit "$PR_URL" --title "$title"
             is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
             if [ "$is_draft" != true ]; then
