@@ -1040,7 +1040,13 @@ describe('Search.Panel', () => {
       expect(fieldButtons).toHaveLength(showSubmitButton ? 2 : 1)
 
       for (const button of fieldButtons) {
-        await userEvent.tab()
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          bubbles: true,
+          cancelable: true,
+        })
+        fireEvent(document.activeElement, event)
+        expect(event.defaultPrevented).toBe(true)
         expect(button).toHaveFocus()
       }
       await userEvent.tab()
@@ -1048,6 +1054,20 @@ describe('Search.Panel', () => {
 
       await userEvent.tab({ shift: true })
       expect(fieldButtons.at(-1)).toHaveFocus()
+      for (const control of [
+        input,
+        ...fieldButtons.slice(0, -1),
+      ].reverse()) {
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          shiftKey: true,
+          bubbles: true,
+          cancelable: true,
+        })
+        fireEvent(document.activeElement, event)
+        expect(event.defaultPrevented).toBe(true)
+        expect(control).toHaveFocus()
+      }
     }
   )
 
