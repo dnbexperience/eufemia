@@ -44,10 +44,12 @@
     inset-inline-end: 0.5rem;
     visibility: hidden;
     opacity: var(--table-scroll-indicator-opacity, 0);
+  }
 
-    &:dir(rtl) .dnb-icon {
-      transform: rotate(180deg);
-    }
+  &__scroll-view[data-scroll-indicator-rtl]
+    > &__scroll-indicator
+    .dnb-icon {
+    transform: rotate(180deg);
   }
 
   &__scroll-view[data-scroll-indicator] > &__scroll-indicator {
