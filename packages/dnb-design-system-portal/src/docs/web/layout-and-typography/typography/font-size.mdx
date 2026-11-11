@@ -35,6 +35,8 @@ Font sizes are the same in light and dark mode.
 | <PropAsPx name="--font-size-x-large" />  | `x-large`  | **<PropValue name="--font-size-x-large" />**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
 | <PropAsPx name="--font-size-xx-large" /> | `xx-large` | **<PropValue name="--font-size-xx-large" />** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
 
+For sizes that adapt to screen width, see the [responsive typography table](#responsive-typography-beta) and [interactive demo](/web/layout-and-typography/typography/#setting-responsive).
+
 ## Typography for native app pages
 
 When a web page opens inside a native app, its text should fit the surrounding app. Wrap the embedded content in `<Theme typography="native">` to use the brand's native app font size for body text and control labels, such as buttons and inputs.
@@ -178,6 +180,10 @@ Wrap a section of your UI in `<Typography.Context responsive>` to enable typogra
 Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, will start using the responsive variables in the table below.
 
 You can turn it off for a section using `<Typography.Context responsive={false}>`.
+
+Try the [responsive typography demo](/web/layout-and-typography/typography/#setting-responsive) and resize your browser to compare fixed and responsive text.
+
+See the matching [responsive line heights](/web/layout-and-typography/typography/css-reference/#responsive-typography-beta) and the [breakpoint ranges](/web/layout-and-typography/breakpoints/#breakpoint-ranges).
 
 | CSS Variable                      | `← small`                                 | `small → medium`                          | `medium →`                                |
 | --------------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
