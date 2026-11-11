@@ -2339,6 +2339,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 @media (prefers-reduced-motion: reduce) {
   .dnb-progress-indicator__linear__bar1-animation {
+    right: 0;
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
   }
@@ -2349,6 +2350,7 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 @media (prefers-reduced-motion: reduce) {
   .dnb-progress-indicator__linear__bar2-animation {
+    right: 0;
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
   }
