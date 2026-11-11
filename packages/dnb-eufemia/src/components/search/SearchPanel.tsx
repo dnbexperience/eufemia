@@ -11,6 +11,9 @@ import useId from '../../shared/helpers/useId'
 import useSearchProps from './useSearchProps'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
+const interactiveSelector =
+  'a[href], button, input, select, textarea, label, summary, [contenteditable="true"], [tabindex]:not([tabindex="-1"])'
+
 export type SearchPanelContentProps = {
   results: ReactNode
   close: () => void
@@ -125,6 +128,14 @@ function SearchPanel(localProps: SearchPanelProps) {
             <span
               className="dnb-search__panel-content"
               role="presentation"
+              onMouseDown={(event) => {
+                // Keep focus, typing and result navigation in the input.
+                if (
+                  !(event.target as Element).closest(interactiveSelector)
+                ) {
+                  event.preventDefault()
+                }
+              }}
             >
               {children ? children({ results, close }) : results}
             </span>

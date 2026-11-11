@@ -700,6 +700,43 @@ describe('Search.Panel', () => {
     expect(results.closest('.dnb-popover__portal')).not.toBeNull()
   })
 
+  it('keeps focus in the input when pressing empty space or text in the panel', async () => {
+    render(
+      <Search.Panel
+        panelDescription="Search results and an action. Press Tab to reach the action."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <span id="text">Show results from</span>
+            <button type="button" id="action">
+              Action
+            </button>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+
+    await userEvent.click(document.querySelector('#text'))
+    expect(input).toHaveFocus()
+
+    await userEvent.click(
+      document.querySelector('.dnb-search__panel-content')
+    )
+    expect(input).toHaveFocus()
+    await userEvent.keyboard('in')
+    expect(input).toHaveValue('in')
+
+    await userEvent.click(document.querySelector('#action'))
+    expect(document.querySelector('#action')).toHaveFocus()
+  })
+
   it('closes with the built-in close button and returns focus to the input', async () => {
     render(
       <Search.Panel
