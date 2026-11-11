@@ -1,0 +1,53 @@
+name: Bundle sync commits
+description: >-
+  Bundle the commits this job made on top of the remote branches as an
+  artifact, with any extra files, for push-sync-commits in a separate job. A
+  secret reaches only the jobs that reference it, so the job that runs the
+  build and third-party code never receives the automation app key.
+
+inputs:
+  name:
+    description: Artifact name
+    required: true
+  base:
+    description: >-
+      The commit this job's own commits start on. Commits below it, such as
+      an existing branch rebased onto main, are pushed as they are.
+    required: true
+  files:
+    description: Extra files for the push job, one path per line. Missing files are left out.
+    required: false
+    default: ''
+
+outputs:
+  artifact-id:
+    description: ID of the uploaded artifact
+    value: ${{ steps.upload.outputs.artifact-id }}
+
+runs:
+  using: composite
+  steps:
+    - name: Bundle the commits
+      shell: bash
+      env:
+        BASE: ${{ inputs.base }}
+        FILES: ${{ inputs.files }}
+      run: |
+        dir="$RUNNER_TEMP/sync-commits"
+        mkdir -p "$dir"
+        git bundle create "$dir/commits.bundle" HEAD --not --remotes
+        git rev-parse --verify "$BASE^{commit}" > "$dir/base"
+        while IFS= read -r file; do
+          if [ -n "$file" ] && [ -f "$file" ]; then
+            cp "$file" "$dir/"
+          fi
+        done <<< "$FILES"
+
+    - name: Upload the commits
+      id: upload
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ runner.temp }}/sync-commits
+        if-no-files-found: error
+        retention-days: 1
