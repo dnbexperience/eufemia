@@ -16,7 +16,8 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       'matches the %s variant',
       async (variant) => {
         await makeScreenshot({
-          selector: `[data-visual-test="search-${variant}"]`,
+          selector: `[data-visual-test="search-${variant}-group"]`,
+          wrapperStyle: { width: variant === 'hero' ? '42rem' : '20rem' },
         })
       }
     )
@@ -24,6 +25,8 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     it('matches compact expanded on focus', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="search-compact"]',
+        style: { width: '17.5rem', 'max-width': '100%' },
+        wrapperStyle: { width: '19.5rem' },
         simulateSelector: '[data-visual-test="search-compact"] input',
         simulate: 'focus',
       })
@@ -32,6 +35,11 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     it('matches the hero in dark mode', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="search-hero"]',
+        style: { width: '40rem', 'max-width': '100%' },
+        wrapperStyle: {
+          width: '42rem',
+          background: 'var(--token-color-background-page-background)',
+        },
         colorScheme: 'dark',
       })
     })
@@ -40,12 +48,16 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       await makeScreenshot({
         selector: '[data-visual-test="search-compact"]',
         pageViewport: { width: 320 },
+        style: { width: '17.5rem', 'max-width': '100%' },
+        wrapperStyle: { width: '20rem' },
       })
     })
 
     it('matches the autocomplete hero', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="search-autocomplete-hero"]',
+        style: { width: '40rem', 'max-width': '100%' },
+        wrapperStyle: { width: '42rem' },
       })
     })
 
@@ -54,6 +66,8 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       async (variant) => {
         await makeScreenshot({
           selector: `[data-visual-test="search-${variant}"]`,
+          style: { width: '40rem', 'max-width': '100%' },
+          wrapperStyle: { width: '42rem' },
           simulate: [
             {
               action: 'focus',
@@ -71,6 +85,8 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     it('matches the compact autocomplete', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="search-autocomplete-compact"]',
+        style: { width: '17.5rem', 'max-width': '100%' },
+        wrapperStyle: { width: '19.5rem' },
       })
     })
 
@@ -79,7 +95,9 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         selector: '[data-visual-test="search-autocomplete-compact"]',
         simulateSelector:
           '[data-visual-test="search-autocomplete-compact"] input',
+        style: { width: '17.5rem', 'max-width': '100%' },
         simulate: 'focus',
+        wrapperStyle: { width: '19.5rem' },
       })
     })
 
