@@ -17,11 +17,11 @@ SSE), so this proxy is deliberately small.
 
 The endpoint is phased down by changing the `MODE` var — no code change needed:
 
-| `MODE`     | Response                                                                                                                                |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `proxy`    | Forward `POST` to the new endpoint, add deprecation headers, inject a migration notice into the `initialize` instructions. **Default.** |
-| `redirect` | `308 Permanent Redirect` to the new endpoint (+ JSON-RPC error body for clients that don't follow redirects).                           |
-| `gone`     | `410 Gone` with a migration message.                                                                                                    |
+| `MODE`     | Response                                                                                                                                                  |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `proxy`    | Forward `POST` to the new endpoint, add deprecation headers, inject a migration notice into the `initialize` instructions. Fallback when `MODE` is unset. |
+| `redirect` | `308 Permanent Redirect` to the new endpoint (+ JSON-RPC error body for clients that don't follow redirects).                                             |
+| `gone`     | `410 Gone` with a migration message.                                                                                                                      |
 
 Every response carries `Deprecation` (RFC 9745), `Sunset` (RFC 8594), and
 `Link: <…>; rel="successor-version"`.
@@ -67,6 +67,3 @@ yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy --var MODE:gone
    recorded.
 3. When legacy traffic is low, switch to `redirect` (`308`).
 4. After the final support period, switch to `gone` (`410`).
-
-Update the `SUNSET` / `DEPRECATION_DATE` vars in [`wrangler.toml`](./wrangler.toml)
-once the dates are agreed.
