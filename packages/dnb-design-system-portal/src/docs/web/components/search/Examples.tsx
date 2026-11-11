@@ -1,12 +1,5 @@
-import {
-  Search,
-  Flex,
-  FormLabel,
-  ToggleButton,
-  Menu,
-  P,
-} from '@dnb/eufemia/src'
-import { useState } from 'react'
+import { Search, Flex, FormLabel, Chip, Menu, P } from '@dnb/eufemia/src'
+import { useId, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 export const SearchDefault = () => (
@@ -229,9 +222,10 @@ export const SearchAsync = () => (
 )
 
 export const SearchPanel = () => (
-  <ComponentBox hideCode data-visual-test="search-panel">
+  <ComponentBox hideCode scope={{ useId }} data-visual-test="search-panel">
     {() => {
       const Example = () => {
+        const categoryLabelId = useId()
         const [category, setCategory] = useState('all')
         const [sort, setSort] = useState('relevance')
         const sortLabel =
@@ -295,6 +289,7 @@ export const SearchPanel = () => (
                     wrap
                   >
                     <FormLabel
+                      id={categoryLabelId}
                       element="span"
                       vertical={false}
                       right={false}
@@ -335,16 +330,15 @@ export const SearchPanel = () => (
                       </Menu.Root>
                     </Flex.Item>
                   </Flex.Container>
-                  <ToggleButton.Group
-                    label="Show results from"
-                    labelSrOnly
+                  <Chip.Group
+                    aria-labelledby={categoryLabelId}
                     value={category}
                     onChange={({ value }) => setCategory(String(value))}
                   >
-                    <ToggleButton text="All" value="all" />
-                    <ToggleButton text="Components" value="components" />
-                    <ToggleButton text="Guidance" value="guidance" />
-                  </ToggleButton.Group>
+                    <Chip value="all">All</Chip>
+                    <Chip value="components">Components</Chip>
+                    <Chip value="guidance">Guidance</Chip>
+                  </Chip.Group>
                   {results}
                 </Flex.Stack>
               )}
