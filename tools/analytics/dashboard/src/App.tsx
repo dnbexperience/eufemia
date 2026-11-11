@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
   Card,
+  Chip,
   Dropdown,
   Flex,
   GlobalStatus,
@@ -8,7 +9,6 @@ import {
   H2,
   P,
   Tabs,
-  ToggleButton,
 } from '@dnb/eufemia/src'
 import Theme, {
   getTheme,
@@ -330,16 +330,16 @@ function PortalViewTrendsPanel({
 
       <Card stack>
         <H2 size="medium">Views over time</H2>
-        <ToggleButton.Group
+        <Chip.Group
           label="Group by"
           value={period}
           onChange={({ value }) =>
             setPeriod(value === 'week' ? 'week' : 'month')
           }
         >
-          <ToggleButton text="Month" value="month" />
-          <ToggleButton text="Week" value="week" />
-        </ToggleButton.Group>
+          <Chip text="Month" value="month" />
+          <Chip text="Week" value="week" />
+        </Chip.Group>
         <BarList
           items={period === 'week' ? trends.perWeek : trends.perMonth}
         />
