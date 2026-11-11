@@ -21,10 +21,6 @@ export type SearchProps = Pick<
    */
   variant?: 'default' | 'hero' | 'compact'
   /**
-   * Use a pill shape instead of the theme's normal corner radius. Applies to any variant. Defaults to `false`.
-   */
-  pill?: boolean
-  /**
    * Enable Cmd+K and Ctrl+K to focus the first visible, enabled Search with a shortcut. Shows a platform-specific hint when the input is empty. Defaults to `false`.
    */
   shortcut?: boolean

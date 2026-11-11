@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useRef } from 'react'
-import type { ReactNode, RefObject } from 'react'
+import type { CSSProperties, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
 import Autocomplete from '../autocomplete/Autocomplete'
 import Popover from '../popover/Popover'
 import type { PopoverProps } from '../popover/types'
 import type { SearchAutocompleteProps } from './SearchAutocomplete'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { combineDescribedBy } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 import useSearchProps from './useSearchProps'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type SearchPanelContentProps = {
   results: ReactNode
@@ -22,6 +25,8 @@ export type SearchPanelProps = Omit<
   | 'children'
   | 'align'
 > & {
+  /** Describe the panel's results and controls, including how to reach them. */
+  panelDescription: string
   /** Align the results surface with the input. Defaults to `left`. */
   align?: 'left' | 'center' | 'right'
   /** Place the inline results alongside custom controls outside the listbox. */
@@ -40,8 +45,11 @@ export type SearchPanelProps = Omit<
 function SearchPanel(localProps: SearchPanelProps) {
   const {
     children,
+    panelDescription,
     popoverProps,
     inputRef,
+    minHeight = 10,
+    maxHeight,
     align = 'left',
     ...props
   } = useSearchProps(localProps, {
@@ -49,6 +57,7 @@ function SearchPanel(localProps: SearchPanelProps) {
     keepValue: true,
     openOnFocus: true,
   })
+  const descriptionId = `${useId()}-panel-description`
   const triggerOffset = popoverProps?.triggerOffset ?? 8
   const targetRef = useRef<HTMLInputElement>(null)
   const setInputRef = useCallback(
@@ -64,67 +73,153 @@ function SearchPanel(localProps: SearchPanelProps) {
   )
 
   return (
-    <Autocomplete
-      {...props}
-      inputRef={setInputRef}
-      resultsRender={({ results, open, close, resultsRef }) => (
-        <SearchPanelSurface
-          {...popoverProps}
-          className={clsx('dnb-search__panel', popoverProps?.className)}
-          inputRef={targetRef}
-          contentRef={resultsRef}
-          triggerOffset={triggerOffset}
-          targetElement={targetRef}
-          alignOnTarget={align}
-          arrowPosition={align}
-          arrowEdgeOffset={0}
-          horizontalOffset={
-            align === 'left'
-              ? triggerOffset
-              : align === 'right'
-                ? -triggerOffset
-                : 0
-          }
-          open={open && !props.disabled}
-          preventClose
-          restoreFocus={false}
-          focusOnOpen={false}
-          disableFocusTrap
-          closeButtonProps={{
-            onClick: (event) => {
-              event.preventDefault()
-              close()
-            },
-          }}
-          onKeyDown={(event) => {
-            if (event.key === 'Escape' && !event.defaultPrevented) {
-              event.preventDefault()
-              event.stopPropagation()
-              close()
+    <>
+      <Autocomplete
+        {...props}
+        maxHeight={0}
+        aria-describedby={combineDescribedBy(props, descriptionId)}
+        inputRef={setInputRef}
+        resultsRender={({ results, open, close, resultsRef }) => (
+          <SearchPanelSurface
+            {...popoverProps}
+            className={clsx('dnb-search__panel', popoverProps?.className)}
+            inputRef={targetRef}
+            minHeight={minHeight}
+            maxHeight={maxHeight}
+            contentRef={resultsRef}
+            triggerOffset={triggerOffset}
+            targetElement={targetRef}
+            alignOnTarget={align}
+            arrowPosition={align}
+            arrowEdgeOffset={0}
+            horizontalOffset={
+              align === 'left'
+                ? triggerOffset
+                : align === 'right'
+                  ? -triggerOffset
+                  : 0
             }
-          }}
-          hideArrow
-          noInnerSpace
-          noMaxWidth
-          omitDescribedBy
-        >
-          <span className="dnb-search__panel-content" role="presentation">
-            {children ? children({ results, close }) : results}
-          </span>
-        </SearchPanelSurface>
-      )}
-    />
+            open={open && !props.disabled}
+            preventClose
+            restoreFocus={false}
+            focusOnOpen={false}
+            disableFocusTrap
+            closeButtonProps={{
+              onClick: (event) => {
+                event.preventDefault()
+                close()
+              },
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape' && !event.defaultPrevented) {
+                event.preventDefault()
+                event.stopPropagation()
+                close()
+              }
+            }}
+            hideArrow
+            noInnerSpace
+            noMaxWidth
+            omitDescribedBy
+          >
+            <span
+              className="dnb-search__panel-content"
+              role="presentation"
+            >
+              {children ? children({ results, close }) : results}
+            </span>
+          </SearchPanelSurface>
+        )}
+      />
+      <span id={descriptionId} className="dnb-sr-only">
+        {panelDescription}
+      </span>
+    </>
   )
 }
 
 function SearchPanelSurface({
   inputRef,
+  minHeight,
+  maxHeight,
   ...props
 }: PopoverProps & {
   inputRef: RefObject<HTMLInputElement>
   contentRef: RefObject<HTMLSpanElement>
+  minHeight?: SearchPanelProps['minHeight']
+  maxHeight?: SearchPanelProps['maxHeight']
 }) {
   const { open, contentRef } = props
+
+  useIsomorphicLayoutEffect(() => {
+    const surface = contentRef.current
+    if (!open || !surface) {
+      return undefined
+    }
+
+    const results = surface.querySelector<HTMLElement>('[role="listbox"]')
+    const content = surface.querySelector<HTMLElement>(
+      '.dnb-search__panel-content'
+    )
+    if (!results || !content) {
+      return undefined
+    }
+
+    const updateHeight = () => {
+      const reservedHeight = Math.max(
+        0,
+        content.offsetHeight - results.offsetHeight
+      )
+      surface.style.setProperty(
+        '--search-panel-reserved-height',
+        reservedHeight + 'px'
+      )
+    }
+    updateHeight()
+    if (typeof ResizeObserver === 'undefined') {
+      return undefined
+    }
+    const observer = new ResizeObserver(updateHeight)
+    observer.observe(content)
+    observer.observe(results)
+    return () => observer.disconnect()
+  }, [open, contentRef, props.children])
+
+  useEffect(() => {
+    const input = inputRef.current
+    if (!open || !input) {
+      return undefined
+    }
+
+    // Wrapped controls can require scrolling the surface as well as the list.
+    const revealResults = () => {
+      if (!input.getAttribute('aria-activedescendant')) {
+        return
+      }
+      const content = contentRef.current?.querySelector<HTMLElement>(
+        '.dnb-popover__content'
+      )
+      const results = content?.querySelector('[role="listbox"]')
+      if (content && results) {
+        const viewport = content.getBoundingClientRect()
+        const list = results.getBoundingClientRect()
+        const offset =
+          list.bottom > viewport.bottom
+            ? list.bottom - viewport.bottom
+            : list.top < viewport.top
+              ? list.top - viewport.top
+              : 0
+        content.scrollTop += offset
+      }
+    }
+    revealResults()
+    const observer = new MutationObserver(revealResults)
+    observer.observe(input, {
+      attributes: true,
+      attributeFilter: ['aria-activedescendant'],
+    })
+    return () => observer.disconnect()
+  }, [open, inputRef, contentRef, props.children])
 
   useEffect(() => {
     if (!open) {
@@ -161,12 +256,16 @@ function SearchPanelSurface({
             .find(
               (element) => !input.closest('.dnb-search')?.contains(element)
             )
+        } else {
+          next = controls[index + (event.shiftKey ? -1 : 1)]
         }
       }
 
       if (next) {
         event.preventDefault()
-        next.focus()
+        next.focus({
+          preventScroll: next === input || surface.contains(next),
+        })
       }
     }
 
@@ -175,7 +274,15 @@ function SearchPanelSurface({
     return () => ownerDocument?.removeEventListener('keydown', onKeyDown)
   }, [open, inputRef, contentRef])
 
-  return <Popover {...props} />
+  const heightLimit = parseFloat(String(maxHeight))
+  const style = {
+    '--search-panel-min-height':
+      Math.max(0, parseFloat(String(minHeight)) || 0) + 'rem',
+    '--search-panel-max-height':
+      heightLimit > 0 ? heightLimit + 'rem' : undefined,
+  } as CSSProperties
+
+  return <Popover {...props} style={style} />
 }
 
 function getTabbableElements(root: ParentNode) {
