@@ -115,6 +115,8 @@ function SearchPanel(localProps: SearchPanelProps) {
             focusOnOpen={false}
             disableFocusTrap
             closeButtonProps={{
+              // Keep pointer focus from scrolling the surface before click.
+              onMouseDown: (event) => event.preventDefault(),
               onClick: (event) => {
                 event.preventDefault()
                 close()
