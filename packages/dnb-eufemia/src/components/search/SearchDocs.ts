@@ -7,7 +7,7 @@ export const SearchProperties: PropertiesTableProps = {
     status: 'optional',
   },
   shortcut: {
-    doc: 'Enable Cmd+K and Ctrl+K to focus the first visible, enabled Search with a shortcut. Shows a platform-specific hint when the input is empty. Defaults to `false`.',
+    doc: 'Enable Cmd+K on Mac and Ctrl+K elsewhere to focus the first visible, enabled Search with a shortcut. Leaves shortcuts to other focused text fields and editors. Shows a platform-specific hint when the input is empty. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
