@@ -186,6 +186,7 @@ export default {
       accordionToggleButtonSR: 'Vis mer innhold',
       accordionMoreContentSR: 'Mer innhold i neste rad',
       navigationButtonSR: 'Naviger til mer innhold',
+      scrollButtonSR: 'Se flere kolonner',
     },
     Upload: {
       title: 'Last opp dokumenter',

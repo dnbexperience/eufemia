@@ -31,6 +31,50 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-table--no-wrap {
   white-space: nowrap;
 }
+.dnb-table__scroll-view {
+  position: relative;
+}
+.dnb-table__scroll-indicator.dnb-button {
+  position: absolute;
+  z-index: 6;
+  inset-block-start: 0.5rem;
+  inset-inline-end: 0.5rem;
+  visibility: hidden;
+  opacity: var(--table-scroll-indicator-opacity, 0);
+}
+.dnb-table__scroll-indicator.dnb-button:dir(rtl) .dnb-icon {
+  transform: rotate(180deg);
+}
+.dnb-table__scroll-view[data-scroll-indicator] > .dnb-table__scroll-indicator {
+  visibility: visible;
+}
+@media print {
+  .dnb-table__scroll-view[data-scroll-indicator] > .dnb-table__scroll-indicator {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dnb-table__scroll-view[data-scroll-indicator-animate] > .dnb-table__scroll-indicator .dnb-icon svg {
+    animation: table-scroll-nudge 1.4s ease-in-out;
+  }
+}
+@keyframes table-scroll-nudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(0.125rem);
+  }
+  25% {
+    transform: translateX(-0.125rem);
+  }
+  45% {
+    transform: translateX(0.0625rem);
+  }
+  75% {
+    transform: translateX(-0.0625rem);
+  }
+}
 .dnb-table > caption {
   position: relative;
   caption-side: bottom;
@@ -263,6 +307,9 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button {
   flex-direction: row-reverse;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button::before, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button::before {
+  right: -0.5rem;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right {
   padding-right: 0.5rem;

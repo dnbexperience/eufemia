@@ -154,6 +154,48 @@ export const VariantBasic = () => (
   </ComponentBox>
 )
 
+export const HorizontalScroll = () => (
+  <ComponentBox hideCode data-visual-test="table-horizontal-scroll">
+    <Table.ScrollView style={{ maxWidth: '32rem' }}>
+      <Table style={{ minWidth: '48rem' }}>
+        <caption className="dnb-sr-only">Account transactions</caption>
+        <thead>
+          <Tr>
+            <Th>Date</Th>
+            <Th>Description</Th>
+            <Th>Account</Th>
+            <Th>Status</Th>
+            <Th align="right">Amount</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr>
+            <Td>9 Nov 2026</Td>
+            <Td>Monthly savings</Td>
+            <Td>Savings account</Td>
+            <Td>Completed</Td>
+            <Td align="right">2 500,00 kr</Td>
+          </Tr>
+          <Tr>
+            <Td>8 Nov 2026</Td>
+            <Td>Electricity bill</Td>
+            <Td>Everyday account</Td>
+            <Td>Completed</Td>
+            <Td align="right">−850,00 kr</Td>
+          </Tr>
+          <Tr>
+            <Td>7 Nov 2026</Td>
+            <Td>Grocery shopping</Td>
+            <Td>Everyday account</Td>
+            <Td>Completed</Td>
+            <Td align="right">−624,50 kr</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
+  </ComponentBox>
+)
+
 export const SizeMedium = () => (
   <ComponentBox hideCode data-visual-test="table-size-medium">
     <Table.ScrollView>
