@@ -249,4 +249,28 @@ runs:
       '.github/actions/setup/action.yml: `actions/cache@v6` must be pinned to a full-length commit SHA',
     ])
   })
+
+  it('reports the retired personal access token secrets', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: git push
+        env:
+          GH_TOKEN: \${{ secrets.GH_TOKEN }}
+          GH_NAME: \${{ secrets['GH_NAME'] }}
+          GH_EMAIL: \${{ secrets.GH_EMAIL }}
+          OTHER: \${{ secrets.GH_TOKEN_OTHER }}
+          BUILT_IN: \${{ secrets.GITHUB_TOKEN }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: `secrets.GH_TOKEN` is a retired personal access token secret; use a GitHub App token instead',
+      '.github/workflows/test.yml: `secrets.GH_NAME` is a retired personal access token secret; use a GitHub App token instead',
+      '.github/workflows/test.yml: `secrets.GH_EMAIL` is a retired personal access token secret; use a GitHub App token instead',
+    ])
+  })
 })
