@@ -1,12 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import type { MouseEvent } from 'react'
 import { clsx } from 'clsx'
-import {
-  Checkbox,
-  Switch,
-  ToggleButton,
-  Radio,
-} from '../../../../components'
+import { Checkbox, Switch, Chip, Radio } from '../../../../components'
+import ChipGroupContext from '../../../../components/chip/ChipGroupContext'
 import ButtonRow from '../../Form/ButtonRow'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
@@ -14,7 +10,6 @@ import { useFieldProps } from '../../hooks'
 import type { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import mergeProps from '../../../../shared/helpers/mergeProps'
-import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import type {
@@ -23,9 +18,9 @@ import type {
   CheckboxOnClickParams,
 } from '../../../../components/Checkbox'
 import type {
-  ToggleButtonProps,
-  ToggleButtonChangeEvent,
-} from '../../../../components/ToggleButton'
+  ChipProps,
+  ChipChangeEvent,
+} from '../../../../components/Chip'
 import type { SwitchOnChangeParams } from '../../../../components/Switch'
 import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -46,7 +41,7 @@ export type ToggleProps = {
   /**
    * The size of the toggle. Can be `default`, `medium` or `large`. The button variants also support `small`.
    */
-  size?: ToggleButtonProps['size'] | CheckboxProps['size']
+  size?: ChipProps['size'] | CheckboxProps['size']
 
   /**
    * Will be called on click.
@@ -113,7 +108,7 @@ function Toggle(props: FieldToggleProps) {
     [onClick, value, valueOff, valueOn]
   )
   const handleCheckboxChange = useCallback(
-    (args: CheckboxOnChangeParams | ToggleButtonChangeEvent) => {
+    (args: CheckboxOnChangeParams | ChipChangeEvent) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]
@@ -218,26 +213,27 @@ function Toggle(props: FieldToggleProps) {
       )
     case 'button':
       return (
-        <FieldBlock {...fieldBlockProps}>
-          <ToggleButton
-            id={id}
-            text={
-              isOn
-                ? (textOn ?? translations.yes)
-                : (textOff ?? translations.no)
-            }
-            checked={isOn}
-            disabled={disabled}
-            status={hasError ? 'error' : undefined}
-            value={value ? 'true' : 'false'}
-            size={size}
-            role="checkbox"
-            {...mergeProps(
-              { onChange: handleCheckboxChange },
-              htmlAttributes
-            )}
-          />
-        </FieldBlock>
+        <ChipGroupContext value={undefined}>
+          <FieldBlock {...fieldBlockProps}>
+            <Chip
+              id={id}
+              text={
+                isOn
+                  ? (textOn ?? translations.yes)
+                  : (textOff ?? translations.no)
+              }
+              checked={isOn}
+              disabled={disabled}
+              status={hasError ? 'error' : undefined}
+              value={value ? 'true' : 'false'}
+              size={size}
+              {...mergeProps(
+                { onChange: handleCheckboxChange },
+                htmlAttributes
+              )}
+            />
+          </FieldBlock>
+        </ChipGroupContext>
       )
     case 'buttons':
     case 'radio-button':
@@ -248,36 +244,27 @@ function Toggle(props: FieldToggleProps) {
           fieldsetRole="radiogroup"
         >
           <ButtonRow bottom="x-small">
-            <ToggleButton.Group>
-              <ToggleButtonGroupContext
-                value={{
-                  value: isOn ? 'on' : isOff ? 'off' : null, // use "null" to reset the value
-                  onChange: handleToggleChange,
-                  status: hasError ? 'error' : undefined,
-                  disabled,
-                  size,
-                }}
-              >
-                <ToggleButton
-                  variant={
-                    variant === 'radio-button' ? 'radio' : undefined
-                  }
-                  text={textOn ?? translations.yes}
-                  value="on"
-                  role="radio"
-                  {...htmlAttributes}
-                />
-                <ToggleButton
-                  variant={
-                    variant === 'radio-button' ? 'radio' : undefined
-                  }
-                  text={textOff ?? translations.no}
-                  value="off"
-                  role="radio"
-                  {...htmlAttributes}
-                />
-              </ToggleButtonGroupContext>
-            </ToggleButton.Group>
+            <Chip.Group
+              attributes={label ? { role: 'presentation' } : undefined}
+              value={isOn ? 'on' : isOff ? 'off' : undefined}
+              onChange={handleToggleChange}
+              status={hasError ? 'error' : undefined}
+              disabled={disabled}
+              size={size}
+            >
+              <Chip
+                variant={variant === 'radio-button' ? 'radio' : undefined}
+                text={textOn ?? translations.yes}
+                value="on"
+                {...htmlAttributes}
+              />
+              <Chip
+                variant={variant === 'radio-button' ? 'radio' : undefined}
+                text={textOff ?? translations.no}
+                value="off"
+                {...htmlAttributes}
+              />
+            </Chip.Group>
           </ButtonRow>
         </FieldBlock>
       )
@@ -312,27 +299,28 @@ function Toggle(props: FieldToggleProps) {
       )
     case 'checkbox-button':
       return (
-        <FieldBlock {...fieldBlockProps}>
-          <ToggleButton
-            id={id}
-            variant="checkbox"
-            text={
-              isOn
-                ? (textOn ?? translations.yes)
-                : (textOff ?? translations.no)
-            }
-            checked={isOn}
-            disabled={disabled}
-            status={hasError ? 'error' : undefined}
-            value={value ? 'true' : 'false'}
-            size={size}
-            role="checkbox"
-            {...mergeProps(
-              { onChange: handleCheckboxChange },
-              htmlAttributes
-            )}
-          />
-        </FieldBlock>
+        <ChipGroupContext value={undefined}>
+          <FieldBlock {...fieldBlockProps}>
+            <Chip
+              id={id}
+              variant="checkbox"
+              text={
+                isOn
+                  ? (textOn ?? translations.yes)
+                  : (textOff ?? translations.no)
+              }
+              checked={isOn}
+              disabled={disabled}
+              status={hasError ? 'error' : undefined}
+              value={value ? 'true' : 'false'}
+              size={size}
+              {...mergeProps(
+                { onChange: handleCheckboxChange },
+                htmlAttributes
+              )}
+            />
+          </FieldBlock>
+        </ChipGroupContext>
       )
   }
 }

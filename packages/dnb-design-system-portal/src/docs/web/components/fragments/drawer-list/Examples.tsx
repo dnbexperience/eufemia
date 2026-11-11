@@ -6,12 +6,7 @@
 import { useState } from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import {
-  NumberFormat,
-  ToggleButton,
-  HelpButton,
-  Link,
-} from '@dnb/eufemia/src'
+import { NumberFormat, Button, HelpButton, Link } from '@dnb/eufemia/src'
 import { DrawerList } from '@dnb/eufemia/src/fragments'
 
 export const DrawerListExampleInteractive = () => (
@@ -23,16 +18,16 @@ export const DrawerListExampleInteractive = () => (
 
           return (
             <>
-              <ToggleButton
-                id="state-toggle-button"
+              <Button
+                id="drawer-list-trigger"
                 text="Toggle"
-                checked={open}
+                aria-expanded={open}
                 icon={`chevron_${open ? 'up' : 'down'}`}
                 iconPosition="left"
-                onChange={({ checked }) => setOpen(checked)}
+                onClick={() => setOpen((open) => !open)}
               />
               <DrawerList
-                wrapperElement="#state-toggle-button"
+                wrapperElement="#drawer-list-trigger"
                 skipPortal
                 aria-label="Choose an item"
                 data={data}

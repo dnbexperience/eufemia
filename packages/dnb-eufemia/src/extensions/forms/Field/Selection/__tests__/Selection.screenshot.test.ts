@@ -152,7 +152,7 @@ describe('Selection', () => {
         selector: '[data-visual-test="selection-button-nesting-logic"]',
         simulate: 'click',
         simulateSelector:
-          '[data-visual-test="selection-button-nesting-logic"] .dnb-toggle-button:nth-of-type(2) button',
+          '[data-visual-test="selection-button-nesting-logic"] .dnb-chip:nth-of-type(2) input',
         recalculateHeightAfterSimulate: true,
       })
     })

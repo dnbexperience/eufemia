@@ -7,6 +7,7 @@ import {
   Input,
   H2,
   Button,
+  Chip,
   ToggleButton,
   Flex,
   Switch,
@@ -367,8 +368,10 @@ const AllComponents = ({
     checkbox: 'Checkbox',
     radio: 'Radio',
     radioGroup: 'Radio Group:',
-    toggleButton: 'Toggle:',
-    toggleButtonGroup: 'Toggle Group:',
+    chip: 'Chip:',
+    chipGroup: 'Chip Group:',
+    toggleButton: 'ToggleButton:',
+    toggleButtonGroup: 'ToggleButton Group:',
     switch: 'Switch',
     input: 'Input:',
     textarea: 'Textarea:',
@@ -421,6 +424,13 @@ const AllComponents = ({
         <Radio label={labels.radio} value="a" />
         <Radio label={labels.radio} value="b" />
       </Radio.Group>
+      <Chip.Group label={labels.chip} selectionMode="multiple" {...params}>
+        <Chip text="Chip" value="chip" />
+      </Chip.Group>
+      <Chip.Group label={labels.chipGroup} {...params}>
+        <Chip text="Chip A" value="a" />
+        <Chip text="Chip B" value="b" />
+      </Chip.Group>
       <ToggleButton
         label={labels.toggleButton}
         text="Toggle"

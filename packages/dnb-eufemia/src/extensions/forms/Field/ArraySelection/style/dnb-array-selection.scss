@@ -11,6 +11,12 @@
     flex-flow: column;
     row-gap: var(--row-gap);
   }
+
+  &--options-layout--vertical &__button,
+  &--options-layout--vertical &__options > .dnb-chip__wrapper {
+    align-self: flex-start;
+  }
+
   &--options-layout--vertical#{&}--layout-horizontal {
     .dnb-forms-field-block__label {
       align-items: flex-start;

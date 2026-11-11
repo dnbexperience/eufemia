@@ -1,5 +1,71 @@
 import { test, expect } from '@playwright/test'
 
+test('selects Chip options with native radio keyboard navigation', async ({
+  page,
+}) => {
+  await page.goto('/web/forms/base-fields/Selection/demos/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  const example = page.locator(
+    '[data-visual-test="selection-button-options-horizontal"]'
+  )
+  const group = example.getByRole('radiogroup', { name: 'Label text' })
+  await expect(example.getByRole('radiogroup')).toHaveCount(1)
+  const first = group.getByRole('radio', { name: 'Foo!' })
+  const second = group.getByRole('radio', { name: 'Baar!' })
+  await first.check()
+  await first.press('ArrowRight')
+  await expect(second).toBeFocused()
+  await expect(second).toBeChecked()
+  await expect(first).not.toBeChecked()
+  await second.press('ArrowLeft')
+  await expect(first).toBeChecked()
+})
+
+test('keeps nested Chip choices and revealed sections usable', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/web/forms/base-fields/Selection/demos/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  const example = page.locator(
+    '[data-visual-test="selection-button-nesting-logic"]'
+  )
+  const input = example.locator(
+    'input[aria-placeholder="Enter some value"]'
+  )
+  await example.getByRole('radio', { name: 'Show an input' }).check()
+  await expect(input).toBeVisible()
+  await input.fill('Entered value')
+  await page.evaluate(() => document.fonts.ready)
+  await expect(async () => {
+    const widths = await input.evaluate((element) => ({
+      section: element.closest('.dnb-section').getBoundingClientRect()
+        .width,
+      group: element.closest('.dnb-chip-group').getBoundingClientRect()
+        .width,
+    }))
+    expect(widths.section).toBeCloseTo(widths.group, 0)
+  }).toPass()
+  await example
+    .getByRole('radio', { name: 'Show additional option' })
+    .check()
+  await expect(input).toBeHidden()
+  await example.getByRole('radio', { name: 'Show even more' }).check()
+  await expect(
+    example.locator('input[aria-placeholder="Enter more info"]')
+  ).toBeVisible()
+  await example.getByRole('radio', { name: 'Show an input' }).check()
+  await expect(input).toBeVisible()
+  await input.fill('New value')
+  await expect(input).toHaveValue('New value')
+})
+
 test('keeps composite fields separate when the composition wraps', async ({
   page,
 }) => {

@@ -319,6 +319,12 @@ After:
 +import { ScrollView } from '@dnb/eufemia'
 ```
 
+### Forms selection variants
+
+[Field.Toggle](/web/forms/base-fields/Toggle/), [Field.Selection](/web/forms/base-fields/Selection/), and [Field.ArraySelection](/web/forms/base-fields/ArraySelection/) use Chip for their button variants. Existing variant names, values, validation, and help remain supported.
+
+The controls have Chip's appearance and native checkbox or radio markup. Update custom CSS selectors and tests that target `.dnb-toggle-button` or button elements. Single selection uses one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes.
+
 ### [Field.Name.Company](/web/forms/feature-fields/Name/)
 
 - The `onBlurValidator` property now only accepts a `CompanyNameValidator`, and its `validators` no longer include `nameValidator`. Use `companyValidator` instead.

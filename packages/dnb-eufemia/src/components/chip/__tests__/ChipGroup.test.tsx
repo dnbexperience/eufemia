@@ -535,14 +535,19 @@ describe('Chip.Group', () => {
     }
   )
 
-  it.each(['single', 'multiple'] as const)(
-    'propagates only error status to chips with selectionMode=%s',
-    (selectionMode) => {
+  it.each([
+    ['single', 'Select an account'],
+    ['multiple', 'Select an account'],
+    ['single', 'error'],
+    ['multiple', 'error'],
+  ] as const)(
+    'propagates only error status to chips with selectionMode=%s and status=%s',
+    (selectionMode, status) => {
       const example = (statusState: 'error' | 'information') => (
         <Chip.Group
           label="Accounts"
           selectionMode={selectionMode}
-          status="Select an account"
+          status={status}
           statusState={statusState}
         >
           {(['default', 'addable', 'checkbox', 'radio'] as const).map(
@@ -577,7 +582,7 @@ describe('Chip.Group', () => {
       }
       expect(
         document.querySelectorAll('.dnb-form-status__text')
-      ).toHaveLength(1)
+      ).toHaveLength(status === 'error' ? 0 : 1)
     }
   )
 

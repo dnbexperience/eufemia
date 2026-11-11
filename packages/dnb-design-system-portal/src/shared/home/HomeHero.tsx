@@ -14,7 +14,6 @@ import {
   H1,
   P,
   Switch,
-  ToggleButton,
   Typography,
 } from '@dnb/eufemia/src'
 import { Theme, useTheme } from '@dnb/eufemia/src/shared'
@@ -247,17 +246,14 @@ export default function HomeHero() {
                     </Card>
                   )}
                   {index === 2 && (
-                    <ToggleButton.Group
-                      value={activeBrand}
-                      onChange={() => setTheme({ brand })}
+                    <Button
+                      size="large"
+                      aria-pressed={activeBrand === brand}
+                      aria-label={'Switch brand to ' + name}
+                      onClick={() => setTheme({ brand })}
                     >
-                      <ToggleButton
-                        size="large"
-                        text={name}
-                        value={brand}
-                        aria-label={'Switch brand to ' + name}
-                      />
-                    </ToggleButton.Group>
+                      {name}
+                    </Button>
                   )}
                   {index === 5 && (
                     <PortalToolsMenu

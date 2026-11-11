@@ -20,6 +20,21 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Selection', () => {
+  it.each(['button', 'radio-button'] as const)(
+    'keeps one radiogroup for a single %s option without a field label',
+    (variant) => {
+      render(
+        <Field.Selection variant={variant}>
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(
+        document.querySelectorAll('[role="radiogroup"]')
+      ).toHaveLength(1)
+    }
+  )
+
   describe('autoSelectSingleOption', () => {
     it('selects and stores the only option when enabled', async () => {
       const onChange = vi.fn()
@@ -1671,10 +1686,11 @@ describe('variants', () => {
         'dnb-forms-field-block--label-height-large'
       )
 
-      const buttonElement: HTMLInputElement = document.querySelector(
-        '.dnb-toggle-button__button'
+      const buttonElement: HTMLInputElement =
+        document.querySelector('.dnb-chip input')
+      expect(buttonElement.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
       )
-      expect(buttonElement.classList).toContain('dnb-button--size-large')
     })
 
     it('has no selected value by default', () => {
@@ -1685,7 +1701,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons.length).toEqual(2)
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
@@ -1699,16 +1715,19 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      // Check that the fieldset has the group role when using multiple options
+      expect(
+        document.querySelectorAll('[role="radiogroup"]')
+      ).toHaveLength(1)
+      expect(document.querySelector('fieldset')).toHaveAccessibleName(
+        'Legend'
+      )
       expect(document.querySelector('fieldset')).toHaveAttribute(
         'role',
-        'group'
+        'radiogroup'
       )
 
       expect(
-        document
-          .querySelector('button.dnb-toggle-button__button')
-          .getAttribute('role')
+        document.querySelector('.dnb-chip input').getAttribute('type')
       ).toBe('radio')
     })
 
@@ -1731,13 +1750,13 @@ describe('variants', () => {
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(2)
       const [first, second] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button')
+        document.querySelectorAll('.dnb-chip')
       )
-      expect(first.querySelector('button')).toHaveAttribute(
+      expect(first.querySelector('.dnb-chip input')).toHaveAttribute(
         'aria-describedby',
         expect.stringContaining('-suffix')
       )
-      expect(second.querySelector('button')).toHaveAttribute(
+      expect(second.querySelector('.dnb-chip input')).toHaveAttribute(
         'aria-describedby',
         expect.stringContaining('-suffix')
       )
@@ -1750,7 +1769,7 @@ describe('variants', () => {
           <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0]).toBeDisabled()
       expect(buttons[1]).toBeDisabled()
     })
@@ -1763,7 +1782,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons.length).toEqual(2)
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('true')
@@ -1782,7 +1801,7 @@ describe('variants', () => {
       )
 
       const [option1, option2] = Array.from(
-        document.querySelectorAll('button')
+        document.querySelectorAll('.dnb-chip input')
       )
 
       expect(option1).toBeInTheDocument()
@@ -1804,9 +1823,9 @@ describe('variants', () => {
         document.querySelectorAll('button, input')
       )
 
-      expect(option1).toHaveAttribute('type', 'button')
+      expect(option1).toHaveAttribute('type', 'radio')
       expect(option2).toHaveAttribute('type', 'text')
-      expect(option3).toHaveAttribute('type', 'button')
+      expect(option3).toHaveAttribute('type', 'radio')
     })
 
     it('renders fieldset/legend if more than two options are given', () => {
@@ -1819,7 +1838,7 @@ describe('variants', () => {
 
       expect(document.querySelectorAll('fieldset')).toHaveLength(1)
       expect(document.querySelectorAll('legend')).toHaveLength(1)
-      expect(document.querySelectorAll('label')).toHaveLength(0)
+      expect(document.querySelectorAll('.dnb-chip label')).toHaveLength(2)
 
       rerender(
         <Field.Selection variant="button" label="Label">
@@ -1829,10 +1848,10 @@ describe('variants', () => {
 
       expect(document.querySelectorAll('fieldset')).toHaveLength(0)
       expect(document.querySelectorAll('legend')).toHaveLength(0)
-      expect(document.querySelectorAll('label')).toHaveLength(1)
+      expect(document.querySelectorAll('label')).toHaveLength(2)
       expect(document.querySelector('label')).toHaveAttribute('for')
       expect(document.querySelector('label').getAttribute('for')).toBe(
-        document.querySelector('button').getAttribute('id')
+        document.querySelector('.dnb-chip input').getAttribute('id')
       )
     })
 
@@ -1851,7 +1870,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons.length).toEqual(2)
       expect(buttons[0].getAttribute('aria-checked')).toBe('true')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
@@ -1885,25 +1904,27 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      const options = Array.from(document.querySelectorAll('button'))
+      const options = Array.from(
+        document.querySelectorAll('.dnb-chip input')
+      )
       expect(options).toHaveLength(2)
 
       const [option1, option2] = options
 
-      expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Bar!')
+      expect(option1.closest('.dnb-chip')).toHaveTextContent('Foo!')
+      expect(option2.closest('.dnb-chip')).toHaveTextContent('Bar!')
 
-      expect(option1).toHaveAttribute('aria-checked', 'true')
-      expect(option2).toHaveAttribute('aria-checked', 'false')
+      expect(option1).toBeChecked()
+      expect(option2).not.toBeChecked()
 
       await userEvent.click(option2)
 
       {
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
-        expect(option1).toHaveAttribute('aria-checked', 'false')
-        expect(option2).toHaveAttribute('aria-checked', 'true')
+        expect(option1).not.toBeChecked()
+        expect(option2).toBeChecked()
       }
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -1932,18 +1953,20 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      const options = Array.from(document.querySelectorAll('button'))
+      const options = Array.from(
+        document.querySelectorAll('.dnb-chip input')
+      )
       expect(options).toHaveLength(3)
 
       const [option1, option2, option3] = options
 
-      expect(option1).toHaveTextContent('Foo!')
-      expect(option2).toHaveTextContent('Bar!')
-      expect(option3).toHaveTextContent('Baz!')
+      expect(option1.closest('.dnb-chip')).toHaveTextContent('Foo!')
+      expect(option2.closest('.dnb-chip')).toHaveTextContent('Bar!')
+      expect(option3.closest('.dnb-chip')).toHaveTextContent('Baz!')
 
-      expect(option1).toHaveAttribute('aria-checked', 'false')
-      expect(option2).toHaveAttribute('aria-checked', 'false')
-      expect(option3).toHaveAttribute('aria-checked', 'false')
+      expect(option1).not.toBeChecked()
+      expect(option2).not.toBeChecked()
+      expect(option3).not.toBeChecked()
     })
 
     it('should store "displayValue" in data context', async () => {
@@ -1986,9 +2009,9 @@ describe('variants', () => {
         },
       })
 
-      await userEvent.tab()
-      await userEvent.tab()
-      await userEvent.click(document.activeElement)
+      await userEvent.click(
+        document.querySelectorAll('.dnb-chip input')[1]
+      )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': {
@@ -2007,7 +2030,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      const option = document.querySelector('button')
+      const option = document.querySelector('.dnb-chip input')
       expect(option.getAttribute('style')).toBe('color: red;')
     })
 
@@ -2025,7 +2048,7 @@ describe('variants', () => {
         />
       )
 
-      const option = document.querySelector('button')
+      const option = document.querySelector('.dnb-chip input')
       expect(option.getAttribute('style')).toBe('color: red;')
     })
 
@@ -2055,7 +2078,7 @@ describe('variants', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -2070,14 +2093,14 @@ describe('variants', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
       })
     })
 
-    it('should have aria-labelledby and role="group" on fieldset when label is given', () => {
+    it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
       render(
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
@@ -2089,7 +2112,7 @@ describe('variants', () => {
       const legend = document.querySelector('legend')
 
       expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
-      expect(fieldset).toHaveAttribute('role', 'group')
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
       expect(legend).toHaveAttribute('id')
     })
 
@@ -2121,7 +2144,7 @@ describe('variants', () => {
       const legend = document.querySelector('legend')
 
       expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
-      expect(fieldset).toHaveAttribute('role', 'group')
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
       expect(legend).toHaveAttribute('id')
     })
 
@@ -2160,13 +2183,14 @@ describe('variants', () => {
         'dnb-forms-field-block--label-height-large'
       )
 
-      const buttonElement: HTMLInputElement = document.querySelector(
-        '.dnb-toggle-button__button'
+      const buttonElement: HTMLInputElement =
+        document.querySelector('.dnb-chip input')
+      expect(buttonElement.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
       )
-      expect(buttonElement.classList).toContain('dnb-button--size-large')
     })
 
-    it('renders radio-styled toggle buttons', () => {
+    it('renders radio-styled chips', () => {
       render(
         <Field.Selection variant="radio-button">
           <Field.Option value="foo">Foo</Field.Option>
@@ -2175,9 +2199,7 @@ describe('variants', () => {
       )
 
       expect(
-        document.querySelectorAll(
-          '.dnb-toggle-button__button .dnb-radio__input'
-        )
+        document.querySelectorAll('.dnb-chip input[type="radio"]')
       ).toHaveLength(2)
       expect(document.querySelectorAll('.dnb-radio-group')).toHaveLength(0)
     })
@@ -2192,13 +2214,11 @@ describe('variants', () => {
 
       expect(document.querySelector('fieldset')).toHaveAttribute(
         'role',
-        'group'
+        'radiogroup'
       )
 
       expect(
-        document
-          .querySelector('button.dnb-toggle-button__button')
-          .getAttribute('role')
+        document.querySelector('.dnb-chip input').getAttribute('type')
       ).toBe('radio')
     })
 
@@ -2210,7 +2230,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons.length).toEqual(2)
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
@@ -2224,7 +2244,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('true')
     })
@@ -2239,7 +2259,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       await userEvent.click(buttons[1])
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -2253,7 +2273,7 @@ describe('variants', () => {
           <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0]).toBeDisabled()
       expect(buttons[1]).toBeDisabled()
     })
@@ -2290,10 +2310,10 @@ describe('variants', () => {
       )
 
       const [first, second] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button')
+        document.querySelectorAll('.dnb-chip')
       )
-      expect(first).toHaveClass('dnb-toggle-button__status--error')
-      expect(second).toHaveClass('dnb-toggle-button__status--error')
+      expect(first).toHaveClass('dnb-radio__status--error')
+      expect(second).toHaveClass('dnb-radio__status--error')
     })
 
     it('supports data property', () => {
@@ -2307,10 +2327,10 @@ describe('variants', () => {
         />
       )
 
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveTextContent('One')
-      expect(buttons[1]).toHaveTextContent('Two')
+      expect(buttons[0].closest('.dnb-chip')).toHaveTextContent('One')
+      expect(buttons[1].closest('.dnb-chip')).toHaveTextContent('Two')
     })
 
     describe('ARIA', () => {
@@ -2339,7 +2359,7 @@ describe('variants', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -2358,7 +2378,7 @@ describe('variants', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -3819,8 +3839,8 @@ describe('validation and error handling', () => {
       </Field.Selection>
     )
 
-    const button = document.querySelector('.dnb-toggle-button')
-    expect(button.className).toContain('dnb-toggle-button__status--error')
+    const button = document.querySelector('.dnb-chip')
+    expect(button.className).toContain('dnb-radio__status--error')
   })
 
   it('shows error in individual button item', () => {
@@ -3836,12 +3856,10 @@ describe('validation and error handling', () => {
       </Field.Selection>
     )
     const [first, second] = Array.from(
-      document.querySelectorAll('.dnb-toggle-button')
+      document.querySelectorAll('.dnb-chip')
     )
-    expect(first.className).toContain('dnb-toggle-button__status--error')
-    expect(second.className).not.toContain(
-      'dnb-toggle-button__status--error'
-    )
+    expect(first.className).toContain('dnb-radio__status--error')
+    expect(second.className).not.toContain('dnb-radio__status--error')
   })
 
   it('should show error under the nested field', () => {
