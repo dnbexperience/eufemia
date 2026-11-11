@@ -82,19 +82,23 @@ for (const platform of ['MacIntel', 'Win32']) {
         const fixture = document.createElement('div')
         fixture.id = 'shortcut-editors'
         fixture.innerHTML =
-          '<input /><textarea></textarea><select><option>Option</option></select><div contenteditable="true"><span>Editable text</span></div>'
+          '<input /><textarea></textarea><select><option>Option</option></select><input type="checkbox" /><div contenteditable="true"><span>Editable text</span></div>'
         document.body.append(fixture)
       })
       for (const selector of [
-        'input',
+        'input:not([type])',
         'textarea',
-        'select',
         '[contenteditable]',
       ]) {
         const editor = page.locator('#shortcut-editors').locator(selector)
         await editor.focus()
         await page.keyboard.press(shortcut)
         await expect(editor).toBeFocused()
+      }
+      for (const selector of ['select', 'input[type="checkbox"]']) {
+        await page.locator('#shortcut-editors').locator(selector).focus()
+        await page.keyboard.press(shortcut)
+        await expect(input).toBeFocused()
       }
     })
   })
@@ -260,6 +264,14 @@ for (const name of [
     await page.clock.runFor(250)
     await expect(input).toHaveAttribute('aria-expanded', 'false')
     await expect(page.locator('.dnb-search__panel')).toHaveCount(0)
+
+    await input.fill('But')
+    await input.press('Tab')
+    await page.keyboard.press('Tab')
+    await expect(input).not.toBeFocused()
+    await page.clock.runFor(600)
+    await expect(input).toHaveAttribute('aria-expanded', 'false')
+    await expect(results).toBeHidden()
   })
 }
 
@@ -535,7 +547,7 @@ test('panel uses available height above and below the input and resizes with the
     .toBeGreaterThan(320)
 
   await input.fill('Button')
-  await expect(results.getByRole('option')).toHaveCount(2)
+  await expect(results.getByRole('option')).toHaveCount(1)
   await expect
     .poll(async () => (await results.boundingBox()).height)
     .toBeCloseTo(160, 0)
@@ -739,8 +751,7 @@ test('panel restores results and keyboard navigation after clearing the query', 
     .getByRole('option')
 
   await input.fill('But')
-  await expect(options).toHaveCount(2)
-  await expect(options.first()).toHaveText('Button')
+  await expect(options).toHaveText(['Button'])
   await fixture.locator('.dnb-input__clear-button').click()
 
   await expect(input).toHaveValue('')
@@ -948,6 +959,12 @@ test('panel sorting menu stays above results and supports pointer selection', as
   await fixture
     .getByRole('combobox', { name: 'Search with filters' })
     .focus()
+  const input = fixture.getByRole('combobox')
+  await page
+    .getByText('Show results from', { exact: true })
+    .first()
+    .click()
+  await expect(input).toBeFocused()
   const sort = page.getByRole('button', { name: /^Sort results:/ })
   await sort.click()
   const alphabetical = page.getByRole('menuitem', {
@@ -962,9 +979,12 @@ test('panel sorting menu stays above results and supports pointer selection', as
           .getBoundingClientRect()
         const arrow = document
           .getElementById(button.getAttribute('aria-controls'))
-          .closest('.dnb-menu')
-          .querySelector('.dnb-popover__arrow')
-          .getBoundingClientRect()
+          ?.closest('.dnb-menu')
+          ?.querySelector('.dnb-popover__arrow')
+          ?.getBoundingClientRect()
+        if (!arrow) {
+          return Infinity
+        }
         return Math.abs(
           icon.x + icon.width / 2 - (arrow.x + arrow.width / 2)
         )
@@ -998,17 +1018,40 @@ test('panel closes from controls and preserves outside interaction focus', async
   await close.press('Escape')
   await expect(input).toHaveAttribute('aria-expanded', 'false')
   await expect(input).toBeFocused()
+  await page.keyboard.type('dr')
+  await expect(input).toHaveAttribute('aria-expanded', 'true')
+  await input.fill('')
 
   await input.click()
   await close.click()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
   await expect(input).toBeFocused()
+  await page.keyboard.type('dr')
+  await expect(input).toHaveAttribute('aria-expanded', 'true')
+  await input.fill('')
 
   await input.click()
   const outsideInput = page.locator('[data-testid="search-default"] input')
   await outsideInput.click()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
   await expect(outsideInput).toBeFocused()
+})
+
+test('panel keeps a visible edge in forced colors mode', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(browserName !== 'chromium', 'Forced colors emulation')
+  await page.emulateMedia({
+    forcedColors: 'active',
+    reducedMotion: 'reduce',
+  })
+  const popover = page.locator('.dnb-search__panel')
+
+  await page.locator('[data-testid="search-panel-default"] input').focus()
+  await expect(popover).toBeVisible()
+  await expect(popover).toHaveCSS('border-top-style', 'solid')
+  await expect(popover).toHaveCSS('border-top-width', '1px')
 })
 
 test('keeps the panel within the viewport near either edge', async ({

@@ -14,6 +14,8 @@ Search components use the events of their underlying components. All support `on
 
 Use `onChange` to receive query changes and `onSubmit` to handle Enter. Both receive an object containing `value` and `event`.
 
+Inside a form, Enter also submits the form, as in any native search input. Call `event.preventDefault()` in `onSubmit` to handle the query without submitting the form. Search.Autocomplete and Search.Panel do not submit a surrounding form.
+
 <PropertiesTable props={InputEvents} />
 
 See [Input events](/web/components/input/events) for details about changing or preventing an input value.

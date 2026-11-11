@@ -303,7 +303,6 @@ export const SearchPanel = () => (
                     </FormLabel>
                     <Flex.Item style={{ marginLeft: 'auto' }}>
                       <Menu.Root
-                        skipPortal
                         alignOnTarget="right"
                         arrowPosition="right"
                         arrowPositionSelector=".dnb-button__icon"

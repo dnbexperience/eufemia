@@ -1498,6 +1498,25 @@ describe('Autocomplete component', () => {
     ).toHaveLength(4)
   })
 
+  it('omits the show all item when showAll is false', async () => {
+    render(
+      <Autocomplete
+        data={['AA', 'AB', 'BB']}
+        showAll={false}
+        {...mockProps}
+      />
+    )
+
+    await userEvent.type(document.querySelector('.dnb-input__input'), 'A')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+    expect(
+      document.querySelector('li.dnb-autocomplete__show-all')
+    ).toBeNull()
+  })
+
   it('does not crash with disableFilter when searching a full number with whitespace', () => {
     const mockData = [
       formatBankAccountNumber(20001234567),
@@ -4494,6 +4513,49 @@ describe('Autocomplete component', () => {
       document.querySelector('li.dnb-drawer-list__option--focus')
     const selectedElement = () =>
       document.querySelector('li.dnb-drawer-list__option--selected')
+
+    it.each([
+      ['Tab', () => userEvent.tab()],
+      ['click', () => userEvent.click(document.querySelector('#after'))],
+    ] as const)(
+      'keeps async results closed when they arrive after leaving with %s',
+      async (_, leave) => {
+        let events: Parameters<AutocompleteAllProps['onType']>[0]
+        render(
+          <>
+            <Autocomplete
+              {...mockProps}
+              mode="async"
+              onType={(event) => {
+                events = event
+                event.showIndicator()
+              }}
+            />
+            <button id="after">After</button>
+          </>
+        )
+
+        await userEvent.type(inputElement(), 'in')
+        await leave()
+        expect(document.querySelector('#after')).toHaveFocus()
+
+        act(() => {
+          events.updateData(['Input'])
+          events.hideIndicator()
+        })
+
+        expect(inputElement()).toHaveAttribute('aria-expanded', 'false')
+        expect(optionElement()).not.toBeInTheDocument()
+
+        await userEvent.click(inputElement())
+        await userEvent.type(inputElement(), 'p')
+        act(() => {
+          events.updateData(['Input'])
+        })
+        expect(inputElement()).toHaveAttribute('aria-expanded', 'true')
+        expect(optionElement()).toHaveTextContent('Input')
+      }
+    )
 
     it('should emit with empty value', async () => {
       const onBlur = vi.fn()

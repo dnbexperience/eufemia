@@ -489,6 +489,7 @@ function AutocompleteComponent({
   const showAllTimeoutRef = useRef<NodeJS.Timeout>(null)
   const preventFiringBlurEvent = useRef<boolean | null>(null)
   const closingFromChangeRef = useRef(false)
+  const closingFromBlurRef = useRef(false)
   const suppressFocusHandlerRef = useRef(false)
   const selectAllActiveRef = useRef(false)
   const debouncedEventFnsRef = useRef<
@@ -856,7 +857,7 @@ function AutocompleteComponent({
 
   const wrapWithShowAll = useCallback(
     (data: DrawerListInternalData) => {
-      if (!data || !hasFilterActive(data)) {
+      if (!data || props.showAll === false || !hasFilterActive(data)) {
         return data
       }
 
@@ -1410,6 +1411,16 @@ function AutocompleteComponent({
     suppressFocusHandlerRef.current = false
   }, [focusInput])
 
+  const closeResults = useCallback(() => {
+    setHidden()
+
+    // The refocus on close is suppressed, so typing must still reopen the results.
+    if (document.activeElement === _refInput.current) {
+      setHasFocus(true)
+      setHasBlur(false)
+    }
+  }, [setHidden, setHasBlur])
+
   const setVisibleAndFocusOnInput = useCallback(() => {
     if (!hasFocusRef.current && !hasSelectedText()) {
       setFocusOnInput()
@@ -1650,6 +1661,11 @@ function AutocompleteComponent({
 
       if (openOnFocus && !resultsRender) {
         setHidden()
+      } else if (!drawerListRef.current.data?.length) {
+        // An empty list has no outside click observer to close it later.
+        closingFromBlurRef.current = true
+        drawerListRef.current.setHidden()
+        closingFromBlurRef.current = false
       }
 
       dispatchCustomElementEvent(propsRef.current, 'onBlur', {
@@ -1716,6 +1732,7 @@ function AutocompleteComponent({
       if (
         res !== false &&
         !closingFromChangeRef.current &&
+        !closingFromBlurRef.current &&
         (!resultsRender || !args.preventHideFocus)
       ) {
         setFocusOnInput()
@@ -2284,7 +2301,7 @@ function AutocompleteComponent({
               ? resultsRender({
                   results,
                   open: isExpanded,
-                  close: setHidden,
+                  close: closeResults,
                   resultsRef,
                 })
               : results}
