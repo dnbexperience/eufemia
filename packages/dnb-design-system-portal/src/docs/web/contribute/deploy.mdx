@@ -119,7 +119,8 @@ A release starts when a push reaches a release branch, normally when a maintaine
 1. **Publish release** runs in the `npm-release` environment. It restores the package from the build job and validates it again. Right before `semantic-release` runs, it gets a short-lived token from the release bot, a GitHub App. `semantic-release` reads the commits since the last version tag and decides the next version. If the commits need no new version, nothing is published. Otherwise it:
    1. updates `CHANGELOG.md`, and pushes the `chore(release): <version> [skip ci]` commit and the `v<version>` tag to the branch,
    1. publishes the package to npm with Trusted Publishing and provenance,
-   1. creates the GitHub release with the package tarball, and comments on the released pull requests and issues.
+   1. creates the GitHub release with the package tarball.
+1. **Notify released PRs and issues** comments on the released pull requests and issues and labels them `released`, with its own release bot token. It runs only when the release has items to notify, and can be re-run on its own without publishing or deploying again.
 1. **Generate release SBOM** and **Attest and publish release SBOM** run only when a new version was published. They attach the SBOM (`sbom.cdx.json`) and the vulnerability report to the GitHub release.
 1. **Deploy portal to GitHub Pages** deploys the Portal (on `release` only), also when no new version was published.
 
@@ -127,14 +128,14 @@ The push to `release` also starts `mcp-lambda.yml`, and the published GitHub rel
 
 #### Who does what
 
-| Step                                                     | Done by                                                                                                                 |
-| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Pull requests into `main`, and the release pull request  | Contributors and maintainers                                                                                            |
-| Icon, country flag and design token update pull requests | The automation bot, a GitHub App (see [Icons](/contribute/deploy/icons) and [Design Tokens](/contribute/deploy/tokens)) |
-| Changelog commit and version tag                         | Pushed by the release bot. The commit author is `semantic-release-bot`, the default identity of `semantic-release`.     |
-| npm publish                                              | The release workflow, with Trusted Publishing instead of an npm token (see [Publishing method](#publishing-method))     |
-| GitHub release, and the comments on released items       | The release bot                                                                                                         |
-| SBOM upload and Portal deploy                            | GitHub Actions                                                                                                          |
+| Step                                                     | Done by                                                                                                                         |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Pull requests into `main`, and the release pull request  | Contributors and maintainers                                                                                                    |
+| Icon, country flag and design token update pull requests | The automation bot, a GitHub App (see [Icons](/web/contribute/deploy/icons) and [Design Tokens](/web/contribute/deploy/tokens)) |
+| Changelog commit and version tag                         | Pushed by the release bot. The commit author is `semantic-release-bot`, the default identity of `semantic-release`.             |
+| npm publish                                              | The release workflow, with Trusted Publishing instead of an npm token (see [Publishing method](#publishing-method))             |
+| GitHub release, and the comments on released items       | The release bot                                                                                                                 |
+| SBOM upload and Portal deploy                            | GitHub Actions                                                                                                                  |
 
 Both bots are GitHub Apps installed only on this repository. Their tokens are valid for one hour. For the controls around the release, see [Release security](#release-security).
 
@@ -144,7 +145,7 @@ If the **Publish release** job fails, its log shows how far the release got:
 
 - **The job failed before the Release step, or the Release step has no `Created tag` line:** nothing was published. Fix the cause, then re-run the failed jobs.
 - **The Release step has a `Created tag` line, but npm has no such version:** the release is half finished, and the tag has to be removed before the next release runs. See [Releases queue, and are never canceled mid-flight](#releases-queue-and-are-never-canceled-mid-flight).
-- **npm and the GitHub release have the version, but the step failed later**, for example while it commented on released pull requests: nothing needs undoing. Re-running the failed jobs deploys the Portal, but it does not publish again, and it does not attach the SBOM for that version.
+- **npm and the GitHub release have the version, but the step failed later**, for example in the `semantic-release` success step: nothing needs undoing. Re-running the failed jobs deploys the Portal, but it does not publish again, and it does not attach the SBOM for that version.
 
 ### How to run a dry release locally
 
@@ -191,7 +192,7 @@ At release time, `release.yml` independently enforces the dependency audit, pack
 
 ### Permissions and trigger
 
-The build and validation job runs with `contents: read` and cannot request an npm OIDC token. The separate release job runs with `contents: read` and `id-token: write` (OIDC publishing and provenance). Right before `semantic-release` runs, it creates a token from the release GitHub App, limited to this repository, with `contents: write` (the changelog commit, the version tag and the GitHub release), `issues: write` and `pull-requests: write` (release comments). The token is valid for one hour and is revoked when the job ends. Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
+The build and validation job runs with `contents: read` and cannot request an npm OIDC token. The separate release job runs with `contents: read` and `id-token: write` (OIDC publishing and provenance). Right before `semantic-release` runs, it creates a token from the release GitHub App, limited to this repository, with `contents: write` (the changelog commit, the version tag and the GitHub release) and `issues: write` (the issue `semantic-release` opens when a release fails). The notification job creates its own token with `issues: write` and `pull-requests: write` for the release comments and labels. The tokens are valid for one hour and are revoked when their job ends. Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
 
 ### Releases queue, and are never canceled mid-flight
 
