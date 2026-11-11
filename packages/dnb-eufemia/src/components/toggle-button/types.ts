@@ -123,6 +123,8 @@ export type ToggleButtonProps = Omit<
   }
 
 export type ToggleButtonComponent = {
+  /** @deprecated Use Chip instead. */
   (props: ToggleButtonProps): ReactElement
+  /** @deprecated Use Chip.Group instead. */
   Group: typeof ToggleButtonGroup
 }

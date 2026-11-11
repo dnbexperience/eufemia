@@ -355,6 +355,34 @@ Use the `Chat` namespace for translation overrides. Legacy `Ai` overrides still 
 
 Deprecated APIs remain available for compatibility. Replacing them is recommended, but deprecation alone does not require a change to upgrade to v13. Removal is a separate breaking change and is documented explicitly.
 
+### ToggleButton
+
+ToggleButton and ToggleButton.Group are deprecated in favor of [Chip](/web/components/chip/). Existing imports, styles, and behavior remain available. Migration is recommended for new or updated interfaces, but is not required to upgrade to v13. No removal version is scheduled.
+
+```diff
+-import { ToggleButton } from '@dnb/eufemia'
++import { Chip } from '@dnb/eufemia'
+
+-<ToggleButton.Group multiselect values={['savings']}>
+-  <ToggleButton value="savings" text="Savings" />
+-  <ToggleButton value="funds" text="Funds" />
+-</ToggleButton.Group>
++<Chip.Group selectionMode="multiple" values={['savings']}>
++  <Chip value="savings">Savings</Chip>
++  <Chip value="funds">Funds</Chip>
++</Chip.Group>
+```
+
+Single selection remains the default. Set `value` on Chip.Group for single selection and `values` for multiple selection. Move initial selection from a child's `checked` to its group. Standalone chips still use `checked`.
+
+Use `text` or `children` for the option name and Chip.Group's `label` for the group label. Chip's `labelSrOnly` hides the option name; the group property hides the group label. Replace `leftComponent` with `icon` for decorative content. Evaluate custom icon placement and size against Chip's leading icon layout. Keep interactive help in `suffix`, outside the selectable chip. Replace function children with their rendered React content.
+
+Use string or number identifiers instead of object or array values. Match option and group value types, and keep identifiers unique after conversion to strings. Change events preserve the identifier type. Chip.Group returns `values` in both selection modes and `value` identifies the changed option.
+
+Chip renders native inputs, except for addable chips outside single selection groups, which use native toggle buttons with `aria-pressed`. Update refs, event target assumptions, CSS selectors, and tests that depend on ToggleButton's button markup. Selected, enabled options in Chip.Group participate in native form submission. Set `name` on Chip.Group to choose the submitted field name; otherwise a generated name is used. Radio groups use one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes or addable toggle buttons. `variant` controls appearance independently of selection mode.
+
+See [Chip's API differences](/web/components/chip/#toggle-buttons) and [examples](/web/components/chip/demos/).
+
 ### Flex compatibility APIs
 
 The following deprecated APIs remain available during migration:
