@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Chip from '../Chip'
-import type { ChipValue } from '../types'
+import type { ChipElement, ChipValue } from '../types'
 import { Provider } from '../../../shared'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 
@@ -151,17 +151,19 @@ describe('Chip.Group', () => {
           </Chip>
         </Chip.Group>
       )
-      const [savings, funds] = document.querySelectorAll('input')
+      const [savings, funds] = document.querySelectorAll<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       expect(savings).toHaveAttribute('type', 'radio')
-      expect(savings).toBeChecked()
-      expect(funds).not.toBeChecked()
+      expectSelected(savings, true)
+      expectSelected(funds, false)
       expect(
         document.querySelectorAll(`.dnb-chip--${variant}`)
       ).toHaveLength(2)
 
       for (const input of [funds, savings, funds]) {
         await user.click(input)
-        expect(input).toBeChecked()
+        expectSelected(input, true)
         expect(onChange).toHaveBeenLastCalledWith({
           value: input.value,
           checked: true,
@@ -175,7 +177,7 @@ describe('Chip.Group', () => {
         })
       }
       await user.click(funds)
-      expect(funds).toBeChecked()
+      expectSelected(funds, true)
       expect(onChange).toHaveBeenCalledTimes(3)
       expect(onChipChange).toHaveBeenCalledTimes(3)
     }
@@ -198,11 +200,16 @@ describe('Chip.Group', () => {
           <Chip value="funds">Funds</Chip>
         </Chip.Group>
       )
-      const [savings, funds] = document.querySelectorAll('input')
-      expect(savings).toHaveAttribute('type', 'checkbox')
+      const [savings, funds] = document.querySelectorAll<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+      expect(savings).toHaveAttribute(
+        'type',
+        variant === 'addable' ? 'button' : 'checkbox'
+      )
       await user.click(funds)
-      expect(savings).toBeChecked()
-      expect(funds).toBeChecked()
+      expectSelected(savings, true)
+      expectSelected(funds, true)
       expect(onChange).toHaveBeenLastCalledWith({
         value: 'funds',
         checked: true,
@@ -210,7 +217,7 @@ describe('Chip.Group', () => {
         event: expect.any(Object),
       })
       await user.click(savings)
-      expect(savings).not.toBeChecked()
+      expectSelected(savings, false)
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           value: 'savings',
@@ -306,60 +313,72 @@ describe('Chip.Group', () => {
     expect(funds).not.toBeChecked()
   })
 
-  it('unchecks a chip when the parent rejects it by passing the previous values', async () => {
-    const user = userEvent.setup()
-    const onChange = vi.fn()
-    const MaxTwo = () => {
-      const [values, setValues] = useState<ChipValue[]>(['savings'])
-      return (
-        <form>
-          <Chip.Group
-            selectionMode="multiple"
-            label="Filters"
-            name="filters"
-            values={values}
-            onChange={(event) => {
-              onChange(event)
-              setValues(
-                event.values.length <= 2 ? event.values : [...values]
-              )
-            }}
-          >
-            <Chip value="savings">Savings</Chip>
-            <Chip value="funds">Funds</Chip>
-            <Chip value="loans">Loans</Chip>
-          </Chip.Group>
-        </form>
+  it.each(['default', 'addable'] as const)(
+    'unchecks a %s chip when the parent rejects it by passing the previous values',
+    async (variant) => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      const MaxTwo = () => {
+        const [values, setValues] = useState<ChipValue[]>(['savings'])
+        return (
+          <form>
+            <Chip.Group
+              selectionMode="multiple"
+              label="Filters"
+              name="filters"
+              variant={variant}
+              values={values}
+              onChange={(event) => {
+                onChange(event)
+                setValues(
+                  event.values.length <= 2 ? event.values : [...values]
+                )
+              }}
+            >
+              <Chip value="savings">Savings</Chip>
+              <Chip value="funds">Funds</Chip>
+              <Chip value="loans">Loans</Chip>
+            </Chip.Group>
+          </form>
+        )
+      }
+      render(<MaxTwo />)
+      const [savings, funds, loans] =
+        document.querySelectorAll<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+
+      await user.click(funds)
+      await user.click(loans)
+
+      expectSelected(loans, false)
+      expect(
+        new FormData(document.querySelector('form')).getAll('filters')
+      ).toEqual(['savings', 'funds'])
+
+      await user.click(savings)
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ values: ['funds'] })
       )
+      expectSelected(savings, false)
+      expectSelected(funds, true)
+      expectSelected(loans, false)
     }
-    render(<MaxTwo />)
-    const [savings, funds, loans] = document.querySelectorAll('input')
+  )
 
-    await user.click(funds)
-    await user.click(loans)
-
-    expect(loans).not.toBeChecked()
-    expect(
-      new FormData(document.querySelector('form')).getAll('filters')
-    ).toEqual(['savings', 'funds'])
-
-    await user.click(savings)
-
-    expect(onChange).toHaveBeenLastCalledWith(
-      expect.objectContaining({ values: ['funds'] })
-    )
-    expect(savings).not.toBeChecked()
-    expect(funds).toBeChecked()
-    expect(loans).not.toBeChecked()
-  })
-
-  it.each(['single', 'multiple'] as const)(
-    'submits selected enabled values with selectionMode=%s',
-    (selectionMode) => {
+  it.each([
+    ['single', 'default'],
+    ['multiple', 'default'],
+    ['multiple', 'addable'],
+  ] as const)(
+    'submits selected enabled values with selectionMode=%s and variant=%s',
+    (selectionMode, variant) => {
       render(
         <form>
           <Chip.Group
             name="account"
+            variant={variant}
             selectionMode={selectionMode}
             value="savings"
             values={['savings', 'funds', 'loans']}
@@ -407,14 +426,17 @@ describe('Chip.Group', () => {
           </Chip.Group>
         </Provider>
       )
-      const [savings, funds, override] = document.querySelectorAll('input')
+      const [savings, funds, override] =
+        document.querySelectorAll<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
       expect(savings).toHaveAttribute(
         'type',
-        selectionMode === 'single' ? 'radio' : 'checkbox'
+        selectionMode === 'single' ? 'radio' : 'button'
       )
       expect(override).toHaveAttribute(
         'type',
-        selectionMode === 'single' ? 'checkbox' : 'radio'
+        selectionMode === 'single' ? 'button' : 'radio'
       )
       expect(savings).toBeDisabled()
       expect(funds).toBeEnabled()
@@ -433,31 +455,47 @@ describe('Chip.Group', () => {
         <Chip.Group
           label="Filters"
           selectionMode={selectionMode}
+          variant="addable"
           readOnly
           onChange={onChange}
         >
           <Chip value="savings">Savings</Chip>
         </Chip.Group>
       )
-      const input = document.querySelector('input')
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       await user.click(input)
       await user.keyboard(' {Enter}')
-      expect(input).not.toBeChecked()
+      expectSelected(input, false)
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(input).toHaveFocus()
 
       rerender(
-        <Chip.Group label="Filters" selectionMode={selectionMode} skeleton>
+        <Chip.Group
+          label="Filters"
+          selectionMode={selectionMode}
+          variant="addable"
+          skeleton
+        >
           <Chip value="savings">Savings</Chip>
         </Chip.Group>
       )
-      expect(document.querySelector('input')).toBeDisabled()
+      expect(
+        document.querySelector<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+      ).toBeDisabled()
     }
   )
 
-  it.each(['single', 'multiple'] as const)(
-    'has a named, described accessible group with selectionMode=%s',
-    async (selectionMode) => {
+  it.each([
+    ['single', 'default'],
+    ['multiple', 'default'],
+    ['multiple', 'addable'],
+  ] as const)(
+    'has a named, described accessible group with selectionMode=%s and variant=%s',
+    async (selectionMode, variant) => {
       const component = render(
         <>
           <p id="hint">Choose an account</p>
@@ -465,6 +503,7 @@ describe('Chip.Group', () => {
             id="accounts"
             label="Accounts"
             selectionMode={selectionMode}
+            variant={variant}
             aria-describedby="hint"
             status="Select an option"
             suffix="More information"
@@ -481,7 +520,9 @@ describe('Chip.Group', () => {
       expect(group).toHaveAccessibleDescription(
         'Choose an account Select an option More information'
       )
-      for (const input of document.querySelectorAll('input')) {
+      for (const input of document.querySelectorAll<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )) {
         expect(input).toHaveAccessibleDescription(
           'Choose an account Select an option More information'
         )
@@ -517,16 +558,22 @@ describe('Chip.Group', () => {
       const errorClass = `dnb-${selectionMode === 'multiple' ? 'checkbox' : 'radio'}__status--error`
 
       for (const chip of document.querySelectorAll('.dnb-chip')) {
-        expect(chip).toHaveClass(errorClass)
+        expect(chip).toHaveClass(
+          chip.querySelector('button')
+            ? 'dnb-chip--status-error'
+            : errorClass
+        )
       }
 
       rerender(example('information'))
 
       for (const chip of document.querySelectorAll('.dnb-chip')) {
-        expect(chip).not.toHaveClass(errorClass)
-        expect(chip.querySelector('input')).not.toHaveAttribute(
-          'aria-invalid'
-        )
+        expect(chip).not.toHaveClass(errorClass, 'dnb-chip--status-error')
+        expect(
+          chip.querySelector(
+            'input:not([type="hidden"]), .dnb-chip__button'
+          )
+        ).not.toHaveAttribute('aria-invalid')
       }
       expect(
         document.querySelectorAll('.dnb-form-status__text')
@@ -558,3 +605,11 @@ describe('Chip.Group', () => {
     expect(onChange).not.toHaveBeenCalled()
   })
 })
+
+function expectSelected(control: ChipElement, checked: boolean) {
+  if (control instanceof HTMLButtonElement) {
+    expect(control).toHaveAttribute('aria-pressed', String(checked))
+  } else {
+    expect(control.checked).toBe(checked)
+  }
+}

@@ -103,7 +103,8 @@ describe('Chip layout and focus', () => {
         '[data-visual-test="chip-states"] .dnb-chip--' + variant
       await makeScreenshot({
         selector,
-        simulateSelector: selector + ' input',
+        simulateSelector:
+          selector + (variant === 'addable' ? ' button' : ' input'),
         simulate: 'focus',
       })
     }

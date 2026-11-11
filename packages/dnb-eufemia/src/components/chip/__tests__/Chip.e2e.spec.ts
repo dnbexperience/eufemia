@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -35,7 +35,7 @@ test('default selection has sufficient non-text contrast across themes', async (
         const ratios = await selected.evaluateAll((chips) =>
           chips.map((chip) => {
             const pill = chip.querySelector(
-              '.dnb-checkbox__order, .dnb-radio__row'
+              '.dnb-checkbox__order, .dnb-radio__row, .dnb-chip__button'
             )
             const style = getComputedStyle(pill)
             const border = style.boxShadow.match(
@@ -96,10 +96,12 @@ test('labels use Figma spacing in both selection modes', async ({
           .evaluateAll((chips) =>
             chips.map((chip) => {
               const pill = chip.querySelector(
-                '.dnb-checkbox__order, .dnb-radio__row'
+                '.dnb-checkbox__order, .dnb-radio__row, .dnb-chip__button'
               )
               const text = chip.querySelector('.dnb-chip__text')
-              const label = chip.querySelector('.dnb-form-label')
+              const label = chip.querySelector(
+                '.dnb-form-label, .dnb-chip__content'
+              )
               const baselineMarker = document.createElement('span')
               baselineMarker.style.cssText =
                 'display:inline-block;width:0;height:0'
@@ -171,43 +173,53 @@ test('labels use Figma spacing in both selection modes', async ({
   }
 })
 
-test('keyboard focus stays on the pill across selection states', async ({
-  page,
-}) => {
-  const chips = page.locator(
-    '[data-visual-test="chip-states"] .dnb-chip:has(input:not(:disabled)), ' +
-      '[data-visual-test="chip-group-appearances"] .dnb-chip:has(input:checked), ' +
-      '[data-visual-test="chip-groups"] .dnb-chip, ' +
-      '[data-visual-test="chip-dark-surface"] .dnb-chip:has(input:not(:disabled))'
-  )
-
-  await page.keyboard.press('Tab')
-
-  for (const chip of await chips.all()) {
-    const input = chip.locator('input')
-    const dot = chip.locator('.dnb-radio__dot')
-    const dotColors = await dot.evaluateAll((elements) =>
-      elements.map((element) => getComputedStyle(element).backgroundColor)
+for (const forcedColors of ['none', 'active'] as const) {
+  test(`keyboard focus stays on the pill across selection states (forced colors: ${forcedColors})`, async ({
+    page,
+  }) => {
+    const chips = page.locator(
+      '[data-visual-test="chip-states"] .dnb-chip:has(input:not([type="hidden"]):not(:disabled), .dnb-chip__button:not(:disabled)), ' +
+        '[data-visual-test="chip-group-appearances"] .dnb-chip:has(input:checked, .dnb-chip__button[aria-pressed="true"]), ' +
+        '[data-visual-test="chip-groups"] .dnb-chip, ' +
+        '[data-visual-test="chip-dark-surface"] .dnb-chip:has(input:not([type="hidden"]):not(:disabled), .dnb-chip__button:not(:disabled))'
     )
 
-    await input.focus()
-    await expect(input).toBeFocused()
-    await expect(
-      chip.locator('.dnb-checkbox__order, .dnb-radio__row')
-    ).toHaveCSS('outline-style', 'solid')
-    await expect(chip.locator('.dnb-checkbox__focus:visible')).toHaveCount(
-      0
-    )
+    await page.emulateMedia({ forcedColors })
+    await page.keyboard.press('Tab')
 
-    expect(
-      await dot.evaluateAll((elements) =>
+    for (const chip of await chips.all()) {
+      const input = chip.locator(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+      const pill = chip.locator(
+        '.dnb-checkbox__order, .dnb-radio__row, .dnb-chip__button'
+      )
+      const dot = chip.locator('.dnb-radio__dot')
+      const dotColors = await dot.evaluateAll((elements) =>
         elements.map(
           (element) => getComputedStyle(element).backgroundColor
         )
       )
-    ).toEqual(dotColors)
-  }
-})
+
+      await input.focus()
+      await expect(input).toBeFocused()
+      await expect(pill).toHaveCSS('outline-style', 'solid')
+      await expect(pill).toHaveCSS('outline-width', '2px')
+      await expect(pill).toHaveCSS('outline-offset', '2px')
+      await expect(
+        chip.locator('.dnb-checkbox__focus:visible')
+      ).toHaveCount(0)
+
+      expect(
+        await dot.evaluateAll((elements) =>
+          elements.map(
+            (element) => getComputedStyle(element).backgroundColor
+          )
+        )
+      ).toEqual(dotColors)
+    }
+  })
+}
 
 test('per-option help is reachable without changing either selection mode', async ({
   page,
@@ -334,22 +346,56 @@ for (const { name, role } of [
   })
 }
 
-test('addable shows one action icon and keeps the option available', async ({
+test('addable toggle buttons keep a stable name and support native keyboard activation', async ({
   page,
 }) => {
   const chip = page.locator(
     '[data-visual-test="chip-variants"] .dnb-chip--addable'
   )
-  const input = chip.getByRole('checkbox')
+  const button = chip.getByRole('button', {
+    name: 'Add or remove',
+    exact: true,
+  })
 
+  await expect(button).toHaveAttribute('type', 'button')
+  await expect(button).toHaveAttribute('aria-pressed', 'false')
   await expect(chip.locator('.dnb-chip__add')).toBeVisible()
   await expect(chip.locator('.dnb-chip__remove')).toBeHidden()
-  await input.check()
+  await button.click()
+  await expect(button).toHaveAttribute('aria-pressed', 'true')
+  await expect(button).toHaveAccessibleName('Add or remove')
   await expect(chip.locator('.dnb-chip__add')).toBeHidden()
   await expect(chip.locator('.dnb-chip__remove')).toBeVisible()
-  await input.uncheck()
-  await expect(input).toBeVisible()
+  await button.press('Space')
+  await expect(button).toHaveAttribute('aria-pressed', 'false')
+  await button.press('Enter')
+  await expect(button).toHaveAttribute('aria-pressed', 'true')
+  await expect(button).toBeFocused()
+  await button.click()
+  await expect(button).toHaveAttribute('aria-pressed', 'false')
   await expect(chip.locator('.dnb-chip__add')).toBeVisible()
+})
+
+test('single selection addable groups preserve radio arrow-key behavior', async ({
+  page,
+}) => {
+  const group = page
+    .locator('[data-visual-test="chip-group-appearances"]')
+    .getByRole('radiogroup', { name: 'addable: single', exact: true })
+  const selected = group.getByRole('radio', {
+    name: 'Selected',
+    exact: true,
+  })
+  const available = group.getByRole('radio', {
+    name: 'Available',
+    exact: true,
+  })
+  await selected.focus()
+  await selected.press('ArrowRight')
+  await expect(available).toBeFocused()
+  await expect(available).toBeChecked()
+  await expect(selected).not.toBeChecked()
+  await expect(group.getByRole('button')).toHaveCount(0)
 })
 
 test('the full pill is clickable for every variant', async ({ page }) => {
@@ -358,18 +404,21 @@ test('the full pill is clickable for every variant', async ({ page }) => {
       const chip = page
         .locator('[data-visual-test="chip-states"] .dnb-chip--' + variant)
         .first()
-      const input = chip.locator('input')
+      const input = chip.locator(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       const pill = chip.locator(
-        variant === 'radio' ? '.dnb-radio__row' : '.dnb-checkbox__order'
+        '.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button'
       )
 
-      await pill.click({ position: { x: 5, y: 5 } })
-      await expect(input).toBeChecked()
+      const { width, height } = await pill.boundingBox()
+      await pill.click({ position: { x: 5, y: height / 2 } })
+      await expectSelected(input, true)
       await expect(input).toBeFocused()
       await pill.click({
-        position: { x: (await pill.boundingBox()).width - 5, y: 5 },
+        position: { x: width - 5, y: height / 2 },
       })
-      await expect(input).not.toBeChecked()
+      await expectSelected(input, false)
     })
   }
 })
@@ -394,7 +443,9 @@ for (const variant of ['checkbox', 'radio']) {
         const chip = group
           .locator('.dnb-chip')
           .filter({ hasText: 'Available' })
-        const input = chip.locator('input')
+        const input = chip.locator(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
         const selected = group.getByRole(
           selectionMode === 'multiple' ? 'checkbox' : 'radio',
           {
@@ -492,10 +543,11 @@ test('Enter activates each variant without submitting its form', async ({
   for (const variant of ['default', 'addable', 'checkbox', 'radio']) {
     await test.step(variant, async () => {
       const input = fixture
-        .locator('.dnb-chip--' + variant + ' input')
+        .locator('.dnb-chip--' + variant)
+        .locator('input:not([type="hidden"]), .dnb-chip__button')
         .first()
       await input.press('Enter')
-      await expect(input).toBeChecked()
+      await expectSelected(input, true)
       await expect(fixture.locator('..')).toHaveAttribute(
         'data-submissions',
         '0'
@@ -552,18 +604,23 @@ test('read-only selections remain focusable and unchanged', async ({
   page,
 }) => {
   const inputs = page.locator(
-    '[data-visual-test="chip-states"] input[readonly]'
+    '[data-visual-test="chip-states"] input[readonly], [data-visual-test="chip-states"] .dnb-chip__button[aria-disabled="true"]:not(:disabled)'
   )
 
   for (const input of await inputs.all()) {
-    const checked = await input.isChecked()
-    await input.click()
-    await expect(input).toBeChecked({ checked })
+    const checked = await input.evaluate(
+      (element: HTMLButtonElement | HTMLInputElement) =>
+        element instanceof HTMLButtonElement
+          ? element.getAttribute('aria-pressed') === 'true'
+          : element.checked
+    )
+    await input.click({ force: true })
+    await expectSelected(input, checked)
     await input.focus()
     await expect(input).toBeFocused()
     await input.press('Space')
     await input.press('Enter')
-    await expect(input).toBeChecked({ checked })
+    await expectSelected(input, checked)
   }
 })
 
@@ -658,24 +715,25 @@ test('addable indicators use system colors in every state', async ({
 
   for (const chip of await chips.all()) {
     await test.step(await chip.innerText(), async () => {
-      await chip.locator('input').hover()
+      await chip.locator('.dnb-chip__button').hover({ force: true })
       const colors = await chip.evaluate((element) => {
-        const input = element.querySelector('input')
+        const input = element.querySelector('button')
+        const checked = input.getAttribute('aria-pressed') === 'true'
         const action = element.querySelector('.dnb-chip__action')
         const palette = document.createElement('span')
         palette.style.forcedColorAdjust = 'none'
         palette.style.backgroundColor = input.disabled
-          ? input.checked
+          ? checked
             ? 'GrayText'
             : 'Canvas'
-          : input.checked
+          : checked
             ? 'Highlight'
             : 'Canvas'
         palette.style.color = input.disabled
-          ? input.checked
+          ? checked
             ? 'Canvas'
             : 'GrayText'
-          : input.checked
+          : checked
             ? 'HighlightText'
             : 'CanvasText'
         element.append(palette)
@@ -698,3 +756,11 @@ test('addable indicators use system colors in every state', async ({
     })
   }
 })
+
+async function expectSelected(control: Locator, checked: boolean) {
+  if ((await control.getAttribute('type')) === 'button') {
+    await expect(control).toHaveAttribute('aria-pressed', String(checked))
+  } else {
+    await expect(control).toBeChecked({ checked })
+  }
+}

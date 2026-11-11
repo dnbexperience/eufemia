@@ -2,11 +2,59 @@ import { createRef } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Chip from '../Chip'
+import type { ChipElement } from '../types'
 import Tooltip from '../../tooltip/Tooltip'
 import { Provider } from '../../../shared'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 
 describe('Chip', () => {
+  it('uses a native toggle button for addable chips and submits only the selected value', async () => {
+    const user = userEvent.setup()
+    const onChange = vi.fn()
+    const onSubmit = vi.fn((event) => event.preventDefault())
+    render(
+      <form onSubmit={onSubmit}>
+        <Chip
+          variant="addable"
+          name="filters"
+          value={0}
+          onChange={onChange}
+        >
+          Savings
+        </Chip>
+      </form>
+    )
+    const button = document.querySelector('button')
+    const form = document.querySelector('form')
+    expect(button).toHaveAttribute('type', 'button')
+    expect(button).toHaveAccessibleName('Savings')
+    expect(button).toHaveAttribute('aria-pressed', 'false')
+    expect(
+      document.querySelector('input[type="checkbox"]')
+    ).not.toBeInTheDocument()
+    expect(new FormData(form).getAll('filters')).toEqual([])
+
+    await user.click(button)
+    expect(button).toHaveAttribute('aria-pressed', 'true')
+    expect(onChange).toHaveBeenLastCalledWith({
+      checked: true,
+      value: 0,
+      event: expect.objectContaining({
+        currentTarget: null,
+        target: button,
+      }),
+    })
+    expect(new FormData(form).getAll('filters')).toEqual(['0'])
+
+    await user.keyboard(' ')
+    expect(button).toHaveAttribute('aria-pressed', 'false')
+    expect(new FormData(form).getAll('filters')).toEqual([])
+    await user.keyboard('{Enter}')
+    expect(button).toHaveAttribute('aria-pressed', 'true')
+    expect(onChange).toHaveBeenCalledTimes(3)
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
   it.each(['default', 'small', 'medium', 'large'] as const)(
     'supports the %s size without passing it to the native input',
     (size) => {
@@ -18,7 +66,7 @@ describe('Chip', () => {
     }
   )
 
-  it.each(['default', 'radio'] as const)(
+  it.each(['default', 'radio', 'addable'] as const)(
     'keeps a %s suffix outside the label and preserves all descriptions',
     async (variant) => {
       const user = userEvent.setup()
@@ -39,7 +87,9 @@ describe('Chip', () => {
           </Chip>
         </>
       )
-      const input = document.querySelector('input')
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       const suffix = document.querySelector<HTMLElement>(
         '.dnb-chip__suffix'
       )
@@ -47,7 +97,9 @@ describe('Chip', () => {
       expect(input).toHaveAccessibleDescription(
         'Choose an account About savings Select an option'
       )
-      expect(document.querySelector('label')).not.toContainElement(suffix)
+      expect(
+        document.querySelector('.dnb-chip__content, label')
+      ).not.toContainElement(suffix)
       expect(document.querySelector('.dnb-chip')).not.toContainElement(
         suffix
       )
@@ -57,15 +109,15 @@ describe('Chip', () => {
       expect(document.querySelector('.dnb-chip')).not.toHaveClass(
         'dnb-space__right--small'
       )
-      await user.click(document.querySelector('button'))
-      expect(input).not.toBeChecked()
+      await user.click(suffix.querySelector('button'))
+      expectSelected(input, false)
       expect(onChange).not.toHaveBeenCalled()
       await user.click(input)
       expect(onChange).toHaveBeenCalledTimes(1)
     }
   )
 
-  it.each(['default', 'radio'] as const)(
+  it.each(['default', 'radio', 'addable'] as const)(
     'preserves numeric values in %s events and serializes native form values',
     async (variant) => {
       const user = userEvent.setup()
@@ -82,7 +134,11 @@ describe('Chip', () => {
           </Chip>
         </form>
       )
-      await user.click(document.querySelector('input'))
+      await user.click(
+        document.querySelector<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+      )
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 0, checked: true })
       )
@@ -92,16 +148,22 @@ describe('Chip', () => {
     }
   )
 
-  it.each(['default', 'addable', 'checkbox'] as const)(
+  it.each(['default', 'checkbox'] as const)(
     'provides a named native checkbox for %s',
     (variant) => {
       render(<Chip variant={variant}>Savings</Chip>)
 
-      const input = document.querySelector('input')
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       expect(input).toHaveAttribute('type', 'checkbox')
       expect(input).toHaveAccessibleName('Savings')
-      expect(input).not.toBeChecked()
-      expect(document.querySelectorAll('input')).toHaveLength(1)
+      expectSelected(input, false)
+      expect(
+        document.querySelectorAll<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+      ).toHaveLength(1)
       expect(document.querySelector('button')).not.toBeInTheDocument()
     }
   )
@@ -133,24 +195,26 @@ describe('Chip', () => {
         </Chip>
       )
 
-      expect(document.querySelector('input')).toHaveAccessibleName(
-        'Notifications'
-      )
+      expect(
+        document.querySelector<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+      ).toHaveAccessibleName('Notifications')
       expect(document.querySelector('.dnb-chip__text')).toHaveClass(
         'dnb-sr-only'
       )
-      expect(document.querySelector('label')).not.toHaveClass(
-        'dnb-sr-only'
-      )
+      expect(
+        document.querySelector('.dnb-chip__content, label')
+      ).not.toHaveClass('dnb-sr-only')
       expect(document.querySelector('.dnb-chip__icon')).toBeInTheDocument()
     }
   )
 
-  it.each(['default', 'radio'] as const)(
+  it.each(['default', 'radio', 'addable'] as const)(
     'shows a tooltip on %s input focus and preserves existing descriptions and refs',
     async (variant) => {
       const user = userEvent.setup()
-      const ref = createRef<HTMLInputElement>()
+      const ref = createRef<ChipElement>()
       render(
         <>
           <p id="description">Choose an account</p>
@@ -170,7 +234,9 @@ describe('Chip', () => {
           </Chip>
         </>
       )
-      const input = document.querySelector('input')
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       expect(ref.current).toBe(input)
       expect(input).not.toHaveAttribute('tooltip')
       await user.tab()
@@ -219,14 +285,14 @@ describe('Chip', () => {
     expect(input).toHaveAccessibleName('Notifications')
   })
 
-  it.each(['default', 'radio'] as const)(
+  it.each(['default', 'radio', 'addable'] as const)(
     'moves the tooltip target when switching to %s',
     async (variant) => {
       const user = userEvent.setup()
       const tooltip = <Tooltip showDelay={0}>Earn interest</Tooltip>
       const { rerender } = render(
         <Chip
-          variant={variant === 'default' ? 'radio' : 'default'}
+          variant={variant === 'addable' ? 'default' : 'addable'}
           tooltip={tooltip}
         >
           Savings
@@ -238,7 +304,9 @@ describe('Chip', () => {
           Savings
         </Chip>
       )
-      const input = document.querySelector('input')
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       await user.tab()
       await waitFor(() => {
         expect(input).toHaveAccessibleDescription('Earn interest')
@@ -269,27 +337,41 @@ describe('Chip', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
-  it('updates checked, value and event handler when props change', async () => {
-    const user = userEvent.setup()
-    const onChange = vi.fn()
-    const { rerender } = render(<Chip checked>First</Chip>)
-    const input = document.querySelector('input')
-    expect(input).toBeChecked()
+  it.each(['default', 'addable'] as const)(
+    'updates checked, value and event handler when %s props change',
+    async (variant) => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <Chip variant={variant} checked>
+          First
+        </Chip>
+      )
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+      expectSelected(input, true)
 
-    rerender(
-      <Chip checked={false} value="second" onChange={onChange}>
-        Second
-      </Chip>
-    )
-    expect(input).not.toBeChecked()
-    await user.click(input)
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        checked: true,
-        value: 'second',
-      })
-    )
-  })
+      rerender(
+        <Chip
+          variant={variant}
+          checked={false}
+          value="second"
+          onChange={onChange}
+        >
+          Second
+        </Chip>
+      )
+      expectSelected(input, false)
+      await user.click(input)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          checked: true,
+          value: 'second',
+        })
+      )
+    }
+  )
 
   it.each(['default', 'addable', 'radio', 'checkbox'] as const)(
     'prevents pointer and keyboard changes when %s is readOnly',
@@ -301,11 +383,18 @@ describe('Chip', () => {
           Savings
         </Chip>
       )
-      const input = document.querySelector('input')
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
       await user.click(input)
       await user.keyboard(' {Enter}')
-      expect(input).not.toBeChecked()
+      expectSelected(input, false)
       expect(onChange).not.toHaveBeenCalled()
+      expect(input).toHaveFocus()
+      expect(input).toHaveAttribute(
+        variant === 'addable' ? 'aria-disabled' : 'readonly'
+      )
+      expect(input.hasAttribute('readonly')).toBe(variant !== 'addable')
     }
   )
 
@@ -322,7 +411,9 @@ describe('Chip', () => {
         <Chip skeleton>Loading</Chip>
       </Provider>
     )
-    const inputs = document.querySelectorAll('input')
+    const inputs = document.querySelectorAll<ChipElement>(
+      'input:not([type="hidden"]), .dnb-chip__button'
+    )
     expect(inputs[0]).toBeDisabled()
     expect(inputs[1]).toBeEnabled()
     expect(inputs[2]).toBeDisabled()
@@ -434,7 +525,7 @@ describe('Chip', () => {
     expect(onChange).toHaveBeenCalledTimes(3)
   })
 
-  it.each(['default', 'radio'] as const)(
+  it.each(['default', 'radio', 'addable'] as const)(
     'associates %s error text and preserves an existing description',
     (variant) => {
       render(
@@ -450,13 +541,16 @@ describe('Chip', () => {
           </Chip>
         </>
       )
-      expect(document.querySelector('input')).toHaveAttribute(
-        'aria-invalid',
-        'true'
-      )
-      expect(document.querySelector('input')).toHaveAccessibleDescription(
-        'Choose an account Select an option'
-      )
+      expect(
+        document.querySelector<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+      ).toHaveAttribute('aria-invalid', 'true')
+      expect(
+        document.querySelector<ChipElement>(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+      ).toHaveAccessibleDescription('Choose an account Select an option')
     }
   )
 
@@ -473,7 +567,11 @@ describe('Chip', () => {
         Savings
       </Chip>
     )
-    expect(document.querySelector('input')).toHaveAccessibleName('Savings')
+    expect(
+      document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+    ).toHaveAccessibleName('Savings')
     expect(document.querySelector('.dnb-chip__action')).toHaveAttribute(
       'aria-hidden',
       'true'
@@ -491,8 +589,28 @@ describe('Chip', () => {
   it('supports a callback ref', () => {
     const ref = vi.fn()
     render(<Chip ref={ref}>Savings</Chip>)
-    expect(ref).toHaveBeenCalledWith(document.querySelector('input'))
-    fireEvent.click(document.querySelector('input'))
-    expect(document.querySelector('input')).toBeChecked()
+    expect(ref).toHaveBeenCalledWith(
+      document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+    )
+    fireEvent.click(
+      document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+    )
+    expect(
+      document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+    ).toBeChecked()
   })
 })
+
+function expectSelected(control: ChipElement, checked: boolean) {
+  if (control instanceof HTMLButtonElement) {
+    expect(control).toHaveAttribute('aria-pressed', String(checked))
+  } else {
+    expect(control.checked).toBe(checked)
+  }
+}

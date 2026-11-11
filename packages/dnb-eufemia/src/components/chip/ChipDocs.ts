@@ -14,7 +14,7 @@ export const ChipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Choose the appearance. Chip.Group controls single or multiple selection independently of the appearance. Defaults to `default`. The addable icon switches between add and remove; the chip stays visible.',
+    doc: 'Choose the appearance. Chip.Group controls single or multiple selection independently of the appearance. Defaults to `default`. Addable chips use native toggle buttons with `aria-pressed`, except in single selection groups, which retain radio inputs. The icon switches between add and remove; the chip stays visible.',
     type: ['"default"', '"addable"', '"radio"', '"checkbox"'],
     status: 'optional',
   },
@@ -24,7 +24,7 @@ export const ChipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   suffix: {
-    doc: 'Additional guidance or a help button outside the clickable pill. Associated with the input through `aria-describedby`.',
+    doc: 'Additional guidance or a help button outside the clickable pill. Associated with the control through `aria-describedby`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -59,7 +59,7 @@ export const ChipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   readOnly: {
-    doc: 'Prevents selection changes while keeping the chip focusable and included in form submission when selected.',
+    doc: 'Prevents selection changes while keeping the chip focusable and included in form submission when selected. Read-only addable buttons expose `aria-disabled`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -68,7 +68,11 @@ export const ChipProperties: PropertiesTableProps = {
   statusProps: CheckboxProperties.statusProps,
   globalStatus: CheckboxProperties.globalStatus,
   skeleton: CheckboxProperties.skeleton,
-  ref: CheckboxProperties.ref,
+  ref: {
+    doc: 'The native input or, for addable chips outside single selection groups, the button.',
+    type: 'React.Ref<HTMLInputElement | HTMLButtonElement>',
+    status: 'optional',
+  },
   '[Space](/web/layout-and-typography/layout/space/properties)':
     CheckboxProperties[
       '[Space](/web/layout-and-typography/layout/space/properties)'
@@ -78,7 +82,7 @@ export const ChipProperties: PropertiesTableProps = {
 export const ChipEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Called once when the user changes the selection. Returns `{ checked, value, event }`. For single selection, use Chip.Group onChange to receive the selected value.',
-    type: '({ checked: boolean; value: string | number; event: React.SyntheticEvent<HTMLInputElement> }) => void',
+    type: '({ checked: boolean; value: string | number; event: React.SyntheticEvent<HTMLInputElement | HTMLButtonElement> }) => void',
     status: 'optional',
   },
 }
@@ -106,7 +110,7 @@ export const ChipGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   name: {
-    doc: 'The shared native input name. Set it when the group is part of a form, so the submitted field has a predictable name. A unique name is generated when omitted.',
+    doc: 'The shared form field name. Set it when the group is part of a form, so the submitted field has a predictable name. A unique name is generated when omitted.',
     type: 'string',
     status: 'optional',
   },
@@ -152,7 +156,7 @@ export const ChipGroupProperties: PropertiesTableProps = {
 export const ChipGroupEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Called once when the user changes the selection. Returns `{ value, values, checked, event }`. `value` identifies the changed chip; `values` contains all selected values. In single selection mode, `checked` is always true.',
-    type: '({ value: string | number; values: Array<string | number>; checked: boolean; event: React.SyntheticEvent<HTMLInputElement> }) => void',
+    type: '({ value: string | number; values: Array<string | number>; checked: boolean; event: React.SyntheticEvent<HTMLInputElement | HTMLButtonElement> }) => void',
     status: 'optional',
   },
 }

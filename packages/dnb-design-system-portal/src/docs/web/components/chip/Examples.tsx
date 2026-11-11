@@ -9,7 +9,7 @@ import {
   Section,
 } from '@dnb/eufemia/src'
 import type { ChipValue } from '@dnb/eufemia/src/components/Chip'
-import { savings_account } from '@dnb/eufemia/src/icons'
+import { bell, savings_account } from '@dnb/eufemia/src/icons'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 export const MultipleSelection = () => (
@@ -115,7 +115,7 @@ export const Groups = () => (
 export const Tooltips = () => (
   <ComponentBox
     data-visual-test="chip-tooltips"
-    scope={{ savings_account }}
+    scope={{ bell, savings_account }}
   >
     <Flex.Container gap="x-small" role="group" aria-label="Chip tooltips">
       <Chip tooltip="Show accounts that earn interest">Savings</Chip>
@@ -124,7 +124,7 @@ export const Tooltips = () => (
       </Chip>
       <Chip
         variant="radio"
-        icon="bell"
+        icon={bell}
         labelSrOnly
         tooltip="Notifications"
       >

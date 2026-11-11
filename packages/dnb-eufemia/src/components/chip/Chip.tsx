@@ -22,7 +22,8 @@ import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ChipProps } from './types'
+import type { ChipElement, ChipProps } from './types'
+import ChipButton from './ChipButton'
 import ChipGroup from './ChipGroup'
 import ChipGroupContext from './ChipGroupContext'
 
@@ -64,10 +65,11 @@ function Chip(localProps: ChipProps) {
   const singleSelection =
     groupContext && groupContext.selectionMode === 'single'
   const isRadio = groupContext ? singleSelection : variant === 'radio'
-  const Control = isRadio ? Radio : Checkbox
+  const isButton = variant === 'addable' && !isRadio
+  const Control = isButton ? ChipButton : isRadio ? Radio : Checkbox
   const id = useId(props.id)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const combinedRef = useCombinedRef(inputRef, props.ref)
+  const controlRef = useRef<ChipElement>(null)
+  const combinedRef = useCombinedRef(controlRef, props.ref)
   const checked = groupContext
     ? singleSelection
       ? groupContext.value === value
@@ -114,7 +116,9 @@ function Chip(localProps: ChipProps) {
         `dnb-chip--${variant}`,
         `dnb-chip--size-${size}`,
         groupContext?.invalid &&
-          `dnb-${isRadio ? 'radio' : 'checkbox'}__status--error`,
+          (isButton
+            ? 'dnb-chip--status-error'
+            : `dnb-${isRadio ? 'radio' : 'checkbox'}__status--error`),
         className
       )}
       value={String(value)}
@@ -155,14 +159,18 @@ function Chip(localProps: ChipProps) {
         onChange?.(change)
       }}
       onKeyDown={(
-        keyEvent: KeyboardEvent<HTMLInputElement> & {
-          event?: KeyboardEvent<HTMLInputElement>
+        keyEvent: KeyboardEvent<ChipElement> & {
+          event?: KeyboardEvent<ChipElement>
         }
       ) => {
         const event = keyEvent.event ?? keyEvent
         onKeyDown?.(event)
 
-        if (event.key === 'Enter' && !event.defaultPrevented) {
+        if (
+          !isButton &&
+          event.key === 'Enter' &&
+          !event.defaultPrevented
+        ) {
           event.preventDefault()
 
           if (!isRadio) {
@@ -197,9 +205,9 @@ function Chip(localProps: ChipProps) {
       )}
       {tooltip && (
         <Tooltip
-          key={isRadio ? 'radio' : 'checkbox'}
+          key={isButton ? 'button' : isRadio ? 'radio' : 'checkbox'}
           id={`${id}-tooltip`}
-          targetElement={inputRef}
+          targetElement={controlRef}
           tooltip={tooltip}
           omitDescribedBy={
             convertJsxToString(tooltip) ===
