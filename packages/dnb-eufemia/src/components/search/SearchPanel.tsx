@@ -238,7 +238,7 @@ function SearchPanelSurface({
         return
       }
 
-      const controls = getTabbableElements(surface)
+      const controls = getTabbableElements(surface, event.shiftKey)
       let next: HTMLElement | undefined
       if (event.target === input && !event.shiftKey) {
         next = controls[0]
@@ -289,7 +289,7 @@ function SearchPanelSurface({
   return <Popover {...props} style={style} />
 }
 
-function getTabbableElements(root: ParentNode) {
+function getTabbableElements(root: ParentNode, backward = false) {
   const elements = Array.from(
     root.querySelectorAll<HTMLElement>(
       'a[href], button, input, select, textarea, [tabindex], [contenteditable="true"], summary'
@@ -309,7 +309,9 @@ function getTabbableElements(root: ParentNode) {
     ) as HTMLInputElement[]
     return (
       group.length === 0 ||
-      element === (group.find((radio) => radio.checked) ?? group[0])
+      element ===
+        (group.find((radio) => radio.checked) ??
+          group[backward ? group.length - 1 : 0])
     )
   })
 }

@@ -819,4 +819,41 @@ describe('Search.Panel', () => {
     await user.tab()
     expect(apply).toHaveFocus()
   })
+
+  it('enters a radio group without a selection at the first or last radio', async () => {
+    const user = userEvent.setup()
+    render(
+      <Search.Panel
+        panelDescription="Search results with a category filter. Press Tab to reach it."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <input type="radio" name="category" aria-label="All" />
+            <input type="radio" name="category" aria-label="Guidance" />
+            <button type="button">Apply</button>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    await user.click(document.querySelector('input'))
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+    const radios = document.querySelectorAll<HTMLInputElement>(
+      '.dnb-search__panel input[type="radio"]'
+    )
+
+    await user.tab()
+    expect(radios[0]).toHaveFocus()
+
+    await user.tab()
+    expect(
+      document.querySelector('.dnb-search__panel button')
+    ).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(radios[1]).toHaveFocus()
+  })
 })
