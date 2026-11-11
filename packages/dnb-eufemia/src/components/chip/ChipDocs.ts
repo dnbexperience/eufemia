@@ -91,7 +91,7 @@ export const ChipGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   values: {
-    doc: 'The selected values with `selectionMode="multiple"`. User interaction updates the selection, and a changed array synchronizes it. Use an empty array to clear the selection.',
+    doc: 'The selected values with `selectionMode="multiple"`. User interaction updates the selection, and a new array synchronizes it. Keep the array in state and update it in `onChange`, because an inline array replaces the selection on every render. Use an empty array to clear the selection.',
     type: 'Array<string | number>',
     status: 'optional',
   },
@@ -106,7 +106,7 @@ export const ChipGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   name: {
-    doc: 'The shared native input name. A unique name is generated when omitted.',
+    doc: 'The shared native input name. Set it when the group is part of a form, so the submitted field has a predictable name. A unique name is generated when omitted.',
     type: 'string',
     status: 'optional',
   },

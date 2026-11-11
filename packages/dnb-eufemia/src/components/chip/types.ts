@@ -24,7 +24,7 @@ export type ChipGroupProps = Omit<
   Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> & {
     /** Select one option using `value`, or several options using `values`. Defaults to `single`. */
     selectionMode?: 'single' | 'multiple'
-    /** The selected values with `selectionMode="multiple"`. User interaction updates the selection, and a changed array synchronizes it. Use an empty array to clear the selection. */
+    /** The selected values with `selectionMode="multiple"`. User interaction updates the selection, and a new array synchronizes it. Keep the array in state and update it in `onChange`, because an inline array replaces the selection on every render. Use an empty array to clear the selection. */
     values?: ChipValue[]
     value?: ChipValue
     /** Shared size. Each Chip can override it. Defaults to `default`. */
