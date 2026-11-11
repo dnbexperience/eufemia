@@ -8,8 +8,11 @@ import type { SearchAutocompleteProps } from './SearchAutocomplete'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { combineDescribedBy } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import useSearchProps from './useSearchProps'
+import useSearchProps, { getSearchOptions } from './useSearchProps'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+
+const interactiveSelector =
+  'a[href], button, input, select, textarea, label, summary, [contenteditable]:not([contenteditable="false"]), [tabindex]:not([tabindex="-1"])'
 
 export type SearchPanelContentProps = {
   results: ReactNode
@@ -56,10 +59,12 @@ function SearchPanel(localProps: SearchPanelProps) {
     preventSelection: true,
     keepValue: true,
     openOnFocus: true,
+    showAll: false,
   })
   const descriptionId = `${useId()}-panel-description`
   const triggerOffset = popoverProps?.triggerOffset ?? 8
   const targetRef = useRef<HTMLInputElement>(null)
+  const nestedPointerRef = useRef(false)
   const setInputRef = useCallback(
     (element: HTMLInputElement | null) => {
       targetRef.current = element
@@ -76,14 +81,19 @@ function SearchPanel(localProps: SearchPanelProps) {
     <>
       <Autocomplete
         {...props}
+        search={getSearchOptions(props)}
         maxHeight={0}
         aria-describedby={combineDescribedBy(props, descriptionId)}
         inputRef={setInputRef}
+        onClose={(args) =>
+          nestedPointerRef.current ? false : props.onClose?.(args)
+        }
         resultsRender={({ results, open, close, resultsRef }) => (
           <SearchPanelSurface
             {...popoverProps}
             className={clsx('dnb-search__panel', popoverProps?.className)}
             inputRef={targetRef}
+            nestedPointerRef={nestedPointerRef}
             minHeight={minHeight}
             maxHeight={maxHeight}
             contentRef={resultsRef}
@@ -125,6 +135,14 @@ function SearchPanel(localProps: SearchPanelProps) {
             <span
               className="dnb-search__panel-content"
               role="presentation"
+              onMouseDown={(event) => {
+                // Keep focus, typing and result navigation in the input.
+                if (
+                  !(event.target as Element).closest(interactiveSelector)
+                ) {
+                  event.preventDefault()
+                }
+              }}
             >
               {children ? children({ results, close }) : results}
             </span>
@@ -140,16 +158,37 @@ function SearchPanel(localProps: SearchPanelProps) {
 
 function SearchPanelSurface({
   inputRef,
+  nestedPointerRef,
   minHeight,
   maxHeight,
   ...props
 }: PopoverProps & {
   inputRef: RefObject<HTMLInputElement>
+  nestedPointerRef: RefObject<boolean>
   contentRef: RefObject<HTMLSpanElement>
   minHeight?: SearchPanelProps['minHeight']
   maxHeight?: SearchPanelProps['maxHeight']
 }) {
   const { open, contentRef } = props
+
+  useEffect(() => {
+    if (!open) {
+      return undefined
+    }
+
+    // Window capture runs before the surface marks a nested interaction.
+    const reset = () => {
+      nestedPointerRef.current = false
+    }
+    const events = ['pointerdown', 'keydown', 'click'] as const
+    events.forEach((type) => window.addEventListener(type, reset, true))
+    return () => {
+      reset()
+      events.forEach((type) =>
+        window.removeEventListener(type, reset, true)
+      )
+    }
+  }, [open, nestedPointerRef])
 
   useIsomorphicLayoutEffect(() => {
     const surface = contentRef.current
@@ -238,14 +277,26 @@ function SearchPanelSurface({
         return
       }
 
-      const controls = getTabbableElements(surface)
+      const controls = getTabbableElements(surface, event.shiftKey)
+      const fieldControls = getTabbableElements(
+        input.closest('.dnb-search') || input
+      )
+      // Clear and submit buttons follow the input before the surface.
+      const fieldEnd = fieldControls[fieldControls.length - 1] || input
       let next: HTMLElement | undefined
-      if (event.target === input && !event.shiftKey) {
-        next = controls[0]
+      if (event.target === fieldEnd && !event.shiftKey) {
+        // Without custom controls, Tab leaves instead of stopping at Close.
+        next = controls.find(
+          (element) => !element.closest('.dnb-popover__close')
+        )
       } else if (surface.contains(event.target as Node)) {
-        const index = controls.indexOf(event.target as HTMLElement)
+        const index = controls.findIndex(
+          (control) =>
+            control === event.target ||
+            isSameRadioGroup(control, event.target)
+        )
         if (event.shiftKey && index === 0) {
-          next = input
+          next = fieldEnd
         } else if (!event.shiftKey && index === controls.length - 1) {
           const pageControls = getTabbableElements(
             input.ownerDocument
@@ -264,7 +315,8 @@ function SearchPanelSurface({
       if (next) {
         event.preventDefault()
         next.focus({
-          preventScroll: next === input || surface.contains(next),
+          preventScroll:
+            fieldControls.includes(next) || surface.contains(next),
         })
       }
     }
@@ -282,11 +334,22 @@ function SearchPanelSurface({
       heightLimit > 0 ? heightLimit + 'rem' : undefined,
   } as CSSProperties
 
-  return <Popover {...props} style={style} />
+  return (
+    <Popover
+      {...props}
+      style={style}
+      onPointerDownCapture={(event) => {
+        // React events from nested portals bubble through the surface.
+        nestedPointerRef.current = !contentRef.current?.contains(
+          event.target as Node
+        )
+      }}
+    />
+  )
 }
 
-function getTabbableElements(root: ParentNode) {
-  return Array.from(
+function getTabbableElements(root: ParentNode, backward = false) {
+  const elements = Array.from(
     root.querySelectorAll<HTMLElement>(
       'a[href], button, input, select, textarea, [tabindex], [contenteditable="true"], summary'
     )
@@ -296,6 +359,31 @@ function getTabbableElements(root: ParentNode) {
       !element.matches(':disabled') &&
       !element.closest('[hidden], [inert]') &&
       (element.checkVisibility?.({ checkVisibilityCSS: true }) ?? true)
+  )
+
+  // Like the browser, give each named radio group one Tab stop.
+  return elements.filter((element) => {
+    const group = elements.filter((other) =>
+      isSameRadioGroup(other, element)
+    ) as HTMLInputElement[]
+    return (
+      group.length === 0 ||
+      element ===
+        (group.find((radio) => radio.checked) ??
+          group[backward ? group.length - 1 : 0])
+    )
+  })
+}
+
+function isSameRadioGroup(element: Element, other: EventTarget) {
+  return (
+    element instanceof HTMLInputElement &&
+    other instanceof HTMLInputElement &&
+    element.type === 'radio' &&
+    other.type === 'radio' &&
+    element.name !== '' &&
+    element.name === other.name &&
+    element.form === other.form
   )
 }
 

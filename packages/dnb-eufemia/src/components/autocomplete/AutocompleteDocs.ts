@@ -132,7 +132,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showAll: {
-    doc: 'Text that lets a user unravel all the available options. Defaults to `Vis alt`.',
+    doc: 'Text that lets a user unravel all the available options. Defaults to `Vis alt`. Use `false` to omit the item.',
     type: 'React.ReactNode',
     status: 'optional',
   },
