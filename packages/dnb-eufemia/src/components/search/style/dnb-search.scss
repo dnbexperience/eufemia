@@ -108,14 +108,30 @@
   }
 
   &--compact {
-    width: var(--search-compact-width);
+    --search-current-width: var(--search-compact-width);
+
+    width: var(--search-current-width);
     transition: width 250ms var(--easing-default);
 
     &:focus-within,
     &:has(input[aria-expanded='true']),
     &[data-has-content='true'],
     &:has(.dnb-input[data-has-content='true']) {
+      --search-current-width: var(--search-width);
+    }
+
+    &:has(> .dnb-form-label--vertical:not(.dnb-sr-only)):not(
+        .dnb-input--stretch,
+        .dnb-autocomplete--stretch
+      ) {
       width: var(--search-width);
+
+      > .dnb-input__inner,
+      > .dnb-autocomplete__inner {
+        width: var(--search-current-width);
+        max-width: 100%;
+        transition: inherit;
+      }
     }
 
     @include utilities.allBelow(small) {

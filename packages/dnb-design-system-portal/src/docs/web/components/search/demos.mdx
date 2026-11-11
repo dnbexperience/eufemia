@@ -6,46 +6,35 @@ import {
   SearchDefault,
   SearchHero,
   SearchCompact,
-  SearchAutocomplete,
-  SearchAutocompleteHero,
-  SearchAutocompleteCompact,
-  SearchAsync,
   SearchPanel,
+  SearchAsync,
 } from 'Docs/web/components/search/Examples'
 
 ## Demos
 
-### Search.Input
+### Default
 
-Use `Search.Input` for a search field without suggestions. It supports Input's `onChange` and `onSubmit` events.
+Compare the three search components. `Search.Input` provides a search field without suggestions and supports Input's `onChange` and `onSubmit` events. `Search.Autocomplete` adds suggestions, while `Search.Panel` presents them in a flexible panel.
+
+Autocomplete and DrawerList dependencies are excluded when only `Search.Input` is used in a production bundle.
 
 <SearchDefault />
 
-#### Hero input
+### Compact with shortcut
 
-<SearchHero />
+All three components expand on focus and display the shortcut inside the input. When several examples enable the shortcut, Cmd+K or Ctrl+K focuses the first visible one.
 
-#### Compact input with keyboard shortcut
+With `labelSrOnly={false}`, a vertical label keeps the expanded width while only the input changes width. This keeps wrapping and the input's vertical position stable.
 
 <SearchCompact />
 
-### Search.Autocomplete
+### Hero
 
-Opt in to suggestions with `Search.Autocomplete`. Its Autocomplete and DrawerList dependencies are excluded when only `Search.Input` is used in a production bundle.
+Use the hero variant for a prominent search field, such as a home page search. It supports the same suggestions, panel, and keyboard shortcut behavior.
 
-<SearchAutocomplete />
+<SearchHero />
 
-#### Hero with suggestions
-
-<SearchAutocompleteHero />
-
-#### Compact autocomplete with keyboard shortcut
-
-Both compact examples expand on focus and display the shortcut inside the input. When several examples enable the shortcut, Cmd+K or Ctrl+K focuses the first visible one.
-
-<SearchAutocompleteCompact />
-
-### Search.Panel
+### Panel with filtering and sorting
 
 Use a panel when results need additional controls. This example filters by category with toggle buttons and sorts by relevance or alphabetically. The controls belong to the application, so the component also works with other filters or actions.
 
