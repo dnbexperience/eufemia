@@ -7,9 +7,9 @@
  * URL to both clients and agents. Behavior is controlled by the `MODE` var so
  * the endpoint can be phased down without code changes:
  *
- *   - `proxy`    (default) — forward the request to the new endpoint, add
- *                deprecation headers, and inject a migration notice into the
- *                MCP `initialize` response `instructions`.
+ *   - `proxy`    (fallback when `MODE` is unset) — forward the request to the
+ *                new endpoint, add deprecation headers, and inject a migration
+ *                notice into the MCP `initialize` response `instructions`.
  *   - `redirect` — respond `308 Permanent Redirect` to the new endpoint.
  *   - `gone`     — respond `410 Gone` with a migration message.
  *
@@ -20,7 +20,7 @@
  */
 
 export type Env = {
-  /** `proxy` (default) | `redirect` | `gone` */
+  /** `proxy` (fallback when unset) | `redirect` | `gone` */
   MODE?: string
   /** Successor endpoint the legacy URL points at. */
   TARGET_URL?: string
