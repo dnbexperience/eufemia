@@ -744,6 +744,47 @@ describe('Search.Panel', () => {
     }
   )
 
+  it.each([false, true])(
+    'keeps the input buttons in the Tab order before the controls (showSubmitButton: %s)',
+    async (showSubmitButton) => {
+      render(
+        <>
+          <Search.Panel
+            panelDescription="Search results. Use the arrow keys to navigate."
+            data={['Button', 'Input']}
+            showSubmitButton={showSubmitButton}
+          >
+            {({ results }) => (
+              <>
+                <button type="button">Sort</button>
+                {results}
+              </>
+            )}
+          </Search.Panel>
+          <button type="button">After</button>
+        </>
+      )
+      const input = document.querySelector('input')
+      await userEvent.click(input)
+      await userEvent.keyboard('B')
+
+      const fieldButtons = Array.from(
+        document.querySelectorAll<HTMLButtonElement>('.dnb-search button')
+      ).filter((button) => button.tabIndex >= 0)
+      expect(fieldButtons).toHaveLength(showSubmitButton ? 2 : 1)
+
+      for (const button of fieldButtons) {
+        await userEvent.tab()
+        expect(button).toHaveFocus()
+      }
+      await userEvent.tab()
+      expect(document.activeElement).toHaveTextContent('Sort')
+
+      await userEvent.tab({ shift: true })
+      expect(fieldButtons.at(-1)).toHaveFocus()
+    }
+  )
+
   it('forwards both supported input ref forms to the positioning target', () => {
     const ref = createRef<HTMLInputElement>()
     const { rerender } = render(

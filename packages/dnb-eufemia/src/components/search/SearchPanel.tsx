@@ -239,13 +239,18 @@ function SearchPanelSurface({
       }
 
       const controls = getTabbableElements(surface)
+      const fieldControls = getTabbableElements(
+        input.closest('.dnb-search') || input
+      )
+      // Clear and submit buttons follow the input before the surface.
+      const fieldEnd = fieldControls[fieldControls.length - 1] || input
       let next: HTMLElement | undefined
-      if (event.target === input && !event.shiftKey) {
+      if (event.target === fieldEnd && !event.shiftKey) {
         next = controls[0]
       } else if (surface.contains(event.target as Node)) {
         const index = controls.indexOf(event.target as HTMLElement)
         if (event.shiftKey && index === 0) {
-          next = input
+          next = fieldEnd
         } else if (!event.shiftKey && index === controls.length - 1) {
           const pageControls = getTabbableElements(
             input.ownerDocument
@@ -264,7 +269,8 @@ function SearchPanelSurface({
       if (next) {
         event.preventDefault()
         next.focus({
-          preventScroll: next === input || surface.contains(next),
+          preventScroll:
+            fieldControls.includes(next) || surface.contains(next),
         })
       }
     }
