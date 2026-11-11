@@ -790,12 +790,9 @@ test('panel restores results and keyboard navigation after clearing the query', 
 
 test('panel supports results, toggle filters, sorting, and natural keyboard focus', async ({
   page,
-  browserName,
 }) => {
-  // Safari uses Option+Tab to include native buttons in keyboard navigation.
-  const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
-  const reverseTab =
-    browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
+  const tab = 'Tab'
+  const reverseTab = 'Shift+Tab'
   const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
@@ -872,6 +869,22 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   await expect(sort).toBeFocused()
   await expect(input).toHaveAttribute('aria-expanded', 'true')
   await expect(results.getByRole('option').first()).toHaveText('Button')
+
+  await test.step('reaches field buttons and panel controls with a query', async () => {
+    await input.focus()
+    await input.fill('a')
+    const clear = fixture.locator('.dnb-input__clear-button')
+    await input.press(tab)
+    await expect(clear).toBeFocused()
+    await page.keyboard.press(tab)
+    await expect(sort).toBeFocused()
+    await page.keyboard.press(reverseTab)
+    await expect(clear).toBeFocused()
+    await page.keyboard.press(reverseTab)
+    await expect(input).toBeFocused()
+    await expect(input).toHaveAttribute('aria-expanded', 'true')
+  })
+
   await input.focus()
   await input.fill('zzzz')
   await expect(results).toContainText('Ingen alternativer')

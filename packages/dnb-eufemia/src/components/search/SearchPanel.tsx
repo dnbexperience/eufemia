@@ -262,7 +262,7 @@ function SearchPanelSurface({
     return () => observer.disconnect()
   }, [open, inputRef, contentRef, props.children])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!open) {
       return undefined
     }
@@ -285,8 +285,15 @@ function SearchPanelSurface({
       )
       // Clear and submit buttons follow the input before the surface.
       const fieldEnd = fieldControls[fieldControls.length - 1] || input
+      const fieldIndex = fieldControls.indexOf(event.target as HTMLElement)
       let next: HTMLElement | undefined
-      if (event.target === fieldEnd && !event.shiftKey) {
+      if (
+        fieldIndex !== -1 &&
+        (event.shiftKey ? fieldIndex > 0 : event.target !== fieldEnd)
+      ) {
+        // Safari skips buttons on Tab unless we move focus explicitly.
+        next = fieldControls[fieldIndex + (event.shiftKey ? -1 : 1)]
+      } else if (event.target === fieldEnd && !event.shiftKey) {
         // Without custom controls, Tab leaves instead of stopping at Close.
         next = controls.find(
           (element) => !element.closest('.dnb-popover__close')
