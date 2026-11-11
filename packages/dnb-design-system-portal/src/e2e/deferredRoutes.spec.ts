@@ -265,3 +265,58 @@ test('keeps the page usable when speculative route loading fails', async ({
   await expect(page).toHaveURL(/action-with-nested-card/)
   await expect(page.locator('.dnb-card').first()).toBeVisible()
 })
+
+test('keeps the page offline and opens the destination when back online', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/')
+  await waitForApp(page)
+  test.skip(await isDev(page), 'Production route splitting')
+  await page.evaluate(() => {
+    document.documentElement.dataset.navigationMarker = 'present'
+  })
+  await context.setOffline(true)
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+  await page.waitForTimeout(1000)
+
+  await expect(page.locator('[data-portal-home]')).toBeVisible()
+  await expect(
+    page.getByText('Unexpected Application Error!')
+  ).toHaveCount(0)
+
+  await context.setOffline(false)
+
+  await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//)
+  await waitForApp(page)
+  await expect(page.locator('html')).not.toHaveAttribute(
+    'data-navigation-marker'
+  )
+})
+
+test('keeps the page when the user types before the connection is back', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/')
+  await waitForApp(page)
+  test.skip(await isDev(page), 'Production route splitting')
+  await context.setOffline(true)
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+  await page.waitForTimeout(1000)
+  await page.evaluate(() => {
+    document.body.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+
+  await context.setOffline(false)
+  await page.waitForTimeout(1000)
+
+  expect(new URL(page.url()).pathname).toBe('/')
+  await expect(page.locator('[data-portal-home]')).toBeVisible()
+})

@@ -1,5 +1,6 @@
 import { matchRoutes } from 'react-router'
 import { portalAssetUrl } from './portal-asset-url'
+import { openDocument } from './open-document'
 import type { PortalRoute } from './plugins/portal-pages.shared'
 
 type RouteHint = {
@@ -182,8 +183,7 @@ export async function getInitialPortalRoutes(): Promise<PortalRoute[]> {
                   const { Component } = await loadHint(hints.links['/'])
                   return { Component }
                 } catch {
-                  window.location.assign('/')
-                  return new Promise<never>(() => {})
+                  return openDocument('/')
                 }
               },
             },
