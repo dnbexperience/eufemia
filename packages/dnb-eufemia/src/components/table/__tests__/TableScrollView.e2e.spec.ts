@@ -233,6 +233,7 @@ test.describe('Table.ScrollView', () => {
       await test.step(`centers and slows the nudge in ${direction}`, async () => {
         await scrollView.evaluate((element: HTMLElement, direction) => {
           element.dir = direction
+          element.dispatchEvent(new Event('scroll'))
         }, direction)
         await expect(button.locator('.dnb-icon')).toHaveCSS(
           'transform',

@@ -54,6 +54,10 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
       }
 
       element.toggleAttribute('data-scroll-indicator', opacity > 0)
+      element.toggleAttribute(
+        'data-scroll-indicator-rtl',
+        style.direction === 'rtl'
+      )
       if (opacity > 0 && isInView) {
         element.setAttribute('data-scroll-indicator-animate', '')
       }
