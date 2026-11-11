@@ -93,7 +93,7 @@
 
     &.dnb-input--medium .dnb-input--clear.dnb-input__submit-element,
     .dnb-input--medium .dnb-input--clear.dnb-input__submit-element {
-      transform: translateX(1rem);
+      transform: translateX(0.75rem);
     }
 
     @include utilities.allAbove(small) {
