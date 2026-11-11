@@ -222,4 +222,20 @@ describe('production analytics checks', () => {
       )
     ).toBe(false)
   })
+
+  it('names an expired or revoked GHE token on HTTP 401', async () => {
+    const report = await check(
+      fixture({
+        change: (url) =>
+          url.hostname === 'api.dnb.ghe.com'
+            ? new Response('', { status: 401 })
+            : undefined,
+      })
+    )
+
+    expect(
+      report.checks.find((check) => check.name === 'GHE deploy run')
+        ?.detail
+    ).toBe('Token expired or revoked (HTTP 401)')
+  })
 })
