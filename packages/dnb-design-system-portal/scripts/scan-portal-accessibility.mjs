@@ -25,28 +25,39 @@ async function main() {
     ? sitemap.pages.slice(0, Number(args.limit))
     : sitemap.pages
   const colorSchemes = args.colorSchemes?.split(',') ?? ['light']
+  const [firstColorScheme] = colorSchemes
   const browser = await chromium.launch()
   const duplicateIdFindings = []
   const findings = []
   const errors = []
+  let cursor = 0
 
-  for (const colorScheme of colorSchemes) {
-    const isLight = colorScheme === 'light'
-    let cursor = 0
+  await Promise.all(
+    Array.from({ length: Math.min(6, paths.length) }, async () => {
+      const context = await browser.newContext({
+        colorScheme: firstColorScheme,
+      })
+      await context.addInitScript(() => {
+        Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
+      })
+      const page = await context.newPage()
 
-    await Promise.all(
-      Array.from({ length: Math.min(6, paths.length) }, async () => {
-        const context = await browser.newContext({ colorScheme })
-        await context.addInitScript(() => {
-          Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
-        })
-        const page = await context.newPage()
+      while (cursor < paths.length) {
+        const path = paths[cursor++]
+        let colorScheme = firstColorScheme
 
-        while (cursor < paths.length) {
-          const path = paths[cursor++]
+        try {
+          if (colorSchemes.length > 1) {
+            await page.emulateMedia({ colorScheme: firstColorScheme })
+          }
+          await loadPage(page, new URL(path, args.baseUrl).href)
 
-          try {
-            await loadPage(page, new URL(path, args.baseUrl).href)
+          for (colorScheme of colorSchemes) {
+            const isLight = colorScheme === 'light'
+
+            if (colorScheme !== firstColorScheme) {
+              await switchColorScheme(page, colorScheme)
+            }
             if (isLight) {
               const ids = await page
                 .locator('[id]')
@@ -76,18 +87,19 @@ async function main() {
                   .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
               })
             }
-          } catch (error) {
-            errors.push({
-              page: isLight ? path : `${path} (${colorScheme})`,
-              message: error.message,
-            })
           }
+        } catch (error) {
+          errors.push({
+            page:
+              colorScheme === 'light' ? path : `${path} (${colorScheme})`,
+            message: error.message,
+          })
         }
+      }
 
-        await context.close()
-      })
-    )
-  }
+      await context.close()
+    })
+  )
 
   await browser.close()
 
@@ -163,6 +175,32 @@ async function loadPage(page, url) {
       await page.waitForTimeout(attempt * 5000)
     }
   }
+}
+
+// Switch the loaded page instead of loading it again, which halves the page loads
+async function switchColorScheme(page, colorScheme) {
+  await page.emulateMedia({ colorScheme })
+  await page
+    .locator(`body.eufemia-theme__color-scheme--${colorScheme}`)
+    .waitFor({ state: 'attached', timeout: 10000 })
+  await page.evaluate(
+    () =>
+      new Promise((resolve) => {
+        // Wait for the render, then skip the color transitions it started
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            for (const animation of document.getAnimations()) {
+              try {
+                animation.finish()
+              } catch {
+                // Infinite animations can't finish
+              }
+            }
+            resolve()
+          })
+        )
+      })
+  )
 }
 
 function parseArgs(values) {
