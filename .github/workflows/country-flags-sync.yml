@@ -49,8 +49,6 @@ jobs:
         with:
           client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
           private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
-          # An existing update branch is rebased onto main
-          workflows: write
 
       - name: Find an open flag update pull request
         id: existing-pr
