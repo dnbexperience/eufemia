@@ -695,6 +695,55 @@ describe('Search.Panel', () => {
     })
   })
 
+  it.each([
+    [
+      'the close button',
+      () => userEvent.click(document.querySelector('.dnb-popover__close')),
+    ],
+    [
+      'Escape from a control',
+      async () => {
+        await userEvent.tab()
+        await userEvent.keyboard('{Escape}')
+      },
+    ],
+  ])(
+    'opens the results when typing after closing with %s',
+    async (_, closePanel) => {
+      render(
+        <Search.Panel
+          panelDescription="Search results. Use the arrow keys to navigate."
+          data={['Button', 'Input']}
+        >
+          {({ results }) => (
+            <>
+              <button type="button">Sort</button>
+              {results}
+            </>
+          )}
+        </Search.Panel>
+      )
+      const input = document.querySelector('input')
+      await userEvent.click(input)
+
+      await closePanel()
+
+      await waitFor(() => {
+        expect(input).toHaveAttribute('aria-expanded', 'false')
+        expect(input).toHaveFocus()
+      })
+
+      await userEvent.keyboard('B')
+
+      await waitFor(() => {
+        expect(input).toHaveAttribute('aria-expanded', 'true')
+      })
+      expect(
+        document.querySelector('.dnb-search__panel [role="option"]')
+      ).toHaveTextContent('Button')
+    }
+  )
+
   it('forwards both supported input ref forms to the positioning target', () => {
     const ref = createRef<HTMLInputElement>()
     const { rerender } = render(

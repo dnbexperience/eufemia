@@ -1410,6 +1410,16 @@ function AutocompleteComponent({
     suppressFocusHandlerRef.current = false
   }, [focusInput])
 
+  const closeResults = useCallback(() => {
+    setHidden()
+
+    // The refocus on close is suppressed, so typing must still reopen the results.
+    if (document.activeElement === _refInput.current) {
+      setHasFocus(true)
+      setHasBlur(false)
+    }
+  }, [setHidden, setHasBlur])
+
   const setVisibleAndFocusOnInput = useCallback(() => {
     if (!hasFocusRef.current && !hasSelectedText()) {
       setFocusOnInput()
@@ -2284,7 +2294,7 @@ function AutocompleteComponent({
               ? resultsRender({
                   results,
                   open: isExpanded,
-                  close: setHidden,
+                  close: closeResults,
                   resultsRef,
                 })
               : results}

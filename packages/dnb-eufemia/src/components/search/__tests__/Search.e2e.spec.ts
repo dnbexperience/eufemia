@@ -998,11 +998,17 @@ test('panel closes from controls and preserves outside interaction focus', async
   await close.press('Escape')
   await expect(input).toHaveAttribute('aria-expanded', 'false')
   await expect(input).toBeFocused()
+  await page.keyboard.type('dr')
+  await expect(input).toHaveAttribute('aria-expanded', 'true')
+  await input.fill('')
 
   await input.click()
   await close.click()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
   await expect(input).toBeFocused()
+  await page.keyboard.type('dr')
+  await expect(input).toHaveAttribute('aria-expanded', 'true')
+  await input.fill('')
 
   await input.click()
   const outsideInput = page.locator('[data-testid="search-default"] input')
