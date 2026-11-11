@@ -8,7 +8,7 @@ import type { SearchAutocompleteProps } from './SearchAutocomplete'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { combineDescribedBy } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import useSearchProps from './useSearchProps'
+import useSearchProps, { getSearchOptions } from './useSearchProps'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type SearchPanelContentProps = {
@@ -56,6 +56,7 @@ function SearchPanel(localProps: SearchPanelProps) {
     preventSelection: true,
     keepValue: true,
     openOnFocus: true,
+    showAll: false,
   })
   const descriptionId = `${useId()}-panel-description`
   const triggerOffset = popoverProps?.triggerOffset ?? 8
@@ -76,6 +77,7 @@ function SearchPanel(localProps: SearchPanelProps) {
     <>
       <Autocomplete
         {...props}
+        search={getSearchOptions(props)}
         maxHeight={0}
         aria-describedby={combineDescribedBy(props, descriptionId)}
         inputRef={setInputRef}

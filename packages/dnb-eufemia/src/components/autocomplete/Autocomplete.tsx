@@ -856,7 +856,7 @@ function AutocompleteComponent({
 
   const wrapWithShowAll = useCallback(
     (data: DrawerListInternalData) => {
-      if (!data || !hasFilterActive(data)) {
+      if (!data || props.showAll === false || !hasFilterActive(data)) {
         return data
       }
 

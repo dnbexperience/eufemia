@@ -1498,6 +1498,25 @@ describe('Autocomplete component', () => {
     ).toHaveLength(4)
   })
 
+  it('omits the show all item when showAll is false', async () => {
+    render(
+      <Autocomplete
+        data={['AA', 'AB', 'BB']}
+        showAll={false}
+        {...mockProps}
+      />
+    )
+
+    await userEvent.type(document.querySelector('.dnb-input__input'), 'A')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+    expect(
+      document.querySelector('li.dnb-autocomplete__show-all')
+    ).toBeNull()
+  })
+
   it('does not crash with disableFilter when searching a full number with whitespace', () => {
     const mockData = [
       formatBankAccountNumber(20001234567),

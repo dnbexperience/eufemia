@@ -535,7 +535,7 @@ test('panel uses available height above and below the input and resizes with the
     .toBeGreaterThan(320)
 
   await input.fill('Button')
-  await expect(results.getByRole('option')).toHaveCount(2)
+  await expect(results.getByRole('option')).toHaveCount(1)
   await expect
     .poll(async () => (await results.boundingBox()).height)
     .toBeCloseTo(160, 0)
@@ -739,8 +739,7 @@ test('panel restores results and keyboard navigation after clearing the query', 
     .getByRole('option')
 
   await input.fill('But')
-  await expect(options).toHaveCount(2)
-  await expect(options.first()).toHaveText('Button')
+  await expect(options).toHaveText(['Button'])
   await fixture.locator('.dnb-input__clear-button').click()
 
   await expect(input).toHaveValue('')

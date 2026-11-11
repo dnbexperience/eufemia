@@ -157,7 +157,7 @@ export type AutocompleteProps = {
    */
   noOptions?: AutocompleteNoOptions
   /**
-   * Text that lets a user unravel all the available options. Defaults to `Vis alt`.
+   * Text that lets a user unravel all the available options. Defaults to `Vis alt`. Use `false` to omit the item.
    */
   showAll?: AutocompleteShowAll
   /**

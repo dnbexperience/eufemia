@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Search from '../Search'
+import type { SearchAutocompleteProps } from '../Search'
 import { Provider } from '../../../shared'
 import FieldBlock from '../../../extensions/forms/FieldBlock/FieldBlock'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
@@ -394,7 +395,7 @@ describe.each([
     const options = () => document.querySelectorAll('[role="option"]')
 
     await userEvent.type(input, 'But')
-    expect(options()).toHaveLength(2)
+    expect(options()).toHaveLength(1)
     expect(options()[0]).toHaveTextContent('Button')
 
     await userEvent.click(
@@ -462,6 +463,76 @@ describe('Search.Autocomplete', () => {
 
     await waitFor(() => expect(onChange).toHaveBeenCalled())
     expect(input).toHaveValue('But')
+  })
+})
+
+describe.each([
+  ['Autocomplete', Search.Autocomplete, { panelDescription: undefined }],
+  ['Panel', Search.Panel, { panelDescription: 'Search results.' }],
+] as const)('Search.%s results', (_, Component, requiredProps) => {
+  const options = () =>
+    Array.from(document.querySelectorAll('[role="option"]')).map(
+      (option) => option.textContent
+    )
+
+  it('does not offer to show every item for a filtered query', async () => {
+    render(
+      <Component
+        {...requiredProps}
+        data={['Drawer', 'Dropdown', 'Table']}
+      />
+    )
+    await userEvent.type(document.querySelector('input'), 'dr')
+
+    await waitFor(() => expect(options()).toEqual(['Drawer', 'Dropdown']))
+    expect(
+      document.querySelector('.dnb-autocomplete__show-all')
+    ).toBeNull()
+  })
+
+  it('shows every asynchronous result without filtering it again', async () => {
+    let events: Parameters<SearchAutocompleteProps['onType']>[0]
+    render(
+      <Component
+        {...requiredProps}
+        mode="async"
+        onType={(event) => {
+          events = event
+        }}
+      />
+    )
+    await userEvent.type(document.querySelector('input'), 'b')
+    act(() => {
+      events.updateData(['Button', 'Table'])
+    })
+
+    await waitFor(() => expect(options()).toEqual(['Button', 'Table']))
+    expect(
+      document.querySelector('.dnb-autocomplete__show-all')
+    ).toBeNull()
+  })
+
+  it('keeps other search options for asynchronous results', async () => {
+    let events: Parameters<SearchAutocompleteProps['onType']>[0]
+    render(
+      <Component
+        {...requiredProps}
+        mode="async"
+        search={{ highlight: false }}
+        onType={(event) => {
+          events = event
+        }}
+      />
+    )
+    await userEvent.type(document.querySelector('input'), 'b')
+    act(() => {
+      events.updateData(['Button', 'Table'])
+    })
+
+    await waitFor(() => expect(options()).toEqual(['Button', 'Table']))
+    expect(
+      document.querySelector('.dnb-drawer-list__option__item--highlight')
+    ).toBeNull()
   })
 })
 

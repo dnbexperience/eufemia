@@ -4,6 +4,15 @@ import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import { isMac } from '../../shared/helpers'
 import type { SearchProps } from './types'
+import type { AutocompleteAllProps } from '../autocomplete/Autocomplete'
+
+/** Asynchronous results are already filtered by their source. */
+export function getSearchOptions({
+  mode,
+  search,
+}: Pick<AutocompleteAllProps, 'mode' | 'search'>) {
+  return mode === 'async' ? { filter: false, ...search } : search
+}
 
 const searchDefaultProps: Partial<SearchProps> = {
   variant: 'default',
