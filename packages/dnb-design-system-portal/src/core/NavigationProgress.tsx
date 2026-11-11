@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigation } from 'react-router'
-import { ProgressIndicator } from '@dnb/eufemia/src/components'
+import { AriaLive, ProgressIndicator } from '@dnb/eufemia/src/components'
 import { navigationProgressStyle } from './NavigationProgress.module.scss'
 
 // Fast navigations finish before the indicator would flash.
@@ -21,12 +21,16 @@ export default function NavigationProgress({
   openDocument = assignLocation,
 }: NavigationProgressProps) {
   const navigation = useNavigation()
-  const target =
-    navigation.state === 'loading'
-      ? navigation.location.pathname +
-        navigation.location.search +
-        navigation.location.hash
-      : null
+  const location =
+    navigation.state === 'loading' ? navigation.location : null
+
+  // Prerendered pages are directories, so this skips the server's slash redirect.
+  const target = location
+    ? location.pathname.replace(/\/?$/, '/') +
+      location.search +
+      location.hash
+    : null
+  const navigationKey = location?.key
   const [showProgress, setShowProgress] = useState(false)
 
   useEffect(() => {
@@ -42,26 +46,51 @@ export default function NavigationProgress({
     )
 
     // Cold dev-server transforms can be slow without anything being stuck.
-    const fallback = import.meta.env.DEV
-      ? undefined
-      : window.setTimeout(
-          () => openDocument(target),
-          DOCUMENT_FALLBACK_DELAY
-        )
+    if (import.meta.env.DEV) {
+      return () => window.clearTimeout(progress)
+    }
+
+    let fallback: number
+    const scheduleFallback = () => {
+      window.clearTimeout(fallback)
+      fallback = window.setTimeout(() => {
+        // Offline, the browser would replace the page with its error page.
+        if (navigator.onLine) {
+          openDocument(target)
+        }
+      }, DOCUMENT_FALLBACK_DELAY)
+    }
+
+    // A finished response means a slow connection is still making progress.
+    const observer = new PerformanceObserver(scheduleFallback)
+    observer.observe({ type: 'resource' })
+
+    // A reload would discard what the user typed on the current page.
+    const cancelFallback = () => {
+      observer.disconnect()
+      window.clearTimeout(fallback)
+    }
+    document.addEventListener('input', cancelFallback, true)
+
+    scheduleFallback()
 
     return () => {
       window.clearTimeout(progress)
-      window.clearTimeout(fallback)
+      cancelFallback()
+      document.removeEventListener('input', cancelFallback, true)
     }
-  }, [target, openDocument])
+  }, [target, navigationKey, openDocument])
 
-  if (!target || !showProgress) {
-    return null
-  }
+  const loading = Boolean(target && showProgress)
 
   return (
-    <div className={navigationProgressStyle}>
-      <ProgressIndicator type="linear" size="small" />
-    </div>
+    <>
+      {loading && (
+        <div className={navigationProgressStyle}>
+          <ProgressIndicator type="linear" size="small" />
+        </div>
+      )}
+      <AriaLive>{loading ? 'Loading page' : null}</AriaLive>
+    </>
   )
 }
