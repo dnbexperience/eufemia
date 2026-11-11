@@ -4,13 +4,12 @@
  */
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
-import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
+import type { KeyboardEvent, MouseEvent, ReactNode, SVGProps } from 'react'
 import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'portal-query'
-import Anchor from '../tags/Anchor'
 import {
   autocompleteStyle,
   shortcutHintStyle,
@@ -26,6 +25,7 @@ import {
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 import { markNextViewFromSearch } from '../../../vite/client/track-page-view'
 import { loadPortalRoutes } from '../../../vite/client/load-portal-routes'
+import { withTrailingSlash } from '../../../vite/client/with-trailing-slash'
 
 const searchInputId = 'portal-search'
 const subscribeToPlatform = () => () => undefined
@@ -51,6 +51,7 @@ export const SearchBarInput = ({
   onQuery?: (value: string) => boolean | void
 } = {}) => {
   const searchIndex = useRef(null)
+  const searchResults = useRef<SearchResult[]>([])
   const searchRevision = useRef(0)
   const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [status, setStatus] = useState(null)
@@ -83,6 +84,49 @@ export const SearchBarInput = ({
     return () => {
       clearTimeout(hideTimer.current)
       document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [id])
+
+  useEffect(() => {
+    // Results are options, not links, so open one in a new tab on a modified or middle click here.
+    const onClick = (event: globalThis.MouseEvent) => {
+      const opensNewTab =
+        event.button === 1 ||
+        (event.button === 0 &&
+          (event.metaKey || event.ctrlKey || event.shiftKey))
+      if (!opensNewTab || !(event.target instanceof Element)) {
+        return
+      }
+
+      const option = event.target.closest('li[data-item]')
+      const listId = document
+        .getElementById(id)
+        ?.getAttribute('aria-controls')
+      if (!option || !document.getElementById(listId)?.contains(option)) {
+        return
+      }
+
+      const result =
+        searchResults.current[Number(option.getAttribute('data-item'))]
+      if (!result) {
+        return
+      }
+
+      event.preventDefault()
+      event.stopPropagation()
+      window.open(
+        getSearchResultUrl(result.hit.slug, result.hash),
+        '_blank',
+        'noopener'
+      )
+    }
+
+    document.addEventListener('click', onClick, true)
+    document.addEventListener('auxclick', onClick, true)
+
+    return () => {
+      document.removeEventListener('click', onClick, true)
+      document.removeEventListener('auxclick', onClick, true)
     }
   }, [id])
 
@@ -133,9 +177,11 @@ export const SearchBarInput = ({
             if (document.activeElement?.id === id) {
               setVisible()
             }
-            updateData(
-              makeHitsHumanFriendly({ hits: searchableHits, setHidden })
-            )
+            searchResults.current = makeSearchResults({
+              hits: searchableHits,
+              query: value,
+            })
+            updateData(searchResults.current)
             hideIndicator()
             if (searchableHits.length === 0) {
               showNoOptionsItem()
@@ -161,7 +207,7 @@ export const SearchBarInput = ({
     event,
   }: AutocompleteOnChangeParams) => {
     try {
-      const hit = typeof data === 'object' && 'hit' in data && data.hit
+      const { hit, hash } = (data ?? {}) as Partial<SearchResult>
       if (!hit?.slug) {
         return // stop here
       }
@@ -169,6 +215,7 @@ export const SearchBarInput = ({
       handleSearchResultNavigation({
         event: event as unknown as SearchResultNavigationArgs['event'],
         slug: hit.slug,
+        hash,
         setHidden,
         emptyData,
       })
@@ -239,93 +286,74 @@ export const SearchBarInput = ({
   )
 }
 
-const makeHitsHumanFriendly = ({ hits, setHidden }) => {
-  const data = []
+const maxHeadingsPerPage = 5
 
-  hits.forEach((hit) => {
-    const { slug, title, description, search } = hit
-
-    const handleTitleClick = (
-      event: MouseEvent<HTMLAnchorElement | HTMLLinkElement>
-    ) => {
-      event.stopPropagation()
-      if (
-        handleSearchResultNavigation({
-          event,
-          slug,
-          setHidden,
-          allowBrowserDefaultOnModified: true,
-        })
-      ) {
-        event.preventDefault()
-      }
-    }
-
-    const content = [
-      <Anchor
-        key={slug}
-        href={`/${slug}`}
-        onMouseDown={(event) => event.stopPropagation()}
-        onClick={handleTitleClick}
-      >
-        {formatSearchResultMarkdown(title)}
-      </Anchor>,
-      formatSearchResultMarkdown(description),
-      formatSearchResultMarkdown(search),
-    ].filter(Boolean)
-
-    hit.headings?.forEach(({ value, slug: hash }, i) => {
-      const handleHeadingClick = (
-        event: MouseEvent<HTMLAnchorElement | HTMLLinkElement>
-      ) => {
-        event.stopPropagation()
-        if (
-          handleSearchResultNavigation({
-            event,
-            slug,
-            hash,
-            setHidden,
-            allowBrowserDefaultOnModified: true,
-          })
-        ) {
-          event.preventDefault()
-        }
-      }
-
-      // Because we don't want duplication
-      if (value !== title) {
-        content.push(
-          <Anchor
-            key={slug + hash + i}
-            href={`/${slug}#${hash}`}
-            onMouseDown={(event) => event.stopPropagation()}
-            onClick={handleHeadingClick}
-          >
-            {formatSearchResultMarkdown(value)}
-          </Anchor>
-        )
-      }
-    })
-
-    data.push({
-      hit,
-      content,
-    })
-  })
-
-  return data
+type SearchHit = {
+  slug: string
+  title?: string
+  description?: string
+  search?: string | false
+  headings?: Array<{ value: string; slug: string }>
 }
 
+type SearchResult = {
+  hit: SearchHit
+  hash?: string
+  content: ReactNode[]
+}
+
+// Each page and each heading that matches the query is its own option, so the arrow keys reach every result.
+const makeSearchResults = ({
+  hits,
+  query,
+}: {
+  hits: SearchHit[]
+  query: string
+}): SearchResult[] => {
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean)
+
+  return hits.flatMap((hit) => {
+    const { title, description, search } = hit
+    const pageTitle = formatSearchResultMarkdown(title)
+
+    const headings = (hit.headings ?? [])
+      .filter(
+        ({ value }) =>
+          value !== title &&
+          words.every((word) => value.toLowerCase().includes(word))
+      )
+      .slice(0, maxHeadingsPerPage)
+      .map(({ value, slug: hash }) => ({
+        hit,
+        hash,
+        content: [formatSearchResultMarkdown(value), pageTitle].filter(
+          Boolean
+        ),
+      }))
+
+    return [
+      {
+        hit,
+        content: [
+          pageTitle,
+          formatSearchResultMarkdown(description),
+          formatSearchResultMarkdown(search),
+        ].filter(Boolean),
+      },
+      ...headings,
+    ]
+  })
+}
+
+const getSearchResultUrl = (slug: string, hash?: string) =>
+  withTrailingSlash(`/${slug}${hash ? `#${hash}` : ''}`.replace('//', '/'))
+
 type SearchResultNavigationArgs = {
-  event?:
-    | MouseEvent<HTMLElement>
-    | KeyboardEvent<HTMLElement>
-    | MouseEvent<HTMLAnchorElement | HTMLLinkElement>
+  event?: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
   slug: string
   hash?: string
   setHidden?: () => void
   emptyData?: () => void
-  allowBrowserDefaultOnModified?: boolean
 }
 
 const handleSearchResultNavigation = ({
@@ -334,22 +362,16 @@ const handleSearchResultNavigation = ({
   hash,
   setHidden,
   emptyData,
-  allowBrowserDefaultOnModified = false,
 }: SearchResultNavigationArgs) => {
-  const url = `/${slug}${hash ? `#${hash}` : ''}`.replace('//', '/')
-  const modifiedClick = isModifiedClickEvent(event)
+  const url = getSearchResultUrl(slug, hash)
 
-  if (modifiedClick && allowBrowserDefaultOnModified) {
-    return false
-  }
-
-  if (modifiedClick) {
+  if (isModifiedClickEvent(event)) {
     if (typeof window !== 'undefined') {
       window.open(url, '_blank', 'noopener')
     }
     setHidden?.()
     emptyData?.()
-    return true
+    return // stop here
   }
 
   event?.preventDefault?.()
@@ -359,8 +381,6 @@ const handleSearchResultNavigation = ({
   navigate(url)
   scrollToAnimation()
   applyPageFocus('content')
-
-  return true
 }
 
 const SearchLogo = (props: Omit<SVGProps<SVGElement>, 'ref'>) => (

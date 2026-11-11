@@ -12,8 +12,14 @@ import { Provider } from '@dnb/eufemia/src/shared'
 import { formatSearchResultMarkdown } from '../SearchBarMarkdown'
 import { SearchBarInput } from '../SearchBar'
 
-const { search } = vi.hoisted(() => ({
+const { search, navigate } = vi.hoisted(() => ({
   search: vi.fn().mockResolvedValue({ hits: [] }),
+  navigate: vi.fn(),
+}))
+
+vi.mock('portal-query', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('portal-query')>()),
+  navigate,
 }))
 
 vi.mock('algoliasearch/lite', () => ({
@@ -56,7 +62,20 @@ beforeAll(() => {
 afterEach(() => {
   cleanup()
   search.mockReset().mockResolvedValue({ hits: [] })
+  navigate.mockReset()
 })
+
+const getOptions = () =>
+  Array.from(document.querySelectorAll('[role="option"]'))
+
+const getOption = (text: string) =>
+  getOptions().find((option) => option.textContent.includes(text))
+
+const searchFor = (value: string) => {
+  const input = document.querySelector('#portal-search')
+  fireEvent.focus(input)
+  fireEvent.change(input, { target: { value } })
+}
 
 describe('SearchBar', () => {
   it.each([false, true, 42, {}, null, undefined])(
@@ -121,34 +140,6 @@ describe('SearchBar', () => {
     expect(highlight).not.toBeNull()
     expect(highlight?.textContent).toBe('--z-index')
   })
-
-  it('keeps inline code highlighting inside linked search results', () => {
-    const { container } = render(
-      <Autocomplete
-        data={[
-          <a key="result" href="/components/card">
-            {formatSearchResultMarkdown('Use `Card`')}
-          </a>,
-        ]}
-        open
-        inputValue="Ca"
-        id="portal-search-link-test"
-        search={{ filter: false }}
-        noAnimation
-        skipPortal
-      />
-    )
-
-    const link = container.querySelector('a')
-    const code = link?.querySelector('code')
-    const highlight = code?.querySelector(
-      '.dnb-drawer-list__option__item--highlight'
-    )
-
-    expect(link).not.toBeNull()
-    expect(code?.textContent).toBe('Card')
-    expect(highlight?.textContent).toBe('Ca')
-  })
 })
 
 describe('SearchBarInput', () => {
@@ -167,11 +158,143 @@ describe('SearchBarInput', () => {
 
     await waitFor(() =>
       expect(
-        document.querySelector(
-          '#eufemia-portal-root a[href="/web/components/button/"]'
-        )
-      ).not.toBeNull()
+        document.querySelector('#eufemia-portal-root [role="option"]')
+          ?.textContent
+      ).toContain('Button')
     )
+  })
+
+  it('renders results as options without links inside', async () => {
+    search.mockResolvedValueOnce({
+      hits: [
+        {
+          slug: 'web/components/button',
+          title: 'Button',
+          description: 'Use buttons for actions',
+          headings: [
+            { value: 'Button sizes', slug: 'button-sizes' },
+            { value: 'Icons', slug: 'icons' },
+          ],
+        },
+      ],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+    searchFor('button')
+
+    await waitFor(() => expect(getOption('Button sizes')).toBeDefined())
+    expect(
+      document.querySelector(
+        '[role="option"] :is(a, button, input, [tabindex])'
+      )
+    ).toBeNull()
+  })
+
+  it('lists up to five headings that match the query as their own options', async () => {
+    search.mockResolvedValueOnce({
+      hits: [
+        {
+          slug: 'web/components/button',
+          title: 'Button',
+          headings: [
+            { value: 'Button', slug: 'button' },
+            { value: 'Primary button', slug: 'primary-button' },
+            { value: 'Icons', slug: 'icons' },
+            { value: 'Secondary button', slug: 'secondary-button' },
+            { value: 'Tertiary button', slug: 'tertiary-button' },
+            { value: 'Button sizes', slug: 'button-sizes' },
+            { value: 'Button `size`', slug: 'button-size' },
+            { value: 'Disabled button', slug: 'disabled-button' },
+          ],
+        },
+      ],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+    searchFor('BUTTON')
+
+    await waitFor(() => expect(getOptions()).toHaveLength(6))
+    expect(getOptions().map((option) => option.textContent)).toEqual([
+      'Button',
+      'Primary buttonButton',
+      'Secondary buttonButton',
+      'Tertiary buttonButton',
+      'Button sizesButton',
+      'Button sizeButton',
+    ])
+  })
+
+  it('navigates to the page or heading of the chosen option', async () => {
+    search.mockResolvedValue({
+      hits: [
+        {
+          slug: 'web/components/button',
+          title: 'Button',
+          headings: [{ value: 'Button sizes', slug: 'button-sizes' }],
+        },
+      ],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+
+    searchFor('button')
+    await waitFor(() => expect(getOption('Button sizes')).toBeDefined())
+    fireEvent.click(getOption('Button sizes'))
+    expect(navigate).toHaveBeenLastCalledWith(
+      '/web/components/button/#button-sizes'
+    )
+
+    searchFor('buttons')
+    await waitFor(() => expect(getOptions()).toHaveLength(1))
+    fireEvent.click(getOptions()[0])
+    expect(navigate).toHaveBeenLastCalledWith('/web/components/button/')
+  })
+
+  it('opens a result in a new tab on a modified or middle click', async () => {
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null)
+    search.mockResolvedValueOnce({
+      hits: [
+        {
+          slug: 'web/components/button',
+          title: 'Button',
+          headings: [{ value: 'Button sizes', slug: 'button-sizes' }],
+        },
+      ],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+    searchFor('button')
+    await waitFor(() => expect(getOption('Button sizes')).toBeDefined())
+
+    fireEvent.click(getOption('Button sizes'), { metaKey: true })
+    fireEvent(
+      getOptions()[0],
+      new MouseEvent('auxclick', { bubbles: true, button: 1 })
+    )
+    fireEvent(
+      getOptions()[0],
+      new MouseEvent('auxclick', { bubbles: true, button: 2 })
+    )
+
+    expect(open.mock.calls).toEqual([
+      ['/web/components/button/#button-sizes', '_blank', 'noopener'],
+      ['/web/components/button/', '_blank', 'noopener'],
+    ])
+    expect(navigate).not.toHaveBeenCalled()
+    expect(getOption('Button sizes')).toBeDefined()
+    open.mockRestore()
   })
 
   it('keeps searching when the query callback returns a value', async () => {
@@ -192,13 +315,7 @@ describe('SearchBarInput', () => {
     input.focus()
     fireEvent.change(input, { target: { value: 'space' } })
     expect(onQuery).toHaveBeenCalledWith('space')
-    await waitFor(() =>
-      expect(
-        document.querySelector(
-          'a[href="/web/layout-and-typography/layout/space/"]'
-        )
-      ).not.toBeNull()
-    )
+    await waitFor(() => expect(getOption('Space')).toBeDefined())
   })
 
   it('updates results after successive queries instead of retaining the first revision', async () => {
@@ -213,20 +330,12 @@ describe('SearchBarInput', () => {
     const input = document.querySelector('#portal-search')
     fireEvent.focus(input)
     fireEvent.change(input, { target: { value: 'bu' } })
-    await waitFor(() =>
-      expect(
-        document.querySelector('a[href="/web/components/button/"]')
-      ).not.toBeNull()
-    )
+    await waitFor(() => expect(getOption('Button')).toBeDefined())
     search.mockResolvedValue({
       hits: [{ slug: 'web/components/card', title: 'Card' }],
     })
     fireEvent.change(input, { target: { value: 'card' } })
-    await waitFor(() =>
-      expect(
-        document.querySelector('a[href="/web/components/card/"]')
-      ).not.toBeNull()
-    )
+    await waitFor(() => expect(getOption('Card')).toBeDefined())
     expect(
       document.querySelector('.dnb-autocomplete--show-indicator')
     ).toBeNull()
@@ -248,11 +357,7 @@ describe('SearchBarInput', () => {
     input.focus()
     fireEvent.change(input, { target: { value: 'dance' } })
     fireEvent.change(input, { target: { value: 'button' } })
-    await waitFor(() =>
-      expect(
-        document.querySelector('a[href="/web/components/button/"]')
-      ).not.toBeNull()
-    )
+    await waitFor(() => expect(getOption('Button')).toBeDefined())
     expect(
       document.querySelector(
         '.dnb-autocomplete__root.dnb-drawer-list--hidden'
@@ -306,9 +411,7 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'list' } })
 
     await waitFor(() => {
-      expect(
-        document.querySelector('a[href="/uilib/components/list/"]')
-      ).not.toBeNull()
+      expect(getOption('List')).toBeDefined()
     })
     expect(document.body.textContent).not.toContain('List visual test')
     expect(document.body.textContent).not.toContain(
