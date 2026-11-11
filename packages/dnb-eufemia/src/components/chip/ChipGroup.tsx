@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -63,16 +63,20 @@ function ChipGroup(localProps: ChipGroupProps) {
   const [value, setValue] = useState(valueProp)
   const [values, setValues] = useState(valuesProp ?? [])
   const [previousValue, setPreviousValue] = useState(valueProp)
-  const [previousValues, setPreviousValues] = useState(valuesProp)
+  const previousValuesRef = useRef(valuesProp)
 
   if (valueProp !== previousValue) {
     setPreviousValue(valueProp)
     setValue(valueProp)
   }
-  if (valuesProp !== previousValues) {
-    setPreviousValues(valuesProp)
-    setValues(valuesProp ?? [])
-  }
+
+  // Sync after render, so a checkbox the parent rejects sees its checked prop change back.
+  useEffect(() => {
+    if (valuesProp !== previousValuesRef.current) {
+      previousValuesRef.current = valuesProp
+      setValues(valuesProp ?? [])
+    }
+  }, [valuesProp])
 
   const multipleSelection = selectionMode === 'multiple'
   const showStatus = getStatusState(status)
