@@ -68,12 +68,6 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       }
     )
 
-    it('matches the opt-in pill shape for both inputs', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="search-pill"]',
-      })
-    })
-
     it('matches the compact autocomplete', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="search-autocomplete-compact"]',

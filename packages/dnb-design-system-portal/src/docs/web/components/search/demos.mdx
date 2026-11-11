@@ -6,13 +6,11 @@ import {
   SearchDefault,
   SearchHero,
   SearchCompact,
-  SearchPill,
   SearchAutocomplete,
   SearchAutocompleteHero,
   SearchAutocompleteCompact,
   SearchAsync,
   SearchPanel,
-  SearchPanelAlignment,
 } from 'Docs/web/components/search/Examples'
 
 ## Demos
@@ -47,25 +45,15 @@ Both compact examples expand on focus and display the shortcut inside the input.
 
 <SearchAutocompleteCompact />
 
-### Pill shape
-
-All three components use the theme's normal corner radius by default, including the hero variant. Add `pill` to opt in to a pill shape with any variant.
-
-<SearchPill />
-
 ### Search.Panel
 
 Use a panel when results need additional controls. This example filters by category with toggle buttons and sorts by relevance or alphabetically. The controls belong to the application, so the component also works with other filters or actions.
 
+The required `panelDescription` tells screen reader users what they can find in the panel and how to reach its controls. Describe the controls your application provides and supply the text in the user's language. Result counts are announced separately.
+
 The render function receives `results`, the inline Autocomplete list, and `close`. Keep controls outside `results` so they retain their own keyboard behavior. Up and Down navigate results while the input has focus, Enter selects, and Tab reaches the controls. Escape closes the surface and returns focus to the input.
 
 <SearchPanel />
-
-#### Results alignment
-
-Results render through a React portal and align with the input's left edge by default. Choose `align="center"` or `align="right"` when that fits the surrounding layout. The panel stays inside the viewport near either edge.
-
-<SearchPanelAlignment />
 
 ### Asynchronous results
 

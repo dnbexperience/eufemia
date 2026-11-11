@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const PopoverProperties: PropertiesTableProps = {
+  minHeight: {
+    doc: 'Optional minimum surface height in rem. Reduced to fit the available space on the resolved side of the trigger. Omit it to keep the natural content height.',
+    type: ['number', 'string'],
+    status: 'optional',
+  },
   children: {
     doc: 'Alternative content property. Accepts nodes or a render function that receives the same helpers as `content`.',
     type: [

@@ -10,7 +10,64 @@ test.beforeEach(async ({ page }) => {
   await expect(
     page.locator('[data-visual-test="search-compact"] input')
   ).toBeVisible()
+  await page.evaluate(() => document.fonts.ready)
 })
+
+for (const platform of ['MacIntel', 'Win32']) {
+  test(`compact searches show the full placeholder beside the ${platform} shortcut`, async ({
+    page,
+  }) => {
+    await page.addInitScript((platform) => {
+      Object.defineProperty(navigator, 'platform', { value: platform })
+      Object.defineProperty(navigator, 'userAgentData', {
+        value: { platform },
+      })
+      window.localStorage.setItem('locale', 'en-GB')
+    }, platform)
+    await page.goto('/web/components/search/demos/?fullscreen')
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-portal-ready',
+      'true'
+    )
+    await page.evaluate(() => document.fonts.ready)
+
+    for (const selector of [
+      '[data-visual-test="search-compact"] .dnb-search',
+      '[data-visual-test="search-autocomplete-compact"] .dnb-search',
+      '[data-visual-test="search-panel"] .dnb-search',
+    ]) {
+      await test.step(selector, async () => {
+        const search = page.locator(selector)
+        await expect(search.locator('kbd')).toHaveText(
+          platform === 'MacIntel' ? '⌘ K' : 'Ctrl K'
+        )
+        const { textWidth, availableWidth, textRight, shortcutLeft } =
+          await search.evaluate((element) => {
+            const placeholder = element.querySelector(
+              '.dnb-input__placeholder'
+            )
+            const style = getComputedStyle(placeholder)
+            const range = document.createRange()
+            range.selectNodeContents(placeholder)
+            const text = range.getBoundingClientRect()
+            return {
+              textWidth: text.width,
+              availableWidth:
+                placeholder.clientWidth -
+                parseFloat(style.paddingLeft) -
+                parseFloat(style.paddingRight),
+              textRight: text.right,
+              shortcutLeft: element
+                .querySelector('kbd')
+                .getBoundingClientRect().left,
+            }
+          })
+        expect(textWidth).toBeLessThanOrEqual(availableWidth)
+        expect(textRight).toBeLessThanOrEqual(shortcutLeft)
+      })
+    }
+  })
+}
 
 for (const fixture of [
   'search-compact',
@@ -172,13 +229,15 @@ for (const name of [
 
 type ScrollableResults = HTMLElement & {
   scrollPositions: number[]
-  scrollFinished: Promise<void>
+  scrollFinished: boolean
 }
 
 for (const reducedMotion of ['no-preference', 'reduce'] as const) {
   test(`panel scrolls only past the visible results with ${reducedMotion} motion`, async ({
     page,
   }) => {
+    test.setTimeout(60_000)
+
     const input = page
       .locator('[data-visual-test="search-panel"]')
       .getByRole('combobox', { name: 'Search with filters' })
@@ -189,15 +248,25 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
     await page.emulateMedia({ reducedMotion })
     await input.focus()
     await expect(results).toBeVisible()
+    expect(
+      await results.evaluate(
+        (list) => list.scrollHeight > list.clientHeight
+      )
+    ).toBe(true)
     await results.evaluate((list: ScrollableResults) => {
-      list.style.maxHeight = '7rem'
       list.scrollPositions = []
+      list.scrollFinished = true
       list.addEventListener('scroll', () => {
         list.scrollPositions.push(list.scrollTop)
+        list.scrollFinished = false
+      })
+      list.addEventListener('scrollend', () => {
+        list.scrollFinished = true
       })
     })
     const pageScroll = await page.evaluate(() => window.scrollY)
     const options = results.getByRole('option')
+    await expect(options).toHaveCount(20)
     const count = await options.count()
     const positions = []
     let animated = false
@@ -219,34 +288,41 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
           const visible =
             item.top >= box.top + 8 && item.bottom <= box.bottom - 8
           list.scrollPositions = []
-          list.scrollFinished = visible
-            ? Promise.resolve()
-            : new Promise<void>((resolve) => {
-                list.addEventListener('scrollend', () => resolve(), {
-                  once: true,
-                })
-              })
           return { scrollTop: list.scrollTop, visible }
         })
         await input.press(key)
         await expect(options.nth(index)).toHaveClass(
           /dnb-drawer-list__option--focus/
         )
-        await results.evaluate(
-          (list: ScrollableResults) => list.scrollFinished
-        )
         await expect
-          .poll(() =>
-            options.nth(index).evaluate((option) => {
-              const box = option
-                .closest('[role="listbox"]')
-                .getBoundingClientRect()
-              const item = option.getBoundingClientRect()
-              return (
-                item.top >= box.top + 7.5 &&
-                item.bottom <= box.bottom - 7.5
-              )
-            })
+          .poll(
+            () =>
+              options.nth(index).evaluate((option) => {
+                const box = option
+                  .closest('[role="listbox"]')
+                  .getBoundingClientRect()
+                const item = option.getBoundingClientRect()
+                return (
+                  item.top >= box.top + 7.5 &&
+                  item.bottom <= box.bottom - 7.5
+                )
+              }),
+            {
+              message: `${key} reveals result ${index}`,
+              intervals: [25, 50, 100],
+            }
+          )
+          .toBe(true)
+        await expect
+          .poll(
+            () =>
+              results.evaluate(
+                (list: ScrollableResults) => list.scrollFinished
+              ),
+            {
+              message: `${key} finishes scrolling to result ${index}`,
+              intervals: [25, 50, 100],
+            }
           )
           .toBe(true)
         const after = await results.evaluate((list) => list.scrollTop)
@@ -296,6 +372,256 @@ test('keeps both input types within a narrow container', async ({
     await search.locator('.dnb-input__clear-button').click()
     await expect(input).toHaveValue('')
   }
+})
+
+test('panel uses available height above and below the input and resizes with the viewport', async ({
+  page,
+}) => {
+  const search = page.locator(
+    '[data-visual-test="search-panel"] .dnb-search'
+  )
+  const input = search.getByRole('combobox', {
+    name: 'Search with filters',
+  })
+  const panel = page.locator('.dnb-search__panel')
+  const results = page.getByRole('listbox', {
+    name: 'Search with filters',
+  })
+
+  await page.setViewportSize({ width: 900, height: 1000 })
+  await search.evaluate((element: HTMLElement) => {
+    Object.assign(element.style, {
+      position: 'fixed',
+      top: '64px',
+      left: '64px',
+      zIndex: '100',
+    })
+  })
+  await input.focus()
+
+  const expectFit = async (direction: 'top' | 'bottom') => {
+    await expect
+      .poll(async () => {
+        const box = await panel.boundingBox()
+        const trigger = await input.boundingBox()
+        const height = page.viewportSize().height
+        return (
+          box.y >= 15 &&
+          box.y + box.height <= height - 15 &&
+          (direction === 'bottom'
+            ? box.y >= trigger.y + trigger.height + 7
+            : box.y + box.height <= trigger.y - 7)
+        )
+      })
+      .toBe(true)
+    await expect(
+      page.getByRole('button', { name: /^Sort results:/ })
+    ).toBeVisible()
+    await expect(
+      page.getByRole('button', { name: 'Guidance', exact: true })
+    ).toBeVisible()
+    await expect
+      .poll(() =>
+        results.evaluate((list) => list.scrollHeight > list.clientHeight)
+      )
+      .toBe(true)
+  }
+
+  await expectFit('bottom')
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeGreaterThan(320)
+  const tallHeight = (await results.boundingBox()).height
+
+  // The maxHeight prop supplies this variable; verify the browser's layout cap.
+  await panel.evaluate((element: HTMLElement) => {
+    element.style.setProperty('--search-panel-max-height', '16rem')
+  })
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeCloseTo(256, 0)
+  await panel.evaluate((element: HTMLElement) => {
+    element.style.removeProperty('--search-panel-max-height')
+  })
+
+  await page.setViewportSize({ width: 900, height: 600 })
+  await expectFit('bottom')
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeLessThan(tallHeight - 200)
+  await page.setViewportSize({ width: 900, height: 1000 })
+  await expectFit('bottom')
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeCloseTo(tallHeight, 0)
+
+  await input.press('Escape')
+  await search.evaluate((element: HTMLElement) => {
+    element.style.top = '850px'
+  })
+  await input.click()
+  await expectFit('top')
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeGreaterThan(320)
+
+  await input.fill('Button')
+  await expect(results.getByRole('option')).toHaveCount(2)
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeCloseTo(160, 0)
+  await panel.evaluate((element: HTMLElement) => {
+    element.style.setProperty('--search-panel-min-height', '12rem')
+  })
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeCloseTo(192, 0)
+  await panel.evaluate((element: HTMLElement) => {
+    element.style.setProperty('--search-panel-max-height', '8rem')
+  })
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeCloseTo(128, 0)
+
+  await panel.evaluate((element: HTMLElement) => {
+    element.style.removeProperty('--search-panel-max-height')
+  })
+  await search.evaluate((element: HTMLElement) => {
+    element.style.top = '24px'
+  })
+  await page.setViewportSize({ width: 900, height: 300 })
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeCloseTo(192, 0)
+  await expect
+    .poll(async () => {
+      const box = await panel.boundingBox()
+      const list = await results.boundingBox()
+      return list.y >= box.y && list.y + list.height <= box.y + box.height
+    })
+    .toBe(true)
+})
+
+test('panel keeps its opening direction while scrolling', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 900, height: 900 })
+  const input = page.locator('[data-visual-test="search-panel"] input')
+  const panel = page.locator('.dnb-search__panel')
+  const results = page.getByRole('listbox', {
+    name: 'Search with filters',
+  })
+  const scrollInputTo = async (top: number) => {
+    await input.evaluate((element, top) => {
+      window.scrollBy(0, element.getBoundingClientRect().top - top)
+    }, top)
+    await expect
+      .poll(async () => (await input.boundingBox()).y)
+      .toBeCloseTo(top, 0)
+  }
+  const expectFit = async (placement: 'top' | 'bottom') => {
+    await expect
+      .poll(async () => {
+        const surface = await panel.boundingBox()
+        const trigger = await input.boundingBox()
+        return (
+          surface.y >= 15 &&
+          surface.y + surface.height <= 885 &&
+          (placement === 'top'
+            ? surface.y + surface.height <= trigger.y - 7
+            : surface.y >= trigger.y + trigger.height + 7)
+        )
+      })
+      .toBe(true)
+    await expect
+      .poll(async () => (await results.boundingBox()).height)
+      .toBeGreaterThanOrEqual(160)
+    await expect(input).toBeFocused()
+  }
+
+  await scrollInputTo(600)
+  await input.focus()
+  await expectFit('top')
+  await scrollInputTo(400)
+  await expectFit('top')
+  await scrollInputTo(24)
+  await expect
+    .poll(() =>
+      panel.evaluate((element) =>
+        getComputedStyle(element).getPropertyValue(
+          '--popover-available-height'
+        )
+      )
+    )
+    .toBe('0px')
+  await expect
+    .poll(async () => (await results.boundingBox()).height)
+    .toBeGreaterThanOrEqual(160)
+  await expect
+    .poll(async () => {
+      const surface = await panel.boundingBox()
+      const list = await results.boundingBox()
+      const trigger = await input.boundingBox()
+      return (
+        list.height >= 160 &&
+        list.y >= surface.y &&
+        list.y + list.height <= surface.y + surface.height &&
+        surface.y + surface.height <= trigger.y - 7
+      )
+    })
+    .toBe(true)
+
+  await input.press('Escape')
+  await expect(panel).toBeHidden()
+  await scrollInputTo(400)
+  await input.press('ArrowDown')
+  await expectFit('bottom')
+  await scrollInputTo(460)
+  await expectFit('bottom')
+})
+
+test('panel reveals keyboard results when controls fill a short viewport', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 300 })
+  const search = page.locator(
+    '[data-visual-test="search-panel"] .dnb-search'
+  )
+  const input = search.getByRole('combobox')
+  const panel = page.locator('.dnb-search__panel')
+  const options = page
+    .getByRole('listbox', { name: 'Search with filters' })
+    .getByRole('option')
+  await search.evaluate((element: HTMLElement) => {
+    Object.assign(element.style, {
+      position: 'fixed',
+      top: '24px',
+      left: '16px',
+      zIndex: '100',
+    })
+  })
+  await input.focus()
+  await expect(options).toHaveCount(20)
+  const pageScroll = await page.evaluate(() => window.scrollY)
+
+  for (const index of [0, 1, 2]) {
+    await input.press('ArrowDown')
+    await expect(options.nth(index)).toHaveClass(
+      /dnb-drawer-list__option--focus/
+    )
+    await expect
+      .poll(async () => {
+        const surface = await panel.boundingBox()
+        const option = await options.nth(index).boundingBox()
+        return (
+          option.y >= surface.y + 7 &&
+          option.y + option.height <= surface.y + surface.height - 7
+        )
+      })
+      .toBe(true)
+  }
+  expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
+  await expect(input).toBeFocused()
 })
 
 test('panel keeps the keyboard focus outline inside the results viewport', async ({
@@ -354,6 +680,21 @@ test('panel restores results and keyboard navigation after clearing the query', 
     'Table',
     'Accessibility',
     'Getting started',
+    'Card',
+    'Checkbox',
+    'Dialog',
+    'Drawer',
+    'Dropdown',
+    'Icon',
+    'Radio',
+    'Slider',
+    'Switch',
+    'Tooltip',
+    'Colors',
+    'Forms',
+    'Layout',
+    'Spacing',
+    'Typography',
   ])
   await input.press('ArrowDown')
   await expect(input).toHaveAttribute(
@@ -380,8 +721,16 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   const results = page.getByRole('listbox', {
     name: 'Search with filters',
   })
+  const description =
+    'Search results include category filters and sorting. Use the arrow keys to navigate results and press Tab to reach the filters and sorting controls.'
+  const announcement = fixture.locator(
+    '.dnb-autocomplete > .dnb-aria-live:last-child'
+  )
+  await expect(input).toHaveAccessibleDescription(description)
   await input.focus()
   await expect(results).toBeVisible()
+  await expect(input).toHaveAccessibleDescription(description)
+  await expect(announcement).toHaveText('20 alternativer')
   await expect(fixture.locator('input')).toHaveCount(1)
   await input.press('ArrowDown')
   await expect(input).toHaveAttribute('aria-activedescendant', /option-/)
@@ -393,10 +742,13 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   await input.click()
   await expect(results).toBeVisible()
   const sort = page.getByRole('button', { name: /^Sort results:/ })
+  const pageScroll = await page.evaluate(() => window.scrollY)
   await input.press(tab)
   await expect(sort).toBeFocused()
+  expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
   await page.keyboard.press(reverseTab)
   await expect(input).toBeFocused()
+  expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
   await page.keyboard.press(tab)
   await page.keyboard.press(tab)
   await expect(
@@ -407,7 +759,8 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   await expect(
     page.getByRole('button', { name: 'Components', exact: true })
   ).toHaveAttribute('aria-pressed', 'true')
-  await expect(results.getByRole('option')).toHaveCount(3)
+  await expect(results.getByRole('option')).toHaveCount(13)
+  await expect(announcement).toHaveText('13 alternativer')
   await sort.click()
   await expect(sort).toHaveAttribute('aria-expanded', 'true')
   await expect(
@@ -449,6 +802,67 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   await page.keyboard.press(tab)
   await expect(input).not.toBeFocused()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
+})
+
+test('panel keeps the input and results stationary when tabbing through every control', async ({
+  page,
+  browserName,
+}) => {
+  const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+  const reverseTab =
+    browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
+  const input = page.locator('[data-visual-test="search-panel"] input')
+  const panel = page.locator('.dnb-search__panel')
+  const results = page.getByRole('listbox', {
+    name: 'Search with filters',
+  })
+  const controls = [
+    page.getByRole('button', { name: /^Sort results:/ }),
+    page.getByRole('button', { name: 'All', exact: true }),
+    page.getByRole('button', { name: 'Components', exact: true }),
+    page.getByRole('button', { name: 'Guidance', exact: true }),
+    panel.getByRole('button', { name: 'Lukk', exact: true }),
+  ]
+  await page.setViewportSize({ width: 900, height: 900 })
+
+  for (const top of [650, 200]) {
+    await test.step(`with the input at ${top}px`, async () => {
+      await input.evaluate((element, top) => {
+        window.scrollBy(0, element.getBoundingClientRect().top - top)
+      }, top)
+      await input.click()
+      await expect(results.getByRole('option')).toHaveCount(20)
+      await expect
+        .poll(async () => {
+          const surface = await panel.boundingBox()
+          const trigger = await input.boundingBox()
+          return top > 450
+            ? Math.abs(surface.y + surface.height - trigger.y + 8)
+            : Math.abs(surface.y - trigger.y - trigger.height - 8)
+        })
+        .toBeLessThan(1)
+      const scroll = await page.evaluate(() => window.scrollY)
+      const height = (await results.boundingBox()).height
+      const expectStationary = async () => {
+        expect(await page.evaluate(() => window.scrollY)).toBe(scroll)
+        expect((await input.boundingBox()).y).toBeCloseTo(top, 0)
+        expect((await results.boundingBox()).height).toBeCloseTo(height, 0)
+      }
+
+      for (const control of controls) {
+        await page.keyboard.press(tab)
+        await expect(control).toBeFocused()
+        await expectStationary()
+      }
+      for (const control of [...controls.slice(0, -1).reverse(), input]) {
+        await page.keyboard.press(reverseTab)
+        await expect(control).toBeFocused()
+        await expectStationary()
+      }
+      await input.press('Escape')
+      await expect(panel).toBeHidden()
+    })
+  }
 })
 
 test('panel sorting menu stays above results and supports pointer selection', async ({
@@ -559,73 +973,59 @@ test('keeps the panel within the viewport near either edge', async ({
   }
 })
 
-test('aligns the portaled surface with the input', async ({ page }) => {
-  const fixture = page.locator(
-    '[data-visual-test="search-panel-alignment"]'
-  )
+test('aligns the portaled surface with the left edge of the input', async ({
+  page,
+}) => {
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   const input = fixture.getByRole('combobox', {
-    name: 'Search alignment example',
+    name: 'Search with filters',
   })
   const popover = page.locator('.dnb-search__panel')
   await fixture.evaluate((element) => {
     element.style.cssText =
       'position: fixed; top: 100px; left: 400px; width: 400px;'
   })
-  for (const align of ['Left', 'Center', 'Right']) {
-    await fixture.getByRole('button', { name: align, exact: true }).click()
-    await input.focus()
-    await expect(popover).toBeVisible()
-    await expect
-      .poll(async () => {
-        const target = await input.boundingBox()
-        const surface = await popover.boundingBox()
-        const factor = align === 'Left' ? 0 : align === 'Right' ? 1 : 0.5
-        return Math.abs(
-          surface.x +
-            surface.width * factor -
-            target.x -
-            target.width * factor
-        )
-      })
-      .toBeLessThan(1)
-    await expect
-      .poll(async () => {
-        const target = await input.boundingBox()
-        const surface = await popover.boundingBox()
-        return Math.abs(surface.y - target.y - target.height - 8)
-      })
-      .toBeLessThan(1)
-    await input.press('Escape')
-  }
+  await input.focus()
+  await expect(popover).toBeVisible()
+  await expect
+    .poll(async () => {
+      const target = await input.boundingBox()
+      const surface = await popover.boundingBox()
+      return Math.abs(surface.x - target.x)
+    })
+    .toBeLessThan(1)
+  await expect
+    .poll(async () => {
+      const target = await input.boundingBox()
+      const surface = await popover.boundingBox()
+      return Math.abs(surface.y - target.y - target.height - 8)
+    })
+    .toBeLessThan(1)
 })
 
 test('keeps search results above the Portal sidebar', async ({ page }) => {
-  await page.goto('/web/components/search/demos/#results-alignment')
+  await page.goto('/web/components/search/demos/#searchpanel')
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
   )
-  const fixture = page.locator(
-    '[data-visual-test="search-panel-alignment"]'
-  )
+  const fixture = page.locator('[data-visual-test="search-panel"]')
   const input = fixture.getByRole('combobox', {
-    name: 'Search alignment example',
+    name: 'Search with filters',
   })
   for (const width of [1280, 900]) {
     await test.step(width + 'px sidebar', async () => {
       await page.setViewportSize({ width, height: 900 })
-      await fixture
-        .getByRole('button', { name: 'Right', exact: true })
-        .click()
+      await input.scrollIntoViewIfNeeded()
       await input.focus()
       const results = page.getByRole('listbox', {
-        name: 'Search alignment example',
+        name: 'Search with filters',
       })
       await expect(results).toBeVisible()
       await expect
         .poll(() =>
           results.getByRole('option').evaluateAll((options) =>
-            options.every((option) => {
+            options.slice(0, 3).every((option) => {
               const box = option.getBoundingClientRect()
               return option.contains(
                 document.elementFromPoint(

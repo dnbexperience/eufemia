@@ -76,6 +76,8 @@ export default function Popover(props: PopoverProps) {
     hideOutline = false,
     noInnerSpace = false,
     noMaxWidth = false,
+    minHeight,
+    style,
     keepInDOM = false,
     triggerOffset,
     targetElement: externalTargetElement,
@@ -765,6 +767,13 @@ export default function Popover(props: PopoverProps) {
   const popoverAttributes: HTMLAttributes<HTMLElement> = {
     ...(restAttributes as HTMLAttributes<HTMLElement>),
     className: popoverClassName,
+    style:
+      minHeight === undefined
+        ? style
+        : {
+            ...style,
+            minHeight: `min(${Math.max(0, parseFloat(String(minHeight)) || 0)}rem, var(--popover-available-height, 100vh))`,
+          },
   }
 
   const contentRef = externalContentRef || tooltipRef

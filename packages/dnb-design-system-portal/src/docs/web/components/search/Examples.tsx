@@ -32,25 +32,6 @@ export const SearchCompact = () => (
   </ComponentBox>
 )
 
-export const SearchPill = () => (
-  <ComponentBox data-visual-test="search-pill">
-    <>
-      <Search.Input
-        variant="hero"
-        pill
-        label="Search content"
-        bottom="small"
-      />
-      <Search.Autocomplete
-        variant="hero"
-        pill
-        label="Search components"
-        data={['Button', 'Input', 'Table']}
-      />
-    </>
-  </ComponentBox>
-)
-
 export const SearchAutocomplete = () => (
   <ComponentBox data-visual-test="search-autocomplete">
     <Search.Autocomplete
@@ -138,6 +119,7 @@ export const SearchAsync = () => (
           />
           <Search.Panel
             label="Search components asynchronously in a panel"
+            panelDescription="Search results appear after typing. Use the arrow keys to navigate results."
             labelSrOnly={false}
             variant="compact"
             shortcut
@@ -151,7 +133,7 @@ export const SearchAsync = () => (
 )
 
 export const SearchPanel = () => (
-  <ComponentBox data-visual-test="search-panel">
+  <ComponentBox hideCode data-visual-test="search-panel">
     {() => {
       const Example = () => {
         const [category, setCategory] = useState('all')
@@ -165,6 +147,21 @@ export const SearchPanel = () => (
           { content: 'Table', category: 'components' },
           { content: 'Accessibility', category: 'guidance' },
           { content: 'Getting started', category: 'guidance' },
+          { content: 'Card', category: 'components' },
+          { content: 'Checkbox', category: 'components' },
+          { content: 'Dialog', category: 'components' },
+          { content: 'Drawer', category: 'components' },
+          { content: 'Dropdown', category: 'components' },
+          { content: 'Icon', category: 'components' },
+          { content: 'Radio', category: 'components' },
+          { content: 'Slider', category: 'components' },
+          { content: 'Switch', category: 'components' },
+          { content: 'Tooltip', category: 'components' },
+          { content: 'Colors', category: 'guidance' },
+          { content: 'Forms', category: 'guidance' },
+          { content: 'Layout', category: 'guidance' },
+          { content: 'Spacing', category: 'guidance' },
+          { content: 'Typography', category: 'guidance' },
         ]
         const data = items.filter(
           (item) => category === 'all' || item.category === category
@@ -179,6 +176,7 @@ export const SearchPanel = () => (
               variant="compact"
               shortcut
               label="Search with filters"
+              panelDescription="Search results include category filters and sorting. Use the arrow keys to navigate results and press Tab to reach the filters and sorting controls."
               data={data}
               search={{ reorder: sort === 'relevance' }}
               onChange={({ data }) => {
@@ -257,39 +255,6 @@ export const SearchPanel = () => (
                 ? `Selected: ${selected}`
                 : 'Select a result to try the search.'}
             </P>
-          </Flex.Stack>
-        )
-      }
-
-      return <Example />
-    }}
-  </ComponentBox>
-)
-
-export const SearchPanelAlignment = () => (
-  <ComponentBox data-visual-test="search-panel-alignment">
-    {() => {
-      const Example = () => {
-        const [align, setAlign] = useState<'left' | 'center' | 'right'>(
-          'left'
-        )
-
-        return (
-          <Flex.Stack>
-            <ToggleButton.Group
-              label="Results alignment"
-              value={align}
-              onChange={({ value }) => setAlign(value as typeof align)}
-            >
-              <ToggleButton text="Left" value="left" />
-              <ToggleButton text="Center" value="center" />
-              <ToggleButton text="Right" value="right" />
-            </ToggleButton.Group>
-            <Search.Panel
-              align={align}
-              label="Search alignment example"
-              data={['Button', 'Input', 'Table']}
-            />
           </Flex.Stack>
         )
       }

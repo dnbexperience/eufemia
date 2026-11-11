@@ -8,15 +8,21 @@ import FieldBlock from '../../../extensions/forms/FieldBlock/FieldBlock'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 
 describe.each([
-  ['Input', Search.Input],
-  ['Autocomplete', Search.Autocomplete],
-  ['Panel', Search.Panel],
-] as const)('Search.%s', (_, Component) => {
+  ['Input', Search.Input, { panelDescription: undefined }],
+  ['Autocomplete', Search.Autocomplete, { panelDescription: undefined }],
+  [
+    'Panel',
+    Search.Panel,
+    {
+      panelDescription: 'Search results. Use the arrow keys to navigate.',
+    },
+  ],
+] as const)('Search.%s', (_, Component, requiredProps) => {
   it('is recognized as a form element when grouping fields', () => {
     render(
       <FieldBlock label="Search scopes">
-        <Component />
-        <Component />
+        <Component {...requiredProps} />
+        <Component {...requiredProps} />
       </FieldBlock>
     )
 
@@ -28,7 +34,7 @@ describe.each([
   it('renders a translated accessible input with Eufemia defaults', () => {
     render(
       <Provider locale="en-GB">
-        <Component id="search" top="small" />
+        <Component {...requiredProps} id="search" top="small" />
       </Provider>
     )
 
@@ -45,38 +51,26 @@ describe.each([
   })
 
   it('supports Norwegian and custom labels', () => {
-    const { rerender } = render(<Component />)
+    const { rerender } = render(<Component {...requiredProps} />)
     expect(document.querySelector('input')).toHaveAccessibleName('Søk')
 
-    rerender(<Component label="Search products" labelSrOnly={false} />)
+    rerender(
+      <Component
+        {...requiredProps}
+        label="Search products"
+        labelSrOnly={false}
+      />
+    )
     expect(document.querySelector('input')).toHaveAccessibleName(
       'Search products'
     )
     expect(document.querySelector('label')).not.toHaveClass('dnb-sr-only')
   })
 
-  it('uses the normal hero shape unless pill is enabled', () => {
-    const { rerender } = render(<Component variant="hero" />)
-    expect(document.querySelector('.dnb-search')).not.toHaveClass(
-      'dnb-search--pill'
-    )
-
-    rerender(<Component variant="hero" pill />)
-    expect(document.querySelector('.dnb-search')).toHaveClass(
-      'dnb-search--pill'
-    )
-    expect(document.querySelector('input')).not.toHaveAttribute('pill')
-
-    rerender(<Component variant="compact" pill />)
-    expect(document.querySelector('.dnb-search')).toHaveClass(
-      'dnb-search--pill'
-    )
-  })
-
   it('supports Search context and explicit overrides', () => {
     const { rerender } = render(
       <Provider Search={{ variant: 'hero', label: 'Find content' }}>
-        <Component />
+        <Component {...requiredProps} />
       </Provider>
     )
     expect(document.querySelector('.dnb-search')).toHaveClass(
@@ -88,7 +82,11 @@ describe.each([
 
     rerender(
       <Provider Search={{ variant: 'hero', label: 'Find content' }}>
-        <Component variant="compact" label="Find products" />
+        <Component
+          {...requiredProps}
+          variant="compact"
+          label="Find products"
+        />
       </Provider>
     )
     expect(document.querySelector('.dnb-search')).toHaveClass(
@@ -103,6 +101,7 @@ describe.each([
     const onClear = vi.fn()
     const { rerender } = render(
       <Component
+        {...requiredProps}
         id="search"
         {...{
           [Component === Search.Input ? 'value' : 'inputValue']: 'Button',
@@ -118,6 +117,7 @@ describe.each([
 
     rerender(
       <Component
+        {...requiredProps}
         id="search"
         {...{
           [Component === Search.Input ? 'value' : 'inputValue']: 'Table',
@@ -129,7 +129,7 @@ describe.each([
 
   it('submits a query without requiring a selected result', () => {
     const onSubmit = vi.fn()
-    render(<Component onSubmit={onSubmit} />)
+    render(<Component {...requiredProps} onSubmit={onSubmit} />)
     const input = document.querySelector('input')
     fireEvent.change(input, { target: { value: 'Button' } })
     fireEvent.keyDown(input, { key: 'Enter', keyCode: 13 })
@@ -141,7 +141,7 @@ describe.each([
   it.each([{ metaKey: true }, { ctrlKey: true }])(
     'focuses with the shortcut %s',
     (modifier) => {
-      render(<Component shortcut />)
+      render(<Component {...requiredProps} shortcut />)
       const input = document.querySelector('input')
       expect(input).toHaveAttribute(
         'aria-keyshortcuts',
@@ -155,12 +155,12 @@ describe.each([
   it('focuses one enabled visible instance and cleans up on unmount', () => {
     const { unmount } = render(
       <>
-        <Component shortcut disabled />
+        <Component {...requiredProps} shortcut disabled />
         <div hidden>
-          <Component shortcut />
+          <Component {...requiredProps} shortcut />
         </div>
-        <Component shortcut id="first" />
-        <Component shortcut id="second" />
+        <Component {...requiredProps} shortcut id="first" />
+        <Component {...requiredProps} shortcut id="second" />
       </>
     )
     fireEvent.keyDown(document, { key: 'k', metaKey: true })
@@ -177,7 +177,7 @@ describe.each([
   })
 
   it('does not consume unrelated or already handled shortcuts', () => {
-    render(<Component shortcut />)
+    render(<Component {...requiredProps} shortcut />)
     fireEvent.keyDown(document, { key: 'k' })
     fireEvent.keyDown(document, { key: 'k', metaKey: true, altKey: true })
     fireEvent.keyDown(document, {
@@ -198,12 +198,12 @@ describe.each([
   it('keeps shortcut focus inside the active modal', () => {
     render(
       <>
-        <Component shortcut id="background" />
+        <Component {...requiredProps} shortcut id="background" />
         <div role="dialog" aria-modal="true" inert>
-          <Component shortcut id="inactive-modal" />
+          <Component {...requiredProps} shortcut id="inactive-modal" />
         </div>
         <div role="dialog" aria-modal="true">
-          <Component shortcut id="active-modal" />
+          <Component {...requiredProps} shortcut id="active-modal" />
         </div>
       </>
     )
@@ -214,7 +214,7 @@ describe.each([
   it('leaves modal focus alone when it has no shortcut-enabled search', () => {
     render(
       <>
-        <Component shortcut />
+        <Component {...requiredProps} shortcut />
         <div role="dialog" aria-modal="true">
           <button id="close">Close</button>
         </div>
@@ -227,8 +227,8 @@ describe.each([
   })
 
   it('allows disabling the shortcut after mount', () => {
-    const { rerender } = render(<Component shortcut />)
-    rerender(<Component shortcut={false} />)
+    const { rerender } = render(<Component {...requiredProps} shortcut />)
+    rerender(<Component {...requiredProps} shortcut={false} />)
     fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
     expect(document.querySelector('input')).not.toHaveFocus()
   })
@@ -240,7 +240,7 @@ describe.each([
     const spy = vi
       .spyOn(navigator, 'platform', 'get')
       .mockReturnValue(platform)
-    render(<Component shortcut />)
+    render(<Component {...requiredProps} shortcut />)
     expect(document.querySelector('kbd')).toHaveTextContent(hint)
     expect(document.querySelector('kbd')).toHaveAttribute(
       'aria-hidden',
@@ -250,16 +250,26 @@ describe.each([
   })
 
   it('renders stable server markup without a platform-specific hint', () => {
-    expect(renderToString(<Component shortcut />)).not.toContain('<kbd')
+    expect(
+      renderToString(<Component {...requiredProps} shortcut />)
+    ).not.toContain('<kbd')
   })
 
   it('allows a custom submit element', () => {
-    render(<Component shortcut submitElement={<span>Submit</span>} />)
+    render(
+      <Component
+        {...requiredProps}
+        shortcut
+        submitElement={<span>Submit</span>}
+      />
+    )
     expect(document.querySelector('kbd')).toBeNull()
   })
 
   it('has accessible markup', async () => {
-    const { container } = render(<Component shortcut variant="hero" />)
+    const { container } = render(
+      <Component {...requiredProps} shortcut variant="hero" />
+    )
     expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
@@ -271,12 +281,19 @@ it('compiles shared search styles with only Input dependencies', () => {
 })
 
 describe.each([
-  ['Autocomplete', Search.Autocomplete],
-  ['Panel', Search.Panel],
-] as const)('Search.%s results', (_, Component) => {
+  ['Autocomplete', Search.Autocomplete, { panelDescription: undefined }],
+  [
+    'Panel',
+    Search.Panel,
+    {
+      panelDescription: 'Search results. Use the arrow keys to navigate.',
+    },
+  ],
+] as const)('Search.%s results', (_, Component, requiredProps) => {
   it('lets async searches clear their results and close when the query is cleared', async () => {
     render(
       <Component
+        {...requiredProps}
         mode="async"
         search={{ filter: false }}
         onType={({ value, updateData, setHidden }) => {
@@ -309,6 +326,7 @@ describe.each([
   it('restores all results when clearing a filtered query', async () => {
     render(
       <Component
+        {...requiredProps}
         data={['Button', 'Input', 'Table']}
         noAnimation
         skipPortal
@@ -409,10 +427,107 @@ describe('Search.Input', () => {
 })
 
 describe('Search.Panel', () => {
+  it('describes the available controls before opening and preserves existing descriptions', async () => {
+    const panelDescription =
+      'Results include category filters and sorting. Press Tab to reach these controls.'
+    render(
+      <>
+        <p id="search-help">Search the component library.</p>
+        <Search.Panel
+          id="search"
+          panelDescription={panelDescription}
+          aria-describedby="search-help"
+          status="Enter a component name."
+          data={['Button', 'Input']}
+          noAnimation
+        />
+      </>
+    )
+    const input = document.querySelector('input')
+    const description =
+      'Search the component library. ' +
+      panelDescription +
+      ' Enter a component name.'
+
+    expect(input).toHaveAccessibleDescription(description)
+    expect(document.querySelector('.dnb-search__panel')).toBeNull()
+    expect(input).not.toHaveAttribute('panelDescription')
+
+    await userEvent.click(input)
+    expect(document.querySelector('.dnb-search__panel')).not.toBeNull()
+    expect(input).toHaveAccessibleDescription(description)
+
+    await userEvent.click(document.querySelector('.dnb-popover__close'))
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-search__panel')).toBeNull()
+    )
+    expect(input).toHaveAccessibleDescription(description)
+  })
+
+  it('keeps descriptions distinct for multiple panels without explicit ids', () => {
+    render(
+      <>
+        <Search.Panel panelDescription="Filter component results." />
+        <Search.Panel panelDescription="Sort product results." />
+      </>
+    )
+    const inputs = document.querySelectorAll('input')
+    expect(inputs[0]).toHaveAccessibleDescription(
+      'Filter component results.'
+    )
+    expect(inputs[1]).toHaveAccessibleDescription('Sort product results.')
+    expect(inputs[0].getAttribute('aria-describedby')).not.toBe(
+      inputs[1].getAttribute('aria-describedby')
+    )
+  })
+
+  it('keeps an explicit results height limit on the panel surface', async () => {
+    render(
+      <Search.Panel
+        panelDescription="Search results."
+        maxHeight={10}
+        data={['Button']}
+      />
+    )
+    await userEvent.click(document.querySelector('input'))
+    expect(
+      document
+        .querySelector<HTMLElement>('.dnb-search__panel')
+        .style.getPropertyValue('--search-panel-max-height')
+    ).toBe('10rem')
+  })
+
+  it.each([
+    [undefined, '10rem'],
+    [6, '6rem'],
+    [0, '0rem'],
+  ])(
+    'supports a minimum results height of %s',
+    async (minHeight, height) => {
+      render(
+        <Search.Panel
+          panelDescription="Search results."
+          minHeight={minHeight}
+          data={['Button']}
+        />
+      )
+      await userEvent.click(document.querySelector('input'))
+      expect(
+        document
+          .querySelector<HTMLElement>('.dnb-search__panel')
+          .style.getPropertyValue('--search-panel-min-height')
+      ).toBe(height)
+      expect(document.querySelector('input')).not.toHaveAttribute(
+        'minHeight'
+      )
+    }
+  )
+
   it('keeps an async panel closed until results arrive', async () => {
     const onType = vi.fn()
     render(
       <Search.Panel
+        panelDescription="Search results with custom controls. Press Tab to reach them."
         mode="async"
         noAnimation
         onType={(event) => {
@@ -449,6 +564,13 @@ describe('Search.Panel', () => {
     expect(document.querySelector('[role="option"]')).toHaveTextContent(
       'Button'
     )
+    await waitFor(() =>
+      expect(
+        document.querySelector(
+          '.dnb-autocomplete > .dnb-aria-live:last-child'
+        )
+      ).toHaveTextContent('1 alternativer')
+    )
 
     act(() => {
       updateData([])
@@ -464,6 +586,7 @@ describe('Search.Panel', () => {
     async (method) => {
       render(
         <Search.Panel
+          panelDescription="Search results. Use the arrow keys to navigate."
           mode="async"
           noAnimation
           onType={(event) => event[method]()}
@@ -481,7 +604,10 @@ describe('Search.Panel', () => {
 
   it('renders results in the shared portal outside the input container', async () => {
     const { container } = render(
-      <Search.Panel data={['Button', 'Input']} />
+      <Search.Panel
+        panelDescription="Search results. Use the arrow keys to navigate."
+        data={['Button', 'Input']}
+      />
     )
     await userEvent.click(document.querySelector('input'))
 
@@ -492,7 +618,12 @@ describe('Search.Panel', () => {
   })
 
   it('closes with the built-in close button and returns focus to the input', async () => {
-    render(<Search.Panel data={['Button', 'Input']} />)
+    render(
+      <Search.Panel
+        panelDescription="Search results. Use the arrow keys to navigate."
+        data={['Button', 'Input']}
+      />
+    )
     const input = document.querySelector('input')
     await userEvent.click(input)
 
@@ -508,18 +639,32 @@ describe('Search.Panel', () => {
 
   it('forwards both supported input ref forms to the positioning target', () => {
     const ref = createRef<HTMLInputElement>()
-    const { rerender } = render(<Search.Panel inputRef={ref} />)
+    const { rerender } = render(
+      <Search.Panel
+        panelDescription="Search results. Use the arrow keys to navigate."
+        inputRef={ref}
+      />
+    )
     const input = document.querySelector('input')
     expect(ref.current).toBe(input)
 
     const callback = vi.fn()
-    rerender(<Search.Panel inputRef={callback} />)
+    rerender(
+      <Search.Panel
+        panelDescription="Search results. Use the arrow keys to navigate."
+        inputRef={callback}
+      />
+    )
     expect(callback).toHaveBeenLastCalledWith(input)
   })
 
   it('uses one combobox and composes controls outside the inline listbox', async () => {
     render(
-      <Search.Panel id="search" data={['Button', 'Input']}>
+      <Search.Panel
+        panelDescription="Search results and a close button. Press Tab to reach the button."
+        id="search"
+        data={['Button', 'Input']}
+      >
         {({ results, close }) => (
           <>
             <button type="button" onClick={close}>
