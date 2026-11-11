@@ -28,9 +28,6 @@ export const HeadingDefault = () => (
         <Heading level="2" size="x-large">
           h2
         </Heading>
-        <Heading skipCorrection level={4}>
-          h4
-        </Heading>
       </Heading.Level>
     </ComponentBox>
   </Style>
