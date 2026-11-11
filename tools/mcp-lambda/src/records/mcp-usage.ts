@@ -8,7 +8,7 @@
  * traversal), so nothing incidental in an argument can reach storage. A
  * component or path that passes is then checked against the docs through the
  * {@link UsageResolver}, so a name that does not exist is dropped and the event
- * degrades to a tool count plus a miss flag and the likely component, if any.
+ * degrades to a tool count plus a miss flag.
  * Component names and doc paths are stored in the form the docs server resolves
  * them to, so one component or document groups under one key however the
  * caller spelled it.
@@ -28,7 +28,7 @@ import {
 /** Mirrors `UsageResolver` in mcp-docs-server; declared here so this module doesn't import the docs server. */
 export type UsageResolver = {
   component: (name: string) => Promise<boolean>
-  likelyComponent: (guess: string) => Promise<string | null>
+  componentDocName: (name: string) => Promise<string | null>
   docsFile: (path: string) => Promise<boolean>
   docsDir: (path: string) => Promise<boolean>
 }
@@ -38,12 +38,7 @@ export type WebMcpUsageRecord = Omit<
   McpUsageRecord,
   'transport' | 'eufemia_version' | 'component_missed' | 'likely_component'
 > &
-  Partial<
-    Pick<
-      McpUsageRecord,
-      'eufemia_version' | 'component_missed' | 'likely_component'
-    >
-  > & {
+  Partial<Pick<McpUsageRecord, 'eufemia_version' | 'component_missed'>> & {
     transport: 'web'
   }
 
@@ -80,17 +75,14 @@ async function recordFromMessage(
   const rawComponent = COMPONENT_TOOLS.has(tool)
     ? parseComponentName(args.name)
     : ''
-  // Store "DatePicker" as its doc name "date-picker", so both aggregate
+  // "DatePicker" and "date-picker" count as one component
   const component =
     rawComponent && (await resolver.component(rawComponent))
       ? normalizeComponent(
-          (await resolver.likelyComponent(rawComponent)) ?? rawComponent
+          (await resolver.componentDocName(rawComponent)) ?? rawComponent
         )
       : ''
   const componentMissed = rawComponent !== '' && component === ''
-  const likelyComponent = componentMissed
-    ? ((await resolver.likelyComponent(rawComponent)) ?? '')
-    : ''
 
   const pathTool = isPathTool(tool) ? PATH_TOOL_ARGUMENTS[tool] : undefined
   const candidatePath = pathTool
@@ -107,7 +99,6 @@ async function recordFromMessage(
     tool,
     component,
     component_missed: componentMissed,
-    likely_component: likelyComponent,
     path,
     env,
     // The web Lambda writes this producer's rows only; the local (stdio)

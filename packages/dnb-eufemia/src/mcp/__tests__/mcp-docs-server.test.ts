@@ -1041,18 +1041,15 @@ describe('createUsageResolver', () => {
     ['datepicker', 'date-picker'],
     ['Date-Picker', 'date-picker'],
     ['TextField', 'textfield'],
-  ])(
-    'maps the guess %s to the likely component %s',
-    async (guess, name) => {
-      expect(await resolver.likelyComponent(guess)).toBe(name)
-      expect(await resolver.component(name)).toBe(true)
-    }
-  )
+  ])('maps %s to its doc name %s', async (name, docName) => {
+    expect(await resolver.componentDocName(name)).toBe(docName)
+    expect(await resolver.component(docName)).toBe(true)
+  })
 
   it.each(['NotAComponent', 'Date.Picker', 'Field.Address', 'button/x'])(
-    'finds no likely component for %s',
-    async (guess) => {
-      expect(await resolver.likelyComponent(guess)).toBeNull()
+    'finds no doc name for %s',
+    async (name) => {
+      expect(await resolver.componentDocName(name)).toBeNull()
     }
   )
 

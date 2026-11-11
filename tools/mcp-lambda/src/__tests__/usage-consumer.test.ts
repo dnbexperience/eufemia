@@ -15,7 +15,6 @@ function usageRecord(
     tool: 'component_props',
     component: 'Button',
     component_missed: false,
-    likely_component: '',
     path: '',
     env: 'dev',
     transport: 'web',
@@ -111,7 +110,6 @@ describe('usage consumer', () => {
     const queuedEarlier: Partial<WebMcpUsageRecord> = usageRecord()
     delete queuedEarlier.eufemia_version
     delete queuedEarlier.component_missed
-    delete queuedEarlier.likely_component
 
     await handler(
       event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))
