@@ -94,6 +94,12 @@ const html = renderToString(
 
 First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skipCorrection` property.
 
+```tsx
+<Heading skipCorrection level={4}>
+  Stays h4 even after an h2
+</Heading>
+```
+
 ### Heading levels interceptor modification
 
 ```jsx
