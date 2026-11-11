@@ -3,6 +3,8 @@ import { renderToString } from 'react-dom/server'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Search from '../Search'
+import Dropdown from '../../dropdown/Dropdown'
+import Menu from '../../menu/Menu'
 import { Provider } from '../../../shared'
 import FieldBlock from '../../../extensions/forms/FieldBlock/FieldBlock'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
@@ -195,6 +197,21 @@ describe.each([
       editor.dispatchEvent(event)
       expect(event.defaultPrevented).toBe(false)
       expect(editor).toHaveFocus()
+    }
+  )
+
+  it.each(['checkbox', 'radio', 'button'] as const)(
+    'moves focus from a focused %s input',
+    (type) => {
+      render(
+        <>
+          <Component {...requiredProps} shortcut />
+          <input id="control" type={type} aria-label="Control" />
+        </>
+      )
+      document.querySelector<HTMLElement>('#control').focus()
+      fireEvent.keyDown(document, { key: 'k', metaKey: true })
+      expect(document.querySelector('.dnb-search input')).toHaveFocus()
     }
   )
 
@@ -482,6 +499,27 @@ describe('Search.Input', () => {
     expect(input).toHaveValue('Button')
     expect(document.querySelector('[role="listbox"]')).toBeNull()
   })
+
+  it('submits a surrounding form on Enter unless onSubmit prevents it', async () => {
+    const onFormSubmit = vi.fn((event: SubmitEvent) =>
+      event.preventDefault()
+    )
+    const { rerender } = render(
+      <form onSubmit={onFormSubmit as never}>
+        <Search.Input />
+      </form>
+    )
+    await userEvent.type(document.querySelector('input'), 'Button{Enter}')
+    expect(onFormSubmit).toHaveBeenCalledTimes(1)
+
+    rerender(
+      <form onSubmit={onFormSubmit as never}>
+        <Search.Input onSubmit={({ event }) => event.preventDefault()} />
+      </form>
+    )
+    await userEvent.type(document.querySelector('input'), '{Enter}')
+    expect(onFormSubmit).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('Search.Panel', () => {
@@ -693,6 +731,117 @@ describe('Search.Panel', () => {
       expect(input).toHaveAttribute('aria-expanded', 'false')
       expect(input).toHaveFocus()
     })
+  })
+
+  it('lets Tab leave a panel without custom controls', async () => {
+    render(
+      <>
+        <Search.Panel
+          panelDescription="Search results. Use the arrow keys to navigate."
+          data={['Button', 'Input']}
+        />
+        <button id="after">After</button>
+      </>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+
+    await userEvent.tab()
+
+    expect(document.querySelector('#after')).toHaveFocus()
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    )
+  })
+
+  it('stays open while using a control that renders its own popover', async () => {
+    const onChange = vi.fn()
+    render(
+      <Search.Panel
+        panelDescription="Search results with sorting. Press Tab to reach it."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <Dropdown
+              id="sort"
+              label="Sort"
+              data={{ a: 'A-Z', z: 'Z-A' }}
+              onChange={onChange}
+            />
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await userEvent.click(document.querySelector('#sort'))
+    const option = await waitFor(() => {
+      const element = Array.from(
+        document.querySelectorAll<HTMLElement>('#sort-ul [role="option"]')
+      ).find((element) => element.textContent === 'Z-A')
+      expect(element).toBeDefined()
+      return element
+    })
+    expect(
+      document.querySelector('.dnb-search__panel')
+    ).not.toContainElement(option)
+
+    await userEvent.click(option)
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ value: 'z' })
+    )
+    expect(input).toHaveAttribute('aria-expanded', 'true')
+    expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+
+    await userEvent.click(document.body)
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    )
+  })
+
+  it('closes from an action in a nested popover', async () => {
+    render(
+      <Search.Panel
+        panelDescription="Search results with actions. Press Tab to reach them."
+        data={['Button', 'Input']}
+      >
+        {({ results, close }) => (
+          <>
+            <Menu.Root>
+              <Menu.Button id="actions" text="Actions" />
+              <Menu.List>
+                <Menu.Action
+                  id="close-action"
+                  text="Done"
+                  onClick={close}
+                />
+              </Menu.List>
+            </Menu.Root>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await userEvent.click(document.querySelector('#actions'))
+    const action = await waitFor(() => {
+      const element = document.querySelector<HTMLElement>('#close-action')
+      expect(element).not.toBeNull()
+      return element
+    })
+
+    await userEvent.click(action)
+
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    )
   })
 
   it('forwards both supported input ref forms to the positioning target', () => {

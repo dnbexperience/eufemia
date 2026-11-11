@@ -189,6 +189,11 @@
     min-width: 0;
     max-width: calc(100vw - 2rem);
 
+    // Forced colors removes the shadow that separates the surface.
+    @media (forced-colors: active) {
+      border: 0.0625rem solid CanvasText;
+    }
+
     .dnb-popover__content,
     .dnb-popover__body {
       width: 100%;

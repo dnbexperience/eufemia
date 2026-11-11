@@ -60,6 +60,7 @@ function SearchPanel(localProps: SearchPanelProps) {
   const descriptionId = `${useId()}-panel-description`
   const triggerOffset = popoverProps?.triggerOffset ?? 8
   const targetRef = useRef<HTMLInputElement>(null)
+  const nestedPointerRef = useRef(false)
   const setInputRef = useCallback(
     (element: HTMLInputElement | null) => {
       targetRef.current = element
@@ -79,11 +80,15 @@ function SearchPanel(localProps: SearchPanelProps) {
         maxHeight={0}
         aria-describedby={combineDescribedBy(props, descriptionId)}
         inputRef={setInputRef}
+        onClose={(args) =>
+          nestedPointerRef.current ? false : props.onClose?.(args)
+        }
         resultsRender={({ results, open, close, resultsRef }) => (
           <SearchPanelSurface
             {...popoverProps}
             className={clsx('dnb-search__panel', popoverProps?.className)}
             inputRef={targetRef}
+            nestedPointerRef={nestedPointerRef}
             minHeight={minHeight}
             maxHeight={maxHeight}
             contentRef={resultsRef}
@@ -140,16 +145,37 @@ function SearchPanel(localProps: SearchPanelProps) {
 
 function SearchPanelSurface({
   inputRef,
+  nestedPointerRef,
   minHeight,
   maxHeight,
   ...props
 }: PopoverProps & {
   inputRef: RefObject<HTMLInputElement>
+  nestedPointerRef: RefObject<boolean>
   contentRef: RefObject<HTMLSpanElement>
   minHeight?: SearchPanelProps['minHeight']
   maxHeight?: SearchPanelProps['maxHeight']
 }) {
   const { open, contentRef } = props
+
+  useEffect(() => {
+    if (!open) {
+      return undefined
+    }
+
+    // Window capture runs before the surface marks a nested interaction.
+    const reset = () => {
+      nestedPointerRef.current = false
+    }
+    const events = ['pointerdown', 'keydown', 'click'] as const
+    events.forEach((type) => window.addEventListener(type, reset, true))
+    return () => {
+      reset()
+      events.forEach((type) =>
+        window.removeEventListener(type, reset, true)
+      )
+    }
+  }, [open, nestedPointerRef])
 
   useIsomorphicLayoutEffect(() => {
     const surface = contentRef.current
@@ -241,7 +267,10 @@ function SearchPanelSurface({
       const controls = getTabbableElements(surface)
       let next: HTMLElement | undefined
       if (event.target === input && !event.shiftKey) {
-        next = controls[0]
+        // Without custom controls, Tab leaves instead of stopping at Close.
+        next = controls.find(
+          (element) => !element.closest('.dnb-popover__close')
+        )
       } else if (surface.contains(event.target as Node)) {
         const index = controls.indexOf(event.target as HTMLElement)
         if (event.shiftKey && index === 0) {
@@ -282,7 +311,18 @@ function SearchPanelSurface({
       heightLimit > 0 ? heightLimit + 'rem' : undefined,
   } as CSSProperties
 
-  return <Popover {...props} style={style} />
+  return (
+    <Popover
+      {...props}
+      style={style}
+      onPointerDownCapture={(event) => {
+        // React events from nested portals bubble through the surface.
+        nestedPointerRef.current = !contentRef.current?.contains(
+          event.target as Node
+        )
+      }}
+    />
+  )
 }
 
 function getTabbableElements(root: ParentNode) {

@@ -91,7 +91,9 @@ export default function useSearchProps<Props extends SearchProps>(
       if (
         activeElement instanceof HTMLElement &&
         activeElement !== input &&
-        (activeElement.matches('input, textarea, select') ||
+        (activeElement.matches(
+          'input:not([type="button"], [type="checkbox"], [type="color"], [type="file"], [type="image"], [type="radio"], [type="range"], [type="reset"], [type="submit"]), textarea, select'
+        ) ||
           activeElement.isContentEditable)
       ) {
         return

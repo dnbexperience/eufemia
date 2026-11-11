@@ -1011,6 +1011,23 @@ test('panel closes from controls and preserves outside interaction focus', async
   await expect(outsideInput).toBeFocused()
 })
 
+test('panel keeps a visible edge in forced colors mode', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(browserName !== 'chromium', 'Forced colors emulation')
+  await page.emulateMedia({
+    forcedColors: 'active',
+    reducedMotion: 'reduce',
+  })
+  const popover = page.locator('.dnb-search__panel')
+
+  await page.locator('[data-testid="search-panel-default"] input').focus()
+  await expect(popover).toBeVisible()
+  await expect(popover).toHaveCSS('border-top-style', 'solid')
+  await expect(popover).toHaveCSS('border-top-width', '1px')
+})
+
 test('keeps the panel within the viewport near either edge', async ({
   page,
 }) => {
