@@ -116,7 +116,10 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
               : { 'min-width': '40rem', 'padding-left': '8rem' }),
           },
           ...(mode === 'dark' ? { colorScheme: 'dark' } : {}),
-          ...(mode === 'small' ? { pageViewport: { width: 320 } } : {}),
+          pageViewport: {
+            height: 640,
+            ...(mode === 'small' ? { width: 320 } : {}),
+          },
         })
       }
     )
