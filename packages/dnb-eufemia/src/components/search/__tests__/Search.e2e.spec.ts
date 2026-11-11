@@ -966,9 +966,12 @@ test('panel sorting menu stays above results and supports pointer selection', as
           .getBoundingClientRect()
         const arrow = document
           .getElementById(button.getAttribute('aria-controls'))
-          .closest('.dnb-menu')
-          .querySelector('.dnb-popover__arrow')
-          .getBoundingClientRect()
+          ?.closest('.dnb-menu')
+          ?.querySelector('.dnb-popover__arrow')
+          ?.getBoundingClientRect()
+        if (!arrow) {
+          return Infinity
+        }
         return Math.abs(
           icon.x + icon.width / 2 - (arrow.x + arrow.width / 2)
         )
