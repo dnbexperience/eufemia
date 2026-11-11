@@ -55,6 +55,9 @@ import {
   enableBodyScroll,
 } from '../../components/modal/bodyScrollLock'
 import useId from '../../shared/helpers/useId'
+import getAvailableSpace, {
+  getViewportBounds,
+} from '../../shared/helpers/getAvailableSpace'
 
 import type { SpacingProps } from '../../shared/types'
 import type {
@@ -382,10 +385,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     const spaceToBottomOffset = 2 * 16
     const elem = stateRef.current.wrapperElement || _refRoot.current
     const getSpaceToBottom = ({ rootElem, pageYOffset }) => {
-      const spaceToBottom =
-        rootElem.clientHeight -
-        (getOffsetTop(elem) + elem.offsetHeight) +
-        pageYOffset
+      const top = getOffsetTop(elem) - pageYOffset
+      const { below: spaceToBottom } = getAvailableSpace(
+        {
+          top,
+          bottom: top + elem.offsetHeight,
+        },
+        { viewport: { top: 0, bottom: rootElem.clientHeight } }
+      )
 
       const html = document.documentElement
       if (spaceToBottom < customMinHeight && rootElem !== html) {
@@ -434,17 +441,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
           maxH = spaceToBottom - spaceToBottomOffset
         }
 
-        let vh: number
-        if (typeof window.visualViewport !== 'undefined') {
-          vh = window.visualViewport.height
-        } else {
-          vh = Math.max(
-            document.documentElement.clientHeight,
-            window.innerHeight || 0
-          )
-        }
-
-        vh = vh * (isScrollable ? 0.7 : 0.9)
+        const vh = getViewportBounds().height * (isScrollable ? 0.7 : 0.9)
 
         if (maxH > vh) {
           maxH = vh

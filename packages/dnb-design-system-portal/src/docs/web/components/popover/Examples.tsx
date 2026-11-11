@@ -42,6 +42,23 @@ export function PopoverExampleWithoutCloseButton() {
   )
 }
 
+export function PopoverExampleMinimumHeight() {
+  return (
+    <ComponentBox data-visual-test="popover-minimum-height">
+      <Popover
+        minHeight={16}
+        trigger={(triggerProps) => (
+          <Button text="Open with minimum height" {...triggerProps} />
+        )}
+      >
+        <P>
+          The minimum height shrinks when less screen space is available.
+        </P>
+      </Popover>
+    </ComponentBox>
+  )
+}
+
 export function PopoverExampleControlled() {
   return (
     <ComponentBox data-visual-test="popover-controlled">

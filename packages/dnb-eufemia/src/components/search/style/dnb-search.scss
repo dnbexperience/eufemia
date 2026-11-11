@@ -2,7 +2,7 @@
 
 .dnb-search {
   --search-width: 17.5rem;
-  --search-compact-width: 10rem;
+  --search-compact-width: 11rem;
 
   width: var(--search-width);
   max-width: 100%;
@@ -74,16 +74,6 @@
 
     @include utilities.allBelow(small) {
       display: none;
-    }
-  }
-
-  &--pill {
-    --autocomplete-border-radius: var(--token-radius-full);
-    --input-border-radius: var(--token-radius-full);
-    --input-border-radius--default: var(--token-radius-full);
-
-    .dnb-input {
-      --input-border-radius--default: var(--token-radius-full);
     }
   }
 
@@ -174,6 +164,10 @@
 
   &__panel {
     --popover-border-radius: var(--token-radius-xl);
+    --search-panel-results-min-height: min(
+      var(--search-panel-min-height, 10rem),
+      var(--search-panel-max-height, var(--search-panel-min-height, 10rem))
+    );
 
     width: min(32rem, calc(100vw - 2rem));
     min-width: 0;
@@ -190,6 +184,17 @@
       right: 1rem;
     }
 
+    .dnb-popover__content {
+      max-height: max(
+        var(--popover-available-height, 70vh),
+        calc(
+          var(--search-panel-results-min-height) +
+            var(--search-panel-reserved-height, 0px)
+        )
+      );
+      overflow-y: auto;
+    }
+
     .dnb-drawer-list {
       display: block;
       width: calc(100% + 3rem);
@@ -202,6 +207,21 @@
     }
 
     .dnb-drawer-list--inline .dnb-drawer-list__options {
+      --search-panel-results-height-limit: min(
+        var(--search-panel-max-height, 100vh),
+        max(
+          var(--search-panel-results-min-height),
+          calc(
+            var(--popover-available-height, 70vh) - var(
+                --search-panel-reserved-height,
+                0px
+              )
+          )
+        )
+      );
+
+      min-height: var(--search-panel-results-min-height);
+      max-height: var(--search-panel-results-height-limit);
       padding-left: var(--drawer-list-padding);
     }
   }

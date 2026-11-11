@@ -7,7 +7,6 @@ import type { SearchProps } from './types'
 
 const searchDefaultProps: Partial<SearchProps> = {
   variant: 'default',
-  pill: false,
   shortcut: false,
   size: 'medium',
   labelSrOnly: true,
@@ -38,7 +37,7 @@ export default function useSearchProps<Props extends SearchProps>(
   defaults: Partial<Props>
 ) {
   const context = useContext(Context)
-  const { variant, pill, shortcut, className, ...props } =
+  const { variant, shortcut, className, ...props } =
     extendPropsWithContext(
       Object.fromEntries(
         Object.entries(localProps).filter(
@@ -103,7 +102,6 @@ export default function useSearchProps<Props extends SearchProps>(
     className: clsx(
       'dnb-search',
       `dnb-search--${variant}`,
-      pill && 'dnb-search--pill',
       shortcut && !props.disabled && 'dnb-search--shortcut',
       className
     ),
