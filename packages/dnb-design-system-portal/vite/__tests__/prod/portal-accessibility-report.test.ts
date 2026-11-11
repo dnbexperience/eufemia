@@ -100,6 +100,19 @@ describe('Portal accessibility report', () => {
     )
   })
 
+  it('names only dark mode when only dark mode was scanned', () => {
+    const markdown = formatPortalAccessibilityReport(
+      createPortalAccessibilityReport({
+        duplicateIdFindings: [],
+        axeFindings: [],
+        scannedPages: 1,
+        colorSchemes: ['dark'],
+      })
+    )
+
+    expect(markdown).toContain('Scanned 1 canonical pages in dark mode.')
+  })
+
   it('rejects comparisons across schema versions', () => {
     expect(() =>
       comparePortalAccessibilityReports(
