@@ -1,8 +1,16 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
 .portalClassStyle {
   z-index: 6000;
 
   &:global(.dnb-drawer-list__portal__style) {
     transition: none;
+  }
+
+  // The compact input is too narrow for result titles on small screens.
+  @include utilities.allBelow(small) {
+    left: 1rem !important;
+    width: calc(100vw - 2rem) !important;
   }
 }
 
