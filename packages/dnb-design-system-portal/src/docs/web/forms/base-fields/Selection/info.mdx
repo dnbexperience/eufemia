@@ -20,6 +20,8 @@ Before using this component, ensure there is not a more specific [field componen
 
 Uses the [Field.Option](/web/forms/base-fields/Option/) pseudo-component to define options.
 
+In the `dropdown` and `autocomplete` variants, don't put links, buttons or other interactive elements in an option's `title` or `text`. Users move between options with the arrow keys and choose one with Enter, so those elements are skipped.
+
 There is a corresponding [Value.Selection](/web/forms/Value/Selection) component.
 
 ```tsx

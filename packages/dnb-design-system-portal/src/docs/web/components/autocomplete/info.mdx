@@ -64,6 +64,8 @@ If you need to format numbers, then do it before you send in the data content.
 
 It is possible to wrap your content inside one HTML Element. Nested elements are **not** supported.
 
+Don't put links, buttons or other interactive elements inside the content. Users move between items with the arrow keys and choose one with Enter, so those elements are skipped, and many screen readers announce an item's content as plain text. Handle the action in `onChange` instead.
+
 To wrap your content only visually, you can provide your wrappers inside an array:
 
 <AutocompleteContentAsArrayExample />

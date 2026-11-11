@@ -198,7 +198,7 @@ export const DrawerListEvents: PropertiesTableProps = {
 
 export const DrawerListItem: PropertiesTableProps = {
   content: {
-    doc: 'Visual content in the list item.',
+    doc: "Visual content in the list item. Don't put links, buttons or other interactive elements in it.",
     type: [
       'string',
       'React.ReactNode',

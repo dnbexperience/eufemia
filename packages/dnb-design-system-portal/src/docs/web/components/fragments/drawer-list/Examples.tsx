@@ -6,12 +6,7 @@
 import { useState } from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import {
-  NumberFormat,
-  ToggleButton,
-  HelpButton,
-  Link,
-} from '@dnb/eufemia/src'
+import { NumberFormat, ToggleButton } from '@dnb/eufemia/src'
 import { DrawerList } from '@dnb/eufemia/src/fragments'
 
 export const DrawerListExampleInteractive = () => (
@@ -230,27 +225,6 @@ export const DrawerListExampleSingleItem = () => (
   <Wrapper>
     <ComponentBox scope={{ data }}>
       {() => {
-        const CustomComponent = () => (
-          <CustomComponentInner
-            onTouchStart={preventDefault}
-            onClick={(e) => {
-              console.log('Do something different')
-              preventDefault(e)
-            }}
-          >
-            Custom event handler
-          </CustomComponentInner>
-        )
-        const CustomComponentInner = styled.span`
-          display: block;
-          width: 100%;
-          margin: -1rem -2rem -1rem -1rem;
-          padding: 1rem 2rem 1rem 1rem;
-        `
-        const preventDefault = (e) => {
-          e.stopPropagation()
-          e.preventDefault()
-        }
         const CustomWidth = styled(DrawerList)`
           .dnb-drawer-list__list {
             width: var(--drawer-list-width);
@@ -264,19 +238,14 @@ export const DrawerListExampleSingleItem = () => (
             preventClose
             right
             aria-label="Choose an item"
-            data={() => [
-              <Link key="link" href="/">
-                Go to this Link
-              </Link>,
-              'Or press on me',
-              <CustomComponent key="custom" />,
-            ]}
+            data={() => ['Press on me', 'Do something different']}
             onChange={({ value }) => {
-              console.log('More menu:', value)
+              if (value === 1) {
+                console.log('Do something different')
+              } else {
+                console.log('More menu:', value)
+              }
             }}
-            suffix={
-              <HelpButton title="Modal Title">Modal content</HelpButton>
-            }
             observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
           />
         )

@@ -46,6 +46,8 @@ Use a dropdown when you need to provide many options to the user but don't have 
 
 When `preventSelection` is true, the Dropdown will use `role="menu"`, instead of `role="listbox"` for better screen reader support.
 
+Don't put links, buttons or other interactive elements inside the items. Users move between items with the arrow keys and choose one with Enter, so those elements are skipped, and many screen readers announce an item's content as plain text. Handle the action in `onChange` instead.
+
 ## Custom size
 
 You can change the **width** of the Dropdown component with CSS by using:

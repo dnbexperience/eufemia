@@ -22,6 +22,8 @@ It is used e.g. in the [Dropdown](/web/components/dropdown).
 
 When you use the DrawerList on its own, give the list an accessible name with `aria-label` or `aria-labelledby`.
 
+Don't put links, buttons or other interactive elements inside the items. Users move between items with the arrow keys and choose one with Enter, so those elements are skipped, and many screen readers announce an item's content as plain text. Handle the action in `onChange` instead.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/fragments/drawer-list)
