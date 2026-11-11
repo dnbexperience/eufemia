@@ -660,8 +660,8 @@ function createDocsContext(source: DocsSource) {
 export type UsageResolver = {
   /** Takes the name as the caller passed it, not lowercased. */
   component: (name: string) => Promise<boolean>
-  /** Real component matching the guess ignoring case and hyphens, or null. */
-  likelyComponent: (guess: string) => Promise<string | null>
+  /** Doc name of the component, matched ignoring case and hyphens, or null. */
+  componentDocName: (name: string) => Promise<string | null>
   docsFile: (path: string) => Promise<boolean>
   docsDir: (path: string) => Promise<boolean>
 }
@@ -672,13 +672,13 @@ export function createUsageResolver(source: DocsSource): UsageResolver {
   return {
     component: async (name) =>
       (await context.resolveComponentPaths(name)).docExists,
-    likelyComponent: async (guess) => {
-      const name = findComponentDocName(
+    componentDocName: async (name) => {
+      const docName = findComponentDocName(
         await context.getMarkdownFilesCached(),
-        guess
+        name
       )
 
-      return name ? normalizeName(name) : null
+      return docName ? normalizeName(docName) : null
     },
     docsFile: async (path) => (await source.stat(path)).kind === 'file',
     docsDir: async (path) => (await source.stat(path)).kind === 'dir',

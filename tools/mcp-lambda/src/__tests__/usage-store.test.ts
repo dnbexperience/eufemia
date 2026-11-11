@@ -31,7 +31,6 @@ function record(
     tool: 'component_props',
     component: 'Button',
     component_missed: false,
-    likely_component: '',
     path: '',
     env: 'dev',
     transport: 'web',
