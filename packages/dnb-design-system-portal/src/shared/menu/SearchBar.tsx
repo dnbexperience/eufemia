@@ -30,13 +30,11 @@ export const SearchBarInput = ({
   id = searchInputId,
   placeholder = 'Search ...',
   variant = 'compact',
-  pill = false,
   onQuery,
 }: {
   id?: string
   placeholder?: string
   variant?: SearchProps['variant']
-  pill?: boolean
   onQuery?: (value: string) => boolean | void
 } = {}) => {
   const searchIndex = useRef(null)
@@ -151,7 +149,6 @@ export const SearchBarInput = ({
     <Search.Autocomplete
       id={id}
       variant={variant}
-      pill={pill}
       shortcut
       className="portal-search"
       mode="async"
