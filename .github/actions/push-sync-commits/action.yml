@@ -1,0 +1,85 @@
+name: Push sync commits
+description: >-
+  Push the commits from bundle-sync-commits to a branch. The push fails when
+  the commits change files outside the allowed paths, or when the branch moved
+  since the build job read it.
+
+inputs:
+  artifact-id:
+    description: The artifact ID that bundle-sync-commits returned
+    required: true
+  branch:
+    description: Branch to push to
+    required: true
+  remote-sha:
+    description: The branch tip the commits were made on. Empty when the branch is new.
+    required: false
+    default: ''
+  allowed-paths:
+    description: Glob pathspecs the commits may change, one per line
+    required: true
+  token:
+    description: Automation bot token that pushes
+    required: true
+  git-name:
+    description: When set with git-email, the commits are authored by this identity
+    required: false
+    default: ''
+  git-email:
+    description: Git email that goes with git-name
+    required: false
+    default: ''
+
+outputs:
+  directory:
+    description: Directory with the extra files from the artifact
+    value: ${{ runner.temp }}/sync-commits
+
+runs:
+  using: composite
+  steps:
+    - name: Download the commits
+      uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        artifact-ids: ${{ inputs.artifact-id || 'missing' }}
+        path: ${{ runner.temp }}/sync-commits
+
+    - name: Check and push the commits
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        BRANCH: ${{ inputs.branch }}
+        REMOTE_SHA: ${{ inputs.remote-sha }}
+        ALLOWED_PATHS: ${{ inputs.allowed-paths }}
+        GIT_NAME: ${{ inputs.git-name }}
+        GIT_EMAIL: ${{ inputs.git-email }}
+      run: |
+        bundle="$RUNNER_TEMP/sync-commits/commits.bundle"
+        git bundle verify -q "$bundle"
+        git fetch -q "$bundle" HEAD
+        git switch -q -C "$BRANCH" FETCH_HEAD
+        base=$(cat "$RUNNER_TEMP/sync-commits/base")
+        git merge-base --is-ancestor "$base" HEAD
+
+        excludes=()
+        while IFS= read -r pathspec; do
+          if [ -n "$pathspec" ]; then
+            excludes+=(":(exclude,glob)$pathspec")
+          fi
+        done <<< "$ALLOWED_PATHS"
+        outside=$(git log --format= --name-only "$base..HEAD" -- . "${excludes[@]}" | sort -u)
+        if [ -n "$outside" ]; then
+          echo "::error::The commits change files outside the allowed paths:"
+          echo "$outside"
+          exit 1
+        fi
+
+        if [ -n "$GIT_NAME" ] && [ -n "$GIT_EMAIL" ]; then
+          git config user.name "$GIT_NAME"
+          git config user.email "$GIT_EMAIL"
+          git rebase -q --exec 'git commit -q --amend --no-edit --reset-author --no-verify' "$base"
+        fi
+
+        gh auth setup-git
+        git push origin "HEAD:refs/heads/$BRANCH" \
+          --force-with-lease="refs/heads/$BRANCH:$REMOTE_SHA"

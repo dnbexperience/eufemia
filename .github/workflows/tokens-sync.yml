@@ -37,6 +37,17 @@ jobs:
 
     timeout-minutes: 60
 
+    outputs:
+      artifact-id: ${{ steps.bundle.outputs.artifact-id }}
+      branch: ${{ steps.target.outputs.branch }}
+      branch-exists: ${{ steps.target.outputs.exists }}
+      branch-created: ${{ steps.commit.outputs.branch_created }}
+      remote-sha: ${{ steps.commit.outputs.remote_sha }}
+      base-sha: ${{ steps.commit.outputs.base_sha }}
+      commits: ${{ steps.commit.outputs.commits }}
+      existing-pr: ${{ steps.existing-pr.outputs.exists }}
+      pr-url: ${{ steps.existing-pr.outputs.url }}
+
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -72,6 +83,7 @@ jobs:
           esac
 
           echo "BRANCH=$branch" >> "$GITHUB_ENV"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
           if git rev-parse --verify --quiet "refs/remotes/origin/$branch" > /dev/null; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           fi
@@ -177,24 +189,13 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
-      # Created this late because the token is valid for one hour. Pushes and
-      # pull requests from the bot start the CI workflows, which pushes with the
-      # built-in token would not.
-      - name: Create automation bot token
-        id: automation-bot
-        if: success() && steps.changes.outputs.changed == 'true'
-        uses: ./.github/actions/automation-token
-        with:
-          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
-          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
-
       - name: Commit design tokens and updated snapshots
         id: commit
         if: success() && steps.changes.outputs.changed == 'true'
         run: |
-          gh auth setup-git
           # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
           remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
+          echo "remote_sha=$remote_sha" >> "$GITHUB_OUTPUT"
 
           if [ "$BRANCH_EXISTS" != true ]; then
             git switch -c "$BRANCH"
@@ -232,16 +233,102 @@ jobs:
             commits=1
           fi
           echo "commits=$commits" >> "$GITHUB_OUTPUT"
+        env:
+          # The commits are attributed to whoever started the run
+          GH_NAME: ${{ github.actor }}
+          GH_EMAIL: ${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com
+          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
 
-          if [ -n "$remote_sha" ]; then
-            git push origin "HEAD:refs/heads/$BRANCH" \
-              --force-with-lease="refs/heads/$BRANCH:$remote_sha"
+      - name: Bundle the design token commits
+        id: bundle
+        if: success() && steps.changes.outputs.changed == 'true'
+        uses: ./.github/actions/bundle-sync-commits
+        with:
+          name: design-token-update
+          base: ${{ steps.commit.outputs.base_sha }}
+          files: ${{ runner.temp }}/token-review.md
+
+      - name: Report no design token changes
+        if: steps.changes.outputs.changed == 'false'
+        # If there is nothing to commit, the run stays green, but has to
+        #say so in the Actions list and the summary.
+        env:
+          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
+          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
+        run: |
+          if [ "$BRANCH_EXISTS" = true ]; then
+            synced_branch=$BRANCH
           else
-            git push --set-upstream origin "$BRANCH"
+            synced_branch=$GITHUB_REF_NAME
           fi
 
-          # Reported as soon as it is true, so a later failure cannot leave a
-          # pushed branch unmentioned
+          message="Design tokens are already synchronized with Figma on branch \`$synced_branch\`. Nothing was committed to \`$BRANCH\`."
+
+          if [ "$BRANCH_EXISTS" != true ] && [ "$BRANCH_CREATED" != true ]; then
+            message="$message Branch \`$BRANCH\` was not created."
+          fi
+
+          echo "::warning::$message"
+          {
+            echo "# Summary:"
+            echo ""
+            echo "⚠️ $message"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # Holds the automation app key, so it runs no code from dependencies: it
+  # only checks the commits from the build job, pushes them and opens or
+  # comments on the pull request.
+  push-tokens:
+    name: Push the design tokens
+    needs: process-tokens
+    if: needs.process-tokens.outputs.artifact-id != ''
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      # Only the local actions are needed in the working tree; git reads the
+      # rest of the history it needs on demand
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github
+          persist-credentials: false
+
+      # Pushes and pull requests from the bot start the CI workflows, which
+      # pushes with the built-in token would not.
+      - name: Create automation bot token
+        id: automation-bot
+        uses: ./.github/actions/automation-token
+        with:
+          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+
+      # The commits stay attributed to whoever started the run
+      - name: Push the design token commits
+        id: push
+        uses: ./.github/actions/push-sync-commits
+        with:
+          artifact-id: ${{ needs.process-tokens.outputs.artifact-id }}
+          branch: ${{ needs.process-tokens.outputs.branch }}
+          remote-sha: ${{ needs.process-tokens.outputs.remote-sha }}
+          token: ${{ steps.automation-bot.outputs.token }}
+          allowed-paths: |
+            packages/dnb-eufemia/src/style/themes
+            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap
+            packages/dnb-eufemia/src/**/__image_snapshots__/**
+
+      # Reported as soon as it is true, so a later failure cannot leave a
+      # pushed branch unmentioned
+      - name: Report the pushed branch
+        env:
+          BRANCH: ${{ needs.process-tokens.outputs.branch }}
+          BRANCH_EXISTS: ${{ needs.process-tokens.outputs.branch-exists }}
+          COMMITS: ${{ needs.process-tokens.outputs.commits }}
+        run: |
           if [ "$BRANCH_EXISTS" != true ]; then
             branch_action="Created branch"
           else
@@ -252,23 +339,18 @@ jobs:
             echo ""
             echo "# Summary:"
             echo ""
-            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $commits commit(s)"
+            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $COMMITS commit(s)"
           } >> "$GITHUB_STEP_SUMMARY"
-        env:
-          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          # The commits are attributed to whoever started the run
-          GH_NAME: ${{ github.actor }}
-          GH_EMAIL: ${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com
-          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
 
       - name: Create or comment on the design token pull request
-        if: success() && steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
-          PR_URL: ${{ steps.existing-pr.outputs.url }}
-          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
-          BASE_SHA: ${{ steps.commit.outputs.base_sha }}
+          BRANCH: ${{ needs.process-tokens.outputs.branch }}
+          EXISTING_PR: ${{ needs.process-tokens.outputs.existing-pr }}
+          PR_URL: ${{ needs.process-tokens.outputs.pr-url }}
+          BRANCH_CREATED: ${{ needs.process-tokens.outputs.branch-created }}
+          BASE_SHA: ${{ needs.process-tokens.outputs.base-sha }}
+          TOKEN_REVIEW: ${{ steps.push.outputs.directory }}/token-review.md
         run: |
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
@@ -331,8 +413,8 @@ jobs:
               echo "Suggested title: \`$title\`"
               echo ""
             fi
-            if [ -f "$RUNNER_TEMP/token-review.md" ]; then
-              head -c 40000 "$RUNNER_TEMP/token-review.md"
+            if [ -f "$TOKEN_REVIEW" ]; then
+              head -c 40000 "$TOKEN_REVIEW"
               echo ""
               echo "Full resolved values and contrast report: $run_url#summary"
               echo ""
@@ -376,31 +458,4 @@ jobs:
             echo "- $pr_action: [$pr_title]($pr_url)"
             echo ""
             printf '%s\n' "$body"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Report no design token changes
-        if: steps.changes.outputs.changed == 'false'
-        # If there is nothing to commit, the run stays green, but has to
-        #say so in the Actions list and the summary.
-        env:
-          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
-          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
-        run: |
-          if [ "$BRANCH_EXISTS" = true ]; then
-            synced_branch=$BRANCH
-          else
-            synced_branch=$GITHUB_REF_NAME
-          fi
-
-          message="Design tokens are already synchronized with Figma on branch \`$synced_branch\`. Nothing was committed to \`$BRANCH\`."
-
-          if [ "$BRANCH_EXISTS" != true ] && [ "$BRANCH_CREATED" != true ]; then
-            message="$message Branch \`$BRANCH\` was not created."
-          fi
-
-          echo "::warning::$message"
-          {
-            echo "# Summary:"
-            echo ""
-            echo "⚠️ $message"
           } >> "$GITHUB_STEP_SUMMARY"

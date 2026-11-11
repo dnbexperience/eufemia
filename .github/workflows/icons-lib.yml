@@ -30,6 +30,13 @@ jobs:
 
     timeout-minutes: 60
 
+    outputs:
+      artifact-id: ${{ steps.bundle.outputs.artifact-id }}
+      branch: ${{ steps.manual-branch.outputs.branch || github.ref_name }}
+      remote-sha: ${{ steps.commit.outputs.remote_sha }}
+      existing-pr: ${{ steps.existing-pr.outputs.exists }}
+      pr-url: ${{ steps.existing-pr.outputs.url }}
+
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -126,72 +133,102 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
-      # Created this late because the token is valid for one hour. Pushes and
-      # pull requests from the bot start the CI workflows, which pushes with the
-      # built-in token would not.
-      - name: Create automation bot token
-        id: automation-bot
+      - name: Commit the icon update
+        id: commit
         if: success() && steps.changes.outputs.changed == 'true'
-        uses: ./.github/actions/automation-token
-        with:
-          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
-          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
-
-      - name: Commit icons and updated snapshots
-        if: >-
-          success() &&
-          github.event_name == 'push' &&
-          steps.changes.outputs.changed == 'true'
-        run: yarn workspace @dnb/eufemia icons:commit
-        env:
-          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
-          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
-
-      - name: Commit manual icon update
-        if: >-
-          success() &&
-          github.event_name == 'workflow_dispatch' &&
-          steps.changes.outputs.changed == 'true'
         run: |
-          gh auth setup-git
-          remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
-
-          if [ "$EXISTING_PR" != true ]; then
-            git switch -c "$BRANCH"
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+            if [ "$EXISTING_PR" != true ]; then
+              git switch -c "$BRANCH"
+            fi
+          else
+            # The tip this run built on, so a commit pushed during the run makes the push fail
+            remote_sha=$(git rev-parse HEAD)
           fi
-          git config user.name "$GH_NAME"
-          git config user.email "$GH_EMAIL"
+
+          # The push job makes the automation bot the author
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add \
             packages/dnb-eufemia/src/icons \
             packages/dnb-eufemia/src/components/icon \
             packages/dnb-eufemia/assets/icons \
             packages/dnb-eufemia/scripts/figma/version.lock
 
+          echo "base_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           git commit --no-verify -m "chore: synchronize icons from Figma"
-          if [ -n "$remote_sha" ]; then
-            git push origin "HEAD:refs/heads/$BRANCH" \
-              --force-with-lease="refs/heads/$BRANCH:$remote_sha"
-          else
-            git push --set-upstream origin "$BRANCH"
-          fi
+          echo "remote_sha=$remote_sha" >> "$GITHUB_OUTPUT"
         env:
-          BRANCH: ${{ steps.manual-branch.outputs.branch }}
-          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
-          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
+          BRANCH: ${{ steps.manual-branch.outputs.branch || github.ref_name }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
+      - name: Bundle the icon update
+        id: bundle
+        if: success() && steps.changes.outputs.changed == 'true'
+        uses: ./.github/actions/bundle-sync-commits
+        with:
+          name: icon-update
+          base: ${{ steps.commit.outputs.base_sha }}
+
+      - name: Report no icon changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "Figma and the Eufemia icon library are already synchronized."
+
+  # Holds the automation app key, so it runs no code from dependencies: it
+  # only checks the commits from the build job, pushes them and opens the
+  # pull request.
+  push-icons:
+    name: Push the icon update
+    needs: process-icons
+    if: needs.process-icons.outputs.artifact-id != ''
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      # Only the local actions are needed in the working tree; git reads the
+      # rest of the history it needs on demand
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github
+          persist-credentials: false
+
+      # Pushes and pull requests from the bot start the CI workflows, which
+      # pushes with the built-in token would not.
+      - name: Create automation bot token
+        id: automation-bot
+        uses: ./.github/actions/automation-token
+        with:
+          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+
+      - name: Push the icon update
+        uses: ./.github/actions/push-sync-commits
+        with:
+          artifact-id: ${{ needs.process-icons.outputs.artifact-id }}
+          branch: ${{ needs.process-icons.outputs.branch }}
+          remote-sha: ${{ needs.process-icons.outputs.remote-sha }}
+          token: ${{ steps.automation-bot.outputs.token }}
+          git-name: ${{ steps.automation-bot.outputs.git-name }}
+          git-email: ${{ steps.automation-bot.outputs.git-email }}
+          allowed-paths: |
+            packages/dnb-eufemia/src/icons
+            packages/dnb-eufemia/src/components/icon
+            packages/dnb-eufemia/assets/icons
+            packages/dnb-eufemia/scripts/figma/version.lock
+
       - name: Create draft icon update pull request
-        if: >-
-          success() &&
-          github.event_name == 'workflow_dispatch' &&
-          steps.changes.outputs.changed == 'true'
+        if: github.event_name == 'workflow_dispatch'
         env:
-          BRANCH: ${{ steps.manual-branch.outputs.branch }}
+          BRANCH: ${{ needs.process-icons.outputs.branch }}
           GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
-          PR_URL: ${{ steps.existing-pr.outputs.url }}
+          EXISTING_PR: ${{ needs.process-icons.outputs.existing-pr }}
+          PR_URL: ${{ needs.process-icons.outputs.pr-url }}
         run: |
           icon_names() {
             git diff --name-only "origin/main...HEAD" --diff-filter="$1" \
@@ -253,6 +290,3 @@ jobs:
               --body "$body" \
               --draft
           fi
-      - name: Report no icon changes
-        if: steps.changes.outputs.changed == 'false'
-        run: echo "Figma and the Eufemia icon library are already synchronized."
