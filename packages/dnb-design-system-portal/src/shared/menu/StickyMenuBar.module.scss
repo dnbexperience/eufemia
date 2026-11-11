@@ -208,7 +208,7 @@
   min-width: 0;
 
   :global(.portal-search) {
-    --search-compact-width: min(30vw, 10rem);
+    --search-compact-width: min(30vw, 11rem);
     --search-width: min(40vw, 17.5rem);
 
     @include utilities.allBelow(small) {
