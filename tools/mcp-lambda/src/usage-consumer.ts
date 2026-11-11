@@ -14,8 +14,6 @@ function isUsageRecord(value: unknown): value is WebMcpUsageRecord {
     typeof record.component === 'string' &&
     (record.component_missed === undefined ||
       typeof record.component_missed === 'boolean') &&
-    (record.likely_component === undefined ||
-      typeof record.likely_component === 'string') &&
     typeof record.path === 'string' &&
     typeof record.env === 'string' &&
     record.transport === 'web' &&

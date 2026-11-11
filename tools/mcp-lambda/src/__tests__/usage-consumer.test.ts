@@ -15,7 +15,6 @@ function usageRecord(
     tool: 'component_props',
     component: 'Button',
     component_missed: false,
-    likely_component: '',
     path: '',
     env: 'dev',
     transport: 'web',
@@ -111,7 +110,19 @@ describe('usage consumer', () => {
     const queuedEarlier: Partial<WebMcpUsageRecord> = usageRecord()
     delete queuedEarlier.eufemia_version
     delete queuedEarlier.component_missed
-    delete queuedEarlier.likely_component
+
+    await handler(
+      event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      queuedEarlier,
+    ])
+    expect(errorSpy).not.toHaveBeenCalled()
+  })
+
+  it('stores a record queued with the removed likely_component field', async () => {
+    const queuedEarlier = { ...usageRecord(), likely_component: '' }
 
     await handler(
       event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))

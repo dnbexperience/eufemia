@@ -19,7 +19,7 @@ import { captureUsage as capture } from '../usage-capture.js'
 
 const resolver = {
   component: async (name: string) => name.toLowerCase() === 'button',
-  likelyComponent: async () => null,
+  componentDocName: async () => null,
   docsFile: async () => true,
   docsDir: async () => true,
 }

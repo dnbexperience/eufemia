@@ -133,14 +133,12 @@ const NO_KNOWN_AREAS: ReadonlySet<string> = new Set()
  * server-side (always `local` here), so the client never sends it. `path` is
  * the leading documentation area (e.g. `/uilib/components/`), not the full
  * path the caller asked for. When a component name does not resolve,
- * `componentMissed` is set and `likelyComponent` holds the likely component, if
- * any; the name itself is never sent.
+ * `componentMissed` is set; the name itself is never sent.
  */
 export type LocalMcpUsageRecord = {
   tool: string
   component?: string
   componentMissed?: true
-  likelyComponent?: string
   path?: string
   eufemiaVersion: string
   timestamp: string
@@ -286,18 +284,13 @@ async function checkAgainstDocs(
   if (record.component !== undefined) {
     const name = typeof args.name === 'string' ? args.name.trim() : ''
 
-    if (!(await resolver.component(name))) {
+    if (await resolver.component(name)) {
+      // "DatePicker" and "date-picker" count as one component
+      record.component =
+        (await resolver.componentDocName(name)) ?? record.component
+    } else {
       delete record.component
       record.componentMissed = true
-
-      const likely = await resolver.likelyComponent(name)
-      if (likely) {
-        record.likelyComponent = likely
-      }
-    } else {
-      // Store "DatePicker" as its doc name "date-picker", so both aggregate
-      record.component =
-        (await resolver.likelyComponent(name)) ?? record.component
     }
   }
 
