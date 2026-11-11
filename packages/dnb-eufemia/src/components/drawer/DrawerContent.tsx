@@ -3,11 +3,10 @@
  *
  */
 
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import type { JSX, ReactElement } from 'react'
 import { clsx } from 'clsx'
 import { findElementInChildren } from '../../shared/component-helper'
-import { getOffsetTop, warn } from '../../shared/helpers'
 import ScrollView from '../scroll-view/ScrollView'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
@@ -76,21 +75,6 @@ export default function DrawerContent({
       rest
     ),
   }
-
-  /**
-   * Update CSS --header-height with spacing to top of page
-   */
-  useEffect(() => {
-    try {
-      const height = getOffsetTop(context?.contentRef.current) / 16
-      context?.contentRef.current.style.setProperty(
-        '--header-height',
-        `${height}rem`
-      )
-    } catch (e) {
-      warn('DrawerContent: Failed to calculate header height:', e)
-    }
-  }, [content, context?.scrollRef, context?.contentRef])
 
   const navigationElement = findElementInChildren(
     content,

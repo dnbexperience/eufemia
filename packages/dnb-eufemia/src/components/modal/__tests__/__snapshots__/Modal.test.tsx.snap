@@ -1371,6 +1371,19 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   padding-top: 5vh;
   align-items: flex-start;
 }
+.dnb-modal__vertical-alignment--top.dnb-modal__content--fullscreen {
+  padding-top: 0;
+}
+@media screen and (max-width: 40em) {
+  .dnb-modal__vertical-alignment--top.dnb-modal__content--auto-fullscreen {
+    padding-top: 0;
+  }
+}
+@media screen and (max-width: 60em) and (max-height: 30em) {
+  .dnb-modal__vertical-alignment--top.dnb-modal__content--auto-fullscreen {
+    padding-top: 0;
+  }
+}
 .dnb-modal__overlay {
   position: fixed;
   z-index: var(--modal-z-index);
