@@ -37,6 +37,37 @@ test('opens Home as a document when its lazy module fails', async ({
   ).toHaveCount(0)
 })
 
+test('keeps the page offline and opens the destination when back online', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/')
+  await waitForApp(page)
+  test.skip(await isDev(page), 'Production route splitting')
+  await page.evaluate(() => {
+    document.documentElement.dataset.navigationMarker = 'present'
+  })
+  await context.setOffline(true)
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+  await page.waitForTimeout(1000)
+
+  await expect(page.locator('[data-portal-home]')).toBeVisible()
+  await expect(
+    page.getByText('Unexpected Application Error!')
+  ).toHaveCount(0)
+
+  await context.setOffline(false)
+
+  await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//)
+  await waitForApp(page)
+  await expect(page.locator('html')).not.toHaveAttribute(
+    'data-navigation-marker'
+  )
+})
+
 test('keeps hinted prefetch failures local', async ({ page, request }) => {
   const html = await (await request.get('/')).text()
   const hintsUrl = html.match(/data-hints="([^"]+)"/)?.[1]

@@ -41,7 +41,11 @@ import PortalLayout from '../../src/core/PortalLayout'
 import { FocusModeCodeProvider } from '../../src/core/FocusModeCodeContext'
 import BranchBanner from '../../src/shared/menu/BranchBanner'
 import ErrorBoundary from '../../src/core/ErrorBoundary'
-import { discoverPortalRoutes, loadHints } from './load-portal-routes'
+import {
+  discoverPortalRoutes,
+  loadHints,
+  openDocument,
+} from './load-portal-routes'
 import { allMdxNodes } from 'virtual:portal-data'
 import { resolvePageRedirect } from './plugins/portal-pages.shared'
 
@@ -284,15 +288,16 @@ function createPortalRouter(routes: RouteObject[]) {
         try {
           patch('portal-root', await discoverPortalRoutes(path))
         } catch (error) {
-          if (!signal.aborted) {
-            const pending = router.state.navigation.location
-            window.location.assign(
-              pending
-                ? pending.pathname + pending.search + pending.hash
-                : path
-            )
+          if (signal.aborted) {
+            throw error
           }
-          throw error
+
+          const pending = router.state.navigation.location
+          return openDocument(
+            pending
+              ? pending.pathname + pending.search + pending.hash
+              : path
+          )
         }
       },
     }
