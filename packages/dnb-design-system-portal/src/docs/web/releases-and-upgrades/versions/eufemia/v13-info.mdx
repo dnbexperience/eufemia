@@ -379,7 +379,7 @@ Use `text` or `children` for the option name and Chip.Group's `label` for the gr
 
 Use string or number identifiers instead of object or array values. Match option and group value types, and keep identifiers unique after conversion to strings. Change events preserve the identifier type. Chip.Group returns `values` in both selection modes and `value` identifies the changed option.
 
-Chip renders native inputs. Update refs, event target assumptions, CSS selectors, and tests that depend on ToggleButton's button markup. Selected, enabled options in Chip.Group participate in native form submission. Set `name` on Chip.Group to choose the submitted field name; otherwise a generated name is used. Radio groups use one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes. `variant` controls appearance independently of selection mode.
+Chip renders native inputs, except for addable chips outside single selection groups, which use native toggle buttons with `aria-pressed`. Update refs, event target assumptions, CSS selectors, and tests that depend on ToggleButton's button markup. Selected, enabled options in Chip.Group participate in native form submission. Set `name` on Chip.Group to choose the submitted field name; otherwise a generated name is used. Radio groups use one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes or addable toggle buttons. `variant` controls appearance independently of selection mode.
 
 See [Chip's API differences](/web/components/chip/#toggle-buttons) and [examples](/web/components/chip/demos/).
 
