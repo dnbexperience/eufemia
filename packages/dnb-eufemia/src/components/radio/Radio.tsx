@@ -317,6 +317,8 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
     radioDefaultProps,
     groupContext as Record<string, unknown>
   )
+  // The selected group value must not replace an option's own value.
+  contextProps.value = resolvedProps.value
 
   // use only the props from context, who are available here anyway
   const props = extendExistingPropsWithContext(
