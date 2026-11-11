@@ -3,6 +3,9 @@ import { renderToString } from 'react-dom/server'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Search from '../Search'
+import Dropdown from '../../dropdown/Dropdown'
+import Menu from '../../menu/Menu'
+import type { SearchAutocompleteProps } from '../Search'
 import { Provider } from '../../../shared'
 import FieldBlock from '../../../extensions/forms/FieldBlock/FieldBlock'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
@@ -173,7 +176,7 @@ describe.each([
     }
   )
 
-  it.each(['input', 'textarea', 'select'] as const)(
+  it.each(['input', 'textarea'] as const)(
     'leaves shortcuts to another focused %s',
     (tagName) => {
       render(
@@ -181,7 +184,6 @@ describe.each([
           <Component {...requiredProps} shortcut />
           {tagName === 'input' ? <input id="editor" /> : null}
           {tagName === 'textarea' ? <textarea id="editor" /> : null}
-          {tagName === 'select' ? <select id="editor" /> : null}
         </>
       )
       const editor = document.querySelector<HTMLElement>('#editor')
@@ -197,6 +199,32 @@ describe.each([
       expect(editor).toHaveFocus()
     }
   )
+
+  it.each([
+    'checkbox',
+    'radio',
+    'range',
+    'button',
+    'select',
+    'readonly',
+  ] as const)('moves focus from a focused %s control', (type) => {
+    render(
+      <>
+        <Component {...requiredProps} shortcut />
+        {type === 'select' ? (
+          <select id="control" />
+        ) : type === 'readonly' ? (
+          <input id="control" readOnly />
+        ) : (
+          <input id="control" type={type} />
+        )}
+      </>
+    )
+    const control = document.querySelector<HTMLElement>('#control')
+    control.focus()
+    fireEvent.keyDown(control, { key: 'k', metaKey: true })
+    expect(document.querySelector('.dnb-search input')).toHaveFocus()
+  })
 
   it('keeps the shortcut available in its Search input', () => {
     render(<Component {...requiredProps} shortcut />)
@@ -394,7 +422,7 @@ describe.each([
     const options = () => document.querySelectorAll('[role="option"]')
 
     await userEvent.type(input, 'But')
-    expect(options()).toHaveLength(2)
+    expect(options()).toHaveLength(1)
     expect(options()[0]).toHaveTextContent('Button')
 
     await userEvent.click(
@@ -465,6 +493,76 @@ describe('Search.Autocomplete', () => {
   })
 })
 
+describe.each([
+  ['Autocomplete', Search.Autocomplete, { panelDescription: undefined }],
+  ['Panel', Search.Panel, { panelDescription: 'Search results.' }],
+] as const)('Search.%s results', (_, Component, requiredProps) => {
+  const options = () =>
+    Array.from(document.querySelectorAll('[role="option"]')).map(
+      (option) => option.textContent
+    )
+
+  it('does not offer to show every item for a filtered query', async () => {
+    render(
+      <Component
+        {...requiredProps}
+        data={['Drawer', 'Dropdown', 'Table']}
+      />
+    )
+    await userEvent.type(document.querySelector('input'), 'dr')
+
+    await waitFor(() => expect(options()).toEqual(['Drawer', 'Dropdown']))
+    expect(
+      document.querySelector('.dnb-autocomplete__show-all')
+    ).toBeNull()
+  })
+
+  it('shows every asynchronous result without filtering it again', async () => {
+    let events: Parameters<SearchAutocompleteProps['onType']>[0]
+    render(
+      <Component
+        {...requiredProps}
+        mode="async"
+        onType={(event) => {
+          events = event
+        }}
+      />
+    )
+    await userEvent.type(document.querySelector('input'), 'b')
+    act(() => {
+      events.updateData(['Button', 'Table'])
+    })
+
+    await waitFor(() => expect(options()).toEqual(['Button', 'Table']))
+    expect(
+      document.querySelector('.dnb-autocomplete__show-all')
+    ).toBeNull()
+  })
+
+  it('keeps other search options for asynchronous results', async () => {
+    let events: Parameters<SearchAutocompleteProps['onType']>[0]
+    render(
+      <Component
+        {...requiredProps}
+        mode="async"
+        search={{ highlight: false }}
+        onType={(event) => {
+          events = event
+        }}
+      />
+    )
+    await userEvent.type(document.querySelector('input'), 'b')
+    act(() => {
+      events.updateData(['Button', 'Table'])
+    })
+
+    await waitFor(() => expect(options()).toEqual(['Button', 'Table']))
+    expect(
+      document.querySelector('.dnb-drawer-list__option__item--highlight')
+    ).toBeNull()
+  })
+})
+
 describe('Search.Input', () => {
   it('exposes an ordinary search input and forwards its ref and changes', () => {
     const ref = createRef<HTMLInputElement>()
@@ -481,6 +579,27 @@ describe('Search.Input', () => {
     fireEvent.blur(input)
     expect(input).toHaveValue('Button')
     expect(document.querySelector('[role="listbox"]')).toBeNull()
+  })
+
+  it('submits a surrounding form on Enter unless onSubmit prevents it', async () => {
+    const onFormSubmit = vi.fn((event: SubmitEvent) =>
+      event.preventDefault()
+    )
+    const { rerender } = render(
+      <form onSubmit={onFormSubmit as never}>
+        <Search.Input />
+      </form>
+    )
+    await userEvent.type(document.querySelector('input'), 'Button{Enter}')
+    expect(onFormSubmit).toHaveBeenCalledTimes(1)
+
+    rerender(
+      <form onSubmit={onFormSubmit as never}>
+        <Search.Input onSubmit={({ event }) => event.preventDefault()} />
+      </form>
+    )
+    await userEvent.type(document.querySelector('input'), '{Enter}')
+    expect(onFormSubmit).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -675,6 +794,43 @@ describe('Search.Panel', () => {
     expect(results.closest('.dnb-popover__portal')).not.toBeNull()
   })
 
+  it('keeps focus in the input when pressing empty space or text in the panel', async () => {
+    render(
+      <Search.Panel
+        panelDescription="Search results and an action. Press Tab to reach the action."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <span id="text">Show results from</span>
+            <button type="button" id="action">
+              Action
+            </button>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+
+    await userEvent.click(document.querySelector('#text'))
+    expect(input).toHaveFocus()
+
+    await userEvent.click(
+      document.querySelector('.dnb-search__panel-content')
+    )
+    expect(input).toHaveFocus()
+    await userEvent.keyboard('in')
+    expect(input).toHaveValue('in')
+
+    await userEvent.click(document.querySelector('#action'))
+    expect(document.querySelector('#action')).toHaveFocus()
+  })
+
   it('closes with the built-in close button and returns focus to the input', async () => {
     render(
       <Search.Panel
@@ -694,6 +850,206 @@ describe('Search.Panel', () => {
       expect(input).toHaveFocus()
     })
   })
+
+  it('lets Tab leave a panel without custom controls', async () => {
+    render(
+      <>
+        <Search.Panel
+          panelDescription="Search results. Use the arrow keys to navigate."
+          data={['Button', 'Input']}
+        />
+        <button id="after">After</button>
+      </>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+
+    await userEvent.tab()
+
+    expect(document.querySelector('#after')).toHaveFocus()
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    )
+  })
+
+  it('stays open while using a control that renders its own popover', async () => {
+    const onChange = vi.fn()
+    render(
+      <Search.Panel
+        panelDescription="Search results with sorting. Press Tab to reach it."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <Dropdown
+              id="sort"
+              label="Sort"
+              data={{ a: 'A-Z', z: 'Z-A' }}
+              onChange={onChange}
+            />
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await userEvent.click(document.querySelector('#sort'))
+    const option = await waitFor(() => {
+      const element = Array.from(
+        document.querySelectorAll<HTMLElement>('#sort-ul [role="option"]')
+      ).find((element) => element.textContent === 'Z-A')
+      expect(element).toBeDefined()
+      return element
+    })
+    expect(
+      document.querySelector('.dnb-search__panel')
+    ).not.toContainElement(option)
+
+    await userEvent.click(option)
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ value: 'z' })
+    )
+    expect(input).toHaveAttribute('aria-expanded', 'true')
+    expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+
+    await userEvent.click(document.body)
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    )
+  })
+
+  it('closes from an action in a nested popover', async () => {
+    render(
+      <Search.Panel
+        panelDescription="Search results with actions. Press Tab to reach them."
+        data={['Button', 'Input']}
+      >
+        {({ results, close }) => (
+          <>
+            <Menu.Root>
+              <Menu.Button id="actions" text="Actions" />
+              <Menu.List>
+                <Menu.Action
+                  id="close-action"
+                  text="Done"
+                  onClick={close}
+                />
+              </Menu.List>
+            </Menu.Root>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await userEvent.click(input)
+    await userEvent.click(document.querySelector('#actions'))
+    const action = await waitFor(() => {
+      const element = document.querySelector<HTMLElement>('#close-action')
+      expect(element).not.toBeNull()
+      return element
+    })
+
+    await userEvent.click(action)
+
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    )
+  })
+  it.each([
+    [
+      'the close button',
+      () => userEvent.click(document.querySelector('.dnb-popover__close')),
+    ],
+    [
+      'Escape from a control',
+      async () => {
+        await userEvent.tab()
+        await userEvent.keyboard('{Escape}')
+      },
+    ],
+  ])(
+    'opens the results when typing after closing with %s',
+    async (_, closePanel) => {
+      render(
+        <Search.Panel
+          panelDescription="Search results. Use the arrow keys to navigate."
+          data={['Button', 'Input']}
+        >
+          {({ results }) => (
+            <>
+              <button type="button">Sort</button>
+              {results}
+            </>
+          )}
+        </Search.Panel>
+      )
+      const input = document.querySelector('input')
+      await userEvent.click(input)
+
+      await closePanel()
+
+      await waitFor(() => {
+        expect(input).toHaveAttribute('aria-expanded', 'false')
+        expect(input).toHaveFocus()
+      })
+
+      await userEvent.keyboard('B')
+
+      await waitFor(() => {
+        expect(input).toHaveAttribute('aria-expanded', 'true')
+      })
+      expect(
+        document.querySelector('.dnb-search__panel [role="option"]')
+      ).toHaveTextContent('Button')
+    }
+  )
+
+  it.each([false, true])(
+    'keeps the input buttons in the Tab order before the controls (showSubmitButton: %s)',
+    async (showSubmitButton) => {
+      render(
+        <>
+          <Search.Panel
+            panelDescription="Search results. Use the arrow keys to navigate."
+            data={['Button', 'Input']}
+            showSubmitButton={showSubmitButton}
+          >
+            {({ results }) => (
+              <>
+                <button type="button">Sort</button>
+                {results}
+              </>
+            )}
+          </Search.Panel>
+          <button type="button">After</button>
+        </>
+      )
+      const input = document.querySelector('input')
+      await userEvent.click(input)
+      await userEvent.keyboard('B')
+
+      const fieldButtons = Array.from(
+        document.querySelectorAll<HTMLButtonElement>('.dnb-search button')
+      ).filter((button) => button.tabIndex >= 0)
+      expect(fieldButtons).toHaveLength(showSubmitButton ? 2 : 1)
+
+      for (const button of fieldButtons) {
+        await userEvent.tab()
+        expect(button).toHaveFocus()
+      }
+      await userEvent.tab()
+      expect(document.activeElement).toHaveTextContent('Sort')
+
+      await userEvent.tab({ shift: true })
+      expect(fieldButtons.at(-1)).toHaveFocus()
+    }
+  )
 
   it('forwards both supported input ref forms to the positioning target', () => {
     const ref = createRef<HTMLInputElement>()
@@ -753,5 +1109,107 @@ describe('Search.Panel', () => {
         'false'
       )
     )
+  })
+
+  it('gives each radio group in the panel one Tab stop', async () => {
+    const user = userEvent.setup()
+    render(
+      <Search.Panel
+        panelDescription="Search results with a category filter. Press Tab to reach it."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <fieldset>
+              <legend>Category</legend>
+              <input
+                type="radio"
+                name="category"
+                value="all"
+                aria-label="All"
+              />
+              <input
+                type="radio"
+                name="category"
+                value="components"
+                aria-label="Components"
+                defaultChecked
+              />
+              <input
+                type="radio"
+                name="category"
+                value="guidance"
+                aria-label="Guidance"
+              />
+            </fieldset>
+            <button type="button">Apply</button>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await user.click(input)
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+    const radios = document.querySelectorAll<HTMLInputElement>(
+      '.dnb-search__panel input[type="radio"]'
+    )
+    const apply = document.querySelector('.dnb-search__panel button')
+
+    await user.tab()
+    expect(radios[1]).toHaveFocus()
+
+    await user.tab()
+    expect(apply).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(radios[1]).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(input).toHaveFocus()
+
+    // A read-only group can move focus without changing the selection.
+    radios[2].focus()
+    await user.tab()
+    expect(apply).toHaveFocus()
+  })
+
+  it('enters a radio group without a selection at the first or last radio', async () => {
+    const user = userEvent.setup()
+    render(
+      <Search.Panel
+        panelDescription="Search results with a category filter. Press Tab to reach it."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <input type="radio" name="category" aria-label="All" />
+            <input type="radio" name="category" aria-label="Guidance" />
+            <button type="button">Apply</button>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    await user.click(document.querySelector('input'))
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+    const radios = document.querySelectorAll<HTMLInputElement>(
+      '.dnb-search__panel input[type="radio"]'
+    )
+
+    await user.tab()
+    expect(radios[0]).toHaveFocus()
+
+    await user.tab()
+    expect(
+      document.querySelector('.dnb-search__panel button')
+    ).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(radios[1]).toHaveFocus()
   })
 })

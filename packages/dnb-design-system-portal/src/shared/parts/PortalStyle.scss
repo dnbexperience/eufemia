@@ -49,8 +49,8 @@
   display: flow-root;
 }
 
-// Keep portaled search results above the compact sidebar and header.
-.dnb-search__panel {
+// Keep portaled surfaces and their nested menus above the sidebar and header.
+.dnb-popover__portal {
   --popover-z-index: 3203;
 }
 

@@ -857,7 +857,7 @@ function AutocompleteComponent({
 
   const wrapWithShowAll = useCallback(
     (data: DrawerListInternalData) => {
-      if (!data || !hasFilterActive(data)) {
+      if (!data || props.showAll === false || !hasFilterActive(data)) {
         return data
       }
 
@@ -1410,6 +1410,16 @@ function AutocompleteComponent({
     focusInput()
     suppressFocusHandlerRef.current = false
   }, [focusInput])
+
+  const closeResults = useCallback(() => {
+    setHidden()
+
+    // The refocus on close is suppressed, so typing must still reopen the results.
+    if (document.activeElement === _refInput.current) {
+      setHasFocus(true)
+      setHasBlur(false)
+    }
+  }, [setHidden, setHasBlur])
 
   const setVisibleAndFocusOnInput = useCallback(() => {
     if (!hasFocusRef.current && !hasSelectedText()) {
@@ -2297,7 +2307,7 @@ function AutocompleteComponent({
               ? resultsRender({
                   results,
                   open: isExpanded,
-                  close: setHidden,
+                  close: closeResults,
                   resultsRef,
                 })
               : results}
