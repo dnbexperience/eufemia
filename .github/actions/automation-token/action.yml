@@ -3,7 +3,9 @@ description: >-
   Create a short-lived token for the Eufemia automation GitHub App, and the git
   identity of its bot user. The token is limited to this repository, can push
   branches and open pull requests, and is valid for one hour, so create it
-  right before the steps that push.
+  right before the steps that push. It cannot change workflow files. Rebasing
+  a branch onto main does not need that, because GitHub only rejects workflow
+  file content that is not in the repository yet.
 
 inputs:
   client-id:
@@ -12,13 +14,6 @@ inputs:
   private-key:
     description: Private key of the automation GitHub App. Pass secrets.AUTOMATION_APP_PRIVATE_KEY.
     required: true
-  workflows:
-    description: >-
-      Set to "write" when the token pushes a branch that was rebased onto main.
-      Such a push can include workflow changes from main, and GitHub only
-      accepts those from a token with the workflows permission.
-    required: false
-    default: ''
 
 outputs:
   token:
@@ -42,8 +37,6 @@ runs:
         private-key: ${{ inputs.private-key }}
         permission-contents: write
         permission-pull-requests: write
-        # An empty value requests no workflows permission
-        permission-workflows: ${{ inputs.workflows }}
 
     - name: Resolve the bot identity
       id: identity
