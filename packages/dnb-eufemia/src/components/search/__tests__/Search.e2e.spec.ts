@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
     'true'
   )
   await expect(
-    page.locator('[data-visual-test="search-compact"] input')
+    page.locator('[data-testid="search-compact"] input')
   ).toBeVisible()
   await page.evaluate(() => document.fonts.ready)
 })
@@ -32,9 +32,10 @@ for (const platform of ['MacIntel', 'Win32']) {
     await page.evaluate(() => document.fonts.ready)
 
     for (const selector of [
-      '[data-visual-test="search-compact"] .dnb-search',
-      '[data-visual-test="search-autocomplete-compact"] .dnb-search',
-      '[data-visual-test="search-panel"] .dnb-search',
+      '[data-testid="search-compact"] .dnb-search',
+      '[data-testid="search-autocomplete-compact"] .dnb-search',
+      '[data-testid="search-panel-compact"] .dnb-search',
+      '[data-testid="search-panel"] .dnb-search',
     ]) {
       await test.step(selector, async () => {
         const search = page.locator(selector)
@@ -72,23 +73,24 @@ for (const platform of ['MacIntel', 'Win32']) {
 for (const fixture of [
   'search-compact',
   'search-autocomplete-compact',
+  'search-panel-compact',
   'search-panel',
 ]) {
   test(`${fixture} expands with the shortcut and collapses after clearing`, async ({
     page,
   }) => {
-    const search = page.locator(
-      `[data-visual-test="${fixture}"] .dnb-search`
-    )
+    const search = page.locator(`[data-testid="${fixture}"] .dnb-search`)
     const input = search.locator('input')
     const collapsed = (await search.boundingBox()).width
     await page
-      .locator(
-        `[data-visual-test]:not([data-visual-test="${fixture}"]) .dnb-search--shortcut`
-      )
-      .evaluateAll((elements) => {
-        elements.forEach((element) => element.setAttribute('hidden', ''))
-      })
+      .locator('.dnb-search--shortcut')
+      .evaluateAll((elements, fixture) => {
+        elements.forEach((element) => {
+          if (!element.closest(`[data-testid="${fixture}"]`)) {
+            element.setAttribute('hidden', '')
+          }
+        })
+      }, fixture)
     await page.keyboard.press('Control+k')
     await expect(input).toBeFocused()
     await expect
@@ -110,13 +112,15 @@ for (const fixture of [
   })
 }
 
-for (const fixture of ['search-hero', 'search-autocomplete-hero']) {
+for (const fixture of [
+  'search-hero',
+  'search-autocomplete-hero',
+  'search-panel-hero',
+]) {
   test(`${fixture} replaces the shortcut with an aligned clear button`, async ({
     page,
   }) => {
-    const search = page.locator(
-      `[data-visual-test="${fixture}"] .dnb-search`
-    )
+    const search = page.locator(`[data-testid="${fixture}"] .dnb-search`)
     const input = search.locator('input')
     const shortcut = search.locator('kbd')
     const clear = search.locator('.dnb-input__clear-button')
@@ -147,9 +151,7 @@ for (const fixture of ['search-hero', 'search-autocomplete-hero']) {
 test('supports native keyboard result selection and Escape', async ({
   page,
 }) => {
-  const input = page.locator(
-    '[data-visual-test="search-autocomplete"] input'
-  )
+  const input = page.locator('[data-testid="search-autocomplete"] input')
   await input.fill('But')
   await expect(page.locator('html')).toHaveAttribute(
     'data-dnb-drawer-list-active',
@@ -178,7 +180,7 @@ for (const name of [
   test(`${name} waits for data and cancels cleared queries`, async ({
     page,
   }) => {
-    const fixture = page.locator('[data-visual-test="search-async"]')
+    const fixture = page.locator('[data-testid="search-async"]')
     const input = fixture.getByRole('combobox', { name, exact: true })
     const search = fixture.locator('.dnb-search').filter({
       has: page.getByRole('combobox', { name, exact: true }),
@@ -227,6 +229,41 @@ for (const name of [
   })
 }
 
+test('async panel keeps its visible label and input position stable on focus', async ({
+  page,
+}) => {
+  const fixture = page.locator('[data-testid="search-async"]')
+  const input = fixture.getByRole('combobox', {
+    name: 'Search components asynchronously in a panel',
+    exact: true,
+  })
+  const label = fixture.locator('label').filter({
+    hasText: 'Search components asynchronously in a panel',
+  })
+
+  for (const width of [900, 320]) {
+    await test.step(`${width}px viewport`, async () => {
+      await page.setViewportSize({ width, height: 900 })
+      await input.scrollIntoViewIfNeeded()
+      const before = await label.boundingBox()
+      const inputBefore = await input.boundingBox()
+
+      await input.focus()
+      await expect(input).toHaveAttribute('aria-expanded', 'false')
+      await expect
+        .poll(async () => (await input.boundingBox()).width)
+        .toBeGreaterThan(inputBefore.width)
+      expect((await label.boundingBox()).height).toBe(before.height)
+      expect((await label.boundingBox()).width).toBe(before.width)
+      expect((await input.boundingBox()).y).toBe(inputBefore.y)
+
+      await input.blur()
+      expect((await label.boundingBox()).height).toBe(before.height)
+      expect((await input.boundingBox()).y).toBe(inputBefore.y)
+    })
+  }
+})
+
 type ScrollableResults = HTMLElement & {
   scrollPositions: number[]
   scrollFinished: boolean
@@ -239,7 +276,7 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
     test.setTimeout(60_000)
 
     const input = page
-      .locator('[data-visual-test="search-panel"]')
+      .locator('[data-testid="search-panel"]')
       .getByRole('combobox', { name: 'Search with filters' })
     const results = page.getByRole('listbox', {
       name: 'Search with filters',
@@ -349,7 +386,7 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
   })
 }
 
-test('keeps both input types within a narrow container', async ({
+test('keeps all search types within a narrow container', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 900 })
@@ -358,10 +395,10 @@ test('keeps both input types within a narrow container', async ({
     'search-compact',
     'search-autocomplete-hero',
     'search-autocomplete-compact',
+    'search-panel-hero',
+    'search-panel-compact',
   ]) {
-    const search = page.locator(
-      `[data-visual-test="${fixture}"] .dnb-search`
-    )
+    const search = page.locator(`[data-testid="${fixture}"] .dnb-search`)
     const input = search.locator('input')
     await input.focus()
     await input.fill('A long search query')
@@ -377,9 +414,7 @@ test('keeps both input types within a narrow container', async ({
 test('panel uses available height above and below the input and resizes with the viewport', async ({
   page,
 }) => {
-  const search = page.locator(
-    '[data-visual-test="search-panel"] .dnb-search'
-  )
+  const search = page.locator('[data-testid="search-panel"] .dnb-search')
   const input = search.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -505,8 +540,12 @@ test('panel uses available height above and below the input and resizes with the
 test('panel keeps its opening direction while scrolling', async ({
   page,
 }) => {
+  await page.evaluate(() => {
+    document.querySelector<HTMLElement>('main').style.paddingBottom =
+      '100vh'
+  })
   await page.setViewportSize({ width: 900, height: 900 })
-  const input = page.locator('[data-visual-test="search-panel"] input')
+  const input = page.locator('[data-testid="search-panel"] input')
   const panel = page.locator('.dnb-search__panel')
   const results = page.getByRole('listbox', {
     name: 'Search with filters',
@@ -584,9 +623,7 @@ test('panel reveals keyboard results when controls fill a short viewport', async
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 300 })
-  const search = page.locator(
-    '[data-visual-test="search-panel"] .dnb-search'
-  )
+  const search = page.locator('[data-testid="search-panel"] .dnb-search')
   const input = search.getByRole('combobox')
   const panel = page.locator('.dnb-search__panel')
   const options = page
@@ -627,7 +664,7 @@ test('panel reveals keyboard results when controls fill a short viewport', async
 test('panel keeps the keyboard focus outline inside the results viewport', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -659,7 +696,7 @@ test('panel keeps the keyboard focus outline inside the results viewport', async
 test('panel restores results and keyboard navigation after clearing the query', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -714,7 +751,7 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
   const reverseTab =
     browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -811,7 +848,7 @@ test('panel keeps the input and results stationary when tabbing through every co
   const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
   const reverseTab =
     browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
-  const input = page.locator('[data-visual-test="search-panel"] input')
+  const input = page.locator('[data-testid="search-panel"] input')
   const panel = page.locator('.dnb-search__panel')
   const results = page.getByRole('listbox', {
     name: 'Search with filters',
@@ -823,6 +860,10 @@ test('panel keeps the input and results stationary when tabbing through every co
     page.getByRole('button', { name: 'Guidance', exact: true }),
     panel.getByRole('button', { name: 'Lukk', exact: true }),
   ]
+  await page.evaluate(() => {
+    document.querySelector<HTMLElement>('main').style.paddingBottom =
+      '100vh'
+  })
   await page.setViewportSize({ width: 900, height: 900 })
 
   for (const top of [650, 200]) {
@@ -869,7 +910,7 @@ test('panel sorting menu stays above results and supports pointer selection', as
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   await fixture
     .getByRole('combobox', { name: 'Search with filters' })
     .focus()
@@ -909,7 +950,7 @@ test('panel sorting menu stays above results and supports pointer selection', as
 test('panel closes from controls and preserves outside interaction focus', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -930,9 +971,7 @@ test('panel closes from controls and preserves outside interaction focus', async
   await expect(input).toBeFocused()
 
   await input.click()
-  const outsideInput = page.locator(
-    '[data-visual-test="search-default"] input'
-  )
+  const outsideInput = page.locator('[data-testid="search-default"] input')
   await outsideInput.click()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
   await expect(outsideInput).toBeFocused()
@@ -941,7 +980,7 @@ test('panel closes from controls and preserves outside interaction focus', async
 test('keeps the panel within the viewport near either edge', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -976,7 +1015,7 @@ test('keeps the panel within the viewport near either edge', async ({
 test('aligns the portaled surface with the left edge of the input', async ({
   page,
 }) => {
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
@@ -1004,12 +1043,14 @@ test('aligns the portaled surface with the left edge of the input', async ({
 })
 
 test('keeps search results above the Portal sidebar', async ({ page }) => {
-  await page.goto('/web/components/search/demos/#searchpanel')
+  await page.goto(
+    '/web/components/search/demos/#panel-with-filtering-and-sorting'
+  )
   await expect(page.locator('html')).toHaveAttribute(
     'data-portal-ready',
     'true'
   )
-  const fixture = page.locator('[data-visual-test="search-panel"]')
+  const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
   })
