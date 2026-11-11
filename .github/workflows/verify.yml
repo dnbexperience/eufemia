@@ -26,11 +26,21 @@ jobs:
 
     timeout-minutes: 10
 
+    outputs:
+      standalone-tools-only: ${{ steps.changes.outputs.standalone-tools-only }}
+
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Detect changes
+        id: changes
+        continue-on-error: true
+        run: node tools/repo-utils/src/detect-changes.mjs
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -102,6 +112,7 @@ jobs:
   lint-portal:
     name: Run portal lint
     needs: setup
+    if: needs.setup.outputs.standalone-tools-only != 'true'
 
     runs-on: ubuntu-latest
 
@@ -236,6 +247,7 @@ jobs:
   deps:
     name: Run dependency checks
     needs: setup
+    if: needs.setup.outputs.standalone-tools-only != 'true'
 
     runs-on: ubuntu-latest
 
@@ -291,11 +303,11 @@ jobs:
         run: yarn workspace repo-utils test:ci
 
       - name: Prebuild Library
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Postbuild Library
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Build marketplace plugins
@@ -305,11 +317,11 @@ jobs:
       # The starter is published as a consumer template (see dev.yml) and has
       # no other CI coverage.
       - name: Build starter template
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         run: yarn workspace eufemia-starter build
 
       - name: Check bundle sizes
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         env:
           BUNDLEWATCH_GITHUB_TOKEN: ${{ github.token }}
         run: yarn workspace @dnb/eufemia build:size
