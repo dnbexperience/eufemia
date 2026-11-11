@@ -1023,7 +1023,12 @@ test('panel closes from controls and preserves outside interaction focus', async
   await input.fill('')
 
   await input.click()
-  await close.click()
+  await close.hover()
+  const closeBounds = await close.boundingBox()
+  await page.mouse.down()
+  await expect(input).toBeFocused()
+  expect(await close.boundingBox()).toEqual(closeBounds)
+  await page.mouse.up()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
   await expect(input).toBeFocused()
   await page.keyboard.type('dr')
