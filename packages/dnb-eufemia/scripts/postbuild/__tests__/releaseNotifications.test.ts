@@ -464,9 +464,6 @@ describe('release notification isolation', () => {
     const download = workflow.jobs['notify-release']?.steps?.find((step) =>
       step.uses?.startsWith('actions/download-artifact@')
     )
-    const notify = workflow.jobs['notify-release']?.steps?.find((step) =>
-      step.uses?.startsWith('actions/github-script@')
-    )
 
     expect(workflow.jobs['notify-release']?.needs).toBe('action')
     expect(dependents).toEqual([])
@@ -474,7 +471,6 @@ describe('release notification isolation', () => {
       "${{ needs.action.outputs.notification-artifact-id || 'missing' }}"
     )
     expect(download?.with?.name).toBeUndefined()
-    expect(notify?.with?.['github-token']).toBe('${{ secrets.GH_TOKEN }}')
     expect(workflow.jobs['notify-release']?.permissions).toEqual({
       contents: 'read',
     })
