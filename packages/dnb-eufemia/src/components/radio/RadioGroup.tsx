@@ -36,6 +36,7 @@ const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   labelPosition: null,
   title: null,
   disabled: null,
+  readOnly: null,
   skeleton: null,
   id: null,
   name: null,
@@ -134,6 +135,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     layoutDirection,
     size,
     disabled,
+    readOnly,
     skeleton,
     className,
 
@@ -177,6 +179,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     value,
     size,
     disabled,
+    readOnly,
     labelPosition,
     onChange: onChangeHandler,
   }
@@ -190,6 +193,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
         <Fieldset
           className="dnb-radio-group__fieldset"
           aria-labelledby={label ? legendId : undefined}
+          aria-readonly={readOnly || undefined}
           role="radiogroup"
         >
           <Flex.Container

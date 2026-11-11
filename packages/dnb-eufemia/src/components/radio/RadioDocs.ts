@@ -136,6 +136,11 @@ export const RadioGroupProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  readOnly: {
+    doc: 'If set to `true`, the selected Radio button cannot be changed, and the group tells assistive technology that it is read-only. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
 }
 
 export const RadioEvents: PropertiesTableProps = {
