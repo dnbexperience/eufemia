@@ -16,6 +16,10 @@ Popover renders its own floating surface anchored to a trigger element.
 
 It is used in the [Tooltip](/web/components/tooltip) and [DatePicker](/web/components/date-picker) component, but can also be used directly when you need a more flexible trigger or richer content.
 
+## Available height
+
+The surface exposes `--popover-available-height`, the space available on its resolved side of the trigger. It accounts for the trigger offset and viewport margins, and updates when the surface or viewport changes, including when a mobile keyboard opens. Use it in custom content styles to limit height and provide scrolling when needed. Popover itself keeps its content's natural height unless you opt into a minimum with `minHeight`, for example `minHeight={16}` for 16rem. The minimum shrinks to fit the available space. This sets a minimum, so taller content can still grow beyond it.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/popover)

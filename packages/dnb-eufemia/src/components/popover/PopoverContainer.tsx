@@ -30,6 +30,9 @@ import type {
 } from './types'
 import { getClosestScrollViewElement } from '../../shared/component-helper'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import getAvailableSpace, {
+  getViewportBounds,
+} from '../../shared/helpers/getAvailableSpace'
 
 type PopoverContainerProps = {
   baseClassNames?: string[]
@@ -212,10 +215,6 @@ function PopoverContainer(props: PopoverContainerProps) {
     triggerRecalculation((value) => value + 1)
   }, [triggerRecalculation])
 
-  const handleViewportResize = useCallback(() => {
-    triggerRecalculation(getBodySize())
-  }, [getBodySize])
-
   const addPositionObserver = useCallback(() => {
     if (resizeObserver.current || typeof document === 'undefined') {
       return undefined
@@ -224,22 +223,23 @@ function PopoverContainer(props: PopoverContainerProps) {
     try {
       resizeObserver.current = new ResizeObserver(() => {
         clearTimers()
-        debounceTimeout.current = setTimeout(
-          () => triggerRecalculation(getBodySize()),
-          100
-        )
+        debounceTimeout.current = setTimeout(requestRecalculation, 100)
       })
 
       resizeObserver.current.observe(document.body)
+      if (elementRef.current) {
+        resizeObserver.current.observe(elementRef.current)
+      }
     } catch (e) {
       //
     }
-  }, [getBodySize])
+  }, [elementRef, requestRecalculation])
 
   useLayoutEffect(() => {
     const removePositionObserver = () => {
       clearTimers()
       resizeObserver.current?.disconnect()
+      resizeObserver.current = null
     }
 
     const hasJustActivated = isActive && !prevIsActiveRef.current
@@ -275,9 +275,24 @@ function PopoverContainer(props: PopoverContainerProps) {
     if (typeof window === 'undefined') {
       return undefined
     }
-    window.addEventListener('resize', handleViewportResize)
-    return () => window.removeEventListener('resize', handleViewportResize)
-  }, [handleViewportResize])
+    if (!isActive) {
+      return undefined
+    }
+    window.addEventListener('resize', requestRecalculation)
+    window.visualViewport?.addEventListener('resize', requestRecalculation)
+    window.visualViewport?.addEventListener('scroll', requestRecalculation)
+    return () => {
+      window.removeEventListener('resize', requestRecalculation)
+      window.visualViewport?.removeEventListener(
+        'resize',
+        requestRecalculation
+      )
+      window.visualViewport?.removeEventListener(
+        'scroll',
+        requestRecalculation
+      )
+    }
+  }, [isActive, requestRecalculation])
 
   useLayoutEffect(() => {
     if (typeof document === 'undefined') {
@@ -373,7 +388,6 @@ function PopoverContainer(props: PopoverContainerProps) {
     }
 
     const elementWidth = element.offsetWidth
-    const elementHeight = element.offsetHeight
     const horizontalRect =
       effectiveHorizontalTarget.getBoundingClientRect()
     const verticalRect = effectiveVerticalTarget.getBoundingClientRect()
@@ -425,7 +439,9 @@ function PopoverContainer(props: PopoverContainerProps) {
       : scrollX + horizontalRect.left
     const left = skipPortal ? widthBased : widthBased - offsetLeft.current
 
-    const computedStyle: CSSProperties = {}
+    const computedStyle: CSSProperties & {
+      '--popover-available-height'?: string
+    } = {}
     const arrowStyle: CSSProperties = { top: null, left: null }
     const viewportMargin = 16
     const shouldReuseResolved =
@@ -433,6 +449,35 @@ function PopoverContainer(props: PopoverContainerProps) {
     let placementKey: PopoverPlacement = shouldReuseResolved
       ? resolvedPlacement
       : placement
+
+    const viewport = getViewportBounds()
+    const availableSpace = getAvailableSpace(verticalRect, {
+      viewport,
+      margin: viewportMargin,
+      offset: offset.current,
+    })
+    const getAvailableHeight = (key: PopoverPlacement) =>
+      Math.max(
+        0,
+        key === 'top'
+          ? availableSpace.above
+          : key === 'bottom'
+            ? availableSpace.below
+            : viewport.height - viewportMargin * 2
+      )
+    const initialAvailableHeight =
+      autoAlignMode !== 'never' &&
+      !shouldReuseResolved &&
+      (placementKey === 'top' || placementKey === 'bottom')
+        ? Math.max(getAvailableHeight('top'), getAvailableHeight('bottom'))
+        : getAvailableHeight(placementKey)
+
+    // Let content use the available space before measuring its placement.
+    element.style.setProperty(
+      '--popover-available-height',
+      initialAvailableHeight + 'px'
+    )
+    let elementHeight = element.offsetHeight
 
     const centerX = left + targetBodySize.width / 2
     let anchorY = top + targetBodySize.height / 2
@@ -535,7 +580,6 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     const topPlacement = getPlacement('top')
     const bottomPlacement = getPlacement('bottom')
-    let { left: nextLeft, top: nextTop } = getPlacement(placementKey)
 
     const initialAutoAlignAllowed =
       autoAlignMode === 'initial' && !autoAlignInitialUsedRef.current
@@ -559,16 +603,16 @@ function PopoverContainer(props: PopoverContainerProps) {
         typeof autoAlignViewportThreshold === 'number'
           ? Math.min(Math.max(autoAlignViewportThreshold, 0), 1)
           : null
-      const viewportTopEdge = scrollYOffset + viewportMargin
-      const viewportBottomEdge =
-        scrollYOffset + window.innerHeight - viewportMargin
+      const viewportTopEdge = scrollYOffset + availableSpace.top
+      const viewportBottomEdge = scrollYOffset + availableSpace.bottom
       const canFlipFromBottom =
         clampedViewportThreshold === null ||
-        verticalRect.top >= window.innerHeight * clampedViewportThreshold
+        verticalRect.top >=
+          viewport.top + viewport.height * clampedViewportThreshold
       const canFlipFromTop =
         clampedViewportThreshold === null ||
         verticalRect.bottom <=
-          window.innerHeight * (1 - clampedViewportThreshold)
+          viewport.top + viewport.height * (1 - clampedViewportThreshold)
 
       const fitsTop = topPlacement.top >= viewportTopEdge
       const fitsBottom =
@@ -581,8 +625,6 @@ function PopoverContainer(props: PopoverContainerProps) {
         canFlipFromBottom
       ) {
         placementKey = 'top'
-        nextLeft = topPlacement.left
-        nextTop = topPlacement.top
       } else if (
         placementKey === 'top' &&
         !fitsTop &&
@@ -590,17 +632,11 @@ function PopoverContainer(props: PopoverContainerProps) {
         canFlipFromTop
       ) {
         placementKey = 'bottom'
-        nextLeft = bottomPlacement.left
-        nextTop = bottomPlacement.top
       } else if (!fitsTop && !fitsBottom) {
         if (placementKey === 'bottom' && !canFlipFromBottom) {
           placementKey = 'bottom'
-          nextLeft = bottomPlacement.left
-          nextTop = bottomPlacement.top
         } else if (placementKey === 'top' && !canFlipFromTop) {
           placementKey = 'top'
-          nextLeft = topPlacement.left
-          nextTop = topPlacement.top
         } else {
           // If neither fits in the viewport, we pick the one with more visible area.
           // However, we must ensure that 'top' placement doesn't go off the top of the document (negative coordinate),
@@ -609,8 +645,6 @@ function PopoverContainer(props: PopoverContainerProps) {
 
           if (topInvalid) {
             placementKey = 'bottom'
-            nextLeft = bottomPlacement.left
-            nextTop = bottomPlacement.top
           } else {
             const getVisibleHeight = (y: number) => {
               const top = y
@@ -625,17 +659,22 @@ function PopoverContainer(props: PopoverContainerProps) {
 
             if (topVisible > bottomVisible) {
               placementKey = 'top'
-              nextLeft = topPlacement.left
-              nextTop = topPlacement.top
             } else {
               placementKey = 'bottom'
-              nextLeft = bottomPlacement.left
-              nextTop = bottomPlacement.top
             }
           }
         }
       }
     }
+
+    const availableHeight = getAvailableHeight(placementKey) + 'px'
+    element.style.setProperty(
+      '--popover-available-height',
+      availableHeight
+    )
+    computedStyle['--popover-available-height'] = availableHeight
+    elementHeight = element.offsetHeight
+    let { left: nextLeft, top: nextTop } = getPlacement(placementKey)
 
     const isVerticalPlacement =
       placementKey === 'top' || placementKey === 'bottom'
