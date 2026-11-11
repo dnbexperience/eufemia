@@ -13,19 +13,28 @@ describe.each(['ui', 'sbanken'])('Focus outline for %s', (themeName) => {
     colorScheme: 'light',
   })
 
-  it('shows the action outline with a transparent gap', async () => {
+  it('shows both focus outlines together', async () => {
     await makeScreenshot({
       selector,
-      simulateSelector: `${selector} button:first-child`,
-      simulate: 'focus',
-    })
-  })
+      executeBeforeSimulate: () => {
+        const buttons = document.querySelectorAll<HTMLButtonElement>(
+          '[data-visual-test="focus-examples"] button'
+        )
 
-  it('shows the layout outline without a gap', async () => {
-    await makeScreenshot({
-      selector,
-      simulateSelector: `${selector} button:last-child`,
-      simulate: 'focus',
+        // Preserve each button's focus styles for the side-by-side comparison.
+        for (const button of buttons) {
+          button.focus()
+          if (!button.matches(':focus-visible')) {
+            throw new Error('The example must have visible keyboard focus')
+          }
+          const style = getComputedStyle(button)
+          Object.assign(button.style, {
+            outline: style.outline,
+            outlineOffset: style.outlineOffset,
+            borderColor: style.borderColor,
+          })
+        }
+      },
     })
   })
 
