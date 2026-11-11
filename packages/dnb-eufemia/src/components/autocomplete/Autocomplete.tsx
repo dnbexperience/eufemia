@@ -489,6 +489,7 @@ function AutocompleteComponent({
   const showAllTimeoutRef = useRef<NodeJS.Timeout>(null)
   const preventFiringBlurEvent = useRef<boolean | null>(null)
   const closingFromChangeRef = useRef(false)
+  const closingFromBlurRef = useRef(false)
   const suppressFocusHandlerRef = useRef(false)
   const selectAllActiveRef = useRef(false)
   const debouncedEventFnsRef = useRef<
@@ -1650,6 +1651,11 @@ function AutocompleteComponent({
 
       if (openOnFocus && !resultsRender) {
         setHidden()
+      } else if (!drawerListRef.current.data?.length) {
+        // An empty list has no outside click observer to close it later.
+        closingFromBlurRef.current = true
+        drawerListRef.current.setHidden()
+        closingFromBlurRef.current = false
       }
 
       dispatchCustomElementEvent(propsRef.current, 'onBlur', {
@@ -1716,6 +1722,7 @@ function AutocompleteComponent({
       if (
         res !== false &&
         !closingFromChangeRef.current &&
+        !closingFromBlurRef.current &&
         (!resultsRender || !args.preventHideFocus)
       ) {
         setFocusOnInput()

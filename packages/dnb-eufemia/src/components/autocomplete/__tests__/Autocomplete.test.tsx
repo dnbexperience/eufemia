@@ -4495,6 +4495,49 @@ describe('Autocomplete component', () => {
     const selectedElement = () =>
       document.querySelector('li.dnb-drawer-list__option--selected')
 
+    it.each([
+      ['Tab', () => userEvent.tab()],
+      ['click', () => userEvent.click(document.querySelector('#after'))],
+    ] as const)(
+      'keeps async results closed when they arrive after leaving with %s',
+      async (_, leave) => {
+        let events: Parameters<AutocompleteAllProps['onType']>[0]
+        render(
+          <>
+            <Autocomplete
+              {...mockProps}
+              mode="async"
+              onType={(event) => {
+                events = event
+                event.showIndicator()
+              }}
+            />
+            <button id="after">After</button>
+          </>
+        )
+
+        await userEvent.type(inputElement(), 'in')
+        await leave()
+        expect(document.querySelector('#after')).toHaveFocus()
+
+        act(() => {
+          events.updateData(['Input'])
+          events.hideIndicator()
+        })
+
+        expect(inputElement()).toHaveAttribute('aria-expanded', 'false')
+        expect(optionElement()).not.toBeInTheDocument()
+
+        await userEvent.click(inputElement())
+        await userEvent.type(inputElement(), 'p')
+        act(() => {
+          events.updateData(['Input'])
+        })
+        expect(inputElement()).toHaveAttribute('aria-expanded', 'true')
+        expect(optionElement()).toHaveTextContent('Input')
+      }
+    )
+
     it('should emit with empty value', async () => {
       const onBlur = vi.fn()
 
