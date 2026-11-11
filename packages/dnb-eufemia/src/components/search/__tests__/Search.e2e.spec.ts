@@ -1,4 +1,22 @@
 import { expect, test } from '@playwright/test'
+import type { Locator } from '@playwright/test'
+
+async function waitForPanelAnimation(results: Locator) {
+  await expect
+    .poll(() =>
+      results.evaluate((element) =>
+        element
+          .closest('.dnb-popover')
+          ?.classList.contains('dnb-popover--active')
+      )
+    )
+    .toBe(true)
+  return results.evaluate(async (element) => {
+    const animations =
+      element.closest('.dnb-popover')?.getAnimations() ?? []
+    await Promise.all(animations.map((animation) => animation.finished))
+  })
+}
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -499,7 +517,7 @@ test('panel uses available height above and below the input and resizes with the
       page.getByRole('button', { name: /^Sort results:/ })
     ).toBeVisible()
     await expect(
-      page.getByRole('button', { name: 'Guidance', exact: true })
+      page.getByRole('radio', { name: 'Guidance', exact: true })
     ).toBeVisible()
     await expect
       .poll(() =>
@@ -788,11 +806,13 @@ test('panel restores results and keyboard navigation after clearing the query', 
   await expect(input).toHaveAttribute('aria-expanded', 'false')
 })
 
-test('panel supports results, toggle filters, sorting, and natural keyboard focus', async ({
+test('panel supports results, chip filters, sorting, and natural keyboard focus', async ({
   page,
+  browserName,
 }) => {
-  const tab = 'Tab'
-  const reverseTab = 'Shift+Tab'
+  const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+  const reverseTab =
+    browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
   const fixture = page.locator('[data-testid="search-panel"]')
   const input = fixture.getByRole('combobox', {
     name: 'Search with filters',
@@ -808,6 +828,10 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   await expect(input).toHaveAccessibleDescription(description)
   await input.focus()
   await expect(results).toBeVisible()
+  await waitForPanelAnimation(results)
+  await expect(
+    page.getByRole('radiogroup', { name: 'Show results from' })
+  ).toBeVisible()
   await expect(input).toHaveAccessibleDescription(description)
   await expect(announcement).toHaveText('20 alternativer')
   await expect(fixture.locator('input')).toHaveCount(1)
@@ -818,8 +842,10 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
     fixture.getByText('Selected: Input', { exact: true })
   ).toBeVisible()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
+  await expect(results).toBeHidden()
   await input.click()
   await expect(results).toBeVisible()
+  await waitForPanelAnimation(results)
   const sort = page.getByRole('button', { name: /^Sort results:/ })
   const pageScroll = await page.evaluate(() => window.scrollY)
   await input.press(tab)
@@ -831,13 +857,15 @@ test('panel supports results, toggle filters, sorting, and natural keyboard focu
   await page.keyboard.press(tab)
   await page.keyboard.press(tab)
   await expect(
-    page.getByRole('button', { name: 'All', exact: true })
+    page.getByRole('radio', { name: 'All', exact: true })
   ).toBeFocused()
-  await page.keyboard.press(tab)
-  await page.keyboard.press('Space')
+  await page.keyboard.press('ArrowRight')
   await expect(
-    page.getByRole('button', { name: 'Components', exact: true })
-  ).toHaveAttribute('aria-pressed', 'true')
+    page.getByRole('radio', { name: 'Components', exact: true })
+  ).toBeChecked()
+  await expect(
+    page.getByRole('radio', { name: 'Components', exact: true })
+  ).toBeFocused()
   await expect(results.getByRole('option')).toHaveCount(13)
   await expect(announcement).toHaveText('13 alternativer')
   await sort.click()
@@ -906,16 +934,14 @@ test('panel keeps the input and results stationary when tabbing through every co
   const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
   const reverseTab =
     browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
-  const input = page.locator('[data-testid="search-panel"] input')
+  const input = page.getByRole('combobox', { name: 'Search with filters' })
   const panel = page.locator('.dnb-search__panel')
   const results = page.getByRole('listbox', {
     name: 'Search with filters',
   })
   const controls = [
     page.getByRole('button', { name: /^Sort results:/ }),
-    page.getByRole('button', { name: 'All', exact: true }),
-    page.getByRole('button', { name: 'Components', exact: true }),
-    page.getByRole('button', { name: 'Guidance', exact: true }),
+    page.getByRole('radio', { name: 'All', exact: true }),
     panel.getByRole('button', { name: 'Lukk', exact: true }),
   ]
   await page.evaluate(() => {
@@ -931,6 +957,7 @@ test('panel keeps the input and results stationary when tabbing through every co
       }, top)
       await input.click()
       await expect(results.getByRole('option')).toHaveCount(20)
+      await waitForPanelAnimation(results)
       await expect
         .poll(async () => {
           const surface = await panel.boundingBox()
