@@ -7,6 +7,9 @@ on:
 
 permissions:
   contents: read
+  # The open pull request lookup uses the built-in token; everything that
+  # writes uses the automation bot token
+  pull-requests: read
 
 concurrency:
   group: country-flags-sync
@@ -32,6 +35,11 @@ jobs:
 
     timeout-minutes: 40
 
+    outputs:
+      artifact-id: ${{ steps.bundle.outputs.artifact-id }}
+      remote-sha: ${{ steps.branch.outputs.remote_sha }}
+      pr-title: ${{ steps.update.outputs.title }}
+
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -40,20 +48,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      # The job's 40-minute timeout keeps the whole run inside the token's
-      # one-hour lifetime. Pushes and pull requests from the bot start the CI
-      # workflows, which pushes with the built-in token would not.
-      - name: Create automation bot token
-        id: automation-bot
-        uses: ./.github/actions/automation-token
-        with:
-          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
-          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
-
       - name: Find an open flag update pull request
         id: existing-pr
         env:
-          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           url=$(gh pr list \
             --head "$BRANCH" \
@@ -71,11 +69,10 @@ jobs:
         id: branch
         env:
           PR_URL: ${{ steps.existing-pr.outputs.url }}
-          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
-          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
         run: |
-          git config user.name "$GH_NAME"
-          git config user.email "$GH_EMAIL"
+          # The push job makes the automation bot the author
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           if [ -n "$PR_URL" ]; then
             git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
             remote_sha=$(git rev-parse "origin/$BRANCH")
@@ -154,18 +151,11 @@ jobs:
           path: packages/dnb-eufemia/visual-diff-report/**
           if-no-files-found: ignore
 
-      - name: Commit and push flag update
+      - name: Commit the flag update
+        id: commit
         if: success() && steps.changes.outputs.changed == 'true'
         run: |
-          if [ -n "$PR_URL" ]; then
-            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
-            if [ "$is_draft" != true ]; then
-              gh pr ready "$PR_URL" --undo
-            fi
-          fi
-          gh auth setup-git
-          git config user.name "$GH_NAME"
-          git config user.email "$GH_EMAIL"
+          echo "base_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           # shellcheck disable=SC2086 # SYNC_PATHS is a space-separated list
           git add $SYNC_PATHS
           git add \
@@ -173,29 +163,109 @@ jobs:
             ':(glob)packages/dnb-eufemia/src/components/avatar/__tests__/__image_snapshots__/*country-flag-as-a-badge*.png'
 
           git commit -m "Synchronize country flags from flag-icons"
-          git push origin "HEAD:refs/heads/$BRANCH" \
-            --force-with-lease="refs/heads/$BRANCH:$REMOTE_SHA"
-        env:
-          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
-          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
-          PR_URL: ${{ steps.existing-pr.outputs.url }}
-          REMOTE_SHA: ${{ steps.branch.outputs.remote_sha }}
 
-      - name: Create or update draft pull request
+      - name: Bundle the flag update
+        id: bundle
         if: success() && steps.changes.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
-          PR_URL: ${{ steps.existing-pr.outputs.url }}
-          PR_TITLE: ${{ steps.update.outputs.title }}
-        run: |
-          if [ -n "$PR_URL" ]; then
-            gh pr edit "$PR_URL" --title "$PR_TITLE" --body-file "$RUNNER_TEMP/country-flags-pr.md"
-          else
-            gh pr create --base main --head "$BRANCH" \
-              --title "$PR_TITLE" --body-file "$RUNNER_TEMP/country-flags-pr.md" --draft
-          fi
+        uses: ./.github/actions/bundle-sync-commits
+        with:
+          name: flag-update
+          base: ${{ steps.commit.outputs.base_sha }}
+          files: ${{ runner.temp }}/country-flags-pr.md
 
       - name: Report no flag changes
         if: steps.changes.outputs.changed == 'false'
         run: echo "The flags are already synchronized with flag-icons."
+
+  # Holds the automation app key, so it runs no code from dependencies: it
+  # only checks the commit from the sync job, pushes it and updates the pull
+  # request.
+  push-flags:
+    name: Push the flag update
+    needs: sync-flags
+    if: needs.sync-flags.outputs.artifact-id != ''
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      # Only the local actions are needed in the working tree; git reads the
+      # rest of the history it needs on demand
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github
+          persist-credentials: false
+
+      # Pushes and pull requests from the bot start the CI workflows, which
+      # pushes with the built-in token would not.
+      - name: Create automation bot token
+        id: automation-bot
+        uses: ./.github/actions/automation-token
+        with:
+          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+
+      - name: Find the open flag update pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+        run: |
+          url=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Turn the open pull request back into a draft
+        if: steps.pr.outputs.url != ''
+        env:
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: |
+          is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+          if [ "$is_draft" != true ]; then
+            gh pr ready "$PR_URL" --undo
+          fi
+
+      - name: Push the flag update
+        id: push
+        uses: ./.github/actions/push-sync-commits
+        with:
+          artifact-id: ${{ needs.sync-flags.outputs.artifact-id }}
+          branch: ${{ env.BRANCH }}
+          remote-sha: ${{ needs.sync-flags.outputs.remote-sha }}
+          token: ${{ steps.automation-bot.outputs.token }}
+          git-name: ${{ steps.automation-bot.outputs.git-name }}
+          git-email: ${{ steps.automation-bot.outputs.git-email }}
+          allowed-paths: |
+            yarn.lock
+            packages/dnb-eufemia/package.json
+            packages/dnb-eufemia/assets/flags
+            packages/dnb-eufemia/src/components/country-flag/style/dnb-country-flag-icons.scss
+            packages/dnb-eufemia/src/components/country-flag/__tests__/__image_snapshots__/**
+            packages/dnb-eufemia/src/components/avatar/__tests__/__image_snapshots__/*country-flag-as-a-badge*.png
+          # The check from this run's commit, not from the commits it checks
+          verify: |
+            script="$RUNNER_TEMP/checkFlagIconsUpdate.mjs"
+            git show "$GITHUB_SHA:packages/dnb-eufemia/scripts/tools/checkFlagIconsUpdate.mjs" > "$script"
+            node "$script" "$BASE"
+
+      - name: Create or update draft pull request
+        env:
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+          PR_TITLE: ${{ needs.sync-flags.outputs.pr-title }}
+          PR_BODY: ${{ steps.push.outputs.directory }}/country-flags-pr.md
+        run: |
+          if [ -n "$PR_URL" ]; then
+            gh pr edit "$PR_URL" --title "$PR_TITLE" --body-file "$PR_BODY"
+          else
+            gh pr create --base main --head "$BRANCH" \
+              --title "$PR_TITLE" --body-file "$PR_BODY" --draft
+          fi
