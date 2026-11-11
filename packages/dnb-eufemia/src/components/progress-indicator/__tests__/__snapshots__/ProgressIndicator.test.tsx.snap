@@ -210,6 +210,7 @@ exports[`ProgressIndicator scss > should match style dependencies css 1`] = `
 }
 @media (prefers-reduced-motion: reduce) {
   .dnb-progress-indicator__linear__bar1-animation {
+    right: 0;
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
   }
@@ -220,6 +221,7 @@ exports[`ProgressIndicator scss > should match style dependencies css 1`] = `
 }
 @media (prefers-reduced-motion: reduce) {
   .dnb-progress-indicator__linear__bar2-animation {
+    right: 0;
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
   }
