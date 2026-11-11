@@ -191,6 +191,16 @@ describe('SearchBarInput', () => {
         '[role="option"] :is(a, button, input, [tabindex])'
       )
     ).toBeNull()
+
+    const listbox = document.querySelector('[role="listbox"]')
+    expect(
+      Array.from(listbox.children).map((child) =>
+        child.getAttribute('role')
+      )
+    ).toEqual(['option', 'option', 'none'])
+    expect(
+      document.querySelector('.search-logo').getAttribute('aria-hidden')
+    ).toBe('true')
   })
 
   it('lists up to five headings that match the query as their own options', async () => {

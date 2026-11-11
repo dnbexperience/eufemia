@@ -275,8 +275,8 @@ export const SearchBarInput = ({
           <>
             <Items />
             {data.length > 1 && (
-              <li>
-                <SearchLogo />
+              <li role="none">
+                <SearchLogo aria-hidden="true" />
               </li>
             )}
           </>
