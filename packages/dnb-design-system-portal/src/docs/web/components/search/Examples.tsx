@@ -10,62 +10,154 @@ import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 export const SearchDefault = () => (
-  <ComponentBox data-visual-test="search-default">
-    <Search.Input label="Search content" />
+  <ComponentBox hideCode data-visual-test="search-default-group">
+    <Flex.Stack layoutEngine="css" wrap={false}>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-default"
+        data-testid="search-default"
+      >
+        <P>Search.Input</P>
+        <Search.Input label="Search content" />
+      </Flex.Stack>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-autocomplete"
+        data-testid="search-autocomplete"
+      >
+        <P>Search.Autocomplete</P>
+        <Search.Autocomplete
+          label="Search components"
+          data={['Button', 'Input', 'Table']}
+        />
+      </Flex.Stack>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-panel-default"
+        data-testid="search-panel-default"
+      >
+        <P>Search.Panel</P>
+        <Search.Panel
+          label="Search components in a panel"
+          panelDescription="Use the arrow keys to navigate search results."
+          data={['Button', 'Input', 'Table']}
+        />
+      </Flex.Stack>
+    </Flex.Stack>
   </ComponentBox>
 )
 
 export const SearchHero = () => (
-  <ComponentBox data-visual-test="search-hero">
-    <Search.Input
-      variant="hero"
-      shortcut
-      label="Search components and guidance"
-      placeholder="Search components and guidance"
-    />
+  <ComponentBox hideCode data-visual-test="search-hero-group">
+    <Flex.Stack layoutEngine="css" wrap={false}>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-hero"
+        data-testid="search-hero"
+      >
+        <P>Search.Input</P>
+        <Search.Input
+          variant="hero"
+          shortcut
+          label="Search components and guidance"
+          placeholder="Search components and guidance"
+        />
+      </Flex.Stack>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-autocomplete-hero"
+        data-testid="search-autocomplete-hero"
+      >
+        <P>Search.Autocomplete</P>
+        <Search.Autocomplete
+          variant="hero"
+          shortcut
+          label="Search components and guidance"
+          placeholder="Search components and guidance"
+          data={['Button', 'Input', 'Table']}
+        />
+      </Flex.Stack>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-panel-hero"
+        data-testid="search-panel-hero"
+      >
+        <P>Search.Panel</P>
+        <Search.Panel
+          variant="hero"
+          shortcut
+          label="Search components and guidance in a panel"
+          placeholder="Search components and guidance"
+          panelDescription="Use the arrow keys to navigate search results."
+          data={['Button', 'Input', 'Table']}
+        />
+      </Flex.Stack>
+    </Flex.Stack>
   </ComponentBox>
 )
 
 export const SearchCompact = () => (
-  <ComponentBox data-visual-test="search-compact">
-    <Search.Input variant="compact" shortcut label="Search content" />
-  </ComponentBox>
-)
-
-export const SearchAutocomplete = () => (
-  <ComponentBox data-visual-test="search-autocomplete">
-    <Search.Autocomplete
-      label="Search components"
-      data={['Button', 'Input', 'Table']}
-    />
-  </ComponentBox>
-)
-
-export const SearchAutocompleteHero = () => (
-  <ComponentBox data-visual-test="search-autocomplete-hero">
-    <Search.Autocomplete
-      variant="hero"
-      shortcut
-      label="Search components and guidance"
-      placeholder="Search components and guidance"
-      data={['Button', 'Input', 'Table']}
-    />
-  </ComponentBox>
-)
-
-export const SearchAutocompleteCompact = () => (
-  <ComponentBox data-visual-test="search-autocomplete-compact">
-    <Search.Autocomplete
-      variant="compact"
-      shortcut
-      label="Search components"
-      data={['Button', 'Input', 'Table']}
-    />
+  <ComponentBox hideCode data-visual-test="search-compact-group">
+    <Flex.Stack layoutEngine="css" wrap={false}>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-compact"
+        data-testid="search-compact"
+      >
+        <P>Search.Input</P>
+        <Search.Input variant="compact" shortcut label="Search content" />
+      </Flex.Stack>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-autocomplete-compact"
+        data-testid="search-autocomplete-compact"
+      >
+        <P>Search.Autocomplete</P>
+        <Search.Autocomplete
+          variant="compact"
+          shortcut
+          label="Search components"
+          data={['Button', 'Input', 'Table']}
+        />
+      </Flex.Stack>
+      <Flex.Stack
+        layoutEngine="css"
+        wrap={false}
+        gap="x-small"
+        data-visual-test="search-panel-compact"
+        data-testid="search-panel-compact"
+      >
+        <P>Search.Panel</P>
+        <Search.Panel
+          variant="compact"
+          shortcut
+          label="Search components in a panel"
+          panelDescription="Use the arrow keys to navigate search results."
+          data={['Button', 'Input', 'Table']}
+        />
+      </Flex.Stack>
+    </Flex.Stack>
   </ComponentBox>
 )
 
 export const SearchAsync = () => (
-  <ComponentBox data-visual-test="search-async">
+  <ComponentBox hideCode data-visual-test="search-async">
     {() => {
       const onType = ({
         value,
@@ -110,7 +202,11 @@ export const SearchAsync = () => (
       }
 
       return (
-        <Flex.Stack>
+        <Flex.Stack
+          layoutEngine="css"
+          wrap={false}
+          data-testid="search-async"
+        >
           <Search.Autocomplete
             label="Search components asynchronously"
             labelSrOnly={false}
@@ -171,7 +267,11 @@ export const SearchPanel = () => (
         }
 
         return (
-          <Flex.Stack>
+          <Flex.Stack
+            layoutEngine="css"
+            wrap={false}
+            data-testid="search-panel"
+          >
             <Search.Panel
               variant="compact"
               shortcut
@@ -186,7 +286,7 @@ export const SearchPanel = () => (
               }}
             >
               {({ results }) => (
-                <Flex.Stack layoutEngine="css" gap="small">
+                <Flex.Stack layoutEngine="css" wrap={false} gap="small">
                   <Flex.Container
                     layoutEngine="css"
                     justify="space-between"
