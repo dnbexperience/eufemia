@@ -36,7 +36,7 @@ export type UsageResolver = {
 // Fields added after launch are absent on messages queued before they existed.
 export type WebMcpUsageRecord = Omit<
   McpUsageRecord,
-  'transport' | 'eufemia_version' | 'component_missed' | 'likely_component'
+  'transport' | 'eufemia_version' | 'component_missed'
 > &
   Partial<Pick<McpUsageRecord, 'eufemia_version' | 'component_missed'>> & {
     transport: 'web'

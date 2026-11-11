@@ -359,7 +359,6 @@ describe('App (smoke)', () => {
           web: {
             ...populated.mcpUsage?.web,
             missedLookups: 3,
-            perLikelyComponent: [{ name: 'date-picker', count: 2 }],
           },
         },
       },
@@ -376,7 +375,6 @@ describe('App (smoke)', () => {
     expect(container.textContent).toContain(
       "3 lookups named a component the docs don't have."
     )
-    expect(container.textContent).toContain('date-picker')
   })
 
   it('hides missed component lookups when there are none', async () => {

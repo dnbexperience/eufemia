@@ -81,7 +81,6 @@ export type McpUsageInput = {
   tool: string
   component?: string
   componentMissed?: true
-  likelyComponent?: string
   path?: string
   env?: string
   eufemiaVersion?: string
@@ -118,7 +117,6 @@ export function validateMcpUsage(
       tool,
       component,
       componentMissed,
-      likelyComponent,
       path,
       env,
       eufemiaVersion,
@@ -157,9 +155,6 @@ export function validateMcpUsage(
       const normalizedComponent = normalizeComponent(
         parseComponentName(component)
       )
-      const normalizedLikelyComponent = normalizeComponent(
-        parseComponentName(likelyComponent)
-      )
       const normalizedPath = parseDocsPath(path)
 
       value.push({
@@ -167,9 +162,6 @@ export function validateMcpUsage(
         ...(normalizedComponent ? { component: normalizedComponent } : {}),
         ...(componentMissed === true
           ? { componentMissed: true as const }
-          : {}),
-        ...(normalizedLikelyComponent
-          ? { likelyComponent: normalizedLikelyComponent }
           : {}),
         ...(normalizedPath ? { path: normalizedPath } : {}),
         ...(isValidEnv(env) ? { env } : {}),
@@ -208,7 +200,6 @@ export function buildMcpUsageRecord(
     tool: input.tool,
     component,
     component_missed: componentMissed,
-    likely_component: componentMissed ? (input.likelyComponent ?? '') : '',
     path: PATH_TOOLS.has(input.tool) ? (input.path ?? '') : '',
     env: input.env ?? 'unknown',
     transport,
