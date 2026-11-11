@@ -115,6 +115,10 @@
   // Width
   --prose-max-width: 60ch;
 
-  // Focus Ring
+  // Keyboard focus
+  --focus-outline-width: 0.125rem;
+  --focus-outline-offset: 0.125rem;
+
+  // Legacy focus ring
   --focus-ring-width: 0.25rem;
 }

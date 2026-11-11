@@ -932,6 +932,35 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Properties for ui', () => {
+    it('exports the new focus dimensions and preserves the legacy width for every brand', async () => {
+      const fs = await import('fs')
+      const path = await import('path')
+
+      for (const theme of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
+        for (const file of ['properties.ts', 'properties-tailwind.css']) {
+          const content = fs.readFileSync(
+            path.resolve('src/style/themes', theme, file),
+            'utf-8'
+          )
+          const properties = file.endsWith('.ts')
+            ? [
+                "'--focus-outline-width': '0.125rem'",
+                "'--focus-outline-offset': '0.125rem'",
+                "'--focus-ring-width': '0.25rem'",
+              ]
+            : [
+                '--focus-outline-width: 0.125rem;',
+                '--focus-outline-offset: 0.125rem;',
+                '--focus-ring-width: 0.25rem;',
+              ]
+
+          for (const property of properties) {
+            expect(content).toContain(property)
+          }
+        }
+      }
+    })
+
     it('syncs changed Figma values while preserving standalone properties and aliases', () => {
       const source = [
         ':root {',

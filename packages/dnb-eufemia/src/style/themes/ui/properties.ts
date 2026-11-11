@@ -189,6 +189,8 @@ export default {
   '--shadow-sharp-color': 'rgb(0 0 0 / 16%)',
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
   '--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+  '--focus-outline-width': '0.125rem',
+  '--focus-outline-offset': '0.125rem',
   '--focus-ring-width': '0.25rem',
   '--button-text-translate-y': '0',
   '--font-size-basis-native': '1.0625rem'
