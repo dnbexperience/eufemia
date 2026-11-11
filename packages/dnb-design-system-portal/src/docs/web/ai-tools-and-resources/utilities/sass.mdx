@@ -87,7 +87,7 @@ Use `focusOutline()` inside a focus selector. It draws a 2px blue outline with a
 }
 ```
 
-The optional arguments are `$color`, `$width`, and `$offset`. For lists, tables, cards, and similar layouts, use `focusOutline($offset: 0)` and let hover styling take precedence while focused. Input fields keep their field focus styles. See [keyboard focus styling](/web/accessibility/focus/#keyboard-focus-styling).
+The optional arguments are `$color`, `$width`, and `$offset`. Lists, tables, cards, and similar layouts use a 2px blue edge with no gap. Use `$offset: 0` without an existing edge, or `$offset: -0.0625rem` to overlap a 1px border or inset shadow, and replace its color with the focus token. Let hover styling take precedence while focused. Input fields keep their field focus styles. See [keyboard focus styling](/web/accessibility/focus/#keyboard-focus-styling).
 
 The existing `focusRing()` and `focusStyle()` mixins retain their behavior and arguments for compatibility. Use `focusOutline()` for new outline styling.
 

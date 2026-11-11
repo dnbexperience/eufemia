@@ -52,7 +52,8 @@ test('focus outlines preserve content colors and respect layout hover', async ({
     await page.keyboard.press('Tab')
     await expect(layout).toBeFocused()
     await expect(layout).toHaveCSS('outline-width', '2px')
-    await expect(layout).toHaveCSS('outline-offset', '0px')
+    await expect(layout).toHaveCSS('border-top-width', '1px')
+    await expect(layout).toHaveCSS('outline-offset', '-1px')
     const focusColor = await layout.evaluate(
       (element) => getComputedStyle(element).outlineColor
     )
