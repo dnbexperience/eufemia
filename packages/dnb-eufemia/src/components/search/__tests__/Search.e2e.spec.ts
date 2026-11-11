@@ -82,19 +82,23 @@ for (const platform of ['MacIntel', 'Win32']) {
         const fixture = document.createElement('div')
         fixture.id = 'shortcut-editors'
         fixture.innerHTML =
-          '<input /><textarea></textarea><select><option>Option</option></select><div contenteditable="true"><span>Editable text</span></div>'
+          '<input /><textarea></textarea><select><option>Option</option></select><input type="checkbox" /><div contenteditable="true"><span>Editable text</span></div>'
         document.body.append(fixture)
       })
       for (const selector of [
-        'input',
+        'input:not([type])',
         'textarea',
-        'select',
         '[contenteditable]',
       ]) {
         const editor = page.locator('#shortcut-editors').locator(selector)
         await editor.focus()
         await page.keyboard.press(shortcut)
         await expect(editor).toBeFocused()
+      }
+      for (const selector of ['select', 'input[type="checkbox"]']) {
+        await page.locator('#shortcut-editors').locator(selector).focus()
+        await page.keyboard.press(shortcut)
+        await expect(input).toBeFocused()
       }
     })
   })
