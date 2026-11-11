@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Chip from '../Chip'
+import type { ChipValue } from '../types'
 import { Provider } from '../../../shared'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 
@@ -302,6 +304,53 @@ describe('Chip.Group', () => {
     )
     expect(savings).not.toBeChecked()
     expect(funds).not.toBeChecked()
+  })
+
+  it('unchecks a chip when the parent rejects it by passing the previous values', async () => {
+    const user = userEvent.setup()
+    const onChange = vi.fn()
+    const MaxTwo = () => {
+      const [values, setValues] = useState<ChipValue[]>(['savings'])
+      return (
+        <form>
+          <Chip.Group
+            selectionMode="multiple"
+            label="Filters"
+            name="filters"
+            values={values}
+            onChange={(event) => {
+              onChange(event)
+              setValues(
+                event.values.length <= 2 ? event.values : [...values]
+              )
+            }}
+          >
+            <Chip value="savings">Savings</Chip>
+            <Chip value="funds">Funds</Chip>
+            <Chip value="loans">Loans</Chip>
+          </Chip.Group>
+        </form>
+      )
+    }
+    render(<MaxTwo />)
+    const [savings, funds, loans] = document.querySelectorAll('input')
+
+    await user.click(funds)
+    await user.click(loans)
+
+    expect(loans).not.toBeChecked()
+    expect(
+      new FormData(document.querySelector('form')).getAll('filters')
+    ).toEqual(['savings', 'funds'])
+
+    await user.click(savings)
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ values: ['funds'] })
+    )
+    expect(savings).not.toBeChecked()
+    expect(funds).toBeChecked()
+    expect(loans).not.toBeChecked()
   })
 
   it.each(['single', 'multiple'] as const)(
