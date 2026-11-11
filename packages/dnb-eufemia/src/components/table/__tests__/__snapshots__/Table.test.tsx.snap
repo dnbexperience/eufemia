@@ -42,7 +42,7 @@ exports[`Table scss > should match style dependencies css 1`] = `
   visibility: hidden;
   opacity: var(--table-scroll-indicator-opacity, 0);
 }
-.dnb-table__scroll-indicator.dnb-button:dir(rtl) .dnb-icon {
+.dnb-table__scroll-view[data-scroll-indicator-rtl] > .dnb-table__scroll-indicator .dnb-icon {
   transform: rotate(180deg);
 }
 .dnb-table__scroll-view[data-scroll-indicator] > .dnb-table__scroll-indicator {
