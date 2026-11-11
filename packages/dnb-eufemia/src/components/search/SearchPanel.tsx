@@ -243,7 +243,11 @@ function SearchPanelSurface({
       if (event.target === input && !event.shiftKey) {
         next = controls[0]
       } else if (surface.contains(event.target as Node)) {
-        const index = controls.indexOf(event.target as HTMLElement)
+        const index = controls.findIndex(
+          (control) =>
+            control === event.target ||
+            isSameRadioGroup(control, event.target)
+        )
         if (event.shiftKey && index === 0) {
           next = input
         } else if (!event.shiftKey && index === controls.length - 1) {
@@ -286,7 +290,7 @@ function SearchPanelSurface({
 }
 
 function getTabbableElements(root: ParentNode) {
-  return Array.from(
+  const elements = Array.from(
     root.querySelectorAll<HTMLElement>(
       'a[href], button, input, select, textarea, [tabindex], [contenteditable="true"], summary'
     )
@@ -296,6 +300,29 @@ function getTabbableElements(root: ParentNode) {
       !element.matches(':disabled') &&
       !element.closest('[hidden], [inert]') &&
       (element.checkVisibility?.({ checkVisibilityCSS: true }) ?? true)
+  )
+
+  // Like the browser, give each named radio group one Tab stop.
+  return elements.filter((element) => {
+    const group = elements.filter((other) =>
+      isSameRadioGroup(other, element)
+    ) as HTMLInputElement[]
+    return (
+      group.length === 0 ||
+      element === (group.find((radio) => radio.checked) ?? group[0])
+    )
+  })
+}
+
+function isSameRadioGroup(element: Element, other: EventTarget) {
+  return (
+    element instanceof HTMLInputElement &&
+    other instanceof HTMLInputElement &&
+    element.type === 'radio' &&
+    other.type === 'radio' &&
+    element.name !== '' &&
+    element.name === other.name &&
+    element.form === other.form
   )
 }
 

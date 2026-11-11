@@ -754,4 +754,69 @@ describe('Search.Panel', () => {
       )
     )
   })
+
+  it('gives each radio group in the panel one Tab stop', async () => {
+    const user = userEvent.setup()
+    render(
+      <Search.Panel
+        panelDescription="Search results with a category filter. Press Tab to reach it."
+        data={['Button', 'Input']}
+      >
+        {({ results }) => (
+          <>
+            <fieldset>
+              <legend>Category</legend>
+              <input
+                type="radio"
+                name="category"
+                value="all"
+                aria-label="All"
+              />
+              <input
+                type="radio"
+                name="category"
+                value="components"
+                aria-label="Components"
+                defaultChecked
+              />
+              <input
+                type="radio"
+                name="category"
+                value="guidance"
+                aria-label="Guidance"
+              />
+            </fieldset>
+            <button type="button">Apply</button>
+            {results}
+          </>
+        )}
+      </Search.Panel>
+    )
+    const input = document.querySelector('input')
+    await user.click(input)
+    await waitFor(() =>
+      expect(document.querySelector('[role="listbox"]')).not.toBeNull()
+    )
+    const radios = document.querySelectorAll<HTMLInputElement>(
+      '.dnb-search__panel input[type="radio"]'
+    )
+    const apply = document.querySelector('.dnb-search__panel button')
+
+    await user.tab()
+    expect(radios[1]).toHaveFocus()
+
+    await user.tab()
+    expect(apply).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(radios[1]).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(input).toHaveFocus()
+
+    // A read-only group can move focus without changing the selection.
+    radios[2].focus()
+    await user.tab()
+    expect(apply).toHaveFocus()
+  })
 })
