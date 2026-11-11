@@ -121,6 +121,19 @@ describe('usage consumer', () => {
     expect(errorSpy).not.toHaveBeenCalled()
   })
 
+  it('stores a record queued with the removed likely_component field', async () => {
+    const queuedEarlier = { ...usageRecord(), likely_component: '' }
+
+    await handler(
+      event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      queuedEarlier,
+    ])
+    expect(errorSpy).not.toHaveBeenCalled()
+  })
+
   it('drops a message whose version or miss fields have the wrong type', async () => {
     await handler(
       event(
