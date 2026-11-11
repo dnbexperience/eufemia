@@ -1,5 +1,6 @@
 import type { MouseEvent } from 'react'
 import styled from '@emotion/styled'
+import ComponentBox from '../../../shared/tags/ComponentBox'
 import styles from './Examples.module.scss'
 
 const ChangeStylesOfSkipLink = styled.div`
@@ -42,22 +43,25 @@ export function SkipLinkExample() {
 
 export function FocusExample() {
   return (
-    <div
-      className={styles['dnb-focus-examples']}
+    <ComponentBox
+      hideCode
+      scope={{ styles }}
       data-visual-test="focus-examples"
     >
-      <button
-        type="button"
-        className={styles['dnb-focus-examples__action']}
-      >
-        Action with gap
-      </button>
-      <button
-        type="button"
-        className={styles['dnb-focus-examples__layout']}
-      >
-        Layout without gap
-      </button>
-    </div>
+      <div className={styles['dnb-focus-examples']}>
+        <button
+          type="button"
+          className={styles['dnb-focus-examples__action']}
+        >
+          Action with gap
+        </button>
+        <button
+          type="button"
+          className={styles['dnb-focus-examples__layout']}
+        >
+          Layout without gap
+        </button>
+      </div>
+    </ComponentBox>
   )
 }

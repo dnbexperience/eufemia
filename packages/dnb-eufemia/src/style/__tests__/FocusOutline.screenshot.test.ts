@@ -10,7 +10,6 @@ describe.each(['ui', 'sbanken'])('Focus outline for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/accessibility/focus/',
-    withWrapper: false,
     colorScheme: 'light',
   })
 
