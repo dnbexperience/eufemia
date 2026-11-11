@@ -1,5 +1,5 @@
 /**
- * Commit changed and new files to the main branch
+ * Git helpers for the prebuild and Figma scripts
  *
  */
 
@@ -15,13 +15,6 @@ try {
 }
 
 const log = ora()
-
-const config = {
-  user: {
-    name: process.env.GH_NAME,
-    email: process.env.GH_EMAIL,
-  },
-}
 
 const getCurrentBranchName = async (repo = null) => {
   if (!repo) {
@@ -102,106 +95,6 @@ const getRequiredBranchName = async ({
   return branchName
 }
 
-const commitToBranch = async ({
-  requiredBranch = 'main',
-  newBranch = null,
-  what = 'files',
-  filePathsIncludeList = [],
-  skipCI = false,
-  isFeature = false,
-  force = false,
-} = {}) => {
-  try {
-    const repo = await getRepo()
-
-    let branchName = await getRequiredBranchName({
-      repo,
-      requiredBranch,
-    })
-
-    // if the branch is not as required
-    if (!branchName) {
-      return []
-    }
-
-    log.start(`Commit: Commit new ${what} to the repo: ${branchName}`)
-
-    const status = await repo.status()
-
-    const filesToCommit = [...status.modified, ...status.not_added].filter(
-      (f) =>
-        new RegExp(
-          Array.isArray(filePathsIncludeList)
-            ? filePathsIncludeList.join('|')
-            : filePathsIncludeList,
-          'g'
-        ).test(f)
-    )
-
-    // check if the changes were in the files directories
-    const hasChanges = filesToCommit.length > 0
-
-    if (hasChanges) {
-      if (config.user && config.user.name && config.user.email) {
-        log.info(
-          `Commit: Add Git user: ${config.user.name}, ${config.user.email}`
-        )
-        await repo.addConfig('user.name', config.user.name)
-        await repo.addConfig('user.email', config.user.email)
-        log.info('> Commit: Added user details to the repo')
-      }
-
-      await repo.add(filesToCommit) // use "'./*'" for adding all files
-
-      const files = filesToCommit.map((f) => path.basename(f))
-      log.info(`Commit: Add ${files.length} new ${what}`)
-
-      if (typeof isFeature === 'function') {
-        isFeature = isFeature(files)
-      }
-      if (typeof skipCI === 'function') {
-        skipCI = skipCI(files)
-      }
-
-      const commitMessage = String(
-        `${
-          isFeature ? 'feat:' : 'chore:'
-        } some ${what} got added/changed during CI | ${files.join(', ')}${
-          skipCI ? ' [skip ci]' : ''
-        }`
-      ).trim()
-      log.info(`Commit: ${commitMessage}`)
-
-      if (newBranch) {
-        await repo.checkoutLocalBranch(newBranch)
-        log.info(`Commit: created a new branch: ${newBranch}`)
-
-        // Replace the branchName – because we want this one to push
-        branchName = newBranch
-      }
-
-      await repo.commit(commitMessage, null, {
-        '--no-verify': null,
-      })
-      await repo.push('origin', branchName, force ? ['--force'] : null)
-
-      log.succeed(
-        `Commit: These ${what} were successfully updated/added: ${files}`
-      )
-
-      return files
-    } else {
-      log.succeed(`Commit: There was no ${what} to commit`)
-    }
-  } catch (e) {
-    log.fail(`Commit: Cached error with message:\n${e.message}\n`)
-    console.log(e)
-  }
-
-  return []
-}
-
 exports.getRepo = getRepo
-exports.commitToBranch = commitToBranch
 exports.getRequiredBranchName = getRequiredBranchName
 exports.getCurrentBranchName = getCurrentBranchName
