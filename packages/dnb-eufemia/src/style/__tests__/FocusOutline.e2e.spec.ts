@@ -56,6 +56,7 @@ test('focus outlines preserve content colors and respect layout hover', async ({
     const focusColor = await layout.evaluate(
       (element) => getComputedStyle(element).outlineColor
     )
+    await expect(layout).toHaveCSS('border-top-color', focusColor)
 
     await layout.hover()
     await expect(layout).toBeFocused()
@@ -67,6 +68,7 @@ test('focus outlines preserve content colors and respect layout hover', async ({
 
     await page.mouse.move(0, 0)
     await expect(layout).toHaveCSS('outline-color', focusColor)
+    await expect(layout).toHaveCSS('border-top-color', focusColor)
   })
 
   await test.step('native outline remains visible in forced colors', async () => {
