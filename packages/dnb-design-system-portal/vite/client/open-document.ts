@@ -3,7 +3,7 @@ let pendingDocument: AbortController | undefined
 /**
  * Opens a page as a document when its client navigation failed. Offline,
  * the browser would replace the current page with its error page, so this
- * waits for the connection, unless the user has moved on by then.
+ * waits for the connection, unless the user has moved on or typed by then.
  */
 export function openDocument(url: string): Promise<never> {
   pendingDocument?.abort()
@@ -12,7 +12,8 @@ export function openDocument(url: string): Promise<never> {
     window.location.assign(url)
   } else {
     const from = window.location.href
-    pendingDocument = new AbortController()
+    const controller = new AbortController()
+    pendingDocument = controller
     window.addEventListener(
       'online',
       () => {
@@ -20,8 +21,15 @@ export function openDocument(url: string): Promise<never> {
           window.location.assign(url)
         }
       },
-      { once: true, signal: pendingDocument.signal }
+      { once: true, signal: controller.signal }
     )
+
+    // A reload would discard what the user typed on the current page.
+    document.addEventListener('input', () => controller.abort(), {
+      capture: true,
+      once: true,
+      signal: controller.signal,
+    })
   }
 
   return new Promise<never>(() => {})

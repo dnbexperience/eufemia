@@ -296,3 +296,27 @@ test('keeps the page offline and opens the destination when back online', async 
     'data-navigation-marker'
   )
 })
+
+test('keeps the page when the user types before the connection is back', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/')
+  await waitForApp(page)
+  test.skip(await isDev(page), 'Production route splitting')
+  await context.setOffline(true)
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+  await page.waitForTimeout(1000)
+  await page.evaluate(() => {
+    document.body.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+
+  await context.setOffline(false)
+  await page.waitForTimeout(1000)
+
+  expect(new URL(page.url()).pathname).toBe('/')
+  await expect(page.locator('[data-portal-home]')).toBeVisible()
+})
