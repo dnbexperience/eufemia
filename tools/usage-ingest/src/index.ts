@@ -10,7 +10,6 @@ export type McpUsageRecord = {
   tool: string
   component: string
   component_missed: boolean
-  likely_component: string
   path: string
   env: string
   transport: McpUsageTransport

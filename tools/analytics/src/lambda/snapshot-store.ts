@@ -78,7 +78,6 @@ export type McpUsageDaily = {
   component: string
   path: string
   component_missed: boolean
-  likely_component: string
   count: number
 }
 
@@ -104,7 +103,6 @@ export type McpTransportUsage = {
   perComponent: RankedCount[]
   perPath: RankedCount[]
   missedLookups: number
-  perLikelyComponent: RankedCount[]
   perVersion: McpVersionUsage[]
   daily: McpUsageDay[]
 }
@@ -122,7 +120,6 @@ const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   perComponent: [],
   perPath: [],
   missedLookups: 0,
-  perLikelyComponent: [],
   perVersion: [],
   daily: [],
 }

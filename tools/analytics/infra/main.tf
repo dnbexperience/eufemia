@@ -415,11 +415,6 @@ resource "aws_glue_catalog_table" "mcp_usage" {
     }
 
     columns {
-      name = "likely_component"
-      type = "string"
-    }
-
-    columns {
       name = "path"
       type = "string"
     }
@@ -514,11 +509,6 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
     columns {
       name = "component_missed"
       type = "boolean"
-    }
-
-    columns {
-      name = "likely_component"
-      type = "string"
     }
 
     columns {
