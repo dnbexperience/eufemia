@@ -19,10 +19,10 @@
 
   // interactive prop
   &[tabindex='0'] {
-    &:focus {
-      outline: none;
-
-      @include utilities.focusRing();
+    @include utilities.focusVisible() {
+      @include utilities.focusOutline(
+        $offset: calc(-1 * var(--focus-outline-width))
+      );
     }
   }
 }
