@@ -28,6 +28,7 @@ jobs:
 
     outputs:
       standalone-tools-only: ${{ steps.changes.outputs.standalone-tools-only }}
+      affected-workspaces: ${{ steps.changes.outputs.affected-workspaces }}
 
     steps:
       - name: Git checkout
@@ -92,22 +93,26 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/**/*.js', 'packages/dnb-eufemia/scripts/**/*.[cm]js', 'packages/dnb-eufemia/src/**/*.js', 'packages/dnb-eufemia/src/**/*.[cm]js', 'packages/dnb-eufemia/src/**/*Docs.[jt]s', 'packages/dnb-eufemia/src/**/*Docs.[jt]sx', 'packages/dnb-eufemia/.browserslistrc') }}-
 
       - name: Run lint
-        # Every workspace with a lint script runs here, except the Portal which
-        # has its own job below — keep this list complete when adding one.
+        # Every workspace with a lint script is listed here, except the Portal
+        # which has its own job below — keep this list complete when adding one.
+        env:
+          AFFECTED_WORKSPACES: ${{ needs.setup.outputs.affected-workspaces || 'all' }}
         run: |
-          yarn workspace @dnb/eufemia lint:ci
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
-          yarn workspace eufemia-mcp-lambda lint
-          yarn workspace eufemia-usage-ingest lint
-          yarn workspace eufemia-raiwork-plugin lint
-          yarn workspace eufemia-analytics lint
-          yarn workspace eufemia-analytics-dashboard lint
-          yarn workspace eufemia-assets-hosting lint
-          yarn workspace eufemia-css-optimizer lint
-          yarn workspace eufemia-llm-metadata lint
-          yarn workspace markdown-tables-utils lint
-          yarn workspace react-live-ssr-adapter lint
-          yarn workspace eufemia-starter lint
+          tools/repo-utils/src/run-if-affected.sh @dnb/eufemia lint:ci
+          # Checks every workflow file, so it also runs when the library is skipped
+          yarn workspace @dnb/eufemia lint:workflows
+          tools/repo-utils/src/run-if-affected.sh @dnb/eufemia-mcp-legacy-proxy lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-mcp-lambda lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-usage-ingest lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-raiwork-plugin lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-analytics lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-analytics-dashboard lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-assets-hosting lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-css-optimizer lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-llm-metadata lint
+          tools/repo-utils/src/run-if-affected.sh markdown-tables-utils lint
+          tools/repo-utils/src/run-if-affected.sh react-live-ssr-adapter lint
+          tools/repo-utils/src/run-if-affected.sh eufemia-starter lint
 
   lint-portal:
     name: Run portal lint
@@ -178,21 +183,23 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-
 
       - name: Run type checks
-        # Every workspace with a type-check script runs here — keep this list
-        # complete when adding one.
+        # Every workspace with a type-check script is listed here — keep this
+        # list complete when adding one.
+        env:
+          AFFECTED_WORKSPACES: ${{ needs.setup.outputs.affected-workspaces || 'all' }}
         run: |
-          yarn workspace @dnb/eufemia test:types
-          yarn workspace @dnb/eufemia test:types:definitions
-          yarn workspace dnb-design-system-portal test:types
-          yarn workspace react-live-ssr-adapter test:types
-          yarn workspace eufemia-css-optimizer test:types
-          yarn workspace eufemia-llm-metadata test:types
-          yarn workspace eufemia-raiwork-plugin test:types
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
-          yarn workspace eufemia-mcp-lambda typecheck
-          yarn workspace eufemia-usage-ingest typecheck
-          yarn workspace eufemia-analytics test:types
-          yarn workspace eufemia-analytics-dashboard test:types
+          tools/repo-utils/src/run-if-affected.sh @dnb/eufemia test:types
+          tools/repo-utils/src/run-if-affected.sh @dnb/eufemia test:types:definitions
+          tools/repo-utils/src/run-if-affected.sh dnb-design-system-portal test:types
+          tools/repo-utils/src/run-if-affected.sh react-live-ssr-adapter test:types
+          tools/repo-utils/src/run-if-affected.sh eufemia-css-optimizer test:types
+          tools/repo-utils/src/run-if-affected.sh eufemia-llm-metadata test:types
+          tools/repo-utils/src/run-if-affected.sh eufemia-raiwork-plugin test:types
+          tools/repo-utils/src/run-if-affected.sh @dnb/eufemia-mcp-legacy-proxy typecheck
+          tools/repo-utils/src/run-if-affected.sh eufemia-mcp-lambda typecheck
+          tools/repo-utils/src/run-if-affected.sh eufemia-usage-ingest typecheck
+          tools/repo-utils/src/run-if-affected.sh eufemia-analytics test:types
+          tools/repo-utils/src/run-if-affected.sh eufemia-analytics-dashboard test:types
 
   test:
     name: Run tests
@@ -220,29 +227,30 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Run tests
-        # Every workspace with unit tests runs here — keep this list complete
-        # when adding one. No other workflow runs them on a pull request, so a
-        # workspace missing from this list has its tests first execute at
-        # release or deploy time.
+        # Every workspace with unit tests is listed here — keep this list
+        # complete when adding one. No other workflow runs them on a pull
+        # request, so a workspace missing from this list has its tests first
+        # execute at release or deploy time.
         #
         # dnb-eufemia runs only the unit tests affected by the branch's changes
         # (full suite on protected branches, or when shared test infra changes).
         env:
           UNIT_TEST_BASE_REF: origin/main
+          AFFECTED_WORKSPACES: ${{ needs.setup.outputs.affected-workspaces || 'all' }}
         run: |
-          yarn workspace @dnb/eufemia test:ci:changed
-          yarn workspace dnb-design-system-portal test:ci
-          yarn workspace react-live-ssr-adapter test
-          yarn workspace eufemia-css-optimizer test
-          yarn workspace markdown-tables-utils test
-          yarn workspace eufemia-llm-metadata test
-          yarn workspace eufemia-raiwork-plugin test
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy test
-          yarn workspace eufemia-mcp-lambda test
-          yarn workspace eufemia-analytics test
-          yarn workspace eufemia-analytics-dashboard test
-          yarn workspace eufemia-assets-hosting test
-          yarn workspace repo-utils test:ci
+          tools/repo-utils/src/run-if-affected.sh @dnb/eufemia test:ci:changed
+          tools/repo-utils/src/run-if-affected.sh dnb-design-system-portal test:ci
+          tools/repo-utils/src/run-if-affected.sh react-live-ssr-adapter test
+          tools/repo-utils/src/run-if-affected.sh eufemia-css-optimizer test
+          tools/repo-utils/src/run-if-affected.sh markdown-tables-utils test
+          tools/repo-utils/src/run-if-affected.sh eufemia-llm-metadata test
+          tools/repo-utils/src/run-if-affected.sh eufemia-raiwork-plugin test
+          tools/repo-utils/src/run-if-affected.sh @dnb/eufemia-mcp-legacy-proxy test
+          tools/repo-utils/src/run-if-affected.sh eufemia-mcp-lambda test
+          tools/repo-utils/src/run-if-affected.sh eufemia-analytics test
+          tools/repo-utils/src/run-if-affected.sh eufemia-analytics-dashboard test
+          tools/repo-utils/src/run-if-affected.sh eufemia-assets-hosting test
+          tools/repo-utils/src/run-if-affected.sh repo-utils test:ci
 
   deps:
     name: Run dependency checks
