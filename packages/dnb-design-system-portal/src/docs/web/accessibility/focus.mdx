@@ -20,7 +20,7 @@ import * as Examples from 'Docs/web/accessibility/Examples'
 
 1. Use the blue `--token-color-stroke-action-focus` everywhere except input fields.
 2. Use a 3px outline with a 2px transparent gap. Keep text, icon, and background colors unchanged.
-3. Lists, tables, cards, and similar layouts use a 3px blue edge with no gap, replacing the existing edge. Hover styling takes precedence while focused.
+3. Lists, tables, cards, and similar layouts replace the existing edge with a 3px blue edge, with no gap. Use 2px if a scroll container's existing spacing would clip 3px. Hover styling takes precedence while focused.
 
 | CSS custom property                 | Purpose       | Default           |
 | ----------------------------------- | ------------- | ----------------- |
