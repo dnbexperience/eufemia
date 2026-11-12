@@ -272,20 +272,9 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover:not(
 html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disabled]) {
-  --accordion-color-text: var(--accordion-color-text--focus);
-  --accordion-color-description: var(
-    --accordion-color-description--focus
-  );
-  --accordion-color-bg: var(--accordion-color-bg--focus);
-  --accordion-color-border: var(--accordion-color-border--focus);
-  --accordion-border-width: var(--accordion-border-width--focus);
-  --accordion-border-inset: var(--accordion-border-inset--focus);
-}
-@media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disabled]) {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disabled]):not(:hover):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-accordion__header[disabled] {
   --accordion-color-text: var(--accordion-color-text--disabled);

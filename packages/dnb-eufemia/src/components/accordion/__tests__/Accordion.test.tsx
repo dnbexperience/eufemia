@@ -1587,11 +1587,11 @@ describe('Accordion scss', () => {
     expect(css).toMatchSnapshot()
   })
 
-  it('shows the focus ring in forced colors mode', () => {
+  it('uses the focus outline tokens', () => {
     const css = loadScss(require.resolve('../style/dnb-accordion.scss'))
 
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{[^{]*\.dnb-accordion__header:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-ring-width\) solid transparent;/
+      /\.dnb-accordion__header:focus-visible:not\(\[disabled\]\):not\(:hover\):not\(:active\)[^{]*\{\s*outline: var\(--focus-outline-width\) solid var\(--token-color-stroke-action-focus\);/
     )
   })
 })
