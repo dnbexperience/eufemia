@@ -319,6 +319,12 @@
           var(--chip-control-border);
       }
 
+      html[data-whatinput='keyboard']
+        &__input:not([disabled]):focus
+        ~ .dnb-#{$control}__button {
+        outline: none;
+      }
+
       &__focus,
       html[data-whatinput='keyboard']
         &__input:not([disabled]):focus
