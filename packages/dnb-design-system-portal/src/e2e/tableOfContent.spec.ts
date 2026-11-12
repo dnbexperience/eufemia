@@ -754,6 +754,34 @@ test.describe('TableOfContent extension', () => {
     await expect(link).toHaveCSS('display', 'inline')
     await link.hover()
     await expect(link).toHaveCSS('text-decoration-line', 'underline')
+
+    await expect(
+      example.locator('.dnb-height-animation--animating')
+    ).toHaveCount(0)
+    await page.keyboard.press('Tab')
+    for (const edgeLink of [
+      example.getByRole('link').first(),
+      example.getByRole('link').last(),
+    ]) {
+      await edgeLink.focus()
+      await expect(edgeLink).toHaveCSS('outline-style', 'solid')
+      const clearance = await edgeLink.evaluate((element) => {
+        const link = element.getBoundingClientRect()
+        const scroll = element
+          .closest('.dnb-table-of-content__scroll')
+          .getBoundingClientRect()
+        const style = getComputedStyle(element)
+        const outline =
+          parseFloat(style.outlineWidth) + parseFloat(style.outlineOffset)
+
+        return {
+          top: link.top - outline - scroll.top,
+          bottom: scroll.bottom - link.bottom - outline,
+        }
+      })
+      expect(clearance.top).toBeGreaterThanOrEqual(0)
+      expect(clearance.bottom).toBeGreaterThanOrEqual(0)
+    }
   })
 
   test('supports reduced motion and wrapped labels at text zoom', async ({
