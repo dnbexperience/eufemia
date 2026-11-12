@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import HelpButton from '../../components/help-button/HelpButton'
-import ToggleButton from '../../components/toggle-button/ToggleButton'
+import Chip from '../../components/chip/Chip'
 import GlobalError from '../../components/global-error/GlobalError'
 import CardCloseButton from '../../components/card/CardCloseButton'
 
@@ -55,28 +55,28 @@ describe('Provider', () => {
       expect(typeof setLocale).toBe('function')
 
       return (
-        <ToggleButton.Group
+        <Chip.Group
           value={locale}
           onChange={({ value }) => {
             setLocale(value as string)
           }}
         >
-          <ToggleButton value="nb-NO" className="nb-NO">
+          <Chip value="nb-NO" className="nb-NO">
             nb-NO
-          </ToggleButton>
-          <ToggleButton value="sv-SE" className="sv-SE">
+          </Chip>
+          <Chip value="sv-SE" className="sv-SE">
             sv-SE
-          </ToggleButton>
-          <ToggleButton value="da-DK" className="da-DK">
+          </Chip>
+          <Chip value="da-DK" className="da-DK">
             da-DK
-          </ToggleButton>
-          <ToggleButton value="en-GB" className="en-GB">
+          </Chip>
+          <Chip value="en-GB" className="en-GB">
             en-GB
-          </ToggleButton>
-          <ToggleButton value="en-US" className="en-US">
+          </Chip>
+          <Chip value="en-US" className="en-US">
             en-US
-          </ToggleButton>
-        </ToggleButton.Group>
+          </Chip>
+        </Chip.Group>
       )
     }
 
@@ -153,15 +153,15 @@ describe('Provider', () => {
 
       expect(document.querySelector('p').textContent).toBe(titleNb)
 
-      fireEvent.click(document.querySelector('.en-GB button'))
+      fireEvent.click(document.querySelector('.en-GB input'))
 
       expect(document.querySelector('p').textContent).toBe(titleGb)
 
-      fireEvent.click(document.querySelector('.en-US button'))
+      fireEvent.click(document.querySelector('.en-US input'))
 
       expect(document.querySelector('p').textContent).toBe(titleGb)
 
-      fireEvent.click(document.querySelector('.nb-NO button'))
+      fireEvent.click(document.querySelector('.nb-NO input'))
 
       expect(document.querySelector('p').textContent).toBe(titleNb)
     })
@@ -176,10 +176,10 @@ describe('Provider', () => {
       const getRootElement = () => document.querySelectorAll('p')[0]
       const getNestedElement = () => document.querySelectorAll('p')[1]
       const switchRootTo = (locale: string) => {
-        fireEvent.click(document.querySelectorAll(`.${locale} button`)[0])
+        fireEvent.click(document.querySelectorAll(`.${locale} input`)[0])
       }
       const switchNestedTo = (locale: string) => {
-        fireEvent.click(document.querySelectorAll(`.${locale} button`)[1])
+        fireEvent.click(document.querySelectorAll(`.${locale} input`)[1])
       }
 
       expect(getRootElement().textContent).toBe(titleNb)
@@ -188,31 +188,19 @@ describe('Provider', () => {
       switchNestedTo('nb-NO')
 
       expect(getNestedElement().textContent).toBe(titleNb)
-      expect(
-        document
-          .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.nb-NO input')[1]).toBeChecked()
 
       // should not have changed
       expect(getRootElement().textContent).toBe(titleNb)
 
       switchRootTo('en-GB')
 
-      expect(
-        document
-          .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.en-GB input')[0]).toBeChecked()
       expect(getRootElement().textContent).toBe(titleGb)
 
       switchRootTo('en-US')
 
-      expect(
-        document
-          .querySelectorAll('.en-US button')[0]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.en-US input')[0]).toBeChecked()
       expect(getRootElement().textContent).toBe(titleGb)
 
       // should not have changed
@@ -418,86 +406,46 @@ describe('Provider', () => {
       const getRootElement = () => document.querySelectorAll('p')[0]
       const getNestedElement = () => document.querySelectorAll('p')[1]
       const switchRootTo = (locale: string) => {
-        fireEvent.click(document.querySelectorAll(`.${locale} button`)[0])
+        fireEvent.click(document.querySelectorAll(`.${locale} input`)[0])
       }
       const switchNestedTo = (locale: string) => {
-        fireEvent.click(document.querySelectorAll(`.${locale} button`)[1])
+        fireEvent.click(document.querySelectorAll(`.${locale} input`)[1])
       }
 
       expect(getRootElement().textContent).toBe(titleGb)
-      expect(
-        document
-          .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.en-GB input')[0]).toBeChecked()
       expect(getNestedElement().textContent).toBe(titleNb)
-      expect(
-        document
-          .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.nb-NO input')[1]).toBeChecked()
 
       // First, let's change the inner
       switchNestedTo('nb-NO')
 
       expect(getRootElement().textContent).toBe(titleGb)
-      expect(
-        document
-          .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.en-GB input')[0]).toBeChecked()
       expect(getNestedElement().textContent).toBe(titleNb)
-      expect(
-        document
-          .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.nb-NO input')[1]).toBeChecked()
 
       switchNestedTo('en-GB')
 
       expect(getRootElement().textContent).toBe(titleGb)
-      expect(
-        document
-          .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.en-GB input')[0]).toBeChecked()
       expect(getNestedElement().textContent).toBe(titleGb)
-      expect(
-        document
-          .querySelectorAll('.en-GB button')[1]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.en-GB input')[1]).toBeChecked()
 
       switchNestedTo('nb-NO')
 
       expect(getRootElement().textContent).toBe(titleNb)
-      expect(
-        document
-          .querySelectorAll('.nb-NO button')[0]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.nb-NO input')[0]).toBeChecked()
       expect(getNestedElement().textContent).toBe(titleNb)
-      expect(
-        document
-          .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.nb-NO input')[1]).toBeChecked()
 
       // Now, let's change the outer
       switchRootTo('en-GB')
 
       expect(getRootElement().textContent).toBe(titleGb)
-      expect(
-        document
-          .querySelectorAll('.en-GB button')[0]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.en-GB input')[0]).toBeChecked()
       expect(getNestedElement().textContent).toBe(titleNb)
-      expect(
-        document
-          .querySelectorAll('.nb-NO button')[1]
-          .getAttribute('aria-pressed')
-      ).toBe('true')
+      expect(document.querySelectorAll('.nb-NO input')[1]).toBeChecked()
     })
 
     it('should only override translation provided as a nested object (cascaded)', () => {
