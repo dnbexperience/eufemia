@@ -101,15 +101,10 @@
     // whatInput detects all non-modifier keys as keyboard input globally,
     // so it works even when focus is triggered programmatically.
     @include utilities.whatInput('keyboard') {
-      &:focus:not([disabled]) {
-        --menu-action-background-color: var(
-          --token-color-background-action-focus-subtle
+      &:focus:not([disabled]):not(&--disabled):not(:hover):not(:active) {
+        @include utilities.focusOutline(
+          $offset: calc(-1 * var(--focus-outline-width))
         );
-        --menu-action-text-color: var(--token-color-text-action-focus);
-        --menu-action-icon-color: var(--token-color-icon-action-focus);
-
-        // Inside, as in Figma, so a scrollable list does not clip it
-        @include utilities.focusRing('always', $inset: inset);
       }
     }
 
