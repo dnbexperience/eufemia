@@ -78,20 +78,8 @@
 }
 
 @mixin anchorFocusStyle() {
-  --anchor-color: var(--token-color-text-action-focus);
-  --anchor-icon-color: var(--token-color-icon-action-focus);
-
   @include resetAnimationStyle();
-
-  @include utilities.focusRing(
-    'always',
-    null,
-    null,
-    null,
-    anchor-background-value(
-      var(--token-color-background-action-focus-subtle)
-    )
-  );
+  @include utilities.focusOutline();
 
   @content;
 }
