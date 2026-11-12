@@ -45,18 +45,8 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   flex: 0 1 auto;
 }
 .dnb-tabs__tabs__tablist:focus-visible {
-  outline: none;
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  .dnb-tabs__tabs__tablist:focus-visible {
-    outline: var(--focus-ring-width) solid transparent;
-  }
-}
-.dnb-tabs__tabs__tablist:focus-visible {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
   border-radius: var(--token-radius-md);
 }
 .dnb-tabs__tabs__tablist {
@@ -328,25 +318,11 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
-  background-color: var(--token-color-background-action-focus-subtle);
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
-}
-.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title {
-  color: var(--token-color-text-action-focus);
 }
 .dnb-tabs__button__snap {
   display: flex;
@@ -400,10 +376,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([di
   background-color: var(--token-color-background-action-pressed);
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-left: 0.625rem;
+  margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-right: 0.625rem;
+  margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 .dnb-tabs__cached {
   opacity: 1;
@@ -436,16 +412,8 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   top: 0.125rem;
   max-width: 100vw;
   border-radius: var(--token-radius-md);
-  outline: none;
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  .dnb-tabs__content:focus-visible::before {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-tabs__button .dnb-badge {
   margin-left: 0.25rem;
@@ -531,18 +499,8 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   flex: 0 1 auto;
 }
 .dnb-tabs__tabs__tablist:focus-visible {
-  outline: none;
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  .dnb-tabs__tabs__tablist:focus-visible {
-    outline: var(--focus-ring-width) solid transparent;
-  }
-}
-.dnb-tabs__tabs__tablist:focus-visible {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
   border-radius: var(--token-radius-md);
 }
 .dnb-tabs__tabs__tablist {
@@ -814,25 +772,11 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
-  background-color: var(--token-color-background-action-focus-subtle);
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
-}
-.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title {
-  color: var(--token-color-text-action-focus);
 }
 .dnb-tabs__button__snap {
   display: flex;
@@ -886,10 +830,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([di
   background-color: var(--token-color-background-action-pressed);
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-left: 0.625rem;
+  margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-right: 0.625rem;
+  margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 .dnb-tabs__cached {
   opacity: 1;
@@ -922,16 +866,8 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   top: 0.125rem;
   max-width: 100vw;
   border-radius: var(--token-radius-md);
-  outline: none;
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  .dnb-tabs__content:focus-visible::before {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-tabs__button .dnb-badge {
   margin-left: 0.25rem;
