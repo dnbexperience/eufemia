@@ -250,7 +250,8 @@ jobs:
           tools/repo-utils/src/run-if-affected.sh eufemia-analytics test
           tools/repo-utils/src/run-if-affected.sh eufemia-analytics-dashboard test
           tools/repo-utils/src/run-if-affected.sh eufemia-assets-hosting test
-          tools/repo-utils/src/run-if-affected.sh repo-utils test:ci
+          # Checks the links between tools, so it also runs when repo-utils is skipped
+          yarn workspace repo-utils test:ci
 
   deps:
     name: Run dependency checks
