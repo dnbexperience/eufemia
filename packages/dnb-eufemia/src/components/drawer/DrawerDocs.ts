@@ -57,7 +57,7 @@ export const DrawerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fullscreen: {
-    doc: 'If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
+    doc: 'Use `true` for fullscreen or `false` to disable automatic fullscreen. With `auto`, Drawer fills the viewport below the `small` width breakpoint, or below `medium` when the viewport height is at most `30em`. Top and bottom Drawers keep their placement height on taller viewports. Defaults to `auto`.',
     type: ['boolean', 'string'],
     status: 'optional',
   },

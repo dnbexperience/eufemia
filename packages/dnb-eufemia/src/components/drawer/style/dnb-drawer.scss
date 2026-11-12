@@ -5,6 +5,7 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 @use '../../modal/style/modal-mixins.scss' as modal-mixins;
+@use '../../modal/style/modal-media.scss' as modal-media;
 
 @mixin drawerSpacing {
   padding: 0 var(--drawer-spacing); // should be 56px – but then the whole width should be larger
@@ -24,9 +25,6 @@
 
 @mixin drawerFullscreen {
   @include modal-mixins.modalFullscreen();
-
-  height: 100dvh;
-  max-height: 100dvh;
 }
 
 .dnb-drawer {
@@ -47,6 +45,8 @@
   }
 
   position: relative;
+  display: flex;
+  flex-direction: column;
   max-height: 100vh;
   max-height: 100dvh;
 
@@ -68,10 +68,15 @@
     }
   }
 
+  & > * {
+    flex-shrink: 0;
+  }
+
   &__inner {
     position: relative;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     z-index: 10;
 
     /** 
@@ -81,7 +86,6 @@
     */
 
     width: 100%;
-    min-height: calc(100% - var(--header-height, 0));
 
     /** Sets the color on scroll overflow (at the bottom) */
     background-color: var(--drawer-background-color);
@@ -125,6 +129,12 @@
       height: 100vw;
       min-height: auto;
       max-height: auto;
+    }
+  }
+
+  @include modal-media.shortViewport() {
+    &--auto-fullscreen {
+      @include drawerFullscreen();
     }
   }
 

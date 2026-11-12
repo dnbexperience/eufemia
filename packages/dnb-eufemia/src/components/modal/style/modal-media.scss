@@ -1,0 +1,19 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+@mixin shortViewport() {
+  @include utilities.allBelow(medium) {
+    @media screen and (max-height: 30em) {
+      @content;
+    }
+  }
+}
+
+@mixin autoFullscreen() {
+  @include utilities.allBelow(small) {
+    @content;
+  }
+
+  @include shortViewport() {
+    @content;
+  }
+}
