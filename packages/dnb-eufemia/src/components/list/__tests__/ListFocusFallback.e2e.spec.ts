@@ -79,7 +79,7 @@ function simulate(page: Page, browser: Browser) {
 function hasOutline(item: Locator) {
   return item.evaluate((element) => {
     const probe = document.createElement('span')
-    probe.style.color = 'var(--list-item-navigation-outline-color)'
+    probe.style.color = 'var(--token-color-stroke-action-focus)'
     element.appendChild(probe)
     const color = getComputedStyle(probe).color
     probe.remove()
