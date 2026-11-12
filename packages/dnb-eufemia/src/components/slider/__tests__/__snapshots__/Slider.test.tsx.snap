@@ -1381,19 +1381,12 @@ legend.dnb-form-label {
     background-color: CanvasText;
   }
 }
-.dnb-slider__marker:focus {
-  outline: none;
+html:not([data-whatinput=touch]) .dnb-slider__marker:focus-visible[disabled] {
+  cursor: not-allowed;
 }
-html[data-whatinput=keyboard] .dnb-slider__marker:focus {
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-slider__marker:focus {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+html:not([data-whatinput=touch]) .dnb-slider__marker:focus-visible:not([disabled]) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-slider__marker::before {
   content: "";
@@ -1553,18 +1546,8 @@ html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible[disabl
   cursor: not-allowed;
 }
 html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible:not([disabled]) ~ .dnb-button {
-  outline: none;
-  background-color: var(--token-color-background-action-focus-subtle);
-  color: var(--token-color-text-neutral-inverse);
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible:not([disabled]) ~ .dnb-button {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-slider > .dnb-form-label {
   align-self: flex-start;
