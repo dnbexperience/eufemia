@@ -271,7 +271,7 @@ test.describe('Sidebar resize', () => {
     await trigger.click()
 
     const drawer = page.getByRole('dialog', { name: 'Menu' })
-    const drawerScrollView = drawer.locator('.dnb-drawer')
+    const drawerScrollView = drawer.locator('.dnb-drawer__reveal-scroll')
     const components = drawer.getByRole('button', {
       name: /^Components/,
     })
@@ -281,7 +281,7 @@ test.describe('Sidebar resize', () => {
     await expect(components).toHaveAttribute('aria-expanded', 'false')
     const closeButton = drawer.locator('.dnb-modal__close-button')
     await expect(drawerScrollView).toHaveCSS('scrollbar-gutter', 'stable')
-    await drawerScrollView.evaluate(async (element) => {
+    await drawer.locator('.dnb-drawer').evaluate(async (element) => {
       await Promise.all(
         element.getAnimations().map((animation) => animation.finished)
       )

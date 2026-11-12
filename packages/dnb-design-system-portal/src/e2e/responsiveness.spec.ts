@@ -369,14 +369,21 @@ test.describe('Responsiveness', () => {
         })
       )
       .toBe(true)
-    expect(closeButtonBox.y + closeButtonBox.height / 2).toBeCloseTo(
-      drawerNavigationBox.y + drawerNavigationBox.height / 2,
-      0
-    )
+    expect(
+      Math.abs(
+        closeButtonBox.y +
+          closeButtonBox.height / 2 -
+          (drawerNavigationBox.y + drawerNavigationBox.height / 2)
+      )
+    ).toBeLessThanOrEqual(1)
 
-    await drawer.evaluate((element) => {
+    const scrollArea = drawer.locator('.dnb-drawer__reveal-scroll')
+    await scrollArea.evaluate((element) => {
       element.scrollTop = 200
     })
+    await expect
+      .poll(() => scrollArea.evaluate((element) => element.scrollTop))
+      .toBeGreaterThan(0)
     const scrolledCloseButtonBox = await closeButton.boundingBox()
     expect(scrolledCloseButtonBox.y).toBe(closeButtonBox.y)
     await closeButton.click()

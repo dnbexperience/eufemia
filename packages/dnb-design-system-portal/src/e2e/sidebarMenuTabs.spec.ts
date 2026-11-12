@@ -728,6 +728,7 @@ test.describe('Portal SidebarMenu', () => {
     const trigger = page.locator('#toggle-sidebar-menu')
     const drawer = page.locator('#portal-sidebar-menu-drawer .dnb-drawer')
     const expectedScrollTop = 120
+    const scrollArea = drawer.locator('.dnb-drawer__reveal-scroll')
     const positions: number[] = []
 
     for (let index = 0; index < 4; index += 1) {
@@ -741,17 +742,17 @@ test.describe('Portal SidebarMenu', () => {
         drawer.locator('.dnb-height-animation--animating')
       ).toHaveCount(0)
       if (index === 0) {
-        await drawer.evaluate((element, scrollTop) => {
+        await scrollArea.evaluate((element, scrollTop) => {
           element.scrollTo({ top: scrollTop, behavior: 'instant' })
           element.dispatchEvent(new Event('scroll'))
         }, expectedScrollTop)
       }
       await expect
-        .poll(() => drawer.evaluate((el) => el.scrollTop), {
+        .poll(() => scrollArea.evaluate((el) => el.scrollTop), {
           message: 'Drawer position on open ' + index,
         })
         .toBe(expectedScrollTop)
-      positions.push(await drawer.evaluate((el) => el.scrollTop))
+      positions.push(await scrollArea.evaluate((el) => el.scrollTop))
       await drawer.locator('.dnb-modal__close-button').click()
       await expect(drawer).toHaveCount(0)
       await expect(trigger).toHaveAttribute('aria-expanded', 'false')

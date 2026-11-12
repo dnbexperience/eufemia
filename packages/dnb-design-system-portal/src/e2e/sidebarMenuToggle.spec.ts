@@ -522,6 +522,13 @@ test.describe('Portal sidebar reveal', () => {
     await trigger.click()
     await expect(dialog).toBeVisible()
     const scrollArea = dialog.locator('.dnb-drawer__reveal-scroll')
+    await expect
+      .poll(() =>
+        scrollArea.evaluate((element) =>
+          element.contains(document.elementFromPoint(150, 650))
+        )
+      )
+      .toBe(true)
     const scrollTop = await scrollArea.evaluate(
       (element) => element.scrollTop
     )
