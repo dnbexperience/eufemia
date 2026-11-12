@@ -944,12 +944,12 @@ describe('makePropertiesFile', () => {
           )
           const properties = file.endsWith('.ts')
             ? [
-                "'--focus-outline-width': '0.125rem'",
+                "'--focus-outline-width': '0.1875rem'",
                 "'--focus-outline-offset': '0.125rem'",
                 "'--focus-ring-width': '0.25rem'",
               ]
             : [
-                '--focus-outline-width: 0.125rem;',
+                '--focus-outline-width: 0.1875rem;',
                 '--focus-outline-offset: 0.125rem;',
                 '--focus-ring-width: 0.25rem;',
               ]

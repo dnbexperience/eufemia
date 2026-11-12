@@ -21,14 +21,14 @@ test('focus outlines preserve content colors and respect layout hover', async ({
     }
   })
 
-  await test.step('keyboard focus uses the blue 2px outline and 2px gap', async () => {
+  await test.step('keyboard focus uses the blue 3px outline and 2px gap', async () => {
     await action.focus()
     await page.keyboard.press('Tab')
     await expect(layout).toBeFocused()
     await page.keyboard.press('Shift+Tab')
     await expect(action).toBeFocused()
     await expect(action).toHaveCSS('outline-style', 'solid')
-    await expect(action).toHaveCSS('outline-width', '2px')
+    await expect(action).toHaveCSS('outline-width', '3px')
     await expect(action).toHaveCSS('outline-offset', '2px')
 
     const focusColor = await action.evaluate((element) => {
@@ -51,7 +51,7 @@ test('focus outlines preserve content colors and respect layout hover', async ({
   await test.step('layout focus has no gap and yields to hover', async () => {
     await page.keyboard.press('Tab')
     await expect(layout).toBeFocused()
-    await expect(layout).toHaveCSS('outline-width', '2px')
+    await expect(layout).toHaveCSS('outline-width', '3px')
     await expect(layout).toHaveCSS('border-top-width', '1px')
     await expect(layout).toHaveCSS('outline-offset', '-1px')
     const focusColor = await layout.evaluate(
@@ -77,7 +77,7 @@ test('focus outlines preserve content colors and respect layout hover', async ({
     await page.keyboard.press('Shift+Tab')
     await expect(action).toBeFocused()
     await expect(action).toHaveCSS('outline-style', 'solid')
-    await expect(action).toHaveCSS('outline-width', '2px')
+    await expect(action).toHaveCSS('outline-width', '3px')
     await expect(action).not.toHaveCSS('outline-color', 'rgba(0, 0, 0, 0)')
   })
 })

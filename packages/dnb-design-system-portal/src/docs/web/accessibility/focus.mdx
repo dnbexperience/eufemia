@@ -19,14 +19,14 @@ import * as Examples from 'Docs/web/accessibility/Examples'
 ## Keyboard focus styling
 
 1. Use the blue `--token-color-stroke-action-focus` everywhere except input fields.
-2. Use a 2px outline with a 2px transparent gap. Keep text, icon, and background colors unchanged.
-3. Lists, tables, cards, and similar layouts use a 2px blue edge with no gap, replacing the existing edge. Hover styling takes precedence while focused.
+2. Use a 3px outline with a 2px transparent gap. Keep text, icon, and background colors unchanged.
+3. Lists, tables, cards, and similar layouts use a 3px blue edge with no gap, replacing the existing edge. Hover styling takes precedence while focused.
 
-| CSS custom property                 | Purpose       | Default          |
-| ----------------------------------- | ------------- | ---------------- |
-| `--token-color-stroke-action-focus` | Outline color | Theme blue       |
-| `--focus-outline-width`             | Outline width | `0.125rem` (2px) |
-| `--focus-outline-offset`            | Gap           | `0.125rem` (2px) |
+| CSS custom property                 | Purpose       | Default           |
+| ----------------------------------- | ------------- | ----------------- |
+| `--token-color-stroke-action-focus` | Outline color | Theme blue        |
+| `--focus-outline-width`             | Outline width | `0.1875rem` (3px) |
+| `--focus-outline-offset`            | Gap           | `0.125rem` (2px)  |
 
 Use the [focusOutline()](/web/ai-tools-and-resources/utilities/sass/#keyboard-focus) Sass helper or CSS:
 
