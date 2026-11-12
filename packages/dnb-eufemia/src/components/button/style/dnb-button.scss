@@ -130,33 +130,7 @@
     }
 
     @include utilities.focusVisible() {
-      --button-color-bg: var(--button-color-bg--focus);
-      --button-color-border: var(--button-color-border--focus);
-      --button-color-icon: var(--button-color-icon--focus);
-      --button-color-text: var(--button-color-text--focus);
-      --button-color-underline: var(--button-color-underline--default);
-      --button-border-inset: var(--button-border-inset--focus);
-      --button-border-width: var(--button-border-width--focus);
-      --button-input-separator-color: var(
-        --button-input-separator-color--focus
-      );
-
-      outline: none;
-
-      @include utilities.forcedColorsOutline();
-
-      // Keep the focus ring outside. The outline for the border is inside.
-      @media (forced-colors: active) {
-        outline-offset: 0;
-      }
-
-      // A Button with aria-disabled can get focus. Show the focus ring, but
-      // keep the disabled colors.
-      &[aria-disabled='true'] {
-        --button-color-bg: var(--button-color-bg--disabled);
-        --button-color-icon: var(--button-color-icon--disabled);
-        --button-color-text: var(--button-color-text--disabled);
-      }
+      @include utilities.focusOutline();
     }
 
     &[disabled],
@@ -449,6 +423,15 @@
 
   // Tertiary button
   &--tertiary {
+    @include utilities.focusVisible() {
+      outline: none;
+
+      // Keep the focus outline around the existing expanded button area.
+      &::before {
+        @include utilities.focusOutline();
+      }
+    }
+
     > * {
       z-index: 2;
     }
