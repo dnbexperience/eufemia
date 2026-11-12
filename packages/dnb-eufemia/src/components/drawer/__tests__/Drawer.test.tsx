@@ -977,6 +977,31 @@ describe('Drawer reveal', () => {
     expect(document.documentElement.style.overflowX).toBe('hidden')
   })
 
+  it.each(['dismissal', 'unmount'])(
+    'restores horizontal overflow on iOS after %s',
+    (action) => {
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)'
+      )
+      document.documentElement.style.overflowX = 'hidden'
+      document.body.style.overflowX = 'visible'
+      const { unmount } = renderReveal()
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+      expect(document.documentElement.style.overflowX).toBe('clip')
+      expect(document.body.style.overflowX).toBe('clip')
+
+      if (action === 'unmount') {
+        unmount()
+      } else {
+        fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+      }
+
+      expect(document.documentElement.style.overflowX).toBe('hidden')
+      expect(document.body.style.overflowX).toBe('visible')
+    }
+  )
+
   it('passes accessibility checks with the reveal driver', async () => {
     const component = renderReveal({ open: true, title: 'Menu' })
 
@@ -986,6 +1011,22 @@ describe('Drawer reveal', () => {
         document.querySelector('[role=dialog]')
       )
     ).toHaveNoViolations()
+  })
+
+  it('keeps the reveal header outside the content scroll area', () => {
+    const scrollRef: RefObject<HTMLElement> = { current: null }
+    renderReveal({ open: true, scrollRef, scrollbarGutter: 'stable' })
+
+    expect(scrollRef.current).toHaveClass('dnb-drawer__reveal-scroll')
+    expect(scrollRef.current).toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+    expect(scrollRef.current).toContainElement(
+      document.querySelector('.dnb-drawer__content')
+    )
+    expect(scrollRef.current).not.toContainElement(
+      document.querySelector('.dnb-drawer__navigation')
+    )
   })
 
   it('respects disabled and controlled state from Provider', () => {
@@ -1249,6 +1290,18 @@ describe('Drawer reveal', () => {
       expect(page.style.transform).toBe(
         `translate3d(${opened ? 220 : 80}px, 0, 0)`
       )
+      for (const [offset, opacity] of [
+        [120, 1],
+        [210, 0.84],
+        [300, 0.68],
+      ]) {
+        const distance = 40 + (opened ? 300 - offset : offset)
+        fireEvent.touchMove(content, {
+          touches: [{ clientX: position(distance), clientY: 100 }],
+        })
+        paint()
+        expect(Number(page.style.opacity)).toBeCloseTo(opacity)
+      }
       fireEvent.touchCancel(content, { touches: [] })
       expect(page).not.toHaveClass('dnb-drawer__reveal-dragging')
       expect(page.style.transform).toBe(

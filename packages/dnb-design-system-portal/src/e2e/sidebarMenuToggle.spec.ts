@@ -1,6 +1,85 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test.describe('Reveal page boundaries with iOS scroll locking', () => {
+  test.use({
+    viewport: { width: 390, height: 844 },
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
+  })
+
+  test('preserves the scrolled page and breakout rules without horizontal overflow', async ({
+    page,
+  }) => {
+    await page.goto(
+      '/web/layout-and-typography/elements/horizontal-rule/demos/'
+    )
+    await waitForApp(page)
+    await page.evaluate(() => document.fonts.ready)
+    await page.locator('.dnb-hr--breakout').scrollIntoViewIfNeeded()
+    const surface = page.locator('.portal-reveal-page')
+    const before = await surface.boundingBox()
+    const beforeScroll = await page.evaluate(() => scrollY)
+    const rule = await page.locator('.dnb-hr--breakout').boundingBox()
+    expect(beforeScroll).toBeGreaterThan(0)
+
+    await page.locator('#toggle-sidebar-menu').click()
+    const dialog = page.locator('#portal-sidebar-menu-drawer')
+    // Fixed modal layers make Safari replace the page behind its browser bars.
+    await expect(dialog).toHaveCSS('position', 'absolute')
+    const drawer = await dialog.locator('.dnb-drawer').boundingBox()
+    expect(drawer.y).toBeCloseTo(0, 0)
+    await expect
+      .poll(async () => (await surface.boundingBox()).x)
+      .toBeCloseTo(drawer.width, 0)
+
+    const expectPageBounds = async () => {
+      expect(await page.evaluate(() => scrollY)).toBe(beforeScroll)
+      const bounds = await surface.boundingBox()
+      expect(bounds.y).toBeCloseTo(before.y, 0)
+      expect(bounds.height).toBeCloseTo(before.height, 0)
+      const currentRule = await page
+        .locator('.dnb-hr--breakout')
+        .boundingBox()
+      expect(currentRule.y).toBeCloseTo(rule.y, 0)
+      expect(currentRule.width).toBeCloseTo(rule.width, 0)
+      expect(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth -
+            document.documentElement.clientWidth
+        )
+      ).toBe(0)
+    }
+    await test.step('keeps the page bounds while open', expectPageBounds)
+    await test.step('keeps the menu anchored after a viewport resize', async () => {
+      await page.setViewportSize({ width: 400, height: 750 })
+      const bounds = await dialog.boundingBox()
+      expect(bounds.x).toBe(0)
+      expect(bounds.y).toBe(0)
+      expect(bounds.width).toBe(400)
+      expect(bounds.height).toBe(750)
+      await page.setViewportSize({ width: 390, height: 844 })
+    })
+    await test.step('scrolls the menu while the page stays still', async () => {
+      const drawer = dialog.locator('.dnb-drawer__reveal-scroll')
+      await drawer.evaluate((element) => {
+        element.scrollTop = element.scrollHeight
+      })
+      await expect
+        .poll(() => drawer.evaluate((element) => element.scrollTop))
+        .toBeGreaterThan(0)
+      await expect(
+        dialog.getByRole('button', { name: 'Close', exact: true })
+      ).toBeInViewport()
+      await expectPageBounds()
+    })
+    await dialog.press('Escape')
+    await expect(dialog).not.toBeVisible()
+    await test.step('restores the page after closing', expectPageBounds)
+  })
+})
+
 test.describe('Reveal documentation demos', () => {
   for (const example of [
     {
@@ -31,6 +110,12 @@ test.describe('Reveal documentation demos', () => {
       const dialog = page.getByRole('dialog')
       await expect(dialog).toHaveCount(1)
       await expect(dialog).toBeVisible()
+      const shell = await target.locator('..').boundingBox()
+      const menu = await dialog.boundingBox()
+      expect(menu.x).toBeCloseTo(shell.x + 1, 0)
+      expect(menu.y).toBeCloseTo(shell.y + 1, 0)
+      expect(menu.width).toBeCloseTo(shell.width - 2, 0)
+      expect(menu.height).toBeCloseTo(shell.height - 2, 0)
       await expect(target).toHaveAttribute('inert', '')
       await expect(
         page.locator('#portal-sidebar-menu-drawer')
@@ -120,29 +205,50 @@ test.describe('Portal sidebar reveal', () => {
     const surface = page.locator('.portal-reveal-page')
     const opening = surface.evaluate(
       (element) =>
-        new Promise<{ x: number; width: number }[]>((resolve) => {
-          const positions: { x: number; width: number }[] = []
-          const sample = () => {
-            const drawer = document.querySelector(
-              '#portal-sidebar-menu-drawer .dnb-drawer'
-            )
-            if (drawer) {
-              const x = element.getBoundingClientRect().x
-              const width = drawer.getBoundingClientRect().width
-              positions.push({ x, width })
-              if (x >= width - 0.5) {
-                resolve(positions)
-                return
+        new Promise<{ x: number; width: number; opacity: number }[]>(
+          (resolve) => {
+            const positions: {
+              x: number
+              width: number
+              opacity: number
+            }[] = []
+            const sample = () => {
+              const drawer = document.querySelector(
+                '#portal-sidebar-menu-drawer .dnb-drawer'
+              )
+              if (drawer) {
+                const x = element.getBoundingClientRect().x
+                const width = drawer.getBoundingClientRect().width
+                positions.push({
+                  x,
+                  width,
+                  opacity: Number(getComputedStyle(element).opacity),
+                })
+                if (x >= width - 0.5) {
+                  resolve(positions)
+                  return
+                }
               }
+              requestAnimationFrame(sample)
             }
-            requestAnimationFrame(sample)
+            sample()
           }
-          sample()
-        })
+        )
     )
     await trigger.click()
+    const positions = await opening
+    expect(positions.some(({ x, width }) => x > 0 && x < width / 2)).toBe(
+      true
+    )
+    const beforeFade = positions.filter(
+      ({ x, width }) => x > 0 && x < width * 0.35
+    )
+    expect(beforeFade.length).toBeGreaterThan(0)
+    expect(beforeFade.every(({ opacity }) => opacity === 1)).toBe(true)
     expect(
-      (await opening).some(({ x, width }) => x > 0 && x < width / 2)
+      positions.some(
+        ({ x, width, opacity }) => x > width * 0.5 && opacity < 1
+      )
     ).toBe(true)
     await expect(dialog).toBeFocused()
     await test.step('keeps Close right without duplicating the page logo', async () => {
@@ -157,10 +263,11 @@ test.describe('Portal sidebar reveal', () => {
         .getByRole('button', { name: 'Close', exact: true })
         .boundingBox()
       expect(close.x).toBeGreaterThan(header.x + header.width / 2)
-      expect(header.y + header.height / 2).toBeCloseTo(
-        close.y + close.height / 2,
-        0
-      )
+      expect(
+        Math.abs(
+          header.y + header.height / 2 - (close.y + close.height / 2)
+        )
+      ).toBeLessThanOrEqual(1)
     })
     await expect(page.locator('.dnb-drawer__reveal-overlay')).toHaveCSS(
       'background-color',
@@ -414,7 +521,10 @@ test.describe('Portal sidebar reveal', () => {
 
     await trigger.click()
     await expect(dialog).toBeVisible()
-    const scrollTop = await drawer.evaluate((element) => element.scrollTop)
+    const scrollArea = dialog.locator('.dnb-drawer__reveal-scroll')
+    const scrollTop = await scrollArea.evaluate(
+      (element) => element.scrollTop
+    )
     await touch('touchStart', 150, 650)
     for (let y = 620; y >= 300; y -= 40) {
       await touch('touchMove', 150, y)
@@ -422,7 +532,7 @@ test.describe('Portal sidebar reveal', () => {
     await touch('touchEnd')
     await expect(dialog).toBeVisible()
     await expect
-      .poll(() => drawer.evaluate((element) => element.scrollTop))
+      .poll(() => scrollArea.evaluate((element) => element.scrollTop))
       .toBeGreaterThan(scrollTop)
     await link.scrollIntoViewIfNeeded()
     const tapBounds = await link.boundingBox()

@@ -1690,6 +1690,9 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   justify-content: flex-start;
 }
 .dnb-drawer__reveal .dnb-drawer {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
   opacity: 1;
   transform: none;
   animation: none;
@@ -1698,16 +1701,30 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   will-change: clip-path;
   transition: clip-path var(--drawer-reveal-duration);
 }
+.dnb-drawer__reveal-scroll {
+  flex: 1;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
 .dnb-drawer__reveal-edge {
   position: absolute;
   inset: 0 auto 0 0;
   width: 1rem;
   pointer-events: none;
   box-shadow: var(--shadow-sharp);
-  clip-path: inset(-1rem 100% -1rem -1rem);
+  clip-path: inset(-100lvh 100% -100lvh -100vw);
   transform: translate3d(0, 0, 0);
   will-change: transform;
   transition: transform var(--drawer-reveal-duration);
+}
+.dnb-drawer__reveal-edge::before {
+  content: "";
+  position: absolute;
+  top: -100lvh;
+  right: 100%;
+  bottom: -100lvh;
+  width: 100vw;
+  background-color: currentcolor;
 }
 .dnb-drawer__reveal-overlay.dnb-modal__overlay {
   background-color: transparent;
@@ -1715,6 +1732,9 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-drawer__reveal-target {
   will-change: transform, opacity;
   transition: transform var(--drawer-reveal-duration), opacity var(--drawer-reveal-duration);
+}
+.dnb-drawer__reveal-target:where(.dnb-drawer__reveal-opening) {
+  transition: transform var(--drawer-reveal-duration), opacity calc(var(--drawer-reveal-duration) * 0.75) calc(var(--drawer-reveal-duration) * 0.25);
 }
 .dnb-drawer__reveal-dragging, .dnb-drawer__reveal-dragging .dnb-drawer__reveal-edge, .dnb-drawer__reveal-dragging .dnb-drawer {
   transition: none;
@@ -1810,6 +1830,14 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-drawer__reveal .dnb-drawer__navigation--sticky::before {
   border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
   box-shadow: none;
+}
+.dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section {
+  position: relative;
+  flex-shrink: 0;
+  border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+}
+.dnb-drawer__reveal .dnb-drawer__inner {
+  min-height: 100%;
 }
 .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
   margin: var(--drawer-spacing) 0;

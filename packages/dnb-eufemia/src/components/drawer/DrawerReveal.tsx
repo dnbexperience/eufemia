@@ -5,6 +5,7 @@ import type { DrawerAllProps } from './Drawer'
 import type { DrawerDriver, DrawerDriverProps } from './types'
 import { clsx } from 'clsx'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { DrawerContentContext } from './parts/DrawerContentContext'
 
 type RevealState = {
   active: boolean
@@ -47,26 +48,33 @@ function RevealDrawer({
   if (!reveal.enabled) {
     return renderDrawer(props)
   }
-  return renderDrawer(
-    {
-      ...props,
-      open: reveal.open,
-      onClose: (event) => {
-        reveal.onClose()
-        props.onClose?.(event)
-      },
-      overlayClass: clsx('dnb-drawer__reveal-overlay', props.overlayClass),
-      contentClass: clsx('dnb-drawer__reveal', props.contentClass),
-    },
-    <RevealSurface
-      state={reveal.state}
-      target={target}
-      noAnimation={props.noAnimation}
-      noAnimationOnMobile={props.noAnimationOnMobile}
-      animationDuration={props.animationDuration}
-      preventOverlayClose={props.preventOverlayClose}
-      preventClose={props.preventClose}
-    />
+  return (
+    <DrawerContentContext value={{ reveal: true }}>
+      {renderDrawer(
+        {
+          ...props,
+          open: reveal.open,
+          onClose: (event) => {
+            reveal.onClose()
+            props.onClose?.(event)
+          },
+          overlayClass: clsx(
+            'dnb-drawer__reveal-overlay',
+            props.overlayClass
+          ),
+          contentClass: clsx('dnb-drawer__reveal', props.contentClass),
+        },
+        <RevealSurface
+          state={reveal.state}
+          target={target}
+          noAnimation={props.noAnimation}
+          noAnimationOnMobile={props.noAnimationOnMobile}
+          animationDuration={props.animationDuration}
+          preventOverlayClose={props.preventOverlayClose}
+          preventClose={props.preventClose}
+        />
+      )}
+    </DrawerContentContext>
   )
 }
 
@@ -282,6 +290,43 @@ function RevealSurface({
     if (!drawer || !surfaces.length) {
       return undefined
     }
+    const overlay = dialog.nextElementSibling as HTMLElement
+    const layers = [dialog, overlay].filter(Boolean)
+    const previousLayerStyles = layers.map((element) =>
+      element.getAttribute('style')
+    )
+    // Keep the fixed containing block's bounds, including inline demos.
+    // Absolute layers let Safari extend the translated page behind its bars.
+    const position = () => {
+      Object.assign(dialog.style, {
+        position: 'fixed',
+        top: '0px',
+        left: '0px',
+        width: '100%',
+        height: '100%',
+      })
+      const bounds = dialog.getBoundingClientRect()
+      const width = dialog.offsetWidth
+      const height = dialog.offsetHeight
+      Object.assign(dialog.style, {
+        position: 'absolute',
+        width: `${width}px`,
+        height: `${height}px`,
+      })
+      const origin = dialog.getBoundingClientRect()
+      const style = {
+        position: 'absolute',
+        top: `${(bounds.top - origin.top) / (height ? origin.height / height : 1)}px`,
+        left: `${(bounds.left - origin.left) / (width ? origin.width / width : 1)}px`,
+        width: `${width}px`,
+        height: `${height}px`,
+      }
+      layers.forEach((element) => Object.assign(element.style, style))
+    }
+    position()
+    window.addEventListener('resize', position)
+    window.addEventListener('scroll', position, { passive: true })
+    edge.style.color = getComputedStyle(drawer).backgroundColor
     reveal.dialog = dialog
     dialog.focus({ preventScroll: true })
     const keepFocus = (event: KeyboardEvent) => {
@@ -310,8 +355,14 @@ function RevealSurface({
       ;(elements[next] || dialog).focus()
     }
     dialog.addEventListener('keydown', keepFocus)
-    const previousOverflow = document.documentElement.style.overflowX
-    document.documentElement.style.overflowX = 'clip'
+    const overflowElements = [document.documentElement, document.body]
+    const previousOverflow = overflowElements.map(
+      (element) => element.style.overflowX
+    )
+    // Mobile layout viewports also need the body to contain translated overflow.
+    overflowElements.forEach((element) => {
+      element.style.overflowX = 'clip'
+    })
     const duration =
       noAnimation ||
       (noAnimationOnMobile &&
@@ -335,8 +386,15 @@ function RevealSurface({
       )
     })
     let dragging: boolean
+    let opening: boolean
     let ready = duration === 0 || reveal.dragging
     reveal.update = (offset) => {
+      if (opening !== reveal.active) {
+        opening = reveal.active
+        surfaces.forEach((element) => {
+          element.classList.toggle('dnb-drawer__reveal-opening', opening)
+        })
+      }
       if (dragging !== reveal.dragging) {
         dragging = reveal.dragging
         elements.forEach((element) => {
@@ -347,10 +405,11 @@ function RevealSurface({
         offset = 0
       }
       const transform = `translate3d(${offset}px, 0, 0)`
+      const progress = reveal.width ? offset / reveal.width : 0
       surfaces.forEach((element) => {
         element.style.transform = transform
         element.style.opacity = String(
-          1 - 0.32 * (reveal.width ? offset / reveal.width : 0)
+          1 - 0.32 * Math.max(0, (progress - 0.4) / 0.6)
         )
       })
       edge.style.transform = transform
@@ -380,10 +439,20 @@ function RevealSurface({
     return () => {
       cancelAnimationFrame(frame)
       observer.disconnect()
+      window.removeEventListener('resize', position)
+      window.removeEventListener('scroll', position)
+      layers.forEach((element, index) => {
+        if (previousLayerStyles[index] === null) {
+          element.removeAttribute('style')
+        } else {
+          element.setAttribute('style', previousLayerStyles[index])
+        }
+      })
       dialog.removeEventListener('keydown', keepFocus)
       surfaces.forEach((element, index) => {
         element.classList.remove(
           'dnb-drawer__reveal-target',
+          'dnb-drawer__reveal-opening',
           'dnb-drawer__reveal-dragging'
         )
         const { inert, ...style } = previousStyles[index]
@@ -391,7 +460,9 @@ function RevealSurface({
         element.inert = inert
         element.style.removeProperty('--drawer-reveal-duration')
       })
-      document.documentElement.style.overflowX = previousOverflow
+      overflowElements.forEach((element, index) => {
+        element.style.overflowX = previousOverflow[index]
+      })
       reveal.dialog = null
       reveal.update = undefined
       reveal.dragging = false
