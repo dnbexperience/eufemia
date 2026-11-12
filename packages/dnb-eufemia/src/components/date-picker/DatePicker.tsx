@@ -431,6 +431,17 @@ function DatePicker(externalProps: DatePickerAllProps) {
   >({})
 
   const context = useContext(Context)
+  // use only the props from context, who are available here anyway
+  const extendedProps = extendPropsWithContext(
+    props,
+    datePickerDefaultProps,
+    { skeleton: context?.skeleton },
+    context.getTranslation(props).DatePicker,
+    pickFormElementProps(context?.formElement),
+    context.DatePicker
+  )
+
+  const { disabled } = extendedProps
   const blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
   const id = useId(props.id)
 
@@ -467,8 +478,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
   }
 
   const hidePicker = useCallback(
-    (args?: DisplayPickerEvent) => {
-      if (preventClose) {
+    (args?: DisplayPickerEvent, force = false) => {
+      if (preventClose && !force) {
         return // stop here
       }
 
@@ -489,6 +500,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const showPicker = useCallback(
     (event?: DisplayPickerEvent) => {
+      if (disabled) {
+        return
+      }
+
       if (hideTimeout.current) {
         clearTimeout(hideTimeout.current)
       }
@@ -498,8 +513,14 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
       onOpen?.({ ...getReturnObject.current(event) })
     },
-    [onOpen]
+    [disabled, onOpen]
   )
+
+  useEffect(() => {
+    if (disabled && open && !inline) {
+      hidePicker(undefined, true)
+    }
+  }, [disabled, hidePicker, inline, open])
 
   // React to open prop changes (only when not inline)
   useEffect(() => {
@@ -563,16 +584,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [open, showPicker, hidePicker]
   )
 
-  // use only the props from context, who are available here anyway
-  const extendedProps = extendPropsWithContext(
-    props,
-    datePickerDefaultProps,
-    { skeleton: context?.skeleton },
-    context.getTranslation(props).DatePicker,
-    pickFormElementProps(context?.formElement),
-    context.DatePicker
-  )
-
   const {
     label,
     title,
@@ -589,7 +600,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     inputElement,
     addonElement,
     shortcuts,
-    disabled,
     stretch,
     skeleton,
     size,
@@ -744,6 +754,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 ref={calendarContainerRef}
               >
                 <DatePickerRange
+                  disabled={disabled}
                   id={id}
                   firstDayOfWeek={firstDay}
                   resetDate={resetDate}
@@ -809,7 +820,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 />
 
                 <Popover
-                  open={open}
+                  open={open && !disabled}
                   targetElement={{
                     verticalRef: submitButtonRef,
                     horizontalRef: shellRef,
@@ -845,6 +856,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                     ref={calendarContainerRef}
                   >
                     <DatePickerRange
+                      disabled={disabled}
                       id={id}
                       firstDayOfWeek={firstDay}
                       resetDate={resetDate}
