@@ -1053,6 +1053,8 @@ test('panel closes from controls and preserves outside interaction focus', async
     exact: true,
   })
 
+  // Keep the input and controls visible before testing pointer focus.
+  await input.scrollIntoViewIfNeeded()
   await input.focus()
   await close.focus()
   await close.press('Escape')
