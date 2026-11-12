@@ -400,8 +400,8 @@
       );
     }
 
-    // Focus ring around item. Only for keyboard usage
-    &--focus {
+    // Keep the active option treatment for pointer navigation.
+    html:not([data-whatinput='keyboard']) &--focus {
       --drawer-list-option-color-text: var(
         --drawer-list-option-color-text--focus
       );
@@ -416,15 +416,13 @@
       }
     }
 
-    html[data-whatinput='keyboard'] &--focus {
-      --drawer-list-option-color-border: var(
-        --drawer-list-option-color-border--focus
-      );
-      --drawer-list-option-extra-border: var(
-        --drawer-list-option-extra-border--focus
-      );
+    html[data-whatinput='keyboard']
+      &--focus:not([disabled]):not(:hover):not(:active) {
+      @include utilities.focusOutline();
 
-      @include utilities.forcedColorsOutline($inset: inset);
+      .dnb-drawer-list__option__inner::before {
+        background-color: transparent;
+      }
     }
 
     &__suffix {
@@ -526,10 +524,6 @@
 
       &--selected &__inner::after {
         background-color: HighlightText;
-      }
-
-      html[data-whatinput='keyboard'] &--selected#{&}--focus {
-        outline-color: HighlightText;
       }
     }
 
