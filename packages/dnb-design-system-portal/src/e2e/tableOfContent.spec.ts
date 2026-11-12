@@ -725,9 +725,9 @@ test.describe('TableOfContent extension', () => {
     await expect(link).toHaveCSS('color', neutralColor)
     await link.focus()
     await expect(link).toHaveCSS('text-decoration-line', 'none')
-    expect(
-      await link.evaluate((element) => getComputedStyle(element).boxShadow)
-    ).not.toBe('none')
+    await expect(link).toHaveCSS('outline-style', 'solid')
+    await expect(link).toHaveCSS('outline-width', '3px')
+    await expect(link).toHaveCSS('outline-offset', '2px')
     await current.hover()
     await expect(current).toHaveCSS('color', neutralColor)
     await page.mouse.down()

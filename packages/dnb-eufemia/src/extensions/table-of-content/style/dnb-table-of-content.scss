@@ -80,9 +80,6 @@
   &--sidebar &__scroll {
     flex: 1 1 auto;
     min-height: 0;
-    margin-inline: calc(
-      (var(--focus-outline-width) + var(--focus-outline-offset)) * -1
-    );
     padding: calc(
       var(--focus-outline-width) + var(--focus-outline-offset)
     );

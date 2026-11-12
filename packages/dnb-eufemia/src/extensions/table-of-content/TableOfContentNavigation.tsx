@@ -344,7 +344,7 @@ export default function TableOfContentNavigation({
             ${scope}{display:block!important;position:static!important;width:auto!important;max-height:none!important}
             ${scope} .dnb-table-of-content__title{display:none!important}
             ${scope} .dnb-table-of-content__toggle.dnb-button{display:inline-flex!important}
-            ${scope} .dnb-table-of-content__scroll{padding-inline:1rem!important}
+            ${scope} .dnb-table-of-content__scroll{padding:0.25rem 1rem!important}
             ${scope} [data-table-of-content-overflow]{display:none!important}
             ${scope} .dnb-table-of-content__show-all{display:inline-flex!important}
             ${scope} .dnb-table-of-content__link.dnb-anchor{display:inline!important;min-height:0!important;padding:0.05575em 0!important;font-size:var(--font-size-basis)!important;line-height:inherit!important;color:var(--token-color-text-action)!important;text-decoration:underline!important;border-radius:var(--token-radius-sm)!important}
