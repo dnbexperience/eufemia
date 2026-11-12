@@ -204,7 +204,7 @@ for (const forcedColors of ['none', 'active'] as const) {
       await input.focus()
       await expect(input).toBeFocused()
       await expect(pill).toHaveCSS('outline-style', 'solid')
-      await expect(pill).toHaveCSS('outline-width', '2px')
+      await expect(pill).toHaveCSS('outline-width', '3px')
       await expect(pill).toHaveCSS('outline-offset', '2px')
       await expect(
         chip.locator('.dnb-checkbox__focus:visible')
