@@ -88,11 +88,9 @@
       --button-color-text--focus: var(--button-color-text--default);
 
       @include utilities.focusVisible() {
-        &:not(:hover) {
-          @include utilities.focusOutline();
+        @include utilities.focusOutline();
 
-          box-shadow: none;
-        }
+        box-shadow: none;
 
         &:hover {
           --button-color-bg: var(--button-color-bg--hover);
