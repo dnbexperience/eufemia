@@ -204,5 +204,98 @@ describe('Drawer', () => {
         simulateAfter: { keypress: 'Escape' },
       })
     })
+
+    it.each(['light', 'dark'] as const)(
+      'extends the page edge beyond the viewport in %s mode',
+      async (colorScheme) => {
+        await makeScreenshot({
+          selector: '#drawer-reveal-page',
+          withWrapper: false,
+          colorScheme,
+          executeBeforeSimulate: async () => {
+            const target = document.querySelector('#drawer-reveal-page')
+            target.parentElement.setAttribute(
+              'data-reveal-edge-preview',
+              ''
+            )
+            target.querySelector<HTMLButtonElement>('button').click()
+
+            await new Promise<void>((resolve) => {
+              function exposeBrowserBars() {
+                const dialog = document.querySelector<HTMLElement>(
+                  '.dnb-drawer__reveal'
+                )
+                if (!dialog?.style.height) {
+                  requestAnimationFrame(exposeBrowserBars)
+                  return
+                }
+
+                // Expose the area above and below the modal's layout viewport.
+                const style = document.createElement('style')
+                style.textContent = `.dnb-drawer__reveal {
+                  margin-top: 3rem;
+                  height: calc(100% - 6rem) !important;
+                }`
+                dialog.appendChild(style)
+                resolve()
+              }
+              requestAnimationFrame(exposeBrowserBars)
+            })
+          },
+          screenshotSelector: '[data-reveal-edge-preview]',
+          simulateAfter: { keypress: 'Escape' },
+        })
+      }
+    )
+  })
+
+  describe('reveal header', () => {
+    setupPageScreenshot({
+      url: '/web/components/drawer/demos/',
+      pageViewport: { width: 640, height: 800 },
+    })
+
+    it.each(['light', 'dark'] as const)(
+      'fades the scrolled menu beneath the header in %s mode',
+      async (colorScheme) => {
+        await makeScreenshot({
+          selector: '#drawer-reveal-page',
+          withWrapper: false,
+          colorScheme,
+          executeBeforeSimulate: async () => {
+            document
+              .querySelector<HTMLButtonElement>(
+                '#drawer-reveal-page button'
+              )
+              .click()
+
+            await new Promise<void>((resolve) => {
+              function scrollMenu() {
+                const scroll = document.querySelector<HTMLElement>(
+                  '.dnb-drawer__reveal-scroll'
+                )
+                if (!scroll) {
+                  requestAnimationFrame(scrollMenu)
+                  return
+                }
+
+                scroll.parentElement.style.height = '12rem'
+                requestAnimationFrame(() => {
+                  // Scroll text behind the header, including the top of the menu.
+                  scroll.scrollTo({
+                    top: scroll.scrollHeight,
+                    behavior: 'instant',
+                  })
+                  resolve()
+                })
+              }
+              requestAnimationFrame(scrollMenu)
+            })
+          },
+          screenshotSelector: '.dnb-drawer__reveal .dnb-drawer',
+          simulateAfter: { keypress: 'Escape' },
+        })
+      }
+    )
   })
 })
