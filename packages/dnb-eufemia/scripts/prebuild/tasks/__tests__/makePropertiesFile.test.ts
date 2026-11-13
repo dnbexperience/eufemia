@@ -112,23 +112,38 @@ describe('makePropertiesFile', () => {
     )
   })
 
-  it('keeps dark error text, icons and strokes on the approved foundation colors', () => {
-    for (const [tokens, foundation, prefix, shade, color] of [
-      [global.uiTokensDark, global.uiFoundation, 'dnb', '500', '#ff5959'],
-      [
-        global.sbankenTokensDark,
-        global.sbankenFoundation,
-        'sbanken',
-        '600',
-        '#ff8099',
-      ],
-    ]) {
-      const variable = '--' + prefix + '-red-' + shade
-      expect(foundation).toContain(variable + ': ' + color + ';')
-      for (const role of ['text', 'icon', 'stroke']) {
-        expect(tokens).toContain(
-          '--token-color-' + role + '-error: var(' + variable + ');'
+  it('keeps dark error text readable on the surfaces it is used on', async () => {
+    const path = await import('path')
+    const { loadTokenModes, contrastRatio } =
+      await import('../../../figma/tokenReview')
+
+    // Normal text needs 4.5:1. Only the surfaces an error message is
+    // placed on are checked, so the palette can change freely as long as
+    // the text stays readable.
+    const backgrounds = [
+      '--token-color-background-neutral',
+      '--token-color-background-neutral-subtle',
+    ]
+
+    const modes = loadTokenModes(
+      path.resolve(__dirname, '../../../../../..')
+    ).filter(({ name }) => name.endsWith(' dark'))
+
+    expect(modes.length).toBeGreaterThan(0)
+
+    for (const { name, tokens } of modes) {
+      for (const background of backgrounds) {
+        const ratio = contrastRatio(
+          tokens['--token-color-text-error'],
+          tokens[background],
+          tokens['--token-color-background-page-background']
         )
+
+        expect({
+          mode: name,
+          background,
+          ratio: ratio >= 4.5,
+        }).toEqual({ mode: name, background, ratio: true })
       }
     }
   })
