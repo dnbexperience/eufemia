@@ -591,8 +591,26 @@ html[data-whatinput='keyboard']
   .dnb-drawer-list__option.dnb-drawer-list__option--focus {
   --drawer-list-option-color-text--focus: var(--token-color-text-neutral);
 
-  outline: none;
   box-shadow: none;
+
+  &,
+  &:not(:hover):not(:active) {
+    outline: none;
+
+    @media (forced-colors: active) {
+      @include utilities.focusOutline(
+        $color: CanvasText,
+        $offset: calc(-1 * var(--focus-outline-width))
+      );
+    }
+  }
+
+  @media (forced-colors: active) {
+    &.dnb-drawer-list__option--selected,
+    &.dnb-drawer-list__option--selected:not(:hover):not(:active) {
+      outline-color: HighlightText;
+    }
+  }
 
   .dnb-drawer-list__option__inner {
     @include utilities.fakeBorder(
