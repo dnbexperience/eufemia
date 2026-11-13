@@ -33,14 +33,13 @@ export type UsageResolver = {
   docsDir: (path: string) => Promise<boolean>
 }
 
-// Fields added after launch are absent on messages queued before they existed.
-export type WebMcpUsageRecord = Omit<
-  McpUsageRecord,
-  'transport' | 'eufemia_version' | 'component_missed'
-> &
-  Partial<Pick<McpUsageRecord, 'eufemia_version' | 'component_missed'>> & {
-    transport: 'web'
-  }
+export type WebMcpUsageRecord = McpUsageRecord & { transport: 'web' }
+
+// captureUsage stamps the served docs version before enqueueing.
+export type WebMcpUsageRecordWithoutVersion = Omit<
+  WebMcpUsageRecord,
+  'eufemia_version'
+>
 
 type JsonRpcMessage = {
   method?: unknown
@@ -60,7 +59,7 @@ async function recordFromMessage(
   env: string,
   createdAt: string,
   resolver: UsageResolver
-): Promise<WebMcpUsageRecord | null> {
+): Promise<WebMcpUsageRecordWithoutVersion | null> {
   if (message.method !== 'tools/call') {
     return null
   }
@@ -118,7 +117,7 @@ async function recordFromMessage(
 export async function usageRecordsFromRequestBody(
   body: string,
   options: { env: string; now?: string; resolver: UsageResolver }
-): Promise<WebMcpUsageRecord[]> {
+): Promise<WebMcpUsageRecordWithoutVersion[]> {
   let parsed: unknown
   try {
     parsed = JSON.parse(body)
@@ -129,7 +128,7 @@ export async function usageRecordsFromRequestBody(
   const messages = Array.isArray(parsed) ? parsed : [parsed]
   const createdAt = options.now ?? new Date().toISOString()
 
-  const records: WebMcpUsageRecord[] = []
+  const records: WebMcpUsageRecordWithoutVersion[] = []
   for (const message of messages) {
     if (typeof message === 'object' && message !== null) {
       const record = await recordFromMessage(
