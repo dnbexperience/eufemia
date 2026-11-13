@@ -308,7 +308,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
 .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title {
   color: var(--token-color-text-action-pressed);
 }
-.dnb-tabs__button:not(:hover):focus-visible::before {
+.dnb-tabs__button:focus-visible::before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -318,10 +318,18 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
+}
+.dnb-tabs__button:focus-visible:not(:hover)::before {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
-.dnb-tabs__button:not(:hover):focus-visible {
+@media (forced-colors: active) {
+  .dnb-tabs__button:focus-visible::before {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: var(--focus-outline-offset);
+  }
+}
+.dnb-tabs__button:focus-visible {
   overflow: visible;
 }
 .dnb-tabs__button__snap {
@@ -762,7 +770,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
 .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title {
   color: var(--token-color-text-action-pressed);
 }
-.dnb-tabs__button:not(:hover):focus-visible::before {
+.dnb-tabs__button:focus-visible::before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -772,10 +780,18 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
+}
+.dnb-tabs__button:focus-visible:not(:hover)::before {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
-.dnb-tabs__button:not(:hover):focus-visible {
+@media (forced-colors: active) {
+  .dnb-tabs__button:focus-visible::before {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: var(--focus-outline-offset);
+  }
+}
+.dnb-tabs__button:focus-visible {
   overflow: visible;
 }
 .dnb-tabs__button__snap {

@@ -338,7 +338,7 @@
       color: var(--token-color-text-action-pressed);
     }
 
-    &:not(:hover):focus-visible {
+    &:focus-visible {
       // Focus ring
       &::before {
         content: '';
@@ -352,7 +352,16 @@
 
         height: inherit;
         border-radius: var(--token-radius-xl);
+      }
+
+      &:not(:hover)::before {
         @include utilities.focusOutline();
+      }
+
+      @media (forced-colors: active) {
+        &::before {
+          @include utilities.focusOutline($color: CanvasText);
+        }
       }
 
       overflow: visible;
