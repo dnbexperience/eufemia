@@ -26,7 +26,7 @@
  * to:
  *   .eufemia-scope--portal .eufemia-theme__sbanken
  */
-const nonDefaultThemes = ['sbanken', 'eiendom', 'carnegie']
+const nonDefaultThemes = ['sbanken', 'eiendom', 'carnegie', 'coconut']
 
 const plugin = () => {
   return {

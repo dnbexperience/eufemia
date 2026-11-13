@@ -1,0 +1,25 @@
+/**
+ * Coconut UI Theme
+ * Overrides css variables from the ui theme
+ */
+
+// WIP: Remove this import as soon as we have a mapping for all existing properties
+@use '../ui/properties.scss';
+@use './typography-properties.scss';
+
+.eufemia-theme__coconut,
+:root {
+  --button-text-translate-y: -0.03125rem;
+  --font-size-basis-native: 1rem;
+
+  // font-family
+  --font-family-default: var(--sb-font-family-default);
+  --font-family-display-skeleton: 'DNBSkeleton';
+  --font-family-display: var(--font-family-heading);
+  --font-display-text-rendering: auto;
+  --font-family-heading: var(--sb-font-family-heading);
+
+  // font-weight
+  --font-weight-medium: var(--sb-font-weight-medium);
+  --font-weight-bold: var(--sb-font-weight-bold);
+}

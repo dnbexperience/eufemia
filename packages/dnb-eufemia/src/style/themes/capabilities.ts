@@ -4,7 +4,13 @@ export type ThemeCapability = {
   supportsDarkSurface: boolean
 }
 
-export const themeNames = ['ui', 'sbanken', 'eiendom', 'carnegie'] as const
+export const themeNames = [
+  'ui',
+  'sbanken',
+  'eiendom',
+  'carnegie',
+  'coconut',
+] as const
 
 export type ThemeName = (typeof themeNames)[number]
 
@@ -30,6 +36,12 @@ export const themeCapabilities: Record<ThemeName, ThemeCapability> = {
   carnegie: {
     colorSchemes: ['light'],
     darkModeStyle: null,
+    supportsDarkSurface: true,
+  },
+  coconut: {
+    colorSchemes: ['light', 'dark'],
+    darkModeStyle:
+      '@dnb/eufemia/style/themes/coconut/coconut-theme-dark-mode.min.css',
     supportsDarkSurface: true,
   },
 }

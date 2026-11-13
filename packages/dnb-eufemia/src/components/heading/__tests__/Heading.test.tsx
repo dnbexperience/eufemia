@@ -928,35 +928,38 @@ describe('Heading component', () => {
 })
 
 describe('Heading theming', () => {
-  it('uses Sbanken heading sizes when the brand is set via Provider', () => {
-    const ui = render(
-      <Heading.Level reset={1}>
-        <Heading>One</Heading>
-        <Heading>Two</Heading>
-      </Heading.Level>
-    )
-    // DNB (ui) maps a level-2 heading to "large"
-    expect(
-      ui.container
-        .querySelectorAll('.dnb-heading')[1]
-        .getAttribute('class')
-    ).toContain('dnb-h--large')
-
-    const sbanken = render(
-      <Provider theme={{ brand: 'sbanken' }}>
+  it.each(['sbanken', 'coconut'] as const)(
+    'uses %s heading sizes when the brand is set via Provider',
+    (brand) => {
+      const ui = render(
         <Heading.Level reset={1}>
           <Heading>One</Heading>
           <Heading>Two</Heading>
         </Heading.Level>
-      </Provider>
-    )
-    // Sbanken maps a level-2 heading to "x-large"
-    expect(
-      sbanken.container
-        .querySelectorAll('.dnb-heading')[1]
-        .getAttribute('class')
-    ).toContain('dnb-h--x-large')
-  })
+      )
+      // DNB (ui) maps a level-2 heading to "large"
+      expect(
+        ui.container
+          .querySelectorAll('.dnb-heading')[1]
+          .getAttribute('class')
+      ).toContain('dnb-h--large')
+
+      const themed = render(
+        <Provider theme={{ brand }}>
+          <Heading.Level reset={1}>
+            <Heading>One</Heading>
+            <Heading>Two</Heading>
+          </Heading.Level>
+        </Provider>
+      )
+      // Both brands map a level-2 heading to "x-large"
+      expect(
+        themed.container
+          .querySelectorAll('.dnb-heading')[1]
+          .getAttribute('class')
+      ).toContain('dnb-h--x-large')
+    }
+  )
 })
 
 function StateChanges({
