@@ -106,7 +106,7 @@ Deploy credentials and configuration are provided via repository secrets and var
 The deploy creates the three Lambda execution roles with the OIDC permissions boundary. Each gets basic Lambda logging plus one policy from the OIDC federation repo, and the deploy role may attach no others:
 
 - `eufemia-<env>-analytics-lambda` (ingest): `eufemia-<env>-analytics-collect` (`s3:PutObject` on the data bucket's `portal-views/*` and `mcp-usage/*` prefixes).
-- `eufemia-<env>-analytics-snapshot-lambda` (snapshot generator): `eufemia-<env>-analytics-snapshot-build` (read and write the data bucket, run Athena queries in the workgroup, read the analytics Glue tables).
+- `eufemia-<env>-analytics-snapshot-lambda` (snapshot generator): `eufemia-<env>-analytics-snapshot-build` (read the data bucket, `s3:PutObject` only on the `portal-views-daily/*`, `mcp-usage-daily/*`, `component-usage-daily/*`, `snapshots/*` and `athena-results/*` prefixes, run Athena queries in the workgroup, read the analytics Glue tables).
 - `eufemia-<env>-dashboard-lambda` (dashboard read): `eufemia-<env>-dashboard-snapshot-read` (`s3:GetObject` on `snapshots/*`).
 
 The deploy role can't change a role's trust policy, description or maximum session duration; such a change fails the deploy until the OIDC federation repo grants it. Renaming a role replaces it, so the new name must be granted there first and `prevent_destroy` lifted in the same change.
