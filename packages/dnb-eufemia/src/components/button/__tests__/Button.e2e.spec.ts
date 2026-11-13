@@ -15,13 +15,23 @@ for (const theme of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
       await page.keyboard.press('Tab')
       await button.focus()
 
-      const focusStyles = await button.evaluate((element) => {
-        const style = getComputedStyle(element)
-        return {
-          'background-color': style.backgroundColor,
-          color: style.color,
-          'box-shadow': style.boxShadow,
-        }
+      const focusOutline = () =>
+        button.evaluate(
+          (element, pseudo) => {
+            const style = getComputedStyle(element, pseudo)
+            return {
+              style: style.outlineStyle,
+              width: style.outlineWidth,
+              offset: style.outlineOffset,
+            }
+          },
+          variant === 'tertiary' ? '::before' : null
+        )
+
+      expect(await focusOutline()).toEqual({
+        style: 'solid',
+        width: '3px',
+        offset: '2px',
       })
 
       await button.hover()
@@ -37,9 +47,11 @@ for (const theme of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         await button.evaluate((element) => element.matches(':hover'))
       ).toBe(true)
 
-      for (const [property, value] of Object.entries(focusStyles)) {
-        await expect(button).toHaveCSS(property, value)
-      }
+      expect(await focusOutline()).toEqual({
+        style: 'solid',
+        width: '3px',
+        offset: '2px',
+      })
     })
   }
 }
