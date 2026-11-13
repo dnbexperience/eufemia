@@ -39,6 +39,24 @@ describe('useTheme', () => {
       name: 'sbanken',
       isEiendom: false,
       isSbanken: true,
+      isCoconut: false,
+      isUi: false,
+      isCarnegie: false,
+    })
+  })
+
+  it('reports the transitional coconut brand as Sbanken too', () => {
+    const wrapper = ({ children }) => (
+      <Theme brand="coconut">{children}</Theme>
+    )
+    const { result } = renderHook(() => useTheme(), { wrapper })
+
+    expect(result.current).toEqual({
+      brand: 'coconut',
+      name: 'coconut',
+      isEiendom: false,
+      isSbanken: true,
+      isCoconut: true,
       isUi: false,
       isCarnegie: false,
     })
@@ -86,6 +104,7 @@ describe('useTheme', () => {
       name: undefined,
       isEiendom: false,
       isSbanken: false,
+      isCoconut: false,
       isUi: false,
       isCarnegie: false,
     })

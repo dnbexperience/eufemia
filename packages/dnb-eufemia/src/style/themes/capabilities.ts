@@ -9,10 +9,22 @@ export const themeNames = [
   'sbanken',
   'eiendom',
   'carnegie',
+  /**
+   * @deprecated Transitional brand. It is removed again later, so do not
+   * rely on it in application code.
+   */
   'coconut',
 ] as const
 
 export type ThemeName = (typeof themeNames)[number]
+
+/**
+ * Brands that exist only temporarily. They are not documented, because the
+ * documentation of the brand they are grouped with applies.
+ *
+ * @deprecated Removed together with the brands it lists.
+ */
+export const transitionalThemeNames: ReadonlyArray<ThemeName> = ['coconut']
 
 export const themeCapabilities: Record<ThemeName, ThemeCapability> = {
   ui: {
@@ -38,6 +50,7 @@ export const themeCapabilities: Record<ThemeName, ThemeCapability> = {
     darkModeStyle: null,
     supportsDarkSurface: true,
   },
+  /** @deprecated Transitional "coconut" brand, removed with the brand */
   coconut: {
     colorSchemes: ['light', 'dark'],
     darkModeStyle:
