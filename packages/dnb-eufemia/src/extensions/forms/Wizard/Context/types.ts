@@ -27,7 +27,7 @@ export type Steps = Map<
   {
     index: StepIndex
 
-    /** Includes hidden steps, unlike `index` */
+    /** Index among all of the container's children, including hidden steps */
     childIndex: number
 
     id: string
