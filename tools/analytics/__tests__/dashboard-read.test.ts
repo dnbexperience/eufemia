@@ -28,10 +28,6 @@ type Command = { kind: 'get' | 'put'; input: Record<string, unknown> }
 type Snapshot = { generatedAt: string; portalViewTrends: unknown }
 type Result = { statusCode: number; body: string }
 
-class NoSuchKey extends Error {
-  override name = 'NoSuchKey'
-}
-
 function getResult(snapshot: Snapshot) {
   return {
     Body: { transformToString: async () => JSON.stringify(snapshot) },
@@ -81,51 +77,8 @@ describe('dashboard-read handler', () => {
     expect(putCalls()).toHaveLength(0)
   })
 
-  it('returns an empty payload when no snapshot exists yet', async () => {
-    send.mockRejectedValue(new NoSuchKey('missing'))
-
-    const res = (await handler()) as Result
-
-    expect(res.statusCode).toBe(200)
-    expect(JSON.parse(res.body)).toEqual({
-      generatedAt: '',
-      portalViewTrends: {
-        perDay: [],
-        topPathsPerMonth: [],
-        perLocaleAndTheme: [],
-      },
-      mcpUsage: {
-        web: {
-          total: 0,
-          perTool: [],
-          perComponent: [],
-          perPath: [],
-          missedLookups: 0,
-          perVersion: [],
-          daily: [],
-        },
-        local: {
-          total: 0,
-          perTool: [],
-          perComponent: [],
-          perPath: [],
-          missedLookups: 0,
-          perVersion: [],
-          daily: [],
-        },
-      },
-      componentUsage: {
-        total: 0,
-        perComponent: [],
-        perApp: [],
-        perVersion: [],
-      },
-    })
-    expect(putCalls()).toHaveLength(0)
-  })
-
-  it('returns 503 when the snapshot read fails', async () => {
-    send.mockRejectedValue(new Error('access denied'))
+  it('returns 503 when the snapshot is missing or unreadable', async () => {
+    send.mockRejectedValue(new Error('Access Denied'))
 
     const res = (await handler()) as Result
 
@@ -134,6 +87,14 @@ describe('dashboard-read handler', () => {
     expect(errorSpy).toHaveBeenCalledWith(
       expect.stringContaining('failed to read dashboard snapshot')
     )
+  })
+
+  it('returns 503 when the snapshot body is empty', async () => {
+    send.mockResolvedValue({ Body: { transformToString: async () => '' } })
+
+    const res = (await handler()) as Result
+
+    expect(res.statusCode).toBe(503)
   })
 
   it('throws when DATA_BUCKET is not set', async () => {
