@@ -1875,19 +1875,12 @@ html[data-visual-test] .dnb-input__input {
   z-index: 1;
   margin: 0;
 }
-.dnb-date-picker__container table.dnb-no-focus:focus {
-  outline: none;
+html:not([data-whatinput=touch]) .dnb-date-picker__container table.dnb-no-focus:focus-visible[disabled] {
+  cursor: not-allowed;
 }
-html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:focus {
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:focus {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+html:not([data-whatinput=touch]) .dnb-date-picker__container table.dnb-no-focus:focus-visible:not([disabled]) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: 0;
 }
 .dnb-date-picker__container table th {
   font-size: var(--font-size-medium);
@@ -2217,14 +2210,10 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--end-date:not(.dnb-date-
 .dnb-date-picker__day--inactive .dnb-button[disabled], .dnb-date-picker__day--disabled .dnb-button[disabled] {
   box-shadow: none;
 }
-.dnb-date-picker__day--selectable .dnb-button:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-date-picker__day--selectable .dnb-button:focus-visible:not([disabled]) {
   z-index: 2;
-  color: var(--token-color-text-action-focus);
-  background-color: var(--token-color-background-action-focus-subtle);
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
   cursor: default;
