@@ -32,7 +32,7 @@ test('keeps Chat.Info and the AI overview on separate routes', async ({
 
   await page.goto('/web/patterns-and-extensions/chat/about/')
   await waitForApp(page)
-  await expect(page.locator('h1')).toContainText('Chat components')
+  await expect(page.locator('h1')).toHaveAccessibleName('Using Chat')
   await page
     .getByRole('heading', { name: 'Chat.Info', exact: true })
     .getByRole('link', { name: 'Chat.Info', exact: true })

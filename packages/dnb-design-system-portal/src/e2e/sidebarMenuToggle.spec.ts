@@ -434,6 +434,11 @@ test.describe('Portal sidebar reveal', () => {
     await expect(trigger).toHaveCSS('box-shadow', 'none')
     expect(
       await trigger.evaluate(
+        (element) => getComputedStyle(element, '::before').outlineStyle
+      )
+    ).toBe('none')
+    expect(
+      await trigger.evaluate(
         (element) => getComputedStyle(element, '::before').boxShadow
       )
     ).toBe('none')
