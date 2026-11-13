@@ -75,7 +75,7 @@
   --color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --color-text-neutral-subtle: var(--sbanken-greyscale-600);
   --color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
-  --color-text-error: var(--sbanken-red-600);
+  --color-text-error: var(--sbanken-red-400);
   --color-text-error-inverse: var(--sbanken-red-950);
   --color-text-warning: var(--sbanken-yellow-600);
   --color-text-warning-inverse: var(--sbanken-yellow-800);
@@ -107,7 +107,7 @@
   --color-icon-positive-subtle: var(--sbanken-green-900);
   --color-icon-warning: var(--sbanken-yellow-600);
   --color-icon-warning-subtle: var(--sbanken-yellow-950);
-  --color-icon-error: var(--sbanken-red-600);
+  --color-icon-error: var(--sbanken-red-400);
   --color-icon-error-subtle: var(--sbanken-red-950);
   --color-icon-marketing: var(--sbanken-purple-200);
   --color-icon-marketing-subtle: var(--sbanken-greyscale-800);
