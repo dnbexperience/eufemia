@@ -123,6 +123,10 @@
       .dnb-table__sort-button.dnb-button {
         flex-direction: row-reverse;
 
+        &::before {
+          right: -0.5rem;
+        }
+
         &--tertiary.dnb-button--icon-position-right {
           padding-right: 0.5rem;
 

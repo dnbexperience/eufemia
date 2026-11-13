@@ -7,6 +7,39 @@ import {
 
 const defaults = { wrapperStyle: { margin: '0 !important' } } // because of ScrollView overflow
 
+describe.each(['light', 'dark'] as const)(
+  'Table horizontal scroll in %s mode',
+  (colorScheme) => {
+    setupPageScreenshot({
+      url: '/web/components/table/demos/',
+      themeName: 'ui',
+      colorScheme,
+    })
+
+    it('shows the scroll button at the end edge', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector:
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view',
+      })
+    })
+
+    it('moves the scroll button with the table while fading', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector:
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view',
+        executeBeforeSimulate: () => {
+          const element = document.querySelector(
+            '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view'
+          )
+          element.scrollLeft = element.clientWidth / 8
+        },
+      })
+    })
+  }
+)
+
 describe.each(['ui', 'sbanken'])(`Table for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
