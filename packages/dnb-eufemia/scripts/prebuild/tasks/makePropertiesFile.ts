@@ -61,7 +61,7 @@ const TOKEN_SETS = {
   colors: {
     fileName: 'color.tokens.json',
     targetVariableSetId:
-      'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+      'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19',
   },
   sizes: {
     targetVariableSetId:
