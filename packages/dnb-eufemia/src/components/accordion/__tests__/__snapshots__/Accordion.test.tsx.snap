@@ -590,5 +590,13 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
 }
 .dnb-accordion__tertiary-button {
   align-self: flex-start;
+}
+html:not([data-whatinput=touch]) .dnb-accordion__tertiary-content.dnb-tab-focus:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-accordion__tertiary-content.dnb-tab-focus:focus-visible:not([disabled]) {
+  box-shadow: none;
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: 0;
 }"
 `;
