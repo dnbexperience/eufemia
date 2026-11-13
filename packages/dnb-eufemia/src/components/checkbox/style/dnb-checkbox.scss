@@ -711,7 +711,9 @@
 
   /** Focus state **/
 
-  &:not(#{&}--surface-dark) &__input:not([disabled]):focus ~ &__button {
+  :where(#{&}:not(#{&}--surface-dark))
+    &__input:not([disabled]):focus
+    ~ &__button {
     html[data-whatinput='keyboard'] & {
       @include utilities.focusOutline();
     }

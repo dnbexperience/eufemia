@@ -1893,7 +1893,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-checkbox:not(.dnb-checkbox--surface-dark) .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
+html[data-whatinput=keyboard] :where(.dnb-checkbox:not(.dnb-checkbox--surface-dark)) .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
@@ -2320,7 +2320,7 @@ html[data-whatinput=keyboard] .dnb-checkbox--surface-dark .dnb-checkbox__input:n
 .dnb-radio {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-radio:not(.dnb-radio--surface-dark) .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+html[data-whatinput=keyboard] :where(.dnb-radio:not(.dnb-radio--surface-dark)) .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
