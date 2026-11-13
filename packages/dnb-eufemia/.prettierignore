@@ -3,4 +3,6 @@
 .cache/
 **/icons-meta.json
 **/sbanken/fonts.scss
+# @deprecated Transitional "coconut" brand, removed later
+**/coconut/fonts.scss
 **/style/themes/figma/**/*.json

@@ -58,6 +58,8 @@ function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
       sbanken: { name: 'Sbanken (WIP)' },
       eiendom: { name: 'DNB Eiendom' },
       carnegie: { name: 'DNB Carnegie (WIP)' },
+      // @deprecated Transitional "coconut" brand, removed later
+      coconut: { name: 'Coconut' },
     },
     defaultTheme: 'ui',
     // Anchored at the package root, so globby does not walk the whole package.
@@ -202,10 +204,11 @@ export default function eufemiaThemePlugin(): Plugin {
           // dynamic import() into separate CSS chunks. This allows
           // clean theme switching while keeping the active theme enabled
           // until the replacement stylesheet is ready.
+          // A theme name can contain a hyphen, so the key has to be quoted
           const loaderEntries = themeNames
             .map(
               (name) =>
-                `  ${name}: () => import('${VIRTUAL_THEME_PREFIX}${name}'),`
+                `  ${JSON.stringify(name)}: () => import('${VIRTUAL_THEME_PREFIX}${name}'),`
             )
             .join('\n')
 

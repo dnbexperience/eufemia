@@ -43,6 +43,9 @@ const availableThemes: Record<string, { name: string; hide?: boolean }> = {
   sbanken: { name: 'Sbanken (WIP)' },
   eiendom: { name: 'DNB Eiendom' },
   carnegie: { name: 'DNB Carnegie (WIP)' },
+  // @deprecated Transitional "coconut" brand, removed later.
+  // Hidden from the brand switcher; reachable via ?eufemia-theme=coconut
+  coconut: { name: 'Coconut', hide: true },
 }
 
 const themeNames: ThemeNames[] = Object.keys(
