@@ -28,6 +28,7 @@ type DatePickerRangeProps = Omit<HTMLProps<HTMLElement>, 'onChange'> &
   }
 
 function DatePickerRange({
+  disabled,
   onPickerChange,
   ...props
 }: DatePickerRangeProps) {
@@ -41,6 +42,10 @@ function DatePickerRange({
       > &
         DatePickerDates
     ) => {
+      if (disabled) {
+        return
+      }
+
       callOnChangeHandler(event)
 
       onPickerChange?.({
@@ -49,7 +54,7 @@ function DatePickerRange({
         ...event,
       })
     },
-    [onPickerChange, callOnChangeHandler]
+    [disabled, onPickerChange, callOnChangeHandler]
   )
 
   return (
