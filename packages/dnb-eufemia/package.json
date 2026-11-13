@@ -50,7 +50,6 @@
     "figma:reset": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/resetIcons && babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons",
     "figma:tokens": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateTokens",
     "flags:sync": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/syncCountryFlags",
-    "icons:commit": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/tasks/commitChanges",
     "icons:convert": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons && babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateIcons",
     "icons:dev": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons' --ext ts --ignore '/icons/**' --ignore '*.json'",
     "icons:downloads": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/buildIconDownloads",

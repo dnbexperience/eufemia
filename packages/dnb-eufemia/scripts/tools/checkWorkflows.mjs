@@ -7,6 +7,8 @@
  * - Every job sets its `permissions`, or its workflow does, because the
  *   default `GITHUB_TOKEN` is read-only.
  * - Every action that GitHub did not create is on ALLOWED_THIRD_PARTY_ACTIONS.
+ * - No file reads the retired personal access token secrets. A deleted secret
+ *   resolves to an empty string instead of failing.
  *
  * The settings stop such a workflow only when it runs. The release, deploy
  * and scheduled workflows do not run on a pull request, so without this check
@@ -44,6 +46,10 @@ const GITHUB_OWNERS = ['actions', 'github']
 const USES =
   /(?:^[ \t]*(?:- )?|[{,][ \t]*)["']?uses["']?[ \t]*:[ \t]*["']?([^"'\s,}#]+)/gm
 
+// `secrets.NAME` or `secrets['NAME']`
+const RETIRED_SECRETS =
+  /\bsecrets\s*(?:\.\s*(GH_TOKEN|GH_NAME|GH_EMAIL)\b|\[\s*["'](GH_TOKEN|GH_NAME|GH_EMAIL)["']\s*\])/g
+
 export function checkWorkflowFile({
   file,
   text,
@@ -63,6 +69,12 @@ export function checkWorkflowFile({
     for (const problem of checkPermissions(content)) {
       problems.push(`${file}: ${problem}`)
     }
+  }
+
+  for (const [, dotted, bracketed] of content.matchAll(RETIRED_SECRETS)) {
+    problems.push(
+      `${file}: \`secrets.${dotted ?? bracketed}\` is a retired personal access token secret; use a GitHub App token instead`
+    )
   }
 
   return problems
@@ -192,7 +204,7 @@ function main() {
   }
 
   console.log(
-    `All ${files.length} workflow and action files pin their actions, set their permissions and use allowed actions only.`
+    `All ${files.length} workflow and action files pin their actions, set their permissions, use allowed actions only and read no retired secrets.`
   )
 }
 

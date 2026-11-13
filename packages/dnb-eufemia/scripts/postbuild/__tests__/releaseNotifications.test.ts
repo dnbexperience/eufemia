@@ -464,9 +464,6 @@ describe('release notification isolation', () => {
     const download = workflow.jobs['notify-release']?.steps?.find((step) =>
       step.uses?.startsWith('actions/download-artifact@')
     )
-    const notify = workflow.jobs['notify-release']?.steps?.find((step) =>
-      step.uses?.startsWith('actions/github-script@')
-    )
 
     expect(workflow.jobs['notify-release']?.needs).toBe('action')
     expect(dependents).toEqual([])
@@ -474,9 +471,33 @@ describe('release notification isolation', () => {
       "${{ needs.action.outputs.notification-artifact-id || 'missing' }}"
     )
     expect(download?.with?.name).toBeUndefined()
-    expect(notify?.with?.['github-token']).toBe('${{ secrets.GH_TOKEN }}')
     expect(workflow.jobs['notify-release']?.permissions).toEqual({
       contents: 'read',
     })
+
+    const notifyJob = workflow.jobs['notify-release'] as {
+      environment?: string
+      steps?: Array<{
+        id?: string
+        uses?: string
+        with?: Record<string, string>
+      }>
+    }
+    const token = notifyJob.steps?.find((step) =>
+      step.uses?.startsWith('actions/create-github-app-token@')
+    )
+    const notify = notifyJob.steps?.find((step) =>
+      step.uses?.startsWith('actions/github-script@')
+    )
+
+    expect(notifyJob.environment).toBe('npm-release')
+    expect(token?.with).toMatchObject({
+      'permission-contents': 'read',
+      'permission-issues': 'write',
+      'permission-pull-requests': 'write',
+    })
+    expect(notify?.with?.['github-token']).toBe(
+      `\${{ steps.${token?.id}.outputs.token }}`
+    )
   })
 })
