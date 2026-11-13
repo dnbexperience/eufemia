@@ -6,6 +6,12 @@
   z-index: 2;
 }
 
+@mixin navigationFocusOutline() {
+  --list-item-outline-color: var(--token-color-stroke-action-focus);
+  --list-item-outline-width: var(--list-item-focus-outline-width);
+  z-index: 2;
+}
+
 // Safari before 15.4 and Firefox before 121 do not support :has(), so
 // they drop the rules that show the outline of an item on keyboard focus.
 // These browsers cannot style the item from its focused child. So the
@@ -16,12 +22,12 @@
 // outline there. Safari before 15.4 does not, so it uses :focus.
 @mixin focusFallback() {
   @supports (not (selector(:has(*)))) and (selector(:focus-visible)) {
-    &:focus-visible::before {
+    &:focus-visible:where(:not(:hover):not(:active))::before {
       @include focusFallbackOutline();
     }
   }
   @supports (not (selector(:has(*)))) and (not (selector(:focus-visible))) {
-    &:focus::before {
+    &:focus:not(:hover):not(:active)::before {
       @include focusFallbackOutline();
     }
   }
@@ -32,8 +38,8 @@
   position: absolute;
   inset: 0;
   z-index: 11; // Above the outline of the item (::after)
-  box-shadow: inset 0 0 0 0.125rem
-    var(--list-item-navigation-outline-color);
+  box-shadow: inset 0 0 0 var(--list-item-focus-outline-width)
+    var(--token-color-stroke-action-focus);
 }
 
 .dnb-list {
@@ -52,6 +58,7 @@
     );
     --list-item-chevron-margin: 1rem;
     --list-item-chevron-height: 1.5rem;
+    --list-item-focus-outline-width: var(--focus-outline-width);
     --list-item-outline-width: 0.0625rem;
     --list-item-outline-color: var(--token-color-stroke-neutral-subtle);
     --list-item-navigation-color: var(--token-color-icon-action);
@@ -560,11 +567,13 @@
       &:not(.dnb-list__item--disabled):hover {
         @include navigationOutline();
       }
-      &:not(.dnb-list__item--disabled):has(
+      &:not(.dnb-list__item--disabled):where(
+          :not(:hover):not(:active)
+        ):has(
           > a:focus-visible,
           > .dnb-list__item__action__button:focus-visible
         ) {
-        @include navigationOutline();
+        @include navigationFocusOutline();
       }
       &:not(.dnb-list__item--disabled) > a,
       &:not(.dnb-list__item--disabled) > .dnb-list__item__action__button {
@@ -624,9 +633,11 @@
       @include navigationOutline();
     }
     &:not(.dnb-list__item--disabled):has(
-        > #{&}__accordion__header:focus-visible
+        > #{&}__accordion__header:focus-visible:where(
+            :not(:hover):not(:active)
+          )
       ) {
-      @include navigationOutline();
+      @include navigationFocusOutline();
     }
     &__accordion:not(.dnb-list__item--disabled) > #{&}__accordion__header {
       @include focusFallback();
@@ -686,8 +697,8 @@
         }
       }
 
-      // Only raise a nested row when its own outline is visible.
-      &
+      // Keep the hovered header outline above focused nested rows.
+      &:where(:not(:has(> #{&}__header:hover)))
         > #{&}__content
         .dnb-list__item:is(:hover, :has(> :focus-visible)) {
         z-index: 11;
@@ -822,6 +833,7 @@
 
     // Handle scrollbar
     .dnb-scroll-view & {
+      --list-item-focus-outline-width: 0.125rem;
       padding-right: calc(var(--scrollbar-track-width) * 2);
     }
     .dnb-card:has(.dnb-scroll-view &) {
