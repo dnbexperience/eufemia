@@ -159,6 +159,7 @@ function Selection(props: FieldSelectionProps) {
   const clearValue = `clear-option-${useId()}`
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     className,
     variant = 'dropdown',
@@ -343,6 +344,7 @@ function Selection(props: FieldSelectionProps) {
   )
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: cn,
     disableStatusSummary: true,

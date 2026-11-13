@@ -5,7 +5,10 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useSharedState } from '../../../shared/helpers/useSharedState'
+import {
+  useSharedState,
+  useSharedStateStore,
+} from '../../../shared/helpers/useSharedState'
 import { debounceAsync } from '../../../shared/helpers/debounce'
 import type { FilterState, FilterValue } from '../FilterContext'
 import { FilterContext } from '../FilterContext'
@@ -20,7 +23,13 @@ const emptyState: FilterState = {
  * Linked to a Filter.Root by id via useSharedState.
  */
 export function useFilter(id: string) {
-  const { data, get, extend } = useSharedState<FilterState>(id, emptyState)
+  const store = useSharedStateStore()
+  const { data, get, extend } = useSharedState<FilterState>(
+    id,
+    emptyState,
+    undefined,
+    { store }
+  )
 
   const state = data ?? emptyState
 
@@ -94,9 +103,12 @@ export function useFilterAsync<T>(
   }) => Promise<T>,
   options?: FilterAsyncOptions<T>
 ): { data: T | undefined; loading: boolean; error: Error | undefined } {
+  const store = useSharedStateStore()
   const { data: filterData, extend } = useSharedState<FilterState>(
     id,
-    emptyState
+    emptyState,
+    undefined,
+    { store }
   )
 
   const state = filterData ?? emptyState

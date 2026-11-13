@@ -302,6 +302,7 @@ function StringComponent(props: FieldStringProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     name,
     className,
@@ -433,6 +434,7 @@ function StringComponent(props: FieldStringProps) {
   }
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx('dnb-forms-field-string', className),
     width:

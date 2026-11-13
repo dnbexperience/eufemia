@@ -3,6 +3,7 @@ import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   createSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
@@ -29,9 +30,12 @@ export type UseSubmitReturn = {
  * @throws Error when used outside Form.Handler and no valid id is provided.
  */
 export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
+  const store = useSharedStateStore()
   const sharedDataContext = id
     ? createSharedState<ContextState>(
-        createReferenceKey(id, 'data-context')
+        createReferenceKey(id, 'data-context', store),
+        undefined,
+        store
       )
     : null
   const dataContext = useContext(DataContext)

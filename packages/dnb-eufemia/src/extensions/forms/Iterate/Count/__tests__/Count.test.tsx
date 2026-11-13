@@ -10,6 +10,15 @@ describe('Iterate.Count', () => {
     identifier = makeUniqueId()
   })
 
+  it('should not warn about server rendering in the browser', () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
+
+    count({ id: identifier, path: '/myList' })
+
+    expect(log).not.toHaveBeenCalled()
+    log.mockRestore()
+  })
+
   describe('array data', () => {
     describe('within DataContext', () => {
       it('should return correct count', () => {

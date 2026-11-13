@@ -5,6 +5,7 @@ import {
   createReferenceKey,
   createSharedState,
   useSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
@@ -22,15 +23,23 @@ type UseDataReturn = {
 export default function useValidation(
   id: SharedStateId = undefined
 ): UseDataReturn {
+  const store = useSharedStateStore()
   const sharedDataContext = id
     ? createSharedState<ContextState>(
-        createReferenceKey(id, 'data-context')
+        createReferenceKey(id, 'data-context', store),
+        undefined,
+        store
       )
     : null
 
   const { data } = useSharedState<
     UseDataReturn & SharedAttachments<unknown>
-  >(id ? createReferenceKey(id, 'attachments') : undefined)
+  >(
+    id ? createReferenceKey(id, 'attachments', store) : undefined,
+    undefined,
+    undefined,
+    { store }
+  )
 
   const fallback = useCallback(() => false, [])
 
@@ -84,14 +93,20 @@ type UseConnectionsSharedState = {
 }
 
 function useConnections(id: SharedStateId = undefined) {
+  const store = useSharedStateStore()
   const sharedDataContext = id
     ? createSharedState<ContextState>(
-        createReferenceKey(id, 'data-context')
+        createReferenceKey(id, 'data-context', store),
+        undefined,
+        store
       )
     : null
 
   const { get } = useSharedState<UseConnectionsSharedState>(
-    id ? createReferenceKey(id, 'attachments') : undefined
+    id ? createReferenceKey(id, 'attachments', store) : undefined,
+    undefined,
+    undefined,
+    { store }
   )
 
   const dataContext = useContext(DataContext)
