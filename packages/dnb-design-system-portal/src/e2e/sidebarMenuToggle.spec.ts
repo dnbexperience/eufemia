@@ -501,6 +501,7 @@ test.describe('Portal sidebar reveal', () => {
       const action = dialog
         .locator('.dnb-sidebar-menu__item__action')
         .first()
+      await action.scrollIntoViewIfNeeded()
       const bounds = await action.boundingBox()
       const x = bounds.x + bounds.width / 2
       const y = bounds.y + bounds.height / 2
