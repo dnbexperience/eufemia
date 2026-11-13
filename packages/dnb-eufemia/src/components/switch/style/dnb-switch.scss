@@ -252,6 +252,12 @@
     cursor: pointer;
   }
 
+  // Focus border
+  &--surface-dark &__input:not([disabled]):focus ~ &__background,
+  &--surface-dark &__input:not([disabled]):active ~ &__background {
+    @include utilities.focusRing();
+  }
+
   // label
   .dnb-form-label {
     padding-right: 0.5rem;
@@ -354,9 +360,30 @@
    * On focus state
    *
    */
-  &__input:not([disabled]):focus ~ &__background {
+  &:not(#{&}--surface-dark)
+    &__input:not([disabled]):focus
+    ~ &__background {
     html[data-whatinput='keyboard'] & {
       @include utilities.focusOutline();
+    }
+  }
+
+  &--surface-dark &__input:not([disabled]):focus ~ &__background {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--switch-focus-background);
+    }
+  }
+  &--surface-dark &__input:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      color: var(--switch-focus-icon);
+      background-color: var(--switch-focus-button-background);
+      @include utilities.fakeBorder(var(--switch-focus-border), 0.0625rem);
+    }
+  }
+
+  &--surface-dark &__input:checked:not([disabled]):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      box-shadow: none;
     }
   }
 
@@ -481,6 +508,10 @@
     --switch-focus-icon: var(--token-color-icon-neutral-ondark);
   }
 
+  html[data-whatinput='keyboard']
+    &--surface-dark#{&}__status--error
+    &__input:not([disabled]):focus
+    ~ &__button,
   html:not([data-whatinput='keyboard'])
     &__status--error
     &__input:not([disabled]):not(:active):hover
