@@ -591,6 +591,7 @@ html[data-whatinput='keyboard']
   .dnb-drawer-list__option.dnb-drawer-list__option--focus {
   --drawer-list-option-color-text--focus: var(--token-color-text-neutral);
 
+  outline: none;
   box-shadow: none;
 
   .dnb-drawer-list__option__inner {

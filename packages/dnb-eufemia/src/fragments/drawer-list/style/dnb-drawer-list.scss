@@ -416,12 +416,17 @@
       }
     }
 
-    html[data-whatinput='keyboard']
-      &--focus:not([disabled]):not(:hover):not(:active) {
-      @include utilities.focusOutline();
+    html[data-whatinput='keyboard'] &--focus:not([disabled]) {
+      &:not(:hover):not(:active) {
+        @include utilities.focusOutline();
 
-      .dnb-drawer-list__option__inner::before {
-        background-color: transparent;
+        .dnb-drawer-list__option__inner::before {
+          background-color: transparent;
+        }
+      }
+
+      @media (forced-colors: active) {
+        @include utilities.focusOutline($color: CanvasText);
       }
     }
 

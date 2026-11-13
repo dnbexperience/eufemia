@@ -326,6 +326,12 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):no
 html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) .dnb-drawer-list__option__inner::before {
   background-color: transparent;
 }
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]) {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: var(--focus-outline-offset);
+  }
+}
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
     grid-column: 2;
@@ -926,6 +932,12 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):no
 }
 html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) .dnb-drawer-list__option__inner::before {
   background-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]) {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: var(--focus-outline-offset);
+  }
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
