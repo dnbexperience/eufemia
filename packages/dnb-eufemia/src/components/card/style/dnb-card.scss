@@ -300,7 +300,9 @@
     --card-outline-color: var(--token-color-stroke-action-focus);
     --outline-color: var(--token-color-stroke-action-focus);
     --outline-width: var(--focus-outline-width);
+  }
 
+  &:focus-visible > .dnb-card {
     @include utilities.forcedColorsOutline(
       $width: var(--focus-outline-width),
       $inset: inset
