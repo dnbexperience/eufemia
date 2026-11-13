@@ -21,9 +21,7 @@
     pointer-events: auto;
 
     @include utilities.focusVisible() {
-      outline: var(--focus-ring-width) solid
-        var(--token-color-stroke-action-focus);
-      outline-offset: 0.125rem;
+      @include utilities.focusOutline();
     }
   }
 }
