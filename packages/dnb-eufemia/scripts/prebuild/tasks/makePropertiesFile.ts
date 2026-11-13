@@ -273,7 +273,7 @@ export const transformFigmaAlias = (alias: FigmaAlias) => {
     })
 
     if (!knownCollection) {
-      const errorMessage = `Unsupported variable set: "${figmaAliasSetId}" for alias "${figmaAliasName}"`
+      const errorMessage = `Unsupported variable set id: "${figmaAliasSetId}" for alias "${figmaAliasName}"`
       log.fail(errorMessage)
       throw new Error(errorMessage)
     }
@@ -281,7 +281,7 @@ export const transformFigmaAlias = (alias: FigmaAlias) => {
     return `var(${transformNamespace()}${transformFigmaPath({ figmaPath: path, figmaSetId: figmaAliasSetId })})` // Including transform namespace as we might want to be able to apply that in the future
   }
 
-  const errorMessage = `Unsupported variable set: "${figmaAliasSetId}" for alias "${figmaAliasName}"`
+  const errorMessage = `Unsupported variable set id: "${figmaAliasSetId}" for alias "${figmaAliasName}"`
   log.fail(errorMessage)
   throw new Error(errorMessage)
 }
@@ -335,7 +335,7 @@ const shouldTransformFigmaAlias = (value: FigmaValue) => {
       case TOKEN_SETS.typography.targetVariableSetId: {
         // Numeric foundation aliases use the exported value directly.
         if (value.$type !== 'number') {
-          const errorMessage = `Unexpected type : ${value.$type} for in variable set ${alias.targetVariableSetName}`
+          const errorMessage = `Unexpected type: ${value.$type} in variable set id "${alias.targetVariableSetId}" (name: "${alias.targetVariableSetName}")`
           log.fail(errorMessage)
           throw new Error(errorMessage)
         }
@@ -343,9 +343,10 @@ const shouldTransformFigmaAlias = (value: FigmaValue) => {
       }
     }
 
-    // Any unknown aliases should throw error
+    // Any unknown aliases should throw error. The set is matched by id, so
+    // a known name can still fail when the collection is recreated in Figma.
     throw new Error(
-      `Unsupported variable set: ${alias.targetVariableSetName}`
+      `Unsupported variable set id: "${alias.targetVariableSetId}" (name: "${alias.targetVariableSetName}") for alias "${alias.targetVariableName}"`
     )
   }
 
