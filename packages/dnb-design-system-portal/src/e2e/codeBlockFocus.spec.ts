@@ -14,7 +14,8 @@ test('static code blocks show keyboard focus and scroll with arrow keys', async 
 
   await code.locator('..').getByRole('button').press('Tab')
   await expect(code).toBeFocused()
-  await expect(code).not.toHaveCSS('box-shadow', 'none')
+  await expect(code).toHaveCSS('outline-style', 'solid')
+  await expect(code).toHaveCSS('outline-width', '3px')
   expect(
     await code.evaluate(
       (element) => element.scrollWidth > element.clientWidth
