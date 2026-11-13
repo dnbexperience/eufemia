@@ -757,6 +757,130 @@ test('addable indicators use system colors in every state', async ({
   }
 })
 
+test('disabled selected chips keep the 2px selected border', async ({
+  page,
+}) => {
+  for (const variant of ['default', 'addable', 'radio', 'checkbox']) {
+    await test.step(variant, async () => {
+      const pill = page
+        .getByRole('group', { name: `${variant} states`, exact: true })
+        .locator('.dnb-chip')
+        .nth(3)
+        .locator(
+          '.dnb-checkbox__order, .dnb-radio__row, .dnb-chip__button'
+        )
+
+      await expect(pill).toHaveCSS('box-shadow', /0px 0px 0px 2px inset$/)
+    })
+  }
+})
+
+test('selected error chips use destructive backgrounds on hover and press', async ({
+  page,
+}) => {
+  for (const theme of ['ui', 'sbanken']) {
+    for (const variant of ['checkbox', 'radio']) {
+      await test.step(theme + ' ' + variant, async () => {
+        // Firefox blocks the next press after releasing outside
+        await page.goto(
+          '/web/components/chip/demos/?fullscreen&eufemia-theme=' + theme
+        )
+        await expect(page.locator('body')).toHaveClass(
+          new RegExp('eufemia-theme__' + theme + '(?: |$)')
+        )
+
+        const pill = page
+          .locator(
+            `[data-visual-test="chip-error"] .dnb-chip--${variant}:has(input:checked)`
+          )
+          .first()
+          .locator('.dnb-checkbox__order, .dnb-radio__row')
+        const tokenColor = (name: string) =>
+          pill.evaluate((element, name) => {
+            const palette = document.createElement('span')
+            palette.style.backgroundColor = `var(--token-color-${name})`
+            element.append(palette)
+            const color = getComputedStyle(palette).backgroundColor
+            palette.remove()
+            return color
+          }, name)
+
+        await pill.hover()
+        await expect(pill).toHaveCSS(
+          'background-color',
+          await tokenColor(
+            'component-button-background-action-destructive-hover-subtle'
+          )
+        )
+
+        await page.mouse.down()
+        await expect(pill).toHaveCSS(
+          'background-color',
+          await tokenColor(
+            'component-button-background-action-destructive-pressed-subtle'
+          )
+        )
+
+        // Release outside the pill, so the selection stays unchanged
+        await page.mouse.move(0, 0)
+        await page.mouse.up()
+      })
+    }
+  }
+})
+
+test('add and remove icons use 1.5px lines', async ({ page }) => {
+  const chips = page.locator(
+    '[data-visual-test="chip-states"] .dnb-chip--addable'
+  )
+
+  for (const chip of [chips.nth(0), chips.nth(1)]) {
+    const lineWidth = await chip
+      .locator('.dnb-chip__action .dnb-icon:visible path')
+      .first()
+      .evaluate((path: SVGPathElement) => {
+        const style = getComputedStyle(path)
+        const strokeWidth = parseFloat(style.strokeWidth)
+
+        if (style.vectorEffect === 'non-scaling-stroke') {
+          return strokeWidth
+        }
+
+        const svg = path.ownerSVGElement
+        return (
+          (strokeWidth * svg.getBoundingClientRect().width) /
+          svg.viewBox.baseVal.width
+        )
+      })
+
+    expect(lineWidth).toBeCloseTo(1.5, 1)
+  }
+})
+
+test('pressed selected addable chips have no ring around the icon', async ({
+  page,
+}) => {
+  const button = page
+    .locator('[data-visual-test="chip-states"] .dnb-chip--addable')
+    .nth(1)
+    .locator('.dnb-chip__button')
+  await expect(button).toHaveAttribute('aria-pressed', 'true')
+
+  await button.hover()
+  await page.mouse.down()
+
+  // The pressed pill border confirms that the pressed styles apply
+  await expect(button).toHaveCSS('box-shadow', /0px 0px 0px 1px inset$/)
+  await expect(button.locator('.dnb-chip__action')).toHaveCSS(
+    'box-shadow',
+    /0px 0px 0px 0px inset$/
+  )
+
+  // Release outside the button, so the selection stays unchanged
+  await page.mouse.move(0, 0)
+  await page.mouse.up()
+})
+
 async function expectSelected(control: Locator, checked: boolean) {
   if ((await control.getAttribute('type')) === 'button') {
     await expect(control).toHaveAttribute('aria-pressed', String(checked))

@@ -155,6 +155,7 @@
         --token-color-background-action-pressed
       );
       --chip-action-color: var(--token-color-icon-neutral-inverse);
+      --chip-action-border-width: 0rem;
     }
 
     &:has(input:focus-visible),
@@ -182,6 +183,7 @@
     &:has(input:disabled:checked),
     &.dnb-chip__button:disabled[aria-pressed='true'] {
       --chip-border: var(--token-color-stroke-neutral-base);
+      --chip-border-width: 0.125rem;
       --chip-background: var(--token-color-background-neutral-subtle);
       --chip-control-border: var(--token-color-stroke-action-disabled);
       --chip-action-background: var(
@@ -259,9 +261,21 @@
       );
     }
 
+    &[aria-pressed='true']:hover {
+      --chip-background: var(
+        --token-color-component-button-background-action-destructive-hover-subtle
+      );
+    }
+
     &:active {
       --chip-border: var(
         --token-color-component-button-stroke-action-destructive-pressed
+      );
+    }
+
+    &[aria-pressed='true']:active {
+      --chip-background: var(
+        --token-color-component-button-background-action-destructive-pressed-subtle
       );
     }
   }
@@ -382,7 +396,16 @@
           );
         }
 
+        &:has(input:checked:hover) {
+          --chip-background: var(
+            --token-color-component-button-background-action-destructive-hover-subtle
+          );
+        }
+
         &:has(input:checked:active) {
+          --chip-background: var(
+            --token-color-component-button-background-action-destructive-pressed-subtle
+          );
           --chip-control-border-width: 0.0625rem;
         }
       }
@@ -583,6 +606,11 @@
 
     .dnb-icon {
       font-size: 0.5546875rem;
+
+      // Keep the 1.5px lines of the scaled-down 16px icons
+      path {
+        vector-effect: non-scaling-stroke;
+      }
     }
   }
 
