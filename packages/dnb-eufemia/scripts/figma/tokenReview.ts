@@ -9,6 +9,10 @@ export const tokenModes = [
   { brand: 'ui', mode: 'dark', name: 'DNB dark' },
   { brand: 'sbanken', mode: 'light', name: 'Sbanken light' },
   { brand: 'sbanken', mode: 'dark', name: 'Sbanken dark' },
+  // @deprecated Transitional "coconut" brand, removed later
+  { brand: 'coconut', mode: 'light', name: 'Coconut light' },
+  // @deprecated Transitional "coconut" brand, removed later
+  { brand: 'coconut', mode: 'dark', name: 'Coconut dark' },
   { brand: 'carnegie', mode: 'light', name: 'Carnegie light' },
 ] as const
 

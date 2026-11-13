@@ -27,14 +27,24 @@ describe('makePropertiesFile', () => {
     uiTokensDark: null,
     sbankenTokens: null,
     sbankenTokensDark: null,
+    // @deprecated Transitional "coconut" brand, removed later
+    coconutTokens: null,
+    // @deprecated Transitional "coconut" brand, removed later
+    coconutTokensDark: null,
     carnegieTokens: null,
     uiFoundation: null,
     sbankenFoundation: null,
+    // @deprecated Transitional "coconut" brand, removed later
+    coconutFoundation: null,
     carnegieFoundation: null,
     uiTokensTailwind: null,
     uiTokensDarkTailwind: null,
     sbankenTokensTailwind: null,
     sbankenTokensDarkTailwind: null,
+    // @deprecated Transitional "coconut" brand, removed later
+    coconutTokensTailwind: null,
+    // @deprecated Transitional "coconut" brand, removed later
+    coconutTokensDarkTailwind: null,
     carnegieTokensTailwind: null,
   }
 
@@ -81,6 +91,18 @@ describe('makePropertiesFile', () => {
       path.resolve('src/style/themes/sbanken/foundation.scss'),
       'utf-8'
     )
+    global.coconutTokens = fs.readFileSync(
+      path.resolve('src/style/themes/coconut/tokens.scss'),
+      'utf-8'
+    )
+    global.coconutTokensDark = fs.readFileSync(
+      path.resolve('src/style/themes/coconut/tokens-dark.scss'),
+      'utf-8'
+    )
+    global.coconutFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/coconut/foundation.scss'),
+      'utf-8'
+    )
     global.carnegieTokens = fs.readFileSync(
       path.resolve('src/style/themes/carnegie/tokens.scss'),
       'utf-8'
@@ -104,6 +126,14 @@ describe('makePropertiesFile', () => {
     )
     global.sbankenTokensDarkTailwind = fs.readFileSync(
       path.resolve('src/style/themes/sbanken/tokens-dark-tailwind.css'),
+      'utf-8'
+    )
+    global.coconutTokensTailwind = fs.readFileSync(
+      path.resolve('src/style/themes/coconut/tokens-tailwind.css'),
+      'utf-8'
+    )
+    global.coconutTokensDarkTailwind = fs.readFileSync(
+      path.resolve('src/style/themes/coconut/tokens-dark-tailwind.css'),
       'utf-8'
     )
     global.carnegieTokensTailwind = fs.readFileSync(
@@ -159,6 +189,12 @@ describe('makePropertiesFile', () => {
       expect(global.sbankenTokens).toMatchSnapshot()
       expect(global.sbankenTokensDark).toMatchSnapshot()
       expect(global.sbankenFoundation).toMatchSnapshot()
+    })
+
+    it('coconut', () => {
+      expect(global.coconutTokens).toMatchSnapshot()
+      expect(global.coconutTokensDark).toMatchSnapshot()
+      expect(global.coconutFoundation).toMatchSnapshot()
     })
 
     it('carnegie', () => {
@@ -252,7 +288,7 @@ describe('makePropertiesFile', () => {
           )
         ).font
 
-      for (const brand of ['dnb', 'sbanken']) {
+      for (const brand of ['dnb', 'sbanken', 'coconut']) {
         const light = readFont(brand, 'light')
         const dark = readFont(brand, 'dark')
         for (const group of ['size', 'height']) {
@@ -280,15 +316,16 @@ describe('makePropertiesFile', () => {
 
       expect(read('ui')).toContain('--font-size-xx-large: 3rem;')
       expect(read('sbanken')).toContain('--font-size-xx-large: 3rem;')
+      expect(read('coconut')).toContain('--font-size-xx-large: 3rem;')
       expect(read('carnegie')).toContain('--font-size-xx-large: 3.5rem;')
       expect(read('carnegie')).toContain(
         '--line-height-xx-large: 4.25rem;'
       )
-      for (const theme of ['ui', 'sbanken', 'carnegie']) {
+      for (const theme of ['ui', 'sbanken', 'coconut', 'carnegie']) {
         expect(read(theme)).toContain('\n:root {\n')
         expect(read(theme)).not.toContain('.eufemia-theme__')
       }
-      for (const theme of ['ui', 'sbanken']) {
+      for (const theme of ['ui', 'sbanken', 'coconut']) {
         expect(
           fs.existsSync(
             path.resolve(
@@ -322,13 +359,20 @@ describe('makePropertiesFile', () => {
       expect(getValues('ui')).toEqual(['3rem', '3rem'])
       expect(getValues('eiendom')).toEqual(['3rem', '3rem'])
       expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
+      expect(getValues('coconut')).toEqual(['3rem', '3rem'])
       expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
     })
 
     it('declares the typography scale only on :root, so :root overrides also apply inside a theme', async () => {
       const sass = await import('sass')
       const path = await import('path')
-      for (const theme of ['ui', 'eiendom', 'sbanken', 'carnegie']) {
+      for (const theme of [
+        'ui',
+        'eiendom',
+        'sbanken',
+        'coconut',
+        'carnegie',
+      ]) {
         const css = sass
           .compile(
             path.resolve(
@@ -354,7 +398,7 @@ describe('makePropertiesFile', () => {
         expect(selectors).toContain(':root')
         expect(
           selectors.filter((selector) =>
-            /\.eufemia-theme__(?:ui|sbanken|carnegie|eiendom)\b/.test(
+            /\.eufemia-theme__(?:ui|coconut|sbanken|carnegie|eiendom)\b/.test(
               selector
             )
           )
@@ -368,6 +412,7 @@ describe('makePropertiesFile', () => {
       for (const [brand, source] of [
         ['ui', 'dnb-light'],
         ['sbanken', 'sbanken-light'],
+        ['coconut', 'coconut-light'],
         ['carnegie', 'dnbcarnegie-light'],
       ]) {
         const tokens = JSON.parse(
@@ -412,7 +457,7 @@ describe('makePropertiesFile', () => {
     it('keeps typography out of the dark stylesheets', async () => {
       const sass = await import('sass')
       const path = await import('path')
-      for (const theme of ['ui', 'sbanken', 'eiendom']) {
+      for (const theme of ['ui', 'sbanken', 'coconut', 'eiendom']) {
         const css = sass.compile(
           path.resolve(
             'src/style/themes/' +
@@ -1035,7 +1080,13 @@ describe('makePropertiesFile', () => {
         )
 
       expect(read('ui', 'properties.scss')).not.toContain('@use')
-      for (const theme of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
+      for (const theme of [
+        'ui',
+        'sbanken',
+        'coconut',
+        'carnegie',
+        'eiendom',
+      ]) {
         expect(read(theme, 'theme-mapping.scss')).toContain(
           'typography-properties.scss'
         )
@@ -1247,6 +1298,23 @@ describe('makePropertiesFile', () => {
       }
     })
 
+    it('includes only variables used by tokens for coconut', () => {
+      const tokenVariables = extractReferencedCssVariables(
+        global.coconutTokens + global.coconutTokensDark
+      )
+      const foundationVariables = new Set(
+        [
+          ...global.coconutFoundation.matchAll(
+            /^\s*(--[a-z0-9-]+)\s*:/gim
+          ),
+        ].map((match) => match[1])
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
+    })
+
     it('includes only variables used by tokens for carnegie', () => {
       const tokenVariables = extractReferencedCssVariables(
         global.carnegieTokens
@@ -1276,6 +1344,13 @@ describe('makePropertiesFile', () => {
         () => [
           global.sbankenTokens + global.sbankenTokensDark,
           global.sbankenFoundation,
+        ],
+      ],
+      [
+        'coconut',
+        () => [
+          global.coconutTokens + global.coconutTokensDark,
+          global.coconutFoundation,
         ],
       ],
       [
