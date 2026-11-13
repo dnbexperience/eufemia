@@ -12,6 +12,14 @@ on:
         description: Generate screenshots
         type: boolean
         default: true
+      continue_on_token_review_failure:
+        description: Continue on token review failure
+        type: boolean
+        default: false
+      skip_snapshot_update:
+        description: Skip snapshot update
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -53,6 +61,8 @@ jobs:
         env:
           OUTPUT_BRANCH: ${{ inputs.output_branch }}
           GENERATE_SCREENSHOTS: ${{ inputs.generate_screenshots }}
+          CONTINUE_ON_TOKEN_REVIEW_FAILURE: ${{ inputs.continue_on_token_review_failure }}
+          SKIP_SNAPSHOT_UPDATE: ${{ inputs.skip_snapshot_update }}
         run: |
           if [ -n "$OUTPUT_BRANCH" ]; then
             branch=$OUTPUT_BRANCH
@@ -80,6 +90,8 @@ jobs:
             echo "- Run from: \`$GITHUB_REF_NAME\`"
             echo "- Target branch to commit to: \`$branch\`"
             echo "- Generate screenshots: $GENERATE_SCREENSHOTS"
+            echo "- Continue on token review failure: $CONTINUE_ON_TOKEN_REVIEW_FAILURE"
+            echo "- Skip snapshot update: $SKIP_SNAPSHOT_UPDATE"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check if branch has PR
@@ -137,6 +149,8 @@ jobs:
 
       - name: Review resolved token values and text contrast
         if: steps.changes.outputs.changed == 'true'
+        # The report is still written and published, the run just keeps going
+        continue-on-error: ${{ inputs.continue_on_token_review_failure }}
         run: yarn workspace @dnb/eufemia review:tokens origin/main "$RUNNER_TEMP/token-review.md"
 
       - name: Publish token review summary
@@ -147,7 +161,7 @@ jobs:
           fi
 
       - name: Update design token snapshots
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.changes.outputs.changed == 'true' && !inputs.skip_snapshot_update
         # The snapshots mirror the generated theme files, so a token change always changes them
         run: yarn workspace @dnb/eufemia test:scripts makePropertiesFile -u --hookTimeout=180000
 
