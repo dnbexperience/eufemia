@@ -55,6 +55,7 @@
     --chip-action-border: var(--token-color-stroke-neutral-base);
     --chip-action-color: var(--token-color-icon-neutral);
     --chip-action-border-width: 0.09375rem;
+    --chip-border-inset: inset;
 
     position: relative;
     isolation: isolate;
@@ -66,7 +67,8 @@
     padding: var(--chip-padding-block) var(--chip-padding-inline);
     border-radius: var(--token-radius-xl);
     background-color: var(--chip-background);
-    box-shadow: inset 0 0 0 var(--chip-border-width) var(--chip-border);
+    box-shadow: var(--chip-border-inset) 0 0 0 var(--chip-border-width)
+      var(--chip-border);
 
     @include utilities.forcedColorsOutline(0.0625rem, inset);
 
@@ -110,6 +112,7 @@
       --chip-action-border: var(--token-color-stroke-action-hover);
       --chip-action-color: var(--token-color-icon-action-hover);
       --chip-action-border-width: 0.125rem;
+      --chip-border-inset: ;
     }
 
     &:has(input:checked:not(:disabled):hover),
@@ -136,6 +139,7 @@
       --chip-action-border: var(--token-color-stroke-action-pressed);
       --chip-action-color: var(--token-color-icon-action-pressed);
       --chip-action-border-width: 0.0625rem;
+      --chip-border-inset: inset;
     }
 
     &:has(input:checked:not(:disabled):active),
@@ -311,7 +315,7 @@
         width: 1rem;
         height: 1rem;
         background-color: var(--chip-control-background);
-        box-shadow: inset
+        box-shadow: var(--chip-border-inset)
           0
           0
           0
@@ -401,8 +405,8 @@
     .dnb-checkbox__input:not([disabled]):checked:not(:indeterminate):focus
     ~ .dnb-checkbox__button {
     background-color: var(--chip-control-selected);
-    box-shadow: inset 0 0 0 var(--chip-control-border-width)
-      var(--chip-control-selected);
+    box-shadow: var(--chip-border-inset) 0 0 0
+      var(--chip-control-border-width) var(--chip-control-selected);
 
     @media (forced-colors: active) {
       background-color: CanvasText;
@@ -527,8 +531,8 @@
       ):focus
       ~ .dnb-checkbox__button {
       background-color: var(--chip-control-background);
-      box-shadow: inset 0 0 0 var(--chip-control-border-width)
-        var(--chip-control-border);
+      box-shadow: var(--chip-border-inset) 0 0 0
+        var(--chip-control-border-width) var(--chip-control-border);
 
       &::after {
         opacity: 1;
@@ -583,8 +587,8 @@
     margin-left: 0.25rem;
     border-radius: var(--token-radius-full);
     background-color: var(--chip-action-background);
-    box-shadow: inset 0 0 0 var(--chip-action-border-width)
-      var(--chip-action-border);
+    box-shadow: var(--chip-border-inset) 0 0 0
+      var(--chip-action-border-width) var(--chip-action-border);
     color: var(--chip-action-color);
 
     .dnb-icon {
