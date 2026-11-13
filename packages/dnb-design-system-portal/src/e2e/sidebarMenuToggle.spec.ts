@@ -326,11 +326,18 @@ test.describe('Portal sidebar reveal', () => {
     await page.keyboard.press('Escape')
     await expect(dialog).not.toBeVisible()
     await expect(trigger).toBeFocused()
-    expect(
-      await trigger.evaluate(
-        (element) => getComputedStyle(element, '::before').boxShadow
+    await expect
+      .poll(() =>
+        trigger.evaluate((element) => {
+          const style = getComputedStyle(element, '::before')
+          return {
+            style: style.outlineStyle,
+            width: style.outlineWidth,
+            offset: style.outlineOffset,
+          }
+        })
       )
-    ).not.toBe('none')
+      .toEqual({ style: 'solid', width: '3px', offset: '2px' })
     await expect(surface).not.toHaveClass(/dnb-drawer__reveal-target/)
     await expect(surface).not.toHaveAttribute('inert')
     await expect(surface).toHaveCSS('opacity', '1')
