@@ -222,6 +222,7 @@
 
   &__reveal-edge {
     position: absolute;
+    z-index: 1;
     inset: 0 auto 0 0;
     width: 1rem;
     pointer-events: none;
@@ -231,14 +232,23 @@
     will-change: transform;
     transition: transform var(--drawer-reveal-duration);
 
-    &::before {
+    // Extend the menu background beyond the viewport without covering its shadow.
+    &::before,
+    &::after {
       content: '';
       position: absolute;
-      top: -100lvh;
       right: 100%;
-      bottom: -100lvh;
       width: 100vw;
+      height: 100lvh;
       background-color: currentcolor;
+    }
+
+    &::before {
+      bottom: 100%;
+    }
+
+    &::after {
+      top: 100%;
     }
   }
 
