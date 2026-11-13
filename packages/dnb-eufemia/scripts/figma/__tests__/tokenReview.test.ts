@@ -133,6 +133,10 @@ it('loads every shipped palette and resolves the colors used by the contrast che
     'DNB dark',
     'Sbanken light',
     'Sbanken dark',
+    // @deprecated Transitional "coconut" brand
+    'Coconut light',
+    // @deprecated Transitional "coconut" brand
+    'Coconut dark',
     'Carnegie light',
   ])
   for (const { tokens } of modes) {
