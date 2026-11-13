@@ -241,6 +241,9 @@ type TokenItem = {
 const foundationPrefixMap = {
   ui: { css: 'dnb', figma: 'dnb' },
   sbanken: { css: 'sbanken', figma: 'sbanken' },
+  // @deprecated Transitional "coconut" brand, removed later.
+  // The Figma set is still named after the brand it replaces.
+  coconut: { css: 'coconut', figma: 'sbanken-new' },
   carnegie: { css: 'carnegie', figma: 'dnb-carnegie' },
 }
 
@@ -1053,6 +1056,26 @@ const runDesignTokenFactory = async () => {
       referencePrefixOverride: foundationPrefixMap.sbanken.css,
       colorScheme: 'dark',
     },
+    // @deprecated Transitional "coconut" brand, removed later
+    {
+      theme: 'coconut',
+      in: './src/style/themes/figma/brand/coconut-light.tokens.json',
+      out: './src/style/themes/coconut/tokens.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+      prefix: 'token',
+      // No referencePrefixOverride: this brand intentionally reuses a few
+      // Sbanken foundation colors alongside its own set
+      colorScheme: 'light',
+    },
+    {
+      theme: 'coconut',
+      in: './src/style/themes/figma/brand/coconut-dark.tokens.json',
+      out: './src/style/themes/coconut/tokens-dark.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+      prefix: 'token',
+      scopeSelector: '.eufemia-theme__color-scheme--dark',
+      colorScheme: 'dark',
+    },
     {
       theme: 'carnegie',
       in: './src/style/themes/figma/brand/dnbcarnegie-light.tokens.json',
@@ -1086,6 +1109,21 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/sbanken/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
       filter: (json) => ({
+        [foundationPrefixMap.sbanken.figma]:
+          json[foundationPrefixMap.sbanken.figma],
+      }),
+    },
+    // @deprecated Transitional "coconut" brand, removed later
+    {
+      theme: 'coconut',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/coconut/foundation.scss',
+      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+      // A few tokens still reference the Sbanken set, so both are kept.
+      // Unreferenced variables are filtered out before the file is written.
+      filter: (json) => ({
+        [foundationPrefixMap.coconut.figma]:
+          json[foundationPrefixMap.coconut.figma],
         [foundationPrefixMap.sbanken.figma]:
           json[foundationPrefixMap.sbanken.figma],
       }),
