@@ -75,6 +75,14 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
   position: relative;
   white-space: nowrap;
 }
+html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:where(:not(.dnb-anchor--surface-dark)):focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:where(:not(.dnb-anchor--surface-dark)):focus-visible:not([disabled]) {
+  box-shadow: none;
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
 .dnb-number-format .dnb-sr-only::before {
   content: attr(data-text);
 }
