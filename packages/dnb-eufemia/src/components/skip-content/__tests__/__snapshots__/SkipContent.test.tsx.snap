@@ -1488,19 +1488,12 @@ button.dnb-button::-moz-focus-inner {
 .dnb-skip-content__focus:focus::before {
   content: "";
   position: absolute;
-  inset: var(--focus-ring-width);
-  outline: none;
+  inset: 0;
+  pointer-events: none;
 }
 html[data-whatinput=keyboard] .dnb-skip-content__focus:focus::before {
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-@media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-skip-content__focus:focus::before {
-    outline: var(--focus-ring-width) solid transparent;
-  }
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: calc(-1 * var(--focus-outline-width));
 }
 .dnb-skip-content__return:not(.dnb-skip-content__return--active) button.dnb-sr-only {
   display: none;
