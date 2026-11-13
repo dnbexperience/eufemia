@@ -101,10 +101,19 @@
     // whatInput detects all non-modifier keys as keyboard input globally,
     // so it works even when focus is triggered programmatically.
     @include utilities.whatInput('keyboard') {
-      &:focus:not([disabled]):not(&--disabled):not(:hover):not(:active) {
-        @include utilities.focusOutline(
-          $offset: calc(-1 * var(--focus-outline-width))
-        );
+      &:focus:not([disabled]):not(.dnb-menu__action--disabled) {
+        &:not(:hover):not(:active) {
+          @include utilities.focusOutline(
+            $offset: calc(-1 * var(--focus-outline-width))
+          );
+        }
+
+        @media (forced-colors: active) {
+          @include utilities.focusOutline(
+            $color: CanvasText,
+            $offset: calc(-1 * var(--focus-outline-width))
+          );
+        }
       }
     }
 
