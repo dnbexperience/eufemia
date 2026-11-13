@@ -55,10 +55,10 @@
 
       margin: 0;
 
-      &.dnb-no-focus:focus {
-        @include utilities.focusOutline(
-          $offset: calc(-1 * var(--focus-outline-width))
-        );
+      &.dnb-no-focus {
+        @include utilities.focusVisible() {
+          @include utilities.focusOutline($offset: 0);
+        }
       }
 
       th {

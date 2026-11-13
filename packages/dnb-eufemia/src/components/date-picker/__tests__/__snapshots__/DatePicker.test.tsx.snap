@@ -1861,9 +1861,12 @@ html[data-visual-test] .dnb-input__input {
   z-index: 1;
   margin: 0;
 }
-.dnb-date-picker__container table.dnb-no-focus:focus {
+html:not([data-whatinput=touch]) .dnb-date-picker__container table.dnb-no-focus:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-date-picker__container table.dnb-no-focus:focus-visible:not([disabled]) {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
-  outline-offset: calc(-1 * var(--focus-outline-width));
+  outline-offset: 0;
 }
 .dnb-date-picker__container table th {
   font-size: var(--font-size-medium);
