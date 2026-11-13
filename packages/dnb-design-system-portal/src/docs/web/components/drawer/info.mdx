@@ -7,6 +7,7 @@ redirect_from:
 ## Import
 
 ```tsx
+import { useState } from 'react'
 import { Drawer } from '@dnb/eufemia'
 ```
 
@@ -31,6 +32,48 @@ To provide custom content to parts of the Drawer, a set of component parts are p
 ### More detailed information
 
 For more details regarding the component functionality, check out the [Modal documentation](/web/components/modal).
+
+### Reveal the page
+
+Import the reveal driver separately to move the page to the right while keeping a left Drawer stationary. The driver also supports dragging right on the page to open the menu and dragging left inside the menu or on the exposed page to close it. Menu links and buttons can still be tapped. Form controls, horizontal scroll areas, and vertical scrolling keep their native interactions.
+
+```tsx
+import { Drawer } from '@dnb/eufemia'
+import { createDrawerReveal } from '@dnb/eufemia/components/drawer/DrawerReveal'
+
+const reveal = createDrawerReveal({ target: '#app-page' })
+
+function App() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <>
+      <main id="app-page">Page content</main>
+      <Drawer
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        renderDriver={reveal}
+        containerPlacement="left"
+        title="Menu"
+        triggerProps={{ text: 'Open menu' }}
+      >
+        Menu content
+      </Drawer>
+    </>
+  )
+}
+```
+
+Create the driver once outside rendering, or memoize it when its options change. The target accepts a CSS selector for one or more page surfaces. Keep the Drawer and its portal outside these surfaces. The driver owns their transform and opacity while the menu is open and restores them on close.
+
+When controlling `open`, synchronize both `onOpen` and `onClose` so a swipe updates your state too. This also lets the app close the menu with `setOpen(false)` after navigation.
+
+The same `renderDriver` property works with `SidebarMenu.ResponsiveDrawer`, which enables it only on narrow screens. Keep a menu button available as an alternative to dragging. Modal focus handling, Escape, backdrop dismissal, and reduced motion remain available.
+
+Ordinary Drawer and SidebarMenu imports do not import the reveal implementation or install its gesture listeners. The reveal JavaScript is included only through the separate import. Reveal styles are included in the Drawer stylesheet.
+
+The mounted reveal driver registers a non-passive document `touchmove` listener to cancel native scrolling during horizontal dragging. Keep work on the main thread short so touch scrolling stays responsive, especially on heavy pages.
 
 ## Root Element (React Portal)
 

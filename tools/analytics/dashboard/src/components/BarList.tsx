@@ -3,17 +3,13 @@ import { P } from '@dnb/eufemia/src'
 
 export type BarListProps = {
   items: CountListItem[]
-  emptyText?: string
 }
 
 // A list rendered as horizontal bars, in the order given. The value is real
 // text (read by screen readers); the bar itself is decorative.
-export default function BarList({
-  items,
-  emptyText = 'No data.',
-}: BarListProps) {
+export default function BarList({ items }: BarListProps) {
   if (items.length === 0) {
-    return <P className="dashboard-bar-list__empty">{emptyText}</P>
+    return <P className="dashboard-bar-list__empty">No data.</P>
   }
 
   const max = items.reduce((m, item) => Math.max(m, item.count), 0)

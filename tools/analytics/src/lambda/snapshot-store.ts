@@ -46,12 +46,6 @@ export type PortalViewTrendsSection = {
   perLocaleAndTheme: PortalViewLocaleThemeCount[]
 }
 
-export const EMPTY_PORTAL_VIEW_TRENDS: PortalViewTrendsSection = {
-  perDay: [],
-  topPathsPerMonth: [],
-  perLocaleAndTheme: [],
-}
-
 // A daily portal page-view aggregate row (one per path+env+dimension combo per
 // day), written to the durable portal_views_daily rollup. The anonymous view
 // dimensions are kept so their history survives the raw rows' expiry and stays
@@ -78,7 +72,6 @@ export type McpUsageDaily = {
   component: string
   path: string
   component_missed: boolean
-  likely_component: string
   count: number
 }
 
@@ -104,7 +97,6 @@ export type McpTransportUsage = {
   perComponent: RankedCount[]
   perPath: RankedCount[]
   missedLookups: number
-  perLikelyComponent: RankedCount[]
   perVersion: McpVersionUsage[]
   daily: McpUsageDay[]
 }
@@ -122,7 +114,6 @@ const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   perComponent: [],
   perPath: [],
   missedLookups: 0,
-  perLikelyComponent: [],
   perVersion: [],
   daily: [],
 }
@@ -163,24 +154,20 @@ export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
   perVersion: [],
 }
 
-export async function readSnapshot(
-  bucket: string
-): Promise<Snapshot | null> {
+// No s3:ListBucket, so a missing snapshot is AccessDenied; all failures throw.
+export async function readSnapshot(bucket: string): Promise<Snapshot> {
   try {
     const result = await s3.send(
       new GetObjectCommand({ Bucket: bucket, Key: SNAPSHOT_KEY })
     )
     const body = await result.Body?.transformToString()
 
-    return body ? (JSON.parse(body) as Snapshot) : null
-  } catch (error) {
-    // A missing snapshot is the expected cold-start case -> null (empty state).
-    if (error instanceof Error && error.name === 'NoSuchKey') {
-      return null
+    if (!body) {
+      throw new Error('empty snapshot body')
     }
 
-    // Denied permissions, throttling, corrupt JSON: surface it rather than
-    // masking a real failure as "no data yet".
+    return JSON.parse(body) as Snapshot
+  } catch (error) {
     warnOnce(`[eufemia] failed to read dashboard snapshot: ${error}`)
     throw error
   }

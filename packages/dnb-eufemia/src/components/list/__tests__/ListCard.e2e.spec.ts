@@ -28,10 +28,11 @@ test.describe('List.Card', () => {
       .locator('[data-visual-test="list-card"] .dnb-list__item__action')
       .nth(1)
     const button = item.locator('.dnb-list__item__action__button')
-    const fullOutline = ['2px', '2px', '2px', '2px']
+    const hoverOutline = ['2px', '2px', '2px', '2px']
+    const focusOutline = ['3px', '3px', '3px', '3px']
 
     await item.hover()
-    expect(await getBorderWidths(item)).toEqual(fullOutline)
+    expect(await getBorderWidths(item)).toEqual(hoverOutline)
 
     // Use the keyboard to focus the item
     await page.mouse.move(0, 0)
@@ -39,12 +40,13 @@ test.describe('List.Card', () => {
     await button.focus()
     await expect(button).toBeFocused()
 
-    expect(await getBorderWidths(item)).toEqual(fullOutline)
+    expect(await getBorderWidths(item)).toEqual(focusOutline)
   })
 })
 
 test.describe('List.Card outline', () => {
-  const fullOutline = ['2px', '2px', '2px', '2px']
+  const hoverOutline = ['2px', '2px', '2px', '2px']
+  const focusOutline = ['3px', '3px', '3px', '3px']
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/web/components/list/visual-tests/card-outline/')
@@ -86,7 +88,7 @@ test.describe('List.Card outline', () => {
       const row = getRow(page, title)
       await tabTo(page, row.locator('.dnb-list__item__action__button'))
 
-      expect(await getBorderWidths(row), title).toEqual(fullOutline)
+      expect(await getBorderWidths(row), title).toEqual(focusOutline)
     }
   })
 
@@ -100,7 +102,7 @@ test.describe('List.Card outline', () => {
       const row = getRow(page, title)
       await tabTo(page, row.locator(focusable))
 
-      expect(await getBorderWidths(row), title).toEqual(fullOutline)
+      expect(await getBorderWidths(row), title).toEqual(focusOutline)
     }
   })
 
@@ -110,7 +112,7 @@ test.describe('List.Card outline', () => {
     const row = getRow(page, 'Footer row')
 
     await tabTo(page, row.locator('.dnb-list__item__action__button'))
-    expect(await getBorderWidths(row)).toEqual(fullOutline)
+    expect(await getBorderWidths(row)).toEqual(focusOutline)
 
     // The footer button shows its own focus ring.
     // WebKit on macOS skips buttons on Tab, so set the focus after a key press.
@@ -133,7 +135,7 @@ test.describe('List.Card outline', () => {
 
     await getRow(page, 'Middle row').hover()
     expect(await getBorderWidths(getRow(page, 'Middle row'))).toEqual(
-      fullOutline
+      hoverOutline
     )
 
     const accordion = getRow(page, 'Disabled accordion row')
@@ -159,7 +161,7 @@ test.describe('List.Card outline', () => {
     const row = getRow(page, 'Accordion row')
 
     await row.locator('.dnb-list__item__accordion__header').hover()
-    expect(await getBorderWidths(row)).toEqual(fullOutline)
+    expect(await getBorderWidths(row)).toEqual(hoverOutline)
 
     await page.getByText('Accordion content', { exact: true }).hover()
     expect(await getBorderWidths(row)).toEqual([
@@ -180,12 +182,12 @@ test.describe('List.Card outline', () => {
     const header = nested.locator('.dnb-list__item__accordion__header')
 
     await header.hover()
-    expect(await getBorderWidths(nested)).toEqual(fullOutline)
+    expect(await getBorderWidths(nested)).toEqual(hoverOutline)
     expect(await getBorderWidths(parent)).toEqual(restBorders)
 
     await page.mouse.move(0, 0)
     await tabTo(page, header)
-    expect(await getBorderWidths(nested)).toEqual(fullOutline)
+    expect(await getBorderWidths(nested)).toEqual(focusOutline)
     expect(await getBorderWidths(parent)).toEqual(restBorders)
   })
 })

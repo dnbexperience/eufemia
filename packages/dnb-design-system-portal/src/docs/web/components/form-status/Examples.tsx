@@ -17,7 +17,7 @@ import {
   FormStatus,
   Icon,
   Input,
-  ToggleButton,
+  Chip,
   Button,
   Link,
   Grid,
@@ -113,9 +113,9 @@ export const FormStatusAnimation = () => (
               value="Input value"
               right
             />
-            <ToggleButton top onChange={toggleStatus}>
+            <Chip top onChange={toggleStatus}>
               Toggle
-            </ToggleButton>
+            </Chip>
           </Provider>
         )
       }

@@ -158,7 +158,7 @@
       &::before,
       // Take precedence over the selected border
       .dnb-table__td--selected &::before {
-        --border-width: var(--focus-ring-width);
+        --border-width: var(--focus-outline-width);
         --border-color: var(--token-color-stroke-action-focus);
       }
 

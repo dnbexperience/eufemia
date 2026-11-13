@@ -3558,6 +3558,34 @@ describe('Autocomplete component', () => {
     ).toBe('aaa')
   })
 
+  it('stays closed when async results arrive after tabbing away', () => {
+    const onType = vi.fn()
+
+    render(<Autocomplete mode="async" onType={onType} {...mockProps} />)
+
+    const input = document.querySelector('.dnb-input__input')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'aa' } })
+    fireEvent.keyDown(input, { key: 'Tab' })
+    fireEvent.blur(input)
+
+    act(() => {
+      onType.mock.calls[0][0].updateData(mockData)
+    })
+
+    expect(input).toHaveAttribute('aria-expanded', 'false')
+    expect(document.querySelector('li.dnb-drawer-list__option')).toBeNull()
+
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'aaa' } })
+
+    act(() => {
+      onType.mock.calls[1][0].updateData(mockData)
+    })
+
+    expect(input).toHaveAttribute('aria-expanded', 'true')
+  })
+
   it('and updateData has to replace all data properly in async mode', () => {
     const onType = vi.fn()
     const replaceData = ['aaa']

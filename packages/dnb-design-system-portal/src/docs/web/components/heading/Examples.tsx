@@ -6,7 +6,7 @@
 import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Heading, H3, ToggleButton, H1, H2 } from '@dnb/eufemia/src'
+import { Heading, H3, Chip, H1, H2 } from '@dnb/eufemia/src'
 import { Typography } from '@dnb/eufemia/src/elements'
 
 const Style = styled.div`
@@ -27,9 +27,6 @@ export const HeadingDefault = () => (
         <Heading decrease>h3</Heading>
         <Heading level="2" size="x-large">
           h2
-        </Heading>
-        <Heading skipCorrection level={4}>
-          h4
         </Heading>
       </Heading.Level>
     </ComponentBox>
@@ -74,7 +71,7 @@ export const HeadingIsolation = () => (
               <Heading>h2</Heading>
 
               <Heading.Increase>
-                <ToggleButton
+                <Chip
                   text="Toggle h3"
                   checked={showHeading}
                   onChange={() => setShowHeading((c) => !c)}

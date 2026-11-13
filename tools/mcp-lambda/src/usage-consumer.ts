@@ -12,15 +12,11 @@ function isUsageRecord(value: unknown): value is WebMcpUsageRecord {
   return (
     typeof record.tool === 'string' &&
     typeof record.component === 'string' &&
-    (record.component_missed === undefined ||
-      typeof record.component_missed === 'boolean') &&
-    (record.likely_component === undefined ||
-      typeof record.likely_component === 'string') &&
+    typeof record.component_missed === 'boolean' &&
     typeof record.path === 'string' &&
     typeof record.env === 'string' &&
     record.transport === 'web' &&
-    (record.eufemia_version === undefined ||
-      typeof record.eufemia_version === 'string') &&
+    typeof record.eufemia_version === 'string' &&
     typeof record.timestamp === 'string' &&
     typeof record.created_at === 'string'
   )

@@ -87,33 +87,6 @@
   margin-block: 0;
 }
 
-.mobileDrawerStyle {
-  :global(.dnb-modal__close-button) {
-    position: relative;
-    top: 0.125rem;
-  }
-}
-
-.mobileDrawerLogoStyle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  display: flex;
-  align-items: center;
-
-  transform: translate(-50%, -50%);
-
-  :global(svg) {
-    width: 6rem;
-  }
-
-  :global(svg path) {
-    stroke: none;
-    fill: var(--token-color-icon-neutral);
-  }
-}
-
 .scrollContentStyle {
   width: 100%;
   min-width: 0;

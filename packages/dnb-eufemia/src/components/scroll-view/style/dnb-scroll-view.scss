@@ -21,8 +21,12 @@
   &[tabindex='0'] {
     &:focus {
       outline: none;
+    }
 
-      @include utilities.focusRing();
+    @include utilities.whatInput('keyboard') {
+      &:focus {
+        @include utilities.focusOutline($offset: 0);
+      }
     }
   }
 }

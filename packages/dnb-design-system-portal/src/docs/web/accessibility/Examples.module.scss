@@ -1,0 +1,42 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss';
+
+.dnb-focus-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0.5rem 0.5rem 1.5rem;
+
+  &__action,
+  &__layout {
+    padding: 0.5rem 1.5rem;
+    border: 0.0625rem solid var(--token-color-stroke-action);
+    border-radius: var(--token-radius-full);
+    background-color: var(--token-color-background-neutral);
+    color: var(--token-color-text-neutral);
+    font: inherit;
+  }
+
+  &__action {
+    @include utilities.focusVisible() {
+      @include utilities.focusOutline();
+    }
+  }
+
+  &__layout {
+    border-radius: var(--token-radius-md);
+
+    @include utilities.focusVisible() {
+      @include utilities.focusOutline($offset: -0.0625rem);
+      border-color: var(--token-color-stroke-action-focus);
+
+      &:hover {
+        border-color: var(--token-color-stroke-action-hover);
+        outline-color: var(--token-color-stroke-action-hover);
+      }
+    }
+
+    @include utilities.hover() {
+      border-color: var(--token-color-stroke-action-hover);
+    }
+  }
+}

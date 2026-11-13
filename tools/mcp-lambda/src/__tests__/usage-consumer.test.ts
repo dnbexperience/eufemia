@@ -15,7 +15,6 @@ function usageRecord(
     tool: 'component_props',
     component: 'Button',
     component_missed: false,
-    likely_component: '',
     path: '',
     env: 'dev',
     transport: 'web',
@@ -107,11 +106,8 @@ describe('usage consumer', () => {
     expect(errorSpy).toHaveBeenCalledTimes(2)
   })
 
-  it('stores a record queued before the version and miss fields existed', async () => {
-    const queuedEarlier: Partial<WebMcpUsageRecord> = usageRecord()
-    delete queuedEarlier.eufemia_version
-    delete queuedEarlier.component_missed
-    delete queuedEarlier.likely_component
+  it('stores a record queued with the removed likely_component field', async () => {
+    const queuedEarlier = { ...usageRecord(), likely_component: '' }
 
     await handler(
       event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))
@@ -123,9 +119,16 @@ describe('usage consumer', () => {
     expect(errorSpy).not.toHaveBeenCalled()
   })
 
-  it('drops a message whose version or miss fields have the wrong type', async () => {
+  it('drops a message whose version or miss field is missing or has the wrong type', async () => {
+    const withoutVersion: Partial<WebMcpUsageRecord> = usageRecord()
+    delete withoutVersion.eufemia_version
+    const withoutMiss: Partial<WebMcpUsageRecord> = usageRecord()
+    delete withoutMiss.component_missed
+
     await handler(
       event(
+        sqsRecord('no-version', JSON.stringify([withoutVersion])),
+        sqsRecord('no-miss', JSON.stringify([withoutMiss])),
         sqsRecord(
           'bad-miss',
           JSON.stringify([{ ...usageRecord(), component_missed: 'yes' }])
@@ -138,7 +141,7 @@ describe('usage consumer', () => {
     )
 
     expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [])
-    expect(errorSpy).toHaveBeenCalledTimes(2)
+    expect(errorSpy).toHaveBeenCalledTimes(4)
   })
 
   it('retries the batch when S3 storage fails', async () => {

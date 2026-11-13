@@ -20,7 +20,9 @@ async function focusScrollViewWithKeyboard(page: Page, example: string) {
     'keyboard'
   )
   await expect(scrollView).toBeFocused()
-  await expect(scrollView).not.toHaveCSS('box-shadow', 'none')
+  await expect(scrollView).toHaveCSS('outline-style', 'solid')
+  await expect(scrollView).toHaveCSS('outline-width', '3px')
+  await expect(scrollView).toHaveCSS('outline-offset', '0px')
 
   return scrollView
 }

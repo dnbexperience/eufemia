@@ -6,7 +6,7 @@
 .dnb-table {
   tr.sticky {
     position: sticky;
-    z-index: 4; // over borders and TDs
+    z-index: 7; // above focused body cells
 
     transform: translate3d(0, var(--table-offset, 0), 0);
 
@@ -19,6 +19,18 @@
 
   tr.sticky.css-position {
     top: var(--table-top, 0); // is set by "stickyOffset" prop
+  }
+
+  &--outline tr.sticky::after {
+    // Continue the outer frame above the focused body cells.
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: var(--table-outline);
+    border-bottom: 0;
+    border-radius: var(--table-outline-radius-top)
+      var(--table-outline-radius-top) 0 0;
+    pointer-events: none;
   }
 
   tr.sticky.is-sticky th::before {

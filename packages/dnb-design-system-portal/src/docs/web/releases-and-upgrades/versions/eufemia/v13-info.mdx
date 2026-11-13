@@ -60,6 +60,14 @@ The deprecated Sbanken-prefixed properties are still emitted. Their values diffe
 - Replace `--text-sb-medium--plus` with `--text-medium`
 - Replace `--leading-sb-*` with `--leading-*`
 
+## Keyboard focus styling
+
+The [keyboard focus guidance](/web/accessibility/focus/#keyboard-focus-styling) now uses a 3px blue outline with a 2px transparent gap, without changing text, icon, or background colors. Input fields keep their field focus styles. Explicit dark surfaces (`surface="dark"`) keep their previous focus styles to preserve contrast. Lists, tables, cards, and similar layouts use no gap, and hover styling takes precedence while focused.
+
+For new and updated custom styles, use `--token-color-stroke-action-focus` with `--focus-outline-width` (`0.1875rem`) and `--focus-outline-offset` (`0.125rem`), or the [focusOutline()](/web/ai-tools-and-resources/utilities/sass/#keyboard-focus) Sass helper. Layouts use a 3px blue edge: pass `$offset: 0` without an existing edge, or overlap a 1px border or inset shadow with `$offset: -0.0625rem` and replace its color with the focus token. Use `$width: 0.125rem` (2px) if a scroll container's existing spacing would clip 3px. Remove focus-only text, icon, and background color overrides when adopting the outline.
+
+`--focus-ring-width` remains `0.25rem`. The existing focus color tokens, `focusRing()`, `focusStyle()`, and focus helper classes remain available with their current behavior. No replacement is required to upgrade to v13. Migrate each usage individually; do not reduce the legacy width globally. Eufemia component updates will follow in separate changes.
+
 ## Print styles
 
 The `dnb-print` scope now prints pure black text, borders and form
@@ -319,6 +327,12 @@ After:
 +import { ScrollView } from '@dnb/eufemia'
 ```
 
+### Forms selection variants
+
+[Field.Toggle](/web/forms/base-fields/Toggle/), [Field.Selection](/web/forms/base-fields/Selection/), and [Field.ArraySelection](/web/forms/base-fields/ArraySelection/) use Chip for their button variants. Existing variant names, values, validation, and help remain supported.
+
+The controls have Chip's appearance and native checkbox or radio markup. Update custom CSS selectors and tests that target `.dnb-toggle-button` or button elements. Single selection uses one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes.
+
 ### [Field.Name.Company](/web/forms/feature-fields/Name/)
 
 - The `onBlurValidator` property now only accepts a `CompanyNameValidator`, and its `validators` no longer include `nameValidator`. Use `companyValidator` instead.
@@ -354,6 +368,34 @@ Use the `Chat` namespace for translation overrides. Legacy `Ai` overrides still 
 ## Deprecations
 
 Deprecated APIs remain available for compatibility. Replacing them is recommended, but deprecation alone does not require a change to upgrade to v13. Removal is a separate breaking change and is documented explicitly.
+
+### ToggleButton
+
+ToggleButton and ToggleButton.Group are deprecated in favor of [Chip](/web/components/chip/). Existing imports, styles, and behavior remain available. Migration is recommended for new or updated interfaces, but is not required to upgrade to v13. No removal version is scheduled.
+
+```diff
+-import { ToggleButton } from '@dnb/eufemia'
++import { Chip } from '@dnb/eufemia'
+
+-<ToggleButton.Group multiselect values={['savings']}>
+-  <ToggleButton value="savings" text="Savings" />
+-  <ToggleButton value="funds" text="Funds" />
+-</ToggleButton.Group>
++<Chip.Group selectionMode="multiple" values={['savings']}>
++  <Chip value="savings">Savings</Chip>
++  <Chip value="funds">Funds</Chip>
++</Chip.Group>
+```
+
+Single selection remains the default. Set `value` on Chip.Group for single selection and `values` for multiple selection. Move initial selection from a child's `checked` to its group. Standalone chips still use `checked`.
+
+Use `text` or `children` for the option name and Chip.Group's `label` for the group label. Chip's `labelSrOnly` hides the option name; the group property hides the group label. Replace `leftComponent` with `icon` for decorative content. Evaluate custom icon placement and size against Chip's leading icon layout. Keep interactive help in `suffix`, outside the selectable chip. Replace function children with their rendered React content.
+
+Use string or number identifiers instead of object or array values. Match option and group value types, and keep identifiers unique after conversion to strings. Change events preserve the identifier type. Chip.Group returns `values` in both selection modes and `value` identifies the changed option.
+
+Chip renders native inputs, except for addable chips outside single selection groups, which use native toggle buttons with `aria-pressed`. Update refs, event target assumptions, CSS selectors, and tests that depend on ToggleButton's button markup. Selected, enabled options in Chip.Group participate in native form submission. Set `name` on Chip.Group to choose the submitted field name; otherwise a generated name is used. Radio groups use one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes or addable toggle buttons. `variant` controls appearance independently of selection mode.
+
+See [Chip's API differences](/web/components/chip/#toggle-buttons) and [examples](/web/components/chip/demos/).
 
 ### Flex compatibility APIs
 

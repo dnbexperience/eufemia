@@ -55,11 +55,12 @@ export function IterateOverSteps({
   stepIndexRef.current = -1
   totalStepsRef.current = 0
 
-  const childrenArray = Children.map(children, (child) => {
+  const childrenArray = Children.map(children, (child, childIndex) => {
     if (isValidElement<StepProps>(child)) {
       const stepElement = getWizardStepElement(child)
 
       if (stepElement) {
+        const stepKey = child.key ?? childIndex
         child = stepElement
 
         const { title, inactive, keepInDOM, include, id, includeWhen } =
@@ -84,6 +85,7 @@ export function IterateOverSteps({
         collectStepsData({
           id,
           index,
+          stepKey,
           title,
           inactive,
           keepInDOM,

@@ -53,10 +53,9 @@ describe.each(['ui', 'sbanken'])(`HelperClasses for %s`, (themeName) => {
 
   it('have to match focused skip link', async () => {
     await makeScreenshot({
-      selector: '[data-visual-test="skip-link"]',
-      simulateSelector: '[data-visual-test="skip-link"] .dnb-skip-link',
+      selector: '[data-visual-test="skip-link"] .dnb-skip-link',
+      style: { position: 'relative', top: 'auto', left: 'auto' },
       simulate: 'focus',
-      screenshotSelector: '[data-visual-test="skip-link"] .dnb-skip-link',
     })
   })
 })

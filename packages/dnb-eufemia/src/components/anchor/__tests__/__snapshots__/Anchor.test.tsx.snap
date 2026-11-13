@@ -292,9 +292,15 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   color: var(--anchor-color);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
+  transition: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible:where(:not(.dnb-anchor--surface-dark)) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
-  transition: none;
   outline: none;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
@@ -302,7 +308,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   border-color: transparent;
 }
 @media (forced-colors: active) {
-  :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
     outline: var(--focus-ring-width) solid transparent;
   }
 }
@@ -424,9 +430,15 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     color: var(--anchor-color);
   }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+    transition: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible:where(:not(.dnb-anchor--surface-dark)) {
+    outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+    outline-offset: var(--focus-outline-offset);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
     --anchor-color: var(--token-color-text-action-focus);
     --anchor-icon-color: var(--token-color-icon-action-focus);
-    transition: none;
     outline: none;
     --border-color: var(--token-color-stroke-action-focus);
     --border-width: var(--focus-ring-width);
@@ -434,7 +446,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     border-color: transparent;
   }
   @media (forced-colors: active) {
-    :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+    :not(.dnb-anchor--no-style).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
       outline: var(--focus-ring-width) solid transparent;
     }
   }
@@ -532,9 +544,15 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 
 .dnb-anchor--focus {
+  transition: none;
+}
+.dnb-anchor--focus:where(:not(.dnb-anchor--surface-dark)) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+.dnb-anchor--focus:where(.dnb-anchor--surface-dark) {
   --anchor-color: var(--token-color-text-action-focus);
   --anchor-icon-color: var(--token-color-icon-action-focus);
-  transition: none;
   outline: none;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
@@ -542,7 +560,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   border-color: transparent;
 }
 @media (forced-colors: active) {
-  .dnb-anchor--focus {
+  .dnb-anchor--focus:where(.dnb-anchor--surface-dark) {
     outline: var(--focus-ring-width) solid transparent;
   }
 }

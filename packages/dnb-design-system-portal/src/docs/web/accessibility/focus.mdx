@@ -14,21 +14,39 @@ redirect_from:
 
 import * as Examples from 'Docs/web/accessibility/Examples'
 
-## Focus styling tokens
+<span id="focus-styling-tokens" />
 
-For keyboard focus styling, use the action-focus family:
+## Keyboard focus styling
 
-- `--token-color-stroke-action-focus` for the focus ring
-- `--token-color-background-action-focus-subtle` for the focus background
-- `--token-color-text-action-focus` for text inside a focused element
-- `--token-color-icon-action-focus` for icons inside a focused element
-- `--focus-ring-width` for the focus ring width (shared across all themes)
+1. Use the blue `--token-color-stroke-action-focus` everywhere except input fields and explicit dark surfaces.
+2. Use a 3px outline with a 2px transparent gap. Keep text, icon, and background colors unchanged.
+3. Lists, tables, cards, and similar layouts replace the existing edge with a 3px blue edge, with no gap. Use 2px if a scroll container's existing spacing would clip 3px. Hover styling takes precedence while focused.
 
-Every interactive Eufemia component — Button, Input, Tag, Menu, Tabs, List — uses these same tokens for focus. Your custom components should follow the same pattern.
+On explicit dark surfaces (`surface="dark"`), keep the previous focus style to preserve contrast.
 
-Here is an example of how it should look when implemented:
+| CSS custom property                 | Purpose       | Default           |
+| ----------------------------------- | ------------- | ----------------- |
+| `--token-color-stroke-action-focus` | Outline color | Theme blue        |
+| `--focus-outline-width`             | Outline width | `0.1875rem` (3px) |
+| `--focus-outline-offset`            | Gap           | `0.125rem` (2px)  |
+
+Use the [focusOutline()](/web/ai-tools-and-resources/utilities/sass/#keyboard-focus) Sass helper or CSS:
+
+```css
+.my-action:focus-visible {
+  outline: var(--focus-outline-width) solid
+    var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+```
+
+The gap shows the surface behind the element. Keep enough space around the outline so containers do not clip it.
+
+Tab to these examples to compare the focus styles. The layout example also shows hover taking precedence:
 
 <Examples.FocusExample />
+
+This guidance applies to new and updated implementations. Existing Eufemia components will adopt it in separate changes. See [v13 focus compatibility guidance](/web/releases-and-upgrades/versions/eufemia/v13-info/#keyboard-focus-styling) when migrating custom styles.
 
 ## Focus Management
 

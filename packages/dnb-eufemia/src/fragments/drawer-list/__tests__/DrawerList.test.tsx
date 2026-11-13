@@ -2044,7 +2044,7 @@ describe('DrawerList scss', () => {
       /@media \(forced-colors: active\) \{[^@]*\.dnb-drawer-list__option--selected \.dnb-drawer-list__option__inner::after \{\s*background-color: HighlightText;/
     )
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-drawer-list__option--focus \{\s*outline: var\(--focus-ring-width\) solid transparent;/
+      /html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-drawer-list__option--focus:not\(\[disabled\]\):not\(:hover\):not\(:active\) \{\s*outline: var\(--focus-outline-width\) solid var\(--token-color-stroke-action-focus\);/
     )
   })
 })

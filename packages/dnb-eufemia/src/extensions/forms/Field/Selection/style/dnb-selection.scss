@@ -62,10 +62,11 @@
   }
 
   .dnb-radio-group,
-  .dnb-toggle-button-group {
+  .dnb-chip-group {
     // On order to stretch a nested Section component
     .dnb-height-animation,
-    & > .dnb-flex-container {
+    & > .dnb-flex-container,
+    .dnb-chip-group__fieldset {
       width: 100%;
       flex-grow: 1;
     }

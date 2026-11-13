@@ -463,12 +463,6 @@ button .dnb-form-status__text {
 .dnb-button--tertiary .dnb-skeleton .dnb-button__text {
   text-decoration: none;
 }
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text {
-  text-decoration: none;
-}
 html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
   cursor: not-allowed;
 }
@@ -647,7 +641,11 @@ html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
   --button-color-bg: var(--button-color-bg--focus);
   --button-color-border: var(--button-color-border--focus);
   --button-color-icon: var(--button-color-icon--focus);
@@ -661,16 +659,16 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 @media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
     outline: var(--focus-ring-width) solid transparent;
   }
 }
 @media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
     outline-offset: 0;
   }
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled])[aria-disabled=true] {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-icon: var(--button-color-icon--disabled);
   --button-color-text: var(--button-color-text--disabled);
@@ -896,6 +894,22 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-color-text--active: var(
     --token-color-component-button-text-action-destructive-pressed
   );
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
+  text-decoration: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled]) {
+  outline: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled])::before {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-button--tertiary > * {
   z-index: 2;
@@ -1375,6 +1389,19 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   padding-top: 5vh;
   align-items: flex-start;
 }
+.dnb-modal__vertical-alignment--top.dnb-modal__content--fullscreen {
+  padding-top: 0;
+}
+@media screen and (max-width: 40em) {
+  .dnb-modal__vertical-alignment--top.dnb-modal__content--auto-fullscreen {
+    padding-top: 0;
+  }
+}
+@media screen and (max-width: 60em) and (max-height: 30em) {
+  .dnb-modal__vertical-alignment--top.dnb-modal__content--auto-fullscreen {
+    padding-top: 0;
+  }
+}
 .dnb-modal__overlay {
   position: fixed;
   z-index: var(--modal-z-index);
@@ -1532,6 +1559,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   --dialog-stroke-color: var(--token-color-stroke-neutral-subtle);
   position: relative;
   max-height: 100vh;
+  max-height: 100dvh;
   overflow: hidden;
   user-select: text;
   border: none;
@@ -1546,6 +1574,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-dialog > .dnb-scroll-view {
   height: 100%;
   max-height: 90vh;
+  max-height: 90dvh;
 }
 .dnb-dialog__inner {
   position: relative;
@@ -1568,21 +1597,47 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   .dnb-dialog--auto-fullscreen {
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     max-width: 100%;
     max-height: 100vh;
+    max-height: 100dvh;
     border-radius: 0;
     box-shadow: none;
     margin: auto 0;
+  }
+  .dnb-dialog--auto-fullscreen > .dnb-scroll-view {
+    max-height: 100%;
+  }
+}
+@media screen and (max-width: 60em) and (max-height: 30em) {
+  .dnb-dialog--auto-fullscreen {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-width: 100%;
+    max-height: 100vh;
+    max-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    margin: auto 0;
+  }
+  .dnb-dialog--auto-fullscreen > .dnb-scroll-view {
+    max-height: 100%;
   }
 }
 .dnb-dialog--fullscreen {
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   max-width: 100%;
   max-height: 100vh;
+  max-height: 100dvh;
   border-radius: 0;
   box-shadow: none;
   margin: auto 0;
+}
+.dnb-dialog--fullscreen > .dnb-scroll-view {
+  max-height: 100%;
 }
 .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__content {
   padding-bottom: calc(var(--dialog-spacing) * 2);
@@ -1788,10 +1843,12 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-dialog__icon ~ .dnb-dialog__header {
   margin-top: 1.5rem;
 }
-@supports (-webkit-touch-callout: none) {
-  @media screen and (max-height: 40em) {
-    .dnb-dialog .dnb-scroll-view {
-      max-height: 82vh;
+@supports not (height: 100dvh) {
+  @supports (-webkit-touch-callout: none) {
+    @media screen and (max-height: 40em) {
+      .dnb-dialog > .dnb-scroll-view {
+        max-height: 82vh;
+      }
     }
   }
 }"

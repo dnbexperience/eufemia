@@ -46,7 +46,9 @@ test.describe('Page Lists', () => {
       await expandAllSidebarItems(page)
 
       await expect(
-        page.locator('#tab-bar-content a[href="/web/components/overview"]')
+        page.locator(
+          '#tab-bar-content a[href="/web/components/overview/"]'
+        )
       ).toHaveCount(0)
 
       const menuPaths = await page
@@ -61,9 +63,9 @@ test.describe('Page Lists', () => {
                 .filter(
                   (href) =>
                     href &&
-                    href !== '/web/components/overview' &&
-                    href !== '/web/components/icon/usage' &&
-                    href !== '/web/components/fragments' &&
+                    href !== '/web/components/overview/' &&
+                    href !== '/web/components/icon/usage/' &&
+                    href !== '/web/components/fragments/' &&
                     !href.startsWith('/web/components/fragments/')
                 )
             ),
@@ -80,9 +82,9 @@ test.describe('Page Lists', () => {
                 .filter(
                   (href) =>
                     href &&
-                    href !== '/web/components/overview' &&
-                    href !== '/web/components/icon/usage' &&
-                    href !== '/web/components/fragments' &&
+                    href !== '/web/components/overview/' &&
+                    href !== '/web/components/icon/usage/' &&
+                    href !== '/web/components/fragments/' &&
                     !href.startsWith('/web/components/fragments/')
                 )
             ),

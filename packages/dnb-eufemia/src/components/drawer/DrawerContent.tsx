@@ -3,11 +3,10 @@
  *
  */
 
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import type { JSX, ReactElement } from 'react'
 import { clsx } from 'clsx'
 import { findElementInChildren } from '../../shared/component-helper'
-import { getOffsetTop, warn } from '../../shared/helpers'
 import ScrollView from '../scroll-view/ScrollView'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
@@ -38,6 +37,13 @@ export default function DrawerContent({
   ...rest
 }: DrawerContentProps): JSX.Element {
   const context = useContext(ModalContext)
+  const reveal = useContext(DrawerContentContext)?.reveal
+  const gutter =
+    scrollbarGutter === false
+      ? undefined
+      : scrollbarGutter === 'stable' || spacing !== false
+        ? 'stable'
+        : undefined
   const { minWidth, maxWidth } = checkMinMaxWidth(
     minWidthProp,
     maxWidthProp
@@ -77,21 +83,6 @@ export default function DrawerContent({
     ),
   }
 
-  /**
-   * Update CSS --header-height with spacing to top of page
-   */
-  useEffect(() => {
-    try {
-      const height = getOffsetTop(context?.contentRef.current) / 16
-      context?.contentRef.current.style.setProperty(
-        '--header-height',
-        `${height}rem`
-      )
-    } catch (e) {
-      warn('DrawerContent: Failed to calculate header height:', e)
-    }
-  }, [content, context?.scrollRef, context?.contentRef])
-
   const navigationElement = findElementInChildren(
     content,
     (cur: ReactElement) =>
@@ -103,24 +94,8 @@ export default function DrawerContent({
       cur.type === DrawerHeader || cur.type === ModalHeader
   )
 
-  return (
-    <ScrollView
-      {...innerParams}
-      ref={context?.scrollRef}
-      scrollbarGutter={
-        scrollbarGutter === false
-          ? undefined
-          : scrollbarGutter === 'stable' || spacing !== false
-            ? 'stable'
-            : undefined
-      }
-    >
-      {navigationElement ? (
-        navigationElement
-      ) : (
-        <DrawerNavigation>{navContent}</DrawerNavigation>
-      )}
-
+  const scrollContent = (
+    <>
       {headerElement ? (
         headerElement
       ) : (
@@ -142,6 +117,32 @@ export default function DrawerContent({
           </DrawerContentContext>
         </div>
       </div>
+    </>
+  )
+
+  return (
+    <ScrollView
+      {...innerParams}
+      ref={reveal ? undefined : context?.scrollRef}
+      scrollbarGutter={reveal ? undefined : gutter}
+    >
+      {navigationElement ? (
+        navigationElement
+      ) : (
+        <DrawerNavigation>{navContent}</DrawerNavigation>
+      )}
+
+      {reveal ? (
+        <ScrollView
+          className="dnb-drawer__reveal-scroll"
+          ref={context?.scrollRef}
+          scrollbarGutter={gutter}
+        >
+          {scrollContent}
+        </ScrollView>
+      ) : (
+        scrollContent
+      )}
     </ScrollView>
   )
 }

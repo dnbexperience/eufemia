@@ -464,12 +464,6 @@ button .dnb-form-status__text {
 .dnb-button--tertiary .dnb-skeleton .dnb-button__text {
   text-decoration: none;
 }
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text {
-  text-decoration: none;
-}
 html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
   cursor: not-allowed;
 }
@@ -648,7 +642,11 @@ html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
   --button-color-bg: var(--button-color-bg--focus);
   --button-color-border: var(--button-color-border--focus);
   --button-color-icon: var(--button-color-icon--focus);
@@ -662,16 +660,16 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 @media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
     outline: var(--focus-ring-width) solid transparent;
   }
 }
 @media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
     outline-offset: 0;
   }
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled])[aria-disabled=true] {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-icon: var(--button-color-icon--disabled);
   --button-color-text: var(--button-color-text--disabled);
@@ -897,6 +895,22 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-color-text--active: var(
     --token-color-component-button-text-action-destructive-pressed
   );
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
+  text-decoration: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled]) {
+  outline: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled])::before {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-button--tertiary > * {
   z-index: 2;
@@ -1376,6 +1390,19 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   padding-top: 5vh;
   align-items: flex-start;
 }
+.dnb-modal__vertical-alignment--top.dnb-modal__content--fullscreen {
+  padding-top: 0;
+}
+@media screen and (max-width: 40em) {
+  .dnb-modal__vertical-alignment--top.dnb-modal__content--auto-fullscreen {
+    padding-top: 0;
+  }
+}
+@media screen and (max-width: 60em) and (max-height: 30em) {
+  .dnb-modal__vertical-alignment--top.dnb-modal__content--auto-fullscreen {
+    padding-top: 0;
+  }
+}
 .dnb-modal__overlay {
   position: fixed;
   z-index: var(--modal-z-index);
@@ -1539,16 +1566,18 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 }
 .dnb-drawer {
   position: relative;
+  display: flex;
+  flex-direction: column;
   max-height: 100vh;
   max-height: 100dvh;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   max-width: 100%;
   max-height: 100vh;
+  max-height: 100dvh;
   border-radius: 0;
   box-shadow: none;
-  height: 100dvh;
-  max-height: 100dvh;
   width: var(--drawer-width);
   min-width: var(--drawer-min-width);
   max-width: var(--drawer-max-width);
@@ -1562,18 +1591,22 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   .dnb-drawer--auto-fullscreen {
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     max-width: 100%;
     max-height: 100vh;
+    max-height: 100dvh;
     border-radius: 0;
     box-shadow: none;
-    height: 100dvh;
-    max-height: 100dvh;
   }
+}
+.dnb-drawer > * {
+  flex-shrink: 0;
 }
 .dnb-drawer__inner {
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   z-index: 10;
   /** 
     NB: Do not use "overflow-x: hidden;" in here,
@@ -1581,7 +1614,6 @@ html[data-dnb-modal-active] .eufemia-portal-root {
     To make the Drawer scroll, we use .dnb-scroll-view
   */
   width: 100%;
-  min-height: calc(100% - var(--header-height, 0));
   /** Sets the color on scroll overflow (at the bottom) */
   background-color: var(--drawer-background-color);
 }
@@ -1634,15 +1666,27 @@ html[data-dnb-modal-active] .eufemia-portal-root {
     max-height: auto;
   }
 }
+@media screen and (max-width: 60em) and (max-height: 30em) {
+  .dnb-drawer--auto-fullscreen {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-width: 100%;
+    max-height: 100vh;
+    max-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
 .dnb-drawer--fullscreen {
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   max-width: 100%;
   max-height: 100vh;
+  max-height: 100dvh;
   border-radius: 0;
   box-shadow: none;
-  height: 100dvh;
-  max-height: 100dvh;
 }
 .dnb-drawer {
   opacity: 0.1;
@@ -1688,6 +1732,61 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-drawer__root {
   align-items: flex-start;
   justify-content: flex-start;
+}
+.dnb-drawer__reveal .dnb-drawer {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  opacity: 1;
+  transform: none;
+  animation: none;
+  box-shadow: none;
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
+  transition: clip-path var(--drawer-reveal-duration);
+}
+.dnb-drawer__reveal-scroll {
+  flex: 1;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+.dnb-drawer__reveal-edge {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 1rem;
+  pointer-events: none;
+  box-shadow: var(--shadow-sharp);
+  clip-path: inset(-100lvh 100% -100lvh -100vw);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  transition: transform var(--drawer-reveal-duration);
+}
+.dnb-drawer__reveal-edge::before {
+  content: "";
+  position: absolute;
+  top: -100lvh;
+  right: 100%;
+  bottom: -100lvh;
+  width: 100vw;
+  background-color: currentcolor;
+}
+.dnb-drawer__reveal-overlay.dnb-modal__overlay {
+  background-color: transparent;
+}
+.dnb-drawer__reveal-target {
+  will-change: transform, opacity;
+  transition: transform var(--drawer-reveal-duration), opacity var(--drawer-reveal-duration);
+}
+.dnb-drawer__reveal-target:where(.dnb-drawer__reveal-opening) {
+  transition: transform var(--drawer-reveal-duration), opacity calc(var(--drawer-reveal-duration) * 0.75) calc(var(--drawer-reveal-duration) * 0.25);
+}
+.dnb-drawer__reveal-dragging, .dnb-drawer__reveal-dragging .dnb-drawer__reveal-edge, .dnb-drawer__reveal-dragging .dnb-drawer {
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-drawer__reveal-target, .dnb-drawer__reveal-edge, .dnb-drawer__reveal .dnb-drawer {
+    transition: none;
+  }
 }
 @media screen and (max-width: 60em) {
   .dnb-drawer__title {
@@ -1771,6 +1870,18 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 }
 .dnb-drawer .dnb-drawer__navigation:not(.dnb-drawer__navigation--sticky)::after {
   color: transparent;
+}
+.dnb-drawer__reveal .dnb-drawer__navigation--sticky::before {
+  border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  box-shadow: none;
+}
+.dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section {
+  position: relative;
+  flex-shrink: 0;
+  border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+}
+.dnb-drawer__reveal .dnb-drawer__inner {
+  min-height: 100%;
 }
 .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
   margin: var(--drawer-spacing) 0;

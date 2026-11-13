@@ -213,11 +213,11 @@ test.describe('Route Focus', () => {
       page.locator('.dnb-sidebar-menu-responsive-inline__content')
     ).toHaveCSS('clip-path', 'inset(0px)')
     await page
-      .locator('a[href="/web/components/accordion"]')
+      .locator('a[href="/web/components/accordion/"]')
       .first()
       .click()
 
-    await expect(page).toHaveURL('/web/components/accordion')
+    await expect(page).toHaveURL('/web/components/accordion/')
 
     const pageHeading = page.locator('.dnb-app-content h1').first()
     const headingLink = page.getByRole('link', {
@@ -251,7 +251,7 @@ test.describe('Route Focus', () => {
 
     await page.getByRole('tab', { name: 'Demos' }).click()
 
-    await expect(page).toHaveURL('/web/components/accordion/demos')
+    await expect(page).toHaveURL('/web/components/accordion/demos/')
 
     const pageHeading = page.locator('.dnb-app-content h1').first()
 
@@ -278,7 +278,7 @@ test.describe('Route Focus', () => {
 
     const demosTab = page.getByRole('tab', { name: 'Demos' })
     await demosTab.click()
-    await expect(page).toHaveURL('/web/components/list/demos')
+    await expect(page).toHaveURL('/web/components/list/demos/')
 
     await page.reload()
     await waitForApp(page)

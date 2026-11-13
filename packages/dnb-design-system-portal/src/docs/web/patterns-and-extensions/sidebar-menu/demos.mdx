@@ -45,6 +45,16 @@ The icon-only hamburger uses the same text for its `aria-label` and `tooltip`, g
 
 <Examples.SidebarMenuResponsiveNavigation />
 
+### Reveal navigation on narrow screens
+
+Use the optional Drawer reveal driver to keep the menu stationary while the page moves right. The page becomes translucent and cannot be interacted with while the menu is open. The close button sits on the right, with a subtle border below the menu header.
+
+This example switches to the reveal menu at `40em`. On touch screens, drag right on the page to open it and left inside the menu or on the exposed page to close it. The hamburger, Close button, Escape, and tapping the exposed page remain available. On wider screens, the same menu appears inline.
+
+<Examples.SidebarMenuReveal />
+
+Resize your browser to try narrow and wide layouts. See [reveal setup](/web/patterns-and-extensions/sidebar-menu/#reveal-navigation).
+
 ### Toggle navigation
 
 `SidebarMenu.Toggle` hides and restores the full inline menu with the same width animation as dragging the divider to dismiss it. The embedded sidebar toggle uses the same component. At or below `drawerAt`, the external toggle opens and closes the Drawer.

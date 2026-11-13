@@ -600,7 +600,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 
 .dnb-table__td__button:not(:active):not(:hover):focus-visible::before, .dnb-table__td--selected .dnb-table__td__button:not(:active):not(:hover):focus-visible::before {
-  --border-width: var(--focus-ring-width);
+  --border-width: var(--focus-outline-width);
   --border-color: var(--token-color-stroke-action-focus);
 }
 
@@ -796,18 +796,8 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 
 .dnb-table thead th.dnb-table__cell--focus, .dnb-table tbody td.dnb-table__cell--focus, .dnb-table__th.dnb-table__cell--focus, .dnb-table__td.dnb-table__cell--focus {
   outline: none;
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 
-@media (forced-colors: active) {
-  .dnb-table thead th.dnb-table__cell--focus, .dnb-table tbody td.dnb-table__cell--focus, .dnb-table__th.dnb-table__cell--focus, .dnb-table__td.dnb-table__cell--focus {
-    outline: var(--focus-ring-width) solid transparent;
-    outline-offset: calc(var(--focus-ring-width) * -1);
-  }
-}
 .dnb-table__tr--vertical-align-top .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-top {
   vertical-align: top;
 }
@@ -820,17 +810,30 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   vertical-align: bottom;
 }
 
+.dnb-table :is(.dnb-table__td, .dnb-table__th, td, th).dnb-table__cell--focus:focus::after {
+  content: "";
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: calc(-1 * var(--focus-outline-width));
+}
+
 .dnb-table {
   /* stylelint-disable no-descending-specificity */
 }
 
-.dnb-table--outline tr:first-of-type > .dnb-table__cell--focus:first-child,
-.dnb-table--outline .dnb-table__tr:first-of-type > .dnb-table__cell--focus:first-child {
+.dnb-table--outline :is(thead:first-of-type,
+tbody:first-child,
+caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table__cell--focus:first-child {
   border-top-left-radius: var(--table-outline-radius-top);
 }
 
-.dnb-table--outline tr:first-of-type > .dnb-table__cell--focus:last-child,
-.dnb-table--outline .dnb-table__tr:first-of-type > .dnb-table__cell--focus:last-child {
+.dnb-table--outline :is(thead:first-of-type,
+tbody:first-child,
+caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table__cell--focus:last-child {
   border-top-right-radius: var(--table-outline-radius-top);
 }
 
@@ -854,7 +857,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 */
 .dnb-table tr.sticky {
   position: sticky;
-  z-index: 4;
+  z-index: 7;
   transform: translate3d(0, var(--table-offset, 0), 0);
 }
 
@@ -865,6 +868,16 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 .dnb-table tr.sticky.css-position {
   top: var(--table-top, 0);
+}
+
+.dnb-table--outline tr.sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--table-outline);
+  border-bottom: 0;
+  border-radius: var(--table-outline-radius-top) var(--table-outline-radius-top) 0 0;
+  pointer-events: none;
 }
 
 .dnb-table tr.sticky.is-sticky th::before {
@@ -1138,7 +1151,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 
 html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
   --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-ring-width);
+  --border-width: var(--focus-outline-width);
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {

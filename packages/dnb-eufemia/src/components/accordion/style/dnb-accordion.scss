@@ -105,16 +105,13 @@
     }
 
     @include utilities.focusVisible() {
-      --accordion-color-text: var(--accordion-color-text--focus);
-      --accordion-color-description: var(
-        --accordion-color-description--focus
-      );
-      --accordion-color-bg: var(--accordion-color-bg--focus);
-      --accordion-color-border: var(--accordion-color-border--focus);
-      --accordion-border-width: var(--accordion-border-width--focus);
-      --accordion-border-inset: var(--accordion-border-inset--focus);
+      &:not(:hover):not(:active) {
+        @include utilities.focusOutline();
+      }
 
-      @include utilities.forcedColorsOutline();
+      @media (forced-colors: active) {
+        @include utilities.focusOutline($color: CanvasText);
+      }
     }
 
     &[disabled] {

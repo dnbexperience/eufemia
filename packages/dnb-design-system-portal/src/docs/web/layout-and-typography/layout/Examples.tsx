@@ -7,7 +7,7 @@ import {
   Input,
   H2,
   Button,
-  ToggleButton,
+  Chip,
   Flex,
   Switch,
   Textarea,
@@ -367,8 +367,8 @@ const AllComponents = ({
     checkbox: 'Checkbox',
     radio: 'Radio',
     radioGroup: 'Radio Group:',
-    toggleButton: 'Toggle:',
-    toggleButtonGroup: 'Toggle Group:',
+    chip: 'Chip:',
+    chipGroup: 'Chip Group:',
     switch: 'Switch',
     input: 'Input:',
     textarea: 'Textarea:',
@@ -421,15 +421,13 @@ const AllComponents = ({
         <Radio label={labels.radio} value="a" />
         <Radio label={labels.radio} value="b" />
       </Radio.Group>
-      <ToggleButton
-        label={labels.toggleButton}
-        text="Toggle"
-        {...params}
-      />
-      <ToggleButton.Group label={labels.toggleButtonGroup} {...params}>
-        <ToggleButton text="Toggle A" value="a" />
-        <ToggleButton text="Toggle B" value="b" />
-      </ToggleButton.Group>
+      <Chip.Group label={labels.chip} selectionMode="multiple" {...params}>
+        <Chip text="Chip" value="chip" />
+      </Chip.Group>
+      <Chip.Group label={labels.chipGroup} {...params}>
+        <Chip text="Chip A" value="a" />
+        <Chip text="Chip B" value="b" />
+      </Chip.Group>
       <Switch label={labels.switch} {...params} />
       <Textarea label={labels.textarea} rows="5" {...params} />
       <div style={{ display: 'inline-flex' }}>

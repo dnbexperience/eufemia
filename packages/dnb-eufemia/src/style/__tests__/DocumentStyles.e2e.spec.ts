@@ -119,6 +119,39 @@ test.describe('Document and print styles', () => {
     })
   }
 
+  test('preserves Chip selection when printing without backgrounds', async () => {
+    await page.goto('/web/components/chip/demos/?fullscreen')
+    const fixture = page.locator(
+      '[data-visual-test="chip-group-appearances"]'
+    )
+    await expect(fixture).toBeVisible()
+    await fixture.evaluate((element) => element.classList.add('dnb-print'))
+    await page.addStyleTag({ content: printCss })
+    await page.emulateMedia({ media: 'print' })
+
+    for (const variant of ['default', 'addable', 'checkbox', 'radio']) {
+      await test.step(variant, async () => {
+        const chips = fixture.locator('.dnb-chip--' + variant)
+        for (const chip of await chips.all()) {
+          const checked = await chip
+            .locator(
+              'input:checked, .dnb-chip__button[aria-pressed="true"]'
+            )
+            .count()
+          const pill = chip.locator(
+            '.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button'
+          )
+          await expect(pill).toHaveCSS('outline-style', 'solid')
+          await expect(pill).toHaveCSS(
+            'outline-width',
+            checked ? '3px' : '1px'
+          )
+          await expect(pill).toHaveCSS('outline-color', 'rgb(0, 0, 0)')
+        }
+      })
+    }
+  })
+
   for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
     for (const isolated of [false, true]) {
       test(`prints ${brand} dark content on plain paper by default and restores screen colors (isolated: ${isolated})`, async () => {

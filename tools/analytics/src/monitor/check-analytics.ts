@@ -61,7 +61,7 @@ export async function checkAnalytics(
     return undefined
   }
 
-  // Errors name only the status: GHE URLs would put the internal repository name in alerts and logs.
+  // Errors never include the URL: GHE URLs would put the internal repository name in alerts and logs.
   async function get(url: string, type: string, token?: string) {
     const response = await request(url, {
       headers: token
@@ -76,7 +76,11 @@ export async function checkAnalytics(
     })
     if (response.status !== 200) {
       await response.body?.cancel()
-      throw new Error(`HTTP ${response.status}`)
+      throw new Error(
+        response.status === 401 && token
+          ? 'Token expired or revoked (HTTP 401)'
+          : `HTTP ${response.status}`
+      )
     }
     if (response.headers.get('content-type')?.split(';')[0] !== type) {
       await response.body?.cancel()

@@ -55,6 +55,8 @@ For the visual part, we simply use [typography styles](/web/layout-and-typograph
 
 <HeadingInfoSize />
 
+To make heading sizes adapt to screen width, use `<Typography.Context responsive>`. See the [responsive typography demo](/web/layout-and-typography/typography/#setting-responsive).
+
 ### Heading level rules and corrections
 
 The correction will ensure that:
@@ -93,6 +95,14 @@ const html = renderToString(
 ### Skip auto correction and warnings
 
 First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skipCorrection` property.
+
+Only skip the correction when your app sets the heading levels itself. Skipped levels, as in the example below, make the page structure harder to follow for screen reader users.
+
+```tsx
+<Heading skipCorrection level={4}>
+  Stays h4 even after an h2
+</Heading>
+```
 
 ### Heading levels interceptor modification
 

@@ -78,20 +78,28 @@
 }
 
 @mixin anchorFocusStyle() {
-  --anchor-color: var(--token-color-text-action-focus);
-  --anchor-icon-color: var(--token-color-icon-action-focus);
-
   @include resetAnimationStyle();
 
-  @include utilities.focusRing(
-    'always',
-    null,
-    null,
-    null,
-    anchor-background-value(
-      var(--token-color-background-action-focus-subtle)
-    )
-  );
+  &:where(:not(.dnb-anchor--surface-dark)) {
+    // Firefox draws overlapping outlines around wrapped links.
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=266122
+    @include utilities.focusOutline();
+  }
+
+  &:where(.dnb-anchor--surface-dark) {
+    --anchor-color: var(--token-color-text-action-focus);
+    --anchor-icon-color: var(--token-color-icon-action-focus);
+
+    @include utilities.focusRing(
+      'always',
+      null,
+      null,
+      null,
+      anchor-background-value(
+        var(--token-color-background-action-focus-subtle)
+      )
+    );
+  }
 
   @content;
 }
