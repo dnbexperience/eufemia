@@ -76,7 +76,7 @@ test.describe('Card.Action with a nested Card', () => {
     await expect(action).toBeFocused()
 
     await expect(ownCard).toHaveCSS('outline-style', 'solid')
-    await expect(ownCard).toHaveCSS('outline-width', '4px')
+    await expect(ownCard).toHaveCSS('outline-width', '3px')
     await expect(nestedCard).toHaveCSS('outline-style', 'none')
   })
 })

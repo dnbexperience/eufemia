@@ -296,12 +296,17 @@
     --outline-width: 0.0625rem;
   }
 
-  &:focus-visible > .dnb-card {
+  &:focus-visible:not(:hover):not(:active) > .dnb-card {
     --card-outline-color: var(--token-color-stroke-action-focus);
     --outline-color: var(--token-color-stroke-action-focus);
-    --outline-width: var(--focus-ring-width);
+    --outline-width: var(--focus-outline-width);
+  }
 
-    @include utilities.forcedColorsOutline();
+  &:focus-visible > .dnb-card {
+    @include utilities.forcedColorsOutline(
+      $width: var(--focus-outline-width),
+      $inset: inset
+    );
   }
 }
 
