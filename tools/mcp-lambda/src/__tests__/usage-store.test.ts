@@ -34,6 +34,7 @@ function record(
     path: '',
     env: 'dev',
     transport: 'web',
+    eufemia_version: '11.16.0',
     timestamp: '2026-09-10T12:00:00.000Z',
     created_at: '2026-09-10T12:00:00.000Z',
     ...overrides,
