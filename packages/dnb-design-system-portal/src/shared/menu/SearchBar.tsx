@@ -3,24 +3,21 @@
  *
  */
 
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
-import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
-import { Autocomplete } from '@dnb/eufemia/src/components'
+import Search from '@dnb/eufemia/src/components/search/Search'
+import type { SearchProps } from '@dnb/eufemia/src/components/search/Search'
 import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
-  autocompleteStyle,
-  shortcutHintStyle,
   portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
 import {
   applyPageFocus,
-  isMac,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
@@ -28,63 +25,24 @@ import { markNextViewFromSearch } from '../../../vite/client/track-page-view'
 import { loadPortalRoutes } from '../../../vite/client/load-portal-routes'
 
 const searchInputId = 'portal-search'
-const subscribeToPlatform = () => () => undefined
-const getShortcutHint = (): string | null => (isMac() ? '⌘ K' : 'Ctrl K')
-const getServerShortcutHint = (): string | null => null
-
-// Rendered as a component so Autocomplete's injected trigger props don't reach the <kbd>.
-const ShortcutHint = ({ hint }: { hint: string }) => (
-  <kbd className={shortcutHintStyle} aria-hidden="true">
-    {hint}
-  </kbd>
-)
 
 export const SearchBarInput = ({
   id = searchInputId,
   placeholder = 'Search ...',
-  stretch = false,
+  variant = 'compact',
   onQuery,
 }: {
   id?: string
   placeholder?: string
-  stretch?: boolean
+  variant?: SearchProps['variant']
   onQuery?: (value: string) => boolean | void
 } = {}) => {
   const searchIndex = useRef(null)
   const searchRevision = useRef(0)
   const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [status, setStatus] = useState(null)
-  const [hasValue, setHasValue] = useState(false)
-  const shortcutHint = useSyncExternalStore(
-    subscribeToPlatform,
-    getShortcutHint,
-    getServerShortcutHint
-  )
 
-  useEffect(() => {
-    const onKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (
-        (event.metaKey || event.ctrlKey) &&
-        (event.key === 'k' || event.key === 'K')
-      ) {
-        const search =
-          document.getElementById('portal-home-search') ||
-          document.getElementById(searchInputId)
-        if (search?.id !== id) {
-          return
-        }
-        event.preventDefault()
-        search?.focus()
-      }
-    }
-
-    document.addEventListener('keydown', onKeyDown)
-
-    return () => {
-      clearTimeout(hideTimer.current)
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [id])
+  useEffect(() => () => clearTimeout(hideTimer.current), [])
 
   const onTypeHandler = ({
     value,
@@ -98,7 +56,6 @@ export const SearchBarInput = ({
   }) => {
     const revision = ++searchRevision.current
     clearTimeout(hideTimer.current)
-    setHasValue(Boolean(value))
     setStatus(null)
     if (onQuery?.(value)) {
       hideTimer.current = setTimeout(() => {
@@ -189,22 +146,17 @@ export const SearchBarInput = ({
   }
 
   return (
-    <Autocomplete
+    <Search.Autocomplete
       id={id}
-      stretch={stretch}
-      className={clsx(autocompleteStyle, 'portal-search')}
+      variant={variant}
+      shortcut
+      className="portal-search"
       mode="async"
-      showClearButton
-      noScrollAnimation
-      preventSelection
       search={{ filter: false }}
       fixedPosition
-      size="medium"
       align="right"
       placeholder={placeholder}
       label="Search the Eufemia documentation"
-      labelSrOnly
-      aria-keyshortcuts="Meta+K Control+K"
       status={status}
       portalClass={portalClassStyle}
       drawerClass={drawerClassStyle}
@@ -214,14 +166,8 @@ export const SearchBarInput = ({
       onClear={() => {
         clearTimeout(hideTimer.current)
         searchRevision.current++
-        setHasValue(false)
         onQuery?.('')
       }}
-      submitElement={
-        !hasValue && shortcutHint ? (
-          <ShortcutHint hint={shortcutHint} />
-        ) : undefined
-      }
       pageOffset={0} // drawer-list property
       optionsRender={({ Items, data }) => {
         return (

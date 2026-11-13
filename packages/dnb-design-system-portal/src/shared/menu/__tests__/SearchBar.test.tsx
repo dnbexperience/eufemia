@@ -5,7 +5,6 @@ import {
   render,
   waitFor,
 } from '@testing-library/react'
-import { renderToString } from 'react-dom/server'
 import { MemoryRouter } from 'react-router'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Provider } from '@dnb/eufemia/src/shared'
@@ -350,74 +349,25 @@ describe('SearchBarInput', () => {
     expect(input?.tagName).toBe('INPUT')
   })
 
-  it('exposes the keyboard shortcut on the search input', () => {
-    render(<SearchBarInput />)
+  it.each(['hero', 'compact'] as const)(
+    'uses the %s Search variant',
+    (variant) => {
+      const platformSpy = vi
+        .spyOn(navigator, 'platform', 'get')
+        .mockReturnValue('Win32')
+      render(<SearchBarInput variant={variant} />)
 
-    const input = document.querySelector('#portal-search')
-    expect(input?.getAttribute('aria-keyshortcuts')).toBe(
-      'Meta+K Control+K'
-    )
-  })
-
-  it('focuses the search input when pressing command+k', () => {
-    render(<SearchBarInput />)
-
-    const input = document.querySelector('#portal-search')
-    expect(document.activeElement).not.toBe(input)
-
-    fireEvent.keyDown(document, { key: 'k', metaKey: true })
-
-    expect(document.activeElement).toBe(input)
-  })
-
-  it('focuses the search input when pressing ctrl+k', () => {
-    render(<SearchBarInput />)
-
-    const input = document.querySelector('#portal-search')
-    expect(document.activeElement).not.toBe(input)
-
-    fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
-
-    expect(document.activeElement).toBe(input)
-  })
-
-  it('does not render a platform-specific hint on the server', () => {
-    const html = renderToString(<SearchBarInput />)
-
-    expect(html).not.toContain('<kbd')
-  })
-
-  it.each([
-    ['MacIntel', '⌘ K'],
-    ['Win32', 'Ctrl K'],
-  ])('shows the %s keyboard shortcut hint', (platform, shortcut) => {
-    const platformSpy = vi
-      .spyOn(navigator, 'platform', 'get')
-      .mockReturnValue(platform)
-
-    render(<SearchBarInput />)
-
-    const hint = document.querySelector('kbd')
-    expect(hint).not.toBeNull()
-    expect(hint?.textContent).toBe(shortcut)
-
-    platformSpy.mockRestore()
-  })
-
-  it('replaces the keyboard shortcut with the clear button when typing', () => {
-    render(<SearchBarInput />)
-
-    expect(document.querySelector('kbd')).not.toBeNull()
-
-    const input = document.querySelector(
-      '#portal-search'
-    ) as HTMLInputElement
-    fireEvent.change(input, { target: { value: 'button' } })
-
-    expect(document.querySelector('kbd')).toBeNull()
-
-    fireEvent.click(document.querySelector('#portal-search-clear-button'))
-    expect(input.value).toBe('')
-    expect(document.querySelector('kbd')).not.toBeNull()
-  })
+      expect(
+        document
+          .querySelector('.portal-search')
+          ?.classList.contains(`dnb-search--${variant}`)
+      ).toBe(true)
+      expect(
+        document
+          .querySelector('#portal-search')
+          ?.getAttribute('aria-keyshortcuts')
+      ).toBe('Control+K')
+      platformSpy.mockRestore()
+    }
+  )
 })
