@@ -75,7 +75,7 @@
   --color-text-neutral-ondark: var(--coconut-greyscale-0);
   --color-text-neutral-subtle: var(--coconut-greyscale-600);
   --color-text-neutral-subtle-ondark: var(--coconut-greyscale-200);
-  --color-text-error: var(--coconut-red-600);
+  --color-text-error: var(--coconut-red-400);
   --color-text-error-inverse: var(--coconut-red-950);
   --color-text-warning: var(--coconut-yellow-600);
   --color-text-warning-inverse: var(--coconut-yellow-800);
@@ -107,7 +107,7 @@
   --color-icon-positive-subtle: var(--coconut-green-900);
   --color-icon-warning: var(--coconut-yellow-600);
   --color-icon-warning-subtle: var(--coconut-yellow-950);
-  --color-icon-error: var(--coconut-red-600);
+  --color-icon-error: var(--coconut-red-400);
   --color-icon-error-subtle: var(--coconut-red-950);
   --color-icon-marketing: var(--coconut-purple-200);
   --color-icon-marketing-subtle: var(--coconut-greyscale-800);

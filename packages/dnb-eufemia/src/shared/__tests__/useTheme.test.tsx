@@ -39,6 +39,7 @@ describe('useTheme', () => {
       name: 'sbanken',
       isEiendom: false,
       isSbanken: true,
+      isCoconut: false,
       isUi: false,
       isCarnegie: false,
     })
@@ -86,6 +87,7 @@ describe('useTheme', () => {
       name: undefined,
       isEiendom: false,
       isSbanken: false,
+      isCoconut: false,
       isUi: false,
       isCarnegie: false,
     })
