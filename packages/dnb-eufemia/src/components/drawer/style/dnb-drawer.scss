@@ -232,6 +232,10 @@
     will-change: transform;
     transition: transform var(--drawer-reveal-duration);
 
+    .eufemia-theme__color-scheme--dark & {
+      box-shadow: -0.0625rem 0 0 var(--token-color-stroke-neutral-subtle);
+    }
+
     // Extend the menu background beyond the viewport without covering its shadow.
     &::before,
     &::after {

@@ -1748,6 +1748,9 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   will-change: transform;
   transition: transform var(--drawer-reveal-duration);
 }
+.eufemia-theme__color-scheme--dark .dnb-drawer__reveal-edge {
+  box-shadow: -0.0625rem 0 0 var(--token-color-stroke-neutral-subtle);
+}
 .dnb-drawer__reveal-edge::before, .dnb-drawer__reveal-edge::after {
   content: "";
   position: absolute;
