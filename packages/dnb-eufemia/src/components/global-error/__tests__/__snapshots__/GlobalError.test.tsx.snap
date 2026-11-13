@@ -633,9 +633,37 @@ html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)) {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
+  --button-color-bg: var(--button-color-bg--focus);
+  --button-color-border: var(--button-color-border--focus);
+  --button-color-icon: var(--button-color-icon--focus);
+  --button-color-text: var(--button-color-text--focus);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--focus);
+  --button-border-width: var(--button-border-width--focus);
+  --button-input-separator-color: var(
+    --button-input-separator-color--focus
+  );
+  outline: none;
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
+    outline-offset: 0;
+  }
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true] {
+  --button-color-bg: var(--button-color-bg--disabled);
+  --button-color-icon: var(--button-color-icon--disabled);
+  --button-color-text: var(--button-color-text--disabled);
 }
 .dnb-button--primary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[disabled], .dnb-button--secondary[aria-disabled=true], .dnb-button--tertiary[disabled], .dnb-button--tertiary[aria-disabled=true] {
   --button-color-bg: var(--button-color-bg--disabled);
@@ -862,10 +890,16 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
+  text-decoration: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled]) {
   outline: none;
 }
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled])::before {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
