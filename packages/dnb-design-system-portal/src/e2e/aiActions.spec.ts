@@ -129,9 +129,14 @@ test('shows feedback selection while retaining keyboard focus', async ({
     (element) => getComputedStyle(element).backgroundColor
   )
   const focusRing = await positive.evaluate(
-    (element) => getComputedStyle(element, ':before').boxShadow
+    (element) => getComputedStyle(element, ':before').outline
   )
-  expect(focusRing).not.toBe('none')
+  expect(focusRing).toBe('rgb(39, 106, 206) solid 3px')
+  expect(
+    await positive.evaluate(
+      (element) => getComputedStyle(element, ':before').outlineOffset
+    )
+  ).toBe('2px')
   const icon = await positive
     .locator('.dnb-icon')
     .evaluate((element) => getComputedStyle(element).color)
@@ -143,7 +148,7 @@ test('shows feedback selection while retaining keyboard focus', async ({
   await expect(positive.locator('.dnb-icon')).not.toHaveCSS('color', icon)
   expect(
     await positive.evaluate(
-      (element) => getComputedStyle(element, ':before').boxShadow
+      (element) => getComputedStyle(element, ':before').outline
     )
   ).toBe(focusRing)
 
@@ -178,10 +183,17 @@ test('preserves selected feedback and the focus outline in forced colors', async
   const selectedIcon = await action
     .locator('.dnb-icon')
     .evaluate((element) => getComputedStyle(element).color)
-  await expect(action).toHaveCSS('outline-style', 'solid')
-  await expect(action).toHaveCSS('outline-width', '4px')
+  const outline = await action.evaluate((element) => {
+    const style = getComputedStyle(element, ':before')
+    return {
+      style: style.outlineStyle,
+      width: style.outlineWidth,
+      offset: style.outlineOffset,
+    }
+  })
+  expect(outline).toEqual({ style: 'solid', width: '3px', offset: '2px' })
   const focusColor = await action.evaluate(
-    (element) => getComputedStyle(element).outlineColor
+    (element) => getComputedStyle(element, ':before').outlineColor
   )
   expect(focusColor).not.toBe(selectedBackground)
 
@@ -202,5 +214,9 @@ test('preserves selected feedback and the focus outline in forced colors', async
     'background-color',
     selectedBackground
   )
-  await expect(action).toHaveCSS('outline-width', '4px')
+  expect(
+    await action.evaluate(
+      (element) => getComputedStyle(element, ':before').outlineWidth
+    )
+  ).toBe('3px')
 })

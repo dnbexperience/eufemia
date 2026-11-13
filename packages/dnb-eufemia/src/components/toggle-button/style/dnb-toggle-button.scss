@@ -203,45 +203,6 @@
         }
       }
     }
-
-    @include utilities.focusVisible() {
-      .dnb-radio {
-        .dnb-radio__button {
-          --radio-border-inset--default: var(--radio-border-inset--focus);
-          --radio-border-width--default: var(--radio-border-width--focus);
-          --radio-color-border--default: var(--radio-color-border--focus);
-          --radio-color-background--default: var(
-            --radio-color-background--focus
-          );
-        }
-        .dnb-radio__dot {
-          --radio-color-dot-on--default: var(--radio-color-dot-on--focus);
-        }
-      }
-      .dnb-checkbox {
-        .dnb-checkbox__button {
-          --checkbox-color-background-off: var(
-            --checkbox-color-background--focus
-          );
-          --checkbox-color-background-off--error: var(
-            --checkbox-color-background--focus
-          );
-          --checkbox-color-background-on: var(
-            --checkbox-color-background--focus
-          );
-          --checkbox-color-background-on--error: var(
-            --checkbox-color-background--focus
-          );
-          --checkbox-border-inset: ;
-          --checkbox-border-width: 0.25rem;
-          --checkbox-color-border: var(--token-color-stroke-action-focus);
-        }
-        .dnb-checkbox__gfx {
-          --checkbox-color-gfx-on: var(--checkbox-color-gfx--focus);
-          --checkbox-color-gfx--error: var(--checkbox-color-gfx--focus);
-        }
-      }
-    }
   }
 
   &--checked &__button {

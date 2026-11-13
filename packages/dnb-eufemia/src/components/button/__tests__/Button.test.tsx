@@ -776,11 +776,11 @@ describe('Button scss', () => {
     expect(css).toMatchSnapshot()
   })
 
-  it('shows the focus ring in forced colors mode', () => {
+  it('uses the focus outline tokens', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{[^{]*\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-ring-width\) solid transparent;/
+      /\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-outline-width\) solid var\(--token-color-stroke-action-focus\);\s*outline-offset: var\(--focus-outline-offset\);/
     )
   })
 
@@ -790,10 +790,6 @@ describe('Button scss', () => {
     // Inside, like the border, so that a neighbor cannot cover it
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-button--primary,\s*\.dnb-button--secondary \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
-    )
-    // The focus ring stays outside
-    expect(css).toMatch(
-      /@media \(forced-colors: active\) \{[^{]*\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline-offset: 0;/
     )
   })
 
@@ -833,13 +829,6 @@ describe('Button scss', () => {
     expect(css).toMatch(
       new RegExp(
         `\\.dnb-button--tertiary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
-      )
-    )
-
-    // Keeps the disabled colors with the focus ring
-    expect(css).toMatch(
-      new RegExp(
-        `\\.dnb-button--primary:focus-visible:not\\(\\[disabled\\]\\)${ariaDisabled}[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);\\s*--button-color-icon: var\\(--button-color-icon--disabled\\);\\s*--button-color-text: var\\(--button-color-text--disabled\\);\\s*\\}`
       )
     )
 

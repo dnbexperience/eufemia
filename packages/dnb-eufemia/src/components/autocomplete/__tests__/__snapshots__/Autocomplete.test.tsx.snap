@@ -459,12 +459,6 @@ button .dnb-form-status__text {
 .dnb-button--tertiary .dnb-skeleton .dnb-button__text {
   text-decoration: none;
 }
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text {
-  text-decoration: none;
-}
 html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
   cursor: not-allowed;
 }
@@ -643,7 +637,11 @@ html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
   --button-color-bg: var(--button-color-bg--focus);
   --button-color-border: var(--button-color-border--focus);
   --button-color-icon: var(--button-color-icon--focus);
@@ -657,16 +655,16 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   outline: none;
 }
 @media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
     outline: var(--focus-ring-width) solid transparent;
   }
 }
 @media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
     outline-offset: 0;
   }
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled])[aria-disabled=true] {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-icon: var(--button-color-icon--disabled);
   --button-color-text: var(--button-color-text--disabled);
@@ -892,6 +890,22 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-color-text--active: var(
     --token-color-component-button-text-action-destructive-pressed
   );
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
+  text-decoration: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled]) {
+  outline: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled])::before {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
 .dnb-button--tertiary > * {
   z-index: 2;
@@ -1879,6 +1893,37 @@ html[data-visual-test] .dnb-input__input {
 .dnb-dropdown__trigger.dnb-button {
   padding: var(--dropdown-button-padding);
   border-radius: var(--dropdown-border-radius);
+}
+html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:focus-visible:not([disabled]) {
+  --button-color-bg: var(--button-color-bg--focus);
+  --button-color-border: var(--button-color-border--focus);
+  --button-color-icon: var(--button-color-icon--focus);
+  --button-color-text: var(--button-color-text--focus);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--focus);
+  --button-border-width: var(--button-border-width--focus);
+  --button-input-separator-color: var(
+    --button-input-separator-color--focus
+  );
+  outline: none;
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:focus-visible:not([disabled]) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:focus-visible:not([disabled]) {
+    outline-offset: 0;
+  }
+}
+html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:focus-visible:not([disabled])[aria-disabled=true] {
+  --button-color-bg: var(--button-color-bg--disabled);
+  --button-color-icon: var(--button-color-icon--disabled);
+  --button-color-text: var(--button-color-text--disabled);
 }
 .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error {
   --button-color-bg--hover: var(--token-color-background-neutral);
