@@ -9,11 +9,6 @@
   --tag-icon-fill: #{$fillColor};
   --tag-icon-stroke: #{$strokeColor};
 
-  @include utilities.focusVisible() {
-    --tag-icon-fill: #{$strokeColor};
-    --tag-icon-stroke: #{$fillColor};
-  }
-
   @include utilities.hover() {
     --tag-icon-fill: #{$strokeColor};
     --tag-icon-stroke: #{$fillColor};
