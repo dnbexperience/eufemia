@@ -793,7 +793,7 @@ function WizardContainer(props: WizardContainerProps) {
       const activeStep = stepsRef.current.get(activeIndexRef.current)
       const previousActiveStep = previousActiveStepRef.current
       if (
-        activeStep?.childIndex !== previousActiveStep?.childIndex ||
+        activeStep?.stepKey !== previousActiveStep?.stepKey ||
         activeStep?.id !== previousActiveStep?.id ||
         activeStep?.title?.['props']?.id !==
           previousActiveStep?.title?.['props']?.id ||

@@ -60,6 +60,7 @@ export function IterateOverSteps({
       const stepElement = getWizardStepElement(child)
 
       if (stepElement) {
+        const stepKey = child.key ?? childIndex
         child = stepElement
 
         const { title, inactive, keepInDOM, include, id, includeWhen } =
@@ -84,7 +85,7 @@ export function IterateOverSteps({
         collectStepsData({
           id,
           index,
-          childIndex,
+          stepKey,
           title,
           inactive,
           keepInDOM,
