@@ -629,6 +629,28 @@ describe('makePropertiesFile', () => {
         expect(() => transformFigmaAlias(val)).toThrow()
       })
 
+      it('names the set id when a known set name has an unknown id', () => {
+        // A recreated Figma collection keeps its name but gets a new id.
+        // This is the id the colors collection had before it was recreated.
+        const staleColorsVariableSetId =
+          'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
+        const value = {
+          $type: 'color' as const,
+          $value: { alpha: 1, hex: '#FFFFFF' },
+          $extensions: {
+            'com.figma.aliasData': {
+              targetVariableName: 'dnb/greyscale/0',
+              targetVariableSetId: staleColorsVariableSetId,
+              targetVariableSetName: 'colors',
+            },
+          },
+        }
+
+        expect(() => transformFigmaValue(value)).toThrow(
+          `Unsupported variable set id: "${staleColorsVariableSetId}" (name: "colors") for alias "dnb/greyscale/0"`
+        )
+      })
+
       it('resolves size alias to literal value', () => {
         const alias = {
           targetVariableName: 'size/4',
