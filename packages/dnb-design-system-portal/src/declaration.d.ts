@@ -8,6 +8,7 @@ declare module '*.mdx' {
 }
 
 type ImportMetaEnv = {
+  readonly DEV?: boolean
   readonly VITE_EUFEMIA_STACKBLITZ_VERSION?: string
   readonly VITE_GITHUB_REPOSITORY?: string
   readonly VITE_GITHUB_EDIT_REF?: string

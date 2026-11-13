@@ -37,6 +37,51 @@ test('opens Home as a document when its lazy module fails', async ({
   ).toHaveCount(0)
 })
 
+test('opens the destination as a document when its module stalls', async ({
+  page,
+  request,
+}) => {
+  const html = await (await request.get('/')).text()
+  const hintsUrl = html.match(/data-hints="([^"]+)"/)?.[1]
+  test.skip(!hintsUrl, 'Production route splitting')
+  const data = await (await request.get(hintsUrl)).json()
+  const module = data.links['/web/get-started/quick-start'].module
+  let navigating = false
+  page.on('request', (request) => {
+    if (request.resourceType() === 'document') {
+      navigating = true
+    }
+  })
+  // Leave the request unanswered, like a dropped connection
+  await page.route(module, (route) =>
+    navigating ? route.continue() : undefined
+  )
+  await page.goto('/')
+  await waitForApp(page)
+  navigating = false
+  await page.evaluate(() => {
+    document.documentElement.dataset.navigationMarker = 'present'
+  })
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+
+  await expect(
+    page.locator('.dnb-progress-indicator__linear')
+  ).toBeVisible()
+  await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//, {
+    timeout: 15_000,
+  })
+  await waitForApp(page)
+  await expect(
+    page.getByRole('heading', { name: 'Quick start', exact: true })
+  ).toBeVisible()
+  await expect(page.locator('html')).not.toHaveAttribute(
+    'data-navigation-marker'
+  )
+})
+
 test('keeps hinted prefetch failures local', async ({ page, request }) => {
   const html = await (await request.get('/')).text()
   const hintsUrl = html.match(/data-hints="([^"]+)"/)?.[1]

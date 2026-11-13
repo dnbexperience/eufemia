@@ -1,0 +1,19 @@
+.navigationProgressStyle {
+  position: fixed;
+
+  /* Higher than the sticky header (3201) */
+  z-index: 3202;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  /* No line box around the inline indicator */
+  display: flex;
+
+  /* The indeterminate bars end outside the track when animations are reduced */
+  @media (prefers-reduced-motion: reduce) {
+    :global(.dnb-progress-indicator__linear) {
+      background-color: var(--progress-indicator-linear-bar-color);
+    }
+  }
+}
