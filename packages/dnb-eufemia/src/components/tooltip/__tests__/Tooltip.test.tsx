@@ -356,9 +356,11 @@ describe('Tooltip', () => {
         </Tooltip>
       )
 
-      expect(
-        document.querySelector('.dnb-tooltip').getAttribute('style')
-      ).toBe('z-index: 10; left: 0px; top: 0px;')
+      expect(document.querySelector('.dnb-tooltip')).toHaveStyle({
+        zIndex: 10,
+        left: '0px',
+        top: '0px',
+      })
     })
   })
 

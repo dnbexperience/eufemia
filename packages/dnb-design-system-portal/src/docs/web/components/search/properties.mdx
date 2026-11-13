@@ -1,0 +1,36 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import {
+  SearchProperties,
+  SearchPanelProperties,
+} from '@dnb/eufemia/src/components/search/SearchDocs'
+
+## Shared properties
+
+These properties apply to `Search.Input`, `Search.Autocomplete`, and `Search.Panel`. All default to `size="medium"`, `labelSrOnly`, and `showClearButton`. A custom `submitElement` or `showSubmitButton` replaces the shortcut hint.
+
+<PropertiesTable props={SearchProperties} />
+
+## Search.Input
+
+Supports [Input properties](/web/components/input/properties) and [events](/web/components/input/events). It defaults to `type="search"` with a loupe icon. Use `value` to update the query, `ref` to access the input, `onChange` for query changes, and `onSubmit` for submission.
+
+## Search.Autocomplete
+
+Supports [Autocomplete properties](/web/components/autocomplete/properties) and [events](/web/components/autocomplete/events). It also defaults to `preventSelection`, `keepValue`, `noScrollAnimation`, and `showAll={false}`, so filtered results do not end with an item that lists every option. With `mode="async"`, it defaults to `search={{ filter: false }}` and shows every result as provided, since the source has already filtered them. Other `search` options are kept. Use `inputValue` to update the query, `inputRef` to access the input, `onType` for query changes, and `onChange` for result selection.
+
+## Search.Panel
+
+Supports the same Autocomplete properties and events as `Search.Autocomplete`, including the `showAll` and asynchronous `search` defaults, with `openOnFocus` enabled by default. It owns `inline`, `resultsRender`, `skipPortal`, and `preventClose` to compose the results inside the panel. Keyboard navigation keeps visible results in place and smoothly scrolls results into view at the edge. Scrolling respects reduced motion; use `noScrollAnimation` to disable it. Use `popoverProps` for the supported surface options.
+
+<PropertiesTable props={SearchPanelProperties} />
+
+## Translations
+
+<TranslationsTable localeKey="Search" />
+
+Autocomplete-specific translations follow [Autocomplete](/web/components/autocomplete/properties#translations).

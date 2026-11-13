@@ -67,6 +67,13 @@ export type AutocompleteData = DrawerListData
 
 export type AutocompleteOptionsRender = DrawerListOptionsRender
 
+export type AutocompleteResultsRender = (props: {
+  resultsRef: RefObject<HTMLSpanElement>
+  results: ReactNode
+  open: boolean
+  close: () => void
+}) => ReactNode
+
 export type AutocompleteEventMethods = {
   attributes: Record<string, unknown>
   dataList: DrawerListData
@@ -150,7 +157,7 @@ export type AutocompleteProps = {
    */
   noOptions?: AutocompleteNoOptions
   /**
-   * Text that lets a user unravel all the available options. Defaults to `Vis alt`.
+   * Text that lets a user unravel all the available options. Defaults to `Vis alt`. Use `false` to omit the item.
    */
   showAll?: AutocompleteShowAll
   /**
@@ -185,6 +192,10 @@ export type AutocompleteProps = {
    * Use a `React.Ref` to get access to the `input` DOM element.
    */
   inputRef?: AutocompleteInputRef
+  /**
+   * Render the inline result list in a custom surface. Receives `results`, `open`, `close`, and `resultsRef`. `open` is true when the list is expanded and contains results or an explicit loading or no-options item. Attach `resultsRef` to a custom surface that renders through a portal so interacting with its controls keeps the results open. Keep custom controls outside the listbox. The input retains result navigation. See [Search.Panel](/web/components/search/demos#panel-with-filtering-and-sorting) for a composed example.
+   */
+  resultsRender?: AutocompleteResultsRender
   /**
    * To be included in the autocomplete input. Defaults to `loupe`. Set to `null` to remove the icon entirely – no progress indicator will then be shown while loading.
    */

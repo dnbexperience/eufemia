@@ -55,6 +55,7 @@ import PortalRoot from './portal-root/PortalRoot'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import ScrollView from './scroll-view/ScrollView'
+import Search from './search/Search'
 import Section from './section/Section'
 import Skeleton from './skeleton/Skeleton'
 import SkipContent from './skip-content/SkipContent'
@@ -121,6 +122,7 @@ export {
   ProgressIndicator,
   Radio,
   ScrollView,
+  Search,
   Section,
   Skeleton,
   SkipContent,

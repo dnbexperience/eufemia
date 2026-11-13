@@ -110,6 +110,8 @@ type PopoverPropsBase = {
   className?: string
   children?: ReactNode
   style?: CSSProperties
+  /** Minimum surface height in rem, reduced to fit the available viewport space. */
+  minHeight?: number | string
   omitDescribedBy?: boolean
   /**
    * Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.

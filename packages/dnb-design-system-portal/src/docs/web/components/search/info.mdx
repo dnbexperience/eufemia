@@ -1,0 +1,88 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Search } from '@dnb/eufemia'
+
+<Search.Input label="Search products" />
+<Search.Autocomplete label="Search products" data={['Cards', 'Loans']} />
+<Search.Panel
+  label="Search products"
+  panelDescription="Product results. Use the arrow keys to navigate results."
+  data={['Cards', 'Loans']}
+/>
+```
+
+The namespace export follows [List](/web/components/list). A production bundler includes the parts you use. `Search.Input` uses Input and does not include Autocomplete or DrawerList. Using `Search.Autocomplete` or `Search.Panel` opts in to those dependencies. The Search.Panel implementation is excluded when you use either of the other components.
+
+You can also import each component directly:
+
+```tsx
+import SearchInput from '@dnb/eufemia/components/search/SearchInput'
+import SearchAutocomplete from '@dnb/eufemia/components/search/SearchAutocomplete'
+import SearchPanel from '@dnb/eufemia/components/search/SearchPanel'
+```
+
+## Description
+
+Search helps people find content. Choose `Search.Input` for a search field, `Search.Autocomplete` for suggestions as people type, or `Search.Panel` to combine suggestions with filters and sorting. All three keep the query on blur, have a translated screen reader label, and support the same variants, shortcut hint, and focus expansion.
+
+Give the component a descriptive `label`, such as "Search products", when the search scope needs explanation. Set `labelSrOnly={false}` to show the label.
+
+### Input behavior
+
+Search.Input builds on [Input](/web/components/input). Use `onChange` to receive the query and `onSubmit` to search when Enter is pressed. It renders a native search input without a suggestions list.
+
+### Autocomplete behavior
+
+Search.Autocomplete builds on [Autocomplete](/web/components/autocomplete), including accessible suggestions, keyboard navigation, loading indicators, clear buttons, and asynchronous results. Provide `data` for local suggestions or use `mode="async"` and `onType` to load results. Use `onChange` to open a selected result and `onSubmit` to handle a query without a selected result. Selecting a result does not replace the query by default.
+
+### Panel behavior
+
+Search.Panel combines Autocomplete's inline results with [Popover](/web/components/popover). It opens on focus when results are available and includes Popover's close button. Results render through a React portal, avoiding clipping by the input's container. The rounded panel uses the same corner radius and horizontal padding as Filter.Panel, with a 0.5rem gap below the input and space for the close button. The surface aligns with the input's left edge by default. Set `align="center"` or `align="right"` to change this; the surface stays inside the viewport. Use a render function to place filters, sorting, or actions around the provided `results`. These controls stay outside the listbox and retain their own keyboard behavior.
+
+```tsx
+<Search.Panel
+  label="Search products"
+  panelDescription="Product results. Use the arrow keys to navigate results."
+  data={['Cards', 'Loans']}
+>
+  {({ results }) => (
+    <Flex.Stack>
+      <P>Choose a product</P>
+      {results}
+    </Flex.Stack>
+  )}
+</Search.Panel>
+```
+
+The results grow with their content into the available space above or below the input. The panel reserves room for custom controls, padding, and the close button, and scrolls the results when needed. It keeps its opening direction while open and updates the available height when the page scrolls or the viewport changes, including when a mobile keyboard opens. The results have a minimum height of 10rem, configurable with `minHeight`. This minimum is preserved even when less space is available on the opening side, so the panel can extend beyond the viewport instead of collapsing or switching sides. Use `minHeight={0}` for the natural height of a short list. Set `maxHeight={16}` to cap the results at 16rem. A smaller explicit `maxHeight` takes precedence over `minHeight`.
+
+Up and Down navigate results while the input has focus, and Enter selects a result. Pressing text or empty space in the panel keeps focus in the input. Tab moves between the input and custom controls without trapping focus. Escape closes the results and returns focus to the input. See the [sorting and filter example](/web/components/search/demos#panel-with-filtering-and-sorting).
+
+Provide the required `panelDescription` in the user's language. Describe what the panel contains, including any filters, sorting, or other actions, and how to reach them. For example: "Search results include category filters and sorting. Use the arrow keys to navigate results and press Tab to reach the filters and sorting controls." The input exposes this description to screen readers even before results are available. It supplements the input's label and any existing help or status text. Autocomplete separately announces the number of available results through a live region as results change, including asynchronous updates.
+
+For asynchronous results, use `mode="async"` and load data in `onType`, just like Search.Autocomplete. An empty panel stays closed on focus and while waiting for results. Use `showIndicator()` for a loading indicator inside the input. Call `updateData()` when results arrive, or `showNoOptionsItem()` for an explicit no-results message. Use `showIndicatorItem()` if the loading state should appear inside the panel instead. See the [asynchronous examples](/web/components/search/demos#asynchronous-results).
+
+### Variants
+
+All three components accept `variant="default"`, `variant="hero"` for a large input that fills its container, or `variant="compact"` for an input that expands on focus. Compact stays expanded while it has a query or the suggestions are open. Reduced motion preferences disable the width transition.
+
+All variants use the theme's normal corner radius.
+
+Set `--search-width` and `--search-compact-width` to customize the expanded and collapsed widths. Their defaults are `17.5rem` and `11rem`. Widths are limited to the available container. `stretch` fills the container in every state.
+
+### Keyboard shortcut
+
+Set `shortcut` to enable Cmd+K on Mac and Ctrl+K elsewhere and display a platform-specific hint inside the input. The shortcut leaves other focused text fields and editors alone. If several Search components enable the shortcut, the first visible, enabled input in document order receives focus. When a modal is open, the shortcut stays within that modal. Enable it on the primary search in a page. The shortcut hint is hidden on small screens and while the input has content.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/search)
+- [Input events](/web/components/input/events)
+- [Autocomplete events](/web/components/autocomplete/events)
+
+<RelatedComponents />

@@ -33,6 +33,8 @@ export default function MenuRoot(props: MenuRootProps) {
     children,
     placement = 'bottom',
     arrowPosition,
+    alignOnTarget,
+    arrowPositionSelector,
     open,
     onOpenChange,
     skipPortal = false,
@@ -250,6 +252,8 @@ export default function MenuRoot(props: MenuRootProps) {
       autoAlignMode={autoAlignMode}
       arrowPosition={arrowPosition}
       hideArrow={!arrowPosition}
+      alignOnTarget={alignOnTarget}
+      arrowPositionSelector={arrowPositionSelector}
       noAnimation={noAnimation}
       hideCloseButton
       noInnerSpace

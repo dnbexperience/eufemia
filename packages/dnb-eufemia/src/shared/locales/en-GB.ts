@@ -91,6 +91,10 @@ export default {
     Dropdown: {
       title: 'Select',
     },
+    Search: {
+      label: 'Search',
+      placeholder: 'Search ...',
+    },
     Autocomplete: {
       title: 'Type and select',
       submitButtonTitle: 'Show options',
