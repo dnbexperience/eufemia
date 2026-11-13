@@ -18,11 +18,11 @@ import * as Examples from 'Docs/web/accessibility/Examples'
 
 ## Keyboard focus styling
 
-1. Use the blue `--token-color-stroke-action-focus` everywhere except input fields and explicit dark surfaces.
+1. Use the blue `--token-color-stroke-action-focus` except for input fields and controls on explicitly dark surfaces.
 2. Use a 3px outline with a 2px transparent gap. Keep text, icon, and background colors unchanged.
 3. Lists, tables, cards, and similar layouts replace the existing edge with a 3px blue edge, with no gap. Use 2px if a scroll container's existing spacing would clip 3px. Hover styling takes precedence while focused.
 
-On explicit dark surfaces (`surface="dark"`), keep the previous focus style to preserve contrast.
+On explicitly dark surfaces, such as `surface="dark"`, keep the previous focus style, including its text, icon, background, and ring styling. The blue token has insufficient contrast there; retain the existing treatment until an accessible on-dark focus token is defined. This exception depends on the control's surface, not the page's light or dark mode.
 
 | CSS custom property                 | Purpose       | Default           |
 | ----------------------------------- | ------------- | ----------------- |
