@@ -1746,6 +1746,9 @@ describe('Wizard.Container', () => {
       expect(document.querySelector('.appear-fx')).toBeNull()
     })
 
+    const TitleA = () => <>Title A</>
+    const TitleB = () => <>Title B</>
+
     it.each([
       ['title', { title: 'Step 1' }, { title: 'Step 2' }],
       [
@@ -1758,6 +1761,7 @@ describe('Wizard.Container', () => {
         { title: <Translation id="Modal.dialogTitle" /> },
         { title: <Translation id="HelpButton.title" /> },
       ],
+      ['component title', { title: <TitleA /> }, { title: <TitleB /> }],
     ])(
       'should animate when the active step gets replaced by a step with another %s',
       async (difference, firstStep, secondStep) => {

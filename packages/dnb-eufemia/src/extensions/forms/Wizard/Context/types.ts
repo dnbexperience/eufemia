@@ -26,6 +26,10 @@ export type Steps = Map<
   StepIndex,
   {
     index: StepIndex
+
+    /** Includes hidden steps, unlike `index` */
+    childIndex: number
+
     id: string
     title: ReactNode
     stringifiedTitle: string

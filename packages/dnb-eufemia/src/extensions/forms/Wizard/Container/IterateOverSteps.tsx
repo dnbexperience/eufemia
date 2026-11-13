@@ -55,7 +55,7 @@ export function IterateOverSteps({
   stepIndexRef.current = -1
   totalStepsRef.current = 0
 
-  const childrenArray = Children.map(children, (child) => {
+  const childrenArray = Children.map(children, (child, childIndex) => {
     if (isValidElement<StepProps>(child)) {
       const stepElement = getWizardStepElement(child)
 
@@ -84,6 +84,7 @@ export function IterateOverSteps({
         collectStepsData({
           id,
           index,
+          childIndex,
           title,
           inactive,
           keepInDOM,

@@ -14,7 +14,7 @@ export function useCollectStepsData() {
   const translations = useTranslation()
 
   const collectStepsData = useCallback(
-    ({ id, index, inactive, title, keepInDOM }) => {
+    ({ id, index, childIndex, inactive, title, keepInDOM }) => {
       if (!hasInvalidStepsState) {
         return undefined // stop here
       }
@@ -38,6 +38,7 @@ export function useCollectStepsData() {
         title !== undefined ? convertJsxToString(title) : 'Title missing'
       stepsRef.current.set(index, {
         index,
+        childIndex,
         id,
         title,
         stringifiedTitle,
