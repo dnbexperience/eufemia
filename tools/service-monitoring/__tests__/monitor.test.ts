@@ -1,7 +1,7 @@
 import { expect, it, vi } from 'vitest'
 import { runMonitor } from '../src/monitor.ts'
 import type { State } from '../src/monitor.ts'
-import type { Report } from '../../monitoring/report-incident.ts'
+import type { Report } from '../../monitoring/report.ts'
 
 function setup() {
   let stored: State = {}
