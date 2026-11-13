@@ -757,6 +757,49 @@ test('addable indicators use system colors in every state', async ({
   }
 })
 
+test('hover draws chip borders outside, and pressing draws them inside', async ({
+  page,
+}) => {
+  const indicators = {
+    default: null,
+    addable: '.dnb-chip__action',
+    radio: '.dnb-radio__button',
+    checkbox: '.dnb-checkbox__button',
+  }
+
+  for (const [variant, indicatorSelector] of Object.entries(indicators)) {
+    await test.step(variant, async () => {
+      // Firefox blocks the next press after releasing outside
+      await page.goto('/web/components/chip/demos/?fullscreen')
+
+      const chip = page
+        .getByRole('group', { name: `${variant} states`, exact: true })
+        .locator('.dnb-chip')
+        .first()
+      const pill = chip.locator(
+        '.dnb-checkbox__order, .dnb-radio__row, .dnb-chip__button'
+      )
+
+      await pill.hover()
+      await expect(pill).toHaveCSS('box-shadow', /0px 0px 0px 2px$/)
+
+      if (indicatorSelector) {
+        await expect(chip.locator(indicatorSelector)).toHaveCSS(
+          'box-shadow',
+          /0px 0px 0px 2px$/
+        )
+      }
+
+      await page.mouse.down()
+      await expect(pill).toHaveCSS('box-shadow', /0px 0px 0px 1px inset$/)
+
+      // Release outside the pill, so the selection stays unchanged
+      await page.mouse.move(0, 0)
+      await page.mouse.up()
+    })
+  }
+})
+
 async function expectSelected(control: Locator, checked: boolean) {
   if ((await control.getAttribute('type')) === 'button') {
     await expect(control).toHaveAttribute('aria-pressed', String(checked))
