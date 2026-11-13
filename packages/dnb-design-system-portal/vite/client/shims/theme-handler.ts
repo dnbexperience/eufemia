@@ -43,6 +43,7 @@ const availableThemes: Record<string, { name: string; hide?: boolean }> = {
   sbanken: { name: 'Sbanken (WIP)' },
   eiendom: { name: 'DNB Eiendom' },
   carnegie: { name: 'DNB Carnegie (WIP)' },
+  coconut: { name: 'Coconut', hide: true },
 }
 
 const themeNames: ThemeNames[] = Object.keys(

@@ -22,6 +22,7 @@ describe('theme-handler shim', () => {
       expect(themes).toHaveProperty('sbanken')
       expect(themes).toHaveProperty('eiendom')
       expect(themes).toHaveProperty('carnegie')
+      expect(themes.coconut).toEqual({ name: 'Coconut', hide: true })
     })
   })
 
@@ -29,6 +30,7 @@ describe('theme-handler shim', () => {
     it('returns true for valid theme names', () => {
       expect(isValidTheme('ui')).toBe(true)
       expect(isValidTheme('sbanken')).toBe(true)
+      expect(isValidTheme('coconut')).toBe(true)
     })
 
     it('returns false for invalid theme names', () => {
@@ -98,21 +100,32 @@ describe('theme-handler shim', () => {
       expect(theme.colorScheme).toBe('dark')
     })
 
-    it('reads theme from query parameter', () => {
-      const originalSearch = window.location.search
-      Object.defineProperty(window, 'location', {
-        value: { ...window.location, search: '?eufemia-theme=eiendom' },
-        writable: true,
-      })
+    it.each(['eiendom', 'coconut'])(
+      'reads %s from the URL ahead of the stored brand',
+      (brand) => {
+        localStorage.setItem(
+          'eufemia-theme',
+          JSON.stringify({ brand: 'sbanken', colorScheme: 'dark' })
+        )
+        const originalSearch = window.location.search
+        Object.defineProperty(window, 'location', {
+          value: { ...window.location, search: '?eufemia-theme=' + brand },
+          writable: true,
+        })
 
-      const theme = getTheme()
-      expect(theme.brand).toBe('eiendom')
+        const theme = getTheme()
+        expect(theme).toMatchObject({
+          brand,
+          name: brand,
+          colorScheme: 'dark',
+        })
 
-      Object.defineProperty(window, 'location', {
-        value: { ...window.location, search: originalSearch },
-        writable: true,
-      })
-    })
+        Object.defineProperty(window, 'location', {
+          value: { ...window.location, search: originalSearch },
+          writable: true,
+        })
+      }
+    )
 
     it('preserves additional stored properties like colorScheme', () => {
       localStorage.setItem(

@@ -154,7 +154,7 @@ async function prerender() {
   // but present so an early inline script can swap them before first
   // paint — avoiding a flash of the wrong brand theme.
   const assetsDir = path.resolve(outDir, 'assets')
-  const themeNames = ['ui', 'sbanken', 'eiendom', 'carnegie']
+  const themeNames = ['ui', 'sbanken', 'eiendom', 'carnegie', 'coconut']
   const themeCssPaths = {}
   for (const name of themeNames) {
     const file = fs

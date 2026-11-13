@@ -162,6 +162,57 @@ test('should apply the brand from the URL after hydration', async ({
   expect(hydrationErrors).toEqual([])
 })
 
+test('should enable Coconut from the URL without offering it in settings', async ({
+  page,
+}) => {
+  await page.goto('/web/components/overview?eufemia-theme=coconut')
+  await waitForApp(page)
+
+  await expect(page.locator('body')).toHaveClass(/eufemia-theme__coconut/)
+
+  const coconutLink = page.locator('link[data-eufemia-theme="coconut"]')
+  await expect(coconutLink).toHaveCount(1)
+  await expect
+    .poll(() => coconutLink.evaluate((el: HTMLLinkElement) => el.disabled))
+    .toBe(false)
+
+  await page.locator('#portal-tools').click()
+  await page.locator('#change-theme').click()
+  await expect(
+    page.locator('#change-theme-portal [role="option"]')
+  ).toHaveText([
+    'DNB',
+    'Sbanken (WIP)',
+    'DNB Eiendom',
+    'DNB Carnegie (WIP)',
+  ])
+
+  await page.evaluate(() => {
+    const theme = JSON.parse(localStorage.getItem('eufemia-theme'))
+    localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ ...theme, colorScheme: 'dark' })
+    )
+  })
+  await page.reload()
+  await waitForApp(page)
+  await expect(page.locator('body')).toHaveClass(/eufemia-theme__coconut/)
+  await expect(page.locator('body')).toHaveClass(
+    /eufemia-theme__color-scheme--dark/
+  )
+
+  await page.locator('#portal-tools').click()
+  await page.locator('#change-theme').click()
+  await page.locator('#change-theme-portal ul li:first-child').click()
+  await expect(page.locator('body')).toHaveClass(/eufemia-theme__ui/)
+  await expect(page.locator('body')).not.toHaveClass(
+    /eufemia-theme__coconut/
+  )
+  await expect
+    .poll(() => coconutLink.evaluate((el: HTMLLinkElement) => el.disabled))
+    .toBe(true)
+})
+
 test.describe('Dark mode', () => {
   const url = '/web/components/'
 

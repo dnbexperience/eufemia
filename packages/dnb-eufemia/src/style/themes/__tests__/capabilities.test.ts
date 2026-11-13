@@ -38,7 +38,7 @@ describe('themeCapabilities', () => {
     })
   })
 
-  it('documents every theme capability', () => {
+  it('documents every public theme capability', () => {
     const docs = fs.readFileSync(
       path.resolve(
         __dirname,
@@ -57,6 +57,10 @@ describe('themeCapabilities', () => {
       )
 
     for (const [name, capability] of Object.entries(themeCapabilities)) {
+      if (name === 'coconut') {
+        continue
+      }
+
       const colorSchemes = capability.colorSchemes
         .map((colorScheme) => `\`${colorScheme}\``)
         .join(', ')

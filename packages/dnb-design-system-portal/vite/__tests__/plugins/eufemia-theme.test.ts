@@ -18,6 +18,7 @@ describe('eufemia-theme plugin', () => {
         'sbanken',
         'eiendom',
         'carnegie',
+        'coconut',
       ])
     })
 
@@ -124,6 +125,9 @@ describe('eufemia-theme plugin', () => {
       expect(resolveId('virtual:eufemia-theme-carnegie')).toBe(
         '\0virtual:eufemia-theme-carnegie'
       )
+      expect(resolveId('virtual:eufemia-theme-coconut')).toBe(
+        '\0virtual:eufemia-theme-coconut'
+      )
     })
 
     it('generates dev mode style code from load()', () => {
@@ -160,6 +164,7 @@ describe('eufemia-theme plugin', () => {
       expect(code).toContain("import('virtual:eufemia-theme-sbanken')")
       expect(code).toContain("import('virtual:eufemia-theme-eiendom')")
       expect(code).toContain("import('virtual:eufemia-theme-carnegie')")
+      expect(code).toContain("import('virtual:eufemia-theme-coconut')")
       // Build mode should disable old theme CSS when switching
       expect(code).toContain('themeLinks')
       expect(code).toContain('.disabled')
@@ -254,6 +259,17 @@ describe('eufemia-theme plugin', () => {
       // Should only import sbanken files, not other themes
       expect(code).not.toContain('eiendom')
       expect(code).not.toContain('carnegie')
+    })
+
+    it('loads independent Coconut styles', () => {
+      const plugin = eufemiaThemePlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:eufemia-theme-coconut')
+
+      for (const part of ['basis', 'components', 'dark-mode']) {
+        expect(code).toContain('/coconut/coconut-theme-' + part + '.scss')
+      }
+      expect(code).not.toContain('/sbanken/')
     })
 
     it('returns nothing for non-virtual module IDs', () => {
