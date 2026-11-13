@@ -78,7 +78,9 @@ describe('dashboard-read handler', () => {
   })
 
   it('returns 503 when the snapshot is missing or unreadable', async () => {
-    send.mockRejectedValue(new Error('Access Denied'))
+    send.mockRejectedValue(
+      Object.assign(new Error('Access Denied'), { name: 'AccessDenied' })
+    )
 
     const res = (await handler()) as Result
 
