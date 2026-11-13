@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { Key, ReactNode } from 'react'
 import type { StepIndicatorStatusState } from '../../../../components/step-indicator/StepIndicatorItem'
 import type { EventReturnWithStateObject, Path } from '../../types'
 
@@ -26,6 +26,10 @@ export type Steps = Map<
   StepIndex,
   {
     index: StepIndex
+
+    /** The element key, else the index among all of the container's children */
+    stepKey: Key
+
     id: string
     title: ReactNode
     stringifiedTitle: string

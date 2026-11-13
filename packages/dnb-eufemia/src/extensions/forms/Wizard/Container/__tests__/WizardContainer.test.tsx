@@ -1746,6 +1746,50 @@ describe('Wizard.Container', () => {
       expect(document.querySelector('.appear-fx')).toBeNull()
     })
 
+    it('should not animate the last step when a step before it is filtered out of the steps array', async () => {
+      const FilteredSteps = () => {
+        const { data } = Form.useData<{ showStep: string }>()
+        const titles = [
+          'Step 1',
+          data.showStep === 'yes' && 'Step 2',
+          'Step 3',
+        ].filter(Boolean)
+
+        return (
+          <Wizard.Container initialActiveIndex={2}>
+            {titles.map((title) => (
+              <Wizard.Step key={title} title={title}>
+                <output>{title}</output>
+                <Field.Selection path="/showStep" variant="button">
+                  <Field.Option value="no" title="Hide" />
+                  <Field.Option value="yes" title="Show" />
+                </Field.Selection>
+              </Wizard.Step>
+            ))}
+          </Wizard.Container>
+        )
+      }
+
+      render(
+        <Form.Handler defaultData={{ showStep: 'yes' }}>
+          <FilteredSteps />
+        </Form.Handler>
+      )
+
+      const [hideButton] = Array.from(
+        document.querySelectorAll('.dnb-chip input')
+      )
+
+      await userEvent.click(hideButton)
+      await wait(50)
+
+      expect(output()).toHaveTextContent('Step 3')
+      expect(document.querySelector('.appear-fx')).toBeNull()
+    })
+
+    const TitleA = () => <>Title A</>
+    const TitleB = () => <>Title B</>
+
     it.each([
       ['title', { title: 'Step 1' }, { title: 'Step 2' }],
       [
@@ -1758,6 +1802,7 @@ describe('Wizard.Container', () => {
         { title: <Translation id="Modal.dialogTitle" /> },
         { title: <Translation id="HelpButton.title" /> },
       ],
+      ['component title', { title: <TitleA /> }, { title: <TitleB /> }],
     ])(
       'should animate when the active step gets replaced by a step with another %s',
       async (difference, firstStep, secondStep) => {
