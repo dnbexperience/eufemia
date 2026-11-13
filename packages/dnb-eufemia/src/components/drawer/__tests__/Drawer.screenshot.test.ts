@@ -192,5 +192,17 @@ describe('Drawer', () => {
         simulateAfter: { keypress: 'Escape' },
       })
     })
+
+    it('shows the page edge with the Hr color in dark mode', async () => {
+      await makeScreenshot({
+        selector: '#drawer-reveal-page',
+        withWrapper: false,
+        colorScheme: 'dark',
+        simulate: 'click',
+        simulateSelector: '#drawer-reveal-page button',
+        screenshotSelector: '.dnb-drawer__reveal',
+        simulateAfter: { keypress: 'Escape' },
+      })
+    })
   })
 })
