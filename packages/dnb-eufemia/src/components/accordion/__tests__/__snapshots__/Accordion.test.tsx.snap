@@ -276,6 +276,12 @@ html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disab
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disabled]) {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: var(--focus-outline-offset);
+  }
+}
 .dnb-accordion__header[disabled] {
   --accordion-color-text: var(--accordion-color-text--disabled);
   --accordion-color-bg: var(--accordion-color-bg--disabled);

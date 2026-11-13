@@ -108,6 +108,10 @@
       &:not(:hover):not(:active) {
         @include utilities.focusOutline();
       }
+
+      @media (forced-colors: active) {
+        @include utilities.focusOutline($color: CanvasText);
+      }
     }
 
     &[disabled] {

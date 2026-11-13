@@ -1586,12 +1586,4 @@ describe('Accordion scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it('uses the focus outline tokens', () => {
-    const css = loadScss(require.resolve('../style/dnb-accordion.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-accordion__header:focus-visible:not\(\[disabled\]\):not\(:hover\):not\(:active\)[^{]*\{\s*outline: var\(--focus-outline-width\) solid var\(--token-color-stroke-action-focus\);/
-    )
-  })
 })
