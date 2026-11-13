@@ -10,6 +10,8 @@ import {
   Switch,
 } from '@dnb/eufemia/src'
 import { SidebarMenu } from '@dnb/eufemia/src/extensions'
+import { createDrawerReveal } from '@dnb/eufemia/src/components/drawer/DrawerReveal'
+import revealStyles from '../../components/drawer/Examples.module.scss'
 import type {
   SidebarMenuItemData,
   SidebarMenuSectionData,
@@ -657,6 +659,94 @@ export function SidebarMenuExternalToggle() {
           </SidebarMenu.ResponsiveShell>
         </SidebarMenu.ResponsiveProvider>
       </div>
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuReveal() {
+  return (
+    <ComponentBox
+      hideCode
+      scope={{ createDrawerReveal, styles, revealStyles, home, cog }}
+    >
+      {() => {
+        const reveal = createDrawerReveal({
+          target: '#sidebar-reveal-page',
+        })
+
+        function Example() {
+          const { close } = SidebarMenu.useResponsive()
+          const [selectedItem, setSelectedItem] = useState('home')
+          const navigation = (
+            <SidebarMenu.Root
+              aria-label="Application navigation"
+              selectedItem={selectedItem}
+              onSelectedItemChange={setSelectedItem}
+            >
+              <SidebarMenu.Item
+                id="home"
+                text="Home"
+                icon={home}
+                onClick={close}
+              />
+              <SidebarMenu.Item
+                id="settings"
+                text="Settings"
+                icon={cog}
+                onClick={close}
+              />
+            </SidebarMenu.Root>
+          )
+
+          return (
+            <SidebarMenu.ResponsiveShell
+              className={revealStyles.revealShell}
+            >
+              <SidebarMenu.ResponsiveAside aria-label="Reveal sidebar example">
+                {navigation}
+              </SidebarMenu.ResponsiveAside>
+              <div
+                id="sidebar-reveal-page"
+                className={styles.responsiveContent}
+                style={{
+                  background:
+                    'var(--token-color-background-page-background)',
+                }}
+              >
+                <SidebarMenu.ResponsiveTrigger
+                  text="Open navigation"
+                  bottom
+                />
+                <H2>{selectedItem === 'home' ? 'Home' : 'Settings'}</H2>
+                <P>
+                  On narrow touch screens, drag this page to the right.
+                  Choose a menu item to navigate and close the menu.
+                </P>
+              </div>
+              <SidebarMenu.ResponsiveDrawer
+                id="sidebar-reveal-demo-drawer"
+                dialogTitle="Application menu"
+                directDomReturn
+                className={revealStyles.revealMenu}
+                minWidth="min(85%, 24rem)"
+                maxWidth="min(85%, 24rem)"
+                renderDriver={reveal}
+              >
+                {navigation}
+              </SidebarMenu.ResponsiveDrawer>
+            </SidebarMenu.ResponsiveShell>
+          )
+        }
+
+        return (
+          <SidebarMenu.ResponsiveProvider
+            scopeId="sidebar-reveal-demo"
+            drawerAt="40em"
+          >
+            <Example />
+          </SidebarMenu.ResponsiveProvider>
+        )
+      }}
     </ComponentBox>
   )
 }

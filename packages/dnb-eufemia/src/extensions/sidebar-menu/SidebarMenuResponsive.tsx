@@ -1198,6 +1198,7 @@ export function SidebarMenuResponsiveDrawer({
     open,
     registerDrawerId,
     setDrawerScrollElement,
+    setOpen,
     triggerRef,
   } = useSidebarMenuResponsiveContext()
 
@@ -1238,6 +1239,9 @@ export function SidebarMenuResponsiveDrawer({
         (() => (isSmallScreenRef.current ? triggerRef.current : null))
       }
       onOpen={(event) => {
+        if (!open) {
+          setOpen(true)
+        }
         drawerOpeningRef.current = false
         onOpen?.(event)
       }}

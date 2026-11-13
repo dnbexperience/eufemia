@@ -199,6 +199,82 @@
     justify-content: flex-start;
   }
 
+  &__reveal {
+    .dnb-drawer {
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      opacity: 1;
+      transform: none;
+      animation: none;
+      box-shadow: none;
+      clip-path: inset(0 100% 0 0);
+      will-change: clip-path;
+      transition: clip-path var(--drawer-reveal-duration);
+    }
+  }
+
+  &__reveal-scroll {
+    flex: 1;
+    min-height: 0;
+    overscroll-behavior: contain;
+  }
+
+  &__reveal-edge {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 1rem;
+    pointer-events: none;
+    @include utilities.sharpDropShadow();
+    clip-path: inset(-100lvh 100% -100lvh -100vw);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    transition: transform var(--drawer-reveal-duration);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -100lvh;
+      right: 100%;
+      bottom: -100lvh;
+      width: 100vw;
+      background-color: currentcolor;
+    }
+  }
+
+  &__reveal-overlay.dnb-modal__overlay {
+    background-color: transparent;
+  }
+
+  &__reveal-target {
+    will-change: transform, opacity;
+    transition:
+      transform var(--drawer-reveal-duration),
+      opacity var(--drawer-reveal-duration);
+
+    &:where(.dnb-drawer__reveal-opening) {
+      // Default easing reaches roughly 40% of the distance after 25% of the time.
+      transition:
+        transform var(--drawer-reveal-duration),
+        opacity calc(var(--drawer-reveal-duration) * 0.75)
+          calc(var(--drawer-reveal-duration) * 0.25);
+    }
+  }
+
+  &__reveal-dragging,
+  &__reveal-dragging &__reveal-edge,
+  &__reveal-dragging .dnb-drawer {
+    transition: none;
+  }
+
+  @include utilities.reducedMotion() {
+    &__reveal-target,
+    &__reveal-edge,
+    &__reveal .dnb-drawer {
+      transition: none;
+    }
+  }
+
   &__title {
     @include utilities.allBelow(medium) {
       font-size: var(--font-size-large) !important;
@@ -260,6 +336,22 @@
   }
 
   @include modal-mixins.modalStickyNav();
+
+  &__reveal &__navigation--sticky::before {
+    border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+    box-shadow: none;
+  }
+
+  &__reveal & &__navigation.dnb-section {
+    // Keep the header outside the scroll area without Safari's sticky viewport sampling.
+    position: relative;
+    flex-shrink: 0;
+    border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  }
+
+  &__reveal &__inner {
+    min-height: 100%;
+  }
 
   &--spacing &__navigation.dnb-section {
     margin: var(--drawer-spacing) 0;

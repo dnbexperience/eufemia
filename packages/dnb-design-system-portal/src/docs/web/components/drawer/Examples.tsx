@@ -5,6 +5,8 @@
 
 import { useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import styles from './Examples.module.scss'
+import { createDrawerReveal } from '@dnb/eufemia/src/components/drawer/DrawerReveal'
 import {
   Drawer,
   P,
@@ -14,6 +16,74 @@ import {
   H2,
   Breadcrumb,
 } from '@dnb/eufemia/src'
+
+export function RevealDrawerExample() {
+  return (
+    <ComponentBox hideCode scope={{ createDrawerReveal, styles }}>
+      {() => {
+        const reveal = createDrawerReveal({
+          target: '#drawer-reveal-page',
+        })
+
+        function Example() {
+          const [open, setOpen] = useState(false)
+          const triggerRef = useRef<HTMLButtonElement>(null)
+          return (
+            <div className={styles.revealShell}>
+              <div
+                id="drawer-reveal-page"
+                style={{
+                  minHeight: '24rem',
+                  padding: '1rem',
+                  background:
+                    'var(--token-color-background-page-background)',
+                }}
+              >
+                <H2>My application</H2>
+                <P bottom>
+                  Open the menu below, or drag this page to the right on a
+                  touch screen.
+                </P>
+                <Button
+                  ref={triggerRef}
+                  text="Open reveal menu"
+                  onClick={() => setOpen(true)}
+                />
+              </div>
+              <Drawer
+                directDomReturn
+                className={styles.revealMenu}
+                open={open}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
+                omitTriggerButton
+                restoreFocusTo={triggerRef}
+                renderDriver={reveal}
+                containerPlacement="left"
+                fullscreen={false}
+                minWidth="min(85%, 20rem)"
+                maxWidth="min(85%, 20rem)"
+                title="Navigation"
+              >
+                <P top>
+                  The menu stays still while the page moves. Close with the
+                  button, Escape, a tap on the exposed page, or a swipe to
+                  the left inside the menu or on that page.
+                </P>
+                <Button
+                  text="Menu action"
+                  top
+                  onClick={() => setOpen(false)}
+                />
+              </Drawer>
+            </div>
+          )
+        }
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
 
 export const SimpleDrawerExample = () => (
   <ComponentBox data-visual-test="simple-drawer">
