@@ -453,11 +453,11 @@ describe('Radio scss', () => {
     )
   })
 
-  it('shows the focus ring in forced colors mode', () => {
+  it('shows the keyboard focus outline', () => {
     const css = loadScss(require.resolve('../style/dnb-radio.scss'))
 
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{[^{]*\.dnb-radio__input:focus ~ \.dnb-radio__button \{\s*outline: var\(--focus-ring-width\) solid transparent;/
+      /html\[data-whatinput=keyboard\] :where\(\.dnb-radio:not\(\.dnb-radio--surface-dark\)\) \.dnb-radio__input:not\(\[disabled\]\):focus ~ \.dnb-radio__button \{\s*outline: var\(--focus-outline-width\) solid var\(--token-color-stroke-action-focus\);\s*outline-offset: var\(--focus-outline-offset\);/
     )
   })
 

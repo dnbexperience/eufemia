@@ -468,8 +468,16 @@
 
   /** Focus state **/
 
+  :where(#{&}:not(#{&}--surface-dark))
+    &__input:not([disabled]):focus
+    ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      @include utilities.focusOutline();
+    }
+  }
+
   // General
-  &__input:focus ~ &__button {
+  &--surface-dark &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       --radio-border-inset: var(--radio-border-inset--focus);
       --radio-border-width: var(--radio-border-width--focus);
@@ -479,7 +487,7 @@
       @include utilities.forcedColorsOutline();
     }
   }
-  &__input:focus ~ &__dot {
+  &--surface-dark &__input:not([disabled]):focus ~ &__dot {
     html[data-whatinput='keyboard'] & {
       --radio-color-dot-on: var(--radio-color-dot-on--focus);
     }

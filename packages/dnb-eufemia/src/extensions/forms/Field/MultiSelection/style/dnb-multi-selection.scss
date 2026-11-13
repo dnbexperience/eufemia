@@ -29,8 +29,9 @@
     flex-direction: column;
 
     &:focus-visible {
-      outline: var(--focus-ring-width) solid
-        var(--token-color-stroke-action-focus);
+      @include utilities.focusOutline(
+        $offset: calc(-1 * var(--focus-outline-width))
+      );
     }
   }
 
@@ -94,7 +95,7 @@
     --item-outline-width: 0.0625rem;
     --item-outline-width--hover: 0.125rem;
     --item-outline-width--active: 0.0625rem;
-    --item-outline-width--focus: var(--focus-ring-width);
+    --item-outline-width--focus: var(--focus-outline-width);
 
     background-color: var(--item-background-color, transparent);
 
@@ -170,18 +171,17 @@
       padding-left: 1rem;
     }
 
-    html[data-whatinput='keyboard'] &:has(.dnb-checkbox__input:focus) {
+    html[data-whatinput='keyboard']
+      &:not(:hover):not(:active):has(.dnb-checkbox__input:focus) {
       --item-outline-color: var(--token-color-stroke-action-focus);
       --item-outline-width: var(--item-outline-width--focus);
-      --item-background-color: var(
-        --token-color-background-action-focus-subtle
-      );
+    }
 
-      &,
-      .dnb-forms-field-multi-selection__item-description,
-      .dnb-form-label {
-        color: var(--token-color-text-action-focus);
-      }
+    html[data-whatinput='keyboard']
+      &
+      .dnb-checkbox__input:focus
+      ~ .dnb-checkbox__button {
+      outline: none;
     }
   }
 
