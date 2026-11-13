@@ -12,7 +12,7 @@ import makePropertiesFile, {
 } from '../makePropertiesFile'
 
 const colorsVariableSetId =
-  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
+  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19'
 const sizesVariableSetId =
   'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025'
 const typographyVariableSetId =
