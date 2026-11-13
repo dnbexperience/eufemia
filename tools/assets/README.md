@@ -105,8 +105,9 @@ yarn workspace eufemia-assets-hosting check:cdn
 
 The last command only reads public npm/CDN endpoints. It writes
 `tools/assets/cdn-health-report.json` and exits nonzero on failure. To execute
-the same read-only production checks, run `node tools/assets/check-cdn.ts` from
-the root; its report is written in the current directory.
+the same read-only production checks, run
+`node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tools/assets/check-cdn.ts`
+from the root; its report is written in the current directory.
 
 ## Portal social images
 

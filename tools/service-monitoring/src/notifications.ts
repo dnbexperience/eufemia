@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import type { Report } from '../../monitoring/report-incident.ts'
+import type { Report } from '../../monitoring/report.ts'
 import type { Service } from './monitor.ts'
 import { logFailure } from './diagnostics.ts'
 

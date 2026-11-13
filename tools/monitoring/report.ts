@@ -10,6 +10,29 @@ export type Report = {
   latest?: string
   checks: Check[]
 }
+export type CheckOptions = {
+  fetch?: typeof fetch
+  now?: number
+  sleep?: (ms: number) => Promise<void>
+}
+
+export function buildReport(
+  checks: Check[],
+  now: number,
+  latest?: string
+): Report {
+  checks.sort((a, b) => a.name.localeCompare(b.name))
+  return {
+    status: checks.some((check) => !check.ok && !check.pending)
+      ? 'unhealthy'
+      : checks.some((check) => check.pending)
+        ? 'pending'
+        : 'healthy',
+    checkedAt: new Date(now).toISOString(),
+    latest,
+    checks,
+  }
+}
 
 export function summarize(report: Report, service: string) {
   return [

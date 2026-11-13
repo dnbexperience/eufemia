@@ -1,4 +1,4 @@
-import type { Report } from '../../monitoring/report-incident.ts'
+import type { Report } from '../../monitoring/report.ts'
 
 export const services = ['CDN', 'MCP', 'Analytics', 'Tokens'] as const
 export type Service = (typeof services)[number]
