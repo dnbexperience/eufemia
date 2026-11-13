@@ -19,10 +19,14 @@
 
   // interactive prop
   &[tabindex='0'] {
-    @include utilities.focusVisible() {
-      @include utilities.focusOutline(
-        $offset: calc(-1 * var(--focus-outline-width))
-      );
+    &:focus {
+      outline: none;
+    }
+
+    @include utilities.whatInput('keyboard') {
+      &:focus {
+        @include utilities.focusOutline($offset: 0);
+      }
     }
   }
 }
