@@ -43,12 +43,12 @@ describe('List scss', () => {
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus-visible:not(:hover):not(:active)::before',
+          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus-visible:where(:not(:hover):not(:active))::before',
       },
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus-visible:not(:hover):not(:active)::before',
+          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus-visible:where(:not(:hover):not(:active))::before',
       },
       {
         condition: withoutFocusVisible,
@@ -63,7 +63,7 @@ describe('List scss', () => {
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus-visible:not(:hover):not(:active)::before',
+          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus-visible:where(:not(:hover):not(:active))::before',
       },
       {
         condition: withoutFocusVisible,

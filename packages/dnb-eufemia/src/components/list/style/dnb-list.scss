@@ -22,7 +22,7 @@
 // outline there. Safari before 15.4 does not, so it uses :focus.
 @mixin focusFallback() {
   @supports (not (selector(:has(*)))) and (selector(:focus-visible)) {
-    &:focus-visible:not(:hover):not(:active)::before {
+    &:focus-visible:where(:not(:hover):not(:active))::before {
       @include focusFallbackOutline();
     }
   }
@@ -567,7 +567,9 @@
       &:not(.dnb-list__item--disabled):hover {
         @include navigationOutline();
       }
-      &:not(.dnb-list__item--disabled):not(:hover):not(:active):has(
+      &:not(.dnb-list__item--disabled):where(
+          :not(:hover):not(:active)
+        ):has(
           > a:focus-visible,
           > .dnb-list__item__action__button:focus-visible
         ) {
@@ -631,7 +633,9 @@
       @include navigationOutline();
     }
     &:not(.dnb-list__item--disabled):has(
-        > #{&}__accordion__header:focus-visible:not(:hover):not(:active)
+        > #{&}__accordion__header:focus-visible:where(
+            :not(:hover):not(:active)
+          )
       ) {
       @include navigationFocusOutline();
     }
@@ -693,8 +697,8 @@
         }
       }
 
-      // Only raise a nested row when its own outline is visible.
-      &
+      // Keep the hovered header outline above focused nested rows.
+      &:where(:not(:has(> #{&}__header:hover)))
         > #{&}__content
         .dnb-list__item:is(:hover, :has(> :focus-visible)) {
         z-index: 11;
