@@ -23,9 +23,9 @@
             "WEB": "--token-color-background-page-background"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -52,9 +52,9 @@
             "WEB": "--token-color-background-action"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -81,9 +81,9 @@
             "WEB": "--token-color-background-action-hover"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -110,9 +110,9 @@
             "WEB": "--token-color-background-action-hover-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6740:107",
+            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6948:127",
             "targetVariableName": "sbanken/purple/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -139,9 +139,9 @@
             "WEB": "--token-color-background-action-pressed"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6740:99",
+            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6948:119",
             "targetVariableName": "sbanken/purple/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -168,9 +168,9 @@
             "WEB": "--token-color-background-action-pressed-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:e467555bf89da7429217e35463648c9365bdb46d/6740:106",
+            "targetVariableId": "VariableID:e467555bf89da7429217e35463648c9365bdb46d/6948:126",
             "targetVariableName": "sbanken/purple/200",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -197,9 +197,9 @@
             "WEB": "--token-color-background-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6740:163",
+            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6948:183",
             "targetVariableName": "sbanken/blue/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -226,9 +226,9 @@
             "WEB": "--token-color-background-action-focus-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6740:154",
+            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6948:174",
             "targetVariableName": "sbanken/blue/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -255,9 +255,9 @@
             "WEB": "--token-color-background-action-disabled"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:71fb555be3a14c728569112cec6f4f5a9f9b66ab/6740:166",
+            "targetVariableId": "VariableID:71fb555be3a14c728569112cec6f4f5a9f9b66ab/6948:186",
             "targetVariableName": "sbanken/greyscale/200",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -284,9 +284,9 @@
             "WEB": "--token-color-background-action-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -313,9 +313,9 @@
             "WEB": "--token-color-background-action-hover-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -342,9 +342,9 @@
             "WEB": "--token-color-background-action-hover-subtle-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
             "targetVariableName": "sbanken/purple/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -371,9 +371,9 @@
             "WEB": "--token-color-background-action-pressed-subtle-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6740:99",
+            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6948:119",
             "targetVariableName": "sbanken/purple/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -400,9 +400,9 @@
             "WEB": "--token-color-background-action-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -429,9 +429,9 @@
             "WEB": "--token-color-background-action-hover-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -458,9 +458,9 @@
             "WEB": "--token-color-background-action-hover-subtle-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6740:111",
+            "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6948:131",
             "targetVariableName": "sbanken/green/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -487,9 +487,9 @@
             "WEB": "--token-color-background-action-pressed-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6740:120",
+            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6948:140",
             "targetVariableName": "sbanken/green/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -516,9 +516,9 @@
             "WEB": "--token-color-background-action-pressed-subtle-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:28525f33c0f806bf19bb7308694e212a8ff20093/6740:110",
+            "targetVariableId": "VariableID:28525f33c0f806bf19bb7308694e212a8ff20093/6948:130",
             "targetVariableName": "sbanken/green/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -545,9 +545,9 @@
             "WEB": "--token-color-background-action-disabled-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6740:165",
+            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6948:185",
             "targetVariableName": "sbanken/greyscale/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -574,9 +574,9 @@
             "WEB": "--token-color-background-action-alternative"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6740:173",
+            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6948:193",
             "targetVariableName": "sbanken/greyscale/500",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -603,9 +603,9 @@
             "WEB": "--token-color-background-action-alternative-hover-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:cef0db927fe201637982109aa99d1af32e05b768/6740:172",
+            "targetVariableId": "VariableID:cef0db927fe201637982109aa99d1af32e05b768/6948:192",
             "targetVariableName": "sbanken/greyscale/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -632,9 +632,9 @@
             "WEB": "--token-color-background-selected"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6740:99",
+            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6948:119",
             "targetVariableName": "sbanken/purple/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -661,9 +661,9 @@
             "WEB": "--token-color-background-selected-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6740:107",
+            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6948:127",
             "targetVariableName": "sbanken/purple/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -690,9 +690,9 @@
             "WEB": "--token-color-background-selected-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6740:117",
+            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6948:137",
             "targetVariableName": "sbanken/green/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -719,9 +719,9 @@
             "WEB": "--token-color-background-selected-subtle-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6740:111",
+            "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6948:131",
             "targetVariableName": "sbanken/green/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -748,9 +748,9 @@
             "WEB": "--token-color-background-neutral"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -777,9 +777,9 @@
             "WEB": "--token-color-background-neutral-static"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -806,9 +806,9 @@
             "WEB": "--token-color-background-neutral-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:201841acbd37debd72b70badb5e4d5203c68481f/6740:170",
+            "targetVariableId": "VariableID:201841acbd37debd72b70badb5e4d5203c68481f/6948:190",
             "targetVariableName": "sbanken/greyscale/50",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -835,9 +835,9 @@
             "WEB": "--token-color-background-neutral-base"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:cef0db927fe201637982109aa99d1af32e05b768/6740:172",
+            "targetVariableId": "VariableID:cef0db927fe201637982109aa99d1af32e05b768/6948:192",
             "targetVariableName": "sbanken/greyscale/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -864,9 +864,9 @@
             "WEB": "--token-color-background-neutral-bold"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -893,9 +893,9 @@
             "WEB": "--token-color-background-neutral-alternative"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:71fb555be3a14c728569112cec6f4f5a9f9b66ab/6740:166",
+            "targetVariableId": "VariableID:71fb555be3a14c728569112cec6f4f5a9f9b66ab/6948:186",
             "targetVariableName": "sbanken/greyscale/200",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -922,9 +922,9 @@
             "WEB": "--token-color-background-info"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:766335509d8459678e695608c443d14e40d3d5a4/6740:156",
+            "targetVariableId": "VariableID:766335509d8459678e695608c443d14e40d3d5a4/6948:176",
             "targetVariableName": "sbanken/blue/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -951,9 +951,9 @@
             "WEB": "--token-color-background-info-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6740:154",
+            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6948:174",
             "targetVariableName": "sbanken/blue/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -980,9 +980,9 @@
             "WEB": "--token-color-background-positive"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6740:113",
+            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6948:133",
             "targetVariableName": "sbanken/green/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1009,9 +1009,9 @@
             "WEB": "--token-color-background-positive-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6740:117",
+            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6948:137",
             "targetVariableName": "sbanken/green/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1038,9 +1038,9 @@
             "WEB": "--token-color-background-warning"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6740:143",
+            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6948:163",
             "targetVariableName": "sbanken/yellow/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1067,9 +1067,9 @@
             "WEB": "--token-color-background-warning-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:aea058c4e38b4337b49fdd5ec6cfaf0be891a92f/6740:146",
+            "targetVariableId": "VariableID:aea058c4e38b4337b49fdd5ec6cfaf0be891a92f/6948:166",
             "targetVariableName": "sbanken/yellow/50",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1096,9 +1096,9 @@
             "WEB": "--token-color-background-error"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6740:127",
+            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6948:147",
             "targetVariableName": "sbanken/red/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1125,9 +1125,9 @@
             "WEB": "--token-color-background-error-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0ba08b359ab494c0c61a70b0f2c1e0d786b8f1e/6740:126",
+            "targetVariableId": "VariableID:b0ba08b359ab494c0c61a70b0f2c1e0d786b8f1e/6948:146",
             "targetVariableName": "sbanken/red/200",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1154,9 +1154,9 @@
             "WEB": "--token-color-background-marketing"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
             "targetVariableName": "sbanken/purple/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1183,9 +1183,9 @@
             "WEB": "--token-color-background-marketing-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6740:107",
+            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6948:127",
             "targetVariableName": "sbanken/purple/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1213,9 +1213,9 @@
             "WEB": "--token-color-text-action"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1241,9 +1241,9 @@
             "WEB": "--token-color-text-action-hover"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1269,9 +1269,9 @@
             "WEB": "--token-color-text-action-pressed"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
             "targetVariableName": "sbanken/purple/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1297,9 +1297,9 @@
             "WEB": "--token-color-text-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6740:163",
+            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6948:183",
             "targetVariableName": "sbanken/blue/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1325,9 +1325,9 @@
             "WEB": "--token-color-text-action-disabled"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1353,9 +1353,9 @@
             "WEB": "--token-color-text-action-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1381,9 +1381,9 @@
             "WEB": "--token-color-text-action-hover-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1409,9 +1409,9 @@
             "WEB": "--token-color-text-action-pressed-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6740:120",
+            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6948:140",
             "targetVariableName": "sbanken/green/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1437,9 +1437,9 @@
             "WEB": "--token-color-text-selected"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6740:99",
+            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6948:119",
             "targetVariableName": "sbanken/purple/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1465,9 +1465,9 @@
             "WEB": "--token-color-text-action-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1493,9 +1493,9 @@
             "WEB": "--token-color-text-action-hover-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1521,9 +1521,9 @@
             "WEB": "--token-color-text-action-pressed-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6740:120",
+            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6948:140",
             "targetVariableName": "sbanken/green/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1549,9 +1549,9 @@
             "WEB": "--token-color-text-action-disabled-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6740:173",
+            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6948:193",
             "targetVariableName": "sbanken/greyscale/500",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1577,9 +1577,9 @@
             "WEB": "--token-color-text-action-alternative-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1605,9 +1605,9 @@
             "WEB": "--token-color-text-neutral"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
             "targetVariableName": "sbanken/purple/1000",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1633,9 +1633,9 @@
             "WEB": "--token-color-text-neutral-onlight"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
             "targetVariableName": "sbanken/purple/1000",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1661,9 +1661,9 @@
             "WEB": "--token-color-text-neutral-alternative"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6740:165",
+            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6948:185",
             "targetVariableName": "sbanken/greyscale/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1690,9 +1690,9 @@
             "WEB": "--token-color-text-neutral-alternative-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1f5b46254073cb6eff1bee48dd69889d8076abff/6740:171",
+            "targetVariableId": "VariableID:1f5b46254073cb6eff1bee48dd69889d8076abff/6948:191",
             "targetVariableName": "sbanken/greyscale/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1718,9 +1718,9 @@
             "WEB": "--token-color-text-neutral-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1746,9 +1746,9 @@
             "WEB": "--token-color-text-neutral-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1774,9 +1774,9 @@
             "WEB": "--token-color-text-neutral-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6740:165",
+            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6948:185",
             "targetVariableName": "sbanken/greyscale/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1802,9 +1802,9 @@
             "WEB": "--token-color-text-neutral-subtle-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:71fb555be3a14c728569112cec6f4f5a9f9b66ab/6740:166",
+            "targetVariableId": "VariableID:71fb555be3a14c728569112cec6f4f5a9f9b66ab/6948:186",
             "targetVariableName": "sbanken/greyscale/200",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1830,9 +1830,9 @@
             "WEB": "--token-color-text-error"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6740:127",
+            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6948:147",
             "targetVariableName": "sbanken/red/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1858,9 +1858,9 @@
             "WEB": "--token-color-text-error-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6740:137",
+            "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6948:157",
             "targetVariableName": "sbanken/orange/500",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1886,9 +1886,9 @@
             "WEB": "--token-color-text-warning"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c59c8d5a1dc7ff1ceca2eefcf482d72ff274d64b/6740:147",
+            "targetVariableId": "VariableID:c59c8d5a1dc7ff1ceca2eefcf482d72ff274d64b/6948:167",
             "targetVariableName": "sbanken/yellow/800",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1914,9 +1914,9 @@
             "WEB": "--token-color-text-warning-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6740:143",
+            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6948:163",
             "targetVariableName": "sbanken/yellow/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1942,9 +1942,9 @@
             "WEB": "--token-color-text-positive"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6740:113",
+            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6948:133",
             "targetVariableName": "sbanken/green/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -1970,9 +1970,9 @@
             "WEB": "--token-color-text-positive-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:825d5e0d4f11b5c461c99684362039a7b917c6f4/6740:114",
+            "targetVariableId": "VariableID:825d5e0d4f11b5c461c99684362039a7b917c6f4/6948:134",
             "targetVariableName": "sbanken/green/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2001,9 +2001,9 @@
             "WEB": "--token-color-icon-action"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2030,9 +2030,9 @@
             "WEB": "--token-color-icon-action-hover"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2059,9 +2059,9 @@
             "WEB": "--token-color-icon-action-pressed"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
             "targetVariableName": "sbanken/purple/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2088,9 +2088,9 @@
             "WEB": "--token-color-icon-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6740:163",
+            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6948:183",
             "targetVariableName": "sbanken/blue/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2117,9 +2117,9 @@
             "WEB": "--token-color-icon-action-disabled"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2146,9 +2146,9 @@
             "WEB": "--token-color-icon-action-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2175,9 +2175,9 @@
             "WEB": "--token-color-icon-action-hover-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2204,9 +2204,9 @@
             "WEB": "--token-color-icon-action-pressed-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2233,9 +2233,9 @@
             "WEB": "--token-color-icon-selected"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6740:99",
+            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6948:119",
             "targetVariableName": "sbanken/purple/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2262,9 +2262,9 @@
             "WEB": "--token-color-icon-selected-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6740:120",
+            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6948:140",
             "targetVariableName": "sbanken/green/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2291,9 +2291,9 @@
             "WEB": "--token-color-icon-action-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2320,9 +2320,9 @@
             "WEB": "--token-color-icon-action-alternative-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2349,9 +2349,9 @@
             "WEB": "--token-color-icon-action-hover-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2378,9 +2378,9 @@
             "WEB": "--token-color-icon-action-pressed-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6740:120",
+            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6948:140",
             "targetVariableName": "sbanken/green/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2407,9 +2407,9 @@
             "WEB": "--token-color-icon-action-disabled-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6740:173",
+            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6948:193",
             "targetVariableName": "sbanken/greyscale/500",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2436,9 +2436,9 @@
             "WEB": "--token-color-icon-neutral"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
             "targetVariableName": "sbanken/purple/1000",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2465,9 +2465,9 @@
             "WEB": "--token-color-icon-neutral-static"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+            "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
             "targetVariableName": "sbanken/purple/1000",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2494,9 +2494,9 @@
             "WEB": "--token-color-icon-neutral-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2523,9 +2523,9 @@
             "WEB": "--token-color-icon-neutral-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2552,9 +2552,9 @@
             "WEB": "--token-color-icon-neutral-alternative"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6740:165",
+            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6948:185",
             "targetVariableName": "sbanken/greyscale/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2581,9 +2581,9 @@
             "WEB": "--token-color-icon-info"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:766335509d8459678e695608c443d14e40d3d5a4/6740:156",
+            "targetVariableId": "VariableID:766335509d8459678e695608c443d14e40d3d5a4/6948:176",
             "targetVariableName": "sbanken/blue/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2610,9 +2610,9 @@
             "WEB": "--token-color-icon-info-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6740:154",
+            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6948:174",
             "targetVariableName": "sbanken/blue/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2639,9 +2639,9 @@
             "WEB": "--token-color-icon-positive"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6740:113",
+            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6948:133",
             "targetVariableName": "sbanken/green/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2668,9 +2668,9 @@
             "WEB": "--token-color-icon-positive-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6740:117",
+            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6948:137",
             "targetVariableName": "sbanken/green/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2697,9 +2697,9 @@
             "WEB": "--token-color-icon-warning"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6740:143",
+            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6948:163",
             "targetVariableName": "sbanken/yellow/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2726,9 +2726,9 @@
             "WEB": "--token-color-icon-warning-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:aea058c4e38b4337b49fdd5ec6cfaf0be891a92f/6740:146",
+            "targetVariableId": "VariableID:aea058c4e38b4337b49fdd5ec6cfaf0be891a92f/6948:166",
             "targetVariableName": "sbanken/yellow/50",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2755,9 +2755,9 @@
             "WEB": "--token-color-icon-error"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6740:127",
+            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6948:147",
             "targetVariableName": "sbanken/red/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2784,9 +2784,9 @@
             "WEB": "--token-color-icon-error-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0ba08b359ab494c0c61a70b0f2c1e0d786b8f1e/6740:126",
+            "targetVariableId": "VariableID:b0ba08b359ab494c0c61a70b0f2c1e0d786b8f1e/6948:146",
             "targetVariableName": "sbanken/red/200",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2813,9 +2813,9 @@
             "WEB": "--token-color-icon-marketing"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
             "targetVariableName": "sbanken/purple/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2842,9 +2842,9 @@
             "WEB": "--token-color-icon-marketing-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6740:107",
+            "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6948:127",
             "targetVariableName": "sbanken/purple/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2872,9 +2872,9 @@
             "WEB": "--token-color-stroke-action"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2900,9 +2900,9 @@
             "WEB": "--token-color-stroke-action-alternative"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6740:173",
+            "targetVariableId": "VariableID:6c8fc692657a8d4730867d60c1e4f7377f899bce/6948:193",
             "targetVariableName": "sbanken/greyscale/500",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2928,9 +2928,9 @@
             "WEB": "--token-color-stroke-action-hover"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+            "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
             "targetVariableName": "sbanken/purple/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2956,9 +2956,9 @@
             "WEB": "--token-color-stroke-action-pressed"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6740:99",
+            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6948:119",
             "targetVariableName": "sbanken/purple/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -2984,9 +2984,9 @@
             "WEB": "--token-color-stroke-action-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3012,9 +3012,9 @@
             "WEB": "--token-color-stroke-action-hover-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3040,9 +3040,9 @@
             "WEB": "--token-color-stroke-action-pressed-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c3960cdcb01ac245426c4d2252a003dd4942a452/6740:115",
+            "targetVariableId": "VariableID:c3960cdcb01ac245426c4d2252a003dd4942a452/6948:135",
             "targetVariableName": "sbanken/green/500",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3068,9 +3068,9 @@
             "WEB": "--token-color-stroke-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6740:163",
+            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6948:183",
             "targetVariableName": "sbanken/blue/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3096,9 +3096,9 @@
             "WEB": "--token-color-stroke-action-focus-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3124,9 +3124,9 @@
             "WEB": "--token-color-stroke-action-disabled"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3152,9 +3152,9 @@
             "WEB": "--token-color-stroke-selected"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6740:99",
+            "targetVariableId": "VariableID:c83918bc36c77c5768b264bd211764e6bfe1a3f3/6948:119",
             "targetVariableName": "sbanken/purple/950",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3180,9 +3180,9 @@
             "WEB": "--token-color-stroke-selected-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6740:117",
+            "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6948:137",
             "targetVariableName": "sbanken/green/100",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3208,9 +3208,9 @@
             "WEB": "--token-color-stroke-action-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3236,9 +3236,9 @@
             "WEB": "--token-color-stroke-action-alternative-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1f5b46254073cb6eff1bee48dd69889d8076abff/6740:171",
+            "targetVariableId": "VariableID:1f5b46254073cb6eff1bee48dd69889d8076abff/6948:191",
             "targetVariableName": "sbanken/greyscale/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3264,9 +3264,9 @@
             "WEB": "--token-color-stroke-action-hover-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+            "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
             "targetVariableName": "sbanken/green/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3292,9 +3292,9 @@
             "WEB": "--token-color-stroke-action-pressed-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6740:120",
+            "targetVariableId": "VariableID:4db65323ff3e46e326f8010302dd8fdbdf8b6b37/6948:140",
             "targetVariableName": "sbanken/green/400",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3320,9 +3320,9 @@
             "WEB": "--token-color-stroke-action-disabled-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6740:165",
+            "targetVariableId": "VariableID:89ce6a03a05cf006caf78b16a8f39be2a4e79aa7/6948:185",
             "targetVariableName": "sbanken/greyscale/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3348,9 +3348,9 @@
             "WEB": "--token-color-stroke-neutral"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
             "targetVariableName": "sbanken/purple/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3376,9 +3376,9 @@
             "WEB": "--token-color-stroke-neutral-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
             "targetVariableName": "sbanken/greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3404,9 +3404,9 @@
             "WEB": "--token-color-stroke-neutral-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3432,9 +3432,9 @@
             "WEB": "--token-color-stroke-neutral-base"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3460,9 +3460,9 @@
             "WEB": "--token-color-stroke-neutral-bold"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3488,9 +3488,9 @@
             "WEB": "--token-color-stroke-neutral-alternative"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
             "targetVariableName": "sbanken/greyscale/300",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3516,9 +3516,9 @@
             "WEB": "--token-color-stroke-info"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:766335509d8459678e695608c443d14e40d3d5a4/6740:156",
+            "targetVariableId": "VariableID:766335509d8459678e695608c443d14e40d3d5a4/6948:176",
             "targetVariableName": "sbanken/blue/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3544,9 +3544,9 @@
             "WEB": "--token-color-stroke-positive"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6740:113",
+            "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6948:133",
             "targetVariableName": "sbanken/green/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3572,9 +3572,9 @@
             "WEB": "--token-color-stroke-warning"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6740:143",
+            "targetVariableId": "VariableID:6e1122d348cb0dea22cda69bf31dcaff2a2ccb7f/6948:163",
             "targetVariableName": "sbanken/yellow/600",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3600,9 +3600,9 @@
             "WEB": "--token-color-stroke-error"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6740:127",
+            "targetVariableId": "VariableID:ec6c80d3aa2d1963c45595e90bc5a02b5abb879c/6948:147",
             "targetVariableName": "sbanken/red/700",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3628,9 +3628,9 @@
             "WEB": "--token-color-stroke-marketing"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+            "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
             "targetVariableName": "sbanken/purple/900",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
         }
@@ -3659,9 +3659,9 @@
               "WEB": "--token-color-decorative-first-muted"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6740:107",
+              "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6948:127",
               "targetVariableName": "sbanken/purple/100",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3687,9 +3687,9 @@
               "WEB": "--token-color-decorative-first-muted-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6740:107",
+              "targetVariableId": "VariableID:9bd6a10f5a415136fcb490d1f8162923959de0c2/6948:127",
               "targetVariableName": "sbanken/purple/100",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3715,9 +3715,9 @@
               "WEB": "--token-color-decorative-first-subtle"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6740:109",
+              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6948:129",
               "targetVariableName": "sbanken/purple/300",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3743,9 +3743,9 @@
               "WEB": "--token-color-decorative-first-subtle-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6740:109",
+              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6948:129",
               "targetVariableName": "sbanken/purple/300",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3771,9 +3771,9 @@
               "WEB": "--token-color-decorative-first-base"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:e0f9c21eba19628492ae26be12a83a35c682b3d1/6740:103",
+              "targetVariableId": "VariableID:e0f9c21eba19628492ae26be12a83a35c682b3d1/6948:123",
               "targetVariableName": "sbanken/purple/600",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3799,9 +3799,9 @@
               "WEB": "--token-color-decorative-first-base-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:e0f9c21eba19628492ae26be12a83a35c682b3d1/6740:103",
+              "targetVariableId": "VariableID:e0f9c21eba19628492ae26be12a83a35c682b3d1/6948:123",
               "targetVariableName": "sbanken/purple/600",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3827,9 +3827,9 @@
               "WEB": "--token-color-decorative-first-bold"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
               "targetVariableName": "sbanken/purple/700",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3856,9 +3856,9 @@
               "WEB": "--token-color-decorative-first-bold-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
               "targetVariableName": "sbanken/purple/700",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3884,9 +3884,9 @@
               "WEB": "--token-color-decorative-first-intense"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
               "targetVariableName": "sbanken/purple/900",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3912,9 +3912,9 @@
               "WEB": "--token-color-decorative-first-intense-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
               "targetVariableName": "sbanken/purple/900",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3942,9 +3942,9 @@
               "WEB": "--token-color-decorative-second-muted"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6740:117",
+              "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6948:137",
               "targetVariableName": "sbanken/green/100",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3970,9 +3970,9 @@
               "WEB": "--token-color-decorative-second-muted-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6740:117",
+              "targetVariableId": "VariableID:681c54c60cc208cb9216f77c9b087d6208ad16ac/6948:137",
               "targetVariableName": "sbanken/green/100",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -3998,9 +3998,9 @@
               "WEB": "--token-color-decorative-second-subtle"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+              "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
               "targetVariableName": "sbanken/green/300",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4026,9 +4026,9 @@
               "WEB": "--token-color-decorative-second-subtle-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+              "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
               "targetVariableName": "sbanken/green/300",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4054,9 +4054,9 @@
               "WEB": "--token-color-decorative-second-base"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:c3960cdcb01ac245426c4d2252a003dd4942a452/6740:115",
+              "targetVariableId": "VariableID:c3960cdcb01ac245426c4d2252a003dd4942a452/6948:135",
               "targetVariableName": "sbanken/green/500",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4082,9 +4082,9 @@
               "WEB": "--token-color-decorative-second-base-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:c3960cdcb01ac245426c4d2252a003dd4942a452/6740:115",
+              "targetVariableId": "VariableID:c3960cdcb01ac245426c4d2252a003dd4942a452/6948:135",
               "targetVariableName": "sbanken/green/500",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4110,9 +4110,9 @@
               "WEB": "--token-color-decorative-second-bold"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6740:113",
+              "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6948:133",
               "targetVariableName": "sbanken/green/700",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4138,9 +4138,9 @@
               "WEB": "--token-color-decorative-second-bold-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6740:113",
+              "targetVariableId": "VariableID:00a0b968550bae6877c54319b08ebf7c5ea33db1/6948:133",
               "targetVariableName": "sbanken/green/700",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4166,9 +4166,9 @@
               "WEB": "--token-color-decorative-second-intense"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6740:111",
+              "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6948:131",
               "targetVariableName": "sbanken/green/900",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4194,9 +4194,9 @@
               "WEB": "--token-color-decorative-second-intense-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6740:111",
+              "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/6948:131",
               "targetVariableName": "sbanken/green/900",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4224,9 +4224,9 @@
               "WEB": "--token-color-decorative-third-muted"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:97a8a6e9ffe6dabd8713cba774b0e4cacaa03807/6740:108",
+              "targetVariableId": "VariableID:97a8a6e9ffe6dabd8713cba774b0e4cacaa03807/6948:128",
               "targetVariableName": "sbanken/purple/50",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4252,9 +4252,9 @@
               "WEB": "--token-color-decorative-third-muted-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:97a8a6e9ffe6dabd8713cba774b0e4cacaa03807/6740:108",
+              "targetVariableId": "VariableID:97a8a6e9ffe6dabd8713cba774b0e4cacaa03807/6948:128",
               "targetVariableName": "sbanken/purple/50",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4280,9 +4280,9 @@
               "WEB": "--token-color-decorative-third-subtle"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6740:109",
+              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6948:129",
               "targetVariableName": "sbanken/purple/300",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4308,9 +4308,9 @@
               "WEB": "--token-color-decorative-third-subtle-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6740:109",
+              "targetVariableId": "VariableID:37c03ff34f9ada51de052c4bd02a1ffead1de438/6948:129",
               "targetVariableName": "sbanken/purple/300",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4336,9 +4336,9 @@
               "WEB": "--token-color-decorative-third-base"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:98fcb5f050b38058c880350e2396de1b98b6f57d/6740:104",
+              "targetVariableId": "VariableID:98fcb5f050b38058c880350e2396de1b98b6f57d/6948:124",
               "targetVariableName": "sbanken/purple/500",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4364,9 +4364,9 @@
               "WEB": "--token-color-decorative-third-base-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:98fcb5f050b38058c880350e2396de1b98b6f57d/6740:104",
+              "targetVariableId": "VariableID:98fcb5f050b38058c880350e2396de1b98b6f57d/6948:124",
               "targetVariableName": "sbanken/purple/500",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4392,9 +4392,9 @@
               "WEB": "--token-color-decorative-third-bold"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
               "targetVariableName": "sbanken/purple/700",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4420,9 +4420,9 @@
               "WEB": "--token-color-decorative-third-bold-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+              "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
               "targetVariableName": "sbanken/purple/700",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4448,9 +4448,9 @@
               "WEB": "--token-color-decorative-third-intense"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
               "targetVariableName": "sbanken/purple/900",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4476,9 +4476,9 @@
               "WEB": "--token-color-decorative-third-intense-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+              "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
               "targetVariableName": "sbanken/purple/900",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -4510,9 +4510,9 @@
                 "WEB": "--token-color-component-button-background-action"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4539,9 +4539,9 @@
                 "WEB": "--token-color-component-button-background-action-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4568,9 +4568,9 @@
                 "WEB": "--token-color-component-button-background-action-destructive"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4597,9 +4597,9 @@
                 "WEB": "--token-color-component-button-background-action-destructive-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4626,9 +4626,9 @@
                 "WEB": "--token-color-component-button-background-action-destructive-hover-subtle"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:3bc2f8cc146d9f00b7713e5d7cc9ff8bcea8b5d2/6740:129",
+                "targetVariableId": "VariableID:3bc2f8cc146d9f00b7713e5d7cc9ff8bcea8b5d2/6948:149",
                 "targetVariableName": "sbanken/red/100",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4655,9 +4655,9 @@
                 "WEB": "--token-color-component-button-background-action-destructive-pressed"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:86bf67967a53e707aeb2a0f0f32237d0c52700d3/6740:135",
+                "targetVariableId": "VariableID:86bf67967a53e707aeb2a0f0f32237d0c52700d3/6948:155",
                 "targetVariableName": "sbanken/orange/800",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4684,9 +4684,9 @@
                 "WEB": "--token-color-component-button-background-action-destructive-pressed-subtle"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b0ba08b359ab494c0c61a70b0f2c1e0d786b8f1e/6740:126",
+                "targetVariableId": "VariableID:b0ba08b359ab494c0c61a70b0f2c1e0d786b8f1e/6948:146",
                 "targetVariableName": "sbanken/red/200",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4714,9 +4714,9 @@
                 "WEB": "--token-color-component-button-text-neutral"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
                 "targetVariableName": "sbanken/greyscale/0",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4742,9 +4742,9 @@
                 "WEB": "--token-color-component-button-text-neutral-inverse"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+                "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
                 "targetVariableName": "sbanken/purple/1000",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4770,9 +4770,9 @@
                 "WEB": "--token-color-component-button-text-neutral-ondark"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+                "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
                 "targetVariableName": "sbanken/purple/1000",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4798,9 +4798,9 @@
                 "WEB": "--token-color-component-button-text-action"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4826,9 +4826,9 @@
                 "WEB": "--token-color-component-button-text-action-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4854,9 +4854,9 @@
                 "WEB": "--token-color-component-button-text-action-inverse"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
                 "targetVariableName": "sbanken/green/300",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4882,9 +4882,9 @@
                 "WEB": "--token-color-component-button-text-action-hover-inverse"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
                 "targetVariableName": "sbanken/green/300",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4910,9 +4910,9 @@
                 "WEB": "--token-color-component-button-text-action-ondark"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
                 "targetVariableName": "sbanken/green/300",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4938,9 +4938,9 @@
                 "WEB": "--token-color-component-button-text-action-hover-ondark"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6740:119",
+                "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/6948:139",
                 "targetVariableName": "sbanken/green/300",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4966,9 +4966,9 @@
                 "WEB": "--token-color-component-button-text-action-disabled"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
                 "targetVariableName": "sbanken/greyscale/0",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -4994,9 +4994,9 @@
                 "WEB": "--token-color-component-button-text-neutral-destructive"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
                 "targetVariableName": "sbanken/greyscale/0",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5022,9 +5022,9 @@
                 "WEB": "--token-color-component-button-text-action-destructive"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5050,9 +5050,9 @@
                 "WEB": "--token-color-component-button-text-action-destructive-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5078,9 +5078,9 @@
                 "WEB": "--token-color-component-button-text-action-destructive-pressed"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6740:137",
+                "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6948:157",
                 "targetVariableName": "sbanken/orange/500",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5109,9 +5109,9 @@
                 "WEB": "--token-color-component-button-icon-neutral"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
                 "targetVariableName": "sbanken/greyscale/0",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5138,9 +5138,9 @@
                 "WEB": "--token-color-component-button-icon-neutral-ondark"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+                "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
                 "targetVariableName": "sbanken/purple/1000",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5167,9 +5167,9 @@
                 "WEB": "--token-color-component-button-icon-action"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5196,9 +5196,9 @@
                 "WEB": "--token-color-component-button-icon-action-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5225,9 +5225,9 @@
                 "WEB": "--token-color-component-button-icon-action-disabled"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
                 "targetVariableName": "sbanken/greyscale/0",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5254,9 +5254,9 @@
                 "WEB": "--token-color-component-button-icon-neutral-destructive"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6740:178",
+                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/6948:198",
                 "targetVariableName": "sbanken/greyscale/0",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5283,9 +5283,9 @@
                 "WEB": "--token-color-component-button-icon-action-destructive"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5312,9 +5312,9 @@
                 "WEB": "--token-color-component-button-icon-action-destructive-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5341,9 +5341,9 @@
                 "WEB": "--token-color-component-button-icon-action-destructive-pressed"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6740:137",
+                "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6948:157",
                 "targetVariableName": "sbanken/orange/500",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5371,9 +5371,9 @@
                 "WEB": "--token-color-component-button-stroke-action"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5399,9 +5399,9 @@
                 "WEB": "--token-color-component-button-stroke-action-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6740:100",
+                "targetVariableId": "VariableID:a2c4e07893f1563b939dcbbc3883c991dd234b9c/6948:120",
                 "targetVariableName": "sbanken/purple/900",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5427,9 +5427,9 @@
                 "WEB": "--token-color-component-button-stroke-action-destructive"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5455,9 +5455,9 @@
                 "WEB": "--token-color-component-button-stroke-action-destructive-hover"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6740:132",
+                "targetVariableId": "VariableID:5742adf60a8649f1ff01694190f15bcf1e54f615/6948:152",
                 "targetVariableName": "sbanken/orange/700",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5483,9 +5483,9 @@
                 "WEB": "--token-color-component-button-stroke-action-destructive-pressed"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6740:137",
+                "targetVariableId": "VariableID:155e3abb349db856cd3b3b1cc617fa8054313dab/6948:157",
                 "targetVariableName": "sbanken/orange/500",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5514,9 +5514,9 @@
                 "colorArg": {
                   "type": "alias",
                   "alias": {
-                    "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6740:102",
+                    "targetVariableId": "VariableID:b0daac6edcc09913450d78d51401f9ebc5728f22/6948:122",
                     "targetVariableName": "sbanken/purple/700",
-                    "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                    "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                     "targetVariableSetName": "colors"
                   }
                 },
@@ -5553,9 +5553,9 @@
                 "WEB": "--token-color-component-tooltip-background-neutral"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:a625535441c5d884ddba489e3e29d825b09ec8dd/6740:174",
+                "targetVariableId": "VariableID:a625535441c5d884ddba489e3e29d825b09ec8dd/6948:194",
                 "targetVariableName": "sbanken/greyscale/800",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                 "targetVariableSetName": "colors"
               }
             }
@@ -5587,9 +5587,9 @@
               "colorArg": {
                 "type": "alias",
                 "alias": {
-                  "targetVariableId": "VariableID:750f77fd944b7330f9cd6e4ab8036ecb01b6cacf/6740:176",
+                  "targetVariableId": "VariableID:750f77fd944b7330f9cd6e4ab8036ecb01b6cacf/6948:196",
                   "targetVariableName": "sbanken/greyscale/1000",
-                  "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+                  "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
                   "targetVariableSetName": "colors"
                 }
               },
@@ -5623,9 +5623,9 @@
               "WEB": "--token-color-component-switch-action-disabled-ondark"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6740:181",
+              "targetVariableId": "VariableID:49dd47b856d4df495b833ce30ce59206be120147/6948:201",
               "targetVariableName": "sbanken/purple/1000",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }
@@ -5653,9 +5653,9 @@
               "WEB": "--token-color-component-progressbar-neutral-onsubtle"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6740:168",
+              "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
               "targetVariableName": "sbanken/greyscale/300",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }
           }

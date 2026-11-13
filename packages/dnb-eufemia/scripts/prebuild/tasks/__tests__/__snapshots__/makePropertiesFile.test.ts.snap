@@ -1235,7 +1235,7 @@ exports[`makePropertiesFile > Tokens snapshots for > sbanken 2`] = `
   --token-color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-text-neutral-subtle: var(--sbanken-greyscale-600);
   --token-color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
-  --token-color-text-error: var(--sbanken-red-600);
+  --token-color-text-error: var(--sbanken-red-400);
   --token-color-text-error-inverse: var(--sbanken-red-950);
   --token-color-text-warning: var(--sbanken-yellow-600);
   --token-color-text-warning-inverse: var(--sbanken-yellow-800);
@@ -1267,7 +1267,7 @@ exports[`makePropertiesFile > Tokens snapshots for > sbanken 2`] = `
   --token-color-icon-positive-subtle: var(--sbanken-green-900);
   --token-color-icon-warning: var(--sbanken-yellow-600);
   --token-color-icon-warning-subtle: var(--sbanken-yellow-950);
-  --token-color-icon-error: var(--sbanken-red-600);
+  --token-color-icon-error: var(--sbanken-red-400);
   --token-color-icon-error-subtle: var(--sbanken-red-950);
   --token-color-icon-marketing: var(--sbanken-purple-200);
   --token-color-icon-marketing-subtle: var(--sbanken-greyscale-800);
@@ -1492,7 +1492,8 @@ exports[`makePropertiesFile > Tokens snapshots for > sbanken 3`] = `
   --sbanken-green-950: #0d1f1b;
   --sbanken-red-100: #ffecf3;
   --sbanken-red-200: #ffdbe9;
-  --sbanken-red-600: #ff8099;
+  --sbanken-red-400: #ff8099;
+  --sbanken-red-600: #ff3c64;
   --sbanken-red-700: #d8134b;
   --sbanken-red-950: #3c010b;
   --sbanken-orange-400: #ff817b;
