@@ -516,4 +516,11 @@
   &__tertiary-button {
     align-self: flex-start;
   }
+
+  &__tertiary-content.dnb-tab-focus {
+    @include utilities.focusVisible() {
+      box-shadow: none;
+      @include utilities.focusOutline($offset: 0);
+    }
+  }
 }
