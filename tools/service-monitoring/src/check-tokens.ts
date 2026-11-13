@@ -1,4 +1,9 @@
-import type { Check, Report } from '../../monitoring/report-incident.ts'
+import { buildReport } from '../../monitoring/report.ts'
+import type {
+  Check,
+  CheckOptions,
+  Report,
+} from '../../monitoring/report.ts'
 
 const latestScheduledRun =
   'https://api.github.com/repos/dnbexperience/eufemia/actions/workflows/ghe-token-expiry.yml/runs?event=schedule&status=completed&per_page=1'
@@ -7,12 +12,11 @@ const maxAgeHours = 48
 const maxAgeMs = maxAgeHours * 3_600_000
 const impact = ', so PAT expiry warnings may not reach Slack'
 
-type Options = {
-  fetch: typeof fetch
-  sleep: (ms: number) => Promise<void>
-  githubToken?: string
-  now?: number
-}
+// Only the Lambda calls this check, and it always passes fetch and sleep.
+type Options = CheckOptions &
+  Required<Pick<CheckOptions, 'fetch' | 'sleep'>> & {
+    githubToken?: string
+  }
 
 type Run = { conclusion: string | null; run_started_at?: string }
 
@@ -83,10 +87,5 @@ async function checkLatestRun(
 
 export async function checkTokens(options: Options): Promise<Report> {
   const now = options.now ?? Date.now()
-  const checks = [await checkLatestRun(options, now)]
-  return {
-    status: checks.every((check) => check.ok) ? 'healthy' : 'unhealthy',
-    checkedAt: new Date(now).toISOString(),
-    checks,
-  }
+  return buildReport([await checkLatestRun(options, now)], now)
 }
