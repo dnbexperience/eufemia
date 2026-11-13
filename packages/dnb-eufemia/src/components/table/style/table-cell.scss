@@ -17,7 +17,7 @@
     word-break: keep-all;
 
     &.dnb-table__cell--focus {
-      @include utilities.focusRing('always', $inset: inset);
+      outline: none;
     }
 
     .dnb-table__tr--vertical-align-top &,
@@ -36,15 +36,34 @@
     }
   }
 
+  // Draw above the cell dividers and the table's outer border.
+  & :is(&__td, &__th, td, th).dnb-table__cell--focus:focus::after {
+    content: '';
+    position: absolute;
+    z-index: 6;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+
+    @include utilities.focusOutline(
+      $offset: calc(-1 * var(--focus-outline-width))
+    );
+  }
+
   /* stylelint-disable no-descending-specificity */
   &--outline {
-    tr:first-of-type,
-    .dnb-table__tr:first-of-type {
-      > .dnb-table__cell--focus:first-child {
-        border-top-left-radius: var(--table-outline-radius-top);
-      }
-      > .dnb-table__cell--focus:last-child {
-        border-top-right-radius: var(--table-outline-radius-top);
+    :is(
+      thead:first-of-type,
+      tbody:first-child,
+      caption:first-child + tbody
+    ) {
+      :is(tr, .dnb-table__tr):first-of-type {
+        > .dnb-table__cell--focus:first-child {
+          border-top-left-radius: var(--table-outline-radius-top);
+        }
+        > .dnb-table__cell--focus:last-child {
+          border-top-right-radius: var(--table-outline-radius-top);
+        }
       }
     }
 
