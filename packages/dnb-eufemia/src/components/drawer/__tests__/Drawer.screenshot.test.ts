@@ -175,4 +175,22 @@ describe('Drawer', () => {
       })
     })
   })
+
+  describe('reveal', () => {
+    setupPageScreenshot({
+      url: '/web/components/drawer/demos/',
+      pageViewport: { width: 640, height: 800 },
+    })
+
+    it('shows the page shadow over the revealed menu', async () => {
+      await makeScreenshot({
+        selector: '#drawer-reveal-page',
+        withWrapper: false,
+        simulate: 'click',
+        simulateSelector: '#drawer-reveal-page button',
+        screenshotSelector: '.dnb-drawer__reveal',
+        simulateAfter: { keypress: 'Escape' },
+      })
+    })
+  })
 })
