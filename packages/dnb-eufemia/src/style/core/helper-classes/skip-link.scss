@@ -77,8 +77,8 @@
     );
   }
 
-  &:focus-visible::before {
-    @include utilities.whatInput('keyboard') {
+  @include utilities.focusVisible() {
+    &::before {
       @include utilities.focusOutline(
         $width: var(--skip-link-border-width--focus)
       );
