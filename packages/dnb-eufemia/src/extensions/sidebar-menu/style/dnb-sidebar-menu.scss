@@ -83,6 +83,25 @@
       --button-color-text--default: var(--token-color-text-neutral);
       --button-color-text--hover: var(--token-color-text-neutral);
       --button-color-text--active: var(--token-color-text-neutral);
+      --button-color-bg--focus: var(--button-color-bg--default);
+      --button-color-icon--focus: var(--button-color-icon--default);
+      --button-color-text--focus: var(--button-color-text--default);
+
+      @include utilities.focusVisible() {
+        @include utilities.focusOutline();
+
+        box-shadow: none;
+
+        &:hover {
+          --button-color-bg: var(--button-color-bg--hover);
+          --button-color-border: var(--button-color-border--hover);
+          --button-border-width: var(--button-border-width--hover);
+        }
+
+        @media (forced-colors: active) {
+          @include utilities.focusOutline($color: CanvasText);
+        }
+      }
 
       &.dnb-dropdown__trigger--open {
         --button-color-bg--hover: var(
@@ -167,18 +186,26 @@
       outline: none;
 
       @include utilities.whatInput('keyboard') {
-        &:focus:not([disabled]) {
-          --sidebar-menu-action-background-color: var(
-            --token-color-background-action-focus-subtle
-          );
-          --sidebar-menu-action-text-color: var(
-            --token-color-text-action-focus
-          );
-          --sidebar-menu-action-icon-color: var(
-            --token-color-icon-action-focus
-          );
+        &:focus:not([disabled], [aria-disabled='true']) {
+          &:not(:hover) {
+            @include utilities.focusOutline(
+              $offset: calc(-1 * var(--focus-outline-width))
+            );
 
-          @include utilities.focusRing('always');
+            box-shadow: none;
+          }
+
+          @media (forced-colors: active) {
+            @include utilities.focusOutline(
+              $offset: calc(-1 * var(--focus-outline-width))
+            );
+
+            outline-color: CanvasText;
+
+            &[aria-current='page'] {
+              outline-color: HighlightText;
+            }
+          }
         }
       }
 
@@ -584,8 +611,6 @@
   --icon-transition: var(--icon-transition-open);
 }
 
-// The extra .dnb-drawer-list__option class makes the focus ring win over
-// the hover border when the mouse pointer rests on the focused option
 html[data-whatinput='keyboard']
   .dnb-sidebar-menu__sections-portal
   .dnb-drawer-list__option.dnb-drawer-list__option--focus {
@@ -596,30 +621,22 @@ html[data-whatinput='keyboard']
   &,
   &:not(:hover):not(:active) {
     outline: none;
+  }
 
-    @media (forced-colors: active) {
-      @include utilities.focusOutline(
-        $color: CanvasText,
-        $offset: calc(-1 * var(--focus-outline-width))
-      );
-    }
+  &:not(:hover) .dnb-drawer-list__option__inner {
+    @include utilities.focusOutline();
+
+    box-shadow: none;
   }
 
   @media (forced-colors: active) {
-    &.dnb-drawer-list__option--selected,
-    &.dnb-drawer-list__option--selected:not(:hover):not(:active) {
+    .dnb-drawer-list__option__inner {
+      @include utilities.focusOutline($color: CanvasText);
+    }
+
+    &.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
       outline-color: HighlightText;
     }
-  }
-
-  .dnb-drawer-list__option__inner {
-    @include utilities.fakeBorder(
-      var(--token-color-stroke-action-focus),
-      var(--focus-ring-width),
-      inset
-    );
-
-    background-color: var(--token-color-background-neutral-base);
   }
 }
 
@@ -675,10 +692,10 @@ html[data-whatinput='keyboard']
   &:focus-visible {
     color: var(--token-color-stroke-action-focus);
     transition-delay: 0ms;
-    outline: var(--focus-ring-width) solid transparent;
+    outline: var(--focus-outline-width) solid transparent;
 
     &::before {
-      width: var(--focus-ring-width);
+      width: var(--focus-outline-width);
       opacity: 1;
       transition-delay: 0ms;
     }
