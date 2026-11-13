@@ -810,7 +810,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   vertical-align: bottom;
 }
 
-.dnb-table .dnb-table__td.dnb-table__cell--focus:focus::after, .dnb-table .dnb-table__th.dnb-table__cell--focus:focus::after, .dnb-table td.dnb-table__cell--focus:focus::after, .dnb-table th.dnb-table__cell--focus:focus::after {
+.dnb-table :is(.dnb-table__td, .dnb-table__th, td, th).dnb-table__cell--focus:focus::after {
   content: "";
   position: absolute;
   z-index: 6;
@@ -825,21 +825,15 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   /* stylelint-disable no-descending-specificity */
 }
 
-.dnb-table--outline thead:first-of-type tr:first-of-type > .dnb-table__cell--focus:first-child,
-.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type > .dnb-table__cell--focus:first-child,
-.dnb-table--outline tbody:first-child tr:first-of-type > .dnb-table__cell--focus:first-child,
-.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type > .dnb-table__cell--focus:first-child,
-.dnb-table--outline caption:first-child + tbody tr:first-of-type > .dnb-table__cell--focus:first-child,
-.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type > .dnb-table__cell--focus:first-child {
+.dnb-table--outline :is(thead:first-of-type,
+tbody:first-child,
+caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table__cell--focus:first-child {
   border-top-left-radius: var(--table-outline-radius-top);
 }
 
-.dnb-table--outline thead:first-of-type tr:first-of-type > .dnb-table__cell--focus:last-child,
-.dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type > .dnb-table__cell--focus:last-child,
-.dnb-table--outline tbody:first-child tr:first-of-type > .dnb-table__cell--focus:last-child,
-.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type > .dnb-table__cell--focus:last-child,
-.dnb-table--outline caption:first-child + tbody tr:first-of-type > .dnb-table__cell--focus:last-child,
-.dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type > .dnb-table__cell--focus:last-child {
+.dnb-table--outline :is(thead:first-of-type,
+tbody:first-child,
+caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table__cell--focus:last-child {
   border-top-right-radius: var(--table-outline-radius-top);
 }
 
@@ -863,7 +857,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 */
 .dnb-table tr.sticky {
   position: sticky;
-  z-index: 4;
+  z-index: 7;
   transform: translate3d(0, var(--table-offset, 0), 0);
 }
 
@@ -874,6 +868,16 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 .dnb-table tr.sticky.css-position {
   top: var(--table-top, 0);
+}
+
+.dnb-table--outline tr.sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--table-outline);
+  border-bottom: 0;
+  border-radius: var(--table-outline-radius-top) var(--table-outline-radius-top) 0 0;
+  pointer-events: none;
 }
 
 .dnb-table tr.sticky.is-sticky th::before {

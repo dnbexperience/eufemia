@@ -37,10 +37,7 @@
   }
 
   // Draw above the cell dividers and the table's outer border.
-  & &__td.dnb-table__cell--focus:focus::after,
-  & &__th.dnb-table__cell--focus:focus::after,
-  & td.dnb-table__cell--focus:focus::after,
-  & th.dnb-table__cell--focus:focus::after {
+  & :is(&__td, &__th, td, th).dnb-table__cell--focus:focus::after {
     content: '';
     position: absolute;
     z-index: 6;
@@ -55,11 +52,12 @@
 
   /* stylelint-disable no-descending-specificity */
   &--outline {
-    thead:first-of-type,
-    tbody:first-child,
-    caption:first-child + tbody {
-      tr:first-of-type,
-      .dnb-table__tr:first-of-type {
+    :is(
+      thead:first-of-type,
+      tbody:first-child,
+      caption:first-child + tbody
+    ) {
+      :is(tr, .dnb-table__tr):first-of-type {
         > .dnb-table__cell--focus:first-child {
           border-top-left-radius: var(--table-outline-radius-top);
         }
