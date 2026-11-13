@@ -79,6 +79,9 @@
 
 @mixin anchorFocusStyle() {
   @include resetAnimationStyle();
+
+  // Firefox draws overlapping outlines around wrapped links.
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=266122
   @include utilities.focusOutline();
 
   @content;
