@@ -88,6 +88,31 @@ const cssBundles = [
     path: 'build/style/themes/sbanken/sbanken-theme-forms.min.css',
     maxSize: '10kB',
   },
+  // @deprecated Transitional "coconut" brand, removed later
+  {
+    path: 'build/style/themes/coconut/coconut-theme-basis.min.css',
+    maxSize: '10kB',
+  },
+  // @deprecated Transitional "coconut" brand, removed later
+  {
+    path: 'build/style/themes/coconut/coconut-theme-components.min.css',
+    maxSize: '65kB',
+  },
+  // @deprecated Transitional "coconut" brand, removed later
+  {
+    path: 'build/style/themes/coconut/coconut-theme-elements.min.css',
+    maxSize: '10kB',
+  },
+  // @deprecated Transitional "coconut" brand, removed later
+  {
+    path: 'build/style/themes/coconut/coconut-theme-extensions.min.css',
+    maxSize: '15.4kB',
+  },
+  // @deprecated Transitional "coconut" brand, removed later
+  {
+    path: 'build/style/themes/coconut/coconut-theme-forms.min.css',
+    maxSize: '10kB',
+  },
   {
     path: 'build/style/themes/ui/ui-theme-basis.min.css',
     maxSize: '10kB',
