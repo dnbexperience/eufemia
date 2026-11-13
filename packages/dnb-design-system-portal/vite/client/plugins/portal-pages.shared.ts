@@ -33,6 +33,8 @@ export type KnownFrontmatter = {
     parent?: string
     title?: string
     pageTitle?: string
+    /** Override the child page link's badge; null hides it. */
+    pageStatus?: string | null
     /** External navigation destination, without a local content page. */
     href?: string
     dividerBefore?: boolean
