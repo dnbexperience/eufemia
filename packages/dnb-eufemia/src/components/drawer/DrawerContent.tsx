@@ -138,7 +138,7 @@ export default function DrawerContent({
           ref={context?.scrollRef}
           scrollbarGutter={gutter}
         >
-          {scrollContent}
+          <div className="dnb-drawer__reveal-content">{scrollContent}</div>
         </ScrollView>
       ) : (
         scrollContent

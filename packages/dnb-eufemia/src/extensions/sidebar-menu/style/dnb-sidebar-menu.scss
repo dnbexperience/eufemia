@@ -209,16 +209,22 @@
         }
       }
 
-      &:hover:not([disabled], [aria-disabled='true']) {
-        background-color: var(
-          --sidebar-menu-action-background-color--hover
-        );
-      }
+      // Safari can keep the touched link :active beneath the drag shield.
+      &:not(:where(.dnb-drawer__reveal-dragging *)) {
+        &:hover:not(:where(html[data-whatintent='touch'] *)):not(
+            [disabled],
+            [aria-disabled='true']
+          ) {
+          background-color: var(
+            --sidebar-menu-action-background-color--hover
+          );
+        }
 
-      &:active:not([disabled], [aria-disabled='true']) {
-        background-color: var(
-          --sidebar-menu-action-background-color--active
-        );
+        &:active:not([disabled], [aria-disabled='true']) {
+          background-color: var(
+            --sidebar-menu-action-background-color--active
+          );
+        }
       }
     }
 
