@@ -144,9 +144,9 @@ function normalizeMinusSign(
 
 // E.g. -0.004 with two decimals is formatted as "−0,00" by Intl
 function removeMinusSignFromZero(
-  parts: FormatPartItem[],
-  signDisplay: InternalNumberFormatOptions['signDisplay']
-): FormatPartItem[] {
+  parts: NumberFormatPartItem[],
+  signDisplay: NumberFormatInternalOptions['signDisplay']
+): NumberFormatPartItem[] {
   if (signDisplay && signDisplay !== 'auto') {
     return parts
   }
