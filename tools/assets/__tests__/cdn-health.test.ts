@@ -156,9 +156,10 @@ describe('production CDN checks', () => {
     expect(report.checks.filter((check) => !check.ok)).toHaveLength(4)
   })
 
-  it('names the Akamai reference when Akamai blocks an asset', async () => {
+  it('names the Akamai reference and skips the grace period when Akamai blocks an asset', async () => {
     const report = await checkCdn({
       fetch: fixture({
+        age: 10,
         change: (url) =>
           url.includes('/v11.15.2/')
             ? new Response('Reference&#32;&#35;18&#46;2fa10017', {
@@ -170,6 +171,7 @@ describe('production CDN checks', () => {
       now,
       sleep,
     })
+    expect(report.status).toBe('unhealthy')
     expect(
       report.checks.find((check) => check.name === 'v11.15.2/manifest')
         ?.detail
