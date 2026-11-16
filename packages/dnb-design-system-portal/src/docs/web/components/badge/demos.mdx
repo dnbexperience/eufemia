@@ -15,6 +15,7 @@ import {
   BadgeInformationFormattedContent,
   BadgeInformationAvatar,
   BadgeButton,
+  BadgeButtonSizes,
   BadgeCornerPosition,
   BadgeStatus,
   BadgeIcon,
@@ -62,9 +63,11 @@ You can overlay the badge on top of an element by wrapping the `<Badge>` compone
 
 #### Overlaid button
 
-The button remains clickable where the badge overlaps it. Use `horizontal` and `vertical` to select the badge corner.
+The button remains clickable where the badge overlaps it. Use `horizontal` and `vertical` to select the badge corner. Notification badges reserve space for their content beside the button label and extend `0.25rem` beyond the selected edges. This extra space is included in the wrapper so the badge remains visible inside containers with clipped overflow.
 
 <BadgeButton />
+
+<BadgeButtonSizes />
 
 #### Setting property `horizontal` and `vertical`
 

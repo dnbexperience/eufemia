@@ -1,5 +1,5 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { cloneElement, isValidElement, useContext } from 'react'
+import { cloneElement, isValidElement, useContext, useRef } from 'react'
 import type {
   CSSProperties,
   HTMLProps,
@@ -27,6 +27,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import useNumberFormat from '../number-format/useNumberFormat'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type BadgeProps = {
   /**
@@ -137,8 +138,39 @@ function BadgeRoot({
   className?: string
   style?: CSSProperties
 }) {
+  const rootRef = useRef<HTMLSpanElement>(null)
+
+  useIsomorphicLayoutEffect(() => {
+    const root = rootRef.current
+    const badge = root.querySelector<HTMLElement>(
+      ':scope > .dnb-badge--variant-notification'
+    )
+    if (!badge || !root.querySelector(':scope > .dnb-button')) {
+      return
+    }
+
+    const updateWidth = () => {
+      root.style.setProperty('--badge-width', `${badge.offsetWidth}px`)
+    }
+    updateWidth()
+
+    const observer =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(updateWidth)
+        : null
+    observer?.observe(badge)
+    return () => {
+      observer?.disconnect()
+      root.style.removeProperty('--badge-width')
+    }
+  })
+
   return (
-    <span className={clsx('dnb-badge__root', className)} style={style}>
+    <span
+      ref={rootRef}
+      className={clsx('dnb-badge__root', className)}
+      style={style}
+    >
       {children}
     </span>
   )

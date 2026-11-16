@@ -129,7 +129,7 @@ export const BadgeInformationAvatar = () => (
 )
 
 export const BadgeButton = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="badge-button">
     {() => {
       const Example = () => {
         const [notifications, setNotifications] = useState(1)
@@ -152,6 +152,31 @@ export const BadgeButton = () => (
 
       return <Example />
     }}
+  </ComponentBox>
+)
+
+export const BadgeButtonSizes = () => (
+  <ComponentBox hideCode data-visual-test="badge-button-sizes">
+    <Flex.Stack gap="medium">
+      {[1, 1234].map((content) => (
+        <Flex.Container key={content} gap="medium" align="center">
+          {(['small', 'medium', 'default', 'large'] as const).map(
+            (size) => (
+              <Badge
+                key={size}
+                content={content}
+                label="Notifications"
+                variant="notification"
+                horizontal="right"
+                vertical="top"
+              >
+                <Button text="Messages" size={size} />
+              </Badge>
+            )
+          )}
+        </Flex.Container>
+      ))}
+    </Flex.Stack>
   </ComponentBox>
 )
 

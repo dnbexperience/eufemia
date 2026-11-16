@@ -28,6 +28,24 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   vertical-align: middle;
   flex-shrink: 0;
 }
+.dnb-badge__root:has(> .dnb-button):has(> .dnb-badge--variant-notification):has(> .dnb-badge--horizontal-left) {
+  padding-left: 0.25rem;
+}
+.dnb-badge__root:has(> .dnb-button):has(> .dnb-badge--variant-notification):has(> .dnb-badge--horizontal-left) > .dnb-button--has-text {
+  padding-left: max(var(--button-padding-left), var(--badge-width, 1.5rem));
+}
+.dnb-badge__root:has(> .dnb-button):has(> .dnb-badge--variant-notification):has(> .dnb-badge--horizontal-right) {
+  padding-right: 0.25rem;
+}
+.dnb-badge__root:has(> .dnb-button):has(> .dnb-badge--variant-notification):has(> .dnb-badge--horizontal-right) > .dnb-button--has-text {
+  padding-right: max(var(--button-padding-right), var(--badge-width, 1.5rem));
+}
+.dnb-badge__root:has(> .dnb-button):has(> .dnb-badge--variant-notification):has(> .dnb-badge--vertical-top) {
+  padding-top: 0.25rem;
+}
+.dnb-badge__root:has(> .dnb-button):has(> .dnb-badge--variant-notification):has(> .dnb-badge--vertical-bottom) {
+  padding-bottom: 0.25rem;
+}
 .dnb-badge__root .dnb-badge {
   display: flex;
   overflow: hidden;
