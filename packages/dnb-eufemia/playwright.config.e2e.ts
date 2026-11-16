@@ -55,5 +55,15 @@ export default defineConfig({
       testMatch: 'OpenOnFind.e2e.spec.ts',
       use: { browserName: 'chromium' },
     },
+    {
+      name: 'chromium-table-sticky',
+      testMatch: 'TableStickyHeader.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'webkit-table-sticky',
+      testMatch: 'TableStickyHeader.e2e.spec.ts',
+      use: { browserName: 'webkit' },
+    },
   ],
 })

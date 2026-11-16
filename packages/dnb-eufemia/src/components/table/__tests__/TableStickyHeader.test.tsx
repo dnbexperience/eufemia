@@ -132,6 +132,16 @@ describe('useStickyHeader', () => {
     setSizes()
 
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem).toHaveClass('page-scroll')
+    expect(trElem.style.getPropertyValue('--table-scroll-start')).toEqual(
+      '96px'
+    )
+    expect(trElem.style.getPropertyValue('--table-scroll-end')).toEqual(
+      '504px'
+    )
+    expect(
+      trElem.style.getPropertyValue('--table-scroll-distance')
+    ).toEqual('408px')
 
     simulateScroll(0)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
@@ -210,6 +220,18 @@ describe('useStickyHeader', () => {
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
       '144px'
     )
+    expect(trElem.style.getPropertyValue('--table-scroll-start')).toEqual(
+      '176px'
+    )
+
+    vi.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(640)
+    simulateScroll(320)
+    expect(trElem.style.getPropertyValue('--table-scroll-end')).toEqual(
+      '744px'
+    )
+    expect(
+      trElem.style.getPropertyValue('--table-scroll-distance')
+    ).toEqual('568px')
   })
 
   it('should check if .dnb-scroll-view has a vertical scrollbar and set shadow only, when css-position is used', () => {
@@ -374,8 +396,11 @@ describe('useStickyHeader', () => {
     setSizes()
 
     // the scroll view overflows first after a resize
+    expect(trElem).toHaveClass('page-scroll')
     vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
     fireEvent.resize(window)
+    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     simulateScroll(320, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
@@ -480,6 +505,8 @@ describe('useStickyHeader', () => {
     expect(Array.from(trElem.classList)).not.toContain('sticky')
     expect(Array.from(trElem.classList)).not.toContain('is-sticky')
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     // the header should no longer follow the scroll
     simulateScroll(480)
@@ -541,6 +568,8 @@ describe('useStickyHeader', () => {
     // the transform would otherwise stack on top of the "top" offset
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
+    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     simulateScroll(480)
 

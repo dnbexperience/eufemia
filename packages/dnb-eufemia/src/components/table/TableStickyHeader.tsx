@@ -41,6 +41,32 @@ export const useStickyHeader = ({
         const trElem = getTrElement(tableElem)
         const thElem = getThElement(tableElem)
 
+        const setScrollRange = () => {
+          const usesPageScroll =
+            sticky !== 'css-position' && !scrollViewElem
+          trElem.classList.toggle('page-scroll', usesPageScroll)
+
+          if (!usesPageScroll) {
+            trElem.style.removeProperty('--table-scroll-start')
+            trElem.style.removeProperty('--table-scroll-end')
+            trElem.style.removeProperty('--table-scroll-distance')
+            return // stop here
+          }
+
+          trElem.style.setProperty(
+            '--table-scroll-start',
+            `${totalOffset}px`
+          )
+          trElem.style.setProperty(
+            '--table-scroll-end',
+            `${totalOffset + tableHeight - thHeight}px`
+          )
+          trElem.style.setProperty(
+            '--table-scroll-distance',
+            `${tableHeight - thHeight}px`
+          )
+        }
+
         const setSizes = () => {
           offsetTopPx = parseFloat(String(stickyOffset)) || 0
           if (offsetTopPx > 0) {
@@ -84,6 +110,7 @@ export const useStickyHeader = ({
           tableHeight = tableElem.offsetHeight
           tableOffset = getOffsetTop(tableElem)
           totalOffset = tableOffset - offsetTopPx
+          setScrollRange()
 
           if (sticky === 'css-position') {
             trElem.style.setProperty(
@@ -106,8 +133,17 @@ export const useStickyHeader = ({
 
             // Recalculate table position on each scroll to handle
             // dynamic layout changes (e.g., banners appearing above the table)
-            tableOffset = getOffsetTop(tableElem)
-            totalOffset = tableOffset - offsetTopPx
+            const nextTableOffset = getOffsetTop(tableElem)
+            const nextTableHeight = tableElem.offsetHeight
+            if (
+              nextTableOffset !== tableOffset ||
+              nextTableHeight !== tableHeight
+            ) {
+              tableOffset = nextTableOffset
+              tableHeight = nextTableHeight
+              totalOffset = tableOffset - offsetTopPx
+              setScrollRange()
+            }
           }
 
           offset -= hasScrollbar ? offsetTopPx : totalOffset
@@ -202,9 +238,17 @@ const resetStickyHeader = (tableElem: HTMLTableElement) => {
     return // stop here
   }
 
-  trElem.classList.remove('sticky', 'css-position', 'is-sticky')
+  trElem.classList.remove(
+    'sticky',
+    'css-position',
+    'is-sticky',
+    'page-scroll'
+  )
   trElem.style.removeProperty('--table-offset')
   trElem.style.removeProperty('--table-top')
+  trElem.style.removeProperty('--table-scroll-start')
+  trElem.style.removeProperty('--table-scroll-end')
+  trElem.style.removeProperty('--table-scroll-distance')
 }
 
 const stickyWarning = (message = '') => {
