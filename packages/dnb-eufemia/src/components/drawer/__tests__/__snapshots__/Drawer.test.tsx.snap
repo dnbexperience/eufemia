@@ -1758,6 +1758,11 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   scroll-padding-top: 6rem;
   overscroll-behavior: contain;
 }
+@supports not (grid-template-rows: subgrid) {
+  .dnb-drawer__reveal-scroll {
+    grid-area: 2/1;
+  }
+}
 .dnb-drawer__reveal-content {
   grid-row: 2;
   min-height: 0;
@@ -1896,12 +1901,14 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section {
   position: relative;
   grid-area: 1/1;
-  pointer-events: none;
+  pointer-events: auto;
   background-color: transparent;
   --background-color: transparent;
 }
-.dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section > * {
-  pointer-events: auto;
+.dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section .dnb-modal__header__bar__close {
+  padding-inline-start: 0.5rem;
+  margin-inline-start: -0.5rem;
+  background-color: var(--drawer-background-color);
 }
 .dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section::before {
   inset: 0 1.5rem auto 0;

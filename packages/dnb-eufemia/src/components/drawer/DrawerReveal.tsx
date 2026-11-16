@@ -296,6 +296,12 @@ function RevealSurface({
     const previousLayerStyles = layers.map((element) =>
       element.getAttribute('style')
     )
+    const root = document.documentElement
+    const canvasElements = [root, document.body]
+    const previousBackgrounds = canvasElements.map((element) => ({
+      color: element.style.backgroundColor,
+      priority: element.style.getPropertyPriority('background-color'),
+    }))
     // Keep the fixed containing block's bounds, including inline demos.
     // Absolute layers let Safari extend the translated page behind its bars.
     const position = () => {
@@ -307,6 +313,11 @@ function RevealSurface({
         height: '100%',
       })
       const bounds = dialog.getBoundingClientRect()
+      const coversViewport =
+        Math.abs(bounds.top) < 1 &&
+        Math.abs(bounds.left) < 1 &&
+        Math.abs(bounds.width - root.clientWidth) < 1 &&
+        Math.abs(bounds.height - window.innerHeight) < 1
       const width = dialog.offsetWidth
       const height = dialog.offsetHeight
       Object.assign(dialog.style, {
@@ -323,11 +334,23 @@ function RevealSurface({
         height: `${height}px`,
       }
       layers.forEach((element) => Object.assign(element.style, style))
+      return coversViewport
     }
-    position()
+    const coversViewport = position()
     window.addEventListener('resize', position)
     window.addEventListener('scroll', position, { passive: true })
-    edge.style.color = getComputedStyle(drawer).backgroundColor
+    const background = getComputedStyle(drawer).backgroundColor
+    edge.style.color = background
+    if (coversViewport) {
+      // Safari samples the document canvas behind its bars at scroll position zero.
+      canvasElements.forEach((element) => {
+        element.style.setProperty(
+          'background-color',
+          background,
+          'important'
+        )
+      })
+    }
     reveal.dialog = dialog
     dialog.focus({ preventScroll: true })
     const keepFocus = (event: KeyboardEvent) => {
@@ -445,6 +468,12 @@ function RevealSurface({
       observer.disconnect()
       window.removeEventListener('resize', position)
       window.removeEventListener('scroll', position)
+      if (coversViewport) {
+        canvasElements.forEach((element, index) => {
+          const { color, priority } = previousBackgrounds[index]
+          element.style.setProperty('background-color', color, priority)
+        })
+      }
       layers.forEach((element, index) => {
         if (previousLayerStyles[index] === null) {
           element.removeAttribute('style')

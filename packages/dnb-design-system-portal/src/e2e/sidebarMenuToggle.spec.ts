@@ -8,6 +8,57 @@ test.describe('Reveal page boundaries with iOS scroll locking', () => {
       'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
   })
 
+  for (const path of ['/', '/web/components/drawer/']) {
+    test(`matches the menu background behind Safari bars and restores it on close at ${path}`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({
+        colorScheme: path === '/' ? 'dark' : 'light',
+      })
+      await page.goto(path)
+      await waitForApp(page)
+      await page.evaluate(() => {
+        ;[document.documentElement, document.body].forEach((element) =>
+          element.style.setProperty(
+            'background-color',
+            'rgb(12, 34, 56)',
+            'important'
+          )
+        )
+      })
+      await page.locator('#toggle-sidebar-menu').click()
+      const dialog = page.locator('#portal-sidebar-menu-drawer')
+      await expect(dialog).toBeVisible()
+      const menuBackground = await dialog
+        .locator('.dnb-drawer')
+        .evaluate((element) => getComputedStyle(element).backgroundColor)
+      for (const selector of ['html', 'body']) {
+        await expect(page.locator(selector)).toHaveCSS(
+          'background-color',
+          menuBackground
+        )
+      }
+      expect(await page.evaluate(() => scrollY)).toBe(0)
+      await dialog.locator('.dnb-modal__close-button').click()
+      await expect(dialog).not.toBeVisible()
+      for (const selector of ['html', 'body']) {
+        await expect(page.locator(selector)).toHaveCSS(
+          'background-color',
+          'rgb(12, 34, 56)'
+        )
+        expect(
+          await page
+            .locator(selector)
+            .evaluate((element) =>
+              (element as HTMLElement).style.getPropertyPriority(
+                'background-color'
+              )
+            )
+        ).toBe('important')
+      }
+    })
+  }
+
   test('preserves the scrolled page and breakout rules without horizontal overflow', async ({
     page,
   }) => {
@@ -117,6 +168,11 @@ test.describe('Reveal documentation demos', () => {
       await page.setViewportSize({ width: 390, height: 844 })
       await page.goto(example.path)
       await waitForApp(page)
+      const canvasBackgrounds = await page.evaluate(() =>
+        [document.documentElement, document.body].map(
+          (element) => getComputedStyle(element).backgroundColor
+        )
+      )
       const target = page.locator(example.target)
       const trigger = target.getByRole('button', {
         name: example.trigger,
@@ -126,6 +182,13 @@ test.describe('Reveal documentation demos', () => {
       const dialog = page.getByRole('dialog')
       await expect(dialog).toHaveCount(1)
       await expect(dialog).toBeVisible()
+      expect(
+        await page.evaluate(() =>
+          [document.documentElement, document.body].map(
+            (element) => getComputedStyle(element).backgroundColor
+          )
+        )
+      ).toEqual(canvasBackgrounds)
       const shell = await target.locator('..').boundingBox()
       const menu = await dialog.boundingBox()
       expect(menu.x).toBeCloseTo(shell.x + 1, 0)
@@ -211,6 +274,105 @@ test.describe('Portal sidebar reveal', () => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/web/patterns-and-extensions/sidebar-menu/')
     await waitForApp(page)
+  })
+
+  test.describe('header touch interaction', () => {
+    test.use({ hasTouch: true })
+
+    test('prevents taps on links scrolled behind the reveal header', async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 390, height: 420 })
+      await page.locator('#toggle-sidebar-menu').tap()
+      const dialog = page.locator('#portal-sidebar-menu-drawer')
+      await expect(dialog).toBeFocused()
+      await expect(page.locator('.portal-reveal-page')).toHaveCSS(
+        'opacity',
+        '0.68'
+      )
+      await page.evaluate(() => document.fonts.ready)
+      const link = dialog.getByRole('link', {
+        name: 'Get started',
+        exact: true,
+      })
+      const header = dialog.locator('.dnb-drawer__navigation')
+      const bounds = await header.boundingBox()
+      const scroll = dialog.locator('.dnb-drawer__reveal-scroll')
+      const linkBounds = await link.boundingBox()
+      await scroll.evaluate(
+        (element, delta) => {
+          element.scrollTo({
+            top: element.scrollTop + delta,
+            behavior: 'instant',
+          })
+        },
+        linkBounds.y +
+          linkBounds.height / 2 -
+          (bounds.y + bounds.height / 2)
+      )
+      await expect
+        .poll(async () => {
+          const current = await link.boundingBox()
+          return current.y + current.height / 2
+        })
+        .toBeCloseTo(bounds.y + bounds.height / 2, 0)
+      const scrolled = await link.boundingBox()
+      const point = {
+        x: scrolled.x + scrolled.width / 2,
+        y: scrolled.y + scrolled.height / 2,
+      }
+      expect(
+        await header.evaluate(
+          (element, { x, y }) =>
+            element.contains(document.elementFromPoint(x, y)),
+          point
+        )
+      ).toBe(true)
+      const url = page.url()
+      await page.touchscreen.tap(point.x, point.y)
+      await expect(dialog).toBeVisible()
+      await expect(page).toHaveURL(url)
+    })
+  })
+
+  test('keeps reveal content below the header without subgrid support', async ({
+    page,
+  }) => {
+    // Simulate a browser that rejects subgrid declarations and support queries.
+    await page.evaluate(() => {
+      const disableSubgrid = (sheet: CSSStyleSheet) => {
+        Array.from(sheet.cssRules).forEach((rule, index) => {
+          if (
+            rule instanceof CSSSupportsRule &&
+            rule.conditionText.includes('subgrid')
+          ) {
+            sheet.deleteRule(index)
+            sheet.insertRule(
+              rule.cssText.replaceAll('subgrid', 'unsupported-subgrid'),
+              index
+            )
+          } else if (
+            rule instanceof CSSStyleRule &&
+            rule.style.gridTemplateRows === 'subgrid'
+          ) {
+            rule.style.gridTemplateRows = 'none'
+          }
+        })
+      }
+      Array.from(document.styleSheets).forEach(disableSubgrid)
+    })
+    await page.locator('#toggle-sidebar-menu').click()
+    const dialog = page.locator('#portal-sidebar-menu-drawer')
+    const header = await dialog
+      .locator('.dnb-drawer__navigation')
+      .boundingBox()
+    const content = await dialog
+      .locator('.dnb-drawer__reveal-content')
+      .boundingBox()
+    expect(content.y).toBeCloseTo(header.y + header.height, 0)
+    await expect(
+      dialog.getByRole('link', { name: 'Home', exact: true })
+    ).toBeVisible()
   })
 
   test('moves the page while keeping focus and interaction inside the menu', async ({

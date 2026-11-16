@@ -227,6 +227,10 @@
     min-height: 0;
     scroll-padding-top: 6rem;
     overscroll-behavior: contain;
+
+    @supports not (grid-template-rows: subgrid) {
+      grid-area: 2 / 1;
+    }
   }
 
   &__reveal-content {
@@ -379,13 +383,15 @@
     // Keep the header outside the scroll area without Safari's sticky viewport sampling.
     position: relative;
     grid-area: 1 / 1;
-    pointer-events: none;
+    pointer-events: auto;
     background-color: transparent;
 
     --background-color: transparent;
 
-    > * {
-      pointer-events: auto;
+    .dnb-modal__header__bar__close {
+      padding-inline-start: 0.5rem;
+      margin-inline-start: -0.5rem;
+      background-color: var(--drawer-background-color);
     }
 
     &::before {
