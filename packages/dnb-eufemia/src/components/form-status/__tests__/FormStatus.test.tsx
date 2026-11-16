@@ -653,4 +653,23 @@ describe('FormStatus icons', () => {
   it('should not use inline styles', () => {
     expect(renderToStaticMarkup(allIcons)).not.toContain('style=')
   })
+
+  it('should give the error and warning icons different outlines', () => {
+    render(
+      <>
+        <ErrorIcon />
+        <WarnIcon />
+      </>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-form-status-icon-path--error')
+        .getAttribute('d')
+    ).not.toBe(
+      document
+        .querySelector('.dnb-form-status-icon-path--warning')
+        .getAttribute('d')
+    )
+  })
 })
