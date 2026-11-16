@@ -516,4 +516,14 @@
   &__tertiary-button {
     align-self: flex-start;
   }
+
+  &__tertiary-content.dnb-tab-focus {
+    @include utilities.whatInput('keyboard') {
+      &:focus {
+        box-shadow: none;
+        border-radius: var(--token-radius-sm);
+        @include utilities.focusOutline($offset: 0);
+      }
+    }
+  }
 }

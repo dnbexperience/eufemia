@@ -590,5 +590,11 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
 }
 .dnb-accordion__tertiary-button {
   align-self: flex-start;
+}
+html[data-whatinput=keyboard] .dnb-accordion__tertiary-content.dnb-tab-focus:focus {
+  box-shadow: none;
+  border-radius: var(--token-radius-sm);
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: 0;
 }"
 `;
