@@ -104,18 +104,19 @@ Terraform state is stored in S3 (`eufemia-mcp-terraform-state`) with the S3 nati
 
 Deployment is a two-stage pipeline that spans public GitHub and GitHub Enterprise:
 
-1. **Build & push** — [`.github/workflows/mcp-lambda.yml`](https://github.com/dnbexperience/eufemia/blob/main/.github/workflows/mcp-lambda.yml) runs on public GitHub. It tests, builds both Lambda artifacts, and force-pushes them with `infra/` and the deploy workflow to the `deploy` branch of the GHE repo (`eufemia/eufemia-mcp`). It only pushes when the `GHE_DEPLOY_PAT` secret is set (skips on forks).
+1. **Build & push** — [`.github/workflows/mcp-lambda.yml`](https://github.com/dnbexperience/eufemia/blob/main/.github/workflows/mcp-lambda.yml) runs on public GitHub. It tests, builds both Lambda artifacts, and force-pushes them with `infra/` and the deploy workflow to the `deploy` branch of the GHE repo (`eufemia/eufemia-mcp`). It reads `GHE_DEPLOY_PAT` from the `ghe-deploy` environment. The job skips the push on forks, where the secret is not set, and fails here when it is missing.
 2. **Deploy** — `ghe-deploy-workflow.yml` (shipped as `.github/workflows/deploy.yml` on the GHE `deploy` branch) runs on push to `deploy`. It authenticates to AWS via OIDC and runs `terraform apply`.
 
 The build & push workflow triggers on:
 
-| Trigger                       | Deploys? |
-| ----------------------------- | -------- |
-| Push to `release`             | Yes      |
-| Push of a `v*` / `v*.*.*` tag | Yes      |
-| Manual `workflow_dispatch`    | Yes      |
+| Trigger                    | Deploys? |
+| -------------------------- | -------- |
+| Push to `release`          | Yes      |
+| Manual `workflow_dispatch` | Yes      |
 
-Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
+The deploy tokens (`GHE_DEPLOY_PAT` and `GHE_MONITORING_DEPLOY_PAT`) are secrets of the `ghe-deploy` environment. The internal repository names (`GHE_*_DEPLOY_REPO`) are repository variables. Both are managed in the repository settings, not stored in this repo.
+
+The jobs that read a token run in the `ghe-deploy` environment, and the workflow check (`lint:workflows`) fails when a job that reads one runs outside it. The environment only accepts `main`, `release` and release tags (`v*`), so a manual run from any other branch stops before the job starts. To set it up, create the environment in **Settings → Environments**, limit its deployment branches and tags to those three, and add both tokens as environment secrets.
 
 The deploy creates both Lambda execution roles with the OIDC permissions
 boundary. Each gets basic Lambda logging plus one policy from the OIDC
