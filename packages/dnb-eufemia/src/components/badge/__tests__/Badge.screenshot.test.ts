@@ -44,6 +44,11 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
             '[data-visual-test="badge-variant-notification-inline"]',
         })
       })
+      it('have to match variant notification without content as an indicator', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-notification-indicator"]',
+        })
+      })
       it('have to match variant notification for avatar as content', async () => {
         await makeScreenshot({
           selector:

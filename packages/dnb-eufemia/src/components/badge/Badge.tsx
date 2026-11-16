@@ -30,7 +30,7 @@ import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {
   /**
-   * The label description of the badge. Only required when passing a number as the badge content.
+   * The label description of the badge. Required when passing a number as the badge content, and for a `notification` badge without content.
    */
   label?: ReactNode
 
@@ -50,7 +50,7 @@ export type BadgeProps = {
   children?: ReactNode
 
   /**
-   * Content of the component.
+   * Content of the component. Without content, the `notification` variant is shown as a small dot, and requires a `label`.
    */
   content?: string | number | ReactNode
 
@@ -191,10 +191,19 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   const num = useNumberFormat(contentIsNum ? contentProp : 0)
   const variantIsNotification = variant === 'notification'
   const content = variantIsNotification && contentIsNum ? num : contentProp
+  const isIndicator =
+    variantIsNotification &&
+    (content === undefined || content === null || content === '')
 
   if (!label && contentIsNum) {
     warn(
       `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantics and accessibility.`
+    )
+  }
+
+  if (!label && isIndicator) {
+    warn(
+      `Label required: A notification Badge without content requires a label describing what it indicates. This is to ensure correct semantics and accessibility.`
     )
   }
 
@@ -209,6 +218,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
         horizontal && `dnb-badge--horizontal-${horizontal}`,
         vertical && `dnb-badge--vertical-${vertical}`,
         isInline && 'dnb-badge--inline',
+        isIndicator && 'dnb-badge--indicator',
         variant === 'information' &&
           `dnb-badge--status-${status}${
             subtle ? ` dnb-badge--subtle` : ''

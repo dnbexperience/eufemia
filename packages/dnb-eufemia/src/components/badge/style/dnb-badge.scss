@@ -39,6 +39,12 @@
     min-width: 1.5rem;
     height: 1.5rem;
     border-radius: var(--token-radius-full);
+
+    &.dnb-badge--indicator {
+      min-width: 0.5rem;
+      height: 0.5rem;
+      padding: 0;
+    }
   }
 
   &--variant-information {

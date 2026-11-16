@@ -50,6 +50,24 @@ export const BadgeNotificationInline = () => (
   </ComponentBox>
 )
 
+export const BadgeNotificationIndicator = () => (
+  <ComponentBox data-visual-test="badge-notification-indicator">
+    <Flex.Horizontal align="center">
+      <Badge variant="notification" label="New messages" />
+      <Badge
+        variant="notification"
+        label="New messages"
+        vertical="top"
+        horizontal="right"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">A</Avatar>
+        </Avatar.Group>
+      </Badge>
+    </Flex.Horizontal>
+  </ComponentBox>
+)
+
 export const BadgeNotificationAvatar = () => (
   <ComponentBox
     hideCode

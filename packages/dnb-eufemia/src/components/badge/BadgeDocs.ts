@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const BadgeProperties: PropertiesTableProps = {
   content: {
-    doc: 'Content of the component.',
+    doc: 'Content of the component. Without content, the `notification` variant is shown as a small dot, and requires a `label`.',
     type: ['string', 'number', 'React.ReactNode'],
     status: 'optional',
   },
@@ -63,7 +63,7 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'The label description of the badge. Only required when passing a number as the badge content.',
+    doc: 'The label description of the badge. Required when passing a number as the badge content, and for a `notification` badge without content.',
     type: 'React.ReactNode',
     status: 'optional',
   },
