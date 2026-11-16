@@ -148,15 +148,7 @@ test.describe('Table sticky header', () => {
 
     await page.evaluate(() => window.scrollTo(0, 700))
     await expect(header).toHaveClass(/is-sticky/)
-    await expect
-      .poll(() =>
-        header.evaluate(
-          (element) =>
-            parseFloat(element.style.getPropertyValue('--table-offset')) ||
-            0
-        )
-      )
-      .toBeGreaterThan(0)
+    await expect.poll(headerOffset).toBeGreaterThan(0)
 
     await page.emulateMedia({ media: 'print' })
     await expect(header).toHaveCSS('transform', 'none')

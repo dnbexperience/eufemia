@@ -34,8 +34,14 @@ export const useStickyHeader = ({
       let scrollViewElem = null
       let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
+      let usesScrollTimeline = false
 
       try {
+        const supportsScrollTimeline =
+          typeof CSS !== 'undefined' &&
+          typeof CSS.supports === 'function' &&
+          CSS.supports('animation-timeline: scroll(root block)') &&
+          CSS.supports('animation-range: 0 1px')
         const tableElem = elementRef.current
 
         const trElem = getTrElement(tableElem)
@@ -45,6 +51,11 @@ export const useStickyHeader = ({
           const usesPageScroll =
             sticky !== 'css-position' && !scrollViewElem
           trElem.classList.toggle('page-scroll', usesPageScroll)
+          usesScrollTimeline = usesPageScroll && supportsScrollTimeline
+
+          if (usesScrollTimeline) {
+            trElem.style.removeProperty('--table-offset')
+          }
 
           if (!usesPageScroll) {
             trElem.style.removeProperty('--table-scroll-start')
@@ -150,7 +161,7 @@ export const useStickyHeader = ({
 
           // By sub thHeight and checking for the height, we avoid a scrollbar inside a Table.ScrollView
           if (offset > 0 && offset < tableHeight - thHeight) {
-            if (sticky !== 'css-position') {
+            if (sticky !== 'css-position' && !usesScrollTimeline) {
               trElem.style.setProperty(
                 '--table-offset',
                 String(offset) + 'px'
@@ -167,7 +178,7 @@ export const useStickyHeader = ({
               isSticky = false
 
               if (offset <= 0) {
-                if (sticky !== 'css-position') {
+                if (sticky !== 'css-position' && !usesScrollTimeline) {
                   trElem.style.removeProperty('--table-offset')
                 }
               }
