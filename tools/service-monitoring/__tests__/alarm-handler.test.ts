@@ -52,6 +52,7 @@ it('routes CloudWatch transitions through the shared deduplicating notifier', as
   await handler(
     event({
       AlarmName: 'missing-cdn',
+      AlarmDescription: 'Inspect Lambda logs.',
       NewStateValue: 'ALARM',
       StateChangeTime: '2026-10-23T10:00:00Z',
     })
@@ -62,6 +63,7 @@ it('routes CloudWatch transitions through the shared deduplicating notifier', as
       name: 'missing-cdn',
       status: 'ALARM',
       at: '2026-10-23T10:00:00Z',
+      description: 'Inspect Lambda logs.',
     },
     expect.any(Object)
   )
