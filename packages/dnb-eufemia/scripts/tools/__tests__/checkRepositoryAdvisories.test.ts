@@ -35,6 +35,14 @@ const lockfile = `__metadata:
   version: 3.0.1
   resolution: "c@npm:3.0.1"
 
+"alias@npm:real@^1.0.0":
+  version: 1.2.0
+  resolution: "real@npm:1.2.0"
+
+"resolve@patch:resolve@npm%3A^1.22.0#~builtin<compat/resolve>":
+  version: 1.22.8
+  resolution: "resolve@patch:resolve@npm%3A1.22.8#~builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
+
 "dev-only@npm:9.0.0":
   version: 9.0.0
   resolution: "dev-only@npm:9.0.0"
@@ -58,6 +66,17 @@ describe('checkRepositoryAdvisories', () => {
     })
 
     expect(packages.map(({ version }) => version)).toEqual(['3.0.1'])
+  })
+
+  it('names aliased and patched packages after the real package', () => {
+    const packages = getProductionPackages(parseLockfile(lockfile), {
+      alias: 'npm:real@^1.0.0',
+      resolve: 'patch:resolve@npm%3A^1.22.0#~builtin<compat/resolve>',
+    })
+
+    expect(
+      packages.map(({ name, version }) => `${name}@${version}`)
+    ).toEqual(['real@1.2.0', 'resolve@1.22.8'])
   })
 
   it.each([
@@ -118,7 +137,11 @@ describe('checkRepositoryAdvisories', () => {
     ],
     ['git@github.com:taiga-family/maskito.git', 'taiga-family/maskito'],
     ['https://github.com/date-fns/date-fns#readme', 'date-fns/date-fns'],
+    ['git+https://github.com/owner/repo.js.git', 'owner/repo.js'],
     ['https://gitlab.com/some/repo', null],
+    ['https://github.com/../user', null],
+    ['https://github.com/owner/..', null],
+    ['https://github.com/owner/repo%2F..%2F..%2Fuser', null],
     [undefined, null],
   ])('reads the GitHub repository from %s', (url, expected) => {
     expect(toGitHubRepository(url)).toBe(expected)
@@ -563,7 +586,7 @@ describe('checkRepositoryAdvisories', () => {
     })
 
     const workspaces = ['packages/dnb-eufemia', 'tools/mcp-lambda']
-    const stubWorkspaces = () => {
+    const stubWorkspaces = (extra: Record<string, string> = {}) => {
       const files: Record<string, string> = {
         'yarn.lock': lockfile,
         'packages/dnb-eufemia/package.json': JSON.stringify({
@@ -572,6 +595,7 @@ describe('checkRepositoryAdvisories', () => {
         'tools/mcp-lambda/package.json': JSON.stringify({
           dependencies: { 'dev-only': '9.0.0' },
         }),
+        ...extra,
       }
       const readFileSync = fs.readFileSync
       vi.spyOn(fs, 'readFileSync').mockImplementation((file, options) => {
@@ -645,6 +669,29 @@ describe('checkRepositoryAdvisories', () => {
 
       expect(await ghsaIds(workspaces)).toEqual(['GHSA-dev-only'])
       expect(await ghsaIds(['packages/dnb-eufemia'])).toEqual([])
+    })
+
+    it('checks the production packages of linked workspaces', async () => {
+      stubWorkspaces({
+        'tools/mcp-lambda/package.json': JSON.stringify({
+          dependencies: { 'eufemia-usage-ingest': 'workspace:*' },
+          devDependencies: { 'dev-only': '9.0.0' },
+        }),
+        'tools/usage-ingest/package.json': JSON.stringify({
+          name: 'eufemia-usage-ingest',
+          dependencies: { c: '^3.0.0' },
+        }),
+      })
+      stubFetch(200, undefined, [
+        advisoryFor('c'),
+        advisoryFor('dev-only'),
+      ])
+
+      const matches = await checkRepositoryAdvisories({
+        workspaces: ['tools/mcp-lambda'],
+      })
+
+      expect(matches.map(({ ghsaId }) => ghsaId)).toEqual(['GHSA-c'])
     })
 
     it('does not report an accepted advisory', async () => {

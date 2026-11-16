@@ -54,7 +54,7 @@ export function parseLockfile(lockfile: string) {
   for (const line of lockfile.split('\n')) {
     if (/^\S.*:$/.test(line) && !line.startsWith('__metadata')) {
       const descriptors = line.slice(0, -1).replace(/"/g, '').split(', ')
-      const name = descriptors[0].slice(0, descriptors[0].lastIndexOf('@'))
+      const name = descriptors[0].slice(0, descriptors[0].indexOf('@', 1))
       current = { name, version: '', dependencies: {} }
       descriptors.forEach((descriptor) => entries.set(descriptor, current))
       inDependencies = false
@@ -62,6 +62,13 @@ export function parseLockfile(lockfile: string) {
       continue
     } else if (line.startsWith('  version: ')) {
       current.version = line.slice('  version: '.length).trim()
+    } else if (line.startsWith('  resolution: ')) {
+      // Only the resolution names the real package of an alias or a patch
+      const resolution = line
+        .slice('  resolution: '.length)
+        .trim()
+        .replace(/"/g, '')
+      current.name = resolution.slice(0, resolution.indexOf('@', 1))
     } else if (line === '  dependencies:') {
       inDependencies = true
     } else if (inDependencies && line.startsWith('    ')) {
@@ -111,8 +118,14 @@ export function getProductionPackages(
 }
 
 export function toGitHubRepository(url: unknown) {
-  const match = /github\.com[/:]([^/]+)\/([^/#?]+)/.exec(String(url ?? ''))
-  return match ? `${match[1]}/${match[2].replace(/\.git$/, '')}` : null
+  const match =
+    /github\.com[/:]([\w.-]+)\/([\w.-]+?)(?:\.git)?(?:[/#?]|$)/.exec(
+      String(url ?? '')
+    )
+  // The URL comes from package metadata and ends up in an authenticated API path
+  return match && ![match[1], match[2]].some((part) => /^\.+$/.test(part))
+    ? `${match[1]}/${match[2]}`
+    : null
 }
 
 function parseVersion(version: string): Version | null {
@@ -438,11 +451,17 @@ async function fetchAdvisories(
   return advisories
 }
 
-// Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas
-export function getShippedWorkspaces() {
-  const { workspaces } = JSON.parse(
-    fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf-8')
+function readManifest(workspace: string) {
+  return JSON.parse(
+    fs.readFileSync(
+      path.join(repoRoot, workspace, 'package.json'),
+      'utf-8'
+    )
   )
+}
+
+function getWorkspaces() {
+  const { workspaces } = readManifest('.')
 
   return (workspaces as string[])
     .flatMap((pattern) => {
@@ -455,15 +474,16 @@ export function getShippedWorkspaces() {
         .sort()
         .map((name) => `${parent}/${name}`)
     })
-    .filter((workspace) => {
-      const file = path.join(repoRoot, workspace, 'package.json')
-      return (
-        fs.existsSync(file) &&
-        Boolean(
-          JSON.parse(fs.readFileSync(file, 'utf-8')).scripts?.['audit:ci']
-        )
-      )
-    })
+    .filter((workspace) =>
+      fs.existsSync(path.join(repoRoot, workspace, 'package.json'))
+    )
+}
+
+// Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas
+export function getShippedWorkspaces() {
+  return getWorkspaces().filter((workspace) =>
+    Boolean(readManifest(workspace).scripts?.['audit:ci'])
+  )
 }
 
 // GHSA ID -> owner, reason and tracking link
@@ -483,14 +503,36 @@ export async function checkRepositoryAdvisories({
     fs.readFileSync(path.join(repoRoot, 'yarn.lock'), 'utf-8')
   )
   const packages = new Map<string, LockfileEntry>()
+  const workspacesByName = new Map(
+    getWorkspaces().map((workspace) => [
+      readManifest(workspace).name,
+      workspace,
+    ])
+  )
   for (const workspace of workspaces) {
-    const { dependencies = {} } = JSON.parse(
-      fs.readFileSync(
-        path.join(repoRoot, workspace, 'package.json'),
-        'utf-8'
+    // Linked workspaces ship inside this one, and their lockfile entries also list devDependencies
+    const linked = [workspace]
+    for (const current of linked) {
+      for (const [name, range] of Object.entries(
+        readManifest(current).dependencies ?? {}
+      )) {
+        const target = workspacesByName.get(name)
+        if (
+          String(range).startsWith('workspace:') &&
+          target &&
+          !linked.includes(target)
+        ) {
+          linked.push(target)
+        }
+      }
+    }
+
+    const workspacePackages = linked.flatMap((current) =>
+      getProductionPackages(
+        entries,
+        readManifest(current).dependencies ?? {}
       )
     )
-    const workspacePackages = getProductionPackages(entries, dependencies)
     if (workspacePackages.length === 0) {
       throw new Error(
         `No production packages of ${workspace} were found in yarn.lock, so no advisories were checked.`
