@@ -211,9 +211,24 @@ export function useThemeHandler() {
   useEffect(() => {
     // Apply the initial theme styles.
     // In build mode, lazy-load non-default theme CSS first.
+    const revision = themeRevision
+    const fromQuery = new URLSearchParams(window.location.search).get(
+      'eufemia-theme'
+    )
     const applyInitial = () => {
+      if (revision !== themeRevision) {
+        return
+      }
       if (window.__applyEufemiaThemeStyles__) {
         window.__applyEufemiaThemeStyles__(theme.brand)
+      }
+      // Navigation drops the query, so remember an explicitly selected brand.
+      if (fromQuery === theme.brand) {
+        try {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
+        } catch {
+          // ignore
+        }
       }
     }
 

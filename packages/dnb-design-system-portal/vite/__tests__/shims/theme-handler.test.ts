@@ -259,6 +259,40 @@ describe('theme-handler shim', () => {
   })
 
   describe('useThemeHandler', () => {
+    it.each(['sbanken', 'coconut'])(
+      'persists the URL brand %s so it survives navigation and reload',
+      (brand) => {
+        localStorage.setItem(
+          'eufemia-theme',
+          JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
+        )
+        const originalSearch = window.location.search
+        Object.defineProperty(window, 'location', {
+          value: { ...window.location, search: '?eufemia-theme=' + brand },
+          writable: true,
+        })
+
+        try {
+          renderHook(() => useThemeHandler())
+          Object.defineProperty(window, 'location', {
+            value: { ...window.location, search: '' },
+            writable: true,
+          })
+
+          expect(getTheme()).toMatchObject({
+            brand,
+            name: brand,
+            colorScheme: 'dark',
+          })
+        } finally {
+          Object.defineProperty(window, 'location', {
+            value: { ...window.location, search: originalSearch },
+            writable: true,
+          })
+        }
+      }
+    )
+
     it('returns the current theme', () => {
       const { result } = renderHook(() => useThemeHandler())
       expect(result.current.brand).toBe('ui')
@@ -283,6 +317,31 @@ describe('theme-handler shim', () => {
 
       renderHook(() => useThemeHandler())
       expect(applyFn).toHaveBeenCalledWith('ui')
+    })
+
+    it('keeps a newer selection when the initial stylesheet finishes loading', async () => {
+      let finishInitial: () => void
+      const initial = new Promise<void>((resolve) => {
+        finishInitial = resolve
+      })
+      window.__loadEufemiaTheme = vi
+        .fn()
+        .mockReturnValueOnce(initial)
+        .mockResolvedValue(undefined)
+      const applyFn = vi.fn()
+      window.__applyEufemiaThemeStyles__ = applyFn
+      const { result } = renderHook(() => useThemeHandler())
+
+      await act(async () => {
+        result.current.setTheme({ brand: 'sbanken' })
+      })
+      await act(async () => {
+        finishInitial()
+        await initial
+      })
+
+      expect(applyFn).toHaveBeenCalledExactlyOnceWith('sbanken')
+      expect(getTheme().brand).toBe('sbanken')
     })
 
     it('returns the default theme while hydrating and the selected theme after', () => {

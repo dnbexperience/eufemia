@@ -165,7 +165,13 @@ test('should apply the brand from the URL after hydration', async ({
 test('should enable Coconut from the URL without offering it in settings', async ({
   page,
 }) => {
-  await page.goto('/web/components/overview?eufemia-theme=coconut')
+  await page.goto('/?eufemia-theme=coconut')
+  await waitForApp(page)
+  await expect(page.locator('body')).toHaveClass(/eufemia-theme__coconut/)
+
+  await page.getByRole('link', { name: 'Components', exact: true }).click()
+  await expect(page).toHaveURL(/[/]web[/]components[/]overview[/]$/)
+  await page.reload()
   await waitForApp(page)
 
   await expect(page.locator('body')).toHaveClass(/eufemia-theme__coconut/)
