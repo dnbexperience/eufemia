@@ -145,6 +145,68 @@ it('retries a page that fails to load', async () => {
   }
 })
 
+it('scans a failed page again without counting its findings twice', async () => {
+  const originalArgs = process.argv
+  mocks.writeFile.mockClear()
+  mocks.goto.mockReset().mockResolvedValue({ ok: () => true })
+  mocks.waitFor.mockReset().mockResolvedValue(undefined)
+  mocks.analyze.mockReset().mockImplementation(async (rules) => ({
+    violations: rules
+      ? []
+      : [
+          {
+            id: 'region',
+            impact: 'moderate',
+            help: 'All page content should be contained by landmarks',
+            helpUrl: 'https://dequeuniversity.com/rules/axe/region',
+            nodes: [{ target: ['#portal'], failureSummary: 'Fix it' }],
+          },
+        ],
+  }))
+  const darkModeWaitFor = vi
+    .fn()
+    .mockRejectedValueOnce(
+      new Error('locator.waitFor: Timeout 10000ms exceeded.')
+    )
+    .mockResolvedValue(undefined)
+  mocks.locator.mockImplementation((selector: string) => ({
+    waitFor: selector.startsWith('body.')
+      ? darkModeWaitFor
+      : mocks.waitFor,
+    evaluateAll: async () => [],
+  }))
+  process.argv = [...scanArgs, '--color-schemes', 'light,dark']
+  const stdout = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+
+  try {
+    vi.resetModules()
+    await import('../../../scripts/scan-portal-accessibility.mjs')
+    await vi.waitFor(() =>
+      expect(mocks.writeFile).toHaveBeenCalledTimes(2)
+    )
+    expect(mocks.goto).toHaveBeenCalledTimes(2)
+    expect(stdout).toHaveBeenCalledWith(
+      'Scanning / (dark) again later: locator.waitFor: Timeout 10000ms exceeded.\n'
+    )
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('1 axe findings and 0 errors')
+    )
+
+    const report = JSON.parse(mocks.writeFile.mock.calls[0][1])
+    expect(report.findings).toEqual([
+      expect.objectContaining({ page: '/', id: 'region' }),
+    ])
+  } finally {
+    process.argv = originalArgs
+    stdout.mockRestore()
+    mocks.analyze.mockReset().mockResolvedValue({ violations: [] })
+    mocks.locator.mockImplementation(() => ({
+      waitFor: mocks.waitFor,
+      evaluateAll: async () => [],
+    }))
+  }
+})
+
 it('checks dark mode on the loaded page without loading it again', async () => {
   const originalArgs = process.argv
   mocks.writeFile.mockClear()

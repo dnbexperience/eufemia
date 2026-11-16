@@ -30,76 +30,111 @@ async function main() {
   const duplicateIdFindings = []
   const findings = []
   const errors = []
+  const failedPaths = []
   let cursor = 0
+
+  const openPage = async () => {
+    const context = await browser.newContext({
+      colorScheme: firstColorScheme,
+    })
+    await context.addInitScript(() => {
+      Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
+    })
+    return { context, page: await context.newPage() }
+  }
+
+  const scanPage = async (page, path) => {
+    const pageDuplicateIdFindings = []
+    const pageFindings = []
+    let colorScheme = firstColorScheme
+
+    try {
+      if (colorSchemes.length > 1) {
+        await page.emulateMedia({ colorScheme: firstColorScheme })
+      }
+      await loadPage(page, new URL(path, args.baseUrl).href)
+
+      for (colorScheme of colorSchemes) {
+        const isLight = colorScheme === 'light'
+
+        if (colorScheme !== firstColorScheme) {
+          await switchColorScheme(page, colorScheme)
+        }
+        if (isLight) {
+          const ids = await page
+            .locator('[id]')
+            .evaluateAll((elements) => elements.map(({ id }) => id))
+          pageDuplicateIdFindings.push(...findDuplicateIds(ids, path))
+        }
+        const axe = new AxeBuilder({ page })
+        const result = await (
+          isLight ? axe : axe.withRules(colorRules)
+        ).analyze()
+
+        for (const violation of result.violations) {
+          pageFindings.push({
+            check: 'axe',
+            page: path,
+            ...(!isLight && { colorScheme }),
+            id: violation.id,
+            impact: violation.impact,
+            occurrences: violation.nodes.length,
+            help: violation.help,
+            helpUrl: violation.helpUrl,
+            nodes: violation.nodes
+              .map(({ target, failureSummary }) => ({
+                target: target.map(String),
+                failureSummary: normalizeText(failureSummary),
+              }))
+              .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
+          })
+        }
+      }
+    } catch (error) {
+      error.page =
+        colorScheme === 'light' ? path : `${path} (${colorScheme})`
+      throw error
+    }
+
+    duplicateIdFindings.push(...pageDuplicateIdFindings)
+    findings.push(...pageFindings)
+  }
 
   await Promise.all(
     Array.from({ length: Math.min(6, paths.length) }, async () => {
-      const context = await browser.newContext({
-        colorScheme: firstColorScheme,
-      })
-      await context.addInitScript(() => {
-        Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
-      })
-      const page = await context.newPage()
+      const { context, page } = await openPage()
 
       while (cursor < paths.length) {
         const path = paths[cursor++]
-        let colorScheme = firstColorScheme
 
         try {
-          if (colorSchemes.length > 1) {
-            await page.emulateMedia({ colorScheme: firstColorScheme })
-          }
-          await loadPage(page, new URL(path, args.baseUrl).href)
-
-          for (colorScheme of colorSchemes) {
-            const isLight = colorScheme === 'light'
-
-            if (colorScheme !== firstColorScheme) {
-              await switchColorScheme(page, colorScheme)
-            }
-            if (isLight) {
-              const ids = await page
-                .locator('[id]')
-                .evaluateAll((elements) => elements.map(({ id }) => id))
-              duplicateIdFindings.push(...findDuplicateIds(ids, path))
-            }
-            const axe = new AxeBuilder({ page })
-            const result = await (
-              isLight ? axe : axe.withRules(colorRules)
-            ).analyze()
-
-            for (const violation of result.violations) {
-              findings.push({
-                check: 'axe',
-                page: path,
-                ...(!isLight && { colorScheme }),
-                id: violation.id,
-                impact: violation.impact,
-                occurrences: violation.nodes.length,
-                help: violation.help,
-                helpUrl: violation.helpUrl,
-                nodes: violation.nodes
-                  .map(({ target, failureSummary }) => ({
-                    target: target.map(String),
-                    failureSummary: normalizeText(failureSummary),
-                  }))
-                  .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
-              })
-            }
-          }
+          await scanPage(page, path)
         } catch (error) {
-          errors.push({
-            page:
-              colorScheme === 'light' ? path : `${path} (${colorScheme})`,
-            message: error.message,
-          })
+          failedPaths.push(path)
+          process.stdout.write(
+            `Scanning ${error.page} again later: ${error.message.split('\n')[0]}\n`
+          )
         }
       }
 
       await context.close()
     })
   )
+
+  // A busy runner or a stalled host can fail a page, so scan it again on its own
+  if (failedPaths.length > 0) {
+    const { context, page } = await openPage()
+
+    for (const path of failedPaths) {
+      try {
+        await scanPage(page, path)
+      } catch (error) {
+        errors.push({ page: error.page, message: error.message })
+      }
+    }
+
+    await context.close()
+  }
 
   await browser.close()
 
