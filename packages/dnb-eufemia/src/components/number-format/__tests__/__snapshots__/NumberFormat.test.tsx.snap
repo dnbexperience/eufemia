@@ -80,6 +80,7 @@ html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:where(:not(.dn
 }
 html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:where(:not(.dnb-anchor--surface-dark)):focus-visible:not([disabled]) {
   box-shadow: none;
+  border-radius: var(--token-radius-sm);
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
