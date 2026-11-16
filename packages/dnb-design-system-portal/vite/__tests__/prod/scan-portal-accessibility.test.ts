@@ -145,7 +145,7 @@ it('retries a page that fails to load', async () => {
   }
 })
 
-it('scans a failed page again after the other pages', async () => {
+it('scans a failed page again without counting its findings twice', async () => {
   const originalArgs = process.argv
   mocks.writeFile.mockClear()
   mocks.goto.mockReset().mockResolvedValue({ ok: () => true })
