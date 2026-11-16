@@ -596,6 +596,7 @@ html:not([data-whatinput=touch]) .dnb-accordion__tertiary-content.dnb-tab-focus:
 }
 html:not([data-whatinput=touch]) .dnb-accordion__tertiary-content.dnb-tab-focus:focus-visible:not([disabled]) {
   box-shadow: none;
+  border-radius: var(--token-radius-sm);
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: 0;
 }"
