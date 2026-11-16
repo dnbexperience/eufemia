@@ -11,6 +11,18 @@ test('WebKit drags the hanging card without selecting page text', async ({
   await page.goto('/')
   await waitForApp(page)
   await page.evaluate(() => document.fonts.ready)
+  await expect
+    .poll(() =>
+      page
+        .locator('[data-home-specimen]')
+        .evaluateAll((elements) =>
+          elements.every(
+            (element) =>
+              new DOMMatrix(getComputedStyle(element).transform).is2D
+          )
+        )
+    )
+    .toBe(true)
   const card = page.locator('[data-hanging-item=carnegie]')
   const box = await card.locator('[data-home-specimen]').boundingBox()
   const x = box.x + box.width * 0.3
@@ -19,6 +31,14 @@ test('WebKit drags the hanging card without selecting page text', async ({
   await page.mouse.down()
   await page.mouse.move(box.x + box.width + 120, y + 60, { steps: 20 })
   await expect(card).toHaveAttribute('data-dragging', 'true')
+  expect(
+    await card
+      .locator('[data-home-specimen]')
+      .evaluate(
+        (element) =>
+          new DOMMatrix(getComputedStyle(element).transform).is2D
+      )
+  ).toBe(false)
   expect(await page.evaluate(() => getSelection().toString())).toBe('')
   await page.mouse.up()
   expect(await page.evaluate(() => getSelection().toString())).toBe('')

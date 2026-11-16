@@ -295,19 +295,24 @@
   }
 }
 
-@mixin specimenPose($swing, $balance, $pitch, $lift) {
+@mixin specimenPose($swing, $balance, $pitch, $lift, $perspective: false) {
   @if $lift == 0 {
     $lift: 0px;
   }
 
   $rope-length: max(1px, calc(var(--length) + #{$lift}));
+  // Keep idle sway planar when the page moves with the reveal menu.
+  $depth: scaleY(cos(#{$pitch}));
+  @if $perspective {
+    $depth: perspective(50rem) rotateX($pitch);
+  }
 
   transform: translate(
       calc(-1 * var(--pin) + sin(#{$swing}) * #{$rope-length}),
       calc((cos(#{$swing}) - 1) * #{$rope-length} + #{$lift})
     )
     rotate(calc(var(--tilt) - #{$swing} + #{$balance}))
-    scale(var(--rendered-scale)) perspective(50rem) rotateX($pitch);
+    scale(var(--rendered-scale)) #{$depth};
 }
 
 @keyframes idleRope {
@@ -397,7 +402,8 @@
     var(--swing),
     var(--balance),
     var(--pitch),
-    var(--lift-y)
+    var(--lift-y),
+    $perspective: true
   );
   transform-origin: var(--pin) 0;
   filter: drop-shadow(0 0.125rem 0.125rem rgb(0 0 0 / 12%));
