@@ -16,7 +16,7 @@ Each outage post lists the failing checks with their reasons and links to the se
 
 Without the optional read-only GitHub token, a 403 or 429 from the GitHub API in a deployment source or PAT expiry workflow check is the unauthenticated GitHub API limit. It clears by itself; provision the token if it repeats.
 
-A failure ending in "(blocked by Akamai, reference …)", in any service, means the edge firewall denied the monitor's request. Send the reference to the team that owns the edge configuration; the service itself may be fine.
+A failure ending in "(blocked by Akamai, reference …)", in any service, means the edge firewall denied the monitor's request; the service itself may be fine. Send the reference to the Akamai owners the same day: it is the only way to find the rule that blocked the request, and it can be looked up for 2 days only.
 
 ### CDN
 
