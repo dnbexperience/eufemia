@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigation } from 'react-router'
 import { AriaLive, ProgressIndicator } from '@dnb/eufemia/src/components'
+import { openDocument as openDocumentWhenOnline } from '../../vite/client/open-document'
+import { withTrailingSlash } from '../../vite/client/with-trailing-slash'
 import { navigationProgressStyle } from './NavigationProgress.module.scss'
 
 // Fast navigations finish before the indicator would flash.
@@ -13,12 +15,8 @@ type NavigationProgressProps = {
   openDocument?: (url: string) => void
 }
 
-function assignLocation(url: string) {
-  window.location.assign(url)
-}
-
 export default function NavigationProgress({
-  openDocument = assignLocation,
+  openDocument = openDocumentWhenOnline,
 }: NavigationProgressProps) {
   const navigation = useNavigation()
   const location =
@@ -26,7 +24,7 @@ export default function NavigationProgress({
 
   // Prerendered pages are directories, so this skips the server's slash redirect.
   const target = location
-    ? location.pathname.replace(/\/?$/, '/') +
+    ? withTrailingSlash(location.pathname) +
       location.search +
       location.hash
     : null
@@ -53,12 +51,10 @@ export default function NavigationProgress({
     let fallback: number
     const scheduleFallback = () => {
       window.clearTimeout(fallback)
-      fallback = window.setTimeout(() => {
-        // Offline, the browser would replace the page with its error page.
-        if (navigator.onLine) {
-          openDocument(target)
-        }
-      }, DOCUMENT_FALLBACK_DELAY)
+      fallback = window.setTimeout(
+        () => openDocument(target),
+        DOCUMENT_FALLBACK_DELAY
+      )
     }
 
     // A finished response means a slow connection is still making progress.

@@ -184,7 +184,7 @@ describe('NavigationProgress', () => {
     expect(openDocument).toHaveBeenCalledTimes(1)
   })
 
-  it('keeps the page while the browser is offline', async () => {
+  it('leaves waiting for the connection to openDocument while offline', async () => {
     vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
     const openDocument = vi.fn()
     const router = renderRouter(openDocument, () => new Promise(() => {}))
@@ -193,10 +193,10 @@ describe('NavigationProgress', () => {
       void router.navigate('/next')
     })
     await act(async () => {
-      vi.advanceTimersByTime(DOCUMENT_FALLBACK_DELAY * 2)
+      vi.advanceTimersByTime(DOCUMENT_FALLBACK_DELAY)
     })
 
-    expect(openDocument).not.toHaveBeenCalled()
+    expect(openDocument).toHaveBeenCalledWith('/next/')
   })
 
   it('does nothing when the navigation completes in time', async () => {

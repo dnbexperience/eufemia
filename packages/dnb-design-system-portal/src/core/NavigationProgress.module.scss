@@ -9,11 +9,4 @@
 
   /* No line box around the inline indicator */
   display: flex;
-
-  /* The indeterminate bars end outside the track when animations are reduced */
-  @media (prefers-reduced-motion: reduce) {
-    :global(.dnb-progress-indicator__linear) {
-      background-color: var(--progress-indicator-linear-bar-color);
-    }
-  }
 }
