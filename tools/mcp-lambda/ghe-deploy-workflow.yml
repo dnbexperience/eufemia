@@ -77,14 +77,17 @@ jobs:
           RESPONSE="$RUNNER_TEMP/mcp-response.json"
 
           check() {
-            local protocol=$1 method=$2 params=$3 filter=$4
+            local protocol=$1 method=$2 params=$3 filter=$4 method_header=
+            if [[ $protocol == 2026-07-28 ]]; then
+              method_header="MCP-Method: $method"
+            fi
             rm -f "$RESPONSE"
             if ! curl -sS --fail-with-body --max-time 20 \
                 --retry 3 --retry-delay 10 --retry-all-errors \
                 -H 'Content-Type: application/json' \
                 -H 'Accept: application/json, text/event-stream' \
                 -H "MCP-Protocol-Version: $protocol" \
-                -H "MCP-Method: $method" \
+                ${method_header:+-H "$method_header"} \
                 -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"$method\",\"params\":$params}" \
                 -o "$RESPONSE" "$ENDPOINT" ||
               ! jq -e "$filter" "$RESPONSE" > /dev/null; then
