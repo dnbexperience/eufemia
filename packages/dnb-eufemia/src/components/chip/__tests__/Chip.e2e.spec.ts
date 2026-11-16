@@ -805,8 +805,52 @@ for (const browser of [
       }
     })
 
-    test('keyboard focus shows an outline', async ({ page }) => {
-      for (const variant of ['default', 'addable']) {
+    test('indicator centers stay clickable', async ({ page }) => {
+      for (const variant of ['checkbox', 'radio']) {
+        for (const mode of ['single', 'multiple'] as const) {
+          await test.step(`${variant}: ${mode}`, async () => {
+            const chip = groupChip(page, variant, mode, 'Available')
+            const indicator = chip.locator(
+              mode === 'multiple'
+                ? '.dnb-checkbox__button'
+                : '.dnb-radio__button'
+            )
+
+            await indicator.scrollIntoViewIfNeeded()
+            const { x, y, width, height } = await indicator.boundingBox()
+            await page.mouse.click(x + width / 2, y + height / 2)
+
+            await expectSelected(chip.locator('input'), true)
+          })
+        }
+      }
+    })
+
+    test('the input paints nothing on an unselected chip', async ({
+      page,
+    }) => {
+      const chips = page
+        .locator('[data-visual-test="chip-states"] .dnb-chip')
+        .filter({
+          has: page.locator('input:not([type="hidden"]):not(:checked)'),
+        })
+      expect(await chips.count()).toBeGreaterThan(0)
+
+      for (const chip of await chips.all()) {
+        const pill = chip.locator('.dnb-radio__row, .dnb-checkbox__order')
+        const shown = await pill.screenshot()
+        await chip
+          .locator('input')
+          .evaluate((element: HTMLElement) =>
+            element.style.setProperty('opacity', '0', 'important')
+          )
+
+        expect((await pill.screenshot()).equals(shown)).toBe(true)
+      }
+    })
+
+    test('keyboard focus shows the focus outline', async ({ page }) => {
+      for (const variant of ['default', 'addable', 'checkbox', 'radio']) {
         for (const mode of ['single', 'multiple'] as const) {
           await test.step(`${variant}: ${mode}`, async () => {
             const chip = groupChip(page, variant, mode, 'Selected')
@@ -820,6 +864,10 @@ for (const browser of [
             await control.focus()
             await expect(control).toBeFocused()
 
+            // The Eufemia focus outline, not the default ring of the browser
+            await expect(control).toHaveCSS('outline-style', 'solid')
+            await expect(control).toHaveCSS('outline-width', '3px')
+            await expect(control).toHaveCSS('outline-offset', '2px')
             expect((await page.screenshot({ clip })).equals(before)).toBe(
               false
             )

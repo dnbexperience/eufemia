@@ -736,10 +736,19 @@
   // input, because they do not support :has(). The input covers the chip, so
   // these browsers show the selected state and the focus outline on it.
   @supports not (selector(:has(*))) {
+    // The input is below the indicator, so let clicks through to it
+    .dnb-checkbox__inner,
+    .dnb-checkbox__shell,
+    .dnb-radio__shell {
+      pointer-events: none;
+    }
+
     .dnb-checkbox__input,
     .dnb-radio__input {
       z-index: -1; // Below the label, which lets clicks through
+      pointer-events: auto;
       opacity: 1;
+      background-color: transparent; // Firefox paints disabled inputs
       border-radius: var(--token-radius-xl);
       outline: none;
 
