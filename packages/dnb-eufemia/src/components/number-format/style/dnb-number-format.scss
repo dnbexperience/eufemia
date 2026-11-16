@@ -3,10 +3,20 @@
  *
  */
 
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-number-format {
   display: inline-block;
   position: relative;
   white-space: nowrap;
+
+  &.dnb-tab-focus {
+    @include utilities.focusVisible() {
+      box-shadow: none;
+      border-radius: var(--token-radius-sm);
+      @include utilities.focusOutline();
+    }
+  }
 
   // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
   .dnb-sr-only::before {
