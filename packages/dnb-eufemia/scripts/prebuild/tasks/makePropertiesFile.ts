@@ -823,9 +823,11 @@ export const overrideFoundationReferencePrefix = (
   scssContent: string,
   referencePrefixOverride: string
 ) => {
-  const prefixPattern = Object.values(foundationPrefixMap)
-    .map(({ css }) => css)
-    .join('|')
+  const prefixPattern = [
+    foundationPrefixMap.ui.css,
+    foundationPrefixMap.sbanken.css,
+    foundationPrefixMap.carnegie.css,
+  ].join('|')
 
   return scssContent.replace(
     new RegExp(

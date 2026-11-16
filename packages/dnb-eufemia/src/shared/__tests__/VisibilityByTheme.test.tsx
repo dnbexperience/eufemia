@@ -4,6 +4,52 @@ import type { ThemeNames } from '../Theme'
 import VisibilityByTheme from '../VisibilityByTheme'
 
 describe('VisibilityByTheme', () => {
+  it.each([
+    'sbanken',
+    'coconut',
+    { brand: 'sbanken' },
+    { brand: 'coconut' },
+    { name: 'sbanken' },
+    { name: 'coconut' },
+    { brand: 'sbanken', variant: 'blue' },
+  ] as const)(
+    'matches Coconut against %j for visible and hidden content',
+    (themeItem) => {
+      render(
+        <Theme brand="coconut" variant="blue">
+          <VisibilityByTheme visible={themeItem}>
+            Visible
+          </VisibilityByTheme>
+          <VisibilityByTheme hidden={themeItem}>Hidden</VisibilityByTheme>
+        </Theme>
+      )
+
+      expect(document.body.textContent).toBe('Visible')
+    }
+  )
+
+  it('preserves variant matching for Coconut', () => {
+    render(
+      <Theme brand="coconut" variant="blue">
+        <VisibilityByTheme visible={{ brand: 'sbanken', variant: 'red' }}>
+          Hidden
+        </VisibilityByTheme>
+      </Theme>
+    )
+
+    expect(document.body.textContent).toBe('')
+  })
+
+  it('does not match Sbanken against Coconut', () => {
+    render(
+      <Theme brand="sbanken">
+        <VisibilityByTheme visible="coconut">Hidden</VisibilityByTheme>
+      </Theme>
+    )
+
+    expect(document.body.textContent).toBe('')
+  })
+
   it('renders content if not visible or hidden was given', () => {
     const Component = (props) => (
       <Theme name="eiendom" {...props}>

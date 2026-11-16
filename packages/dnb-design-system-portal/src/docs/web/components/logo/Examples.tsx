@@ -14,22 +14,19 @@ import {
   EiendomDefault,
 } from '@dnb/eufemia/src/components/Logo'
 import MyThemeSelector from '../../../../core/ChangeStyleTheme'
-import type { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
+import type { UseThemeReturn } from '@dnb/eufemia/src/shared/useTheme'
 
-function myLogoSelector(theme: ThemeProps) {
-  switch (theme?.brand) {
-    case 'sbanken':
-      return SbankenDefault
-
-    case 'carnegie':
-      return CarnegieDefault
-
-    case 'eiendom':
-      return EiendomDefault
-
-    default:
-      return DnbDefault
+function myLogoSelector(theme: UseThemeReturn) {
+  if (theme?.isSbanken) {
+    return SbankenDefault
   }
+  if (theme?.isCarnegie) {
+    return CarnegieDefault
+  }
+  if (theme?.isEiendom) {
+    return EiendomDefault
+  }
+  return DnbDefault
 }
 
 export const LogoAllExample = () => (
@@ -108,20 +105,17 @@ export const LogoChangeExample = () => (
     data-visual-test="logo-theme-change"
   >
     {() => {
-      function myLogoSelector(theme: ThemeProps) {
-        switch (theme?.brand) {
-          case 'sbanken':
-            return SbankenDefault
-
-          case 'carnegie':
-            return CarnegieDefault
-
-          case 'eiendom':
-            return EiendomDefault
-
-          default:
-            return DnbDefault
+      function myLogoSelector(theme: UseThemeReturn) {
+        if (theme?.isSbanken) {
+          return SbankenDefault
         }
+        if (theme?.isCarnegie) {
+          return CarnegieDefault
+        }
+        if (theme?.isEiendom) {
+          return EiendomDefault
+        }
+        return DnbDefault
       }
 
       function MyApp() {

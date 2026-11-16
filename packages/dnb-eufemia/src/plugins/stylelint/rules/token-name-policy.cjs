@@ -46,6 +46,7 @@ const DEFAULT_POLICY = {
     ui: 'dnb',
     sbanken: 'sbanken',
     carnegie: 'carnegie',
+    coconut: 'coconut',
   },
 
   // Prevent temporary in-progress tokens from being committed as stable API.
@@ -73,7 +74,7 @@ const PROJECT_ROOT = path.resolve(__dirname, '../../../..')
 const THEME_FROM_PATH_REGEX = /\/style\/themes\/([^/]+)\//
 const TOKEN_DECLARATION_PATTERN = /(^|\s)(--token-[a-z0-9-]+)\s*:/gim
 const FOUNDATION_REFERENCE_REGEX =
-  /var\(\s*(--(?:dnb|sbanken|carnegie)-[a-z0-9-]+)\s*\)/gi
+  /var\(\s*(--(?:dnb|sbanken|carnegie|coconut)-[a-z0-9-]+)\s*\)/gi
 const TOKEN_REFERENCE_REGEX = /var\(\s*(--token-[a-z0-9-]+)\s*\)/gi
 const GENERIC_VAR_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
 const SINGLE_VAR_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/i
@@ -139,6 +140,11 @@ const getThemeFromPath = (filePath) => {
   const match = normalizedPath.match(THEME_FROM_PATH_REGEX)
 
   return match?.[1] || null
+}
+
+// Coconut has an independent token set while the public brands share one.
+const participatesInTokenParity = (filePath) => {
+  return getThemeFromPath(filePath) !== 'coconut'
 }
 
 const isFoundationFile = (filePath) => {
@@ -310,6 +316,11 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
       tokenFiles: secondaryOptions.tokenFiles,
       tokenPrefix,
     })
+    for (const tokenFile of tokenVariablesByFile.keys()) {
+      if (!participatesInTokenParity(tokenFile)) {
+        tokenVariablesByFile.delete(tokenFile)
+      }
+    }
 
     const filePath = root.source?.input?.file || ''
     const theme = getThemeFromPath(filePath)

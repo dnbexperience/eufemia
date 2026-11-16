@@ -2,11 +2,7 @@
 
 import fs from 'fs'
 import path from 'path'
-import {
-  themeCapabilities,
-  themeNames,
-  transitionalThemeNames,
-} from '../capabilities'
+import { themeCapabilities, themeNames } from '../capabilities'
 
 describe('themeCapabilities', () => {
   it('defines every supported Theme name', () => {
@@ -71,10 +67,7 @@ describe('themeCapabilities', () => {
         ? 'Yes'
         : 'No'
 
-      // @deprecated A transitional brand such as "coconut" is
-      // intentionally undocumented, because the brand it replaces is
-      // already documented
-      if (transitionalThemeNames.includes(name as never)) {
+      if (name === 'coconut') {
         expect(rows.map(([theme]) => theme)).not.toContain(`\`${name}\``)
         continue
       }
