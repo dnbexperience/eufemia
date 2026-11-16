@@ -68,6 +68,19 @@ it('routes CloudWatch transitions through the shared deduplicating notifier', as
     expect.any(Object)
   )
 })
+it('leaves out the description of an alarm that has none', async () => {
+  await handler(
+    event({
+      AlarmName: 'execution-errors',
+      AlarmDescription: null,
+      NewStateValue: 'ALARM',
+      StateChangeTime: '2026-10-23T10:00:00Z',
+    })
+  )
+  expect(mocks.process.mock.calls[0]?.[0]).not.toHaveProperty(
+    'description'
+  )
+})
 it('routes service observations through the same notifier', async () => {
   const value = {
     kind: 'service',
