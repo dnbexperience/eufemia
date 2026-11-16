@@ -146,7 +146,7 @@ function BadgeRoot({
       ':scope > .dnb-badge--variant-notification'
     )
     if (!badge || !root.querySelector(':scope > .dnb-button')) {
-      return
+      return undefined
     }
 
     const updateWidth = () => {
