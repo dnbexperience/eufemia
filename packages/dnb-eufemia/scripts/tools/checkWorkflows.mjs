@@ -7,8 +7,8 @@
  * - Every job sets its `permissions`, or its workflow does, because the
  *   default `GITHUB_TOKEN` is read-only.
  * - A job that reads a GHE deploy token runs in the `ghe-deploy` environment,
- *   which holds the token. A job outside it reads an empty string instead of
- *   failing.
+ *   which holds the token. The token is not a repository secret, so a job
+ *   outside the environment reads an empty string instead of failing.
  * - Every action that GitHub did not create is on ALLOWED_THIRD_PARTY_ACTIONS.
  *
  * The settings stop such a workflow only when it runs. The release, deploy
@@ -80,10 +80,13 @@ export function checkWorkflowFile({
   }
 
   if (file.startsWith('.github/workflows/')) {
-    for (const problem of checkPermissions(content)) {
-      problems.push(`${file}: ${problem}`)
-    }
-    for (const problem of checkEnvironmentSecrets(content)) {
+    const lines = content.split('\n')
+    const workflow = readJobs(lines)
+    for (const problem of [
+      ...workflow.problems,
+      ...checkPermissions(lines, workflow),
+      ...checkEnvironmentSecrets(workflow),
+    ]) {
       problems.push(`${file}: ${problem}`)
     }
   }
@@ -125,30 +128,25 @@ function checkUses(value, allowed) {
   return null
 }
 
-function checkPermissions(text) {
-  const lines = text.split('\n')
+function checkPermissions(lines, { jobs, problems }) {
   if (lines.some((line) => line.startsWith('permissions:'))) {
     return []
   }
 
-  const { jobs, problems } = readJobs(lines)
   if (jobs.length === 0 && problems.length === 0) {
     return [
       'found no jobs at two-space indentation; format it with Prettier',
     ]
   }
 
-  return [
-    ...problems,
-    ...jobs
-      .filter(
-        (job) => !job.lines.some((line) => /^ {4}permissions:/.test(line))
-      )
-      .map(
-        (job) =>
-          `job \`${job.id}\` sets no \`permissions\`, and neither does its workflow`
-      ),
-  ]
+  return jobs
+    .filter(
+      (job) => !job.lines.some((line) => /^ {4}permissions:/.test(line))
+    )
+    .map(
+      (job) =>
+        `job \`${job.id}\` sets no \`permissions\`, and neither does its workflow`
+    )
 }
 
 // The jobs of a workflow with the lines of each job, and the lines outside
@@ -180,8 +178,7 @@ function readJobs(lines) {
   return { jobs, outside, problems }
 }
 
-function checkEnvironmentSecrets(text) {
-  const { jobs, outside } = readJobs(text.split('\n'))
+function checkEnvironmentSecrets({ jobs, outside }) {
   const problems = readSecrets(outside).map(
     (name) =>
       `\`secrets.${name}\` is read outside a job, so no environment applies; read it in a job that uses the \`${ENVIRONMENT_SECRETS[name]}\` environment`
@@ -227,11 +224,11 @@ function readEnvironment(lines) {
   }
 
   const inline =
-    /^ {4}environment:[ \t]*["']?([\w.-]+)["']?(?:[ \t]|$)/.exec(
+    /^ {4}environment:[ \t]*(["']?)([\w.-]+)\1(?:[ \t]+#.*|[ \t]*)$/.exec(
       lines[index]
     )
   if (inline) {
-    return inline[1]
+    return inline[2]
   }
 
   for (const line of lines.slice(index + 1)) {
@@ -239,11 +236,10 @@ function readEnvironment(lines) {
       break
     }
 
-    const name = /^ {6}name:[ \t]*["']?([\w.-]+)["']?(?:[ \t]|$)/.exec(
-      line
-    )
+    const name =
+      /^ {6}name:[ \t]*(["']?)([\w.-]+)\1(?:[ \t]+#.*|[ \t]*)$/.exec(line)
     if (name) {
-      return name[1]
+      return name[2]
     }
   }
 

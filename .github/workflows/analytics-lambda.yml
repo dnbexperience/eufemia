@@ -9,7 +9,8 @@ name: Analytics Lambda
 # Triggers:
 # - Push to `main` that touches `tools/analytics/**`, the shared
 #   `tools/usage-ingest/**` package (or this workflow) — deploys automatically.
-# - `workflow_dispatch` — manual deploy from the Actions tab (from `main` or `release`).
+# - `workflow_dispatch` — manual deploy from the Actions tab, from the branches
+#   and tags that the `ghe-deploy` environment allows.
 #
 # Analytics has no Eufemia docs dependency, so it deploys on its own code changes
 # rather than on every Eufemia release like the MCP server.
@@ -86,7 +87,7 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Skip if GHE credentials are missing
+      - name: Check the GHE credentials
         id: gate
         env:
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}

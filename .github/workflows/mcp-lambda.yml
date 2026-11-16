@@ -8,7 +8,8 @@ name: MCP Lambda
 #
 # Triggers:
 # - `release` branch — deploys automatically.
-# - `workflow_dispatch` — manual deploy from the Actions tab.
+# - `workflow_dispatch` — manual deploy from the Actions tab, from the branches
+#   and tags that the `ghe-deploy` environment allows.
 #
 # See tools/mcp-lambda/README.md for deploy details.
 # See tools/mcp-lambda/README.md for manual deploy instructions.
@@ -82,7 +83,7 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Skip if GHE credentials are missing
+      - name: Check the GHE credentials
         id: gate
         env:
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}

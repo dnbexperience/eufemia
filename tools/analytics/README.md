@@ -92,7 +92,7 @@ public GitHub (.github/workflows/analytics-lambda.yml)
           → generate dashboard/config.json → aws s3 sync → CloudFront invalidation
 ```
 
-- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from `main`. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
+- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from the branches and tags that the `ghe-deploy` environment allows. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
 - On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run). In this repository, a missing token fails the job.
 - **Failure alerts**: a green public run only means the hand-off worked; see [Production health monitor](#production-health-monitor).

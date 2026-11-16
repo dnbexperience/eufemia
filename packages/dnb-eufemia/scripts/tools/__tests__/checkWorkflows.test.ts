@@ -313,6 +313,76 @@ jobs:
     expect(checkWorkflowFile({ file, text })).toEqual([])
   })
 
+  it('reports a job line it cannot read, also when the workflow sets its permissions', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    environment: ghe-deploy
+  "other job":
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo other
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: cannot read the job on line 8',
+    ])
+  })
+
+  it('reports each deploy token once per job', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  both:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo both
+        env:
+          FIRST: \${{ secrets.GHE_DEPLOY_PAT }}
+          SECOND: \${{ secrets.GHE_MONITORING_DEPLOY_PAT }}
+          THIRD: \${{ secrets.GHE_DEPLOY_PAT }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: job `both` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+      '.github/workflows/test.yml: job `both` reads `secrets.GHE_MONITORING_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+    ])
+  })
+
+  it('reports an environment name with extra text or mismatched quotes', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  extra:
+    runs-on: ubuntu-latest
+    environment: ghe-deploy extra
+    steps:
+      - run: echo extra
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+
+  quotes:
+    runs-on: ubuntu-latest
+    environment: 'ghe-deploy"
+    steps:
+      - run: echo quotes
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: job `extra` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+      '.github/workflows/test.yml: job `quotes` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+    ])
+  })
+
   it('reports a job line it cannot read', () => {
     const text = `on: push
 
