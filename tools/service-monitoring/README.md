@@ -20,7 +20,8 @@ EventBridge Scheduler runs CDN at :07, MCP at :11, Analytics at :17 and Tokens a
 The deployment token must remain active for automatic updates. Record its owner
 and expiration in the internal deployment repository, renew it before expiration,
 and replace GHE_MONITORING_DEPLOY_PAT. Then dispatch Service Monitoring Lambda
-from main and verify both the public handoff and internal deployment. The deployed
+from main with `force` checked (an unchanged package otherwise skips the push)
+and verify both the public handoff and internal deployment. The deployed
 AWS schedules continue running independently if a deployment credential expires.
 
 | Internal variable                  | Value                                                                |

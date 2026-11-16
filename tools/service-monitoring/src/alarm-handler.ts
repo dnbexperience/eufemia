@@ -51,6 +51,9 @@ function parseObservation(message: string): Observation {
     name: value.AlarmName,
     status: value.NewStateValue,
     at: value.StateChangeTime,
+    ...(typeof value.AlarmDescription === 'string' && {
+      description: value.AlarmDescription,
+    }),
   }
 }
 

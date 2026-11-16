@@ -3,6 +3,7 @@ import { buildReport } from '../monitoring/report.ts'
 import type { Check, CheckOptions, Report } from '../monitoring/report.ts'
 import { createProbe } from '../monitoring/probe.ts'
 import { runDiagnosticCli } from '../monitoring/diagnostic-cli.ts'
+import { readAkamaiBlockNote } from '../monitoring/akamai-block.ts'
 
 const cdn = 'https://assets.eufemia.dnb.no'
 const registry = 'https://registry.npmjs.org/@dnb%2feufemia'
@@ -49,8 +50,8 @@ export async function checkCdn(
           signal: AbortSignal.timeout(10_000),
         })
         if (response.status !== 200) {
-          await response.body?.cancel()
-          throw new Error(`HTTP ${response.status}`)
+          const blockNote = await readAkamaiBlockNote(response)
+          throw new Error(`HTTP ${response.status}${blockNote}`)
         }
         const reader = response.body?.getReader()
         if (!reader) {

@@ -1,0 +1,12 @@
+.navigationProgressStyle {
+  position: fixed;
+
+  /* Higher than the sticky header (3201) */
+  z-index: 3202;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  /* No line box around the inline indicator */
+  display: flex;
+}

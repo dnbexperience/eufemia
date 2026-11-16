@@ -184,10 +184,11 @@ resource "aws_lambda_function" "monitor" {
   tags = local.tags
 }
 
+# Two timed-out attempts, Lambda's 1 and 2 minute retry delays and a minute of queueing.
 resource "aws_lambda_function_event_invoke_config" "monitor" {
   for_each                     = local.services
   function_name                = aws_lambda_function.monitor[each.key].function_name
-  maximum_event_age_in_seconds = 900
+  maximum_event_age_in_seconds = 2 * aws_lambda_function.monitor[each.key].timeout + 240
   maximum_retry_attempts       = 2
   destination_config {
     on_failure {
@@ -263,13 +264,14 @@ resource "aws_cloudwatch_metric_alarm" "errors" {
   tags                = local.tags
 }
 
+# Counts new failures: queue depth would keep the alarm on while failed messages are retained.
 resource "aws_cloudwatch_metric_alarm" "failures" {
   alarm_name          = "${local.prefix}-undelivered"
-  alarm_description   = "Scheduler delivery or Lambda asynchronous execution exhausted retries. Inspect the failures queue."
+  alarm_description   = "Scheduler delivery, Lambda asynchronous execution or SNS delivery to the notifier exhausted retries. Inspect the failures queue."
   namespace           = "AWS/SQS"
-  metric_name         = "ApproximateNumberOfMessagesVisible"
+  metric_name         = "NumberOfMessagesSent"
   dimensions          = { QueueName = aws_sqs_queue.failures.name }
-  statistic           = "Maximum"
+  statistic           = "Sum"
   period              = 300
   evaluation_periods  = 1
   threshold           = 1

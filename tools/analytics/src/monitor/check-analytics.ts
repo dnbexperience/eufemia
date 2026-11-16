@@ -6,6 +6,7 @@ import type {
 } from '../../../monitoring/report.ts'
 import { createProbe } from '../../../monitoring/probe.ts'
 import { runDiagnosticCli } from '../../../monitoring/diagnostic-cli.ts'
+import { readAkamaiBlockNote } from '../../../monitoring/akamai-block.ts'
 
 const healthz = 'https://server.eufemia.dnb.no/analytics/healthz'
 const dashboard = 'https://dashboard.eufemia.dnb.no/'
@@ -53,11 +54,11 @@ export async function checkAnalytics(
       signal: AbortSignal.timeout(20_000),
     })
     if (response.status !== 200) {
-      await response.body?.cancel()
+      const blockNote = await readAkamaiBlockNote(response)
       throw new Error(
         response.status === 401 && token
           ? 'Token expired or revoked (HTTP 401)'
-          : `HTTP ${response.status}`
+          : `HTTP ${response.status}${blockNote}`
       )
     }
     if (response.headers.get('content-type')?.split(';')[0] !== type) {

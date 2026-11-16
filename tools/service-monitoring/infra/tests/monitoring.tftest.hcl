@@ -110,4 +110,15 @@ run "enable_slack" {
     )
     error_message = "Delivery and asynchronous execution failures need durable destinations."
   }
+  assert {
+    condition = (
+      aws_cloudwatch_metric_alarm.failures.metric_name == "NumberOfMessagesSent" &&
+      aws_cloudwatch_metric_alarm.failures.statistic == "Sum"
+    )
+    error_message = "The undelivered alarm must clear after a failure instead of staying on while the message is retained."
+  }
+  assert {
+    condition     = aws_lambda_function_event_invoke_config.monitor["CDN"].maximum_event_age_in_seconds >= 2 * aws_lambda_function.monitor["CDN"].timeout + 180
+    error_message = "Both asynchronous retries must start before the event expires, even after timed-out attempts."
+  }
 }

@@ -1842,6 +1842,37 @@ describe('Autocomplete component', () => {
             .querySelector('.dnb-drawer-list__option__inner').outerHTML
         ).toBe(result)
       })
+
+      it('has no highlighted value after the input is clicked again', async () => {
+        render(
+          <>
+            <Autocomplete
+              search={{ highlight: false }}
+              data={mockData}
+              {...mockProps}
+            />
+            <button id="outside">Outside</button>
+          </>
+        )
+
+        const input = document.querySelector('input')
+
+        await userEvent.click(input)
+        await userEvent.type(input, 'cc')
+        await userEvent.click(document.querySelector('#outside'))
+        await userEvent.click(input)
+        await userEvent.clear(input)
+        await userEvent.type(input, 'cc')
+
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option').length
+        ).toBeGreaterThan(0)
+        expect(
+          document.querySelectorAll(
+            '.dnb-drawer-list__option__item--highlight'
+          )
+        ).toHaveLength(0)
+      })
     })
 
     describe('search.reorder', () => {
