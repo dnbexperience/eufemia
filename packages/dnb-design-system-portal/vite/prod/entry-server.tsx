@@ -26,6 +26,7 @@ import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
 import BranchBanner from '../../src/shared/menu/BranchBanner'
+import NavigationProgress from '../../src/core/NavigationProgress'
 import {
   PortalTocData,
   type PortalTocSnapshot,
@@ -166,6 +167,7 @@ function RootLayout() {
             <SSRPageWrapper />
           </MDXProvider>
           <BranchBanner />
+          <NavigationProgress />
         </Theme>
       </IsolatedStyleScope>
     </Provider>
