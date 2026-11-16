@@ -75,10 +75,10 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
   position: relative;
   white-space: nowrap;
 }
-html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:where(:not(.dnb-anchor--surface-dark)):focus-visible[disabled] {
+html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:where(:not(.dnb-anchor--surface-dark)):focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:focus-visible:not([disabled]) {
   box-shadow: none;
   border-radius: var(--token-radius-sm);
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);

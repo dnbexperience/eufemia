@@ -10,7 +10,7 @@
   position: relative;
   white-space: nowrap;
 
-  &.dnb-tab-focus:where(:not(.dnb-anchor--surface-dark)) {
+  &.dnb-tab-focus {
     @include utilities.focusVisible() {
       box-shadow: none;
       border-radius: var(--token-radius-sm);
