@@ -16,7 +16,7 @@
   }
 
   > pre:focus-visible {
-    @include utilities.focusOutline($offset: 0);
+    @include utilities.focusOutline();
   }
 
   :global(.eufemia-theme) {
