@@ -59,7 +59,6 @@ export async function handler(event: Event) {
     return
   }
   let stage = 'configuration'
-  let records: Observation[] = []
   try {
     const topic = process.env.ALERT_TOPIC_ARN
     const table = process.env.STATE_TABLE
@@ -73,7 +72,7 @@ export async function handler(event: Event) {
     ) {
       throw new Error('Invalid notification configuration')
     }
-    records = event.Records.map((record) => {
+    const records = event.Records.map((record) => {
       if (record.Sns.TopicArn !== topic) {
         throw new Error('Unexpected notification topic')
       }
@@ -120,16 +119,6 @@ export async function handler(event: Event) {
     }
   } catch (error) {
     logFailure('notifications', stage, error)
-    // A failed notice would land in the queue this alarm counts and trigger it again.
-    const undelivered = process.env.UNDELIVERED_ALARM
-    if (
-      records.length &&
-      records.every(
-        (record) => record.kind === 'alarm' && record.name === undelivered
-      )
-    ) {
-      return
-    }
     // eslint-disable-next-line preserve-caught-error -- Causes may contain credentials.
     throw new Error('Monitoring notification could not complete')
   }

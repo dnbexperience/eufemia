@@ -305,7 +305,6 @@ resource "aws_lambda_function" "notifier" {
       STATE_TABLE           = aws_dynamodb_table.state.name
       NOTIFICATIONS_ENABLED = tostring(var.notifications_enabled)
       MONITOR_LOG_GROUPS    = jsonencode({ for service in local.services : service => aws_cloudwatch_log_group.monitor[service].name })
-      UNDELIVERED_ALARM     = aws_cloudwatch_metric_alarm.failures.alarm_name
     }
   }
   lifecycle {
