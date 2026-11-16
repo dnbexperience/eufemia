@@ -64,6 +64,10 @@ describe('production CDN checks', () => {
     expect(report.checks).toHaveLength(8)
     expect(report.checks.every((check) => check.ok)).toBe(true)
     expect(
+      report.checks.find((check) => check.name === 'v11.15.2/manifest')
+        ?.detail
+    ).toBe('https://assets.eufemia.dnb.no/v11.15.2/.manifest.sha256')
+    expect(
       vi
         .mocked(request)
         .mock.calls.every(
@@ -258,8 +262,8 @@ describe('production CDN checks', () => {
       sleep,
     })
     expect(report.status).toBe('unhealthy')
-    expect(report.checks.find((check) => !check.ok)?.detail).toContain(
-      'missing monitored assets'
+    expect(report.checks.find((check) => !check.ok)?.detail).toBe(
+      'https://assets.eufemia.dnb.no/v11.15.2/.manifest.sha256: Deployment manifest is missing monitored assets'
     )
   })
 

@@ -11,7 +11,7 @@ import { checkAnalytics } from '../../analytics/src/monitor/check-analytics.ts'
 import { checkTokens } from './check-tokens.ts'
 import { runMonitor, services } from './monitor.ts'
 import type { Service, State } from './monitor.ts'
-import type { Report } from '../../monitoring/report-incident.ts'
+import type { Report } from '../../monitoring/report.ts'
 import { publishObservation } from './publish-observation.ts'
 import { logFailure } from './diagnostics.ts'
 

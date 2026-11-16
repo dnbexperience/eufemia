@@ -1,5 +1,5 @@
 import { appendFileSync } from 'node:fs'
-import type { Check } from './report-incident.ts'
+import type { Check } from './report.ts'
 import { daysUntilExpiry, tokenExpiryCheck } from './token-expiry.ts'
 
 const TOKENS = ['GHE_DEPLOY_PAT', 'GHE_MONITORING_DEPLOY_PAT']

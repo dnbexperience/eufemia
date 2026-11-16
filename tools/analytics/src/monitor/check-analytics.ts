@@ -1,7 +1,11 @@
-import { appendFileSync, writeFileSync } from 'node:fs'
-import { pathToFileURL } from 'node:url'
-import type { Check, Report } from '../../../monitoring/report-incident.ts'
-import { summarize } from '../../../monitoring/report-incident.ts'
+import { buildReport } from '../../../monitoring/report.ts'
+import type {
+  Check,
+  CheckOptions,
+  Report,
+} from '../../../monitoring/report.ts'
+import { createProbe } from '../../../monitoring/probe.ts'
+import { runDiagnosticCli } from '../../../monitoring/diagnostic-cli.ts'
 
 const healthz = 'https://server.eufemia.dnb.no/analytics/healthz'
 const dashboard = 'https://dashboard.eufemia.dnb.no/'
@@ -9,13 +13,10 @@ const deployments =
   'https://api.github.com/repos/dnbexperience/eufemia/actions/workflows/analytics-lambda.yml/runs?per_page=20'
 const graceMs = 60 * 60_000
 
-type Options = {
-  fetch?: typeof fetch
+type Options = CheckOptions & {
   githubToken?: string
   gheRepository?: string
   gheToken?: string
-  now?: number
-  sleep?: (ms: number) => Promise<void>
 }
 
 type Run = {
@@ -35,31 +36,8 @@ export async function checkAnalytics(
 ): Promise<Report> {
   const request = options.fetch ?? fetch
   const now = options.now ?? Date.now()
-  const sleep =
-    options.sleep ??
-    ((ms: number) => new Promise((resolve) => setTimeout(resolve, ms)))
   const checks: Check[] = []
-
-  async function probe<T>(
-    name: string,
-    run: () => Promise<T>
-  ): Promise<T | undefined> {
-    let detail = ''
-    for (let attempt = 0; attempt < 3; attempt++) {
-      try {
-        const value = await run()
-        checks.push({ name, ok: true, detail: 'OK' })
-        return value
-      } catch (error) {
-        detail = error instanceof Error ? error.message : 'Request failed'
-        if (attempt < 2) {
-          await sleep(2000 * (attempt + 1))
-        }
-      }
-    }
-    checks.push({ name, ok: false, detail })
-    return undefined
-  }
+  const probe = createProbe(checks, options.sleep)
 
   // Errors never include the URL: GHE URLs would put the internal repository name in alerts and logs.
   async function get(url: string, type: string, token?: string) {
@@ -197,52 +175,13 @@ export async function checkAnalytics(
       detail: `Deployed ${deployed.commit ?? 'unknown'}; expected ${published.sha}`,
     })
   }
-  checks.sort((a, b) => a.name.localeCompare(b.name))
-  return {
-    status: checks.some((check) => !check.ok && !check.pending)
-      ? 'unhealthy'
-      : checks.some((check) => check.pending)
-        ? 'pending'
-        : 'healthy',
-    checkedAt: new Date(now).toISOString(),
-    latest: published?.sha,
-    checks,
-  }
+  return buildReport(checks, now, published?.sha)
 }
 
-if (
-  process.argv[1] &&
-  import.meta.url === pathToFileURL(process.argv[1]).href
-) {
-  let report: Report
-  try {
-    report = await checkAnalytics({
-      githubToken: process.env.GH_TOKEN,
-      gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
-      gheToken: process.env.GHE_TOKEN,
-    })
-  } catch {
-    report = {
-      status: 'unhealthy',
-      checkedAt: new Date().toISOString(),
-      checks: [
-        {
-          name: 'monitor',
-          ok: false,
-          detail:
-            'The analytics diagnostic could not complete its checks. No exception details were recorded.',
-        },
-      ],
-    }
-  }
-  writeFileSync(
-    'analytics-health-report.json',
-    JSON.stringify(report, null, 2) + '\n'
-  )
-  const summary = summarize(report, 'Analytics')
-  process.stdout.write(summary + '\n')
-  if (process.env.GITHUB_STEP_SUMMARY) {
-    appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '\n')
-  }
-  process.exitCode = report.status === 'unhealthy' ? 1 : 0
-}
+await runDiagnosticCli(import.meta.url, 'Analytics', () =>
+  checkAnalytics({
+    githubToken: process.env.GH_TOKEN,
+    gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
+    gheToken: process.env.GHE_TOKEN,
+  })
+)
