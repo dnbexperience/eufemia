@@ -25,6 +25,11 @@ on:
       - 'yarn.lock'
       - '.yarnrc.yml'
   workflow_dispatch:
+    inputs:
+      force:
+        description: Push an unchanged package, e.g. to test a renewed token
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -108,6 +113,7 @@ jobs:
           GHE_PAT: ${{ secrets.GHE_MONITORING_DEPLOY_PAT }}
           GHE_REPO: ${{ vars.GHE_MONITORING_DEPLOY_REPO }}
           SOURCE_SHA: ${{ github.sha }}
+          FORCE: ${{ inputs.force }}
         run: |
           set -euo pipefail
           if [[ -z "${GHE_PAT:-}" || ! "$GHE_REPO" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
@@ -124,7 +130,7 @@ jobs:
           AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
           REMOTE_HEAD=$(git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
             ls-remote "https://dnb.ghe.com/${GHE_REPO}.git" refs/heads/deploy)
-          if [[ -n "$REMOTE_HEAD" ]]; then
+          if [[ -n "$REMOTE_HEAD" && "$FORCE" != true ]]; then
             git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
               fetch --depth=1 "https://dnb.ghe.com/${GHE_REPO}.git" refs/heads/deploy
             if git diff --cached --quiet FETCH_HEAD; then
