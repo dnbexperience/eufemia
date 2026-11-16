@@ -105,7 +105,7 @@ Terraform state is stored in S3 (`eufemia-mcp-terraform-state`) with the S3 nati
 Deployment is a two-stage pipeline that spans public GitHub and GitHub Enterprise:
 
 1. **Build & push** — [`.github/workflows/mcp-lambda.yml`](https://github.com/dnbexperience/eufemia/blob/main/.github/workflows/mcp-lambda.yml) runs on public GitHub. It tests, builds both Lambda artifacts, and force-pushes them with `infra/` and the deploy workflow to the `deploy` branch of the GHE repo (`eufemia/eufemia-mcp`). It only pushes when the `GHE_DEPLOY_PAT` secret is set (skips on forks).
-2. **Deploy** — `ghe-deploy-workflow.yml` (shipped as `.github/workflows/deploy.yml` on the GHE `deploy` branch) runs on push to `deploy`. It authenticates to AWS via OIDC, runs `terraform apply`, then fails the run unless https://server.eufemia.dnb.no/mcp/web answers `initialize` and `tools/list`.
+2. **Deploy** — `ghe-deploy-workflow.yml` (shipped as `.github/workflows/deploy.yml` on the GHE `deploy` branch) runs on push to `deploy`. It authenticates to AWS via OIDC, runs `terraform apply`, then fails the run unless https://server.eufemia.dnb.no/mcp/web answers `initialize`, `tools/list` and (on the newer protocol) `server/discover`.
 
 The build & push workflow triggers on:
 
