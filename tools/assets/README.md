@@ -90,7 +90,7 @@ availability in each report.
 
 The hourly AWS checks run from one region. For faster paging and regional
 coverage, pair them with an independent multi-region uptime check of a stable
-asset URL. See the [monitoring rollout and rollback instructions](../service-monitoring/README.md#migration-and-tests).
+asset URL. See [what to do when an alert fires](../service-monitoring/README.md#when-an-alert-fires).
 
 ### Local verification
 
