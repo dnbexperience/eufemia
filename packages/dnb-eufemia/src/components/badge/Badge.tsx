@@ -70,7 +70,7 @@ export type BadgeProps = {
   variant?: 'information' | 'notification' | 'content'
 
   /**
-   * Defines the status color of the `"information"` variant. Has no effect on other variants. Defaults to `"default"`.
+   * Defines the status color of the `"information"` variant. Has no effect on other variants. The status is only shown with color. A color change alone is not enough, so also name the status in the `content`. Defaults to `"default"`.
    */
   status?: 'default' | 'neutral' | 'positive' | 'warning' | 'negative'
   /**
