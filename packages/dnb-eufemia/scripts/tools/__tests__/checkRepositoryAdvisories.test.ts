@@ -540,6 +540,7 @@ describe('checkRepositoryAdvisories', () => {
             : {
                 ok: advisoriesStatus === 200,
                 status: advisoriesStatus,
+                headers: new Headers(),
                 json: async () => [],
               }
         )
@@ -589,6 +590,64 @@ describe('checkRepositoryAdvisories', () => {
       stubFetch(200)
 
       await expect(checkRepositoryAdvisories()).resolves.toEqual([])
+    })
+
+    it('reads every page of advisories on the GitHub API', async () => {
+      const nextPage =
+        'https://api.github.com/repositories/1/security-advisories?after=abc'
+      const fetchMock = vi.fn(async (url: string) => {
+        if (url.startsWith('https://registry.npmjs.org/')) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              repository: { url: 'https://github.com/owner/repo' },
+            }),
+          }
+        }
+
+        const isNextPage = url === nextPage
+        return {
+          ok: true,
+          status: 200,
+          headers: new Headers({
+            link: isNextPage
+              ? '<https://example.com/next>; rel="next"'
+              : `<${nextPage}>; rel="next"`,
+          }),
+          json: async () =>
+            isNextPage
+              ? [
+                  {
+                    ghsa_id: 'GHSA-next-page',
+                    summary: 'On the second page',
+                    severity: 'high',
+                    html_url: 'https://github.com/owner/repo',
+                    vulnerabilities: [
+                      {
+                        package: {
+                          ecosystem: 'npm',
+                          name: 'postcss-selector-parser',
+                        },
+                        vulnerable_version_range: '>= 0.0.1',
+                      },
+                    ],
+                  },
+                ]
+              : [],
+        }
+      })
+      vi.stubGlobal('fetch', fetchMock)
+
+      const matches = await checkRepositoryAdvisories()
+
+      expect(matches.map(({ ghsaId }) => ghsaId)).toContain(
+        'GHSA-next-page'
+      )
+      expect(fetchMock).not.toHaveBeenCalledWith(
+        'https://example.com/next',
+        expect.anything()
+      )
     })
   })
 })

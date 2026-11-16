@@ -403,20 +403,39 @@ export function findAdvisoryMatches(
   )
 }
 
-async function fetchJson(
-  url: string,
-  headers: Record<string, string> = {},
-  { allowNotFound = false } = {}
-) {
-  const response = await fetch(url, { headers })
-  if (allowNotFound && response.status === 404) {
-    console.log(`Skipped ${url}: not found`)
-    return null
-  }
+async function fetchJson(url: string) {
+  const response = await fetch(url)
   if (!response.ok) {
     throw new Error(`${url} responded with ${response.status}`)
   }
   return response.json()
+}
+
+async function fetchAdvisories(
+  repository: string,
+  headers: Record<string, string>
+) {
+  const advisories: RepositoryAdvisory[] = []
+  let url = `https://api.github.com/repos/${repository}/security-advisories?state=published&per_page=100`
+
+  while (url) {
+    const response = await fetch(url, { headers })
+    if (response.status === 404) {
+      console.log(`Skipped ${url}: not found`)
+      return null
+    }
+    if (!response.ok) {
+      throw new Error(`${url} responded with ${response.status}`)
+    }
+    advisories.push(...(await response.json()))
+
+    // Only follow pages on the GitHub API, as the request carries the token
+    url = /<(https:\/\/api\.github\.com\/[^>]+)>;\s*rel="next"/.exec(
+      response.headers.get('link') ?? ''
+    )?.[1]
+  }
+
+  return advisories
 }
 
 export async function checkRepositoryAdvisories() {
@@ -458,11 +477,7 @@ export async function checkRepositoryAdvisories() {
     }
 
     if (!advisoriesByRepository.has(repository)) {
-      const advisories = await fetchJson(
-        `https://api.github.com/repos/${repository}/security-advisories?state=published&per_page=100`,
-        githubHeaders,
-        { allowNotFound: true }
-      )
+      const advisories = await fetchAdvisories(repository, githubHeaders)
       if (!advisories) {
         skippedRepositories += 1
       }
