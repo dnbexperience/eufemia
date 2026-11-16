@@ -58,7 +58,7 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'The label description of the badge. Only required when passing a number as the badge content.',
+    doc: 'The label description of the badge. Required when passing a number as the badge content, and for a `notification` badge without content.',
     type: 'React.ReactNode',
     status: 'optional',
   },

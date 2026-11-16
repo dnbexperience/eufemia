@@ -21,7 +21,7 @@ import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {
   /**
-   * The label description of the badge. Only required when passing a number as the badge content.
+   * The label description of the badge. Required when passing a number as the badge content, and for a `notification` badge without content.
    */
   label?: ReactNode
 
