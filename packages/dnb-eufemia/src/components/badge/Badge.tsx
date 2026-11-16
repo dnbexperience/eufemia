@@ -230,7 +230,15 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     >
       {label && <span className="dnb-sr-only">{label} </span>}
       {icon && <BadgeIcon icon={icon} />}
-      {content}
+      {variant === 'information' &&
+      content &&
+      typeof content !== 'string' &&
+      typeof content !== 'number' ? (
+        // Flex items would drop the spaces at the edges of text nodes
+        <span className="dnb-badge__content">{content}</span>
+      ) : (
+        content
+      )}
     </span>
   )
 })

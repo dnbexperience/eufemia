@@ -25,6 +25,34 @@ describe('Badge', () => {
     expect(screen.queryByText(string)).toBeInTheDocument()
   })
 
+  it('keeps text and inline elements of the content in one flex item', () => {
+    render(
+      <Badge
+        content={
+          <>
+            Due <strong>today</strong>
+          </>
+        }
+      />
+    )
+
+    // Each direct text node would become its own flex item and lose the space at its edge
+    const badge = document.querySelector('.dnb-badge')
+    expect(badge.childNodes).toHaveLength(1)
+    expect(badge.firstElementChild).toHaveClass('dnb-badge__content')
+    expect(badge.firstElementChild.innerHTML).toBe(
+      'Due <strong>today</strong>'
+    )
+  })
+
+  it('renders string content without a wrapper', () => {
+    render(<Badge content="Due today" />)
+
+    const badge = document.querySelector('.dnb-badge')
+    expect(badge.childNodes).toHaveLength(1)
+    expect(badge.firstChild.nodeType).toBe(Node.TEXT_NODE)
+  })
+
   it('renders content as number', () => {
     const number = 1
     const label = 'Notifications:'
