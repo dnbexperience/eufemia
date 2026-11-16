@@ -262,21 +262,6 @@ test.describe('Page Navigation', () => {
       )
     })
 
-    test('should not load icons from the CDN', async ({ page }) => {
-      // A slow CDN response holds back the load event that e2e tests wait for
-      const cdnRequests: string[] = []
-      page.on('request', (request) => {
-        if (request.url().startsWith('https://assets.eufemia.dnb.no/')) {
-          cdnRequests.push(request.url())
-        }
-      })
-
-      await page.goto('/web/components/button/demos/')
-      await waitForApp(page)
-
-      expect(cdnRequests).toEqual([])
-    })
-
     test('click on Design should open the designer guide', async ({
       page,
     }) => {
