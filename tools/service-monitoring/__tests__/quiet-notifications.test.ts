@@ -99,7 +99,7 @@ describe('quiet notifications', () => {
       'https://'
     )
   })
-  it('links the alarm that opened a monitoring incident', async () => {
+  it('links the alarm that opened a monitoring incident and says what to inspect', async () => {
     const test = setup()
     test.dependencies.aws = { region: 'eu-north-1', logGroups: {} }
     await test.run({
@@ -107,7 +107,11 @@ describe('quiet notifications', () => {
       name: 'missing-cdn',
       status: 'ALARM',
       at: new Date(Date.UTC(2026, 9, 23, 10, 1)).toISOString(),
+      description: 'Inspect the failures queue.',
     })
+    expect(test.dependencies.post.mock.calls[0]?.[0]).toContain(
+      'Eufemia Monitoring incident detected.\nInspect the failures queue.\n'
+    )
     expect(test.dependencies.post.mock.calls[0]?.[0]).toContain(
       'Alarm: <https://eu-north-1.console.aws.amazon.com/cloudwatch/home?region=eu-north-1#alarmsV2:alarm/missing-cdn|missing-cdn>'
     )
