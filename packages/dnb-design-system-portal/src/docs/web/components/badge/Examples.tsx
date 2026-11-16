@@ -98,6 +98,21 @@ export const BadgeInformationInline = () => (
   </ComponentBox>
 )
 
+export const BadgeInformationFormattedContent = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="badge-variant-information-formatted-content"
+  >
+    <Badge
+      content={
+        <>
+          Due <strong>today</strong>
+        </>
+      }
+    />
+  </ComponentBox>
+)
+
 export const BadgeInformationAvatar = () => (
   <ComponentBox
     hideCode
