@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 const demoUrl = '/web/components/badge/demos/#overlaid-button'
 
-test('reserves a fixed corner offset for button badges across sizes and content widths', async ({
+test('keeps button badges inside the button and clear of the label across sizes and content widths', async ({
   page,
 }) => {
   await page.goto(demoUrl)
@@ -30,6 +30,11 @@ test('reserves a fixed corner offset for button badges across sizes and content 
                   `dnb-badge--vertical-${vertical}`,
                   `dnb-badge--horizontal-${horizontal}`
                 )
+                root.classList.remove(
+                  'dnb-badge__root--button-left',
+                  'dnb-badge__root--button-right'
+                )
+                root.classList.add(`dnb-badge__root--button-${horizontal}`)
 
                 if (
                   !root.parentElement.hasAttribute('data-badge-container')
@@ -44,6 +49,7 @@ test('reserves a fixed corner offset for button badges across sizes and content 
                 const container = root.parentElement
 
                 const badgeRect = badge.getBoundingClientRect()
+                const rootRect = root.getBoundingClientRect()
                 const buttonRect = root
                   .querySelector('button')
                   .getBoundingClientRect()
@@ -53,6 +59,8 @@ test('reserves a fixed corner offset for button badges across sizes and content 
                   .getBoundingClientRect()
 
                 return {
+                  extraWidth: rootRect.width - buttonRect.width,
+                  extraHeight: rootRect.height - buttonRect.height,
                   labelGap:
                     horizontal === 'right'
                       ? badgeRect.left - textRect.right
@@ -78,8 +86,10 @@ test('reserves a fixed corner offset for button badges across sizes and content 
 
         expect(measurements).toHaveLength(8)
         for (const measurement of measurements) {
-          expect(measurement.horizontalOffset).toBeCloseTo(4)
-          expect(measurement.verticalOffset).toBeCloseTo(4)
+          expect(measurement.extraWidth).toBeCloseTo(0)
+          expect(measurement.extraHeight).toBeCloseTo(0)
+          expect(measurement.horizontalOffset).toBeCloseTo(0)
+          expect(measurement.verticalOffset).toBeCloseTo(0)
           expect(measurement.contained).toBe(true)
           expect(measurement.labelGap).toBeGreaterThanOrEqual(3.99)
         }

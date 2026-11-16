@@ -1,4 +1,5 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import { cloneElement, isValidElement, useContext, useRef } from 'react'
 import type {
   CSSProperties,
@@ -113,13 +114,26 @@ function Badge(localProps: BadgeAllProps) {
     context?.Badge,
     { skeleton: context?.skeleton }
   )
-  const { children, className } = allProps
+  const { children, className, content, horizontal, hideBadge, variant } =
+    allProps
 
   const spacingProps = useSpacing(allProps, { className })
 
   if (children) {
+    const buttonSide =
+      variant === 'notification' &&
+      !hideBadge &&
+      !isEmptyContent(content) &&
+      isButtonElement(children)
+        ? horizontal
+        : undefined
+
     return (
-      <BadgeRoot {...spacingProps}>
+      <BadgeRoot
+        {...spacingProps}
+        buttonSide={buttonSide}
+        content={content}
+      >
         {children}
         <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
@@ -133,47 +147,91 @@ function BadgeRoot({
   children,
   className,
   style,
+  buttonSide,
+  content,
 }: {
   children: ReactNode
   className?: string
   style?: CSSProperties
+  buttonSide?: BadgeProps['horizontal']
+  content?: ReactNode
 }) {
   const rootRef = useRef<HTMLSpanElement>(null)
+  const estimatedWidth = buttonSide
+    ? estimateBadgeWidth(content)
+    : undefined
 
+  // Replace the estimate with the rendered width, which depends on fonts and custom styles
   useIsomorphicLayoutEffect(() => {
-    const root = rootRef.current
-    const badge = root.querySelector<HTMLElement>(
-      ':scope > .dnb-badge--variant-notification'
-    )
-    if (!badge || !root.querySelector(':scope > .dnb-button')) {
-      return undefined
+    if (!buttonSide) {
+      return undefined // stop here
     }
 
+    const root = rootRef.current
+    const badge = root.querySelector<HTMLElement>(':scope > .dnb-badge')
     const updateWidth = () => {
       root.style.setProperty('--badge-width', `${badge.offsetWidth}px`)
     }
     updateWidth()
 
-    const observer =
-      typeof ResizeObserver !== 'undefined'
-        ? new ResizeObserver(updateWidth)
-        : null
-    observer?.observe(badge)
-    return () => {
-      observer?.disconnect()
-      root.style.removeProperty('--badge-width')
+    if (typeof ResizeObserver === 'undefined') {
+      return undefined // stop here
     }
-  })
+
+    const observer = new ResizeObserver(updateWidth)
+    observer.observe(badge)
+    return () => observer.disconnect()
+  }, [buttonSide, estimatedWidth])
 
   return (
     <span
       ref={rootRef}
-      className={clsx('dnb-badge__root', className)}
-      style={style}
+      className={clsx(
+        'dnb-badge__root',
+        buttonSide && `dnb-badge__root--button-${buttonSide}`,
+        className
+      )}
+      style={
+        estimatedWidth
+          ? ({
+              ...style,
+              '--badge-width': estimatedWidth,
+            } as CSSProperties)
+          : style
+      }
     >
       {children}
     </span>
   )
+}
+
+function isEmptyContent(content: ReactNode) {
+  return content === undefined || content === null || content === ''
+}
+
+function isButtonElement(element: ReactNode) {
+  return (
+    isValidElement(element) &&
+    Boolean((element.type as ComponentMarkers)?._isButton)
+  )
+}
+
+// Roughly the width of the notification badge, so prerendered buttons reserve space
+function estimateBadgeWidth(content: ReactNode) {
+  let characters: number
+  let separators = 0
+
+  if (typeof content === 'number') {
+    characters = String(Math.round(Math.abs(content))).length
+    separators = Math.floor((characters - 1) / 3)
+  } else if (typeof content === 'string') {
+    characters = content.length
+  } else {
+    return undefined // stop here
+  }
+
+  const em = (characters * 6 + separators * 3) / 10
+  return `max(1.5rem, calc(${em} * var(--font-size-x-small) + 0.5rem))`
 }
 
 /** Ensures props that only affect certain variants are reset to default */
@@ -223,9 +281,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   const num = useNumberFormat(contentIsNum ? contentProp : 0)
   const variantIsNotification = variant === 'notification'
   const content = variantIsNotification && contentIsNum ? num : contentProp
-  const isIndicator =
-    variantIsNotification &&
-    (content === undefined || content === null || content === '')
+  const isIndicator = variantIsNotification && isEmptyContent(content)
 
   if (!label && contentIsNum) {
     warn(

@@ -22,37 +22,19 @@
     vertical-align: middle;
     flex-shrink: 0;
 
-    // Reserve the corner offset so overflow containers keep the badge visible.
-    &:has(> .dnb-button):has(> .dnb-badge--variant-notification) {
-      &:has(> .dnb-badge--horizontal-left) {
-        padding-left: 0.25rem;
+    // Keep the button label clear of a notification badge.
+    &--button-left > .dnb-button--has-text {
+      padding-left: max(
+        var(--button-padding-left),
+        calc(var(--badge-width, 1.5rem) + 0.25rem)
+      );
+    }
 
-        > .dnb-button--has-text {
-          padding-left: max(
-            var(--button-padding-left),
-            var(--badge-width, 1.5rem)
-          );
-        }
-      }
-
-      &:has(> .dnb-badge--horizontal-right) {
-        padding-right: 0.25rem;
-
-        > .dnb-button--has-text {
-          padding-right: max(
-            var(--button-padding-right),
-            var(--badge-width, 1.5rem)
-          );
-        }
-      }
-
-      &:has(> .dnb-badge--vertical-top) {
-        padding-top: 0.25rem;
-      }
-
-      &:has(> .dnb-badge--vertical-bottom) {
-        padding-bottom: 0.25rem;
-      }
+    &--button-right > .dnb-button--has-text {
+      padding-right: max(
+        var(--button-padding-right),
+        calc(var(--badge-width, 1.5rem) + 0.25rem)
+      );
     }
 
     .dnb-badge {

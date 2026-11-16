@@ -1,10 +1,12 @@
 import type { RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
 import { render, screen } from '@testing-library/react'
 import type { BadgeProps } from '../Badge'
 import Badge from '../Badge'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
+import Button from '../../Button'
 import CountryFlag from '../../CountryFlag'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
@@ -452,6 +454,121 @@ describe('Badge', () => {
       expect(
         document.querySelector('.dnb-badge__icon')
       ).not.toBeInTheDocument()
+    })
+  })
+
+  describe('on a Button', () => {
+    it('reserves label space on the side of a notification badge', () => {
+      render(
+        <Badge
+          content={1}
+          label="Notifications"
+          variant="notification"
+          horizontal="left"
+          vertical="top"
+        >
+          <Button text="Messages" />
+        </Badge>
+      )
+
+      expect(document.querySelector('.dnb-badge__root')).toHaveClass(
+        'dnb-badge__root--button-left'
+      )
+    })
+
+    it('does not reserve label space for a notification badge without content', () => {
+      render(
+        <Badge
+          label="New messages"
+          variant="notification"
+          horizontal="right"
+          vertical="top"
+        >
+          <Button text="Messages" />
+        </Badge>
+      )
+
+      expect(document.querySelector('.dnb-badge__root').className).toBe(
+        'dnb-badge__root'
+      )
+    })
+
+    it('does not reserve label space for other variants or children', () => {
+      render(
+        <>
+          <Badge content="New" horizontal="right" vertical="top">
+            <Button text="Messages" />
+          </Badge>
+          <Badge
+            content={1}
+            label="Notifications"
+            variant="notification"
+            horizontal="right"
+            vertical="top"
+          >
+            <Avatar.Group label="Persons">
+              <Avatar>A</Avatar>
+            </Avatar.Group>
+          </Badge>
+        </>
+      )
+
+      document.querySelectorAll('.dnb-badge__root').forEach((root) => {
+        expect(root.className).toBe('dnb-badge__root')
+      })
+    })
+
+    it('estimates the badge width in the server markup', () => {
+      const html = renderToString(
+        <Badge
+          content={1234}
+          label="Notifications"
+          variant="notification"
+          horizontal="right"
+          vertical="top"
+        >
+          <Button text="Messages" />
+        </Badge>
+      )
+
+      expect(html).toContain('dnb-badge__root--button-right')
+      expect(html).toContain(
+        '--badge-width:max(1.5rem, calc(2.7 * var(--font-size-x-small) + 0.5rem))'
+      )
+    })
+
+    it('observes the badge width once across re-renders', () => {
+      const original = window.ResizeObserver
+      const observe = vi.fn()
+      window.ResizeObserver = class {
+        observe = observe
+        unobserve = vi.fn()
+        disconnect = vi.fn()
+      }
+
+      try {
+        const renderBadge = () => (
+          <Badge
+            content={1}
+            label="Notifications"
+            variant="notification"
+            horizontal="right"
+            vertical="top"
+          >
+            <Button text="Messages" />
+          </Badge>
+        )
+        const { rerender } = render(renderBadge())
+        rerender(renderBadge())
+        rerender(renderBadge())
+
+        expect(observe).toHaveBeenCalledTimes(1)
+        expect(observe).toHaveBeenCalledWith(
+          document.querySelector('.dnb-badge')
+        )
+      } finally {
+        window.ResizeObserver = original
+      }
     })
   })
 
