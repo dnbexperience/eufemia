@@ -49,6 +49,10 @@
     color: var(--badge-information-color, inherit);
   }
 
+  &__icon {
+    margin-inline-end: 0.5rem;
+  }
+
   &--subtle {
     background-color: var(--badge-information-subtle-bg);
     color: var(

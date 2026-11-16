@@ -15,6 +15,7 @@ import {
   BadgeButton,
   BadgeCornerPosition,
   BadgeStatus,
+  BadgeIcon,
   BadgeHide,
 } from 'Docs/web/components/badge/Examples'
 
@@ -66,6 +67,12 @@ The information variant has 5 possible `status` values, and two possible `subtle
 The default state is equivalent to `status='default'` and `subtle={false}`.
 
 <BadgeStatus />
+
+### Setting the `icon` property
+
+The information variant can show an icon, a country flag or a logo before the content. Primary icons can be set by name, such as `icon="calendar"`. Other icons, a `CountryFlag` or a logo image should be set as React elements.
+
+<BadgeIcon />
 
 ### Hiding Badge with `hideBadge`
 

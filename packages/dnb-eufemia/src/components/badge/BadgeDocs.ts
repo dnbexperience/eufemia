@@ -52,6 +52,11 @@ export const BadgeProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  icon: {
+    doc: 'Icon shown before the `content` of the `"information"` variant. Primary Icons can be set as a string (e.g. `icon="calendar"`), other icons, a [CountryFlag](/web/components/country-flag) or a logo should be set as React elements. Has no effect on other variants.',
+    type: ['string', 'React.ReactNode'],
+    status: 'optional',
+  },
   hideBadge: {
     doc: 'Removes the badge without removing children. Useful when Badge wraps content. Defaults to `false`.',
     type: 'boolean',
