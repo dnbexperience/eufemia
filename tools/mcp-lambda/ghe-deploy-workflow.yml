@@ -68,3 +68,31 @@ jobs:
           echo "## MCP Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Smoke test
+        # Never call a tool here: usage capture would count it as web usage.
+        run: |
+          set -euo pipefail
+          ENDPOINT=https://server.eufemia.dnb.no/mcp/web
+          RESPONSE="$RUNNER_TEMP/mcp-response.json"
+
+          check() {
+            local method=$1 params=$2 filter=$3
+            if ! curl -sS --fail-with-body --max-time 20 \
+                --retry 3 --retry-delay 10 --retry-all-errors \
+                -H 'Content-Type: application/json' \
+                -H 'Accept: application/json, text/event-stream' \
+                -H 'MCP-Protocol-Version: 2025-11-25' \
+                -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"$method\",\"params\":$params}" \
+                -o "$RESPONSE" "$ENDPOINT" ||
+              ! jq -e "$filter" "$RESPONSE" > /dev/null; then
+              echo "::error::MCP $method failed at $ENDPOINT"
+              head -c 2000 "$RESPONSE"
+              exit 1
+            fi
+          }
+
+          check initialize \
+            '{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"eufemia-deploy-smoke-test","version":"1.0.0"}}' \
+            '.result.serverInfo.name == "eufemia" and .result.capabilities.tools != null'
+          check tools/list '{}' '.result.tools | length > 0'
