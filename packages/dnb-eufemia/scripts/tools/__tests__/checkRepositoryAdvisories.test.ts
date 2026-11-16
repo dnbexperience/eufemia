@@ -526,7 +526,8 @@ describe('checkRepositoryAdvisories', () => {
       advisoriesStatus: number,
       repository: object | null = {
         url: 'https://github.com/owner/repo',
-      }
+      },
+      advisories: object[] = []
     ) => {
       vi.stubGlobal(
         'fetch',
@@ -541,11 +542,24 @@ describe('checkRepositoryAdvisories', () => {
                 ok: advisoriesStatus === 200,
                 status: advisoriesStatus,
                 headers: new Headers(),
-                json: async () => [],
+                json: async () => advisories,
               }
         )
       )
     }
+
+    const advisoryFor = (name: string) => ({
+      ghsa_id: `GHSA-${name}`,
+      summary: 'Summary',
+      severity: 'low',
+      html_url: 'https://github.com/owner/repo',
+      vulnerabilities: [
+        {
+          package: { ecosystem: 'npm', name },
+          vulnerable_version_range: '>= 0.0.1',
+        },
+      ],
+    })
 
     beforeEach(() => {
       vi.spyOn(console, 'log').mockImplementation(() => undefined)
@@ -582,7 +596,7 @@ describe('checkRepositoryAdvisories', () => {
       )
 
       await expect(checkRepositoryAdvisories()).rejects.toThrow(
-        'No production packages were found in yarn.lock'
+        'No production packages of packages/dnb-eufemia were found in yarn.lock'
       )
     })
 
@@ -590,6 +604,33 @@ describe('checkRepositoryAdvisories', () => {
       stubFetch(200)
 
       await expect(checkRepositoryAdvisories()).resolves.toEqual([])
+    })
+
+    it('checks the production packages of the deployed Lambdas', async () => {
+      stubFetch(200, undefined, [advisoryFor('@aws-sdk/client-s3')])
+
+      const ghsaIds = async (workspaces?: string[]) =>
+        (await checkRepositoryAdvisories({ workspaces })).map(
+          ({ ghsaId }) => ghsaId
+        )
+
+      expect(await ghsaIds()).toContain('GHSA-@aws-sdk/client-s3')
+      expect(await ghsaIds(['packages/dnb-eufemia'])).toEqual([])
+    })
+
+    it('does not report an accepted advisory', async () => {
+      stubFetch(200, undefined, [advisoryFor('postcss-selector-parser')])
+
+      await expect(checkRepositoryAdvisories()).resolves.toEqual([
+        expect.objectContaining({
+          ghsaId: 'GHSA-postcss-selector-parser',
+        }),
+      ])
+      await expect(
+        checkRepositoryAdvisories({
+          accepted: { 'GHSA-postcss-selector-parser': 'Tracked in #1' },
+        })
+      ).resolves.toEqual([])
     })
 
     it('reads every page of advisories on the GitHub API', async () => {

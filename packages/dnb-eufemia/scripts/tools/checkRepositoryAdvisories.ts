@@ -1,5 +1,5 @@
 /**
- * Checks the production dependencies of @dnb/eufemia against the security
+ * Checks the production dependencies of what we ship against the security
  * advisories that packages publish in their own GitHub repository.
  * These are not always in the advisory database that `yarn npm audit` uses.
  */
@@ -438,7 +438,21 @@ async function fetchAdvisories(
   return advisories
 }
 
-export async function checkRepositoryAdvisories() {
+// The npm library and the deployed Lambdas, as audited by their `audit:ci`
+const shippedWorkspaces = [
+  'packages/dnb-eufemia',
+  'tools/mcp-lambda',
+  'tools/analytics',
+  'tools/service-monitoring',
+]
+
+// GHSA ID -> owner, reason and tracking link. Remove an entry once it is fixed.
+const acceptedAdvisories: Record<string, string> = {}
+
+export async function checkRepositoryAdvisories({
+  workspaces = shippedWorkspaces,
+  accepted = acceptedAdvisories,
+} = {}) {
   const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN
   const githubHeaders: Record<string, string> = {
     Accept: 'application/vnd.github+json',
@@ -448,24 +462,30 @@ export async function checkRepositoryAdvisories() {
   const entries = parseLockfile(
     fs.readFileSync(path.join(repoRoot, 'yarn.lock'), 'utf-8')
   )
-  const { dependencies } = JSON.parse(
-    fs.readFileSync(
-      path.join(repoRoot, 'packages/dnb-eufemia/package.json'),
-      'utf-8'
+  const packages = new Map<string, LockfileEntry>()
+  for (const workspace of workspaces) {
+    const { dependencies = {} } = JSON.parse(
+      fs.readFileSync(
+        path.join(repoRoot, workspace, 'package.json'),
+        'utf-8'
+      )
     )
-  )
-  const packages = getProductionPackages(entries, dependencies)
-  if (packages.length === 0) {
-    throw new Error(
-      'No production packages were found in yarn.lock, so no advisories were checked.'
-    )
+    const workspacePackages = getProductionPackages(entries, dependencies)
+    if (workspacePackages.length === 0) {
+      throw new Error(
+        `No production packages of ${workspace} were found in yarn.lock, so no advisories were checked.`
+      )
+    }
+    for (const entry of workspacePackages) {
+      packages.set(`${entry.name}@${entry.version}`, entry)
+    }
   }
 
   const advisoriesByRepository = new Map<string, RepositoryAdvisory[]>()
   const matches: AdvisoryMatch[] = []
   let skippedRepositories = 0
 
-  for (const entry of packages) {
+  for (const entry of packages.values()) {
     const metadata = await fetchJson(
       `https://registry.npmjs.org/${entry.name.replace(/\//g, '%2F')}/${entry.version}`
     )
@@ -491,26 +511,27 @@ export async function checkRepositoryAdvisories() {
   if (skippedRepositories === advisoriesByRepository.size) {
     throw new Error(
       advisoriesByRepository.size === 0
-        ? `No GitHub repository was found for the ${packages.length} production packages, so no advisories were checked.`
+        ? `No GitHub repository was found for the ${packages.size} production packages, so no advisories were checked.`
         : `All ${skippedRepositories} GitHub repositories were skipped, so no advisories were checked.`
     )
   }
 
   console.log(
-    `Checked ${packages.length} production packages in ${advisoriesByRepository.size} GitHub repositories.`
+    `Checked ${packages.size} production packages of ${workspaces.length} workspaces in ${advisoriesByRepository.size} GitHub repositories.`
   )
   for (const match of matches) {
+    const reason = accepted[match.ghsaId]
     console.log(
-      `${match.severity}: ${match.name}@${match.version} ${match.ghsaId} ${match.summary} (${match.url})`
+      `${reason ? 'accepted' : match.severity}: ${match.name}@${match.version} ${match.ghsaId} ${match.summary} (${match.url})${reason ? ` ${reason}` : ''}`
     )
-    if (match.unreadableRange !== undefined) {
+    if (!reason && match.unreadableRange !== undefined) {
       console.log(
         `  Could not read the affected versions ("${match.unreadableRange}"). Check by hand whether ${match.version} is affected.`
       )
     }
   }
 
-  return matches
+  return matches.filter(({ ghsaId }) => !accepted[ghsaId])
 }
 
 if (require.main === module) {
