@@ -6,6 +6,7 @@ import type {
 } from '../../monitoring/report.ts'
 import { createProbe } from '../../monitoring/probe.ts'
 import { runDiagnosticCli } from '../../monitoring/diagnostic-cli.ts'
+import { readAkamaiBlockNote } from '../../monitoring/akamai-block.ts'
 
 const endpoint = 'https://server.eufemia.dnb.no/mcp/web'
 const deployments =
@@ -50,8 +51,8 @@ export async function checkHttpMcp(
       signal: AbortSignal.timeout(20_000),
     })
     if (response.status !== 200) {
-      await response.body?.cancel()
-      throw new Error(`HTTP ${response.status} at ${url}`)
+      const blockNote = await readAkamaiBlockNote(response)
+      throw new Error(`HTTP ${response.status} at ${url}${blockNote}`)
     }
     const type = response.headers.get('content-type')?.split(';')[0]
     if (type !== 'application/json' && type !== 'text/event-stream') {

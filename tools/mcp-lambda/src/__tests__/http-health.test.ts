@@ -202,6 +202,28 @@ describe('HTTP MCP production monitoring', () => {
     )
   })
 
+  it('names the Akamai reference when Akamai blocks the monitor', async () => {
+    const report = await checkHttpMcp({
+      fetch: fixture({
+        change: (url) =>
+          new URL(url).hostname === 'server.eufemia.dnb.no'
+            ? new Response('Reference&#32;&#35;18&#46;2fa10017', {
+                status: 403,
+                headers: { Server: 'AkamaiGHost' },
+              })
+            : undefined,
+      }),
+      now,
+      sleep,
+    })
+    expect(report.status).toBe('unhealthy')
+    expect(
+      report.checks.find((check) => check.name === 'HTTP health')?.detail
+    ).toBe(
+      'HTTP 403 at https://server.eufemia.dnb.no/healthz (blocked by Akamai, reference 18.2fa10017)'
+    )
+  })
+
   it.each([
     { error: { code: -32603, message: 'Internal error' } },
     {
