@@ -1,11 +1,20 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useContext } from 'react'
-import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
+import { cloneElement, isValidElement, useContext } from 'react'
+import type {
+  CSSProperties,
+  HTMLProps,
+  JSX,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import { clsx } from 'clsx'
 
 // Components
 import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import Icon from '../icon/Icon'
+import type { IconAllProps, IconIcon } from '../icon/Icon'
+import IconPrimary from '../icon-primary/IconPrimary'
 
 // Shared
 import type { ContextProps } from '../../shared/Context'
@@ -68,6 +77,10 @@ export type BadgeProps = {
    * Applies subtle style to `"information"` variant. Has no effect on other variants. Defaults to `false`.
    */
   subtle?: boolean
+  /**
+   * Icon shown before the `content` of the `"information"` variant. Primary Icons can be set as a string (e.g. `icon="calendar"`), other icons, a [CountryFlag](/web/components/country-flag) or a logo should be set as React elements. Has no effect on other variants.
+   */
+  icon?: IconIcon
   /**
    * Removes the badge without removing children. Useful when Badge wraps content. Defaults to `false`.
    */
@@ -141,6 +154,7 @@ function propGuard(
         ...props,
         subtle: badgeDefaultProps.subtle,
         status: badgeDefaultProps.status,
+        icon: undefined,
       })
     }
     return fn(props)
@@ -159,6 +173,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     variant,
     status,
     subtle,
+    icon,
     hideBadge,
     context,
     ...restProps
@@ -204,10 +219,30 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
       {...restProps}
     >
       {label && <span className="dnb-sr-only">{label} </span>}
+      {icon && <BadgeIcon icon={icon} />}
       {content}
     </span>
   )
 })
+
+function BadgeIcon({ icon }: { icon: IconIcon }) {
+  if (isIconElement(icon)) {
+    return cloneElement(icon, {
+      className: clsx('dnb-badge__icon', icon.props.className),
+    })
+  }
+
+  return <IconPrimary icon={icon} className="dnb-badge__icon" />
+}
+
+function isIconElement(
+  element: unknown
+): element is ReactElement<IconAllProps> {
+  return (
+    isValidElement(element) &&
+    (element.type === Icon || element.type === IconPrimary)
+  )
+}
 
 withComponentMarkers(Badge, {
   _supportsSpacingProps: true,

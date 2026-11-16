@@ -96,6 +96,13 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         })
       })
     })
+    describe('icon', () => {
+      it('have to match an icon, a country flag and a logo', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-icon"]',
+        })
+      })
+    })
     describe('status', () => {
       it('have to match all status variants', async () => {
         await makeScreenshot({

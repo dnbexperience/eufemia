@@ -5,6 +5,7 @@ import Badge from '../Badge'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
+import CountryFlag from '../../CountryFlag'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
@@ -269,6 +270,75 @@ describe('Badge', () => {
       expect(element).not.toHaveClass('dnb-badge--status-positive')
       expect(element).not.toHaveClass('dnb-badge--subtle')
       expect(element).toHaveClass('dnb-badge--variant-notification')
+    })
+  })
+
+  describe('icon prop', () => {
+    it('renders a primary icon by name before the content', () => {
+      render(<Badge content="Due today" icon="calendar" />)
+
+      const badge = document.querySelector('.dnb-badge')
+      const icon = badge.querySelector('.dnb-badge__icon')
+
+      expect(icon).toHaveClass('dnb-icon')
+      expect(icon.querySelector('svg')).toBeInTheDocument()
+      expect(icon).toHaveAttribute('aria-hidden', 'true')
+      expect(badge.firstElementChild).toBe(icon)
+      expect(badge).toHaveTextContent('Due today')
+    })
+
+    it('renders an icon component', () => {
+      render(<Badge content="Party" icon={Confetti} />)
+
+      expect(
+        document.querySelector('.dnb-badge .dnb-badge__icon svg')
+      ).toBeInTheDocument()
+    })
+
+    it('renders an Icon element without wrapping it in another icon', () => {
+      render(
+        <Badge
+          content="Party"
+          icon={<Icon icon={Confetti} className="custom" />}
+        />
+      )
+
+      const icons = document.querySelectorAll('.dnb-badge .dnb-icon')
+
+      expect(icons).toHaveLength(1)
+      expect(icons[0]).toHaveClass('dnb-badge__icon', 'custom')
+    })
+
+    it('renders other elements, such as a CountryFlag, inside the icon', () => {
+      render(<Badge content="Norway" icon={<CountryFlag iso="NO" />} />)
+
+      expect(
+        document.querySelector('.dnb-badge__icon .dnb-country-flag')
+      ).toBeInTheDocument()
+    })
+
+    it('places the icon after the label', () => {
+      render(<Badge content="Due today" label="Status" icon="calendar" />)
+
+      const badge = document.querySelector('.dnb-badge')
+
+      expect(badge.children[0]).toHaveClass('dnb-sr-only')
+      expect(badge.children[1]).toHaveClass('dnb-badge__icon')
+    })
+
+    it('does not render the icon for non-information variants', () => {
+      render(
+        <Badge
+          content={1}
+          label="Notifications"
+          variant="notification"
+          icon="calendar"
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-badge__icon')
+      ).not.toBeInTheDocument()
     })
   })
 

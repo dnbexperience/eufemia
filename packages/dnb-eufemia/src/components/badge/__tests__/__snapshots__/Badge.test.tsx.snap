@@ -51,6 +51,9 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   background-color: var(--badge-information-bg);
   color: var(--badge-information-color, inherit);
 }
+.dnb-badge__icon {
+  margin-inline-end: 0.5rem;
+}
 .dnb-badge--subtle {
   background-color: var(--badge-information-subtle-bg);
   color: var(--badge-information-subtle-color, var(--badge-information-color));

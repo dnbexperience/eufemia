@@ -5,7 +5,15 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useState } from 'react'
-import { Badge, Avatar, Button, Grid, Flex, P } from '@dnb/eufemia/src'
+import {
+  Badge,
+  Avatar,
+  Button,
+  CountryFlag,
+  Grid,
+  Flex,
+  P,
+} from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const BadgeNotification = () => (
@@ -194,6 +202,26 @@ export const BadgeStatus = () => (
       <Badge content="negative" status="negative" />
       <Badge content="negative (subtle)" status="negative" subtle />
     </Grid.Container>
+  </ComponentBox>
+)
+
+export const BadgeIcon = () => (
+  <ComponentBox data-visual-test="badge-icon">
+    <Flex.Horizontal gap="small">
+      <Badge content="Due today" icon="calendar" status="neutral" />
+      <Badge
+        content="Norway"
+        icon={<CountryFlag iso="NO" />}
+        status="neutral"
+        subtle
+      />
+      <Badge
+        content="DNB"
+        icon={<img src="/dnb/android-chrome-192x192.png" alt="" />}
+        status="neutral"
+        subtle
+      />
+    </Flex.Horizontal>
   </ComponentBox>
 )
 
