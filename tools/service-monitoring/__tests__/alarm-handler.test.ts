@@ -105,7 +105,7 @@ it('rejects other topics before reading the bot secret', async () => {
   await expect(handler(value)).rejects.toThrow()
   expect(mocks.secret).not.toHaveBeenCalled()
 })
-it('does not fail an undelivered-alarm notice into the queue that alarm counts', async () => {
+it('skips the failures queue when the undelivered-alarm notice fails', async () => {
   vi.stubEnv('UNDELIVERED_ALARM', 'monitor-undelivered')
   mocks.process.mockRejectedValue(new Error('Slack unavailable'))
   const transition = (AlarmName: string) =>
