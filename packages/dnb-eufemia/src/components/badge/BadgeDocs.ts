@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const BadgeProperties: PropertiesTableProps = {
   content: {
-    doc: 'Content of the component.',
+    doc: 'Content of the component. Without content, the `notification` variant is shown as a small dot, and requires a `label`.',
     type: ['string', 'number', 'React.ReactNode'],
     status: 'optional',
   },

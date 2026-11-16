@@ -134,6 +134,69 @@ describe('Badge', () => {
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
+  describe('notification indicator', () => {
+    it('renders an indicator when the notification variant has no content', () => {
+      render(<Badge variant="notification" label="New messages" />)
+
+      const badge = document.querySelector('.dnb-badge')
+      expect(badge).toHaveClass(
+        'dnb-badge--variant-notification',
+        'dnb-badge--indicator'
+      )
+      expect(badge).toHaveTextContent('New messages')
+    })
+
+    it('renders an indicator on top of children', () => {
+      render(
+        <Badge variant="notification" label="New messages">
+          <Avatar.Group label="Persons">
+            <Avatar>A</Avatar>
+          </Avatar.Group>
+        </Badge>
+      )
+
+      expect(
+        document.querySelector('.dnb-badge__root .dnb-badge--indicator')
+      ).toBeInTheDocument()
+    })
+
+    it('does not render an indicator when there is content', () => {
+      render(
+        <Badge variant="notification" label="Notifications" content={0} />
+      )
+
+      expect(document.querySelector('.dnb-badge')).not.toHaveClass(
+        'dnb-badge--indicator'
+      )
+    })
+
+    it('does not render an indicator for the information variant', () => {
+      render(<Badge variant="information" />)
+
+      expect(document.querySelector('.dnb-badge')).not.toHaveClass(
+        'dnb-badge--indicator'
+      )
+    })
+
+    it('warns when the indicator is missing a label', () => {
+      process.env.NODE_ENV = 'development'
+      global.console.log = vi.fn()
+      render(<Badge variant="notification" />)
+      expect(global.console.log).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.stringContaining('Label required')
+      )
+    })
+
+    it('does not warn when the indicator has a label', () => {
+      process.env.NODE_ENV = 'development'
+      global.console.log = vi.fn()
+      render(<Badge variant="notification" label="New messages" />)
+      expect(global.console.log).not.toHaveBeenCalled()
+    })
+  })
+
   it('does not warn when Badge content is a number and has a label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = vi.fn()
