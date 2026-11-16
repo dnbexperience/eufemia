@@ -12,27 +12,30 @@ EventBridge Scheduler runs CDN at :07, MCP at :11, Analytics at :17 and Tokens a
 
 ## When an alert fires
 
-Each outage post lists the failing checks with their reasons and links to the service and the monitor's logs. Start there, then use the entry for the service below. The recovery reply comes from the next healthy check, so nothing needs closing by hand. While an incident is open, new failures in the same service only update the overview. To rerun a check without posting, use the local diagnostic commands in [Local validation](#local-validation). To roll back a monitor change, revert it on main; the next handoff deploys the previous package.
+Each outage post lists the failing checks with their reasons and links to the service and the monitor's logs. Start there, then use the entry for the service below. The recovery reply comes from the next healthy check, so nothing needs closing by hand. While an incident is open, new failures in the same service only update the overview. To rerun a check without posting, use the local diagnostic commands in [Local validation](#local-validation); Tokens has none, and check:analytics needs the GHE settings in the [analytics README](../analytics/README.md#production-health-monitor) for its GHE deploy run check. To roll back a monitor change, revert it on main; the next handoff deploys the previous package.
 
-A 403 or 429 from the GitHub API in a deployment source or PAT expiry workflow check is the unauthenticated GitHub API limit. It clears by itself; provision the optional read-only GitHub token if it repeats.
+Without the optional read-only GitHub token, a 403 or 429 from the GitHub API in a deployment source or PAT expiry workflow check is the unauthenticated GitHub API limit. It clears by itself; provision the token if it repeats.
 
 ### CDN
 
 - **HTTP 403 or 404 on an asset URL:** the asset is missing from the CDN. For a new release the check waits 60 minutes before alerting, so a post means the release has not reached the CDN: check the latest assets deployment ([assets hosting](../assets/README.md#deployment)).
 - **"blocked by Akamai, reference …":** the edge firewall denied the monitor's request. Send the reference to the team that owns the edge configuration; the service itself may be fine.
-- **npm latest:** the npm registry did not answer; the CDN itself may be fine.
+- **npm latest:** the npm registry did not answer or returned invalid metadata; the CDN itself may be fine.
+- **Wrong content type, CORS, signature or manifest mismatch on an asset, or an invalid manifest:** the CDN serves a wrong or changed file. These fail at once, without the release grace period. Check the latest assets deployment.
 - **stable-manifest/…:** the stable alias still serves an older version than npm reports after the edge cache settled. Check the latest assets deployment.
 
 ### MCP
 
 - **HTTP health, negotiation, tools, documentation or metadata:** the MCP server is down or answers incorrectly. Open the service link and the MCP Lambda logs, then the latest MCP deployment ([continuous deployment](../mcp-lambda/README.md#continuous-deployment)).
-- **deployed source or deployment rollout:** the server does not run the commit the deployment published, or the deployment has run for more than 60 minutes. Check that deployment run.
+- **deployment source or deployed source:** the latest deployment failed, has run for more than 60 minutes, or the server does not run the commit it published. Check that deployment run.
 
 ### Analytics
 
-- **API health or dashboard:** the analytics API or dashboard is down. Check the analytics Lambda logs.
+- **API health:** the analytics API is down. Check the analytics Lambda logs.
+- **dashboard:** the dashboard page or its script is missing. The dashboard is a static site, so check the latest analytics deployment, which uploads it.
 - **"GHE deploy run: Token expired or revoked (HTTP 401)":** the monitor's own GHE token has expired. Replace the value of eufemia/<environment>/monitoring/ghe-analytics-token; the next hourly check recovers.
-- **deployed source or deployment rollout:** as for MCP, for the analytics deployment.
+- **Other GHE deploy run failures:** the internal deploy run failed, has run for more than 60 minutes, or the monitor's GHE settings are missing. Check the internal deploy run.
+- **deployment source or deployed source:** as for MCP, for the analytics deployment.
 
 ### Tokens
 
@@ -40,7 +43,7 @@ A 403 or 429 from the GitHub API in a deployment source or PAT expiry workflow c
 
 ### Monitoring
 
-Monitor-health alarms share one Monitoring incident. Its post names the alarm that opened it and that alarm's description.
+Monitor-health alarms share one Monitoring incident. Its post names the alarm that opened it and that alarm's description, when it has one. Later alarms post nothing while the incident is open, and it recovers only when every alarm is OK, so check the CloudWatch alarm list for others in ALARM.
 
 - **-not-completing:** a check reported no completed run in two hourly periods. Inspect the Lambda logs and Scheduler delivery. The first deployment of a new monitor opens and closes this within about a minute; that is expected.
 - **-execution-errors:** a check Lambda threw an error. Inspect its logs.
