@@ -96,7 +96,6 @@ jobs:
         # has its own job below — keep this list complete when adding one.
         run: |
           yarn workspace @dnb/eufemia lint:ci
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
           yarn workspace eufemia-mcp-lambda lint
           yarn workspace eufemia-usage-ingest lint
           yarn workspace eufemia-raiwork-plugin lint
@@ -188,7 +187,6 @@ jobs:
           yarn workspace eufemia-css-optimizer test:types
           yarn workspace eufemia-llm-metadata test:types
           yarn workspace eufemia-raiwork-plugin test:types
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
           yarn workspace eufemia-mcp-lambda typecheck
           yarn workspace eufemia-usage-ingest typecheck
           yarn workspace eufemia-analytics test:types
@@ -237,7 +235,6 @@ jobs:
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
           yarn workspace eufemia-raiwork-plugin test
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy test
           yarn workspace eufemia-mcp-lambda test
           yarn workspace eufemia-analytics test
           yarn workspace eufemia-analytics-dashboard test
