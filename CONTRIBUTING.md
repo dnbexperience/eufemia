@@ -4,6 +4,10 @@
 
 Find more information about how to contribute in [the development](https://eufemia.dnb.no/web/contribute) section. But in short, follow along and read the rest of this short readme text.
 
+## Contributions and licensing
+
+By submitting a contribution, you agree to the contributor grant in section 3 of the [Eufemia license](./LICENSE) and confirm that you have the right to grant it.
+
 ## Requirements
 
 Install [Node.js](https://nodejs.org) and [yarn](https://yarnpkg.com).

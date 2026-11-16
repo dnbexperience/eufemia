@@ -92,6 +92,10 @@ const copyUMD = async (
 }
 
 const createReadMe = async () => {
+  await fs.copy(
+    path.resolve(ROOT_DIR, 'LICENSE'),
+    path.resolve(ROOT_DIR, 'dnb-ui-resources/LICENSE')
+  )
   log.start('> PrePublish: write README.md to resources')
   await fs.writeFile(
     'dnb-ui-resources/README.md',
@@ -104,7 +108,8 @@ To make usage of the content, copy the \`style\`, \`umd\` and \`resources\` fold
 
 For documentation, visit: https://eufemia.dnb.no/
 
-License: Apache 2.0 with Commons Clause
+License: Eufemia DNB Project License v1.0. See the included LICENSE.
+Use is limited to DNB Group projects. Third-party materials retain their own terms.
 `
   )
 }
