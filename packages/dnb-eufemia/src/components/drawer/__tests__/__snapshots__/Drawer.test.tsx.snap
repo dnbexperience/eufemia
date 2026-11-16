@@ -1799,10 +1799,10 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 }
 .dnb-drawer__reveal-target {
   will-change: transform, opacity;
-  transition: transform var(--drawer-reveal-duration), opacity var(--drawer-reveal-duration);
+  transition: transform var(--drawer-reveal-duration);
 }
 .dnb-drawer__reveal-target:where(.dnb-drawer__reveal-opening) {
-  transition: transform var(--drawer-reveal-duration), opacity calc(var(--drawer-reveal-duration) * 0.75) calc(var(--drawer-reveal-duration) * 0.25);
+  transition: transform var(--drawer-reveal-duration), opacity var(--drawer-reveal-duration) var(--drawer-reveal-duration);
 }
 .dnb-drawer__reveal-dragging, .dnb-drawer__reveal-dragging .dnb-drawer__reveal-edge, .dnb-drawer__reveal-dragging .dnb-drawer, .dnb-drawer__reveal-dragging .dnb-drawer > * {
   transition: none;

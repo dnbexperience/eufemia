@@ -283,16 +283,13 @@
 
   &__reveal-target {
     will-change: transform, opacity;
-    transition:
-      transform var(--drawer-reveal-duration),
-      opacity var(--drawer-reveal-duration);
+    transition: transform var(--drawer-reveal-duration);
 
     &:where(.dnb-drawer__reveal-opening) {
-      // Default easing reaches roughly 40% of the distance after 25% of the time.
+      // Fade only after the page stops moving to keep iOS dragging smooth.
       transition:
         transform var(--drawer-reveal-duration),
-        opacity calc(var(--drawer-reveal-duration) * 0.75)
-          calc(var(--drawer-reveal-duration) * 0.25);
+        opacity var(--drawer-reveal-duration) var(--drawer-reveal-duration);
     }
   }
 

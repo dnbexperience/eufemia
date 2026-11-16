@@ -424,16 +424,11 @@ test.describe('Portal sidebar reveal', () => {
     expect(positions.some(({ x, width }) => x > 0 && x < width / 2)).toBe(
       true
     )
-    const beforeFade = positions.filter(
-      ({ x, width }) => x > 0 && x < width * 0.35
+    const moving = positions.filter(
+      ({ x, width }) => x > 0 && x < width - 0.5
     )
-    expect(beforeFade.length).toBeGreaterThan(0)
-    expect(beforeFade.every(({ opacity }) => opacity === 1)).toBe(true)
-    expect(
-      positions.some(
-        ({ x, width, opacity }) => x > width * 0.5 && opacity < 1
-      )
-    ).toBe(true)
+    expect(moving.length).toBeGreaterThan(0)
+    expect(moving.every(({ opacity }) => opacity === 1)).toBe(true)
     await expect(dialog).toBeFocused()
     await test.step('keeps Close right without duplicating the page logo', async () => {
       await page.evaluate(() => document.fonts.ready)
@@ -591,6 +586,7 @@ test.describe('Portal sidebar reveal', () => {
     )
     const surface = page.locator('.portal-reveal-page')
     await expect(surface).toHaveClass(/dnb-drawer__reveal-dragging/)
+    await expect(surface).toHaveCSS('opacity', '1')
     await expect(link).toHaveCSS('background-color', background)
     await page.mouse.up()
     await link.evaluate((element) => {

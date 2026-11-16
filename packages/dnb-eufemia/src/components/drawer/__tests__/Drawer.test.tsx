@@ -1248,6 +1248,9 @@ describe('Drawer reveal', () => {
       if (opened) {
         fireEvent.click(document.querySelector('.dnb-modal__trigger'))
       }
+      expect(Number(page.style.opacity || 1)).toBeCloseTo(
+        opened ? 0.68 : 1
+      )
       const content = opened
         ? document.querySelector('.dnb-drawer__content h1')
         : page.querySelector('p')
@@ -1290,17 +1293,13 @@ describe('Drawer reveal', () => {
       expect(page.style.transform).toBe(
         `translate3d(${opened ? 220 : 80}px, 0, 0)`
       )
-      for (const [offset, opacity] of [
-        [120, 1],
-        [210, 0.84],
-        [300, 0.68],
-      ]) {
+      for (const offset of [120, 210, 300]) {
         const distance = 40 + (opened ? 300 - offset : offset)
         fireEvent.touchMove(content, {
           touches: [{ clientX: position(distance), clientY: 100 }],
         })
         paint()
-        expect(Number(page.style.opacity)).toBeCloseTo(opacity)
+        expect(page.style.opacity).toBe('1')
         const drawer = document.querySelector<HTMLElement>('.dnb-drawer')
         expect(drawer.style.transform).toBe(
           `translate3d(${offset - 300}px, 0, 0)`
@@ -1318,6 +1317,7 @@ describe('Drawer reveal', () => {
       expect(page.style.transform).toBe(
         opened ? 'translate3d(300px, 0, 0)' : ''
       )
+      expect(page.style.opacity).toBe(opened ? '0.68' : '')
     }
   )
 

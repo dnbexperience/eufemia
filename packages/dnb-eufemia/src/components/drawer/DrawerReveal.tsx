@@ -429,12 +429,10 @@ function RevealSurface({
         offset = 0
       }
       const transform = `translate3d(${offset}px, 0, 0)`
-      const progress = reveal.width ? offset / reveal.width : 0
       surfaces.forEach((element) => {
         element.style.transform = transform
-        element.style.opacity = String(
-          1 - 0.32 * Math.max(0, (progress - 0.4) / 0.6)
-        )
+        element.style.opacity =
+          !reveal.dragging && offset === reveal.width ? '0.68' : '1'
       })
       edge.style.transform = transform
       // Move the clipping boundary with the page while keeping menu content stationary.
