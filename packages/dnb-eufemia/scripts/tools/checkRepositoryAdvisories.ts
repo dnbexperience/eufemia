@@ -438,19 +438,39 @@ async function fetchAdvisories(
   return advisories
 }
 
-// The npm library and the deployed Lambdas, as audited by their `audit:ci`
-const shippedWorkspaces = [
-  'packages/dnb-eufemia',
-  'tools/mcp-lambda',
-  'tools/analytics',
-  'tools/service-monitoring',
-]
+// Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas
+export function getShippedWorkspaces() {
+  const { workspaces } = JSON.parse(
+    fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf-8')
+  )
 
-// GHSA ID -> owner, reason and tracking link. Remove an entry once it is fixed.
+  return (workspaces as string[])
+    .flatMap((pattern) => {
+      if (!pattern.endsWith('/*')) {
+        return [pattern]
+      }
+      const parent = pattern.slice(0, -2)
+      return fs
+        .readdirSync(path.join(repoRoot, parent))
+        .sort()
+        .map((name) => `${parent}/${name}`)
+    })
+    .filter((workspace) => {
+      const file = path.join(repoRoot, workspace, 'package.json')
+      return (
+        fs.existsSync(file) &&
+        Boolean(
+          JSON.parse(fs.readFileSync(file, 'utf-8')).scripts?.['audit:ci']
+        )
+      )
+    })
+}
+
+// GHSA ID -> owner, reason and tracking link
 const acceptedAdvisories: Record<string, string> = {}
 
 export async function checkRepositoryAdvisories({
-  workspaces = shippedWorkspaces,
+  workspaces = getShippedWorkspaces(),
   accepted = acceptedAdvisories,
 } = {}) {
   const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN
@@ -529,6 +549,15 @@ export async function checkRepositoryAdvisories({
         `  Could not read the affected versions ("${match.unreadableRange}"). Check by hand whether ${match.version} is affected.`
       )
     }
+  }
+
+  const stale = Object.keys(accepted).filter(
+    (ghsaId) => !matches.some((match) => match.ghsaId === ghsaId)
+  )
+  if (stale.length > 0) {
+    throw new Error(
+      `${stale.join(', ')} no longer affects a shipped package. Remove it from acceptedAdvisories.`
+    )
   }
 
   return matches.filter(({ ghsaId }) => !accepted[ghsaId])

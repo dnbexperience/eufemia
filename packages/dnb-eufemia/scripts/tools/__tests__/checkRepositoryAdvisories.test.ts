@@ -3,6 +3,7 @@ import {
   checkRepositoryAdvisories,
   findAdvisoryMatches,
   getProductionPackages,
+  getShippedWorkspaces,
   isPatched,
   isVersionInRange,
   parseLockfile,
@@ -561,6 +562,26 @@ describe('checkRepositoryAdvisories', () => {
       ],
     })
 
+    const workspaces = ['packages/dnb-eufemia', 'tools/mcp-lambda']
+    const stubWorkspaces = () => {
+      const files: Record<string, string> = {
+        'yarn.lock': lockfile,
+        'packages/dnb-eufemia/package.json': JSON.stringify({
+          dependencies: { a: '1.0.0' },
+        }),
+        'tools/mcp-lambda/package.json': JSON.stringify({
+          dependencies: { 'dev-only': '9.0.0' },
+        }),
+      }
+      const readFileSync = fs.readFileSync
+      vi.spyOn(fs, 'readFileSync').mockImplementation((file, options) => {
+        const fixture = Object.keys(files).find((name) =>
+          String(file).endsWith(name)
+        )
+        return fixture ? files[fixture] : readFileSync(file, options)
+      })
+    }
+
     beforeEach(() => {
       vi.spyOn(console, 'log').mockImplementation(() => undefined)
     })
@@ -606,34 +627,55 @@ describe('checkRepositoryAdvisories', () => {
       await expect(checkRepositoryAdvisories()).resolves.toEqual([])
     })
 
-    it('checks the production packages of the deployed Lambdas', async () => {
-      stubFetch(200, undefined, [advisoryFor('@aws-sdk/client-s3')])
+    it('checks every workspace with an audit:ci script', () => {
+      const shipped = getShippedWorkspaces()
 
-      const ghsaIds = async (workspaces?: string[]) =>
-        (await checkRepositoryAdvisories({ workspaces })).map(
+      expect(shipped).toContain('packages/dnb-eufemia')
+      expect(shipped).not.toContain('packages/dnb-design-system-portal')
+    })
+
+    it('checks the production packages of every given workspace', async () => {
+      stubWorkspaces()
+      stubFetch(200, undefined, [advisoryFor('dev-only')])
+
+      const ghsaIds = async (selected: string[]) =>
+        (await checkRepositoryAdvisories({ workspaces: selected })).map(
           ({ ghsaId }) => ghsaId
         )
 
-      expect(await ghsaIds()).toContain('GHSA-@aws-sdk/client-s3')
+      expect(await ghsaIds(workspaces)).toEqual(['GHSA-dev-only'])
       expect(await ghsaIds(['packages/dnb-eufemia'])).toEqual([])
     })
 
     it('does not report an accepted advisory', async () => {
-      stubFetch(200, undefined, [advisoryFor('postcss-selector-parser')])
+      stubWorkspaces()
+      stubFetch(200, undefined, [advisoryFor('c')])
 
-      await expect(checkRepositoryAdvisories()).resolves.toEqual([
-        expect.objectContaining({
-          ghsaId: 'GHSA-postcss-selector-parser',
-        }),
-      ])
+      await expect(
+        checkRepositoryAdvisories({ workspaces })
+      ).resolves.toEqual([expect.objectContaining({ ghsaId: 'GHSA-c' })])
       await expect(
         checkRepositoryAdvisories({
-          accepted: { 'GHSA-postcss-selector-parser': 'Tracked in #1' },
+          workspaces,
+          accepted: { 'GHSA-c': 'Tracked in #1' },
         })
       ).resolves.toEqual([])
     })
 
+    it('fails when an accepted advisory no longer matches', async () => {
+      stubWorkspaces()
+      stubFetch(200)
+
+      await expect(
+        checkRepositoryAdvisories({
+          workspaces,
+          accepted: { 'GHSA-fixed': 'Tracked in #1' },
+        })
+      ).rejects.toThrow('GHSA-fixed no longer affects a shipped package')
+    })
+
     it('reads every page of advisories on the GitHub API', async () => {
+      stubWorkspaces()
       const nextPage =
         'https://api.github.com/repositories/1/security-advisories?after=abc'
       const fetchMock = vi.fn(async (url: string) => {
@@ -668,7 +710,7 @@ describe('checkRepositoryAdvisories', () => {
                       {
                         package: {
                           ecosystem: 'npm',
-                          name: 'postcss-selector-parser',
+                          name: 'c',
                         },
                         vulnerable_version_range: '>= 0.0.1',
                       },
@@ -680,7 +722,7 @@ describe('checkRepositoryAdvisories', () => {
       })
       vi.stubGlobal('fetch', fetchMock)
 
-      const matches = await checkRepositoryAdvisories()
+      const matches = await checkRepositoryAdvisories({ workspaces })
 
       expect(matches.map(({ ghsaId }) => ghsaId)).toContain(
         'GHSA-next-page'
