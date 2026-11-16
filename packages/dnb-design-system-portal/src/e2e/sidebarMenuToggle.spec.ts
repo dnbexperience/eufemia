@@ -221,38 +221,43 @@ test.describe('Portal sidebar reveal', () => {
     const surface = page.locator('.portal-reveal-page')
     const opening = surface.evaluate(
       (element) =>
-        new Promise<{ x: number; width: number; opacity: number }[]>(
-          (resolve) => {
-            const positions: {
-              x: number
-              width: number
-              opacity: number
-            }[] = []
-            const sample = () => {
-              const drawer = document.querySelector(
-                '#portal-sidebar-menu-drawer .dnb-drawer'
-              )
-              if (drawer) {
-                const x = element.getBoundingClientRect().x
-                const width = drawer.getBoundingClientRect().width
-                positions.push({
-                  x,
-                  width,
-                  opacity: Number(getComputedStyle(element).opacity),
-                })
-                if (x >= width - 0.5) {
-                  resolve(positions)
-                  return
-                }
+        new Promise<
+          { x: number; width: number; right: number; opacity: number }[]
+        >((resolve) => {
+          const positions: {
+            x: number
+            width: number
+            right: number
+            opacity: number
+          }[] = []
+          const sample = () => {
+            const drawer = document.querySelector(
+              '#portal-sidebar-menu-drawer .dnb-drawer'
+            )
+            if (drawer) {
+              const x = element.getBoundingClientRect().x
+              const width = drawer.getBoundingClientRect().width
+              positions.push({
+                x,
+                width,
+                right: drawer.getBoundingClientRect().right,
+                opacity: Number(getComputedStyle(element).opacity),
+              })
+              if (x >= width - 0.5) {
+                resolve(positions)
+                return
               }
-              requestAnimationFrame(sample)
             }
-            sample()
+            requestAnimationFrame(sample)
           }
-        )
+          sample()
+        })
     )
     await trigger.click()
     const positions = await opening
+    positions.forEach(({ x, right }) => {
+      expect(right).toBeCloseTo(x, 0)
+    })
     expect(positions.some(({ x, width }) => x > 0 && x < width / 2)).toBe(
       true
     )
@@ -444,6 +449,7 @@ test.describe('Portal sidebar reveal', () => {
     browserName,
   }) => {
     test.skip(browserName !== 'chromium', 'Touch input uses Chromium CDP')
+    await page.emulateMedia({ colorScheme: 'dark' })
     const session = await page.context().newCDPSession(page)
     const dialog = page.locator('#portal-sidebar-menu-drawer')
     const surface = page.locator('.portal-reveal-page')
@@ -488,7 +494,7 @@ test.describe('Portal sidebar reveal', () => {
       .toBe(closedX)
     expect(
       await dialog
-        .locator('.dnb-drawer')
+        .locator('.dnb-drawer__reveal-scroll')
         .evaluate((element) => element.getBoundingClientRect().x)
     ).toBe(0)
     await touch('touchMove', 300)
@@ -633,8 +639,15 @@ test.describe('Portal sidebar reveal', () => {
       .toBeCloseTo(menuWidth - (x - 30 - 10), 0)
     const settling = surface.evaluate(
       (element) =>
-        new Promise<{ x: number; linkX: number }[]>((resolve) => {
-          const positions: { x: number; linkX: number }[] = []
+        new Promise<
+          { x: number; linkX: number; right: number; edgeX: number }[]
+        >((resolve) => {
+          const positions: {
+            x: number
+            linkX: number
+            right: number
+            edgeX: number
+          }[] = []
           const sample = () => {
             const link = document.querySelector(
               '#portal-sidebar-menu-drawer a'
@@ -646,6 +659,14 @@ test.describe('Portal sidebar reveal', () => {
             positions.push({
               x: element.getBoundingClientRect().x,
               linkX: link.getBoundingClientRect().x,
+              right: document
+                .querySelector('#portal-sidebar-menu-drawer .dnb-drawer')
+                .getBoundingClientRect().right,
+              edgeX: document
+                .querySelector(
+                  '#portal-sidebar-menu-drawer .dnb-drawer__reveal-edge'
+                )
+                .getBoundingClientRect().x,
             })
             requestAnimationFrame(sample)
           }
@@ -661,6 +682,8 @@ test.describe('Portal sidebar reveal', () => {
         (positions[index - 1]?.x ?? menuWidth - (x - 30 - 10)) + 1
       )
       expect(position.linkX).toBeCloseTo(bounds.x, 0)
+      expect(position.right).toBeCloseTo(position.x, 0)
+      expect(position.edgeX).toBeCloseTo(position.x, 0)
     })
     expect(page.url()).toBe(url)
 

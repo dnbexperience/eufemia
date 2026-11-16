@@ -290,6 +290,7 @@ function RevealSurface({
     if (!drawer || !surfaces.length) {
       return undefined
     }
+    const menuSurfaces = Array.from(drawer.children) as HTMLElement[]
     const overlay = dialog.nextElementSibling as HTMLElement
     const layers = [dialog, overlay].filter(Boolean)
     const previousLayerStyles = layers.map((element) =>
@@ -413,8 +414,11 @@ function RevealSurface({
         )
       })
       edge.style.transform = transform
-      // Avoid invalidating inherited custom properties across the menu each frame.
-      drawer.style.clipPath = `inset(0 ${Math.max(0, reveal.width - offset)}px 0 0)`
+      // Move the clipping boundary with the page while keeping menu content stationary.
+      drawer.style.transform = `translate3d(${offset - reveal.width}px, 0, 0)`
+      menuSurfaces.forEach((element) => {
+        element.style.transform = `translate3d(${reveal.width - offset}px, 0, 0)`
+      })
     }
     const measure = () => {
       reveal.width = drawer.getBoundingClientRect().width

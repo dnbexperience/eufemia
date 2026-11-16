@@ -1301,6 +1301,17 @@ describe('Drawer reveal', () => {
         })
         paint()
         expect(Number(page.style.opacity)).toBeCloseTo(opacity)
+        const drawer = document.querySelector<HTMLElement>('.dnb-drawer')
+        expect(drawer.style.transform).toBe(
+          `translate3d(${offset - 300}px, 0, 0)`
+        )
+        drawer
+          .querySelectorAll<HTMLElement>(':scope > *')
+          .forEach((element) => {
+            expect(element.style.transform).toBe(
+              `translate3d(${300 - offset}px, 0, 0)`
+            )
+          })
       }
       fireEvent.touchCancel(content, { touches: [] })
       expect(page).not.toHaveClass('dnb-drawer__reveal-dragging')
