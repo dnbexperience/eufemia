@@ -19,6 +19,7 @@ import tags from '../shared/tags'
 import Heading, { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb, Button, P } from '@dnb/eufemia/src'
+import { edit as EditIcon } from '@dnb/eufemia/src/icons'
 import PropertiesUsage from '../docs/_shared/_properties-usage.mdx'
 import { resolveEditSourcePath } from './editSourcePath'
 import { getSuggestEditUrl } from './suggestEdit'
@@ -316,7 +317,7 @@ function Content({
           variant="secondary"
           text="Suggest an edit"
           className="dnb-print-hidden"
-          icon="edit"
+          icon={EditIcon}
           iconPosition="left"
           href={getSuggestEditUrl(pagePath, sourcePath)}
           top="large"
