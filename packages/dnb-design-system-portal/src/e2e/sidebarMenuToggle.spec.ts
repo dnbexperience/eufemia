@@ -366,10 +366,11 @@ test.describe('Portal sidebar reveal', () => {
     const header = await dialog
       .locator('.dnb-drawer__navigation')
       .boundingBox()
-    const content = await dialog
-      .locator('.dnb-drawer__reveal-content')
+    const scroll = await dialog
+      .locator('.dnb-drawer__reveal-scroll')
       .boundingBox()
-    expect(content.y).toBeCloseTo(header.y + header.height, 0)
+    // The selected item may already have scrolled the menu content into view.
+    expect(scroll.y).toBeCloseTo(header.y + header.height, 0)
     await expect(
       dialog.getByRole('link', { name: 'Home', exact: true })
     ).toBeVisible()
