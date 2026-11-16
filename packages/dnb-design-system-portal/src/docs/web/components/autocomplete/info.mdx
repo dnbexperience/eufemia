@@ -64,7 +64,7 @@ If you need to format numbers, then do it before you send in the data content.
 
 It is possible to wrap your content inside one HTML Element. Nested elements are **not** supported.
 
-Don't put links, buttons or other interactive elements inside the content. Users move between items with the arrow keys and choose one with Enter, so those elements are skipped, and many screen readers announce an item's content as plain text. Handle the action in `onChange` instead.
+Keep item content free of links, buttons and other interactive elements. Arrow-key navigation skips nested controls, which can make mouse and keyboard behavior differ. Handle selection in `onChange`. For navigation, use a [Menu](/web/components/menu/) or a results list with real links.
 
 To wrap your content only visually, you can provide your wrappers inside an array:
 

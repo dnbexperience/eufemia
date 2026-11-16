@@ -20,7 +20,7 @@ Before using this component, ensure there is not a more specific [field componen
 
 Uses the [Field.Option](/web/forms/base-fields/Option/) pseudo-component to define options.
 
-In the `dropdown` and `autocomplete` variants, don't put links, buttons or other interactive elements in an option's `title` or `text`. Users move between options with the arrow keys and choose one with Enter, so those elements are skipped.
+In the `dropdown` and `autocomplete` variants, keep an option's `title` and `text` free of links, buttons and other interactive elements. Arrow-key navigation skips nested controls. Handle selection in `onChange`; use a [Menu](/web/components/menu/) or a results list with real links for navigation.
 
 There is a corresponding [Value.Selection](/web/forms/Value/Selection) component.
 
