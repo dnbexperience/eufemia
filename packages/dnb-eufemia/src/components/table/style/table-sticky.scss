@@ -26,9 +26,10 @@
     (animation-range: 0 1px) {
     @media screen {
       tr.sticky.page-scroll {
-        animation: table-sticky-scroll linear both;
-        animation-timeline: scroll(root block);
-        animation-range: var(--table-scroll-start) var(--table-scroll-end);
+        // This positions the header, so reduced-motion resets must not disable it.
+        animation: table-sticky-scroll auto linear both !important;
+        animation-timeline: scroll(root block) !important;
+        animation-range: var(--table-scroll-start) var(--table-scroll-end) !important;
       }
     }
   }

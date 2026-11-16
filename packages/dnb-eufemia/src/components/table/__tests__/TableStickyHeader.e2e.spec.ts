@@ -67,6 +67,24 @@ test.describe('Table sticky header', () => {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.evaluate(() => window.scrollTo(0, 700))
       await expect.poll(headerTop).toBeCloseTo(56, 0)
+
+      for (const reset of [
+        'animation: none !important;',
+        'animation-delay: -1ms !important; animation-duration: 1ms !important;',
+      ]) {
+        const style = await page.addStyleTag({
+          content: `@media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { ${reset} }
+          }`,
+        })
+        for (const scrollY of [700, 3000, 700]) {
+          await page.evaluate((top) => window.scrollTo(0, top), scrollY)
+          await expect.poll(headerTop).toBeCloseTo(56, 0)
+        }
+        await style.evaluate((element) => {
+          element.parentNode?.removeChild(element)
+        })
+      }
     })
 
     // The existing JavaScript fallback keeps its previous offset at the end.
