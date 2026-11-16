@@ -1336,62 +1336,45 @@ export const Sticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
     globalThis?.location?.href
   )
-  const isVisibleWhenVisualTest = globalThis.IS_TEST
   return (
-    <ComponentBox
-      hideCode
-      scope={{ isFullscreen, isVisibleWhenVisualTest }}
-    >
+    <ComponentBox hideCode scope={{ isFullscreen }}>
       <Table.ScrollView>
         <Table
-          sticky={isVisibleWhenVisualTest ? 'css-position' : true}
+          sticky
           stickyOffset={isFullscreen ? 0 : '3.5rem'}
+          style={{ minWidth: '60rem' }}
         >
-          <caption className="dnb-sr-only">A Table Caption</caption>
+          <caption className="dnb-sr-only">
+            Historical exchange rates (sample data)
+          </caption>
           <thead>
             <Tr>
-              <Th colSpan={2}>Header</Th>
-              <Th sortable reversed>
-                <Th.SortButton text="Sortable" title="Sort table column" />
-              </Th>
-              <Th sortable active>
-                <Th.SortButton text="Active" title="Sort table column" />
-              </Th>
+              <Th scope="col">Date</Th>
+              {['USD', 'EUR', 'GBP', 'SEK', 'DKK', 'CHF', 'JPY'].map(
+                (currency) => (
+                  <Th key={currency} scope="col" align="right">
+                    {currency}
+                  </Th>
+                )
+              )}
             </Tr>
           </thead>
           <tbody>
-            <Tr>
-              <Td>
-                <P>
-                  Row 1 <b>with p</b>
-                </P>
-              </Td>
-              <Td>
-                <Code>Row 1 with code</Code>
-              </Td>
-              <Td>
-                <span>Row 1 with span</span>
-              </Td>
-              <Td>Row 1</Td>
-            </Tr>
-            <Tr>
-              <Td colSpan={2}>Column which spans over two columns</Td>
-              <Td>Row 2</Td>
-              <Td>Row 2</Td>
-            </Tr>
-            <Tr>
-              <Td>Row 3</Td>
-              <Td>Row 3</Td>
-              <Td>Row 3</Td>
-              <Td>Row 3</Td>
-            </Tr>
+            {Array.from({ length: 20 }, (_, index) => (
+              <Tr key={index}>
+                <Th scope="row">
+                  2026-01-{String(20 - index).padStart(2, '0')}
+                </Th>
+                <Td align="right">10.1234</Td>
+                <Td align="right">11.5678</Td>
+                <Td align="right">13.4567</Td>
+                <Td align="right">1.0234</Td>
+                <Td align="right">1.5501</Td>
+                <Td align="right">12.3456</Td>
+                <Td align="right">0.0678</Td>
+              </Tr>
+            ))}
           </tbody>
-          <tfoot>
-            <Tr>
-              <Td colSpan={3}>Footer</Td>
-              <Td>Sum</Td>
-            </Tr>
-          </tfoot>
         </Table>
       </Table.ScrollView>
     </ComponentBox>

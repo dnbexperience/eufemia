@@ -870,6 +870,15 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   top: var(--table-top, 0);
 }
 
+@supports (animation-timeline: scroll(root block)) and (animation-range: 0 1px) {
+  @media screen {
+    .dnb-table tr.sticky.page-scroll {
+      animation: table-sticky-scroll linear both;
+      animation-timeline: scroll(root block);
+      animation-range: var(--table-scroll-start) var(--table-scroll-end);
+    }
+  }
+}
 .dnb-table--outline tr.sticky::after {
   content: "";
   position: absolute;
@@ -891,6 +900,14 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   clip-path: inset(6px 0 -48px 0);
 }
 
+@keyframes table-sticky-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, var(--table-scroll-distance), 0);
+  }
+}
 /*
 * Table component
 *
