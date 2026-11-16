@@ -16,10 +16,11 @@ Each outage post lists the failing checks with their reasons and links to the se
 
 Without the optional read-only GitHub token, a 403 or 429 from the GitHub API in a deployment source or PAT expiry workflow check is the unauthenticated GitHub API limit. It clears by itself; provision the token if it repeats.
 
+A failure ending in "(blocked by Akamai, reference …)", in any service, means the edge firewall denied the monitor's request. Send the reference to the team that owns the edge configuration; the service itself may be fine.
+
 ### CDN
 
-- **HTTP 403 or 404 on an asset URL:** the asset is missing from the CDN. For a new release the check waits 60 minutes before alerting, so a post means the release has not reached the CDN: check the latest assets deployment ([assets hosting](../assets/README.md#deployment)).
-- **"blocked by Akamai, reference …":** the edge firewall denied the monitor's request. Send the reference to the team that owns the edge configuration; the service itself may be fine.
+- **HTTP 403 or 404 on an asset URL (without an Akamai reference):** the asset is missing from the CDN. For a new release the check waits 60 minutes before alerting, so a post means the release has not reached the CDN: check the latest assets deployment ([assets hosting](../assets/README.md#deployment)).
 - **npm latest:** the npm registry did not answer or returned invalid metadata; the CDN itself may be fine.
 - **Wrong content type, CORS, signature or manifest mismatch on an asset, or an invalid manifest:** the CDN serves a wrong or changed file. These fail at once, without the release grace period. Check the latest assets deployment.
 - **stable-manifest/…:** the stable alias still serves an older version than npm reports after the edge cache settled. Check the latest assets deployment.
