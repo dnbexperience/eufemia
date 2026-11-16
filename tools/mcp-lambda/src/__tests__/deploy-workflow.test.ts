@@ -24,6 +24,11 @@ describe('GHE deploy workflow', () => {
     expect(smokeTest).not.toMatch(/^\s+(if|continue-on-error):/m)
   })
 
+  it('names an Akamai firewall block', () => {
+    expect(smokeTest).toContain("'403 AkamaiGHost'")
+    expect(smokeTest).toContain('Reference #')
+  })
+
   it('never calls a tool, so the smoke test adds no web usage', () => {
     expect(smokeTest).not.toContain('tools/call')
   })
