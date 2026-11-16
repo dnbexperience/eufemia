@@ -28,7 +28,7 @@ it('names the Akamai reference when Akamai denies a request', async () => {
 })
 
 it.each([
-  ['an origin 403', response(403, null, '{"message":"Forbidden"}')],
+  ['an origin 403', response(403, null)],
   ['another Akamai status', response(503, 'AkamaiGHost')],
   ['an Akamai 403 without a reference', response(403, 'AkamaiGHost', '')],
 ])('adds nothing for %s and consumes the body', async (_, denied) => {
