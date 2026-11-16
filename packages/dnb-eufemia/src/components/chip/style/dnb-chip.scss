@@ -117,6 +117,7 @@
 
     &:has(input:checked:not(:disabled):hover),
     &.dnb-chip__button[aria-pressed='true']:not(:disabled):hover {
+      --chip-control-selected-border: var(--chip-control-border);
       --chip-action-background: var(--token-color-background-action-hover);
       --chip-action-color: var(--token-color-icon-neutral-inverse);
     }
@@ -155,6 +156,7 @@
       --chip-control-selected: var(
         --token-color-background-action-pressed
       );
+      --chip-control-selected-border: var(--chip-control-selected);
       --chip-action-background: var(
         --token-color-background-action-pressed
       );
@@ -429,7 +431,8 @@
     ~ .dnb-checkbox__button {
     background-color: var(--chip-control-selected);
     box-shadow: var(--chip-border-inset) 0 0 0
-      var(--chip-control-border-width) var(--chip-control-selected);
+      var(--chip-control-border-width)
+      var(--chip-control-selected-border, var(--chip-control-selected));
 
     @media (forced-colors: active) {
       background-color: CanvasText;
