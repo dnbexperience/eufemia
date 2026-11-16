@@ -261,6 +261,24 @@ export const iconContrastPairs = [
   },
 ]
 
+// Remove these temporary acceptances when the Coconut error colors are corrected.
+const acceptedContrastChanges = [
+  {
+    theme: 'Coconut light',
+    foreground: '--token-color-text-error',
+    background: '--token-color-background-neutral-base',
+    before: ['#d8134b', '#f2f2f7'],
+    after: ['#c82610', '#dedfd8'],
+  },
+  {
+    theme: 'Coconut light',
+    foreground: '--token-color-text-error',
+    background: '--token-color-background-neutral-alternative',
+    before: ['#d8134b', '#ebebf1'],
+    after: ['#c82610', '#dedfd8'],
+  },
+]
+
 export const reviewTokenChanges = (
   before: ReturnType<typeof loadTokenModes>,
   after: ReturnType<typeof loadTokenModes>
@@ -274,6 +292,7 @@ export const reviewTokenChanges = (
     '| --- | --- | --- | --- |',
   ]
   const regressions: string[] = []
+  const acceptedRegressions: string[] = []
   const existingFailures: string[] = []
   for (const current of after) {
     const previous = before.find(({ name }) => name === current.name)
@@ -333,7 +352,26 @@ export const reviewTokenChanges = (
         ':1)'
       // A sub-threshold pair must not lose contrast. The tolerance only covers numerical noise.
       if (oldRatio >= pair.minimum || newRatio < oldRatio - 0.001) {
-        regressions.push(detail)
+        const accepted = acceptedContrastChanges.some(
+          (change) =>
+            change.theme === current.name &&
+            change.foreground === pair.foreground &&
+            change.background === pair.background &&
+            [pair.foreground, pair.background].every(
+              (name, index) =>
+                sameValue(
+                  name,
+                  previous.tokens[name],
+                  change.before[index]
+                ) &&
+                sameValue(name, current.tokens[name], change.after[index])
+            )
+        )
+        if (accepted) {
+          acceptedRegressions.push(detail)
+        } else {
+          regressions.push(detail)
+        }
       } else {
         existingFailures.push(detail)
       }
@@ -346,6 +384,16 @@ export const reviewTokenChanges = (
     ...(regressions.length
       ? regressions.map((line) => '- ' + line)
       : ['None.']),
+    ...(acceptedRegressions.length
+      ? [
+          '',
+          '## Accepted temporary contrast regressions',
+          '',
+          'Accepted by [Snorre](https://github.com/dnbexperience/eufemia/pull/10759#issuecomment-6917082027) pending the Coconut UX contrast fixes. These pairs remain below their contrast target.',
+          '',
+          ...acceptedRegressions.map((line) => '- ' + line),
+        ]
+      : []),
     '',
     '## Existing pairs below their contrast target',
     '',
