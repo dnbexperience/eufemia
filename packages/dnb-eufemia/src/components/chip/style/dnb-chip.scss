@@ -1,5 +1,18 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
+// Firefox before 121 and Safari before 15.4 do not support :has(). They drop
+// every rule that uses it, also the other selectors in the list. So the
+// button selectors get their own rule.
+@mixin chipState($input, $button) {
+  &:has(input#{$input}) {
+    @content;
+  }
+
+  &.dnb-chip__button#{$button} {
+    @content;
+  }
+}
+
 .dnb-chip {
   --chip-height: 2.5rem;
   --chip-padding-block: 0.5rem;
@@ -72,8 +85,7 @@
 
     @include utilities.forcedColorsOutline(0.0625rem, inset);
 
-    &:has(input:checked),
-    &.dnb-chip__button[aria-pressed='true'] {
+    @include chipState(':checked', "[aria-pressed='true']") {
       --chip-border: var(
         --chip-selected-border,
         var(--token-color-component-button-stroke-selected)
@@ -93,8 +105,7 @@
       --chip-action-border-width: 0rem;
     }
 
-    &:has(input:not(:disabled):hover),
-    &.dnb-chip__button:not(:disabled):hover {
+    @include chipState(':not(:disabled):hover', ':not(:disabled):hover') {
       --chip-border: var(
         --chip-hover-border,
         var(--token-color-stroke-action-hover)
@@ -115,15 +126,19 @@
       --chip-border-inset: ;
     }
 
-    &:has(input:checked:not(:disabled):hover),
-    &.dnb-chip__button[aria-pressed='true']:not(:disabled):hover {
+    @include chipState(
+      ':checked:not(:disabled):hover',
+      "[aria-pressed='true']:not(:disabled):hover"
+    ) {
       --chip-control-selected-border: var(--chip-control-border);
       --chip-action-background: var(--token-color-background-action-hover);
       --chip-action-color: var(--token-color-icon-neutral-inverse);
     }
 
-    &:has(input:not(:disabled):active),
-    &.dnb-chip__button:not(:disabled):active {
+    @include chipState(
+      ':not(:disabled):active',
+      ':not(:disabled):active'
+    ) {
       --chip-border: var(
         --chip-active-border,
         var(--token-color-stroke-action-pressed)
@@ -143,8 +158,10 @@
       --chip-border-inset: inset;
     }
 
-    &:has(input:checked:not(:disabled):active),
-    &.dnb-chip__button[aria-pressed='true']:not(:disabled):active {
+    @include chipState(
+      ':checked:not(:disabled):active',
+      "[aria-pressed='true']:not(:disabled):active"
+    ) {
       --chip-control-border: var(--token-color-stroke-action-pressed);
       --chip-control-border-width: var(
         --chip-control-selected-border-width,
@@ -164,13 +181,11 @@
       --chip-action-border-width: 0rem;
     }
 
-    &:has(input:focus-visible),
-    &.dnb-chip__button:focus-visible {
+    @include chipState(':focus-visible', ':focus-visible') {
       @include utilities.focusOutline();
     }
 
-    &:has(input:disabled),
-    &.dnb-chip__button:disabled {
+    @include chipState(':disabled', ':disabled') {
       --chip-border: var(--token-color-stroke-neutral-subtle);
       --chip-border-width: 0.0625rem;
       --chip-control-border: var(--token-color-stroke-neutral-subtle);
@@ -186,8 +201,10 @@
       --chip-action-color: var(--token-color-icon-action-disabled);
     }
 
-    &:has(input:disabled:checked),
-    &.dnb-chip__button:disabled[aria-pressed='true'] {
+    @include chipState(
+      ':disabled:checked',
+      ":disabled[aria-pressed='true']"
+    ) {
       --chip-border: var(--token-color-stroke-neutral-base);
       --chip-border-width: 0.125rem;
       --chip-background: var(--token-color-background-neutral-subtle);
@@ -199,20 +216,17 @@
     }
 
     @media (forced-colors: active) {
-      &:has(input:checked),
-      &.dnb-chip__button[aria-pressed='true'] {
+      @include chipState(':checked', "[aria-pressed='true']") {
         outline: 0.1875rem solid Highlight;
         outline-offset: -0.1875rem;
       }
 
-      &:has(input:focus-visible),
-      &.dnb-chip__button:focus-visible {
+      @include chipState(':focus-visible', ':focus-visible') {
         outline-width: var(--focus-outline-width);
         outline-offset: var(--focus-outline-offset);
       }
 
-      &:has(input:disabled),
-      &.dnb-chip__button:disabled {
+      @include chipState(':disabled', ':disabled') {
         outline-color: GrayText;
       }
     }
@@ -481,7 +495,12 @@
     }
   }
 
-  &--default:has(input:not(:checked)),
+  &--default:has(input:not(:checked)) {
+    --chip-hover-border: var(
+      --token-color-component-button-icon-action-hover
+    );
+  }
+
   &--addable {
     --chip-hover-border: var(
       --token-color-component-button-icon-action-hover
@@ -631,12 +650,18 @@
     display: none;
   }
 
-  &:has(input:checked) &__add,
+  &:has(input:checked) &__add {
+    display: none;
+  }
+
   &__button[aria-pressed='true'] &__add {
     display: none;
   }
 
-  &:has(input:checked) &__remove,
+  &:has(input:checked) &__remove {
+    display: inline-block;
+  }
+
   &__button[aria-pressed='true'] &__remove {
     display: inline-block;
   }
@@ -665,18 +690,29 @@
       forced-color-adjust: none;
     }
 
-    &:has(input:checked) &__action,
+    &:has(input:checked) &__action {
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
     &__button[aria-pressed='true'] &__action {
       background-color: Highlight;
       color: HighlightText;
     }
 
-    &:has(input:not([type='hidden']):disabled) &__action,
+    &:has(input:not([type='hidden']):disabled) &__action {
+      color: GrayText;
+    }
+
     &__button:disabled &__action {
       color: GrayText;
     }
 
-    &:has(input:not([type='hidden']):disabled:checked) &__action,
+    &:has(input:not([type='hidden']):disabled:checked) &__action {
+      background-color: GrayText;
+      color: Canvas;
+    }
+
     &__button:disabled[aria-pressed='true'] &__action {
       background-color: GrayText;
       color: Canvas;
@@ -693,6 +729,68 @@
 
     &--radio .dnb-checkbox__button::after {
       background-color: CanvasText;
+    }
+  }
+
+  // Firefox before 121 and Safari before 15.4 cannot style the chip from its
+  // input, because they do not support :has(). The input covers the chip, so
+  // these browsers show the selected state and the focus outline on it.
+  @supports not (selector(:has(*))) {
+    // The input is below the indicator, so let clicks through to it
+    .dnb-checkbox__inner,
+    .dnb-checkbox__shell,
+    .dnb-radio__shell {
+      pointer-events: none;
+    }
+
+    .dnb-checkbox__input,
+    .dnb-radio__input {
+      z-index: -1; // Below the label, which lets clicks through
+      pointer-events: auto;
+      opacity: 1;
+      background-color: transparent; // Firefox paints disabled inputs
+      border-radius: var(--token-radius-xl);
+      outline: none;
+
+      &:checked {
+        background-color: var(--token-color-background-selected-subtle);
+        box-shadow: inset 0 0 0 0.125rem
+          var(
+            --chip-selected-border,
+            var(--token-color-component-button-stroke-selected)
+          );
+
+        @media (forced-colors: active) {
+          outline: 0.1875rem solid Highlight;
+          outline-offset: -0.1875rem;
+        }
+      }
+
+      &:checked:disabled {
+        background-color: var(--token-color-background-neutral-subtle);
+        box-shadow: inset 0 0 0 0.125rem
+          var(--token-color-stroke-neutral-base);
+
+        @media (forced-colors: active) {
+          outline-color: GrayText;
+        }
+      }
+    }
+  }
+
+  @supports (not (selector(:has(*)))) and (selector(:focus-visible)) {
+    .dnb-checkbox__input:focus-visible,
+    .dnb-radio__input:focus-visible {
+      @include utilities.focusOutline();
+    }
+  }
+
+  // Safari before 15.4 does not support :focus-visible either
+  @supports (not (selector(:has(*)))) and (not (selector(:focus-visible))) {
+    .dnb-checkbox__input:focus:not(:hover):not(:active),
+    .dnb-radio__input:focus:not(:hover):not(:active),
+    &__button:focus:not(:hover):not(:active) {
+      @include utilities.focusOutline();
     }
   }
 }
