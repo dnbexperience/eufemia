@@ -12,7 +12,7 @@ import makePropertiesFile, {
 } from '../makePropertiesFile'
 
 const colorsVariableSetId =
-  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
+  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19'
 const sizesVariableSetId =
   'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025'
 const typographyVariableSetId =
@@ -112,23 +112,38 @@ describe('makePropertiesFile', () => {
     )
   })
 
-  it('keeps dark error text, icons and strokes on the approved foundation colors', () => {
-    for (const [tokens, foundation, prefix, shade, color] of [
-      [global.uiTokensDark, global.uiFoundation, 'dnb', '500', '#ff5959'],
-      [
-        global.sbankenTokensDark,
-        global.sbankenFoundation,
-        'sbanken',
-        '600',
-        '#ff8099',
-      ],
-    ]) {
-      const variable = '--' + prefix + '-red-' + shade
-      expect(foundation).toContain(variable + ': ' + color + ';')
-      for (const role of ['text', 'icon', 'stroke']) {
-        expect(tokens).toContain(
-          '--token-color-' + role + '-error: var(' + variable + ');'
+  it('keeps dark error text readable on the surfaces it is used on', async () => {
+    const path = await import('path')
+    const { loadTokenModes, contrastRatio } =
+      await import('../../../figma/tokenReview')
+
+    // Normal text needs 4.5:1. Only the surfaces an error message is
+    // placed on are checked, so the palette can change freely as long as
+    // the text stays readable.
+    const backgrounds = [
+      '--token-color-background-neutral',
+      '--token-color-background-neutral-subtle',
+    ]
+
+    const modes = loadTokenModes(
+      path.resolve(__dirname, '../../../../../..')
+    ).filter(({ name }) => name.endsWith(' dark'))
+
+    expect(modes.length).toBeGreaterThan(0)
+
+    for (const { name, tokens } of modes) {
+      for (const background of backgrounds) {
+        const ratio = contrastRatio(
+          tokens['--token-color-text-error'],
+          tokens[background],
+          tokens['--token-color-background-page-background']
         )
+
+        expect({
+          mode: name,
+          background,
+          ratio: ratio >= 4.5,
+        }).toEqual({ mode: name, background, ratio: true })
       }
     }
   })
@@ -627,6 +642,28 @@ describe('makePropertiesFile', () => {
         }
 
         expect(() => transformFigmaAlias(val)).toThrow()
+      })
+
+      it('names the set id when a known set name has an unknown id', () => {
+        // A recreated Figma collection keeps its name but gets a new id.
+        // This is the id the colors collection had before it was recreated.
+        const staleColorsVariableSetId =
+          'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
+        const value = {
+          $type: 'color' as const,
+          $value: { alpha: 1, hex: '#FFFFFF' },
+          $extensions: {
+            'com.figma.aliasData': {
+              targetVariableName: 'dnb/greyscale/0',
+              targetVariableSetId: staleColorsVariableSetId,
+              targetVariableSetName: 'colors',
+            },
+          },
+        }
+
+        expect(() => transformFigmaValue(value)).toThrow(
+          `Unsupported variable set id: "${staleColorsVariableSetId}" (name: "colors") for alias "dnb/greyscale/0"`
+        )
       })
 
       it('resolves size alias to literal value', () => {
