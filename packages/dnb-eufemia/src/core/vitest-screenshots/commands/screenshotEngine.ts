@@ -969,7 +969,8 @@ const makePageReady = async (
     return
   }
 
-  if (resetStrategy === 'navigate') {
+  // A URL change starts fresh too, so stored state can't leak between pages.
+  if (resetStrategy === 'navigate' || targetUrl !== state.navigatedUrl) {
     await navigateToFreshPage(
       state,
       payload.url,
@@ -983,33 +984,11 @@ const makePageReady = async (
     return
   }
 
-  // resetStrategy === 'none'
-  if (targetUrl !== state.navigatedUrl) {
-    // The previous navigation tagged the page as initialised /
-    // stylesheet-applied, but `page.goto()` discards the test
-    // stylesheet we injected with `addStyleTag`. Drop the per-Page
-    // memo so the bootstrap actually re-runs after the navigation.
-    resetPageBootstrapMemo(state.page)
-    await navigateToPage(
-      state.page,
-      payload.url,
-      payload.themeName,
-      payload.colorScheme,
-      Boolean(payload.fullscreen),
-      payload.pageViewport,
-      payload.headers
-    )
-    state.navigatedUrl = targetUrl
-    await applyTestConfiguration(state.page)
-    await addTestStylesheet(state.page)
-    await waitForVisualStability(state.page)
-  } else {
-    await applyPageSettings(
-      state.page,
-      payload.pageViewport,
-      payload.headers
-    )
-  }
+  await applyPageSettings(
+    state.page,
+    payload.pageViewport,
+    payload.headers
+  )
 }
 
 // ── helpers: element selection / styling ─────────────────────────────
@@ -1959,6 +1938,7 @@ export const _testing = {
   takeScreenshot,
   hardResetPage,
   ensureSession,
+  makePageReady,
   resetPoolCleanedUp: () => {
     poolCleanedUp = false
   },

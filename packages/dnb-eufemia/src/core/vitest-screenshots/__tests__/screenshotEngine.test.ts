@@ -45,6 +45,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { PNG, type PNGWithMetadata } from 'pngjs'
 import { _testing } from '../commands/screenshotEngine'
+import { clearBrowserStorages } from '../storageReset'
 
 const {
   buildUrl,
@@ -59,6 +60,7 @@ const {
   takeScreenshot,
   hardResetPage,
   ensureSession,
+  makePageReady,
 } = _testing
 
 // ── helpers ──────────────────────────────────────────────────────────
@@ -326,6 +328,33 @@ describe('hardResetPage', () => {
 
     expect(state.page).toBe(replacementPage)
     expect(previousPage.close).toHaveBeenCalledOnce()
+  })
+})
+
+describe('makePageReady', () => {
+  it('clears storage before navigating to another URL', async () => {
+    const page = makeMockPage()
+    const state = {
+      page,
+      vitestPage: makeMockPage(),
+      navigatedUrl: buildUrl('/demos/', false, 'sbanken'),
+      mutationKind: 'none',
+      currentRootClassName: null,
+    }
+
+    await makePageReady(
+      state as never,
+      { url: '/demos/', retry: 0 } as never
+    )
+
+    const clearCall = page.evaluate.mock.calls.findIndex(
+      (args: unknown[]) => args[0] === clearBrowserStorages
+    )
+    expect(clearCall).toBeGreaterThan(-1)
+    expect(page.evaluate.mock.invocationCallOrder[clearCall]).toBeLessThan(
+      page.goto.mock.invocationCallOrder[0]
+    )
+    expect(state.navigatedUrl).toBe(buildUrl('/demos/', false))
   })
 })
 
