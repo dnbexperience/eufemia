@@ -27,5 +27,5 @@
 
 @mixin focus($inset: -0.125rem -1rem) {
   @include frame($inset);
-  @include utilities.focusRing('always');
+  @include utilities.focusOutline();
 }

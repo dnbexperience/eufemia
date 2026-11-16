@@ -16,7 +16,7 @@
   }
 
   > pre:focus-visible {
-    @include utilities.focusRing();
+    @include utilities.focusOutline();
   }
 
   :global(.eufemia-theme) {
@@ -194,15 +194,14 @@ button.copyButtonStyle {
 
       &:hover,
       &:focus-within {
-        box-shadow: 0 0 0 var(--focus-ring-width)
-          var(--token-color-stroke-action-focus);
+        @include utilities.focusOutline();
         border-start-start-radius: 0;
         border-start-end-radius: 0;
         border-end-start-radius: var(--border-radius);
         border-end-end-radius: var(--border-radius);
 
         :global(.focusmode) & {
-          box-shadow: none;
+          outline: none;
         }
       }
 
