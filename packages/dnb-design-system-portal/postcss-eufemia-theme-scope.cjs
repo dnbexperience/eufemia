@@ -26,7 +26,8 @@
  * to:
  *   .eufemia-scope--portal .eufemia-theme__sbanken
  */
-const nonDefaultThemes = ['sbanken', 'eiendom', 'carnegie']
+// @deprecated The "coconut" entry is for a transitional brand, removed later
+const nonDefaultThemes = ['sbanken', 'eiendom', 'carnegie', 'coconut']
 
 const plugin = () => {
   return {

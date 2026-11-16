@@ -58,6 +58,8 @@ function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
       sbanken: { name: 'Sbanken (WIP)' },
       eiendom: { name: 'DNB Eiendom' },
       carnegie: { name: 'DNB Carnegie (WIP)' },
+      // @deprecated Transitional "coconut" brand, removed later
+      coconut: { name: 'Coconut' },
     },
     defaultTheme: 'ui',
     // Anchored at the package root, so globby does not walk the whole package.

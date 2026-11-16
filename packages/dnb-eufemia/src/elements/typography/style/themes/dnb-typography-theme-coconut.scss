@@ -1,0 +1,16 @@
+// @deprecated Transitional theme file for the "coconut" brand, removed
+// together with that brand.
+@use '../typography-mixins.scss' as typography;
+
+// Headings
+@include typography.headingClasses() {
+  font-variant-ligatures: none;
+}
+
+@include typography.typographySelectors() {
+  --typography-h-xx-large-weight: var(--font-weight-regular);
+  --typography-h-x-large-weight: var(--font-weight-regular);
+  --typography-h-large-weight: var(--font-weight-regular);
+  --typography-lead-weight: var(--font-weight-regular);
+  --typography-h-medium-weight: var(--font-weight-regular);
+}
