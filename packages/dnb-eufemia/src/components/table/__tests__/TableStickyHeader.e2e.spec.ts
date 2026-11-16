@@ -81,7 +81,9 @@ test.describe('Table sticky header', () => {
           await page.evaluate((top) => window.scrollTo(0, top), scrollY)
           await expect.poll(headerTop).toBeCloseTo(56, 0)
         }
-        await style.evaluate((element) => element.remove())
+        await style.evaluate((element) => {
+          element.parentNode?.removeChild(element)
+        })
       }
     })
 
