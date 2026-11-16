@@ -105,6 +105,23 @@ it('rejects other topics before reading the bot secret', async () => {
   await expect(handler(value)).rejects.toThrow()
   expect(mocks.secret).not.toHaveBeenCalled()
 })
+it('does not fail an undelivered-alarm notice into the queue that alarm counts', async () => {
+  vi.stubEnv('UNDELIVERED_ALARM', 'monitor-undelivered')
+  mocks.process.mockRejectedValue(new Error('Slack unavailable'))
+  const transition = (AlarmName: string) =>
+    event({
+      AlarmName,
+      NewStateValue: 'ALARM',
+      StateChangeTime: '2026-10-23T10:00:00Z',
+    })
+  await expect(
+    handler(transition('monitor-undelivered'))
+  ).resolves.toBeUndefined()
+  expect(process.stdout.write).toHaveBeenCalledWith(
+    expect.stringContaining('notification state and Slack delivery')
+  )
+  await expect(handler(transition('missing-cdn'))).rejects.toThrow()
+})
 it('ignores disabled notifications without API calls', async () => {
   vi.stubEnv('NOTIFICATIONS_ENABLED', 'false')
   await handler(event({}))

@@ -69,6 +69,10 @@ run "shadow_rollout" {
     condition     = jsondecode(aws_lambda_function.notifier.environment[0].variables["MONITOR_LOG_GROUPS"])["Analytics"] == aws_cloudwatch_log_group.monitor["Analytics"].name
     error_message = "Slack incident posts must link to each monitor's log group."
   }
+  assert {
+    condition     = aws_lambda_function.notifier.environment[0].variables["UNDELIVERED_ALARM"] == aws_cloudwatch_metric_alarm.failures.alarm_name
+    error_message = "The notifier must recognize the undelivered alarm so its own failures do not re-trigger it."
+  }
 }
 
 run "reject_invalid_analytics_repository" {
