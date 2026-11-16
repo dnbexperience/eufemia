@@ -8,7 +8,6 @@ const STANDALONE_TOOL_PATTERNS = [
   /^tools\/assets\//,
   /^tools\/eufemia-raiwork-plugin\//,
   /^tools\/mcp-lambda\//,
-  /^tools\/mcp-legacy-proxy\//,
   /^tools\/monitoring\//,
   /^tools\/service-monitoring\//,
   /^tools\/usage-ingest\//,
@@ -17,7 +16,6 @@ const STANDALONE_TOOL_PATTERNS = [
   /^\.github\/workflows\/eufemia-marketplace-artifacts\.yml$/,
   /^\.github\/workflows\/ghe-token-expiry\.yml$/,
   /^\.github\/workflows\/mcp-lambda\.yml$/,
-  /^\.github\/workflows\/mcp-legacy-proxy-deploy\.yml$/,
   /^\.github\/workflows\/service-monitoring\.yml$/,
 ]
 
