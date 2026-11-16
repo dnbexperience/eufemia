@@ -25,6 +25,34 @@ describe('Badge', () => {
     expect(screen.queryByText(string)).toBeInTheDocument()
   })
 
+  it('keeps text and inline elements of the content in one flex item', () => {
+    render(
+      <Badge
+        content={
+          <>
+            Due <strong>today</strong>
+          </>
+        }
+      />
+    )
+
+    // Each direct text node would become its own flex item and lose the space at its edge
+    const badge = document.querySelector('.dnb-badge')
+    expect(badge.childNodes).toHaveLength(1)
+    expect(badge.firstElementChild).toHaveClass('dnb-badge__content')
+    expect(badge.firstElementChild.innerHTML).toBe(
+      'Due <strong>today</strong>'
+    )
+  })
+
+  it('renders string content without a wrapper', () => {
+    render(<Badge content="Due today" />)
+
+    const badge = document.querySelector('.dnb-badge')
+    expect(badge.childNodes).toHaveLength(1)
+    expect(badge.firstChild.nodeType).toBe(Node.TEXT_NODE)
+  })
+
   it('renders content as number', () => {
     const number = 1
     const label = 'Notifications:'
@@ -133,6 +161,69 @@ describe('Badge', () => {
     global.console.log = vi.fn()
     render(<Badge content="text" />)
     expect(global.console.log).not.toHaveBeenCalled()
+  })
+
+  describe('notification indicator', () => {
+    it('renders an indicator when the notification variant has no content', () => {
+      render(<Badge variant="notification" label="New messages" />)
+
+      const badge = document.querySelector('.dnb-badge')
+      expect(badge).toHaveClass(
+        'dnb-badge--variant-notification',
+        'dnb-badge--indicator'
+      )
+      expect(badge).toHaveTextContent('New messages')
+    })
+
+    it('renders an indicator on top of children', () => {
+      render(
+        <Badge variant="notification" label="New messages">
+          <Avatar.Group label="Persons">
+            <Avatar>A</Avatar>
+          </Avatar.Group>
+        </Badge>
+      )
+
+      expect(
+        document.querySelector('.dnb-badge__root .dnb-badge--indicator')
+      ).toBeInTheDocument()
+    })
+
+    it('does not render an indicator when there is content', () => {
+      render(
+        <Badge variant="notification" label="Notifications" content={0} />
+      )
+
+      expect(document.querySelector('.dnb-badge')).not.toHaveClass(
+        'dnb-badge--indicator'
+      )
+    })
+
+    it('does not render an indicator for the information variant', () => {
+      render(<Badge variant="information" />)
+
+      expect(document.querySelector('.dnb-badge')).not.toHaveClass(
+        'dnb-badge--indicator'
+      )
+    })
+
+    it('warns when the indicator is missing a label', () => {
+      process.env.NODE_ENV = 'development'
+      global.console.log = vi.fn()
+      render(<Badge variant="notification" />)
+      expect(global.console.log).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.stringContaining('Label required')
+      )
+    })
+
+    it('does not warn when the indicator has a label', () => {
+      process.env.NODE_ENV = 'development'
+      global.console.log = vi.fn()
+      render(<Badge variant="notification" label="New messages" />)
+      expect(global.console.log).not.toHaveBeenCalled()
+    })
   })
 
   it('does not warn when Badge content is a number and has a label', () => {
@@ -324,6 +415,28 @@ describe('Badge', () => {
 
       expect(badge.children[0]).toHaveClass('dnb-sr-only')
       expect(badge.children[1]).toHaveClass('dnb-badge__icon')
+    })
+
+    it('places the icon before the wrapper of formatted content', () => {
+      render(
+        <Badge
+          icon="calendar"
+          content={
+            <>
+              Due <strong>today</strong>
+            </>
+          }
+        />
+      )
+
+      const badge = document.querySelector('.dnb-badge')
+
+      expect(badge.children).toHaveLength(2)
+      expect(badge.children[0]).toHaveClass('dnb-badge__icon')
+      expect(badge.children[1]).toHaveClass('dnb-badge__content')
+      expect(badge.children[1].innerHTML).toBe(
+        'Due <strong>today</strong>'
+      )
     })
 
     it('does not render the icon for non-information variants', () => {

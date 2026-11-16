@@ -44,6 +44,11 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   height: 1.5rem;
   border-radius: var(--token-radius-full);
 }
+.dnb-badge--variant-notification.dnb-badge--indicator {
+  min-width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+}
 .dnb-badge--variant-information {
   --badge-information-color: var(--token-color-text-neutral);
   padding: 0.125rem 0.5rem;

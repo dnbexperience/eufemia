@@ -92,7 +92,7 @@ export const SliderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   status: {
-    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
+    doc: 'Text with a status message. The style defaults to an error message.',
     type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },

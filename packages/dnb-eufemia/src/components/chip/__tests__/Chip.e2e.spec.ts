@@ -1,4 +1,5 @@
-import { expect, test, type Locator } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
+import { simulateOlderBrowser } from '../../../core/test-utils/simulateOlderBrowser'
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -757,10 +758,173 @@ test('addable indicators use system colors in every state', async ({
   }
 })
 
+for (const browser of [
+  'firefox-before-121',
+  'safari-before-15.4',
+] as const) {
+  test.describe(`without :has() support (${browser})`, () => {
+    test.beforeEach(async ({ page }) => {
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-portal-ready',
+        'true'
+      )
+
+      const { removed, applied } = await simulateOlderBrowser(
+        page,
+        browser
+      )
+      expect(removed).toBeGreaterThan(0)
+      expect(applied).toBeGreaterThan(0)
+
+      await page.mouse.move(0, 0)
+    })
+
+    test('selecting a chip changes how it looks', async ({ page }) => {
+      for (const variant of ['default', 'addable']) {
+        for (const mode of ['single', 'multiple'] as const) {
+          await test.step(`${variant}: ${mode}`, async () => {
+            const chip = groupChip(page, variant, mode, 'Available')
+            const control = chip.locator(
+              'input:not([type="hidden"]), .dnb-chip__button'
+            )
+            const pill = chip.locator(
+              '.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button'
+            )
+
+            const before = await pill.screenshot()
+            await pill.click()
+            await expectSelected(control, true)
+            await control.evaluate((element: HTMLElement) =>
+              element.blur()
+            )
+            await page.mouse.move(0, 0)
+
+            expect((await pill.screenshot()).equals(before)).toBe(false)
+          })
+        }
+      }
+    })
+
+    test('indicator centers stay clickable', async ({ page }) => {
+      for (const variant of ['checkbox', 'radio']) {
+        for (const mode of ['single', 'multiple'] as const) {
+          await test.step(`${variant}: ${mode}`, async () => {
+            const chip = groupChip(page, variant, mode, 'Available')
+            const indicator = chip.locator(
+              mode === 'multiple'
+                ? '.dnb-checkbox__button'
+                : '.dnb-radio__button'
+            )
+
+            await indicator.scrollIntoViewIfNeeded()
+            const { x, y, width, height } = await indicator.boundingBox()
+            await page.mouse.click(x + width / 2, y + height / 2)
+
+            await expectSelected(chip.locator('input'), true)
+          })
+        }
+      }
+    })
+
+    test('the input paints nothing on an unselected chip', async ({
+      page,
+    }) => {
+      const chips = page
+        .locator('[data-visual-test="chip-states"] .dnb-chip')
+        .filter({
+          has: page.locator('input:not([type="hidden"]):not(:checked)'),
+        })
+      expect(await chips.count()).toBeGreaterThan(0)
+
+      for (const chip of await chips.all()) {
+        const pill = chip.locator('.dnb-radio__row, .dnb-checkbox__order')
+        const shown = await pill.screenshot()
+        await chip
+          .locator('input')
+          .evaluate((element: HTMLElement) =>
+            element.style.setProperty('opacity', '0', 'important')
+          )
+
+        expect((await pill.screenshot()).equals(shown)).toBe(true)
+      }
+    })
+
+    test('keyboard focus shows the focus outline', async ({ page }) => {
+      for (const variant of ['default', 'addable', 'checkbox', 'radio']) {
+        for (const mode of ['single', 'multiple'] as const) {
+          await test.step(`${variant}: ${mode}`, async () => {
+            const chip = groupChip(page, variant, mode, 'Selected')
+            const control = chip.locator(
+              'input:not([type="hidden"]), .dnb-chip__button'
+            )
+            const clip = await outlineArea(chip)
+
+            const before = await page.screenshot({ clip })
+            await page.keyboard.press('a')
+            await control.focus()
+            await expect(control).toBeFocused()
+
+            // The Eufemia focus outline, not the default ring of the browser
+            await expect(control).toHaveCSS('outline-style', 'solid')
+            await expect(control).toHaveCSS('outline-width', '3px')
+            await expect(control).toHaveCSS('outline-offset', '2px')
+            expect((await page.screenshot({ clip })).equals(before)).toBe(
+              false
+            )
+
+            await control.evaluate((element: HTMLElement) =>
+              element.blur()
+            )
+          })
+        }
+      }
+    })
+
+    if (browser === 'firefox-before-121') {
+      test('a mouse click shows no outline', async ({ page }) => {
+        const chip = groupChip(page, 'default', 'single', 'Selected')
+        const control = chip.locator('input')
+        const clip = await outlineArea(chip)
+
+        const before = await page.screenshot({ clip })
+        await control.click()
+        await page.mouse.move(0, 0)
+        await expect(control).toBeFocused()
+
+        expect((await page.screenshot({ clip })).equals(before)).toBe(true)
+      })
+    }
+  })
+}
+
 async function expectSelected(control: Locator, checked: boolean) {
   if ((await control.getAttribute('type')) === 'button') {
     await expect(control).toHaveAttribute('aria-pressed', String(checked))
   } else {
     await expect(control).toBeChecked({ checked })
   }
+}
+
+// Returns a chip of the "chip-group-appearances" demo
+function groupChip(
+  page: Page,
+  variant: string,
+  mode: 'single' | 'multiple',
+  text: string
+) {
+  return page
+    .locator('[data-visual-test="chip-group-appearances"]')
+    .getByRole(mode === 'single' ? 'radiogroup' : 'group', {
+      name: `${variant}: ${mode}`,
+    })
+    .locator('.dnb-chip')
+    .filter({ hasText: text })
+}
+
+// Returns the area of a chip that includes its focus outline
+async function outlineArea(chip: Locator) {
+  await chip.scrollIntoViewIfNeeded()
+  const { x, y, width, height } = await chip.boundingBox()
+
+  return { x: x - 8, y: y - 8, width: width + 16, height: height + 16 }
 }
