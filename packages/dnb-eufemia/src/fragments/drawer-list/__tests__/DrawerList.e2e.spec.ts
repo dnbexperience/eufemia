@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test.describe('DrawerList inside a Dialog', () => {
   test.beforeEach(async ({ page }) => {
     await page.clock.install({ time: 0 })
-    await page.goto('/uilib/components/dialog/demos/?data-visual-test')
+    await page.goto('/web/components/dialog/demos/?data-visual-test')
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
       'true'
@@ -40,5 +40,6 @@ test.describe('DrawerList inside a Dialog', () => {
 
     await expect(countryCode).toHaveAttribute('aria-expanded', 'false')
     await expect(dialog).toBeVisible()
+    await expect(countryCode).toBeFocused()
   })
 })
