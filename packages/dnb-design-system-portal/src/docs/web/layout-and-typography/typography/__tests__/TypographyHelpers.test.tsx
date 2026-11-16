@@ -6,18 +6,19 @@ import { PropValue } from '../_helpers'
 afterEach(cleanup)
 
 describe('Typography property values', () => {
-  it.each(['sbanken', 'coconut'] as const)(
+  it.each([
+    ['sbanken', "'Roboto', 'Helvetica', 'Arial', sans-serif"],
+    ['coconut', "'DNB', 'Arial', sans-serif"],
+  ] as const)(
     'resolves the active %s font family',
-    (brand) => {
+    (brand, fontFamily) => {
       const { container } = render(
         <Theme brand={brand}>
           <PropValue name="--font-family-default" />
         </Theme>
       )
 
-      expect(container.textContent).toBe(
-        "'Roboto', 'Helvetica', 'Arial', sans-serif"
-      )
+      expect(container.textContent).toBe(fontFamily)
     }
   )
 })
