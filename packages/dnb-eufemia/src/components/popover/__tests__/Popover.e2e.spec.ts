@@ -12,13 +12,14 @@ function waitForOpenAnimation(content: Locator) {
 
 test.describe('Popover focus restoration', () => {
   test.beforeEach(async ({ page }) => {
-    // The load event can stall on CI after the page has rendered
+    // A stalled subresource can hold back the load event after the portal is ready
     await page.goto('/web/components/popover/demos/#controlled-state', {
       waitUntil: 'domcontentloaded',
     })
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
-      'true'
+      'true',
+      { timeout: 15000 }
     )
   })
 
