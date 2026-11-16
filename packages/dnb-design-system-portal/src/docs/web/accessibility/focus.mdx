@@ -22,7 +22,9 @@ import * as Examples from 'Docs/web/accessibility/Examples'
 2. Use a 3px outline with a 2px transparent gap. Keep text, icon, and background colors unchanged.
 3. Lists, tables, cards, and similar layouts replace the existing edge with a 3px blue edge, with no gap. Use 2px if a scroll container's existing spacing would clip 3px. Hover styling takes precedence while focused.
 
-On explicitly dark surfaces, such as `surface="dark"`, keep the previous focus style, including its text, icon, background, and ring styling. The blue token has insufficient contrast there; retain the existing treatment until an accessible on-dark focus token is defined. This exception depends on the control's surface, not the page's light or dark mode.
+On explicitly dark surfaces, such as `surface="dark"`, keep the previous focus style, including its text, icon, background, and ring styling. The blue token has insufficient contrast there; retain the existing treatment until an accessible on-dark focus token is defined. Page dark mode does not trigger this exception, but the blue outline also falls below 3:1 on some dark-mode surfaces, including striped table rows and warning sections. A solution for these contrast issues is pending design guidance.
+
+For new controls on dark surfaces, reuse an Eufemia component with dark-surface support and verify contrast against the actual background.
 
 | CSS custom property                 | Purpose       | Default           |
 | ----------------------------------- | ------------- | ----------------- |
@@ -46,7 +48,7 @@ Tab to these examples to compare the focus styles. The layout example also shows
 
 <Examples.FocusExample />
 
-This guidance applies to new and updated implementations. Existing Eufemia components will adopt it in separate changes. See [v13 focus compatibility guidance](/web/releases-and-upgrades/versions/eufemia/v13-info/#keyboard-focus-styling) when migrating custom styles.
+This guidance applies to new and updated implementations. See [v13 focus compatibility guidance](/web/releases-and-upgrades/versions/eufemia/v13-info/#keyboard-focus-styling) when migrating custom styles.
 
 ## Focus Management
 
