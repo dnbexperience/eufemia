@@ -118,8 +118,9 @@ it('restores frozen poses and animation effects when disposed behind a modal', a
   const part = root.querySelector<HTMLElement>('[data-home-specimen]')
   part.style.transform = 'rotate(2deg)'
   part.style.translate = '3px'
+  part.style.animationName = 'custom-motion'
   const effect = {}
-  const animation = { effect, animationName: 'idleSpecimen' }
+  const animation = { effect }
   root.querySelectorAll('[data-hanging-item] > *').forEach((part) => {
     part.getAnimations = () => []
   })
@@ -132,11 +133,13 @@ it('restores frozen poses and animation effects when disposed behind a modal', a
     await Promise.resolve()
     expect(animation.effect).toBeNull()
     expect(part.style.transform).not.toBe('rotate(2deg)')
+    expect(part.style.animationName).toBe('none')
 
     motion.destroy()
     expect(animation.effect).toBe(effect)
     expect(part.style.transform).toBe('rotate(2deg)')
     expect(part.style.translate).toBe('3px')
+    expect(part.style.animationName).toBe('custom-motion')
   } finally {
     modal.remove()
   }

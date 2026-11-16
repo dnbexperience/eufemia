@@ -18,9 +18,12 @@ test('WebKit releases Home animation effects behind the reveal menu and resumes 
       )
     )
     .toBe(18)
-  const animations = await scene.evaluateHandle((root) =>
-    root.getAnimations({ subtree: true })
-  )
+  const poses = () =>
+    scene
+      .locator('[data-home-specimen]')
+      .evaluateAll((parts) =>
+        parts.map((part) => getComputedStyle(part).transform)
+      )
 
   for (let attempt = 0; attempt < 2; attempt++) {
     await page.locator('#toggle-sidebar-menu').click()
@@ -51,16 +54,24 @@ test('WebKit releases Home animation effects behind the reveal menu and resumes 
     )
     await expect
       .poll(() =>
-        animations.evaluate(
-          (animations) =>
-            animations.filter(
-              (animation) =>
-                animation.effect !== null &&
-                animation.playState === 'running'
-            ).length
+        scene.evaluate(
+          (root) =>
+            root
+              .getAnimations({ subtree: true })
+              .filter(
+                (animation) =>
+                  animation.effect !== null &&
+                  animation.playState === 'running'
+              ).length
         )
       )
       .toBe(18)
+    const restored = await poses()
+    await expect
+      .poll(async () =>
+        (await poses()).every((pose, index) => pose !== restored[index])
+      )
+      .toBe(true)
   }
 })
 

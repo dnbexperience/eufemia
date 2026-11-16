@@ -301,6 +301,17 @@ export default function mountHangingMotion(
             part,
             transform: part.style.transform,
             translate: part.style.translate,
+            animationName: part.style.animationName,
+            animations: part.getAnimations().map((animation) => ({
+              animation,
+              effect: animation.effect,
+              currentTime: animation.currentTime,
+              name:
+                'animationName' in animation
+                  ? animation.animationName
+                  : undefined,
+              resume: animation.playState === 'running',
+            })),
             frozenTransform: element.hasAttribute('data-active')
               ? style.transform
               : `matrix(${[matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].join(',')})`,
@@ -308,36 +319,50 @@ export default function mountHangingMotion(
           }
         })
       )
-      const effects = poses.flatMap(({ part }) =>
-        part.getAnimations().map((animation) => ({
-          animation,
-          effect: animation.effect,
-          resume:
-            !('animationName' in animation) &&
-            animation.playState === 'running',
-        }))
-      )
       // Paused animations still retain layers in Safari. Release them while the page moves.
-      effects.forEach(({ animation, resume }) => {
-        if (resume) {
-          animation.pause()
-        }
-        animation.effect = null
-      })
+      poses.forEach(({ animations }) =>
+        animations.forEach(({ animation, name, resume }) => {
+          if (name === undefined) {
+            if (resume) {
+              animation.pause()
+            }
+            animation.effect = null
+          }
+        })
+      )
       poses.forEach(({ part, frozenTransform, frozenTranslate }) => {
         part.style.transform = frozenTransform
         part.style.translate = frozenTranslate
+        part.style.animationName = 'none'
       })
       restorePose = () => {
-        poses.forEach(({ part, transform, translate }) => {
+        poses.forEach(({ part, transform, translate, animationName }) => {
           part.style.transform = transform
           part.style.translate = translate
+          part.style.animationName = animationName
         })
-        effects.forEach(({ animation, effect, resume }) => {
-          animation.effect = effect
-          if (resume) {
-            animation.play()
-          }
+        // Recreate CSS effects because WebKit loses their keyframes after detaching them.
+        poses.forEach(({ part, animations }) => {
+          const restored = part.getAnimations()
+          animations.forEach(
+            ({ animation, effect, name, currentTime, resume }) => {
+              if (name !== undefined) {
+                const idle = restored.find(
+                  (entry) =>
+                    'animationName' in entry &&
+                    entry.animationName === name
+                )
+                if (idle) {
+                  idle.currentTime = currentTime
+                }
+              } else {
+                animation.effect = effect
+                if (resume) {
+                  animation.play()
+                }
+              }
+            }
+          )
         })
       }
     } else if (!modal && restorePose) {
