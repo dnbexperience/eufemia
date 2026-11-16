@@ -311,6 +311,39 @@ describe('Menu integration', () => {
       vi.useRealTimers()
     })
 
+    it('skips disabled actions when moving focus into the menu on ArrowDown', () => {
+      vi.useFakeTimers()
+
+      render(
+        <Menu.Root open={true}>
+          <Menu.Button>
+            {({ active, ...triggerProps }) => (
+              <button {...triggerProps}>Menu</button>
+            )}
+          </Menu.Button>
+          <Menu.List aria-label="Actions">
+            <Menu.Action text="Item 1" disabled />
+            <Menu.Action text="Item 2" />
+          </Menu.List>
+        </Menu.Root>
+      )
+
+      const trigger = document.querySelector('button')
+      trigger.focus()
+
+      fireEvent.keyDown(trigger, { key: 'ArrowDown' })
+
+      act(() => {
+        vi.advanceTimersByTime(16)
+      })
+
+      const items = document.querySelectorAll('[role="menuitem"]')
+      expect(document.activeElement).toBe(items[1])
+      expect(items[1].getAttribute('tabindex')).toBe('0')
+
+      vi.useRealTimers()
+    })
+
     it('does not redundantly handle Escape — Popover manages it', () => {
       const onOpenChange = vi.fn()
 

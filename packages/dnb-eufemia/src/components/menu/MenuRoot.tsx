@@ -157,6 +157,18 @@ export default function MenuRoot(props: MenuRootProps) {
     return menuRef.current ?? null
   }, [])
 
+  const focusFirstItem = useCallback(() => {
+    const index = itemRefsRef.current.findIndex(
+      (ref) =>
+        ref?.current &&
+        ref.current.getAttribute('aria-disabled') !== 'true'
+    )
+    if (index !== -1) {
+      itemRefsRef.current[index].current.focus()
+      setActiveIndex(index)
+    }
+  }, [setActiveIndex])
+
   // For nested menus: after Popover finishes its focus sequence,
   // move focus from the <ul> to the first action item.
   const handleFocusComplete = useCallback(() => {
@@ -164,12 +176,8 @@ export default function MenuRoot(props: MenuRootProps) {
       return // stop here
     }
 
-    const firstRef = itemRefsRef.current[0]
-    if (firstRef?.current) {
-      firstRef.current.focus()
-      setActiveIndex(0)
-    }
-  }, [level, setActiveIndex])
+    focusFirstItem()
+  }, [level, focusFirstItem])
 
   const handleOpenChange = useCallback(
     (next: boolean) => {
@@ -193,16 +201,10 @@ export default function MenuRoot(props: MenuRootProps) {
         }
 
         // Focus the first menu item — use rAF to wait for render + Popover focus
-        requestAnimationFrame(() => {
-          const firstRef = itemRefsRef.current[0]
-          if (firstRef?.current) {
-            firstRef.current.focus()
-            setActiveIndex(0)
-          }
-        })
+        requestAnimationFrame(focusFirstItem)
       }
     },
-    [isOpen, handleOpenChange, setActiveIndex]
+    [isOpen, handleOpenChange, focusFirstItem]
   )
 
   // Build the trigger for Popover from Menu.Button or Menu.Action child
