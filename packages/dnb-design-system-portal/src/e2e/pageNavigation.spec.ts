@@ -260,9 +260,21 @@ test.describe('Page Navigation', () => {
         'href',
         '/web/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
       )
+    })
 
-      // An icon from the CDN holds back the load event until it responds
-      await expect(editLink.locator('.dnb-icon svg')).toHaveCount(1)
+    test('should not load icons from the CDN', async ({ page }) => {
+      // A slow CDN response holds back the load event that e2e tests wait for
+      const cdnRequests: string[] = []
+      page.on('request', (request) => {
+        if (request.url().startsWith('https://assets.eufemia.dnb.no/')) {
+          cdnRequests.push(request.url())
+        }
+      })
+
+      await page.goto('/web/components/button/demos/')
+      await waitForApp(page)
+
+      expect(cdnRequests).toEqual([])
     })
 
     test('click on Design should open the designer guide', async ({

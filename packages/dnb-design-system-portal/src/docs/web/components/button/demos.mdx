@@ -26,6 +26,10 @@ import {
   IconButtonSizes,
 } from 'Docs/web/components/button/Examples'
 import { IconPrimary } from '@dnb/eufemia/src'
+import {
+  edit as EditIcon,
+  trash as TrashIcon,
+} from '@dnb/eufemia/src/icons'
 
 ## Demos
 
@@ -93,13 +97,13 @@ Set `wrap` to allow the label to span multiple lines. The icon stays aligned wit
 
 Use an existing [Eufemia icon](/collections/icons) and keep its meaning consistent throughout your application. Even in the contexts below, only omit the text label if the action and its scope are unambiguous to your users.
 
-|                   Icon                   | Action | Context to check                    |
-| :--------------------------------------: | ------ | ----------------------------------- |
-| <IconPrimary icon="close" aria-hidden /> | Close  | In the dialog or panel it closes.   |
-| <IconPrimary icon="trash" aria-hidden /> | Delete | Beside the attachment it deletes.   |
-| <IconPrimary icon="loupe" aria-hidden /> | Search | Beside a labeled search field.      |
-| <IconPrimary icon="edit" aria-hidden />  | Edit   | In the row of the item it edits.    |
-|  <IconPrimary icon="add" aria-hidden />  | Add    | In a list that shows what is added. |
+|                     Icon                     | Action | Context to check                    |
+| :------------------------------------------: | ------ | ----------------------------------- |
+|   <IconPrimary icon="close" aria-hidden />   | Close  | In the dialog or panel it closes.   |
+| <IconPrimary icon={TrashIcon} aria-hidden /> | Delete | Beside the attachment it deletes.   |
+|   <IconPrimary icon="loupe" aria-hidden />   | Search | Beside a labeled search field.      |
+| <IconPrimary icon={EditIcon} aria-hidden />  | Edit   | In the row of the item it edits.    |
+|    <IconPrimary icon="add" aria-hidden />    | Add    | In a list that shows what is added. |
 
 #### Use visible text when
 
