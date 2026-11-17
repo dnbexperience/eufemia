@@ -2,9 +2,9 @@ name: Push sync commits
 description: >-
   Push the commits from bundle-sync-commits to a branch. The bundle comes from
   a job that runs third-party code, so the push fails when the commits change
-  files outside the allowed paths, when they do not start on the branch or on
-  the branch rebased onto main, or when the branch moved since the build job
-  read it.
+  files outside the allowed paths, when they include a merge commit, when they
+  do not start on the branch or on the branch rebased onto main, or when the
+  branch moved since the build job read it.
 
 inputs:
   artifact-id:
@@ -100,6 +100,13 @@ runs:
           base=$rebased
         else
           git switch -q -C "$BRANCH" "$head"
+        fi
+
+        # git log lists no files for a merge commit, so the check below
+        # cannot see what a merge changes. The sync jobs never merge.
+        if [ -n "$(git rev-list --merges "$base..HEAD")" ]; then
+          echo "::error::The commits include a merge commit, which the allowed paths check cannot read."
+          exit 1
         fi
 
         excludes=()
