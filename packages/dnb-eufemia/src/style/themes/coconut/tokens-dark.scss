@@ -131,7 +131,15 @@
   --token-color-stroke-action-inverse: var(--coconut-coffee-900);
   --token-color-stroke-action-hover-inverse: var(--coconut-coffee-900);
   --token-color-stroke-action-pressed-inverse: var(--coconut-coffee-900);
-  --token-color-stroke-action-focus: var(--coconut-blue-300);
+  --token-color-stroke-action-focus: var(
+    --coconut-semantic-information-100
+  );
+  --token-color-stroke-action-focus-ondark: var(
+    --coconut-semantic-information-100
+  );
+  --token-color-stroke-action-focus-inverse: var(
+    --coconut-semantic-information-500
+  );
   --token-color-stroke-action-focus-subtle: var(--coconut-brown-950);
   --token-color-stroke-action-disabled: var(--coconut-brown-600);
   --token-color-stroke-selected: var(--coconut-brown-25);
@@ -295,6 +303,9 @@
   );
   --token-color-component-progressbar-neutral-onsubtle: var(
     --coconut-brown-750
+  );
+  --token-color-component-cell-background-striped: var(
+    --coconut-brown-850
   );
   --token-radius-0: 0;
   --token-radius-xs: 0.125rem;

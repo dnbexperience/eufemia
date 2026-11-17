@@ -134,6 +134,8 @@
   --color-stroke-action-hover-inverse: var(--carnegie-greyscale-0);
   --color-stroke-action-pressed-inverse: var(--carnegie-greyscale-400);
   --color-stroke-action-focus: var(--carnegie-blue-600);
+  --color-stroke-action-focus-ondark: var(--carnegie-blue-100);
+  --color-stroke-action-focus-inverse: var(--carnegie-blue-100);
   --color-stroke-action-focus-subtle: var(--carnegie-greyscale-0);
   --color-stroke-action-disabled: var(--carnegie-greyscale-300);
   --color-stroke-selected: var(--carnegie-greyscale-1000);
@@ -292,6 +294,7 @@
   --color-component-progressbar-neutral-onsubtle: var(
     --carnegie-greyscale-200
   );
+  --color-component-cell-background-striped: var(--carnegie-greyscale-50);
   --radius-0: 0;
   --radius-xs: 0;
   --radius-sm: 0.125rem;

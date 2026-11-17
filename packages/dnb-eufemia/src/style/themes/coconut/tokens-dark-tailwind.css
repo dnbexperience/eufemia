@@ -118,7 +118,13 @@
   --color-stroke-action-inverse: var(--coconut-coffee-900);
   --color-stroke-action-hover-inverse: var(--coconut-coffee-900);
   --color-stroke-action-pressed-inverse: var(--coconut-coffee-900);
-  --color-stroke-action-focus: var(--coconut-blue-300);
+  --color-stroke-action-focus: var(--coconut-semantic-information-100);
+  --color-stroke-action-focus-ondark: var(
+    --coconut-semantic-information-100
+  );
+  --color-stroke-action-focus-inverse: var(
+    --coconut-semantic-information-500
+  );
   --color-stroke-action-focus-subtle: var(--coconut-brown-950);
   --color-stroke-action-disabled: var(--coconut-brown-600);
   --color-stroke-selected: var(--coconut-brown-25);
@@ -257,6 +263,7 @@
     --coconut-coffee-900
   );
   --color-component-progressbar-neutral-onsubtle: var(--coconut-brown-750);
+  --color-component-cell-background-striped: var(--coconut-brown-850);
   --radius-0: 0;
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;
