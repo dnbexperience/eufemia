@@ -20,6 +20,22 @@ Buttons support keyboard interaction: Tab moves focus, and Enter or Space activa
 
 For buttons without visible text, follow the [icon-only button guidance](/web/components/button/demos/#icon-button).
 
+### Click and touch area
+
+Use `bounding` to make a button easier to click or tap without changing its visible size. It adds an invisible area that extends 5% of the button width on each side and 20% of its height above and below. The same proportions apply to all Button sizes, with and without text.
+
+For example, at the default root font size:
+
+| Icon button size | Visible size | Area with `bounding` |
+| ---------------- | ------------ | -------------------- |
+| `small`          | 24 × 24px    | 26.4 × 33.6px        |
+| `medium`         | 32 × 32px    | 35.2 × 44.8px        |
+| `default`        | 40 × 40px    | 44 × 56px            |
+
+`bounding` does not reserve space in the layout or guarantee a minimum target size such as 44 × 44px. Leave room around the button so its extended area does not overlap another control. An ancestor with `overflow: hidden` or `overflow: auto` can clip the area.
+
+Prefer a larger Button `size` when the layout allows it. If a smaller visible button needs a larger target, customize `.dnb-button__bounding` for that layout and check both the target size and neighboring controls. Components such as HelpButton, DatePicker, and Card already customize this area for their layouts.
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=339-154)
