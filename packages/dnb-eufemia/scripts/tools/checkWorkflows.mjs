@@ -66,9 +66,9 @@ const GITHUB_OWNERS = ['actions', 'github']
 const USES =
   /(?:^[ \t]*(?:- )?|[{,][ \t]*)["']?uses["']?[ \t]*:[ \t]*["']?([^"'\s,}#]+)/gm
 
-// `secrets.NAME` or `secrets['NAME']`
+// `secrets.NAME` or `secrets['NAME']`, in any letter case
 const RETIRED_SECRETS =
-  /\bsecrets\s*(?:\.\s*(GH_TOKEN|GH_NAME|GH_EMAIL)\b|\[\s*["'](GH_TOKEN|GH_NAME|GH_EMAIL)["']\s*\])/g
+  /\bsecrets\s*(?:\.\s*(GH_TOKEN|GH_NAME|GH_EMAIL)\b|\[\s*["'](GH_TOKEN|GH_NAME|GH_EMAIL)["']\s*\])/gi
 
 export function checkWorkflowFile({
   file,
