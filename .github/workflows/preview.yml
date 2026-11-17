@@ -137,7 +137,7 @@ jobs:
               owner,
               repo,
               ref: context.payload.pull_request.head.sha,
-              environment: 'Preview',
+              environment: 'Portal preview',
               transient_environment: true,
               production_environment: false,
               // Deploy without waiting for the other checks on this commit.
