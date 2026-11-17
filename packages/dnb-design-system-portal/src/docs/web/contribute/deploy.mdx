@@ -120,7 +120,7 @@ A release starts when a push reaches a release branch, normally when a maintaine
    1. updates `CHANGELOG.md`, and pushes the `chore(release): <version> [skip ci]` commit and the `v<version>` tag to the branch,
    1. publishes the package to npm with Trusted Publishing and provenance,
    1. creates the GitHub release with the package tarball.
-1. **Notify released PRs and issues** comments on the released pull requests and issues and labels them `released`, with its own release bot token. It runs only when the release has items to notify, and can be re-run on its own without publishing or deploying again.
+1. **Notify released PRs and issues** comments on the released pull requests and issues and labels them `released`, with its own release bot token. It also runs in the `npm-release` environment, so when that environment requires reviewers, it waits for its own approval after **Publish release**. It runs only when the release has items to notify, and can be re-run on its own without publishing or deploying again.
 1. **Generate release SBOM** and **Attest and publish release SBOM** run only when a new version was published. They attach the SBOM (`sbom.cdx.json`) and the vulnerability report to the GitHub release.
 1. **Deploy portal to GitHub Pages** deploys the Portal (on `release` only), also when no new version was published.
 
