@@ -1223,9 +1223,12 @@ html.dnb-sidebar-menu-resize-handle--resizing
   background-color: var(--token-color-background-neutral);
 
   .dnb-drawer__reveal & {
+    position: relative;
     flex-direction: row;
     align-items: center;
     padding-block: 0.5rem;
+
+    background-color: transparent;
 
     .dnb-modal__header__bar__close {
       background-color: transparent;

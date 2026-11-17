@@ -248,7 +248,7 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
               '#sidebar-reveal-page button'
             )
             .click()
-          await new Promise<void>((resolve) => {
+          await new Promise<void>((resolve, reject) => {
             function scrollMenu() {
               const scroll = document.querySelector<HTMLElement>(
                 '.dnb-drawer__reveal-scroll'
@@ -257,10 +257,26 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
                 requestAnimationFrame(scrollMenu)
                 return
               }
+              const navigation = document.querySelector<HTMLElement>(
+                '.dnb-sidebar-menu-responsive-drawer .dnb-drawer__navigation'
+              )
+              const { position, backgroundColor } =
+                getComputedStyle(navigation)
+              if (
+                position !== 'relative' ||
+                backgroundColor !== 'rgba(0, 0, 0, 0)'
+              ) {
+                reject(
+                  new Error(
+                    'The reveal header must stay relative and transparent'
+                  )
+                )
+                return
+              }
               scroll.parentElement.style.height = '8rem'
               requestAnimationFrame(() => {
                 scroll.scrollTo({
-                  top: scroll.scrollHeight,
+                  top: 44,
                   behavior: 'instant',
                 })
                 resolve()
