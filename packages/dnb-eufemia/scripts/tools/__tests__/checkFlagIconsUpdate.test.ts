@@ -82,6 +82,22 @@ describe('checkFlagIconsUpdate', () => {
     ).toEqual(['yarn.lock: "evil@npm:1.0.0" changed'])
   })
 
+  it('reports a flag-icons entry that resolves to another source', () => {
+    expect(
+      checkFlagIconsUpdate({
+        beforeLock: lock('7.5.0'),
+        afterLock: lock('7.6.0').replace(
+          'resolution: "flag-icons@npm:7.6.0"',
+          'resolution: "flag-icons@https://example.com/flag-icons-7.6.0.tgz"'
+        ),
+        beforeManifest: manifest('7.5.0'),
+        afterManifest: manifest('7.6.0'),
+      })
+    ).toEqual([
+      'yarn.lock: "flag-icons@npm:7.6.0" does not resolve to flag-icons on npm',
+    ])
+  })
+
   it('reports a workspace dependency other than flag-icons that changed', () => {
     expect(
       checkFlagIconsUpdate({
