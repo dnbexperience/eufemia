@@ -79,6 +79,8 @@ Set `--search-width` and `--search-compact-width` to customize the expanded and 
 
 Set `shortcut` to enable Cmd+K on Mac and Ctrl+K elsewhere and display a platform-specific hint inside the input. The shortcut leaves other focused text fields and editors alone. If several Search components enable the shortcut, the first visible, enabled input in document order receives focus. When a modal is open, the shortcut stays within that modal. Enable it on the primary search in a page. The shortcut hint is hidden on small screens and while the input has content.
 
+When the shortcut moves focus into Search, Escape closes open results first. Press Escape again to return focus to the original control without clearing the query. An empty compact input collapses after losing focus; a query keeps it expanded.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/search)

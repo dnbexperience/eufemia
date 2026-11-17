@@ -143,6 +143,10 @@ for (const fixture of [
           }
         })
       }, fixture)
+    await page.locator('h1').evaluate((heading) => {
+      heading.setAttribute('tabindex', '-1')
+      heading.focus()
+    })
     await page.keyboard.press(
       (await search.locator('kbd').textContent()).includes('⌘')
         ? 'Meta+k'
@@ -153,6 +157,11 @@ for (const fixture of [
       .poll(async () => (await search.boundingBox()).width)
       .toBeGreaterThan(collapsed)
     await input.fill('Button')
+    await page.keyboard.press('Escape')
+    await page.keyboard.press('Escape')
+    await expect(page.locator('h1')).toBeFocused()
+    await expect(input).toHaveValue('Button')
+    await input.focus()
     await expect(search.locator('kbd')).toBeHidden()
     await page.locator('h1').click()
     await expect(input).toHaveValue('Button')
