@@ -564,6 +564,15 @@ describe.each([
 })
 
 describe('Search.Input', () => {
+  it('uses the submit button icon without adding a separate loupe', () => {
+    render(<Search.Input showSubmitButton />)
+
+    expect(
+      document.querySelector('.dnb-input__submit-button .dnb-icon')
+    ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-input__icon')).toBeNull()
+  })
+
   it('exposes an ordinary search input and forwards its ref and changes', () => {
     const ref = createRef<HTMLInputElement>()
     const onChange = vi.fn()
