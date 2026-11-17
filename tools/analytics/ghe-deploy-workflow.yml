@@ -109,12 +109,14 @@ jobs:
             '{clientId: $clientId, tenantId: $tenantId, redirectUri: $redirectUri, apiBaseUrl: $apiBaseUrl, apiScope: $apiScope}' \
             > ../dashboard/config.json
 
-          # Publish the built dashboard. index.html and the runtime config.json
-          # are not fingerprinted, so serve them no-cache and revalidate (paired
-          # with the invalidation below); the hashed assets under assets/ are
-          # immutable but revalidating them is harmless.
+          # Files under assets/ have content-hashed names, so browsers may keep them;
+          # index.html and config.json don't, so they stay no-cache (see the invalidation below).
+          aws s3 sync ../dashboard/assets "s3://${BUCKET}/assets" \
+            --delete \
+            --cache-control 'public,max-age=31536000,immutable'
           aws s3 sync ../dashboard "s3://${BUCKET}" \
             --delete \
+            --exclude 'assets/*' \
             --cache-control 'no-cache'
 
           # Invalidate so the new config.json and assets are served immediately.
