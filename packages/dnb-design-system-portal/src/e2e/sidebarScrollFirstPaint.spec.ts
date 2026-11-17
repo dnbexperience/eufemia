@@ -195,7 +195,7 @@ for (const width of [1440, 1280]) {
           await expect
             .poll(() => view.evaluate((element) => element.scrollTop))
             .toBe(storedPosition)
-          await test.step('paints the hydrated logo and accordion icon', async () => {
+          await test.step('matches the hydrated logo and accordion icon before hydration', async () => {
             const logo = view
               .getByTitle('Go to Eufemia home')
               .locator('xpath=..')
