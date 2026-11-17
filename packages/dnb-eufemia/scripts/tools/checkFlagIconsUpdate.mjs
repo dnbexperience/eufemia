@@ -52,6 +52,19 @@ export function checkFlagIconsUpdate({
       continue
     }
     if (key.startsWith('"flag-icons@npm:')) {
+      // The key stays the same when only the resolution changes, so check
+      // that the entry still resolves to the flag-icons package on npm
+      const version = newLines
+        .find((line) => line.startsWith('  version: '))
+        ?.slice('  version: '.length)
+      if (
+        newLines.length > 0 &&
+        !newLines.includes(`  resolution: "flag-icons@npm:${version}"`)
+      ) {
+        problems.push(
+          `yarn.lock: ${key.replace(/:$/, '')} does not resolve to flag-icons on npm`
+        )
+      }
       continue
     }
 
