@@ -297,7 +297,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   outline-offset: var(--focus-outline-offset);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
-  outline-color: var(--token-color-stroke-action-focus-ondark, var(--token-color-stroke-action-ondark));
+  outline-color: var(--token-color-stroke-action-focus-ondark);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-color: var(--anchor-color--hover);
@@ -422,7 +422,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     outline-offset: var(--focus-outline-offset);
   }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
-    outline-color: var(--token-color-stroke-action-focus-ondark, var(--token-color-stroke-action-ondark));
+    outline-color: var(--token-color-stroke-action-focus-ondark);
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-color: var(--anchor-color--hover);
@@ -523,7 +523,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   outline-offset: var(--focus-outline-offset);
 }
 .dnb-anchor--focus:where(.dnb-anchor--surface-dark) {
-  outline-color: var(--token-color-stroke-action-focus-ondark, var(--token-color-stroke-action-ondark));
+  outline-color: var(--token-color-stroke-action-focus-ondark);
 }
 
 .dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {

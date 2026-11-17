@@ -85,10 +85,7 @@
   @include utilities.focusOutline();
 
   &:where(.dnb-anchor--surface-dark) {
-    outline-color: var(
-      --token-color-stroke-action-focus-ondark,
-      var(--token-color-stroke-action-ondark)
-    );
+    outline-color: var(--token-color-stroke-action-focus-ondark);
   }
 
   @content;

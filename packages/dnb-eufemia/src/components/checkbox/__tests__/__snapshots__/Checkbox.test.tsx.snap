@@ -805,7 +805,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   outline-offset: var(--focus-outline-offset);
 }
 html[data-whatinput=keyboard] .dnb-checkbox--surface-dark .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
-  outline-color: var(--token-color-stroke-action-focus-ondark, var(--token-color-stroke-action-ondark));
+  outline-color: var(--token-color-stroke-action-focus-ondark);
 }
 .dnb-checkbox {
   /** Skeleton **/

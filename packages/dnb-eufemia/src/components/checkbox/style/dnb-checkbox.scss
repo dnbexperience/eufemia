@@ -700,10 +700,7 @@
 
   &--surface-dark &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      outline-color: var(
-        --token-color-stroke-action-focus-ondark,
-        var(--token-color-stroke-action-ondark)
-      );
+      outline-color: var(--token-color-stroke-action-focus-ondark);
     }
   }
 

@@ -64,10 +64,7 @@
   white-space: nowrap;
 
   &--surface-dark {
-    --button-color-outline: var(
-      --token-color-stroke-action-focus-ondark,
-      var(--token-color-stroke-action-ondark)
-    );
+    --button-color-outline: var(--token-color-stroke-action-focus-ondark);
   }
 
   &--wrap {

@@ -626,7 +626,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-rad
   outline-offset: var(--focus-outline-offset);
 }
 html[data-whatinput=keyboard] .dnb-radio--surface-dark .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
-  outline-color: var(--token-color-stroke-action-focus-ondark, var(--token-color-stroke-action-ondark));
+  outline-color: var(--token-color-stroke-action-focus-ondark);
 }
 .dnb-radio {
   /** Disabled state **/

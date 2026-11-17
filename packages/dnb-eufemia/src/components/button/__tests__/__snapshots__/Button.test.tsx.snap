@@ -578,10 +578,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   white-space: nowrap;
 }
 .dnb-button--surface-dark {
-  --button-color-outline: var(
-    --token-color-stroke-action-focus-ondark,
-    var(--token-color-stroke-action-ondark)
-  );
+  --button-color-outline: var(--token-color-stroke-action-focus-ondark);
 }
 .dnb-button--wrap {
   overflow-wrap: break-word;
