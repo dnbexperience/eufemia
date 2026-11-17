@@ -52,6 +52,7 @@ describe('analytics infrastructure', () => {
     )
 
     expect(lifecycle).toMatch(/bucket\s+=\s+aws_s3_bucket\.dashboard\.id/)
+    expect(lifecycle).toMatch(/status\s+=\s+"Enabled"/)
     expect(lifecycle).toMatch(
       /filter \{\}\s+noncurrent_version_expiration \{\s+noncurrent_days\s+=\s+7\s+\}/
     )
