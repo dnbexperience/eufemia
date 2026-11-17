@@ -157,10 +157,8 @@ export const PaymentCardBrandLogosListExample = () => (
           </Avatar>
         </List.Cell.Start>
         <List.Cell.Title>
-          <span>
-            <Badge status="warning" content="Sperret" right="x-small" />
-            DNB Business Visa •••• 1234
-          </span>
+          <Badge status="warning" content="Sperret" right="x-small" />
+          DNB Business Visa •••• 1234
           <List.Cell.Title.Subline variant="description">
             Bedriftskonto (1234 12 12345)
           </List.Cell.Title.Subline>
