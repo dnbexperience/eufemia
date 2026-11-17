@@ -27,9 +27,9 @@ deploys through GitHub OIDC without AWS access keys. The public workflow then
 waits for a versioned font and SVG to return HTTP 200 with the expected Content
 Security Policy through the public hostname, and fails if either check times out.
 
-The infrastructure uses `environment=dev` because Eufemia currently has one AWS
-account, `DNB-EUFEMIA-Dev`. The production Akamai hostname is independent of
-that AWS account classification.
+The infrastructure uses `environment=dev` because Eufemia's only AWS account is
+a dev account. The production Akamai hostname is independent of that AWS
+account classification.
 
 The deploy repository requires:
 
@@ -38,14 +38,15 @@ The deploy repository requires:
 - secret `EDGE_AUTH_SECRET`: the value Akamai sends in the `X-Origin-Verify`
   request header
 
-The public repository requires `GHE_ASSETS_DEPLOY_REPO=eufemia/eufemia-assets`.
+The public repository requires the repository variable `GHE_ASSETS_DEPLOY_REPO`,
+set to the internal assets repository.
 Its existing `GHE_DEPLOY_PAT`, a secret of the `ghe-deploy` environment, must
 also be granted Contents read/write access to that repository, and permission to
 write workflow files, because the push includes `.github/workflows/deploy.yml`.
 Without it the push is rejected and no version reaches the CDN.
 
 After the first AWS deployment, copy the `origin_hostname` Terraform output to
-the `assets.eufemia.dnb.no` property in `akamai_delivery_eufemia`. Configure the
+the `assets.eufemia.dnb.no` property in the internal Akamai delivery repository. Configure the
 property like the CloudFront-backed dashboard property, including
 `X-Origin-Verify`; the Lambda-backed server property uses a different header.
 The public DNS record is created by that repository's standard Akamai DNS PR
