@@ -487,7 +487,11 @@ function ConversationContent(props: ChatConversationProps) {
             ref={contentRef}
             className="dnb-ai-conversation__content"
             onAnimationEnd={(event) => {
-              if (event.animationName === 'dnb-ai-conversation-enter') {
+              // Isolated styles add the scope to the keyframe name
+              if (
+                event.animationName.split('__')[0] ===
+                'dnb-ai-conversation-enter'
+              ) {
                 const item = event.target as HTMLElement
                 item.style.containIntrinsicBlockSize = `auto ${item.offsetHeight}px`
                 item.removeAttribute('data-entering')

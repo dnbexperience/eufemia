@@ -694,6 +694,41 @@ describe('Chat.Conversation turns', () => {
     expect(messages[2]).toHaveAttribute('data-entering')
   })
 
+  it.each([
+    'dnb-ai-conversation-enter',
+    'dnb-ai-conversation-enter__eufemia-scope--1_2_3',
+  ])('ends the fade-in of a new message on "%s"', (animationName) => {
+    const { rerender } = renderTurn(['Hi'])
+    resize()
+
+    rerender(
+      <Conversation>
+        {['Hi', 'Hello'].map((text, index) => (
+          <Message key={index} from={index % 2 ? 'assistant' : 'user'}>
+            {text}
+          </Message>
+        ))}
+      </Conversation>
+    )
+    resize()
+
+    const message = document.querySelectorAll('.dnb-ai-message')[1]
+    expect(message).toHaveAttribute('data-entering')
+
+    // React listens to the prefixed event in jsdom
+    const endAnimation = (name: string) => {
+      const event = new Event('webkitAnimationEnd', { bubbles: true })
+      Object.defineProperty(event, 'animationName', { value: name })
+      fireEvent(message, event)
+    }
+
+    endAnimation('other')
+    expect(message).toHaveAttribute('data-entering')
+
+    endAnimation(animationName)
+    expect(message).not.toHaveAttribute('data-entering')
+  })
+
   it('adjusts the scroll to a message when messages above change size', () => {
     let controls: ReturnType<typeof useConversation>
     const Toolbar = () => {

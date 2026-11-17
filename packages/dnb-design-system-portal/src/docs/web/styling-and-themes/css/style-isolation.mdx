@@ -111,6 +111,7 @@ The plugin accepts an options object. The default options are:
   sharedScopeHash: undefined, // Provide a function that returns an array of shared scope hashes
   verbose: false,
   warnOnDeprecatedColorVariables: true, // Set to false to disable warnings about deprecated --color-* variables
+  scopeKeyframes: false, // Set to true to add the scope to keyframe names
 }
 ```
 
@@ -360,7 +361,8 @@ getStyleScopeHash() // 'eufemia-scope--1_2_3'
 
 - Selectors already containing the correct scope (e.g. `.eufemia-scope--something`) are not scoped again.
 
-- `@keyframes` are omitted from scoping for now.
+- `@keyframes` names stay global by default. With `scopeKeyframes: true`, the scope is added to `@keyframes` names and to the names used in `animation` and `animation-name`. Eufemia's isolated CSS files use this option, so their animations do not affect other Eufemia versions on the page. Enable it only when all CSS that defines or uses the keyframes is processed with the plugin.
+  e.g. `@keyframes fade {}` → `@keyframes fade__eufemia-scope--1_2_3 {}` and `animation: fade 1s` → `animation: fade__eufemia-scope--1_2_3 1s`
 
 #### CSS Modules Specific
 

@@ -114,6 +114,7 @@ export const runFactory = async (
           {
             plugins: [
               postcssIsolatePlugin({
+                scopeKeyframes: true,
                 verbose: false,
               }),
               postcssFontUrlRewritePlugin({

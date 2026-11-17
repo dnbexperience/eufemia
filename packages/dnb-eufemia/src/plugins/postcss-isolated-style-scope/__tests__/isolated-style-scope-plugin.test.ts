@@ -17,6 +17,7 @@ type Options = {
   replaceClassNames?: Record<string, string>
   postcssOptions?: postcss.ProcessOptions
   sharedScopeHash?: (file: string) => string[]
+  scopeKeyframes?: boolean
 }
 
 async function run(
@@ -609,21 +610,38 @@ describe('isolated-style-scope-plugin', () => {
     })
   })
 
-  // TODO: Add support for keyframes renaming
-  describe.skip('Keyframes Renaming', () => {
+  describe('Keyframes Renaming', () => {
+    const options = { scopeHash: 'test-scope', scopeKeyframes: true }
+
+    it('should not rename keyframes by default', async () => {
+      return await run(
+        '@keyframes spin { to { opacity: 1; } }\n.icon { animation: spin 2s; }',
+        '@keyframes spin { to { opacity: 1; } }\n.test-scope .icon { animation: spin 2s; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
     it('should rename keyframes with scope suffix', async () => {
       return await run(
         '@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }',
         '@keyframes fadeIn__test-scope { from { opacity: 0; } to { opacity: 1; } }',
-        { scopeHash: 'test-scope' }
+        options
+      )
+    })
+
+    it('should rename keyframes inside at-rules and with a vendor prefix', async () => {
+      return await run(
+        '@media (min-width: 40em) { @-webkit-keyframes spin { to { opacity: 1; } } }',
+        '@media (min-width: 40em) { @-webkit-keyframes spin__test-scope { to { opacity: 1; } } }',
+        options
       )
     })
 
     it('should update animation-name declarations to hashed keyframe', async () => {
       return await run(
-        '.btn { animation-name: fadeIn; }',
-        '.test-scope .btn { animation-name: fadeIn__test-scope; }',
-        { scopeHash: 'test-scope' }
+        '.btn { animation-name: fadeIn; -webkit-animation-name: fadeIn; }',
+        '.test-scope .btn { animation-name: fadeIn__test-scope; -webkit-animation-name: fadeIn__test-scope; }',
+        options
       )
     })
 
@@ -631,14 +649,46 @@ describe('isolated-style-scope-plugin', () => {
       return await run(
         '.icon { animation: spin 2s linear infinite; }',
         '.test-scope .icon { animation: spin__test-scope 2s linear infinite; }',
-        { scopeHash: 'test-scope' }
+        options
       )
     })
 
     it('should handle multiple keyframes and animations', async () => {
       const input = `@keyframes slide { from { left:0 } to { left:100px } }\n.icon { animation: slide 1s, spin 2s; }`
       const output = `@keyframes slide__test-scope { from { left:0 } to { left:100px } }\n.test-scope .icon { animation: slide__test-scope 1s, spin__test-scope 2s; }`
-      return await run(input, output, { scopeHash: 'test-scope' })
+      return await run(input, output, options)
+    })
+
+    it('should keep keywords, functions and custom properties', async () => {
+      return await run(
+        '.a { animation: none; animation-name: inherit; } .b { animation: 1s steps(4, end) infinite alternate both paused fade var(--delay, 0ms) cubic-bezier(0.1, 0.2, 0.3, 1); } .c { animation-name: var(--name); }',
+        '.test-scope .a { animation: none; animation-name: inherit; } .test-scope .b { animation: 1s steps(4, end) infinite alternate both paused fade__test-scope var(--delay, 0ms) cubic-bezier(0.1, 0.2, 0.3, 1); } .test-scope .c { animation-name: var(--name); }',
+        options
+      )
+    })
+
+    it('should not rename keyframes twice', async () => {
+      return await run(
+        '@keyframes spin__test-scope { to { opacity: 1; } }\n.icon { animation: spin__test-scope 2s; }',
+        '@keyframes spin__test-scope { to { opacity: 1; } }\n.test-scope .icon { animation: spin__test-scope 2s; }',
+        options
+      )
+    })
+
+    it('should keep :global keyframe names in CSS Modules', async () => {
+      return await run(
+        '@keyframes :global(spin) { to { opacity: 1; } }',
+        '@keyframes :global(spin) { to { opacity: 1; } }',
+        { ...options, runAsCssModule: true }
+      )
+    })
+
+    it('should use the main scope for keyframes with shared scopes', async () => {
+      return await run(
+        '@keyframes spin { to { opacity: 1; } }\n.icon { animation: spin 2s; }',
+        '@keyframes spin__test-scope { to { opacity: 1; } }\n.test-scope .icon, .shared .icon { animation: spin__test-scope 2s; }',
+        { ...options, sharedScopeHash: () => ['shared'] }
+      )
     })
   })
 

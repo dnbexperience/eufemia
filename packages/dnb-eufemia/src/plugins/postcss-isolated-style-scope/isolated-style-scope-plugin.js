@@ -17,6 +17,58 @@ const { getStyleScopeHash } = require('./plugin-scope-hash.cjs')
 const DESIGN_TOKENS_GUIDE_URL =
   'https://eufemia.dnb.no/web/styling-and-themes/design-tokens/guide/'
 
+const ANIMATION_KEYWORDS = new Set([
+  'alternate',
+  'alternate-reverse',
+  'auto',
+  'backwards',
+  'both',
+  'ease',
+  'ease-in',
+  'ease-in-out',
+  'ease-out',
+  'forwards',
+  'infinite',
+  'inherit',
+  'initial',
+  'linear',
+  'none',
+  'normal',
+  'paused',
+  'reverse',
+  'revert',
+  'revert-layer',
+  'running',
+  'step-end',
+  'step-start',
+  'unset',
+])
+
+// Calls fn for each word outside of functions, separated by spaces or commas
+const mapTopLevelWords = (value, fn) => {
+  let output = ''
+  let word = ''
+  let depth = 0
+
+  for (const char of value) {
+    if (depth === 0 && (char === ',' || /\s/.test(char))) {
+      output += fn(word) + char
+      word = ''
+      continue
+    }
+
+    if (char === '(') {
+      depth += 1
+    } else if (char === ')') {
+      depth -= 1
+    }
+
+    word += char
+  }
+
+  return output + fn(word)
+}
+
 const postcssIsolateStyle = (opts = {}) => {
   const {
     scopeHash = 'auto',
@@ -27,6 +79,7 @@ const postcssIsolateStyle = (opts = {}) => {
     verbose = false,
     runAsCssModule = false,
     warnOnDeprecatedColorVariables = true,
+    scopeKeyframes = false,
   } = opts
 
   const currentFallbackHash = getStyleScopeHash()
@@ -89,13 +142,37 @@ const postcssIsolateStyle = (opts = {}) => {
           ? sharedScopeHash(file)
           : undefined
 
+      // Keyframe names are global, so give them the scope as a suffix
+      if (scopeKeyframes) {
+        const suffix = `__${scopeWithFallback}`
+        const scopeName = (name) =>
+          /^-?[_a-zA-Z][\w-]*$/.test(name) &&
+          !ANIMATION_KEYWORDS.has(name.toLowerCase()) &&
+          !name.endsWith(suffix)
+            ? name + suffix
+            : name
+
+        root.walkAtRules((atRule) => {
+          if (/keyframes$/i.test(atRule.name)) {
+            atRule.params = scopeName(atRule.params.trim())
+          }
+        })
+
+        root.walkDecls((decl) => {
+          const prop = decl.prop.toLowerCase().replace(/^-[a-z]+-/, '')
+          if (prop === 'animation' || prop === 'animation-name') {
+            decl.value = mapTopLevelWords(decl.value, scopeName)
+          }
+        })
+      }
+
       root.walkRules((rule) => {
         countBefore += 1
         const selectorBefore = rule.selector
 
         if (
           rule.parent?.type === 'atrule' &&
-          ['keyframes'].includes(rule.parent.name)
+          /keyframes$/i.test(rule.parent.name)
         ) {
           return
         }

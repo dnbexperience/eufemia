@@ -173,4 +173,26 @@ describe('makeLibStyles with enableBuildStyleScope', () => {
       global.files.some((f) => f.includes('--isolated.min.css'))
     ).toBe(true)
   })
+
+  it('should scope keyframe names only in the isolated CSS files', async () => {
+    const { runFactory } = await import('../makeLibStyles')
+    const file = './src/components/popover/style/dnb-popover.scss'
+    const files = await runFactory(file, { returnFiles: true })
+    const results = await runFactory(file, { returnResult: true })
+    const css = (suffix: string) =>
+      results[files.findIndex((f) => f.endsWith(`/dnb-popover${suffix}`))]
+
+    for (const suffix of ['--isolated.css', '--isolated.min.css']) {
+      expect(css(suffix)).toMatch(
+        /@keyframes show-popover__eufemia-scope--default\s?\{/
+      )
+      expect(css(suffix)).toMatch(
+        /animation:\s?show-popover__eufemia-scope--default /
+      )
+      expect(css(suffix)).not.toMatch(/show-popover[ {]/)
+    }
+
+    expect(css('.css')).toMatch(/@keyframes show-popover \{/)
+    expect(css('.css')).not.toContain('__eufemia-scope')
+  })
 })
