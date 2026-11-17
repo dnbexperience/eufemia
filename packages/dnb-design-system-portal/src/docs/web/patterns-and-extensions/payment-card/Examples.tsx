@@ -10,8 +10,10 @@ import PaymentCard, {
   ProductType,
   CardType,
   BankAxeptType,
+  BankAxeptLogo,
+  VisaLogo,
 } from '@dnb/eufemia/src/extensions/payment-card'
-import { H4 } from '@dnb/eufemia/src'
+import { Avatar, Badge, H4, List } from '@dnb/eufemia/src'
 
 export function PaymentCardAllCardsExample() {
   return (
@@ -120,6 +122,54 @@ export const PaymentCardStatusExample = () => (
       cardStatus="blocked"
       cardNumber="••••••••••••1337"
     />
+  </ComponentBox>
+)
+
+export const PaymentCardBrandLogosListExample = () => (
+  <ComponentBox scope={{ BankAxeptLogo, VisaLogo }}>
+    <List.Container>
+      <List.Item.Action onClick={() => {}}>
+        <List.Cell.Start>
+          <Avatar size="medium" backgroundColor="white" hasLabel>
+            <BankAxeptLogo
+              fill="#561488"
+              width="24"
+              height="14"
+              aria-hidden
+            />
+          </Avatar>
+        </List.Cell.Start>
+        <List.Cell.Title>
+          DNB Bedrift BankAxept •••• 1234
+          <List.Cell.Title.Subline variant="description">
+            Bedriftskonto (1234 12 12345)
+          </List.Cell.Title.Subline>
+        </List.Cell.Title>
+        <List.Cell.End>
+          <Badge status="neutral" content="Linn Synnøve Ingebrigtsen" />
+        </List.Cell.End>
+      </List.Item.Action>
+
+      <List.Item.Action onClick={() => {}}>
+        <List.Cell.Start>
+          <Avatar size="medium" backgroundColor="#2639C3" hasLabel>
+            <VisaLogo fill="white" width="25" height="9" aria-hidden />
+          </Avatar>
+        </List.Cell.Start>
+        <List.Cell.Title>
+          <span>
+            <Badge status="warning" content="Sperret" right="x-small" />
+            DNB Business Visa •••• 1234
+          </span>
+          <List.Cell.Title.Subline variant="description">
+            Bedriftskonto (1234 12 12345)
+          </List.Cell.Title.Subline>
+        </List.Cell.Title>
+        <List.Cell.End>
+          <Badge status="neutral" content="Linn Synnøve Ingebrigtsen" />
+        </List.Cell.End>
+      </List.Item.Action>
+    </List.Container>
   </ComponentBox>
 )
 
