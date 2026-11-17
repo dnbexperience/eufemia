@@ -6,6 +6,42 @@ const sourceRoot = path.resolve(__dirname, '../../..')
 const compile = (file: string) =>
   sass.compile(path.join(sourceRoot, file)).css
 
+test('wraps labels at spaces and explicit hyphens without automatic hyphenation', async ({
+  page,
+}) => {
+  const css = compile(
+    'extensions/sidebar-menu/style/dnb-sidebar-menu.scss'
+  )
+
+  await page.setContent(`<style>${css}</style>
+    <div lang="en" style="width: 7rem; font: 16px serif">
+      <div class="dnb-sidebar-menu__item__text" id="word">internationalization</div>
+      <div class="dnb-sidebar-menu__item__text" id="spaces">Incoming payments</div>
+      <div class="dnb-sidebar-menu__item__text" id="explicit">inter&shy;national&shy;ization</div>
+    </div>`)
+
+  const lineCount = (selector: string) =>
+    page.locator(selector).evaluate((element) => {
+      const range = document.createRange()
+      range.selectNodeContents(element)
+      return new Set(
+        Array.from(range.getClientRects(), ({ top }) => Math.round(top))
+      ).size
+    })
+
+  await test.step('keeps an unbroken word together', async () => {
+    expect(await lineCount('#word')).toBe(1)
+  })
+
+  await test.step('wraps between words', async () => {
+    expect(await lineCount('#spaces')).toBeGreaterThan(1)
+  })
+
+  await test.step('respects explicit soft hyphens', async () => {
+    expect(await lineCount('#explicit')).toBeGreaterThan(1)
+  })
+})
+
 test('navigates visible items with arrow keys while preserving Tab and section selection', async ({
   page,
 }) => {
