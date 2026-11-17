@@ -855,8 +855,8 @@ resource "aws_lambda_permission" "apigw" {
 # ---------------------------------------------------------------------------
 
 # A separate HTTP API for the dashboard so its browser/JWT trust model stays
-# isolated from the edge-locked ingest API. It targets the same Lambda; the
-# GET /data route is handled ahead of the edge check.
+# isolated from the edge-locked ingest API. It targets its own read-only
+# dashboard_read Lambda.
 resource "aws_apigatewayv2_api" "dashboard" {
   name          = "${local.function_name}-dashboard"
   protocol_type = "HTTP"
@@ -896,8 +896,8 @@ resource "aws_apigatewayv2_integration" "dashboard" {
   payload_format_version = "2.0"
 }
 
-# Validates Entra (Azure AD) tokens: only users assigned to the app registration
-# receive one, so this is the access gate for the data.
+# Validates Entra (Azure AD) tokens from the DNB tenant; this is the access gate
+# for the data. Any account in the tenant can get one (no user assignment).
 resource "aws_apigatewayv2_authorizer" "entra" {
   api_id           = aws_apigatewayv2_api.dashboard.id
   authorizer_type  = "JWT"
@@ -1255,8 +1255,7 @@ resource "aws_route53_record" "analytics" {
 # ---------------------------------------------------------------------------
 #
 # The dashboard shell holds no data and no secrets: all data lives behind the
-# Entra-authenticated /data API, so data access is gated entirely by the Entra
-# sign-in plus the /data API's JWT authorizer. As defense-in-depth for the shell
+# /data API's Entra JWT authorizer. As defense-in-depth for the shell
 # itself, a viewer-request CloudFront function (below) rejects requests that do
 # not carry the shared X-Origin-Verify header Akamai injects, so the origin is
 # reachable only through the edge. There is no Lambda@Edge. The bucket stays
