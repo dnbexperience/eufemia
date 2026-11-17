@@ -1175,6 +1175,43 @@ describe('Drawer reveal', () => {
     }
   )
 
+  it('keeps focus on the dialog when it has no heading', async () => {
+    render(
+      <>
+        <main id="reveal-page">
+          <button>Page action</button>
+        </main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+          dialogTitle="Menu"
+        >
+          <button>Menu action</button>
+        </Drawer>
+      </>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    const dialog = document.querySelector('[role=dialog]')
+    expect(document.activeElement).toBe(dialog)
+
+    await act(() => new Promise((resolve) => setTimeout(resolve, 10)))
+    expect(document.activeElement).toBe(dialog)
+  })
+
+  it('moves focus to the focusSelector element', async () => {
+    renderReveal({ focusSelector: 'input[type=range]' })
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('input[type=range]')
+      )
+    })
+  })
+
   it('passes accessibility checks with the reveal driver', async () => {
     const component = renderReveal({ open: true, title: 'Menu' })
 

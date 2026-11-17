@@ -657,6 +657,45 @@ describe('Modal component', () => {
     })
   })
 
+  it('restores focus only once when a controlled modal closes', async () => {
+    const restoreFocusTo = vi.fn(() =>
+      document.querySelector<HTMLElement>('#external-trigger')
+    )
+    const TestComponent = () => {
+      const [open, setOpen] = useState(false)
+
+      return (
+        <>
+          <button id="external-trigger" onClick={() => setOpen(true)}>
+            Open
+          </button>
+          <Modal
+            noAnimation
+            omitTriggerButton
+            open={open}
+            onClose={() => setOpen(false)}
+            restoreFocusTo={restoreFocusTo}
+          >
+            <DialogContent />
+          </Modal>
+        </>
+      )
+    }
+
+    render(<TestComponent />)
+
+    await userEvent.click(document.querySelector('#external-trigger'))
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Escape',
+    })
+
+    await waitFor(() => {
+      expect(document.querySelector('div.dnb-dialog')).toBeNull()
+    })
+    expect(restoreFocusTo).toHaveBeenCalledTimes(1)
+  })
+
   it('restores focus to a custom target ref after close', async () => {
     const targetRef: RefObject<HTMLButtonElement | null> = {
       current: null,

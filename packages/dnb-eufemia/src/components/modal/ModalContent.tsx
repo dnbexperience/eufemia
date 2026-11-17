@@ -206,8 +206,10 @@ export default function ModalContent(props: ModalContentProps) {
             const active = document.activeElement
             if (
               active &&
-              active !== dialogContainer &&
               active !== elem &&
+              // focusSelector still applies when only the dialog is focused
+              (active !== dialogContainer ||
+                typeof focusSelector !== 'string') &&
               (root.contains(active) ||
                 (!isOpening &&
                   active.closest('.eufemia-portal-root') &&
