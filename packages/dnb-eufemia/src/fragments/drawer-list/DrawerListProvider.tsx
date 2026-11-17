@@ -1297,10 +1297,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
 
     if (!stateRef.current.isOpen) {
-      // The list handles keys only after its opening delay (blurDelay).
-      // Escape still closes it while it opens, the same way as later, so
-      // that focus goes back to the trigger, and so that an Escape handler
-      // around the list (for example a Dialog) does not get the key too.
+      // Handle Escape during the opening delay too, so a surrounding Dialog stays open
       if (key === 'Escape' && stateRef.current.open) {
         setHidden({ event: e })
         e.preventDefault()
