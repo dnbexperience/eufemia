@@ -25,17 +25,7 @@ import {
 
 <InputExampleDefault />
 
-### Search text placeholder
-
-Search inputs show a loupe icon by default. Add `showSubmitButton` only when an integrated submit button is needed. If you previously relied on `type="search"` to render a submit button, add `showSubmitButton`.
-
-<InputExampleSearch />
-
-### Medium and stretched search input
-
-This example uses `showSubmitButton` to show the integrated submit button.
-
-<InputExampleMedium />
+For search fields, use [Search](/web/components/search/). It provides plain search inputs, suggestions, and flexible result panels. `Input` continues to support the native `type="search"`.
 
 ### Input with icon
 
@@ -88,5 +78,7 @@ The password component has to ensure that there is still room for password manag
 Read more about it in [Field.Password](/web/forms/feature-fields/Password/).
 
 <VisibleWhenVisualTest>
+  <InputExampleSearch />
+  <InputExampleMedium />
   <InputScreenshotTests />
 </VisibleWhenVisualTest>

@@ -6,8 +6,8 @@ import {
   useState,
 } from 'react'
 import { clsx } from 'clsx'
-import Input from '../input/Input'
 import type { InputProps } from '../input/Input'
+import SearchInput from '../search/SearchInput'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import { FilterContext } from './FilterContext'
 
@@ -109,10 +109,10 @@ function FilterSearch({
         className
       )}
     >
-      <Input
+      <SearchInput
         {...rest}
-        type="search"
         label={label}
+        labelSrOnly={rest.labelSrOnly ?? false}
         labelDirection="vertical"
         value={isManual ? localValue : context.state.search}
         onChange={handleChange}

@@ -9,10 +9,14 @@ export type SearchInputProps = InputProps & SearchProps
 function SearchInput(localProps: SearchInputProps) {
   const props = useSearchProps(localProps, {
     type: 'search',
-    icon: 'loupe',
   })
 
-  return <Input {...props} />
+  return (
+    <Input
+      {...props}
+      icon={props.icon ?? (props.showSubmitButton ? undefined : 'loupe')}
+    />
+  )
 }
 
 withComponentMarkers(SearchInput, {
