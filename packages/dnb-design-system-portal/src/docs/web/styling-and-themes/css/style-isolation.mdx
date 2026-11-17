@@ -76,7 +76,8 @@ function MyApp() {
 **Good to know:**
 
 - Remove existing `.dnb-core-style` classes.
-- Font files are loaded from the [immutable CDN path matching the Eufemia version](/web/ai-tools-and-resources/asset-cdn/#stable-and-versioned-urls), so isolated applications do not silently change when a newer release updates a font.
+- Font files are loaded from the [immutable CDN path matching the Eufemia version](/web/ai-tools-and-resources/asset-cdn/#stable-and-versioned-urls).
+- `@font-face` rules are global and are not scoped, so Eufemia versions on the same page share fonts with the same family name. When a font face, such as `DNB`, is declared more than once, the declaration that comes last in the document applies to all applications. Since v11.17, `DNB` and `DNBMono` load the current DNB Sans Text and Mono files. Their regular, medium and bold styles keep the character widths, kerning and line heights of the earlier fonts, so mixing versions does not change the layout of that text. Italic and light text can change width, because earlier versions do not declare these styles.
 
 ### 3. Add the PostCSS plugin
 
