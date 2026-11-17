@@ -39,14 +39,14 @@ For practical guidance on choosing the right tokens for your application compone
 
 ## Common patterns
 
-These examples show how to apply design tokens in typical UI scenarios. Each pattern uses semantic token names so the styles adapt automatically to themes and surfaces.
+These examples show how to apply design tokens in typical UI scenarios. Choose foreground and background together using the [Color guidance](/web/styling-and-themes/color-guidance/), then check the rendered result in each supported theme, mode, and state.
 
 ### Action elements
 
 ```css
 .my-button {
   background-color: var(--token-color-background-action);
-  color: var(--token-color-text-action-inverse);
+  color: var(--token-color-text-neutral-inverse);
   border: 1px solid var(--token-color-stroke-action);
 }
 
@@ -60,7 +60,6 @@ These examples show how to apply design tokens in typical UI scenarios. Each pat
 ```css
 .my-field--error {
   border-color: var(--token-color-stroke-error);
-  color: var(--token-color-text-error);
 }
 
 .my-field--success {
@@ -85,7 +84,7 @@ Eufemia components are progressively adopting design tokens internally. Internal
 // Inside dnb-badge.scss
 .dnb-badge {
   --badge-information-bg: var(--token-color-background-error);
-  --badge-information-color: var(--token-color-text-neutral-inverse);
+  --badge-information-color: var(--token-color-text-neutral-ondark);
 }
 ```
 
@@ -110,7 +109,7 @@ And the component internally moves that value to a token-based custom property, 
 
 ## `ondark` tokens
 
-The `ondark` suffix identifies token variants designed for use on dark backgrounds. Eufemia components use these tokens automatically when `surface="dark"` is active — you do not need to select them yourself.
+The `ondark` suffix identifies variants for fixed dark surfaces. Components that support `surface="dark"` use the surface context to select suitable colors. Dark mode alone does not require `ondark` tokens.
 
 For practical guidance on using `ondark`, `inverse`, and base tokens in your own components, see the [Dark mode guide](/web/styling-and-themes/design-tokens/dark-mode).
 

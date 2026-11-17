@@ -1,6 +1,6 @@
 ---
 title: Color guidance
-description: Find current Eufemia colors and choose them by their purpose.
+description: Choose color tokens for text, backgrounds, borders, icons, and states.
 navigation:
   parent: web/styling-and-themes
   title: Color guidance
@@ -13,11 +13,71 @@ legacyPrefixes:
   - design-language/color
 ---
 
-Use colors by their purpose: text, surfaces, borders, actions, and feedback. Eufemia's current color system is shared through semantic design tokens.
+Choose a color by its role, state, and background. A token name describes its purpose; it does not guarantee contrast with every other token.
+
+## Choose by role
+
+1. Use semantic `--token-color-*` tokens: `text` for content, `background` for surfaces, `stroke` for borders, and `icon` for icons. `component` tokens are internal to Eufemia.
+2. Let base tokens adapt to light and dark mode. Use `inverse` on surfaces that reverse with the scheme, `ondark` on fixed dark surfaces, and `onlight` where available on fixed light surfaces. `static` fixes the value, not its contrast.
+3. Use `text-neutral-alternative` for secondary text and placeholders. Avoid `text-neutral-subtle` for readable content. Disabled tokens belong only on inactive controls; read-only content still needs readable contrast.
+4. Reserve decorative tokens for branded fills. Keep each decorative set together; use semantic tokens for text and states.
+
+## Text and background pairs
+
+Names below omit `--token-color-`. For example, `text-neutral` means `var(--token-color-text-neutral)`.
+
+These pairs follow Eufemia component styles and provide at least **4.5:1** with current tokens across DNB, Eiendom, and Sbanken light and dark modes, and Carnegie light. Start with neutral surfaces for mixed content.
+
+| Background                                                                                                                                                    | Text                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `background-page-background`<br />`background-neutral`<br />`background-neutral-subtle`                                                                       | `text-neutral`<br />`text-neutral-alternative`<br />`text-action`<br />`text-error`<br />`text-positive`<br />`text-warning`                      |
+| `background-info-subtle`<br />`background-positive-subtle`<br />`background-warning-subtle`<br />`background-error-subtle`<br />`background-marketing-subtle` | `text-neutral` in [FormStatus](/web/components/form-status/)<br />`text-action` for links                                                         |
+| `background-positive-subtle`                                                                                                                                  | `text-positive`<br />Subtle positive [Badge](/web/components/badge/)                                                                              |
+| `background-warning-subtle`                                                                                                                                   | `text-warning`<br />Subtle warning [Badge](/web/components/badge/)                                                                                |
+| `background-neutral-base`                                                                                                                                     | `text-neutral`<br />[Tag](/web/components/tag/) and neutral [Badge](/web/components/badge/)                                                       |
+| `background-selected-subtle`                                                                                                                                  | `text-selected`<br />Checked [ToggleButton](/web/components/toggle-button/)<br />`text-neutral`<br />Selected [List](/web/components/list/) items |
+| `background-action`<br />`background-action-hover`<br />`background-action-pressed`<br />`background-selected`<br />`background-positive`                     | `text-neutral-inverse`<br />Selected [Dropdown](/web/components/dropdown/) options and positive [Badge](/web/components/badge/)                   |
+| `background-error`                                                                                                                                            | `text-neutral-ondark`<br />Negative/notification [Badge](/web/components/badge/)                                                                  |
+| `background-warning`                                                                                                                                          | `text-neutral-onlight`<br />Warning [Badge](/web/components/badge/)                                                                               |
+| `decorative-first-bold-static`                                                                                                                                | `text-neutral-ondark` in [Section](/web/components/section/)<br />`text-action-ondark` in [Anchor](/web/components/anchor/)                       |
+
+For fixed dark surfaces, use `surface="dark"` where supported. Dark mode alone does not require `ondark`.
+
+## Strokes and icons
+
+These outlines provide at least **3:1** against the listed backgrounds. Check the outside surface too when it is needed to identify the control or state.
+
+| Background           | Stroke                                                                  | Use                       |
+| -------------------- | ----------------------------------------------------------------------- | ------------------------- |
+| `background-neutral` | `stroke-action`<br />`stroke-action-hover`<br />`stroke-action-pressed` | Input border and states   |
+| `background-neutral` | `stroke-action-alternative`                                             | Unchecked Checkbox border |
+| `background-neutral` | `stroke-error`                                                          | Input error border        |
+| `background-neutral` | `stroke-action-focus`                                                   | Focus ring                |
+
+Card and Table use `stroke-neutral-subtle` for subtle separation. It is not a general control outline and does not guarantee 3:1.
+
+Use `icon-*` for an icon's role, even when its SVG uses `stroke`. Choose it against its immediate fill: a symbol inside a filled shape may need an inverse color while the surrounding text uses an action color.
+
+## Status and interaction
+
+- **Actions:** Keep inline links underlined. Choose foreground and background together for default, hover, and pressed states.
+- **Status:** FormStatus uses neutral message text, a subtle status background, and a matching status icon and optional outline. Input keeps its value neutral; its border and message carry errors. Include text or another visible cue alongside color.
+- **Focus:** Use the shared focus outline and keep text, icons, and backgrounds unchanged. Input uses its own border treatment. Follow the [focus guidance](/web/accessibility/focus/#keyboard-focus-styling) for surface variants and exceptions.
+- **Selection:** Keep selected separate from pressed. ToggleButton retains its selected pair during hover and press. Selected Dropdown options retain inverse text as their fill changes.
+
+## Check the result
+
+Token names are not a contrast guarantee. In particular:
+
+- Do not extend the table to other text roles. Secondary/error text can fail on neutral-base, alternative, bold, and subtle status fills.
+- Avoid `text-action-inverse` on `background-action`, `text-error` on `background-error-subtle`, and `text-action-pressed` on `background-action-pressed-subtle` as general text pairs. Each falls below 4.5:1 in some supported modes.
+- Check rendered components in every supported brand, mode, and state. The transitional Coconut theme is not covered by the tables. Brand overrides, opacity, overlays, images, and nested surfaces can change the result.
+
+[Text needs 4.5:1](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), or 3:1 for large text (at least 24 CSS px, or 18.67 CSS px bold). [Meaningful icons and necessary control/state cues need 3:1](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) against adjacent colors. Decorative separators have no automatic 3:1 requirement. Do not round a failing value up.
+
+## More guidance
 
 - [Browse current colors](/web/styling-and-themes/design-tokens/colors/).
-- [Choose colors by their role](/web/styling-and-themes/design-tokens/guide/).
+- [Implement design tokens](/web/styling-and-themes/design-tokens/guide/).
 - [Design for dark mode](/web/styling-and-themes/design-tokens/dark-mode/).
 - [Check accessibility and contrast](/web/accessibility/design-guidance/).
-
-For implementation, see [Web design tokens](/web/styling-and-themes/design-tokens/). The [legacy palette](/web/styling-and-themes/legacy-colors/#legacy-color-palette) and [legacy CSS colors](/web/styling-and-themes/legacy-colors/) remain available for older applications.
