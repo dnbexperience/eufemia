@@ -3075,6 +3075,62 @@
           }
         }
       },
+      "action-focus-ondark": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9215686321258545,
+            0.9647058844566345,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#EBF6FF"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:73675:32985",
+          "com.figma.scopes": [
+            "STROKE_COLOR"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "--token-color-stroke-action-focus-ondark"
+          },
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6948:174",
+            "targetVariableName": "sbanken/blue/100",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+            "targetVariableSetName": "colors"
+          }
+        }
+      },
+      "action-focus-inverse": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.3607843220233917,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#005CFF"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:73675:32987",
+          "com.figma.scopes": [
+            "STROKE_COLOR"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "--token-color-stroke-action-focus-inverse"
+          },
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:55911673a8ecd78c1b10cd53d382b7ff68b19605/6948:183",
+            "targetVariableName": "sbanken/blue/600",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+            "targetVariableSetName": "colors"
+          }
+        }
+      },
       "action-focus-subtle": {
         "$type": "color",
         "$value": {
@@ -5652,6 +5708,35 @@
             "com.figma.codeSyntax": {
               "WEB": "--token-color-component-progressbar-neutral-onsubtle"
             },
+            "com.figma.aliasData": {
+              "targetVariableId": "VariableID:a625535441c5d884ddba489e3e29d825b09ec8dd/6948:194",
+              "targetVariableName": "sbanken/greyscale/800",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+              "targetVariableSetName": "colors"
+            }
+          }
+        }
+      },
+      "cell": {
+        "background-striped": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.22745098173618317,
+              0.22745098173618317,
+              0.29019609093666077
+            ],
+            "alpha": 1,
+            "hex": "#3A3A4A"
+          },
+          "$description": "Alternating cell or table-row background. Matches Native Color/Component/Cell/background-striped; uses each Web brand’s subtle neutral palette.",
+          "$extensions": {
+            "com.figma.variableId": "VariableID:73635:156",
+            "com.figma.scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ],
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:a625535441c5d884ddba489e3e29d825b09ec8dd/6948:194",
               "targetVariableName": "sbanken/greyscale/800",
