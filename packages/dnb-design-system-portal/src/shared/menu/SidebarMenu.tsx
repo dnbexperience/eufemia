@@ -161,6 +161,7 @@ export default function SidebarLayout({
         <div
           className={sidebarLogoStyle}
           data-scrolled={hasScrolled || undefined}
+          suppressHydrationWarning
         >
           <Link href="/" title="Go to Eufemia home">
             <PortalLogo />
@@ -171,8 +172,7 @@ export default function SidebarLayout({
       <SidebarMenu.PreHydrationScript />
       <script
         dangerouslySetInnerHTML={{
-          __html:
-            "document.getElementById('portal-sidebar-scroll-restoration')?.remove()",
+          __html: `document.getElementById('portal-sidebar-scroll-restoration')?.remove();{const v=document.querySelector('#portal-sidebar-menu .portal-sidebar-scroll-view');const l=v?.querySelector('.${sidebarLogoStyle}');if(l&&v.scrollTop>0){l.setAttribute('data-scrolled','true');l.getAnimations({subtree:true}).forEach((a)=>a.finish())}}`,
         }}
       />
     </Provider>
