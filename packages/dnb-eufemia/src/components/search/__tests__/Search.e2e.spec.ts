@@ -960,6 +960,44 @@ test('panel supports results, chip filters, sorting, and natural keyboard focus'
   await expect(input).toHaveAttribute('aria-expanded', 'false')
 })
 
+test('panel keeps nested sorting controls open through Tab keyup', async ({
+  page,
+  browserName,
+}) => {
+  const tab = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+  const input = page.getByRole('combobox', { name: 'Search with filters' })
+  const sort = page.getByRole('button', { name: /^Sort results:/ })
+  const menu = page.getByRole('menu', { name: 'Sort results' })
+
+  await input.scrollIntoViewIfNeeded()
+  await input.focus()
+  const results = page.getByRole('listbox', {
+    name: 'Search with filters',
+  })
+  await expect(results).toBeVisible()
+  await waitForPanelAnimation(results)
+  await input.press(tab)
+  await expect(sort).toBeFocused()
+  await sort.press('Enter')
+  await expect(menu).toBeFocused()
+  await page.keyboard.press(tab)
+  await expect(input).toHaveAttribute('aria-expanded', 'true')
+  await expect
+    .poll(() =>
+      sort.evaluate((button) => {
+        const menu = document.getElementById(
+          button.getAttribute('aria-controls')
+        )
+        return (
+          document.activeElement === button ||
+          !!menu?.contains(document.activeElement)
+        )
+      })
+    )
+    .toBe(true)
+  await expect(input).toHaveAttribute('aria-expanded', 'true')
+})
+
 test('panel keeps the input and results stationary when tabbing through every control', async ({
   page,
   browserName,

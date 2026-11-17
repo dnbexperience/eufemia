@@ -64,7 +64,7 @@ function SearchPanel(localProps: SearchPanelProps) {
   const descriptionId = `${useId()}-panel-description`
   const triggerOffset = popoverProps?.triggerOffset ?? 8
   const targetRef = useRef<HTMLInputElement>(null)
-  const nestedPointerRef = useRef(false)
+  const nestedInteractionRef = useRef(false)
   const setInputRef = useCallback(
     (element: HTMLInputElement | null) => {
       targetRef.current = element
@@ -86,14 +86,14 @@ function SearchPanel(localProps: SearchPanelProps) {
         aria-describedby={combineDescribedBy(props, descriptionId)}
         inputRef={setInputRef}
         onClose={(args) =>
-          nestedPointerRef.current ? false : props.onClose?.(args)
+          nestedInteractionRef.current ? false : props.onClose?.(args)
         }
         resultsRender={({ results, open, close, resultsRef }) => (
           <SearchPanelSurface
             {...popoverProps}
             className={clsx('dnb-search__panel', popoverProps?.className)}
             inputRef={targetRef}
-            nestedPointerRef={nestedPointerRef}
+            nestedInteractionRef={nestedInteractionRef}
             minHeight={minHeight}
             maxHeight={maxHeight}
             contentRef={resultsRef}
@@ -113,6 +113,7 @@ function SearchPanel(localProps: SearchPanelProps) {
             preventClose
             restoreFocus={false}
             focusOnOpen={false}
+            fixedPosition
             disableFocusTrap
             closeButtonProps={{
               // Keep pointer focus from scrolling the surface before click.
@@ -160,13 +161,13 @@ function SearchPanel(localProps: SearchPanelProps) {
 
 function SearchPanelSurface({
   inputRef,
-  nestedPointerRef,
+  nestedInteractionRef,
   minHeight,
   maxHeight,
   ...props
 }: PopoverProps & {
   inputRef: RefObject<HTMLInputElement>
-  nestedPointerRef: RefObject<boolean>
+  nestedInteractionRef: RefObject<boolean>
   contentRef: RefObject<HTMLSpanElement>
   minHeight?: SearchPanelProps['minHeight']
   maxHeight?: SearchPanelProps['maxHeight']
@@ -180,7 +181,7 @@ function SearchPanelSurface({
 
     // Window capture runs before the surface marks a nested interaction.
     const reset = () => {
-      nestedPointerRef.current = false
+      nestedInteractionRef.current = false
     }
     const events = ['pointerdown', 'keydown', 'click'] as const
     events.forEach((type) => window.addEventListener(type, reset, true))
@@ -190,7 +191,7 @@ function SearchPanelSurface({
         window.removeEventListener(type, reset, true)
       )
     }
-  }, [open, nestedPointerRef])
+  }, [open, nestedInteractionRef])
 
   useIsomorphicLayoutEffect(() => {
     const surface = contentRef.current
@@ -349,7 +350,12 @@ function SearchPanelSurface({
       style={style}
       onPointerDownCapture={(event) => {
         // React events from nested portals bubble through the surface.
-        nestedPointerRef.current = !contentRef.current?.contains(
+        nestedInteractionRef.current = !contentRef.current?.contains(
+          event.target as Node
+        )
+      }}
+      onKeyUpCapture={(event) => {
+        nestedInteractionRef.current = !contentRef.current?.contains(
           event.target as Node
         )
       }}
