@@ -1276,12 +1276,33 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "dashboard" {
   }
 }
 
-# Versioning + the --delete sync gives a free rollback for a bad publish.
+# Versioning + the --delete sync gives a 7-day rollback for a bad publish.
 resource "aws_s3_bucket_versioning" "dashboard" {
   bucket = aws_s3_bucket.dashboard.id
 
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+# Every deploy re-uploads the whole shell, so old versions pile up without this.
+# A delete marker is removed only once no old versions remain behind it.
+resource "aws_s3_bucket_lifecycle_configuration" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  rule {
+    id     = "expire-noncurrent-versions-and-markers"
+    status = "Enabled"
+
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 7
+    }
+
+    expiration {
+      expired_object_delete_marker = true
+    }
   }
 }
 

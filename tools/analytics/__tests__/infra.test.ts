@@ -46,6 +46,20 @@ describe('analytics infrastructure', () => {
     )
   })
 
+  it('expires old dashboard versions after 7 days and clears delete markers', () => {
+    const lifecycle = terraformBlock(
+      'resource "aws_s3_bucket_lifecycle_configuration" "dashboard"'
+    )
+
+    expect(lifecycle).toMatch(/bucket\s+=\s+aws_s3_bucket\.dashboard\.id/)
+    expect(lifecycle).toMatch(
+      /filter \{\}\s+noncurrent_version_expiration \{\s+noncurrent_days\s+=\s+7\s+\}/
+    )
+    expect(lifecycle).toMatch(
+      /expiration \{\s+expired_object_delete_marker\s+=\s+true\s+\}/
+    )
+  })
+
   it('gives the snapshot generator enough timeout for its Athena queries', () => {
     // Up to seven Athena queries run one after another (page-view rollup
     // refresh, the concurrent trend reads, three MCP queries, then two
