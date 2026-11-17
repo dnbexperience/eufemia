@@ -12,6 +12,7 @@ import PaymentCard, {
   BankAxeptType,
 } from '../PaymentCard'
 import { formatCardNumber } from '../components/CardNumber'
+import { VisaLogo, MastercardLogo, BankAxeptLogo } from '..'
 import MastercardDark from '../icons/providers/MastercardDark'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -442,6 +443,39 @@ describe('PaymentCard scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('card brand logos', () => {
+  it.each([
+    ['Visa', VisaLogo],
+    ['Mastercard', MastercardLogo],
+    ['BankAxept', BankAxeptLogo],
+  ])('renders %s as a standalone SVG with SVG props', (title, Logo) => {
+    const { container } = render(
+      <Logo className="custom-class" aria-hidden width="100" />
+    )
+
+    const svg = container.firstElementChild
+    expect(svg.tagName).toBe('svg')
+    expect(svg).toHaveClass('custom-class')
+    expect(svg).toHaveAttribute('aria-hidden', 'true')
+    expect(svg).toHaveAttribute('width', '100')
+    expect(svg.querySelector('title')).toHaveTextContent(title)
+  })
+
+  it.each([
+    ['Visa', VisaLogo],
+    ['BankAxept', BankAxeptLogo],
+  ])('colors %s with currentColor or the given fill', (_title, Logo) => {
+    const { container, rerender } = render(<Logo />)
+    const path = () => container.querySelector('path')
+
+    expect(path()).toHaveAttribute('fill', 'currentColor')
+
+    rerender(<Logo fill="#1434CB" />)
+    expect(path()).toHaveAttribute('fill', '#1434CB')
+    expect(container.querySelector('svg')).toHaveAttribute('fill', 'none')
   })
 })
 

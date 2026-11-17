@@ -28,3 +28,27 @@ formatCardNumber('************1337', 5) // returns * 1337
 #### \* Optional values (defaults)
 
 - length = _8_
+
+### Card brand logos
+
+The Visa, Mastercard and BankAxept logos used on the card are available as React components. They render an inline SVG and accept SVG attributes, such as `className`, `width`, `height` and `aria-hidden`.
+
+`VisaLogo` and `BankAxeptLogo` use `currentColor` by default. Change the color with the `fill` property or the CSS `color` property. `MastercardLogo` uses the Mastercard brand colors.
+
+Each logo includes a `<title>` with the brand name. Add `aria-hidden` when the brand name is already shown as text.
+
+```tsx
+import {
+  VisaLogo,
+  MastercardLogo,
+  BankAxeptLogo,
+} from '@dnb/eufemia/extensions/payment-card'
+
+render(
+  <>
+    <VisaLogo />
+    <MastercardLogo />
+    <BankAxeptLogo fill="var(--color-black-80)" />
+  </>
+)
+```
