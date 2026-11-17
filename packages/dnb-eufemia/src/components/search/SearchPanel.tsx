@@ -113,7 +113,6 @@ function SearchPanel(localProps: SearchPanelProps) {
             preventClose
             restoreFocus={false}
             focusOnOpen={false}
-            fixedPosition
             disableFocusTrap
             closeButtonProps={{
               // Keep pointer focus from scrolling the surface before click.
