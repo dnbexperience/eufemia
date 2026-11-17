@@ -133,6 +133,7 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
         className="dnb-table__scroll-indicator"
         icon={arrowRight}
         size="small"
+        bounding
         aria-label={translations.scrollButtonSR}
         tooltip={
           tooltipDismissed ? undefined : translations.scrollButtonSR
