@@ -9,11 +9,6 @@ on:
       - '!wip/**'
       - '!experiments/**'
   pull_request:
-    branches:
-      - 'release'
-      - 'beta'
-      - 'alpha'
-      - 'next'
     types: [opened]
 
 permissions:
@@ -33,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
 
     timeout-minutes: 20
+
+    outputs:
+      sha: ${{ steps.publish.outputs.sha }}
 
     steps:
       - name: Git checkout
@@ -59,5 +57,71 @@ jobs:
         run: yarn workspace @dnb/eufemia build:ci
 
       - name: Publish to StackBlitz
+        id: publish
         if: steps.changes.outputs.packages-unaffected != 'true'
-        run: yarn workspace eufemia-starter remove-src && yarn dlx pkg-pr-new@0.0.88 publish './packages/dnb-eufemia/build' --template './packages/eufemia-starter' --packageManager=yarn
+        run: yarn workspace eufemia-starter remove-src && yarn dlx pkg-pr-new@0.0.88 publish './packages/dnb-eufemia/build' --template './packages/eufemia-starter' --packageManager=yarn --comment=off
+
+  deployment:
+    name: Register package preview
+    needs: publish
+    if: >-
+      needs.publish.outputs.sha != '' &&
+      github.repository == 'dnbexperience/eufemia' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      checks: read
+      pull-requests: read
+      deployments: write
+    steps:
+      - name: Create package preview deployment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          script: |
+            const { owner, repo } = context.repo
+            const sha = context.payload.pull_request?.head.sha || context.sha
+            const pullRequests = await github.paginate(github.rest.repos.listPullRequestsAssociatedWithCommit, {
+              owner, repo, commit_sha: sha, per_page: 100,
+            })
+            if (!pullRequests.some(pr => pr.state === 'open' && pr.head.sha === sha && pr.head.repo?.full_name === `${owner}/${repo}`)) {
+              core.info('No open pull request for this head; package publishing is complete.')
+              return
+            }
+
+            const checks = await github.paginate(github.rest.checks.listForRef, {
+              owner, repo, ref: sha, check_name: 'Continuous Releases', per_page: 100,
+            })
+            const check = checks.find(check => check.app?.slug === 'pkg-pr-new' && check.conclusion === 'success')
+            // The CLI's JSON template URL is not the generated starter URL.
+            const starterUrl = check?.output?.text?.match(/\[eufemia-starter\]\((https:\/\/pkg\.pr\.new\/template\/[a-zA-Z0-9-]+)\)/)?.[1]
+            if (!starterUrl) {
+              throw new Error('The package publish check has no eufemia-starter preview link')
+            }
+
+            const packageUrl = `https://pkg.pr.new/@dnb/eufemia@${sha}.tgz`
+            await core.summary
+              .addHeading('Package preview')
+              .addLink('Open eufemia-starter', starterUrl)
+              .addCodeBlock(`yarn add @dnb/eufemia@${packageUrl}`, 'sh')
+              .write()
+
+            const { data: deployment } = await github.rest.repos.createDeployment({
+              owner, repo, ref: sha,
+              environment: 'Package preview',
+              transient_environment: true,
+              production_environment: false,
+              required_contexts: [],
+              auto_merge: false,
+            })
+            await github.rest.repos.createDeploymentStatus({
+              owner, repo, deployment_id: deployment.id,
+              state: 'success',
+              environment_url: starterUrl,
+              log_url: `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`,
+              description: 'Try the published package in eufemia-starter',
+              auto_inactive: false,
+            })
