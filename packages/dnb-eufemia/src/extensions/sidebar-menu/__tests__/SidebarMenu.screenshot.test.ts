@@ -232,4 +232,91 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
       withWrapper: false,
     })
   })
+
+  it.each(['light', 'dark'] as const)(
+    'fades the scrolled reveal header in %s mode',
+    async (colorScheme) => {
+      await makeScreenshot({
+        selector: '#sidebar-reveal-page',
+        screenshotSelector: '.dnb-sidebar-menu-responsive-drawer',
+        pageViewport: { width: 600, height: 400 },
+        colorScheme,
+        withWrapper: false,
+        executeBeforeSimulate: async () => {
+          document
+            .querySelector<HTMLButtonElement>(
+              '#sidebar-reveal-page button'
+            )
+            .click()
+          await new Promise<void>((resolve) => {
+            function scrollMenu() {
+              const scroll = document.querySelector<HTMLElement>(
+                '.dnb-drawer__reveal-scroll'
+              )
+              if (!scroll) {
+                requestAnimationFrame(scrollMenu)
+                return
+              }
+              scroll.parentElement.style.height = '8rem'
+              requestAnimationFrame(() => {
+                scroll.scrollTo({
+                  top: scroll.scrollHeight,
+                  behavior: 'instant',
+                })
+                resolve()
+              })
+            }
+            requestAnimationFrame(scrollMenu)
+          })
+        },
+        simulateAfter: { keypress: 'Escape' },
+      })
+    }
+  )
+
+  it.each(['light', 'dark'] as const)(
+    'fades the scrolled compact header in %s mode',
+    async (colorScheme) => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-responsive"]',
+        screenshotSelector: '.dnb-sidebar-menu-responsive-inline__content',
+        pageViewport: { width: 1200, height: 900 },
+        colorScheme,
+        withWrapper: false,
+        executeBeforeSimulate: async () => {
+          const inline = document.querySelector<HTMLElement>(
+            '.dnb-sidebar-menu-responsive-inline'
+          )
+          const content = inline.querySelector<HTMLElement>(
+            '.dnb-sidebar-menu-responsive-inline__content'
+          )
+          const aside = inline.querySelector<HTMLElement>(
+            '.dnb-sidebar-menu-responsive-aside'
+          )
+          const scroll = aside.querySelector<HTMLElement>(
+            '.dnb-sidebar-menu-responsive-aside__scroll-view'
+          )
+
+          // Match a fixed sidebar whose menu scrolls behind the toggle.
+          Object.assign(content.style, { height: '16rem', minHeight: '0' })
+          Object.assign(aside.style, {
+            position: 'absolute',
+            inset: '0',
+            height: '100%',
+          })
+          inline
+            .querySelector<HTMLButtonElement>(
+              '.dnb-sidebar-menu-responsive-inline__toggle'
+            )
+            .click()
+          await new Promise<void>((resolve) =>
+            requestAnimationFrame(() => {
+              scroll.scrollTo({ top: 100, behavior: 'instant' })
+              resolve()
+            })
+          )
+        },
+      })
+    }
+  )
 })

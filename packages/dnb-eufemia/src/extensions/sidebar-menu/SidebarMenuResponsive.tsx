@@ -1020,6 +1020,7 @@ export function SidebarMenuResponsiveInline({
             {(hasCompact || showToggle) && (
               <div
                 className="dnb-sidebar-menu-responsive-inline__toggle-island"
+                data-scrolled={compactScrolled || undefined}
                 data-sidebar-menu-responsive-toggle-full-width={
                   showToggle || undefined
                 }
