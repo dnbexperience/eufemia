@@ -1,0 +1,5 @@
+@mixin fade($background-color: var(--token-color-background-neutral)) {
+  background-image: linear-gradient($background-color, 70%, transparent);
+  opacity: 0.98;
+  pointer-events: none;
+}
