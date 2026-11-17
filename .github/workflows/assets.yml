@@ -6,6 +6,8 @@ on:
       - 'packages/dnb-eufemia/assets/**'
       - 'packages/dnb-eufemia/postcss.config.js'
       - 'packages/dnb-eufemia/src/plugins/postcss-font-url-rewrite/**'
+      - 'packages/dnb-eufemia/src/plugins/postcss-isolated-style-scope/**'
+      - 'packages/dnb-eufemia/scripts/prebuild/tasks/makeFontRevisions.ts'
       - 'packages/dnb-design-system-portal/postcss.config.js'
       - 'packages/dnb-design-system-portal/src/docs/web/layout-and-typography/typography.mdx'
       - 'tools/assets/**'
@@ -188,12 +190,21 @@ jobs:
                 ASSETS+=("$ASSET")
               fi
             done
+            URLS=()
             for ASSET in "${ASSETS[@]}"; do
+              URLS+=("$BASE_URL/$ASSET")
+            done
+            # The deployment publishes content addresses for every font, also
+            # when manually republishing an older release.
+            while read -r HASH; do
+              URLS+=("https://assets.eufemia.dnb.no/font-files/${HASH}.woff2")
+            done < <(awk '/  assets\/fonts\/.*[.]woff2$/ { print $1 }' "$MANIFEST" | sort -u)
+            for URL in "${URLS[@]}"; do
               : > "$HEADERS"
-              code=$(curl -s -o /dev/null --dump-header "$HEADERS" -w '%{http_code}' --max-time 10 "$BASE_URL/$ASSET" || true)
+              code=$(curl -s -o /dev/null --dump-header "$HEADERS" -w '%{http_code}' --max-time 10 "$URL" || true)
               if [ "$code" != "200" ] || ! grep -Eiq "$CSP" "$HEADERS"; then
                 ready=false
-                echo "Waiting for HTTP 200 and the CSP at $BASE_URL/$ASSET (HTTP $code)"
+                echo "Waiting for HTTP 200 and the CSP at $URL (HTTP $code)"
               fi
             done
             if [ "$ready" = true ]; then

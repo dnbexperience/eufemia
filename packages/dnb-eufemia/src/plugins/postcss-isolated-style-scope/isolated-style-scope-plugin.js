@@ -8,6 +8,7 @@
 
 const path = require('path')
 const selectorParser = require('postcss-selector-parser')
+const isolateFonts = require('./isolate-fonts.js')
 const {
   findPathToScopeHash,
   getScopeHashFromFile,
@@ -42,6 +43,7 @@ const postcssIsolateStyle = (opts = {}) => {
     postcssPlugin: 'isolated-style-scope-plugin',
 
     Once(root, { result }) {
+      isolateFonts(root)
       const file = root.source?.input?.file ?? ''
       const isCssModule = runAsCssModule || file.includes('.module.')
 

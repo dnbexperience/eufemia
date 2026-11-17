@@ -42,6 +42,14 @@ Read the [full license and usage guidance](/about/license/).
 
 ## CSS custom properties
 
+### Isolated font families
+
+When upgrading to the release containing font revision isolation, isolated CSS uses generated family names to keep fonts from different Eufemia versions independent. Non-isolated CSS keeps the original family names.
+
+Use `var(--font-family-default)`, `var(--font-family-monospace)` and `var(--font-family-display)` in application styles, including inline styles. The isolation PostCSS plugin rewrites built-in family names in CSS. JavaScript strings and inline styles do not pass through PostCSS: for canvas rendering or `document.fonts.load()`, read the computed `fontFamily` from an element inside the relevant scope. Do not hardcode a generated revision name.
+
+See [Style isolation](/web/styling-and-themes/css/style-isolation/) for font sharing, fallbacks and compatibility with older applications.
+
 ### Design-token color migration
 
 The design-token color update changes the meaning of `--token-color-background-neutral-alternative` in DNB and Eiendom and removes 13 foundation CSS custom properties. Applications must review direct references, including Tailwind utilities and values in JavaScript/TypeScript strings.

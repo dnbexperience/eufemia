@@ -4,7 +4,7 @@
  */
 
 import { loadScss } from '../../../../src/core/test-utils/testSetup'
-import { getFontBasePath } from '../../../../src/plugins/postcss-font-url-rewrite/config'
+import revisions from '../../../../src/plugins/postcss-isolated-style-scope/font-revisions.js'
 import { runFactory } from '../makeMainStyle'
 import { isCI } from 'repo-utils'
 
@@ -266,7 +266,7 @@ if (isCI) {
 
     it('should contain the DNB Sans Text font URL in the CSS', () => {
       expect(global.css[0]).toContain(
-        `${getFontBasePath()}dnb/DNBSansText-Regular.woff2`
+        `https://assets.eufemia.dnb.no/font-files/${revisions.files['dnb/DNBSansText-Regular.woff2']}.woff2`
       )
     })
 

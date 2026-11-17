@@ -6,9 +6,6 @@ const {
   getStyleScopeHash,
 } = require('./src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
 const postcssFontUrlRewritePlugin = require('./src/plugins/postcss-font-url-rewrite')
-const {
-  getFontBasePath,
-} = require('./src/plugins/postcss-font-url-rewrite/config')
 
 module.exports = {
   plugins:
@@ -28,7 +25,7 @@ module.exports = {
             warnOnDeprecatedColorVariables: false,
           }),
           postcssFontUrlRewritePlugin({
-            basePath: getFontBasePath(),
+            contentAddressed: true,
             verbose: false,
           }),
         ]

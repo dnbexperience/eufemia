@@ -22,12 +22,15 @@ const fonts = [
 ].map((name) => '/v11.0.0/fonts/dnb/' + name + '.woff2')
 fonts.push('/v11.0.0/fonts/dnb/DNBSansDisplay.woff2')
 const svg = '/v11.0.0/icons/dnb/add.svg'
+const contentAddress = '/font-files/' + 'a'.repeat(64) + '.woff2'
 const validHeaders = 'Content-Security-Policy: ' + policy + '\r\n'
 
 function verify(
   headers: string,
   options: {
     svgHeaders?: string
+    addressedHeaders?: string
+    addressedStatus?: string
     status?: string
     retry?: boolean
     legacy?: boolean
@@ -51,12 +54,12 @@ function verify(
         '}',
         "const headers = calls.length > 0 && process.env.RETRY === 'true'",
         '  ? process.env.VALID_HEADERS',
-        "  : url.endsWith('.svg') ? process.env.SVG_HEADERS : process.env.FONT_HEADERS",
+        "  : url.includes('/font-files/') ? process.env.ADDRESSED_HEADERS : url.endsWith('.svg') ? process.env.SVG_HEADERS : process.env.FONT_HEADERS",
         'calls.push(new URL(url).pathname)',
         'fs.writeFileSync(callsFile, JSON.stringify(calls))',
         "const index = args.indexOf('--dump-header')",
         'if (index !== -1) { fs.writeFileSync(args[index + 1], headers) }',
-        'process.stdout.write(process.env.STATUS)',
+        "process.stdout.write(url.includes('/font-files/') ? process.env.ADDRESSED_STATUS : process.env.STATUS)",
       ].join('\n'),
       { mode: 0o755 }
     )
@@ -86,6 +89,9 @@ function verify(
         DATE_COUNT: path.join(dir, 'date-count'),
         FONT_HEADERS: headers,
         SVG_HEADERS: options.svgHeaders ?? headers,
+        ADDRESSED_HEADERS: options.addressedHeaders ?? headers,
+        ADDRESSED_STATUS:
+          options.addressedStatus ?? options.status ?? '200',
         VALID_HEADERS: validHeaders,
         STATUS: options.status ?? '200',
         RETRY: String(options.retry ?? false),
@@ -119,6 +125,7 @@ describe('published assets verification', () => {
     expect(result.calls).toEqual([
       '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
       svg,
+      contentAddress,
     ])
   })
 
@@ -129,6 +136,7 @@ describe('published assets verification', () => {
       '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
       svg,
       ...fonts,
+      contentAddress,
     ])
   })
 
@@ -145,6 +153,11 @@ describe('published assets verification', () => {
     expect(verify(validHeaders, { svgHeaders: '' }).status).toBe(1)
   })
 
+  it('requires HTTP 200 and CSP on content-addressed fonts', () => {
+    expect(verify(validHeaders, { addressedHeaders: '' }).status).toBe(1)
+    expect(verify(validHeaders, { addressedStatus: '404' }).status).toBe(1)
+  })
+
   it('still requires HTTP 200', () => {
     expect(verify(validHeaders, { status: '403' }).status).toBe(1)
   })
@@ -158,10 +171,11 @@ describe('published assets verification', () => {
   it('retries until the CSP has propagated', () => {
     const result = verify('', { retry: true })
     expect(result.status).toBe(0)
-    expect(result.calls.slice(-(fonts.length + 2))).toEqual([
+    expect(result.calls.slice(-(fonts.length + 3))).toEqual([
       '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
       svg,
       ...fonts,
+      contentAddress,
     ])
     expect(result.calls.length).toBeGreaterThan(fonts.length + 2)
   })

@@ -76,8 +76,16 @@ function MyApp() {
 **Good to know:**
 
 - Remove existing `.dnb-core-style` classes.
-- Font files are loaded from the [immutable CDN path matching the Eufemia version](/web/ai-tools-and-resources/asset-cdn/#stable-and-versioned-urls).
-- `@font-face` rules are global and are not scoped, so Eufemia versions on the same page share fonts with the same family name. When a font face, such as `DNB`, is declared more than once, the declaration that comes last in the document applies to all applications. Since v11.17, `DNB` and `DNBMono` load the current DNB Sans Text and Mono files. Their regular, medium and bold styles keep the character widths, kerning and line heights of the earlier fonts, so mixing versions does not change the layout of that text. Italic and light text can change width, because earlier versions do not declare these styles.
+- Isolated font families include a revision derived from their font files and face descriptors. Different revisions can coexist on the same page, including DNB Sans Display and Skeleton fonts. Selector scoping alone cannot isolate `@font-face`, because font families are global within the document.
+- Font files use [immutable content addresses](/web/ai-tools-and-resources/asset-cdn/#stable-and-versioned-urls). Unchanged files share the same URL across releases. If the CDN is unavailable, the browser tries the matching file from the installed package. Browsers download only the faces actually used; displaying different revisions can require additional downloads and font memory.
+
+Use `var(--font-family-default)`, `var(--font-family-monospace)` or `var(--font-family-display)` in application styles. The isolation plugin also rewrites built-in family names in `font-family`, `font` and font-related custom properties. It preserves unknown families.
+
+Inline styles and JavaScript strings do not pass through PostCSS. Use the custom properties in inline styles. For canvas rendering or `document.fonts.load()`, read the computed `fontFamily` from an element inside the relevant scope. Do not copy a generated revision name into application code.
+
+Older applications that still register the original global family names remain subject to collisions with one another. Updated isolated applications use their revision names and can coexist with those older applications. This mechanism covers built-in Eufemia fonts; give custom font families their own names.
+
+For older applications sharing the original names, the v11.17 DNB Sans Text and Mono regular, medium and bold faces preserve earlier character widths, kerning and line heights. Italic and light text can change width because earlier versions do not declare these styles.
 
 ### 3. Add the PostCSS plugin
 

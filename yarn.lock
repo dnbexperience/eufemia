@@ -2889,6 +2889,7 @@ __metadata:
     postcss: "npm:8.5.32"
     postcss-preset-env: "npm:11.2.1"
     postcss-selector-parser: "npm:7.1.8"
+    postcss-value-parser: "npm:4.2.0"
     prettier: "npm:3.8.1"
     prettier-package-json: "npm:2.8.0"
     purgecss: "npm:8.0.0"
@@ -15963,7 +15964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-value-parser@npm:^4.2.0":
+"postcss-value-parser@npm:4.2.0, postcss-value-parser@npm:^4.2.0":
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: 10/e4e4486f33b3163a606a6ed94f9c196ab49a37a7a7163abfcd469e5f113210120d70b8dd5e33d64636f41ad52316a3725655421eb9a1094f1bcab1db2f555c62

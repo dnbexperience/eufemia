@@ -39,8 +39,12 @@ https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Regular.woff2
 
 New Eufemia releases publish their complete asset set under the matching
 version. Prereleases receive an immutable version path but do not update the
-stable aliases. Generated Eufemia CSS uses the versioned font path matching the
-package release.
+stable aliases. Generated isolated Eufemia CSS uses
+`https://assets.eufemia.dnb.no/font-files/<sha256>.<extension>`. The hash identifies
+the exact font bytes, so unchanged files share a URL across package releases.
+These URLs are immutable and cached for one year. Each source also includes the
+matching package-relative file as a fallback. Non-isolated CSS keeps its
+package-relative font URLs.
 
 ## Available Eufemia assets
 

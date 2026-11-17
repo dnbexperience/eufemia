@@ -80,6 +80,18 @@ jobs:
             fi
           fi
 
+          # A content address lets unchanged fonts share one cache entry across
+          # releases. Keep old revisions, including fonts from prereleases.
+          FONT_FILES=$(mktemp -d)
+          while IFS= read -r -d '' FONT; do
+            HASH=$(sha256sum "$FONT")
+            HASH=${HASH%% *}
+            cp "$FONT" "${FONT_FILES}/${HASH}.${FONT##*.}"
+          done < <(find assets/fonts -type f \( -name '*.woff2' -o -name '*.woff' -o -name '*.ttf' -o -name '*.otf' \) -print0)
+          aws s3 sync "$FONT_FILES/" "s3://${BUCKET}/font-files/" \
+            --cache-control 'public,max-age=31536000,immutable'
+          rm -rf "$FONT_FILES"
+
           if [[ "$VERSION" != *-* ]]; then
             # Stable aliases for manually linked assets and backwards
             # compatibility. Sync only the prefixes this publisher owns, so
@@ -87,7 +99,7 @@ jobs:
             for ASSET_DIR in assets/*/; do
               ASSET_PREFIX=$(basename "$ASSET_DIR")
               case "$ASSET_PREFIX" in
-                logos|og|v*)
+                logos|og|font-files|v*)
                   echo "Reserved asset prefix: $ASSET_PREFIX" >&2
                   exit 1 ;;
               esac

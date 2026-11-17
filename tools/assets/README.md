@@ -12,9 +12,15 @@ available for manually linked assets and backwards compatibility:
 - `https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNBSansText-Regular.woff2`
 - `https://assets.eufemia.dnb.no/fonts/dnb/DNBSansText-Regular.woff2`
 
-Generated Eufemia CSS uses the immutable URL matching its package version, and
-repeats each `@font-face` source against the stable alias so the fonts still
-load while a version prefix is unavailable. The root sync cannot delete
+Generated isolated Eufemia CSS uses immutable `font-files/<sha256>.<extension>`
+URLs shared across releases with identical font bytes. Each `@font-face` source
+keeps its package-relative file as a fallback so the fonts still
+load while a CDN file is unavailable. Non-isolated CSS keeps package-relative
+URLs. Publishing preserves old `font-files/` revisions, including prereleases.
+Run `yarn workspace @dnb/eufemia build:font-revisions` after changing font files
+or face descriptors and commit the generated manifest. The prebuild also runs
+this generator, and a regression test checks the committed manifest.
+The root sync cannot delete
 historical `v*/` content or independently published prefixes. The `logos/`
 namespace is reserved for the standalone `@eufemia/logos` publisher.
 
@@ -24,8 +30,8 @@ The public workflow `.github/workflows/assets.yml` copies the assets, Terraform
 configuration, and deploy workflow to the `deploy` branch of the private GitHub
 Enterprise repository configured by `GHE_ASSETS_DEPLOY_REPO`. That repository
 deploys through GitHub OIDC without AWS access keys. The public workflow then
-waits for a versioned font and SVG to return HTTP 200 with the expected Content
-Security Policy through the public hostname, and fails if either check times out.
+waits for versioned fonts, an SVG and the content-addressed WOFF2 fonts to return
+HTTP 200 with the expected Content Security Policy through the public hostname.
 
 The infrastructure uses `environment=dev` because Eufemia's only AWS account is
 a dev account. The production Akamai hostname is independent of that AWS

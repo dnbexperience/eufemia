@@ -3,10 +3,177 @@ import path from 'node:path'
 import postcss from 'postcss'
 import { test, expect } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
+import revisions from '../../plugins/postcss-isolated-style-scope/font-revisions.js'
+import rewriteFontUrls from '../../plugins/postcss-font-url-rewrite'
 import { compileFontTestStyles as compile } from './fontTestStyles'
 
 const packageRoot = path.resolve(__dirname, '../../..')
 const text = 'ÆØÅ æøå Gjør noe større 0123456789'
+
+test('isolated fonts survive a later global font registration', async ({
+  page,
+}) => {
+  const requests: string[] = []
+  await page.route('https://fonts.test/**', async (route) => {
+    requests.push(new URL(route.request().url()).pathname)
+    await route.fulfill({
+      contentType: 'font/woff2',
+      body: await fs.readFile(
+        path.join(
+          packageRoot,
+          'assets/fonts/dnb/DNBSansText-Regular.woff2'
+        )
+      ),
+    })
+  })
+  const css = (
+    await postcss([isolateStyles({ scopeHash: 'app-a' })]).process(
+      `
+    @font-face { font-family: DNB; src: url('https://fonts.test/current.woff2'); }
+    :root { --font-family-default: DNB, sans-serif; }
+    p { font: 20px var(--font-family-default); }
+  `,
+      { from: undefined }
+    )
+  ).css
+  await page.setContent(
+    `<style>${css}</style><main class="app-a"><p>Current app</p></main>`
+  )
+  await page.evaluate(() => document.fonts.ready)
+  const family = await page
+    .locator('p')
+    .evaluate((element) => getComputedStyle(element).fontFamily)
+  await page.addStyleTag({
+    content: `@font-face { font-family: DNB; src: url('https://fonts.test/other.woff2'); }`,
+  })
+  await page.evaluate(() => document.fonts.ready)
+  expect(requests).toEqual(['/current.woff2'])
+  expect(family).toMatch(/DNB-[a-f0-9]+/)
+})
+
+test('different font revisions coexist without changing the first app', async ({
+  page,
+}) => {
+  const requests: string[] = []
+  await page.route('https://fonts.test/**', async (route) => {
+    const old = route.request().url().endsWith('old.woff2')
+    requests.push(old ? 'old' : 'current')
+    await route.fulfill({
+      contentType: 'font/woff2',
+      body: await fs.readFile(
+        path.join(
+          packageRoot,
+          'assets/fonts/dnb',
+          old ? 'DNBMono-Regular.woff2' : 'DNBSansText-Regular.woff2'
+        )
+      ),
+    })
+  })
+  const fixture = async (scope: string, file: string) =>
+    (
+      await postcss([isolateStyles({ scopeHash: scope })]).process(
+        `
+    @font-face { font-family: DNB; src: url('https://fonts.test/${file}.woff2'); }
+    p { font: 20px DNB; display: inline-block; }
+  `,
+        { from: undefined }
+      )
+    ).css
+  const current = await fixture('current-app', 'current')
+  // Model CSS shipped by another release with a different font manifest.
+  const old = (await fixture('old-app', 'old')).replaceAll(
+    revisions.families.DNB,
+    'DNB-previous-revision'
+  )
+  await page.setContent(
+    `<style>${current}</style><main class="current-app"><p>${text}</p></main>`
+  )
+  await page.evaluate(() => document.fonts.ready)
+  const width = await page
+    .locator('p')
+    .evaluate((element) => element.getBoundingClientRect().width)
+  await page.addStyleTag({ content: old })
+  await page.evaluate((text) => {
+    const app = document.createElement('main')
+    app.className = 'old-app'
+    app.innerHTML = '<p></p>'
+    app.firstElementChild.textContent = text
+    document.body.append(app)
+  }, text)
+  await page.evaluate(() => document.fonts.ready)
+  expect(requests).toEqual(['current', 'old'])
+  expect(
+    await page
+      .locator('.current-app p')
+      .evaluate((element) => element.getBoundingClientRect().width)
+  ).toBe(width)
+  expect(
+    await page
+      .locator('.old-app p')
+      .evaluate((element) => element.getBoundingClientRect().width)
+  ).not.toBe(width)
+})
+
+for (const cdnAvailable of [true, false]) {
+  test(`isolated scopes share a font with CDN available=${cdnAvailable}`, async ({
+    page,
+  }) => {
+    const requests: string[] = []
+    const font = await fs.readFile(
+      path.join(packageRoot, 'assets/fonts/dnb/DNBSansText-Regular.woff2')
+    )
+    await page.route(new RegExp('^https:'), async (route) => {
+      const url = new URL(route.request().url())
+      requests.push(url.hostname)
+      if (url.hostname === 'assets.eufemia.dnb.no' && !cdnAvailable) {
+        await route.fulfill({ status: 404 })
+      } else {
+        await route.fulfill({
+          contentType: 'font/woff2',
+          body: font,
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        })
+      }
+    })
+    const styles = await Promise.all(
+      ['app-a', 'app-b'].map(
+        async (scope) =>
+          (
+            await postcss([
+              isolateStyles({ scopeHash: scope }),
+              rewriteFontUrls({ contentAddressed: true }),
+            ]).process(
+              `
+      @font-face { font-family: DNB; src: url('../assets/fonts/dnb/DNBSansText-Regular.woff2') format('woff2'); }
+      p { font: 20px DNB; }
+    `,
+              { from: undefined }
+            )
+          ).css
+      )
+    )
+    await page.setContent(
+      `<base href="https://app.test/css/"><style>${styles.join('\n')}</style><main class="app-a"><p>A</p></main><main class="app-b"><p>B</p></main>`
+    )
+    const faces = await page
+      .locator('p')
+      .first()
+      .evaluate(async (element) =>
+        (
+          await document.fonts.load(
+            '20px ' + getComputedStyle(element).fontFamily
+          )
+        ).map((face) => face.status)
+      )
+    expect(faces.length).toBeGreaterThan(0)
+    expect(faces.every((status) => status === 'loaded')).toBe(true)
+    expect(requests).toEqual(
+      cdnAvailable
+        ? ['assets.eufemia.dnb.no']
+        : ['assets.eufemia.dnb.no', 'app.test']
+    )
+  })
+}
 
 for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
   for (const isolated of [false, true]) {
@@ -220,7 +387,12 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                     )
                     return faces.map((face) => face.status)
                   },
-                  { family, style, weight, text }
+                  {
+                    family: isolated ? revisions.families[family] : family,
+                    style,
+                    weight,
+                    text,
+                  }
                 )
                 expect(result).toEqual(['loaded'])
               }
@@ -360,7 +532,9 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
               await document.fonts.ready
               const before = element.getBoundingClientRect()
               element.classList.add('dnb-skeleton--font')
-              await document.fonts.load('48px DNBSansDisplaySkeleton')
+              await document.fonts.load(
+                '48px ' + getComputedStyle(element).fontFamily
+              )
               const after = element.getBoundingClientRect()
               return [
                 before.width,
@@ -473,7 +647,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                   const before = measure()
                   element.classList.add('dnb-skeleton--font')
                   await document.fonts.load(
-                    size + 'px DNBSansDisplaySkeleton'
+                    size + 'px ' + getComputedStyle(element).fontFamily
                   )
                   await document.fonts.ready
                   return { before, after: measure() }

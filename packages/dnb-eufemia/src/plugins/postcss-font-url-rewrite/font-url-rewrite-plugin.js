@@ -1,5 +1,6 @@
 const path = require('path')
 const { URL } = require('url')
+const rewriteContentAddressedFonts = require('./content-addressed-fonts.js')
 
 const DEFAULT_BASE = '/new-path/'
 
@@ -29,6 +30,7 @@ function dedupeSrcEntries(value) {
 
 function postcssFontUrlRewrite(opts = {}) {
   const {
+    contentAddressed = false,
     basePath = DEFAULT_BASE, // where you *want* fonts to live:
     fallbackBasePath, // OPTIONAL: repeated as an extra `src` entry the browser falls back to
     sourceBase, // OPTIONAL: where they *currently* live on your origin/CNAME:
@@ -149,7 +151,9 @@ function postcssFontUrlRewrite(opts = {}) {
       'font-face'(atRule) {
         atRule.walkDecls('src', (decl) => {
           decl.value = dedupeSrcEntries(
-            splitSrcEntries(decl.value).map(rewriteEntry).join(',')
+            contentAddressed
+              ? rewriteContentAddressedFonts(decl.value)
+              : splitSrcEntries(decl.value).map(rewriteEntry).join(',')
           )
         })
       },

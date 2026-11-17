@@ -4,6 +4,7 @@ import { URL } from 'url'
 import postcss from 'postcss'
 import postcssFontUrlRewrite from '../font-url-rewrite-plugin'
 import { getFontBasePath } from '../config'
+import revisions from '../../postcss-isolated-style-scope/font-revisions.js'
 
 describe('font-url-rewrite-plugin', () => {
   const processCSS = async (css, opts = {}) => {
@@ -11,6 +12,25 @@ describe('font-url-rewrite-plugin', () => {
       from: undefined,
     })
   }
+
+  it('shares identical font bytes across releases with an exact package fallback', async () => {
+    const source = '../../../assets/fonts/dnb/DNBSansText-Regular.woff2'
+    const input = `@font-face { font-family: DNB; src: url('${source}') format('woff2'); }`
+    const output = await processCSS(input, { contentAddressed: true })
+    expect(output.css).toContain(
+      `url("https://assets.eufemia.dnb.no/font-files/${revisions.files['dnb/DNBSansText-Regular.woff2']}.woff2") format('woff2'), url('${source}') format('woff2')`
+    )
+    expect(
+      (await processCSS(output.css, { contentAddressed: true })).css
+    ).toBe(output.css)
+  })
+
+  it('preserves custom hosted fonts, unknown files, local sources and format descriptors', async () => {
+    const input = `@font-face { src: local('DNB'), url('https://custom.test/assets/fonts/dnb/DNBSansText-Regular.woff2') format('woff2'), url('//custom.test/assets/fonts/dnb/DNBSansText-Regular.woff2') format('woff2'), url('../assets/fonts/custom.woff2') format('woff2'); }`
+    expect((await processCSS(input, { contentAddressed: true })).css).toBe(
+      input
+    )
+  })
 
   it('should rewrite font URLs with default options', async () => {
     const input = `
