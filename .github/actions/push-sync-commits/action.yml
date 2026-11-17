@@ -3,8 +3,9 @@ description: >-
   Push the commits from bundle-sync-commits to a branch. The bundle comes from
   a job that runs third-party code, so the push fails when the commits change
   files outside the allowed paths, when they include a merge commit, when they
-  do not start on the branch or on the branch rebased onto main, or when the
-  branch moved since the build job read it.
+  do not start on the branch, on main, on the commit the run started from or
+  on the branch rebased onto main, or when the branch moved since the build
+  job read it.
 
 inputs:
   artifact-id:
@@ -14,7 +15,7 @@ inputs:
     description: Branch to push to
     required: true
   remote-sha:
-    description: The branch tip the commits were made on. Empty when the branch is new.
+    description: The branch tip that the build job read when it started. Empty when the branch is new.
     required: false
     default: ''
   allowed-paths:
@@ -99,6 +100,13 @@ runs:
           git rebase -q --onto "$rebased" "$base"
           base=$rebased
         else
+          # Otherwise they start on the tip the build job read, on main, or on
+          # the commit this run started from, not on another branch
+          if [ "$base" != "$REMOTE_SHA" ] && [ "$base" != "$GITHUB_SHA" ] &&
+            ! git merge-base --is-ancestor "$base" refs/remotes/origin/main; then
+            echo "::error::The commits start on $base, which is not the tip of $BRANCH, a commit of main or the commit this run started from."
+            exit 1
+          fi
           git switch -q -C "$BRANCH" "$head"
         fi
 
