@@ -157,7 +157,9 @@ this payload and is not stored on the ingest side.
 Each event is POSTed to `https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage`
 as a fire-and-forget request with a short (~1s) timeout. It never blocks or
 affects a tool call, and any failure is silently ignored. The server holds no
-credentials, and the ingest service stores only the closed vocabulary listed above.
+credentials. It checks component names and documentation areas against its own
+docs before sending; the ingest service checks the tool name against the
+registered tools and only the format and length of the other fields.
 
 **Turn it off** by setting the environment variable in your MCP client config:
 

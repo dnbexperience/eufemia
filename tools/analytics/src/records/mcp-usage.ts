@@ -1,10 +1,10 @@
 /**
  * Anonymous MCP usage record: the "someone called this tool" event, sent to the
- * edge-locked ingest route by an MCP server that cannot write S3 directly.
+ * origin-gated ingest route by an MCP server that cannot write S3 directly.
  *
  * The local (stdio) Eufemia MCP server runs on public, open-source machines, so
  * it can hold neither a secret nor an IAM role. It therefore uses the browser
- * model — an edge-locked HTTP route (Akamai injects `X-Edge-Auth`) — instead of
+ * model — an origin-gated HTTP route (Akamai injects `X-Edge-Auth`) — instead of
  * the direct-S3 path the web Lambda uses. The HTTP handler validates an
  * untrusted request body with {@link validateMcpUsage} and builds the stored
  * object with {@link buildMcpUsageRecord}.

@@ -46,11 +46,11 @@ write workflow files, because the push includes `.github/workflows/deploy.yml`.
 Without it the push is rejected and no version reaches the CDN.
 
 After the first AWS deployment, copy the `origin_hostname` Terraform output to
-the `assets.eufemia.dnb.no` property in the internal Akamai delivery repository. Configure the
-property like the CloudFront-backed dashboard property, including
-`X-Origin-Verify`; the Lambda-backed server property uses a different header.
-The public DNS record is created by that repository's standard Akamai DNS PR
-module.
+the `assets.eufemia.dnb.no` property in the internal Akamai delivery
+repository. Configure the property like the CloudFront-backed dashboard
+property, including `X-Origin-Verify`; the Lambda-backed server property uses
+a different header. The public DNS record is created by that repository's
+standard Akamai DNS PR module.
 
 ## Production monitoring
 
