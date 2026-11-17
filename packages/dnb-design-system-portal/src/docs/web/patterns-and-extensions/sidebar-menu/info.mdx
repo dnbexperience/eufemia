@@ -50,7 +50,7 @@ Accordion groups support deep nesting, but keep the hierarchy as shallow as poss
 
 Menu point rows have a minimum height of 44px. Top-level rows have 16px between them, while nested rows have 8px. The first accordion level is indented by 48px and each deeper accordion level adds 16px.
 
-Menu labels wrap at normal word boundaries. Browsers may automatically hyphenate long words when the document or nearest ancestor declares the correct `lang`. Unbroken identifiers and URLs are not split character by character; use readable labels or add explicit break opportunities when those values must appear in navigation.
+Menu labels wrap at normal word boundaries without automatic hyphenation. Add soft hyphens (`\u00ad`) when a long word needs explicit hyphenation points. Unbroken identifiers and URLs are not split character by character; use readable labels or add explicit break opportunities when those values must appear in navigation.
 
 Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on Root or Data when collapsed content should not use `hidden="until-found"`.
 
