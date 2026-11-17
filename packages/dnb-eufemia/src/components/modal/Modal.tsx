@@ -314,9 +314,10 @@ function ModalComponent(ownProps: ModalAllProps) {
         isInTransitionRef.current = true
 
         const doItNow = () => {
+          const wasOpen = hasDispatchedOpenRef.current
           if (
             newModalActive &&
-            !hasDispatchedOpenRef.current &&
+            !wasOpen &&
             typeof document !== 'undefined'
           ) {
             document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
@@ -325,9 +326,13 @@ function ModalComponent(ownProps: ModalAllProps) {
           setHide(false)
           setModalActive(newModalActive)
           isInTransitionRef.current = false
-          pendingSideEffectsRef.current = {
-            isModalActive: newModalActive,
-            preventAutoFocus: stateRef.current.preventAutoFocus,
+
+          // A controlled modal is closed again when onClose updates its open prop
+          if (newModalActive || wasOpen) {
+            pendingSideEffectsRef.current = {
+              isModalActive: newModalActive,
+              preventAutoFocus: stateRef.current.preventAutoFocus,
+            }
           }
         }
 

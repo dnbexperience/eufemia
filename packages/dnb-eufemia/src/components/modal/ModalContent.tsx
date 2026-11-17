@@ -206,7 +206,6 @@ export default function ModalContent(props: ModalContentProps) {
             const active = document.activeElement
             if (
               active &&
-              active !== dialogContainer &&
               active !== elem &&
               (root.contains(active) ||
                 (!isOpening &&
