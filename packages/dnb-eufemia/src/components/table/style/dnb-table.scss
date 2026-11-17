@@ -39,11 +39,15 @@
 
   &__scroll-indicator.dnb-button {
     position: absolute;
-    z-index: 6;
+    z-index: 8; // above the sticky header row
     inset-block-start: 0.5rem;
     inset-inline-end: 0.5rem;
     visibility: hidden;
     opacity: var(--table-scroll-indicator-opacity, 0);
+
+    &[data-scroll-indicator-inactive] {
+      pointer-events: none;
+    }
   }
 
   &__scroll-view[data-scroll-indicator-rtl]

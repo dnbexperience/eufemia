@@ -227,7 +227,11 @@ test.describe('Table.ScrollView', () => {
           )
           .toBeLessThan(1)
         await expect(scrollView).toBeFocused()
-        await expect(scrollView).not.toHaveCSS('box-shadow', 'none')
+        await expect(scrollView).toHaveCSS('outline-style', 'solid')
+        await expect(indicator).toHaveAttribute('tabindex', '-1')
+        await expect(indicator).toHaveCSS('pointer-events', 'none')
+        await scrollView.press('Tab')
+        await expect(indicator).not.toBeFocused()
 
         await scrollView.evaluate((element, direction) => {
           element.scrollLeft =
@@ -249,6 +253,67 @@ test.describe('Table.ScrollView', () => {
         })
       await expect(indicator).toBeHidden()
     })
+  })
+
+  test('keeps the indicator above sticky headers and skips it after vertical scrolling', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const scrollView = page.locator(
+      '[data-visual-test="table-sticky"] .dnb-table__scroll-view'
+    )
+    const button = scrollView.locator('.dnb-table__scroll-indicator')
+    await button.scrollIntoViewIfNeeded()
+    await button.click({ trial: true })
+    await scrollView.focus()
+    await scrollView.press('Tab')
+    await expect(button).toBeFocused()
+
+    await scrollView.evaluate((element) => {
+      element.scrollTop = 160
+    })
+    await expect(scrollView).toBeFocused()
+    await expect(button).toHaveAttribute('tabindex', '-1')
+    await expect(button).toHaveCSS('pointer-events', 'none')
+    await scrollView.press('Tab')
+    await expect(button).not.toBeFocused()
+    expect(await scrollView.evaluate((element) => element.scrollTop)).toBe(
+      160
+    )
+    await page.keyboard.press('Shift+Tab')
+    await expect(button).not.toBeFocused()
+    expect(await scrollView.evaluate((element) => element.scrollTop)).toBe(
+      160
+    )
+
+    await scrollView.evaluate((element) => {
+      element.scrollTop = 0
+    })
+    await expect(button).toHaveAttribute('tabindex', '0')
+    await button.click()
+    await expect
+      .poll(() => scrollView.evaluate((element) => element.scrollLeft))
+      .toBeGreaterThan(0)
+    await expect(scrollView).toBeFocused()
+  })
+
+  test('retains focus when overflow disappears while the indicator is focused', async ({
+    page,
+  }) => {
+    const scrollView = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-view'
+    )
+    const button = scrollView.locator('.dnb-table__scroll-indicator')
+    const table = scrollView.locator('table')
+    await button.focus()
+    await page.setViewportSize({ width: 1600, height: 1024 })
+    await expect(button).toBeHidden()
+    await expect(scrollView).not.toHaveAttribute('tabindex')
+    await expect(table).toBeFocused()
+    await expect(table).toHaveAttribute('tabindex', '-1')
+    await page.keyboard.press('Tab')
+    await expect(table).not.toHaveAttribute('tabindex')
+    await expect(scrollView.locator('table button').first()).toBeFocused()
   })
 
   test('nudges the arrow twice only on first appearance and uses a tooltip', async ({

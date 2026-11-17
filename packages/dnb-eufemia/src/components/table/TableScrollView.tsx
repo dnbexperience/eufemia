@@ -31,37 +31,59 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
   const [tooltipDismissed, setTooltipDismissed] = useState(false)
   const combinedRef = useCombinedRef(refProp, ref)
   const { Table: translations } = useTranslation()
+  const childType = children.type
+  const childKey = children.key
 
   useLayoutEffect(() => {
     const element = ref.current
+    const button = buttonRef.current
     let isInView = false
     const updateIndicator = () => {
-      const { clientWidth, scrollWidth, scrollLeft } = element
+      const { clientWidth, scrollWidth, scrollLeft, scrollTop } = element
       const style = getComputedStyle(element)
       const max = Math.max(0, scrollWidth - clientWidth)
       const position = style.direction === 'rtl' ? -scrollLeft : scrollLeft
-      if (position <= 0) {
-        setTooltipDismissed(false)
-      }
       const fadeDistance = Math.min(max, clientWidth / 5)
       const opacity =
         fadeDistance > 1 && style.overflowX !== 'visible'
           ? Math.max(0, 1 - Math.max(0, position) / fadeDistance) ** 2
           : 0
 
-      if (opacity === 0 && document.activeElement === buttonRef.current) {
-        element.focus({ preventScroll: true })
+      const isActive = opacity === 1 && scrollTop <= 0
+      setTooltipDismissed(!isActive)
+      if (!isActive && document.activeElement === button) {
+        const canScroll =
+          scrollWidth - 1 > element.offsetWidth ||
+          element.scrollHeight - 1 > element.offsetHeight
+        const target = canScroll ? element : element.querySelector('table')
+        if (target) {
+          if (!canScroll && !target.hasAttribute('tabindex')) {
+            target.tabIndex = -1
+            target.addEventListener(
+              'blur',
+              () => target.removeAttribute('tabindex'),
+              { once: true }
+            )
+          }
+          target.focus({ preventScroll: true })
+        }
       }
+      button.tabIndex = isActive ? 0 : -1
+      button.toggleAttribute('data-scroll-indicator-inactive', !isActive)
 
       element.toggleAttribute('data-scroll-indicator', opacity > 0)
       element.toggleAttribute(
         'data-scroll-indicator-rtl',
         style.direction === 'rtl'
       )
-      if (opacity > 0 && isInView) {
+      if (
+        opacity > 0 &&
+        isInView &&
+        !element.hasAttribute('data-scroll-indicator-animate')
+      ) {
         element.setAttribute('data-scroll-indicator-animate', '')
       }
-      element.style.setProperty(
+      button.style.setProperty(
         '--table-scroll-indicator-opacity',
         String(opacity)
       )
@@ -96,7 +118,7 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
       element.removeEventListener('scroll', updateIndicator)
       window.removeEventListener('resize', updateIndicator)
     }
-  }, [children])
+  }, [childType, childKey])
 
   return (
     <ScrollView

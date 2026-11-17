@@ -107,6 +107,7 @@ describe('Table.ScrollView', () => {
       '.dnb-table__scroll-indicator'
     )
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
+    vi.spyOn(element, 'offsetWidth', 'get').mockReturnValue(200)
     const scrollWidth = vi
       .spyOn(element, 'scrollWidth', 'get')
       .mockReturnValue(400)
@@ -126,23 +127,31 @@ describe('Table.ScrollView', () => {
     expect(element).toHaveAttribute('data-scroll-indicator')
     expect(element).not.toHaveAttribute('data-scroll-indicator-rtl')
     expect(
-      element.style.getPropertyValue('--table-scroll-indicator-opacity')
+      button.style.getPropertyValue('--table-scroll-indicator-opacity')
     ).toBe('1')
-
-    fireEvent.scroll(element, { target: { scrollLeft: 10 } })
     expect(
       element.style.getPropertyValue('--table-scroll-indicator-opacity')
+    ).toBe('')
+    expect(button).toHaveAttribute('tabindex', '0')
+    button.focus()
+
+    fireEvent.scroll(element, { target: { scrollLeft: 10 } })
+    expect(button).toHaveAttribute('tabindex', '-1')
+    expect(button).toHaveAttribute('data-scroll-indicator-inactive')
+    expect(element).toHaveFocus()
+    expect(
+      button.style.getPropertyValue('--table-scroll-indicator-opacity')
     ).toBe('0.5625')
 
     fireEvent.scroll(element, { target: { scrollLeft: 20 } })
     expect(element).toHaveAttribute('data-scroll-indicator')
     expect(
-      element.style.getPropertyValue('--table-scroll-indicator-opacity')
+      button.style.getPropertyValue('--table-scroll-indicator-opacity')
     ).toBe('0.25')
 
     fireEvent.scroll(element, { target: { scrollLeft: 30 } })
     expect(
-      element.style.getPropertyValue('--table-scroll-indicator-opacity')
+      button.style.getPropertyValue('--table-scroll-indicator-opacity')
     ).toBe('0.0625')
 
     element.tabIndex = 0
@@ -153,10 +162,21 @@ describe('Table.ScrollView', () => {
 
     fireEvent.scroll(element, { target: { scrollLeft: 0 } })
     expect(element).toHaveAttribute('data-scroll-indicator')
+    expect(button).toHaveAttribute('tabindex', '0')
+    expect(button).not.toHaveAttribute('data-scroll-indicator-inactive')
+    fireEvent.scroll(element, { target: { scrollTop: 1 } })
+    expect(button).toHaveAttribute('tabindex', '-1')
+    fireEvent.scroll(element, { target: { scrollTop: 0 } })
+    expect(button).toHaveAttribute('tabindex', '0')
+    button.focus()
 
     scrollWidth.mockReturnValue(200)
     act(() => callbacks.forEach((callback) => callback()))
     expect(element).not.toHaveAttribute('data-scroll-indicator')
+    expect(element).not.toHaveAttribute('tabindex')
+    expect(element.querySelector('table')).toHaveFocus()
+    fireEvent.blur(element.querySelector('table'))
+    expect(element.querySelector('table')).not.toHaveAttribute('tabindex')
   })
 
   it('fades in the scroll direction and scrolls toward more columns in right-to-left layouts', () => {
@@ -174,6 +194,9 @@ describe('Table.ScrollView', () => {
     const element = document.querySelector<HTMLDivElement>(
       '.dnb-table__scroll-view'
     )
+    const button = element.querySelector<HTMLButtonElement>(
+      '.dnb-table__scroll-indicator'
+    )
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
     vi.spyOn(element, 'scrollWidth', 'get').mockReturnValue(400)
     element.scrollBy = vi.fn()
@@ -185,12 +208,10 @@ describe('Table.ScrollView', () => {
 
     fireEvent.scroll(element, { target: { scrollLeft: -20 } })
     expect(
-      element.style.getPropertyValue('--table-scroll-indicator-opacity')
+      button.style.getPropertyValue('--table-scroll-indicator-opacity')
     ).toBe('0.25')
 
-    const button = element.querySelector<HTMLButtonElement>(
-      '.dnb-table__scroll-indicator'
-    )
+    fireEvent.scroll(element, { target: { scrollLeft: 0 } })
     button.focus()
     fireEvent.click(button)
     expect(element.scrollBy).toHaveBeenCalledWith(
@@ -200,6 +221,28 @@ describe('Table.ScrollView', () => {
 
     fireEvent.scroll(element, { target: { scrollLeft: -40 } })
     expect(element).not.toHaveAttribute('data-scroll-indicator')
+  })
+
+  it('keeps observers when a parent rerenders the same table', () => {
+    const init = vi.fn()
+    const observe = vi.fn()
+    setResizeObserver({ init, observe })
+    const content = (text: string) => (
+      <ScrollView>
+        <Table>
+          <tbody>
+            <tr>
+              <td>{text}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </ScrollView>
+    )
+    const { rerender } = render(content('First'))
+    const initialCount = init.mock.calls.length
+    rerender(content('Second'))
+    expect(init).toHaveBeenCalledTimes(initialCount)
+    expect(observe).toHaveBeenCalledWith(document.querySelector('table'))
   })
 
   it('should have constant of _supportsSpacingProps', () => {
