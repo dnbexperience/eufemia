@@ -1,8 +1,7 @@
 // Entra sign-in (OAuth 2.0 authorization code + PKCE) for the dashboard.
 //
-// Public client: no secret in the browser. Only users assigned to the app
-// registration receive a token (enforced by Entra "assignment required"), so
-// this also controls who can sign in.
+// Public client: no secret in the browser. Any account in the DNB Entra tenant
+// can sign in; the app registration does not require user assignment.
 //
 // Scope note: sign-in gates the UI. The data itself is protected by the data
 // API, which accepts only a valid Entra access token.

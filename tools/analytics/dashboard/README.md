@@ -22,10 +22,9 @@ redirect URI registered on the app registration.
 
 ## Sign-in
 
-Access is limited to authorized DnB users via Entra (Azure AD). The page runs an
-OAuth 2.0 sign-in (authorization code + PKCE, no secret in the browser);
-only users assigned to the app registration receive a token, which controls who
-can sign in.
+Any account in the DNB Entra (Azure AD) tenant can sign in; the app
+registration does not require user assignment. The page runs an OAuth 2.0
+sign-in (authorization code + PKCE, no secret in the browser).
 
 Configure it per host: copy `config.example.json` to `config.json` (gitignored)
 and fill in the `clientId`, `tenantId`, a `redirectUri` that exactly matches one
@@ -39,8 +38,7 @@ The page fetches `config.json` at runtime, so it is not bundled into the build.
 
 Data is served by a separate, access-controlled API rather than bundled into
 these files. On a static host the sign-in gates the UI, so the API itself also
-enforces access by validating the Entra token. These pieces are layered on top
-of this UI shell.
+enforces access by validating the Entra token.
 
 The API also requires the `Dashboard.Read` scope, so the app registration must
 issue v2 access tokens (`requestedAccessTokenVersion = 2`) that carry a `scp`
