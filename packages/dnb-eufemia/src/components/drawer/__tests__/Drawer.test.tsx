@@ -1200,6 +1200,18 @@ describe('Drawer reveal', () => {
     expect(document.activeElement).toBe(dialog)
   })
 
+  it('moves focus to the focusSelector element', async () => {
+    renderReveal({ focusSelector: 'input[type=range]' })
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('input[type=range]')
+      )
+    })
+  })
+
   it('passes accessibility checks with the reveal driver', async () => {
     const component = renderReveal({ open: true, title: 'Menu' })
 
