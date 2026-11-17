@@ -1,5 +1,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 @use 'sidebar-menu-compact' as compact;
+@use 'sidebar-menu-header' as header;
 
 .dnb-sidebar-menu {
   // When an accordion opens, the menu scrolls its scroll container. WebKit
@@ -916,13 +917,9 @@ html.dnb-sidebar-menu-resize-handle--resizing
         -0.5rem - var(--sidebar-menu-compact-offset)
       );
       width: var(--sidebar-menu-expanded-width);
-      height: 5rem;
+      height: 3rem;
 
-      background-image: linear-gradient(
-        var(--token-color-background-neutral) 50%,
-        transparent
-      );
-      pointer-events: none;
+      @include header.fade();
     }
 
     &.dnb-sidebar-menu-responsive-inline--expanded
@@ -970,6 +967,10 @@ html.dnb-sidebar-menu-resize-handle--resizing
     background-color: var(--token-color-background-neutral);
     border-radius: var(--token-radius-full);
     transition: box-shadow 160ms var(--easing-default);
+
+    .eufemia-theme__color-scheme--dark & {
+      outline: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+    }
   }
 
   &__toggle.dnb-button {
@@ -1231,11 +1232,7 @@ html.dnb-sidebar-menu-resize-handle--resizing
     }
 
     &::before {
-      opacity: 1;
-      background-image: linear-gradient(
-        var(--drawer-background-color) 50%,
-        transparent
-      );
+      @include header.fade(var(--drawer-background-color));
     }
   }
 }
