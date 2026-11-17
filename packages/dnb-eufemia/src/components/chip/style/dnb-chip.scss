@@ -477,6 +477,14 @@
 
   &--default {
     --chip-selected-border: var(--token-color-stroke-selected);
+
+    // In Carnegie, the selected stroke is black, like the resting border.
+    // Use the selected stroke of the other looks, so a selected chip stands out.
+    .eufemia-theme__carnegie & {
+      --chip-selected-border: var(
+        --token-color-component-button-stroke-selected
+      );
+    }
   }
 
   &--default,
