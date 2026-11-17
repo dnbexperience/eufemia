@@ -226,6 +226,53 @@ describe.each([
     expect(document.querySelector('.dnb-search input')).toHaveFocus()
   })
 
+  it('returns shortcut focus on Escape without clearing the query', () => {
+    render(
+      <>
+        <button id="origin">Original control</button>
+        <Component
+          {...requiredProps}
+          shortcut
+          {...{
+            [Component === Search.Input ? 'value' : 'inputValue']:
+              'Button',
+          }}
+        />
+      </>
+    )
+    const origin = document.querySelector<HTMLButtonElement>('#origin')
+    const input = document.querySelector('input')
+    origin.focus()
+    fireEvent.keyDown(origin, { key: 'k', metaKey: true })
+    fireEvent.keyDown(input, { key: 'k', metaKey: true })
+    const event = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    fireEvent(input, event)
+    expect(event.defaultPrevented).toBe(true)
+    expect(origin).toHaveFocus()
+    expect(input).toHaveValue('Button')
+  })
+
+  it('forgets the shortcut origin after focus leaves Search', () => {
+    render(
+      <>
+        <button id="origin">Original control</button>
+        <Component {...requiredProps} shortcut />
+      </>
+    )
+    const origin = document.querySelector<HTMLButtonElement>('#origin')
+    const input = document.querySelector('input')
+    origin.focus()
+    fireEvent.keyDown(origin, { key: 'k', metaKey: true })
+    origin.focus()
+    input.focus()
+    fireEvent.keyDown(input, { key: 'Escape' })
+    expect(input).toHaveFocus()
+  })
+
   it('keeps the shortcut available in its Search input', () => {
     render(<Component {...requiredProps} shortcut />)
     const input = document.querySelector('input')

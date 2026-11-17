@@ -61,6 +61,62 @@ export default function useSearchProps<Props extends SearchProps>(
       return undefined
     }
 
+    let shortcutFocus: {
+      input: HTMLInputElement
+      origin: Element
+    } | null = null
+
+    const onFocusOut = (event: FocusEvent) => {
+      if (!shortcutFocus) {
+        return
+      }
+      const { input } = shortcutFocus
+      const target = event.relatedTarget as Node | null
+      const panel = document
+        .getElementById(input.getAttribute('aria-controls'))
+        ?.closest('.dnb-search__panel')
+      const insideNestedControl = Array.from(
+        panel?.querySelectorAll('[aria-controls]') ?? []
+      ).some((control) =>
+        document
+          .getElementById(control.getAttribute('aria-controls'))
+          ?.contains(target)
+      )
+      if (
+        !input.closest('.dnb-search')?.contains(target) &&
+        !panel?.contains(target) &&
+        !insideNestedControl
+      ) {
+        shortcutFocus = null
+      }
+    }
+
+    const onEscape = (event: globalThis.KeyboardEvent) => {
+      if (
+        event.key !== 'Escape' ||
+        event.defaultPrevented ||
+        event.isComposing ||
+        !(event.target instanceof HTMLInputElement) ||
+        !event.target.closest('.dnb-search--shortcut') ||
+        event.target.getAttribute('aria-expanded') === 'true'
+      ) {
+        return
+      }
+      event.preventDefault()
+      if (event.target !== shortcutFocus?.input) {
+        return
+      }
+      const { input, origin } = shortcutFocus
+      shortcutFocus = null
+      event.stopPropagation()
+      if (origin instanceof HTMLElement && origin.isConnected) {
+        origin.focus({ preventScroll: true })
+      }
+      if (document.activeElement === input) {
+        input.blur()
+      }
+    }
+
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (
         event.defaultPrevented ||
@@ -108,12 +164,21 @@ export default function useSearchProps<Props extends SearchProps>(
 
       if (input) {
         event.preventDefault()
+        if (activeElement !== input) {
+          shortcutFocus = { input, origin: activeElement }
+        }
         input.focus()
       }
     }
 
     document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
+    document.addEventListener('focusout', onFocusOut)
+    document.documentElement.addEventListener('keydown', onEscape)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('focusout', onFocusOut)
+      document.documentElement.removeEventListener('keydown', onEscape)
+    }
   }, [shortcut, props.disabled])
 
   return {
