@@ -2,10 +2,31 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+import opentype from 'opentype.js'
 import postcss from 'postcss'
 import { loadScss } from '../../core/test-utils/testSetup'
 
 const themeDirectory = path.resolve(__dirname, '../themes')
+const fontsDirectory = path.resolve(__dirname, '../../../assets/fonts/dnb')
+
+function loadFont(name: string) {
+  const file = fs.readFileSync(path.join(fontsDirectory, name + '.ttf'))
+  return opentype.parse(
+    file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength)
+  )
+}
+
+function getLineMetrics(font: ReturnType<typeof loadFont>) {
+  const { hhea, os2 } = font.tables
+  const useTypoMetrics = Boolean(os2.fsSelection & (1 << 7))
+  return {
+    unitsPerEm: font.unitsPerEm,
+    hhea: [hhea.ascender, hhea.descender, hhea.lineGap],
+    windows: useTypoMetrics
+      ? [os2.sTypoAscender, -os2.sTypoDescender, os2.sTypoLineGap]
+      : [os2.usWinAscent, os2.usWinDescent, 0],
+  }
+}
 
 function getFontFaces(theme = 'ui') {
   const css = loadScss(path.join(themeDirectory, theme, 'fonts.scss'))
@@ -129,4 +150,55 @@ describe('DNB font faces', () => {
       )
     ).toBe(false)
   })
+
+  // Eufemia versions on one page share the DNB family, so text must keep its layout
+  it.each([
+    ['DNB-Regular', 'DNBSansText-Regular'],
+    ['DNB-Medium', 'DNBSansText-Medium'],
+    ['DNB-Bold', 'DNBSansText-Bold'],
+    ['DNBMono-Regular', 'DNBSansMono-Regular'],
+    ['DNBMono-Medium', 'DNBSansMono-Medium'],
+    ['DNBMono-Bold', 'DNBSansMono-Bold'],
+  ])(
+    'keeps the widths, kerning and line metrics of %s in %s',
+    (legacyName, currentName) => {
+      const legacy = loadFont(legacyName)
+      const current = loadFont(currentName)
+
+      expect(getLineMetrics(current)).toEqual(getLineMetrics(legacy))
+
+      const legacyGlyphs = legacy.tables.cmap.glyphIndexMap
+      const currentGlyphs = current.tables.cmap.glyphIndexMap
+      const characters = Object.keys(legacyGlyphs)
+        .map(Number)
+        .filter((code) => code < 0x250)
+      expect(characters.length).toBeGreaterThan(300)
+
+      const changedWidths = characters
+        .filter(
+          (code) =>
+            currentGlyphs[code] === undefined ||
+            current.glyphs.get(currentGlyphs[code]).advanceWidth !==
+              legacy.glyphs.get(legacyGlyphs[code]).advanceWidth
+        )
+        .map((code) => String.fromCodePoint(code))
+      expect(changedWidths).toEqual([])
+
+      const pairCharacters = [...'AFLPTVWYafjrtvwy.,-’«»017ÆØÅæøå']
+      const changedKerning = pairCharacters
+        .flatMap((left) => pairCharacters.map((right) => left + right))
+        .filter(
+          ([left, right]) =>
+            current.getKerningValue(
+              current.charToGlyph(left),
+              current.charToGlyph(right)
+            ) !==
+            legacy.getKerningValue(
+              legacy.charToGlyph(left),
+              legacy.charToGlyph(right)
+            )
+        )
+      expect(changedKerning).toEqual([])
+    }
+  )
 })
