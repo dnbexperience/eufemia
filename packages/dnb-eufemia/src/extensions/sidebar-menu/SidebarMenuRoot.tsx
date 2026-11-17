@@ -372,11 +372,18 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     }
   }, [activeSection, resolvedSelectedItem, selection?.sectionId])
 
+  const isRestoringOpenItems =
+    openItems === undefined &&
+    Boolean(openItemsStorageKey) &&
+    renderedOpenItemsStorageId !== openItemsStorageId
+
   useLayoutEffect(() => {
     if (
       !scrollSelectedItemIntoView ||
       !resolvedSelectedItem ||
-      positionedSelectedItemRef.current === resolvedSelectedItem
+      positionedSelectedItemRef.current === resolvedSelectedItem ||
+      // The stored scroll position is restored after the stored open items.
+      isRestoringOpenItems
     ) {
       return undefined
     }
@@ -504,6 +511,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       stopWaitingForAnimation()
     }
   }, [
+    isRestoringOpenItems,
     resolvedActiveSection,
     resolvedOpenItemsKey,
     resolvedSelectedItem,
