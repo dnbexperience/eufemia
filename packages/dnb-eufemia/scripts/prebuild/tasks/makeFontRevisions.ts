@@ -9,12 +9,13 @@ import { sync as globSync } from 'globby'
 const packageRoot = path.resolve(__dirname, '../../..')
 
 export function getFontRevisions(
-  readFont = (file: string) => fs.readFileSync(file)
+  readFont = (file: string) => fs.readFileSync(file),
+  sourceRoot = packageRoot
 ) {
   const files: Record<string, string> = {}
   const faces = new Map<string, Set<string>>()
   const sources = globSync(['src/**/*.scss', '!src/**/__tests__/**'], {
-    cwd: packageRoot,
+    cwd: sourceRoot,
     absolute: true,
   }).filter((file) => /@font-face/.test(fs.readFileSync(file, 'utf8')))
   for (const file of sources) {
@@ -31,9 +32,7 @@ export function getFontRevisions(
           const hash = crypto
             .createHash('sha256')
             .update(
-              readFont(
-                path.join(packageRoot, 'assets/fonts', relativePath)
-              )
+              readFont(path.join(sourceRoot, 'assets/fonts', relativePath))
             )
             .digest('hex')
           files[relativePath] = hash

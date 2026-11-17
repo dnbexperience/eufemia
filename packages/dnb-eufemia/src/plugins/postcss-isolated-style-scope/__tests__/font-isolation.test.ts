@@ -50,19 +50,13 @@ describe('isolated font families', () => {
 
   it('is independent of the selector scope and idempotent', () => {
     const css = rewrite(
-      'p { font-family: DNBMono, Roboto, ArizonaFlare, MaisonNeueHeadings, DNBSkeleton, DNBMonoSkeleton, DNBSansDisplaySkeleton; }'
+      `p { font-family: ${Object.keys(revisions.families)
+        .map((family) => JSON.stringify(family))
+        .join(', ')}; }`
     )
     expect(rewrite(css)).toBe(css)
-    for (const family of [
-      'DNBMono',
-      'Roboto',
-      'ArizonaFlare',
-      'MaisonNeueHeadings',
-      'DNBSkeleton',
-      'DNBMonoSkeleton',
-      'DNBSansDisplaySkeleton',
-    ]) {
-      expect(css).toContain(revisions.families[family])
+    for (const revision of Object.values(revisions.families)) {
+      expect(css).toContain(revision)
     }
   })
 })

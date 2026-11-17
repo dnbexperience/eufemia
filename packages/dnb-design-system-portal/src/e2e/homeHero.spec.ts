@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
+import revisions from '@dnb/eufemia/src/plugins/postcss-isolated-style-scope/font-revisions.js'
 
 test('keeps idle motion off the JavaScript frame loop', async ({
   page,
@@ -102,21 +103,12 @@ for (const colorScheme of ['light', 'dark'] as const) {
   test(
     'keeps Carnegie appearance controls available in ' + colorScheme,
     async ({ page }) => {
-      const failedFonts: string[] = []
-      page.on('response', (response) => {
-        if (
-          response.status() >= 400 &&
-          /ArizonaFlare.*.woff2/.test(response.url())
-        ) {
-          failedFonts.push(response.url())
-        }
-      })
       await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' })
       await page.goto('/')
       await waitForApp(page)
       await expect(page.locator('#welcome-heading')).toHaveCSS(
         'font-family',
-        'DNB, Arial, sans-serif'
+        revisions.families.DNB + ', Arial, sans-serif'
       )
 
       await page.getByRole('checkbox', { name: 'DNB Carnegie' }).check()
@@ -124,7 +116,19 @@ for (const colorScheme of ['light', 'dark'] as const) {
         /eufemia-theme__carnegie/
       )
       await page.evaluate(() => document.fonts.ready)
-      expect(failedFonts).toEqual([])
+      const loaded = await page
+        .locator('#welcome-heading')
+        .evaluate(async (element) => {
+          const style = getComputedStyle(element)
+          const fonts = await document.fonts.load(
+            style.fontSize + ' ' + style.fontFamily
+          )
+          return (
+            fonts.length > 0 &&
+            fonts.every((font) => font.status === 'loaded')
+          )
+        })
+      expect(loaded).toBe(true)
       const dark = page.getByRole('switch', {
         name: 'Dark mode',
         exact: true,

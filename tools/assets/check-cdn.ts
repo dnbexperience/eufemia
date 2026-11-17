@@ -12,21 +12,15 @@ const graceMs = 60 * 60 * 1000
 const stableCacheMs = 24 * 60 * 60 * 1000
 const assets = [
   {
-    path: 'fonts/dnb/DNB-Regular.woff2',
-    type: 'font/woff2',
-    magic: '774f4632',
-  },
-  {
-    path: 'fonts/dnb/DNB-Bold.woff2',
-    type: 'font/woff2',
-    magic: '774f4632',
-  },
-  {
     path: 'images/dnb/dnb-logo.png',
     type: 'image/png',
     magic: '89504e470d0a1a0a',
   },
 ]
+const fontAssets = (hashes: Map<string, string>) =>
+  [...hashes.keys()]
+    .filter((path) => /^fonts\/.*\.woff2$/.test(path))
+    .map((path) => ({ path, type: 'font/woff2', magic: '774f4632' }))
 
 export async function checkCdn(
   options: CheckOptions = {}
@@ -162,7 +156,10 @@ export async function checkCdn(
           }
           entries.set(match[2], match[1])
         }
-        if (assets.some((asset) => !entries.has(asset.path))) {
+        if (
+          assets.some((asset) => !entries.has(asset.path)) ||
+          fontAssets(entries).length === 0
+        ) {
           throw new Error(
             'Deployment manifest is missing monitored assets'
           )
@@ -172,14 +169,7 @@ export async function checkCdn(
     )
     await checkAssets(prefix, hashes)
     if (hashes) {
-      const currentFonts = [...hashes.keys()]
-        .filter((path) =>
-          /^fonts\/dnb\/(?:web\/)?DNBSans(?:Text|Mono|Display)[^/]*\.woff2$/.test(
-            path
-          )
-        )
-        .map((path) => ({ path, type: 'font/woff2', magic: '774f4632' }))
-      await checkAssets(prefix, hashes, currentFonts)
+      await checkAssets(prefix, hashes, fontAssets(hashes))
     }
     return hashes
   }
@@ -187,9 +177,13 @@ export async function checkCdn(
   if (metadata) {
     const start = checks.length
     const hashes = await checkVersion(metadata.latest)
-    const stableHashes = await stable
+    const currentFonts = hashes ? fontAssets(hashes) : []
+    const stableHashes = [
+      ...(await stable),
+      ...(await checkAssets('', undefined, currentFonts)),
+    ]
     if (hashes && now - metadata.publishedAt >= stableCacheMs + graceMs) {
-      assets.forEach((asset, index) => {
+      ;[...assets, ...currentFonts].forEach((asset, index) => {
         if (stableHashes[index]) {
           checks.push({
             name: `stable-manifest/${asset.path}`,
@@ -200,18 +194,26 @@ export async function checkCdn(
       })
     }
     if (now - metadata.publishedAt < graceMs) {
+      const previousHashes = metadata.previous
+        ? await checkVersion(metadata.previous)
+        : undefined
+      const newStableFonts = new Set(
+        currentFonts
+          .filter(
+            (asset) => previousHashes && !previousHashes.has(asset.path)
+          )
+          .map((asset) => 'stable/' + asset.path)
+      )
       for (const check of checks.slice(start)) {
         if (
           !check.ok &&
-          check.name.startsWith(`v${metadata.latest}/`) &&
+          (check.name.startsWith(`v${metadata.latest}/`) ||
+            newStableFonts.has(check.name)) &&
           /HTTP (403|404)$/.test(check.detail)
         ) {
           check.pending = true
           check.detail += ' (within the 60-minute deployment grace period)'
         }
-      }
-      if (metadata.previous) {
-        await checkVersion(metadata.previous)
       }
     }
   }

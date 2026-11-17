@@ -30,8 +30,9 @@ The public workflow `.github/workflows/assets.yml` copies the assets, Terraform
 configuration, and deploy workflow to the `deploy` branch of the private GitHub
 Enterprise repository configured by `GHE_ASSETS_DEPLOY_REPO`. That repository
 deploys through GitHub OIDC without AWS access keys. The public workflow then
-waits for versioned fonts, an SVG and the content-addressed WOFF2 fonts to return
-HTTP 200 with the expected Content Security Policy through the public hostname.
+discovers fonts from the deployment manifest and waits for their versioned and
+content-addressed URLs and an SVG to return HTTP 200 with the expected Content
+Security Policy through the public hostname.
 
 The infrastructure uses `environment=dev` because Eufemia's only AWS account is
 a dev account. The production Akamai hostname is independent of that AWS
@@ -72,9 +73,9 @@ local command below.
 The monitor checks:
 
 - npm's `latest` stable version and its publication time.
-- Stable URLs for DNB Regular, DNB Bold, and the DNB logo, even if npm is down.
+- The stable DNB logo URL, even if npm is down.
 - The latest version's deployment manifest and the same immutable assets.
-- Current DNB Sans Text, Mono and Display WOFF2 files listed in each checked release manifest. Older releases keep their original font checks.
+- Versioned and stable URLs for all WOFF2 fonts discovered in release manifests, across brands and families.
 - HTTP 200, actual binary signatures, MIME types, public CORS headers, and
   immutable asset SHA-256 hashes against the deployment manifest.
 - Stable aliases against the latest manifest after 25 hours, allowing for the
@@ -82,8 +83,9 @@ The monitor checks:
 
 Each failed request is retried twice, with a 10-second timeout per attempt.
 Missing versioned assets (403 or 404) have a 60-minute grace period after npm
-publication. During this period the previous stable version is also checked.
-Stable outages, invalid content, CORS errors, and timeouts still fail immediately
+publication. The same grace applies to stable fonts confirmed as new by the
+previous release manifest. During this period the previous stable version is
+also checked. Existing stable outages, invalid content, CORS errors, and timeouts still fail immediately
 after retries. A pending deployment does not close an existing incident.
 Prereleases do not move npm's stable `latest` tag and are outside this monitor's
 scope. This is a representative asset check, not an audit of every asset or

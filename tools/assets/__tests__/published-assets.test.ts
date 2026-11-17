@@ -16,13 +16,26 @@ const script = workflow
   .replace(/^ {10}/gm, '')
 const policy = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
 const fonts = [
-  'DNBSansText-Regular',
-  'DNBSansText-Italic',
-  'DNBSansMono-Regular',
-].map((name) => '/v11.0.0/fonts/dnb/' + name + '.woff2')
-fonts.push('/v11.0.0/fonts/dnb/DNBSansDisplay.woff2')
+  { path: 'fonts/new-brand/nested/Regular.woff2', hash: 'a'.repeat(64) },
+  { path: 'fonts/new-brand/Italic.woff', hash: 'b'.repeat(64) },
+  { path: 'fonts/new-brand/Regular.ttf', hash: 'c'.repeat(64) },
+  { path: 'fonts/new-brand/Display.otf', hash: 'd'.repeat(64) },
+  { path: 'fonts/another brand/Same font.woff2', hash: 'a'.repeat(64) },
+]
 const svg = '/v11.0.0/icons/dnb/add.svg'
-const contentAddress = '/font-files/' + 'a'.repeat(64) + '.woff2'
+
+function expectedCalls(entries = fonts) {
+  return [
+    svg,
+    ...entries.flatMap(({ path, hash }) => [
+      '/v11.0.0/' + path.replaceAll(' ', '%20'),
+      '/font-files/' + hash + '.' + path.split('.').at(-1),
+    ]),
+  ]
+    .filter((value, index, values) => values.indexOf(value) === index)
+    .sort()
+}
+
 const validHeaders = 'Content-Security-Policy: ' + policy + '\r\n'
 
 function verify(
@@ -33,7 +46,7 @@ function verify(
     addressedStatus?: string
     status?: string
     retry?: boolean
-    legacy?: boolean
+    fonts?: typeof fonts
   } = {}
 ) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'published-assets-'))
@@ -96,22 +109,20 @@ function verify(
         STATUS: options.status ?? '200',
         RETRY: String(options.retry ?? false),
         FIXTURE_MANIFEST: [
-          'fonts/dnb/DNB-Regular.woff2',
-          'icons/dnb/add.svg',
-          ...(options.legacy
-            ? []
-            : fonts.map((font) => font.slice('/v11.0.0/'.length))),
-        ]
-          .map((asset) => 'a'.repeat(64) + '  assets/' + asset)
-          .join(String.fromCharCode(10)),
+          ...(options.fonts ?? fonts).map(
+            ({ path, hash }) => hash + '  assets/' + path
+          ),
+          'e'.repeat(64) + '  assets/icons/dnb/add.svg',
+          'f'.repeat(64) + '  assets/fonts/README.md',
+        ].join(String.fromCharCode(10)),
       },
     })
     expect(result.error).toBeUndefined()
     return {
       status: result.status,
-      calls: JSON.parse(
-        fs.readFileSync(path.join(dir, 'calls.json'), 'utf8')
-      ),
+      calls: fs.existsSync(path.join(dir, 'calls.json'))
+        ? JSON.parse(fs.readFileSync(path.join(dir, 'calls.json'), 'utf8'))
+        : [],
     }
   } finally {
     fs.rmSync(dir, { recursive: true, force: true })
@@ -119,25 +130,25 @@ function verify(
 }
 
 describe('published assets verification', () => {
-  it('verifies older releases using only the fonts in their manifest', () => {
-    const result = verify(validHeaders, { legacy: true })
-    expect(result.status).toBe(0)
-    expect(result.calls).toEqual([
-      '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
-      svg,
-      contentAddress,
-    ])
-  })
-
-  it('requires the enforced CSP on both the font and SVG', () => {
+  it('discovers font paths and formats without requiring a known family', () => {
     const result = verify(validHeaders)
     expect(result.status).toBe(0)
-    expect(result.calls).toEqual([
-      '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
-      svg,
-      ...fonts,
-      contentAddress,
-    ])
+    expect(result.calls.sort()).toEqual(expectedCalls())
+  })
+
+  it('verifies older releases using only the fonts in their manifest', () => {
+    const legacy = [
+      { path: 'fonts/dnb/DNB-Regular.woff2', hash: 'a'.repeat(64) },
+    ]
+    const result = verify(validHeaders, { fonts: legacy })
+    expect(result.status).toBe(0)
+    expect(result.calls.sort()).toEqual(expectedCalls(legacy))
+  })
+
+  it('does not accept a manifest without fonts', () => {
+    const result = verify(validHeaders, { fonts: [] })
+    expect(result.status).toBe(1)
+    expect(result.calls).toEqual([])
   })
 
   it.each([
@@ -171,12 +182,8 @@ describe('published assets verification', () => {
   it('retries until the CSP has propagated', () => {
     const result = verify('', { retry: true })
     expect(result.status).toBe(0)
-    expect(result.calls.slice(-(fonts.length + 3))).toEqual([
-      '/v11.0.0/fonts/dnb/DNB-Regular.woff2',
-      svg,
-      ...fonts,
-      contentAddress,
-    ])
-    expect(result.calls.length).toBeGreaterThan(fonts.length + 2)
+    const calls = expectedCalls()
+    expect(result.calls.slice(-calls.length).sort()).toEqual(calls)
+    expect(result.calls.length).toBeGreaterThan(calls.length)
   })
 })

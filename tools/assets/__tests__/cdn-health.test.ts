@@ -6,8 +6,8 @@ const now = Date.parse('2026-10-16T10:00:00Z')
 const font = Buffer.from('774f463200010203', 'hex')
 const image = Buffer.from('89504e470d0a1a0a010203', 'hex')
 const paths = [
-  'fonts/dnb/DNB-Regular.woff2',
-  'fonts/dnb/DNB-Bold.woff2',
+  'fonts/new-brand/Regular.woff2',
+  'fonts/another-brand/Bold.woff2',
   'images/dnb/dnb-logo.png',
 ]
 const manifest = paths
@@ -76,13 +76,12 @@ describe('production CDN checks', () => {
     ).toBe(true)
   })
 
-  it('checks current DNB font files listed by a newer release manifest', async () => {
+  it('discovers web fonts from every brand in a newer release manifest', async () => {
     const currentPaths = [
-      'DNBSansText-Regular',
-      'DNBSansText-Italic',
-      'DNBSansMono-BoldItalic',
-      'DNBSansDisplay',
-    ].map((name) => 'fonts/dnb/' + name + '.woff2')
+      'fonts/new-brand/Extended.woff2',
+      'fonts/new-brand/nested/Italic.woff2',
+      'fonts/another-brand/Display.woff2',
+    ]
     const currentManifest =
       manifest +
       '\n' +
@@ -112,7 +111,7 @@ describe('production CDN checks', () => {
   })
 
   it('detects an unavailable current font without requiring it in older release manifests', async () => {
-    const currentPath = 'fonts/dnb/DNBSansText-Italic.woff2'
+    const currentPath = 'fonts/new-brand/Italic.woff2'
     const currentManifest =
       manifest +
       '\n' +
@@ -153,7 +152,7 @@ describe('production CDN checks', () => {
       sleep,
     })
     expect(report.status).toBe('unhealthy')
-    expect(report.checks.filter((check) => !check.ok)).toHaveLength(4)
+    expect(report.checks.filter((check) => !check.ok)).toHaveLength(2)
   })
 
   it('names the Akamai reference and skips the grace period when Akamai blocks an asset', async () => {
@@ -221,6 +220,54 @@ describe('production CDN checks', () => {
     }
   )
 
+  it('allows a newly discovered stable font to finish deploying', async () => {
+    const newPath = 'fonts/new-brand/New.woff2'
+    const report = await checkCdn({
+      fetch: fixture({
+        age: 10,
+        change: (url) => {
+          if (
+            url.includes('/v11.15.2/') &&
+            url.endsWith('.manifest.sha256')
+          ) {
+            return new Response(
+              manifest +
+                '\n' +
+                createHash('sha256').update(font).digest('hex') +
+                '  assets/' +
+                newPath
+            )
+          }
+          if (url.endsWith(newPath) && !url.includes('/v11.')) {
+            return new Response('', { status: 404 })
+          }
+        },
+      }),
+      now,
+      sleep,
+    })
+    expect(report.status).toBe('pending')
+    expect(
+      report.checks.find((check) => check.name === 'stable/' + newPath)
+        ?.pending
+    ).toBe(true)
+  })
+
+  it('does not hide a missing existing stable font during a new deployment', async () => {
+    const report = await checkCdn({
+      fetch: fixture({
+        age: 10,
+        change: (url) =>
+          url.endsWith('Regular.woff2') && !url.includes('/v11.')
+            ? new Response('', { status: 404 })
+            : undefined,
+      }),
+      now,
+      sleep,
+    })
+    expect(report.status).toBe('unhealthy')
+  })
+
   it('still checks CDN availability when npm is unavailable', async () => {
     const report = await checkCdn({
       fetch: fixture({
@@ -233,7 +280,7 @@ describe('production CDN checks', () => {
       sleep,
     })
     expect(report.status).toBe('unhealthy')
-    expect(report.checks.filter((check) => check.ok)).toHaveLength(3)
+    expect(report.checks.filter((check) => check.ok)).toHaveLength(1)
     expect(report.checks.find((check) => !check.ok)?.name).toBe(
       'npm latest'
     )
@@ -266,7 +313,7 @@ describe('production CDN checks', () => {
     const report = await checkCdn({
       fetch: fixture({
         change: (url) =>
-          url.endsWith('DNB-Regular.woff2') ? response() : undefined,
+          url.endsWith('Regular.woff2') ? response() : undefined,
       }),
       now,
       sleep,
@@ -296,7 +343,7 @@ describe('production CDN checks', () => {
       fetch: fixture({
         age: 26 * 60,
         change: (url) =>
-          url.endsWith('DNB-Regular.woff2') && !url.includes('/v11.')
+          url.endsWith('Regular.woff2') && !url.includes('/v11.')
             ? new Response(Buffer.concat([font, Buffer.from('old')]), {
                 headers: {
                   'Content-Type': 'font/woff2',
@@ -310,7 +357,7 @@ describe('production CDN checks', () => {
     })
     expect(report.status).toBe('unhealthy')
     expect(report.checks.find((check) => !check.ok)?.name).toBe(
-      'stable-manifest/fonts/dnb/DNB-Regular.woff2'
+      'stable-manifest/fonts/new-brand/Regular.woff2'
     )
   })
 
@@ -319,7 +366,7 @@ describe('production CDN checks', () => {
       fetch: fixture({
         age: 10,
         change: (url) =>
-          url.includes('/v11.15.2/') && url.endsWith('DNB-Regular.woff2')
+          url.includes('/v11.15.2/') && url.endsWith('Regular.woff2')
             ? new Response('<html>Error</html>')
             : undefined,
       }),

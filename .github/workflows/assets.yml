@@ -168,7 +168,7 @@ jobs:
             exit 1
           fi
 
-          # Check the font used by generated CSS and an SVG document through the public edge.
+          # Discover published fonts and check them and an SVG through the public edge.
           BASE_URL="https://assets.eufemia.dnb.no/${ASSET_VERSION}"
           HEADERS=$(mktemp)
           MANIFEST=$(mktemp)
@@ -179,26 +179,33 @@ jobs:
           while [ "$(date +%s)" -lt "$DEADLINE" ]; do
             ready=true
             code=$(curl -s --output "$MANIFEST" -w '%{http_code}' --max-time 10 "$BASE_URL/.manifest.sha256" || true)
-            if [ "$code" != "200" ] || ! grep -Fq '  assets/fonts/dnb/DNB-Regular.woff2' "$MANIFEST"; then
+            if [ "$code" != "200" ]; then
               echo "Waiting for the deployment manifest at $BASE_URL (HTTP $code)"
               sleep 15
               continue
             fi
-            ASSETS=(fonts/dnb/DNB-Regular.woff2 icons/dnb/add.svg)
-            for ASSET in fonts/dnb/DNBSansText-Regular.woff2 fonts/dnb/DNBSansText-Italic.woff2 fonts/dnb/DNBSansMono-Regular.woff2 fonts/dnb/DNBSansDisplay.woff2; do
-              if grep -Fq "  assets/$ASSET" "$MANIFEST"; then
-                ASSETS+=("$ASSET")
-              fi
-            done
-            URLS=()
-            for ASSET in "${ASSETS[@]}"; do
-              URLS+=("$BASE_URL/$ASSET")
-            done
             # The deployment publishes content addresses for every font, also
             # when manually republishing an older release.
-            while read -r HASH; do
-              URLS+=("https://assets.eufemia.dnb.no/font-files/${HASH}.woff2")
-            done < <(awk '/  assets\/fonts\/.*[.]woff2$/ { print $1 }' "$MANIFEST" | sort -u)
+            URLS=()
+            while IFS= read -r URL; do
+              URLS+=("$URL")
+            done < <(awk -v base="$BASE_URL" '
+              /^[a-f0-9]+  assets\/fonts\/.*[.](woff2|woff|ttf|otf)$/ && length($1) == 64 {
+                asset = $0
+                sub(/^[a-f0-9]+  assets\//, "", asset)
+                extension = asset
+                sub(/^.*[.]/, "", extension)
+                gsub(/ /, "%20", asset)
+                print base "/" asset
+                print "https://assets.eufemia.dnb.no/font-files/" $1 "." extension
+              }
+            ' "$MANIFEST" | sort -u)
+            if [ "${#URLS[@]}" -eq 0 ]; then
+              echo "Waiting for fonts in the deployment manifest at $BASE_URL"
+              sleep 15
+              continue
+            fi
+            URLS+=("$BASE_URL/icons/dnb/add.svg")
             for URL in "${URLS[@]}"; do
               : > "$HEADERS"
               code=$(curl -s -o /dev/null --dump-header "$HEADERS" -w '%{http_code}' --max-time 10 "$URL" || true)
