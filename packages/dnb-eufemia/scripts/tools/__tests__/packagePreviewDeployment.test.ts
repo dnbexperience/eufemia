@@ -46,6 +46,7 @@ function setup({
   pullRequests = [openPr],
   checks = [publishedCheck],
   payload = {},
+  eventName = 'push',
 }: {
   pullRequests?: (typeof openPr)[]
   checks?: {
@@ -54,6 +55,7 @@ function setup({
     output?: { text: string }
   }[]
   payload?: object
+  eventName?: string
 } = {}) {
   const summary = {
     addHeading: vi.fn().mockReturnThis(),
@@ -78,6 +80,7 @@ function setup({
   }
   const context = {
     repo: { owner: 'dnbexperience', repo: 'eufemia' },
+    eventName,
     sha,
     payload,
     serverUrl: 'https://github.com',
@@ -100,6 +103,7 @@ describe('package preview deployment', () => {
     const step = publish.steps.find((step) => step.id === 'publish')
     expect(workflow.permissions).toEqual({ contents: 'read' })
     expect(publish.permissions).toBeUndefined()
+    expect(publish.if).toBe("github.event_name == 'push'")
     expect(step.run).toContain('--comment=off')
     expect(step.if).toBe(
       "steps.changes.outputs.packages-unaffected != 'true'"
@@ -108,6 +112,7 @@ describe('package preview deployment', () => {
     expect(workflow.on.pull_request.types).toContain('opened')
     expect(workflow.on.pull_request.branches).toBeUndefined()
     expect(workflow.jobs.deployment.needs).toBe('publish')
+    expect(workflow.jobs.deployment.if).toContain('!cancelled()')
     expect(workflow.jobs.deployment.if).toContain(
       "needs.publish.outputs.sha != ''"
     )
@@ -176,6 +181,7 @@ describe('package preview deployment', () => {
 
   it('uses the PR head instead of the synthetic merge commit on opening a PR', async () => {
     const { run, github, context } = setup({
+      eventName: 'pull_request',
       payload: { pull_request: { head: { sha } } },
     })
     context.sha = 'b'.repeat(40)
@@ -183,6 +189,17 @@ describe('package preview deployment', () => {
     expect(github.rest.repos.createDeployment).toHaveBeenCalledWith(
       expect.objectContaining({ ref: sha })
     )
+  })
+
+  it('leaves registration to the push run when opening a PR before its publish', async () => {
+    const { run, github, summary } = setup({
+      eventName: 'pull_request',
+      payload: { pull_request: { head: { sha } } },
+      checks: [],
+    })
+    await run()
+    expect(github.rest.repos.createDeployment).not.toHaveBeenCalled()
+    expect(summary.write).not.toHaveBeenCalled()
   })
 
   it.each([

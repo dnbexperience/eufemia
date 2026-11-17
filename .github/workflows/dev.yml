@@ -25,6 +25,9 @@ jobs:
   publish:
     name: Publish
 
+    # Pull request runs only register a preview, so fork code is never published.
+    if: github.event_name == 'push'
+
     runs-on: ubuntu-latest
 
     timeout-minutes: 20
@@ -65,11 +68,12 @@ jobs:
     name: Register package preview
     needs: publish
     if: >-
-      needs.publish.outputs.sha != '' &&
       github.repository == 'dnbexperience/eufemia' &&
       github.actor != 'dependabot[bot]' &&
-      (github.event_name != 'pull_request' ||
-       github.event.pull_request.head.repo.full_name == github.repository)
+      !cancelled() &&
+      (needs.publish.outputs.sha != '' ||
+       (github.event_name == 'pull_request' &&
+        github.event.pull_request.head.repo.full_name == github.repository))
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -99,6 +103,10 @@ jobs:
             // The CLI's JSON template URL is not the generated starter URL.
             const starterUrl = check?.output?.text?.match(/\[eufemia-starter\]\((https:\/\/pkg\.pr\.new\/template\/[a-zA-Z0-9-]+)\)/)?.[1]
             if (!starterUrl) {
+              if (context.eventName === 'pull_request') {
+                core.info('No package is published for this head yet; the push run registers it.')
+                return
+              }
               throw new Error('The package publish check has no eufemia-starter preview link')
             }
 
