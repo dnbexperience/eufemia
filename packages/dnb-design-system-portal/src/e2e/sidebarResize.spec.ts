@@ -350,6 +350,9 @@ test.describe('Sidebar resize', () => {
     await expect(resizeHandle).toHaveAttribute('aria-valuemax', '560')
 
     await resizeHandle.focus()
+    await page.keyboard.press('Shift+Tab')
+    await expect(resizeHandle).not.toBeFocused()
+    await page.keyboard.press('Tab')
     await expect(resizeHandle).toBeFocused()
 
     await page.keyboard.press('ArrowRight')
@@ -359,6 +362,45 @@ test.describe('Sidebar resize', () => {
     await page.keyboard.press('ArrowLeft')
 
     await expect(sidebar).toHaveCSS('width', `${initialWidth}px`)
+
+    await page.keyboard.press('Shift+ArrowRight')
+    await expect(sidebar).toHaveCSS('width', `${initialWidth + 48}px`)
+
+    await page.keyboard.press('Home')
+    await expect(sidebar).toHaveCSS('width', '240px')
+    await expect(resizeHandle).toHaveAttribute('aria-valuenow', '240')
+    await page.keyboard.press('ArrowLeft')
+    await expect(sidebar).toHaveCSS('width', '240px')
+
+    await page.keyboard.press('End')
+    await expect(sidebar).toHaveCSS('width', '560px')
+    await expect(resizeHandle).toHaveAttribute('aria-valuenow', '560')
+    await page.keyboard.press('ArrowRight')
+    await expect(sidebar).toHaveCSS('width', '560px')
+
+    await page.keyboard.press('Enter')
+    await expect(sidebar).toHaveCSS('width', `${initialWidth}px`)
+    await expect(resizeHandle).toBeFocused()
+  })
+
+  test('should focus the divider when clicked and continue resizing with the keyboard', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await gotoAndWait(page)
+
+    const sidebar = page.locator('#portal-sidebar-menu')
+    const resizeHandle = page.getByRole('separator', {
+      name: 'Resize sidebar',
+    })
+    const initialWidth = await sidebar.evaluate(
+      (element) => element.getBoundingClientRect().width
+    )
+
+    await resizeHandle.click({ position: { x: 5, y: 100 } })
+    await expect(resizeHandle).toBeFocused()
+    await page.keyboard.press('ArrowRight')
+    await expect(sidebar).toHaveCSS('width', `${initialWidth + 16}px`)
   })
 
   test('should resist below its minimum width and spring back', async ({
@@ -423,6 +465,7 @@ test.describe('Sidebar resize', () => {
     await expect(inline).toHaveAttribute('inert')
     await expect(inline).toHaveAttribute('aria-hidden', 'true')
     await expect(trigger).toBeVisible()
+    await expect(trigger).toBeFocused()
     await expect(trigger.locator('.dnb-icon path')).toHaveCount(3)
     await expect(trigger.locator('.dnb-icon path').nth(0)).toHaveCSS(
       'animation-delay',
