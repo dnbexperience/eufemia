@@ -253,12 +253,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     openItemsStorageKey,
   ])
 
+  const isRestoringOpenItems =
+    openItems === undefined &&
+    Boolean(openItemsStorageKey) &&
+    renderedOpenItemsStorageId !== openItemsStorageId
+
   useLayoutEffect(() => {
     if (
       !scrollPositionStorageKey ||
-      (openItems === undefined &&
-        openItemsStorageKey &&
-        renderedOpenItemsStorageId !== openItemsStorageId) ||
+      isRestoringOpenItems ||
       (responsive?.isSmallScreen && !responsive.open)
     ) {
       return undefined
@@ -329,6 +332,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       scrollView.removeEventListener('scroll', persistPosition)
     }
   }, [
+    isRestoringOpenItems,
     responsive?.drawerScrollElement,
     responsive?.isSmallScreen,
     responsive?.open,
@@ -371,11 +375,6 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       setInternalActiveSection(selection.sectionId)
     }
   }, [activeSection, resolvedSelectedItem, selection?.sectionId])
-
-  const isRestoringOpenItems =
-    openItems === undefined &&
-    Boolean(openItemsStorageKey) &&
-    renderedOpenItemsStorageId !== openItemsStorageId
 
   useLayoutEffect(() => {
     if (
