@@ -232,7 +232,7 @@ describe('validateMcpUsage', () => {
     expect(result).toEqual({ ok: true, value: [{ tool: 'docs_entry' }] })
   })
 
-  it('accepts a component miss with its likely component', () => {
+  it('accepts a component miss and drops the likelyComponent older clients send', () => {
     const result = validateMcpUsage({
       tool: 'component_doc',
       componentMissed: true,
@@ -241,21 +241,14 @@ describe('validateMcpUsage', () => {
 
     expect(result).toEqual({
       ok: true,
-      value: [
-        {
-          tool: 'component_doc',
-          componentMissed: true,
-          likelyComponent: 'date-picker',
-        },
-      ],
+      value: [{ tool: 'component_doc', componentMissed: true }],
     })
   })
 
-  it('drops a malformed miss flag or likely component', () => {
+  it('drops a malformed miss flag', () => {
     const result = validateMcpUsage({
       tool: 'component_doc',
       componentMissed: 'yes',
-      likelyComponent: 'Date Picker; DROP',
     })
 
     expect(result).toEqual({
@@ -279,7 +272,6 @@ describe('buildMcpUsageRecord', () => {
       tool: 'docs_entry',
       component: '',
       component_missed: false,
-      likely_component: '',
       path: '',
       env: 'unknown',
       transport: 'local',
@@ -299,19 +291,14 @@ describe('buildMcpUsageRecord', () => {
     expect(record.component).toBe('')
   })
 
-  it('stores a component miss and its likely component', () => {
+  it('stores a component miss', () => {
     const record = buildMcpUsageRecord(
-      {
-        tool: 'component_doc',
-        componentMissed: true,
-        likelyComponent: 'date-picker',
-      },
+      { tool: 'component_doc', componentMissed: true },
       createdAt,
       'local'
     )
 
     expect(record.component_missed).toBe(true)
-    expect(record.likely_component).toBe('date-picker')
   })
 
   it.each([
@@ -327,15 +314,10 @@ describe('buildMcpUsageRecord', () => {
         componentMissed: true as const,
       },
     ],
-    [
-      'a likely component without the miss flag',
-      { tool: 'component_doc', likelyComponent: 'date-picker' },
-    ],
   ])('stores no miss for %s', (_label, input) => {
     const record = buildMcpUsageRecord(input, createdAt, 'local')
 
     expect(record.component_missed).toBe(false)
-    expect(record.likely_component).toBe('')
   })
 
   it('keeps a path only for a path tool', () => {

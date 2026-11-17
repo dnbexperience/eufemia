@@ -11,7 +11,7 @@ import {
   Heading,
   List,
   P,
-  ToggleButton,
+  Chip,
 } from '@dnb/eufemia/src'
 import { Value } from '@dnb/eufemia/src/extensions/forms'
 import {
@@ -322,7 +322,7 @@ export const CustomFilter = () => {
 
           return (
             <Filter.Item label={label} filterKey={filterKey}>
-              <ToggleButton
+              <Chip
                 checked={isActive}
                 onChange={({ checked }) => {
                   if (checked) {
@@ -333,7 +333,7 @@ export const CustomFilter = () => {
                 }}
               >
                 {label}
-              </ToggleButton>
+              </Chip>
             </Filter.Item>
           )
         }
@@ -916,7 +916,7 @@ export const QuickFilters = () => {
           const isActive = !!getFilter(filterKey)
 
           return (
-            <ToggleButton
+            <Chip
               checked={isActive}
               onChange={({ checked }) => {
                 if (checked) {
@@ -927,7 +927,7 @@ export const QuickFilters = () => {
               }}
             >
               {label}
-            </ToggleButton>
+            </Chip>
           )
         }
 

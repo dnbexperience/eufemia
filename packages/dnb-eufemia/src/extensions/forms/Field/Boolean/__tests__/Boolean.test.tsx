@@ -643,10 +643,11 @@ describe('Field.Boolean', () => {
         'dnb-forms-field-block--label-height-large'
       )
 
-      const buttonElement: HTMLInputElement = document.querySelector(
-        '.dnb-toggle-button__button'
+      const buttonElement: HTMLInputElement =
+        document.querySelector('.dnb-chip input')
+      expect(buttonElement.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
       )
-      expect(buttonElement.classList).toContain('dnb-button--size-large')
     })
 
     it('renders label', () => {
@@ -669,12 +670,12 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(
-        document.querySelector('.dnb-toggle-button__button')
-      ).toHaveAttribute('aria-describedby')
+      expect(document.querySelector('.dnb-chip input')).toHaveAttribute(
+        'aria-describedby'
+      )
       expect(
         document
-          .querySelector('.dnb-toggle-button__button')
+          .querySelector('.dnb-chip input')
           .getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
@@ -711,10 +712,8 @@ describe('Field.Boolean', () => {
           error={new Error('This is what went wrong')}
         />
       )
-      const element = document.querySelector('.dnb-toggle-button')
-      expect(element.className).toContain(
-        'dnb-toggle-button__status--error'
-      )
+      const element = document.querySelector('.dnb-chip')
+      expect(element.className).toContain('dnb-checkbox__status--error')
     })
 
     it('should show error when no value is given', () => {
@@ -852,7 +851,7 @@ describe('Field.Boolean', () => {
       it('should have aria-required', () => {
         render(<Field.Boolean label="Label" variant="button" required />)
 
-        const button = document.querySelector('button')
+        const button = document.querySelector('.dnb-chip input')
         expect(button).toHaveAttribute('aria-required', 'true')
       })
 
@@ -866,7 +865,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        const button = document.querySelector('button')
+        const button = document.querySelector('.dnb-chip input')
         expect(button).toHaveAttribute('aria-invalid', 'true')
       })
     })
@@ -890,9 +889,9 @@ describe('Field.Boolean', () => {
       )
 
       const checkboxButtonElement: HTMLInputElement =
-        document.querySelector('.dnb-toggle-button__button')
-      expect(checkboxButtonElement.classList).toContain(
-        'dnb-button--size-large'
+        document.querySelector('.dnb-chip input')
+      expect(checkboxButtonElement.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
       )
     })
 
@@ -920,12 +919,12 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(
-        document.querySelector('.dnb-toggle-button__button')
-      ).toHaveAttribute('aria-describedby')
+      expect(document.querySelector('.dnb-chip input')).toHaveAttribute(
+        'aria-describedby'
+      )
       expect(
         document
-          .querySelector('.dnb-toggle-button__button')
+          .querySelector('.dnb-chip input')
           .getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
@@ -962,10 +961,8 @@ describe('Field.Boolean', () => {
           error={new Error('This is what went wrong')}
         />
       )
-      const element = document.querySelector('.dnb-toggle-button')
-      expect(element.className).toContain(
-        'dnb-toggle-button__status--error'
-      )
+      const element = document.querySelector('.dnb-chip')
+      expect(element.className).toContain('dnb-checkbox__status--error')
     })
 
     it('should show error when no value is given', () => {
@@ -1026,7 +1023,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        const button = document.querySelector('button')
+        const button = document.querySelector('.dnb-chip input')
         expect(button).toHaveAttribute('aria-required', 'true')
       })
 
@@ -1040,7 +1037,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        const button = document.querySelector('button')
+        const button = document.querySelector('.dnb-chip input')
         expect(button).toHaveAttribute('aria-invalid', 'true')
       })
     })
@@ -1064,10 +1061,14 @@ describe('Field.Boolean', () => {
       )
 
       const [first, second] = Array.from(
-        document.querySelectorAll('.dnb-toggle-button__button')
+        document.querySelectorAll('.dnb-chip input')
       )
-      expect(first.classList).toContain('dnb-button--size-large')
-      expect(second.classList).toContain('dnb-button--size-large')
+      expect(first.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
+      )
+      expect(second.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
+      )
     })
 
     it('renders label', () => {
@@ -1077,12 +1078,10 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
 
-    it('renders two radio-styled toggle buttons', () => {
+    it('renders two radio-styled chips', () => {
       render(<Field.Boolean variant="radio-button" />)
       expect(
-        document.querySelectorAll(
-          '.dnb-toggle-button__button .dnb-radio__input'
-        )
+        document.querySelectorAll('.dnb-chip input[type="radio"]')
       ).toHaveLength(2)
       expect(screen.getByText('Ja')).toBeInTheDocument()
       expect(screen.getByText('Nei')).toBeInTheDocument()
@@ -1090,21 +1089,21 @@ describe('Field.Boolean', () => {
 
     it('has no selected value by default', () => {
       render(<Field.Boolean variant="radio-button" />)
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
     it('has "false" selected', () => {
       render(<Field.Boolean variant="radio-button" value={false} />)
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('true')
     })
 
     it('has "true" selected', () => {
       render(<Field.Boolean variant="radio-button" value={true} />)
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0].getAttribute('aria-checked')).toBe('true')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
@@ -1140,10 +1139,8 @@ describe('Field.Boolean', () => {
           error={new Error('This is what went wrong')}
         />
       )
-      const element = document.querySelector('.dnb-toggle-button')
-      expect(element.className).toContain(
-        'dnb-toggle-button__status--error'
-      )
+      const element = document.querySelector('.dnb-chip')
+      expect(element.className).toContain('dnb-radio__status--error')
     })
 
     it('should show error when no value is given', () => {
@@ -1173,7 +1170,7 @@ describe('Field.Boolean', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -1190,7 +1187,7 @@ describe('Field.Boolean', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1215,18 +1212,16 @@ describe('Field.Boolean', () => {
         'dnb-forms-field-block--label-height-large'
       )
 
-      const buttonElementOne: Element = document.querySelectorAll(
-        '.dnb-toggle-button__button'
-      )[1]
-      expect(buttonElementOne.classList).toContain(
-        'dnb-button--size-large'
+      const buttonElementOne: Element =
+        document.querySelectorAll('.dnb-chip input')[1]
+      expect(buttonElementOne.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
       )
 
-      const buttonElementTwo: Element = document.querySelectorAll(
-        '.dnb-toggle-button__button'
-      )[0]
-      expect(buttonElementTwo.classList).toContain(
-        'dnb-button--size-large'
+      const buttonElementTwo: Element =
+        document.querySelectorAll('.dnb-chip input')[0]
+      expect(buttonElementTwo.closest('.dnb-chip')).toHaveClass(
+        'dnb-chip--size-large'
       )
     })
 
@@ -1250,32 +1245,30 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      const toggleButtons = document.querySelectorAll(
-        '.dnb-toggle-button__button'
-      )
-      expect(toggleButtons.length).toBeGreaterThan(0)
-      toggleButtons.forEach((button) => {
+      const chips = document.querySelectorAll('.dnb-chip input')
+      expect(chips.length).toBeGreaterThan(0)
+      chips.forEach((button) => {
         expect(button).toHaveAttribute('aria-describedby')
       })
     })
 
     it('has no selected value by default', () => {
       render(<Field.Boolean variant="buttons" />)
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
     it('has "false" selected', () => {
       render(<Field.Boolean variant="buttons" value={false} />)
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('true')
     })
 
     it('has "true" selected', () => {
       render(<Field.Boolean variant="buttons" value={true} />)
-      const buttons = document.querySelectorAll('button')
+      const buttons = document.querySelectorAll('.dnb-chip input')
       expect(buttons[0].getAttribute('aria-checked')).toBe('true')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
@@ -1311,10 +1304,8 @@ describe('Field.Boolean', () => {
           error={new Error('This is what went wrong')}
         />
       )
-      const element = document.querySelector('.dnb-toggle-button')
-      expect(element.className).toContain(
-        'dnb-toggle-button__status--error'
-      )
+      const element = document.querySelector('.dnb-chip')
+      expect(element.className).toContain('dnb-radio__status--error')
     })
 
     it('should change value when path value changes', () => {
@@ -1324,12 +1315,12 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button__button')
+      const [yesElement, noElement]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-chip input')
       )
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'true')
-      expect(noElement).toHaveAttribute('aria-checked', 'false')
+      expect(yesElement).toBeChecked()
+      expect(noElement).not.toBeChecked()
 
       rerender(
         <DataContext.Provider data={{ isTrue: false }}>
@@ -1337,8 +1328,8 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'false')
-      expect(noElement).toHaveAttribute('aria-checked', 'true')
+      expect(yesElement).not.toBeChecked()
+      expect(noElement).toBeChecked()
     })
 
     it('should reset both buttons via rerender when undefined was given', () => {
@@ -1348,12 +1339,12 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button__button')
+      const [yesElement, noElement]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-chip input')
       )
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'true')
-      expect(noElement).toHaveAttribute('aria-checked', 'false')
+      expect(yesElement).toBeChecked()
+      expect(noElement).not.toBeChecked()
 
       rerender(
         <DataContext.Provider data={{ isTrue: undefined }}>
@@ -1361,8 +1352,8 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'false')
-      expect(noElement).toHaveAttribute('aria-checked', 'false')
+      expect(yesElement).not.toBeChecked()
+      expect(noElement).not.toBeChecked()
     })
 
     it('should reset both buttons via useData update when undefined was given', () => {
@@ -1384,27 +1375,27 @@ describe('Field.Boolean', () => {
       const resetButton = document.querySelector(
         '.dnb-forms-submit-button'
       )
-      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
-        document.querySelectorAll('.dnb-toggle-button__button')
+      const [yesElement, noElement]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-chip input')
       )
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'false')
-      expect(noElement).toHaveAttribute('aria-checked', 'false')
+      expect(yesElement).not.toBeChecked()
+      expect(noElement).not.toBeChecked()
 
       fireEvent.click(yesElement)
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'true')
-      expect(noElement).toHaveAttribute('aria-checked', 'false')
+      expect(yesElement).toBeChecked()
+      expect(noElement).not.toBeChecked()
 
       fireEvent.click(noElement)
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'false')
-      expect(noElement).toHaveAttribute('aria-checked', 'true')
+      expect(yesElement).not.toBeChecked()
+      expect(noElement).toBeChecked()
 
       fireEvent.click(resetButton)
 
-      expect(yesElement).toHaveAttribute('aria-checked', 'false')
-      expect(noElement).toHaveAttribute('aria-checked', 'false')
+      expect(yesElement).not.toBeChecked()
+      expect(noElement).not.toBeChecked()
     })
 
     it('should show error when no value is given', () => {
@@ -1456,7 +1447,7 @@ describe('Field.Boolean', () => {
         render(<Field.Boolean label="Label" variant="buttons" required />)
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-required', 'true')
         expect(second).toHaveAttribute('aria-required', 'true')
@@ -1473,7 +1464,7 @@ describe('Field.Boolean', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1497,8 +1488,8 @@ describe('Field.Boolean', () => {
       const fieldset = document.querySelector('fieldset')
       expect(fieldset).not.toBeInTheDocument()
 
-      // Toggle buttons don't have individual labels
-      expect(document.querySelectorAll('label')).toHaveLength(0)
+      // Each native input has its own option label.
+      expect(document.querySelectorAll('.dnb-chip label')).toHaveLength(2)
     })
 
     it('should have correct aria-labelledby when fieldset is created by label', () => {
@@ -1640,7 +1631,7 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+      const [yesElement, noElement]: Array<HTMLInputElement> = Array.from(
         document.querySelectorAll('.dnb-radio__input')
       )
 
@@ -1664,7 +1655,7 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+      const [yesElement, noElement]: Array<HTMLInputElement> = Array.from(
         document.querySelectorAll('.dnb-radio__input')
       )
 
@@ -1700,7 +1691,7 @@ describe('Field.Boolean', () => {
       const resetButton = document.querySelector(
         '.dnb-forms-submit-button'
       )
-      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+      const [yesElement, noElement]: Array<HTMLInputElement> = Array.from(
         document.querySelectorAll('.dnb-radio__input')
       )
 

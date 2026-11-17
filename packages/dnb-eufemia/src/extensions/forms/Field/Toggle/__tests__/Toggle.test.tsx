@@ -4,6 +4,7 @@ import DataContext from '../../../DataContext/Context'
 import type { FieldToggleProps } from '../Toggle'
 import { Field, FieldBlock, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
+import Chip from '../../../../../components/Chip'
 
 describe('Field.Toggle', () => {
   it('should render with props', () => {
@@ -61,6 +62,52 @@ describe('Field.Toggle', () => {
   })
 
   describe('variants', () => {
+    it.each(['buttons', 'radio-button'] as const)(
+      'keeps one radiogroup for %s without a field label',
+      (variant) => {
+        render(
+          <Field.Toggle variant={variant} valueOn="on" valueOff="off" />
+        )
+
+        expect(
+          document.querySelectorAll('[role="radiogroup"]')
+        ).toHaveLength(1)
+      }
+    )
+
+    it.each(['button', 'checkbox-button'] as const)(
+      'keeps %s selection independent of a surrounding Chip.Group',
+      async (variant) => {
+        const onChange = vi.fn()
+        const onGroupChange = vi.fn()
+        render(
+          <Chip.Group value="parent" onChange={onGroupChange}>
+            <Chip value="parent">Parent</Chip>
+            <Field.Toggle
+              variant={variant}
+              valueOn="on"
+              valueOff="off"
+              value="off"
+              onChange={onChange}
+            />
+          </Chip.Group>
+        )
+
+        const input = document.querySelector(
+          '.dnb-forms-field-toggle .dnb-chip input'
+        )
+        expect(input).toHaveAttribute('type', 'checkbox')
+        expect(input).not.toBeChecked()
+
+        await userEvent.click(input)
+
+        expect(input).toBeChecked()
+        expect(onChange).toHaveBeenCalledWith('on', expect.anything())
+        expect(onGroupChange).not.toHaveBeenCalled()
+        expect(document.querySelector('.dnb-chip input')).toBeChecked()
+      }
+    )
+
     describe('switch', () => {
       it('should support size', () => {
         render(
@@ -419,10 +466,11 @@ describe('Field.Toggle', () => {
           'dnb-forms-field-block--label-height-large'
         )
 
-        const buttonElement: HTMLInputElement = document.querySelector(
-          '.dnb-toggle-button__button'
+        const buttonElement: HTMLInputElement =
+          document.querySelector('.dnb-chip input')
+        expect(buttonElement.closest('.dnb-chip')).toHaveClass(
+          'dnb-chip--size-large'
         )
-        expect(buttonElement.classList).toContain('dnb-button--size-large')
       })
 
       it('renders label', () => {
@@ -449,12 +497,12 @@ describe('Field.Toggle', () => {
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
           1
         )
-        expect(
-          document.querySelector('.dnb-toggle-button__button')
-        ).toHaveAttribute('aria-describedby')
+        expect(document.querySelector('.dnb-chip input')).toHaveAttribute(
+          'aria-describedby'
+        )
         expect(
           document
-            .querySelector('.dnb-toggle-button__button')
+            .querySelector('.dnb-chip input')
             .getAttribute('aria-describedby')
         ).toBe(document.querySelector('.dnb-help-button').id)
       })
@@ -472,22 +520,20 @@ describe('Field.Toggle', () => {
           />
         )
 
-        const element = document.querySelector(
-          '.dnb-toggle-button__button'
-        )
+        const element = document.querySelector('.dnb-chip input')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveAttribute('aria-checked', 'true')
+        expect(element).toBeChecked()
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('aria-checked', 'false')
+        expect(element).not.toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('aria-checked', 'true')
+        expect(element).toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
@@ -560,7 +606,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          const button = document.querySelector('button')
+          const button = document.querySelector('.dnb-chip input')
           expect(button).toHaveAttribute('aria-required', 'true')
         })
 
@@ -576,7 +622,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          const button = document.querySelector('button')
+          const button = document.querySelector('.dnb-chip input')
           expect(button).toHaveAttribute('aria-invalid', 'true')
         })
       })
@@ -588,7 +634,7 @@ describe('Field.Toggle', () => {
           <Field.Toggle
             valueOn="on"
             valueOff="off"
-            variant="buttons"
+            variant="button"
             value="on"
             error={errorMessage}
           />
@@ -597,8 +643,8 @@ describe('Field.Toggle', () => {
         const element = document.querySelector('.dnb-form-status')
         expect(element).toHaveTextContent('Error message')
 
-        const input = document.querySelector('.dnb-toggle-button')
-        expect(input).toHaveClass('dnb-toggle-button__status--error')
+        const input = document.querySelector('.dnb-chip')
+        expect(input).toHaveClass('dnb-checkbox__status--error')
       })
 
       it('shows error style in FieldBlock', () => {
@@ -609,15 +655,15 @@ describe('Field.Toggle', () => {
             <Field.Toggle
               valueOn="on"
               valueOff="off"
-              variant="buttons"
+              variant="button"
               value="on"
               error={errorMessage}
             />
           </FieldBlock>
         )
 
-        const input = document.querySelector('.dnb-toggle-button')
-        expect(input).toHaveClass('dnb-toggle-button__status--error')
+        const input = document.querySelector('.dnb-chip')
+        expect(input).toHaveClass('dnb-checkbox__status--error')
       })
     })
 
@@ -639,18 +685,16 @@ describe('Field.Toggle', () => {
           'dnb-forms-field-block--label-height-large'
         )
 
-        const buttonElementOne: Element = document.querySelectorAll(
-          '.dnb-toggle-button__button'
-        )[1]
-        expect(buttonElementOne.classList).toContain(
-          'dnb-button--size-large'
+        const buttonElementOne: Element =
+          document.querySelectorAll('.dnb-chip input')[1]
+        expect(buttonElementOne.closest('.dnb-chip')).toHaveClass(
+          'dnb-chip--size-large'
         )
 
-        const buttonElementTwo: Element = document.querySelectorAll(
-          '.dnb-toggle-button__button'
-        )[0]
-        expect(buttonElementTwo.classList).toContain(
-          'dnb-button--size-large'
+        const buttonElementTwo: Element =
+          document.querySelectorAll('.dnb-chip input')[0]
+        expect(buttonElementTwo.closest('.dnb-chip')).toHaveClass(
+          'dnb-chip--size-large'
         )
       })
 
@@ -678,9 +722,9 @@ describe('Field.Toggle', () => {
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
           1
         )
-        expect(
-          document.querySelector('.dnb-toggle-button__button')
-        ).toHaveAttribute('aria-describedby')
+        expect(document.querySelector('.dnb-chip input')).toHaveAttribute(
+          'aria-describedby'
+        )
       })
 
       it('should render correct HTML', () => {
@@ -696,25 +740,23 @@ describe('Field.Toggle', () => {
           />
         )
 
-        const [yesElement, noElement]: Array<HTMLButtonElement> =
-          Array.from(
-            document.querySelectorAll('.dnb-toggle-button__button')
-          )
+        const [yesElement, noElement]: Array<HTMLInputElement> =
+          Array.from(document.querySelectorAll('.dnb-chip input'))
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'true')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).toBeChecked()
+        expect(noElement).not.toBeChecked()
 
         fireEvent.click(noElement)
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'false')
-        expect(noElement).toHaveAttribute('aria-checked', 'true')
+        expect(yesElement).not.toBeChecked()
+        expect(noElement).toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(yesElement)
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'true')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).toBeChecked()
+        expect(noElement).not.toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
@@ -729,13 +771,11 @@ describe('Field.Toggle', () => {
           />
         )
 
-        const [yesElement, noElement]: Array<HTMLButtonElement> =
-          Array.from(
-            document.querySelectorAll('.dnb-toggle-button__button')
-          )
+        const [yesElement, noElement]: Array<HTMLInputElement> =
+          Array.from(document.querySelectorAll('.dnb-chip input'))
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'true')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).toBeChecked()
+        expect(noElement).not.toBeChecked()
 
         rerender(
           <Field.Toggle
@@ -746,8 +786,8 @@ describe('Field.Toggle', () => {
           />
         )
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'false')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).not.toBeChecked()
+        expect(noElement).not.toBeChecked()
       })
 
       describe('ARIA', () => {
@@ -778,7 +818,7 @@ describe('Field.Toggle', () => {
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('.dnb-chip input')
           )
           expect(first).toHaveAttribute('aria-required', 'true')
           expect(second).toHaveAttribute('aria-required', 'true')
@@ -797,7 +837,7 @@ describe('Field.Toggle', () => {
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('.dnb-chip input')
           )
           expect(first).toHaveAttribute('aria-invalid', 'true')
           expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -821,10 +861,11 @@ describe('Field.Toggle', () => {
         const element = document.querySelector('.dnb-form-status')
         expect(element).toHaveTextContent('Error message')
 
-        const [yesElement, noElement]: Array<HTMLButtonElement> =
-          Array.from(document.querySelectorAll('.dnb-toggle-button'))
-        expect(yesElement).toHaveClass('dnb-toggle-button__status--error')
-        expect(noElement).toHaveClass('dnb-toggle-button__status--error')
+        const [yesElement, noElement]: Array<HTMLElement> = Array.from(
+          document.querySelectorAll('.dnb-chip')
+        )
+        expect(yesElement).toHaveClass('dnb-radio__status--error')
+        expect(noElement).toHaveClass('dnb-radio__status--error')
       })
 
       it('shows error style in FieldBlock', () => {
@@ -843,10 +884,11 @@ describe('Field.Toggle', () => {
           </FieldBlock>
         )
 
-        const [yesElement, noElement]: Array<HTMLButtonElement> =
-          Array.from(document.querySelectorAll('.dnb-toggle-button'))
-        expect(yesElement).toHaveClass('dnb-toggle-button__status--error')
-        expect(noElement).toHaveClass('dnb-toggle-button__status--error')
+        const [yesElement, noElement]: Array<HTMLElement> = Array.from(
+          document.querySelectorAll('.dnb-chip')
+        )
+        expect(yesElement).toHaveClass('dnb-radio__status--error')
+        expect(noElement).toHaveClass('dnb-radio__status--error')
       })
 
       it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
@@ -864,6 +906,9 @@ describe('Field.Toggle', () => {
 
         expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
         expect(fieldset).toHaveAttribute('role', 'radiogroup')
+        expect(
+          document.querySelectorAll('[role="radiogroup"]')
+        ).toHaveLength(1)
         expect(legend).toHaveAttribute('id')
       })
 
@@ -875,8 +920,10 @@ describe('Field.Toggle', () => {
         const fieldset = document.querySelector('fieldset')
         expect(fieldset).not.toBeInTheDocument()
 
-        // Toggle buttons don't have individual labels
-        expect(document.querySelectorAll('label')).toHaveLength(0)
+        // Each native input has its own option label.
+        expect(document.querySelectorAll('.dnb-chip label')).toHaveLength(
+          2
+        )
       })
 
       it('should have correct aria-labelledby when fieldset is created by label', () => {
@@ -1154,9 +1201,9 @@ describe('Field.Toggle', () => {
         )
 
         const checkboxButtonElement: HTMLInputElement =
-          document.querySelector('.dnb-toggle-button__button')
-        expect(checkboxButtonElement.classList).toContain(
-          'dnb-button--size-large'
+          document.querySelector('.dnb-chip input')
+        expect(checkboxButtonElement.closest('.dnb-chip')).toHaveClass(
+          'dnb-chip--size-large'
         )
       })
 
@@ -1184,12 +1231,12 @@ describe('Field.Toggle', () => {
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
           1
         )
-        expect(
-          document.querySelector('.dnb-toggle-button__button')
-        ).toHaveAttribute('aria-describedby')
+        expect(document.querySelector('.dnb-chip input')).toHaveAttribute(
+          'aria-describedby'
+        )
         expect(
           document
-            .querySelector('.dnb-toggle-button__button')
+            .querySelector('.dnb-chip input')
             .getAttribute('aria-describedby')
         ).toBe(document.querySelector('.dnb-help-button').id)
       })
@@ -1208,21 +1255,21 @@ describe('Field.Toggle', () => {
         )
 
         const element = document.querySelector(
-          '.dnb-toggle-button__button .dnb-checkbox__input'
+          '.dnb-chip input[type="checkbox"]'
         )
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveAttribute('data-checked', 'true')
+        expect(element).toBeChecked()
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('data-checked', 'false')
+        expect(element).not.toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('data-checked', 'true')
+        expect(element).toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
@@ -1254,7 +1301,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          const button = document.querySelector('button')
+          const button = document.querySelector('.dnb-chip input')
           expect(button).toHaveAttribute('aria-required', 'true')
         })
 
@@ -1270,7 +1317,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          const button = document.querySelector('button')
+          const button = document.querySelector('.dnb-chip input')
           expect(button).toHaveAttribute('aria-invalid', 'true')
         })
       })
@@ -1292,8 +1339,8 @@ describe('Field.Toggle', () => {
         const element = document.querySelector('.dnb-form-status')
         expect(element).toHaveTextContent('Error message')
 
-        const input = document.querySelector('.dnb-toggle-button')
-        expect(input).toHaveClass('dnb-toggle-button__status--error')
+        const input = document.querySelector('.dnb-chip')
+        expect(input).toHaveClass('dnb-checkbox__status--error')
       })
 
       it('shows error style in FieldBlock', () => {
@@ -1312,8 +1359,8 @@ describe('Field.Toggle', () => {
           </FieldBlock>
         )
 
-        const input = document.querySelector('.dnb-toggle-button')
-        expect(input).toHaveClass('dnb-toggle-button__status--error')
+        const input = document.querySelector('.dnb-chip')
+        expect(input).toHaveClass('dnb-checkbox__status--error')
       })
     })
 
@@ -1336,10 +1383,14 @@ describe('Field.Toggle', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('.dnb-toggle-button__button')
+          document.querySelectorAll('.dnb-chip input')
         )
-        expect(first.classList).toContain('dnb-button--size-large')
-        expect(second.classList).toContain('dnb-button--size-large')
+        expect(first.closest('.dnb-chip')).toHaveClass(
+          'dnb-chip--size-large'
+        )
+        expect(second.closest('.dnb-chip')).toHaveClass(
+          'dnb-chip--size-large'
+        )
       })
 
       it('renders label', () => {
@@ -1354,7 +1405,7 @@ describe('Field.Toggle', () => {
         expect(screen.getByText('Toggle label')).toBeInTheDocument()
       })
 
-      it('renders two radio-styled toggle buttons', () => {
+      it('renders two radio-styled chips', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -1365,7 +1416,7 @@ describe('Field.Toggle', () => {
         )
 
         const radios = document.querySelectorAll(
-          '.dnb-toggle-button__button .dnb-radio__input'
+          '.dnb-chip input[type="radio"]'
         )
         expect(radios).toHaveLength(2)
       })
@@ -1383,25 +1434,23 @@ describe('Field.Toggle', () => {
           />
         )
 
-        const [yesElement, noElement]: Array<HTMLButtonElement> =
-          Array.from(
-            document.querySelectorAll('.dnb-toggle-button__button')
-          )
+        const [yesElement, noElement]: Array<HTMLInputElement> =
+          Array.from(document.querySelectorAll('.dnb-chip input'))
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'true')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).toBeChecked()
+        expect(noElement).not.toBeChecked()
 
         fireEvent.click(noElement)
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'false')
-        expect(noElement).toHaveAttribute('aria-checked', 'true')
+        expect(yesElement).not.toBeChecked()
+        expect(noElement).toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(yesElement)
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'true')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).toBeChecked()
+        expect(noElement).not.toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
@@ -1416,13 +1465,11 @@ describe('Field.Toggle', () => {
           />
         )
 
-        const [yesElement, noElement]: Array<HTMLButtonElement> =
-          Array.from(
-            document.querySelectorAll('.dnb-toggle-button__button')
-          )
+        const [yesElement, noElement]: Array<HTMLInputElement> =
+          Array.from(document.querySelectorAll('.dnb-chip input'))
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'true')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).toBeChecked()
+        expect(noElement).not.toBeChecked()
 
         rerender(
           <Field.Toggle
@@ -1433,8 +1480,8 @@ describe('Field.Toggle', () => {
           />
         )
 
-        expect(yesElement).toHaveAttribute('aria-checked', 'false')
-        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(yesElement).not.toBeChecked()
+        expect(noElement).not.toBeChecked()
       })
 
       it('renders error', () => {
@@ -1454,10 +1501,11 @@ describe('Field.Toggle', () => {
         const element = document.querySelector('.dnb-form-status')
         expect(element).toHaveTextContent('Error message')
 
-        const [yesElement, noElement]: Array<HTMLButtonElement> =
-          Array.from(document.querySelectorAll('.dnb-toggle-button'))
-        expect(yesElement).toHaveClass('dnb-toggle-button__status--error')
-        expect(noElement).toHaveClass('dnb-toggle-button__status--error')
+        const [yesElement, noElement]: Array<HTMLElement> = Array.from(
+          document.querySelectorAll('.dnb-chip')
+        )
+        expect(yesElement).toHaveClass('dnb-radio__status--error')
+        expect(noElement).toHaveClass('dnb-radio__status--error')
       })
 
       it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
@@ -1475,6 +1523,9 @@ describe('Field.Toggle', () => {
 
         expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
         expect(fieldset).toHaveAttribute('role', 'radiogroup')
+        expect(
+          document.querySelectorAll('[role="radiogroup"]')
+        ).toHaveLength(1)
       })
 
       describe('ARIA', () => {
@@ -1505,7 +1556,7 @@ describe('Field.Toggle', () => {
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('.dnb-chip input')
           )
           expect(first).toHaveAttribute('aria-required', 'true')
           expect(second).toHaveAttribute('aria-required', 'true')
@@ -1524,7 +1575,7 @@ describe('Field.Toggle', () => {
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('.dnb-chip input')
           )
           expect(first).toHaveAttribute('aria-invalid', 'true')
           expect(second).toHaveAttribute('aria-invalid', 'true')

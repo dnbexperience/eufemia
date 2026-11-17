@@ -38,13 +38,15 @@ Use a dropdown when you need to provide many options to the user but don't have 
 
 ### When not to use
 
-1. Do not use a dropdown if you have only a few options that could be shown using [Radio buttons](/web/components/radio) or [ToggleButtons](/web/components/toggle-button).
+1. Do not use a dropdown if you have only a few options that could be shown using [Radio buttons](/web/components/radio) or [Chips](/web/components/chip).
 
 **Note:** This pattern can be constructed in various ways to achieve a similar effect—from using the HTML `select` element to custom building with divs, spans, and JavaScript.
 
 ## Accessibility
 
 When `preventSelection` is true, the Dropdown will use `role="menu"`, instead of `role="listbox"` for better screen reader support.
+
+Keep item content free of links, buttons and other interactive elements. Arrow-key navigation skips nested controls, which can make mouse and keyboard behavior differ. Handle selection in `onChange`. For navigation, use a [Menu](/web/components/menu/) or a results list with real links.
 
 ## Custom size
 

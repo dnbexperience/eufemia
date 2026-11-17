@@ -81,7 +81,7 @@ test('keeps principles and motion together in Design foundations', async ({
   })
   await expect(design).toHaveAttribute(
     'href',
-    '/design-foundations/design-principles'
+    '/design-foundations/design-principles/'
   )
   await menu
     .getByRole('link', { name: 'Motion principles', exact: true })
@@ -98,7 +98,7 @@ test('keeps principles and motion together in Design foundations', async ({
       exact: true,
     })
     .click()
-  await expect(page).toHaveURL('/web/development-guidelines/motion')
+  await expect(page).toHaveURL('/web/development-guidelines/motion/')
   await expect(page.locator('.dnb-motion-demo')).toHaveCount(13)
 })
 

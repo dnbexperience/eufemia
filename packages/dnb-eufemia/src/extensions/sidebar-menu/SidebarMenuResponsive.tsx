@@ -1020,6 +1020,7 @@ export function SidebarMenuResponsiveInline({
             {(hasCompact || showToggle) && (
               <div
                 className="dnb-sidebar-menu-responsive-inline__toggle-island"
+                data-scrolled={compactScrolled || undefined}
                 data-sidebar-menu-responsive-toggle-full-width={
                   showToggle || undefined
                 }
@@ -1198,6 +1199,7 @@ export function SidebarMenuResponsiveDrawer({
     open,
     registerDrawerId,
     setDrawerScrollElement,
+    setOpen,
     triggerRef,
   } = useSidebarMenuResponsiveContext()
 
@@ -1238,6 +1240,9 @@ export function SidebarMenuResponsiveDrawer({
         (() => (isSmallScreenRef.current ? triggerRef.current : null))
       }
       onOpen={(event) => {
+        if (!open) {
+          setOpen(true)
+        }
         drawerOpeningRef.current = false
         onOpen?.(event)
       }}

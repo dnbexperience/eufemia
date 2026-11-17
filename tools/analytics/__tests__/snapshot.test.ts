@@ -356,7 +356,6 @@ describe('mcp usage section', () => {
       perComponent: [{ name: 'Button', count: 5 }],
       perPath: [],
       missedLookups: 0,
-      perLikelyComponent: [],
       perVersion: [],
       daily: [
         { date: '2026-09-09', count: 5 },
@@ -369,13 +368,12 @@ describe('mcp usage section', () => {
       perComponent: [],
       perPath: [{ name: '/uilib/components/', count: 2 }],
       missedLookups: 0,
-      perLikelyComponent: [],
       perVersion: [],
       daily: [{ date: '2026-09-10', count: 2 }],
     })
   })
 
-  it('counts missed component lookups and ranks the components they matched', async () => {
+  it('counts missed component lookups', async () => {
     retrieveMcpUsageDaily.mockResolvedValue([
       {
         dt: '2026-10-14',
@@ -384,18 +382,7 @@ describe('mcp usage section', () => {
         component: '',
         path: '',
         component_missed: true,
-        likely_component: 'date-picker',
-        count: 4,
-      },
-      {
-        dt: '2026-10-14',
-        transport: 'web',
-        tool: 'component_doc',
-        component: '',
-        path: '',
-        component_missed: true,
-        likely_component: '',
-        count: 2,
+        count: 6,
       },
       {
         dt: '2026-10-14',
@@ -404,7 +391,6 @@ describe('mcp usage section', () => {
         component: 'button',
         path: '',
         component_missed: false,
-        likely_component: '',
         count: 5,
       },
     ])
@@ -415,9 +401,6 @@ describe('mcp usage section', () => {
 
     expect(mcp.web.total).toBe(11)
     expect(mcp.web.missedLookups).toBe(6)
-    expect(mcp.web.perLikelyComponent).toEqual([
-      { name: 'date-picker', count: 4 },
-    ])
     expect(mcp.local.missedLookups).toBe(0)
   })
 
@@ -461,7 +444,6 @@ describe('mcp usage section', () => {
         component: '',
         path: '',
         component_missed: false,
-        likely_component: '',
         count: 3,
       },
     ])
@@ -478,7 +460,6 @@ describe('mcp usage section', () => {
           component: '',
           path: '',
           component_missed: false,
-          likely_component: '',
           count: 3,
         }),
       },
@@ -501,7 +482,6 @@ describe('mcp usage section', () => {
         perComponent: [],
         perPath: [],
         missedLookups: 0,
-        perLikelyComponent: [],
         perVersion: [],
         daily: [],
       },
@@ -511,7 +491,6 @@ describe('mcp usage section', () => {
         perComponent: [],
         perPath: [],
         missedLookups: 0,
-        perLikelyComponent: [],
         perVersion: [],
         daily: [],
       },

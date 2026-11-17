@@ -56,7 +56,13 @@ vi.mock('react-router', () => ({
   useNavigate: vi.fn(() => vi.fn()),
 }))
 
-import { graphql, useStaticQuery } from '../../client/shims/portal-query'
+import { useNavigate } from 'react-router'
+import {
+  graphql,
+  navigate,
+  useNavigateSetup,
+  useStaticQuery,
+} from '../../client/shims/portal-query'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyResult = any
@@ -65,6 +71,33 @@ type AnyResult = any
 const runQuery = (q: string): AnyResult => useStaticQuery(q)
 
 describe('portal-query', () => {
+  describe('navigate', () => {
+    it('navigates to the served page URL', () => {
+      const routerNavigate = vi.fn()
+      vi.mocked(useNavigate).mockReturnValueOnce(routerNavigate)
+      // eslint-disable-next-line react-hooks/rules-of-hooks -- captures the mocked navigate
+      useNavigateSetup()
+
+      navigate('/web/components/button/properties?from=tab')
+      navigate('/web/components/button#demos', { replace: true })
+
+      expect(routerNavigate).toHaveBeenNthCalledWith(
+        1,
+        {
+          pathname: '/web/components/button/properties/',
+          search: '?from=tab',
+          hash: '',
+        },
+        undefined
+      )
+      expect(routerNavigate).toHaveBeenNthCalledWith(
+        2,
+        '/web/components/button/#demos',
+        { replace: true }
+      )
+    })
+  })
+
   describe('graphql', () => {
     it('joins template literal strings', () => {
       const result = graphql`

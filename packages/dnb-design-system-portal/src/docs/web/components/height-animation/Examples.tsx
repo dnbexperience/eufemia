@@ -8,7 +8,6 @@ import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   HeightAnimation,
-  ToggleButton,
   Section,
   Button,
   Anchor,
@@ -24,29 +23,27 @@ export function HeightAnimationDefault() {
           const [openState, setOpenState] = useState(false)
           const [contentState, setContentState] = useState(false)
 
-          const onChangeHandler = ({ checked }) => {
-            setOpenState(checked)
+          const onClickHandler = () => {
+            setOpenState((open) => !open)
           }
 
           return (
             <>
-              <ToggleButton
-                checked={openState}
-                onChange={onChangeHandler}
+              <Button
+                aria-expanded={openState}
+                onClick={onClickHandler}
                 right
               >
                 Open/close
-              </ToggleButton>
-              <ToggleButton
-                checked={contentState || !openState}
+              </Button>
+              <Button
+                aria-pressed={contentState || !openState}
                 disabled={!openState}
-                onChange={({ checked }) => {
-                  setContentState(checked)
-                }}
+                onClick={() => setContentState((expanded) => !expanded)}
                 space={{ top: true, bottom: true }}
               >
                 Change height inside
-              </ToggleButton>
+              </Button>
 
               <Section variant="information" top>
                 <HeightAnimation open={openState}>
@@ -119,29 +116,27 @@ export function HeightAnimationKeepInDOM() {
           const [openState, setOpenState] = useState(true)
           const [contentState, setContentState] = useState(false)
 
-          const onChangeHandler = ({ checked }) => {
-            setOpenState(checked)
+          const onClickHandler = () => {
+            setOpenState((open) => !open)
           }
 
           return (
             <>
-              <ToggleButton
-                checked={openState}
-                onChange={onChangeHandler}
+              <Button
+                aria-expanded={openState}
+                onClick={onClickHandler}
                 right
               >
                 Open/close
-              </ToggleButton>
-              <ToggleButton
-                checked={contentState || !openState}
+              </Button>
+              <Button
+                aria-pressed={contentState || !openState}
                 disabled={!openState}
-                onChange={({ checked }) => {
-                  setContentState(checked)
-                }}
+                onClick={() => setContentState((expanded) => !expanded)}
                 space={{ top: true, bottom: true }}
               >
                 Change height inside
-              </ToggleButton>
+              </Button>
 
               <StyledSection variant="information" top>
                 <HeightAnimation
@@ -190,14 +185,13 @@ export function HeightAnimationOpenOnFind() {
 
           return (
             <>
-              <ToggleButton
-                checked={openState}
+              <Button
                 aria-expanded={openState}
                 aria-controls="open-on-find-content"
-                onChange={({ checked }) => setOpenState(checked)}
+                onClick={() => setOpenState((open) => !open)}
               >
                 Open content
-              </ToggleButton>
+              </Button>
 
               <HeightAnimation
                 id="open-on-find-content"

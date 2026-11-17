@@ -106,6 +106,8 @@ import Table, {
 
 ### Table with sticky header
 
+Scroll the page vertically and the table horizontally. The header stays below the page header and keeps its columns aligned with the rows.
+
 <Examples.Sticky />
 
 ### Table with a max height
@@ -139,10 +141,6 @@ With no (empty) `head` and `foot` content.
 
 ### Table with pagination
 
-<VisibilityByTheme visible="sbanken">
-  This example is not yet fully supported using the Sbanken theme.
-</VisibilityByTheme>
-
 <Examples.PaginationTable />
 
 ## Table in Card
@@ -166,7 +164,7 @@ This example uses `scope="row"` with a table header (`<th>`) in each row.
 
 Use `highlight` on `<Th>`, `<Tr>`, or `<Td>` to apply a subtle background and border. When set on a `<Tr>`, all cells in that row are highlighted. You can also set it on individual `<Td>` cells.
 
-**NB:** Highlighted cells should include an `aria-label` that conveys both the highlight state and the reason for it. Screen reader users cannot perceive the visual highlight, so this label is their only way to understand that a cell stands out and why.
+**NB:** Highlighted cells should include an `aria-label` that conveys both the highlight state and the reason for it. Screen reader users cannot perceive the visual highlight, so this label is their only way to understand that a cell stands out and why. For sighted users, the background and the border of a highlight are only color changes, and a color change alone is not enough. So also explain the highlight in visible text, for example in a column header or a caption.
 
 To adjust the border colors accordingly, use the `useTableHighlight` hook and pass the returned ref to `<Table>`.
 

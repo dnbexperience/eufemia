@@ -185,7 +185,7 @@ test.describe('Sidebar resize', () => {
     await expect(header).toHaveCSS('color', 'rgb(112, 112, 112)')
   })
 
-  test('should wrap mobile menu content without shifting the logo', async ({
+  test('should wrap mobile menu content without shifting the close control', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 320, height: 844 })
@@ -271,10 +271,7 @@ test.describe('Sidebar resize', () => {
     await trigger.click()
 
     const drawer = page.getByRole('dialog', { name: 'Menu' })
-    const drawerScrollView = drawer.locator('.dnb-drawer')
-    const logo = drawer.getByRole('link', {
-      name: 'Go to Eufemia home',
-    })
+    const drawerScrollView = drawer.locator('.dnb-drawer__reveal-scroll')
     const components = drawer.getByRole('button', {
       name: /^Components/,
     })
@@ -282,18 +279,15 @@ test.describe('Sidebar resize', () => {
     await expect(drawer).toBeVisible()
     await components.click()
     await expect(components).toHaveAttribute('aria-expanded', 'false')
-    const closeButton = page.locator('.dnb-modal__close-button')
-    const closeOffset = await getVerticalCenterOffset(closeButton, logo)
-
-    expect(Math.abs(closeOffset)).toBeLessThanOrEqual(4)
+    const closeButton = drawer.locator('.dnb-modal__close-button')
     await expect(drawerScrollView).toHaveCSS('scrollbar-gutter', 'stable')
-    await drawerScrollView.evaluate(async (element) => {
+    await drawer.locator('.dnb-drawer').evaluate(async (element) => {
       await Promise.all(
         element.getAnimations().map((animation) => animation.finished)
       )
     })
     await expect(components).toHaveAttribute('aria-expanded', 'false')
-    const initialLogoX = await logo.evaluate(
+    const initialCloseButtonX = await closeButton.evaluate(
       (element) => element.getBoundingClientRect().x
     )
 
@@ -331,8 +325,8 @@ test.describe('Sidebar resize', () => {
       )
     ).resolves.toBeGreaterThan(24)
     await expect(
-      logo.evaluate((element) => element.getBoundingClientRect().x)
-    ).resolves.toBeCloseTo(initialLogoX, 1)
+      closeButton.evaluate((element) => element.getBoundingClientRect().x)
+    ).resolves.toBeCloseTo(initialCloseButtonX, 1)
   })
 
   test('should support focus and keyboard resize', async ({ page }) => {
@@ -467,21 +461,3 @@ test.describe('Sidebar resize', () => {
     await expect(sidebar).toHaveCSS('width', '400px')
   })
 })
-
-async function getVerticalCenterOffset(
-  element: Locator,
-  reference: Locator
-) {
-  const elementRect = await element.evaluate((node) =>
-    node.getBoundingClientRect().toJSON()
-  )
-  const referenceRect = await reference.evaluate((node) =>
-    node.getBoundingClientRect().toJSON()
-  )
-
-  return Math.round(
-    elementRect.y +
-      elementRect.height / 2 -
-      (referenceRect.y + referenceRect.height / 2)
-  )
-}

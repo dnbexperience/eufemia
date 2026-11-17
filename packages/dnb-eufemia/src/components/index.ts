@@ -20,6 +20,7 @@ import Breadcrumb from './breadcrumb/Breadcrumb'
 import Button from './button/Button'
 import Card from './card/Card'
 import Checkbox from './checkbox/Checkbox'
+import Chip from './chip/Chip'
 import CopyOnClick from './copy-on-click/CopyOnClick'
 import CountryFlag from './country-flag/CountryFlag'
 import DateFormat from './date-format/DateFormat'
@@ -85,6 +86,7 @@ export {
   Button,
   Card,
   Checkbox,
+  Chip,
   CopyOnClick,
   CountryFlag,
   DateFormat,

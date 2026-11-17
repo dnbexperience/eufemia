@@ -3320,6 +3320,55 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
   })
 
+  it('preserves a restored position while open items are restored', () => {
+    vi.useFakeTimers()
+    const storageKey = 'sidebar-menu-restored-open-items-position'
+    sessionStorage.setItem(storageKey, '120')
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root
+          selectedItem="payments"
+          openItemsStorageKey="sidebar-menu-restored-open-items"
+          scrollPositionStorageKey={storageKey}
+        >
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const selectedItem = document.querySelector(
+      '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+    )
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(selectedItem, 'getBoundingClientRect').mockReturnValue({
+      top: 300,
+      bottom: 340,
+      height: 40,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollView.scrollTop).toBe(120)
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    vi.useRealTimers()
+    sessionStorage.removeItem(storageKey)
+    sessionStorage.removeItem('sidebar-menu-restored-open-items')
+  })
+
   it('restores open items from session storage across navigation remounts', () => {
     const storageKey = 'sidebar-menu-test'
     sessionStorage.removeItem(storageKey)

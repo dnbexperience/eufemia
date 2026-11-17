@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
   Card,
+  Chip,
   Dropdown,
   Flex,
   GlobalStatus,
@@ -8,7 +9,6 @@ import {
   H2,
   P,
   Tabs,
-  ToggleButton,
 } from '@dnb/eufemia/src'
 import Theme, {
   getTheme,
@@ -330,16 +330,16 @@ function PortalViewTrendsPanel({
 
       <Card stack>
         <H2 size="medium">Views over time</H2>
-        <ToggleButton.Group
+        <Chip.Group
           label="Group by"
           value={period}
           onChange={({ value }) =>
             setPeriod(value === 'week' ? 'week' : 'month')
           }
         >
-          <ToggleButton text="Month" value="month" />
-          <ToggleButton text="Week" value="week" />
-        </ToggleButton.Group>
+          <Chip text="Month" value="month" />
+          <Chip text="Week" value="week" />
+        </Chip.Group>
         <BarList
           items={period === 'week' ? trends.perWeek : trends.perMonth}
         />
@@ -469,15 +469,8 @@ function McpUsagePanel({
         <Card stack>
           <H2 size="medium">Missed component lookups</H2>
           <P className="dashboard__meta">
-            {`${missedLookups.toLocaleString()} lookups named a component the docs don't have. Names are matched ignoring case and hyphens, e.g. DatePicker → date-picker.`}
+            {`${missedLookups.toLocaleString()} lookups named a component the docs don't have.`}
           </P>
-          <RankedTable
-            caption={`${label} missed component lookups`}
-            nameHeader="Likely component"
-            countHeader="Misses"
-            emptyText="No missed name matched a real component."
-            items={(usage?.perLikelyComponent ?? []).slice(0, 15)}
-          />
         </Card>
       )}
 

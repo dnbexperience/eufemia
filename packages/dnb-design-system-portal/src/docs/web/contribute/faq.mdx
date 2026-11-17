@@ -36,14 +36,14 @@ yarn workspace dnb-design-system-portal add -D @playwright/test
 yarn workspace dnb-design-system-portal playwright install firefox
 ```
 
-#### Alternative install: skip authentication
+#### Alternative install: behind a corporate proxy
 
-However, since Node.js and corporate proxies do not enjoy each other's company, this might
-fail with an `Error: unable to get local issuer certificate` error. In that case, your only
-option might be to disable all authentication for this command.
+A proxy that re-signs HTTPS traffic can make the install fail with
+`Error: unable to get local issuer certificate`. Point Node.js to your organization's root
+certificate (a PEM file from your IT department) and run the install again:
 
 ```
-NODE_TLS_REJECT_UNAUTHORIZED=0 yarn workspace @dnb/eufemia playwright install firefox
+NODE_EXTRA_CA_CERTS=/path/to/root-ca.pem yarn workspace @dnb/eufemia playwright install firefox
 ```
 
 #### Alternative install: manually

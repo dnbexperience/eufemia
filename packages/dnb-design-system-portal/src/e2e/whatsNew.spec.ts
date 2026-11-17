@@ -65,7 +65,7 @@ test.describe('Releases and upgrades', () => {
     await expect(
       page.getByRole('region', { name: 'Eufemia release history' })
     ).toBeVisible({ timeout: 15_000 })
-    await expect(page).toHaveURL('/web/releases-and-upgrades/releases')
+    await expect(page).toHaveURL('/web/releases-and-upgrades/releases/')
     await expect(
       page.getByRole('tab', { name: 'Releases', exact: true })
     ).toHaveAttribute('aria-selected', 'true')
@@ -78,7 +78,7 @@ test.describe('Releases and upgrades', () => {
     await expect(
       page.locator('main').getByRole('link', { name: 'v11', exact: true })
     ).toBeVisible({ timeout: 15_000 })
-    await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade')
+    await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade/')
     await expect(
       page.locator('main a[href*="form-set-row-deprecation-v11"]')
     ).toHaveCount(0)
@@ -87,7 +87,7 @@ test.describe('Releases and upgrades', () => {
       .getByRole('link', { name: 'v11', exact: true })
       .click()
     await expect(page).toHaveURL(
-      '/web/releases-and-upgrades/versions/eufemia/v11-info'
+      '/web/releases-and-upgrades/versions/eufemia/v11-info/'
     )
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'v11'
@@ -99,7 +99,7 @@ test.describe('Releases and upgrades', () => {
       .locator('.dnb-breadcrumb')
       .getByRole('link', { name: 'Upgrade', exact: true })
       .click()
-    await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade')
+    await expect(page).toHaveURL('/web/releases-and-upgrades/upgrade/')
     const sidebar = page.locator('#portal-sidebar-menu')
     await expect(
       sidebar.locator('a[href*="/releases/eufemia/"]')

@@ -589,7 +589,7 @@ describe('useValueProps', () => {
         expect(valueElementAfter).toBeInTheDocument()
       }
 
-      fireEvent.click(document.querySelector('button'))
+      fireEvent.click(document.querySelector('.dnb-chip input'))
 
       {
         const [valueElementBefore, valueElementAfter] = Array.from(
@@ -605,7 +605,7 @@ describe('useValueProps', () => {
         })
       }
 
-      fireEvent.click(document.querySelector('button'))
+      fireEvent.click(document.querySelector('.dnb-chip input'))
 
       await waitFor(() => {
         const [valueElementBefore, valueElementAfter] = Array.from(
@@ -742,9 +742,7 @@ describe('useValueProps', () => {
       expect(output()).toHaveTextContent('Step 1')
 
       // Change the visibility
-      await userEvent.click(
-        document.querySelector('.dnb-toggle-button button')
-      )
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       await userEvent.click(
         document.querySelector('.dnb-forms-next-button')
@@ -764,9 +762,7 @@ describe('useValueProps', () => {
       expect(output()).toHaveTextContent('Step 1')
 
       // Change the visibility
-      await userEvent.click(
-        document.querySelector('.dnb-toggle-button button')
-      )
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       await userEvent.click(
         document.querySelector('.dnb-forms-next-button')

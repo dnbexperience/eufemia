@@ -1,0 +1,21 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  ChipProperties,
+  ChipGroupProperties,
+} from '@dnb/eufemia/src/components/chip/ChipDocs'
+
+## Properties
+
+<PropertiesTable props={ChipProperties} />
+
+Native input attributes such as `name`, `required`, `aria-label`, and `aria-describedby` are supported.
+
+## `Chip.Group` properties
+
+Chip.Group selects one option by default (`selectionMode="single"`). Use `value` for single selection, or `selectionMode="multiple"` with `values` for multiple selection. Set a shared `variant` on the group, and give every nested Chip a unique value.
+
+<PropertiesTable props={ChipGroupProperties} />

@@ -62,7 +62,10 @@ function Logo(localProps: LogoProps) {
       name: themeBrand,
       size,
       isUi: themeBrand === 'ui',
-      isSbanken: themeBrand === 'sbanken',
+      // The transitional "coconut" brand shares this implementation, so it
+      // reports here too. Use "isCoconut" to tell the two apart.
+      isSbanken: themeBrand === 'sbanken' || themeBrand === 'coconut',
+      isCoconut: themeBrand === 'coconut',
       isEiendom: themeBrand === 'eiendom',
       isCarnegie: themeBrand === 'carnegie',
     }

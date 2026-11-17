@@ -268,6 +268,37 @@ describe('Autocomplete component', () => {
     document.body.removeAttribute('style')
   })
 
+  it('keeps dialog open when Escape is pressed while the list opens', async () => {
+    // Without noAnimation, the list waits DrawerListProvider.blurDelay before it handles keys itself
+    render(
+      <Dialog noAnimation open title="Dialog">
+        <Autocomplete id="autocomplete-id" data={mockData} />
+      </Dialog>
+    )
+    await waitFor(() => {
+      expect(document.activeElement).toHaveAttribute('role', 'dialog')
+    })
+
+    const input = document.querySelector('input') as HTMLInputElement
+    input.focus()
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'cc' } })
+    expect(input).toHaveAttribute('aria-expanded', 'true')
+
+    // false: the list handles Escape (preventDefault), as after the opening delay
+    expect(fireEvent.keyDown(input, { key: 'Escape' })).toBe(false)
+
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-expanded', 'false')
+    })
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+    expect(document.activeElement).toBe(input)
+
+    document.body.removeAttribute('style')
+  })
+
   it('has correct options after filter', () => {
     render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
@@ -1841,6 +1872,37 @@ describe('Autocomplete component', () => {
             .querySelectorAll('li.dnb-drawer-list__option')[0]
             .querySelector('.dnb-drawer-list__option__inner').outerHTML
         ).toBe(result)
+      })
+
+      it('has no highlighted value after the input is clicked again', async () => {
+        render(
+          <>
+            <Autocomplete
+              search={{ highlight: false }}
+              data={mockData}
+              {...mockProps}
+            />
+            <button id="outside">Outside</button>
+          </>
+        )
+
+        const input = document.querySelector('input')
+
+        await userEvent.click(input)
+        await userEvent.type(input, 'cc')
+        await userEvent.click(document.querySelector('#outside'))
+        await userEvent.click(input)
+        await userEvent.clear(input)
+        await userEvent.type(input, 'cc')
+
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option').length
+        ).toBeGreaterThan(0)
+        expect(
+          document.querySelectorAll(
+            '.dnb-drawer-list__option__item--highlight'
+          )
+        ).toHaveLength(0)
       })
     })
 
@@ -3556,6 +3618,34 @@ describe('Autocomplete component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe('aaa')
+  })
+
+  it('stays closed when async results arrive after tabbing away', () => {
+    const onType = vi.fn()
+
+    render(<Autocomplete mode="async" onType={onType} {...mockProps} />)
+
+    const input = document.querySelector('.dnb-input__input')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'aa' } })
+    fireEvent.keyDown(input, { key: 'Tab' })
+    fireEvent.blur(input)
+
+    act(() => {
+      onType.mock.calls[0][0].updateData(mockData)
+    })
+
+    expect(input).toHaveAttribute('aria-expanded', 'false')
+    expect(document.querySelector('li.dnb-drawer-list__option')).toBeNull()
+
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'aaa' } })
+
+    act(() => {
+      onType.mock.calls[1][0].updateData(mockData)
+    })
+
+    expect(input).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('and updateData has to replace all data properly in async mode', () => {

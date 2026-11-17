@@ -48,6 +48,7 @@ import Breadcrumb from './components/breadcrumb/Breadcrumb'
 import Button from './components/button/Button'
 import Card from './components/card/Card'
 import Checkbox from './components/checkbox/Checkbox'
+import Chip from './components/chip/Chip'
 import CopyOnClick from './components/copy-on-click/CopyOnClick'
 import CountryFlag from './components/country-flag/CountryFlag'
 import DateFormat from './components/date-format/DateFormat'
@@ -141,6 +142,7 @@ export {
   Button,
   Card,
   Checkbox,
+  Chip,
   CopyOnClick,
   CountryFlag,
   DateFormat,

@@ -43,7 +43,7 @@ jobs:
     name: Run visual-regression tests
     needs: changes
     # A skipped job counts as success for the required check; it still runs if detection fails.
-    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' && needs.changes.outputs.tests-only != 'true' }}
+    if: ${{ !cancelled() && needs.changes.outputs.packages-unaffected != 'true' }}
 
     runs-on: macos-26
 

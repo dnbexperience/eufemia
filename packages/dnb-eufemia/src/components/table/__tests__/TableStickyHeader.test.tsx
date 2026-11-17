@@ -28,12 +28,24 @@ describe('useStickyHeader', () => {
     fireEvent.scroll(scrollElement || document)
   }
 
+  const mockScrollTimelineSupport = (timeline = true, range = true) => {
+    vi.stubGlobal('CSS', {
+      ...CSS,
+      supports: (condition: string) =>
+        (timeline &&
+          condition === 'animation-timeline: scroll(root block)') ||
+        (range && condition === 'animation-range: 0 1px'),
+    })
+  }
+
   beforeEach(() => {
     vi.useFakeTimers()
+    mockScrollTimelineSupport(false, false)
   })
 
   afterEach(() => {
     vi.useRealTimers()
+    vi.unstubAllGlobals()
   })
 
   it('should contain valid HTML classes when sticky', () => {
@@ -132,6 +144,16 @@ describe('useStickyHeader', () => {
     setSizes()
 
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem).toHaveClass('page-scroll')
+    expect(trElem.style.getPropertyValue('--table-scroll-start')).toEqual(
+      '96px'
+    )
+    expect(trElem.style.getPropertyValue('--table-scroll-end')).toEqual(
+      '504px'
+    )
+    expect(
+      trElem.style.getPropertyValue('--table-scroll-distance')
+    ).toEqual('408px')
 
     simulateScroll(0)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
@@ -182,35 +204,86 @@ describe('useStickyHeader', () => {
     )
   })
 
-  it('should recalculate table offset on scroll when layout changes dynamically', () => {
-    render(
-      <Table sticky stickyOffset="4rem">
-        <BasicTable />
-      </Table>
-    )
+  it.each([
+    [true, true, ''],
+    [true, false, '224px'],
+    [false, true, '224px'],
+  ])(
+    'should skip offset writes only with timeline=%s and range=%s support',
+    (timeline, range, expectedOffset) => {
+      mockScrollTimelineSupport(timeline, range)
+      render(
+        <Table sticky stickyOffset="4rem">
+          <BasicTable />
+        </Table>
+      )
 
-    const tableElement = document.querySelector('table')
-    const trElem = document.querySelector('tr')
+      const trElem = document.querySelector('tr')
+      setSizes()
 
-    setSizes()
+      const setProperty = vi.spyOn(trElem.style, 'setProperty')
+      simulateScroll(320)
+      expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+        expectedOffset
+      )
+      expect(
+        setProperty.mock.calls.filter(
+          ([name]) => name === '--table-offset'
+        )
+      ).toHaveLength(expectedOffset ? 1 : 0)
+      expect(trElem).toHaveClass('is-sticky')
 
-    // Initial scroll: offset = 320 - (160 - 64) = 224
-    simulateScroll(320)
-    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '224px'
-    )
+      simulateScroll(0)
+      expect(trElem).not.toHaveClass('is-sticky')
+      expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    }
+  )
 
-    // Simulate a banner appearing above the table, pushing it down by 80px
-    // (no resize event fired, only the table's offsetTop changes)
-    vi.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(240)
+  it.each([false, true])(
+    'should recalculate table offset on scroll when layout changes dynamically with timeline support=%s',
+    (supportsTimeline) => {
+      mockScrollTimelineSupport(supportsTimeline)
+      render(
+        <Table sticky stickyOffset="4rem">
+          <BasicTable />
+        </Table>
+      )
 
-    // On the next scroll, the new offset should be picked up automatically
-    // offset = 320 - (240 - 64) = 144
-    simulateScroll(320)
-    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '144px'
-    )
-  })
+      const tableElement = document.querySelector('table')
+      const trElem = document.querySelector('tr')
+
+      setSizes()
+
+      // Initial scroll: offset = 320 - (160 - 64) = 224
+      simulateScroll(320)
+      expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+        supportsTimeline ? '' : '224px'
+      )
+
+      // Simulate a banner appearing above the table, pushing it down by 80px
+      // (no resize event fired, only the table's offsetTop changes)
+      vi.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(240)
+
+      // On the next scroll, the new offset should be picked up automatically
+      // offset = 320 - (240 - 64) = 144
+      simulateScroll(320)
+      expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+        supportsTimeline ? '' : '144px'
+      )
+      expect(
+        trElem.style.getPropertyValue('--table-scroll-start')
+      ).toEqual('176px')
+
+      vi.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(640)
+      simulateScroll(320)
+      expect(trElem.style.getPropertyValue('--table-scroll-end')).toEqual(
+        '744px'
+      )
+      expect(
+        trElem.style.getPropertyValue('--table-scroll-distance')
+      ).toEqual('568px')
+    }
+  )
 
   it('should check if .dnb-scroll-view has a vertical scrollbar and set shadow only, when css-position is used', () => {
     const { rerender } = render(
@@ -257,6 +330,7 @@ describe('useStickyHeader', () => {
   })
 
   it('should use Modal/Drawer .dnb-scroll-view', () => {
+    mockScrollTimelineSupport()
     const { rerender } = render(
       <div className="dnb-modal__content">
         <div className="dnb-modal__header__bar">bar</div>
@@ -356,6 +430,7 @@ describe('useStickyHeader', () => {
   })
 
   it('should follow the scroll view when a scrollbar appears on resize', () => {
+    mockScrollTimelineSupport()
     render(
       <Table.ScrollView>
         <Table sticky>
@@ -374,8 +449,11 @@ describe('useStickyHeader', () => {
     setSizes()
 
     // the scroll view overflows first after a resize
+    expect(trElem).toHaveClass('page-scroll')
     vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
     fireEvent.resize(window)
+    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     simulateScroll(320, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
@@ -383,39 +461,47 @@ describe('useStickyHeader', () => {
     )
   })
 
-  it('should fall back to the document when the scrollbar disappears on resize', () => {
-    render(
-      <Table.ScrollView>
-        <Table sticky>
-          <BasicTable />
-        </Table>
-      </Table.ScrollView>
-    )
+  it.each([false, true])(
+    'should use document scrolling when the scrollbar disappears with timeline support=%s',
+    (supportsTimeline) => {
+      mockScrollTimelineSupport(supportsTimeline)
+      render(
+        <Table.ScrollView>
+          <Table sticky>
+            <BasicTable />
+          </Table>
+        </Table.ScrollView>
+      )
 
-    const trElem: HTMLElement = document.querySelector('tr')
-    const scrollElem: HTMLElement =
-      document.querySelector('.dnb-scroll-view')
+      const trElem: HTMLElement = document.querySelector('tr')
+      const scrollElem: HTMLElement =
+        document.querySelector('.dnb-scroll-view')
 
-    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
-    vi.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(100)
+      vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
+      vi.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(100)
 
-    setSizes()
+      setSizes()
 
-    simulateScroll(320, scrollElem)
-    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '320px'
-    )
+      simulateScroll(320, scrollElem)
+      expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+        '320px'
+      )
 
-    // the scroll view stops overflowing, so the page scrolls instead
-    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(100)
-    fireEvent.resize(window)
-    trElem.style.removeProperty('--table-offset')
+      // the scroll view stops overflowing, so the page scrolls instead
+      simulateScroll(320)
+      vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(100)
+      fireEvent.resize(window)
+      expect(trElem).toHaveClass('page-scroll')
+      expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+        supportsTimeline ? '' : '160px'
+      )
 
-    simulateScroll(320)
-    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '160px'
-    )
-  })
+      simulateScroll(320)
+      expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+        supportsTimeline ? '' : '160px'
+      )
+    }
+  )
 
   it('should stop listening on the scroll view when unmounted', () => {
     const { unmount } = render(
@@ -480,6 +566,8 @@ describe('useStickyHeader', () => {
     expect(Array.from(trElem.classList)).not.toContain('sticky')
     expect(Array.from(trElem.classList)).not.toContain('is-sticky')
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     // the header should no longer follow the scroll
     simulateScroll(480)
@@ -541,6 +629,8 @@ describe('useStickyHeader', () => {
     // the transform would otherwise stack on top of the "top" offset
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
+    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     simulateScroll(480)
 

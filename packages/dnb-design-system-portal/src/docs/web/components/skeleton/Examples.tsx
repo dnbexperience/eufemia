@@ -12,7 +12,7 @@ import {
   P,
   Button,
   Skeleton,
-  ToggleButton,
+  Chip,
   Div,
 } from '@dnb/eufemia/src'
 import {
@@ -47,13 +47,13 @@ export const SkeletonToggleExample = () => (
             </P>
             <Input label="Input" />
             <Skeleton.Exclude>
-              <ToggleButton
+              <Chip
                 checked={state}
                 onChange={({ checked }) => setState(checked)}
                 top="large"
               >
                 Toggle
-              </ToggleButton>
+              </Chip>
             </Skeleton.Exclude>
           </Skeleton>
         )

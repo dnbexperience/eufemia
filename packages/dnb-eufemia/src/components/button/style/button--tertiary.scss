@@ -20,12 +20,6 @@
       text-decoration: none;
     }
 
-    @include utilities.focusVisible() {
-      .dnb-button__text {
-        text-decoration: none;
-      }
-    }
-
     // A Button with aria-disabled has no hover or active state, the same
     // as a disabled Button
     &:where(:not([aria-disabled='true'])) {

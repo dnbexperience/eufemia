@@ -179,7 +179,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
         | MouseEvent<HTMLInputElement>
     ) => {
       const event = _event
-      if (ownPropsRef.current.readOnly) {
+      if (
+        ownPropsRef.current.readOnly ||
+        groupContextRef.current.readOnly
+      ) {
         return event.preventDefault()
       }
       const value = (event.target as HTMLInputElement).value
@@ -280,7 +283,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
 
   const onClickHandler = useCallback(
     (event: MouseEvent<HTMLInputElement>) => {
-      if (ownPropsRef.current.readOnly) {
+      if (
+        ownPropsRef.current.readOnly ||
+        groupContextRef.current.readOnly
+      ) {
         return event.preventDefault()
       }
 
@@ -311,6 +317,8 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
     radioDefaultProps,
     groupContext as Record<string, unknown>
   )
+  // The selected group value must not replace an option's own value.
+  contextProps.value = resolvedProps.value
 
   // use only the props from context, who are available here anyway
   const props = extendExistingPropsWithContext(

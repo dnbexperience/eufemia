@@ -64,6 +64,10 @@ describe('production CDN checks', () => {
     expect(report.checks).toHaveLength(8)
     expect(report.checks.every((check) => check.ok)).toBe(true)
     expect(
+      report.checks.find((check) => check.name === 'v11.15.2/manifest')
+        ?.detail
+    ).toBe('https://assets.eufemia.dnb.no/v11.15.2/.manifest.sha256')
+    expect(
       vi
         .mocked(request)
         .mock.calls.every(
@@ -150,6 +154,30 @@ describe('production CDN checks', () => {
     })
     expect(report.status).toBe('unhealthy')
     expect(report.checks.filter((check) => !check.ok)).toHaveLength(4)
+  })
+
+  it('names the Akamai reference and skips the grace period when Akamai blocks an asset', async () => {
+    const report = await checkCdn({
+      fetch: fixture({
+        age: 10,
+        change: (url) =>
+          url.includes('/v11.15.2/')
+            ? new Response('Reference&#32;&#35;18&#46;2fa10017', {
+                status: 403,
+                headers: { Server: 'AkamaiGHost' },
+              })
+            : undefined,
+      }),
+      now,
+      sleep,
+    })
+    expect(report.status).toBe('unhealthy')
+    expect(
+      report.checks.find((check) => check.name === 'v11.15.2/manifest')
+        ?.detail
+    ).toBe(
+      'https://assets.eufemia.dnb.no/v11.15.2/.manifest.sha256: HTTP 403 (blocked by Akamai, reference 18.2fa10017)'
+    )
   })
 
   it('allows a new deployment to settle and verifies the previous release', async () => {
@@ -258,8 +286,8 @@ describe('production CDN checks', () => {
       sleep,
     })
     expect(report.status).toBe('unhealthy')
-    expect(report.checks.find((check) => !check.ok)?.detail).toContain(
-      'missing monitored assets'
+    expect(report.checks.find((check) => !check.ok)?.detail).toBe(
+      'https://assets.eufemia.dnb.no/v11.15.2/.manifest.sha256: Deployment manifest is missing monitored assets'
     )
   })
 

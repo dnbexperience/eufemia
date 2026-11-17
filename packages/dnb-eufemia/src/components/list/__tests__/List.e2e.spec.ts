@@ -229,7 +229,7 @@ for (const width of [400, 1024]) {
             (element) =>
               getComputedStyle(element, '::after').borderTopWidth
           )
-        ).toBe('2px')
+        ).toBe('3px')
 
         await primary.evaluate((element: HTMLElement) => element.blur())
         await footer.hover()
@@ -309,6 +309,14 @@ for (const width of [400, 1024]) {
                   !!element.querySelector(':focus-visible')
               )
             ).toBe(false)
+            await expect
+              .poll(() =>
+                accordion.evaluate(
+                  (element) =>
+                    getComputedStyle(element, '::after').borderLeftWidth
+                )
+              )
+              .toBe('2px')
             const color = await accordion.evaluate(
               (element) =>
                 getComputedStyle(element, '::after').borderLeftColor
@@ -413,6 +421,14 @@ for (const width of [400, 1024]) {
               .locator(':scope > [role="button"], :scope > a')
               .focus()
           }
+          await expect
+            .poll(() =>
+              row.evaluate(
+                (element) =>
+                  getComputedStyle(element, '::after').borderLeftWidth
+              )
+            )
+            .toBe(state === 'hover' ? '2px' : '3px')
           const color = await row.evaluate(
             (element) =>
               getComputedStyle(element, '::after').borderLeftColor

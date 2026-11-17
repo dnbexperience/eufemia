@@ -32,7 +32,7 @@ export const SegmentedFieldProperties: PropertiesTableProps = {
     status: 'optional',
   },
   status: {
-    doc: 'Status message shown below the field. You can also use `true` to show only the state styling.',
+    doc: 'Status message shown below the field. You can also use `true` to show only the state styling. A color change alone is not enough, so then show the message yourself, for example in a [FormStatus](/web/components/form-status/) or a [GlobalStatus](/web/components/global-status/).',
     type: 'React.ReactNode',
     status: 'optional',
   },

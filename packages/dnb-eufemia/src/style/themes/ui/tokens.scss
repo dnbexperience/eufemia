@@ -123,6 +123,8 @@
   --token-color-stroke-action-hover-inverse: var(--dnb-coldgreen-300);
   --token-color-stroke-action-pressed-inverse: var(--dnb-coldgreen-400);
   --token-color-stroke-action-focus: var(--dnb-blue-600);
+  --token-color-stroke-action-focus-ondark: var(--dnb-blue-100);
+  --token-color-stroke-action-focus-inverse: var(--dnb-blue-100);
   --token-color-stroke-action-focus-subtle: var(--dnb-greyscale-0);
   --token-color-stroke-action-disabled: var(--dnb-greyscale-300);
   --token-color-stroke-selected: var(--dnb-coldgreen-800);
@@ -287,6 +289,7 @@
   --token-color-component-progressbar-neutral-onsubtle: var(
     --dnb-greyscale-200
   );
+  --token-color-component-cell-background-striped: var(--dnb-greyscale-50);
   --token-radius-0: 0;
   --token-radius-xs: 0.125rem;
   --token-radius-sm: 0.25rem;

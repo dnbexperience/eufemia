@@ -25,68 +25,115 @@ async function main() {
     ? sitemap.pages.slice(0, Number(args.limit))
     : sitemap.pages
   const colorSchemes = args.colorSchemes?.split(',') ?? ['light']
+  const [firstColorScheme] = colorSchemes
   const browser = await chromium.launch()
   const duplicateIdFindings = []
   const findings = []
   const errors = []
+  const failedPaths = []
+  let cursor = 0
 
-  for (const colorScheme of colorSchemes) {
-    const isLight = colorScheme === 'light'
-    let cursor = 0
+  const openPage = async () => {
+    const context = await browser.newContext({
+      colorScheme: firstColorScheme,
+    })
+    await context.addInitScript(() => {
+      Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
+    })
+    return { context, page: await context.newPage() }
+  }
 
-    await Promise.all(
-      Array.from({ length: Math.min(6, paths.length) }, async () => {
-        const context = await browser.newContext({ colorScheme })
-        await context.addInitScript(() => {
-          Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
-        })
-        const page = await context.newPage()
+  const scanPage = async (page, path) => {
+    const pageDuplicateIdFindings = []
+    const pageFindings = []
+    let colorScheme = firstColorScheme
 
-        while (cursor < paths.length) {
-          const path = paths[cursor++]
+    try {
+      if (colorSchemes.length > 1) {
+        await page.emulateMedia({ colorScheme: firstColorScheme })
+      }
+      await loadPage(page, new URL(path, args.baseUrl).href)
 
-          try {
-            await loadPage(page, new URL(path, args.baseUrl).href)
-            if (isLight) {
-              const ids = await page
-                .locator('[id]')
-                .evaluateAll((elements) => elements.map(({ id }) => id))
-              duplicateIdFindings.push(...findDuplicateIds(ids, path))
-            }
-            const axe = new AxeBuilder({ page })
-            const result = await (
-              isLight ? axe : axe.withRules(colorRules)
-            ).analyze()
+      for (colorScheme of colorSchemes) {
+        const isLight = colorScheme === 'light'
 
-            for (const violation of result.violations) {
-              findings.push({
-                check: 'axe',
-                page: path,
-                ...(!isLight && { colorScheme }),
-                id: violation.id,
-                impact: violation.impact,
-                occurrences: violation.nodes.length,
-                help: violation.help,
-                helpUrl: violation.helpUrl,
-                nodes: violation.nodes
-                  .map(({ target, failureSummary }) => ({
-                    target: target.map(String),
-                    failureSummary: normalizeText(failureSummary),
-                  }))
-                  .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
-              })
-            }
-          } catch (error) {
-            errors.push({
-              page: isLight ? path : `${path} (${colorScheme})`,
-              message: error.message,
-            })
-          }
+        if (colorScheme !== firstColorScheme) {
+          await switchColorScheme(page, colorScheme)
         }
+        if (isLight) {
+          const ids = await page
+            .locator('[id]')
+            .evaluateAll((elements) => elements.map(({ id }) => id))
+          pageDuplicateIdFindings.push(...findDuplicateIds(ids, path))
+        }
+        const axe = new AxeBuilder({ page })
+        const result = await (
+          isLight ? axe : axe.withRules(colorRules)
+        ).analyze()
 
-        await context.close()
-      })
-    )
+        for (const violation of result.violations) {
+          pageFindings.push({
+            check: 'axe',
+            page: path,
+            ...(!isLight && { colorScheme }),
+            id: violation.id,
+            impact: violation.impact,
+            occurrences: violation.nodes.length,
+            help: violation.help,
+            helpUrl: violation.helpUrl,
+            nodes: violation.nodes
+              .map(({ target, failureSummary }) => ({
+                target: target.map(String),
+                failureSummary: normalizeText(failureSummary),
+              }))
+              .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
+          })
+        }
+      }
+    } catch (error) {
+      error.page =
+        colorScheme === 'light' ? path : `${path} (${colorScheme})`
+      throw error
+    }
+
+    duplicateIdFindings.push(...pageDuplicateIdFindings)
+    findings.push(...pageFindings)
+  }
+
+  await Promise.all(
+    Array.from({ length: Math.min(6, paths.length) }, async () => {
+      const { context, page } = await openPage()
+
+      while (cursor < paths.length) {
+        const path = paths[cursor++]
+
+        try {
+          await scanPage(page, path)
+        } catch (error) {
+          failedPaths.push(path)
+          process.stdout.write(
+            `Scanning ${error.page} again later: ${error.message.split('\n')[0]}\n`
+          )
+        }
+      }
+
+      await context.close()
+    })
+  )
+
+  // A busy runner or a stalled host can fail a page, so scan it again on its own
+  if (failedPaths.length > 0) {
+    const { context, page } = await openPage()
+
+    for (const path of failedPaths) {
+      try {
+        await scanPage(page, path)
+      } catch (error) {
+        errors.push({ page: error.page, message: error.message })
+      }
+    }
+
+    await context.close()
   }
 
   await browser.close()
@@ -157,9 +204,38 @@ async function loadPage(page, url) {
       if (attempt === 3) {
         throw error
       }
+      process.stdout.write(
+        `Retrying ${url}: ${error.message.split('\n')[0]}\n`
+      )
       await page.waitForTimeout(attempt * 5000)
     }
   }
+}
+
+// Switch the loaded page instead of loading it again, which halves the page loads
+async function switchColorScheme(page, colorScheme) {
+  await page.emulateMedia({ colorScheme })
+  await page
+    .locator(`body.eufemia-theme__color-scheme--${colorScheme}`)
+    .waitFor({ state: 'attached', timeout: 10000 })
+  await page.evaluate(
+    () =>
+      new Promise((resolve) => {
+        // Wait for the render, then skip the color transitions it started
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => {
+            for (const animation of document.getAnimations()) {
+              try {
+                animation.finish()
+              } catch {
+                // Infinite animations can't finish
+              }
+            }
+            resolve()
+          })
+        )
+      })
+  )
 }
 
 function parseArgs(values) {

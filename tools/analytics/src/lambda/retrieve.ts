@@ -124,8 +124,8 @@ async function runQuery<Row>(
   return readResults(queryExecutionId, toRow)
 }
 
-// A YYYY-MM-DD partition token is derived from the server clock, never user
-// input, so interpolating it into the query carries no injection risk.
+// sinceDt comes from the server clock or a manual invoke event;
+// assertPartitionDate's strict YYYY-MM-DD check makes it safe to interpolate.
 const DT_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 
 function assertPartitionDate(sinceDt: string): void {
@@ -253,7 +253,6 @@ function toDailyRow([
   component,
   path,
   componentMissed,
-  likelyComponent,
   count,
 ]: Array<string | undefined>): McpUsageDaily {
   return {
@@ -263,7 +262,6 @@ function toDailyRow([
     component: component ?? '',
     path: path ?? '',
     component_missed: componentMissed === 'true',
-    likely_component: likelyComponent ?? '',
     count: Number(count ?? 0),
   }
 }
@@ -283,7 +281,7 @@ export async function aggregateMcpUsageRaw(
   const table = glueTable('GLUE_TABLE_MCP_USAGE')
 
   return runQuery(
-    `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, coalesce(likely_component, '') AS likely_component, count(*) AS cnt FROM ${table} WHERE dt >= '${sinceDt}' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false), coalesce(likely_component, '')`,
+    `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, count(*) AS cnt FROM ${table} WHERE dt >= '${sinceDt}' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false)`,
     toDailyRow
   )
 }
@@ -293,7 +291,7 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   const table = glueTable('GLUE_TABLE_MCP_USAGE_DAILY')
 
   return runQuery(
-    `SELECT dt, transport, tool, component, path, component_missed, likely_component, count FROM ${table}`,
+    `SELECT dt, transport, tool, component, path, component_missed, count FROM ${table}`,
     toDailyRow
   )
 }

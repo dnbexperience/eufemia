@@ -34,19 +34,17 @@ describe('ChildrenWithAge', () => {
       document.querySelectorAll('.dnb-forms-field-block__grid')
     ).toHaveLength(1)
 
-    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('.dnb-chip input'))
 
-    const toggleButtons = Array.from(
-      document.querySelectorAll('.dnb-toggle-button')
-    )
+    const chips = Array.from(document.querySelectorAll('.dnb-chip'))
 
-    expect(toggleButtons.length).toBe(6)
+    expect(chips.length).toBe(6)
 
     expect(
       document.querySelectorAll('.dnb-forms-field-block__grid')
     ).toHaveLength(5)
 
-    expect(document.querySelector('input')).toHaveValue('1')
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
 
     expect(
       document.querySelectorAll('.dnb-forms-field-number__input')
@@ -82,14 +80,14 @@ describe('ChildrenWithAge', () => {
       )
     ).toBeInTheDocument()
 
-    await userEvent.click(document.querySelectorAll('button')[5])
+    await userEvent.click(document.querySelectorAll('.dnb-chip input')[2])
     expect(
       screen.queryByText(
         translationsNO.ChildrenWithAge.dayCareExpenses.fieldLabel
       )
     ).toBeInTheDocument()
 
-    await userEvent.click(document.querySelectorAll('button')[7])
+    await userEvent.click(document.querySelectorAll('.dnb-chip input')[4])
     expect(
       screen.queryByText(
         translationsNO.ChildrenWithAge.jointResponsibilityExpenses
@@ -101,7 +99,7 @@ describe('ChildrenWithAge', () => {
   it('should render number of children with step controls', async () => {
     render(<ChildrenWithAge />)
 
-    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('.dnb-chip input'))
 
     const countChildrenFieldBlock = screen
       .queryByText(translationsNO.ChildrenWithAge.countChildren.fieldLabel)
@@ -121,7 +119,7 @@ describe('ChildrenWithAge', () => {
   it('should render a disabled increase button if 9 children', async () => {
     render(<ChildrenWithAge />)
 
-    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('.dnb-chip input'))
 
     const countChildrenFieldBlock = screen
       .queryByText(translationsNO.ChildrenWithAge.countChildren.fieldLabel)
@@ -149,7 +147,7 @@ describe('ChildrenWithAge', () => {
   it('should render error message if more than 9 children', async () => {
     render(<ChildrenWithAge />)
 
-    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('.dnb-chip input'))
 
     const numOfChildrenInput = document.querySelectorAll(
       '.dnb-input__input'
@@ -178,8 +176,8 @@ describe('ChildrenWithAge', () => {
   it('should render age of child without step controls', async () => {
     render(<ChildrenWithAge />)
 
-    await userEvent.click(document.querySelector('button'))
-    await userEvent.type(document.querySelector('input'), '1')
+    await userEvent.click(document.querySelector('.dnb-chip input'))
+    await userEvent.type(document.querySelector('.dnb-input__input'), '1')
 
     const childrenAgeFieldBlock = screen
       .queryByText(
@@ -202,8 +200,8 @@ describe('ChildrenWithAge', () => {
   it('should display error if age of child is older than 17 years', async () => {
     render(<ChildrenWithAge />)
 
-    await userEvent.click(document.querySelector('button'))
-    await userEvent.type(document.querySelector('input'), '1')
+    await userEvent.click(document.querySelector('.dnb-chip input'))
+    await userEvent.type(document.querySelector('.dnb-input__input'), '1')
 
     const input = document.querySelectorAll('.dnb-input__input')[1]
 
@@ -232,8 +230,8 @@ describe('ChildrenWithAge', () => {
   it('should accept 0 as age of child', async () => {
     render(<ChildrenWithAge />)
 
-    await userEvent.click(document.querySelector('button'))
-    await userEvent.type(document.querySelector('input'), '1')
+    await userEvent.click(document.querySelector('.dnb-chip input'))
+    await userEvent.type(document.querySelector('.dnb-input__input'), '1')
 
     const input = document.querySelectorAll('.dnb-input__input')[1]
 
@@ -258,9 +256,12 @@ describe('ChildrenWithAge', () => {
       />
     )
 
-    await userEvent.click(document.querySelectorAll('button')[0])
-    await userEvent.click(document.querySelectorAll('button')[4])
-    await userEvent.type(document.querySelectorAll('input')[2], '10000001')
+    await userEvent.click(document.querySelectorAll('.dnb-chip input')[0])
+    await userEvent.click(document.querySelectorAll('.dnb-chip input')[2])
+    await userEvent.type(
+      document.querySelectorAll('.dnb-input__input')[2],
+      '10000001'
+    )
 
     const input = document.querySelectorAll('.dnb-input__input')[2]
 
@@ -280,9 +281,12 @@ describe('ChildrenWithAge', () => {
   it('should not accept values over 1000000 as daycare expense', async () => {
     render(<ChildrenWithAge enableAdditionalQuestions={['daycare']} />)
 
-    await userEvent.click(document.querySelectorAll('button')[0])
-    await userEvent.click(document.querySelectorAll('button')[5])
-    await userEvent.type(document.querySelectorAll('input')[2], '10000001')
+    await userEvent.click(document.querySelectorAll('.dnb-chip input')[0])
+    await userEvent.click(document.querySelectorAll('.dnb-chip input')[2])
+    await userEvent.type(
+      document.querySelectorAll('.dnb-input__input')[2],
+      '10000001'
+    )
 
     const input = document.querySelectorAll('.dnb-input__input')[2]
 
@@ -308,12 +312,12 @@ describe('ChildrenWithAge', () => {
     )
 
     const [yesButton, noButton] = Array.from(
-      document.querySelectorAll('button')
+      document.querySelectorAll('.dnb-chip input')
     )
 
     await userEvent.click(noButton)
 
-    expect(document.querySelectorAll('input')).toHaveLength(0)
+    expect(document.querySelectorAll('.dnb-input__input')).toHaveLength(0)
     const dlDDs = Array.from(document.querySelectorAll('dl dd'))
     expect(dlDDs).toHaveLength(1)
     expect(dlDDs.at(0)).toHaveTextContent(nbNO['nb-NO'].BooleanField.no)
@@ -329,7 +333,9 @@ describe('ChildrenWithAge', () => {
 
     await userEvent.click(noButton)
     await waitFor(() => {
-      expect(document.querySelectorAll('input')).toHaveLength(0)
+      expect(document.querySelectorAll('.dnb-input__input')).toHaveLength(
+        0
+      )
     })
 
     // Here we check that the summary still shows Nei
@@ -511,7 +517,9 @@ describe('ChildrenWithAge', () => {
       </StrictMode>
     )
 
-    const [, noButton] = Array.from(document.querySelectorAll('button'))
+    const [, noButton] = Array.from(
+      document.querySelectorAll('.dnb-chip input')
+    )
 
     const form = document.querySelector('form')
 
@@ -532,7 +540,9 @@ describe('ChildrenWithAge', () => {
 
     await userEvent.click(noButton)
     await waitFor(() => {
-      expect(document.querySelectorAll('input')).toHaveLength(0)
+      expect(document.querySelectorAll('.dnb-input__input')).toHaveLength(
+        0
+      )
     })
 
     fireEvent.submit(form)

@@ -63,7 +63,6 @@ describe('usageRecordsFromRequestBody', () => {
       tool: 'component_props',
       component: 'button',
       component_missed: false,
-      likely_component: '',
       path: '',
       env: 'dev',
       transport: 'web',
@@ -173,7 +172,6 @@ describe('usageRecordsFromRequestBody', () => {
     expect(record?.component).toBe('')
     expect(record?.path).toBe('')
     expect(record?.component_missed).toBe(false)
-    expect(record?.likely_component).toBe('')
     expect(JSON.stringify(record)).not.toContain('DatePicker')
   })
 
@@ -211,7 +209,6 @@ describe('usageRecordsFromRequestBody', () => {
       expect(record?.tool).toBe(tool)
       expect(record?.component).toBe('')
       expect(record?.component_missed).toBe(true)
-      expect(record?.likely_component).toBe('')
     }
   )
 
@@ -225,7 +222,6 @@ describe('usageRecordsFromRequestBody', () => {
 
       expect(record?.component).toBe('date-picker')
       expect(record?.component_missed).toBe(false)
-      expect(record?.likely_component).toBe('')
       expect(JSON.stringify(record)).not.toContain(name)
     }
   )

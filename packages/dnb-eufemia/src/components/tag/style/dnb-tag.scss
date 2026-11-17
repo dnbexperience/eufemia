@@ -32,6 +32,10 @@
   }
 
   &--interactive {
+    @include utilities.focusVisible() {
+      @include utilities.focusOutline();
+    }
+
     &.dnb-button {
       color: var(--token-color-text-action);
       background-color: var(--token-color-decorative-third-muted);
@@ -41,22 +45,6 @@
         0.0625rem,
         inset
       );
-
-      @include utilities.focusVisible() {
-        --tag-icon-border-color: var(--token-color-stroke-action-focus);
-
-        outline: none;
-        color: var(--token-color-text-action-focus);
-        background-color: var(
-          --token-color-background-action-focus-subtle
-        );
-
-        @include utilities.fakeBorder(
-          var(--token-color-stroke-action-focus),
-          0.125rem,
-          inset
-        );
-      }
 
       @include utilities.hover() {
         color: var(--token-color-text-action-hover);
@@ -114,11 +102,6 @@
         --tag-icon-stroke: var(--token-color-icon-action-hover);
       }
 
-      @include utilities.focusVisible() {
-        --tag-icon-fill: var(--token-color-background-neutral);
-        --tag-icon-stroke: var(--token-color-icon-action-focus);
-      }
-
       @include utilities.active() {
         --tag-icon-fill: var(--token-color-background-neutral);
         --tag-icon-stroke: var(--token-color-icon-action-pressed);
@@ -141,11 +124,6 @@
     &.dnb-button {
       @include utilities.hover() {
         --tag-icon-fill: var(--token-color-background-action-hover);
-      }
-
-      @include utilities.focusVisible() {
-        --tag-icon-fill: var(--token-color-background-action-focus);
-        --tag-icon-stroke: var(--token-color-icon-neutral-inverse);
       }
 
       @include utilities.active() {

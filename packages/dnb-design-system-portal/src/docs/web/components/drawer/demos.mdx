@@ -6,6 +6,7 @@ redirect_from:
 
 import {
   SimpleDrawerExample,
+  RevealDrawerExample,
   FullDrawerExample,
   FullscreenDrawerExample,
   LeftPlacementDrawerExample,
@@ -28,6 +29,16 @@ import {
 ### Basic Drawer left placement
 
 <LeftPlacementDrawerExample />
+
+### Reveal a stationary menu
+
+The separately imported reveal driver moves the page to the right and reduces its opacity. The menu stays underneath. On touch screens, drag right on the page to open it and left inside the menu or on the exposed page to close it. The page cannot be interacted with while the menu is open.
+
+Use the menu button as an alternative to dragging. Try Tab, Shift+Tab, and Escape to check keyboard navigation and focus return. The animation respects reduced motion.
+
+<RevealDrawerExample />
+
+See [setup and bundle behavior](/web/components/drawer/#reveal-the-page).
 
 ### Basic Drawer in fullscreen
 

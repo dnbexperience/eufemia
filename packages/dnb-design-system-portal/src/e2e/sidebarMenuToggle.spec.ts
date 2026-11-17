@@ -1,6 +1,895 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test.describe('Reveal page boundaries with iOS scroll locking', () => {
+  test.use({
+    viewport: { width: 390, height: 844 },
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
+  })
+
+  for (const path of ['/', '/web/components/drawer/']) {
+    test(`matches the menu background behind Safari bars and restores it on close at ${path}`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({
+        colorScheme: path === '/' ? 'dark' : 'light',
+      })
+      await page.goto(path)
+      await waitForApp(page)
+      await page.evaluate(() => {
+        ;[document.documentElement, document.body].forEach((element) =>
+          element.style.setProperty(
+            'background-color',
+            'rgb(12, 34, 56)',
+            'important'
+          )
+        )
+      })
+      await page.locator('#toggle-sidebar-menu').click()
+      const dialog = page.locator('#portal-sidebar-menu-drawer')
+      await expect(dialog).toBeVisible()
+      const menuBackground = await dialog
+        .locator('.dnb-drawer')
+        .evaluate((element) => getComputedStyle(element).backgroundColor)
+      for (const selector of ['html', 'body']) {
+        await expect(page.locator(selector)).toHaveCSS(
+          'background-color',
+          menuBackground
+        )
+      }
+      expect(await page.evaluate(() => scrollY)).toBe(0)
+      await dialog.locator('.dnb-modal__close-button').click()
+      await expect(dialog).not.toBeVisible()
+      for (const selector of ['html', 'body']) {
+        await expect(page.locator(selector)).toHaveCSS(
+          'background-color',
+          'rgb(12, 34, 56)'
+        )
+        expect(
+          await page
+            .locator(selector)
+            .evaluate((element) =>
+              (element as HTMLElement).style.getPropertyPriority(
+                'background-color'
+              )
+            )
+        ).toBe('important')
+      }
+    })
+  }
+
+  test('preserves the scrolled page and breakout rules without horizontal overflow', async ({
+    page,
+  }) => {
+    await page.goto(
+      '/web/layout-and-typography/elements/horizontal-rule/demos/'
+    )
+    await waitForApp(page)
+    await page.evaluate(() => document.fonts.ready)
+    await page.locator('.dnb-hr--breakout').scrollIntoViewIfNeeded()
+    const surface = page.locator('.portal-reveal-page')
+    const before = await surface.boundingBox()
+    const beforeScroll = await page.evaluate(() => scrollY)
+    const rule = await page.locator('.dnb-hr--breakout').boundingBox()
+    expect(beforeScroll).toBeGreaterThan(0)
+
+    await page.locator('#toggle-sidebar-menu').click()
+    const dialog = page.locator('#portal-sidebar-menu-drawer')
+    // Fixed modal layers make Safari replace the page behind its browser bars.
+    await expect(dialog).toHaveCSS('position', 'absolute')
+    const drawer = await dialog.locator('.dnb-drawer').boundingBox()
+    expect(drawer.y).toBeCloseTo(0, 0)
+    await expect
+      .poll(async () => (await surface.boundingBox()).x)
+      .toBeCloseTo(drawer.width, 0)
+
+    const expectPageBounds = async () => {
+      expect(await page.evaluate(() => scrollY)).toBe(beforeScroll)
+      const bounds = await surface.boundingBox()
+      expect(bounds.y).toBeCloseTo(before.y, 0)
+      expect(bounds.height).toBeCloseTo(before.height, 0)
+      const currentRule = await page
+        .locator('.dnb-hr--breakout')
+        .boundingBox()
+      expect(currentRule.y).toBeCloseTo(rule.y, 0)
+      expect(currentRule.width).toBeCloseTo(rule.width, 0)
+      expect(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth -
+            document.documentElement.clientWidth
+        )
+      ).toBe(0)
+    }
+    await test.step('keeps the page bounds while open', expectPageBounds)
+    const expectEdgeBounds = async () => {
+      const bounds = await dialog.boundingBox()
+      const edge = await dialog
+        .locator('.dnb-drawer__reveal-edge')
+        .boundingBox()
+      // Safari can expose the page beyond the layout viewport behind its bars.
+      expect(edge.y).toBeLessThan(bounds.y)
+      expect(edge.y + edge.height).toBeGreaterThan(
+        bounds.y + bounds.height
+      )
+    }
+    await test.step(
+      'extends the page edge behind browser bars',
+      expectEdgeBounds
+    )
+    await test.step('keeps the menu anchored after a viewport resize', async () => {
+      await page.setViewportSize({ width: 400, height: 750 })
+      const bounds = await dialog.boundingBox()
+      expect(bounds.x).toBe(0)
+      expect(bounds.y).toBe(0)
+      expect(bounds.width).toBe(400)
+      expect(bounds.height).toBe(750)
+      await expectEdgeBounds()
+      await page.setViewportSize({ width: 390, height: 844 })
+    })
+    await test.step('scrolls the menu while the page stays still', async () => {
+      const drawer = dialog.locator('.dnb-drawer__reveal-scroll')
+      await drawer.evaluate((element) => {
+        element.scrollTop = element.scrollHeight
+      })
+      await expect
+        .poll(() => drawer.evaluate((element) => element.scrollTop))
+        .toBeGreaterThan(0)
+      await expect(
+        dialog.getByRole('button', { name: 'Close', exact: true })
+      ).toBeInViewport()
+      await expectPageBounds()
+    })
+    await dialog.press('Escape')
+    await expect(dialog).not.toBeVisible()
+    await test.step('restores the page after closing', expectPageBounds)
+  })
+})
+
+test.describe('Reveal documentation demos', () => {
+  for (const example of [
+    {
+      path: '/web/components/drawer/demos/',
+      title: 'Drawer reveal demo',
+      trigger: 'Open reveal menu',
+      target: '#drawer-reveal-page',
+    },
+    {
+      path: '/web/patterns-and-extensions/sidebar-menu/demos/',
+      title: 'Sidebar reveal demo',
+      trigger: 'Open navigation',
+      target: '#sidebar-reveal-page',
+    },
+  ]) {
+    test(`opens and closes the inline ${example.title}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 390, height: 844 })
+      await page.goto(example.path)
+      await waitForApp(page)
+      const canvasBackgrounds = await page.evaluate(() =>
+        [document.documentElement, document.body].map(
+          (element) => getComputedStyle(element).backgroundColor
+        )
+      )
+      const target = page.locator(example.target)
+      const trigger = target.getByRole('button', {
+        name: example.trigger,
+        exact: true,
+      })
+      await trigger.click()
+      const dialog = page.getByRole('dialog')
+      await expect(dialog).toHaveCount(1)
+      await expect(dialog).toBeVisible()
+      expect(
+        await page.evaluate(() =>
+          [document.documentElement, document.body].map(
+            (element) => getComputedStyle(element).backgroundColor
+          )
+        )
+      ).toEqual(canvasBackgrounds)
+      const shell = await target.locator('..').boundingBox()
+      const menu = await dialog.boundingBox()
+      expect(menu.x).toBeCloseTo(shell.x + 1, 0)
+      expect(menu.y).toBeCloseTo(shell.y + 1, 0)
+      expect(menu.width).toBeCloseTo(shell.width - 2, 0)
+      expect(menu.height).toBeCloseTo(shell.height - 2, 0)
+      await expect(target).toHaveAttribute('inert', '')
+      await expect(
+        page.locator('#portal-sidebar-menu-drawer')
+      ).not.toBeVisible()
+      await expect(target).toHaveAttribute('aria-hidden', 'true')
+      await dialog.press('Escape')
+      await expect(dialog).not.toBeVisible()
+      await expect(trigger).toBeFocused()
+      await expect(target).not.toHaveAttribute('inert')
+      await trigger.click()
+      await dialog.locator('.dnb-modal__close-button').click()
+      await expect(dialog).not.toBeVisible()
+      await expect(trigger).toBeFocused()
+
+      if (example.title === 'Sidebar reveal demo') {
+        await page.setViewportSize({ width: 1200, height: 900 })
+        await expect(trigger).not.toBeVisible()
+        await expect(
+          page.getByRole('navigation', { name: 'Application navigation' })
+        ).toBeVisible()
+      }
+    })
+
+    test(`swipes the inline ${example.title} without opening the Portal menu`, async ({
+      page,
+      browserName,
+    }) => {
+      test.skip(
+        browserName !== 'chromium',
+        'Touch input uses Chromium CDP'
+      )
+      await page.setViewportSize({ width: 390, height: 844 })
+      await page.goto(example.path)
+      await waitForApp(page)
+      const target = page.locator(example.target)
+      await target.scrollIntoViewIfNeeded()
+      const bounds = await target.boundingBox()
+      const session = await page.context().newCDPSession(page)
+      const y = Math.max(bounds.y, 100) + 10
+      const x = bounds.x + 10
+      await session.send('Input.dispatchTouchEvent', {
+        type: 'touchStart',
+        touchPoints: [{ x, y }],
+      })
+      for (let step = 1; step <= 8; step++) {
+        await session.send('Input.dispatchTouchEvent', {
+          type: 'touchMove',
+          touchPoints: [{ x: x + step * 30, y }],
+        })
+      }
+      await session.send('Input.dispatchTouchEvent', {
+        type: 'touchEnd',
+        touchPoints: [],
+      })
+      await expect(page.getByRole('dialog')).toHaveCount(1)
+      await expect(target).toHaveAttribute('inert', '')
+      await expect(
+        page.locator('#portal-sidebar-menu-drawer')
+      ).not.toBeVisible()
+      if (example.title === 'Drawer reveal demo') {
+        const action = page.getByRole('button', {
+          name: 'Menu action',
+          exact: true,
+        })
+        await action.focus()
+        await action.press('Enter')
+        await expect(page.getByRole('dialog')).not.toBeVisible()
+        await expect(target).not.toHaveAttribute('inert')
+      }
+      await session.detach()
+    })
+  }
+})
+
+test.describe('Portal sidebar reveal', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/web/patterns-and-extensions/sidebar-menu/')
+    await waitForApp(page)
+  })
+
+  test.describe('header touch interaction', () => {
+    test.use({ hasTouch: true })
+
+    test('prevents taps on links scrolled behind the reveal header', async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 390, height: 420 })
+      await page.locator('#toggle-sidebar-menu').tap()
+      const dialog = page.locator('#portal-sidebar-menu-drawer')
+      await expect(dialog).toBeFocused()
+      await expect(page.locator('.portal-reveal-page')).toHaveCSS(
+        'opacity',
+        '0.68'
+      )
+      await page.evaluate(() => document.fonts.ready)
+      const link = dialog.getByRole('link', {
+        name: 'Get started',
+        exact: true,
+      })
+      const header = dialog.locator('.dnb-drawer__navigation')
+      const bounds = await header.boundingBox()
+      const scroll = dialog.locator('.dnb-drawer__reveal-scroll')
+      const linkBounds = await link.boundingBox()
+      await scroll.evaluate(
+        (element, delta) => {
+          element.scrollTo({
+            top: element.scrollTop + delta,
+            behavior: 'instant',
+          })
+        },
+        linkBounds.y +
+          linkBounds.height / 2 -
+          (bounds.y + bounds.height / 2)
+      )
+      await expect
+        .poll(async () => {
+          const current = await link.boundingBox()
+          return current.y + current.height / 2
+        })
+        .toBeCloseTo(bounds.y + bounds.height / 2, 0)
+      const scrolled = await link.boundingBox()
+      const point = {
+        x: scrolled.x + scrolled.width / 2,
+        y: scrolled.y + scrolled.height / 2,
+      }
+      expect(
+        await header.evaluate(
+          (element, { x, y }) =>
+            element.contains(document.elementFromPoint(x, y)),
+          point
+        )
+      ).toBe(true)
+      const url = page.url()
+      await page.touchscreen.tap(point.x, point.y)
+      await expect(dialog).toBeVisible()
+      await expect(page).toHaveURL(url)
+    })
+  })
+
+  test('keeps reveal content below the header without subgrid support', async ({
+    page,
+  }) => {
+    // Simulate a browser that rejects subgrid declarations and support queries.
+    await page.evaluate(() => {
+      const disableSubgrid = (sheet: CSSStyleSheet) => {
+        Array.from(sheet.cssRules).forEach((rule, index) => {
+          if (
+            rule instanceof CSSSupportsRule &&
+            rule.conditionText.includes('subgrid')
+          ) {
+            sheet.deleteRule(index)
+            sheet.insertRule(
+              rule.cssText.replaceAll('subgrid', 'unsupported-subgrid'),
+              index
+            )
+          } else if (
+            rule instanceof CSSStyleRule &&
+            rule.style.gridTemplateRows === 'subgrid'
+          ) {
+            rule.style.gridTemplateRows = 'none'
+          }
+        })
+      }
+      Array.from(document.styleSheets).forEach(disableSubgrid)
+    })
+    await page.locator('#toggle-sidebar-menu').click()
+    const dialog = page.locator('#portal-sidebar-menu-drawer')
+    const header = await dialog
+      .locator('.dnb-drawer__navigation')
+      .boundingBox()
+    const scroll = await dialog
+      .locator('.dnb-drawer__reveal-scroll')
+      .boundingBox()
+    // The selected item may already have scrolled the menu content into view.
+    expect(scroll.y).toBeCloseTo(header.y + header.height, 0)
+    await expect(
+      dialog.getByRole('link', { name: 'Home', exact: true })
+    ).toBeVisible()
+  })
+
+  test('moves the page while keeping focus and interaction inside the menu', async ({
+    page,
+  }) => {
+    const trigger = page.locator('#toggle-sidebar-menu')
+    const dialog = page.locator('#portal-sidebar-menu-drawer')
+    const closeButton = dialog.getByRole('button', {
+      name: 'Close',
+      exact: true,
+    })
+    const surface = page.locator('.portal-reveal-page')
+    const opening = surface.evaluate(
+      (element) =>
+        new Promise<
+          { x: number; width: number; right: number; opacity: number }[]
+        >((resolve) => {
+          const positions: {
+            x: number
+            width: number
+            right: number
+            opacity: number
+          }[] = []
+          const sample = () => {
+            const drawer = document.querySelector(
+              '#portal-sidebar-menu-drawer .dnb-drawer'
+            )
+            if (drawer) {
+              const x = element.getBoundingClientRect().x
+              const width = drawer.getBoundingClientRect().width
+              positions.push({
+                x,
+                width,
+                right: drawer.getBoundingClientRect().right,
+                opacity: Number(getComputedStyle(element).opacity),
+              })
+              if (x >= width - 0.5) {
+                resolve(positions)
+                return
+              }
+            }
+            requestAnimationFrame(sample)
+          }
+          sample()
+        })
+    )
+    await trigger.click()
+    const positions = await opening
+    positions.forEach(({ x, right }) => {
+      expect(right).toBeCloseTo(x, 0)
+    })
+    expect(positions.some(({ x, width }) => x > 0 && x < width / 2)).toBe(
+      true
+    )
+    const moving = positions.filter(
+      ({ x, width }) => x > 0 && x < width - 0.5
+    )
+    expect(moving.length).toBeGreaterThan(0)
+    expect(moving.every(({ opacity }) => opacity === 1)).toBe(true)
+    await expect(closeButton).toBeFocused()
+    await test.step('keeps Close right without duplicating the page logo', async () => {
+      await page.evaluate(() => document.fonts.ready)
+      await expect(
+        dialog.getByRole('link', { name: 'Go to Eufemia home' })
+      ).toHaveCount(0)
+      const header = await dialog
+        .locator('.dnb-drawer__navigation')
+        .boundingBox()
+      const scrollArea = await dialog
+        .locator('.dnb-drawer__reveal-scroll')
+        .boundingBox()
+      // Let menu items scroll behind the header all the way to the top.
+      expect(scrollArea.y).toBeCloseTo(header.y, 0)
+      const close = await closeButton.boundingBox()
+      expect(close.x).toBeGreaterThan(header.x + header.width / 2)
+      expect(
+        Math.abs(
+          header.y + header.height / 2 - (close.y + close.height / 2)
+        )
+      ).toBeLessThanOrEqual(1)
+    })
+    await expect(page.locator('.dnb-drawer__reveal-overlay')).toHaveCSS(
+      'background-color',
+      'rgba(0, 0, 0, 0)'
+    )
+    await expect(surface).toHaveCSS('opacity', '0.68')
+    await expect(surface).toHaveAttribute('inert', '')
+    await expect(trigger).toHaveAttribute('aria-hidden', 'true')
+    await trigger.evaluate((element) => element.focus())
+    await expect(closeButton).toBeFocused()
+    for (let step = 0; step < 5; step++) {
+      await page.keyboard.press('Tab')
+      await expect
+        .poll(() =>
+          dialog.evaluate((element) =>
+            element.contains(document.activeElement)
+          )
+        )
+        .toBe(true)
+    }
+    await page.keyboard.press('Shift+Tab')
+    await expect
+      .poll(() =>
+        dialog.evaluate((element) =>
+          element.contains(document.activeElement)
+        )
+      )
+      .toBe(true)
+    const lastLink = dialog.getByRole('link', {
+      name: 'Releases and upgrades',
+      exact: true,
+    })
+    await closeButton.focus()
+    await page.keyboard.press('Shift+Tab')
+    await expect(lastLink).toBeFocused()
+    await expect(lastLink).toBeInViewport()
+    await page.keyboard.press('Tab')
+    await expect(closeButton).toBeFocused()
+    const menuWidth = await dialog
+      .locator('.dnb-drawer')
+      .evaluate((element) => element.getBoundingClientRect().width)
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBeCloseTo(menuWidth, 0)
+    expect(
+      await page.evaluate(() =>
+        document.elementFromPoint(375, 200)?.getAttribute('role')
+      )
+    ).toBe('dialog')
+    await page.keyboard.press('Escape')
+    await expect(dialog).not.toBeVisible()
+    await expect(trigger).toBeFocused()
+    await expect
+      .poll(() =>
+        trigger.evaluate((element) => {
+          const style = getComputedStyle(element, '::before')
+          return {
+            style: style.outlineStyle,
+            width: style.outlineWidth,
+            offset: style.outlineOffset,
+          }
+        })
+      )
+      .toEqual({ style: 'solid', width: '3px', offset: '2px' })
+    await expect(surface).not.toHaveClass(/dnb-drawer__reveal-target/)
+    await expect(surface).not.toHaveAttribute('inert')
+    await expect(surface).toHaveCSS('opacity', '1')
+
+    await trigger.click()
+    await expect(closeButton).toBeFocused()
+    await page.mouse.click(375, 200)
+    await expect(dialog).not.toBeVisible()
+    await expect(trigger).toBeFocused()
+
+    await trigger.click()
+    await expect(dialog).toBeVisible()
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await expect(dialog).not.toBeVisible()
+    await expect(surface).not.toHaveClass(/dnb-drawer__reveal-target/)
+    await expect(page.locator('html')).not.toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+  })
+
+  test('supports touch dragging without retaining a pressed menu link', async ({
+    page,
+  }) => {
+    await page.locator('#toggle-sidebar-menu').click()
+    const dialog = page.locator('#portal-sidebar-menu-drawer')
+    await dialog
+      .getByRole('button', { name: 'Design foundations', exact: true })
+      .click()
+    const link = dialog
+      .locator('a.dnb-sidebar-menu__item__action')
+      .filter({ hasText: 'Design principles' })
+    await link.scrollIntoViewIfNeeded()
+    // Let the accordion finish moving before holding the nested link.
+    await expect(link).toBeVisible()
+    const background = await link.evaluate(
+      (element) => getComputedStyle(element).backgroundColor
+    )
+    await link.hover()
+    await page.mouse.down()
+    await expect(link).not.toHaveCSS('background-color', background)
+    // Hold a native :active state, as Safari does after a touch drag is claimed.
+    const bounds = await link.boundingBox()
+    const x = bounds.x + bounds.width / 2
+    const y = bounds.y + bounds.height / 2
+    await link.evaluate(
+      (element, { x, y }) => {
+        for (const [type, clientX] of [
+          ['touchstart', x],
+          ['touchmove', x - 30],
+        ] as const) {
+          element.dispatchEvent(
+            Object.assign(
+              new Event(type, { bubbles: true, cancelable: true }),
+              {
+                touches: [{ clientX, clientY: y }],
+              }
+            )
+          )
+        }
+      },
+      { x, y }
+    )
+    const surface = page.locator('.portal-reveal-page')
+    await expect(surface).toHaveClass(/dnb-drawer__reveal-dragging/)
+    await expect(surface).toHaveCSS('opacity', '1')
+    await expect(link).toHaveCSS('background-color', background)
+    await page.mouse.up()
+    await link.evaluate((element) => {
+      element.dispatchEvent(
+        Object.assign(
+          new Event('touchcancel', { bubbles: true, cancelable: true }),
+          { touches: [] }
+        )
+      )
+    })
+    await expect(surface).not.toHaveClass(/dnb-drawer__reveal-dragging/)
+    await link.click()
+    await expect(dialog).not.toBeVisible()
+    await expect(page).toHaveURL(/design-principles/)
+  })
+
+  test('supports touch dragging, cancellation, and native vertical scrolling', async ({
+    page,
+    browserName,
+  }) => {
+    test.skip(browserName !== 'chromium', 'Touch input uses Chromium CDP')
+    await page.emulateMedia({ colorScheme: 'dark' })
+    const session = await page.context().newCDPSession(page)
+    const dialog = page.locator('#portal-sidebar-menu-drawer')
+    const surface = page.locator('.portal-reveal-page')
+    const touch = (
+      type: 'touchStart' | 'touchMove' | 'touchEnd' | 'touchCancel',
+      x?: number,
+      y = 550
+    ) =>
+      session.send('Input.dispatchTouchEvent', {
+        type,
+        touchPoints: x === undefined ? [] : [{ x, y }],
+      })
+    const drag = async (
+      from: number,
+      to: number,
+      cancel = false,
+      y = 550
+    ) => {
+      await touch('touchStart', from, y)
+      for (let step = 1; step <= 8; step++) {
+        await touch('touchMove', from + ((to - from) * step) / 8, y)
+      }
+      await touch(cancel ? 'touchCancel' : 'touchEnd')
+    }
+
+    await drag(24, 80)
+    await expect(dialog).not.toBeVisible()
+    await drag(24, 300, true)
+    await expect(dialog).not.toBeVisible()
+
+    const closedX = await surface.evaluate(
+      (element) => element.getBoundingClientRect().x
+    )
+    await touch('touchStart', 24)
+    await touch('touchMove', 100)
+    await expect(dialog).toBeVisible()
+    await expect(surface).toHaveClass(/dnb-drawer__reveal-dragging/)
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBe(closedX)
+    expect(
+      await dialog
+        .locator('.dnb-drawer__reveal-scroll')
+        .evaluate((element) => element.getBoundingClientRect().x)
+    ).toBe(0)
+    await touch('touchMove', 300)
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBe(closedX + 200)
+    await touch('touchEnd')
+    await expect(surface).not.toHaveClass(/dnb-drawer__reveal-dragging/)
+    await expect(page.locator('#toggle-sidebar-menu')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+
+    await test.step('shields menu items once a page drag starts', async () => {
+      const action = dialog
+        .locator('.dnb-sidebar-menu__item__action')
+        .first()
+      await action.scrollIntoViewIfNeeded()
+      const bounds = await action.boundingBox()
+      const x = bounds.x + bounds.width / 2
+      const y = bounds.y + bounds.height / 2
+      const background = await action.evaluate(
+        (element) => getComputedStyle(element).backgroundColor
+      )
+      // Touch browsers can retain a hover location after the finger is lifted.
+      await page.mouse.move(x, y)
+      await touch('touchStart', 375, y)
+      await touch('touchMove', 345, y)
+      await expect(surface).toHaveClass(/dnb-drawer__reveal-dragging/)
+      await page.mouse.move(x, y)
+      await expect
+        .poll(() =>
+          action.evaluate(
+            (element, { x, y }) => {
+              const hit = document.elementFromPoint(x, y)
+              return element.contains(hit)
+            },
+            { x, y }
+          )
+        )
+        .toBe(false)
+      await expect(action).toHaveCSS('background-color', background)
+      await touch('touchCancel')
+      await expect(surface).not.toHaveClass(/dnb-drawer__reveal-dragging/)
+      await expect
+        .poll(() =>
+          action.evaluate(
+            (element, { x, y }) =>
+              element.contains(document.elementFromPoint(x, y)),
+            { x, y }
+          )
+        )
+        .toBe(true)
+      await expect(action).toHaveCSS('background-color', background)
+      // Moving a real mouse makes hover available again.
+      await expect
+        .poll(async () => {
+          await page.mouse.move(380, 20)
+          await page.mouse.move(x, y)
+          return page.locator('html').getAttribute('data-whatintent')
+        })
+        .toBe('mouse')
+      await expect(action).not.toHaveCSS('background-color', background)
+      await page.mouse.move(380, 20)
+    })
+
+    await drag(375, 320)
+    await expect(dialog).toBeVisible()
+    await drag(375, 100)
+    await expect(dialog).not.toBeVisible()
+    await expect(surface).not.toHaveClass(/dnb-drawer__reveal-target/)
+    const trigger = page.locator('#toggle-sidebar-menu')
+    await expect(trigger).toBeFocused()
+    await expect(trigger).toHaveCSS('outline-style', 'none')
+    await expect(trigger).toHaveCSS('box-shadow', 'none')
+    expect(
+      await trigger.evaluate(
+        (element) => getComputedStyle(element, '::before').outlineStyle
+      )
+    ).toBe('none')
+
+    await drag(24, 300)
+    const drawer = dialog.locator('.dnb-drawer')
+    const menuWidth = await drawer.evaluate(
+      (element) => element.getBoundingClientRect().width
+    )
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBeCloseTo(menuWidth, 0)
+    const link = dialog.getByRole('link').first()
+    await link.scrollIntoViewIfNeeded()
+    const bounds = await link.boundingBox()
+    const x = bounds.x + bounds.width - 8
+    const y = bounds.y + bounds.height / 2
+    const url = page.url()
+    await drag(x, x - 55, false, y)
+    await expect(dialog).toBeVisible()
+    await drag(x, 10, true, y)
+    await expect(dialog).toBeVisible()
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBeCloseTo(menuWidth, 0)
+    await touch('touchStart', x, y)
+    await touch('touchMove', x - 30, y)
+    await expect(surface).toHaveClass(/dnb-drawer__reveal-dragging/)
+    await expect
+      .poll(() =>
+        link.evaluate((element) => {
+          const bounds = element.getBoundingClientRect()
+          const hit = document.elementFromPoint(
+            bounds.x + bounds.width / 2,
+            bounds.y + bounds.height / 2
+          )
+          return (
+            element.contains(hit) || element.matches(':hover, :active')
+          )
+        })
+      )
+      .toBe(false)
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBeCloseTo(menuWidth, 0)
+    await touch('touchMove', x - 80, y)
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBeCloseTo(menuWidth - 50, 0)
+    await touch('touchMove', 10, y)
+    await expect
+      .poll(() =>
+        surface.evaluate((element) => element.getBoundingClientRect().x)
+      )
+      .toBeCloseTo(menuWidth - (x - 30 - 10), 0)
+    const settling = surface.evaluate(
+      (element) =>
+        new Promise<
+          { x: number; linkX: number; right: number; edgeX: number }[]
+        >((resolve) => {
+          const positions: {
+            x: number
+            linkX: number
+            right: number
+            edgeX: number
+          }[] = []
+          const sample = () => {
+            const link = document.querySelector(
+              '#portal-sidebar-menu-drawer a'
+            )
+            if (!link) {
+              resolve(positions)
+              return
+            }
+            positions.push({
+              x: element.getBoundingClientRect().x,
+              linkX: link.getBoundingClientRect().x,
+              right: document
+                .querySelector('#portal-sidebar-menu-drawer .dnb-drawer')
+                .getBoundingClientRect().right,
+              edgeX: document
+                .querySelector(
+                  '#portal-sidebar-menu-drawer .dnb-drawer__reveal-edge'
+                )
+                .getBoundingClientRect().x,
+            })
+            requestAnimationFrame(sample)
+          }
+          sample()
+        })
+    )
+    await touch('touchEnd')
+    await expect(dialog).not.toBeVisible()
+    const positions = await settling
+    expect(positions.length).toBeGreaterThan(1)
+    positions.forEach((position, index) => {
+      expect(position.x).toBeLessThanOrEqual(
+        (positions[index - 1]?.x ?? menuWidth - (x - 30 - 10)) + 1
+      )
+      expect(position.linkX).toBeCloseTo(bounds.x, 0)
+      expect(position.right).toBeCloseTo(position.x, 0)
+      expect(position.edgeX).toBeCloseTo(position.x, 0)
+    })
+    expect(page.url()).toBe(url)
+
+    await touch('touchStart', 30, 650)
+    for (let y = 620; y >= 300; y -= 40) {
+      await touch('touchMove', 30, y)
+    }
+    await touch('touchEnd')
+    await expect(dialog).not.toBeVisible()
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThan(0)
+
+    await trigger.click()
+    await expect(dialog).toBeVisible()
+    const scrollArea = dialog.locator('.dnb-drawer__reveal-scroll')
+    await expect
+      .poll(() =>
+        scrollArea.evaluate((element) =>
+          element.contains(document.elementFromPoint(150, 650))
+        )
+      )
+      .toBe(true)
+    const scrollTop = await scrollArea.evaluate(
+      (element) => element.scrollTop
+    )
+    await touch('touchStart', 150, 650)
+    for (let y = 620; y >= 300; y -= 40) {
+      await touch('touchMove', 150, y)
+    }
+    await touch('touchEnd')
+    await expect(dialog).toBeVisible()
+    await expect
+      .poll(() => scrollArea.evaluate((element) => element.scrollTop))
+      .toBeGreaterThan(scrollTop)
+    await link.scrollIntoViewIfNeeded()
+    const tapBounds = await link.boundingBox()
+    await touch(
+      'touchStart',
+      tapBounds.x + tapBounds.width / 2,
+      tapBounds.y + tapBounds.height / 2
+    )
+    await touch('touchEnd')
+    await expect(dialog).not.toBeVisible()
+    await expect(page).not.toHaveURL(url)
+    await session.detach()
+  })
+})
+
 test.describe('SidebarMenu toggle', () => {
   test('controls inline and Drawer navigation from outside the provider', async ({
     page,

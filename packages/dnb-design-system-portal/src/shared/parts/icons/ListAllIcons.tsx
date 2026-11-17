@@ -10,7 +10,7 @@ import {
   Grid,
   Icon,
   CopyOnClick,
-  ToggleButton,
+  Chip,
 } from '@dnb/eufemia/src/components'
 import { isSupportedFilled } from '@dnb/eufemia/src/components/icon/filledIconSet'
 import { isSupportedAnimated } from '@dnb/eufemia/src/icons/animated/animatedIconSet'
@@ -210,7 +210,7 @@ export default function ListAllIcons(props: Props) {
   const toggle = (
     <>
       <Hr bottom="medium" />
-      <ToggleButton
+      <Chip
         checked={showFilled}
         onChange={({ checked }) => {
           setShowFilled(checked)
@@ -220,8 +220,8 @@ export default function ListAllIcons(props: Props) {
         bottom="medium"
       >
         Show filled
-      </ToggleButton>
-      <ToggleButton
+      </Chip>
+      <Chip
         checked={showAnimated}
         onChange={({ checked }) => {
           setShowAnimated(checked)
@@ -230,7 +230,7 @@ export default function ListAllIcons(props: Props) {
         bottom="medium"
       >
         Show animated
-      </ToggleButton>
+      </Chip>
     </>
   )
 

@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
-import { Anchor, Dd, Dl, Dt, H2, P } from '@dnb/eufemia/src'
+import { Anchor, Dd, Dl, Dt, H2, H3, P } from '@dnb/eufemia/src'
 
 export type LicenseBlock =
   | { type: 'heading'; text: string }
+  | { type: 'section'; text: string }
   | { type: 'paragraph'; text: string }
   | {
       type: 'facts'
@@ -36,6 +37,9 @@ export function parseLicense(license: string): LicenseBlock[] {
     .map((lines, index): LicenseBlock => {
       if (index === 0 && lines.length === 1) {
         return { type: 'heading', text: lines[0] }
+      }
+      if (lines.length === 1 && /^\d+\.\s+\S/.test(lines[0])) {
+        return { type: 'section', text: lines[0] }
       }
 
       const facts = lines.map((line) => line.match(factLinePattern))
@@ -81,6 +85,8 @@ export default function LicenseText({ license }: { license: string }) {
                 {block.text}
               </H2>
             )
+          case 'section':
+            return <H3 key={index}>{block.text}</H3>
           case 'facts':
             return (
               <Dl key={index} layout="grid">

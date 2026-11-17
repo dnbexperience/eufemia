@@ -134,7 +134,14 @@ test('card controls show interaction outlines on hover, press, and keyboard focu
     await page.keyboard.press('Tab')
     await control.focus()
     await expect(control).toBeFocused()
-    await expect.poll(shadow).toMatch(/0px 0px 0px 4px/)
+    await expect
+      .poll(() =>
+        control.evaluate((element) => {
+          const style = getComputedStyle(element, '::before')
+          return { outline: style.outline, offset: style.outlineOffset }
+        })
+      )
+      .toEqual({ outline: 'rgb(39, 106, 206) solid 3px', offset: '2px' })
     await control.press('Tab')
   }
 })

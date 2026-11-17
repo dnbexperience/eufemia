@@ -43,32 +43,32 @@ describe('List scss', () => {
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus-visible::before',
+          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus-visible:where(:not(:hover):not(:active))::before',
       },
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus-visible::before',
+          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus-visible:where(:not(:hover):not(:active))::before',
       },
       {
         condition: withoutFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus::before',
+          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus:not(:hover):not(:active)::before',
       },
       {
         condition: withoutFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus::before',
+          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus:not(:hover):not(:active)::before',
       },
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus-visible::before',
+          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus-visible:where(:not(:hover):not(:active))::before',
       },
       {
         condition: withoutFocusVisible,
         selector:
-          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus::before',
+          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus:not(:hover):not(:active)::before',
       },
     ])
   })

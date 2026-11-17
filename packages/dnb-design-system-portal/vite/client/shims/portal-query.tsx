@@ -9,6 +9,7 @@ import { useNavigate, type To } from 'react-router'
 import { allMdxNodes } from 'virtual:portal-data'
 import type { MdxNode } from '../plugins/portal-pages.shared'
 import { compareByOrder } from '../plugins/portal-pages.shared'
+import { withTrailingSlash } from '../with-trailing-slash'
 
 export type StaticQueryConnection = {
   edges: Array<{
@@ -259,7 +260,7 @@ function normalizeTo(to: string): To {
 }
 
 export function navigate(to: string, options?: { replace?: boolean }) {
-  const normalizedTo = normalizeTo(to)
+  const normalizedTo = normalizeTo(withTrailingSlash(to))
 
   if (_navigate) {
     _navigate(normalizedTo, options)

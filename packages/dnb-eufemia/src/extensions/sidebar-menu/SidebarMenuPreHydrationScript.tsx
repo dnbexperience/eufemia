@@ -168,6 +168,11 @@ function applyPreHydrationState() {
             })
 
           if (rules.length) {
+            // With CSS d support, the first icon morphs and must stay visible.
+            rules[rules.length] =
+              '@supports (d:path("")){[data-open-items-storage-key="' +
+              CSS.escape(key) +
+              '"] .dnb-sidebar-menu__accordion__trigger .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type{opacity:1!important;transform:none!important}}'
             const style = document.createElement('style')
             style.setAttribute('data-sidebar-menu-pre-hydration', key)
             if (nonce) {

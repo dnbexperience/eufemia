@@ -5,6 +5,16 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 @use '../../modal/style/modal-mixins.scss' as modal-mixins;
+@use '../../modal/style/modal-media.scss' as modal-media;
+
+@mixin dialogFullscreen() {
+  @include modal-mixins.modalFullscreen();
+  margin: auto 0;
+
+  & > .dnb-scroll-view {
+    max-height: 100%;
+  }
+}
 
 .dnb-dialog {
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
@@ -23,6 +33,7 @@
   position: relative;
 
   max-height: 100vh;
+  max-height: 100dvh;
   overflow: hidden;
 
   user-select: text; // Safari / Touch fix
@@ -40,6 +51,7 @@
   & > .dnb-scroll-view {
     height: 100%; // ensure a Dropdown opens with the full height
     max-height: 90vh; // make it scrollable
+    max-height: 90dvh;
   }
 
   &__inner {
@@ -64,15 +76,13 @@
   }
 
   &--auto-fullscreen {
-    @include utilities.allBelow(small) {
-      @include modal-mixins.modalFullscreen();
-      margin: auto 0;
+    @include modal-media.autoFullscreen() {
+      @include dialogFullscreen();
     }
   }
 
   &--fullscreen {
-    @include modal-mixins.modalFullscreen();
-    margin: auto 0;
+    @include dialogFullscreen();
   }
   &--spacing#{&}--information &__content {
     padding-bottom: calc(var(--dialog-spacing) * 2);
@@ -301,12 +311,13 @@
     margin-top: 1.5rem;
   }
 
-  // Fix for iOS on iPhone
-  // Because Safari includes the navigation bar on the height
-  @include utilities.isSafariMobile() {
-    @media screen and (max-height: 40em) {
-      .dnb-scroll-view {
-        max-height: 82vh;
+  @supports not (height: 100dvh) {
+    // Reserve room for browser navigation on older iOS versions.
+    @include utilities.isSafariMobile() {
+      @media screen and (max-height: 40em) {
+        & > .dnb-scroll-view {
+          max-height: 82vh;
+        }
       }
     }
   }

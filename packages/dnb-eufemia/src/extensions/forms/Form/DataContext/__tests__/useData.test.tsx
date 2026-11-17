@@ -508,7 +508,9 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector(
+          '.dnb-forms-field-array-selection input[type="checkbox"]'
+        )
       )
 
       expect(dataContext.data).toEqual({
@@ -524,7 +526,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -539,7 +541,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -555,7 +557,9 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector(
+          '.dnb-forms-field-array-selection input[type="checkbox"]'
+        )
       )
 
       expect(dataContext.data).toEqual({
@@ -571,7 +575,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -586,7 +590,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -977,7 +981,9 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector(
+          '.dnb-forms-field-array-selection input[type="checkbox"]'
+        )
       )
 
       expect(dataContext.data).toEqual({
@@ -993,7 +999,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -1008,7 +1014,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -1024,7 +1030,9 @@ describe('Form.useData', () => {
       })
 
       await userEvent.click(
-        document.querySelector('input[type="checkbox"]')
+        document.querySelector(
+          '.dnb-forms-field-array-selection input[type="checkbox"]'
+        )
       )
 
       expect(dataContext.data).toEqual({
@@ -1040,7 +1048,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -1055,7 +1063,7 @@ describe('Form.useData', () => {
         },
       })
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('.dnb-chip input'))
 
       expect(dataContext.data).toEqual({
         owners: {
@@ -1600,7 +1608,7 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      const button = document.querySelector('button')
+      const button = document.querySelector('.dnb-chip input')
 
       expect(collectedData).toEqual({
         isVisible: false,
@@ -1666,7 +1674,7 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      const button = document.querySelector('button')
+      const button = document.querySelector('.dnb-chip input')
 
       expect(collectedData).toEqual({
         interactive: 'I am visible',
@@ -1736,7 +1744,7 @@ describe('Form.useData', () => {
         </Form.Handler>
       )
 
-      const button = document.querySelector('button')
+      const button = document.querySelector('.dnb-chip input')
 
       expect(collectedData).toEqual({
         interactive: 'I am visible',

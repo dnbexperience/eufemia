@@ -1,0 +1,14 @@
+.revealShell {
+  position: relative;
+  min-height: 24rem;
+  overflow: hidden;
+  transform: translateZ(0);
+
+  border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  border-radius: var(--token-radius-xl);
+}
+
+.revealMenu {
+  height: 100%;
+  max-height: 100%;
+}

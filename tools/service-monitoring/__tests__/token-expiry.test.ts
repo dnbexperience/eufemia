@@ -154,7 +154,7 @@ it('posts one Slack message for expired and missing tokens', async () => {
       '• GHE_DEPLOY_PAT: expired or revoked',
       '• GHE_MONITORING_DEPLOY_PAT: secret is not set',
       '1. Renew tokens on internal GitHub: https://dnb.ghe.com/settings/personal-access-tokens',
-      '2. Update Actions secrets in the public repository: https://github.com/dnbexperience/eufemia/settings/secrets/actions',
+      '2. Update the secrets of the ghe-deploy environment in the public repository: https://github.com/dnbexperience/eufemia/settings/environments',
     ].join('\n')
   )
 })

@@ -30,13 +30,16 @@ export function formatPortalAccessibilityReport(report) {
   const axeFindings = report.findings.filter(
     ({ check }) => check === 'axe'
   )
+  const colorSchemes = report.summary.colorSchemes ?? ['light']
   const lines = [
     '<!-- portal-accessibility-report -->',
     '# Portal accessibility and duplicate ID report',
     '',
     `Scanned ${report.summary.pages} canonical pages${
-      report.summary.colorSchemes?.includes('dark')
-        ? ' in light and dark mode'
+      colorSchemes.includes('dark')
+        ? colorSchemes.includes('light')
+          ? ' in light and dark mode'
+          : ' in dark mode'
         : ''
     }.`,
     '',

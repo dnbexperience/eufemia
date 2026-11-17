@@ -6749,7 +6749,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       const form = document.querySelector('form')
-      const button = document.querySelector('button')
+      const button = document.querySelector('.dnb-chip input')
 
       fireEvent.submit(form)
       expect(submitData).toEqual({
@@ -6816,8 +6816,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       const form = document.querySelector('form')
-      const button = () =>
-        document.querySelector('.dnb-toggle-button__button')
+      const button = () => document.querySelector('.dnb-chip input')
       const output = () => document.querySelector('output')
 
       expect(output().textContent).toBe('Step 1')
@@ -6894,8 +6893,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       const form = document.querySelector('form')
-      const button = () =>
-        document.querySelector('.dnb-toggle-button__button')
+      const button = () => document.querySelector('.dnb-chip input')
       const output = () => document.querySelector('output')
       const prevButton = () =>
         document.querySelector('.dnb-forms-previous-button')
@@ -6985,7 +6983,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       const form = document.querySelector('form')
-      const button = document.querySelector('button')
+      const button = document.querySelector('.dnb-chip input')
 
       fireEvent.submit(form)
       expect(submitData).toEqual({
@@ -7046,7 +7044,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       const form = document.querySelector('form')
-      const button = document.querySelector('button')
+      const button = document.querySelector('.dnb-chip input')
 
       fireEvent.submit(form)
       expect(submitData).toEqual({
@@ -7101,7 +7099,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       const form = document.querySelector('form')
-      const button = document.querySelector('button')
+      const button = document.querySelector('.dnb-chip input')
 
       fireEvent.submit(form)
       expect(submitData).toEqual({})

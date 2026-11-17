@@ -38,7 +38,7 @@ test('dispatches the reviewed SHA and verifies its exact publication and public 
       env: {
         ...process.env,
         PATH: path.join(root, 'bin') + path.delimiter + process.env.PATH,
-        GHE_ASSETS_DEPLOY_REPO: 'eufemia/eufemia-assets',
+        GHE_ASSETS_DEPLOY_REPO: 'org/assets-repo',
         GITHUB_SHA: sha,
         GITHUB_RUN_ID: '42',
         GITHUB_RUN_ATTEMPT: '1',
@@ -49,7 +49,7 @@ test('dispatches the reviewed SHA and verifies its exact publication and public 
     })
     const request = JSON.parse(await readFile(log, 'utf8'))
     assert.ok(
-      request.args.includes('repos/eufemia/eufemia-assets/dispatches')
+      request.args.includes('repos/org/assets-repo/dispatches')
     )
     assert.deepEqual(request.input, {
       event_type: 'portal-og-images',

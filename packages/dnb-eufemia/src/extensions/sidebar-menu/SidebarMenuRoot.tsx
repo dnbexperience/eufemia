@@ -253,12 +253,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     openItemsStorageKey,
   ])
 
+  const isRestoringOpenItems =
+    openItems === undefined &&
+    Boolean(openItemsStorageKey) &&
+    renderedOpenItemsStorageId !== openItemsStorageId
+
   useLayoutEffect(() => {
     if (
       !scrollPositionStorageKey ||
-      (openItems === undefined &&
-        openItemsStorageKey &&
-        renderedOpenItemsStorageId !== openItemsStorageId) ||
+      isRestoringOpenItems ||
       (responsive?.isSmallScreen && !responsive.open)
     ) {
       return undefined
@@ -329,6 +332,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       scrollView.removeEventListener('scroll', persistPosition)
     }
   }, [
+    isRestoringOpenItems,
     responsive?.drawerScrollElement,
     responsive?.isSmallScreen,
     responsive?.open,
@@ -376,7 +380,9 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     if (
       !scrollSelectedItemIntoView ||
       !resolvedSelectedItem ||
-      positionedSelectedItemRef.current === resolvedSelectedItem
+      positionedSelectedItemRef.current === resolvedSelectedItem ||
+      // The stored scroll position is restored after the stored open items.
+      isRestoringOpenItems
     ) {
       return undefined
     }
@@ -504,6 +510,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       stopWaitingForAnimation()
     }
   }, [
+    isRestoringOpenItems,
     resolvedActiveSection,
     resolvedOpenItemsKey,
     resolvedSelectedItem,

@@ -294,13 +294,6 @@ button .dnb-form-status__text {
     --token-color-background-action-hover-subtle
   );
   --radio-color-border--hover: var(--token-color-stroke-action-hover);
-  --radio-border-inset--focus: ;
-  --radio-border-width--focus: 0.25rem;
-  --radio-color-dot-on--focus: var(--token-color-background-action-focus);
-  --radio-color-background--focus: var(
-    --token-color-background-action-focus-subtle
-  );
-  --radio-color-border--focus: var(--token-color-stroke-action-focus);
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
 }
@@ -583,16 +576,12 @@ button .dnb-form-status__text {
   --radio-color-background--active: var(
     --token-color-background-error-subtle
   );
-  --radio-color-background--focus: var(
-    --token-color-background-error-subtle
-  );
   --radio-color-border--hover: var(--token-color-stroke-error);
   --radio-color-border--active: var(--token-color-stroke-error);
 }
 .dnb-radio__status--error:where(:not(.dnb-toggle-button *)) {
   --radio-color-dot-on--hover: var(--token-color-background-error);
   --radio-color-dot-on--active: var(--token-color-background-error);
-  --radio-color-dot-on--focus: var(--token-color-background-error);
 }
 .dnb-radio {
   /** Hover state **/
@@ -621,19 +610,12 @@ button .dnb-form-status__text {
 .dnb-radio {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
-  --radio-border-inset: var(--radio-border-inset--focus);
-  --radio-border-width: var(--radio-border-width--focus);
-  --radio-color-border: var(--radio-color-border--focus);
-  --radio-color-background: var(--radio-color-background--focus);
+html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
 }
-@media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
-    outline: var(--focus-ring-width) solid transparent;
-  }
-}
-html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
-  --radio-color-dot-on: var(--radio-color-dot-on--focus);
+html[data-whatinput=keyboard] .dnb-radio--surface-dark .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+  outline-color: var(--token-color-stroke-action-focus-ondark);
 }
 .dnb-radio {
   /** Disabled state **/

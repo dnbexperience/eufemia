@@ -282,7 +282,7 @@ for (const width of [390, 1440]) {
       })
       await drawer.locator('#change-theme').click()
       await page
-        .getByRole('option', { name: 'Sbanken (WIP)', exact: true })
+        .getByRole('option', { name: 'Sbanken', exact: true })
         .click()
       await expect(tools).toHaveText('Sbanken - Dark Settings', {
         useInnerText: true,
@@ -357,6 +357,9 @@ for (const width of [390, 1440]) {
       await page.keyboard.press('Enter')
       await expect(figma).toHaveCount(0)
       await expect(github).toHaveCount(0)
+      await expect(
+        page.locator('.dnb-sidebar-menu__sections-portal .dnb-drawer-list')
+      ).toHaveClass(/dnb-drawer-list--hidden/)
       await selector.click()
       await expect
         .poll(

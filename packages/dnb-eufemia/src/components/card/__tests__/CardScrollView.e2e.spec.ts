@@ -34,7 +34,9 @@ test.describe('Card inside a ScrollView', () => {
     await cards.first().click()
     await page.keyboard.press('a')
     await expect(scrollView).toBeFocused()
-    await expect(scrollView).not.toHaveCSS('box-shadow', 'none')
+    await expect(scrollView).toHaveCSS('outline-style', 'solid')
+    await expect(scrollView).toHaveCSS('outline-width', '3px')
+    await expect(scrollView).toHaveCSS('outline-offset', '0px')
 
     expect(await getOutlines()).toEqual(outlinesAtRest)
   })

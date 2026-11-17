@@ -63,7 +63,7 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   alignContent?: ModalAlignContent
 
   /**
-   * If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.
+   * Use `true` for fullscreen or `false` to disable automatic fullscreen. With `auto`, Dialog fills the viewport below the `small` width breakpoint, or below `medium` when the viewport height is at most `30em`. Defaults to `auto` for information dialogs and `false` for confirmation dialogs.
    */
   fullscreen?: ModalFullscreen
 

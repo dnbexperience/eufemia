@@ -2102,13 +2102,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cloudflare/workers-types@npm:4.20260617.1":
-  version: 4.20260617.1
-  resolution: "@cloudflare/workers-types@npm:4.20260617.1"
-  checksum: 10/a55488e0ea4018d4fbb34e9735cf12437323b51f179c468cb0714edef5ddbb7ae1b84c86bbe596b7ba52686294e65eddaaf8521fe6ab8a2172cad318dd01a501
-  languageName: node
-  linkType: hard
-
 "@colors/colors@npm:1.5.0":
   version: 1.5.0
   resolution: "@colors/colors@npm:1.5.0"
@@ -2796,17 +2789,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnb/eufemia-mcp-legacy-proxy@workspace:tools/mcp-legacy-proxy":
-  version: 0.0.0-use.local
-  resolution: "@dnb/eufemia-mcp-legacy-proxy@workspace:tools/mcp-legacy-proxy"
-  dependencies:
-    "@cloudflare/workers-types": "npm:4.20260617.1"
-    typescript: "npm:6.0.3"
-    vitest: "npm:4.1.12"
-    wrangler: "npm:4.102.0"
-  languageName: unknown
-  linkType: soft
-
 "@dnb/eufemia@workspace:*, @dnb/eufemia@workspace:packages/dnb-eufemia":
   version: 0.0.0-use.local
   resolution: "@dnb/eufemia@workspace:packages/dnb-eufemia"
@@ -2890,7 +2872,7 @@ __metadata:
     fs-extra: "npm:10.0.0"
     globals: "npm:17.13.0"
     globby: "npm:11.0.4"
-    hono: "npm:4.13.14"
+    hono: "npm:4.13.16"
     intl-messageformat: "npm:11.2.3"
     issue-parser: "npm:7.0.2"
     jest-axe: "npm:11.0.0"
@@ -2906,7 +2888,7 @@ __metadata:
     pngjs: "npm:7.0.0"
     postcss: "npm:8.5.32"
     postcss-preset-env: "npm:11.2.1"
-    postcss-selector-parser: "npm:7.1.7"
+    postcss-selector-parser: "npm:7.1.8"
     prettier: "npm:3.8.1"
     prettier-package-json: "npm:2.8.0"
     purgecss: "npm:8.0.0"
@@ -3683,11 +3665,11 @@ __metadata:
   linkType: hard
 
 "@hono/node-server@npm:^1.19.9 || ^2.1.3":
-  version: 2.1.5
-  resolution: "@hono/node-server@npm:2.1.5"
+  version: 2.1.6
+  resolution: "@hono/node-server@npm:2.1.6"
   peerDependencies:
     hono: ^4 || ^5.0.0-0
-  checksum: 10/4b6f21fe37f956a61856b6f517f91543962f32466a88477d362e8cff77272e541ea6388b8026275e1a2a1976d098c9bf4c3e1d8f8087505e8eac777f0f872901
+  checksum: 10/43e5fa3972b20e22a6471874f4858011a80633011df60e312c37f472051f983ae47ea8f76004157c38a6317cea4a152745601a031d2428b7c44bdf7778a9a0b6
   languageName: node
   linkType: hard
 
@@ -8354,15 +8336,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssesc@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "cssesc@npm:3.0.0"
-  bin:
-    cssesc: bin/cssesc
-  checksum: 10/0e161912c1306861d8f46e1883be1cbc8b1b2879f0f509287c0db71796e4ddfb97ac96bdfca38f77f452e2c10554e1bb5678c99b07a5cf947a12778f73e47e12
-  languageName: node
-  linkType: hard
-
 "cssnano-preset-default@npm:^6.0.1":
   version: 6.0.1
   resolution: "cssnano-preset-default@npm:6.0.1"
@@ -11126,10 +11099,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:4.13.14, hono@npm:^4.11.4":
-  version: 4.13.14
-  resolution: "hono@npm:4.13.14"
-  checksum: 10/1eb7c4d358d071d208b09f62d803ac7e1674d209f23e4f9d3c666cd7107da40937d5e9a78cc44f8abc4a23050e849ec531293c4b834696862d3673e1d4942172
+"hono@npm:4.13.16, hono@npm:^4.11.4":
+  version: 4.13.16
+  resolution: "hono@npm:4.13.16"
+  checksum: 10/c688213a1ce5ecf4687fb9e592f92546fb977f247e5cc57c83ec50a72b2d59c51381bc0787398e4741b7c0b30c7d53061dfc94ee623d873357cf79d7dbab0009
   languageName: node
   linkType: hard
 
@@ -15949,23 +15922,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-selector-parser@npm:7.1.7, postcss-selector-parser@npm:^7.0.0, postcss-selector-parser@npm:^7.1.0, postcss-selector-parser@npm:^7.1.1":
-  version: 7.1.7
-  resolution: "postcss-selector-parser@npm:7.1.7"
+"postcss-selector-parser@npm:7.1.8, postcss-selector-parser@npm:^7.0.0, postcss-selector-parser@npm:^7.1.0, postcss-selector-parser@npm:^7.1.1":
+  version: 7.1.8
+  resolution: "postcss-selector-parser@npm:7.1.8"
   dependencies:
-    cssesc: "npm:^3.0.0"
     util-deprecate: "npm:^1.0.2"
-  checksum: 10/9413749ad38d8e22e4a5e47287e5501493238ab73eea276381476933332604df49468451e99a3d6614463fd3ee96655a80821a93949cfe425ecd6acf210535b0
+  checksum: 10/4e91895bacc95f23cf150e01e999a479fd8472a842ea006684109bb6d70bb9e84146e78a86cea591782281e5ee5220af6f819c68eb378916499e6e3cfe498bbb
   languageName: node
   linkType: hard
 
 "postcss-selector-parser@npm:^6.0.11, postcss-selector-parser@npm:^6.0.4, postcss-selector-parser@npm:^6.0.5":
-  version: 6.1.5
-  resolution: "postcss-selector-parser@npm:6.1.5"
+  version: 6.1.6
+  resolution: "postcss-selector-parser@npm:6.1.6"
   dependencies:
-    cssesc: "npm:^3.0.0"
     util-deprecate: "npm:^1.0.2"
-  checksum: 10/bd6c1eddafffa224274a8120e245fa611a92917973f2a6da64a092e60e1192802475a720caa731b71f384be5b39a16baedbd9bf6523136f95249da61884fe8ce
+  checksum: 10/5ed61712212c7a2c17049e00d2e1d597703e57c5d49161d2ebf3e7c6d682520b8464a3535767c38005ffd79ea64ede933c32ac121b5f9a05b6617072244168ee
   languageName: node
   linkType: hard
 

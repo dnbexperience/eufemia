@@ -8,7 +8,6 @@ const STANDALONE_TOOL_PATTERNS = [
   /^tools\/assets\//,
   /^tools\/eufemia-raiwork-plugin\//,
   /^tools\/mcp-lambda\//,
-  /^tools\/mcp-legacy-proxy\//,
   /^tools\/monitoring\//,
   /^tools\/service-monitoring\//,
   /^tools\/usage-ingest\//,
@@ -17,7 +16,6 @@ const STANDALONE_TOOL_PATTERNS = [
   /^\.github\/workflows\/eufemia-marketplace-artifacts\.yml$/,
   /^\.github\/workflows\/ghe-token-expiry\.yml$/,
   /^\.github\/workflows\/mcp-lambda\.yml$/,
-  /^\.github\/workflows\/mcp-legacy-proxy-deploy\.yml$/,
   /^\.github\/workflows\/service-monitoring\.yml$/,
 ]
 
@@ -44,10 +42,13 @@ export function isRunTestsOnlyPath(path) {
 
 export function classifyChanges(files) {
   const hasFiles = files.length > 0
+  const standaloneToolsOnly = hasFiles && files.every(isStandaloneToolPath)
+  const testsOnly = hasFiles && files.every(isRunTestsOnlyPath)
 
   return {
-    standaloneToolsOnly: hasFiles && files.every(isStandaloneToolPath),
-    testsOnly: hasFiles && files.every(isRunTestsOnlyPath),
+    standaloneToolsOnly,
+    testsOnly,
+    packagesUnaffected: standaloneToolsOnly || testsOnly,
   }
 }
 
@@ -78,8 +79,14 @@ if (
         .filter(Boolean)
     : []
 
-  const { standaloneToolsOnly, testsOnly } = classifyChanges(files)
-  const outputs = `standalone-tools-only=${standaloneToolsOnly}\ntests-only=${testsOnly}\n`
+  const { standaloneToolsOnly, testsOnly, packagesUnaffected } =
+    classifyChanges(files)
+  const outputs = [
+    `standalone-tools-only=${standaloneToolsOnly}`,
+    `tests-only=${testsOnly}`,
+    `packages-unaffected=${packagesUnaffected}`,
+    '',
+  ].join('\n')
 
   console.log(outputs)
   appendFileSync(process.env.GITHUB_OUTPUT, outputs)

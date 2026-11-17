@@ -28,7 +28,7 @@ import {
 } from '@dnb/eufemia/src/extensions/chat'
 import '@dnb/eufemia/src/extensions/chat/style'
 import {
-  ToggleButton,
+  Chip,
   AriaLive,
   Flex,
   Anchor,
@@ -1957,16 +1957,16 @@ export function ChatConversationScrollBehavior() {
 
           return (
             <div style={{ ...chatStyle, height: '32rem' }}>
-              <ToggleButton.Group
+              <Chip.Group
                 label="Scroll behavior"
                 value={scrollBehavior}
                 onChange={({ value }) =>
                   setScrollBehavior(value as 'turn' | 'end')
                 }
               >
-                <ToggleButton value="turn" text="turn" />
-                <ToggleButton value="end" text="end" />
-              </ToggleButton.Group>
+                <Chip value="turn" text="turn" />
+                <Chip value="end" text="end" />
+              </Chip.Group>
 
               <Conversation
                 scrollBehavior={scrollBehavior}
@@ -2015,15 +2015,15 @@ export function ChatScrollerPeek() {
           return (
             <>
               <Flex.Horizontal align="center" bottom>
-                <ToggleButton.Group
+                <Chip.Group
                   label="Peek"
                   value={peek}
                   onChange={({ value }) => setPeek(String(value))}
                 >
-                  <ToggleButton value="0" text="None" />
-                  <ToggleButton value="3rem" text="3rem" />
-                  <ToggleButton value="6rem" text="6rem" />
-                </ToggleButton.Group>
+                  <Chip value="0" text="None" />
+                  <Chip value="3rem" text="3rem" />
+                  <Chip value="6rem" text="6rem" />
+                </Chip.Group>
                 <Button
                   variant="secondary"
                   onClick={() => setCount((current) => current + 1)}
@@ -2068,7 +2068,7 @@ export function ChatScrollerOpening() {
 
           return (
             <>
-              <ToggleButton.Group
+              <Chip.Group
                 label="Scroll behavior"
                 value={scrollBehavior}
                 onChange={({ value }) =>
@@ -2076,9 +2076,9 @@ export function ChatScrollerOpening() {
                 }
                 bottom
               >
-                <ToggleButton value="turn" text="turn" />
-                <ToggleButton value="end" text="end" />
-              </ToggleButton.Group>
+                <Chip value="turn" text="turn" />
+                <Chip value="end" text="end" />
+              </Chip.Group>
 
               <Conversation
                 key={scrollBehavior}
@@ -2274,14 +2274,14 @@ export function ChatScrollerAnimation() {
             <>
               <style>{css}</style>
               <Flex.Horizontal align="center" bottom>
-                <ToggleButton.Group
+                <Chip.Group
                   label="Animation"
                   value={animation}
                   onChange={({ value }) => setAnimation(String(value))}
                 >
-                  <ToggleButton value="fade" text="Fade" />
-                  <ToggleButton value="blur" text="Blur" />
-                </ToggleButton.Group>
+                  <Chip value="fade" text="Fade" />
+                  <Chip value="blur" text="Blur" />
+                </Chip.Group>
                 <Button
                   variant="secondary"
                   onClick={() => setCount((current) => current + 1)}

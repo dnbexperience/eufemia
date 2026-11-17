@@ -1,0 +1,76 @@
+import { describe, it } from 'vitest'
+import {
+  makeScreenshot,
+  setupPageScreenshot,
+} from '../../core/vitest-screenshots/setupVitestScreenshots'
+
+describe.each([
+  ['ui', 'light'],
+  ['sbanken', 'light'],
+  ['ui', 'dark'],
+  ['sbanken', 'dark'],
+] as const)(
+  'Focus outline for %s in %s mode',
+  (themeName, colorScheme) => {
+    const selector = '[data-visual-test="focus-examples"]'
+    const wrapperStyle = {
+      background: 'var(--token-color-background-neutral)',
+    }
+
+    setupPageScreenshot({
+      themeName,
+      url: '/web/accessibility/focus/',
+      colorScheme,
+    })
+
+    it('shows both focus outlines together', async () => {
+      await makeScreenshot({
+        selector,
+        wrapperStyle,
+        executeBeforeSimulate: () => {
+          const buttons = document.querySelectorAll<HTMLButtonElement>(
+            '[data-visual-test="focus-examples"] button'
+          )
+
+          // Preserve each button's focus styles for the side-by-side comparison.
+          for (const button of buttons) {
+            button.focus()
+            if (!button.matches(':focus-visible')) {
+              throw new Error(
+                'The example must have visible keyboard focus'
+              )
+            }
+            const style = getComputedStyle(button)
+            Object.assign(button.style, {
+              outline: style.outline,
+              outlineOffset: style.outlineOffset,
+              borderColor: style.borderColor,
+            })
+          }
+        },
+      })
+    })
+
+    it('gives hover precedence over layout focus', async () => {
+      await makeScreenshot({
+        selector,
+        wrapperStyle,
+        simulateSelector: `${selector} button:last-child`,
+        simulate: ['focus', 'hover'],
+      })
+    })
+
+    it.each(['checkbox', 'radio', 'switch'])(
+      'shows %s keyboard focus on a dark surface',
+      async (component) => {
+        const darkExample = '[data-visual-test="focus-examples-on-dark"]'
+
+        await makeScreenshot({
+          selector: `${darkExample} .dnb-section`,
+          simulateSelector: `${darkExample} .dnb-${component}__input`,
+          simulate: 'focus',
+        })
+      }
+    )
+  }
+)

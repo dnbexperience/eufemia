@@ -10,14 +10,7 @@ import Input from '@dnb/eufemia/src/components/input/Input'
 import styled from '@emotion/styled'
 import { useLocation } from 'react-router'
 import { navigate } from 'portal-query'
-import {
-  Tabs,
-  Section,
-  H2,
-  P,
-  ToggleButton,
-  Badge,
-} from '@dnb/eufemia/src'
+import { Tabs, Section, H2, P, Chip, Badge } from '@dnb/eufemia/src'
 import type { ReactNode } from 'react'
 
 // No-op Router shell for the reach-router example
@@ -222,10 +215,10 @@ export const TabsExampleHorizontallyAligned = () => (
         return (
           <FlexWrapper>
             <LeftArea>
-              <ToggleButton.Group value="first">
-                <ToggleButton text="first" value="first" />
-                <ToggleButton text="second" value="second" />
-              </ToggleButton.Group>
+              <Chip.Group value="first" aria-label="Example options">
+                <Chip text="first" value="first" />
+                <Chip text="second" value="second" />
+              </Chip.Group>
             </LeftArea>
 
             <RightArea>

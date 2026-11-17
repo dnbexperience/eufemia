@@ -244,19 +244,9 @@ describe('retrieveMcpUsageDaily', () => {
         'component',
         'path',
         'component_missed',
-        'likely_component',
         'count',
       ],
-      [
-        '2026-09-20',
-        'web',
-        'component_doc',
-        'button',
-        '',
-        undefined,
-        undefined,
-        '5',
-      ],
+      ['2026-09-20', 'web', 'component_doc', 'button', '', undefined, '5'],
     ])
 
     await expect(retrieveMcpUsageDaily()).resolves.toEqual([
@@ -267,13 +257,12 @@ describe('retrieveMcpUsageDaily', () => {
         component: 'button',
         path: '',
         component_missed: false,
-        likely_component: '',
         count: 5,
       },
     ])
 
     expect(startedQueryString()).toBe(
-      `SELECT dt, transport, tool, component, path, component_missed, likely_component, count FROM "db"."mcp_usage_daily"`
+      `SELECT dt, transport, tool, component, path, component_missed, count FROM "db"."mcp_usage_daily"`
     )
   })
 })
@@ -288,19 +277,9 @@ describe('aggregateMcpUsageRaw', () => {
         'component',
         'path',
         'component_missed',
-        'likely_component',
         'cnt',
       ],
-      [
-        '2026-10-14',
-        'web',
-        'component_doc',
-        '',
-        '',
-        'true',
-        'date-picker',
-        '4',
-      ],
+      ['2026-10-14', 'web', 'component_doc', '', '', 'true', '4'],
     ])
 
     await expect(aggregateMcpUsageRaw('2026-10-08')).resolves.toEqual([
@@ -311,13 +290,12 @@ describe('aggregateMcpUsageRaw', () => {
         component: '',
         path: '',
         component_missed: true,
-        likely_component: 'date-picker',
         count: 4,
       },
     ])
 
     expect(startedQueryString()).toBe(
-      `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, coalesce(likely_component, '') AS likely_component, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-10-08' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false), coalesce(likely_component, '')`
+      `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-10-08' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false)`
     )
   })
 })

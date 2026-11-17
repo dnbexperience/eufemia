@@ -37,6 +37,51 @@ test('opens Home as a document when its lazy module fails', async ({
   ).toHaveCount(0)
 })
 
+test('opens the destination as a document when its module stalls', async ({
+  page,
+  request,
+}) => {
+  const html = await (await request.get('/')).text()
+  const hintsUrl = html.match(/data-hints="([^"]+)"/)?.[1]
+  test.skip(!hintsUrl, 'Production route splitting')
+  const data = await (await request.get(hintsUrl)).json()
+  const module = data.links['/web/get-started/quick-start'].module
+  let navigating = false
+  page.on('request', (request) => {
+    if (request.resourceType() === 'document') {
+      navigating = true
+    }
+  })
+  // Leave the request unanswered, like a dropped connection
+  await page.route(module, (route) =>
+    navigating ? route.continue() : undefined
+  )
+  await page.goto('/')
+  await waitForApp(page)
+  navigating = false
+  await page.evaluate(() => {
+    document.documentElement.dataset.navigationMarker = 'present'
+  })
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+
+  await expect(
+    page.locator('.dnb-progress-indicator__linear')
+  ).toBeVisible()
+  await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//, {
+    timeout: 15_000,
+  })
+  await waitForApp(page)
+  await expect(
+    page.getByRole('heading', { name: 'Quick start', exact: true })
+  ).toBeVisible()
+  await expect(page.locator('html')).not.toHaveAttribute(
+    'data-navigation-marker'
+  )
+})
+
 test('keeps hinted prefetch failures local', async ({ page, request }) => {
   const html = await (await request.get('/')).text()
   const hintsUrl = html.match(/data-hints="([^"]+)"/)?.[1]
@@ -264,4 +309,59 @@ test('keeps the page usable when speculative route loading fails', async ({
   await link.evaluate((element: HTMLAnchorElement) => element.click())
   await expect(page).toHaveURL(/action-with-nested-card/)
   await expect(page.locator('.dnb-card').first()).toBeVisible()
+})
+
+test('keeps the page offline and opens the destination when back online', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/')
+  await waitForApp(page)
+  test.skip(await isDev(page), 'Production route splitting')
+  await page.evaluate(() => {
+    document.documentElement.dataset.navigationMarker = 'present'
+  })
+  await context.setOffline(true)
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+  await page.waitForTimeout(1000)
+
+  await expect(page.locator('[data-portal-home]')).toBeVisible()
+  await expect(
+    page.getByText('Unexpected Application Error!')
+  ).toHaveCount(0)
+
+  await context.setOffline(false)
+
+  await expect(page).toHaveURL(/\/web\/get-started\/quick-start\//)
+  await waitForApp(page)
+  await expect(page.locator('html')).not.toHaveAttribute(
+    'data-navigation-marker'
+  )
+})
+
+test('keeps the page when the user types before the connection is back', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/')
+  await waitForApp(page)
+  test.skip(await isDev(page), 'Production route splitting')
+  await context.setOffline(true)
+  await page
+    .locator('[data-portal-home]')
+    .getByRole('link', { name: /Develop/ })
+    .evaluate((element: HTMLAnchorElement) => element.click())
+  await page.waitForTimeout(1000)
+  await page.evaluate(() => {
+    document.body.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+
+  await context.setOffline(false)
+  await page.waitForTimeout(1000)
+
+  expect(new URL(page.url()).pathname).toBe('/')
+  await expect(page.locator('[data-portal-home]')).toBeVisible()
 })

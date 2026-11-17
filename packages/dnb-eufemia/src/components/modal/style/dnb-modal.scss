@@ -4,6 +4,7 @@
  */
 
 @use '../../../style/core/utilities.scss' as utilities;
+@use './modal-media.scss' as modal-media;
 
 :root {
   --modal-z-index: var(--z-index-modal);
@@ -60,6 +61,16 @@ html[data-dnb-modal-active] {
   &__vertical-alignment--top {
     padding-top: 5vh;
     align-items: flex-start;
+
+    &.dnb-modal__content--fullscreen {
+      padding-top: 0;
+    }
+
+    &.dnb-modal__content--auto-fullscreen {
+      @include modal-media.autoFullscreen() {
+        padding-top: 0;
+      }
+    }
   }
 
   &__overlay {

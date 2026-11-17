@@ -1,20 +1,7 @@
 import type { APIGatewayProxyResultV2 } from 'aws-lambda'
 import { requireEnv } from './env.js'
 import { json } from './http.js'
-import {
-  readSnapshot,
-  EMPTY_COMPONENT_USAGE,
-  EMPTY_MCP_USAGE,
-  EMPTY_PORTAL_VIEW_TRENDS,
-  type Snapshot,
-} from './snapshot-store.js'
-
-const EMPTY: Snapshot = {
-  generatedAt: '',
-  portalViewTrends: EMPTY_PORTAL_VIEW_TRENDS,
-  mcpUsage: EMPTY_MCP_USAGE,
-  componentUsage: EMPTY_COMPONENT_USAGE,
-}
+import { readSnapshot } from './snapshot-store.js'
 
 /**
  * Browser-facing dashboard read endpoint (`GET /data`). Access is gated by the
@@ -22,20 +9,15 @@ const EMPTY: Snapshot = {
  *
  * Intentionally read-only: it serves the snapshot produced by the scheduled
  * generator and never queries Athena or writes to S3, so its execution role
- * needs only `s3:GetObject` on the snapshot object. A missing snapshot (before
- * the generator has first run) yields an empty payload the frontend renders as
- * its empty state.
+ * needs only `s3:GetObject` on the snapshot object. Any read failure, including
+ * a snapshot the generator has not written yet, returns 503.
  */
 export async function handler(): Promise<APIGatewayProxyResultV2> {
   const bucket = requireEnv('DATA_BUCKET')
 
   try {
-    const snapshot = await readSnapshot(bucket)
-
-    return json(200, snapshot ?? EMPTY)
+    return json(200, await readSnapshot(bucket))
   } catch {
-    // A real read failure (not a cold-start miss) is surfaced so the frontend
-    // shows an error instead of a misleading empty state.
     return json(503, { error: 'Snapshot unavailable' })
   }
 }

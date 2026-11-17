@@ -8,7 +8,6 @@ export type RankedTableProps = {
   caption: string
   nameHeader?: string
   countHeader?: string
-  emptyText?: string
 }
 
 // A ranked list rendered as an accessible Eufemia table: a labeled name and
@@ -18,10 +17,9 @@ export default function RankedTable({
   caption,
   nameHeader = 'Name',
   countHeader = 'Count',
-  emptyText = 'No data.',
 }: RankedTableProps) {
   if (items.length === 0) {
-    return <P className="dashboard-ranked__empty">{emptyText}</P>
+    return <P className="dashboard-ranked__empty">No data.</P>
   }
 
   const max = items.reduce((m, item) => Math.max(m, item.count), 0)

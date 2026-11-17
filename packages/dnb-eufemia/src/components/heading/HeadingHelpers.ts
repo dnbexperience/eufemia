@@ -297,6 +297,7 @@ export const getHeadingSize = (
 ): HeadingLevelSizeResolutions => {
   switch (theme) {
     case 'sbanken':
+    case 'coconut':
       return {
         1: 'xx-large',
         2: 'x-large',

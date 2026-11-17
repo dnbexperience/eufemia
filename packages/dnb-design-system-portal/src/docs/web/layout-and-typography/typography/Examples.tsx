@@ -63,7 +63,7 @@ const FontUsageExample = ({ typoClass, fontFamily }) => (
 export function FontWeightByThemeExample() {
   const theme = useTheme()
 
-  if (theme?.brand === 'sbanken') {
+  if (theme?.isSbanken) {
     return (
       <Wrapper>
         {/* Regular */}
@@ -328,7 +328,7 @@ export function FontFamiliesExample() {
       {() => {
         function Example() {
           const theme = useTheme()
-          const supportsDnbFaces = theme?.brand !== 'sbanken'
+          const supportsDnbFaces = !theme?.isSbanken
           const weights: TypographyWeight[] = [
             'light',
             'regular',

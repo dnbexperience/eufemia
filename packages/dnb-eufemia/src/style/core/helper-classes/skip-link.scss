@@ -30,7 +30,7 @@
 
   --skip-link-border-width--default: 0.0625rem;
   --skip-link-border-width--hover: 0.125rem;
-  --skip-link-border-width--focus: var(--focus-ring-width);
+  --skip-link-border-width--focus: var(--focus-outline-width);
   --skip-link-overlay-bg: rgba(255 255 255 / 85%);
   .eufemia-theme__color-scheme--dark & {
     --skip-link-overlay-bg: rgba(20 20 20 / 85%);
@@ -77,18 +77,10 @@
     );
   }
 
-  // Focus styles
-  &:focus-visible {
-    color: var(--token-color-text-action-focus);
-  }
-  &:focus-visible::before {
-    background-color: var(--token-color-background-action-focus-subtle);
-  }
-  &:focus-visible:not(:active)::before {
-    @include utilities.whatInput('keyboard') {
-      @include utilities.fakeBorder(
-        var(--token-color-stroke-action-focus),
-        var(--skip-link-border-width--focus)
+  @include utilities.focusVisible() {
+    &::before {
+      @include utilities.focusOutline(
+        $width: var(--skip-link-border-width--focus)
       );
     }
   }

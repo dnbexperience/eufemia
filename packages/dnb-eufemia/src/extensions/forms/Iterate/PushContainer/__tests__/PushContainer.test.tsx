@@ -3309,7 +3309,7 @@ describe('PushContainer', () => {
 
     expect(document.querySelector('output')).toBeNull()
 
-    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('.dnb-chip input'))
 
     expect(document.querySelector('output')).toBeInTheDocument()
   })

@@ -7,7 +7,7 @@ import {
   renderHook,
   waitFor,
 } from '@testing-library/react'
-import ToggleButton from '../../ToggleButton'
+import Button from '../../Button'
 import type { UseHeightAnimationOptions } from '../useHeightAnimation'
 import { useHeightAnimation } from '../useHeightAnimation'
 import {
@@ -52,15 +52,15 @@ describe('useHeightAnimation', () => {
   const MockComponent = ({ open = false, animate = true }) => {
     const [openState, setOpenState] = useState(open)
 
-    const onChangeHandler = useCallback(({ checked }) => {
-      setOpenState(checked)
+    const onClickHandler = useCallback(() => {
+      setOpenState((open) => !open)
     }, [])
 
     return (
       <>
-        <ToggleButton checked={openState} onChange={onChangeHandler}>
+        <Button aria-expanded={openState} onClick={onClickHandler}>
           Toggle me
-        </ToggleButton>
+        </Button>
 
         <AnimatedContent open={open || openState} animate={animate} />
       </>

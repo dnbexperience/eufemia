@@ -84,10 +84,6 @@ export const demoPayload: DashboardPayload = {
         { name: '/web/get-started/quick-start', count: 4 },
       ],
       missedLookups: 7,
-      perLikelyComponent: [
-        { name: 'date-picker', count: 4 },
-        { name: 'input-masked', count: 1 },
-      ],
       perVersion: [
         {
           name: '11.17.0',

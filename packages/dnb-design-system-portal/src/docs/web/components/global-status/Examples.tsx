@@ -16,7 +16,7 @@ import {
   Button,
   Input,
   Section,
-  ToggleButton,
+  Chip,
   Icon,
 } from '@dnb/eufemia/src'
 import { confetti_medium } from '@dnb/eufemia/src/icons'
@@ -323,7 +323,7 @@ export const GlobalStatusUpdate = () => (
 
         return (
           <Section top innerSpace={{ block: 'large' }} variant="divider">
-            <ToggleButton
+            <Chip
               text="Toggle"
               variant="checkbox"
               right

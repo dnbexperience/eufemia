@@ -308,7 +308,7 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
     --drawer-list-option-color-bg--active
   );
 }
-.dnb-drawer-list__option--focus {
+html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus {
   --drawer-list-option-color-text: var(
     --drawer-list-option-color-text--focus
   );
@@ -316,21 +316,20 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
     --drawer-list-option-color-bg--focus
   );
 }
-.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
+html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   background-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--focus
-  );
-  --drawer-list-option-extra-border: var(
-    --drawer-list-option-extra-border--focus
-  );
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) .dnb-drawer-list__option__inner::before {
+  background-color: transparent;
 }
 @media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
-    outline: var(--focus-ring-width) solid transparent;
-    outline-offset: calc(var(--focus-ring-width) * -1);
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]) {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: var(--focus-outline-offset);
   }
 }
 @media screen and (min-width: 40.00625em) {
@@ -406,9 +405,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   }
   .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
     background-color: HighlightText;
-  }
-  html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus {
-    outline-color: HighlightText;
   }
 }
 .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
@@ -919,7 +915,7 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
     --drawer-list-option-color-bg--active
   );
 }
-.dnb-drawer-list__option--focus {
+html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus {
   --drawer-list-option-color-text: var(
     --drawer-list-option-color-text--focus
   );
@@ -927,21 +923,20 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
     --drawer-list-option-color-bg--focus
   );
 }
-.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
+html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   background-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--focus
-  );
-  --drawer-list-option-extra-border: var(
-    --drawer-list-option-extra-border--focus
-  );
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) .dnb-drawer-list__option__inner::before {
+  background-color: transparent;
 }
 @media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
-    outline: var(--focus-ring-width) solid transparent;
-    outline-offset: calc(var(--focus-ring-width) * -1);
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]) {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: var(--focus-outline-offset);
   }
 }
 @media screen and (min-width: 40.00625em) {
@@ -1017,9 +1012,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   }
   .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
     background-color: HighlightText;
-  }
-  html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus {
-    outline-color: HighlightText;
   }
 }
 .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {

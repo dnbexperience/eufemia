@@ -188,7 +188,9 @@ describe('Value.SummaryList', () => {
       )
 
       expect(document.querySelectorAll('dd')).toHaveLength(2)
-      expect(document.querySelectorAll('input')).toHaveLength(2)
+      expect(document.querySelectorAll('.dnb-input__input')).toHaveLength(
+        2
+      )
 
       const [valueFoo, valueBar] = Array.from(
         document.querySelectorAll('dd')
@@ -197,11 +199,13 @@ describe('Value.SummaryList', () => {
       expect(valueFoo).toHaveTextContent('Foo')
       expect(valueBar).toHaveTextContent('Bar')
 
-      const button = document.querySelector('.dnb-toggle-button__button')
+      const button = document.querySelector('.dnb-chip input')
       await userEvent.click(button)
 
       await waitFor(() => {
-        expect(document.querySelectorAll('input')).toHaveLength(0)
+        expect(
+          document.querySelectorAll('.dnb-input__input')
+        ).toHaveLength(0)
         expect(document.querySelectorAll('dd')).toHaveLength(0)
       })
     })

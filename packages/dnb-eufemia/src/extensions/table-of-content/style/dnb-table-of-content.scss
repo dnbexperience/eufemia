@@ -73,14 +73,16 @@
   }
 
   &__scroll {
-    padding: 0.25rem 1rem;
+    padding: 0.5rem 1rem;
     scroll-padding-block: 1rem;
   }
 
   &--sidebar &__scroll {
     flex: 1 1 auto;
     min-height: 0;
-    padding-inline: 0;
+    padding: calc(
+      var(--focus-outline-width) + var(--focus-outline-offset)
+    );
   }
 
   &__show-all.dnb-button {
@@ -159,6 +161,14 @@
     &:active {
       text-decoration: underline;
     }
+
+    @include utilities.focusVisible() {
+      --anchor-color: var(--anchor-color--default);
+      --anchor-icon-color: var(--anchor-icon-color--default);
+
+      @include utilities.focusOutline();
+      box-shadow: none;
+    }
   }
 
   &--sidebar &__link.dnb-anchor {
@@ -186,10 +196,6 @@
     &[aria-current]:active {
       color: var(--token-color-text-neutral);
     }
-
-    @include utilities.focusVisible() {
-      @include utilities.focusRing('always', $inset: inset);
-    }
   }
 
   &--stretch {
@@ -201,6 +207,10 @@
       color: HighlightText;
       background-color: Highlight;
       forced-color-adjust: none;
+
+      @include utilities.focusVisible() {
+        outline-color: CanvasText;
+      }
     }
   }
 }

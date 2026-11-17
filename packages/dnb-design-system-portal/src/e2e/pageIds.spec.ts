@@ -49,7 +49,7 @@ test.describe('Page ids', () => {
 
     await page
       .locator('#dnb-app-content')
-      .locator('a[href="/web/components/button"]')
+      .locator('a[href="/web/components/button/"]')
       .click()
     await expect(page).toHaveURL((url) =>
       url.pathname.startsWith('/web/components/button')

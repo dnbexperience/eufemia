@@ -1,12 +1,24 @@
 import type { ReactNode, RefObject } from 'react'
+import { useState } from 'react'
 import type { DrawerAllProps } from '../Drawer'
 import Drawer from '../Drawer'
+import { createDrawerReveal } from '../DrawerReveal'
 import Button from '../../button/Button'
+import Dialog from '../../dialog/Dialog'
+import Dropdown from '../../dropdown/Dropdown'
+import Popover from '../../popover/Popover'
 import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import {
+  act,
+  render,
+  fireEvent,
+  waitFor,
+  screen,
+} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 const props: DrawerAllProps = {
   noAnimation: true,
@@ -379,17 +391,180 @@ describe('Drawer', () => {
     })
   })
 
-  it('moves focus to content by default when opened', async () => {
+  it('moves focus to the dialog when opened', async () => {
     render(<Drawer noAnimation open title="Title" />)
 
     await waitFor(() => {
-      const title = document.querySelector(
-        '.dnb-modal__title'
-      ) as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      // Focus remains on body element - this appears to be the expected behavior for Drawer
-      expect(document.activeElement).toBe(document.body)
+      expect(document.activeElement).toHaveAttribute('role', 'dialog')
     })
+  })
+
+  it('moves focus to the close button when opened without a heading', async () => {
+    render(<Drawer noAnimation open />)
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('button.dnb-modal__close-button')
+      )
+    })
+  })
+
+  it('keeps focus in a field while typing updates the content', async () => {
+    const ControlledField = () => {
+      const [value, setValue] = useState('')
+      return (
+        <Drawer noAnimation open title="Title">
+          <Drawer.Body>
+            <input
+              id="field"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+            />
+          </Drawer.Body>
+        </Drawer>
+      )
+    }
+    render(<ControlledField />)
+
+    const field = document.getElementById('field') as HTMLInputElement
+    await userEvent.type(field, 'hello world')
+
+    expect(field).toHaveValue('hello world')
+    expect(document.activeElement).toBe(field)
+  })
+
+  it('looks for focusSelector in the body before the header', async () => {
+    render(
+      <Drawer noAnimation open title="Title" focusSelector="button">
+        <Drawer.Body>
+          <button id="body-button">Body button</button>
+        </Drawer.Body>
+      </Drawer>
+    )
+
+    await waitFor(() => {
+      expect(document.activeElement?.id).toBe('body-button')
+    })
+  })
+
+  it('keeps focus in a dialog opened on top of it', async () => {
+    const WithNestedDialog = () => {
+      const [nestedOpen, setNestedOpen] = useState(false)
+      return (
+        <Drawer noAnimation open title="Drawer">
+          <button id="open-nested" onClick={() => setNestedOpen(true)}>
+            Open
+          </button>
+          <Dialog noAnimation open={nestedOpen} title="Nested" />
+        </Drawer>
+      )
+    }
+    render(<WithNestedDialog />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Drawer' })
+      )
+    })
+
+    // Opening the dialog re-renders the Drawer content
+    fireEvent.click(document.getElementById('open-nested'))
+    // Let the focus timers of both modals run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'Nested' })
+    )
+  })
+
+  it('keeps focus in an open Dropdown list when the content changes', async () => {
+    const WithDropdown = () => {
+      const [, setCount] = useState(0)
+      return (
+        <Drawer noAnimation open title="Drawer">
+          <Dropdown
+            noAnimation
+            data={['A', 'B']}
+            onOpen={() => setCount((count) => count + 1)}
+          />
+        </Drawer>
+      )
+    }
+    render(<WithDropdown />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Drawer' })
+      )
+    })
+
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-drawer-list__options')
+    )
+  })
+
+  it('moves focus to the dialog when opened from a button in a Popover', async () => {
+    // The Popover renders in a portal that is not a modal. When the Drawer
+    // opens, focus is still on the Popover button, behind the Drawer.
+    const DrawerFromPopover = () => {
+      const [open, setOpen] = useState(false)
+      return (
+        <>
+          <Popover
+            noAnimation
+            trigger={
+              <button type="button" id="popover-trigger">
+                Open popover
+              </button>
+            }
+          >
+            <button
+              type="button"
+              id="popover-action"
+              onClick={() => setOpen(true)}
+            >
+              Open from popover
+            </button>
+          </Popover>
+          <Drawer
+            noAnimation
+            open={open}
+            omitTriggerButton
+            title="From popover"
+            onClose={() => setOpen(false)}
+          >
+            <p>Opened from a popover</p>
+          </Drawer>
+        </>
+      )
+    }
+    render(<DrawerFromPopover />)
+
+    fireEvent.click(document.getElementById('popover-trigger'))
+    const action = await waitFor(() => {
+      const element = document.getElementById('popover-action')
+      expect(element).toBeInTheDocument()
+      return element
+    })
+    // The Popover focuses its content when it opens, and again after
+    // 10 ms if focus is outside it. Let that run first, so that it does
+    // not take focus back from the Drawer.
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    action.focus()
+    expect(document.activeElement).toBe(action)
+    expect(action.closest('.eufemia-portal-root')).not.toBeNull()
+    expect(action.closest('.dnb-modal__content')).toBeNull()
+
+    fireEvent.click(action)
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'From popover' })
+    )
   })
 
   it('respects focusSelector over close button', async () => {
@@ -835,6 +1010,587 @@ describe('scrollbarGutter', () => {
     const scrollView = document.querySelector('.dnb-scroll-view')
     expect(scrollView).not.toHaveClass(
       'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+  })
+})
+
+describe('Drawer reveal', () => {
+  const renderDriver = createDrawerReveal({ target: '#reveal-page' })
+
+  beforeEach(() => {
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        observe() {}
+        disconnect() {}
+      }
+    )
+    const getBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function (this: HTMLElement) {
+      const bounds = getBoundingClientRect.call(this)
+      return this.classList.contains('dnb-drawer')
+        ? { ...bounds, width: 300 }
+        : bounds
+    })
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  })
+
+  const renderReveal = (drawerProps: DrawerAllProps = {}) =>
+    render(
+      <>
+        <main id="reveal-page">
+          <p>Page content</p>
+          <button>Page action</button>
+        </main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+          {...drawerProps}
+        >
+          <h1>Menu</h1>
+          <button>Menu action</button>
+          <input type="range" aria-label="Menu setting" />
+        </Drawer>
+      </>
+    )
+
+  const swipe = (element: Element, distance: number, cancel = false) => {
+    fireEvent.touchStart(element, {
+      touches: [{ clientX: 20, clientY: 100 }],
+    })
+    fireEvent.touchMove(element, {
+      touches: [{ clientX: 20 + Math.sign(distance) * 10, clientY: 100 }],
+    })
+    fireEvent.touchMove(element, {
+      touches: [{ clientX: 20 + distance, clientY: 100 }],
+    })
+    if (cancel) {
+      fireEvent.touchCancel(element, { touches: [] })
+    } else {
+      fireEvent.touchEnd(element, { touches: [] })
+    }
+  }
+
+  it('does not install reveal listeners without a driver', () => {
+    const addEventListener = vi.spyOn(document, 'addEventListener')
+    renderReveal({ renderDriver: undefined })
+
+    expect(
+      addEventListener.mock.calls.filter(([name]) =>
+        ['touchstart', 'touchmove', 'touchend', 'touchcancel'].includes(
+          name
+        )
+      )
+    ).toEqual([])
+    swipe(document.querySelector('#reveal-page p'), 220)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
+  it('removes reveal listeners and restores the page on unmount', () => {
+    const addEventListener = vi.spyOn(document, 'addEventListener')
+    const removeEventListener = vi.spyOn(document, 'removeEventListener')
+    const { unmount } = renderReveal()
+    const page = document.querySelector<HTMLElement>('#reveal-page')
+    page.style.transform = 'translateY(2px)'
+    page.style.opacity = '0.9'
+    page.inert = true
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    const listeners = addEventListener.mock.calls.filter(([name]) =>
+      [
+        'touchstart',
+        'touchmove',
+        'touchend',
+        'touchcancel',
+        'click',
+      ].includes(name)
+    )
+
+    unmount()
+
+    for (const [name, listener] of listeners) {
+      expect(removeEventListener).toHaveBeenCalledWith(
+        name,
+        listener,
+        true
+      )
+    }
+    expect(page.style.transform).toBe('translateY(2px)')
+    expect(page.style.opacity).toBe('0.9')
+    expect(page.inert).toBe(true)
+    expect(page).not.toHaveClass('dnb-drawer__reveal-target')
+  })
+
+  it('moves the selected page and cleans up on dismissal', () => {
+    document.documentElement.style.overflowX = 'hidden'
+    renderReveal()
+    const page = document.querySelector<HTMLElement>('#reveal-page')
+    const previousInert = page.inert
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    expect(document.querySelector('[role=dialog]')).toHaveClass(
+      'dnb-drawer__reveal'
+    )
+    expect(page).toHaveClass('dnb-drawer__reveal-target')
+    expect(page.style.transform).toBe('translate3d(300px, 0, 0)')
+    expect(page.inert).toBe(true)
+
+    fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+    expect(page).not.toHaveClass('dnb-drawer__reveal-target')
+    expect(page.style.transform).toBe('')
+    expect(page.inert).toBe(previousInert)
+    expect(document.documentElement.style.overflowX).toBe('hidden')
+  })
+
+  it.each(['dismissal', 'unmount'])(
+    'restores horizontal overflow on iOS after %s',
+    (action) => {
+      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)'
+      )
+      document.documentElement.style.overflowX = 'hidden'
+      document.body.style.overflowX = 'visible'
+      const { unmount } = renderReveal()
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+      expect(document.documentElement.style.overflowX).toBe('clip')
+      expect(document.body.style.overflowX).toBe('clip')
+
+      if (action === 'unmount') {
+        unmount()
+      } else {
+        fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+      }
+
+      expect(document.documentElement.style.overflowX).toBe('hidden')
+      expect(document.body.style.overflowX).toBe('visible')
+    }
+  )
+
+  it('keeps focus on the dialog when it has no heading', async () => {
+    render(
+      <>
+        <main id="reveal-page">
+          <button>Page action</button>
+        </main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+          dialogTitle="Menu"
+        >
+          <button>Menu action</button>
+        </Drawer>
+      </>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    const dialog = document.querySelector('[role=dialog]')
+    expect(document.activeElement).toBe(dialog)
+
+    await act(() => new Promise((resolve) => setTimeout(resolve, 10)))
+    expect(document.activeElement).toBe(dialog)
+  })
+
+  it('moves focus to the focusSelector element', async () => {
+    renderReveal({ focusSelector: 'input[type=range]' })
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('input[type=range]')
+      )
+    })
+  })
+
+  it('passes accessibility checks with the reveal driver', async () => {
+    const component = renderReveal({ open: true, title: 'Menu' })
+
+    expect(
+      await axeComponent(
+        component,
+        document.querySelector('[role=dialog]')
+      )
+    ).toHaveNoViolations()
+  })
+
+  it('keeps the reveal header outside the content scroll area', () => {
+    const scrollRef: RefObject<HTMLElement> = { current: null }
+    renderReveal({ open: true, scrollRef, scrollbarGutter: 'stable' })
+
+    expect(scrollRef.current).toHaveClass('dnb-drawer__reveal-scroll')
+    expect(scrollRef.current).toHaveClass(
+      'dnb-scroll-view--scrollbar-gutter-stable'
+    )
+    expect(scrollRef.current).toContainElement(
+      document.querySelector('.dnb-drawer__content')
+    )
+    expect(scrollRef.current).not.toContainElement(
+      document.querySelector('.dnb-drawer__navigation')
+    )
+  })
+
+  it('respects disabled and controlled state from Provider', () => {
+    const renderDriver = createDrawerReveal({ target: '#provider-page' })
+    const { rerender } = render(
+      <Provider Drawer={{ disabled: true }}>
+        <main id="provider-page">Page</main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+        >
+          <h1>Menu</h1>
+        </Drawer>
+      </Provider>
+    )
+    swipe(document.querySelector('#provider-page'), 220)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+
+    rerender(
+      <Provider Drawer={{ open: true }}>
+        <main id="provider-page">Page</main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+        >
+          <h1>Menu</h1>
+        </Drawer>
+      </Provider>
+    )
+    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+    expect(document.querySelector('#provider-page')).toHaveClass(
+      'dnb-drawer__reveal-target'
+    )
+  })
+
+  it('keeps the page revealed and dismissible when animation options change', () => {
+    const { rerender } = renderReveal({ open: true })
+    const page = document.querySelector<HTMLElement>('#reveal-page')
+    expect(page.style.transform).toBe('translate3d(300px, 0, 0)')
+
+    rerender(
+      <>
+        <main id="reveal-page">Page</main>
+        <Drawer
+          open
+          renderDriver={renderDriver}
+          containerPlacement="left"
+          animationDuration={150}
+          noAnimation
+        >
+          <h1>Menu</h1>
+        </Drawer>
+      </>
+    )
+    expect(page.style.transform).toBe('translate3d(300px, 0, 0)')
+    swipe(document.querySelector('[role=dialog]'), -220)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
+  it('uses the same duration when opening and closing', async () => {
+    renderReveal({ noAnimation: false })
+    const page = document.querySelector<HTMLElement>('#reveal-page')
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    const dialog = document.querySelector<HTMLElement>('[role=dialog]')
+    for (const element of [page, dialog]) {
+      expect(
+        element.style.getPropertyValue('--drawer-reveal-duration')
+      ).toBe('300ms')
+    }
+
+    fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+    for (const element of [page, dialog]) {
+      expect(
+        element.style.getPropertyValue('--drawer-reveal-duration')
+      ).toBe('300ms')
+    }
+    await waitFor(() => {
+      expect(dialog).not.toBeInTheDocument()
+    })
+    expect(page.style.getPropertyValue('--drawer-reveal-duration')).toBe(
+      ''
+    )
+  })
+
+  it('settles a closing drag from its last painted position', async () => {
+    renderReveal({ noAnimation: false })
+    const page = document.querySelector<HTMLElement>('#reveal-page')
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    await waitFor(() => {
+      expect(page.style.transform).toBe('translate3d(300px, 0, 0)')
+    })
+    const content = document.querySelector('.dnb-drawer__content h1')
+    const transform = vi.spyOn(page.style, 'transform', 'set')
+
+    swipe(content, -220)
+
+    expect(transform.mock.calls.flat()).not.toContain(
+      'translate3d(300px, 0, 0)'
+    )
+    expect(page.style.transform).toBe('translate3d(0px, 0, 0)')
+    await waitFor(() => {
+      expect(
+        document.querySelector('[role=dialog]')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  it('ignores overflow outside the menu when starting a closing drag', () => {
+    renderReveal()
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    const root = document.querySelector('[role=dialog]').parentElement
+    root.style.overflowX = 'auto'
+    Object.defineProperty(root, 'scrollWidth', { value: 600 })
+    Object.defineProperty(root, 'clientWidth', { value: 390 })
+
+    swipe(document.querySelector('.dnb-drawer__content h1'), -220)
+
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
+  it.each([
+    '[role=dialog]',
+    '.dnb-drawer__content h1',
+    '.dnb-drawer__content button',
+  ])(
+    'opens with a right swipe and closes with a left swipe on %s',
+    (selector) => {
+      const onOpen = vi.fn()
+      const onClose = vi.fn()
+      renderReveal({ onOpen, onClose })
+
+      swipe(document.querySelector('#reveal-page p'), 220)
+      expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+      expect(onOpen).toHaveBeenCalledTimes(1)
+      swipe(document.querySelector(selector), -40)
+      expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+      swipe(document.querySelector(selector), -220, true)
+      expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+      swipe(document.querySelector(selector), -220)
+      expect(
+        document.querySelector('[role=dialog]')
+      ).not.toBeInTheDocument()
+      expect(onClose).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it('snaps short and canceled opening gestures closed', () => {
+    renderReveal()
+    const page = document.querySelector('#reveal-page p')
+
+    swipe(page, 40)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+    swipe(page, 220, true)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
+  it('lets the app close a controlled Drawer after swiping it open', () => {
+    let navigate: () => void
+    function Example() {
+      const [open, setOpen] = useState(false)
+      navigate = () => setOpen(false)
+      return (
+        <>
+          <main id="reveal-page">Page content</main>
+          <Drawer
+            {...props}
+            open={open}
+            onOpen={() => setOpen(true)}
+            onClose={() => setOpen(false)}
+            renderDriver={renderDriver}
+            containerPlacement="left"
+          >
+            <h1>Menu</h1>
+          </Drawer>
+        </>
+      )
+    }
+    render(<Example />)
+    swipe(document.querySelector('#reveal-page'), 220)
+    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+    act(() => navigate())
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
+  it.each([0, 1])(
+    'keeps a click with detail %i available immediately after a drag',
+    (detail) => {
+      renderReveal()
+      swipe(document.querySelector('#reveal-page p'), 220)
+      const action = document.querySelector('.dnb-drawer__content button')
+      const onClick = vi.fn()
+      action.addEventListener('click', onClick)
+
+      fireEvent.click(action, { detail })
+
+      expect(onClick).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it.each([false, true])(
+    'starts dragging without a jump and paints once per frame when open is %s',
+    (opened) => {
+      const frames = new Map<number, FrameRequestCallback>()
+      let frameId = 0
+      vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
+        (callback) => {
+          frames.set(++frameId, callback)
+          return frameId
+        }
+      )
+      vi.spyOn(window, 'cancelAnimationFrame').mockImplementation((id) => {
+        frames.delete(id)
+      })
+      renderReveal()
+      const page = document.querySelector<HTMLElement>('#reveal-page')
+      if (opened) {
+        fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+      }
+      expect(Number(page.style.opacity || 1)).toBeCloseTo(
+        opened ? 0.68 : 1
+      )
+      const content = opened
+        ? document.querySelector('.dnb-drawer__content h1')
+        : page.querySelector('p')
+      const position = (distance: number) =>
+        200 + (opened ? -distance : distance)
+      const paint = () => {
+        act(() => {
+          const callbacks = Array.from(frames.values())
+          frames.clear()
+          callbacks.forEach((callback) => callback(0))
+        })
+      }
+      fireEvent.touchStart(content, {
+        touches: [{ clientX: position(0), clientY: 100 }],
+      })
+      fireEvent.touchMove(content, {
+        touches: [{ clientX: position(9), clientY: 100 }],
+      })
+      expect(page.style.transform).toBe(
+        opened ? 'translate3d(300px, 0, 0)' : ''
+      )
+      fireEvent.touchMove(content, {
+        touches: [{ clientX: position(40), clientY: 100 }],
+      })
+      paint()
+      expect(page.style.transform).toBe(
+        `translate3d(${opened ? 300 : 0}px, 0, 0)`
+      )
+      expect(page).toHaveClass('dnb-drawer__reveal-dragging')
+      const initialStyle = page.style.cssText
+
+      for (const distance of [80, 120]) {
+        fireEvent.touchMove(content, {
+          touches: [{ clientX: position(distance), clientY: 100 }],
+        })
+      }
+      expect(page.style.cssText).toBe(initialStyle)
+
+      paint()
+      expect(page.style.transform).toBe(
+        `translate3d(${opened ? 220 : 80}px, 0, 0)`
+      )
+      for (const offset of [120, 210, 300]) {
+        const distance = 40 + (opened ? 300 - offset : offset)
+        fireEvent.touchMove(content, {
+          touches: [{ clientX: position(distance), clientY: 100 }],
+        })
+        paint()
+        expect(page.style.opacity).toBe('1')
+        const drawer = document.querySelector<HTMLElement>('.dnb-drawer')
+        expect(drawer.style.transform).toBe(
+          `translate3d(${offset - 300}px, 0, 0)`
+        )
+        drawer
+          .querySelectorAll<HTMLElement>(':scope > *')
+          .forEach((element) => {
+            expect(element.style.transform).toBe(
+              `translate3d(${300 - offset}px, 0, 0)`
+            )
+          })
+      }
+      fireEvent.touchCancel(content, { touches: [] })
+      expect(page).not.toHaveClass('dnb-drawer__reveal-dragging')
+      expect(page.style.transform).toBe(
+        opened ? 'translate3d(300px, 0, 0)' : ''
+      )
+      expect(page.style.opacity).toBe(opened ? '0.68' : '')
+    }
+  )
+
+  it.each([{ preventClose: true }, { preventOverlayClose: true }])(
+    'respects close restrictions: %j',
+    (restriction) => {
+      const onClose = vi.fn()
+      renderReveal({ ...restriction, onClose })
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+      swipe(document.querySelector('.dnb-drawer__content h1'), -220)
+      expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+      expect(onClose).not.toHaveBeenCalled()
+      expect(
+        document.querySelector<HTMLElement>('#reveal-page').style.transform
+      ).toBe('translate3d(300px, 0, 0)')
+    }
+  )
+
+  it('leaves interactive controls and vertical scrolling available', () => {
+    renderReveal()
+    swipe(document.querySelector('#reveal-page button'), 220)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+
+    const page = document.querySelector('#reveal-page p')
+    fireEvent.touchStart(page, {
+      touches: [{ clientX: 20, clientY: 100 }],
+    })
+    expect(
+      fireEvent.touchMove(page, {
+        touches: [{ clientX: 35, clientY: 200 }],
+      })
+    ).toBe(true)
+    fireEvent.touchEnd(page, { touches: [] })
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    swipe(document.querySelector('.dnb-drawer__content input'), -220)
+    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+    const heading = document.querySelector('.dnb-drawer__content h1')
+    fireEvent.touchStart(heading, {
+      touches: [{ clientX: 200, clientY: 100 }],
+    })
+    expect(
+      fireEvent.touchMove(heading, {
+        touches: [{ clientX: 190, clientY: 200 }],
+      })
+    ).toBe(true)
+    fireEvent.touchEnd(heading, { touches: [] })
+    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+  })
+
+  it('keeps the normal Drawer behavior for other placements', () => {
+    renderReveal({ containerPlacement: 'right' })
+    swipe(document.querySelector('#reveal-page p'), 220)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    expect(document.querySelector('[role=dialog]')).not.toHaveClass(
+      'dnb-drawer__reveal'
+    )
+    expect(document.querySelector('#reveal-page')).not.toHaveClass(
+      'dnb-drawer__reveal-target'
     )
   })
 })

@@ -5,7 +5,7 @@
 
 import { useState } from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { Skeleton, ToggleButton, Img } from '@dnb/eufemia/src'
+import { Skeleton, Chip, Img } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const ImagePlainExample = () => (
@@ -86,13 +86,13 @@ export const ImageSkeletonExample = () => (
             />
             <br />
             <Skeleton.Exclude>
-              <ToggleButton
+              <Chip
                 checked={state}
                 onChange={({ checked }) => setState(checked)}
                 top="large"
               >
                 Toggle
-              </ToggleButton>
+              </Chip>
             </Skeleton.Exclude>
           </Skeleton>
         )

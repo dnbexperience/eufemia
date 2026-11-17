@@ -6,7 +6,7 @@
 import { act, useContext } from 'react'
 import { render, screen } from '@testing-library/react'
 import HelpButton from '../../components/help-button/HelpButton'
-import ToggleButton from '../../components/toggle-button/ToggleButton'
+import Chip from '../../components/chip/Chip'
 
 import Context from '../Context'
 
@@ -28,28 +28,28 @@ describe('Context', () => {
     expect(typeof updateCurrent).toBe('function')
 
     return (
-      <ToggleButton.Group
+      <Chip.Group
         value={locale}
         onChange={({ value }) => {
           setLocale(value as string)
         }}
       >
-        <ToggleButton value="nb-NO" className="nb-NO">
+        <Chip value="nb-NO" className="nb-NO">
           nb-NO
-        </ToggleButton>
-        <ToggleButton value="sv-SE" className="sv-SE">
+        </Chip>
+        <Chip value="sv-SE" className="sv-SE">
           sv-SE
-        </ToggleButton>
-        <ToggleButton value="da-DK" className="da-DK">
+        </Chip>
+        <Chip value="da-DK" className="da-DK">
           da-DK
-        </ToggleButton>
-        <ToggleButton value="en-GB" className="en-GB">
+        </Chip>
+        <Chip value="en-GB" className="en-GB">
           en-GB
-        </ToggleButton>
-        <ToggleButton value="en-US" className="en-US">
+        </Chip>
+        <Chip value="en-US" className="en-US">
           en-US
-        </ToggleButton>
-      </ToggleButton.Group>
+        </Chip>
+      </Chip.Group>
     )
   }
 
@@ -101,17 +101,17 @@ describe('Context', () => {
     expect(screen.getByText(titleNb)).toBeInTheDocument()
 
     act(() => {
-      screen.getByRole('button', { name: 'en-GB' }).click()
+      screen.getByRole('radio', { name: 'en-GB' }).click()
     })
     expect(screen.getByText(titleGb)).toBeInTheDocument()
 
     act(() => {
-      screen.getByRole('button', { name: 'en-US' }).click()
+      screen.getByRole('radio', { name: 'en-US' }).click()
     })
     expect(screen.getByText(titleGb)).toBeInTheDocument()
 
     act(() => {
-      screen.getByRole('button', { name: 'nb-NO' }).click()
+      screen.getByRole('radio', { name: 'nb-NO' }).click()
     })
     expect(screen.getByText(titleNb)).toBeInTheDocument()
   })

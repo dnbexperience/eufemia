@@ -16,7 +16,7 @@
   }
 
   > pre:focus-visible {
-    @include utilities.focusRing();
+    @include utilities.focusOutline();
   }
 
   :global(.eufemia-theme) {
@@ -110,12 +110,6 @@ button.copyButtonStyle {
   flex-wrap: wrap;
   gap: 1rem;
 
-  :global(.dnb-forms-field-selection) {
-    :global(.dnb-toggle-button__shell) {
-      display: flex;
-    }
-  }
-
   margin: 0 0.0625rem; // So the border of the example box is not covered by the toolbar
   padding: 0.5rem 1rem;
 
@@ -200,15 +194,14 @@ button.copyButtonStyle {
 
       &:hover,
       &:focus-within {
-        box-shadow: 0 0 0 var(--focus-ring-width)
-          var(--token-color-stroke-action-focus);
+        @include utilities.focusOutline();
         border-start-start-radius: 0;
         border-start-end-radius: 0;
         border-end-start-radius: var(--border-radius);
         border-end-end-radius: var(--border-radius);
 
         :global(.focusmode) & {
-          box-shadow: none;
+          outline: none;
         }
       }
 

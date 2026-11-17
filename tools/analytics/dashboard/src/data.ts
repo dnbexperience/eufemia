@@ -18,7 +18,6 @@ export type McpTransportUsage = {
   perComponent?: CountListItem[]
   perPath?: CountListItem[]
   missedLookups?: number
-  perLikelyComponent?: CountListItem[]
   perVersion?: McpVersionUsage[]
 }
 

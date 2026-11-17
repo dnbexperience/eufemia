@@ -16,7 +16,7 @@ import type {
 import { clsx } from 'clsx'
 import useId from '../../../../shared/helpers/useId'
 import {
-  ToggleButton,
+  Chip,
   Dropdown,
   Radio,
   Autocomplete,
@@ -44,9 +44,11 @@ import type {
 import useDataValue from '../../hooks/useDataValue'
 import type { FormError } from '../../utils'
 import type { RadioProps } from '../../../../components/Radio'
-import type { ToggleButtonProps } from '../../../../components/ToggleButton'
+import type {
+  ChipProps,
+  ChipGroupProps,
+} from '../../../../components/Chip'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
-import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type IOption = {
@@ -142,7 +144,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
    * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/web/forms/Form/Appearance/).
    */
   size?:
-    | ToggleButtonGroupProps['size']
+    | ChipGroupProps['size']
     | RadioGroupProps['size']
     | AutocompleteAllProps['size']
     | DropdownAllProps['size']
@@ -367,8 +369,8 @@ function Selection(props: FieldSelectionProps) {
     case 'button':
     case 'radio-button': {
       const Component = (
-        variant === 'radio' ? Radio : ToggleButton
-      ) as typeof Radio & typeof ToggleButton
+        variant === 'radio' ? Radio : Chip
+      ) as typeof Radio & typeof Chip
 
       const items = renderRadioItems({
         id,
@@ -389,7 +391,7 @@ function Selection(props: FieldSelectionProps) {
 
       const additionalFieldBlockProps: FieldBlockProps = {
         asFieldset: hasRenderPropChildren || Children.count(items) > 1,
-        fieldsetRole: variant === 'radio' ? 'radiogroup' : 'group',
+        fieldsetRole: 'radiogroup',
       }
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
@@ -404,14 +406,15 @@ function Selection(props: FieldSelectionProps) {
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
-            size={
-              size as ToggleButtonGroupProps['size'] &
-                RadioGroupProps['size']
-            }
+            size={size as ChipGroupProps['size'] & RadioGroupProps['size']}
             className={cn}
             layoutDirection={
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
+            {...(variant !== 'radio' &&
+              additionalFieldBlockProps.asFieldset && {
+                attributes: { role: 'presentation' },
+              })}
             disabled={disabled}
             onChange={onChangeHandler}
             value={String(value ?? '')}
@@ -510,7 +513,7 @@ type OptionProps = ComponentProps<
     help: HelpProps
     title: ReactNode
     children: ReactNode
-    size?: ToggleButtonProps['size'] | RadioProps['size']
+    size?: ChipProps['size'] | RadioProps['size']
   }) => JSX.Element
 >
 
@@ -555,17 +558,15 @@ function renderRadioItems({
     iterateOverItems?.({ value, label })
 
     const Component = (
-      variant === 'radio' ? Radio : ToggleButton
-    ) as typeof Radio & typeof ToggleButton
+      variant === 'radio' ? Radio : Chip
+    ) as typeof Radio & typeof Chip
 
     return (
       <Component
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${id}`}
         variant={variant === 'radio-button' ? 'radio' : undefined}
-        label={variant === 'radio' ? label : undefined}
-        text={variant !== 'radio' ? label : undefined}
-        role="radio"
+        {...(variant === 'radio' ? { label } : { text: label })}
         value={String(value ?? valueProp) || undefined}
         status={
           hasError || checkForError([error, info, warning])

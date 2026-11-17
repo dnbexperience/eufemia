@@ -41,8 +41,6 @@ describe('MultiSelection', () => {
   it('should match the scrollable inline item list on focus', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="multi-selection-scrollable-inline"]',
-      screenshotSelector:
-        '[data-visual-test="multi-selection-scrollable-inline"] .dnb-forms-field-multi-selection__items',
       simulate: 'focus',
       simulateSelector:
         '[data-visual-test="multi-selection-scrollable-inline"] .dnb-forms-field-multi-selection__items',

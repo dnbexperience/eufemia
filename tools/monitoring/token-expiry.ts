@@ -1,4 +1,4 @@
-import type { Check } from './report-incident.ts'
+import type { Check } from './report.ts'
 
 const DAY = 86_400_000
 const WARN_WITHIN_DAYS = 14

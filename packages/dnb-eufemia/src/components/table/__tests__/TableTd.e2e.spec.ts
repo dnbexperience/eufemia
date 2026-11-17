@@ -24,7 +24,7 @@ test.describe('Td with onClick', () => {
         '[data-visual-test="table-navigation-cell"] .dnb-table__td__button[aria-pressed]'
       )
       .first()
-    const focusRing = '4px rgb(39, 106, 206)'
+    const focusRing = '3px rgb(39, 106, 206)'
     const selectedBorder = '1px rgb(8, 69, 77)'
 
     // Use the keyboard to focus and select the cell

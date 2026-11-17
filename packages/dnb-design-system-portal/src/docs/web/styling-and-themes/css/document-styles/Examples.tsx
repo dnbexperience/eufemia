@@ -41,6 +41,7 @@ export function DocumentLetter({
 }) {
   const theme = useTheme()
   const brand = brandProp ?? theme?.brand ?? 'ui'
+  const documentBrand = brand === 'coconut' ? 'sbanken' : brand
 
   return (
     <Theme brand={brand} colorScheme="light">
@@ -50,9 +51,10 @@ export function DocumentLetter({
         id="letter"
       >
         <header className={styles.letterHeader}>
-          <Logo svg={logos[brand]} height="2rem" />
+          <Logo svg={logos[documentBrand]} height="2rem" />
           <p className="dnb-document__return-address">
-            Returadresse: {brands[brand]}, Postboks 1600 Sentrum, 0021 Oslo
+            Returadresse: {brands[documentBrand]}, Postboks 1600 Sentrum,
+            0021 Oslo
           </p>
         </header>
         <div className={styles.recipient}>
@@ -108,7 +110,7 @@ export function DocumentLetter({
         <P className="dnb-document__signature dnb-print__keep-together">
           Vennlig hilsen
           <br />
-          {brands[brand]}
+          {brands[documentBrand]}
         </P>
         <footer className="dnb-document__footer">
           <P>
@@ -141,7 +143,7 @@ export function DocumentPreview() {
           label="Brand"
           labelDirection="horizontal"
           data={brands}
-          value={activeBrand}
+          value={activeBrand === 'coconut' ? 'sbanken' : activeBrand}
           onChange={({ data }) =>
             setTheme({ brand: data.selectedKey as DocumentBrand })
           }

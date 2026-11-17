@@ -223,8 +223,8 @@ describe('isTelemetryDisabled', () => {
 describe('createUsageReporter', () => {
   const resolver = {
     component: async (name: string) => name === 'Button',
-    likelyComponent: async (guess: string) =>
-      guess === 'DatePicker' ? 'date-picker' : null,
+    componentDocName: async (name: string) =>
+      name === 'DatePicker' ? 'date-picker' : null,
     docsFile: async (path: string) =>
       path === '/uilib/components/button.md',
     docsDir: async (path: string) => path === '/uilib/components',
@@ -323,47 +323,30 @@ describe('createUsageReporter', () => {
     expect(body.path).toBeUndefined()
   })
 
-  it('drops a component the docs do not contain, flags the miss and still counts the tool', async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
-    const reporter = createUsageReporter({
-      eufemiaVersion: VERSION,
-      env: {},
-      resolver,
-      fetchImpl: fetchImpl as unknown as typeof fetch,
-      logNotice: () => undefined,
-    })
+  it.each(['NotAComponent', 'DatePicker'])(
+    'sends only the tool and miss flag for the missed name %s',
+    async (name) => {
+      const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+      const reporter = createUsageReporter({
+        eufemiaVersion: VERSION,
+        env: {},
+        resolver,
+        fetchImpl: fetchImpl as unknown as typeof fetch,
+        logNotice: () => undefined,
+      })
 
-    reporter?.onToolCall('component_doc', { name: 'NotAComponent' })
-    await vi.runAllTimersAsync()
+      reporter?.onToolCall('component_doc', { name })
+      await vi.runAllTimersAsync()
 
-    expect(fetchImpl).toHaveBeenCalledTimes(1)
-    const body = JSON.parse(fetchImpl.mock.calls[0][1].body)
-    expect(body.tool).toBe('component_doc')
-    expect(body.component).toBeUndefined()
-    expect(body.componentMissed).toBe(true)
-    expect(body.likelyComponent).toBeUndefined()
-  })
-
-  it('sends the likely component for a missed guess, never the guess', async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
-    const reporter = createUsageReporter({
-      eufemiaVersion: VERSION,
-      env: {},
-      resolver,
-      fetchImpl: fetchImpl as unknown as typeof fetch,
-      logNotice: () => undefined,
-    })
-
-    reporter?.onToolCall('component_doc', { name: 'DatePicker' })
-    await vi.runAllTimersAsync()
-
-    const { body } = fetchImpl.mock.calls[0][1]
-    expect(JSON.parse(body)).toMatchObject({
-      componentMissed: true,
-      likelyComponent: 'date-picker',
-    })
-    expect(body).not.toContain('DatePicker')
-  })
+      expect(fetchImpl).toHaveBeenCalledTimes(1)
+      expect(JSON.parse(fetchImpl.mock.calls[0][1].body)).toEqual({
+        tool: 'component_doc',
+        componentMissed: true,
+        eufemiaVersion: VERSION,
+        timestamp: expect.any(String),
+      })
+    }
+  )
 
   it('does not flag a miss for a component that resolves', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
@@ -380,7 +363,6 @@ describe('createUsageReporter', () => {
 
     const body = JSON.parse(fetchImpl.mock.calls[0][1].body)
     expect(body.componentMissed).toBeUndefined()
-    expect(body.likelyComponent).toBeUndefined()
   })
 
   it('sends a resolved component under its doc name, never the name passed', async () => {

@@ -46,7 +46,9 @@ jobs:
 
       - name: Review tokens against the pull request base
         env:
-          BASE_BRANCH: ${{ github.base_ref }}
+          # Use the branch a PR merges into as base. If not, a stacked PR will
+          # use the base of the whole stack.
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         run: yarn workspace @dnb/eufemia review:tokens "origin/$BASE_BRANCH" "$RUNNER_TEMP/token-review.md"
 
       - name: Publish token review

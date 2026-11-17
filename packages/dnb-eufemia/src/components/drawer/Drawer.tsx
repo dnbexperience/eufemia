@@ -3,7 +3,7 @@
  *
  */
 import { useContext } from 'react'
-import type { JSX } from 'react'
+import type { JSX, ReactNode } from 'react'
 import Modal from '../modal/Modal'
 import DrawerContent from './DrawerContent'
 import DrawerBody from './parts/DrawerBody'
@@ -17,7 +17,26 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps
 
-function Drawer({
+function Drawer(ownProps: DrawerAllProps): JSX.Element {
+  const context = useContext(Context)
+  const { renderDriver, ...props } = {
+    ...context.Drawer,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
+  const Renderer = renderDriver?.Renderer
+  return Renderer ? (
+    <Renderer {...props} renderDrawer={renderDrawer} />
+  ) : (
+    <DrawerBase {...props} />
+  )
+}
+
+function renderDrawer(props: DrawerAllProps, content?: ReactNode) {
+  return <DrawerBase {...props} driverContent={content} />
+}
+
+function DrawerBase({
+  driverContent,
   id,
   contentId,
   focusSelector,
@@ -66,9 +85,7 @@ function Drawer({
   space,
 
   ...props
-}: DrawerAllProps): JSX.Element {
-  const context = useContext(Context)
-
+}: DrawerAllProps & { driverContent?: ReactNode }): JSX.Element {
   const modalProps = removeUndefinedProps({
     title,
     id,
@@ -124,12 +141,12 @@ function Drawer({
 
   return (
     <Modal
-      {...context.Drawer}
       {...modalProps}
       fullscreen={false} // to avoid double fullscreen as it's handled in DrawerContent
       contentClass={clsx('dnb-drawer__root', contentClass)}
     >
-      <DrawerContent {...context.Drawer} {...drawerProps} />
+      {driverContent}
+      <DrawerContent {...drawerProps} />
     </Modal>
   )
 }

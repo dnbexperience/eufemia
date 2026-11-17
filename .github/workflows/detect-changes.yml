@@ -6,12 +6,9 @@ name: Detect changes
 on:
   workflow_call:
     outputs:
-      standalone-tools-only:
-        description: "'true' when only tools that neither the library nor the portal is built from changed."
-        value: ${{ jobs.detect.outputs.standalone-tools-only }}
-      tests-only:
-        description: "'true' when only unit tests that the Run tests job runs changed."
-        value: ${{ jobs.detect.outputs.tests-only }}
+      packages-unaffected:
+        description: "'true' when only standalone tools or only unit tests changed, so no package build or E2E/visual test can change."
+        value: ${{ jobs.detect.outputs.packages-unaffected }}
 
 permissions:
   contents: read
@@ -25,8 +22,7 @@ jobs:
     timeout-minutes: 5
 
     outputs:
-      standalone-tools-only: ${{ steps.detect.outputs.standalone-tools-only }}
-      tests-only: ${{ steps.detect.outputs.tests-only }}
+      packages-unaffected: ${{ steps.detect.outputs.packages-unaffected }}
 
     steps:
       - name: Git checkout

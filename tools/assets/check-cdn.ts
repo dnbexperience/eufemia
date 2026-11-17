@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto'
-import { appendFileSync, writeFileSync } from 'node:fs'
-import { pathToFileURL } from 'node:url'
+import { buildReport } from '../monitoring/report.ts'
+import type { Check, CheckOptions, Report } from '../monitoring/report.ts'
+import { createProbe } from '../monitoring/probe.ts'
+import { runDiagnosticCli } from '../monitoring/diagnostic-cli.ts'
+import { readAkamaiBlockNote } from '../monitoring/akamai-block.ts'
 
 const cdn = 'https://assets.eufemia.dnb.no'
 const registry = 'https://registry.npmjs.org/@dnb%2feufemia'
@@ -25,49 +28,30 @@ const assets = [
   },
 ]
 
-export type Check = {
-  name: string
-  ok: boolean
-  detail: string
-  pending?: boolean
-}
-export type Report = {
-  status: 'healthy' | 'pending' | 'unhealthy'
-  checkedAt: string
-  latest?: string
-  checks: Check[]
-}
-
-type Options = {
-  fetch?: typeof fetch
-  now?: number
-  sleep?: (ms: number) => Promise<void>
-}
-
-export async function checkCdn(options: Options = {}): Promise<Report> {
+export async function checkCdn(
+  options: CheckOptions = {}
+): Promise<Report> {
   const request = options.fetch ?? fetch
   const now = options.now ?? Date.now()
-  const sleep =
-    options.sleep ??
-    ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))
   const checks: Check[] = []
+  const probe = createProbe(checks, options.sleep)
 
-  async function probe<T>(
+  function probeUrl<T>(
     name: string,
     url: string,
     validate: (body: Buffer, response: Response) => T
   ): Promise<T | undefined> {
-    let detail = ''
-    for (let attempt = 0; attempt < 3; attempt++) {
-      try {
+    return probe(
+      name,
+      async () => {
         const response = await request(url, {
           headers: { Origin: origin },
           redirect: 'error',
           signal: AbortSignal.timeout(10_000),
         })
         if (response.status !== 200) {
-          await response.body?.cancel()
-          throw new Error(`HTTP ${response.status}`)
+          const blockNote = await readAkamaiBlockNote(response)
+          throw new Error(`HTTP ${response.status}${blockNote}`)
         }
         const reader = response.body?.getReader()
         if (!reader) {
@@ -90,17 +74,10 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
         } finally {
           await reader.cancel()
         }
-        const result = validate(Buffer.concat(chunks), response)
-        checks.push({ name, ok: true, detail: url })
-        return result
-      } catch (error) {
-        detail = error instanceof Error ? error.message : 'Request failed'
-        if (attempt < 2) {
-          await sleep(2000 * (attempt + 1))
-        }
-      }
-    }
-    checks.push({ name, ok: false, detail: `${url}: ${detail}` })
+        return validate(Buffer.concat(chunks), response)
+      },
+      url
+    )
   }
 
   async function checkAssets(
@@ -110,7 +87,7 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
   ) {
     const results = await Promise.all(
       monitoredAssets.map((asset) =>
-        probe(
+        probeUrl(
           `${prefix || 'stable/'}${asset.path}`,
           `${cdn}/${prefix}${asset.path}`,
           (body, response) => {
@@ -149,7 +126,7 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
 
   // Stable availability is checked even when npm cannot answer.
   const stable = checkAssets('')
-  const metadata = await probe('npm latest', registry, (body) => {
+  const metadata = await probeUrl('npm latest', registry, (body) => {
     const data = JSON.parse(body.toString())
     const latest = data['dist-tags']?.latest
     if (typeof latest !== 'string' || !/^\d+\.\d+\.\d+$/.test(latest)) {
@@ -173,7 +150,7 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
 
   async function checkVersion(version: string) {
     const prefix = `v${version}/`
-    const hashes = await probe(
+    const hashes = await probeUrl(
       `${prefix}manifest`,
       `${cdn}/${prefix}.manifest.sha256`,
       (body) => {
@@ -207,7 +184,6 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
     return hashes
   }
 
-  let pending = false
   if (metadata) {
     const start = checks.length
     const hashes = await checkVersion(metadata.latest)
@@ -231,7 +207,6 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
           /HTTP (403|404)$/.test(check.detail)
         ) {
           check.pending = true
-          pending = true
           check.detail += ' (within the 60-minute deployment grace period)'
         }
       }
@@ -241,58 +216,7 @@ export async function checkCdn(options: Options = {}): Promise<Report> {
     }
   }
   await stable
-  checks.sort((a, b) => a.name.localeCompare(b.name))
-  const failed = checks.some((check) => !check.ok && !check.pending)
-  return {
-    status: failed ? 'unhealthy' : pending ? 'pending' : 'healthy',
-    checkedAt: new Date(now).toISOString(),
-    latest: metadata?.latest,
-    checks,
-  }
+  return buildReport(checks, now, metadata?.latest)
 }
 
-export function summarize(report: Report) {
-  return [
-    `CDN status: ${report.status}`,
-    `Checked: ${report.checkedAt}`,
-    `npm latest: ${report.latest ?? 'unknown'}`,
-    '',
-    ...report.checks.map(
-      (check) =>
-        `${check.ok ? 'PASS' : check.pending ? 'WAIT' : 'FAIL'} ${check.name}: ${check.detail}`
-    ),
-  ].join('\n')
-}
-
-if (
-  process.argv[1] &&
-  import.meta.url === pathToFileURL(process.argv[1]).href
-) {
-  let report: Report
-  try {
-    report = await checkCdn()
-  } catch {
-    report = {
-      status: 'unhealthy',
-      checkedAt: new Date().toISOString(),
-      checks: [
-        {
-          name: 'monitor',
-          ok: false,
-          detail:
-            'The CDN diagnostic could not complete its checks. No exception details were recorded.',
-        },
-      ],
-    }
-  }
-  writeFileSync(
-    'cdn-health-report.json',
-    JSON.stringify(report, null, 2) + '\n'
-  )
-  const summary = summarize(report)
-  process.stdout.write(summary + '\n')
-  if (process.env.GITHUB_STEP_SUMMARY) {
-    appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '\n')
-  }
-  process.exitCode = report.status === 'unhealthy' ? 1 : 0
-}
+await runDiagnosticCli(import.meta.url, 'CDN', () => checkCdn())

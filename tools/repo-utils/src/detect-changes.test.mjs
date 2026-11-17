@@ -14,7 +14,11 @@ test('unit tests in library and tools are tests only', () => {
       'packages/dnb-eufemia/src/components/button/__tests__/__snapshots__/Button.test.tsx.snap',
       'tools/mcp-lambda/src/__tests__/lambda-handler.test.ts',
     ]),
-    { standaloneToolsOnly: false, testsOnly: true }
+    {
+      standaloneToolsOnly: false,
+      testsOnly: true,
+      packagesUnaffected: true,
+    }
   )
 })
 
@@ -24,7 +28,11 @@ test('unit tests in a standalone tool are standalone and tests only', () => {
       'tools/analytics/__tests__/store.test.ts',
       'tools/analytics/dashboard/src/__tests__/App.test.tsx',
     ]),
-    { standaloneToolsOnly: true, testsOnly: true }
+    {
+      standaloneToolsOnly: true,
+      testsOnly: true,
+      packagesUnaffected: true,
+    }
   )
 })
 
@@ -51,7 +59,11 @@ test('one non-test file runs every job', () => {
       'packages/dnb-eufemia/src/components/button/__tests__/Button.test.tsx',
       'packages/dnb-eufemia/src/components/button/Button.tsx',
     ]),
-    { standaloneToolsOnly: false, testsOnly: false }
+    {
+      standaloneToolsOnly: false,
+      testsOnly: false,
+      packagesUnaffected: false,
+    }
   )
 })
 
@@ -61,7 +73,25 @@ test('standalone tool source is not tests only', () => {
       'tools/analytics/src/store.ts',
       '.github/workflows/analytics-lambda.yml',
     ]),
-    { standaloneToolsOnly: true, testsOnly: false }
+    {
+      standaloneToolsOnly: true,
+      testsOnly: false,
+      packagesUnaffected: true,
+    }
+  )
+})
+
+test('standalone tool source with a library unit test affects packages', () => {
+  assert.deepEqual(
+    classifyChanges([
+      'tools/analytics/src/store.ts',
+      'packages/dnb-eufemia/src/components/button/__tests__/Button.test.tsx',
+    ]),
+    {
+      standaloneToolsOnly: false,
+      testsOnly: false,
+      packagesUnaffected: false,
+    }
   )
 })
 
@@ -69,6 +99,7 @@ test('no changes run every job', () => {
   assert.deepEqual(classifyChanges([]), {
     standaloneToolsOnly: false,
     testsOnly: false,
+    packagesUnaffected: false,
   })
 })
 

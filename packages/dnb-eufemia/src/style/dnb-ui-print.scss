@@ -95,13 +95,18 @@
     .dnb-textarea__state,
     .dnb-checkbox__button,
     .dnb-radio__button,
-    .dnb-toggle-button__button {
+    .dnb-toggle-button__button,
+    .dnb-chip .dnb-radio__row,
+    .dnb-chip .dnb-checkbox__order,
+    .dnb-chip .dnb-chip__button {
       outline: 0.0625rem solid #000;
       outline-offset: -0.0625rem;
     }
 
-    // ToggleButton shows its selection only with a background and color
-    .dnb-toggle-button--checked .dnb-toggle-button__button {
+    .dnb-toggle-button--checked .dnb-toggle-button__button,
+    .dnb-chip .dnb-radio__row:has(input:checked),
+    .dnb-chip .dnb-checkbox__order:has(input:checked),
+    .dnb-chip .dnb-chip__button[aria-pressed='true'] {
       outline: 0.1875rem solid #000;
       outline-offset: -0.1875rem;
     }

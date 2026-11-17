@@ -198,11 +198,34 @@ describe('App (smoke)', () => {
     expect(trendCard().textContent).toContain('2026-08')
     expect(trendCard().textContent).not.toContain('2026-09-07')
 
-    fireEvent.click(screen.getByRole('button', { name: 'Week' }))
+    const group = within(trendCard()).getByRole('radiogroup', {
+      name: 'Group by',
+    })
+    const month = group.querySelector<HTMLInputElement>(
+      'input[value="month"]'
+    )
+    const week = group.querySelector<HTMLInputElement>(
+      'input[value="week"]'
+    )
+    expect(month.checked).toBe(true)
+    expect(week.checked).toBe(false)
 
+    fireEvent.click(week)
+
+    expect(week.checked).toBe(true)
+    expect(month.checked).toBe(false)
     expect(trendCard().textContent).toContain('2026-08-31')
     expect(trendCard().textContent).toContain('2026-09-07')
     expect(trendCard().textContent).toContain('2026-09-14')
+
+    fireEvent.click(week)
+    expect(week.checked).toBe(true)
+
+    fireEvent.click(month)
+    expect(month.checked).toBe(true)
+    expect(week.checked).toBe(false)
+    expect(trendCard().textContent).toContain('2026-08')
+    expect(trendCard().textContent).not.toContain('2026-09-07')
   })
 
   it('shows the newest month of top URLs first and switches month', async () => {
@@ -359,7 +382,6 @@ describe('App (smoke)', () => {
           web: {
             ...populated.mcpUsage?.web,
             missedLookups: 3,
-            perLikelyComponent: [{ name: 'date-picker', count: 2 }],
           },
         },
       },
@@ -376,7 +398,6 @@ describe('App (smoke)', () => {
     expect(container.textContent).toContain(
       "3 lookups named a component the docs don't have."
     )
-    expect(container.textContent).toContain('date-picker')
   })
 
   it('hides missed component lookups when there are none', async () => {

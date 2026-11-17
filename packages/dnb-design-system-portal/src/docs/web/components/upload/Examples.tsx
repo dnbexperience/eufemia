@@ -8,7 +8,7 @@ import {
   Badge,
   Img,
   Section,
-  ToggleButton,
+  Chip,
   Upload,
 } from '@dnb/eufemia/src'
 import { useEffect, useState } from 'react'
@@ -313,7 +313,7 @@ export const UploadIsLoading = () => (
               acceptedFileTypes={['jpg', 'png']}
               id="upload-is-loading"
             />
-            <ToggleButton
+            <Chip
               top="small"
               disabled={files.length < 1}
               onChange={({ checked }) =>
@@ -325,7 +325,7 @@ export const UploadIsLoading = () => (
               }
             >
               Files is loading toggle
-            </ToggleButton>
+            </Chip>
           </>
         )
       }
@@ -349,7 +349,7 @@ export const UploadErrorMessage = () => (
               acceptedFileTypes={['jpg', 'png']}
               id="upload-error-message"
             />
-            <ToggleButton
+            <Chip
               top="small"
               disabled={files.length < 1}
               onChange={({ checked }) => {
@@ -366,7 +366,7 @@ export const UploadErrorMessage = () => (
               }}
             >
               Toggle error message
-            </ToggleButton>
+            </Chip>
           </>
         )
       }

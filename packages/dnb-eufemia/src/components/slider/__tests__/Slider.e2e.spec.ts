@@ -52,8 +52,7 @@ test.describe('Slider', () => {
         await page.keyboard.press('Shift+Tab')
         await expect(marker).toBeFocused()
 
-        // With forced-color-adjust: none, the brand-colored box-shadow comes
-        // back, and the outline stays transparent
+        // Keep the system-colored outline visible in forced colors.
         await expect(marker).toHaveCSS('box-shadow', 'none')
         const outlineColor = await marker.evaluate(
           (element) => getComputedStyle(element).outlineColor
@@ -62,7 +61,8 @@ test.describe('Slider', () => {
 
         // outline-color alone does not prove a visible ring; also check its size.
         await expect(marker).toHaveCSS('outline-style', 'solid')
-        await expect(marker).toHaveCSS('outline-width', '4px')
+        await expect(marker).toHaveCSS('outline-width', '3px')
+        await expect(marker).toHaveCSS('outline-offset', '2px')
       })
     })
   }

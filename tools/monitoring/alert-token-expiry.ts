@@ -1,5 +1,5 @@
 import { appendFileSync } from 'node:fs'
-import type { Check } from './report-incident.ts'
+import type { Check } from './report.ts'
 import { daysUntilExpiry, tokenExpiryCheck } from './token-expiry.ts'
 
 const TOKENS = ['GHE_DEPLOY_PAT', 'GHE_MONITORING_DEPLOY_PAT']
@@ -92,7 +92,7 @@ async function main() {
           ? []
           : [
               '1. Renew tokens on internal GitHub: https://dnb.ghe.com/settings/personal-access-tokens',
-              `2. Update Actions secrets in the public repository: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/secrets/actions`,
+              `2. Update the secrets of the ghe-deploy environment in the public repository: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/environments`,
             ]),
       ].join('\n'),
       unfurl_links: false,

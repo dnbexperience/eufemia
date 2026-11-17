@@ -13,6 +13,12 @@ export default defineConfig({
   projects: [
     { name: 'firefox' },
     {
+      name: 'chromium-reveal',
+      testMatch: '**/sidebarMenuToggle.spec.ts',
+      grep: /swipes the inline|supports touch dragging/,
+      use: { browserName: 'chromium' },
+    },
+    {
       name: 'chromium-routes',
       testMatch: '**/deferredRoutes.spec.ts',
       use: { browserName: 'chromium' },

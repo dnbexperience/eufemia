@@ -256,7 +256,9 @@
       animation: progress-indicator-linear-bar-1 2.1s
         cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 
+      // Without the animation, the bar would have no width
       @include utilities.reducedMotion() {
+        right: 0;
         animation-duration: 0.01ms;
         animation-iteration-count: 1;
       }
@@ -268,6 +270,7 @@
         cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 
       @include utilities.reducedMotion() {
+        right: 0;
         animation-duration: 0.01ms;
         animation-iteration-count: 1;
       }

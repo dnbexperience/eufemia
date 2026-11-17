@@ -73,6 +73,7 @@ export default function mountHangingMotion(
   let suppressClick = false
   let visible = true
   let suspended = false
+  let restorePose: (() => void) | undefined
   let play: HomePlay | undefined
   let playTime = 0
   let returning: Animation[] = []
@@ -285,13 +286,89 @@ export default function mountHangingMotion(
     }
   }
   const updateVisibility = () => {
-    suspended =
-      !visible ||
-      document.hidden ||
-      !!document.querySelector('[aria-modal="true"]')
+    const modal = !!document.querySelector('[aria-modal="true"]')
+    suspended = !visible || document.hidden || modal
     root
       .closest('[data-portal-home]')
       .toggleAttribute('data-motion-hidden', suspended)
+    if (modal && !reduced.matches && !restorePose) {
+      const poses = items.flatMap(({ element }) =>
+        Array.from(element.children, (child) => {
+          const part = child as HTMLElement
+          const style = getComputedStyle(part)
+          const matrix = new DOMMatrix(style.transform)
+          return {
+            part,
+            transform: part.style.transform,
+            translate: part.style.translate,
+            animationName: part.style.animationName,
+            animations: part.getAnimations().map((animation) => ({
+              animation,
+              effect: animation.effect,
+              currentTime: animation.currentTime,
+              name:
+                'animationName' in animation
+                  ? animation.animationName
+                  : undefined,
+              resume: animation.playState === 'running',
+            })),
+            frozenTransform: element.hasAttribute('data-active')
+              ? style.transform
+              : `matrix(${[matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].join(',')})`,
+            frozenTranslate: style.translate,
+          }
+        })
+      )
+      // Paused animations still retain layers in Safari. Release them while the page moves.
+      poses.forEach(({ animations }) =>
+        animations.forEach(({ animation, name, resume }) => {
+          if (name === undefined) {
+            if (resume) {
+              animation.pause()
+            }
+            animation.effect = null
+          }
+        })
+      )
+      poses.forEach(({ part, frozenTransform, frozenTranslate }) => {
+        part.style.transform = frozenTransform
+        part.style.translate = frozenTranslate
+        part.style.animationName = 'none'
+      })
+      restorePose = () => {
+        poses.forEach(({ part, transform, translate, animationName }) => {
+          part.style.transform = transform
+          part.style.translate = translate
+          part.style.animationName = animationName
+        })
+        // Recreate CSS effects because WebKit loses their keyframes after detaching them.
+        poses.forEach(({ part, animations }) => {
+          const restored = part.getAnimations()
+          animations.forEach(
+            ({ animation, effect, name, currentTime, resume }) => {
+              if (name !== undefined) {
+                const idle = restored.find(
+                  (entry) =>
+                    'animationName' in entry &&
+                    entry.animationName === name
+                )
+                if (idle) {
+                  idle.currentTime = currentTime
+                }
+              } else {
+                animation.effect = effect
+                if (resume) {
+                  animation.play()
+                }
+              }
+            }
+          )
+        })
+      }
+    } else if (!modal && restorePose) {
+      restorePose()
+      restorePose = undefined
+    }
     if (suspended) {
       cancelAnimationFrame(frame)
       frame = 0
@@ -509,6 +586,8 @@ export default function mountHangingMotion(
     }
   }
   const reset = () => {
+    restorePose?.()
+    restorePose = undefined
     returning.forEach((animation) => animation.cancel())
     returning = []
     root.removeAttribute('data-home-play')

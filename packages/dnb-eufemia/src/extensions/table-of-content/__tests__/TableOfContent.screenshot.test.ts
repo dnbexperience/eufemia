@@ -35,9 +35,16 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="table-of-content-declarative"]',
       style: { width: '18rem' },
-      simulate: 'focus',
-      simulateSelector:
-        '[data-visual-test="table-of-content-declarative"] a',
+      simulate: [
+        {
+          action: 'focus',
+          selector: '[data-visual-test="table-of-content-declarative"] a',
+        },
+        {
+          action: 'realhover',
+          selector: '[data-visual-test="table-of-content-declarative"] a',
+        },
+      ],
     })
   })
 
@@ -80,9 +87,18 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
       wrapperStyle: {
         background: 'var(--token-color-background-neutral)',
       },
-      simulate: 'realhover',
-      simulateSelector:
-        '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+      simulate: [
+        {
+          action: 'focus',
+          selector:
+            '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+        },
+        {
+          action: 'realhover',
+          selector:
+            '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+        },
+      ],
     })
   })
 

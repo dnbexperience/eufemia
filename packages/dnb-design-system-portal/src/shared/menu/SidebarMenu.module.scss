@@ -1,4 +1,6 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+@use '@dnb/eufemia/src/extensions/sidebar-menu/style/sidebar-menu-header'
+  as header;
 @use './logo-background';
 
 :global {
@@ -87,33 +89,6 @@
   margin-block: 0;
 }
 
-.mobileDrawerStyle {
-  :global(.dnb-modal__close-button) {
-    position: relative;
-    top: 0.125rem;
-  }
-}
-
-.mobileDrawerLogoStyle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  display: flex;
-  align-items: center;
-
-  transform: translate(-50%, -50%);
-
-  :global(svg) {
-    width: 6rem;
-  }
-
-  :global(svg path) {
-    stroke: none;
-    fill: var(--token-color-icon-neutral);
-  }
-}
-
 .scrollContentStyle {
   width: 100%;
   min-width: 0;
@@ -128,6 +103,17 @@
   align-items: center;
   justify-content: center;
   padding-block: 0.75rem 0.5rem;
+
+  &[data-scrolled='true']::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset-block-start: 0;
+    inset-inline: -1.5rem;
+    height: 3rem;
+
+    @include header.fade();
+  }
 
   &[data-scrolled='true'] > a::before {
     opacity: 1;

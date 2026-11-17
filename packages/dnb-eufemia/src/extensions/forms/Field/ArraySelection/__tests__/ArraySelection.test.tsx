@@ -11,9 +11,50 @@ import {
   DataContext,
 } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import Chip from '../../../../../components/Chip'
 const nb = nbNO['nb-NO']
 
 describe('ArraySelection', () => {
+  it.each(['button', 'checkbox-button'] as const)(
+    'keeps %s selection independent of a surrounding Chip.Group',
+    async (variant) => {
+      const onChange = vi.fn()
+      const onGroupChange = vi.fn()
+      render(
+        <Chip.Group value="parent" onChange={onGroupChange}>
+          <Chip value="parent">Parent</Chip>
+          <Field.ArraySelection
+            variant={variant}
+            value={['one']}
+            onChange={onChange}
+          >
+            <Field.Option value="one">One</Field.Option>
+            <Field.Option value="two">Two</Field.Option>
+          </Field.ArraySelection>
+        </Chip.Group>
+      )
+
+      const [one, two] = document.querySelectorAll(
+        '.dnb-forms-field-array-selection .dnb-chip input'
+      )
+      expect(one).toHaveAttribute('type', 'checkbox')
+      expect(two).toHaveAttribute('type', 'checkbox')
+      expect(one).toBeChecked()
+      expect(two).not.toBeChecked()
+
+      await userEvent.click(two)
+
+      expect(one).toBeChecked()
+      expect(two).toBeChecked()
+      expect(onChange).toHaveBeenCalledWith(
+        ['one', 'two'],
+        expect.anything()
+      )
+      expect(onGroupChange).not.toHaveBeenCalled()
+      expect(document.querySelector('.dnb-chip input')).toBeChecked()
+    }
+  )
+
   describe('checkbox', () => {
     it('renders correctly', () => {
       render(
@@ -834,7 +875,7 @@ describe('ArraySelection', () => {
           </Field.ArraySelection>
         )
 
-        const options = document.querySelectorAll('.dnb-button__text')
+        const options = document.querySelectorAll('.dnb-chip__text')
         expect(options[0].textContent).toBe('title a')
         expect(options[1].textContent).toBe('title b')
       })
@@ -848,7 +889,7 @@ describe('ArraySelection', () => {
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
         expect(option1).toBeInTheDocument()
         expect(option2).toBeInTheDocument()
@@ -867,10 +908,11 @@ describe('ArraySelection', () => {
           'dnb-forms-field-block--label-height-large'
         )
 
-        const buttonElement: HTMLInputElement = document.querySelector(
-          '.dnb-toggle-button__button'
+        const buttonElement: HTMLInputElement =
+          document.querySelector('.dnb-chip input')
+        expect(buttonElement.closest('.dnb-chip')).toHaveClass(
+          'dnb-chip--size-large'
         )
-        expect(buttonElement.classList).toContain('dnb-button--size-large')
       })
 
       it('should render options in nested elements', () => {
@@ -886,7 +928,7 @@ describe('ArraySelection', () => {
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
 
         expect(option1).toBeInTheDocument()
@@ -908,9 +950,9 @@ describe('ArraySelection', () => {
           document.querySelectorAll('button, input')
         )
 
-        expect(option1).toHaveAttribute('type', 'button')
+        expect(option1).toHaveAttribute('type', 'checkbox')
         expect(option2).toHaveAttribute('type', 'text')
-        expect(option3).toHaveAttribute('type', 'button')
+        expect(option3).toHaveAttribute('type', 'checkbox')
       })
 
       it('has error class when error prop is provided', () => {
@@ -923,11 +965,11 @@ describe('ArraySelection', () => {
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
+          document.querySelectorAll('.dnb-chip')
         )
 
-        expect(option1).toHaveClass('dnb-toggle-button__status--error')
-        expect(option2).toHaveClass('dnb-toggle-button__status--error')
+        expect(option1).toHaveClass('dnb-checkbox__status--error')
+        expect(option2).toHaveClass('dnb-checkbox__status--error')
       })
 
       it('disables all options when disabled prop is true', () => {
@@ -939,7 +981,7 @@ describe('ArraySelection', () => {
         )
 
         const [option1, option2] = Array.from(
-          document.querySelectorAll('button')
+          document.querySelectorAll('.dnb-chip input')
         )
 
         expect(option1).toBeDisabled()
@@ -955,34 +997,34 @@ describe('ArraySelection', () => {
           </Field.ArraySelection>
         )
 
-        const buttons = document.querySelectorAll('button')
+        const buttons = document.querySelectorAll('.dnb-chip input')
 
         // Tab to first button and select it
         await userEvent.tab()
         expect(buttons[0]).toHaveFocus()
-        expect(buttons[0]).toHaveAttribute('aria-checked', 'false')
+        expect(buttons[0]).not.toBeChecked()
 
         await userEvent.keyboard(' ')
-        expect(buttons[0]).toHaveAttribute('aria-checked', 'true')
+        expect(buttons[0]).toBeChecked()
         expect(buttons[0]).toHaveFocus()
 
         // Deselect the first button - focus should be retained
         await userEvent.keyboard(' ')
-        expect(buttons[0]).toHaveAttribute('aria-checked', 'false')
+        expect(buttons[0]).not.toBeChecked()
         expect(buttons[0]).toHaveFocus()
 
         // Tab to second button and select it
         await userEvent.tab()
         expect(buttons[1]).toHaveFocus()
         await userEvent.keyboard(' ')
-        expect(buttons[1]).toHaveAttribute('aria-checked', 'true')
+        expect(buttons[1]).toBeChecked()
         expect(buttons[1]).toHaveFocus()
 
         // Tab to third button
         await userEvent.tab()
         expect(buttons[2]).toHaveFocus()
         await userEvent.keyboard(' ')
-        expect(buttons[2]).toHaveAttribute('aria-checked', 'true')
+        expect(buttons[2]).toBeChecked()
         expect(buttons[2]).toHaveFocus()
       })
 
@@ -1030,18 +1072,12 @@ describe('ArraySelection', () => {
         const element = document.querySelector('.dnb-form-status')
         expect(element).toHaveTextContent('Error message')
 
-        const [
-          optionA,
-          optionB,
-          optionC,
-          optionD,
-        ]: Array<HTMLButtonElement> = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
-        )
-        expect(optionA).toHaveClass('dnb-toggle-button__status--error')
-        expect(optionB).toHaveClass('dnb-toggle-button__status--error')
-        expect(optionC).toHaveClass('dnb-toggle-button__status--error')
-        expect(optionD).toHaveClass('dnb-toggle-button__status--error')
+        const [optionA, optionB, optionC, optionD]: Array<HTMLElement> =
+          Array.from(document.querySelectorAll('.dnb-chip'))
+        expect(optionA).toHaveClass('dnb-checkbox__status--error')
+        expect(optionB).toHaveClass('dnb-checkbox__status--error')
+        expect(optionC).toHaveClass('dnb-checkbox__status--error')
+        expect(optionD).toHaveClass('dnb-checkbox__status--error')
       })
 
       it('shows error style in FieldBlock', () => {
@@ -1059,18 +1095,12 @@ describe('ArraySelection', () => {
           </FieldBlock>
         )
 
-        const [
-          optionA,
-          optionB,
-          optionC,
-          optionD,
-        ]: Array<HTMLButtonElement> = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
-        )
-        expect(optionA).toHaveClass('dnb-toggle-button__status--error')
-        expect(optionB).toHaveClass('dnb-toggle-button__status--error')
-        expect(optionC).toHaveClass('dnb-toggle-button__status--error')
-        expect(optionD).toHaveClass('dnb-toggle-button__status--error')
+        const [optionA, optionB, optionC, optionD]: Array<HTMLElement> =
+          Array.from(document.querySelectorAll('.dnb-chip'))
+        expect(optionA).toHaveClass('dnb-checkbox__status--error')
+        expect(optionB).toHaveClass('dnb-checkbox__status--error')
+        expect(optionC).toHaveClass('dnb-checkbox__status--error')
+        expect(optionD).toHaveClass('dnb-checkbox__status--error')
       })
 
       it('should support "dataPath"', () => {
@@ -1107,23 +1137,11 @@ describe('ArraySelection', () => {
         expect(option2).toHaveTextContent('Bar!')
         expect(option3).toHaveTextContent('Baz!')
 
-        expect(option1.querySelector('button')).toHaveAttribute(
-          'aria-checked',
-          'false'
-        )
-        expect(option1).not.toHaveClass('dnb-toggle-button--checked')
+        expect(option1.querySelector('.dnb-chip input')).not.toBeChecked()
 
-        expect(option2.querySelector('button')).toHaveAttribute(
-          'aria-checked',
-          'true'
-        )
-        expect(option2).toHaveClass('dnb-toggle-button--checked')
+        expect(option2.querySelector('.dnb-chip input')).toBeChecked()
 
-        expect(option3.querySelector('button')).toHaveAttribute(
-          'aria-checked',
-          'false'
-        )
-        expect(option3).not.toHaveClass('dnb-toggle-button--checked')
+        expect(option3.querySelector('.dnb-chip input')).not.toBeChecked()
       })
 
       it('displays correct error messages for minItems and maxItems', () => {
@@ -1205,7 +1223,7 @@ describe('ArraySelection', () => {
           },
         })
 
-        const buttons = document.querySelectorAll('button')
+        const buttons = document.querySelectorAll('.dnb-chip input')
 
         // Select first button
         await userEvent.click(buttons[0])
@@ -1304,7 +1322,7 @@ describe('ArraySelection', () => {
           ],
         })
 
-        const buttons = document.querySelectorAll('button')
+        const buttons = document.querySelectorAll('.dnb-chip input')
 
         // Select first option (Foo)
         await userEvent.click(buttons[0])
@@ -1343,7 +1361,7 @@ describe('ArraySelection', () => {
         })
       })
 
-      it('should render button element', () => {
+      it('should render native checkbox inputs', () => {
         render(
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="foo">Foo</Field.Option>
@@ -1352,11 +1370,17 @@ describe('ArraySelection', () => {
         )
 
         const [first, second] = Array.from(
-          document.querySelectorAll('.dnb-toggle-button')
+          document.querySelectorAll('.dnb-chip')
         )
 
-        expect(first.querySelector('.dnb-button').tagName).toBe('BUTTON')
-        expect(second.querySelector('.dnb-button').tagName).toBe('BUTTON')
+        expect(first.querySelector('input')).toHaveAttribute(
+          'type',
+          'checkbox'
+        )
+        expect(second.querySelector('input')).toHaveAttribute(
+          'type',
+          'checkbox'
+        )
       })
 
       describe('ARIA', () => {
@@ -1385,7 +1409,7 @@ describe('ArraySelection', () => {
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('.dnb-chip input')
           )
           expect(first).toHaveAttribute('aria-required', 'true')
           expect(second).toHaveAttribute('aria-required', 'true')
@@ -1404,7 +1428,7 @@ describe('ArraySelection', () => {
           )
 
           const [first, second] = Array.from(
-            document.querySelectorAll('button')
+            document.querySelectorAll('.dnb-chip input')
           )
           expect(first).toHaveAttribute('aria-invalid', 'true')
           expect(second).toHaveAttribute('aria-invalid', 'true')
@@ -1438,8 +1462,10 @@ describe('ArraySelection', () => {
         const fieldset = document.querySelector('fieldset')
         expect(fieldset).not.toBeInTheDocument()
 
-        // Toggle buttons don't have individual labels like checkboxes do
-        expect(document.querySelectorAll('label')).toHaveLength(0)
+        // Each native input has its own option label.
+        expect(document.querySelectorAll('.dnb-chip label')).toHaveLength(
+          2
+        )
       })
 
       it('should validate with ARIA rules when using fieldset', async () => {

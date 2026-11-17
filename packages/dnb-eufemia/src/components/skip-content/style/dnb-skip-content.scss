@@ -20,9 +20,14 @@
     &::before {
       content: '';
       position: absolute;
-      inset: #{var(--focus-ring-width)};
+      inset: 0;
+      pointer-events: none;
 
-      @include utilities.focusRing();
+      @include utilities.whatInput(keyboard) {
+        @include utilities.focusOutline(
+          $offset: calc(-1 * var(--focus-outline-width))
+        );
+      }
     }
   }
 

@@ -14,7 +14,8 @@ test('static code blocks show keyboard focus and scroll with arrow keys', async 
 
   await code.locator('..').getByRole('button').press('Tab')
   await expect(code).toBeFocused()
-  await expect(code).not.toHaveCSS('box-shadow', 'none')
+  await expect(code).toHaveCSS('outline-style', 'solid')
+  await expect(code).toHaveCSS('outline-width', '3px')
   expect(
     await code.evaluate(
       (element) => element.scrollWidth > element.clientWidth
@@ -31,7 +32,7 @@ test('static code blocks show keyboard focus and scroll with arrow keys', async 
   await expect(code).not.toHaveCSS('outline-width', '0px')
 })
 
-test('live code editors show only the existing outer focus ring', async ({
+test('live code editors show an outer focus outline with a transparent gap', async ({
   page,
 }) => {
   await page.goto('/web/components/copy-on-click/demos/')
@@ -45,6 +46,10 @@ test('live code editors show only the existing outer focus ring', async ({
     .first()
     .press('Tab')
   await expect(code).toBeFocused()
-  await expect(editor).not.toHaveCSS('box-shadow', 'none')
+  await expect(editor).toHaveCSS('outline-style', 'solid')
+  await expect(editor).toHaveCSS('outline-width', '3px')
+  await expect(editor).toHaveCSS('outline-offset', '2px')
+  await expect(editor).toHaveCSS('box-shadow', 'none')
+  await expect(code).toHaveCSS('outline-style', 'none')
   await expect(code).toHaveCSS('box-shadow', 'none')
 })

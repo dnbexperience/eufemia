@@ -3,29 +3,36 @@ name: Deploy Preview
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches:
-      - '**'
-      - '!**--skip-ci'
-      - '!**--visual-reports'
-      - '!wip/**'
-      - '!experiments/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-# No job-wide `env:` on purpose: the build needs no repository secrets, and the
-# Cloudflare credentials are scoped to the deploy step that uses them.
+# No secrets in a job-wide `env:` on purpose: the build needs no repository
+# secrets, and the Cloudflare credentials are scoped to the deploy step that
+# uses them.
 
 jobs:
   deploy-preview:
     name: Build and deploy (branch preview)
+
+    # `branches:` would match the base branch, so the head branch is filtered here.
+    if: >-
+      !endsWith(github.head_ref, '--skip-ci') &&
+      !endsWith(github.head_ref, '--visual-reports') &&
+      !startsWith(github.head_ref, 'wip/') &&
+      !startsWith(github.head_ref, 'experiments/')
+
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    env:
+      # The stable alias of the `pr-<number>` branch deployed below.
+      PREVIEW_URL: 'https://pr-${{ github.event.pull_request.number }}.eufemia-e25.pages.dev'
+
     permissions:
       contents: read
-      pull-requests: write
+      deployments: write
 
     steps:
       - name: Git checkout
@@ -42,22 +49,22 @@ jobs:
         run: node tools/repo-utils/src/detect-changes.mjs
 
       - name: Setup dependencies
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Restore Portal social images
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         run: |
           node packages/dnb-design-system-portal/scripts/og-images/cdn.mts --optional
           node packages/dnb-design-system-portal/scripts/og-images/install.mts
 
       - name: Build
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         run: yarn workspace dnb-design-system-portal build
         env:
-          PORTAL_PUBLIC_ORIGIN: 'https://pr-${{ github.event.pull_request.number }}.eufemia-e25.pages.dev'
+          PORTAL_PUBLIC_ORIGIN: ${{ env.PREVIEW_URL }}
           VITE_EUFEMIA_STACKBLITZ_VERSION: 'https://pkg.pr.new/@dnb/eufemia@${{ github.event.pull_request.head.sha }}'
           VITE_GITHUB_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
           VITE_GITHUB_EDIT_REF: ${{ github.event.pull_request.head.ref }}
@@ -69,7 +76,7 @@ jobs:
       # business failing over a documentation link, and the release must not
       # either. Those decide for themselves by not running this step.
       - name: Validate internal links
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         run: yarn workspace dnb-design-system-portal validate:links
 
       # Cloudflare credentials are not exposed to Dependabot-triggered runs or
@@ -78,7 +85,7 @@ jobs:
       # never its value.
       - name: Skip if Cloudflare credentials are missing
         id: gate
-        if: steps.changes.outputs.tests-only != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -92,78 +99,62 @@ jobs:
 
       - name: Deploy to Cloudflare Pages (branch preview)
         id: pages_deploy
-        if: steps.changes.outputs.tests-only != 'true' && steps.gate.outputs.skip != 'true'
+        if: steps.changes.outputs.packages-unaffected != 'true' && steps.gate.outputs.skip != 'true'
         run: |
           set -euo pipefail
 
-          OUTPUT="$(yarn workspace dnb-design-system-portal wrangler pages deploy ./public \
+          yarn workspace dnb-design-system-portal wrangler pages deploy ./public \
             --project-name eufemia \
             --branch "$BRANCH" \
-            --commit-dirty=true)"
+            --commit-dirty=true
 
-          echo "$OUTPUT"
+          DEPLOYMENT_URL="$(jq -r 'select(.type == "pages-deploy-detailed") | .url' "$WRANGLER_OUTPUT_FILE_PATH")"
 
-          ALIAS_URL="$(echo "$OUTPUT" | sed -nE 's/.*Deployment alias URL:\s*(https:\/\/[^ ]+).*/\1/p')"
-          DEPLOYMENT_URL="$(echo "$OUTPUT" | sed -nE 's/.*Take a peek over at\s*(https:\/\/[^ ]+).*/\1/p')"
-
-          echo "alias_url=$ALIAS_URL" >> "$GITHUB_OUTPUT"
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_OUTPUT_FILE_PATH: ${{ runner.temp }}/wrangler-output.json
           # A predictable alias lets social metadata reference this preview.
           BRANCH: pr-${{ github.event.pull_request.number }}
 
-      - name: Post or update preview comment
-        if: success() && steps.changes.outputs.tests-only != 'true' && steps.gate.outputs.skip != 'true' && github.event.pull_request
+      # Shows the preview in the pull request's Deployments section and timeline.
+      - name: Create GitHub deployment
+        if: steps.changes.outputs.packages-unaffected != 'true' && steps.gate.outputs.skip != 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
-          ALIAS_URL: ${{ steps.pages_deploy.outputs.alias_url }}
           DEPLOYMENT_URL: ${{ steps.pages_deploy.outputs.deployment_url }}
         with:
           script: |
-            const aliasUrl = process.env.ALIAS_URL;
-            const deploymentUrl = process.env.DEPLOYMENT_URL;
-            const marker = "<!-- pages-preview-comment -->";
+            // Written first, so a failing API call still leaves both URLs.
+            await core.summary
+              .addHeading('Portal preview')
+              .addRaw(`**Branch preview (stable):** ${process.env.PREVIEW_URL}\n\n`)
+              .addRaw(`**Deployment (unique):** ${process.env.DEPLOYMENT_URL}\n`)
+              .write()
 
-            const body = [
-              marker,
-              "**Branch Preview URL (stable):**",
-              aliasUrl,
-              "",
-              "```",
-              aliasUrl,
-              "```",
-              "",
-              "**Deployment URL (unique):**",
-              deploymentUrl,
-              "",
-              "```",
-              deploymentUrl,
-              "```",
-              ""
-            ].join("\n");
+            const { owner, repo } = context.repo
 
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
+            const { data: deployment } = await github.rest.repos.createDeployment({
+              owner,
+              repo,
+              ref: context.payload.pull_request.head.sha,
+              environment: 'Portal preview',
+              transient_environment: true,
+              production_environment: false,
+              // Deploy without waiting for the other checks on this commit.
+              required_contexts: [],
+              auto_merge: false,
+            })
 
-            const existing = comments.find(c => c.body?.includes(marker));
-
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body,
-              });
-            }
+            await github.rest.repos.createDeploymentStatus({
+              owner,
+              repo,
+              deployment_id: deployment.id,
+              state: 'success',
+              environment_url: process.env.PREVIEW_URL,
+              log_url: `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`,
+              description: process.env.DEPLOYMENT_URL,
+              // Keep the previews of other pull requests active.
+              auto_inactive: false,
+            })

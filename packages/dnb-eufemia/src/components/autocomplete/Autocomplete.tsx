@@ -477,6 +477,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const showAllTimeoutRef = useRef<NodeJS.Timeout>(null)
   const preventFiringBlurEvent = useRef<boolean | null>(null)
   const closingFromChangeRef = useRef(false)
+  const skipCloseFocusRef = useRef(false)
   const suppressFocusHandlerRef = useRef(false)
   const selectAllActiveRef = useRef(false)
   const debouncedEventFnsRef = useRef<
@@ -1048,7 +1049,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
       value = String(value || '').trim()
 
-      setDisableHighlighting(false)
+      setDisableHighlighting(_disableHighlighting)
 
       let data: DrawerListInternalData = runFilter(value, options)
 
@@ -1063,7 +1064,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
       return data
     },
-    [runFilter, wrapWithShowAll, countData]
+    [runFilter, wrapWithShowAll, countData, _disableHighlighting]
   )
 
   const runFilterWithSideEffects = useCallback(
@@ -1636,6 +1637,13 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
       if (openOnFocus) {
         setHidden()
+      } else if (
+        drawerListRef.current.open &&
+        drawerListRef.current.data.length === 0
+      ) {
+        // An empty open list would appear when async results arrive later.
+        skipCloseFocusRef.current = true
+        drawerListRef.current.setHidden()
       }
 
       dispatchCustomElementEvent(propsRef.current, 'onBlur', {
@@ -1698,7 +1706,10 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         ...getEventObjects('onClose'),
       })
 
-      if (res !== false && !closingFromChangeRef.current) {
+      const skipFocus = skipCloseFocusRef.current
+      skipCloseFocusRef.current = false
+
+      if (res !== false && !closingFromChangeRef.current && !skipFocus) {
         setFocusOnInput()
       }
 
