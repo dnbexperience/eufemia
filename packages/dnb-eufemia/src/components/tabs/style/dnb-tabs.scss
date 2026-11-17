@@ -119,6 +119,11 @@
     pointer-events: none;
     transition: opacity 400ms ease-out;
 
+    .dnb-button__bounding {
+      inset: 0;
+      transform: scale(1.1, 1.4);
+    }
+
     &--visible {
       display: flex; // needs to be "flex" in order to make the transition work
       pointer-events: initial;

@@ -149,7 +149,7 @@ export type ButtonProps = {
    */
   wrap?: boolean
   /**
-   * Set to `true` to extend the click and touch area by 5% of the button width on each side and 20% of its height above and below, without changing its visible size or layout spacing. This does not guarantee a minimum target size. See [click and touch area](/web/components/button/info/#click-and-touch-area) for sizes, spacing, and customization with `.dnb-button__bounding`.
+   * Set to `true` to extend the click and touch area equally on every side by 20% of the button single-line height, without changing its visible size or layout spacing. This does not guarantee a minimum target size. See [click and touch area](/web/components/button/info/#click-and-touch-area) for sizes, spacing, and customization with `.dnb-button__bounding`.
    */
   bounding?: boolean
   /**
