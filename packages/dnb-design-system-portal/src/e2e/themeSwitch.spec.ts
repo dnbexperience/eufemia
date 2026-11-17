@@ -157,7 +157,7 @@ test('should apply the brand from the URL after hydration', async ({
 
   await expect(page.locator('#change-theme')).toHaveAttribute(
     'title',
-    'Sbanken (WIP)'
+    'Sbanken'
   )
   expect(hydrationErrors).toEqual([])
 })
@@ -180,12 +180,7 @@ test('should enable Coconut from the URL without offering it in settings', async
   await page.locator('#change-theme').click()
   await expect(
     page.locator('#change-theme-portal [role="option"]')
-  ).toHaveText([
-    'DNB',
-    'Sbanken (WIP)',
-    'DNB Eiendom',
-    'DNB Carnegie (WIP)',
-  ])
+  ).toHaveText(['DNB', 'Sbanken', 'DNB Eiendom', 'DNB Carnegie'])
 
   await page.evaluate(() => {
     const theme = JSON.parse(localStorage.getItem('eufemia-theme'))

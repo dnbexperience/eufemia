@@ -27,6 +27,7 @@ As a developer, you have the responsibility to have the technical knowledge abou
 - Test with **200%** in `font-size` during development <Icon icon={CheckIcon} aria-hidden />
 - Test page at **320px** screen width during development <Icon icon={CheckIcon} aria-hidden />
 - Test with **reduced motion** preferences enabled <Icon icon={CheckIcon} aria-hidden />
+- Test with simulated **color blindness** during development <Icon icon={CheckIcon} aria-hidden />
 
 ## Reduced motion support
 
@@ -63,6 +64,23 @@ Should be able to use the most commonly used screen readers like VoiceOver (Appl
 ### Your responsibility \{#screen-reader-users-your-responsibility\}
 
 Good keyboard support is crucial to making web applications accessible for assistive technologies. So - [think landmark and semantics first](/web/accessibility/checklist/#landmark--and-semantics-example). This also includes [typography](/web/development-guidelines/for-typography#think-semantics-first) and best practices for [images and illustrations](/web/accessibility/screenreader).
+
+## Color-blind users
+
+About 8% of men and 0.4% of women of European ancestry have a red-green color vision deficiency ([Birch, 2012](https://doi.org/10.1364/JOSAA.29.000313)), so they have trouble telling some colors apart. They need more than color to understand the content.
+
+> [**1.4.1 Use of Color:**](https://www.w3.org/TR/WCAG21/#use-of-color) Color is not used as the _only visual means_ of conveying information, indicating an action, prompting a response, or distinguishing a visual element.
+
+### Your responsibility \{#color-blind-users-your-responsibility\}
+
+You as a developer have to make sure that color is never the only way to show a meaning, such as an error, a status, a selection or a link. Also show it with text, an icon, a shape or an underline.
+
+Some Eufemia properties only change colors, so you have to add the text yourself:
+
+- A `status` without a message on a form component, such as `status={true}`. Then show the message yourself, for example in a [FormStatus](/web/components/form-status/) or a [GlobalStatus](/web/components/global-status/).
+- The `status` of a [Badge](/web/components/badge/), the `variant` of a [Section](/web/components/section/) and the `highlight` of a [Table](/web/components/table/) cell. Name the status or the reason in the content.
+
+Test your pages with simulated color blindness: in Chrome DevTools, open **Rendering** and use **Emulate vision deficiencies**.
 
 ## Typography accessibility
 

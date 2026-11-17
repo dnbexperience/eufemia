@@ -32,6 +32,14 @@ $ npm i @dnb/eufemia@13
 $ yarn add @dnb/eufemia@13
 ```
 
+## License
+
+Before upgrading to a version distributed with the **Eufemia DNB Project License v1.0**, confirm that your project is owned by or developed on behalf of a DNB Group entity. The license permits internal and customer-facing DNB Group projects, including suppliers working on DNB's behalf. Use in unrelated projects requires a separate written agreement with DNB Bank ASA.
+
+The license covers DNB-owned code, documentation, icons and other assets. Third-party materials and fonts remain subject to their own terms. Rights already granted under licenses accompanying earlier versions or separate agreements remain in effect, but do not automatically cover later versions.
+
+Read the [full license and usage guidance](/about/license/).
+
 ## CSS custom properties
 
 ### Design-token color migration
@@ -326,12 +334,6 @@ After:
 -import { ScrollView } from '@dnb/eufemia/fragments'
 +import { ScrollView } from '@dnb/eufemia'
 ```
-
-### Forms selection variants
-
-[Field.Toggle](/web/forms/base-fields/Toggle/), [Field.Selection](/web/forms/base-fields/Selection/), and [Field.ArraySelection](/web/forms/base-fields/ArraySelection/) use Chip for their button variants. Existing variant names, values, validation, and help remain supported.
-
-The controls have Chip's appearance and native checkbox or radio markup. Update custom CSS selectors and tests that target `.dnb-toggle-button` or button elements. Single selection uses one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes.
 
 ### [Field.Name.Company](/web/forms/feature-fields/Name/)
 

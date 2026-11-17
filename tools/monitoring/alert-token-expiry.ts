@@ -92,7 +92,7 @@ async function main() {
           ? []
           : [
               '1. Renew tokens on internal GitHub: https://dnb.ghe.com/settings/personal-access-tokens',
-              `2. Update Actions secrets in the public repository: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/secrets/actions`,
+              `2. Update the secrets of the ghe-deploy environment in the public repository: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/environments`,
             ]),
       ].join('\n'),
       unfurl_links: false,

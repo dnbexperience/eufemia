@@ -5,7 +5,15 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useState } from 'react'
-import { Badge, Avatar, Button, Grid, Flex, P } from '@dnb/eufemia/src'
+import {
+  Badge,
+  Avatar,
+  Button,
+  CountryFlag,
+  Grid,
+  Flex,
+  P,
+} from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const BadgeNotification = () => (
@@ -42,6 +50,24 @@ export const BadgeNotificationInline = () => (
   </ComponentBox>
 )
 
+export const BadgeNotificationIndicator = () => (
+  <ComponentBox data-visual-test="badge-notification-indicator">
+    <Flex.Horizontal align="center">
+      <Badge variant="notification" label="New messages" />
+      <Badge
+        variant="notification"
+        label="New messages"
+        vertical="top"
+        horizontal="right"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">A</Avatar>
+        </Avatar.Group>
+      </Badge>
+    </Flex.Horizontal>
+  </ComponentBox>
+)
+
 export const BadgeNotificationAvatar = () => (
   <ComponentBox
     hideCode
@@ -72,6 +98,21 @@ export const BadgeInformationInline = () => (
   </ComponentBox>
 )
 
+export const BadgeInformationFormattedContent = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="badge-variant-information-formatted-content"
+  >
+    <Badge
+      content={
+        <>
+          Due <strong>today</strong>
+        </>
+      }
+    />
+  </ComponentBox>
+)
+
 export const BadgeInformationAvatar = () => (
   <ComponentBox
     hideCode
@@ -88,7 +129,7 @@ export const BadgeInformationAvatar = () => (
 )
 
 export const BadgeButton = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="badge-button">
     {() => {
       const Example = () => {
         const [notifications, setNotifications] = useState(1)
@@ -111,6 +152,31 @@ export const BadgeButton = () => (
 
       return <Example />
     }}
+  </ComponentBox>
+)
+
+export const BadgeButtonSizes = () => (
+  <ComponentBox hideCode data-visual-test="badge-button-sizes">
+    <Flex.Stack gap="medium">
+      {[1, 1234].map((content) => (
+        <Flex.Container key={content} gap="medium" align="center">
+          {(['small', 'medium', 'default', 'large'] as const).map(
+            (size) => (
+              <Badge
+                key={size}
+                content={content}
+                label="Notifications"
+                variant="notification"
+                horizontal="right"
+                vertical="top"
+              >
+                <Button text="Messages" size={size} />
+              </Badge>
+            )
+          )}
+        </Flex.Container>
+      ))}
+    </Flex.Stack>
   </ComponentBox>
 )
 
@@ -194,6 +260,26 @@ export const BadgeStatus = () => (
       <Badge content="negative" status="negative" />
       <Badge content="negative (subtle)" status="negative" subtle />
     </Grid.Container>
+  </ComponentBox>
+)
+
+export const BadgeIcon = () => (
+  <ComponentBox data-visual-test="badge-icon">
+    <Flex.Horizontal gap="small">
+      <Badge content="Due today" icon="calendar" status="neutral" />
+      <Badge
+        content="Norway"
+        icon={<CountryFlag iso="NO" />}
+        status="neutral"
+        subtle
+      />
+      <Badge
+        content="DNB"
+        icon={<img src="/dnb/android-chrome-192x192.png" alt="" />}
+        status="neutral"
+        subtle
+      />
+    </Flex.Horizontal>
   </ComponentBox>
 )
 

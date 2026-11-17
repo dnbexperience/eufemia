@@ -44,6 +44,11 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
             '[data-visual-test="badge-variant-notification-inline"]',
         })
       })
+      it('have to match variant notification without content as an indicator', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-notification-indicator"]',
+        })
+      })
       it('have to match variant notification for avatar as content', async () => {
         await makeScreenshot({
           selector:
@@ -63,6 +68,12 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
             '[data-visual-test="badge-variant-information-inline"]',
         })
       })
+      it('have to match variant information with formatted content', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="badge-variant-information-formatted-content"] .dnb-badge',
+        })
+      })
       it('have to match variant information for avatar as content', async () => {
         await makeScreenshot({
           selector:
@@ -71,6 +82,14 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
     describe('positioning', () => {
+      it('keeps badges clear of wrapped button labels', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-button"] .dnb-badge__root',
+        })
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-button-sizes"]',
+        })
+      })
       it('have to match top left positioning', async () => {
         await makeScreenshot({
           selector:
@@ -93,6 +112,13 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         await makeScreenshot({
           selector:
             '.dnb-badge__root:has([data-visual-test="badge-bottom-right"])',
+        })
+      })
+    })
+    describe('icon', () => {
+      it('have to match an icon, a country flag and a logo', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-icon"]',
         })
       })
     })

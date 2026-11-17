@@ -1049,7 +1049,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
       value = String(value || '').trim()
 
-      setDisableHighlighting(false)
+      setDisableHighlighting(_disableHighlighting)
 
       let data: DrawerListInternalData = runFilter(value, options)
 
@@ -1064,7 +1064,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
       return data
     },
-    [runFilter, wrapWithShowAll, countData]
+    [runFilter, wrapWithShowAll, countData, _disableHighlighting]
   )
 
   const runFilterWithSideEffects = useCallback(

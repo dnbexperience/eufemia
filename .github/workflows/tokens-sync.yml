@@ -151,7 +151,9 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         # The report is still written and published, the run just keeps going
         continue-on-error: ${{ inputs.continue_on_token_review_failure }}
-        run: yarn workspace @dnb/eufemia review:tokens origin/main "$RUNNER_TEMP/token-review.md"
+        # Against HEAD, so the report covers what this run fetched and
+        # generated, not everything the branch already carries
+        run: yarn workspace @dnb/eufemia review:tokens HEAD "$RUNNER_TEMP/token-review.md"
 
       - name: Publish token review summary
         if: always() && steps.changes.outputs.changed == 'true'

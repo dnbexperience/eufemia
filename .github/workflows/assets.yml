@@ -69,6 +69,9 @@ jobs:
     if: github.event_name != 'pull_request' && github.repository == 'dnbexperience/eufemia'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # The GHE deploy tokens are secrets of this environment, which only `main`,
+    # `release` and release tags can use.
+    environment: ghe-deploy
 
     steps:
       - name: Git checkout

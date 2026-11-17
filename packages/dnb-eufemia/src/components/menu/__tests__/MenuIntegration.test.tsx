@@ -234,6 +234,46 @@ describe('Menu integration with real Popover', () => {
     vi.useRealTimers()
   })
 
+  it('skips disabled actions when focusing the first item of a nested menu', () => {
+    vi.useFakeTimers()
+
+    render(
+      <Menu.Root>
+        <Menu.Button text="File" icon="chevron_down" />
+        <Menu.List>
+          <Menu.Action text="New" />
+          <Menu.Root placement="right">
+            <Menu.Action text="Export as" />
+            <Menu.List>
+              <Menu.Action text="PDF" disabled />
+              <Menu.Action text="PNG" />
+            </Menu.List>
+          </Menu.Root>
+        </Menu.List>
+      </Menu.Root>
+    )
+
+    const button = document.querySelector('.dnb-button') as HTMLElement
+    fireEvent.click(button)
+    act(() => {
+      vi.advanceTimersByTime(100)
+    })
+
+    const exportTrigger = Array.from(
+      document.querySelectorAll('[role="menuitem"]')
+    ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
+    fireEvent.click(exportTrigger)
+    act(() => {
+      vi.advanceTimersByTime(100)
+    })
+
+    expect(document.activeElement?.getAttribute('role')).toBe('menuitem')
+    expect(document.activeElement?.textContent).toContain('PNG')
+    expect(document.activeElement?.getAttribute('tabindex')).toBe('0')
+
+    vi.useRealTimers()
+  })
+
   it('verifies nested trigger is inside parent popover content', () => {
     vi.useFakeTimers()
 

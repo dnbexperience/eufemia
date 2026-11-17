@@ -92,14 +92,14 @@ public GitHub (.github/workflows/analytics-lambda.yml)
           → generate dashboard/config.json → aws s3 sync → CloudFront invalidation
 ```
 
-- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from any branch. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
+- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from the branches and tags that the `ghe-deploy` environment allows. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
-- On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
+- On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run). In this repository, a missing token fails the job.
 - **Failure alerts**: a green public run only means the hand-off worked; see [Production health monitor](#production-health-monitor).
 
 ### Required configuration
 
-Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
+The deploy token is a secret of the `ghe-deploy` environment (see [Continuous deployment](../mcp-lambda/README.md#continuous-deployment)), and the internal repository name is a repository variable. Both are managed in the repository settings, not stored in this repo.
 
 ### Lambda execution roles
 

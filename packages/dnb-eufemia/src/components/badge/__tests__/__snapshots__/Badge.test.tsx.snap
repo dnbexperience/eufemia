@@ -28,6 +28,12 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   vertical-align: middle;
   flex-shrink: 0;
 }
+.dnb-badge__root--button-left > .dnb-button--has-text {
+  padding-left: max(var(--button-padding-left), var(--badge-width, 1.5rem) + 0.25rem);
+}
+.dnb-badge__root--button-right > .dnb-button--has-text {
+  padding-right: max(var(--button-padding-right), var(--badge-width, 1.5rem) + 0.25rem);
+}
 .dnb-badge__root .dnb-badge {
   display: flex;
   overflow: hidden;
@@ -44,12 +50,20 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   height: 1.5rem;
   border-radius: var(--token-radius-full);
 }
+.dnb-badge--variant-notification.dnb-badge--indicator {
+  min-width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+}
 .dnb-badge--variant-information {
   --badge-information-color: var(--token-color-text-neutral);
   padding: 0.125rem 0.5rem;
   border-radius: var(--token-radius-md);
   background-color: var(--badge-information-bg);
   color: var(--badge-information-color, inherit);
+}
+.dnb-badge__icon {
+  margin-inline-end: 0.5rem;
 }
 .dnb-badge--subtle {
   background-color: var(--badge-information-subtle-bg);
