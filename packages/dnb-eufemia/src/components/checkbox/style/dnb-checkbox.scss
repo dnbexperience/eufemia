@@ -102,22 +102,6 @@
     --token-color-stroke-action-hover
   );
 
-  // Focus state
-  --checkbox-color-gfx--focus: var(--token-color-icon-action-focus);
-  --checkbox-color-gfx-on--focus: var(--token-color-icon-neutral-ondark);
-  --checkbox-color-background--focus: var(
-    --token-color-background-action-focus-subtle
-  );
-  --checkbox-color-background-on--focus: var(
-    --token-color-background-action-focus
-  );
-  --checkbox-color-border-on--focus: var(
-    --token-color-stroke-action-focus-subtle
-  );
-  --checkbox-color-gfx__indeterminate--focus: var(
-    --token-color-background-action-focus
-  );
-
   // Error state
   --checkbox-color-gfx--error: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-on--error: var(
@@ -254,34 +238,24 @@
   }
 
   &__button {
+    position: relative;
+    z-index: 4;
+
     display: inline-block;
+
+    width: var(--checkbox-width--medium);
+    height: var(--checkbox-height--medium);
 
     box-shadow: var(--checkbox-border-inset) 0 0 0
       var(--checkbox-border-width, var(--checkbox-border-width--default))
       var(--checkbox-color-border, var(--checkbox-color-border-off));
     background-color: var(--checkbox-color-background-off);
+    border-radius: var(--checkbox-border-radius);
 
     // Forced colors mode removes the box-shadow border, but shows this outline
     @include utilities.forcedColorsOutline(
       var(--checkbox-border-width, var(--checkbox-border-width--default))
     );
-  }
-
-  &__focus {
-    display: none;
-
-    @include utilities.focusRing();
-  }
-
-  &__focus,
-  &__button {
-    position: relative;
-    z-index: 4;
-
-    width: var(--checkbox-width--medium);
-    height: var(--checkbox-height--medium);
-
-    border-radius: var(--checkbox-border-radius);
 
     .dnb-checkbox--large & {
       width: var(--checkbox-width--large);
@@ -573,16 +547,6 @@
       --checkbox-color-border--error
     );
     --checkbox-color-gfx__indeterminate--active: var(
-      --checkbox-color-gfx__indeterminate--error
-    );
-    --checkbox-color-gfx-on--focus: var(--token-color-icon-neutral-ondark);
-    --checkbox-color-background--focus: var(
-      --checkbox-color-background-off--error
-    );
-    --checkbox-color-background-on--focus: var(
-      --checkbox-color-background-on--error
-    );
-    --checkbox-color-gfx__indeterminate--focus: var(
       --checkbox-color-gfx__indeterminate--error
     );
   }

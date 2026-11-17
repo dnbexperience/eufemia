@@ -294,13 +294,6 @@ button .dnb-form-status__text {
     --token-color-background-action-hover-subtle
   );
   --radio-color-border--hover: var(--token-color-stroke-action-hover);
-  --radio-border-inset--focus: ;
-  --radio-border-width--focus: 0.25rem;
-  --radio-color-dot-on--focus: var(--token-color-background-action-focus);
-  --radio-color-background--focus: var(
-    --token-color-background-action-focus-subtle
-  );
-  --radio-color-border--focus: var(--token-color-stroke-action-focus);
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
 }
@@ -583,16 +576,12 @@ button .dnb-form-status__text {
   --radio-color-background--active: var(
     --token-color-background-error-subtle
   );
-  --radio-color-background--focus: var(
-    --token-color-background-error-subtle
-  );
   --radio-color-border--hover: var(--token-color-stroke-error);
   --radio-color-border--active: var(--token-color-stroke-error);
 }
 .dnb-radio__status--error:where(:not(.dnb-toggle-button *)) {
   --radio-color-dot-on--hover: var(--token-color-background-error);
   --radio-color-dot-on--active: var(--token-color-background-error);
-  --radio-color-dot-on--focus: var(--token-color-background-error);
 }
 .dnb-radio {
   /** Hover state **/

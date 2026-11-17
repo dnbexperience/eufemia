@@ -207,9 +207,6 @@ for (const forcedColors of ['none', 'active'] as const) {
       await expect(pill).toHaveCSS('outline-style', 'solid')
       await expect(pill).toHaveCSS('outline-width', '3px')
       await expect(pill).toHaveCSS('outline-offset', '2px')
-      await expect(
-        chip.locator('.dnb-checkbox__focus:visible')
-      ).toHaveCount(0)
 
       expect(
         await dot.evaluateAll((elements) =>

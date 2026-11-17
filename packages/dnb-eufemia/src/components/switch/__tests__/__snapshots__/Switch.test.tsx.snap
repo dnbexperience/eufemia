@@ -289,14 +289,6 @@ button .dnb-form-status__text {
   --switch-pressed-button-background: var(
     --token-color-background-action-pressed
   );
-  --switch-focus-background: var(
-    --token-color-background-action-focus-subtle
-  );
-  --switch-focus-border: var(--token-color-stroke-action-focus);
-  --switch-focus-button-background: var(
-    --token-color-background-action-focus
-  );
-  --switch-focus-icon: var(--token-color-icon-neutral-ondark);
   --switch-disabled-background: var(--token-color-background-neutral);
   --switch-disabled-border: var(--token-color-stroke-neutral-subtle);
   --switch-disabled-button-background: var(
@@ -655,9 +647,6 @@ html[data-whatinput=keyboard] .dnb-switch--surface-dark .dnb-switch__input:not([
   --switch-pressed-button-background: var(
     --token-color-background-error
   );
-  --switch-focus-background: var(--token-color-background-error-subtle);
-  --switch-focus-button-background: var(--token-color-background-error);
-  --switch-focus-icon: var(--token-color-icon-neutral-ondark);
 }
 html[data-whatinput=keyboard] .dnb-switch--surface-dark.dnb-switch__status--error .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button, html:not([data-whatinput=keyboard]) .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
   box-shadow: none;

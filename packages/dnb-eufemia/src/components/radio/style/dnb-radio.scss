@@ -58,15 +58,6 @@
   );
   --radio-color-border--hover: var(--token-color-stroke-action-hover);
 
-  // Focus state
-  --radio-border-inset--focus: ;
-  --radio-border-width--focus: 0.25rem;
-  --radio-color-dot-on--focus: var(--token-color-background-action-focus);
-  --radio-color-background--focus: var(
-    --token-color-background-action-focus-subtle
-  );
-  --radio-color-border--focus: var(--token-color-stroke-action-focus);
-
   // Bounding box
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
@@ -418,7 +409,7 @@
     --radio-color-dot-on--default: var(--token-color-background-error);
   }
 
-  // Hover, pressed and focus keep the error colors (a ToggleButton has its own)
+  // Hover and pressed keep the error colors (a ToggleButton has its own)
   &__status--error:where(:not(.dnb-toggle-button *)) &__input ~ &__button {
     --radio-border-width--active: 0.0625rem;
     --radio-color-background--hover: var(
@@ -427,16 +418,12 @@
     --radio-color-background--active: var(
       --token-color-background-error-subtle
     );
-    --radio-color-background--focus: var(
-      --token-color-background-error-subtle
-    );
     --radio-color-border--hover: var(--token-color-stroke-error);
     --radio-color-border--active: var(--token-color-stroke-error);
   }
   &__status--error:where(:not(.dnb-toggle-button *)) {
     --radio-color-dot-on--hover: var(--token-color-background-error);
     --radio-color-dot-on--active: var(--token-color-background-error);
-    --radio-color-dot-on--focus: var(--token-color-background-error);
   }
 
   /** Hover state **/

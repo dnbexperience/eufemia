@@ -44,14 +44,6 @@
   --switch-pressed-button-background: var(
     --token-color-background-action-pressed
   );
-  --switch-focus-background: var(
-    --token-color-background-action-focus-subtle
-  );
-  --switch-focus-border: var(--token-color-stroke-action-focus);
-  --switch-focus-button-background: var(
-    --token-color-background-action-focus
-  );
-  --switch-focus-icon: var(--token-color-icon-neutral-ondark);
   --switch-disabled-background: var(--token-color-background-neutral);
   --switch-disabled-border: var(--token-color-stroke-neutral-subtle);
   --switch-disabled-button-background: var(
@@ -482,9 +474,6 @@
     --switch-pressed-button-background: var(
       --token-color-background-error
     );
-    --switch-focus-background: var(--token-color-background-error-subtle);
-    --switch-focus-button-background: var(--token-color-background-error);
-    --switch-focus-icon: var(--token-color-icon-neutral-ondark);
   }
 
   html[data-whatinput='keyboard']
