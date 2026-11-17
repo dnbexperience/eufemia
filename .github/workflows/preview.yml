@@ -3,12 +3,6 @@ name: Deploy Preview
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches:
-      - '**'
-      - '!**--skip-ci'
-      - '!**--visual-reports'
-      - '!wip/**'
-      - '!experiments/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -21,6 +15,14 @@ concurrency:
 jobs:
   deploy-preview:
     name: Build and deploy (branch preview)
+
+    # `branches:` would match the base branch, so the head branch is filtered here.
+    if: >-
+      !endsWith(github.head_ref, '--skip-ci') &&
+      !endsWith(github.head_ref, '--visual-reports') &&
+      !startsWith(github.head_ref, 'wip/') &&
+      !startsWith(github.head_ref, 'experiments/')
+
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -101,19 +103,18 @@ jobs:
         run: |
           set -euo pipefail
 
-          OUTPUT="$(yarn workspace dnb-design-system-portal wrangler pages deploy ./public \
+          yarn workspace dnb-design-system-portal wrangler pages deploy ./public \
             --project-name eufemia \
             --branch "$BRANCH" \
-            --commit-dirty=true)"
+            --commit-dirty=true
 
-          echo "$OUTPUT"
-
-          DEPLOYMENT_URL="$(echo "$OUTPUT" | sed -nE 's/.*Take a peek over at\s*(https:\/\/[^ ]+).*/\1/p')"
+          DEPLOYMENT_URL="$(jq -r 'select(.type == "pages-deploy-detailed") | .url' "$WRANGLER_OUTPUT_FILE_PATH")"
 
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_OUTPUT_FILE_PATH: ${{ runner.temp }}/wrangler-output.json
           # A predictable alias lets social metadata reference this preview.
           BRANCH: pr-${{ github.event.pull_request.number }}
 
@@ -127,6 +128,7 @@ jobs:
           script: |
             // Written first, so a failing API call still leaves both URLs.
             await core.summary
+              .addHeading('Portal preview')
               .addRaw(`**Branch preview (stable):** ${process.env.PREVIEW_URL}\n\n`)
               .addRaw(`**Deployment (unique):** ${process.env.DEPLOYMENT_URL}\n`)
               .write()
