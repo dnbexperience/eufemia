@@ -28,7 +28,7 @@ describe('cleanupPackage', () => {
     expect(cleanedPackage).toHaveProperty('dependencies')
     expect(cleanedPackage).toHaveProperty('peerDependencies')
     expect(cleanedPackage.bin).toBe('./cli/eufemia.js')
-    expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE FILE')
+    expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE')
     // The published package is ESM; this is part of the transform the publish
     // guard reconstructs, so it belongs in this function rather than its caller.
     expect(cleanedPackage.type).toBe('module')

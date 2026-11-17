@@ -184,7 +184,7 @@ describe('Eufemia RAIWork plugin', () => {
 
     expect(generatedBody).toBe(canonicalBody)
     expect(generated).toContain(
-      'license: "Apache-2.0 with Commons Clause"'
+      'license: "Eufemia DNB Project License v1.0"'
     )
     expect(generated).toContain('version: "0.1.0"')
     expect(generated).toContain('platforms: ["darwin", "linux", "win32"]')

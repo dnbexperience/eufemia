@@ -6,7 +6,7 @@
     "version": "0.1.0",
     "title": "Eufemia Web",
     "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB web frontends and contributing Portal content.",
-    "license": "Apache-2.0 with Commons Clause",
+    "license": "Eufemia DNB Project License v1.0",
     "homepage": "https://eufemia.dnb.no",
     "repository": "https://github.com/dnbexperience/eufemia-agent-plugins",
     "tags": [

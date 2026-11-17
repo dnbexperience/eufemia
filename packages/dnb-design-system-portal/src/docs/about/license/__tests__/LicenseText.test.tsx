@@ -1,7 +1,20 @@
+import { readFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, render } from '@testing-library/react'
 import license from '../../../../../../../LICENSE?raw'
+import portalLicense from '../../../../../LICENSE?raw'
+import staticLicense from '../../../../../static/LICENSE.txt?raw'
 import LicenseText, { parseLicense } from '../LicenseText'
+
+const packageLicense = readFileSync(
+  path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '../../../../../../dnb-eufemia/LICENSE'
+  ),
+  'utf-8'
+)
 
 afterEach(cleanup)
 
@@ -14,7 +27,7 @@ function words(text: string) {
 // A term and its description are joined as "Term: description" again.
 function renderedText(container: HTMLElement) {
   return Array.from(
-    container.querySelectorAll('h2, p, dt, dd:not([aria-hidden])')
+    container.querySelectorAll('h2, h3, p, dt, dd:not([aria-hidden])')
   )
     .map((element) =>
       element.tagName === 'DT'
@@ -25,6 +38,17 @@ function renderedText(container: HTMLElement) {
 }
 
 describe('LicenseText', () => {
+  it.each([
+    ['npm package', packageLicense],
+    ['Portal package', portalLicense],
+    ['Portal download', staticLicense],
+  ])(
+    'keeps the %s license identical to the repository license',
+    (_, copy) => {
+      expect(copy).toBe(license)
+    }
+  )
+
   it('shows every word of the LICENSE file, in order', () => {
     const { container } = render(<LicenseText license={license} />)
 
@@ -36,7 +60,7 @@ describe('LicenseText', () => {
 
     expect(container.querySelectorAll('br')).toHaveLength(0)
     expect(container.querySelector('p').textContent).toBe(
-      'The Software is provided to you by the Licensor under the License, as defined below, subject to the following condition.'
+      'Copyright (c) 2018-present DNB Bank ASA. All rights reserved.'
     )
   })
 
@@ -44,15 +68,30 @@ describe('LicenseText', () => {
     const { container } = render(<LicenseText license={license} />)
 
     expect(container.querySelector('h2').textContent).toBe(
-      '"Commons Clause" License Condition v1.0'
+      'Eufemia DNB Project License v1.0'
     )
+  })
+
+  it('shows numbered sections as subheadings', () => {
+    const { container } = render(
+      <LicenseText
+        license={'Title\n\n1. Scope\n\nSome text.\n\n2. Permission'}
+      />
+    )
+
+    expect(
+      Array.from(container.querySelectorAll('h3')).map(
+        (heading) => heading.textContent
+      )
+    ).toEqual(['1. Scope', '2. Permission'])
   })
 
   it('shows the software, license and licensor as a definition list', () => {
     const { container } = render(<LicenseText license={license} />)
 
-    const terms = Array.from(container.querySelectorAll('dt'))
-    const descriptions = Array.from(container.querySelectorAll('dd'))
+    const facts = container.querySelector('dl')
+    const terms = Array.from(facts.querySelectorAll('dt'))
+    const descriptions = Array.from(facts.querySelectorAll('dd'))
 
     expect(terms.map((dt) => dt.textContent)).toEqual([
       'Software',
@@ -61,22 +100,22 @@ describe('LicenseText', () => {
     ])
     expect(descriptions.map((dd) => dd.textContent)).toEqual([
       'DNB Design System (Eufemia)',
-      'Apache 2.0 with Commons Clause',
+      'Eufemia DNB Project License v1.0',
       'DNB Bank ASA, Org nr. 984 851 006',
     ])
   })
 
   it('makes the URLs into links', () => {
-    const { container } = render(<LicenseText license={license} />)
+    const { container } = render(
+      <LicenseText license={'Title\n\nhttps://www.dnb.no/'} />
+    )
 
     const links = Array.from(container.querySelectorAll('a'))
 
     expect(links.map((a) => a.getAttribute('href'))).toEqual([
-      'https://commonsclause.com/',
       'https://www.dnb.no/',
     ])
     expect(links.map((a) => a.textContent)).toEqual([
-      'https://commonsclause.com/',
       'https://www.dnb.no/',
     ])
   })
