@@ -82,6 +82,14 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
     describe('positioning', () => {
+      it('keeps badges clear of wrapped button labels', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-button"] .dnb-badge__root',
+        })
+        await makeScreenshot({
+          selector: '[data-visual-test="badge-button-sizes"]',
+        })
+      })
       it('have to match top left positioning', async () => {
         await makeScreenshot({
           selector:

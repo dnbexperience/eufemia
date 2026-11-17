@@ -19,6 +19,8 @@ export type ComponentMarkers = {
   _cardControl?: 'close'
   /** Identifies a SidebarMenu compound part without importing it in Root. */
   _sidebarMenuRole?: 'item' | 'accordion' | 'group' | 'section'
+  /** Identifies a Button without importing it in Badge. */
+  _isButton?: boolean
   /**
    * Marks the component as a form element.
    * Used by `FieldBlock` to auto-detect whether to render as `<fieldset>`

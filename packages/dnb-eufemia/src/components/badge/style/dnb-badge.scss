@@ -22,6 +22,21 @@
     vertical-align: middle;
     flex-shrink: 0;
 
+    // Keep the button label clear of a notification badge.
+    &--button-left > .dnb-button--has-text {
+      padding-left: max(
+        var(--button-padding-left),
+        calc(var(--badge-width, 1.5rem) + 0.25rem)
+      );
+    }
+
+    &--button-right > .dnb-button--has-text {
+      padding-right: max(
+        var(--button-padding-right),
+        calc(var(--badge-width, 1.5rem) + 0.25rem)
+      );
+    }
+
     .dnb-badge {
       display: flex;
       overflow: hidden;
