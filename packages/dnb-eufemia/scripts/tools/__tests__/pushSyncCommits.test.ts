@@ -80,8 +80,8 @@ function commit(
   git(repo, 'commit', '-q', '-m', message)
 }
 
-// The remote has `main` and the `sync` branch, and the build job has
-// checked out `sync`
+// The remote has `main`, and the `sync` branch with a commit of its own.
+// The build job has checked out `sync`.
 function setUp() {
   const origin = path.join(root, 'origin.git')
   const seed = path.join(root, 'seed')
@@ -90,19 +90,48 @@ function setUp() {
   git(root, 'init', '-q', seed)
   commit(seed, 'allowed/a.txt', 'a', 'Add an allowed file')
   commit(seed, 'other/b.txt', 'b', 'Add another file')
-  git(
-    seed,
-    'push',
-    '-q',
-    origin,
-    'HEAD:refs/heads/main',
-    'HEAD:refs/heads/sync'
-  )
+  git(seed, 'push', '-q', origin, 'HEAD:refs/heads/main')
+  git(seed, 'switch', '-q', '-c', 'sync')
+  commit(seed, 'allowed/s.txt', 's', 'Start the sync branch')
+  git(seed, 'push', '-q', origin, 'sync')
+  git(seed, 'switch', '-q', 'main')
   git(root, 'clone', '-q', '--branch', 'sync', origin, build)
-  return { origin, build, base: git(build, 'rev-parse', 'HEAD') }
+  return { origin, seed, build, base: git(build, 'rev-parse', 'HEAD') }
 }
 
-function bundleAndPush({ origin, build, base }: ReturnType<typeof setUp>) {
+// Another branch on the remote, with a change outside the allowed paths
+function addFeatureBranch({
+  origin,
+  seed,
+  build,
+}: ReturnType<typeof setUp>) {
+  git(seed, 'switch', '-q', '-c', 'feature')
+  commit(seed, 'other/b.txt', 'feature', 'Change another file')
+  git(seed, 'push', '-q', origin, 'feature')
+  git(seed, 'switch', '-q', 'main')
+  git(build, 'fetch', '-q', 'origin')
+  return git(build, 'rev-parse', 'origin/feature')
+}
+
+type PushOptions = {
+  // The commit the build job's own commits start on
+  base?: string
+  branch?: string
+  // The branch tip the build job read
+  remoteSha?: string
+  // The commit the workflow run started from
+  githubSha?: string
+}
+
+function bundleAndPush(
+  { origin, build, base: branchTip }: ReturnType<typeof setUp>,
+  {
+    base = branchTip,
+    branch = 'sync',
+    remoteSha = branchTip,
+    githubSha = '',
+  }: PushOptions = {}
+) {
   const buildTemp = path.join(root, 'build-temp')
   const pushTemp = path.join(root, 'push-temp')
   const push = path.join(root, 'push')
@@ -135,9 +164,10 @@ function bundleAndPush({ origin, build, base }: ReturnType<typeof setUp>) {
       env: env({
         RUNNER_TEMP: pushTemp,
         GITHUB_OUTPUT: path.join(root, 'github-output'),
+        GITHUB_SHA: githubSha,
         GH_TOKEN: 'token',
-        BRANCH: 'sync',
-        REMOTE_SHA: base,
+        BRANCH: branch,
+        REMOTE_SHA: remoteSha,
         ALLOWED_PATHS: 'allowed',
         VERIFY: '',
         GIT_NAME: '',
@@ -223,5 +253,73 @@ describe('push-sync-commits', () => {
     )
     expect(result.status).toBe(1)
     expect(git(repo.origin, 'rev-parse', 'sync')).toBe(repo.base)
+  }, 30_000)
+
+  it('rejects commits that start on another branch', () => {
+    const repo = setUp()
+    const base = addFeatureBranch(repo)
+    git(repo.build, 'switch', '-q', '--detach', base)
+    commit(
+      repo.build,
+      'allowed/a.txt',
+      'updated',
+      'Update the allowed file'
+    )
+
+    const result = bundleAndPush(repo, { base })
+
+    expect(result.stdout).toContain('::error::The commits start on')
+    expect(result.status).toBe(1)
+    expect(git(repo.origin, 'rev-parse', 'sync')).toBe(repo.base)
+  }, 30_000)
+
+  it('pushes a new branch that starts on main', () => {
+    const repo = setUp()
+    git(repo.build, 'switch', '-q', '-c', 'new-sync', 'origin/main')
+    const base = git(repo.build, 'rev-parse', 'HEAD')
+    commit(
+      repo.build,
+      'allowed/a.txt',
+      'updated',
+      'Update the allowed file'
+    )
+
+    const result = bundleAndPush(repo, {
+      base,
+      branch: 'new-sync',
+      remoteSha: '',
+    })
+
+    expect(result.stdout).not.toContain('::error::')
+    expect(result.status).toBe(0)
+    expect(git(repo.origin, 'show', 'new-sync:allowed/a.txt')).toBe(
+      'updated'
+    )
+  }, 30_000)
+
+  // The design tokens, run from another branch into a new output branch
+  it('pushes a new branch that starts on the commit the run started from', () => {
+    const repo = setUp()
+    const base = addFeatureBranch(repo)
+    git(repo.build, 'switch', '-q', '--detach', base)
+    commit(
+      repo.build,
+      'allowed/a.txt',
+      'updated',
+      'Update the allowed file'
+    )
+
+    const result = bundleAndPush(repo, {
+      base,
+      branch: 'new-sync',
+      remoteSha: '',
+      githubSha: base,
+    })
+
+    expect(result.stdout).not.toContain('::error::')
+    expect(result.status).toBe(0)
+    expect(git(repo.origin, 'show', 'new-sync:allowed/a.txt')).toBe(
+      'updated'
+    )
   }, 30_000)
 })
