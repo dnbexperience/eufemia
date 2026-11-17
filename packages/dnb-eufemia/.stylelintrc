@@ -71,6 +71,7 @@
           "--blockquote-icon-color",
           "--hr-thickness",
           "--hr-thickness-modifier",
+          "--token-color-stroke-action-focus-ondark",
           "--table-td-background--selected"
         ]
       }
