@@ -381,6 +381,10 @@ test.describe('Portal sidebar reveal', () => {
   }) => {
     const trigger = page.locator('#toggle-sidebar-menu')
     const dialog = page.locator('#portal-sidebar-menu-drawer')
+    const closeButton = dialog.getByRole('button', {
+      name: 'Close',
+      exact: true,
+    })
     const surface = page.locator('.portal-reveal-page')
     const opening = surface.evaluate(
       (element) =>
@@ -429,7 +433,7 @@ test.describe('Portal sidebar reveal', () => {
     )
     expect(moving.length).toBeGreaterThan(0)
     expect(moving.every(({ opacity }) => opacity === 1)).toBe(true)
-    await expect(dialog).toBeFocused()
+    await expect(closeButton).toBeFocused()
     await test.step('keeps Close right without duplicating the page logo', async () => {
       await page.evaluate(() => document.fonts.ready)
       await expect(
@@ -443,9 +447,7 @@ test.describe('Portal sidebar reveal', () => {
         .boundingBox()
       // Let menu items scroll behind the header all the way to the top.
       expect(scrollArea.y).toBeCloseTo(header.y, 0)
-      const close = await dialog
-        .getByRole('button', { name: 'Close', exact: true })
-        .boundingBox()
+      const close = await closeButton.boundingBox()
       expect(close.x).toBeGreaterThan(header.x + header.width / 2)
       expect(
         Math.abs(
@@ -461,7 +463,7 @@ test.describe('Portal sidebar reveal', () => {
     await expect(surface).toHaveAttribute('inert', '')
     await expect(trigger).toHaveAttribute('aria-hidden', 'true')
     await trigger.evaluate((element) => element.focus())
-    await expect(dialog).toBeFocused()
+    await expect(closeButton).toBeFocused()
     for (let step = 0; step < 5; step++) {
       await page.keyboard.press('Tab')
       await expect
@@ -480,20 +482,16 @@ test.describe('Portal sidebar reveal', () => {
         )
       )
       .toBe(true)
-    const firstControl = dialog.getByRole('button', {
-      name: 'Close',
-      exact: true,
-    })
     const lastLink = dialog.getByRole('link', {
       name: 'Releases and upgrades',
       exact: true,
     })
-    await firstControl.focus()
+    await closeButton.focus()
     await page.keyboard.press('Shift+Tab')
     await expect(lastLink).toBeFocused()
     await expect(lastLink).toBeInViewport()
     await page.keyboard.press('Tab')
-    await expect(firstControl).toBeFocused()
+    await expect(closeButton).toBeFocused()
     const menuWidth = await dialog
       .locator('.dnb-drawer')
       .evaluate((element) => element.getBoundingClientRect().width)
@@ -527,7 +525,7 @@ test.describe('Portal sidebar reveal', () => {
     await expect(surface).toHaveCSS('opacity', '1')
 
     await trigger.click()
-    await expect(dialog).toBeFocused()
+    await expect(closeButton).toBeFocused()
     await page.mouse.click(375, 200)
     await expect(dialog).not.toBeVisible()
     await expect(trigger).toBeFocused()
