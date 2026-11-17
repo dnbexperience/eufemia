@@ -687,6 +687,36 @@ test('panel keeps its opening direction while scrolling', async ({
   await scrollInputTo(600)
   await input.focus()
   await expectFit('top')
+  await test.step('keeps the panel anchored on each scroll frame', async () => {
+    const gaps = await panel.evaluate(async (element) => {
+      const input = document.querySelector(
+        '[data-testid="search-panel"] input'
+      )
+      const gaps: number[] = []
+      for (const delta of [60, -60, 60, -60]) {
+        await new Promise<void>((resolve) => {
+          window.addEventListener(
+            'scroll',
+            () => {
+              requestAnimationFrame(() => {
+                gaps.push(
+                  input.getBoundingClientRect().top -
+                    element.getBoundingClientRect().bottom
+                )
+                resolve()
+              })
+            },
+            { once: true }
+          )
+          window.scrollBy(0, delta)
+        })
+      }
+      return gaps
+    })
+    for (const gap of gaps) {
+      expect(gap).toBeCloseTo(8, 0)
+    }
+  })
   await scrollInputTo(400)
   await expectFit('top')
   await scrollInputTo(24)
