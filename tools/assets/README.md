@@ -39,10 +39,10 @@ The deploy repository requires:
   request header
 
 The public repository requires `GHE_ASSETS_DEPLOY_REPO=eufemia/eufemia-assets`.
-Its existing `GHE_DEPLOY_PAT` must also be granted Contents read/write access to
-that repository, and permission to write workflow files, because the push
-includes `.github/workflows/deploy.yml`. Without it the push is rejected and no
-version reaches the CDN.
+Its existing `GHE_DEPLOY_PAT`, a secret of the `ghe-deploy` environment, must
+also be granted Contents read/write access to that repository, and permission to
+write workflow files, because the push includes `.github/workflows/deploy.yml`.
+Without it the push is rejected and no version reaches the CDN.
 
 After the first AWS deployment, copy the `origin_hostname` Terraform output to
 the `assets.eufemia.dnb.no` property in `akamai_delivery_eufemia`. Configure the
