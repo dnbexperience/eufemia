@@ -569,6 +569,39 @@ test('panel uses available height above and below the input and resizes with the
   await expect
     .poll(async () => (await results.boundingBox()).height)
     .toBeCloseTo(160, 0)
+
+  await test.step('keeps the top panel anchored while its content resizes', async () => {
+    const gaps = await panel.evaluate(async (element) => {
+      const input = document.querySelector<HTMLElement>(
+        '[data-testid="search-panel"] input'
+      )
+      const gaps: number[] = []
+
+      for (const height of ['20rem', '10rem']) {
+        element.style.setProperty('--search-panel-min-height', height)
+        await new Promise<void>((resolve) => {
+          const observer = new ResizeObserver(() => {
+            observer.disconnect()
+            requestAnimationFrame(() => {
+              gaps.push(
+                input.getBoundingClientRect().top -
+                  element.getBoundingClientRect().bottom
+              )
+              resolve()
+            })
+          })
+          observer.observe(element)
+        })
+      }
+      element.style.removeProperty('--search-panel-min-height')
+      return gaps
+    })
+
+    for (const gap of gaps) {
+      expect(gap).toBeCloseTo(8, 0)
+    }
+  })
+
   await panel.evaluate((element: HTMLElement) => {
     element.style.setProperty('--search-panel-min-height', '12rem')
   })

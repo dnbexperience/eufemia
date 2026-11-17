@@ -17,6 +17,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from 'react'
+import { flushSync } from 'react-dom'
 import { clsx } from 'clsx'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
@@ -221,8 +222,13 @@ function PopoverContainer(props: PopoverContainerProps) {
     }
 
     try {
-      resizeObserver.current = new ResizeObserver(() => {
+      resizeObserver.current = new ResizeObserver((entries) => {
         clearTimers()
+        if (entries.some(({ target }) => target === elementRef.current)) {
+          // Keep the anchor aligned before resized content is painted.
+          flushSync(requestRecalculation)
+          return
+        }
         debounceTimeout.current = setTimeout(requestRecalculation, 100)
       })
 
