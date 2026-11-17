@@ -125,8 +125,7 @@ async function runQuery<Row>(
 }
 
 // sinceDt comes from the server clock or a manual invoke event;
-// assertPartitionDate's strict YYYY-MM-DD check keeps it safe to interpolate it
-// into the query.
+// assertPartitionDate's strict YYYY-MM-DD check makes it safe to interpolate.
 const DT_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 
 function assertPartitionDate(sinceDt: string): void {
