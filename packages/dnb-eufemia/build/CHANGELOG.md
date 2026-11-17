@@ -3,6 +3,73 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.18.0](https://github.com/dnbexperience/eufemia/compare/v11.17.1...v11.18.0) (2026-11-17)
+
+### :sparkles: Features
+
+* add keyboard focus outline tokens (CSS vars), helpers and guidance ([#10758](https://github.com/dnbexperience/eufemia/issues/10758)) ([e0efaa3](https://github.com/dnbexperience/eufemia/commit/e0efaa3c8c28d061ca4ea1052957de9052edb7c1))
+* **Badge:** add icon property for a leading icon, country flag or logo ([#10834](https://github.com/dnbexperience/eufemia/issues/10834)) ([d4d3ae6](https://github.com/dnbexperience/eufemia/commit/d4d3ae6e6dc41fd2ccfee69c0e06f7530515f79a))
+* **Chip:** add selectable chips as an alternative to ToggleButton ([#10690](https://github.com/dnbexperience/eufemia/issues/10690)) ([0610f19](https://github.com/dnbexperience/eufemia/commit/0610f1931c07214812b2666c6af140b6d0fcb28f))
+* **Drawer:** add an opt-in page reveal driver ([#10675](https://github.com/dnbexperience/eufemia/issues/10675)) ([4b1e700](https://github.com/dnbexperience/eufemia/commit/4b1e7003eeedf9b500ef3fbd715702cbe3a4517e))
+* **Forms:** use Chip for selection button variants ([#10697](https://github.com/dnbexperience/eufemia/issues/10697)) ([e4633f1](https://github.com/dnbexperience/eufemia/commit/e4633f18fd8b3334c291966a613a08b26fd5385b))
+* **Radio:** add readOnly to Radio.Group and mark the radiogroup as read-only for assistive technology ([#10622](https://github.com/dnbexperience/eufemia/issues/10622)) ([3d30781](https://github.com/dnbexperience/eufemia/commit/3d30781e26bb6450efbdffb1269adb48462d45e2)), closes [#10600](https://github.com/dnbexperience/eufemia/issues/10600) [#10600](https://github.com/dnbexperience/eufemia/issues/10600)
+* use the on-dark focus outline on dark surfaces ([#10791](https://github.com/dnbexperience/eufemia/issues/10791)) ([44edefe](https://github.com/dnbexperience/eufemia/commit/44edefee7abc49875ccfb9a61053005acbf8b157))
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** keep highlighting disabled after the input is clicked again ([#10817](https://github.com/dnbexperience/eufemia/issues/10817)) ([4546799](https://github.com/dnbexperience/eufemia/commit/4546799c52584f78779ebb1ceae69ce0178bcf5a))
+* **Badge:** improve notification positioning on buttons ([#10848](https://github.com/dnbexperience/eufemia/issues/10848)) ([afaf6c4](https://github.com/dnbexperience/eufemia/commit/afaf6c492ddc640f50a464c6ad77aa4223a2d902))
+* **Badge:** keep spaces between text and inline elements in the content ([#10836](https://github.com/dnbexperience/eufemia/issues/10836)) ([a29426a](https://github.com/dnbexperience/eufemia/commit/a29426a45ec95a41da5eafd80253b958a1830c1d))
+* **Badge:** render notification badges without content as 8px indicators ([#10837](https://github.com/dnbexperience/eufemia/issues/10837)) ([aa08a67](https://github.com/dnbexperience/eufemia/commit/aa08a670bdcfdc64647e29abd1cd87c17339ef1c))
+* **deps:** update postcss-selector-parser to fix a CPU exhaustion advisory ([#10813](https://github.com/dnbexperience/eufemia/issues/10813)) ([2e7b6c2](https://github.com/dnbexperience/eufemia/commit/2e7b6c2b871b11fed63c5571333ccce96600e14f)), closes [#10019](https://github.com/dnbexperience/eufemia/issues/10019)
+* **Design Tokens:** sbanken error tokens update ([#10795](https://github.com/dnbexperience/eufemia/issues/10795)) ([63da4b2](https://github.com/dnbexperience/eufemia/commit/63da4b2a4457e2343cf99dad6152bd09c6309121))
+* **Dialog, Drawer:** handle short viewports and enlarged text ([#10762](https://github.com/dnbexperience/eufemia/issues/10762)) ([b77b7a5](https://github.com/dnbexperience/eufemia/commit/b77b7a57fad2cb2d7d5658a7a89f1924f985de0f))
+* **Drawer, Dialog:** keep focus on the opened dialog and return it to the trigger only once ([#10870](https://github.com/dnbexperience/eufemia/issues/10870)) ([52c3370](https://github.com/dnbexperience/eufemia/commit/52c337075d5578d2bc07fc805a5fa24d569acc38))
+* **Drawer, Dialog:** move focus into the Drawer when it opens, and keep focus in fields while typing ([#10350](https://github.com/dnbexperience/eufemia/issues/10350)) ([c1221b1](https://github.com/dnbexperience/eufemia/commit/c1221b1faed27e57f52b9249a4fb12bc12ad3afb)), closes [#5492](https://github.com/dnbexperience/eufemia/issues/5492)
+* **DrawerList:** handle Escape while the list opens, so focus returns and a surrounding Dialog stays open ([#10351](https://github.com/dnbexperience/eufemia/issues/10351)) ([6cee51f](https://github.com/dnbexperience/eufemia/commit/6cee51f04c28048c745be4420dbbf3a8c096391f))
+* **FormStatus:** use "warning" as the default title of the warning icon ([#10838](https://github.com/dnbexperience/eufemia/issues/10838)) ([ff74b7a](https://github.com/dnbexperience/eufemia/commit/ff74b7a3270550d6b6a7e525371348a344e415f4)), closes [#10821](https://github.com/dnbexperience/eufemia/issues/10821)
+* **Menu:** focus the first enabled action when opening a menu with the keyboard ([#10835](https://github.com/dnbexperience/eufemia/issues/10835)) ([a574f6c](https://github.com/dnbexperience/eufemia/commit/a574f6c2a086122ee87a5247682b6decece8f2b3))
+* **SidebarMenu:** improve mobile and compact header fades ([#10857](https://github.com/dnbexperience/eufemia/issues/10857)) ([5de50d7](https://github.com/dnbexperience/eufemia/commit/5de50d712b7954a423fa38e2c9ca41367db40bd1))
+* **SidebarMenu:** prevent automatic hyphenation in menu labels ([#10856](https://github.com/dnbexperience/eufemia/issues/10856)) ([9691c77](https://github.com/dnbexperience/eufemia/commit/9691c77a5dfd9fd3527f47bf63cefe2c444e002a))
+* **Table:** keep sticky headers synchronized with page scrolling ([#10846](https://github.com/dnbexperience/eufemia/issues/10846)) ([82c5aaa](https://github.com/dnbexperience/eufemia/commit/82c5aaad08e948d3d5cb45861ff930ba872b136c))
+* **Wizard.Container:** animate a replaced step that has a component title ([#10797](https://github.com/dnbexperience/eufemia/issues/10797)) ([4547aac](https://github.com/dnbexperience/eufemia/commit/4547aacef92cabaacd1df5990de7267a11a89926)), closes [#10645](https://github.com/dnbexperience/eufemia/issues/10645) [#10645](https://github.com/dnbexperience/eufemia/issues/10645)
+
+### :memo: Documentation
+
+* add accessibility guidance for color-blind users ([#10843](https://github.com/dnbexperience/eufemia/issues/10843)) ([ac53ff0](https://github.com/dnbexperience/eufemia/commit/ac53ff0e4c890852f19f93b3cf4937e16d1369b7)), closes [#10827](https://github.com/dnbexperience/eufemia/issues/10827)
+* clarify color token roles and accessible pairings ([#10865](https://github.com/dnbexperience/eufemia/issues/10865)) ([d899334](https://github.com/dnbexperience/eufemia/commit/d89933472e3640cf1279a2459cb66732122c616a))
+* clarify Eufemia licensing for DNB Group projects ([#10847](https://github.com/dnbexperience/eufemia/issues/10847)) ([51c2d2c](https://github.com/dnbexperience/eufemia/commit/51c2d2c0d31f02d49a5972d224e549de3110f86a))
+* **PaymentCard:** list card brand logos and link to them from PaymentCard ([#10868](https://github.com/dnbexperience/eufemia/issues/10868)) ([011cf5f](https://github.com/dnbexperience/eufemia/commit/011cf5f0c36a078e51173a9013248a8f0c22df44))
+* **ToggleButton:** deprecate in favor of Chip ([#10696](https://github.com/dnbexperience/eufemia/issues/10696)) ([6c8dbac](https://github.com/dnbexperience/eufemia/commit/6c8dbac48ef2c2cce6a2fac28f2b0a7387fa2c35))
+* **Typography:** make responsive typography demos easier to find ([#10756](https://github.com/dnbexperience/eufemia/issues/10756)) ([978dd65](https://github.com/dnbexperience/eufemia/commit/978dd65d32098c44060cfb12d8bc6bdb802f304a))
+
+### :art: Design Changes
+
+* **Accordion:** use the new focus outline for expanded tertiary content ([#10807](https://github.com/dnbexperience/eufemia/issues/10807)) ([f2d17fd](https://github.com/dnbexperience/eufemia/commit/f2d17fd07f739915212dc101cd2df696a6b3758b))
+* **Accordion:** use the new keyboard focus outline ([29ee2f2](https://github.com/dnbexperience/eufemia/commit/29ee2f2b01417dff7f028bd375830443a2169ba2))
+* **Anchor:** adopt the new keyboard focus outline ([4c29afb](https://github.com/dnbexperience/eufemia/commit/4c29afb15d7407d23ddfb65bdfc50a0cbd39b641))
+* **Button:** adopt the new keyboard focus outline ([d8b9932](https://github.com/dnbexperience/eufemia/commit/d8b99329227c036ee204803e3aff2b8685685c51))
+* **Card:** adopt the new keyboard focus outline ([588bd52](https://github.com/dnbexperience/eufemia/commit/588bd523a239b08145b41b4dccfaa3e6312c281e))
+* **Checkbox, Radio:** align keyboard focus with the new outline guidance ([dd9c010](https://github.com/dnbexperience/eufemia/commit/dd9c010049a7993b619727bf73e936dba9c6eacf))
+* **DatePicker:** adopt the new keyboard focus outline ([39d796a](https://github.com/dnbexperience/eufemia/commit/39d796a365b8f67f7202cc87e5432b12c497ffdc))
+* **Dropdown, Autocomplete:** adopt the new keyboard focus outline ([f2c349d](https://github.com/dnbexperience/eufemia/commit/f2c349d2d17f3f2b76d3f8957aa56aa4acee01b5))
+* **List:** adopt the new keyboard focus outline ([2f39df6](https://github.com/dnbexperience/eufemia/commit/2f39df6603bb526872f3b0f9d6fe11abab0a59c8))
+* **Menu:** adopt the new keyboard focus outline ([8e3d21e](https://github.com/dnbexperience/eufemia/commit/8e3d21ee46a357992b256addd68ec478ad48cbcb))
+* **NumberFormat:** use the new keyboard focus outline for tooltips ([#10806](https://github.com/dnbexperience/eufemia/issues/10806)) ([f093fe1](https://github.com/dnbexperience/eufemia/commit/f093fe192d6410a34eb5786457f26c8740935581))
+* **ScrollView:** adopt the new keyboard focus outline ([ede162f](https://github.com/dnbexperience/eufemia/commit/ede162f5848a141372d23e07512ad74a16aa8dc7))
+* **SidebarMenu:** use the new keyboard focus outline ([3f28579](https://github.com/dnbexperience/eufemia/commit/3f2857915353505b041e1f7c643790d455038a17))
+* **SkipContent:** adopt the new keyboard focus outline ([8513985](https://github.com/dnbexperience/eufemia/commit/85139855dd697eb24312370038bb0d2cd29eb81d))
+* **Slider:** adopt the new keyboard focus outline ([029e7ee](https://github.com/dnbexperience/eufemia/commit/029e7ee3edd1bba62119d7980903ade17595cab1))
+* **Switch:** adopt the new keyboard focus outline ([456fb2c](https://github.com/dnbexperience/eufemia/commit/456fb2ca588f9a80eeb63346524e82fe0321213b))
+* **Table:** adopt the new keyboard focus outline ([f2a2242](https://github.com/dnbexperience/eufemia/commit/f2a2242ccecf6cfb3470d9d67b62446b69457445))
+* **Tabs:** adopt the new keyboard focus outline ([e01269b](https://github.com/dnbexperience/eufemia/commit/e01269b136d0e46429a311cb995fb96bb7d71eb6))
+* **Tag:** adopt the new keyboard focus outline ([2ca496f](https://github.com/dnbexperience/eufemia/commit/2ca496f2193f7085405d3d92aaae72f1b9c8fe98))
+* update coconut theme with new tokens ([#10759](https://github.com/dnbexperience/eufemia/issues/10759)) ([cd99366](https://github.com/dnbexperience/eufemia/commit/cd99366596941e65d24f38ff64053ae2b9e413ba))
+
+### :zap: Refactoring
+
+* **Analytics:** use Chip for period selection ([#10764](https://github.com/dnbexperience/eufemia/issues/10764)) ([951b811](https://github.com/dnbexperience/eufemia/commit/951b8113ebec4815af2c43a2b34532fcc93c68e4))
+
 ## [11.17.1](https://github.com/dnbexperience/eufemia/compare/v11.17.0...v11.17.1) (2026-11-10)
 
 ### :bug: Bug Fixes
