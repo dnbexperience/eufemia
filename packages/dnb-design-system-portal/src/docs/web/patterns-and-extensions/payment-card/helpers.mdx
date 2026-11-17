@@ -33,7 +33,7 @@ formatCardNumber('************1337', 5) // returns * 1337
 
 The Visa, Mastercard and BankAxept logos used on the card are available as React components. They render an inline SVG and accept SVG attributes, such as `className`, `width`, `height` and `aria-hidden`.
 
-`VisaLogo` and `BankAxeptLogo` use `currentColor` by default. Change the color with the `fill` property or the CSS `color` property. `MastercardLogo` uses the Mastercard brand colors.
+`VisaLogo` and `BankAxeptLogo` use `currentColor` by default, so they inherit the text color of the parent element. Set the color on a parent element, for example with the `color` property of [Avatar](/web/components/avatar/), so the logo follows the system colors in forced colors mode, such as Windows High Contrast. Use `fill` for a fixed color. `MastercardLogo` uses the Mastercard brand colors.
 
 Each logo includes a `<title>` with the brand name. Add `aria-hidden` when the brand name is already shown as text.
 

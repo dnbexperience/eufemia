@@ -130,13 +130,13 @@ export const PaymentCardBrandLogosListExample = () => (
     <List.Container>
       <List.Item.Action onClick={() => {}}>
         <List.Cell.Start>
-          <Avatar size="medium" backgroundColor="white" hasLabel>
-            <BankAxeptLogo
-              fill="#561488"
-              width="24"
-              height="14"
-              aria-hidden
-            />
+          <Avatar
+            size="medium"
+            backgroundColor="white"
+            color="#561488"
+            hasLabel
+          >
+            <BankAxeptLogo width="24" height="14" aria-hidden />
           </Avatar>
         </List.Cell.Start>
         <List.Cell.Title>
@@ -152,8 +152,13 @@ export const PaymentCardBrandLogosListExample = () => (
 
       <List.Item.Action onClick={() => {}}>
         <List.Cell.Start>
-          <Avatar size="medium" backgroundColor="#2639C3" hasLabel>
-            <VisaLogo fill="white" width="25" height="9" aria-hidden />
+          <Avatar
+            size="medium"
+            backgroundColor="#2639C3"
+            color="white"
+            hasLabel
+          >
+            <VisaLogo width="25" height="9" aria-hidden />
           </Avatar>
         </List.Cell.Start>
         <List.Cell.Title>
