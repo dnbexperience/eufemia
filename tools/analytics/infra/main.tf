@@ -855,7 +855,7 @@ resource "aws_lambda_permission" "apigw" {
 # ---------------------------------------------------------------------------
 
 # A separate HTTP API for the dashboard so its browser/JWT trust model stays
-# isolated from the edge-locked ingest API. It targets its own read-only
+# isolated from the origin-gated ingest API. It targets its own read-only
 # dashboard_read Lambda.
 resource "aws_apigatewayv2_api" "dashboard" {
   name          = "${local.function_name}-dashboard"
