@@ -447,9 +447,7 @@ test.describe('Portal sidebar reveal', () => {
         .boundingBox()
       // Let menu items scroll behind the header all the way to the top.
       expect(scrollArea.y).toBeCloseTo(header.y, 0)
-      const close = await dialog
-        .getByRole('button', { name: 'Close', exact: true })
-        .boundingBox()
+      const close = await closeButton.boundingBox()
       expect(close.x).toBeGreaterThan(header.x + header.width / 2)
       expect(
         Math.abs(
