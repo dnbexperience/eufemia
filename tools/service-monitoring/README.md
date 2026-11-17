@@ -1,6 +1,6 @@
 # Eufemia service monitoring
 
-Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. A fourth check, Tokens, reports when the latest scheduled run of the daily GHE token expiry workflow failed, or when no scheduled run has finished in 48 hours. That workflow posts its expiry warnings through its own Slack webhook, and GitHub emails a failed scheduled run only to the last editor of its schedule. After fixing the cause, re-run the failed scheduled run to clear the alert; manual runs do not count.
+Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. A fourth check, Tokens, reports when the latest scheduled run of the daily GHE token expiry workflow failed, or when no scheduled run has finished in 48 hours. That workflow posts its expiry warnings through its own Slack webhook, and GitHub emails a failed scheduled run only to the last editor of its schedule.
 
 ## Deployment
 
@@ -9,6 +9,46 @@ The public Service Monitoring Lambda workflow tests and bundles the checks, then
 Each service has a separate Node.js 22 Lambda using the same bundle, with 256 MB memory and one reserved concurrent execution. The HTTP budget is 330 seconds; Lambda allows 480 seconds for checks, persistence and notifications. There is no public inbound endpoint, runtime checkout, docs build or package installation. The production checks always use the public edge, including npm and GitHub for freshness verification.
 
 EventBridge Scheduler runs CDN at :07, MCP at :11, Analytics at :17 and Tokens at :23 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
+
+## When an alert fires
+
+Each outage post lists the failing checks with their reasons and links to the service and the monitor's logs. Start there, then use the entry for the service below. The recovery reply comes from the next healthy check, so nothing needs closing by hand. While an incident is open, new failures in the same service only update the overview. To rerun a check without posting, use the local diagnostic commands in [Local validation](#local-validation); Tokens has none, and check:analytics needs the GHE settings in the [analytics README](../analytics/README.md#production-health-monitor) for its GHE deploy run check. To roll back a monitor change, revert it on main; the next handoff deploys the previous package.
+
+Without the optional read-only GitHub token, a 403 or 429 from the GitHub API in a deployment source or PAT expiry workflow check is the unauthenticated GitHub API limit. It clears by itself; provision the token if it repeats.
+
+A failure ending in "(blocked by Akamai, reference …)", in any service, means the edge firewall denied the monitor's request; the service itself may be fine. Send the reference to the Akamai owners the same day: it is the only way to find the rule that blocked the request, and it can be looked up for 2 days only.
+
+### CDN
+
+- **HTTP 403 or 404 on an asset URL (without an Akamai reference):** the asset is missing from the CDN. For a new release the check waits 60 minutes before alerting, so a post means the release has not reached the CDN: check the latest assets deployment ([assets hosting](../assets/README.md#deployment)).
+- **npm latest:** the npm registry did not answer or returned invalid metadata; the CDN itself may be fine.
+- **Wrong content type, CORS, signature or manifest mismatch on an asset, or an invalid manifest:** the CDN serves a wrong or changed file. These fail at once, without the release grace period. Check the latest assets deployment.
+- **stable-manifest/…:** the stable alias still serves an older version than npm reports after the edge cache settled. Check the latest assets deployment.
+
+### MCP
+
+- **HTTP health, negotiation, tools, documentation or metadata:** the MCP server is down or answers incorrectly. Open the service link and the MCP Lambda logs, then the latest MCP deployment ([continuous deployment](../mcp-lambda/README.md#continuous-deployment)).
+- **deployment source or deployed source:** the latest deployment failed, has run for more than 60 minutes, or the server does not run the commit it published. Check that deployment run.
+
+### Analytics
+
+- **API health:** the analytics API is down. Check the analytics Lambda logs.
+- **dashboard:** the dashboard page or its script is missing. The dashboard is a static site, so check the latest analytics deployment, which uploads it.
+- **"GHE deploy run: Token expired or revoked (HTTP 401)":** the monitor's own GHE token has expired. Replace the value of eufemia/<environment>/monitoring/ghe-analytics-token; the next hourly check recovers.
+- **Other GHE deploy run failures:** the internal deploy run failed, has run for more than 60 minutes, or the monitor's GHE settings are missing. Check the internal deploy run.
+- **deployment source or deployed source:** as for MCP, for the analytics deployment.
+
+### Tokens
+
+- **PAT expiry workflow:** the daily token expiry workflow failed or has not finished a scheduled run in 48 hours, so expiry warnings may not reach Slack. Open its latest scheduled run, fix the cause, then re-run that run; a manual run does not count.
+
+### Monitoring
+
+Monitor-health alarms share one Monitoring incident. Its post names the alarm that opened it and that alarm's description, when it has one. Later alarms post nothing while the incident is open, and it recovers only when every alarm is OK, so check the CloudWatch alarm list for others in ALARM.
+
+- **-not-completing:** a check reported no completed run in two hourly periods. Inspect the Lambda logs and Scheduler delivery. The first deployment of a new monitor opens and closes this within about a minute; that is expected.
+- **-execution-errors:** a check Lambda threw an error. Inspect its logs.
+- **-undelivered:** Scheduler delivery, a check or the notifier exhausted its retries. Read the messages in the failures queue to see which; they are kept for 14 days. The alarm clears after five minutes even if nobody has looked.
 
 ## One-time setup
 
