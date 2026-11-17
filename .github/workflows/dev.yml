@@ -102,6 +102,7 @@ jobs:
               throw new Error('The package publish check has no eufemia-starter preview link')
             }
 
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`
             const packageUrl = `https://pkg.pr.new/@dnb/eufemia@${sha}.tgz`
             await core.summary
               .addHeading('Package preview')
@@ -120,8 +121,8 @@ jobs:
             await github.rest.repos.createDeploymentStatus({
               owner, repo, deployment_id: deployment.id,
               state: 'success',
-              environment_url: starterUrl,
-              log_url: `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`,
-              description: 'Try the published package in eufemia-starter',
+              environment_url: runUrl,
+              log_url: runUrl,
+              description: 'Open the starter preview or copy the package install command',
               auto_inactive: false,
             })

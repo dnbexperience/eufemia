@@ -128,7 +128,7 @@ describe('package preview deployment', () => {
     })
   })
 
-  it('shows the generated starter in deployments and the install command in the summary', async () => {
+  it('links one deployment to the summary with the starter and install command', async () => {
     const { run, summary, github } = setup()
     await run()
 
@@ -148,7 +148,9 @@ describe('package preview deployment', () => {
       `yarn add @dnb/eufemia@https://pkg.pr.new/@dnb/eufemia@${sha}.tgz`,
       'sh'
     )
-    expect(github.rest.repos.createDeployment).toHaveBeenCalledWith({
+    expect(
+      github.rest.repos.createDeployment
+    ).toHaveBeenCalledExactlyOnceWith({
       owner: 'dnbexperience',
       repo: 'eufemia',
       ref: sha,
@@ -163,9 +165,11 @@ describe('package preview deployment', () => {
       repo: 'eufemia',
       deployment_id: 123,
       state: 'success',
-      environment_url: starterUrl,
+      environment_url:
+        'https://github.com/dnbexperience/eufemia/actions/runs/456',
       log_url: 'https://github.com/dnbexperience/eufemia/actions/runs/456',
-      description: 'Try the published package in eufemia-starter',
+      description:
+        'Open the starter preview or copy the package install command',
       auto_inactive: false,
     })
   })
