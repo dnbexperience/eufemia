@@ -55,9 +55,9 @@ function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
   return {
     themes: {
       ui: { name: 'DNB' },
-      sbanken: { name: 'Sbanken (WIP)' },
+      sbanken: { name: 'Sbanken' },
       eiendom: { name: 'DNB Eiendom' },
-      carnegie: { name: 'DNB Carnegie (WIP)' },
+      carnegie: { name: 'DNB Carnegie' },
       // @deprecated Transitional "coconut" brand, removed later
       coconut: { name: 'Coconut' },
     },

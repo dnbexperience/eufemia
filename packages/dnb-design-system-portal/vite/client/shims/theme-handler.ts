@@ -40,9 +40,9 @@ type ThemeColorScheme = 'auto' | 'light' | 'dark'
 
 const availableThemes: Record<string, { name: string; hide?: boolean }> = {
   ui: { name: 'DNB' },
-  sbanken: { name: 'Sbanken (WIP)' },
+  sbanken: { name: 'Sbanken' },
   eiendom: { name: 'DNB Eiendom' },
-  carnegie: { name: 'DNB Carnegie (WIP)' },
+  carnegie: { name: 'DNB Carnegie' },
   // @deprecated Transitional "coconut" brand, removed later.
   // Hidden from the brand switcher; reachable via ?eufemia-theme=coconut
   coconut: { name: 'Coconut', hide: true },
