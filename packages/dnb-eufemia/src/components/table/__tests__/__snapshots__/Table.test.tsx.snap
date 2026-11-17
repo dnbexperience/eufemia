@@ -36,11 +36,14 @@ exports[`Table scss > should match style dependencies css 1`] = `
 }
 .dnb-table__scroll-indicator.dnb-button {
   position: absolute;
-  z-index: 6;
+  z-index: 8;
   inset-block-start: 0.5rem;
   inset-inline-end: 0.5rem;
   visibility: hidden;
   opacity: var(--table-scroll-indicator-opacity, 0);
+}
+.dnb-table__scroll-indicator.dnb-button[data-scroll-indicator-inactive] {
+  pointer-events: none;
 }
 .dnb-table__scroll-view[data-scroll-indicator-rtl] > .dnb-table__scroll-indicator .dnb-icon {
   transform: rotate(180deg);
