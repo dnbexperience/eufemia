@@ -10,6 +10,10 @@ import { Article, Circle, Product, Table } from '../figures'
 import Input from '../../input/Input'
 import P from '../../../elements/P'
 import { render } from '@testing-library/react'
+import { skeletonDOMAttributes } from '../SkeletonHelper'
+import Provider from '../../../shared/Provider'
+import FormLabel from '../../form-label/FormLabel'
+import Button from '../../button/Button'
 
 const props: SkeletonProps = {
   children: (
@@ -116,6 +120,59 @@ describe('undefined props should fall through to defaults', () => {
     expect(
       container.querySelector('[aria-busy="true"]')
     ).toBeInTheDocument()
+  })
+})
+
+describe('skeletonDOMAttributes', () => {
+  const context = {
+    translation: { Skeleton: { ariaBusy: 'Loading' } },
+  }
+
+  it('sets the busy label on elements that can have a name', () => {
+    expect(skeletonDOMAttributes({}, true, context)).toEqual({
+      disabled: true,
+      'aria-disabled': true,
+      'aria-label': 'Loading',
+    })
+    expect(
+      skeletonDOMAttributes({}, true, context, 'button')['aria-label']
+    ).toBe('Loading')
+    expect(
+      skeletonDOMAttributes({ role: 'img' }, true, context, 'span')[
+        'aria-label'
+      ]
+    ).toBe('Loading')
+  })
+
+  it.each(['p', 'span', 'div', 'label', 'strong'])(
+    'does not set the busy label on a %s, which can not have a name',
+    (element) => {
+      expect(skeletonDOMAttributes({}, true, context, element)).toEqual({
+        disabled: true,
+        'aria-disabled': true,
+      })
+    }
+  )
+
+  it('does not set the busy label on text elements in skeleton mode', () => {
+    render(
+      <Provider skeleton>
+        <P>Paragraph</P>
+        <FormLabel forId="input">Label</FormLabel>
+        <Button element="span" text="Tag" />
+        <Button text="Button" />
+      </Provider>
+    )
+
+    for (const selector of ['p', 'label', 'span.dnb-button']) {
+      const element = document.querySelector(selector)
+      expect(element).toHaveAttribute('aria-disabled', 'true')
+      expect(element).not.toHaveAttribute('aria-label')
+    }
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-label',
+      'Behandler data ...'
+    )
   })
 })
 

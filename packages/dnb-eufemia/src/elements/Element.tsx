@@ -100,7 +100,7 @@ function Element(localProps: ElementAllProps) {
 
   validateDOMAttributes(null, params)
 
-  skeletonDOMAttributes(params, skeleton, context)
+  skeletonDOMAttributes(params, skeleton, context, Tag)
 
   const isFragment = Tag === Fragment
 
