@@ -55,6 +55,10 @@ function ScrollView(localProps: ScrollViewAllProps) {
     HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > = useSpacing(props, {
+    // A div has no role, so a name needs one: a named scroll area is a region
+    ...((attributes['aria-label'] || attributes['aria-labelledby']) && {
+      role: 'region',
+    }),
     ...(attributes as HTMLAttributes<unknown>),
     className: clsx(
       'dnb-scroll-view',

@@ -6,6 +6,23 @@ import ScrollView from '../ScrollView'
 import { setResizeObserver } from './shared-mocks/ResizeObserver'
 
 describe('ScrollView', () => {
+  it('is a region when it has an aria-label or aria-labelledby', () => {
+    const { rerender } = render(<ScrollView aria-label="Scroll area" />)
+    const element = document.querySelector('.dnb-scroll-view')
+
+    // A div has no role, so it can't have a name without one
+    expect(element).toHaveAttribute('role', 'region')
+    expect(element).toHaveAttribute('aria-label', 'Scroll area')
+
+    rerender(<ScrollView aria-labelledby="heading" />)
+    expect(element).toHaveAttribute('role', 'region')
+
+    rerender(<ScrollView />)
+    expect(element).not.toHaveAttribute('role')
+
+    rerender(<ScrollView aria-label="Scroll area" role="group" />)
+    expect(element).toHaveAttribute('role', 'group')
+  })
   it('renders with props as an object', () => {
     const props: ScrollViewAllProps = {}
 

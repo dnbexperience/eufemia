@@ -262,10 +262,11 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             'dnb-pagination__button--current',
             extraClassName
           )}
-          aria-label={label}
           aria-current="page"
         >
-          {String(pageNumber)}
+          {/* A span has no role, so screen readers can ignore an aria-label on it */}
+          <span className="dnb-sr-only">{label}</span>
+          <span aria-hidden>{String(pageNumber)}</span>
         </span>
       )
     }
