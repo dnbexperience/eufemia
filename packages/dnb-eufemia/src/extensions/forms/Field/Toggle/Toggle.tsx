@@ -217,6 +217,8 @@ function Toggle(props: FieldToggleProps) {
           <FieldBlock {...fieldBlockProps}>
             <Chip
               id={id}
+              // FieldBlock gives the field label the {id}-label id
+              labelId={`${id}-chip-label`}
               text={
                 isOn
                   ? (textOn ?? translations.yes)
@@ -303,6 +305,8 @@ function Toggle(props: FieldToggleProps) {
           <FieldBlock {...fieldBlockProps}>
             <Chip
               id={id}
+              // FieldBlock gives the field label the {id}-label id
+              labelId={`${id}-chip-label`}
               variant="checkbox"
               text={
                 isOn
