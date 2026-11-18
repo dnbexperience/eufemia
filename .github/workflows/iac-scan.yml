@@ -4,10 +4,11 @@ name: IaC scan
 # Trivy (https://trivy.dev), so a change to the AWS infrastructure is checked
 # before it is merged and deployed.
 #
-# Trivy runs as a pinned release binary whose SHA-256 is checked below, not as a
-# third-party action: the repository only allows GitHub-owned and verified
-# actions, and a pinned checksum means a changed or replaced release file fails
-# the job instead of running. `--skip-check-update` makes Trivy use the checks
+# Trivy runs as a pinned release binary whose SHA-256 is checked below, not
+# through aquasecurity/trivy-action. That action's tags were hijacked in March
+# 2026 (GHSA-69fq-xp46-6x23), and it downloads Trivy and its checks at run time.
+# With a pinned checksum, a changed or replaced release file fails the job
+# instead of running. `--skip-check-update` makes Trivy use the checks
 # built into that binary, so the result does not change between runs of the same
 # commit. To update, change TRIVY_VERSION and TRIVY_SHA256 together; take the
 # checksum from trivy_<version>_checksums.txt of that release.
