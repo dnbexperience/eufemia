@@ -25,9 +25,18 @@ export default function StyleSample({
     >
       <H1>{print ? 'Print styles' : 'Document styles'}</H1>
       {!print && (
-        <p className="dnb-document__return-address">
-          Return address: Example Bank, Example Street 1, 0123 Oslo
-        </p>
+        <>
+          <p className="dnb-document__return-address">
+            Return address: Example Bank, Example Street 1, 0123 Oslo
+          </p>
+          <P className="dnb-document__address">
+            Ola Nordmann
+            <br />
+            Eksempelveien 12
+            <br />
+            0123 Oslo
+          </P>
+        </>
       )}
       <P>
         Branded text with <strong>emphasis</strong> and a{' '}

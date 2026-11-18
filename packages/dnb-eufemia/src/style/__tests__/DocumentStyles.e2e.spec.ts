@@ -78,7 +78,16 @@ test.describe('Document and print styles', () => {
           <p id="signature" class="dnb-p dnb-document__signature dnb-print__keep-together">Vennlig hilsen<br>DNB</p>
           <footer id="footer" class="dnb-document__footer"><div><p id="footer-paragraph" class="dnb-p">Footer text</p></div></footer>
           <div class="dnb-document__signature"><p id="signature-paragraph" class="dnb-p">Signature text</p></div>
-          <address id="return-address" class="dnb-document__return-address"><p id="return-address-paragraph">Return address</p></address>
+          <address id="return-address" class="dnb-document__return-address">
+            <p id="return-address-paragraph">Return address</p>
+            <p>Example Street 1</p>
+            <p>0123 Oslo</p>
+          </address>
+          <p id="recipient-address" class="dnb-p dnb-document__address">
+            <strong>Ola Nordmann</strong><br>
+            <em>Eksempelveien 12</em><br>
+            0123 Oslo
+          </p>
           <table class="dnb-table"><thead><tr><th id="cell">Oversikt</th></tr></thead>
             <tbody><tr><td><p id="cell-paragraph" class="dnb-p">Beløp</p></td></tr>
               <tr><td id="right-cell" class="dnb-table__td" align="right">1 250,00</td></tr>
@@ -555,15 +564,10 @@ test.describe('Document and print styles', () => {
 
   for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
     for (const isolated of [false, true]) {
-      test(`uses 9pt footer and return-address text with 10pt signatures for ${brand} (isolated: ${isolated})`, async () => {
+      test(`uses postal address typography with 9pt footers and 10pt signatures for ${brand} (isolated: ${isolated})`, async () => {
         await render(brand, isolated, true)
         const expectTypography = async (scale = 1) => {
-          for (const selector of [
-            '#footer',
-            '#footer-paragraph',
-            '#return-address',
-            '#return-address-paragraph',
-          ]) {
+          for (const selector of ['#footer', '#footer-paragraph']) {
             const text = await styles(selector)
             expect(text.fontSize).toBeCloseTo(12 * scale, 2)
             expect(text.lineHeight).toBeCloseTo(16.8 * scale, 2)
@@ -577,12 +581,47 @@ test.describe('Document and print styles', () => {
             expect(text.fontSize).toBeCloseTo(13.3333 * scale, 2)
             expect(text.lineHeight).toBeCloseTo(18.6667 * scale, 2)
           }
+          const addresses = await page
+            .locator(
+              '#return-address, #return-address *, #recipient-address, #recipient-address *'
+            )
+            .evaluateAll((elements) =>
+              elements.map((element) => {
+                const style = getComputedStyle(element)
+                return {
+                  fontFamily: style.fontFamily,
+                  fontSize: parseFloat(style.fontSize),
+                  fontWeight: style.fontWeight,
+                  fontStyle: style.fontStyle,
+                  lineHeight: parseFloat(style.lineHeight),
+                }
+              })
+            )
+
+          for (const address of addresses) {
+            expect(address.fontFamily).toBe('Arial, sans-serif')
+            expect(address.fontSize).toBeCloseTo(13.3333, 2)
+            expect(address.fontWeight).toBe('400')
+            expect(address.fontStyle).toBe('normal')
+            expect(address.lineHeight).toBeCloseTo(18.6667, 2)
+          }
+
+          const paragraph = await styles('#return-address-paragraph')
+          expect(paragraph.marginTop).toBe(0)
+          expect(paragraph.marginBottom).toBe(0)
         }
-        await expectTypography()
-        await page.emulateMedia({ media: 'print' })
-        await expectTypography()
-        await page.addStyleTag({ content: 'html { font-size: 125%; }' })
-        await expectTypography(1.25)
+
+        await test.step('screen', () => expectTypography())
+
+        await test.step('print', async () => {
+          await page.emulateMedia({ media: 'print' })
+          await expectTypography()
+        })
+
+        await test.step('fixed postal sizes with a larger root', async () => {
+          await page.addStyleTag({ content: 'html { font-size: 125%; }' })
+          await expectTypography(1.25)
+        })
       })
     }
   }
