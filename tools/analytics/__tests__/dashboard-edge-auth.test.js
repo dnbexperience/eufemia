@@ -13,7 +13,7 @@ const template = readFileSync(
 // string literal) and return the CloudFront handler for direct testing.
 function loadHandler(secret) {
   const rendered = template.replace(
-    '${edge_auth_secret}',
+    '${dashboard_edge_auth_secret}',
     JSON.stringify(secret)
   )
 
