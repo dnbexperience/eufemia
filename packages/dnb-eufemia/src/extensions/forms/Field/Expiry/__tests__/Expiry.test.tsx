@@ -13,6 +13,7 @@ import { DataContext, Field, FieldBlock, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import FormHandler from '../../../Form/Handler/Handler'
+import Provider from '../../../../../shared/Provider'
 
 const no = nbNO['nb-NO'].Expiry
 const en = enGB['en-GB'].Expiry
@@ -164,6 +165,29 @@ describe('Field.Expiry', () => {
     fireEvent.mouseDown(month)
 
     expect(document.activeElement).not.toBe(month)
+  })
+
+  it('should not focus or change value in skeleton mode', async () => {
+    const onChange = vi.fn()
+    render(
+      <Provider skeleton>
+        <Field.Expiry onChange={onChange} />
+      </Provider>
+    )
+
+    const month = getMonthInput()
+
+    expect(month).not.toHaveAttribute('tabindex')
+    expect(month).toHaveAttribute('aria-disabled', 'true')
+
+    await userEvent.tab()
+    expect(document.activeElement).toBe(document.body)
+
+    await userEvent.keyboard('12')
+    fireEvent.keyDown(month, { key: '1' })
+
+    expect(month.textContent).toBe('mm')
+    expect(onChange).not.toHaveBeenCalled()
   })
 
   it('should focus and select month input on label click', async () => {

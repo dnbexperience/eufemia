@@ -4,6 +4,7 @@ import { hydrateRoot } from 'react-dom/client'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import Provider from '../../../shared/Provider'
 import SegmentedField, {
   type SegmentedFieldItem,
   type SegmentedFieldProps,
@@ -222,6 +223,90 @@ describe('SegmentedField', () => {
       fireEvent.mouseDown(first)
 
       expect(document.activeElement).not.toBe(first)
+    })
+
+    it('should not be focusable or editable in skeleton mode', async () => {
+      const onChange = vi.fn()
+      render(
+        <Provider skeleton>
+          <SegmentedField
+            inputs={twoDigitInputs}
+            delimiter="/"
+            onChange={onChange}
+          />
+        </Provider>
+      )
+
+      const hiddenInput: HTMLInputElement = document.querySelector(
+        '.dnb-segmented-field__hidden-input'
+      )
+      expect(hiddenInput.tagName).toBe('SPAN')
+
+      const sections = getSections()
+      sections.forEach((section) => {
+        expect(section).toHaveAttribute('aria-disabled', 'true')
+        expect(section).toHaveAttribute('contenteditable', 'false')
+        expect(section).not.toHaveAttribute('tabindex')
+      })
+
+      await userEvent.tab()
+      expect(document.activeElement).toBe(document.body)
+
+      const first = getFirst()
+      first.focus()
+      expect(document.activeElement).not.toBe(first)
+
+      fireEvent.keyDown(first, { key: '1' })
+      fireEvent.keyDown(first, { key: 'ArrowUp' })
+      expect(onChange).not.toHaveBeenCalled()
+      expect(first.textContent).toBe('ff')
+    })
+
+    it('should not be focusable when skeleton prop is true', () => {
+      renderSegmentedField({ skeleton: true })
+
+      getSections().forEach((section) => {
+        expect(section).not.toHaveAttribute('tabindex')
+        expect(section).toHaveAttribute('contenteditable', 'false')
+      })
+    })
+
+    it('should not be focusable or editable when skeleton is set through formElement', () => {
+      const onChange = vi.fn()
+      render(
+        <Provider formElement={{ skeleton: true }}>
+          <SegmentedField
+            inputs={twoDigitInputs}
+            delimiter="/"
+            onChange={onChange}
+          />
+        </Provider>
+      )
+
+      getSections().forEach((section) => {
+        expect(section).not.toHaveAttribute('tabindex')
+        expect(section).toHaveAttribute('aria-disabled', 'true')
+      })
+
+      fireEvent.keyDown(getFirst(), { key: '1' })
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('should stay focusable when skeleton is false and context skeleton is true', () => {
+      render(
+        <Provider skeleton>
+          <SegmentedField
+            inputs={twoDigitInputs}
+            delimiter="/"
+            skeleton={false}
+          />
+        </Provider>
+      )
+
+      getSections().forEach((section) => {
+        expect(section).toHaveAttribute('tabindex', '0')
+        expect(section).toHaveAttribute('aria-disabled', 'false')
+      })
     })
 
     it('should render status', () => {

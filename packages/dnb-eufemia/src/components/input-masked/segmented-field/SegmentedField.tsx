@@ -1,7 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type { FocusEvent, RefObject } from 'react'
 import { flushSync } from 'react-dom'
 import { clsx } from 'clsx'
+import Context from '../../../shared/Context'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import useId from '../../../shared/helpers/useId'
 import Input from '../../Input'
@@ -37,6 +44,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     delimiter,
     onChange: onChangeExternal,
     disabled,
+    skeleton,
     status,
     statusState,
     values: defaultValues,
@@ -53,6 +61,13 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     ...rest
   } = props
   const hasExternalScopeRef = Boolean(props.scopeRef)
+  const context = useContext(Context)
+  const isInactive = Boolean(
+    disabled ||
+    skeleton ||
+    (skeleton !== false &&
+      (context?.skeleton || context?.formElement?.skeleton))
+  )
 
   const [values, onChangeBase] = useSegmentedFieldValues({
     inputs,
@@ -250,13 +265,13 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     (event?: FocusEvent<HTMLDivElement>) => {
       const firstId = inputs[0]?.id
 
-      if (disabled || !firstId) {
+      if (isInactive || !firstId) {
         return
       }
 
       focusSection(String(firstId), 'all')
     },
-    [disabled, focusSection, inputs]
+    [isInactive, focusSection, inputs]
   )
 
   const onLegendClick = useCallback(() => {
@@ -290,7 +305,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
                 index !== inputs.length - 1 ? delimiter : undefined
               }
               groupDelimiter={delimiter}
-              disabled={Boolean(disabled)}
+              disabled={isInactive}
               valuesRef={valuesRef as RefObject<Record<string, string>>}
               inputs={inputs.map(({ id, mask }) => ({
                 id: String(id),
@@ -339,7 +354,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         first contentEditable section, while still exposing the joined value
         as the canonical field string.
       */}
-      {disabled ? (
+      {isInactive ? (
         <span
           id={id}
           className="dnb-segmented-field__hidden-input dnb-sr-only"
@@ -393,6 +408,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         size={size}
         labelDirection={labelDirection}
         disabled={disabled}
+        skeleton={skeleton}
         status={status}
         statusState={statusState}
         suffix={suffix}

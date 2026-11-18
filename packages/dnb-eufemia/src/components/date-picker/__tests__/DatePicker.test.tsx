@@ -106,6 +106,19 @@ describe('DatePicker component', () => {
     ).toHaveAttribute('disabled')
   })
 
+  it('keeps input sections focusable when skeleton is false and context skeleton is true', () => {
+    render(
+      <Provider skeleton>
+        <DatePicker showInput skeleton={false} />
+      </Provider>
+    )
+
+    const day = document.querySelector('.dnb-date-picker__input--day')
+
+    expect(day).toHaveAttribute('tabindex', '0')
+    expect(day).toHaveAttribute('aria-disabled', 'false')
+  })
+
   it('has correct state after "click" trigger', () => {
     render(<DatePicker {...defaultProps} />)
 
