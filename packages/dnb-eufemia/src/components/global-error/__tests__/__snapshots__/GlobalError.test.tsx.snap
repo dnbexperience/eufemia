@@ -828,6 +828,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
 }
 .dnb-button--secondary.dnb-button__status--error {
+  --button-border-width--default: 0.125rem;
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover-subtle

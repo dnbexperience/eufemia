@@ -889,6 +889,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
 }
 .dnb-button--secondary.dnb-button__status--error {
+  --button-border-width--default: 0.125rem;
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover-subtle
@@ -1765,7 +1766,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]) ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border--error);
-  --checkbox-border-width--default: 0.0625rem;
+  --checkbox-border-width--default: 0.125rem;
   background-color: var(--checkbox-color-background-off--error);
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:indeterminate) ~ .dnb-checkbox__gfx {
@@ -2184,7 +2185,7 @@ html[data-whatinput=keyboard] .dnb-checkbox--surface-dark .dnb-checkbox__input:n
   /** Error state **/
 }
 .dnb-radio__status--error .dnb-radio__input ~ .dnb-radio__button {
-  --radio-border-width--default: 0.0625rem;
+  --radio-border-width--default: 0.125rem;
   --radio-color-background--default: var(
     --token-color-background-error-subtle
   );
