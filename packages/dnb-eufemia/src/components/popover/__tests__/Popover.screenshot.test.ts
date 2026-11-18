@@ -4,25 +4,28 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Popover for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/popover/demos/',
-  })
-
-  it('matches the basic style', async () => {
-    await makeScreenshot({
-      style: {
-        'margin-left': '180px',
-        'padding-bottom': '200px',
-        'padding-right': '180px',
-      },
-      selector: '[data-visual-test="popover-basic"]',
-      simulate: 'click',
-      simulateSelector: '[data-visual-test="popover-basic"] button',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Popover for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/popover/demos/',
     })
-  })
-})
+
+    it('matches the basic style', async () => {
+      await makeScreenshot({
+        style: {
+          'margin-left': '180px',
+          'padding-bottom': '200px',
+          'padding-right': '180px',
+        },
+        selector: '[data-visual-test="popover-basic"]',
+        simulate: 'click',
+        simulateSelector: '[data-visual-test="popover-basic"] button',
+      })
+    })
+  }
+)
 
 describe.each(['ui'])(`Popover alignment for %s`, (themeName) => {
   setupPageScreenshot({

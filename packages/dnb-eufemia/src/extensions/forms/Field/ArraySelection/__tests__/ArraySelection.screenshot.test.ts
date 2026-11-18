@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(
+describe.each(['ui', 'sbanken', 'coconut'])(
   `ArraySelection field for %s`,
   (themeName) => {
     setupPageScreenshot({

@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Stat for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Stat for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/stat/demos/',

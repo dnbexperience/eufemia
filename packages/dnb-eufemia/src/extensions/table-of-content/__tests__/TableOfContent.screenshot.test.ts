@@ -4,133 +4,139 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/patterns-and-extensions/table-of-content/demos/',
-  })
-
-  it('matches nested declarative navigation', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      style: { width: '18rem' },
+describe.each(['ui', 'sbanken', 'coconut'])(
+  'TableOfContent for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/patterns-and-extensions/table-of-content/demos/',
     })
-  })
 
-  it('matches inline code and wrapped data labels', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-data"]',
-      style: { width: '14rem' },
+    it('matches nested declarative navigation', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        style: { width: '18rem' },
+      })
     })
-  })
 
-  it('matches a desktop article with nested levels and a header offset', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-desktop-article"]',
-      style: { width: '46rem' },
+    it('matches inline code and wrapped data labels', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-data"]',
+        style: { width: '14rem' },
+      })
     })
-  })
 
-  it('matches keyboard focus', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      style: { width: '18rem' },
-      simulate: [
-        {
-          action: 'focus',
-          selector: '[data-visual-test="table-of-content-declarative"] a',
+    it('matches a desktop article with nested levels and a header offset', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-desktop-article"]',
+        style: { width: '46rem' },
+      })
+    })
+
+    it('matches keyboard focus', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        style: { width: '18rem' },
+        simulate: [
+          {
+            action: 'focus',
+            selector:
+              '[data-visual-test="table-of-content-declarative"] a',
+          },
+          {
+            action: 'realhover',
+            selector:
+              '[data-visual-test="table-of-content-declarative"] a',
+          },
+        ],
+      })
+    })
+
+    it('matches a hovered row', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        style: { width: '18rem' },
+        simulate: 'realhover',
+        simulateSelector:
+          '[data-visual-test="table-of-content-declarative"] a',
+      })
+    })
+
+    it('matches dark navigation', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        style: { width: '18rem' },
+        colorScheme: 'dark',
+        wrapperStyle: {
+          background: 'var(--token-color-background-neutral)',
         },
-        {
-          action: 'realhover',
-          selector: '[data-visual-test="table-of-content-declarative"] a',
+      })
+    })
+
+    it('matches the selected row outline on hover', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        style: { width: '18rem' },
+        simulate: 'realhover',
+        simulateSelector:
+          '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+      })
+    })
+
+    it('keeps a selected row highlighted while hovered in dark mode', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        style: { width: '18rem' },
+        colorScheme: 'dark',
+        wrapperStyle: {
+          background: 'var(--token-color-background-neutral)',
         },
-      ],
+        simulate: [
+          {
+            action: 'focus',
+            selector:
+              '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+          },
+          {
+            action: 'realhover',
+            selector:
+              '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+          },
+        ],
+      })
     })
-  })
 
-  it('matches a hovered row', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      style: { width: '18rem' },
-      simulate: 'realhover',
-      simulateSelector:
-        '[data-visual-test="table-of-content-declarative"] a',
+    it('matches expanded mobile text links', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        pageViewport: { width: 600, height: 900 },
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="table-of-content-declarative"] button',
+      })
     })
-  })
 
-  it('matches dark navigation', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      style: { width: '18rem' },
-      colorScheme: 'dark',
-      wrapperStyle: {
-        background: 'var(--token-color-background-neutral)',
-      },
-    })
-  })
-
-  it('matches the selected row outline on hover', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      style: { width: '18rem' },
-      simulate: 'realhover',
-      simulateSelector:
-        '[data-visual-test="table-of-content-declarative"] a[aria-current]',
-    })
-  })
-
-  it('keeps a selected row highlighted while hovered in dark mode', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      style: { width: '18rem' },
-      colorScheme: 'dark',
-      wrapperStyle: {
-        background: 'var(--token-color-background-neutral)',
-      },
-      simulate: [
-        {
-          action: 'focus',
-          selector:
-            '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+    it('matches mobile keyboard focus in dark mode', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="table-of-content-declarative"]',
+        pageViewport: { width: 600, height: 900 },
+        colorScheme: 'dark',
+        wrapperStyle: {
+          background: 'var(--token-color-background-neutral)',
         },
-        {
-          action: 'realhover',
-          selector:
-            '[data-visual-test="table-of-content-declarative"] a[aria-current]',
-        },
-      ],
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="table-of-content-declarative"] button',
+          },
+          {
+            action: 'focus',
+            selector:
+              '[data-visual-test="table-of-content-declarative"] a',
+          },
+        ],
+      })
     })
-  })
-
-  it('matches expanded mobile text links', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      pageViewport: { width: 600, height: 900 },
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="table-of-content-declarative"] button',
-    })
-  })
-
-  it('matches mobile keyboard focus in dark mode', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="table-of-content-declarative"]',
-      pageViewport: { width: 600, height: 900 },
-      colorScheme: 'dark',
-      wrapperStyle: {
-        background: 'var(--token-color-background-neutral)',
-      },
-      simulate: [
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="table-of-content-declarative"] button',
-        },
-        {
-          action: 'focus',
-          selector: '[data-visual-test="table-of-content-declarative"] a',
-        },
-      ],
-    })
-  })
-})
+  }
+)

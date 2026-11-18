@@ -4,81 +4,84 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Number field for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/forms/base-fields/Number/demos/',
-  })
-
-  describe('with step control buttons', () => {
-    it('matches the default state', async () => {
-      await makeScreenshot({
-        selector:
-          '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
-      })
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Number field for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/forms/base-fields/Number/demos/',
     })
 
-    it('matches the hover state', async () => {
-      await makeScreenshot({
-        selector:
-          '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
-        simulate: 'hover',
+    describe('with step control buttons', () => {
+      it('matches the default state', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
+        })
       })
-    })
 
-    it('matches horizontal layout', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="number-horizontal-layout"]',
+      it('matches the hover state', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
+          simulate: 'hover',
+        })
       })
-    })
 
-    it('matches status messages', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="number-status"]',
+      it('matches horizontal layout', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="number-horizontal-layout"]',
+        })
       })
-    })
 
-    it('matches the focus state', async () => {
-      await makeScreenshot({
-        selector:
-          '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
-        simulateSelector:
-          '[data-visual-test="number-input-step-controls"] .dnb-input',
-        simulate: 'focusclick',
+      it('matches status messages', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="number-status"]',
+        })
       })
-    })
 
-    it('matches the disabled state', async () => {
-      await makeScreenshot({
-        selector:
-          '[data-visual-test="number-input-step-controls-disabled"] .dnb-forms-field-number',
+      it('matches the focus state', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
+          simulateSelector:
+            '[data-visual-test="number-input-step-controls"] .dnb-input',
+          simulate: 'focusclick',
+        })
       })
-    })
 
-    it('matches the control button hover state', async () => {
-      await makeScreenshot({
-        selector:
-          '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
-        simulateSelector:
-          '[data-visual-test="number-input-step-controls"] .dnb-button--control-before',
-        simulate: 'hover',
+      it('matches the disabled state', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="number-input-step-controls-disabled"] .dnb-forms-field-number',
+        })
       })
-    })
 
-    it('matches the error state', async () => {
-      await makeScreenshot({
-        selector:
-          '[data-visual-test="number-input-step-controls-error"] .dnb-forms-field-number',
+      it('matches the control button hover state', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="number-input-step-controls"] .dnb-forms-field-number',
+          simulateSelector:
+            '[data-visual-test="number-input-step-controls"] .dnb-button--control-before',
+          simulate: 'hover',
+        })
       })
-    })
 
-    it('matches with label description', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="number-label-description"]',
+      it('matches the error state', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="number-input-step-controls-error"] .dnb-forms-field-number',
+        })
+      })
+
+      it('matches with label description', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="number-label-description"]',
+        })
       })
     })
-  })
-})
+  }
+)
 
 describe('Field.Number', () => {
   setupPageScreenshot({

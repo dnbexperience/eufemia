@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom'])(
   `Heading for %s`,
   (themeName) => {
     setupPageScreenshot({

@@ -16,77 +16,83 @@ describe('Paragraph', () => {
   })
 })
 
-describe.each(['ui', 'sbanken'])(`Paragraph for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/layout-and-typography/elements/paragraph/demos/',
-  })
-
-  it('have to match the paragraph with weight modifiers', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-weight"]',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Paragraph for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/layout-and-typography/elements/paragraph/demos/',
     })
-  })
 
-  it('have to match the paragraph with size modifiers', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-size"]',
+    it('have to match the paragraph with weight modifiers', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-weight"]',
+      })
     })
-  })
 
-  it('have to match the paragraph with align modifiers', async () => {
-    await makeScreenshot({
-      style: { width: '30rem' },
-      selector: '[data-visual-test="paragraph-modifiers-align"]',
+    it('have to match the paragraph with size modifiers', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-size"]',
+      })
     })
-  })
 
-  it('have to match the paragraph with family modifiers', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-family"]',
+    it('have to match the paragraph with align modifiers', async () => {
+      await makeScreenshot({
+        style: { width: '30rem' },
+        selector: '[data-visual-test="paragraph-modifiers-align"]',
+      })
     })
-  })
 
-  it('have to match the paragraph with line modifiers', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-line"]',
+    it('have to match the paragraph with family modifiers', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-family"]',
+      })
     })
-  })
 
-  it('have to match the paragraph with other modifiers', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers-other"]',
+    it('have to match the paragraph with line modifiers', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-line"]',
+      })
     })
-  })
 
-  it('have to match the paragraph example', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-default"]',
+    it('have to match the paragraph with other modifiers', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-modifiers-other"]',
+      })
     })
-  })
 
-  it('have to match the paragraph with small text', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-small"]',
+    it('have to match the paragraph example', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-default"]',
+      })
     })
-  })
 
-  it('have to match the paragraph with additional elements', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-additional"]',
+    it('have to match the paragraph with small text', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-small"]',
+      })
     })
-  })
-})
 
-describe.each(['ui', 'sbanken'])(`Paragraph for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/layout-and-typography/elements/paragraph/demos/',
-  })
-
-  it('matches all sizes and weights', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="paragraph-sizes"]',
+    it('have to match the paragraph with additional elements', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-additional"]',
+      })
     })
-  })
-})
+  }
+)
+
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Paragraph for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/layout-and-typography/elements/paragraph/demos/',
+    })
+
+    it('matches all sizes and weights', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="paragraph-sizes"]',
+      })
+    })
+  }
+)

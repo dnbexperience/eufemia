@@ -8,7 +8,7 @@ const darkWrapperStyle = {
   background: 'var(--token-color-background-page-background)',
 }
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
   'Chip for %s',
   (themeName) => {
     setupPageScreenshot({ themeName, url: '/web/components/chip/demos/' })

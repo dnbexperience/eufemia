@@ -4,33 +4,36 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`TextCounter for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/fragments/text-counter/demos/',
-  })
-
-  it('have to character counter downwards', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="text-counter-down"]',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `TextCounter for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/fragments/text-counter/demos/',
     })
-  })
 
-  it('have to character counter upwards', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="text-counter-up"]',
+    it('have to character counter downwards', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="text-counter-down"]',
+      })
     })
-  })
 
-  it('have to character counter exceeded', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="text-counter-exceeded"]',
+    it('have to character counter upwards', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="text-counter-up"]',
+      })
     })
-  })
-})
+
+    it('have to character counter exceeded', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="text-counter-exceeded"]',
+      })
+    })
+  }
+)
 
 // Eiendom reuses the DNB token palette.
-describe.each(['ui', 'sbanken', 'eiendom'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom'])(
   'TextCounter on filled surfaces for %s dark',
   (themeName) => {
     setupPageScreenshot({

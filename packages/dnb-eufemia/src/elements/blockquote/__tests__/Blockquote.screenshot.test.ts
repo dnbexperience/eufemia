@@ -4,88 +4,94 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Blockquote for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/layout-and-typography/elements/blockquote/demos/',
-  })
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Blockquote for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/layout-and-typography/elements/blockquote/demos/',
+    })
 
-  const style = {
-    width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
+    const style = {
+      width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
+    }
+
+    it('have to match default "blockquote"', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-default"]',
+      })
+    })
+
+    it('have to match "blockquote" with top aligned graphic', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-top"]',
+      })
+    })
+
+    it('have to match "blockquote" with top aligned graphic and no background', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-top-no-background"]',
+      })
+    })
+
+    it('have to match "blockquote" with no background', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-no-background"]',
+      })
+    })
+
+    it('have to match "blockquote" with code as child', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-with-code"]',
+      })
+    })
   }
+)
 
-  it('have to match default "blockquote"', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-default"]',
+describe.each(['sbanken', 'coconut'])(
+  `Blockquote on mobile for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/layout-and-typography/elements/blockquote/demos/',
+      pageViewport: { width: 640 },
     })
-  })
 
-  it('have to match "blockquote" with top aligned graphic', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-top"]',
+    const style = {
+      width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
+    }
+
+    it('have to match default "blockquote"', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-default"]',
+      })
     })
-  })
 
-  it('have to match "blockquote" with top aligned graphic and no background', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-top-no-background"]',
+    it('have to match "blockquote" with top aligned graphic', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-top"]',
+      })
     })
-  })
 
-  it('have to match "blockquote" with no background', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-no-background"]',
+    it('have to match "blockquote" with top aligned graphic and no background', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-top-no-background"]',
+      })
     })
-  })
 
-  it('have to match "blockquote" with code as child', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-with-code"]',
+    it('have to match "blockquote" with no background', async () => {
+      await makeScreenshot({
+        style,
+        selector: '[data-visual-test="blockquote-no-background"]',
+      })
     })
-  })
-})
-
-describe.each(['sbanken'])(`Blockquote on mobile for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/layout-and-typography/elements/blockquote/demos/',
-    pageViewport: { width: 640 },
-  })
-
-  const style = {
-    width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
-
-  it('have to match default "blockquote"', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-default"]',
-    })
-  })
-
-  it('have to match "blockquote" with top aligned graphic', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-top"]',
-    })
-  })
-
-  it('have to match "blockquote" with top aligned graphic and no background', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-top-no-background"]',
-    })
-  })
-
-  it('have to match "blockquote" with no background', async () => {
-    await makeScreenshot({
-      style,
-      selector: '[data-visual-test="blockquote-no-background"]',
-    })
-  })
-})
+)

@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
   `FormStatus for %s`,
   (themeName) => {
     setupPageScreenshot({
@@ -96,7 +96,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   }
 )
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom'])(
   'FormStatus error colors for %s dark',
   (themeName) => {
     setupPageScreenshot({

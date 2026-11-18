@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/tabs/demos/',
@@ -156,7 +156,7 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   })
 })
 
-describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/tabs/demos/',
@@ -177,7 +177,7 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   })
 })
 
-describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/tabs/demos/',
