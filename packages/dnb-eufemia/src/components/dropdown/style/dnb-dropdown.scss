@@ -112,6 +112,7 @@
         --button-color-bg--active: var(--token-color-background-neutral);
 
         // Border
+        --button-border-width--default: 0.125rem;
         --button-color-border--default: var(--token-color-stroke-error);
         --button-color-border--hover: var(
           --token-color-component-button-stroke-action-destructive-hover
@@ -275,7 +276,7 @@
       @include utilities.focusRing('always');
 
       --border-color: var(--token-color-stroke-error);
-      --border-width: 0.0625rem;
+      --border-width: var(--dropdown-border-width--open);
     }
 
     &:disabled::before {

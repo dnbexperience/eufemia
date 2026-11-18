@@ -832,6 +832,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
 }
 .dnb-button--secondary.dnb-button__status--error {
+  --button-border-width--default: 0.125rem;
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover-subtle
@@ -1387,6 +1388,7 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error {
   --button-color-bg--hover: var(--token-color-background-neutral);
   --button-color-bg--active: var(--token-color-background-neutral);
+  --button-border-width--default: 0.125rem;
   --button-color-border--default: var(--token-color-stroke-error);
   --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive-hover
@@ -1515,7 +1517,7 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 }
 .dnb-dropdown__status--error .dnb-button--tertiary::before {
   --border-color: var(--token-color-stroke-error);
-  --border-width: 0.0625rem;
+  --border-width: var(--dropdown-border-width--open);
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--token-color-stroke-action-disabled);
@@ -1733,6 +1735,7 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error {
   --button-color-bg--hover: var(--token-color-background-neutral);
   --button-color-bg--active: var(--token-color-background-neutral);
+  --button-border-width--default: 0.125rem;
   --button-color-border--default: var(--token-color-stroke-error);
   --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive-hover
@@ -1861,7 +1864,7 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 }
 .dnb-dropdown__status--error .dnb-button--tertiary::before {
   --border-color: var(--token-color-stroke-error);
-  --border-width: 0.0625rem;
+  --border-width: var(--dropdown-border-width--open);
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--token-color-stroke-action-disabled);

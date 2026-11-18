@@ -475,6 +475,13 @@
       --token-color-background-error
     );
   }
+  // A thicker border, so the error does not rely on color alone
+  &__status--error &__input:not([disabled]) ~ &__background {
+    @include utilities.fakeBorder(var(--switch-border), 0.125rem);
+  }
+  &__status--error &__input:not([disabled]):checked ~ &__background {
+    @include utilities.fakeBorder(var(--switch-checked-border), 0.125rem);
+  }
 
   html[data-whatinput='keyboard']
     &--surface-dark#{&}__status--error

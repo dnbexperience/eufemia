@@ -559,7 +559,7 @@ button .dnb-form-status__text {
   /** Error state **/
 }
 .dnb-radio__status--error .dnb-radio__input ~ .dnb-radio__button {
-  --radio-border-width--default: 0.0625rem;
+  --radio-border-width--default: 0.125rem;
   --radio-color-background--default: var(
     --token-color-background-error-subtle
   );

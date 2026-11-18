@@ -381,5 +381,6 @@
     &__textarea:not([disabled]):not(#{&}--disabled)
     ~ &__state {
     --textarea-color-border: var(--token-color-stroke-error);
+    --textarea-border-width: var(--textarea-border-width--hover);
   }
 }

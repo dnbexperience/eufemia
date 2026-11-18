@@ -382,6 +382,8 @@
     }
 
     &.dnb-button__status--error {
+      --button-border-width--default: 0.125rem;
+
       // Background
       --button-color-bg--default: var(--token-color-background-neutral);
       --button-color-bg--hover: var(

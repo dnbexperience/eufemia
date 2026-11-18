@@ -399,7 +399,7 @@
 
   // General
   &__status--error &__input ~ &__button {
-    --radio-border-width--default: 0.0625rem;
+    --radio-border-width--default: 0.125rem;
     --radio-color-background--default: var(
       --token-color-background-error-subtle
     );

@@ -828,6 +828,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
 }
 .dnb-button--secondary.dnb-button__status--error {
+  --button-border-width--default: 0.125rem;
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover-subtle
@@ -1313,7 +1314,7 @@ legend.dnb-form-label {
   --input-border-width--active: 0.125rem;
   --input-border-width--focus: 0.125rem;
   --input-border-width--disabled: 0.0625rem;
-  --input-border-width__error: 0.0625rem;
+  --input-border-width__error: 0.125rem;
   --input-border-width__error--hover: 0.125rem;
   --input-border-width__error--active: 0.125rem;
   --input-border-inset: inset;

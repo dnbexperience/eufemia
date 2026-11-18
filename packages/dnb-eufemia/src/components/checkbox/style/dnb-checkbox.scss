@@ -514,6 +514,13 @@
 
   /** Error state **/
 
+  // A thicker border, so the error does not rely on color alone
+  &__status--error:where(:not(.dnb-toggle-button *))
+    &__input:not([disabled])
+    ~ &__button {
+    --checkbox-border-width--default: 0.125rem;
+  }
+
   // Keep the error colors on hover, pressed and focus. ToggleButton maps these states itself.
   &__status--error:where(:not(.dnb-toggle-button *)) {
     --checkbox-color-gfx--hover: var(--checkbox-color-gfx--error);

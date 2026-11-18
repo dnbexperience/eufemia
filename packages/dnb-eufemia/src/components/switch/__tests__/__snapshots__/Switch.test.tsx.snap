@@ -648,6 +648,18 @@ html[data-whatinput=keyboard] .dnb-switch--surface-dark .dnb-switch__input:not([
     --token-color-background-error
   );
 }
+.dnb-switch__status--error .dnb-switch__input:not([disabled]) ~ .dnb-switch__background {
+  --border-color: var(--switch-border);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__background {
+  --border-color: var(--switch-checked-border);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
 html[data-whatinput=keyboard] .dnb-switch--surface-dark.dnb-switch__status--error .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button, html:not([data-whatinput=keyboard]) .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
   box-shadow: none;
 }"
