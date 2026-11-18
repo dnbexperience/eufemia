@@ -553,6 +553,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   --button-color-border: var(--button-color-border--default);
   --button-color-underline: var(--button-color-underline--default);
   --button-border-inset: var(--button-border-inset--default);
+  --button-color-outline: var(--token-color-stroke-action-focus);
   --button-border-inset--default: inset;
   --button-border-inset--hover: ;
   --button-border-inset--focus: ;
@@ -588,6 +589,9 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   position: relative;
   cursor: pointer;
   white-space: nowrap;
+}
+.dnb-button--surface-dark {
+  --button-color-outline: var(--token-color-stroke-action-focus-ondark);
 }
 .dnb-button--wrap {
   overflow-wrap: break-word;
@@ -642,37 +646,9 @@ html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(:not(.dnb-button--surface-dark)) {
-  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  outline: var(--focus-outline-width) solid var(--button-color-outline);
   outline-offset: var(--focus-outline-offset);
-}
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
-  --button-color-bg: var(--button-color-bg--focus);
-  --button-color-border: var(--button-color-border--focus);
-  --button-color-icon: var(--button-color-icon--focus);
-  --button-color-text: var(--button-color-text--focus);
-  --button-color-underline: var(--button-color-underline--default);
-  --button-border-inset: var(--button-border-inset--focus);
-  --button-border-width: var(--button-border-width--focus);
-  --button-input-separator-color: var(
-    --button-input-separator-color--focus
-  );
-  outline: none;
-}
-@media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
-    outline: var(--focus-ring-width) solid transparent;
-  }
-}
-@media (forced-colors: active) {
-  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
-    outline-offset: 0;
-  }
-}
-html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark)[aria-disabled=true] {
-  --button-color-bg: var(--button-color-bg--disabled);
-  --button-color-icon: var(--button-color-icon--disabled);
-  --button-color-text: var(--button-color-text--disabled);
 }
 .dnb-button--primary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[disabled], .dnb-button--secondary[aria-disabled=true], .dnb-button--tertiary[disabled], .dnb-button--tertiary[aria-disabled=true] {
   --button-color-bg: var(--button-color-bg--disabled);
@@ -899,17 +875,11 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]):where(.dnb-button--surface-dark) {
-  text-decoration: none;
-}
-html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled]) {
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
   outline: none;
 }
-html:not([data-whatinput=touch]) .dnb-button--tertiary:where(:not(.dnb-button--surface-dark)):focus-visible:not([disabled])::before {
-  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
+  outline: var(--focus-outline-width) solid var(--button-color-outline);
   outline-offset: var(--focus-outline-offset);
 }
 .dnb-button--tertiary > * {
@@ -1734,57 +1704,84 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   justify-content: flex-start;
 }
 .dnb-drawer__reveal .dnb-drawer {
-  display: flex;
-  flex-direction: column;
-  overflow: visible;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: clip;
   opacity: 1;
-  transform: none;
+  transform: translate3d(-100%, 0, 0);
   animation: none;
   box-shadow: none;
-  clip-path: inset(0 100% 0 0);
-  will-change: clip-path;
-  transition: clip-path var(--drawer-reveal-duration);
+  will-change: transform;
+  transition: transform var(--drawer-reveal-duration);
+}
+.dnb-drawer__reveal .dnb-drawer > * {
+  transform: translate3d(100%, 0, 0);
+  will-change: transform;
+  transition: transform var(--drawer-reveal-duration);
 }
 .dnb-drawer__reveal-scroll {
-  flex: 1;
+  display: grid;
+  grid-area: 1/1/3/2;
+  grid-template-rows: subgrid;
   min-height: 0;
+  scroll-padding-top: 6rem;
   overscroll-behavior: contain;
+}
+@supports not (grid-template-rows: subgrid) {
+  .dnb-drawer__reveal-scroll {
+    grid-area: 2/1;
+  }
+}
+.dnb-drawer__reveal-content {
+  grid-row: 2;
+  min-height: 0;
 }
 .dnb-drawer__reveal-edge {
   position: absolute;
-  inset: 0 auto 0 0;
+  z-index: 1;
+  inset: -100lvh auto -100lvh 0;
   width: 1rem;
   pointer-events: none;
-  box-shadow: var(--shadow-sharp);
-  clip-path: inset(-100lvh 100% -100lvh -100vw);
+  clip-path: inset(0 100% 0 -100vw);
   transform: translate3d(0, 0, 0);
   will-change: transform;
   transition: transform var(--drawer-reveal-duration);
 }
-.dnb-drawer__reveal-edge::before {
+.dnb-drawer__reveal-edge::before, .dnb-drawer__reveal-edge::after {
   content: "";
   position: absolute;
-  top: -100lvh;
-  right: 100%;
-  bottom: -100lvh;
+}
+.dnb-drawer__reveal-edge::before {
+  inset: 0 100% 0 auto;
   width: 100vw;
-  background-color: currentcolor;
+  background-image: linear-gradient(currentcolor 100lvh, transparent 100lvh calc(100% - 100lvh), currentcolor calc(100% - 100lvh));
+}
+.dnb-drawer__reveal-edge::after {
+  inset: 0;
+  box-shadow: var(--shadow-sharp);
+}
+.eufemia-theme__color-scheme--dark .dnb-drawer__reveal-edge::after {
+  box-shadow: -0.0625rem 0 0 var(--token-color-stroke-neutral-subtle);
 }
 .dnb-drawer__reveal-overlay.dnb-modal__overlay {
   background-color: transparent;
 }
 .dnb-drawer__reveal-target {
   will-change: transform, opacity;
-  transition: transform var(--drawer-reveal-duration), opacity var(--drawer-reveal-duration);
+  transition: transform var(--drawer-reveal-duration);
 }
 .dnb-drawer__reveal-target:where(.dnb-drawer__reveal-opening) {
-  transition: transform var(--drawer-reveal-duration), opacity calc(var(--drawer-reveal-duration) * 0.75) calc(var(--drawer-reveal-duration) * 0.25);
+  transition: transform var(--drawer-reveal-duration), opacity var(--drawer-reveal-duration) var(--drawer-reveal-duration);
 }
-.dnb-drawer__reveal-dragging, .dnb-drawer__reveal-dragging .dnb-drawer__reveal-edge, .dnb-drawer__reveal-dragging .dnb-drawer {
+.dnb-drawer__reveal-dragging, .dnb-drawer__reveal-dragging .dnb-drawer__reveal-edge, .dnb-drawer__reveal-dragging .dnb-drawer, .dnb-drawer__reveal-dragging .dnb-drawer > * {
   transition: none;
 }
+.dnb-drawer__reveal-dragging + .dnb-drawer__reveal-overlay {
+  z-index: calc(var(--modal-z-index) + 2);
+}
 @media (prefers-reduced-motion: reduce) {
-  .dnb-drawer__reveal-target, .dnb-drawer__reveal-edge, .dnb-drawer__reveal .dnb-drawer {
+  .dnb-drawer__reveal-target, .dnb-drawer__reveal-edge, .dnb-drawer__reveal .dnb-drawer, .dnb-drawer__reveal .dnb-drawer > * {
     transition: none;
   }
 }
@@ -1871,17 +1868,32 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-drawer .dnb-drawer__navigation:not(.dnb-drawer__navigation--sticky)::after {
   color: transparent;
 }
-.dnb-drawer__reveal .dnb-drawer__navigation--sticky::before {
-  border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
-  box-shadow: none;
-}
 .dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section {
   position: relative;
-  flex-shrink: 0;
-  border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  grid-area: 1/1;
+  pointer-events: auto;
+  background-color: transparent;
+  --background-color: transparent;
+}
+.dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section .dnb-modal__header__bar__close {
+  padding-inline-start: 0.5rem;
+  margin-inline-start: -0.5rem;
+  background-color: var(--drawer-background-color);
+}
+.dnb-drawer__reveal .dnb-drawer .dnb-drawer__navigation.dnb-section::before {
+  inset: 0 1.5rem auto 0;
+  height: calc(100% + 1rem);
+  pointer-events: none;
+  opacity: 0.98;
+  background-image: linear-gradient(var(--drawer-background-color), transparent);
+  box-shadow: none;
 }
 .dnb-drawer__reveal .dnb-drawer__inner {
   min-height: 100%;
+}
+.dnb-drawer__reveal .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+  margin-block: 0;
+  padding-block: var(--drawer-spacing);
 }
 .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
   margin: var(--drawer-spacing) 0;

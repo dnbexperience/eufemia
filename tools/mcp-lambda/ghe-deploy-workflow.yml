@@ -68,3 +68,43 @@ jobs:
           echo "## MCP Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Smoke test
+        # Never call a tool here: usage capture would count it as web usage.
+        run: |
+          set -euo pipefail
+          ENDPOINT=https://server.eufemia.dnb.no/mcp/web
+          RESPONSE="$RUNNER_TEMP/mcp-response.json"
+
+          check() {
+            local protocol=$1 method=$2 params=$3 filter=$4 method_header= reply=
+            if [[ $protocol == 2026-07-28 ]]; then
+              method_header="MCP-Method: $method"
+            fi
+            rm -f "$RESPONSE"
+            if ! reply=$(curl -sS --fail-with-body --max-time 20 \
+                --retry 3 --retry-delay 10 --retry-all-errors \
+                -H 'Content-Type: application/json' \
+                -H 'Accept: application/json, text/event-stream' \
+                -H "MCP-Protocol-Version: $protocol" \
+                ${method_header:+-H "$method_header"} \
+                -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"$method\",\"params\":$params}" \
+                -w '%{http_code} %header{server}' \
+                -o "$RESPONSE" "$ENDPOINT") ||
+              ! jq -e "$filter" "$RESPONSE" > /dev/null; then
+              echo "::error::MCP $method ($protocol) failed at $ENDPOINT"
+              if [[ $reply == '403 AkamaiGHost' ]]; then
+                echo "::error::Blocked by the Akamai firewall before reaching the server. $(perl -pe 's/&#(\d+);/chr($1)/ge' "$RESPONSE" | grep -o 'Reference #[0-9a-f.]*')"
+              fi
+              head -c 2000 "$RESPONSE"
+              exit 1
+            fi
+          }
+
+          check 2025-11-25 initialize \
+            '{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"eufemia-deploy-smoke-test","version":"1.0.0"}}' \
+            '.result.serverInfo.name == "eufemia" and .result.capabilities.tools != null'
+          check 2025-11-25 tools/list '{}' '.result.tools | length > 0'
+          check 2026-07-28 server/discover \
+            '{"_meta":{"io.modelcontextprotocol/protocolVersion":"2026-07-28","io.modelcontextprotocol/clientInfo":{"name":"eufemia-deploy-smoke-test","version":"1.0.0"},"io.modelcontextprotocol/clientCapabilities":{}}}' \
+            '.result.resultType == "complete" and .result._meta["io.modelcontextprotocol/serverInfo"].name == "eufemia" and .result.capabilities.tools != null'

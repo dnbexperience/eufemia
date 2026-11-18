@@ -155,6 +155,31 @@ describe('SidebarMenuResizeHandle', () => {
     expect(handle).toHaveAttribute('aria-valuenow', '340')
   })
 
+  it.each([undefined, 340])(
+    'resizes to the minimum and resolved maximum with Home and End (CSS maximum: %s)',
+    (layoutMaxWidth) => {
+      const { handle, root } = renderHandle({ layoutMaxWidth })
+      const maximum = layoutMaxWidth ?? 560
+
+      expect(fireEvent.keyDown(handle, { key: 'Home' })).toBe(false)
+      expect(root.style.getPropertyValue('--aside-width')).toBe('240px')
+      expect(handle).toHaveAttribute('aria-valuenow', '240')
+
+      fireEvent.keyDown(handle, { key: 'ArrowLeft', shiftKey: true })
+      expect(handle).toHaveAttribute('aria-valuenow', '240')
+
+      expect(fireEvent.keyDown(handle, { key: 'End' })).toBe(false)
+      expect(root.style.getPropertyValue('--aside-width')).toBe(
+        `${maximum}px`
+      )
+      expect(handle).toHaveAttribute('aria-valuemax', String(maximum))
+      expect(handle).toHaveAttribute('aria-valuenow', String(maximum))
+
+      fireEvent.keyDown(handle, { key: 'ArrowRight', shiftKey: true })
+      expect(handle).toHaveAttribute('aria-valuenow', String(maximum))
+    }
+  )
+
   it('uses the CSS maximum width for keyboard and ARIA state', () => {
     const { handle, root } = renderHandle({ layoutMaxWidth: 340 })
 

@@ -3075,6 +3075,62 @@
           }
         }
       },
+      "action-focus-ondark": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9215686321258545,
+            0.9647058844566345,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#EBF6FF"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:73675:32985",
+          "com.figma.scopes": [
+            "STROKE_COLOR"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "--token-color-stroke-action-focus-ondark"
+          },
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6948:174",
+            "targetVariableName": "sbanken/blue/100",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+            "targetVariableSetName": "colors"
+          }
+        }
+      },
+      "action-focus-inverse": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9215686321258545,
+            0.9647058844566345,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#EBF6FF"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:73675:32987",
+          "com.figma.scopes": [
+            "STROKE_COLOR"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "--token-color-stroke-action-focus-inverse"
+          },
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:623d2b62739901dac0532f76b3c5bf1838085510/6948:174",
+            "targetVariableName": "sbanken/blue/100",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+            "targetVariableSetName": "colors"
+          }
+        }
+      },
       "action-focus-subtle": {
         "$type": "color",
         "$value": {
@@ -5655,6 +5711,35 @@
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/6948:188",
               "targetVariableName": "sbanken/greyscale/300",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+              "targetVariableSetName": "colors"
+            }
+          }
+        }
+      },
+      "cell": {
+        "background-striped": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9764705896377563,
+              0.9764705896377563,
+              0.9921568632125854
+            ],
+            "alpha": 1,
+            "hex": "#F9F9FD"
+          },
+          "$description": "Alternating cell or table-row background. Matches Native Color/Component/Cell/background-striped; uses each Web brand’s subtle neutral palette.",
+          "$extensions": {
+            "com.figma.variableId": "VariableID:73635:156",
+            "com.figma.scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ],
+            "com.figma.aliasData": {
+              "targetVariableId": "VariableID:201841acbd37debd72b70badb5e4d5203c68481f/6948:190",
+              "targetVariableName": "sbanken/greyscale/50",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
               "targetVariableSetName": "colors"
             }

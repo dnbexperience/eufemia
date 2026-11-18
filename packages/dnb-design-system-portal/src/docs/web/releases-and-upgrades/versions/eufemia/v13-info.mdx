@@ -32,6 +32,14 @@ $ npm i @dnb/eufemia@13
 $ yarn add @dnb/eufemia@13
 ```
 
+## License
+
+Before upgrading to a version distributed with the **Eufemia DNB Project License v1.0**, confirm that your project is owned by or developed on behalf of a DNB Group entity. The license permits internal and customer-facing DNB Group projects, including suppliers working on DNB's behalf. Use in unrelated projects requires a separate written agreement with DNB Bank ASA.
+
+The license covers DNB-owned code, documentation, icons and other assets. Third-party materials and fonts remain subject to their own terms. Rights already granted under licenses accompanying earlier versions or separate agreements remain in effect, but do not automatically cover later versions.
+
+Read the [full license and usage guidance](/about/license/).
+
 ## CSS custom properties
 
 ### Design-token color migration
@@ -62,11 +70,11 @@ The deprecated Sbanken-prefixed properties are still emitted. Their values diffe
 
 ## Keyboard focus styling
 
-The [keyboard focus guidance](/web/accessibility/focus/#keyboard-focus-styling) now uses a 3px blue outline with a 2px transparent gap, without changing text, icon, or background colors. Input fields keep their field focus styles. Explicit dark surfaces (`surface="dark"`) keep their previous focus styles to preserve contrast. Lists, tables, cards, and similar layouts use no gap, and hover styling takes precedence while focused.
+The [keyboard focus guidance](/web/accessibility/focus/#keyboard-focus-styling) now uses a 3px blue outline with a 2px transparent gap, without changing text, icon, or background colors. Input fields keep their field focus styles. Lists, tables, cards, and similar layouts use no gap, and hover styling takes precedence while focused.
 
-For new and updated custom styles, use `--token-color-stroke-action-focus` with `--focus-outline-width` (`0.1875rem`) and `--focus-outline-offset` (`0.125rem`), or the [focusOutline()](/web/ai-tools-and-resources/utilities/sass/#keyboard-focus) Sass helper. Layouts use a 3px blue edge: pass `$offset: 0` without an existing edge, or overlap a 1px border or inset shadow with `$offset: -0.0625rem` and replace its color with the focus token. Use `$width: 0.125rem` (2px) if a scroll container's existing spacing would clip 3px. Remove focus-only text, icon, and background color overrides when adopting the outline.
+For new and updated custom styles, use `--token-color-stroke-action-focus` with `--focus-outline-width` (`0.1875rem`) and `--focus-outline-offset` (`0.125rem`), or the [focusOutline()](/web/ai-tools-and-resources/utilities/sass/#keyboard-focus) Sass helper. Layouts use a 3px blue edge: pass `$offset: 0` without an existing edge, or overlap a 1px border or inset shadow with `$offset: -0.0625rem` and replace its color with the focus token. Use `$width: 0.125rem` (2px) if a scroll container's existing spacing would clip 3px. Remove focus-only text, icon, and background color overrides when migrating to the blue outline.
 
-`--focus-ring-width` remains `0.25rem`. The existing focus color tokens, `focusRing()`, `focusStyle()`, and focus helper classes remain available with their current behavior. No replacement is required to upgrade to v13. Migrate each usage individually; do not reduce the legacy width globally. Eufemia component updates will follow in separate changes.
+`--focus-ring-width` remains `0.25rem`. The existing focus color tokens, `focusRing()`, `focusStyle()`, and focus helper classes remain available with their current behavior. No replacement is required to upgrade to v13. Migrate each usage individually; do not reduce the legacy width globally.
 
 ## Print styles
 
@@ -326,12 +334,6 @@ After:
 -import { ScrollView } from '@dnb/eufemia/fragments'
 +import { ScrollView } from '@dnb/eufemia'
 ```
-
-### Forms selection variants
-
-[Field.Toggle](/web/forms/base-fields/Toggle/), [Field.Selection](/web/forms/base-fields/Selection/), and [Field.ArraySelection](/web/forms/base-fields/ArraySelection/) use Chip for their button variants. Existing variant names, values, validation, and help remain supported.
-
-The controls have Chip's appearance and native checkbox or radio markup. Update custom CSS selectors and tests that target `.dnb-toggle-button` or button elements. Single selection uses one Tab stop and arrow keys; multiple selection uses independently focusable checkboxes.
 
 ### [Field.Name.Company](/web/forms/feature-fields/Name/)
 

@@ -7,8 +7,9 @@ name: MCP Lambda
 # repository where OIDC federation handles AWS authentication.
 #
 # Triggers:
-# - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
-# - `workflow_dispatch` — manual deploy from the Actions tab.
+# - `release` branch — deploys automatically.
+# - `workflow_dispatch` — manual deploy from the Actions tab, from the branches
+#   and tags that the `ghe-deploy` environment allows.
 #
 # See tools/mcp-lambda/README.md for deploy details.
 # See tools/mcp-lambda/README.md for manual deploy instructions.
@@ -17,9 +18,6 @@ on:
   push:
     branches:
       - release
-    tags:
-      - 'v*'
-      - 'v*.*.*'
   workflow_dispatch:
 
 permissions:
@@ -67,6 +65,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # The GHE deploy tokens are secrets of this environment, which only `main`,
+    # `release` and release tags can use.
+    environment: ghe-deploy
 
     steps:
       - name: Git checkout
@@ -82,12 +83,17 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Skip if GHE credentials are missing
+      - name: Check the GHE credentials
         id: gate
         env:
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
         run: |
           if [ -z "${GHE_PAT:-}" ]; then
+            # A fork has no deploy token. This repository must have one.
+            if [ "$GITHUB_REPOSITORY" = 'dnbexperience/eufemia' ]; then
+              echo "::error::GHE_DEPLOY_PAT is not set in the ghe-deploy environment, so nothing is deployed."
+              exit 1
+            fi
             echo "GHE_DEPLOY_PAT is not set; skipping push."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else

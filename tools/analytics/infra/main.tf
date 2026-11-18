@@ -855,8 +855,8 @@ resource "aws_lambda_permission" "apigw" {
 # ---------------------------------------------------------------------------
 
 # A separate HTTP API for the dashboard so its browser/JWT trust model stays
-# isolated from the edge-locked ingest API. It targets the same Lambda; the
-# GET /data route is handled ahead of the edge check.
+# isolated from the origin-gated ingest API. It targets its own read-only
+# dashboard_read Lambda.
 resource "aws_apigatewayv2_api" "dashboard" {
   name          = "${local.function_name}-dashboard"
   protocol_type = "HTTP"
@@ -896,8 +896,8 @@ resource "aws_apigatewayv2_integration" "dashboard" {
   payload_format_version = "2.0"
 }
 
-# Validates Entra (Azure AD) tokens: only users assigned to the app registration
-# receive one, so this is the access gate for the data.
+# Validates Entra (Azure AD) tokens from the DNB tenant; this is the access gate
+# for the data. Any account in the tenant can get one (no user assignment).
 resource "aws_apigatewayv2_authorizer" "entra" {
   api_id           = aws_apigatewayv2_api.dashboard.id
   authorizer_type  = "JWT"
@@ -1255,12 +1255,11 @@ resource "aws_route53_record" "analytics" {
 # ---------------------------------------------------------------------------
 #
 # The dashboard shell holds no data and no secrets: all data lives behind the
-# Entra-authenticated /data API, so data access is gated entirely by the Entra
-# sign-in plus the /data API's JWT authorizer. As defense-in-depth for the shell
-# itself, a viewer-request CloudFront function (below) rejects requests that do
-# not carry the shared X-Origin-Verify header Akamai injects, so the origin is
-# reachable only through the edge. There is no Lambda@Edge. The bucket stays
-# private; CloudFront reads it through an Origin Access Control.
+# /data API's Entra JWT authorizer. As defense-in-depth for the shell itself, a
+# viewer-request CloudFront function (below) rejects requests that do not carry
+# the shared X-Origin-Verify header Akamai injects, so the origin is reachable
+# only through the edge. There is no Lambda@Edge. The bucket stays private;
+# CloudFront reads it through an Origin Access Control.
 
 resource "aws_s3_bucket" "dashboard" {
   bucket = "${local.function_name}-dashboard-${data.aws_caller_identity.current.account_id}"
@@ -1277,12 +1276,33 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "dashboard" {
   }
 }
 
-# Versioning + the --delete sync gives a free rollback for a bad publish.
+# Versioning + the --delete sync gives a 7-day rollback for a bad publish.
 resource "aws_s3_bucket_versioning" "dashboard" {
   bucket = aws_s3_bucket.dashboard.id
 
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+# Every deploy re-uploads the whole shell, so old versions pile up without this.
+# A delete marker is removed only once no old versions remain behind it.
+resource "aws_s3_bucket_lifecycle_configuration" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  rule {
+    id     = "expire-noncurrent-versions-and-markers"
+    status = "Enabled"
+
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 7
+    }
+
+    expiration {
+      expired_object_delete_marker = true
+    }
   }
 }
 

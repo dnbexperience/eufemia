@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const SectionProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Defines the semantic purpose and subsequently the style of the visual helper.',
+    doc: 'Defines the semantic purpose and subsequently the style of the visual helper. The `error`, `warning`, `success` and `information` variants differ only in their background color. A color change alone is not enough, so also state the purpose in the content.',
     type: [
       '"error"',
       '"information"',

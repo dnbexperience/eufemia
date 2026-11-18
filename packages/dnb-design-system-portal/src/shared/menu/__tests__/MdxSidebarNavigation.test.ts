@@ -685,12 +685,18 @@ describe('MDX-defined Portal navigation', () => {
     expect(patterns.subheadings.map(({ title }) => title)).toEqual([
       'Using patterns and extensions',
       'Sidebar menu',
-      'Chat components',
+      'Chat',
       'Payment card',
       'Vipps wallet button',
       'Table of contents',
       'Patterns',
     ])
+    const chat = patterns.subheadings.find(
+      ({ path }) => path === 'web/patterns-and-extensions/chat'
+    )
+    expect(chat.status).toBe('alpha')
+    expect(chat.subheadings[0].title).toBe('Using Chat')
+    expect(chat.subheadings[0].status).toBeUndefined()
     expect(
       patterns.subheadings
         .flatMap((item) => item.subheadings ?? [item])

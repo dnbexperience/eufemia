@@ -149,7 +149,7 @@ const SAFE_FRAGMENT = /^#[\w-]+$/
  * allow-list of render params (flags key-only, theme only for a safe token, in
  * canonical order) and an anchor-shaped fragment. Everything else — notably a
  * docs search term — is dropped, so no free text can be persisted even if a
- * caller sends it straight to the edge-locked route.
+ * caller sends it straight to the origin-gated route.
  */
 export function normalizeTrackedPath(path: string): string {
   const hashAt = path.indexOf('#')

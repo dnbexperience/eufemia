@@ -282,7 +282,7 @@ for (const width of [390, 1440]) {
       })
       await drawer.locator('#change-theme').click()
       await page
-        .getByRole('option', { name: 'Sbanken (WIP)', exact: true })
+        .getByRole('option', { name: 'Sbanken', exact: true })
         .click()
       await expect(tools).toHaveText('Sbanken - Dark Settings', {
         useInnerText: true,

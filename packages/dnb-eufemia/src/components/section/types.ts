@@ -24,7 +24,7 @@ export type SectionRoundedCorner =
 
 export type SectionProps = {
   /**
-   * Defines the semantic purpose and subsequently the style of the visual helper.
+   * Defines the semantic purpose and subsequently the style of the visual helper. The `error`, `warning`, `success` and `information` variants differ only in their background color. A color change alone is not enough, so also state the purpose in the content.
    */
   variant?: SectionVariants | string
 

@@ -1,5 +1,14 @@
 import type { MouseEvent } from 'react'
 import styled from '@emotion/styled'
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  Flex,
+  Radio,
+  Section,
+  Switch,
+} from '@dnb/eufemia/src'
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import styles from './Examples.module.scss'
 
@@ -62,6 +71,28 @@ export function FocusExample() {
           Layout without gap
         </button>
       </div>
+    </ComponentBox>
+  )
+}
+
+export function DarkSurfaceFocusExample() {
+  return (
+    <ComponentBox hideCode data-visual-test="focus-examples-on-dark">
+      <Section surface="dark" innerSpace breakout={false}>
+        <Flex.Stack>
+          <Flex.Horizontal gap="medium" align="center">
+            <Button>Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="tertiary">Tertiary</Button>
+            <Anchor href="#keyboard-focus-styling">Anchor</Anchor>
+          </Flex.Horizontal>
+          <Flex.Horizontal gap="medium" align="center">
+            <Checkbox label="Checkbox" checked />
+            <Radio label="Radio" name="focus-on-dark" />
+            <Switch label="Switch" checked />
+          </Flex.Horizontal>
+        </Flex.Stack>
+      </Section>
     </ComponentBox>
   )
 }

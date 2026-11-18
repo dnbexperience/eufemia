@@ -153,6 +153,8 @@
     --carnegie-greyscale-400
   );
   --token-color-stroke-action-focus: var(--carnegie-blue-600);
+  --token-color-stroke-action-focus-ondark: var(--carnegie-blue-100);
+  --token-color-stroke-action-focus-inverse: var(--carnegie-blue-100);
   --token-color-stroke-action-focus-subtle: var(--carnegie-greyscale-0);
   --token-color-stroke-action-disabled: var(--carnegie-greyscale-300);
   --token-color-stroke-selected: var(--carnegie-greyscale-1000);
@@ -342,6 +344,9 @@
   );
   --token-color-component-progressbar-neutral-onsubtle: var(
     --carnegie-greyscale-200
+  );
+  --token-color-component-cell-background-striped: var(
+    --carnegie-greyscale-50
   );
   --token-radius-0: 0;
   --token-radius-xs: 0;

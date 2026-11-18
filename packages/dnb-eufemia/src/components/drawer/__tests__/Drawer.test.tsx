@@ -4,11 +4,21 @@ import type { DrawerAllProps } from '../Drawer'
 import Drawer from '../Drawer'
 import { createDrawerReveal } from '../DrawerReveal'
 import Button from '../../button/Button'
+import Dialog from '../../dialog/Dialog'
+import Dropdown from '../../dropdown/Dropdown'
+import Popover from '../../popover/Popover'
 import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
-import { act, render, fireEvent, waitFor } from '@testing-library/react'
+import {
+  act,
+  render,
+  fireEvent,
+  waitFor,
+  screen,
+} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 const props: DrawerAllProps = {
   noAnimation: true,
@@ -381,17 +391,180 @@ describe('Drawer', () => {
     })
   })
 
-  it('moves focus to content by default when opened', async () => {
+  it('moves focus to the dialog when opened', async () => {
     render(<Drawer noAnimation open title="Title" />)
 
     await waitFor(() => {
-      const title = document.querySelector(
-        '.dnb-modal__title'
-      ) as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      // Focus remains on body element - this appears to be the expected behavior for Drawer
-      expect(document.activeElement).toBe(document.body)
+      expect(document.activeElement).toHaveAttribute('role', 'dialog')
     })
+  })
+
+  it('moves focus to the close button when opened without a heading', async () => {
+    render(<Drawer noAnimation open />)
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('button.dnb-modal__close-button')
+      )
+    })
+  })
+
+  it('keeps focus in a field while typing updates the content', async () => {
+    const ControlledField = () => {
+      const [value, setValue] = useState('')
+      return (
+        <Drawer noAnimation open title="Title">
+          <Drawer.Body>
+            <input
+              id="field"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+            />
+          </Drawer.Body>
+        </Drawer>
+      )
+    }
+    render(<ControlledField />)
+
+    const field = document.getElementById('field') as HTMLInputElement
+    await userEvent.type(field, 'hello world')
+
+    expect(field).toHaveValue('hello world')
+    expect(document.activeElement).toBe(field)
+  })
+
+  it('looks for focusSelector in the body before the header', async () => {
+    render(
+      <Drawer noAnimation open title="Title" focusSelector="button">
+        <Drawer.Body>
+          <button id="body-button">Body button</button>
+        </Drawer.Body>
+      </Drawer>
+    )
+
+    await waitFor(() => {
+      expect(document.activeElement?.id).toBe('body-button')
+    })
+  })
+
+  it('keeps focus in a dialog opened on top of it', async () => {
+    const WithNestedDialog = () => {
+      const [nestedOpen, setNestedOpen] = useState(false)
+      return (
+        <Drawer noAnimation open title="Drawer">
+          <button id="open-nested" onClick={() => setNestedOpen(true)}>
+            Open
+          </button>
+          <Dialog noAnimation open={nestedOpen} title="Nested" />
+        </Drawer>
+      )
+    }
+    render(<WithNestedDialog />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Drawer' })
+      )
+    })
+
+    // Opening the dialog re-renders the Drawer content
+    fireEvent.click(document.getElementById('open-nested'))
+    // Let the focus timers of both modals run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'Nested' })
+    )
+  })
+
+  it('keeps focus in an open Dropdown list when the content changes', async () => {
+    const WithDropdown = () => {
+      const [, setCount] = useState(0)
+      return (
+        <Drawer noAnimation open title="Drawer">
+          <Dropdown
+            noAnimation
+            data={['A', 'B']}
+            onOpen={() => setCount((count) => count + 1)}
+          />
+        </Drawer>
+      )
+    }
+    render(<WithDropdown />)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole('dialog', { name: 'Drawer' })
+      )
+    })
+
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-drawer-list__options')
+    )
+  })
+
+  it('moves focus to the dialog when opened from a button in a Popover', async () => {
+    // The Popover renders in a portal that is not a modal. When the Drawer
+    // opens, focus is still on the Popover button, behind the Drawer.
+    const DrawerFromPopover = () => {
+      const [open, setOpen] = useState(false)
+      return (
+        <>
+          <Popover
+            noAnimation
+            trigger={
+              <button type="button" id="popover-trigger">
+                Open popover
+              </button>
+            }
+          >
+            <button
+              type="button"
+              id="popover-action"
+              onClick={() => setOpen(true)}
+            >
+              Open from popover
+            </button>
+          </Popover>
+          <Drawer
+            noAnimation
+            open={open}
+            omitTriggerButton
+            title="From popover"
+            onClose={() => setOpen(false)}
+          >
+            <p>Opened from a popover</p>
+          </Drawer>
+        </>
+      )
+    }
+    render(<DrawerFromPopover />)
+
+    fireEvent.click(document.getElementById('popover-trigger'))
+    const action = await waitFor(() => {
+      const element = document.getElementById('popover-action')
+      expect(element).toBeInTheDocument()
+      return element
+    })
+    // The Popover focuses its content when it opens, and again after
+    // 10 ms if focus is outside it. Let that run first, so that it does
+    // not take focus back from the Drawer.
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    action.focus()
+    expect(document.activeElement).toBe(action)
+    expect(action.closest('.eufemia-portal-root')).not.toBeNull()
+    expect(action.closest('.dnb-modal__content')).toBeNull()
+
+    fireEvent.click(action)
+    // Let the focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('dialog', { name: 'From popover' })
+    )
   })
 
   it('respects focusSelector over close button', async () => {
@@ -1002,6 +1175,43 @@ describe('Drawer reveal', () => {
     }
   )
 
+  it('keeps focus on the dialog when it has no heading', async () => {
+    render(
+      <>
+        <main id="reveal-page">
+          <button>Page action</button>
+        </main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+          dialogTitle="Menu"
+        >
+          <button>Menu action</button>
+        </Drawer>
+      </>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    const dialog = document.querySelector('[role=dialog]')
+    expect(document.activeElement).toBe(dialog)
+
+    await act(() => new Promise((resolve) => setTimeout(resolve, 10)))
+    expect(document.activeElement).toBe(dialog)
+  })
+
+  it('moves focus to the focusSelector element', async () => {
+    renderReveal({ focusSelector: 'input[type=range]' })
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('input[type=range]')
+      )
+    })
+  })
+
   it('passes accessibility checks with the reveal driver', async () => {
     const component = renderReveal({ open: true, title: 'Menu' })
 
@@ -1248,6 +1458,9 @@ describe('Drawer reveal', () => {
       if (opened) {
         fireEvent.click(document.querySelector('.dnb-modal__trigger'))
       }
+      expect(Number(page.style.opacity || 1)).toBeCloseTo(
+        opened ? 0.68 : 1
+      )
       const content = opened
         ? document.querySelector('.dnb-drawer__content h1')
         : page.querySelector('p')
@@ -1290,23 +1503,31 @@ describe('Drawer reveal', () => {
       expect(page.style.transform).toBe(
         `translate3d(${opened ? 220 : 80}px, 0, 0)`
       )
-      for (const [offset, opacity] of [
-        [120, 1],
-        [210, 0.84],
-        [300, 0.68],
-      ]) {
+      for (const offset of [120, 210, 300]) {
         const distance = 40 + (opened ? 300 - offset : offset)
         fireEvent.touchMove(content, {
           touches: [{ clientX: position(distance), clientY: 100 }],
         })
         paint()
-        expect(Number(page.style.opacity)).toBeCloseTo(opacity)
+        expect(page.style.opacity).toBe('1')
+        const drawer = document.querySelector<HTMLElement>('.dnb-drawer')
+        expect(drawer.style.transform).toBe(
+          `translate3d(${offset - 300}px, 0, 0)`
+        )
+        drawer
+          .querySelectorAll<HTMLElement>(':scope > *')
+          .forEach((element) => {
+            expect(element.style.transform).toBe(
+              `translate3d(${300 - offset}px, 0, 0)`
+            )
+          })
       }
       fireEvent.touchCancel(content, { touches: [] })
       expect(page).not.toHaveClass('dnb-drawer__reveal-dragging')
       expect(page.style.transform).toBe(
         opened ? 'translate3d(300px, 0, 0)' : ''
       )
+      expect(page.style.opacity).toBe(opened ? '0.68' : '')
     }
   )
 

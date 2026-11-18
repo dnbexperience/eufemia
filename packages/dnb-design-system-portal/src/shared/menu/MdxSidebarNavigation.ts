@@ -98,6 +98,10 @@ export function createMdxSidebarNavigation(
         ...item,
         id: item.id + '-page',
         title: nav.pageTitle || fm.contentTitle || fm.title,
+        status:
+          nav.pageStatus === null
+            ? undefined
+            : (nav.pageStatus ?? item.status),
         isMenuLink: true,
         isMenuGroup: false,
         isActive: isActive(slug, fm),

@@ -1149,7 +1149,7 @@ test('resizes the full SidebarMenu and restores that width', async ({
   await expect(handle).toHaveAttribute('aria-valuenow', '304')
   await expect(moreProducts).toHaveCSS('white-space', 'normal')
   await expect(moreProductsText).toHaveCSS('overflow-wrap', 'normal')
-  await expect(moreProductsText).toHaveCSS('hyphens', 'auto')
+  await expect(moreProductsText).toHaveCSS('hyphens', 'manual')
   await handle.focus()
   await handle.press('ArrowLeft')
   await handle.press('ArrowLeft')

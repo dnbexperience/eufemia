@@ -1,11 +1,21 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useContext } from 'react'
-import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
+import { cloneElement, isValidElement, useContext, useRef } from 'react'
+import type {
+  CSSProperties,
+  HTMLProps,
+  JSX,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import { clsx } from 'clsx'
 
 // Components
 import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import Icon from '../icon/Icon'
+import type { IconAllProps, IconIcon } from '../icon/Icon'
+import IconPrimary from '../icon-primary/IconPrimary'
 
 // Shared
 import type { ContextProps } from '../../shared/Context'
@@ -18,10 +28,11 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import useNumberFormat from '../number-format/useNumberFormat'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type BadgeProps = {
   /**
-   * The label description of the badge. Only required when passing a number as the badge content.
+   * The label description of the badge. Required when passing a number as the badge content, and for a `notification` badge without content.
    */
   label?: ReactNode
 
@@ -41,7 +52,7 @@ export type BadgeProps = {
   children?: ReactNode
 
   /**
-   * Content of the component.
+   * Content of the component. Without content, the `notification` variant is shown as a small dot, and requires a `label`.
    */
   content?: string | number | ReactNode
 
@@ -61,13 +72,17 @@ export type BadgeProps = {
   variant?: 'information' | 'notification' | 'content'
 
   /**
-   * Defines the status color of the `"information"` variant. Has no effect on other variants. Defaults to `"default"`.
+   * Defines the status color of the `"information"` variant. Has no effect on other variants. The status is only shown with color. A color change alone is not enough, so also name the status in the `content`. Defaults to `"default"`.
    */
   status?: 'default' | 'neutral' | 'positive' | 'warning' | 'negative'
   /**
    * Applies subtle style to `"information"` variant. Has no effect on other variants. Defaults to `false`.
    */
   subtle?: boolean
+  /**
+   * Icon shown before the `content` of the `"information"` variant. Primary Icons can be set as a string (e.g. `icon="calendar"`), other icons, a [CountryFlag](/web/components/country-flag) or a logo should be set as React elements. Has no effect on other variants.
+   */
+  icon?: IconIcon
   /**
    * Removes the badge without removing children. Useful when Badge wraps content. Defaults to `false`.
    */
@@ -99,13 +114,26 @@ function Badge(localProps: BadgeAllProps) {
     context?.Badge,
     { skeleton: context?.skeleton }
   )
-  const { children, className } = allProps
+  const { children, className, content, horizontal, hideBadge, variant } =
+    allProps
 
   const spacingProps = useSpacing(allProps, { className })
 
   if (children) {
+    const buttonSide =
+      variant === 'notification' &&
+      !hideBadge &&
+      !isEmptyContent(content) &&
+      isButtonElement(children)
+        ? horizontal
+        : undefined
+
     return (
-      <BadgeRoot {...spacingProps}>
+      <BadgeRoot
+        {...spacingProps}
+        buttonSide={buttonSide}
+        content={content}
+      >
         {children}
         <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
@@ -119,16 +147,91 @@ function BadgeRoot({
   children,
   className,
   style,
+  buttonSide,
+  content,
 }: {
   children: ReactNode
   className?: string
   style?: CSSProperties
+  buttonSide?: BadgeProps['horizontal']
+  content?: ReactNode
 }) {
+  const rootRef = useRef<HTMLSpanElement>(null)
+  const estimatedWidth = buttonSide
+    ? estimateBadgeWidth(content)
+    : undefined
+
+  // Replace the estimate with the rendered width, which depends on fonts and custom styles
+  useIsomorphicLayoutEffect(() => {
+    if (!buttonSide) {
+      return undefined // stop here
+    }
+
+    const root = rootRef.current
+    const badge = root.querySelector<HTMLElement>(':scope > .dnb-badge')
+    const updateWidth = () => {
+      root.style.setProperty('--badge-width', `${badge.offsetWidth}px`)
+    }
+    updateWidth()
+
+    if (typeof ResizeObserver === 'undefined') {
+      return undefined // stop here
+    }
+
+    const observer = new ResizeObserver(updateWidth)
+    observer.observe(badge)
+    return () => observer.disconnect()
+  }, [buttonSide, estimatedWidth])
+
   return (
-    <span className={clsx('dnb-badge__root', className)} style={style}>
+    <span
+      ref={rootRef}
+      className={clsx(
+        'dnb-badge__root',
+        buttonSide && `dnb-badge__root--button-${buttonSide}`,
+        className
+      )}
+      style={
+        estimatedWidth
+          ? ({
+              ...style,
+              '--badge-width': estimatedWidth,
+            } as CSSProperties)
+          : style
+      }
+    >
       {children}
     </span>
   )
+}
+
+function isEmptyContent(content: ReactNode) {
+  return content === undefined || content === null || content === ''
+}
+
+function isButtonElement(element: ReactNode) {
+  return (
+    isValidElement(element) &&
+    Boolean((element.type as ComponentMarkers)?._isButton)
+  )
+}
+
+// Roughly the width of the notification badge, so prerendered buttons reserve space
+function estimateBadgeWidth(content: ReactNode) {
+  let characters: number
+  let separators = 0
+
+  if (typeof content === 'number') {
+    characters = String(Math.round(Math.abs(content))).length
+    separators = Math.floor((characters - 1) / 3)
+  } else if (typeof content === 'string') {
+    characters = content.length
+  } else {
+    return undefined // stop here
+  }
+
+  const em = (characters * 6 + separators * 3) / 10
+  return `max(1.5rem, calc(${em} * var(--font-size-x-small) + 0.5rem))`
 }
 
 /** Ensures props that only affect certain variants are reset to default */
@@ -141,6 +244,7 @@ function propGuard(
         ...props,
         subtle: badgeDefaultProps.subtle,
         status: badgeDefaultProps.status,
+        icon: undefined,
       })
     }
     return fn(props)
@@ -159,6 +263,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     variant,
     status,
     subtle,
+    icon,
     hideBadge,
     context,
     ...restProps
@@ -176,10 +281,17 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   const num = useNumberFormat(contentIsNum ? contentProp : 0)
   const variantIsNotification = variant === 'notification'
   const content = variantIsNotification && contentIsNum ? num : contentProp
+  const isIndicator = variantIsNotification && isEmptyContent(content)
 
   if (!label && contentIsNum) {
     warn(
       `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantics and accessibility.`
+    )
+  }
+
+  if (!label && isIndicator) {
+    warn(
+      `Label required: A notification Badge without content requires a label describing what it indicates. This is to ensure correct semantics and accessibility.`
     )
   }
 
@@ -194,6 +306,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
         horizontal && `dnb-badge--horizontal-${horizontal}`,
         vertical && `dnb-badge--vertical-${vertical}`,
         isInline && 'dnb-badge--inline',
+        isIndicator && 'dnb-badge--indicator',
         variant === 'information' &&
           `dnb-badge--status-${status}${
             subtle ? ` dnb-badge--subtle` : ''
@@ -204,10 +317,38 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
       {...restProps}
     >
       {label && <span className="dnb-sr-only">{label} </span>}
-      {content}
+      {icon && <BadgeIcon icon={icon} />}
+      {variant === 'information' &&
+      content &&
+      typeof content !== 'string' &&
+      typeof content !== 'number' ? (
+        // Flex items would drop the spaces at the edges of text nodes
+        <span className="dnb-badge__content">{content}</span>
+      ) : (
+        content
+      )}
     </span>
   )
 })
+
+function BadgeIcon({ icon }: { icon: IconIcon }) {
+  if (isIconElement(icon)) {
+    return cloneElement(icon, {
+      className: clsx('dnb-badge__icon', icon.props.className),
+    })
+  }
+
+  return <IconPrimary icon={icon} className="dnb-badge__icon" />
+}
+
+function isIconElement(
+  element: unknown
+): element is ReactElement<IconAllProps> {
+  return (
+    isValidElement(element) &&
+    (element.type === Icon || element.type === IconPrimary)
+  )
+}
 
 withComponentMarkers(Badge, {
   _supportsSpacingProps: true,

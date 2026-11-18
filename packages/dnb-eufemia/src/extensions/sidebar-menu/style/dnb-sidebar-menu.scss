@@ -1,5 +1,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 @use 'sidebar-menu-compact' as compact;
+@use 'sidebar-menu-header' as header;
 
 .dnb-sidebar-menu {
   // When an accordion opens, the menu scrolls its scroll container. WebKit
@@ -209,16 +210,22 @@
         }
       }
 
-      &:hover:not([disabled], [aria-disabled='true']) {
-        background-color: var(
-          --sidebar-menu-action-background-color--hover
-        );
-      }
+      // Safari can keep the touched link :active beneath the drag shield.
+      &:not(:where(.dnb-drawer__reveal-dragging *)) {
+        &:hover:not(:where(html[data-whatintent='touch'] *)):not(
+            [disabled],
+            [aria-disabled='true']
+          ) {
+          background-color: var(
+            --sidebar-menu-action-background-color--hover
+          );
+        }
 
-      &:active:not([disabled], [aria-disabled='true']) {
-        background-color: var(
-          --sidebar-menu-action-background-color--active
-        );
+        &:active:not([disabled], [aria-disabled='true']) {
+          background-color: var(
+            --sidebar-menu-action-background-color--active
+          );
+        }
       }
     }
 
@@ -251,7 +258,7 @@
       flex: 1;
       min-width: 0;
       word-break: normal;
-      hyphens: auto;
+      hyphens: manual;
     }
 
     &__content {
@@ -901,6 +908,20 @@ html.dnb-sidebar-menu-resize-handle--resizing
   &[data-sidebar-menu-responsive-compact='true'] {
     @include compact.inline();
 
+    .dnb-sidebar-menu-responsive-inline__toggle-island[data-scrolled]::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset-block-start: -0.5rem;
+      inset-inline-start: calc(
+        -0.5rem - var(--sidebar-menu-compact-offset)
+      );
+      width: var(--sidebar-menu-expanded-width);
+      height: 3rem;
+
+      @include header.fade();
+    }
+
     &.dnb-sidebar-menu-responsive-inline--expanded
       > .dnb-sidebar-menu-responsive-inline__content {
       clip-path: inset(0);
@@ -946,6 +967,10 @@ html.dnb-sidebar-menu-resize-handle--resizing
     background-color: var(--token-color-background-neutral);
     border-radius: var(--token-radius-full);
     transition: box-shadow 160ms var(--easing-default);
+
+    .eufemia-theme__color-scheme--dark & {
+      outline: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+    }
   }
 
   &__toggle.dnb-button {
@@ -1185,7 +1210,8 @@ html.dnb-sidebar-menu-resize-handle--resizing
   @include compact.aside();
 }
 
-.dnb-sidebar-menu-responsive-drawer .dnb-drawer__navigation.dnb-section {
+.dnb-sidebar-menu-responsive-drawer.dnb-drawer
+  .dnb-drawer__navigation.dnb-section {
   position: sticky;
   z-index: 11;
   top: 0;
@@ -1197,9 +1223,20 @@ html.dnb-sidebar-menu-resize-handle--resizing
   background-color: var(--token-color-background-neutral);
 
   .dnb-drawer__reveal & {
+    position: relative;
     flex-direction: row;
     align-items: center;
     padding-block: 0.5rem;
+
+    background-color: transparent;
+
+    .dnb-modal__header__bar__close {
+      background-color: transparent;
+    }
+
+    &::before {
+      @include header.fade(var(--drawer-background-color));
+    }
   }
 }
 

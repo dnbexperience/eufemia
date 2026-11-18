@@ -340,7 +340,7 @@ test.describe('Responsiveness', () => {
     const drawerLogo = drawer.getByRole('link', {
       name: 'Go to Eufemia home',
     })
-    await expect(drawer).toHaveCSS('transform', 'none')
+    await expect.poll(async () => (await drawer.boundingBox())?.x).toBe(0)
     await expect(closeButton).toBeVisible()
     await expect(drawerLogo).toHaveCount(0)
     await expect(page.getByRole('dialog', { name: 'Menu' })).toBeVisible()

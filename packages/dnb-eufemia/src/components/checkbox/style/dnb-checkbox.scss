@@ -102,22 +102,6 @@
     --token-color-stroke-action-hover
   );
 
-  // Focus state
-  --checkbox-color-gfx--focus: var(--token-color-icon-action-focus);
-  --checkbox-color-gfx-on--focus: var(--token-color-icon-neutral-ondark);
-  --checkbox-color-background--focus: var(
-    --token-color-background-action-focus-subtle
-  );
-  --checkbox-color-background-on--focus: var(
-    --token-color-background-action-focus
-  );
-  --checkbox-color-border-on--focus: var(
-    --token-color-stroke-action-focus-subtle
-  );
-  --checkbox-color-gfx__indeterminate--focus: var(
-    --token-color-background-action-focus
-  );
-
   // Error state
   --checkbox-color-gfx--error: var(--token-color-icon-neutral-inverse);
   --checkbox-color-background-on--error: var(
@@ -254,34 +238,24 @@
   }
 
   &__button {
+    position: relative;
+    z-index: 4;
+
     display: inline-block;
+
+    width: var(--checkbox-width--medium);
+    height: var(--checkbox-height--medium);
 
     box-shadow: var(--checkbox-border-inset) 0 0 0
       var(--checkbox-border-width, var(--checkbox-border-width--default))
       var(--checkbox-color-border, var(--checkbox-color-border-off));
     background-color: var(--checkbox-color-background-off);
+    border-radius: var(--checkbox-border-radius);
 
     // Forced colors mode removes the box-shadow border, but shows this outline
     @include utilities.forcedColorsOutline(
       var(--checkbox-border-width, var(--checkbox-border-width--default))
     );
-  }
-
-  &__focus {
-    display: none;
-
-    @include utilities.focusRing();
-  }
-
-  &__focus,
-  &__button {
-    position: relative;
-    z-index: 4;
-
-    width: var(--checkbox-width--medium);
-    height: var(--checkbox-height--medium);
-
-    border-radius: var(--checkbox-border-radius);
 
     .dnb-checkbox--large & {
       width: var(--checkbox-width--large);
@@ -575,16 +549,6 @@
     --checkbox-color-gfx__indeterminate--active: var(
       --checkbox-color-gfx__indeterminate--error
     );
-    --checkbox-color-gfx-on--focus: var(--token-color-icon-neutral-ondark);
-    --checkbox-color-background--focus: var(
-      --checkbox-color-background-off--error
-    );
-    --checkbox-color-background-on--focus: var(
-      --checkbox-color-background-on--error
-    );
-    --checkbox-color-gfx__indeterminate--focus: var(
-      --checkbox-color-gfx__indeterminate--error
-    );
   }
 
   // General
@@ -615,31 +579,20 @@
   /** Hover state **/
 
   // General
-  &__input:not([disabled]):hover:not(:active):not(
-      :where(.dnb-checkbox--surface-dark :focus)
-    )
-    ~ &__button {
+  &__input:not([disabled]):hover:not(:active) ~ &__button {
     --checkbox-color-border: var(--checkbox-color-border--hover);
     --checkbox-border-width: var(--checkbox-border-width--hover);
     --checkbox-border-inset: var(--checkbox-border-inset--hover);
     background-color: var(--checkbox-color-background-off--hover);
   }
 
-  &__input:not([disabled]):hover:not(:active):not(
-      :where(.dnb-checkbox--surface-dark :focus)
-    )
-    ~ &__gfx {
+  &__input:not([disabled]):hover:not(:active) ~ &__gfx {
     color: var(--checkbox-color-gfx--hover);
   }
 
   // On
-  &__input:not([disabled]):checked:hover:not(:active):not(
-      :where(.dnb-checkbox--surface-dark :focus)
-    )
-    ~ &__button,
-  &__input:not([disabled])[data-checked='true']:hover:not(:active):not(
-      :where(.dnb-checkbox--surface-dark :focus)
-    )
+  &__input:not([disabled]):checked:hover:not(:active) ~ &__button,
+  &__input:not([disabled])[data-checked='true']:hover:not(:active)
     ~ &__button {
     --checkbox-color-border: var(--checkbox-color-border--hover);
     --checkbox-border-width: var(--checkbox-border-width--hover);
@@ -648,10 +601,7 @@
   }
 
   // Indeterminate
-  &__input:not([disabled]):indeterminate:hover:not(:active):not(
-      :where(.dnb-checkbox--surface-dark :focus)
-    )
-    ~ &__button {
+  &__input:not([disabled]):indeterminate:hover:not(:active) ~ &__button {
     --checkbox-color-border: var(
       --checkbox-color-border__indeterminate--hover
     );
@@ -660,17 +610,12 @@
     );
   }
 
-  &__input:not([disabled]):indeterminate:hover:not(:active):not(
-      :where(.dnb-checkbox--surface-dark :focus)
-    )
+  &__input:not([disabled]):indeterminate:hover:not(:active)
     ~ &__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--hover);
   }
 
-  &__input:not([disabled]):indeterminate:hover:not(:active):not(
-      :where(.dnb-checkbox--surface-dark :focus)
-    )
-    ~ &__gfx {
+  &__input:not([disabled]):indeterminate:hover:not(:active) ~ &__gfx {
     color: transparent;
   }
 
@@ -711,57 +656,15 @@
 
   /** Focus state **/
 
-  :where(#{&}:not(#{&}--surface-dark))
-    &__input:not([disabled]):focus
-    ~ &__button {
+  &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       @include utilities.focusOutline();
     }
   }
 
-  // General
   &--surface-dark &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      box-shadow: none;
-      background-color: var(--checkbox-color-background--focus);
-    }
-  }
-
-  // On
-  &--surface-dark
-    &__input:not([disabled]):checked:not(:indeterminate):focus
-    ~ &__button,
-  &--surface-dark
-    &__input:not([disabled])[data-checked='true']:not(:indeterminate):focus
-    ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      box-shadow: inset 0 0 0 0.125rem
-        var(--checkbox-color-border-on--focus);
-      background-color: var(--checkbox-color-background-on--focus);
-    }
-  }
-
-  &--surface-dark &__input:not([disabled]):focus ~ &__gfx {
-    html[data-whatinput='keyboard'] & {
-      color: var(--checkbox-color-gfx-on--focus);
-    }
-  }
-
-  &--surface-dark &__input:not([disabled]):indeterminate:focus ~ &__gfx {
-    html[data-whatinput='keyboard'] & {
-      color: transparent;
-    }
-  }
-
-  &--surface-dark &__input:not([disabled]):focus ~ &__button &__focus {
-    html[data-whatinput='keyboard'] & {
-      display: block;
-    }
-  }
-
-  &--surface-dark &__input:not([disabled]):focus ~ &__indeterminate {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--checkbox-color-gfx__indeterminate--focus);
+      outline-color: var(--token-color-stroke-action-focus-ondark);
     }
   }
 

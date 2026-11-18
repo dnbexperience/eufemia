@@ -16,13 +16,13 @@ const jsBundles = [
 const cssBundles = [
   { path: 'build/style/dnb-ui-basis.min.css', maxSize: '5kB' },
   { path: 'build/style/dnb-ui-body.min.css', maxSize: '5kB' },
-  { path: 'build/style/dnb-ui-components.min.css', maxSize: '59kB' },
+  { path: 'build/style/dnb-ui-components.min.css', maxSize: '62kB' },
   { path: 'build/style/dnb-ui-core.min.css', maxSize: '5kB' },
   { path: 'build/style/dnb-ui-document.min.css', maxSize: '2kB' },
   { path: 'build/style/dnb-ui-elements.min.css', maxSize: '10kB' },
-  { path: 'build/style/dnb-ui-extensions.min.css', maxSize: '15.4kB' },
-  { path: 'build/extensions/chat/style/dnb-chat.min.css', maxSize: '4kB' },
-  { path: 'build/extensions/ai/style/dnb-ai.min.css', maxSize: '4kB' },
+  { path: 'build/style/dnb-ui-extensions.min.css', maxSize: '17kB' },
+  { path: 'build/extensions/chat/style/dnb-chat.min.css', maxSize: '5kB' },
+  { path: 'build/extensions/ai/style/dnb-ai.min.css', maxSize: '5kB' },
   { path: 'build/style/dnb-ui-forms.min.css', maxSize: '10kB' },
   { path: 'build/style/dnb-ui-fragments.min.css', maxSize: '5kB' },
   { path: 'build/style/dnb-ui-print.min.css', maxSize: '1kB' },
@@ -34,7 +34,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/carnegie/carnegie-theme-components.min.css',
-    maxSize: '65kB',
+    maxSize: '68kB',
   },
   {
     path: 'build/style/themes/carnegie/carnegie-theme-elements.min.css',
@@ -42,7 +42,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/carnegie/carnegie-theme-extensions.min.css',
-    maxSize: '15.4kB',
+    maxSize: '17kB',
   },
   {
     path: 'build/style/themes/carnegie/carnegie-theme-forms.min.css',
@@ -54,7 +54,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/eiendom/eiendom-theme-components.min.css',
-    maxSize: '65kB',
+    maxSize: '68kB',
   },
   {
     path: 'build/style/themes/eiendom/eiendom-theme-elements.min.css',
@@ -62,7 +62,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/eiendom/eiendom-theme-extensions.min.css',
-    maxSize: '15.4kB',
+    maxSize: '17kB',
   },
   {
     path: 'build/style/themes/eiendom/eiendom-theme-forms.min.css',
@@ -74,7 +74,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/sbanken/sbanken-theme-components.min.css',
-    maxSize: '65kB',
+    maxSize: '68kB',
   },
   {
     path: 'build/style/themes/sbanken/sbanken-theme-elements.min.css',
@@ -82,7 +82,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/sbanken/sbanken-theme-extensions.min.css',
-    maxSize: '15.4kB',
+    maxSize: '17kB',
   },
   {
     path: 'build/style/themes/sbanken/sbanken-theme-forms.min.css',
@@ -96,7 +96,7 @@ const cssBundles = [
   // @deprecated Transitional "coconut" brand, removed later
   {
     path: 'build/style/themes/coconut/coconut-theme-components.min.css',
-    maxSize: '65kB',
+    maxSize: '68kB',
   },
   // @deprecated Transitional "coconut" brand, removed later
   {
@@ -106,7 +106,7 @@ const cssBundles = [
   // @deprecated Transitional "coconut" brand, removed later
   {
     path: 'build/style/themes/coconut/coconut-theme-extensions.min.css',
-    maxSize: '15.4kB',
+    maxSize: '17kB',
   },
   // @deprecated Transitional "coconut" brand, removed later
   {
@@ -119,7 +119,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/ui/ui-theme-components.min.css',
-    maxSize: '65kB',
+    maxSize: '68kB',
   },
   {
     path: 'build/style/themes/ui/ui-theme-elements.min.css',
@@ -127,7 +127,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/ui/ui-theme-extensions.min.css',
-    maxSize: '15.4kB',
+    maxSize: '17kB',
   },
   {
     path: 'build/style/themes/ui/ui-theme-forms.min.css',

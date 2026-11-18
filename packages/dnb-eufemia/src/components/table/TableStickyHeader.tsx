@@ -34,12 +34,49 @@ export const useStickyHeader = ({
       let scrollViewElem = null
       let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
+      let usesScrollTimeline = false
 
       try {
+        const supportsScrollTimeline =
+          typeof CSS !== 'undefined' &&
+          typeof CSS.supports === 'function' &&
+          CSS.supports('animation-timeline: scroll(root block)') &&
+          CSS.supports('animation-range: 0 1px')
         const tableElem = elementRef.current
 
         const trElem = getTrElement(tableElem)
         const thElem = getThElement(tableElem)
+
+        const setScrollRange = () => {
+          const usesPageScroll =
+            sticky !== 'css-position' && !scrollViewElem
+          trElem.classList.toggle('page-scroll', usesPageScroll)
+          usesScrollTimeline = usesPageScroll && supportsScrollTimeline
+
+          if (usesScrollTimeline) {
+            trElem.style.removeProperty('--table-offset')
+          }
+
+          if (!usesPageScroll) {
+            trElem.style.removeProperty('--table-scroll-start')
+            trElem.style.removeProperty('--table-scroll-end')
+            trElem.style.removeProperty('--table-scroll-distance')
+            return // stop here
+          }
+
+          trElem.style.setProperty(
+            '--table-scroll-start',
+            `${totalOffset}px`
+          )
+          trElem.style.setProperty(
+            '--table-scroll-end',
+            `${totalOffset + tableHeight - thHeight}px`
+          )
+          trElem.style.setProperty(
+            '--table-scroll-distance',
+            `${tableHeight - thHeight}px`
+          )
+        }
 
         const setSizes = () => {
           offsetTopPx = parseFloat(String(stickyOffset)) || 0
@@ -84,6 +121,7 @@ export const useStickyHeader = ({
           tableHeight = tableElem.offsetHeight
           tableOffset = getOffsetTop(tableElem)
           totalOffset = tableOffset - offsetTopPx
+          setScrollRange()
 
           if (sticky === 'css-position') {
             trElem.style.setProperty(
@@ -106,15 +144,24 @@ export const useStickyHeader = ({
 
             // Recalculate table position on each scroll to handle
             // dynamic layout changes (e.g., banners appearing above the table)
-            tableOffset = getOffsetTop(tableElem)
-            totalOffset = tableOffset - offsetTopPx
+            const nextTableOffset = getOffsetTop(tableElem)
+            const nextTableHeight = tableElem.offsetHeight
+            if (
+              nextTableOffset !== tableOffset ||
+              nextTableHeight !== tableHeight
+            ) {
+              tableOffset = nextTableOffset
+              tableHeight = nextTableHeight
+              totalOffset = tableOffset - offsetTopPx
+              setScrollRange()
+            }
           }
 
           offset -= hasScrollbar ? offsetTopPx : totalOffset
 
           // By sub thHeight and checking for the height, we avoid a scrollbar inside a Table.ScrollView
           if (offset > 0 && offset < tableHeight - thHeight) {
-            if (sticky !== 'css-position') {
+            if (sticky !== 'css-position' && !usesScrollTimeline) {
               trElem.style.setProperty(
                 '--table-offset',
                 String(offset) + 'px'
@@ -131,7 +178,7 @@ export const useStickyHeader = ({
               isSticky = false
 
               if (offset <= 0) {
-                if (sticky !== 'css-position') {
+                if (sticky !== 'css-position' && !usesScrollTimeline) {
                   trElem.style.removeProperty('--table-offset')
                 }
               }
@@ -202,9 +249,17 @@ const resetStickyHeader = (tableElem: HTMLTableElement) => {
     return // stop here
   }
 
-  trElem.classList.remove('sticky', 'css-position', 'is-sticky')
+  trElem.classList.remove(
+    'sticky',
+    'css-position',
+    'is-sticky',
+    'page-scroll'
+  )
   trElem.style.removeProperty('--table-offset')
   trElem.style.removeProperty('--table-top')
+  trElem.style.removeProperty('--table-scroll-start')
+  trElem.style.removeProperty('--table-scroll-end')
+  trElem.style.removeProperty('--table-scroll-distance')
 }
 
 const stickyWarning = (message = '') => {

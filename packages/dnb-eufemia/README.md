@@ -43,4 +43,6 @@ the package-local MCP when an installed project version differs.
 
 ## License
 
-You find the license here: [LICENSE](https://github.com/dnbexperience/eufemia/blob/main/LICENSE)
+Eufemia is licensed for DNB Group projects, including internal and customer-facing applications and suppliers working on DNB's behalf. Public access to the repository, packages or Portal does not permit reuse in unrelated projects. This covers DNB-owned code, documentation, icons and other assets.
+
+Third-party materials and fonts remain subject to their own terms. See the [LICENSE](./LICENSE) for permissions, restrictions and earlier-version rights.

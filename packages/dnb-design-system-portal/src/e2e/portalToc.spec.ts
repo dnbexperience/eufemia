@@ -378,8 +378,14 @@ test.describe('Portal table of contents', () => {
       toc.getByRole('link', { name: 'Quick start', exact: true })
     ).toHaveAttribute('aria-current', 'location')
     const expected = await toc.locator('a').allTextContents()
-    const observed = await page.evaluate(async () => {
+    await page.evaluate(() => {
       window.dispatchEvent(new WheelEvent('wheel'))
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    })
+    await expect(
+      toc.getByRole('link', { name: expected[0], exact: true })
+    ).toHaveAttribute('aria-current', 'location')
+    const observed = await page.evaluate(async () => {
       const maximum = document.documentElement.scrollHeight - innerHeight
       const read = () =>
         document.querySelector('#portal-page-toc a[aria-current]')

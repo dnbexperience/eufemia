@@ -59,5 +59,18 @@ describe.each([
         simulate: ['focus', 'hover'],
       })
     })
+
+    it.each(['checkbox', 'radio', 'switch'])(
+      'shows %s keyboard focus on a dark surface',
+      async (component) => {
+        const darkExample = '[data-visual-test="focus-examples-on-dark"]'
+
+        await makeScreenshot({
+          selector: `${darkExample} .dnb-section`,
+          simulateSelector: `${darkExample} .dnb-${component}__input`,
+          simulate: 'focus',
+        })
+      }
+    )
   }
 )

@@ -247,6 +247,7 @@ export default function SidebarMenuResizeHandle({
     ) => () => void
   ) {
     cleanupResizeRef.current?.()
+    handleRef.current?.focus({ preventScroll: true })
     cancelAnimationFrame(initialMeasureFrameRef.current)
     cancelAnimationFrame(resetFrameRef.current)
     resetTransitionCleanupRef.current?.()
@@ -351,6 +352,16 @@ export default function SidebarMenuResizeHandle({
       setWidth(
         (writtenWidthRef.current ?? getTargetWidth()) + keyboardStep
       )
+    }
+
+    if (event.key === 'Home') {
+      event.preventDefault()
+      setWidth(minWidth)
+    }
+
+    if (event.key === 'End') {
+      event.preventDefault()
+      setWidth(getMaximumWidth())
     }
 
     if (event.key === 'Enter') {

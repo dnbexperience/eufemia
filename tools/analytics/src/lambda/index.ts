@@ -43,7 +43,7 @@ async function handleIngest<T>(
 }
 
 /**
- * HTTP API entry point (edge-locked ingest).
+ * HTTP API entry point (origin-gated ingest).
  *
  * Routes:
  * - `GET  /healthz`                  liveness probe
