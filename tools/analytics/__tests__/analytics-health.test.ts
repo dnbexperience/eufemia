@@ -241,4 +241,22 @@ describe('production analytics checks', () => {
     )
     expect(detail('API health')).toBe('HTTP 401')
   })
+
+  it('names the Akamai reference when Akamai blocks the API', async () => {
+    const report = await check(
+      fixture({
+        change: (url) =>
+          url.pathname === '/analytics/healthz'
+            ? new Response('Reference&#32;&#35;18&#46;2fa10017', {
+                status: 403,
+                headers: { Server: 'AkamaiGHost' },
+              })
+            : undefined,
+      })
+    )
+
+    expect(
+      report.checks.find((check) => check.name === 'API health')?.detail
+    ).toBe('HTTP 403 (blocked by Akamai, reference 18.2fa10017)')
+  })
 })

@@ -21,6 +21,19 @@
     top: var(--table-top, 0); // is set by "stickyOffset" prop
   }
 
+  // Follow page scrolling without waiting for JavaScript scroll events.
+  @supports (animation-timeline: scroll(root block)) and
+    (animation-range: 0 1px) {
+    @media screen {
+      tr.sticky.page-scroll {
+        // This positions the header, so reduced-motion resets must not disable it.
+        animation: table-sticky-scroll auto linear both !important;
+        animation-timeline: scroll(root block) !important;
+        animation-range: var(--table-scroll-start) var(--table-scroll-end) !important;
+      }
+    }
+  }
+
   &--outline tr.sticky::after {
     // Continue the outer frame above the focused body cells.
     content: '';
@@ -46,5 +59,14 @@
     box-shadow: var(--shadow-default-x) -2px 12px 8px
       var(--shadow-default-color);
     clip-path: inset(6px 0 -48px 0);
+  }
+}
+
+@keyframes table-sticky-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, var(--table-scroll-distance), 0);
   }
 }

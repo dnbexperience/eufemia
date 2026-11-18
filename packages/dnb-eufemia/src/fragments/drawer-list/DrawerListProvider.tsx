@@ -1297,6 +1297,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
 
     if (!stateRef.current.isOpen) {
+      // Handle Escape during the opening delay too, so a surrounding Dialog stays open
+      if (key === 'Escape' && stateRef.current.open) {
+        setHidden({ event: e })
+        e.preventDefault()
+        e.stopPropagation()
+      }
       return // stop here
     }
 

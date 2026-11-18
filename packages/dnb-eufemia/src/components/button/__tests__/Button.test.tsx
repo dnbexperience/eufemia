@@ -776,14 +776,6 @@ describe('Button scss', () => {
     expect(css).toMatchSnapshot()
   })
 
-  it('uses the focus outline tokens', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-
-    expect(css).toMatch(
-      /\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-outline-width\) solid var\(--token-color-stroke-action-focus\);\s*outline-offset: var\(--focus-outline-offset\);/
-    )
-  })
-
   it('shows the border in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 

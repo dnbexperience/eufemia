@@ -7,9 +7,7 @@ on:
       - 'tools/assets/check-cdn.ts'
       - 'tools/mcp-lambda/src/check-http.ts'
       - 'tools/analytics/src/monitor/check-analytics.ts'
-      - 'tools/monitoring/report-incident.ts'
-      - 'tools/monitoring/alert-token-expiry.ts'
-      - 'tools/monitoring/token-expiry.ts'
+      - 'tools/monitoring/**'
       - '.github/workflows/service-monitoring.yml'
       - 'package.json'
       - 'yarn.lock'
@@ -21,12 +19,17 @@ on:
       - 'tools/assets/check-cdn.ts'
       - 'tools/mcp-lambda/src/check-http.ts'
       - 'tools/analytics/src/monitor/check-analytics.ts'
-      - 'tools/monitoring/report-incident.ts'
+      - 'tools/monitoring/**'
       - '.github/workflows/service-monitoring.yml'
       - 'package.json'
       - 'yarn.lock'
       - '.yarnrc.yml'
   workflow_dispatch:
+    inputs:
+      force:
+        description: Push an unchanged package, e.g. to test a renewed token
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -98,6 +101,9 @@ jobs:
       vars.GHE_MONITORING_DEPLOY_REPO != ''
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # The GHE deploy tokens are secrets of this environment, which only `main`,
+    # `release` and release tags can use.
+    environment: ghe-deploy
     steps:
       - name: Get deployment package
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
@@ -110,6 +116,7 @@ jobs:
           GHE_PAT: ${{ secrets.GHE_MONITORING_DEPLOY_PAT }}
           GHE_REPO: ${{ vars.GHE_MONITORING_DEPLOY_REPO }}
           SOURCE_SHA: ${{ github.sha }}
+          FORCE: ${{ inputs.force }}
         run: |
           set -euo pipefail
           if [[ -z "${GHE_PAT:-}" || ! "$GHE_REPO" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
@@ -126,7 +133,7 @@ jobs:
           AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
           REMOTE_HEAD=$(git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
             ls-remote "https://dnb.ghe.com/${GHE_REPO}.git" refs/heads/deploy)
-          if [[ -n "$REMOTE_HEAD" ]]; then
+          if [[ -n "$REMOTE_HEAD" && "$FORCE" != true ]]; then
             git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
               fetch --depth=1 "https://dnb.ghe.com/${GHE_REPO}.git" refs/heads/deploy
             if git diff --cached --quiet FETCH_HEAD; then

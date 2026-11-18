@@ -4,7 +4,7 @@
  * The local server ships inside `@dnb/eufemia` and runs on public,
  * open-source machines, so it can hold neither a secret nor an IAM role. It
  * therefore uses the browser model: it POSTs an anonymous record to an
- * edge-locked ingest route (Akamai injects `X-Edge-Auth`); the client holds
+ * origin-gated ingest route (Akamai injects `X-Edge-Auth`); the client holds
  * nothing. The ingest side (route, validator, store) lives in `tools/analytics`.
  *
  * Anonymity is the gate. Only a closed, public vocabulary leaves the machine:

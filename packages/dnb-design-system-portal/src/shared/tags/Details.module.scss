@@ -48,16 +48,24 @@
       outline: none;
     }
     @include utilities.focusVisible() {
-      box-shadow: inset 0 0 0 0.125rem var(--details-border--strong);
+      @include utilities.focusOutline();
     }
 
     @include utilities.hover() {
+      outline: none;
       box-shadow: 0 0 0 0.125rem var(--details-border--strong);
     }
 
     @include utilities.active() {
+      outline: none;
       box-shadow: inset 0 0 0 0.125rem var(--details-border);
       background-color: var(--details-border);
+    }
+
+    @include utilities.focusVisible() {
+      @media (forced-colors: active) {
+        @include utilities.focusOutline($color: CanvasText);
+      }
     }
   }
 

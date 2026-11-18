@@ -65,6 +65,70 @@ const makeTempTokenFiles = () => {
 }
 
 describe('token-name-policy stylelint rule', () => {
+  it.each(['foundation.scss', 'tokens.scss', 'tokens-dark.scss'])(
+    'requires Coconut foundation prefixes in %s',
+    async (fileName) => {
+      const errors = await lintWithRule({
+        code:
+          fileName === 'foundation.scss'
+            ? ':root { --sbanken-greyscale-1000: #111; }'
+            : ':root { --token-color-text-neutral: var(--sbanken-greyscale-1000); }',
+        codeFilename: `/repo/src/style/themes/coconut/${fileName}`,
+      })
+
+      expect(errors).toHaveLength(1)
+      expect(errors[0].text).toContain('Expected prefix "--coconut-"')
+    }
+  )
+
+  it('flags Coconut foundation references outside tokens.scss', async () => {
+    const errors = await lintWithRule({
+      code: '.dnb-button { color: var(--coconut-greyscale-1000); }',
+      codeFilename: '/repo/src/components/button/style/dnb-button.scss',
+    })
+
+    expect(errors).toHaveLength(1)
+    expect(errors[0].text).toContain('outside tokens.scss')
+  })
+
+  it.each(['ui', 'coconut'])(
+    'allows Coconut tokens to evolve independently of %s token parity',
+    async (theme) => {
+      const temp = makeTempTokenFiles()
+
+      try {
+        const coconutFile = path.join(
+          temp.rootDir,
+          'src/style/themes/coconut/tokens.scss'
+        )
+        fs.mkdirSync(path.dirname(coconutFile), { recursive: true })
+        fs.writeFileSync(
+          coconutFile,
+          ':root { --token-color-text-action: #111; }'
+        )
+        for (const relativePath of Object.values(temp.files)) {
+          fs.writeFileSync(
+            path.join(temp.rootDir, relativePath),
+            ':root { --token-color-text-neutral: #111; }'
+          )
+        }
+        const codeFilename =
+          theme === 'coconut'
+            ? coconutFile
+            : path.join(temp.rootDir, temp.files.ui)
+        const errors = await lintWithRule({
+          code: fs.readFileSync(codeFilename, 'utf-8'),
+          codeFilename,
+          ruleOptions: { projectRoot: temp.rootDir },
+        })
+
+        expect(errors).toHaveLength(0)
+      } finally {
+        temp.cleanup()
+      }
+    }
+  )
+
   it('flags variables ending with -wip', async () => {
     const errors = await lintWithRule({
       code: ':root { --carnegie-blue-500-wip: #123; }',

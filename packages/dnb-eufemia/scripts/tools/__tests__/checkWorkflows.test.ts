@@ -207,6 +207,182 @@ jobs:
     ])
   })
 
+  it('accepts jobs that read a deploy token in the ghe-deploy environment', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    environment: ghe-deploy # holds the token
+    steps:
+      - run: echo push
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+
+  monitoring:
+    runs-on: ubuntu-latest
+    environment:
+      url: https://example.invalid
+      name: 'ghe-deploy' # holds the token
+    steps:
+      - run: echo monitoring
+        env:
+          GHE_PAT: \${{ secrets['GHE_MONITORING_DEPLOY_PAT'] }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([])
+  })
+
+  it('reports a job that reads a deploy token outside the ghe-deploy environment', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    environment: ghe-deploy
+    steps:
+      - run: echo push
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+
+  none:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo none
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+
+  other:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo other
+        env:
+          GHE_PAT: \${{ secrets['ghe_monitoring_deploy_pat'] }}
+
+  dynamic:
+    runs-on: ubuntu-latest
+    environment: \${{ inputs.environment }}
+    steps:
+      - run: echo dynamic
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: job `none` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+      '.github/workflows/test.yml: job `other` reads `secrets.GHE_MONITORING_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+      '.github/workflows/test.yml: job `dynamic` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+    ])
+  })
+
+  it('reports a deploy token that is read outside a job', () => {
+    const text = `permissions:
+  contents: read
+
+env:
+  GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ghe-deploy
+    steps:
+      - run: echo build
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: `secrets.GHE_DEPLOY_PAT` is read outside a job, so no environment applies; read it in a job that uses the `ghe-deploy` environment',
+    ])
+  })
+
+  it('ignores the name of a deploy token in a comment', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # secrets.GHE_DEPLOY_PAT belongs to the ghe-deploy environment
+      - run: echo build
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([])
+  })
+
+  it('reports a job line it cannot read, also when the workflow sets its permissions', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    environment: ghe-deploy
+  "other job":
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo other
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: cannot read the job on line 8',
+    ])
+  })
+
+  it('reports each deploy token once per job', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  both:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo both
+        env:
+          FIRST: \${{ secrets.GHE_DEPLOY_PAT }}
+          SECOND: \${{ secrets.GHE_MONITORING_DEPLOY_PAT }}
+          THIRD: \${{ secrets.GHE_DEPLOY_PAT }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: job `both` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+      '.github/workflows/test.yml: job `both` reads `secrets.GHE_MONITORING_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+    ])
+  })
+
+  it('reports an environment name with extra text or mismatched quotes', () => {
+    const text = `permissions:
+  contents: read
+
+jobs:
+  extra:
+    runs-on: ubuntu-latest
+    environment: ghe-deploy extra
+    steps:
+      - run: echo extra
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+
+  quotes:
+    runs-on: ubuntu-latest
+    environment: 'ghe-deploy"
+    steps:
+      - run: echo quotes
+        env:
+          GHE_PAT: \${{ secrets.GHE_DEPLOY_PAT }}
+`
+
+    expect(checkWorkflowFile({ file, text })).toEqual([
+      '.github/workflows/test.yml: job `extra` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+      '.github/workflows/test.yml: job `quotes` reads `secrets.GHE_DEPLOY_PAT` and must run in the `ghe-deploy` environment',
+    ])
+  })
+
   it('reports a job line it cannot read', () => {
     const text = `on: push
 

@@ -124,8 +124,8 @@ async function runQuery<Row>(
   return readResults(queryExecutionId, toRow)
 }
 
-// A YYYY-MM-DD partition token is derived from the server clock, never user
-// input, so interpolating it into the query carries no injection risk.
+// sinceDt comes from the server clock or a manual invoke event;
+// assertPartitionDate's strict YYYY-MM-DD check makes it safe to interpolate.
 const DT_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 
 function assertPartitionDate(sinceDt: string): void {

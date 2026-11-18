@@ -1,11 +1,17 @@
 import { createHash } from 'node:crypto'
-import type { Report } from '../../monitoring/report-incident.ts'
+import type { Report } from '../../monitoring/report.ts'
 import type { Service } from './monitor.ts'
 import { logFailure } from './diagnostics.ts'
 
 export type Observation =
   | { kind: 'service'; service: Service; report: Report }
-  | { kind: 'alarm'; name: string; status: 'ALARM' | 'OK'; at: string }
+  | {
+      kind: 'alarm'
+      name: string
+      status: 'ALARM' | 'OK'
+      at: string
+      description?: string
+    }
 type Source = {
   at: string
   status: Report['status']
@@ -234,7 +240,11 @@ export async function processNotification(
                 (check) =>
                   '• ' + escapeSlack(check.name + ': ' + check.detail)
               )
-          : ['Monitor-health alarm active.']
+          : [
+              escapeSlack(
+                event.description || 'Monitor-health alarm active.'
+              ),
+            ]
       state.pending = {
         type: 'outage',
         source: name,

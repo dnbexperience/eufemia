@@ -1,32 +1,98 @@
-"Commons Clause" License Condition v1.0
+Eufemia DNB Project License v1.0
 
-The Software is provided to you by the Licensor under the License,
-as defined below, subject to the following condition.
-
-Without limiting other conditions in the License,
-the grant of rights under the License will not include,
-and the License does not grant to you,
-the right to Sell the Software.
-
-For purposes of the foregoing, “Sell” means practicing any
-or all of the rights granted to you under the License
-to provide to third parties,
-for a fee or other consideration
-(including without limitation fees for hosting
-or consulting/ support services related to the Software),
-a product or service whose value derives,
-entirely or substantially, from the functionality of the Software.
-Any license notice or attribution required by
-the License must also include this
-Commons Cause License Condition notice.
-
-https://commonsclause.com/
+Copyright (c) 2018-present DNB Bank ASA. All rights reserved.
 
 Software: DNB Design System (Eufemia)
-License: Apache 2.0 with Commons Clause
+License: Eufemia DNB Project License v1.0
 Licensor: DNB Bank ASA, Org nr. 984 851 006
 
-Copyright (c) 2018-present DNB.no, https://www.dnb.no/
+1. Scope
+
+This license applies to the code, documentation, examples, design tokens,
+icons, illustrations, logos, fonts and other materials in the Eufemia
+repository, packages and Portal, but only to the extent that DNB Bank ASA
+is entitled to license them. These materials are called the Software.
+Separately licensed materials are subject to section 5.
+
+DNB Group means DNB Bank ASA and entities it directly or indirectly
+controls. A DNB Project is a product, service, application or other project
+owned by or developed on behalf of a DNB Group entity, for that entity's
+business. It may be internal or customer-facing.
+
+2. Permission for DNB Projects
+
+Subject to this license, you may use, reproduce and modify the Software
+solely to develop, test, operate and maintain DNB Projects. This permission
+includes employees, contractors, agencies and other suppliers acting on
+behalf of a DNB Group entity, solely for their work on those projects.
+
+You may distribute the Software as an integrated part of a DNB Project
+to its users, including customers, and provide copies to suppliers as
+needed to develop, host, operate or maintain that project. Users may use
+the Software only as part of that project. Suppliers may use it only on
+the DNB Group entity's behalf and subject to this license. This permission
+does not authorize standalone asset distribution or reuse in other
+projects. Section 5 continues to apply to separately licensed materials.
+
+3. Public access and contributions
+
+You may view the publicly available Software and use, reproduce, modify
+and share copies or forks solely to review it or prepare and submit
+contributions to Eufemia. This permission does not authorize use in
+other products or projects.
+Public availability, including through GitHub, npm or a CDN, does not
+grant permission to reuse the Software outside this license.
+
+Unless otherwise agreed in writing with DNB Bank ASA, by intentionally
+submitting a contribution for inclusion in Eufemia, you grant DNB Bank ASA
+a non-exclusive, perpetual, worldwide, royalty-free, irrevocable copyright
+license to use, reproduce, modify, publicly display, publicly perform,
+distribute, sublicense and relicense your contribution under this license
+or other terms. You retain ownership of your contribution. You confirm
+that you have the right to make this grant, including any required
+employer authorization. Identify separately licensed third-party materials
+and their terms when submitting; this grant does not override those terms.
+
+4. Restrictions and notices
+
+Except as expressly permitted by this license or a separate written
+agreement with DNB Bank ASA, you may not use, reproduce, modify,
+distribute, sublicense or sell the Software, whether for commercial or
+noncommercial purposes. In particular, you may not use it in your own
+or another customer's projects outside the DNB Group.
+
+You must preserve this license and applicable copyright, attribution
+and third-party notices in copies and distributions of the Software.
+No right to use DNB Group names, logos or trademarks is granted except
+as needed for an authorized DNB Project. All other rights are reserved.
+
+5. Third-party materials and fonts
+
+Third-party materials, including dependencies, fonts, icons and other
+assets with their own licenses or notices, remain governed by their
+applicable terms. Those terms take precedence for those materials;
+this license neither replaces them nor restricts rights they grant.
+
+This license does not grant rights that DNB Bank ASA does not hold.
+In particular, inclusion of a font or other asset does not establish
+permission to use, modify, embed, self-host or redistribute it.
+Obtain any permission required by its applicable license or agreement
+before use. The absence of a separate notice is not a grant of rights.
+
+6. Earlier versions and separate agreements
+
+This license applies to versions of the Software distributed with it.
+It does not revoke or change rights already granted under licenses
+accompanying earlier versions, or rights under separate agreements.
+It does not grant rights to later versions under an earlier license.
+
+7. Contribution agreements and notices
+
+Rights in earlier contributions are governed by applicable employment,
+supplier and contribution agreements and license terms. Any copyright,
+attribution and license notices required by those terms must be preserved.
+
+8. Disclaimer
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -35,3 +101,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+https://www.dnb.no/

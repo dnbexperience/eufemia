@@ -38,7 +38,7 @@ describe('themeCapabilities', () => {
     })
   })
 
-  it('documents every theme capability', () => {
+  it('documents every public theme capability', () => {
     const docs = fs.readFileSync(
       path.resolve(
         __dirname,
@@ -66,6 +66,11 @@ describe('themeCapabilities', () => {
       const supportsDarkSurface = capability.supportsDarkSurface
         ? 'Yes'
         : 'No'
+
+      if (name === 'coconut') {
+        expect(rows.map(([theme]) => theme)).not.toContain(`\`${name}\``)
+        continue
+      }
 
       expect(rows).toContainEqual([
         `\`${name}\``,

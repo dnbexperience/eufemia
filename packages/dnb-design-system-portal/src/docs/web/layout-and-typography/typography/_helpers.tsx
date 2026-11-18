@@ -1,12 +1,14 @@
 import { useTheme } from '@dnb/eufemia/shared'
 
 import propertiesSbanken from '@dnb/eufemia/src/style/themes/sbanken/properties'
+import propertiesCoconut from '@dnb/eufemia/src/style/themes/coconut/properties'
 import propertiesUi from '@dnb/eufemia/src/style/themes/ui/properties'
 import propertiesEiendom from '@dnb/eufemia/src/style/themes/eiendom/properties'
 import propertiesCarnegie from '@dnb/eufemia/src/style/themes/carnegie/properties'
 
 const properties = {
   sbanken: propertiesSbanken,
+  coconut: propertiesCoconut,
   ui: propertiesUi,
   eiendom: propertiesEiendom,
   carnegie: propertiesCarnegie,

@@ -31,7 +31,7 @@ vi.mock('../src/publish-observation.ts', () => ({
   publishObservation: mocks.publish,
 }))
 import { handler } from '../src/handler.ts'
-import type { Report } from '../../monitoring/report-incident.ts'
+import type { Report } from '../../monitoring/report.ts'
 
 function healthy(): Report {
   return {

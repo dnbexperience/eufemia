@@ -24,3 +24,7 @@ declare module 'virtual:eufemia-theme-eiendom' {
 declare module 'virtual:eufemia-theme-carnegie' {
   // Side-effect only module — imports carnegie theme SCSS files
 }
+
+declare module 'virtual:eufemia-theme-coconut' {
+  // Side-effect only module
+}

@@ -92,14 +92,14 @@ public GitHub (.github/workflows/analytics-lambda.yml)
           → generate dashboard/config.json → aws s3 sync → CloudFront invalidation
 ```
 
-- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from any branch. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
+- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from the branches and tags that the `ghe-deploy` environment allows. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
-- On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
+- On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run). In this repository, a missing token fails the job.
 - **Failure alerts**: a green public run only means the hand-off worked; see [Production health monitor](#production-health-monitor).
 
 ### Required configuration
 
-Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
+The deploy token is a secret of the `ghe-deploy` environment (see [Continuous deployment](../mcp-lambda/README.md#continuous-deployment)), and the internal repository name is a repository variable. Both are managed in the repository settings, not stored in this repo.
 
 ### Lambda execution roles
 
@@ -154,7 +154,7 @@ Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `colo
 The dashboard is hosted separately as a static site:
 
 - **Dashboard bucket** (private, versioned, SSE-S3, public access blocked) holding the static UI, read only by CloudFront via an Origin Access Control.
-- **CloudFront distribution** serving the dashboard on its default `*.cloudfront.net` domain. The shell holds no data or secrets — data access is gated entirely by the Entra sign-in and the token-protected `/data` API. As defense-in-depth for the shell, a viewer-request CloudFront function locks the origin to the Akamai edge by rejecting any request missing the shared `X-Origin-Verify` header, so no Lambda@Edge or extra execution role is needed. A custom response-headers policy applies HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy` and a Content-Security-Policy (`script-src`/`connect-src` locked to same-origin, Entra sign-in and the dashboard API). The deploy job generates `dashboard/config.json` (non-secret public identifiers: `clientId`/`tenantId` from `ENTRA_CLIENT_ID`/`ENTRA_TENANT_ID`, `redirectUri` set to the canonical dashboard URL (`DASHBOARD_PUBLIC_URL`), `apiBaseUrl` from the dashboard API endpoint, and `apiScope` = `api://<clientId>/Dashboard.Read`), syncs the files to the bucket and invalidates the cache.
+- **CloudFront distribution** serving the dashboard through Akamai at `DASHBOARD_PUBLIC_URL`. The shell holds no data or secrets — data access is gated entirely by the `/data` API's Entra JWT authorizer. As defense-in-depth for the shell, a viewer-request CloudFront function locks the origin to the Akamai edge by rejecting any request missing the shared `X-Origin-Verify` header, so no Lambda@Edge or extra execution role is needed. A custom response-headers policy applies HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy` and a Content-Security-Policy (`script-src`/`connect-src` locked to same-origin, Entra sign-in and the dashboard API). The deploy job generates `dashboard/config.json` (non-secret public identifiers: `clientId`/`tenantId` from `ENTRA_CLIENT_ID`/`ENTRA_TENANT_ID`, `redirectUri` set to the canonical dashboard URL (`DASHBOARD_PUBLIC_URL`), `apiBaseUrl` from the dashboard API endpoint, and `apiScope` = `api://<clientId>/Dashboard.Read`), syncs the files to the bucket and invalidates the cache.
 
 The dashboard API's CORS allows the dashboard's canonical origin (`DASHBOARD_PUBLIC_URL`, the custom domain) plus any extra origins from the optional `dashboard_origins` Terraform variable, such as a local-dev URL. The raw `*.cloudfront.net` origin is intentionally not allow-listed, since the dashboard is served via the custom domain (Akamai + WAF); direct access to the raw `*.cloudfront.net` origin is blocked at CloudFront by the `X-Origin-Verify` viewer-request function above, so only the Akamai edge (which injects the header) can reach it. After the first deploy, add the dashboard URL as a redirect URI on the app registration.
 

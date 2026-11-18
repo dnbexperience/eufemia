@@ -74,6 +74,44 @@ test('restores sidebar scroll before the rest of a streamed page arrives', async
   }
 })
 
+test('keeps a saved sidebar position when the selected page is outside it', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.addInitScript(() => {
+    sessionStorage.setItem(
+      'portal-sidebar-menu-open-items-shared-scroll-position',
+      '0'
+    )
+    const positions: number[] = []
+    window['sidebarScrollPositions'] = positions
+    document.addEventListener(
+      'scroll',
+      (event) => {
+        const target = event.target as HTMLElement
+        if (target.classList?.contains('portal-sidebar-scroll-view')) {
+          positions.push(target.scrollTop)
+        }
+      },
+      true
+    )
+  })
+  await page.goto('/web/components/upload/')
+  await waitForApp(page)
+  await page.evaluate(async () => {
+    for (let frame = 0; frame < 5; frame++) {
+      await new Promise(requestAnimationFrame)
+    }
+  })
+
+  await expect(
+    page.locator('#portal-sidebar-menu [aria-current="page"]')
+  ).not.toBeInViewport()
+  expect(
+    await page.evaluate(() => window['sidebarScrollPositions'])
+  ).toEqual([])
+})
+
 for (const width of [1440, 1280]) {
   for (const storedPosition of [0, 400]) {
     test(
@@ -157,6 +195,30 @@ for (const width of [1440, 1280]) {
           await expect
             .poll(() => view.evaluate((element) => element.scrollTop))
             .toBe(storedPosition)
+          await test.step('matches the hydrated logo and accordion icon before hydration', async () => {
+            const logo = view
+              .getByTitle('Go to Eufemia home')
+              .locator('xpath=..')
+            if (storedPosition > 0) {
+              await expect(logo).toHaveAttribute('data-scrolled', 'true')
+            } else {
+              await expect(logo).not.toHaveAttribute('data-scrolled')
+            }
+            const visibleIcons = await view
+              .locator(
+                '[data-sidebar-menu-id="web-components"] > .dnb-sidebar-menu__accordion__trigger .dnb-icon--transition-fallback svg'
+              )
+              .evaluateAll(
+                (icons) =>
+                  icons.filter((icon) => {
+                    const style = getComputedStyle(icon)
+                    return (
+                      style.display !== 'none' && style.opacity === '1'
+                    )
+                  }).length
+              )
+            expect(visibleIcons).toBe(1)
+          })
           await expect(page.locator('html')).not.toHaveAttribute(
             'data-portal-ready'
           )

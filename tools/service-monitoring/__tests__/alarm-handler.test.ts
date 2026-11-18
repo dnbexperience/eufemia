@@ -52,6 +52,7 @@ it('routes CloudWatch transitions through the shared deduplicating notifier', as
   await handler(
     event({
       AlarmName: 'missing-cdn',
+      AlarmDescription: 'Inspect Lambda logs.',
       NewStateValue: 'ALARM',
       StateChangeTime: '2026-10-23T10:00:00Z',
     })
@@ -62,8 +63,22 @@ it('routes CloudWatch transitions through the shared deduplicating notifier', as
       name: 'missing-cdn',
       status: 'ALARM',
       at: '2026-10-23T10:00:00Z',
+      description: 'Inspect Lambda logs.',
     },
     expect.any(Object)
+  )
+})
+it('leaves out the description of an alarm that has none', async () => {
+  await handler(
+    event({
+      AlarmName: 'execution-errors',
+      AlarmDescription: null,
+      NewStateValue: 'ALARM',
+      StateChangeTime: '2026-10-23T10:00:00Z',
+    })
+  )
+  expect(mocks.process.mock.calls[0]?.[0]).not.toHaveProperty(
+    'description'
   )
 })
 it('routes service observations through the same notifier', async () => {

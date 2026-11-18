@@ -118,6 +118,8 @@
   --color-stroke-action-hover-inverse: var(--sbanken-green-300);
   --color-stroke-action-pressed-inverse: var(--sbanken-green-500);
   --color-stroke-action-focus: var(--sbanken-blue-600);
+  --color-stroke-action-focus-ondark: var(--sbanken-blue-100);
+  --color-stroke-action-focus-inverse: var(--sbanken-blue-100);
   --color-stroke-action-focus-subtle: var(--sbanken-greyscale-0);
   --color-stroke-action-disabled: var(--sbanken-greyscale-300);
   --color-stroke-selected: var(--sbanken-purple-950);
@@ -266,6 +268,7 @@
   --color-component-progressbar-neutral-onsubtle: var(
     --sbanken-greyscale-300
   );
+  --color-component-cell-background-striped: var(--sbanken-greyscale-50);
   --radius-0: 0;
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;

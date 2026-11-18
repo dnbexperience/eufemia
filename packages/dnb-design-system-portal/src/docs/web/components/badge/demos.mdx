@@ -8,13 +8,17 @@ import {
   BadgeNotification,
   BadgeNotificationNumbers,
   BadgeNotificationInline,
+  BadgeNotificationIndicator,
   BadgeNotificationAvatar,
   BadgeDefault,
   BadgeInformationInline,
+  BadgeInformationFormattedContent,
   BadgeInformationAvatar,
   BadgeButton,
+  BadgeButtonSizes,
   BadgeCornerPosition,
   BadgeStatus,
+  BadgeIcon,
   BadgeHide,
 } from 'Docs/web/components/badge/Examples'
 
@@ -30,6 +34,10 @@ The default variant. Equivalent to `variant='information'`.
 
 <BadgeInformationInline />
 
+<VisibleWhenVisualTest>
+  <BadgeInformationFormattedContent />
+</VisibleWhenVisualTest>
+
 #### Notification
 
 `variant='notification'`.
@@ -40,6 +48,12 @@ The default variant. Equivalent to `variant='information'`.
 
 <BadgeNotificationInline />
 
+#### Notification indicator
+
+Without `content`, the notification variant is shown as a small dot. Use `label` to describe what it indicates.
+
+<BadgeNotificationIndicator />
+
 ### Overlaid badge
 
 You can overlay the badge on top of an element by wrapping the `<Badge>` component around it.
@@ -49,9 +63,11 @@ You can overlay the badge on top of an element by wrapping the `<Badge>` compone
 
 #### Overlaid button
 
-The button remains clickable where the badge overlaps it. Use `horizontal` and `vertical` to select the badge corner.
+The button remains clickable where the badge overlaps it. Use `horizontal` and `vertical` to select the badge corner. A notification badge with content reserves space beside the button label, so the label stays readable.
 
 <BadgeButton />
+
+<BadgeButtonSizes />
 
 #### Setting property `horizontal` and `vertical`
 
@@ -66,6 +82,12 @@ The information variant has 5 possible `status` values, and two possible `subtle
 The default state is equivalent to `status='default'` and `subtle={false}`.
 
 <BadgeStatus />
+
+### Setting the `icon` property
+
+The information variant can show an icon, a country flag or a logo before the content. Primary icons can be set by name, such as `icon="calendar"`. Other icons, a `CountryFlag` or a logo image should be set as React elements.
+
+<BadgeIcon />
 
 ### Hiding Badge with `hideBadge`
 

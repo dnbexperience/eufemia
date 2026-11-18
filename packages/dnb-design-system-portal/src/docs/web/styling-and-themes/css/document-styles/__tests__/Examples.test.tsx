@@ -9,6 +9,7 @@ describe('Document letter branding', () => {
   it.each([
     ['ui', 'DNB'],
     ['sbanken', 'Sbanken'],
+    ['coconut', 'Sbanken'],
     ['carnegie', 'DNB Carnegie'],
     ['eiendom', 'DNB Eiendom'],
   ] as const)('inherits the active %s brand', (brand, name) => {
@@ -31,7 +32,9 @@ describe('Document letter branding', () => {
     expect(
       document
         .querySelector('.dnb-logo')
-        .classList.contains(`dnb-logo--${brand}`)
+        .classList.contains(
+          `dnb-logo--${brand === 'coconut' ? 'sbanken' : brand}`
+        )
     ).toBe(true)
   })
 })

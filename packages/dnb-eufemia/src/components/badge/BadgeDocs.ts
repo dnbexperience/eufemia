@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const BadgeProperties: PropertiesTableProps = {
   content: {
-    doc: 'Content of the component.',
+    doc: 'Content of the component. Without content, the `notification` variant is shown as a small dot, and requires a `label`.',
     type: ['string', 'number', 'React.ReactNode'],
     status: 'optional',
   },
@@ -37,7 +37,7 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   status: {
-    doc: 'Defines the status color of the `"information"` variant. Has no effect on other variants. Defaults to `"default"`.',
+    doc: 'Defines the status color of the `"information"` variant. Has no effect on other variants. The status is only shown with color. A color change alone is not enough, so also name the status in the `content`. Defaults to `"default"`.',
     type: [
       '"default"',
       '"positive"',
@@ -52,13 +52,18 @@ export const BadgeProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  icon: {
+    doc: 'Icon shown before the `content` of the `"information"` variant. Primary Icons can be set as a string (e.g. `icon="calendar"`), other icons, a [CountryFlag](/web/components/country-flag) or a logo should be set as React elements. Has no effect on other variants.',
+    type: ['string', 'React.ReactNode'],
+    status: 'optional',
+  },
   hideBadge: {
     doc: 'Removes the badge without removing children. Useful when Badge wraps content. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   label: {
-    doc: 'The label description of the badge. Only required when passing a number as the badge content.',
+    doc: 'The label description of the badge. Required when passing a number as the badge content, and for a `notification` badge without content.',
     type: 'React.ReactNode',
     status: 'optional',
   },

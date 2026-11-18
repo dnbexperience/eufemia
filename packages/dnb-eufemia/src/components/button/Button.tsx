@@ -343,6 +343,7 @@ Button.getContent = getContent
 withComponentMarkers(Button, {
   _formElement: true,
   _supportsSpacingProps: true,
+  _isButton: true,
 })
 
 export default Button

@@ -1,10 +1,13 @@
 import type { RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
 import { render, screen } from '@testing-library/react'
 import type { BadgeProps } from '../Badge'
 import Badge from '../Badge'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
+import Button from '../../Button'
+import CountryFlag from '../../CountryFlag'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
@@ -22,6 +25,34 @@ describe('Badge', () => {
     render(<Badge content={string} />)
 
     expect(screen.queryByText(string)).toBeInTheDocument()
+  })
+
+  it('keeps text and inline elements of the content in one flex item', () => {
+    render(
+      <Badge
+        content={
+          <>
+            Due <strong>today</strong>
+          </>
+        }
+      />
+    )
+
+    // Each direct text node would become its own flex item and lose the space at its edge
+    const badge = document.querySelector('.dnb-badge')
+    expect(badge.childNodes).toHaveLength(1)
+    expect(badge.firstElementChild).toHaveClass('dnb-badge__content')
+    expect(badge.firstElementChild.innerHTML).toBe(
+      'Due <strong>today</strong>'
+    )
+  })
+
+  it('renders string content without a wrapper', () => {
+    render(<Badge content="Due today" />)
+
+    const badge = document.querySelector('.dnb-badge')
+    expect(badge.childNodes).toHaveLength(1)
+    expect(badge.firstChild.nodeType).toBe(Node.TEXT_NODE)
   })
 
   it('renders content as number', () => {
@@ -132,6 +163,69 @@ describe('Badge', () => {
     global.console.log = vi.fn()
     render(<Badge content="text" />)
     expect(global.console.log).not.toHaveBeenCalled()
+  })
+
+  describe('notification indicator', () => {
+    it('renders an indicator when the notification variant has no content', () => {
+      render(<Badge variant="notification" label="New messages" />)
+
+      const badge = document.querySelector('.dnb-badge')
+      expect(badge).toHaveClass(
+        'dnb-badge--variant-notification',
+        'dnb-badge--indicator'
+      )
+      expect(badge).toHaveTextContent('New messages')
+    })
+
+    it('renders an indicator on top of children', () => {
+      render(
+        <Badge variant="notification" label="New messages">
+          <Avatar.Group label="Persons">
+            <Avatar>A</Avatar>
+          </Avatar.Group>
+        </Badge>
+      )
+
+      expect(
+        document.querySelector('.dnb-badge__root .dnb-badge--indicator')
+      ).toBeInTheDocument()
+    })
+
+    it('does not render an indicator when there is content', () => {
+      render(
+        <Badge variant="notification" label="Notifications" content={0} />
+      )
+
+      expect(document.querySelector('.dnb-badge')).not.toHaveClass(
+        'dnb-badge--indicator'
+      )
+    })
+
+    it('does not render an indicator for the information variant', () => {
+      render(<Badge variant="information" />)
+
+      expect(document.querySelector('.dnb-badge')).not.toHaveClass(
+        'dnb-badge--indicator'
+      )
+    })
+
+    it('warns when the indicator is missing a label', () => {
+      process.env.NODE_ENV = 'development'
+      global.console.log = vi.fn()
+      render(<Badge variant="notification" />)
+      expect(global.console.log).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.stringContaining('Label required')
+      )
+    })
+
+    it('does not warn when the indicator has a label', () => {
+      process.env.NODE_ENV = 'development'
+      global.console.log = vi.fn()
+      render(<Badge variant="notification" label="New messages" />)
+      expect(global.console.log).not.toHaveBeenCalled()
+    })
   })
 
   it('does not warn when Badge content is a number and has a label', () => {
@@ -269,6 +363,212 @@ describe('Badge', () => {
       expect(element).not.toHaveClass('dnb-badge--status-positive')
       expect(element).not.toHaveClass('dnb-badge--subtle')
       expect(element).toHaveClass('dnb-badge--variant-notification')
+    })
+  })
+
+  describe('icon prop', () => {
+    it('renders a primary icon by name before the content', () => {
+      render(<Badge content="Due today" icon="calendar" />)
+
+      const badge = document.querySelector('.dnb-badge')
+      const icon = badge.querySelector('.dnb-badge__icon')
+
+      expect(icon).toHaveClass('dnb-icon')
+      expect(icon.querySelector('svg')).toBeInTheDocument()
+      expect(icon).toHaveAttribute('aria-hidden', 'true')
+      expect(badge.firstElementChild).toBe(icon)
+      expect(badge).toHaveTextContent('Due today')
+    })
+
+    it('renders an icon component', () => {
+      render(<Badge content="Party" icon={Confetti} />)
+
+      expect(
+        document.querySelector('.dnb-badge .dnb-badge__icon svg')
+      ).toBeInTheDocument()
+    })
+
+    it('renders an Icon element without wrapping it in another icon', () => {
+      render(
+        <Badge
+          content="Party"
+          icon={<Icon icon={Confetti} className="custom" />}
+        />
+      )
+
+      const icons = document.querySelectorAll('.dnb-badge .dnb-icon')
+
+      expect(icons).toHaveLength(1)
+      expect(icons[0]).toHaveClass('dnb-badge__icon', 'custom')
+    })
+
+    it('renders other elements, such as a CountryFlag, inside the icon', () => {
+      render(<Badge content="Norway" icon={<CountryFlag iso="NO" />} />)
+
+      expect(
+        document.querySelector('.dnb-badge__icon .dnb-country-flag')
+      ).toBeInTheDocument()
+    })
+
+    it('places the icon after the label', () => {
+      render(<Badge content="Due today" label="Status" icon="calendar" />)
+
+      const badge = document.querySelector('.dnb-badge')
+
+      expect(badge.children[0]).toHaveClass('dnb-sr-only')
+      expect(badge.children[1]).toHaveClass('dnb-badge__icon')
+    })
+
+    it('places the icon before the wrapper of formatted content', () => {
+      render(
+        <Badge
+          icon="calendar"
+          content={
+            <>
+              Due <strong>today</strong>
+            </>
+          }
+        />
+      )
+
+      const badge = document.querySelector('.dnb-badge')
+
+      expect(badge.children).toHaveLength(2)
+      expect(badge.children[0]).toHaveClass('dnb-badge__icon')
+      expect(badge.children[1]).toHaveClass('dnb-badge__content')
+      expect(badge.children[1].innerHTML).toBe(
+        'Due <strong>today</strong>'
+      )
+    })
+
+    it('does not render the icon for non-information variants', () => {
+      render(
+        <Badge
+          content={1}
+          label="Notifications"
+          variant="notification"
+          icon="calendar"
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-badge__icon')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe('on a Button', () => {
+    it('reserves label space on the side of a notification badge', () => {
+      render(
+        <Badge
+          content={1}
+          label="Notifications"
+          variant="notification"
+          horizontal="left"
+          vertical="top"
+        >
+          <Button text="Messages" />
+        </Badge>
+      )
+
+      expect(document.querySelector('.dnb-badge__root')).toHaveClass(
+        'dnb-badge__root--button-left'
+      )
+    })
+
+    it('does not reserve label space for a notification badge without content', () => {
+      render(
+        <Badge
+          label="New messages"
+          variant="notification"
+          horizontal="right"
+          vertical="top"
+        >
+          <Button text="Messages" />
+        </Badge>
+      )
+
+      expect(document.querySelector('.dnb-badge__root').className).toBe(
+        'dnb-badge__root'
+      )
+    })
+
+    it('does not reserve label space for other variants or children', () => {
+      render(
+        <>
+          <Badge content="New" horizontal="right" vertical="top">
+            <Button text="Messages" />
+          </Badge>
+          <Badge
+            content={1}
+            label="Notifications"
+            variant="notification"
+            horizontal="right"
+            vertical="top"
+          >
+            <Avatar.Group label="Persons">
+              <Avatar>A</Avatar>
+            </Avatar.Group>
+          </Badge>
+        </>
+      )
+
+      document.querySelectorAll('.dnb-badge__root').forEach((root) => {
+        expect(root.className).toBe('dnb-badge__root')
+      })
+    })
+
+    it('estimates the badge width in the server markup', () => {
+      const html = renderToString(
+        <Badge
+          content={1234}
+          label="Notifications"
+          variant="notification"
+          horizontal="right"
+          vertical="top"
+        >
+          <Button text="Messages" />
+        </Badge>
+      )
+
+      expect(html).toContain('dnb-badge__root--button-right')
+      expect(html).toContain(
+        '--badge-width:max(1.5rem, calc(2.7 * var(--font-size-x-small) + 0.5rem))'
+      )
+    })
+
+    it('observes the badge width once across re-renders', () => {
+      const original = window.ResizeObserver
+      const observe = vi.fn()
+      window.ResizeObserver = class {
+        observe = observe
+        unobserve = vi.fn()
+        disconnect = vi.fn()
+      }
+
+      try {
+        const renderBadge = () => (
+          <Badge
+            content={1}
+            label="Notifications"
+            variant="notification"
+            horizontal="right"
+            vertical="top"
+          >
+            <Button text="Messages" />
+          </Badge>
+        )
+        const { rerender } = render(renderBadge())
+        rerender(renderBadge())
+        rerender(renderBadge())
+
+        expect(observe).toHaveBeenCalledTimes(1)
+        expect(observe).toHaveBeenCalledWith(
+          document.querySelector('.dnb-badge')
+        )
+      } finally {
+        window.ResizeObserver = original
+      }
     })
   })
 

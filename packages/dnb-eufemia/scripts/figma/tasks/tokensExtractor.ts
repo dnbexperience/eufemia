@@ -178,6 +178,22 @@ export const TOKEN_EXPORTS: ReadonlyArray<{
     mode: 'dnbeiendom-dark',
     fileName: 'brand/dnbeiendom-dark.tokens.json',
   },
+  // @deprecated Transitional "coconut" brand, removed later.
+  // The Figma modes are still named after the brand it replaces.
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'sbanken-new-light',
+    fileName: 'brand/coconut-light.tokens.json',
+  },
+  // @deprecated Transitional "coconut" brand, removed later.
+  // The Figma modes are still named after the brand it replaces.
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'sbanken-new-dark',
+    fileName: 'brand/coconut-dark.tokens.json',
+  },
 ]
 
 const TOKEN_TYPES: Record<

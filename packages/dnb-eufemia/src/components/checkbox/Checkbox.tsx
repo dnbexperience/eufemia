@@ -395,9 +395,7 @@ function Checkbox(localProps: CheckboxProps) {
                 createSkeletonClass('shape', skeleton, context)
               )}
               aria-hidden
-            >
-              <span className="dnb-checkbox__focus" />
-            </span>
+            />
 
             <span className="dnb-checkbox__indeterminate" />
 

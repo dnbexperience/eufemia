@@ -50,7 +50,7 @@ Accordion groups support deep nesting, but keep the hierarchy as shallow as poss
 
 Menu point rows have a minimum height of 44px. Top-level rows have 16px between them, while nested rows have 8px. The first accordion level is indented by 48px and each deeper accordion level adds 16px.
 
-Menu labels wrap at normal word boundaries. Browsers may automatically hyphenate long words when the document or nearest ancestor declares the correct `lang`. Unbroken identifiers and URLs are not split character by character; use readable labels or add explicit break opportunities when those values must appear in navigation.
+Menu labels wrap at normal word boundaries without automatic hyphenation. Add soft hyphens (`\u00ad`) when a long word needs explicit hyphenation points. Unbroken identifiers and URLs are not split character by character; use readable labels or add explicit break opportunities when those values must appear in navigation.
 
 Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on Root or Data when collapsed content should not use `hidden="until-found"`.
 
@@ -210,7 +210,7 @@ Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. T
 - `scopeSelector` selects the closest shared layout ancestor on which the custom property is set. Use it when adjacent content also needs to respond to the sidebar width. Omit it when only the sidebar needs the value.
 - `minWidth` and `maxWidth` define the allowed resize range. They default to 240px and 560px and are also constrained by the viewport and the target's CSS `max-width`.
 
-The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and Enter or double-click to reset.
+Focus the handle with Tab or by clicking it. Use Arrow Left and Arrow Right to resize, Shift for larger steps, Home for the minimum width, End for the maximum width, and Enter or double-click to reset. The handle also supports pointer dragging.
 When `onCollapse` is provided, dragging below `minWidth` adds resistance to communicate that the sidebar can continue towards dismissal. Releasing returns it to `minWidth`. Reaching `collapseThreshold` calls `onCollapse`; the threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss the inline navigation and let `ResponsiveTrigger` restore it.
 
 The resistance moves the sidebar by 10% of the cursor distance below `minWidth`. For example, dragging 100px further moves the visible edge about 10px. Pointer resizing above the minimum stays immediate. Width easing belongs to the surrounding layout. Enable it after the handle adds `dnb-sidebar-menu-resize-handle--transition-ready`, and disable it while `dnb-sidebar-menu-resize-handle--dragging` is present. Both classes are added to the element matched by `scopeSelector`.

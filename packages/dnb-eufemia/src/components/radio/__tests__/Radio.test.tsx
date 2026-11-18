@@ -453,14 +453,6 @@ describe('Radio scss', () => {
     )
   })
 
-  it('shows the keyboard focus outline', () => {
-    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
-
-    expect(css).toMatch(
-      /html\[data-whatinput=keyboard\] :where\(\.dnb-radio:not\(\.dnb-radio--surface-dark\)\) \.dnb-radio__input:not\(\[disabled\]\):focus ~ \.dnb-radio__button \{\s*outline: var\(--focus-outline-width\) solid var\(--token-color-stroke-action-focus\);\s*outline-offset: var\(--focus-outline-offset\);/
-    )
-  })
-
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

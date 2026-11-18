@@ -479,6 +479,25 @@ describe('FormStatus icons', () => {
     ).toHaveAttribute('data-testid', 'SuccessIcon icon')
   })
 
+  it('should give each icon a default title that names its state', () => {
+    render(
+      <>
+        <ErrorIcon />
+        <WarnIcon />
+        <InfoIcon />
+        <SuccessIcon />
+        <MarketingIcon />
+      </>
+    )
+
+    expect(
+      Array.from(
+        document.querySelectorAll('svg > title'),
+        (title) => title.textContent
+      )
+    ).toEqual(['error', 'warning', 'information', 'success', 'marketing'])
+  })
+
   const getStylesheet = () =>
     String(loadScss(require.resolve('../style/dnb-form-status.scss')))
 

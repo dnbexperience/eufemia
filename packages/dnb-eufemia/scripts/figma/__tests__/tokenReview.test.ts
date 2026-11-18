@@ -106,6 +106,97 @@ it('reports existing failures without blocking unchanged or improved pairs', () 
   ).toHaveLength(20)
 })
 
+const coconutMode = (
+  error: string,
+  base: string,
+  alternative = base
+): ReturnType<typeof loadTokenModes> => [
+  {
+    name: 'Coconut light',
+    tokens: {
+      ...mode('#000', '#fff')[0].tokens,
+      '--token-color-text-error': error,
+      '--token-color-background-neutral-base': base,
+      '--token-color-background-neutral-alternative': alternative,
+    },
+  },
+]
+
+it('reports the two accepted Coconut error contrast changes without failing', () => {
+  const result = reviewTokenChanges(
+    coconutMode('#d8134b', '#f2f2f7', '#ebebf1'),
+    coconutMode('#c82610', '#dedfd8')
+  )
+
+  expect(result.regressions).toEqual([])
+  expect(result.markdown).toContain(
+    '## Accepted temporary contrast regressions'
+  )
+  expect(result.markdown).toContain(
+    'Coconut light: --token-color-text-error on --token-color-background-neutral-base (4.57:1 → 4.18:1; target 4.5:1)'
+  )
+  expect(result.markdown).toContain(
+    'Coconut light: --token-color-text-error on --token-color-background-neutral-alternative (4.30:1 → 4.18:1; target 4.5:1)'
+  )
+  expect(result.markdown).toContain(
+    'https://github.com/dnbexperience/eufemia/pull/10759#issuecomment-6917082027'
+  )
+})
+
+it.each([
+  ['lighter error text', '#d82610', '#dedfd8'],
+  ['darker background', '#c82610', '#cecec8'],
+])(
+  'rejects further Coconut contrast reductions: %s',
+  (_, error, background) => {
+    const after = coconutMode(error, background)
+    expect(
+      reviewTokenChanges(
+        coconutMode('#d8134b', '#f2f2f7', '#ebebf1'),
+        after
+      ).regressions
+    ).toHaveLength(2)
+    expect(
+      reviewTokenChanges(coconutMode('#c82610', '#dedfd8'), after)
+        .regressions
+    ).toHaveLength(2)
+  }
+)
+
+it('rejects restoring the accepted Coconut colors after a contrast improvement', () => {
+  expect(
+    reviewTokenChanges(
+      coconutMode('#000', '#dedfd8'),
+      coconutMode('#c82610', '#dedfd8')
+    ).regressions
+  ).toHaveLength(2)
+})
+
+it.each(['DNB light', 'Coconut dark'] as const)(
+  'keeps the same contrast changes failing for %s',
+  (name) => {
+    const before = coconutMode('#d8134b', '#f2f2f7', '#ebebf1')
+    const after = coconutMode('#c82610', '#dedfd8')
+    before[0].name = name
+    after[0].name = name
+
+    expect(reviewTokenChanges(before, after).regressions).toHaveLength(2)
+  }
+)
+
+it('keeps unrelated Coconut contrast regressions failing', () => {
+  const before = coconutMode('#d8134b', '#f2f2f7', '#ebebf1')
+  const after = coconutMode('#c82610', '#dedfd8')
+  before[0].tokens['--token-color-background-info-subtle'] = '#f2f2f7'
+  after[0].tokens['--token-color-background-info-subtle'] = '#dedfd8'
+
+  expect(reviewTokenChanges(before, after).regressions).toEqual([
+    expect.stringContaining(
+      '--token-color-text-error on --token-color-background-info-subtle'
+    ),
+  ])
+})
+
 it('ignores support fallbacks when reviewing the modern token values', () => {
   expect(
     resolveTokenValues(
@@ -133,6 +224,10 @@ it('loads every shipped palette and resolves the colors used by the contrast che
     'DNB dark',
     'Sbanken light',
     'Sbanken dark',
+    // @deprecated Transitional "coconut" brand
+    'Coconut light',
+    // @deprecated Transitional "coconut" brand
+    'Coconut dark',
     'Carnegie light',
   ])
   for (const { tokens } of modes) {

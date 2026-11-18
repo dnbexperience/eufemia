@@ -38,6 +38,12 @@ beforeEach(() => {
   vi.stubGlobal(
     'DOMMatrix',
     class {
+      a = 1
+      b = 0
+      c = 0
+      d = 1
+      e = 0
+      f = 0
       m11 = 1
       m12 = 0
       m21 = 0
@@ -106,6 +112,37 @@ it('keeps idle physics asleep and disposes its visibility observer', () => {
   motion.destroy()
   expect(disconnect).toHaveBeenCalledOnce()
   expect(vi.getTimerCount()).toBe(0)
+})
+
+it('restores frozen poses and animation effects when disposed behind a modal', async () => {
+  const part = root.querySelector<HTMLElement>('[data-home-specimen]')
+  part.style.transform = 'rotate(2deg)'
+  part.style.translate = '3px'
+  part.style.animationName = 'custom-motion'
+  const effect = {}
+  const animation = { effect }
+  root.querySelectorAll('[data-hanging-item] > *').forEach((part) => {
+    part.getAnimations = () => []
+  })
+  part.getAnimations = () => [animation as unknown as Animation]
+  const modal = document.createElement('div')
+  modal.setAttribute('aria-modal', 'true')
+
+  try {
+    document.body.appendChild(modal)
+    await Promise.resolve()
+    expect(animation.effect).toBeNull()
+    expect(part.style.transform).not.toBe('rotate(2deg)')
+    expect(part.style.animationName).toBe('none')
+
+    motion.destroy()
+    expect(animation.effect).toBe(effect)
+    expect(part.style.transform).toBe('rotate(2deg)')
+    expect(part.style.translate).toBe('3px')
+    expect(part.style.animationName).toBe('custom-motion')
+  } finally {
+    modal.remove()
+  }
 })
 
 it('drops a lifted control vertically until its rope catches', () => {

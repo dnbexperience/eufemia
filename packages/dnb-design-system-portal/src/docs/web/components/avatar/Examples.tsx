@@ -22,7 +22,7 @@ import {
   DnbDefault,
   SbankenCompact,
 } from '@dnb/eufemia/src/components/Logo'
-import type { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
+import type { UseThemeReturn } from '@dnb/eufemia/src/shared/useTheme'
 
 export const AvatarSizeDefault = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-default">
@@ -142,14 +142,8 @@ export const AvatarChildIcon = () => (
   </ComponentBox>
 )
 
-function getLogoSvg(theme: ThemeProps) {
-  switch (theme?.brand) {
-    case 'sbanken':
-      return SbankenCompact
-
-    default:
-      return DnbDefault
-  }
+function getLogoSvg(theme: UseThemeReturn) {
+  return theme?.isSbanken ? SbankenCompact : DnbDefault
 }
 
 export const AvatarDNBLogo = () => (

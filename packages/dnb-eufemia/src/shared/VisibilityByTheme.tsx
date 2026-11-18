@@ -55,16 +55,24 @@ export default function VisibilityByTheme({
       }
 
       return typeof themeItem === 'string'
-        ? theme.brand === themeItem
+        ? matchBrand(theme.brand, themeItem)
         : matchObject(theme, themeItem)
     }
+  }
+
+  function matchBrand(brand: ThemeNames, expected: ThemeNames) {
+    return (
+      brand === expected || (brand === 'coconut' && expected === 'sbanken')
+    )
   }
 
   function matchObject(theme: ThemeProps, themeItem: ThemeItem) {
     // Cache Object.keys() result for performance
     const themeItemKeys = Object.keys(themeItem)
     return themeItemKeys.every((key) => {
-      return theme[key] === themeItem[key]
+      return key === 'brand' || key === 'name'
+        ? matchBrand(theme[key], themeItem[key])
+        : theme[key] === themeItem[key]
     })
   }
 }
