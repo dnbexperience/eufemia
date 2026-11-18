@@ -911,6 +911,95 @@ const typographyProperties = {
   '--line-height-xx-large': ['font', 'height', 'heading-2xl'],
 } as const
 
+const webFontFamilies: Record<string, string> = {
+  DNB: "'DNB', 'Arial', sans-serif",
+  Roboto: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+  'Maison Neue':
+    "'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+  'ABC Arizona Flare': "'ArizonaFlare', var(--font-family-default)",
+}
+
+const webFontFamiliesByBrand: Record<string, string[]> = {
+  ui: ['DNB'],
+  sbanken: ['Roboto', 'Maison Neue'],
+  coconut: ['Roboto', 'Maison Neue'],
+  carnegie: ['DNB', 'ABC Arizona Flare'],
+}
+
+export const getTypographyFontProperties = (
+  tokenList: TokenList,
+  brand: string
+) => {
+  const tokenMap = new Map(
+    tokenList.map((token) => [token.figmaPath.join('/'), token])
+  )
+  const readString = (tokenPath: string) => {
+    const token = tokenMap.get(tokenPath)
+    if (!token || token.$type !== 'string') {
+      throw new Error('Missing string typography token: ' + tokenPath)
+    }
+    return token.$value
+  }
+  const family = (name: string) => {
+    if (
+      !Object.hasOwn(webFontFamilies, name) ||
+      !webFontFamiliesByBrand[brand]?.includes(name)
+    ) {
+      throw new Error(
+        'Unsupported web font family for ' + brand + ': ' + name
+      )
+    }
+    return webFontFamilies[name]
+  }
+  const weight = (name: string) => {
+    switch (name) {
+      case 'Regular':
+        return 'normal'
+      case 'Medium':
+        return '500'
+      default:
+        throw new Error('Unsupported web font weight: ' + name)
+    }
+  }
+  const body = readString('font/family/body')
+  const heading = readString('font/family/heading')
+
+  // Only these families have the body weight scale registered on the web.
+  if (!['DNB', 'Roboto'].includes(body)) {
+    throw new Error('Unsupported web body font family: ' + body)
+  }
+
+  const regular = weight(readString('font/weight/text-basis'))
+  const medium = weight(readString('font/weight/text-basis-medium'))
+
+  // Regular font rules and Sbanken's inherited aliases still use normal.
+  if (regular !== 'normal') {
+    throw new Error(
+      'Expected font/weight/text-basis to remain Regular for the existing web font rules'
+    )
+  }
+
+  for (const size of ['text-sm', 'text-xs']) {
+    for (const suffix of ['', '-medium']) {
+      const source = 'font/weight/text-basis' + suffix
+      const target = 'font/weight/' + size + suffix
+      if (readString(target) !== readString(source)) {
+        throw new Error('Expected ' + target + ' to match ' + source)
+      }
+    }
+  }
+
+  return {
+    '--font-family-default': family(body),
+    '--font-family-heading':
+      heading === body ? 'var(--font-family-default)' : family(heading),
+    '--font-weight-default': regular,
+    '--font-weight-basis': regular,
+    '--font-weight-regular': regular,
+    '--font-weight-medium': medium,
+  }
+}
+
 export const syncTypographyProperties = (
   source: string,
   values: Record<string, string>
@@ -935,7 +1024,7 @@ export const syncTypographyProperties = (
   return source
 }
 
-const makeTypographyPropertiesSCSS = async ({
+export const makeTypographyPropertiesSCSS = async ({
   inputPath,
   outputPath,
   brand,
@@ -951,6 +1040,43 @@ const makeTypographyPropertiesSCSS = async ({
   const tokenMap = new Map(
     tokenList.map((token) => [token.figmaPath.join('/'), token])
   )
+  const fontProperties = getTypographyFontProperties(tokenList, brand)
+  let propertiesToSync: Record<string, string> = fontProperties
+
+  if (brand === 'sbanken' || brand === 'coconut') {
+    propertiesToSync = Object.fromEntries(
+      Object.entries(fontProperties).map(([property, value]) => [
+        property.replace('--font-', '--sb-font-'),
+        value.replaceAll('--font-', '--sb-font-'),
+      ])
+    )
+  } else if (brand === 'carnegie') {
+    // Carnegie inherits its body family and weight scale from UI.
+    const uiTokens = convertToTokenList(
+      JSON.parse(
+        await promises.readFile(
+          path.resolve(path.dirname(inputPath), 'dnb-light.tokens.json'),
+          'utf-8'
+        )
+      ),
+      TOKEN_SETS.brand.targetVariableSetId
+    )
+    const uiProperties = getTypographyFontProperties(uiTokens, 'ui')
+    for (const property of Object.keys(fontProperties)) {
+      if (
+        property !== '--font-family-heading' &&
+        fontProperties[property] !== uiProperties[property]
+      ) {
+        throw new Error(
+          'Expected Carnegie to inherit UI typography: ' + property
+        )
+      }
+    }
+    propertiesToSync = {
+      '--ca-font-family-heading': fontProperties['--font-family-heading'],
+    }
+  }
+
   const declarations = Object.entries(typographyProperties).map(
     ([property, tokenPath]) => {
       const tokenPathName = tokenPath.join('/')
@@ -989,20 +1115,21 @@ const makeTypographyPropertiesSCSS = async ({
     await prettier.format(content, { filepath: '*.scss', ...prettierrc })
   )
 
-  if (brand === 'ui') {
-    const propertiesPath = path.resolve(
-      path.dirname(outputPath),
-      'properties.scss'
+  const propertiesPath = path.resolve(
+    path.dirname(outputPath),
+    'properties.scss'
+  )
+  const source = await promises.readFile(propertiesPath, 'utf-8')
+  await promises.writeFile(
+    propertiesPath,
+    await prettier.format(
+      syncTypographyProperties(source, {
+        ...propertiesToSync,
+        ...(brand === 'ui' ? parseCSSVariables(content) : {}),
+      }),
+      { filepath: '*.scss', ...prettierrc }
     )
-    const source = await promises.readFile(propertiesPath, 'utf-8')
-    await promises.writeFile(
-      propertiesPath,
-      await prettier.format(
-        syncTypographyProperties(source, parseCSSVariables(content)),
-        { filepath: '*.scss', ...prettierrc }
-      )
-    )
-  }
+  )
 }
 
 const runDesignTokenFactory = async () => {
