@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
 import type { DynamicElement, InnerSpaceType } from '../../shared/types'
@@ -11,8 +11,10 @@ import Section from '../section/Section'
 import {
   createSharedState,
   useDefaultSharedStateStore,
+  SharedStateScopeContext,
   type SharedStateReturn,
 } from '../../shared/helpers/useSharedState'
+import { warnOnServer } from '../../shared/helpers/warnOnServer'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 type ContentWrapperState = {
@@ -38,6 +40,15 @@ export default function ContentWrapper({
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
   const sharedStateStore = useDefaultSharedStateStore()
+  // On the server, Tabs.Content gets the selected tab only inside the same Provider as its Tabs
+  const hasScope = Boolean(useContext(SharedStateScopeContext))
+  if (id && !nested && !hasScope) {
+    warnOnServer(
+      'Tabs.Content',
+      id,
+      'does not get the selected tab during server rendering, because no Eufemia Provider surrounds it and its Tabs. Put both inside the same Provider.'
+    )
+  }
 
   const [state, setState] = useState<ContentWrapperState>(() => {
     if (id) {
