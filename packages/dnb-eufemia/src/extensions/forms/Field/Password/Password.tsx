@@ -118,7 +118,7 @@ function Password({
             transitionState={hidden ? 'view' : 'hide'}
           />
         }
-        disabled={disabled}
+        disabled={disabled ?? sharedContext.formElement?.disabled}
         skeleton={sharedContext.skeleton}
         onMouseDown={preventFocusChange}
         onClick={toggleVisibility}
@@ -131,6 +131,7 @@ function Password({
     translations.ariaLabelHide,
     size,
     disabled,
+    sharedContext.formElement?.disabled,
     sharedContext.skeleton,
     preventFocusChange,
     toggleVisibility,

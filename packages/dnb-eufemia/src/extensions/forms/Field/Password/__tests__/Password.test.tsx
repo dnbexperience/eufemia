@@ -180,6 +180,46 @@ describe('Password component', () => {
     expect(input().getAttribute('type')).toBe('password')
   })
 
+  it('should disable the visibility toggle when Form.Handler is disabled', () => {
+    const onShowPassword = vi.fn()
+    render(
+      <Form.Handler disabled>
+        <Field.Password value="secret" onShowPassword={onShowPassword} />
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(input).toBeDisabled()
+    expect(button).toBeDisabled()
+
+    fireEvent.click(button)
+
+    expect(input).toHaveAttribute('type', 'password')
+    expect(onShowPassword).not.toHaveBeenCalled()
+  })
+
+  it('should keep the visibility toggle enabled with Field.Provider disabled={false} inside a disabled Form.Handler', () => {
+    render(
+      <Form.Handler disabled>
+        <Field.Provider disabled={false}>
+          <Field.Password value="secret" />
+        </Field.Provider>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(input).not.toBeDisabled()
+    expect(button).not.toBeDisabled()
+
+    fireEvent.click(button)
+
+    expect(input).toHaveAttribute('type', 'text')
+  })
+
   it('events gets triggered on interaction', async () => {
     const onShowPassword = vi.fn()
     const onHidePassword = vi.fn()
