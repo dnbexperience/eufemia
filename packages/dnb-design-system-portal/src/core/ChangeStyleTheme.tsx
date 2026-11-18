@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Context } from '@dnb/eufemia/src/shared'
+import { Context, Provider } from '@dnb/eufemia/src/shared'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import useTheme from '@dnb/eufemia/src/shared/useTheme'
 import { getThemes, setTheme } from '../../vite/client/shims/theme-handler'
@@ -10,36 +10,36 @@ export default function ChangeStyleTheme(props) {
   const brand = useTheme()?.brand
   const { update } = useContext(Context)
 
-  const data = Object.entries(themes).reduce((acc, [key, value]) => {
-    if (!value?.hide) {
-      acc.push({
-        id:
-          key === (brand ?? Object.keys(themes)[0])
-            ? 'change-theme'
-            : undefined,
-        value: key,
-        title: capitalizeFirstLetter(value.name),
-      })
-    }
-    return acc
-  }, [])
+  const visibleThemes = Object.entries(themes).filter(
+    ([, theme]) => !theme?.hide
+  )
+  const focusKey = visibleThemes.some(([key]) => key === brand)
+    ? brand
+    : visibleThemes[0]?.[0]
+  const data = visibleThemes.map(([key, value]) => ({
+    id: key === focusKey ? 'change-theme' : undefined,
+    value: key,
+    title: capitalizeFirstLetter(value.name),
+  }))
 
   return (
-    <Field.Selection
-      variant="radio-button"
-      optionsLayout="horizontal"
-      id="change-theme"
-      value={brand}
-      data={data}
-      label="Change Brand"
-      onChange={(value) => {
-        update({ skeleton: true })
-        setTheme({ brand: value as ThemeNames }, () => {
-          update({ skeleton: false })
-        })
-      }}
-      {...props}
-    />
+    <Provider skeleton={false}>
+      <Field.Selection
+        variant="radio-button"
+        optionsLayout="horizontal"
+        id="change-theme"
+        value={brand}
+        data={data}
+        label="Change Brand"
+        onChange={(value) => {
+          update({ skeleton: true })
+          setTheme({ brand: value as ThemeNames }, () => {
+            update({ skeleton: false })
+          })
+        }}
+        {...props}
+      />
+    </Provider>
   )
 }
 

@@ -91,12 +91,34 @@ test.describe('Theme', () => {
     expect(localStorageData.name).toBe('sbanken')
   })
 
-  test('should switch back and forth', async ({ page }) => {
+  test('should switch back and forth without losing focus', async ({
+    page,
+  }) => {
+    // Keep theme loading pending while checking keyboard focus.
+    let finishLoading: () => void
+    const loading = new Promise<void>((resolve) => {
+      finishLoading = resolve
+    })
+    await page.route('**/*eufemia-theme-sbanken*.css', async (route) => {
+      await loading
+      await route.continue()
+    })
+    await page.reload()
+    await waitForApp(page)
+
     await page.click('#portal-tools')
-    await page
-      .getByRole('dialog', { name: 'Settings' })
-      .getByRole('radio', { name: 'Sbanken', exact: true })
-      .click()
+    const settings = page.getByRole('dialog', { name: 'Settings' })
+    await expect(
+      settings.getByRole('radio', { name: 'DNB', exact: true })
+    ).toBeFocused()
+    const sbanken = settings.locator('input[value="sbanken"]')
+    try {
+      await page.keyboard.press('ArrowRight')
+      await expect(sbanken).toBeChecked()
+      await expect(sbanken).toBeFocused()
+    } finally {
+      finishLoading()
+    }
 
     // Wait for sbanken theme to load before switching back
     await page.waitForFunction(() => {
@@ -106,10 +128,21 @@ test.describe('Theme', () => {
       return sbankenLink && !sbankenLink.disabled
     })
 
-    await page
-      .getByRole('dialog', { name: 'Settings' })
-      .getByRole('radio', { name: 'DNB', exact: true })
-      .click()
+    await expect(sbanken).toBeChecked()
+    await expect(sbanken).toBeFocused()
+
+    await page.keyboard.press('ArrowRight')
+    const eiendom = settings.getByRole('radio', {
+      name: 'DNB Eiendom',
+      exact: true,
+    })
+    await expect(page.locator('body')).toHaveClass(
+      /eufemia-theme__eiendom/
+    )
+    await expect(eiendom).toBeChecked()
+    await expect(eiendom).toBeFocused()
+
+    await settings.getByRole('radio', { name: 'DNB', exact: true }).click()
 
     // Wait for theme CSS to update after switching back
     await page.waitForFunction(() => {
@@ -195,6 +228,9 @@ test('should enable Coconut from the URL without offering it in settings', async
     'DNB Eiendom',
     'DNB Carnegie',
   ])
+  const dnb = brands.getByRole('radio', { name: 'DNB', exact: true })
+  await expect(dnb).toBeFocused()
+  await expect(dnb).not.toBeChecked()
 
   await page.evaluate(() => {
     const theme = JSON.parse(localStorage.getItem('eufemia-theme'))
