@@ -1170,11 +1170,27 @@ describe('makePropertiesFile', () => {
       )
 
       try {
+        const uiTokens = JSON.parse(
+          await fs.readFile(
+            path.resolve(
+              'src/style/themes/figma/brand/dnb-light.tokens.json'
+            ),
+            'utf-8'
+          )
+        )
+        for (const role of ['text-basis', 'text-sm', 'text-xs']) {
+          uiTokens.font.weight[role + '-medium'].$value = 'Regular'
+        }
+        await fs.writeFile(
+          path.join(directory, 'dnb-light.tokens.json'),
+          JSON.stringify(uiTokens)
+        )
+
         for (const [brand, mode, property] of [
+          ['carnegie', 'dnbcarnegie', '--ca-font-family-heading'],
           ['ui', 'dnb', '--font-family-heading'],
           ['sbanken', 'sbanken', '--sb-font-family-heading'],
           ['coconut', 'coconut', '--sb-font-family-heading'],
-          ['carnegie', 'dnbcarnegie', '--ca-font-family-heading'],
         ]) {
           const inputPath = path.join(
             directory,
