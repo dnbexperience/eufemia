@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import type { ComponentType, KeyboardEvent, MouseEvent, Ref } from 'react'
 import type { CardProps } from './CardInner'
 import Card from './CardInner'
@@ -6,6 +6,7 @@ import { warn } from '../../shared/component-helper'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
+import Context from '../../shared/Context'
 
 export type CardActionProps = Omit<CardProps, 'onClick' | 'element'> & {
   /**
@@ -61,12 +62,15 @@ function CardAction(props: CardActionProps) {
     ...cardProps
   } = props
 
+  const context = useContext(Context)
+  const skeleton = Boolean(context?.skeleton)
   const isLink = Boolean(href || to)
 
   // Security: drop script-executing protocols, like the Anchor does. The
-  // element keeps its shape and only loses the link target.
-  const safeHref = isDangerousHref(href) ? undefined : href
-  const safeTo = isDangerousHref(to) ? undefined : to
+  // element keeps its shape and only loses the link target. A skeleton
+  // also loses its link target, so the placeholder cannot navigate.
+  const safeHref = isDangerousHref(href) || skeleton ? undefined : href
+  const safeTo = isDangerousHref(to) || skeleton ? undefined : to
 
   const internalRef = useRef<HTMLElement>(null)
   const combinedRef = useCombinedRef(ref, internalRef)
@@ -101,6 +105,16 @@ function CardAction(props: CardActionProps) {
     [onClick]
   )
 
+  const interactionParams = skeleton
+    ? {
+        tabIndex: -1,
+        'aria-disabled': true,
+        onClick: (event: MouseEvent<HTMLElement>) => {
+          event.preventDefault()
+        },
+      }
+    : { onClick }
+
   // Security: prevent reverse tabnabbing for external links
   const rel =
     target === '_blank' && !relProp ? 'noopener noreferrer' : relProp
@@ -115,7 +129,7 @@ function CardAction(props: CardActionProps) {
         <AnchorElement
           className="dnb-card-action"
           ref={combinedRef}
-          onClick={onClick}
+          {...interactionParams}
           target={target}
           rel={rel}
           to={(safeTo || safeHref) as string}
@@ -129,7 +143,7 @@ function CardAction(props: CardActionProps) {
       <a
         className="dnb-card-action"
         ref={combinedRef as Ref<HTMLAnchorElement>}
-        onClick={onClick}
+        {...interactionParams}
         target={target}
         rel={rel}
         href={safeHref || safeTo}
@@ -143,10 +157,10 @@ function CardAction(props: CardActionProps) {
     <div
       className="dnb-card-action"
       ref={combinedRef as Ref<HTMLDivElement>}
-      onClick={onClick}
-      onKeyDown={handleKeyDown}
+      onKeyDown={skeleton ? undefined : handleKeyDown}
       role="button"
       tabIndex={0}
+      {...interactionParams}
     >
       {card}
     </div>
