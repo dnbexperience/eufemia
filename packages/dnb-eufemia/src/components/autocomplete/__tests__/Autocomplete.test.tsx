@@ -5774,6 +5774,32 @@ describe('Autocomplete inline', () => {
     expect(onOpen).toHaveBeenCalledTimes(1)
   })
 
+  it('keeps the list interactive with skeleton={false} inside a skeleton Provider', () => {
+    const onChange = vi.fn()
+
+    render(
+      <Provider skeleton>
+        <Autocomplete
+          {...inlineProps}
+          skeleton={false}
+          focusable
+          data={mockData}
+          onChange={onChange}
+        />
+      </Provider>
+    )
+
+    const ul = document.querySelector('ul.dnb-drawer-list__options')
+    expect(ul).not.toHaveClass('dnb-skeleton')
+    expect(ul.getAttribute('tabindex')).toBe('0')
+
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[1]
+    )
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
   it('does not move focus on initial render', () => {
     render(<Autocomplete {...inlineProps} data={mockData} />)
 

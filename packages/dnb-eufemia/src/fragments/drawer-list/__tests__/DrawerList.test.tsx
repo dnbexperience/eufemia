@@ -25,7 +25,7 @@ import DrawerListPortal from '../DrawerListPortal'
 import DrawerListProvider from '../DrawerListProvider'
 import type { DrawerListContextValue } from '../DrawerListContext'
 import DrawerListContext from '../DrawerListContext'
-import { IsolatedStyleScope } from '../../../shared'
+import { IsolatedStyleScope, Provider } from '../../../shared'
 import Dialog from '../../../components/dialog/Dialog'
 import {
   mockImplementationForDirectionObserver,
@@ -304,6 +304,44 @@ describe('DrawerList component', () => {
         expect(onChange).toHaveBeenCalledTimes(0)
         expect(onSelect).toHaveBeenCalledTimes(2)
       })
+    })
+  })
+
+  describe('in skeleton mode', () => {
+    it('is not focusable and ignores keyboard and click selection', () => {
+      const onChange = vi.fn()
+      const onSelect = vi.fn()
+
+      render(
+        <Provider skeleton>
+          <DrawerList
+            {...props}
+            focusable
+            data={mockData}
+            onChange={onChange}
+            onSelect={onSelect}
+          />
+        </Provider>
+      )
+
+      const ul = document.querySelector('ul.dnb-drawer-list__options')
+      expect(ul).toHaveClass('dnb-skeleton')
+      expect(ul.getAttribute('tabindex')).toBe('-1')
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__option--selected')
+          .getAttribute('tabindex')
+      ).toBe('-1')
+
+      keydown('ArrowDown')
+      keydown('Enter')
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      )
+
+      expect(getSelectedItemIndex()).toBe(props.value)
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(onSelect).toHaveBeenCalledTimes(0)
     })
   })
 
