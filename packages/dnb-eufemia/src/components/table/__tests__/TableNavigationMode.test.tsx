@@ -445,4 +445,38 @@ describe('Table using mode="navigation" prop', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(onClick).toHaveBeenCalledTimes(0)
   })
+
+  it.each([
+    ['prop', { skeleton: true }, false],
+    ['context', {}, true],
+  ])(
+    'should not activate the row when skeleton is set via %s',
+    (_, tableProps, providerSkeleton) => {
+      const onClick = vi.fn()
+
+      render(
+        <Provider skeleton={providerSkeleton}>
+          <Table mode="navigation" {...tableProps}>
+            <tbody>
+              <Tr onClick={onClick}>
+                <Td>content</Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Provider>
+      )
+
+      const trElement = document.querySelector('tr.dnb-table__tr')
+      expect(trElement).not.toHaveAttribute('tabindex')
+
+      vi.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+
+      fireEvent.keyDown(trElement, { key: 'Enter' })
+      fireEvent.keyDown(trElement, { key: ' ' })
+      fireEvent.click(trElement)
+      fireEvent.click(trElement.querySelector('button'))
+
+      expect(onClick).not.toHaveBeenCalled()
+    }
+  )
 })
