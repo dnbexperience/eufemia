@@ -440,9 +440,9 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
   }
 
   validateDOMAttributes(ownProps, attributes)
-  skeletonDOMAttributes(attributes, skeleton as boolean, context)
 
   const Element = element as ElementType
+  skeletonDOMAttributes(attributes, skeleton as boolean, context, Element)
 
   return (
     <Element {...attributes}>

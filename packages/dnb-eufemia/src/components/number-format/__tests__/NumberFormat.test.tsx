@@ -1199,6 +1199,17 @@ describe('NumberFormat component', () => {
       )
       expect(comp).toHaveClass('dnb-number-format--selected')
     })
+
+    it('should not put the busy aria-label on the span', async () => {
+      const Comp = render(
+        <Component value={value} selectAll tooltip="Tooltip" skeleton />
+      )
+
+      const comp = document.querySelector('.dnb-number-format')
+      expect(comp).not.toHaveAttribute('aria-label')
+      expect(comp).toHaveAttribute('aria-disabled', 'true')
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 
   it('should not select all if selectAll is false', async () => {
