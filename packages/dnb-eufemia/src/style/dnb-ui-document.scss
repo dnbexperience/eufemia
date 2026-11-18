@@ -182,16 +182,12 @@
     }
   }
 
-  :is(
-    .dnb-document__signature,
-    .dnb-document__footer,
-    .dnb-document__return-address
-  ) {
+  :is(.dnb-document__signature, .dnb-document__footer) {
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
   }
 
-  :is(.dnb-document__footer, .dnb-document__return-address) {
+  .dnb-document__footer {
     --font-size-basis: var(--font-size-x-small);
     --line-height-basis: 1.05rem;
   }
@@ -209,4 +205,27 @@
   }
 
   @include typography.fontFamilyModifiers();
+
+  :is(.dnb-document__address, .dnb-document__return-address) {
+    --font-family-default: 'Arial', sans-serif;
+    // Postal addressing requires a fixed, approved point size.
+    --font-size-basis: 10pt;
+    --line-height-basis: 1.4;
+
+    &,
+    * {
+      font-family: var(--font-family-default);
+      font-style: normal;
+      font-weight: 400;
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-basis);
+    }
+
+    :is(p, .dnb-p) {
+      &,
+      .dnb-core-style & {
+        margin-block: 0;
+      }
+    }
+  }
 }
