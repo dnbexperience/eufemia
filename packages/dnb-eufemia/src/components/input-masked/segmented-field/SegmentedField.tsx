@@ -63,7 +63,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   const hasExternalScopeRef = Boolean(props.scopeRef)
   const context = useContext(Context)
   const isInactive = Boolean(
-    disabled ||
+    (disabled ?? context?.formElement?.disabled) ||
     skeleton ||
     (skeleton !== false &&
       (context?.skeleton || context?.formElement?.skeleton))

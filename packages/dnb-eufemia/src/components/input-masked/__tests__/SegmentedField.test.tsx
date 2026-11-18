@@ -292,6 +292,44 @@ describe('SegmentedField', () => {
       expect(onChange).not.toHaveBeenCalled()
     })
 
+    it('should not be focusable or editable when disabled is set through formElement', () => {
+      const onChange = vi.fn()
+      render(
+        <Provider formElement={{ disabled: true }}>
+          <SegmentedField
+            inputs={twoDigitInputs}
+            delimiter="/"
+            onChange={onChange}
+          />
+        </Provider>
+      )
+
+      getSections().forEach((section) => {
+        expect(section).not.toHaveAttribute('tabindex')
+        expect(section).toHaveAttribute('aria-disabled', 'true')
+      })
+
+      fireEvent.keyDown(getFirst(), { key: '1' })
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('should stay focusable when disabled is false and formElement disabled is true', () => {
+      render(
+        <Provider formElement={{ disabled: true }}>
+          <SegmentedField
+            inputs={twoDigitInputs}
+            delimiter="/"
+            disabled={false}
+          />
+        </Provider>
+      )
+
+      getSections().forEach((section) => {
+        expect(section).toHaveAttribute('tabindex', '0')
+        expect(section).toHaveAttribute('aria-disabled', 'false')
+      })
+    })
+
     it('should stay focusable when skeleton is false and context skeleton is true', () => {
       render(
         <Provider skeleton>
