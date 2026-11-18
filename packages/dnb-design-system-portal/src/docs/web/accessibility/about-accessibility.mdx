@@ -75,9 +75,9 @@ About 8% of men and 0.4% of women of European ancestry have a red-green color vi
 
 You as a developer have to make sure that color is never the only way to show a meaning, such as an error, a status, a selection or a link. Also show it with text, an icon, a shape or an underline.
 
-Some Eufemia properties only change colors, so you have to add the text yourself:
+Some Eufemia properties show a meaning without text, so you have to add the text yourself:
 
-- A `status` without a message on a form component, such as `status={true}`. Then show the message yourself, for example in a [FormStatus](/web/components/form-status/) or a [GlobalStatus](/web/components/global-status/).
+- A `status` without a message on a form component, such as `status={true}`. Most fields then get a thicker border in the error color, but no text tells the user what is wrong. Show the message yourself, for example in a [FormStatus](/web/components/form-status/) or a [GlobalStatus](/web/components/global-status/).
 - The `status` of a [Badge](/web/components/badge/), the `variant` of a [Section](/web/components/section/) and the `highlight` of a [Table](/web/components/table/) cell. Name the status or the reason in the content.
 
 Test your pages with simulated color blindness: in Chrome DevTools, open **Rendering** and use **Emulate vision deficiencies**.

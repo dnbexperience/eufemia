@@ -2,77 +2,81 @@ import { expect, test } from '@playwright/test'
 
 // A field in the error state must not differ by color alone (WCAG 1.4.1,
 // failure F81). At rest, its border is thicker than the border of a normal field.
+// Full page paths, so the E2E build includes these pages (test-page-filter)
 const cases = [
-  ['Input', 'input', 'input-error', '.dnb-input', '.dnb-input__border'],
+  [
+    'Input',
+    '/web/components/input/demos/',
+    'input-error',
+    '.dnb-input',
+    '.dnb-input__border',
+  ],
   [
     'Textarea',
-    'textarea',
+    '/web/components/textarea/demos/',
     'textarea-error',
     '.dnb-textarea',
     '.dnb-textarea__state',
   ],
   [
     'Dropdown',
-    'dropdown',
+    '/web/components/dropdown/demos/',
     'dropdown-status-error',
     '.dnb-dropdown',
     '.dnb-dropdown__trigger',
   ],
   [
     'Autocomplete',
-    'autocomplete',
+    '/web/components/autocomplete/demos/',
     'autocomplete-status-error',
     '.dnb-autocomplete',
     '.dnb-input__border',
   ],
   [
     'Checkbox',
-    'checkbox',
+    '/web/components/checkbox/demos/',
     'checkbox-error-unchecked',
     '.dnb-checkbox',
     '.dnb-checkbox__button',
   ],
   [
     'Radio',
-    'radio',
+    '/web/components/radio/demos/',
     'radio-error-unchecked',
     '.dnb-radio',
     '.dnb-radio__button',
   ],
   [
     'Switch',
-    'switch',
+    '/web/components/switch/demos/',
     'switch-error',
     '.dnb-switch',
     '.dnb-switch__background',
   ],
   [
     'Button',
-    'button',
+    '/web/components/button/demos/',
     'button-error-secondary',
     '.dnb-button--secondary',
     '',
   ],
   [
     'DatePicker',
-    'date-picker',
+    '/web/components/date-picker/demos/',
     'date-picker-input-error',
     '.dnb-date-picker',
     '.dnb-input__border',
   ],
 ] as const
 
-for (const [name, page_, fixture, root, part] of cases) {
+for (const [name, path, fixture, root, part] of cases) {
   test(
     name + ' in the error state has a thicker border',
     async ({ page }) => {
       for (const theme of ['ui', 'sbanken', 'carnegie']) {
         await test.step(theme, async () => {
           await page.goto(
-            '/web/components/' +
-              page_ +
-              '/demos/?data-visual-test&eufemia-theme=' +
-              theme
+            path + '?data-visual-test&eufemia-theme=' + theme
           )
           await expect(page.locator('body')).toHaveClass(
             new RegExp('eufemia-theme__' + theme + '(?: |$)')
