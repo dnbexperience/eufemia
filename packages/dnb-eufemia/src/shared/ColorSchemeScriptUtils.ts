@@ -22,11 +22,14 @@ function escapeForScriptString(value: string) {
 }
 
 /**
- * Returns the inline script that adds the color-scheme class to <body>.
+ * Returns the inline script that adds the color-scheme class to <body>
+ * and swaps the color-scheme classes on server-rendered Theme elements
+ * while they are parsed, so the browser never paints them in the
+ * wrong color scheme.
  * Place this as the first child of <body>.
  */
 export function getBodyScript() {
-  return `(function(){var s=globalThis.${GLOBAL_KEY};if(s){document.body.classList.add('${CLASS_PREFIX}'+s)}})()`
+  return `(function(){var s=globalThis.${GLOBAL_KEY};if(s){document.body.classList.add('${CLASS_PREFIX}'+s);if(s!=='light'&&document.readyState==='loading'&&typeof MutationObserver==='function'){var o='${CLASS_PREFIX}'+(s==='dark'?'light':'dark');var m=new MutationObserver(function(r){for(var i=0;i<r.length;i++){var n=r[i].addedNodes;for(var j=0;j<n.length;j++){var e=n[j];if(e.nodeType===1&&e.classList.contains(o)){e.classList.remove(o);e.classList.add('${CLASS_PREFIX}'+s)}}}});m.observe(document.documentElement,{childList:true,subtree:true});document.addEventListener('DOMContentLoaded',function(){m.disconnect()},{once:true})}}})()`
 }
 
 /**

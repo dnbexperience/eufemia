@@ -161,6 +161,66 @@ describe('ColorSchemeScript', () => {
       expect(document.body.className).toBe('')
     })
 
+    describe('while the document is still being parsed', () => {
+      const lightClass = 'eufemia-theme__color-scheme--light'
+      const darkClass = 'eufemia-theme__color-scheme--dark'
+      let readyState: ReturnType<typeof vi.spyOn>
+
+      beforeEach(() => {
+        readyState = vi
+          .spyOn(document, 'readyState', 'get')
+          .mockReturnValue('loading')
+      })
+
+      afterEach(() => {
+        document.dispatchEvent(new Event('DOMContentLoaded'))
+        readyState.mockRestore()
+        document.body.replaceChildren()
+      })
+
+      // MutationObserver records are delivered in a microtask
+      const flush = () => new Promise((resolve) => setTimeout(resolve))
+
+      const parse = () => {
+        const el = document.createElement('div')
+        el.classList.add('eufemia-theme', lightClass)
+        document.body.appendChild(el)
+        return el
+      }
+
+      it('body script swaps server-rendered Theme elements before the content script runs', async () => {
+        globalThis.__eufemiaColorScheme = 'dark'
+
+        eval(getBodyScript())
+        const el = parse()
+        await flush()
+
+        expect(el.classList.contains(darkClass)).toBe(true)
+        expect(el.classList.contains(lightClass)).toBe(false)
+      })
+
+      it('body script stops swapping when the document has been parsed', async () => {
+        globalThis.__eufemiaColorScheme = 'dark'
+
+        eval(getBodyScript())
+        document.dispatchEvent(new Event('DOMContentLoaded'))
+        const el = parse()
+        await flush()
+
+        expect(el.classList.contains(lightClass)).toBe(true)
+      })
+
+      it('body script leaves Theme elements alone when the scheme is light', async () => {
+        globalThis.__eufemiaColorScheme = 'light'
+
+        eval(getBodyScript())
+        const el = parse()
+        await flush()
+
+        expect(el.classList.contains(lightClass)).toBe(true)
+      })
+    })
+
     it('content script swaps light to dark on elements', () => {
       globalThis.__eufemiaColorScheme = 'dark'
 

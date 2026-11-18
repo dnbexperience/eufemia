@@ -78,7 +78,8 @@ export function ColorSchemeHeadScript({
 
 /**
  * Script component for the first child of <body>.
- * Adds the color-scheme class to <body>.
+ * Adds the color-scheme class to <body> and swaps the color-scheme
+ * classes on server-rendered Theme elements while they are parsed.
  */
 export function ColorSchemeBodyFirstScript(
   props: ColorSchemeScriptProps = {}

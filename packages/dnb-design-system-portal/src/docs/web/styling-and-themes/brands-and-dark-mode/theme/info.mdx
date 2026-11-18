@@ -246,8 +246,8 @@ Place them in your HTML template as follows:
 ```
 
 - **`ColorSchemeHeadScript`** — Resolves the color scheme from `localStorage` (or falls back to the system preference) and stores it on `globalThis`. Place in `<head>`.
-- **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>`. Place as the first child of `<body>`.
-- **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme. Place as the last child of `<body>`.
+- **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>` and updates server-rendered `Theme` elements while the page is still loading, so browsers that paint before the whole page has loaded, such as Safari on iPhone, don't show the wrong color scheme. Place as the first child of `<body>`.
+- **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme, also in browsers without `MutationObserver`. Place as the last child of `<body>`.
 
 #### Content Security Policy (CSP)
 
