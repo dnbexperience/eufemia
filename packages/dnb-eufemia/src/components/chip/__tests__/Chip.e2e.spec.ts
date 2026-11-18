@@ -28,48 +28,76 @@ test('default selection has sufficient non-text contrast across themes', async (
         await expect(page.locator('body')).toHaveClass(
           new RegExp('eufemia-theme__color-scheme--' + colorScheme)
         )
-        const selected = page.locator(
-          '[data-visual-test="chip-group-appearances"] .dnb-chip--default:has(input:checked)'
-        )
-        await expect(selected).toHaveCount(2)
-
-        const ratios = await selected.evaluateAll((chips) =>
-          chips.map((chip) => {
-            const pill = chip.querySelector(
-              '.dnb-checkbox__order, .dnb-radio__row, .dnb-chip__button'
-            )
-            const style = getComputedStyle(pill)
-            const border = style.boxShadow.match(
-              /(?:rgba?|color)\([^)]+\)/
-            )[0]
+        const { selected, unselected } = await page
+          .locator('[data-visual-test="chip-group-appearances"]')
+          .evaluate((fixture) => {
             const context = document
               .createElement('canvas')
               .getContext('2d')
-            context.fillStyle = style.backgroundColor
-            context.fillRect(0, 0, 1, 1)
-            const fill = context.getImageData(0, 0, 1, 1).data
-            context.fillStyle = border
-            context.fillRect(0, 0, 1, 1)
-            const stroke = context.getImageData(0, 0, 1, 1).data
-            const luminance = (color: Uint8ClampedArray) =>
-              [0.2126, 0.7152, 0.0722].reduce((sum, weight, index) => {
-                const channel = color[index] / 255
-                return (
-                  sum +
-                  weight *
-                    (channel <= 0.04045
-                      ? channel / 12.92
-                      : ((channel + 0.055) / 1.055) ** 2.4)
+            const luminance = (color: string) => {
+              context.fillStyle = color
+              context.fillRect(0, 0, 1, 1)
+              const rgb = context.getImageData(0, 0, 1, 1).data
+              return [0.2126, 0.7152, 0.0722].reduce(
+                (sum, weight, index) => {
+                  const channel = rgb[index] / 255
+                  return (
+                    sum +
+                    weight *
+                      (channel <= 0.04045
+                        ? channel / 12.92
+                        : ((channel + 0.055) / 1.055) ** 2.4)
+                  )
+                },
+                0
+              )
+            }
+            const measure = (chip: Element) => {
+              const pill = chip.querySelector(
+                '.dnb-checkbox__order, .dnb-radio__row, .dnb-chip__button'
+              )
+              const style = getComputedStyle(pill)
+              return {
+                fill: luminance(style.backgroundColor),
+                border: luminance(
+                  style.boxShadow.match(/(?:rgba?|color)\([^)]+\)/)[0]
+                ),
+              }
+            }
+            const chips = Array.from(
+              fixture.querySelectorAll('.dnb-chip--default')
+            )
+            return {
+              selected: chips
+                .filter((chip) => chip.querySelector('input:checked'))
+                .map(measure),
+              unselected: chips
+                .filter(
+                  (chip) =>
+                    !chip.querySelector('input:checked') &&
+                    chip.textContent.includes('Available')
                 )
-              }, 0)
-            const a = luminance(fill)
-            const b = luminance(stroke)
-            return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
+                .map(measure),
+            }
           })
-        )
+        expect(selected).toHaveLength(2)
+        expect(unselected).toHaveLength(2)
 
-        for (const ratio of ratios) {
-          expect(ratio).toBeGreaterThanOrEqual(3)
+        const contrast = (a: number, b: number) =>
+          (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
+
+        for (const chip of selected) {
+          expect(contrast(chip.border, chip.fill)).toBeGreaterThanOrEqual(
+            3
+          )
+
+          // The selected border must also differ from the resting border.
+          // In Carnegie, both were black (#10861).
+          for (const other of unselected) {
+            expect(
+              contrast(chip.border, other.border)
+            ).toBeGreaterThanOrEqual(3)
+          }
         }
       })
     }
