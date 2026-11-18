@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { resolveConfig, type InlineConfig } from 'vite'
 import productionDependenciesPlugin, {
   findUndeclaredPackages,
   getProductionDependencies,
@@ -144,24 +145,30 @@ describe('production-dependencies plugin', () => {
 
   describe('plugin', () => {
     const plugin = productionDependenciesPlugin()
-    const apply = plugin.apply as (
-      config: object,
-      env: { command: string; mode: string; isSsrBuild?: boolean }
-    ) => boolean
 
-    it('only runs for the client build', () => {
-      expect(apply({}, { command: 'build', mode: 'production' })).toBe(
-        true
-      )
-      expect(
-        apply(
-          {},
-          { command: 'build', mode: 'production', isSsrBuild: true }
-        )
-      ).toBe(false)
-      expect(apply({}, { command: 'serve', mode: 'development' })).toBe(
+    it('only runs for the client build', async () => {
+      const isActive = async (
+        command: 'build' | 'serve',
+        build: InlineConfig['build'] = {}
+      ) =>
+        (
+          await resolveConfig(
+            {
+              configFile: false,
+              logLevel: 'silent',
+              plugins: [productionDependenciesPlugin()],
+              build,
+            },
+            command
+          )
+        ).plugins.some(({ name }) => name === plugin.name)
+
+      expect(await isActive('build')).toBe(true)
+      // prerender.mjs builds the server bundle like this
+      expect(await isActive('build', { ssr: 'entry-server.tsx' })).toBe(
         false
       )
+      expect(await isActive('serve')).toBe(false)
     })
 
     it('fails the build with the undeclared packages', () => {

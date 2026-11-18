@@ -433,6 +433,19 @@ async function fetchAdvisories(
 
   while (url) {
     const response = await fetch(url, { headers })
+
+    // Every workflow of the repository shares the hourly requests of the token
+    const remaining = response.headers.get('x-ratelimit-remaining')
+    if (
+      headers.Authorization &&
+      remaining !== null &&
+      Number(remaining) < 200
+    ) {
+      throw new Error(
+        `Stopped with ${remaining} GitHub API requests left this hour, so other workflows can still use them. Run the check again later.`
+      )
+    }
+
     if (response.status === 404) {
       console.log(`Skipped ${url}: not found`)
       return null

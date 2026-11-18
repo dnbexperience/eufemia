@@ -612,6 +612,7 @@ describe('checkRepositoryAdvisories', () => {
 
     afterEach(() => {
       vi.unstubAllGlobals()
+      vi.unstubAllEnvs()
       vi.restoreAllMocks()
     })
 
@@ -734,6 +735,42 @@ describe('checkRepositoryAdvisories', () => {
           accepted: { 'GHSA-fixed': 'Tracked in #1' },
         })
       ).rejects.toThrow('GHSA-fixed no longer affects a shipped package')
+    })
+
+    it('stops before it uses up the GitHub API requests of the hour', async () => {
+      stubWorkspaces()
+      vi.stubEnv('GH_TOKEN', 'token')
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(async (url: string) =>
+          url.startsWith('https://registry.npmjs.org/')
+            ? {
+                ok: true,
+                status: 200,
+                json: async () => ({
+                  repository: { url: 'https://github.com/owner/repo' },
+                }),
+              }
+            : {
+                ok: true,
+                status: 200,
+                headers: new Headers({ 'x-ratelimit-remaining': '199' }),
+                json: async () => [],
+              }
+        )
+      )
+
+      await expect(
+        checkRepositoryAdvisories({ workspaces, accepted: {} })
+      ).rejects.toThrow('Stopped with 199 GitHub API requests left')
+
+      // Without a token, the requests are not shared with other workflows
+      vi.stubEnv('GH_TOKEN', '')
+      vi.stubEnv('GITHUB_TOKEN', '')
+
+      await expect(
+        checkRepositoryAdvisories({ workspaces, accepted: {} })
+      ).resolves.toEqual([])
     })
 
     it('reads every page of advisories on the GitHub API', async () => {
