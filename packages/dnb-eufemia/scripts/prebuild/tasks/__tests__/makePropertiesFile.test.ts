@@ -1094,7 +1094,7 @@ describe('makePropertiesFile', () => {
       ).toBe("'ArizonaFlare', var(--font-family-default)")
     })
 
-    it('replaces the Coconut body font from Figma and warns when no longer needed', async () => {
+    it('replaces the Coconut font families from Figma and warns when no longer needed', async () => {
       const fs = await import('fs/promises')
       const path = await import('path')
       const os = await import('os')
@@ -1115,11 +1115,27 @@ describe('makePropertiesFile', () => {
         const inputPath = path.join(directory, 'coconut-light.tokens.json')
         const propertiesPath = path.join(directory, 'properties.scss')
 
-        for (const [body, message] of [
-          ['Roboto', 'Replaced the Coconut body font'],
-          ['DNB', 'Remove the Coconut font family replacement'],
-        ]) {
+        for (const [body, heading, messages] of [
+          [
+            'Roboto',
+            'Maison Neue',
+            [
+              'Replaced the Coconut body font',
+              'Replaced the Coconut heading font',
+            ],
+          ],
+          [
+            'DNB',
+            'Sbanken Display',
+            [
+              'Remove the Coconut body font family replacement',
+              'Remove the Coconut heading font family replacement',
+            ],
+          ],
+        ] as const) {
+          warn.mockClear()
           tokens.font.family.body.$value = body
+          tokens.font.family.heading.$value = heading
           await fs.writeFile(inputPath, JSON.stringify(tokens))
           await fs.copyFile(
             path.resolve('src/style/themes/coconut/properties.scss'),
@@ -1132,12 +1148,20 @@ describe('makePropertiesFile', () => {
             brand: 'coconut',
           })
 
-          expect(await fs.readFile(propertiesPath, 'utf-8')).toContain(
+          const result = (
+            await fs.readFile(propertiesPath, 'utf-8')
+          ).replace(/\s+/g, ' ')
+          expect(result).toContain(
             "--sb-font-family-default: 'DNB', 'Arial', sans-serif;"
           )
-          expect(warn).toHaveBeenLastCalledWith(
-            expect.stringContaining(message)
+          expect(result).toContain(
+            "--sb-font-family-heading: 'Sbanken Display', var(--sb-font-family-default);"
           )
+          for (const message of messages) {
+            expect(warn).toHaveBeenCalledWith(
+              expect.stringContaining(message)
+            )
+          }
         }
       } finally {
         warn.mockRestore()
@@ -1290,8 +1314,14 @@ describe('makePropertiesFile', () => {
           const prefix = ['sbanken', 'coconut'].includes(brand)
             ? '--sb-font-'
             : '--font-'
-          expect(result).toContain(
-            property + ': var(' + prefix + 'family-default);'
+          const heading = 'var(' + prefix + 'family-default)'
+          expect(result.replace(/\s+/g, ' ')).toContain(
+            property +
+              ': ' +
+              (brand === 'coconut'
+                ? "'Sbanken Display', " + heading
+                : heading) +
+              ';'
           )
           expect(result).toContain(
             brand === 'carnegie'

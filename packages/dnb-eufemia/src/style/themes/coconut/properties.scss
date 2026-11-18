@@ -8,7 +8,7 @@
   // @deprecated: use `--font-family-default` instead
   --sb-font-family-default: 'DNB', 'Arial', sans-serif;
   --sb-font-family-heading:
-    'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    'Sbanken Display', var(--sb-font-family-default);
 
   // Typography Weights
   // TODO: Do we need 3 different "normals"? Which to use when?

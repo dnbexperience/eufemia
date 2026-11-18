@@ -3,8 +3,7 @@
 /* stylelint-disable-next-line scss/at-rule-no-unknown */
 @theme {
   --font-sb-default: 'DNB', 'Arial', sans-serif;
-  --font-sb-heading:
-    'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --font-sb-heading: 'Sbanken Display', var(--font-sb-default);
   --font-weight-sb-default: normal;
   --font-weight-sb-basis: normal;
   --font-weight-sb-regular: normal;
