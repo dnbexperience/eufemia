@@ -12,6 +12,7 @@ import makePropertiesFile, {
   generateColorMixFallback,
   overrideFoundationReferencePrefix,
 } from '../makePropertiesFile'
+import { log } from '../../../lib'
 
 const colorsVariableSetId =
   'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19'
@@ -1091,6 +1092,57 @@ describe('makePropertiesFile', () => {
           'carnegie'
         )['--font-family-heading']
       ).toBe("'ArizonaFlare', var(--font-family-default)")
+    })
+
+    it('replaces the Coconut body font from Figma and warns when no longer needed', async () => {
+      const fs = await import('fs/promises')
+      const path = await import('path')
+      const os = await import('os')
+      const warn = vi.spyOn(log, 'warn').mockImplementation(vi.fn())
+      const directory = await fs.mkdtemp(
+        path.join(os.tmpdir(), 'eufemia-typography-')
+      )
+
+      try {
+        const tokens = JSON.parse(
+          await fs.readFile(
+            path.resolve(
+              'src/style/themes/figma/brand/coconut-light.tokens.json'
+            ),
+            'utf-8'
+          )
+        )
+        const inputPath = path.join(directory, 'coconut-light.tokens.json')
+        const propertiesPath = path.join(directory, 'properties.scss')
+
+        for (const [body, message] of [
+          ['Roboto', 'Replaced the Coconut body font'],
+          ['DNB', 'Remove the Coconut font family replacement'],
+        ]) {
+          tokens.font.family.body.$value = body
+          await fs.writeFile(inputPath, JSON.stringify(tokens))
+          await fs.copyFile(
+            path.resolve('src/style/themes/coconut/properties.scss'),
+            propertiesPath
+          )
+
+          await makeTypographyPropertiesSCSS({
+            inputPath,
+            outputPath: path.join(directory, 'typography-properties.scss'),
+            brand: 'coconut',
+          })
+
+          expect(await fs.readFile(propertiesPath, 'utf-8')).toContain(
+            "--sb-font-family-default: 'DNB', 'Arial', sans-serif;"
+          )
+          expect(warn).toHaveBeenLastCalledWith(
+            expect.stringContaining(message)
+          )
+        }
+      } finally {
+        warn.mockRestore()
+        await fs.rm(directory, { recursive: true, force: true })
+      }
     })
 
     it('rejects unknown font families, weights and missing font tokens', async () => {
