@@ -917,12 +917,13 @@ const webFontFamilies: Record<string, string> = {
   'Maison Neue':
     "'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif",
   'ABC Arizona Flare': "'ArizonaFlare', var(--font-family-default)",
+  'Sbanken Display': "'Sbanken Display', var(--font-family-default)",
 }
 
 const webFontFamiliesByBrand: Record<string, string[]> = {
   ui: ['DNB'],
   sbanken: ['Roboto', 'Maison Neue'],
-  coconut: ['DNB', 'Roboto', 'Maison Neue'],
+  coconut: ['DNB', 'Sbanken Display', 'Roboto', 'Maison Neue'],
   carnegie: ['DNB', 'ABC Arizona Flare'],
 }
 
@@ -1046,19 +1047,30 @@ export const makeTypographyPropertiesSCSS = async ({
   if (brand === 'sbanken' || brand === 'coconut') {
     if (brand === 'coconut') {
       // @deprecated Transitional "coconut" brand. Its Figma file still uses
-      // the Sbanken body font (Roboto). Remove this block and Roboto from
-      // webFontFamiliesByBrand.coconut once Figma uses DNB.
-      const expected = webFontFamilies.DNB
-      const actual = fontProperties['--font-family-default']
-      if (actual === expected) {
-        log.warn(
-          `Figma now exports the expected ${expected} as the Coconut body font. Remove the Coconut font family replacement in makePropertiesFile.ts.`
-        )
-      } else {
-        log.warn(
-          `Replaced the Coconut body font from Figma (${actual}) with ${expected}.`
-        )
-        fontProperties['--font-family-default'] = expected
+      // the Sbanken font families (Roboto and Maison Neue). Remove this block,
+      // Roboto and Maison Neue from webFontFamiliesByBrand.coconut once Figma
+      // uses DNB and Sbanken Display.
+      const expectedFamilies = {
+        body: ['--font-family-default', webFontFamilies.DNB],
+        heading: [
+          '--font-family-heading',
+          webFontFamilies['Sbanken Display'],
+        ],
+      } as const
+      for (const [role, [property, expected]] of Object.entries(
+        expectedFamilies
+      )) {
+        const actual = fontProperties[property]
+        if (actual === expected) {
+          log.warn(
+            `Figma now exports the expected ${expected} as the Coconut ${role} font. Remove the Coconut ${role} font family replacement in makePropertiesFile.ts.`
+          )
+        } else {
+          log.warn(
+            `Replaced the Coconut ${role} font from Figma (${actual}) with ${expected}.`
+          )
+          fontProperties[property] = expected
+        }
       }
     }
 
