@@ -104,7 +104,7 @@
     "react-live": "5.0.1",
     "react-live-ssr-adapter": "workspace:*",
     "react-markdown": "9.1.0",
-    "react-router": "8.3.0",
+    "react-router": "8.5.2",
     "remark-frontmatter": "5.0.0",
     "remark-gfm": "4.0.1",
     "repo-utils": "workspace:*",
