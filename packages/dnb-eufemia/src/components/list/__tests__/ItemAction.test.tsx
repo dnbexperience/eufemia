@@ -8,6 +8,7 @@ import ItemFooter from '../ItemFooter'
 import Button from '../../button/Button'
 import Anchor from '../../anchor/Anchor'
 import Context from '../../../shared/Context'
+import Provider from '../../../shared/Provider'
 
 describe('ItemAction', () => {
   it('renders with children', () => {
@@ -466,6 +467,95 @@ describe('ItemAction', () => {
       expect(element.classList).toContain('dnb-list__item--disabled')
       expect(anchor.getAttribute('aria-disabled')).toBe('true')
       expect(anchor).not.toHaveAttribute('href')
+    })
+  })
+
+  describe('skeleton', () => {
+    it('is not focusable and does not call onClick when skeleton is true', () => {
+      const handleClick = vi.fn()
+      render(
+        <ItemAction skeleton onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+      const button = document.querySelector(
+        '.dnb-list__item__action__button'
+      )
+
+      expect(button.getAttribute('aria-disabled')).toBe('true')
+      expect(button.getAttribute('tabindex')).toBe('-1')
+
+      fireEvent.click(element)
+      fireEvent.keyDown(button, { key: 'Enter' })
+      fireEvent.keyDown(button, { key: ' ' })
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('inherits skeleton from the shared Provider', () => {
+      const handleClick = vi.fn()
+      render(
+        <Provider skeleton>
+          <Container>
+            <ItemAction onClick={handleClick}>Content</ItemAction>
+          </Container>
+        </Provider>
+      )
+
+      const button = document.querySelector(
+        '.dnb-list__item__action__button'
+      )
+
+      expect(button.getAttribute('tabindex')).toBe('-1')
+
+      fireEvent.keyDown(button, { key: 'Enter' })
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('removes href and does not call onClick on anchor when skeleton is true', () => {
+      const handleClick = vi.fn()
+      render(
+        <Container skeleton>
+          <ItemAction href="/path" onClick={handleClick}>
+            Content
+          </ItemAction>
+        </Container>
+      )
+
+      const anchor = document.querySelector('.dnb-list__item__action a')
+
+      expect(anchor).not.toHaveAttribute('href')
+      expect(anchor.getAttribute('aria-disabled')).toBe('true')
+      expect(anchor.getAttribute('tabindex')).toBe('-1')
+
+      fireEvent.click(anchor)
+      fireEvent.keyDown(anchor, { key: ' ' })
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('stays interactive with skeleton={false} inside a skeleton Container', () => {
+      const handleClick = vi.fn()
+      render(
+        <Container skeleton>
+          <ItemAction skeleton={false} onClick={handleClick}>
+            Content
+          </ItemAction>
+        </Container>
+      )
+
+      const button = document.querySelector(
+        '.dnb-list__item__action__button'
+      )
+
+      expect(button.getAttribute('tabindex')).toBe('0')
+
+      fireEvent.keyDown(button, { key: 'Enter' })
+
+      expect(handleClick).toHaveBeenCalledTimes(1)
     })
   })
 

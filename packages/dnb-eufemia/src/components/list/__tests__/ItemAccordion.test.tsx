@@ -3,6 +3,7 @@ import { act, render, fireEvent } from '@testing-library/react'
 import ItemAccordion from '../ItemAccordion'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import Provider from '../../../shared/Provider'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemAccordion', () => {
@@ -895,6 +896,80 @@ describe('ItemAccordion', () => {
 
     const consumer = document.querySelector('[data-skeleton]')
     expect(consumer.getAttribute('data-skeleton')).toBe('true')
+  })
+
+  describe('skeleton interaction', () => {
+    it('is not focusable and does not toggle or call callbacks when skeleton is inherited from the shared Provider', () => {
+      const onClick = vi.fn()
+      const onHeaderClick = vi.fn()
+      const onChange = vi.fn()
+      render(
+        <Provider skeleton>
+          <Container>
+            <ItemAccordion onClick={onClick} onChange={onChange}>
+              <ItemAccordion.Header onClick={onHeaderClick}>
+                Title
+              </ItemAccordion.Header>
+              <ItemAccordion.Content>Content body</ItemAccordion.Content>
+            </ItemAccordion>
+          </Container>
+        </Provider>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      expect(header.getAttribute('aria-disabled')).toBe('true')
+      expect(header.getAttribute('tabindex')).toBe('-1')
+
+      fireEvent.click(header)
+      fireEvent.keyDown(header, { key: 'Enter' })
+      fireEvent.keyDown(header, { key: ' ' })
+
+      expect(header.getAttribute('aria-expanded')).toBe('false')
+      expect(onClick).not.toHaveBeenCalled()
+      expect(onHeaderClick).not.toHaveBeenCalled()
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('is not focusable and does not toggle when skeleton prop is set', () => {
+      render(
+        <ItemAccordion skeleton title="Title">
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      expect(header.getAttribute('tabindex')).toBe('-1')
+
+      fireEvent.keyDown(header, { key: 'Enter' })
+
+      expect(header.getAttribute('aria-expanded')).toBe('false')
+    })
+
+    it('stays interactive with skeleton={false} inside a skeleton Container', () => {
+      render(
+        <Container skeleton>
+          <ItemAccordion skeleton={false} title="Title">
+            <ItemAccordion.Content>Content body</ItemAccordion.Content>
+          </ItemAccordion>
+        </Container>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      expect(header.getAttribute('tabindex')).toBe('0')
+
+      fireEvent.keyDown(header, { key: 'Enter' })
+
+      expect(header.getAttribute('aria-expanded')).toBe('true')
+    })
   })
 
   it('warns and returns null when AccordionHeader is used outside ItemAccordion', () => {
