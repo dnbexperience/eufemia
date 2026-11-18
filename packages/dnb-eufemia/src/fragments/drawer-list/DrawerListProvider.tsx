@@ -56,6 +56,7 @@ import {
 } from '../../components/modal/bodyScrollLock'
 import useId from '../../shared/helpers/useId'
 
+import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
 import type {
   DrawerListProps,
@@ -99,6 +100,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     | 'onResize'
   > &
   SpacingProps & {
+    skeleton?: SkeletonShow
     _hasFocusOnElementRef?: React.RefObject<boolean>
     setData?: (
       data: DrawerListData,
@@ -185,6 +187,11 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   )
   const propsRef = useRef(props)
   propsRef.current = props
+
+  const skeletonRef = useRef(false)
+  skeletonRef.current = Boolean(
+    props.skeleton || (props.skeleton !== false && context?.skeleton)
+  )
 
   // Mutable state stored in ref
   const stateRef = useRef<DrawerListContextState>({
@@ -1172,7 +1179,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         closeOnSelection = false,
       } = {}
     ) => {
-      if (event && propsRef.current.disabled) {
+      if (event && (propsRef.current.disabled || skeletonRef.current)) {
         return false
       }
 
@@ -1306,7 +1313,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       return // stop here
     }
 
-    if (stateRef.current.ignoreEvents && key !== 'Tab') {
+    if (
+      (stateRef.current.ignoreEvents || skeletonRef.current) &&
+      key !== 'Tab'
+    ) {
       return // stop here
     }
 
@@ -1605,6 +1615,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
           registerListDriver,
           setActiveItemAndScrollToIt,
           ...stateRef.current,
+          skeleton: skeletonRef.current,
         },
       }}
     >
