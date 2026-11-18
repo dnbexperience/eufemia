@@ -10,6 +10,7 @@ import { useSpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {
   createSharedState,
+  useDefaultSharedStateStore,
   type SharedStateReturn,
 } from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -36,10 +37,15 @@ export default function ContentWrapper({
   ...rest
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
+  const sharedStateStore = useDefaultSharedStateStore()
 
   const [state, setState] = useState<ContentWrapperState>(() => {
     if (id) {
-      const shared = createSharedState(id) as unknown as SharedState
+      const shared = createSharedState(
+        id,
+        undefined,
+        sharedStateStore
+      ) as unknown as SharedState
       sharedStateRef.current = shared
       return shared.get() || { key: null }
     }
@@ -84,7 +90,9 @@ export default function ContentWrapper({
     }
 
     const presence = createSharedState<{ count: number }>(
-      `${id}-tabpanel-presence`
+      `${id}-tabpanel-presence`,
+      undefined,
+      sharedStateStore
     )
     presence.set({ count: (presence.get()?.count || 0) + 1 })
 
@@ -93,7 +101,7 @@ export default function ContentWrapper({
         count: Math.max(0, (presence.get()?.count || 1) - 1),
       })
     }
-  }, [id, nested, hasPanel])
+  }, [id, nested, hasPanel, sharedStateStore])
 
   const resolvedInnerSpace =
     contentInnerSpace === true ? 'large' : contentInnerSpace
