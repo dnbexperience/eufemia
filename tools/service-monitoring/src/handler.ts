@@ -65,7 +65,10 @@ export async function handler() {
     const signal = AbortSignal.timeout(330_000)
     const userAgent = process.env.MONITOR_USER_AGENT
     const request: typeof fetch = (input, init) => {
-      const headers = new Headers(init?.headers)
+      const headers = new Headers(
+        init?.headers ??
+          (input instanceof Request ? input.headers : undefined)
+      )
       if (userAgent) {
         headers.set('user-agent', userAgent)
       }

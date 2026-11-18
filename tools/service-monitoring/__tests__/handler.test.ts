@@ -250,6 +250,26 @@ it.each([
   }
 )
 
+it('keeps the headers of a Request input', async () => {
+  vi.stubEnv('MONITOR_USER_AGENT', 'test-monitor')
+  const request = vi.fn(
+    async (_input: unknown, _init?: RequestInit) => new Response()
+  )
+  vi.stubGlobal('fetch', request)
+  mocks.check.mockImplementation(async (options) => {
+    await options.fetch(
+      new Request('https://server.eufemia.dnb.no/healthz', {
+        headers: { accept: 'application/json' },
+      })
+    )
+    return healthy()
+  })
+  await handler()
+  const headers = new Headers(request.mock.calls[0]?.[1]?.headers)
+  expect(headers.get('user-agent')).toBe('test-monitor')
+  expect(headers.get('accept')).toBe('application/json')
+})
+
 it('emits no completion heartbeat after a storage failure and sanitizes SDK errors', async () => {
   const output = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
   mocks.save.mockRejectedValue(new Error('secret credentials'))
