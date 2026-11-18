@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import {
   axeComponent,
   loadScss,
@@ -618,6 +619,65 @@ describe('Slider component', () => {
         const tooltipElement = getTooltipElements(0)
         expect(tooltipElement).toHaveTextContent(marker.text)
       })
+    })
+  })
+
+  describe('in skeleton mode', () => {
+    const marker = { instance: SliderMarker, value: 30 }
+
+    it.each([
+      ['set', (slider: ReactNode) => slider, true],
+      [
+        'inherited from the Provider',
+        (slider: ReactNode) => <Provider skeleton>{slider}</Provider>,
+        undefined,
+      ],
+    ])(
+      'should not be interactive when skeleton is %s',
+      async (_, wrap, skeleton) => {
+        const onChange = vi.fn()
+
+        render(
+          wrap(
+            <Slider
+              {...props}
+              skeleton={skeleton}
+              tooltip
+              alwaysShowTooltip
+              extensions={{ marker }}
+              onChange={onChange}
+            />
+          )
+        )
+
+        const rangeElement = getRangeElement(0)
+        const markerElement = document.querySelector('.dnb-slider__marker')
+
+        expect(rangeElement).toBeDisabled()
+        expect(markerElement).toHaveAttribute('tabindex', '-1')
+
+        fireEvent.change(rangeElement, { target: { value: '80' } })
+        simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+        fireEvent.mouseEnter(markerElement)
+        fireEvent.focus(markerElement)
+        await wait(10)
+
+        expect(onChange).not.toHaveBeenCalled()
+        expect(document.querySelector('.dnb-tooltip')).toBeNull()
+      }
+    )
+
+    it('should stay interactive when skeleton is false', () => {
+      render(
+        <Provider skeleton>
+          <Slider {...props} skeleton={false} extensions={{ marker }} />
+        </Provider>
+      )
+
+      expect(getRangeElement(0)).not.toBeDisabled()
+      expect(
+        document.querySelector('.dnb-slider__marker')
+      ).toHaveAttribute('tabindex', '0')
     })
   })
 
