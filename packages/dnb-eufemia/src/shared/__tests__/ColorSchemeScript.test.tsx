@@ -219,6 +219,18 @@ describe('ColorSchemeScript', () => {
 
         expect(el.classList.contains(lightClass)).toBe(true)
       })
+
+      it('body script leaves dark Theme elements alone when the stored scheme is unknown', async () => {
+        globalThis.__eufemiaColorScheme = 'unknown'
+
+        eval(getBodyScript())
+        const el = document.createElement('div')
+        el.classList.add('eufemia-theme', darkClass)
+        document.body.appendChild(el)
+        await flush()
+
+        expect(el.className).toBe(`eufemia-theme ${darkClass}`)
+      })
     })
 
     it('content script swaps light to dark on elements', () => {

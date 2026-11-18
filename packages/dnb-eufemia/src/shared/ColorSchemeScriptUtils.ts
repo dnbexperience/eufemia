@@ -29,7 +29,7 @@ function escapeForScriptString(value: string) {
  * Place this as the first child of <body>.
  */
 export function getBodyScript() {
-  return `(function(){var s=globalThis.${GLOBAL_KEY};if(s){document.body.classList.add('${CLASS_PREFIX}'+s);if(s!=='light'&&document.readyState==='loading'&&typeof MutationObserver==='function'){var o='${CLASS_PREFIX}'+(s==='dark'?'light':'dark');var m=new MutationObserver(function(r){for(var i=0;i<r.length;i++){var n=r[i].addedNodes;for(var j=0;j<n.length;j++){var e=n[j];if(e.nodeType===1&&e.classList.contains(o)){e.classList.remove(o);e.classList.add('${CLASS_PREFIX}'+s)}}}});m.observe(document.documentElement,{childList:true,subtree:true});document.addEventListener('DOMContentLoaded',function(){m.disconnect()},{once:true})}}})()`
+  return `(function(){var s=globalThis.${GLOBAL_KEY};if(s){document.body.classList.add('${CLASS_PREFIX}'+s);if(s==='dark'&&document.readyState==='loading'&&typeof MutationObserver==='function'){var m=new MutationObserver(function(r){for(var i=0;i<r.length;i++){var n=r[i].addedNodes;for(var j=0;j<n.length;j++){var e=n[j];if(e.nodeType===1&&e.classList.contains('${CLASS_PREFIX}light')){e.classList.remove('${CLASS_PREFIX}light');e.classList.add('${CLASS_PREFIX}dark')}}}});m.observe(document.documentElement,{childList:true,subtree:true});document.addEventListener('DOMContentLoaded',function(){m.disconnect()},{once:true})}}})()`
 }
 
 /**
