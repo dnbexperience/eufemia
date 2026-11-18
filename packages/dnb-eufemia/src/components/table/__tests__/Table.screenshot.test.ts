@@ -234,6 +234,23 @@ describe.each(['ui', 'sbanken'])(`Table for %s`, (themeName) => {
 })
 
 describe.each(['ui', 'sbanken'])(
+  'Table body header cells for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/table/visual-tests/body-header-cells/',
+    })
+
+    it('have to match row alignment and padding in all sizes', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector: '[data-visual-test="table-body-header-cells"]',
+      })
+    })
+  }
+)
+
+describe.each(['ui', 'sbanken'])(
   `Table with skeleton for %s`,
   (themeName) => {
     setupPageScreenshot({

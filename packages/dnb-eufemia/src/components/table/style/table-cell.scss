@@ -19,20 +19,18 @@
     &.dnb-table__cell--focus {
       outline: none;
     }
+  }
 
-    .dnb-table__tr--vertical-align-top &,
-    &.dnb-table__td--vertical-align-top {
-      vertical-align: top;
+  // Override the body cell defaults, and let the cell alignment override the row alignment.
+  @each $align in top, middle, bottom {
+    & &__tr--vertical-align-#{$align} > :is(th, td, &__th, &__td) {
+      vertical-align: $align;
     }
+  }
 
-    .dnb-table__tr--vertical-align-middle &,
-    &.dnb-table__td--vertical-align-middle {
-      vertical-align: middle;
-    }
-
-    .dnb-table__tr--vertical-align-bottom &,
-    &.dnb-table__td--vertical-align-bottom {
-      vertical-align: bottom;
+  @each $align in top, middle, bottom {
+    & &__td#{&}__td--vertical-align-#{$align} {
+      vertical-align: $align;
     }
   }
 
