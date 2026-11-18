@@ -1,5 +1,6 @@
 // @vitest-environment node
 
+import type { ComponentType } from 'react'
 import { renderToString } from 'react-dom/server'
 import SharedProvider from '../../../../shared/Provider'
 import FieldBlock from '../FieldBlock'
@@ -210,4 +211,34 @@ describe('FieldBlock SSR', () => {
     expect(html).toContain('Custom label')
     expect(html).toContain('Custom info')
   })
+
+  // A field that renders FieldBlock itself must pass the fieldBlockProps from
+  // useFieldProps, or its label and messages are lost on the server.
+  // This covers every Field export, so a new field is checked without a list.
+  const notFields = ['Provider', 'Option']
+  const fields = Object.keys(Field).filter(
+    (name) => !notFields.includes(name)
+  )
+
+  it('should cover every Field export except the ones that are not fields', () => {
+    expect(fields.length).toBeGreaterThan(20)
+    for (const name of notFields) {
+      expect(Object.keys(Field)).toContain(name)
+    }
+  })
+
+  it.each(fields)(
+    'should render the label and info of a standalone Field.%s',
+    (name) => {
+      const Component = Field[name as keyof typeof Field] as ComponentType<
+        FieldProps & { label?: string; info?: string }
+      >
+      const html = renderToString(
+        <Component label="Standalone label" info="Standalone info" />
+      )
+
+      expect(html).toContain('Standalone label')
+      expect(html).toContain('Standalone info')
+    }
+  )
 })
