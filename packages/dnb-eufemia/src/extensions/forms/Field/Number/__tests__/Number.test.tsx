@@ -2333,6 +2333,56 @@ describe('Field.Number', () => {
       expect(input).toHaveValue('0')
     })
 
+    it('should disable the control buttons when Form.Handler is disabled', () => {
+      const onChange = vi.fn()
+      render(
+        <Form.Handler disabled>
+          <Field.Number showStepControls value={1} onChange={onChange} />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const contents = document.querySelector(
+        '.dnb-forms-field-number__contents'
+      )
+      const [decreaseButton, increaseButton] = Array.from(
+        document.querySelectorAll('.dnb-button')
+      )
+
+      expect(input).toBeDisabled()
+      expect(decreaseButton).toBeDisabled()
+      expect(increaseButton).toBeDisabled()
+      expect(contents).toHaveClass('dnb-input--disabled')
+
+      fireEvent.click(increaseButton)
+      fireEvent.click(decreaseButton)
+
+      expect(input).toHaveValue('1')
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('should keep the control buttons enabled with Field.Provider disabled={false} inside a disabled Form.Handler', () => {
+      render(
+        <Form.Handler disabled>
+          <Field.Provider disabled={false}>
+            <Field.Number showStepControls value={1} />
+          </Field.Provider>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const [decreaseButton, increaseButton] = Array.from(
+        document.querySelectorAll('.dnb-button')
+      )
+
+      expect(input).not.toBeDisabled()
+      expect(decreaseButton).not.toBeDisabled()
+      expect(increaseButton).not.toBeDisabled()
+
+      fireEvent.click(increaseButton)
+      expect(input).toHaveValue('2')
+    })
+
     it('has correct accessibility props', () => {
       const settings = {
         showStepControls: true,

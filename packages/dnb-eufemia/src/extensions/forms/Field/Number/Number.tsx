@@ -424,6 +424,9 @@ function NumberComponent(props: FieldNumberProps) {
     onKeyDown,
   } = useFieldProps(preparedProps)
 
+  // Form.Handler disabled reaches the field through the formElement context
+  const isDisabled = disabled ?? sharedContext?.formElement?.disabled
+
   useEffect(() => {
     // Use getElementById to read the current DOM input value
     const input = id ? document.getElementById(id) : null
@@ -508,7 +511,7 @@ function NumberComponent(props: FieldNumberProps) {
       'dnb-forms-field-number__contents',
       showStepControls && 'dnb-forms-field-number__contents--has-controls',
       hasError && 'dnb-input__status--error', // Also used by "dnb-input__border"
-      disabled && 'dnb-input--disabled' // Also used by "dnb-input__border"
+      isDisabled && 'dnb-input--disabled' // Also used by "dnb-input__border"
     ),
     width:
       (width === 'stretch' || fieldBlockContext?.composition) &&
@@ -532,7 +535,7 @@ function NumberComponent(props: FieldNumberProps) {
     icon: 'add',
     size: (size || 'small') as ButtonSize,
     tabIndex: -1,
-    disabled: disabled || value >= maximum,
+    disabled: isDisabled || value >= maximum,
     onClick: increaseClickHandler,
     title: sharedContext?.translation.Slider.addTitle?.replace(
       '%s',
@@ -552,7 +555,7 @@ function NumberComponent(props: FieldNumberProps) {
     className: 'dnb-button--control-before',
     icon: 'subtract',
     size: (size || 'small') as ButtonSize,
-    disabled: disabled || value <= minimum,
+    disabled: isDisabled || value <= minimum,
     onClick: decreaseClickHandler,
     title: sharedContext?.translation.Slider.subtractTitle?.replace(
       '%s',
