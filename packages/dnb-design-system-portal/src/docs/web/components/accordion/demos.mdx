@@ -79,6 +79,8 @@ Accordion can be disabled, though it is not exactly defined what the use case is
 
 A lightweight variant that renders a tertiary button with a chevron icon. The button and content can be placed separately in the tree by sharing the same `connectedTo` identifier. The button automatically sets `aria-expanded` and `aria-controls` to link it with the content panel. When activated by keyboard or screen reader style input, focus moves to the content region. Pointer clicks do not move focus.
 
+When you render on the server, put the button and the content inside the same Eufemia [Provider](/web/styling-and-themes/configuration/provider/). Without it, the server does not render the content of an open button, while the browser does, so React reports a hydration mismatch.
+
 <AccordionTertiarySplitExample />
 
 <VisibleWhenVisualTest>
