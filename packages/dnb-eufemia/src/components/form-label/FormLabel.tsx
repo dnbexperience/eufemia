@@ -230,7 +230,7 @@ function FormLabel(localProps: FormLabelAllProps) {
     return undefined
   }, [forId, labelRef])
 
-  skeletonDOMAttributes(params, skeleton, context)
+  skeletonDOMAttributes(params, skeleton, context, Element)
   validateDOMAttributes(localProps, params)
 
   return <Element {...params}>{content}</Element>

@@ -24,15 +24,56 @@ export type SkeletonContextValue = ContextProps & {
   }
 }
 
+// Elements whose role (or lack of one) does not allow a name, so screen readers can ignore an aria-label on them
+const elementsWithoutName = new Set([
+  'abbr',
+  'b',
+  'bdi',
+  'bdo',
+  'cite',
+  'code',
+  'del',
+  'dfn',
+  'div',
+  'em',
+  'i',
+  'ins',
+  'kbd',
+  'label',
+  'legend',
+  'mark',
+  'p',
+  'pre',
+  'q',
+  's',
+  'samp',
+  'small',
+  'span',
+  'strong',
+  'sub',
+  'sup',
+  'u',
+  'var',
+])
+
 export const skeletonDOMAttributes = (
   params: HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
-  context?: SkeletonContextValue
+  context?: SkeletonContextValue,
+  /** The rendered element. When it can't have a name, no aria-label is set. */
+  element?: ElementType | string
 ) => {
   if (skeleton || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
     params['aria-disabled'] = true
-    params['aria-label'] = context?.translation?.Skeleton?.ariaBusy
+
+    const canHaveName =
+      Boolean(params.role) ||
+      typeof element !== 'string' ||
+      !elementsWithoutName.has(element)
+    if (canHaveName) {
+      params['aria-label'] = context?.translation?.Skeleton?.ariaBusy
+    }
   }
 
   return params

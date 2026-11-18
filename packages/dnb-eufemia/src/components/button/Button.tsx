@@ -286,7 +286,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     )
   }
 
-  skeletonDOMAttributes(params, skeleton, context)
+  skeletonDOMAttributes(params, skeleton, context, Element)
 
   // also used for code markup simulation
   validateDOMAttributes(restProps, params)
