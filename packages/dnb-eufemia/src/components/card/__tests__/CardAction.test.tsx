@@ -397,12 +397,12 @@ describe('Card.Action', () => {
       expect(onClick).not.toHaveBeenCalled()
     })
 
-    it('should not pass the route or trigger onClick on a custom element', async () => {
+    it('should keep the route but block navigation and onClick on a custom element', () => {
       const onClick = vi.fn()
 
       function CustomLink(
         props: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-          to?: string
+          to: string
         }
       ) {
         const { to, children, ...rest } = props
@@ -422,12 +422,13 @@ describe('Card.Action', () => {
       )
 
       const action = document.querySelector('.dnb-card-action')
-      expect(action).not.toHaveAttribute('href')
+      expect(action).toHaveAttribute('href', '/route')
       expect(action).toHaveAttribute('tabindex', '-1')
       expect(action).toHaveAttribute('aria-disabled', 'true')
 
-      await userEvent.click(action)
+      const notPrevented = fireEvent.click(action)
 
+      expect(notPrevented).toBe(false)
       expect(onClick).not.toHaveBeenCalled()
     })
   })

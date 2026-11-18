@@ -67,10 +67,9 @@ function CardAction(props: CardActionProps) {
   const isLink = Boolean(href || to)
 
   // Security: drop script-executing protocols, like the Anchor does. The
-  // element keeps its shape and only loses the link target. A skeleton
-  // also loses its link target, so the placeholder cannot navigate.
-  const safeHref = isDangerousHref(href) || skeleton ? undefined : href
-  const safeTo = isDangerousHref(to) || skeleton ? undefined : to
+  // element keeps its shape and only loses the link target.
+  const safeHref = isDangerousHref(href) ? undefined : href
+  const safeTo = isDangerousHref(to) ? undefined : to
 
   const internalRef = useRef<HTMLElement>(null)
   const combinedRef = useCombinedRef(ref, internalRef)
@@ -111,6 +110,7 @@ function CardAction(props: CardActionProps) {
         'aria-disabled': true,
         onClick: (event: MouseEvent<HTMLElement>) => {
           event.preventDefault()
+          event.stopPropagation()
         },
       }
     : { onClick }
@@ -146,7 +146,7 @@ function CardAction(props: CardActionProps) {
         {...interactionParams}
         target={target}
         rel={rel}
-        href={safeHref || safeTo}
+        href={skeleton ? undefined : safeHref || safeTo}
       >
         {card}
       </a>
