@@ -277,11 +277,22 @@ describe('Chat.Confirmation', () => {
           {question}
         </Confirmation>
       )
-      expect(
-        document.querySelector('.dnb-ai-confirmation__body')
-      ).toHaveFocus()
+      // Focus lands on the labelled group, not on a role-less element
+      const group = document.querySelector('[role="group"]')
+      expect(group).toHaveFocus()
+      expect(group).toHaveClass('dnb-ai-confirmation')
+      expect(group).toHaveAccessibleName(title)
     }
   )
+
+  it('does not put aria-labelledby or aria-describedby on the role-less body', () => {
+    render(<Confirmation title={title}>{question}</Confirmation>)
+
+    const body = document.querySelector('.dnb-ai-confirmation__body')
+    expect(body).not.toHaveAttribute('aria-labelledby')
+    expect(body).not.toHaveAttribute('aria-describedby')
+    expect(body).not.toHaveAttribute('tabindex')
+  })
 
   it('inherits English labels and supports application labels and attributes', () => {
     render(

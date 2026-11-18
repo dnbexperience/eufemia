@@ -14,6 +14,28 @@ import { copy } from '../../../icons'
 import { Action, Actions, Message, MessageIndicator, Response } from '..'
 
 describe('Chat.Message', () => {
+  it('is a group when it has an aria-label or aria-labelledby', () => {
+    const { rerender } = render(<Message aria-label="Aino">Hi</Message>)
+    const message = document.querySelector('.dnb-ai-message')
+
+    // A div has no role, so it can't have a name without one
+    expect(message).toHaveAttribute('role', 'group')
+    expect(message).toHaveAccessibleName('Aino')
+
+    rerender(<Message aria-labelledby="sender">Hi</Message>)
+    expect(message).toHaveAttribute('role', 'group')
+
+    rerender(<Message>Hi</Message>)
+    expect(message).not.toHaveAttribute('role')
+
+    rerender(
+      <Message aria-label="Aino" role="article">
+        Hi
+      </Message>
+    )
+    expect(message).toHaveAttribute('role', 'article')
+  })
+
   it('keeps grouped avatars beside the bubble without adding an empty header', () => {
     render(
       <Message grouped avatar={<Avatar hasLabel>A</Avatar>}>
