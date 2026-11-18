@@ -222,7 +222,7 @@ export const TdProperties: PropertiesTableProps = {
     status: 'optional',
   },
   verticalAlign: {
-    doc: 'Vertical alignment of the cell content.',
+    doc: 'Vertical alignment of the cell content. Overrides `verticalAlign` on the parent `<Tr>`.',
     type: ['"top"', '"middle"', '"bottom"'],
     status: 'optional',
   },
