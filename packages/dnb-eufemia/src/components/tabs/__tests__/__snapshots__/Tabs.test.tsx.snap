@@ -93,6 +93,9 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
 .dnb-tabs__tabs__tablist {
   scrollbar-width: none; /* Firefox */
 }
+.dnb-tabs__tabs__tablist--skeleton {
+  overflow: hidden;
+}
 .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
   justify-content: flex-start;
 }
@@ -554,6 +557,9 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
 }
 .dnb-tabs__tabs__tablist {
   scrollbar-width: none; /* Firefox */
+}
+.dnb-tabs__tabs__tablist--skeleton {
+  overflow: hidden;
 }
 .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
   justify-content: flex-start;

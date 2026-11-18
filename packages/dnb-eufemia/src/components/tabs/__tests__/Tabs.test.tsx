@@ -839,6 +839,35 @@ describe('Tabs skeleton', () => {
     expect(onFocus).not.toHaveBeenCalled()
   })
 
+  it.each([
+    ['set', (tabs: ReactNode) => tabs, true],
+    [
+      'inherited from the Provider',
+      (tabs: ReactNode) => <Provider skeleton>{tabs}</Provider>,
+      undefined,
+    ],
+  ])(
+    'makes the tab list non-scrollable and the scroll buttons skeletons when skeleton is %s',
+    (_, wrap, skeleton) => {
+      render(
+        wrap(<Tabs {...props} data={tablistData} skeleton={skeleton} />)
+      )
+
+      expect(
+        document.querySelector('.dnb-tabs__tabs__tablist')
+      ).toHaveClass('dnb-tabs__tabs__tablist--skeleton')
+
+      const buttons = document.querySelectorAll(
+        '.dnb-tabs__scroll-nav-button'
+      )
+      expect(buttons).toHaveLength(2)
+      buttons.forEach((button) => {
+        expect(button).toBeDisabled()
+        expect(button).toHaveClass('dnb-skeleton')
+      })
+    }
+  )
+
   it('keeps the tab list in the tab order with skeleton={false}', () => {
     render(
       <Provider skeleton>
@@ -846,9 +875,12 @@ describe('Tabs skeleton', () => {
       </Provider>
     )
 
-    expect(
-      document.querySelector('.dnb-tabs__tabs__tablist')
-    ).toHaveAttribute('tabindex', '0')
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+    expect(tablist).toHaveAttribute('tabindex', '0')
+    expect(tablist).not.toHaveClass('dnb-tabs__tabs__tablist--skeleton')
+    document
+      .querySelectorAll('.dnb-tabs__scroll-nav-button')
+      .forEach((button) => expect(button).not.toBeDisabled())
   })
 })
 

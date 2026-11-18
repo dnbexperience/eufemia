@@ -60,6 +60,11 @@
       @include utilities.scrollX(auto);
       @include utilities.hideScrollbar();
       // scroll-snap-type: x mandatory; // gives not the wanted extra UX yet
+
+      // Out of the tab order in skeleton mode, so it must not be a scroll region either.
+      &--skeleton {
+        overflow: hidden;
+      }
     }
 
     &--left &__tablist {
