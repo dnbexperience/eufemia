@@ -36,7 +36,7 @@
         margin-bottom: 0;
       }
 
-      &__size--large thead .dnb-table__th {
+      &__size--large thead :is(.dnb-table__th, th) {
         padding-top: 1.5rem;
       }
 

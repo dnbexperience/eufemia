@@ -949,7 +949,7 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   margin-bottom: 0;
 }
 
-.dnb-table__container__body .dnb-table__size--large thead .dnb-table__th {
+.dnb-table__container__body .dnb-table__size--large thead :is(.dnb-table__th, th) {
   padding-top: 1.5rem;
 }
 
