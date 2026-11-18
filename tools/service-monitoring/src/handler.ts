@@ -63,13 +63,20 @@ export async function handler() {
     const notifications = required('NOTIFICATIONS_ENABLED') === 'true'
     const key = { service: { S: service } }
     const signal = AbortSignal.timeout(330_000)
-    const request: typeof fetch = (input, init) =>
-      fetch(input, {
+    const userAgent = process.env.MONITOR_USER_AGENT
+    const request: typeof fetch = (input, init) => {
+      const headers = new Headers(init?.headers)
+      if (userAgent) {
+        headers.set('user-agent', userAgent)
+      }
+      return fetch(input, {
         ...init,
+        headers,
         signal: init?.signal
           ? AbortSignal.any([signal, init.signal])
           : signal,
       })
+    }
     const sleep = async (ms: number) => {
       if (!signal.aborted) {
         await setTimeout(ms, undefined, { signal }).catch(() => {})

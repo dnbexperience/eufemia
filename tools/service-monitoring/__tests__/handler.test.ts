@@ -60,6 +60,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   vi.unstubAllEnvs()
+  vi.unstubAllGlobals()
   vi.restoreAllMocks()
 })
 it('publishes observations and never reads a Slack credential in the check function', async () => {
@@ -216,18 +217,38 @@ it('bounds outgoing checks and lets their timeout report reach persistence', asy
       ],
     }
   })
-  try {
-    expect(await handler()).toEqual({
-      service: 'CDN',
-      status: 'unhealthy',
-    })
-    expect(request).toHaveBeenCalledOnce()
-    expect(AbortSignal.timeout).toHaveBeenCalledWith(330_000)
-    expect(mocks.save).toHaveBeenCalledTimes(2)
-  } finally {
-    vi.unstubAllGlobals()
-  }
+  expect(await handler()).toEqual({
+    service: 'CDN',
+    status: 'unhealthy',
+  })
+  expect(request).toHaveBeenCalledOnce()
+  expect(AbortSignal.timeout).toHaveBeenCalledWith(330_000)
+  expect(mocks.save).toHaveBeenCalledTimes(2)
 })
+
+it.each([
+  ['the configured', 'test-monitor', 'test-monitor'],
+  ['no', '', null],
+])(
+  'adds %s User-Agent and keeps request headers',
+  async (_label, configured, expected) => {
+    vi.stubEnv('MONITOR_USER_AGENT', configured)
+    const request = vi.fn(
+      async (_input: unknown, _init?: RequestInit) => new Response()
+    )
+    vi.stubGlobal('fetch', request)
+    mocks.check.mockImplementation(async (options) => {
+      await options.fetch('https://server.eufemia.dnb.no/healthz', {
+        headers: { accept: 'application/json' },
+      })
+      return healthy()
+    })
+    await handler()
+    const headers = new Headers(request.mock.calls[0]?.[1]?.headers)
+    expect(headers.get('user-agent')).toBe(expected)
+    expect(headers.get('accept')).toBe('application/json')
+  }
+)
 
 it('emits no completion heartbeat after a storage failure and sanitizes SDK errors', async () => {
   const output = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
