@@ -22,6 +22,8 @@ export default function ChangeLocale({
 
   return (
     <Field.Selection
+      variant="radio-button"
+      optionsLayout="horizontal"
       label={label}
       value={locale}
       onChange={(value) => {

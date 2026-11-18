@@ -12,13 +12,22 @@ export default function ChangeStyleTheme(props) {
 
   const data = Object.entries(themes).reduce((acc, [key, value]) => {
     if (!value?.hide) {
-      acc.push({ value: key, title: capitalizeFirstLetter(value.name) })
+      acc.push({
+        id:
+          key === (brand ?? Object.keys(themes)[0])
+            ? 'change-theme'
+            : undefined,
+        value: key,
+        title: capitalizeFirstLetter(value.name),
+      })
     }
     return acc
   }, [])
 
   return (
     <Field.Selection
+      variant="radio-button"
+      optionsLayout="horizontal"
       id="change-theme"
       value={brand}
       data={data}
