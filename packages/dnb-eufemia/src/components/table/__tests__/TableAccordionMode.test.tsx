@@ -9,6 +9,7 @@ import {
 import Table from '../Table'
 import Tr from '../TableTr'
 import Td from '../TableTd'
+import Provider from '../../../shared/Provider'
 
 describe('Table using mode="accordion" prop', () => {
   it('tr should open on tr enter press', () => {
@@ -273,4 +274,44 @@ describe('Table using mode="accordion" prop', () => {
       'dnb-table__tr--expanded'
     )
   })
+
+  it.each([
+    ['prop', { skeleton: true }, false],
+    ['context', {}, true],
+  ])(
+    'should not expand the row or call onClick when skeleton is set via %s',
+    (_, tableProps, providerSkeleton) => {
+      const onClick = vi.fn()
+
+      render(
+        <Provider skeleton={providerSkeleton}>
+          <Table mode="accordion" {...tableProps}>
+            <tbody>
+              <Tr onClick={onClick}>
+                <Td>content</Td>
+                <Td.AccordionContent>
+                  accordion content
+                </Td.AccordionContent>
+              </Tr>
+            </tbody>
+          </Table>
+        </Provider>
+      )
+
+      const trElement = document.querySelector('tr.dnb-table__tr')
+      expect(trElement).not.toHaveAttribute('tabindex')
+
+      vi.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+
+      fireEvent.keyDown(trElement, { key: 'Enter' })
+      fireEvent.keyDown(trElement, { key: ' ' })
+      fireEvent.click(trElement)
+      fireEvent.click(trElement.querySelector('button'))
+
+      expect(onClick).not.toHaveBeenCalled()
+      expect(Array.from(trElement.classList)).not.toContain(
+        'dnb-table__tr--expanded'
+      )
+    }
+  )
 })
