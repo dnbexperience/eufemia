@@ -13,6 +13,10 @@ import {
 // Only these rules depend on the color scheme
 const colorRules = ['color-contrast', 'link-in-text-block']
 
+// axe marks some results of these rules as "incomplete" (needs review), for
+// example an aria-label on a role-less element that has visible text
+const reviewRules = ['aria-prohibited-attr']
+
 main()
 
 async function main() {
@@ -29,6 +33,7 @@ async function main() {
   const browser = await chromium.launch()
   const duplicateIdFindings = []
   const findings = []
+  const reviewFindings = []
   const errors = []
   const failedPaths = []
   let cursor = 0
@@ -46,6 +51,7 @@ async function main() {
   const scanPage = async (page, path) => {
     const pageDuplicateIdFindings = []
     const pageFindings = []
+    const pageReviewFindings = []
     let colorScheme = firstColorScheme
 
     try {
@@ -71,23 +77,30 @@ async function main() {
           isLight ? axe : axe.withRules(colorRules)
         ).analyze()
 
+        const toFinding = (check, result) => ({
+          check,
+          page: path,
+          ...(!isLight && { colorScheme }),
+          id: result.id,
+          impact: result.impact,
+          occurrences: result.nodes.length,
+          help: result.help,
+          helpUrl: result.helpUrl,
+          nodes: result.nodes
+            .map(({ target, failureSummary }) => ({
+              target: target.map(String),
+              failureSummary: normalizeText(failureSummary),
+            }))
+            .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
+        })
+
         for (const violation of result.violations) {
-          pageFindings.push({
-            check: 'axe',
-            page: path,
-            ...(!isLight && { colorScheme }),
-            id: violation.id,
-            impact: violation.impact,
-            occurrences: violation.nodes.length,
-            help: violation.help,
-            helpUrl: violation.helpUrl,
-            nodes: violation.nodes
-              .map(({ target, failureSummary }) => ({
-                target: target.map(String),
-                failureSummary: normalizeText(failureSummary),
-              }))
-              .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
-          })
+          pageFindings.push(toFinding('axe', violation))
+        }
+        for (const incomplete of result.incomplete) {
+          if (reviewRules.includes(incomplete.id)) {
+            pageReviewFindings.push(toFinding('axe-review', incomplete))
+          }
         }
       }
     } catch (error) {
@@ -98,6 +111,7 @@ async function main() {
 
     duplicateIdFindings.push(...pageDuplicateIdFindings)
     findings.push(...pageFindings)
+    reviewFindings.push(...pageReviewFindings)
   }
 
   await Promise.all(
@@ -141,6 +155,7 @@ async function main() {
   const report = createPortalAccessibilityReport({
     duplicateIdFindings,
     axeFindings: findings,
+    axeReviewFindings: reviewFindings,
     scannedPages: paths.length,
     colorSchemes,
   })
@@ -168,7 +183,7 @@ async function main() {
 
   process.stdout.write(
     `Scanned ${paths.length} pages with ${duplicateIdFindings.length} duplicate ID groups, ` +
-      `${findings.length} axe findings and ${errors.length} errors.\n`
+      `${findings.length} axe findings, ${reviewFindings.length} axe findings that need review and ${errors.length} errors.\n`
   )
 
   if (errors.length > 0) {
