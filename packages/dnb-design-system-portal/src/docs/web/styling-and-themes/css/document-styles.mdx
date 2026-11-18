@@ -80,9 +80,15 @@ font, size and line spacing throughout each address, without bold, italic
 or blank lines. Eufemia defaults to Arial 10pt. Remove empty lines from the
 source content.
 
+Eufemia does not bundle Arial. Make it available to your production PDF
+renderer to avoid font substitution. Inspect the generated PDF's embedded
+fonts, for example with `pdffonts letter.pdf`, and verify that the address
+text uses Arial (often listed as `ArialMT`, possibly with a subset prefix).
+The CSS `font-family` value alone does not confirm which font was used.
+
 The template still owns the address position and envelope window geometry.
-Verify font availability, PDF scaling and the result with your production
-renderer and mail provider. See the [address markup](#address-markup).
+Verify PDF scaling and the result with your production renderer and mail
+provider. See the [address markup](#address-markup).
 
 ### Paper appearance
 
@@ -344,7 +350,9 @@ React teams can use `P` with the same `className`. Keep dates, logos and
 other letter-header content outside the address class. Remove inline
 typography, explicit size or spacing props, and blank address lines.
 The return-address style previously used the brand font at 9pt; it now
-uses Arial at 10pt, so check the available envelope space when updating.
+uses Arial at 10pt. This change can make the return-address line wider and
+the recipient block shorter. Recheck both address blocks against the
+available envelope space and window position when updating.
 
 ### React teams
 
