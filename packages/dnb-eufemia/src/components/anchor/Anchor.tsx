@@ -195,22 +195,22 @@ export function AnchorComponent(localProps: AnchorAllProps) {
 
   if (isDisabled) {
     attributes.disabled = true
+  }
 
-    if (as === 'a') {
-      attributes.tabIndex = -1
-      attributes['aria-disabled'] = true
+  if ((isDisabled || attributes.skeleton) && as === 'a') {
+    attributes.tabIndex = -1
+    attributes['aria-disabled'] = true
 
-      if (attributes.href) {
-        delete attributes.href
-      }
-      if (attributes.to) {
-        delete attributes.to
-      }
+    if (attributes.href) {
+      delete attributes.href
+    }
+    if (attributes.to) {
+      delete attributes.to
+    }
 
-      attributes.onClick = (event) => {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+    attributes.onClick = (event) => {
+      event.preventDefault()
+      event.stopPropagation()
     }
   }
 
