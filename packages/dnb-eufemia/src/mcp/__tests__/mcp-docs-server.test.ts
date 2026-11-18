@@ -440,6 +440,10 @@ describe('docs content cache', () => {
 describe('docs_search', () => {
   let docsRoot: string
   let cleanup: () => void
+  const sixteenWords = Array.from(
+    { length: 16 },
+    (_, i) => `word${String.fromCharCode(97 + i)}`
+  )
 
   beforeAll(() => {
     const fixture = createDocsFixture()
@@ -656,6 +660,125 @@ describe('docs_search', () => {
     expect(hits.length).toBeLessThanOrEqual(5)
   })
 
+  it('counts a repeated query word only once', async () => {
+    const fixture = createDocsFixture()
+    try {
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'repeated.md'),
+        'ee '.repeat(1000)
+      )
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+      const result = await tools.docsSearch({
+        query: 'ee ee ee',
+        limit: 5,
+      })
+      const hits = JSON.parse(getText(result)) as Array<{
+        path: string
+        occurrences: number
+      }>
+
+      expect(
+        hits.find((h) => h.path === '/repeated.md')?.occurrences
+      ).toBe(1000)
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('ignores one-character query words', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({ query: 'a b', limit: 5 })
+
+    expect(JSON.parse(getText(result))).toEqual([])
+  })
+
+  it('uses only the first 16 distinct query words', async () => {
+    const fixture = createDocsFixture()
+    try {
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'words.md'),
+        sixteenWords.join(' ')
+      )
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+      const result = await tools.docsSearch({
+        query: [...sixteenWords, 'zzqwxneverpresent'].join(' '),
+        limit: 5,
+      })
+
+      expect(JSON.parse(getText(result))).toEqual([
+        expect.objectContaining({ path: '/words.md' }),
+      ])
+
+      const sixteenthWordMissing = await tools.docsSearch({
+        query: [...sixteenWords.slice(0, 15), 'zzqwxneverpresent'].join(
+          ' '
+        ),
+        limit: 5,
+      })
+      expect(JSON.parse(getText(sixteenthWordMissing))).toEqual([])
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('returns fast for a file with thousands of matches of every query word', async () => {
+    const fixture = createDocsFixture()
+    try {
+      const [rareWord, ...frequentWords] = sixteenWords
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'frequent.md'),
+        `${rareWord} ` + `${frequentWords.join(' ')} `.repeat(2000)
+      )
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+
+      const started = performance.now()
+      const result = await tools.docsSearch({
+        query: sixteenWords.join(' '),
+        limit: 5,
+      })
+      const elapsedMs = performance.now() - started
+
+      expect(JSON.parse(getText(result))).toEqual([
+        expect.objectContaining({
+          path: '/frequent.md',
+          occurrences: 1 + frequentWords.length * 2000,
+        }),
+      ])
+      expect(elapsedMs).toBeLessThan(1000)
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('ranks a file higher when all query words appear close together', async () => {
+    const fixture = createDocsFixture()
+    try {
+      const padding = 'filler '.repeat(100)
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'near.md'),
+        `alphaword ${padding}betaword ${padding}alphaword betaword`
+      )
+      fs.writeFileSync(
+        path.join(fixture.docsRoot, 'far.md'),
+        `alphaword ${padding}betaword ${padding}alphaword ${padding}betaword`
+      )
+      const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+      const result = await tools.docsSearch({
+        query: 'alphaword betaword',
+        limit: 5,
+      })
+      const hits = JSON.parse(getText(result)) as Array<{
+        path: string
+        score: number
+      }>
+
+      expect(hits.map((h) => h.path)).toEqual(['/near.md', '/far.md'])
+      expect(hits[0]?.score).toBeGreaterThan(hits[1]?.score ?? Infinity)
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('ranks results by score (higher scores first)', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsSearch({
@@ -709,8 +832,6 @@ describe('DocsSearchInput schema', () => {
     const parsed = DocsSearchInput.parse({
       query: 'a'.repeat(MAX_SEARCH_QUERY_LENGTH + 25),
     })
-    // Without the length cap an oversized query would pass through unchanged
-    // and could be split into an unbounded word list (denial of service).
     expect(parsed.query).toHaveLength(MAX_SEARCH_QUERY_LENGTH)
   })
 
