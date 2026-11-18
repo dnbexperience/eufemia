@@ -1031,6 +1031,35 @@ describe('Slider component', () => {
   })
 })
 
+describe('Slider status', () => {
+  const getThumbButton = () =>
+    document.querySelector('.dnb-slider__thumb .dnb-button')
+
+  // The thumb gets the error look of the Button, so the error does not rely on a message
+  it('gives the thumb the error look when status has no message', () => {
+    render(<Slider {...props} status="error" />)
+
+    expect(getThumbButton()).toHaveClass('dnb-button__status--error')
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+    expect(getThumbButton()).not.toHaveAttribute('aria-describedby')
+  })
+
+  // The Slider shows the message once, not again on the thumb
+  it('shows the message only once when status has a message', () => {
+    render(<Slider {...props} status="Message" />)
+
+    expect(getThumbButton()).toHaveClass('dnb-button__status--error')
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(getThumbButton()).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('gives the thumb no status without status', () => {
+    render(<Slider {...props} />)
+
+    expect(getThumbButton().className).not.toMatch(/dnb-button__status--/)
+  })
+})
+
 describe('Slider scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

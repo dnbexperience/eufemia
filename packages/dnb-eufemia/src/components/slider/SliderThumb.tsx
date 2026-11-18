@@ -52,6 +52,8 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     tooltip,
     alwaysShowTooltip,
     thumbTitle,
+    status,
+    statusState,
   } = allProps
 
   const index = thumbIndex.current
@@ -157,6 +159,9 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         element="span"
         type="" // avoid getting type="button"
         variant="secondary"
+        // Give the thumb the error look of the Button, without a second message
+        status={status ? statusState : undefined}
+        statusState={statusState}
         disabled={disabled}
         skeleton={skeleton}
         ref={elemRef}

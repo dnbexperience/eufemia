@@ -196,3 +196,9 @@ export const SliderExampleMarker = () => (
     />
   </ComponentBox>
 )
+
+export const SliderWithErrorState = () => (
+  <ComponentBox data-visual-test="slider-error">
+    <Slider min={0} max={100} value={50} label="Error" status="error" />
+  </ComponentBox>
+)

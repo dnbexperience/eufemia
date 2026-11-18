@@ -61,6 +61,13 @@ const cases = [
     '',
   ],
   [
+    'Slider',
+    '/web/components/slider/demos/',
+    'slider-error',
+    '.dnb-slider',
+    '.dnb-slider__thumb .dnb-button',
+  ],
+  [
     'DatePicker',
     '/web/components/date-picker/demos/',
     'date-picker-input-error',
