@@ -189,7 +189,7 @@ Sharing fonts has several benefits for micro frontends:
 - **Less font processing and memory use:** using one font version can avoid decoding and keeping several versions in memory.
 - **Consistent typography:** applications using the same face render with the same font, even when they use different Eufemia versions.
 
-The tradeoff is that fonts are not independent. An application can use a font supplied by another application, and changing the declarations or their order can affect text throughout the page. A different font can change text alignment, wrapping and component layout, so check representative components when combining versions.
+The tradeoff is that fonts are not independent. An application can use a font supplied by another application, and changing the declarations or their order can affect text throughout the page. If a later application adds matching declarations after text has rendered, the browser may download another font version and update text already shown. A different font can change text alignment, wrapping and component layout, so check representative components when combining versions.
 
 Since v11.17, `DNB` and `DNBMono` load the current DNB Sans Text and Mono files. Their regular, medium and bold styles keep the character widths, kerning and line heights of the earlier fonts. Italic and light text can change width, because earlier versions do not declare these styles.
 
