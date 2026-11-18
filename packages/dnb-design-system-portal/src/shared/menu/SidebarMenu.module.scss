@@ -1,4 +1,6 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+@use '@dnb/eufemia/src/extensions/sidebar-menu/style/sidebar-menu-compact'
+  as compact;
 @use '@dnb/eufemia/src/extensions/sidebar-menu/style/sidebar-menu-header'
   as header;
 @use './logo-background';
@@ -27,7 +29,9 @@
       [data-sidebar-menu-responsive-compact='true']
     )
     > .dnb-sidebar-menu-responsive-inline__content {
-    clip-path: inset(0 -2rem 0 0);
+    clip-path: inset(
+      compact.$content-clip-block -2rem compact.$content-clip-block 0
+    );
   }
 }
 .navStyle {
