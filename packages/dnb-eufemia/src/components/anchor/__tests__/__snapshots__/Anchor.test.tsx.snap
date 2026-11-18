@@ -336,7 +336,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   height: 1em;
   pointer-events: none;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-icon .dnb-icon {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-icon .dnb-icon.dnb-icon {
   display: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child::after {
@@ -461,7 +461,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     height: 1em;
     pointer-events: none;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor--no-icon .dnb-icon {
+  :not(.dnb-anchor--no-style).dnb-anchor--no-icon .dnb-icon.dnb-icon {
     display: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child::after {
