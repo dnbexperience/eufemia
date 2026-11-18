@@ -56,7 +56,7 @@ $carnegie-fonts-path: '../../../../assets/fonts/carnegie' !default;
   font-family: ArizonaFlare;
   src: url('#{$carnegie-fonts-path}/ArizonaFlare-Bold.woff2')
     format('woff2');
-  font-weight: 700; // should match --font-weight-bold
+  font-weight: 600 700; // should match --font-weight-bold and CSS bold
   font-style: normal;
   font-display: fallback;
 }
