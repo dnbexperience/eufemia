@@ -39,17 +39,6 @@ export default function PortalToolsDrawer({
               </>
             }
           />
-          <ChangeLocale
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/web/styling-and-themes/configuration/localization/">
-                  localization
-                </Anchor>
-              </>
-            }
-          />
-
           <ToggleDarkMode
             label="Dark mode"
             labelDescription={
@@ -57,6 +46,16 @@ export default function PortalToolsDrawer({
                 Read more about{' '}
                 <Anchor href="/web/styling-and-themes/brands-and-dark-mode/">
                   theming
+                </Anchor>
+              </>
+            }
+          />
+          <ChangeLocale
+            labelDescription={
+              <>
+                Read more about{' '}
+                <Anchor href="/web/styling-and-themes/configuration/localization/">
+                  localization
                 </Anchor>
               </>
             }
