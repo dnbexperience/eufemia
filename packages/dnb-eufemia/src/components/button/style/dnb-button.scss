@@ -381,9 +381,14 @@
       );
     }
 
-    &.dnb-button__status--error {
+    // A thicker border, so the error does not rely on color alone
+    &.dnb-button__status--error:not([disabled]):not(
+        [aria-disabled='true']
+      ) {
       --button-border-width--default: 0.125rem;
+    }
 
+    &.dnb-button__status--error {
       // Background
       --button-color-bg--default: var(--token-color-background-neutral);
       --button-color-bg--hover: var(

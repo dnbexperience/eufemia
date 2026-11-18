@@ -831,8 +831,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-text-action-disabled-ondark
   );
 }
-.dnb-button--secondary.dnb-button__status--error {
+.dnb-button--secondary.dnb-button__status--error:not([disabled]):not([aria-disabled=true]) {
   --button-border-width--default: 0.125rem;
+}
+.dnb-button--secondary.dnb-button__status--error {
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover-subtle
@@ -1385,10 +1387,12 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
   --button-color-icon: var(--button-color-icon--disabled);
   --button-color-text: var(--button-color-text--disabled);
 }
+.dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error:not([disabled]):not([aria-disabled=true]) {
+  --button-border-width--default: 0.125rem;
+}
 .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error {
   --button-color-bg--hover: var(--token-color-background-neutral);
   --button-color-bg--active: var(--token-color-background-neutral);
-  --button-border-width--default: 0.125rem;
   --button-color-border--default: var(--token-color-stroke-error);
   --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive-hover
@@ -1521,6 +1525,7 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--token-color-stroke-action-disabled);
+  --border-width: 0.0625rem;
 }
 .dnb-dropdown .dnb-button--tertiary[disabled] {
   --button-tertiary-focus-left: 0;
@@ -1732,10 +1737,12 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
   --button-color-icon: var(--button-color-icon--disabled);
   --button-color-text: var(--button-color-text--disabled);
 }
+.dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error:not([disabled]):not([aria-disabled=true]) {
+  --button-border-width--default: 0.125rem;
+}
 .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error {
   --button-color-bg--hover: var(--token-color-background-neutral);
   --button-color-bg--active: var(--token-color-background-neutral);
-  --button-border-width--default: 0.125rem;
   --button-color-border--default: var(--token-color-stroke-error);
   --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive-hover
@@ -1868,6 +1875,7 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 }
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--token-color-stroke-action-disabled);
+  --border-width: 0.0625rem;
 }
 .dnb-dropdown .dnb-button--tertiary[disabled] {
   --button-tertiary-focus-left: 0;

@@ -161,6 +161,80 @@ for (const [name, path, fixture, root, part] of cases) {
           expect(widths.normal).toBeGreaterThan(0)
           expect(widths.error).toBeGreaterThanOrEqual(2)
           expect(widths.error).toBeGreaterThan(widths.normal)
+
+          // A disabled field in the error state keeps the thin border,
+          // because the user cannot act on it
+          const disabledWidth = await page.evaluate(
+            ([fixture, root, part]) => {
+              document.head.insertAdjacentHTML(
+                'beforeend',
+                '<style>*, *::before { transition: none !important }</style>'
+              )
+              const fixtureElement = document.querySelector(
+                '[data-visual-test="' + fixture + '"]'
+              )
+              const error = [
+                fixtureElement,
+                ...Array.from(fixtureElement.querySelectorAll(root)),
+              ].find((component) => component.matches(root))
+              const blocks = [
+                'dnb-input',
+                'dnb-textarea',
+                'dnb-dropdown',
+                'dnb-autocomplete',
+                'dnb-date-picker',
+                'dnb-slider',
+                'dnb-checkbox',
+                'dnb-radio',
+                'dnb-switch',
+              ]
+              // Disable the component the way it does itself
+              for (const element of [
+                error,
+                ...Array.from(error.querySelectorAll('*')),
+              ]) {
+                for (const block of blocks) {
+                  if (element.classList.contains(block)) {
+                    element.classList.add(block + '--disabled')
+                  }
+                }
+                if (
+                  element.matches('input, textarea, button, .dnb-button')
+                ) {
+                  element.setAttribute('disabled', '')
+                  element.setAttribute('aria-disabled', 'true')
+                }
+              }
+              const border = part ? error.querySelector(part) : error
+              const style = getComputedStyle(border)
+              const widths = [0]
+              if (
+                style.borderTopStyle !== 'none' &&
+                !/rgba\([^)]*,\s*0\)|transparent/.test(
+                  style.borderTopColor
+                )
+              ) {
+                widths.push(parseFloat(style.borderTopWidth))
+              }
+              for (const layer of style.boxShadow.split(/,(?![^(]*\))/)) {
+                if (
+                  layer === 'none' ||
+                  /rgba\([^)]*,\s*0\)|transparent/.test(layer)
+                ) {
+                  continue
+                }
+                const lengths = layer
+                  .replace(/(?:rgba?|color)\([^)]*\)/g, '')
+                  .match(/-?[\d.]+px/g)
+                widths.push(parseFloat(lengths?.[3] ?? '0'))
+              }
+              return Math.max(...widths)
+            },
+            [fixture, root, part] as const
+          )
+
+          expect(disabledWidth).toBeGreaterThan(0)
+          expect(disabledWidth).toBeLessThan(2)
         })
       }
     }

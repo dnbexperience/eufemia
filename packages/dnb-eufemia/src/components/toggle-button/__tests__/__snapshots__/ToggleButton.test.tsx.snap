@@ -888,8 +888,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-text-action-disabled-ondark
   );
 }
-.dnb-button--secondary.dnb-button__status--error {
+.dnb-button--secondary.dnb-button__status--error:not([disabled]):not([aria-disabled=true]) {
   --button-border-width--default: 0.125rem;
+}
+.dnb-button--secondary.dnb-button__status--error {
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(
     --token-color-component-button-background-action-destructive-hover-subtle
@@ -2185,7 +2187,6 @@ html[data-whatinput=keyboard] .dnb-checkbox--surface-dark .dnb-checkbox__input:n
   /** Error state **/
 }
 .dnb-radio__status--error .dnb-radio__input ~ .dnb-radio__button {
-  --radio-border-width--default: 0.125rem;
   --radio-color-background--default: var(
     --token-color-background-error-subtle
   );
@@ -2193,6 +2194,9 @@ html[data-whatinput=keyboard] .dnb-checkbox--surface-dark .dnb-checkbox__input:n
 }
 .dnb-radio__status--error {
   --radio-color-dot-on--default: var(--token-color-background-error);
+}
+.dnb-radio__status--error .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+  --radio-border-width--default: 0.125rem;
 }
 .dnb-radio__status--error:where(:not(.dnb-toggle-button *)) .dnb-radio__input ~ .dnb-radio__button {
   --radio-border-width--active: 0.0625rem;

@@ -399,7 +399,6 @@
 
   // General
   &__status--error &__input ~ &__button {
-    --radio-border-width--default: 0.125rem;
     --radio-color-background--default: var(
       --token-color-background-error-subtle
     );
@@ -407,6 +406,11 @@
   }
   &__status--error {
     --radio-color-dot-on--default: var(--token-color-background-error);
+  }
+
+  // A thicker border, so the error does not rely on color alone
+  &__status--error &__input:not([disabled]) ~ &__button {
+    --radio-border-width--default: 0.125rem;
   }
 
   // Hover and pressed keep the error colors (a ToggleButton has its own)

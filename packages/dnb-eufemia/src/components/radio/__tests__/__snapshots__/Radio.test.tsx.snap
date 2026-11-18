@@ -559,7 +559,6 @@ button .dnb-form-status__text {
   /** Error state **/
 }
 .dnb-radio__status--error .dnb-radio__input ~ .dnb-radio__button {
-  --radio-border-width--default: 0.125rem;
   --radio-color-background--default: var(
     --token-color-background-error-subtle
   );
@@ -567,6 +566,9 @@ button .dnb-form-status__text {
 }
 .dnb-radio__status--error {
   --radio-color-dot-on--default: var(--token-color-background-error);
+}
+.dnb-radio__status--error .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+  --radio-border-width--default: 0.125rem;
 }
 .dnb-radio__status--error:where(:not(.dnb-toggle-button *)) .dnb-radio__input ~ .dnb-radio__button {
   --radio-border-width--active: 0.0625rem;
