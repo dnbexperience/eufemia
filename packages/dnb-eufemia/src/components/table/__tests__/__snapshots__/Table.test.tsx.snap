@@ -332,15 +332,15 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   line-height: var(--line-height-basis);
   vertical-align: bottom;
 }
-.dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
+.dnb-table__size--medium :is(.dnb-table__th, thead th) {
   padding: 1.375rem 1rem 0.875rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
-.dnb-table__size--medium .dnb-table__th .dnb-button__text, .dnb-table__size--medium .dnb-table thead th .dnb-button__text {
+.dnb-table__size--medium :is(.dnb-table__th, thead th) .dnb-button__text {
   line-height: inherit;
 }
-.dnb-table__size--small .dnb-table__th, .dnb-table__size--small .dnb-table thead th {
+.dnb-table__size--small :is(.dnb-table__th, thead th) {
   padding: 1.25rem 1rem 0.5rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
@@ -360,16 +360,12 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   padding: 1rem;
   vertical-align: baseline;
 }
-.dnb-table__size--medium tbody .dnb-table__th, .dnb-table__size--medium tbody .dnb-table__td,
-.dnb-table__size--medium .dnb-table tbody th,
-.dnb-table__size--medium .dnb-table tbody td {
+.dnb-table__size--medium tbody :is(.dnb-table__th, .dnb-table__td, th, td) {
   padding: 0.875rem 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
-.dnb-table__size--small tbody .dnb-table__th, .dnb-table__size--small tbody .dnb-table__td,
-.dnb-table__size--small .dnb-table tbody th,
-.dnb-table__size--small .dnb-table tbody td {
+.dnb-table__size--small tbody :is(.dnb-table__th, .dnb-table__td, th, td) {
   padding: 0.625rem 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
