@@ -280,9 +280,8 @@ for (const width of [390, 1440]) {
       await expect(tools).toHaveText('DNB - Dark Settings', {
         useInnerText: true,
       })
-      await drawer.locator('#change-theme').click()
-      await page
-        .getByRole('option', { name: 'Sbanken', exact: true })
+      await drawer
+        .getByRole('radio', { name: 'Sbanken', exact: true })
         .click()
       await expect(tools).toHaveText('Sbanken - Dark Settings', {
         useInnerText: true,

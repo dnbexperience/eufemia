@@ -47,8 +47,10 @@ test.describe('Theme', () => {
 
   test('should load css file', async ({ page }) => {
     await page.click('#portal-tools')
-    await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(2)')
+    await page
+      .getByRole('dialog', { name: 'Settings' })
+      .getByRole('radio', { name: 'Sbanken', exact: true })
+      .click()
 
     // Vite: sbanken link should be enabled, ui should be disabled
     const sbankenLink = page.locator('link[data-eufemia-theme="sbanken"]')
@@ -65,8 +67,10 @@ test.describe('Theme', () => {
 
   test('should set local storage', async ({ page }) => {
     await page.click('#portal-tools')
-    await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(2)')
+    await page
+      .getByRole('dialog', { name: 'Settings' })
+      .getByRole('radio', { name: 'Sbanken', exact: true })
+      .click()
 
     await page.waitForFunction(() => {
       const theme = JSON.parse(
@@ -89,8 +93,10 @@ test.describe('Theme', () => {
 
   test('should switch back and forth', async ({ page }) => {
     await page.click('#portal-tools')
-    await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(2)')
+    await page
+      .getByRole('dialog', { name: 'Settings' })
+      .getByRole('radio', { name: 'Sbanken', exact: true })
+      .click()
 
     // Wait for sbanken theme to load before switching back
     await page.waitForFunction(() => {
@@ -100,8 +106,10 @@ test.describe('Theme', () => {
       return sbankenLink && !sbankenLink.disabled
     })
 
-    await page.click('#change-theme')
-    await page.locator('#change-theme-portal ul li:first-child').click()
+    await page
+      .getByRole('dialog', { name: 'Settings' })
+      .getByRole('radio', { name: 'DNB', exact: true })
+      .click()
 
     // Wait for theme CSS to update after switching back
     await page.waitForFunction(() => {
@@ -127,8 +135,10 @@ test.describe('Theme', () => {
     // Vite pre-injects all theme links — verify the correct theme
     // is active after switching.
     await page.click('#portal-tools')
-    await page.click('#change-theme')
-    await page.click('#change-theme-portal ul li:nth-child(2)')
+    await page
+      .getByRole('dialog', { name: 'Settings' })
+      .getByRole('radio', { name: 'Sbanken', exact: true })
+      .click()
 
     await page.waitForFunction(() =>
       document.body.classList.contains('eufemia-theme__sbanken')
@@ -155,10 +165,8 @@ test('should apply the brand from the URL after hydration', async ({
   await page.goto('/web/components/logo/demos/?eufemia-theme=sbanken')
   await waitForApp(page)
 
-  await expect(page.locator('#change-theme')).toHaveAttribute(
-    'title',
-    'Sbanken'
-  )
+  await expect(page.locator('#change-theme')).toHaveValue('sbanken')
+  await expect(page.locator('#change-theme')).toBeChecked()
   expect(hydrationErrors).toEqual([])
 })
 
@@ -177,10 +185,16 @@ test('should enable Coconut from the URL without offering it in settings', async
     .toBe(false)
 
   await page.locator('#portal-tools').click()
-  await page.locator('#change-theme').click()
-  await expect(
-    page.locator('#change-theme-portal [role="option"]')
-  ).toHaveText(['DNB', 'Sbanken', 'DNB Eiendom', 'DNB Carnegie'])
+  const brands = page
+    .getByRole('dialog', { name: 'Settings' })
+    .getByRole('radiogroup')
+    .filter({ has: page.getByRole('radio', { name: 'DNB', exact: true }) })
+  await expect(brands.locator('.dnb-chip__text')).toHaveText([
+    'DNB',
+    'Sbanken',
+    'DNB Eiendom',
+    'DNB Carnegie',
+  ])
 
   await page.evaluate(() => {
     const theme = JSON.parse(localStorage.getItem('eufemia-theme'))
@@ -197,8 +211,7 @@ test('should enable Coconut from the URL without offering it in settings', async
   )
 
   await page.locator('#portal-tools').click()
-  await page.locator('#change-theme').click()
-  await page.locator('#change-theme-portal ul li:first-child').click()
+  await brands.getByRole('radio', { name: 'DNB', exact: true }).click()
   await expect(page.locator('body')).toHaveClass(/eufemia-theme__ui/)
   await expect(page.locator('body')).not.toHaveClass(
     /eufemia-theme__coconut/

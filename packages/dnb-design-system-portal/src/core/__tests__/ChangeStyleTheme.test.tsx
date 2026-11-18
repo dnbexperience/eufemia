@@ -32,11 +32,10 @@ it('shows brand chips and switches the selected brand', () => {
     )
   ).toEqual(['DNB', 'Sbanken', 'DNB Eiendom', 'DNB Carnegie'])
   expect(document.querySelector('#change-theme')).toBe(
-    getByRole('radio', { name: 'DNB', exact: true })
+    getByRole('radio', { name: /^DNB$/ })
   )
   expect(
-    (getByRole('radio', { name: 'DNB', exact: true }) as HTMLInputElement)
-      .checked
+    (getByRole('radio', { name: /^DNB$/ }) as HTMLInputElement).checked
   ).toBe(true)
   expect(document.body.textContent).toContain('Read more about theming')
 
