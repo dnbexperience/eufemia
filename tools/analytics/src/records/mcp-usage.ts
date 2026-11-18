@@ -32,7 +32,7 @@ import {
 } from 'eufemia-usage-ingest'
 import {
   isIsoTimestamp,
-  isValidEnv,
+  isKnownEnv,
   parseIngestBatch,
   type ValidationResult,
 } from './shared.js'
@@ -164,7 +164,7 @@ export function validateMcpUsage(
           ? { componentMissed: true as const }
           : {}),
         ...(normalizedPath ? { path: normalizedPath } : {}),
-        ...(isValidEnv(env) ? { env } : {}),
+        ...(isKnownEnv(env) ? { env } : {}),
         ...(typeof eufemiaVersion === 'string' ? { eufemiaVersion } : {}),
         ...(typeof timestamp === 'string' ? { timestamp } : {}),
       })

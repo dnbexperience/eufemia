@@ -23,7 +23,7 @@ Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is 
 
 ### Record shape
 
-A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, `color_scheme`, `referrer`, and `via_search` dimensions. The service stamps `created_at`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. An unrecognized `env`, `locale`, `theme`, `color_scheme`, `referrer`, or `via_search` is coerced to `unknown` rather than rejected, so a stale value never drops a batch. No identifiers or personal data are stored.
+A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, `color_scheme`, `referrer`, and `via_search` dimensions. The service stamps `created_at`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. An unrecognized `env`, `locale`, `theme`, `color_scheme`, `referrer`, or `via_search` is coerced to `unknown` rather than rejected, so a stale value never drops a batch. Both ingest routes accept only the `env` labels in `KNOWN_ENVS` (`src/records/shared.ts`). No identifiers or personal data are stored.
 
 ```json
 {
