@@ -45,6 +45,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
     hidePicker,
     startDate,
     endDate,
+    props: { skeleton },
   } = useContext(DatePickerContext)
 
   const { shortcuts, renderElement } = props
@@ -140,12 +141,13 @@ function DatePickerAddon(props: DatePickerAddonProps) {
                 text={title}
                 variant="secondary"
                 onClick={(event) => setDate({ shortcut, event })}
+                skeleton={skeleton}
               />
             )
           })}
         </>
       ),
-    [hasShortcuts, shortcutsArray, setDate]
+    [hasShortcuts, shortcutsArray, setDate, skeleton]
   )
 
   if (!hasShortcuts && !renderElement) {

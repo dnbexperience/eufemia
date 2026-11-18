@@ -8408,6 +8408,103 @@ describe('DatePicker ARIA', () => {
       ).toBeInTheDocument()
     })
 
+    describe('skeleton', () => {
+      const selectByKeyboard = (table: HTMLTableElement) => {
+        fireEvent.keyDown(table, { code: 'ArrowRight' })
+        fireEvent.keyDown(table, { code: 'ArrowRight' })
+        fireEvent.keyDown(table, { code: 'Enter' })
+      }
+
+      const getSelectedDay = () =>
+        document
+          .querySelector('td[aria-selected="true"]')
+          .getAttribute('data-date')
+
+      it('prevents date selection in the calendar when skeleton is inherited from context', () => {
+        const onChange = vi.fn()
+        render(
+          <Provider skeleton>
+            <DatePicker
+              inline
+              date="2024-10-05"
+              showResetButton
+              onChange={onChange}
+            />
+          </Provider>
+        )
+
+        const table = document.querySelector('table')
+        expect(table).toHaveAttribute('tabindex', '-1')
+
+        selectByKeyboard(table)
+
+        expect(onChange).not.toHaveBeenCalled()
+        expect(getSelectedDay()).toBe('2024-10-05')
+      })
+
+      it('prevents date selection in the calendar when skeleton is set', () => {
+        const onChange = vi.fn()
+        const onReset = vi.fn()
+        render(
+          <DatePicker
+            inline
+            date="2024-10-05"
+            showResetButton
+            skeleton
+            onChange={onChange}
+            onReset={onReset}
+          />
+        )
+
+        const table = document.querySelector('table')
+        expect(table).toHaveAttribute('tabindex', '-1')
+
+        selectByKeyboard(table)
+
+        const dayButton = document.querySelector(
+          'td[data-date="2024-10-07"] button'
+        )
+        const navButton = document.querySelector('.dnb-date-picker__next')
+        const resetButton = document.querySelector('[data-testid="reset"]')
+
+        expect(dayButton).toBeDisabled()
+        expect(navButton).toBeDisabled()
+        expect(resetButton).toBeDisabled()
+
+        fireEvent.click(dayButton)
+        fireEvent.click(resetButton)
+
+        expect(onChange).not.toHaveBeenCalled()
+        expect(onReset).not.toHaveBeenCalled()
+        expect(getSelectedDay()).toBe('2024-10-05')
+      })
+
+      it('allows date selection when skeleton is false and context skeleton is true', () => {
+        const onChange = vi.fn()
+        render(
+          <Provider skeleton>
+            <DatePicker
+              inline
+              date="2024-10-05"
+              skeleton={false}
+              onChange={onChange}
+            />
+          </Provider>
+        )
+
+        const table = document.querySelector('table')
+        expect(table).toHaveAttribute('tabindex', '0')
+        expect(
+          document.querySelector('td[data-date="2024-10-07"] button')
+        ).not.toBeDisabled()
+
+        selectByKeyboard(table)
+
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(getSelectedDay()).toBe('2024-10-07')
+      })
+    })
+
     it('toggles popover open/close when submit button is clicked', async () => {
       const onSubmit = vi.fn()
       render(<DatePicker showSubmitButton onSubmit={onSubmit} open />)
