@@ -1,7 +1,7 @@
 /**
- * Fails the client build when Portal code imports a package that is not in
- * `dependencies`. The dependency checks read `dependencies` to know what the
- * Portal ships to the browser (docs/vulnerability-management.md).
+ * Fails the client build when it includes a package outside the production
+ * dependency tree of the Portal. The dependency checks only read that tree,
+ * so they would miss such a package (docs/vulnerability-management.md).
  */
 
 import fs from 'node:fs'
@@ -9,67 +9,66 @@ import { createRequire } from 'node:module'
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-type ModuleInfo = {
-  importedIds: readonly string[]
-  dynamicallyImportedIds: readonly string[]
-} | null
+const NODE_MODULES = '/node_modules/'
 
-const isPackage = (id: string) => id.includes('/node_modules/')
-
-function getPackageName(id: string) {
-  const [scope, name] = id
-    .slice(id.lastIndexOf('/node_modules/') + '/node_modules/'.length)
-    .split('/')
-  return scope.startsWith('@') ? `${scope}/${name}` : scope
+function getPackageDirectory(id: string) {
+  const start = id.lastIndexOf(NODE_MODULES) + NODE_MODULES.length
+  const [scope, name] = id.slice(start).split('/')
+  return (
+    id.slice(0, start) +
+    (scope.startsWith('@') ? `${scope}/${name}` : scope)
+  )
 }
 
-/** The `dependencies` of the Portal and of the workspaces it links there */
-export function getProductionDependencies(
-  manifest = path.resolve(import.meta.dirname, '../../../package.json')
+/** The packages that `dependencies` bring in, also through linked workspaces */
+export function getProductionPackageDirectories(
+  root = path.resolve(import.meta.dirname, '../../..')
 ) {
-  const declared = new Set<string>()
-  const manifests = [manifest]
+  const directories = new Set<string>()
+  const queue = [root]
 
-  for (const current of manifests) {
-    const { dependencies = {} } = JSON.parse(
-      fs.readFileSync(current, 'utf-8')
+  for (const current of queue) {
+    const manifest = path.join(current, 'package.json')
+    const { dependencies = {}, optionalDependencies = {} } = JSON.parse(
+      fs.readFileSync(manifest, 'utf-8')
     )
-    for (const [name, range] of Object.entries<string>(dependencies)) {
-      if (range.startsWith('workspace:') && !declared.has(name)) {
-        const linked = createRequire(current)
-          .resolve.paths(name)
-          ?.map((dir) => path.join(dir, name, 'package.json'))
-          .find((file) => fs.existsSync(file))
-        if (!linked) {
-          throw new Error(`Could not find the workspace ${name}`)
-        }
-        manifests.push(linked)
+    for (const name of Object.keys({
+      ...dependencies,
+      ...optionalDependencies,
+    })) {
+      const directory = createRequire(manifest)
+        .resolve.paths(name)
+        ?.map((dir) => path.join(dir, name))
+        .find((dir) => fs.existsSync(path.join(dir, 'package.json')))
+
+      // An optional dependency may not be installed
+      const real = directory && fs.realpathSync(directory)
+      if (real && !directories.has(real)) {
+        directories.add(real)
+        queue.push(real)
       }
-      declared.add(name)
     }
   }
 
-  return declared
+  return directories
 }
 
-/** Bundled packages that first-party modules import without declaring them */
+/** Names of the bundled packages that are not in the production dependency tree */
 export function findUndeclaredPackages(
   moduleIds: readonly string[],
-  getModuleInfo: (id: string) => ModuleInfo,
-  declared: Set<string>
+  production: Set<string>
 ) {
-  const bundled = new Set(moduleIds.filter(isPackage).map(getPackageName))
   const undeclared = new Set<string>()
 
-  for (const id of moduleIds.filter((id) => !isPackage(id))) {
-    const info = getModuleInfo(id)
-    for (const imported of [
-      ...(info?.importedIds ?? []),
-      ...(info?.dynamicallyImportedIds ?? []),
-    ]) {
-      const name = isPackage(imported) && getPackageName(imported)
-      if (name && bundled.has(name) && !declared.has(name)) {
-        undeclared.add(name)
+  for (const id of moduleIds) {
+    if (id.includes(NODE_MODULES)) {
+      const directory = getPackageDirectory(id)
+      if (!production.has(directory)) {
+        undeclared.add(
+          directory.slice(
+            directory.lastIndexOf(NODE_MODULES) + NODE_MODULES.length
+          )
+        )
       }
     }
   }
@@ -85,15 +84,18 @@ export default function productionDependenciesPlugin(): Plugin {
     generateBundle(_, bundle) {
       const undeclared = findUndeclaredPackages(
         Object.values(bundle).flatMap((output) =>
-          output.type === 'chunk' ? output.moduleIds : []
+          output.type === 'chunk'
+            ? Object.entries(output.modules)
+                .filter(([, module]) => module.renderedLength > 0)
+                .map(([id]) => id)
+            : []
         ),
-        (id) => this.getModuleInfo(id),
-        getProductionDependencies()
+        getProductionPackageDirectories()
       )
 
       if (undeclared.length > 0) {
         this.error(
-          `The browser bundle includes packages that are not in "dependencies": ${undeclared.join(', ')}. Move them to "dependencies" in packages/dnb-design-system-portal/package.json, so the dependency checks cover them.`
+          `The browser bundle includes packages that "dependencies" do not bring in: ${undeclared.join(', ')}. Add them, or the package that imports them, to "dependencies" in packages/dnb-design-system-portal/package.json, so the dependency checks cover them.`
         )
       }
     },

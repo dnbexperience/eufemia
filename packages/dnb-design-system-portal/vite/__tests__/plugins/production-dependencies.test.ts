@@ -5,141 +5,101 @@ import path from 'node:path'
 import { resolveConfig, type InlineConfig } from 'vite'
 import productionDependenciesPlugin, {
   findUndeclaredPackages,
-  getProductionDependencies,
+  getProductionPackageDirectories,
 } from '../../client/plugins/production-dependencies'
-
-const portal = '/repo/packages/dnb-design-system-portal'
-const modules = (graph: Record<string, string[]>) => (id: string) =>
-  graph[id] ? { importedIds: graph[id], dynamicallyImportedIds: [] } : null
 
 describe('production-dependencies plugin', () => {
   describe('findUndeclaredPackages', () => {
-    it('reports bundled packages that Portal code imports without declaring them', () => {
-      const moduleIds = [
-        `${portal}/src/App.tsx`,
-        '/repo/node_modules/react-router/dist/index.mjs',
-        '/repo/node_modules/react/index.js',
-        '/repo/node_modules/@scope/pkg/index.js',
-      ]
-      const getModuleInfo = modules({
-        [`${portal}/src/App.tsx`]: [
-          '/repo/node_modules/react-router/dist/index.mjs',
-          '/repo/node_modules/react/index.js',
-          '/repo/node_modules/@scope/pkg/index.js',
-        ],
-      })
+    it('reports bundled packages outside the production dependency tree', () => {
+      const production = new Set([
+        '/repo/node_modules/react',
+        '/repo/node_modules/react-markdown',
+        '/repo/node_modules/react-markdown/node_modules/unified',
+      ])
 
       expect(
         findUndeclaredPackages(
-          moduleIds,
-          getModuleInfo,
-          new Set(['react'])
+          [
+            '/repo/packages/dnb-design-system-portal/src/App.tsx',
+            '/repo/packages/dnb-eufemia/src/Component.tsx',
+            'virtual:portal-pages',
+            '/repo/node_modules/react/index.js',
+            '/repo/node_modules/react-markdown/lib/index.js',
+            '/repo/node_modules/react-markdown/node_modules/unified/index.js',
+            '/repo/node_modules/unified/index.js',
+            '/repo/node_modules/@scope/pkg/dist/index.js',
+            '/repo/node_modules/@scope/pkg/dist/other.js',
+          ],
+          production
         )
-      ).toEqual(['@scope/pkg', 'react-router'])
-    })
-
-    it('reports dynamic imports and imports from linked workspaces', () => {
-      const moduleIds = [
-        'virtual:portal-pages',
-        '/repo/packages/dnb-eufemia/src/Component.tsx',
-        '/repo/node_modules/a/index.js',
-        '/repo/node_modules/b/index.js',
-      ]
-      const getModuleInfo = (id: string) =>
-        ({
-          'virtual:portal-pages': {
-            importedIds: [],
-            dynamicallyImportedIds: ['/repo/node_modules/a/index.js'],
-          },
-          '/repo/packages/dnb-eufemia/src/Component.tsx': {
-            importedIds: ['/repo/node_modules/b/index.js'],
-            dynamicallyImportedIds: [],
-          },
-        })[id] ?? null
-
-      expect(
-        findUndeclaredPackages(moduleIds, getModuleInfo, new Set())
-      ).toEqual(['a', 'b'])
-    })
-
-    it('ignores packages that only other packages import', () => {
-      const moduleIds = [
-        `${portal}/src/App.tsx`,
-        '/repo/node_modules/react-markdown/index.js',
-        '/repo/node_modules/react-markdown/node_modules/unified/index.js',
-      ]
-      const getModuleInfo = modules({
-        [`${portal}/src/App.tsx`]: [
-          '/repo/node_modules/react-markdown/index.js',
-        ],
-        '/repo/node_modules/react-markdown/index.js': [
-          '/repo/node_modules/react-markdown/node_modules/unified/index.js',
-        ],
-      })
-
-      expect(
-        findUndeclaredPackages(
-          moduleIds,
-          getModuleInfo,
-          new Set(['react-markdown'])
-        )
-      ).toEqual([])
-    })
-
-    it('ignores imported packages that were left out of the bundle', () => {
-      const moduleIds = [`${portal}/src/slug.mjs`]
-      const getModuleInfo = modules({
-        [`${portal}/src/slug.mjs`]: [
-          '/repo/node_modules/remark-mdx/index.js',
-        ],
-      })
-
-      expect(
-        findUndeclaredPackages(moduleIds, getModuleInfo, new Set())
-      ).toEqual([])
+      ).toEqual(['@scope/pkg', 'unified'])
     })
   })
 
-  describe('getProductionDependencies', () => {
+  describe('getProductionPackageDirectories', () => {
     let tmpDir: string
 
     afterEach(() => {
       fs.rmSync(tmpDir, { recursive: true, force: true })
     })
 
-    it('reads the dependencies of the Portal and of its linked workspaces', () => {
-      tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'production-deps-'))
-      const write = (file: string, manifest: object) => {
-        fs.mkdirSync(path.dirname(path.join(tmpDir, file)), {
-          recursive: true,
-        })
-        fs.writeFileSync(path.join(tmpDir, file), JSON.stringify(manifest))
+    it('follows dependencies, also through linked workspaces', () => {
+      tmpDir = fs.realpathSync(
+        fs.mkdtempSync(path.join(os.tmpdir(), 'production-deps-'))
+      )
+      const write = (dir: string, manifest: object) => {
+        fs.mkdirSync(path.join(tmpDir, dir), { recursive: true })
+        fs.writeFileSync(
+          path.join(tmpDir, dir, 'package.json'),
+          JSON.stringify(manifest)
+        )
       }
-      write('portal/package.json', {
+      write('portal', {
         dependencies: { a: '1.0.0', '@scope/lib': 'workspace:*' },
+        optionalDependencies: { 'not-installed': '1.0.0' },
         devDependencies: { 'dev-only': '1.0.0' },
       })
-      write('node_modules/@scope/lib/package.json', {
-        dependencies: { b: '1.0.0', portal: 'workspace:*' },
+      write('lib', {
+        dependencies: { b: '1.0.0' },
         devDependencies: { 'lib-dev-only': '1.0.0' },
       })
-      write('node_modules/portal/package.json', {})
+      fs.mkdirSync(path.join(tmpDir, 'node_modules/@scope'), {
+        recursive: true,
+      })
+      fs.symlinkSync(
+        path.join(tmpDir, 'lib'),
+        path.join(tmpDir, 'node_modules/@scope/lib')
+      )
+      write('node_modules/a', { dependencies: { c: '2.0.0' } })
+      write('node_modules/a/node_modules/c', {})
+      write('node_modules/b', {})
+      write('node_modules/c', {})
+      write('node_modules/dev-only', {})
+      write('node_modules/lib-dev-only', {})
 
       expect(
-        [
-          ...getProductionDependencies(
-            path.join(tmpDir, 'portal/package.json')
-          ),
-        ].sort()
-      ).toEqual(['@scope/lib', 'a', 'b', 'portal'])
+        [...getProductionPackageDirectories(path.join(tmpDir, 'portal'))]
+          .map((dir) => path.relative(tmpDir, dir))
+          .sort()
+      ).toEqual([
+        'lib',
+        'node_modules/a',
+        'node_modules/a/node_modules/c',
+        'node_modules/b',
+      ])
     })
 
-    it('includes the dependencies of @dnb/eufemia', () => {
-      const declared = getProductionDependencies()
+    it('includes what the Portal and @dnb/eufemia bring in', () => {
+      const names = [...getProductionPackageDirectories()].map((dir) =>
+        dir.slice(
+          dir.lastIndexOf('/node_modules/') + '/node_modules/'.length
+        )
+      )
 
-      expect(declared.has('react-router')).toBe(true)
-      expect(declared.has('date-fns')).toBe(true)
-      expect(declared.has('vite')).toBe(false)
+      expect(names).toContain('react-router')
+      expect(names).toContain('date-fns')
+      expect(names).toContain('unified')
+      expect(names).not.toContain('vite')
     })
   })
 
@@ -171,7 +131,7 @@ describe('production-dependencies plugin', () => {
       expect(await isActive('serve')).toBe(false)
     })
 
-    it('fails the build with the undeclared packages', () => {
+    it('fails the build with the bundled packages that ship code', () => {
       const error = vi.fn()
       const generateBundle = plugin.generateBundle as (
         this: object,
@@ -180,30 +140,27 @@ describe('production-dependencies plugin', () => {
       ) => void
 
       generateBundle.call(
-        {
-          error,
-          getModuleInfo: modules({
-            [`${portal}/src/App.tsx`]: [
-              '/repo/node_modules/not-declared/a.js',
-            ],
-          }),
-        },
+        { error },
         {},
         {
           'app.js': {
             type: 'chunk',
-            moduleIds: [
-              `${portal}/src/App.tsx`,
-              '/repo/node_modules/not-declared/a.js',
-            ],
+            modules: {
+              '/repo/packages/dnb-design-system-portal/src/App.tsx': {
+                renderedLength: 100,
+              },
+              '/repo/node_modules/not-declared/a.js': {
+                renderedLength: 10,
+              },
+              '/repo/node_modules/no-code/index.js': { renderedLength: 0 },
+            },
           },
           'app.css': { type: 'asset' },
         }
       )
 
-      expect(error).toHaveBeenCalledWith(
-        expect.stringContaining('not-declared')
-      )
+      expect(error).toHaveBeenCalledTimes(1)
+      expect(error.mock.calls[0][0]).toContain(': not-declared.')
     })
   })
 })

@@ -167,7 +167,7 @@ const config = defineConfig({
       },
     }),
 
-    // Fail the client build when it ships a package that is not in `dependencies`
+    // Fail the client build when it ships a package that `dependencies` do not bring in
     productionDependenciesPlugin(),
   ],
 

@@ -493,7 +493,7 @@ function getWorkspaces() {
 }
 
 // Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas.
-// The Portal is not in the audit gate, but its build fails unless the packages it ships to the browser are in `dependencies`.
+// The Portal is not in the audit gate, but its build fails when it ships a package that its `dependencies` do not bring in.
 export function getShippedWorkspaces() {
   return getWorkspaces().filter(
     (workspace) =>
