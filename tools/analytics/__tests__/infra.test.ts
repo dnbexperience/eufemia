@@ -219,14 +219,14 @@ describe('analytics infrastructure', () => {
   })
 
   it('locks the dashboard origin to the Akamai edge via a viewer-request function', () => {
-    // The function validates the shared X-Edge-Auth secret Akamai injects.
+    // Its own secret, so a leak from the function code can't unlock the API origins.
     const originLock = terraformBlock(
       'resource "aws_cloudfront_function" "dashboard_edge_auth"'
     )
 
     expect(originLock).toContain('functions/dashboard-edge-auth.js.tftpl')
     expect(originLock).toMatch(
-      /edge_auth_secret\s+=\s+jsonencode\(var\.edge_auth_secret\)/
+      /dashboard_edge_auth_secret\s+=\s+jsonencode\(var\.dashboard_edge_auth_secret\)/
     )
 
     // It must run on every viewer request to the dashboard distribution.

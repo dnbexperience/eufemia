@@ -42,6 +42,17 @@ variable "edge_auth_secret" {
   }
 }
 
+variable "dashboard_edge_auth_secret" {
+  type        = string
+  description = "Dashboard-only secret for the X-Origin-Verify header injected by Akamai."
+  sensitive   = true
+
+  validation {
+    condition     = length(var.dashboard_edge_auth_secret) >= 32
+    error_message = "dashboard_edge_auth_secret must be at least 32 characters."
+  }
+}
+
 variable "entra_client_id" {
   type        = string
   description = "Entra (Azure AD) application (client) ID accepted by the dashboard API JWT authorizer."
