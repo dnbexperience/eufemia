@@ -39,6 +39,50 @@ describe('Skeleton component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
+  it('should validate with ARIA rules while the skeleton is shown', async () => {
+    // axe reports a prohibited aria-label only when the content is hidden,
+    // like placeholder content behind a skeleton
+    const Comp = render(
+      <Skeleton show>
+        <P aria-hidden>placeholder</P>
+      </Skeleton>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('gives the busy element a group role, so its aria-label is allowed', () => {
+    const { rerender } = render(
+      <Skeleton {...props} show ariaBusy="Loading" />
+    )
+
+    const element = document.querySelector('.dnb-skeleton__root')
+    expect(element.tagName).toBe('DIV')
+    expect(element).toHaveAttribute('role', 'group')
+    expect(element).toHaveAttribute('aria-label', 'Loading')
+    expect(element).toHaveAttribute('aria-busy', 'true')
+
+    rerender(<Skeleton {...props} show={false} ariaBusy="Loading" />)
+
+    expect(element).not.toHaveAttribute('role')
+    expect(element).not.toHaveAttribute('aria-label')
+  })
+
+  it('keeps the role of an element that has its own', () => {
+    const { rerender } = render(
+      <Skeleton {...props} show element="section" />
+    )
+
+    expect(document.querySelector('section')).not.toHaveAttribute('role')
+    expect(document.querySelector('section')).toHaveAttribute('aria-label')
+
+    rerender(<Skeleton {...props} show role="region" />)
+
+    expect(document.querySelector('.dnb-skeleton__root')).toHaveAttribute(
+      'role',
+      'region'
+    )
+  })
+
   it.each([
     ['Article', Article],
     ['Circle', Circle],

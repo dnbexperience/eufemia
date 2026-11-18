@@ -156,6 +156,11 @@ function Skeleton(props: SkeletonProps) {
   const showSkeleton =
     typeof show === 'boolean' || typeof show === 'string' ? show : skeleton
 
+  // A div or span has no role, and ARIA does not allow a name without one
+  const { element } = attributes
+  const isGenericElement =
+    !element || element === 'div' || element === 'span'
+
   const params = useSpacing(extendedProps, {
     className: clsx(
       figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
@@ -163,7 +168,8 @@ function Skeleton(props: SkeletonProps) {
       noAnimation && 'dnb-skeleton--no-animation',
       className
     ),
-    // role: 'status',// is not needed as for now
+    role:
+      showSkeleton && ariaBusy && isGenericElement ? 'group' : undefined,
     'aria-busy': showSkeleton,
     'aria-label': showSkeleton ? ariaBusy : undefined,
     lang: context.locale || LOCALE,
