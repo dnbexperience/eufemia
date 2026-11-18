@@ -55,12 +55,8 @@ function withLeadingSlash(p: string): string {
   return p.startsWith('/') ? p : `/${p}`
 }
 
-/**
- * Upper bound for the length of a search query. Prevents a single oversized
- * query string from being split into a huge word list and scored against
- * every documentation file (denial of service).
- */
 export const MAX_SEARCH_QUERY_LENGTH = 10_000
+const MAX_SEARCH_WORDS = 16
 
 /**
  * Computes the default Node.js docs root (used when neither `{ docsRoot }`
@@ -427,8 +423,6 @@ function createDocsContext(source: DocsSource) {
     prefix?: string,
     opts: { concurrency?: number; timeoutMs?: number } = {}
   ): Promise<SearchHit[]> {
-    // Cap the query length before any further processing to avoid scoring an
-    // unbounded word list against every file (denial of service).
     const q = String(query ?? '')
       .slice(0, MAX_SEARCH_QUERY_LENGTH)
       .trim()
@@ -436,11 +430,14 @@ function createDocsContext(source: DocsSource) {
       return []
     }
 
-    // Split query into words, filtering out empty strings
-    const queryWords = q
-      .toLowerCase()
-      .split(/\s+/)
-      .filter((w) => w.length > 0)
+    const queryWords = [
+      ...new Set(
+        q
+          .toLowerCase()
+          .split(/\s+/)
+          .filter((w) => w.length > 1)
+      ),
+    ].slice(0, MAX_SEARCH_WORDS)
 
     if (queryWords.length === 0) {
       return []
@@ -574,42 +571,38 @@ function createDocsContext(source: DocsSource) {
             0
           )
 
-          // Calculate average proximity (distance between words)
-          let proximityScore = 0
-          if (wordMatches.length > 1) {
-            const allIndices = wordMatches.flatMap((m) =>
-              m.indices.map((idx) => ({ word: m.word, idx }))
+          const allIndices = wordMatches.flatMap((m) =>
+            m.indices.map((idx) => ({ word: m.word, idx }))
+          )
+          allIndices.sort((a, b) => a.idx - b.idx)
+
+          // Smallest stretch of text that contains every query word
+          const wordsInWindow = new Map<string, number>()
+          let windowStart = 0
+          let minSpan = Infinity
+          for (const current of allIndices) {
+            wordsInWindow.set(
+              current.word,
+              (wordsInWindow.get(current.word) ?? 0) + 1
             )
-            allIndices.sort((a, b) => a.idx - b.idx)
-
-            // Find minimum span that contains all words
-            const wordSet = new Set(queryWords)
-            let minSpan = Infinity
-            for (let i = 0; i < allIndices.length; i++) {
-              const start = allIndices[i]
-              if (start === undefined) {
-                continue
+            while (wordsInWindow.size === queryWords.length) {
+              const first = allIndices[windowStart]
+              if (first === undefined) {
+                break
               }
 
-              const foundWords = new Set<string>()
-              for (let j = i; j < allIndices.length; j++) {
-                const current = allIndices[j]
-                if (current === undefined) {
-                  continue
-                }
-
-                foundWords.add(current.word)
-                if (foundWords.size === wordSet.size) {
-                  const span = current.idx - start.idx
-                  minSpan = Math.min(minSpan, span)
-                  break
-                }
+              minSpan = Math.min(minSpan, current.idx - first.idx)
+              const remaining = (wordsInWindow.get(first.word) ?? 1) - 1
+              if (remaining === 0) {
+                wordsInWindow.delete(first.word)
+              } else {
+                wordsInWindow.set(first.word, remaining)
               }
+              windowStart++
             }
-            // Closer words get higher score (inverse of span)
-            proximityScore =
-              minSpan < Infinity ? 1000 / (1 + minSpan / 10) : 0
           }
+          // Closer words get higher score (inverse of span)
+          const proximityScore = 1000 / (1 + minSpan / 10)
 
           const score =
             Math.max(1, 1000 - firstMatchIdx) +
@@ -718,7 +711,7 @@ export const DocsSearchInput = z.object({
       // Coerce to string and truncate up front, mirroring the runtime cap in
       // searchInMarkdown. Truncating (rather than rejecting) means an
       // oversized query still returns useful results instead of failing the
-      // whole tool call, while never doing unbounded work.
+      // whole tool call.
       (value) => String(value ?? '').slice(0, MAX_SEARCH_QUERY_LENGTH),
       z.string().max(MAX_SEARCH_QUERY_LENGTH)
     )
