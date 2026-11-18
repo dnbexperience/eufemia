@@ -80,7 +80,7 @@ describe('validatePortalViews', () => {
   }> = [
     {
       field: 'env',
-      valid: ['prod', 'smoketest', 'localsmoke'],
+      valid: ['prod', 'smoketest'],
       unrecognized: [
         'made-up-label',
         'dev',

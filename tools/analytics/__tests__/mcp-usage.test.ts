@@ -161,7 +161,7 @@ describe('validateMcpUsage', () => {
   })
 
   it('accepts a known env label', () => {
-    for (const env of ['prod', 'smoketest', 'localsmoke']) {
+    for (const env of ['prod', 'smoketest']) {
       const result = validateMcpUsage({ tool: 'docs_entry', env })
 
       expect(result).toEqual({

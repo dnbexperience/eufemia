@@ -24,12 +24,8 @@ export function parseIngestBatch(
   return { ok: true, value: events }
 }
 
-// Public ingest would store any label for good; smoke labels mark manual test rows.
-const KNOWN_ENVS: ReadonlySet<string> = new Set([
-  'prod',
-  'smoketest',
-  'localsmoke',
-])
+// Public ingest would keep any label in the never-expired rollups; smoketest marks test rows.
+const KNOWN_ENVS: ReadonlySet<string> = new Set(['prod', 'smoketest'])
 
 export function isKnownEnv(value: unknown): value is string {
   return typeof value === 'string' && KNOWN_ENVS.has(value)
