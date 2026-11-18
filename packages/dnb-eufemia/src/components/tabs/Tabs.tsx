@@ -1136,6 +1136,7 @@ function TabsComponent(ownProps: TabsProps) {
       >
         <ScrollNavButton
           onMouseDown={skeleton ? undefined : openPrevTab}
+          skeleton={skeleton}
           icon="chevron_left"
           title={prevButtonTitle}
           className={clsx(
@@ -1151,6 +1152,7 @@ function TabsComponent(ownProps: TabsProps) {
 
         <ScrollNavButton
           onMouseDown={skeleton ? undefined : openNextTab}
+          skeleton={skeleton}
           icon="chevron_right"
           title={nextButtonTitle}
           className={clsx(
@@ -1351,7 +1353,10 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       <>
         <div
           role="tablist"
-          className="dnb-tabs__tabs__tablist"
+          className={clsx(
+            'dnb-tabs__tabs__tablist',
+            isSkeleton && 'dnb-tabs__tabs__tablist--skeleton'
+          )}
           tabIndex={isSkeleton ? -1 : 0}
           onKeyDown={isSkeleton ? undefined : onTablistKeyDownHandler}
           onWheelCapture={onTablistWheelHandler}
