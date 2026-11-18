@@ -799,6 +799,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           values={getValues('start')}
           delimiter={delimiter}
           disabled={disabled || skeleton}
+          skeleton={skeleton}
           onChange={onMultiChangeStart}
           scopeRef={scopeRef}
           onFocus={() => {
@@ -841,6 +842,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             values={getValues('end')}
             delimiter={delimiter}
             disabled={disabled || skeleton}
+            skeleton={skeleton}
             onChange={onMultiChangeEnd}
             scopeRef={scopeRef}
             onFocus={() => {
