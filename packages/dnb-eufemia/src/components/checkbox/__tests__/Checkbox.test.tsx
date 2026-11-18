@@ -389,6 +389,25 @@ describe('Checkbox component', () => {
     ).toBe(true)
   })
 
+  it('gives the label the {id}-label id by default', () => {
+    render(<Checkbox id="checkbox" label="Label" />)
+
+    expect(document.querySelector('label')).toHaveAttribute(
+      'id',
+      'checkbox-label'
+    )
+  })
+
+  it('uses labelId as the id of the label', () => {
+    render(<Checkbox id="checkbox" label="Label" labelId="custom-label" />)
+
+    const label = document.querySelector('label')
+    expect(label).toHaveAttribute('id', 'custom-label')
+    expect(label).toHaveAttribute('for', 'checkbox')
+    expect(document.querySelector('input')).not.toHaveAttribute('labelId')
+    expect(document.querySelector('input')).not.toHaveAttribute('labelid')
+  })
+
   it('sets aria-invalid when status is an error', () => {
     const { rerender } = render(<Checkbox status="status" />)
     expect(document.querySelector('input')).toHaveAttribute(
