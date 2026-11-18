@@ -44,6 +44,7 @@ jobs:
           TF_VAR_slack_bot_secret_arn: ${{ vars.MONITORING_SLACK_BOT_SECRET_ARN }}
           TF_VAR_github_token_secret_arn: ${{ vars.MONITORING_GITHUB_TOKEN_SECRET_ARN }}
           TF_VAR_analytics_deploy_repository: ${{ vars.MONITORING_ANALYTICS_DEPLOY_REPO }}
+          TF_VAR_monitor_user_agent: ${{ vars.MONITORING_USER_AGENT }}
         run: |
           set -euo pipefail
           test -n "$STATE_BUCKET"

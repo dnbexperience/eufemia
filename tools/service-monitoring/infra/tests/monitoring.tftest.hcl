@@ -26,6 +26,7 @@ variables {
   cost_allocation             = "test"
   analytics_deploy_repository = "owner/deploy-repo"
   github_token_secret_arn     = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-github-abcdef"
+  monitor_user_agent          = "test-monitor"
 }
 
 run "shadow_rollout" {
@@ -64,6 +65,12 @@ run "shadow_rollout" {
       !contains(keys(aws_lambda_function.monitor["MCP"].environment[0].variables), "GHE_TOKEN_SECRET")
     )
     error_message = "MCP, analytics and Tokens get the GitHub token; only analytics gets the GHE credential and deploy repository."
+  }
+  assert {
+    condition = alltrue([
+      for function in aws_lambda_function.monitor : function.environment[0].variables["MONITOR_USER_AGENT"] == var.monitor_user_agent
+    ])
+    error_message = "Every check must send the configured User-Agent."
   }
   assert {
     condition     = jsondecode(aws_lambda_function.notifier.environment[0].variables["MONITOR_LOG_GROUPS"])["Analytics"] == aws_cloudwatch_log_group.monitor["Analytics"].name

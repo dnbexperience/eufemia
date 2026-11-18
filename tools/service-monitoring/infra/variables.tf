@@ -33,6 +33,12 @@ variable "github_token_secret_arn" {
   default     = ""
 }
 
+variable "monitor_user_agent" {
+  type        = string
+  description = "Optional User-Agent sent with every check request."
+  default     = ""
+}
+
 variable "analytics_deploy_repository" {
   type        = string
   description = "Internal owner/repo whose deploy-branch runs the analytics check verifies."

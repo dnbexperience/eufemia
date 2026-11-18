@@ -75,6 +75,7 @@ AWS schedules continue running independently if a deployment credential expires.
 | MONITORING_NOTIFICATIONS_ENABLED   | false during verification, then true                                 |
 | MONITORING_GITHUB_TOKEN_SECRET_ARN | Optional Secrets Manager ARN for a read-only GitHub Actions token    |
 | MONITORING_ANALYTICS_DEPLOY_REPO   | Required: owner/repo of the analytics deployment                     |
+| MONITORING_USER_AGENT              | Optional User-Agent sent with every check request                    |
 
 State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock.
 
