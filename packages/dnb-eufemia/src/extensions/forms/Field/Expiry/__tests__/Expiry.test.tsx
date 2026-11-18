@@ -190,6 +190,29 @@ describe('Field.Expiry', () => {
     expect(onChange).not.toHaveBeenCalled()
   })
 
+  it('should not focus or change value when Form.Handler is disabled', async () => {
+    const onChange = vi.fn()
+    render(
+      <Form.Handler disabled>
+        <Field.Expiry onChange={onChange} />
+      </Form.Handler>
+    )
+
+    const month = getMonthInput()
+
+    expect(month).not.toHaveAttribute('tabindex')
+    expect(month).toHaveAttribute('aria-disabled', 'true')
+
+    await userEvent.tab()
+    expect(document.activeElement).toBe(document.body)
+
+    await userEvent.keyboard('12')
+    fireEvent.keyDown(month, { key: '1' })
+
+    expect(month.textContent).toBe('mm')
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
   it('should focus and select month input on label click', async () => {
     render(<Field.Expiry label="Expiry" value="1225" />)
 

@@ -97,6 +97,44 @@ describe('Field.Time', () => {
     expect(onChange).not.toHaveBeenCalled()
   })
 
+  it('should not focus or change value when Form.Handler is disabled', async () => {
+    const onChange = vi.fn()
+    render(
+      <Form.Handler disabled>
+        <Field.Time onChange={onChange} />
+      </Form.Handler>
+    )
+
+    const hoursInput = getHoursInput()
+
+    expect(hoursInput).not.toHaveAttribute('tabindex')
+    expect(hoursInput).toHaveAttribute('aria-disabled', 'true')
+
+    await userEvent.tab()
+    expect(document.activeElement).toBe(document.body)
+
+    await userEvent.keyboard('12')
+    fireEvent.keyDown(hoursInput, { key: '1' })
+
+    expect(hoursInput.textContent).toBe('tt')
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('should stay editable with Field.Provider disabled={false} inside a disabled Form.Handler', () => {
+    render(
+      <Form.Handler disabled>
+        <Field.Provider disabled={false}>
+          <Field.Time />
+        </Field.Provider>
+      </Form.Handler>
+    )
+
+    const hoursInput = getHoursInput()
+
+    expect(hoursInput).toHaveAttribute('tabindex', '0')
+    expect(hoursInput).toHaveAttribute('aria-disabled', 'false')
+  })
+
   it('should show error for required field when empty', async () => {
     render(<Field.Time required validateInitially />)
 
