@@ -348,6 +348,7 @@
 
   &--small {
     --input-height-current: var(--input-height--small);
+    --input-font-size: var(--input-font-size--small);
 
     line-height: var(--input-height--small);
 
@@ -360,7 +361,6 @@
     .dnb-input__input {
       padding-left: var(--input-padding--small);
       padding-right: var(--input-padding--small);
-      font-size: var(--input-font-size--small);
     }
 
     .dnb-input__submit-element {
@@ -382,6 +382,7 @@
 
   &--medium {
     --input-height-current: var(--input-height--medium);
+    --input-font-size: var(--input-font-size--medium);
 
     line-height: var(--input-height--medium);
 
@@ -394,7 +395,6 @@
     .dnb-input__input {
       padding-left: var(--input-padding--medium);
       padding-right: var(--input-padding--medium);
-      font-size: var(--input-font-size--medium);
     }
 
     .dnb-input__submit-element {
@@ -416,6 +416,7 @@
 
   &--large {
     --input-height-current: var(--input-height--large);
+    --input-font-size: var(--input-font-size--large);
     --input-submit-button-width: 3.5rem;
 
     line-height: var(--input-height--large);
@@ -429,7 +430,6 @@
     .dnb-input__input {
       padding-left: var(--input-padding--large);
       padding-right: var(--input-padding--large);
-      font-size: var(--input-font-size--large);
     }
 
     .dnb-input__submit-element {

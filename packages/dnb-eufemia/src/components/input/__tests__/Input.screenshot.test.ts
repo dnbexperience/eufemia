@@ -173,3 +173,20 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     })
   }
 )
+
+describe('Input size font-size', () => {
+  setupPageScreenshot({
+    url: '/web/components/input/visual-tests/size-font-size/',
+  })
+
+  it('have to match the value and placeholder font-size of each size', async () => {
+    await makeScreenshot({
+      style: {
+        width: '200px',
+      },
+      styleSelector:
+        '[data-visual-test="input-size-font-size"] .dnb-input__input',
+      selector: '[data-visual-test="input-size-font-size"]',
+    })
+  })
+})
