@@ -414,6 +414,31 @@ test('keeps long brand labels accessible in the phone cog button', async ({
   expect(toolsBox.x + toolsBox.width).toBeLessThanOrEqual(304)
 })
 
+test('lets clicks pass through the transparent header area', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1400, height: 800 })
+  await page.goto('/web/components/button/demos/')
+  await waitForApp(page)
+  const header = page.locator('header.sticky-menu')
+  const search = await header.locator('.portal-search').boundingBox()
+  const tools = await header.locator('button#portal-tools').boundingBox()
+
+  const hits = await header.evaluate(
+    (header, points) =>
+      points.map(([x, y]) =>
+        header.contains(document.elementFromPoint(x, y))
+      ),
+    [
+      [search.x - 100, search.y + search.height / 2],
+      [search.x + search.width / 2, search.y + search.height / 2],
+      [tools.x + tools.width / 2, tools.y + tools.height / 2],
+    ]
+  )
+
+  expect(hits).toEqual([false, true, true])
+})
+
 test('shows the resolved system color scheme and restores focus on Escape', async ({
   page,
 }) => {
