@@ -218,7 +218,7 @@ setTheme({ brand: 'sbanken' }, (updatedTheme) => {
 
 ### Preventing dark mode flash (FOUC)
 
-When using `colorScheme="system"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
+When using `colorScheme="auto"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
 
 To prevent this, Eufemia provides blocking scripts that run synchronously before the browser paints. They read the stored preference from `localStorage` and apply the correct CSS classes immediately.
 
@@ -246,8 +246,8 @@ Place them in your HTML template as follows:
 ```
 
 - **`ColorSchemeHeadScript`** — Resolves the color scheme from `localStorage` (or falls back to the system preference) and stores it on `globalThis`. Place in `<head>`.
-- **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>`. Place as the first child of `<body>`.
-- **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme. Place as the last child of `<body>`.
+- **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>` and updates server-rendered `Theme` elements while the page is still loading, so browsers that paint before the whole page has loaded, such as Safari on iPhone, don't show the wrong color scheme. Place as the first child of `<body>`.
+- **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme, also in browsers without `MutationObserver`. Place as the last child of `<body>`.
 
 #### Content Security Policy (CSP)
 
