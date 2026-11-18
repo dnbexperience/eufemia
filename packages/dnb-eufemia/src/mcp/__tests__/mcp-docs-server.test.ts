@@ -708,6 +708,14 @@ describe('docs_search', () => {
       expect(JSON.parse(getText(result))).toEqual([
         expect.objectContaining({ path: '/words.md' }),
       ])
+
+      const sixteenthWordMissing = await tools.docsSearch({
+        query: [...sixteenWords.slice(0, 15), 'zzqwxneverpresent'].join(
+          ' '
+        ),
+        limit: 5,
+      })
+      expect(JSON.parse(getText(sixteenthWordMissing))).toEqual([])
     } finally {
       fixture.cleanup()
     }
@@ -759,9 +767,13 @@ describe('docs_search', () => {
         query: 'alphaword betaword',
         limit: 5,
       })
-      const hits = JSON.parse(getText(result)) as Array<{ path: string }>
+      const hits = JSON.parse(getText(result)) as Array<{
+        path: string
+        score: number
+      }>
 
       expect(hits.map((h) => h.path)).toEqual(['/near.md', '/far.md'])
+      expect(hits[0]?.score).toBeGreaterThan(hits[1]?.score ?? Infinity)
     } finally {
       fixture.cleanup()
     }
