@@ -12,6 +12,10 @@ import {
   List,
   P,
   Chip,
+  Table,
+  Th,
+  Td,
+  Tr,
 } from '@dnb/eufemia/src'
 import { Value } from '@dnb/eufemia/src/extensions/forms'
 import {
@@ -1386,6 +1390,122 @@ export const WithQueryLocator = () => {
                     </List.Item.Basic>
                   ))}
                 </List.Container>
+              </Filter.Content>
+            </>
+          )
+        }
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const WithTable = () => {
+  return (
+    <ComponentBox hideCode data-visual-test="filter-table">
+      {() => {
+        const Example = () => {
+          const transactions = [
+            { id: 1, name: 'Rema 1000', amount: -245, type: 'card' },
+            {
+              id: 2,
+              name: 'DNB Salary',
+              amount: 25000,
+              type: 'transfer',
+            },
+            { id: 3, name: 'Elkjøp', amount: -3999, type: 'card' },
+          ]
+
+          const { filters, search } = Filter.useFilter('table-demo')
+
+          const filtered = transactions.filter((tx) => {
+            if (
+              search &&
+              !tx.name.toLowerCase().includes(search.toLowerCase()) &&
+              !String(tx.amount).includes(search)
+            ) {
+              return false
+            }
+
+            const selectedTypes = Object.keys(filters)
+              .filter((key) => key.startsWith('/type/'))
+              .map((key) => key.replace('/type/', ''))
+            if (
+              selectedTypes.length > 0 &&
+              !selectedTypes.includes(tx.type)
+            ) {
+              return false
+            }
+
+            return true
+          })
+
+          return (
+            <>
+              <Filter.Root
+                id="table-demo"
+                aria-label="Filter transactions shown in a table"
+                resultCount={filtered.length}
+              >
+                <Filter.Header>
+                  <Filter.Toolbar>
+                    <Filter.Search
+                      label="Label"
+                      placeholder="Store name, amount..."
+                    />
+                    <Filter.Toolbar.Actions>
+                      <Filter.PanelButton />
+                    </Filter.Toolbar.Actions>
+                  </Filter.Toolbar>
+
+                  <Filter.Panel>
+                    <Filter.Selection
+                      label="Payment type"
+                      filterKey="/type"
+                      data={[
+                        { value: 'card', label: 'Card' },
+                        { value: 'transfer', label: 'Transfer' },
+                      ]}
+                    />
+                  </Filter.Panel>
+
+                  <Filter.ActiveFilters />
+                  <Filter.ResultCount />
+                </Filter.Header>
+              </Filter.Root>
+
+              <Filter.Content connectedTo="table-demo">
+                <Filter.NoResults />
+                {filtered.length > 0 && (
+                  <Table.ScrollView>
+                    <Table outline>
+                      <caption className="dnb-sr-only">
+                        Filtered transactions
+                      </caption>
+                      <thead>
+                        <Tr>
+                          <Th>Store</Th>
+                          <Th align="right">Amount</Th>
+                        </Tr>
+                      </thead>
+                      <tbody>
+                        {filtered.map((tx) => (
+                          <Tr key={tx.id}>
+                            <Td>
+                              <Filter.Highlighting>
+                                {tx.name}
+                              </Filter.Highlighting>
+                            </Td>
+                            <Td align="right">
+                              <Value.Currency value={tx.amount} />
+                            </Td>
+                          </Tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </Table.ScrollView>
+                )}
               </Filter.Content>
             </>
           )
