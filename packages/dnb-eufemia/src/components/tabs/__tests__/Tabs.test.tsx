@@ -786,6 +786,72 @@ describe('Tabs disabled with tooltip', () => {
   })
 })
 
+describe('Tabs skeleton', () => {
+  const linkData = [
+    { title: 'First', key: 'first', href: '/first' },
+    { title: 'Second', key: 'second', href: '/second' },
+  ]
+
+  it('removes the tab list from the tab order and does not switch tabs', () => {
+    const onChange = vi.fn()
+    const onClick = vi.fn()
+    const onFocus = vi.fn()
+
+    render(
+      <Tabs
+        {...props}
+        data={linkData}
+        tabElement="a"
+        skeleton
+        onChange={onChange}
+        onClick={onClick}
+        onFocus={onFocus}
+      />
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+    expect(tablist).toHaveAttribute('tabindex', '-1')
+
+    fireEvent.keyDown(tablist, { key: 'ArrowRight' })
+    fireEvent.click(document.querySelector('[data-tab-key="second"]'))
+    document
+      .querySelectorAll('.dnb-tabs__scroll-nav-button')
+      .forEach((button) => fireEvent.mouseDown(button))
+
+    expect(onFocus).not.toHaveBeenCalled()
+    expect(onClick).not.toHaveBeenCalled()
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('removes the tab list from the tab order with skeleton from context', () => {
+    const onFocus = vi.fn()
+
+    render(
+      <Provider skeleton>
+        <Tabs {...props} data={tablistData} onFocus={onFocus} />
+      </Provider>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+    expect(tablist).toHaveAttribute('tabindex', '-1')
+
+    fireEvent.keyDown(tablist, { key: 'ArrowRight' })
+    expect(onFocus).not.toHaveBeenCalled()
+  })
+
+  it('keeps the tab list in the tab order with skeleton={false}', () => {
+    render(
+      <Provider skeleton>
+        <Tabs {...props} data={tablistData} skeleton={false} />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-tabs__tabs__tablist')
+    ).toHaveAttribute('tabindex', '0')
+  })
+})
+
 describe('Tabs aria-controls', () => {
   it('references the tabpanel from the selected tab when internal content is provided', () => {
     render(

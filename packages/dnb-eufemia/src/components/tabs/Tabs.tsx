@@ -1106,6 +1106,7 @@ function TabsComponent(ownProps: TabsProps) {
       noBorder,
       navButtonEdge,
       breakout,
+      skeleton,
     } = propsRef.current
 
     return (
@@ -1134,7 +1135,7 @@ function TabsComponent(ownProps: TabsProps) {
         ref={tabsRef}
       >
         <ScrollNavButton
-          onMouseDown={openPrevTab}
+          onMouseDown={skeleton ? undefined : openPrevTab}
           icon="chevron_left"
           title={prevButtonTitle}
           className={clsx(
@@ -1149,7 +1150,7 @@ function TabsComponent(ownProps: TabsProps) {
         {children}
 
         <ScrollNavButton
-          onMouseDown={openNextTab}
+          onMouseDown={skeleton ? undefined : openNextTab}
           icon="chevron_right"
           title={nextButtonTitle}
           className={clsx(
@@ -1249,6 +1250,8 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     const currentFocusKey = focusKeyRef.current
     const currentSelectedKey = selectedKeyRef.current
     const currentContext = contextRef.current
+    const isSkeleton =
+      skeleton || (skeleton !== false && currentContext?.skeleton)
 
     const TabElement = tabElement || 'button'
 
@@ -1300,7 +1303,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                 isSelected && 'selected'
               )}
               onMouseEnter={onMouseEnterHandler}
-              onClick={onClickHandler}
+              onClick={isSkeleton ? preventDefault : onClickHandler}
               onKeyUp={onKeyUpHandler}
               data-tab-key={key}
               {...itemParams}
@@ -1349,8 +1352,8 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         <div
           role="tablist"
           className="dnb-tabs__tabs__tablist"
-          tabIndex={0}
-          onKeyDown={onTablistKeyDownHandler}
+          tabIndex={isSkeleton ? -1 : 0}
+          onKeyDown={isSkeleton ? undefined : onTablistKeyDownHandler}
           onWheelCapture={onTablistWheelHandler}
           onScroll={updateScrollNavigation}
           ref={tablistRef}
@@ -1503,6 +1506,8 @@ export const Dummy = ({ children }: { children: ReactNode }) => {
     </span>
   )
 }
+
+const preventDefault = (event: SyntheticEvent) => event.preventDefault()
 
 const ScrollNavButton = (
   props: Record<string, unknown> & { className?: string }
