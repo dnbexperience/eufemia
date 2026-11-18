@@ -207,4 +207,127 @@ describe('useSharedState during server rendering', () => {
       log.mockRestore()
     })
   })
+
+  describe('warnings for a missing Provider', () => {
+    const logs = () =>
+      vi.spyOn(console, 'log').mockImplementation(() => {})
+    const text = (log: ReturnType<typeof logs>) =>
+      log.mock.calls.map((call) => call.join(' ')).join('\n')
+
+    function ShowData({ id }: { id: string }) {
+      const { data } = Form.useData(id)
+      return <output>{JSON.stringify(data)}</output>
+    }
+
+    function ShowDataWithoutSubscription({ id }: { id: string }) {
+      const { getData } = Form.useDataWithoutSubscription(id)
+      return <output>{JSON.stringify(getData())}</output>
+    }
+
+    const formAnd = (id: string, reader: React.ReactNode) => (
+      <>
+        <Form.Handler id={id} defaultData={{ a: 'Data' }}>
+          <Field.String path="/a" />
+        </Form.Handler>
+        {reader}
+      </>
+    )
+
+    it('should warn when Form.useData outside Form.Handler has no Provider', () => {
+      const log = logs()
+
+      renderToString(
+        formAnd('ssr-warn-data', <ShowData id="ssr-warn-data" />)
+      )
+
+      expect(text(log)).toContain(
+        "Form.useData('ssr-warn-data') gets no data from other components during server rendering"
+      )
+      log.mockRestore()
+    })
+
+    it('should warn when Form.useDataWithoutSubscription outside Form.Handler has no Provider', () => {
+      const log = logs()
+
+      renderToString(
+        formAnd(
+          'ssr-warn-data-ws',
+          <ShowDataWithoutSubscription id="ssr-warn-data-ws" />
+        )
+      )
+
+      expect(text(log)).toContain(
+        "Form.useDataWithoutSubscription('ssr-warn-data-ws') gets no data from other components during server rendering"
+      )
+      log.mockRestore()
+    })
+
+    it('should not warn for Form.useData inside a Provider or inside Form.Handler', () => {
+      const log = logs()
+
+      const html = renderToString(
+        <>
+          <SharedProvider>
+            {formAnd(
+              'ssr-warn-data-provider',
+              <ShowData id="ssr-warn-data-provider" />
+            )}
+          </SharedProvider>
+          <Form.Handler
+            id="ssr-warn-data-inside"
+            defaultData={{ a: 'In' }}
+          >
+            <ShowData id="ssr-warn-data-inside" />
+          </Form.Handler>
+        </>
+      )
+
+      expect(html).toContain('{&quot;a&quot;:&quot;Data&quot;}')
+      expect(html).toContain('{&quot;a&quot;:&quot;In&quot;}')
+      expect(text(log)).not.toContain('Form.useData')
+      log.mockRestore()
+    })
+
+    it('should warn when Tabs.Content has no Provider', () => {
+      const log = logs()
+
+      renderToString(
+        <>
+          <Tabs id="ssr-warn-tabs" data={tabs} selectedKey="second" />
+          <Tabs.Content id="ssr-warn-tabs">{() => 'Panel'}</Tabs.Content>
+        </>
+      )
+
+      expect(text(log)).toContain(
+        "Tabs.Content('ssr-warn-tabs') does not get the selected tab during server rendering"
+      )
+      log.mockRestore()
+    })
+
+    it('should not warn for Tabs.Content inside a Provider or for the content of Tabs', () => {
+      const log = logs()
+
+      renderToString(
+        <>
+          <SharedProvider>
+            <Tabs id="ssr-warn-tabs-provider" data={tabs} />
+            <Tabs.Content id="ssr-warn-tabs-provider">
+              {() => 'Panel'}
+            </Tabs.Content>
+          </SharedProvider>
+
+          <Tabs
+            id="ssr-warn-tabs-own"
+            data={[
+              { title: 'First', key: 'first', content: 'Own first' },
+              { title: 'Second', key: 'second', content: 'Own second' },
+            ]}
+          />
+        </>
+      )
+
+      expect(text(log)).not.toContain('Tabs.Content')
+      log.mockRestore()
+    })
+  })
 })

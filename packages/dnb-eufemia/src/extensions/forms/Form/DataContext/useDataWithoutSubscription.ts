@@ -1,10 +1,12 @@
 import { useCallback, useContext, useMemo, useRef } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import { warnOnServer } from '../../../../shared/helpers/warnOnServer'
 import {
   createReferenceKey,
   createSharedState,
   useSharedStateStore,
+  SharedStateScopeContext,
 } from '../../../../shared/helpers/useSharedState'
 import { defaultContextState } from '../../DataContext/Context'
 import DataContextRefContext from '../../DataContext/DataContextRefContext'
@@ -32,6 +34,15 @@ export default function useDataWithoutSubscription<Data = JsonObject>(
   > | null>(null)
 
   const store = useSharedStateStore()
+  // On the server, sharing by id needs a surrounding Form.Handler or Provider
+  const hasScope = Boolean(useContext(SharedStateScopeContext))
+  if (id && !hasScope) {
+    warnOnServer(
+      'Form.useDataWithoutSubscription',
+      id,
+      'gets no data from other components during server rendering, because no Form.Handler or Eufemia Provider surrounds it. Put it and the Form.Handler inside the same Provider.'
+    )
+  }
   sharedDataRef.current = id
     ? createSharedState<Data>(id, initialData, store)
     : null
