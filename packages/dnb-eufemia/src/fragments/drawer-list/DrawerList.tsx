@@ -513,7 +513,8 @@ const DrawerListComponent = memo(function DrawerListComponent(
                 direction +
                 maxHeight +
                 ariaLabel +
-                ariaLabelledBy
+                ariaLabelledBy +
+                skeleton
               }
               {...ulParams}
               renderDriver={activeListDriver}

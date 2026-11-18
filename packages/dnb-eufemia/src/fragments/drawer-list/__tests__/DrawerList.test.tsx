@@ -343,6 +343,39 @@ describe('DrawerList component', () => {
       expect(onChange).toHaveBeenCalledTimes(0)
       expect(onSelect).toHaveBeenCalledTimes(0)
     })
+
+    it('updates the open list when skeleton is turned off and on again', () => {
+      const { rerender } = render(
+        <Provider skeleton>
+          <DrawerList {...props} focusable data={mockData} />
+        </Provider>
+      )
+
+      const getList = () =>
+        document.querySelector('ul.dnb-drawer-list__options')
+      const getSelectedItem = () =>
+        document.querySelector('.dnb-drawer-list__option--selected')
+
+      rerender(
+        <Provider skeleton={false}>
+          <DrawerList {...props} focusable data={mockData} />
+        </Provider>
+      )
+
+      expect(getList()).not.toHaveClass('dnb-skeleton')
+      expect(getList().getAttribute('tabindex')).toBe('0')
+      expect(getSelectedItem().getAttribute('tabindex')).toBe('0')
+
+      rerender(
+        <Provider skeleton>
+          <DrawerList {...props} focusable data={mockData} />
+        </Provider>
+      )
+
+      expect(getList()).toHaveClass('dnb-skeleton')
+      expect(getList().getAttribute('tabindex')).toBe('-1')
+      expect(getSelectedItem().getAttribute('tabindex')).toBe('-1')
+    })
   })
 
   it('handles defaultValue correctly on forcing re-render', () => {
