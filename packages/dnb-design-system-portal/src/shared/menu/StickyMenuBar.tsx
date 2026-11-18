@@ -32,7 +32,6 @@ export default function StickyMenuBar() {
     <header
       className={clsx(headerStyle, 'sticky-menu', 'dev-grid')}
       data-scrolled={hasScrolled ? 'true' : undefined}
-      data-home={home || undefined}
     >
       <div
         className={portalHeaderWrapperStyle}
