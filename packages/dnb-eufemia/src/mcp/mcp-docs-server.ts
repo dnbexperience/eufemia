@@ -56,6 +56,7 @@ function withLeadingSlash(p: string): string {
 }
 
 export const MAX_SEARCH_QUERY_LENGTH = 10_000
+// Words after this many are ignored, not required to match
 const MAX_SEARCH_WORDS = 16
 
 /**
