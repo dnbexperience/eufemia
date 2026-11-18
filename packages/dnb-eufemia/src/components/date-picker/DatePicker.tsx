@@ -698,6 +698,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   return (
     <DatePickerProvider
       {...props}
+      skeleton={skeleton}
       open={open}
       attributes={remainingDOMProps}
       setReturnObject={(fn) => (getReturnObject.current = fn)}

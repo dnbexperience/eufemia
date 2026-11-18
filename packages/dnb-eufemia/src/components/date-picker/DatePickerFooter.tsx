@@ -49,7 +49,7 @@ function DatePickerFooter({
     props: contextProps,
   } = useContext(DatePickerContext)
 
-  const { showResetButton, showCancelButton, showSubmitButton } =
+  const { showResetButton, showCancelButton, showSubmitButton, skeleton } =
     contextProps
 
   const {
@@ -131,6 +131,7 @@ function DatePickerFooter({
         <Button
           text={submitButtonText || submitButtonTextTranslation}
           onClick={onSubmitHandler}
+          skeleton={skeleton}
           data-testid="submit"
         />
       )) || <span />}
@@ -143,6 +144,7 @@ function DatePickerFooter({
             iconPosition="left"
             variant="tertiary"
             onClick={onResetHandler}
+            skeleton={skeleton}
             data-testid="reset"
             right="1rem"
           />
@@ -155,6 +157,7 @@ function DatePickerFooter({
             iconPosition="left"
             variant="tertiary"
             onClick={onCancelHandler}
+            skeleton={skeleton}
             data-testid="cancel"
           />
         )) || <span />}
