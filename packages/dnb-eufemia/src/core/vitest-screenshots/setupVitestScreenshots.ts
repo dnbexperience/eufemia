@@ -429,13 +429,4 @@ expect.extend({
   },
 })
 
-declare module 'vitest' {
-  interface Matchers<T> {
-    toMatchImageSnapshot(): Promise<T>
-  }
-  interface AsymmetricMatchersContaining {
-    toMatchImageSnapshot(): void
-  }
-}
-
 /* eslint-enable @typescript-eslint/consistent-type-definitions */

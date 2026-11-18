@@ -1,5 +1,10 @@
 import { Children, createElement, isValidElement, useContext } from 'react'
-import type { ComponentType, ReactElement, ReactNode } from 'react'
+import type {
+  Attributes,
+  ComponentType,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from '../Step/StepContext'
@@ -101,17 +106,20 @@ export function IterateOverSteps({
           const key = `${index}-${activeIndexRef.current}`
           prerenderFieldPropsRef.current['step-' + index] = {
             index,
-            fn: () =>
-              createElement(
-                (child as ReactElement<StepProps>)
-                  .type as ComponentType<StepProps>,
-                {
-                  ...(child as ReactElement<StepProps>).props,
-                  key,
-                  index,
-                  prerenderFieldProps: true,
-                }
-              ),
+            fn: () => {
+              const step = child as ReactElement<StepProps>
+              const props: StepProps & Attributes = {
+                ...step.props,
+                key,
+                index,
+                prerenderFieldProps: true,
+              }
+
+              return createElement(
+                step.type as ComponentType<StepProps>,
+                props
+              )
+            },
           }
         }
 
