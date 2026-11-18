@@ -641,21 +641,32 @@ describe('checkRepositoryAdvisories', () => {
       )
 
       await expect(checkRepositoryAdvisories()).rejects.toThrow(
-        'No production packages of packages/dnb-eufemia were found in yarn.lock'
+        'No production packages of packages/dnb-design-system-portal were found in yarn.lock'
       )
     })
 
     it('passes when the advisories could be read', async () => {
       stubFetch(200)
 
-      await expect(checkRepositoryAdvisories()).resolves.toEqual([])
+      await expect(
+        checkRepositoryAdvisories({ accepted: {} })
+      ).resolves.toEqual([])
     })
 
-    it('checks every workspace with an audit:ci script', () => {
+    it('checks every workspace with an audit:ci script and the Portal', () => {
       const shipped = getShippedWorkspaces()
 
       expect(shipped).toContain('packages/dnb-eufemia')
-      expect(shipped).not.toContain('packages/dnb-design-system-portal')
+      expect(shipped).toContain('packages/dnb-design-system-portal')
+      expect(shipped).not.toContain('packages/eufemia-starter')
+    })
+
+    it('checks the packages that the Portal ships to the browser', async () => {
+      stubFetch(200, undefined, [advisoryFor('react-router')])
+
+      const matches = await checkRepositoryAdvisories({ accepted: {} })
+
+      expect(matches.map(({ name }) => name)).toEqual(['react-router'])
     })
 
     it('checks the production packages of every given workspace', async () => {
@@ -663,9 +674,12 @@ describe('checkRepositoryAdvisories', () => {
       stubFetch(200, undefined, [advisoryFor('dev-only')])
 
       const ghsaIds = async (selected: string[]) =>
-        (await checkRepositoryAdvisories({ workspaces: selected })).map(
-          ({ ghsaId }) => ghsaId
-        )
+        (
+          await checkRepositoryAdvisories({
+            workspaces: selected,
+            accepted: {},
+          })
+        ).map(({ ghsaId }) => ghsaId)
 
       expect(await ghsaIds(workspaces)).toEqual(['GHSA-dev-only'])
       expect(await ghsaIds(['packages/dnb-eufemia'])).toEqual([])
@@ -689,6 +703,7 @@ describe('checkRepositoryAdvisories', () => {
 
       const matches = await checkRepositoryAdvisories({
         workspaces: ['tools/mcp-lambda'],
+        accepted: {},
       })
 
       expect(matches.map(({ ghsaId }) => ghsaId)).toEqual(['GHSA-c'])
@@ -699,7 +714,7 @@ describe('checkRepositoryAdvisories', () => {
       stubFetch(200, undefined, [advisoryFor('c')])
 
       await expect(
-        checkRepositoryAdvisories({ workspaces })
+        checkRepositoryAdvisories({ workspaces, accepted: {} })
       ).resolves.toEqual([expect.objectContaining({ ghsaId: 'GHSA-c' })])
       await expect(
         checkRepositoryAdvisories({
@@ -769,7 +784,10 @@ describe('checkRepositoryAdvisories', () => {
       })
       vi.stubGlobal('fetch', fetchMock)
 
-      const matches = await checkRepositoryAdvisories({ workspaces })
+      const matches = await checkRepositoryAdvisories({
+        workspaces,
+        accepted: {},
+      })
 
       expect(matches.map(({ ghsaId }) => ghsaId)).toContain(
         'GHSA-next-page'

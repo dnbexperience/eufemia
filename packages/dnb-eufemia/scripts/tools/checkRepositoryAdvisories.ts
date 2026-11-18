@@ -479,15 +479,21 @@ function getWorkspaces() {
     )
 }
 
-// Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas
+// Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas.
+// The Portal is not in the audit gate, but its build fails unless the packages it ships to the browser are in `dependencies`.
 export function getShippedWorkspaces() {
-  return getWorkspaces().filter((workspace) =>
-    Boolean(readManifest(workspace).scripts?.['audit:ci'])
+  return getWorkspaces().filter(
+    (workspace) =>
+      workspace === 'packages/dnb-design-system-portal' ||
+      Boolean(readManifest(workspace).scripts?.['audit:ci'])
   )
 }
 
 // GHSA ID -> owner, reason and tracking link
-const acceptedAdvisories: Record<string, string> = {}
+const acceptedAdvisories: Record<string, string> = {
+  'GHSA-4cm8-f57v-mqm6':
+    '@langz: only prettier >=3.9.0 <=3.9.9 is affected; the note "3.9.9 tested" makes the range unreadable. https://github.com/prettier/prettier/security/advisories/GHSA-4cm8-f57v-mqm6',
+}
 
 export async function checkRepositoryAdvisories({
   workspaces = getShippedWorkspaces(),
