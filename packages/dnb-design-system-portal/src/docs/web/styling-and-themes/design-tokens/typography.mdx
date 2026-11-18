@@ -9,7 +9,9 @@ legacyFragments:
 
 ## Typography
 
-The Figma brand exports supply Eufemia's font sizes and line heights. Use the existing `--font-size-*` and `--line-height-*` CSS properties; their values follow the selected brand. These properties are Eufemia's established typography API. Light and dark mode use the same typography values.
+The Figma brand exports supply Eufemia's font families, body weights, font sizes and line heights. Use the existing `--font-family-*`, `--font-weight-*`, `--font-size-*` and `--line-height-*` CSS properties. Light and dark mode use the same typography values.
+
+The sync preserves the existing family fallbacks and brand aliases. It updates existing CSS declarations, so it adds no CSS properties or font files to applications. Heading and lead weights keep their existing theme rules until the differences between Figma and web are resolved. Bold, light, display, monospace and native sizes also keep their code defaults. See the [typography mapping](/web/contribute/deploy/tokens/#typography-mapping) for the sync contract and pending UX decisions.
 
 - [Font sizes](/web/layout-and-typography/typography/font-size/) – CSS properties, values by brand, and responsive sizes.
 - [Line heights](/web/layout-and-typography/typography/css-reference/#line-height) – CSS properties, values by brand, and responsive line heights.
