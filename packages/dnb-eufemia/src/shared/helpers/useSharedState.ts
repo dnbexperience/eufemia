@@ -63,6 +63,20 @@ export function useSharedStateStore(): SharedStateStore {
 }
 
 /**
+ * Returns the store that shared state uses when no store is given.
+ * On the server, it is the store of the current render (see `useSharedStateStore`),
+ * so state shared by `id` never reaches another request.
+ * In the browser, it is `undefined`, so the process-wide store
+ * (or a named browser registry) is used, as before.
+ */
+export function useDefaultSharedStateStore():
+  | SharedStateStore
+  | undefined {
+  const store = useSharedStateStore()
+  return isServerEnvironment() ? store : undefined
+}
+
+/**
  * The shared state will be deleted when all components have been unmounted.
  */
 export function useWeakSharedState<
@@ -91,8 +105,8 @@ export function useSharedState<Data>(
   {
     /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
     weak = false,
-    /** The store to use. Defaults to the process-wide store. */
-    store,
+    /** The store to use. Defaults to the store of the current server render, or the process-wide store in the browser. */
+    store: givenStore,
     scope,
     getServerSnapshot,
   }: {
@@ -105,6 +119,8 @@ export function useSharedState<Data>(
   } = {}
 ) {
   const instanceRef = useRef({})
+  const defaultStore = useDefaultSharedStateStore()
+  const store = givenStore ?? defaultStore
 
   const sharedState = useMemo(() => {
     if (id) {

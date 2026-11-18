@@ -3,6 +3,7 @@
 import { renderToString } from 'react-dom/server'
 import SharedProvider from '../../../shared/Provider'
 import FilterRoot from '../FilterRoot'
+import FilterItem from '../FilterItem'
 import { useFilter } from '../hooks/useFilter'
 
 const ShowFilters = ({ id }: { id: string }) => {
@@ -61,5 +62,27 @@ describe('Filter.Root SSR', () => {
     )
 
     expect(html).toContain('Savings')
+  })
+
+  it('should not open a Filter.Item that an earlier server render opened', () => {
+    const render = (defaultOpen?: boolean) =>
+      renderToString(
+        <FilterRoot id="ssr-item">
+          <FilterItem
+            label="Account"
+            filterKey="account"
+            defaultOpen={defaultOpen}
+          >
+            Item content
+          </FilterItem>
+        </FilterRoot>
+      )
+
+    const first = render(true)
+    const second = render()
+
+    expect(first).toContain('aria-expanded="true"')
+    expect(second).toContain('aria-expanded="false"')
+    expect(second).not.toContain('aria-expanded="true"')
   })
 })
