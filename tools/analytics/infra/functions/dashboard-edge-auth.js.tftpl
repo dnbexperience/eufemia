@@ -1,7 +1,7 @@
 // CloudFront viewer-request function: locks the dashboard origin to the Akamai
-// edge. Akamai injects the dashboard-only X-Origin-Verify header on every request it
-// forwards; a request that reaches CloudFront without the matching secret did
-// not come through the edge, so it is rejected with 403.
+// edge. Akamai injects the X-Origin-Verify header with the dashboard-only secret
+// on every request it forwards; a request that reaches CloudFront without the
+// matching secret did not come through the edge, so it is rejected with 403.
 //
 // The secret is templated in at deploy time (jsonencode -> a safe JS string
 // literal). CloudFront function code is not publicly readable, matching the
