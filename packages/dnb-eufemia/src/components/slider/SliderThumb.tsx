@@ -131,7 +131,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         max={max}
         step={step}
         value={value}
-        disabled={disabled}
+        disabled={disabled || skeleton}
         onChange={onHelperChangeHandler}
         onFocus={(event) => {
           onHelperFocusHandler(event)
@@ -163,7 +163,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         {...thumbParams}
       />
 
-      {tooltip && (
+      {tooltip && !skeleton && (
         <Tooltip
           key={`group-${currentIndex}`}
           targetElement={elemRef}

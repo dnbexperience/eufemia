@@ -13,7 +13,7 @@ type SliderMarkerProps = {
 
 export default function SliderMarker({ value, text }: SliderMarkerProps) {
   const { isReverse, isVertical, allProps } = useSliderProps()
-  const { min, max, numberFormat } = allProps
+  const { min, max, numberFormat, skeleton } = allProps
   const markerId = useId()
 
   const params = useMemo(() => {
@@ -26,16 +26,18 @@ export default function SliderMarker({ value, text }: SliderMarkerProps) {
 
     return {
       id: markerId,
-      tabIndex: 0,
+      tabIndex: skeleton ? -1 : 0,
       style: {
         [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
       },
       children: (
         <>
           <span className="dnb-sr-only">{aria}</span>
-          <Tooltip targetSelector={idSelector(markerId)}>
-            {text || number}
-          </Tooltip>
+          {!skeleton && (
+            <Tooltip targetSelector={idSelector(markerId)}>
+              {text || number}
+            </Tooltip>
+          )}
         </>
       ),
     }
@@ -46,6 +48,7 @@ export default function SliderMarker({ value, text }: SliderMarkerProps) {
     max,
     min,
     numberFormat,
+    skeleton,
     text,
     value,
   ])
