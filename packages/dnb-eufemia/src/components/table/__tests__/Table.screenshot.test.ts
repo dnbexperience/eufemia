@@ -604,3 +604,20 @@ describe('Table', () => {
     })
   })
 })
+
+describe.each(['ui', 'sbanken'])(
+  'Table plain cells for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/table/visual-tests/plain-cells/',
+    })
+
+    it('have to match the size of plain th and td elements', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector: '[data-visual-test="table-plain-cells"]',
+      })
+    })
+  }
+)
