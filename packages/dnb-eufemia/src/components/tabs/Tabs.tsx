@@ -367,7 +367,7 @@ function TabsComponent(ownProps: TabsProps) {
         warn('Tabs: Failed to read last used tab from localStorage:', e)
       }
     }
-    return -1
+    return null
   }
 
   const saveLastUsedTab = () => {
