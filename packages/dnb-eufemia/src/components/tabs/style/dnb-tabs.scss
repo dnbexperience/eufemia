@@ -389,12 +389,12 @@
     transition: padding 1s var(--easing-default);
 
     // add space so the focus ring is visible within our overflow
-    &:first-of-type.focus .dnb-tabs__button:focus-visible {
+    &:first-of-type .dnb-tabs__button:focus-visible {
       margin-left: calc(
         0.5rem + var(--focus-outline-width) + var(--focus-outline-offset)
       );
     }
-    &:last-of-type.focus .dnb-tabs__button:focus-visible {
+    &:last-of-type .dnb-tabs__button:focus-visible {
       margin-right: calc(
         0.5rem + var(--focus-outline-width) + var(--focus-outline-offset)
       );

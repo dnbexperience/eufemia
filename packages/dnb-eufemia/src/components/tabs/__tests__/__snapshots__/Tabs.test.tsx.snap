@@ -349,10 +349,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
-.dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
+.dnb-tabs__button__snap:first-of-type .dnb-tabs__button:focus-visible {
   margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
-.dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
+.dnb-tabs__button__snap:last-of-type .dnb-tabs__button:focus-visible {
   margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 .dnb-tabs__selection {
@@ -814,10 +814,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
-.dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
+.dnb-tabs__button__snap:first-of-type .dnb-tabs__button:focus-visible {
   margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
-.dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
+.dnb-tabs__button__snap:last-of-type .dnb-tabs__button:focus-visible {
   margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 .dnb-tabs__selection {
