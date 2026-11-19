@@ -16,6 +16,7 @@ function ButtonArtwork({ textPath }: { textPath: string }) {
       <rect
         width="60"
         height="28"
+        rx="14"
         fill="var(--token-color-decorative-first-subtle)"
       />
       <path d={textPath} strokeWidth="2.7" />
