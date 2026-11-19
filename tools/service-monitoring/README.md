@@ -135,7 +135,9 @@ workflow). It shows accepted observations by result, new incidents, observed and
 missing hourly windows, latest status and observation time, and active monitor
 alarms. The first report covers a partial week starting with the first accepted
 observation after deployment. Later reports cover Monday to Monday in Oslo time,
-including 167- or 169-hour weeks when daylight saving time changes.
+including 167- or 169-hour weeks when daylight saving time changes. The report
+labels its timestamps as UTC and keeps the last known status visible when an
+observation is stale.
 
 Hourly counters are retained for 15 days in the existing notification state.
 Smoke checks and retries with newer timestamps count as extra observations;

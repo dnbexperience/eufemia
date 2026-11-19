@@ -86,7 +86,10 @@ export function weeklyText(state: NotificationState, at: string) {
   ).length
   return [
     '*Eufemia monitoring weekly report*',
-    new Date(since).toISOString() + ' to ' + new Date(end).toISOString(),
+    'Period (UTC): ' +
+      new Date(since).toISOString() +
+      ' to ' +
+      new Date(end).toISOString(),
     ...(since > start
       ? ['Partial week: weekly statistics started during this period.']
       : []),
@@ -115,7 +118,7 @@ export function weeklyText(state: NotificationState, at: string) {
       const status = !source
         ? 'no observations'
         : end - Date.parse(source.at) >= 2 * hour
-          ? 'stale'
+          ? 'stale (last: ' + source.status + ')'
           : source.status
       return [
         service + ' (' + descriptions[service] + '): ' + status,

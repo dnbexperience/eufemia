@@ -75,6 +75,9 @@ export async function handler(event: Event) {
     let records: Parameters<typeof processNotification>[0][]
     if ('kind' in event && event.kind === 'weekly') {
       weeklyPeriod(event.at)
+      if (Date.parse(event.at) > Date.now() + 5 * 60000) {
+        throw new Error('Invalid weekly report time')
+      }
       records = [event]
     } else if (
       'Records' in event &&

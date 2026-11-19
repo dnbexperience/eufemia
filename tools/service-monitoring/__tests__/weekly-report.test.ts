@@ -48,6 +48,9 @@ it('posts actual weekly results and missing hourly windows for every service, on
   await test.run(weekly())
   const text = test.dependencies.post.mock.calls.at(-1)?.[0]
   expect(text).toContain('*Eufemia monitoring weekly report*')
+  expect(text).toContain(
+    'Period (UTC): 2026-11-16T08:11:00.000Z to 2026-11-23T08:00:00.000Z'
+  )
   expect(text).toContain('MCP (HTTP server): healthy')
   expect(text).toContain(
     'Observations: 5 (2 healthy, 2 failed, 1 pending); new incidents: 1'
@@ -67,20 +70,25 @@ it('posts actual weekly results and missing hourly windows for every service, on
   expect(test.dependencies.post).toHaveBeenCalledTimes(posts)
 })
 
-it('flags stale healthy observations and active monitoring alarms', async () => {
-  const test = setup()
-  await test.observe('2026-11-16T08:11:00Z')
-  await test.run({
-    kind: 'alarm',
-    name: 'missing-mcp',
-    status: 'ALARM',
-    at: '2026-11-23T07:00:00Z',
-  })
-  await test.run(weekly())
-  const text = test.dependencies.post.mock.calls.at(-1)?.[0]
-  expect(text).toContain('MCP (HTTP server): stale')
-  expect(text).toContain('Active monitor alarms: 1')
-})
+it.each(['healthy', 'unhealthy'] as const)(
+  'preserves the last %s status when stale and reports active alarms',
+  async (status) => {
+    const test = setup()
+    await test.observe('2026-11-16T08:11:00Z', status)
+    await test.run({
+      kind: 'alarm',
+      name: 'missing-mcp',
+      status: 'ALARM',
+      at: '2026-11-23T07:00:00Z',
+    })
+    await test.run(weekly())
+    const text = test.dependencies.post.mock.calls.at(-1)?.[0]
+    expect(text).toContain(
+      'MCP (HTTP server): stale (last: ' + status + ')'
+    )
+    expect(text).toContain('Active monitor alarms: 1')
+  }
+)
 
 it('retries a frozen weekly report with the same ID after Slack fails', async () => {
   const test = setup()
