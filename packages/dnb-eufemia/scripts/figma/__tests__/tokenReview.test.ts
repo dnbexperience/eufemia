@@ -1,6 +1,5 @@
-import path from 'node:path'
 import {
-  loadTokenModes,
+  type loadTokenModes,
   changedTokens,
   contrastRatio,
   parseColor,
@@ -217,34 +216,6 @@ it('reports added and removed tokens', () => {
     { name: '--token-radius-new', before: undefined, after: '2rem' },
     { name: '--token-radius-old', before: '1rem', after: undefined },
   ])
-})
-
-it('loads every shipped palette and resolves the colors used by the contrast checks', () => {
-  const modes = loadTokenModes(path.resolve(__dirname, '../../../../..'))
-  expect(modes.map(({ name }) => name)).toEqual([
-    'DNB light',
-    'DNB dark',
-    'Sbanken light',
-    'Sbanken dark',
-    // @deprecated Transitional "coconut" brand
-    'Coconut light',
-    // @deprecated Transitional "coconut" brand
-    'Coconut dark',
-    'Carnegie light',
-    'Eiendom light',
-    'Eiendom dark',
-    'Birdhouse light',
-    'Birdhouse dark',
-  ])
-  for (const { tokens } of modes) {
-    const ratio = contrastRatio(
-      tokens['--token-color-text-error'],
-      tokens['--token-color-background-neutral-subtle'],
-      tokens['--token-color-background-page-background']
-    )
-    expect(ratio).toBeGreaterThan(1)
-    expect(ratio).toBeLessThanOrEqual(21)
-  }
 })
 
 it('detects an invisible neutral UI fill on its parent surface', () => {

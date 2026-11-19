@@ -162,6 +162,39 @@ describe('makePropertiesFile', () => {
     )
   })
 
+  it('loads every shipped palette and resolves the colors used by the contrast checks', async () => {
+    const path = await import('path')
+    const { loadTokenModes, contrastRatio } =
+      await import('../../../figma/tokenReview')
+    const modes = loadTokenModes(
+      path.resolve(__dirname, '../../../../../..')
+    )
+    expect(modes.map(({ name }) => name)).toEqual([
+      'DNB light',
+      'DNB dark',
+      'Sbanken light',
+      'Sbanken dark',
+      // @deprecated Transitional "coconut" brand
+      'Coconut light',
+      // @deprecated Transitional "coconut" brand
+      'Coconut dark',
+      'Carnegie light',
+      'Eiendom light',
+      'Eiendom dark',
+      'Birdhouse light',
+      'Birdhouse dark',
+    ])
+    for (const { tokens } of modes) {
+      const ratio = contrastRatio(
+        tokens['--token-color-text-error'],
+        tokens['--token-color-background-neutral-subtle'],
+        tokens['--token-color-background-page-background']
+      )
+      expect(ratio).toBeGreaterThan(1)
+      expect(ratio).toBeLessThanOrEqual(21)
+    }
+  })
+
   it.each(['action-focus', 'action'])(
     'keeps Birdhouse dark %s visible on neutral surfaces',
     async (stroke) => {
