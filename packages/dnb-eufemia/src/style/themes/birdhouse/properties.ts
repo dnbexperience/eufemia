@@ -108,6 +108,7 @@ export default {
   '--font-family-display-skeleton': "'DNBSansEiendomSkeleton'",
   '--font-display-text-rendering': 'geometricprecision',
   '--font-family-heading': 'var(--font-family-default)',
+  '--font-family-action': 'var(--font-family-default)',
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',

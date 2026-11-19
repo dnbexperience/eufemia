@@ -99,6 +99,7 @@
       --button-color-bg,
       var(--button-color-bg--default)
     );
+    font-family: var(--font-family-action);
 
     .dnb-button__icon {
       color: var(--button-color-icon, var(--button-color-icon--default));

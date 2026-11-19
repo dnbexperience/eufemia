@@ -108,6 +108,7 @@ export default {
   '--font-family-display-skeleton': "'DNBSkeleton'",
   '--font-display-text-rendering': 'auto',
   '--font-family-heading': 'var(--sb-font-family-heading)',
+  '--font-family-action': 'var(--font-family-default)',
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',
