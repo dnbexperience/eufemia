@@ -183,23 +183,11 @@ In explain mode, each selected test includes one or more causes:
 - `Component usage in demo/examples`
 - `Portal docs/demo impact`
 
-By default, CI still stops on the first failure (`--bail`). You can force a full run without `--bail` by including `--run-all` in your commit message.
-
-**Default behavior (stops on first failure):**
-
-```bash
-git commit -m "feat: implement new feature"
-# Runs: vitest run --config vitest.config.screenshots.mts
-```
-
-**Run all tests (continues on failures):**
+CI runs every selected screenshot test and reports all failures at once. To run all screenshot tests regardless of the selection, include `--run-all` in your commit message:
 
 ```bash
 git commit -m "feat: implement new feature --run-all"
-# Runs: vitest run --config vitest.config.screenshots.mts
 ```
-
-This is useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts test behavior accordingly.
 
 **Playwright end-to-end tests:**
 
