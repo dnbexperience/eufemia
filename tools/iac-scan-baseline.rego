@@ -3,6 +3,8 @@
 # The IaC scan (.github/workflows/iac-scan.yml) fails on any finding that is
 # not listed here, so a new resource, or a renamed one, must pass the checks or
 # be added below with a reason. Each entry is "<check ID>|<Terraform resource>".
+# The key has no file path, so an entry also covers a resource with the same
+# name in another tools/*/infra folder.
 #
 # This is a baseline, not a risk acceptance. Changes to these resources are
 # applied to AWS when they are deployed, so fixing an entry needs someone who

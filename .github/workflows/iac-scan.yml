@@ -1,35 +1,22 @@
 name: IaC scan
 
-# Scans the Terraform in tools/*/infra for security misconfigurations with
-# Trivy (https://trivy.dev), so a change to the AWS infrastructure is checked
-# before it is merged and deployed.
+# Scans the Terraform in tools/*/infra with a pinned Trivy binary (SHA-256
+# checked) instead of aquasecurity/trivy-action (GHSA-69fq-xp46-6x23).
+# `--skip-check-update` keeps the checks built into that binary. To update,
+# change TRIVY_VERSION and TRIVY_SHA256 together, from
+# trivy_<version>_checksums.txt of that release.
+# Known findings: tools/iac-scan-baseline.rego.
 #
-# Trivy runs as a pinned release binary whose SHA-256 is checked below, not
-# through aquasecurity/trivy-action. That action's tags were hijacked in March
-# 2026 (GHSA-69fq-xp46-6x23), and it downloads Trivy and its checks at run time.
-# With a pinned checksum, a changed or replaced release file fails the job
-# instead of running. `--skip-check-update` makes Trivy use the checks
-# built into that binary, so the result does not change between runs of the same
-# commit. To update, change TRIVY_VERSION and TRIVY_SHA256 together; take the
-# checksum from trivy_<version>_checksums.txt of that release.
-#
-# Known findings are listed in tools/iac-scan-baseline.rego. Any other finding
-# fails the job.
-#
-# No secrets and read-only permissions: the job only reads the checkout.
+# Pull requests have no path filter, so the job can be a required check: a
+# workflow skipped by a path filter reports no status and blocks the merge.
 
 on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'tools/*/infra/**'
-      - 'tools/iac-scan-baseline.rego'
-      - '.github/workflows/iac-scan.yml'
   push:
     branches:
       - main
-    # Same paths as for pull requests.
     paths:
       - 'tools/*/infra/**'
       - 'tools/iac-scan-baseline.rego'
