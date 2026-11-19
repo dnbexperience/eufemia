@@ -582,6 +582,14 @@
   transform-origin: 52px 49px;
 }
 
+.artworkButtonStyle rect {
+  rx: min(14px, var(--token-radius-full));
+}
+
+.artworkCardStyle {
+  rx: calc(var(--token-radius-xl) / 4);
+}
+
 .developArtworkStyle .artworkButtonStyle {
   transform: translate(46px, 53px);
 }

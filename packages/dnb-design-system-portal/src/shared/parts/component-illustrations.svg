@@ -58,7 +58,7 @@
   </symbol>
   <symbol id="button" viewBox="0 0 240 144">
     <rect x="28" y="36" width="184" height="72" rx="8" fill="var(--illustration-surface)" stroke="none"/>
-    <rect x="66" y="58" width="108" height="28" rx="14.0" fill="var(--illustration-accent)" stroke="none"/>
+    <rect x="66" y="58" width="108" height="28" rx="14.0" style="rx: var(--illustration-button-radius)" fill="var(--illustration-accent)" stroke="none"/>
     <rect x="91.92" y="69" width="56.160000000000004" height="6" rx="3" fill="var(--illustration-surface)" stroke="none"/>
   </symbol>
   <symbol id="card" viewBox="0 0 240 144">
