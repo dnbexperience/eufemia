@@ -35,7 +35,7 @@ export type TableTdProps = {
   spacing?: 'horizontal'
 
   /**
-   * Vertical alignment of the cell content.
+   * Vertical alignment of the cell content. Overrides `verticalAlign` on the parent `<Tr>`.
    */
   verticalAlign?: 'top' | 'middle' | 'bottom'
 
