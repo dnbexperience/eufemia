@@ -1,3 +1,8 @@
+Installed next to TypeScript 6 as "typescript-native" to run tsgo.
+TypeScript 7 also declares a "tsc" bin, which would take over the root
+node_modules/.bin/tsc that several workspaces use. Rename the bin to
+"tsgo" and let the launcher accept the new bin name.
+
 diff --git a/lib/getExePath.js b/lib/getExePath.js
 index ade3d7bb92e2125c4306d71620666c0eba3371d4..388a79462275cde4f45d1082a3c59175103bc27c 100644
 --- a/lib/getExePath.js
