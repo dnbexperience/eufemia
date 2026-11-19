@@ -67,6 +67,17 @@ describe('renderVisualReportSummary', () => {
     expect(md).toMatch(/\|\s*—\s*\|/)
   })
 
+  it('names the given artifact of a shard', () => {
+    const md = renderVisualReportSummary(
+      { failures: [makeFailure()] },
+      '',
+      undefined,
+      'visual-test-artifact-2'
+    )
+
+    expect(md).toContain('**visual-test-artifact-2**')
+  })
+
   it('uses the actual image when no diff image exists', () => {
     const failure = makeFailure({
       images: {

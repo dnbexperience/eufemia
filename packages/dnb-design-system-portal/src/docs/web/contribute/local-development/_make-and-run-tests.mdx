@@ -153,7 +153,8 @@ yarn workspace @dnb/eufemia test:screenshots:ci:conditional:explain --uncommitte
 - Local: combines `uncommitted` + `branch` files (deduplicated).
 - CI: uses `VISUAL_TEST_CHANGED_FILES`, which GitHub Actions lists from the pull request files, or on a push from a comparison with `main`. Renamed files count with both their old and new path.
 - CI does not fallback to git history. When GitHub cannot list all changed files (a comparison lists at most 300 files, a pull request 3000) or the list cannot be fetched, CI sets `VISUAL_TEST_RUN_ALL` and runs all screenshot tests.
-- CI first runs the selection with `--plan`. When no screenshot test can be affected, it skips the Playwright setup, the portal build and the test run.
+- CI first runs the selection with `--plan` on a separate job. When no screenshot test can be affected, it skips the Playwright setup, the portal build and the test run.
+- Otherwise, CI splits the selected test files into up to four parallel jobs (shards), one per 15 test files, so a full run finishes sooner. The required check `Run visual-regression tests` passes when all shards pass.
 
 In explain mode, each selected test includes one or more causes:
 
@@ -228,7 +229,7 @@ you can find a report entry (`index.html`), that lists all of the failed tests h
 
 You may check out the CI/CLI logs for more details.
 
-**GitHub Actions:** When a visual screenshot test fails on the CI, the failed screenshots are listed directly on the run's "Summary" page. When report hosting is available, each row links to a hosted before/after/diff view, so no download is needed. The same report is also attached as the **visual-test-artifact** zip file (containing `/visual-diff-report` with `index.html` and the diff images) for offline inspection.
+**GitHub Actions:** When a visual screenshot test fails on the CI, the failed screenshots are listed directly on the run's "Summary" page. When report hosting is available, each row links to a hosted before/after/diff view, so no download is needed. The same report is also attached as a **visual-test-artifact-[shard]** zip file per failing shard (containing `/visual-diff-report` with `index.html` and the diff images) for offline inspection.
 
 ## Support SCSS snapshot test
 

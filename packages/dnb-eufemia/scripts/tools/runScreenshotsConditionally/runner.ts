@@ -4,11 +4,13 @@ import path from 'node:path'
 import { log } from '../../lib'
 import {
   CI_ALWAYS_RUN_BRANCHES,
+  MAX_SCREENSHOT_SHARDS,
   NON_VISUAL_SOURCE_FILES,
   NON_VISUAL_SOURCE_PATH_PREFIXES,
   PORTAL_DOCS_REPO_PREFIX,
   RUN_ALL_COMMIT_FLAG,
   RUN_ALL_ENV_VAR,
+  SCREENSHOT_FILES_PER_SHARD,
 } from './config'
 import { createContext } from './context'
 import { loadScssDependencyMap } from './dependencyMaps'
@@ -81,6 +83,37 @@ export function writeSkipPlan(
   if (outputFile) {
     appendFileSync(outputFile, 'skip=true\n')
   }
+}
+
+export function getShardCount(testCount: number): number {
+  return Math.min(
+    MAX_SCREENSHOT_SHARDS,
+    Math.max(1, Math.ceil(testCount / SCREENSHOT_FILES_PER_SHARD))
+  )
+}
+
+// Lets the CI workflow split the run into parallel shards. No tests means all of them.
+export function writeRunPlan(
+  testCount: number,
+  tests: string[] = [],
+  outputFile: string | undefined = process.env.GITHUB_OUTPUT
+) {
+  if (!outputFile) {
+    return
+  }
+
+  const shardTotal = getShardCount(testCount)
+  const shards = Array.from({ length: shardTotal }, (_, i) => i + 1)
+
+  appendFileSync(
+    outputFile,
+    [
+      `tests=${tests.join(',')}`,
+      `shard-total=${shardTotal}`,
+      `shards=${JSON.stringify(shards)}`,
+      '',
+    ].join('\n')
+  )
 }
 
 export function resolveCliOptions(argv: string[]): CliOptions {
@@ -283,6 +316,9 @@ export async function runScreenshotsTests() {
         `Running all screenshot tests without --bail ${reason}.`
       )
     )
+    if (isPlan) {
+      writeRunPlan(collectScreenshotTests(context).length)
+    }
     if (!isDryRun) {
       runCommand(context.packageRoot, commandTokens)
     }
@@ -361,6 +397,10 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
+    if (isPlan) {
+      writeRunPlan(collectScreenshotTests(context).length)
+    }
+
     if (isDryRun) {
       return
     }
@@ -414,16 +454,6 @@ export async function runScreenshotsTests() {
     return
   }
 
-  // Stop before the dependency graphs, which the test run builds anyway
-  if (isPlan) {
-    log.info(
-      logWithLabel(
-        'Visual changes found. The test run selects the screenshot tests.'
-      )
-    )
-    return
-  }
-
   const hasScssSourceChanges = sourceChanges.some((filePath) => {
     return filePath.endsWith('.scss')
   })
@@ -462,6 +492,16 @@ export async function runScreenshotsTests() {
       selection.tests,
       details.testCauses
     )
+  }
+
+  if (isPlan) {
+    if (selection.mode === 'skip') {
+      writeSkipPlan()
+    } else if (selection.mode === 'all') {
+      writeRunPlan(allScreenshotTests.length)
+    } else {
+      writeRunPlan(selection.tests.length, selection.tests)
+    }
   }
 
   if (isDryRun || selection.mode === 'skip') {

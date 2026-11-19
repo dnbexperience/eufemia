@@ -28,9 +28,7 @@ permissions:
   pull-requests: read
 
 env:
-  # Only non-secret build flags remain here; the public Algolia config is
-  # scoped to the build step. actions/github-script receives the token
-  # automatically — no env var needed.
+  # Main and v* branches take screenshots of the prebuilt library, feature branches of the source.
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
   RUN_VISUAL_TEST: ${{ !startsWith(github.ref, 'refs/heads/icon') }}
   PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
@@ -39,15 +37,21 @@ jobs:
   changes:
     uses: ./.github/workflows/detect-changes.yml
 
-  visual-regression:
-    name: Run visual-regression tests
+  # Selects the screenshot tests once on a cheap runner and splits them into shards
+  plan:
+    name: Plan visual-regression tests
     needs: changes
-    # A skipped job counts as success for the required check; it still runs if detection fails.
+    # Still runs if detection fails
     if: ${{ !cancelled() && needs.changes.outputs.packages-unaffected != 'true' }}
 
-    runs-on: macos-26
+    runs-on: ubuntu-latest
 
-    timeout-minutes: 60
+    timeout-minutes: 15
+
+    outputs:
+      tests: ${{ steps.plan.outputs.tests }}
+      shard-total: ${{ steps.plan.outputs.shard-total }}
+      shards: ${{ steps.plan.outputs.shards }}
 
     steps:
       - name: Git checkout
@@ -56,11 +60,13 @@ jobs:
           persist-credentials: false
 
       - name: Setup dependencies
+        if: env.RUN_VISUAL_TEST == 'true'
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Resolve changed files
+        if: env.RUN_VISUAL_TEST == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
@@ -143,19 +149,45 @@ jobs:
               changedFiles.join('\n')
             )
 
-      # Skips the build and the test run when no screenshot test can be affected
+      # Writes no shards when no screenshot test can be affected
       - name: Plan visual tests
         id: plan
         if: env.RUN_VISUAL_TEST == 'true'
         run: yarn workspace @dnb/eufemia test:screenshots:ci:conditional --plan
 
+  visual-regression-shard:
+    name: Run visual-regression tests (${{ matrix.shard }}/${{ needs.plan.outputs.shard-total }})
+    needs: plan
+    if: ${{ !cancelled() && needs.plan.result == 'success' && needs.plan.outputs.shards != '' }}
+
+    runs-on: macos-26
+
+    timeout-minutes: 60
+
+    strategy:
+      # Let every shard finish, so one run reports all failing screenshots
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
       - name: Setup Playwright
-        if: steps.plan.outputs.skip != 'true'
         uses: ./.github/actions/setup-playwright
         with:
           browsers: firefox
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      # Each shard builds its own portal, which uses the prebuilt library when it exists
       - name: Prebuild Library
         if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci
@@ -165,7 +197,6 @@ jobs:
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Build portal
-        if: env.RUN_VISUAL_TEST == 'true' && steps.plan.outputs.skip != 'true'
         run: yarn workspace dnb-design-system-portal build:visual-test
         env:
           # Public search config embedded into the client bundle at build time.
@@ -174,7 +205,10 @@ jobs:
           ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
 
       - name: Run visual tests
-        if: env.RUN_VISUAL_TEST == 'true' && steps.plan.outputs.skip != 'true'
+        env:
+          # Empty runs all screenshot tests
+          SCREENSHOT_INCLUDE: ${{ needs.plan.outputs.tests }}
+          SCREENSHOT_SHARD: ${{ matrix.shard }}/${{ needs.plan.outputs.shard-total }}
         run: |
           (
             while sleep 60; do
@@ -189,13 +223,13 @@ jobs:
           monitor_pid=$!
           # Stop the pending sleep too, so no orphaned process is left for the runner to clean up
           trap 'pkill -P "$monitor_pid" 2>/dev/null || true; kill "$monitor_pid" 2>/dev/null || true' EXIT
-          yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
+          yarn workspace dnb-design-system-portal test:screenshots:ci
 
       - name: Store visual test artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
-          name: visual-test-artifact
+          name: visual-test-artifact-${{ matrix.shard }}
           path: |
             ./packages/dnb-eufemia/visual-diff-report/**
 
@@ -231,7 +265,7 @@ jobs:
           OUTPUT="$(yarn workspace dnb-design-system-portal wrangler pages deploy \
             "$GITHUB_WORKSPACE/packages/dnb-eufemia/visual-diff-report" \
             --project-name eufemia \
-            --branch "vr-$BRANCH" \
+            --branch "vr$SHARD-$BRANCH" \
             --commit-dirty=true)"
 
           echo "$OUTPUT"
@@ -249,6 +283,8 @@ jobs:
           # Passed via env (not inlined into the script) so an untrusted PR
           # branch name cannot inject shell commands into the run step.
           BRANCH: ${{ github.head_ref || github.ref_name }}
+          # Leads the branch name, so shards keep separate aliases when Cloudflare truncates it
+          SHARD: ${{ matrix.shard }}
 
       # Render the failed screenshots directly on the run's Summary page. When
       # the report was hosted, each row embeds a diff thumbnail linking to the
@@ -261,6 +297,7 @@ jobs:
         continue-on-error: true
         env:
           REPORT_URL: ${{ steps.report_deploy.outputs.report_url }}
+          ARTIFACT_NAME: visual-test-artifact-${{ matrix.shard }}
         run: |
           node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types \
             packages/dnb-eufemia/scripts/tools/visualReport/summaryCli.ts \
@@ -274,10 +311,43 @@ jobs:
         env:
           REPORT_URL: ${{ steps.report_deploy.outputs.report_url }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ARTIFACT_NAME: visual-test-artifact-${{ matrix.shard }}
         run: |
           echo '👉 Visual regression failed — where to see why:'
           if [ -n "${REPORT_URL}" ]; then
             echo "   • Hosted report (before / after / diff): ${REPORT_URL}"
           fi
           echo "   • Run summary (failed-test table + artifact): ${RUN_URL}"
-          echo "   • Offline: download the 'visual-test-artifact' ZIP from the run summary."
+          echo "   • Offline: download the '${ARTIFACT_NAME}' ZIP from the run summary."
+
+  # Keeps one required check, whatever the number of shards.
+  # Runs on cancellation too, because a skipped required check counts as passed.
+  visual-regression:
+    name: Run visual-regression tests
+    needs: [plan, visual-regression-shard]
+    if: ${{ always() }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    steps:
+      # Jobs skipped after a cancellation must not pass the check
+      - name: Fail when canceled
+        if: ${{ cancelled() }}
+        run: |
+          echo 'The workflow was canceled before all visual-regression tests ran.'
+          exit 1
+
+      - name: Check visual-regression results
+        env:
+          PLAN_RESULT: ${{ needs.plan.result }}
+          SHARD_RESULT: ${{ needs.visual-regression-shard.result }}
+        run: |
+          # A skipped job means that no screenshot test can be affected
+          for result in "$PLAN_RESULT" "$SHARD_RESULT"; do
+            if [ "$result" != 'success' ] && [ "$result" != 'skipped' ]; then
+              echo "Visual-regression tests did not pass (result: $result)."
+              exit 1
+            fi
+          done

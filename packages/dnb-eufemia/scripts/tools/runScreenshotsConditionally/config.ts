@@ -39,6 +39,13 @@ export const CI_ALWAYS_RUN_BRANCHES = ['main', 'beta']
 // Above this impact level, partial runs give little gain; full run is simpler and safer.
 export const DEFAULT_IMPACTED_THRESHOLD = 0.4
 
+// CI splits the selected screenshot test files into parallel runner jobs.
+// A shard is only added per this many files, because each one spends a few minutes on setup.
+export const SCREENSHOT_FILES_PER_SHARD = 15
+
+// Caps the parallel macOS runner jobs per workflow run.
+export const MAX_SCREENSHOT_SHARDS = 4
+
 // Manual escape hatch to force full suite when selective logic is not desired.
 export const RUN_ALL_COMMIT_FLAG = '--run-all'
 
