@@ -308,15 +308,15 @@ function TabsComponent(ownProps: TabsProps) {
         ownProps.selectedKey,
         currentData
       )
-      setPrevSelectedKey(ownProps.selectedKey)
-      setSelectedKey(newSelectedKey)
-
       // Keep keyboard navigation starting from the selected tab,
       // without moving focus away from where the user is.
-      if (newSelectedKey !== focusKey) {
+      if (newSelectedKey != selectedKey && newSelectedKey != focusKey) {
         skipTabButtonFocusRef.current = true
         setFocusKey(newSelectedKey)
       }
+
+      setPrevSelectedKey(ownProps.selectedKey)
+      setSelectedKey(newSelectedKey)
 
       propChangeRef.current = true
     }

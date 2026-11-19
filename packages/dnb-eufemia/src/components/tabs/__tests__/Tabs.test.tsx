@@ -3,7 +3,7 @@
  *
  */
 
-import { StrictMode } from 'react'
+import { StrictMode, useState } from 'react'
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
@@ -358,6 +358,42 @@ describe('Tabs component', () => {
 
     expect(document.activeElement).toBe(
       document.querySelector('[data-tab-key="second"]')
+    )
+  })
+
+  it('keeps keyboard focus when a controlled parent re-renders after a click', () => {
+    const Controlled = () => {
+      const [selectedKey, setSelectedKey] = useState<string | number>(
+        'first'
+      )
+      const [, setCount] = useState(0)
+
+      return (
+        <>
+          <button onClick={() => setCount((count) => count + 1)}>
+            Re-render
+          </button>
+          <Tabs
+            {...props}
+            data={tablistData}
+            selectedKey={selectedKey}
+            onChange={({ key }) => setSelectedKey(key)}
+          />
+        </>
+      )
+    }
+
+    render(<Controlled />)
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    fireEvent.click(document.querySelector('[data-tab-key="second"]'))
+    fireEvent.keyDown(tablist, { key: 'ArrowRight' })
+    fireEvent.click(document.querySelector('button:not([role])'))
+    fireEvent.keyDown(tablist, { key: 'ArrowRight' })
+
+    expect(document.activeElement).toBe(
+      document.querySelector('[data-tab-key="first"]')
     )
   })
 
