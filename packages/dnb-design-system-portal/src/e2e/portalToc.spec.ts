@@ -1184,6 +1184,55 @@ test.describe('Portal table of contents', () => {
       expect(gap).toBeCloseTo(content.x - contentArea.x, 0)
     }
   })
+  test('shows breakout dividers at both page edges around centered content', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1920, height: 1000 })
+    await page.goto('/web/components/tabs/demos/')
+    const tabs = page.locator('.dnb-live-preview .dnb-tabs__tabs').first()
+    await expect(tabs).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
+    const content = await page.locator('#tab-bar-content').boundingBox()
+    const contentArea = await page
+      .locator('.dnb-app-content')
+      .boundingBox()
+    const toc = await page.locator('#content-grid-sidebar').boundingBox()
+    const tabList = await tabs.boundingBox()
+    const left = {
+      x: Math.ceil(contentArea.x) + 8,
+      y: Math.floor(tabList.y + tabList.height) - 2,
+      width: 8,
+      height: 4,
+    }
+    const right = {
+      ...left,
+      x: Math.floor(contentArea.x + contentArea.width) - 16,
+    }
+    const outline = { ...left, x: Math.ceil(toc.x) + 8 }
+    expect(left.x + left.width).toBeLessThan(content.x - 32)
+    expect(right.x).toBeGreaterThan(content.x + content.width + 32)
+    const visibleLeft = await page.screenshot({ clip: left })
+    const visibleRight = await page.screenshot({ clip: right })
+    const visibleOutline = await page.screenshot({ clip: outline })
+    await page.addStyleTag({
+      content:
+        '.dnb-live-preview .dnb-tabs__tabs::before { visibility: hidden !important; }',
+    })
+    expect(visibleLeft.equals(await page.screenshot({ clip: left }))).toBe(
+      false
+    )
+    expect(
+      visibleRight.equals(await page.screenshot({ clip: right }))
+    ).toBe(false)
+    expect(
+      visibleOutline.equals(await page.screenshot({ clip: outline }))
+    ).toBe(true)
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth
+      )
+    ).toBe(true)
+  })
   test('keeps the desktop TOC at its starting position from the first scroll', async ({
     page,
   }) => {
