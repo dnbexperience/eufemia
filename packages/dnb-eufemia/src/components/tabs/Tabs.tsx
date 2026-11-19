@@ -762,6 +762,20 @@ function TabsComponent(ownProps: TabsProps) {
     previousSelectionKeyRef.current = selectedKey
   }, [data, selectedKey, updateSelection])
 
+  useIsomorphicLayoutEffect(() => {
+    if (typeof ResizeObserver === 'undefined') {
+      return undefined
+    }
+
+    // Focus spacing changes the tab positions without resizing the tablist.
+    const observer = new ResizeObserver(() => updateSelection())
+    tablistRef.current
+      ?.querySelectorAll('.dnb-tabs__button__snap')
+      .forEach((tab) => observer.observe(tab))
+
+    return () => observer.disconnect()
+  }, [data, updateSelection])
+
   const onResizeHandler = useCallback(() => {
     const scrollbarVisible = checkHasScrollbar()
     setHasScrollbar(scrollbarVisible)
