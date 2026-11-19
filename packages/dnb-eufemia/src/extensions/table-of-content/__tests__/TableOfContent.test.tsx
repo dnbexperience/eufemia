@@ -968,8 +968,11 @@ it('moves focus to the fragment destination and preserves native links', () => {
   fireEvent.click(link)
   expect(destination).toHaveFocus()
   expect(destination).toHaveAttribute('tabindex', '-1')
+  // Like native fragment navigation, without a focus ring
+  expect(destination).toHaveClass('dnb-no-focus')
   act(() => destination.blur())
   expect(destination).not.toHaveAttribute('tabindex')
+  expect(destination).not.toHaveClass('dnb-no-focus')
 })
 
 it('focuses destinations without opening their Eufemia tooltip and keeps direct focus available', async () => {
@@ -1024,6 +1027,7 @@ it('preserves destination attributes after automatic focus', () => {
   const destination = document.getElementById('destination')
   fireEvent.click(document.querySelector('.dnb-table-of-content a'))
   expect(destination).toHaveFocus()
+  expect(destination).not.toHaveClass('dnb-no-focus')
   expect(destination).toHaveAttribute('data-autofocus', 'existing')
   act(() => destination.blur())
   expect(destination).toHaveAttribute('tabindex', '0')

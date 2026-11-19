@@ -63,11 +63,27 @@ function TableOfContentItem({
             context.navigate(id)
             // Keep native fragment navigation and move keyboard reading order to its destination.
             const hadTabIndex = target.hasAttribute('tabindex')
+            // Like native fragment navigation, without a focus ring on a destination that can't take focus by itself.
+            const hideFocusRing =
+              target.tabIndex < 0 &&
+              !target.classList.contains('dnb-no-focus')
             if (!hadTabIndex) {
               target.setAttribute('tabindex', '-1')
+            }
+            if (hideFocusRing) {
+              target.classList.add('dnb-no-focus')
+            }
+            if (!hadTabIndex || hideFocusRing) {
               target.addEventListener(
                 'blur',
-                () => target.removeAttribute('tabindex'),
+                () => {
+                  if (!hadTabIndex) {
+                    target.removeAttribute('tabindex')
+                  }
+                  if (hideFocusRing) {
+                    target.classList.remove('dnb-no-focus')
+                  }
+                },
                 { once: true }
               )
             }
