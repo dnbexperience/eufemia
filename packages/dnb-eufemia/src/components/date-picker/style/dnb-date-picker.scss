@@ -352,6 +352,7 @@
 
       box-shadow: none;
       &__bounding {
+        inset: 0;
         border-radius: 0;
         transform: scale(1.28);
       }
