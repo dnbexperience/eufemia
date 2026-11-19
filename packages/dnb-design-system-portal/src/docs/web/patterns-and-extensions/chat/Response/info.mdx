@@ -54,8 +54,4 @@ Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML a
 
 ## Horizontal table overflow
 
-Markdown tables use `Table.ScrollView`. If a table is wider than its available space, a translated hint below it explains that it can be scrolled horizontally. The hint is associated with the scroll area for assistive technology and disappears when all columns fit. Keyboard scrolling remains available. The hint also updates when streaming changes the table or the container resizes.
-
-| Key             | nb-NO                                | en-GB                                     | sv-SE                                   | da-DK                               |
-| --------------- | ------------------------------------ | ----------------------------------------- | --------------------------------------- | ----------------------------------- |
-| `tableOverflow` | Rull vannrett for å se hele tabellen | Scroll horizontally to see the full table | Rulla i sidled för att se hela tabellen | Rul vandret for at se hele tabellen |
+Markdown tables use `Table.ScrollView`. When columns extend beyond the visible area, an arrow button indicates that more content is available. The button has a translated tooltip and accessible label, and fades out as scrolling starts. Keyboard scrolling remains available.

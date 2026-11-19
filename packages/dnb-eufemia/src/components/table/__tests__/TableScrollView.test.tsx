@@ -166,6 +166,7 @@ describe('Table.ScrollView', () => {
     expect(button).not.toHaveAttribute('data-scroll-indicator-inactive')
     fireEvent.scroll(element, { target: { scrollTop: 1 } })
     expect(button).toHaveAttribute('tabindex', '-1')
+    expect(button).not.toHaveAttribute('data-scroll-indicator-inactive')
     fireEvent.scroll(element, { target: { scrollTop: 0 } })
     expect(button).not.toHaveAttribute('tabindex')
     button.focus()

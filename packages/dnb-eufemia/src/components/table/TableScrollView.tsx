@@ -69,7 +69,7 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
       } else {
         button.tabIndex = -1
       }
-      button.toggleAttribute('data-scroll-indicator-inactive', !isActive)
+      button.toggleAttribute('data-scroll-indicator-inactive', opacity < 1)
 
       element.toggleAttribute('data-scroll-indicator', opacity > 0)
       element.toggleAttribute(
