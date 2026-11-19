@@ -62,8 +62,8 @@ function TableOfContentItem({
           if (target) {
             context.navigate(id)
             // Keep native fragment navigation and move keyboard reading order to its destination.
+            // Like native fragment navigation, show no focus ring on a destination that can't take focus by itself.
             const hadTabIndex = target.hasAttribute('tabindex')
-            // Like native fragment navigation, without a focus ring on a destination that can't take focus by itself.
             const hideFocusRing =
               target.tabIndex < 0 &&
               !target.classList.contains('dnb-no-focus')
@@ -73,20 +73,18 @@ function TableOfContentItem({
             if (hideFocusRing) {
               target.classList.add('dnb-no-focus')
             }
-            if (!hadTabIndex || hideFocusRing) {
-              target.addEventListener(
-                'blur',
-                () => {
-                  if (!hadTabIndex) {
-                    target.removeAttribute('tabindex')
-                  }
-                  if (hideFocusRing) {
-                    target.classList.remove('dnb-no-focus')
-                  }
-                },
-                { once: true }
-              )
-            }
+            target.addEventListener(
+              'blur',
+              () => {
+                if (!hadTabIndex) {
+                  target.removeAttribute('tabindex')
+                }
+                if (hideFocusRing) {
+                  target.classList.remove('dnb-no-focus')
+                }
+              },
+              { once: true }
+            )
             // Suppress Eufemia tooltips during automatic destination focus.
             const autofocus = target.getAttribute('data-autofocus')
             target.setAttribute('data-autofocus', 'true')
