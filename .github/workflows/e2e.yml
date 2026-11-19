@@ -74,17 +74,35 @@ jobs:
           # Expressions can't read runner variables like ImageOS
           echo "IMAGE_OS=$ImageOS" >> "$GITHUB_ENV"
 
-      - name: Use apt package cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      # The run ID never matches, so the newest cache for this Playwright version is restored
+      - name: Restore apt package cache
+        id: apt-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: /var/cache/apt/archives/*.deb
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ env.IMAGE_OS }}-apt-playwright-${{ hashFiles('node_modules/playwright-core/package.json') }}
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ env.IMAGE_OS }}-apt-playwright-${{ hashFiles('node_modules/playwright-core/package.json') }}-${{ github.run_id }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ env.IMAGE_OS }}-apt-playwright-${{ hashFiles('node_modules/playwright-core/package.json') }}
 
       - name: Setup Playwright
         uses: ./.github/actions/setup-playwright
         with:
           browsers: firefox chromium webkit
           cache-version: ${{ secrets.CACHE_VERSION }}
+
+      # Key the saved cache on the package files so Ubuntu updates refresh it
+      - name: Hash apt packages
+        id: apt-packages
+        if: github.ref == 'refs/heads/main'
+        run: |
+          shopt -s nullglob
+          echo "hash=$(printf '%s\n' /var/cache/apt/archives/*.deb | sha256sum | cut -c1-16)" >> "$GITHUB_OUTPUT"
+
+      - name: Save apt package cache
+        if: github.ref == 'refs/heads/main' && !endsWith(steps.apt-cache.outputs.cache-matched-key, steps.apt-packages.outputs.hash)
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: /var/cache/apt/archives/*.deb
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ env.IMAGE_OS }}-apt-playwright-${{ hashFiles('node_modules/playwright-core/package.json') }}-${{ steps.apt-packages.outputs.hash }}
 
       - name: Run Portal social image regression tests
         run: yarn workspace dnb-design-system-portal test:og-images
