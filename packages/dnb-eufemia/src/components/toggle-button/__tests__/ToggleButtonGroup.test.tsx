@@ -11,6 +11,41 @@ import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
 
 describe('ToggleButton group component', () => {
+  it('puts aria-label and aria-labelledby on the group, not on the shell', () => {
+    const { rerender } = render(
+      <ToggleButton.Group aria-label="Group name">
+        <ToggleButton text="A" value="a" />
+      </ToggleButton.Group>
+    )
+
+    // A span has no role, so the name must be on the element with the group role
+    expect(document.querySelector('[role="group"]')).toHaveAttribute(
+      'aria-label',
+      'Group name'
+    )
+    expect(
+      document.querySelector('.dnb-toggle-button-group__shell')
+    ).not.toHaveAttribute('aria-label')
+
+    rerender(
+      <>
+        <span id="external">External</span>
+        <ToggleButton.Group
+          id="group"
+          label="Visible"
+          variant="radio"
+          aria-labelledby="external"
+        >
+          <ToggleButton text="A" value="a" />
+        </ToggleButton.Group>
+      </>
+    )
+    expect(document.querySelector('[role="radiogroup"]')).toHaveAttribute(
+      'aria-labelledby',
+      'group-label external'
+    )
+  })
+
   it('should not have _formElement property', () => {
     expect(ToggleButton.Group['_formElement']).toBeUndefined()
   })
