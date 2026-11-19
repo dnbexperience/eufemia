@@ -25,7 +25,7 @@ export default function ChangeStyleTheme(props) {
   return (
     <Provider skeleton={false}>
       <Field.Selection
-        variant="radio-button"
+        variant="button"
         optionsLayout="horizontal"
         id="change-theme"
         value={brand}
