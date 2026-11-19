@@ -550,7 +550,7 @@ function renderRadioItems({
 
     const label = title ?? children
     const suffix = help ? (
-      <HelpButton size="small" title={help.title}>
+      <HelpButton size="small" title={help.title} disabled={false}>
         {help.content}
       </HelpButton>
     ) : undefined

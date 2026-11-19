@@ -118,6 +118,26 @@ describe('ArraySelection', () => {
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
     })
 
+    it('keeps the option help button enabled when Form.Handler is disabled', () => {
+      render(
+        <Form.Handler disabled>
+          <Field.ArraySelection>
+            <Field.Option
+              value="option1"
+              help={{ title: 'Help title', content: 'Help content' }}
+            >
+              Option 1
+            </Field.Option>
+          </Field.ArraySelection>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
+      expect(
+        document.querySelector('button.dnb-help-button')
+      ).not.toBeDisabled()
+    })
+
     it('renders help with React component title', () => {
       function CustomTitle() {
         return <>Component title</>
