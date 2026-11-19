@@ -644,6 +644,56 @@ describe('Iterate.Array', () => {
         )
       }
     )
+
+    it('should keep the onBlurValidator error of an item that moves up', async () => {
+      const onSubmit = vi.fn()
+      const onBlurValidator = (value: string) => {
+        if (value === 'admin') {
+          return new Error('This name is taken')
+        }
+
+        return undefined
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{ items: [{ name: 'A' }, {}, { name: 'C' }] }}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/items">
+            <Field.String
+              itemPath="/name"
+              onBlurValidator={onBlurValidator}
+            />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelectorAll('input')[1], 'admin')
+      await userEvent.tab()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'This name is taken'
+      )
+
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[0]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('input')).toHaveLength(2)
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This name is taken')
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+    })
   })
 
   describe('countPath', () => {

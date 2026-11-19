@@ -1241,21 +1241,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     omitMultiplePathWarning,
   ])
 
-  const previousIdentifierRef = useRef(identifier)
+  const hadOnBlurValidatorErrorRef = useRef(false)
   useEffect(() => {
     if (prerenderFieldProps) {
       return undefined // stop here, we don't want to set the state of the field
     }
 
     const mountedFields = mountedFieldsRef?.current
-
-    // When the path changes (e.g. an Iterate.Array item before this one was removed),
-    // replace any error left at the new path by the field that used it before.
-    if (previousIdentifierRef.current !== identifier) {
-      previousIdentifierRef.current = identifier
-      setFieldErrorBoundary?.(identifier, localErrorRef.current)
-      setFieldErrorDataContext?.(identifier, localErrorRef.current)
-    }
 
     // Unmount procedure.
     return () => {
@@ -1269,6 +1261,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       })
 
+      hadOnBlurValidatorErrorRef.current =
+        Boolean(localErrorRef.current) &&
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        localErrorInitiatorRef.current === 'onBlurValidator'
       localErrorRef.current = undefined
     }
   }, [
@@ -1279,6 +1275,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldErrorBoundary,
     setFieldErrorDataContext,
     localErrorRef,
+    localErrorInitiatorRef,
   ])
 
   useEffect(() => {
@@ -1298,6 +1295,63 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     validateValue()
   }, [validateValue])
+
+  const revalidateWithOnBlurValidator = useCallback(() => {
+    addToPool(
+      'onBlurValidator',
+      () => {
+        setValidatedValidatorValue('onBlurValidator')
+
+        return startOnBlurValidatorProcess()
+      },
+      hasAsyncValidatorBehavior(onBlurValidatorRef.current)
+    )
+
+    runPool(() => {
+      revealError()
+      forceUpdate()
+    })
+  }, [
+    addToPool,
+    forceUpdate,
+    onBlurValidatorRef,
+    revealError,
+    runPool,
+    setValidatedValidatorValue,
+    startOnBlurValidatorProcess,
+  ])
+
+  // When the path changes (e.g. an Iterate.Array item before this one was removed),
+  // replace any error left at the new path by the field that used it before.
+  const previousIdentifierRef = useRef(identifier)
+  useEffect(() => {
+    if (
+      prerenderFieldProps ||
+      previousIdentifierRef.current === identifier
+    ) {
+      return undefined // stop here
+    }
+
+    previousIdentifierRef.current = identifier
+    setFieldErrorBoundary?.(identifier, localErrorRef.current)
+    setFieldErrorDataContext?.(identifier, localErrorRef.current)
+
+    // The validation above does not run the onBlurValidator,
+    // so run it again to keep its error.
+    if (hadOnBlurValidatorErrorRef.current && onBlurValidatorRef.current) {
+      revalidateWithOnBlurValidator()
+    }
+
+    return undefined
+  }, [
+    identifier,
+    localErrorRef,
+    onBlurValidatorRef,
+    prerenderFieldProps,
+    revalidateWithOnBlurValidator,
+    setFieldErrorBoundary,
+    setFieldErrorDataContext,
+  ])
 
   const previousLocaleRef = useRef(locale)
   useUpdateEffect(() => {
@@ -1322,34 +1376,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
-        addToPool(
-          'onBlurValidator',
-          () => {
-            setValidatedValidatorValue('onBlurValidator')
-
-            return startOnBlurValidatorProcess()
-          },
-          hasAsyncValidatorBehavior(onBlurValidatorRef.current)
-        )
-
-        runPool(() => {
-          revealError()
-          forceUpdate()
-        })
+        revalidateWithOnBlurValidator()
 
         return undefined // stop here
       }
     }
   }, [
-    addToPool,
-    forceUpdate,
     hasError,
     locale,
     prerenderFieldProps,
-    revealError,
-    runPool,
-    startOnBlurValidatorProcess,
-    setValidatedValidatorValue,
+    revalidateWithOnBlurValidator,
     validateInitially,
     validateUnchanged,
     valueEqualsEmptyValue,
