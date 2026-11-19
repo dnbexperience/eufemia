@@ -720,7 +720,7 @@ describe('checkRepositoryAdvisories', () => {
       await expect(
         checkRepositoryAdvisories({
           workspaces,
-          accepted: { 'GHSA-c': 'Tracked in #1' },
+          accepted: { 'c@3.0.1 GHSA-c': 'Tracked in #1' },
         })
       ).resolves.toEqual([])
     })
@@ -732,9 +732,28 @@ describe('checkRepositoryAdvisories', () => {
       await expect(
         checkRepositoryAdvisories({
           workspaces,
-          accepted: { 'GHSA-fixed': 'Tracked in #1' },
+          accepted: { 'c@3.0.1 GHSA-fixed': 'Tracked in #1' },
         })
-      ).rejects.toThrow('GHSA-fixed no longer affects a shipped package')
+      ).rejects.toThrow(
+        'c@3.0.1 GHSA-fixed no longer affects a shipped package'
+      )
+    })
+
+    it('reports an accepted advisory again when the package version changes', async () => {
+      stubWorkspaces()
+      stubFetch(200, undefined, [advisoryFor('c')])
+
+      await expect(
+        checkRepositoryAdvisories({
+          workspaces,
+          accepted: { 'c@3.0.0 GHSA-c': 'Tracked in #1' },
+        })
+      ).rejects.toThrow(
+        'c@3.0.0 GHSA-c no longer affects a shipped package'
+      )
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/^low: c@3\.0\.1 GHSA-c /)
+      )
     })
 
     it('stops before it uses up the GitHub API requests of the hour', async () => {

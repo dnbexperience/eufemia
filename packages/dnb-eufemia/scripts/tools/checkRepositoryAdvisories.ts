@@ -502,9 +502,9 @@ export function getShippedWorkspaces() {
   )
 }
 
-// GHSA ID -> owner, reason and tracking link
+// "name@version GHSA ID" -> owner, reason and tracking link. Another version of the package needs a new check
 const acceptedAdvisories: Record<string, string> = {
-  'GHSA-4cm8-f57v-mqm6':
+  'prettier@3.8.1 GHSA-4cm8-f57v-mqm6':
     '@langz: only prettier >=3.9.0 <=3.9.9 is affected; the note "3.9.9 tested" makes the range unreadable. https://github.com/prettier/prettier/security/advisories/GHSA-4cm8-f57v-mqm6',
 }
 
@@ -600,8 +600,12 @@ export async function checkRepositoryAdvisories({
   console.log(
     `Checked ${packages.size} production packages of ${workspaces.length} workspaces in ${advisoriesByRepository.size} GitHub repositories.`
   )
+
+  const getAcceptedKey = ({ name, version, ghsaId }: AdvisoryMatch) =>
+    `${name}@${version} ${ghsaId}`
+
   for (const match of matches) {
-    const reason = accepted[match.ghsaId]
+    const reason = accepted[getAcceptedKey(match)]
     console.log(
       `${reason ? 'accepted' : match.severity}: ${match.name}@${match.version} ${match.ghsaId} ${match.summary} (${match.url})${reason ? ` ${reason}` : ''}`
     )
@@ -613,7 +617,7 @@ export async function checkRepositoryAdvisories({
   }
 
   const stale = Object.keys(accepted).filter(
-    (ghsaId) => !matches.some((match) => match.ghsaId === ghsaId)
+    (key) => !matches.some((match) => getAcceptedKey(match) === key)
   )
   if (stale.length > 0) {
     throw new Error(
@@ -621,7 +625,7 @@ export async function checkRepositoryAdvisories({
     )
   }
 
-  return matches.filter(({ ghsaId }) => !accepted[ghsaId])
+  return matches.filter((match) => !accepted[getAcceptedKey(match)])
 }
 
 if (require.main === module) {
