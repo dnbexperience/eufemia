@@ -167,6 +167,35 @@ The control defaults to autoplay for muted video when the user does not prefer r
 
 You own the video sources, poster, loading strategy, and error fallback. Use native controls and captions for informative video. See the [video example](/web/components/card/demos/#full-media-with-video) and [Card.Info.MediaButton properties](/web/components/card/properties/#cardinfomediabutton-properties).
 
+### Custom playback
+
+For Lottie or another custom player, pass `playing` and `onClick` instead of `videoRef`. The control displays the supplied state and calls your handler when activated. It does not change `playing` itself. This mode adds no player dependency to Eufemia.
+
+```tsx
+import { Card } from '@dnb/eufemia'
+
+function AnimationControl({
+  playing,
+  onToggle,
+}: {
+  playing: boolean
+  onToggle: () => void
+}) {
+  return (
+    <Card.Info.MediaButton
+      playing={playing}
+      onClick={onToggle}
+      playTitle="Play animation"
+      pauseTitle="Pause animation"
+    />
+  )
+}
+```
+
+For Lottie, call the animation instance's `play()` or `pause()` in your handler. Keep `playing` in sync with actual playback, including completion and errors. The application owns the player, loading, cleanup, and reduced-motion behavior. Start with a still image and let the user request playback; if you add autoplay, respect `prefers-reduced-motion` and pause when that preference changes. Provide labels describing your media, since the default labels refer to background video.
+
+Place the control inside a noninteractive Card or another positioned container. Do not nest it inside a whole-card link or action.
+
 ## Media content overlay
 
 Use `Card.Info.Overlay` for content over an image or decorative video. It provides responsive padding, a transparent-to-dark gradient, progressive backdrop blur, and dark-surface context for controls. Headings and paragraphs receive text shadows automatically, including inside nested layout components. Headings use a broader shadow than body text. Override `textShadow` on individual text elements when needed. The effects are decorative and do not hide the content from assistive technology or intercept pointer events.
