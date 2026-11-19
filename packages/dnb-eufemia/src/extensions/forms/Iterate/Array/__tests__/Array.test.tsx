@@ -645,55 +645,159 @@ describe('Iterate.Array', () => {
       }
     )
 
-    it('should keep the onBlurValidator error of an item that moves up', async () => {
-      const onSubmit = vi.fn()
-      const onBlurValidator = (value: string) => {
-        if (value === 'admin') {
-          return new Error('This name is taken')
+    it.each([undefined, () => undefined])(
+      'should keep the onBlurValidator error of an item that moves up with onChangeValidator %s',
+      async (onChangeValidator) => {
+        const onSubmit = vi.fn()
+        const onBlurValidator = (value: string) => {
+          if (value === 'admin') {
+            return new Error('This name is taken')
+          }
+
+          return undefined
         }
 
-        return undefined
-      }
+        render(
+          <Form.Handler
+            defaultData={{ items: [{ name: 'A' }, {}, { name: 'C' }] }}
+            onSubmit={onSubmit}
+          >
+            <Iterate.Array path="/items">
+              <Field.String
+                itemPath="/name"
+                onBlurValidator={onBlurValidator}
+                onChangeValidator={onChangeValidator}
+              />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+          </Form.Handler>
+        )
 
-      render(
-        <Form.Handler
-          defaultData={{ items: [{ name: 'A' }, {}, { name: 'C' }] }}
-          onSubmit={onSubmit}
-        >
-          <Iterate.Array path="/items">
-            <Field.String
-              itemPath="/name"
-              onBlurValidator={onBlurValidator}
-            />
-            <Iterate.RemoveButton />
-          </Iterate.Array>
-        </Form.Handler>
-      )
-
-      await userEvent.type(document.querySelectorAll('input')[1], 'admin')
-      await userEvent.tab()
-      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'This name is taken'
-      )
-
-      await userEvent.click(
-        document.querySelectorAll(
-          '.dnb-forms-iterate-remove-element-button'
-        )[0]
-      )
-      await waitFor(() => {
-        expect(document.querySelectorAll('input')).toHaveLength(2)
-      })
-
-      await waitFor(() => {
+        await userEvent.type(
+          document.querySelectorAll('input')[1],
+          'admin'
+        )
+        await userEvent.tab()
         expect(
           document.querySelector('.dnb-form-status')
         ).toHaveTextContent('This name is taken')
-      })
 
-      fireEvent.submit(document.querySelector('form'))
-      expect(onSubmit).toHaveBeenCalledTimes(0)
-    })
+        await userEvent.click(
+          document.querySelectorAll(
+            '.dnb-forms-iterate-remove-element-button'
+          )[0]
+        )
+        await waitFor(() => {
+          expect(document.querySelectorAll('input')).toHaveLength(2)
+        })
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This name is taken')
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      }
+    )
+
+    it.each([true, false])(
+      'should submit after removing a moved item with an async blur error (initial validation complete: %s)',
+      async (initialValidationComplete) => {
+        const onSubmit = vi.fn()
+        let resolveValidation: (error: Error) => void
+        const pendingValidation = new Promise<Error>((resolve) => {
+          resolveValidation = resolve
+        })
+        let hasValidated = !initialValidationComplete
+        const onBlurValidator = async (value: string) => {
+          if (value !== 'admin') {
+            return undefined
+          }
+          if (hasValidated) {
+            return pendingValidation
+          }
+          hasValidated = true
+          return new Error('This name is taken')
+        }
+
+        render(
+          <Form.Handler
+            defaultData={{ items: [{ name: 'A' }, {}, { name: 'C' }] }}
+            onSubmit={onSubmit}
+          >
+            <Iterate.Array path="/items">
+              <Field.String
+                itemPath="/name"
+                onBlurValidator={onBlurValidator}
+              />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        await userEvent.type(
+          document.querySelectorAll('input')[1],
+          'admin'
+        )
+        await userEvent.tab()
+        await waitFor(() => {
+          expect(document.querySelectorAll('input')[1].disabled).toBe(
+            !initialValidationComplete
+          )
+          expect(
+            document
+              .querySelector('.dnb-form-status')
+              ?.textContent?.includes('This name is taken') ?? false
+          ).toBe(initialValidationComplete)
+        })
+
+        await userEvent.click(
+          document.querySelector(
+            '.dnb-forms-iterate-remove-element-button'
+          )
+        )
+        await waitFor(() => {
+          expect(document.querySelectorAll('input')).toHaveLength(2)
+        })
+
+        if (!initialValidationComplete) {
+          await act(async () => {
+            resolveValidation(new Error('This name is taken'))
+            await pendingValidation
+          })
+        }
+        await waitFor(() => {
+          expect(document.querySelector('input').disabled).toBe(
+            initialValidationComplete
+          )
+        })
+
+        await userEvent.click(
+          document.querySelector(
+            '.dnb-forms-iterate-remove-element-button'
+          )
+        )
+        await waitFor(() => {
+          expect(document.querySelectorAll('input')).toHaveLength(1)
+        })
+
+        await act(async () => {
+          resolveValidation(new Error('This name is taken'))
+          await pendingValidation
+        })
+        expect(document.querySelector('input')).toHaveValue('C')
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+      }
+    )
   })
 
   describe('countPath', () => {

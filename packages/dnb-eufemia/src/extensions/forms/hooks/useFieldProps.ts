@@ -1241,7 +1241,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     omitMultiplePathWarning,
   ])
 
-  const hadOnBlurValidatorErrorRef = useRef(false)
+  const shouldRevalidateOnBlurRef = useRef(false)
   useEffect(() => {
     if (prerenderFieldProps) {
       return undefined // stop here, we don't want to set the state of the field
@@ -1261,10 +1261,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       })
 
-      hadOnBlurValidatorErrorRef.current =
-        Boolean(localErrorRef.current) &&
+      shouldRevalidateOnBlurRef.current =
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        localErrorInitiatorRef.current === 'onBlurValidator'
+        asyncProcessRef.current === 'onBlurValidator' ||
+        (Boolean(localErrorRef.current) &&
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          localErrorInitiatorRef.current === 'onBlurValidator')
       localErrorRef.current = undefined
     }
   }, [
@@ -1276,6 +1278,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldErrorDataContext,
     localErrorRef,
     localErrorInitiatorRef,
+    asyncProcessRef,
   ])
 
   useEffect(() => {
@@ -1292,8 +1295,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // ─── Validation effects ──────────────────────────────────────────────
 
+  const validationPromiseRef =
+    useRef<ReturnType<typeof validateValue>>(null)
   useEffect(() => {
-    validateValue()
+    validationPromiseRef.current = validateValue()
   }, [validateValue])
 
   const revalidateWithOnBlurValidator = useCallback(() => {
@@ -1336,13 +1341,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldErrorBoundary?.(identifier, localErrorRef.current)
     setFieldErrorDataContext?.(identifier, localErrorRef.current)
 
-    // The validation above does not run the onBlurValidator,
-    // so run it again to keep its error.
-    if (hadOnBlurValidatorErrorRef.current && onBlurValidatorRef.current) {
-      revalidateWithOnBlurValidator()
-    }
+    const shouldRevalidateOnBlur = shouldRevalidateOnBlurRef.current
+    let active = true
 
-    return undefined
+    // Wait for change validation before restoring a blur validation error.
+    validationPromiseRef.current?.then(() => {
+      if (active && shouldRevalidateOnBlur && onBlurValidatorRef.current) {
+        revalidateWithOnBlurValidator()
+      }
+    })
+
+    return () => {
+      active = false
+    }
   }, [
     identifier,
     localErrorRef,
