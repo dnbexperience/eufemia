@@ -9,6 +9,7 @@
     "davidanson.vscode-markdownlint",
     "razio.es6-string-jsx",
     "yzhang.markdown-all-in-one",
-    "unifiedjs.vscode-mdx"
+    "unifiedjs.vscode-mdx",
+    "typescriptteam.native-preview"
   ]
 }

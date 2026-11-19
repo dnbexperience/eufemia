@@ -50,8 +50,9 @@
     "test:screenshots:ci": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci'",
     "test:screenshots:ci:conditional": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci:conditional'",
     "test:screenshots:ci:update": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci:update'",
-    "test:types": "tsc --noEmit --incremental --tsBuildInfoFile tsconfig.tsbuildinfo",
-    "test:types:watch": "tsc --noEmit --watch",
+    "test:types": "node ../../node_modules/typescript-native/bin/tsc --noEmit --incremental --tsBuildInfoFile tsconfig.tsbuildinfo",
+    "test:types:tsc": "tsc --noEmit",
+    "test:types:watch": "node ../../node_modules/typescript-native/bin/tsc --noEmit --watch",
     "test:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --update=true",
     "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --watch",
     "validate:links": "node vite/prod/validate-internal-links.mjs"
