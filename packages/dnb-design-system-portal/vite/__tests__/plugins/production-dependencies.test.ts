@@ -60,7 +60,7 @@ describe('production-dependencies plugin', () => {
         devDependencies: { 'dev-only': '1.0.0' },
       })
       write('lib', {
-        dependencies: { b: '1.0.0' },
+        dependencies: { b: '1.0.0', punycode: '2.0.0' },
         devDependencies: { 'lib-dev-only': '1.0.0' },
       })
       fs.mkdirSync(path.join(tmpDir, 'node_modules/@scope'), {
@@ -74,6 +74,7 @@ describe('production-dependencies plugin', () => {
       write('node_modules/a/node_modules/c', {})
       write('node_modules/b', {})
       write('node_modules/c', {})
+      write('node_modules/punycode', {})
       write('node_modules/dev-only', {})
       write('node_modules/lib-dev-only', {})
 
@@ -86,6 +87,7 @@ describe('production-dependencies plugin', () => {
         'node_modules/a',
         'node_modules/a/node_modules/c',
         'node_modules/b',
+        'node_modules/punycode',
       ])
     })
 

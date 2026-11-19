@@ -5,9 +5,8 @@
  */
 
 import fs from 'node:fs'
-import { createRequire } from 'node:module'
 import path from 'node:path'
-import type { Plugin } from 'vite'
+import { normalizePath, type Plugin } from 'vite'
 
 const NODE_MODULES = '/node_modules/'
 
@@ -20,6 +19,19 @@ function getPackageDirectory(id: string) {
   )
 }
 
+// Not `require.resolve.paths()`, which returns null for names like `punycode` or `buffer`
+function findPackageDirectory(name: string, from: string) {
+  for (let dir = from; ; dir = path.dirname(dir)) {
+    const directory = path.join(dir, 'node_modules', name)
+    if (fs.existsSync(path.join(directory, 'package.json'))) {
+      return normalizePath(fs.realpathSync(directory))
+    }
+    if (dir === path.dirname(dir)) {
+      return null
+    }
+  }
+}
+
 /** The packages that `dependencies` bring in, also through linked workspaces */
 export function getProductionPackageDirectories(
   root = path.resolve(import.meta.dirname, '../../..')
@@ -28,24 +40,18 @@ export function getProductionPackageDirectories(
   const queue = [root]
 
   for (const current of queue) {
-    const manifest = path.join(current, 'package.json')
     const { dependencies = {}, optionalDependencies = {} } = JSON.parse(
-      fs.readFileSync(manifest, 'utf-8')
+      fs.readFileSync(path.join(current, 'package.json'), 'utf-8')
     )
     for (const name of Object.keys({
       ...dependencies,
       ...optionalDependencies,
     })) {
-      const directory = createRequire(manifest)
-        .resolve.paths(name)
-        ?.map((dir) => path.join(dir, name))
-        .find((dir) => fs.existsSync(path.join(dir, 'package.json')))
-
       // An optional dependency may not be installed
-      const real = directory && fs.realpathSync(directory)
-      if (real && !directories.has(real)) {
-        directories.add(real)
-        queue.push(real)
+      const directory = findPackageDirectory(name, current)
+      if (directory && !directories.has(directory)) {
+        directories.add(directory)
+        queue.push(directory)
       }
     }
   }
