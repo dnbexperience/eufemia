@@ -207,8 +207,14 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     ),
   })
 
-  const params = {
-    ...rest,
+  // The name belongs to the element with the group role, not to the shell span
+  const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    ...params
+  } = rest as typeof rest & {
+    'aria-label'?: string
+    'aria-labelledby'?: string
   }
 
   if (showStatus || suffix) {
@@ -270,7 +276,12 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
         <AlignmentHelper />
         <Fieldset
           className="dnb-toggle-button-group__fieldset"
-          aria-labelledby={label ? id + '-label' : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={
+            [label ? id + '-label' : null, ariaLabelledBy]
+              .filter(Boolean)
+              .join(' ') || undefined
+          }
           role={variant === 'radio' ? 'radiogroup' : 'group'}
         >
           <Flex.Container
