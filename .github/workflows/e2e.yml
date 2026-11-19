@@ -54,14 +54,11 @@ jobs:
       matrix:
         # The runner is CPU-bound with two Playwright workers, so the portal tests are split over two jobs
         include:
-          - id: portal-1
-            suite: portal
+          - suite: portal
             shard: 1/2
-          - id: portal-2
-            suite: portal
+          - suite: portal
             shard: 2/2
-          - id: components
-            suite: components
+          - suite: components
 
     steps:
       - name: Git checkout
@@ -137,7 +134,7 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: always()
         with:
-          name: e2e-timings-${{ matrix.id }}
+          name: e2e-timings-${{ matrix.suite }}-${{ strategy.job-index }}
           retention-days: 7
           if-no-files-found: ignore
           path: |
@@ -148,7 +145,7 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
-          name: playwright-develop-artifact-${{ matrix.id }}
+          name: playwright-develop-artifact-${{ matrix.suite }}-${{ strategy.job-index }}
           path: |
             ./packages/dnb-design-system-portal/test-results
             ./packages/dnb-design-system-portal/playwright-report
