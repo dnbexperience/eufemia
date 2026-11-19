@@ -36,16 +36,32 @@ jobs:
   changes:
     uses: ./.github/workflows/detect-changes.yml
 
-  e2e:
-    name: Run e2e tests
+  e2e-job:
+    # GitHub appends the matrix values, which also keeps the name readable when the jobs are skipped
+    name: Run e2e job
     needs: changes
-    # A skipped job counts as success for the required check; it still runs if detection fails.
+    # Still runs if detection fails
     if: ${{ !cancelled() && needs.changes.outputs.packages-unaffected != 'true' }}
 
     # Pinned until Playwright can install its system dependencies on Ubuntu 26.04
     runs-on: ubuntu-24.04
 
     timeout-minutes: 40
+
+    strategy:
+      # Let every job finish, so one run reports all failing tests
+      fail-fast: false
+      matrix:
+        # The runner is CPU-bound with two Playwright workers, so the portal tests are split over two jobs
+        include:
+          - id: portal-1
+            suite: portal
+            shard: 1/2
+          - id: portal-2
+            suite: portal
+            shard: 2/2
+          - id: components
+            suite: components
 
     steps:
       - name: Git checkout
@@ -61,6 +77,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Preview affected E2E tests
+        if: matrix.suite == 'components'
         continue-on-error: true
         run: yarn workspace @dnb/eufemia test:e2e:explain
         env:
@@ -87,6 +104,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Run Portal social image regression tests
+        if: matrix.suite == 'components'
         run: yarn workspace dnb-design-system-portal test:og-images
 
       - name: Prebuild Library
@@ -106,16 +124,20 @@ jobs:
           ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
 
       - name: Run Playwright on Portal
+        if: matrix.suite == 'portal'
         run: yarn workspace dnb-design-system-portal test:e2e:portal:ci
+        env:
+          E2E_SHARD: ${{ matrix.shard }}
 
       - name: Run Playwright on Eufemia Components
+        if: matrix.suite == 'components'
         run: yarn workspace @dnb/eufemia test:e2e:ci
 
       - name: Store E2E timings
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: always()
         with:
-          name: e2e-timings
+          name: e2e-timings-${{ matrix.id }}
           retention-days: 7
           if-no-files-found: ignore
           path: |
@@ -126,8 +148,44 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
-          name: playwright-develop-artifact
+          name: playwright-develop-artifact-${{ matrix.id }}
           path: |
             ./packages/dnb-design-system-portal/test-results
             ./packages/dnb-design-system-portal/playwright-report
             ./packages/dnb-eufemia/test-results
+
+  # Keeps one required check, whatever the number of jobs.
+  # Runs on cancellation too, because a skipped required check counts as passed.
+  e2e:
+    name: Run e2e tests
+    needs: [changes, e2e-job]
+    if: ${{ always() }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    steps:
+      # Jobs skipped after a cancellation must not pass the check
+      - name: Fail when canceled
+        if: ${{ cancelled() }}
+        run: |
+          echo 'The workflow was canceled before all e2e tests ran.'
+          exit 1
+
+      - name: Check e2e results
+        env:
+          PACKAGES_UNAFFECTED: ${{ needs.changes.outputs.packages-unaffected }}
+          JOB_RESULT: ${{ needs.e2e-job.result }}
+        run: |
+          if [ "$JOB_RESULT" = 'success' ]; then
+            exit 0
+          fi
+
+          # Skipped jobs mean that the change cannot affect the e2e tests
+          if [ "$JOB_RESULT" = 'skipped' ] && [ "$PACKAGES_UNAFFECTED" = 'true' ]; then
+            exit 0
+          fi
+
+          echo "E2E tests did not pass (result: $JOB_RESULT)."
+          exit 1
