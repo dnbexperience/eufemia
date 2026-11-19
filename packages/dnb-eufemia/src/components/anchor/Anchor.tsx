@@ -201,6 +201,11 @@ export function AnchorComponent(localProps: AnchorAllProps) {
     attributes.tabIndex = -1
     attributes['aria-disabled'] = true
 
+    // Without href, an "a" has no role, which does not allow aria-disabled or a name
+    if (!attributes.role) {
+      attributes.role = 'link'
+    }
+
     if (attributes.href) {
       delete attributes.href
     }

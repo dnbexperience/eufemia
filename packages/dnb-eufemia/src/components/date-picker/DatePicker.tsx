@@ -692,7 +692,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const remainingSubmitProps = validateDOMAttributes(null, submitParams)
   const remainingPickerProps = validateDOMAttributes(
     null,
-    skeletonDOMAttributes(pickerParams, skeleton, context)
+    skeletonDOMAttributes(pickerParams, skeleton, context, 'span')
   )
 
   return (
