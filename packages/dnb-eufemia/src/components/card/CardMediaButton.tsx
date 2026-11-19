@@ -11,21 +11,36 @@ import Context from '../../shared/Context'
 import useMediaQuery from '../../shared/useMediaQuery'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
+type PlaybackClickHandler = (
+  event: MouseEvent<HTMLButtonElement>
+) => void | boolean
+
 export type CardMediaButtonProps = Omit<
   ButtonProps,
   'href' | 'type' | 'icon' | 'transitionState' | 'onClick'
 > & {
-  /** Stable ref attached to the video element. Replacement elements are detected after commits. */
-  videoRef: RefObject<HTMLVideoElement | null>
-  /** Autoplay muted video unless reduced motion is enabled. Defaults to true. */
-  autoPlay?: boolean
   /** Override the translated play label. */
   playTitle?: string
   /** Override the translated pause label. */
   pauseTitle?: string
-  /** Runs before toggling playback. Return false to cancel. */
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void | boolean
-}
+  /** Handles custom playback, or runs before toggling video playback. Return false to cancel the video toggle. */
+  onClick?: PlaybackClickHandler
+} & (
+    | {
+        /** Stable ref attached to the video element. Replacement elements are detected after commits. */
+        videoRef: RefObject<HTMLVideoElement | null>
+        /** Autoplay muted video unless reduced motion is enabled. Defaults to true. */
+        autoPlay?: boolean
+        playing?: never
+      }
+    | {
+        /** Current playback state for a custom player. The application owns playback and motion preferences. */
+        playing: boolean
+        onClick: PlaybackClickHandler
+        videoRef?: never
+        autoPlay?: never
+      }
+  )
 
 const playbackIcon = Icon.transition({
   play: (props) =>
@@ -40,6 +55,7 @@ function CardMediaButton(props: CardMediaButtonProps) {
   const context = useContext(Context)
   const {
     videoRef,
+    playing: controlledPlaying,
     autoPlay = true,
     playTitle,
     pauseTitle,
@@ -48,7 +64,8 @@ function CardMediaButton(props: CardMediaButtonProps) {
     title,
     ...rest
   } = props
-  const [playing, setPlaying] = useState(false)
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const playing = controlledPlaying ?? videoPlaying
   const allowMotion = useMediaQuery({
     query: '(prefers-reduced-motion: no-preference)',
   })
@@ -62,7 +79,7 @@ function CardMediaButton(props: CardMediaButtonProps) {
 
   // Ref values change during commit, so inspect the element after every render.
   useEffect(() => {
-    const video = videoRef.current
+    const video = videoRef?.current ?? null
     const previous = binding.current
     if (
       previous?.video === video &&
@@ -74,7 +91,7 @@ function CardMediaButton(props: CardMediaButtonProps) {
     previous?.cleanup()
     const events = ['play', 'pause', 'ended', 'emptied', 'error'] as const
     const update = () =>
-      setPlaying(
+      setVideoPlaying(
         Boolean(video && !video.paused && !video.ended && !video.error)
       )
     events.forEach((event) => video?.addEventListener(event, update))
@@ -138,7 +155,7 @@ function CardMediaButton(props: CardMediaButtonProps) {
         ) {
           return
         }
-        const video = videoRef.current
+        const video = videoRef?.current
         if (!video) {
           return
         }
