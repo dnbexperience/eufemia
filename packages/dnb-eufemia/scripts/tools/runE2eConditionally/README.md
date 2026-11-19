@@ -1,6 +1,6 @@
 # E2E selection preview
 
-CI reports which browser test files a feature-branch change would select. Both full Playwright suites still run. The job summary lists each selected file and its reason, and the e2e-timings artifact contains the full runs' JSON reports, including successful test durations.
+CI reports which browser test files a feature-branch change would select. Both full Playwright suites still run. The job summary lists each selected file and its reason, and the e2e-timings artifacts of the parallel jobs contain the full runs' JSON reports, including successful test durations.
 
 Run from the repository root:
 
