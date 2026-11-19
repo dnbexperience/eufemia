@@ -1737,6 +1737,49 @@ describe('FieldBlock', () => {
       expect(element).not.toBeInTheDocument()
     })
 
+    it.each([
+      [
+        'the disabled prop',
+        <Field.String
+          key="prop"
+          label="Label"
+          help={{ title: 'Help title', content: 'Help content' }}
+          disabled
+        />,
+      ],
+      [
+        'Form.Handler disabled',
+        <Form.Handler key="handler" disabled>
+          <Field.String
+            label="Label"
+            help={{ title: 'Help title', content: 'Help content' }}
+          />
+        </Form.Handler>,
+      ],
+      [
+        'Field.Provider disabled',
+        <Field.Provider key="provider" disabled>
+          <Field.String
+            label="Label"
+            help={{ title: 'Help title', content: 'Help content' }}
+          />
+        </Field.Provider>,
+      ],
+    ])('should open when the field is disabled by %s', (_, element) => {
+      render(element)
+
+      const button = document.querySelector('button.dnb-help-button')
+
+      expect(document.querySelector('input')).toBeDisabled()
+      expect(button).not.toBeDisabled()
+
+      fireEvent.click(button)
+
+      expect(
+        document.querySelector('.dnb-help-button__content')
+      ).toHaveTextContent('Help content')
+    })
+
     it('should have correct id', async () => {
       render(
         <FieldBlock

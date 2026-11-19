@@ -5,6 +5,7 @@ import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../HelpButtonInline'
 import Dialog from '../../dialog/Dialog'
+import Provider from '../../../shared/Provider'
 
 describe('HelpButtonInline', () => {
   let uniqueId = null
@@ -57,6 +58,27 @@ describe('HelpButtonInline', () => {
 
     await userEvent.click(button)
     expect(button).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('should stay enabled inside a disabled formElement context', async () => {
+    render(
+      <Provider formElement={{ disabled: true }}>
+        <HelpButtonInline help={{ title: 'Help title' }} />
+      </Provider>
+    )
+
+    const button = document.querySelector('button')
+
+    expect(button).not.toBeDisabled()
+
+    await userEvent.click(button)
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('should support the disabled prop', () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} disabled />)
+
+    expect(document.querySelector('button')).toBeDisabled()
   })
 
   it('should call a given onClick and keep toggling', async () => {

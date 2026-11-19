@@ -1039,6 +1039,26 @@ describe('variants', () => {
       )
     })
 
+    it('keeps the option help button enabled when Form.Handler is disabled', () => {
+      render(
+        <Form.Handler disabled>
+          <Field.Selection variant="radio">
+            <Field.Option
+              value="foo"
+              help={{ title: 'Help title', content: 'Help content' }}
+            >
+              Foo
+            </Field.Option>
+          </Field.Selection>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toBeDisabled()
+      expect(
+        document.querySelector('button.dnb-help-button')
+      ).not.toBeDisabled()
+    })
+
     it('renders help with React component title', () => {
       function CustomTitle() {
         return <>Component title</>

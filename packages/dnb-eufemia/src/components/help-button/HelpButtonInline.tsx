@@ -78,6 +78,8 @@ function HelpButtonInlineComponent(props: HelpButtonInlineProps) {
     children,
     onClick,
     onKeyDown,
+    // Help does not change a value, so keep it available in disabled forms
+    disabled = false,
     ...rest
   } = props
   const controlId = useId(contentId)
@@ -153,6 +155,7 @@ function HelpButtonInlineComponent(props: HelpButtonInlineProps) {
         }
         title={!isOpen && !wasOpenRef.current ? help?.title : undefined}
         {...rest}
+        disabled={disabled}
         id={controlId}
         className={clsx(
           'dnb-help-button__inline',
