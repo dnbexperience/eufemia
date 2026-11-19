@@ -29,7 +29,6 @@ export default {
       suggestions: 'Suggestions',
       conversationLabel: 'Conversation',
       scrollToBottom: 'Go to latest message',
-      tableOverflow: 'Scroll horizontally to see the full table',
       newMessage: 'New message',
       sources: 'Sources (%count)',
       taskRunning: 'In progress',
