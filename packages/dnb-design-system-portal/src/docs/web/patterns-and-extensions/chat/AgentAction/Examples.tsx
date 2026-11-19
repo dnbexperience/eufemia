@@ -184,7 +184,10 @@ export function UnknownProgress() {
 
 export function PendingUndo() {
   return (
-    <ComponentBox scope={scope}>
+    <ComponentBox
+      scope={scope}
+      data-visual-test="ai-agent-action-pending-undo"
+    >
       {() => {
         const UndoDemo = () => {
           const [pending, setPending] = useState(false)
