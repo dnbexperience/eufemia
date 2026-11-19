@@ -24,7 +24,7 @@ For buttons without visible text, follow the [icon-only button guidance](/web/co
 
 Use `bounding` to make a button easier to click or tap without changing its visible size or layout spacing. It extends the area equally on every side by 20% of the button's single-line height.
 
-Leave room around the button to avoid overlapping nearby controls. Containers with scrolling or hidden overflow can clip the area. `bounding` does not guarantee a minimum target size, such as 44 × 44px.
+Leave a gap of at least 40% of the taller button's single-line height between buttons with `bounding` (1rem for default-size buttons) to keep their click areas from overlapping. Containers with scrolling or hidden overflow can clip the area. `bounding` does not guarantee a minimum target size, such as 44 × 44px.
 
 Customize the area with `.dnb-button__bounding`. When using `transform`, also set `inset: 0` to reset the default expansion. Built-in components with custom hit areas keep their existing behavior.
 
