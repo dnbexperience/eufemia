@@ -2,7 +2,7 @@
 
 /* stylelint-disable-next-line scss/at-rule-no-unknown */
 @theme {
-  --font-sb-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --font-sb-default: 'DNB', 'Arial', sans-serif;
   --font-sb-heading:
     'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif;
   --font-weight-sb-default: normal;
@@ -104,7 +104,7 @@
   --color-ca-classic-beige: #f6eae4;
   --color-ca-pale-green: #ccf0e7;
   --color-ca-pale-red: #ffdedb;
-  --font-default: var(--font-sb-default);
+  --font-default: 'DNB', 'Arial', sans-serif;
   --font-display: var(--font-family-heading);
   --font-display-text-rendering: auto;
   --font-heading: var(--font-sb-heading);

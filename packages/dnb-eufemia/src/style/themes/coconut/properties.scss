@@ -5,7 +5,8 @@
 
 :root {
   // Typography Family
-  --sb-font-family-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  // @deprecated: use `--font-family-default` instead
+  --sb-font-family-default: 'DNB', 'Arial', sans-serif;
   --sb-font-family-heading:
     'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif;
 
