@@ -421,6 +421,24 @@ describe('Logo component', () => {
       }
     )
 
+    it('keeps the Birdhouse colors in sync with the icon action token', async () => {
+      const path = await import('path')
+      const { loadTokenModes } =
+        await import('../../../../scripts/figma/tokenReview')
+      const modes = loadTokenModes(
+        path.resolve(__dirname, '../../../../../..')
+      )
+      const iconAction = (name: string) =>
+        modes.find((mode) => mode.name === name).tokens[
+          '--token-color-icon-action'
+        ]
+
+      expect(logoColors.birdhouse).toEqual({
+        light: iconAction('Birdhouse light'),
+        dark: iconAction('Birdhouse dark'),
+      })
+    })
+
     it('should use correct fill in light mode for SbankenDefault', () => {
       render(<Logo svg={SbankenDefault} />)
 
