@@ -604,6 +604,46 @@ describe('Iterate.Array', () => {
       )
       expect(getRenderCountForIndex(1)).toBe(initialSecondItemRenderCount)
     })
+
+    it.each([
+      ['submit when the remaining items are valid', { name: 'C' }, 1],
+      ['block submit when a shifted item is invalid', {}, 0],
+    ])(
+      'should %s after removing an invalid item',
+      async (_, lastItem, expectedSubmitCount) => {
+        const onSubmit = vi.fn()
+
+        render(
+          <Form.Handler
+            defaultData={{ items: [{ name: 'A' }, {}, lastItem] }}
+            onSubmit={onSubmit}
+          >
+            <Iterate.Array path="/items">
+              <Field.String itemPath="/name" required />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        await userEvent.click(
+          document.querySelectorAll(
+            '.dnb-forms-iterate-remove-element-button'
+          )[1]
+        )
+        await waitFor(() => {
+          expect(document.querySelectorAll('input')).toHaveLength(2)
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(expectedSubmitCount)
+        })
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1 - expectedSubmitCount
+        )
+      }
+    )
   })
 
   describe('countPath', () => {

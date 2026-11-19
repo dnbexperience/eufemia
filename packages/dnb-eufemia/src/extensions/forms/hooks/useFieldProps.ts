@@ -1241,12 +1241,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     omitMultiplePathWarning,
   ])
 
+  const previousIdentifierRef = useRef(identifier)
   useEffect(() => {
     if (prerenderFieldProps) {
       return undefined // stop here, we don't want to set the state of the field
     }
 
     const mountedFields = mountedFieldsRef?.current
+
+    // When the path changes (e.g. an Iterate.Array item before this one was removed),
+    // replace any error left at the new path by the field that used it before.
+    if (previousIdentifierRef.current !== identifier) {
+      previousIdentifierRef.current = identifier
+      setFieldErrorBoundary?.(identifier, localErrorRef.current)
+      setFieldErrorDataContext?.(identifier, localErrorRef.current)
+    }
 
     // Unmount procedure.
     return () => {
