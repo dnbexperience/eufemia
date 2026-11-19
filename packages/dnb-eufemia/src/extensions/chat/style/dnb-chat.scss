@@ -440,6 +440,20 @@
     scroll-margin-top: var(--ai-conversation-peek);
   }
 
+  // Shown when "Go to latest message" moves focus to the message
+  &
+    :is(
+      .dnb-ai-message,
+      .dnb-ai-conversation__item,
+      .dnb-ai-conversation__virtual-item
+    ) {
+    @include utilities.focusVisible() {
+      @include utilities.focusOutline($offset: 0.25rem);
+
+      border-radius: var(--token-radius-lg);
+    }
+  }
+
   // Paint containment clips controls' focus rings and expanded touch areas.
   &__content
     > :is(.dnb-ai-message, .dnb-ai-conversation__item):not(
