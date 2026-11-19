@@ -11,7 +11,7 @@ import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
 import { IterateItemContext } from '../..'
-import type { JSONSchema } from '../../..'
+import type { JSONSchema, ReceiveAdditionalEventArgs } from '../../..'
 import {
   Field,
   FieldBlock,
@@ -798,6 +798,178 @@ describe('Iterate.Array', () => {
         })
       }
     )
+
+    it('should submit when an async onChangeValidator finishes after its item was removed', async () => {
+      const onSubmit = vi.fn()
+      let resolveValidation: (error: Error) => void
+      const onChangeValidator = (value: string) => {
+        if (value !== 'Bbad') {
+          return undefined
+        }
+
+        return new Promise<Error>((resolve) => {
+          resolveValidation = resolve
+        })
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{
+            items: [{ name: 'A' }, { name: 'B' }, { name: 'C' }],
+          }}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/items">
+            <Field.String
+              itemPath="/name"
+              onChangeValidator={onChangeValidator}
+            />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelectorAll('input')[1], 'bad')
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[1]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('input')).toHaveLength(2)
+      })
+
+      await act(async () => {
+        resolveValidation(new Error('Bad name'))
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      expect(onSubmit.mock.calls[0][0]).toEqual({
+        items: [{ name: 'A' }, { name: 'C' }],
+      })
+    })
+
+    it('should submit when a connected async onBlurValidator finishes after its item was removed', async () => {
+      const onSubmit = vi.fn()
+      let resolveValidation: (error: Error) => void
+      const onBlurValidator = (
+        value: string,
+        { connectWithItemPath }: ReceiveAdditionalEventArgs<string>
+      ) => {
+        const other = connectWithItemPath('/other').getValue()
+        if (!String(other).includes('bad')) {
+          return undefined
+        }
+
+        return new Promise<Error>((resolve) => {
+          resolveValidation = resolve
+        })
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{
+            items: [
+              { name: 'A', other: 'x' },
+              { name: 'B', other: 'x' },
+              { name: 'C', other: 'y' },
+            ],
+          }}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/items">
+            <Field.String
+              itemPath="/name"
+              onBlurValidator={onBlurValidator}
+            />
+            <Field.String itemPath="/other" />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const inputs = () => document.querySelectorAll('input')
+
+      // Run the validator once, so it connects to the other field of B
+      await userEvent.type(inputs()[2], '!')
+      await userEvent.tab()
+
+      await userEvent.type(inputs()[3], 'bad')
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[1]
+      )
+      await waitFor(() => {
+        expect(inputs()).toHaveLength(4)
+      })
+
+      await act(async () => {
+        resolveValidation(new Error('Other is bad'))
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      expect(onSubmit.mock.calls[0][0]).toEqual({
+        items: [
+          { name: 'A', other: 'x' },
+          { name: 'C', other: 'y' },
+        ],
+      })
+    })
+
+    it('should close the edit container of an invalid item that moved up once it is valid', async () => {
+      render(
+        <Form.Handler
+          defaultData={{ items: [{ name: 'A' }, {}, { name: 'C' }] }}
+        >
+          <Iterate.Array path="/items" containerMode="edit">
+            <Iterate.EditContainer>
+              <Field.String itemPath="/name" required />
+              <Iterate.RemoveButton />
+            </Iterate.EditContainer>
+            <Iterate.ViewContainer>
+              <Value.String itemPath="/name" />
+            </Iterate.ViewContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const items = () =>
+        document.querySelectorAll('.dnb-forms-iterate__element')
+
+      await userEvent.click(
+        document.querySelectorAll('.dnb-forms-iterate__done-button')[1]
+      )
+      expect(
+        items()[1].querySelector('.dnb-form-status')
+      ).toHaveTextContent(nb.Field.errorRequired)
+
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[0]
+      )
+      await waitFor(() => {
+        expect(items()).toHaveLength(2)
+      })
+
+      await userEvent.type(document.querySelector('input'), 'B')
+      await userEvent.click(
+        document.querySelectorAll('.dnb-forms-iterate__done-button')[0]
+      )
+
+      await waitFor(() => {
+        expect(
+          items()[0].querySelector('.dnb-forms-section-edit-block')
+        ).toHaveClass('dnb-height-animation--hidden')
+      })
+    })
   })
 
   describe('countPath', () => {

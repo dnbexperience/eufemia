@@ -6146,6 +6146,57 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
 
+      it.each(['in order', 'in reverse order'])(
+        'should enable the field again when the connected field changes during an async validation (resolved %s)',
+        async (order) => {
+          const resolvers: Array<() => void> = []
+          const onBlurValidator: UseFieldProps<string>['onBlurValidator'] =
+            (value, { connectWithPath }) => {
+              connectWithPath('/refValue').getValue()
+
+              return new Promise<undefined>((resolve) => {
+                resolvers.push(() => resolve(undefined))
+              })
+            }
+
+          render(
+            <Form.Handler>
+              <Field.String path="/refValue" />
+              <Field.String
+                path="/myValue"
+                onBlurValidator={onBlurValidator}
+              />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue, input] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          await userEvent.type(input, 'a')
+          await userEvent.tab()
+          await waitFor(() => {
+            expect(input).toBeDisabled()
+          })
+
+          await userEvent.type(inputWithRefValue, 'b')
+          expect(resolvers).toHaveLength(2)
+
+          await act(async () => {
+            const list =
+              order === 'in order' ? resolvers : [...resolvers].reverse()
+            for (const resolve of list) {
+              resolve()
+              await wait(1)
+            }
+          })
+
+          await waitFor(() => {
+            expect(input).not.toBeDisabled()
+          })
+        }
+      )
+
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
           const onBlurValidator = vi.fn(onBlurValidatorFn)

@@ -1327,7 +1327,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   // When the path changes (e.g. an Iterate.Array item before this one was removed),
-  // replace any error left at the new path by the field that used it before.
+  // replace any error or pending state left at the new path by the field that used it before.
   const previousIdentifierRef = useRef(identifier)
   useEffect(() => {
     if (
@@ -1337,9 +1337,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return undefined // stop here
     }
 
+    const previousIdentifier = previousIdentifierRef.current
     previousIdentifierRef.current = identifier
+
+    // The unmount cleanup skips the old path when another field moved there
+    setFieldErrorBoundary?.(previousIdentifier, undefined)
     setFieldErrorBoundary?.(identifier, localErrorRef.current)
     setFieldErrorDataContext?.(identifier, localErrorRef.current)
+    setFieldStateDataContext?.(
+      identifier,
+      resolveValidatingState(fieldStateRef.current)
+    )
 
     const shouldRevalidateOnBlur = shouldRevalidateOnBlurRef.current
     let active = true
@@ -1355,6 +1363,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       active = false
     }
   }, [
+    fieldStateRef,
     identifier,
     localErrorRef,
     onBlurValidatorRef,
@@ -1362,6 +1371,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     revalidateWithOnBlurValidator,
     setFieldErrorBoundary,
     setFieldErrorDataContext,
+    setFieldStateDataContext,
   ])
 
   const previousLocaleRef = useRef(locale)

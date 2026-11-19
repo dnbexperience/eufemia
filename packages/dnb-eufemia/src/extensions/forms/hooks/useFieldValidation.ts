@@ -411,10 +411,12 @@ export default function useFieldValidation<Value>({
   const onChangeValidationIdRef = useRef(0)
   const onBlurPathValidationIdRef = useRef(0)
 
+  // Results that arrive after a path change or unmount belong to the old path
+  const pathGenerationRef = useRef(0)
   useEffect(() => {
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      onBlurPathValidationIdRef.current++
+      pathGenerationRef.current++
     }
   }, [identifier])
 
@@ -534,6 +536,7 @@ export default function useFieldValidation<Value>({
       }
 
       const validationId = ++onChangeValidationIdRef.current
+      const pathGeneration = pathGenerationRef.current
       const tmpValue = valueRef.current
       const validationResult = isAsync(onChangeValidatorRef.current)
         ? callValidatorFnAsync(onChangeValidatorRef.current)
@@ -553,7 +556,9 @@ export default function useFieldValidation<Value>({
       const result = ensureErrorMessageObject(
         runAsync ? await validationResult : validationResult
       )
-      const isCurrent = validationId === onChangeValidationIdRef.current
+      const isCurrent =
+        validationId === onChangeValidationIdRef.current &&
+        pathGeneration === pathGenerationRef.current
 
       if (!isCurrent) {
         return { result: undefined, isCurrent }
@@ -597,10 +602,11 @@ export default function useFieldValidation<Value>({
       return undefined // stop here
     }
 
+    const pathGeneration = pathGenerationRef.current
     const { result, unchangedValue, runAsync, isCurrent } =
       await callOnChangeValidator()
 
-    if (!isCurrent) {
+    if (!isCurrent || pathGeneration !== pathGenerationRef.current) {
       return undefined // stop here
     }
 
@@ -721,7 +727,7 @@ export default function useFieldValidation<Value>({
         overrideValue ?? valueRef.current,
         'onBlurValidator'
       )
-      const validationId = ++onBlurPathValidationIdRef.current
+      const pathGeneration = pathGenerationRef.current
       const usesMarkedAsyncBehavior =
         !isAsync(onBlurValidatorRef.current) &&
         hasAsyncValidatorBehavior(onBlurValidatorRef.current)
@@ -742,7 +748,7 @@ export default function useFieldValidation<Value>({
           runAsync ? await validationResult : validationResult
         )
 
-        if (validationId !== onBlurPathValidationIdRef.current) {
+        if (pathGeneration !== pathGenerationRef.current) {
           return { result: undefined }
         }
 
@@ -772,7 +778,7 @@ export default function useFieldValidation<Value>({
 
       const result = runAsync ? await validationResult : validationResult
 
-      if (validationId !== onBlurPathValidationIdRef.current) {
+      if (pathGeneration !== pathGenerationRef.current) {
         return { result: undefined }
       }
 
@@ -800,9 +806,10 @@ export default function useFieldValidation<Value>({
       return undefined // stop here
     }
 
+    const pathGeneration = pathGenerationRef.current
     const { result, runAsync, isCurrent } = await callOnBlurValidator()
 
-    if (!isCurrent) {
+    if (!isCurrent || pathGeneration !== pathGenerationRef.current) {
       return undefined // stop here
     }
 
