@@ -37,7 +37,8 @@ run "shadow_rollout" {
       length(aws_cloudwatch_metric_alarm.missing["CDN"].alarm_actions) == 0 &&
       length(aws_cloudwatch_metric_alarm.errors["MCP"].alarm_actions) == 0 &&
       aws_lambda_function.notifier.environment[0].variables["NOTIFICATIONS_ENABLED"] == "false" &&
-      aws_lambda_function.monitor["CDN"].environment[0].variables["NOTIFICATIONS_ENABLED"] == "false"
+      aws_lambda_function.monitor["CDN"].environment[0].variables["NOTIFICATIONS_ENABLED"] == "false" &&
+      aws_scheduler_schedule.weekly_report.state == "DISABLED"
     )
     error_message = "Initial deployment must not send Slack messages from checks or alarm routes."
   }
@@ -105,9 +106,20 @@ run "enable_slack" {
     condition = (
       length(aws_cloudwatch_metric_alarm.missing["CDN"].alarm_actions) == 1 &&
       aws_lambda_function.notifier.environment[0].variables["NOTIFICATIONS_ENABLED"] == "true" &&
-      aws_sns_topic_subscription.slack.protocol == "lambda"
+      aws_sns_topic_subscription.slack.protocol == "lambda" &&
+      aws_scheduler_schedule.weekly_report.state == "ENABLED"
     )
     error_message = "Alarm notifications must use the Slack notifier when enabled."
+  }
+  assert {
+    condition = (
+      aws_scheduler_schedule.weekly_report.schedule_expression == "cron(0 9 ? * MON *)" &&
+      aws_scheduler_schedule.weekly_report.schedule_expression_timezone == "Europe/Oslo" &&
+      aws_scheduler_schedule.weekly_report.target[0].arn == aws_lambda_function.notifier.arn &&
+      jsondecode(aws_scheduler_schedule.weekly_report.target[0].input).at == "<aws.scheduler.scheduled-time>" &&
+      aws_scheduler_schedule.weekly_report.target[0].dead_letter_config[0].arn == aws_sqs_queue.failures.arn
+    )
+    error_message = "The weekly report must use the serialized notifier on Monday at 09:00 Oslo time, preserving the scheduled time and failed deliveries."
   }
   assert {
     condition = (

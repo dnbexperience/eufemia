@@ -94,6 +94,38 @@ it('routes service observations through the same notifier', async () => {
   await handler(event(value))
   expect(mocks.process).toHaveBeenCalledWith(value, expect.any(Object))
 })
+it.each([
+  '2026-11-23T07:55:00Z',
+  '2026-11-23T08:00:00Z',
+  '2026-11-23T09:15:00Z',
+])(
+  'routes weekly events with clock skew or delayed delivery: %s',
+  async (now) => {
+    vi.spyOn(Date, 'now').mockReturnValue(Date.parse(now))
+    const value = { kind: 'weekly' as const, at: '2026-11-23T08:00:00Z' }
+    await handler(value)
+    expect(mocks.process).toHaveBeenCalledWith(value, expect.any(Object))
+  }
+)
+it.each(['2026-11-16T08:00:00Z', '2026-11-23T07:54:59.999Z'])(
+  'rejects future weekly events before reading secrets: %s',
+  async (now) => {
+    vi.spyOn(Date, 'now').mockReturnValue(Date.parse(now))
+    await expect(
+      handler({ kind: 'weekly', at: '2026-11-23T08:00:00Z' })
+    ).rejects.toThrow()
+    expect(mocks.secret).not.toHaveBeenCalled()
+    expect(mocks.process).not.toHaveBeenCalled()
+  }
+)
+it.each(['bad', '2026-11-24T08:00:00Z', '2026-11-23T09:00:00Z'])(
+  'rejects invalid weekly schedule times before reading secrets: %s',
+  async (at) => {
+    await expect(handler({ kind: 'weekly', at })).rejects.toThrow()
+    expect(mocks.secret).not.toHaveBeenCalled()
+    expect(mocks.process).not.toHaveBeenCalled()
+  }
+)
 it('passes the region and monitor log groups for incident links', async () => {
   vi.stubEnv('AWS_REGION', 'eu-north-1')
   vi.stubEnv('MONITOR_LOG_GROUPS', '{"MCP":"/aws/lambda/monitor-mcp"}')
@@ -123,7 +155,9 @@ it('rejects other topics before reading the bot secret', async () => {
 it('ignores disabled notifications without API calls', async () => {
   vi.stubEnv('NOTIFICATIONS_ENABLED', 'false')
   await handler(event({}))
+  await handler({ kind: 'weekly', at: '2026-11-23T08:00:00Z' })
   expect(mocks.secret).not.toHaveBeenCalled()
+  expect(mocks.process).not.toHaveBeenCalled()
 })
 it('rejects malformed timestamps and payloads', async () => {
   await expect(

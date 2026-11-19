@@ -230,6 +230,33 @@ resource "aws_sns_topic" "alerts" {
   tags = local.tags
 }
 
+resource "aws_scheduler_schedule" "weekly_report" {
+  name                         = "weekly-report"
+  group_name                   = aws_scheduler_schedule_group.monitors.name
+  schedule_expression          = "cron(0 9 ? * MON *)"
+  schedule_expression_timezone = "Europe/Oslo"
+  state                        = var.notifications_enabled ? "ENABLED" : "DISABLED"
+  flexible_time_window {
+    mode = "OFF"
+  }
+  target {
+    arn      = aws_lambda_function.notifier.arn
+    role_arn = aws_iam_role.scheduler.arn
+    input    = jsonencode({ kind = "weekly", at = "<aws.scheduler.scheduled-time>" })
+    retry_policy {
+      maximum_event_age_in_seconds = 900
+      maximum_retry_attempts       = 2
+    }
+    dead_letter_config {
+      arn = aws_sqs_queue.failures.arn
+    }
+  }
+  depends_on = [
+    aws_lambda_function_event_invoke_config.notifier,
+    aws_iam_role_policy_attachment.scheduler,
+  ]
+}
+
 resource "aws_cloudwatch_metric_alarm" "missing" {
   for_each            = local.services
   alarm_name          = "${local.prefix}-${lower(each.key)}-not-completing"
