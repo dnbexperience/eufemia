@@ -30,12 +30,17 @@ const elementsWithoutName = new Set([
   'b',
   'bdi',
   'bdo',
+  'caption',
   'cite',
   'code',
+  'data',
+  'dd',
   'del',
   'dfn',
   'div',
+  'dt',
   'em',
+  'figcaption',
   'i',
   'ins',
   'kbd',
@@ -52,6 +57,7 @@ const elementsWithoutName = new Set([
   'strong',
   'sub',
   'sup',
+  'time',
   'u',
   'var',
 ])
@@ -70,7 +76,9 @@ export const skeletonDOMAttributes = (
     const canHaveName =
       Boolean(params.role) ||
       typeof element !== 'string' ||
-      !elementsWithoutName.has(element)
+      (!elementsWithoutName.has(element) &&
+        // An "a" without href has no role either
+        !(element === 'a' && !params.href))
     if (canHaveName) {
       params['aria-label'] = context?.translation?.Skeleton?.ariaBusy
     }

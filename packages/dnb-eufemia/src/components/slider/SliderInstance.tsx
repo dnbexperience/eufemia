@@ -78,7 +78,7 @@ export function SliderInstance() {
   const subtractButton = showButtons ? <SubtractButton /> : null
   const addButton = showButtons ? <AddButton /> : null
 
-  skeletonDOMAttributes(mainParams, skeleton, context)
+  skeletonDOMAttributes(mainParams, skeleton, context, 'span')
 
   return (
     <span {...mainParams}>

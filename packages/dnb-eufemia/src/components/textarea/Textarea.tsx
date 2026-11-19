@@ -475,7 +475,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         }
       : null
 
-  skeletonDOMAttributes(innerParams, skeleton, context)
+  skeletonDOMAttributes(innerParams, skeleton, context, 'span')
 
   validateDOMAttributes(ownProps, textareaParams)
   validateDOMAttributes(null, innerParams)
