@@ -119,7 +119,12 @@ export const EiendomDefault: LogoSvgComponent = function ({
   const theme = useTheme()
   const isDark = theme?.colorScheme === 'dark'
   const resolvedFill =
-    fill ?? (isDark ? logoColors.eiendom.dark : logoColors.eiendom.light)
+    fill ??
+    (theme?.isBirdhouse
+      ? 'var(--token-color-icon-action)'
+      : isDark
+        ? logoColors.eiendom.dark
+        : logoColors.eiendom.light)
 
   return (
     <svg fill={resolvedFill} {...props} viewBox="0 0 368 80">
