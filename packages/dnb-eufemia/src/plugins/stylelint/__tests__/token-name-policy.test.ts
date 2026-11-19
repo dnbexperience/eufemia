@@ -66,6 +66,40 @@ const makeTempTokenFiles = () => {
 
 describe('token-name-policy stylelint rule', () => {
   it.each(['foundation.scss', 'tokens.scss', 'tokens-dark.scss'])(
+    'validates Birdhouse and shared DNB foundation prefixes in %s',
+    async (fileName) => {
+      const codeFilename = `/repo/src/style/themes/birdhouse/${fileName}`
+      const declaration = (prefix: string) =>
+        fileName === 'foundation.scss'
+          ? `:root { --${prefix}-red-100: #fcc; }`
+          : `:root { --token-color-text-error: var(--${prefix}-red-100); }`
+
+      for (const prefix of ['birdhouse', 'dnb']) {
+        expect(
+          await lintWithRule({ code: declaration(prefix), codeFilename })
+        ).toHaveLength(0)
+      }
+
+      const errors = await lintWithRule({
+        code: declaration('sbanken'),
+        codeFilename,
+      })
+      expect(errors).toHaveLength(1)
+      expect(errors[0].text).toContain('Expected prefix "--birdhouse-"')
+    }
+  )
+
+  it('flags Birdhouse foundation references outside tokens.scss', async () => {
+    const errors = await lintWithRule({
+      code: '.dnb-button { color: var(--birdhouse-beige-50); }',
+      codeFilename: '/repo/src/components/button/style/dnb-button.scss',
+    })
+
+    expect(errors).toHaveLength(1)
+    expect(errors[0].text).toContain('outside tokens.scss')
+  })
+
+  it.each(['foundation.scss', 'tokens.scss', 'tokens-dark.scss'])(
     'requires Coconut foundation prefixes in %s',
     async (fileName) => {
       const errors = await lintWithRule({
@@ -91,19 +125,24 @@ describe('token-name-policy stylelint rule', () => {
     expect(errors[0].text).toContain('outside tokens.scss')
   })
 
-  it.each(['ui', 'coconut'])(
-    'allows Coconut tokens to evolve independently of %s token parity',
-    async (theme) => {
+  it.each([
+    ['coconut', 'ui'],
+    ['coconut', 'coconut'],
+    ['birdhouse', 'ui'],
+    ['birdhouse', 'birdhouse'],
+  ])(
+    'allows %s tokens to evolve independently of %s token parity',
+    async (preview, theme) => {
       const temp = makeTempTokenFiles()
 
       try {
-        const coconutFile = path.join(
+        const previewFile = path.join(
           temp.rootDir,
-          'src/style/themes/coconut/tokens.scss'
+          `src/style/themes/${preview}/tokens.scss`
         )
-        fs.mkdirSync(path.dirname(coconutFile), { recursive: true })
+        fs.mkdirSync(path.dirname(previewFile), { recursive: true })
         fs.writeFileSync(
-          coconutFile,
+          previewFile,
           ':root { --token-color-text-action: #111; }'
         )
         for (const relativePath of Object.values(temp.files)) {
@@ -113,8 +152,8 @@ describe('token-name-policy stylelint rule', () => {
           )
         }
         const codeFilename =
-          theme === 'coconut'
-            ? coconutFile
+          theme === preview
+            ? previewFile
             : path.join(temp.rootDir, temp.files.ui)
         const errors = await lintWithRule({
           code: fs.readFileSync(codeFilename, 'utf-8'),

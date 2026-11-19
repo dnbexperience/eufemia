@@ -28,6 +28,30 @@ describe('VisibilityByTheme', () => {
     }
   )
 
+  it.each([
+    'eiendom',
+    'birdhouse',
+    { brand: 'eiendom' },
+    { brand: 'birdhouse' },
+    { name: 'eiendom' },
+    { name: 'birdhouse' },
+    { brand: 'eiendom', variant: 'blue' },
+  ] as const)(
+    'matches Birdhouse against %j for visible and hidden content',
+    (themeItem) => {
+      render(
+        <Theme brand="birdhouse" variant="blue">
+          <VisibilityByTheme visible={themeItem}>
+            Visible
+          </VisibilityByTheme>
+          <VisibilityByTheme hidden={themeItem}>Hidden</VisibilityByTheme>
+        </Theme>
+      )
+
+      expect(document.body.textContent).toBe('Visible')
+    }
+  )
+
   it('preserves variant matching for Coconut', () => {
     render(
       <Theme brand="coconut" variant="blue">

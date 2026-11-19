@@ -60,6 +60,7 @@ function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
       carnegie: { name: 'DNB Carnegie' },
       // @deprecated Transitional "coconut" brand, removed later
       coconut: { name: 'Coconut' },
+      birdhouse: { name: 'Birdhouse' },
     },
     defaultTheme: 'ui',
     // Anchored at the package root, so globby does not walk the whole package.

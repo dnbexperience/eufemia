@@ -46,6 +46,7 @@ const availableThemes: Record<string, { name: string; hide?: boolean }> = {
   // @deprecated Transitional "coconut" brand, removed later.
   // Hidden from the brand switcher; reachable via ?eufemia-theme=coconut
   coconut: { name: 'Coconut', hide: true },
+  birdhouse: { name: 'Birdhouse', hide: true },
 }
 
 const themeNames: ThemeNames[] = Object.keys(

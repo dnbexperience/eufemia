@@ -47,6 +47,7 @@ const DEFAULT_POLICY = {
     sbanken: 'sbanken',
     carnegie: 'carnegie',
     coconut: 'coconut',
+    birdhouse: 'birdhouse',
   },
 
   // Prevent temporary in-progress tokens from being committed as stable API.
@@ -74,7 +75,7 @@ const PROJECT_ROOT = path.resolve(__dirname, '../../../..')
 const THEME_FROM_PATH_REGEX = /\/style\/themes\/([^/]+)\//
 const TOKEN_DECLARATION_PATTERN = /(^|\s)(--token-[a-z0-9-]+)\s*:/gim
 const FOUNDATION_REFERENCE_REGEX =
-  /var\(\s*(--(?:dnb|sbanken|carnegie|coconut)-[a-z0-9-]+)\s*\)/gi
+  /var\(\s*(--(?:dnb|sbanken|carnegie|coconut|birdhouse)-[a-z0-9-]+)\s*\)/gi
 const TOKEN_REFERENCE_REGEX = /var\(\s*(--token-[a-z0-9-]+)\s*\)/gi
 const GENERIC_VAR_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
 const SINGLE_VAR_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/i
@@ -142,9 +143,9 @@ const getThemeFromPath = (filePath) => {
   return match?.[1] || null
 }
 
-// Coconut has an independent token set while the public brands share one.
+// Preview themes have independent token sets while the public brands share one.
 const participatesInTokenParity = (filePath) => {
-  return getThemeFromPath(filePath) !== 'coconut'
+  return !['coconut', 'birdhouse'].includes(getThemeFromPath(filePath))
 }
 
 const isFoundationFile = (filePath) => {
@@ -498,11 +499,15 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
       const expectedVariablePrefix = hasThemeReferenceValidation
         ? `--${expectedPrefix}-`
         : null
+      // Birdhouse shares DNB status colors alongside its own palette.
+      const hasExpectedPrefix = (variable) =>
+        variable.startsWith(expectedVariablePrefix) ||
+        (theme === 'birdhouse' && variable.startsWith('--dnb-'))
 
       if (
         shouldValidateThemePrefix &&
         expectedVariablePrefix &&
-        !decl.prop.startsWith(expectedVariablePrefix)
+        !hasExpectedPrefix(decl.prop)
       ) {
         stylelint.utils.report({
           result,
@@ -520,10 +525,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
           const referenceMatch = match.match(SINGLE_VAR_REFERENCE_REGEX)
           const variableReference = referenceMatch?.[1]
 
-          if (
-            variableReference &&
-            !variableReference.startsWith(expectedVariablePrefix)
-          ) {
+          if (variableReference && !hasExpectedPrefix(variableReference)) {
             stylelint.utils.report({
               result,
               ruleName: RULE_NAME,

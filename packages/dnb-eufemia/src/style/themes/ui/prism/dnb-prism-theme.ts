@@ -31,7 +31,7 @@ const prismTheme = {
       style: {
         // The inverse token turns dark in dark mode, while the code background stays dark
         color:
-          'color-mix(in srgb, var(--token-color-text-positive-inverse), var(--token-color-text-neutral-ondark))',
+          'color-mix(in srgb, var(--token-color-text-positive-inverse) 40%, var(--token-color-text-neutral-ondark))',
         fontStyle: italic,
       },
     },
@@ -47,7 +47,7 @@ const prismTheme = {
       types: ['string', 'url'],
       style: {
         color:
-          'color-mix(in srgb, var(--token-color-text-positive-inverse), var(--token-color-text-neutral-ondark))',
+          'color-mix(in srgb, var(--token-color-text-positive-inverse) 40%, var(--token-color-text-neutral-ondark))',
       },
     },
     {

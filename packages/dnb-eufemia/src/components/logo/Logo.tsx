@@ -66,7 +66,8 @@ function Logo(localProps: LogoProps) {
       // reports here too. Use "isCoconut" to tell the two apart.
       isSbanken: themeBrand === 'sbanken' || themeBrand === 'coconut',
       isCoconut: themeBrand === 'coconut',
-      isEiendom: themeBrand === 'eiendom',
+      isBirdhouse: themeBrand === 'birdhouse',
+      isEiendom: themeBrand === 'eiendom' || themeBrand === 'birdhouse',
       isCarnegie: themeBrand === 'carnegie',
     }
   }, [hasTheme, themeBrand, size])

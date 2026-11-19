@@ -155,7 +155,14 @@ async function prerender() {
   // paint — avoiding a flash of the wrong brand theme.
   const assetsDir = path.resolve(outDir, 'assets')
   // @deprecated The "coconut" entry is for a transitional brand, removed later
-  const themeNames = ['ui', 'sbanken', 'eiendom', 'carnegie', 'coconut']
+  const themeNames = [
+    'ui',
+    'sbanken',
+    'eiendom',
+    'carnegie',
+    'coconut',
+    'birdhouse',
+  ]
   const themeCssPaths = {}
   for (const name of themeNames) {
     const file = fs

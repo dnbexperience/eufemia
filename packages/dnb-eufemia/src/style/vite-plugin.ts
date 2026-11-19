@@ -45,7 +45,7 @@ export type EufemiaCssOptimizerPlugin = {
 // @deprecated The "coconut" alternative is transitional and removed with
 // that brand.
 const AGGREGATE_STYLE_PATTERN =
-  /(?:^|\/)(?:dnb-ui-(?:components|extensions|forms|fragments)|(?:ui|coconut|sbanken|carnegie|eiendom)-theme-(?:components|extensions|forms))(?:--isolated)?(?:\.min)?\.(?:css|scss)(?:\?|$)/
+  /(?:^|\/)(?:dnb-ui-(?:components|extensions|forms|fragments)|(?:ui|coconut|birdhouse|sbanken|carnegie|eiendom)-theme-(?:components|extensions|forms))(?:--isolated)?(?:\.min)?\.(?:css|scss)(?:\?|$)/
 const EUFEMIA_PACKAGE_PATTERN =
   /(?:^|\/)(?:node_modules\/@dnb\/eufemia|packages\/dnb-eufemia)\/(?:build\/)?(?:src\/)?style\//
 
