@@ -289,7 +289,7 @@ test.describe('Table.ScrollView', () => {
     await scrollView.evaluate((element) => {
       element.scrollTop = 0
     })
-    await expect(button).toHaveAttribute('tabindex', '0')
+    await expect(button).not.toHaveAttribute('tabindex')
     await button.click()
     await expect
       .poll(() => scrollView.evaluate((element) => element.scrollLeft))
@@ -297,7 +297,7 @@ test.describe('Table.ScrollView', () => {
     await expect(scrollView).toBeFocused()
   })
 
-  test('retains focus when overflow disappears while the indicator is focused', async ({
+  test('retains focus when overflow disappears and returns while the indicator is focused', async ({
     page,
   }) => {
     const scrollView = page.locator(
@@ -311,8 +311,11 @@ test.describe('Table.ScrollView', () => {
     await expect(scrollView).not.toHaveAttribute('tabindex')
     await expect(table).toBeFocused()
     await expect(table).toHaveAttribute('tabindex', '-1')
+    await page.setViewportSize({ width: 375, height: 1024 })
+    await expect(button).toBeVisible()
+    await expect(scrollView).toHaveAttribute('tabindex', '0')
+    await expect(table).toBeFocused()
     await page.keyboard.press('Tab')
-    await expect(table).not.toHaveAttribute('tabindex')
     await expect(scrollView.locator('table button').first()).toBeFocused()
   })
 
