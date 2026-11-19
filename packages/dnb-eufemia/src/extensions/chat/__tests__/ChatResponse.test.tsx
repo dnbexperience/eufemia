@@ -291,13 +291,13 @@ describe('Chat.Response', () => {
     expect(cell).toHaveStyle({ textAlign: 'right' })
   })
 
-  it('only shows a translated table hint while horizontal content overflows', async () => {
-    let update: ResizeObserverCallback
+  it('uses the Table scroll button without a separate overflow hint', () => {
+    const updates: ResizeObserverCallback[] = []
     const disconnect = vi.fn()
     const original = window.ResizeObserver
     window.ResizeObserver = class {
       constructor(callback: ResizeObserverCallback) {
-        update = callback
+        updates.push(callback)
       }
       observe = vi.fn()
       unobserve = vi.fn()
@@ -318,6 +318,7 @@ describe('Chat.Response', () => {
       const scroll = document.querySelector<HTMLElement>(
         '.dnb-table__scroll-view'
       )
+      scroll.style.overflowX = 'auto'
       expect(
         document.querySelector('.dnb-ai-response__table-hint')
       ).toBeNull()
@@ -329,17 +330,20 @@ describe('Chat.Response', () => {
         configurable: true,
         value: 300,
       })
-      act(() => update([], null))
-      const hint = document.querySelector('.dnb-ai-response__table-hint')
-      expect(hint).toHaveTextContent(
-        'Scroll horizontally to see the full table'
-      )
-      expect(scroll).toHaveAttribute('aria-describedby', hint.id)
+      act(() => updates.forEach((update) => update([], null)))
+      const button = scroll.querySelector('.dnb-table__scroll-indicator')
+      expect(button).toHaveAccessibleName('See more columns')
+      expect(scroll).toHaveAttribute('data-scroll-indicator')
+      expect(
+        document.querySelector('.dnb-ai-response__table-hint')
+      ).toBeNull()
+      expect(scroll).not.toHaveAttribute('aria-describedby')
       Object.defineProperty(scroll, 'clientWidth', {
         configurable: true,
         value: 400,
       })
-      act(() => update([], null))
+      act(() => updates.forEach((update) => update([], null)))
+      expect(scroll).not.toHaveAttribute('data-scroll-indicator')
       expect(
         document.querySelector('.dnb-ai-response__table-hint')
       ).toBeNull()
