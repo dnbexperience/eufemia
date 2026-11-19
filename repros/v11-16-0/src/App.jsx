@@ -7,8 +7,8 @@ const getTab = (position) =>
     `.dnb-tabs__button__snap:${position}-of-type .dnb-tabs__button`
   )
 
-// Keep focus where it is on mousedown, the way Safari treats every button.
-// The tab is then focused from script without a preceding key press.
+// Keep focus where it is on mousedown, as toolbar buttons and custom menus
+// often do. The tab is then focused from script without a key press.
 const keepFocus = (event) => event.preventDefault()
 
 export default function App() {
@@ -39,8 +39,11 @@ export default function App() {
     <div style={{ maxWidth: '40rem', padding: '2rem' }}>
       <H1 size="large">Tabs focus outline: {VERSION_LABEL}</H1>
       <P>
-        Click a button with the mouse. It moves focus to a tab without a key
-        press, so <Code>data-whatinput</Code> stays <Code>mouse</Code>.
+        Press <Code>Tab</Code> until a tab has focus, then click that same tab
+        with the mouse and move the pointer away. Or click one of the buttons
+        below: they move focus to a tab without a key press. Either way,{' '}
+        <Code>data-whatinput</Code> is <Code>mouse</Code> while the tab still
+        has visible focus.
       </P>
       <P>
         <strong>Expected here:</strong> {EXPECTED}
