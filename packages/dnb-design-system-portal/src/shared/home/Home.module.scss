@@ -582,6 +582,10 @@
   transform-origin: 52px 49px;
 }
 
+.artworkButtonStyle rect {
+  rx: min(14px, var(--token-radius-xl));
+}
+
 .developArtworkStyle .artworkButtonStyle {
   transform: translate(46px, 53px);
 }
