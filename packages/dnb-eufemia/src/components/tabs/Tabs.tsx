@@ -764,7 +764,7 @@ function TabsComponent(ownProps: TabsProps) {
 
   useIsomorphicLayoutEffect(() => {
     if (typeof ResizeObserver === 'undefined') {
-      return
+      return undefined
     }
 
     // Focus spacing changes the tab positions without resizing the tablist.
