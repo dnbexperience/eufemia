@@ -255,6 +255,7 @@ function TabsComponent(ownProps: TabsProps) {
     Record<string, { content: ReactNode; [key: string]: unknown }>
   >({})
   const listenForPropChangesRef = useRef(true)
+  const skipTabButtonFocusRef = useRef(false)
 
   // ID
   const _id = useId(ownProps.id)
@@ -303,10 +304,20 @@ function TabsComponent(ownProps: TabsProps) {
       propChangeRef.current = true
     }
     if (ownProps.selectedKey && prevSelectedKey !== ownProps.selectedKey) {
-      setPrevSelectedKey(ownProps.selectedKey)
-      setSelectedKey(
-        getSelectedKeyOrFallback(ownProps.selectedKey, currentData)
+      const newSelectedKey = getSelectedKeyOrFallback(
+        ownProps.selectedKey,
+        currentData
       )
+      setPrevSelectedKey(ownProps.selectedKey)
+      setSelectedKey(newSelectedKey)
+
+      // Keep keyboard navigation starting from the selected tab,
+      // without moving focus away from where the user is.
+      if (newSelectedKey !== focusKey) {
+        skipTabButtonFocusRef.current = true
+        setFocusKey(newSelectedKey)
+      }
+
       propChangeRef.current = true
     }
   }
@@ -658,6 +669,11 @@ function TabsComponent(ownProps: TabsProps) {
 
   // Focus tab button when focusKey changes
   useUpdateEffect(() => {
+    if (skipTabButtonFocusRef.current) {
+      skipTabButtonFocusRef.current = false
+      return // stop here
+    }
+
     setFocusOnTabButton()
   }, [focusKey])
 

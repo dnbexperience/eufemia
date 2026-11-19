@@ -327,6 +327,40 @@ describe('Tabs component', () => {
     expect(onFocus).toHaveBeenCalledTimes(2)
   })
 
+  it('moves keyboard focus from the tab selected by the selectedKey property', () => {
+    const { rerender } = render(
+      <>
+        <button>External</button>
+        <Tabs {...props} data={tablistData} selectedKey="first" />
+      </>
+    )
+
+    const externalButton = document.querySelector<HTMLButtonElement>(
+      'button:not([role])'
+    )
+    externalButton.focus()
+
+    rerender(
+      <>
+        <button>External</button>
+        <Tabs {...props} data={tablistData} selectedKey="third" />
+      </>
+    )
+
+    expect(document.activeElement).toBe(externalButton)
+    expect(
+      document.querySelector('[data-tab-key="third"]').parentElement
+    ).toHaveClass('focus')
+
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      key: 'ArrowLeft',
+    })
+
+    expect(document.activeElement).toBe(
+      document.querySelector('[data-tab-key="second"]')
+    )
+  })
+
   it('will use given tabElement', () => {
     const Link = ({
       href,
