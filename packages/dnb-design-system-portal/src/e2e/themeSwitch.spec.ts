@@ -281,10 +281,19 @@ test('should enable Birdhouse from the URL without offering it in settings', asy
     .toBe(true)
 
   await page.locator('#portal-tools').click()
-  await page.locator('#change-theme').click()
-  await expect(
-    page.locator('#change-theme-portal [role="option"]')
-  ).toHaveText(['DNB', 'Sbanken', 'DNB Eiendom', 'DNB Carnegie'])
+  const brands = page
+    .getByRole('dialog', { name: 'Settings' })
+    .getByRole('radiogroup')
+    .filter({ has: page.getByRole('radio', { name: 'DNB', exact: true }) })
+  await expect(brands.locator('.dnb-chip__text')).toHaveText([
+    'DNB',
+    'Sbanken',
+    'DNB Eiendom',
+    'DNB Carnegie',
+  ])
+  const dnb = brands.getByRole('radio', { name: 'DNB', exact: true })
+  await expect(dnb).toBeFocused()
+  await expect(dnb).not.toBeChecked()
 
   await page.evaluate(() => {
     const theme = JSON.parse(localStorage.getItem('eufemia-theme'))
@@ -303,8 +312,7 @@ test('should enable Birdhouse from the URL without offering it in settings', asy
   )
 
   await page.locator('#portal-tools').click()
-  await page.locator('#change-theme').click()
-  await page.locator('#change-theme-portal ul li:first-child').click()
+  await brands.getByRole('radio', { name: 'DNB', exact: true }).click()
   await expect(page.locator('body')).toHaveClass(/eufemia-theme__ui/)
   await expect(page.locator('body')).not.toHaveClass(
     /eufemia-theme__birdhouse/
