@@ -111,6 +111,7 @@ export default {
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',
+  '--font-weight-display': 'normal',
   '--font-weight-basis': 'normal',
   '--font-weight-light': '300',
   '--font-weight-regular': 'normal',

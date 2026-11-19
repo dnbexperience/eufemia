@@ -143,6 +143,33 @@ describe('DNB font faces', () => {
     ).toBe(true)
   })
 
+  it('registers Eiendom Light and its matching skeleton only for Birdhouse', () => {
+    const faces = getFontFaces('birdhouse')
+    for (const [family, file] of [
+      ['"DNB Sans Eiendom"', 'DNBSansEiendom-Light'],
+      ['DNBSansEiendomSkeleton', 'skeleton/DNBSansEiendom-Skeleton-Light'],
+    ]) {
+      const face = faces.find((face) => face['font-family'] === family)
+      expect(face).toBeDefined()
+      expect(face['font-weight']).toBe('300')
+      expect(face['font-style']).toBe('normal')
+      expect(face['font-display']).toBe('fallback')
+      for (const extension of ['woff2', 'woff', 'ttf']) {
+        expect(face.src).toContain(file + '.' + extension)
+        expect(
+          fs.existsSync(path.join(fontsDirectory, file + '.' + extension))
+        ).toBe(true)
+      }
+    }
+    for (const theme of ['ui', 'eiendom']) {
+      expect(
+        getFontFaces(theme).some((face) =>
+          face['font-family'].includes('Eiendom')
+        )
+      ).toBe(false)
+    }
+  })
+
   it('keeps Sbanken font faces independent', () => {
     expect(
       getFontFaces('sbanken').some((face) =>

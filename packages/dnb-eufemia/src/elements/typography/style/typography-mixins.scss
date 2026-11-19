@@ -431,7 +431,7 @@ $t-lh-2xl: var(--line-height-xx-large);
 
 @mixin displayFont() {
   font-family: var(--font-family-display, var(--font-family-heading));
-  font-weight: normal;
+  font-weight: var(--font-weight-display, normal);
   font-style: normal;
   font-synthesis: none;
   text-rendering: var(--font-display-text-rendering, auto);
