@@ -132,7 +132,7 @@ describe('Table.ScrollView', () => {
     expect(
       element.style.getPropertyValue('--table-scroll-indicator-opacity')
     ).toBe('')
-    expect(button).toHaveAttribute('tabindex', '0')
+    expect(button).not.toHaveAttribute('tabindex')
     button.focus()
 
     fireEvent.scroll(element, { target: { scrollLeft: 10 } })
@@ -162,12 +162,12 @@ describe('Table.ScrollView', () => {
 
     fireEvent.scroll(element, { target: { scrollLeft: 0 } })
     expect(element).toHaveAttribute('data-scroll-indicator')
-    expect(button).toHaveAttribute('tabindex', '0')
+    expect(button).not.toHaveAttribute('tabindex')
     expect(button).not.toHaveAttribute('data-scroll-indicator-inactive')
     fireEvent.scroll(element, { target: { scrollTop: 1 } })
     expect(button).toHaveAttribute('tabindex', '-1')
     fireEvent.scroll(element, { target: { scrollTop: 0 } })
-    expect(button).toHaveAttribute('tabindex', '0')
+    expect(button).not.toHaveAttribute('tabindex')
     button.focus()
 
     scrollWidth.mockReturnValue(200)
@@ -175,8 +175,10 @@ describe('Table.ScrollView', () => {
     expect(element).not.toHaveAttribute('data-scroll-indicator')
     expect(element).not.toHaveAttribute('tabindex')
     expect(element.querySelector('table')).toHaveFocus()
-    fireEvent.blur(element.querySelector('table'))
-    expect(element.querySelector('table')).not.toHaveAttribute('tabindex')
+    expect(element.querySelector('table')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
   })
 
   it('fades in the scroll direction and scrolls toward more columns in right-to-left layouts', () => {

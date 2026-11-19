@@ -58,17 +58,17 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
         const target = canScroll ? element : element.querySelector('table')
         if (target) {
           if (!canScroll && !target.hasAttribute('tabindex')) {
+            // Keep programmatic focus available when overflow returns.
             target.tabIndex = -1
-            target.addEventListener(
-              'blur',
-              () => target.removeAttribute('tabindex'),
-              { once: true }
-            )
           }
           target.focus({ preventScroll: true })
         }
       }
-      button.tabIndex = isActive ? 0 : -1
+      if (isActive) {
+        button.removeAttribute('tabindex')
+      } else {
+        button.tabIndex = -1
+      }
       button.toggleAttribute('data-scroll-indicator-inactive', !isActive)
 
       element.toggleAttribute('data-scroll-indicator', opacity > 0)
