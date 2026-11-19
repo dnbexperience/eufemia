@@ -26,6 +26,7 @@ import githubReleasesPlugin from './vite/client/plugins/github-releases.ts'
 import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild.ts'
 import gitBranchPlugin from './vite/client/plugins/git-branch.ts'
 import analyticsCollectDevPlugin from './vite/client/plugins/analytics-collect-dev.ts'
+import productionDependenciesPlugin from './vite/client/plugins/production-dependencies.ts'
 import path from 'node:path'
 
 const nodeRequire = createRequire(import.meta.url)
@@ -165,6 +166,9 @@ const config = defineConfig({
         id: { include: /\.js($|\?)/, exclude: /node_modules/ },
       },
     }),
+
+    // Fail the client build when it ships a package that `dependencies` do not bring in
+    productionDependenciesPlugin(),
   ],
 
   resolve: {

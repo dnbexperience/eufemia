@@ -8657,6 +8657,7 @@ __metadata:
     "@mdx-js/react": "npm:3.1.0"
     "@mdx-js/rollup": "npm:3.1.1"
     "@playwright/test": "npm:1.65.0-alpha-2026-10-24"
+    "@tanstack/react-virtual": "npm:3.14.10"
     "@testing-library/react": "npm:16.3.3"
     "@types/json-schema": "npm:7.0.15"
     "@types/picomatch": "npm:4.0.3"
