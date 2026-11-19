@@ -1,6 +1,22 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-ai-confirmation {
   width: 100%;
   max-width: 100%;
+
+  // Shown when focus moves to the card after a decision
+  &:focus-visible {
+    --card-outline-color: var(--token-color-stroke-action-focus);
+    --outline-color: var(--token-color-stroke-action-focus);
+    --outline-width: var(--focus-outline-width);
+
+    outline: none;
+
+    @include utilities.forcedColorsOutline(
+      $width: var(--focus-outline-width),
+      $inset: inset
+    );
+  }
 
   &__body {
     min-width: 0;
