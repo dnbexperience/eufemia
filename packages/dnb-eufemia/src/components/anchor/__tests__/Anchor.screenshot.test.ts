@@ -4,6 +4,26 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
+describe.each(['light', 'dark'] as const)(
+  'Anchor for birdhouse %s',
+  (colorScheme) => {
+    setupPageScreenshot({
+      themeName: 'birdhouse',
+      colorScheme,
+      url: '/web/components/anchor/demos/',
+    })
+
+    it('matches default, hover, active and focus states', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="anchor-states"]',
+        wrapperStyle: {
+          background: 'var(--token-color-background-neutral)',
+        },
+      })
+    })
+  }
+)
+
 describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
   `Anchor for %s`,
   (themeName) => {

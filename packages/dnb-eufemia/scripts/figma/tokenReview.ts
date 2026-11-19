@@ -14,6 +14,10 @@ export const tokenModes = [
   // @deprecated Transitional "coconut" brand, removed later
   { brand: 'coconut', mode: 'dark', name: 'Coconut dark' },
   { brand: 'carnegie', mode: 'light', name: 'Carnegie light' },
+  { brand: 'eiendom', mode: 'light', name: 'Eiendom light' },
+  { brand: 'eiendom', mode: 'dark', name: 'Eiendom dark' },
+  { brand: 'birdhouse', mode: 'light', name: 'Birdhouse light' },
+  { brand: 'birdhouse', mode: 'dark', name: 'Birdhouse dark' },
 ] as const
 
 type Color = [number, number, number, number]
@@ -178,12 +182,45 @@ export const loadTokenModes = (
         })
       : readFileSync(path.join(repositoryRoot, file), 'utf8')
   return tokenModes.map(({ brand, mode, name }) => {
-    const root = 'packages/dnb-eufemia/src/style/themes/' + brand + '/'
+    const themeRoot = 'packages/dnb-eufemia/src/style/themes/'
+    let sourceBrand: string = brand
+    if (revision && brand === 'birdhouse') {
+      const existing = execFileSync(
+        'git',
+        [
+          'ls-tree',
+          '--name-only',
+          revision,
+          '--',
+          themeRoot + brand + '/foundation.scss',
+        ],
+        { cwd: repositoryRoot, encoding: 'utf8' }
+      )
+      // Compare the new identity with legacy Eiendom on its first introduction.
+      if (!existing.trim()) {
+        sourceBrand = 'eiendom'
+      }
+    }
+    const root = themeRoot + sourceBrand + '/'
+    const sourceUrl = new URL('token-review:/' + root + 'entry.scss')
     const css = sass.compileString(
       read(root + 'foundation.scss') +
         '\n' +
         read(root + 'tokens.scss') +
-        (mode === 'dark' ? '\n' + read(root + 'tokens-dark.scss') : '')
+        (mode === 'dark' ? '\n' + read(root + 'tokens-dark.scss') : ''),
+      {
+        url: sourceUrl,
+        importers: [
+          {
+            canonicalize: (url, { containingUrl }) =>
+              new URL(url, containingUrl ?? sourceUrl),
+            load: (url) => ({
+              contents: read(decodeURIComponent(url.pathname).slice(1)),
+              syntax: 'scss',
+            }),
+          },
+        ],
+      }
     ).css
     return { name, tokens: resolveTokenValues(css) }
   })
@@ -249,6 +286,13 @@ export const surfaceContrastPairs = [
 ]
 
 export const iconContrastPairs = [
+  ...['action-focus', 'action'].flatMap((stroke) =>
+    ['neutral', 'neutral-subtle', 'neutral-base'].map((background) => ({
+      foreground: '--token-color-stroke-' + stroke,
+      background: '--token-color-background-' + background,
+      minimum: 3,
+    }))
+  ),
   {
     foreground: '--token-color-icon-info',
     background: '--token-color-background-info-subtle',
@@ -285,8 +329,6 @@ export const reviewTokenChanges = (
 ) => {
   const lines = [
     '## Resolved design token changes',
-    '',
-    'Eiendom currently reuses DNB color tokens.',
     '',
     '| Theme / mode | Token | Before | After |',
     '| --- | --- | --- | --- |',

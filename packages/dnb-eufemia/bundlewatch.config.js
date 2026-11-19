@@ -137,6 +137,26 @@ const cssBundles = [
     path: 'build/style/themes/ui/ui-theme-properties.min.css',
     maxSize: '5kB',
   },
+  {
+    path: 'build/style/themes/birdhouse/birdhouse-theme-basis.min.css',
+    maxSize: '10kB',
+  },
+  {
+    path: 'build/style/themes/birdhouse/birdhouse-theme-components.min.css',
+    maxSize: '68kB',
+  },
+  {
+    path: 'build/style/themes/birdhouse/birdhouse-theme-elements.min.css',
+    maxSize: '10kB',
+  },
+  {
+    path: 'build/style/themes/birdhouse/birdhouse-theme-extensions.min.css',
+    maxSize: '17kB',
+  },
+  {
+    path: 'build/style/themes/birdhouse/birdhouse-theme-forms.min.css',
+    maxSize: '10kB',
+  },
 ]
 
 module.exports = {

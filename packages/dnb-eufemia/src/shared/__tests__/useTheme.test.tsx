@@ -38,6 +38,7 @@ describe('useTheme', () => {
       brand: 'sbanken',
       name: 'sbanken',
       isEiendom: false,
+      isBirdhouse: false,
       isSbanken: true,
       isCoconut: false,
       isUi: false,
@@ -55,8 +56,27 @@ describe('useTheme', () => {
       brand: 'coconut',
       name: 'coconut',
       isEiendom: false,
+      isBirdhouse: false,
       isSbanken: true,
       isCoconut: true,
+      isUi: false,
+      isCarnegie: false,
+    })
+  })
+
+  it('reports the transitional birdhouse brand as Eiendom too', () => {
+    const wrapper = ({ children }) => (
+      <Theme brand="birdhouse">{children}</Theme>
+    )
+    const { result } = renderHook(() => useTheme(), { wrapper })
+
+    expect(result.current).toEqual({
+      brand: 'birdhouse',
+      name: 'birdhouse',
+      isEiendom: true,
+      isBirdhouse: true,
+      isSbanken: false,
+      isCoconut: false,
       isUi: false,
       isCarnegie: false,
     })
@@ -103,6 +123,7 @@ describe('useTheme', () => {
       brand: undefined,
       name: undefined,
       isEiendom: false,
+      isBirdhouse: false,
       isSbanken: false,
       isCoconut: false,
       isUi: false,

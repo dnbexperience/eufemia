@@ -36,6 +36,9 @@ describe('makePropertiesFile', () => {
     // @deprecated Transitional "coconut" brand, removed later
     coconutTokensDark: null,
     carnegieTokens: null,
+    birdhouseTokens: null,
+    birdhouseTokensDark: null,
+    birdhouseFoundation: null,
     uiFoundation: null,
     sbankenFoundation: null,
     // @deprecated Transitional "coconut" brand, removed later
@@ -107,6 +110,18 @@ describe('makePropertiesFile', () => {
       path.resolve('src/style/themes/coconut/foundation.scss'),
       'utf-8'
     )
+    global.birdhouseTokens = fs.readFileSync(
+      path.resolve('src/style/themes/birdhouse/tokens.scss'),
+      'utf-8'
+    )
+    global.birdhouseTokensDark = fs.readFileSync(
+      path.resolve('src/style/themes/birdhouse/tokens-dark.scss'),
+      'utf-8'
+    )
+    global.birdhouseFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/birdhouse/foundation.scss'),
+      'utf-8'
+    )
     global.carnegieTokens = fs.readFileSync(
       path.resolve('src/style/themes/carnegie/tokens.scss'),
       'utf-8'
@@ -145,6 +160,32 @@ describe('makePropertiesFile', () => {
       'utf-8'
     )
   })
+
+  it.each(['action-focus', 'action'])(
+    'keeps Birdhouse dark %s visible on neutral surfaces',
+    async (stroke) => {
+      const path = await import('path')
+      const { loadTokenModes, contrastRatio } =
+        await import('../../../figma/tokenReview')
+      const { tokens } = loadTokenModes(
+        path.resolve(__dirname, '../../../../../..')
+      ).find(({ name }) => name === 'Birdhouse dark')
+
+      for (const background of [
+        'neutral',
+        'neutral-subtle',
+        'neutral-base',
+      ]) {
+        expect(
+          contrastRatio(
+            tokens['--token-color-stroke-' + stroke],
+            tokens['--token-color-background-' + background],
+            tokens['--token-color-background-page-background']
+          )
+        ).toBeGreaterThanOrEqual(3)
+      }
+    }
+  )
 
   it('keeps dark error text readable on the surfaces it is used on', async () => {
     const path = await import('path')
@@ -201,6 +242,12 @@ describe('makePropertiesFile', () => {
       expect(global.coconutFoundation).toMatchSnapshot()
     })
 
+    it('birdhouse', () => {
+      expect(global.birdhouseTokens).toMatchSnapshot()
+      expect(global.birdhouseTokensDark).toMatchSnapshot()
+      expect(global.birdhouseFoundation).toMatchSnapshot()
+    })
+
     it('carnegie', () => {
       expect(global.carnegieTokens).toMatchSnapshot()
       expect(global.carnegieFoundation).toMatchSnapshot()
@@ -245,6 +292,8 @@ describe('makePropertiesFile', () => {
         'sbanken-light',
         'sbanken-dark',
         'dnbcarnegie-light',
+        'birdhouse-light',
+        'birdhouse-dark',
       ]
 
       for (const mode of modes) {
@@ -292,7 +341,7 @@ describe('makePropertiesFile', () => {
           )
         ).font
 
-      for (const brand of ['dnb', 'sbanken', 'coconut']) {
+      for (const brand of ['dnb', 'sbanken', 'coconut', 'birdhouse']) {
         const light = readFont(brand, 'light')
         const dark = readFont(brand, 'dark')
         for (const group of ['size', 'height', 'family', 'weight']) {
@@ -318,6 +367,7 @@ describe('makePropertiesFile', () => {
           'utf-8'
         )
 
+      expect(read('birdhouse')).toContain('--font-size-basis: 1.125rem;')
       expect(read('ui')).toContain('--font-size-xx-large: 3rem;')
       expect(read('sbanken')).toContain('--font-size-xx-large: 3rem;')
       expect(read('coconut')).toContain('--font-size-xx-large: 3rem;')
@@ -325,11 +375,23 @@ describe('makePropertiesFile', () => {
       expect(read('carnegie')).toContain(
         '--line-height-xx-large: 4.25rem;'
       )
-      for (const theme of ['ui', 'sbanken', 'coconut', 'carnegie']) {
+      for (const theme of [
+        'ui',
+        'sbanken',
+        'coconut',
+        'carnegie',
+        'birdhouse',
+      ]) {
         expect(read(theme)).toContain('\n:root {\n')
         expect(read(theme)).not.toContain('.eufemia-theme__')
       }
-      for (const theme of ['ui', 'sbanken', 'coconut']) {
+      for (const theme of [
+        'ui',
+        'sbanken',
+        'coconut',
+        'eiendom',
+        'birdhouse',
+      ]) {
         expect(
           fs.existsSync(
             path.resolve(
@@ -362,6 +424,7 @@ describe('makePropertiesFile', () => {
 
       expect(getValues('ui')).toEqual(['3rem', '3rem'])
       expect(getValues('eiendom')).toEqual(['3rem', '3rem'])
+      expect(getValues('birdhouse')).toEqual(['3rem', '3rem'])
       expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
       expect(getValues('coconut')).toEqual(['3rem', '3rem'])
       expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
@@ -373,6 +436,7 @@ describe('makePropertiesFile', () => {
       for (const theme of [
         'ui',
         'eiendom',
+        'birdhouse',
         'sbanken',
         'coconut',
         'carnegie',
@@ -402,7 +466,7 @@ describe('makePropertiesFile', () => {
         expect(selectors).toContain(':root')
         expect(
           selectors.filter((selector) =>
-            /\.eufemia-theme__(?:ui|coconut|sbanken|carnegie|eiendom)\b/.test(
+            /\.eufemia-theme__(?:ui|coconut|birdhouse|sbanken|carnegie|eiendom)\b/.test(
               selector
             )
           )
@@ -418,6 +482,7 @@ describe('makePropertiesFile', () => {
         ['sbanken', 'sbanken-light'],
         ['coconut', 'coconut-light'],
         ['carnegie', 'dnbcarnegie-light'],
+        ['birdhouse', 'birdhouse-light'],
       ]) {
         const tokens = JSON.parse(
           fs.readFileSync(
@@ -461,7 +526,13 @@ describe('makePropertiesFile', () => {
     it('keeps typography out of the dark stylesheets', async () => {
       const sass = await import('sass')
       const path = await import('path')
-      for (const theme of ['ui', 'sbanken', 'coconut', 'eiendom']) {
+      for (const theme of [
+        'ui',
+        'sbanken',
+        'coconut',
+        'eiendom',
+        'birdhouse',
+      ]) {
         const css = sass.compile(
           path.resolve(
             'src/style/themes/' +
@@ -1022,7 +1093,13 @@ describe('makePropertiesFile', () => {
       const fs = await import('fs')
       const path = await import('path')
 
-      for (const theme of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
+      for (const theme of [
+        'ui',
+        'sbanken',
+        'carnegie',
+        'eiendom',
+        'birdhouse',
+      ]) {
         for (const file of ['properties.ts', 'properties-tailwind.css']) {
           const content = fs.readFileSync(
             path.resolve('src/style/themes', theme, file),
@@ -1091,6 +1168,12 @@ describe('makePropertiesFile', () => {
           'carnegie'
         )['--font-family-heading']
       ).toBe("'ArizonaFlare', var(--font-family-default)")
+      expect(
+        getTypographyFontProperties(
+          await readFontTokens('birdhouse-light'),
+          'birdhouse'
+        )
+      ).toEqual(getTypographyFontProperties(await readFontTokens(), 'ui'))
     })
 
     it('rejects unknown font families, weights and missing font tokens', async () => {
@@ -1251,22 +1334,38 @@ describe('makePropertiesFile', () => {
           )
           expect(result).not.toContain('--token-font-')
         }
-        const inputPath = path.join(
-          directory,
-          'dnbcarnegie-light.tokens.json'
-        )
-        const tokens = JSON.parse(await fs.readFile(inputPath, 'utf-8'))
-        for (const role of ['text-basis', 'text-sm', 'text-xs']) {
-          tokens.font.weight[role + '-medium'].$value = 'Medium'
+        for (const [brand, mode] of [
+          ['carnegie', 'dnbcarnegie'],
+          ['birdhouse', 'birdhouse'],
+        ]) {
+          const inputPath = path.join(
+            directory,
+            mode + '-light.tokens.json'
+          )
+          const tokens = JSON.parse(
+            await fs.readFile(
+              path.resolve(
+                'src/style/themes/figma/brand/' +
+                  mode +
+                  '-light.tokens.json'
+              ),
+              'utf-8'
+            )
+          )
+          await fs.writeFile(inputPath, JSON.stringify(tokens))
+          await expect(
+            makeTypographyPropertiesSCSS({
+              inputPath,
+              outputPath: path.join(
+                directory,
+                'typography-properties.scss'
+              ),
+              brand,
+            })
+          ).rejects.toThrow(
+            'Expected ' + brand + ' to inherit UI typography'
+          )
         }
-        await fs.writeFile(inputPath, JSON.stringify(tokens))
-        await expect(
-          makeTypographyPropertiesSCSS({
-            inputPath,
-            outputPath: path.join(directory, 'typography-properties.scss'),
-            brand: 'carnegie',
-          })
-        ).rejects.toThrow('Expected Carnegie to inherit UI typography')
       } finally {
         await fs.rm(directory, { recursive: true, force: true })
       }
@@ -1315,6 +1414,7 @@ describe('makePropertiesFile', () => {
         'coconut',
         'carnegie',
         'eiendom',
+        'birdhouse',
       ]) {
         expect(read(theme, 'theme-mapping.scss')).toContain(
           'typography-properties.scss'
@@ -1585,6 +1685,13 @@ describe('makePropertiesFile', () => {
       [
         'carnegie',
         () => [global.carnegieTokens, global.carnegieFoundation],
+      ],
+      [
+        'birdhouse',
+        () => [
+          global.birdhouseTokens + global.birdhouseTokensDark,
+          global.birdhouseFoundation,
+        ],
       ],
     ])('%s', (_theme, getFiles) => {
       const [tokens, foundation] = getFiles()

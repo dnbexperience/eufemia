@@ -48,6 +48,9 @@ it('reviews uncommitted values against the merge base and returns a failing exit
 
   try {
     for (const brand of new Set(tokenModes.map(({ brand }) => brand))) {
+      if (brand === 'birdhouse') {
+        continue
+      }
       const directory = path.join(temporaryRoot, themePath, brand)
       mkdirSync(directory, { recursive: true })
       for (const file of [
@@ -60,6 +63,16 @@ it('reviews uncommitted values against the merge base and returns a failing exit
           path.join(directory, file)
         )
       }
+    }
+    for (const file of [
+      'foundation.scss',
+      'tokens.scss',
+      'tokens-dark.scss',
+    ]) {
+      writeFileSync(
+        path.join(temporaryRoot, themePath, 'eiendom', file),
+        `@use '../ui/${file}';\n`
+      )
     }
     git('init', '--initial-branch=main')
     commit()
@@ -77,10 +90,31 @@ it('reviews uncommitted values against the merge base and returns a failing exit
     commit()
     git('switch', 'feature')
 
+    // The preview did not exist in the base revision.
+    const birdhouseDirectory = path.join(
+      temporaryRoot,
+      themePath,
+      'birdhouse'
+    )
+    mkdirSync(birdhouseDirectory)
+    for (const file of [
+      'foundation.scss',
+      'tokens.scss',
+      'tokens-dark.scss',
+    ]) {
+      cpSync(
+        path.join(repositoryRoot, themePath, 'birdhouse', file),
+        path.join(birdhouseDirectory, file)
+      )
+    }
+
     const output = path.join(temporaryRoot, 'review.md')
     expect(review('main', output).status).toBe(0)
     expect(readFileSync(output, 'utf8')).toContain(
       '## Contrast regressions\n\nNone.'
+    )
+    expect(readFileSync(output, 'utf8')).toContain(
+      '| Birdhouse light | --token-color-background-page-background | #fff | #f6f1e8 |'
     )
 
     writeFileSync(
@@ -95,6 +129,9 @@ it('reviews uncommitted values against the merge base and returns a failing exit
     expect(result.stderr).toContain('reduce contrast')
     expect(readFileSync(output, 'utf8')).toContain(
       '--token-color-text-action | #007272 | #aaa'
+    )
+    expect(readFileSync(output, 'utf8')).toContain(
+      '| Eiendom light | --token-color-text-action | #007272 | #aaa |'
     )
   } finally {
     rmSync(temporaryRoot, { recursive: true, force: true })

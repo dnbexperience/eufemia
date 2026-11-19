@@ -11,6 +11,7 @@ export const themeNames = [
   'carnegie',
   // Transitional brand. Do not rely on it in application code.
   'coconut',
+  'birdhouse',
 ] as const
 
 export type ThemeName = (typeof themeNames)[number]
@@ -44,6 +45,12 @@ export const themeCapabilities: Record<ThemeName, ThemeCapability> = {
     colorSchemes: ['light', 'dark'],
     darkModeStyle:
       '@dnb/eufemia/style/themes/coconut/coconut-theme-dark-mode.min.css',
+    supportsDarkSurface: true,
+  },
+  birdhouse: {
+    colorSchemes: ['light', 'dark'],
+    darkModeStyle:
+      '@dnb/eufemia/style/themes/birdhouse/birdhouse-theme-dark-mode.min.css',
     supportsDarkSurface: true,
   },
 }

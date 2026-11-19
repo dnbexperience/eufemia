@@ -7,8 +7,10 @@ import {
 describe.each([
   ['ui', 'light'],
   ['sbanken', 'light'],
+  ['birdhouse', 'light'],
   ['ui', 'dark'],
   ['sbanken', 'dark'],
+  ['birdhouse', 'dark'],
 ] as const)(
   'Focus outline for %s in %s mode',
   (themeName, colorScheme) => {

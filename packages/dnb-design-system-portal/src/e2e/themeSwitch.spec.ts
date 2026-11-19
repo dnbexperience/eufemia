@@ -208,6 +208,67 @@ test('should enable Coconut from the URL without offering it in settings', async
     .toBe(true)
 })
 
+test('should enable Birdhouse from the URL without offering it in settings', async ({
+  page,
+}) => {
+  await page.goto('/web/components/overview?eufemia-theme=birdhouse')
+  await waitForApp(page)
+
+  await expect(page.locator('body')).toHaveClass(
+    /eufemia-theme__birdhouse/
+  )
+
+  const birdhouseStyles = page.locator(
+    'link[data-eufemia-theme="birdhouse"], style[data-vite-dev-id*="/themes/birdhouse/"]'
+  )
+  await expect
+    .poll(() =>
+      birdhouseStyles.evaluateAll(
+        (styles: Array<HTMLLinkElement | HTMLStyleElement>) =>
+          styles.length > 0 && styles.every((style) => !style.disabled)
+      )
+    )
+    .toBe(true)
+
+  await page.locator('#portal-tools').click()
+  await page.locator('#change-theme').click()
+  await expect(
+    page.locator('#change-theme-portal [role="option"]')
+  ).toHaveText(['DNB', 'Sbanken', 'DNB Eiendom', 'DNB Carnegie'])
+
+  await page.evaluate(() => {
+    const theme = JSON.parse(localStorage.getItem('eufemia-theme'))
+    localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ ...theme, colorScheme: 'dark' })
+    )
+  })
+  await page.reload()
+  await waitForApp(page)
+  await expect(page.locator('body')).toHaveClass(
+    /eufemia-theme__birdhouse/
+  )
+  await expect(page.locator('body')).toHaveClass(
+    /eufemia-theme__color-scheme--dark/
+  )
+
+  await page.locator('#portal-tools').click()
+  await page.locator('#change-theme').click()
+  await page.locator('#change-theme-portal ul li:first-child').click()
+  await expect(page.locator('body')).toHaveClass(/eufemia-theme__ui/)
+  await expect(page.locator('body')).not.toHaveClass(
+    /eufemia-theme__birdhouse/
+  )
+  await expect
+    .poll(() =>
+      birdhouseStyles.evaluateAll(
+        (styles: Array<HTMLLinkElement | HTMLStyleElement>) =>
+          styles.length > 0 && styles.every((style) => style.disabled)
+      )
+    )
+    .toBe(true)
+})
+
 test.describe('Dark mode', () => {
   const url = '/web/components/'
 

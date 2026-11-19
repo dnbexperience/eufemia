@@ -4,6 +4,44 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
+describe.each(['light', 'dark'] as const)(
+  'Button for birdhouse %s',
+  (colorScheme) => {
+    const wrapperStyle = {
+      background: 'var(--token-color-background-neutral)',
+    }
+
+    setupPageScreenshot({
+      themeName: 'birdhouse',
+      colorScheme,
+      url: '/web/components/button/demos/',
+    })
+
+    describe.each(['primary', 'secondary', 'tertiary'])(
+      '%s',
+      (variant) => {
+        it('matches the default state', async () => {
+          await makeScreenshot({
+            selector: `[data-visual-test="button-${variant}"]`,
+            wrapperStyle,
+          })
+        })
+
+        it.each(['hover', 'active', 'focus'] as const)(
+          'matches the %s state',
+          async (simulate) => {
+            await makeScreenshot({
+              selector: `[data-visual-test="button-${variant}"]`,
+              wrapperStyle,
+              simulate,
+            })
+          }
+        )
+      }
+    )
+  }
+)
+
 describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   `Button for %s`,
   (themeName) => {
