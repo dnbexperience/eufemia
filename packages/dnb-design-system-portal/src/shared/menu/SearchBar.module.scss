@@ -86,7 +86,7 @@
   padding: 0 0.375rem;
 
   border: 0.0625rem solid currentcolor;
-  border-radius: 0.25rem;
+  border-radius: var(--token-radius-sm);
 
   font-family: inherit;
   font-size: var(--font-size-x-small);

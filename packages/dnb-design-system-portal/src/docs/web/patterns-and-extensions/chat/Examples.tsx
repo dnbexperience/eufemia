@@ -569,7 +569,7 @@ export function ChatPromptInputContext() {
           padding: 0.25rem 0.5rem;
           background: var(--token-color-background-neutral-subtle);
           border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
-          border-radius: 0.5rem;
+          border-radius: var(--token-radius-md);
         `
         const InputWithContext = () => {
           const [hasReference, setHasReference] = useState(true)

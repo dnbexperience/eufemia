@@ -12,7 +12,7 @@ export const ImagePlainExample = () => (
   <ComponentBox data-visual-test="image-plain" hideCode>
     {() => {
       const StyledImg = styled(Img)`
-        border-radius: 1rem;
+        border-radius: var(--token-radius-lg);
       `
       const CustomImage = () => {
         return (
@@ -50,7 +50,7 @@ export const ImageCaptionExample = () => (
   <ComponentBox data-visual-test="image-caption" hideCode>
     {() => {
       const StyledImg = styled(Img)`
-        border-radius: 1rem;
+        border-radius: var(--token-radius-lg);
       `
       const CustomImage = () => {
         return (
@@ -72,7 +72,7 @@ export const ImageSkeletonExample = () => (
   <ComponentBox data-visual-test="image-skeleton">
     {() => {
       const StyledImg = styled(Img)`
-        border-radius: 1rem;
+        border-radius: var(--token-radius-lg);
       `
       const CustomImage = () => {
         const [state, setState] = useState(true)

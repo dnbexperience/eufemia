@@ -17,7 +17,7 @@
   padding: 1rem;
   overflow: auto;
   border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
-  border-radius: 0.5rem;
+  border-radius: var(--token-radius-md);
   scroll-padding-top: 1rem;
 
   section {
