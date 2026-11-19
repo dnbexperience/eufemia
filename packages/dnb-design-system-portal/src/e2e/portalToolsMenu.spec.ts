@@ -67,9 +67,8 @@ test.describe('Settings', () => {
           .getByRole('radio', { name: 'Dark', exact: true })
           .click()
         await expect(toggle).toBeChecked()
-        await drawer.locator('#change-theme').click()
-        await page
-          .locator('#change-theme-portal ul li:nth-child(2)')
+        await drawer
+          .getByRole('radio', { name: 'Sbanken', exact: true })
           .click()
         await expect(toggle).toBeChecked()
         await expect(
