@@ -473,6 +473,14 @@ function readManifest(workspace: string) {
   )
 }
 
+// Optional dependencies are installed in production too
+function getProductionDependencies(
+  workspace: string
+): Record<string, string> {
+  const { dependencies, optionalDependencies } = readManifest(workspace)
+  return { ...dependencies, ...optionalDependencies }
+}
+
 function getWorkspaces() {
   const { workspaces } = readManifest('.')
 
@@ -533,7 +541,7 @@ export async function checkRepositoryAdvisories({
     const linked = [workspace]
     for (const current of linked) {
       for (const [name, range] of Object.entries(
-        readManifest(current).dependencies ?? {}
+        getProductionDependencies(current)
       )) {
         const target = workspacesByName.get(name)
         if (
@@ -547,10 +555,7 @@ export async function checkRepositoryAdvisories({
     }
 
     const workspacePackages = linked.flatMap((current) =>
-      getProductionPackages(
-        entries,
-        readManifest(current).dependencies ?? {}
-      )
+      getProductionPackages(entries, getProductionDependencies(current))
     )
     if (workspacePackages.length === 0) {
       throw new Error(

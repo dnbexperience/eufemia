@@ -710,6 +710,24 @@ describe('checkRepositoryAdvisories', () => {
       expect(matches.map(({ ghsaId }) => ghsaId)).toEqual(['GHSA-c'])
     })
 
+    it('checks the optional dependencies of a workspace', async () => {
+      stubWorkspaces({
+        'tools/mcp-lambda/package.json': JSON.stringify({
+          optionalDependencies: { 'dev-only': '9.0.0' },
+        }),
+      })
+      stubFetch(200, undefined, [advisoryFor('dev-only')])
+
+      const matches = await checkRepositoryAdvisories({
+        workspaces: ['tools/mcp-lambda'],
+        accepted: {},
+      })
+
+      expect(matches.map(({ ghsaId }) => ghsaId)).toEqual([
+        'GHSA-dev-only',
+      ])
+    })
+
     it('does not report an accepted advisory', async () => {
       stubWorkspaces()
       stubFetch(200, undefined, [advisoryFor('c')])
