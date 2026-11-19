@@ -270,7 +270,7 @@ export const ProgressIndicatorCountdownExample = () => (
 
 const DarkBackground = styled.div`
   background-color: var(--color-emerald-green);
-  border-radius: 0.5rem;
+  border-radius: var(--token-radius-md);
   padding: 1rem;
   text-align: center;
 `

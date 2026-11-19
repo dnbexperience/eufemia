@@ -92,7 +92,7 @@ const swatchBackdropStyle: CSSProperties = {
   backgroundPosition: '0 0, 0 0.25rem, 0.25rem -0.25rem, -0.25rem 0',
   backgroundSize: '0.5rem 0.5rem',
   border: '1px solid var(--token-color-stroke-neutral-subtle)',
-  borderRadius: '0.25rem',
+  borderRadius: 'var(--token-radius-sm)',
   display: 'inline-flex',
   height: '1rem',
   justifyContent: 'center',
