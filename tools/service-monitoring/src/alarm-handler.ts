@@ -9,6 +9,7 @@ import { processNotification } from './notifications.ts'
 import type { NotificationState, Observation } from './notifications.ts'
 import { logFailure } from './diagnostics.ts'
 import { services } from './monitor.ts'
+import { weeklyPeriod } from './weekly-report.ts'
 
 const db = new DynamoDBClient({
   maxAttempts: 2,
@@ -18,7 +19,9 @@ const db = new DynamoDBClient({
     throwOnRequestTimeout: true,
   },
 })
-type Event = { Records: { Sns: { TopicArn: string; Message: string } }[] }
+type Event =
+  | { Records: { Sns: { TopicArn: string; Message: string } }[] }
+  | { kind: 'weekly'; at: string }
 
 function parseObservation(message: string): Observation {
   const value = JSON.parse(message)
@@ -66,21 +69,27 @@ export async function handler(event: Event) {
     const topic = process.env.ALERT_TOPIC_ARN
     const table = process.env.STATE_TABLE
     const secret = process.env.SLACK_BOT_SECRET_ARN
-    if (
-      !topic ||
-      !table ||
-      !secret ||
-      !Array.isArray(event.Records) ||
-      !event.Records.length
-    ) {
+    if (!topic || !table || !secret) {
       throw new Error('Invalid notification configuration')
     }
-    const records = event.Records.map((record) => {
-      if (record.Sns.TopicArn !== topic) {
-        throw new Error('Unexpected notification topic')
-      }
-      return parseObservation(record.Sns.Message)
-    })
+    let records: Parameters<typeof processNotification>[0][]
+    if ('kind' in event && event.kind === 'weekly') {
+      weeklyPeriod(event.at)
+      records = [event]
+    } else if (
+      'Records' in event &&
+      Array.isArray(event.Records) &&
+      event.Records.length
+    ) {
+      records = event.Records.map((record) => {
+        if (record.Sns.TopicArn !== topic) {
+          throw new Error('Unexpected notification topic')
+        }
+        return parseObservation(record.Sns.Message)
+      })
+    } else {
+      throw new Error('Invalid notification event')
+    }
     const region = process.env.AWS_REGION
     const aws = region
       ? {
