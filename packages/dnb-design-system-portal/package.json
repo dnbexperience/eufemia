@@ -74,6 +74,7 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-live": "5.0.1",
+    "react-live-ssr-adapter": "workspace:*",
     "react-markdown": "9.1.0",
     "react-router": "8.5.2",
     "remark-gfm": "4.0.1"
@@ -106,7 +107,6 @@
     "parse5": "8.0.1",
     "playwright-core": "1.65.0-alpha-2026-10-24",
     "prettier-package-json": "2.8.0",
-    "react-live-ssr-adapter": "workspace:*",
     "remark-frontmatter": "5.0.0",
     "repo-utils": "workspace:*",
     "sass": "1.97.2",
