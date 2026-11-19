@@ -1,0 +1,21 @@
+{
+  "name": "eufemia-tabs-10971-fix-repro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@dnb/eufemia": "https://pkg.pr.new/@dnb/eufemia@8687bc3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.2",
+    "vite": "8.3.5"
+  },
+  "stackblitz": {
+    "startCommand": "npm install && npm run dev"
+  }
+}

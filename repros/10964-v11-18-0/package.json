@@ -1,0 +1,21 @@
+{
+  "name": "eufemia-tabs-10964-v11-18-0-repro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@dnb/eufemia": "11.18.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.2",
+    "vite": "8.3.5"
+  },
+  "stackblitz": {
+    "startCommand": "npm install && npm run dev"
+  }
+}
