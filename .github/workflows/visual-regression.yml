@@ -34,15 +34,9 @@ env:
   PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
 
 jobs:
-  changes:
-    uses: ./.github/workflows/detect-changes.yml
-
   # Selects the screenshot tests once on a cheap runner and splits them into shards
   plan:
     name: Plan visual-regression tests
-    needs: changes
-    # Still runs if detection fails
-    if: ${{ !cancelled() && needs.changes.outputs.packages-unaffected != 'true' }}
 
     runs-on: ubuntu-latest
 
@@ -54,19 +48,29 @@ jobs:
       shards: ${{ steps.plan.outputs.shards }}
 
     steps:
-      - name: Git checkout
+      - name: Git checkout (with fetch-depth)
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          # Change detection diffs against main, which needs commit history but no blobs
+          fetch-depth: 0
+          filter: blob:none
+
+      # A step, not a separate job, so the shards don't wait for a second runner.
+      # Still plans the tests if detection fails.
+      - name: Detect changes
+        id: changes
+        continue-on-error: true
+        run: node tools/repo-utils/src/detect-changes.mjs
 
       - name: Setup dependencies
-        if: env.RUN_VISUAL_TEST == 'true'
+        if: env.RUN_VISUAL_TEST == 'true' && steps.changes.outputs.packages-unaffected != 'true'
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Resolve changed files
-        if: env.RUN_VISUAL_TEST == 'true'
+        if: env.RUN_VISUAL_TEST == 'true' && steps.changes.outputs.packages-unaffected != 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
@@ -152,13 +156,13 @@ jobs:
       # Writes no shards when no screenshot test can be affected
       - name: Plan visual tests
         id: plan
-        if: env.RUN_VISUAL_TEST == 'true'
+        if: env.RUN_VISUAL_TEST == 'true' && steps.changes.outputs.packages-unaffected != 'true'
         run: yarn workspace @dnb/eufemia test:screenshots:ci:conditional --plan
 
   visual-regression-shard:
     name: Run visual-regression tests (${{ matrix.shard }}/${{ needs.plan.outputs.shard-total }})
     needs: plan
-    if: ${{ !cancelled() && needs.plan.result == 'success' && needs.plan.outputs.shards != '' }}
+    if: ${{ needs.plan.outputs.shards != '' }}
 
     runs-on: macos-26
 
@@ -344,10 +348,13 @@ jobs:
           PLAN_RESULT: ${{ needs.plan.result }}
           SHARD_RESULT: ${{ needs.visual-regression-shard.result }}
         run: |
-          # A skipped job means that no screenshot test can be affected
-          for result in "$PLAN_RESULT" "$SHARD_RESULT"; do
-            if [ "$result" != 'success' ] && [ "$result" != 'skipped' ]; then
-              echo "Visual-regression tests did not pass (result: $result)."
-              exit 1
-            fi
-          done
+          if [ "$PLAN_RESULT" != 'success' ]; then
+            echo "Planning the visual-regression tests did not pass (result: $PLAN_RESULT)."
+            exit 1
+          fi
+
+          # Skipped shards mean that no screenshot test can be affected
+          if [ "$SHARD_RESULT" != 'success' ] && [ "$SHARD_RESULT" != 'skipped' ]; then
+            echo "Visual-regression tests did not pass (result: $SHARD_RESULT)."
+            exit 1
+          fi
