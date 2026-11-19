@@ -20,6 +20,7 @@ function UploadFileList() {
     onFileDelete,
     onFileClick,
     onChange,
+    disabled,
   } = context
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
@@ -141,6 +142,7 @@ function UploadFileList() {
             loadingText={loadingText}
             download={download}
             allowDuplicates={allowDuplicates}
+            disabled={disabled}
           />
         )
       })}
