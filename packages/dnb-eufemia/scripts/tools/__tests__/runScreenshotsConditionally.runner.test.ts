@@ -6,7 +6,6 @@ import {
   resolveCliOptions,
   shouldRunAllByEnvironment,
   writeRunPlan,
-  writeSkipPlan,
 } from '../runScreenshotsConditionally/runner'
 
 describe('runScreenshotsConditionally runner cli options', () => {
@@ -57,19 +56,6 @@ describe('runScreenshotsConditionally runner cli options', () => {
 })
 
 describe('runScreenshotsConditionally runner plan', () => {
-  it('writes the skip output for the CI workflow', () => {
-    const directory = mkdtempSync(path.join(tmpdir(), 'visual-plan-'))
-    const outputFile = path.join(directory, 'output')
-
-    try {
-      writeSkipPlan(outputFile)
-
-      expect(readFileSync(outputFile, 'utf8')).toBe('skip=true\n')
-    } finally {
-      rmSync(directory, { recursive: true, force: true })
-    }
-  })
-
   it('writes the selected tests and shards for the CI workflow', () => {
     const directory = mkdtempSync(path.join(tmpdir(), 'visual-plan-'))
     const outputFile = path.join(directory, 'output')

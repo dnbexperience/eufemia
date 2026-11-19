@@ -76,15 +76,6 @@ export function shouldRunAllByEnvironment(
   return env[RUN_ALL_ENV_VAR] === 'true'
 }
 
-// Lets the CI workflow skip the portal build when no screenshot test can be affected
-export function writeSkipPlan(
-  outputFile: string | undefined = process.env.GITHUB_OUTPUT
-) {
-  if (outputFile) {
-    appendFileSync(outputFile, 'skip=true\n')
-  }
-}
-
 export function getShardCount(testCount: number): number {
   return Math.min(
     MAX_SCREENSHOT_SHARDS,
@@ -336,10 +327,6 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, [], [], {})
     }
 
-    if (isPlan) {
-      writeSkipPlan()
-    }
-
     return
   }
 
@@ -420,10 +407,6 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
-    if (isPlan) {
-      writeSkipPlan()
-    }
-
     return
   }
 
@@ -445,10 +428,6 @@ export async function runScreenshotsTests() {
 
     if (shouldExplain) {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
-    }
-
-    if (isPlan) {
-      writeSkipPlan()
     }
 
     return
@@ -494,10 +473,9 @@ export async function runScreenshotsTests() {
     )
   }
 
-  if (isPlan) {
-    if (selection.mode === 'skip') {
-      writeSkipPlan()
-    } else if (selection.mode === 'all') {
+  // Writes no shards when no screenshot test can be affected
+  if (isPlan && selection.mode !== 'skip') {
+    if (selection.mode === 'all') {
       writeRunPlan(allScreenshotTests.length)
     } else {
       writeRunPlan(selection.tests.length, selection.tests)

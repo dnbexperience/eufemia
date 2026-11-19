@@ -160,7 +160,8 @@ jobs:
         run: yarn workspace @dnb/eufemia test:screenshots:ci:conditional --plan
 
   visual-regression-shard:
-    name: Run visual-regression tests (${{ matrix.shard }}/${{ needs.plan.outputs.shard-total }})
+    # GitHub appends the shard number, which also keeps the name readable when the shards are skipped
+    name: Run visual-regression shard
     needs: plan
     if: ${{ needs.plan.outputs.shards != '' }}
 
