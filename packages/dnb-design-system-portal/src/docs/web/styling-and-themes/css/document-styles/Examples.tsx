@@ -41,7 +41,12 @@ export function DocumentLetter({
 }) {
   const theme = useTheme()
   const brand = brandProp ?? theme?.brand ?? 'ui'
-  const documentBrand = brand === 'coconut' ? 'sbanken' : brand
+  const documentBrand =
+    brand === 'coconut'
+      ? 'sbanken'
+      : brand === 'birdhouse'
+        ? 'eiendom'
+        : brand
 
   return (
     <Theme brand={brand} colorScheme="light">
@@ -143,7 +148,13 @@ export function DocumentPreview() {
           label="Brand"
           labelDirection="horizontal"
           data={brands}
-          value={activeBrand === 'coconut' ? 'sbanken' : activeBrand}
+          value={
+            activeBrand === 'coconut'
+              ? 'sbanken'
+              : activeBrand === 'birdhouse'
+                ? 'eiendom'
+                : activeBrand
+          }
           onChange={({ data }) =>
             setTheme({ brand: data.selectedKey as DocumentBrand })
           }

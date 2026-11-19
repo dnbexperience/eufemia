@@ -18,6 +18,8 @@ export type UseThemeReturn =
        * @deprecated Removed together with the "coconut" brand.
        */
       isCoconut: boolean
+      /** Transitional preview of the new Eiendom identity. */
+      isBirdhouse: boolean
       isEiendom: boolean
       isCarnegie: boolean
     })
@@ -40,7 +42,8 @@ export default function useTheme(): UseThemeReturn {
       // reports here too. Use "isCoconut" to tell the two apart.
       isSbanken: brand === 'sbanken' || brand === 'coconut',
       isCoconut: brand === 'coconut',
-      isEiendom: brand === 'eiendom',
+      isBirdhouse: brand === 'birdhouse',
+      isEiendom: brand === 'eiendom' || brand === 'birdhouse',
       isCarnegie: brand === 'carnegie',
     }
   }

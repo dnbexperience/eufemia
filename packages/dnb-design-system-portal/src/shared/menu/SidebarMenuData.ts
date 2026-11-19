@@ -30,6 +30,7 @@ export const themeTitles: Partial<Record<ThemeNames, string>> = {
   sbanken: 'Sbanken',
   // @deprecated Transitional "coconut" brand, removed later
   coconut: 'Coconut',
+  birdhouse: 'Birdhouse',
   eiendom: 'DNB Eiendom',
   carnegie: 'DNB Carnegie',
 }
