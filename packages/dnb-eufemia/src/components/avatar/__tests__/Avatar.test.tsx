@@ -9,6 +9,60 @@ import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
+  it('keeps the attributes and spacing of Avatar.Group off the Avatars', () => {
+    render(
+      <Avatar.Group
+        label="People"
+        id="group"
+        aria-label="Group name"
+        data-testid="group"
+        top="large"
+      >
+        <Avatar>A</Avatar>
+        <Avatar>B</Avatar>
+      </Avatar.Group>
+    )
+
+    // A repeated id is invalid HTML, and the name belongs to the group
+    expect(document.querySelectorAll('#group')).toHaveLength(1)
+    expect(
+      document.querySelectorAll('[aria-label="Group name"]')
+    ).toHaveLength(1)
+    expect(
+      document.querySelectorAll('[data-testid="group"]')
+    ).toHaveLength(1)
+    expect(
+      document.querySelectorAll('.dnb-space__top--large')
+    ).toHaveLength(1)
+    expect(document.querySelector('#group')).toHaveClass(
+      'dnb-avatar__group'
+    )
+  })
+
+  it('still gives size, variant, colors and skeleton to the Avatars', () => {
+    render(
+      <Avatar.Group
+        label="People"
+        size="large"
+        variant="secondary"
+        color="red"
+        backgroundColor="blue"
+        skeleton
+      >
+        <Avatar>A</Avatar>
+      </Avatar.Group>
+    )
+
+    const avatar = document.querySelector('.dnb-avatar')
+    expect(avatar).toHaveClass(
+      'dnb-avatar--size-large',
+      'dnb-avatar--secondary',
+      'dnb-skeleton'
+    )
+    expect(avatar.getAttribute('style')).toContain('red')
+    expect(avatar.getAttribute('style')).toContain('blue')
+  })
+
   it('renders without properties', () => {
     const props: AvatarProps = {}
     render(

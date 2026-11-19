@@ -85,7 +85,8 @@ const TagGroup = (
   } as Record<string, unknown>)
 
   return (
-    <TagGroupContext value={props}>
+    // Share only what the Tags need. Other props, such as id and aria-label, belong to the group
+    <TagGroupContext value={{ skeleton }}>
       <span {...(attributes as HTMLAttributes<HTMLSpanElement>)}>
         <span className="dnb-sr-only">{label}</span>
         {children}
