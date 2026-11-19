@@ -19,320 +19,327 @@ const scrollDeclarativeMenuIntoView = async () => {
 
 // The declarative demo persists its open accordions, so these
 // snapshots are only reproducible while storage is reset per test.
-describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/patterns-and-extensions/sidebar-menu/demos/',
-  })
-
-  it('matches the declarative menu', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
+describe.each(['ui', 'sbanken', 'coconut'])(
+  'SidebarMenu for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/patterns-and-extensions/sidebar-menu/demos/',
     })
-  })
 
-  it('matches equally sized Business menu rows', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: [
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
-        },
-        {
-          action: 'click',
-          selector:
-            '.dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
-        },
-      ],
-    })
-  })
-
-  it('matches the data menu', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-data"]',
-      style: { width: '24rem' },
-    })
-  })
-
-  it('matches header groups with and without dividers', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-headers"]',
-      style: { width: '24rem' },
-    })
-  })
-
-  it('matches wrapped accordion labels', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-data"]',
-      style: { width: '12rem' },
-    })
-  })
-
-  it('matches the open section selector', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
-    })
-  })
-
-  it('distinguishes the selected section from a hovered section', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: [
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
-        },
-        {
-          action: 'realhover',
-          selector:
-            '.dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
-        },
-      ],
-    })
-  })
-
-  it('matches the focused section selector', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: 'focus',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
-    })
-  })
-
-  it('matches a keyboard-focused section option', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      executeBeforeSimulate: scrollDeclarativeMenuIntoView,
-      simulate: [
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
-        },
-        { keypress: 'ArrowDown' },
-      ],
-    })
-  })
-
-  it('matches a keyboard-focused section option under the mouse pointer', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      executeBeforeSimulate: scrollDeclarativeMenuIntoView,
-      simulate: [
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
-        },
-        {
-          action: 'realhover',
-          // The list ignores keys until it is open and sets this attribute
-          selector:
-            'html[data-dnb-drawer-list-active] .dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
-        },
-        { keypress: 'ArrowDown' },
-      ],
-    })
-  })
-
-  it('separates the selected section badge from its checkmark', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      screenshotSelector:
-        '.dnb-sidebar-menu__sections-portal [role="option"][aria-selected="true"]',
-      style: { width: '24rem' },
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
-    })
-  })
-
-  it('matches a focused accordion action', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: 'focus',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] button',
-    })
-  })
-
-  it('matches a hovered item', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: 'realhover',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="overview"] button',
-    })
-  })
-
-  it('matches a selected item with its original icon', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="overview"] button',
-    })
-  })
-
-  it('closes the declarative Products accordion with one click', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-declarative"]',
-      style: { width: '24rem' },
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] button',
-      recalculateHeightAfterSimulate: true,
-    })
-  })
-
-  it('closes the data Products accordion with one click', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-data"]',
-      style: { width: '24rem' },
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="sidebar-menu-data"] [data-sidebar-menu-id="data-products"] button',
-      recalculateHeightAfterSimulate: true,
-    })
-  })
-
-  it('matches the compact navigation rail', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-responsive"]',
-      screenshotSelector: '.dnb-sidebar-menu-responsive-inline',
-      pageViewport: { width: 1200, height: 900 },
-      withWrapper: false,
-    })
-  })
-
-  it('matches the hover-expanded compact navigation rail', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="sidebar-menu-responsive"]',
-      screenshotSelector: '.dnb-sidebar-menu-responsive-inline__content',
-      simulate: 'realhover',
-      simulateSelector: '.dnb-sidebar-menu-responsive-inline',
-      pageViewport: { width: 1200, height: 900 },
-      withWrapper: false,
-    })
-  })
-
-  it.each(['light', 'dark'] as const)(
-    'fades the scrolled reveal header in %s mode',
-    async (colorScheme) => {
+    it('matches the declarative menu', async () => {
       await makeScreenshot({
-        selector: '#sidebar-reveal-page',
-        screenshotSelector: '.dnb-sidebar-menu-responsive-drawer',
-        pageViewport: { width: 600, height: 400 },
-        colorScheme,
-        withWrapper: false,
-        executeBeforeSimulate: async () => {
-          document
-            .querySelector<HTMLButtonElement>(
-              '#sidebar-reveal-page button'
-            )
-            .click()
-          await new Promise<void>((resolve, reject) => {
-            function scrollMenu() {
-              const scroll = document.querySelector<HTMLElement>(
-                '.dnb-drawer__reveal-scroll'
-              )
-              if (!scroll) {
-                requestAnimationFrame(scrollMenu)
-                return
-              }
-              const navigation = document.querySelector<HTMLElement>(
-                '.dnb-sidebar-menu-responsive-drawer .dnb-drawer__navigation'
-              )
-              const { position, backgroundColor } =
-                getComputedStyle(navigation)
-              if (
-                position !== 'relative' ||
-                backgroundColor !== 'rgba(0, 0, 0, 0)'
-              ) {
-                reject(
-                  new Error(
-                    'The reveal header must stay relative and transparent'
-                  )
-                )
-                return
-              }
-              scroll.parentElement.style.height = '8rem'
-              requestAnimationFrame(() => {
-                scroll.scrollTo({
-                  top: 44,
-                  behavior: 'instant',
-                })
-                resolve()
-              })
-            }
-            requestAnimationFrame(scrollMenu)
-          })
-        },
-        simulateAfter: { keypress: 'Escape' },
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
       })
-    }
-  )
+    })
 
-  it.each(['light', 'dark'] as const)(
-    'fades the scrolled compact header in %s mode',
-    async (colorScheme) => {
+    it('matches equally sized Business menu rows', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+          },
+          {
+            action: 'click',
+            selector:
+              '.dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
+          },
+        ],
+      })
+    })
+
+    it('matches the data menu', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-data"]',
+        style: { width: '24rem' },
+      })
+    })
+
+    it('matches header groups with and without dividers', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-headers"]',
+        style: { width: '24rem' },
+      })
+    })
+
+    it('matches wrapped accordion labels', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-data"]',
+        style: { width: '12rem' },
+      })
+    })
+
+    it('matches the open section selector', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+      })
+    })
+
+    it('distinguishes the selected section from a hovered section', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+          },
+          {
+            action: 'realhover',
+            selector:
+              '.dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
+          },
+        ],
+      })
+    })
+
+    it('matches the focused section selector', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: 'focus',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+      })
+    })
+
+    it('matches a keyboard-focused section option', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        executeBeforeSimulate: scrollDeclarativeMenuIntoView,
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+          },
+          { keypress: 'ArrowDown' },
+        ],
+      })
+    })
+
+    it('matches a keyboard-focused section option under the mouse pointer', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        executeBeforeSimulate: scrollDeclarativeMenuIntoView,
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+          },
+          {
+            action: 'realhover',
+            // The list ignores keys until it is open and sets this attribute
+            selector:
+              'html[data-dnb-drawer-list-active] .dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
+          },
+          { keypress: 'ArrowDown' },
+        ],
+      })
+    })
+
+    it('separates the selected section badge from its checkmark', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        screenshotSelector:
+          '.dnb-sidebar-menu__sections-portal [role="option"][aria-selected="true"]',
+        style: { width: '24rem' },
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+      })
+    })
+
+    it('matches a focused accordion action', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: 'focus',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] button',
+      })
+    })
+
+    it('matches a hovered item', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: 'realhover',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="overview"] button',
+      })
+    })
+
+    it('matches a selected item with its original icon', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="overview"] button',
+      })
+    })
+
+    it('closes the declarative Products accordion with one click', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-declarative"]',
+        style: { width: '24rem' },
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] button',
+        recalculateHeightAfterSimulate: true,
+      })
+    })
+
+    it('closes the data Products accordion with one click', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-data"]',
+        style: { width: '24rem' },
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="sidebar-menu-data"] [data-sidebar-menu-id="data-products"] button',
+        recalculateHeightAfterSimulate: true,
+      })
+    })
+
+    it('matches the compact navigation rail', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="sidebar-menu-responsive"]',
+        screenshotSelector: '.dnb-sidebar-menu-responsive-inline',
+        pageViewport: { width: 1200, height: 900 },
+        withWrapper: false,
+      })
+    })
+
+    it('matches the hover-expanded compact navigation rail', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="sidebar-menu-responsive"]',
         screenshotSelector: '.dnb-sidebar-menu-responsive-inline__content',
+        simulate: 'realhover',
+        simulateSelector: '.dnb-sidebar-menu-responsive-inline',
         pageViewport: { width: 1200, height: 900 },
-        colorScheme,
         withWrapper: false,
-        executeBeforeSimulate: async () => {
-          const inline = document.querySelector<HTMLElement>(
-            '.dnb-sidebar-menu-responsive-inline'
-          )
-          const content = inline.querySelector<HTMLElement>(
-            '.dnb-sidebar-menu-responsive-inline__content'
-          )
-          const aside = inline.querySelector<HTMLElement>(
-            '.dnb-sidebar-menu-responsive-aside'
-          )
-          const scroll = aside.querySelector<HTMLElement>(
-            '.dnb-sidebar-menu-responsive-aside__scroll-view'
-          )
-
-          // Match a fixed sidebar whose menu scrolls behind the toggle.
-          Object.assign(content.style, { height: '16rem', minHeight: '0' })
-          Object.assign(aside.style, {
-            position: 'absolute',
-            inset: '0',
-            height: '100%',
-          })
-          inline
-            .querySelector<HTMLButtonElement>(
-              '.dnb-sidebar-menu-responsive-inline__toggle'
-            )
-            .click()
-          await new Promise<void>((resolve) =>
-            requestAnimationFrame(() => {
-              scroll.scrollTo({ top: 100, behavior: 'instant' })
-              resolve()
-            })
-          )
-        },
       })
-    }
-  )
-})
+    })
+
+    it.each(['light', 'dark'] as const)(
+      'fades the scrolled reveal header in %s mode',
+      async (colorScheme) => {
+        await makeScreenshot({
+          selector: '#sidebar-reveal-page',
+          screenshotSelector: '.dnb-sidebar-menu-responsive-drawer',
+          pageViewport: { width: 600, height: 400 },
+          colorScheme,
+          withWrapper: false,
+          executeBeforeSimulate: async () => {
+            document
+              .querySelector<HTMLButtonElement>(
+                '#sidebar-reveal-page button'
+              )
+              .click()
+            await new Promise<void>((resolve, reject) => {
+              function scrollMenu() {
+                const scroll = document.querySelector<HTMLElement>(
+                  '.dnb-drawer__reveal-scroll'
+                )
+                if (!scroll) {
+                  requestAnimationFrame(scrollMenu)
+                  return
+                }
+                const navigation = document.querySelector<HTMLElement>(
+                  '.dnb-sidebar-menu-responsive-drawer .dnb-drawer__navigation'
+                )
+                const { position, backgroundColor } =
+                  getComputedStyle(navigation)
+                if (
+                  position !== 'relative' ||
+                  backgroundColor !== 'rgba(0, 0, 0, 0)'
+                ) {
+                  reject(
+                    new Error(
+                      'The reveal header must stay relative and transparent'
+                    )
+                  )
+                  return
+                }
+                scroll.parentElement.style.height = '8rem'
+                requestAnimationFrame(() => {
+                  scroll.scrollTo({
+                    top: 44,
+                    behavior: 'instant',
+                  })
+                  resolve()
+                })
+              }
+              requestAnimationFrame(scrollMenu)
+            })
+          },
+          simulateAfter: { keypress: 'Escape' },
+        })
+      }
+    )
+
+    it.each(['light', 'dark'] as const)(
+      'fades the scrolled compact header in %s mode',
+      async (colorScheme) => {
+        await makeScreenshot({
+          selector: '[data-visual-test="sidebar-menu-responsive"]',
+          screenshotSelector:
+            '.dnb-sidebar-menu-responsive-inline__content',
+          pageViewport: { width: 1200, height: 900 },
+          colorScheme,
+          withWrapper: false,
+          executeBeforeSimulate: async () => {
+            const inline = document.querySelector<HTMLElement>(
+              '.dnb-sidebar-menu-responsive-inline'
+            )
+            const content = inline.querySelector<HTMLElement>(
+              '.dnb-sidebar-menu-responsive-inline__content'
+            )
+            const aside = inline.querySelector<HTMLElement>(
+              '.dnb-sidebar-menu-responsive-aside'
+            )
+            const scroll = aside.querySelector<HTMLElement>(
+              '.dnb-sidebar-menu-responsive-aside__scroll-view'
+            )
+
+            // Match a fixed sidebar whose menu scrolls behind the toggle.
+            Object.assign(content.style, {
+              height: '16rem',
+              minHeight: '0',
+            })
+            Object.assign(aside.style, {
+              position: 'absolute',
+              inset: '0',
+              height: '100%',
+            })
+            inline
+              .querySelector<HTMLButtonElement>(
+                '.dnb-sidebar-menu-responsive-inline__toggle'
+              )
+              .click()
+            await new Promise<void>((resolve) =>
+              requestAnimationFrame(() => {
+                scroll.scrollTo({ top: 100, behavior: 'instant' })
+                resolve()
+              })
+            )
+          },
+        })
+      }
+    )
+  }
+)

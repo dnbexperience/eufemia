@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   `Button for %s`,
   (themeName) => {
     setupPageScreenshot({
@@ -290,44 +290,47 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   }
 )
 
-describe.each(['dnb', 'sbanken'])(`Button for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/button/demos/',
-  })
+describe.each(['dnb', 'sbanken', 'coconut'])(
+  `Button for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/button/demos/',
+    })
 
-  describe.each(['primary', 'secondary', 'tertiary', 'tertiary-icon'])(
-    `on dark background %s`,
-    (variant) => {
-      it('default', async () => {
-        await makeScreenshot({
-          selector: `[data-visual-test="button-${variant}-on-dark"]`,
+    describe.each(['primary', 'secondary', 'tertiary', 'tertiary-icon'])(
+      `on dark background %s`,
+      (variant) => {
+        it('default', async () => {
+          await makeScreenshot({
+            selector: `[data-visual-test="button-${variant}-on-dark"]`,
+          })
         })
-      })
 
-      it('hover', async () => {
-        await makeScreenshot({
-          selector: `[data-visual-test="button-${variant}-on-dark"]`,
-          simulate: 'hover',
+        it('hover', async () => {
+          await makeScreenshot({
+            selector: `[data-visual-test="button-${variant}-on-dark"]`,
+            simulate: 'hover',
+          })
         })
-      })
 
-      it('active', async () => {
-        await makeScreenshot({
-          selector: `[data-visual-test="button-${variant}-on-dark"]`,
-          simulate: 'active',
+        it('active', async () => {
+          await makeScreenshot({
+            selector: `[data-visual-test="button-${variant}-on-dark"]`,
+            simulate: 'active',
+          })
         })
-      })
 
-      it('focus', async () => {
-        await makeScreenshot({
-          selector: `[data-visual-test="button-${variant}-on-dark"]`,
-          simulate: 'focus',
+        it('focus', async () => {
+          await makeScreenshot({
+            selector: `[data-visual-test="button-${variant}-on-dark"]`,
+            simulate: 'focus',
+          })
         })
-      })
-    }
-  )
-})
+      }
+    )
+  }
+)
 
 describe.each(['ui'])(`Button for %s`, (themeName) => {
   setupPageScreenshot({

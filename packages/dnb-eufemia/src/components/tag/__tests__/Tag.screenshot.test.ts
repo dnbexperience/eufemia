@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Tag for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Tag for %s`, (themeName) => {
   setupPageScreenshot({ themeName, url: '/web/components/tag/demos/' })
 
   it('have to match Tag default', async () => {

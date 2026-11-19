@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Menu for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Menu for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/menu/demos/',

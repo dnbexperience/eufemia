@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
+describe.each(['ui', 'sbanken', 'coconut', 'carnegie', 'eiendom'])(
   `Anchor for %s`,
   (themeName) => {
     setupPageScreenshot({
@@ -242,7 +242,7 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
       })
     })
 
-    if (themeName === 'sbanken') {
+    if (themeName === 'sbanken' || themeName === 'coconut') {
       it('have to match the dnb-anchor--inline hover', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="anchor-paragraph"]',
@@ -299,7 +299,7 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
     }
 
     it('have to break word with icon', async () => {
-      const widths = { sbanken: '16rem', ui: '17.5rem' }
+      const widths = { sbanken: '16rem', coconut: '16rem', ui: '17.5rem' }
       await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-break"]',
         style: { width: widths[themeName] },
@@ -308,7 +308,7 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
   }
 )
 
-describe.each(['ui', 'sbanken'])(
+describe.each(['ui', 'sbanken', 'coconut'])(
   `Anchor target blank for %s`,
   (themeName) => {
     setupPageScreenshot({

@@ -5,7 +5,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Logo for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Logo for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/logo/demos/',
@@ -48,7 +48,7 @@ describe.each(['ui', 'sbanken'])(`Logo for %s`, (themeName) => {
   })
 })
 
-describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   `Logo for %s`,
   (themeName) => {
     setupPageScreenshot({ themeName, url: '/web/components/logo/demos' })

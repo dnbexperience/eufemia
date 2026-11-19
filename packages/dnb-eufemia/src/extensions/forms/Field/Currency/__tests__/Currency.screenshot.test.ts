@@ -4,18 +4,21 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Currency field for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/forms/feature-fields/Currency/demos/',
-  })
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Currency field for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/forms/feature-fields/Currency/demos/',
+    })
 
-  describe('with step control buttons', () => {
-    it('matches the default state', async () => {
-      await makeScreenshot({
-        selector:
-          '[data-visual-test="currency-input-step-controls"] .dnb-forms-field-number',
+    describe('with step control buttons', () => {
+      it('matches the default state', async () => {
+        await makeScreenshot({
+          selector:
+            '[data-visual-test="currency-input-step-controls"] .dnb-forms-field-number',
+        })
       })
     })
-  })
-})
+  }
+)
