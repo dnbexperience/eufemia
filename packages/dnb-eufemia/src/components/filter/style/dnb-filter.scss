@@ -160,6 +160,12 @@
     border-top-right-radius: 0;
   }
 
+  // Keep a Table's top corners flush with the Filter header above it.
+  &__content .dnb-table,
+  &__content .dnb-table__container {
+    --table-outline-radius-top: 0;
+  }
+
   &__highlighting {
     font-weight: var(--font-weight-bold);
     background-color: transparent;
