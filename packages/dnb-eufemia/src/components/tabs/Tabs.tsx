@@ -255,6 +255,7 @@ function TabsComponent(ownProps: TabsProps) {
     Record<string, { content: ReactNode; [key: string]: unknown }>
   >({})
   const listenForPropChangesRef = useRef(true)
+  const focusVisibleRef = useRef(false)
 
   // ID
   const _id = useId(ownProps.id)
@@ -566,11 +567,20 @@ function TabsComponent(ownProps: TabsProps) {
   }
 
   const setFocusOnTabButton = useCallback(() => {
+    // Moving focus with the arrow keys after a click does not show the
+    // focus indicator in every browser unless it is requested.
+    const focusVisible = focusVisibleRef.current
+    focusVisibleRef.current = false
+
     try {
       const elem = tablistRef.current.querySelector(
         '.dnb-tabs__button.focus'
       ) as HTMLElement
-      elem.focus({ preventScroll: true })
+      elem.focus(
+        focusVisible
+          ? { preventScroll: true, focusVisible }
+          : { preventScroll: true }
+      )
 
       if (
         !document.getElementById(`${_id}-content`) &&
@@ -645,6 +655,9 @@ function TabsComponent(ownProps: TabsProps) {
     }
 
     listenForPropChangesRef.current = false
+    if (newFocusKey !== focusKeyRef.current) {
+      focusVisibleRef.current = true
+    }
     setFocusKey(newFocusKey)
 
     // setFocusOnTabButton will be called via useEffect below

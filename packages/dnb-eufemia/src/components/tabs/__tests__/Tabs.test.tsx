@@ -327,6 +327,32 @@ describe('Tabs component', () => {
     expect(onFocus).toHaveBeenCalledTimes(2)
   })
 
+  it('asks the browser to show the focus indicator when the arrow keys move focus', () => {
+    const focus = vi.spyOn(HTMLElement.prototype, 'focus')
+
+    render(<Tabs {...props} data={tablistData} />)
+
+    fireEvent.click(document.querySelector('[data-tab-key="second"]'))
+
+    expect(focus).not.toHaveBeenCalledWith(
+      expect.objectContaining({ focusVisible: true })
+    )
+
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      key: 'ArrowRight',
+    })
+
+    expect(focus.mock.contexts.at(-1)).toBe(
+      document.querySelector('[data-tab-key="third"]')
+    )
+    expect(focus).toHaveBeenLastCalledWith({
+      preventScroll: true,
+      focusVisible: true,
+    })
+
+    focus.mockRestore()
+  })
+
   it('will use given tabElement', () => {
     const Link = ({
       href,
