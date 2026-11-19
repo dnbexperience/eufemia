@@ -68,7 +68,10 @@ export default function ChatConfirmation(props: ChatConfirmationProps) {
         active === document.body ||
         !active)
     ) {
-      bodyRef.current?.focus()
+      // Focus the labelled group, so screen readers say what it is
+      bodyRef.current
+        ?.closest<HTMLElement>('.dnb-ai-confirmation')
+        ?.focus()
     }
     if (unavailable) {
       hasButtonFocus.current = false
@@ -103,15 +106,10 @@ export default function ChatConfirmation(props: ChatConfirmationProps) {
       role="group"
       aria-labelledby={id + '-title'}
       aria-describedby={id + '-description ' + id + '-state'}
+      tabIndex={-1}
       {...rootProps}
     >
-      <div
-        className="dnb-ai-confirmation__body"
-        ref={bodyRef}
-        tabIndex={-1}
-        aria-labelledby={id + '-title'}
-        aria-describedby={id + '-state'}
-      >
+      <div className="dnb-ai-confirmation__body" ref={bodyRef}>
         <div className="dnb-ai-confirmation__header">
           <H
             element={`h${level}`}

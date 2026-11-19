@@ -23,6 +23,10 @@ function ChatMessage(props: ChatMessageProps) {
   const hasHeader = Boolean(name || timestamp || aiGenerated)
 
   const rootProps = useSpacing(props, {
+    // A div has no role, so a name needs one
+    ...((rest['aria-label'] || rest['aria-labelledby']) && {
+      role: 'group',
+    }),
     ...rest,
     className: clsx(
       'dnb-ai-message',
