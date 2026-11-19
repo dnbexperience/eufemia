@@ -441,12 +441,9 @@
   }
 
   // Shown when "Go to latest message" moves focus to the message
-  &
-    :is(
-      .dnb-ai-message,
-      .dnb-ai-conversation__item,
-      .dnb-ai-conversation__virtual-item
-    ) {
+  & .dnb-ai-message,
+  &__item,
+  &__virtual-item {
     @include utilities.focusVisible() {
       @include utilities.focusOutline($offset: 0.25rem);
 

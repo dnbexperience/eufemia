@@ -32,11 +32,11 @@
   &__status {
     min-width: 0;
 
-    border-radius: var(--token-radius-sm);
-
     // Shown when focus moves here after Undo
     @include utilities.focusVisible() {
       @include utilities.focusOutline($offset: 0.25rem);
+
+      border-radius: var(--token-radius-sm);
     }
   }
 
