@@ -133,8 +133,7 @@ jobs:
     if: >-
       github.repository == 'dnbexperience/eufemia' &&
       github.ref == 'refs/heads/main' &&
-      github.event_name != 'pull_request' &&
-      vars.PORTAL_HYDRATION_ISSUES_ENABLED == 'true'
+      github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
