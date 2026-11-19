@@ -583,7 +583,7 @@
 }
 
 .artworkButtonStyle rect {
-  rx: min(14px, var(--token-radius-xl));
+  rx: min(14px, var(--token-radius-full));
 }
 
 .developArtworkStyle .artworkButtonStyle {
