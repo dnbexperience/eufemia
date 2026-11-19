@@ -160,17 +160,26 @@ describe('validateMcpUsage', () => {
     }
   })
 
-  it('accepts a valid env label', () => {
-    const result = validateMcpUsage({ tool: 'docs_entry', env: 'prod' })
+  it('accepts a known env label', () => {
+    for (const env of ['prod', 'smoketest']) {
+      const result = validateMcpUsage({ tool: 'docs_entry', env })
 
-    expect(result).toEqual({
-      ok: true,
-      value: [{ tool: 'docs_entry', env: 'prod' }],
-    })
+      expect(result).toEqual({
+        ok: true,
+        value: [{ tool: 'docs_entry', env }],
+      })
+    }
   })
 
   it('drops an unrecognized env instead of rejecting', () => {
-    for (const env of ['Prod', 'a'.repeat(33), '1prod', 'pr od', 42]) {
+    for (const env of [
+      'made-up-label',
+      'dev',
+      'Prod',
+      'a'.repeat(33),
+      'pr od',
+      42,
+    ]) {
       const result = validateMcpUsage({ tool: 'docs_entry', env })
 
       expect(result).toEqual({ ok: true, value: [{ tool: 'docs_entry' }] })

@@ -15,7 +15,7 @@
 
 import {
   isIsoTimestamp,
-  isValidEnv,
+  isKnownEnv,
   type ValidationResult,
 } from './shared.js'
 
@@ -118,7 +118,7 @@ export function validateComponentUsage(
       app: record.app as string,
       component: record.component as string,
       version: record.version as string,
-      env: isValidEnv(record.env) ? record.env : undefined,
+      env: isKnownEnv(record.env) ? record.env : undefined,
       timestamp:
         typeof record.timestamp === 'string'
           ? record.timestamp
@@ -149,7 +149,7 @@ export function buildComponentUsageRecord(
     app: input.app.trim(),
     component: normalizeComponentName(input.component),
     version: input.version.trim(),
-    env: isValidEnv(input.env) ? input.env : 'unknown',
+    env: isKnownEnv(input.env) ? input.env : 'unknown',
     timestamp: isIsoTimestamp(input.timestamp)
       ? input.timestamp
       : createdAt,
