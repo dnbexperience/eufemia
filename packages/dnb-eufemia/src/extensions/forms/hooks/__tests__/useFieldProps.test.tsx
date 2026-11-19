@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { Activity, StrictMode, useState } from 'react'
 import {
   act,
   fireEvent,
@@ -5978,6 +5978,69 @@ describe('useFieldProps', () => {
         expect(onBlurValidator).toHaveBeenCalledTimes(1)
       })
     })
+
+    it.each(['unmounted', 'hidden by Activity'])(
+      'should submit when the field is %s during an async validation and shown again',
+      async (hideMode) => {
+        const onSubmit = vi.fn()
+        let calls = 0
+        let resolveValidation: (result: undefined) => void
+
+        // The first check is slow, the next ones answer from a cache
+        const onBlurValidator = () => {
+          if (++calls > 1) {
+            return undefined
+          }
+
+          return new Promise<undefined>((resolve) => {
+            resolveValidation = resolve
+          })
+        }
+
+        const MyForm = () => {
+          const [show, setShow] = useState(true)
+          const field = (
+            <Field.String
+              path="/myValue"
+              onBlurValidator={onBlurValidator}
+            />
+          )
+
+          return (
+            <Form.Handler onSubmit={onSubmit}>
+              {hideMode === 'unmounted' ? (
+                show && field
+              ) : (
+                <Activity mode={show ? 'visible' : 'hidden'}>
+                  {field}
+                </Activity>
+              )}
+              <button type="button" onClick={() => setShow(!show)}>
+                Toggle
+              </button>
+            </Form.Handler>
+          )
+        }
+
+        render(<MyForm />)
+
+        const toggle = document.querySelector('button[type="button"]')
+
+        await userEvent.type(document.querySelector('input'), 'a')
+        await userEvent.click(toggle)
+        await act(async () => {
+          resolveValidation(undefined)
+        })
+        await userEvent.click(toggle)
+
+        expect(document.querySelector('input')).not.toBeDisabled()
+
+        fireEvent.submit(document.querySelector('form'))
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+      }
+    )
 
     describe('connectWithPath', () => {
       const onBlurValidatorFn: UseFieldProps<number>['onBlurValidator'] = (

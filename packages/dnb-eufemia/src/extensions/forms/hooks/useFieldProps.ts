@@ -1262,12 +1262,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
 
       shouldRevalidateOnBlurRef.current =
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         asyncProcessRef.current === 'onBlurValidator' ||
         (Boolean(localErrorRef.current) &&
           // eslint-disable-next-line react-hooks/exhaustive-deps
           localErrorInitiatorRef.current === 'onBlurValidator')
       localErrorRef.current = undefined
+
+      // A running async process can no longer reset the state it set at this path
+      if (asyncProcessRef.current) {
+        asyncProcessRef.current = undefined
+        fieldStateRef.current = undefined
+        setFieldStateDataContext?.(identifier, undefined)
+      }
     }
   }, [
     identifier,
@@ -1276,9 +1282,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     prerenderFieldProps,
     setFieldErrorBoundary,
     setFieldErrorDataContext,
+    setFieldStateDataContext,
     localErrorRef,
     localErrorInitiatorRef,
     asyncProcessRef,
+    fieldStateRef,
   ])
 
   useEffect(() => {

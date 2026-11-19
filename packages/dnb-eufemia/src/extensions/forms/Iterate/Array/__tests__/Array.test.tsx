@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { wait } from '../../../../../core/test-utils/testSetup'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
 import { IterateItemContext } from '../..'
@@ -920,6 +921,195 @@ describe('Iterate.Array', () => {
           { name: 'A', other: 'x' },
           { name: 'C', other: 'y' },
         ],
+      })
+    })
+
+    it('should submit when an async onChange finishes after the item above was removed', async () => {
+      const onSubmit = vi.fn()
+      let resolveChange: () => void
+      const onChange = async () => {
+        await new Promise<void>((resolve) => {
+          resolveChange = resolve
+        })
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{ items: [{ name: 'A' }, { name: 'B' }] }}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/items">
+            <Field.String itemPath="/name" onChange={onChange} />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelectorAll('input')[1], 'x')
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[0]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('input')).toHaveLength(1)
+      })
+
+      await act(async () => {
+        resolveChange()
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      expect(onSubmit.mock.calls[0][0]).toEqual({
+        items: [{ name: 'Bx' }],
+      })
+    })
+
+    it.each([
+      ['an item moves up', 0, 1],
+      ['a new item takes the path of a removed item', 1, 2],
+    ])(
+      'should submit when %s during an async onBlurValidator',
+      async (_, removeIndex, expectedInputs) => {
+        const onSubmit = vi.fn()
+        let calls = 0
+        let resolveValidation: (result: undefined) => void
+
+        // The first check is slow, the next ones answer from a cache
+        const onBlurValidator = (value: string) => {
+          if (value !== 'slow' || ++calls > 1) {
+            return undefined
+          }
+
+          return new Promise<undefined>((resolve) => {
+            resolveValidation = resolve
+          })
+        }
+
+        render(
+          <Form.Handler
+            defaultData={{ items: [{ name: 'A' }, {}] }}
+            onSubmit={onSubmit}
+          >
+            <Iterate.Array path="/items">
+              <Field.String
+                itemPath="/name"
+                onBlurValidator={onBlurValidator}
+              />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+            <Iterate.PushButton path="/items" pushValue={{}} />
+          </Form.Handler>
+        )
+
+        await userEvent.type(document.querySelectorAll('input')[1], 'slow')
+        await userEvent.tab()
+        await userEvent.click(
+          document.querySelectorAll(
+            '.dnb-forms-iterate-remove-element-button'
+          )[removeIndex]
+        )
+        await waitFor(() => {
+          expect(document.querySelectorAll('input')).toHaveLength(1)
+        })
+
+        await act(async () => {
+          resolveValidation(undefined)
+        })
+
+        if (expectedInputs === 2) {
+          await userEvent.click(
+            document.querySelector('.dnb-forms-iterate-push-button')
+          )
+        }
+        await waitFor(() => {
+          expect(document.querySelectorAll('input')).toHaveLength(
+            expectedInputs
+          )
+        })
+        document.querySelectorAll('input').forEach((input) => {
+          expect(input).not.toBeDisabled()
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+      }
+    )
+
+    it('should not cancel a submit when the deadline of a dropped async onBlurValidator runs out', async () => {
+      const onSubmit = vi.fn()
+      let calls = 0
+      let resolveItem: (result: undefined) => void
+      let resolveOther: (result: undefined) => void
+
+      // The first check is slow, the next ones answer from a cache
+      const itemValidator = (value: string) => {
+        if (value !== 'slow' || ++calls > 1) {
+          return undefined
+        }
+
+        return new Promise<undefined>((resolve) => {
+          resolveItem = resolve
+        })
+      }
+      const otherValidator = () => {
+        return new Promise<undefined>((resolve) => {
+          resolveOther = resolve
+        })
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{ items: [{ name: 'A' }, {}] }}
+          onSubmit={onSubmit}
+          asyncSubmitTimeout={1000}
+        >
+          <Iterate.Array path="/items">
+            <Field.String
+              itemPath="/name"
+              onBlurValidator={itemValidator}
+            />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+          <Field.String path="/other" onBlurValidator={otherValidator} />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelectorAll('input')[1], 'slow')
+      await userEvent.tab()
+      const blurredAt = Date.now()
+
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[0]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('input')).toHaveLength(2)
+      })
+      await act(async () => {
+        resolveItem(undefined)
+        await wait(500)
+      })
+
+      await userEvent.type(document.querySelectorAll('input')[1], 'x')
+      fireEvent.submit(document.querySelector('form'))
+
+      // Let the deadline of the first check run out while the submit waits
+      await act(async () => {
+        await wait(blurredAt + 1100 - Date.now())
+      })
+      await act(async () => {
+        resolveOther(undefined)
+      })
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
       })
     })
 
