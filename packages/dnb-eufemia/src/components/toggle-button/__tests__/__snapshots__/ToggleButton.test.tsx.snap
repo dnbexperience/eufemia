@@ -662,6 +662,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
   --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
   background-color: var(--button-color-bg, var(--button-color-bg--default));
+  font-family: var(--font-family-action);
 }
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
   color: var(--button-color-icon, var(--button-color-icon--default));
