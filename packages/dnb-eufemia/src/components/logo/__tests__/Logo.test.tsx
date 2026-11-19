@@ -404,6 +404,23 @@ describe('Logo component', () => {
       expect(svg).toHaveAttribute('fill', logoColors.eiendom.dark)
     })
 
+    it.each([
+      ['light', '#003842'],
+      ['dark', '#e3ded4'],
+    ] as const)(
+      'should use the Birdhouse icon action color in %s mode',
+      (colorScheme, fill) => {
+        render(
+          <Theme brand="birdhouse" colorScheme={colorScheme}>
+            <Logo svg={EiendomDefault} />
+          </Theme>
+        )
+
+        const svg = document.querySelector('svg')
+        expect(svg).toHaveAttribute('fill', fill)
+      }
+    )
+
     it('should use correct fill in light mode for SbankenDefault', () => {
       render(<Logo svg={SbankenDefault} />)
 

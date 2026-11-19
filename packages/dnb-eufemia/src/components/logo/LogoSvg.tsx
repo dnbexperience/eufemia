@@ -34,6 +34,8 @@ export const logoAlts = {
 export const logoColors = {
   dnb: { light: '#007272', dark: '#a5e1d2' },
   eiendom: { light: '#007272', dark: '#fff' },
+  // Matches --token-color-icon-action, which the Birdhouse design uses for the logo.
+  birdhouse: { light: '#003842', dark: '#e3ded4' },
   sbanken: { light: '#18172a', dark: '#fff' },
   carnegie: { light: '#5c0022' },
 }
@@ -118,8 +120,10 @@ export const EiendomDefault: LogoSvgComponent = function ({
 }) {
   const theme = useTheme()
   const isDark = theme?.colorScheme === 'dark'
-  const resolvedFill =
-    fill ?? (isDark ? logoColors.eiendom.dark : logoColors.eiendom.light)
+  const colors = theme?.isBirdhouse
+    ? logoColors.birdhouse
+    : logoColors.eiendom
+  const resolvedFill = fill ?? (isDark ? colors.dark : colors.light)
 
   return (
     <svg fill={resolvedFill} {...props} viewBox="0 0 368 80">
