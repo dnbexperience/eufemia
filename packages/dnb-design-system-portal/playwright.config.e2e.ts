@@ -5,6 +5,8 @@ export default defineConfig({
   timeout: 30_000,
   globalTimeout: 1_500_000,
   retries: 3,
+  // Playwright uses half of the CPU cores by default, which leaves the CI runner idle
+  workers: isCI ? '100%' : undefined,
   reporter: [
     ['list'],
     ['json', { outputFile: 'test-results/e2e-results.json' }],

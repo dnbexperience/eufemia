@@ -4,6 +4,8 @@ import { isCI } from 'repo-utils'
 export default defineConfig({
   timeout: 30000,
   globalTimeout: 600000,
+  // Playwright uses half of the CPU cores by default, which leaves the CI runner idle
+  workers: isCI ? '100%' : undefined,
   reporter: [
     ['list'],
     ['json', { outputFile: 'test-results/e2e-results.json' }],
