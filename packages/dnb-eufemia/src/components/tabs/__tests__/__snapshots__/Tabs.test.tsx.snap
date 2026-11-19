@@ -349,6 +349,12 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
+.dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
+  margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
+}
+.dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
+  margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
+}
 .dnb-tabs__selection {
   position: absolute;
   z-index: 2;
@@ -385,12 +391,6 @@ html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([di
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([disabled]):has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
   background-color: var(--token-color-background-action-pressed);
-}
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
-}
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 .dnb-tabs__cached {
   opacity: 1;
@@ -814,6 +814,12 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
+.dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
+  margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
+}
+.dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
+  margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
+}
 .dnb-tabs__selection {
   position: absolute;
   z-index: 2;
@@ -850,12 +856,6 @@ html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([di
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button__snap.selected:hover:not([disabled]):has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
   background-color: var(--token-color-background-action-pressed);
-}
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-left: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
-}
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
-  margin-right: calc(0.5rem + var(--focus-outline-width) + var(--focus-outline-offset));
 }
 .dnb-tabs__cached {
   opacity: 1;
