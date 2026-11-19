@@ -70,7 +70,8 @@ const DEFAULT_MAX_SUMMARY_ROWS = 100
 export const renderVisualReportSummary = (
   manifest: VisualReportManifest,
   reportUrl = '',
-  maxRows = DEFAULT_MAX_SUMMARY_ROWS
+  maxRows = DEFAULT_MAX_SUMMARY_ROWS,
+  artifactName = 'visual-test-artifact'
 ): string => {
   const failures = Array.isArray(manifest?.failures)
     ? manifest.failures
@@ -92,7 +93,7 @@ export const renderVisualReportSummary = (
     )
   } else {
     lines.push(
-      '_Images are in the **visual-test-artifact** below (report hosting was unavailable for this run)._',
+      `_Images are in the **${escapeText(artifactName)}** below (report hosting was unavailable for this run)._`,
       ''
     )
   }
@@ -131,7 +132,7 @@ export const renderVisualReportSummary = (
       const remaining = failures.length - shown.length
       const where = normalizedUrl
         ? 'the full report'
-        : 'the **visual-test-artifact**'
+        : `the **${escapeText(artifactName)}**`
       lines.push(
         `_Showing the first ${shown.length} of ${failures.length} failures — see ${where} for the remaining ${remaining}._`,
         ''

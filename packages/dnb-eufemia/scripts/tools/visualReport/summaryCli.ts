@@ -7,6 +7,7 @@
  *
  * Usage: node summaryCli.ts [path/to/report.json]
  * Env:   REPORT_URL - base URL of the hosted report (optional)
+ *        ARTIFACT_NAME - name of the uploaded report artifact (optional)
  */
 
 import fs from 'node:fs'
@@ -28,8 +29,12 @@ if (!fs.existsSync(manifestPath)) {
 try {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
   process.stdout.write(
-    renderVisualReportSummary(manifest, process.env.REPORT_URL ?? '') +
-      '\n'
+    renderVisualReportSummary(
+      manifest,
+      process.env.REPORT_URL ?? '',
+      undefined,
+      process.env.ARTIFACT_NAME || undefined
+    ) + '\n'
   )
 } catch (error) {
   console.error(
