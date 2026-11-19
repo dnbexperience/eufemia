@@ -4080,6 +4080,46 @@ describe('Autocomplete component', () => {
     }
   )
 
+  it.each([
+    [
+      'the disabled prop',
+      (props: AutocompleteAllProps) => (
+        <Autocomplete {...props} disabled />
+      ),
+    ],
+    [
+      'Provider formElement',
+      (props: AutocompleteAllProps) => (
+        <Provider formElement={{ disabled: true }}>
+          <Autocomplete {...props} />
+        </Provider>
+      ),
+    ],
+  ])(
+    'does not open the options from the screen reader button when disabled via %s',
+    (_, renderAutocomplete) => {
+      render(
+        renderAutocomplete({ ...mockProps, data: ['Apple', 'Orange'] })
+      )
+
+      const srButton = document.querySelector(
+        '.dnb-autocomplete .dnb-sr-only button'
+      )
+
+      expect(srButton).toBeDisabled()
+
+      fireEvent.click(srButton)
+
+      expect(document.querySelector('.dnb-input__input')).toHaveAttribute(
+        'aria-expanded',
+        'false'
+      )
+      expect(
+        document.querySelector('li.dnb-drawer-list__option')
+      ).not.toBeInTheDocument()
+    }
+  )
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
