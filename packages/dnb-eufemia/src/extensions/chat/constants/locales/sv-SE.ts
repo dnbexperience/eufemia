@@ -29,7 +29,6 @@ export default {
       suggestions: 'Förslag',
       conversationLabel: 'Konversation',
       scrollToBottom: 'Gå till senaste meddelandet',
-      tableOverflow: 'Rulla i sidled för att se hela tabellen',
       newMessage: 'Nytt meddelande',
       sources: 'Källor (%count)',
       taskRunning: 'Pågår',
