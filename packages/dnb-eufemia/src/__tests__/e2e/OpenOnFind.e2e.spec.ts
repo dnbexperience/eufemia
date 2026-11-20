@@ -114,32 +114,57 @@ test.describe('openOnFind', () => {
     await expect(matchingContent).toBeVisible()
   })
 
-  test('keeps list rows hidden by visibleCount from taking space', async ({
+  test('keeps limited lists collapsed until native reveal or button activation', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/list/demos')
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/web/components/list/visual-tests/open-on-find/')
 
-    const list = page.locator('#my-limited-list')
-    const rows = list.locator(':scope > li')
-    const hiddenRow = rows.nth(3)
-    const button = page.locator('[aria-controls="my-limited-list"]')
+    for (const id of ['findable-list', 'separated-findable-list']) {
+      await test.step(id, async () => {
+        const list = page.locator('#' + id)
+        const rows = list.locator(':scope > li')
+        const matchingContent = list.locator('#' + id + '-match')
+        const button = page.locator('[aria-controls="' + id + '"]')
 
-    await expect(hiddenRow).toHaveAttribute('hidden', 'until-found')
-    await expect(hiddenRow).toHaveJSProperty('offsetHeight', 0)
+        const expectCollapsed = async () => {
+          await expect(button).toHaveAttribute('aria-expanded', 'false')
+          for (const row of [rows.nth(1), rows.nth(2)]) {
+            await expect(row).toHaveAttribute('hidden', 'until-found')
+            await expect(row).toHaveJSProperty('offsetHeight', 0)
+          }
+          await expect(matchingContent).toBeHidden()
+          await expect
+            .poll(() =>
+              list.evaluate((element) => {
+                const first =
+                  element.firstElementChild.getBoundingClientRect()
+                return Math.abs(
+                  element.getBoundingClientRect().bottom - first.bottom
+                )
+              })
+            )
+            .toBeLessThan(1)
+        }
 
-    // The list ends after the visible rows, with no empty block under them
-    const lastVisibleRow = await rows.nth(2).boundingBox()
-    const listBox = await list.boundingBox()
-    expect(listBox.y + listBox.height).toBeCloseTo(
-      lastVisibleRow.y + lastVisibleRow.height,
-      0
-    )
+        await expectCollapsed()
 
-    await button.click()
+        await page.evaluate((id) => {
+          window.location.hash = id + '-match'
+        }, id)
 
-    await expect(hiddenRow).not.toHaveAttribute('hidden')
-    expect(
-      await hiddenRow.evaluate((row: HTMLElement) => row.offsetHeight)
-    ).toBeGreaterThan(0)
+        await expect(button).toHaveAttribute('aria-expanded', 'true')
+        await expect(matchingContent).toBeVisible()
+        await expect(rows.nth(2)).not.toHaveAttribute('hidden')
+
+        await button.click()
+        await expectCollapsed()
+
+        await button.click()
+        await expect(button).toHaveAttribute('aria-expanded', 'true')
+        await expect(matchingContent).toBeVisible()
+        await expect(rows.nth(2)).not.toHaveAttribute('hidden')
+      })
+    }
   })
 })

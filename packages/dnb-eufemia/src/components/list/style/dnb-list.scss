@@ -159,13 +159,13 @@
       padding: calc(var(--list-item-padding)) 0;
     }
 
-    // Rows hidden by visibleCount use hidden="until-found", so find-in-page
-    // can reveal them. Browsers keep such elements in layout and only skip
-    // their content, so the row's min-height and padding would leave an
-    // empty block. Let them take no space until they are shown.
+    // Keep rows findable without reserving row height or Flex gaps.
     &[hidden='until-found'] {
+      position: absolute;
+      height: 0;
       min-height: 0;
-      padding-block: 0;
+      padding: 0;
+      overflow: hidden;
       border: 0;
     }
 
