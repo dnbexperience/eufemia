@@ -1241,6 +1241,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     omitMultiplePathWarning,
   ])
 
+  const shouldRevalidateOnBlurRef = useRef(false)
   useEffect(() => {
     if (prerenderFieldProps) {
       return undefined // stop here, we don't want to set the state of the field
@@ -1260,7 +1261,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       })
 
+      shouldRevalidateOnBlurRef.current =
+        asyncProcessRef.current === 'onBlurValidator' ||
+        (Boolean(localErrorRef.current) &&
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          localErrorInitiatorRef.current === 'onBlurValidator')
       localErrorRef.current = undefined
+
+      // A running async process can no longer reset the state it set at this path
+      if (asyncProcessRef.current) {
+        asyncProcessRef.current = undefined
+        fieldStateRef.current = undefined
+        setFieldStateDataContext?.(identifier, undefined)
+      }
     }
   }, [
     identifier,
@@ -1269,7 +1282,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     prerenderFieldProps,
     setFieldErrorBoundary,
     setFieldErrorDataContext,
+    setFieldStateDataContext,
     localErrorRef,
+    localErrorInitiatorRef,
+    asyncProcessRef,
+    fieldStateRef,
   ])
 
   useEffect(() => {
@@ -1286,9 +1303,91 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // ─── Validation effects ──────────────────────────────────────────────
 
+  const validationPromiseRef =
+    useRef<ReturnType<typeof validateValue>>(null)
   useEffect(() => {
-    validateValue()
+    validationPromiseRef.current = validateValue()
   }, [validateValue])
+
+  const revalidateWithOnBlurValidator = useCallback(() => {
+    addToPool(
+      'onBlurValidator',
+      () => {
+        setValidatedValidatorValue('onBlurValidator')
+
+        return startOnBlurValidatorProcess()
+      },
+      hasAsyncValidatorBehavior(onBlurValidatorRef.current)
+    )
+
+    runPool(() => {
+      revealError()
+      forceUpdate()
+    })
+  }, [
+    addToPool,
+    forceUpdate,
+    onBlurValidatorRef,
+    revealError,
+    runPool,
+    setValidatedValidatorValue,
+    startOnBlurValidatorProcess,
+  ])
+
+  // When the path changes (e.g. an Iterate.Array item before this one was removed),
+  // replace any error or pending state left at the new path by the field that used it before.
+  const previousIdentifierRef = useRef(identifier)
+  useEffect(() => {
+    if (
+      prerenderFieldProps ||
+      previousIdentifierRef.current === identifier
+    ) {
+      return undefined // stop here
+    }
+
+    const previousIdentifier = previousIdentifierRef.current
+    previousIdentifierRef.current = identifier
+
+    // The unmount cleanup skips the old path when another field moved there
+    setFieldErrorBoundary?.(previousIdentifier, undefined)
+    setFieldErrorBoundary?.(identifier, localErrorRef.current)
+    setFieldErrorDataContext?.(identifier, localErrorRef.current)
+    setFieldStateDataContext?.(
+      identifier,
+      resolveValidatingState(fieldStateRef.current)
+    )
+
+    const shouldRevalidateOnBlur = shouldRevalidateOnBlurRef.current
+    let active = true
+
+    // Wait for change validation before restoring a blur validation error.
+    validationPromiseRef.current?.then(() => {
+      if (
+        active &&
+        shouldRevalidateOnBlur &&
+        onBlurValidatorRef.current &&
+        // validateValue already ran it
+        !(validateInitially && !changedRef.current)
+      ) {
+        revalidateWithOnBlurValidator()
+      }
+    })
+
+    return () => {
+      active = false
+    }
+  }, [
+    fieldStateRef,
+    identifier,
+    localErrorRef,
+    onBlurValidatorRef,
+    prerenderFieldProps,
+    revalidateWithOnBlurValidator,
+    setFieldErrorBoundary,
+    setFieldErrorDataContext,
+    setFieldStateDataContext,
+    validateInitially,
+  ])
 
   const previousLocaleRef = useRef(locale)
   useUpdateEffect(() => {
@@ -1313,34 +1412,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
-        addToPool(
-          'onBlurValidator',
-          () => {
-            setValidatedValidatorValue('onBlurValidator')
-
-            return startOnBlurValidatorProcess()
-          },
-          hasAsyncValidatorBehavior(onBlurValidatorRef.current)
-        )
-
-        runPool(() => {
-          revealError()
-          forceUpdate()
-        })
+        revalidateWithOnBlurValidator()
 
         return undefined // stop here
       }
     }
   }, [
-    addToPool,
-    forceUpdate,
     hasError,
     locale,
     prerenderFieldProps,
-    revealError,
-    runPool,
-    startOnBlurValidatorProcess,
-    setValidatedValidatorValue,
+    revalidateWithOnBlurValidator,
     validateInitially,
     validateUnchanged,
     valueEqualsEmptyValue,

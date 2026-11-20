@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { Activity, StrictMode, useState } from 'react'
 import {
   act,
   fireEvent,
@@ -5979,6 +5979,69 @@ describe('useFieldProps', () => {
       })
     })
 
+    it.each(['unmounted', 'hidden by Activity'])(
+      'should submit when the field is %s during an async validation and shown again',
+      async (hideMode) => {
+        const onSubmit = vi.fn()
+        let calls = 0
+        let resolveValidation: (result: undefined) => void
+
+        // The first check is slow, the next ones answer from a cache
+        const onBlurValidator = () => {
+          if (++calls > 1) {
+            return undefined
+          }
+
+          return new Promise<undefined>((resolve) => {
+            resolveValidation = resolve
+          })
+        }
+
+        const MyForm = () => {
+          const [show, setShow] = useState(true)
+          const field = (
+            <Field.String
+              path="/myValue"
+              onBlurValidator={onBlurValidator}
+            />
+          )
+
+          return (
+            <Form.Handler onSubmit={onSubmit}>
+              {hideMode === 'unmounted' ? (
+                show && field
+              ) : (
+                <Activity mode={show ? 'visible' : 'hidden'}>
+                  {field}
+                </Activity>
+              )}
+              <button type="button" onClick={() => setShow(!show)}>
+                Toggle
+              </button>
+            </Form.Handler>
+          )
+        }
+
+        render(<MyForm />)
+
+        const toggle = document.querySelector('button[type="button"]')
+
+        await userEvent.type(document.querySelector('input'), 'a')
+        await userEvent.click(toggle)
+        await act(async () => {
+          resolveValidation(undefined)
+        })
+        await userEvent.click(toggle)
+
+        expect(document.querySelector('input')).not.toBeDisabled()
+
+        fireEvent.submit(document.querySelector('form'))
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+      }
+    )
+
     describe('connectWithPath', () => {
       const onBlurValidatorFn: UseFieldProps<number>['onBlurValidator'] = (
         num,
@@ -6145,6 +6208,57 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
+
+      it.each(['in order', 'in reverse order'])(
+        'should enable the field again when the connected field changes during an async validation (resolved %s)',
+        async (order) => {
+          const resolvers: Array<() => void> = []
+          const onBlurValidator: UseFieldProps<string>['onBlurValidator'] =
+            (value, { connectWithPath }) => {
+              connectWithPath('/refValue').getValue()
+
+              return new Promise<undefined>((resolve) => {
+                resolvers.push(() => resolve(undefined))
+              })
+            }
+
+          render(
+            <Form.Handler>
+              <Field.String path="/refValue" />
+              <Field.String
+                path="/myValue"
+                onBlurValidator={onBlurValidator}
+              />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue, input] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          await userEvent.type(input, 'a')
+          await userEvent.tab()
+          await waitFor(() => {
+            expect(input).toBeDisabled()
+          })
+
+          await userEvent.type(inputWithRefValue, 'b')
+          expect(resolvers).toHaveLength(2)
+
+          await act(async () => {
+            const list =
+              order === 'in order' ? resolvers : [...resolvers].reverse()
+            for (const resolve of list) {
+              resolve()
+              await wait(1)
+            }
+          })
+
+          await waitFor(() => {
+            expect(input).not.toBeDisabled()
+          })
+        }
+      )
 
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
