@@ -401,6 +401,11 @@ describe('mcp-http-server with auth token', () => {
     }
   )
 
+  it('rejects an unauthenticated /sse request', async () => {
+    const res = await fetch(`${server.url}/sse`)
+    expect(res.status).toBe(401)
+  })
+
   it('accepts requests with the correct bearer token', async () => {
     const res = await postJson(
       `${server.url}/mcp`,
