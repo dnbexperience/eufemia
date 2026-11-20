@@ -44,6 +44,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
+import AriaLive from '../AriaLive'
 import { runIOSSelectionFix, formatNumber, formatCurrency } from './utils'
 import type { NumberFormatOptionParams, NumberFormatValue } from './utils'
 import type { NumberFormatAllProps } from './types'
@@ -489,15 +490,19 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
       )}
 
       {copyTooltipActive && (
-        <Tooltip
-          open={copyTooltipActive}
-          targetElement={elRef}
-          showDelay={0}
-          hideDelay={0}
-          triggerOffset={8}
-        >
-          {copyTooltipText}
-        </Tooltip>
+        <>
+          <Tooltip
+            open={copyTooltipActive}
+            targetElement={elRef}
+            showDelay={0}
+            hideDelay={0}
+            triggerOffset={8}
+            omitDescribedBy
+          >
+            {copyTooltipText}
+          </Tooltip>
+          <AriaLive element="span">{copyTooltipText}</AriaLive>
+        </>
       )}
     </Element>
   )

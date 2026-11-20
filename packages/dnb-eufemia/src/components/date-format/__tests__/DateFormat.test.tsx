@@ -935,25 +935,15 @@ describe('DateFormat', () => {
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      // When tooltip is inactive, aria-describedby should not be set
-      expect(timeElem.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(timeElem.getAttribute('aria-describedby'))
+      ).toHaveTextContent('fredag 1. august 2025')
 
       fireEvent.mouseEnter(timeElem)
 
-      // Wait for tooltip to show
-      await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
-      })
-
-      // When tooltip is active, aria-describedby should point to the tooltip id
-      const tooltipId = timeElem.getAttribute('aria-describedby')
-
       let tooltipElem: Element
       await waitFor(() => {
-        tooltipElem = document.body.querySelector(
-          '#' + tooltipId
-        ).parentElement
+        tooltipElem = document.querySelector('.dnb-tooltip')
         expect(tooltipElem).toHaveClass(
           'dnb-tooltip',
           'dnb-tooltip--active'
@@ -983,16 +973,14 @@ describe('DateFormat', () => {
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      expect(timeElem.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(timeElem.getAttribute('aria-describedby'))
+      ).toHaveTextContent('fredag 1. august 2025 kl. 14:30')
 
       fireEvent.mouseEnter(timeElem)
 
       await waitFor(() => {
-        const tooltipId = timeElem.getAttribute('aria-describedby')
-        expect(tooltipId).toBeTruthy()
-
-        const tooltipElem = document.body.querySelector('#' + tooltipId)
-        expect(tooltipElem).toHaveTextContent(
+        expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
           'fredag 1. august 2025 kl. 14:30'
         )
       })
@@ -1871,6 +1859,16 @@ describe('DateFormat', () => {
           '2 timer og 30 minutter'
         )
         expect(await axeComponent(Component)).toHaveNoViolations()
+      })
+
+      it('does not describe the duration with the text screen readers already get', () => {
+        render(<DateFormat value="PT2H30M" dateStyle="short" />)
+        const dateFormat = document.querySelector('.dnb-date-format')
+
+        expect(dateFormat.querySelector('.dnb-sr-only')).toHaveTextContent(
+          '2 timer og 30 minutter'
+        )
+        expect(dateFormat).not.toHaveAttribute('aria-describedby')
       })
     })
   })

@@ -242,19 +242,20 @@ describe('Chip', () => {
       await user.tab()
 
       await waitFor(() => {
-        expect(input).toHaveAccessibleDescription(
-          'Choose an account Select an option Earn interest on your savings'
-        )
+        expect(
+          document.querySelector('[role="tooltip"] strong')
+        ).toHaveTextContent('Earn interest')
       })
-      expect(
-        document.querySelector('[role="tooltip"] strong')
-      ).toHaveTextContent('Earn interest')
+      expect(input).toHaveAccessibleDescription(
+        'Choose an account Select an option Earn interest on your savings'
+      )
       await user.keyboard('{Escape}')
       await waitFor(() => {
-        expect(input).toHaveAccessibleDescription(
-          'Choose an account Select an option'
-        )
+        expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
       })
+      expect(input).toHaveAccessibleDescription(
+        'Choose an account Select an option Earn interest on your savings'
+      )
     }
   )
 

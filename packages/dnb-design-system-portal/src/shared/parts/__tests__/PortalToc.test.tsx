@@ -25,7 +25,11 @@ afterEach(() =>
 
 function heading(id: string, text: string) {
   const element = document.createElement('h2')
-  element.innerHTML = text + '<a class="anchor-hash" id="' + id + '">#</a>'
+  element.innerHTML =
+    text +
+    '<a class="anchor-hash" id="' +
+    id +
+    '">#</a><span class="dnb-tooltip__description" hidden>Click to set an Anchor URL</span>'
   element.getClientRects = () =>
     element.hidden
       ? ([] as unknown as DOMRectList)
@@ -88,6 +92,9 @@ it('updates links when destinations are hidden, remounted or renamed', async () 
   expect(
     document.querySelector('nav a[href="#replacement"] code').innerHTML
   ).toBe('Form.<wbr>Section')
+  expect(
+    document.querySelector('nav a[href="#replacement"]').textContent
+  ).toBe('Replacement Form.Section')
 })
 
 it.each(['hidden', 'visibility', 'removed'])(

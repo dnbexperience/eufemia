@@ -26,7 +26,6 @@ import Popover from '../popover/Popover'
 import getRefElement from '../../shared/internal/getRefElement'
 import type { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
-import AriaLive from '../AriaLive'
 import { MODAL_OPEN_EVENT } from '../modal/ModalContext'
 
 type TooltipWithEventsProps = {
@@ -248,7 +247,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     return () => window.removeEventListener('keydown', onKeyDown, true)
   }, [overlayOpen, isControlled, dismiss])
 
-  const describedById = overlayOpen && !omitDescribedBy ? internalId : null
+  // A hidden copy is in the DOM at focus time, so screen readers read it
+  const describedById = omitDescribedBy
+    ? null
+    : `${internalId}-description`
 
   /**
    * Get our "target"
@@ -467,9 +469,15 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         {children}
       </Popover>
 
-      <AriaLive element="span" priority="low">
-        {overlayOpen ? children : null}
-      </AriaLive>
+      {describedById && (
+        <span
+          id={describedById}
+          className="dnb-tooltip__description"
+          hidden
+        >
+          {children}
+        </span>
+      )}
 
       {componentWrapper}
     </>

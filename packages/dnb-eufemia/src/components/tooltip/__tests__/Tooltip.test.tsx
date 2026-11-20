@@ -128,7 +128,6 @@ describe('Tooltip', () => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
     })
     expect(getMainElem()).not.toHaveClass('dnb-tooltip--no-animation')
-    expect(button).not.toHaveAttribute('aria-describedby')
 
     fireEvent.mouseLeave(button)
     fireEvent.mouseEnter(button)
@@ -526,98 +525,43 @@ describe('Tooltip', () => {
       })
     })
 
-    describe('aria-describedby fallback', () => {
-      it('does not set aria-describedby when tooltip is inactive', () => {
+    describe('screen reader description', () => {
+      it('describes the target before the tooltip opens', () => {
+        render(<Tooltip>Tooltip content</Tooltip>)
+
+        const description = document.getElementById(
+          document.querySelector('button').getAttribute('aria-describedby')
+        )
+
+        expect(description).toHaveTextContent('Tooltip content')
+        expect(description).not.toBeVisible()
+        expect(getMainElem()).toBeNull()
+      })
+
+      it('keeps the description while open, without announcing it', () => {
+        render(<Tooltip open>Tooltip content</Tooltip>)
+
+        const description = document.getElementById(
+          document.querySelector('button').getAttribute('aria-describedby')
+        )
+
+        expect(getMainElem()).toHaveTextContent('Tooltip content')
+        expect(description).toHaveTextContent('Tooltip content')
+        expect(description).not.toBeVisible()
+        expect(document.querySelector('[aria-live]')).toBeNull()
+      })
+
+      it('does not describe the target with omitDescribedBy', () => {
         render(
-          <Tooltip showDelay={0} hideDelay={0}>
+          <Tooltip open omitDescribedBy>
             Tooltip content
           </Tooltip>
         )
 
-        const buttonElem = document.querySelector('button')
-        const describedById = buttonElem.getAttribute('aria-describedby')
-
-        expect(describedById).toBeNull()
-      })
-
-      it('uses span element for AriaLive to avoid DOM nesting issues', () => {
-        render(
-          <Tooltip showDelay={0} hideDelay={0} open>
-            Tooltip content
-          </Tooltip>
-        )
-
-        const buttonElem = document.querySelector('button')
-        const describedById = buttonElem.getAttribute('aria-describedby')
-
-        // When active, aria-describedby points to the tooltip id
-        expect(describedById).toBeTruthy()
-        const tooltipElement = document.getElementById(describedById)
-        expect(tooltipElement).toBeInTheDocument()
-        expect(tooltipElement.parentElement).toHaveClass('dnb-tooltip')
-
-        // AriaLive should use span instead of section to avoid nesting issues in <p> tags
-        const ariaLiveSpan = document.querySelector('.dnb-aria-live')
-        expect(ariaLiveSpan).toBeInTheDocument()
-        expect(ariaLiveSpan.tagName.toLowerCase()).toBe('span')
-      })
-
-      it('switches aria-describedby to the tooltip content when it becomes active', async () => {
-        render(<Tooltip {...defaultProps}>Tooltip content</Tooltip>)
-
-        const buttonElem = document.querySelector('button')
-        fireEvent.mouseEnter(buttonElem)
-
-        await waitFor(() => {
-          const describedById =
-            buttonElem.getAttribute('aria-describedby') || ''
-          const tooltipContent = document.getElementById(describedById)
-          expect(tooltipContent).toBeInTheDocument()
-          expect(tooltipContent?.parentElement).toHaveClass('dnb-tooltip')
-        })
-      })
-
-      it('announces tooltip content via AriaLive when tooltip becomes active', async () => {
-        render(
-          <Tooltip showDelay={0} hideDelay={0}>
-            Copied
-          </Tooltip>
-        )
-
-        const buttonElem = document.querySelector('button')
-
-        // When tooltip is inactive, aria-describedby should not be set
-        expect(buttonElem.getAttribute('aria-describedby')).toBeNull()
-
-        // Find AriaLive element (it doesn't have an id anymore)
-        const ariaLiveElement = document.querySelector('.dnb-aria-live')
-
-        expect(ariaLiveElement).toBeInTheDocument()
-        expect(ariaLiveElement).toHaveAttribute('aria-live', 'polite')
-
-        // When tooltip is inactive, AriaLive shows null
-        expect(ariaLiveElement).toHaveTextContent('')
-
-        // Activate the tooltip
-        fireEvent.mouseEnter(buttonElem)
-
-        // Wait for tooltip to become active
-        await waitFor(() => {
-          // aria-describedby should now point to the tooltip id
-          const describedById = buttonElem.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-          const tooltipElement = document.getElementById(describedById)
-          expect(tooltipElement).toBeInTheDocument()
-        })
-
-        // Wait for AriaLive to show content
-        await waitFor(() => {
-          expect(ariaLiveElement).toHaveTextContent('Copied')
-        })
-
-        // Verify aria-live attributes are set for screen reader announcement
-        expect(ariaLiveElement).toHaveAttribute('aria-live', 'polite')
-        expect(ariaLiveElement).toHaveAttribute('aria-atomic', 'true')
+        expect(
+          document.querySelector('button').hasAttribute('aria-describedby')
+        ).toBe(false)
+        expect(document.querySelector('[aria-live]')).toBeNull()
       })
     })
 
@@ -1228,9 +1172,9 @@ describe('Tooltip', () => {
       )
       const id = wrapperElement.getAttribute('aria-describedby')
 
-      expect(
-        document.body.querySelector('#' + id).parentElement.classList
-      ).toContain('dnb-tooltip--active')
+      expect(document.getElementById(id)).toHaveTextContent(
+        'Tooltip for this NumberFormat'
+      )
     })
   })
 
@@ -1453,21 +1397,11 @@ describe('Tooltip', () => {
         </Anchor>
       )
 
-      const anchorElement = document.querySelector('a')
+      const id = document
+        .querySelector('a')
+        .getAttribute('aria-describedby')
 
-      // When tooltip is inactive, aria-describedby is not set
-      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
-
-      // Activate the tooltip
-      fireEvent.mouseEnter(anchorElement)
-
-      // Wait for tooltip to become active
-      await waitFor(() => {
-        const id = anchorElement.getAttribute('aria-describedby')
-        expect(id).toBeTruthy()
-        // Verify the element with that id exists in the DOM
-        expect(document.body.querySelectorAll('#' + id).length).toBe(1)
-      })
+      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
     })
 
     it('has to be visible on hover', async () => {
@@ -1543,11 +1477,6 @@ describe('Tooltip', () => {
       await waitFor(() => {
         expect(getMainElem().classList).toContain('dnb-tooltip--active')
       })
-
-      const id = element.getAttribute('aria-describedby')
-      expect(
-        document.body.querySelector('#' + id).parentElement.classList
-      ).toContain('dnb-tooltip--active')
     })
   })
 })
