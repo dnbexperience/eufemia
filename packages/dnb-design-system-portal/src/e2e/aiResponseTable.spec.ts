@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
-test('shows an associated overflow hint, retains keyboard scrolling and updates on resize', async ({
+test('shows the scroll button, retains keyboard scrolling and updates on resize', async ({
   page,
   browserName,
 }) => {
@@ -11,12 +11,10 @@ test('shows an associated overflow hint, retains keyboard scrolling and updates 
     '[data-visual-test="ai-response-overflow-table"]'
   )
   const scroll = demo.locator('.dnb-table__scroll-view')
-  const hint = demo.locator('.dnb-ai-response__table-hint')
-  await expect(hint).toHaveText('Rull vannrett for å se hele tabellen')
-  await expect(scroll).toHaveAttribute(
-    'aria-describedby',
-    await hint.getAttribute('id')
-  )
+  const button = demo.getByRole('button', { name: 'Se flere kolonner' })
+  await expect(button).toBeVisible()
+  await expect(demo.locator('.dnb-ai-response__table-hint')).toHaveCount(0)
+  await expect(scroll).not.toHaveAttribute('aria-describedby')
   await expect(scroll).toHaveAttribute('tabindex', '0')
   await scroll.focus()
   await page.keyboard.press(
@@ -28,14 +26,9 @@ test('shows an associated overflow hint, retains keyboard scrolling and updates 
   await demo.locator('.dnb-ai-response').evaluate((element) => {
     ;(element.parentElement as HTMLElement).style.maxWidth = 'none'
   })
-  await expect(hint).toHaveCount(0)
-  await expect(scroll).not.toHaveAttribute('aria-describedby')
+  await expect(button).not.toBeVisible()
   await demo.locator('.dnb-ai-response').evaluate((element) => {
     ;(element.parentElement as HTMLElement).style.maxWidth = '12rem'
   })
-  await expect(hint).toBeVisible()
-  await expect(scroll).toHaveAttribute(
-    'aria-describedby',
-    await hint.getAttribute('id')
-  )
+  await expect(button).toBeVisible()
 })
