@@ -4,7 +4,10 @@ import type { FlexStackProps } from '../flex/Stack'
 import Theme from '../../shared/Theme'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type CardOverlayProps = Omit<FlexStackProps, 'gap' | 'layoutEngine'> & {
+export type CardOverlayProps = Omit<
+  FlexStackProps,
+  'gap' | 'layoutEngine'
+> & {
   /**
    * How much space between child items. Use `false` for no spacing. In vertical direction, `rowGap` is used instead when both are set. Defaults to `small`.
    */
