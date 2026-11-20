@@ -75,6 +75,26 @@ describe('Tabs component', () => {
     localStorage.removeItem('tabs-last-id')
   })
 
+  it('does not move focus to a tab when localStorage is unavailable', () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
+    const getItem = vi
+      .spyOn(Storage.prototype, 'getItem')
+      .mockImplementation(() => {
+        throw new DOMException(
+          'The operation is insecure.',
+          'SecurityError'
+        )
+      })
+
+    render(<Tabs {...props} data={tablistData} selectedKey="second" />)
+    fireEvent.load(window)
+
+    expect(document.activeElement).toBe(document.body)
+
+    getItem.mockRestore()
+    log.mockRestore()
+  })
+
   it('should not trigger setState warnings when using shared state with ContentWrapper', () => {
     const consoleError = vi
       .spyOn(console, 'error')
