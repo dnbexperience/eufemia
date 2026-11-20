@@ -256,6 +256,20 @@ describe.each([
     expect(input).toHaveValue('Button')
   })
 
+  it('leaves Escape available when Search was focused directly', () => {
+    render(<Component {...requiredProps} shortcut />)
+    const input = document.querySelector('input')
+    input.focus()
+    const event = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    fireEvent(input, event)
+    expect(event.defaultPrevented).toBe(false)
+    expect(input).toHaveFocus()
+  })
+
   it('forgets the shortcut origin after focus leaves Search', () => {
     render(
       <>
