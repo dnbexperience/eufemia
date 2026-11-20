@@ -2,6 +2,7 @@
  * Web Textarea Component
  */
 
+import BorderGlow from '../../shared/internal/BorderGlow'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import {
   memo,
@@ -517,7 +518,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           {...statusProps}
         />
 
-        <span className="dnb-textarea__row">
+        <span className="dnb-textarea__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--row dnb-indicator-border-glow__target--textarea">
+          <BorderGlow />
           <span {...shellParams}>
             {(TextareaElement as ReactNode) || (
               <textarea ref={combinedRef} {...textareaParams} />

@@ -189,7 +189,7 @@ describe('NextButton', () => {
 
     const indicator = () =>
       document.querySelector(
-        '.dnb-forms-next-button .dnb-forms-submit-indicator--state-pending'
+        '.dnb-forms-next-button .dnb-forms-submit-indicator-glow__status--state-pending'
       )
 
     fireEvent.click(document.querySelector('.dnb-forms-next-button'))
@@ -219,7 +219,7 @@ describe('NextButton', () => {
     const isPending = (selector: string) =>
       Boolean(
         document.querySelector(
-          `${selector} .dnb-forms-submit-indicator--state-pending`
+          `${selector} .dnb-forms-submit-indicator-glow__status--state-pending`
         )
       )
 

@@ -1,3 +1,4 @@
+import BorderGlow from '../../../../shared/internal/BorderGlow'
 import { useCallback, useContext } from 'react'
 import type { HTMLAttributes } from 'react'
 import { clsx } from 'clsx'
@@ -5,7 +6,7 @@ import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'
-import SubmitIndicator from '../SubmitIndicator'
+import SubmitIndicatorGlow from '../SubmitIndicator/SubmitIndicatorGlow'
 import useTranslation from '../../hooks/useTranslation'
 import send from '../../../../icons/send'
 import useId from '../../../../shared/helpers/useId'
@@ -69,16 +70,24 @@ function SubmitButton(props: FormSubmitButtonProps) {
 
   return (
     <Button
-      className={clsx('dnb-forms-submit-button', className)}
+      className={clsx(
+        'dnb-forms-submit-button',
+        'dnb-indicator-border-glow',
+        'dnb-indicator-border-glow--button',
+        indicatorState === 'pending' &&
+          'dnb-indicator-border-glow--active',
+        className
+      )}
       type={isolate ? 'button' : 'submit'}
       variant={variant === 'secondary' ? 'secondary' : undefined}
       icon={variant === 'send' ? send : null}
       data-form-submit-button-id={submitButtonId}
       {...mergeProps({ onClick: onClickHandler }, rest)}
     >
+      <BorderGlow />
       {content}
 
-      <SubmitIndicator state={indicatorState} />
+      <SubmitIndicatorGlow state={indicatorState} />
     </Button>
   )
 }

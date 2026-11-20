@@ -133,7 +133,7 @@ export const FieldBlockProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fieldState: {
-    doc: 'Shows the inline [SubmitIndicator](/web/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.',
+    doc: 'Shows a border glow around the field while the state is `pending`, such as during async validation.',
     type: ['"pending"', '"complete"', '"success"', '"error"', '"abort"'],
     status: 'optional',
   },

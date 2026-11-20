@@ -2,6 +2,7 @@
  * Web Autocomplete Component
  */
 
+import BorderGlow from '../../shared/internal/BorderGlow'
 import {
   createElement,
   isValidElement,
@@ -2183,7 +2184,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
           {...statusProps}
         />
 
-        <span className="dnb-autocomplete__row">
+        <span className="dnb-autocomplete__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--row">
+          <BorderGlow />
           <span {...shellParams}>
             {CustomInput ? (
               createElement(CustomInput as ElementType, customInputParams)

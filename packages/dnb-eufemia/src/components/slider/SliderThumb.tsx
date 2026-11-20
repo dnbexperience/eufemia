@@ -1,3 +1,4 @@
+import BorderGlow from '../../shared/internal/BorderGlow'
 import { useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import {
@@ -121,7 +122,11 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   >
 
   return (
-    <span className="dnb-slider__thumb" style={style}>
+    <span
+      className="dnb-slider__thumb dnb-indicator-border-glow__target dnb-indicator-border-glow__target--circle dnb-indicator-border-glow__target--slider"
+      style={style}
+    >
+      <BorderGlow />
       <input
         {...restHelperParams}
         id={`${id}-thumb-${currentIndex}`}

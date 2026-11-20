@@ -1,4 +1,5 @@
 @use '../../../../../shared/internal/dots-indicator.scss';
+@use './border-glow.scss';
 
 .dnb-forms-submit-indicator {
   --padding-left: 0.5em;

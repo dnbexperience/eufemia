@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 const selectors = {
   ai: '.dnb-ai-message-indicator__dots',
-  form: '[data-visual-test="submit-indicator-with-label"] .dnb-forms-submit-indicator__content',
+  form: '[data-visual-test="submit-indicator-default"] .dnb-forms-submit-indicator__content',
 }
 
 for (const kind of ['ai', 'form'] as const) {
@@ -15,9 +15,7 @@ for (const kind of ['ai', 'form'] as const) {
         '/web/patterns-and-extensions/chat/MessageIndicator/demos/'
       )
     } else {
-      await page.goto(
-        '/uilib/extensions/forms/Form/SubmitIndicator/demos/'
-      )
+      await page.goto('/web/forms/Form/SubmitIndicator/demos/')
     }
     await waitForApp(page)
     const indicator = page.locator(selectors[kind]).first()
@@ -67,6 +65,22 @@ for (const kind of ['ai', 'form'] as const) {
         parseFloat(getComputedStyle(element).fontSize)
       )
       expect(parseFloat(sizes[0].width)).toBe(fontSize * 0.25)
+      await test.step('Border glow stops for reduced motion', async () => {
+        const ring = page
+          .locator(
+            '[data-visual-test="submit-indicator-border-glow"] .dnb-input__row > .dnb-indicator-border-glow__ring'
+          )
+          .first()
+        await expect(ring).toHaveAttribute('aria-hidden', 'true')
+        await expect
+          .poll(() =>
+            ring.evaluate(
+              (element) =>
+                getComputedStyle(element, '::before').animationName
+            )
+          )
+          .toBe('none')
+      })
     }
   })
 }

@@ -2,6 +2,7 @@
  * Web Dropdown Component
  */
 
+import BorderGlow from '../../shared/internal/BorderGlow'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import {
   createElement,
@@ -618,7 +619,8 @@ const DropdownComponent = memo(function DropdownComponent({
           {...statusProps}
         />
 
-        <span className="dnb-dropdown__row">
+        <span className="dnb-dropdown__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--row">
+          <BorderGlow />
           <span className="dnb-dropdown__shell">
             {CustomTrigger ? (
               createElement(CustomTrigger as ElementType, triggerParams)
