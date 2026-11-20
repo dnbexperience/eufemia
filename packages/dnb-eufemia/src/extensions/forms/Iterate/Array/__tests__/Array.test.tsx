@@ -1134,7 +1134,15 @@ describe('Iterate.Array', () => {
 
       await userEvent.type(document.querySelectorAll('input')[1], 'slow')
 
-      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      // The submit also waits for animation frames
+      vi.useFakeTimers({
+        toFake: [
+          'setTimeout',
+          'clearTimeout',
+          'requestAnimationFrame',
+          'cancelAnimationFrame',
+        ],
+      })
       onTestFinished(() => {
         vi.useRealTimers()
       })
