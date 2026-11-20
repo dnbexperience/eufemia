@@ -352,7 +352,7 @@ After:
 
 ## TypeScript type exports
 
-Several exported type names now carry their component prefix, to make them consistent and unambiguous across the library. These are type-only renames — the runtime API (components, hooks and constants) is unchanged. Update `import type` statements and type references as follows:
+Several exported type names now carry their component prefix, to make them consistent and unambiguous across the library. These are type-only renames — the runtime API (components, hooks and constants) is unchanged. The old names are removed, and there are no deprecated aliases, so TypeScript reports each old name until you update it. Update `import type` statements and type references as follows:
 
 ```diff
 -import type { DisplayPickerEvent } from '@dnb/eufemia/components/DatePicker'
@@ -456,6 +456,8 @@ Several exported type names now carry their component prefix, to make them consi
 | Upload            | `UseUploadReturn`                   | `UploadReturn`                           |
 
 The `Icon` renames affect only the types. The `ValidIconType` and `DefaultIconSizes` runtime constants keep their names.
+
+The same renames apply to imports from components that re-export these types: the three `Icon` size types from `IconPrimary`, and `BankAccountType` from `Field.BankAccountNumber` and `Value.BankAccountNumber`.
 
 ## Chat extension
 
