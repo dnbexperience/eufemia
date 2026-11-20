@@ -889,14 +889,14 @@ function TabsComponent(ownProps: TabsProps) {
   // Navigation handlers
   const focusFirstTab = (e: KeyboardEvent) => {
     const key = dataRef.current[0].key
-    focusTab(key, e, 'step')
+    focusTab(key, e)
     scrollToTab({ type: 'focus' })
   }
 
   const focusLastTab = (e: KeyboardEvent) => {
     const d = dataRef.current
     const key = d[d.length - 1].key
-    focusTab(key, e, 'step')
+    focusTab(key, e)
     scrollToTab({ type: 'focus' })
   }
 

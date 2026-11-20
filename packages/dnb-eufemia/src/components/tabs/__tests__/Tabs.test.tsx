@@ -1239,6 +1239,23 @@ describe('A single Tab component', () => {
     expect(content.innerHTML).toBe(container.innerHTML)
   })
 
+  it('moves focus to the first and last tab on Home and End when the keys are numbers', () => {
+    render(<Tabs {...props} data={tablistDataWithContent} />)
+
+    const tablist = document.querySelector('div[role="tablist"]')
+    fireEvent.click(document.querySelector('button[data-tab-key="2"]'))
+
+    fireEvent.keyDown(tablist, { key: 'Home' })
+    expect(document.activeElement).toBe(
+      document.querySelector('button[data-tab-key="1"]')
+    )
+
+    fireEvent.keyDown(tablist, { key: 'End' })
+    expect(document.activeElement).toBe(
+      document.querySelector('button[data-tab-key="3"]')
+    )
+  })
+
   it('has to work with "data only" property containing a "content"', () => {
     render(<Tabs {...props} data={tablistDataWithContent} />)
     expect(
