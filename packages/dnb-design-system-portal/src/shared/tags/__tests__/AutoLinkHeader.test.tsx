@@ -157,6 +157,22 @@ describe('AutoLinkHeader', () => {
     })
   })
 
+  it('announces the copied URL to screen readers', async () => {
+    renderHeader()
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+
+    fireEvent.mouseEnter(anchor)
+    fireEvent.click(anchor)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
+        'Copied'
+      )
+    })
+  })
+
   it('does not report success when copying fails', async () => {
     mockCopyToClipboard.mockResolvedValueOnce(false)
     renderHeader()

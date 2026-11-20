@@ -368,6 +368,24 @@ describe('NumberFormat component', () => {
     expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
   })
 
+  it('announces the copy advice without describing the number with it', async () => {
+    render(<Component value={-value} currency />)
+
+    fireEvent.click(document.querySelector('.dnb-number-format__visible'))
+    fireEvent.copy(document.querySelector('.dnb-number-format__selection'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Kopiert'
+      )
+    })
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .hasAttribute('aria-describedby')
+    ).toBe(false)
+  })
+
   it('passes triggerOffset to the copy tooltip', () => {
     const triggerOffsets: Array<number | undefined> = []
     const originalTooltip = TooltipModule.default

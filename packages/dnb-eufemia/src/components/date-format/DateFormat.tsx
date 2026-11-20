@@ -362,10 +362,12 @@ function DateFormat(props: DateFormatProps) {
           )}
         </time>
         {showTooltip && (
+          // The screen reader text already contains the full duration
           <Tooltip
             targetElement={ref}
             tooltip={durationFormattedFull}
             triggerOffset={8}
+            omitDescribedBy
           />
         )}
       </>

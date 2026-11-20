@@ -872,8 +872,10 @@ describe('CodeBlock', () => {
       })
 
       await waitFor(() => {
-        const tooltipId = copyButton.getAttribute('aria-describedby')
-        expect(document.getElementById(tooltipId)?.textContent).toBe(
+        expect(
+          document.querySelector('.dnb-tooltip--active')?.textContent
+        ).toBe('Copied!')
+        expect(document.querySelector('.dnb-aria-live')?.textContent).toBe(
           'Copied!'
         )
       })

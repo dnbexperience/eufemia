@@ -2,7 +2,7 @@
  * Web CopyOnClick Component
  */
 
-import { useCallback, useEffect, useRef } from 'react'
+import { Fragment, useCallback, useEffect, useRef } from 'react'
 import { clsx } from 'clsx'
 import type { CopyOnClickAllProps } from './types'
 import { runIOSSelectionFix } from '../number-format/NumberUtils'
@@ -11,6 +11,7 @@ import { convertJsxToString } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
 import { Span } from '../../elements'
 import Tooltip from '../Tooltip'
+import AriaLive from '../AriaLive'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useCopyToClipboard from './useCopyToClipboard'
 import CopyOnClickButton from './CopyOnClickButton'
@@ -80,9 +81,12 @@ const CopyOnClick = ({
       {children}
       {copyCount > 0 && (
         // A new key per copy lets screen readers announce every copy
-        <Tooltip key={copyCount} open={active} targetElement={ref}>
-          {message}
-        </Tooltip>
+        <Fragment key={copyCount}>
+          <Tooltip open={active} targetElement={ref} omitDescribedBy>
+            {message}
+          </Tooltip>
+          <AriaLive element="span">{active ? message : null}</AriaLive>
+        </Fragment>
       )}
     </Span>
   )

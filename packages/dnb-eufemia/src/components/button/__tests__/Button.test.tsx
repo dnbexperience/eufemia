@@ -759,9 +759,10 @@ describe('Button status', () => {
       .querySelector('.dnb-form-status__text')
       .getAttribute('id')
 
-    // The tooltip id is only added on hover/focus, but the status link
-    // must already be present and share the same base id.
-    expect(button.getAttribute('aria-describedby')).toBe(statusId)
+    expect(button.getAttribute('aria-describedby')).toMatch(
+      new RegExp(`^${statusId} `)
+    )
+    expect(button).toHaveAccessibleDescription('my error Helpful hint')
   })
 
   it('should validate with ARIA rules when a status is set', async () => {
