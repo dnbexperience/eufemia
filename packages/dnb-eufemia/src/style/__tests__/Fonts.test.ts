@@ -143,6 +143,14 @@ describe('DNB font faces', () => {
     ).toBe(true)
   })
 
+  it('registers Carnegie heading faces at the same weights as DNB', () => {
+    expect(
+      getFontFaces('carnegie')
+        .filter((face) => face['font-family'] === 'ArizonaFlare')
+        .map((face) => face['font-weight'])
+    ).toEqual(['normal', '500', '600 700'])
+  })
+
   it('keeps Sbanken font faces independent', () => {
     expect(
       getFontFaces('sbanken').some((face) =>
