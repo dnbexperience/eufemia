@@ -4,13 +4,11 @@ import { clsx } from 'clsx'
 import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Theme from '../../shared/Theme'
-import {
-  close as CloseIcon,
-  check_medium as CheckIcon,
-  exclamation_circled_medium as ErrorIcon,
-  exclamation_triangle_medium as WarningIcon,
-  information_circled_medium as InfoIcon,
-} from '../../icons'
+import CloseIcon from '../../icons/dnb/close'
+import CheckIcon from '../../icons/dnb/check_medium'
+import ErrorIcon from '../../icons/dnb/exclamation_circled_medium'
+import WarningIcon from '../../icons/dnb/exclamation_triangle_medium'
+import InfoIcon from '../../icons/dnb/information_circled_medium'
 import useTranslation from '../../shared/useTranslation'
 import type { ToasterItemProps, ToasterVariant } from './types'
 
