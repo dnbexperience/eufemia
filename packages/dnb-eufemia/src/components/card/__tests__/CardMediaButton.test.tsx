@@ -168,6 +168,105 @@ describe('CardMediaButton', () => {
     expect(play).not.toHaveBeenCalled()
   })
 
+  it('uses the supplied playback state and delegates custom playback to onClick', async () => {
+    const onClick = vi.fn((event) => {
+      expect(event.currentTarget).toBe(button)
+    })
+    const props = {
+      onClick,
+      playTitle: 'Play animation',
+      pauseTitle: 'Pause animation',
+    }
+    const { rerender } = render(
+      <Card.Info.MediaButton {...props} playing={false} />
+    )
+    const button = document.querySelector('button')
+    expect(button).toHaveAttribute('aria-label', 'Play animation')
+    await userEvent.click(button)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(button).toHaveAttribute('aria-label', 'Play animation')
+
+    rerender(<Card.Info.MediaButton {...props} playing />)
+    expect(button).toHaveAttribute('aria-label', 'Pause animation')
+    expect(
+      document.querySelector('svg[data-icon-state="pause"]')
+    ).toHaveClass('dnb-icon__state--active')
+    await userEvent.click(button)
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(button).toHaveAttribute('aria-label', 'Pause animation')
+
+    vi.mocked(useMediaQuery).mockReturnValue(true)
+    rerender(<Card.Info.MediaButton {...props} playing={false} />)
+    expect(button).toHaveAttribute('aria-label', 'Play animation')
+    expect(
+      document.querySelector('svg[data-icon-state="play"]')
+    ).toHaveClass('dnb-icon__state--active')
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(play).not.toHaveBeenCalled()
+    expect(pause).not.toHaveBeenCalled()
+  })
+
+  it('removes native listeners when switching to custom playback', () => {
+    const { rerender, unmount } = render(
+      <Card.Info.MediaButton videoRef={videoRef} autoPlay={false} />
+    )
+    const remove = vi.spyOn(video, 'removeEventListener')
+    const onClick = vi.fn()
+    rerender(
+      <Card.Info.MediaButton
+        playing
+        onClick={onClick}
+        pauseTitle="Pause animation"
+      />
+    )
+    expect(remove).toHaveBeenCalledTimes(5)
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-label',
+      'Pause animation'
+    )
+    act(() => video.dispatchEvent(new Event('pause')))
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-label',
+      'Pause animation'
+    )
+
+    vi.mocked(useMediaQuery).mockReturnValue(true)
+    rerender(<Card.Info.MediaButton videoRef={videoRef} />)
+    expect(play).toHaveBeenCalledTimes(1)
+    expect(onClick).not.toHaveBeenCalled()
+    unmount()
+    expect(remove).toHaveBeenCalledTimes(10)
+  })
+
+  it('requires either native video playback or controlled playback with a handler', () => {
+    // @ts-expect-error Playback needs a videoRef or a controlled playing state.
+    const missingPlayback = <Card.Info.MediaButton />
+    // @ts-expect-error Controlled playback requires an onClick handler.
+    const missingHandler = <Card.Info.MediaButton playing={false} />
+    const mixedPlayback = (
+      // @ts-expect-error Native and controlled playback cannot be combined.
+      <Card.Info.MediaButton
+        videoRef={videoRef}
+        playing
+        onClick={() => undefined}
+      />
+    )
+    const customAutoplay = (
+      // @ts-expect-error Custom players own autoplay.
+      <Card.Info.MediaButton
+        playing={false}
+        autoPlay
+        onClick={() => undefined}
+      />
+    )
+    expect([
+      missingPlayback,
+      missingHandler,
+      mixedPlayback,
+      customAutoplay,
+    ]).toHaveLength(4)
+  })
+
   it('rebinds native events and autoplay when a stable ref receives a replacement video', async () => {
     vi.mocked(useMediaQuery).mockReturnValue(true)
     const { rerender } = render(
