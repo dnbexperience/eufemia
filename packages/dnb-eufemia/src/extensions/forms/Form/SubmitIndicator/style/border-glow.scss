@@ -216,11 +216,6 @@
     }
 
     .dnb-chip
-      :is(.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button) {
-      box-shadow: none;
-    }
-
-    .dnb-chip
       :is(.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button),
     .dnb-indicator-border-glow__target:not(
       :where(
