@@ -30,7 +30,9 @@ The Eufemia Forms equivalent of `Slider` is [Field.Slider](/web/forms/base-field
 
 ### Accessibility
 
-The Slider uses a semantic `<input type="range">` element for the thumb control, ensuring keyboard accessibility. Arrow keys adjust the value, and Home/End keys jump to min/max values. The current value, minimum, and maximum are announced to screen readers via `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
+The Slider uses a semantic `<input type="range">` element for the thumb control, ensuring keyboard accessibility. Arrow keys adjust the value, and Home/End keys jump to min/max values. The current value, minimum, and maximum are announced to screen readers via `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`. With `numberFormat`, `aria-valuetext` announces the formatted value.
+
+The `tooltip` shows the same value visually, so it is hidden from screen readers.
 
 ### Define a `min` and `max` value
 

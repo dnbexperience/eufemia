@@ -172,6 +172,8 @@ function Thumb({ value, currentIndex }: ThumbProps) {
           showDelay={1}
           hideDelay={300}
           omitDescribedBy
+          // The range input already gives screen readers the value
+          aria-hidden
         >
           {number || value}
           {
