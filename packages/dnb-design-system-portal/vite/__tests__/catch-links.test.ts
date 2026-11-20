@@ -69,6 +69,19 @@ describe('catch-links', () => {
     expect(navigateFn).not.toHaveBeenCalled()
   })
 
+  it.each(['/fonts/dnb/LICENSE.txt', '/pdf/guide.pdf?v=1'])(
+    'lets the browser load the static file %s',
+    (href) => {
+      const a = document.createElement('a')
+      a.href = href
+      document.body.appendChild(a)
+
+      const event = clickLink(a)
+      expect(navigateFn).not.toHaveBeenCalled()
+      expect(event.defaultPrevented).toBe(false)
+    }
+  )
+
   it('does not intercept clicks with meta key', () => {
     const a = document.createElement('a')
     a.href = '/page/'
