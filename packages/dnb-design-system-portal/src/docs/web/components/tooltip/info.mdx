@@ -36,6 +36,7 @@ The Tooltip component is integrated into components like [Button](/web/component
 - When the mouse moves over the Tooltip content, the Tooltip remains open
 - Pressing Escape hides the Tooltip without moving focus. When you control the Tooltip with `open`, handle Escape yourself
 - Custom triggers receive the necessary ARIA attributes (`aria-describedby`) so assistive technologies can announce the tooltip content without hovering
+- To show a Tooltip only visually, for example when the trigger already gives screen readers the same information, use `aria-hidden` together with `omitDescribedBy`. A Tooltip with `aria-hidden` is not announced when it opens
 
 #### Touch devices and keyboard support
 
