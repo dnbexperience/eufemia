@@ -13,6 +13,7 @@
 import Ai from './ai/Ai'
 import Chat from './chat/Chat'
 import Forms from './forms/Forms'
+import GuidedTour from './guided-tour/GuidedTour'
 import PaymentCard from './payment-card/PaymentCard'
 import SidebarMenu from './sidebar-menu/SidebarMenu'
 import TableOfContent from './table-of-content/TableOfContent'
@@ -23,6 +24,7 @@ export {
   Ai,
   Chat,
   Forms,
+  GuidedTour,
   PaymentCard,
   SidebarMenu,
   TableOfContent,
