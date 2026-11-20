@@ -143,9 +143,13 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
           const element = ref.current
           const direction =
             getComputedStyle(element).direction === 'rtl' ? -1 : 1
+          const left = Math.min(
+            element.scrollWidth - element.clientWidth,
+            Math.abs(element.scrollLeft) + element.clientWidth * 0.8
+          )
           element.focus({ preventScroll: true })
-          element.scrollBy({
-            left: direction * element.clientWidth * 0.8,
+          element.scrollTo({
+            left: direction * left,
             behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
               .matches
               ? 'instant'

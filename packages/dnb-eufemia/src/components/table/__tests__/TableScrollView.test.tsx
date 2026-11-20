@@ -202,7 +202,7 @@ describe('Table.ScrollView', () => {
     )
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
     vi.spyOn(element, 'scrollWidth', 'get').mockReturnValue(400)
-    element.scrollBy = vi.fn()
+    element.scrollTo = vi.fn()
     element.tabIndex = 0
 
     fireEvent.scroll(element)
@@ -217,7 +217,7 @@ describe('Table.ScrollView', () => {
     fireEvent.scroll(element, { target: { scrollLeft: 0 } })
     button.focus()
     fireEvent.click(button)
-    expect(element.scrollBy).toHaveBeenCalledWith(
+    expect(element.scrollTo).toHaveBeenCalledWith(
       expect.objectContaining({ left: -160 })
     )
     expect(element).toHaveFocus()
@@ -225,6 +225,43 @@ describe('Table.ScrollView', () => {
     fireEvent.scroll(element, { target: { scrollLeft: -40 } })
     expect(element).not.toHaveAttribute('data-scroll-indicator')
   })
+
+  it.each(['ltr', 'rtl'] as const)(
+    'limits the %s scroll target to the remaining content',
+    (direction) => {
+      render(
+        <ScrollView style={{ direction, overflowX: 'auto' }}>
+          <Table>
+            <BasicTable />
+          </Table>
+        </ScrollView>
+      )
+
+      const element = document.querySelector<HTMLDivElement>(
+        '.dnb-table__scroll-view'
+      )
+      const button = element.querySelector<HTMLButtonElement>(
+        '.dnb-table__scroll-indicator'
+      )
+      vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
+      const scrollWidth = vi.spyOn(element, 'scrollWidth', 'get')
+      element.scrollTo = vi.fn()
+      const sign = direction === 'rtl' ? -1 : 1
+
+      for (const [width, position, target] of [
+        [400, 0, 160],
+        [250, 0, 50],
+        [400, 195, 200],
+      ]) {
+        scrollWidth.mockReturnValue(width)
+        element.scrollLeft = sign * position
+        fireEvent.click(button)
+        expect(element.scrollTo).toHaveBeenLastCalledWith(
+          expect.objectContaining({ left: sign * target })
+        )
+      }
+    }
+  )
 
   it('keeps observers when a parent rerenders the same table', () => {
     const init = vi.fn()
