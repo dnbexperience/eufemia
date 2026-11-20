@@ -49,3 +49,18 @@ it('shows brand chips and switches the selected brand', () => {
     (getByRole('radio', { name: 'Sbanken' }) as HTMLInputElement).checked
   ).toBe(true)
 })
+
+it('gives the legend and the selected chip different ids', () => {
+  const { getByRole } = render(
+    <Provider theme={{ brand: 'sbanken' }}>
+      <ChangeStyleTheme />
+    </Provider>
+  )
+
+  const ids = Array.from(document.querySelectorAll('[id]'), ({ id }) => id)
+  expect(ids).toEqual([...new Set(ids)])
+  expect(getByRole('radiogroup', { name: 'Change Brand' })).toBeTruthy()
+  expect(document.querySelector('#change-theme')).toBe(
+    getByRole('radio', { name: 'Sbanken' })
+  )
+})

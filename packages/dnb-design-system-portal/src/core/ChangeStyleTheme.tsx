@@ -27,7 +27,6 @@ export default function ChangeStyleTheme(props) {
       <Field.Selection
         variant="button"
         optionsLayout="horizontal"
-        id="change-theme"
         value={brand}
         data={data}
         label="Change Brand"
