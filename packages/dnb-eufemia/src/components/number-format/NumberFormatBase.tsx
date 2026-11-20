@@ -192,6 +192,7 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
       doSelectAll()
 
       if (!propsWithDefaults.copySelection) {
+        outsideClickRef.current?.remove()
         outsideClickRef.current = detectOutsideClick(
           elRef.current,
           onBlurHandler
