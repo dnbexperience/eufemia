@@ -102,10 +102,10 @@ export default function useSearchProps<Props extends SearchProps>(
       ) {
         return
       }
-      event.preventDefault()
       if (event.target !== shortcutFocus?.input) {
         return
       }
+      event.preventDefault()
       const { input, origin } = shortcutFocus
       shortcutFocus = null
       event.stopPropagation()
