@@ -169,14 +169,15 @@ export const TOKEN_EXPORTS: ReadonlyArray<{
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
+    // Export the new Eiendom identity independently of the legacy theme.
     mode: 'dnbeiendom-light',
-    fileName: 'brand/dnbeiendom-light.tokens.json',
+    fileName: 'brand/birdhouse-light.tokens.json',
   },
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
     mode: 'dnbeiendom-dark',
-    fileName: 'brand/dnbeiendom-dark.tokens.json',
+    fileName: 'brand/birdhouse-dark.tokens.json',
   },
   // @deprecated Transitional "coconut" brand, removed later.
   // The Figma modes are still named after the brand it replaces.

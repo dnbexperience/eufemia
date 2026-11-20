@@ -23,6 +23,7 @@ describe('theme-handler shim', () => {
       expect(themes).toHaveProperty('eiendom')
       expect(themes).toHaveProperty('carnegie')
       expect(themes.coconut).toEqual({ name: 'Coconut', hide: true })
+      expect(themes.birdhouse).toEqual({ name: 'Birdhouse', hide: true })
     })
   })
 
@@ -100,7 +101,7 @@ describe('theme-handler shim', () => {
       expect(theme.colorScheme).toBe('dark')
     })
 
-    it.each(['eiendom', 'coconut'])(
+    it.each(['eiendom', 'coconut', 'birdhouse'])(
       'reads %s from the URL ahead of the stored brand',
       (brand) => {
         localStorage.setItem(

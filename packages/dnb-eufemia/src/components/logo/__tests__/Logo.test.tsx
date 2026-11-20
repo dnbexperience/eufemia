@@ -368,6 +368,39 @@ describe('Logo component', () => {
   })
 
   describe('Logo SVG fill colors', () => {
+    it.each(['light', 'dark'] as const)(
+      'uses the action color token for the Birdhouse logo in %s mode',
+      (colorScheme) => {
+        render(
+          <Provider theme={{ brand: 'birdhouse', colorScheme }}>
+            <Logo
+              svg={(theme) =>
+                theme.isEiendom ? EiendomDefault : DnbDefault
+              }
+            />
+          </Provider>
+        )
+
+        expect(document.querySelector('svg')).toHaveAttribute(
+          'fill',
+          'var(--token-color-icon-action)'
+        )
+      }
+    )
+
+    it('preserves an explicit Birdhouse logo fill', () => {
+      render(
+        <Provider theme={{ brand: 'birdhouse' }}>
+          <EiendomDefault fill="tomato" />
+        </Provider>
+      )
+
+      expect(document.querySelector('svg')).toHaveAttribute(
+        'fill',
+        'tomato'
+      )
+    })
+
     it('should use correct fill in light mode for DnbDefault', () => {
       render(<Logo svg={DnbDefault} />)
 
