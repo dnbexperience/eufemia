@@ -471,15 +471,15 @@ export const ErrorIcon = (props: ErrorIconProps) => {
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
       <title>{title}</title>
       <path
-        d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+        d="M9.281 1.126a3.845 3.845 0 015.438 0l8.155 8.155a3.845 3.845 0 010 5.438l-8.155 8.155a3.845 3.845 0 01-5.438 0l-8.155-8.155a3.845 3.845 0 010-5.438z"
         {...iconPaint('error', { fill: '#d52525' })}
       />
       <path
-        d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+        d="M12 14.467a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
         {...iconPaint('error-mark', { fill: '#fff' })}
       />
       <path
-        d="M12 13.818v-5"
+        d="M12 12v-5"
         {...iconPaint('error-mark', { stroke: '#fff' })}
         strokeWidth="1.5"
         strokeLinecap="round"
