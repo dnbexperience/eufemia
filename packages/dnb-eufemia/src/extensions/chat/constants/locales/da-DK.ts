@@ -29,7 +29,6 @@ export default {
       suggestions: 'Forslag',
       conversationLabel: 'Samtale',
       scrollToBottom: 'Gå til seneste besked',
-      tableOverflow: 'Rul vandret for at se hele tabellen',
       newMessage: 'Ny besked',
       sources: 'Kilder (%count)',
       taskRunning: 'I gang',

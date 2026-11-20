@@ -11,7 +11,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
       colorScheme,
       url: '/web/patterns-and-extensions/chat/Response/demos/',
     })
-    it('shows a readable hint below a narrow table', async () => {
+    it('shows the scroll button in a narrow table', async () => {
       await makeScreenshot({
         style: {
           'background-color': 'var(--token-color-background-neutral)',
