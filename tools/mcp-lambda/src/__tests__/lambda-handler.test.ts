@@ -2,6 +2,9 @@ import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import { captureUsage } from '../usage-capture.js'
+
+vi.mock('../usage-capture.js', () => ({ captureUsage: vi.fn() }))
 
 async function createTempDocs(): Promise<string> {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'mcp-handler-test-'))
@@ -191,6 +194,29 @@ describe('lambda-handler protocol versions', () => {
     )
     expect(listen.body).toContain('"resultType":"complete"')
   }, 2000)
+
+  const docsEntryCall = {
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'tools/call',
+    params: { name: 'docs_entry', arguments: {} },
+  }
+
+  it('captures usage for an accepted tool call', async () => {
+    vi.mocked(captureUsage).mockClear()
+    const result = await postMcp(docsEntryCall)
+
+    expect(result.statusCode).toBe(200)
+    expect(captureUsage).toHaveBeenCalledTimes(1)
+  })
+
+  it('captures no usage when the MCP transport rejects the request', async () => {
+    vi.mocked(captureUsage).mockClear()
+    const result = await postMcp(docsEntryCall, { accept: 'text/plain' })
+
+    expect(result.statusCode).toBeGreaterThanOrEqual(400)
+    expect(captureUsage).not.toHaveBeenCalled()
+  })
 })
 
 describe('lambda-handler error handling', () => {
