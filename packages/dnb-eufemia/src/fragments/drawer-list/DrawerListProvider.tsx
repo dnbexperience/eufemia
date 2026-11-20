@@ -55,6 +55,9 @@ import {
   enableBodyScroll,
 } from '../../components/modal/bodyScrollLock'
 import useId from '../../shared/helpers/useId'
+import getAvailableSpace, {
+  getViewportBounds,
+} from '../../shared/helpers/getAvailableSpace'
 
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
@@ -163,6 +166,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
         event?: SyntheticEvent | Event
       }
     ) => void
+    _refResults?: RefObject<HTMLSpanElement>
     _refShell?: RefObject<HTMLSpanElement>
     _refUl?: RefObject<HTMLUListElement>
     _refRoot?: RefObject<HTMLSpanElement>
@@ -388,10 +392,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     const spaceToBottomOffset = 2 * 16
     const elem = stateRef.current.wrapperElement || _refRoot.current
     const getSpaceToBottom = ({ rootElem, pageYOffset }) => {
-      const spaceToBottom =
-        rootElem.clientHeight -
-        (getOffsetTop(elem) + elem.offsetHeight) +
-        pageYOffset
+      const top = getOffsetTop(elem) - pageYOffset
+      const { below: spaceToBottom } = getAvailableSpace(
+        {
+          top,
+          bottom: top + elem.offsetHeight,
+        },
+        { viewport: { top: 0, bottom: rootElem.clientHeight } }
+      )
 
       const html = document.documentElement
       if (spaceToBottom < customMinHeight && rootElem !== html) {
@@ -440,17 +448,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
           maxH = spaceToBottom - spaceToBottomOffset
         }
 
-        let vh: number
-        if (typeof window.visualViewport !== 'undefined') {
-          vh = window.visualViewport.height
-        } else {
-          vh = Math.max(
-            document.documentElement.clientHeight,
-            window.innerHeight || 0
-          )
-        }
-
-        vh = vh * (isScrollable ? 0.7 : 0.9)
+        const vh = getViewportBounds().height * (isScrollable ? 0.7 : 0.9)
 
         if (maxH > vh) {
           maxH = vh
@@ -757,7 +755,25 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                     (window as Window & { IS_TEST?: boolean })['IS_TEST']
                   )
 
-                if (instantScroll) {
+                if (propsRef.current.inline) {
+                  const listRect = ulElement.getBoundingClientRect()
+                  const itemRect = liElement.getBoundingClientRect()
+                  const top = itemRect.top - listRect.top - 8
+                  const bottom =
+                    itemRect.bottom -
+                    listRect.top -
+                    ulElement.clientHeight +
+                    8
+                  const offset = top < 0 ? top : bottom > 0 ? bottom : 0
+
+                  // Reveal only the hidden edge, without scrolling the page.
+                  if (offset) {
+                    ulElement.scrollTo({
+                      top: ulElement.scrollTop + offset,
+                      behavior: instantScroll ? 'instant' : 'auto',
+                    })
+                  }
+                } else if (instantScroll) {
                   // must have both css and js use "auto" to get instant scroll.
                   ulElement.style.scrollBehavior = 'auto'
 
@@ -871,7 +887,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             }
           }
 
-          if (propsRef.current.noAnimation) {
+          if (propsRef.current.noAnimation && !propsRef.current.inline) {
             scrollTo = false
           }
 
@@ -941,10 +957,16 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     removeOutsideClickObserver()
 
     outsideClickRef.current = detectOutsideClick(
-      [stateRef.current.wrapperElement, _refRoot.current, _refUl.current],
+      [
+        { current: stateRef.current.wrapperElement },
+        _refRoot,
+        _refUl,
+        propsRef.current._refResults,
+      ],
       ({ event }) => {
         setHiddenFnRef.current({
           preventHideFocus:
+            propsRef.current.inline ||
             event.type !== 'keydown' ||
             (event as KeyboardEvent).key !== 'Tab',
         })
@@ -1281,7 +1303,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       key,
     })
 
-    if (propsRef.current.preventClose) {
+    if (propsRef.current.preventClose || propsRef.current.inline) {
       let isSameDrawer = false
       try {
         const activeElement = document.activeElement

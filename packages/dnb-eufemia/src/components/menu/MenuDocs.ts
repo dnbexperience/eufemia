@@ -17,6 +17,17 @@ export const MenuRootProperties: PropertiesTableProps = {
     defaultValue: '"bottom"',
     status: 'optional',
   },
+  alignOnTarget: {
+    doc: 'Adjust horizontal alignment of the menu when `placement` is `top` or `bottom`.',
+    type: ['"left"', '"center"', '"right"'],
+    defaultValue: '"center"',
+    status: 'optional',
+  },
+  arrowPositionSelector: {
+    doc: 'CSS selector for the element the menu arrow should point to. Use `.dnb-button__icon` to align with the trigger icon.',
+    type: 'string',
+    status: 'optional',
+  },
   autoAlignMode: {
     doc: 'Control when the menu automatically flips its placement to fit within the viewport. `"initial"`: flip only on open. `"scroll"`: also flip during scroll. `"never"`: always use specified placement.',
     type: ['"initial"', '"scroll"', '"never"'],

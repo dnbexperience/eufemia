@@ -1,0 +1,53 @@
+---
+showTabs: true
+---
+
+import {
+  SearchDefault,
+  SearchHero,
+  SearchCompact,
+  SearchPanel,
+  SearchAsync,
+} from 'Docs/web/components/search/Examples'
+
+## Demos
+
+### Default
+
+Compare the three search components. `Search.Input` provides a search field without suggestions and supports Input's `onChange` and `onSubmit` events. `Search.Autocomplete` adds suggestions, while `Search.Panel` presents them in a flexible panel.
+
+Autocomplete and DrawerList dependencies are excluded when only `Search.Input` is used in a production bundle.
+
+<SearchDefault />
+
+### Compact with shortcut
+
+All three components expand on focus and display the shortcut inside the input. When several examples enable the shortcut, Cmd+K or Ctrl+K focuses the first visible one.
+
+With `labelSrOnly={false}`, a vertical label keeps the expanded width while only the input changes width. This keeps wrapping and the input's vertical position stable.
+
+<SearchCompact />
+
+### Hero
+
+Use the hero variant for a prominent search field, such as a home page search. It supports the same suggestions, panel, and keyboard shortcut behavior.
+
+<SearchHero />
+
+### Panel with filtering and sorting
+
+Use a panel when results need additional controls. This example filters by category with [Chip.Group](/web/components/chip/) and sorts by relevance or alphabetically. The controls belong to the application, so the component also works with other filters or actions.
+
+The required `panelDescription` tells screen reader users what they can find in the panel and how to reach its controls. Describe the controls your application provides and supply the text in the user's language. Result counts are announced separately.
+
+The render function receives `results`, the inline Autocomplete list, and `close`. Keep controls outside `results` so they retain their own keyboard behavior. Up and Down navigate results while the input has focus, Enter selects, and Tab reaches the controls. Escape closes the surface and returns focus to the input.
+
+<SearchPanel />
+
+### Asynchronous results
+
+Both Search.Autocomplete and Search.Panel support `mode="async"`. These examples simulate a delayed response with Autocomplete's managed `debounce` method. Focusing an empty input keeps the results closed. The input shows a loading indicator while waiting, then opens the results or an explicit no-results message. Clearing the query closes the results and cancels the pending response.
+
+The `onType` callback receives the same result and loading methods as Autocomplete. For remote results, see [loading data asynchronously](/web/components/autocomplete/events#dynamically-change-data). Ignore outdated responses when a newer query is typed or the input is cleared.
+
+<SearchAsync />
