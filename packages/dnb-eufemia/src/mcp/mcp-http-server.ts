@@ -23,8 +23,8 @@
  *                        (DNS-rebinding protection). Defaults to off.
  * - `MCP_ALLOWED_ORIGINS` Comma-separated allowlist for the `Origin` header.
  *                        Defaults to loopback origins only.
- * - `MCP_AUTH_TOKEN`     If set, every request must send
- *                        `Authorization: Bearer <token>`.
+ * - `MCP_AUTH_TOKEN`     If set, requests to /mcp, /sse and /messages must
+ *                        send `Authorization: Bearer <token>`.
  */
 
 import type http from 'node:http'
@@ -318,6 +318,7 @@ export async function startHttpServer(
   // never costs a 4mb parse.
   app.use(hostAllowlistMiddleware(allowedHosts, logErr))
   app.use(originAllowlistMiddleware(allowedOrigins, logErr))
+  app.use(['/mcp', '/sse', '/messages'], authMiddleware(authToken))
   app.use(express.json({ limit: '4mb' }))
 
   app.get('/healthz', (_req: ExpressRequest, res: ExpressResponse) => {
@@ -430,9 +431,9 @@ export async function startHttpServer(
     await handleModern(req, res, req.body)
   }
 
-  app.post('/mcp', authMiddleware(authToken), handleMcp)
-  app.get('/mcp', authMiddleware(authToken), handleMcp)
-  app.delete('/mcp', authMiddleware(authToken), handleMcp)
+  app.post('/mcp', handleMcp)
+  app.get('/mcp', handleMcp)
+  app.delete('/mcp', handleMcp)
 
   // ---------- Legacy SSE transport ----------
   // GET /sse opens an SSE stream that delivers an `endpoint` event with the
@@ -454,49 +455,41 @@ export async function startHttpServer(
     })
   }
 
-  app.get(
-    '/sse',
-    authMiddleware(authToken),
-    async (req: ExpressRequest, res: ExpressResponse) => {
-      if (!legacySse) {
-        sendLegacySseUnavailable(res)
-        return
+  app.get('/sse', async (req: ExpressRequest, res: ExpressResponse) => {
+    if (!legacySse) {
+      sendLegacySseUnavailable(res)
+      return
+    }
+
+    try {
+      const transport = new legacySse.SSEServerTransport('/messages', res)
+      sseTransports.set(transport.sessionId, transport)
+
+      transport.onclose = () => {
+        sseTransports.delete(transport.sessionId)
       }
 
-      try {
-        const transport = new legacySse.SSEServerTransport(
-          '/messages',
-          res
-        )
-        sseTransports.set(transport.sessionId, transport)
+      const { server } = buildMcpServer({
+        docsRoot: options.docsRoot,
+        serverInfo,
+      })
+      await server.connect(transport)
 
-        transport.onclose = () => {
-          sseTransports.delete(transport.sessionId)
-        }
+      logErr(`[eufemia] sse connected: ${transport.sessionId}`)
 
-        const { server } = buildMcpServer({
-          docsRoot: options.docsRoot,
-          serverInfo,
-        })
-        await server.connect(transport)
-
-        logErr(`[eufemia] sse connected: ${transport.sessionId}`)
-
-        req.on('close', () => {
-          sseTransports.delete(transport.sessionId)
-        })
-      } catch (e) {
-        logErr('[eufemia] sse start error:', e)
-        if (!res.headersSent) {
-          res.status(500).end('Failed to start SSE')
-        }
+      req.on('close', () => {
+        sseTransports.delete(transport.sessionId)
+      })
+    } catch (e) {
+      logErr('[eufemia] sse start error:', e)
+      if (!res.headersSent) {
+        res.status(500).end('Failed to start SSE')
       }
     }
-  )
+  })
 
   app.post(
     '/messages',
-    authMiddleware(authToken),
     async (req: ExpressRequest, res: ExpressResponse) => {
       if (!legacySse) {
         sendLegacySseUnavailable(res)
