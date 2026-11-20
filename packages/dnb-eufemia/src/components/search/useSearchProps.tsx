@@ -183,6 +183,7 @@ export default function useSearchProps<Props extends SearchProps>(
 
   return {
     ...props,
+    variant,
     className: clsx(
       'dnb-search',
       `dnb-search--${variant}`,
