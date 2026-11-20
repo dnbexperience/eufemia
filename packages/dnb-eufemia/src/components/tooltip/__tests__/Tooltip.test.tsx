@@ -538,6 +538,17 @@ describe('Tooltip', () => {
         expect(getMainElem()).toBeNull()
       })
 
+      it('keeps the description out of the text around the target', () => {
+        const { container } = render(
+          <p>
+            Text <Tooltip>Tooltip content</Tooltip>
+          </p>
+        )
+
+        expect(container.textContent).toBe('Text Button')
+        expect(document.body).toHaveTextContent('Tooltip content')
+      })
+
       it('keeps the description while open, without announcing it', () => {
         render(<Tooltip open>Tooltip content</Tooltip>)
 
@@ -1152,9 +1163,9 @@ describe('Tooltip', () => {
       render(
         <NumberFormat.Number
           tooltip={
-            <Tooltip {...defaultProps}>
+            <OriginalTooltip {...defaultProps}>
               Tooltip for this NumberFormat
-            </Tooltip>
+            </OriginalTooltip>
           }
         >
           1234

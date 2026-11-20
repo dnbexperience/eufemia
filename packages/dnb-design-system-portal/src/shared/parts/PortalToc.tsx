@@ -198,14 +198,12 @@ function readHeadings(content: HTMLElement) {
   return headings
 }
 
-/** The heading as it reads, without the anchor link, its tooltip and live region. */
+/** The heading as it reads, without the anchor link and its live region. */
 function titleOf(heading: HTMLElement) {
   const title = heading.cloneNode(true) as HTMLElement
 
   title
-    .querySelectorAll(
-      '.anchor-hash, .dnb-aria-live, .dnb-tooltip__description'
-    )
+    .querySelectorAll('.anchor-hash, .dnb-aria-live')
     .forEach((element) => element.remove())
 
   const readText = (node: Node): ReactNode => {
