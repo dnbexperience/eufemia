@@ -15,12 +15,12 @@ export const SearchProperties: PropertiesTableProps = {
 
 export const SearchPanelProperties: PropertiesTableProps = {
   minHeight: {
-    doc: 'Minimum results height in rem. Defaults to `10` and is preserved when the space on the opening side becomes smaller. A smaller explicit `maxHeight` takes precedence. Use `0` to let a short results list keep its natural height.',
+    doc: 'Minimum results height in rem. Defaults to `10` and is reduced to fit the available space on the opening side. A smaller explicit `maxHeight` takes precedence. Use `0` to let a short results list keep its natural height.',
     type: ['number', 'string'],
     status: 'optional',
   },
   maxHeight: {
-    doc: 'Optional maximum results height in rem. Results otherwise grow into the available viewport space above or below the input, reserving room for custom controls and padding. Results keep their `minHeight` when less space is available. A smaller explicit maximum takes precedence over the minimum.',
+    doc: 'Optional maximum results height in rem. Results otherwise grow into the available viewport space above or below the input, reserving room for custom controls and padding. The available space and a smaller explicit maximum take precedence over `minHeight`.',
     type: ['number', 'string'],
     status: 'optional',
   },

@@ -652,20 +652,25 @@ test('panel uses available height above and below the input and resizes with the
   await panel.evaluate((element: HTMLElement) => {
     element.style.removeProperty('--search-panel-max-height')
   })
+  await input.fill('')
+  await input.press('Escape')
   await search.evaluate((element: HTMLElement) => {
-    element.style.top = '24px'
+    element.style.top = '225px'
   })
-  await page.setViewportSize({ width: 900, height: 300 })
+  await page.setViewportSize({ width: 640, height: 360 })
+  await input.click()
+  await expectFit('top')
   await expect
     .poll(async () => (await results.boundingBox()).height)
-    .toBeCloseTo(192, 0)
-  await expect
-    .poll(async () => {
-      const box = await panel.boundingBox()
-      const list = await results.boundingBox()
-      return list.y >= box.y && list.y + list.height <= box.y + box.height
-    })
-    .toBe(true)
+    .toBeLessThan(192)
+  for (const control of [
+    page.getByRole('button', { name: /^Sort results:/ }),
+    page.getByRole('radio', { name: 'All', exact: true }),
+  ]) {
+    await page.keyboard.press('Tab')
+    await expect(control).toBeFocused()
+    await expect(control).toBeInViewport({ ratio: 1 })
+  }
 })
 
 test('panel keeps its opening direction while scrolling', async ({
@@ -754,20 +759,12 @@ test('panel keeps its opening direction while scrolling', async ({
       )
     )
     .toBe('0px')
-  await expect
-    .poll(async () => (await results.boundingBox()).height)
-    .toBeGreaterThanOrEqual(160)
+  await expect.poll(async () => (await panel.boundingBox()).height).toBe(0)
   await expect
     .poll(async () => {
       const surface = await panel.boundingBox()
-      const list = await results.boundingBox()
       const trigger = await input.boundingBox()
-      return (
-        list.height >= 160 &&
-        list.y >= surface.y &&
-        list.y + list.height <= surface.y + surface.height &&
-        surface.y + surface.height <= trigger.y - 7
-      )
+      return surface.y >= 15 && surface.y + surface.height <= trigger.y - 7
     })
     .toBe(true)
 
@@ -787,9 +784,10 @@ test('panel reveals keyboard results when controls fill a short viewport', async
   const search = page.locator('[data-testid="search-panel"] .dnb-search')
   const input = search.getByRole('combobox')
   const panel = page.locator('.dnb-search__panel')
-  const options = page
-    .getByRole('listbox', { name: 'Search with filters' })
-    .getByRole('option')
+  const results = page.getByRole('listbox', {
+    name: 'Search with filters',
+  })
+  const options = results.getByRole('option')
   await search.evaluate((element: HTMLElement) => {
     Object.assign(element.style, {
       position: 'fixed',
@@ -800,6 +798,12 @@ test('panel reveals keyboard results when controls fill a short viewport', async
   })
   await input.focus()
   await expect(options).toHaveCount(20)
+  await expect
+    .poll(async () => {
+      const surface = await panel.boundingBox()
+      return surface.y >= 15 && surface.y + surface.height <= 285
+    })
+    .toBe(true)
   const pageScroll = await page.evaluate(() => window.scrollY)
 
   for (const index of [0, 1, 2]) {
@@ -810,16 +814,39 @@ test('panel reveals keyboard results when controls fill a short viewport', async
     await expect
       .poll(async () => {
         const surface = await panel.boundingBox()
+        const list = await results.boundingBox()
         const option = await options.nth(index).boundingBox()
         return (
           option.y >= surface.y + 7 &&
-          option.y + option.height <= surface.y + surface.height - 7
+          option.y + option.height <= surface.y + surface.height - 7 &&
+          option.y >= list.y + 7 &&
+          option.y + option.height <= list.y + list.height - 7
         )
       })
       .toBe(true)
   }
   expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
   await expect(input).toBeFocused()
+
+  for (const control of [
+    page.getByRole('button', { name: /^Sort results:/ }),
+    page.getByRole('radio', { name: 'All', exact: true }),
+    panel.getByRole('button', { name: 'Lukk', exact: true }),
+  ]) {
+    await page.keyboard.press('Tab')
+    await expect(control).toBeFocused()
+    await expect
+      .poll(async () => {
+        const surface = await panel.boundingBox()
+        const box = await control.boundingBox()
+        return (
+          box.y >= surface.y &&
+          box.y + box.height <= surface.y + surface.height
+        )
+      })
+      .toBe(true)
+  }
+  expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
 })
 
 test('panel keeps the keyboard focus outline inside the results viewport', async ({
