@@ -92,6 +92,7 @@ function SliderComponent(props: FieldSliderProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -156,6 +157,7 @@ function SliderComponent(props: FieldSliderProps) {
   )
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     id: id,
     forId: `${id}-slider-thumb-0`,
     width,

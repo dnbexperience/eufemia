@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
 import type { DynamicElement, InnerSpaceType } from '../../shared/types'
@@ -10,8 +10,11 @@ import { useSpacing } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {
   createSharedState,
+  useDefaultSharedStateStore,
+  SharedStateScopeContext,
   type SharedStateReturn,
 } from '../../shared/helpers/useSharedState'
+import { warnOnServer } from '../../shared/helpers/warnOnServer'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 type ContentWrapperState = {
@@ -36,10 +39,24 @@ export default function ContentWrapper({
   ...rest
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
+  const sharedStateStore = useDefaultSharedStateStore()
+  // On the server, Tabs.Content gets the selected tab only inside the same Provider as its Tabs
+  const hasScope = Boolean(useContext(SharedStateScopeContext))
+  if (id && !nested && !hasScope) {
+    warnOnServer(
+      'Tabs.Content',
+      id,
+      'does not get the selected tab during server rendering, because no Eufemia Provider surrounds it and its Tabs. Put both inside the same Provider.'
+    )
+  }
 
   const [state, setState] = useState<ContentWrapperState>(() => {
     if (id) {
-      const shared = createSharedState(id) as unknown as SharedState
+      const shared = createSharedState(
+        id,
+        undefined,
+        sharedStateStore
+      ) as unknown as SharedState
       sharedStateRef.current = shared
       return shared.get() || { key: null }
     }
@@ -84,7 +101,9 @@ export default function ContentWrapper({
     }
 
     const presence = createSharedState<{ count: number }>(
-      `${id}-tabpanel-presence`
+      `${id}-tabpanel-presence`,
+      undefined,
+      sharedStateStore
     )
     presence.set({ count: (presence.get()?.count || 0) + 1 })
 
@@ -93,7 +112,7 @@ export default function ContentWrapper({
         count: Math.max(0, (presence.get()?.count || 1) - 1),
       })
     }
-  }, [id, nested, hasPanel])
+  }, [id, nested, hasPanel, sharedStateStore])
 
   const resolvedInnerSpace =
     contentInnerSpace === true ? 'large' : contentInnerSpace

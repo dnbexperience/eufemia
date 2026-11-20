@@ -31,6 +31,8 @@ As this may be a more common use case, we still have to ensure our tabs content 
 
 You have to provide an `id` to both of the components.
 
+When you render on the server, put both components inside the same Eufemia [Provider](/web/styling-and-themes/configuration/provider/). Without it, `Tabs.Content` does not get the selected tab on the server, so a content function gets `key` as `null`, while the browser gets the selected key. React then reports a hydration mismatch, and in development Eufemia logs a warning.
+
 **NB:** You do not need to use a function inside `Tabs.Content` – it can contain any element you need, as long as it is a React Node.
 
 <TabsExampleContentOutside />

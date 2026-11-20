@@ -57,14 +57,14 @@ export const CreateBasicFieldComponent = () => {
           const {
             id,
             value,
-            label,
+            fieldBlockProps,
             handleChange,
             handleFocus,
             handleBlur,
           } = useFieldProps(preparedProps)
 
           return (
-            <FieldBlock forId={id} label={label}>
+            <FieldBlock {...fieldBlockProps} forId={id}>
               <Input
                 id={id}
                 value={value}
