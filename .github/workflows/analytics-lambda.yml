@@ -167,5 +167,6 @@ jobs:
           # embedding the PAT in the remote URL. This keeps the token out of
           # .git/config on disk and out of the stored remote URL.
           AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
+          echo "::add-mask::${AUTH_HEADER}"
           git -c http.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" \
             push "https://dnb.ghe.com/${GHE_REPO}.git" HEAD:refs/heads/deploy --force

@@ -131,6 +131,7 @@ jobs:
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add -A
           AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
+          echo "::add-mask::${AUTH_HEADER}"
           REMOTE_HEAD=$(git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
             ls-remote "https://dnb.ghe.com/${GHE_REPO}.git" refs/heads/deploy)
           if [[ -n "$REMOTE_HEAD" && "$FORCE" != true ]]; then
