@@ -617,6 +617,7 @@ describe('Table', () => {
   it('have to match column highlight', async () => {
     await makeScreenshot({
       ...defaults,
+      url: '/web/components/table/demos/',
       style: {
         width: '40rem',
       },
