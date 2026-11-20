@@ -48,6 +48,7 @@ export type SearchPanelProps = Omit<
 function SearchPanel(localProps: SearchPanelProps) {
   const {
     children,
+    variant: _variant,
     panelDescription,
     popoverProps,
     inputRef,

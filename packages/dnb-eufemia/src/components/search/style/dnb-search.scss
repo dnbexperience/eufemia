@@ -107,6 +107,10 @@
     }
   }
 
+  &__results--hero {
+    --drawer-list-height--medium: 3.5rem;
+  }
+
   &--compact {
     --search-current-width: var(--search-compact-width);
 

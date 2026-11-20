@@ -193,6 +193,15 @@ for (const fixture of [
     await expect(shortcut).toBeVisible()
     const width = (await input.boundingBox()).width
 
+    if (fixture === 'search-autocomplete-hero') {
+      await input.evaluate((element) => {
+        window.scrollTo({
+          top: window.scrollY + element.getBoundingClientRect().top - 200,
+          behavior: 'instant',
+        })
+      })
+    }
+
     await input.fill('Button')
     await expect(shortcut).toBeHidden()
     await expect(clear).toBeVisible()
@@ -202,6 +211,22 @@ for (const fixture of [
       16
     )
     expect(inputBox.width).toBe(width)
+
+    if (fixture === 'search-autocomplete-hero') {
+      await test.step('keeps the results below the hero field', async () => {
+        const results = page.locator(
+          '.dnb-drawer-list--bottom .dnb-autocomplete__list:visible'
+        )
+        await expect(results).toBeVisible()
+        await expect
+          .poll(async () => {
+            const field = await input.boundingBox()
+            const list = await results.boundingBox()
+            return list.y - field.y - field.height
+          })
+          .toBeCloseTo(8, 0)
+      })
+    }
 
     await clear.click()
     await expect(input).toHaveValue('')

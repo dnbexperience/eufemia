@@ -7,7 +7,7 @@ import useSearchProps from './useSearchProps'
 export type SearchInputProps = InputProps & SearchProps
 
 function SearchInput(localProps: SearchInputProps) {
-  const props = useSearchProps(localProps, {
+  const { variant: _variant, ...props } = useSearchProps(localProps, {
     type: 'search',
   })
 
