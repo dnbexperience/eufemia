@@ -3,6 +3,48 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.18.1](https://github.com/dnbexperience/eufemia/compare/v11.18.0...v11.18.1) (2026-11-20)
+
+### :bug: Bug Fixes
+
+* **Anchor:** hide country flag icons when noIcon is set ([#10919](https://github.com/dnbexperience/eufemia/issues/10919)) ([0ab5b59](https://github.com/dnbexperience/eufemia/commit/0ab5b59e5b44413f747e779296cebb7524cc1939))
+* **Anchor:** prevent focus and navigation in skeleton mode ([#10909](https://github.com/dnbexperience/eufemia/issues/10909)) ([2276dbd](https://github.com/dnbexperience/eufemia/commit/2276dbdf40a7c5032ce72d1609078c5a2b413083))
+* **Autocomplete:** disable the screen reader options button while disabled ([#10940](https://github.com/dnbexperience/eufemia/issues/10940)) ([ae62c27](https://github.com/dnbexperience/eufemia/commit/ae62c2763b84fe52d89094529e78918250f9a566))
+* **Button:** expand `bounding` equally on all sides ([#10880](https://github.com/dnbexperience/eufemia/issues/10880)) ([f3db4af](https://github.com/dnbexperience/eufemia/commit/f3db4af246e82214413aa39a650d54b1c8ffa8ee))
+* **Card:** prevent clicks on clickable cards in skeleton mode ([#10917](https://github.com/dnbexperience/eufemia/issues/10917)) ([126aa4f](https://github.com/dnbexperience/eufemia/commit/126aa4fad84724a27bf598e167dcbf0567537402))
+* **Chat.Confirmation:** use the Eufemia focus ring when the card gets focus ([#10950](https://github.com/dnbexperience/eufemia/issues/10950)) ([4f5c2d9](https://github.com/dnbexperience/eufemia/commit/4f5c2d90e4ea8f84fca190cb9579cdc8696c980b))
+* **ColorSchemeScript:** prevent a light flash while dark mode pages load ([#10898](https://github.com/dnbexperience/eufemia/issues/10898)) ([55187a2](https://github.com/dnbexperience/eufemia/commit/55187a22423c1b12d8df13fa1c407e6f45e8f283))
+* **DatePicker:** prevent date selection in the calendar in skeleton mode ([#10915](https://github.com/dnbexperience/eufemia/issues/10915)) ([ecf408a](https://github.com/dnbexperience/eufemia/commit/ecf408ab9b72feb8aeae8069140d4b7eb3c76029))
+* **Document styles:** use Arial 10pt for postal addresses ([#10927](https://github.com/dnbexperience/eufemia/issues/10927)) ([359999c](https://github.com/dnbexperience/eufemia/commit/359999cc125f441d1e6ada0ba55fd7c19e395f77))
+* **DrawerList:** prevent focus and selection in skeleton mode ([#10916](https://github.com/dnbexperience/eufemia/issues/10916)) ([e5ecd35](https://github.com/dnbexperience/eufemia/commit/e5ecd35028e1ecb0ca1ef37c6bb8b0e002953202))
+* **Field.Number:** disable step controls when Form.Handler is disabled ([#10933](https://github.com/dnbexperience/eufemia/issues/10933)) ([dbf8398](https://github.com/dnbexperience/eufemia/commit/dbf83987ca895a871fac603828c81d23bf4b0351))
+* **Field.Password:** disable the show password button when Form.Handler is disabled ([#10934](https://github.com/dnbexperience/eufemia/issues/10934)) ([f114e58](https://github.com/dnbexperience/eufemia/commit/f114e58c383d9048d3207566994dd626dae8689b))
+* **Field.Time, Field.Expiry:** prevent editing when Form.Handler is disabled ([#10932](https://github.com/dnbexperience/eufemia/issues/10932)) ([36251d1](https://github.com/dnbexperience/eufemia/commit/36251d1067e4401de836ace139c25c69eb14f037))
+* **Field.Time, Field.Expiry:** prevent focus and typing in skeleton mode ([#10918](https://github.com/dnbexperience/eufemia/issues/10918)) ([9845609](https://github.com/dnbexperience/eufemia/commit/984560915893c265e1d43318c8a7ca333251dee1))
+* **Filter:** allow table in filter result ([#10900](https://github.com/dnbexperience/eufemia/issues/10900)) ([59e7389](https://github.com/dnbexperience/eufemia/commit/59e738997887d1fd6d52a36043aaf47710f4e386))
+* **Forms:** keep help buttons available inside a disabled Form.Handler ([#10941](https://github.com/dnbexperience/eufemia/issues/10941)) ([8327870](https://github.com/dnbexperience/eufemia/commit/832787030771d882d2c015d68af60f2fc804679a))
+* **Iterate.Array:** prevent errors of a removed item from blocking submit and Wizard navigation ([#10962](https://github.com/dnbexperience/eufemia/issues/10962)) ([7af9fe3](https://github.com/dnbexperience/eufemia/commit/7af9fe3a1d5aee61f53ea348ceda3a4cc9c9dba5))
+* **Iterate.Array:** prevent the async onChange error of a removed item from blocking submit ([#10977](https://github.com/dnbexperience/eufemia/issues/10977)) ([ab2bbf3](https://github.com/dnbexperience/eufemia/commit/ab2bbf3d82ab5cc90c0ecef2e4c65578c0c99435))
+* **List:** prevent interaction with Item.Action and Item.Accordion in skeleton mode ([#10913](https://github.com/dnbexperience/eufemia/issues/10913)) ([254f75a](https://github.com/dnbexperience/eufemia/commit/254f75a7e0765991b9637a70a654060ebc9018b3))
+* **NumberFormat:** remove from the tab order in skeleton mode ([#10923](https://github.com/dnbexperience/eufemia/issues/10923)) ([8909451](https://github.com/dnbexperience/eufemia/commit/8909451e6da764962eafa855b9bc8d1d58dcabb9))
+* **SidebarMenu:** keep fixed content unclipped during overscroll bounce ([#10889](https://github.com/dnbexperience/eufemia/issues/10889)) ([95bfb04](https://github.com/dnbexperience/eufemia/commit/95bfb047b4bc7a87de2d1b76041ded43aef33685))
+* **SidebarMenu:** restore divider keyboard resizing and add Home/End support ([#10881](https://github.com/dnbexperience/eufemia/issues/10881)) ([846ef68](https://github.com/dnbexperience/eufemia/commit/846ef68af59c54882d57776eff617264c38022ed))
+* **Slider:** remove thumbs and markers from the tab order in skeleton mode ([#10922](https://github.com/dnbexperience/eufemia/issues/10922)) ([e84dbfd](https://github.com/dnbexperience/eufemia/commit/e84dbfd012ba0f4d9772a01a80aa5fae19f22c68))
+* **Table:** apply row vertical alignment and symmetric padding to body header cells ([#10905](https://github.com/dnbexperience/eufemia/issues/10905)) ([8fdf4c9](https://github.com/dnbexperience/eufemia/commit/8fdf4c92951b3267bee13fda080e9b6d4aa10899))
+* **Table:** apply size styles to plain th and td elements ([#10910](https://github.com/dnbexperience/eufemia/issues/10910)) ([6bc9687](https://github.com/dnbexperience/eufemia/commit/6bc9687ae52f669ec0f997ba1336af401a044203))
+* **Table:** prevent interaction with clickable rows and cells in skeleton mode ([#10914](https://github.com/dnbexperience/eufemia/issues/10914)) ([61273b3](https://github.com/dnbexperience/eufemia/commit/61273b37242a6c0d052da75fcfbc24cc57967287))
+* **Table:** restore muted cell highlighting ([#10975](https://github.com/dnbexperience/eufemia/issues/10975)) ([7204967](https://github.com/dnbexperience/eufemia/commit/7204967f099b2a19c8fcf772f9de6561de3924ba))
+* **Tabs:** keep the selection underline aligned during keyboard navigation ([#10963](https://github.com/dnbexperience/eufemia/issues/10963)) ([3534382](https://github.com/dnbexperience/eufemia/commit/35343826c28c4ee515ad6e0479da5f8ef29cf783))
+* **Tabs:** move focus to the first and last tab on Home and End when tab keys are numbers ([#10974](https://github.com/dnbexperience/eufemia/issues/10974)) ([08e1d6b](https://github.com/dnbexperience/eufemia/commit/08e1d6b736ace7a9f9f034f47933b35ae2e8b0a0))
+* **Tabs:** prevent the focus outline from being clipped on the first and last tab ([#10958](https://github.com/dnbexperience/eufemia/issues/10958)) ([11fd590](https://github.com/dnbexperience/eufemia/commit/11fd590e90f9d8f28c97fcb96e7af48322448134))
+* **Tabs:** remove the tab list from the tab order in skeleton mode ([#10921](https://github.com/dnbexperience/eufemia/issues/10921)) ([9a0b915](https://github.com/dnbexperience/eufemia/commit/9a0b915f26ad3b4368a269e1f437cc1d7d1e83ab))
+* **TermDefinition:** prevent focus and click when skeleton ([#10903](https://github.com/dnbexperience/eufemia/issues/10903)) ([0d009c1](https://github.com/dnbexperience/eufemia/commit/0d009c1c4531e03916e56225cf4c2ba3b2bb4669))
+* **Upload:** disable the delete button while the Upload is disabled ([#10939](https://github.com/dnbexperience/eufemia/issues/10939)) ([79853d3](https://github.com/dnbexperience/eufemia/commit/79853d393def29df83712d568387816e6eee889e))
+
+### :memo: Documentation
+
+* **StyleIsolation:** explain the benefits of sharing fonts ([#10884](https://github.com/dnbexperience/eufemia/issues/10884)) ([aee256e](https://github.com/dnbexperience/eufemia/commit/aee256e6a818dd47156bbe06aefed5c4fbd1b741))
+
 ## [11.18.0](https://github.com/dnbexperience/eufemia/compare/v11.17.1...v11.18.0) (2026-11-17)
 
 ### :sparkles: Features
