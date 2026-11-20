@@ -136,7 +136,9 @@ export async function handler(
     const request = toWebRequest(event)
     const response = await handleMcpRequest(request)
 
-    await captureUsage(event, usageCaptureOptions)
+    if (response.ok) {
+      await captureUsage(event, usageCaptureOptions)
+    }
 
     // API Gateway requires a buffered response body.
     return await toApiGatewayResult(response)
