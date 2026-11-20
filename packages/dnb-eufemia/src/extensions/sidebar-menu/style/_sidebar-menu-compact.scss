@@ -1,5 +1,10 @@
 // Shared by hydrated styles and the generated first-paint template.
 // After editing, run yarn workspace @dnb/eufemia build:sidebar-menu-first-paint.
+
+// Clip the content only horizontally, so fixed descendants stay visible
+// while elastic overscroll moves the page vertically.
+$content-clip-block: -100vh;
+
 @mixin inline {
   width: var(--sidebar-menu-compact-width);
 
@@ -9,19 +14,19 @@
 
   > .dnb-sidebar-menu-responsive-inline__content {
     clip-path: inset(
-      0
+      $content-clip-block
         calc(
           var(--sidebar-menu-expanded-width) - var(
               --sidebar-menu-compact-width
             )
         )
-        0 0
+        $content-clip-block 0
     );
   }
 
   &:dir(rtl) > .dnb-sidebar-menu-responsive-inline__content {
     clip-path: inset(
-      0 0 0
+      $content-clip-block 0 $content-clip-block
         calc(
           var(--sidebar-menu-expanded-width) - var(
               --sidebar-menu-compact-width

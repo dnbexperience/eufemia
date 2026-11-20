@@ -66,8 +66,8 @@ for (const javaScriptEnabled of [false, true]) {
                   await expect(content).toHaveCSS(
                     'clip-path',
                     id === 'first-paint-rtl'
-                      ? 'inset(0px 0px 0px 240px)'
-                      : 'inset(0px 240px 0px 0px)'
+                      ? 'inset(-900px 0px -900px 240px)'
+                      : 'inset(-900px 240px -900px 0px)'
                   )
                 } else {
                   await expect(

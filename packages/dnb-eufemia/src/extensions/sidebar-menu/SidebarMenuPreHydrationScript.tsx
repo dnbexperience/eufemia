@@ -44,9 +44,9 @@ function applyPreHydrationState() {
             inline +
             '{width:0!important}' +
             inline +
-            '>.dnb-sidebar-menu-responsive-inline__content{clip-path:inset(0 100% 0 0)!important}' +
+            '>.dnb-sidebar-menu-responsive-inline__content{clip-path:inset(-100vh 100% -100vh 0)!important}' +
             inline +
-            ':dir(rtl)>.dnb-sidebar-menu-responsive-inline__content{clip-path:inset(0 0 0 100%)!important}' +
+            ':dir(rtl)>.dnb-sidebar-menu-responsive-inline__content{clip-path:inset(-100vh 0 -100vh 100%)!important}' +
             scope +
             '.dnb-sidebar-menu-responsive-trigger{display:inline-flex!important}'
           document.head.appendChild(style)

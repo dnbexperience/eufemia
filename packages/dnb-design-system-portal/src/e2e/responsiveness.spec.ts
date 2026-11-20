@@ -298,7 +298,7 @@ test.describe('Responsiveness', () => {
     await expect(sidebar).toHaveCSS('visibility', 'hidden')
     await expect(sidebarSurface).toHaveCSS(
       'clip-path',
-      'inset(0px 100% 0px 0px)'
+      'inset(-900px 100% -900px 0px)'
     )
 
     await trigger.click()
