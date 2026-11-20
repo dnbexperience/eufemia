@@ -1436,6 +1436,41 @@ describe('ArraySelection', () => {
         )
       })
 
+      it('should keep all options checked before hydration', () => {
+        const onChange = vi.fn()
+        const element = (
+          <Field.ArraySelection variant={testVariant} onChange={onChange}>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+            <Field.Option value="baz">Baz</Field.Option>
+          </Field.ArraySelection>
+        )
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(element)
+        document.body.appendChild(container)
+
+        const [foo, , baz] = Array.from(
+          container.querySelectorAll('input')
+        )
+        foo.checked = true
+        baz.checked = true
+
+        let root: ReturnType<typeof hydrateRoot>
+        act(() => {
+          root = hydrateRoot(container, element)
+        })
+
+        expect(foo.checked).toBe(true)
+        expect(baz.checked).toBe(true)
+        expect(onChange).toHaveBeenLastCalledWith(
+          ['foo', 'baz'],
+          expect.anything()
+        )
+
+        act(() => root.unmount())
+        container.remove()
+      })
+
       describe('ARIA', () => {
         it('should validate with ARIA rules', async () => {
           const result = render(
