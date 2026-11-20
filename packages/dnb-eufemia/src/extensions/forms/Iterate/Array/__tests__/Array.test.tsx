@@ -8,7 +8,6 @@ import {
 } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { wait } from '../../../../../core/test-utils/testSetup'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
 import { IterateItemContext } from '../..'
@@ -703,6 +702,59 @@ describe('Iterate.Array', () => {
       }
     )
 
+    it('should call the onBlurValidator of an item that moves up only once with validateInitially', async () => {
+      const onBlurValidator = vi.fn((value: string) => {
+        if (value === 'admin') {
+          return new Error('This name is taken')
+        }
+
+        return undefined
+      })
+
+      render(
+        <Form.Handler
+          defaultData={{ items: [{ name: 'A' }, { name: 'admin' }] }}
+        >
+          <Iterate.Array path="/items">
+            <Field.String
+              itemPath="/name"
+              validateInitially
+              onBlurValidator={onBlurValidator}
+            />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This name is taken')
+      })
+      onBlurValidator.mockClear()
+
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[0]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('input')).toHaveLength(1)
+      })
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 100))
+      })
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'This name is taken'
+      )
+      expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      expect(onBlurValidator).toHaveBeenLastCalledWith(
+        'admin',
+        expect.anything()
+      )
+    })
+
     it.each([true, false])(
       'should submit after removing a moved item with an async blur error (initial validation complete: %s)',
       async (initialValidationComplete) => {
@@ -1081,36 +1133,45 @@ describe('Iterate.Array', () => {
       )
 
       await userEvent.type(document.querySelectorAll('input')[1], 'slow')
-      await userEvent.tab()
-      const blurredAt = Date.now()
 
-      await userEvent.click(
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      onTestFinished(() => {
+        vi.useRealTimers()
+      })
+      const advance = async (ms: number) => {
+        await act(async () => {
+          await vi.advanceTimersByTimeAsync(ms)
+        })
+      }
+
+      // The check starts on blur, and its deadline runs out after 1000 ms
+      fireEvent.blur(document.querySelectorAll('input')[1])
+      fireEvent.click(
         document.querySelectorAll(
           '.dnb-forms-iterate-remove-element-button'
         )[0]
       )
-      await waitFor(() => {
-        expect(document.querySelectorAll('input')).toHaveLength(2)
-      })
+      await advance(100)
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+
       await act(async () => {
         resolveItem(undefined)
-        await wait(500)
       })
+      await advance(300)
 
-      await userEvent.type(document.querySelectorAll('input')[1], 'x')
+      fireEvent.change(document.querySelectorAll('input')[1], {
+        target: { value: 'x' },
+      })
       fireEvent.submit(document.querySelector('form'))
 
-      // Let the deadline of the first check run out while the submit waits
-      await act(async () => {
-        await wait(blurredAt + 1100 - Date.now())
-      })
+      // The first deadline runs out while the submit waits for the other field
+      await advance(700)
       await act(async () => {
         resolveOther(undefined)
       })
+      await advance(100)
 
-      await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledTimes(1)
-      })
+      expect(onSubmit).toHaveBeenCalledTimes(1)
     })
 
     it('should close the edit container of an invalid item that moved up once it is valid', async () => {

@@ -1362,7 +1362,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     // Wait for change validation before restoring a blur validation error.
     validationPromiseRef.current?.then(() => {
-      if (active && shouldRevalidateOnBlur && onBlurValidatorRef.current) {
+      if (
+        active &&
+        shouldRevalidateOnBlur &&
+        onBlurValidatorRef.current &&
+        // validateValue already ran it
+        !(validateInitially && !changedRef.current)
+      ) {
         revalidateWithOnBlurValidator()
       }
     })
@@ -1380,6 +1386,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldErrorBoundary,
     setFieldErrorDataContext,
     setFieldStateDataContext,
+    validateInitially,
   ])
 
   const previousLocaleRef = useRef(locale)
