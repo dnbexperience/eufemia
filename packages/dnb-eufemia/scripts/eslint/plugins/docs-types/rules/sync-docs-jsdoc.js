@@ -1,5 +1,8 @@
 const fs = require('fs')
 const path = require('path')
+const {
+  getComponentDirName,
+} = require('../../component-types/rules/require-component-prefix')
 
 let ts
 try {
@@ -231,6 +234,14 @@ function stripTypeSuffix(typeName) {
   return typeName.replace(/(AllProps|Props|Properties)$/, '')
 }
 
+// Converts a component directory name to the prefix of its type names,
+// e.g. "input-masked" → "InputMasked".
+function toPascalCase(dirName) {
+  return dirName.replace(/(?:^|-)([a-z0-9])/g, (_, char) =>
+    char.toUpperCase()
+  )
+}
+
 function getDocsMap(dir, sourceBasename) {
   let files
 
@@ -429,6 +440,11 @@ module.exports = {
       return {} // stop here
     }
 
+    const componentDir = getComponentDirName(resolvedPath)
+    const componentPrefix = componentDir
+      ? toPascalCase(componentDir)
+      : null
+
     const options = context.options[0] || {}
     const requireJsdoc = options.requireJsdoc === true
     const sourceCode = context.sourceCode
@@ -478,6 +494,19 @@ module.exports = {
       return null
     }
 
+    // Finds the export group for a type base name. Type names carry their
+    // component prefix (e.g. "StatInlineProps"), while docs exports may not
+    // (e.g. "InlineProperties"), so retry without the prefix.
+    function getGroup(base) {
+      const group = docsData.groupMap.get(base)
+
+      if (group || !componentPrefix || !base.startsWith(componentPrefix)) {
+        return group
+      }
+
+      return docsData.groupMap.get(base.slice(componentPrefix.length))
+    }
+
     // Resolves the doc entry for a property, preferring the export group that
     // matches the property's enclosing type (e.g. "MenuButtonProps" →
     // "MenuButtonProperties"), and falling back to the file-level docs map.
@@ -486,7 +515,7 @@ module.exports = {
 
       if (typeName) {
         const base = stripTypeSuffix(typeName)
-        const group = docsData.groupMap.get(base)
+        const group = getGroup(base)
 
         if (group && group.props.has(propName)) {
           return { entry: group.props.get(propName), docsFile: group.file }
