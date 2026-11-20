@@ -5,8 +5,8 @@ import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 
 export const Default = () => {
   return (
-    <ComponentBox>
-      <Form.SubmitIndicator state="pending" />
+    <ComponentBox data-visual-test="submit-indicator-default">
+      <Form.SubmitIndicator state="pending" showLabel />
     </ComponentBox>
   )
 }

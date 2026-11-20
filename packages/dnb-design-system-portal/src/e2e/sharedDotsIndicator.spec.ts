@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 const selectors = {
   ai: '.dnb-ai-message-indicator__dots',
-  form: '[data-visual-test="submit-indicator-with-label"] .dnb-forms-submit-indicator__content',
+  form: '[data-visual-test="submit-indicator-default"] .dnb-forms-submit-indicator__content',
 }
 
 for (const kind of ['ai', 'form'] as const) {
@@ -15,9 +15,7 @@ for (const kind of ['ai', 'form'] as const) {
         '/web/patterns-and-extensions/chat/MessageIndicator/demos/'
       )
     } else {
-      await page.goto(
-        '/uilib/extensions/forms/Form/SubmitIndicator/demos/'
-      )
+      await page.goto('/web/forms/Form/SubmitIndicator/demos/')
     }
     await waitForApp(page)
     const indicator = page.locator(selectors[kind]).first()

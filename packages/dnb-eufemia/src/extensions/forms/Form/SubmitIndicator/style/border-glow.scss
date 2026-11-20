@@ -144,13 +144,18 @@
 .dnb-indicator-border-glow {
   @include glow-variables();
 
-  & &__target {
+  & &__target,
+  &
+    .dnb-chip
+    :is(.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button) {
     position: relative;
 
     &::before {
       @include glow-ring();
     }
+  }
 
+  & &__target {
     &--row {
       --border-glow-speed: var(--border-glow-row-speed);
       --border-glow-gap-start: 34%;
@@ -194,6 +199,16 @@
     }
   }
 
+  & .dnb-chip {
+    :is(.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button) {
+      --border-glow-radius-base: var(--token-radius-xl);
+    }
+
+    .dnb-indicator-border-glow__target::before {
+      display: none;
+    }
+  }
+
   &--active {
     :is(
       .dnb-input__shell,
@@ -210,6 +225,13 @@
       border-color: inherit;
     }
 
+    .dnb-chip
+      :is(.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button) {
+      box-shadow: none;
+    }
+
+    .dnb-chip
+      :is(.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button),
     .dnb-indicator-border-glow__target:not(
       :where(
         .dnb-indicator-border-glow__target
@@ -306,6 +328,12 @@
 @media (forced-colors: active) {
   .dnb-indicator-border-glow--active {
     &::before,
+    .dnb-chip
+      :is(
+        .dnb-radio__row,
+        .dnb-checkbox__order,
+        .dnb-chip__button
+      )::before,
     .dnb-indicator-border-glow__target::before {
       background: CanvasText;
       forced-color-adjust: none;

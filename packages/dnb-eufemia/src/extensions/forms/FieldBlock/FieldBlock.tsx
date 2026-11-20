@@ -170,7 +170,7 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
      */
     contentClassName?: string
     /**
-     * Shows the inline [SubmitIndicator](/web/forms/Form/SubmitIndicator/) with the given state, such as `pending` during async validation.
+     * Shows a border glow around the field while the state is `pending`, such as during async validation.
      */
     fieldState?: SubmitState
     /**
