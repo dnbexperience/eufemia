@@ -126,7 +126,7 @@ export default function HomeHero() {
           <SearchBarInput
             id="portal-home-search"
             placeholder="Search components and guidance"
-            stretch
+            variant="hero"
             onQuery={handleQuery}
           />
         </div>
