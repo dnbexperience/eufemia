@@ -1,0 +1,34 @@
+Typeface: Sbanken Display
+Embedded copyright notice:
+Erik Johan Worsøe Eriksen/ANTI All rights reserved. mastered by Edgar Walthert
+
+The terms below apply to Sbanken Display. The Eufemia license does not
+replace them or grant additional rights to this font.
+
+License terms (Norwegian):
+
+Lisensgiver: ANTI AS
+Lisenshaver:DNB Bank ASA
+Lisensiert font: Sbanken Display
+Lisensen gir DNB ubegrenset, eksklusiv og tidsubegrenset bruksrett for Sbanken Display for merkevaren Sbanken.
+Lisensen gjelder all bruk av fonten på tvers av medier, formater, kanaler og geografiske områder.
+Lisensen omfatter:
+● bruk uavhengig av virksomhetens størrelse, uten krav om oppgradering ved vekst
+● installasjon og bruk på et ubegrenset antall enheter og kontorer
+● bruk i digitalt, statisk og trykt innhold
+● bruk i annonser, kampanjer, POS-materiell og utendørsreklame
+● bruk på emballasje og produkter
+● bruk i digitale ressurser for sosiale medier
+● bruk i logo og logosymbol
+● innbygging (embedding) i PDF-filer, på nettsider og subdomener, og i video
+● lagring på interne servere og i interne skyløsninger
+● videre bruk dersom fonten videreutvikles, uten at det kreves en ny lisens
+DNB kan bruke fonten på vegne av Sbanken. Dette omfatter installasjon, lagring, innbygging og distribusjon av fonten i
+de kanalene, mediene og plattformene som er hensiktsmessige for å utvikle, produsere, publisere og distribuere innhold
+for Sbanken. Sbanken kan dele fonten med tredjeparter, herunder byråer, leverandører og frilansere. Tredjepartene kan
+kun bruke fonten på vegne av Sbanken og i samsvar med denne lisensen.
+Fonten kan ikke videreselges som et selvstendig produkt eller modifiseres uten skriftlig samtykke fra lisensgiver. Lisensen
+gir ikke andre merkevarer rett til å bruke fonten.
+Lisensen opphører dersom Sbanken avvikles eller på annen måte opphører sin virksomhet. Ved opphør skal Sbanken og
+tredjeparter som har mottatt fontfilene, avslutte bruken og slette sine kopier, med mindre annet følger av ufravikelig lov
+eller er avtalt skriftlig.
