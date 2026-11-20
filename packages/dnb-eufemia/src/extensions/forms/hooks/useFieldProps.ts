@@ -1014,6 +1014,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ]
     )
 
+  // An async onChange can finish after the field moved (use its current path) or was removed (drop the result)
+  const latestSetEventResultRef = useRef(setEventResult)
+  latestSetEventResultRef.current = setEventResult
+  const isFieldMountedRef = useRef(false)
+  useEffect(() => {
+    isFieldMountedRef.current = true
+
+    return () => {
+      isFieldMountedRef.current = false
+    }
+  }, [])
+
   const handleChange = useCallback(
     async (
       argFromInput: Value | unknown,
@@ -1079,9 +1091,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             // Skip sync errors, such as required
             if (!hasError()) {
               // If the value has changed during the async process, we don't want to call the onChange anymore
-              await setEventResult(
-                ((await onChange?.(...(args as [any]))) ??
-                  null) as EventReturnWithStateObjectAndSuccess
+              const result = await onChange?.(...(args as [any]))
+
+              if (!isFieldMountedRef.current) {
+                return undefined // stop here
+              }
+
+              await latestSetEventResultRef.current(
+                (result ?? null) as EventReturnWithStateObjectAndSuccess
               )
             } else {
               await setEventResult(null)
