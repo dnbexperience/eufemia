@@ -165,8 +165,7 @@ function tokenizeShellCommand(command: string): string[] {
 
 function getBaseCommandTokens(
   packageJson: { scripts: Record<string, string> } | null,
-  packageRoot: string,
-  runAllWithoutBail: boolean
+  packageRoot: string
 ): string[] {
   const baseCommand = packageJson?.scripts?.['test:screenshots:ci']
 
@@ -179,13 +178,7 @@ function getBaseCommandTokens(
     )
   }
 
-  const tokens = tokenizeShellCommand(baseCommand)
-
-  if (!runAllWithoutBail) {
-    return tokens
-  }
-
-  return tokens.filter((token) => token !== '--bail')
+  return tokenizeShellCommand(baseCommand)
 }
 
 function runCommand(packageRoot: string, commandTokens: string[]) {
@@ -267,8 +260,7 @@ export async function runScreenshotsTests() {
     runAllFromCommit || runAllFromBranch || runAllFromEnvironment
   const commandTokens = getBaseCommandTokens(
     context.packageJson,
-    context.packageRoot,
-    runAll
+    context.packageRoot
   )
 
   if (runAll) {
@@ -278,11 +270,7 @@ export async function runScreenshotsTests() {
         ? `because branch "${getCiBranchName()}" always runs all screenshot tests`
         : `because CI could not list all changed files (${RUN_ALL_ENV_VAR})`
 
-    log.info(
-      logWithLabel(
-        `Running all screenshot tests without --bail ${reason}.`
-      )
-    )
+    log.info(logWithLabel(`Running all screenshot tests ${reason}.`))
     if (!isDryRun) {
       runCommand(context.packageRoot, commandTokens)
     }

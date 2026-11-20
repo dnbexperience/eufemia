@@ -1,6 +1,26 @@
 Typeface: Maison Neue
-License: Webfont Self-hosting license granted by Milieu Grotesque
+Copyright © 2017 by Timo Gaessner. All rights reserved.
+Recorded license: Webfont Self-hosting license granted by Milieu Grotesque
+
+The original Eufemia notice records this grant; the agreement is not
+included here. The font files contain the desktop-license notice below.
+Confirm the applicable agreement covers the intended use, including public
+hosting and redistribution. The Eufemia license grants no additional rights
+to this font.
+
+Embedded license notice (verbatim):
+
+By installing Milieu Grotesque fonts you automatically agree to the corresponding Milieu Grotesque end user license agreement (EULA). Take note that this file has been set up and technically prepared to be used within the context of the Milieu Grotesque “Desktop License”. Any usage beyond the scope of this license including modification and convertion is strictly prohibited.
+
+Embedded license URL: http://www.milieugrotesque.com/downloads/
 
 Typeface: Roboto
+Copyright 2011 Google Inc. All Rights Reserved.
 License: Apache License, Version 2.0
+
+The Apache License applies to the Roboto files in this directory. See the
+full license in Roboto-LICENSE.txt. Preserve this copyright notice and the
+license when distributing these files. The Eufemia license does not
+restrict rights granted by the Apache License.
+
 https://www.apache.org/licenses/LICENSE-2.0
