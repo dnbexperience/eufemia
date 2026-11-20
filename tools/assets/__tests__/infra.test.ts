@@ -131,9 +131,10 @@ describe('assets infrastructure', () => {
 
   it('publishes text files as UTF-8 in every sync', () => {
     // Join continued shell lines, so each sync is one string.
-    const syncs = deployWorkflow
-      .replace(/\\\n\s*/g, ' ')
-      .match(/aws s3 sync [^\n]+/g)
+    const syncs =
+      deployWorkflow
+        .replace(/\\\n\s*/g, ' ')
+        .match(/aws s3 sync [^\n]+/g) ?? []
 
     expect(syncs).toHaveLength(4)
     expect(
