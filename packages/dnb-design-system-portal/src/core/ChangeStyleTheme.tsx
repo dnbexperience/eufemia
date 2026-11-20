@@ -5,7 +5,8 @@ import useTheme from '@dnb/eufemia/src/shared/useTheme'
 import { getThemes, setTheme } from '../../vite/client/shims/theme-handler'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
-export default function ChangeStyleTheme(props) {
+// The id goes to the selected brand's chip, so it can be focused
+export default function ChangeStyleTheme({ id = undefined, ...props }) {
   const themes = getThemes()
   const brand = useTheme()?.brand
   const { update } = useContext(Context)
@@ -17,7 +18,7 @@ export default function ChangeStyleTheme(props) {
     ? brand
     : visibleThemes[0]?.[0]
   const data = visibleThemes.map(([key, value]) => ({
-    id: key === focusKey ? 'change-theme' : undefined,
+    id: key === focusKey ? id : undefined,
     value: key,
     title: capitalizeFirstLetter(value.name),
   }))
