@@ -9,8 +9,9 @@
 
 .eufemia-theme__birdhouse,
 :root {
-  --font-family-display-skeleton: 'DNBSansDisplaySkeleton';
-  --font-family-display: 'DNB Sans Display', var(--font-family-default);
+  --font-family-display-skeleton: 'DNBSansEiendomSkeleton';
+  --font-family-display: 'DNB Sans Eiendom', var(--font-family-default);
+  --font-weight-display: var(--font-weight-light);
   --button-text-translate-y: 0;
   --font-size-basis-native: var(--font-size-basis-web);
 }

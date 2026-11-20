@@ -8,7 +8,13 @@ import { compileFontTestStyles as compile } from './fontTestStyles'
 const packageRoot = path.resolve(__dirname, '../../..')
 const text = 'ÆØÅ æøå Gjør noe større 0123456789'
 
-for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+for (const brand of [
+  'ui',
+  'sbanken',
+  'eiendom',
+  'carnegie',
+  'birdhouse',
+]) {
   for (const isolated of [false, true]) {
     test(
       brand +
@@ -41,6 +47,13 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         })
         let css = [
           compile('style/dnb-ui-core.scss'),
+          ...(brand === 'birdhouse'
+            ? [
+                compile(
+                  'style/themes/birdhouse/birdhouse-theme-dark-mode.scss'
+                ),
+              ]
+            : []),
           compile(
             'style/themes/' + brand + '/' + brand + '-theme-basis.scss'
           ),
@@ -149,6 +162,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         expect(
           requests.some((name) => name.startsWith('DNBSansDisplay'))
         ).toBe(false)
+        expect(requests.includes('DNBSansEiendom-Light.woff2')).toBe(false)
         const heading =
           brand === 'sbanken'
             ? 'MaisonNeueHeadings'
@@ -239,7 +253,9 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         const displayFamily =
           brand === 'sbanken' || brand === 'carnegie'
             ? heading
-            : 'DNB Sans Display'
+            : brand === 'birdhouse'
+              ? 'DNB Sans Eiendom'
+              : 'DNB Sans Display'
         for (const selector of ['#default', '#document']) {
           await expect(page.locator(selector)).toHaveCSS(
             'font-family',
@@ -247,7 +263,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
           )
           await expect(page.locator(selector)).toHaveCSS(
             'font-weight',
-            '400'
+            brand === 'birdhouse' ? '300' : '400'
           )
           await expect(page.locator(selector)).toHaveCSS(
             'font-style',
@@ -260,7 +276,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                 getComputedStyle(element).textRendering.toLowerCase()
               )
           ).toBe(
-            brand === 'ui' || brand === 'eiendom'
+            brand === 'ui' || brand === 'eiendom' || brand === 'birdhouse'
               ? 'geometricprecision'
               : 'auto'
           )
@@ -328,7 +344,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
           )
           await expect(page.locator('#default')).toHaveCSS(
             'font-weight',
-            '400'
+            brand === 'birdhouse' ? '300' : '400'
           )
           await expect(page.locator('#default')).toHaveCSS(
             'font-style',
@@ -338,6 +354,9 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
         await page.evaluate(() => document.fonts.ready)
         expect(requests.includes('DNBSansDisplay.woff2')).toBe(
           brand === 'ui' || brand === 'eiendom'
+        )
+        expect(requests.includes('DNBSansEiendom-Light.woff2')).toBe(
+          brand === 'birdhouse'
         )
         await page.locator('#default').evaluate((element) => {
           element.setAttribute(
@@ -349,10 +368,18 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
           'line-height',
           brand === 'carnegie' ? '68px' : '56px'
         )
-        if (brand === 'ui' || brand === 'eiendom') {
+        if (
+          brand === 'ui' ||
+          brand === 'eiendom' ||
+          brand === 'birdhouse'
+        ) {
+          const skeletonFamily =
+            brand === 'birdhouse'
+              ? 'DNBSansEiendomSkeleton'
+              : 'DNBSansDisplaySkeleton'
           const widths = await page
             .locator('#default')
-            .evaluate(async (element) => {
+            .evaluate(async (element, skeletonFamily) => {
               element.setAttribute(
                 'style',
                 'display:inline-block;max-width:180px'
@@ -360,7 +387,7 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
               await document.fonts.ready
               const before = element.getBoundingClientRect()
               element.classList.add('dnb-skeleton--font')
-              await document.fonts.load('48px DNBSansDisplaySkeleton')
+              await document.fonts.load('300 48px ' + skeletonFamily)
               const after = element.getBoundingClientRect()
               return [
                 before.width,
@@ -368,16 +395,18 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                 after.width,
                 after.height,
               ]
-            })
+            }, skeletonFamily)
           expect(widths[2]).toBeCloseTo(widths[0], 1)
           expect(widths[3]).toBeCloseTo(widths[1], 1)
           expect(requests).toContain(
-            'DNBSansDisplay-Skeleton-Regular.woff2'
+            brand === 'birdhouse'
+              ? 'DNBSansEiendom-Skeleton-Light.woff2'
+              : 'DNBSansDisplay-Skeleton-Regular.woff2'
           )
           for (const size of [14, 16, 18, 24, 34, 48]) {
             for (const width of [180, 260]) {
               const metrics = await page.locator('#default').evaluate(
-                async (element, { size, width }) => {
+                async (element, { size, width, skeletonFamily }) => {
                   if (!(element instanceof HTMLElement)) {
                     throw new Error('Display heading is missing')
                   }
@@ -473,12 +502,12 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
                   const before = measure()
                   element.classList.add('dnb-skeleton--font')
                   await document.fonts.load(
-                    size + 'px DNBSansDisplaySkeleton'
+                    '300 ' + size + 'px ' + skeletonFamily
                   )
                   await document.fonts.ready
                   return { before, after: measure() }
                 },
-                { size, width }
+                { size, width, skeletonFamily }
               )
               expect(metrics.before.baselines.length).toBeGreaterThan(1)
               for (const clearance of metrics.before.clearances) {
@@ -501,6 +530,19 @@ for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
               })
             }
           }
+        }
+        if (brand === 'birdhouse') {
+          await page.locator('html').evaluate((element) => {
+            element.classList.add('eufemia-theme__color-scheme--dark')
+          })
+          await expect(page.locator('#document')).toHaveCSS(
+            'font-family',
+            new RegExp(displayFamily)
+          )
+          await expect(page.locator('#document')).toHaveCSS(
+            'font-weight',
+            '300'
+          )
         }
         await page.setViewportSize({ width: 390, height: 844 })
         await page.emulateMedia({ media: 'print' })
