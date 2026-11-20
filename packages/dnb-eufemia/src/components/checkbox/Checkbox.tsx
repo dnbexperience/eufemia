@@ -2,6 +2,7 @@
  * Web Checkbox Component
  */
 
+import BorderGlow from '../../shared/internal/BorderGlow'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import {
   useCallback,
@@ -364,6 +365,7 @@ function Checkbox(localProps: CheckboxProps) {
   return (
     <span {...mainParams}>
       <span className="dnb-checkbox__order">
+        <BorderGlow />
         {label && (
           <FormLabel
             id={labelId}
@@ -381,6 +383,7 @@ function Checkbox(localProps: CheckboxProps) {
           {labelPosition === 'left' && statusComp}
 
           <span className="dnb-checkbox__shell dnb-indicator-border-glow__target dnb-indicator-border-glow__target--small">
+            <BorderGlow />
             <Element
               id={id}
               name={id}

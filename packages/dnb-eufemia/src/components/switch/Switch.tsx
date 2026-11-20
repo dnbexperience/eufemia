@@ -1,3 +1,4 @@
+import BorderGlow from '../../shared/internal/BorderGlow'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import {
   useCallback,
@@ -262,6 +263,7 @@ function Switch(props: SwitchProps) {
             {(labelPosition === 'right' || !labelPosition) && labelComp}
 
             <span className="dnb-switch__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--round">
+              <BorderGlow />
               <input
                 id={id}
                 name={id}

@@ -2,6 +2,7 @@
  * Web Radio Component
  */
 
+import BorderGlow from '../../shared/internal/BorderGlow'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { memo, useCallback, useContext, useRef, useState } from 'react'
 import type {
@@ -467,6 +468,7 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
           />
 
           <span className="dnb-radio__row">
+            <BorderGlow />
             <span className="dnb-radio__shell">
               <Element
                 type="radio"
@@ -492,7 +494,9 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
                   createSkeletonClass('shape', skeleton, context)
                 )}
                 aria-hidden
-              />
+              >
+                <BorderGlow />
+              </span>
               <span
                 className={clsx(
                   'dnb-radio__dot',

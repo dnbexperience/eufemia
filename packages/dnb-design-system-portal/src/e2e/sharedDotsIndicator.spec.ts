@@ -65,6 +65,22 @@ for (const kind of ['ai', 'form'] as const) {
         parseFloat(getComputedStyle(element).fontSize)
       )
       expect(parseFloat(sizes[0].width)).toBe(fontSize * 0.25)
+      await test.step('Border glow stops for reduced motion', async () => {
+        const ring = page
+          .locator(
+            '[data-visual-test="submit-indicator-border-glow"] .dnb-input__row > .dnb-indicator-border-glow__ring'
+          )
+          .first()
+        await expect(ring).toHaveAttribute('aria-hidden', 'true')
+        await expect
+          .poll(() =>
+            ring.evaluate(
+              (element) =>
+                getComputedStyle(element, '::before').animationName
+            )
+          )
+          .toBe('none')
+      })
     }
   })
 }

@@ -1,48 +1,9 @@
-@property --border-glow-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
 @keyframes border-glow-spin {
-  0% {
-    --border-glow-angle: 0deg;
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-  8.333% {
-    --border-glow-angle: 30deg;
-  }
-  16.667% {
-    --border-glow-angle: 60deg;
-  }
-  25% {
-    --border-glow-angle: 90deg;
-  }
-  33.333% {
-    --border-glow-angle: 120deg;
-  }
-  41.667% {
-    --border-glow-angle: 150deg;
-  }
-  50% {
-    --border-glow-angle: 180deg;
-  }
-  58.333% {
-    --border-glow-angle: 210deg;
-  }
-  66.667% {
-    --border-glow-angle: 240deg;
-  }
-  75% {
-    --border-glow-angle: 270deg;
-  }
-  83.333% {
-    --border-glow-angle: 300deg;
-  }
-  91.667% {
-    --border-glow-angle: 330deg;
-  }
-  100% {
-    --border-glow-angle: 360deg;
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
@@ -70,8 +31,9 @@
 }
 
 @mixin glow-ring() {
-  content: '';
+  display: block;
   position: absolute;
+  container-type: size;
   inset: calc(
       (
           var(--border-glow-component-inset-block) +
@@ -115,13 +77,6 @@
     )
   );
 
-  background: conic-gradient(
-    from var(--border-glow-angle),
-    transparent var(--border-glow-gap-start),
-    var(--border-glow-color-start) var(--border-glow-color-start-stop),
-    var(--border-glow-color-end) var(--border-glow-color-end-stop),
-    transparent var(--border-glow-gap-end)
-  );
   mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -134,11 +89,46 @@
     inset 150ms ease,
     border-radius 150ms ease,
     opacity var(--border-glow-speed) ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(142cqw, 142cqh);
+    aspect-ratio: 1;
+    background: conic-gradient(
+      transparent var(--border-glow-gap-start),
+      var(--border-glow-color-start) var(--border-glow-color-start-stop),
+      var(--border-glow-color-end) var(--border-glow-color-end-stop),
+      transparent var(--border-glow-gap-end)
+    );
+    transform: translate(-50%, -50%);
+
+    @media (forced-colors: active) {
+      background: CanvasText;
+      forced-color-adjust: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 }
 
 @mixin glow-ring-active() {
   opacity: 1;
-  animation: border-glow-spin var(--border-glow-speed) linear infinite;
+  &::before {
+    animation: border-glow-spin var(--border-glow-speed) linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+.dnb-indicator-border-glow__ring {
+  display: none;
 }
 
 .dnb-indicator-border-glow {
@@ -150,7 +140,7 @@
     :is(.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button) {
     position: relative;
 
-    &::before {
+    > .dnb-indicator-border-glow__ring {
       @include glow-ring();
     }
   }
@@ -204,7 +194,7 @@
       --border-glow-radius-base: var(--token-radius-xl);
     }
 
-    .dnb-indicator-border-glow__target::before {
+    .dnb-indicator-border-glow__target > .dnb-indicator-border-glow__ring {
       display: none;
     }
   }
@@ -238,7 +228,7 @@
           .dnb-indicator-border-glow__target
       )
     ) {
-      &::before {
+      > .dnb-indicator-border-glow__ring {
         @include glow-ring-active();
       }
 
@@ -271,23 +261,24 @@
       }
     }
 
-    .dnb-radio--disabled .dnb-radio__button::before {
-      opacity: 0;
-      animation: none;
+    .dnb-radio--disabled
+      .dnb-radio__button
+      > .dnb-indicator-border-glow__ring {
+      display: none;
     }
   }
 
   &--button {
     --border-glow-radius-base: var(--button-border-radius, 2rem);
 
-    &::before {
+    > .dnb-indicator-border-glow__ring {
       @include glow-ring();
     }
 
     &.dnb-indicator-border-glow--active {
       border-color: transparent;
 
-      &::before {
+      > .dnb-indicator-border-glow__ring {
         @include glow-ring-active();
       }
 
@@ -322,21 +313,5 @@
       )
     ):not(:has(:disabled, [aria-disabled='true'])) {
     --border-glow-interaction-offset: var(--border-glow-hover-offset);
-  }
-}
-
-@media (forced-colors: active) {
-  .dnb-indicator-border-glow--active {
-    &::before,
-    .dnb-chip
-      :is(
-        .dnb-radio__row,
-        .dnb-checkbox__order,
-        .dnb-chip__button
-      )::before,
-    .dnb-indicator-border-glow__target::before {
-      background: CanvasText;
-      forced-color-adjust: none;
-    }
   }
 }

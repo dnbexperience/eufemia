@@ -2,6 +2,7 @@
  * Web ToggleButton Component
  */
 
+import BorderGlow from '../../shared/internal/BorderGlow'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import {
   memo,
@@ -406,6 +407,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         />
 
         <span className="dnb-toggle-button__shell dnb-indicator-border-glow__target">
+          <BorderGlow />
           <AlignmentHelper />
 
           <Button

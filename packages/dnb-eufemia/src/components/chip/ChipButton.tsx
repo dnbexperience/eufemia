@@ -1,3 +1,4 @@
+import BorderGlow from '../../shared/internal/BorderGlow'
 import { useContext, useEffect, useState } from 'react'
 import type { MouseEvent, ReactNode } from 'react'
 import { clsx } from 'clsx'
@@ -89,6 +90,7 @@ function ChipButton(props: ChipButtonProps) {
           onChange({ checked, event })
         }}
       >
+        <BorderGlow />
         <span
           className={clsx(
             'dnb-chip__content',

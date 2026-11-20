@@ -2,6 +2,7 @@
  * Web Input Component
  */
 
+import BorderGlow from '../../shared/internal/BorderGlow'
 import {
   isValidElement,
   memo,
@@ -533,6 +534,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   return (
     <span {...mainParams}>
+      <BorderGlow />
       {label && (
         <FormLabel
           id={id + '-label'}
@@ -562,6 +564,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         />
 
         <span className="dnb-input__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--row">
+          <BorderGlow />
           <span {...shellParams}>
             {(InputElement as ReactNode) || (
               <input

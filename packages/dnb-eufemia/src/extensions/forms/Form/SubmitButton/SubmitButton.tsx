@@ -1,3 +1,4 @@
+import BorderGlow from '../../../../shared/internal/BorderGlow'
 import { useCallback, useContext } from 'react'
 import type { HTMLAttributes } from 'react'
 import { clsx } from 'clsx'
@@ -83,6 +84,7 @@ function SubmitButton(props: FormSubmitButtonProps) {
       data-form-submit-button-id={submitButtonId}
       {...mergeProps({ onClick: onClickHandler }, rest)}
     >
+      <BorderGlow />
       {content}
 
       <SubmitIndicatorGlow state={indicatorState} />
