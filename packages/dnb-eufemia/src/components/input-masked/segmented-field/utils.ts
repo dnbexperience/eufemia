@@ -1,6 +1,6 @@
 import type { RefObject } from 'react'
 import type {
-  InputMaskedOverwriteMode,
+  InputMaskedSegmentedFieldOverwriteMode,
   InputMaskedSectionSelectionMode,
   InputMaskedSegmentedFieldInputConfig,
 } from './types'
@@ -37,7 +37,10 @@ export function insertChar(
   {
     overwriteMode,
     maxLength,
-  }: { overwriteMode: InputMaskedOverwriteMode; maxLength: number }
+  }: {
+    overwriteMode: InputMaskedSegmentedFieldOverwriteMode
+    maxLength: number
+  }
 ) {
   const chars = Array.from(value)
 
@@ -137,7 +140,7 @@ export function insertCharIntoSection({
 }: {
   char: string
   inputId: string
-  overwriteMode: InputMaskedOverwriteMode
+  overwriteMode: InputMaskedSegmentedFieldOverwriteMode
   valuesRef: RefObject<Record<string, string>>
   inputs: InputMaskedSegmentedFieldInputConfig[]
   caretPositionsRef: RefObject<Record<string, number>>

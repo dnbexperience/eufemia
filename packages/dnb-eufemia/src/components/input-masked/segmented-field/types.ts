@@ -4,7 +4,7 @@ import type { FormStatusState, FormStatusText } from '../../FormStatus'
 import type { SpacingProps } from '../../../shared/types'
 import type { FormElementProps } from '../../../shared/helpers/filterValidProps'
 
-export type InputMaskedOverwriteMode = 'shift' | 'replace'
+export type InputMaskedSegmentedFieldOverwriteMode = 'shift' | 'replace'
 
 export type InputMaskedSegmentedFieldSpinButton = {
   min: number
@@ -32,7 +32,7 @@ export type InputMaskedSegmentedFieldProps<T extends string> = {
   labelDirection?: FormElementProps['labelDirection']
   inputs: InputMaskedSegmentedFieldItem<T>[]
   values?: InputMaskedSegmentedFieldValue<T>
-  overwriteMode?: InputMaskedOverwriteMode
+  overwriteMode?: InputMaskedSegmentedFieldOverwriteMode
   delimiter?: string
   onChange?: (values: InputMaskedSegmentedFieldValue<T>) => void
   onFocus?: (values: InputMaskedSegmentedFieldValue<T>) => void
@@ -44,7 +44,7 @@ export type InputMaskedSegmentedFieldProps<T extends string> = {
   _omitInputShellClass?: boolean
   scopeRef?: RefObject<HTMLElement | null>
   optionsEnhancer?: (options: {
-    overwriteMode?: InputMaskedOverwriteMode
+    overwriteMode?: InputMaskedSegmentedFieldOverwriteMode
   }) => unknown
 } & Omit<
   HTMLProps<HTMLInputElement>,
@@ -77,7 +77,7 @@ export type InputMaskedSegmentedFieldSectionProps = {
     'id' | 'mask' | 'label'
   >
   value: string
-  overwriteMode: InputMaskedOverwriteMode
+  overwriteMode: InputMaskedSegmentedFieldOverwriteMode
   delimiter?: string
   groupDelimiter?: string
   disabled: boolean

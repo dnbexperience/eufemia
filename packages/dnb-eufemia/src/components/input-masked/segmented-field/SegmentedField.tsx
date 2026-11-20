@@ -25,7 +25,7 @@ import type {
 } from './types'
 
 export type {
-  InputMaskedOverwriteMode,
+  InputMaskedSegmentedFieldOverwriteMode,
   InputMaskedSegmentedFieldItem,
   InputMaskedSegmentedFieldProps,
   InputMaskedSegmentedFieldSpinButton,
