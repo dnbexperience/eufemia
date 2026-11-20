@@ -20,7 +20,7 @@ describe('Heading', () => {
   })
 })
 
-describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   `Heading for %s`,
   (themeName) => {
     setupPageScreenshot({

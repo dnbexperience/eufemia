@@ -8,6 +8,7 @@ import {
   type TdHTMLAttributes,
 } from 'react'
 import { clsx } from 'clsx'
+import Context from '../../shared/Context'
 import IconPrimary from '../icon/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
 import { TableAccordionContentSingle } from './table-accordion/TableAccordionContent'
@@ -34,7 +35,7 @@ export type TableTdProps = {
   spacing?: 'horizontal'
 
   /**
-   * Vertical alignment of the cell content.
+   * Vertical alignment of the cell content. Overrides `verticalAlign` on the parent `<Tr>`.
    */
   verticalAlign?: 'top' | 'middle' | 'bottom'
 
@@ -84,6 +85,7 @@ export default function Td(
   } = componentProps
 
   const trContext = useContext(TableTrContext)
+  const { skeleton } = useContext(Context)
   const highlight = highlightProp || trContext?.highlight
 
   const hasOnClick = typeof onClick === 'function'
@@ -129,6 +131,7 @@ export default function Td(
         <button
           type="button"
           className="dnb-table__td__button"
+          disabled={skeleton || undefined}
           aria-pressed={isSelectable ? isSelected : undefined}
           onClick={(event) => {
             const tdElement = event.currentTarget

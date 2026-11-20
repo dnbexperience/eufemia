@@ -86,8 +86,10 @@ function ItemAction<E extends ElementType = 'a'>(
   } = props
 
   const inheritedDisabled = useContext(ListContext)?.disabled
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedDisabled = disabled ?? inheritedDisabled
-  const isInactive = pending || appliedDisabled
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
+  const isInactive = pending || appliedDisabled || appliedSkeleton
   const hasFooter =
     footer !== undefined && footer !== null && footer !== false
 

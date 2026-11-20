@@ -250,6 +250,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
     selectedItem,
     activeItem,
     skipPortal,
+    skeleton,
     addObservers,
     removeObservers,
     _refShell,
@@ -318,6 +319,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
     'aria-labelledby':
       ariaLabelledBy ?? (ariaLabel ? undefined : labelledBy),
     tabIndex: -1,
+    skeleton,
     style: {
       maxHeight:
         parseFloat(maxHeight as string) > 0 ? `${maxHeight}rem` : null,
@@ -330,7 +332,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
       context.drawerList.ariaActiveDescendant
   }
 
-  if (focusable) {
+  if (focusable && !skeleton) {
     ulParams.tabIndex = 0
   }
 
@@ -383,6 +385,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
         : undefined,
       disabled,
       style: { ...style, ...itemProps.style },
+      ...(skeleton && { tabIndex: -1 }),
     }
     if (ignoreEventsBoolean) {
       liParams.active = null
@@ -510,7 +513,8 @@ const DrawerListComponent = memo(function DrawerListComponent(
                 direction +
                 maxHeight +
                 ariaLabel +
-                ariaLabelledBy
+                ariaLabelledBy +
+                skeleton
               }
               {...ulParams}
               renderDriver={activeListDriver}

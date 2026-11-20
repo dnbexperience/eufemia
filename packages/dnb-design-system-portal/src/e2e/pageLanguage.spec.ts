@@ -72,16 +72,14 @@ test('keeps documentation in English and follows Settings for previews and popup
   await input.press('Escape')
 
   await page.locator('button#portal-tools').click()
-  await page.getByLabel('Change components language').click()
-  await page
-    .locator('li.dnb-drawer-list__option')
-    .filter({ hasText: 'English (GB)' })
+  const tools = page.getByRole('dialog', { name: 'Settings' })
+  await tools
+    .getByRole('radio', { name: 'English (GB)', exact: true })
     .click()
 
   await expect(preview).toHaveAttribute('lang', 'en-GB')
   await expect(placeholder).toHaveText('Type and select')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
-  const tools = page.getByRole('dialog', { name: 'Settings' })
   await tools
     .getByRole('button', { name: /Close|Lukk/ })
     .first()

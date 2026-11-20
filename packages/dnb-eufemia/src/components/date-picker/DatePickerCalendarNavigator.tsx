@@ -229,6 +229,9 @@ function CalendarNavButton({
   onClick,
   onKeyDown,
 }: CalendarNavButtonProps) {
+  const {
+    props: { skeleton },
+  } = useContext(DatePickerContext)
   const translations = useTranslation().DatePicker
 
   const translationKey = `${type}${capitalizeFirstLetter(dateType)}`
@@ -271,6 +274,7 @@ function CalendarNavButton({
       className={clsx(`dnb-date-picker__${type}`, { disabled })}
       icon={icon}
       size="small"
+      skeleton={skeleton}
       aria-disabled={disabled || undefined}
       aria-label={title}
       onClick={() => onClick && !disabled && onClick({ nr, type, months })}

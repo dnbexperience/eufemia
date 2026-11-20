@@ -75,6 +75,7 @@ AWS schedules continue running independently if a deployment credential expires.
 | MONITORING_NOTIFICATIONS_ENABLED   | false during verification, then true                                 |
 | MONITORING_GITHUB_TOKEN_SECRET_ARN | Optional Secrets Manager ARN for a read-only GitHub Actions token    |
 | MONITORING_ANALYTICS_DEPLOY_REPO   | Required: owner/repo of the analytics deployment                     |
+| MONITORING_USER_AGENT              | Optional User-Agent sent with every check request                    |
 
 State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock.
 
@@ -125,6 +126,38 @@ stored before recovery can be sent. Stable client message IDs are reused on retr
 The summary is best-effort and runs after incident delivery. Summary failures are logged with the summary update stage without failing an otherwise completed observation or creating replacement posts. If the overview was deleted, an operator can remove only the summary timestamp from the notifications state item while the notifier is paused, then resume it to create one replacement. Preserve incident threads, counters and pending delivery. A missing outage parent remains a delivery failure and needs operator investigation.
 
 All notifications, including monitor-health alarms, require the monitoring DynamoDB table and Secrets Manager. A table outage delays Slack delivery; retries and the failure queue retain failed events within their configured retention limits. CloudWatch alarms and AWS logs remain available independently of the table. There is no stateless Slack fallback, so storage failures cannot cause untracked repeated posts. Inspect AWS directly during a notification-path failure; Slack is not an independent alert channel for an AWS regional outage.
+
+### Weekly report
+
+One new channel post each Monday at 09:00 Europe/Oslo summarizes CDN (public
+assets), MCP (HTTP server), Analytics (API and dashboard) and Tokens (expiry
+workflow). It shows accepted observations by result, new incidents, observed and
+missing hourly windows, latest status and observation time, and active monitor
+alarms. The first report covers a partial week starting with the first accepted
+observation after deployment. Later reports cover Monday to Monday in Oslo time,
+including 167- or 169-hour weeks when daylight saving time changes. The report
+labels its timestamps as UTC and keeps the last known status visible when an
+observation is stale.
+
+Hourly counters are retained for 15 days in the existing notification state.
+Smoke checks and retries with newer timestamps count as extra observations;
+duplicate and stale observations are ignored. Extra observations in one UTC hour
+cannot cover another missing hour. Only full hourly windows after statistics
+started are expected. Missing windows indicate monitoring gaps, not confirmed
+service downtime. These AWS checks verify public endpoints, including public
+DNS; they do not verify access from the internal network.
+
+The schedule uses the existing serialized notifier, bot and failure queue. It is
+disabled when notifications are disabled. The report's text and scheduled time
+are saved before delivery and reused on retries; a sent period is skipped. As
+with incident posts, Slack delivery and state persistence are not atomic, so a
+failure after Slack accepts a post can still cause a duplicate. An undelivered
+report does not block later observations; the next week's report replaces an old
+pending report. Existing overview updates and outage/recovery posts continue.
+
+A weekly post confirms that its notification path worked when delivered. It
+cannot independently prove that AWS or Slack will remain available. Missing
+reports still require investigation alongside the existing monitor-health alarms.
 
 ### Slack app setup
 

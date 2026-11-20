@@ -72,7 +72,10 @@ test('keeps focus and announces the decision through controlled states', async (
     name: 'Keep current list',
     exact: true,
   })
-  const body = card.locator('.dnb-ai-confirmation__body')
+  // Focus moves to the labelled group, not to the role-less body
+  const group = demo.getByRole('group', {
+    name: 'Add these companies to your watchlist?',
+  })
   const reset = demo.getByRole('button', { name: 'Reset decision' })
 
   await confirm.focus()
@@ -80,14 +83,14 @@ test('keeps focus and announces the decision through controlled states', async (
   await expect(card).toHaveClass(/dnb-ai-confirmation--confirmed/)
   await expect(confirm).toBeDisabled()
   await expect(decline).toBeDisabled()
-  await expect(body).toBeFocused()
+  await expect(group).toBeFocused()
   await expect(card.locator('.dnb-aria-live')).toContainText('Bekreftet')
 
   await reset.click()
   await decline.focus()
   await decline.press('Space')
   await expect(card).toHaveClass(/dnb-ai-confirmation--declined/)
-  await expect(body).toBeFocused()
+  await expect(group).toBeFocused()
   await expect(card.locator('.dnb-badge')).toHaveText('Avslått')
 })
 

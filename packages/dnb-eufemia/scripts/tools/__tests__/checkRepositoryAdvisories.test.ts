@@ -612,6 +612,7 @@ describe('checkRepositoryAdvisories', () => {
 
     afterEach(() => {
       vi.unstubAllGlobals()
+      vi.unstubAllEnvs()
       vi.restoreAllMocks()
     })
 
@@ -641,21 +642,32 @@ describe('checkRepositoryAdvisories', () => {
       )
 
       await expect(checkRepositoryAdvisories()).rejects.toThrow(
-        'No production packages of packages/dnb-eufemia were found in yarn.lock'
+        'No production packages of packages/dnb-design-system-portal were found in yarn.lock'
       )
     })
 
     it('passes when the advisories could be read', async () => {
       stubFetch(200)
 
-      await expect(checkRepositoryAdvisories()).resolves.toEqual([])
+      await expect(
+        checkRepositoryAdvisories({ accepted: {} })
+      ).resolves.toEqual([])
     })
 
-    it('checks every workspace with an audit:ci script', () => {
+    it('checks every workspace with an audit:ci script and the Portal', () => {
       const shipped = getShippedWorkspaces()
 
       expect(shipped).toContain('packages/dnb-eufemia')
-      expect(shipped).not.toContain('packages/dnb-design-system-portal')
+      expect(shipped).toContain('packages/dnb-design-system-portal')
+      expect(shipped).not.toContain('packages/eufemia-starter')
+    })
+
+    it('checks the packages that the Portal ships to the browser', async () => {
+      stubFetch(200, undefined, [advisoryFor('react-router')])
+
+      const matches = await checkRepositoryAdvisories({ accepted: {} })
+
+      expect(matches.map(({ name }) => name)).toEqual(['react-router'])
     })
 
     it('checks the production packages of every given workspace', async () => {
@@ -663,9 +675,12 @@ describe('checkRepositoryAdvisories', () => {
       stubFetch(200, undefined, [advisoryFor('dev-only')])
 
       const ghsaIds = async (selected: string[]) =>
-        (await checkRepositoryAdvisories({ workspaces: selected })).map(
-          ({ ghsaId }) => ghsaId
-        )
+        (
+          await checkRepositoryAdvisories({
+            workspaces: selected,
+            accepted: {},
+          })
+        ).map(({ ghsaId }) => ghsaId)
 
       expect(await ghsaIds(workspaces)).toEqual(['GHSA-dev-only'])
       expect(await ghsaIds(['packages/dnb-eufemia'])).toEqual([])
@@ -689,9 +704,28 @@ describe('checkRepositoryAdvisories', () => {
 
       const matches = await checkRepositoryAdvisories({
         workspaces: ['tools/mcp-lambda'],
+        accepted: {},
       })
 
       expect(matches.map(({ ghsaId }) => ghsaId)).toEqual(['GHSA-c'])
+    })
+
+    it('checks the optional dependencies of a workspace', async () => {
+      stubWorkspaces({
+        'tools/mcp-lambda/package.json': JSON.stringify({
+          optionalDependencies: { 'dev-only': '9.0.0' },
+        }),
+      })
+      stubFetch(200, undefined, [advisoryFor('dev-only')])
+
+      const matches = await checkRepositoryAdvisories({
+        workspaces: ['tools/mcp-lambda'],
+        accepted: {},
+      })
+
+      expect(matches.map(({ ghsaId }) => ghsaId)).toEqual([
+        'GHSA-dev-only',
+      ])
     })
 
     it('does not report an accepted advisory', async () => {
@@ -699,12 +733,12 @@ describe('checkRepositoryAdvisories', () => {
       stubFetch(200, undefined, [advisoryFor('c')])
 
       await expect(
-        checkRepositoryAdvisories({ workspaces })
+        checkRepositoryAdvisories({ workspaces, accepted: {} })
       ).resolves.toEqual([expect.objectContaining({ ghsaId: 'GHSA-c' })])
       await expect(
         checkRepositoryAdvisories({
           workspaces,
-          accepted: { 'GHSA-c': 'Tracked in #1' },
+          accepted: { 'c@3.0.1 GHSA-c': 'Tracked in #1' },
         })
       ).resolves.toEqual([])
     })
@@ -716,9 +750,64 @@ describe('checkRepositoryAdvisories', () => {
       await expect(
         checkRepositoryAdvisories({
           workspaces,
-          accepted: { 'GHSA-fixed': 'Tracked in #1' },
+          accepted: { 'c@3.0.1 GHSA-fixed': 'Tracked in #1' },
         })
-      ).rejects.toThrow('GHSA-fixed no longer affects a shipped package')
+      ).rejects.toThrow(
+        'c@3.0.1 GHSA-fixed no longer affects a shipped package'
+      )
+    })
+
+    it('reports an accepted advisory again when the package version changes', async () => {
+      stubWorkspaces()
+      stubFetch(200, undefined, [advisoryFor('c')])
+
+      await expect(
+        checkRepositoryAdvisories({
+          workspaces,
+          accepted: { 'c@3.0.0 GHSA-c': 'Tracked in #1' },
+        })
+      ).rejects.toThrow(
+        'c@3.0.0 GHSA-c no longer affects a shipped package'
+      )
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/^low: c@3\.0\.1 GHSA-c /)
+      )
+    })
+
+    it('stops before it uses up the GitHub API requests of the hour', async () => {
+      stubWorkspaces()
+      vi.stubEnv('GH_TOKEN', 'token')
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(async (url: string) =>
+          url.startsWith('https://registry.npmjs.org/')
+            ? {
+                ok: true,
+                status: 200,
+                json: async () => ({
+                  repository: { url: 'https://github.com/owner/repo' },
+                }),
+              }
+            : {
+                ok: true,
+                status: 200,
+                headers: new Headers({ 'x-ratelimit-remaining': '199' }),
+                json: async () => [],
+              }
+        )
+      )
+
+      await expect(
+        checkRepositoryAdvisories({ workspaces, accepted: {} })
+      ).rejects.toThrow('Stopped with 199 GitHub API requests left')
+
+      // Without a token, the requests are not shared with other workflows
+      vi.stubEnv('GH_TOKEN', '')
+      vi.stubEnv('GITHUB_TOKEN', '')
+
+      await expect(
+        checkRepositoryAdvisories({ workspaces, accepted: {} })
+      ).resolves.toEqual([])
     })
 
     it('reads every page of advisories on the GitHub API', async () => {
@@ -769,7 +858,10 @@ describe('checkRepositoryAdvisories', () => {
       })
       vi.stubGlobal('fetch', fetchMock)
 
-      const matches = await checkRepositoryAdvisories({ workspaces })
+      const matches = await checkRepositoryAdvisories({
+        workspaces,
+        accepted: {},
+      })
 
       expect(matches.map(({ ghsaId }) => ghsaId)).toContain(
         'GHSA-next-page'

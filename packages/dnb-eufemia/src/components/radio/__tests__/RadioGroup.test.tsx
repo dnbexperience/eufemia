@@ -10,6 +10,37 @@ import Radio from '../Radio'
 import { Provider } from '../../../shared'
 
 describe('Radio group component', () => {
+  it('puts aria-label and aria-labelledby on the radiogroup, not on the shell', () => {
+    const { rerender } = render(
+      <Radio.Group aria-label="Group name">
+        <Radio label="A" value="a" />
+      </Radio.Group>
+    )
+
+    // A span has no role, so the name must be on the element with the radiogroup role
+    const group = document.querySelector('[role="radiogroup"]')
+    expect(group).toHaveAttribute('aria-label', 'Group name')
+    expect(
+      document.querySelector('.dnb-radio-group__shell')
+    ).not.toHaveAttribute('aria-label')
+
+    rerender(
+      <>
+        <span id="external">External</span>
+        <Radio.Group id="group" label="Visible" aria-labelledby="external">
+          <Radio label="A" value="a" />
+        </Radio.Group>
+      </>
+    )
+    expect(document.querySelector('[role="radiogroup"]')).toHaveAttribute(
+      'aria-labelledby',
+      'group-label external'
+    )
+    expect(
+      document.querySelector('.dnb-radio-group__shell')
+    ).not.toHaveAttribute('aria-labelledby')
+  })
+
   it('keeps an empty option value separate from the selected group value', async () => {
     const user = userEvent.setup()
     render(

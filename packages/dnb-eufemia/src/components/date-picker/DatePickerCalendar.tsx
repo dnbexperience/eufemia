@@ -153,7 +153,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setSubmittedDates,
     views,
     setViews,
-    props: { link: isLinkedCalendars, onDaysRender, yearNavigation },
+    props: {
+      link: isLinkedCalendars,
+      onDaysRender,
+      yearNavigation,
+      skeleton,
+    },
     translation: {
       DatePicker: {
         firstDay: defaultFirstDayOfWeek,
@@ -775,7 +780,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       <table
         role="grid"
         className="dnb-no-focus"
-        tabIndex={0}
+        tabIndex={skeleton ? -1 : 0}
         aria-labelledby={combineLabelledBy(
           (hasNavigation || hasMonthLabel) && `${id}--title`,
           hasNavigation && yearNavigation && `${id}--year-title`
@@ -790,7 +795,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   : { month: 'long', year: 'numeric' },
               })
         }
-        onKeyDown={onKeyDownHandler}
+        onKeyDown={skeleton ? undefined : onKeyDownHandler}
         onMouseLeave={onMouseLeaveHandler}
         ref={tableRef}
       >
@@ -896,6 +901,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         variant="secondary"
                         text={day.date.getDate()}
                         bounding
+                        skeleton={skeleton}
                         hidden={isHiddenAdjacentMonthDate}
                         disabled={handleAsDisabled}
                         tabIndex={

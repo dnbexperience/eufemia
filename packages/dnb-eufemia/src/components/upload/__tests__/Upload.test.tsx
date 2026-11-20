@@ -2705,6 +2705,54 @@ describe('Upload', () => {
     const input = document.querySelector('.dnb-upload input')
     expect(input).toBeDisabled()
   })
+
+  it.each([
+    ['disabled', { disabled: true }, {}],
+    ['formElement disabled', {}, { formElement: { disabled: true } }],
+  ])(
+    'should disable the delete button when %s',
+    (_name, uploadProps, providerProps) => {
+      const id = `delete-button-${_name}`
+      const onChange = vi.fn()
+      const files = [
+        { file: createMockFile('fileName.png', 100, 'image/png') },
+      ]
+
+      render(
+        <Provider {...providerProps}>
+          <Upload
+            {...defaultProps}
+            {...uploadProps}
+            id={id}
+            onChange={onChange}
+          />
+        </Provider>
+      )
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [setFiles])
+
+        return null
+      }
+
+      render(<MockComponent />)
+
+      const deleteButton = document.querySelector(
+        '.dnb-upload__file-cell button'
+      )
+
+      expect(deleteButton).toBeDisabled()
+
+      fireEvent.click(deleteButton)
+
+      expect(
+        document.querySelector('.dnb-upload__file-cell')
+      ).toBeInTheDocument()
+      expect(onChange).not.toHaveBeenCalled()
+    }
+  )
 })
 
 describe('Upload aria', () => {

@@ -30,6 +30,7 @@
   --illustration-line: var(--token-color-stroke-neutral-subtle);
   --illustration-soft: var(--token-color-background-selected-subtle);
   --illustration-ink: var(--token-color-text-neutral);
+  --illustration-button-radius: min(14px, var(--token-radius-full));
 
   svg {
     display: block;

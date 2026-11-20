@@ -433,6 +433,19 @@ async function fetchAdvisories(
 
   while (url) {
     const response = await fetch(url, { headers })
+
+    // Every workflow of the repository shares the hourly requests of the token
+    const remaining = response.headers.get('x-ratelimit-remaining')
+    if (
+      headers.Authorization &&
+      remaining !== null &&
+      Number(remaining) < 200
+    ) {
+      throw new Error(
+        `Stopped with ${remaining} GitHub API requests left this hour, so other workflows can still use them. Run the check again later.`
+      )
+    }
+
     if (response.status === 404) {
       console.log(`Skipped ${url}: not found`)
       return null
@@ -460,6 +473,14 @@ function readManifest(workspace: string) {
   )
 }
 
+// Optional dependencies are installed in production too
+function getProductionDependencies(
+  workspace: string
+): Record<string, string> {
+  const { dependencies, optionalDependencies } = readManifest(workspace)
+  return { ...dependencies, ...optionalDependencies }
+}
+
 function getWorkspaces() {
   const { workspaces } = readManifest('.')
 
@@ -479,15 +500,21 @@ function getWorkspaces() {
     )
 }
 
-// Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas
+// Workspaces with an `audit:ci` script are the ones we ship: the npm library and the deployed Lambdas.
+// The Portal is not in the audit gate, but its build fails when it ships a package that its `dependencies` do not bring in.
 export function getShippedWorkspaces() {
-  return getWorkspaces().filter((workspace) =>
-    Boolean(readManifest(workspace).scripts?.['audit:ci'])
+  return getWorkspaces().filter(
+    (workspace) =>
+      workspace === 'packages/dnb-design-system-portal' ||
+      Boolean(readManifest(workspace).scripts?.['audit:ci'])
   )
 }
 
-// GHSA ID -> owner, reason and tracking link
-const acceptedAdvisories: Record<string, string> = {}
+// "name@version GHSA ID" -> owner, reason and tracking link. Another version of the package needs a new check
+const acceptedAdvisories: Record<string, string> = {
+  'prettier@3.8.1 GHSA-4cm8-f57v-mqm6':
+    '@langz: only prettier >=3.9.0 <=3.9.9 is affected; the note "3.9.9 tested" makes the range unreadable. https://github.com/prettier/prettier/security/advisories/GHSA-4cm8-f57v-mqm6',
+}
 
 export async function checkRepositoryAdvisories({
   workspaces = getShippedWorkspaces(),
@@ -514,7 +541,7 @@ export async function checkRepositoryAdvisories({
     const linked = [workspace]
     for (const current of linked) {
       for (const [name, range] of Object.entries(
-        readManifest(current).dependencies ?? {}
+        getProductionDependencies(current)
       )) {
         const target = workspacesByName.get(name)
         if (
@@ -528,10 +555,7 @@ export async function checkRepositoryAdvisories({
     }
 
     const workspacePackages = linked.flatMap((current) =>
-      getProductionPackages(
-        entries,
-        readManifest(current).dependencies ?? {}
-      )
+      getProductionPackages(entries, getProductionDependencies(current))
     )
     if (workspacePackages.length === 0) {
       throw new Error(
@@ -581,8 +605,12 @@ export async function checkRepositoryAdvisories({
   console.log(
     `Checked ${packages.size} production packages of ${workspaces.length} workspaces in ${advisoriesByRepository.size} GitHub repositories.`
   )
+
+  const getAcceptedKey = ({ name, version, ghsaId }: AdvisoryMatch) =>
+    `${name}@${version} ${ghsaId}`
+
   for (const match of matches) {
-    const reason = accepted[match.ghsaId]
+    const reason = accepted[getAcceptedKey(match)]
     console.log(
       `${reason ? 'accepted' : match.severity}: ${match.name}@${match.version} ${match.ghsaId} ${match.summary} (${match.url})${reason ? ` ${reason}` : ''}`
     )
@@ -594,7 +622,7 @@ export async function checkRepositoryAdvisories({
   }
 
   const stale = Object.keys(accepted).filter(
-    (ghsaId) => !matches.some((match) => match.ghsaId === ghsaId)
+    (key) => !matches.some((match) => getAcceptedKey(match) === key)
   )
   if (stale.length > 0) {
     throw new Error(
@@ -602,7 +630,7 @@ export async function checkRepositoryAdvisories({
     )
   }
 
-  return matches.filter(({ ghsaId }) => !accepted[ghsaId])
+  return matches.filter((match) => !accepted[getAcceptedKey(match)])
 }
 
 if (require.main === module) {

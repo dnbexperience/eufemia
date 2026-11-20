@@ -140,8 +140,9 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
   const { skeleton, ...attributes } = validateDOMAttributes({}, props)
 
   return (
+    // Share only what the Avatars need. Other props, such as id and aria-label, belong to the group
     <AvatarGroupContext
-      value={{ ...props, variant, size, color, backgroundColor }}
+      value={{ skeleton, variant, size, color, backgroundColor }}
     >
       <span {...rootProps} {...attributes}>
         <span className="dnb-sr-only">{label}</span>

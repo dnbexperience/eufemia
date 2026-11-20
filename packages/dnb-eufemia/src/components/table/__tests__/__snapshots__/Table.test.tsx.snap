@@ -14,8 +14,8 @@ exports[`Table scss > should match style dependencies css 1`] = `
  */
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
-  --table-highlight-background: var(--token-color-decorative-first-subtle);
-  --table-th-highlight-border: var(--token-color-stroke-neutral-subtle);
+  --table-highlight-background: var(--token-color-decorative-first-muted);
+  --table-th-highlight-border: var(--token-color-decorative-first-subtle);
   display: table;
   table-layout: auto;
   width: 100%;
@@ -332,15 +332,15 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   line-height: var(--line-height-basis);
   vertical-align: bottom;
 }
-.dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
+.dnb-table__size--medium :is(.dnb-table__th, thead th) {
   padding: 1.375rem 1rem 0.875rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
-.dnb-table__size--medium .dnb-table__th .dnb-button__text, .dnb-table__size--medium .dnb-table thead th .dnb-button__text {
+.dnb-table__size--medium :is(.dnb-table__th, thead th) .dnb-button__text {
   line-height: inherit;
 }
-.dnb-table__size--small .dnb-table__th, .dnb-table__size--small .dnb-table thead th {
+.dnb-table__size--small :is(.dnb-table__th, thead th) {
   padding: 1.25rem 1rem 0.5rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
@@ -360,16 +360,12 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   padding: 1rem;
   vertical-align: baseline;
 }
-.dnb-table__size--medium tbody .dnb-table__th, .dnb-table__size--medium tbody .dnb-table__td,
-.dnb-table__size--medium .dnb-table tbody th,
-.dnb-table__size--medium .dnb-table tbody td {
+.dnb-table__size--medium tbody :is(.dnb-table__th, .dnb-table__td, th, td) {
   padding: 0.875rem 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
-.dnb-table__size--small tbody .dnb-table__th, .dnb-table__size--small tbody .dnb-table__td,
-.dnb-table__size--small .dnb-table tbody th,
-.dnb-table__size--small .dnb-table tbody td {
+.dnb-table__size--small tbody :is(.dnb-table__th, .dnb-table__td, th, td) {
   padding: 0.625rem 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
@@ -798,15 +794,27 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   outline: none;
 }
 
-.dnb-table__tr--vertical-align-top .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-top, .dnb-table__tr--vertical-align-top .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-top {
+.dnb-table .dnb-table__tr--vertical-align-top > :is(th, td, .dnb-table__th, .dnb-table__td) {
   vertical-align: top;
 }
 
-.dnb-table__tr--vertical-align-middle .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-middle, .dnb-table__tr--vertical-align-middle .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-middle {
+.dnb-table .dnb-table__tr--vertical-align-middle > :is(th, td, .dnb-table__th, .dnb-table__td) {
   vertical-align: middle;
 }
 
-.dnb-table__tr--vertical-align-bottom .dnb-table thead th, .dnb-table thead th.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table tbody td, .dnb-table tbody td.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table__th, .dnb-table__th.dnb-table__td--vertical-align-bottom, .dnb-table__tr--vertical-align-bottom .dnb-table__td, .dnb-table__td.dnb-table__td--vertical-align-bottom {
+.dnb-table .dnb-table__tr--vertical-align-bottom > :is(th, td, .dnb-table__th, .dnb-table__td) {
+  vertical-align: bottom;
+}
+
+.dnb-table .dnb-table__td.dnb-table__td--vertical-align-top {
+  vertical-align: top;
+}
+
+.dnb-table .dnb-table__td.dnb-table__td--vertical-align-middle {
+  vertical-align: middle;
+}
+
+.dnb-table .dnb-table__td.dnb-table__td--vertical-align-bottom {
   vertical-align: bottom;
 }
 
@@ -941,7 +949,7 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   margin-bottom: 0;
 }
 
-.dnb-table__container__body .dnb-table__size--large .dnb-table__th {
+.dnb-table__container__body .dnb-table__size--large thead :is(.dnb-table__th, th) {
   padding-top: 1.5rem;
 }
 

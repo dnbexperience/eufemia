@@ -187,7 +187,8 @@
     }
   }
 
-  &--no-icon .dnb-icon {
+  // The doubled class hides icons that set their own display, such as country flags.
+  &--no-icon .dnb-icon.dnb-icon {
     display: none;
   }
 

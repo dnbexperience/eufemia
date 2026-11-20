@@ -1,0 +1,65 @@
+name: IaC scan
+
+# Scans the Terraform in tools/*/infra with a pinned Trivy binary (SHA-256
+# checked) instead of aquasecurity/trivy-action (GHSA-69fq-xp46-6x23).
+# `--skip-check-update` keeps the checks built into that binary. To update,
+# change TRIVY_VERSION and TRIVY_SHA256 together, from
+# trivy_<version>_checksums.txt of that release.
+# Known findings: tools/iac-scan-baseline.rego.
+#
+# Pull requests have no path filter, so the job can be a required check: a
+# workflow skipped by a path filter reports no status and blocks the merge.
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    paths:
+      - 'tools/*/infra/**'
+      - 'tools/iac-scan-baseline.rego'
+      - '.github/workflows/iac-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: iac-scan-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  trivy:
+    name: Scan Terraform
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TRIVY_VERSION: '0.76.2'
+      TRIVY_SHA256: 'bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Install Trivy
+        run: |
+          archive="$RUNNER_TEMP/trivy.tar.gz"
+          curl --fail --silent --show-error --location --output "$archive" \
+            "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz"
+          echo "${TRIVY_SHA256}  ${archive}" | sha256sum --check --strict
+          tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP" trivy
+          "$RUNNER_TEMP/trivy" --version
+
+      - name: Scan Terraform
+        # Without a checks cache, Trivy logs "Falling back to embedded checks" at
+        # ERROR level. That is expected here: the embedded checks are the pinned ones.
+        run: |
+          "$RUNNER_TEMP/trivy" config \
+            --skip-check-update \
+            --misconfig-scanners terraform \
+            --ignore-policy tools/iac-scan-baseline.rego \
+            --exit-code 1 \
+            tools

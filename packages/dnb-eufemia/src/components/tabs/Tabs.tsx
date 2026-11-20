@@ -367,7 +367,7 @@ function TabsComponent(ownProps: TabsProps) {
         warn('Tabs: Failed to read last used tab from localStorage:', e)
       }
     }
-    return -1
+    return null
   }
 
   const saveLastUsedTab = () => {
@@ -762,6 +762,20 @@ function TabsComponent(ownProps: TabsProps) {
     previousSelectionKeyRef.current = selectedKey
   }, [data, selectedKey, updateSelection])
 
+  useIsomorphicLayoutEffect(() => {
+    if (typeof ResizeObserver === 'undefined') {
+      return undefined
+    }
+
+    // Focus spacing changes the tab positions without resizing the tablist.
+    const observer = new ResizeObserver(() => updateSelection())
+    tablistRef.current
+      ?.querySelectorAll('.dnb-tabs__button__snap')
+      .forEach((tab) => observer.observe(tab))
+
+    return () => observer.disconnect()
+  }, [data, updateSelection])
+
   const onResizeHandler = useCallback(() => {
     const scrollbarVisible = checkHasScrollbar()
     setHasScrollbar(scrollbarVisible)
@@ -875,14 +889,14 @@ function TabsComponent(ownProps: TabsProps) {
   // Navigation handlers
   const focusFirstTab = (e: KeyboardEvent) => {
     const key = dataRef.current[0].key
-    focusTab(key, e, 'step')
+    focusTab(key, e)
     scrollToTab({ type: 'focus' })
   }
 
   const focusLastTab = (e: KeyboardEvent) => {
     const d = dataRef.current
     const key = d[d.length - 1].key
-    focusTab(key, e, 'step')
+    focusTab(key, e)
     scrollToTab({ type: 'focus' })
   }
 
@@ -1106,6 +1120,7 @@ function TabsComponent(ownProps: TabsProps) {
       noBorder,
       navButtonEdge,
       breakout,
+      skeleton,
     } = propsRef.current
 
     return (
@@ -1134,7 +1149,8 @@ function TabsComponent(ownProps: TabsProps) {
         ref={tabsRef}
       >
         <ScrollNavButton
-          onMouseDown={openPrevTab}
+          onMouseDown={skeleton ? undefined : openPrevTab}
+          skeleton={skeleton}
           icon="chevron_left"
           title={prevButtonTitle}
           className={clsx(
@@ -1149,7 +1165,8 @@ function TabsComponent(ownProps: TabsProps) {
         {children}
 
         <ScrollNavButton
-          onMouseDown={openNextTab}
+          onMouseDown={skeleton ? undefined : openNextTab}
+          skeleton={skeleton}
           icon="chevron_right"
           title={nextButtonTitle}
           className={clsx(
@@ -1249,6 +1266,8 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     const currentFocusKey = focusKeyRef.current
     const currentSelectedKey = selectedKeyRef.current
     const currentContext = contextRef.current
+    const isSkeleton =
+      skeleton || (skeleton !== false && currentContext?.skeleton)
 
     const TabElement = tabElement || 'button'
 
@@ -1300,7 +1319,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                 isSelected && 'selected'
               )}
               onMouseEnter={onMouseEnterHandler}
-              onClick={onClickHandler}
+              onClick={isSkeleton ? preventDefault : onClickHandler}
               onKeyUp={onKeyUpHandler}
               data-tab-key={key}
               {...itemParams}
@@ -1348,9 +1367,12 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       <>
         <div
           role="tablist"
-          className="dnb-tabs__tabs__tablist"
-          tabIndex={0}
-          onKeyDown={onTablistKeyDownHandler}
+          className={clsx(
+            'dnb-tabs__tabs__tablist',
+            isSkeleton && 'dnb-tabs__tabs__tablist--skeleton'
+          )}
+          tabIndex={isSkeleton ? -1 : 0}
+          onKeyDown={isSkeleton ? undefined : onTablistKeyDownHandler}
           onWheelCapture={onTablistWheelHandler}
           onScroll={updateScrollNavigation}
           ref={tablistRef}
@@ -1503,6 +1525,8 @@ export const Dummy = ({ children }: { children: ReactNode }) => {
     </span>
   )
 }
+
+const preventDefault = (event: SyntheticEvent) => event.preventDefault()
 
 const ScrollNavButton = (
   props: Record<string, unknown> & { className?: string }

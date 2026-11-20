@@ -8,13 +8,14 @@
 }
 
 .headerStyle {
-  &[data-home] {
-    pointer-events: none;
+  /* The header is transparent, so let clicks reach the content behind it */
+  pointer-events: none;
 
-    .leadingStyle {
-      pointer-events: auto;
-    }
+  .leadingStyle,
+  .toolsStyle {
+    pointer-events: auto;
   }
+
   position: fixed;
 
   // When using view transitions, like in the table component,

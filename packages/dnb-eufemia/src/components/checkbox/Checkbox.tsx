@@ -72,6 +72,11 @@ export type CheckboxProps = {
    */
   labelSrOnly?: boolean
   /**
+   * The `id` of the label element. Defaults to `{id}-label`.
+   * @private For internal use only.
+   */
+  labelId?: string
+  /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
    */
   title?: string
@@ -149,6 +154,7 @@ function Checkbox(localProps: CheckboxProps) {
     label,
     labelPosition,
     labelSrOnly,
+    labelId: labelIdProp,
     title,
     element,
     disabled,
@@ -167,6 +173,7 @@ function Checkbox(localProps: CheckboxProps) {
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
+  const labelId = labelIdProp ?? id + '-label'
 
   const internalRef = useRef<HTMLInputElement>(undefined)
   const ref = useCombinedRef(refProp, internalRef)
@@ -343,7 +350,7 @@ function Checkbox(localProps: CheckboxProps) {
       globalStatus={globalStatus}
       label={label}
       textId={id + '-status'} // used for "aria-describedby"
-      widthSelector={id + ', ' + id + '-label'}
+      widthSelector={id + ', ' + labelId}
       text={status}
       state={statusState}
       noAnimation={statusNoAnimation}
@@ -359,7 +366,7 @@ function Checkbox(localProps: CheckboxProps) {
       <span className="dnb-checkbox__order">
         {label && (
           <FormLabel
-            id={id + '-label'}
+            id={labelId}
             forId={id}
             text={label}
             disabled={disabled}

@@ -13,6 +13,7 @@ import type {
   SyntheticEvent,
   TableHTMLAttributes,
 } from 'react'
+import Context from '../../../shared/Context'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import chevron_down from '../../../icons/chevron_down'
@@ -83,6 +84,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     ...props
   } = allProps
   const tableContext = useContext(TableContext)
+  const { skeleton } = useContext(Context)
   const canUseDOM = useCanUseDOM()
 
   const [trIsOpen, setOpen] = useState(() => {
@@ -120,7 +122,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     accordionContent.length !== 0 &&
     accordionContent.every((element) => isValidElement(element))
 
-  const isInteractive = hasAccordionContent && !disabled
+  const isInteractive = hasAccordionContent && !disabled && !skeleton
 
   const addContent = useCallback(
     (content: ReturnType<typeof Children.toArray>[number]) => {

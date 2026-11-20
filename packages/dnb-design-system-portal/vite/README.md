@@ -65,6 +65,7 @@ In production, `prerender.mjs` builds the client and server bundles, collects ro
 - `test-page-filter` limits production builds to the routes needed for visual and e2e test runs.
 - `eufemia-prebuild` rewrites `@dnb/eufemia`, `@dnb/eufemia/src/...`, and public package subpaths to `@dnb/eufemia/build/...` when a prebuilt package is available.
 - `build-info` computes `releaseVersion` and `buildVersion` at build time.
+- `production-dependencies` fails the client build when it includes a package that `dependencies` do not bring in, so the dependency checks see what the browser gets.
 
 ## Production Scripts
 

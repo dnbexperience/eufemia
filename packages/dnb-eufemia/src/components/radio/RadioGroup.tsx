@@ -160,7 +160,15 @@ function RadioGroup(ownProps: RadioGroupProps) {
     ),
   })
 
-  const params = { ...rest }
+  // The name belongs to the element with the radiogroup role, not to the shell span
+  const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    ...params
+  } = rest as typeof rest & {
+    'aria-label'?: string
+    'aria-labelledby'?: string
+  }
   const legendId = id + '-label'
 
   if (showStatus || suffix) {
@@ -192,7 +200,12 @@ function RadioGroup(ownProps: RadioGroupProps) {
         <AlignmentHelper />
         <Fieldset
           className="dnb-radio-group__fieldset"
-          aria-labelledby={label ? legendId : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={
+            [label ? legendId : null, ariaLabelledBy]
+              .filter(Boolean)
+              .join(' ') || undefined
+          }
           aria-readonly={readOnly || undefined}
           role="radiogroup"
         >

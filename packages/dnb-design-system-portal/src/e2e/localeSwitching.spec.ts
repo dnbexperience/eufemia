@@ -47,14 +47,10 @@ test.describe('Locale switching', () => {
         .getByRole('button', { name: 'Close', exact: true })
     ).toBeVisible()
 
-    // Click the locale dropdown trigger using its label
-    const dropdown = page.getByLabel('Change components language')
-    await dropdown.click()
-
-    // Select English (GB) from the dropdown options (rendered in portal)
+    // Select the English (GB) chip
     await page
-      .locator('li.dnb-drawer-list__option')
-      .filter({ hasText: 'English (GB)' })
+      .getByRole('dialog', { name: 'Settings', exact: true })
+      .getByRole('radio', { name: 'English (GB)', exact: true })
       .click()
 
     // Verify localStorage was updated

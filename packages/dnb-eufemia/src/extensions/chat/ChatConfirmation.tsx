@@ -38,7 +38,7 @@ export default function ChatConfirmation(props: ChatConfirmationProps) {
   } = props
   const translation = useTranslation().Chat
   const id = useId()
-  const bodyRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLElement>(null)
   const confirmRef = useRef<HTMLElement>(null)
   const declineRef = useRef<HTMLElement>(null)
   const hasButtonFocus = useRef(false)
@@ -68,7 +68,8 @@ export default function ChatConfirmation(props: ChatConfirmationProps) {
         active === document.body ||
         !active)
     ) {
-      bodyRef.current?.focus()
+      // Focus the labelled group, so screen readers say what it is
+      rootRef.current?.focus()
     }
     if (unavailable) {
       hasButtonFocus.current = false
@@ -103,15 +104,11 @@ export default function ChatConfirmation(props: ChatConfirmationProps) {
       role="group"
       aria-labelledby={id + '-title'}
       aria-describedby={id + '-description ' + id + '-state'}
+      tabIndex={-1}
       {...rootProps}
+      ref={rootRef}
     >
-      <div
-        className="dnb-ai-confirmation__body"
-        ref={bodyRef}
-        tabIndex={-1}
-        aria-labelledby={id + '-title'}
-        aria-describedby={id + '-state'}
-      >
+      <div className="dnb-ai-confirmation__body">
         <div className="dnb-ai-confirmation__header">
           <H
             element={`h${level}`}

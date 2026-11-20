@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
   `Dialog for %s`,
   (themeName) => {
     setupPageScreenshot({

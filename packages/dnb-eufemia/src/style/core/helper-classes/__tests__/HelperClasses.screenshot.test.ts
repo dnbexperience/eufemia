@@ -4,61 +4,64 @@ import {
   setupPageScreenshot,
 } from '../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`HelperClasses for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/ai-tools-and-resources/utilities/classes/visual-tests/',
-  })
-
-  it('have to match core-style', async () => {
-    await makeScreenshot({
-      withWrapper: false,
-      selector: '[data-visual-test="helper-core-style"]',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `HelperClasses for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/ai-tools-and-resources/utilities/classes/visual-tests/',
     })
-  })
 
-  it('have to match tap-focus', async () => {
-    await makeScreenshot({
-      withWrapper: false,
-      selector: '[data-visual-test="helper-tap-focus"]',
+    it('have to match core-style', async () => {
+      await makeScreenshot({
+        withWrapper: false,
+        selector: '[data-visual-test="helper-core-style"]',
+      })
     })
-  })
 
-  it('have to match unstyled-list', async () => {
-    await makeScreenshot({
-      withWrapper: false,
-      selector: '[data-visual-test="helper-unstyled-list"]',
+    it('have to match tap-focus', async () => {
+      await makeScreenshot({
+        withWrapper: false,
+        selector: '[data-visual-test="helper-tap-focus"]',
+      })
     })
-  })
 
-  it('have to match sr-only', async () => {
-    await makeScreenshot({
-      withWrapper: false,
-      selector: '[data-visual-test="helper-sr-only"]',
+    it('have to match unstyled-list', async () => {
+      await makeScreenshot({
+        withWrapper: false,
+        selector: '[data-visual-test="helper-unstyled-list"]',
+      })
     })
-  })
 
-  it('have to match selection', async () => {
-    await makeScreenshot({
-      withWrapper: false,
-      selector: '[data-visual-test="helper-selection"]',
+    it('have to match sr-only', async () => {
+      await makeScreenshot({
+        withWrapper: false,
+        selector: '[data-visual-test="helper-sr-only"]',
+      })
     })
-  })
 
-  it('have to match fieldset reset', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="helper-fieldset-reset"] fieldset',
+    it('have to match selection', async () => {
+      await makeScreenshot({
+        withWrapper: false,
+        selector: '[data-visual-test="helper-selection"]',
+      })
     })
-  })
 
-  it('have to match focused skip link', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="skip-link"] .dnb-skip-link',
-      style: { position: 'relative', top: 'auto', left: 'auto' },
-      simulate: 'focus',
+    it('have to match fieldset reset', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="helper-fieldset-reset"] fieldset',
+      })
     })
-  })
-})
+
+    it('have to match focused skip link', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="skip-link"] .dnb-skip-link',
+        style: { position: 'relative', top: 'auto', left: 'auto' },
+        simulate: 'focus',
+      })
+    })
+  }
+)
 
 describe('media', () => {
   const selector = '[data-visual-test="helper-media-offset"] ul'

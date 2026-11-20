@@ -16,23 +16,27 @@ const sections = {
     'success',
   ],
   sbanken: ['default', 'information', 'error', 'warning', 'success'],
+  coconut: ['default', 'information', 'error', 'warning', 'success'],
 }
 
-describe.each(['ui', 'sbanken'])(`Section for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/section/demos/',
-  })
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Section for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/section/demos/',
+    })
 
-  it.each(sections[themeName])(
-    `have to match %s section`,
-    async (...[sectionName]) => {
-      await makeScreenshot({
-        selector: `[data-visual-test="section-${sectionName}"]`,
-      })
-    }
-  )
-})
+    it.each(sections[themeName])(
+      `have to match %s section`,
+      async (...[sectionName]) => {
+        await makeScreenshot({
+          selector: `[data-visual-test="section-${sectionName}"]`,
+        })
+      }
+    )
+  }
+)
 
 describe('Responsive', () => {
   it('have to match section on "small" size', async () => {

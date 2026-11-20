@@ -217,6 +217,32 @@ describe('Field.Upload', () => {
     expect(document.querySelector('button')).toHaveAttribute('disabled')
   })
 
+  it('should not delete files when disabled', () => {
+    const onChange = vi.fn()
+    render(
+      <Field.Upload
+        disabled
+        value={[
+          { file: createMockFile('fileName-1.png', 100, 'image/png') },
+        ]}
+        onChange={onChange}
+      />
+    )
+
+    const deleteButton = document.querySelector(
+      '.dnb-upload__file-cell button'
+    )
+
+    expect(deleteButton).toBeDisabled()
+
+    fireEvent.click(deleteButton)
+
+    expect(
+      document.querySelector('.dnb-upload__file-cell')
+    ).toBeInTheDocument()
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
   it('should support setting custom content using children', () => {
     render(<Field.Upload>My custom content</Field.Upload>)
 

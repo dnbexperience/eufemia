@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/tabs/demos/',
@@ -142,6 +142,34 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
     })
   })
 
+  it('have to match the first tab focused without keyboard input', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
+      executeBeforeSimulate: () => {
+        document.documentElement.setAttribute('data-whatinput', 'mouse')
+        document
+          .querySelector<HTMLButtonElement>(
+            '[data-visual-test="tabs-tablist"] .dnb-tabs__button__snap:first-of-type button'
+          )
+          .focus()
+      },
+    })
+  })
+
+  it('have to match the last tab focused without keyboard input', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
+      executeBeforeSimulate: () => {
+        document.documentElement.setAttribute('data-whatinput', 'mouse')
+        document
+          .querySelector<HTMLButtonElement>(
+            '[data-visual-test="tabs-tablist"] .dnb-tabs__button__snap:last-of-type button'
+          )
+          .focus()
+      },
+    })
+  })
+
   it('have to match tabs content with focus ring', async () => {
     await makeScreenshot({
       selector:
@@ -156,7 +184,7 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   })
 })
 
-describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/tabs/demos/',
@@ -177,7 +205,7 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   })
 })
 
-describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/components/tabs/demos/',

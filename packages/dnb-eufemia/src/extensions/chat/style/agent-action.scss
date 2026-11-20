@@ -31,7 +31,13 @@
 
   &__status {
     min-width: 0;
-    outline-offset: 0.25rem;
+
+    // Shown when focus moves here after Undo
+    @include utilities.focusVisible() {
+      @include utilities.focusOutline($offset: 0.25rem);
+
+      border-radius: var(--token-radius-sm);
+    }
   }
 
   &__label > &__text,

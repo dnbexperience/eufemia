@@ -195,22 +195,27 @@ export function AnchorComponent(localProps: AnchorAllProps) {
 
   if (isDisabled) {
     attributes.disabled = true
+  }
 
-    if (as === 'a') {
-      attributes.tabIndex = -1
-      attributes['aria-disabled'] = true
+  if ((isDisabled || attributes.skeleton) && as === 'a') {
+    attributes.tabIndex = -1
+    attributes['aria-disabled'] = true
 
-      if (attributes.href) {
-        delete attributes.href
-      }
-      if (attributes.to) {
-        delete attributes.to
-      }
+    // Without href, an "a" has no role, which does not allow aria-disabled or a name
+    if (!attributes.role) {
+      attributes.role = 'link'
+    }
 
-      attributes.onClick = (event) => {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+    if (attributes.href) {
+      delete attributes.href
+    }
+    if (attributes.to) {
+      delete attributes.to
+    }
+
+    attributes.onClick = (event) => {
+      event.preventDefault()
+      event.stopPropagation()
     }
   }
 

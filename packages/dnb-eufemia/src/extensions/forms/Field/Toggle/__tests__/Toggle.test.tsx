@@ -1942,4 +1942,37 @@ describe('Field.Toggle', () => {
       })
     }
   )
+
+  describe.each(['button', 'checkbox-button'] as const)(
+    'variant: %s with label',
+    (variant) => {
+      it('does not repeat the label id in the Chip', () => {
+        render(
+          <Field.Toggle
+            id="toggle"
+            valueOn="on"
+            valueOff="off"
+            variant={variant}
+            label="Toggle label"
+          />
+        )
+
+        // The field label keeps {id}-label, the Chip text gets its own id
+        expect(document.getElementById('toggle-label')).toHaveTextContent(
+          'Toggle label'
+        )
+        expect(
+          document.getElementById('toggle-chip-label')
+        ).toHaveTextContent('Nei')
+        expect(
+          document.querySelectorAll('label[for="toggle"]')
+        ).toHaveLength(2)
+
+        const ids = Array.from(document.querySelectorAll('[id]')).map(
+          (element) => element.id
+        )
+        expect(ids).toHaveLength(new Set(ids).size)
+      })
+    }
+  )
 })

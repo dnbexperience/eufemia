@@ -193,6 +193,11 @@
 
   &__action.dnb-button--icon-only,
   > .dnb-button--icon-only {
+    .dnb-button__bounding {
+      inset: 0;
+      transform: scale(1.1, 1.4);
+    }
+
     &.dnb-button--selected {
       --button-color-bg--focus: var(
         --token-color-background-selected-subtle
@@ -438,6 +443,17 @@
   & .dnb-ai-message--user,
   &__item--user {
     scroll-margin-top: var(--ai-conversation-peek);
+  }
+
+  // Shown when "Go to latest message" moves focus to the message
+  & .dnb-ai-message,
+  &__item,
+  &__virtual-item {
+    @include utilities.focusVisible() {
+      @include utilities.focusOutline($offset: 0.25rem);
+
+      border-radius: var(--token-radius-lg);
+    }
   }
 
   // Paint containment clips controls' focus rings and expanded touch areas.

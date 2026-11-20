@@ -76,5 +76,3 @@ plugin.ruleName = RULE_NAME
 plugin.messages = messages
 
 module.exports = plugin
-module.exports.ruleName = RULE_NAME
-module.exports.messages = messages

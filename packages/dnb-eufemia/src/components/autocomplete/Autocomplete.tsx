@@ -2226,6 +2226,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
                 <button
                   tabIndex={-1}
                   type="button"
+                  disabled={disabled}
                   onClick={toggleVisibleAndFocusOptions}
                 >
                   {showOptionsSr}

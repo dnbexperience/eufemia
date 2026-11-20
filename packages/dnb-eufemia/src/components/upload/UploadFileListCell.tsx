@@ -80,6 +80,11 @@ export type UploadFileListCellProps = {
   allowDuplicates?: boolean
 
   /**
+   * Disables the delete button.
+   */
+  disabled?: boolean
+
+  /**
    * Text
    */
   loadingText: ReactNode
@@ -95,6 +100,7 @@ const UploadFileListCell = ({
   deleteButtonText,
   download,
   allowDuplicates,
+  disabled,
 }: UploadFileListCellProps) => {
   const {
     file,
@@ -181,7 +187,7 @@ const UploadFileListCell = ({
           icon={TrashIcon}
           variant="tertiary"
           iconPosition="left"
-          disabled={isLoading}
+          disabled={disabled || isLoading}
           {...deleteButtonProps}
           onClick={onDeleteHandler}
         >

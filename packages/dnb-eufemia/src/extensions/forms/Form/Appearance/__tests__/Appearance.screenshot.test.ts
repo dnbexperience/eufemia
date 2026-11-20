@@ -4,21 +4,24 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Form.Appearance for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/forms/Form/Appearance/demos/',
-  })
-
-  it('have to match size', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="form-appearance-size"]',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Form.Appearance for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/forms/Form/Appearance/demos/',
     })
-  })
 
-  it('have to match size nested', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="form-appearance-size-nested"]',
+    it('have to match size', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="form-appearance-size"]',
+      })
     })
-  })
-})
+
+    it('have to match size nested', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="form-appearance-size-nested"]',
+      })
+    })
+  }
+)

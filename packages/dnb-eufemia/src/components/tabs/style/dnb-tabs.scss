@@ -60,6 +60,11 @@
       @include utilities.scrollX(auto);
       @include utilities.hideScrollbar();
       // scroll-snap-type: x mandatory; // gives not the wanted extra UX yet
+
+      // Out of the tab order in skeleton mode, so it must not be a scroll region either.
+      &--skeleton {
+        overflow: hidden;
+      }
     }
 
     &--left &__tablist {
@@ -118,6 +123,11 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 400ms ease-out;
+
+    .dnb-button__bounding {
+      inset: 0;
+      transform: scale(1.1, 1.4);
+    }
 
     &--visible {
       display: flex; // needs to be "flex" in order to make the transition work
@@ -382,6 +392,18 @@
 
     will-change: padding;
     transition: padding 1s var(--easing-default);
+
+    // add space so the focus ring is visible within our overflow
+    &:first-of-type .dnb-tabs__button:focus-visible {
+      margin-left: calc(
+        0.5rem + var(--focus-outline-width) + var(--focus-outline-offset)
+      );
+    }
+    &:last-of-type .dnb-tabs__button:focus-visible {
+      margin-right: calc(
+        0.5rem + var(--focus-outline-width) + var(--focus-outline-offset)
+      );
+    }
   }
 
   &__selection {
@@ -434,26 +456,6 @@
 
       &:has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
         background-color: var(--token-color-background-action-pressed);
-      }
-    }
-  }
-
-  html[data-whatinput='keyboard'] &__button__snap {
-    &:first-of-type.focus {
-      // add space so the focus ring is visible within our overflow
-      .dnb-tabs__button:focus-visible {
-        margin-left: calc(
-          0.5rem + var(--focus-outline-width) + var(--focus-outline-offset)
-        );
-      }
-    }
-
-    &:last-of-type.focus {
-      // add space so the focus ring is visible within our overflow
-      .dnb-tabs__button:focus-visible {
-        margin-right: calc(
-          0.5rem + var(--focus-outline-width) + var(--focus-outline-offset)
-        );
       }
     }
   }

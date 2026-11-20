@@ -26,6 +26,7 @@ variables {
   cost_allocation             = "test"
   analytics_deploy_repository = "owner/deploy-repo"
   github_token_secret_arn     = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-github-abcdef"
+  monitor_user_agent          = "test-monitor"
 }
 
 run "shadow_rollout" {
@@ -36,7 +37,8 @@ run "shadow_rollout" {
       length(aws_cloudwatch_metric_alarm.missing["CDN"].alarm_actions) == 0 &&
       length(aws_cloudwatch_metric_alarm.errors["MCP"].alarm_actions) == 0 &&
       aws_lambda_function.notifier.environment[0].variables["NOTIFICATIONS_ENABLED"] == "false" &&
-      aws_lambda_function.monitor["CDN"].environment[0].variables["NOTIFICATIONS_ENABLED"] == "false"
+      aws_lambda_function.monitor["CDN"].environment[0].variables["NOTIFICATIONS_ENABLED"] == "false" &&
+      aws_scheduler_schedule.weekly_report.state == "DISABLED"
     )
     error_message = "Initial deployment must not send Slack messages from checks or alarm routes."
   }
@@ -64,6 +66,12 @@ run "shadow_rollout" {
       !contains(keys(aws_lambda_function.monitor["MCP"].environment[0].variables), "GHE_TOKEN_SECRET")
     )
     error_message = "MCP, analytics and Tokens get the GitHub token; only analytics gets the GHE credential and deploy repository."
+  }
+  assert {
+    condition = alltrue([
+      for function in aws_lambda_function.monitor : function.environment[0].variables["MONITOR_USER_AGENT"] == var.monitor_user_agent
+    ])
+    error_message = "Every check must send the configured User-Agent."
   }
   assert {
     condition     = jsondecode(aws_lambda_function.notifier.environment[0].variables["MONITOR_LOG_GROUPS"])["Analytics"] == aws_cloudwatch_log_group.monitor["Analytics"].name
@@ -98,9 +106,20 @@ run "enable_slack" {
     condition = (
       length(aws_cloudwatch_metric_alarm.missing["CDN"].alarm_actions) == 1 &&
       aws_lambda_function.notifier.environment[0].variables["NOTIFICATIONS_ENABLED"] == "true" &&
-      aws_sns_topic_subscription.slack.protocol == "lambda"
+      aws_sns_topic_subscription.slack.protocol == "lambda" &&
+      aws_scheduler_schedule.weekly_report.state == "ENABLED"
     )
     error_message = "Alarm notifications must use the Slack notifier when enabled."
+  }
+  assert {
+    condition = (
+      aws_scheduler_schedule.weekly_report.schedule_expression == "cron(0 9 ? * MON *)" &&
+      aws_scheduler_schedule.weekly_report.schedule_expression_timezone == "Europe/Oslo" &&
+      aws_scheduler_schedule.weekly_report.target[0].arn == aws_lambda_function.notifier.arn &&
+      jsondecode(aws_scheduler_schedule.weekly_report.target[0].input).at == "<aws.scheduler.scheduled-time>" &&
+      aws_scheduler_schedule.weekly_report.target[0].dead_letter_config[0].arn == aws_sqs_queue.failures.arn
+    )
+    error_message = "The weekly report must use the serialized notifier on Monday at 09:00 Oslo time, preserving the scheduled time and failed deliveries."
   }
   assert {
     condition = (

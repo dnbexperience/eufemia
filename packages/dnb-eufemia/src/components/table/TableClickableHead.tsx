@@ -7,6 +7,7 @@ import type {
   TableHTMLAttributes,
 } from 'react'
 import { clsx } from 'clsx'
+import Context from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
 import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'
@@ -55,8 +56,9 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
   } = allProps
 
   const tableContext = useContext(TableContext)
+  const { skeleton } = useContext(Context)
   const id = useId()
-  const isInteractive = !disabled && clickable
+  const isInteractive = !disabled && !skeleton && clickable
 
   // A row that is not interactive still forwards a given handler, so it keeps
   // running. The row modes leave out their own handling in that case.
@@ -70,7 +72,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
   return (
     <tr
       role="row"
-      tabIndex={clickable && !disabled ? 0 : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
       className={clsx(
         className,
         clickable && 'dnb-table__tr--clickable',

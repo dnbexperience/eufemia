@@ -5,7 +5,7 @@ import {
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 for (const colorScheme of ['light', 'dark'] as const) {
-  describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+  describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
     'Chat message design in ' + colorScheme + ' for %s',
     (themeName) => {
       setupPageScreenshot({

@@ -58,7 +58,7 @@ export type SegmentedFieldProps<T extends string> = {
   | 'onKeyDown'
 > &
   SpacingProps &
-  Pick<InputProps, 'size'>
+  Pick<InputProps, 'size' | 'skeleton'>
 
 export type SectionSelectionMode = 'all' | 'caret'
 

@@ -5,6 +5,7 @@ import TableTd from '../TableTd'
 import TableTh from '../TableTh'
 import TableTr from '../TableTr'
 import Table from '../Table'
+import Provider from '../../../shared/Provider'
 import { TableAccordionContentSingle } from '../table-accordion/TableAccordionContent'
 
 describe('TableTd', () => {
@@ -316,6 +317,31 @@ describe('TableTd with onClick (navigable cell)', () => {
     fireEvent.click(button)
 
     expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not be focusable or emit onClick when skeleton', () => {
+    const onClick = vi.fn()
+
+    render(
+      <Provider skeleton>
+        <Table>
+          <tbody>
+            <tr>
+              <TableTd onClick={onClick}>content</TableTd>
+            </tr>
+          </tbody>
+        </Table>
+      </Provider>
+    )
+
+    const button = document.querySelector('td button')
+    expect(button).toBeDisabled()
+
+    fireEvent.click(button)
+    fireEvent.keyDown(button, { key: 'Enter' })
+    fireEvent.keyDown(button, { key: ' ' })
+
+    expect(onClick).not.toHaveBeenCalled()
   })
 
   it('should pass enriched info as second argument to onClick', () => {

@@ -7,6 +7,7 @@ import {
 } from '../../../core/test-utils/testSetup'
 import Card from '../index'
 import { P } from '../../../elements'
+import Provider from '../../../shared/Provider'
 
 describe('Card.Action', () => {
   describe('as link (href)', () => {
@@ -349,6 +350,86 @@ describe('Card.Action', () => {
         </Card.Action>
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+  })
+
+  describe('skeleton', () => {
+    it('should not be focusable or trigger onClick as a button', async () => {
+      const onClick = vi.fn()
+
+      render(
+        <Provider skeleton>
+          <Card.Action onClick={onClick}>
+            <P>Clickable card</P>
+          </Card.Action>
+        </Provider>
+      )
+
+      const action = document.querySelector('.dnb-card-action')
+      expect(action).toHaveAttribute('tabindex', '-1')
+      expect(action).toHaveAttribute('aria-disabled', 'true')
+
+      fireEvent.keyDown(action, { key: 'Enter' })
+      fireEvent.keyDown(action, { key: ' ' })
+      await userEvent.click(action)
+
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    it('should not be focusable, navigate or trigger onClick as a link', async () => {
+      const onClick = vi.fn()
+
+      render(
+        <Provider skeleton>
+          <Card.Action href="/page" onClick={onClick}>
+            <P>Link card</P>
+          </Card.Action>
+        </Provider>
+      )
+
+      const action = document.querySelector('.dnb-card-action')
+      expect(action).not.toHaveAttribute('href')
+      expect(action).toHaveAttribute('tabindex', '-1')
+      expect(action).toHaveAttribute('aria-disabled', 'true')
+
+      await userEvent.click(action)
+
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    it('should keep the route but block navigation and onClick on a custom element', () => {
+      const onClick = vi.fn()
+
+      function CustomLink(
+        props: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+          to: string
+        }
+      ) {
+        const { to, children, ...rest } = props
+        return (
+          <a href={to} {...rest}>
+            {children}
+          </a>
+        )
+      }
+
+      render(
+        <Provider skeleton>
+          <Card.Action to="/route" element={CustomLink} onClick={onClick}>
+            <P>Custom link card</P>
+          </Card.Action>
+        </Provider>
+      )
+
+      const action = document.querySelector('.dnb-card-action')
+      expect(action).toHaveAttribute('href', '/route')
+      expect(action).toHaveAttribute('tabindex', '-1')
+      expect(action).toHaveAttribute('aria-disabled', 'true')
+
+      const notPrevented = fireEvent.click(action)
+
+      expect(notPrevented).toBe(false)
+      expect(onClick).not.toHaveBeenCalled()
     })
   })
 

@@ -2,6 +2,7 @@ import {
   actionArtworkStyle,
   artworkBrowserStyle,
   artworkButtonStyle,
+  artworkCardStyle,
   artworkCursorStyle,
   artworkFadeStyle,
   artworkSelectionStyle,
@@ -94,7 +95,7 @@ export default function HomeArtwork({
             />
           </g>
           <rect
-            className={`${artworkSurfaceStyle} ${artworkFadeStyle}`}
+            className={`${artworkSurfaceStyle} ${artworkFadeStyle} ${artworkCardStyle}`}
             x="42"
             y="49"
             width="68"

@@ -4,45 +4,48 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`String field for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/forms/base-fields/String/demos/',
-  })
-
-  it('have to match widths', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="string-widths"]',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `String field for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/forms/base-fields/String/demos/',
     })
-  })
 
-  it('have to match multiple errors', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="multiple-errors"]',
+    it('have to match widths', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="string-widths"]',
+      })
     })
-  })
 
-  it('matches horizontal layout', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="string-horizontal-layout"]',
+    it('have to match multiple errors', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="multiple-errors"]',
+      })
     })
-  })
 
-  it('matches status messages', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="string-status"]',
+    it('matches horizontal layout', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="string-horizontal-layout"]',
+      })
     })
-  })
 
-  it('matches with label description', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="string-label-description"]',
+    it('matches status messages', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="string-status"]',
+      })
     })
-  })
 
-  it('matches resize handles', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="string-resize-handle"]',
+    it('matches with label description', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="string-label-description"]',
+      })
     })
-  })
-})
+
+    it('matches resize handles', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="string-resize-handle"]',
+      })
+    })
+  }
+)

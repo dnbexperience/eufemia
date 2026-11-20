@@ -113,7 +113,7 @@ describe('Element', () => {
       'class',
       'disabled', // because it's a skeleton
       'aria-disabled', // because it's a skeleton
-      'aria-label', // because it's a skeleton
+      // No aria-label, because a p can't have a name
     ])
   })
 

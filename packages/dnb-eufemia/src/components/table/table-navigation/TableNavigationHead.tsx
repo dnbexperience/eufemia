@@ -4,6 +4,7 @@ import type {
   SyntheticEvent,
   TableHTMLAttributes,
 } from 'react'
+import Context from '../../../shared/Context'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import {
@@ -22,11 +23,12 @@ export type TableNavigationHeadProps = TableTrProps &
 export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   const { children, onClick, onKeyDown, disabled, ...props } = allProps
   const tableContext = useContext(TableContext)
+  const { skeleton } = useContext(Context)
 
   const content = Array.isArray(children) ? [...children] : [children]
 
   const hasOnClick = typeof onClick === 'function'
-  const isInteractive = hasOnClick && !disabled
+  const isInteractive = hasOnClick && !disabled && !skeleton
 
   const tableContextAllProps = useContext(TableContext)?.allProps
 

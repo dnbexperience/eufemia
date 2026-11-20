@@ -57,6 +57,7 @@
   --button-icon-margin-top: 0;
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
+  --button-bounding-offset: calc(var(--button-height) * -0.2);
 
   position: relative;
 
@@ -722,12 +723,7 @@
 
   &__bounding {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-
-    transform: scale(1.1, 1.4);
+    inset: var(--button-bounding-offset);
 
     background-color: transparent;
     border-radius: var(--button-border-radius);
@@ -781,6 +777,7 @@
       #{&}--input-button
     ):not(#{&}--control-before):not(#{&}--control-after)#{&}--size-large {
     // Make exception for icon button as it should be smaller than the original large button
+    --button-bounding-offset: calc((var(--button-height) - 0.5rem) * -0.2);
     width: calc(var(--button-width--large) - 0.5rem);
     line-height: calc(var(--button-height) - 0.5rem);
   }

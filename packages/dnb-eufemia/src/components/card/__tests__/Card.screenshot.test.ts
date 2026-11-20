@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
   `Card for %s`,
   (themeName) => {
     setupPageScreenshot({
@@ -92,7 +92,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   }
 )
 
-describe.each(['ui', 'sbanken'])(
+describe.each(['ui', 'sbanken', 'coconut'])(
   `Card small screen for %s`,
   (themeName) => {
     const params = {

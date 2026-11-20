@@ -75,6 +75,26 @@ describe('Tabs component', () => {
     localStorage.removeItem('tabs-last-id')
   })
 
+  it('does not move focus to a tab when localStorage is unavailable', () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
+    const getItem = vi
+      .spyOn(Storage.prototype, 'getItem')
+      .mockImplementation(() => {
+        throw new DOMException(
+          'The operation is insecure.',
+          'SecurityError'
+        )
+      })
+
+    render(<Tabs {...props} data={tablistData} selectedKey="second" />)
+    fireEvent.load(window)
+
+    expect(document.activeElement).toBe(document.body)
+
+    getItem.mockRestore()
+    log.mockRestore()
+  })
+
   it('should not trigger setState warnings when using shared state with ContentWrapper', () => {
     const consoleError = vi
       .spyOn(console, 'error')
@@ -786,6 +806,104 @@ describe('Tabs disabled with tooltip', () => {
   })
 })
 
+describe('Tabs skeleton', () => {
+  const linkData = [
+    { title: 'First', key: 'first', href: '/first' },
+    { title: 'Second', key: 'second', href: '/second' },
+  ]
+
+  it('removes the tab list from the tab order and does not switch tabs', () => {
+    const onChange = vi.fn()
+    const onClick = vi.fn()
+    const onFocus = vi.fn()
+
+    render(
+      <Tabs
+        {...props}
+        data={linkData}
+        tabElement="a"
+        skeleton
+        onChange={onChange}
+        onClick={onClick}
+        onFocus={onFocus}
+      />
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+    expect(tablist).toHaveAttribute('tabindex', '-1')
+
+    fireEvent.keyDown(tablist, { key: 'ArrowRight' })
+    fireEvent.click(document.querySelector('[data-tab-key="second"]'))
+    document
+      .querySelectorAll('.dnb-tabs__scroll-nav-button')
+      .forEach((button) => fireEvent.mouseDown(button))
+
+    expect(onFocus).not.toHaveBeenCalled()
+    expect(onClick).not.toHaveBeenCalled()
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('removes the tab list from the tab order with skeleton from context', () => {
+    const onFocus = vi.fn()
+
+    render(
+      <Provider skeleton>
+        <Tabs {...props} data={tablistData} onFocus={onFocus} />
+      </Provider>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+    expect(tablist).toHaveAttribute('tabindex', '-1')
+
+    fireEvent.keyDown(tablist, { key: 'ArrowRight' })
+    expect(onFocus).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    ['set', (tabs: ReactNode) => tabs, true],
+    [
+      'inherited from the Provider',
+      (tabs: ReactNode) => <Provider skeleton>{tabs}</Provider>,
+      undefined,
+    ],
+  ])(
+    'makes the tab list non-scrollable and the scroll buttons skeletons when skeleton is %s',
+    (_, wrap, skeleton) => {
+      render(
+        wrap(<Tabs {...props} data={tablistData} skeleton={skeleton} />)
+      )
+
+      expect(
+        document.querySelector('.dnb-tabs__tabs__tablist')
+      ).toHaveClass('dnb-tabs__tabs__tablist--skeleton')
+
+      const buttons = document.querySelectorAll(
+        '.dnb-tabs__scroll-nav-button'
+      )
+      expect(buttons).toHaveLength(2)
+      buttons.forEach((button) => {
+        expect(button).toBeDisabled()
+        expect(button).toHaveClass('dnb-skeleton')
+      })
+    }
+  )
+
+  it('keeps the tab list in the tab order with skeleton={false}', () => {
+    render(
+      <Provider skeleton>
+        <Tabs {...props} data={tablistData} skeleton={false} />
+      </Provider>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+    expect(tablist).toHaveAttribute('tabindex', '0')
+    expect(tablist).not.toHaveClass('dnb-tabs__tabs__tablist--skeleton')
+    document
+      .querySelectorAll('.dnb-tabs__scroll-nav-button')
+      .forEach((button) => expect(button).not.toBeDisabled())
+  })
+})
+
 describe('Tabs aria-controls', () => {
   it('references the tabpanel from the selected tab when internal content is provided', () => {
     render(
@@ -1119,6 +1237,23 @@ describe('A single Tab component', () => {
     const content = document.querySelector('div[role="tabpanel"]')
     const { container } = render(contentWrapperData.third)
     expect(content.innerHTML).toBe(container.innerHTML)
+  })
+
+  it('moves focus to the first and last tab on Home and End when the keys are numbers', () => {
+    render(<Tabs {...props} data={tablistDataWithContent} />)
+
+    const tablist = document.querySelector('div[role="tablist"]')
+    fireEvent.click(document.querySelector('button[data-tab-key="2"]'))
+
+    fireEvent.keyDown(tablist, { key: 'Home' })
+    expect(document.activeElement).toBe(
+      document.querySelector('button[data-tab-key="1"]')
+    )
+
+    fireEvent.keyDown(tablist, { key: 'End' })
+    expect(document.activeElement).toBe(
+      document.querySelector('button[data-tab-key="3"]')
+    )
   })
 
   it('has to work with "data only" property containing a "content"', () => {

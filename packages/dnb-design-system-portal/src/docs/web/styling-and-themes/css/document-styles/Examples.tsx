@@ -58,7 +58,7 @@ export function DocumentLetter({
           </p>
         </header>
         <div className={styles.recipient}>
-          <p>
+          <p className="dnb-document__address">
             Ola Nordmann
             <br />
             Eksempelveien 12

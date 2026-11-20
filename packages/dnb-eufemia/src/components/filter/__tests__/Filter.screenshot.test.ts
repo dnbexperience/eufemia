@@ -42,6 +42,12 @@ describe.each(['ui'])(`Filter for %s`, (themeName) => {
     })
   })
 
+  it('have to match filter with table results', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="filter-table"]',
+    })
+  })
+
   it('have to match date and selection filter with open panel', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="filter-date-selection"] .dnb-filter',

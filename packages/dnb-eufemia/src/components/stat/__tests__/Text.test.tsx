@@ -87,9 +87,35 @@ describe('Stat.Text', () => {
 
     const text = document.querySelector('.dnb-stat__text')
 
-    expect(text.getAttribute('aria-label')).toBe(
+    // A span has no role, so the label must not be an aria-label on it
+    expect(text).not.toHaveAttribute('aria-label')
+    expect(text.querySelector('[aria-hidden]')).toHaveTextContent(
+      'Custom content'
+    )
+    expect(text.querySelector('.dnb-sr-only')).toHaveAttribute(
+      'data-text',
       'Revenue delta\u00A0Custom content'
     )
+  })
+
+  it('shows the screen reader text outside of Stat.Root', () => {
+    render(<Stat.Text srLabel="Revenue delta">Custom content</Stat.Text>)
+
+    // ".dnb-stat .dnb-sr-only::before" renders the "data-text"
+    expect(document.querySelector('.dnb-stat__text')).toHaveClass(
+      'dnb-stat'
+    )
+  })
+
+  it('keeps an aria-label given without srLabel', () => {
+    renderInRoot(
+      <Stat.Text aria-label="Given label">Custom content</Stat.Text>
+    )
+
+    const text = document.querySelector('.dnb-stat__text')
+    expect(text).toHaveAttribute('aria-label', 'Given label')
+    expect(text).not.toHaveClass('dnb-stat')
+    expect(text.querySelector('.dnb-sr-only')).not.toBeInTheDocument()
   })
 
   it('supports skeleton prop', () => {

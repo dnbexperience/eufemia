@@ -23,7 +23,7 @@ Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is 
 
 ### Record shape
 
-A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, `color_scheme`, `referrer`, and `via_search` dimensions. The service stamps `created_at`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. An unrecognized `env`, `locale`, `theme`, `color_scheme`, `referrer`, or `via_search` is coerced to `unknown` rather than rejected, so a stale value never drops a batch. No identifiers or personal data are stored.
+A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, `color_scheme`, `referrer`, and `via_search` dimensions. The service stamps `created_at`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. An unrecognized `env`, `locale`, `theme`, `color_scheme`, `referrer`, or `via_search` is coerced to `unknown` rather than rejected, so a stale value never drops a batch. Both ingest routes accept only the `env` labels in `KNOWN_ENVS` (`src/records/shared.ts`). No identifiers or personal data are stored.
 
 ```json
 {
@@ -101,6 +101,8 @@ public GitHub (.github/workflows/analytics-lambda.yml)
 
 The deploy token is a secret of the `ghe-deploy` environment (see [Continuous deployment](../mcp-lambda/README.md#continuous-deployment)), and the internal repository name is a repository variable. Both are managed in the repository settings, not stored in this repo.
 
+The internal deployment repository holds two origin secrets, each matching a value Akamai sends: `EDGE_AUTH_SECRET` (`X-Edge-Auth`, checked by the ingest Lambda) and `DASHBOARD_EDGE_AUTH_SECRET` (`X-Origin-Verify`, checked by the dashboard's CloudFront function, at least 32 characters).
+
 ### Lambda execution roles
 
 The deploy creates the three Lambda execution roles with the OIDC permissions boundary. Each gets basic Lambda logging plus one policy from the OIDC federation repo, and the deploy role may attach no others:
@@ -154,7 +156,7 @@ Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `colo
 The dashboard is hosted separately as a static site:
 
 - **Dashboard bucket** (private, versioned, SSE-S3, public access blocked) holding the static UI, read only by CloudFront via an Origin Access Control.
-- **CloudFront distribution** serving the dashboard through Akamai at `DASHBOARD_PUBLIC_URL`. The shell holds no data or secrets — data access is gated entirely by the `/data` API's Entra JWT authorizer. As defense-in-depth for the shell, a viewer-request CloudFront function locks the origin to the Akamai edge by rejecting any request missing the shared `X-Origin-Verify` header, so no Lambda@Edge or extra execution role is needed. A custom response-headers policy applies HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy` and a Content-Security-Policy (`script-src`/`connect-src` locked to same-origin, Entra sign-in and the dashboard API). The deploy job generates `dashboard/config.json` (non-secret public identifiers: `clientId`/`tenantId` from `ENTRA_CLIENT_ID`/`ENTRA_TENANT_ID`, `redirectUri` set to the canonical dashboard URL (`DASHBOARD_PUBLIC_URL`), `apiBaseUrl` from the dashboard API endpoint, and `apiScope` = `api://<clientId>/Dashboard.Read`), syncs the files to the bucket and invalidates the cache.
+- **CloudFront distribution** serving the dashboard through Akamai at `DASHBOARD_PUBLIC_URL`. The shell holds no data or secrets — data access is gated entirely by the `/data` API's Entra JWT authorizer. As defense-in-depth for the shell, a viewer-request CloudFront function locks the origin to the Akamai edge by rejecting any request missing the `X-Origin-Verify` header with the dashboard-only secret, so no Lambda@Edge or extra execution role is needed. A custom response-headers policy applies HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy` and a Content-Security-Policy (`script-src`/`connect-src` locked to same-origin, Entra sign-in and the dashboard API). The deploy job generates `dashboard/config.json` (non-secret public identifiers: `clientId`/`tenantId` from `ENTRA_CLIENT_ID`/`ENTRA_TENANT_ID`, `redirectUri` set to the canonical dashboard URL (`DASHBOARD_PUBLIC_URL`), `apiBaseUrl` from the dashboard API endpoint, and `apiScope` = `api://<clientId>/Dashboard.Read`), syncs the files to the bucket and invalidates the cache.
 
 The dashboard API's CORS allows the dashboard's canonical origin (`DASHBOARD_PUBLIC_URL`, the custom domain) plus any extra origins from the optional `dashboard_origins` Terraform variable, such as a local-dev URL. The raw `*.cloudfront.net` origin is intentionally not allow-listed, since the dashboard is served via the custom domain (Akamai + WAF); direct access to the raw `*.cloudfront.net` origin is blocked at CloudFront by the `X-Origin-Verify` viewer-request function above, so only the Akamai edge (which injects the header) can reach it. After the first deploy, add the dashboard URL as a redirect URI on the app registration.
 

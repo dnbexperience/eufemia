@@ -17,6 +17,7 @@ repeats each `@font-face` source against the stable alias so the fonts still
 load while a version prefix is unavailable. The root sync cannot delete
 historical `v*/` content or independently published prefixes. The `logos/`
 namespace is reserved for the standalone `@eufemia/logos` publisher.
+The `illustrations/` namespace is reserved for the illustration publisher.
 
 ## Deployment
 

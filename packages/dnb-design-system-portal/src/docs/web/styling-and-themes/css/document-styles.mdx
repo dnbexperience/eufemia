@@ -22,8 +22,9 @@ import { DocumentLetter } from './document-styles/Examples'
 Use this page to review how a branded letter could look and compare the
 proposed font sizes and spacing. The document style keeps the selected
 brand's fonts and weights while using a smaller type scale for letters
-and document production. The preview keeps brand colors on screen and
-uses pure black text on white paper when printed.
+and document production. Postal addresses use Arial for machine sorting.
+The preview keeps brand colors on screen and uses pure black text on white
+paper when printed.
 
 [View the example](#style-preview) · [See font sizes](#typography-and-spacing) ·
 [Developer guide](#developer-guide)
@@ -53,18 +54,41 @@ Regular app content keeps its existing typography.
 | Section heading           | 13pt                     | 1.25        |
 | Subheadings and lead text | 12pt                     | 1.3         |
 | Signature and table cells | 10pt                     | 1.4         |
-| Footer and return address | 9pt                      | 1.4         |
+| Postal addresses (Arial)  | 10pt, fixed              | 1.4         |
+| Footer                    | 9pt                      | 1.4         |
 
 Point sizes assume a 16px root font size and normal PDF scaling. The
-implementation uses relative units so browser font preferences still work.
+implementation uses relative units so browser font preferences still work,
+except for postal addresses, which use a fixed point size.
 
-Paragraphs, headings, lists and tables have consistent spacing. The return
-address and footer use the smallest text; signatures and table content
-remain slightly larger. Brand fonts and weights remain part of the design.
+Paragraphs, headings, lists and tables have consistent spacing. The footer
+uses the smallest text; signatures and table content remain slightly larger.
+Brand fonts and weights remain part of the design outside postal addresses.
 
 Review the result with your actual content and production PDF renderer.
 The document-production team's reference stylesheet should guide final
 design approval.
+
+### Postal addresses
+
+Recipient and return addresses use Arial, regular, 10pt on screen and in
+print. This is separate from the branded letter text and headings.
+
+Posten's addressing requirements, supplied by the document-production
+team, allow Arial, Courier New or Verdana at 10, 11 or 12pt. Use the same
+font, size and line spacing throughout each address, without bold, italic
+or blank lines. Eufemia defaults to Arial 10pt. Remove empty lines from the
+source content.
+
+Eufemia does not bundle Arial. Make it available to your production PDF
+renderer to avoid font substitution. Inspect the generated PDF's embedded
+fonts, for example with `pdffonts letter.pdf`, and verify that the address
+text uses Arial (often listed as `ArialMT`, possibly with a subset prefix).
+The CSS `font-family` value alone does not confirm which font was used.
+
+The template still owns the address position and envelope window geometry.
+Verify PDF scaling and the result with your production renderer and mail
+provider. See the [address markup](#address-markup).
 
 ### Paper appearance
 
@@ -228,7 +252,8 @@ for app layout, print-only content, and browser testing.
 ## Document implementation
 
 `dnb-ui-document` applies the document typography and spacing on screen
-and in print. It preserves the selected brand's fonts, weights and colors.
+and in print. It preserves the selected brand's fonts, weights and colors,
+except for postal-address typography.
 
 ### Import document formatting
 
@@ -289,17 +314,45 @@ brands, as shown in the [React example](#react-teams). The native HTML heading s
 document profile; both approaches retain the selected brand's fonts.
 
 The profile reuses `--font-size-*` and `--line-height-*` variables. Values
-are expressed in `rem`, so the point equivalents assume a 16px root and
-normal PDF scaling. Browser font preferences still work. The profile does
-not change the root font size. Responsive typography modifiers use the
-document scale at every viewport size to keep pagination stable.
+are expressed in `rem`, except for postal addresses, so the point equivalents
+assume a 16px root and normal PDF scaling. Browser font preferences still
+work. The profile does not change the root font size. Responsive typography
+modifiers use the document scale at every viewport size to keep pagination
+stable.
 
-Use `.dnb-document__signature` for 10pt signature text, and
-`.dnb-document__footer` and `.dnb-document__return-address` for 9pt text,
-including nested paragraphs. Greeting wording, logos, envelope calculations
+Use `.dnb-document__signature` for 10pt signature text and
+`.dnb-document__footer` for 9pt text, including nested paragraphs.
+Greeting wording, logos, envelope calculations
 and positioning remain part of the template. Existing inline font sizes
 should be removed when migrating to the profile.
 Eufemia does not provide DNB Light or Noto Sans as part of this profile.
+
+### Address markup
+
+Within `.dnb-document`, use `.dnb-document__address` for a recipient address
+and `.dnb-document__return-address` for the return address. Both use fixed
+10pt Arial with a 1.4 line height, normalize nested text to regular weight
+and normal style, and remove paragraph gaps. This also removes the default
+italic style of an HTML `address` element.
+
+```html
+<p class="dnb-document__return-address">
+  Returadresse: DNB, Postboks 1600 Sentrum, 0021 Oslo
+</p>
+<p class="dnb-document__address">
+  Ola Nordmann<br />
+  Eksempelveien 12<br />
+  0123 Oslo
+</p>
+```
+
+React teams can use `P` with the same `className`. Keep dates, logos and
+other letter-header content outside the address class. Remove inline
+typography, explicit size or spacing props, and blank address lines.
+The return-address style previously used the brand font at 9pt; it now
+uses Arial at 10pt. This change can make the return-address line wider and
+the recipient block shorter. Recheck both address blocks against the
+available envelope space and window position when updating.
 
 ### React teams
 

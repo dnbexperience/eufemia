@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Span for %s`, (themeName) => {
+describe.each(['ui', 'sbanken', 'coconut'])(`Span for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
     url: '/web/layout-and-typography/elements/span/demos/',

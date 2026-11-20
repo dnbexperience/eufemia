@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
-import { Drawer } from '@dnb/eufemia/src/components'
-import { Anchor, Flex } from '@dnb/eufemia/src'
+import { Button, Drawer } from '@dnb/eufemia/src/components'
+import { Anchor, Flex, Hr } from '@dnb/eufemia/src'
 import type { DrawerAllProps } from '@dnb/eufemia/src/components/drawer/Drawer'
 import { Context } from '@dnb/eufemia/src/shared'
 import ToggleGrid from './ToggleGrid'
@@ -39,17 +39,6 @@ export default function PortalToolsDrawer({
               </>
             }
           />
-          <ChangeLocale
-            labelDescription={
-              <>
-                Read more about{' '}
-                <Anchor href="/web/styling-and-themes/configuration/localization/">
-                  localization
-                </Anchor>
-              </>
-            }
-          />
-
           <ToggleDarkMode
             label="Dark mode"
             labelDescription={
@@ -61,6 +50,18 @@ export default function PortalToolsDrawer({
               </>
             }
           />
+          <ChangeLocale
+            labelDescription={
+              <>
+                Read more about{' '}
+                <Anchor href="/web/styling-and-themes/configuration/localization/">
+                  localization
+                </Anchor>
+              </>
+            }
+          />
+
+          <Hr />
 
           <Flex.Stack gap="small">
             <ToggleNativeTypography />
@@ -70,6 +71,20 @@ export default function PortalToolsDrawer({
               skeleton={false}
             />
             <ToggleGrid label="Show grid" />
+          </Flex.Stack>
+
+          <Hr />
+
+          <Flex.Stack align="flex-start">
+            <Button
+              text="Clear saved settings"
+              variant="secondary"
+              onClick={() => {
+                window.localStorage.clear()
+                window.sessionStorage.clear()
+                window.location.reload()
+              }}
+            />
           </Flex.Stack>
         </Flex.Stack>
       </Drawer.Body>

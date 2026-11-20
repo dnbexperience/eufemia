@@ -2,6 +2,12 @@ import { createHash } from 'node:crypto'
 import type { Report } from '../../monitoring/report.ts'
 import type { Service } from './monitor.ts'
 import { logFailure } from './diagnostics.ts'
+import {
+  recordWeeklyObservation,
+  weeklyPeriod,
+  weeklyText,
+} from './weekly-report.ts'
+import type { WeeklyState } from './weekly-report.ts'
 
 export type Observation =
   | { kind: 'service'; service: Service; report: Report }
@@ -33,6 +39,7 @@ export type NotificationState = {
   alarms?: Record<string, { at: string; status: 'ALARM' | 'OK' }>
   summary?: string
   pending?: Pending
+  weekly?: WeeklyState
 }
 type Dependencies = {
   load: () => Promise<NotificationState>
@@ -151,7 +158,7 @@ export function summaryText(state: NotificationState) {
 
 // The notifier Lambda has reserved concurrency 1, serializing this shared state.
 export async function processNotification(
-  event: Observation,
+  event: Observation | { kind: 'weekly'; at: string },
   dependencies: Dependencies
 ) {
   const state = await dependencies.load()
@@ -188,6 +195,28 @@ export async function processNotification(
     await dependencies.save(state)
   }
   await deliver()
+  if (event.kind === 'weekly') {
+    const { end } = weeklyPeriod(event.at)
+    const weekly = (state.weekly ??= { since: event.at, hours: {} })
+    if (weekly.sent && Date.parse(weekly.sent) >= end) {
+      return
+    }
+    if (weekly.pending && Date.parse(weekly.pending.at) > end) {
+      return
+    }
+    if (!weekly.pending || Date.parse(weekly.pending.at) < end) {
+      weekly.pending = { at: event.at, text: weeklyText(state, event.at) }
+      await dependencies.save(state)
+    }
+    await dependencies.post(
+      weekly.pending.text,
+      messageId('eufemia-monitoring-weekly:' + end)
+    )
+    weekly.sent = event.at
+    delete weekly.pending
+    await dependencies.save(state)
+    return
+  }
 
   const name = event.kind === 'service' ? event.service : 'Monitoring'
   const at = event.kind === 'service' ? event.report.checkedAt : event.at
@@ -211,6 +240,7 @@ export async function processNotification(
     status = event.report.status
   }
   if (accept) {
+    const incident = status === 'unhealthy' && !previous?.outage
     const source: Source = previous ?? {
       at,
       status,
@@ -277,6 +307,9 @@ export async function processNotification(
           'Healthy at: ' + source.at,
         ].join('\n'),
       }
+    }
+    if (event.kind === 'service') {
+      recordWeeklyObservation(state, event, incident)
     }
     await dependencies.save(state)
     await deliver()

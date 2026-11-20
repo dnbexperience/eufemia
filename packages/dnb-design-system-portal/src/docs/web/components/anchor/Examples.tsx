@@ -5,7 +5,14 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Section, Anchor, IconPrimary, H2, P } from '@dnb/eufemia/src'
+import {
+  Section,
+  Anchor,
+  CountryFlag,
+  IconPrimary,
+  H2,
+  P,
+} from '@dnb/eufemia/src'
 import { Theme } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
@@ -436,10 +443,18 @@ export const AnchorIconWordBreak = () => (
 export const AnchorNoIconAndNoLaunchIcon = () => {
   return (
     <Wrapper>
-      <ComponentBox hideCode scope={{ Example }}>
+      <ComponentBox hideCode scope={{ Example, CountryFlag }}>
         <Example data-visual-test="anchor-no-icon-prop">
           <Anchor href="/web/components/anchor" noIcon icon="bell">
             Anchor without icon
+          </Anchor>
+          <Anchor
+            href="/web/components/anchor"
+            noIcon
+            icon={<CountryFlag iso="NO" />}
+            left
+          >
+            Anchor without flag icon
           </Anchor>
         </Example>
         <Example data-visual-test="anchor-no-launch-icon-prop">

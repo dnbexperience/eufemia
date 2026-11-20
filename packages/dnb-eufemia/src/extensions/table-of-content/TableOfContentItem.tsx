@@ -62,15 +62,29 @@ function TableOfContentItem({
           if (target) {
             context.navigate(id)
             // Keep native fragment navigation and move keyboard reading order to its destination.
+            // Like native fragment navigation, show no focus ring on a destination that can't take focus by itself.
             const hadTabIndex = target.hasAttribute('tabindex')
+            const hideFocusRing =
+              target.tabIndex < 0 &&
+              !target.classList.contains('dnb-no-focus')
             if (!hadTabIndex) {
               target.setAttribute('tabindex', '-1')
-              target.addEventListener(
-                'blur',
-                () => target.removeAttribute('tabindex'),
-                { once: true }
-              )
             }
+            if (hideFocusRing) {
+              target.classList.add('dnb-no-focus')
+            }
+            target.addEventListener(
+              'blur',
+              () => {
+                if (!hadTabIndex) {
+                  target.removeAttribute('tabindex')
+                }
+                if (hideFocusRing) {
+                  target.classList.remove('dnb-no-focus')
+                }
+              },
+              { once: true }
+            )
             // Suppress Eufemia tooltips during automatic destination focus.
             const autofocus = target.getAttribute('data-autofocus')
             target.setAttribute('data-autofocus', 'true')

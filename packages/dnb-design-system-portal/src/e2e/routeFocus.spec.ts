@@ -211,7 +211,7 @@ test.describe('Route Focus', () => {
       .hover()
     await expect(
       page.locator('.dnb-sidebar-menu-responsive-inline__content')
-    ).toHaveCSS('clip-path', 'inset(0px)')
+    ).toHaveCSS('clip-path', 'inset(-720px 0px)')
     await page
       .locator('a[href="/web/components/accordion/"]')
       .first()

@@ -439,7 +439,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
     .poll(() =>
       content.evaluate((element) => getComputedStyle(element).clipPath)
     )
-    .toBe('inset(0px)')
+    .toBe('inset(-900px 0px)')
   await expect
     .poll(() =>
       inline.evaluate(
@@ -498,7 +498,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
     .poll(() =>
       content.evaluate((element) => getComputedStyle(element).clipPath)
     )
-    .toBe('inset(0px)')
+    .toBe('inset(-900px 0px)')
   await shell
     .locator(
       '[data-sidebar-menu-id="more-products"] > .dnb-sidebar-menu__accordion__trigger'
@@ -521,7 +521,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
     .poll(() =>
       content.evaluate((element) => getComputedStyle(element).clipPath)
     )
-    .toBe('inset(0px 240px 0px 0px)')
+    .toBe('inset(-900px 240px -900px 0px)')
   const savingsNotificationBox = await savingsNotification.boundingBox()
   const compactInlineBox = await inline.boundingBox()
   expect(savingsNotificationBox?.x).toBeGreaterThanOrEqual(
@@ -551,7 +551,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
     .poll(() =>
       content.evaluate((element) => getComputedStyle(element).clipPath)
     )
-    .toBe('inset(0px)')
+    .toBe('inset(-900px 0px)')
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   expect(

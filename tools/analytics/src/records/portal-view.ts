@@ -10,7 +10,7 @@
 
 import {
   isIsoTimestamp,
-  isValidEnv,
+  isKnownEnv,
   parseIngestBatch,
   type ValidationResult,
 } from './shared.js'
@@ -139,7 +139,6 @@ function isOneOf<T extends string>(
 // dropped, so a docs search term can never be persisted.
 const TRACKED_FLAG_PARAMS = new Set(['fullscreen', 'focusmode'])
 const TRACKED_VALUE_PARAMS = new Set(['eufemia-theme'])
-// Same shape as the env pattern in shared.ts by coincidence; keep separate.
 const SAFE_PARAM_VALUE = /^[a-z][a-z0-9-]{0,31}$/
 // An anchor fragment is a slug, e.g. `#events`; anything else is dropped.
 const SAFE_FRAGMENT = /^#[\w-]+$/
@@ -246,7 +245,7 @@ export function validatePortalViews(
       value.push({
         path: path as string,
         ...(typeof timestamp === 'string' ? { timestamp } : {}),
-        ...(isValidEnv(env) ? { env } : {}),
+        ...(isKnownEnv(env) ? { env } : {}),
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
           : {}),

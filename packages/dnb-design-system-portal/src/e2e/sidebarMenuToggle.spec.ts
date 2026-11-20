@@ -433,7 +433,7 @@ test.describe('Portal sidebar reveal', () => {
     )
     expect(moving.length).toBeGreaterThan(0)
     expect(moving.every(({ opacity }) => opacity === 1)).toBe(true)
-    await expect(closeButton).toBeFocused()
+    await expect(dialog).toBeFocused()
     await test.step('keeps Close right without duplicating the page logo', async () => {
       await page.evaluate(() => document.fonts.ready)
       await expect(
@@ -463,7 +463,7 @@ test.describe('Portal sidebar reveal', () => {
     await expect(surface).toHaveAttribute('inert', '')
     await expect(trigger).toHaveAttribute('aria-hidden', 'true')
     await trigger.evaluate((element) => element.focus())
-    await expect(closeButton).toBeFocused()
+    await expect(dialog).toBeFocused()
     for (let step = 0; step < 5; step++) {
       await page.keyboard.press('Tab')
       await expect
@@ -525,7 +525,7 @@ test.describe('Portal sidebar reveal', () => {
     await expect(surface).toHaveCSS('opacity', '1')
 
     await trigger.click()
-    await expect(closeButton).toBeFocused()
+    await expect(dialog).toBeFocused()
     await page.mouse.click(375, 200)
     await expect(dialog).not.toBeVisible()
     await expect(trigger).toBeFocused()
@@ -889,6 +889,42 @@ test.describe('Portal sidebar reveal', () => {
     await session.detach()
   })
 })
+
+for (const width of [1440, 1120]) {
+  test(
+    'keeps the fixed sidebar unclipped during overscroll at ' + width,
+    async ({ page }) => {
+      await page.setViewportSize({ width, height: 800 })
+      await page.goto('/web/components/button/demos/')
+      await waitForApp(page)
+      const aside = page.locator('aside#portal-sidebar-menu')
+      await expect(aside).toHaveCSS('position', 'fixed')
+
+      // Elastic overscroll moves the in-flow content while fixed elements stay
+      const isSidebarHitAfterBounce = (edge: 'top' | 'bottom') =>
+        aside.evaluate((aside, edge) => {
+          const content = aside.closest<HTMLElement>(
+            '.dnb-sidebar-menu-responsive-inline__content'
+          )
+          window.scrollTo({
+            top: edge === 'top' ? 0 : document.body.scrollHeight,
+            behavior: 'instant',
+          })
+          content.style.top = edge === 'top' ? '120px' : '-120px'
+          const { left } = aside.getBoundingClientRect()
+          const y = edge === 'top' ? 60 : window.innerHeight - 60
+          const hit = aside.contains(
+            document.elementFromPoint(left + 24, y)
+          )
+          content.style.top = ''
+          return hit
+        }, edge)
+
+      expect(await isSidebarHitAfterBounce('top')).toBe(true)
+      expect(await isSidebarHitAfterBounce('bottom')).toBe(true)
+    }
+  )
+}
 
 test.describe('SidebarMenu toggle', () => {
   test('controls inline and Drawer navigation from outside the provider', async ({

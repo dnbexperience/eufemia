@@ -1,6 +1,6 @@
 ---
 description: >-
-  Sync design tokens from Figma and generate brand color and radius variables
+  Sync design tokens from Figma and generate brand color, radius and typography variables
   through the Design Tokens workflow.
 title: Publish design tokens
 navigation:
@@ -21,12 +21,12 @@ redirect_from:
 
 ---
 
-The design tokens are synchronized from Figma with the "Design Tokens" GitHub Action and converted to CSS variables with the `make-properties` script. We currently generate color and radius tokens. Typography is skipped.
+The design tokens are synchronized from Figma with the "Design Tokens" GitHub Action and converted to CSS variables with the `make-properties` script. We generate color and radius tokens, and sync typography into Eufemia's existing CSS properties.
 
 ## Overview
 
 - Design tokens are synchronized from Figma by a GitHub Action, which opens a draft pull request for review.
-- We generate color tokens and radius values. Typography aliases and string values are skipped for now.
+- We generate color tokens and radius values. Font families, body weights, font sizes and line heights use the existing typography properties, without an additional `--token-font-*` layer. Other string values are skipped.
 - We export Foundation colors, plus light and dark brand token modes for DNB and Sbanken (Carnegie is light-only for now)
 
 ## How to update
@@ -80,7 +80,7 @@ Detailed steps:
 - Unzip the downloaded JSON files and place them in `packages/dnb-eufemia/src/style/themes/figma`, using the relative filenames listed above.
 
 We export the collections from the same Figma file in order to ensure the collections are in sync.
-Each brand-mode export is a complete snapshot of the collection, so light and dark files also contain shared font and radius values. The generator produces one typography scale per brand from the light export. Dark mode does not change font sizes or line heights.
+Each brand-mode export is a complete snapshot of the collection, so light and dark files also contain shared font and radius values. The generator reads typography from the light export. Keep families, weights, sizes and line heights identical in light and dark modes.
 
 ### 3. Generate CSS files
 
@@ -91,6 +91,40 @@ The CSS files are automatically generated during the "Prebuild" step by the `mak
 To generate the files manually you can run the command `yarn workspace @dnb/eufemia make-properties`.
 
 To fetch the tokens from Figma locally, add `FIGMA_TOKEN` and `FIGMA_TOKENS_FILE` to your `.env` file and run `yarn workspace @dnb/eufemia figma:tokens`.
+
+### Typography mapping
+
+Typography uses an explicit mapping in `makePropertiesFile.ts`, rather than the generic `--token-*` naming transform. This preserves existing application overrides, brand aliases, JavaScript exports and Tailwind properties. The generator updates existing declarations, so this mapping adds no CSS declarations or font files.
+
+- `font/family/body` supplies `--font-family-default`; `font/family/heading` supplies `--font-family-heading`. Figma's installed family names map to the registered web family names and their fallback stacks. For example, `Maison Neue` maps to `MaisonNeueHeadings`. Families not registered in the selected theme fail generation. New families need a code mapping and the appropriate font assets registered in the theme.
+- `font/weight/text-basis` supplies the existing default, basis and regular weight aliases. It must remain `Regular` until the web's regular font rules and brand mappings are migrated together. `text-basis-medium` supplies `--font-weight-medium`. The `text-sm` and `text-xs` weights must match their corresponding basis weight. `Regular` maps to `normal`, and `Medium` to `500`. Unknown values fail generation.
+- Sizes and line heights use the [public typography scale](/web/styling-and-themes/design-tokens/typography/). Regular and medium variants share sizes and line heights.
+- Carnegie inherits its body family and weight scale from DNB. The generator checks that its exported values still match. Sbanken and the transitional Coconut theme keep their existing `--sb-*` aliases, and Carnegie keeps `--ca-font-family-heading`.
+- Coconut uses the DNB body family. Until its Figma export provides it, the generator replaces the exported body family with DNB and logs a warning. Once Figma exports DNB, the warning will ask for the replacement to be removed.
+
+Heading and lead weights keep their existing theme rules. Sbanken exports `Book Sbanken` for headings and `Demi Sbanken` for lead, while the web uses regular weight for both and registers one Maison heading face. Coconut exports medium for headings and lead, while its web rules also use regular. Carnegie exports regular headings, while the web uses medium. Confirm the intended web appearance and available font files with UX before changing those rules. Bold, light, display, monospace and native sizes also retain their existing code values because the brand exports do not provide matching roles.
+
+### Typography changes in Figma
+
+Use the published CSS property names for Web code syntax. Keep the existing Figma paths until their mappings and exports can change together.
+
+| Figma variable                                 | Web code syntax                         |
+| ---------------------------------------------- | --------------------------------------- |
+| `font/family/body`                             | `--font-family-default`                 |
+| `font/family/heading`                          | `--font-family-heading`                 |
+| `font/size/text-2xs`                           | `--font-size-xx-small`                  |
+| `font/size/text-xs`                            | `--font-size-x-small`                   |
+| `font/size/text-sm`                            | `--font-size-small`                     |
+| `font/size/text-basis`                         | `--font-size-basis`                     |
+| `font/size/text-lead`                          | `--font-size-medium`                    |
+| `font/size/heading-lg`                         | `--font-size-large`                     |
+| `font/size/heading-xl`                         | `--font-size-x-large`                   |
+| `font/size/heading-2xl`                        | `--font-size-xx-large`                  |
+| `font/height/*`                                | The matching `--line-height-*` property |
+| `font/weight/text-basis`, `text-sm`, `text-xs` | `--font-weight-regular`                 |
+| Their `-medium` weight variants                | `--font-weight-medium`                  |
+
+Medium size and height variants use the same Web code syntax as their regular counterparts. The current exports incorrectly give both `text-xs` (14px) and `text-2xs` (13px) the same size code name; correct these and their medium variants using the table. Use CSS's `line-height` terminology for Web code syntax. The current height path `heading-large` maps to the size path `heading-lg`; coordinate any path cleanup with the code mapping.
 
 ## Naming conventions/transforms
 

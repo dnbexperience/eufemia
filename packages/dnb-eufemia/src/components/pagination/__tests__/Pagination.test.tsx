@@ -1233,8 +1233,30 @@ describe('Pagination transformNavigationItem', () => {
 
     expect(currentPage.tagName).toBe('SPAN')
     expect(currentPage.getAttribute('aria-current')).toBe('page')
-    expect(currentPage.textContent).toBe('3')
+    expect(currentPage.querySelector('[aria-hidden]').textContent).toBe(
+      '3'
+    )
     expect(currentPage.getAttribute('href')).toBeNull()
+  })
+
+  it('names the current page with screen reader text, not an aria-label on the span', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const currentPage = document.querySelector(
+      '.dnb-pagination__button--current'
+    )
+
+    // A span has no role, so screen readers can ignore an aria-label on it
+    expect(currentPage).not.toHaveAttribute('aria-label')
+    expect(currentPage.querySelector('.dnb-sr-only').textContent).toBe(
+      'Side 3'
+    )
   })
 })
 

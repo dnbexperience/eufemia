@@ -4,196 +4,211 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/autocomplete/demos/',
-    pageViewport: {
-      height: 1024, // The height influences this test: data-visual-test="autocomplete-drawer-search"
-    },
-  })
-
-  // Run this test as one of the first because it's scroll-sensitive
-  // Browser scroll position affects the list height
-  it('have to match autocomplete with search result', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-drawer-search"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
-      simulate: 'click',
-      style: {
-        height: '30rem',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Autocomplete for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/autocomplete/demos/',
+      pageViewport: {
+        height: 1024, // The height influences this test: data-visual-test="autocomplete-drawer-search"
       },
     })
-  })
-})
 
-describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/autocomplete/demos/',
-  })
-
-  it('have to match different sizes', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-sizes"]',
+    // Run this test as one of the first because it's scroll-sensitive
+    // Browser scroll position affects the list height
+    it('have to match autocomplete with search result', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-drawer-search"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
+        simulate: 'click',
+        style: {
+          height: '30rem',
+        },
+      })
     })
-  })
+  }
+)
 
-  it('have to match custom input width', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-input-width"]',
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Autocomplete for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/autocomplete/demos/',
     })
-  })
 
-  it('have to match autocomplete with drawer-button', async () => {
-    await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-drawer-button"] .dnb-autocomplete__inner',
+    it('have to match different sizes', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-sizes"]',
+      })
     })
-  })
 
-  it('have to match the closed autocomplete', async () => {
-    await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-closed"] .dnb-autocomplete__inner',
+    it('have to match custom input width', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-input-width"]',
+      })
     })
-  })
 
-  it('have to match icon positioned right with a submit button', async () => {
-    await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-icon-right-submit-button"] .dnb-autocomplete__inner',
-    })
-  })
-
-  it('have to match autocomplete with suffix value', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-suffix"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete .dnb-input',
-      simulate: 'click',
-      style: {
-        height: '25rem',
-      },
-    })
-  })
-
-  it('have to match autocomplete with groups', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-groups"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-groups"] .dnb-autocomplete .dnb-input',
-      simulate: 'click',
-      style: {
-        height: '29rem',
-      },
-      simulateAfter: { keypress: 'Escape' },
-    })
-  })
-
-  it('have to match the status with status_state information', async () => {
-    await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-status-information"] .dnb-autocomplete__inner',
-    })
-  })
-
-  it('have to match the status with status_state error', async () => {
-    await makeScreenshot({
-      selector:
-        '[data-visual-test="autocomplete-status-error"] .dnb-autocomplete__inner',
-    })
-  })
-
-  it('have to match inline results', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-inline"]',
-      style: {
-        height: '25rem',
-      },
-    })
-  })
-})
-
-describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/autocomplete/demos/',
-    pageViewport: {
-      width: 700,
-    },
-  })
-
-  it('have to match small screen autocomplete with suffix value', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-suffix"]',
-      style: {
-        height: '4rem',
-      },
-    })
-  })
-})
-
-describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/web/components/autocomplete/visual-tests/',
-  })
-
-  it('have to match disabled state', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-disabled"]',
-    })
-  })
-
-  it('have to match disabled options', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-disabled-options"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete .dnb-input',
-      simulate: 'click',
-      style: {
-        height: '25rem',
-      },
-    })
-  })
-
-  it('have to match autocomplete opened list', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-opened"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
-      simulate: 'click',
-      style: {
-        height: '40rem',
-      },
-    })
-  })
-
-  it('have to match keyboard focused option that is also hovered', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-opened"]',
-      // Put the first option into the keyboard navigation state (the
-      // keyboard focus ring is only shown when data-whatinput is
-      // "keyboard" and the option has the --focus class).
-      executeBeforeSimulate: () => {
-        document.documentElement.setAttribute('data-whatinput', 'keyboard')
-        const option = document.querySelector(
-          '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type'
-        )
-        option?.classList.add('dnb-drawer-list__option--focus')
-      },
-      // Hover that same option with the mouse. The keyboard focus ring
-      // has to stay visible underneath the hover highlight.
-      simulate: {
-        action: 'hover',
+    it('have to match autocomplete with drawer-button', async () => {
+      await makeScreenshot({
         selector:
-          '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
-      },
-      style: {
-        height: '40rem',
+          '[data-visual-test="autocomplete-drawer-button"] .dnb-autocomplete__inner',
+      })
+    })
+
+    it('have to match the closed autocomplete', async () => {
+      await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-closed"] .dnb-autocomplete__inner',
+      })
+    })
+
+    it('have to match icon positioned right with a submit button', async () => {
+      await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-icon-right-submit-button"] .dnb-autocomplete__inner',
+      })
+    })
+
+    it('have to match autocomplete with suffix value', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-suffix"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete .dnb-input',
+        simulate: 'click',
+        style: {
+          height: '25rem',
+        },
+      })
+    })
+
+    it('have to match autocomplete with groups', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-groups"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-groups"] .dnb-autocomplete .dnb-input',
+        simulate: 'click',
+        style: {
+          height: '29rem',
+        },
+        simulateAfter: { keypress: 'Escape' },
+      })
+    })
+
+    it('have to match the status with status_state information', async () => {
+      await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-status-information"] .dnb-autocomplete__inner',
+      })
+    })
+
+    it('have to match the status with status_state error', async () => {
+      await makeScreenshot({
+        selector:
+          '[data-visual-test="autocomplete-status-error"] .dnb-autocomplete__inner',
+      })
+    })
+
+    it('have to match inline results', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-inline"]',
+        style: {
+          height: '25rem',
+        },
+      })
+    })
+  }
+)
+
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Autocomplete for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/autocomplete/demos/',
+      pageViewport: {
+        width: 700,
       },
     })
-  })
-})
+
+    it('have to match small screen autocomplete with suffix value', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-suffix"]',
+        style: {
+          height: '4rem',
+        },
+      })
+    })
+  }
+)
+
+describe.each(['ui', 'sbanken', 'coconut'])(
+  `Autocomplete for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/autocomplete/visual-tests/',
+    })
+
+    it('have to match disabled state', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-disabled"]',
+      })
+    })
+
+    it('have to match disabled options', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-disabled-options"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete .dnb-input',
+        simulate: 'click',
+        style: {
+          height: '25rem',
+        },
+      })
+    })
+
+    it('have to match autocomplete opened list', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-opened"]',
+        simulateSelector:
+          '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
+        simulate: 'click',
+        style: {
+          height: '40rem',
+        },
+      })
+    })
+
+    it('have to match keyboard focused option that is also hovered', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="autocomplete-opened"]',
+        // Put the first option into the keyboard navigation state (the
+        // keyboard focus ring is only shown when data-whatinput is
+        // "keyboard" and the option has the --focus class).
+        executeBeforeSimulate: () => {
+          document.documentElement.setAttribute(
+            'data-whatinput',
+            'keyboard'
+          )
+          const option = document.querySelector(
+            '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type'
+          )
+          option?.classList.add('dnb-drawer-list__option--focus')
+        },
+        // Hover that same option with the mouse. The keyboard focus ring
+        // has to stay visible underneath the hover highlight.
+        simulate: {
+          action: 'hover',
+          selector:
+            '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
+        },
+        style: {
+          height: '40rem',
+        },
+      })
+    })
+  }
+)

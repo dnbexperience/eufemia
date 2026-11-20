@@ -538,6 +538,7 @@ export default function useFieldError<Value>({
     useRef<ReturnType<typeof setTimeout>>(undefined)
   const isMountedRef = useRef(true)
 
+  // Clear the deadline on a path change too, because it belongs to the old path
   useEffect(() => {
     isMountedRef.current = true
 
@@ -545,7 +546,7 @@ export default function useFieldError<Value>({
       isMountedRef.current = false
       clearTimeout(pendingTimeoutRef.current)
     }
-  }, [])
+  }, [identifier])
 
   const applyFieldState = useCallback(
     (

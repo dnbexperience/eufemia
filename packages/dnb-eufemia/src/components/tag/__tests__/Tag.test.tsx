@@ -10,6 +10,44 @@ import type { TagGroupProps } from '../TagGroup'
 const nb = nbNO['nb-NO'].Tag
 
 describe('Tag Group', () => {
+  it('keeps its own attributes and spacing off the Tags', () => {
+    render(
+      <Tag.Group
+        label="Tags"
+        id="group"
+        aria-label="Group name"
+        data-testid="group"
+        top="large"
+      >
+        <Tag text="A" />
+        <Tag text="B" />
+      </Tag.Group>
+    )
+
+    // A repeated id is invalid HTML, and the name belongs to the group
+    expect(document.querySelectorAll('#group')).toHaveLength(1)
+    expect(
+      document.querySelectorAll('[aria-label="Group name"]')
+    ).toHaveLength(1)
+    expect(
+      document.querySelectorAll('[data-testid="group"]')
+    ).toHaveLength(1)
+    expect(
+      document.querySelectorAll('.dnb-space__top--large')
+    ).toHaveLength(1)
+    expect(document.querySelector('#group')).toHaveClass('dnb-tag__group')
+  })
+
+  it('still gives skeleton to the Tags', () => {
+    render(
+      <Tag.Group label="Tags" skeleton>
+        <Tag text="A" />
+      </Tag.Group>
+    )
+
+    expect(document.querySelector('.dnb-tag')).toHaveClass('dnb-skeleton')
+  })
+
   it('renders with props as an object', () => {
     const props: TagGroupProps = { label: 'label' }
 

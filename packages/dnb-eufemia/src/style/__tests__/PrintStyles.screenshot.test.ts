@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   'Print styles for %s',
   (themeName) => {
     setupPageScreenshot({
@@ -29,7 +29,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   }
 )
 
-describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   'Plain print styles for %s',
   (themeName) => {
     setupPageScreenshot({

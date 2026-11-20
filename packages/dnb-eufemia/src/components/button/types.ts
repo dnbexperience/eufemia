@@ -149,7 +149,7 @@ export type ButtonProps = {
    */
   wrap?: boolean
   /**
-   * Set it to `true` in order to extend the bounding box (above the visual button background). You may also look into the HTML class `dnb-button__bounding` if it needs some CSS customization in order to get the particular button right for your use-case.
+   * Set to `true` to extend the click and touch area without changing the visible size or layout spacing. See [click and touch area](/web/components/button/info/#click-and-touch-area) for spacing and customization.
    */
   bounding?: boolean
   /**

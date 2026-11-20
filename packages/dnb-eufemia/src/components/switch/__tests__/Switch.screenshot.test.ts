@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
   `Unchecked Switch for %s`,
   (themeName) => {
     setupPageScreenshot({
@@ -66,7 +66,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
-describe.each(['ui', 'sbanken', 'carnegie'])(
+describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
   `Checked Switch for %s`,
   (themeName) => {
     setupPageScreenshot({

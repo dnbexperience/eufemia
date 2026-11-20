@@ -3,12 +3,15 @@ const impactOrder = ['critical', 'serious', 'moderate', 'minor', null]
 export function createPortalAccessibilityReport({
   duplicateIdFindings,
   axeFindings,
+  axeReviewFindings = [],
   scannedPages,
   colorSchemes = ['light'],
 }) {
-  const findings = [...duplicateIdFindings, ...axeFindings].sort(
-    compareFindings
-  )
+  const findings = [
+    ...duplicateIdFindings,
+    ...axeFindings,
+    ...axeReviewFindings,
+  ].sort(compareFindings)
 
   return {
     schemaVersion: 1,
@@ -17,6 +20,7 @@ export function createPortalAccessibilityReport({
       colorSchemes,
       duplicateIdGroups: duplicateIdFindings.length,
       axeGroups: axeFindings.length,
+      axeReviewGroups: axeReviewFindings.length,
       findings: findings.length,
     },
     findings,
@@ -29,6 +33,9 @@ export function formatPortalAccessibilityReport(report) {
   )
   const axeFindings = report.findings.filter(
     ({ check }) => check === 'axe'
+  )
+  const axeReviewFindings = report.findings.filter(
+    ({ check }) => check === 'axe-review'
   )
   const colorSchemes = report.summary.colorSchemes ?? ['light']
   const lines = [
@@ -45,10 +52,27 @@ export function formatPortalAccessibilityReport(report) {
     '',
     `- ${duplicateIds.length} duplicate ID groups`,
     `- ${axeFindings.length} page-level axe findings`,
+    ...(axeReviewFindings.length > 0
+      ? [`- ${axeReviewFindings.length} axe findings that need review`]
+      : []),
     '',
     `## Duplicate IDs (${duplicateIds.length})`,
     '',
   ]
+
+  const patterns = groupGeneratedIds(duplicateIds)
+  if (patterns.length > 0) {
+    lines.push(
+      'Generated ids that repeat in the same way usually have one cause:',
+      ''
+    )
+    for (const { pattern, ids, pages } of patterns) {
+      lines.push(
+        `- \`#${pattern}\` – ${ids} ids on ${pages} ${pages === 1 ? 'page' : 'pages'}`
+      )
+    }
+    lines.push('')
+  }
 
   for (const finding of duplicateIds) {
     const url = `https://eufemia.dnb.no${finding.page}#${encodeURIComponent(finding.id)}`
@@ -58,6 +82,26 @@ export function formatPortalAccessibilityReport(report) {
   }
 
   lines.push('', `## Axe findings (${axeFindings.length})`, '')
+  formatAxeFindings(lines, axeFindings)
+
+  if (axeReviewFindings.length > 0) {
+    lines.push(
+      `## Axe findings that need review (${axeReviewFindings.length})`,
+      '',
+      'axe could not decide these. Many screen readers ignore an ARIA name on an element whose role does not allow one.',
+      ''
+    )
+    formatAxeFindings(lines, axeReviewFindings)
+  }
+
+  if (report.findings.length === 0) {
+    lines.push('No findings. The Portal is clean.', '')
+  }
+
+  return lines.join('\n')
+}
+
+function formatAxeFindings(lines, axeFindings) {
   const rules = new Map()
   for (const finding of axeFindings) {
     const group = rules.get(finding.id) || []
@@ -85,12 +129,31 @@ export function formatPortalAccessibilityReport(report) {
     }
     lines.push('')
   }
+}
 
-  if (report.findings.length === 0) {
-    lines.push('No findings. The Portal is clean.', '')
+// React's useId gives ids like "id-R18dejbaqdb5"; the rest of the id shows the cause
+const generatedIdPattern = /^id-[Rr](?=[0-9a-z]*[0-9])[0-9a-z]+/
+
+function groupGeneratedIds(duplicateIds) {
+  const groups = new Map()
+  for (const { id, page } of duplicateIds) {
+    if (!generatedIdPattern.test(id)) {
+      continue
+    }
+    const pattern = id.replace(generatedIdPattern, 'id-…')
+    const group = groups.get(pattern) || { ids: 0, pages: new Set() }
+    group.ids++
+    group.pages.add(page)
+    groups.set(pattern, group)
   }
 
-  return lines.join('\n')
+  return Array.from(groups, ([pattern, { ids, pages }]) => ({
+    pattern,
+    ids,
+    pages: pages.size,
+  }))
+    .filter(({ ids }) => ids > 1)
+    .sort((a, b) => b.ids - a.ids || a.pattern.localeCompare(b.pattern))
 }
 
 export function comparePortalAccessibilityReports(previous, current) {
@@ -239,7 +302,7 @@ function findingFingerprint(finding) {
 function findingLabel(finding) {
   return finding.check === 'duplicate-id'
     ? `\`#${finding.id}\``
-    : `axe \`${finding.id}\``
+    : `axe \`${finding.id}\`${finding.check === 'axe-review' ? ' (needs review)' : ''}`
 }
 
 function compareFindings(a, b) {

@@ -877,12 +877,16 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
     background-color: var(--token-color-background-neutral);
     // Keep the resize handle that overlaps the edge reachable
-    clip-path: inset(0 -2rem 0 0);
+    clip-path: inset(
+      compact.$content-clip-block -2rem compact.$content-clip-block 0
+    );
 
     transition: clip-path 240ms var(--easing-default);
 
     &:dir(rtl) {
-      clip-path: inset(0 0 0 -2rem);
+      clip-path: inset(
+        compact.$content-clip-block 0 compact.$content-clip-block -2rem
+      );
     }
 
     &::after {
@@ -924,7 +928,7 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
     &.dnb-sidebar-menu-responsive-inline--expanded
       > .dnb-sidebar-menu-responsive-inline__content {
-      clip-path: inset(0);
+      clip-path: inset(compact.$content-clip-block 0);
     }
 
     &.dnb-sidebar-menu-responsive-inline--expanded::before {
@@ -940,11 +944,15 @@ html.dnb-sidebar-menu-resize-handle--resizing
     width: 0;
 
     > .dnb-sidebar-menu-responsive-inline__content {
-      clip-path: inset(0 100% 0 0);
+      clip-path: inset(
+        compact.$content-clip-block 100% compact.$content-clip-block 0
+      );
     }
 
     &:dir(rtl) > .dnb-sidebar-menu-responsive-inline__content {
-      clip-path: inset(0 0 0 100%);
+      clip-path: inset(
+        compact.$content-clip-block 0 compact.$content-clip-block 100%
+      );
     }
   }
 

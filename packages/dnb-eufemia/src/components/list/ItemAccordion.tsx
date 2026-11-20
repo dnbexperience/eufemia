@@ -72,6 +72,7 @@ const ItemAccordionContext = createContext<{
   openState: boolean
   pending?: boolean
   disabled?: boolean
+  skeleton?: boolean
   keepInDOM?: boolean
   openOnFind?: boolean
   chevronPosition?: ItemAccordionIconPosition
@@ -107,7 +108,9 @@ function ItemAccordion(props: ItemAccordionProps) {
   const [openState, setOpen] = useState(open)
   const accordionId = useId(idProp)
   const inheritedDisabled = useContext(ListContext)?.disabled
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedDisabled = disabled ?? inheritedDisabled
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
   const childArray = Array.isArray(children) ? children : [children]
   const hasExplicitHeader = childArray.some(
     (child) => isValidElement(child) && child.type === AccordionHeader
@@ -142,6 +145,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         openState,
         pending,
         disabled: appliedDisabled,
+        skeleton: appliedSkeleton,
         keepInDOM,
         openOnFind,
         chevronPosition,
@@ -185,8 +189,9 @@ function AccordionHeader(props: AccordionHeaderProps) {
   const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
 
+  const isSkeleton = accordionContext?.skeleton
   const isInactive =
-    accordionContext?.pending || accordionContext?.disabled
+    accordionContext?.pending || accordionContext?.disabled || isSkeleton
 
   const handleClick = useCallback(
     (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -237,8 +242,8 @@ function AccordionHeader(props: AccordionHeaderProps) {
       aria-expanded={openState}
       aria-disabled={isInactive ? true : undefined}
       tabIndex={isInactive ? -1 : 0}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
+      onClick={isSkeleton ? undefined : handleClick}
+      onKeyDown={isSkeleton ? undefined : handleKeyDown}
       {...rest}
     >
       {chevronPosition === 'left' && <ChevronIcon expanded={openState} />}

@@ -65,7 +65,8 @@ function TextInternal(props: TextInternalProps) {
   const srText = srLabel
     ? `${convertJsxToString(srLabel)}${' '}${textValue}`
     : textValue
-  const ariaLabel = srLabel ? srText : rest['aria-label']
+  // A span has no role, so screen readers can ignore an aria-label on it
+  const ariaLabel = srLabel ? undefined : rest['aria-label']
 
   const attributes = validateDOMAttributes(
     props,
@@ -74,6 +75,8 @@ function TextInternal(props: TextInternalProps) {
       'aria-label': ariaLabel,
       style,
       className: clsx(
+        // "dnb-stat" shows the screen reader text from "data-text"
+        srLabel && 'dnb-stat',
         textClassName,
         textClassName && fontSize && `dnb-t__size--${fontSize}`,
         textClassName &&
@@ -89,7 +92,19 @@ function TextInternal(props: TextInternalProps) {
 
   applySkeletonAttributes(attributes)
 
-  return <Element {...attributes}>{children}</Element>
+  return (
+    <Element {...attributes}>
+      {srLabel ? (
+        <>
+          <span aria-hidden>{children}</span>
+          {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
+          <span className="dnb-sr-only" data-text={srText} />
+        </>
+      ) : (
+        children
+      )}
+    </Element>
+  )
 }
 
 withComponentMarkers(TextInternal, {

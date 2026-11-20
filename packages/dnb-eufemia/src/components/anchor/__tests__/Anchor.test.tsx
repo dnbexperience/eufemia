@@ -13,6 +13,7 @@ import { bell } from '../../../icons'
 import IconPrimary from '../../IconPrimary'
 import locales from '../../../shared/locales'
 import Theme from '../../../shared/Theme'
+import Provider from '../../../shared/Provider'
 
 const nb = locales['nb-NO'].Anchor
 const en = locales['en-GB'].Anchor
@@ -874,6 +875,55 @@ describe('Anchor element', () => {
         </Anchor>
       )
       expect(await axeComponent(Component)).toHaveNoViolations()
+    })
+  })
+
+  describe('skeleton', () => {
+    it('should remove anchor from tab order and prevent navigation', () => {
+      const onClick = vi.fn()
+
+      render(
+        <Anchor href="/url" skeleton onClick={onClick}>
+          text
+        </Anchor>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).toHaveAttribute('aria-disabled', 'true')
+      expect(anchor).toHaveAttribute('tabindex', '-1')
+      expect(anchor).not.toHaveAttribute('href')
+
+      fireEvent.click(anchor)
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    it('should inherit skeleton from Provider', () => {
+      render(
+        <Provider skeleton>
+          <Anchor href="/url">text</Anchor>
+        </Provider>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).toHaveAttribute('tabindex', '-1')
+      expect(anchor).not.toHaveAttribute('href')
+    })
+
+    it('should stay interactive when skeleton is false', () => {
+      render(
+        <Provider skeleton>
+          <Anchor href="/url" skeleton={false}>
+            text
+          </Anchor>
+        </Provider>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).not.toHaveAttribute('tabindex')
+      expect(anchor).toHaveAttribute('href', '/url')
     })
   })
 })

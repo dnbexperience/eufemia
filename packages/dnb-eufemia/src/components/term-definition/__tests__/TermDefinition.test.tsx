@@ -56,6 +56,24 @@ describe('TermDefinition', () => {
     expect(tooltip).toBeNull()
   })
 
+  it('removes trigger from tab order and click/keyboard handling when skeleton', async () => {
+    render(
+      <TermDefinition content={definition} skeleton>
+        {term}
+      </TermDefinition>
+    )
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
+
+    expect(trigger).toHaveAttribute('tabindex', '-1')
+    expect(trigger).toHaveAttribute('aria-disabled', 'true')
+
+    await userEvent.click(trigger)
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  })
+
   it('links aria attributes and description elements', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')

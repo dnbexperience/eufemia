@@ -4080,6 +4080,46 @@ describe('Autocomplete component', () => {
     }
   )
 
+  it.each([
+    [
+      'the disabled prop',
+      (props: AutocompleteAllProps) => (
+        <Autocomplete {...props} disabled />
+      ),
+    ],
+    [
+      'Provider formElement',
+      (props: AutocompleteAllProps) => (
+        <Provider formElement={{ disabled: true }}>
+          <Autocomplete {...props} />
+        </Provider>
+      ),
+    ],
+  ])(
+    'does not open the options from the screen reader button when disabled via %s',
+    (_, renderAutocomplete) => {
+      render(
+        renderAutocomplete({ ...mockProps, data: ['Apple', 'Orange'] })
+      )
+
+      const srButton = document.querySelector(
+        '.dnb-autocomplete .dnb-sr-only button'
+      )
+
+      expect(srButton).toBeDisabled()
+
+      fireEvent.click(srButton)
+
+      expect(document.querySelector('.dnb-input__input')).toHaveAttribute(
+        'aria-expanded',
+        'false'
+      )
+      expect(
+        document.querySelector('li.dnb-drawer-list__option')
+      ).not.toBeInTheDocument()
+    }
+  )
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
@@ -5772,6 +5812,32 @@ describe('Autocomplete inline', () => {
     )
 
     expect(onOpen).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the list interactive with skeleton={false} inside a skeleton Provider', () => {
+    const onChange = vi.fn()
+
+    render(
+      <Provider skeleton>
+        <Autocomplete
+          {...inlineProps}
+          skeleton={false}
+          focusable
+          data={mockData}
+          onChange={onChange}
+        />
+      </Provider>
+    )
+
+    const ul = document.querySelector('ul.dnb-drawer-list__options')
+    expect(ul).not.toHaveClass('dnb-skeleton')
+    expect(ul.getAttribute('tabindex')).toBe('0')
+
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[1]
+    )
+
+    expect(onChange).toHaveBeenCalledTimes(1)
   })
 
   it('does not move focus on initial render', () => {

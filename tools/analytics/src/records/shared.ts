@@ -24,11 +24,11 @@ export function parseIngestBatch(
   return { ok: true, value: events }
 }
 
-/** A short lowercase environment token, e.g. `prod`, `dev`. */
-const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
+// Public ingest would keep any label in the never-expired rollups; smoketest marks test rows.
+const KNOWN_ENVS: ReadonlySet<string> = new Set(['prod', 'smoketest'])
 
-export function isValidEnv(value: unknown): value is string {
-  return typeof value === 'string' && ENV_PATTERN.test(value)
+export function isKnownEnv(value: unknown): value is string {
+  return typeof value === 'string' && KNOWN_ENVS.has(value)
 }
 
 /**

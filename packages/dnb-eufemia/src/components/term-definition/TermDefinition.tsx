@@ -14,7 +14,10 @@ import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import mergeProps from '../../shared/helpers/mergeProps'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes,
+} from '../skeleton/SkeletonHelper'
 import useTranslation from '../../shared/useTranslation'
 import type { SpacingProps } from '../../shared/types'
 import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
@@ -110,29 +113,35 @@ export default function TermDefinition(
 
   const triggerProps = removeSpaceProps(rest)
 
+  const triggerParams = useSpacing(rest, {
+    role: 'button',
+    tabIndex: 0,
+    ref: triggerRef,
+    className: clsx(
+      'dnb-term-definition__trigger',
+      'dnb-anchor',
+      active && 'dnb-anchor--hover',
+      skeletonClasses,
+      className
+    ),
+    'aria-expanded': active,
+    'aria-controls': active ? id : undefined,
+    'aria-describedby': `${id}-description`,
+    title,
+    ...mergeProps({ onClick, onKeyDown }, triggerProps),
+  })
+
+  if (skeletonClasses) {
+    triggerParams.tabIndex = -1
+    delete triggerParams.onClick
+    delete triggerParams.onKeyDown
+  }
+
+  skeletonDOMAttributes(triggerParams, skeleton, context)
+
   return (
     <>
-      <span
-        {...useSpacing(rest, {
-          role: 'button',
-          tabIndex: 0,
-          ref: triggerRef,
-          className: clsx(
-            'dnb-term-definition__trigger',
-            'dnb-anchor',
-            active && 'dnb-anchor--hover',
-            skeletonClasses,
-            className
-          ),
-          'aria-expanded': active,
-          'aria-controls': active ? id : undefined,
-          'aria-describedby': `${id}-description`,
-          title,
-          ...mergeProps({ onClick, onKeyDown }, triggerProps),
-        })}
-      >
-        {children}
-      </span>
+      <span {...triggerParams}>{children}</span>
 
       <span className="dnb-sr-only" aria-hidden id={`${id}-description`}>
         {title}

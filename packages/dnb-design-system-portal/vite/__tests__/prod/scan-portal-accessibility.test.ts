@@ -15,9 +15,11 @@ const mocks = vi.hoisted(() => ({
     waitFor: mocks.waitFor,
     evaluateAll: async () => [],
   })),
-  analyze: vi.fn<(rules?: string[]) => Promise<{ violations: unknown[] }>>(
-    async () => ({ violations: [] })
-  ),
+  analyze: vi.fn<
+    (
+      rules?: string[]
+    ) => Promise<{ violations: unknown[]; incomplete?: unknown[] }>
+  >(async () => ({ violations: [], incomplete: [] })),
 }))
 
 const scanArgs = [
@@ -137,7 +139,9 @@ it('retries a page that fails to load', async () => {
       'Retrying https://eufemia.dnb.no/: Page returned HTTP 503\n'
     )
     expect(stdout).toHaveBeenCalledWith(
-      expect.stringContaining('0 axe findings and 0 errors')
+      expect.stringContaining(
+        '0 axe findings, 0 axe findings that need review and 0 errors'
+      )
     )
   } finally {
     process.argv = originalArgs
@@ -151,6 +155,7 @@ it('scans a failed page again without counting its findings twice', async () => 
   mocks.goto.mockReset().mockResolvedValue({ ok: () => true })
   mocks.waitFor.mockReset().mockResolvedValue(undefined)
   mocks.analyze.mockReset().mockImplementation(async (rules) => ({
+    incomplete: [],
     violations: rules
       ? []
       : [
@@ -189,7 +194,9 @@ it('scans a failed page again without counting its findings twice', async () => 
       'Scanning / (dark) again later: locator.waitFor: Timeout 10000ms exceeded.\n'
     )
     expect(stdout).toHaveBeenCalledWith(
-      expect.stringContaining('1 axe findings and 0 errors')
+      expect.stringContaining(
+        '1 axe findings, 0 axe findings that need review and 0 errors'
+      )
     )
 
     const report = JSON.parse(mocks.writeFile.mock.calls[0][1])
@@ -199,7 +206,9 @@ it('scans a failed page again without counting its findings twice', async () => 
   } finally {
     process.argv = originalArgs
     stdout.mockRestore()
-    mocks.analyze.mockReset().mockResolvedValue({ violations: [] })
+    mocks.analyze
+      .mockReset()
+      .mockResolvedValue({ violations: [], incomplete: [] })
     mocks.locator.mockImplementation(() => ({
       waitFor: mocks.waitFor,
       evaluateAll: async () => [],
@@ -214,6 +223,7 @@ it('checks dark mode on the loaded page without loading it again', async () => {
   mocks.emulateMedia.mockClear()
   mocks.locator.mockClear()
   mocks.analyze.mockClear().mockImplementation(async (rules) => ({
+    incomplete: [],
     violations: rules
       ? [
           {
@@ -261,5 +271,74 @@ it('checks dark mode on the loaded page without loading it again', async () => {
     process.argv = originalArgs
     stdout.mockRestore()
     mocks.analyze.mockReset()
+  }
+})
+
+it('reports aria-prohibited-attr results that need review, and no other incomplete results', async () => {
+  const originalArgs = process.argv
+  mocks.writeFile.mockClear()
+  mocks.goto.mockReset().mockResolvedValue({ ok: () => true })
+  mocks.waitFor.mockReset().mockResolvedValue(undefined)
+  mocks.analyze.mockReset().mockImplementation(async () => ({
+    violations: [],
+    incomplete: [
+      {
+        id: 'aria-prohibited-attr',
+        impact: 'serious',
+        help: 'Elements must only use permitted ARIA attributes',
+        helpUrl:
+          'https://dequeuniversity.com/rules/axe/aria-prohibited-attr',
+        nodes: [
+          {
+            target: ['.dnb-stat__text'],
+            failureSummary:
+              'aria-label attribute is not well supported on a span',
+          },
+        ],
+      },
+      {
+        id: 'color-contrast',
+        impact: 'serious',
+        help: 'Elements must meet minimum color contrast ratio thresholds',
+        helpUrl: 'https://dequeuniversity.com/rules/axe/color-contrast',
+        nodes: [
+          { target: ['.pseudo-content'], failureSummary: 'Check it' },
+        ],
+      },
+    ],
+  }))
+  process.argv = scanArgs
+  const stdout = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+
+  try {
+    vi.resetModules()
+    await import('../../../scripts/scan-portal-accessibility.mjs')
+    await vi.waitFor(() =>
+      expect(mocks.writeFile).toHaveBeenCalledTimes(2)
+    )
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining(
+        '0 axe findings, 1 axe findings that need review and 0 errors'
+      )
+    )
+
+    const report = JSON.parse(mocks.writeFile.mock.calls[0][1])
+    expect(report.summary).toEqual(
+      expect.objectContaining({ axeGroups: 0, axeReviewGroups: 1 })
+    )
+    expect(report.findings).toEqual([
+      expect.objectContaining({
+        check: 'axe-review',
+        page: '/',
+        id: 'aria-prohibited-attr',
+        occurrences: 1,
+      }),
+    ])
+  } finally {
+    process.argv = originalArgs
+    stdout.mockRestore()
+    mocks.analyze
+      .mockReset()
+      .mockResolvedValue({ violations: [], incomplete: [] })
   }
 })

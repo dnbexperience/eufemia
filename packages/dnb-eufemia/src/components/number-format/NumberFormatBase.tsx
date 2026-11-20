@@ -403,7 +403,10 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
     aria = `${aria}${suffixSpace}${convertJsxToString(suffixElement)}`
   }
 
-  if (tooltip) {
+  const isSkeleton = skeleton || (skeleton !== false && context?.skeleton)
+  const hasTooltip = tooltip && !isSkeleton
+
+  if (hasTooltip) {
     rest = injectTooltipSemantic(rest)
   }
 
@@ -431,15 +434,15 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
   })
 
   const displayParams: Record<string, unknown> = {}
-  if (selectAllProp || copySelection) {
+  if ((selectAllProp || copySelection) && !isSkeleton) {
     displayParams.onClick = onClickHandler
     displayParams.onContextMenu = onContextMenuHandler
   }
 
   validateDOMAttributes(ownProps, attributes)
-  skeletonDOMAttributes(attributes, skeleton as boolean, context)
 
   const Element = element as ElementType
+  skeletonDOMAttributes(attributes, skeleton as boolean, context, Element)
 
   return (
     <Element {...attributes}>
@@ -477,7 +480,7 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
         </span>
       )}
 
-      {tooltip && (
+      {hasTooltip && (
         <Tooltip
           id={generatedId + '-tooltip'}
           targetElement={elRef}

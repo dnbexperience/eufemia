@@ -111,7 +111,7 @@ describe('buildComponentUsageRecord', () => {
     })
   })
 
-  it('keeps a valid env and a provided timestamp', () => {
+  it('keeps a known env and a provided timestamp', () => {
     const record = buildComponentUsageRecord(
       {
         app: 'app-a',

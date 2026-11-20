@@ -7,9 +7,12 @@ import makePropertiesFile, {
   generateCSSVariablesFromTokenList,
   convertToTokenList,
   syncTypographyProperties,
+  getTypographyFontProperties,
+  makeTypographyPropertiesSCSS,
   generateColorMixFallback,
   overrideFoundationReferencePrefix,
 } from '../makePropertiesFile'
+import { log } from '../../../lib'
 
 const colorsVariableSetId =
   'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19'
@@ -17,6 +20,8 @@ const sizesVariableSetId =
   'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025'
 const typographyVariableSetId =
   'VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045'
+const brandVariableSetId =
+  'VariableCollectionId:ce0e9fe2c86d01fffb6dda76c528754bcd1454ca/-1:-1'
 
 describe('makePropertiesFile', () => {
   const global = {
@@ -291,7 +296,7 @@ describe('makePropertiesFile', () => {
       for (const brand of ['dnb', 'sbanken', 'coconut']) {
         const light = readFont(brand, 'light')
         const dark = readFont(brand, 'dark')
-        for (const group of ['size', 'height']) {
+        for (const group of ['size', 'height', 'family', 'weight']) {
           const values = (font: typeof light) =>
             Object.fromEntries(
               Object.entries(
@@ -1040,6 +1045,282 @@ describe('makePropertiesFile', () => {
             expect(content).toContain(property)
           }
         }
+      }
+    })
+
+    const readFontTokens = async (mode = 'dnb-light') => {
+      const fs = await import('fs')
+      const path = await import('path')
+      return convertToTokenList(
+        JSON.parse(
+          fs.readFileSync(
+            path.resolve(
+              'src/style/themes/figma/brand/' + mode + '.tokens.json'
+            ),
+            'utf-8'
+          )
+        ),
+        brandVariableSetId
+      )
+    }
+
+    it('maps Figma font names to registered web families and preserves fallbacks', async () => {
+      expect(
+        getTypographyFontProperties(await readFontTokens(), 'ui')
+      ).toEqual({
+        '--font-family-default': "'DNB', 'Arial', sans-serif",
+        '--font-family-heading': 'var(--font-family-default)',
+        '--font-weight-default': 'normal',
+        '--font-weight-basis': 'normal',
+        '--font-weight-regular': 'normal',
+        '--font-weight-medium': '500',
+      })
+      expect(
+        getTypographyFontProperties(
+          await readFontTokens('sbanken-light'),
+          'sbanken'
+        )
+      ).toMatchObject({
+        '--font-family-default':
+          "'Roboto', 'Helvetica', 'Arial', sans-serif",
+        '--font-family-heading':
+          "'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+      })
+      expect(
+        getTypographyFontProperties(
+          await readFontTokens('dnbcarnegie-light'),
+          'carnegie'
+        )['--font-family-heading']
+      ).toBe("'ArizonaFlare', var(--font-family-default)")
+    })
+
+    it('replaces the Coconut body font from Figma and warns when no longer needed', async () => {
+      const fs = await import('fs/promises')
+      const path = await import('path')
+      const os = await import('os')
+      const warn = vi.spyOn(log, 'warn').mockImplementation(vi.fn())
+      const directory = await fs.mkdtemp(
+        path.join(os.tmpdir(), 'eufemia-typography-')
+      )
+
+      try {
+        const tokens = JSON.parse(
+          await fs.readFile(
+            path.resolve(
+              'src/style/themes/figma/brand/coconut-light.tokens.json'
+            ),
+            'utf-8'
+          )
+        )
+        const inputPath = path.join(directory, 'coconut-light.tokens.json')
+        const propertiesPath = path.join(directory, 'properties.scss')
+
+        for (const [body, message] of [
+          ['Roboto', 'Replaced the Coconut body font'],
+          ['DNB', 'Remove the Coconut font family replacement'],
+        ]) {
+          tokens.font.family.body.$value = body
+          await fs.writeFile(inputPath, JSON.stringify(tokens))
+          await fs.copyFile(
+            path.resolve('src/style/themes/coconut/properties.scss'),
+            propertiesPath
+          )
+
+          await makeTypographyPropertiesSCSS({
+            inputPath,
+            outputPath: path.join(directory, 'typography-properties.scss'),
+            brand: 'coconut',
+          })
+
+          expect(await fs.readFile(propertiesPath, 'utf-8')).toContain(
+            "--sb-font-family-default: 'DNB', 'Arial', sans-serif;"
+          )
+          expect(warn).toHaveBeenLastCalledWith(
+            expect.stringContaining(message)
+          )
+        }
+      } finally {
+        warn.mockRestore()
+        await fs.rm(directory, { recursive: true, force: true })
+      }
+    })
+
+    it('rejects unknown font families, weights and missing font tokens', async () => {
+      for (const [tokenPath, value, message] of [
+        [
+          'font/family/heading',
+          'Unknown font',
+          'Unsupported web font family',
+        ],
+        [
+          'font/family/body',
+          'ABC Arizona Flare',
+          'Unsupported web body font family',
+        ],
+        [
+          'font/family/heading',
+          'Maison Neue',
+          'Unsupported web font family for ui',
+        ],
+        [
+          'font/weight/text-basis',
+          'Unknown weight',
+          'Unsupported web font weight',
+        ],
+      ]) {
+        const tokens = await readFontTokens()
+        const token = tokens.find(
+          (token) => token.figmaPath.join('/') === tokenPath
+        )
+        token.$value = value
+        expect(() => getTypographyFontProperties(tokens, 'ui')).toThrow(
+          message
+        )
+      }
+      expect(() => getTypographyFontProperties([], 'ui')).toThrow(
+        'Missing string typography token: font/family/body'
+      )
+    })
+
+    it('rejects divergent body weights instead of dropping role-specific values', async () => {
+      const tokens = await readFontTokens()
+      const token = tokens.find(
+        (token) => token.figmaPath.join('/') === 'font/weight/text-sm'
+      )
+      token.$value = 'Medium'
+      expect(() => getTypographyFontProperties(tokens, 'ui')).toThrow(
+        'Expected font/weight/text-sm to match font/weight/text-basis'
+      )
+    })
+
+    it('rejects regular body weight changes that need matching web font rules', async () => {
+      for (const [brand, mode] of [
+        ['ui', 'dnb-light'],
+        ['sbanken', 'sbanken-light'],
+        ['coconut', 'coconut-light'],
+        ['carnegie', 'dnbcarnegie-light'],
+      ]) {
+        const tokens = await readFontTokens(mode)
+        for (const role of ['text-basis', 'text-sm', 'text-xs']) {
+          const token = tokens.find(
+            (token) => token.figmaPath.join('/') === 'font/weight/' + role
+          )
+          token.$value = 'Medium'
+        }
+        expect(() => getTypographyFontProperties(tokens, brand)).toThrow(
+          'Expected font/weight/text-basis to remain Regular for the existing web font rules'
+        )
+      }
+    })
+
+    it('syncs font changes to existing brand properties without adding declarations', async () => {
+      const fs = await import('fs/promises')
+      const path = await import('path')
+      const os = await import('os')
+      const directory = await fs.mkdtemp(
+        path.join(os.tmpdir(), 'eufemia-typography-')
+      )
+
+      try {
+        const uiTokens = JSON.parse(
+          await fs.readFile(
+            path.resolve(
+              'src/style/themes/figma/brand/dnb-light.tokens.json'
+            ),
+            'utf-8'
+          )
+        )
+        for (const role of ['text-basis', 'text-sm', 'text-xs']) {
+          uiTokens.font.weight[role + '-medium'].$value = 'Regular'
+        }
+        await fs.writeFile(
+          path.join(directory, 'dnb-light.tokens.json'),
+          JSON.stringify(uiTokens)
+        )
+
+        for (const [brand, mode, property] of [
+          ['carnegie', 'dnbcarnegie', '--ca-font-family-heading'],
+          ['ui', 'dnb', '--font-family-heading'],
+          ['sbanken', 'sbanken', '--sb-font-family-heading'],
+          ['coconut', 'coconut', '--sb-font-family-heading'],
+        ]) {
+          const inputPath = path.join(
+            directory,
+            mode + '-light.tokens.json'
+          )
+          const outputPath = path.join(
+            directory,
+            'typography-properties.scss'
+          )
+          const propertiesPath = path.join(directory, 'properties.scss')
+          const tokens = JSON.parse(
+            await fs.readFile(
+              path.resolve(
+                'src/style/themes/figma/brand/' +
+                  mode +
+                  '-light.tokens.json'
+              ),
+              'utf-8'
+            )
+          )
+          const source = await fs.readFile(
+            path.resolve('src/style/themes/' + brand + '/properties.scss'),
+            'utf-8'
+          )
+          tokens.font.family.heading.$value =
+            tokens.font.family.body.$value
+          for (const role of ['text-basis', 'text-sm', 'text-xs']) {
+            tokens.font.weight[role + '-medium'].$value = 'Regular'
+          }
+          await fs.writeFile(inputPath, JSON.stringify(tokens))
+          await fs.writeFile(
+            propertiesPath,
+            source.replace(
+              new RegExp(property + ':[^;]+;'),
+              property + ": 'Outdated font';"
+            )
+          )
+          await makeTypographyPropertiesSCSS({
+            inputPath,
+            outputPath,
+            brand,
+          })
+
+          const result = await fs.readFile(propertiesPath, 'utf-8')
+          const prefix = ['sbanken', 'coconut'].includes(brand)
+            ? '--sb-font-'
+            : '--font-'
+          expect(result).toContain(
+            property + ': var(' + prefix + 'family-default);'
+          )
+          expect(result).toContain(
+            brand === 'carnegie'
+              ? property + ': var(--font-family-default);'
+              : prefix + 'weight-medium: normal;'
+          )
+          expect(result.match(/--[\w-]+:/g)).toEqual(
+            source.match(/--[\w-]+:/g)
+          )
+          expect(result).not.toContain('--token-font-')
+        }
+        const inputPath = path.join(
+          directory,
+          'dnbcarnegie-light.tokens.json'
+        )
+        const tokens = JSON.parse(await fs.readFile(inputPath, 'utf-8'))
+        for (const role of ['text-basis', 'text-sm', 'text-xs']) {
+          tokens.font.weight[role + '-medium'].$value = 'Medium'
+        }
+        await fs.writeFile(inputPath, JSON.stringify(tokens))
+        await expect(
+          makeTypographyPropertiesSCSS({
+            inputPath,
+            outputPath: path.join(directory, 'typography-properties.scss'),
+            brand: 'carnegie',
+          })
+        ).rejects.toThrow('Expected Carnegie to inherit UI typography')
+      } finally {
+        await fs.rm(directory, { recursive: true, force: true })
       }
     })
 

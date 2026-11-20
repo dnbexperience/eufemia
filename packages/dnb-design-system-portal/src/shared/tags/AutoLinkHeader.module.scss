@@ -39,7 +39,7 @@
   position: relative;
 
   &:global(.focus) {
-    border-radius: 0.125rem;
+    border-radius: var(--token-radius-xs);
 
     @keyframes target-attention-focus {
       0%,

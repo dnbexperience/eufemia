@@ -1129,6 +1129,89 @@ describe('NumberFormat component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
+  describe('skeleton', () => {
+    it.each([
+      [
+        'the skeleton prop',
+        <Component
+          key="prop"
+          value={value}
+          selectAll
+          tooltip="Tooltip"
+          skeleton
+        />,
+      ],
+      [
+        'the Provider',
+        <Provider key="provider" skeleton>
+          <Component value={value} selectAll tooltip="Tooltip" />
+        </Provider>,
+      ],
+    ])(
+      'should not be focusable, select or show the tooltip when skeleton is set by %s',
+      async (_, jsx) => {
+        render(jsx)
+
+        const comp = document.querySelector<HTMLElement>(
+          '.dnb-number-format'
+        )
+        const number = document.querySelector(
+          '.dnb-number-format__visible'
+        )
+
+        expect(comp).not.toHaveAttribute('tabindex')
+
+        await userEvent.tab()
+        expect(document.body).toHaveFocus()
+
+        fireEvent.click(number)
+        fireEvent.contextMenu(number)
+        expect(comp).not.toHaveClass('dnb-number-format--selected')
+        expect(
+          document.querySelector('.dnb-number-format__selection')
+        ).toHaveTextContent('')
+
+        await userEvent.hover(comp)
+        await act(() => new Promise((resolve) => setTimeout(resolve, 400)))
+        expect(
+          document.querySelector('.dnb-tooltip--active')
+        ).not.toBeInTheDocument()
+      }
+    )
+
+    it('should stay interactive when skeleton is false', () => {
+      render(
+        <Provider skeleton>
+          <Component
+            value={value}
+            selectAll
+            tooltip="Tooltip"
+            skeleton={false}
+          />
+        </Provider>
+      )
+
+      const comp = document.querySelector('.dnb-number-format')
+      expect(comp).toHaveAttribute('tabindex', '0')
+
+      fireEvent.click(
+        document.querySelector('.dnb-number-format__visible')
+      )
+      expect(comp).toHaveClass('dnb-number-format--selected')
+    })
+
+    it('should not put the busy aria-label on the span', async () => {
+      const Comp = render(
+        <Component value={value} selectAll tooltip="Tooltip" skeleton />
+      )
+
+      const comp = document.querySelector('.dnb-number-format')
+      expect(comp).not.toHaveAttribute('aria-label')
+      expect(comp).toHaveAttribute('aria-disabled', 'true')
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+  })
+
   it('should not select all if selectAll is false', async () => {
     render(<NumberFormatBase selectAll={false} value={1234568} />)
 

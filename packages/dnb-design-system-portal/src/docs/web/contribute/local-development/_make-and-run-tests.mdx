@@ -71,6 +71,24 @@ PORT=8001 yarn test:screenshots breadcrumb
 
 Visual screenshot tests use this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
 
+### Filter by theme
+
+Run only one theme with `theme=<name>`
+
+```bash
+# Only run the 'sbanken' theme, for anchor and breadcrumb
+yarn test:screenshots breadcrumb theme=sbanken anchor
+```
+
+Skip a theme with `theme=-<name>`
+
+```bash
+# Run every theme except 'sbanken'
+yarn test:screenshots theme=-sbanken
+```
+
+This also works with `test:screenshots:update`, `:watch`, and the `:ci`/`:ci:update` variants (see [Conditional screenshot testing](#conditional-screenshot-testing) below), for example `yarn workspace dnb-design-system-portal test:screenshots:ci theme=-coconut`.
+
 ### Run selected themes only on `main`
 
 For screenshot tests, you can mark individual themes as main-only and keep the rest on all branches.
@@ -140,6 +158,8 @@ You can run the same logic locally:
 yarn workspace @dnb/eufemia test:screenshots:ci:conditional
 yarn workspace @dnb/eufemia test:screenshots:ci:conditional:explain
 ```
+
+`test:screenshots:ci` and `test:screenshots:ci:update` are plain aliases for `test:screenshots` and `test:screenshots:update`, so they accept the same component-name and `theme=`/`theme=-` filters. From the `dnb-design-system-portal` workspace, extra arguments are forwarded through `start-server-and-test` into the underlying command, so for example `yarn workspace dnb-design-system-portal test:screenshots:ci breadcrumb theme=-coconut` runs only the Breadcrumb suites, skipping the Coconut theme.
 
 You can choose change scope explicitly if needed:
 
