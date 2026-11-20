@@ -73,8 +73,8 @@ describe('makeLibStyles transform main SCSS to CSS', () => {
     expect(global.css[0]).toMatch(new RegExp('.dnb-icon\\s?{'))
   })
 
-  it('should not contain a reset scope like font-family', () => {
-    expect(global.css[0]).not.toContain('font-family')
+  it('should not contain the core reset scope', () => {
+    expect(global.css[0]).not.toContain('--eufemia-version')
   })
 
   it('should contain a non minified and a minified content', () => {

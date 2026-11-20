@@ -108,6 +108,7 @@
   --font-display: var(--font-family-heading);
   --font-display-text-rendering: auto;
   --font-heading: var(--font-sb-heading);
+  --font-action: var(--font-sb-action);
   --font-monospace:
     'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',
     'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace;
@@ -193,6 +194,7 @@
   --focus-outline-width: 0.1875rem;
   --focus-outline-offset: 0.125rem;
   --focus-ring-width: 0.25rem;
+  --font-sb-action: 'DNBMono', var(--font-sb-default);
   --button-text-translate-y: -0.03125rem;
   --text-basis-native: 1rem;
 }

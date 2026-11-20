@@ -108,6 +108,7 @@ export default {
   '--font-family-display-skeleton': "'DNBSkeleton'",
   '--font-display-text-rendering': 'auto',
   '--font-family-heading': 'var(--sb-font-family-heading)',
+  '--font-family-action': 'var(--sb-font-family-action)',
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',
@@ -192,6 +193,7 @@ export default {
   '--focus-outline-width': '0.1875rem',
   '--focus-outline-offset': '0.125rem',
   '--focus-ring-width': '0.25rem',
+  '--sb-font-family-action': "'DNBMono', var(--sb-font-family-default)",
   '--button-text-translate-y': '-0.03125rem',
   '--font-size-basis-native': '1rem'
 }; // prettier-ignore
