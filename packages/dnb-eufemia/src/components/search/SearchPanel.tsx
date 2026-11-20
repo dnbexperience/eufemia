@@ -235,7 +235,10 @@ function SearchPanelSurface({
 
     // Wrapped controls can require scrolling the surface as well as the list.
     const revealResults = () => {
-      if (!input.getAttribute('aria-activedescendant')) {
+      if (
+        input.ownerDocument.activeElement !== input ||
+        !input.getAttribute('aria-activedescendant')
+      ) {
         return
       }
       const content = contentRef.current?.querySelector<HTMLElement>(
@@ -328,6 +331,19 @@ function SearchPanelSurface({
           preventScroll:
             fieldControls.includes(next) || surface.contains(next),
         })
+        const content = surface.querySelector<HTMLElement>(
+          '.dnb-popover__content'
+        )
+        if (content?.contains(next)) {
+          const viewport = content.getBoundingClientRect()
+          const control = next.getBoundingClientRect()
+          content.scrollTop +=
+            control.bottom > viewport.bottom
+              ? control.bottom - viewport.bottom
+              : control.top < viewport.top
+                ? control.top - viewport.top
+                : 0
+        }
       }
     }
 

@@ -186,7 +186,19 @@
     --popover-border-radius: var(--token-radius-xl);
     --search-panel-results-min-height: min(
       var(--search-panel-min-height, 10rem),
-      var(--search-panel-max-height, var(--search-panel-min-height, 10rem))
+      var(
+        --search-panel-max-height,
+        var(--search-panel-min-height, 10rem)
+      ),
+      max(
+        0px,
+        calc(
+          var(--popover-available-height, 70vh) - var(
+              --search-panel-reserved-height,
+              0px
+            )
+        )
+      )
     );
 
     width: min(32rem, calc(100vw - 2rem));
@@ -217,13 +229,7 @@
     }
 
     .dnb-popover__content {
-      max-height: max(
-        var(--popover-available-height, 70vh),
-        calc(
-          var(--search-panel-results-min-height) +
-            var(--search-panel-reserved-height, 0px)
-        )
-      );
+      max-height: var(--popover-available-height, 70vh);
       overflow-y: auto;
       // Settle available height before Popover measures its position.
       transition: none;
@@ -241,10 +247,12 @@
     }
 
     .dnb-drawer-list--inline .dnb-drawer-list__options {
+      // Keep a result row readable when custom controls need outer scrolling.
       --search-panel-results-height-limit: min(
         var(--search-panel-max-height, 100vh),
         max(
           var(--search-panel-results-min-height),
+          calc(var(--drawer-list-list-line-height) + 2rem),
           calc(
             var(--popover-available-height, 70vh) - var(
                 --search-panel-reserved-height,
