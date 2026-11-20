@@ -502,11 +502,11 @@ export default [
       'component-types/require-component-prefix': [
         'error',
         {
-          // The spacing infrastructure (see AGENTS.md) intentionally uses the
-          // canonical "Spacing"/"InnerSpace" domain prefix rather than the
-          // "space" directory name. These types are foundational and widely
-          // consumed (e.g. SpacingProps is re-exported from shared/types and
-          // used across the library), so they keep their established names.
+          // The spacing infrastructure intentionally uses the canonical
+          // "Spacing"/"InnerSpace" domain prefix rather than the "space"
+          // directory name. These types are foundational and widely consumed
+          // (e.g. SpacingProps is re-exported from shared/types and used
+          // across the library), so they keep their established names.
           allowlist: [
             'SpacingProps',
             'SpacingUnknownProps',
