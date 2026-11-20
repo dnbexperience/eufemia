@@ -1,4 +1,12 @@
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterAll,
+  vi,
+} from 'vitest'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
@@ -68,6 +76,10 @@ describe('lambda-handler protocol versions', () => {
     docsRoot = await createTempDocs()
     process.env.EUFEMIA_DOCS_ROOT = docsRoot
     process.env.EDGE_AUTH_SECRET = secret
+  })
+
+  beforeEach(() => {
+    vi.mocked(captureUsage).mockClear()
   })
 
   afterAll(async () => {
@@ -203,7 +215,6 @@ describe('lambda-handler protocol versions', () => {
   }
 
   it('captures usage for an accepted tool call', async () => {
-    vi.mocked(captureUsage).mockClear()
     const result = await postMcp(docsEntryCall)
 
     expect(result.statusCode).toBe(200)
@@ -211,7 +222,6 @@ describe('lambda-handler protocol versions', () => {
   })
 
   it('captures no usage when the MCP transport rejects the request', async () => {
-    vi.mocked(captureUsage).mockClear()
     const result = await postMcp(docsEntryCall, { accept: 'text/plain' })
 
     expect(result.statusCode).toBeGreaterThanOrEqual(400)
