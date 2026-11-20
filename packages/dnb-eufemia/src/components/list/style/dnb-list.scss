@@ -159,6 +159,16 @@
       padding: calc(var(--list-item-padding)) 0;
     }
 
+    // Rows hidden by visibleCount use hidden="until-found", so find-in-page
+    // can reveal them. Browsers keep such elements in layout and only skip
+    // their content, so the row's min-height and padding would leave an
+    // empty block. Let them take no space until they are shown.
+    &[hidden='until-found'] {
+      min-height: 0;
+      padding-block: 0;
+      border: 0;
+    }
+
     // Let adjacent text nodes share one grid cell and wrap together.
     &:where(
       :not(

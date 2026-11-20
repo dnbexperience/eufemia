@@ -113,4 +113,33 @@ test.describe('openOnFind', () => {
     await expect(toggle).toHaveAttribute('aria-expanded', 'true')
     await expect(matchingContent).toBeVisible()
   })
+
+  test('keeps list rows hidden by visibleCount from taking space', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/list/demos')
+
+    const list = page.locator('#my-limited-list')
+    const rows = list.locator(':scope > li')
+    const hiddenRow = rows.nth(3)
+    const button = page.locator('[aria-controls="my-limited-list"]')
+
+    await expect(hiddenRow).toHaveAttribute('hidden', 'until-found')
+    await expect(hiddenRow).toHaveJSProperty('offsetHeight', 0)
+
+    // The list ends after the visible rows, with no empty block under them
+    const lastVisibleRow = await rows.nth(2).boundingBox()
+    const listBox = await list.boundingBox()
+    expect(listBox.y + listBox.height).toBeCloseTo(
+      lastVisibleRow.y + lastVisibleRow.height,
+      0
+    )
+
+    await button.click()
+
+    await expect(hiddenRow).not.toHaveAttribute('hidden')
+    expect(
+      await hiddenRow.evaluate((row: HTMLElement) => row.offsetHeight)
+    ).toBeGreaterThan(0)
+  })
 })
