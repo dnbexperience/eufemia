@@ -1,5 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { isEdgeAuthorized } from '../src/lambda/http.js'
+import { isEdgeAuthorized, json } from '../src/lambda/http.js'
+
+describe('json', () => {
+  it('tells browsers and proxies not to store the response', () => {
+    expect(json(200, {})).toMatchObject({
+      headers: { 'cache-control': 'no-store' },
+    })
+  })
+})
 
 describe('isEdgeAuthorized', () => {
   const original = process.env.EDGE_AUTH_SECRET

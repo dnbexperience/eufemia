@@ -661,6 +661,8 @@ resource "aws_athena_workgroup" "analytics" {
   configuration {
     enforce_workgroup_configuration    = true
     publish_cloudwatch_metrics_enabled = true
+    # Queries scan about 4 MB today (Nov 2026): this stops only a runaway query.
+    bytes_scanned_cutoff_per_query = 1024 * 1024 * 1024
 
     result_configuration {
       output_location = "s3://${aws_s3_bucket.data.id}/athena-results/"
