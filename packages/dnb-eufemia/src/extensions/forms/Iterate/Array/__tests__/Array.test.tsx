@@ -1020,6 +1020,126 @@ describe('Iterate.Array', () => {
       })
     })
 
+    it('should submit when the async onChange of a removed item returns an error', async () => {
+      const onSubmit = vi.fn()
+      let resolveChange: () => void
+      const onChange = async (value: string) => {
+        await new Promise<void>((resolve) => {
+          resolveChange = resolve
+        })
+
+        return value === 'Bbad' ? new Error('Save failed') : undefined
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{
+            items: [{ name: 'A' }, { name: 'B' }, { name: 'C' }],
+          }}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/items">
+            <Field.String itemPath="/name" onChange={onChange} />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      fireEvent.change(document.querySelectorAll('input')[1], {
+        target: { value: 'Bbad' },
+      })
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[1]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('input')).toHaveLength(2)
+      })
+
+      await act(async () => {
+        resolveChange()
+      })
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      expect(onSubmit.mock.calls[0][0]).toEqual({
+        items: [{ name: 'A' }, { name: 'C' }],
+      })
+    })
+
+    it('should block submit with the async onChange error of an item that moved up', async () => {
+      const onSubmit = vi.fn()
+      const resolvers: Array<() => void> = []
+      const onChange = async (value: string) => {
+        await new Promise<void>((resolve) => {
+          resolvers.push(resolve)
+        })
+
+        return value === 'Bbad' ? new Error('Save failed') : undefined
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{ items: [{ name: 'A' }, { name: 'B' }] }}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/items">
+            <Field.String itemPath="/name" onChange={onChange} />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      fireEvent.change(document.querySelectorAll('input')[1], {
+        target: { value: 'Bbad' },
+      })
+      await userEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[0]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('input')).toHaveLength(1)
+      })
+
+      await act(async () => {
+        resolvers.shift()()
+      })
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Save failed'
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 100))
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'Bgood' },
+      })
+      await waitFor(() => {
+        expect(resolvers).toHaveLength(1)
+      })
+      await act(async () => {
+        resolvers.shift()()
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      expect(onSubmit.mock.calls[0][0]).toEqual({
+        items: [{ name: 'Bgood' }],
+      })
+    })
+
     it.each([
       ['an item moves up', 0, 1],
       ['a new item takes the path of a removed item', 1, 2],
