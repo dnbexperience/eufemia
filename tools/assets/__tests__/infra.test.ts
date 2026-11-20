@@ -129,6 +129,48 @@ describe('assets infrastructure', () => {
     expect(deployWorkflow).not.toContain("--paths '/*'")
   })
 
+  it('publishes text files as UTF-8 in every sync', () => {
+    // Join continued shell lines, so each sync is one string.
+    const syncs =
+      deployWorkflow
+        .replace(/\\\n\s*/g, ' ')
+        .match(/aws s3 sync [^\n]+/g) ?? []
+
+    expect(syncs).toHaveLength(4)
+    expect(
+      syncs.filter((sync) => sync.includes("--exclude '*.txt'"))
+    ).toHaveLength(2)
+    expect(
+      syncs.filter(
+        (sync) =>
+          sync.includes("--exclude '*' --include '*.txt'") &&
+          sync.includes("--content-type 'text/plain; charset=utf-8'")
+      )
+    ).toHaveLength(2)
+
+    const immutableSyncs = syncs.filter((sync) =>
+      sync.includes('"s3://${BUCKET}/${VERSION}/"')
+    )
+    const stableSyncs = syncs.filter((sync) =>
+      sync.includes('"s3://${BUCKET}/${ASSET_PREFIX}/"')
+    )
+
+    expect(immutableSyncs).toHaveLength(2)
+    expect(stableSyncs).toHaveLength(2)
+    for (const sync of immutableSyncs) {
+      expect(sync).toContain(
+        "--cache-control 'public,max-age=31536000,immutable'"
+      )
+      expect(sync).not.toContain('--delete')
+    }
+    for (const sync of stableSyncs) {
+      expect(sync).toContain('--delete')
+      expect(sync).toContain(
+        "--cache-control 'public,max-age=3600,s-maxage=86400,stale-while-revalidate=604800'"
+      )
+    }
+  })
+
   it('renders social images in a job without AWS access', () => {
     const { header, jobs } = workflowJobs(socialImageWorkflow)
 
