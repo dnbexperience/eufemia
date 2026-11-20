@@ -33,6 +33,11 @@ if (screenshotInclude) {
   env.SCREENSHOT_INCLUDE = screenshotInclude
 }
 
+// CI runs the selected test files in parallel jobs, e.g. SCREENSHOT_SHARD=2/4
+const shardArgs = process.env.SCREENSHOT_SHARD
+  ? [`--shard=${process.env.SCREENSHOT_SHARD}`]
+  : []
+
 const result = spawnSync(
   'yarn',
   [
@@ -40,6 +45,7 @@ const result = spawnSync(
     ...(watch ? [] : ['run']),
     '--config',
     'vitest.config.screenshots.mts',
+    ...shardArgs,
     ...vitestArgs,
   ],
   {
