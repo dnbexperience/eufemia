@@ -2177,6 +2177,57 @@ describe('useFieldProps', () => {
       })
     })
 
+    it.each([
+      ['the older call finishes first', ['bad', 'ok']],
+      ['the newer call finishes first', ['ok', 'bad']],
+    ])(
+      'should only use the result of the latest async onChange when %s',
+      async (_, order) => {
+        const onSubmit = vi.fn()
+        const resolvers: Record<string, () => void> = {}
+        const onChange = async (value: string) => {
+          await new Promise<void>((resolve) => {
+            resolvers[value] = resolve
+          })
+
+          return value === 'bad' ? new Error('Save failed') : undefined
+        }
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Field.String path="/myValue" onChange={onChange} />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+
+        fireEvent.change(input, { target: { value: 'bad' } })
+        await waitFor(() => {
+          expect(resolvers.bad).toBeDefined()
+        })
+        fireEvent.change(input, { target: { value: 'ok' } })
+        await waitFor(() => {
+          expect(resolvers.ok).toBeDefined()
+        })
+
+        for (const value of order) {
+          await act(async () => {
+            resolvers[value]()
+          })
+        }
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onSubmit.mock.calls[0][0]).toEqual({ myValue: 'ok' })
+      }
+    )
+
     it('should wait for both "onChangeValidator" and "onBlurValidator" and DataContext onChange before local onChange call', async () => {
       const events = []
       const path = '/foo'
