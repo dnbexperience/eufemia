@@ -619,6 +619,20 @@ describe('Tooltip', () => {
         expect(ariaLiveElement).toHaveAttribute('aria-live', 'polite')
         expect(ariaLiveElement).toHaveAttribute('aria-atomic', 'true')
       })
+
+      it('does not announce the content when hidden from screen readers', () => {
+        render(
+          <Tooltip showDelay={0} hideDelay={0} open aria-hidden>
+            Visual only
+          </Tooltip>
+        )
+
+        expect(document.querySelector('.dnb-tooltip')).toHaveAttribute(
+          'aria-hidden',
+          'true'
+        )
+        expect(document.querySelector('.dnb-aria-live')).toBeNull()
+      })
     })
 
     describe('portalRootClass', () => {

@@ -354,6 +354,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     onMouseLeave: onOverlayMouseLeave,
     ...restAttributes
   } = attributes || {}
+  const isHiddenFromScreenReaders =
+    String(restAttributes['aria-hidden']) === 'true'
 
   const handleOverlayMouseEnter = useCallback(
     (event: MouseEvent<HTMLElement>) => {
@@ -467,9 +469,11 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         {children}
       </Popover>
 
-      <AriaLive element="span" priority="low">
-        {overlayOpen ? children : null}
-      </AriaLive>
+      {!isHiddenFromScreenReaders && (
+        <AriaLive element="span" priority="low">
+          {overlayOpen ? children : null}
+        </AriaLive>
+      )}
 
       {componentWrapper}
     </>
