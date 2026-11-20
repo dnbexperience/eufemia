@@ -1,5 +1,5 @@
 import type { RefObject } from 'react'
-import type { SectionSelectionMode } from './types'
+import type { InputMaskedSectionSelectionMode } from './types'
 
 export function setSectionDomApi({
   element,
@@ -14,7 +14,9 @@ export function setSectionDomApi({
   inputId: string
   displayValue: string
   caretPositionsRef: RefObject<Record<string, number>>
-  sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
+  sectionSelectionModeRef: RefObject<
+    Record<string, InputMaskedSectionSelectionMode>
+  >
   selectSection: (inputId: string) => void
   setSectionCaret: (inputId: string, position: number) => void
 }) {

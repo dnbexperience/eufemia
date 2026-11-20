@@ -2,7 +2,7 @@ import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import useId from '../../../../shared/helpers/useId'
 import Heading from '../../../../components/heading/Heading'
-import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import type { HelpButtonHelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../../../../components/help-button/HelpButtonInline'
@@ -16,7 +16,7 @@ export type FormMainHeadingProps = ComponentProps & {
    */
   level?: HeadingLevel
   /** Configuration for an inline help button shown next to the heading. */
-  help?: HelpProps
+  help?: HelpButtonHelpProps
   children?: ReactNode
 } & Omit<HTMLProps<HTMLElement>, 'size'>
 

@@ -13,7 +13,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Props for List.Cell.End (ItemEnd).
  * Extends Flex.Item; supports spacing props.
  */
-export type ItemEndProps = {
+export type ListItemEndProps = {
   /**
    * Font weight of the end content. Defaults to `medium`.
    * Default: `"medium"`
@@ -35,7 +35,7 @@ export type ItemEndProps = {
   element?: DynamicElement
 } & FlexItemProps
 
-function ItemEnd(props: ItemEndProps) {
+function ItemEnd(props: ListItemEndProps) {
   const {
     fontWeight = 'medium',
     fontSize = 'basis',

@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react'
-import type { ItemContentProps } from './ItemContent'
+import type { ListItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemBasicProps = {
+export type ListItemBasicProps = {
   id?: string
   icon?: IconIcon
   title?: ReactNode
@@ -14,11 +14,11 @@ export type ItemBasicProps = {
    * Select the internal Flex layout engine of the row. Defaults to `css`, which leaves the children unchanged, so cells rendered by your own components are placed like cells used directly. When `gap`, `rowGap` or `divider` is set, it defaults to `legacy`, so the row keeps the spacing it had before. Use `legacy` only as a temporary compatibility fallback.
    * Default: `'css'`
    */
-  layoutEngine?: ItemContentProps['layoutEngine']
-} & Omit<ItemContentProps, 'title' | 'layoutEngine'>
+  layoutEngine?: ListItemContentProps['layoutEngine']
+} & Omit<ListItemContentProps, 'title' | 'layoutEngine'>
 
 function isSetGap(
-  props: Omit<ItemBasicProps, 'icon' | 'title' | 'children'>,
+  props: Omit<ListItemBasicProps, 'icon' | 'title' | 'children'>,
   key: 'gap' | 'rowGap'
 ) {
   return (
@@ -27,7 +27,7 @@ function isSetGap(
   )
 }
 
-function ItemBasic(props: ItemBasicProps) {
+function ItemBasic(props: ListItemBasicProps) {
   const { icon, title, children, element, layoutEngine, ...rest } = props
 
   // The css engine leaves the children unchanged, so cells rendered by your

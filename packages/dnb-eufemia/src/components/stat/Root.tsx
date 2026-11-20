@@ -13,14 +13,14 @@ type RootOwnProps = {
   skeleton?: SkeletonShow
 }
 
-export type RootProps = Omit<
+export type StatRootProps = Omit<
   HTMLProps<HTMLElement>,
   keyof RootOwnProps | 'ref'
 > &
   RootOwnProps &
   SpacingProps
 
-function Root(props: RootProps) {
+function Root(props: StatRootProps) {
   const {
     children,
     id = null,

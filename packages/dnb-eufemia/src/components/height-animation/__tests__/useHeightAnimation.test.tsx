@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import Button from '../../Button'
-import type { UseHeightAnimationOptions } from '../useHeightAnimation'
+import type { HeightAnimationHookOptions } from '../useHeightAnimation'
 import { useHeightAnimation } from '../useHeightAnimation'
 import {
   simulateAnimationEnd,
@@ -24,7 +24,7 @@ describe('useHeightAnimation', () => {
   const AnimatedContent = ({
     open = false,
     animate = true,
-  }: UseHeightAnimationOptions) => {
+  }: HeightAnimationHookOptions) => {
     const element = useRef<HTMLDivElement | null>(null)
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
       useHeightAnimation(element, {

@@ -113,3 +113,5 @@ module.exports = {
     }
   },
 }
+
+module.exports.getComponentDirName = getComponentDirName

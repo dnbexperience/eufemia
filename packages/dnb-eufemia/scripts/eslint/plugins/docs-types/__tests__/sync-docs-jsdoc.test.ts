@@ -249,6 +249,21 @@ tester.run('sync-docs-jsdoc', rule, {
       `,
       filename: path.join(fixturesDir, 'multi-file/Gamma.tsx'),
     },
+
+    // ── A type with the component prefix resolves to the docs group without
+    // it, instead of the merged docs of all files in the directory ──
+    {
+      code: `
+        export type InfoCardInlineProps = {
+          /** Applies skeleton state to the inline container. */
+          skeleton?: boolean
+        }
+      `,
+      filename: path.join(
+        fixturesDir,
+        'src/components/info-card/Inline.tsx'
+      ),
+    },
   ],
 
   invalid: [
@@ -800,6 +815,71 @@ tester.run('sync-docs-jsdoc', rule, {
           data: {
             docsFile: 'AlphaDocs.ts',
             expected: 'Font size of the alpha content.',
+          },
+        },
+      ],
+    },
+
+    // ── A type with the component prefix is fixed from the docs group
+    // without it, not from another docs file in the directory ──
+    {
+      code: `
+        export type InfoCardInlineProps = {
+          /** Applies skeleton state to all sub-components. */
+          skeleton?: boolean
+        }
+      `,
+      output: `
+        export type InfoCardInlineProps = {
+          /**
+           * Applies skeleton state to the inline container.
+           */
+          skeleton?: boolean
+        }
+      `,
+      filename: path.join(
+        fixturesDir,
+        'src/components/info-card/Inline.tsx'
+      ),
+      errors: [
+        {
+          messageId: 'mismatchedJsdoc',
+          data: {
+            docsFile: 'InlineDocs.ts',
+            expected: 'Applies skeleton state to the inline container.',
+          },
+        },
+      ],
+    },
+
+    // ── In a nested directory, the prefix of the enclosing component
+    // directory is removed, e.g. "InputMaskedSegmentedFieldProps" in
+    // "input-masked/segmented-field/" ──
+    {
+      code: `
+        export type InfoCardSectionProps = {
+          /** Outdated section label. */
+          label?: string
+        }
+      `,
+      output: `
+        export type InfoCardSectionProps = {
+          /**
+           * Label of the section.
+           */
+          label?: string
+        }
+      `,
+      filename: path.join(
+        fixturesDir,
+        'src/components/info-card/section/types.ts'
+      ),
+      errors: [
+        {
+          messageId: 'mismatchedJsdoc',
+          data: {
+            docsFile: 'SectionDocs.ts',
+            expected: 'Label of the section.',
           },
         },
       ],

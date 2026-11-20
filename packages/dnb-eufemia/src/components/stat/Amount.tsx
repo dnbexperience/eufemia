@@ -57,7 +57,7 @@ type AmountOwnProps = Omit<
   percent?: boolean
 }
 
-export type AmountProps = Omit<
+export type StatAmountProps = Omit<
   HTMLProps<HTMLElement>,
   keyof AmountOwnProps | 'ref'
 > &
@@ -75,7 +75,7 @@ const renderAffix = (
   return <span className={className}>{resolved as ReactNode}</span>
 }
 
-function AmountBase(props: AmountProps) {
+function AmountBase(props: StatAmountProps) {
   const {
     element: Element = 'span',
     value,
