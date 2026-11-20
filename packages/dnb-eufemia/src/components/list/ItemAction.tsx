@@ -18,6 +18,7 @@ import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
 import chevron_down from '../../icons/chevron_down'
+import chevron_right from '../../icons/chevron_right'
 import chevron_up from '../../icons/chevron_up'
 import FlexItem from '../flex/Item'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -257,6 +258,11 @@ const listChevronIcon = Icon.transition({
   expanded: chevron_up,
 })
 
+const listChevronIconLeft = Icon.transition({
+  collapsed: chevron_right,
+  expanded: chevron_down,
+})
+
 export default ItemAction
 
 function ActionFooter({
@@ -285,13 +291,21 @@ function ActionFooter({
   )
 }
 
-export function ChevronIcon({ expanded }: { expanded?: boolean }) {
+export function ChevronIcon({
+  expanded,
+  position,
+}: {
+  expanded?: boolean
+  position?: ItemActionIconPosition
+}) {
   const isAccordion = expanded !== undefined
+  const accordionIcon =
+    position === 'left' ? listChevronIconLeft : listChevronIcon
 
   return (
     <div className="dnb-list__item__chevron">
       <IconPrimary
-        icon={isAccordion ? listChevronIcon : 'chevron_right'}
+        icon={isAccordion ? accordionIcon : 'chevron_right'}
         transitionState={
           isAccordion ? (expanded ? 'expanded' : 'collapsed') : undefined
         }
