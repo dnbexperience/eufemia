@@ -94,7 +94,7 @@ The HTTP server is configured via environment variables:
 | `PORT`                | `8787`         | HTTP port to listen on.                                                                           |
 | `HOST`                | `127.0.0.1`    | Bind host. Set to `0.0.0.0` to expose the server beyond the local machine.                        |
 | `EUFEMIA_DOCS_ROOT`   | `./build/docs` | Path to the Eufemia docs directory.                                                               |
-| `MCP_AUTH_TOKEN`      | _(unset)_      | If set, every request must send `Authorization: Bearer <token>`.                                  |
+| `MCP_AUTH_TOKEN`      | _(unset)_      | If set, requests to `/mcp`, `/sse` and `/messages` must send `Authorization: Bearer <token>`.     |
 | `MCP_ALLOWED_HOSTS`   | _(unset)_      | Comma-separated `Host` header allowlist for DNS-rebinding protection (e.g. `eufemia-mcp.dnb.no`). |
 | `MCP_ALLOWED_ORIGINS` | _(loopback)_   | Comma-separated `Origin` header allowlist. Use `*` to accept any browser origin.                  |
 

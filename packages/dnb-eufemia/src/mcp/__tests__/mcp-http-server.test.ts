@@ -389,6 +389,23 @@ describe('mcp-http-server with auth token', () => {
     expect(res.status).toBe(401)
   })
 
+  it.each(['/mcp', '/messages'])(
+    'rejects an unauthenticated %s request before reading its body',
+    async (route) => {
+      const res = await fetch(`${server.url}${route}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{not json',
+      })
+      expect(res.status).toBe(401)
+    }
+  )
+
+  it('rejects an unauthenticated /sse request', async () => {
+    const res = await fetch(`${server.url}/sse`)
+    expect(res.status).toBe(401)
+  })
+
   it('accepts requests with the correct bearer token', async () => {
     const res = await postJson(
       `${server.url}/mcp`,
