@@ -259,6 +259,41 @@ describe('Chip', () => {
     }
   )
 
+  it.each(['default', 'radio', 'addable'] as const)(
+    'keeps the tooltip description when the %s status changes',
+    (variant) => {
+      const { rerender } = render(
+        <Chip variant={variant} tooltip="Earn interest">
+          Savings
+        </Chip>
+      )
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+      expect(input).toHaveAccessibleDescription('Earn interest')
+
+      rerender(
+        <Chip
+          variant={variant}
+          status="Select an option"
+          tooltip="Earn interest"
+        >
+          Savings
+        </Chip>
+      )
+      expect(input).toHaveAccessibleDescription(
+        'Select an option Earn interest'
+      )
+
+      rerender(
+        <Chip variant={variant} tooltip="Earn interest">
+          Savings
+        </Chip>
+      )
+      expect(input).toHaveAccessibleDescription('Earn interest')
+    }
+  )
+
   it('shows a tooltip on hover without repeating the accessible name', async () => {
     const user = userEvent.setup()
     const { rerender } = render(

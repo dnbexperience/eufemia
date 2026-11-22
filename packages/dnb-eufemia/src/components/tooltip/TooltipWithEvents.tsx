@@ -303,6 +303,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
   }, [open, isControlled])
 
+  // The target may overwrite aria-describedby without changing its identity.
   useEffect(() => {
     const targetElement = getRefElement(cloneRef)
     if (!(targetElement instanceof HTMLElement)) {
@@ -348,7 +349,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     return () => {
       updateAriaDescribedBy(null)
     }
-  }, [cloneRef, describedById, target])
+  })
 
   useEffect(() => clearOverlayTimers, [])
 

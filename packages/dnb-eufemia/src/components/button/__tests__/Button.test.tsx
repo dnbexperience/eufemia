@@ -745,8 +745,15 @@ describe('Button status', () => {
     expect(describedBy).toContain(statusId)
   })
 
-  it('keeps the status describedby when a tooltip is also set', () => {
-    render(
+  it('keeps the tooltip description when the status changes', () => {
+    const { rerender } = render(
+      <Button text="With status and tooltip" tooltip="Helpful hint" />
+    )
+
+    const button = document.querySelector('button')
+    expect(button).toHaveAccessibleDescription('Helpful hint')
+
+    rerender(
       <Button
         text="With status and tooltip"
         status="my error"
@@ -754,7 +761,6 @@ describe('Button status', () => {
       />
     )
 
-    const button = document.querySelector('button')
     const statusId = document
       .querySelector('.dnb-form-status__text')
       .getAttribute('id')
@@ -763,6 +769,38 @@ describe('Button status', () => {
       new RegExp(`^${statusId} `)
     )
     expect(button).toHaveAccessibleDescription('my error Helpful hint')
+
+    rerender(
+      <Button text="With status and tooltip" tooltip="Helpful hint" />
+    )
+    expect(button).toHaveAccessibleDescription('Helpful hint')
+  })
+
+  it('keeps the tooltip description when aria-describedby changes', () => {
+    const Example = ({ description }: { description: string }) => (
+      <>
+        <p id="first-description">First description</p>
+        <p id="second-description">Second description</p>
+        <Button
+          text="With description and tooltip"
+          aria-describedby={description}
+          tooltip="Helpful hint"
+        />
+      </>
+    )
+    const { rerender } = render(
+      <Example description="first-description" />
+    )
+
+    const button = document.querySelector('button')
+    expect(button).toHaveAccessibleDescription(
+      'First description Helpful hint'
+    )
+
+    rerender(<Example description="second-description" />)
+    expect(button).toHaveAccessibleDescription(
+      'Second description Helpful hint'
+    )
   })
 
   it('should validate with ARIA rules when a status is set', async () => {
