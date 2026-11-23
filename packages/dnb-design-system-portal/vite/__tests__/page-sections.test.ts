@@ -9,7 +9,9 @@ import { defaultTabsValue } from '../../src/shared/tags/defaultValues'
  * Guards the section structure of portal documentation pages.
  *
  * - A tab page for Info, Demos, Properties or Events starts with a heading
- *   named after its tab, such as `## Info`.
+ *   named after its tab, such as `## Info`. Info and Demos have no other
+ *   `##` sections, since a component page shows them together. In Info,
+ *   `### Import` is the first subsection, followed by `### Relevant links`.
  * - "Relevant links" only lists links. Other content placed after the list
  *   would be announced as part of the links section, so it belongs in the
  *   description or in a section of its own. `<RelatedComponents />` and MDX
@@ -76,6 +78,10 @@ describe('portal page sections', () => {
     const offenders: string[] = []
     const tabTitles = ['Info', 'Demos', 'Properties', 'Events']
 
+    // A component page shows these tabs together, so each of them is one
+    // section of the page.
+    const sectionTabs = ['Info', 'Demos']
+
     for (const { file, data } of pages) {
       if (data.showTabs !== true) {
         continue
@@ -85,32 +91,54 @@ describe('portal page sections', () => {
         data.tabs || defaultTabsValue
 
       for (const { title, key } of tabs) {
-        const tabFile = path.join(
-          file.replace(/\.mdx$/, ''),
-          `${key.replace(/^\//, '')}.mdx`
-        )
+        // A key is either relative to the page, such as "/info", or a full
+        // path, such as "/web/components/number-format/info".
+        const tabPath = key.replace(/^\//, '')
+        const tabFile = tabPath.includes('/')
+          ? `${tabPath}.mdx`
+          : path.join(file.replace(/\.mdx$/, ''), `${tabPath}.mdx`)
         const tabPage = pagesByFile.get(tabFile)
 
         if (!tabTitles.includes(title) || !tabPage) {
           continue
         }
 
-        const firstHeading = getLines(tabPage.body).find(
-          ({ heading }) => heading
-        )?.heading
+        const headings = getLines(tabPage.body)
+          .map(({ heading }) => heading)
+          .filter(Boolean)
+        const otherSections = headings.filter(
+          (heading, index) => index > 0 && /^## /.test(heading)
+        )
 
-        if (firstHeading !== `## ${title}`) {
-          offenders.push(`${tabFile}: ${firstHeading ?? 'no heading'}`)
+        const subsections = headings.filter((heading) =>
+          /^### /.test(heading)
+        )
+        const imports = subsections.indexOf('### Import')
+        const links = subsections.indexOf('### Relevant links')
+
+        if (headings[0] !== `## ${title}`) {
+          offenders.push(`${tabFile}: ${headings[0] ?? 'no heading'}`)
+        } else if (sectionTabs.includes(title) && otherSections.length) {
+          offenders.push(`${tabFile}: ${otherSections[0]}`)
+        } else if (imports > 0) {
+          offenders.push(`${tabFile}: ${subsections[0]} before ### Import`)
+        } else if (imports === 0 && links !== -1 && links !== 1) {
+          offenders.push(
+            `${tabFile}: ${subsections[1]} between ### Import and ### Relevant links`
+          )
         }
       }
     }
 
     expect(
       offenders,
-      `These tab pages don't start with a heading named after their tab:\n` +
+      `These tab pages don't start with a heading named after their tab, ` +
+        `or have other "##" sections:\n` +
         offenders.join('\n') +
         `\n\nStart the page with "## Info", "## Demos", "## Properties" or ` +
-        `"## Events", matching its tab.`
+        `"## Events", matching its tab. In Info and Demos, use "###" for ` +
+        `the sections below it. In Info, start with "### Import" and ` +
+        `"### Relevant links".`
     ).toEqual([])
   })
 
