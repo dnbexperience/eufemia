@@ -74,7 +74,7 @@ describe('portal page sections', () => {
     expect(pages.length).toBeGreaterThan(50)
   })
 
-  it('starts each Info, Demos, Properties and Events tab with its tab heading', () => {
+  it('structures each Info, Demos, Properties and Events tab around its tab heading', () => {
     const offenders: string[] = []
     const tabTitles = ['Info', 'Demos', 'Properties', 'Events']
 
@@ -95,7 +95,7 @@ describe('portal page sections', () => {
         // path, such as "/web/components/number-format/info".
         const tabPath = key.replace(/^\//, '')
         const tabFile = tabPath.includes('/')
-          ? `${tabPath}.mdx`
+          ? path.normalize(`${tabPath}.mdx`)
           : path.join(file.replace(/\.mdx$/, ''), `${tabPath}.mdx`)
         const tabPage = pagesByFile.get(tabFile)
 
