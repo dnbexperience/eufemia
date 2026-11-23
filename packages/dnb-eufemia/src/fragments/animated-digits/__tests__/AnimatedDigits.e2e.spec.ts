@@ -123,8 +123,8 @@ test('disables digit rolling and removal when reduced motion is enabled or chang
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.setContent(`
     <style>${css}</style>
-    ${['up', 'down']
-      .map((direction: 'up' | 'down') =>
+    ${(['up', 'down'] as const)
+      .map((direction) =>
         renderToStaticMarkup(
           createElement(AnimatedDigits, {
             value: '2',
