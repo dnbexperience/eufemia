@@ -82,6 +82,28 @@ For the "logical" groups we recommend the following rational order principle:
 
 You may check out this [Prettier Plugin](https://www.npmjs.com/package/prettier-plugin-rational-order) for handling it automatic with [prettier](https://prettier.io/).
 
+## Hover styles
+
+Touch browsers keep `:hover` on the last tapped element until something else is tapped. Hover styles then stay visible, and can make a control look checked or selected when it isn't.
+
+- Put hover styles inside `@media (hover: hover)`, so they only apply on devices that can hover.
+- Keep pressed (`:active`) and focus styles outside of it, so touch users still get feedback.
+- Add `:not(:active)` to hover selectors, so hover styles don't hide the pressed style.
+
+```scss
+.my-toggle {
+  @media (hover: hover) {
+    &:hover:not(:active) {
+      border-color: var(--token-color-stroke-action-hover);
+    }
+  }
+
+  &:active {
+    border-color: var(--token-color-stroke-action-pressed);
+  }
+}
+```
+
 ## CSS Units
 
 Here is a list of what we should use as layout and styling units to embrace the best possible accessibility experience and visual correctness.
