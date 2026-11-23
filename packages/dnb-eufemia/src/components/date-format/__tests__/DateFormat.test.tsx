@@ -36,6 +36,179 @@ describe('DateFormat', () => {
     } as unknown as typeof Intl.DateTimeFormat)
   }
 
+  describe('animated updates', () => {
+    const changedDigits = () =>
+      document.querySelectorAll('.dnb-animated-digits__character--changed')
+    const previousDigits = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-animated-digits__previous')
+      ).map((element) => element.getAttribute('data-previous'))
+
+    it('is opt-in and does not animate the initial value', () => {
+      const { rerender } = render(<DateFormat value="2026-12-31" />)
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+
+      rerender(<DateFormat value="2026-12-31" animate />)
+      expect(document.querySelector('.dnb-animated-digits')).not.toBeNull()
+      expect(changedDigits()).toHaveLength(0)
+    })
+
+    it.each(['nb-NO', 'en-GB', 'en-US'] as const)(
+      'preserves date formatting and accessible text in %s',
+      (locale) => {
+        const { rerender } = render(
+          <DateFormat
+            value="2026-12-31"
+            dateStyle="short"
+            locale={locale}
+            animate
+          />
+        )
+        rerender(
+          <DateFormat
+            value="2027-01-01"
+            dateStyle="short"
+            locale={locale}
+            animate
+          />
+        )
+
+        const time = document.querySelector('time')
+        const expected = new Intl.DateTimeFormat(locale, {
+          dateStyle: 'short',
+        }).format(new Date(2027, 0, 1))
+        expect(time).toHaveAttribute('datetime', '2027-01-01')
+        expect(
+          time.querySelector('[aria-hidden="true"]')
+        ).toHaveTextContent(expected)
+        expect(time.querySelector('.dnb-sr-only')).toHaveTextContent(
+          expected
+        )
+        expect(changedDigits().length).toBeGreaterThan(0)
+      }
+    )
+
+    it('matches date fields when day length changes and supports rapid reversal', () => {
+      const { rerender } = render(
+        <DateFormat value="2026-12-30" locale="en-GB" animate />
+      )
+      rerender(<DateFormat value="2027-01-01" locale="en-GB" animate />)
+
+      expect(previousDigits()).toEqual(['0', '6'])
+      expect(
+        document.querySelector('[aria-hidden="true"]')
+      ).toHaveTextContent('1 January 2027')
+
+      rerender(<DateFormat value="2026-12-30" locale="en-GB" animate />)
+
+      expect(previousDigits()).toEqual(['1', '7'])
+      expect(document.querySelector('.dnb-animated-digits')).toHaveClass(
+        'dnb-animated-digits--down'
+      )
+    })
+
+    it('preserves UTC time and custom separators across midnight', () => {
+      const { rerender } = render(
+        <DateFormat
+          value="2026-12-31T23:59:59Z"
+          dateStyle="short"
+          timeStyle="medium"
+          dateTimeSeparator=" / "
+          animate
+        />
+      )
+      rerender(
+        <DateFormat
+          value="2027-01-01T00:00:00Z"
+          dateStyle="short"
+          timeStyle="medium"
+          dateTimeSeparator=" / "
+          animate
+        />
+      )
+
+      expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+        '01.01.2027 / 00:00:00'
+      )
+      expect(document.querySelector('time')).toHaveAttribute(
+        'datetime',
+        '2027-01-01'
+      )
+      expect(previousDigits()).toEqual([
+        '3',
+        '1',
+        '2',
+        '6',
+        '2',
+        '3',
+        '5',
+        '9',
+        '5',
+        '9',
+      ])
+    })
+
+    it('supports hidden years and children values', () => {
+      const { rerender } = render(
+        <DateFormat hideYear animate>
+          2026-12-30
+        </DateFormat>
+      )
+      rerender(
+        <DateFormat hideYear animate>
+          2027-01-01
+        </DateFormat>
+      )
+
+      expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+        '1. januar'
+      )
+      expect(previousDigits()).toEqual(['0'])
+    })
+
+    it('skips motion when formatting or locale changes with the date', () => {
+      const { rerender } = render(
+        <DateFormat value="2026-12-31" locale="nb-NO" animate />
+      )
+      rerender(<DateFormat value="2027-01-01" locale="en-GB" animate />)
+      expect(changedDigits()).toHaveLength(0)
+
+      rerender(
+        <DateFormat
+          value="2027-01-02"
+          locale="en-GB"
+          dateStyle="short"
+          animate
+        />
+      )
+      expect(changedDigits()).toHaveLength(0)
+    })
+
+    it('does not animate a skeleton or the value revealed afterwards', () => {
+      const { rerender } = render(
+        <Provider skeleton>
+          <DateFormat value="2026-12-31" animate />
+        </Provider>
+      )
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+
+      rerender(
+        <Provider skeleton={false}>
+          <DateFormat value="2027-01-01" animate />
+        </Provider>
+      )
+      expect(changedDigits()).toHaveLength(0)
+    })
+
+    it('does not animate durations or relative time', () => {
+      const { rerender } = render(<DateFormat value="PT2H" animate />)
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+
+      rerender(<DateFormat value="2026-12-31" relativeTime animate />)
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+    })
+  })
+
   describe('absolute date', () => {
     it('should format the whole date based on `dateStyle`', () => {
       const { rerender } = render(
@@ -1915,29 +2088,36 @@ describe('DateFormat', () => {
       vi.restoreAllMocks()
     })
 
-    it('should hydrate a date formatted in another time zone on the server and update it afterwards', () => {
-      const element = (
-        <DateFormat
-          value="2026-10-08T00:30:00+02:00"
-          dateStyle="short"
-          timeStyle="short"
-        />
-      )
+    it.each([false, true])(
+      'should hydrate a date formatted in another time zone on the server and update it afterwards (animate=%s)',
+      (animate) => {
+        const element = (
+          <DateFormat
+            value="2026-10-08T00:30:00+02:00"
+            dateStyle="short"
+            timeStyle="short"
+            animate={animate}
+          />
+        )
 
-      formatInTimeZone('UTC')
-      const html = renderOnServer(element)
-      expect(html).toContain('07.10.2026')
+        formatInTimeZone('UTC')
+        const html = renderOnServer(element)
+        expect(html).toContain('07.10.2026')
 
-      vi.restoreAllMocks()
-      formatInTimeZone('Europe/Oslo')
-      const { time, recoverableErrors, unmount } = hydrate(html, element)
+        vi.restoreAllMocks()
+        formatInTimeZone('Europe/Oslo')
+        const { time, recoverableErrors, unmount } = hydrate(html, element)
 
-      expect(recoverableErrors).toEqual([])
-      expect(time).toHaveTextContent('08.10.2026')
-      expect(time).toHaveTextContent('00:30')
+        expect(recoverableErrors).toEqual([])
+        expect(time).toHaveTextContent('08.10.2026')
+        expect(time).toHaveTextContent('00:30')
+        expect(
+          time.querySelector('.dnb-animated-digits__character--changed')
+        ).toBeNull()
 
-      unmount()
-    })
+        unmount()
+      }
+    )
 
     it('should hydrate relative time rendered earlier on the server and update it afterwards', () => {
       const now = new Date('2026-10-08T10:00:00Z').getTime()

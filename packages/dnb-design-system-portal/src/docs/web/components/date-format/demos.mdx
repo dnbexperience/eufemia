@@ -45,6 +45,25 @@ Use the `timeStyle` property to include a time value alongside the date. Add
 
 <Examples.DateAndTime />
 
+### Animated dates
+
+Use `animate` to highlight a date change with a short, 160 ms digit transition.
+Move one day at a time to try the month and year boundaries.
+
+Month names and other text change immediately. Initial values and formatting
+changes appear without motion. The animation respects reduced motion, and
+screen readers receive the final date. Relative times and durations are not
+animated.
+
+<Examples.Animated />
+
+The animation styles are included in the standard Eufemia stylesheets. When
+loading individual styles, include:
+
+```tsx
+import '@dnb/eufemia/fragments/animated-digits/style/dnb-animated-digits.min.css'
+```
+
 ### Relative time
 
 <Examples.RelativeTime />

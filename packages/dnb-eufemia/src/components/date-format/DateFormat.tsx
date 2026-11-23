@@ -35,6 +35,7 @@ import {
 import { useTranslation } from '../../shared'
 import { convertJsxToString } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import AnimatedDate from './AnimatedDate'
 
 type DateFormatProps = SpacingProps & {
   value?: Date | string | number
@@ -42,6 +43,10 @@ type DateFormatProps = SpacingProps & {
   locale?: InternalLocale
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
+  /**
+   * Animates changing digits in absolute dates and times in 160 ms. Text such as month names changes immediately. Initial values, formatting changes, and values revealed after a skeleton appear without motion. Respects reduced motion. Relative times and durations are not animated. Defaults to `false`.
+   */
+  animate?: boolean
   dateTimeSeparator?: string
   /**
    * When `true`, the year is hidden if the date is in the current year, for any `dateStyle` (e.g. "4. feb." instead of "4. feb. 2025"). Defaults to `false`.
@@ -73,6 +78,7 @@ function DateFormat(props: DateFormatProps) {
     locale: localeProp,
     dateStyle = 'long',
     timeStyle,
+    animate = false,
     dateTimeSeparator,
     hideCurrentYear = false,
     hideYear = false,
@@ -434,7 +440,24 @@ function DateFormat(props: DateFormatProps) {
         {...hydrationProps}
         ref={showTooltip ? ref : undefined}
       >
-        {isHydrating ? '' : displayedContent}
+        {isHydrating ? (
+          ''
+        ) : animate && !attributes['aria-disabled'] ? (
+          <AnimatedDate
+            key={JSON.stringify([
+              locale,
+              dateStyle,
+              timeStyle,
+              dateTimeSeparator,
+              hideYear,
+              hideCurrentYear,
+            ])}
+            value={displayedContent}
+            timestamp={date.getTime()}
+          />
+        ) : (
+          displayedContent
+        )}
       </time>
       {showTooltip && (
         <Tooltip
