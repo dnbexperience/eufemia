@@ -5,25 +5,25 @@ redirect_from:
   - /web/extensions/forms/base-fields/Upload/info
 ---
 
-## Description
+## Info
 
 `Field.Upload` is a wrapper for the [Upload](/web/components/upload/) component to make it easier to use inside a form.
 
 There is a corresponding [Value.Upload](/web/forms/Value/Upload) component.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Upload />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Upload)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Upload)
 
-## The data and file format
+### The data and file format
 
 The returned data is an array of objects containing a file object, a unique ID, etc. The [file item object](/web/components/upload/properties/#fileitem) contains the file itself and some additional properties like a unique ID.
 
@@ -46,13 +46,13 @@ The returned data is an array of objects containing a file object, a unique ID, 
 
 This data format will be returned by the `onChange` and the `onSubmit` event handlers.
 
-## Validation
+### Validation
 
 The `required` property will validate if there are valid files present. If there are files with an error, the validation will fail.
 
 If there are invalid files, the `onSubmit` event will not be called and a validation error will be shown.
 
-### Handling validation errors
+#### Handling validation errors
 
 Files are automatically validated for file size and file type based on the `fileMaxSize` and `acceptedFileTypes` properties. When files fail these validations, they receive an `errorMessage` property.
 
@@ -87,7 +87,7 @@ For error handling of invalid files, you can refer to the [Upload](/web/componen
 
 Here is [an example](/web/forms/base-fields/Upload/#with-file-size-validation) of how to use the `fileHandler` property to validate file sizes.
 
-## About the `value` and `path` property
+### About the `value` and `path` property
 
 The `path` property represents an array with an object described above:
 
@@ -105,17 +105,17 @@ The `value` property represents an array with an object described above:
 render(<Field.Upload value={files} />)
 ```
 
-## About the `fileHandler` property
+### About the `fileHandler` property
 
 The `fileHandler` is a handler function that supports both asynchronous and synchronous operations. It receives **only newly added valid files** as a parameter and returns the processed files (or a Promise when asynchronous).
 
-### Which files are passed to the handler?
+#### Which files are passed to the handler?
 
 - **Only newly added files**: Files that were just uploaded by the user.
 - **Only valid files**: Files that do not have validation errors such as file size and file type (files with `errorMessage` are excluded).
 - **Not existing files**: Files that were previously uploaded and already exist in the list are not included.
 
-### What should be returned?
+#### What should be returned?
 
 Return an array of [file item objects](/web/components/upload/properties/#fileitem) with the same or modified properties:
 
@@ -124,7 +124,7 @@ Return an array of [file item objects](/web/components/upload/properties/#fileit
 - **Modify other properties**: Such as `description`, `removeDeleteButton`, `removeLink`, etc.
 - **Leave a file out**: To remove it from the list.
 
-### Automatic loading state handling
+#### Automatic loading state handling
 
 The component automatically handles asynchronous loading states during the upload process, displaying a spinner next to each file while the `fileHandler` is processing.
 
@@ -159,7 +159,7 @@ async function virusCheck(newFiles) {
 }
 ```
 
-### TransformIn and TransformOut
+#### TransformIn and TransformOut
 
 You can use the `transformIn` and `transformOut` properties to transform the data from the internal format to the external format and vice versa.
 
@@ -226,7 +226,7 @@ function MyForm() {
 }
 ```
 
-### TransformIn considerations
+#### TransformIn considerations
 
 The properties of the [file item object](/web/components/upload/properties/#fileitem) is used internally to visually customize the file when displayed. For instance when displaying a spinner when `isLoading: true`.
 It does also exist some internal logic based on these values, so be careful when changing these through [transformers](/web/forms/data-and-state/#transforming-data), like `transformIn`, as changing or overriding these properties could have unexpected results.
@@ -246,7 +246,7 @@ If doing so, it's recommended to pass along the rest of the [file item object](/
 </Form.Handler>
 ```
 
-### Persist files in session storage
+#### Persist files in session storage
 
 The `sessionStorageId` property can be used to store the files in the session storage so they persist between page reloads.
 

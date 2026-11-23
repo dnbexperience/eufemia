@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/feature-fields/BankAccountNumber/info
 ---
 
-## Description
+## Info
 
 `Field.BankAccountNumber` is a wrapper component for [string input](/web/forms/base-fields/String), with user experience tailored for bank account values.
 
@@ -25,26 +25,26 @@ The value is always a string since account numbers can have leading zeros.
 
 There is a corresponding [Value.BankAccountNumber](/web/forms/Value/BankAccountNumber) component.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.BankAccountNumber />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/BankAccountNumber)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/feature-fields/BankAccountNumber)
 
-## Validators
+### Validators
 
-### Internal validators exposed
+#### Internal validators exposed
 
 `Field.BankAccountNumber` exposes the `bankAccountNumberValidator` validator through its `onChangeValidator` and `onBlurValidator` properties. Take a look at [this demo](/web/forms/feature-fields/BankAccountNumber/demos/#extend-validation-with-custom-validation-function).
 The `bankAccountNumberValidator` validator validates whether the bank account number provided is a [Norwegian bank account number](https://no.wikipedia.org/wiki/Kontonummer) or not.
 
-### Extending validators
+#### Extending validators
 
 Use the `validators` parameter to keep the default checks and add your own custom rule. Import `BankAccountNumberValidator` to type your `onBlurValidator` and get the typed `validators` object.
 

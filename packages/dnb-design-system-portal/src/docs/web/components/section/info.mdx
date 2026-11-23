@@ -4,26 +4,26 @@ redirect_from:
   - /uilib/components/section/info
 ---
 
-## Description
+## Info
 
 The Section component is a visual helper. It wraps content inside a visual section banner.
 
-## Import
+### Import
 
 ```tsx
 import { Section } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/section)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/section)
 
-## Breakout / fullscreen
+### Breakout / fullscreen
 
 Under the hood, it uses a couple of tricks to achieve an infinite fullscreen size. You do not need to do anything more than you normally would with your content. The background of the Section component will extend beyond a `max-width` when enabled with the `breakout` property.
 
-## Usage
+### Usage
 
 Many of the properties support [media queries](/web/layout-and-typography/breakpoints/). This makes this component well suited to change its look based on screen sizes.
 
@@ -44,7 +44,7 @@ Each of these properties do support either a single value or an object containin
 - `textColor={string}` or e.g. `textColor={{ small: 'black-80' }}`
 - `innerSpace={string}` or e.g. `innerSpace={{ small: { top: 'small' } }}`
 
-## Accessibility
+### Accessibility
 
 The `error`, `warning`, `success` and `information` variants differ only in their background color. A color change alone is not enough, so also state the purpose of the section in its content, for example in a heading.
 

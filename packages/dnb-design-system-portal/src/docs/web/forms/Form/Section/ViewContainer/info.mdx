@@ -6,7 +6,7 @@ redirect_from:
   - /web/extensions/forms/Form/Section/ViewContainer/info
 ---
 
-## Description
+## Info
 
 `Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between this view and the [Form.Section.EditContainer](/web/forms/Form/Section/EditContainer/) container.
 
@@ -28,14 +28,14 @@ render(
 )
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.Section.ViewContainer />)
 ```
 
-## Customize the Toolbar
+### Customize the Toolbar
 
 ```tsx
 import { Form, Value } from '@dnb/eufemia/extensions/forms'
@@ -53,7 +53,7 @@ render(
 )
 ```
 
-## Accessibility
+### Accessibility
 
 The `ViewContainer` component has an `aria-label` attribute, which is set to the `title` property value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.
 

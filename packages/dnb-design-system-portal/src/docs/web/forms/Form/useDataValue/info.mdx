@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Form/useDataValue/info
 ---
 
-## Description
+## Info
 
 `Form.useDataValue(path)` returns the current value at a [JSON Pointer](/web/forms/data-and-state/#what-is-a-json-pointer) path and subscribes only to that path while used inside `Form.Handler`.
 
@@ -19,19 +19,19 @@ Related helpers:
 - [Form.useDataWithoutSubscription](/web/forms/Form/useData/#without-subscription)
 - [Form.getData](/web/forms/Form/getData/)
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 // Use Form.useDataValue
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useDataValue.ts)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Form/useDataValue)
 
-## Usage
+### Usage
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -49,7 +49,7 @@ render(
 )
 ```
 
-## TypeScript support
+### TypeScript support
 
 You can define the value type returned from the path.
 
@@ -63,7 +63,7 @@ const MyComponent = () => {
 }
 ```
 
-## When to use it
+### When to use it
 
 Use `Form.useDataValue` for rendered values inside `Form.Handler`.
 

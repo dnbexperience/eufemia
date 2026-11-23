@@ -6,18 +6,18 @@ redirect_from:
   - /web/extensions/forms/Form/InfoOverlay/info
 ---
 
-## Description
+## Info
 
 `Form.InfoOverlay` is used to display an informational message that fully covers the available space. It can show a custom message or content, a `success` message as a receipt, or an `error` message to indicate an issue.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.InfoOverlay />)
 ```
 
-## Usage
+### Usage
 
 By default the given children will be shown.
 This can also be achieved by setting `content={undefined}` or by `Form.InfoOverlay.setContent(myId, undefined)`.
@@ -32,14 +32,14 @@ render(
 )
 ```
 
-## Display a message
+### Display a message
 
 There are two ways to display a message:
 
 - Using the `Form.InfoOverlay.setContent` method.
 - Using the `content` property.
 
-### Using the `Form.InfoOverlay.setContent` method
+#### Using the `Form.InfoOverlay.setContent` method
 
 You can show the success or error message by using the `Form.InfoOverlay.setContent` method:
 
@@ -84,7 +84,7 @@ render(
 )
 ```
 
-### Using the `content` property
+#### Using the `content` property
 
 You can show the success or error message by using the `content` property:
 
@@ -94,7 +94,7 @@ You can show the success or error message by using the `content` property:
 <Form.InfoOverlay content="error">fallback content</Form.InfoOverlay>
 ```
 
-## Customization of the `success` and `error` messages
+### Customization of the `success` and `error` messages
 
 You can customize the `success` and `error` messages by using the `success` and `error` properties.
 
@@ -118,6 +118,6 @@ You can customize the `success` and `error` messages by using the `success` and 
 </Form.InfoOverlay>
 ```
 
-## Accessibility
+### Accessibility
 
 The component will manage focus handling, which is important for screen readers and users using keyboard navigation.

@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/feature-fields/Name/info
 ---
 
-## Description
+## Info
 
 `Field.Name` is a wrapper component for the [input of strings](/web/forms/base-fields/String), with user experience tailored for first name, last name and company names.
 
@@ -26,7 +26,7 @@ function MyForm() {
 }
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
@@ -36,24 +36,24 @@ render(<Field.Name.Last />)
 render(<Field.Name.Company />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Name)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/feature-fields/Name)
 
-## Sources
+### Sources
 
 - [Lov om personnavn (navneloven)](https://lovdata.no/dokument/NL/lov/2002-06-07-19)
 - [Krav til foretaksnavn](https://lovdata.no/lov/1985-06-21-79/§2-1)
 
-## Characteristics
+### Characteristics
 
-### Allowed characters
+#### Allowed characters
 
 - **`Field.Name.First` and `Field.Name.Last`**: Only letters, hyphens, and spaces are allowed.
 - **`Field.Name.Company`**: Letters, numbers, punctuation marks, spaces, and dots are allowed.
 
-### Behavior
+#### Behavior
 
 - Trailing spaces are automatically removed.
 - The HTML `autocomplete` attribute is automatically set:
@@ -62,7 +62,7 @@ render(<Field.Name.Company />)
   - `family-name` for `Field.Name.Last`
   - `organization` for `Field.Name.Company`
 
-## Validation rules
+### Validation rules
 
 All name fields have the following validation rules:
 
@@ -77,9 +77,9 @@ The validation happens on blur, internally using the `onBlurValidator` [property
 
 **Note**: The validation patterns are tailored to Norwegian name and company name requirements. If you need support for additional characters or different validation rules, you can extend the validation using the `onBlurValidator` property. See the [Validators](#validators) section below for more information.
 
-## Validators
+### Validators
 
-### Internal validators exposed
+#### Internal validators exposed
 
 `Field.Name` and `Field.Name.Company` expose validators through their `onBlurValidator` property:
 

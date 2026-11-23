@@ -6,7 +6,7 @@ redirect_from:
   - /web/extensions/forms/Form/Outlet/info
 ---
 
-## Description
+## Info
 
 `Form.Outlet` links its children to an existing `Form.Handler` context by `formHandlerId`.
 
@@ -16,14 +16,14 @@ The `formHandlerId` is required. The matching `Form.Handler` can be rendered bef
 
 When `Form.Outlet` is placed **outside** a `Form.Handler` subtree it automatically wraps its children in a `<form>` element, so submit buttons work correctly. When placed **inside** an existing `Form.Handler`, no extra `<form>` element is added.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.Outlet formHandlerId="my-form-id">...</Form.Outlet>)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Form.Handler](/web/forms/Form/Handler/)
 - [Form.useData](/web/forms/Form/useData/)

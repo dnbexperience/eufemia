@@ -4,23 +4,23 @@ redirect_from:
   - /uilib/components/filter/info
 ---
 
-## Description
+## Info
 
 `Filter` is a composable filter UI for building search and filter experiences. It does **not** own your data — instead, it provides shared state that you read with the `Filter.useFilter(id)` hook and apply to your own data source.
 
 The component uses a namespace pattern where `Filter` is the import and `Filter.Root` is the renderable root.
 
-## Import
+### Import
 
 ```tsx
 import { Filter } from '@dnb/eufemia'
 ```
 
-## Behavior
+### Behavior
 
 By default, `Filter.Root` emits changes in real time via `onChange`. Set `behavior="manual"` to buffer filter changes internally — the panel will show an "Apply filter" button to commit changes and a "Cancel" button to revert changes. This is useful when filter changes trigger expensive operations like API calls. Note that search input is always emitted in real time, even in manual mode. `Filter.ActiveFilters` only shows applied filters, so tags won't appear until the user applies them.
 
-## Filter keys
+### Filter keys
 
 Each filter is identified by a `filterKey` string. For `Filter.Selection` and `Filter.MultiSelection`, individual selected values are stored as `{filterKey}/{value}` entries in the state (e.g. `/status/active`, `/status/inactive`). This convention lets you inspect which values are selected by filtering the keys that start with the filter's prefix:
 
@@ -34,7 +34,7 @@ The leading `/` is a convention to namespace filter keys — it is not a URL pat
 
 When building custom filters with `Filter.useFilterContext()`, you can use any key format — the `{filterKey}/{value}` pattern is only used by the built-in selection components.
 
-## Combining search and filters
+### Combining search and filters
 
 The Filter component stores `search` and `filters`, but does not decide how your data should match them. As a rule of thumb, each active filter should narrow the result set.
 
@@ -42,14 +42,14 @@ Different filter groups are also usually combined with **AND**, such as status a
 
 For custom filters and quick filters, choose the logic that matches the meaning of the controls. Use **OR** when the buttons are alternatives in the same category, and **AND** when they represent independent conditions that should all be true.
 
-## Layout
+### Layout
 
 The Filter component can be used in two layout patterns:
 
 - **Inside a list** — Place `Filter.Root` inside the first `List.Item.Basic`. Filtered results render as subsequent list items. This is the most common pattern.
 - **Column layout with Grid** — Use `Grid.Container` with `Grid.Item` to place the filter and results side by side. Use `Filter.Content` to link the results area to the filter via `connectedTo`.
 
-## Sub-components
+### Sub-components
 
 - **`Filter.Root`** — Root wrapper. Provides filter context and syncs state via `useSharedState`. Requires a unique `id`. Supports spacing props.
 - **`Filter.Header`** — Groups the filter controls (toolbar, panel, active filters) above the results. When used together with `Filter.Content` containing a `List.Container`, the header receives a subtle background and top border-radius to visually connect with the list below.
@@ -70,13 +70,13 @@ The Filter component can be used in two layout patterns:
 - **`Filter.NoResults`** — Renders a translated "no results" message when `resultCount` is `0`. When placed inside a `List.Container`, it automatically renders as a list item. Can be placed after `Filter.ActiveFilters` inside a container, or inside a `Filter.Content` where it inherits `connectedTo` automatically.
 - **`Filter.ResultCount`** — Displays the current result count as a translated message (e.g. "3 result(s)") when filters are active. Hidden when no filters or search text are applied. Reads `resultCount` from the nearest `Filter.Root`, a `connectedTo` id, or a `resultCount` prop. Supports spacing props.
 
-## Hooks
+### Hooks
 
 - **`Filter.useFilter(id)`** — Reads filter state from anywhere — does not need to be inside `Filter.Root`. Returns `{ filters, search, hasActiveFilters, resetFilters, removeFilter }`.
 - **`Filter.useFilterAsync(id, fetcher, options?)`** — Async data fetching linked to a filter. Handles loading state, race conditions, and syncs `resultLoading`/`resultCount` to shared state. Options: `initialData` for immediate rendering, `debounce` (ms) to delay fetcher calls while the user is typing. Returns `{ data, loading, error }`.
 - **`Filter.useFilterContext()`** — Accesses the full filter context from inside `Filter.Root`. Use this to build custom filter types. Returns `{ setFilter, getFilter, removeFilter, resetFilters, commitFilters, revertFilters, filters, search, hasActiveFilters }`.
 
-## URL sync hooks
+### URL sync hooks
 
 These hooks sync filter state to URL query parameters so filters survive page reloads and browser navigation. Each hook writes `{id}-search` and `{id}-filters` query parameters. Pass `excludeSearch: true` to skip syncing the search string.
 
@@ -84,7 +84,7 @@ These hooks sync filter state to URL query parameters so filters survive page re
 - **`Filter.useReactRouter(id, { useSearchParams, ...options })`** — Uses React Router's `useSearchParams`. Pass the hook from your router version.
 - **`Filter.useNextRouter(id, { useRouter, usePathname, useSearchParams, ...options })`** — Uses Next.js App Router hooks. Pass `useRouter`, `usePathname`, and `useSearchParams` from `next/navigation`.
 
-## Basic usage
+### Basic usage
 
 ```tsx
 import { Filter, List } from '@dnb/eufemia'
@@ -135,7 +135,7 @@ function MyPage() {
 }
 ```
 
-## Decoupled hook usage
+### Decoupled hook usage
 
 `Filter.useFilter(id)` can be called from a completely separate component tree. The filter UI and the data consumer are linked only by the shared `id`:
 
@@ -173,7 +173,7 @@ function TransactionList() {
 }
 ```
 
-## Custom filters
+### Custom filters
 
 Create custom filter types using `Filter.useFilterContext()` and `Filter.Item`:
 
@@ -221,7 +221,7 @@ render(
 )
 ```
 
-## Async data fetching
+### Async data fetching
 
 `Filter.useFilterAsync(id, fetcher)` handles the full fetch lifecycle — loading state, race conditions, and result count — so you don't have to wire it up yourself.
 
@@ -261,11 +261,11 @@ const { data } = Filter.useFilterAsync('my-filter', fetcher, {
 })
 ```
 
-## Accessibility
+### Accessibility
 
 The Filter component includes several accessibility features out of the box:
 
-### Live announcements
+#### Live announcements
 
 `Filter.Content` uses an `aria-live` region to announce filter result changes to screen readers:
 
@@ -273,23 +273,23 @@ The Filter component includes several accessibility features out of the box:
 - When no results are found (`resultCount={0}`), it announces the no-results message.
 - During loading, announcements are suppressed to avoid noisy updates.
 
-### Focus management
+#### Focus management
 
 The bottom "Hide filter" button appears when the filter options and the distance from the panel toggle exceed the viewport height. It updates when categories expand or collapse, content changes size, or the viewport resizes. Scrolling alone does not change its visibility, but mobile browser toolbars may resize the viewport while scrolling and trigger an update. Short panels can be closed with `Filter.PanelButton`. If no panel toggle is rendered, the bottom close button remains available. Manual mode always shows the Apply and Cancel buttons.
 
 When the filter panel is closed with the bottom "Hide filter" button, the "Apply" button, or the "Cancel" button in manual mode, focus returns to `Filter.PanelButton`. This ensures keyboard users don't lose their place in the page.
 
-### ARIA attributes
+#### ARIA attributes
 
 - `Filter.Root` renders with `role="search"` and an `aria-label` to identify the filter region.
 - `Filter.PanelButton` uses `aria-expanded` to communicate whether the panel is open or closed.
 - `Filter.ActiveFilters` renders a labeled group so screen readers can identify the active filter tags.
 
-### Find-in-page
+#### Find-in-page
 
 When `openOnFind` is enabled, the panel and collapsible active filters keep closed content findable by the browser's find-in-page feature, powered by [HeightAnimation](/web/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=15807-0)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/filter)

@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Form/setData/info
 ---
 
-## Description
+## Info
 
 With the `Form.setData` method, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
 
@@ -14,14 +14,14 @@ Related helpers:
 - [Form.getData](/web/forms/Form/getData/)
 - [Form.useData](/web/forms/Form/useData/)
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 // Use Form.setData
 ```
 
-## Replace the whole data set
+### Replace the whole data set
 
 When a value is given to the `setData` function, the whole data set will be replaced.
 
@@ -41,7 +41,7 @@ function MyForm() {
 }
 ```
 
-## Update a single value
+### Update a single value
 
 You can use the `update` function to update the data.
 

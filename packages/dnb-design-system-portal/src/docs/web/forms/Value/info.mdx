@@ -8,7 +8,7 @@ redirect_from:
 
 import { SummaryList, Composition } from './Examples'
 
-## Description
+## Info
 
 On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has Value components. These components operate similarly to [field components](/web/forms/all-fields/), meaning they're data-driven, can accept value properties, and can be connected to a surrounding [Form.Handler](/web/forms/Form/Handler) by specifying the relevant value with a `path` property.
 
@@ -17,30 +17,30 @@ import { Value } from '@dnb/eufemia/extensions/forms'
 render(<Value.String path="/myPath" />)
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Value } from '@dnb/eufemia/extensions/forms'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Value)
 
-## Summary and definition lists
+### Summary and definition lists
 
 When you utilize multiple `Value.*` components together, consider enclosing them within the [SummaryList](/web/forms/Value/SummaryList/) component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.
 
 <SummaryList />
 
-## Combine values together
+### Combine values together
 
 You can also combine `Value.*` components together by using the value [Composition](/web/forms/Value/Composition/) component. And it can still be used within the above mentioned [SummaryList](/web/forms/Value/SummaryList/) component.
 
 <Composition />
 
-## Inherit visibility from fields based on path
+### Inherit visibility from fields based on path
 
 User-entered data is always stored internally in the data context, even when a [Field](/web/forms/all-fields/) is temporarily shown or hidden (mounted/unmounted).
 
@@ -68,7 +68,7 @@ It's recommended to use [Form.Visibility](/web/forms/Form/Visibility/) because i
 
 You can also propagate the `inheritVisibility` property down to all nested values with the [Value.Provider](/web/forms/Value/Provider/).
 
-## Inherit labels from fields to values
+### Inherit labels from fields to values
 
 You can use `inheritLabel={true}` to inherit the label from the field with the same path.
 
@@ -87,7 +87,7 @@ const MyForm = () => {
 
 An inherited label takes precedence over built-in labels, such as the one in `Value.Email`. Use `defaultLabel` to set a label that only shows when there is no label to inherit.
 
-## Transform labels
+### Transform labels
 
 You can use `transformLabel` to transform the label before it gets displayed.
 

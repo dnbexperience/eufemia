@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/base-fields/Boolean/info
 ---
 
-## Description
+## Info
 
 `Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.
 
@@ -18,23 +18,23 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Boolean path="/myState" />)
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Boolean />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Boolean)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Boolean)
 
-## Indeterminate checkbox
+### Indeterminate checkbox
 
 Here is an indeterminate state (partially checked) [working example](/web/forms/base-fields/Indeterminate/).
 
-## Schema validation
+### Schema validation
 
 You can use a schema to validate the value with either `const` or `enum`.
 

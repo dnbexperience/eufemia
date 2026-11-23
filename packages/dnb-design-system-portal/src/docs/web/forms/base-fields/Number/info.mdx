@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/base-fields/Number/info
 ---
 
-## Description
+## Info
 
 `Field.Number` is the base component for receiving user input where the target data is of type `number`.
 
@@ -18,19 +18,19 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Number path="/myNumber" />)
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Number />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Number)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Number)
 
-## When to use and not to use
+### When to use and not to use
 
 `Field.Number` only allows the user to enter numbers (negative and positive) and decimal numbers.
 
@@ -40,7 +40,7 @@ However, for a customer number, you should rather use [Field.String](/web/forms/
 
 Internally, it is used by e.g. [Field.Currency](/web/forms/feature-fields/Currency/).
 
-## Non-finite values (Infinity and NaN)
+### Non-finite values (Infinity and NaN)
 
 A derived value can sometimes resolve to a non-finite number. A common example is a calculated percentage where the previous value is `0`, which results in a division by zero and produces `Infinity`.
 
@@ -48,17 +48,17 @@ A derived value can sometimes resolve to a non-finite number. A common example i
 
 For an impossible calculation, store an empty value (such as `undefined`) instead of a non-finite number so the field is valid. The same applies when you provide your own `schema` – see [Schema validation](/web/forms/Form/schema-validation/#non-finite-numbers-infinity-and-nan) for details.
 
-## Browser autofill
+### Browser autofill
 
 Check out the [Field.String](/web/forms/base-fields/String/#browser-autofill) docs about autocomplete.
 
-## Step controls
+### Step controls
 
 When using `showStepControls`, the Number component provides buttons for decrementing and incrementing the input value, where the value of de/increment is determined by the `step` property.
 
 It can also be used with [Field.Currency](/web/forms/feature-fields/Currency/).
 
-### Accessibility
+#### Accessibility
 
 The component does not include focusable buttons, aligning with accessibility considerations for keyboard-only users, who can utilize arrow keys for navigation, like the `incrementable` [number input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number).
 

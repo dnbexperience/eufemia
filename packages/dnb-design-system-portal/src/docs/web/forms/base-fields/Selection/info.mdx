@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/base-fields/Selection/info
 ---
 
-## Description
+## Info
 
 `Field.Selection` is a component for selecting between options using a dropdown or similar user experiences.
 
@@ -47,14 +47,14 @@ render(
 )
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Selection />)
 ```
 
-## Automatically selecting a single option
+### Automatically selecting a single option
 
 Set `autoSelectSingleOption` to select the only enabled option when the field is empty. It defaults to `false` and works with all variants and options provided through `data`, `dataPath`, or children.
 
@@ -81,12 +81,12 @@ For dynamic lists, enable the property only when loading has finished and the co
 
 Use this behavior only when accepting the sole option does not require an explicit decision. A required field alone does not imply that selecting on the user's behalf is appropriate. For a one-time initial selection, use `defaultValue` instead.
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Selection)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Selection)
 
-## About the Autocomplete variant
+### About the Autocomplete variant
 
 The autocomplete variant (`variant="autocomplete"`) is a special easy drop-in version – basically as a replacement for the Dropdown variant, but with a search capability.
 

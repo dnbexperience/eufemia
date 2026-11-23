@@ -6,29 +6,29 @@ redirect_from:
 
 import WhenToUseForms from 'Docs/web/forms/when-to-use-forms.mdx'
 
-## Description
+## Info
 
 The Upload component should be used in scenarios where the user has to upload any kind of files.
 
-## Import
+### Import
 
 ```tsx
 import { Upload } from '@dnb/eufemia'
 ```
 
-## When to use Upload vs Eufemia Forms
+### When to use Upload vs Eufemia Forms
 
 <WhenToUseForms />
 
 The Eufemia Forms equivalent of `Upload` is [Field.Upload](/web/forms/base-fields/Upload/).
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=23118-25104)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/upload)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/upload)
 
-## How to use the Upload component
+### How to use the Upload component
 
 - Files selected by the user should be uploaded immediately to a temporary location.
 - The user should be able to remove files during the session.
@@ -56,7 +56,7 @@ function YourComponent() {
 }
 ```
 
-## `useUpload` hook
+### `useUpload` hook
 
 Exposes the following functionality:
 
@@ -64,7 +64,7 @@ Exposes the following functionality:
 - `setFiles`: A function to set the files of the Upload component.
 - `clearFiles`: A function to clear the files of the Upload component. It can be useful when you want to programmatically clear the files of the Upload component at a given time.
 
-## Variant compact
+### Variant compact
 
 The `compact` variant displays less information than the `default` variant and aims to display only what's necessary for the user to upload a file:
 
@@ -74,33 +74,33 @@ The `compact` variant displays less information than the `default` variant and a
 - `text` as sublabel (can be removed by providing the value `false`)
 - A button that expands the accepted file types, the max file size and the max number of files (can be removed by providing `fileLimitsButtonText={false}`)
 
-## Accepted file types
+### Accepted file types
 
 `acceptedFileTypes` matches short entries against the file extension exactly and ignores letter case. For example, `doc` does not accept `.docx`; list both `doc` and `docx` when you need both formats. Full MIME entries, such as `application/pdf`, match the file MIME type. Files without an extension can match a short entry by their MIME subtype, such as `pdf` for `application/pdf`.
 
 When `jpg` is defined, the component also accepts `jpeg` files.
 
-## Backend integration
+### Backend integration
 
 The backend receiving the files is decoupled and can be any existing or new system.
 
-## Limit the amount of files
+### Limit the amount of files
 
 By default, the Upload component accepts multiple files. You can use the property `filesAmountLimit={1}` to make the component accept only one file.
 
-## Page-wide drop support
+### Page-wide drop support
 
 Once the Upload component mounts, it also adds support for dropping files to the entire browser body.
 
 **NB:** When you have several mounted components, only the first Upload component will receive the dropped files.
 
-## The `download` property
+### The `download` property
 
 Each file item is displayed as a clickable link with its original file name, which opens the file source in a new browser tab.
 
 In some situations, it's more suitable to have each link download the file instead of opening it in a new browser tab. To achieve this, set the `download={true}` property on the Upload component.
 
-## Prevents uploading duplicate files
+### Prevents uploading duplicate files
 
 By default, the Upload component prevents uploading duplicate files. It determines if a file is a duplicate if the file's `name`, `size` (if existing), and `lastModified` (if existing) values are equal. You can use the property `allowDuplicates={true}` to allow duplicate files.
 

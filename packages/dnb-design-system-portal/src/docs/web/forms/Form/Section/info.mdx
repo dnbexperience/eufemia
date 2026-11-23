@@ -7,23 +7,23 @@ redirect_from:
   - /web/extensions/forms/Form/Section/info
 ---
 
-## Description
+## Info
 
 `Form.Section` lets you compose together sections of fields and values to be reused in different contexts.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.Section />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/Section)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Form/Section)
 
-## Good to know
+### Good to know
 
 - It allows you to easily customize and reposition nested `Form.Section` components within the data context, making it effortless to reuse the same set of fields and values in various contexts. Check out the `overwriteProps` and `path` properties for more information.
 - When defining a default value for a field or value, you can use the `defaultValue` property instead of `value`. It will not take precedence over the data context like `value` does.
@@ -37,7 +37,7 @@ render(<Form.Section />)
 - You can use `//` at the start of a field path to access data from the root of the form data context, bypassing the section path. For example, `path="//rootField"` inside a section at `/section` will access `/rootField` instead of `/section/rootField`.
 - You can use `../` to reference parent section paths. Each `../` moves one section up before appending the rest of the path, letting you read or write sibling fields such as `path="../targetField"`.
 
-## Usage
+### Usage
 
 1. Create the section component and export it:
 
@@ -72,7 +72,7 @@ function MyForm() {
 }
 ```
 
-## Overwrite properties
+### Overwrite properties
 
 It lets you overwrite all of the given properties if needed by using `overwriteProps`:
 
@@ -100,7 +100,7 @@ render(
 )
 ```
 
-## Optional `path` support
+### Optional `path` support
 
 You can optionally define a `path` for the section component. Fields inside the section will use this path as a prefix for their own path. This makes it possible to reuse the same section component in different contexts.
 
@@ -130,7 +130,7 @@ render(
 )
 ```
 
-### Accessing root data with `//`
+#### Accessing root data with `//`
 
 When a field is inside a `Form.Section`, you can use a path starting with `//` to access data from the root of the form data context, bypassing the section path. This is useful when you need to reference data outside the current section.
 
@@ -181,7 +181,7 @@ This feature works even with nested sections - `//` always refers to the root of
 
 If you want every field inside a nested `Form.Section` to bypass the parent path, set the section `path` to start with `//` as well (for example `path="//global"` or `path="//"`). This works like protocol-relative URLs in HTML and resets the section context back to the root.
 
-### Accessing parent data with `../`
+#### Accessing parent data with `../`
 
 When a section is nested inside another section, you can use a path starting with `../` to access data relative to the parent section. Each `../` moves one level up the section hierarchy before the remainder of the path is appended.
 
@@ -229,7 +229,7 @@ In the example above:
 
 This makes it easy to build advanced sections where nested parts reuse sibling values without duplicating props.
 
-## Required property
+### Required property
 
 You can optionally define a `required` property for the section component. Fields inside the section will then be required.
 
@@ -242,7 +242,7 @@ render(
 )
 ```
 
-## TypeScript support
+### TypeScript support
 
 You can optionally define which properties the nested fields should accept:
 
@@ -269,7 +269,7 @@ render(
 
 To get autocomplete and compile-time checking on the section-relative `path` props, derive the section type from your registered root data with `TypedSectionField`. See [Type-checked paths](/web/forms/typed-paths/#type-checking-section-relative-paths).
 
-## Schema support
+### Schema support
 
 You can also use a `schema` on the [Form.Handler](/web/forms/Form/Handler) to define the validation rules for the fields inside the section.
 
@@ -345,7 +345,7 @@ function MyForm() {
 }
 ```
 
-### Section-level schema
+#### Section-level schema
 
 You can define a `schema` directly on the `Form.Section` component. The handler or fields will automatically collect and validate all section schemas without requiring manual merging.
 
@@ -409,7 +409,7 @@ function MyForm() {
 }
 ```
 
-## Translations
+### Translations
 
 You can use the `translations` property to provide translations for the section:
 
@@ -459,7 +459,7 @@ export function MyForm() {
 }
 ```
 
-## Edit and View container
+### Edit and View container
 
 The `Form.Section` supports a [Form.Section.EditContainer](/web/forms/Form/Section/EditContainer/) and a [Form.Section.ViewContainer](/web/forms/Form/Section/ViewContainer/) container. The edit container should be used for data input with fields, while the view container is used to display the data in a read-only manner.
 
@@ -503,7 +503,7 @@ render(
 
 Note: The reason `Done` is used in the toolbar button instead of `Save` is because validation is performed in fields. If we decouple the data entered in a section, the `Form.Handler` will not be able to validate the data on submit. This can also lead to missing data because the user can press the submit button before `Save` is pressed.
 
-## Snapshot testing of a section (block)
+### Snapshot testing of a section (block)
 
 One way to ensure a "contract" of what you expect a section to be outlined as, is to create a snapshot test:
 

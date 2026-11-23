@@ -5,23 +5,23 @@ redirect_from:
   - /web/extensions/forms/Wizard/Step/info
 ---
 
-## Description
+## Info
 
 `Wizard.Step` shows child components when the surrounding [Wizard.Container](/web/forms/Wizard/Container/) has been navigated to this step. `Wizard.Container` keeps track of the active step, and navigating between wizard steps is done through callbacks on the `Wizard.Context`, e.g., using [navigation buttons](/web/forms/Wizard/Buttons/).
 
-## Import
+### Import
 
 ```tsx
 import { Wizard } from '@dnb/eufemia/extensions/forms'
 render(<Wizard.Step />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/Step)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Wizard/Step)
 
-## Usage
+### Usage
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -55,15 +55,15 @@ const MyForm = () => {
 
 It uses [Flex.Stack](/web/layout-and-typography/layout/flex/stack/), so you do not need to wrap your content additionally.
 
-## EditButton
+### EditButton
 
 In order to navigate back to another step, you can use the [Wizard.EditButton](/web/forms/Wizard/EditButton/) component.
 
-## Events
+### Events
 
 If you need an event to be triggered when the user changes the active step, you can use the `onStepChange` in the [Wizard.Container](/web/forms/Wizard/Container/).
 
-## Dynamic steps support
+### Dynamic steps support
 
 You can use the `Wizard.Step` component to create dynamic steps. The `include` and `includeWhen` properties allow you to show or hide a step based on specific conditions.
 

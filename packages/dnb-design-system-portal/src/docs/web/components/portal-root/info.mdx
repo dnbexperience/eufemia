@@ -6,24 +6,24 @@ legacyFragments:
   portalroot: /web/components/portal-root/#portal-root
 ---
 
-## Description
+## Info
 
 `PortalRoot` is a React component that helps you make React's [createPortal](https://react.dev/reference/react-dom/createPortal).
 
 It lets you render some children into a different part of the DOM.
 
-## Import
+### Import
 
 ```tsx
 import { PortalRoot } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/portal-root)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/portal-root)
 
-## Good to know
+### Good to know
 
 - It contains CSS styles and screen reader accessibility features needed for proper usage of portals.
 - It comes with support for [style isolation](/web/styling-and-themes/css/style-isolation/).
@@ -35,7 +35,7 @@ import { PortalRoot } from '@dnb/eufemia'
 - `PortalRoot` props override values from `PortalRoot.Provider` if both are present.
 - `beforeSelector` takes precedence over `insideSelector` when both are provided on the same level.
 
-## Usage
+### Usage
 
 For basic usage, just wrap your content with the `PortalRoot` component:
 
@@ -54,7 +54,7 @@ It will create a wrapper div and insert it as a child node to the HTML `<body>` 
 </body>
 ```
 
-## Define where the portal root should be rendered
+### Define where the portal root should be rendered
 
 Sometimes you might want to have more control over where the portal root element is placed in the HTML structure.
 
@@ -69,7 +69,7 @@ To achieve this, you can create an element in your HTML with the id `eufemia-por
 </body>
 ```
 
-### Customize with id property
+#### Customize with id property
 
 You can also customize the portal root element by passing a custom `id` property to the `PortalRoot` component:
 
@@ -91,7 +91,7 @@ This will create or reuse an element with the specified id in the HTML structure
 </body>
 ```
 
-### Without pre-existing element
+#### Without pre-existing element
 
 If you are not able to modify the HTML structure, you can make use of the `beforeSelector` or `insideSelector` property to define where the portal root should be placed.
 
@@ -109,7 +109,7 @@ render(
 render(<PortalRoot insideSelector=".my-selector">Your content</PortalRoot>)
 ```
 
-### Customize properties via provider (context)
+#### Customize properties via provider (context)
 
 You can also pass properties to each `PortalRoot` by using the `PortalRoot.Provider`.
 
@@ -136,7 +136,7 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
 </body>
 ```
 
-### Forward HTML attributes to portal content
+#### Forward HTML attributes to portal content
 
 `PortalRoot.Provider` also forwards any extra HTML attributes to the portal DOM element. Any standard HTML attribute you pass will be applied to every portal element rendered by components inside the provider (such as Dropdown, Autocomplete, DatePicker, Dialog, Drawer, Popover, and Tooltip).
 
@@ -153,7 +153,7 @@ render(
 
 In this example, every portal element will receive `data-my-need="something"` for content rendered outside the main React tree.
 
-### BrowserTranslate helper (Google Translate)
+#### BrowserTranslate helper (Google Translate)
 
 The `BrowserTranslate` helper component prevents browser translation tools (such as Google Translate) from modifying the content of form components. It works by combining the Eufemia Provider's `formElement` context with `PortalRoot.Provider`, so both the visible component (e.g. a button) and its portal-rendered content (e.g. a dropdown list) receive `translate="no"`.
 

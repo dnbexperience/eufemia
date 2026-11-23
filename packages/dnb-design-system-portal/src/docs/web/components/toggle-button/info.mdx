@@ -15,33 +15,33 @@ import { Blockquote } from '@dnb/eufemia/src'
 
 </Blockquote>
 
-## Description
+## Info
 
 The ToggleButton component is used to toggle on or off a limited number of choices.
 
-## Import
+### Import
 
 ```tsx
 import { ToggleButton } from '@dnb/eufemia'
 ```
 
-## When to use ToggleButton vs Eufemia Forms
+### When to use ToggleButton vs Eufemia Forms
 
 <WhenToUseForms />
 
 The Eufemia Forms equivalent of `ToggleButton` is [Field.Selection](/web/forms/base-fields/Selection/) with the button variant (`variant="button"`), or [Field.Boolean](/web/forms/base-fields/Boolean/) with the button variant for on/off choices.
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1493)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/toggle-button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/toggle-button)
 
-## Accessibility
+### Accessibility
 
 ToggleButton components use `role="button"` with `aria-pressed` to communicate their state to assistive technologies. When used in a group, navigation between buttons is possible using arrow keys, following standard toolbar interaction patterns.
 
-## How to use
+### How to use
 
 You can use the ToggleButton in different modes. Either as a stand-alone component or together with the `ToggleButton.Group` context.
 
@@ -49,7 +49,7 @@ You can use the React component `<ToggleButton.Group>` to wrap several `ToggleBu
 
 By default, the `ToggleButton.Group` is single-select, like a [Radio](/web/components/radio) button. However, you can easily enable `multiselect` as well.
 
-### Multi-select
+#### Multi-select
 
 If `multiselect` is enabled on the group, several items can be enabled or disabled by the user.
 

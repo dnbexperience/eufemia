@@ -8,7 +8,7 @@ redirect_from:
 
 import * as Examples from './Examples'
 
-## Description
+## Info
 
 `Wizard` is a set of components for showing forms with a [StepIndicator](/web/components/step-indicator/) for navigation between several steps. It also includes components for navigating between steps.
 
@@ -23,26 +23,26 @@ render(
 )
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Wizard } from '@dnb/eufemia/extensions/forms'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Wizard)
 
-## Intro example
+### Intro example
 
 <Examples.IntroExample />
 
-## Dynamic steps support
+### Dynamic steps support
 
 You can use the `Wizard.Step` component to create dynamic steps. The `include` and `includeWhen` properties allow you to show or hide a step based on specific conditions. You find an [example](/web/forms/Wizard/Step/#dynamic-steps) in the demo section.
 
-## Summary step
+### Summary step
 
 A wizard needs a summary step at the end. You can use the `Wizard.Step` component for that, including the [Value.SummaryList](/web/forms/Value/SummaryList/) component:
 

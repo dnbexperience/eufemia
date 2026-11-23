@@ -5,7 +5,7 @@ redirect_from:
   - /web/usage/customisation/theming/theme/info
 ---
 
-## Description
+## Info
 
 The Theme component is a helper component that lets you create nested theming solutions.
 
@@ -114,7 +114,7 @@ render(
 )
 ```
 
-## `surface` property
+### `surface` property
 
 The `surface` property can be used to adjust the component's appearance based on the background. It accepts three values: `dark`, `light`, and `initial`.
 
@@ -135,7 +135,7 @@ render(
 )
 ```
 
-### How `surface` works
+#### How `surface` works
 
 The `surface` prop is passed through **React context**, not through a global CSS class. When you set `surface="dark"` on a `<Theme>`, `<Theme.Context>`, or on a supporting component like [Section](/web/components/section/), the value is stored in the Eufemia theme context. Individual components that support dark surfaces — such as [Button](/web/components/button/) or [Anchor](/web/components/anchor/) — read the surface value from context and apply their own component-level CSS class (e.g. `dnb-button--surface-dark`, `dnb-anchor--surface-dark`).
 
@@ -159,7 +159,7 @@ Use `surface="initial"` to reset components back to their default behavior insid
 </Section>
 ```
 
-## Typography
+### Typography
 
 Set `typography="native"` when embedded web content should use the brand's native app font size for body text and control labels. Line heights and control dimensions stay the same. The setting also reaches Eufemia dialogs and other React portals.
 
@@ -171,7 +171,7 @@ Set `typography="native"` when embedded web content should use the brand's nativ
 
 Nested themes inherit the setting. Use `typography="web"` to restore the web font size in a nested theme. See [native app font sizes](/web/layout-and-typography/typography/font-size#typography-for-native-app-pages) for a live example, current sizes, micro-frontend setup, and text scaling guidance.
 
-## The `colorScheme` property (Dark mode)
+### The `colorScheme` property (Dark mode)
 
 The `Theme` component accepts a `colorScheme` prop that controls dark and light mode.
 
@@ -194,7 +194,7 @@ render(
 
 For guidance on choosing between base, `inverse`, and `ondark` token variants in your own components, see the [Design Tokens dark mode guide](/web/styling-and-themes/design-tokens/dark-mode).
 
-## Persisting the theme with `getTheme` and `setTheme`
+### Persisting the theme with `getTheme` and `setTheme`
 
 Eufemia provides `getTheme` and `setTheme` helpers that persist theme state (including `colorScheme`) to `localStorage` under the key `eufemia-theme`.
 
@@ -216,7 +216,7 @@ setTheme({ brand: 'sbanken' }, (updatedTheme) => {
 
 `getTheme` also supports a `?eufemia-theme=<brand>` URL query parameter, which overrides the persisted theme brand. This is useful for testing or previewing themes via a link.
 
-### Preventing dark mode flash (FOUC)
+#### Preventing dark mode flash (FOUC)
 
 When using `colorScheme="auto"`, the resolved color scheme depends on the user's system preference, which is only available in the browser. During server-side rendering (SSR), this can cause a brief flash of the wrong color scheme before React hydrates.
 
@@ -249,7 +249,7 @@ Place them in your HTML template as follows:
 - **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>` and updates server-rendered `Theme` elements while the page is still loading, so browsers that paint before the whole page has loaded, such as Safari on iPhone, don't show the wrong color scheme. Place as the first child of `<body>`.
 - **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme, also in browsers without `MutationObserver`. Place as the last child of `<body>`.
 
-#### Content Security Policy (CSP)
+##### Content Security Policy (CSP)
 
 These are inline scripts. A policy such as `script-src 'nonce-...'` blocks them unless they carry the matching nonce, which brings the flash back. Pass your per-request nonce to each script:
 
@@ -268,7 +268,7 @@ These are inline scripts. A policy such as `script-src 'nonce-...'` blocks them 
 
 All three accept the standard `<script>` attributes, so `id` and `data-*` can be forwarded the same way. This lets you keep a strict policy instead of allowing `unsafe-inline`.
 
-### Hide or show parts of your component (filter)
+#### Hide or show parts of your component (filter)
 
 With this helper function you show or hide content based on inherited theme properties.
 
@@ -308,7 +308,7 @@ render(
 )
 ```
 
-### Show the inherited brand name
+#### Show the inherited brand name
 
 `VisibilityByTheme.Brand` renders the display name of the inherited theme brand – `DNB`, `Sbanken`, `Eiendom` or `Carnegie`. It renders nothing when no theme was inherited.
 
@@ -322,6 +322,6 @@ render(
 )
 ```
 
-### Integrations
+#### Integrations
 
 When integrating runtime theme switching, your app can be wrapped with this theme component.

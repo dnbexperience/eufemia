@@ -6,25 +6,25 @@ redirect_from:
   - /web/extensions/forms/Iterate/ViewContainer/info
 ---
 
-## Description
+## Info
 
 `Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between this view and the [Iterate.EditContainer](/web/forms/Iterate/EditContainer/) container. It can be used instead of the [Iterate.AnimatedContainer](/web/forms/Iterate/AnimatedContainer/).
 
 By default, it features the [Iterate.Toolbar](/web/forms/Iterate/Toolbar/) containing a "Edit" button and a [Iterate.RemoveButton](/web/forms/Iterate/RemoveButton/) button. The "Remove" will delete the current item from the array.
 
-## Import
+### Import
 
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
 render(<Iterate.ViewContainer />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/ViewContainer)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Iterate/ViewContainer)
 
-## Usage
+### Usage
 
 ```tsx
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -45,7 +45,7 @@ render(
 )
 ```
 
-## The item number in the title
+### The item number in the title
 
 You can use the `{itemNo}` variable in the `title` property to display the current item number.
 
@@ -61,7 +61,7 @@ render(
 )
 ```
 
-## Customize the Toolbar
+### Customize the Toolbar
 
 ```tsx
 import { Iterate, Value } from '@dnb/eufemia/extensions/forms'
@@ -80,9 +80,9 @@ render(
 )
 ```
 
-### Variants
+#### Variants
 
-#### `minimumOneItem`
+##### `minimumOneItem`
 
 This variant has the following behavior:
 
@@ -100,7 +100,7 @@ render(
 )
 ```
 
-## Accessibility
+### Accessibility
 
 The `Iterate.ViewContainer` component has an `aria-label` attribute, which is set to the `title` property value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.
 

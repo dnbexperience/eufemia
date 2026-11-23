@@ -5,25 +5,25 @@ redirect_from:
   - /web/extensions/forms/Wizard/Container/info
 ---
 
-## Description
+## Info
 
 The `Wizard.Container` is a container component for multi-step forms, including a [StepIndicator](/web/components/step-indicator/).
 
 Use the [Wizard.Step](/web/forms/Wizard/Step/) component to define the wizard steps.
 
-## Import
+### Import
 
 ```tsx
 import { Wizard } from '@dnb/eufemia/extensions/forms'
 render(<Wizard.Container />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/Container)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Wizard/Container)
 
-## Usage
+### Usage
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -103,7 +103,7 @@ const MyForm = () => {
 }
 ```
 
-## Controlling the wizard steps
+### Controlling the wizard steps
 
 To define a different initial index (other than 0), you can use the `initialActiveIndex` property.
 
@@ -194,12 +194,12 @@ const MyForm = () => {
 }
 ```
 
-## Modes
+### Modes
 
 - The `strict` mode is the default. The user can only navigate forward using the [Wizard.NextButton](/web/forms/Wizard/NextButton/), not via the menu. However, the previous step remains active, allowing the user to go back at any time—even if there are errors in the current step.
 - Use `loose` mode if the user should be able to navigate freely between all steps, including those that have not been visited before. When there is an error in the current step, the user can navigate to other steps via the menu but not via the [Wizard.NextButton](/web/forms/Wizard/NextButton/).
 
-## Accessibility
+### Accessibility
 
 The `Wizard.Step` component uses an `aria-label` attribute that matches the title property value. The step content is enclosed within a section element, which further enhances accessibility.
 

@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/base-fields/Composition/info
 ---
 
-## Description
+## Info
 
 `Field.Composition` is a component for when you create a field block that contains of several existing fields. It uses [FieldBlock](/web/forms/create-component/FieldBlock/) under the hood.
 
@@ -30,19 +30,19 @@ If each of the fields have a label, the labels should ideally be top aligned. Bu
 
 In the demo section you find an [example](#composition-field-with-error) on how to handle form states.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Composition />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Composition)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Composition)
 
-## Messages
+### Messages
 
 Messages that appears to be the same, will be grouped together and announced as one message.
 
@@ -59,7 +59,7 @@ render(
 )
 ```
 
-## Accessibility
+### Accessibility
 
 When using the `error`, `warning` or `info` property, the displayed [FormStatus](/web/components/form-status) components are placed after the fields in the DOM, matching the default visual order. Messages given to nested fields are included in the server-rendered HTML.
 

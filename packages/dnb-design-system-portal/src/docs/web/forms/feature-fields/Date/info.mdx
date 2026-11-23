@@ -5,32 +5,32 @@ redirect_from:
   - /web/extensions/forms/feature-fields/Date/info
 ---
 
-## Description
+## Info
 
 `Field.Date` is a wrapper component for the [DatePicker](/web/components/date-picker/), with user experience tailored for date values.
 
 There is a corresponding [Value.Date](/web/forms/Value/Date) component.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Date />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Date)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/feature-fields/Date)
 
-## Validators
+### Validators
 
-### Internal validators exposed
+#### Internal validators exposed
 
 `Field.Date` exposes the `dateValidator` validator through its `onBlurValidator` property. Take a look at [this demo](/web/forms/feature-fields/Date/demos/#extend-validation-with-custom-validation-function).
 The `dateValidator` validator validates invalid dates and dates against the `minDate` and `maxDate` properties.
 
-### Extending validators
+#### Extending validators
 
 You can compose the shared validator with your own checks by returning it along with custom logic. Import `DateValidator` to type your validator and have `validators` typed too.
 

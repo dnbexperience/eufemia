@@ -4,23 +4,23 @@ redirect_from:
   - /uilib/components/button/info
 ---
 
-## Description
+## Info
 
 Use Button to start, confirm, or submit an action, such as "Add account" or "Save changes". Use [Anchor](/web/components/anchor) to navigate to another page or section.
 
-## Import
+### Import
 
 ```tsx
 import { Button } from '@dnb/eufemia'
 ```
 
-## Accessibility
+### Accessibility
 
 Buttons support keyboard interaction: Tab moves focus, and Enter or Space activates the button. Keep the focus indicator visible and use a label that describes the action.
 
 For buttons without visible text, follow the [icon-only button guidance](/web/components/button/demos/#icon-button).
 
-### Click and touch area
+#### Click and touch area
 
 Use `bounding` to make a button easier to click or tap without changing its visible size or layout spacing. It extends the area equally on every side by 20% of the button's single-line height.
 
@@ -28,7 +28,7 @@ Leave a gap of at least 40% of the taller button's single-line height between bu
 
 Customize the area with `.dnb-button__bounding`. When using `transform`, also set `inset: 0` to reset the default expansion. Built-in components with custom hit areas keep their existing behavior.
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=339-154)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/button)
@@ -36,7 +36,7 @@ Customize the area with `.dnb-button__bounding`. When using `transform`, also se
 
 <RelatedComponents />
 
-## Typography
+### Typography
 
 DNB button labels use DNB Sans Text Regular, matching the Eufemia Web
 Figma library. This applies to primary, secondary, tertiary and unstyled

@@ -17,19 +17,19 @@ import { TokenExample, TokenNamingRules } from './Examples'
 
 ---
 
-## What are design tokens?
+## Info
 
 Design tokens are CSS custom properties for design decisions, such as an action background, an error text color, or a corner radius.
 
 Color tokens follow the naming pattern `--token-color-{section}-{role}` and are the recommended way to reference Eufemia colors in your own CSS. Radius tokens use `--token-radius-*`.
 
-## Why use design tokens?
+### Why use design tokens?
 
 - **Theme-aware** — Token values automatically adapt when the active theme changes (e.g. DNB, Sbanken, Carnegie).
 - **Semantic** — A name like `--token-color-background-action` communicates _intent_, not just a hex value. This makes code easier to review and maintain.
 - **Scalable theming** — Design tokens make it straightforward to introduce new brands, sub-brands, and color modes (e.g. light/dark) without changing component code.
 
-## Getting started
+### Getting started
 
 Design tokens are included when you import a Eufemia theme. No separate import is needed, except if you need dark mode support. In that case, import the extra dark mode stylesheet described in the [Dark mode guide](/web/styling-and-themes/design-tokens/dark-mode).
 
@@ -37,11 +37,11 @@ Read more about how to use design tokens in your own styles, and how Eufemia com
 
 For practical guidance on choosing the right tokens for your application components, see the [Guide](/web/styling-and-themes/design-tokens/guide).
 
-## Common patterns
+### Common patterns
 
 These examples show how to apply design tokens in typical UI scenarios. Choose foreground and background together using the [Color guidance](/web/styling-and-themes/color-guidance/), then check the rendered result in each supported theme, mode, and state.
 
-### Action elements
+#### Action elements
 
 ```css
 .my-button {
@@ -55,7 +55,7 @@ These examples show how to apply design tokens in typical UI scenarios. Choose f
 }
 ```
 
-### Error and status states
+#### Error and status states
 
 ```css
 .my-field--error {
@@ -67,7 +67,7 @@ These examples show how to apply design tokens in typical UI scenarios. Choose f
 }
 ```
 
-### Subtle backgrounds
+#### Subtle backgrounds
 
 ```css
 .my-notice {
@@ -76,7 +76,7 @@ These examples show how to apply design tokens in typical UI scenarios. Choose f
 }
 ```
 
-## Internal usage in Eufemia components
+### Internal usage in Eufemia components
 
 Eufemia components are progressively adopting design tokens internally. Internally a component might look like:
 
@@ -90,7 +90,7 @@ Eufemia components are progressively adopting design tokens internally. Internal
 
 This internal adoption should have **no functional downsides** when you use a component - the rendered result and public API remain the same. However, be aware of one potential side-effect:
 
-### CSS specificity changes
+#### CSS specificity changes
 
 When a component switches from a hard-coded color value to a `var(--token-*)` reference, the _selector structure_ of the underlying stylesheet may change. If your application overrides component styles with raw selectors, you may need to verify that your overrides still win the specificity contest.
 
@@ -107,17 +107,17 @@ And the component internally moves that value to a token-based custom property, 
 
 **Recommendation:** Prefer using the component's own CSS custom properties (e.g. `--badge-information-bg`) for overrides rather than targeting raw CSS properties. This avoids specificity conflicts entirely.
 
-## `ondark` tokens
+### `ondark` tokens
 
 The `ondark` suffix identifies variants for fixed dark surfaces. Components that support `surface="dark"` use the surface context to select suitable colors. Dark mode alone does not require `ondark` tokens.
 
 For practical guidance on using `ondark`, `inverse`, and base tokens in your own components, see the [Dark mode guide](/web/styling-and-themes/design-tokens/dark-mode).
 
-## Tailwind CSS integration
+### Tailwind CSS integration
 
 Design tokens are also available in Tailwind-compatible format. See the [CSS Styles](/web/styling-and-themes/css#semantic-design-tokens) page for details on using tokens with Tailwind utility classes.
 
-## Token sections
+### Token sections
 
 Tokens are organized into sections. Each section covers a specific surface:
 
@@ -134,7 +134,7 @@ See the [Color Tokens](/web/styling-and-themes/design-tokens/colors/) and [Radiu
 
 The [Spacing](/web/styling-and-themes/design-tokens/spacing/) tab lists the existing spacing scale and links to Space and layout guidance.
 
-## Naming contract
+### Naming contract
 
 <TokenNamingRules />
 
@@ -144,7 +144,7 @@ Typical examples:
 - semantic state token: <TokenExample name="--token-color-background-action-hover-subtle" />
 - component token: <TokenExample name="--token-color-component-button-background-action" />
 
-## Source of truth
+### Source of truth
 
 - The token inventory is generated from the same exported theme token files that produce the CSS output.
 - The consumer API is the generated CSS tokens files.

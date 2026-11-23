@@ -6,25 +6,25 @@ redirect_from:
   - /web/extensions/forms/Iterate/EditContainer/info
 ---
 
-## Description
+## Info
 
 `Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the [Iterate.ViewContainer](/web/forms/Iterate/ViewContainer/) and this edit container. It can be used instead of the [Iterate.AnimatedContainer](/web/forms/Iterate/AnimatedContainer/).
 
 By default, it features the [Iterate.Toolbar](/web/forms/Iterate/Toolbar/) containing a "Done" button and a "Cancel" button. The "Cancel" button resets any changes made to the item content, restoring it to its original state.
 
-## Import
+### Import
 
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
 render(<Iterate.EditContainer />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/EditContainer)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Iterate/EditContainer)
 
-## Usage
+### Usage
 
 ```tsx
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -45,7 +45,7 @@ render(
 )
 ```
 
-## The item number in the title
+### The item number in the title
 
 You can use the `{itemNo}` variable in the `title` or the `titleWhenNew` property to display the current item number.
 
@@ -64,7 +64,7 @@ render(
 )
 ```
 
-## Get the internal item object
+### Get the internal item object
 
 You can get the internal item object by using the `Iterate.useItem` hook.
 
@@ -86,7 +86,7 @@ render(
 )
 ```
 
-## Customize the Toolbar
+### Customize the Toolbar
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -104,9 +104,9 @@ render(
 )
 ```
 
-### Variants
+#### Variants
 
-#### `minimumOneItem`
+##### `minimumOneItem`
 
 This variant has the following behavior:
 
@@ -124,7 +124,7 @@ render(
 )
 ```
 
-## Accessibility
+### Accessibility
 
 The `Iterate.EditContainer` component has an `aria-label` attribute, which is set to the `title` property value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.
 

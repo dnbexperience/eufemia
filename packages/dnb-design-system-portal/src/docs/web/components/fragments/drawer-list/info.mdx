@@ -8,7 +8,7 @@ legacyFragments:
 
 import { DrawerListExampleOptionsRender } from 'Docs/web/components/fragments/drawer-list/Examples'
 
-## Description
+## Info
 
 The DrawerList component is a fragment inside other components.
 
@@ -18,18 +18,18 @@ When you use the DrawerList on its own, give the list an accessible name with `a
 
 Keep item content free of links, buttons and other interactive elements. Arrow-key navigation skips nested controls, which can make mouse and keyboard behavior differ. Handle selection in `onChange`. For navigation, use a [Menu](/web/components/menu/) or a results list with real links.
 
-## Import
+### Import
 
 ```tsx
 import { DrawerList } from '@dnb/eufemia/fragments'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/fragments/drawer-list)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/fragments/drawer-list)
 
-## Data structure
+### Data structure
 
 ```js
 // as array
@@ -65,11 +65,11 @@ const data = {
 }
 ```
 
-### Example usage of `optionsRender`
+#### Example usage of `optionsRender`
 
 <DrawerListExampleOptionsRender />
 
-### data-dnb-drawer-list-active
+#### data-dnb-drawer-list-active
 
 When a DrawerList is open, it will set an HTML attribute on the main HTML Element called `data-dnb-drawer-list-active`. The attribute value will be the ID of the current DrawerList.
 

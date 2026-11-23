@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/extensions/ai/Actions/info
 ---
 
-## Description
+## Info
 
 `Chat.Actions` with `Chat.Action` shows icon buttons below a message, like copy, feedback or regenerate. Give them to the `actions` property of [Chat.Message](/web/patterns-and-extensions/chat/Message/). Each `Chat.Action` is a small tertiary [Button](/web/components/button/) with a default-size icon and an expanded touch area. Its `label` is used for the tooltip and for screen readers. Actions have `0.375rem` spacing, and unselected icons use the theme's neutral alternative color.
 
@@ -16,7 +16,7 @@ The application owns feedback storage, requests and errors. Selection alone does
 
 For copying a response, place [CopyOnClick.Button](/web/components/copy-on-click/) inside `Chat.Actions`. Pass `size="small"`, `iconSize="default"` and `bounding` to match the other actions. Set the text as `copyContent`, and provide a descriptive `title` and `tooltip`, such as "Copy answer". It handles the clipboard and announces a confirmation only after a successful copy. The [message actions demo](/web/patterns-and-extensions/chat/Message/demos/#message-actions) shows this composition.
 
-## Import
+### Import
 
 ```tsx
 import { Action, Actions } from '@dnb/eufemia/extensions/chat'

@@ -2,23 +2,23 @@
 showTabs: true
 ---
 
-## Description
+## Info
 
 Chip is a compact, selectable option for filters, categories, and short choices. The component name is singular because each instance represents one chip.
 
-## Import
+### Import
 
 ```tsx
 import { Chip } from '@dnb/eufemia'
 ```
 
-## Chips for filters and choices
+### Chips for filters and choices
 
 Use Chip.Group to manage related choices, their label, and shared name. The group selects one option by default using `value`. Set `selectionMode="multiple"` and use `values` when several options can be selected. Set a shared `variant` on the group to choose the appearance independently of the selection mode. The `addable` variant changes its icon between add and remove as the selection changes. It keeps the chip visible so the user can select it again.
 
 Use [Tag](/web/components/tag/) for compact labels or removable values, [Badge](/web/components/badge/) for counts and statuses, and [Button](/web/components/button/) for actions.
 
-## Toggle buttons
+### Toggle buttons
 
 Use Chip like a toggle button to select or deselect an option. Use Chip.Group for mutually exclusive choices, or set `selectionMode="multiple"` to allow several selections. Use Chip for new implementations instead of [ToggleButton](/web/components/toggle-button/), which is deprecated.
 
@@ -33,7 +33,7 @@ When moving from ToggleButton, keep `checked`, `value`, `values`, `variant`, `si
 | Values            | Strings and numbers preserve their type in change events. Use matching types for group and option values, and keep values unique after conversion to strings. Map objects and arrays to stable identifiers. Native form submission uses strings.                             |
 | Appearance        | Chip.Group controls single or multiple selection independently of `variant`. Use `icon` for decorative content before the name and `suffix` for per-option help outside the pill.                                                                                            |
 
-## Accessibility
+### Accessibility
 
 Give every chip a short name using `text` or `children`. `text` takes precedence over `children`. Prefer visible names. Use `labelSrOnly` with a recognizable icon when space is limited, and provide the hidden name in `tooltip` so it is available on hover and keyboard focus. Keep the content to text and decorative icons. Links, buttons, and other interactive elements must be outside the chip.
 
@@ -43,7 +43,7 @@ Give Chip.Group a visible `label`. A single selection group uses native radio in
 
 Use `status` for an error message that explains how to resolve the problem. `readOnly` preserves the selection while keeping the chip focusable. Read-only addable buttons expose `aria-disabled` to communicate that they cannot be changed. `disabled` removes the chip from keyboard navigation and form submission.
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/?node-id=70338-7697)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/chip)

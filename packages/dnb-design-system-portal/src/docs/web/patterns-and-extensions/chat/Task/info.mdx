@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/extensions/ai/Task/info
 ---
 
-## Description
+## Info
 
 `Chat.Task` shows work in progress and its outcome, such as looking up transactions or generating a report. It shows a progress indicator while the task runs and a status when it completes, fails or is canceled. Use children for details, controls or a larger result.
 
@@ -18,7 +18,7 @@ Task and [Chat.AgentAction](/web/patterns-and-extensions/chat/AgentAction/) both
 
 `Chat.Task` does not create a live region. Your application owns announcements when status or results change. Use [AriaLive](/web/components/aria-live/) for meaningful updates, and avoid duplicating announcements from the surrounding conversation. See [screen reader announcements](/web/patterns-and-extensions/chat/integrations/#screen-reader-announcements).
 
-## Import
+### Import
 
 ```tsx
 import { Task } from '@dnb/eufemia/extensions/chat'

@@ -8,7 +8,7 @@ legacyFragments:
   blocks: /web/forms/blocks/#reusable-blocks
 ---
 
-## Description
+## Info
 
 Blocks are a collection of reusable fields and values. They can also be 100% customized and nested in each other. This makes it easy to reuse the same blocks in different contexts.
 
@@ -19,12 +19,12 @@ Blocks are a collection of reusable fields and values. They can also be 100% cus
 
 Read about how to create a section (block) by using a [Form.Section](/web/forms/Form/Section/).
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/blocks)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/blocks)
 
-## Usage
+### Usage
 
 You import a block like this:
 
@@ -33,7 +33,7 @@ import { ChildrenWithAge } from '@dnb/eufemia/extensions/forms/blocks'
 render(<ChildrenWithAge />)
 ```
 
-### Integration
+#### Integration
 
 It is recommended to use blocks within a [Wizard](/web/forms/Wizard/) and [Form.Handler](/web/forms/Form/Handler/). However, they can also be used independently. In such cases, you can utilize the `onChange` event to listen for changes in the block.
 
@@ -43,7 +43,7 @@ You can also define a `path` to the block component. This makes it possible to r
 <ChildrenWithAge path="/account/holder/children" />
 ```
 
-### Customization
+#### Customization
 
 The `overwriteProps` property lets you overwrite all of the field properties if needed:
 
@@ -56,7 +56,7 @@ The `overwriteProps` property lets you overwrite all of the field properties if 
 />
 ```
 
-### Localization
+#### Localization
 
 You can change the texts and translations used inside of a block via the [Form.Handler](/web/forms/Form/Handler/):
 

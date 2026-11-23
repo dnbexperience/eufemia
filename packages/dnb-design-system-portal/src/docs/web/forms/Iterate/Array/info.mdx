@@ -6,23 +6,23 @@ redirect_from:
   - /web/extensions/forms/Iterate/Array/info
 ---
 
-## Description
+## Info
 
 `Iterate.Array` works in many ways similar to field components. It has a `value` property that can receive an array, or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All child components of `Iterate.Array` are rendered once per item the array value consists of.
 
-## Import
+### Import
 
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
 render(<Iterate.Array />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/Array)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Iterate/Array)
 
-## Usage
+### Usage
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -34,7 +34,7 @@ render(
 )
 ```
 
-## About `itemPath` and `path`
+### About `itemPath` and `path`
 
 `itemPath` points to the root of each iterated item, while `path` points to the root of the data source:
 
@@ -59,17 +59,17 @@ render(
 )
 ```
 
-## Individual values and dynamic paths
+### Individual values and dynamic paths
 
 Since `Iterate.Array` renders its children once per item, the field components inside must receive values based on the different items in the array. This can be done in two ways:
 
-### 1. itemPath
+#### 1. itemPath
 
 If field components inside `Iterate.Array` are given an `itemPath` property, this will look for values based on the array item being the root of the structure, even if the array often comes from a surrounding data set. This means you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can treat the individual item as its own structure.
 
 To get autocomplete and compile-time checking on the `itemPath` prop, derive the item type from your registered root data with `TypedItemField`. See [Type-checked paths](/web/forms/typed-paths/#type-checking-itempath-inside-iterate).
 
-### 2. Function callback as children (render property)
+#### 2. Function callback as children (render property)
 
 If you want to provide values to individual field components directly instead of pointing to them with paths, you can give `Iterate.Array` a render property. It works a bit like an array map call. The render function provides the value of the item as the first argument, the index of which item you are on as the second, and the internal array as the third.
 
@@ -99,7 +99,7 @@ render(
 )
 ```
 
-## The item number in labels
+### The item number in labels
 
 You can use the `{itemNo}` variable in the label to display the current item number. This is useful when you have a list of items and you want to display the item number in the label.
 
@@ -127,7 +127,7 @@ render(
 )
 ```
 
-### Initial container mode
+#### Initial container mode
 
 This section describes the behavior of the `EditContainer` and the `ViewContainer` components.
 
@@ -135,7 +135,7 @@ By default, the container mode is set to `auto`. This means that the container w
 
 When a new item is added via the [Iterate.PushButton](/web/forms/Iterate/PushButton/) component, the item before it will change to `view` mode, if it had no validation errors.
 
-## Filter data
+### Filter data
 
 You can filter data by paths specific or all paths.
 

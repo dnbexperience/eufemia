@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Form/error-messages/info
 ---
 
-## Description
+## Info
 
 Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/web/forms/all-fields/) (field level) and on the [Form.Handler](/web/forms/Form/Handler/) (global level).
 
@@ -18,7 +18,7 @@ Both can be done on a global level or on a field level.
 
 However, for when overwriting the default error messages on a global level, you can also use [internationalization (i18n)](#localization-of-error-messages).
 
-## Error object
+### Error object
 
 Use `new Error` with a message to display a custom error message.
 
@@ -37,7 +37,7 @@ const myValidator = (value) => {
 render(<Field.PhoneNumber onBlurValidator={myValidator} />)
 ```
 
-## Reuse existing error messages in a validator function
+### Reuse existing error messages in a validator function
 
 You can reuse existing error messages in a validator function. The types of error messages available depend on the field type.
 
@@ -57,7 +57,7 @@ const myValidatorAlt = (value, { errorMessages }) => {
 render(<Field.String onBlurValidator={myValidator} />)
 ```
 
-### FormError object
+#### FormError object
 
 You can use the JavaScript `Error` object to display a custom error message:
 
@@ -90,7 +90,7 @@ render(
 )
 ```
 
-#### Overwrite existing keys
+##### Overwrite existing keys
 
 Per field, you can overwrite existing keys:
 
@@ -104,7 +104,7 @@ render(
 )
 ```
 
-#### Custom keys in a field
+##### Custom keys in a field
 
 You can also provide your own keys:
 
@@ -117,7 +117,7 @@ You can also provide your own keys:
 />
 ```
 
-#### Custom keys in Form.Handler
+##### Custom keys in Form.Handler
 
 Here is how you can provide your own keys or overwrite existing ones in a global `errorMessages` object inside the [Form.Handler](/web/forms/Form/Handler/):
 
@@ -134,7 +134,7 @@ render(
 )
 ```
 
-#### Localization of error messages
+##### Localization of error messages
 
 You can also provide localized error messages:
 
@@ -156,7 +156,7 @@ render(
 )
 ```
 
-#### Use translations to localize error messages
+##### Use translations to localize error messages
 
 You can customize error messages via translations for the entire form:
 
@@ -182,7 +182,7 @@ render(
 )
 ```
 
-#### Error message in a field `schema`
+##### Error message in a field `schema`
 
 You can define an error message in a `schema` for one field:
 
@@ -228,7 +228,7 @@ render(
 )
 ```
 
-#### Error message in a global `schema`
+##### Error message in a global `schema`
 
 You can also define an error message in a `schema` for the entire form:
 
@@ -329,7 +329,7 @@ render(
 )
 ```
 
-## Levels of `errorMessages`
+### Levels of `errorMessages`
 
 You can provide custom error message different levels with the `errorMessages` property:
 

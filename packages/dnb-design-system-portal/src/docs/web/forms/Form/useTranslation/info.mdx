@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Form/useTranslation/info
 ---
 
-## Description
+## Info
 
 The `Form.useTranslation` is a hook that returns the translations for the current locale.
 
@@ -26,14 +26,14 @@ render(
 )
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 // Use Form.useTranslation
 ```
 
-## Additional utilities
+### Additional utilities
 
 In addition to all internal translations, you also get;
 
@@ -57,7 +57,7 @@ render(
 )
 ```
 
-## Custom translations
+### Custom translations
 
 You can also extend the translations with your own custom translations.
 
@@ -109,7 +109,7 @@ render(
 )
 ```
 
-## Using the `<Translation />`
+### Using the `<Translation />`
 
 Instead of using the hook, you can also, use the `<Translation />` component to consume your translations:
 
@@ -136,7 +136,7 @@ render(
 )
 ```
 
-### Formatting markers inside `<Translation />`
+#### Formatting markers inside `<Translation />`
 
 `<Translation />` automatically applies simple formatting markers in strings (using the shared `renderWithFormatting`):
 
@@ -162,13 +162,13 @@ render(
 )
 ```
 
-## Use the shared Provider to customize translations
+### Use the shared Provider to customize translations
 
 `Form.useTranslation` also reads translations from the shared [Provider](/web/styling-and-themes/configuration/provider/), so you can configure app-level translations once and consume them inside `Form.Handler`.
 
 For provider setup, merging shared and forms translations, and app-level localization examples, see the shared [Localization](/web/styling-and-themes/configuration/localization/) guide.
 
-## Fallback for missing or partial translations
+### Fallback for missing or partial translations
 
 `Form.useTranslation` will output missing keys when:
 
@@ -200,13 +200,13 @@ render(
 )
 ```
 
-## Dynamically loaded translations
+### Dynamically loaded translations
 
 `Form.useTranslation` works with translations loaded asynchronously via the `translationsLoader` prop on [Form.Handler](/web/forms/Form/Handler/) or the shared [Provider](/web/styling-and-themes/configuration/provider/). Components render with default translations first, and re-render when the loaded translations are available.
 
 For loader setup examples on `Form.Handler`, see the [Forms getting started guide](/web/forms/localization/#load-translations-dynamically). For app-level loading with the shared `Provider`, static-plus-async merging, and more advanced patterns, see the shared [Localization](/web/styling-and-themes/configuration/localization/#load-translations-dynamically) guide.
 
-### Formatted messages
+#### Formatted messages
 
 For richer inline formatting inside form translations, use the `renderWithFormatting` helper from `@dnb/eufemia/shared`.
 

@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/feature-fields/NationalIdentityNumber/info
 ---
 
-## Description
+## Info
 
 `Field.NationalIdentityNumber` is a wrapper component for [string input](/web/forms/base-fields/String), with user experience tailored for national identity number values.
 
@@ -17,25 +17,25 @@ The validation happens on blur, internally using the `onBlurValidator` [property
 
 There is a corresponding [Value.NationalIdentityNumber](/web/forms/Value/NationalIdentityNumber) component.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.NationalIdentityNumber />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/NationalIdentityNumber)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/feature-fields/NationalIdentityNumber)
 
-## Support for different countries
+### Support for different countries
 
 When it comes to supporting different countries, Eufemia Forms may prefer to introduce a new component for each country, simply because the nature of such a component can differ significantly from the original component which was made for Norway in mind.
 
-## Validators
+### Validators
 
-### Internal validators exposed
+#### Internal validators exposed
 
 `Field.NationalIdentityNumber` exposes the following validators through its `onChangeValidator` and `onBlurValidator` properties:
 
@@ -45,7 +45,7 @@ When it comes to supporting different countries, Eufemia Forms may prefer to int
   - validates the identification number as a D number when first digit is 4 or greater (because a D number has its first number increased by 4).
   - validates the identification number as a national identity number (fødselsnummer) when first digit is 3 or less.
 
-### Extending validators
+#### Extending validators
 
 Keep the built-in validators while adding custom rules by returning them together with your own logic. Import `NationalIdentityNumberValidator` so TypeScript tracks each exported validator.
 
@@ -71,7 +71,7 @@ const myValidator: NationalIdentityNumberValidator = (
 render(<Field.NationalIdentityNumber onBlurValidator={myValidator} />)
 ```
 
-### createMinimumAgeValidator
+#### createMinimumAgeValidator
 
 You can create your own age validator by using the `createMinimumAgeValidator` function. It takes an age as a parameter and returns a validator function. The validator function takes a value and returns an error message if the value is not above the given age.
 It validates whether the identification number has a date of birth that is 18 years or older. It uses only the first 7 digits of the identification number to validate. The first 6 digits represent the date of birth, and the next digit represents the century.
@@ -92,7 +92,7 @@ render(
 
 See the following [example](/web/forms/feature-fields/NationalIdentityNumber/#extend-validation-with-custom-validation-function) on how to extend validation using the exposed validators.
 
-### createMinimumAgeVerifier
+#### createMinimumAgeVerifier
 
 To use the `createMinimumAgeValidator` functionality without a field, you can use `createMinimumAgeVerifier`, which returns a boolean.
 

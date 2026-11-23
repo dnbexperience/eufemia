@@ -7,24 +7,24 @@ legacyFragments:
   icons: /web/components/icon/#icon-component
 ---
 
-## Description
+## Info
 
 The main Icon component is a wrapper for whatever icon you place within it. An imported SVG renders inline. An icon name renders a CSS mask or background image loaded from an SVG URL.
 
 You can use any content you like inside this `Icon` component.
 
-## Import
+### Import
 
 ```tsx
 import { Icon } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/icon)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/icon)
 
-## Why use it?
+### Why use it?
 
 You will get several advantages when using it, such as:
 
@@ -32,7 +32,7 @@ You will get several advantages when using it, such as:
 - Coloring
 - Accessibility
 
-## Importing Icons
+### Importing Icons
 
 In case your environment does not support tree-shaking, import the icons explicitly.
 
@@ -47,7 +47,7 @@ import { bell as Bell } from '@dnb/eufemia/icons'
 import Bell from '@dnb/eufemia/icons/bell'
 ```
 
-## Loading icons by name
+### Loading icons by name
 
 Pass an icon name when it comes from application data, a CMS, or an API. No loading property is needed:
 
@@ -100,7 +100,7 @@ For a Content Security Policy, allow `https://assets.eufemia.dnb.no` in `img-src
 
 See the [dynamic CDN demos](/web/components/icon/demos#dynamic-cdn-icons).
 
-## Icon Sizes
+### Icon Sizes
 
 _Exists in the [Icon Library](/collections/icons)_
 
@@ -115,11 +115,11 @@ _Additional Sizes_
 - **xx-large** `3rem` (48px)
 - **custom-size** will not be responsive. Width and Height is set as `pixels`
 
-## Filled Icons
+### Filled Icons
 
 Some icons support a filled variant where the SVG paths are filled with `currentColor` instead of being stroked outlines. This is useful for visual emphasis — for example, a filled star to indicate a favorited item, or a filled chevron inside a button.
 
-### Using the `fill` prop
+#### Using the `fill` prop
 
 Set `fill` on an `Icon` to fill its SVG paths with `currentColor`:
 
@@ -129,7 +129,7 @@ Set `fill` on an `Icon` to fill its SVG paths with `currentColor`:
 
 See the [Icon Library](/collections/icons#filled-icons) for icons that are known to look good when filled.
 
-## Animated Icons
+### Animated Icons
 
 Animated icons are an opt-in enhancement. Use them to reinforce nearby feedback, such as a bell moving once when a new notification arrives. Motion must not be the only indication that something changed.
 
@@ -175,7 +175,7 @@ The animation is disabled automatically when the user prefers reduced motion.
 
 Use `animateWhen="hover"` to animate an icon when the icon itself, or an interactive parent such as a button or link, is hovered.
 
-## Custom project Icons
+### Custom project Icons
 
 For decorative or functional icons (not illustrations), use `SVG` as it gives the user responsiveness and better accessibility. It also gives you more control, so you can change the color and size inherited by the parent HTML element.
 
@@ -189,7 +189,7 @@ To optimize your SVG icons to be used with Eufemia, you can follow these steps o
 1. Copy again the optimized markup and paste it into your JSX component (inline) or SVG file.
 1. Consume the custom icons with either dynamic imports (`import(...)`) if you have many icons, or use static imports, like so:
 
-### If you have an SVG loader
+#### If you have an SVG loader
 
 ```jsx
 import ImportedSVGIcon from 'my-icons/custom_icon.svg'
@@ -197,7 +197,7 @@ import ImportedSVGIcon from 'my-icons/custom_icon.svg'
 render(<Icon icon={ImportedSVGIcon} />)
 ```
 
-### Inline the SVG in your JSX
+#### Inline the SVG in your JSX
 
 ```jsx
 function CustomSVGIcon(props) {
@@ -207,7 +207,7 @@ function CustomSVGIcon(props) {
 render(<Button icon={CustomSVGIcon} />)
 ```
 
-### SVG import in Create React App
+#### SVG import in Create React App
 
 ```jsx
 import { ReactComponent as CustomIcon } from './custom_icon.svg'
@@ -215,7 +215,7 @@ import { ReactComponent as CustomIcon } from './custom_icon.svg'
 render(<Icon size="medium">{CustomIcon}</Icon>)
 ```
 
-## Primary Icon
+### Primary Icon
 
 There is also the [IconPrimary](/web/components/icon-primary) component, which comes with all the [Primary Icons](/web/components/icon/usage/#primary-icons) included in `@dnb/eufemia`. You do not have to import the primary icons separately.
 

@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Value/SelectCurrency/info
 ---
 
-## Description
+## Info
 
 `Value.SelectCurrency` will render the selected currency display name by the `value`'s ISO code ([ISO 4217 code](https://en.wikipedia.org/wiki/ISO_4217)). It displays the currency name in the current locale, together with the currency ISO code, like `Norwegian krone (NOK)`. If the value provided is not a valid/supported ISO code, it displays the value.
 
@@ -16,19 +16,19 @@ import { Value } from '@dnb/eufemia/extensions/forms'
 render(<Value.SelectCurrency path="/currency" />)
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Value } from '@dnb/eufemia/extensions/forms'
 render(<Value.SelectCurrency />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/SelectCurrency)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Value/SelectCurrency)
 
-## The `useCurrency` hook
+### The `useCurrency` hook
 
 You can use the `Value.SelectCurrency.useCurrency` hook to get the currency display name by ISO code ([ISO 4217 code](https://en.wikipedia.org/wiki/ISO_4217)). It returns the currency name in the current locale, together with the currency ISO code, like `Norwegian krone (NOK)`.
 

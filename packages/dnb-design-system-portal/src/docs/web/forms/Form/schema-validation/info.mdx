@@ -5,12 +5,16 @@ redirect_from:
   - /web/extensions/forms/Form/schema-validation/info
 ---
 
-## Relevant links
+## Info
+
+Schema validation lets you describe the data structure and validation needs, both for individual values and for more complex rules across the data set. You can use a Zod schema or a JSON Schema.
+
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/Handler)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Form/schema-validation)
 
-## About schemas
+### About schemas
 
 ** Recommendation: Use Zod schemas when possible**
 
@@ -61,7 +65,7 @@ Results in:
 }
 ```
 
-## Using schema with Form.Handler (DataContext)
+### Using schema with Form.Handler (DataContext)
 
 These two examples will result in the same validation for the user:
 
@@ -123,11 +127,11 @@ This makes it possible to create a uniform, testable description and requirement
 
 Also, note you can describe the schema without using the `type` property, as the type is inferred from schema type. More on that topic in the [Ajv docs](https://ajv.js.org/guide/typescript.html#utility-types-for-schemas).
 
-## Fields which are disabled or read-only
+### Fields which are disabled or read-only
 
 Fields which have the `disabled` property or the `readOnly` property, will skip validation.
 
-## Non-finite numbers (Infinity and NaN)
+### Non-finite numbers (Infinity and NaN)
 
 Zod's `z.number()` does not accept non-finite numbers (`Infinity`, `-Infinity` and `NaN`) and rejects them with a type error. A schema you supply will therefore block submit if the data contains such a value – for example a calculated percentage where the previous value was `0`, where the division by zero produces `Infinity`. Eufemia shows a clear, localized message for this instead of a cryptic type error, but does not change the verdict: the value is still invalid.
 
@@ -142,7 +146,7 @@ If you do need to accept non-finite numbers, widen your schema accordingly, for 
 
 See [Field.Number](/web/forms/base-fields/Number/#non-finite-values-infinity-and-nan) for how the field displays and validates these values.
 
-## Zod schemas and TypeScript
+### Zod schemas and TypeScript
 
 For better TypeScript integration, consider using Zod schemas instead:
 
@@ -159,7 +163,7 @@ const schema = z.object({
 type UserData = z.infer<typeof schema>
 ```
 
-## JSONSchema and TypeScript
+### JSONSchema and TypeScript
 
 You can import the `JSONSchema` type from the `@dnb/eufemia/extensions/forms` package.
 
@@ -191,7 +195,7 @@ const schema: JSONSchemaType<MyData> = {
 }
 ```
 
-## Complex schemas
+### Complex schemas
 
 In addition to basic validation as in the example above, JSON Schema can be used for more complex. Examples of definitions supported by the standard are:
 
@@ -209,7 +213,7 @@ In addition to basic validation as in the example above, JSON Schema can be used
 
 To learn more about what is possible with the JSON Schema standard, see [json-schema.org](https://json-schema.org/).
 
-### Custom Ajv instance and keywords
+#### Custom Ajv instance and keywords
 
 You can provide your custom `validate` function with your own keywords to your schema. Below are two examples of how to do that.
 
@@ -269,7 +273,7 @@ render(
 )
 ```
 
-### Custom Ajv keyword in a field
+#### Custom Ajv keyword in a field
 
 Here is another example of a custom keyword, used in one field only:
 
@@ -314,7 +318,7 @@ render(
 
 You can find more info about error messages in the [Error messages](/web/forms/Form/error-messages/) docs.
 
-### Custom error messages
+#### Custom error messages
 
 When having a custom keyword, you can provide custom error message on four levels with the `errorMessage` or `errorMessages` property:
 
@@ -363,7 +367,7 @@ render(
 
 You can find more info about error messages in the [Error messages](/web/forms/Form/error-messages/) docs.
 
-## Generate schema from fields
+### Generate schema from fields
 
 You can also generate a Ajv schema from a set of fields, by using the `log` property on the `Tools.GenerateSchema` component. I will console log the generated schema.
 

@@ -8,7 +8,7 @@ redirect_from:
 import AsyncStateReturnExample from './parts/async-state-return-example.mdx'
 import AsyncChangeExample from './parts/async-change-example.mdx'
 
-## Description
+## Info
 
 The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.
 
@@ -31,19 +31,19 @@ function MyForm() {
 
 `defaultData` is only used if no other data source is provided and will not update internal data if it changes after mount. Initializing fields with an empty value is optional; if you do, prefer the field's `emptyValue` (often `undefined`).
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.Handler />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/Handler)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Form/Handler)
 
-## TypeScript support
+### TypeScript support
 
 You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
 
@@ -117,7 +117,7 @@ To disable types you can:
 
 To also get autocomplete and compile-time checking on the `path` prop of every field and value, see [Type-checked paths](/web/forms/typed-paths/).
 
-## Decoupling the form element
+### Decoupling the form element
 
 For more flexibility, you can decouple the form element from the form context by using the `decoupleForm` property. It is recommended to use `Form.Element` to wrap the rest of your form:
 
@@ -141,7 +141,7 @@ function MyApp() {
 }
 ```
 
-## Native form submission
+### Native form submission
 
 By default, `Form.Handler` prevents the browser's native submit behavior so it can run validation and submit handling inside Eufemia Forms.
 
@@ -155,7 +155,7 @@ If you need a native form submit, such as posting to an `action` URL with `metho
 
 This also works on `Form.Element` when using `decoupleForm`.
 
-## Data handling
+### Data handling
 
 You can access, mutate, and filter data inside the form context by using the `Form.useData` hook:
 
@@ -198,7 +198,7 @@ If rendered output depends on one form data path inside `Form.Handler`, use [For
 
 If an integration needs imperative helpers without subscribing to data changes, use `Form.useDataWithoutSubscription` instead. Inside custom field or value components that render form data, prefer [useFieldProps](/web/forms/create-component/useFieldProps/) or [useValueProps](/web/forms/create-component/useValueProps/) so the component stays reactive with path-scoped form updates.
 
-### Using a form ID
+#### Using a form ID
 
 The form data can be handled outside the form. This is useful if you want to use the form data in other components:
 
@@ -227,7 +227,7 @@ You can also render fields and other form components outside the `Form.Handler` 
 
 More examples can be found in the [Form.useData](/web/forms/Form/useData/) hook docs.
 
-## Async `onChange` and `onSubmit` event handlers
+### Async `onChange` and `onSubmit` event handlers
 
 **NB:** When using an async `onChange` event handler, the `data` parameter will only include validated data. This lets you utilize the `data` parameter directly in your request, without having to further process or transform it.
 
@@ -243,7 +243,7 @@ You can return parameters from inside the async `onChange` or `onSubmit` event h
 
 The `info`, `warning`, and `error` messages will be displayed at the bottom of a form or field ([FormStatus](/web/components/form-status)), depending on where it is used. The `success` message will be displayed on the label of the field that initiated the `onChange` event.
 
-## Browser autofill
+### Browser autofill
 
 You can set `autoComplete` on the `Form.Handler`, and each field will use autocomplete according to its field type:
 
@@ -256,7 +256,7 @@ You can set `autoComplete` on the `Form.Handler`, and each field will use autoco
 
 The `path` property will be used to set the `name` attribute, which lets the browser know which autocomplete value should be proposed to the user.
 
-## Temporary storage
+### Temporary storage
 
 The `sessionStorageId` feature uses the browser's session storage (temporary storage mechanism) to store data entered by the user.
 
@@ -266,7 +266,7 @@ Ensure you only use this feature for non-sensitive data. Values of password fiel
 
 It will flush the storage once the form gets submitted successfully. When `onSubmit` returns or throws an error, the data is kept so the user can try again.
 
-## Visible data
+### Visible data
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
 
@@ -287,7 +287,7 @@ render(
 )
 ```
 
-## Filter data
+### Filter data
 
 You can use the `filterData` function to filter your `onSubmit` data. It might be useful—for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
 
@@ -308,11 +308,11 @@ The [Form.useData](/web/forms/Form/useData/#filter-data) hook and the [Form.getD
 
 In the demo section is an example of how to use the `filterData` method.
 
-### Filter arrays
+#### Filter arrays
 
 You can filter arrays by using the `filterData` method. You can find more information about this in the [Iterate.Array](/web/forms/Iterate/Array/#filter-data) docs.
 
-### onSubmit parameters
+#### onSubmit parameters
 
 The `onSubmit` event returns additional functions you can call:
 
@@ -364,7 +364,7 @@ const MyForm = () => {
 }
 ```
 
-#### `transformData`
+##### `transformData`
 
 The `transformData` handler will call your given function for each `Field.*` that contains a path (not `Iterate.Array`). The returned value will be used instead of the given `value` and returned as a new data object. It's up to you to define the shape of the returned value.
 
@@ -383,7 +383,7 @@ Most of the fields will return the `displayValue` as a string. But there are som
 
 - [Field.ArraySelection](/web/forms/base-fields/ArraySelection/) will return the displayed/active options content as an array that contains a string (or React.ReactNode).
 
-##### `displayValue` from fields inside Iterate.Array
+###### `displayValue` from fields inside Iterate.Array
 
 When using the `Iterate.Array` component, you may check if the current entry is an array. This way you ensure you never transform the array itself, but only the values from the fields inside the array.
 

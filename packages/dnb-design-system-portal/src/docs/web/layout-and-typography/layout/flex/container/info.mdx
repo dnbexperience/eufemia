@@ -5,25 +5,25 @@ redirect_from:
   - /web/layout/flex/container/info
 ---
 
-## Description
+## Info
 
 `Flex.Container` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components.
 
 **NB:** For form layouts, use [Flex.Stack](/web/layout-and-typography/layout/flex/stack/) instead.
 
-## Import
+### Import
 
 ```tsx
 import { Flex } from '@dnb/eufemia'
 render(<Flex.Container layoutEngine="css" />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Container.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/layout-and-typography/layout/flex/container)
 
-## Usage
+### Usage
 
 You can also use [Flex.Item](/web/layout-and-typography/layout/flex/item) or [Card](/web/components/card) for you inner wrappers:
 
@@ -51,7 +51,7 @@ render(
 )
 ```
 
-## Align vs Justify
+### Align vs Justify
 
 `Flex.Container` has two props for positioning its children: `justify` and `align`. These map directly to CSS flexbox properties and their effect depends on the `direction` of the container:
 
@@ -67,7 +67,7 @@ In practice, this means:
 
 The main axis follows the direction: horizontal for `Flex.Horizontal`, vertical for `Flex.Vertical`. The cross axis is always perpendicular.
 
-## Horizontal and Vertical aliases
+### Horizontal and Vertical aliases
 
 For shortening the usage of `direction="..."`, you can use:
 
@@ -89,7 +89,7 @@ For shortening the usage of `direction="..."`, you can use:
 </Flex.Horizontal>
 ```
 
-## How spacing is applied
+### How spacing is applied
 
 `Flex.Container` keeps the existing spacing behavior by default. This preserves layouts that depend on spacing props, generated `Space` wrappers, or `_supportsSpacingProps`.
 
@@ -116,11 +116,11 @@ Components that support [spacing properties](/web/layout-and-typography/layout/s
 
 Ordinary custom components do not need a marker or wrapper to receive the container gap. Use `Flex.Item` when you need an explicit layout item, span sizing, or spacing props around a component that does not expose spacing on its own root.
 
-### Divider accessibility
+#### Divider accessibility
 
 In CSS mode, `divider="line"` and `divider="line-framed"` are painted visual lines. Unlike the legacy engine, they do not render `<hr>` elements and therefore do not add separator roles to the accessibility tree. If the separation is meaningful rather than decorative, render explicit `Hr` elements instead of relying on the `divider` property.
 
-## Configure the layout engine with Provider
+### Configure the layout engine with Provider
 
 Use [Provider](/web/styling-and-themes/configuration/provider/) to set the layout engine for all nested `Flex.Container`, `Flex.Horizontal`, `Flex.Vertical`, and `Flex.Stack` components, including the internal Flex container in `Card`:
 
@@ -135,7 +135,7 @@ Use [Provider](/web/styling-and-themes/configuration/provider/) to set the layou
 
 An explicit `layoutEngine` property overrides the Provider setting. Without either setting, the legacy engine remains the default.
 
-## Backwards compatibility
+### Backwards compatibility
 
 The existing React child-inspection engine remains the default, so applications do not need to annotate every established layout:
 

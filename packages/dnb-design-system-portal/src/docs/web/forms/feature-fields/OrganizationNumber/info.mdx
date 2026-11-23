@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/feature-fields/OrganizationNumber/info
 ---
 
-## Description
+## Info
 
 `Field.OrganizationNumber` is a wrapper component for [string input](/web/forms/base-fields/String), with user experience tailored for organization number values.
 
@@ -15,26 +15,26 @@ The validation happens on blur, internally using the `onBlurValidator` [property
 
 There is a corresponding [Value.OrganizationNumber](/web/forms/Value/OrganizationNumber) component.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.OrganizationNumber />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/OrganizationNumber)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/feature-fields/OrganizationNumber)
 
-## Validators
+### Validators
 
-### Internal validators exposed
+#### Internal validators exposed
 
 `Field.OrganizationNumber` exposes the `organizationNumberValidator` validator through its `onChangeValidator` and `onBlurValidator` properties. Take a look at [this demo](/web/forms/feature-fields/OrganizationNumber/demos/#extend-validation-with-custom-validation-function).
 The `organizationNumberValidator` validator validates whether the organization number provided is a [Norwegian organization number](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/) or not.
 
-### Extending validators
+#### Extending validators
 
 Return both the exported validator and a custom rule to extend validation safely. Import `OrganizationNumberValidator` to type your validator and the `validators` object.
 

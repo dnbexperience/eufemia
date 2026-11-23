@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Form/SubmitConfirmation/info
 ---
 
-## Description
+## Info
 
 `Form.SubmitConfirmation` can be used to prevent the [Form.Handler](/web/forms/Form/Handler/) from submitting, and makes it possible to show a confirmation dialog in different scenarios.
 
@@ -54,14 +54,14 @@ The `renderWithState` function is called whenever the submit confirmation state 
   - `customStatus` Your custom status.
 - `data` is the data that was submitted.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.SubmitConfirmation />)
 ```
 
-## Connect with a Dialog
+### Connect with a Dialog
 
 You can connect the submit confirmation with a [Dialog](/web/components/dialog) by using the `connectWithDialog` property. This property is an object that contains the `open`, `onConfirm`, `onDecline`, and `onClose` properties, which you can spread to the Dialog component.
 
@@ -88,7 +88,7 @@ render(
 )
 ```
 
-## Using the submitHandler and cancelHandler
+### Using the submitHandler and cancelHandler
 
 In addition to `connectWithDialog`, there are the `submitHandler` and `cancelHandler` functions, available to handle the submission and cancellation processes:
 
@@ -105,6 +105,6 @@ In addition to `connectWithDialog`, there are the `submitHandler` and `cancelHan
 />
 ```
 
-## Accessibility
+### Accessibility
 
 When the `cancelHandler` is called or the `onSubmit` event is completed, the [Form.SubmitButton](/web/forms/Form/SubmitButton/) will regain focus.

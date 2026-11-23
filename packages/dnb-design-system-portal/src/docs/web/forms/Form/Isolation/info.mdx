@@ -7,20 +7,20 @@ redirect_from:
   - /web/extensions/forms/Form/Isolation/info
 ---
 
-## Description
+## Info
 
 `Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.
 
 It's a provider that lets you provide a `schema` or `data` very similar to what the [Form.Handler](/web/forms/Form/Handler/) component does.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.Isolation />)
 ```
 
-## Good to know
+### Good to know
 
 - It needs to be used inside of a `Form.Handler` component.
 - All fields inside need to validate successfully before the isolated data can be committed, just like the `Form.Handler` does before submitting.
@@ -32,7 +32,7 @@ render(<Form.Isolation />)
 - `onChange` on the `Form.Handler` will be called when the isolated data gets committed.
 - `onChange` on the `Form.Isolation` will be called on every change of the isolated data. Use `onCommit` to get the data that gets committed.
 
-## Usage
+### Usage
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -54,7 +54,7 @@ export function MyForm(props) {
 }
 ```
 
-## TypeScript support
+### TypeScript support
 
 You can define the TypeScript type structure for your data like so:
 
@@ -85,7 +85,7 @@ function MyForm() {
 }
 ```
 
-## Commit the data to the form
+### Commit the data to the form
 
 You can either use the `Form.Isolation.CommitButton` or provide a custom ref handler you can use (call) when you want to commit the data to the `Form.Handler` context:
 
@@ -108,7 +108,7 @@ function MyForm() {
 render(<MyForm />)
 ```
 
-## Prevent the form from being submitted
+### Prevent the form from being submitted
 
 To prevent the [Form.Handler](/web/forms/Form/Handler/) from being submitted when there are fields with errors inside the Isolation, you can use the `bubbleValidation` property.
 
@@ -125,7 +125,7 @@ render(
 )
 ```
 
-## Schema support
+### Schema support
 
 You can also use a `schema` to define the properties of the nested fields.
 
@@ -186,7 +186,7 @@ render(
 )
 ```
 
-## Clear data from isolated fields
+### Clear data from isolated fields
 
 You can clear the isolation by calling `clearData`:
 
@@ -209,7 +209,7 @@ function MyForm() {
 }
 ```
 
-## Reset data after commit (`resetDataAfterCommit`)
+### Reset data after commit (`resetDataAfterCommit`)
 
 You can reset the isolation the user committed by using `resetDataAfterCommit`:
 
@@ -228,7 +228,7 @@ function MyForm() {
 }
 ```
 
-### Define your own data reference (`dataReference`)
+#### Define your own data reference (`dataReference`)
 
 Technically, when you use `preventUncommittedChanges` or `resetDataAfterCommit`, the `Form.Isolation` will use its "initial" internal data set to create a reference. This reference is used to either compare if there is a change or to reset the data context after a commit.
 
@@ -258,7 +258,7 @@ function MyForm() {
 }
 ```
 
-## Require the user to commit before submitting (`preventUncommittedChanges`)
+### Require the user to commit before submitting (`preventUncommittedChanges`)
 
 In scenarios where you want to ensure users commit their changes before submitting or navigating to the next Wizard step, you can use the `preventUncommittedChanges` property. This will prevent form submission (or a step change) and prompt the user to commit any uncommitted changes first.
 

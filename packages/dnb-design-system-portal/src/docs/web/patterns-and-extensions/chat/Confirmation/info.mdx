@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/extensions/ai/Confirmation/info
 ---
 
-## Description
+## Info
 
 `Chat.Confirmation` presents a question, details and two decision buttons in a [Card](/web/components/card/). Use it before proceeding with a proposed action, inside a conversation or on its own. For progress and optional Undo after an action starts, use [Chat.AgentAction](/web/patterns-and-extensions/chat/AgentAction/).
 
@@ -14,7 +14,7 @@ Your application controls `status` and supplies the decision callbacks. `pending
 
 Set `disabled` while saving. Handle request failures in your application and show a useful message, for example with [FormStatus](/web/components/form-status/), while keeping the decision available for retry when appropriate. The component does not run requests, expire automatically, or execute the action. Your application owns expiry, authorization and protection against repeated execution.
 
-## Import
+### Import
 
 ```tsx
 import { Confirmation } from '@dnb/eufemia/extensions/chat'
@@ -31,13 +31,13 @@ render(
 )
 ```
 
-## Accessibility
+### Accessibility
 
 The question and description label the card. Use `level` to fit its heading into the surrounding document. There is no modal dialog or focus trap. Buttons use `type="button"`, so they do not submit surrounding forms.
 
 State changes are announced politely with [AriaLive](/web/components/aria-live/); updates to the details are not announced automatically. Set `announce={false}` if your application already announces the outcome. The initial state is available through the card's description and is not announced automatically. When a state change disables the focused decision, focus moves to the card content; focus elsewhere is preserved. If your application removes the card, it must move focus to the appropriate next location. Verify the final flow with your supported screen readers.
 
-## Labels and translations
+### Labels and translations
 
 Time limits belong to the application. Let users turn off, adjust or extend a limit before it expires. Give an accessible warning and at least 20 seconds to extend it, unless a WCAG timing exception applies.
 

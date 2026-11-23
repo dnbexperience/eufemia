@@ -7,7 +7,7 @@ legacyFragments:
   layout: /web/layout-and-typography/layout/#layout-components
 ---
 
-## Description
+## Info
 
 To make it easier to build application layout and [form](/web/forms)-views in line with defined design sketches, there are a number of components for layout.
 
@@ -23,12 +23,12 @@ To make it easier to build application layout and [form](/web/forms)-views in li
 
 - **[Space](/web/layout-and-typography/layout/space)** is a component that provides `margins` within the [provided spacing patterns](/web/layout-and-typography/spacing#spacing-helpers).
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/layout-and-typography/layout)
 
-## Units and responsiveness
+### Units and responsiveness
 
 Please – use `rem` instead of `px` for all of your custom CSS, and make sure;
 
@@ -37,11 +37,11 @@ Please – use `rem` instead of `px` for all of your custom CSS, and make sure;
 
 This results in maintaining the integrity of the **8px** base grid.
 
-### Exceptions
+#### Exceptions
 
 There are exceptions for when you define a "minimum" of an area, such as `min-width`. Because it will increase in size when a larger browser font-size is used. In that case, user `px` as your sizing unit.
 
-### Smaller Units
+#### Smaller Units
 
 Sometimes you may need a compensation of only a few pixels. Heres how to calculate the correct _rem_ values:
 
@@ -49,11 +49,11 @@ Sometimes you may need a compensation of only a few pixels. Heres how to calcula
 - 2px = `1/16x2` = **0.125rem**
 - And so on ...
 
-## Columns
+### Columns
 
 UX designers are using a 12 column system, along with a 4 and 6 column system, during their design processes.
 
-### What are the differences between Flex and Grid?
+#### What are the differences between Flex and Grid?
 
 Both to support different sizing of items on different media breakpoints.
 

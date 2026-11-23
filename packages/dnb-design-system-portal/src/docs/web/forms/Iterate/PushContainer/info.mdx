@@ -6,7 +6,7 @@ redirect_from:
   - /web/extensions/forms/Iterate/PushContainer/info
 ---
 
-## Description
+## Info
 
 `Iterate.PushContainer` enables users to create a new item in the array. It can be used instead of the [Iterate.PushButton](/web/forms/Iterate/PushButton/), but with fields in the container.
 
@@ -19,19 +19,19 @@ Good to know:
 - You can provide `data`, `defaultData` in addition to `isolatedData` to prefill the fields.
 - The `path` you define needs to point to an existing [Iterate.Array](/web/forms/Iterate/Array/) path.
 
-## Import
+### Import
 
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
 render(<Iterate.PushContainer />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/PushContainer)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Iterate/PushContainer)
 
-## Usage
+### Usage
 
 You may place it below the [Iterate.Array](/web/forms/Iterate/Array/) component like this:
 
@@ -49,7 +49,7 @@ render(
 )
 ```
 
-## Prevent the form from being submitted
+### Prevent the form from being submitted
 
 To prevent the [Form.Handler](/web/forms/Form/Handler/) from being submitted when there are fields with errors inside the PushContainer, you can use the `bubbleValidation` property.
 
@@ -67,7 +67,7 @@ render(
 )
 ```
 
-## Show a button to create a new item
+### Show a button to create a new item
 
 By default, it keeps the form open after a new item has been created. You can change this behavior by using the `openButton` and `showOpenButtonWhen` properties.
 
@@ -98,7 +98,7 @@ render(
 
 The `Iterate.PushContainer.OpenButton` accepts the same properties as the [Button](/web/components/button/) component.
 
-## Show the next item number in the open button
+### Show the next item number in the open button
 
 You can use the `{nextItemNo}` variable in the `text` or `children` property to display the next item number.
 
@@ -123,7 +123,7 @@ render(
 )
 ```
 
-## Technical details
+### Technical details
 
 Under the hood, it uses the [Form.Isolation](/web/forms/Form/Isolation/) component to isolate the data from the rest of the form. It also uses the [Iterate.EditContainer](/web/forms/Iterate/EditContainer/) inside the [Iterate.Array](/web/forms/Iterate/Array/) component to render the fields.
 

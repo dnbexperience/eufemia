@@ -4,29 +4,29 @@ redirect_from:
   - /uilib/components/tooltip/info
 ---
 
-## Description
+## Info
 
 The Tooltip component is primarily meant to enhance the UX for various and additional information.
 
-## Import
+### Import
 
 ```tsx
 import { Tooltip } from '@dnb/eufemia'
 ```
 
-## When to use
+### When to use
 
 Use tooltips for short, supplementary information. Keep essential instructions and information needed to understand an action visible.
 
 A tooltip does not replace a visible label or provide an accessible name for its trigger. For icon-only buttons, set `aria-label` or `title` on the Button and follow the [icon-only button guidance](/web/components/button/demos/#icon-button).
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=44531-1111)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/tooltip)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/tooltip)
 
-## Tooltip accessibility problems
+### Tooltip accessibility problems
 
 Because tooltips are often triggered by hover actions, developers and UX designers need to find alternative ways to support access to that information.
 
@@ -39,17 +39,17 @@ The Tooltip component is integrated into components like [Button](/web/component
 - The trigger is described by a hidden copy of the content, which is in the DOM before the Tooltip opens. Screen readers read it together with the trigger when it gets focus, and the Tooltip doesn't announce its content again when it opens
 - To announce a status message, such as "Copied", use [AriaLive](/web/components/aria-live) and set `omitDescribedBy` on the Tooltip
 
-### Touch devices and keyboard support
+#### Touch devices and keyboard support
 
 To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchstart` event handler.
 
 Opening a Modal, Dialog, or Drawer closes uncontrolled tooltips and cancels pending shows. Tooltips inside the opened overlay still work.
 
-## Links (anchor) with target blank
+### Links (anchor) with target blank
 
 The Eufemia [Anchor](/web/components/anchor) and [Button](/web/components/button) components display a Tooltip when the URL target is set to `_blank` to improve accessibility by informing users that a new window will open (out of context).
 
-## Controlled open
+### Controlled open
 
 When you pass the `open` property, the Tooltip becomes controlled:
 
@@ -58,7 +58,7 @@ When you pass the `open` property, the Tooltip becomes controlled:
 
 To use the built-in hover/focus/touch behavior, omit the `open` property and let the component manage visibility internally.
 
-## Root Element (React Portal)
+### Root Element (React Portal)
 
 The Tooltip component uses [PortalRoot](/web/components/portal-root) internally through Popover to render its content. See the [PortalRoot documentation](/web/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/web/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 

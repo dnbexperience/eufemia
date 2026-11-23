@@ -7,7 +7,7 @@ legacyFragments:
   heading: /web/layout-and-typography/elements/heading/#headings
 ---
 
-## Description
+## Info
 
 Eufemia comes with three levels of heading styles:
 
@@ -28,14 +28,14 @@ The sizes are aligned to the [font-size definitions](/web/layout-and-typography/
 
 To make heading sizes adapt to screen width, use `<Typography.Context responsive>`. See the [responsive typography demo](/web/layout-and-typography/typography/#setting-responsive).
 
-## Import
+### Import
 
 ```tsx
 import { Heading } from '@dnb/eufemia/components'
 import { H1, H2, H3, H4, H5, H6 } from '@dnb/eufemia/elements'
 ```
 
-## Font family
+### Font family
 
 DNB headings use DNB Sans Text by default. Display is **experimental**;
 [contact the Eufemia team](/about/contact) before using it. Use `family="display"` on
@@ -43,12 +43,12 @@ DNB headings use DNB Sans Text by default. Display is **experimental**;
 heading level and font size remain independent of the family. See
 [font roles and Display examples](/web/layout-and-typography/typography/#display-headlines).
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/elements/typography)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/layout-and-typography/elements/heading)
 
-## Think semantics first
+### Think semantics first
 
 You should [think semantics first](/web/development-guidelines/for-typography#headings-and-styling) when choosing what level of heading you use. Always try to start with an `<h1>`. When the heading levels are properly defined, you can go ahead and define the sizes (styles).
 
@@ -61,7 +61,7 @@ If you have to use a paragraph (`<p>`) or an arbitrary heading, and it has to **
 
 Read more about [best practices for typography](/web/development-guidelines/for-typography).
 
-## Automated heading levels
+### Automated heading levels
 
 There is also [Heading](/web/components/heading), a component to create automated semantic headings within a boundary of some rules.
 
@@ -69,7 +69,7 @@ There is also [Heading](/web/components/heading), a component to create automate
 import { Heading } from '@dnb/eufemia/components'
 ```
 
-## Heading styles in React
+### Heading styles in React
 
 ```jsx
 import { H1, H2, ... } from '@dnb/eufemia'

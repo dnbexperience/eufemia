@@ -10,7 +10,7 @@ import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/Transla
 import { supportedCountryCodes as postalCode_supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
 import { supportedCountryCodes as address_supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/address'
 
-## Description
+## Info
 
 The `Bring` connector allows you to use the [Bring API](https://developer.bring.com/api/) to:
 
@@ -20,7 +20,7 @@ The `Bring` connector allows you to use the [Bring API](https://developer.bring.
 
 ---
 
-## PostalCode API
+### PostalCode API
 
 Here is an example of how to use the Bring [Postal Code API](https://developer.bring.com/api/postal-code/) to connect the [PostalCodeAndCity](/web/forms/feature-fields/PostalCodeAndCity/) field to a form.
 
@@ -44,13 +44,13 @@ const { withConfig } = Connectors.createContext({
 
 The `value` is what the user typed. Encode it with `encodeURIComponent`, so input like `../` or `&` can't reach other routes or parameters on your API.
 
-### Supported countries \{#postalcode-api-supported-countries\}
+#### Supported countries \{#postalcode-api-supported-countries\}
 
 The Bring API for PostalCode supports the [following countries](https://developer.bring.com/api/postal-code/#supported-countries), by its country codes:
 
 {postalCode_supportedCountryCodes.join(', ')}
 
-### Endpoints and response format \{#postalcode-api-endpoints-and-response-format\}
+#### Endpoints and response format \{#postalcode-api-endpoints-and-response-format\}
 
 Ensure you use one of the [following endpoints](https://developer.bring.com/api/postal-code/#endpoints) from Bring via your proxy API, returning a list of postal codes in the following format:
 
@@ -66,7 +66,7 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 }
 ```
 
-### How to verify a postal code
+#### How to verify a postal code
 
 Use the context to create a validator based on the `validator` connector.
 
@@ -89,7 +89,7 @@ function MyForm() {
 }
 ```
 
-### How to autofill a city name based on a postal code
+#### How to autofill a city name based on a postal code
 
 Use the context to create the `onChange` event handler based on the `autofill` connector.
 
@@ -116,7 +116,7 @@ function MyForm() {
 }
 ```
 
-### Verify a postal code
+#### Verify a postal code
 
 This demo contains only a mocked API call, so only a postal code of `1391` for Norway and `11432` for Sweden is valid.
 
@@ -124,7 +124,7 @@ This demo contains only a mocked API call, so only a postal code of `1391` for N
 
 ---
 
-## Address Suggestions API
+### Address Suggestions API
 
 Here is an example of how to use the Bring [Address API](https://developer.bring.com/api/address/#get-street-or-place-suggestions-get) to connect the [Address](/web/forms/feature-fields/Address/) field to a form.
 
@@ -172,7 +172,7 @@ function MyForm() {
 }
 ```
 
-### Populate data to PostalCodeAndCity
+#### Populate data to PostalCodeAndCity
 
 You can auto fill the address fields based on the selected address.
 
@@ -194,13 +194,13 @@ function MyForm() {
 }
 ```
 
-### Supported countries \{#address-suggestions-api-supported-countries\}
+#### Supported countries \{#address-suggestions-api-supported-countries\}
 
 The Bring API for Address supports the [following countries](https://developer.bring.com/api/address/), by its country codes:
 
 {address_supportedCountryCodes.join(', ')}
 
-### Endpoints and response format \{#address-suggestions-api-endpoints-and-response-format\}
+#### Endpoints and response format \{#address-suggestions-api-endpoints-and-response-format\}
 
 Ensure you use one of the [following endpoints](https://developer.bring.com/api/address/#endpoints) from Bring via your proxy API, returning a list of addresses in the following format:
 
@@ -221,11 +221,11 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 }
 ```
 
-### Translations
+#### Translations
 
 <TranslationsTable localeKey={['StreetAddress.suggestionPlaceholder']} />
 
-### Address suggestion demos
+#### Address suggestion demos
 
 This demo contains only a mocked API call, so you can enter anything in the Street field.
 

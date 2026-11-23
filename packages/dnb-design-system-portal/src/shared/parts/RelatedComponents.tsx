@@ -139,7 +139,7 @@ export default function RelatedComponents() {
 
   return (
     <>
-      <AutoLinkHeader level={2} useSlug="related-components">
+      <AutoLinkHeader level={3} useSlug="related-components">
         Related components
       </AutoLinkHeader>
 

@@ -2,20 +2,20 @@
 showTabs: true
 ---
 
-## Description
+## Info
 
 Use TableOfContent to help readers find their way around a long page. It provides nested section links, a moving current-section indicator and a disclosure on smaller screens.
 
 Compose links with TableOfContent.Root and TableOfContent.Item. Use TableOfContent.Data for a flat list of headings from a CMS, Markdown processor or application state. Both approaches share navigation, responsive behavior and accessibility. The compound API supports both authored and data-driven content.
 
-## Import
+### Import
 
 ```tsx
 import { TableOfContent } from '@dnb/eufemia/extensions'
 import '@dnb/eufemia/extensions/table-of-content/style'
 ```
 
-## Composition
+### Composition
 
 Use clear labels that match the destination headings. Put an id on each destination and supply that same id to the item. Ids belong to the destination, so the component does not create duplicate document ids.
 
@@ -47,7 +47,7 @@ The built-in title and “Show all” label follow the surrounding Provider loca
 
 This sets the default title to “On this page” and the navigation's lang attribute to en-GB. It leaves sibling components and your heading labels unchanged. A supplied title, aria-label or aria-labelledby still takes precedence; an explicit lang overrides the language attribute.
 
-## Responsive layout and scrolling
+### Responsive layout and scrolling
 
 Above breakpoint, the list is always expanded with a width of 12rem. Below it, readers can open and close the disclosure. Use stretch to fill the available width, and expanded with onExpandedChange when application state controls the disclosure. The component remembers its disclosure state while moving between screen sizes.
 
@@ -102,7 +102,7 @@ html {
 
 For a nested scrolling region, apply scroll-padding-top to that region instead of html and measure currentSectionOffset from the viewport top. Use scroll-margin-top on individual destination headings when you cannot style the scrolling container. Scroll padding and scroll margin add together, so avoid applying the full header clearance to both.
 
-## Navigation and current section
+### Navigation and current section
 
 Heading lists update immediately by default. Set animateChanges on Root or Data to animate replacements with a short fade and a slide from left to right, staggered by 15ms per link. The stagger is capped for long lists. Keep the component mounted while changing its data or children. The first render, current-section updates and collapsed lists do not animate. Reduced motion switches immediately, and interacting with new links ends the animation. Outgoing links are decorative and hidden from keyboard and screen reader navigation.
 
@@ -124,7 +124,7 @@ Links retain native fragment navigation, browser history and modified-click beha
 
 For server rendering, all links and the disclosure are present in the HTML. Responsive styles show the desktop list or mobile disclosure before hydration, including custom breakpoints. Supply the heading data during the initial render so the navigation appears with the content. Automatic current-section tracking starts in the browser. Supply currentId to control the current section, or null to clear the indicator and disable automatic tracking.
 
-## Accessibility
+### Accessibility
 
 - The navigation is a named nav landmark, using its localized title by default. Give multiple tables of contents distinct titles or aria-label values.
 - Links use native fragments and semantic nested lists. The current section uses aria-current="location".
@@ -139,7 +139,7 @@ For server rendering, all links and the disclosure are present in the HTML. Resp
 
 Use correct heading hierarchy in the page itself. A table of contents supports navigation but cannot repair that hierarchy. Check the finished page with the screen readers and zoom settings supported by your application.
 
-## Relevant links
+### Relevant links
 
 - [Figma design](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/?node-id=68514-395)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/table-of-content)

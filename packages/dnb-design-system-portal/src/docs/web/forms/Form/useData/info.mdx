@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Form/useData/info
 ---
 
-## Description
+## Info
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
 
@@ -15,21 +15,21 @@ If you need the imperative helpers without subscribing to form data changes, use
 
 For custom field or value components that render a form value, prefer [useFieldProps](/web/forms/create-component/useFieldProps/) or [useValueProps](/web/forms/create-component/useValueProps/). They keep the component reactive with path-scoped form updates.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 // Use Form.useData, Form.useDataValue or Form.useDataWithoutSubscription
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useData.ts)
 - [Source code for useDataWithoutSubscription](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useDataWithoutSubscription.ts)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Form/useData)
 - [Form.Outlet](/web/forms/Form/Outlet/)
 
-## Return values
+### Return values
 
 The hook returns an object with the following properties:
 
@@ -65,11 +65,11 @@ render(
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
-## Path value subscription
+### Path value subscription
 
 Use [Form.useDataValue](/web/forms/Form/useDataValue/) when rendered output depends on a single form value inside `Form.Handler`. It subscribes only to that path.
 
-## Without subscription
+### Without subscription
 
 `Form.useData` subscribes the hook consumer to form data changes. This is useful when rendered output depends on the data.
 
@@ -97,11 +97,11 @@ function MyComponent() {
 }
 ```
 
-## Usage
+### Usage
 
 You can use the `Form.useData` hook with or without an `id` (string, function, object or React Context as the reference) property, which is optional and can be used to link the data to a specific [Form.Handler](/web/forms/Form/Handler/) component.
 
-### TypeScript support
+#### TypeScript support
 
 You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
 
@@ -117,7 +117,7 @@ const MyComponent = () => {
 }
 ```
 
-### Without an `id` property
+#### Without an `id` property
 
 Here "Component" is rendered inside the `Form.Handler` component and does not need an `id` property to access the form data:
 
@@ -137,7 +137,7 @@ function Component() {
 }
 ```
 
-### With an `id` property
+#### With an `id` property
 
 While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string, function, object or React Context as the reference) property:
 
@@ -164,7 +164,7 @@ This is beneficial when you need to utilize the form data in other places within
 
 If you need to render fields, values, or other `Form.*` components in another part of the component tree, use [Form.Outlet](/web/forms/Form/Outlet/) with the same form handler id (`formHandlerId`).
 
-### Select a single value
+#### Select a single value
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -176,7 +176,7 @@ function MyComponent() {
 }
 ```
 
-## Update data
+### Update data
 
 If you need to update the data, you can use the `update` method.
 
@@ -198,7 +198,7 @@ function Component() {
 }
 ```
 
-## Extend the whole data set
+### Extend the whole data set
 
 With the `set` method, you can extend the data set. Existing data paths will be overwritten.
 
@@ -223,7 +223,7 @@ function MyForm() {
 }
 ```
 
-## Visible data
+### Visible data
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/web/forms/Form/Handler/demos/#reduce-your-data-to-visible-fields) in the demo section.
 
@@ -257,7 +257,7 @@ reduceToVisibleFields(data, {
 })
 ```
 
-## Filter data
+### Filter data
 
 You can use the `filterData` function to filter your data. Check out [the example below](#filter-your-data).
 
@@ -307,7 +307,7 @@ const filterDataHandler = ({ path, value, data, props, error }) => {
 }
 ```
 
-## Initial data
+### Initial data
 
 You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/web/forms/Form/setData/) method – or even in each Field, with the value property.
 
@@ -339,7 +339,7 @@ function ComponentB() {
 }
 ```
 
-## Validation
+### Validation
 
 **tl;dr:** the `useData` hook returns unvalidated data.
 

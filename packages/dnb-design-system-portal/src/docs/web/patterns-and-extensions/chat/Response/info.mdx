@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/extensions/ai/Response/info
 ---
 
-## Description
+## Info
 
 Images are disabled by default. Set `allowedImagePrefixes` to trusted origins when your application needs them. Ambiguous single-dot amounts such as `11.725 NOK` stay as written in Norwegian and Swedish; Danish dot grouping remains supported.
 
@@ -26,7 +26,7 @@ Supported markdown: headings, paragraphs, emphasis, strikethrough, inline code, 
 
 Code blocks use [CopyOnClick.Button](/web/components/copy-on-click/) to copy the code with a mouse, touch, or keyboard. The button keeps its translated "Copy code" label and announces the translated confirmation in a tooltip only when copying succeeds.
 
-## Import
+### Import
 
 ```tsx
 import { Response } from '@dnb/eufemia/extensions/chat'
@@ -34,7 +34,7 @@ import '@dnb/eufemia/extensions/chat/style'
 render(<Response />)
 ```
 
-## Currency amounts
+### Currency amounts
 
 Recognized currency amounts use [NumberFormat.Currency](/web/components/number-format/) automatically, including in emphasis, lists and table cells. They inherit the Provider's display locale and NumberFormat settings, including the currency display. With Norwegian defaults, `1 234 kr` is displayed as `1 234 kr`. The number of written decimals is preserved. Formatting does not verify whether an amount is correct.
 
@@ -52,7 +52,7 @@ When the application already knows the amount and currency, render [NumberFormat
 
 Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML and HTML entities. You can add syntax highlighting by overriding the `code` element with `components`. Code blocks get a `language-*` class.
 
-## Horizontal table overflow
+### Horizontal table overflow
 
 Markdown tables use `Table.ScrollView`. If a table is wider than its available space, a translated hint below it explains that it can be scrolled horizontally. The hint is associated with the scroll area for assistive technology and disappears when all columns fit. Keyboard scrolling remains available. The hint also updates when streaming changes the table or the container resizes.
 

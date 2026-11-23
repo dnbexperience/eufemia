@@ -13,24 +13,24 @@ import {
   HeadingInfoBasic,
 } from 'Docs/web/components/heading/Examples'
 
-## Description
+## Info
 
 The Heading component is a helper to create automated semantic headings within a boundary of the web heading rules.
 
 > Basically, only assistive technologies do need semantic headings. But they need them correct.
 
-## Import
+### Import
 
 ```tsx
 import { Heading } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/heading)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/heading)
 
-## Usage
+### Usage
 
 Heading leveling is handled synchronously. You can isolate part of the tree with `<Heading.Level ...`, which also lets you add headings asynchronously inside that boundary. Several level contexts can be nested.
 
@@ -40,7 +40,7 @@ The first code example is without using context provider. To handle levels in ba
 
 **NB:** Instead of `increase` and `decrease` you can use `up` and `down` as well.
 
-## Heading level core-concept
+### Heading level core-concept
 
 - A **heading** will inherit the level from its previous sibling.
 - A **level provider** will create an isolated level context (`Heading.Level`).
@@ -51,7 +51,7 @@ When headings are inserted or removed inside a level provider, the scope is reca
 
 A nested provider isolates its level changes from following headings in the outer scope. Use `inherit` to continue from the last heading inside that provider.
 
-## Defining heading styles / sizes
+### Defining heading styles / sizes
 
 For the visual part, we simply use [typography styles](/web/layout-and-typography/elements/heading) with the `size` property, e.g. `size="x-large"`
 
@@ -59,7 +59,7 @@ For the visual part, we simply use [typography styles](/web/layout-and-typograph
 
 To make heading sizes adapt to screen width, use `<Typography.Context responsive>`. See the [responsive typography demo](/web/layout-and-typography/typography/#setting-responsive).
 
-## Heading level rules and corrections
+### Heading level rules and corrections
 
 The correction will ensure that:
 
@@ -72,7 +72,7 @@ You get a `console.warn` warning (only in development) about corrections. You ca
 
 You can also disable corrections by using the property `skipCorrection={true}`.
 
-## Heading level context provider / asynchronous
+### Heading level context provider / asynchronous
 
 In order to control leveling of headings systematically, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
 
@@ -82,7 +82,7 @@ They are optional in client-only apps and can simplify asynchronous or isolated 
 
 `reset={1}` starts a new document outline, so its first heading is corrected to h1. `reset={2}` through `reset={6}` establish a baseline at that level. For example, the first heading with `up` inside `reset={2}` becomes h3. A bare `reset` or `reset={true}` uses 2.
 
-### Server rendering
+#### Server rendering
 
 Provider-free level handling is shared by headings in the browser. During server rendering, wrap each independently rendered tree in a level provider so one request cannot affect the next:
 
@@ -94,7 +94,7 @@ const html = renderToString(
 )
 ```
 
-## Skip auto correction and warnings
+### Skip auto correction and warnings
 
 First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skipCorrection` property.
 
@@ -106,7 +106,7 @@ Only skip the correction when your app sets the heading levels itself. Skipped l
 </Heading>
 ```
 
-## Heading levels interceptor modification
+### Heading levels interceptor modification
 
 ```jsx
 import { useEffect } from 'react'
@@ -147,13 +147,13 @@ Heading.resetLevels(1, { overwriteContext: true })
 Heading.setNextLevel(4, { overwriteContext: true })
 ```
 
-### Heading and routers
+#### Heading and routers
 
 In order to reset the leveling during a page transition on using `react-router-dom` v5, you can make use of `withRouter`.
 In v6 or another router with page-level components, you just call it in the correct "page" component.
 You could additionally define "what is a page change" and what not, by using the `location: { pathname }` property you get inside these routing components.
 
-## Basic heading elements
+### Basic heading elements
 
 You may still consider of using the basic elements. But keep in mind, you have to define headings responsibly.
 

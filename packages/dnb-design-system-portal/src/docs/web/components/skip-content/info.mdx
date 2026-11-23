@@ -11,23 +11,23 @@ import {
   SkipContentInfo2,
 } from 'Docs/web/components/skip-content/Examples'
 
-## Description
+## Info
 
 `SkipContent` gives users – using their keyboard for navigation – the option to skip over content that contains a large amount of interactive elements.
 
-## Import
+### Import
 
 ```tsx
 import { SkipContent } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4314-726)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/skip-content)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/skip-content)
 
-## Usage
+### Usage
 
 **When is it desired?**
 
@@ -58,23 +58,23 @@ Typical when an action button, such as a save button, is placed below the conten
 
 The revealing button needs a clear message to let the user easily understand the intention.
 
-## Placement
+### Placement
 
 Ensure you put a header or a section before the `SkipContent` component. It should describe the content, so the user understands the context.
 
-### Example with a section landmark (section) and header + `SkipContent.Return`:
+#### Example with a section landmark (section) and header + `SkipContent.Return`:
 
 <SkipContentInfo1 />
 
-### Example using a section landmark (section) and table caption:
+#### Example using a section landmark (section) and table caption:
 
 <SkipContentInfo2 />
 
-## Return button
+### Return button
 
 Optionally, you should consider including the `SkipContent.Return` utility as well. It lets the user jump back to where they came from (before the large content). This button is only focusable when the enter action via the skip button was performed.
 
-## Screen readers and landmarks
+### Screen readers and landmarks
 
 The `SkipContent` helper component is mainly dedicated to keyboard navigation.
 

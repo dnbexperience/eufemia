@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/base-fields/String/info
 ---
 
-## Description
+## Info
 
 `Field.String` is the base component for receiving user input where the target data is of type `string`.
 
@@ -18,25 +18,25 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.String path="/myValue" />)
 ```
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.String />)
 ```
 
-## Built-in validation
+### Built-in validation
 
 The `minLength`, `maxLength` and `pattern` rules validate without Zod. They use Eufemia's translations and `errorMessages` overrides. A custom `schema` replaces these built-in rules.
 
 If the field receives a non-string value, its built-in type error is in English and does not use global `z.config()` settings. A custom Zod `schema` still uses those settings.
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/String)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/String)
 
-## Browser autofill
+### Browser autofill
 
 The string component supports HTML `autocomplete` [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete).
 
@@ -60,7 +60,7 @@ The string component supports HTML `autocomplete` [attributes](https://developer
 
 The `path` property will be used to set the `name` attribute.
 
-## Accessibility
+### Accessibility
 
 Avoid using the `maxlength` attribute when possible, as it is not accessible. Instead, use [TextCounter](/web/components/fragments/text-counter/) together with `Field.String`.
 

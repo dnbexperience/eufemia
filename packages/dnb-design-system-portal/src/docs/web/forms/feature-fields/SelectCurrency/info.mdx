@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/feature-fields/SelectCurrency/info
 ---
 
-## Description
+## Info
 
 `Field.SelectCurrency` is a wrapper component for [Field.Selection](/web/forms/base-fields/Selection), with options built in for selecting a currency.
 [The list of available currencies to select](/web/forms/feature-fields/SelectCurrency/properties/#list-of-available-currencies) is carefully curated to meet the demands we know today.
@@ -15,19 +15,19 @@ It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web
 
 There is a corresponding [Value.SelectCurrency](/web/forms/Value/SelectCurrency) component.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.SelectCurrency />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/SelectCurrency)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/feature-fields/SelectCurrency)
 
-## Filter or prioritize currency listing
+### Filter or prioritize currency listing
 
 You can filter currencies with the `currencies` property's values `Scandinavia`, `Nordic` or `Europe`.
 
@@ -39,7 +39,7 @@ Currencies are sorted in alphabetically order, with the following prioritized cu
 - Euro
 - United States dollar
 
-## TransformIn and TransformOut
+### TransformIn and TransformOut
 
 You can use the `transformIn` and `transformOut` to transform the value before it gets displayed in the field and before it gets sent to the form context. The second parameter is the currency object. You may have a look at the demo below to see how it works.
 
@@ -59,7 +59,7 @@ const transformIn = (external: unknown) => {
 }
 ```
 
-## onFocus, onBlur, onChange
+### onFocus, onBlur, onChange
 
 These events have an additional parameter with the currency object.
 
@@ -67,7 +67,7 @@ These events have an additional parameter with the currency object.
 const onFocus = (value, currency) => {}
 ```
 
-## The currency object
+### The currency object
 
 ```ts
 {

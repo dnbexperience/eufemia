@@ -6,7 +6,7 @@ legacyFragments:
   heightanimation: /web/components/height-animation/#height-animation
 ---
 
-## Description
+## Info
 
 The HeightAnimation component calculates the height, and animates from `auto` to `auto` – or from `0` to `auto` in height – powered by CSS transition. It calculates the height on the fly.
 
@@ -18,24 +18,24 @@ The element animation is done with a CSS transition with `400ms` in duration.
 
 It also re-calculates and changes the height, when the given content changes.
 
-## Import
+### Import
 
 ```tsx
 import { HeightAnimation } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/height-animation)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/height-animation)
 
-## Server-side rendering (SSR)
+### Server-side rendering (SSR)
 
 HeightAnimation is SSR-compatible. When `open` is `true` (the default), the component renders its content with the `--is-visible` class during server-side rendering so the initial HTML is correct without waiting for JavaScript.
 
 Custom `duration` and `delay` props are applied after hydration via a DOM effect to avoid hydration mismatches caused by differences in how React serializes CSS custom properties on the server versus the client.
 
-## Accessibility
+### Accessibility
 
 Connect the control and animated content with `aria-controls`, and expose the current state with `aria-expanded`. HeightAnimation does not manage focus. Avoid closing content while focus is inside it, or move focus to a logical visible control first.
 

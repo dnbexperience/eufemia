@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/extensions/ai/PromptInput/info
 ---
 
-## Description
+## Info
 
 `Chat.PromptInput` is where the user writes a message. On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices (`hover: none` and `pointer: coarse`), Enter adds a new line; use the send button to submit. Set `isBusy` while a reply is pending or streaming. With `onStop`, the send button becomes a stop button. Pressing empty space on the card focuses the textarea with the caret at the end. Custom controls and context content keep their own interactions. After sending, focus returns to the textarea. Stopping also returns keyboard focus when the empty compact input removes the stop button.
 
@@ -18,7 +18,7 @@ With `disabled`, the card uses Textarea's disabled background and border tokens.
 
 Pass context chips as `children` to show attachments or references above the input. The context area opens and closes with HeightAnimation, including its spacing. Your application owns their data and removal actions. Use controls with `type="button"` so removing context does not submit the message.
 
-## Import
+### Import
 
 ```tsx
 import { PromptInput } from '@dnb/eufemia/extensions/chat'
@@ -26,7 +26,7 @@ import '@dnb/eufemia/extensions/chat/style'
 render(<PromptInput />)
 ```
 
-## Composing custom controls
+### Composing custom controls
 
 Use `startActions` to place controls on the left of the toolbar, or before the textarea in the compact variant. Use `endActions` to place controls before the built-in Send or Stop button. Both accept React content, including multiple buttons, a menu or a custom component. Their DOM order follows the visual order for keyboard navigation.
 

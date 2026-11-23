@@ -5,18 +5,18 @@ redirect_from:
   - /web/extensions/forms/Form/useValidation/info
 ---
 
-## Description
+## Info
 
 The `Form.useValidation` lets you monitor and modify field status or your form errors outside of the context.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 // Use Form.useValidation
 ```
 
-## APIs
+### APIs
 
 - `hasErrors(): boolean` - True if any error is present.
 - `hasFieldError(path: Path, options?: { withDescendants?: boolean }): boolean` - True if the field has an error. With `withDescendants: true`, it is also true when any field beneath the given path has an error, such as a [Form.Section](/web/forms/Form/Section/) or an [Iterate.Array](/web/forms/Iterate/Array/).
@@ -33,7 +33,7 @@ type EventStateObject = {
 }
 ```
 
-## Usage
+### Usage
 
 You can use it in several ways. Like within the context of `Form.Handler`:
 
@@ -113,7 +113,7 @@ function MyForm() {
 }
 ```
 
-## Report a form error
+### Report a form error
 
 You can also report a form error that gets displayed on the bottom of the form by using the `Form.useValidation` hook:
 
@@ -133,7 +133,7 @@ function MyForm() {
 }
 ```
 
-## Field status
+### Field status
 
 You can also use the `setFieldStatus` method to report field status. This will update the field with the status and show it in the form.
 
@@ -165,6 +165,6 @@ function Component() {
 
 To remove the field status, you can use `setFieldStatus('/path/to/field', { error: undefined })`.
 
-## Accessibility
+### Accessibility
 
 The form error is connected with the [Form.Handler](/web/forms/Form/Handler/) itself via `aria-labelledby` for screen reader support.

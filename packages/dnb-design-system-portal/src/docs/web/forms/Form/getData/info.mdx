@@ -5,7 +5,7 @@ redirect_from:
   - /web/extensions/forms/Form/getData/info
 ---
 
-## Description
+## Info
 
 With the `Form.getData` method, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
 
@@ -46,14 +46,14 @@ Related helpers:
 
 For rendered values inside `Form.Handler`, use [Form.useDataValue](/web/forms/Form/useDataValue/) to subscribe to one path. For custom field or value components that render form data, prefer [useFieldProps](/web/forms/create-component/useFieldProps/) or [useValueProps](/web/forms/create-component/useValueProps/). Use `Form.useDataWithoutSubscription().getData()` for non-subscribing imperative reads inside a component.
 
-## Import
+### Import
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 // Use Form.getData
 ```
 
-## Visible data
+### Visible data
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
 
@@ -77,7 +77,7 @@ const { data, reduceToVisibleFields } = Form.getData(myFormId)
 const visibleData = reduceToVisibleFields(data)
 ```
 
-## Filter data
+### Filter data
 
 You can use the `filterData` function to filter your data.
 

@@ -6,23 +6,23 @@ redirect_from:
   - /web/extensions/forms/Iterate/RemoveButton/info
 ---
 
-## Description
+## Info
 
 `Iterate.RemoveButton` connects to the array of a surrounding `Iterate.Array` and removes the item when clicked.
 
-## Import
+### Import
 
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
 render(<Iterate.RemoveButton />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/RemoveButton)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Iterate/RemoveButton)
 
-## Usage
+### Usage
 
 ```tsx
 import { Iterate, Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -36,7 +36,7 @@ render(
 )
 ```
 
-## Confirm removal
+### Confirm removal
 
 You can use the `showConfirmDialog` property to open a confirmation dialog before removing the item.
 
@@ -44,7 +44,7 @@ You can use the `showConfirmDialog` property to open a confirmation dialog befor
 <Iterate.RemoveButton showConfirmDialog />
 ```
 
-## The item number in the title
+### The item number in the title
 
 You can use the `{itemNo}` variable in the `text` or the `children` property to display the current item number.
 

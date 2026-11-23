@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/extensions/ai/Conversation/info
 ---
 
-## Description
+## Info
 
 `Chat.Conversation` holds the messages, and takes care of the scrolling while new messages and replies stream in. Read more in [Message scroller](/web/patterns-and-extensions/chat/message-scroller/).
 
@@ -18,7 +18,7 @@ Automatic scrolling follows new content only while following the latest messages
 
 Give it a height, e.g. with `style` or by placing it in a flex layout. The conversation can be scrolled with the keyboard when its content overflows.
 
-## Import
+### Import
 
 ```tsx
 import { Conversation } from '@dnb/eufemia/extensions/chat'
@@ -26,7 +26,7 @@ import '@dnb/eufemia/extensions/chat/style'
 render(<Conversation />)
 ```
 
-## Announcements while streaming
+### Announcements while streaming
 
 The scroll view is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role) that announces additions by default. This does not guarantee that updates to a streaming message will be announced in full.
 
@@ -34,21 +34,21 @@ The application owns streaming announcements because it knows when a reply finis
 
 See the [announcement recipe](/web/patterns-and-extensions/chat/integrations/#screen-reader-announcements) and [live demo](/web/patterns-and-extensions/chat/demos/#streamed-reply-announcements). Check the result with the screen readers your application supports; DOM attributes alone do not prove spoken behavior.
 
-## Scroll from elsewhere
+### Scroll from elsewhere
 
 Give the conversation an `id`, and use `Chat.useConversation(id)` to scroll it, e.g. from a toolbar.
 
-## Customize the peek
+### Customize the peek
 
 The part of the previous reply that is shown above a new turn is set with the `--ai-conversation-peek` CSS custom property, which defaults to `3rem`.
 
-## Incoming messages
+### Incoming messages
 
 When an incoming message is appended while the reader is away from the end, the scroll-to-latest button shows a translated “New message” label. `useConversationScrollState` exposes `hasUnreadMessages` for custom controls. Reaching the end clears it. Restored or prepended history, edits and streamed text within an existing message do not mark a message unread. Keep message keys and item ids stable.
 
 This visual state does not announce a reply. The application still owns announcements for streamed completion and incoming customer-service or proactive messages. See [Screen reader announcements](/web/patterns-and-extensions/chat/integrations/#screen-reader-announcements).
 
-## Virtualization
+### Virtualization
 
 The Figma chat starts from the bottom. Use `scrollBehavior="end"` for that layout. The `turn` default lets readers follow a streamed reply from its start. In `end` mode, submitting a new user message returns to the end and resumes following. Moving focus into older content, selecting text or navigating away pauses following until the reader returns to the end. Use `--ai-conversation-padding` to adjust the default `1rem` side padding.
 

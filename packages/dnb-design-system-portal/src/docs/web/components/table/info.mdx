@@ -4,11 +4,11 @@ redirect_from:
   - /uilib/components/table/info
 ---
 
-## Description
+## Info
 
 The Table component is an all-inclusive and accessible table based on correct HTML semantics.
 
-## Import
+### Import
 
 ```tsx
 import { Table } from '@dnb/eufemia'
@@ -22,19 +22,19 @@ import Table, {
 } from '@dnb/eufemia/components/Table'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1499)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/table)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/table)
 
-## Usage
+### Usage
 
 Please use the properties instead of overwriting the styles. If you miss a feature, get in [touch with us](/about/contact/).
 
 **NB:** If you have more than three (3) columns, please consider using the `border` property to enhance accessibility.
 
-## Accessibility
+### Accessibility
 
 Tables both serve as a way of navigation for screen readers and other assistive technologies, and help to give data an ordered structure.
 
@@ -52,20 +52,20 @@ Here is a list of things you may follow along in order to ensure your coded tabl
 
 When `openOnFind` is enabled on accordion rows, find-in-page support is powered by [HeightAnimation](/web/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
 
-## Table header components
+### Table header components
 
 - `<Th.SortButton />` to be used for additional sorting functionality.
 - `<Th.HelpButton />` to be used for help related content.
 
-## Alignment
+### Alignment
 
 Use e.g. `align="right"` on a `<Th>`, `<Td>` or `<Tr>` to align a table header or a table data element.
 
-## Fixed layout
+### Fixed layout
 
 You may consider using `table-layout: fixed;`. You can use the modifier property `fixed` for doing so and combine it with CSS e.g. `width: 40%` on specific table headers.
 
-## Scrollable
+### Scrollable
 
 Depending on your situation, you may want to wrap your Table within `Table.ScrollView`:
 
@@ -83,7 +83,7 @@ render(
 
 If you place a `Table.ScrollView` at the bottom of your own element with rounded corners and `overflow: hidden` or `overflow: clip`, the rounded corners can cut off the ends of the horizontal scrollbar. Give the `Table.ScrollView` space below it, e.g. `margin-bottom: 1rem`, or use a [Table.Container](/web/components/table/demos/#several-tables-in-one-container), which keeps the scrollbar clear of its rounded corners.
 
-## Sticky header
+### Sticky header
 
 You have two options:
 
@@ -101,7 +101,7 @@ Method no. 2 should be used when a `max-height` is set to the wrapping `Table.Sc
 
 Have a [look at this example](/web/components/table/demos/#table-with-a-max-height).
 
-## Sortable table
+### Sortable table
 
 Optionally, make use of the following React Hook to handle the `Th.SortButton` directions.
 
@@ -178,7 +178,7 @@ export const YourComponent = () => {
 
 </Details>
 
-## Keyboard navigation
+### Keyboard navigation
 
 Use the `useTableKeyboardNavigation` hook to enable arrow-key navigation between table cells. When a cell contains a focusable element (such as an input, button, or link), that element receives focus. Otherwise, the cell itself is focused.
 
