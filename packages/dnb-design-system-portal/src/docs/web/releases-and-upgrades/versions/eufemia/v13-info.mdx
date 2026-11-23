@@ -95,6 +95,23 @@ See [print styles](/web/styling-and-themes/css/document-styles/#print-styles).
 
 ## Component changes
 
+### [Tooltip](/web/components/tooltip/)
+
+Tooltip now describes its trigger before it opens and no longer announces its content through a live region.
+
+If your application uses Tooltip for a status message, such as "Copied", add [AriaLive](/web/components/aria-live/) to announce the message. Set `omitDescribedBy` on the Tooltip so the status message does not become the trigger's description:
+
+```tsx
+<>
+  <Tooltip open={copied} targetElement={buttonRef} omitDescribedBy>
+    Copied
+  </Tooltip>
+  <AriaLive>{copied ? 'Copied' : null}</AriaLive>
+</>
+```
+
+CopyOnClick, CopyOnClick.Button and NumberFormat handle their own copy announcements.
+
 ### [Theme](/web/styling-and-themes/brands-and-dark-mode/theme)
 
 The deprecated `name` property and `data-name` attribute have been removed. Use `brand` and `data-brand` instead.
