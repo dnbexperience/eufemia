@@ -15,6 +15,7 @@
 }
 
 .dnb-dashboard-chart {
+  container-type: inline-size;
   font-size: var(--font-size-small);
 
   &__legend {
@@ -81,12 +82,6 @@
       pointer-events: none;
       content: '';
     }
-
-    @media (max-width: 40rem) {
-      &--dense .dnb-dashboard-chart__interval:nth-child(even) > span {
-        visibility: hidden;
-      }
-    }
   }
 
   &__interval {
@@ -109,11 +104,37 @@
 
   &__bar {
     width: 35%;
+    min-width: 0.125rem;
     max-width: 1.75rem;
     background: var(--token-color-text-neutral);
 
     &--out {
       background: var(--token-color-text-neutral-alternative);
+    }
+  }
+
+  @container (max-width: 20rem) {
+    &__plot {
+      gap: 0.125rem;
+    }
+
+    &__interval:nth-child(even) > span {
+      visibility: hidden;
+    }
+  }
+
+  @container (max-width: 12rem) {
+    &__bars {
+      gap: 0.0625rem;
+    }
+
+    &__interval > span {
+      visibility: hidden;
+    }
+
+    &__interval:first-child > span,
+    &__interval:last-child > span {
+      visibility: visible;
     }
   }
 }

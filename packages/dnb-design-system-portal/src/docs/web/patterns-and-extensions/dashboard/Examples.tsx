@@ -751,7 +751,7 @@ export const FinancialExample = () => (
                   element="div"
                   responsive={false}
                   innerSpace="medium"
-                  backgroundColor="#0000"
+                  backgroundColor="transparent"
                 >
                   <Stat.Root>
                     <Stat.Label>
@@ -784,7 +784,7 @@ export const FinancialExample = () => (
                   element="div"
                   responsive={false}
                   innerSpace="medium"
-                  backgroundColor="#0000"
+                  backgroundColor="transparent"
                 >
                   <Stat.Root>
                     <Stat.Label>Money in</Stat.Label>
@@ -805,7 +805,7 @@ export const FinancialExample = () => (
                   element="div"
                   responsive={false}
                   innerSpace="medium"
-                  backgroundColor="#0000"
+                  backgroundColor="transparent"
                 >
                   <Stat.Root>
                     <Stat.Label>Money out</Stat.Label>
@@ -885,14 +885,7 @@ export const FinancialExample = () => (
                               </span>
                             ))}
                           </div>
-                          <div
-                            className={
-                              'dnb-dashboard-chart__plot' +
-                              (data.values.length >= 6
-                                ? ' dnb-dashboard-chart__plot--dense'
-                                : '')
-                            }
-                          >
+                          <div className="dnb-dashboard-chart__plot">
                             {data.values.map(
                               ([label, moneyIn, moneyOut]) => (
                                 <div
