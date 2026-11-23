@@ -42,6 +42,7 @@ const TAP_MOVE_TOLERANCE = 10 // CSS pixels from where the touch started
 
 /**
  * Returns `true` when a mouse or pen press is on a scrollbar, like the page scrollbar.
+ * Overlay scrollbars, like on macOS by default, take up no space and are not detected.
  */
 function isScrollbarPress(event: Event) {
   const element = event.target

@@ -29,18 +29,19 @@ async function openPage(page: Page, path: string) {
   )
 }
 
-// Fixed elements outside the component, above everything else on the page
+// Fixed elements outside the component, above everything else on the page.
+// Classic scrollbars, so they take up space, like on Windows, instead of overlay scrollbars.
 async function addFixtures(page: Page) {
   await page.addStyleTag({
     content: `
-      #fixture-scrollbox::-webkit-scrollbar { width: 15px; height: 15px; }
-      #fixture-scrollbox::-webkit-scrollbar-thumb { background: gray; }
+      ::-webkit-scrollbar { width: 15px; height: 15px; }
+      ::-webkit-scrollbar-thumb { background: gray; }
     `,
   })
   await page.evaluate(() => {
     const fixtures = document.createElement('div')
     fixtures.style.cssText =
-      'position: fixed; right: 0; bottom: 0; z-index: 10000; display: flex; gap: 8px; padding: 8px; background: white;'
+      'position: fixed; right: 40px; bottom: 40px; z-index: 10000; display: flex; gap: 8px; padding: 8px; background: white;'
     fixtures.innerHTML = `
       <div id="fixture-outside" style="width: 100px; height: 80px;">Outside</div>
       <div id="fixture-cancels-touch" style="width: 100px; height: 80px;">Map</div>
@@ -127,7 +128,7 @@ test.describe('outside press with a mouse', () => {
   test.use({ viewport: { width: 1280, height: 800 } })
 
   for (const { name, path, trigger } of components) {
-    test(`${name} stays open on a press on a scrollbar outside, but closes on a press next to it`, async ({
+    test(`${name} stays open on a press on the page scrollbar or another scrollbar outside, but closes on a press next to it`, async ({
       page,
     }) => {
       await openPage(page, path)
@@ -140,9 +141,21 @@ test.describe('outside press with a mouse', () => {
       )
       expect(scrollbarWidth).toBeGreaterThan(0)
 
+      const pageScrollbarWidth = await page.evaluate(
+        () => window.innerWidth - document.documentElement.clientWidth
+      )
+      expect(pageScrollbarWidth).toBeGreaterThan(0)
+
       const button = trigger(page)
       await button.scrollIntoViewIfNeeded()
       await button.click()
+      await expect(button).toHaveAttribute('aria-expanded', 'true')
+
+      const viewport = page.viewportSize()
+      await page.mouse.click(
+        viewport.width - pageScrollbarWidth / 2,
+        viewport.height / 2
+      )
       await expect(button).toHaveAttribute('aria-expanded', 'true')
 
       // The thumb at the top of the scrollbar, so the press does not scroll
