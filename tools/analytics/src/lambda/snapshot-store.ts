@@ -99,7 +99,6 @@ export type McpTransportUsage = {
   perComponent: RankedCount[]
   perPath: RankedCount[]
   missedLookups: number
-  // Skill starts: a skill names itself in its first docs_meta call.
   perSkill: RankedCount[]
   perVersion: McpVersionUsage[]
   daily: McpUsageDay[]
