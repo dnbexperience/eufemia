@@ -135,7 +135,7 @@ export async function handler(
 
   try {
     const request = toWebRequest(event)
-    // Buffer the body inside the collector: a streamed response can still run tools.
+    // Read the body inside the collector, in case a streamed response runs tools late.
     const { result, toolCalls } = await withToolCalls(async () =>
       toApiGatewayResult(await handleMcpRequest(request))
     )

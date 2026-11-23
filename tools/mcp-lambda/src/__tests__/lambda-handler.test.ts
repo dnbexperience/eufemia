@@ -237,6 +237,16 @@ describe('lambda-handler protocol versions', () => {
     expect(capturedTools()).toEqual(['docs_entry'])
   })
 
+  it('captures usage for every tool that ran in a batch', async () => {
+    const result = await postMcp([
+      docsEntryCall,
+      { ...docsEntryCall, id: 2 },
+    ])
+
+    expect(result.statusCode).toBe(200)
+    expect(capturedTools()).toEqual(['docs_entry', 'docs_entry'])
+  })
+
   it('captures usage for a tool that ran on MCP 2026', async () => {
     const result = await postModern(
       5,
