@@ -136,6 +136,7 @@
 
     &__formatted-text {
       position: absolute;
+      pointer-events: none;
     }
 
     &__formatted-visual {

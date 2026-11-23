@@ -146,7 +146,8 @@ test('preserves formatted wrapping and complete values in forced colors', async 
     </span>
     <div style="width:160px;font-size:24px">
       <p id="plain-date">31. desember 2026</p>
-      <p id="animated-date"><span class="dnb-animated-digits__formatted"><span class="dnb-animated-digits__formatted-text">31. desember 2026</span><span class="dnb-animated-digits__formatted-visual" aria-hidden="true">${renderToStaticMarkup(createElement(AnimatedDigits, { value: '31', decorative: true }))}<span class="dnb-animated-digits__formatted-literal" data-text=". desember "></span>${renderToStaticMarkup(createElement(AnimatedDigits, { value: '2026', decorative: true }))}</span></span></p>
+      <p id="animated-date" style="margin-bottom:0"><span class="dnb-animated-digits__formatted"><span class="dnb-animated-digits__formatted-text">31. desember 2026</span><span class="dnb-animated-digits__formatted-visual" aria-hidden="true">${renderToStaticMarkup(createElement(AnimatedDigits, { value: '31', decorative: true }))}<span class="dnb-animated-digits__formatted-literal" data-text=". desember "></span>${renderToStaticMarkup(createElement(AnimatedDigits, { value: '2026', decorative: true }))}</span></span></p>
+      <a href="#details">Open details</a>
     </div>`)
   const plainHeight = await page
     .locator('#plain-date')
@@ -168,6 +169,22 @@ test('preserves formatted wrapping and complete values in forced colors', async 
       return selection.toString()
     })
   expect(copied).toBe('31. desember 2026')
+  for (const alignment of ['left', 'center', 'right']) {
+    await page.locator('#animated-date').evaluate((element, textAlign) => {
+      element.parentElement.style.textAlign = textAlign
+    }, alignment)
+    expect(
+      await page.locator('a').evaluate((element) => {
+        const bounds = element.getBoundingClientRect()
+        return (
+          document.elementFromPoint(
+            bounds.x + bounds.width / 2,
+            bounds.y + bounds.height / 2
+          ) === element
+        )
+      })
+    ).toBe(true)
+  }
   for (const forcedColors of ['active', 'none', 'active'] as const) {
     await page.emulateMedia({ forcedColors })
     const active = forcedColors === 'active'
