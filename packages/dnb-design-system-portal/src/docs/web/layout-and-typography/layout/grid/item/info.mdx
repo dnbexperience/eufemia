@@ -17,7 +17,19 @@ The columns do change based on what [breakpoint](/web/layout-and-typography/brea
 - 6 columns when `medium`
 - 12 columns when `large`
 
-### Span
+## Import
+
+```tsx
+import { Grid } from '@dnb/eufemia'
+render(<Grid.Item />)
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/grid/Item.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/layout-and-typography/layout/grid/item/)
+
+## Span
 
 You need to provide a `span` property with a number from 1 to 12 (can be changed in [Grid.Container](/web/layout-and-typography/layout/grid/container/) with the `columns` property).
 
@@ -32,22 +44,10 @@ Example of spans:
 - `span={[1, 'end']}`
 - `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`
 
-### Responsive spans
+## Responsive spans
 
 You can also make spans respond to media queries.
 
 For doing so, provide a `span` property with an object containing [Media Query](/web/layout-and-typography/breakpoints/) types. Each media size should contain a span, like mentioned above.
 
 <Examples.ResponsiveSpan />
-
-## Import
-
-```tsx
-import { Grid } from '@dnb/eufemia'
-render(<Grid.Item />)
-```
-
-## Relevant links
-
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/grid/Item.tsx)
-- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/layout-and-typography/layout/grid/item/)

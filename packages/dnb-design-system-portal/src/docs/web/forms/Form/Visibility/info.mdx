@@ -9,11 +9,18 @@ redirect_from:
 
 The `Form.Visibility` component allows you to conditionally show or hide components based on the state of data or field validation. You can either provide the values directly via properties or let it read data from a surrounding [Form.Handler](/web/forms/Form/Handler/). This enables dynamic visibility control based on the paths it points to.
 
-### Iterate.Visibility
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.Visibility />)
+```
+
+## Iterate.Visibility
 
 You can also use the [Iterate.Visibility](/web/forms/Iterate/Visibility/) component to target relative paths (`itemPath`) within an [Iterate.Array](/web/forms/Iterate/Array/) component.
 
-### Data driven visibility
+## Data driven visibility
 
 There are several [properties](/web/forms/Form/Visibility/properties/) you can use to control visibility, such as `pathDefined`, `pathTruthy`, `pathTrue` etc.
 
@@ -30,7 +37,7 @@ render(
 )
 ```
 
-#### Dynamic value driven visibility
+### Dynamic value driven visibility
 
 You can also use the `visibleWhen` property to conditionally show the children based on the data value of the path.
 
@@ -52,7 +59,7 @@ render(
 )
 ```
 
-### Validation driven visibility
+## Validation driven visibility
 
 You can conditionally display children based on field validation by using the `visibleWhen` property with `isValid: true`:
 
@@ -75,13 +82,6 @@ render(
 ```
 
 To prevent visibility changes during user interactions like typing, it shows the children only when the field both has no errors and has lost focus (blurred). You can use the `validateContinuously: true` property to immediately show the children when the field has no errors.
-
-## Import
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-render(<Form.Visibility />)
-```
 
 ## Accessibility
 
