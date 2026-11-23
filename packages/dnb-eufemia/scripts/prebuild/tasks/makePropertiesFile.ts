@@ -1233,7 +1233,7 @@ const runDesignTokenFactory = async () => {
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       // No referencePrefixOverride: this brand intentionally reuses a few
-      // Sbanken foundation colors alongside its own set
+      // DNB and Sbanken foundation colors alongside its own set
       colorScheme: 'light',
     },
     {
@@ -1251,7 +1251,8 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/carnegie/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.carnegie.css,
+      // No referencePrefixOverride: this brand reuses a few DNB foundation
+      // colors alongside its own set
       colorScheme: 'light',
     },
     {
@@ -1323,11 +1324,12 @@ const runDesignTokenFactory = async () => {
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/coconut/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      // A few tokens still reference the Sbanken set, so both are kept.
+      // A few tokens reference the DNB and Sbanken sets, so they are kept.
       // Unreferenced variables are filtered out before the file is written.
       filter: (json) => ({
         [foundationPrefixMap.coconut.figma]:
           json[foundationPrefixMap.coconut.figma],
+        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
         [foundationPrefixMap.sbanken.figma]:
           json[foundationPrefixMap.sbanken.figma],
       }),
@@ -1337,9 +1339,12 @@ const runDesignTokenFactory = async () => {
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/carnegie/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+      // A few tokens reference the DNB set, so it is kept.
+      // Unreferenced variables are filtered out before the file is written.
       filter: (json) => ({
         [foundationPrefixMap.carnegie.figma]:
           json[foundationPrefixMap.carnegie.figma],
+        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
       }),
     },
     {
