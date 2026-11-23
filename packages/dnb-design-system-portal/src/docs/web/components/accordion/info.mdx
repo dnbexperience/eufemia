@@ -24,11 +24,13 @@ The Accordion component is a combination of an accessible button (header area) a
 
 The Accordion follows the [WAI-ARIA Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/). The header uses a semantic button with `aria-expanded` to communicate the expanded/collapsed state. The content panel is associated with its header using `aria-controls` and `aria-labelledby`.
 
+When `openOnFind` is enabled, find-in-page support is powered by [HeightAnimation](/web/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
+
+## Usage
+
 The component is designed to let you compose different parts according to your technical needs.
 
 By default, the Accordion component animates user events, resulting in a final height of `auto`. This keeps the content responsive after the animation ends.
-
-When `openOnFind` is enabled, find-in-page support is powered by [HeightAnimation](/web/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
 
 ### Accordion provider
 
