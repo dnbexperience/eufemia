@@ -25,6 +25,42 @@ describe('Table.ScrollView', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders empty children without throwing', () => {
+    render(<ScrollView>{null}</ScrollView>)
+    expect(
+      document.querySelector('.dnb-table__scroll-view')
+    ).toBeEmptyDOMElement()
+  })
+
+  it.each([true, false])(
+    'uses a window resize listener only without ResizeObserver (available: %s)',
+    (available) => {
+      setResizeObserver()
+      const observer = globalThis.ResizeObserver
+      if (!available) {
+        vi.stubGlobal('ResizeObserver', undefined)
+      }
+      const add = vi.spyOn(window, 'addEventListener')
+      const remove = vi.spyOn(window, 'removeEventListener')
+      const { unmount } = render(
+        <ScrollView>
+          <table />
+        </ScrollView>
+      )
+      const resizeListeners = add.mock.calls.filter(
+        ([event]) => event === 'resize'
+      )
+      expect(resizeListeners).toHaveLength(available ? 0 : 1)
+      unmount()
+      expect(
+        remove.mock.calls.filter(([event]) => event === 'resize')
+      ).toEqual(resizeListeners)
+      vi.stubGlobal('ResizeObserver', observer)
+      add.mockRestore()
+      remove.mockRestore()
+    }
+  )
+
   it('should support spacing props', () => {
     render(
       <ScrollView top="large">

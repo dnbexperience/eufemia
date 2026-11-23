@@ -55,8 +55,8 @@ export default function TableScrollView(
   const [indicatorHidden, setIndicatorHidden] = useState(false)
   const combinedRef = useCombinedRef(refProp, ref)
   const { Table: translations } = useTranslation()
-  const childType = children.type
-  const childKey = children.key
+  const childType = children?.type
+  const childKey = children?.key
   const { width, maxWidth, direction, ...scrollStyle } = rest.style || {}
   const containerProps = useSpacing(props, {
     className: 'dnb-table__scroll-container',
@@ -141,13 +141,17 @@ export default function TableScrollView(
     )
     const mutationObserver = new MutationObserver(updateLayout)
     mutationObserver.observe(element, { childList: true, subtree: true })
-    window.addEventListener('resize', updateLayout)
+    if (!observer) {
+      window.addEventListener('resize', updateLayout)
+    }
 
     return () => {
       observer?.disconnect()
       mutationObserver.disconnect()
       element.removeEventListener('scroll', updateScroll)
-      window.removeEventListener('resize', updateLayout)
+      if (!observer) {
+        window.removeEventListener('resize', updateLayout)
+      }
     }
   }, [childType, childKey])
 
