@@ -7,6 +7,12 @@ redirect_from:
   - /web/extensions/forms/Form/Isolation/info
 ---
 
+## Description
+
+`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.
+
+It's a provider that lets you provide a `schema` or `data` very similar to what the [Form.Handler](/web/forms/Form/Handler/) component does.
+
 ## Import
 
 ```tsx
@@ -14,13 +20,7 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 render(<Form.Isolation />)
 ```
 
-## Description
-
-`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.
-
-It's a provider that lets you provide a `schema` or `data` very similar to what the [Form.Handler](/web/forms/Form/Handler/) component does.
-
-### Good to know
+## Good to know
 
 - It needs to be used inside of a `Form.Handler` component.
 - All fields inside need to validate successfully before the isolated data can be committed, just like the `Form.Handler` does before submitting.

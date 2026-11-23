@@ -8,13 +8,6 @@ redirect_from:
 import AsyncStateReturnExample from './parts/async-state-return-example.mdx'
 import AsyncChangeExample from './parts/async-change-example.mdx'
 
-## Import
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-render(<Form.Handler />)
-```
-
 ## Description
 
 The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.
@@ -37,6 +30,13 @@ function MyForm() {
 ```
 
 `defaultData` is only used if no other data source is provided and will not update internal data if it changes after mount. Initializing fields with an empty value is optional; if you do, prefer the field's `emptyValue` (often `undefined`).
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.Handler />)
+```
 
 ## Relevant links
 

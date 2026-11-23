@@ -6,14 +6,6 @@ redirect_from:
   - /uilib/extensions/ai/Conversation/info
 ---
 
-## Import
-
-```tsx
-import { Conversation } from '@dnb/eufemia/extensions/chat'
-import '@dnb/eufemia/extensions/chat/style'
-render(<Conversation />)
-```
-
 ## Description
 
 `Chat.Conversation` holds the messages, and takes care of the scrolling while new messages and replies stream in. Read more in [Message scroller](/web/patterns-and-extensions/chat/message-scroller/).
@@ -26,7 +18,15 @@ Automatic scrolling follows new content only while following the latest messages
 
 Give it a height, e.g. with `style` or by placing it in a flex layout. The conversation can be scrolled with the keyboard when its content overflows.
 
-### Announcements while streaming
+## Import
+
+```tsx
+import { Conversation } from '@dnb/eufemia/extensions/chat'
+import '@dnb/eufemia/extensions/chat/style'
+render(<Conversation />)
+```
+
+## Announcements while streaming
 
 The scroll view is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role) that announces additions by default. This does not guarantee that updates to a streaming message will be announced in full.
 
@@ -34,11 +34,11 @@ The application owns streaming announcements because it knows when a reply finis
 
 See the [announcement recipe](/web/patterns-and-extensions/chat/integrations/#screen-reader-announcements) and [live demo](/web/patterns-and-extensions/chat/demos/#streamed-reply-announcements). Check the result with the screen readers your application supports; DOM attributes alone do not prove spoken behavior.
 
-### Scroll from elsewhere
+## Scroll from elsewhere
 
 Give the conversation an `id`, and use `Chat.useConversation(id)` to scroll it, e.g. from a toolbar.
 
-### Customize the peek
+## Customize the peek
 
 The part of the previous reply that is shown above a new turn is set with the `--ai-conversation-peek` CSS custom property, which defaults to `3rem`.
 

@@ -4,12 +4,6 @@ redirect_from:
   - /uilib/components/menu/info
 ---
 
-## Import
-
-```tsx
-import { Menu } from '@dnb/eufemia'
-```
-
 ## Description
 
 Menu provides an accessible dropdown menu for actions and navigation with a composable, tree-shakeable API.
@@ -21,6 +15,12 @@ Use `Menu.Root` as the wrapper, `Menu.Button` for the trigger, `Menu.List` for t
 Nested menus are supported by nesting another `Menu.Root` inside `Menu.List` — use a `Menu.Action` as the direct child of the nested `Menu.Root` to serve as the sub-menu trigger.
 
 For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Root`. It reveals child items with a height animation inside the current menu, rather than opening a separate popover.
+
+## Import
+
+```tsx
+import { Menu } from '@dnb/eufemia'
+```
 
 ## Relevant links
 

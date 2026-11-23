@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/Value/BankAccountNumber/info
 ---
 
-## Import
-
-```tsx
-import { Value } from '@dnb/eufemia/extensions/forms'
-render(<Value.BankAccountNumber />)
-```
-
 ## Description
 
 `Value.BankAccountNumber` is a wrapper component for displaying string values, with user experience tailored for bank account number values.
@@ -19,6 +12,13 @@ render(<Value.BankAccountNumber />)
 Use the `bankAccountType` prop to format different account types: `norwegianBban` (default), `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`.
 
 There is a corresponding [Field.BankAccountNumber](/web/forms/feature-fields/BankAccountNumber) component.
+
+## Import
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.BankAccountNumber />)
+```
 
 ## Relevant links
 

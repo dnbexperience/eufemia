@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/Form/useSubmit/info
 ---
 
-## Import
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-// Use Form.useSubmit
-```
-
 ## Description
 
 The `Form.useSubmit` hook lets you trigger form submit from a component that is **outside** [Form.Handler](/web/forms/Form/Handler/). Give `Form.Handler` an `id` and pass the same `id` to `Form.useSubmit(id)`. This is useful when the submit button is placed in a modal footer, drawer, toolbar, or another part of the layout.
@@ -47,6 +40,13 @@ function MyForm() {
 ```
 
 **Note:** The hook must be used either inside a [Form.Handler](/web/forms/Form/Handler/) or called with an `id` that matches a Form.Handler on the page. It throws if no handler with that `id` is found.
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.useSubmit
+```
 
 ## API
 

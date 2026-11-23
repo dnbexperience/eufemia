@@ -5,16 +5,6 @@ redirect_from:
   - /web/extensions/forms/feature-fields/Name/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.Name />)
-render(<Field.Name.First />)
-render(<Field.Name.Last />)
-render(<Field.Name.Company />)
-```
-
 ## Description
 
 `Field.Name` is a wrapper component for the [input of strings](/web/forms/base-fields/String), with user experience tailored for first name, last name and company names.
@@ -34,6 +24,16 @@ function MyForm() {
     </Form.Handler>
   )
 }
+```
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Name />)
+render(<Field.Name.First />)
+render(<Field.Name.Last />)
+render(<Field.Name.Company />)
 ```
 
 ## Relevant links

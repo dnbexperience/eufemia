@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/base-fields/Indeterminate/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.Indeterminate />)
-```
-
 ## Description
 
 `Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox. It is an uncontrolled component, meaning that the state is managed automatically.
@@ -26,14 +19,21 @@ render(
 )
 ```
 
+It should only be used in combination with checkbox looking variants.
+
+Under the hood the [Field.Toggle](/web/forms/base-fields/Toggle/) base field is used. That means you can use all the properties from the `Toggle` component.
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Indeterminate />)
+```
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Indeterminate)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Indeterminate)
-
-It should only be used in combination with checkbox looking variants.
-
-Under the hood the [Field.Toggle](/web/forms/base-fields/Toggle/) base field is used. That means you can use all the properties from the `Toggle` component.
 
 ## Details about the state handling
 

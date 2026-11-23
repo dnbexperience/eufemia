@@ -8,19 +8,6 @@ legacyFragments:
 
 import { ScrollViewInfo } from 'Docs/web/components/scroll-view/Examples'
 
-## Import
-
-```tsx
-import { ScrollView } from '@dnb/eufemia'
-```
-
-The previous fragment import remains available for backwards compatibility, but is deprecated and will be removed in v13:
-
-```tsx
-// Deprecated
-import { ScrollView } from '@dnb/eufemia/fragments'
-```
-
 ## Description
 
 `ScrollView` creates a general-purpose horizontal or vertical scrolling area. It renders a `div`, supports native `div` attributes and [spacing properties](/web/layout-and-typography/layout/space/properties), and integrates with Eufemia components that need to identify their nearest scrolling container.
@@ -35,6 +22,19 @@ For component-specific behavior, prefer the specialized variants:
 `Dialog` and `Drawer` already use `ScrollView` internally, so they normally do not need another one around their content.
 
 <ScrollViewInfo />
+
+## Import
+
+```tsx
+import { ScrollView } from '@dnb/eufemia'
+```
+
+The previous fragment import remains available for backwards compatibility, but is deprecated and will be removed in v13:
+
+```tsx
+// Deprecated
+import { ScrollView } from '@dnb/eufemia/fragments'
+```
 
 ## Accessibility
 

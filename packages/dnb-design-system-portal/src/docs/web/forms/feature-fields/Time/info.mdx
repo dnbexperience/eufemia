@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/feature-fields/Time/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.Time />)
-```
-
 ## Description
 
 `Field.Time` is a wrapper component for [string input](/web/forms/base-fields/String), with user experience tailored for time input (hours, minutes and seconds).
@@ -21,6 +14,13 @@ It uses a segmented input with spin buttons, allowing users to input hours (0–
 The value format is `"HH:mm"` (e.g. `"14:30"`), or `"HH:mm:ss"` (e.g. `"14:30:45"`) when `showSeconds` is enabled.
 
 There is a corresponding [Value.Time](/web/forms/Value/Time) component.
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Time />)
+```
 
 ## Relevant links
 

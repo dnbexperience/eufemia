@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/base-fields/Selection/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.Selection />)
-```
-
 ## Description
 
 `Field.Selection` is a component for selecting between options using a dropdown or similar user experiences.
@@ -52,6 +45,13 @@ render(
     <Field.Selection dataPath="/myDataPath" />
   </Form.Handler>
 )
+```
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Selection />)
 ```
 
 ## Automatically selecting a single option

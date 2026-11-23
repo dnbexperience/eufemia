@@ -7,13 +7,6 @@ legacyFragments:
   sidebarmenu: /web/patterns-and-extensions/sidebar-menu/#sidebar-menu
 ---
 
-## Import
-
-```tsx
-import { SidebarMenu } from '@dnb/eufemia/extensions'
-import '@dnb/eufemia/extensions/sidebar-menu/style'
-```
-
 ## Description
 
 `SidebarMenu` provides persistent navigation with expandable groups and optional top-level sections. Its compound API is tree-shakeable: `SidebarMenu` itself is a namespace, while only the subcomponents you use are included.
@@ -21,6 +14,13 @@ import '@dnb/eufemia/extensions/sidebar-menu/style'
 Compose a menu declaratively with `SidebarMenu.Root`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Group`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Use `SidebarMenu.Data` when the menu is generated from recursive `data` or `sections` objects. The declarative API keeps unused parts outside the bundle, while `Data` includes all parts needed to render arbitrary object trees.
 
 Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper components are opaque to Root's selected-route discovery; pass generated structures through `SidebarMenu.Data` instead.
+
+## Import
+
+```tsx
+import { SidebarMenu } from '@dnb/eufemia/extensions'
+import '@dnb/eufemia/extensions/sidebar-menu/style'
+```
 
 ## Design goals
 

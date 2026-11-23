@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/base-fields/ArraySelection/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.ArraySelection />)
-```
-
 ## Description
 
 `Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
@@ -50,6 +43,13 @@ render(
     <Field.ArraySelection dataPath="/myDataPath" />
   </Form.Handler>
 )
+```
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.ArraySelection />)
 ```
 
 ## Relevant links

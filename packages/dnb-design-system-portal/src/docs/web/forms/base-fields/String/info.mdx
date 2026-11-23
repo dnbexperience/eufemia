@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/base-fields/String/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.String />)
-```
-
 ## Description
 
 `Field.String` is the base component for receiving user input where the target data is of type `string`.
@@ -23,6 +16,13 @@ There is a corresponding [Value.String](/web/forms/Value/String) component.
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.String path="/myValue" />)
+```
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.String />)
 ```
 
 ## Built-in validation

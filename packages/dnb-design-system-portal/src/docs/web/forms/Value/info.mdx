@@ -8,12 +8,6 @@ redirect_from:
 
 import { SummaryList, Composition } from './Examples'
 
-## Import
-
-```tsx
-import { Value } from '@dnb/eufemia/extensions/forms'
-```
-
 ## Description
 
 On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has Value components. These components operate similarly to [field components](/web/forms/all-fields/), meaning they're data-driven, can accept value properties, and can be connected to a surrounding [Form.Handler](/web/forms/Form/Handler) by specifying the relevant value with a `path` property.
@@ -21,6 +15,12 @@ On many screens, data from the dataset is summarized statically, such as on a fi
 ```jsx
 import { Value } from '@dnb/eufemia/extensions/forms'
 render(<Value.String path="/myPath" />)
+```
+
+## Import
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
 ```
 
 ## Relevant links

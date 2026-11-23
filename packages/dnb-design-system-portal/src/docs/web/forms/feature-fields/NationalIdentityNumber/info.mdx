@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/feature-fields/NationalIdentityNumber/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.NationalIdentityNumber />)
-```
-
 ## Description
 
 `Field.NationalIdentityNumber` is a wrapper component for [string input](/web/forms/base-fields/String), with user experience tailored for national identity number values.
@@ -23,6 +16,13 @@ It validates input for [Norwegian national identity numbers (fnr)](https://www.s
 The validation happens on blur, internally using the `onBlurValidator` [property](/web/forms/feature-fields/NationalIdentityNumber/properties/#field-specific-properties).
 
 There is a corresponding [Value.NationalIdentityNumber](/web/forms/Value/NationalIdentityNumber) component.
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.NationalIdentityNumber />)
+```
 
 ## Relevant links
 

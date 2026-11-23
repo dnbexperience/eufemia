@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/feature-fields/BankAccountNumber/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.BankAccountNumber />)
-```
-
 ## Description
 
 `Field.BankAccountNumber` is a wrapper component for [string input](/web/forms/base-fields/String), with user experience tailored for bank account values.
@@ -31,6 +24,13 @@ The `iban` type uses the `large` width, which fits IBANs up to 26 characters. Fo
 The value is always a string since account numbers can have leading zeros.
 
 There is a corresponding [Value.BankAccountNumber](/web/forms/Value/BankAccountNumber) component.
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.BankAccountNumber />)
+```
 
 ## Relevant links
 

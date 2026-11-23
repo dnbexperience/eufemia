@@ -13,22 +13,24 @@ import {
   HeadingInfoBasic,
 } from 'Docs/web/components/heading/Examples'
 
-## Import
-
-```tsx
-import { Heading } from '@dnb/eufemia'
-```
-
 ## Description
 
 The Heading component is a helper to create automated semantic headings within a boundary of the web heading rules.
 
 > Basically, only assistive technologies do need semantic headings. But they need them correct.
 
+## Import
+
+```tsx
+import { Heading } from '@dnb/eufemia'
+```
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/heading)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/heading)
+
+## Usage
 
 Heading leveling is handled synchronously. You can isolate part of the tree with `<Heading.Level ...`, which also lets you add headings asynchronously inside that boundary. Several level contexts can be nested.
 

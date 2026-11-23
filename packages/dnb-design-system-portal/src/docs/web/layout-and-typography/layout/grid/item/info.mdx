@@ -7,6 +7,16 @@ redirect_from:
 
 import * as Examples from './Examples'
 
+## Description
+
+`Grid.Item` is a building block for [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) based layout of contents and components. Should be used in combination with [Grid.Container](/web/layout-and-typography/layout/grid/container/).
+
+The columns do change based on what [breakpoint](/web/layout-and-typography/breakpoints/) the browser is in:
+
+- 4 columns when `small`
+- 6 columns when `medium`
+- 12 columns when `large`
+
 ## Import
 
 ```tsx
@@ -19,17 +29,7 @@ render(<Grid.Item />)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/grid/Item.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/layout-and-typography/layout/grid/item/)
 
-## Description
-
-`Grid.Item` is a building block for [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) based layout of contents and components. Should be used in combination with [Grid.Container](/web/layout-and-typography/layout/grid/container/).
-
-The columns do change based on what [breakpoint](/web/layout-and-typography/breakpoints/) the browser is in:
-
-- 4 columns when `small`
-- 6 columns when `medium`
-- 12 columns when `large`
-
-### Span
+## Span
 
 You need to provide a `span` property with a number from 1 to 12 (can be changed in [Grid.Container](/web/layout-and-typography/layout/grid/container/) with the `columns` property).
 
@@ -44,7 +44,7 @@ Example of spans:
 - `span={[1, 'end']}`
 - `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`
 
-### Responsive spans
+## Responsive spans
 
 You can also make spans respond to media queries.
 

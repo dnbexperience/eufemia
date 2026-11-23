@@ -6,6 +6,14 @@ redirect_from:
   - /uilib/extensions/ai/Confirmation/info
 ---
 
+## Description
+
+`Chat.Confirmation` presents a question, details and two decision buttons in a [Card](/web/components/card/). Use it before proceeding with a proposed action, inside a conversation or on its own. For progress and optional Undo after an action starts, use [Chat.AgentAction](/web/patterns-and-extensions/chat/AgentAction/).
+
+Your application controls `status` and supplies the decision callbacks. `pending` offers a choice, `required` highlights that a decision is needed, and `confirmed`, `declined` and `expired` keep the content visible with both buttons disabled. Only set `confirmed` or `declined` after your application has accepted that decision. Confirmation does not mean that the resulting action has completed. Missing handlers disable the corresponding button.
+
+Set `disabled` while saving. Handle request failures in your application and show a useful message, for example with [FormStatus](/web/components/form-status/), while keeping the decision available for retry when appropriate. The component does not run requests, expire automatically, or execute the action. Your application owns expiry, authorization and protection against repeated execution.
+
 ## Import
 
 ```tsx
@@ -22,14 +30,6 @@ render(
   </Confirmation>
 )
 ```
-
-## Description
-
-`Chat.Confirmation` presents a question, details and two decision buttons in a [Card](/web/components/card/). Use it before proceeding with a proposed action, inside a conversation or on its own. For progress and optional Undo after an action starts, use [Chat.AgentAction](/web/patterns-and-extensions/chat/AgentAction/).
-
-Your application controls `status` and supplies the decision callbacks. `pending` offers a choice, `required` highlights that a decision is needed, and `confirmed`, `declined` and `expired` keep the content visible with both buttons disabled. Only set `confirmed` or `declined` after your application has accepted that decision. Confirmation does not mean that the resulting action has completed. Missing handlers disable the corresponding button.
-
-Set `disabled` while saving. Handle request failures in your application and show a useful message, for example with [FormStatus](/web/components/form-status/), while keeping the decision available for retry when appropriate. The component does not run requests, expire automatically, or execute the action. Your application owns expiry, authorization and protection against repeated execution.
 
 ## Accessibility
 

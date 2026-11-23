@@ -6,6 +6,10 @@ redirect_from:
   - /web/extensions/forms/Iterate/Array/info
 ---
 
+## Description
+
+`Iterate.Array` works in many ways similar to field components. It has a `value` property that can receive an array, or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All child components of `Iterate.Array` are rendered once per item the array value consists of.
+
 ## Import
 
 ```tsx
@@ -13,14 +17,12 @@ import { Iterate } from '@dnb/eufemia/extensions/forms'
 render(<Iterate.Array />)
 ```
 
-## Description
-
-`Iterate.Array` works in many ways similar to field components. It has a `value` property that can receive an array, or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All child components of `Iterate.Array` are rendered once per item the array value consists of.
-
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/Array)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Iterate/Array)
+
+## Usage
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'

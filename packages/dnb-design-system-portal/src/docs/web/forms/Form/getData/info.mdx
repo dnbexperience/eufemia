@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/Form/getData/info
 ---
 
-## Import
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-// Use Form.getData
-```
-
 ## Description
 
 With the `Form.getData` method, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
@@ -52,6 +45,13 @@ Related helpers:
 - [Form.useDataWithoutSubscription](/web/forms/Form/useData/#without-subscription)
 
 For rendered values inside `Form.Handler`, use [Form.useDataValue](/web/forms/Form/useDataValue/) to subscribe to one path. For custom field or value components that render form data, prefer [useFieldProps](/web/forms/create-component/useFieldProps/) or [useValueProps](/web/forms/create-component/useValueProps/). Use `Form.useDataWithoutSubscription().getData()` for non-subscribing imperative reads inside a component.
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.getData
+```
 
 ## Visible data
 

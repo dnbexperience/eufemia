@@ -6,19 +6,24 @@ legacyFragments:
   portalroot: /web/components/portal-root/#portal-root
 ---
 
-## Import
-
-```tsx
-import { PortalRoot } from '@dnb/eufemia'
-```
-
 ## Description
 
 `PortalRoot` is a React component that helps you make React's [createPortal](https://react.dev/reference/react-dom/createPortal).
 
 It lets you render some children into a different part of the DOM.
 
-### Good to know
+## Import
+
+```tsx
+import { PortalRoot } from '@dnb/eufemia'
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/portal-root)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/portal-root)
+
+## Good to know
 
 - It contains CSS styles and screen reader accessibility features needed for proper usage of portals.
 - It comes with support for [style isolation](/web/styling-and-themes/css/style-isolation/).
@@ -29,11 +34,6 @@ It lets you render some children into a different part of the DOM.
 - In order to remove it from the accessibility tree, it uses `role="presentation"`. That means, when your content is visible, you need to set focus to it, so screen readers can read it.
 - `PortalRoot` props override values from `PortalRoot.Provider` if both are present.
 - `beforeSelector` takes precedence over `insideSelector` when both are provided on the same level.
-
-## Relevant links
-
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/portal-root)
-- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/portal-root)
 
 ## Usage
 

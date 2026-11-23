@@ -6,6 +6,12 @@ redirect_from:
   - /web/extensions/forms/Iterate/EditContainer/info
 ---
 
+## Description
+
+`Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the [Iterate.ViewContainer](/web/forms/Iterate/ViewContainer/) and this edit container. It can be used instead of the [Iterate.AnimatedContainer](/web/forms/Iterate/AnimatedContainer/).
+
+By default, it features the [Iterate.Toolbar](/web/forms/Iterate/Toolbar/) containing a "Done" button and a "Cancel" button. The "Cancel" button resets any changes made to the item content, restoring it to its original state.
+
 ## Import
 
 ```tsx
@@ -13,16 +19,12 @@ import { Iterate } from '@dnb/eufemia/extensions/forms'
 render(<Iterate.EditContainer />)
 ```
 
-## Description
-
-`Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the [Iterate.ViewContainer](/web/forms/Iterate/ViewContainer/) and this edit container. It can be used instead of the [Iterate.AnimatedContainer](/web/forms/Iterate/AnimatedContainer/).
-
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/EditContainer)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Iterate/EditContainer)
 
-By default, it features the [Iterate.Toolbar](/web/forms/Iterate/Toolbar/) containing a "Done" button and a "Cancel" button. The "Cancel" button resets any changes made to the item content, restoring it to its original state.
+## Usage
 
 ```tsx
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'

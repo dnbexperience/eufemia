@@ -6,6 +6,12 @@ redirect_from:
 
 import * as Examples from './Examples'
 
+## Description
+
+`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.
+
+It uses [Flex.Item](/web/layout-and-typography/layout/flex/item) under the hood. When one of these properties were given, `stack`, `direction` or `spacing` – the [Flex.Container](/web/layout-and-typography/layout/flex/container) will be used.
+
 ## Import
 
 ```tsx
@@ -14,17 +20,13 @@ import { Card } from '@dnb/eufemia'
 
 The controls and media overlay are available as `Card.Info.CloseButton`, `Card.Info.MediaButton`, and `Card.Info.Overlay`. No additional imports are needed.
 
-## Description
-
-`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.
-
-It uses [Flex.Item](/web/layout-and-typography/layout/flex/item) under the hood. When one of these properties were given, `stack`, `direction` or `spacing` – the [Flex.Container](/web/layout-and-typography/layout/flex/container) will be used.
-
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/?node-id=70914-1831)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/card)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/card)
+
+## Usage
 
 ```jsx
 import { Card } from '@dnb/eufemia'
