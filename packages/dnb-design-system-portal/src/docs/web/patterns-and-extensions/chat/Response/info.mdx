@@ -54,4 +54,4 @@ Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML a
 
 ## Horizontal table overflow
 
-Markdown tables use `Table.ScrollView`. When columns extend beyond the visible area, an arrow button indicates that more content is available. The button has a translated tooltip and accessible label, and fades out as scrolling starts. Keyboard scrolling remains available.
+Markdown tables use [Table.ScrollView](/web/components/table/#scrollable). Column indicators above the table show which columns are in view. Select an indicator to reveal a column. Each has a translated accessible label and supports keyboard activation. The indicators update as content streams or the container resizes, and hide when all columns are mostly in view.

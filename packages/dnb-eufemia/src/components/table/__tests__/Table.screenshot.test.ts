@@ -37,24 +37,58 @@ describe.each(['light', 'dark'] as const)(
       colorScheme,
     })
 
-    it('shows the scroll button at the end edge', async () => {
+    it('shows whole-column indicators above the table', async () => {
       await makeScreenshot({
         ...defaults,
         selector:
-          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view',
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container',
       })
     })
 
-    it('moves the scroll button with the table while fading', async () => {
+    it('shows column indicators inside a rounded container', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: { width: '28rem' },
+        selector: '[data-visual-test="table-container"]',
+      })
+    })
+
+    it('shows keyboard focus around the column indicator', async () => {
       await makeScreenshot({
         ...defaults,
         selector:
-          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view',
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector<HTMLButtonElement>(
+              '[data-visual-test="table-horizontal-scroll"] .dnb-table__column-indicator'
+            )
+            .focus()
+        },
+      })
+    })
+
+    it('shows the card menu hover and keyboard focus', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: { width: '40rem' },
+        selector: '[data-visual-test="table-in-card"]',
+        simulateSelector:
+          '[data-visual-test="table-in-card"] .dnb-popover__trigger',
+        simulate: ['hover', 'focus'],
+      })
+    })
+
+    it('updates the active columns after scrolling', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector:
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container',
         executeBeforeSimulate: () => {
           const element = document.querySelector(
             '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view'
           )
-          element.scrollLeft = element.clientWidth / 8
+          element.scrollLeft = element.scrollWidth
         },
       })
     })

@@ -63,7 +63,7 @@ export default defineConfig({
     {
       name: 'chromium-table-focus',
       testMatch: 'TableScrollView.e2e.spec.ts',
-      grep: /retains focus when overflow/,
+      grep: /retains focus when overflow|keeps the table in place/,
       use: { browserName: 'chromium' },
     },
     {

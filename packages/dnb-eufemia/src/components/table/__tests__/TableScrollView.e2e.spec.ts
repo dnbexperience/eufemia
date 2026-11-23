@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { contrastRatio } from '../../../../scripts/figma/tokenReview'
 
 // Click inside the scroll view, then press a key,
 // so it gets the keyboard focus ring.
@@ -121,9 +122,21 @@ test.describe('Table.ScrollView', () => {
     const scrollView = page.locator(
       '[data-visual-test="table-default"] .dnb-table__scroll-view'
     )
-    const indicator = scrollView.locator('.dnb-table__scroll-indicator')
+    const indicator = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-indicator'
+    )
 
     await expect(indicator).toBeVisible()
+    await indicator.locator('button').first().focus()
+    await page.setViewportSize({ width: 550, height: 1024 })
+    await expect(indicator.locator('button').first()).toBeHidden()
+    await expect(indicator).toBeVisible()
+    expect(
+      await scrollView.evaluate(
+        (element) => element.scrollWidth - element.clientWidth
+      )
+    ).toBeGreaterThan(1)
+    await expect(scrollView).toBeFocused()
     await scrollView.evaluate((element) => {
       element.scrollLeft = element.scrollWidth
     })
@@ -139,6 +152,7 @@ test.describe('Table.ScrollView', () => {
           )
           .toBeLessThanOrEqual(1)
         await expect(indicator).toBeHidden()
+        await expect(indicator).toHaveCount(0)
         await expect(scrollView).not.toHaveAttribute('tabindex')
 
         const sortButton = scrollView
@@ -155,42 +169,182 @@ test.describe('Table.ScrollView', () => {
     }
   })
 
-  test('reveals more columns in property tables', async ({ page }) => {
-    await page.goto('/web/components/table/properties/')
-    const scrollView = page.locator('.dnb-table__scroll-view').first()
-    const button = scrollView.locator('.dnb-table__scroll-indicator')
+  test('keeps the table in place and retains indicator focus during keyboard scrolling', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.setViewportSize({ width: 500, height: 900 })
+    const container = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-container'
+    )
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicator = container
+      .locator('.dnb-table__column-indicator')
+      .last()
+    await indicator.focus()
+    const [movement] = await Promise.all([
+      scrollView.evaluate(
+        (element) =>
+          new Promise<number>((resolve) => {
+            const start = element.getBoundingClientRect().y
+            let movement = 0
+            // Catch temporary layout jumps during smooth scrolling too.
+            const measure = () => {
+              movement = Math.max(
+                movement,
+                Math.abs(element.getBoundingClientRect().y - start)
+              )
+              if (
+                element.scrollLeft >=
+                element.scrollWidth - element.clientWidth - 1
+              ) {
+                resolve(movement)
+              } else {
+                requestAnimationFrame(measure)
+              }
+            }
+            measure()
+          })
+      ),
+      indicator.press('Enter'),
+    ])
 
-    await expect(button).toBeVisible()
-    await button.click()
+    expect(movement).toBeLessThan(1)
+    await expect(indicator).toBeVisible()
+    await expect(indicator).toBeFocused()
+  })
+
+  test('reveals more columns in property tables', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/web/components/table/properties/')
+    const container = page.locator('.dnb-table__scroll-container').first()
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicators = container.locator('.dnb-table__column-indicator')
+
+    await expect(indicators.last()).toBeVisible()
+    await indicators.last().click()
     await expect
       .poll(() => scrollView.evaluate((element) => element.scrollLeft))
       .toBeGreaterThan(0)
-    await expect(button).toBeHidden()
-    await expect(scrollView).toBeFocused()
+    await expect(indicators.last()).toHaveAttribute('data-active', 'true')
   })
 
-  test('moves the button with the table while fading as keyboard scrolling starts', async ({
+  test('inactive column indicators have at least 3:1 contrast in light and dark mode', async ({
     page,
   }) => {
-    const scrollView = await focusScrollViewWithKeyboard(
-      page,
-      'table-horizontal-scroll'
+    for (const colorScheme of ['light', 'dark']) {
+      await test.step(colorScheme, async () => {
+        await page.evaluate((colorScheme) => {
+          localStorage.setItem(
+            'eufemia-theme',
+            JSON.stringify({ brand: 'ui', colorScheme })
+          )
+        }, colorScheme)
+        await page.reload()
+        await expect(page.locator('body')).toHaveClass(
+          new RegExp(`eufemia-theme__color-scheme--${colorScheme}`)
+        )
+        const indicator = page
+          .locator(
+            '[data-visual-test="table-horizontal-scroll"] .dnb-table__column-indicator[data-active="false"]'
+          )
+          .first()
+        await expect(indicator).toBeVisible()
+        const { foreground, background } = await indicator.evaluate(
+          (element) => {
+            let surface = element.parentElement
+            while (
+              getComputedStyle(surface).backgroundColor ===
+              'rgba(0, 0, 0, 0)'
+            ) {
+              surface = surface.parentElement
+            }
+            return {
+              foreground: getComputedStyle(
+                element.querySelector('span'),
+                '::before'
+              ).borderTopColor,
+              background: getComputedStyle(surface).backgroundColor,
+            }
+          }
+        )
+        expect(
+          contrastRatio(foreground, background, background)
+        ).toBeGreaterThanOrEqual(3)
+      })
+    }
+  })
+
+  test('column indicators have generous targets and support keyboard activation in both directions', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const container = page.locator(
+      '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container'
     )
-    const indicator = scrollView.locator('.dnb-table__scroll-indicator')
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicators = container.locator('.dnb-table__column-indicator')
+    await expect(indicators).toHaveCount(5)
 
     for (const direction of ['ltr', 'rtl']) {
       await test.step(direction, async () => {
-        await scrollView.evaluate((element: HTMLElement, direction) => {
-          element.dir = direction
-          element.scrollLeft = 0
-          element.dispatchEvent(new Event('scroll'))
+        await container.evaluate((element, direction) => {
+          element.setAttribute('dir', direction)
+          const scrollView = element.querySelector(
+            '.dnb-table__scroll-view'
+          )
+          scrollView.scrollLeft = 0
+          scrollView.dispatchEvent(new Event('scroll'))
         }, direction)
-        await expect(indicator).toBeVisible()
-        await expect(indicator).toHaveCSS('opacity', '1')
-        const initial = await indicator.boundingBox()
-        const table = await scrollView.locator('table').boundingBox()
-        const offset = initial.x - table.x
-
+        await expect(indicators.first()).toHaveAttribute(
+          'data-active',
+          'true'
+        )
+        await expect(indicators.last()).toHaveAttribute(
+          'data-active',
+          'false'
+        )
+        const box = await indicators.last().boundingBox()
+        expect(box.width).toBeCloseTo(22)
+        expect(box.height).toBeCloseTo(32)
+        expect(box.y + box.height).toBeCloseTo(
+          (await scrollView.boundingBox()).y
+        )
+        const previousBox = await indicators.nth(3).boundingBox()
+        expect(Math.abs(box.x - previousBox.x)).toBeCloseTo(box.width)
+        // Activate near the target's edge, away from the visible dot.
+        await indicators.last().click({ position: { x: 2, y: 2 } })
+        await expect(indicators.last()).toHaveAttribute(
+          'data-active',
+          'true'
+        )
+        await expect(indicators.first()).toHaveAttribute(
+          'data-active',
+          'false'
+        )
+        await expect(indicators.first()).toHaveAccessibleName(
+          /(?:Show|Vis) (?:column|kolonne) 1/
+        )
+        await indicators.nth(1).focus()
+        await page.keyboard.press('Shift+Tab')
+        await indicators.first().press('Enter')
+        await expect
+          .poll(() =>
+            scrollView.evaluate((element) => Math.abs(element.scrollLeft))
+          )
+          .toBeLessThan(1)
+        await expect(indicators.first()).toBeFocused()
+        await page.keyboard.press('Tab')
+        await expect(indicators.nth(1)).toBeFocused()
+        await indicators.nth(1).press('Space')
+        await expect
+          .poll(() =>
+            scrollView.evaluate((element) => Math.abs(element.scrollLeft))
+          )
+          .toBeGreaterThan(0)
+        await expect(indicators.nth(1)).toBeFocused()
+        await indicators.first().press('Enter')
+        await scrollView.focus()
         await scrollView.press(
           direction === 'ltr' ? 'ArrowRight' : 'ArrowLeft'
         )
@@ -199,315 +353,122 @@ test.describe('Table.ScrollView', () => {
             scrollView.evaluate((element) => Math.abs(element.scrollLeft))
           )
           .toBeGreaterThan(0)
-        await expect
-          .poll(() =>
-            indicator.evaluate((element) =>
-              Number(getComputedStyle(element).opacity)
-            )
-          )
-          .toBeLessThan(1)
-        await expect
-          .poll(async () =>
-            Math.abs((await indicator.boundingBox()).x - initial.x)
-          )
-          .toBeGreaterThan(1)
-        await expect
-          .poll(() =>
-            scrollView.evaluate((element, offset) => {
-              const button = element.querySelector(
-                '.dnb-table__scroll-indicator'
-              )
-              const table = element.querySelector('table')
-              return Math.abs(
-                button.getBoundingClientRect().x -
-                  table.getBoundingClientRect().x -
-                  offset
-              )
-            }, offset)
-          )
-          .toBeLessThan(1)
-        await expect(scrollView).toBeFocused()
-        await expect(scrollView).toHaveCSS('outline-style', 'solid')
-        await expect(indicator).toHaveAttribute('tabindex', '-1')
-        await expect(indicator).toHaveCSS('pointer-events', 'none')
-        await scrollView.press('Tab')
-        await expect(indicator).not.toBeFocused()
-
-        await scrollView.evaluate((element, direction) => {
-          element.scrollLeft =
-            direction === 'ltr'
-              ? element.scrollWidth
-              : -element.scrollWidth
-        }, direction)
-        await expect(indicator).toBeHidden()
       })
     }
 
-    await test.step('tables without horizontal overflow have no button', async () => {
-      await scrollView
-        .locator('table')
-        .evaluate((element: HTMLElement) => {
-          element.style.minWidth = '0'
-          element.style.width = '100%'
-          element.style.tableLayout = 'fixed'
-        })
-      await expect(indicator).toBeHidden()
-    })
+    await page.emulateMedia({ forcedColors: 'active' })
+    await indicators.first().focus()
+    await expect(indicators.first().locator('span')).toHaveCSS(
+      'outline-style',
+      'solid'
+    )
   })
 
-  test('keeps the indicator above sticky headers and skips it after vertical scrolling', async ({
+  test('keeps indicators outside a vertically scrolling table', async ({
     page,
   }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' })
-    const scrollView = page.locator(
-      '[data-visual-test="table-sticky"] .dnb-table__scroll-view'
+    const container = page.locator(
+      '[data-visual-test="table-sticky"] .dnb-table__scroll-container'
     )
-    const button = scrollView.locator('.dnb-table__scroll-indicator')
-    await button.scrollIntoViewIfNeeded()
-    await button.click({ trial: true })
-    await scrollView.focus()
-    await scrollView.press('Tab')
-    await expect(button).toBeFocused()
-
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicator = container
+      .locator('.dnb-table__column-indicator')
+      .first()
+    await indicator.scrollIntoViewIfNeeded()
+    const before = await indicator.boundingBox()
     await scrollView.evaluate((element) => {
       element.scrollTop = 160
     })
-    await expect(scrollView).toBeFocused()
-    await expect(button).toHaveAttribute('tabindex', '-1')
-    await scrollView.press('Tab')
-    await expect(button).not.toBeFocused()
-    expect(await scrollView.evaluate((element) => element.scrollTop)).toBe(
-      160
-    )
-    await page.keyboard.press('Shift+Tab')
-    await expect(button).not.toBeFocused()
-    expect(await scrollView.evaluate((element) => element.scrollTop)).toBe(
-      160
-    )
-
-    await scrollView.evaluate((element) => {
-      element.scrollTop = 8
-    })
-    await expect(button).toHaveAttribute('tabindex', '-1')
-    await expect(button).toHaveCSS('opacity', '1')
-    await expect(button).toHaveCSS('pointer-events', 'auto')
-    await button.click()
     await expect
-      .poll(() => scrollView.evaluate((element) => element.scrollLeft))
-      .toBeGreaterThan(0)
-    await expect(scrollView).toBeFocused()
-    expect(await scrollView.evaluate((element) => element.scrollTop)).toBe(
-      8
-    )
+      .poll(async () => (await indicator.boundingBox()).y)
+      .toBe(before.y)
+    await indicator.click({ trial: true })
+  })
+
+  test('keeps column indicators inside Table.Container without changing its inner spacing', async ({
+    page,
+  }) => {
+    for (const example of ['table-container', 'table-container-empty']) {
+      await test.step(example, async () => {
+        const container = page.locator(
+          `[data-visual-test="${example}"] .dnb-table__container`
+        )
+        const indicator = page
+          .locator(
+            `[data-visual-test="${example}"] .dnb-table__scroll-indicator`
+          )
+          .first()
+        await expect(indicator).toBeVisible()
+        const indicatorBox = await indicator.boundingBox()
+        const containerBox = await container.boundingBox()
+        await expect(
+          container.locator('.dnb-table__scroll-indicator')
+        ).toHaveCount(1)
+        expect(indicatorBox.y).toBeGreaterThanOrEqual(containerBox.y)
+        expect(indicatorBox.x + indicatorBox.width).toBeLessThanOrEqual(
+          containerBox.x + containerBox.width
+        )
+
+        const head = container.locator('.dnb-table__container__head')
+        const headBox = await head.boundingBox()
+        expect(headBox.y).toBeCloseTo(containerBox.y, 0)
+        const dotBox = await indicator
+          .locator('span')
+          .first()
+          .boundingBox()
+        const contentBox = await container
+          .locator(
+            example === 'table-container'
+              ? '.dnb-table__container__head h2'
+              : 'th'
+          )
+          .first()
+          .evaluate((element) => {
+            const range = document.createRange()
+            range.selectNodeContents(element)
+            return range.getBoundingClientRect().toJSON()
+          })
+        expect(dotBox.y + dotBox.height).toBeLessThanOrEqual(contentBox.y)
+        const padding = await head.evaluate((element) => {
+          const style = getComputedStyle(element)
+          return [style.paddingTop, style.paddingInlineStart]
+        })
+        expect(padding).toEqual(
+          example === 'table-container' ? ['32px', '16px'] : ['0px', '0px']
+        )
+
+        const scrollView = container.locator('.dnb-table__scroll-view')
+        await indicator.locator('button').last().click()
+        await expect
+          .poll(() => scrollView.evaluate((element) => element.scrollLeft))
+          .toBeGreaterThan(0)
+        const afterScroll = await indicator.boundingBox()
+        expect(afterScroll.x).toBeCloseTo(indicatorBox.x, 0)
+      })
+    }
   })
 
   test('retains focus when overflow disappears and returns while the indicator is focused', async ({
     page,
   }) => {
-    const scrollView = page.locator(
-      '[data-visual-test="table-default"] .dnb-table__scroll-view'
+    const container = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-container'
     )
-    const button = scrollView.locator('.dnb-table__scroll-indicator')
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const button = container
+      .locator('.dnb-table__column-indicator')
+      .first()
     const table = scrollView.locator('table')
     await button.focus()
     await page.setViewportSize({ width: 1600, height: 1024 })
     await expect(button).toBeHidden()
     await expect(scrollView).not.toHaveAttribute('tabindex')
     await expect(table).toBeFocused()
-    await expect(table).toHaveAttribute('tabindex', '-1')
     await page.setViewportSize({ width: 375, height: 1024 })
     await expect(button).toBeVisible()
     await expect(scrollView).toHaveAttribute('tabindex', '0')
     await expect(table).toBeFocused()
     await page.keyboard.press('Tab')
     await expect(scrollView.locator('table button').first()).toBeFocused()
-  })
-
-  test('nudges the arrow twice only on first appearance and uses a tooltip', async ({
-    page,
-  }) => {
-    await page.emulateMedia({ reducedMotion: 'no-preference' })
-    const scrollView = page.locator(
-      '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view'
-    )
-    const button = scrollView.locator('.dnb-table__scroll-indicator')
-    const icon = button.locator('.dnb-icon svg')
-
-    await button.scrollIntoViewIfNeeded()
-    await expect(icon).toHaveCSS('animation-name', 'table-scroll-nudge')
-    await expect(icon).toHaveCSS('animation-iteration-count', '1')
-    await icon.evaluate((element) => {
-      element.getAnimations()[0].pause()
-    })
-
-    for (const [direction, sign] of [
-      ['ltr', 1],
-      ['rtl', -1],
-    ] as const) {
-      await test.step(`centers and slows the nudge in ${direction}`, async () => {
-        await scrollView.evaluate((element: HTMLElement, direction) => {
-          element.dir = direction
-          element.dispatchEvent(new Event('scroll'))
-        }, direction)
-        await expect(button.locator('.dnb-icon')).toHaveCSS(
-          'transform',
-          direction === 'rtl' ? 'matrix(-1, 0, 0, -1, 0, 0)' : 'none'
-        )
-        const motion = await icon.evaluate((element) => {
-          const animation = element.getAnimations()[0]
-          animation.currentTime = 0
-          const start = element.getBoundingClientRect().x
-          animation.currentTime = 140
-          const forward = element.getBoundingClientRect().x - start
-          animation.currentTime = 350
-          const backward = element.getBoundingClientRect().x - start
-          animation.currentTime = 630
-          const secondForward = element.getBoundingClientRect().x - start
-          animation.currentTime = 1050
-          const secondBackward = element.getBoundingClientRect().x - start
-          return { forward, backward, secondForward, secondBackward }
-        })
-        expect(sign * motion.forward).toBeCloseTo(2)
-        expect(sign * motion.backward).toBeCloseTo(-2)
-        expect(sign * motion.secondForward).toBeCloseTo(1)
-        expect(sign * motion.secondBackward).toBeCloseTo(-1)
-      })
-    }
-    await icon.evaluate((element) => {
-      element.getAnimations()[0].finish()
-    })
-    await expect(icon).toHaveCSS('transform', 'none')
-
-    await expect(button).toHaveAccessibleName('Se flere kolonner')
-    await expect(button).not.toHaveAttribute('title')
-    await button.hover()
-    await expect(page.getByRole('tooltip')).toHaveText('Se flere kolonner')
-    await page.mouse.move(0, 0)
-    await button.focus()
-    await expect(page.getByRole('tooltip')).toBeVisible()
-    await page.keyboard.press('Escape')
-    await expect(page.getByRole('tooltip')).toBeHidden()
-
-    for (const direction of ['ltr', 'rtl']) {
-      await test.step(direction, async () => {
-        await scrollView.evaluate((element) => {
-          element.scrollTo({
-            left:
-              getComputedStyle(element).direction === 'rtl'
-                ? -element.scrollWidth
-                : element.scrollWidth,
-            behavior: 'instant',
-          })
-        })
-        await expect(button).toBeHidden()
-        await scrollView.evaluate((element: HTMLElement, direction) => {
-          element.dir = direction
-          element.scrollTo({ left: 0, behavior: 'instant' })
-          element.dispatchEvent(new Event('scroll'))
-        }, direction)
-        await expect(button).toBeVisible()
-        const animations = await icon.evaluate(async (element) => {
-          await new Promise(requestAnimationFrame)
-          await new Promise(requestAnimationFrame)
-          return element.getAnimations().length
-        })
-        expect(animations).toBe(0)
-      })
-    }
-
-    await page.emulateMedia({ reducedMotion: 'reduce' })
-    await expect(icon).toHaveCSS('animation-name', 'none')
-  })
-
-  test('the button reveals more columns and retains native keyboard scrolling', async ({
-    page,
-  }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' })
-    const scrollView = page.locator(
-      '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view'
-    )
-    const button = scrollView.locator('.dnb-table__scroll-indicator')
-
-    await button.click()
-    await expect
-      .poll(() => scrollView.evaluate((element) => element.scrollLeft))
-      .toBeGreaterThan(0)
-    await expect(button).toBeHidden()
-    await expect(scrollView).toBeFocused()
-
-    const position = await scrollView.evaluate(
-      (element) => element.scrollLeft
-    )
-    await scrollView.press('ArrowLeft')
-    await expect
-      .poll(() => scrollView.evaluate((element) => element.scrollLeft))
-      .toBeLessThan(position)
-
-    await scrollView.evaluate((element) => {
-      element.scrollLeft = 0
-    })
-    await expect(button).toBeVisible()
-    await expect(button).toHaveCSS('opacity', '1')
-
-    await scrollView.press('Tab')
-    await expect(button).toBeFocused()
-    await button.press('Enter')
-    await expect(button).toBeHidden()
-    await expect(scrollView).toBeFocused()
-  })
-
-  test('dismisses the tooltip on activation before the table moves', async ({
-    page,
-  }) => {
-    await page.emulateMedia({ reducedMotion: 'no-preference' })
-    const scrollView = page.locator(
-      '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view'
-    )
-    const button = scrollView.locator('.dnb-table__scroll-indicator')
-    const tooltip = page.getByRole('tooltip')
-
-    for (const [activation, activate] of [
-      ['click', () => button.click()],
-      ['Enter', () => button.press('Enter')],
-    ] as const) {
-      await test.step(activation, async () => {
-        await button.hover()
-        await expect(tooltip).toBeVisible()
-
-        await button.evaluate((element) => {
-          element.removeAttribute('data-tooltip-visible-after-click')
-          element.addEventListener(
-            'click',
-            () => {
-              requestAnimationFrame(() => {
-                const tooltip = document.querySelector('[role="tooltip"]')
-                element.setAttribute(
-                  'data-tooltip-visible-after-click',
-                  String(
-                    Boolean(tooltip && tooltip.getClientRects().length)
-                  )
-                )
-              })
-            },
-            { once: true }
-          )
-        })
-
-        await activate()
-        await expect(button).toHaveAttribute(
-          'data-tooltip-visible-after-click',
-          'false'
-        )
-        await expect
-          .poll(() => scrollView.evaluate((element) => element.scrollLeft))
-          .toBeGreaterThan(0)
-
-        await page.mouse.move(0, 0)
-        await scrollView.evaluate((element) => {
-          element.scrollTo({ left: 0, behavior: 'instant' })
-        })
-        await expect(button).toBeVisible()
-      })
-    }
   })
 })

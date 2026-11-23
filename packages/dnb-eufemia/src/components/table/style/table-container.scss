@@ -69,6 +69,20 @@
       margin: 0;
     }
   }
+
+  & > .dnb-table__scroll-indicator {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0.75rem;
+    z-index: 1;
+
+    pointer-events: none;
+
+    .dnb-table__column-indicator {
+      pointer-events: auto;
+    }
+  }
+
   &__foot {
     padding: 1rem;
     padding-bottom: 1.25rem; // because of 8px scrollbar

@@ -34,7 +34,7 @@ describe('Card', () => {
     const css = loadScss(require.resolve('../style/dnb-card.scss'))
 
     expect(css).toContain(
-      '.dnb-card > .dnb-flex-container > .dnb-space:has(> .dnb-scroll-view)'
+      '.dnb-card > .dnb-flex-container > .dnb-space:has(> :is(.dnb-scroll-view, .dnb-table__scroll-container))'
     )
     expect(css).toContain(
       '.dnb-card > .dnb-flex-container > .dnb-scroll-view'

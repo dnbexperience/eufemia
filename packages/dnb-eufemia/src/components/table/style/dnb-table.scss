@@ -4,6 +4,7 @@
 */
 
 @use 'sass:meta';
+@use '../../../style/core/utilities.scss' as utilities;
 @use './table-mixins.scss' as table-mixins;
 @use './table-header-buttons.scss';
 
@@ -33,66 +34,126 @@
     white-space: nowrap;
   }
 
-  &__scroll-view {
-    position: relative;
-  }
+  &__scroll-container {
+    min-width: 0;
+    max-width: 100%;
 
-  &__scroll-indicator.dnb-button {
-    position: absolute;
-    z-index: 8; // above the sticky header row
-    inset-block-start: 0.5rem;
-    inset-inline-end: 0.5rem;
-    visibility: hidden;
-    opacity: var(--table-scroll-indicator-opacity, 0);
+    > .dnb-table__scroll-indicator {
+      background-color: var(--token-color-background-neutral);
 
-    &[data-scroll-indicator-inactive] {
-      pointer-events: none;
+      > .dnb-table__column-indicator {
+        height: 2rem;
+      }
     }
   }
 
-  &__scroll-view[data-scroll-indicator-rtl]
-    > &__scroll-indicator
-    .dnb-icon {
-    transform: rotate(180deg);
-  }
+  &__scroll-indicator {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    padding-inline: 0.25rem;
 
-  &__scroll-view[data-scroll-indicator] > &__scroll-indicator {
-    visibility: visible;
+    &[data-hidden='true'] > .dnb-table__column-indicator {
+      // Keep the row and its background when the indicators are hidden.
+      visibility: hidden;
+    }
 
     @media print {
       display: none;
     }
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    &__scroll-view[data-scroll-indicator-animate]
-      > .dnb-table__scroll-indicator
-      .dnb-icon
-      svg {
-      animation: table-scroll-nudge 1.4s ease-in-out;
+  &__column-indicator {
+    display: inline-flex;
+    flex: 0 0 1.375rem;
+    align-items: center;
+    justify-content: center;
+    width: 1.375rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.125rem;
+    color: var(--token-color-stroke-action-alternative);
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+
+    @include utilities.focusVisible() {
+      > span {
+        width: 0.875rem;
+        height: 0.875rem;
+
+        @include utilities.focusOutline();
+      }
+    }
+
+    > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: 50%;
+      transition:
+        width 200ms cubic-bezier(0.2, 0, 0, 1),
+        height 200ms cubic-bezier(0.2, 0, 0, 1);
+
+      &::before {
+        display: block;
+        flex: none;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        border: 0.0625rem solid currentcolor;
+        border-radius: 50%;
+        background-color: transparent;
+        content: '';
+        transition: background-color 240ms ease-out;
+      }
+    }
+
+    &[data-active='true'] > span::before {
+      background-color: currentcolor;
+      animation: table-column-settle 520ms both;
+    }
+
+    &:hover > span {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &:active > span {
+      width: 0.5rem;
+      height: 0.5rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      > span,
+      > span::before {
+        animation: none !important;
+        transition: none;
+      }
     }
   }
 
-  @keyframes table-scroll-nudge {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-
-    10% {
-      transform: translateX(0.125rem);
-    }
-
-    25% {
-      transform: translateX(-0.125rem);
+  @keyframes table-column-settle {
+    0% {
+      transform: scale(0.8);
     }
 
     45% {
-      transform: translateX(0.0625rem);
+      transform: scale(1.18);
+      animation-timing-function: ease-in-out;
     }
 
-    75% {
-      transform: translateX(-0.0625rem);
+    70% {
+      transform: scale(0.96);
+      animation-timing-function: ease-out;
+    }
+
+    100% {
+      transform: scale(1);
     }
   }
 
@@ -197,11 +258,13 @@
   // The Flex.Container of the Card wraps a custom component in a Space.
   .dnb-card--no-inner-space
     > .dnb-flex-container
-    > &__scroll-view[tabindex='0']:last-child,
+    > &__scroll-container:last-child
+    > .dnb-table__scroll-view[tabindex='0'],
   .dnb-card--no-inner-space
     > .dnb-flex-container
     > .dnb-space:last-child
-    > &__scroll-view[tabindex='0']:only-child {
+    > &__scroll-container:only-child
+    > .dnb-table__scroll-view[tabindex='0'] {
     margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);
   }
 
@@ -210,11 +273,13 @@
   // Other Cards get no clip, because it would hide the focus ring.
   .dnb-card--filled.dnb-card--no-inner-space
     > .dnb-flex-container
-    > &__scroll-view[tabindex='0']:last-child,
+    > &__scroll-container:last-child
+    > .dnb-table__scroll-view[tabindex='0'],
   .dnb-card--filled.dnb-card--no-inner-space
     > .dnb-flex-container
     > .dnb-space:last-child
-    > &__scroll-view[tabindex='0']:only-child {
+    > &__scroll-container:only-child
+    > .dnb-table__scroll-view[tabindex='0'] {
     clip-path: inset(
       0 round 0 0 min(var(--rounded-corner), 0.5rem)
         min(var(--rounded-corner), 0.5rem)

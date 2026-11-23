@@ -12,6 +12,10 @@ exports[`Table scss > should match style dependencies css 1`] = `
 /*
  * Utilities
  */
+/*
+* Table component
+*
+*/
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
   --table-highlight-background: var(--token-color-decorative-first-muted);
@@ -31,51 +35,109 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-table--no-wrap {
   white-space: nowrap;
 }
-.dnb-table__scroll-view {
-  position: relative;
+.dnb-table__scroll-container {
+  min-width: 0;
+  max-width: 100%;
 }
-.dnb-table__scroll-indicator.dnb-button {
-  position: absolute;
-  z-index: 8;
-  inset-block-start: 0.5rem;
-  inset-inline-end: 0.5rem;
+.dnb-table__scroll-container > .dnb-table__scroll-indicator {
+  background-color: var(--token-color-background-neutral);
+}
+.dnb-table__scroll-container > .dnb-table__scroll-indicator > .dnb-table__column-indicator {
+  height: 2rem;
+}
+.dnb-table__scroll-indicator {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-inline: 0.25rem;
+}
+.dnb-table__scroll-indicator[data-hidden=true] > .dnb-table__column-indicator {
   visibility: hidden;
-  opacity: var(--table-scroll-indicator-opacity, 0);
-}
-.dnb-table__scroll-indicator.dnb-button[data-scroll-indicator-inactive] {
-  pointer-events: none;
-}
-.dnb-table__scroll-view[data-scroll-indicator-rtl] > .dnb-table__scroll-indicator .dnb-icon {
-  transform: rotate(180deg);
-}
-.dnb-table__scroll-view[data-scroll-indicator] > .dnb-table__scroll-indicator {
-  visibility: visible;
 }
 @media print {
-  .dnb-table__scroll-view[data-scroll-indicator] > .dnb-table__scroll-indicator {
+  .dnb-table__scroll-indicator {
     display: none;
   }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .dnb-table__scroll-view[data-scroll-indicator-animate] > .dnb-table__scroll-indicator .dnb-icon svg {
-    animation: table-scroll-nudge 1.4s ease-in-out;
+.dnb-table__column-indicator {
+  display: inline-flex;
+  flex: 0 0 1.375rem;
+  align-items: center;
+  justify-content: center;
+  width: 1.375rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.125rem;
+  color: var(--token-color-stroke-action-alternative);
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+}
+html:not([data-whatinput=touch]) .dnb-table__column-indicator:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-table__column-indicator:focus-visible:not([disabled]) > span {
+  width: 0.875rem;
+  height: 0.875rem;
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+.dnb-table__column-indicator > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  transition: width 200ms cubic-bezier(0.2, 0, 0, 1), height 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+.dnb-table__column-indicator > span::before {
+  display: block;
+  flex: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: 0.0625rem solid currentcolor;
+  border-radius: 50%;
+  background-color: transparent;
+  content: "";
+  transition: background-color 240ms ease-out;
+}
+.dnb-table__column-indicator[data-active=true] > span::before {
+  background-color: currentcolor;
+  animation: table-column-settle 520ms both;
+}
+.dnb-table__column-indicator:hover > span {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.dnb-table__column-indicator:active > span {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-table__column-indicator > span,
+  .dnb-table__column-indicator > span::before {
+    animation: none !important;
+    transition: none;
   }
 }
-@keyframes table-scroll-nudge {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  10% {
-    transform: translateX(0.125rem);
-  }
-  25% {
-    transform: translateX(-0.125rem);
+@keyframes table-column-settle {
+  0% {
+    transform: scale(0.8);
   }
   45% {
-    transform: translateX(0.0625rem);
+    transform: scale(1.18);
+    animation-timing-function: ease-in-out;
   }
-  75% {
-    transform: translateX(-0.0625rem);
+  70% {
+    transform: scale(0.96);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: scale(1);
   }
 }
 .dnb-table > caption {
@@ -153,10 +215,10 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-card--filled .dnb-table__scroll-view {
   clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));
 }
-.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {
+.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-container:last-child > .dnb-table__scroll-view[tabindex="0"], .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-container:only-child > .dnb-table__scroll-view[tabindex="0"] {
   margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);
 }
-.dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {
+.dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-container:last-child > .dnb-table__scroll-view[tabindex="0"], .dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-container:only-child > .dnb-table__scroll-view[tabindex="0"] {
   clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));
 }
 .dnb-spacing .dnb-table p,
@@ -488,6 +550,10 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   right: 0;
 }
 
+/*
+* Table component
+*
+*/
 /*
  * Utilities
  */
@@ -828,6 +894,10 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 
 /*
+* Table component
+*
+*/
+/*
  * Utilities
  */
 /*
@@ -1044,6 +1114,18 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   margin: 0;
 }
 
+.dnb-table__container > .dnb-table__scroll-indicator {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0.75rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dnb-table__container > .dnb-table__scroll-indicator .dnb-table__column-indicator {
+  pointer-events: auto;
+}
+
 .dnb-table__container__foot {
   padding: 1rem;
   padding-bottom: 1.25rem;
@@ -1083,6 +1165,10 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   width: 100%;
 }
 
+/*
+* Table component
+*
+*/
 /*
  * Utilities
  */

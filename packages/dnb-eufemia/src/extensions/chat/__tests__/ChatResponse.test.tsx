@@ -291,7 +291,7 @@ describe('Chat.Response', () => {
     expect(cell).toHaveStyle({ textAlign: 'right' })
   })
 
-  it('uses the Table scroll button without a separate overflow hint', () => {
+  it('uses the Table column indicators without a separate overflow hint', () => {
     const updates: ResizeObserverCallback[] = []
     const disconnect = vi.fn()
     const original = window.ResizeObserver
@@ -331,9 +331,11 @@ describe('Chat.Response', () => {
         value: 300,
       })
       act(() => updates.forEach((update) => update([], null)))
-      const button = scroll.querySelector('.dnb-table__scroll-indicator')
-      expect(button).toHaveAccessibleName('See more columns')
-      expect(scroll).toHaveAttribute('data-scroll-indicator')
+      const buttons = document.querySelectorAll(
+        '.dnb-table__column-indicator'
+      )
+      expect(buttons).toHaveLength(2)
+      expect(buttons[0]).toHaveAccessibleName('Show column 1')
       expect(
         document.querySelector('.dnb-ai-response__table-hint')
       ).toBeNull()
@@ -343,7 +345,9 @@ describe('Chat.Response', () => {
         value: 400,
       })
       act(() => updates.forEach((update) => update([], null)))
-      expect(scroll).not.toHaveAttribute('data-scroll-indicator')
+      expect(
+        document.querySelector('.dnb-table__scroll-indicator')
+      ).toBeNull()
       expect(
         document.querySelector('.dnb-ai-response__table-hint')
       ).toBeNull()

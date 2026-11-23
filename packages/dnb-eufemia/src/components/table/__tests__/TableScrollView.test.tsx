@@ -34,10 +34,10 @@ describe('Table.ScrollView', () => {
       </ScrollView>
     )
 
-    const element = document.querySelector('.dnb-table__scroll-view')
+    const element = document.querySelector('.dnb-table__scroll-container')
 
     expect(element).toHaveClass(
-      'dnb-scroll-view dnb-table__scroll-view dnb-space__top--large',
+      'dnb-table__scroll-container dnb-space__top--large',
       { exact: true }
     )
   })
@@ -82,186 +82,149 @@ describe('Table.ScrollView', () => {
     expect(element).not.toHaveAttribute('tabindex')
   })
 
-  it('uses a standard button that fades as scrolling starts and updates on resize', () => {
+  function renderColumns(direction: 'ltr' | 'rtl' = 'ltr') {
     const callbacks = []
-    const observe = vi.fn()
-    setResizeObserver({
-      init: (callback) => callbacks.push(callback),
-      observe,
-    })
-
+    setResizeObserver({ init: (callback) => callbacks.push(callback) })
     render(
       <Provider locale="en-GB">
-        <ScrollView style={{ overflowX: 'auto' }}>
+        <ScrollView style={{ overflowX: 'auto', direction }}>
           <Table>
-            <BasicTable />
+            <thead>
+              <tr>
+                {['First', 'Second', 'Third', 'Fourth'].map((label) => (
+                  <th key={label}>{label}</th>
+                ))}
+              </tr>
+            </thead>
           </Table>
         </ScrollView>
       </Provider>
     )
-
     const element = document.querySelector<HTMLDivElement>(
       '.dnb-table__scroll-view'
-    )
-    const button = element.querySelector<HTMLButtonElement>(
-      '.dnb-table__scroll-indicator'
     )
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
     vi.spyOn(element, 'offsetWidth', 'get').mockReturnValue(200)
     const scrollWidth = vi
       .spyOn(element, 'scrollWidth', 'get')
       .mockReturnValue(400)
-
-    act(() => callbacks.forEach((callback) => callback()))
-
-    expect(observe).toHaveBeenCalledWith(element.querySelector('table'))
-    expect(button.tagName).toBe('BUTTON')
-    expect(button).toHaveClass(
-      'dnb-button',
-      'dnb-button--secondary',
-      'dnb-button--size-small',
-      'dnb-button--icon-only'
-    )
-    expect(button).toHaveAccessibleName('See more columns')
-    expect(button).not.toHaveAttribute('title')
-    expect(element).toHaveAttribute('data-scroll-indicator')
-    expect(element).not.toHaveAttribute('data-scroll-indicator-rtl')
-    expect(
-      button.style.getPropertyValue('--table-scroll-indicator-opacity')
-    ).toBe('1')
-    expect(
-      element.style.getPropertyValue('--table-scroll-indicator-opacity')
-    ).toBe('')
-    expect(button).not.toHaveAttribute('tabindex')
-    button.focus()
-
-    fireEvent.scroll(element, { target: { scrollLeft: 10 } })
-    expect(button).toHaveAttribute('tabindex', '-1')
-    expect(button).toHaveAttribute('data-scroll-indicator-inactive')
-    expect(element).toHaveFocus()
-    expect(
-      button.style.getPropertyValue('--table-scroll-indicator-opacity')
-    ).toBe('0.5625')
-
-    fireEvent.scroll(element, { target: { scrollLeft: 20 } })
-    expect(element).toHaveAttribute('data-scroll-indicator')
-    expect(
-      button.style.getPropertyValue('--table-scroll-indicator-opacity')
-    ).toBe('0.25')
-
-    fireEvent.scroll(element, { target: { scrollLeft: 30 } })
-    expect(
-      button.style.getPropertyValue('--table-scroll-indicator-opacity')
-    ).toBe('0.0625')
-
-    element.tabIndex = 0
-    button.focus()
-    fireEvent.scroll(element, { target: { scrollLeft: 40 } })
-    expect(element).not.toHaveAttribute('data-scroll-indicator')
-    expect(element).toHaveFocus()
-
-    fireEvent.scroll(element, { target: { scrollLeft: 0 } })
-    expect(element).toHaveAttribute('data-scroll-indicator')
-    expect(button).not.toHaveAttribute('tabindex')
-    expect(button).not.toHaveAttribute('data-scroll-indicator-inactive')
-    fireEvent.scroll(element, { target: { scrollTop: 1 } })
-    expect(button).toHaveAttribute('tabindex', '-1')
-    expect(button).not.toHaveAttribute('data-scroll-indicator-inactive')
-    fireEvent.scroll(element, { target: { scrollTop: 0 } })
-    expect(button).not.toHaveAttribute('tabindex')
-    button.focus()
-
-    scrollWidth.mockReturnValue(200)
-    act(() => callbacks.forEach((callback) => callback()))
-    expect(element).not.toHaveAttribute('data-scroll-indicator')
-    expect(element).not.toHaveAttribute('tabindex')
-    expect(element.querySelector('table')).toHaveFocus()
-    expect(element.querySelector('table')).toHaveAttribute(
-      'tabindex',
-      '-1'
-    )
-  })
-
-  it('fades in the scroll direction and scrolls toward more columns in right-to-left layouts', () => {
-    render(
-      <ScrollView
-        dir="rtl"
-        style={{ direction: 'rtl', overflowX: 'auto' }}
-      >
-        <Table>
-          <BasicTable />
-        </Table>
-      </ScrollView>
-    )
-
-    const element = document.querySelector<HTMLDivElement>(
-      '.dnb-table__scroll-view'
-    )
-    const button = element.querySelector<HTMLButtonElement>(
-      '.dnb-table__scroll-indicator'
-    )
-    vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
-    vi.spyOn(element, 'scrollWidth', 'get').mockReturnValue(400)
+    vi.spyOn(element, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      right: 200,
+    } as DOMRect)
+    element.querySelectorAll('th').forEach((cell, index) => {
+      vi.spyOn(cell, 'getBoundingClientRect').mockImplementation(() => {
+        const left =
+          direction === 'rtl'
+            ? 100 - index * 100 - element.scrollLeft
+            : index * 100 - element.scrollLeft
+        return { left, right: left + 100, width: 100 } as DOMRect
+      })
+    })
     element.scrollTo = vi.fn()
-    element.tabIndex = 0
-
-    fireEvent.scroll(element)
-    expect(element).toHaveAttribute('data-scroll-indicator')
-    expect(element).toHaveAttribute('data-scroll-indicator-rtl')
-
-    fireEvent.scroll(element, { target: { scrollLeft: -20 } })
-    expect(
-      button.style.getPropertyValue('--table-scroll-indicator-opacity')
-    ).toBe('0.25')
-
-    fireEvent.scroll(element, { target: { scrollLeft: 0 } })
-    button.focus()
-    fireEvent.click(button)
-    expect(element.scrollTo).toHaveBeenCalledWith(
-      expect.objectContaining({ left: -160 })
+    act(() => callbacks.forEach((callback) => callback()))
+    const indicators = document.querySelectorAll<HTMLButtonElement>(
+      '.dnb-table__column-indicator'
     )
-    expect(element).toHaveFocus()
+    return {
+      element,
+      indicators,
+      scrollWidth,
+      resize: () => act(() => callbacks.forEach((callback) => callback())),
+    }
+  }
 
-    fireEvent.scroll(element, { target: { scrollLeft: -40 } })
-    expect(element).not.toHaveAttribute('data-scroll-indicator')
+  it('shows whole-column indicators without range text and avoids flickering at an edge', () => {
+    const { element, indicators } = renderColumns()
+    expect(indicators).toHaveLength(4)
+    expect(indicators[0]).toHaveAccessibleName('Show column 1')
+    expect(indicators[0]).toHaveAttribute('data-active', 'true')
+    expect(indicators[2]).toHaveAttribute('data-active', 'false')
+    expect(
+      document.querySelector('.dnb-table__scroll-container')
+    ).not.toHaveTextContent(/Columns.*of/)
+
+    fireEvent.scroll(element, { target: { scrollLeft: 46 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'true')
+    expect(indicators[2]).toHaveAttribute('data-active', 'false')
+    fireEvent.scroll(element, { target: { scrollLeft: 56 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'false')
+    expect(indicators[2]).toHaveAttribute('data-active', 'true')
+    fireEvent.scroll(element, { target: { scrollLeft: 50 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'false')
+    expect(indicators[2]).toHaveAttribute('data-active', 'true')
   })
 
   it.each(['ltr', 'rtl'] as const)(
-    'limits the %s scroll target to the remaining content',
+    'scrolls to a column in %s and clamps to the remaining content',
     (direction) => {
-      render(
-        <ScrollView style={{ direction, overflowX: 'auto' }}>
-          <Table>
-            <BasicTable />
-          </Table>
-        </ScrollView>
-      )
-
-      const element = document.querySelector<HTMLDivElement>(
-        '.dnb-table__scroll-view'
-      )
-      const button = element.querySelector<HTMLButtonElement>(
-        '.dnb-table__scroll-indicator'
-      )
-      vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
-      const scrollWidth = vi.spyOn(element, 'scrollWidth', 'get')
-      element.scrollTo = vi.fn()
+      const { element, indicators } = renderColumns(direction)
       const sign = direction === 'rtl' ? -1 : 1
-
-      for (const [width, position, target] of [
-        [400, 0, 160],
-        [250, 0, 50],
-        [400, 195, 200],
-      ]) {
-        scrollWidth.mockReturnValue(width)
-        element.scrollLeft = sign * position
-        fireEvent.click(button)
-        expect(element.scrollTo).toHaveBeenLastCalledWith(
-          expect.objectContaining({ left: sign * target })
-        )
-      }
+      fireEvent.click(indicators[1])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 100 })
+      )
+      fireEvent.click(indicators[3])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 200 })
+      )
+      element.scrollLeft = sign * 200
+      fireEvent.click(indicators[0])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: 0 })
+      )
     }
   )
+
+  it('hides the indicators when every column is active and restores them on resize', () => {
+    const { element, indicators, resize } = renderColumns()
+    indicators[0].focus()
+    const width = vi
+      .spyOn(element, 'clientWidth', 'get')
+      .mockReturnValue(360)
+    resize()
+
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).toHaveAttribute('data-hidden', 'true')
+    expect(element).toHaveFocus()
+
+    width.mockReturnValue(200)
+    resize()
+    expect(
+      document.querySelectorAll('.dnb-table__column-indicator')
+    ).toHaveLength(4)
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('keeps the indicators visible when scrolling brings every column into view', () => {
+    const { element, indicators, resize } = renderColumns()
+    vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(340)
+    resize()
+    indicators[3].focus()
+
+    for (const scrollLeft of [30, 60, 0]) {
+      fireEvent.scroll(element, { target: { scrollLeft } })
+      expect(
+        document.querySelector('.dnb-table__scroll-indicator')
+      ).toHaveAttribute('data-hidden', 'false')
+      expect(indicators[3]).toHaveFocus()
+    }
+  })
+
+  it('removes indicators when content fits and keeps focus in the table', () => {
+    const { element, indicators, scrollWidth, resize } = renderColumns()
+    indicators[0].focus()
+    scrollWidth.mockReturnValue(200)
+    resize()
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).not.toBeInTheDocument()
+    expect(element.querySelector('table')).toHaveFocus()
+    expect(element).not.toHaveAttribute('tabindex')
+  })
 
   it('keeps observers when a parent rerenders the same table', () => {
     const init = vi.fn()

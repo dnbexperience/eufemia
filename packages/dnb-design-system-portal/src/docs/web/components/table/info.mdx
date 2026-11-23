@@ -79,7 +79,7 @@ render(
 
 `Table.ScrollView` uses the browser's own scrollbar, so the user's system and browser settings decide whether it is always visible. With overlay scrollbars, such as the default on macOS with a trackpad, on iOS and on Android, the scrollbar only shows while the user scrolls. When the table is wider than the `Table.ScrollView`, users can also reach it with the Tab key and scroll it with the arrow keys.
 
-An arrow button at the end edge indicates that more columns are available. It scrolls by 80% of the visible width, limited by the remaining content. The button fades and becomes inactive as scrolling starts, since its purpose is to help users discover horizontal scrolling. It returns when users scroll back to the start.
+Column indicators above an overflowing table show which columns are in view. Their row shares the header background and only takes up space when the table overflows. In `Table.Container`, they use the container's existing top space. If all columns are already mostly visible, the indicators stay hidden while keeping their space. Otherwise, they remain visible while scrolling. Select an indicator to reveal a column, or use Tab to focus it and Enter or Space to activate it. Each indicator has a translated accessible label.
 
 Give the scroll area a meaningful accessible name with `aria-labelledby` or `aria-label`, so screen readers can identify it when it receives focus.
 
