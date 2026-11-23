@@ -4,7 +4,9 @@ hideInMenu: true
 search: false
 ---
 
-import { List } from '@dnb/eufemia/src'
+import { List, VisuallyHidden } from '@dnb/eufemia/src'
+
+<VisuallyHidden element="h1">List: Open on find</VisuallyHidden>
 
 {[false, true].map((separated) => {
 const id = separated ? 'separated-findable-list' : 'findable-list'
