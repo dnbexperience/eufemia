@@ -19,6 +19,15 @@ test('provides large targets without an interactive empty area or touch hover', 
     await expect(toolbar).not.toHaveCSS('cursor', 'pointer')
   })
 
+  await test.step('pressing overrides mouse hover', async () => {
+    await button.hover()
+    await expect(dot).toHaveCSS('width', '14px')
+    await page.mouse.down()
+    await expect(dot).toHaveCSS('width', '8px')
+    await page.mouse.up()
+    await expect(dot).toHaveCSS('width', '14px')
+  })
+
   await test.step('touch intent does not leave an enlarged dot', async () => {
     await button.hover()
     await expect(dot).toHaveCSS('width', '14px')

@@ -71,9 +71,11 @@
       }
     }
 
-    &:active > span {
-      width: 0.5rem;
-      height: 0.5rem;
+    @include utilities.active() {
+      > span {
+        width: 0.5rem;
+        height: 0.5rem;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
