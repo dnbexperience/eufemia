@@ -27,6 +27,7 @@ export type TableScrollViewAllProps = TableScrollViewProps &
 type Column = {
   cell: HTMLTableCellElement
   active: boolean
+  label: string
 }
 
 export default function TableScrollView(
@@ -95,6 +96,11 @@ export default function TableScrollView(
         const threshold = previousColumns?.[index]?.active ? 0.45 : 0.55
         return {
           cell,
+          label: updateVisibility
+            ? cell.tagName === 'TH'
+              ? cell.textContent.trim()
+              : ''
+            : previousColumns?.[index]?.label || '',
           active:
             width > Math.min(rect.width, element.clientWidth) * threshold,
         }
@@ -119,6 +125,7 @@ export default function TableScrollView(
         next.some(
           (column, index) =>
             column.cell !== previousColumns[index].cell ||
+            column.label !== previousColumns[index].label ||
             column.active !== previousColumns[index].active
         )
       ) {
@@ -140,7 +147,11 @@ export default function TableScrollView(
       observer?.observe(child)
     )
     const mutationObserver = new MutationObserver(updateLayout)
-    mutationObserver.observe(element, { childList: true, subtree: true })
+    mutationObserver.observe(element, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    })
     if (!observer) {
       window.addEventListener('resize', updateLayout)
     }
@@ -163,10 +174,23 @@ export default function TableScrollView(
         data-hidden={indicatorHidden}
         aria-hidden={indicatorHidden || undefined}
         aria-label={translations.scrollColumnsSR}
-        items={columns.map(({ active }, index) => ({
+        onFocusCapture={(event) => {
+          const element = event.currentTarget
+          const viewport = element.getBoundingClientRect()
+          const target = event.target.getBoundingClientRect()
+          // Reveal the focused dot without scrolling the page or table.
+          const offset =
+            target.left < viewport.left
+              ? target.left - viewport.left
+              : Math.max(0, target.right - viewport.right)
+          if (offset) {
+            element.scrollBy({ left: offset, behavior: 'instant' })
+          }
+        }}
+        items={columns.map(({ active, label }, index) => ({
           label: translations.scrollColumnSR.replace(
             '%s',
-            String(index + 1)
+            label || String(index + 1)
           ),
           active,
         }))}

@@ -1,6 +1,6 @@
 import { act } from 'react'
 import type { RefObject } from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import Table from '../Table'
 import Provider from '../../../shared/Provider'
 import type { TableScrollViewAllProps } from '../TableScrollView'
@@ -173,7 +173,7 @@ describe('Table.ScrollView', () => {
   it('shows whole-column indicators without range text and avoids flickering at an edge', () => {
     const { element, indicators } = renderColumns()
     expect(indicators).toHaveLength(4)
-    expect(indicators[0]).toHaveAccessibleName('Show column 1')
+    expect(indicators[0]).toHaveAccessibleName('Show column First')
     expect(indicators[0]).toHaveAttribute('data-active', 'true')
     expect(indicators[2]).toHaveAttribute('data-active', 'false')
     expect(
@@ -189,6 +189,19 @@ describe('Table.ScrollView', () => {
     fireEvent.scroll(element, { target: { scrollLeft: 50 } })
     expect(indicators[0]).toHaveAttribute('data-active', 'false')
     expect(indicators[2]).toHaveAttribute('data-active', 'true')
+  })
+
+  it('updates column names and falls back to numbers for empty headers', async () => {
+    const { element, indicators } = renderColumns()
+    const cells = element.querySelectorAll('th')
+    cells[0].firstChild.textContent = 'Amount'
+    await waitFor(() =>
+      expect(indicators[0]).toHaveAccessibleName('Show column Amount')
+    )
+    cells[0].textContent = ''
+    await waitFor(() =>
+      expect(indicators[0]).toHaveAccessibleName('Show column 1')
+    )
   })
 
   it.each(['ltr', 'rtl'] as const)(

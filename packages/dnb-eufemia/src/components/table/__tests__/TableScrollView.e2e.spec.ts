@@ -169,6 +169,48 @@ test.describe('Table.ScrollView', () => {
     }
   })
 
+  test('keeps many column dots on one row and reveals keyboard focus', async ({
+    page,
+  }) => {
+    const example = page.locator('[data-visual-test="table-default"]')
+    await example.locator('table').evaluate((table) => {
+      for (const row of (table as HTMLTableElement).rows) {
+        const cells = Array.from(row.cells)
+        for (let index = cells.length; index < 16; index++) {
+          row.append(cells[index % cells.length].cloneNode(true))
+        }
+      }
+    })
+    const indicator = example.locator('.dnb-table__scroll-indicator')
+    const buttons = indicator.getByRole('button')
+    await expect(buttons).toHaveCount(16)
+    const rows = await buttons.evaluateAll(
+      (items) =>
+        new Set(items.map((item) => item.getBoundingClientRect().top)).size
+    )
+    expect(rows).toBe(1)
+    for (const direction of ['ltr', 'rtl']) {
+      await test.step(direction, async () => {
+        await example.evaluate((element, value) => {
+          element.dir = value
+        }, direction)
+        const withinRow = (index: number) =>
+          buttons.nth(index).evaluate((button) => {
+            const rect = button.getBoundingClientRect()
+            const parent = button.parentElement.getBoundingClientRect()
+            return rect.left >= parent.left && rect.right <= parent.right
+          })
+        await buttons.first().focus()
+        await page.keyboard.press('End')
+        await expect(buttons.last()).toBeFocused()
+        await expect.poll(() => withinRow(15)).toBe(true)
+        await page.keyboard.press('Home')
+        await expect(buttons.first()).toBeFocused()
+        await expect.poll(() => withinRow(0)).toBe(true)
+      })
+    }
+  })
+
   test('keeps the table in place and retains indicator focus during keyboard scrolling', async ({
     page,
   }) => {
@@ -326,7 +368,7 @@ test.describe('Table.ScrollView', () => {
           'false'
         )
         await expect(indicators.first()).toHaveAccessibleName(
-          /(?:Show|Vis) (?:column|kolonne) 1/
+          /(?:Show|Vis) (?:column|kolonne) Date/
         )
         await expect(container.getByRole('toolbar')).toHaveAccessibleName(
           /Table columns|Tabellkolonner/

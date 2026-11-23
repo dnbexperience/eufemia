@@ -79,7 +79,10 @@ html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:hover:not([disable
   width: 0.875rem;
   height: 0.875rem;
 }
-.dnb-scroll-indicator__item:active > span {
+.dnb-scroll-indicator__item:active[disabled], html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-scroll-indicator__item:active:not([disabled]) > span, html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:active:not([disabled]) > span {
   width: 0.5rem;
   height: 0.5rem;
 }
@@ -142,7 +145,14 @@ html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:hover:not([disable
   height: 2rem;
 }
 .dnb-table__scroll-indicator {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
   padding-inline: 0.25rem;
+  scrollbar-width: none;
+}
+.dnb-table__scroll-indicator > .dnb-scroll-indicator__item:first-child {
+  margin-inline-start: auto;
 }
 .dnb-table__scroll-indicator[data-hidden=true] > .dnb-scroll-indicator__item {
   visibility: hidden;

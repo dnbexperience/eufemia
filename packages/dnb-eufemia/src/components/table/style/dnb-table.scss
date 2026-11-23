@@ -48,7 +48,15 @@
   }
 
   &__scroll-indicator {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
     padding-inline: 0.25rem;
+    scrollbar-width: none;
+
+    > .dnb-scroll-indicator__item:first-child {
+      margin-inline-start: auto;
+    }
 
     &[data-hidden='true'] > .dnb-scroll-indicator__item {
       // Keep the row and its background when the indicators are hidden.
