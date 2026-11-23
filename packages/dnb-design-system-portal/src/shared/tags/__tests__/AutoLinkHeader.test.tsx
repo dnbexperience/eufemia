@@ -91,6 +91,27 @@ describe('AutoLinkHeader', () => {
     expect(anchor?.getAttribute('id')).toBe('default-font-size-rem-table')
   })
 
+  it('names a heading carrying inline markup by its text', () => {
+    render(
+      <MemoryRouter>
+        <AutoLinkHeader level={1}>
+          Demos for variant <code>information</code>
+        </AutoLinkHeader>
+      </MemoryRouter>
+    )
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+    const heading = anchor?.closest('h1')
+
+    expect(heading?.getAttribute('aria-label')).toBe(
+      'Demos for variant information'
+    )
+    expect(anchor?.getAttribute('aria-label')).toBe(
+      'Link to Demos for variant information'
+    )
+  })
+
   it('uses the id it is given instead of deriving one', () => {
     renderHeader({ useSlug: 'v11.13.0' })
 

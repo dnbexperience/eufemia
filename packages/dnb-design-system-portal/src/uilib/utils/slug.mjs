@@ -113,7 +113,7 @@ function parseMdx(source) {
 /**
  * Flatten React children to the text they render as.
  */
-function getTextFromReactHeading(children, depth = 0) {
+export function getTextFromReactHeading(children, depth = 0) {
   if (typeof children === 'string' || typeof children === 'number') {
     return String(children)
   }
