@@ -10,7 +10,6 @@ import type { SpacingProps } from '../../shared/types'
 import useTranslation from '../../shared/useTranslation'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
-import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useSpacing } from '../space/SpacingUtils'
 
 export type ScrollIndicatorItem = {
@@ -140,7 +139,5 @@ function ScrollIndicator(localProps: ScrollIndicatorAllProps) {
     </div>
   )
 }
-
-withComponentMarkers(ScrollIndicator, { _supportsSpacingProps: true })
 
 export default ScrollIndicator

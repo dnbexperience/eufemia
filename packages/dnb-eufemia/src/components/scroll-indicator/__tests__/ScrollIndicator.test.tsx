@@ -100,12 +100,13 @@ describe('ScrollIndicator', () => {
           items={items}
           onChange={vi.fn()}
           aria-label="Gallery"
+          top="small"
         />
       </Provider>
     )
     expect(ref.current).toHaveAccessibleName('Gallery')
     expect(document.querySelectorAll('button')).toHaveLength(3)
-    expect(ScrollIndicator['_supportsSpacingProps']).toBe(true)
+    expect(ref.current).toHaveClass('dnb-space__top--small')
   })
 
   it('does not restore focus after the user leaves the group', () => {
