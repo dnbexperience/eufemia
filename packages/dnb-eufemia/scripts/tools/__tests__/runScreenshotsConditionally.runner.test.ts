@@ -4,6 +4,7 @@ import path from 'node:path'
 import {
   getShardCount,
   resolveCliOptions,
+  runScreenshotsTests,
   shouldRunAllByEnvironment,
   writeRunPlan,
 } from '../runScreenshotsConditionally/runner'
@@ -86,6 +87,28 @@ describe('runScreenshotsConditionally runner plan', () => {
         'tests=\nshard-total=4\nshards=[1,2,3,4]\n'
       )
     } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  // Without a plan, the shard job is skipped and the required check still passes.
+  it('plans all shards when the branch always runs all tests', async () => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'visual-plan-'))
+    const outputFile = path.join(directory, 'output')
+    const argv = process.argv
+    vi.stubEnv('GITHUB_REF_NAME', 'main')
+    vi.stubEnv('GITHUB_OUTPUT', outputFile)
+    process.argv = ['node', 'runner', '--plan']
+
+    try {
+      await runScreenshotsTests()
+
+      expect(readFileSync(outputFile, 'utf8')).toBe(
+        'tests=\nshard-total=4\nshards=[1,2,3,4]\n'
+      )
+    } finally {
+      process.argv = argv
+      vi.unstubAllEnvs()
       rmSync(directory, { recursive: true, force: true })
     }
   })
