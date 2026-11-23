@@ -20,13 +20,13 @@ The Pagination component is used to split up larger data sets into pages / secti
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/pagination)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/pagination)
 
-### Screen reader support
+## Screen reader support
 
 To make it easier for screen readers to navigate, the _navigation bar_ markup is placed above the content, even if it is visually the opposite.
 
 ---
 
-### Default pagination and content handling
+## Default pagination and content handling
 
 You can put your content inside the pagination wrapper. This has the advantage of giving screen reader users an easier way to interact with and understand the content. It will also "keep" the old page height until the next page is inserted while showing an indicator.
 
@@ -38,7 +38,7 @@ import { Bar } from '@dnb/eufemia/components/Pagination'
 
 We recommend contacting one of the developers at Eufemia ([Slack channel #eufemia-web](https://dnb-it.slack.com/archives/CMXABCHEY)) to help you set up `Bar`, so that the pagination becomes screen reader compliant.
 
-#### Pagination method #1
+### Pagination method #1
 
 Returning a component directly inside a function as a child.
 
@@ -54,7 +54,7 @@ render(
 )
 ```
 
-#### Pagination method #2
+### Pagination method #2
 
 Returning a function as a child and using `setContent`.
 
@@ -70,7 +70,7 @@ render(
 )
 ```
 
-#### Pagination method #3
+### Pagination method #3
 
 Using the `onChange` event together with `setContent`.
 
@@ -87,7 +87,7 @@ render(
 )
 ```
 
-#### Pagination method #4
+### Pagination method #4
 
 Create the instance before using it.
 

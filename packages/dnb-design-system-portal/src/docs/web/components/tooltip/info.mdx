@@ -26,7 +26,7 @@ A tooltip does not replace a visible label or provide an accessible name for its
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/tooltip)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/tooltip)
 
-### Tooltip accessibility problems
+## Tooltip accessibility problems
 
 Because tooltips are often triggered by hover actions, developers and UX designers need to find alternative ways to support access to that information.
 
@@ -37,7 +37,7 @@ The Tooltip component is integrated into components like [Button](/web/component
 - Pressing Escape hides the Tooltip without moving focus. When you control the Tooltip with `open`, handle Escape yourself
 - Custom triggers receive the necessary ARIA attributes (`aria-describedby`) so assistive technologies can announce the tooltip content without hovering
 
-#### Touch devices and keyboard support
+### Touch devices and keyboard support
 
 To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchstart` event handler.
 

@@ -23,11 +23,11 @@ Modal is the root component for [Drawer](/web/components/drawer) and [Dialog](/w
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/modal)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/modal)
 
-### Behavior
+## Behavior
 
 The modal can be triggered from either a button or by using the `open` property. Triggering a modal will activate the opaque overlay and display the contents.
 
-### Help button
+## Help button
 
 Since Modal is often used with other components and frequently enhances contextual content, it includes a trigger button ([HelpButton](/web/components/help-button)) with a question mark icon by default. You can disable this behavior with `omitTriggerButton={true}`.
 
@@ -35,7 +35,7 @@ You can also use the broadly available `suffix` property, like so:
 
 <ModalExampleSuffix />
 
-### Accessibility
+## Accessibility
 
 Modals implement many accessibility considerations.
 
@@ -48,15 +48,15 @@ Entering a Modal (all variants) will:
 5. Make the Modal/Drawer scrollable if needed
 6. Dim the body/background with an overlay
 
-### Structure and content
+## Structure and content
 
 Typically an opaque cover over the main content (fullscreen) and a small centered box containing information and interactive elements (buttons, forms etc.)
 
-### What is it
+## What is it
 
 Modal dialogs appear on top of the main content changing the _mode_ of the system into a special mode requiring user interaction. The main content is disabled until the user interacts with the modal dialog.
 
-### Disadvantages of Modal
+## Disadvantages of Modal
 
 1. They require immediate attention
 1. They interrupt users
@@ -64,17 +64,17 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 1. They add extra goals: reading, interacting, and closing the Modal
 1. They block the content in the background
 
-### Guidelines
+## Guidelines
 
 1. Use for important warnings to prevent or correct critical errors
 1. Do not use for nonessential information unrelated to the user's current workflow
 1. Use for requesting user input critical to the current process
 
-#### Nested modals
+### Nested modals
 
 While it is possible to nest a Modal within another Modal, you as a developer must ensure the browser's back button (alongside the URL path) handles the nested Modal situation. A user should still be able to use the back button as expected and return to the last visited "page".
 
-### Z-index
+## Z-index
 
 The Modal component is using **3000** as the `z-index`.
 
@@ -84,7 +84,7 @@ The Modal component is using **3000** as the `z-index`.
 }
 ```
 
-### data-dnb-modal-active
+## data-dnb-modal-active
 
 When a Modal/Drawer is open, it will set an HTML attribute on the main HTML element called `data-dnb-modal-active`. The attribute value will be the ID of the current Modal/Drawer.
 
