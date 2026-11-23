@@ -139,7 +139,7 @@ export const OperationalExample = () => (
               innerSpace={{ top: 'large', bottom: 'large' }}
               aria-label="Payment overview"
             >
-              <Flex.Stack layoutEngine="css" gap="large">
+              <Flex.Stack layoutEngine="css" gap="large" wrap={false}>
                 <Flex.Stack
                   element="header"
                   layoutEngine="css"
@@ -158,6 +158,7 @@ export const OperationalExample = () => (
                 </Flex.Stack>
                 <Dropdown
                   label="Account"
+                  stretch
                   value={account}
                   data={accounts}
                   onChange={({ data }) => {
@@ -213,7 +214,9 @@ export const OperationalExample = () => (
                       mainSize="x-large"
                       animate
                     />
-                    <Stat.Info>Due today at 14:00 CET</Stat.Info>
+                    <Stat.Info>
+                      Due <DateFormat value="2026-11-01" /> at 14:00 CET
+                    </Stat.Info>
                   </Stat.Content>
                 </Stat.Root>
               </Grid.Item>
