@@ -449,6 +449,48 @@ test('the full pill is clickable for every variant', async ({ page }) => {
   }
 })
 
+test.describe('on touch devices', () => {
+  test.use({ hasTouch: true })
+
+  test('does not keep the hover style after a tap', async ({ page }) => {
+    for (const variant of ['default', 'addable', 'checkbox', 'radio']) {
+      await test.step(variant, async () => {
+        const chip = page
+          .locator(
+            '[data-visual-test="chip-states"] .dnb-chip--' + variant
+          )
+          .first()
+        const input = chip.locator(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+        const readStyles = () =>
+          chip.evaluate((element) => {
+            return Array.from(
+              element.querySelectorAll(
+                '.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button, .dnb-checkbox__button, .dnb-radio__button, .dnb-chip__action'
+              )
+            ).map((part) => {
+              const style = getComputedStyle(part)
+              return [style.backgroundColor, style.boxShadow]
+            })
+          })
+
+        const unselected = await readStyles()
+
+        await input.tap()
+        await expectSelected(input, true)
+        await input.tap()
+        await expectSelected(input, false)
+
+        expect(
+          await input.evaluate((element) => element.matches(':hover'))
+        ).toBe(true)
+        await expect.poll(readStyles).toEqual(unselected)
+      })
+    }
+  })
+})
+
 for (const variant of ['checkbox', 'radio']) {
   test(`${variant} indicator centers are clickable in both selection modes`, async ({
     page,

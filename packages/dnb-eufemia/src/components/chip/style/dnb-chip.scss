@@ -105,34 +105,44 @@
       --chip-action-border-width: 0rem;
     }
 
-    @include chipState(':not(:disabled):hover', ':not(:disabled):hover') {
-      --chip-border: var(
-        --chip-hover-border,
-        var(--token-color-stroke-action-hover)
-      );
-      --chip-border-width: 0.125rem;
-      --chip-control-border: var(--token-color-stroke-action-hover);
-      --chip-control-border-width: 0.125rem;
-      --chip-control-background: var(
-        --token-color-background-action-hover-subtle
-      );
-      --chip-control-selected: var(--token-color-background-action-hover);
-      --chip-action-background: var(
-        --token-color-background-action-hover-subtle
-      );
-      --chip-action-border: var(--token-color-stroke-action-hover);
-      --chip-action-color: var(--token-color-icon-action-hover);
-      --chip-action-border-width: 0.125rem;
-      --chip-border-inset: ;
-    }
+    // Touch browsers keep :hover on the last tapped element
+    @media (hover: hover) {
+      @include chipState(
+        ':not(:disabled):hover',
+        ':not(:disabled):hover'
+      ) {
+        --chip-border: var(
+          --chip-hover-border,
+          var(--token-color-stroke-action-hover)
+        );
+        --chip-border-width: 0.125rem;
+        --chip-control-border: var(--token-color-stroke-action-hover);
+        --chip-control-border-width: 0.125rem;
+        --chip-control-background: var(
+          --token-color-background-action-hover-subtle
+        );
+        --chip-control-selected: var(
+          --token-color-background-action-hover
+        );
+        --chip-action-background: var(
+          --token-color-background-action-hover-subtle
+        );
+        --chip-action-border: var(--token-color-stroke-action-hover);
+        --chip-action-color: var(--token-color-icon-action-hover);
+        --chip-action-border-width: 0.125rem;
+        --chip-border-inset: ;
+      }
 
-    @include chipState(
-      ':checked:not(:disabled):hover',
-      "[aria-pressed='true']:not(:disabled):hover"
-    ) {
-      --chip-control-selected-border: var(--chip-control-border);
-      --chip-action-background: var(--token-color-background-action-hover);
-      --chip-action-color: var(--token-color-icon-neutral-inverse);
+      @include chipState(
+        ':checked:not(:disabled):hover',
+        "[aria-pressed='true']:not(:disabled):hover"
+      ) {
+        --chip-control-selected-border: var(--chip-control-border);
+        --chip-action-background: var(
+          --token-color-background-action-hover
+        );
+        --chip-action-color: var(--token-color-icon-neutral-inverse);
+      }
     }
 
     @include chipState(
@@ -275,16 +285,18 @@
       --chip-background: var(--token-color-background-error-subtle);
     }
 
-    &:hover {
-      --chip-border: var(
-        --token-color-component-button-stroke-action-destructive-hover
-      );
-    }
+    @media (hover: hover) {
+      &:hover {
+        --chip-border: var(
+          --token-color-component-button-stroke-action-destructive-hover
+        );
+      }
 
-    &[aria-pressed='true']:hover {
-      --chip-background: var(
-        --token-color-component-button-background-action-destructive-hover-subtle
-      );
+      &[aria-pressed='true']:hover {
+        --chip-background: var(
+          --token-color-component-button-background-action-destructive-hover-subtle
+        );
+      }
     }
 
     &:active {
@@ -405,11 +417,13 @@
           --chip-control-border-width: 0.0625rem;
         }
 
-        &:has(input:hover) {
-          --chip-control-border-width: 0.125rem;
-          --chip-border: var(
-            --token-color-component-button-stroke-action-destructive-hover
-          );
+        @media (hover: hover) {
+          &:has(input:hover) {
+            --chip-control-border-width: 0.125rem;
+            --chip-border: var(
+              --token-color-component-button-stroke-action-destructive-hover
+            );
+          }
         }
 
         &:has(input:active) {
@@ -422,10 +436,12 @@
           );
         }
 
-        &:has(input:checked:hover) {
-          --chip-background: var(
-            --token-color-component-button-background-action-destructive-hover-subtle
-          );
+        @media (hover: hover) {
+          &:has(input:checked:hover) {
+            --chip-background: var(
+              --token-color-component-button-background-action-destructive-hover-subtle
+            );
+          }
         }
 
         &:has(input:checked:active) {
