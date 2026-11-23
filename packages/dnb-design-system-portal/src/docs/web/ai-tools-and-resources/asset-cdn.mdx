@@ -2,7 +2,7 @@
 title: Asset CDN
 description: >-
   Public, versioned URLs for Eufemia fonts, icons, images, flags, browser
-  assets, and company logos.
+  assets, company logos, and illustrations.
 order: 3
 navigation:
   title: Asset CDN
@@ -96,9 +96,34 @@ company-logo PNGs are versioned only. For React applications, use the
 brand-family logos, use the [Logo component](/web/components/logo) or the
 assets published with `@dnb/eufemia`.
 
+## Illustrations
+
+The standalone `@eufemia/illustrations` library publishes SVG illustrations and
+optional Lottie JSON animations in its own namespace. Illustration package
+versions are independent of `@dnb/eufemia` versions. Applications can load these
+files without authentication.
+
+Start with the [discovery manifest](https://assets.eufemia.dnb.no/illustrations/manifest.json),
+which points to the latest release manifest. Pin the versioned URLs in
+applications, for example:
+
+```text
+https://assets.eufemia.dnb.no/illustrations/v1.0.1/manifest.json
+https://assets.eufemia.dnb.no/illustrations/v1.0.1/assets/sbanken/bank-account.svg
+https://assets.eufemia.dnb.no/illustrations/v1.0.1/assets/sbanken/confetti.svg
+https://assets.eufemia.dnb.no/illustrations/v1.0.1/animations/sbanken/confetti.json
+```
+
+Asset and poster paths in the versioned manifest are relative to that manifest's
+location. Versioned files are immutable and cached for one year; previous
+versions remain available. The discovery manifest is cached for five minutes.
+See [Illustrations](/collections/illustrations/) for the gallery, package imports
+and animation guidance.
+
 ## Related documentation
 
 - [Typography and hosted fonts](/web/layout-and-typography/typography/#hosted-fonts-cdn)
 - [Icons](/collections/icons/)
+- [Illustrations](/collections/illustrations/)
 - [Logo component](/web/components/logo/)
 - [Designer logo guidance](/collections/logos/#dnb-brand-logos)
