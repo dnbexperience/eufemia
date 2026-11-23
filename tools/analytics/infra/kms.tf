@@ -5,9 +5,18 @@
 # permissions on those resources still decide who may read logs or publish
 # alerts, and the Lambda roles need no KMS permissions of their own.
 #
-# The OIDC deploy role may create and manage only keys tagged with this stack's
-# KeyStack value, and may not schedule key deletion: prevent_destroy keeps a
-# plan from trying.
+# The key has no tags: tag-based access would let any role that may tag keys
+# take over a key. Instead the key policy names the OIDC deploy role that
+# applies this stack as the only key administrator. It may not delete or disable
+# the key, change its tags or manage grants; prevent_destroy keeps a plan from
+# trying.
+
+# Roles from the OIDC federation repo live under the /tooling/ path. A caller
+# that is not an assumed role gives an invalid principal, so only the deploy
+# role can apply the key policy.
+locals {
+  key_admin_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/tooling/${regex(":assumed-role/([^/]+)/", data.aws_caller_identity.current.arn)[0]}"
+}
 
 locals {
   key_stack = "eufemia-${var.environment}-analytics"
@@ -18,7 +27,6 @@ resource "aws_kms_key" "stack" {
   enable_key_rotation     = true
   deletion_window_in_days = 30
   policy                  = data.aws_iam_policy_document.stack_key.json
-  tags                    = merge(local.tags, { KeyStack = local.key_stack })
 
   lifecycle {
     prevent_destroy = true
@@ -35,6 +43,25 @@ data "aws_iam_policy_document" "stack_key" {
     principals {
       type        = "AWS"
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+    }
+  }
+
+  statement {
+    sid = "DeployRoleKeyAdministration"
+    actions = [
+      "kms:DescribeKey",
+      "kms:GetKeyPolicy",
+      "kms:GetKeyRotationStatus",
+      "kms:ListResourceTags",
+      "kms:PutKeyPolicy",
+      "kms:UpdateKeyDescription",
+      "kms:EnableKeyRotation",
+    ]
+    resources = ["*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [local.key_admin_arn]
     }
   }
 

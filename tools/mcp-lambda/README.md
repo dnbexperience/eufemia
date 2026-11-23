@@ -135,9 +135,10 @@ first and `prevent_destroy` lifted in the same change.
 
 The stack's customer managed KMS key and the API Gateway access log group
 need one more policy from the OIDC federation repo on the deploy role. It may
-create and manage only the key tagged `KeyStack = eufemia-<env>-mcp` (no
-deletion), attach that key to the stack's log groups, and manage the access log
-group and its log delivery. The Lambda roles need no KMS permissions: the key
+create keys, attach the stack key to the stack's log groups, and manage the
+access log group and its log delivery. The key policy makes the deploy role the
+key's only administrator: it may not delete or disable the key, change its tags
+or manage grants. The Lambda roles need no KMS permissions: the key
 policy lets principals in the account use the key only through CloudWatch Logs,
 like the AWS managed keys.
 

@@ -1,6 +1,6 @@
 mock_provider "aws" {
   mock_data "aws_caller_identity" {
-    defaults = { account_id = "123456789012" }
+    defaults = { account_id = "123456789012", arn = "arn:aws:sts::123456789012:assumed-role/test-deploy/test-session" }
   }
   mock_data "aws_partition" {
     defaults = { partition = "aws" }
@@ -86,9 +86,10 @@ run "shadow_rollout" {
       aws_dynamodb_table.state.server_side_encryption[0].kms_key_arn == aws_kms_key.stack.arn &&
       aws_sns_topic.alerts.kms_master_key_id == aws_kms_key.stack.arn &&
       aws_cloudwatch_log_group.notifier.kms_key_id == aws_kms_key.stack.arn &&
-      alltrue([for group in aws_cloudwatch_log_group.monitor : group.kms_key_id == aws_kms_key.stack.arn])
+      alltrue([for group in aws_cloudwatch_log_group.monitor : group.kms_key_id == aws_kms_key.stack.arn]) &&
+      local.key_admin_arn == "arn:aws:iam::123456789012:role/tooling/test-deploy"
     )
-    error_message = "The state table, alert topic and log groups must use the stack's rotating customer managed key."
+    error_message = "The state table, alert topic and log groups must use the stack's rotating customer managed key, administered by the deploy role."
   }
 }
 
