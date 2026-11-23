@@ -308,7 +308,7 @@ test.describe('Table.ScrollView', () => {
           'false'
         )
         const box = await indicators.last().boundingBox()
-        expect(box.width).toBeCloseTo(22)
+        expect(box.width).toBeCloseTo(24)
         expect(box.height).toBeCloseTo(32)
         expect(box.y + box.height).toBeCloseTo(
           (await scrollView.boundingBox()).y

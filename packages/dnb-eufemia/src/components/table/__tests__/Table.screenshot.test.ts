@@ -375,9 +375,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type tbody tr:first-of-type',
         simulate: 'hover',
       })
     })
@@ -389,7 +389,7 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector: '#accordion-table-2-3',
         simulate: 'hover',
       })
@@ -402,7 +402,7 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector: '#accordion-table-2-3',
         simulate: 'focus',
       })
@@ -415,7 +415,7 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector: '#accordion-table-2-3',
         simulate: 'active',
       })
@@ -429,9 +429,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
         },
         recalculateHeightAfterSimulate: true,
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type tbody tr:first-of-type',
         simulate: 'click',
       })
     })
@@ -581,9 +581,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type tbody tr:first-of-type',
         simulate: 'hover',
       })
     })
@@ -595,9 +595,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr[data-row-id="3"]',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type tbody tr[data-row-id="3"]',
         simulate: 'hover',
       })
     })
@@ -609,9 +609,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr[data-row-id="3"]',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type tbody tr[data-row-id="3"]',
         simulate: 'focus',
       })
     })
@@ -645,6 +645,8 @@ describe('Table', () => {
   it('have to match table with one td', async () => {
     await makeScreenshot({
       ...defaults,
+      // Let the wrapper shrink when its width removes horizontal overflow.
+      wrapperStyle: { ...defaults.wrapperStyle, height: 'auto' },
       pageViewport: {
         width: 300,
       },

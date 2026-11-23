@@ -19,10 +19,10 @@ exports[`Table scss > should match style dependencies css 1`] = `
 }
 .dnb-scroll-indicator__item {
   display: inline-flex;
-  flex: 0 0 1.375rem;
+  flex: 0 0 1.5rem;
   align-items: center;
   justify-content: center;
-  width: 1.375rem;
+  width: 1.5rem;
   height: 2.75rem;
   padding: 0;
   border: 0;
@@ -67,7 +67,15 @@ html:not([data-whatinput=touch]) .dnb-scroll-indicator__item:focus-visible:not([
   background-color: currentcolor;
   animation: scroll-indicator-settle 520ms both;
 }
-.dnb-scroll-indicator__item:hover > span {
+@media (forced-colors: active) {
+  .dnb-scroll-indicator__item[data-active=true] > span::before {
+    background-color: CanvasText;
+  }
+}
+html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:hover:not([disabled]) > span {
   width: 0.875rem;
   height: 0.875rem;
 }
