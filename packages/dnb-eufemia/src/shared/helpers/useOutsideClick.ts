@@ -61,6 +61,7 @@ export function addOutsideClickListener({
   let touchStartPoint: { x: number; y: number } | null = null
   let touchMoved = false
   let tapTimeStamp = -Infinity
+  let pointerType: string | null = null
 
   const check = (event: Event, target = event.target) => {
     if (!(target instanceof Node) || isInside(target, event)) {
@@ -87,7 +88,8 @@ export function addOutsideClickListener({
 
   // A mouse or pen press after a tap counts, as only it comes with its own pointerdown
   const handlePointerDown = (event: Event) => {
-    if ((event as PointerEvent).pointerType !== 'touch') {
+    pointerType = (event as PointerEvent).pointerType
+    if (pointerType !== 'touch') {
       tapTimeStamp = -Infinity
     }
   }
@@ -95,7 +97,12 @@ export function addOutsideClickListener({
   const handleTouchStart = (event: Event) => {
     const touch = (event as TouchEvent).changedTouches?.[0]
     touchMoved = false
-    touchStartTarget = event.target
+
+    // A pen can also send touch events, but its pointerdown already counted
+    touchStartTarget =
+      pressEvent === 'pointerdown' && pointerType === 'pen'
+        ? null
+        : event.target
     touchStartPoint = touch ? { x: touch.clientX, y: touch.clientY } : null
   }
 
