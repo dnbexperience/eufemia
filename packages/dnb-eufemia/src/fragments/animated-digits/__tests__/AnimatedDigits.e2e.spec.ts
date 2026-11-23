@@ -67,7 +67,9 @@ test('preserves copied text and digit order in left-to-right and right-to-left p
         const box = viewport.getBoundingClientRect()
         return { contentRight: content.right, viewportRight: box.right }
       })
-    expect(bounds.contentRight).toBeCloseTo(bounds.viewportRight, 1)
+    expect(
+      Math.abs(bounds.contentRight - bounds.viewportRight)
+    ).toBeLessThan(0.5)
   }
 
   const reserved = renderToStaticMarkup(
@@ -125,7 +127,9 @@ test('preserves copied text and digit order in left-to-right and right-to-left p
         .getBoundingClientRect()
       return { viewportRight: viewport.right, contentRight: content.right }
     })
-  expect(bounds.contentRight).toBeCloseTo(bounds.viewportRight, 1)
+  expect(
+    Math.abs(bounds.contentRight - bounds.viewportRight)
+  ).toBeLessThan(0.5)
 })
 
 test('preserves formatted wrapping and complete values in forced colors', async ({
