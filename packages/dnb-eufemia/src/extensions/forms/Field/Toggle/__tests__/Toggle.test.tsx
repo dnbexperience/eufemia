@@ -75,6 +75,22 @@ describe('Field.Toggle', () => {
       }
     )
 
+    it('lets the radios of the radio variant belong to the field radiogroup', () => {
+      render(
+        <Field.Toggle
+          variant="radio"
+          valueOn="on"
+          valueOff="off"
+          label="Label"
+        />
+      )
+
+      const radiogroups = document.querySelectorAll('[role="radiogroup"]')
+      expect(radiogroups).toHaveLength(1)
+      expect(radiogroups[0].tagName).toBe('FIELDSET')
+      expect(radiogroups[0]).toHaveAccessibleName('Label')
+    })
+
     it.each(['button', 'checkbox-button'] as const)(
       'keeps %s selection independent of a surrounding Chip.Group',
       async (variant) => {

@@ -35,6 +35,20 @@ describe('Selection', () => {
     }
   )
 
+  it('lets the radios of the radio variant belong to the field radiogroup', () => {
+    render(
+      <Field.Selection variant="radio" label="Label">
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
+      </Field.Selection>
+    )
+
+    const radiogroups = document.querySelectorAll('[role="radiogroup"]')
+    expect(radiogroups).toHaveLength(1)
+    expect(radiogroups[0].tagName).toBe('FIELDSET')
+    expect(radiogroups[0]).toHaveAccessibleName('Label')
+  })
+
   describe('autoSelectSingleOption', () => {
     it('selects and stores the only option when enabled', async () => {
       const onChange = vi.fn()
