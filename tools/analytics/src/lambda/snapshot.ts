@@ -213,6 +213,7 @@ function buildTransportUsage(
     perComponent: sumBy(rows, 'component').slice(0, MCP_TOP_LIMIT),
     perPath: sumBy(rows, 'path').slice(0, MCP_TOP_LIMIT),
     missedLookups,
+    perSkill: sumBy(rows, 'skill'),
     perVersion: versions
       .filter((row) => row.transport === transport)
       .slice(0, MCP_TOP_LIMIT)

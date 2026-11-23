@@ -15,6 +15,7 @@ function usageRecord(
     tool: 'component_props',
     component: 'Button',
     component_missed: false,
+    skill: '',
     path: '',
     env: 'dev',
     transport: 'web',

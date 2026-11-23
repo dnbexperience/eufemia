@@ -235,7 +235,7 @@ describe('aggregatePortalViewsRaw', () => {
 })
 
 describe('retrieveMcpUsageDaily', () => {
-  it('reads a daily row written before misses were recorded as no miss', async () => {
+  it('reads missing miss and skill columns as no miss and no skill', async () => {
     mockAthenaRows([
       [
         'dt',
@@ -244,9 +244,19 @@ describe('retrieveMcpUsageDaily', () => {
         'component',
         'path',
         'component_missed',
+        'skill',
         'count',
       ],
-      ['2026-09-20', 'web', 'component_doc', 'button', '', undefined, '5'],
+      [
+        '2026-09-20',
+        'web',
+        'component_doc',
+        'button',
+        '',
+        undefined,
+        undefined,
+        '5',
+      ],
     ])
 
     await expect(retrieveMcpUsageDaily()).resolves.toEqual([
@@ -257,18 +267,19 @@ describe('retrieveMcpUsageDaily', () => {
         component: 'button',
         path: '',
         component_missed: false,
+        skill: '',
         count: 5,
       },
     ])
 
     expect(startedQueryString()).toBe(
-      `SELECT dt, transport, tool, component, path, component_missed, count FROM "db"."mcp_usage_daily"`
+      `SELECT dt, transport, tool, component, path, component_missed, skill, count FROM "db"."mcp_usage_daily"`
     )
   })
 })
 
 describe('aggregateMcpUsageRaw', () => {
-  it('groups raw rows by component miss and maps each column in order', async () => {
+  it('groups raw rows by component miss and skill and maps each column in order', async () => {
     mockAthenaRows([
       [
         'dt',
@@ -277,9 +288,20 @@ describe('aggregateMcpUsageRaw', () => {
         'component',
         'path',
         'component_missed',
+        'skill',
         'cnt',
       ],
-      ['2026-10-14', 'web', 'component_doc', '', '', 'true', '4'],
+      ['2026-10-14', 'web', 'component_doc', '', '', 'true', '', '4'],
+      [
+        '2026-10-14',
+        'web',
+        'docs_meta',
+        '',
+        '',
+        'false',
+        'eufemia-review',
+        '2',
+      ],
     ])
 
     await expect(aggregateMcpUsageRaw('2026-10-08')).resolves.toEqual([
@@ -290,12 +312,23 @@ describe('aggregateMcpUsageRaw', () => {
         component: '',
         path: '',
         component_missed: true,
+        skill: '',
         count: 4,
+      },
+      {
+        dt: '2026-10-14',
+        transport: 'web',
+        tool: 'docs_meta',
+        component: '',
+        path: '',
+        component_missed: false,
+        skill: 'eufemia-review',
+        count: 2,
       },
     ])
 
     expect(startedQueryString()).toBe(
-      `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-10-08' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false)`
+      `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, coalesce(skill, '') AS skill, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-10-08' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false), coalesce(skill, '')`
     )
   })
 })

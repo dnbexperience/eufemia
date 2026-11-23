@@ -102,6 +102,7 @@ async function recordFromMessage(
     tool,
     component,
     component_missed: componentMissed,
+    skill: '',
     path,
     env,
     // The web Lambda writes this producer's rows only; the local (stdio)
