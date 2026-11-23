@@ -198,8 +198,9 @@ test('should apply the brand from the URL after hydration', async ({
   await page.goto('/web/components/logo/demos/?eufemia-theme=sbanken')
   await waitForApp(page)
 
-  await expect(page.locator('#change-theme')).toHaveValue('sbanken')
-  await expect(page.locator('#change-theme')).toBeChecked()
+  const sbanken = page.getByRole('radio', { name: 'Sbanken', exact: true })
+  await expect(sbanken).toHaveValue('sbanken')
+  await expect(sbanken).toBeChecked()
   expect(hydrationErrors).toEqual([])
 })
 
