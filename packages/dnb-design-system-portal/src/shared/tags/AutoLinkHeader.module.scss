@@ -1,4 +1,13 @@
 .anchorLinkStyle {
+  // Keep inline code within the heading line and close to its text size
+  &:global(.dnb-heading) :global(.dnb-code) {
+    margin-block: 0;
+    padding-block: 0.125em;
+
+    font-size: 0.8em;
+    line-height: 1;
+  }
+
   :global {
     .anchor-hash {
       position: absolute;
