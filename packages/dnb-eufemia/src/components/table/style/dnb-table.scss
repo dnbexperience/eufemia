@@ -136,6 +136,17 @@
     }
   }
 
+  .dnb-card
+    .dnb-flex-container:has(> .dnb-card__title + &__scroll-container) {
+    align-items: stretch;
+    flex-wrap: nowrap;
+  }
+
+  .dnb-card > .dnb-flex-container > .dnb-space:has(> &__scroll-container),
+  .dnb-card > .dnb-flex-container > &__scroll-container {
+    width: 100%;
+  }
+
   // When used in a Card without inner space
   .dnb-card--no-inner-space & {
     --table-outline-radius: var(--rounded-corner, var(--token-radius-md));

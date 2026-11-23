@@ -226,11 +226,7 @@
   }
 
   // Make the ScrollView scrollable
-  &
-    .dnb-flex-container:has(
-      > .dnb-card__title
-        + :is(.dnb-scroll-view, .dnb-table__scroll-container)
-    ) {
+  & .dnb-flex-container:has(> .dnb-card__title + .dnb-scroll-view) {
     align-items: stretch;
     flex-wrap: nowrap;
   }
@@ -244,11 +240,8 @@
   }
 
   & > .dnb-flex-container {
-    > .dnb-space:has(
-        > :is(.dnb-scroll-view, .dnb-table__scroll-container)
-      ),
-    > .dnb-scroll-view,
-    > .dnb-table__scroll-container {
+    > .dnb-space:has(> .dnb-scroll-view),
+    > .dnb-scroll-view {
       width: 100%;
     }
   }
