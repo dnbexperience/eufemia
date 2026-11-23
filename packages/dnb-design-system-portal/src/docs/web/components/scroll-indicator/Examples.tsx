@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { P, ScrollIndicator } from '@dnb/eufemia/src'
 
@@ -39,12 +39,13 @@ export function Gallery() {
   return (
     <ComponentBox
       data-visual-test="scroll-indicator-gallery"
-      scope={{ useState, useId }}
+      scope={{ useState, useId, useRef }}
     >
       {() => {
         const Example = () => {
           const [current, setCurrent] = useState(0)
           const id = useId()
+          const ref = useRef<HTMLDivElement>(null)
           const images = [
             {
               src: '/images/avatars/35217511.jpg',
@@ -61,13 +62,33 @@ export function Gallery() {
           ]
           return (
             <>
-              <img
+              <div
                 id={id}
-                src={images[current].src}
-                alt={images[current].alt}
-                width="160"
-                height="160"
-              />
+                ref={ref}
+                style={{
+                  display: 'flex',
+                  width: '10rem',
+                  overflowX: 'auto',
+                  scrollSnapType: 'x mandatory',
+                }}
+                onScroll={(event) => {
+                  const element = event.currentTarget
+                  setCurrent(
+                    Math.round(element.scrollLeft / element.clientWidth)
+                  )
+                }}
+              >
+                {images.map(({ src, alt }) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={alt}
+                    width="160"
+                    height="160"
+                    style={{ flex: 'none', scrollSnapAlign: 'start' }}
+                  />
+                ))}
+              </div>
               <ScrollIndicator
                 aria-label="Gallery"
                 aria-controls={id}
@@ -75,7 +96,11 @@ export function Gallery() {
                   label: 'Show ' + alt.toLowerCase(),
                   active: index === current,
                 }))}
-                onChange={({ index }) => setCurrent(index)}
+                onChange={({ index }) => {
+                  ref.current.scrollTo({
+                    left: index * ref.current.clientWidth,
+                  })
+                }}
               />
             </>
           )

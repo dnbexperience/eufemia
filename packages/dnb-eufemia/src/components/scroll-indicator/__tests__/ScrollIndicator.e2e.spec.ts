@@ -50,8 +50,9 @@ for (const direction of ['ltr', 'rtl']) {
     )
     const toolbar = example.getByRole('toolbar', { name: 'Gallery' })
     const buttons = toolbar.getByRole('button')
-    const image = example.locator('img')
+    const images = example.locator('img')
     await expect(buttons).toHaveCount(3)
+    await expect(images).toHaveCount(3)
     await toolbar.evaluate((element, dir) => {
       element.setAttribute('dir', dir)
     }, direction)
@@ -60,23 +61,14 @@ for (const direction of ['ltr', 'rtl']) {
       direction === 'ltr' ? 'ArrowRight' : 'ArrowLeft'
     )
     await expect(buttons.nth(1)).toBeFocused()
-    await expect(image).toHaveAttribute(
-      'alt',
-      'First contributor portrait'
-    )
+    await expect(images.first()).toBeInViewport({ ratio: 0.9 })
     await page.keyboard.press('Enter')
-    await expect(image).toHaveAttribute(
-      'alt',
-      'Second contributor portrait'
-    )
+    await expect(images.nth(1)).toBeInViewport({ ratio: 0.9 })
     await expect(buttons.nth(1)).toBeFocused()
     await page.keyboard.press('End')
     await expect(buttons.last()).toBeFocused()
     await page.keyboard.press('Space')
-    await expect(image).toHaveAttribute(
-      'alt',
-      'Third contributor portrait'
-    )
+    await expect(images.last()).toBeInViewport({ ratio: 0.9 })
     await expect(buttons.last()).toBeFocused()
     await page.keyboard.press('Tab')
     await expect(buttons.last()).not.toBeFocused()
@@ -87,3 +79,26 @@ for (const direction of ['ltr', 'rtl']) {
     await expect(toolbar.locator('button[tabindex="0"]')).toHaveCount(1)
   })
 }
+
+test('keeps gallery dots in sync with native scrolling', async ({
+  page,
+}) => {
+  await page.goto(
+    '/web/components/scroll-indicator/demos/?data-visual-test'
+  )
+  const example = page.locator(
+    '[data-visual-test="scroll-indicator-gallery"]'
+  )
+  const images = example.locator('img')
+  const buttons = example
+    .getByRole('toolbar', { name: 'Gallery' })
+    .getByRole('button')
+  await expect(images).toHaveCount(3)
+  await images.first().hover()
+  await page.mouse.wheel(160, 0)
+  await expect(buttons.nth(1)).toHaveAttribute('data-active', 'true')
+  await expect(images.nth(1)).toBeInViewport({ ratio: 0.9 })
+  await buttons.first().click()
+  await expect(images.first()).toBeInViewport({ ratio: 0.9 })
+  await expect(buttons.first()).toHaveAttribute('data-active', 'true')
+})
