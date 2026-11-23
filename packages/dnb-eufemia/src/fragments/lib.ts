@@ -10,9 +10,10 @@
  */
 
 // import all the available fragments
+import AnimatedDigits from './animated-digits/AnimatedDigits'
 import DrawerList from './drawer-list/DrawerList'
 import ScrollView from './scroll-view/ScrollView'
 import TextCounter from './text-counter/TextCounter'
 
 // define / export all the available fragments
-export { DrawerList, ScrollView, TextCounter }
+export { AnimatedDigits, DrawerList, ScrollView, TextCounter }

@@ -1,0 +1,34 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { AnimatedDigits } from '@dnb/eufemia/fragments'
+```
+
+## Description
+
+AnimatedDigits is a low-level fragment for building components. It rolls changed digits directly from the previous text to the final text in 160 ms using CSS. It does not count through intermediate values.
+
+Use this fragment when building a component that owns the formatted output and update tracking. For application content, prefer [NumberFormat](/web/components/number-format/), [Stat](/web/components/stat/) and [DateFormat](/web/components/date-format/) for formatting and accessibility.
+
+Pass already formatted text as `value` and the previous text as `previousValue`. Omit `previousValue` on the initial render and after a formatting or locale change. Set `direction` to match the change. The fragment does not format values or keep previous values in state.
+
+Reduced motion disables animation. Previous digits are hidden from assistive technology; the final text is available immediately. The fragment does not announce updates. Use [AriaLive](/web/components/aria-live/) when an update needs an announcement.
+
+Use motion for selected values that change after a user action. Keep dense tables and frequently refreshing values still.
+
+### Styles
+
+The standard Eufemia stylesheets include the animation styles. When importing individual styles, include:
+
+```tsx
+import '@dnb/eufemia/fragments/animated-digits/style/dnb-animated-digits.min.css'
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/fragments/animated-digits)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/fragments/animated-digits)
