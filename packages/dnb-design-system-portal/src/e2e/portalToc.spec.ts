@@ -126,7 +126,7 @@ test.describe('Portal table of contents', () => {
       bottom
     )
 
-    await page.goto('/web/components/button/demos/')
+    await page.goto('/web/components/timeline/demos/')
     await expect(scroll).toBeVisible()
     await expect(scroll).toHaveCSS('overscroll-behavior-y', 'auto')
     await scroll.hover()
