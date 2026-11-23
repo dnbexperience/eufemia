@@ -4,6 +4,7 @@ import { withFormatter } from './withFormatter'
 
 export type NumberFormatOrganizationNumberProps = Omit<
   NumberFormatAllProps,
+  | 'animate'
   | 'currency'
   | 'currencyDisplay'
   | 'currencyPosition'

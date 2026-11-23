@@ -19,6 +19,7 @@ import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 import { TextInternal as Text } from './Text'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import AnimatedNumber from '../../fragments/animated-digits/AnimatedNumber'
 
 type AmountOwnProps = Omit<
   NumberFormatProps,
@@ -104,9 +105,10 @@ function AmountBase(props: AmountProps) {
     options = null,
     compact = null,
     percent = null,
+    animate = false,
     ...rest
   } = props
-  const { context } = useStatSkeleton(skeleton)
+  const { context, hasSkeleton } = useStatSkeleton(skeleton)
   const { useBasisSize, defaultMainWeight } = useContext(StatValueContext)
   const resolvedLocale =
     locale ?? (context?.NumberFormat?.locale as string) ?? context?.locale
@@ -181,7 +183,22 @@ function AmountBase(props: AmountProps) {
     resolvedMainSize === resolvedAuxiliarySize
       ? 'medium'
       : null)
-  const numericValue = Number(rawValue)
+  const numericValue =
+    rawValue === null || rawValue === '' ? NaN : Number(rawValue)
+  const animationFormat = animate
+    ? JSON.stringify([
+        formatted.locale,
+        currency,
+        currencyDisplay,
+        currencyPosition,
+        percent,
+        decimals,
+        rounding,
+        signDisplay,
+        compact,
+        options,
+      ])
+    : ''
 
   const currencyClass = clsx(
     'dnb-stat__currency',
@@ -225,7 +242,22 @@ function AmountBase(props: AmountProps) {
           {parts.spaceAfterCurrency && !omitCurrencySpacing ? ' ' : null}
         </>
       )}
-      <span className={amountClass}>{renderedAmount}</span>
+      <span className={amountClass}>
+        {animate && !hasSkeleton ? (
+          <AnimatedNumber
+            key={animationFormat}
+            value={renderedAmount}
+            numericValue={numericValue}
+            reserveWidth={
+              typeof animate === 'object'
+                ? animate.reserveWidth
+                : undefined
+            }
+          />
+        ) : (
+          renderedAmount
+        )}
+      </span>
       {parts.percent && (
         <>
           {parts.percentSpacing}

@@ -108,6 +108,14 @@ const presentationProps: PropertiesTableProps = {
   },
 }
 
+const animationProp: PropertiesTableProps = {
+  animate: {
+    doc: 'Rolls changed digits directly to the new value in 160 ms. Currency and percent symbols slide horizontally when their position changes. Use `{ reserveWidth: "9ch" }` to reserve space for the largest expected number. Initial values, newly available data and formatting changes appear immediately. Respects reduced motion. Available on Number, Currency and Percent. Defaults to `false`.',
+    type: ['boolean', 'object'],
+    status: 'optional',
+  },
+}
+
 const spacingProps: PropertiesTableProps = {
   '[Space](/web/layout-and-typography/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
@@ -157,6 +165,7 @@ const commonProps: PropertiesTableProps = {
   ...affixProps,
   ...interactionProps,
   ...presentationProps,
+  ...animationProp,
 }
 
 const commonIdentifierProps: PropertiesTableProps = {
@@ -183,6 +192,7 @@ export const NumberFormatCurrencyProperties: PropertiesTableProps = {
   ...affixProps,
   ...interactionProps,
   ...presentationProps,
+  ...animationProp,
   ...spacingProps,
 }
 

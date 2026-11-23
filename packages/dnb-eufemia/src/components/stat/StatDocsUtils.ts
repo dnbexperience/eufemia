@@ -80,6 +80,13 @@ export const colorizeBySignProperty: PropertiesTableProps[string] = {
   status: 'optional',
 }
 
+export const animateProperty: PropertiesTableProps[string] = {
+  doc: 'Animates value changes in 160 ms on Stat.Number, Stat.Currency, and Stat.Percent. Changed digits roll; the unit slides horizontally only when its position changes. Initial values, newly available data and locale changes appear immediately. Respects reduced motion and exposes the final accessible value immediately. Use for selected metrics, avoiding dense tables and frequent updates. Set `{ reserveWidth: "9ch" }` to reserve enough space for the largest expected amount; digits align to the start of that space. See [Animated updates](/web/components/stat/demos/#animated-updates).',
+  type: ['boolean', '{ reserveWidth?: string }'],
+  defaultValue: 'false',
+  status: 'optional',
+}
+
 export const spacingProperties: PropertiesTableProps[string] = {
   doc: 'Spacing properties like `top` or `bottom` are supported.',
   type: ['string', 'object'],
@@ -106,6 +113,7 @@ export const SharedValueProperties: PropertiesTableProps = {
   auxiliaryWeight: auxiliaryWeightProperty,
   auxiliarySize: auxiliarySizeProperty,
   colorizeBySign: colorizeBySignProperty,
+  animate: animateProperty,
   '[Space](/web/layout-and-typography/layout/space/properties)':
     spacingProperties,
 }

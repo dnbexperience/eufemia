@@ -100,6 +100,10 @@ html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:focus-visible:
   position: relative;
   z-index: 2;
 }
+.dnb-number-format__symbol {
+  display: inline-block;
+  white-space: pre;
+}
 .dnb-number-format--selected .dnb-number-format__visible {
   color: var(--token-color-text-neutral);
   background-color: var(--token-color-background-action-pressed-subtle);

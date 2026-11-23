@@ -41,6 +41,11 @@
     z-index: 2;
   }
 
+  &__symbol {
+    display: inline-block;
+    white-space: pre;
+  }
+
   &--selected &__visible {
     color: var(--token-color-text-neutral);
     background-color: var(--token-color-background-action-pressed-subtle);

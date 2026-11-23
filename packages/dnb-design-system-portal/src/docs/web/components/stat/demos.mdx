@@ -32,6 +32,18 @@ You can use `mainSize` and `auxiliarySize` to adjust the relative size of the cu
 
 <Examples.CurrencyDefault />
 
+### Animated updates
+
+Use `animate` on selected metrics when a value changes after a user action, such as changing the reporting period. A short transition helps people follow the update. Keep dense tables and frequently refreshing values still.
+
+Changed digits roll directly to the new value in 160 ms. Removed leading digits and signs fade out as their space closes. Currency and percent symbols move horizontally only when their position changes. The example cycles through positive, negative and zero values with both alignments and currency positions. The percentage uses `colorizeBySign` to show positive, negative and neutral colors.
+
+<Examples.AnimatedUpdates />
+
+The initial value, newly available data and locale changes appear immediately. Reduced motion disables both effects. Screen readers receive the final formatted value immediately; animation does not add live announcements. Use [AriaLive](#with-arialive) when an update needs to be announced.
+
+Set `animate={{ reserveWidth: '9ch' }}` to reserve space for the largest expected amount and avoid width changes. The digits align to the start of that space. Allow enough room for the unit at narrow widths.
+
 ### Currency within a Trend
 
 <Examples.CurrencyWithinTrend />

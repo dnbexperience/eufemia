@@ -24,6 +24,239 @@ describe('Stat.Currency', () => {
     expect(amount.textContent).toBe('12 346')
     expect(currency).toBeInTheDocument()
     expect(currency.textContent).toBe('kr')
+    expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+  })
+
+  describe('animated updates', () => {
+    it.each([Stat.Currency, Stat.Percent])(
+      'animates the numeric width without translating the symbol (%#)',
+      (Component) => {
+        const animate = vi.fn(() => ({ cancel: vi.fn() }))
+        const originalAnimate = HTMLElement.prototype.animate
+        HTMLElement.prototype.animate =
+          animate as unknown as typeof originalAnimate
+        const geometry = vi
+          .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+          .mockImplementation(function (this: HTMLElement) {
+            return { width: this.textContent.length * 10 } as DOMRect
+          })
+        vi.stubGlobal('matchMedia', () => ({
+          matches: false,
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+        }))
+
+        try {
+          const { rerender, unmount } = render(
+            <Component value={99} animate />
+          )
+          const symbol = document.querySelector(
+            '.dnb-stat__currency, .dnb-stat__percent'
+          )
+          rerender(<Component value={1000} animate />)
+
+          expect(animate).toHaveBeenCalledWith(
+            [{ width: '20px' }, { width: '50px' }],
+            { duration: 160, easing: 'ease-out' }
+          )
+          expect(animate.mock.contexts[0]).toBe(
+            document.querySelector('.dnb-animated-digits__viewport')
+          )
+          expect(
+            document.querySelector(
+              '.dnb-stat__currency, .dnb-stat__percent'
+            )
+          ).toBe(symbol)
+          unmount()
+        } finally {
+          HTMLElement.prototype.animate = originalAnimate
+          geometry.mockRestore()
+          vi.unstubAllGlobals()
+        }
+      }
+    )
+
+    it.each([Stat.Number, Stat.Currency, Stat.Percent])(
+      'supports animated updates across numeric Stat components (%#)',
+      (Component) => {
+        const { rerender } = render(
+          <Component value={12} animate={{ reserveWidth: '4ch' }} />
+        )
+
+        rerender(
+          <Component value={34} animate={{ reserveWidth: '4ch' }} />
+        )
+
+        expect(
+          document.querySelector('.dnb-stat__amount')
+        ).toHaveTextContent('34')
+        expect(
+          document.querySelectorAll(
+            '.dnb-animated-digits__character--changed'
+          )
+        ).toHaveLength(2)
+        expect(
+          document.querySelector<HTMLElement>('.dnb-animated-digits').style
+            .minInlineSize
+        ).toBe('4ch')
+      }
+    )
+
+    it('shows the initial value without animation', () => {
+      render(<Stat.Currency value={1234} animate />)
+
+      expect(document.querySelector('.dnb-stat__amount').textContent).toBe(
+        '1 234'
+      )
+      expect(
+        document.querySelectorAll(
+          '.dnb-animated-digits__character--changed'
+        )
+      ).toHaveLength(0)
+    })
+
+    it('rolls only changed digits and exposes the final amount immediately', () => {
+      const { rerender } = render(<Stat.Currency value={1234} animate />)
+      const currency = document.querySelector('.dnb-stat__currency')
+
+      rerender(<Stat.Currency value={1278} animate />)
+
+      expect(document.querySelector('.dnb-stat__amount').textContent).toBe(
+        '1 278'
+      )
+      expect(
+        Array.from(
+          document.querySelectorAll(
+            '.dnb-animated-digits__character--changed'
+          )
+        ).map((digit) =>
+          digit
+            .querySelector('[data-previous]')
+            ?.getAttribute('data-previous')
+        )
+      ).toEqual(['3', '4'])
+      expect(
+        document.querySelector('.dnb-sr-only').getAttribute('data-text')
+      ).toContain('1 278')
+      expect(document.querySelector('.dnb-stat__currency')).toBe(currency)
+      expect(document.querySelector('.dnb-stat__content')).toHaveAttribute(
+        'aria-hidden',
+        'true'
+      )
+    })
+
+    it('replaces an unfinished transition with the latest value', () => {
+      const { rerender } = render(<Stat.Currency value={99} animate />)
+
+      rerender(<Stat.Currency value={1000} animate />)
+      rerender(<Stat.Currency value={10} animate />)
+
+      expect(document.querySelector('.dnb-stat__amount').textContent).toBe(
+        '10'
+      )
+      expect(
+        document.querySelector('.dnb-animated-digits__previous')
+      ).toHaveAttribute('data-previous', '0')
+      expect(document.querySelector('.dnb-animated-digits')).toHaveClass(
+        'dnb-animated-digits--down'
+      )
+    })
+
+    it('updates locale and decimals without rolling unchanged values', () => {
+      const { rerender } = render(
+        <Stat.Currency
+          value={1234.5}
+          decimals={2}
+          locale="nb-NO"
+          animate
+        />
+      )
+
+      rerender(
+        <Stat.Currency
+          value={1234.5}
+          decimals={2}
+          locale="en-GB"
+          animate
+        />
+      )
+
+      expect(document.querySelector('.dnb-stat__amount').textContent).toBe(
+        '1,234.50'
+      )
+      expect(
+        document.querySelectorAll(
+          '.dnb-animated-digits__character--changed'
+        )
+      ).toHaveLength(0)
+    })
+
+    it.each([null, ''])(
+      'does not animate from a missing value (%s)',
+      (value) => {
+        const { rerender } = render(
+          <Stat.Currency value={value} animate />
+        )
+        rerender(<Stat.Currency value={1234} animate />)
+
+        expect(
+          document.querySelectorAll(
+            '.dnb-animated-digits__character--changed'
+          )
+        ).toHaveLength(0)
+      }
+    )
+
+    it('does not animate when formatting and value change together', () => {
+      const { rerender } = render(
+        <Stat.Currency value={99} locale="nb-NO" animate />
+      )
+      rerender(<Stat.Currency value={1000} locale="en-GB" animate />)
+
+      expect(
+        document.querySelectorAll(
+          '.dnb-animated-digits__character--changed'
+        )
+      ).toHaveLength(0)
+    })
+
+    it('keeps negative values and decimal separators in the formatted amount', () => {
+      const { rerender } = render(
+        <Stat.Currency value={1.5} decimals={2} animate />
+      )
+
+      rerender(<Stat.Currency value={-2.75} decimals={2} animate />)
+
+      expect(document.querySelector('.dnb-stat__amount').textContent).toBe(
+        '−2,75'
+      )
+      expect(
+        Array.from(
+          document.querySelectorAll(
+            '.dnb-animated-digits__character--changed'
+          )
+        ).map((digit) => digit.textContent)
+      ).toEqual(['2', '7', '5'])
+    })
+
+    it('starts without animation when loading finishes', () => {
+      const { rerender } = render(
+        <Stat.Currency value={0} animate skeleton />
+      )
+
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+
+      rerender(<Stat.Currency value={1234} animate skeleton={false} />)
+
+      expect(document.querySelector('.dnb-stat__amount').textContent).toBe(
+        '1 234'
+      )
+      expect(
+        document.querySelectorAll(
+          '.dnb-animated-digits__character--changed'
+        )
+      ).toHaveLength(0)
+    })
   })
 
   it('supports custom currency codes', () => {

@@ -3,6 +3,7 @@
  *
  */
 
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Provider } from '@dnb/eufemia/src/shared'
@@ -10,6 +11,8 @@ import NumberFormat from '@dnb/eufemia/src/components/NumberFormat'
 import Stat from '@dnb/eufemia/src/components/Stat'
 import P from '@dnb/eufemia/src/elements/P'
 import H3 from '@dnb/eufemia/src/elements/H3'
+import Button from '@dnb/eufemia/src/components/Button'
+import Flex from '@dnb/eufemia/src/components/Flex'
 
 const Style = styled.div`
   *:not([data-visual-test='number-format-spacing'])
@@ -90,6 +93,67 @@ export const NumberHeroStyleAmount = () => (
       />
     </ComponentBox>
   </Style>
+)
+
+export const AnimatedUpdates = () => (
+  <ComponentBox hideCode>
+    {() => {
+      function Example() {
+        const [step, setStep] = useState(0)
+        const value = [99.5, 1234567.5, -28, 0][step]
+
+        return (
+          <Flex.Stack layoutEngine="css">
+            <Button
+              text="Update values"
+              onClick={() => setStep((step + 1) % 4)}
+            />
+            <Flex.Container layoutEngine="css" gap="large">
+              <Flex.Stack layoutEngine="css" gap="x-small">
+                <P>Orders</P>
+                <NumberFormat.Number
+                  value={[99, 128, 28, 0][step]}
+                  animate
+                />
+              </Flex.Stack>
+              <Flex.Stack
+                layoutEngine="css"
+                gap="x-small"
+                style={{ textAlign: 'right' }}
+              >
+                <P>Currency before, right aligned</P>
+                <NumberFormat.Currency
+                  value={value}
+                  currencyDisplay="code"
+                  currencyPosition="before"
+                  signDisplay="exceptZero"
+                  animate
+                />
+              </Flex.Stack>
+              <Flex.Stack layoutEngine="css" gap="x-small">
+                <P>Completion</P>
+                <NumberFormat.Percent
+                  value={[9.5, 100, -9.5, 0][step]}
+                  decimals={1}
+                  animate
+                />
+              </Flex.Stack>
+              <Flex.Stack layoutEngine="css" gap="x-small">
+                <P>Amount</P>
+                <NumberFormat.Currency
+                  value={value}
+                  signDisplay="exceptZero"
+                  animate
+                />
+              </Flex.Stack>
+            </Flex.Container>
+          </Flex.Stack>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
 )
 
 export const NumberProvider = () => (

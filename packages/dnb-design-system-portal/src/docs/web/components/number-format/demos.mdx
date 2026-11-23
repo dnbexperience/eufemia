@@ -22,6 +22,7 @@ import {
   NumberSignDisplay,
   NumberProvider,
   NumberMonospace,
+  AnimatedUpdates,
 } from 'Docs/web/components/number-format/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
@@ -36,6 +37,22 @@ import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 ### Currency
 
 <NumberCurrency />
+
+### Animated updates
+
+Use `animate` on `NumberFormat.Number`, `NumberFormat.Currency` or `NumberFormat.Percent` for selected values that change after a user action. Changed digits roll directly to the final value in 160 ms. Removed leading digits and signs fade out as their space closes. Currency and percent symbols slide horizontally when the number changes width, keeping their baseline stable. Keep dense tables and frequently refreshing values still.
+
+<AnimatedUpdates />
+
+Initial values, newly available data and formatting changes appear immediately. Reduced motion disables animation. Screen readers receive the final value immediately, without extra announcements. Use [AriaLive](/web/components/aria-live/) when an update needs to be announced.
+
+Use `animate={{ reserveWidth: '9ch' }}` to reserve space for the largest expected number. Digits align to the start of that space. Allow enough room for the currency or unit at narrow widths.
+
+The standard Eufemia stylesheets include the animation styles. When importing individual component styles, also include:
+
+```tsx
+import '@dnb/eufemia/fragments/animated-digits/style/dnb-animated-digits.min.css'
+```
 
 ### Hero-style values
 

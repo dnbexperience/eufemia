@@ -1,5 +1,6 @@
 import type { PropertiesTableProps } from '../../shared/types'
 import {
+  animateProperty,
   auxiliarySizeProperty,
   auxiliaryWeightProperty,
   colorizeBySignProperty,
@@ -39,6 +40,7 @@ export const NumberProperties: PropertiesTableProps = {
   auxiliaryWeight: auxiliaryWeightProperty,
   auxiliarySize: auxiliarySizeProperty,
   colorizeBySign: colorizeBySignProperty,
+  animate: animateProperty,
   '[Space](/web/layout-and-typography/layout/space/properties)':
     spacingProperties,
 }
