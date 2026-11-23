@@ -38,6 +38,46 @@ test.describe('Table.ScrollView focus ring', () => {
     )
   })
 
+  test('keeps the card menu keyboard focus clear of the table', async ({
+    page,
+  }) => {
+    const example = page.locator('[data-visual-test="table-in-card"]')
+    const button = example.locator('.dnb-popover__trigger')
+
+    for (const width of [1280, 375]) {
+      await test.step(`viewport width ${width}`, async () => {
+        await page.setViewportSize({ width, height: 1024 })
+        await button.scrollIntoViewIfNeeded()
+        await button.focus()
+        await page.keyboard.press('Shift')
+        await expect(button).toBeFocused()
+        await expect(button).toHaveCSS('outline-width', '3px')
+
+        await expect
+          .poll(() =>
+            button.evaluate((element) => {
+              const rect = element.getBoundingClientRect()
+              const style = getComputedStyle(element)
+              const outline = parseFloat(style.outlineWidth)
+              const offset = parseFloat(style.outlineOffset)
+              const belowButton = document.elementFromPoint(
+                rect.x + rect.width / 2,
+                rect.bottom + offset + outline / 2
+              )
+
+              return Boolean(belowButton?.closest('.dnb-table'))
+            })
+          )
+          .toBe(false)
+
+        await page.keyboard.press('Enter')
+        await expect(page.getByRole('menu')).toBeVisible()
+        await page.keyboard.press('Escape')
+        await expect(button).toBeFocused()
+      })
+    }
+  })
+
   test('should not show a ring on clickable cells', async ({ page }) => {
     const scrollView = await focusScrollViewWithKeyboard(
       page,

@@ -7,6 +7,27 @@ import {
 
 const defaults = { wrapperStyle: { margin: '0 !important' } } // because of ScrollView overflow
 
+describe.each(['light', 'dark'] as const)(
+  'Table in Card in %s mode',
+  (colorScheme) => {
+    setupPageScreenshot({
+      url: '/web/components/table/demos/',
+      colorScheme,
+    })
+
+    it('shows the card menu hover and keyboard focus', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: { width: '40rem' },
+        selector: '[data-visual-test="table-in-card"]',
+        simulateSelector:
+          '[data-visual-test="table-in-card"] .dnb-popover__trigger',
+        simulate: ['hover', 'focus'],
+      })
+    })
+  }
+)
+
 describe.each(['ui', 'sbanken', 'coconut'])(
   `Table for %s`,
   (themeName) => {
