@@ -23,12 +23,49 @@ describe('ScrollIndicator', () => {
     expect(buttons[0]).toHaveAccessibleName('Show first image')
     expect(buttons[0]).toHaveAttribute('data-active', 'true')
     expect(buttons[0]).toHaveAccessibleDescription('In view')
+    expect(
+      document.getElementById(buttons[0].getAttribute('aria-describedby'))
+    ).toHaveAttribute('hidden')
     expect(buttons[1]).not.toHaveAttribute('aria-describedby')
     expect(buttons[1]).toHaveAttribute('data-active', 'false')
     expect(buttons[2]).toHaveAttribute('data-active', 'true')
     expect(Array.from(buttons, (button) => button.tabIndex)).toEqual([
       0, -1, -1,
     ])
+  })
+
+  it('starts on the first visible item and remembers focus as visibility changes', () => {
+    const onChange = vi.fn()
+    const { rerender } = render(
+      <ScrollIndicator
+        items={items.map((item, index) => ({
+          ...item,
+          active: index === 1,
+        }))}
+        onChange={onChange}
+      />
+    )
+    const buttons = document.querySelectorAll('button')
+    expect(buttons[1]).toHaveAttribute('tabindex', '0')
+    act(() => buttons[2].focus())
+    rerender(<ScrollIndicator items={items} onChange={onChange} />)
+    expect(buttons[2]).toHaveAttribute('tabindex', '0')
+  })
+
+  it('associates each button with its controlled content', () => {
+    render(
+      <ScrollIndicator
+        items={items}
+        onChange={vi.fn()}
+        aria-controls="gallery"
+      />
+    )
+    expect(document.querySelector('[role="toolbar"]')).not.toHaveAttribute(
+      'aria-controls'
+    )
+    document.querySelectorAll('button').forEach((button) => {
+      expect(button).toHaveAttribute('aria-controls', 'gallery')
+    })
   })
 
   it.each(['ltr', 'rtl'] as const)(

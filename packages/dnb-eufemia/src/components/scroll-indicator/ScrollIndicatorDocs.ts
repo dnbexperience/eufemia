@@ -12,7 +12,7 @@ export const ScrollIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   'aria-controls': {
-    doc: 'The id of the content controlled by the indicators.',
+    doc: 'The id of the controlled content. Forwarded to each indicator button.',
     type: 'string',
     status: 'optional',
   },

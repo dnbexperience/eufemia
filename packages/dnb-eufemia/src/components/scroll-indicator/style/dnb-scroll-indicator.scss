@@ -7,10 +7,10 @@
 
   &__item {
     display: inline-flex;
-    flex: 0 0 1.375rem;
+    flex: 0 0 1.5rem;
     align-items: center;
     justify-content: center;
-    width: 1.375rem;
+    width: 1.5rem;
     height: 2.75rem;
     padding: 0;
     border: 0;
@@ -58,11 +58,17 @@
     &[data-active='true'] > span::before {
       background-color: currentcolor;
       animation: scroll-indicator-settle 520ms both;
+
+      @media (forced-colors: active) {
+        background-color: CanvasText;
+      }
     }
 
-    &:hover > span {
-      width: 0.875rem;
-      height: 0.875rem;
+    @include utilities.hover() {
+      > span {
+        width: 0.875rem;
+        height: 0.875rem;
+      }
     }
 
     &:active > span {

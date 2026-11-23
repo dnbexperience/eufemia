@@ -40,3 +40,18 @@ describe.each(['ui', 'sbanken', 'coconut'])(
     })
   }
 )
+
+describe('ScrollIndicator in forced colors', () => {
+  setupPageScreenshot({
+    themeName: 'ui',
+    url: '/web/components/scroll-indicator/demos/',
+  })
+
+  it('distinguishes visible and hidden items', async () => {
+    await makeScreenshot({
+      forcedColors: 'active',
+      selector:
+        '[data-visual-test="scroll-indicator-multiple"] .dnb-scroll-indicator',
+    })
+  })
+})

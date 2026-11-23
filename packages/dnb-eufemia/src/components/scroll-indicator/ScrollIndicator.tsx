@@ -43,14 +43,28 @@ function ScrollIndicator(localProps: ScrollIndicatorAllProps) {
     {},
     context.ScrollIndicator
   )
-  const { items, onChange, className, ref: refProp, ...attributes } = props
+  const {
+    items,
+    onChange,
+    className,
+    ref: refProp,
+    'aria-controls': ariaControls,
+    ...attributes
+  } = props
   const { ScrollIndicator: translations } = useTranslation()
   const visibleId = useId()
   const ref = useRef<HTMLDivElement>(null)
   const focusedButtonRef = useRef<HTMLButtonElement>(null)
   const combinedRef = useCombinedRef(refProp, ref)
-  const [focusedIndex, setFocusedIndex] = useState(0)
-  const tabIndex = Math.min(focusedIndex, items.length - 1)
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null)
+  const firstActiveIndex = Math.max(
+    0,
+    items.findIndex(({ active }) => active)
+  )
+  const tabIndex = Math.min(
+    focusedIndex ?? firstActiveIndex,
+    items.length - 1
+  )
   const mainParams = useSpacing(props, {
     ...attributes,
     className: clsx('dnb-scroll-indicator', className),
@@ -59,7 +73,9 @@ function ScrollIndicator(localProps: ScrollIndicatorAllProps) {
 
   useIsomorphicLayoutEffect(() => {
     setFocusedIndex((index) =>
-      Math.min(index, Math.max(0, items.length - 1))
+      index === null
+        ? null
+        : Math.min(index, Math.max(0, items.length - 1))
     )
     // Keep keyboard focus in the group when its focused item is removed.
     if (
@@ -92,6 +108,7 @@ function ScrollIndicator(localProps: ScrollIndicatorAllProps) {
           className="dnb-scroll-indicator__item"
           data-active={active}
           aria-label={label}
+          aria-controls={ariaControls}
           aria-describedby={active ? visibleId : undefined}
           tabIndex={index === tabIndex ? 0 : -1}
           onFocus={(event) => {
@@ -133,7 +150,7 @@ function ScrollIndicator(localProps: ScrollIndicatorAllProps) {
           <span aria-hidden="true" />
         </button>
       ))}
-      <span id={visibleId} className="dnb-sr-only">
+      <span id={visibleId} hidden>
         {translations.inView}
       </span>
     </div>

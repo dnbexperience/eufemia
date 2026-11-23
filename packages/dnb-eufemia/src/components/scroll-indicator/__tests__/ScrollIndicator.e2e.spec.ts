@@ -1,5 +1,34 @@
 import { test, expect } from '@playwright/test'
 
+test('provides large targets without an interactive empty area or touch hover', async ({
+  page,
+}) => {
+  await page.goto(
+    '/web/components/scroll-indicator/demos/?data-visual-test'
+  )
+  const toolbar = page.locator(
+    '[data-visual-test="scroll-indicator-multiple"] .dnb-scroll-indicator'
+  )
+  const button = toolbar.getByRole('button').first()
+  const dot = button.locator('span')
+
+  await test.step('target size and empty space', async () => {
+    const target = await button.boundingBox()
+    expect(target.width).toBeGreaterThanOrEqual(24)
+    expect(target.height).toBeGreaterThanOrEqual(24)
+    await expect(toolbar).not.toHaveCSS('cursor', 'pointer')
+  })
+
+  await test.step('touch intent does not leave an enlarged dot', async () => {
+    await button.hover()
+    await expect(dot).toHaveCSS('width', '14px')
+    await page.evaluate(() => {
+      document.documentElement.setAttribute('data-whatintent', 'touch')
+    })
+    await expect(dot).toHaveCSS('width', '10px')
+  })
+})
+
 for (const direction of ['ltr', 'rtl']) {
   test(`supports one tab stop and explicit activation in ${direction}`, async ({
     page,
