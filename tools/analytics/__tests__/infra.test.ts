@@ -75,6 +75,16 @@ describe('analytics infrastructure', () => {
     expect(timeout).toBeGreaterThanOrEqual(7 * 120)
   })
 
+  it('caps the data one Athena query may scan', () => {
+    const workgroup = terraformBlock(
+      'resource "aws_athena_workgroup" "analytics"'
+    )
+
+    expect(workgroup).toMatch(
+      /bytes_scanned_cutoff_per_query\s+=\s+1024 \* 1024 \* 1024/
+    )
+  })
+
   it('notifies an SNS topic from every snapshot alarm, with an optional email subscription', () => {
     expect(terraform).toContain(
       'resource "aws_sns_topic" "snapshot_alerts"'

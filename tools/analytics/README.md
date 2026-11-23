@@ -131,7 +131,7 @@ aws lambda invoke --function-name eufemia-<env>-analytics-snapshot \
   --payload '{"sinceDt":"2024-01-01"}' --cli-binary-format raw-in-base64-out /dev/stdout
 ```
 
-The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` and `McpUsageBuildFailure` metrics, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (90s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day).
+The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` and `McpUsageBuildFailure` metrics, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (900 s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day). The workgroup caps each query at 1 GiB scanned; because every pass scans up to today, a backfill above that needs a temporarily higher `bytes_scanned_cutoff_per_query` in `infra/main.tf`.
 
 To inspect a dimension the dashboard doesn't show, run an ad-hoc Athena query against the workgroup, e.g. year-over-year page views by month:
 
@@ -146,7 +146,7 @@ Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `colo
 
 > **Note:** the `component_usage*` tables and `component-usage*` prefixes are scaffold for a future Nucleus component-usage producer. There is no producer yet, so the snapshot generator does **not** query them (to avoid running Athena against empty tables) and the section ships empty. Once a producer writes data, set `COMPONENT_USAGE_ENABLED = "true"` on the snapshot Lambda in `infra/main.tf`.
 
-- **Athena workgroup** for the retrieve queries.
+- **Athena workgroup** for the retrieve queries, capped at 1 GiB scanned per query.
 - **Lambda function** (`nodejs22.x`) serving the ingest routes under `eufemia-<env>-analytics-lambda`.
 - **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only dashboard role, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-snapshot-lambda` and refreshes `snapshots/dashboard.json` off the request path. CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), a run that succeeds but writes a snapshot with no page views (the `SnapshotPortalViewCount` EMF metric stays below 1), and a run that fails to refresh, or falls back to an empty, MCP usage or component usage section (the `McpUsageBuildFailure`/`ComponentUsageBuildFailure` EMF metrics). The EMF-based alarms need no extra role permissions. All alarms notify an SNS topic (`snapshot_alerts`); set `snapshot_alert_email` to subscribe an address (SNS emails a confirmation link that must be clicked once), or add another `aws_sns_topic_subscription` pointed at a different target, such as AWS Chatbot or a formatting Lambda for Slack (a raw incoming webhook can't complete the SNS subscription handshake, so it isn't a drop-in target).
 - **Lambda execution roles** for the three Lambdas, created by the deploy (see [Lambda execution roles](#lambda-execution-roles)).

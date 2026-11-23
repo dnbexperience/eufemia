@@ -21,7 +21,10 @@ export function json(
 ): APIGatewayProxyResultV2 {
   return {
     statusCode,
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      'cache-control': 'no-store',
+    },
     body: JSON.stringify(body),
   }
 }
