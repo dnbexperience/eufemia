@@ -75,26 +75,6 @@ describe('Field.Toggle', () => {
       }
     )
 
-    it.each(['radio', 'buttons', 'radio-button'] as const)(
-      'names the %s group, not each option, with aria-label',
-      (variant) => {
-        render(
-          <Field.Toggle
-            variant={variant}
-            valueOn="on"
-            valueOff="off"
-            aria-label="Consent"
-          />
-        )
-
-        const radiogroup = document.querySelector('[role="radiogroup"]')
-        const options = radiogroup.querySelectorAll('input')
-        expect(radiogroup).toHaveAccessibleName('Consent')
-        expect(options[0]).toHaveAccessibleName('Ja')
-        expect(options[1]).toHaveAccessibleName('Nei')
-      }
-    )
-
     it.each(['button', 'checkbox-button'] as const)(
       'keeps %s selection independent of a surrounding Chip.Group',
       async (variant) => {
@@ -125,6 +105,26 @@ describe('Field.Toggle', () => {
         expect(onChange).toHaveBeenCalledWith('on', expect.anything())
         expect(onGroupChange).not.toHaveBeenCalled()
         expect(document.querySelector('.dnb-chip input')).toBeChecked()
+      }
+    )
+
+    it.each(['radio', 'buttons', 'radio-button'] as const)(
+      'names the %s group, not each option, with aria-label',
+      (variant) => {
+        render(
+          <Field.Toggle
+            variant={variant}
+            valueOn="on"
+            valueOff="off"
+            aria-label="Consent"
+          />
+        )
+
+        const radiogroup = document.querySelector('[role="radiogroup"]')
+        const options = radiogroup.querySelectorAll('input')
+        expect(radiogroup).toHaveAccessibleName('Consent')
+        expect(options[0]).toHaveAccessibleName('Ja')
+        expect(options[1]).toHaveAccessibleName('Nei')
       }
     )
 

@@ -285,8 +285,8 @@ function Toggle(props: FieldToggleProps) {
           fieldsetRole="radiogroup"
         >
           <Radio.Group
-            {...(label ? undefined : groupNameAttributes)}
             value={isOn ? 'on' : isOff ? 'off' : null}
+            {...(label ? undefined : groupNameAttributes)}
             onChange={handleToggleChange}
             status={hasError ? 'error' : undefined}
             disabled={disabled}
