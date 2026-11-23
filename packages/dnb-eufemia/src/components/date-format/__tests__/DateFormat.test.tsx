@@ -37,6 +37,30 @@ describe('DateFormat', () => {
   }
 
   describe('animated updates', () => {
+    it('isolates the complete date so numeric fields keep their order', () => {
+      render(
+        <div dir="rtl">
+          <DateFormat value="2026-12-31" dateStyle="short" animate />
+        </div>
+      )
+
+      expect(
+        document.querySelector('time > .dnb-animated-digits__formatted')
+      ).toHaveAttribute('dir', 'ltr')
+    })
+
+    it('keeps Arabic dates in their native text run', () => {
+      const { rerender } = render(
+        <DateFormat value="2026-12-31" locale="ar-EG" />
+      )
+      const expected = document.querySelector('time').textContent
+
+      rerender(<DateFormat value="2026-12-31" locale="ar-EG" animate />)
+
+      expect(document.querySelector('time').textContent).toBe(expected)
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+    })
+
     const changedDigits = () =>
       document.querySelectorAll('.dnb-animated-digits__character--changed')
     const previousDigits = () =>
@@ -78,12 +102,10 @@ describe('DateFormat', () => {
           dateStyle: 'short',
         }).format(new Date(2027, 0, 1))
         expect(time).toHaveAttribute('datetime', '2027-01-01')
+        expect(time.textContent).toBe(expected)
         expect(
-          time.querySelector('[aria-hidden="true"]')
+          time.querySelector('.dnb-animated-digits__formatted-text')
         ).toHaveTextContent(expected)
-        expect(time.querySelector('.dnb-sr-only')).toHaveTextContent(
-          expected
-        )
         expect(changedDigits().length).toBeGreaterThan(0)
       }
     )
@@ -96,7 +118,7 @@ describe('DateFormat', () => {
 
       expect(previousDigits()).toEqual(['0', '6'])
       expect(
-        document.querySelector('[aria-hidden="true"]')
+        document.querySelector('.dnb-animated-digits__formatted-text')
       ).toHaveTextContent('1 January 2027')
 
       rerender(<DateFormat value="2026-12-30" locale="en-GB" animate />)
@@ -127,9 +149,9 @@ describe('DateFormat', () => {
         />
       )
 
-      expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
-        '01.01.2027 / 00:00:00'
-      )
+      expect(
+        document.querySelector('.dnb-animated-digits__formatted-text')
+      ).toHaveTextContent('01.01.2027 / 00:00:00')
       expect(document.querySelector('time')).toHaveAttribute(
         'datetime',
         '2027-01-01'
@@ -160,9 +182,9 @@ describe('DateFormat', () => {
         </DateFormat>
       )
 
-      expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
-        '1. januar'
-      )
+      expect(
+        document.querySelector('.dnb-animated-digits__formatted-text')
+      ).toHaveTextContent('1. januar')
       expect(previousDigits()).toEqual(['0'])
     })
 

@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import AnimatedDigits from '../../fragments/animated-digits/AnimatedDigits'
+import AnimatedDigits, {
+  hasRtlText,
+} from '../../fragments/animated-digits/AnimatedDigits'
 
 type Props = {
   value: string
@@ -28,23 +30,35 @@ export default function AnimatedDate({ value, timestamp }: Props) {
   const previousParts = change.previous.split(/(\p{Nd}+)/u)
   const hasSameParts = parts.length === previousParts.length
 
+  if (hasRtlText(value)) {
+    return <>{value}</>
+  }
+
   return (
-    <>
-      <span aria-hidden="true">
+    <span className="dnb-animated-digits__formatted" dir="ltr">
+      <span className="dnb-animated-digits__formatted-text">{value}</span>
+      <span
+        className="dnb-animated-digits__formatted-visual"
+        aria-hidden="true"
+      >
         {parts.map((part, index) =>
           index % 2 === 0 ? (
-            part
+            <span
+              key={index}
+              className="dnb-animated-digits__formatted-literal"
+              data-text={part}
+            />
           ) : (
             <AnimatedDigits
               key={index}
               value={part}
               previousValue={hasSameParts ? previousParts[index] : part}
               direction={change.decreasing ? 'down' : 'up'}
+              decorative
             />
           )
         )}
       </span>
-      <span className="dnb-sr-only">{value}</span>
-    </>
+    </span>
   )
 }
