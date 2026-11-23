@@ -631,6 +631,20 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const showLabel =
     label || labelDescription || (hasHelp && !hideHelpButton)
 
+  // The help button is inside the legend, so name the fieldset by the label text only
+  const nameByLabelText = enableFieldset && hasHelp && !hideHelpButton
+  const labelContentId = nameByLabelText
+    ? `${id}-label-content`
+    : undefined
+  const labelDescriptionId = nameByLabelText
+    ? `${id}-label-description`
+    : undefined
+  const fieldsetLabelledBy = nameByLabelText
+    ? [label && labelContentId, hasLabelDescription && labelDescriptionId]
+        .filter(Boolean)
+        .join(' ') || undefined
+    : labelProps.id
+
   return (
     <FieldBlockContext
       value={{
@@ -649,7 +663,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         style={mainStyle}
         className={mainClasses}
         aria-labelledby={
-          enableFieldset && showLabel ? labelProps.id : undefined
+          enableFieldset && showLabel ? fieldsetLabelledBy : undefined
         }
         role={enableFieldset ? fieldsetRole : undefined}
         {...rest}
@@ -659,7 +673,10 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             <FormLabel {...labelProps}>
               <span>
                 {label && (
-                  <span className="dnb-forms-field-block__label__content">
+                  <span
+                    id={labelContentId}
+                    className="dnb-forms-field-block__label__content"
+                  >
                     {label}
                   </span>
                 )}
@@ -680,7 +697,10 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
                   !labelDescriptionInline && <br />}
 
                 {hasLabelDescription && (
-                  <span className="dnb-forms-field-block__label__description">
+                  <span
+                    id={labelDescriptionId}
+                    className="dnb-forms-field-block__label__description"
+                  >
                     {labelDescription}
                   </span>
                 )}
