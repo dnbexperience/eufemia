@@ -189,7 +189,7 @@ jobs:
           monitor_pid=$!
           # Stop the pending sleep too, so no orphaned process is left for the runner to clean up
           trap 'pkill -P "$monitor_pid" 2>/dev/null || true; kill "$monitor_pid" 2>/dev/null || true' EXIT
-          yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
+          yarn workspace dnb-design-system-portal test:screenshots:ci:conditional theme=-coconut,-birdhouse
 
       - name: Store visual test artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

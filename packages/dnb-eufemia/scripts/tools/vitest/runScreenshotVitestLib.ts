@@ -12,7 +12,7 @@ type PreparedScreenshotVitestRun = {
   screenshotInclude?: string
 }
 
-const THEME_ARG_PATTERN = /^theme=(-)?(.+)$/i
+const THEME_ARG_PATTERN = /^theme=(.+)$/i
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -27,42 +27,55 @@ function escapeRegExp(value: string): string {
  * name such as a future "sbanken-new".
  *
  * Passing `exclude: true` (for a `theme=-<name>` selector) negates the
- * pattern, matching every test name that does *not* contain the theme.
+ * pattern, matching every test name that contains none of the themes.
  */
 export function buildThemeTestNamePattern(
-  theme: string,
+  themes: string[],
   exclude = false
 ): string {
-  const corePattern = `for ${escapeRegExp(theme)}(?=$| )`
+  const corePattern = `for (?:${themes.map(escapeRegExp).join('|')})(?=$| )`
   return exclude ? `^(?!.*${corePattern}).*$` : corePattern
 }
 
 /**
- * Pulls a `theme=<name>` (or excluding `theme=-<name>`) token out of
- * the raw CLI args so it can be turned into a vitest
- * `--testNamePattern`, instead of being treated as a (non-matching)
- * screenshot file-name filter.
+ * Pulls a `theme=<name>[,<name>…]` (or excluding
+ * `theme=-<name>[,-<name>…]`) token out of the raw CLI args so it can
+ * be turned into a vitest `--testNamePattern`, instead of being treated
+ * as a (non-matching) screenshot file-name filter.
  */
 export function extractThemeArg(args: string[]): {
-  theme?: string
+  themes: string[]
   exclude: boolean
   rest: string[]
 } {
-  let theme: string | undefined
+  let themes: string[] = []
   let exclude = false
   const rest: string[] = []
 
   for (const arg of args) {
     const match = arg.match(THEME_ARG_PATTERN)
-    if (match) {
-      exclude = Boolean(match[1])
-      theme = match[2]
+    if (!match) {
+      rest.push(arg)
       continue
     }
-    rest.push(arg)
+
+    const names = match[1]
+      .split(',')
+      .map((name) => name.trim())
+      .filter(Boolean)
+    const excluded = names.filter((name) => name.startsWith('-'))
+
+    if (excluded.length > 0 && excluded.length < names.length) {
+      throw new Error(
+        `Cannot mix included and excluded themes in "${arg}". Use either theme=a,b or theme=-a,-b.`
+      )
+    }
+
+    exclude = excluded.length > 0
+    themes = names.map((name) => name.replace(/^-/, ''))
   }
 
-  return { theme, exclude, rest }
+  return { themes, exclude, rest }
 }
 
 export function prepareScreenshotVitestRun(
@@ -86,7 +99,7 @@ export function prepareScreenshotVitestRun(
 }
 
 export function resolveScreenshotVitestRun(args: string[]) {
-  const { theme, exclude, rest } = extractThemeArg(args)
+  const { themes, exclude, rest } = extractThemeArg(args)
   const { filters } = splitVitestArgs(rest)
 
   const result = prepareScreenshotVitestRun(
@@ -94,13 +107,13 @@ export function resolveScreenshotVitestRun(args: string[]) {
     filters.length > 0 ? collectRenewScreenshotMatches(filters) : []
   )
 
-  if (theme) {
+  if (themes.length > 0) {
     return {
       ...result,
       vitestArgs: [
         ...result.vitestArgs,
         '--testNamePattern',
-        buildThemeTestNamePattern(theme, exclude),
+        buildThemeTestNamePattern(themes, exclude),
       ],
     }
   }
