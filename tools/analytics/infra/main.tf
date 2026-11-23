@@ -661,7 +661,7 @@ resource "aws_athena_workgroup" "analytics" {
   configuration {
     enforce_workgroup_configuration    = true
     publish_cloudwatch_metrics_enabled = true
-    # Stops only a runaway query: normal queries scan a few MB.
+    # Stops a runaway query. Raise it before a scheduled query or a backfill gets close.
     bytes_scanned_cutoff_per_query = 1024 * 1024 * 1024
 
     result_configuration {
