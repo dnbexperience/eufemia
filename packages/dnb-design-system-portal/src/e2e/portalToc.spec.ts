@@ -579,7 +579,7 @@ test.describe('Portal table of contents', () => {
     await expect(
       page
         .locator('main')
-        .getByRole('heading', { name: 'Description', exact: true })
+        .getByRole('heading', { name: 'Info', exact: true })
     ).toBeVisible()
     await expect(
       toc.getByRole('button', { name: 'On this page', exact: true })
@@ -650,7 +650,7 @@ test.describe('Portal table of contents', () => {
         exact: true,
       })
     ).toBeVisible()
-    await expect(toc.locator('a')).toHaveCount(3)
+    await expect(toc.locator('a')).toHaveCount(4)
     await expect(page.locator('[data-toc-outgoing]')).toHaveCount(0)
     await page.setViewportSize({ width: 390, height: 844 })
     await page

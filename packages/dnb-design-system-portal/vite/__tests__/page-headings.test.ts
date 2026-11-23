@@ -140,7 +140,7 @@ describe('portal page main headings', () => {
  * - A heading is at most one level deeper than the heading before it. The
  *   first heading is not checked, because a partial may continue the outline
  *   of the page that renders it.
- * - `## Relevant links` only lists links, so it has no subsections.
+ * - "Relevant links" only lists links, so it has no subsections.
  */
 describe('portal page heading outline', () => {
   const files = walk(docsDir)
@@ -180,13 +180,13 @@ describe('portal page heading outline', () => {
     const offenders: string[] = []
 
     for (const { file, headings } of files) {
-      let inLinks = false
+      let linksLevel = 0
 
       for (const { level, text } of headings) {
-        if (level <= 2) {
-          inLinks = /^## Relevant links\b/.test(text)
-        } else if (inLinks) {
+        if (linksLevel && level > linksLevel) {
           offenders.push(`${file}: ${text}`)
+        } else {
+          linksLevel = /^#+ Relevant links\b/.test(text) ? level : 0
         }
       }
     }

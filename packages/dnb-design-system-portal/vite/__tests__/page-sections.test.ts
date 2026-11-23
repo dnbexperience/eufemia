@@ -3,13 +3,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from '@11ty/gray-matter'
 import { docsDir, walk } from './shared/helpers'
+import { defaultTabsValue } from '../../src/shared/tags/defaultValues'
 
 /**
  * Guards the section structure of portal documentation pages.
  *
- * - A page starts with its description, so `## Description` comes before
- *   `## Import`.
- * - `## Relevant links` only lists links. Other content placed after the list
+ * - A tab page for Info, Demos, Properties or Events starts with a heading
+ *   named after its tab, such as `## Info`.
+ * - "Relevant links" only lists links. Other content placed after the list
  *   would be announced as part of the links section, so it belongs in the
  *   description or in a section of its own. `<RelatedComponents />` and MDX
  *   partials, which render their own headings, are allowed.
@@ -61,35 +62,55 @@ const LINK_ITEM = /^\s*(?:[-*]|\d+\.)\s+\[/
 describe('portal page sections', () => {
   const pages = walk(docsDir)
     .filter((file) => file.endsWith('.mdx'))
-    .map((file) => ({
-      file: path.relative(docsDir, file),
-      body: matter(fs.readFileSync(file, 'utf-8')).content,
-    }))
+    .map((file) => {
+      const { data, content } = matter(fs.readFileSync(file, 'utf-8'))
+      return { file: path.relative(docsDir, file), data, body: content }
+    })
+  const pagesByFile = new Map(pages.map((page) => [page.file, page]))
 
   it('scans a meaningful number of MDX files', () => {
     expect(pages.length).toBeGreaterThan(50)
   })
 
-  it('places the description before the import', () => {
+  it('starts each Info, Demos, Properties and Events tab with its tab heading', () => {
     const offenders: string[] = []
+    const tabTitles = ['Info', 'Demos', 'Properties', 'Events']
 
-    for (const { file, body } of pages) {
-      const headings = getLines(body)
-        .map(({ heading }) => heading)
-        .filter(Boolean)
-      const description = headings.indexOf('## Description')
-      const imports = headings.indexOf('## Import')
+    for (const { file, data } of pages) {
+      if (data.showTabs !== true) {
+        continue
+      }
 
-      if (description !== -1 && imports !== -1 && imports < description) {
-        offenders.push(file)
+      const tabs: Array<{ title: string; key: string }> =
+        data.tabs || defaultTabsValue
+
+      for (const { title, key } of tabs) {
+        const tabFile = path.join(
+          file.replace(/\.mdx$/, ''),
+          `${key.replace(/^\//, '')}.mdx`
+        )
+        const tabPage = pagesByFile.get(tabFile)
+
+        if (!tabTitles.includes(title) || !tabPage) {
+          continue
+        }
+
+        const firstHeading = getLines(tabPage.body).find(
+          ({ heading }) => heading
+        )?.heading
+
+        if (firstHeading !== `## ${title}`) {
+          offenders.push(`${tabFile}: ${firstHeading ?? 'no heading'}`)
+        }
       }
     }
 
     expect(
       offenders,
-      `These pages show "## Import" before "## Description":\n` +
+      `These tab pages don't start with a heading named after their tab:\n` +
         offenders.join('\n') +
-        `\n\nMove the import section after the description.`
+        `\n\nStart the page with "## Info", "## Demos", "## Properties" or ` +
+        `"## Events", matching its tab.`
     ).toEqual([])
   })
 
@@ -102,7 +123,7 @@ describe('portal page sections', () => {
 
       for (const { text, heading } of getLines(body)) {
         if (heading) {
-          inLinks = /^## Relevant links\b/.test(heading)
+          inLinks = /^#+ Relevant links\b/.test(heading)
           continue
         }
 
@@ -123,7 +144,7 @@ describe('portal page sections', () => {
 
     expect(
       offenders,
-      `These pages have content other than links in "## Relevant links":\n` +
+      `These pages have content other than links in "Relevant links":\n` +
         offenders.join('\n') +
         `\n\nMove the content to the description or into a section of its own.`
     ).toEqual([])
