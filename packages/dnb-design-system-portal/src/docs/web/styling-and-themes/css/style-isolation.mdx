@@ -43,7 +43,7 @@ function MyApp() {
 }
 ```
 
-Optionally, you can add the PostCSS plugin to your build tool to ensure your custom styles have the necessary CSS specificity when overriding or extending Eufemia styles.
+Optionally, you can add the PostCSS plugin to your build tool to scope your custom styles to the same Eufemia version.
 
 ## How to use it
 
@@ -110,6 +110,7 @@ The plugin accepts an options object. The default options are:
   replaceClassNames: undefined,// { 'old-class': 'new-class' }
   scopeHash: 'auto',// Can be a function: (file) => string
   sharedScopeHash: undefined, // Provide a function that returns an array of shared scope hashes
+  useWhere: false, // Use zero-specificity scope prefixes
   verbose: false,
   warnOnDeprecatedColorVariables: true, // Set to false to disable warnings about deprecated --color-* variables
 }
@@ -119,9 +120,16 @@ CSS Modules are supported including SCSS files.
 
 ## CSS Specificity
 
-When extending or overriding styles from Eufemia, it's essential to match the CSS specificity of the original selectors to ensure your styles are applied correctly.
+By default, the scope class adds one class of specificity. The prebuilt isolated CSS files keep this behavior:
 
-To help with this, you can use the PostCSS plugin (style-scope) that automatically adds the required scope class to your CSS or SCSS. This ensures your styles have the necessary specificity to take effect.
+```css
+/* Specificity: 0,2,0 */
+.eufemia-scope--1_2_3 .dnb-button {
+  padding: 1rem;
+}
+```
+
+Use the PostCSS plugin for your custom styles to give them the same scope prefix. For example, in a CSS Module:
 
 ```scss
 .myButtonStyle:global(.dnb-button) {
@@ -129,7 +137,38 @@ To help with this, you can use the PostCSS plugin (style-scope) that automatical
 }
 ```
 
-Without the PostCSS plugin, the example above will not work as expected.
+### Opt in to zero-specificity scope prefixes
+
+Set `useWhere: true` to wrap automatically added scope classes in `:where()`. The prefix then contributes zero specificity:
+
+```js
+import styleScopePlugin from '@dnb/eufemia/plugins/postcss-isolated-style-scope.js'
+
+export default {
+  plugins: [styleScopePlugin({ useWhere: true })],
+}
+```
+
+```css
+/* Specificity: 0,1,0 */
+:where(.eufemia-scope--1_2_3) .dnb-button {
+  padding: 1rem;
+}
+```
+
+Process both Eufemia's regular CSS files and your custom styles with this option. For the default theme, replace the prebuilt isolated imports with:
+
+```tsx
+import '@dnb/eufemia/style/dnb-ui-basis.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-components.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
+```
+
+Ensure your build tool applies the plugin to these imports, including files from `node_modules`. Continue wrapping your app in `IsolatedStyleScope`. These imports use the package's font assets instead of the CDN fonts used by the prebuilt isolated imports. Already scoped selectors are left unchanged, so enabling the option does not convert the prebuilt `--isolated` files.
+
+Before enabling it, review application overrides and stylesheet order. Selectors that previously lost to the extra scope specificity can now win. Avoid nesting a zero-specificity scope inside an older scope with a bare class prefix: both scopes can match inner components, and the older styles have higher specificity.
+
+Explicit `[scope-placeholder]` selectors and replacements for `:root` retain their existing specificity.
 
 ## The scope element
 
@@ -389,6 +428,9 @@ getStyleScopeHash() // 'eufemia-scope--1_2_3'
   e.g. `:global .x` → `:global(.eufemia-scope--1_2_3) :global .x`
 
 #### Special Configurations
+
+- `useWhere: true`: Automatically added ancestor scopes contribute zero specificity.
+  e.g. `.my-class` → `:where(.eufemia-scope--1_2_3) .my-class`
 
 - `replaceClassNames`: Specific class names are renamed before scoping.
   e.g. `.old-name` → `.eufemia-scope--1_2_3 .new-name`
