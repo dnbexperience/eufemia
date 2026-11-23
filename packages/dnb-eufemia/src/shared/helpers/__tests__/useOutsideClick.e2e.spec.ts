@@ -41,10 +41,11 @@ async function addFixtures(page: Page) {
   await page.evaluate(() => {
     const fixtures = document.createElement('div')
     fixtures.style.cssText =
-      'position: fixed; right: 40px; bottom: 40px; z-index: 10000; display: flex; gap: 8px; padding: 8px; background: white;'
+      'position: fixed; right: 40px; bottom: 40px; z-index: 10000; display: flex; flex-wrap: wrap; max-width: 280px; gap: 8px; padding: 8px; background: white;'
     fixtures.innerHTML = `
       <div id="fixture-outside" style="width: 100px; height: 80px;">Outside</div>
       <div id="fixture-cancels-touch" style="width: 100px; height: 80px;">Map</div>
+      <input id="fixture-input" aria-label="Outside input" style="width: 40px; padding: 0 40px;" />
       <div id="fixture-scrollbox" style="box-sizing: border-box; width: 120px; height: 80px; padding: 8px; overflow: auto;">
         <div style="height: 300px;">Scrollable</div>
       </div>
@@ -128,7 +129,7 @@ test.describe('outside press with a mouse', () => {
   test.use({ viewport: { width: 1280, height: 800 } })
 
   for (const { name, path, trigger } of components) {
-    test(`${name} stays open on a press on the page scrollbar or another scrollbar outside, but closes on a press next to it`, async ({
+    test(`${name} stays open on a press on the page scrollbar or another scrollbar outside, but closes on a press next to it or on a text input`, async ({
       page,
     }) => {
       await openPage(page, path)
@@ -167,6 +168,14 @@ test.describe('outside press with a mouse', () => {
 
       // The padding of the same scroll box
       await page.mouse.click(box.x + 4, box.y + 4)
+      await expect(button).toHaveAttribute('aria-expanded', 'false')
+
+      // A text input with padding, which Chrome includes in clientLeft, like a scrollbar on the left
+      await button.click()
+      await expect(button).toHaveAttribute('aria-expanded', 'true')
+      await page
+        .locator('#fixture-input')
+        .click({ position: { x: 6, y: 6 } })
       await expect(button).toHaveAttribute('aria-expanded', 'false')
     })
   }

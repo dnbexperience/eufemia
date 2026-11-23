@@ -112,7 +112,8 @@ describe('"detectOutsideClick" should', () => {
     document.body.append(inside, scrollable)
 
     // A scroll box with a 15 px vertical scrollbar
-    scrollable.style.overflow = 'auto scroll'
+    scrollable.style.overflowX = 'auto'
+    scrollable.style.overflowY = 'scroll'
     const geometry = {
       scrollHeight: 400,
       offsetWidth: 300,

@@ -72,6 +72,9 @@ describe('useOutsideClick', () => {
     element: HTMLElement,
     { scrollbarOnTheLeft = false } = {}
   ) => {
+    element.style.overflowX = 'auto'
+    element.style.overflowY = 'auto'
+
     const values = {
       offsetWidth: 300,
       offsetHeight: 150,
@@ -283,6 +286,34 @@ describe('useOutsideClick', () => {
       expect(onOutsideClick).toHaveBeenCalledTimes(1)
     }
   )
+
+  it('should count a press on a text input outside, which reports a client size like a scrollbar', () => {
+    const { onOutsideClick } = renderOutsideClick()
+
+    // Measured in Chrome on a text input, which clips its content instead of scrolling
+    const input = document.createElement('input')
+    input.style.overflowX = 'clip'
+    input.style.overflowY = 'clip'
+    const values = {
+      offsetWidth: 128,
+      offsetHeight: 40,
+      clientWidth: 32,
+      clientHeight: 40,
+      clientLeft: 40,
+    }
+    for (const [key, value] of Object.entries(values)) {
+      Object.defineProperty(input, key, { configurable: true, value })
+    }
+    document.body.append(input)
+
+    try {
+      pressAt(input, { offsetX: 9, offsetY: 15 })
+      pressAt(input, { offsetX: 100, offsetY: 15 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(2)
+    } finally {
+      input.remove()
+    }
+  })
 
   it('should not count a press on a scrollbar on the left side, like in a right-to-left element', () => {
     const { onOutsideClick } = renderOutsideClick()

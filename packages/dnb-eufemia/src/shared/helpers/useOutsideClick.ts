@@ -72,10 +72,20 @@ function isScrollbarPress(event: Event) {
 
   const border = (side: string) =>
     parseFloat(style.getPropertyValue(`border-${side}-width`)) || 0
-  const scrollbarWidth =
-    element.offsetWidth - clientWidth - border('left') - border('right')
-  const scrollbarHeight =
-    element.offsetHeight - clientHeight - border('top') - border('bottom')
+
+  // Only these show scrollbars. Form fields like text inputs report odd client sizes.
+  const canScroll = (overflow: string) =>
+    /auto|scroll|overlay/.test(overflow)
+
+  const scrollbarWidth = canScroll(style.overflowY)
+    ? element.offsetWidth - clientWidth - border('left') - border('right')
+    : 0
+  const scrollbarHeight = canScroll(style.overflowX)
+    ? element.offsetHeight -
+      clientHeight -
+      border('top') -
+      border('bottom')
+    : 0
 
   if (scrollbarWidth > 1) {
     // Chrome places the scrollbar of a right-to-left element on the left
