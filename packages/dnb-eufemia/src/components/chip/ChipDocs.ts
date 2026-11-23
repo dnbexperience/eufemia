@@ -143,7 +143,11 @@ export const ChipGroupProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  status: RadioGroupProperties.status,
+  status: {
+    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message. A color change alone is not enough, so then show the message yourself, for example in a [FormStatus](/web/components/form-status/) or a [GlobalStatus](/web/components/global-status/).',
+    type: ['string', 'boolean'],
+    status: 'optional',
+  },
   statusState: RadioGroupProperties.statusState,
   statusProps: RadioGroupProperties.statusProps,
   globalStatus: RadioGroupProperties.globalStatus,
