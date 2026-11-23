@@ -14,7 +14,7 @@ vi.mock('@aws-sdk/client-sqs', () => ({
   },
 }))
 
-import type { APIGatewayProxyEventV2 } from 'aws-lambda'
+import type { ToolCall } from '../tool-calls.js'
 import { captureUsage as capture } from '../usage-capture.js'
 
 const resolver = {
@@ -24,25 +24,12 @@ const resolver = {
   docsDir: async () => true,
 }
 
-const captureUsage = (event: APIGatewayProxyEventV2) =>
-  capture(event, { resolver, eufemiaVersion: '11.16.0' })
+const captureUsage = (toolCalls: ToolCall[]) =>
+  capture(toolCalls, { resolver, eufemiaVersion: '11.16.0' })
 
-const TOOL_CALL = JSON.stringify({
-  jsonrpc: '2.0',
-  id: 1,
-  method: 'tools/call',
-  params: { name: 'component_props', arguments: { name: 'Button' } },
-})
-
-function event(
-  overrides: Partial<APIGatewayProxyEventV2> = {}
-): APIGatewayProxyEventV2 {
-  return {
-    body: TOOL_CALL,
-    isBase64Encoded: false,
-    ...overrides,
-  } as APIGatewayProxyEventV2
-}
+const TOOL_CALLS: ToolCall[] = [
+  { name: 'component_props', input: { name: 'Button' } },
+]
 
 describe('captureUsage', () => {
   let errorSpy: ReturnType<typeof vi.spyOn>
@@ -63,8 +50,8 @@ describe('captureUsage', () => {
     errorSpy.mockRestore()
   })
 
-  it('queues a usage record for a tools/call request', async () => {
-    await captureUsage(event())
+  it('queues a usage record for a tool that ran', async () => {
+    await captureUsage(TOOL_CALLS)
 
     expect(send).toHaveBeenCalledTimes(1)
 
@@ -83,30 +70,16 @@ describe('captureUsage', () => {
     )
   })
 
-  it('decodes a base64-encoded body', async () => {
-    await captureUsage(
-      event({
-        body: Buffer.from(TOOL_CALL).toString('base64'),
-        isBase64Encoded: true,
-      })
-    )
-
-    expect(send).toHaveBeenCalledTimes(1)
-  })
-
   it('does nothing when USAGE_QUEUE_URL is unset', async () => {
     delete process.env.USAGE_QUEUE_URL
 
-    await expect(captureUsage(event())).resolves.toBeUndefined()
+    await expect(captureUsage(TOOL_CALLS)).resolves.toBeUndefined()
     expect(send).not.toHaveBeenCalled()
   })
 
-  it('queues nothing when the body carries no known tool call', async () => {
-    await captureUsage(
-      event({
-        body: JSON.stringify({ jsonrpc: '2.0', method: 'initialize' }),
-      })
-    )
+  it('queues nothing when no known tool ran', async () => {
+    await captureUsage([])
+    await captureUsage([{ name: 'drop_database', input: {} }])
 
     expect(send).not.toHaveBeenCalled()
   })
@@ -114,7 +87,7 @@ describe('captureUsage', () => {
   it('swallows a queue failure so the MCP response is unaffected', async () => {
     send.mockRejectedValue(new Error('sqs down'))
 
-    await expect(captureUsage(event())).resolves.toBeUndefined()
+    await expect(captureUsage(TOOL_CALLS)).resolves.toBeUndefined()
     expect(errorSpy).toHaveBeenCalled()
   })
 })

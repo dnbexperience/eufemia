@@ -1,36 +1,33 @@
 import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
-import type { APIGatewayProxyEventV2 } from 'aws-lambda'
-import { decodeEventBody } from 'eufemia-usage-ingest'
 import {
-  usageRecordsFromRequestBody,
+  usageRecordsFromToolCalls,
   type UsageResolver,
 } from './records/mcp-usage.js'
+import type { ToolCall } from './tool-calls.js'
 
 const sqs = new SQSClient({})
 const ENQUEUE_TIMEOUT_MS = 1_000
 
 /**
  * Queue anonymous MCP usage (which tool, plus a component or doc path that
- * exists in the docs) from the request body, stamped with the Eufemia version
+ * exists in the docs) for the tools that ran, stamped with the Eufemia version
  * of the served docs. Best-effort and bounded: any failure is logged and
  * swallowed so usage capture cannot consume the Lambda's full timeout.
  */
 export async function captureUsage(
-  event: APIGatewayProxyEventV2,
+  toolCalls: ToolCall[],
   {
     resolver,
     eufemiaVersion,
   }: { resolver: UsageResolver; eufemiaVersion: string }
 ): Promise<void> {
   const queueUrl = process.env.USAGE_QUEUE_URL
-  if (!queueUrl || event.body == null) {
+  if (!queueUrl) {
     return
   }
 
   try {
-    const body = decodeEventBody(event.body, event.isBase64Encoded)
-
-    const records = await usageRecordsFromRequestBody(body, {
+    const records = await usageRecordsFromToolCalls(toolCalls, {
       env: process.env.USAGE_ENV ?? 'unknown',
       resolver,
     })

@@ -9,6 +9,7 @@ import {
   validateDocsRoot,
 } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 import { resolveDocsRoot } from './resolve-docs-root.js'
+import { recordToolCall } from './tool-calls.js'
 
 const moduleDir = path.dirname(fileURLToPath(import.meta.url))
 
@@ -23,7 +24,10 @@ export const usageCaptureOptions = {
 }
 
 export async function createServer() {
-  const { server } = await createDocsServer({ docsRoot })
+  const { server } = await createDocsServer({
+    docsRoot,
+    onToolCall: recordToolCall,
+  })
 
   // Lambda can't keep listen streams open; this makes the SDK end them.
   server.server.registerCapabilities({ tools: { listChanged: false } })

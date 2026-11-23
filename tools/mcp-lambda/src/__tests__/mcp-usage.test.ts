@@ -6,7 +6,7 @@ import {
 import { createUsageResolver } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 import * as localServer from '@dnb/eufemia/src/mcp/usage-telemetry.js'
 import * as usageIngest from 'eufemia-usage-ingest'
-import { usageRecordsFromRequestBody } from '../records/mcp-usage.js'
+import { usageRecordsFromToolCalls } from '../records/mcp-usage.js'
 
 const NOW = '2026-09-10T12:00:00.000Z'
 
@@ -39,23 +39,14 @@ const source: DocsSource = {
 
 const resolver = createUsageResolver(source)
 
-function body(message: unknown): string {
-  return JSON.stringify(message)
+function toolCall(name: string, input?: Record<string, unknown>) {
+  return { name, input: input ?? {} }
 }
 
-function toolCall(name: string, args?: Record<string, unknown>) {
-  return {
-    jsonrpc: '2.0',
-    id: 1,
-    method: 'tools/call',
-    params: { name, arguments: args ?? {} },
-  }
-}
-
-describe('usageRecordsFromRequestBody', () => {
+describe('usageRecordsFromToolCalls', () => {
   it('captures the component for a component tool', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('component_props', { name: 'Button' })),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('component_props', { name: 'Button' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -72,8 +63,8 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('captures a hyphenated multi-word component name', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('component_doc', { name: 'date-picker' })),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('component_doc', { name: 'date-picker' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -81,8 +72,8 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('accepts a dotted compound component name', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('component_find', { name: 'Field.Address' })),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('component_find', { name: 'Field.Address' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -90,12 +81,12 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('captures the path for docs_read and the prefix for docs_list', async () => {
-    const [read] = await usageRecordsFromRequestBody(
-      body(toolCall('docs_read', { path: '/uilib/components/button.md' })),
+    const [read] = await usageRecordsFromToolCalls(
+      [toolCall('docs_read', { path: '/uilib/components/button.md' })],
       { env: 'dev', now: NOW, resolver }
     )
-    const [list] = await usageRecordsFromRequestBody(
-      body(toolCall('docs_list', { prefix: '/uilib/components/' })),
+    const [list] = await usageRecordsFromToolCalls(
+      [toolCall('docs_list', { prefix: '/uilib/components/' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -121,8 +112,8 @@ describe('usageRecordsFromRequestBody', () => {
   ])(
     'stores %s under the key the docs server normalizes it to',
     async (path) => {
-      const [record] = await usageRecordsFromRequestBody(
-        body(toolCall('docs_read', { path })),
+      const [record] = await usageRecordsFromToolCalls(
+        [toolCall('docs_read', { path })],
         { env: 'dev', now: NOW, resolver }
       )
 
@@ -136,8 +127,8 @@ describe('usageRecordsFromRequestBody', () => {
     ['a prefix with a trailing slash', '/uilib/components/'],
     ['a back-slashed prefix', '\\uilib\\components'],
   ])('stores %s under one key', async (_label, prefix) => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('docs_list', { prefix })),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('docs_list', { prefix })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -149,8 +140,8 @@ describe('usageRecordsFromRequestBody', () => {
       ['', '/', '///', '/./'].map(
         async (path) =>
           (
-            await usageRecordsFromRequestBody(
-              body(toolCall('docs_read', { path })),
+            await usageRecordsFromToolCalls(
+              [toolCall('docs_read', { path })],
               { env: 'dev', now: NOW, resolver }
             )
           )[0]?.path
@@ -161,10 +152,8 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('records docs_search as the tool only, never the query', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(
-        toolCall('docs_search', { query: 'how do I set the DatePicker' })
-      ),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('docs_search', { query: 'how do I set the DatePicker' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -176,8 +165,8 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('captures the Portal content workflow tool', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('portal_content_workflow')),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('portal_content_workflow')],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -185,8 +174,8 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('drops a component argument with invalid characters', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('component_props', { name: 'Button; DROP TABLE' })),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('component_props', { name: 'Button; DROP TABLE' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -201,8 +190,8 @@ describe('usageRecordsFromRequestBody', () => {
   ])(
     'drops a valid-looking component that does not exist for %s',
     async (tool) => {
-      const [record] = await usageRecordsFromRequestBody(
-        body(toolCall(tool, { name: 'NotAComponent' })),
+      const [record] = await usageRecordsFromToolCalls(
+        [toolCall(tool, { name: 'NotAComponent' })],
         { env: 'dev', now: NOW, resolver }
       )
 
@@ -215,8 +204,8 @@ describe('usageRecordsFromRequestBody', () => {
   it.each(['DatePicker', 'datepicker', 'DATE-PICKER-'])(
     'stores the guess %s under its doc name',
     async (name) => {
-      const [record] = await usageRecordsFromRequestBody(
-        body(toolCall('component_doc', { name })),
+      const [record] = await usageRecordsFromToolCalls(
+        [toolCall('component_doc', { name })],
         { env: 'dev', now: NOW, resolver }
       )
 
@@ -227,8 +216,8 @@ describe('usageRecordsFromRequestBody', () => {
   )
 
   it('drops a compound component name that does not exist', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('component_find', { name: 'Field.Bogus' })),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('component_find', { name: 'Field.Bogus' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -236,12 +225,12 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('drops a docs_read path that is not a file', async () => {
-    const missing = await usageRecordsFromRequestBody(
-      body(toolCall('docs_read', { path: '/uilib/components/nope.md' })),
+    const missing = await usageRecordsFromToolCalls(
+      [toolCall('docs_read', { path: '/uilib/components/nope.md' })],
       { env: 'dev', now: NOW, resolver }
     )
-    const directory = await usageRecordsFromRequestBody(
-      body(toolCall('docs_read', { path: '/uilib/components' })),
+    const directory = await usageRecordsFromToolCalls(
+      [toolCall('docs_read', { path: '/uilib/components' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -251,12 +240,12 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('drops a docs_list prefix that is not a directory', async () => {
-    const missing = await usageRecordsFromRequestBody(
-      body(toolCall('docs_list', { prefix: '/nope/at/all' })),
+    const missing = await usageRecordsFromToolCalls(
+      [toolCall('docs_list', { prefix: '/nope/at/all' })],
       { env: 'dev', now: NOW, resolver }
     )
-    const file = await usageRecordsFromRequestBody(
-      body(toolCall('docs_list', { prefix: '/uilib/button.md' })),
+    const file = await usageRecordsFromToolCalls(
+      [toolCall('docs_list', { prefix: '/uilib/button.md' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -265,8 +254,8 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('drops a path with parent-directory traversal', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(toolCall('docs_read', { path: '/uilib/../../etc/passwd' })),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('docs_read', { path: '/uilib/../../etc/passwd' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -274,10 +263,8 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('strips a query string and fragment from a path', async () => {
-    const [record] = await usageRecordsFromRequestBody(
-      body(
-        toolCall('docs_read', { path: '/uilib/button.md?token=secret#x' })
-      ),
+    const [record] = await usageRecordsFromToolCalls(
+      [toolCall('docs_read', { path: '/uilib/button.md?token=secret#x' })],
       { env: 'dev', now: NOW, resolver }
     )
 
@@ -286,7 +273,7 @@ describe('usageRecordsFromRequestBody', () => {
 
   it('ignores an unknown tool name', async () => {
     expect(
-      await usageRecordsFromRequestBody(body(toolCall('drop_database')), {
+      await usageRecordsFromToolCalls([toolCall('drop_database')], {
         env: 'dev',
         now: NOW,
         resolver,
@@ -294,43 +281,13 @@ describe('usageRecordsFromRequestBody', () => {
     ).toEqual([])
   })
 
-  it('ignores non-tools/call methods', async () => {
-    expect(
-      await usageRecordsFromRequestBody(
-        body({ jsonrpc: '2.0', id: 1, method: 'initialize' }),
-        { env: 'dev', now: NOW, resolver }
-      )
-    ).toEqual([])
-  })
-
-  it('ignores a tools/call without an id, also in a batch', async () => {
-    const { id: _id, ...notification } = toolCall('docs_search')
-
-    const records = await usageRecordsFromRequestBody(
-      body([notification, toolCall('docs_entry')]),
-      { env: 'dev', now: NOW, resolver }
-    )
-
-    expect(records.map((r) => r.tool)).toEqual(['docs_entry'])
-  })
-
-  it('returns nothing for malformed JSON', async () => {
-    expect(
-      await usageRecordsFromRequestBody('not json', {
-        env: 'dev',
-        now: NOW,
-        resolver,
-      })
-    ).toEqual([])
-  })
-
-  it('captures each tools/call in a batch request', async () => {
-    const records = await usageRecordsFromRequestBody(
-      body([
+  it('builds one record per known tool call, in order', async () => {
+    const records = await usageRecordsFromToolCalls(
+      [
         toolCall('component_doc', { name: 'Button' }),
-        { jsonrpc: '2.0', id: 2, method: 'initialize' },
+        toolCall('drop_database'),
         toolCall('docs_search', { query: 'x' }),
-      ]),
+      ],
       { env: 'dev', now: NOW, resolver }
     )
 
