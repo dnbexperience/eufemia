@@ -42,6 +42,48 @@ describe('useOutsideClick', () => {
     return { touches, changedTouches: touches }
   }
 
+  const pressAt = (
+    target: Element,
+    {
+      type = 'mousedown',
+      ...position
+    }: {
+      type?: 'mousedown' | 'pointerdown'
+      offsetX?: number
+      offsetY?: number
+      clientX?: number
+      clientY?: number
+    }
+  ) => {
+    const event = new MouseEvent(type, {
+      bubbles: true,
+      clientX: position.clientX,
+      clientY: position.clientY,
+    })
+    Object.defineProperties(event, {
+      offsetX: { value: position.offsetX ?? 0 },
+      offsetY: { value: position.offsetY ?? 0 },
+    })
+    target.dispatchEvent(event)
+  }
+
+  // A 300 × 150 box with 15 px scrollbars and no borders
+  const mockScrollbars = (
+    element: HTMLElement,
+    { scrollbarOnTheLeft = false } = {}
+  ) => {
+    const values = {
+      offsetWidth: 300,
+      offsetHeight: 150,
+      clientWidth: 285,
+      clientHeight: 135,
+      clientLeft: scrollbarOnTheLeft ? 15 : 0,
+    }
+    for (const [key, value] of Object.entries(values)) {
+      Object.defineProperty(element, key, { configurable: true, value })
+    }
+  }
+
   it('should call onOutsideClick on a mousedown outside', () => {
     const { onOutsideClick } = renderOutsideClick()
 
@@ -144,6 +186,56 @@ describe('useOutsideClick', () => {
       expect(onOutsideClick).toHaveBeenCalledTimes(2)
     }
   )
+
+  it.each(['mousedown', 'pointerdown'] as const)(
+    'should not count a press on a scrollbar of an element outside, but on its padding, with pressEvent %s',
+    (pressEvent) => {
+      const { onOutsideClick } = renderOutsideClick({ pressEvent })
+      mockScrollbars(outside)
+
+      pressAt(outside, { type: pressEvent, offsetX: 290, offsetY: 10 })
+      pressAt(outside, { type: pressEvent, offsetX: 10, offsetY: 140 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+      pressAt(outside, { type: pressEvent, offsetX: 10, offsetY: 10 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it('should not count a press on a scrollbar on the left side, like in a right-to-left element', () => {
+    const { onOutsideClick } = renderOutsideClick()
+    mockScrollbars(outside, { scrollbarOnTheLeft: true })
+
+    pressAt(outside, { offsetX: 7, offsetY: 10 })
+    expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+    pressAt(outside, { offsetX: 290, offsetY: 10 })
+    expect(onOutsideClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not count a press on the page scrollbar', () => {
+    const html = document.documentElement
+    const clientWidth = vi
+      .spyOn(html, 'clientWidth', 'get')
+      .mockReturnValue(window.innerWidth - 15)
+    const clientHeight = vi
+      .spyOn(html, 'clientHeight', 'get')
+      .mockReturnValue(window.innerHeight - 15)
+
+    try {
+      const { onOutsideClick } = renderOutsideClick()
+
+      pressAt(html, { clientX: window.innerWidth - 5, clientY: 100 })
+      pressAt(html, { clientX: 100, clientY: window.innerHeight - 5 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+      pressAt(html, { clientX: 100, clientY: 100 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(1)
+    } finally {
+      clientWidth.mockRestore()
+      clientHeight.mockRestore()
+    }
+  })
 
   it('should call onOutsideClick when a released key is outside', () => {
     const { onOutsideClick } = renderOutsideClick()

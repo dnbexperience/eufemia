@@ -217,23 +217,6 @@ export class DetectOutsideClickClass {
     try {
       const currentElement = event.target as HTMLElement | null
 
-      // we also check if currentElement is documentElement
-      // and if it has scrollbars, we then ignore the click
-      if (
-        currentElement?.tagName === 'HTML' &&
-        ((event as MouseEvent).pageX >
-          document.documentElement.clientWidth - 40 ||
-          (event as MouseEvent).pageY >
-            document.documentElement.clientHeight - 40)
-      ) {
-        return false // stop here
-      }
-
-      // check if element has e.g. "overflow: scroll"
-      if (checkIfHasScrollbar(currentElement)) {
-        return false // stop here
-      }
-
       // check the rest
       for (let i = 0, elem, l = ignoreElements.length; i < l; ++i) {
         // Allow for comparing ref elements that are rendered conditionally,
