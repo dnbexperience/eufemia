@@ -3,6 +3,7 @@ import type { ReactElement, TableHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 import type { ScrollViewAllProps } from '../scroll-view/ScrollView'
 import ScrollView from '../scroll-view/ScrollView'
+import ScrollIndicator from '../scroll-indicator/ScrollIndicator'
 import { removeSpaceProps, useSpacing } from '../space/SpacingUtils'
 
 import type { SpacingProps } from '../../shared/types'
@@ -152,47 +153,40 @@ export default function TableScrollView(
 
   const indicator =
     columns.length > 0 ? (
-      <div
+      <ScrollIndicator
         ref={indicatorRef}
         className="dnb-table__scroll-indicator"
         data-hidden={indicatorHidden}
-      >
-        {columns.map(({ cell, active }, index) => (
-          <button
-            key={index}
-            type="button"
-            className="dnb-table__column-indicator"
-            data-active={active}
-            aria-label={translations.scrollColumnSR.replace(
-              '%s',
-              String(index + 1)
-            )}
-            onClick={() => {
-              const element = ref.current
-              const viewport = element.getBoundingClientRect()
-              const rect = cell.getBoundingClientRect()
-              const isRtl = getComputedStyle(element).direction === 'rtl'
-              const offset = isRtl
-                ? rect.right - viewport.right
-                : rect.left - viewport.left
-              const max = element.scrollWidth - element.clientWidth
-              const left = isRtl
-                ? Math.max(-max, Math.min(0, element.scrollLeft + offset))
-                : Math.min(max, Math.max(0, element.scrollLeft + offset))
-              element.scrollTo({
-                left,
-                behavior: window.matchMedia(
-                  '(prefers-reduced-motion: reduce)'
-                ).matches
-                  ? 'instant'
-                  : 'smooth',
-              })
-            }}
-          >
-            <span aria-hidden="true" />
-          </button>
-        ))}
-      </div>
+        aria-hidden={indicatorHidden || undefined}
+        aria-label={translations.scrollColumnsSR}
+        items={columns.map(({ active }, index) => ({
+          label: translations.scrollColumnSR.replace(
+            '%s',
+            String(index + 1)
+          ),
+          active,
+        }))}
+        onChange={({ index }) => {
+          const element = ref.current
+          const viewport = element.getBoundingClientRect()
+          const rect = columns[index].cell.getBoundingClientRect()
+          const isRtl = getComputedStyle(element).direction === 'rtl'
+          const offset = isRtl
+            ? rect.right - viewport.right
+            : rect.left - viewport.left
+          const max = element.scrollWidth - element.clientWidth
+          const left = isRtl
+            ? Math.max(-max, Math.min(0, element.scrollLeft + offset))
+            : Math.min(max, Math.max(0, element.scrollLeft + offset))
+          element.scrollTo({
+            left,
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+              .matches
+              ? 'instant'
+              : 'smooth',
+          })
+        }}
+      />
     ) : null
 
   return (

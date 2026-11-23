@@ -61,7 +61,7 @@ describe.each(['light', 'dark'] as const)(
         executeBeforeSimulate: () => {
           document
             .querySelector<HTMLButtonElement>(
-              '[data-visual-test="table-horizontal-scroll"] .dnb-table__column-indicator'
+              '[data-visual-test="table-horizontal-scroll"] .dnb-scroll-indicator__item'
             )
             .focus()
         },

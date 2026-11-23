@@ -332,7 +332,7 @@ describe('Chat.Response', () => {
       })
       act(() => updates.forEach((update) => update([], null)))
       const buttons = document.querySelectorAll(
-        '.dnb-table__column-indicator'
+        '.dnb-scroll-indicator__item'
       )
       expect(buttons).toHaveLength(2)
       expect(buttons[0]).toHaveAccessibleName('Show column 1')

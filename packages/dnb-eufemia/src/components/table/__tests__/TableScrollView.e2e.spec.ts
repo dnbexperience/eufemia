@@ -179,7 +179,7 @@ test.describe('Table.ScrollView', () => {
     )
     const scrollView = container.locator('.dnb-table__scroll-view')
     const indicator = container
-      .locator('.dnb-table__column-indicator')
+      .locator('.dnb-scroll-indicator__item')
       .last()
     await indicator.focus()
     const [movement] = await Promise.all([
@@ -219,7 +219,7 @@ test.describe('Table.ScrollView', () => {
     await page.goto('/web/components/table/properties/')
     const container = page.locator('.dnb-table__scroll-container').first()
     const scrollView = container.locator('.dnb-table__scroll-view')
-    const indicators = container.locator('.dnb-table__column-indicator')
+    const indicators = container.locator('.dnb-scroll-indicator__item')
 
     await expect(indicators.last()).toBeVisible()
     await indicators.last().click()
@@ -246,7 +246,7 @@ test.describe('Table.ScrollView', () => {
         )
         const indicator = page
           .locator(
-            '[data-visual-test="table-horizontal-scroll"] .dnb-table__column-indicator[data-active="false"]'
+            '[data-visual-test="table-horizontal-scroll"] .dnb-scroll-indicator__item[data-active="false"]'
           )
           .first()
         await expect(indicator).toBeVisible()
@@ -283,10 +283,13 @@ test.describe('Table.ScrollView', () => {
       '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container'
     )
     const scrollView = container.locator('.dnb-table__scroll-view')
-    const indicators = container.locator('.dnb-table__column-indicator')
+    const indicators = container.locator('.dnb-scroll-indicator__item')
     await expect(indicators).toHaveCount(5)
 
-    for (const direction of ['ltr', 'rtl']) {
+    for (const [direction, nextKey] of [
+      ['ltr', 'ArrowRight'],
+      ['rtl', 'ArrowLeft'],
+    ]) {
       await test.step(direction, async () => {
         await container.evaluate((element, direction) => {
           element.setAttribute('dir', direction)
@@ -325,8 +328,23 @@ test.describe('Table.ScrollView', () => {
         await expect(indicators.first()).toHaveAccessibleName(
           /(?:Show|Vis) (?:column|kolonne) 1/
         )
-        await indicators.nth(1).focus()
-        await page.keyboard.press('Shift+Tab')
+        await expect(container.getByRole('toolbar')).toHaveAccessibleName(
+          /Table columns|Tabellkolonner/
+        )
+        await expect(
+          container.locator('.dnb-scroll-indicator__item[tabindex="0"]')
+        ).toHaveCount(1)
+        await indicators.first().focus()
+        const initialScroll = await scrollView.evaluate(
+          (element) => element.scrollLeft
+        )
+        await page.keyboard.press(nextKey)
+        await expect(indicators.nth(1)).toBeFocused()
+        await page.keyboard.press('Home')
+        await expect(indicators.first()).toBeFocused()
+        expect(
+          await scrollView.evaluate((element) => element.scrollLeft)
+        ).toBe(initialScroll)
         await indicators.first().press('Enter')
         await expect
           .poll(() =>
@@ -335,6 +353,10 @@ test.describe('Table.ScrollView', () => {
           .toBeLessThan(1)
         await expect(indicators.first()).toBeFocused()
         await page.keyboard.press('Tab')
+        await expect(scrollView).toBeFocused()
+        await page.keyboard.press('Shift+Tab')
+        await expect(indicators.first()).toBeFocused()
+        await page.keyboard.press(nextKey)
         await expect(indicators.nth(1)).toBeFocused()
         await indicators.nth(1).press('Space')
         await expect
@@ -343,11 +365,14 @@ test.describe('Table.ScrollView', () => {
           )
           .toBeGreaterThan(0)
         await expect(indicators.nth(1)).toBeFocused()
+        await page.keyboard.press('Tab')
+        await expect(scrollView).toBeFocused()
+        await page.keyboard.press('Shift+Tab')
+        await expect(indicators.nth(1)).toBeFocused()
+        await page.keyboard.press('Home')
         await indicators.first().press('Enter')
         await scrollView.focus()
-        await scrollView.press(
-          direction === 'ltr' ? 'ArrowRight' : 'ArrowLeft'
-        )
+        await scrollView.press(nextKey)
         await expect
           .poll(() =>
             scrollView.evaluate((element) => Math.abs(element.scrollLeft))
@@ -372,7 +397,7 @@ test.describe('Table.ScrollView', () => {
     )
     const scrollView = container.locator('.dnb-table__scroll-view')
     const indicator = container
-      .locator('.dnb-table__column-indicator')
+      .locator('.dnb-scroll-indicator__item')
       .first()
     await indicator.scrollIntoViewIfNeeded()
     const before = await indicator.boundingBox()
@@ -455,9 +480,7 @@ test.describe('Table.ScrollView', () => {
       '[data-visual-test="table-default"] .dnb-table__scroll-container'
     )
     const scrollView = container.locator('.dnb-table__scroll-view')
-    const button = container
-      .locator('.dnb-table__column-indicator')
-      .first()
+    const button = container.locator('.dnb-scroll-indicator__item').first()
     const table = scrollView.locator('table')
     await button.focus()
     await page.setViewportSize({ width: 1600, height: 1024 })

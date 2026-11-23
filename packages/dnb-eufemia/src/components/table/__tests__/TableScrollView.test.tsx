@@ -124,7 +124,7 @@ describe('Table.ScrollView', () => {
     element.scrollTo = vi.fn()
     act(() => callbacks.forEach((callback) => callback()))
     const indicators = document.querySelectorAll<HTMLButtonElement>(
-      '.dnb-table__column-indicator'
+      '.dnb-scroll-indicator__item'
     )
     return {
       element,
@@ -192,7 +192,7 @@ describe('Table.ScrollView', () => {
     width.mockReturnValue(200)
     resize()
     expect(
-      document.querySelectorAll('.dnb-table__column-indicator')
+      document.querySelectorAll('.dnb-scroll-indicator__item')
     ).toHaveLength(4)
     expect(
       document.querySelector('.dnb-table__scroll-indicator')
