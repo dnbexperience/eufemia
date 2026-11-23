@@ -184,6 +184,7 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
   }
   .dnb-animated-digits__formatted-text {
     position: absolute;
+    pointer-events: none;
   }
   .dnb-animated-digits__formatted-visual {
     position: relative;
