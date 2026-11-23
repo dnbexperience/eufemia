@@ -10,6 +10,7 @@ import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import {
   getSlugFromReactHeading,
   getSlugFromText,
+  getTextFromReactHeading,
   stripCustomMarkdownId,
 } from '../../uilib/utils/slug.mjs'
 import { useLocation } from 'react-router'
@@ -61,7 +62,7 @@ const AutoLinkHeader = ({
       ? children
       : typeof title === 'string'
         ? title
-        : id
+        : getTextFromReactHeading(children).trim() || id
 
   const clickHandler =
     className && /skip-anchor/g.test(String(className))
