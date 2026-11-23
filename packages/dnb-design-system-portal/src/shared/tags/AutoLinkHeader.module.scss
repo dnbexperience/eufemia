@@ -1,3 +1,5 @@
+$anchor-hash-gap: 0.25em;
+
 .anchorLinkStyle {
   :global {
     .anchor-hash {
@@ -7,7 +9,7 @@
       display: inline-block;
 
       width: 1em;
-      margin-left: 0.25em;
+      margin-left: $anchor-hash-gap;
       padding: 0;
 
       line-height: 1;
@@ -38,15 +40,15 @@
 .headingContentStyle {
   position: relative;
 
-  // Covers the gap before the anchor hash, so the heading stays hovered
-  // when it does not span the full width, such as in centered cards
+  // Bridges the gap to the anchor hash, so the heading stays hovered when
+  // it is only as wide as its text, such as in centered cards
   &::after {
     content: '';
     position: absolute;
     top: 0;
     left: 100%;
 
-    width: 0.25em;
+    width: $anchor-hash-gap;
     height: 100%;
   }
 
