@@ -433,6 +433,7 @@ function McpUsagePanel({
     MCP_PANELS[transport]
   const total = usage?.total ?? 0
   const missedLookups = usage?.missedLookups ?? 0
+  const perSkill = usage?.perSkill ?? []
   const perVersion = usage?.perVersion ?? []
 
   if (total === 0) {
@@ -454,6 +455,22 @@ function McpUsagePanel({
           items={usage?.perTool ?? []}
         />
       </Card>
+
+      {perSkill.length > 0 && (
+        <Card stack>
+          <H2 size="medium">Agent skills</H2>
+          <P className="dashboard__meta">
+            Skills that named themselves in their first docs_meta call.
+            Agents can skip this, so real use can be higher.
+          </P>
+          <RankedTable
+            caption={`${label} agent skills`}
+            nameHeader="Skill"
+            countHeader="Starts"
+            items={perSkill}
+          />
+        </Card>
+      )}
 
       <Card stack>
         <H2 size="medium">Components</H2>

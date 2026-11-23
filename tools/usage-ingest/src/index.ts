@@ -10,6 +10,7 @@ export type McpUsageRecord = {
   tool: string
   component: string
   component_missed: boolean
+  skill: string
   path: string
   env: string
   transport: McpUsageTransport
@@ -43,6 +44,21 @@ export const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
   'component_api',
   'component_props',
 ])
+
+// The Eufemia agent skills (packages/dnb-eufemia/agent-skills/manifest.json; a
+// test in tools/analytics pins the parity).
+export const KNOWN_SKILLS: ReadonlySet<string> = new Set([
+  'eufemia-components',
+  'eufemia-compose',
+  'eufemia-accessibility',
+  'eufemia-review',
+  'eufemia-migrate',
+  'eufemia-portal-content',
+])
+
+// A skill names itself in its first docs_meta call; a skill on any other tool
+// is dropped.
+export const SKILL_TOOL = 'docs_meta'
 
 // Tools whose event carries a doc path. A path on any other tool is dropped.
 const PATH_TOOL_NAMES = ['docs_read', 'docs_list'] as const
@@ -104,6 +120,10 @@ export function parseComponentName(value: unknown): string {
     trimmed.split('.').every((segment) => COMPONENT_SEGMENT.test(segment))
     ? trimmed
     : ''
+}
+
+export function parseSkillName(value: unknown): string {
+  return typeof value === 'string' && KNOWN_SKILLS.has(value) ? value : ''
 }
 
 export function parseDocsPath(value: unknown): string {

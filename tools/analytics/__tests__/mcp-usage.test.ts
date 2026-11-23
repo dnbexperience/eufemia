@@ -1,5 +1,6 @@
+import { readFileSync } from 'node:fs'
 import { describe, it, expect } from 'vitest'
-import { KNOWN_TOOLS } from 'eufemia-usage-ingest'
+import { KNOWN_SKILLS, KNOWN_TOOLS } from 'eufemia-usage-ingest'
 import {
   validateMcpUsage,
   buildMcpUsageRecord,
@@ -265,6 +266,40 @@ describe('validateMcpUsage', () => {
       value: [{ tool: 'component_doc' }],
     })
   })
+
+  it('accepts a known skill and drops an unknown one', () => {
+    const result = validateMcpUsage([
+      { tool: 'docs_meta', skill: 'eufemia-review' },
+      { tool: 'docs_meta', skill: 'my-own-skill' },
+    ])
+
+    expect(result).toEqual({
+      ok: true,
+      value: [
+        { tool: 'docs_meta', skill: 'eufemia-review' },
+        { tool: 'docs_meta' },
+      ],
+    })
+  })
+})
+
+describe('KNOWN_SKILLS', () => {
+  it('matches the skills in the agent-skills manifest', () => {
+    const manifest = JSON.parse(
+      readFileSync(
+        new URL(
+          '../../../packages/dnb-eufemia/agent-skills/manifest.json',
+          import.meta.url
+        ),
+        'utf8'
+      )
+    ) as { skills: Array<{ name: string }> }
+
+    expect(
+      [...KNOWN_SKILLS].sort(),
+      'Update KNOWN_SKILLS in tools/usage-ingest when a skill is added or renamed'
+    ).toEqual(manifest.skills.map(({ name }) => name).sort())
+  })
 })
 
 describe('buildMcpUsageRecord', () => {
@@ -281,6 +316,7 @@ describe('buildMcpUsageRecord', () => {
       tool: 'docs_entry',
       component: '',
       component_missed: false,
+      skill: '',
       path: '',
       env: 'unknown',
       transport: 'local',
@@ -337,6 +373,19 @@ describe('buildMcpUsageRecord', () => {
     )
 
     expect(record.path).toBe('')
+  })
+
+  it('keeps a skill only for docs_meta', () => {
+    const skill = 'eufemia-review'
+
+    expect(
+      buildMcpUsageRecord({ tool: 'docs_meta', skill }, createdAt, 'local')
+        .skill
+    ).toBe(skill)
+    expect(
+      buildMcpUsageRecord({ tool: 'docs_read', skill }, createdAt, 'local')
+        .skill
+    ).toBe('')
   })
 
   it('carries through a valid component and path for their matching tools', () => {

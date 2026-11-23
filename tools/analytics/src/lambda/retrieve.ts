@@ -253,6 +253,7 @@ function toDailyRow([
   component,
   path,
   componentMissed,
+  skill,
   count,
 ]: Array<string | undefined>): McpUsageDaily {
   return {
@@ -262,16 +263,18 @@ function toDailyRow([
     component: component ?? '',
     path: path ?? '',
     component_missed: componentMissed === 'true',
+    skill: skill ?? '',
     count: Number(count ?? 0),
   }
 }
 
 /**
  * Aggregate raw MCP usage rows on or after `sinceDt` into per-day counts, grouped
- * by transport/tool/component/path and component miss. Used to recompute the
- * recent tail of the durable daily rollup on each generator run. Web rows
+ * by transport/tool/component/path, component miss and skill. Used to recompute
+ * the recent tail of the durable daily rollup on each generator run. Web rows
  * written before the MCP Lambda stamped `transport` read NULL, so they are
- * counted as web; rows written before misses were recorded count as no miss.
+ * counted as web; rows written before misses or skills were recorded count as
+ * no miss and no skill.
  */
 export async function aggregateMcpUsageRaw(
   sinceDt: string
@@ -281,7 +284,7 @@ export async function aggregateMcpUsageRaw(
   const table = glueTable('GLUE_TABLE_MCP_USAGE')
 
   return runQuery(
-    `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, count(*) AS cnt FROM ${table} WHERE dt >= '${sinceDt}' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false)`,
+    `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, coalesce(skill, '') AS skill, count(*) AS cnt FROM ${table} WHERE dt >= '${sinceDt}' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false), coalesce(skill, '')`,
     toDailyRow
   )
 }
@@ -291,7 +294,7 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   const table = glueTable('GLUE_TABLE_MCP_USAGE_DAILY')
 
   return runQuery(
-    `SELECT dt, transport, tool, component, path, component_missed, count FROM ${table}`,
+    `SELECT dt, transport, tool, component, path, component_missed, skill, count FROM ${table}`,
     toDailyRow
   )
 }

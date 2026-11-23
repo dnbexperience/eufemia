@@ -356,6 +356,7 @@ describe('mcp usage section', () => {
       perComponent: [{ name: 'Button', count: 5 }],
       perPath: [],
       missedLookups: 0,
+      perSkill: [],
       perVersion: [],
       daily: [
         { date: '2026-09-09', count: 5 },
@@ -368,6 +369,7 @@ describe('mcp usage section', () => {
       perComponent: [],
       perPath: [{ name: '/uilib/components/', count: 2 }],
       missedLookups: 0,
+      perSkill: [],
       perVersion: [],
       daily: [{ date: '2026-09-10', count: 2 }],
     })
@@ -402,6 +404,50 @@ describe('mcp usage section', () => {
     expect(mcp.web.total).toBe(11)
     expect(mcp.web.missedLookups).toBe(6)
     expect(mcp.local.missedLookups).toBe(0)
+  })
+
+  it('counts skill starts per transport', async () => {
+    retrieveMcpUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-11-20',
+        transport: 'web',
+        tool: 'docs_meta',
+        component: '',
+        path: '',
+        component_missed: false,
+        skill: 'eufemia-review',
+        count: 4,
+      },
+      {
+        dt: '2026-11-21',
+        transport: 'web',
+        tool: 'docs_meta',
+        component: '',
+        path: '',
+        component_missed: false,
+        skill: 'eufemia-review',
+        count: 2,
+      },
+      {
+        dt: '2026-11-21',
+        transport: 'web',
+        tool: 'docs_meta',
+        component: '',
+        path: '',
+        component_missed: false,
+        skill: '',
+        count: 9,
+      },
+    ])
+
+    await handler()
+
+    const mcp = snapshotBody().mcpUsage
+
+    expect(mcp.web.perSkill).toEqual([
+      { name: 'eufemia-review', count: 6 },
+    ])
+    expect(mcp.local.perSkill).toEqual([])
   })
 
   it('leaves rollup rows without a transport out of both sections and warns', async () => {
@@ -440,10 +486,11 @@ describe('mcp usage section', () => {
       {
         dt: '2026-09-10',
         transport: 'local',
-        tool: 'docs_search',
+        tool: 'docs_meta',
         component: '',
         path: '',
         component_missed: false,
+        skill: 'eufemia-review',
         count: 3,
       },
     ])
@@ -456,10 +503,11 @@ describe('mcp usage section', () => {
         Key: 'mcp-usage-daily/dt=2026-09-10/agg.json',
         Body: JSON.stringify({
           transport: 'local',
-          tool: 'docs_search',
+          tool: 'docs_meta',
           component: '',
           path: '',
           component_missed: false,
+          skill: 'eufemia-review',
           count: 3,
         }),
       },
@@ -482,6 +530,7 @@ describe('mcp usage section', () => {
         perComponent: [],
         perPath: [],
         missedLookups: 0,
+        perSkill: [],
         perVersion: [],
         daily: [],
       },
@@ -491,6 +540,7 @@ describe('mcp usage section', () => {
         perComponent: [],
         perPath: [],
         missedLookups: 0,
+        perSkill: [],
         perVersion: [],
         daily: [],
       },

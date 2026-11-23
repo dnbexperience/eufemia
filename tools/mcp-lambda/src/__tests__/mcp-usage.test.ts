@@ -63,6 +63,7 @@ describe('usageRecordsFromRequestBody', () => {
       tool: 'component_props',
       component: 'button',
       component_missed: false,
+      skill: '',
       path: '',
       env: 'dev',
       transport: 'web',

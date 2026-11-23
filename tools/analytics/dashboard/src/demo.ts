@@ -84,6 +84,11 @@ export const demoPayload: DashboardPayload = {
         { name: '/web/get-started/quick-start', count: 4 },
       ],
       missedLookups: 7,
+      perSkill: [
+        { name: 'eufemia-components', count: 9 },
+        { name: 'eufemia-review', count: 4 },
+        { name: 'eufemia-migrate', count: 2 },
+      ],
       perVersion: [
         {
           name: '11.17.0',
