@@ -187,56 +187,6 @@ describe('useOutsideClick', () => {
     }
   )
 
-  it.each(['mousedown', 'pointerdown'] as const)(
-    'should not count a press on a scrollbar of an element outside, but on its padding, with pressEvent %s',
-    (pressEvent) => {
-      const { onOutsideClick } = renderOutsideClick({ pressEvent })
-      mockScrollbars(outside)
-
-      pressAt(outside, { type: pressEvent, offsetX: 290, offsetY: 10 })
-      pressAt(outside, { type: pressEvent, offsetX: 10, offsetY: 140 })
-      expect(onOutsideClick).toHaveBeenCalledTimes(0)
-
-      pressAt(outside, { type: pressEvent, offsetX: 10, offsetY: 10 })
-      expect(onOutsideClick).toHaveBeenCalledTimes(1)
-    }
-  )
-
-  it('should not count a press on a scrollbar on the left side, like in a right-to-left element', () => {
-    const { onOutsideClick } = renderOutsideClick()
-    mockScrollbars(outside, { scrollbarOnTheLeft: true })
-
-    pressAt(outside, { offsetX: 7, offsetY: 10 })
-    expect(onOutsideClick).toHaveBeenCalledTimes(0)
-
-    pressAt(outside, { offsetX: 290, offsetY: 10 })
-    expect(onOutsideClick).toHaveBeenCalledTimes(1)
-  })
-
-  it('should not count a press on the page scrollbar', () => {
-    const html = document.documentElement
-    const clientWidth = vi
-      .spyOn(html, 'clientWidth', 'get')
-      .mockReturnValue(window.innerWidth - 15)
-    const clientHeight = vi
-      .spyOn(html, 'clientHeight', 'get')
-      .mockReturnValue(window.innerHeight - 15)
-
-    try {
-      const { onOutsideClick } = renderOutsideClick()
-
-      pressAt(html, { clientX: window.innerWidth - 5, clientY: 100 })
-      pressAt(html, { clientX: 100, clientY: window.innerHeight - 5 })
-      expect(onOutsideClick).toHaveBeenCalledTimes(0)
-
-      pressAt(html, { clientX: 100, clientY: 100 })
-      expect(onOutsideClick).toHaveBeenCalledTimes(1)
-    } finally {
-      clientWidth.mockRestore()
-      clientHeight.mockRestore()
-    }
-  })
-
   it('should call onOutsideClick when a released key is outside', () => {
     const { onOutsideClick } = renderOutsideClick()
 
@@ -317,6 +267,56 @@ describe('useOutsideClick', () => {
 
     fireEvent.pointerDown(outside, { pointerType: 'mouse' })
     expect(onOutsideClick).toHaveBeenCalledTimes(1)
+  })
+
+  it.each(['mousedown', 'pointerdown'] as const)(
+    'should not count a press on a scrollbar of an element outside, but on its padding, with pressEvent %s',
+    (pressEvent) => {
+      const { onOutsideClick } = renderOutsideClick({ pressEvent })
+      mockScrollbars(outside)
+
+      pressAt(outside, { type: pressEvent, offsetX: 290, offsetY: 10 })
+      pressAt(outside, { type: pressEvent, offsetX: 10, offsetY: 140 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+      pressAt(outside, { type: pressEvent, offsetX: 10, offsetY: 10 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it('should not count a press on a scrollbar on the left side, like in a right-to-left element', () => {
+    const { onOutsideClick } = renderOutsideClick()
+    mockScrollbars(outside, { scrollbarOnTheLeft: true })
+
+    pressAt(outside, { offsetX: 7, offsetY: 10 })
+    expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+    pressAt(outside, { offsetX: 290, offsetY: 10 })
+    expect(onOutsideClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not count a press on the page scrollbar', () => {
+    const html = document.documentElement
+    const clientWidth = vi
+      .spyOn(html, 'clientWidth', 'get')
+      .mockReturnValue(window.innerWidth - 15)
+    const clientHeight = vi
+      .spyOn(html, 'clientHeight', 'get')
+      .mockReturnValue(window.innerHeight - 15)
+
+    try {
+      const { onOutsideClick } = renderOutsideClick()
+
+      pressAt(html, { clientX: window.innerWidth - 5, clientY: 100 })
+      pressAt(html, { clientX: 100, clientY: window.innerHeight - 5 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(0)
+
+      pressAt(html, { clientX: 100, clientY: 100 })
+      expect(onOutsideClick).toHaveBeenCalledTimes(1)
+    } finally {
+      clientWidth.mockRestore()
+      clientHeight.mockRestore()
+    }
   })
 
   it('should only see stopped events when capture is true', () => {
