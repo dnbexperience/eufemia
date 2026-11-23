@@ -82,10 +82,36 @@ describe('NumberFormat component', () => {
     it('isolates the complete animated value from the page direction', () => {
       render(<NumberFormat.Currency value={1234.5} animate dir="rtl" />)
 
-      expect(document.querySelector(displaySelector)).toHaveAttribute(
-        'dir',
-        'ltr'
+      expect(
+        document.querySelector('.dnb-animated-digits__formatted')
+      ).toHaveAttribute('dir', 'ltr')
+      expect(document.querySelector(displaySelector)).not.toHaveAttribute(
+        'dir'
       )
+    })
+
+    it('preserves the surrounding direction for prefix and suffix content', () => {
+      render(
+        <NumberFormat.Currency
+          value={1234.5}
+          animate
+          dir="rtl"
+          prefix="الرصيد"
+          suffix="متاح"
+        />
+      )
+
+      const visible = document.querySelector(displaySelector)
+      expect(visible).not.toHaveAttribute('dir')
+      expect(
+        visible.querySelector('.dnb-number-format__prefix')
+      ).toHaveTextContent('الرصيد')
+      expect(
+        visible.querySelector('.dnb-number-format__suffix')
+      ).toHaveTextContent('متاح')
+      expect(
+        visible.querySelector('.dnb-animated-digits__formatted')
+      ).toHaveAttribute('dir', 'ltr')
     })
 
     it('keeps Arabic compact text in the native formatted output', () => {

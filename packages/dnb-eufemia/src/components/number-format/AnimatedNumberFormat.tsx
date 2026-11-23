@@ -48,7 +48,10 @@ export default function AnimatedNumberFormat({
     .join('')
 
   return (
-    <span className="dnb-animated-digits__formatted dnb-animated-digits__formatted--fluid">
+    <span
+      className="dnb-animated-digits__formatted dnb-animated-digits__formatted--fluid"
+      dir="ltr"
+    >
       <span className="dnb-animated-digits__formatted-text">
         {parts.map(({ value }) => value).join('')}
       </span>

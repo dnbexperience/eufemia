@@ -20,7 +20,7 @@ import useStatSkeleton from './useStatSkeleton'
 import { TextInternal as Text } from './Text'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import AnimatedNumber from '../../fragments/animated-digits/AnimatedNumber'
-import { hasRtlText } from '../../fragments/animated-digits/AnimatedDigits'
+import hasRtlText from '../../fragments/animated-digits/hasRtlText'
 
 type AmountOwnProps = Omit<
   NumberFormatProps,

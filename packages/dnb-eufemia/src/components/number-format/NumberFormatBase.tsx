@@ -49,7 +49,7 @@ import { runIOSSelectionFix, formatNumber, formatCurrency } from './utils'
 import type { NumberFormatOptionParams, NumberFormatValue } from './utils'
 import type { NumberFormatAllProps } from './types'
 import AnimatedNumberFormat from './AnimatedNumberFormat'
-import { hasRtlText } from '../../fragments/animated-digits/AnimatedDigits'
+import hasRtlText from '../../fragments/animated-digits/hasRtlText'
 
 export type * from './types'
 
@@ -474,7 +474,6 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
         )}
         // Makes it possible for NVDA to read on mouse over
         aria-hidden={!hover}
-        dir={shouldAnimate ? 'ltr' : undefined}
         {...displayParams}
       >
         {display}
