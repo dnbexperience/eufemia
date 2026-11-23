@@ -38,6 +38,18 @@
 .headingContentStyle {
   position: relative;
 
+  // Covers the gap before the anchor hash, so the heading stays hovered
+  // when it does not span the full width, such as in centered cards
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+
+    width: 0.25em;
+    height: 100%;
+  }
+
   &:global(.focus) {
     border-radius: var(--token-radius-xs);
 
