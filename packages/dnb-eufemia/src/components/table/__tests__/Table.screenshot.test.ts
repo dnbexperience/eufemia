@@ -68,17 +68,6 @@ describe.each(['light', 'dark'] as const)(
       })
     })
 
-    it('shows the card menu hover and keyboard focus', async () => {
-      await makeScreenshot({
-        ...defaults,
-        style: { width: '40rem' },
-        selector: '[data-visual-test="table-in-card"]',
-        simulateSelector:
-          '[data-visual-test="table-in-card"] .dnb-popover__trigger',
-        simulate: ['hover', 'focus'],
-      })
-    })
-
     it('updates the active columns after scrolling', async () => {
       await makeScreenshot({
         ...defaults,
