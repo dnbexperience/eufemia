@@ -220,6 +220,13 @@ html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:hover:not([disable
 .dnb-table.dnb-skeleton > * {
   -webkit-text-fill-color: var(--skeleton-color);
 }
+.dnb-card .dnb-flex-container:has(> .dnb-card__title + .dnb-table__scroll-container) {
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+.dnb-card > .dnb-flex-container > .dnb-space:has(> .dnb-table__scroll-container), .dnb-card > .dnb-flex-container > .dnb-table__scroll-container {
+  width: 100%;
+}
 .dnb-card--no-inner-space .dnb-table {
   --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
   --table-outline-color: transparent;

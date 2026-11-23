@@ -12,9 +12,9 @@ test('shows column indicators, retains keyboard scrolling and updates on resize'
     '[data-visual-test="ai-response-overflow-table"]'
   )
   const scroll = demo.locator('.dnb-table__scroll-view')
-  const lastColumn = demo
-    .getByRole('button', { name: /^Vis kolonne \d+$/ })
-    .last()
+  const lastColumn = demo.getByRole('button', {
+    name: 'Vis kolonne Difference',
+  })
   await expect(lastColumn).toBeVisible()
   await expect(lastColumn).toHaveAttribute('data-active', 'false')
   await lastColumn.click()
