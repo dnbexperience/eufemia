@@ -35,6 +35,38 @@ describe('Selection', () => {
     }
   )
 
+  it.each(['radio', 'button', 'radio-button'] as const)(
+    'names the %s group, not each option, with aria-label',
+    (variant) => {
+      const { rerender } = render(
+        <Field.Selection variant={variant} aria-label="Account type">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const radiogroup = document.querySelector('[role="radiogroup"]')
+      const options = radiogroup.querySelectorAll('input')
+      expect(radiogroup).toHaveAccessibleName('Account type')
+      expect(options[0]).toHaveAccessibleName('Foo')
+      expect(options[1]).toHaveAccessibleName('Bar')
+
+      rerender(
+        <>
+          <span id="external">External</span>
+          <Field.Selection variant={variant} aria-labelledby="external">
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.Selection>
+        </>
+      )
+
+      expect(
+        document.querySelector('[role="radiogroup"]')
+      ).toHaveAccessibleName('External')
+      expect(document.querySelector('input')).toHaveAccessibleName('Foo')
+    }
+  )
+
   describe('autoSelectSingleOption', () => {
     it('selects and stores the only option when enabled', async () => {
       const onChange = vi.fn()
