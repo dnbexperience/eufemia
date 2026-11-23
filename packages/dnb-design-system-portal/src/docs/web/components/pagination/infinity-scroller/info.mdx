@@ -23,11 +23,11 @@ You can choose to use either `<Pagination mode="infinity" />` or `<InfinityScrol
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/pagination/InfinityScroller.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/pagination/infinity-scroller)
 
-### Async data handling
+## Async data handling
 
 Infinity scrolling requires additional handling of already loaded content. To do so, it stores already shown content and interacts from there.
 
-### Gotchas
+## Gotchas
 
 **Infinity scroller:** Once content inside a page changes, we have to tell the component explicitly what "page" number happened, including the new content.
 
@@ -37,7 +37,7 @@ setContent(pageNumber, ReactComponent)
 
 ---
 
-### Infinity scroller and content handling
+## Infinity scroller and content handling
 
 In order to update content into the internal pages stack, we have to get access to the component instance. There are several ways to do so.
 
@@ -46,7 +46,7 @@ Also, there are two type of handling content on:
 1. Either you fill the content as "pages" in a page per page basis (methods 1-3),
 2. or you have your own stack, and you only want use the infinity part (method 4).
 
-#### Infinity scroller method #1
+### Infinity scroller method #1
 
 Create the instance before using it.
 
@@ -65,7 +65,7 @@ setContent(page, ReactComponent)
 render(<Pagination mode="infinity" />)
 ```
 
-#### Infinity scroller method #2
+### Infinity scroller method #2
 
 Using the `onChange` event together with `setContent`.
 
@@ -82,7 +82,7 @@ render(
 )
 ```
 
-#### Infinity scroller method #3
+### Infinity scroller method #3
 
 Using a `setContentHandler` handler.
 
@@ -106,7 +106,7 @@ render(
 )
 ```
 
-#### Infinity scroller method #4
+### Infinity scroller method #4
 
 This method will basically add a load button on top, if `startupPage` or `currentPage` is higher than `1` at the first render.
 
