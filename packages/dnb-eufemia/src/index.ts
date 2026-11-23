@@ -82,6 +82,7 @@ import Popover from './components/popover/Popover'
 import PortalRoot from './components/portal-root/PortalRoot'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
+import ScrollIndicator from './components/scroll-indicator/ScrollIndicator'
 import ScrollView from './components/scroll-view/ScrollView'
 import Section from './components/section/Section'
 import Skeleton from './components/skeleton/Skeleton'
@@ -176,6 +177,7 @@ export {
   PortalRoot,
   ProgressIndicator,
   Radio,
+  ScrollIndicator,
   ScrollView,
   Section,
   Skeleton,

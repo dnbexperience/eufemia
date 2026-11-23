@@ -1,0 +1,32 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { ScrollIndicator } from '@dnb/eufemia'
+```
+
+## Description
+
+ScrollIndicator shows which items are in view with a row of clickable dots. Use it with horizontally scrolling content, such as a table or image gallery, when more content may be hidden. Filled dots represent visible items; outlined dots represent items outside the view. Several dots can be active at once.
+
+Provide an accessible label for each item and handle `onChange` to reveal its content. Update `items` when the visible content changes. The component does not measure or scroll content itself.
+
+Keep the indicators close to their content and right-aligned. Use a small, meaningful set of items. For many items or pages, consider [Pagination](/web/components/pagination/).
+
+## Accessibility
+
+The dots are native buttons in a named toolbar with one Tab stop. Left and Right move focus between dots, following the reading direction. Home and End focus the first and last dot. Enter and Space activate the focused dot. Tab leaves the group, and returning restores the last focused dot.
+
+Moving focus does not scroll or change the visible content. Activation keeps focus on the dot so the user can continue navigating. Keep the content itself accessible by keyboard and screen reader, and provide each dot with a name describing the content it reveals. Use `aria-controls` to associate the group with that content.
+
+The dots are not tabs or radio buttons because several items can be visible at once. Visible state is separate from keyboard focus. Motion follows the user's reduced-motion preference.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/scroll-indicator)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/scroll-indicator)
+
+<RelatedComponents />

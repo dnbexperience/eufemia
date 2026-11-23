@@ -12,6 +12,7 @@ import type { ICUFormatMessage } from './icuFormatMessage'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../components/scroll-view/ScrollView'
+import type { ScrollIndicatorProps } from '../components/scroll-indicator/ScrollIndicator'
 
 // All TypeScript based Eufemia components
 import type { AnchorProps } from '../components/Anchor'
@@ -97,6 +98,7 @@ export type ContextComponents = {
   Tooltip?: Partial<TooltipProps>
   Section?: Partial<SectionProps>
   ScrollView?: Partial<ScrollViewProps>
+  ScrollIndicator?: Partial<ScrollIndicatorProps>
   Upload?: Partial<UploadProps>
   Skeleton?: Partial<SkeletonProps>
   HelpButton?: Partial<HelpButtonProps>

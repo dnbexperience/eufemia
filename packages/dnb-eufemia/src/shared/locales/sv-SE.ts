@@ -179,6 +179,10 @@ export default {
       removeIconTitle: 'Ta bort',
       addIconTitle: 'Lägg till',
     },
+    ScrollIndicator: {
+      label: 'Rullningsposition',
+      inView: 'I vyn',
+    },
     Table: {
       accordionToggleButtonSR: 'Visa mer innehåll',
       accordionMoreContentSR: 'Mer innehåll i nästa rad',

@@ -180,6 +180,10 @@ export default {
       removeIconTitle: 'Fjern',
       addIconTitle: 'Tilføj',
     },
+    ScrollIndicator: {
+      label: 'Rulleposition',
+      inView: 'I visningen',
+    },
     Table: {
       accordionToggleButtonSR: 'Vis mere indhold',
       accordionMoreContentSR: 'Mere indhold i næste række',

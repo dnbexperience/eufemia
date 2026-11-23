@@ -178,6 +178,10 @@ export default {
       removeIconTitle: 'Fjern',
       addIconTitle: 'Legg til',
     },
+    ScrollIndicator: {
+      label: 'Rulleposisjon',
+      inView: 'I visningen',
+    },
     Table: {
       accordionToggleButtonSR: 'Vis mer innhold',
       accordionMoreContentSR: 'Mer innhold i neste rad',
