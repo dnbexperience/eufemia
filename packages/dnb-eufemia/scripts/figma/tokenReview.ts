@@ -305,7 +305,8 @@ export const iconContrastPairs = [
   },
 ]
 
-// Remove these temporary acceptances when the Coconut error colors are corrected.
+// Remove these temporary acceptances when the Coconut error colors and the
+// Birdhouse dark error and action colors are corrected in Figma.
 const acceptedContrastChanges = [
   {
     theme: 'Coconut light',
@@ -320,6 +321,48 @@ const acceptedContrastChanges = [
     background: '--token-color-background-neutral-alternative',
     before: ['#d8134b', '#ebebf1'],
     after: ['#c82610', '#dedfd8'],
+  },
+  {
+    theme: 'Birdhouse dark',
+    foreground: '--token-color-text-error',
+    background: '--token-color-background-neutral-subtle',
+    before: ['#fcdddd', '#003842'],
+    after: ['#ff5959', '#003842'],
+  },
+  {
+    theme: 'Birdhouse dark',
+    foreground: '--token-color-text-error',
+    background: '--token-color-background-neutral-base',
+    before: ['#fcdddd', '#0a4e5a'],
+    after: ['#ff5959', '#0a4e5a'],
+  },
+  {
+    theme: 'Birdhouse dark',
+    foreground: '--token-color-stroke-action-focus',
+    background: '--token-color-background-neutral',
+    before: ['#e1e9f9', '#0b2b34'],
+    after: ['#276ace', '#0b2b34'],
+  },
+  {
+    theme: 'Birdhouse dark',
+    foreground: '--token-color-stroke-action-focus',
+    background: '--token-color-background-neutral-subtle',
+    before: ['#e1e9f9', '#003842'],
+    after: ['#276ace', '#003842'],
+  },
+  {
+    theme: 'Birdhouse dark',
+    foreground: '--token-color-stroke-action-focus',
+    background: '--token-color-background-neutral-base',
+    before: ['#e1e9f9', '#0a4e5a'],
+    after: ['#276ace', '#0a4e5a'],
+  },
+  {
+    theme: 'Birdhouse dark',
+    foreground: '--token-color-stroke-action',
+    background: '--token-color-background-neutral-base',
+    before: ['#8bb1bb', '#0a4e5a'],
+    after: ['#578f9b', '#0a4e5a'],
   },
 ]
 

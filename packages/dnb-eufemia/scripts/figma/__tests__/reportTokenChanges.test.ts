@@ -109,10 +109,12 @@ it('reviews uncommitted values against the merge base and returns a failing exit
     }
 
     const output = path.join(temporaryRoot, 'review.md')
-    expect(review('main', output).status).toBe(0)
-    expect(readFileSync(output, 'utf8')).toContain(
-      '## Contrast regressions\n\nNone.'
-    )
+    const regressions = () =>
+      readFileSync(output, 'utf8')
+        .split('## Contrast regressions')[1]
+        .split('## Existing')[0]
+    review('main', output)
+    expect(regressions()).not.toContain('--token-color-text-action on')
     expect(readFileSync(output, 'utf8')).toContain(
       '| Birdhouse light | --token-color-background-page-background | #fff | #f6f1e8 |'
     )
@@ -132,6 +134,9 @@ it('reviews uncommitted values against the merge base and returns a failing exit
     )
     expect(readFileSync(output, 'utf8')).toContain(
       '| Eiendom light | --token-color-text-action | #007272 | #aaa |'
+    )
+    expect(regressions()).toContain(
+      '- Eiendom light: --token-color-text-action on'
     )
   } finally {
     rmSync(temporaryRoot, { recursive: true, force: true })

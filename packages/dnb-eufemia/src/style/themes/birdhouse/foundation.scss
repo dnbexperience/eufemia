@@ -2,9 +2,34 @@
 
 :root,
 .eufemia-theme__color-scheme--light {
+  --dnb-green-50: #ebf4f2;
+  --dnb-green-100: #dcf3e8;
+  --dnb-green-500: #47d197;
+  --dnb-green-700: #007b5e;
+  --dnb-green-950: #1c342d;
+  --dnb-red-50: #fceeee;
+  --dnb-red-100: #fcdddd;
+  --dnb-red-500: #ff5959;
+  --dnb-red-600: #d52525;
+  --dnb-red-700: #b21e1e;
+  --dnb-red-900: #541515;
+  --dnb-red-950: #401a1a;
+  --dnb-yellow-50: #fbf6ec;
+  --dnb-yellow-500: #fdbb31;
+  --dnb-yellow-800: #805b0e;
+  --dnb-yellow-950: #3d2e0f;
+  --dnb-blue-50: #f2f2f5;
+  --dnb-blue-100: #e1e9f9;
+  --dnb-blue-300: #a9c0ef;
+  --dnb-blue-600: #276ace;
+  --dnb-blue-700: #1955a9;
+  --dnb-blue-950: #152640;
+  --dnb-greyscale-0: #fff;
+  --dnb-greyscale-1000: #000;
   --birdhouse-emeraldgreen-50: #e8f0f2;
   --birdhouse-emeraldgreen-100: #b1cbd2;
   --birdhouse-emeraldgreen-200: #8bb1bb;
+  --birdhouse-emeraldgreen-300: #578f9b;
   --birdhouse-emeraldgreen-400: #387886;
   --birdhouse-emeraldgreen-500: #105866;
   --birdhouse-emeraldgreen-600: #0a4e5a;
@@ -31,28 +56,4 @@
   --birdhouse-greyscale-700: #404040;
   --birdhouse-greyscale-800: #262626;
   --birdhouse-greyscale-1000: #000;
-  --dnb-green-50: #ebf4f2;
-  --dnb-green-100: #dcf3e8;
-  --dnb-green-500: #47d197;
-  --dnb-green-700: #007b5e;
-  --dnb-green-950: #1c342d;
-  --dnb-red-50: #fceeee;
-  --dnb-red-100: #fcdddd;
-  --dnb-red-500: #ff5959;
-  --dnb-red-600: #d52525;
-  --dnb-red-700: #b21e1e;
-  --dnb-red-900: #541515;
-  --dnb-red-950: #401a1a;
-  --dnb-yellow-50: #fbf6ec;
-  --dnb-yellow-500: #fdbb31;
-  --dnb-yellow-800: #805b0e;
-  --dnb-yellow-950: #3d2e0f;
-  --dnb-blue-50: #f2f2f5;
-  --dnb-blue-100: #e1e9f9;
-  --dnb-blue-300: #a9c0ef;
-  --dnb-blue-600: #276ace;
-  --dnb-blue-700: #1955a9;
-  --dnb-blue-950: #152640;
-  --dnb-greyscale-0: #fff;
-  --dnb-greyscale-1000: #000;
 }

@@ -7,7 +7,7 @@ Run from the repository root:
 
 An optional second argument writes the Markdown report to a file. The report compares the current generated files, including uncommitted changes, with the merge base of HEAD and the supplied base ref. Use the actual target branch when reviewing a stacked PR.
 
-The report lists resolved values for every changed semantic token in DNB, Sbanken, Eiendom and transitional Coconut/Birdhouse light/dark, and Carnegie light. Birdhouse includes the accessible dark error-text and focus overrides from `src/style/themes/figma/tokenOverrides.ts`. Birdhouse is the hidden preview of the new Eiendom identity. When the base revision predates Birdhouse, its tokens are compared with legacy Eiendom from that revision. Foundation aliases and opacity compositions are resolved, so equivalent rgba and color-mix declarations do not appear as color changes.
+The report lists resolved values for every changed semantic token in DNB, Sbanken, Eiendom and transitional Coconut/Birdhouse light/dark, and Carnegie light. Birdhouse is the hidden preview of the new Eiendom identity. When the base revision predates Birdhouse, its tokens are compared with legacy Eiendom from that revision. Foundation aliases and opacity compositions are resolved, so equivalent rgba and color-mix declarations do not appear as color changes.
 
 The checked pairs are listed in tokenReview.ts:
 

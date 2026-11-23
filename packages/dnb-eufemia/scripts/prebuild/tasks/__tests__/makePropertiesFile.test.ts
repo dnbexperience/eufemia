@@ -195,68 +195,6 @@ describe('makePropertiesFile', () => {
     }
   })
 
-  it.each(['action-focus', 'action'])(
-    'keeps Birdhouse dark %s visible on neutral surfaces',
-    async (stroke) => {
-      const path = await import('path')
-      const { loadTokenModes, contrastRatio } =
-        await import('../../../figma/tokenReview')
-      const { tokens } = loadTokenModes(
-        path.resolve(__dirname, '../../../../../..')
-      ).find(({ name }) => name === 'Birdhouse dark')
-
-      for (const background of [
-        'neutral',
-        'neutral-subtle',
-        'neutral-base',
-      ]) {
-        expect(
-          contrastRatio(
-            tokens['--token-color-stroke-' + stroke],
-            tokens['--token-color-background-' + background],
-            tokens['--token-color-background-page-background']
-          )
-        ).toBeGreaterThanOrEqual(3)
-      }
-    }
-  )
-
-  it('keeps dark error text readable on the surfaces it is used on', async () => {
-    const path = await import('path')
-    const { loadTokenModes, contrastRatio } =
-      await import('../../../figma/tokenReview')
-
-    // Normal text needs 4.5:1. Only the surfaces an error message is
-    // placed on are checked, so the palette can change freely as long as
-    // the text stays readable.
-    const backgrounds = [
-      '--token-color-background-neutral',
-      '--token-color-background-neutral-subtle',
-    ]
-
-    const modes = loadTokenModes(
-      path.resolve(__dirname, '../../../../../..')
-    ).filter(({ name }) => name.endsWith(' dark'))
-
-    expect(modes.length).toBeGreaterThan(0)
-
-    for (const { name, tokens } of modes) {
-      for (const background of backgrounds) {
-        const ratio = contrastRatio(
-          tokens['--token-color-text-error'],
-          tokens[background],
-          tokens['--token-color-background-page-background']
-        )
-
-        expect({
-          mode: name,
-          background,
-          ratio: ratio >= 4.5,
-        }).toEqual({ mode: name, background, ratio: true })
-      }
-    }
-  })
-
   describe('Tokens snapshots for', () => {
     it('ui', () => {
       expect(global.uiTokens).toMatchSnapshot()

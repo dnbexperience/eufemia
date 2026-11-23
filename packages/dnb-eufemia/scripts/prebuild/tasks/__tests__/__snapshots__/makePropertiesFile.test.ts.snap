@@ -923,7 +923,7 @@ exports[`makePropertiesFile > Tokens snapshots for > birdhouse 2`] = `
   --token-color-text-neutral-ondark: var(--birdhouse-beige-50);
   --token-color-text-neutral-subtle: var(--birdhouse-beige-300);
   --token-color-text-neutral-subtle-ondark: var(--birdhouse-beige-300);
-  --token-color-text-error: var(--dnb-red-100);
+  --token-color-text-error: var(--dnb-red-500);
   --token-color-text-error-inverse: var(--dnb-red-700);
   --token-color-text-warning: var(--dnb-yellow-500);
   --token-color-text-warning-inverse: var(--dnb-yellow-800);
@@ -965,7 +965,7 @@ exports[`makePropertiesFile > Tokens snapshots for > birdhouse 2`] = `
   --token-color-icon-error-subtle: var(--dnb-red-950);
   --token-color-icon-marketing: var(--birdhouse-beige-200);
   --token-color-icon-marketing-subtle: var(--birdhouse-emeraldgreen-700);
-  --token-color-stroke-action: var(--birdhouse-emeraldgreen-200);
+  --token-color-stroke-action: var(--birdhouse-emeraldgreen-300);
   --token-color-stroke-action-alternative: var(--birdhouse-beige-300);
   --token-color-stroke-action-hover: var(--birdhouse-beige-100);
   --token-color-stroke-action-pressed: var(--birdhouse-beige-300);
@@ -976,7 +976,7 @@ exports[`makePropertiesFile > Tokens snapshots for > birdhouse 2`] = `
   --token-color-stroke-action-pressed-inverse: var(
     --birdhouse-emeraldgreen-500
   );
-  --token-color-stroke-action-focus: var(--dnb-blue-100);
+  --token-color-stroke-action-focus: var(--dnb-blue-600);
   --token-color-stroke-action-focus-ondark: var(--dnb-blue-100);
   --token-color-stroke-action-focus-inverse: var(--dnb-blue-600);
   --token-color-stroke-action-focus-subtle: var(--dnb-greyscale-1000);
@@ -1214,9 +1214,34 @@ exports[`makePropertiesFile > Tokens snapshots for > birdhouse 3`] = `
 
 :root,
 .eufemia-theme__color-scheme--light {
+  --dnb-green-50: #ebf4f2;
+  --dnb-green-100: #dcf3e8;
+  --dnb-green-500: #47d197;
+  --dnb-green-700: #007b5e;
+  --dnb-green-950: #1c342d;
+  --dnb-red-50: #fceeee;
+  --dnb-red-100: #fcdddd;
+  --dnb-red-500: #ff5959;
+  --dnb-red-600: #d52525;
+  --dnb-red-700: #b21e1e;
+  --dnb-red-900: #541515;
+  --dnb-red-950: #401a1a;
+  --dnb-yellow-50: #fbf6ec;
+  --dnb-yellow-500: #fdbb31;
+  --dnb-yellow-800: #805b0e;
+  --dnb-yellow-950: #3d2e0f;
+  --dnb-blue-50: #f2f2f5;
+  --dnb-blue-100: #e1e9f9;
+  --dnb-blue-300: #a9c0ef;
+  --dnb-blue-600: #276ace;
+  --dnb-blue-700: #1955a9;
+  --dnb-blue-950: #152640;
+  --dnb-greyscale-0: #fff;
+  --dnb-greyscale-1000: #000;
   --birdhouse-emeraldgreen-50: #e8f0f2;
   --birdhouse-emeraldgreen-100: #b1cbd2;
   --birdhouse-emeraldgreen-200: #8bb1bb;
+  --birdhouse-emeraldgreen-300: #578f9b;
   --birdhouse-emeraldgreen-400: #387886;
   --birdhouse-emeraldgreen-500: #105866;
   --birdhouse-emeraldgreen-600: #0a4e5a;
@@ -1243,30 +1268,6 @@ exports[`makePropertiesFile > Tokens snapshots for > birdhouse 3`] = `
   --birdhouse-greyscale-700: #404040;
   --birdhouse-greyscale-800: #262626;
   --birdhouse-greyscale-1000: #000;
-  --dnb-green-50: #ebf4f2;
-  --dnb-green-100: #dcf3e8;
-  --dnb-green-500: #47d197;
-  --dnb-green-700: #007b5e;
-  --dnb-green-950: #1c342d;
-  --dnb-red-50: #fceeee;
-  --dnb-red-100: #fcdddd;
-  --dnb-red-500: #ff5959;
-  --dnb-red-600: #d52525;
-  --dnb-red-700: #b21e1e;
-  --dnb-red-900: #541515;
-  --dnb-red-950: #401a1a;
-  --dnb-yellow-50: #fbf6ec;
-  --dnb-yellow-500: #fdbb31;
-  --dnb-yellow-800: #805b0e;
-  --dnb-yellow-950: #3d2e0f;
-  --dnb-blue-50: #f2f2f5;
-  --dnb-blue-100: #e1e9f9;
-  --dnb-blue-300: #a9c0ef;
-  --dnb-blue-600: #276ace;
-  --dnb-blue-700: #1955a9;
-  --dnb-blue-950: #152640;
-  --dnb-greyscale-0: #fff;
-  --dnb-greyscale-1000: #000;
 }
 "
 `;
