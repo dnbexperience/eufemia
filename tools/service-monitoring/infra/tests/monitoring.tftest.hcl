@@ -17,6 +17,9 @@ mock_provider "aws" {
   mock_resource "aws_sns_topic" {
     defaults = { arn = "arn:aws:sns:eu-north-1:123456789012:test-alerts" }
   }
+  mock_resource "aws_kms_key" {
+    defaults = { arn = "arn:aws:kms:eu-north-1:123456789012:key/11111111-2222-3333-4444-555555555555" }
+  }
   mock_resource "aws_sqs_queue" {
     defaults = { arn = "arn:aws:sqs:eu-north-1:123456789012:test-failures", url = "https://sqs.eu-north-1.amazonaws.com/123456789012/test-failures" }
   }
@@ -76,6 +79,16 @@ run "shadow_rollout" {
   assert {
     condition     = jsondecode(aws_lambda_function.notifier.environment[0].variables["MONITOR_LOG_GROUPS"])["Analytics"] == aws_cloudwatch_log_group.monitor["Analytics"].name
     error_message = "Slack incident posts must link to each monitor's log group."
+  }
+  assert {
+    condition = (
+      aws_kms_key.stack.enable_key_rotation &&
+      aws_dynamodb_table.state.server_side_encryption[0].kms_key_arn == aws_kms_key.stack.arn &&
+      aws_sns_topic.alerts.kms_master_key_id == aws_kms_key.stack.arn &&
+      aws_cloudwatch_log_group.notifier.kms_key_id == aws_kms_key.stack.arn &&
+      alltrue([for group in aws_cloudwatch_log_group.monitor : group.kms_key_id == aws_kms_key.stack.arn])
+    )
+    error_message = "The state table, alert topic and log groups must use the stack's rotating customer managed key."
   }
 }
 

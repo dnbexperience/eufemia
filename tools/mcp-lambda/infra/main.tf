@@ -92,6 +92,7 @@ resource "aws_lambda_function" "mcp" {
 resource "aws_cloudwatch_log_group" "lambda" {
   name              = "/aws/lambda/${local.function_name}"
   retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
   tags              = local.tags
 }
 
@@ -156,6 +157,7 @@ resource "aws_iam_role_policy_attachment" "usage_consumer_logs" {
 resource "aws_cloudwatch_log_group" "usage_consumer" {
   name              = "/aws/lambda/${local.function_name}-usage-consumer"
   retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
   tags              = local.tags
 }
 
@@ -235,6 +237,15 @@ resource "aws_apigatewayv2_api" "mcp" {
   tags          = local.tags
 }
 
+# Access logs leave out the client IP address and user agent: the request ID,
+# route, status and latencies are enough to trace a failed request.
+resource "aws_cloudwatch_log_group" "api_access" {
+  name              = "/aws/apigateway/${local.function_name}"
+  retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
+  tags              = local.tags
+}
+
 resource "aws_apigatewayv2_stage" "mcp" {
   api_id      = aws_apigatewayv2_api.mcp.id
   name        = "$default"
@@ -244,6 +255,21 @@ resource "aws_apigatewayv2_stage" "mcp" {
   default_route_settings {
     throttling_burst_limit = 200
     throttling_rate_limit  = 400
+  }
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_access.arn
+    format = jsonencode({
+      requestId          = "$context.requestId"
+      requestTime        = "$context.requestTime"
+      routeKey           = "$context.routeKey"
+      status             = "$context.status"
+      responseLength     = "$context.responseLength"
+      responseLatency    = "$context.responseLatency"
+      integrationStatus  = "$context.integrationStatus"
+      integrationLatency = "$context.integrationLatency"
+      errorMessage       = "$context.error.message"
+    })
   }
 }
 

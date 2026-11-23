@@ -133,6 +133,14 @@ session duration; such a change fails the deploy until the OIDC federation repo
 grants it. Renaming a role replaces it, so the new name must be granted there
 first and `prevent_destroy` lifted in the same change.
 
+The stack's customer managed KMS key and the API Gateway access log group
+need one more policy from the OIDC federation repo on the deploy role. It may
+create and manage only the key tagged `KeyStack = eufemia-<env>-mcp` (no
+deletion), attach that key to the stack's log groups, and manage the access log
+group and its log delivery. The Lambda roles need no KMS permissions: the key
+policy lets principals in the account use the key only through CloudWatch Logs,
+like the AWS managed keys.
+
 ### Infrastructure
 
 Managed via Terraform in `infra/`:
@@ -143,7 +151,9 @@ Managed via Terraform in `infra/`:
 | Usage pipeline | Encrypted SQS, batched consumer, retry queue + DLQ |
 | API Gateway    | HTTP API, `POST /mcp/web` + `GET /healthz`         |
 | Throttling     | 200 burst / 400 requests per second                |
-| CloudWatch     | 30-day log retention                               |
+| CloudWatch     | 30-day log retention, encrypted with the stack key |
+| Access logs    | API stage, without client IP or user agent         |
+| KMS key        | Customer managed, yearly rotation (`infra/kms.tf`) |
 | Region         | eu-north-1                                         |
 
 ### Emergency stop

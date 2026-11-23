@@ -113,6 +113,8 @@ The deploy creates the three Lambda execution roles with the OIDC permissions bo
 
 The deploy role can't change a role's trust policy, description or maximum session duration; such a change fails the deploy until the OIDC federation repo grants it. Renaming a role replaces it, so the new name must be granted there first and `prevent_destroy` lifted in the same change.
 
+The stack's customer managed KMS key and the API Gateway access logs need one more policy from the OIDC federation repo on the deploy role. It may create and manage only the key tagged `KeyStack = eufemia-<env>-analytics` (no deletion), attach that key to the stack's log groups, and manage the access log groups and their log delivery. The Lambda roles need no KMS permissions: the key policy lets principals in the account use the key only through CloudWatch Logs and SNS, like the AWS managed keys.
+
 The GHE deploy repo and its OIDC role/federation entry must be provisioned once, as with the MCP pipeline.
 
 ## Infrastructure
@@ -152,6 +154,8 @@ Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `colo
 - **Lambda execution roles** for the three Lambdas, created by the deploy (see [Lambda execution roles](#lambda-execution-roles)).
 - The generator is also invoked once at the end of every deploy (the `Seed snapshot` step in `ghe-deploy-workflow.yml`), so the dashboard has data immediately instead of waiting for the first scheduled run, and a generator failure fails the deploy rather than surfacing later as a silently unavailable dashboard.
 - **API Gateway HTTP API** with the `/collect-portal-views` and `/collect-local-mcp-usage` ingest routes (plus `/healthz`) and throttling.
+- **Access logs** for the ingest and dashboard API stages, kept for 30 days. They record the request ID, route, status and latencies, but not the client IP address or user agent.
+- **KMS key** (customer managed, yearly rotation, `infra/kms.tf`) for the Lambda and access log groups and the snapshot alert topic. The CloudWatch alarms here and the MCP usage alarms may use it to publish to that topic.
 
 The dashboard is hosted separately as a static site:
 

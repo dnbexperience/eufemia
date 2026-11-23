@@ -763,6 +763,7 @@ resource "aws_iam_role_policy_attachment" "dashboard_logs" {
 resource "aws_cloudwatch_log_group" "lambda" {
   name              = "/aws/lambda/${local.function_name}"
   retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
   tags              = local.tags
 }
 
@@ -805,6 +806,29 @@ resource "aws_apigatewayv2_api" "analytics" {
   tags          = local.tags
 }
 
+# Access logs leave out the client IP address and user agent: the request ID,
+# route, status and latencies are enough to trace a failed request.
+locals {
+  api_access_log_format = jsonencode({
+    requestId          = "$context.requestId"
+    requestTime        = "$context.requestTime"
+    routeKey           = "$context.routeKey"
+    status             = "$context.status"
+    responseLength     = "$context.responseLength"
+    responseLatency    = "$context.responseLatency"
+    integrationStatus  = "$context.integrationStatus"
+    integrationLatency = "$context.integrationLatency"
+    errorMessage       = "$context.error.message"
+  })
+}
+
+resource "aws_cloudwatch_log_group" "analytics_api_access" {
+  name              = "/aws/apigateway/${local.function_name}-ingest"
+  retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
+  tags              = local.tags
+}
+
 resource "aws_apigatewayv2_stage" "analytics" {
   api_id      = aws_apigatewayv2_api.analytics.id
   name        = "$default"
@@ -814,6 +838,11 @@ resource "aws_apigatewayv2_stage" "analytics" {
   default_route_settings {
     throttling_burst_limit = 50
     throttling_rate_limit  = 100
+  }
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.analytics_api_access.arn
+    format          = local.api_access_log_format
   }
 }
 
@@ -877,6 +906,13 @@ resource "aws_apigatewayv2_api" "dashboard" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "dashboard_api_access" {
+  name              = "/aws/apigateway/${local.function_name}-dashboard"
+  retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
+  tags              = local.tags
+}
+
 resource "aws_apigatewayv2_stage" "dashboard" {
   api_id      = aws_apigatewayv2_api.dashboard.id
   name        = "$default"
@@ -886,6 +922,11 @@ resource "aws_apigatewayv2_stage" "dashboard" {
   default_route_settings {
     throttling_burst_limit = 20
     throttling_rate_limit  = 40
+  }
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.dashboard_api_access.arn
+    format          = local.api_access_log_format
   }
 }
 
@@ -937,6 +978,7 @@ resource "aws_lambda_permission" "dashboard_apigw" {
 resource "aws_cloudwatch_log_group" "dashboard_read" {
   name              = "/aws/lambda/eufemia-${var.environment}-dashboard"
   retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
   tags              = local.tags
 }
 
@@ -976,6 +1018,7 @@ resource "aws_lambda_function" "dashboard_read" {
 resource "aws_cloudwatch_log_group" "snapshot" {
   name              = "/aws/lambda/eufemia-${var.environment}-analytics-snapshot"
   retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
   tags              = local.tags
 }
 
@@ -1045,8 +1088,9 @@ resource "aws_lambda_permission" "snapshot_events" {
 # aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
 # The MCP usage alarms in tools/mcp-lambda/infra publish here by name.
 resource "aws_sns_topic" "snapshot_alerts" {
-  name = "eufemia-${var.environment}-analytics-snapshot-alerts"
-  tags = local.tags
+  name              = "eufemia-${var.environment}-analytics-snapshot-alerts"
+  kms_master_key_id = aws_kms_key.stack.arn
+  tags              = local.tags
 }
 
 resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
