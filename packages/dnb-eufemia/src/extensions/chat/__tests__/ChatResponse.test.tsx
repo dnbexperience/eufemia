@@ -335,7 +335,7 @@ describe('Chat.Response', () => {
         '.dnb-scroll-indicator__item'
       )
       expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveAccessibleName('Show column 1')
+      expect(buttons[0]).toHaveAccessibleName('Show column Item')
       expect(
         document.querySelector('.dnb-ai-response__table-hint')
       ).toBeNull()
