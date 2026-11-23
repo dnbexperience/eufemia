@@ -43,6 +43,40 @@ async function run(
 
 describe('isolated-style-scope-plugin', () => {
   describe('Scope specificity', () => {
+    it.each([undefined, false])(
+      'should recognize existing scopes and skipped classes inside :where() when useWhere is %s',
+      async (useWhere) => {
+        const css =
+          ':where(.eufemia-scope--custom) .x, :where(.skip-class) .x { color: red; }'
+
+        await run(css, css, { skipClassNames: ['skip-class'], useWhere })
+      }
+    )
+
+    it.each([undefined, false])(
+      'should preserve matching scope placement when useWhere is %s',
+      async (useWhere) => {
+        const css =
+          '.x .eufemia-scope--custom, .eufemia-scope--custom.x, :global(.eufemia-scope--custom .y) { color: red; }'
+
+        await run(css, css, {
+          scopeHash: 'eufemia-scope--custom',
+          useWhere,
+        })
+      }
+    )
+
+    it.each([undefined, false])(
+      'should keep plain CSS scopes local after a global ancestor when useWhere is %s',
+      async (useWhere) => {
+        await run(
+          ':global(html) .eufemia-scope--old .x { color: red; }',
+          'html .custom-scope .x { color: red; }',
+          { scopeHash: 'custom-scope', useWhere }
+        )
+      }
+    )
+
     it.each([undefined, false, true])(
       'should keep an existing bare scope global in CSS Modules when useWhere is %s',
       async (useWhere) => {
@@ -278,6 +312,21 @@ describe('isolated-style-scope-plugin', () => {
         { skipClassNames: ['eufemia-scope--old'], useWhere: true }
       )
     })
+
+    it.each([false, true])(
+      'should preserve scope-element specificity with CSS Modules set to %s when opted in',
+      async (runAsCssModule) => {
+        const scope = runAsCssModule
+          ? ':global(.test-scope)'
+          : '.test-scope'
+
+        await run(
+          'body[data-theme], html[data-x] body[data-theme] { color: red; }',
+          `body[data-theme] ${scope}, html[data-x] body[data-theme] ${scope} { color: red; }`,
+          { scopeHash: 'test-scope', runAsCssModule, useWhere: true }
+        )
+      }
+    )
 
     it.each([false, true])(
       'should preserve explicit placeholder and root specificity with CSS Modules set to %s when opted in',

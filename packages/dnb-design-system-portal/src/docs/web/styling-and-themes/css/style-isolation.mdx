@@ -164,11 +164,13 @@ import '@dnb/eufemia/style/themes/ui/ui-theme-components.min.css'
 import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 ```
 
-Ensure your build tool applies the plugin to these imports, including files from `node_modules`. Continue wrapping your app in `IsolatedStyleScope`. These imports use the package's font assets instead of the CDN fonts used by the prebuilt isolated imports. Already scoped selectors are left unchanged, so enabling the option does not convert the prebuilt `--isolated` files.
+Ensure your build tool applies the plugin to these imports, including files from `node_modules`. Continue wrapping your app in `IsolatedStyleScope`. These imports use the package's font assets instead of the CDN fonts used by the prebuilt isolated imports.
+
+In plain CSS, an existing matching scope is preserved, so enabling the option does not convert the prebuilt `--isolated` files. With an explicit `scopeHash: 'eufemia-scope--1_2_3'`, CSS Modules rewrite a bare ancestor scope as `:global(:where(.eufemia-scope--1_2_3))` to keep it global. Existing scopes and skipped classes inside a single-class `:where()` wrapper are recognized even with `useWhere: false`.
 
 Before enabling it, review application overrides and stylesheet order. Selectors that previously lost to the extra scope specificity can now win. Avoid nesting a zero-specificity scope inside an older scope with a bare class prefix: both scopes can match inner components, and the older styles have higher specificity.
 
-Explicit `[scope-placeholder]` selectors and replacements for `:root` retain their existing specificity.
+Explicit `[scope-placeholder]` selectors, replacements for `:root`, and generated selectors targeting the scope element itself retain their existing specificity. For example, `body[data-theme]` becomes `body[data-theme] .eufemia-scope--1_2_3`, with no descendant selector after the scope class.
 
 ## The scope element
 
