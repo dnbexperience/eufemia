@@ -10,7 +10,6 @@ import makePropertiesFile, {
   getTypographyFontProperties,
   makeTypographyPropertiesSCSS,
   generateColorMixFallback,
-  overrideFoundationReferencePrefix,
 } from '../makePropertiesFile'
 import { log } from '../../../lib'
 
@@ -670,19 +669,6 @@ describe('makePropertiesFile', () => {
       it('throws when an export contains no tokens', () => {
         expect(() => convertToTokenList({}, colorsVariableSetId)).toThrow(
           'Invalid Figma export: no tokens found'
-        )
-      })
-    })
-
-    describe('overrideFoundationReferencePrefix', () => {
-      it('overrides every foundation reference in a declaration', () => {
-        expect(
-          overrideFoundationReferencePrefix(
-            '--token-gradient: linear-gradient(var(--dnb-white), var(--sbanken-purple));',
-            'carnegie'
-          )
-        ).toBe(
-          '--token-gradient: linear-gradient(var(--carnegie-white), var(--carnegie-purple));'
         )
       })
     })

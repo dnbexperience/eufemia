@@ -722,7 +722,6 @@ const makeDesignTokenSCSS = async ({
   namespace,
   scopeSelector = ':root',
   appendToFile = false,
-  referencePrefixOverride,
   referencedVariables,
   colorScheme,
 }: {
@@ -738,8 +737,6 @@ const makeDesignTokenSCSS = async ({
   scopeSelector?: string
   /** append generated content to existing file */
   appendToFile?: boolean
-  /** force all foundation references to this prefix */
-  referencePrefixOverride?: string
   referencedVariables?: Set<string>
   colorScheme?: 'light' | 'dark'
 }) => {
@@ -777,13 +774,6 @@ const makeDesignTokenSCSS = async ({
       )
     }
 
-    if (referencePrefixOverride) {
-      scssContent = overrideFoundationReferencePrefix(
-        scssContent,
-        referencePrefixOverride
-      )
-    }
-
     const formattedScssContent = String(
       await prettier.format(scssContent, {
         filepath: '*.scss',
@@ -816,31 +806,6 @@ const makeDesignTokenSCSS = async ({
     log.fail(`Failed to generate SCSS file: ${outputPath}`)
     throw e
   }
-}
-
-export const overrideFoundationReferencePrefix = (
-  scssContent: string,
-  referencePrefixOverride: string
-) => {
-  const prefixPattern = Object.values(foundationPrefixMap)
-    .map(({ css }) => css)
-    .join('|')
-
-  return scssContent.replace(
-    new RegExp(
-      `(var\\(\\s*--)(${prefixPattern})(-[a-z0-9-]+\\s*\\))`,
-      'gi'
-    ),
-    (match, $1, $2, $3) => {
-      if ($2 !== referencePrefixOverride) {
-        log.warn(
-          `Overriding reference "${$2}" to "${referencePrefixOverride}" in variable "${match}"`
-        )
-        return `${$1}${referencePrefixOverride}${$3}`
-      }
-      return match
-    }
-  )
 }
 
 export const convertToTokenList = (
@@ -1172,7 +1137,6 @@ const runDesignTokenFactory = async () => {
     prefix: string
     scopeSelector?: string
     appendToFile?: boolean
-    referencePrefixOverride?: string
     colorScheme: 'light' | 'dark'
   }> = [
     {
@@ -1181,7 +1145,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/ui/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.ui.css,
       colorScheme: 'light',
     },
     {
@@ -1191,7 +1154,6 @@ const runDesignTokenFactory = async () => {
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: foundationPrefixMap.ui.css,
       colorScheme: 'dark',
     },
 
@@ -1201,7 +1163,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/sbanken/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.sbanken.css,
       colorScheme: 'light',
     },
     {
@@ -1211,7 +1172,6 @@ const runDesignTokenFactory = async () => {
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: foundationPrefixMap.sbanken.css,
       colorScheme: 'dark',
     },
     // @deprecated Transitional "coconut" brand, removed later
@@ -1221,8 +1181,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/coconut/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      // No referencePrefixOverride: this brand intentionally reuses a few
-      // DNB and Sbanken foundation colors alongside its own set
       colorScheme: 'light',
     },
     {
@@ -1240,8 +1198,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/carnegie/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      // No referencePrefixOverride: this brand reuses a few DNB foundation
-      // colors alongside its own set
       colorScheme: 'light',
     },
     {
@@ -1314,7 +1270,6 @@ const runDesignTokenFactory = async () => {
       namespace: file.prefix,
       scopeSelector: file.scopeSelector,
       appendToFile: file.appendToFile,
-      referencePrefixOverride: file.referencePrefixOverride,
       colorScheme: file.colorScheme,
     })
     if (file.colorScheme === 'light') {
