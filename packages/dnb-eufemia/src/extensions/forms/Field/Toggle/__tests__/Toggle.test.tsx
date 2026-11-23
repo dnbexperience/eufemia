@@ -62,7 +62,7 @@ describe('Field.Toggle', () => {
   })
 
   describe('variants', () => {
-    it.each(['buttons', 'radio-button'] as const)(
+    it.each(['buttons', 'radio-button', 'radio'] as const)(
       'keeps one radiogroup for %s without a field label',
       (variant) => {
         render(

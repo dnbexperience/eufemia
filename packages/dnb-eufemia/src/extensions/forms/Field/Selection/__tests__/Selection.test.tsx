@@ -20,7 +20,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Selection', () => {
-  it.each(['button', 'radio-button'] as const)(
+  it.each(['button', 'radio-button', 'radio'] as const)(
     'keeps one radiogroup for a single %s option without a field label',
     (variant) => {
       render(
