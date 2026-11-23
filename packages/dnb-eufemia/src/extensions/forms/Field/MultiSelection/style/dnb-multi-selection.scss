@@ -154,11 +154,14 @@
       overflow: clip;
     }
 
-    &:hover:not(&--disabled) {
-      --item-outline-color: var(--token-color-stroke-action);
-      --item-outline-width: var(--item-outline-width--hover);
-      &::after {
-        z-index: 2;
+    // Touch browsers keep :hover on the last tapped element
+    @media (hover: hover) {
+      &:hover:not(&--disabled) {
+        --item-outline-color: var(--token-color-stroke-action);
+        --item-outline-width: var(--item-outline-width--hover);
+        &::after {
+          z-index: 2;
+        }
       }
     }
 
