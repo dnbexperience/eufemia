@@ -27,7 +27,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   status: {
-    doc: 'Uses the `form-status` component to show failure messages.',
+    doc: 'Uses the `form-status` component to show failure messages. Without a message text, for example with `true`, nothing is shown, so then show the message yourself, for example in a [FormStatus](/web/components/form-status/) or a [GlobalStatus](/web/components/global-status/).',
     type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },

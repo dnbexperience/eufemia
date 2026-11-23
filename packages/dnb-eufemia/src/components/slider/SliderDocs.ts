@@ -92,7 +92,7 @@ export const SliderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   status: {
-    doc: 'Text with a status message. The style defaults to an error message.',
+    doc: 'Text with a status message. The style defaults to an error message. Without a message text, for example with `true`, nothing is shown, so then show the message yourself, for example in a [FormStatus](/web/components/form-status/) or a [GlobalStatus](/web/components/global-status/).',
     type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
