@@ -192,7 +192,7 @@ test.describe('Table.ScrollView', () => {
     for (const direction of ['ltr', 'rtl']) {
       await test.step(direction, async () => {
         await example.evaluate((element, value) => {
-          element.dir = value
+          element.setAttribute('dir', value)
         }, direction)
         const withinRow = (index: number) =>
           buttons.nth(index).evaluate((button) => {
