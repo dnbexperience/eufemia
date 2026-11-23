@@ -98,6 +98,96 @@ test('preserves copied text and digit order in left-to-right and right-to-left p
     expect(bounds.aligned).toBeCloseTo(0, 1)
     expect(bounds.prefix).toBeCloseTo(0, 1)
   }
+
+  const shrinking = renderToStaticMarkup(
+    createElement(AnimatedDigits, {
+      value: '+28',
+      previousValue: '+1 999',
+    })
+  )
+  await page.setContent(
+    `<style>${css}</style><p style="text-align:right">${shrinking} kr</p>`
+  )
+  const bounds = await page
+    .locator('.dnb-animated-digits')
+    .evaluate((element) => {
+      const animation = element.animate(
+        [{ width: '6ch' }, { width: '3ch' }],
+        160
+      )
+      animation.pause()
+      animation.currentTime = 80
+      const viewport = element
+        .querySelector('.dnb-animated-digits__viewport')
+        .getBoundingClientRect()
+      const content = element
+        .querySelector('.dnb-animated-digits__content')
+        .getBoundingClientRect()
+      return { viewportRight: viewport.right, contentRight: content.right }
+    })
+  expect(bounds.contentRight).toBeCloseTo(bounds.viewportRight, 1)
+})
+
+test('preserves formatted wrapping and complete values in forced colors', async ({
+  page,
+}) => {
+  const digits = renderToStaticMarkup(
+    createElement(AnimatedDigits, { value: '+28', previousValue: '+199' })
+  )
+  await page.setContent(`<style>${css}</style>
+    <p>${digits} kr</p>
+    <span class="dnb-animated-digits__formatted dnb-animated-digits__formatted--fluid">
+      <span class="dnb-animated-digits__formatted-text">NOK −28,00</span>
+      <span class="dnb-animated-digits__formatted-visual" aria-hidden="true">${digits}</span>
+    </span>
+    <div style="width:160px;font-size:24px">
+      <p id="plain-date">31. desember 2026</p>
+      <p id="animated-date"><span class="dnb-animated-digits__formatted"><span class="dnb-animated-digits__formatted-text">31. desember 2026</span><span class="dnb-animated-digits__formatted-visual" aria-hidden="true">${renderToStaticMarkup(createElement(AnimatedDigits, { value: '31', decorative: true }))}<span class="dnb-animated-digits__formatted-literal" data-text=". desember "></span>${renderToStaticMarkup(createElement(AnimatedDigits, { value: '2026', decorative: true }))}</span></span></p>
+    </div>`)
+  const plainHeight = await page
+    .locator('#plain-date')
+    .evaluate((element) => element.getBoundingClientRect().height)
+  expect(
+    await page
+      .locator('#animated-date')
+      .evaluate((element) => element.getBoundingClientRect().height)
+  ).toBeCloseTo(plainHeight, 1)
+  await expect(page.locator('#animated-date')).toMatchAriaSnapshot(
+    '- paragraph: 31. desember 2026'
+  )
+  const copied = await page
+    .locator('#animated-date')
+    .evaluate((element) => {
+      const selection = window.getSelection()
+      selection.removeAllRanges()
+      selection.selectAllChildren(element)
+      return selection.toString()
+    })
+  expect(copied).toBe('31. desember 2026')
+  for (const forcedColors of ['active', 'none', 'active'] as const) {
+    await page.emulateMedia({ forcedColors })
+    const active = forcedColors === 'active'
+    await expect(
+      page.locator(
+        'p > .dnb-animated-digits > .dnb-animated-digits__visual'
+      )
+    ).toHaveCSS('display', active ? 'none' : 'block')
+    await expect(
+      page.locator(
+        '.dnb-animated-digits__formatted--fluid > .dnb-animated-digits__formatted-visual'
+      )
+    ).toHaveCSS('display', active ? 'none' : 'inline-block')
+    await expect(
+      page.locator(
+        '.dnb-animated-digits__formatted--fluid > .dnb-animated-digits__formatted-text'
+      )
+    ).toHaveCSS('position', active ? 'static' : 'absolute')
+    expect(
+      await page
+        .locator('#animated-date')
+        .evaluate((element) => element.getBoundingClientRect().height)
+    ).toBeCloseTo(plainHeight, 1)
+  }
 })
 
 test('prints only the final value after an update', async ({ page }) => {

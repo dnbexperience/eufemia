@@ -1,6 +1,7 @@
 import { clsx } from 'clsx'
 import { useRef } from 'react'
 import useLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import hasRtlText from './hasRtlText'
 
 export type AnimatedDigitsProps = {
   /** Already formatted text. Formatting and update timing belong to the consumer. */
@@ -14,12 +15,6 @@ export type AnimatedDigitsProps = {
 }
 
 const isDigit = (character: string) => /\p{Nd}/u.test(character)
-
-// Keep native shaping and bidi controls together instead of splitting RTL text.
-export const hasRtlText = (value: string) =>
-  /[\u0590-\u08ff\ufb1d-\ufdff\ufe70-\ufeff\u200e-\u200f\u202a-\u202e\u2066-\u2069]/u.test(
-    value.replace(/\p{Nd}/gu, '')
-  )
 
 export default function AnimatedDigits({
   value,
@@ -52,7 +47,9 @@ export default function AnimatedDigits({
 
     const targetWidth = element.getBoundingClientRect().width
     previous.current = { value, width: targetWidth }
-    const media = window.matchMedia?.('(prefers-reduced-motion: reduce)')
+    const media = window.matchMedia?.(
+      '(prefers-reduced-motion: reduce), (forced-colors: active)'
+    )
 
     if (
       !element.animate ||

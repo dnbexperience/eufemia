@@ -35,6 +35,7 @@
   &__viewport {
     display: inline-block;
     width: 100%;
+    text-align: left;
     overflow: hidden;
     overflow: clip;
   }
@@ -104,10 +105,15 @@
 
   &__formatted {
     position: relative;
-    display: inline-block;
+    display: inline;
     direction: ltr;
     unicode-bidi: isolate;
     font-variant-numeric: tabular-nums;
+    white-space: normal;
+  }
+
+  &__formatted--fluid {
+    display: inline-block;
     white-space: pre;
   }
 
@@ -118,23 +124,28 @@
     pointer-events: none;
   }
 
-  @media screen and (prefers-reduced-motion: no-preference) {
+  @media screen and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
     &__text,
     &__formatted-text {
       color: transparent;
     }
 
-    &__visual,
-    &__formatted-visual {
+    &__visual {
       display: inline-block;
     }
 
-    &__formatted--fluid > &__formatted-text {
+    &__formatted-text {
       position: absolute;
     }
 
-    &__formatted--fluid > &__formatted-visual {
+    &__formatted-visual {
       position: relative;
+      inset: auto;
+      display: inline;
+    }
+
+    &__formatted--fluid > &__formatted-visual {
+      display: inline-block;
     }
 
     &__removed {
