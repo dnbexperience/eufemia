@@ -2000,9 +2000,13 @@ export const InCard = () => (
             gap={false}
             justify="space-between"
             align="center"
-            innerSpace={{ top: 'medium', inline: 'small' }}
+            innerSpace={{
+              top: 'medium',
+              bottom: 'x-small',
+              inline: 'small',
+            }}
           >
-            <Flex.Horizontal gap="x-small">
+            <Flex.Horizontal gap="x-small" align="center">
               <Icon icon={eyeIcon} />
               <Heading
                 id="my-header"
