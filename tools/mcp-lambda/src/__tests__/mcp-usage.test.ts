@@ -303,6 +303,17 @@ describe('usageRecordsFromRequestBody', () => {
     ).toEqual([])
   })
 
+  it('ignores a tools/call without an id, also in a batch', async () => {
+    const { id: _id, ...notification } = toolCall('docs_search')
+
+    const records = await usageRecordsFromRequestBody(
+      body([notification, toolCall('docs_entry')]),
+      { env: 'dev', now: NOW, resolver }
+    )
+
+    expect(records.map((r) => r.tool)).toEqual(['docs_entry'])
+  })
+
   it('returns nothing for malformed JSON', async () => {
     expect(
       await usageRecordsFromRequestBody('not json', {

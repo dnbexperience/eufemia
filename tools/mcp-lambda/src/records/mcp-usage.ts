@@ -42,6 +42,7 @@ export type WebMcpUsageRecordWithoutVersion = Omit<
 >
 
 type JsonRpcMessage = {
+  id?: unknown
   method?: unknown
   params?: { name?: unknown; arguments?: unknown }
 }
@@ -60,7 +61,10 @@ async function recordFromMessage(
   createdAt: string,
   resolver: UsageResolver
 ): Promise<WebMcpUsageRecordWithoutVersion | null> {
-  if (message.method !== 'tools/call') {
+  // Without an id the message is a notification, and the server runs no tool.
+  const hasRequestId =
+    typeof message.id === 'string' || typeof message.id === 'number'
+  if (message.method !== 'tools/call' || !hasRequestId) {
     return null
   }
 
@@ -110,9 +114,9 @@ async function recordFromMessage(
 
 /**
  * Extract anonymous usage records from a raw JSON-RPC request body. Accepts a
- * single message or a batch array; anything that is not a `tools/call` for a
- * known tool is ignored. Malformed JSON yields no records, so usage capture
- * never affects the request.
+ * single message or a batch array; anything that is not a `tools/call` request
+ * (with an id) for a known tool is ignored. Malformed JSON yields no records,
+ * so usage capture never affects the request.
  */
 export async function usageRecordsFromRequestBody(
   body: string,
