@@ -3,7 +3,7 @@
 export default {
   '--sb-font-family-default': "'DNB', 'Arial', sans-serif",
   '--sb-font-family-heading':
-    "'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+    "'Sbanken Display', var(--sb-font-family-default)",
   '--sb-font-weight-default': 'normal',
   '--sb-font-weight-basis': 'normal',
   '--sb-font-weight-regular': 'normal',

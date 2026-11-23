@@ -2,22 +2,24 @@
  * Typography
  *
  * The font-family properties are defined in the properties.scss file, like:
- * --sb-font-family-default:
+ * --sb-font-family-heading:
  *
  */
 
 // Ensure default DNB fonts are available
 @use '../ui/fonts.scss';
 
-$fonts-path: '../../../../assets/fonts/sbanken' !default;
+// Coconut heading font
+$coconut-fonts-path: '../../../../assets/fonts/coconut' !default;
 
-// Maison
+// The display font ships as a single face, so it is declared as the regular
+// weight the headings ask for
 @font-face {
-  font-family: MaisonNeueHeadings;
+  font-family: 'Sbanken Display';
   src:
-    url('#{$fonts-path}/MaisonNeue.woff2'),
-    url('#{$fonts-path}/MaisonNeue.woff');
-  font-weight: normal; // have to be the same as: --sb-font-weight-regular
+    url('#{$coconut-fonts-path}/SbankenDisplay-Bold.woff2') format('woff2'),
+    url('#{$coconut-fonts-path}/SbankenDisplay-Bold.woff') format('woff');
+  font-weight: normal; // should match --font-weight-regular
   font-style: normal;
   font-display: fallback;
 }
