@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import AnimatedDigits, {
-  hasRtlText,
-} from '../../fragments/animated-digits/AnimatedDigits'
+import AnimatedDigits from '../../fragments/animated-digits/AnimatedDigits'
+import hasRtlText from '../../fragments/animated-digits/hasRtlText'
 
 type Props = {
   value: string
@@ -28,6 +27,7 @@ export default function AnimatedDate({ value, timestamp }: Props) {
   // Match digit groups independently so a shorter day cannot shift the year.
   const parts = value.split(/(\p{Nd}+)/u)
   const previousParts = change.previous.split(/(\p{Nd}+)/u)
+  // Formatting changes remount this component, so equal counts preserve field order.
   const hasSameParts = parts.length === previousParts.length
 
   if (hasRtlText(value)) {
