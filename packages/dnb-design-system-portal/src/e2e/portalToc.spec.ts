@@ -264,7 +264,7 @@ test.describe('Portal table of contents', () => {
     })
     const heading = page
       .locator('#tableofcontentitem')
-      .locator('xpath=ancestor::h2')
+      .locator('xpath=ancestor::h3')
     await link.click()
     await expect(link).toHaveAttribute('aria-current', 'location')
     await heading.evaluate((element) => {
