@@ -180,6 +180,15 @@
       --item-outline-width: var(--item-outline-width--focus);
     }
 
+    // A tapped row keeps :hover, so do not exclude it on touch devices
+    @media (hover: none) {
+      html[data-whatinput='keyboard']
+        &:not(:active):has(.dnb-checkbox__input:focus) {
+        --item-outline-color: var(--token-color-stroke-action-focus);
+        --item-outline-width: var(--item-outline-width--focus);
+      }
+    }
+
     html[data-whatinput='keyboard']
       &
       .dnb-checkbox__input:focus
