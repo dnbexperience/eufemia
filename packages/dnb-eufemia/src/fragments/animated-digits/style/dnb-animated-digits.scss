@@ -9,6 +9,7 @@
     flex-shrink: 0;
     justify-content: flex-end;
     align-items: baseline;
+    overflow: hidden;
     overflow: clip;
   }
 
@@ -21,6 +22,7 @@
   &__character {
     position: relative;
     display: inline-block;
+    overflow: hidden;
     overflow: clip;
   }
 
@@ -28,6 +30,7 @@
     display: none;
     flex-shrink: 0;
     width: 0;
+    overflow: hidden;
     overflow: clip;
 
     > span {
