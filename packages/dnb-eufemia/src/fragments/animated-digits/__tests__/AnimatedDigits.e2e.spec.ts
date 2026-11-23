@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test'
 import { compileString } from 'sass'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import AnimatedDigits from '../AnimatedDigits'
 
 let css: string
 
@@ -9,6 +12,111 @@ test.beforeAll(() => {
   }).css
 })
 
+test('preserves copied text and digit order in left-to-right and right-to-left pages', async ({
+  page,
+}) => {
+  const value = '+1 234,50'
+  const markup = renderToStaticMarkup(
+    createElement(AnimatedDigits, { value, previousValue: '+99,50' })
+  )
+  for (const direction of ['ltr', 'rtl']) {
+    await page.setContent(
+      `<style>${css}</style><p dir="${direction}">Balance ${markup} kr</p>`
+    )
+    const paragraph = page.locator('p')
+    const copied = await paragraph.evaluate((element) => {
+      const selection = window.getSelection()
+      selection.removeAllRanges()
+      selection.selectAllChildren(element)
+      return selection.toString()
+    })
+    expect(copied).toBe(`Balance ${value} kr`)
+
+    expect(
+      await paragraph.evaluate(() => {
+        window.getSelection().removeAllRanges()
+        return (
+          window as unknown as {
+            find: (
+              text: string,
+              matchCase: boolean,
+              backwards: boolean,
+              wrap: boolean
+            ) => boolean
+          }
+        ).find('+1 234,50', false, false, true)
+      })
+    ).toBe(true)
+
+    const positions = await paragraph
+      .locator('.dnb-animated-digits__character')
+      .evaluateAll((digits) =>
+        digits.map((digit) => digit.getBoundingClientRect().x)
+      )
+    expect(positions).toEqual([...positions].sort((a, b) => a - b))
+
+    await expect(paragraph).toMatchAriaSnapshot(
+      '- paragraph: Balance +1 234,50 kr'
+    )
+
+    const bounds = await paragraph
+      .locator('.dnb-animated-digits__viewport')
+      .evaluate((viewport: HTMLElement) => {
+        viewport.style.width = '2ch'
+        const content = viewport.firstElementChild.getBoundingClientRect()
+        const box = viewport.getBoundingClientRect()
+        return { contentRight: content.right, viewportRight: box.right }
+      })
+    expect(bounds.contentRight).toBeCloseTo(bounds.viewportRight, 1)
+  }
+
+  const reserved = renderToStaticMarkup(
+    createElement(AnimatedDigits, { value: '+28', reserveWidth: '10ch' })
+  )
+  await page.setContent(
+    `<style>${css}</style><p style="text-align:left">${reserved}</p><p style="text-align:right">${reserved}</p>`
+  )
+  for (const paragraph of await page.locator('p').all()) {
+    const bounds = await paragraph.evaluate((element) => {
+      const root = element
+        .querySelector('.dnb-animated-digits')
+        .getBoundingClientRect()
+      const viewport = element
+        .querySelector('.dnb-animated-digits__viewport')
+        .getBoundingClientRect()
+      const prefix = element
+        .querySelector('.dnb-animated-digits__visual > span')
+        .getBoundingClientRect()
+      return {
+        aligned:
+          getComputedStyle(element).textAlign === 'right'
+            ? root.right - viewport.right
+            : root.left - viewport.left,
+        prefix: prefix.left - viewport.left,
+      }
+    })
+    expect(bounds.aligned).toBeCloseTo(0, 1)
+    expect(bounds.prefix).toBeCloseTo(0, 1)
+  }
+})
+
+test('prints only the final value after an update', async ({ page }) => {
+  const markup = renderToStaticMarkup(
+    createElement(AnimatedDigits, { value: '28', previousValue: '199' })
+  )
+  await page.setContent(
+    `<style>${css} @media print { * { animation: none !important; } }</style>${markup}`
+  )
+  await page.emulateMedia({ media: 'print' })
+  for (const outgoing of await page
+    .locator(
+      '.dnb-animated-digits__previous, .dnb-animated-digits__removed'
+    )
+    .all()) {
+    await expect(outgoing).toBeHidden()
+  }
+})
+
 test('disables digit rolling and removal when reduced motion is enabled or changes', async ({
   page,
 }) => {
@@ -16,19 +124,14 @@ test('disables digit rolling and removal when reduced motion is enabled or chang
   await page.setContent(`
     <style>${css}</style>
     ${['up', 'down']
-      .map(
-        (direction) => `
-          <span class="dnb-animated-digits dnb-animated-digits--${direction}">
-            <span class="dnb-animated-digits__viewport">
-              <span class="dnb-animated-digits__content">
-                <span class="dnb-animated-digits__removed" style="--removed-width: 1ch" aria-hidden="true"><span data-previous="−"></span></span>
-                <span class="dnb-animated-digits__character dnb-animated-digits__character--changed">
-                  <span class="dnb-animated-digits__previous" data-previous="1" aria-hidden="true"></span>
-                  <span class="dnb-animated-digits__value">2</span>
-                </span>
-              </span>
-            </span>
-          </span>`
+      .map((direction: 'up' | 'down') =>
+        renderToStaticMarkup(
+          createElement(AnimatedDigits, {
+            value: '2',
+            previousValue: '−11',
+            direction,
+          })
+        )
       )
       .join('')}
   `)
@@ -50,7 +153,13 @@ test('disables digit rolling and removal when reduced motion is enabled or chang
       const removed = digits.locator('.dnb-animated-digits__removed')
       const reduced = reducedMotion === 'reduce'
 
-      await expect(value).toHaveText('2')
+      await expect(
+        digits.locator('.dnb-animated-digits__text')
+      ).toHaveText('2')
+      await expect(
+        digits.locator('.dnb-animated-digits__visual')
+      ).toHaveCSS('display', reduced ? 'none' : 'block')
+      await expect(value).toHaveAttribute('data-text', '2')
       await expect(value).toHaveCSS(
         'animation-name',
         reduced ? 'none' : `dnb-animated-digits-in${suffix}`

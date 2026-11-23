@@ -1,35 +1,76 @@
 .dnb-animated-digits {
-  display: inline-flex;
-  align-items: baseline;
+  position: relative;
+  display: inline-block;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: inherit;
   font-variant-numeric: tabular-nums;
   white-space: pre;
 
+  &__text::before,
+  &__formatted-literal::before {
+    content: attr(data-text);
+  }
+
+  &__visual {
+    position: absolute;
+    inset: 0;
+    display: none;
+    pointer-events: none;
+
+    > span:first-child {
+      position: relative;
+      display: inline-block;
+      width: 0;
+      vertical-align: top;
+
+      &::before {
+        position: absolute;
+        left: 0;
+        content: attr(data-text);
+      }
+    }
+  }
+
   &__viewport {
-    display: inline-flex;
-    flex-shrink: 0;
-    justify-content: flex-end;
-    align-items: baseline;
+    display: inline-block;
+    width: 100%;
     overflow: hidden;
     overflow: clip;
   }
 
+  &--reserved &__viewport {
+    width: auto;
+    max-width: 100%;
+  }
+
   &__content {
-    display: inline-flex;
-    flex-shrink: 0;
-    align-items: baseline;
+    position: relative;
+    left: 100%;
+    display: inline-block;
+    transform: translateX(-100%);
+  }
+
+  &__prefix {
+    visibility: hidden;
+
+    &::before {
+      content: attr(data-text);
+    }
   }
 
   &__character {
     position: relative;
     display: inline-block;
+    vertical-align: bottom;
     overflow: hidden;
     overflow: clip;
   }
 
   &__removed {
+    position: absolute;
+    transform: translateX(-100%);
     display: none;
-    flex-shrink: 0;
-    width: 0;
     overflow: hidden;
     overflow: clip;
 
@@ -46,6 +87,7 @@
     position: absolute;
     inset: 0;
     display: none;
+    visibility: hidden;
 
     &::before {
       content: attr(data-previous);
@@ -53,10 +95,48 @@
   }
 
   &__value {
-    display: block;
+    display: inline-block;
+
+    &::before {
+      content: attr(data-text);
+    }
   }
 
-  @media (prefers-reduced-motion: no-preference) {
+  &__formatted {
+    position: relative;
+    display: inline-block;
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    white-space: pre;
+  }
+
+  &__formatted-visual {
+    position: absolute;
+    inset: 0;
+    display: none;
+    pointer-events: none;
+  }
+
+  @media screen and (prefers-reduced-motion: no-preference) {
+    &__text,
+    &__formatted-text {
+      color: transparent;
+    }
+
+    &__visual,
+    &__formatted-visual {
+      display: inline-block;
+    }
+
+    &__formatted--fluid > &__formatted-text {
+      position: absolute;
+    }
+
+    &__formatted--fluid > &__formatted-visual {
+      position: relative;
+    }
+
     &__removed {
       display: inline-block;
       animation: dnb-animated-digits-remove 160ms ease-out both;
@@ -87,11 +167,9 @@
 
 @keyframes dnb-animated-digits-remove {
   from {
-    width: var(--removed-width, 0);
     opacity: 1;
   }
   to {
-    width: 0;
     opacity: 0;
   }
 }
@@ -107,10 +185,12 @@
 
 @keyframes dnb-animated-digits-out {
   from {
+    visibility: visible;
     transform: translateY(0);
   }
   to {
     transform: translateY(-100%);
+    visibility: hidden;
   }
 }
 
@@ -125,9 +205,11 @@
 
 @keyframes dnb-animated-digits-out-down {
   from {
+    visibility: visible;
     transform: translateY(0);
   }
   to {
     transform: translateY(100%);
+    visibility: hidden;
   }
 }

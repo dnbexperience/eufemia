@@ -5,12 +5,14 @@ type Props = {
   value: string
   numericValue: number
   reserveWidth?: string
+  decorative?: boolean
 }
 
 export default function AnimatedNumber({
   value,
   numericValue,
   reserveWidth,
+  decorative,
 }: Props) {
   const [change, setChange] = useState({
     value,
@@ -42,6 +44,7 @@ export default function AnimatedNumber({
       previousValue={change.previous}
       direction={change.decreasing ? 'down' : 'up'}
       reserveWidth={reserveWidth}
+      decorative={decorative}
     />
   )
 }

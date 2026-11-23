@@ -16,7 +16,7 @@ Use this fragment when building a component that owns the formatted output and u
 
 Pass already formatted text as `value` and the previous text as `previousValue`. Omit `previousValue` on the initial render and after a formatting or locale change. Set `direction` to match the change. The fragment does not format values or keep previous values in state.
 
-Reduced motion disables animation. Previous digits are hidden from assistive technology; the final text is available immediately. The fragment does not announce updates. Use [AriaLive](/web/components/aria-live/) when an update needs an announcement.
+Reduced motion disables animation. Right-to-left text and bidirectional formatting marks use native text without animation to preserve shaping and reading order. Visual digits are hidden from assistive technology; the complete final text is available immediately. The fragment does not announce updates. Use [AriaLive](/web/components/aria-live/) when an update needs an announcement.
 
 Use motion for selected values that change after a user action. Keep dense tables and frequently refreshing values still.
 

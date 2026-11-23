@@ -3,6 +3,35 @@ import { renderToString } from 'react-dom/server'
 import AnimatedDigits from '../AnimatedDigits'
 
 describe('AnimatedDigits', () => {
+  it('can leave the real text to a parent while generating decorative digits', () => {
+    render(<AnimatedDigits value="128" decorative />)
+
+    const digits = document.querySelector('.dnb-animated-digits')
+    expect(digits.textContent).toBe('')
+    expect(digits).toHaveAttribute('aria-hidden', 'true')
+    expect(
+      document.querySelector('.dnb-animated-digits__text')
+    ).toHaveAttribute('data-text', '128')
+  })
+
+  it('exposes one complete accessible value and hides the visual digits', () => {
+    render(<AnimatedDigits value="1 234,50" />)
+
+    expect(
+      document.querySelector('.dnb-animated-digits__visual')
+    ).toHaveAttribute('aria-hidden', 'true')
+    expect(
+      document.querySelector('.dnb-animated-digits__text')
+    ).toHaveTextContent('1 234,50')
+  })
+
+  it('keeps right-to-left text in its native text run without animation', () => {
+    render(<AnimatedDigits value="١ مليون" previousValue="٢ مليون" />)
+
+    expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+    expect(document.body).toHaveTextContent('١ مليون')
+  })
+
   it('renders formatted text without motion when no previous value is supplied', () => {
     render(<AnimatedDigits value="20 Nov 2026, 09:41" />)
 
@@ -99,6 +128,18 @@ describe('AnimatedDigits', () => {
     expect(document.querySelector('.dnb-animated-digits')).toBe(number)
   })
 
+  it('keeps an unchanged sign outside the resizing viewport', () => {
+    render(<AnimatedDigits value="+1 234 567" previousValue="+99" />)
+
+    const viewport = document.querySelector(
+      '.dnb-animated-digits__viewport'
+    )
+    expect(viewport.previousElementSibling).toHaveAttribute(
+      'data-text',
+      '+'
+    )
+  })
+
   it.each([
     ['128', '28', '1'],
     ['−128', '−28', '1'],
@@ -185,6 +226,16 @@ describe('AnimatedDigits', () => {
       )
     })
 
+    it('preserves the total width when an unchanged prefix moves outside the viewport', () => {
+      const { rerender } = render(<AnimatedDigits value="+99" />)
+
+      rerender(<AnimatedDigits value="+1 000" previousValue="+99" />)
+      expect(animate).toHaveBeenLastCalledWith(
+        [{ width: '30px' }, { width: '60px' }],
+        { duration: 160, easing: 'ease-out' }
+      )
+    })
+
     it('continues interrupted updates from their visible width and cancels on unmount', () => {
       const { rerender, unmount } = render(<AnimatedDigits value="99" />)
       rerender(<AnimatedDigits value="1 000" previousValue="99" />)
@@ -217,6 +268,17 @@ describe('AnimatedDigits', () => {
 
       rerender(<AnimatedDigits value="1 000" previousValue="10" />)
       expect(animate).toHaveBeenCalledOnce()
+    })
+
+    it('does not animate from a width measured while hidden', () => {
+      vi.mocked(Element.prototype.getBoundingClientRect)
+        .mockReturnValueOnce({ width: 0 } as DOMRect)
+        .mockReturnValueOnce({ width: 0 } as DOMRect)
+      const { rerender } = render(<AnimatedDigits value="99" />)
+
+      rerender(<AnimatedDigits value="100" previousValue="99" />)
+
+      expect(animate).not.toHaveBeenCalled()
     })
   })
 
