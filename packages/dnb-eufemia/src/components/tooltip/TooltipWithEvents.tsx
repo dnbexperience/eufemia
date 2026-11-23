@@ -20,13 +20,14 @@ import type {
   MouseEvent,
 } from 'react'
 import { clsx } from 'clsx'
+import { createPortal } from 'react-dom'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { isTouch } from './TooltipHelpers'
 import Popover from '../popover/Popover'
 import getRefElement from '../../shared/internal/getRefElement'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 import type { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
-import AriaLive from '../AriaLive'
 import { MODAL_OPEN_EVENT } from '../modal/ModalContext'
 
 type TooltipWithEventsProps = {
@@ -62,6 +63,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     skipPortal || (!noAnimation && !globalThis.IS_TEST)
 
   const { internalId, isControlled } = useContext(TooltipContext)
+  const canUseDOM = useCanUseDOM()
 
   const [isOpen, setIsOpen] = useState(open)
   const [isOverlayHovered, setOverlayHovered] = useState(false)
@@ -248,7 +250,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     return () => window.removeEventListener('keydown', onKeyDown, true)
   }, [overlayOpen, isControlled, dismiss])
 
-  const describedById = overlayOpen && !omitDescribedBy ? internalId : null
+  // A hidden copy is in the DOM at focus time, so screen readers read it.
+  // It is placed outside the content, so it doesn't add to the text around the trigger.
+  const describedById =
+    omitDescribedBy || !canUseDOM ? null : `${internalId}-description`
 
   /**
    * Get our "target"
@@ -298,6 +303,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
   }, [open, isControlled])
 
+  // The target may overwrite aria-describedby without changing its identity.
   useEffect(() => {
     const targetElement = getRefElement(cloneRef)
     if (!(targetElement instanceof HTMLElement)) {
@@ -343,7 +349,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     return () => {
       updateAriaDescribedBy(null)
     }
-  }, [cloneRef, describedById, target])
+  })
 
   useEffect(() => clearOverlayTimers, [])
 
@@ -467,9 +473,17 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         {children}
       </Popover>
 
-      <AriaLive element="span" priority="low">
-        {overlayOpen ? children : null}
-      </AriaLive>
+      {describedById &&
+        createPortal(
+          <span
+            id={describedById}
+            className="dnb-tooltip__description"
+            hidden
+          >
+            {children}
+          </span>,
+          getDescriptionRoot()
+        )}
 
       {componentWrapper}
     </>
@@ -477,3 +491,16 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 }
 
 export default TooltipWithEvents
+
+function getDescriptionRoot() {
+  const id = 'eufemia-tooltip-descriptions'
+  let root = document.getElementById(id)
+
+  if (!root) {
+    root = document.createElement('div')
+    root.id = id
+    document.body.appendChild(root)
+  }
+
+  return root
+}

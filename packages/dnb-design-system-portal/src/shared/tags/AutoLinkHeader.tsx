@@ -5,6 +5,7 @@ import Anchor from './Anchor'
 import Heading, {
   type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
+import AriaLive from '@dnb/eufemia/src/components/AriaLive'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import {
   getSlugFromReactHeading,
@@ -118,6 +119,11 @@ const AutoLinkHeader = ({
           >
             #
           </Anchor>
+        )}
+        {clickHandler && id && (
+          <AriaLive element="span">
+            {anchorUrlSet ? 'Copied' : null}
+          </AriaLive>
         )}
       </span>
     </Heading>

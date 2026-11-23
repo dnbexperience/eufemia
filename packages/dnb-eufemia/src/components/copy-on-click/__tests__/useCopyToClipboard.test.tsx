@@ -239,7 +239,6 @@ describe('useCopyToClipboard timeout', () => {
       expect(document.querySelector('[role="tooltip"]')).toHaveTextContent(
         'Copied'
       )
-      expect(target).toHaveAttribute('aria-describedby')
 
       await advanceTime(1000)
       window.getSelection().removeAllRanges()
@@ -258,7 +257,6 @@ describe('useCopyToClipboard timeout', () => {
       )
 
       await advanceTime(1000)
-      expect(target).not.toHaveAttribute('aria-describedby')
       // The popover stays in the DOM for its closing animation.
       await advanceTime(300)
       expect(

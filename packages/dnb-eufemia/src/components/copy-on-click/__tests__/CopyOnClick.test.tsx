@@ -163,6 +163,22 @@ describe('CopyOnClick', () => {
     })
   })
 
+  it('announces the copy to screen readers without describing the text with it', async () => {
+    window.getSelection()?.removeAllRanges()
+
+    render(<CopyOnClick tooltipContent="Copied">text</CopyOnClick>)
+    const element = document.querySelector('.dnb-copy-on-click')
+
+    await userEvent.click(element)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Copied'
+      )
+    })
+    expect(element).not.toHaveAttribute('aria-describedby')
+  })
+
   it('should not copy to clipboard when disabled', async () => {
     // Seed clipboard with a known value
     await navigator.clipboard.writeText('seed')
