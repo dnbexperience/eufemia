@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import * as sass from 'sass'
 import postcss from 'postcss'
+import { foundationPrefixMap } from '../prebuild/tasks/foundationPrefixMap.ts'
 
 export const tokenModes = [
   { brand: 'ui', mode: 'light', name: 'DNB light' },
@@ -124,7 +125,41 @@ export const contrastRatio = (
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 }
 
-export const resolveTokenValues = (css: string): TokenValues => {
+type Brand = (typeof tokenModes)[number]['brand']
+
+export type CrossBrandReference = { token: string; reference: string }
+
+type TokenMode = {
+  name: (typeof tokenModes)[number]['name']
+  tokens: TokenValues
+  crossBrandReferences?: CrossBrandReference[]
+}
+
+export const findCrossBrandReferences = (
+  css: string,
+  brand: Brand
+): CrossBrandReference[] => {
+  // The legacy Eiendom theme uses the DNB foundation
+  const ownPrefix =
+    brand === 'eiendom'
+      ? foundationPrefixMap.ui.css
+      : foundationPrefixMap[brand].css
+  const prefixes = Object.values(foundationPrefixMap).map(({ css }) => css)
+  const referencePattern = new RegExp(
+    `var\\(\\s*(--(${prefixes.join('|')})-[\\w-]+)\\s*\\)`,
+    'g'
+  )
+  return Object.entries(collectDeclarations(css))
+    .filter(([name]) => name.startsWith('--token-'))
+    .sort(([a], [b]) => a.localeCompare(b))
+    .flatMap(([token, value]) =>
+      [...value.matchAll(referencePattern)]
+        .filter(([, , prefix]) => prefix !== ownPrefix)
+        .map(([, reference]) => ({ token, reference }))
+    )
+}
+
+const collectDeclarations = (css: string): TokenValues => {
   const declarations: TokenValues = {}
   postcss.parse(css).walkDecls((declaration) => {
     if (!declaration.prop.startsWith('--')) {
@@ -148,6 +183,11 @@ export const resolveTokenValues = (css: string): TokenValues => {
     }
     declarations[declaration.prop] = declaration.value
   })
+  return declarations
+}
+
+export const resolveTokenValues = (css: string): TokenValues => {
+  const declarations = collectDeclarations(css)
   const resolve = (name: string, chain: string[] = []): string => {
     if (chain.includes(name)) {
       throw new Error(
@@ -173,7 +213,7 @@ export const resolveTokenValues = (css: string): TokenValues => {
 export const loadTokenModes = (
   repositoryRoot: string,
   revision?: string
-) => {
+): TokenMode[] => {
   const read = (file: string) =>
     revision
       ? execFileSync('git', ['show', revision + ':' + file], {
@@ -222,7 +262,11 @@ export const loadTokenModes = (
         ],
       }
     ).css
-    return { name, tokens: resolveTokenValues(css) }
+    return {
+      name,
+      tokens: resolveTokenValues(css),
+      crossBrandReferences: findCrossBrandReferences(css, brand),
+    }
   })
 }
 
@@ -379,10 +423,22 @@ export const reviewTokenChanges = (
   const regressions: string[] = []
   const acceptedRegressions: string[] = []
   const existingFailures: string[] = []
+  const newCrossBrandReferences: string[] = []
   for (const current of after) {
     const previous = before.find(({ name }) => name === current.name)
     if (!previous) {
       throw new Error('Missing base theme: ' + current.name)
+    }
+    for (const { token, reference } of current.crossBrandReferences ??
+      []) {
+      const existed = (previous.crossBrandReferences ?? []).some(
+        (item) => item.token === token && item.reference === reference
+      )
+      if (!existed) {
+        newCrossBrandReferences.push(
+          '| ' + [current.name, token, reference].join(' | ') + ' |'
+        )
+      }
     }
     for (const change of changedTokens(previous.tokens, current.tokens)) {
       lines.push(
@@ -463,6 +519,18 @@ export const reviewTokenChanges = (
     }
   }
   lines.push(
+    '',
+    '## New cross-brand foundation references',
+    '',
+    ...(newCrossBrandReferences.length
+      ? [
+          'These tokens now use a foundation color from another brand. Check in Figma that this is intended.',
+          '',
+          '| Theme / mode | Token | Foundation variable |',
+          '| --- | --- | --- |',
+          ...newCrossBrandReferences,
+        ]
+      : ['None.']),
     '',
     '## Contrast regressions',
     '',

@@ -17,4 +17,6 @@ The checked pairs are listed in tokenReview.ts:
 
 A pair below its target fails the review only when its contrast decreases compared with the base. Existing failures and improvements that remain below the target are still listed. This allows focused fixes without hiding known limitations or accepting new regressions. It is not a full accessibility audit: component states, effective font sizes, custom overrides and nested surfaces still need browser review.
 
+The report also lists tokens that newly reference a foundation color from another brand, such as a Carnegie token using a DNB color. These are generated as Figma defines them; the list is a prompt to confirm in Figma that they are intended.
+
 The sync workflow publishes the report in its job summary and PR comment. The PR workflow also generates the source exports before checking them and publishes its report in the job summary. It does not run on pull requests into release branches, because those only bundle token changes that were already reviewed in earlier pull requests. Unsupported colors, unresolved references and cyclic aliases fail the review rather than producing an incomplete report.

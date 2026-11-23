@@ -11,6 +11,7 @@ import stylelint from 'stylelint'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
+import { foundationPrefixMap } from './foundationPrefixMap'
 import { formatNumberValue as transformNumberValue } from '../../../src/style/themes/figma/tokenValueUtils'
 
 const prettierrc = JSON.parse(
@@ -237,16 +238,6 @@ type TokenItem = {
   figmaPath: string[]
   figmaSetId: FigmaSetId
 } & FigmaValue
-
-const foundationPrefixMap = {
-  ui: { css: 'dnb', figma: 'dnb' },
-  sbanken: { css: 'sbanken', figma: 'sbanken' },
-  // @deprecated Transitional "coconut" brand, removed later.
-  // The Figma set is still named after the brand it replaces.
-  coconut: { css: 'coconut', figma: 'sbanken-new' },
-  carnegie: { css: 'carnegie', figma: 'dnb-carnegie' },
-  birdhouse: { css: 'birdhouse', figma: 'dnb-eiendom' },
-}
 
 export const transformFigmaAlias = (alias: FigmaAlias) => {
   const figmaAliasName = alias.targetVariableName
