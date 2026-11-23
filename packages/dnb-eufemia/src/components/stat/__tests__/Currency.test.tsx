@@ -28,6 +28,15 @@ describe('Stat.Currency', () => {
   })
 
   describe('animated updates', () => {
+    it('isolates the complete animated amount from the page direction', () => {
+      render(<Stat.Currency value={1234} animate dir="rtl" />)
+
+      expect(document.querySelector('.dnb-stat__content')).toHaveAttribute(
+        'dir',
+        'ltr'
+      )
+    })
+
     it.each([Stat.Currency, Stat.Percent])(
       'animates the numeric width without translating the symbol (%#)',
       (Component) => {
@@ -60,7 +69,7 @@ describe('Stat.Currency', () => {
             { duration: 160, easing: 'ease-out' }
           )
           expect(animate.mock.contexts[0]).toBe(
-            document.querySelector('.dnb-animated-digits__viewport')
+            document.querySelector('.dnb-animated-digits')
           )
           expect(
             document.querySelector(
@@ -92,7 +101,7 @@ describe('Stat.Currency', () => {
         ).toHaveTextContent('34')
         expect(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed'
+            '.dnb-animated-digits__character--changed .dnb-animated-digits__value'
           )
         ).toHaveLength(2)
         expect(
@@ -233,9 +242,9 @@ describe('Stat.Currency', () => {
       expect(
         Array.from(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed'
+            '.dnb-animated-digits__character--changed .dnb-animated-digits__value'
           )
-        ).map((digit) => digit.textContent)
+        ).map((digit) => digit.getAttribute('data-text'))
       ).toEqual(['2', '7', '5'])
     })
 

@@ -20,6 +20,7 @@ import useStatSkeleton from './useStatSkeleton'
 import { TextInternal as Text } from './Text'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import AnimatedNumber from '../../fragments/animated-digits/AnimatedNumber'
+import { hasRtlText } from '../../fragments/animated-digits/AnimatedDigits'
 
 type AmountOwnProps = Omit<
   NumberFormatProps,
@@ -151,6 +152,8 @@ function AmountBase(props: AmountProps) {
   })
 
   const parts = formatted.parts
+  const shouldAnimate =
+    animate && !hasSkeleton && !hasRtlText(formatted.number)
   const omitCurrencySpacing =
     isCurrency && currencyPosition === 'auto' && signDisplay === 'always'
   const isNegativeZero = Object.is(Number(rawValue), -0)
@@ -243,7 +246,7 @@ function AmountBase(props: AmountProps) {
         </>
       )}
       <span className={amountClass}>
-        {animate && !hasSkeleton ? (
+        {shouldAnimate ? (
           <AnimatedNumber
             key={animationFormat}
             value={renderedAmount}
@@ -340,7 +343,11 @@ function AmountBase(props: AmountProps) {
       skeleton={skeleton}
       textClassName={false}
     >
-      <span className="dnb-stat__content" aria-hidden>
+      <span
+        className="dnb-stat__content"
+        aria-hidden
+        dir={shouldAnimate ? 'ltr' : undefined}
+      >
         {content}
       </span>
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}

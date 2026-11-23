@@ -46,7 +46,9 @@ Use `animate` on `NumberFormat.Number`, `NumberFormat.Currency` or `NumberFormat
 
 Initial values, newly available data and formatting changes appear immediately. Reduced motion disables animation. Screen readers receive the final value immediately, without extra announcements. Use [AriaLive](/web/components/aria-live/) when an update needs to be announced.
 
-Use `animate={{ reserveWidth: '9ch' }}` to reserve space for the largest expected number. Digits align to the start of that space. Allow enough room for the currency or unit at narrow widths.
+Right-to-left text and bidirectional formatting marks use native text without animation to preserve shaping and reading order.
+
+Use `animate={{ reserveWidth: '9ch' }}` to reserve space for the largest expected number. Digits follow the surrounding text alignment. Allow enough room for the currency or unit at narrow widths.
 
 The standard Eufemia stylesheets include the animation styles. When importing individual component styles, also include:
 

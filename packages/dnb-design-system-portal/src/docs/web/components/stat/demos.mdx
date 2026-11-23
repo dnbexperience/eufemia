@@ -42,7 +42,7 @@ Changed digits roll directly to the new value in 160 ms. Removed leading digits 
 
 The initial value, newly available data and locale changes appear immediately. Reduced motion disables both effects. Screen readers receive the final formatted value immediately; animation does not add live announcements. Use [AriaLive](#with-arialive) when an update needs to be announced.
 
-Set `animate={{ reserveWidth: '9ch' }}` to reserve space for the largest expected amount and avoid width changes. The digits align to the start of that space. Allow enough room for the unit at narrow widths.
+Set `animate={{ reserveWidth: '9ch' }}` to reserve space for the largest expected amount and avoid width changes. The digits follow the surrounding text alignment. Allow enough room for the unit at narrow widths.
 
 ### Currency within a Trend
 

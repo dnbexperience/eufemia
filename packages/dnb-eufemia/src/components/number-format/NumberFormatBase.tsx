@@ -49,6 +49,7 @@ import { runIOSSelectionFix, formatNumber, formatCurrency } from './utils'
 import type { NumberFormatOptionParams, NumberFormatValue } from './utils'
 import type { NumberFormatAllProps } from './types'
 import AnimatedNumberFormat from './AnimatedNumberFormat'
+import { hasRtlText } from '../../fragments/animated-digits/AnimatedDigits'
 
 export type * from './types'
 
@@ -379,20 +380,22 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
   const { cleanedValue, locale: lang } = result
   let { aria } = result
   const isSkeleton = skeleton || (skeleton !== false && context?.skeleton)
-  let display: ReactNode =
+  const shouldAnimate =
     animate &&
     !isSkeleton &&
-    (result.type === 'number' || result.type === 'currency') ? (
-      <AnimatedNumberFormat
-        key={JSON.stringify([formatOptions, result.locale, result.type])}
-        result={result}
-        reserveWidth={
-          typeof animate === 'object' ? animate.reserveWidth : undefined
-        }
-      />
-    ) : (
-      result.number
-    )
+    !hasRtlText(result.number) &&
+    (result.type === 'number' || result.type === 'currency')
+  let display: ReactNode = shouldAnimate ? (
+    <AnimatedNumberFormat
+      key={JSON.stringify([formatOptions, result.locale, result.type])}
+      result={result}
+      reserveWidth={
+        typeof animate === 'object' ? animate.reserveWidth : undefined
+      }
+    />
+  ) : (
+    result.number
+  )
   cleanedValueRef.current = cleanedValue
 
   if (prefix) {
@@ -471,6 +474,7 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
         )}
         // Makes it possible for NVDA to read on mouse over
         aria-hidden={!hover}
+        dir={shouldAnimate ? 'ltr' : undefined}
         {...displayParams}
       >
         {display}

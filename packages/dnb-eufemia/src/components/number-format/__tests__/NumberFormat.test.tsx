@@ -79,6 +79,25 @@ describe('NumberFormat component', () => {
   })
 
   describe('animated updates', () => {
+    it('isolates the complete animated value from the page direction', () => {
+      render(<NumberFormat.Currency value={1234.5} animate dir="rtl" />)
+
+      expect(document.querySelector(displaySelector)).toHaveAttribute(
+        'dir',
+        'ltr'
+      )
+    })
+
+    it('keeps Arabic compact text in the native formatted output', () => {
+      const props = { locale: 'ar-EG', compact: 'long' as const }
+      render(<NumberFormat.Number value={1000000} {...props} animate />)
+
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        formatNumber(1000000, props)
+      )
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+    })
+
     it.each([
       NumberFormat.Number,
       NumberFormat.Currency,
@@ -117,7 +136,7 @@ describe('NumberFormat component', () => {
         )
         expect(
           document.querySelector<HTMLElement>(
-            '.dnb-number-format__visible > .dnb-animated-digits'
+            '.dnb-number-format__visible .dnb-animated-digits--reserved'
           ).style.minInlineSize
         ).toBe('6ch')
         await userEvent.click(document.querySelector(displaySelector))
@@ -131,7 +150,6 @@ describe('NumberFormat component', () => {
     it.each([
       { locale: 'nb-NO', currencyPosition: 'after' as const },
       { locale: 'en-GB', currencyPosition: 'before' as const },
-      { locale: 'ar-EG', currencyPosition: 'after' as const },
       { locale: 'en-US', options: { currencySign: 'accounting' } },
       { locale: 'nb-NO', compact: 'long' as const },
     ])(
@@ -156,6 +174,19 @@ describe('NumberFormat component', () => {
         )
       }
     )
+
+    it('keeps Arabic currency and bidi marks in their native text run', () => {
+      const props = { locale: 'ar-EG', currencyPosition: 'after' as const }
+      render(<NumberFormat.Currency {...props} value={-9876.5} animate />)
+
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        formatCurrency(-9876.5, props)
+      )
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+      expect(document.querySelector(displaySelector)).not.toHaveAttribute(
+        'dir'
+      )
+    })
 
     it.each([
       { currencyPosition: 'before' as const },

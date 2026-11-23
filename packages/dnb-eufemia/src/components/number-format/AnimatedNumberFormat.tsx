@@ -48,18 +48,35 @@ export default function AnimatedNumberFormat({
     .join('')
 
   return (
-    <>
-      <span className="dnb-number-format__symbol">
-        <AnimatedNumber value={before} numericValue={numericValue} />
+    <span className="dnb-animated-digits__formatted dnb-animated-digits__formatted--fluid">
+      <span className="dnb-animated-digits__formatted-text">
+        {parts.map(({ value }) => value).join('')}
       </span>
-      <AnimatedNumber
-        value={number}
-        numericValue={numericValue}
-        reserveWidth={reserveWidth}
-      />
-      <span className="dnb-number-format__symbol">
-        <AnimatedNumber value={after} numericValue={numericValue} />
+      <span
+        className="dnb-animated-digits__formatted-visual"
+        aria-hidden="true"
+      >
+        <span className="dnb-number-format__symbol">
+          <AnimatedNumber
+            value={before}
+            numericValue={numericValue}
+            decorative
+          />
+        </span>
+        <AnimatedNumber
+          value={number}
+          numericValue={numericValue}
+          reserveWidth={reserveWidth}
+          decorative
+        />
+        <span className="dnb-number-format__symbol">
+          <AnimatedNumber
+            value={after}
+            numericValue={numericValue}
+            decorative
+          />
+        </span>
       </span>
-    </>
+    </span>
   )
 }
