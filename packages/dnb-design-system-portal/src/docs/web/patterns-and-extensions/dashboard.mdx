@@ -1,0 +1,355 @@
+---
+title: Dashboard pattern
+description: Compose dashboards that help people understand what changed, what needs attention, and what to do next.
+navigation:
+  title: Dashboard pattern
+  order: 2
+  parent: web/patterns-and-extensions/patterns
+---
+
+import {
+  OperationalExample,
+  FinancialExample,
+} from 'Docs/web/patterns-and-extensions/dashboard/Examples'
+
+A dashboard brings together information for a recurring decision: **What is happening? What needs attention? What can I do next?** It may combine metrics, lists, and charts. Use a simpler list or task page when that meets the need.
+
+Use this pattern to plan and evaluate a dashboard with business, UX, and development colleagues. It covers layout, time views, context, and interaction. **How charts look is outside its scope**, including chart types, colors, axes, and visual encoding. Chart placement and dashboard usage are covered.
+
+These are research-informed recommendations, not universal best practices. Validate them with representative users.
+
+## Task-based examples
+
+### What needs my attention?
+
+Choose an account to update the summary and payment details. An operational overview uses Stat for a quick summary, a wider priority queue, and a compact upcoming section. Use its sort menu to order scheduled payments. Urgent work stays visible; tertiary accordions reveal payment and approval details. A product would link to each record and its actions.
+
+<OperationalExample />
+
+**Why:** priority, impact, and deadlines help people decide where to start. Dividers separate task groups; inline details keep the queue in view. A list exposes the affected records, reasons, and next steps directly.
+
+Keep secondary actions, such as sorting a list, in a labeled [Menu](/web/components/menu/) beside the affected content. Show the current order on the trigger so people can understand the list without opening the menu. Keep urgent actions visible.
+
+### How are we doing?
+
+A financial overview groups net movement, money in, and money out in three outlined Stat cards. They share the available width and stack together on narrower screens. Switch Day / Month / Year, then explore Overview / Period breakdown. The incomplete year compares equivalent months.
+
+<FinancialExample />
+
+**Why:** totals show scale; comparisons and a trend reveal change. Shared controls and metrics stay above the tabs to preserve context. The chart gets more width than its supporting explanation.
+
+These are fictional, fixed sample periods. A product also needs period navigation. Chart appearance, card count, and width ratios are illustrative. See [component choices](#choose-components) for implementation guidance.
+
+## Start with the task
+
+Use one approach for internal and external projects. Familiarity, visit frequency, and urgency matter more than the audience label.
+
+Choose a useful default scope and period. Avoid requiring configuration before showing useful information.
+
+Agree on who makes the decision, what each metric means, which data supports it, and what action a change should lead to. Include a target or threshold only when it has an agreed business meaning.
+
+### Frequent operational work
+
+- **Emphasize:** exceptions, work queues, useful saved filters, and direct actions.
+- **Why:** people need to notice changes and resume work quickly.
+
+### Occasional overview
+
+- **Emphasize:** plain labels, clear scope, explanations of unfamiliar metrics, and a clear next step.
+- **Why:** people should not need to remember definitions between visits.
+
+### Investigation, internal or external
+
+- **Emphasize:** comparisons, filtering, and access to underlying records.
+- **Why:** an overview alone cannot explain a change.
+
+## Layout and hierarchy
+
+Choose the composition by the decision. A dashboard does not require charts or a row of metric cards.
+
+For a combined view, put time-sensitive work before history. Label its scope separately so a historical filter cannot silently hide unresolved work.
+
+### Shared context
+
+**Suggested reading order:** title, scope and controls, then data freshness.
+
+### What needs action now?
+
+**Suggested reading order:** priority and deadline, then work queue, record, and next action.
+
+### What changed, and should I investigate?
+
+**Suggested reading order:** key metrics and comparison, then trends with related context and underlying records.
+
+### Make priorities visible
+
+- **Do:** give the most important question a prominent position and enough space.
+- **Don't:** give every metric equal emphasis regardless of priority.
+- **Why:** equal emphasis makes priorities harder to find.
+
+### Keep comparisons together
+
+- **Do:** group information that people need to compare.
+- **Don't:** scatter related panels across the page or separate tabs.
+- **Why:** keeping context nearby reduces memory and navigation effort.
+
+### Give values context
+
+- **Do:** show the label, unit, and period; add a comparison or target when useful.
+- **Don't:** show an unexplained number or percentage change.
+- **Why:** a value needs context before people can judge it.
+
+### Make filter scope clear
+
+- **Do:** apply shared filters consistently; label panels with a different scope.
+- **Don't:** silently mix accounts, periods, or data sources.
+- **Why:** people may compare values that do not describe the same thing.
+
+### Preserve context in details
+
+- **Do:** link to details and preserve the selected scope and period.
+- **Don't:** make people rebuild filters after opening details or going back.
+- **Why:** investigation should continue from the overview.
+
+### Use space to show relationships
+
+Use smaller gaps within a group and larger gaps between groups. Add an Hr for a meaningful section break or a Card where a boundary helps; avoid boxing or dividing every value. Proximity and boundaries help people recognize what belongs together.
+
+Allocate width by the task: a work queue or chart may need more room than reminders. Use Stat for a clearly labeled key value and supporting context; vary emphasis when priorities differ.
+
+Use the product's page width and spacing. The examples center content within a maximum width and keep 1rem of padding at the edges. This limits scanning distance on wide screens and keeps content away from browser borders on narrow screens.
+
+Keep reading and keyboard order aligned. Stack panels on narrow screens and at zoom; let the page scroll vertically instead of squeezing everything into one screen. Avoid page-wide horizontal scrolling; wide tables may need their own scrollable region.
+
+## Tabs, sidebar, or neither?
+
+Use the product's existing navigation. Add another level only when it helps people find a distinct task or view. A dashboard can use a sidebar and tabs together, but does not require either.
+
+- **Sidebar:** move between product areas, such as Overview, Payments, and Accounts. Stable destinations help people find their way and return to work.
+- **Tabs:** switch between a few related views, such as Overview and Period breakdown. This saves space when direct comparison is unnecessary.
+- **Filters:** change the account or Day / Month / Year within a view. The task stays the same while the data changes.
+- **Tertiary accordion:** reveal supporting details, such as failed payments. People can inspect records while keeping the surrounding overview visible.
+
+**Example:** a sidebar selects **Accounts**; tabs switch **Overview / Transactions** within Accounts; account and period controls filter the selected view. Use only the levels the task needs.
+
+### Keep urgent work visible
+
+- **Do:** show urgent work in the default overview, with links to the relevant destination.
+- **Don't:** rely on people visiting every tab to discover an overdue task.
+- **Why:** inactive panels can go unnoticed.
+
+### Use tabs for separate views
+
+- **Do:** keep information side by side or in reading order when comparison is essential.
+- **Don't:** split a comparison across tabs or nest tab sets.
+- **Why:** switching views adds navigation and memory effort.
+
+### Show where people are
+
+- **Do:** make the current destination and view clear; preserve filters when returning.
+- **Don't:** leave it unclear whether a control affects one panel or the whole dashboard.
+- **Why:** people need to understand what each selection changes.
+
+## Time views
+
+Distinguish **range**, **grouping**, and **comparison**. For example: “November 2026, grouped by day, compared with October 2026.”
+
+### Day
+
+- **Range:** one selected calendar day, optionally grouped by hour.
+- **Useful for:** intraday activity and operational follow-up.
+
+### Week
+
+- **Range:** one selected week, optionally grouped by day.
+- **Useful for:** short-term planning and recurring weekly work.
+
+### Month
+
+- **Range:** one selected calendar month, optionally grouped by day or week.
+- **Useful for:** monthly spending, workload, or progress.
+
+### Year
+
+- **Range:** one selected calendar or fiscal year, optionally grouped by month or quarter.
+- **Useful for:** longer-term trends and seasonal changes.
+
+### Custom
+
+- **Range:** explicit start and end dates, with grouping appropriate to the range.
+- **Useful for:** a task that standard periods cannot answer.
+
+### Choosing and comparing periods
+
+Offer only useful views and meaningful aggregations; not every metric can be summed or averaged.
+
+- Show exact dates, including the year. State the time zone, week start, and fiscal calendar where relevant. Account for daylight saving changes in day/hour grouping.
+- Let people choose the period within Day, Month, or Year. Previous / Next and Today / This month / This year shortcuts help when moving between periods is frequent. Make unavailable future periods clear. Distinguish “This month” from a rolling “Last 30 days.”
+- Label incomplete periods. Compare “1–20 November” with an equivalent elapsed period, or explain a different basis. A partial month beside a full month can imply a false decline.
+- Keep the selected range visible after filtering. Preserve it in navigation and, where appropriate, a shareable URL without sensitive values.
+
+Use a short, mutually exclusive choice for the view and a date or period selector for the range.
+
+Update labels, data, comparisons, and detail links together. Keep keyboard focus on the control and announce one result summary to screen readers, rather than every changing value.
+
+## Formatting numbers and dates
+
+Formatting is part of the decision. Agree on locale, units, precision, and time zone with the business and UX team, then apply them across summaries, comparisons, tables, and exports. The examples follow the portal's selected locale and use NOK and whole kroner.
+
+Use [Stat](/web/components/stat/) for prominent metrics, [NumberFormat](/web/components/number-format/) for inline numbers, amounts, and percentages, and [DateFormat](/web/components/date-format/) for dates and timestamps. These components provide consistent formatting and screen reader output.
+
+Use the [Number formatting reference](/design-foundations/number-formatting/) to compare the formats for each locale.
+
+### Follow one locale
+
+- **Do:** use the product's locale for grouping, decimal separators, and dates.
+- **Don't:** mix `1,234.50` and `1.234,50` in one view.
+- **Why:** people may read the same value as a different amount.
+
+### State the unit
+
+- **Do:** show the currency or unit beside a value, or once in a clear table header.
+- **Don't:** infer currency from language or total different currencies without conversion.
+- **Why:** locale does not identify currency; totals need a shared unit.
+
+### Choose precision for the task
+
+- **Do:** use consistent precision for comparable values and exact amounts where people act.
+- **Don't:** round a payment amount or hide a small change as zero.
+- **Why:** rounding can change a decision. Compact values need access to the full amount.
+
+### Explain percentage changes
+
+- **Do:** name the comparison and distinguish percent from percentage points.
+- **Don't:** describe a rise from 20% to 25% as “+5%.”
+- **Why:** it is +5 percentage points, or a 25% relative increase. These answer different questions.
+
+### Make dates unambiguous
+
+- **Do:** show the date range and include the year when needed.
+- **Don't:** rely on “today” or an ambiguous date such as `03/04/26`.
+- **Why:** people need to know which period or deadline a value describes.
+
+### Show freshness and deadlines
+
+- **Do:** show exact update and deadline times, with the time zone when it matters.
+- **Don't:** use only “a while ago” or silently mix time zones.
+- **Why:** freshness and cutoffs can affect what people need to do next.
+
+### Keep values readable
+
+Right-align numeric table columns and their headers to help comparison. Keep a real zero distinct from missing or unavailable data.
+
+Animate value changes only when the transition helps people follow an update. Keep it brief, preserve alignment and units, and respect reduced motion. The examples use optional number animation; dates update immediately.
+
+## Explanations where they help
+
+Use [TermDefinition](/web/components/term-definition/) for an unfamiliar metric such as “net movement.” Use [HelpButton](/web/components/help-button/) beside a label or heading for a short explanation of how a comparison works. Use a tertiary [Accordion](/web/components/accordion/) for details people may want to keep open while reading, such as what the figures include.
+
+**Why:** definitions explain vocabulary at the point of use; help explains a calculation without adding permanent text; inline details support closer inspection. Keep the period, units, important limitations, and required actions visible. Avoid adding both a definition and a help button for the same explanation.
+
+## Placing charts
+
+Give the main question enough space. Place related charts beside each other for comparison; stack them when they need more width. Do not squeeze charts until labels become unreadable.
+
+Keep titles, units, range, filters, and a short takeaway nearby; shared context can sit above the group. Provide an accessible explanation of essential trends and access to values, such as a [Table](/web/components/table/) with a caption and column headers. Put the control for values near the chart title so people can find it before traversing the chart. An Accordion keeps both representations available; tabs can switch between chart and table when simultaneous access is unnecessary. Never require hover to read essential information or discover an action.
+
+## Data states and trust
+
+### Loading or changing scope
+
+- **Do:** keep layout and focus stable, mark the region busy, and show loading feedback.
+- **Don't:** leave old values under a new period without identifying their original scope.
+- **Why:** people may act on values that belong to a different selection.
+
+### Zero or no results
+
+- **Do:** distinguish zero, no matches, and missing data; offer a useful next step.
+- **Don't:** show zero for unavailable or unauthorized data.
+- **Why:** these states lead to different decisions.
+
+### Error or partial data
+
+- **Do:** explain which region is unavailable, offer a local retry, and keep other regions usable.
+- **Don't:** replace the whole dashboard when only one source fails.
+- **Why:** one failed source should not hide the rest of the overview.
+
+### Stale or live data
+
+- **Do:** show an “Updated” time and refresh policy; offer pause or frequency control unless updates are essential.
+- **Don't:** refresh silently or interrupt someone reading.
+- **Why:** people need to judge freshness and read without interruption.
+
+### Explain what a change means
+
+Do not infer success or failure from a number's sign alone. Rising costs and rising savings have different meanings. Pair semantic color with explicit text.
+
+## Validate the dashboard
+
+Ask users to find the priority, explain a comparison, change the period, open details, and recover from no results or an error. Check keyboard use, screen reader context, narrow screens, and zoom. Assess whether people can make the intended decision.
+
+## Implementation
+
+Build with existing Eufemia components; there is no Dashboard component.
+
+### Choose components
+
+#### Page regions and grouping
+
+[Grid](/web/layout-and-typography/layout/grid/) for regions, [Flex](/web/layout-and-typography/layout/flex/) within them, [Section](/web/components/section/) for grouped controls and surfaces, [Hr](/web/components/hr/) for section breaks, and [Card](/web/components/card/) where a boundary helps grouping.
+
+#### Product navigation
+
+[SidebarMenu](/web/patterns-and-extensions/sidebar-menu/) for persistent destinations.
+
+#### Related dashboard views
+
+[Tabs](/web/components/tabs/) for peer views; use navigation links for separate destinations.
+
+#### Prominent metric and context
+
+[Stat](/web/components/stat/) with Number, Currency, or Percent, plus a label and comparison in text.
+
+#### Inline and table values
+
+[NumberFormat.Number](/web/components/number-format/), NumberFormat.Currency, or NumberFormat.Percent.
+
+#### Short lists in text
+
+[ListFormat](/web/components/list-format/) for selected account names, regions, or other short lists in a summary. It localizes separators and conjunctions so the context reads naturally in each language.
+
+#### Task queues and records
+
+[List](/web/components/list/) for tasks or recent activity; [Table](/web/components/table/) when people need to compare records across shared columns. Keep dashboard previews short and link to the full collection. Use [Pagination](/web/components/pagination/) when browsing a larger collection belongs in the dashboard itself.
+
+#### Scope and filters
+
+[Chip.Group](/web/components/chip/) for short choices; [Dropdown](/web/components/dropdown/) or [Autocomplete](/web/components/autocomplete/) for longer lists.
+
+[Filter](/web/components/filter/) when a region needs search and several filter groups, with active selections visible. Make clear whether filters affect that region or the whole dashboard.
+
+#### Displayed dates and timestamps
+
+[DateFormat](/web/components/date-format/); the application owns the time zone policy.
+
+#### Choosing dates and periods
+
+[DatePicker](/web/components/date-picker/) plus application-owned period navigation.
+
+#### Details and next actions
+
+[Accordion](/web/components/accordion/) with the tertiary variant for inline details; [Anchor](/web/components/anchor/) for navigation; [Button](/web/components/button/) for actions.
+
+[Menu](/web/components/menu/) for secondary actions such as export. Keep the primary next action directly visible so people do not need to search for it.
+
+#### Definitions and help
+
+[TermDefinition](/web/components/term-definition/) for vocabulary; [HelpButton](/web/components/help-button/) for a short explanation beside a label or heading.
+
+#### Status and feedback
+
+[Status indicators](/web/patterns-and-extensions/status-icon/), [FormStatus](/web/components/form-status/) for filter validation, [GlobalStatus](/web/components/global-status/) for page-wide issues.
+
+#### Loading and updates
+
+[Skeleton](/web/components/skeleton/) or [ProgressIndicator](/web/components/progress-indicator/) for loading feedback. Use [AriaLive](/web/components/aria-live/) for one result summary when the chosen component does not already announce updates.
