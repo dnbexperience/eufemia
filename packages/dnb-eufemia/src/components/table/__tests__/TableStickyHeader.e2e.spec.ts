@@ -1,10 +1,33 @@
+import path from 'node:path'
+import { compile } from 'sass'
+import postcss from 'postcss'
 import { test, expect } from '@playwright/test'
+import isolateStyles from '../../../plugins/postcss-isolated-style-scope'
+import { transformCssnano } from '../../../../scripts/prebuild/tasks/transformUtils'
 
-test.describe('Table sticky header', () => {
+test.describe('Table sticky header with minified CSS', () => {
+  let stickyCss: string
+
+  test.beforeAll(async () => {
+    const file = {
+      path: path.resolve(__dirname, '../style/table-sticky.scss'),
+    }
+    const minified = await transformCssnano({ reduceIdents: false })(
+      compile(file.path).css,
+      file
+    )
+    stickyCss = (
+      await postcss([
+        isolateStyles({ scopeHash: 'eufemia-scope--portal' }),
+      ]).process(minified, { from: file.path })
+    ).css
+  })
+
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 600, height: 720 })
     await page.goto('/web/components/table/visual-tests/sticky-header/')
     await expect(page.locator('thead tr')).toHaveClass(/page-scroll/)
+    await page.addStyleTag({ content: stickyCss })
   })
 
   test('follows page scrolling within the table bounds and preserves horizontal scrolling', async ({

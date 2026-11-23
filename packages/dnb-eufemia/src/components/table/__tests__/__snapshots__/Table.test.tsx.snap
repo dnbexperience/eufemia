@@ -881,7 +881,14 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
 @supports (animation-timeline: scroll(root block)) and (animation-range: 0 1px) {
   @media screen {
     .dnb-table tr.sticky.page-scroll {
-      animation: table-sticky-scroll auto linear both !important;
+      animation-name: table-sticky-scroll !important;
+      animation-duration: auto !important;
+      animation-timing-function: linear !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+      animation-direction: normal !important;
+      animation-fill-mode: both !important;
+      animation-play-state: running !important;
       animation-timeline: scroll(root block) !important;
       animation-range: var(--table-scroll-start) var(--table-scroll-end) !important;
     }

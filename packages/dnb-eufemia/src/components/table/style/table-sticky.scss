@@ -27,7 +27,16 @@
     @media screen {
       tr.sticky.page-scroll {
         // This positions the header, so reduced-motion resets must not disable it.
-        animation: table-sticky-scroll auto linear both !important;
+        // Longhands prevent minifiers from moving a shorthand after the timeline and resetting it.
+        animation-name: table-sticky-scroll !important;
+        animation-duration: auto !important;
+        animation-timing-function: linear !important;
+        animation-delay: 0s !important;
+        animation-iteration-count: 1 !important;
+        animation-direction: normal !important;
+        animation-fill-mode: both !important;
+        // stylelint-disable-next-line declaration-block-no-redundant-longhand-properties
+        animation-play-state: running !important;
         animation-timeline: scroll(root block) !important;
         animation-range: var(--table-scroll-start) var(--table-scroll-end) !important;
       }
