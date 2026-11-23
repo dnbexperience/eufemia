@@ -319,7 +319,7 @@ export async function startHttpServer(
   app.use(hostAllowlistMiddleware(allowedHosts, logErr))
   app.use(originAllowlistMiddleware(allowedOrigins, logErr))
   app.use(['/mcp', '/sse', '/messages'], authMiddleware(authToken))
-  app.use(express.json({ limit: '4mb' }))
+  app.use(['/mcp', '/messages'], express.json({ limit: '4mb' }))
 
   app.get('/healthz', (_req: ExpressRequest, res: ExpressResponse) => {
     res.json({
