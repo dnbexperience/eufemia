@@ -296,7 +296,7 @@ export function ChevronIcon({
   position,
 }: {
   expanded?: boolean
-  position?: ItemActionIconPosition
+  position?: 'left' | 'right'
 }) {
   const isAccordion = expanded !== undefined
   const accordionIcon =
