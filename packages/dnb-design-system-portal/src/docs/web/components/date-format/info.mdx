@@ -6,7 +6,7 @@ legacyFragments:
   dateformat: /web/components/date-format/#date-format
 ---
 
-## Description
+## Info
 
 A ready-to-use DNB date formatter. Use it wherever you want to format dates.
 
@@ -26,18 +26,18 @@ Good to know:
 - Use `relativeTimeStyle` to control the style used for relative time.
 - The component will automatically detect and format **ISO 8601 duration** strings.
 
-## Import
+### Import
 
 ```tsx
 import { DateFormat } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/date-format)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/date-format)
 
-## Under the hood
+### Under the hood
 
 The component uses `Intl.DateTimeFormat` browser API and `Date.toLocaleDateString` as a fallback, to format dates based on locale.
 
@@ -45,7 +45,7 @@ See [Intl.DateTimeFormat locale documentation](https://developer.mozilla.org/en-
 
 The [time element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/time) is used to ensure that the date is readable for screen readers.
 
-## Supported date value formats
+### Supported date value formats
 
 The following formats are supported as date values for conversion:
 
@@ -54,11 +54,11 @@ The following formats are supported as date values for conversion:
 - `dd/MM/yyyy`
 - `Date` object
 
-## Relative time reference
+### Relative time reference
 
 When using `relativeTime`, you can provide a `relativeTimeReference` property (as a function) to define the reference point for relative time calculations. This is useful for testing or when you need a specific reference time. If not provided, the current time is used.
 
-## `formatDate` helper function
+### `formatDate` helper function
 
 If you really need a formatted date string without rendering the component, you can import the utility directly:
 
@@ -70,7 +70,7 @@ formatDate('2023-01-01', {
 })
 ```
 
-## `getOsloDate` helper
+### `getOsloDate` helper
 
 When you need a UTC Date object with midnight that always reflects the current day in `Europe/Oslo`, pull in the helper directly:
 
@@ -81,7 +81,7 @@ getOsloDate() // -> e.g. Date object representing "2025-11-24T00:00:00.000Z" reg
 
 This is helpful when you are comparing "today" against backend data or applying Oslo-specific highlighting in the [DatePicker](/web/components/date-picker/).
 
-### Parameters
+#### Parameters
 
 | Name              | Type                         | Default                  | Description                                                                                                                                                       |
 | ----------------- | ---------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |

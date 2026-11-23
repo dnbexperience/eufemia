@@ -54,6 +54,11 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Selection />)
 ```
 
+### Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Selection)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Selection)
+
 ### Automatically selecting a single option
 
 Set `autoSelectSingleOption` to select the only enabled option when the field is empty. It defaults to `false` and works with all variants and options provided through `data`, `dataPath`, or children.
@@ -80,11 +85,6 @@ Existing values are never overwritten. If more options become available, the sel
 For dynamic lists, enable the property only when loading has finished and the complete list is available, for example with `autoSelectSingleOption={!isLoading}`. Do not pass search-filtered results as the complete option list. Reset dependent values in application code when a parent selection changes; this property does not clear selections that become invalid.
 
 Use this behavior only when accepting the sole option does not require an explicit decision. A required field alone does not imply that selecting on the user's behalf is appropriate. For a one-time initial selection, use `defaultValue` instead.
-
-### Relevant links
-
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Selection)
-- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Selection)
 
 ### About the Autocomplete variant
 

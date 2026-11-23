@@ -22,6 +22,11 @@ import { SidebarMenu } from '@dnb/eufemia/extensions'
 import '@dnb/eufemia/extensions/sidebar-menu/style'
 ```
 
+### Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/sidebar-menu)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/patterns-and-extensions/sidebar-menu)
+
 ### Design goals
 
 - Work with SSR and SSG. Stable prerendered markup, storage metadata, and CSS-driven responsive visibility avoid layout shifts during hydration.
@@ -392,11 +397,6 @@ function AppNavigation() {
 ```
 
 Above `drawerAt`, the trigger restores a dismissed sidebar at `expandedWidth`. Enter or double-click on the resize divider also restores that width. While dragging below `ResizeHandle`'s `minWidth`, the content keeps that minimum width and ScrollView provides horizontal overflow instead of rewrapping menu labels. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. At or below `drawerAt`, the same trigger controls the Drawer instead.
-
-### Relevant links
-
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/sidebar-menu)
-- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/patterns-and-extensions/sidebar-menu)
 
 ### Accessibility
 

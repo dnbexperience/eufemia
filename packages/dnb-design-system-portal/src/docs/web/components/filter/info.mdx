@@ -16,6 +16,12 @@ The component uses a namespace pattern where `Filter` is the import and `Filter.
 import { Filter } from '@dnb/eufemia'
 ```
 
+### Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=15807-0)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/filter)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/filter)
+
 ### Behavior
 
 By default, `Filter.Root` emits changes in real time via `onChange`. Set `behavior="manual"` to buffer filter changes internally — the panel will show an "Apply filter" button to commit changes and a "Cancel" button to revert changes. This is useful when filter changes trigger expensive operations like API calls. Note that search input is always emitted in real time, even in manual mode. `Filter.ActiveFilters` only shows applied filters, so tags won't appear until the user applies them.
@@ -288,11 +294,5 @@ When the filter panel is closed with the bottom "Hide filter" button, the "Apply
 #### Find-in-page
 
 When `openOnFind` is enabled, the panel and collapsible active filters keep closed content findable by the browser's find-in-page feature, powered by [HeightAnimation](/web/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
-
-### Relevant links
-
-- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=15807-0)
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/filter)
-- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/filter)
 
 <RelatedComponents />

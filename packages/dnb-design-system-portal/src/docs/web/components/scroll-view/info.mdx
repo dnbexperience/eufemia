@@ -36,6 +36,11 @@ The previous fragment import remains available for backwards compatibility, but 
 import { ScrollView } from '@dnb/eufemia/fragments'
 ```
 
+### Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/scroll-view)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/scroll-view)
+
 ### Accessibility
 
 A scrollable region must be reachable by keyboard when it contains no other focusable elements. Use `interactive="auto"` to add it to the tab order only while it overflows. Use `interactive={true}` when it must always be keyboard-focusable.
@@ -47,10 +52,5 @@ When the region needs an accessible name, provide `aria-label` or `aria-labelled
 Use `scrollbarGutter="stable"` to reserve space for the scrollbar, preventing horizontal layout shifts when content dynamically changes between overflowing and non-overflowing states.
 
 This maps to `scrollbar-gutter: stable`. It has no visible effect on systems using overlay scrollbars, such as the default configuration on macOS and iOS. `Dialog` and `Drawer` enable it automatically by default.
-
-### Relevant links
-
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/scroll-view)
-- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/scroll-view)
 
 <RelatedComponents />

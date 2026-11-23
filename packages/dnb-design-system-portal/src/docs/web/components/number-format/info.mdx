@@ -8,30 +8,30 @@ legacyFragments:
 
 import { NumberFormat } from '@dnb/eufemia/src'
 
-## Description
+## Info
 
 A ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, a phone number, etc.
 
 For a complete locale comparison, see [Number formatting reference](/design-foundations/number-formatting/).
 
-## Import
+### Import
 
 ```tsx
 import { NumberFormat } from '@dnb/eufemia'
 ```
 
-## Relevant links
+### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=52173-680)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/number-format)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/number-format)
 
-## Why use it?
+### Why use it?
 
 - To standardize the formatting of numbers for all DNB applications.
 - To make numbers accessible to screen readers.
 
-## Supported formats
+### Supported formats
 
 - Numbers in general e.g. <code className="dnb-code"><NumberFormat.Number value="12345678.90" /></code>
 - Currency e.g. <code className="dnb-code"><NumberFormat.Currency value="12345678.90" /></code>
@@ -43,7 +43,7 @@ import { NumberFormat } from '@dnb/eufemia'
 - Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat.Number compact value="12345678" decimals={1} /></code>
 - Compact (long) currency e.g. <code className="dnb-code"><NumberFormat.Currency compact="long" currencyDisplay="name" value="12345678" decimals={1} /></code>
 
-## Defaults
+### Defaults
 
 It uses the browser API `Intl.NumberFormat` under the hood, as well as some custom formatters. The locale defaults to:
 
@@ -52,20 +52,20 @@ It uses the browser API `Intl.NumberFormat` under the hood, as well as some cust
 
 Percentages keep `%` in the display and use the localized unit name in screen-reader text. For example, `−1,55 %` is exposed as `−1,55 prosent` in Norwegian. Both use the same rounding and precision settings.
 
-### Norwegian kroner
+#### Norwegian kroner
 
 When the currency format is set to `currencyDisplay="name"`, the currency will be displayed as "kroner" instead of "Norwegian kroner".
 
 - Norwegian currency: <code className="dnb-code"><NumberFormat.Currency currencyDisplay="name" value="1234.90" /></code>
 - Swedish currency: <code className="dnb-code"><NumberFormat.Currency currency="SEK" currencyDisplay="name" value="1234.90" /></code>
 
-### Not available
+#### Not available
 
 When a number should be displayed but is not available to the frontend application, the NumberFormat component will display a single **en dash** (–), and a screen reader will receive the text "Ikke tilgjengelig" / "Not available".
 
 Example: <NumberFormat.Currency value="invalid" />
 
-## Decimals
+### Decimals
 
 If the value has more decimal places than specified by the `decimals={2}` property, it will be rounded accordingly.
 
@@ -75,7 +75,7 @@ Here are the available options for the `rounding` property:
 - `half-even`: Round to the nearest even number.
 - `half-up` (default): Round up if the fractional part is 0.5 or greater; otherwise, round down.
 
-## Value Components
+### Value Components
 
 The formatting helpers power several `Value.*` components:
 
@@ -88,7 +88,7 @@ The formatting helpers power several `Value.*` components:
 - [Value.NationalIdentityNumber](/web/forms/Value/NationalIdentityNumber/)
 - [Value.OrganizationNumber](/web/forms/Value/OrganizationNumber/)
 
-## Provider
+### Provider
 
 You can send down the `locale` as an application-wide property (Context). More info about the [provider and locale usage](/web/components/number-format/provider).
 
@@ -104,7 +104,7 @@ render(
 )
 ```
 
-## Formatter utilities
+### Formatter utilities
 
 Each variant has a matching formatter function you can use outside of React (e.g. in utilities, tests or server code). They are all available from the main import:
 
@@ -132,7 +132,7 @@ import {
 
 Each formatter accepts `(value, options?)` and returns a formatted string. Pass `{ returnAria: true }` to get the full object with `number`, `aria`, `cleanedValue` and `locale`.
 
-## NumberFormat Hook
+### NumberFormat Hook
 
 **Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
 
@@ -165,7 +165,7 @@ render(
 )
 ```
 
-### NumberFormat Hook with parts
+#### NumberFormat Hook with parts
 
 You can also use `useNumberFormatWithParts` when you need split output for custom layouts:
 
@@ -202,11 +202,11 @@ render(
 )
 ```
 
-## Related component
+### Related component
 
 For prominent values with dedicated typography controls, use [Stat](/web/components/stat/).
 
-## Formatting only (interceptor)
+### Formatting only (interceptor)
 
 You can use the variant formatter functions without using a React Component or React Hook.
 
@@ -230,7 +230,7 @@ const number = formatNumber(1234)
 
 Each variant formatter accepts the same options as the corresponding component variant.
 
-### Interceptor helpers
+#### Interceptor helpers
 
 Also, you may check out the related tests **NumberFormat > cleanNumber** in the source code to find more examples.
 
@@ -241,7 +241,7 @@ const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678
 const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
 ```
 
-### Format bank account numbers
+#### Format bank account numbers
 
 Use `formatBankAccountNumberByType` to format bank account numbers with a specific type. It supports Norwegian BBAN, Swedish BBAN, Swedish Bankgiro, Swedish Plusgiro, and IBAN.
 
@@ -257,13 +257,13 @@ formatBankAccountNumberByType('NO9386011117947', 'iban') // { number: 'NO93 8601
 
 The `aria` string is what screen readers announce, one character at a time.
 
-### Element and style
+#### Element and style
 
 The number component is style-independent, so it has no visual styles. By default, a `<span>` is used. However, you can easily change the element type by providing a different value to the `element="div"` property.
 
-## Accessibility
+### Accessibility
 
-### Minus signs
+#### Minus signs
 
 Use the Unicode minus sign (`U+2212`, −) when displaying negative values. It is the semantically correct mathematical sign. The hyphen-minus (`U+002D`, -) is intended for keyboard input and compatibility, not as the preferred display character.
 
@@ -294,7 +294,7 @@ render(
 )
 ```
 
-### More details
+#### More details
 
 > Screen readers require numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component helps achieve this requirement.
 
@@ -302,7 +302,7 @@ Numbers are formatted differently for screen readers than the visual number. Num
 
 Amounts are announced as whole numbers, such as "ten thousand kroner", because that is how the value is read out loud. Identifiers are announced one character at a time, so they can be written down exactly as announced. This applies to `BankAccountNumber`, `OrganizationNumber` and the personal number part of `NationalIdentityNumber`. `PhoneNumber` is announced in pairs, following how phone numbers are spoken.
 
-### Sources
+#### Sources
 
 Eufemia bases its number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato), and currency is based on [guidelines](https://www.sprakradet.no/svardatabase/sporsmal-og-svar/kronebelop-rekkjefolgje-komma-og-strek/) from Språkrådet. Wikipedia has more info on worldwide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
 
@@ -324,7 +324,7 @@ For international number formatting we use these sources:
 
 When using spaces as thousand separators, screen readers misinterpret numbers in English. For example: `45 804` is read as "45" and "804" instead of "forty-five thousand eight hundred and four."
 
-## Node.js and SSR usage
+### Node.js and SSR usage
 
 If you run the component or `format` function in [Node.js](https://nodejs.org), you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-GB. You can do this by:
 
@@ -332,7 +332,7 @@ If you run the component or `format` function in [Node.js](https://nodejs.org), 
 - and call node with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`
 - after a Node.js version upgrade you may have to run `npm rebuild`
 
-## Known issues
+### Known issues
 
 Edge Browser on Windows 10 is converting numbers automatically to followable links. This makes the experience on NVDA bad, as it reads also the new, unformatted link number.
 
