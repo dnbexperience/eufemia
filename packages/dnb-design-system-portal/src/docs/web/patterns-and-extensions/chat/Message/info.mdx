@@ -6,14 +6,6 @@ redirect_from:
   - /uilib/extensions/ai/Message/info
 ---
 
-## Import
-
-```tsx
-import { Message } from '@dnb/eufemia/extensions/chat'
-import '@dnb/eufemia/extensions/chat/style'
-render(<Message />)
-```
-
 ## Description
 
 Bubble messages use theme colors and radius, small text and `0.5rem` by `1rem` padding. Avatars sit beside the bubble. Use the same avatar with the grouped prop on follow-up messages to retain alignment without repeating the icon; user avatars, names and timestamps are optional.
@@ -25,3 +17,11 @@ For a customer-service handover, use `from="assistant"`, an Avatar with the `cus
 Compose the content inside `Chat.Message` using children: plain text, [Chat.Response](/web/patterns-and-extensions/chat/Response/) for markdown, [Chat.Task](/web/patterns-and-extensions/chat/Task/), or [Chat.Sources](/web/patterns-and-extensions/chat/Sources/). String children preserve line breaks. Set `from="user"` for user messages and give each message a unique DOM `id` to use the conversation scrolling and visibility hooks.
 
 See [Integrations](/web/patterns-and-extensions/chat/integrations/) for connecting your chat data to these components.
+
+## Import
+
+```tsx
+import { Message } from '@dnb/eufemia/extensions/chat'
+import '@dnb/eufemia/extensions/chat/style'
+render(<Message />)
+```

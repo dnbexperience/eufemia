@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/Form/SubmitConfirmation/info
 ---
 
-## Import
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-render(<Form.SubmitConfirmation />)
-```
-
 ## Description
 
 `Form.SubmitConfirmation` can be used to prevent the [Form.Handler](/web/forms/Form/Handler/) from submitting, and makes it possible to show a confirmation dialog in different scenarios.
@@ -60,6 +53,13 @@ The `renderWithState` function is called whenever the submit confirmation state 
   - `success`
   - `customStatus` Your custom status.
 - `data` is the data that was submitted.
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.SubmitConfirmation />)
+```
 
 ## Connect with a Dialog
 

@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/Form/Visibility/info
 ---
 
-## Import
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-render(<Form.Visibility />)
-```
-
 ## Description
 
 The `Form.Visibility` component allows you to conditionally show or hide components based on the state of data or field validation. You can either provide the values directly via properties or let it read data from a surrounding [Form.Handler](/web/forms/Form/Handler/). This enables dynamic visibility control based on the paths it points to.
@@ -82,6 +75,13 @@ render(
 ```
 
 To prevent visibility changes during user interactions like typing, it shows the children only when the field both has no errors and has lost focus (blurred). You can use the `validateContinuously: true` property to immediately show the children when the field has no errors.
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.Visibility />)
+```
 
 ## Accessibility
 

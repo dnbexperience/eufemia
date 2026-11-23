@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/base-fields/Composition/info
 ---
 
-## Import
-
-```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.Composition />)
-```
-
 ## Description
 
 `Field.Composition` is a component for when you create a field block that contains of several existing fields. It uses [FieldBlock](/web/forms/create-component/FieldBlock/) under the hood.
@@ -36,6 +29,13 @@ When each field inside your composition is horizontally aligned for larger scree
 If each of the fields have a label, the labels should ideally be top aligned. But when one of the labels contain more text than fits into one line, the fields will be bottom aligned.
 
 In the demo section you find an [example](#composition-field-with-error) on how to handle form states.
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Composition />)
+```
 
 ## Relevant links
 

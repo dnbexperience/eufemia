@@ -4,12 +4,6 @@ redirect_from:
   - /uilib/components/filter/info
 ---
 
-## Import
-
-```tsx
-import { Filter } from '@dnb/eufemia'
-```
-
 ## Description
 
 `Filter` is a composable filter UI for building search and filter experiences. It does **not** own your data — instead, it provides shared state that you read with the `Filter.useFilter(id)` hook and apply to your own data source.
@@ -83,6 +77,12 @@ These hooks sync filter state to URL query parameters so filters survive page re
 - **`Filter.useQueryLocator(id, options?)`** — Uses the History API directly. Works without any router. Best for plain React apps or when no router is available.
 - **`Filter.useReactRouter(id, { useSearchParams, ...options })`** — Uses React Router's `useSearchParams`. Pass the hook from your router version.
 - **`Filter.useNextRouter(id, { useRouter, usePathname, useSearchParams, ...options })`** — Uses Next.js App Router hooks. Pass `useRouter`, `usePathname`, and `useSearchParams` from `next/navigation`.
+
+## Import
+
+```tsx
+import { Filter } from '@dnb/eufemia'
+```
 
 ## Basic usage
 

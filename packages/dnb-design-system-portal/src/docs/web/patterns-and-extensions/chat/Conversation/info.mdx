@@ -6,14 +6,6 @@ redirect_from:
   - /uilib/extensions/ai/Conversation/info
 ---
 
-## Import
-
-```tsx
-import { Conversation } from '@dnb/eufemia/extensions/chat'
-import '@dnb/eufemia/extensions/chat/style'
-render(<Conversation />)
-```
-
 ## Description
 
 `Chat.Conversation` holds the messages, and takes care of the scrolling while new messages and replies stream in. Read more in [Message scroller](/web/patterns-and-extensions/chat/message-scroller/).
@@ -41,6 +33,14 @@ Give the conversation an `id`, and use `Chat.useConversation(id)` to scroll it, 
 ### Customize the peek
 
 The part of the previous reply that is shown above a new turn is set with the `--ai-conversation-peek` CSS custom property, which defaults to `3rem`.
+
+## Import
+
+```tsx
+import { Conversation } from '@dnb/eufemia/extensions/chat'
+import '@dnb/eufemia/extensions/chat/style'
+render(<Conversation />)
+```
 
 ## Incoming messages
 

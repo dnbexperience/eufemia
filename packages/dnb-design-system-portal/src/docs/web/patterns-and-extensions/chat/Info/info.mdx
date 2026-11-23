@@ -6,6 +6,14 @@ redirect_from:
   - /uilib/extensions/ai/Info/info
 ---
 
+## Description
+
+`Chat.Info` shows supporting information that helps users understand the conversation, such as how the chat works, privacy guidance, or the limitations of AI-generated answers.
+
+Place it near the content it explains, for example before the first message in a [Conversation](/web/patterns-and-extensions/chat/Conversation/). It accepts paragraphs, links, and other content, using smaller text and a secondary text color.
+
+This is static supporting content. Use [FormStatus](/web/components/form-status/) for errors or other status messages that require attention.
+
 ## Import
 
 ```tsx
@@ -14,11 +22,3 @@ import '@dnb/eufemia/extensions/chat/style'
 
 render(<Info>Learn how this assistant works.</Info>)
 ```
-
-## Description
-
-`Chat.Info` shows supporting information that helps users understand the conversation, such as how the chat works, privacy guidance, or the limitations of AI-generated answers.
-
-Place it near the content it explains, for example before the first message in a [Conversation](/web/patterns-and-extensions/chat/Conversation/). It accepts paragraphs, links, and other content, using smaller text and a secondary text color.
-
-This is static supporting content. Use [FormStatus](/web/components/form-status/) for errors or other status messages that require attention.

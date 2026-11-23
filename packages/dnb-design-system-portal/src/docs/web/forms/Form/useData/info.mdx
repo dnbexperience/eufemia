@@ -5,13 +5,6 @@ redirect_from:
   - /web/extensions/forms/Form/useData/info
 ---
 
-## Import
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-// Use Form.useData, Form.useDataValue or Form.useDataWithoutSubscription
-```
-
 ## Description
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
@@ -21,6 +14,13 @@ If rendered output depends on one form data path inside `Form.Handler`, use [For
 If you need the imperative helpers without subscribing to form data changes, use `Form.useDataWithoutSubscription`.
 
 For custom field or value components that render a form value, prefer [useFieldProps](/web/forms/create-component/useFieldProps/) or [useValueProps](/web/forms/create-component/useValueProps/). They keep the component reactive with path-scoped form updates.
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.useData, Form.useDataValue or Form.useDataWithoutSubscription
+```
 
 ## Relevant links
 
