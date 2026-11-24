@@ -64,7 +64,7 @@ TypeScript types are mandatory for merging commits in Eufemia. During a commit (
 yarn workspace @dnb/eufemia test:types
 ```
 
-`test:types` and `test:types:watch` use the native TypeScript 7 compiler (`tsgo`) for faster checks. Type definitions (`test:types:definitions`), ESLint, and editors still use TypeScript 6. Run `yarn workspace @dnb/eufemia test:types:tsc` to check with TypeScript 6. To check with TypeScript 7 in VS Code too, install the recommended [TypeScript 7](https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.native-preview) extension and run the `TypeScript: Enable TypeScript 7` command.
+`test:types` uses the native TypeScript 7 compiler (`tsgo`) for faster checks. Type definitions (`test:types:definitions`), watch mode (`test:types:watch`), ESLint, and editors still use TypeScript 6. Run `yarn workspace @dnb/eufemia test:types:tsc` to check with TypeScript 6. To check with TypeScript 7 in VS Code too, install the recommended [TypeScript 7](https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.native-preview) extension and run the `TypeScript: Enable TypeScript 7` command.
 
 Fix the resulting warnings and errors before you commit and merge.
 
