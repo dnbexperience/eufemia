@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
-import Table from '../Table'
+import Table, { Td, Th, Tr } from '../Table'
 import { BasicTable } from './TableMocks'
 
 describe('useStickyHeader', () => {
@@ -284,6 +284,53 @@ describe('useStickyHeader', () => {
       ).toEqual('568px')
     }
   )
+
+  it('should keep the sticky classes when the header row re-renders after the rows are reloaded', async () => {
+    mockScrollTimelineSupport()
+    const ReloadTable = ({ rows }: { rows: Array<string> }) => (
+      <Table sticky>
+        <thead>
+          <Tr>
+            <Th>Name</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <Tr key={row}>
+              <Td>{row}</Td>
+            </Tr>
+          ))}
+        </tbody>
+      </Table>
+    )
+    const rows = ['Row 1', 'Row 2']
+
+    const { rerender } = render(<ReloadTable rows={rows} />)
+
+    const trElem = document.querySelector('tr')
+
+    setSizes()
+    simulateScroll(320)
+
+    expect(trElem).toHaveClass('sticky', 'page-scroll', 'is-sticky')
+
+    // The header row becomes the last row, so React replaces its classes
+    rerender(<ReloadTable rows={[]} />)
+    await Promise.resolve()
+
+    expect(trElem).toHaveClass(
+      'dnb-table__tr--last',
+      'sticky',
+      'page-scroll',
+      'is-sticky'
+    )
+
+    rerender(<ReloadTable rows={rows} />)
+    await Promise.resolve()
+
+    expect(trElem).not.toHaveClass('dnb-table__tr--last')
+    expect(trElem).toHaveClass('sticky', 'page-scroll', 'is-sticky')
+  })
 
   it('should check if .dnb-scroll-view has a vertical scrollbar and set shadow only, when css-position is used', () => {
     const { rerender } = render(

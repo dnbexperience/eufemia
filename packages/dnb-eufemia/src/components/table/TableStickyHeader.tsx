@@ -34,6 +34,7 @@ export const useStickyHeader = ({
       let scrollViewElem = null
       let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
+      let usesPageScroll = false
       let usesScrollTimeline = false
 
       try {
@@ -48,8 +49,7 @@ export const useStickyHeader = ({
         const thElem = getThElement(tableElem)
 
         const setScrollRange = () => {
-          const usesPageScroll =
-            sticky !== 'css-position' && !scrollViewElem
+          usesPageScroll = sticky !== 'css-position' && !scrollViewElem
           trElem.classList.toggle('page-scroll', usesPageScroll)
           usesScrollTimeline = usesPageScroll && supportsScrollTimeline
 
@@ -204,6 +204,22 @@ export const useStickyHeader = ({
           onScroll()
         }
 
+        // React replaces all classes when the row re-renders, e.g. when the rows are reloaded
+        const restoreClasses = () => {
+          if (trElem.classList.contains('sticky')) {
+            return // stop here
+          }
+
+          trElem.classList.add('sticky')
+          trElem.classList.toggle(
+            'css-position',
+            sticky === 'css-position'
+          )
+          trElem.classList.toggle('page-scroll', usesPageScroll)
+          trElem.classList.toggle('is-sticky', isSticky)
+        }
+        const classObserver = new MutationObserver(restoreClasses)
+
         const applyObservers = () => {
           try {
             trElem.classList.add('sticky')
@@ -216,6 +232,9 @@ export const useStickyHeader = ({
 
             bindScroll()
             window.addEventListener('resize', onResize)
+            classObserver.observe(trElem, {
+              attributeFilter: ['class'],
+            })
           } catch (e) {
             stickyWarning(String(e))
           }
@@ -225,6 +244,7 @@ export const useStickyHeader = ({
 
         return () => {
           clearTimeout(timeout)
+          classObserver.disconnect()
           scrollTargetElem?.removeEventListener('scroll', onScroll)
           window.removeEventListener('resize', onResize)
         }
