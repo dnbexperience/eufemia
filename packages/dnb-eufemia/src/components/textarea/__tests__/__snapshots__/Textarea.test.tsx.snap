@@ -544,7 +544,7 @@ html[data-visual-test] .dnb-textarea__textarea {
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
     --textarea-border-width: var(--textarea-border-width--hover);
     --textarea-border-inset: ;
     --textarea-color-border: var(--token-color-stroke-action-hover);

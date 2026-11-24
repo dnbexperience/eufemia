@@ -369,7 +369,9 @@
   // hover, after focus so the hover color wins.
   // Touch browsers keep :hover on the last tapped element
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+    :where(
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      )
       &__textarea:not([disabled]):not(#{&}--disabled):hover
       ~ &__state {
       --textarea-border-width: var(--textarea-border-width--hover);
