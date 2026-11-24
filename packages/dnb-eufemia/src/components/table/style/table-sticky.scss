@@ -4,7 +4,8 @@
 */
 
 .dnb-table {
-  tr.sticky {
+  // The state is set by "useStickyHeader"
+  tr[data-sticky] {
     position: sticky;
     z-index: 7; // above focused body cells
 
@@ -17,7 +18,7 @@
     }
   }
 
-  tr.sticky.css-position {
+  tr[data-sticky='css-position'] {
     top: var(--table-top, 0); // is set by "stickyOffset" prop
   }
 
@@ -25,7 +26,7 @@
   @supports (animation-timeline: scroll(root block)) and
     (animation-range: 0 1px) {
     @media screen {
-      tr.sticky.page-scroll {
+      tr[data-sticky][data-page-scroll] {
         // This positions the header, so reduced-motion resets must not disable it.
         // Longhands prevent minifiers from moving a shorthand after the timeline and resetting it.
         animation-name: table-sticky-scroll !important;
@@ -43,7 +44,7 @@
     }
   }
 
-  &--outline tr.sticky::after {
+  &--outline tr[data-sticky]::after {
     // Continue the outer frame above the focused body cells.
     content: '';
     position: absolute;
@@ -55,7 +56,7 @@
     pointer-events: none;
   }
 
-  tr.sticky.is-sticky th::before {
+  tr[data-sticky][data-is-sticky] th::before {
     content: '';
     position: absolute;
     left: 0;

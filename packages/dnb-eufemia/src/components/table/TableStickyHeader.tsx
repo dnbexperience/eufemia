@@ -34,7 +34,6 @@ export const useStickyHeader = ({
       let scrollViewElem = null
       let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
-      let usesPageScroll = false
       let usesScrollTimeline = false
 
       try {
@@ -49,8 +48,9 @@ export const useStickyHeader = ({
         const thElem = getThElement(tableElem)
 
         const setScrollRange = () => {
-          usesPageScroll = sticky !== 'css-position' && !scrollViewElem
-          trElem.classList.toggle('page-scroll', usesPageScroll)
+          const usesPageScroll =
+            sticky !== 'css-position' && !scrollViewElem
+          trElem.toggleAttribute('data-page-scroll', usesPageScroll)
           usesScrollTimeline = usesPageScroll && supportsScrollTimeline
 
           if (usesScrollTimeline) {
@@ -128,7 +128,7 @@ export const useStickyHeader = ({
               '--table-top',
               `${offsetTopPx / 16}rem`
             )
-            // tr.sticky always applies the transform, so a leftover offset would stack on top
+            // The sticky row always applies the transform, so a leftover offset would stack on top
             trElem.style.removeProperty('--table-offset')
           } else {
             trElem.style.removeProperty('--table-top')
@@ -171,7 +171,7 @@ export const useStickyHeader = ({
             if (!isSticky) {
               isSticky = true
 
-              trElem.classList.add('is-sticky')
+              trElem.toggleAttribute('data-is-sticky', true)
             }
           } else {
             if (isSticky) {
@@ -183,7 +183,7 @@ export const useStickyHeader = ({
                 }
               }
 
-              trElem.classList.remove('is-sticky')
+              trElem.removeAttribute('data-is-sticky')
             }
           }
         }
@@ -204,37 +204,15 @@ export const useStickyHeader = ({
           onScroll()
         }
 
-        // React replaces all classes when the row re-renders, e.g. when the rows are reloaded
-        const restoreClasses = () => {
-          if (trElem.classList.contains('sticky')) {
-            return // stop here
-          }
-
-          trElem.classList.add('sticky')
-          trElem.classList.toggle(
-            'css-position',
-            sticky === 'css-position'
-          )
-          trElem.classList.toggle('page-scroll', usesPageScroll)
-          trElem.classList.toggle('is-sticky', isSticky)
-        }
-        const classObserver = new MutationObserver(restoreClasses)
-
         const applyObservers = () => {
           try {
-            trElem.classList.add('sticky')
-            trElem.classList.toggle(
-              'css-position',
-              sticky === 'css-position'
-            )
+            // Unlike classes, data attributes are kept when React re-renders the row
+            trElem.setAttribute('data-sticky', String(sticky))
 
             setSizes()
 
             bindScroll()
             window.addEventListener('resize', onResize)
-            classObserver.observe(trElem, {
-              attributeFilter: ['class'],
-            })
           } catch (e) {
             stickyWarning(String(e))
           }
@@ -244,7 +222,6 @@ export const useStickyHeader = ({
 
         return () => {
           clearTimeout(timeout)
-          classObserver.disconnect()
           scrollTargetElem?.removeEventListener('scroll', onScroll)
           window.removeEventListener('resize', onResize)
         }
@@ -269,12 +246,9 @@ const resetStickyHeader = (tableElem: HTMLTableElement) => {
     return // stop here
   }
 
-  trElem.classList.remove(
-    'sticky',
-    'css-position',
-    'is-sticky',
-    'page-scroll'
-  )
+  trElem.removeAttribute('data-sticky')
+  trElem.removeAttribute('data-page-scroll')
+  trElem.removeAttribute('data-is-sticky')
   trElem.style.removeProperty('--table-offset')
   trElem.style.removeProperty('--table-top')
   trElem.style.removeProperty('--table-scroll-start')

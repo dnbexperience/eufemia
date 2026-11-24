@@ -61,7 +61,7 @@ describe('useStickyHeader', () => {
     )
   })
 
-  it('should add "css-position" class', () => {
+  it('should set the css-position mode', () => {
     render(
       <Table sticky="css-position">
         <BasicTable />
@@ -70,18 +70,13 @@ describe('useStickyHeader', () => {
 
     setSizes()
 
-    expect(document.querySelector('tr')).toHaveClass(
-      'dnb-table__tr',
-      'dnb-table__tr--odd',
-      'sticky',
+    expect(document.querySelector('tr')).toHaveAttribute(
+      'data-sticky',
       'css-position'
     )
   })
 
-  it('should add/remove is-sticky class when interacting', () => {
-    const getTrClasses = () =>
-      Array.from(screen.queryByRole('table').querySelector('tr').classList)
-
+  it('should set/remove data-is-sticky when interacting', () => {
     render(
       <Table sticky>
         <BasicTable />
@@ -90,17 +85,20 @@ describe('useStickyHeader', () => {
 
     setSizes()
 
+    const trElem = document.querySelector('tr')
+
     expect(Array.from(screen.queryByRole('table').classList)).toContain(
       'dnb-table--sticky'
     )
+    expect(trElem).toHaveAttribute('data-sticky', 'true')
 
     simulateScroll(200)
 
-    expect(getTrClasses()).toContain('is-sticky')
+    expect(trElem).toHaveAttribute('data-is-sticky')
 
     simulateScroll(0)
 
-    expect(getTrClasses()).not.toContain('is-sticky')
+    expect(trElem).not.toHaveAttribute('data-is-sticky')
   })
 
   it('should set --table-top with given stickyOffset when sticky="css-position"', () => {
@@ -144,7 +142,7 @@ describe('useStickyHeader', () => {
     setSizes()
 
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
-    expect(trElem).toHaveClass('page-scroll')
+    expect(trElem).toHaveAttribute('data-page-scroll')
     expect(trElem.style.getPropertyValue('--table-scroll-start')).toEqual(
       '96px'
     )
@@ -231,10 +229,10 @@ describe('useStickyHeader', () => {
           ([name]) => name === '--table-offset'
         )
       ).toHaveLength(expectedOffset ? 1 : 0)
-      expect(trElem).toHaveClass('is-sticky')
+      expect(trElem).toHaveAttribute('data-is-sticky')
 
       simulateScroll(0)
-      expect(trElem).not.toHaveClass('is-sticky')
+      expect(trElem).not.toHaveAttribute('data-is-sticky')
       expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
     }
   )
@@ -285,7 +283,7 @@ describe('useStickyHeader', () => {
     }
   )
 
-  it('should keep the sticky classes when the header row re-renders after the rows are reloaded', async () => {
+  it('should keep the sticky state when the header row re-renders after the rows are reloaded', () => {
     mockScrollTimelineSupport()
     const ReloadTable = ({ rows }: { rows: Array<string> }) => (
       <Table sticky>
@@ -308,28 +306,27 @@ describe('useStickyHeader', () => {
     const { rerender } = render(<ReloadTable rows={rows} />)
 
     const trElem = document.querySelector('tr')
+    const expectStickyState = () => {
+      expect(trElem).toHaveAttribute('data-sticky', 'true')
+      expect(trElem).toHaveAttribute('data-page-scroll')
+      expect(trElem).toHaveAttribute('data-is-sticky')
+    }
 
     setSizes()
     simulateScroll(320)
 
-    expect(trElem).toHaveClass('sticky', 'page-scroll', 'is-sticky')
+    expectStickyState()
 
     // The header row becomes the last row, so React replaces its classes
     rerender(<ReloadTable rows={[]} />)
-    await Promise.resolve()
 
-    expect(trElem).toHaveClass(
-      'dnb-table__tr--last',
-      'sticky',
-      'page-scroll',
-      'is-sticky'
-    )
+    expect(trElem).toHaveClass('dnb-table__tr--last')
+    expectStickyState()
 
     rerender(<ReloadTable rows={rows} />)
-    await Promise.resolve()
 
     expect(trElem).not.toHaveClass('dnb-table__tr--last')
-    expect(trElem).toHaveClass('sticky', 'page-scroll', 'is-sticky')
+    expectStickyState()
   })
 
   it('should check if .dnb-scroll-view has a vertical scrollbar and set shadow only, when css-position is used', () => {
@@ -355,12 +352,12 @@ describe('useStickyHeader', () => {
 
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('1rem')
-    expect(Array.from(trElem.classList)).not.toContain('is-sticky')
+    expect(trElem).not.toHaveAttribute('data-is-sticky')
 
     simulateScroll(32, scrollElem)
 
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
-    expect(Array.from(trElem.classList)).toContain('is-sticky')
+    expect(trElem).toHaveAttribute('data-is-sticky')
 
     rerender(
       <Table.ScrollView style={{ maxHeight: '4rem' }}>
@@ -496,10 +493,10 @@ describe('useStickyHeader', () => {
     setSizes()
 
     // the scroll view overflows first after a resize
-    expect(trElem).toHaveClass('page-scroll')
+    expect(trElem).toHaveAttribute('data-page-scroll')
     vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
     fireEvent.resize(window)
-    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('data-page-scroll')
     expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     simulateScroll(320, scrollElem)
@@ -538,7 +535,7 @@ describe('useStickyHeader', () => {
       simulateScroll(320)
       vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(100)
       fireEvent.resize(window)
-      expect(trElem).toHaveClass('page-scroll')
+      expect(trElem).toHaveAttribute('data-page-scroll')
       expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
         supportsTimeline ? '' : '160px'
       )
@@ -598,8 +595,8 @@ describe('useStickyHeader', () => {
 
     simulateScroll(320)
 
-    expect(Array.from(trElem.classList)).toContain('sticky')
-    expect(Array.from(trElem.classList)).toContain('is-sticky')
+    expect(trElem).toHaveAttribute('data-sticky', 'true')
+    expect(trElem).toHaveAttribute('data-is-sticky')
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
       '160px'
     )
@@ -610,10 +607,10 @@ describe('useStickyHeader', () => {
       </Table>
     )
 
-    expect(Array.from(trElem.classList)).not.toContain('sticky')
-    expect(Array.from(trElem.classList)).not.toContain('is-sticky')
+    expect(trElem).not.toHaveAttribute('data-sticky')
+    expect(trElem).not.toHaveAttribute('data-is-sticky')
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
-    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('data-page-scroll')
     expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     // the header should no longer follow the scroll
@@ -632,7 +629,7 @@ describe('useStickyHeader', () => {
 
     setSizes()
 
-    expect(Array.from(trElem.classList)).toContain('css-position')
+    expect(trElem).toHaveAttribute('data-sticky', 'css-position')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
 
     rerender(
@@ -643,8 +640,7 @@ describe('useStickyHeader', () => {
 
     setSizes()
 
-    expect(Array.from(trElem.classList)).toContain('sticky')
-    expect(Array.from(trElem.classList)).not.toContain('css-position')
+    expect(trElem).toHaveAttribute('data-sticky', 'true')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('')
   })
 
@@ -676,7 +672,7 @@ describe('useStickyHeader', () => {
     // the transform would otherwise stack on top of the "top" offset
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
-    expect(trElem).not.toHaveClass('page-scroll')
+    expect(trElem).not.toHaveAttribute('data-page-scroll')
     expect(trElem).not.toHaveAttribute('style', /--table-scroll-/)
 
     simulateScroll(480)
