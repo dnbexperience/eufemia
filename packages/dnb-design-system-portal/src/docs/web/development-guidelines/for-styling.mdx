@@ -86,9 +86,9 @@ You may check out this [Prettier Plugin](https://www.npmjs.com/package/prettier-
 
 Touch browsers can keep `:hover` on the last tapped element until something else is tapped. Hover styles then stay visible, and can make a control look checked or selected when it isn't.
 
-Use the shared `utilities.hover()` mixin, as Button does. It checks `data-whatintent` on `<html>` and shows hover styles when the tracked intent is `mouse`. A tap hides them, a key press keeps them hidden, and using the mouse brings them back. Eufemia sets these attributes through its shared input tracking. Typing in a form field preserves pointer intent so it does not change the surrounding hover styling.
+Use the shared `utilities.hover()` mixin, as Button does. It shows hover styles only on devices with a pointer that can hover (`@media (any-hover: hover)`), and not while the current input is touch or keyboard. Eufemia's shared input tracking sets `data-whatintent` on `<html>`: a tap hides hover styles, a key press keeps them hidden, and using the mouse brings them back. Typing in a form field preserves pointer intent so it does not change the surrounding hover styling. Before the input tracking has started, or without Eufemia's JavaScript, the media query alone decides.
 
-[`@media (hover: hover)`](https://www.w3.org/TR/mediaqueries-4/#hover) describes whether the primary pointer can hover. On a laptop with a touchscreen and a mouse, it can remain true while the touchscreen is being used. Browsers may update the query when the primary pointer changes, but it does not track every switch between touch, keyboard and mouse. `any-hover` also describes a capability, rather than the current input.
+[`@media (hover: hover)`](https://www.w3.org/TR/mediaqueries-4/#hover) describes whether the primary pointer can hover. On a laptop with a touchscreen and a mouse, it can remain true while the touchscreen is being used. On an iPad with a trackpad, or an Android tablet with a mouse, it is false. `any-hover` is true when any connected pointer can hover, so the mixin uses it. Both describe a capability rather than the current input, so the mixin also checks the tracked input to follow each switch between touch, keyboard and mouse.
 
 - Keep pressed (`:active`) styles outside the hover mixin, so touch users still get feedback when they tap.
 - Keep focus styles outside it too, so keyboard users see focus on every device.
@@ -111,7 +111,7 @@ Use the shared `utilities.hover()` mixin, as Button does. It checks `data-whatin
 }
 ```
 
-For custom selectors that cannot use the mixin, use `html[data-whatintent='mouse'] &:hover`. Keep this guard beside other input guards instead of nesting them, so they refer to the same `<html>` element.
+For custom selectors that cannot use the mixin, put the rule inside `@media (any-hover: hover)` and use `html:not([data-whatintent='touch'], [data-whatintent='keyboard']) &:hover`. Keep this guard beside other input guards instead of nesting them, so they refer to the same `<html>` element.
 
 ## CSS Units
 
