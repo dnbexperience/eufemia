@@ -261,7 +261,7 @@ describe('RelatedComponents', () => {
   })
 
   it('resolves the current component when on a tab sub-route', () => {
-    const { container } = renderAt('/web/components/dropdown/info')
+    const { container } = renderAt('/web/components/dropdown/overview')
 
     expect(container.querySelector('h2')?.textContent).toBe(
       'Related components'

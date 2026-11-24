@@ -387,7 +387,7 @@ export { globPath } from '${path
           }
           const importPath = PAGE_MODULE_PREFIX + file.slug
 
-          // First-tab pages (e.g. info.mdx with showTabs but no title)
+          // First-tab pages (e.g. overview.mdx with showTabs but no title)
           // redirect to the parent page instead of rendering separately.
           // The parent page already includes this content.
           const isFirstTab = isFirstTabPage(file)

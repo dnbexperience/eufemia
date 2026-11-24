@@ -527,7 +527,7 @@ function getPageMeta(url, allMdxNodes) {
       if (node.frontmatter.showTabs) {
         const tabKey = slug.split('/').pop()
         const defaultTabs = [
-          { title: 'Overview', key: '/info' },
+          { title: 'Overview', key: '/overview' },
           { title: 'Demos', key: '/demos' },
           { title: 'Properties', key: '/properties' },
           { title: 'Events', key: '/events' },

@@ -258,7 +258,7 @@ test.describe('Page Navigation', () => {
 
       await expect(editLink).toHaveAttribute(
         'href',
-        '/web/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
+        '/web/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Foverview.mdx'
       )
     })
 

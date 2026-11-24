@@ -125,8 +125,8 @@ describe('portal page sections', () => {
       data.tabs || defaultTabsValue
 
     return tabs.flatMap(({ title, key }) => {
-      // A key is either relative to the page, such as "/info", or a full
-      // path, such as "/web/components/number-format/info".
+      // A key is either relative to the page, such as "/overview", or a full
+      // path, such as "/web/components/number-format/overview".
       const tabPath = key.replace(/^\//, '')
       const tabFile = tabPath.includes('/')
         ? path.normalize(`${tabPath}.mdx`)

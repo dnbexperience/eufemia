@@ -10,7 +10,7 @@ const componentsDir = path.resolve(
   '../../../docs/web/components'
 )
 
-const tabPagePattern = /\/(info|demos|properties|events)\.mdx$/
+const tabPagePattern = /\/(overview|demos|properties|events)\.mdx$/
 
 function findMdxFiles(dir: string): string[] {
   const files: string[] = []
@@ -81,7 +81,7 @@ describe('Related components coverage', () => {
     expect(overviewComponents.length).toBeGreaterThan(40)
 
     const missing = overviewComponents
-      .map((file) => path.join(file.replace(/\.mdx$/, ''), 'info.mdx'))
+      .map((file) => path.join(file.replace(/\.mdx$/, ''), 'overview.mdx'))
       .filter(
         (infoFile) =>
           !existsSync(infoFile) ||

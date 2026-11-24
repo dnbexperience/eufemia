@@ -348,25 +348,25 @@ export function mergeDocs(
 }
 
 export async function resolveMetaText(file: string) {
-  const infoFile = await findExisting([
+  const overviewFile = await findExisting([
     path.join(
       path.dirname(file),
       path.basename(file, path.extname(file)),
-      'info.mdx'
+      'overview.mdx'
     ),
-    path.join(path.dirname(file), 'info.mdx'),
+    path.join(path.dirname(file), 'overview.mdx'),
   ])
 
   const name =
     (await extractTitleFromMdx(file)) ||
-    (await extractTitleFromMdx(infoFile)) ||
+    (await extractTitleFromMdx(overviewFile)) ||
     toPascalCase(path.basename(file, path.extname(file)))
   const description =
     (await extractDescriptionFromMdx(file)) ||
-    (await extractDescriptionFromMdx(infoFile)) ||
+    (await extractDescriptionFromMdx(overviewFile)) ||
     null
 
-  return { name, description, infoFile }
+  return { name, description, overviewFile }
 }
 
 export type SourceInfo = Awaited<ReturnType<typeof findSourceInfo>>
@@ -382,7 +382,7 @@ export function buildMetadata({
   events,
   related,
   sourceInfo,
-  infoFile,
+  overviewFile,
   propsFile,
   eventsFile,
   demosFile,
@@ -399,7 +399,7 @@ export function buildMetadata({
   events: DocEntryMap
   related: string[]
   sourceInfo: SourceInfo
-  infoFile: string | null
+  overviewFile: string | null
   propsFile: string | null
   eventsFile: string | null
   demosFile: string | null
@@ -434,10 +434,13 @@ export function buildMetadata({
         local: toWorkspacePath(file, siteDir),
         public: toPublicUrl(slug, publicUrlBase),
       },
-      info: infoFile
+      overview: overviewFile
         ? {
-            local: toWorkspacePath(infoFile, siteDir),
-            public: toPublicUrl(joinSlug(slug, 'info/'), publicUrlBase),
+            local: toWorkspacePath(overviewFile, siteDir),
+            public: toPublicUrl(
+              joinSlug(slug, 'overview/'),
+              publicUrlBase
+            ),
           }
         : null,
       demos: demosFile
@@ -586,7 +589,7 @@ export async function findEntryMdxFiles(docsRoot: string) {
     }
     const base = path.basename(f)
 
-    if (/^(info|demos|properties|events)\.mdx$/i.test(base)) {
+    if (/^(demos|properties|events)\.mdx$/i.test(base)) {
       return false
     }
     const rel = path.relative(docsRoot, f)
@@ -606,15 +609,14 @@ export async function findEntryMdxFiles(docsRoot: string) {
     }
     return true
   })
-  const withDraftFlags: Array<{ file: string; isDraft: boolean }> = []
+  const entries: string[] = []
 
   for (const file of candidates) {
-    const isDraft = await isDraftMdx(file)
-    withDraftFlags.push({ file, isDraft })
+    if (!(await isDraftMdx(file)) && !(await isFirstTabMdx(file))) {
+      entries.push(file)
+    }
   }
-  return withDraftFlags
-    .filter((entry) => !entry.isDraft)
-    .map((entry) => entry.file)
+  return entries
 }
 
 async function listFilesRecursive(dir: string) {
@@ -631,6 +633,24 @@ async function listFilesRecursive(dir: string) {
     }
   }
   return out
+}
+
+/**
+ * The Overview tab is part of its parent's copy, the same way the portal
+ * renders it on the parent page. An `overview.mdx` with a title of its own,
+ * such as the Components by category page, is an entry.
+ */
+async function isFirstTabMdx(file: string) {
+  if (path.basename(file) !== 'overview.mdx') {
+    return false
+  }
+
+  try {
+    const { data: attributes } = fm(await fs.readFile(file, 'utf-8'))
+    return attributes.showTabs === true && !attributes.title
+  } catch {
+    return false
+  }
 }
 
 async function isDraftMdx(file: string) {

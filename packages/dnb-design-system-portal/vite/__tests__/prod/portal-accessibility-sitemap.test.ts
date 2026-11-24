@@ -164,7 +164,7 @@ describe('Portal accessibility sitemap preparation', () => {
       '---\ntitle: Button\n---\n'
     )
     fs.writeFileSync(
-      path.join(docs, 'button/info.mdx'),
+      path.join(docs, 'button/overview.mdx'),
       '---\nshowTabs: true\n---\n'
     )
     fs.writeFileSync(

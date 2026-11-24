@@ -36,12 +36,12 @@ legacyFragments:
   datepicker: /web/components/date-picker/#date-picker
   moved: /guides/other#section`
       )
-      for (const tab of ['info', 'demos', 'properties', 'events']) {
+      for (const tab of ['overview', 'demos', 'properties', 'events']) {
         write(
           'web/components/date-picker/' + tab,
           `showTabs: true
 redirect_from:
-  - /uilib/components/date-picker/${tab}`
+  - /uilib/components/date-picker/${tab === 'overview' ? 'info' : tab}`
         )
       }
       write(
@@ -267,6 +267,14 @@ legacyFragments:
         ({ from }) => from === '/uilib/components/button/info'
       )
     ).toMatchObject({ to: '/web/components/button/' })
+    for (const from of [
+      '/web/components/button/info',
+      '/web/components/button/overview',
+    ]) {
+      expect(
+        redirects.find((redirect) => redirect.from === from)
+      ).toMatchObject({ to: '/web/components/button/' })
+    }
     const visual = files.find(
       ({ slug, type }) =>
         type === 'tsx' &&
