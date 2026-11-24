@@ -472,13 +472,13 @@
     }
 
     // Hover states for checked date buttons
-    html:not([data-whatintent='touch'])
+    html[data-whatintent='mouse']
       &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
       .dnb-button:hover:not([disabled]),
-    html:not([data-whatintent='touch'])
+    html[data-whatintent='mouse']
       &--start-date#{&}--within-selection
       .dnb-button:hover:not([disabled]),
-    html:not([data-whatintent='touch'])
+    html[data-whatintent='mouse']
       &--end-date#{&}--within-selection
       .dnb-button:hover:not([disabled]) {
       color: var(--token-color-text-action);
@@ -563,7 +563,7 @@
       }
     }
 
-    html:not([data-whatintent='touch']) & .dnb-button:hover:not(:active) {
+    html[data-whatintent='mouse'] & .dnb-button:hover:not(:active) {
       @include utilities.notFocusVisible() {
         background-color: var(--token-color-background-neutral);
       }

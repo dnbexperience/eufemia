@@ -2158,7 +2158,7 @@ html:not([data-whatintent=mouse]) .dnb-date-picker__day--within-selection:not(.d
 .dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--preview) .dnb-button:hover {
   box-shadow: none;
 }
-html:not([data-whatintent=touch]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
+html[data-whatintent=mouse] .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:hover:not([disabled]), html[data-whatintent=mouse] .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]), html[data-whatintent=mouse] .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
   color: var(--token-color-text-action);
   background-color: var(--token-color-background-neutral);
   --border-color: var(--token-color-stroke-action-pressed);
@@ -2213,11 +2213,11 @@ html:not([data-whatintent=mouse]) .dnb-date-picker__header__nav .dnb-button:not(
     box-shadow: none;
   }
 }
-html:not([data-whatintent=touch]) .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
+html[data-whatintent=mouse] .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
   background-color: var(--token-color-background-neutral);
 }
 @supports not (selector(:focus-visible)) {
-  html:not([data-whatintent=touch]) .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
+  html[data-whatintent=mouse] .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
     background-color: var(--token-color-background-neutral);
   }
 }
