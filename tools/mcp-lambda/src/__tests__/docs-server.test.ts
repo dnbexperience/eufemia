@@ -3,7 +3,10 @@ import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { Client, InMemoryTransport } from '@modelcontextprotocol/client'
-import { createDocsServer } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
+import {
+  AGENT_SKILL_NAMES,
+  createDocsServer,
+} from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 
 async function createTempDocs(
   files: Record<string, string>
@@ -107,14 +110,7 @@ describe('docs-server tools', () => {
       const docsMeta = tools.find(({ name }) => name === 'docs_meta')
 
       expect(docsMeta?.inputSchema.properties?.skill).toMatchObject({
-        enum: [
-          'eufemia-components',
-          'eufemia-compose',
-          'eufemia-accessibility',
-          'eufemia-review',
-          'eufemia-migrate',
-          'eufemia-portal-content',
-        ],
+        enum: [...AGENT_SKILL_NAMES],
       })
     })
 

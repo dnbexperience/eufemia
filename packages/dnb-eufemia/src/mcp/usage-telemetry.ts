@@ -77,7 +77,7 @@ export const PATH_TOOLS: ReadonlySet<string> = new Set([
 
 export const KNOWN_SKILLS: ReadonlySet<string> = new Set(AGENT_SKILL_NAMES)
 
-// A skill names itself in docs_meta only; a skill on any other tool is never sent.
+// Only docs_meta carries a skill.
 export const SKILL_TOOL = 'docs_meta'
 
 export const MAX_COMPONENT_LENGTH = 64
