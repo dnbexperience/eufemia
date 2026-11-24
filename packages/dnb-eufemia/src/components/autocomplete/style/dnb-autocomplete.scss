@@ -259,16 +259,14 @@
   }
 
   // Touch browsers keep :hover on the last tapped element
-  @media (hover: hover) {
-    .dnb-form-label:hover ~ &__inner {
-      .dnb-input {
-        --input-border-width--default: 0.125rem;
-      }
+  html:not([data-whatintent='touch']) .dnb-form-label:hover ~ &__inner {
+    .dnb-input {
+      --input-border-width--default: 0.125rem;
+    }
 
-      .dnb-input__submit-button__button {
-        --button-color-bg--default: var(--button-color-bg--hover);
-        --button-color-icon--default: var(--button-color-icon--hover);
-      }
+    .dnb-input__submit-button__button {
+      --button-color-bg--default: var(--button-color-bg--hover);
+      --button-color-icon--default: var(--button-color-icon--hover);
     }
   }
 
