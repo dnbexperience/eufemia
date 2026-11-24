@@ -695,6 +695,8 @@ export const DocsMetaInput = z.object({
   skill: z
     .enum(AGENT_SKILL_NAMES)
     .optional()
+    // A skill newer than this server must still get the metadata.
+    .catch(undefined)
     .describe('The Eufemia agent skill making this call, if any.'),
 })
 

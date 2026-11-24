@@ -101,6 +101,39 @@ describe('docs-server tools', () => {
     })
   })
 
+  describe('docs_meta', () => {
+    it('lists the known skill names in its input schema', async () => {
+      const { tools } = await client.listTools()
+      const docsMeta = tools.find(({ name }) => name === 'docs_meta')
+
+      expect(docsMeta?.inputSchema.properties?.skill).toMatchObject({
+        enum: [
+          'eufemia-components',
+          'eufemia-compose',
+          'eufemia-accessibility',
+          'eufemia-review',
+          'eufemia-migrate',
+          'eufemia-portal-content',
+        ],
+      })
+    })
+
+    it.each(['eufemia-review', 'eufemia-future-skill'])(
+      'returns the metadata when called with the skill %s',
+      async (skill) => {
+        const result = await client.callTool({
+          name: 'docs_meta',
+          arguments: { skill },
+        })
+
+        expect(result.isError).toBeFalsy()
+        expect(parseResult(result)).toMatchObject({
+          eufemiaVersion: '11.0.0',
+        })
+      }
+    )
+  })
+
   describe('portal_content_workflow', () => {
     it('is discoverable and returns the contribution workflow', async () => {
       const listed = await client.listTools()

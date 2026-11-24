@@ -292,10 +292,10 @@ describe('docs_meta', () => {
     expect(DocsMetaInput.parse({})).toEqual({})
   })
 
-  it.each(['my-skill', 'Eufemia-Review', ''])(
-    'rejects the unknown skill name %j',
+  it.each(['my-skill', 'Eufemia-Review', '', 42])(
+    'drops the unknown skill name %j',
     (skill) => {
-      expect(DocsMetaInput.safeParse({ skill }).success).toBe(false)
+      expect(DocsMetaInput.parse({ skill })).toEqual({ skill: undefined })
     }
   )
 })
