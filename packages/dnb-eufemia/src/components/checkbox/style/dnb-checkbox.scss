@@ -581,7 +581,7 @@
   // Touch browsers keep :hover on the last tapped element
   // General
 
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled]):hover:not(:active)
     ~ &__button {
     --checkbox-color-border: var(--checkbox-color-border--hover);
@@ -590,7 +590,7 @@
     background-color: var(--checkbox-color-background-off--hover);
   }
 
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled]):hover:not(:active)
     ~ &__gfx {
     color: var(--checkbox-color-gfx--hover);
@@ -598,10 +598,10 @@
 
   // On
 
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled]):checked:hover:not(:active)
     ~ &__button,
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled])[data-checked='true']:hover:not(:active)
     ~ &__button {
     --checkbox-color-border: var(--checkbox-color-border--hover);
@@ -612,7 +612,7 @@
 
   // Indeterminate
 
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled]):indeterminate:hover:not(:active)
     ~ &__button {
     --checkbox-color-border: var(
@@ -623,13 +623,13 @@
     );
   }
 
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled]):indeterminate:hover:not(:active)
     ~ &__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--hover);
   }
 
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled]):indeterminate:hover:not(:active)
     ~ &__gfx {
     color: transparent;

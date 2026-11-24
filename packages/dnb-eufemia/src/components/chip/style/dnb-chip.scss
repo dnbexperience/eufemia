@@ -107,7 +107,7 @@
 
     // Touch browsers keep :hover on the last tapped element
     @include chipState(':not(:disabled):hover', ':not(:disabled):hover') {
-      html:not([data-whatintent='touch']) & {
+      html[data-whatintent='mouse'] & {
         --chip-border: var(
           --chip-hover-border,
           var(--token-color-stroke-action-hover)
@@ -135,7 +135,7 @@
       ':checked:not(:disabled):hover',
       "[aria-pressed='true']:not(:disabled):hover"
     ) {
-      html:not([data-whatintent='touch']) & {
+      html[data-whatintent='mouse'] & {
         --chip-control-selected-border: var(--chip-control-border);
         --chip-action-background: var(
           --token-color-background-action-hover
@@ -284,13 +284,13 @@
       --chip-background: var(--token-color-background-error-subtle);
     }
 
-    html:not([data-whatintent='touch']) &:hover {
+    html[data-whatintent='mouse'] &:hover {
       --chip-border: var(
         --token-color-component-button-stroke-action-destructive-hover
       );
     }
 
-    html:not([data-whatintent='touch']) &[aria-pressed='true']:hover {
+    html[data-whatintent='mouse'] &[aria-pressed='true']:hover {
       --chip-background: var(
         --token-color-component-button-background-action-destructive-hover-subtle
       );
@@ -414,7 +414,7 @@
           --chip-control-border-width: 0.0625rem;
         }
 
-        html:not([data-whatintent='touch']) &:has(input:hover) {
+        html[data-whatintent='mouse'] &:has(input:hover) {
           --chip-control-border-width: 0.125rem;
           --chip-border: var(
             --token-color-component-button-stroke-action-destructive-hover
@@ -431,7 +431,7 @@
           );
         }
 
-        html:not([data-whatintent='touch']) &:has(input:checked:hover) {
+        html[data-whatintent='mouse'] &:has(input:checked:hover) {
           --chip-background: var(
             --token-color-component-button-background-action-destructive-hover-subtle
           );
