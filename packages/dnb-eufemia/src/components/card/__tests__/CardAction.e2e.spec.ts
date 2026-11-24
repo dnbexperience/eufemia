@@ -80,3 +80,55 @@ test.describe('Card.Action with a nested Card', () => {
     await expect(nestedCard).toHaveCSS('outline-style', 'none')
   })
 })
+
+test.describe('Card.Action on touch devices', () => {
+  test.use({ hasTouch: true })
+
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto(
+      '/web/components/card/visual-tests/action-with-nested-card/?data-visual-test'
+    )
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-portal-ready',
+      'true'
+    )
+  })
+
+  test('does not keep the hover outline after a tap', async ({ page }) => {
+    const { action, ownCard } = getCards(page)
+    const ownOutlineAtRest = await getOutline(ownCard)
+
+    await action.tap()
+
+    expect(
+      await action.evaluate((element) => element.matches(':hover'))
+    ).toBe(true)
+    await expect.poll(() => getOutline(ownCard)).toBe(ownOutlineAtRest)
+  })
+
+  test('shows the keyboard focus outline after a tap', async ({
+    page,
+  }) => {
+    const { action, ownCard } = getCards(page)
+
+    // The focus outline before any tap
+    await page.keyboard.press('a')
+    await action.focus()
+    await expect(action).toBeFocused()
+    const focusOutline = await getOutline(ownCard)
+    await action.blur()
+
+    await action.tap()
+    await action.blur()
+
+    // Come back with the keyboard. The tapped card keeps :hover.
+    await page.keyboard.press('a')
+    await action.focus()
+    await expect(action).toBeFocused()
+    expect(
+      await action.evaluate((element) => element.matches(':hover'))
+    ).toBe(true)
+    await expect.poll(() => getOutline(ownCard)).toBe(focusOutline)
+  })
+})
