@@ -107,7 +107,9 @@ a footer positioned outside the page's content area. See
 Eufemia provides independent, opt-in print and document stylesheets. Use
 either on its own or combine them. Neither imports the other or is included
 in the default Eufemia bundle. Import the stylesheet and apply its scope
-to enable it. Both work without React.
+to enable it. HTML templates can use the CSS and fonts directly, without
+React or Eufemia's JavaScript components. Native headings, paragraphs,
+lists and tables are supported.
 
 For an app, start with the [printable apps guide](/web/styling-and-themes/css/printable-apps/).
 Use the [document implementation](#document-implementation) for the smaller
@@ -133,12 +135,10 @@ brand stylesheet and is shared between screen and print. Wait for
 
 ## Print styles
 
-Import `dnb-ui-print` after Eufemia core and your selected brand styles:
+Import `dnb-ui-print` after your app's existing styles:
 
-```js
-import '@dnb/eufemia/style/dnb-ui-core.min.css'
-import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
-import '@dnb/eufemia/style/dnb-ui-print.min.css'
+```css
+@import url('@dnb/eufemia/style/dnb-ui-print.min.css');
 ```
 
 Wrap the printable content in `.dnb-print` for pure black paper output
@@ -153,7 +153,8 @@ require `.dnb-document` or the document stylesheet:
 
 The `.dnb-print` scope preserves your existing typography, spacing and
 wrapper layout while making paper output black on white. The print
-stylesheet works independently of `dnb-ui-document`. Screen styles remain
+stylesheet requires neither Eufemia core nor brand or document styles.
+Keep your app's existing reset and typography. Screen styles remain
 unchanged except for elements explicitly marked `dnb-print-only`.
 Configure your PDF renderer to use print media. The scope does not exclude
 content elsewhere in the app from printing; the app owns that selection.
@@ -257,20 +258,33 @@ except for postal-address typography.
 
 ### Import document formatting
 
-Import it after Eufemia core and your brand styles:
+For a CSS-only setup, import Eufemia core, your selected brand styles, then
+the document stylesheet. This example uses DNB:
 
-```js
-import '@dnb/eufemia/style/dnb-ui-core.min.css'
-import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
-import '@dnb/eufemia/style/dnb-ui-document.min.css'
+```css
+@import url('@dnb/eufemia/style/dnb-ui-core.min.css');
+@import url('@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css');
+@import url('@dnb/eufemia/style/dnb-ui-document.min.css');
 ```
+
+These package paths require a build tool that resolves CSS imports. Without
+one, serve the CSS files from the installed package and load them with
+HTML `<link rel="stylesheet">` elements in the same order, using your own
+asset URLs. Ensure font URLs are reachable by the document renderer.
+JavaScript projects can import the same CSS files from JavaScript.
+
+The brand stylesheet supplies fonts and theme variables, along with shared
+element styles. Loading font files alone does not replace it. Core supplies
+the shared baseline and a global reset, including styles for `html` and
+`body`. Document formatting currently relies on that baseline; unlike the
+standalone print stylesheet, it is not a reset-independent profile.
 
 It works without `dnb-ui-print`. To combine document formatting with the
 print behavior described above, add the print stylesheet **after** the
 document stylesheet:
 
-```js
-import '@dnb/eufemia/style/dnb-ui-print.min.css'
+```css
+@import url('@dnb/eufemia/style/dnb-ui-print.min.css');
 ```
 
 Also add `.dnb-print` to the document wrapper:
@@ -350,9 +364,28 @@ React teams can use `P` with the same `className`. Keep dates, logos and
 other letter-header content outside the address class. Remove inline
 typography, explicit size or spacing props, and blank address lines.
 The return-address style previously used the brand font at 9pt; it now
-uses Arial at 10pt. This change can make the return-address line wider and
-the recipient block shorter. Recheck both address blocks against the
-available envelope space and window position when updating.
+uses Arial at 10pt. This changes the address typography. Recheck that both
+address blocks fit the available space and align with the envelope window.
+
+### HTML templates without React
+
+Use native `<h1>`, `<h2>`, `<p>`, lists and `<table>` elements inside
+`.dnb-document`. They receive document formatting directly, without
+Eufemia components or component classes:
+
+```html
+<article class="dnb-document" lang="nb">
+  <h1>Informasjon om avtalen din</h1>
+  <p>Hei Tobias,</p>
+  <p>Takk for at du er kunde hos oss.</p>
+  <p class="dnb-document__signature">Vennlig hilsen<br />DNB</p>
+</article>
+```
+
+To enable print pagination, import `dnb-ui-print` and add `dnb-print` to
+the article's classes.
+Add `dnb-print__keep-together` to the signature to keep it on one page when
+it fits.
 
 ### React teams
 
@@ -389,27 +422,6 @@ Choose heading levels for the document structure, not the desired font
 size. Use the `size` prop to select a visual size independently of the
 heading level. The example uses `bottom="small"` to add a `1rem` gap below
 the title.
-
-### HTML templates without React
-
-Use native `<h1>`, `<h2>` and `<p>` elements when your document renderer
-or templating system does not use React. The stylesheet supports these
-elements directly within `.dnb-document`, so React is not required:
-
-```html
-<article class="dnb-document" lang="nb">
-  <h1>Informasjon om avtalen din</h1>
-  <p>Hei Tobias,</p>
-  <p>Takk for at du er kunde hos oss.</p>
-  <p class="dnb-document__signature">Vennlig hilsen<br />DNB</p>
-</article>
-```
-
-Both approaches produce semantic headings. Use the approach that fits the
-project's rendering technology. To enable print pagination in either
-example, import `dnb-ui-print` and add `dnb-print` to the article's classes.
-Add `dnb-print__keep-together` to the signature to keep it on one page when
-it fits.
 
 ### Footer layout and page numbers
 
