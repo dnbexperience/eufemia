@@ -93,6 +93,135 @@ describe('whatInput', () => {
       'keyboard'
     )
   })
+
+  describe('touch and mouse switching', () => {
+    const dispatchPointer = (
+      type: 'pointerdown' | 'pointermove' | 'pointerup',
+      pointerType: 'touch' | 'mouse' | 'pen',
+      screenX = 0
+    ) =>
+      window.dispatchEvent(
+        new PointerEvent(type, { bubbles: true, pointerType, screenX })
+      )
+
+    beforeEach(() => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-01-01'))
+      dispatchKeyboard()
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('restores mouse hover intent after continuous mouse movement following touch', () => {
+      dispatchPointer('pointerdown', 'touch')
+
+      for (let screenX = 1; screenX <= 3; screenX++) {
+        vi.advanceTimersByTime(50)
+        dispatchPointer('pointermove', 'mouse', screenX)
+
+        expect(
+          document.documentElement.getAttribute('data-whatintent')
+        ).toBe('touch')
+      }
+
+      vi.advanceTimersByTime(50)
+      dispatchPointer('pointermove', 'mouse', 4)
+
+      expect(
+        document.documentElement.getAttribute('data-whatintent')
+      ).toBe('mouse')
+
+      dispatchPointer('pointerdown', 'touch')
+
+      expect(
+        document.documentElement.getAttribute('data-whatintent')
+      ).toBe('touch')
+    })
+
+    it('ignores compatibility mouse events without extending the touch delay', () => {
+      dispatchPointer('pointerdown', 'touch')
+      vi.advanceTimersByTime(100)
+      dispatchMouse()
+
+      expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+        'touch'
+      )
+      expect(
+        document.documentElement.getAttribute('data-whatintent')
+      ).toBe('touch')
+
+      vi.advanceTimersByTime(100)
+      dispatchMouse()
+
+      expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+        'mouse'
+      )
+      expect(
+        document.documentElement.getAttribute('data-whatintent')
+      ).toBe('mouse')
+
+      dispatchPointer('pointerdown', 'touch')
+
+      expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+        'touch'
+      )
+      expect(
+        document.documentElement.getAttribute('data-whatintent')
+      ).toBe('touch')
+    })
+
+    it('restarts the delay when touch movement continues', () => {
+      dispatchPointer('pointerdown', 'touch')
+      vi.advanceTimersByTime(150)
+      dispatchPointer('pointermove', 'touch', 10)
+      vi.advanceTimersByTime(50)
+      dispatchPointer('pointermove', 'mouse', 20)
+
+      expect(
+        document.documentElement.getAttribute('data-whatintent')
+      ).toBe('touch')
+
+      vi.advanceTimersByTime(150)
+      dispatchPointer('pointermove', 'mouse', 30)
+
+      expect(
+        document.documentElement.getAttribute('data-whatintent')
+      ).toBe('mouse')
+    })
+
+    it.each(['touch', 'pen'] as const)(
+      'ignores compatibility mouse events after a held %s is released',
+      (pointerType) => {
+        dispatchPointer('pointerdown', pointerType)
+        vi.advanceTimersByTime(300)
+        dispatchPointer('pointerup', pointerType)
+
+        for (const delay of [0, 100]) {
+          vi.advanceTimersByTime(delay)
+          dispatchMouse()
+
+          expect(
+            document.documentElement.getAttribute('data-whatinput')
+          ).toBe('touch')
+          expect(
+            document.documentElement.getAttribute('data-whatintent')
+          ).toBe('touch')
+        }
+
+        vi.advanceTimersByTime(100)
+        dispatchMouse()
+
+        expect(
+          document.documentElement.getAttribute('data-whatinput')
+        ).toBe('mouse')
+        expect(
+          document.documentElement.getAttribute('data-whatintent')
+        ).toBe('mouse')
+      }
+    )
+  })
 })
 
 describe('whatInput deferred setup', () => {
