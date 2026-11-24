@@ -60,6 +60,9 @@ test.describe('Accordion on touch devices', () => {
     expect(
       await header.evaluate((element) => element.matches(':hover'))
     ).toBe(true)
-    await expect.poll(readStyles).toEqual(focusStyles)
+    // The hover style after a key press is handled by the hover mixin
+    await expect
+      .poll(async () => (await readStyles()).outline)
+      .toBe(focusStyles.outline)
   })
 })

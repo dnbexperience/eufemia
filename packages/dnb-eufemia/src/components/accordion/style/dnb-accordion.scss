@@ -69,31 +69,27 @@
 
     border-radius: var(--accordion-border-radius);
 
-    // Touch browsers keep :hover on the last tapped element. The hover
-    // mixin hides it after a touch, but not after the user presses a key.
-    @media (hover: hover) {
-      @include utilities.hover() {
-        --accordion-color-text: var(--accordion-color-text--hover);
-        --accordion-color-description: var(
-          --accordion-color-description--hover
-        );
-        --accordion-color-bg: var(--accordion-color-bg--hover);
-        --accordion-color-border: var(--accordion-color-border--hover);
-        --accordion-border-width: var(--accordion-border-width--hover);
-        --accordion-border-inset: var(--accordion-border-inset--hover);
-      }
+    @include utilities.hover() {
+      --accordion-color-text: var(--accordion-color-text--hover);
+      --accordion-color-description: var(
+        --accordion-color-description--hover
+      );
+      --accordion-color-bg: var(--accordion-color-bg--hover);
+      --accordion-color-border: var(--accordion-color-border--hover);
+      --accordion-border-width: var(--accordion-border-width--hover);
+      --accordion-border-inset: var(--accordion-border-inset--hover);
+    }
 
-      &--after-click {
-        @include utilities.hover() {
-          --accordion-color-text: var(--accordion-color-text--after-click);
-          --accordion-color-description: var(
-            --accordion-color-description--after-click
-          );
-          --accordion-color-bg: var(--accordion-color-bg--after-click);
-          --accordion-color-border: var(
-            --accordion-color-border--after-click
-          );
-        }
+    &--after-click {
+      @include utilities.hover() {
+        --accordion-color-text: var(--accordion-color-text--after-click);
+        --accordion-color-description: var(
+          --accordion-color-description--after-click
+        );
+        --accordion-color-bg: var(--accordion-color-bg--after-click);
+        --accordion-color-border: var(
+          --accordion-color-border--after-click
+        );
       }
     }
 

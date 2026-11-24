@@ -230,33 +230,31 @@ p > .dnb-icon {
   border: none;
   border-radius: var(--accordion-border-radius);
 }
-@media (hover: hover) {
-  html:not([data-whatintent=touch]) .dnb-accordion__header:hover[disabled] {
-    cursor: not-allowed;
-  }
-  html:not([data-whatintent=touch]) .dnb-accordion__header:hover:not([disabled]) {
-    --accordion-color-text: var(--accordion-color-text--hover);
-    --accordion-color-description: var(
-      --accordion-color-description--hover
-    );
-    --accordion-color-bg: var(--accordion-color-bg--hover);
-    --accordion-color-border: var(--accordion-color-border--hover);
-    --accordion-border-width: var(--accordion-border-width--hover);
-    --accordion-border-inset: var(--accordion-border-inset--hover);
-  }
-  html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover[disabled] {
-    cursor: not-allowed;
-  }
-  html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover:not([disabled]) {
-    --accordion-color-text: var(--accordion-color-text--after-click);
-    --accordion-color-description: var(
-      --accordion-color-description--after-click
-    );
-    --accordion-color-bg: var(--accordion-color-bg--after-click);
-    --accordion-color-border: var(
-      --accordion-color-border--after-click
-    );
-  }
+html:not([data-whatintent=touch]) .dnb-accordion__header:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header:hover:not([disabled]) {
+  --accordion-color-text: var(--accordion-color-text--hover);
+  --accordion-color-description: var(
+    --accordion-color-description--hover
+  );
+  --accordion-color-bg: var(--accordion-color-bg--hover);
+  --accordion-color-border: var(--accordion-color-border--hover);
+  --accordion-border-width: var(--accordion-border-width--hover);
+  --accordion-border-inset: var(--accordion-border-inset--hover);
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover:not([disabled]) {
+  --accordion-color-text: var(--accordion-color-text--after-click);
+  --accordion-color-description: var(
+    --accordion-color-description--after-click
+  );
+  --accordion-color-bg: var(--accordion-color-bg--after-click);
+  --accordion-color-border: var(
+    --accordion-color-border--after-click
+  );
 }
 .dnb-accordion__header:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header:active[disabled] {
   cursor: not-allowed;
