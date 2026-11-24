@@ -156,11 +156,9 @@
   }
 
   // Touch browsers keep :hover on the last tapped element
-  @media (hover: hover) {
-    &:hover {
-      @include notNoHover() {
-        @include anchorHoverStyle();
-      }
+  html:not([data-whatintent='touch']) &:hover {
+    @include notNoHover() {
+      @include anchorHoverStyle();
     }
   }
 
