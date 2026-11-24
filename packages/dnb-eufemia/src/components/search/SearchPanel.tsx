@@ -212,7 +212,10 @@ function SearchPanelSurface({
         0,
         content.scrollHeight -
           results.offsetHeight +
-          parseFloat(getComputedStyle(content.parentElement).paddingTop)
+          parseFloat(
+            getComputedStyle(content.closest('.dnb-popover__content'))
+              .paddingTop
+          )
       )
       surface.style.setProperty(
         '--search-panel-reserved-height',
@@ -253,15 +256,17 @@ function SearchPanelSurface({
       const content = contentRef.current?.querySelector<HTMLElement>(
         '.dnb-search__panel-content'
       )
-      const results = content?.querySelector('[role="listbox"]')
-      if (content && results) {
+      const option = input.ownerDocument.getElementById(
+        input.getAttribute('aria-activedescendant')
+      )
+      if (content && option && content.contains(option)) {
         const viewport = content.getBoundingClientRect()
-        const list = results.getBoundingClientRect()
+        const item = option.getBoundingClientRect()
         const offset =
-          list.bottom > viewport.bottom
-            ? list.bottom - viewport.bottom
-            : list.top < viewport.top
-              ? list.top - viewport.top
+          item.bottom > viewport.bottom - 8
+            ? item.bottom - viewport.bottom + 8
+            : item.top < viewport.top + 8
+              ? item.top - viewport.top - 8
               : 0
         content.scrollTop += offset
       }

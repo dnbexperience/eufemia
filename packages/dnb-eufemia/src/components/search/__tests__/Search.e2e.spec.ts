@@ -400,6 +400,7 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
       })
     })
     const pageScroll = await page.evaluate(() => window.scrollY)
+    const panelContent = page.locator('.dnb-search__panel-content')
     const options = results.getByRole('option')
     await expect(options).toHaveCount(20)
     const count = await options.count()
@@ -460,6 +461,9 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
             }
           )
           .toBe(true)
+        expect(
+          await panelContent.evaluate((content) => content.scrollTop)
+        ).toBe(0)
         const after = await results.evaluate((list) => list.scrollTop)
         if (before.visible) {
           expect(after).toBeCloseTo(before.scrollTop, 0)
