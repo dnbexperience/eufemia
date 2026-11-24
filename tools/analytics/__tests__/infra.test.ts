@@ -266,6 +266,19 @@ describe('analytics infrastructure', () => {
     )
   })
 
+  it('sends Permissions-Policy and Cross-Origin-Opener-Policy from the dashboard', () => {
+    const headersPolicy = terraformBlock(
+      'resource "aws_cloudfront_response_headers_policy" "dashboard"'
+    )
+
+    expect(headersPolicy).toMatch(
+      /header\s+=\s+"Permissions-Policy"\s+value\s+=\s+"camera=\(\), microphone=\(\), geolocation=\(\), payment=\(\), usb=\(\)"\s+override\s+=\s+true/
+    )
+    expect(headersPolicy).toMatch(
+      /header\s+=\s+"Cross-Origin-Opener-Policy"\s+value\s+=\s+"same-origin"\s+override\s+=\s+true/
+    )
+  })
+
   it('requires TLS on both buckets', () => {
     const requireTls = terraformBlock(
       'data "aws_iam_policy_document" "require_tls"'
