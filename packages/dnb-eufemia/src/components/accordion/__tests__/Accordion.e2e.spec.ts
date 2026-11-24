@@ -33,10 +33,12 @@ test.describe('Accordion on touch devices', () => {
         }
       })
 
-    // The focus style before any tap
-    await page.keyboard.press('Shift')
-    await page.keyboard.press('a')
+    // The focus style from the keyboard, before any tap. Use Tab and
+    // Shift+Tab, because Firefox does not show focus-visible on a
+    // focus() call after a tap.
     await header.focus()
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Shift+Tab')
     await expect(header).toBeFocused()
     const focusStyles = await readStyles()
     await header.blur()
@@ -51,8 +53,9 @@ test.describe('Accordion on touch devices', () => {
     await header.blur()
 
     // Come back with the keyboard. The tapped header keeps :hover.
-    await page.keyboard.press('a')
     await header.focus()
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Shift+Tab')
     await expect(header).toBeFocused()
     expect(
       await header.evaluate((element) => element.matches(':hover'))

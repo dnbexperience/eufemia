@@ -248,9 +248,7 @@ p > .dnb-icon {
     cursor: not-allowed;
   }
   html:not([data-whatintent=touch]) .dnb-accordion__header--after-click:hover:not([disabled]) {
-    --accordion-color-text: var(
-      --accordion-color-text--after-click
-    );
+    --accordion-color-text: var(--accordion-color-text--after-click);
     --accordion-color-description: var(
       --accordion-color-description--after-click
     );
