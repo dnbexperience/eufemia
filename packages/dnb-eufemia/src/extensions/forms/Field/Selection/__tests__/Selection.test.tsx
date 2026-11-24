@@ -20,7 +20,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Selection', () => {
-  it.each(['button', 'radio-button'] as const)(
+  it.each(['button', 'radio-button', 'radio'] as const)(
     'keeps one radiogroup for a single %s option without a field label',
     (variant) => {
       render(
@@ -34,6 +34,20 @@ describe('Selection', () => {
       ).toHaveLength(1)
     }
   )
+
+  it('lets the radios of the radio variant belong to the field radiogroup', () => {
+    render(
+      <Field.Selection variant="radio" label="Label">
+        <Field.Option value="foo">Foo</Field.Option>
+        <Field.Option value="bar">Bar</Field.Option>
+      </Field.Selection>
+    )
+
+    const radiogroups = document.querySelectorAll('[role="radiogroup"]')
+    expect(radiogroups).toHaveLength(1)
+    expect(radiogroups[0].tagName).toBe('FIELDSET')
+    expect(radiogroups[0]).toHaveAccessibleName('Label')
+  })
 
   describe('autoSelectSingleOption', () => {
     it('selects and stores the only option when enabled', async () => {

@@ -411,10 +411,9 @@ function Selection(props: FieldSelectionProps) {
             layoutDirection={
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
-            {...(variant !== 'radio' &&
-              additionalFieldBlockProps.asFieldset && {
-                attributes: { role: 'presentation' },
-              })}
+            {...(additionalFieldBlockProps.asFieldset && {
+              attributes: { role: 'presentation' },
+            })}
             disabled={disabled}
             onChange={onChangeHandler}
             value={String(value ?? '')}

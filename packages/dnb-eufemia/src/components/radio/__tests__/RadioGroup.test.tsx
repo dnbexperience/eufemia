@@ -41,6 +41,22 @@ describe('Radio group component', () => {
     ).not.toHaveAttribute('aria-labelledby')
   })
 
+  it('puts a role from attributes on the group element, not on the shell', () => {
+    render(
+      <Radio.Group attributes={{ role: 'presentation' }}>
+        <Radio label="A" value="a" />
+      </Radio.Group>
+    )
+
+    expect(document.querySelector('[role="radiogroup"]')).toBeNull()
+    expect(
+      document.querySelector('.dnb-radio-group__fieldset')
+    ).toHaveAttribute('role', 'presentation')
+    expect(
+      document.querySelector('.dnb-radio-group__shell')
+    ).not.toHaveAttribute('role')
+  })
+
   it('keeps an empty option value separate from the selected group value', async () => {
     const user = userEvent.setup()
     render(
