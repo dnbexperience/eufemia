@@ -29,7 +29,7 @@ export function AnimatedUpdates() {
                 text="Change value"
                 onClick={() =>
                   setChange(({ value }) => ({
-                    value: value === 128 ? 256 : 128,
+                    value: value === 128 ? 238 : 128,
                     previousValue: value,
                   }))
                 }
