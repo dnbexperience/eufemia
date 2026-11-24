@@ -1,6 +1,38 @@
 import { expect, test } from '@playwright/test'
 import type { Locator } from '@playwright/test'
 
+test('shows keyboard focus on a tab that remains hovered after touch', async ({
+  page,
+}) => {
+  await page.goto('/web/components/tabs/demos/?data-visual-test')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  const tab = page.getByRole('tab', { name: 'First', exact: true }).first()
+  await page.keyboard.press('a')
+  await tab.focus()
+  const outline = () =>
+    tab.evaluate(
+      (element) => getComputedStyle(element, '::before').outline
+    )
+  await expect.poll(outline).toBe('rgb(39, 106, 206) solid 3px')
+  const keyboardOutline = await outline()
+  await tab.blur()
+
+  expect(
+    await page.evaluate(() => matchMedia('(hover: hover)').matches)
+  ).toBe(true)
+  await tab.hover()
+  await tab.dispatchEvent('pointerdown', { pointerType: 'touch' })
+  await page.keyboard.press('a')
+  await tab.focus()
+  expect(await tab.evaluate((element) => element.matches(':hover'))).toBe(
+    true
+  )
+  await expect.poll(outline).toBe(keyboardOutline)
+})
+
 async function expectAlignedSelection(tablist: Locator) {
   await tablist.evaluate(async (element) => {
     await Promise.all(

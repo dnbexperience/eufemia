@@ -184,13 +184,11 @@ html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container 
   text-decoration-color: var(--table-th-text-color);
   transition: text-decoration-color 250ms ease-in-out;
 }
-@media (hover: hover) {
-  html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled] {
-    cursor: not-allowed;
-  }
-  html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon {
-    opacity: 1;
-  }
+html[data-whatintent=mouse] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled], html[data-whatintent=mouse] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled] {
+  cursor: not-allowed;
+}
+html[data-whatintent=mouse] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon, html[data-whatintent=mouse] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon {
+  opacity: 1;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled], .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled] {
   cursor: not-allowed;
@@ -275,13 +273,11 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text {
   padding-right: 0;
 }
-@media (hover: hover) {
-  html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover[disabled] {
-    cursor: not-allowed;
-  }
-  html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon {
-    opacity: 0;
-  }
+html[data-whatintent=mouse] .dnb-table > thead > tr > th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover[disabled], html[data-whatintent=mouse] .dnb-table .dnb-table__th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover[disabled] {
+  cursor: not-allowed;
+}
+html[data-whatintent=mouse] .dnb-table > thead > tr > th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon, html[data-whatintent=mouse] .dnb-table .dnb-table__th.dnb-table--sort-off .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-icon {
+  opacity: 0;
 }
 .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text {
   text-decoration-color: transparent;
@@ -289,13 +285,11 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
 .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon {
   opacity: 1;
 }
-@media (hover: hover) {
-  html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled] {
-    cursor: not-allowed;
-  }
-  html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text {
-    text-decoration-color: var(--token-color-text-action);
-  }
+html[data-whatintent=mouse] .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled], html[data-whatintent=mouse] .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled] {
+  cursor: not-allowed;
+}
+html[data-whatintent=mouse] .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text, html[data-whatintent=mouse] .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text {
+  text-decoration-color: var(--token-color-text-action);
 }
 .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled], .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled] {
   cursor: not-allowed;
@@ -573,19 +567,20 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
   --border-color: transparent;
 }
 
-@media (hover: hover) {
-  html:not([data-whatintent=touch]) .dnb-table__td__button:hover[disabled] {
-    cursor: not-allowed;
-  }
-  html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled])::before {
-    --border-width: var(--table-accordion-outline-width);
-    --border-color: var(--table-accordion-outline-color);
-  }
-  html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .dnb-table__td__button__icon {
-    color: var(--table-accordion-icon-color--active);
-    opacity: 1;
-  }
+html[data-whatintent=mouse] .dnb-table__td__button:hover[disabled] {
+  cursor: not-allowed;
 }
+
+html[data-whatintent=mouse] .dnb-table__td__button:hover:not([disabled])::before {
+  --border-width: var(--table-accordion-outline-width);
+  --border-color: var(--table-accordion-outline-color);
+}
+
+html[data-whatintent=mouse] .dnb-table__td__button:hover:not([disabled]) .dnb-table__td__button__icon {
+  color: var(--table-accordion-icon-color--active);
+  opacity: 1;
+}
+
 .dnb-table__td__button:active::before {
   --border-width: var(--table-accordion-outline-width--active);
   --border-color: var(--table-accordion-outline-color);
@@ -1166,17 +1161,18 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   border-right: none;
 }
 
-@media (hover: hover) {
-  html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover[disabled] {
-    cursor: not-allowed;
-  }
-  html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
-    --border-color: var(--table-accordion-outline-color);
-  }
-  html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__button-icon .dnb-icon {
-    color: var(--table-accordion-icon-color--active);
-  }
+html[data-whatintent=mouse] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover[disabled] {
+  cursor: not-allowed;
 }
+
+html[data-whatintent=mouse] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
+  --border-color: var(--table-accordion-outline-color);
+}
+
+html[data-whatintent=mouse] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__button-icon .dnb-icon {
+  color: var(--table-accordion-icon-color--active);
+}
+
 .dnb-table--border tbody .dnb-table__tr--clickable:not(.dnb-table__tr--expanded):not(.dnb-table__tr--last) .dnb-table__td::before {
   bottom: calc(var(--table-border-width) * -1);
 }

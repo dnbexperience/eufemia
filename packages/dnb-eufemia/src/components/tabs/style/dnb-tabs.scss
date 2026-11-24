@@ -8,14 +8,12 @@
 // Like `utilities.hover`, but keyed on `aria-disabled`: a disabled tab with a
 // tooltip has no native `disabled` attribute.
 @mixin tab-hover() {
-  @media (hover: hover) {
-    html:not([data-whatintent='touch']) &:hover {
-      &[aria-disabled='true'] {
-        cursor: not-allowed;
-      }
-      &:not([aria-disabled='true']) {
-        @content;
-      }
+  html[data-whatintent='mouse'] &:hover {
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
+    }
+    &:not([aria-disabled='true']) {
+      @content;
     }
   }
 }
@@ -370,8 +368,8 @@
         @include utilities.focusOutline();
       }
 
-      // A tapped tab keeps :hover, so do not exclude it on touch devices
-      @media (hover: none) {
+      // A tapped tab can keep :hover after switching to the keyboard.
+      html:where(:not([data-whatintent='mouse'])) & {
         &::before {
           @include utilities.focusOutline();
         }
