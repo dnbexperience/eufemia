@@ -2028,6 +2028,49 @@ describe('Popover', () => {
     expect(popover).toHaveClass('custom-popover')
   })
 
+  it('places a fixed popover at its target when the visual viewport is moved, like in iOS Safari with the keyboard open', async () => {
+    const { element } = createTargetElement({
+      left: 16,
+      top: 175,
+      width: 370,
+      height: 34,
+    })
+    const getBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect
+    const rect = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLElement) {
+        // Fixed positions start 73px above the coordinates of getBoundingClientRect
+        if (this.style.position === 'fixed') {
+          return { top: -73, left: 0 } as DOMRect
+        }
+        return getBoundingClientRect.call(this)
+      })
+
+    try {
+      render(
+        <Popover
+          open
+          noAnimation
+          fixedPosition
+          placement="bottom"
+          autoAlignMode="never"
+          targetElement={element}
+        >
+          Below the field
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector<HTMLElement>('.dnb-popover')
+        expect(popover?.style.top).toBe('282px')
+      })
+    } finally {
+      rect.mockRestore()
+      element.remove()
+    }
+  })
+
   it('adds the fixed class when fixedPosition is true', async () => {
     renderWithTrigger({ fixedPosition: true })
 
