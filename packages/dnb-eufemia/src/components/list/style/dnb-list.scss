@@ -27,10 +27,9 @@
     }
 
     // Touch browsers keep :hover on the last tapped element
-    @media (hover: none) {
+    html:not([data-whatintent='mouse'])
       &:focus-visible:where(:not(:active))::before {
-        @include focusFallbackOutline();
-      }
+      @include focusFallbackOutline();
     }
   }
   @supports (not (selector(:has(*)))) and (not (selector(:focus-visible))) {
@@ -38,10 +37,8 @@
       @include focusFallbackOutline();
     }
 
-    @media (hover: none) {
-      &:focus:not(:active)::before {
-        @include focusFallbackOutline();
-      }
+    html:not([data-whatintent='mouse']) &:focus:not(:active)::before {
+      @include focusFallbackOutline();
     }
   }
 }
@@ -588,10 +585,9 @@
       // browser without support for :has() or :focus-visible drops the
       // whole rule.
       // Touch browsers keep :hover on the last tapped element.
-      @media (hover: hover) {
+      html:not([data-whatintent='touch'])
         &:not(.dnb-list__item--disabled):hover {
-          @include navigationOutline();
-        }
+        @include navigationOutline();
       }
       &:not(.dnb-list__item--disabled):where(
           :not(:hover):not(:active)
@@ -602,13 +598,12 @@
         @include navigationFocusOutline();
       }
       // A tapped item keeps :hover, so do not exclude it on touch devices
-      @media (hover: none) {
+      html:not([data-whatintent='mouse'])
         &:not(.dnb-list__item--disabled):where(:not(:active)):has(
-            > a:focus-visible,
-            > .dnb-list__item__action__button:focus-visible
-          ) {
-          @include navigationFocusOutline();
-        }
+          > a:focus-visible,
+          > .dnb-list__item__action__button:focus-visible
+        ) {
+        @include navigationFocusOutline();
       }
       &:not(.dnb-list__item--disabled) > a,
       &:not(.dnb-list__item--disabled) > .dnb-list__item__action__button {
@@ -664,12 +659,11 @@
     }
 
     // Handle accordion states (own header only, not nested accordions)
-    @media (hover: hover) {
+    html:not([data-whatintent='touch'])
       &:not(.dnb-list__item--disabled):has(
-          > #{&}__accordion__header:hover
-        ) {
-        @include navigationOutline();
-      }
+        > #{&}__accordion__header:hover
+      ) {
+      @include navigationOutline();
     }
     &:not(.dnb-list__item--disabled):has(
         > #{&}__accordion__header:focus-visible:where(
@@ -678,12 +672,11 @@
       ) {
       @include navigationFocusOutline();
     }
-    @media (hover: none) {
+    html:not([data-whatintent='mouse'])
       &:not(.dnb-list__item--disabled):has(
-          > #{&}__accordion__header:focus-visible:where(:not(:active))
-        ) {
-        @include navigationFocusOutline();
-      }
+        > #{&}__accordion__header:focus-visible:where(:not(:active))
+      ) {
+      @include navigationFocusOutline();
     }
     &__accordion:not(.dnb-list__item--disabled) > #{&}__accordion__header {
       @include focusFallback();
@@ -752,10 +745,11 @@
 
       // Touch devices show no hover outline, so a tapped header does not
       // need to stay above a focused nested row
-      @media (hover: none) {
-        > #{&}__content .dnb-list__item:has(> :focus-visible) {
-          z-index: 11;
-        }
+      html:not([data-whatintent='mouse'])
+        &
+        > #{&}__content
+        .dnb-list__item:has(> :focus-visible) {
+        z-index: 11;
       }
     }
 
@@ -861,19 +855,20 @@
         // Keep these rules separate, because a browser without support
         // for :has() or :focus-visible drops the whole rule.
         // Touch browsers keep :hover on the last tapped element.
-        @media (hover: hover) {
+        html:not([data-whatintent='touch'])
           &.dnb-list__item__action:not(
-              .dnb-list__item--disabled
-            ):hover::after {
-            border: var(--list-item-outline-width) solid
-              var(--list-item-outline-color);
-          }
+            .dnb-list__item--disabled
+          ):hover::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
+        }
+
+        html:not([data-whatintent='touch'])
           &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
-              > .dnb-list__item__accordion__header:hover
-            )::after {
-            border: var(--list-item-outline-width) solid
-              var(--list-item-outline-color);
-          }
+            > .dnb-list__item__accordion__header:hover
+          )::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
         }
         &.dnb-list__item__action:not(.dnb-list__item--disabled):has(
             > a:focus-visible,
