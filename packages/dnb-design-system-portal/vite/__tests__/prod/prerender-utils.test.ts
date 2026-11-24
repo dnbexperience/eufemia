@@ -162,7 +162,7 @@ describe('prerender-utils', () => {
 
     it('constructs tab title for tab sub-pages with showTabs', () => {
       const meta = getPageMeta('/uilib/components/button/info/', nodes)
-      expect(meta.title).toBe('Button → Info')
+      expect(meta.title).toBe('Button → Overview')
       expect(meta.description).toBe('A button component')
     })
 
@@ -180,7 +180,7 @@ describe('prerender-utils', () => {
             description: '',
             tabs: [
               {
-                title: 'Info',
+                title: 'Overview',
                 key: '/uilib/components/country-flag/info',
               },
               {

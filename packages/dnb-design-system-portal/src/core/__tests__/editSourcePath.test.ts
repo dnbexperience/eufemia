@@ -47,7 +47,7 @@ describe('resolveEditSourcePath', () => {
       showTabs: true,
       tabs: [
         {
-          title: 'Info',
+          title: 'Overview',
           key: '/uilib/components/date-format/info',
         },
       ],
@@ -64,10 +64,10 @@ describe('resolveEditSourcePath', () => {
       title: 'Example',
       showTabs: true,
       tabs: [
-        { title: 'Info', key: '/info' },
+        { title: 'Overview', key: '/info' },
         { title: 'Demos', key: '/demos' },
       ],
-      hideTabs: [{ title: 'Info' }],
+      hideTabs: [{ title: 'Overview' }],
     })
     const demos = createNode('uilib/components/example/demos')
 

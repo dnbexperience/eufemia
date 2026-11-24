@@ -8,14 +8,15 @@ import { defaultTabsValue } from '../../src/shared/tags/defaultValues'
 /**
  * Guards the section structure of portal documentation pages.
  *
- * - A tab page for Info, Demos, Properties or Events starts with a heading
- *   named after its tab, such as `## Info`. Info and Demos have no other
- *   `##` sections, since a component page shows them together. In Info,
- *   `### Import` is the first subsection, followed by `### Relevant links`.
- *   Headings of the MDX partials a tab renders count as part of the tab.
- * - The table of contents lists two levels by default, so a page whose Info,
- *   Properties or Events tab has `####` headings sets `tocDepth: 3` to list
- *   them as well.
+ * - A tab page for Overview, Demos, Properties or Events starts with a
+ *   heading named after its tab, such as `## Overview`. Overview and Demos
+ *   have no other `##` sections, since a component page shows them together.
+ *   In Overview, `### Import` is the first subsection, followed by
+ *   `### Relevant links`. Headings of the MDX partials a tab renders count as
+ *   part of the tab.
+ * - The table of contents lists two levels by default, so a page whose
+ *   Overview, Properties or Events tab has `####` headings sets `tocDepth: 3`
+ *   to list them as well.
  * - "Relevant links" only lists links. Other content placed after the list
  *   would be announced as part of the links section, so it belongs in the
  *   description or in a section of its own. `<RelatedComponents />` and MDX
@@ -113,7 +114,7 @@ describe('portal page sections', () => {
       return { file: path.relative(docsDir, file), data, body: content }
     })
   const pagesByFile = new Map(pages.map((page) => [page.file, page]))
-  const tabTitles = ['Info', 'Demos', 'Properties', 'Events']
+  const tabTitles = ['Overview', 'Demos', 'Properties', 'Events']
 
   const tabPages = pages.flatMap(({ file, data }) => {
     if (data.showTabs !== true) {
@@ -132,7 +133,9 @@ describe('portal page sections', () => {
         : path.join(file.replace(/\.mdx$/, ''), `${tabPath}.mdx`)
       const tabPage = pagesByFile.get(tabFile)
 
-      if (!tabTitles.includes(title) || !tabPage) {
+      // A tab whose key is the page itself, such as the Overview tab of a
+      // guide, has the page title as its heading.
+      if (!tabTitles.includes(title) || !tabPage || tabFile === file) {
         return []
       }
 
@@ -158,12 +161,12 @@ describe('portal page sections', () => {
     expect(tabPages.length).toBeGreaterThan(50)
   })
 
-  it('structures each Info, Demos, Properties and Events tab around its tab heading', () => {
+  it('structures each Overview, Demos, Properties and Events tab around its tab heading', () => {
     const offenders: string[] = []
 
     // A component page shows these tabs together, so each of them is one
     // section of the page.
-    const sectionTabs = ['Info', 'Demos']
+    const sectionTabs = ['Overview', 'Demos']
 
     for (const { title, tabFile, headings } of tabPages) {
       const otherSections = headings.filter(
@@ -194,14 +197,14 @@ describe('portal page sections', () => {
       `These tab pages don't start with a heading named after their tab, ` +
         `or have other "##" sections:\n` +
         offenders.join('\n') +
-        `\n\nStart the page with "## Info", "## Demos", "## Properties" or ` +
-        `"## Events", matching its tab. In Info and Demos, use "###" for ` +
-        `the sections below it, also in the MDX partials they render. ` +
-        `In Info, start with "### Import" and "### Relevant links".`
+        `\n\nStart the page with "## Overview", "## Demos", "## Properties" ` +
+        `or "## Events", matching its tab. In Overview and Demos, use "###" ` +
+        `for the sections below it, also in the MDX partials they render. ` +
+        `In Overview, start with "### Import" and "### Relevant links".`
     ).toEqual([])
   })
 
-  it('lists the "####" headings of Info, Properties and Events in the table of contents', () => {
+  it('lists the "####" headings of Overview, Properties and Events in the table of contents', () => {
     const offenders = new Set<string>()
 
     for (const { file, title, headings, tocDepth } of tabPages) {
@@ -216,7 +219,7 @@ describe('portal page sections', () => {
 
     expect(
       [...offenders],
-      `These pages have "####" headings in their Info, Properties or ` +
+      `These pages have "####" headings in their Overview, Properties or ` +
         `Events tab, which the table of contents doesn't list:\n` +
         [...offenders].join('\n') +
         `\n\nAdd "tocDepth: 3" to the frontmatter of the page.`

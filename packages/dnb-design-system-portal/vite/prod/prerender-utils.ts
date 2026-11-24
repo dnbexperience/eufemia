@@ -119,7 +119,7 @@ export function getPageMeta(
       if (node.frontmatter.showTabs) {
         const tabKey = slug.split('/').pop()
         const defaultTabs = [
-          { title: 'Info', key: '/info' },
+          { title: 'Overview', key: '/info' },
           { title: 'Demos', key: '/demos' },
           { title: 'Properties', key: '/properties' },
           { title: 'Events', key: '/events' },

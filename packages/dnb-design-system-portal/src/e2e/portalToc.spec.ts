@@ -571,7 +571,7 @@ test.describe('Portal table of contents', () => {
     await toc
       .getByRole('button', { name: 'On this page', exact: true })
       .click()
-    await page.getByRole('tab', { name: 'Info', exact: true }).focus()
+    await page.getByRole('tab', { name: 'Overview', exact: true }).focus()
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(
       /\/web\/patterns-and-extensions\/table-of-content\/?$/
@@ -579,7 +579,7 @@ test.describe('Portal table of contents', () => {
     await expect(
       page
         .locator('main')
-        .getByRole('heading', { name: 'Info', exact: true })
+        .getByRole('heading', { name: 'Overview', exact: true })
     ).toBeVisible()
     await expect(
       toc.getByRole('button', { name: 'On this page', exact: true })

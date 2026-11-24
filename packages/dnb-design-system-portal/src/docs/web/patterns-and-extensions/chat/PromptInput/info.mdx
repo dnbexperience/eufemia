@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/extensions/ai/PromptInput/info
 ---
 
-## Info
+## Overview
 
 `Chat.PromptInput` is where the user writes a message. On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices (`hover: none` and `pointer: coarse`), Enter adds a new line; use the send button to submit. Set `isBusy` while a reply is pending or streaming. With `onStop`, the send button becomes a stop button. Pressing empty space on the card focuses the textarea with the caret at the end. Custom controls and context content keep their own interactions. After sending, focus returns to the textarea. Stopping also returns keyboard focus when the empty compact input removes the stop button.
 
