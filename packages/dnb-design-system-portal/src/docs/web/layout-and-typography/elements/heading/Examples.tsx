@@ -35,7 +35,7 @@ export const HeadingTypographyXLargeExample = () => (
       <small>Heading style x-large (using &lt;small&gt;)</small>
     </H1>
     <H2>
-      <small>Heading 2 style large (using &lt;small&gt;)</small>
+      <small>Heading 2 one size smaller (using &lt;small&gt;)</small>
     </H2>
   </ComponentBox>
 )
