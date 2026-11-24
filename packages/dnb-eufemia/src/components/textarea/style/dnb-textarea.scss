@@ -364,11 +364,13 @@
   }
 
   // Touch browsers keep :hover on the last tapped element
-  html[data-whatintent='mouse']
-    &__textarea:not([disabled]):not(#{&}--disabled):hover
-    ~ &__state {
-    --textarea-border-width: var(--textarea-border-width--hover);
-    --textarea-border-inset: ;
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__textarea:not([disabled]):not(#{&}--disabled):hover
+      ~ &__state {
+      --textarea-border-width: var(--textarea-border-width--hover);
+      --textarea-border-inset: ;
+    }
   }
 
   //  focus
@@ -379,10 +381,12 @@
   }
 
   //  hover
-  html[data-whatintent='mouse']
-    &__textarea:not([disabled]):not(#{&}--disabled):hover
-    ~ &__state {
-    --textarea-color-border: var(--token-color-stroke-action-hover);
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__textarea:not([disabled]):not(#{&}--disabled):hover
+      ~ &__state {
+      --textarea-color-border: var(--token-color-stroke-action-hover);
+    }
   }
 
   // with statusState = "error"
