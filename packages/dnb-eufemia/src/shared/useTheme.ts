@@ -18,7 +18,7 @@ export type UseThemeReturn =
        * @deprecated Removed together with the "coconut" brand.
        */
       isCoconut: boolean
-      /** Transitional preview of the new Eiendom identity. */
+      /** Transitional preview brand. Do not rely on it in application code. */
       isBirdhouse: boolean
       isEiendom: boolean
       isCarnegie: boolean

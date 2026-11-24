@@ -12,6 +12,13 @@ import ChangeStyleTheme from '../../../../../core/ChangeStyleTheme'
 
 <ChangeStyleTheme label="Change the brand in order to see the related tables:" />
 
+<VisibilityByTheme visible="birdhouse">
+  Birdhouse uses a new palette. Use [role
+  tokens](/web/styling-and-themes/design-tokens/) for its colors. The
+  legacy `--color-*` properties retain the original DNB palette.
+</VisibilityByTheme>
+
+<VisibilityByTheme hidden="birdhouse">
 <div data-visual-test="color-table">
 <VisibilityByTheme visible="eiendom">
   <TableEiendom />
@@ -29,3 +36,4 @@ import ChangeStyleTheme from '../../../../../core/ChangeStyleTheme'
   <TableUi />
 </VisibilityByTheme>
 </div>
+</VisibilityByTheme>

@@ -11,6 +11,7 @@ export const themeNames = [
   'carnegie',
   // Transitional brand. Do not rely on it in application code.
   'coconut',
+  // Transitional brand. Do not rely on it in application code.
   'birdhouse',
 ] as const
 
