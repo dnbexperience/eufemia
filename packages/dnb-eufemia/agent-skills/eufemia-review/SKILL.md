@@ -12,8 +12,9 @@ metadata:
 Review against Eufemia's current contract, not local copies of design-system
 facts.
 
-1. Identify the Eufemia version in the target project. Call `docs_meta` and note
-   any mismatch with the installed version. If they differ, switch to the local
+1. Identify the Eufemia version in the target project. Call `docs_meta` with
+   `skill: "eufemia-review"` and note any mismatch with the installed version.
+   Pass `skill` on this first call only. If they differ, switch to the local
    MCP from the installed package before reporting version-specific findings. If
    Eufemia is not installed, state that there is no runtime usage to verify and
    limit the review to proposed code or documentation.

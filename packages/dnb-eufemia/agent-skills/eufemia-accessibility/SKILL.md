@@ -11,7 +11,8 @@ metadata:
 
 Use current Eufemia documentation and verify the complete application behavior.
 
-1. Call `docs_meta` to identify the documentation version.
+1. Call `docs_meta` with `skill: "eufemia-accessibility"` to identify the
+   documentation version. Pass `skill` on this first call only.
 2. Compare it with the project's installed `@dnb/eufemia` version. If they
    differ, switch to the local MCP from the installed package before making
    component-specific claims. If no package is installed, state the served

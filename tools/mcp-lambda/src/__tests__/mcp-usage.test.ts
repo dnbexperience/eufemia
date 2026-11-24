@@ -174,6 +174,25 @@ describe('usageRecordsFromToolCalls', () => {
     expect(record?.tool).toBe('portal_content_workflow')
   })
 
+  it('captures a known skill name on docs_meta only', async () => {
+    const records = await usageRecordsFromToolCalls(
+      [
+        toolCall('docs_meta', { skill: 'eufemia-review' }),
+        toolCall('docs_meta', { skill: 'my-skill' }),
+        toolCall('docs_meta'),
+        toolCall('docs_search', { query: 'x', skill: 'eufemia-review' }),
+      ],
+      { env: 'dev', now: NOW, resolver }
+    )
+
+    expect(records.map((record) => record.skill)).toEqual([
+      'eufemia-review',
+      '',
+      '',
+      '',
+    ])
+  })
+
   it('drops a component argument with invalid characters', async () => {
     const [record] = await usageRecordsFromToolCalls(
       [toolCall('component_props', { name: 'Button; DROP TABLE' })],
@@ -302,21 +321,24 @@ describe('usageRecordsFromToolCalls', () => {
     expect(usageIngest.KNOWN_TOOLS.size).toBe(12)
   })
 
-  it.each(['KNOWN_TOOLS', 'COMPONENT_TOOLS', 'PATH_TOOLS'] as const)(
-    '%s matches the local stdio server',
-    (name) => {
-      expect([...localServer[name]].sort()).toEqual(
-        [...usageIngest[name]].sort()
-      )
-    }
-  )
+  it.each([
+    'KNOWN_TOOLS',
+    'COMPONENT_TOOLS',
+    'PATH_TOOLS',
+    'KNOWN_SKILLS',
+  ] as const)('%s matches the local stdio server', (name) => {
+    expect([...localServer[name]].sort()).toEqual(
+      [...usageIngest[name]].sort()
+    )
+  })
 
-  it.each(['MAX_COMPONENT_LENGTH', 'MAX_PATH_LENGTH'] as const)(
-    '%s matches the local stdio server',
-    (name) => {
-      expect(localServer[name]).toBe(usageIngest[name])
-    }
-  )
+  it.each([
+    'MAX_COMPONENT_LENGTH',
+    'MAX_PATH_LENGTH',
+    'SKILL_TOOL',
+  ] as const)('%s matches the local stdio server', (name) => {
+    expect(localServer[name]).toBe(usageIngest[name])
+  })
 
   it.each(['COMPONENT_SEGMENT', 'PATH_PATTERN'] as const)(
     '%s matches the local stdio server',

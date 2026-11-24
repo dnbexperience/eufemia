@@ -12,7 +12,8 @@
  * doc area (both shape-validated and then resolved against the packaged docs,
  * so a name or path the docs do not contain is never sent; a path is narrowed
  * to its leading area and gated against the areas the packaged docs actually
- * contain — see {@link computeKnownAreas} — so it is never sent in full), and
+ * contain — see {@link computeKnownAreas} — so it is never sent in full), the
+ * agent skill name on `docs_meta` (from the fixed skill set), and
  * the running Eufemia version (semver). No
  * machine id, install id, session/correlation id or free text — in
  * particular a `docs_search` event is a tool count only and never carries its
@@ -28,7 +29,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import type { UsageResolver } from './mcp-docs-server'
+import { AGENT_SKILL_NAMES, type UsageResolver } from './mcp-docs-server'
 
 const DEFAULT_ENDPOINT =
   'https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage'
@@ -73,6 +74,11 @@ export const PATH_TOOLS: ReadonlySet<string> = new Set([
   'docs_read',
   'docs_list',
 ])
+
+export const KNOWN_SKILLS: ReadonlySet<string> = new Set(AGENT_SKILL_NAMES)
+
+// A skill names itself in docs_meta only; a skill on any other tool is never sent.
+export const SKILL_TOOL = 'docs_meta'
 
 export const MAX_COMPONENT_LENGTH = 64
 export const MAX_PATH_LENGTH = 512
@@ -139,6 +145,7 @@ export type LocalMcpUsageRecord = {
   tool: string
   component?: string
   componentMissed?: true
+  skill?: string
   path?: string
   eufemiaVersion: string
   timestamp: string
@@ -196,7 +203,8 @@ function toArgs(input: unknown): Record<string, unknown> {
  * ever read from the input: `component` from a component tool's `name`, and
  * `path` (narrowed to its leading area, e.g. `/uilib/components/`, and sent
  * only when that area is in `knownAreas` — see {@link computeKnownAreas}) from
- * `docs_read`'s `path` / `docs_list`'s `prefix`. Anything that fails
+ * `docs_read`'s `path` / `docs_list`'s `prefix`, and `skill` from `docs_meta`'s
+ * `skill` when it is a known skill name. Anything that fails
  * validation is dropped, so the event degrades to a tool count rather than
  * leaking free text or an unrecognised path.
  */
@@ -223,6 +231,14 @@ export function buildUsageRecord(
     if (component) {
       record.component = component
     }
+  }
+
+  if (
+    toolName === SKILL_TOOL &&
+    typeof args.skill === 'string' &&
+    KNOWN_SKILLS.has(args.skill)
+  ) {
+    record.skill = args.skill
   }
 
   if (PATH_TOOLS.has(toolName)) {
