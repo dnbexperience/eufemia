@@ -2137,12 +2137,22 @@ html:not([data-whatinput=touch]) .dnb-date-picker__container table.dnb-no-focus:
     background-color: transparent;
   }
 }
-html:not([data-whatintent=mouse]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:active):not(:focus-visible) {
+html:is([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:active):not(:focus-visible) {
   background-color: transparent;
 }
 @supports not (selector(:focus-visible)) {
-  html:not([data-whatintent=mouse]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:active) {
+  html:is([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:active) {
     background-color: transparent;
+  }
+}
+@media (any-hover: none) {
+  html:not([data-whatintent=mouse]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:active):not(:focus-visible) {
+    background-color: transparent;
+  }
+  @supports not (selector(:focus-visible)) {
+    html:not([data-whatintent=mouse]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:active) {
+      background-color: transparent;
+    }
   }
 }
 .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
@@ -2207,20 +2217,30 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
     box-shadow: none;
   }
 }
-html:not([data-whatintent=mouse]) .dnb-date-picker__header__nav .dnb-button:not(:active):not(:focus-visible) {
+html:is([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__header__nav .dnb-button:not(:active):not(:focus-visible) {
   box-shadow: none;
 }
 @supports not (selector(:focus-visible)) {
-  html:not([data-whatintent=mouse]) .dnb-date-picker__header__nav .dnb-button:not(:active) {
+  html:is([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__header__nav .dnb-button:not(:active) {
     box-shadow: none;
   }
 }
+@media (any-hover: none) {
+  html:not([data-whatintent=mouse]) .dnb-date-picker__header__nav .dnb-button:not(:active):not(:focus-visible) {
+    box-shadow: none;
+  }
+  @supports not (selector(:focus-visible)) {
+    html:not([data-whatintent=mouse]) .dnb-date-picker__header__nav .dnb-button:not(:active) {
+      box-shadow: none;
+    }
+  }
+}
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
+  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
     background-color: var(--token-color-background-neutral);
   }
   @supports not (selector(:focus-visible)) {
-    html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
+    :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
       background-color: var(--token-color-background-neutral);
     }
   }

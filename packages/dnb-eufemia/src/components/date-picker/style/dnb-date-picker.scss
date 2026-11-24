@@ -426,11 +426,22 @@
     }
 
     // Touch browsers keep :hover on the last tapped element
-    html:not([data-whatintent='mouse'])
+    html:is([data-whatintent='touch'], [data-whatintent='keyboard'])
       &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
       .dnb-button:not(:active) {
       @include utilities.notFocusVisible() {
         background-color: transparent;
+      }
+    }
+
+    // Devices that cannot hover show no hover styles at all
+    @media (any-hover: none) {
+      html:not([data-whatintent='mouse'])
+        &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+        .dnb-button:not(:active) {
+        @include utilities.notFocusVisible() {
+          background-color: transparent;
+        }
       }
     }
 
@@ -559,14 +570,27 @@
 
     // Touch browsers keep :hover on the last tapped element, so style a
     // tapped button like one without the mouse over it
-    html:not([data-whatintent='mouse']) & .dnb-button:not(:active) {
+    html:is([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &
+      .dnb-button:not(:active) {
       @include utilities.notFocusVisible() {
         box-shadow: none;
       }
     }
 
+    // Devices that cannot hover show no hover styles at all
+    @media (any-hover: none) {
+      html:not([data-whatintent='mouse']) & .dnb-button:not(:active) {
+        @include utilities.notFocusVisible() {
+          box-shadow: none;
+        }
+      }
+    }
+
     @media (any-hover: hover) {
-      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      :where(
+          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        )
         &
         .dnb-button:hover:not(:active) {
         @include utilities.notFocusVisible() {
