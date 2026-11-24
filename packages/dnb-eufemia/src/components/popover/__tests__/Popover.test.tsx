@@ -2035,6 +2035,13 @@ describe('Popover', () => {
       width: 370,
       height: 34,
     })
+    vi.stubGlobal('visualViewport', {
+      height: 385,
+      offsetTop: 73,
+      offsetLeft: 0,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })
     const getBoundingClientRect =
       HTMLElement.prototype.getBoundingClientRect
     const rect = vi
@@ -2066,6 +2073,7 @@ describe('Popover', () => {
         expect(popover?.style.top).toBe('282px')
       })
     } finally {
+      vi.unstubAllGlobals()
       rect.mockRestore()
       element.remove()
     }
