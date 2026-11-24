@@ -84,7 +84,7 @@ describe('convertMdxToMd', () => {
     )
     fs.writeFileSync(
       path.join(directory, 'info.mdx'),
-      '## Description\n\nMessage details.'
+      '## Overview\n\nMessage details.'
     )
     try {
       const output = await convertMdxToMd({
@@ -100,7 +100,7 @@ describe('convertMdxToMd', () => {
         'The Chat extension and its component APIs may change in the future.'
       )
       expect(output.indexOf('**Experimental:**')).toBeLessThan(
-        output.indexOf('## Description')
+        output.indexOf('## Overview')
       )
       expect(output).toContain('Message details.')
     } finally {
@@ -451,7 +451,7 @@ describe('convertMdxToMd', () => {
     const infoPath = path.join(sectionDir, 'info.mdx')
     fs.writeFileSync(
       infoPath,
-      ['## Description', '', 'Breadcrumb description.'].join('\n')
+      ['## Overview', '', 'Breadcrumb description.'].join('\n')
     )
 
     const demosPath = path.join(sectionDir, 'demos.mdx')
@@ -483,7 +483,7 @@ describe('convertMdxToMd', () => {
       state: { mdxCache: new Map(), inProgress: new Set() },
     })
 
-    expect(output).toContain('## Description')
+    expect(output).toContain('## Overview')
     expect(output).toContain('Breadcrumb description.')
     expect(output).toContain('## Demos')
     expect(output).toContain('render(<div />)')
@@ -1236,7 +1236,7 @@ describe('convertMdxToMd', () => {
         'showTabs: true',
         '---',
         '',
-        '## Description',
+        '## Overview',
         '',
         'Button description.',
         '',
@@ -1253,7 +1253,7 @@ describe('convertMdxToMd', () => {
       state: { mdxCache: new Map(), inProgress: new Set() },
     })
 
-    expect(output).toContain('## Related components')
+    expect(output).toMatch(/^### Related components$/m)
     expect(output).toContain(
       'Button is part of the [Actions](/web/components/overview/#actions) category.'
     )

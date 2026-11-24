@@ -87,7 +87,7 @@ function renderRelatedComponents(
   const hasMore = related.length > visible.length
 
   const lines = [
-    '## Related components',
+    '### Related components',
     '',
     `${cleanComponentTitle(current.title)} is part of the ${categoryLink} category. More components in this category:`,
     '',
