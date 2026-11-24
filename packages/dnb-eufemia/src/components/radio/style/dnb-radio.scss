@@ -429,7 +429,7 @@
   /** Hover state **/
 
   // Touch browsers keep :hover on the last tapped element
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__input:not([disabled]):hover
     ~ &__button {
     --radio-border-inset: var(--radio-border-inset--hover);
@@ -438,9 +438,7 @@
     --radio-color-background: var(--radio-color-background--hover);
   }
 
-  html:not([data-whatintent='touch'])
-    &__input:not([disabled]):hover
-    ~ &__dot {
+  html[data-whatintent='mouse'] &__input:not([disabled]):hover ~ &__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--hover);
   }
 

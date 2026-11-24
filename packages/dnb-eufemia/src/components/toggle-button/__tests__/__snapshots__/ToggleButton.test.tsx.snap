@@ -2209,13 +2209,13 @@ html[data-whatinput=keyboard] .dnb-checkbox--surface-dark .dnb-checkbox__input:n
 .dnb-radio {
   /** Hover state **/
 }
-html:not([data-whatintent=touch]) .dnb-radio__input:not([disabled]):hover ~ .dnb-radio__button {
+html[data-whatintent=mouse] .dnb-radio__input:not([disabled]):hover ~ .dnb-radio__button {
   --radio-border-inset: var(--radio-border-inset--hover);
   --radio-border-width: var(--radio-border-width--hover);
   --radio-color-border: var(--radio-color-border--hover);
   --radio-color-background: var(--radio-color-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-radio__input:not([disabled]):hover ~ .dnb-radio__dot {
+html[data-whatintent=mouse] .dnb-radio__input:not([disabled]):hover ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--hover);
 }
 .dnb-radio {
