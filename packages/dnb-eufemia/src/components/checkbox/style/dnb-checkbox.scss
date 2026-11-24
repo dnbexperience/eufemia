@@ -582,9 +582,7 @@
   // General
 
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__input:not([disabled]):hover:not(:active)
       ~ &__button {
       --checkbox-color-border: var(--checkbox-color-border--hover);
@@ -595,9 +593,7 @@
   }
 
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__input:not([disabled]):hover:not(:active)
       ~ &__gfx {
       color: var(--checkbox-color-gfx--hover);
@@ -607,14 +603,10 @@
   // On
 
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__input:not([disabled]):checked:hover:not(:active)
       ~ &__button,
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__input:not([disabled])[data-checked='true']:hover:not(:active)
       ~ &__button {
       --checkbox-color-border: var(--checkbox-color-border--hover);
@@ -627,9 +619,7 @@
   // Indeterminate
 
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__input:not([disabled]):indeterminate:hover:not(:active)
       ~ &__button {
       --checkbox-color-border: var(
@@ -642,9 +632,7 @@
   }
 
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__input:not([disabled]):indeterminate:hover:not(:active)
       ~ &__indeterminate {
       background-color: var(--checkbox-color-gfx__indeterminate--hover);
@@ -652,9 +640,7 @@
   }
 
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__input:not([disabled]):indeterminate:hover:not(:active)
       ~ &__gfx {
       color: transparent;
