@@ -1397,7 +1397,8 @@ legend.dnb-form-label {
   cursor: pointer;
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
+  :where(html:not([data-whatintent=touch],
+  [data-whatintent=keyboard])) .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
     background-color: var(--token-color-background-action-hover-subtle);
     color: var(--token-color-component-button-text-action-hover);
   }
@@ -1476,7 +1477,7 @@ legend.dnb-form-label {
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__border:hover, html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__border.hover {
+  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__border:hover, :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__border.hover {
     --b-color: var(--input-border-color--hover);
     --b-width: var(--input-border-width--hover);
     --b-inset: var(--input-border-inset--hover);
@@ -1499,7 +1500,7 @@ legend.dnb-form-label {
   --b-inset: var(--input-border-inset--active);
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__status--error .dnb-input__border:hover, html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__status--error .dnb-input__border.hover {
+  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__status--error .dnb-input__border:hover, :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__status--error .dnb-input__border.hover {
     --b-color: var(--input-border-color__error);
     --b-width: var(--input-border-width__error--hover);
     --b-inset: var(--input-border-inset--hover);
