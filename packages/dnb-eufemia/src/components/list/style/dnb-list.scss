@@ -585,7 +585,7 @@
       // browser without support for :has() or :focus-visible drops the
       // whole rule.
       // Touch browsers keep :hover on the last tapped element.
-      html:not([data-whatintent='touch'])
+      html[data-whatintent='mouse']
         &:not(.dnb-list__item--disabled):hover {
         @include navigationOutline();
       }
@@ -659,7 +659,7 @@
     }
 
     // Handle accordion states (own header only, not nested accordions)
-    html:not([data-whatintent='touch'])
+    html[data-whatintent='mouse']
       &:not(.dnb-list__item--disabled):has(
         > #{&}__accordion__header:hover
       ) {
@@ -855,7 +855,7 @@
         // Keep these rules separate, because a browser without support
         // for :has() or :focus-visible drops the whole rule.
         // Touch browsers keep :hover on the last tapped element.
-        html:not([data-whatintent='touch'])
+        html[data-whatintent='mouse']
           &.dnb-list__item__action:not(
             .dnb-list__item--disabled
           ):hover::after {
@@ -863,7 +863,7 @@
             var(--list-item-outline-color);
         }
 
-        html:not([data-whatintent='touch'])
+        html[data-whatintent='mouse']
           &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
             > .dnb-list__item__accordion__header:hover
           )::after {
