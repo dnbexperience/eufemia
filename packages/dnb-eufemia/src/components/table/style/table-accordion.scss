@@ -157,10 +157,12 @@
     bottom: calc(var(--table-border-width) * -1);
   }
 
-  html[data-whatintent='mouse']
-    &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover
-    &__td {
-    --table-td-background: var(--table-accordion-header-background);
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover
+      &__td {
+      --table-td-background: var(--table-accordion-header-background);
+    }
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):not(
@@ -209,16 +211,18 @@
     @include tableAccordionActiveColor();
   }
 
-  html[data-whatintent='mouse']
-    &__tr--clickable#{&}__tr--expanded:not(
-      &__tr--disabled
-    )#{&}__tr--hover:not(:active):hover
-    &__td {
-    --table-td-background: var(--table-accordion-header-background);
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__tr--clickable#{&}__tr--expanded:not(
+        &__tr--disabled
+      )#{&}__tr--hover:not(:active):hover
+      &__td {
+      --table-td-background: var(--table-accordion-header-background);
 
-    &::before {
-      border: none;
-      border-top: var(--table-accordion-border);
+      &::before {
+        border: none;
+        border-top: var(--table-accordion-border);
+      }
     }
   }
 
