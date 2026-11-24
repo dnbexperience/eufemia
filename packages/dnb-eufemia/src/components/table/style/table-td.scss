@@ -126,15 +126,19 @@
       --border-color: transparent;
     }
 
-    @include utilities.hover() {
-      &::before {
-        --border-width: var(--table-accordion-outline-width);
-        --border-color: var(--table-accordion-outline-color);
-      }
+    // Touch browsers keep :hover on the last tapped element. The hover
+    // mixin hides it after a touch, but not after the user presses a key.
+    @media (hover: hover) {
+      @include utilities.hover() {
+        &::before {
+          --border-width: var(--table-accordion-outline-width);
+          --border-color: var(--table-accordion-outline-color);
+        }
 
-      .dnb-table__td__button__icon {
-        color: var(--table-accordion-icon-color--active);
-        opacity: 1;
+        .dnb-table__td__button__icon {
+          color: var(--table-accordion-icon-color--active);
+          opacity: 1;
+        }
       }
     }
 
@@ -164,6 +168,21 @@
 
       .dnb-table__td__button__icon {
         opacity: 1;
+      }
+    }
+
+    // A tapped cell keeps :hover, so do not exclude it on touch devices
+    @media (hover: none) {
+      &:not(:active):focus-visible {
+        &::before,
+        .dnb-table__td--selected &::before {
+          --border-width: var(--focus-outline-width);
+          --border-color: var(--token-color-stroke-action-focus);
+        }
+
+        .dnb-table__td__button__icon {
+          opacity: 1;
+        }
       }
     }
 
@@ -225,6 +244,15 @@
     .dnb-table__td__button:not(:hover):not(:active)::before {
       --border-width: var(--table-accordion-outline-width--active);
       --border-color: var(--token-color-stroke-selected);
+    }
+
+    // A tapped cell keeps :hover on touch devices, so show the selected
+    // border there too
+    @media (hover: none) {
+      .dnb-table__td__button:not(:active)::before {
+        --border-width: var(--table-accordion-outline-width--active);
+        --border-color: var(--token-color-stroke-selected);
+      }
     }
   }
 

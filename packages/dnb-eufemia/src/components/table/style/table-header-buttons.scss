@@ -158,6 +158,13 @@
         text-decoration-color: transparent;
       }
 
+      // Touch browsers keep :hover on the last tapped element
+      @media (hover: none) {
+        &:not(:active) .dnb-button__text {
+          text-decoration-color: transparent;
+        }
+      }
+
       .dnb-icon {
         opacity: 1;
       }
