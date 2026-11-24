@@ -157,7 +157,9 @@
 
   // Touch browsers keep :hover on the last tapped element
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+    :where(
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      )
       &:hover {
       @include notNoHover() {
         @include anchorHoverStyle();

@@ -24,17 +24,37 @@
 
     // Touch browsers keep :hover on the last tapped element, so style a
     // tapped trigger like one without the mouse over it
-    html:not([data-whatintent='mouse']) &:hover:not(:active) {
+    html:is([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &:hover:not(:active) {
       color: inherit;
     }
 
-    html:not([data-whatintent='mouse'])
+    // Devices that cannot hover show no hover styles at all
+    @media (any-hover: none) {
+      html:not([data-whatintent='mouse']) &:hover:not(:active) {
+        color: inherit;
+      }
+    }
+
+    html:is([data-whatintent='touch'], [data-whatintent='keyboard'])
       &:hover:not(:active):not(.dnb-anchor--hover) {
       text-decoration: underline;
       text-decoration-style: dotted;
       text-decoration-color: var(--anchor-color);
       text-decoration-thickness: 0.15625rem;
       text-underline-offset: 0.3125em;
+    }
+
+    // Devices that cannot hover show no hover styles at all
+    @media (any-hover: none) {
+      html:not([data-whatintent='mouse'])
+        &:hover:not(:active):not(.dnb-anchor--hover) {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-decoration-color: var(--anchor-color);
+        text-decoration-thickness: 0.15625rem;
+        text-underline-offset: 0.3125em;
+      }
     }
   }
 
