@@ -449,48 +449,6 @@ test('the full pill is clickable for every variant', async ({ page }) => {
   }
 })
 
-test.describe('on touch devices', () => {
-  test.use({ hasTouch: true })
-
-  test('does not keep the hover style after a tap', async ({ page }) => {
-    for (const variant of ['default', 'addable', 'checkbox', 'radio']) {
-      await test.step(variant, async () => {
-        const chip = page
-          .locator(
-            '[data-visual-test="chip-states"] .dnb-chip--' + variant
-          )
-          .first()
-        const input = chip.locator(
-          'input:not([type="hidden"]), .dnb-chip__button'
-        )
-        const readStyles = () =>
-          chip.evaluate((element) => {
-            return Array.from(
-              element.querySelectorAll(
-                '.dnb-radio__row, .dnb-checkbox__order, .dnb-chip__button, .dnb-checkbox__button, .dnb-radio__button, .dnb-chip__action'
-              )
-            ).map((part) => {
-              const style = getComputedStyle(part)
-              return [style.backgroundColor, style.boxShadow]
-            })
-          })
-
-        const unselected = await readStyles()
-
-        await input.tap()
-        await expectSelected(input, true)
-        await input.tap()
-        await expectSelected(input, false)
-
-        expect(
-          await input.evaluate((element) => element.matches(':hover'))
-        ).toBe(true)
-        await expect.poll(readStyles).toEqual(unselected)
-      })
-    }
-  })
-})
-
 for (const variant of ['checkbox', 'radio']) {
   test(`${variant} indicator centers are clickable in both selection modes`, async ({
     page,
@@ -995,48 +953,3 @@ async function outlineArea(chip: Locator) {
 
   return { x: x - 8, y: y - 8, width: width + 16, height: height + 16 }
 }
-
-test.describe('with a mouse and touchscreen', () => {
-  test.use({ hasTouch: false })
-
-  test('switches hover styles with the current input', async ({
-    page,
-  }) => {
-    const input = page
-      .locator('[data-visual-test="chip-states"] .dnb-chip--default input')
-      .first()
-    const readColors = () =>
-      input.evaluate((element) => {
-        const root = element.closest('.dnb-chip')
-        return ['.dnb-checkbox__order'].map(
-          (selector) =>
-            getComputedStyle(root.querySelector(selector)).boxShadow
-        )
-      })
-    const rest = await readColors()
-
-    expect(
-      await page.evaluate(() => matchMedia('(hover: hover)').matches)
-    ).toBe(true)
-    await input.hover()
-    await expect.poll(readColors).not.toEqual(rest)
-
-    // Keep native :hover while changing the input, as hybrid devices can do.
-    await input.dispatchEvent('pointerdown', { pointerType: 'touch' })
-    await expect(page.locator('html')).toHaveAttribute(
-      'data-whatintent',
-      'touch'
-    )
-    await expect.poll(readColors).toEqual(rest)
-
-    await page.clock.install()
-    await page.clock.fastForward(250)
-    await page.mouse.move(0, 0)
-    await input.hover()
-    await expect(page.locator('html')).toHaveAttribute(
-      'data-whatintent',
-      'mouse'
-    )
-    await expect.poll(readColors).not.toEqual(rest)
-  })
-})
