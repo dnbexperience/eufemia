@@ -299,16 +299,16 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
   outline-color: var(--token-color-stroke-action-focus-ondark);
 }
-html:not([data-whatintent=touch]) :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+html[data-whatintent=mouse] :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-color: var(--anchor-color--hover);
   --anchor-icon-color: var(--anchor-icon-color--hover);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
 }
-html:not([data-whatintent=touch]) :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+html[data-whatintent=mouse] :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
 }
 @supports not (selector(*:where(*))) {
-  html:not([data-whatintent=touch]) :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+  html[data-whatintent=mouse] :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
     --anchor-color: var(--anchor-color--hover);
     --anchor-icon-color: var(--anchor-icon-color--hover);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
@@ -424,16 +424,16 @@ html:not([data-whatintent=touch]) :where(:not(.dnb-anchor--no-style)).dnb-anchor
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible:where(.dnb-anchor--surface-dark) {
     outline-color: var(--token-color-stroke-action-focus-ondark);
   }
-  html:not([data-whatintent=touch]) :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+  html[data-whatintent=mouse] :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-color: var(--anchor-color--hover);
     --anchor-icon-color: var(--anchor-icon-color--hover);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
   }
-  html:not([data-whatintent=touch]) :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+  html[data-whatintent=mouse] :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
     /* stylelint-disable-next-line scss/operator-no-unspaced */
   }
   @supports not (selector(*:where(*))) {
-    html:not([data-whatintent=touch]) :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    html[data-whatintent=mouse] :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
       --anchor-color: var(--anchor-color--hover);
       --anchor-icon-color: var(--anchor-icon-color--hover);
       box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);

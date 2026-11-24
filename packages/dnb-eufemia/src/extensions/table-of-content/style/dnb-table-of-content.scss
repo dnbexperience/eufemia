@@ -109,7 +109,7 @@
     position: relative;
 
     // Touch browsers keep :hover on the last tapped element
-    html:not([data-whatintent='touch'])
+    html[data-whatintent='mouse']
       &:has(a[aria-current]:hover)
       .dnb-table-of-content__marker {
       box-shadow: inset 0 0 0 0.0625rem
@@ -160,7 +160,7 @@
   &__link.dnb-anchor {
     overflow-wrap: anywhere;
 
-    html:not([data-whatintent='touch']) &:hover {
+    html[data-whatintent='mouse'] &:hover {
       text-decoration: underline;
     }
 
@@ -193,7 +193,7 @@
       color: var(--token-color-text-neutral);
     }
 
-    html:not([data-whatintent='touch']) &:hover {
+    html[data-whatintent='mouse'] &:hover {
       color: var(--token-color-text-neutral);
     }
 
