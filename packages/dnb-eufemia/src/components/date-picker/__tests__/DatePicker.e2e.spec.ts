@@ -49,4 +49,50 @@ test.describe('DatePicker on touch devices', () => {
     ).toBe(true)
     await expect.poll(readStyles).toEqual(rest)
   })
+
+  test.describe('with a mouse and touchscreen', () => {
+    test.use({ hasTouch: false })
+
+    test('switches hover styles with the current input', async ({
+      page,
+    }) => {
+      await page
+        .locator('[data-visual-test="date-picker-trigger-default"] button')
+        .first()
+        .click()
+      const input = page
+        .locator('.dnb-date-picker__portal .dnb-date-picker__next')
+        .first()
+      const readColors = () =>
+        page
+          .locator('.dnb-date-picker__portal .dnb-date-picker__next')
+          .first()
+          .evaluate((element) => getComputedStyle(element).boxShadow)
+      const rest = await readColors()
+
+      expect(
+        await page.evaluate(() => matchMedia('(hover: hover)').matches)
+      ).toBe(true)
+      await input.hover()
+      await expect.poll(readColors).not.toEqual(rest)
+
+      // Keep native :hover while changing the input, as hybrid devices can do.
+      await input.dispatchEvent('pointerdown', { pointerType: 'touch' })
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-whatintent',
+        'touch'
+      )
+      await expect.poll(readColors).toEqual(rest)
+
+      await page.clock.install()
+      await page.clock.fastForward(250)
+      await page.mouse.move(0, 0)
+      await input.hover()
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-whatintent',
+        'mouse'
+      )
+      await expect.poll(readColors).not.toEqual(rest)
+    })
+  })
 })

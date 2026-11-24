@@ -426,12 +426,11 @@
     }
 
     // Touch browsers keep :hover on the last tapped element
-    @media (hover: none) {
+    html:not([data-whatintent='mouse'])
       &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
-        .dnb-button:not(:active) {
-        @include utilities.notFocusVisible() {
-          background-color: transparent;
-        }
+      .dnb-button:not(:active) {
+      @include utilities.notFocusVisible() {
+        background-color: transparent;
       }
     }
 
@@ -558,19 +557,15 @@
 
     // Touch browsers keep :hover on the last tapped element, so style a
     // tapped button like one without the mouse over it
-    @media (hover: none) {
-      .dnb-button:not(:active) {
-        @include utilities.notFocusVisible() {
-          box-shadow: none;
-        }
+    html:not([data-whatintent='mouse']) & .dnb-button:not(:active) {
+      @include utilities.notFocusVisible() {
+        box-shadow: none;
       }
     }
 
-    @media (hover: hover) {
-      .dnb-button:hover:not(:active) {
-        @include utilities.notFocusVisible() {
-          background-color: var(--token-color-background-neutral);
-        }
+    html:not([data-whatintent='touch']) & .dnb-button:hover:not(:active) {
+      @include utilities.notFocusVisible() {
+        background-color: var(--token-color-background-neutral);
       }
     }
   }
