@@ -15,16 +15,19 @@ describe.each(['light', 'dark'] as const)(
       colorScheme,
     })
 
-    it('shows the card menu hover and keyboard focus', async () => {
-      await makeScreenshot({
-        ...defaults,
-        style: { width: '40rem' },
-        selector: '[data-visual-test="table-in-card"]',
-        simulateSelector:
-          '[data-visual-test="table-in-card"] .dnb-popover__trigger',
-        simulate: ['hover', 'focus'],
-      })
-    })
+    it.each(['hover', 'keyboard focus'] as const)(
+      'shows the card menu on %s',
+      async (state) => {
+        await makeScreenshot({
+          ...defaults,
+          style: { width: '40rem' },
+          selector: '[data-visual-test="table-in-card"]',
+          simulateSelector:
+            '[data-visual-test="table-in-card"] .dnb-popover__trigger',
+          simulate: state === 'hover' ? 'hover' : ['hover', 'focus'],
+        })
+      }
+    )
   }
 )
 
