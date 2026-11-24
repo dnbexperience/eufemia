@@ -358,10 +358,17 @@
   }
 
   // hover and focus
-  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state,
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
     --textarea-border-width: var(--textarea-border-width--hover);
     --textarea-border-inset: ;
+  }
+
+  // Touch browsers keep :hover on the last tapped element
+  @media (hover: hover) {
+    &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
+      --textarea-border-width: var(--textarea-border-width--hover);
+      --textarea-border-inset: ;
+    }
   }
 
   //  focus
@@ -372,8 +379,10 @@
   }
 
   //  hover
-  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
-    --textarea-color-border: var(--token-color-stroke-action-hover);
+  @media (hover: hover) {
+    &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
+      --textarea-color-border: var(--token-color-stroke-action-hover);
+    }
   }
 
   // with statusState = "error"
