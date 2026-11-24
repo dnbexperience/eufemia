@@ -430,7 +430,9 @@
 
   // Touch browsers keep :hover on the last tapped element
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+    :where(
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      )
       &__input:not([disabled]):hover
       ~ &__button {
       --radio-border-inset: var(--radio-border-inset--hover);
@@ -441,7 +443,9 @@
   }
 
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+    :where(
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      )
       &__input:not([disabled]):hover
       ~ &__dot {
       --radio-color-dot-on: var(--radio-color-dot-on--hover);
