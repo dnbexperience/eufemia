@@ -104,6 +104,9 @@
       &__gfx {
         width: calc(var(--checkbox-width--medium) - 0.625rem);
         height: calc(var(--checkbox-height--medium) - 0.625rem);
+
+        // Change together with the button
+        transition: none;
       }
     }
 
@@ -126,6 +129,9 @@
       &__dot {
         width: calc(var(--radio-dot--medium) - 0.125rem);
         height: calc(var(--radio-dot--medium) - 0.125rem);
+
+        // Change together with the button
+        transition: none;
       }
     }
     @include utilities.hover() {

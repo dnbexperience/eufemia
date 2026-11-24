@@ -2354,6 +2354,7 @@ html[data-whatinput=keyboard] .dnb-radio--surface-dark .dnb-radio__input:not([di
 .dnb-toggle-button__button .dnb-checkbox__gfx {
   width: calc(var(--checkbox-width--medium) - 0.625rem);
   height: calc(var(--checkbox-height--medium) - 0.625rem);
+  transition: none;
 }
 .dnb-toggle-button__button .dnb-radio {
   margin-left: -0.5rem;
@@ -2369,6 +2370,7 @@ html[data-whatinput=keyboard] .dnb-radio--surface-dark .dnb-radio__input:not([di
 .dnb-toggle-button__button .dnb-radio__dot {
   width: calc(var(--radio-dot--medium) - 0.125rem);
   height: calc(var(--radio-dot--medium) - 0.125rem);
+  transition: none;
 }
 html:not([data-whatintent=touch]) .dnb-toggle-button__button:hover[disabled] {
   cursor: not-allowed;
