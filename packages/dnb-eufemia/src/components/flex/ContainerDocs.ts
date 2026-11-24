@@ -8,7 +8,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   layoutEngine: {
-    doc: 'Select the Flex layout engine. The legacy engine remains the default for backwards compatibility. Use `css` to opt in to native CSS gaps without changing existing layouts.',
+    doc: 'Select the Flex layout engine. The legacy engine remains the default for backwards compatibility. Use `css` to opt in to native CSS gaps, or set `Flex={{ layoutEngine: "css" }}` on [Provider](/web/styling-and-themes/configuration/provider/) for all nested Flex containers. An explicit property overrides Provider.',
     type: ['"css"', '"legacy"'],
     defaultValue: `'legacy'`,
     status: 'optional',

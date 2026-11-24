@@ -14,6 +14,7 @@ import AriaLive from '../../aria-live/AriaLive'
 import HeightAnimation from '../../height-animation/HeightAnimation'
 import Space from '../../space/Space'
 import P from '../../../elements/P'
+import Provider from '../../../shared/Provider'
 
 describe('Flex.Container', () => {
   it('should forward HTML attributes', () => {
@@ -75,6 +76,84 @@ describe('Flex.Container', () => {
     expect(container).not.toHaveClass('dnb-flex-container--css-gap')
     expect(container.children[0]).toHaveClass('dnb-space__top--zero')
     expect(container.children[1]).toHaveClass('dnb-space__top--small')
+  })
+
+  it.each(['Container', 'Horizontal', 'Vertical', 'Stack'] as const)(
+    'should read the layout engine from Provider in Flex.%s',
+    (name) => {
+      const Component = Flex[name]
+      const { rerender } = render(
+        <Provider Flex={{ layoutEngine: 'css' }}>
+          <Component>
+            <Flex.Item>First</Flex.Item>
+            <Flex.Item>Second</Flex.Item>
+          </Component>
+        </Provider>
+      )
+
+      const container = document.querySelector('.dnb-flex-container')
+
+      expect(container).toHaveClass('dnb-flex-container--css-gap')
+
+      rerender(
+        <Provider Flex={{ layoutEngine: 'legacy' }}>
+          <Component>
+            <Flex.Item>First</Flex.Item>
+            <Flex.Item>Second</Flex.Item>
+          </Component>
+        </Provider>
+      )
+
+      expect(container).not.toHaveClass('dnb-flex-container--css-gap')
+    }
+  )
+
+  it.each(['legacy', 'css'] as const)(
+    'should let an explicit %s layout engine override Provider',
+    (layoutEngine) => {
+      render(
+        <Provider
+          Flex={{
+            layoutEngine: layoutEngine === 'css' ? 'legacy' : 'css',
+          }}
+        >
+          <Flex.Container layoutEngine={layoutEngine}>
+            <Flex.Item>First</Flex.Item>
+            <Flex.Item>Second</Flex.Item>
+          </Flex.Container>
+        </Provider>
+      )
+
+      const container = document.querySelector('.dnb-flex-container')
+
+      expect(
+        container.classList.contains('dnb-flex-container--css-gap')
+      ).toBe(layoutEngine === 'css')
+    }
+  )
+
+  it('should use the nearest Provider layout engine', () => {
+    render(
+      <Provider Flex={{ layoutEngine: 'css' }}>
+        <Flex.Container data-testid="outer" />
+        <Provider>
+          <Flex.Container data-testid="inherited" />
+        </Provider>
+        <Provider Flex={{ layoutEngine: 'legacy' }}>
+          <Flex.Container data-testid="overridden" />
+        </Provider>
+      </Provider>
+    )
+
+    expect(document.querySelector('[data-testid="outer"]')).toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+    expect(
+      document.querySelector('[data-testid="inherited"]')
+    ).toHaveClass('dnb-flex-container--css-gap')
+    expect(
+      document.querySelector('[data-testid="overridden"]')
+    ).not.toHaveClass('dnb-flex-container--css-gap')
   })
 
   it('should contain given classes', () => {

@@ -4,6 +4,7 @@ import { render } from '@testing-library/react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import Card from '../../card/Card'
 import { P } from '../../../elements'
+import Provider from '../../../shared/Provider'
 
 describe('Card', () => {
   it('uses the legacy layout engine by default', () => {
@@ -26,6 +27,32 @@ describe('Card', () => {
     )
 
     expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+  })
+
+  it('should inherit the layout engine from Provider unless explicitly set', () => {
+    const { rerender } = render(
+      <Provider Flex={{ layoutEngine: 'css' }}>
+        <Card>
+          <P>Paragraph</P>
+        </Card>
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+
+    rerender(
+      <Provider Flex={{ layoutEngine: 'css' }}>
+        <Card layoutEngine="legacy">
+          <P>Paragraph</P>
+        </Card>
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-flex-container')).not.toHaveClass(
       'dnb-flex-container--css-gap'
     )
   })
