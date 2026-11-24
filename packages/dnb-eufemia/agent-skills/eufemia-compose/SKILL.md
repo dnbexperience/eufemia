@@ -11,7 +11,8 @@ metadata:
 
 Build from current Eufemia capabilities rather than copied component recipes.
 
-1. Call `docs_meta` to identify the documentation version.
+1. Call `docs_meta` with `skill: "eufemia-compose"` to identify the
+   documentation version. Pass `skill` on this first call only.
 2. Read the project's installed `@dnb/eufemia` version. If it differs from
    `docs_meta`, switch to the local MCP from that installed package before
    composing version-specific code. If no version is installed, state the

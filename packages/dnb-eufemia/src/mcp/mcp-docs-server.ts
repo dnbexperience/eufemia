@@ -681,6 +681,25 @@ export function createUsageResolver(source: DocsSource): UsageResolver {
 
 const EmptyInput = z.object({})
 
+// Must match agent-skills/manifest.json.
+export const AGENT_SKILL_NAMES = [
+  'eufemia-components',
+  'eufemia-compose',
+  'eufemia-accessibility',
+  'eufemia-review',
+  'eufemia-migrate',
+  'eufemia-portal-content',
+] as const
+
+export const DocsMetaInput = z.object({
+  skill: z
+    .enum(AGENT_SKILL_NAMES)
+    .optional()
+    // A skill newer than this server must still get the metadata.
+    .catch(undefined)
+    .describe('The Eufemia agent skill making this call, if any.'),
+})
+
 const PORTAL_CONTENT_WORKFLOW = `# Edit Eufemia Portal Content
 
 Use this workflow for small editorial changes to the official Eufemia portal.
@@ -744,10 +763,11 @@ type DocsListInputType = z.infer<typeof DocsListInput>
 type DocsSearchInputType = z.infer<typeof DocsSearchInput>
 type ComponentNameInputType = z.infer<typeof ComponentNameInput>
 type EmptyInputType = z.infer<typeof EmptyInput>
+type DocsMetaInputType = z.infer<typeof DocsMetaInput>
 
 type DocsToolHandlers = {
   docsEntry: (_input: EmptyInputType) => Promise<ToolResult>
-  docsMeta: (_input: EmptyInputType) => Promise<ToolResult>
+  docsMeta: (_input: DocsMetaInputType) => Promise<ToolResult>
   portalContentWorkflow: (_input: EmptyInputType) => Promise<ToolResult>
   reviewRules: (_input: EmptyInputType) => Promise<ToolResult>
   docsIndex: (_input: EmptyInputType) => Promise<ToolResult>
@@ -839,7 +859,9 @@ export function createDocsTools(
     return makeTextResult(JSON.stringify(rules, null, 2))
   }
 
-  const docsMeta = async (_input: EmptyInputType): Promise<ToolResult> => {
+  const docsMeta = async (
+    _input: DocsMetaInputType
+  ): Promise<ToolResult> => {
     const meta = await readDocsMeta(context.source)
     return makeTextResult(JSON.stringify(meta, null, 2))
   }
@@ -1134,8 +1156,8 @@ export function registerDocsTools(
     {
       title: 'Docs metadata',
       description:
-        'Return metadata for the documentation served by this MCP instance, including the Eufemia version, generation time, and source commit. Use this before relying on version-specific guidance or comparing the served documentation with an installed Eufemia package.',
-      inputSchema: EmptyInput.shape,
+        'Return metadata for the documentation served by this MCP instance, including the Eufemia version, generation time, and source commit. Use this before relying on version-specific guidance or comparing the served documentation with an installed Eufemia package. An Eufemia agent skill passes its name as skill on its first call only.',
+      inputSchema: DocsMetaInput.shape,
     },
     (input) => track('docs_meta', input, () => tools.docsMeta(input))
   )

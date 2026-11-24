@@ -8,6 +8,7 @@ import {
   createDocsServer,
   createDocsTools,
   createUsageResolver,
+  DocsMetaInput,
   DocsSearchInput,
   MAX_SEARCH_QUERY_LENGTH,
   type UsageResolver,
@@ -276,6 +277,27 @@ describe('docs_meta', () => {
       commit: 'abc123',
     })
   })
+
+  it('leaves the skill out of the metadata', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsMeta({ skill: 'eufemia-review' })
+
+    expect(getText(result)).toBe(getText(await tools.docsMeta({})))
+  })
+
+  it('accepts a known skill name or none', () => {
+    expect(DocsMetaInput.parse({ skill: 'eufemia-review' })).toEqual({
+      skill: 'eufemia-review',
+    })
+    expect(DocsMetaInput.parse({})).toEqual({})
+  })
+
+  it.each(['my-skill', 'Eufemia-Review', '', 42])(
+    'drops the unknown skill name %j',
+    (skill) => {
+      expect(DocsMetaInput.parse({ skill })).toEqual({ skill: undefined })
+    }
+  )
 })
 
 describe('portal_content_workflow', () => {

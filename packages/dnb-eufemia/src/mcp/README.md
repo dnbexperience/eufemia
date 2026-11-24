@@ -132,8 +132,8 @@ curl http://localhost:8787/healthz
 ## Telemetry
 
 The **stdio** server sends anonymous, aggregate usage statistics so we can see
-which tools, components and documentation areas are most used and prioritise the
-docs accordingly. It is **on by default** and **opt-out**.
+which tools, components, documentation areas and agent skills are most used and
+prioritise the docs accordingly. It is **on by default** and **opt-out**.
 
 **What is collected** (a closed, public vocabulary only):
 
@@ -146,6 +146,8 @@ docs accordingly. It is **on by default** and **opt-out**.
   `/web/components/overview/`), gated against the areas this server's own docs
   actually contain — a path outside the docs (or a model's guess) is dropped
   instead of narrowed;
+- for `docs_meta`, the name of the Eufemia agent skill making the call (e.g.
+  `eufemia-review`), only when it is one of the fixed skill names;
 - the running `@dnb/eufemia` version.
 
 **What is not in the payload:** no machine id, install id, user, session or

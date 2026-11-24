@@ -2,7 +2,8 @@
  * Anonymous MCP usage record: "someone called this tool", captured server-side
  * for each tool that ran. Only closed, validated fields are stored — the tool
  * name (from the fixed registered set) plus an optional component or doc path
- * derived from the tool's arguments. The user's free-text query is never stored.
+ * derived from the tool's arguments, and on docs_meta the agent skill name (from
+ * the fixed skill set). The user's free-text query is never stored.
  *
  * Validation is structural first (closed character sets, bounded length, no
  * traversal), so nothing incidental in an argument can reach storage. A
@@ -17,10 +18,12 @@
 import {
   COMPONENT_TOOLS,
   KNOWN_TOOLS,
+  SKILL_TOOL,
   isPathTool,
   normalizeComponent,
   parseComponentName,
   parseDocsPath,
+  parseSkillName,
   type McpUsageRecord,
   type PathTool,
 } from 'eufemia-usage-ingest'
@@ -89,7 +92,7 @@ async function recordFromToolCall(
     tool,
     component,
     component_missed: componentMissed,
-    skill: '',
+    skill: tool === SKILL_TOOL ? parseSkillName(args.skill) : '',
     path,
     env,
     // The web Lambda writes this producer's rows only; the local (stdio)
