@@ -283,6 +283,59 @@ describe('useStickyHeader', () => {
     }
   )
 
+  it('should update the scroll range when the rows change without scrolling', () => {
+    mockScrollTimelineSupport()
+    let triggerResize: () => void
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: () => void) {
+          triggerResize = callback
+        }
+        observe() {
+          /* noop */
+        }
+        disconnect() {
+          /* noop */
+        }
+      }
+    )
+
+    render(
+      <Table sticky stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    const tableElement = document.querySelector('table')
+    const trElem = document.querySelector('tr')
+
+    setSizes()
+    simulateScroll(320)
+
+    expect(trElem.style.getPropertyValue('--table-scroll-end')).toEqual(
+      '504px'
+    )
+    expect(trElem).toHaveAttribute('data-is-sticky')
+
+    // The rows are removed, so only the header row is left
+    vi.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(72)
+    triggerResize()
+
+    expect(trElem.style.getPropertyValue('--table-scroll-end')).toEqual(
+      '96px'
+    )
+    expect(trElem).not.toHaveAttribute('data-is-sticky')
+
+    vi.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(480)
+    triggerResize()
+
+    expect(trElem.style.getPropertyValue('--table-scroll-end')).toEqual(
+      '504px'
+    )
+    expect(trElem).toHaveAttribute('data-is-sticky')
+  })
+
   it('should keep the sticky state when the header row re-renders after the rows are reloaded', () => {
     mockScrollTimelineSupport()
     const ReloadTable = ({ rows }: { rows: Array<string> }) => (

@@ -34,6 +34,7 @@ export const useStickyHeader = ({
       let scrollViewElem = null
       let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
+      let resizeObserver: ResizeObserver = null
       let usesScrollTimeline = false
 
       try {
@@ -213,6 +214,12 @@ export const useStickyHeader = ({
 
             bindScroll()
             window.addEventListener('resize', onResize)
+
+            // Rows can be added or removed without a scroll or resize event
+            if (typeof ResizeObserver !== 'undefined') {
+              resizeObserver = new ResizeObserver(onResize)
+              resizeObserver.observe(tableElem)
+            }
           } catch (e) {
             stickyWarning(String(e))
           }
@@ -222,6 +229,7 @@ export const useStickyHeader = ({
 
         return () => {
           clearTimeout(timeout)
+          resizeObserver?.disconnect()
           scrollTargetElem?.removeEventListener('scroll', onScroll)
           window.removeEventListener('resize', onResize)
         }
