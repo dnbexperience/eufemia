@@ -7,8 +7,8 @@ import { warnOnce } from './log.js'
 
 const s3 = new S3Client({})
 
-// Key of the pre-generated dashboard snapshot in the data bucket. Must match the
-// s3:GetObject resource in the dashboard-read execution role's policy.
+// Key of the dashboard snapshot in the data bucket. Must match the snapshot-build
+// policy's s3:PutObject and the dashboard-read policy's s3:GetObject resources.
 export const SNAPSHOT_KEY = 'snapshots/dashboard.json'
 
 // One combined snapshot with a named section per data source. New sources add a
