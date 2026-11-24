@@ -23,6 +23,12 @@ export const skeletonFontConfigs = [
     filePrefix: 'DNBSansDisplay-Skeleton',
     styleName: 'Regular',
   },
+  {
+    source: 'DNBSansEiendom-Light.ttf',
+    familyName: 'DNBSansEiendomSkeleton',
+    filePrefix: 'DNBSansEiendom-Skeleton',
+    styleName: 'Light',
+  },
 ]
 
 function tables(font) {

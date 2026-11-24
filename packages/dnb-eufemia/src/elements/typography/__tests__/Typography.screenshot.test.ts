@@ -72,3 +72,23 @@ describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
     })
   }
 )
+
+describe.each(['light', 'dark'] as const)(
+  'Birdhouse Display typography in %s mode',
+  (colorScheme) => {
+    setupPageScreenshot({
+      themeName: 'birdhouse',
+      colorScheme,
+      url: '/web/layout-and-typography/typography/',
+    })
+
+    it('matches opt-in Eiendom Light headlines', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="font-display"]',
+        wrapperStyle: {
+          background: 'var(--token-color-background-neutral)',
+        },
+      })
+    })
+  }
+)
