@@ -2,12 +2,6 @@
 showTabs: true
 ---
 
-## Import
-
-```tsx
-import { AnimatedDigits } from '@dnb/eufemia/fragments'
-```
-
 ## Description
 
 AnimatedDigits is a low-level fragment for building components. It rolls changed digits directly from the previous text to the final text in 160 ms using CSS. It does not count through intermediate values.
@@ -19,6 +13,12 @@ Pass already formatted text as `value` and the previous text as `previousValue`.
 Reduced motion disables animation. Right-to-left text and bidirectional formatting marks use native text without animation to preserve shaping and reading order. Visual digits are hidden from assistive technology; the complete final text is available immediately. The fragment does not announce updates. Use [AriaLive](/web/components/aria-live/) when an update needs an announcement.
 
 Use motion for selected values that change after a user action. Keep dense tables and frequently refreshing values still.
+
+## Import
+
+```tsx
+import { AnimatedDigits } from '@dnb/eufemia/fragments'
+```
 
 ### Styles
 
