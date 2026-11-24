@@ -17,7 +17,8 @@ commands, files, or validation steps.
    content before proposing an edit. Verify technical claims against the source
    or current Eufemia documentation. If the Eufemia MCP server is available,
    call `docs_meta` once with `skill: "eufemia-portal-content"` before any other
-   Eufemia MCP tool, to see which documentation version it serves.
+   Eufemia MCP tool. The served documentation comes from the release it reports,
+   so verify anything changed on `main` since then against the repository source.
 2. Before changing files, ask two plain-language questions: whether the change
    should appear in the next release notes, and whether it can wait for the next
    regular portal deployment or needs a portal-only deployment. For an urgent
