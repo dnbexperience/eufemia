@@ -228,23 +228,28 @@ export const CardCloseButtonEvents: PropertiesTableProps = {
 
 export const CardMediaButtonProperties: PropertiesTableProps = {
   videoRef: {
-    doc: 'Stable ref attached to the video element. Mount the video and control together. After a render commits, the control detects replacement video elements, removes old listeners, and applies playback preferences to the new element. Native play, pause, ended, emptied, and error events update the control.',
+    doc: 'Stable ref attached to the video element. Required unless playing is provided. Mount the video and control together. After a render commits, the control detects replacement video elements, removes old listeners, and applies playback preferences to the new element. Native play, pause, ended, emptied, and error events update the control. Cannot be combined with playing.',
     type: 'React.RefObject<HTMLVideoElement | null>',
-    status: 'required',
+    status: 'optional',
+  },
+  playing: {
+    doc: 'Current playback state for a custom player, such as Lottie. Use with onClick instead of videoRef. The application owns playback, reduced-motion preferences, loading, and errors. The control only displays this state. Cannot be combined with videoRef or autoPlay.',
+    type: 'boolean',
+    status: 'optional',
   },
   autoPlay: {
-    doc: 'Automatically plays muted video when reduced motion is not requested. Enabling reduced motion pauses playback. Manual playback remains available. A browser may block autoplay.',
+    doc: 'Only available with videoRef. Automatically plays muted video when reduced motion is not requested. Enabling reduced motion pauses playback. Manual playback remains available. A browser may block autoplay.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',
   },
   playTitle: {
-    doc: 'Accessible play label. Defaults to the translated Card.playTitle.',
+    doc: 'Accessible play label. Defaults to the translated Card.playTitle for background video. Provide a label describing the media when using a custom player.',
     type: 'string',
     status: 'optional',
   },
   pauseTitle: {
-    doc: 'Accessible pause label. Defaults to the translated Card.pauseTitle.',
+    doc: 'Accessible pause label. Defaults to the translated Card.pauseTitle for background video. Provide a label describing the media when using a custom player.',
     type: 'string',
     status: 'optional',
   },
@@ -254,7 +259,7 @@ export const CardMediaButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   'Button properties': {
-    doc: 'Button properties are supported, except href, type, icon, and transitionState. Position defaults to the top-left corner of the nearest positioned container. The application owns the video element, sources, poster, and error fallback.',
+    doc: 'Button properties are supported, except href, type, icon, and transitionState. Position defaults to the top-left corner of the nearest positioned container. The application owns the media, loading strategy, and error fallback.',
     type: 'Various',
     status: 'optional',
   },
@@ -262,7 +267,7 @@ export const CardMediaButtonProperties: PropertiesTableProps = {
 
 export const CardMediaButtonEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'Runs before toggling playback. Return false or preventDefault() to cancel the toggle. Playback resumes from the current position.',
+    doc: 'Required with playing: handle playback in your player and update playing from its playback events. With videoRef, runs before toggling video playback; return false or preventDefault() to cancel the toggle. Video playback resumes from the current position.',
     type: '(event: React.MouseEvent<HTMLButtonElement>) => void | boolean',
     status: 'optional',
   },
