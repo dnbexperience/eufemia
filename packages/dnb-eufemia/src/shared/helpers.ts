@@ -175,6 +175,24 @@ export function getOffsetLeft(elem: HTMLElement | null) {
   return offsetLeft
 }
 
+/**
+ * Returns where `position: fixed` with `top: 0` and `left: 0` ends up,
+ * in the coordinates of `getBoundingClientRect()`. It is usually 0, but in
+ * iOS Safari the keyboard moves the visual viewport, which these coordinates
+ * follow, while fixed positions stay where they were.
+ */
+export function getFixedPositionOrigin() {
+  const probe = document.createElement('span')
+  probe.style.position = 'fixed'
+  probe.style.top = '0'
+  probe.style.left = '0'
+  probe.style.visibility = 'hidden'
+  document.body.appendChild(probe)
+  const { top, left } = probe.getBoundingClientRect()
+  probe.remove()
+  return { top: top || 0, left: left || 0 }
+}
+
 export function scrollToLocationHashId({
   offset = 0,
   delay = null as number | null,

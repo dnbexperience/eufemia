@@ -1202,6 +1202,51 @@ describe('DrawerList component', () => {
       ).toBe('max-height: 10rem;')
     })
 
+    it('keeps the list above the on-screen keyboard', () => {
+      // iOS Safari, with the keyboard covering the bottom of the page
+      vi.stubGlobal('visualViewport', {
+        height: 412,
+        offsetTop: 64,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })
+      const offsetHeight = vi
+        .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+        .mockImplementation(function (this: HTMLElement) {
+          return this.classList.contains('dnb-drawer-list__root') ? 43 : 0
+        })
+      const getBoundingClientRect =
+        HTMLElement.prototype.getBoundingClientRect
+      const rect = vi
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockImplementation(function (this: HTMLElement) {
+          if (this.style.position === 'fixed') {
+            return { top: -64, left: 0 } as DOMRect
+          }
+          if (this.classList.contains('dnb-drawer-list__root')) {
+            return { top: 184, bottom: 227 } as DOMRect
+          }
+          return getBoundingClientRect.call(this)
+        })
+
+      try {
+        render(
+          <DrawerList {...props} data={mockData} direction="bottom" />
+        )
+
+        // 412px are visible, the root ends at 227px, minus a 32px margin
+        expect(
+          document
+            .querySelector('.dnb-drawer-list__options')
+            .getAttribute('style')
+        ).toBe('max-height: 9.5rem;')
+      } finally {
+        vi.unstubAllGlobals()
+        offsetHeight.mockRestore()
+        rect.mockRestore()
+      }
+    })
+
     it('has correct max-height with direction top', () => {
       vi.spyOn(
         document.documentElement,
@@ -2016,6 +2061,32 @@ describe('DrawerList portal', () => {
     } finally {
       vi.unstubAllGlobals()
     }
+  })
+
+  it('places a fixed list at its root when the visual viewport is moved, like in iOS Safari with the keyboard open', async () => {
+    const getBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function (this: HTMLElement) {
+      // Fixed positions start 64px above the coordinates of getBoundingClientRect
+      if (this.style.position === 'fixed') {
+        return { top: -64, left: 0 } as DOMRect
+      }
+      if (this.classList.contains('dnb-drawer-list__root')) {
+        return { width: 280, top: 184, left: 16 } as DOMRect
+      }
+      return getBoundingClientRect.call(this)
+    })
+
+    render(<DrawerList open noAnimation fixedPosition />)
+
+    const portal = document.querySelector<HTMLElement>(
+      '.dnb-drawer-list__portal__style'
+    )
+    await waitFor(() => expect(portal.style.top).toBe('248px'))
+    expect(portal.style.left).toBe('16px')
   })
 
   it('will set correct width when independentWidth is set and isolated style scope is used', async () => {
