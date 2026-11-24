@@ -116,7 +116,7 @@ run "enable_slack" {
       aws_scheduler_schedule.weekly_report.schedule_expression == "cron(0 9 ? * MON *)" &&
       aws_scheduler_schedule.weekly_report.schedule_expression_timezone == "Europe/Oslo" &&
       aws_scheduler_schedule.weekly_report.target[0].arn == aws_lambda_function.notifier.arn &&
-      strcontains(aws_scheduler_schedule.weekly_report.target[0].input, "\"at\":\"<aws.scheduler.scheduled-time>\"") &&
+      aws_scheduler_schedule.weekly_report.target[0].input == "{\"kind\":\"weekly\",\"at\":\"<aws.scheduler.scheduled-time>\"}" &&
       aws_scheduler_schedule.weekly_report.target[0].dead_letter_config[0].arn == aws_sqs_queue.failures.arn
     )
     error_message = "The weekly report must use the serialized notifier on Monday at 09:00 Oslo time, preserving the scheduled time and failed deliveries."
