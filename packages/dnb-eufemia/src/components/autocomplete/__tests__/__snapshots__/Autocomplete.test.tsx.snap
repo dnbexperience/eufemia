@@ -1400,9 +1400,11 @@ legend.dnb-form-label {
   color: var(--token-color-component-button-text-action);
   cursor: pointer;
 }
-.dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
-  background-color: var(--token-color-background-action-hover-subtle);
-  color: var(--token-color-component-button-text-action-hover);
+@media (hover: hover) {
+  .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
+    background-color: var(--token-color-background-action-hover-subtle);
+    color: var(--token-color-component-button-text-action-hover);
+  }
 }
 .dnb-input__input:not([disabled])::-webkit-file-upload-button:active {
   background-color: var(--token-color-background-action-pressed-subtle);
@@ -1477,10 +1479,12 @@ legend.dnb-form-label {
     outline-offset: calc(var(--focus-ring-width) * -1);
   }
 }
-.dnb-input__border:hover, .dnb-input__border.hover {
-  --b-color: var(--input-border-color--hover);
-  --b-width: var(--input-border-width--hover);
-  --b-inset: var(--input-border-inset--hover);
+@media (hover: hover) {
+  .dnb-input__border:hover, .dnb-input__border.hover {
+    --b-color: var(--input-border-color--hover);
+    --b-width: var(--input-border-width--hover);
+    --b-inset: var(--input-border-inset--hover);
+  }
 }
 .dnb-input__border:has(.dnb-input__input:autofill) {
   --b-color: var(--input-border-color);
@@ -1498,10 +1502,12 @@ legend.dnb-form-label {
   --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
 }
-.dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), .dnb-input__status--error .dnb-input__border.hover {
-  --b-color: var(--input-border-color__error);
-  --b-width: var(--input-border-width__error--hover);
-  --b-inset: var(--input-border-inset--hover);
+@media (hover: hover) {
+  .dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), .dnb-input__status--error .dnb-input__border.hover {
+    --b-color: var(--input-border-color__error);
+    --b-width: var(--input-border-width__error--hover);
+    --b-inset: var(--input-border-inset--hover);
+  }
 }
 html[data-whatinput=keyboard] .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--focus);
@@ -2670,12 +2676,14 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
 }
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
-  --input-border-width--default: 0.125rem;
-}
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
-  --button-color-bg--default: var(--button-color-bg--hover);
-  --button-color-icon--default: var(--button-color-icon--hover);
+@media (hover: hover) {
+  .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
+    --input-border-width--default: 0.125rem;
+  }
+  .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+    --button-color-bg--default: var(--button-color-bg--hover);
+    --button-color-icon--default: var(--button-color-icon--hover);
+  }
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-autocomplete {
@@ -2917,12 +2925,14 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
 }
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
-  --input-border-width--default: 0.125rem;
-}
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
-  --button-color-bg--default: var(--button-color-bg--hover);
-  --button-color-icon--default: var(--button-color-icon--hover);
+@media (hover: hover) {
+  .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
+    --input-border-width--default: 0.125rem;
+  }
+  .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+    --button-color-bg--default: var(--button-color-bg--hover);
+    --button-color-icon--default: var(--button-color-icon--hover);
+  }
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-autocomplete {
