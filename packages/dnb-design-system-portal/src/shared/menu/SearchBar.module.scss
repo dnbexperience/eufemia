@@ -6,7 +6,9 @@
   &:global(.dnb-drawer-list__portal__style) {
     transition: none;
   }
+}
 
+.compactPortalClassStyle {
   // The compact input is too narrow for result titles on small screens.
   @include utilities.allBelow(small) {
     left: 1rem !important;

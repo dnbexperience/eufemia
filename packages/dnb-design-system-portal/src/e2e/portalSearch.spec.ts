@@ -68,7 +68,10 @@ test('keeps search and settings right aligned while search expands', async ({
   }
 })
 
-test('shows search results across small screens', async ({ page }) => {
+test('keeps header and hero results aligned across screen sizes', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.route(/algolia(net)?\.(net|com)\//, (route) =>
     route.fulfill({
       json: {
@@ -91,27 +94,37 @@ test('shows search results across small screens', async ({ page }) => {
       },
     })
   )
-  const search = page.locator('header.sticky-menu .portal-search')
-  const input = search.locator('input')
-  const results = page.locator('#portal-search-ul')
-
-  for (const [width, getExpectedWidth] of [
-    [375, () => 375 - 32],
-    [1440, (inputWidth: number) => inputWidth],
+  for (const [id, url, widths] of [
+    ['portal-search', '/web/components/overview/', [375, 640, 641, 1440]],
+    ['portal-home-search', '/', [375, 639, 641, 1440]],
   ] as const) {
-    await test.step(`${width}px`, async () => {
-      await page.setViewportSize({ width, height: 800 })
-      await input.fill('')
-      await input.focus()
-      await input.fill('date')
-      await expect(results.getByRole('option')).toHaveCount(1)
+    await page.goto(url)
+    await waitForApp(page)
+    await page.evaluate(() => document.fonts.ready)
+    const input = page.locator(`#${id}`)
+    const search = page.locator('.portal-search').filter({ has: input })
+    const results = page.locator(`#${id}-ul`)
 
-      const box = await results.boundingBox()
-      const inputBox = await search.boundingBox()
-      expect(box.x).toBeGreaterThanOrEqual(15)
-      expect(box.x + box.width).toBeLessThanOrEqual(width - 15)
-      expect(box.width).toBeCloseTo(getExpectedWidth(inputBox.width), 0)
-      await input.press('Escape')
-    })
+    for (const width of widths) {
+      await test.step(`${id} at ${width}px`, async () => {
+        await page.setViewportSize({ width, height: 800 })
+        await input.fill('')
+        await input.focus()
+        await input.fill('date')
+        await expect(results.getByRole('option')).toHaveCount(1)
+
+        const box = await results.boundingBox()
+        const inputBox = await search.boundingBox()
+        const fullWidth = id === 'portal-search' && width <= 640
+        expect(box.x).toBeGreaterThanOrEqual(15)
+        expect(box.x + box.width).toBeLessThanOrEqual(width - 15)
+        expect(box.width).toBeCloseTo(
+          fullWidth ? width - 32 : inputBox.width,
+          0
+        )
+        expect(box.x).toBeCloseTo(fullWidth ? 16 : inputBox.x, 0)
+        await input.press('Escape')
+      })
+    }
   }
 })

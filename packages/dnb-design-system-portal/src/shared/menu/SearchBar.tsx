@@ -5,6 +5,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
+import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import Search from '@dnb/eufemia/src/components/search/Search'
 import type { SearchProps } from '@dnb/eufemia/src/components/search/Search'
@@ -13,6 +14,7 @@ import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
   portalClassStyle,
+  compactPortalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
@@ -158,7 +160,10 @@ export const SearchBarInput = ({
       placeholder={placeholder}
       label="Search the Eufemia documentation"
       status={status}
-      portalClass={portalClassStyle}
+      portalClass={clsx(
+        portalClassStyle,
+        variant === 'compact' && compactPortalClassStyle
+      )}
       drawerClass={drawerClassStyle}
       onType={onTypeHandler}
       onChange={onChangeHandler}
