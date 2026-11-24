@@ -210,7 +210,9 @@ function SearchPanelSurface({
     const updateHeight = () => {
       const reservedHeight = Math.max(
         0,
-        content.offsetHeight - results.offsetHeight
+        content.scrollHeight -
+          results.offsetHeight +
+          parseFloat(getComputedStyle(content.parentElement).paddingTop)
       )
       surface.style.setProperty(
         '--search-panel-reserved-height',
@@ -221,10 +223,17 @@ function SearchPanelSurface({
     if (typeof ResizeObserver === 'undefined') {
       return undefined
     }
-    const observer = new ResizeObserver(updateHeight)
+    let frame: number
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(updateHeight)
+    })
     observer.observe(content)
     observer.observe(results)
-    return () => observer.disconnect()
+    return () => {
+      cancelAnimationFrame(frame)
+      observer.disconnect()
+    }
   }, [open, contentRef, props.children])
 
   useEffect(() => {
@@ -242,7 +251,7 @@ function SearchPanelSurface({
         return
       }
       const content = contentRef.current?.querySelector<HTMLElement>(
-        '.dnb-popover__content'
+        '.dnb-search__panel-content'
       )
       const results = content?.querySelector('[role="listbox"]')
       if (content && results) {
@@ -257,13 +266,27 @@ function SearchPanelSurface({
         content.scrollTop += offset
       }
     }
-    revealResults()
-    const observer = new MutationObserver(revealResults)
+    let navigating = false
+    const onKeyDown = (event: KeyboardEvent) => {
+      navigating = event.key === 'ArrowDown' || event.key === 'ArrowUp'
+      if (navigating) {
+        revealResults()
+      }
+    }
+    input.addEventListener('keydown', onKeyDown)
+    const observer = new MutationObserver(() => {
+      if (navigating) {
+        revealResults()
+      }
+    })
     observer.observe(input, {
       attributes: true,
       attributeFilter: ['aria-activedescendant'],
     })
-    return () => observer.disconnect()
+    return () => {
+      input.removeEventListener('keydown', onKeyDown)
+      observer.disconnect()
+    }
   }, [open, inputRef, contentRef, props.children])
 
   useIsomorphicLayoutEffect(() => {
@@ -332,7 +355,7 @@ function SearchPanelSurface({
             fieldControls.includes(next) || surface.contains(next),
         })
         const content = surface.querySelector<HTMLElement>(
-          '.dnb-popover__content'
+          '.dnb-search__panel-content'
         )
         if (content?.contains(next)) {
           const viewport = content.getBoundingClientRect()

@@ -229,8 +229,10 @@
     }
 
     .dnb-popover__content {
+      box-sizing: border-box;
       max-height: var(--popover-available-height, 70vh);
-      overflow-y: auto;
+      padding-top: min(3rem, var(--popover-available-height, 70vh));
+      overflow: hidden;
       // Settle available height before Popover measures its position.
       transition: none;
     }
@@ -271,7 +273,8 @@
   &__panel-content {
     display: block;
     width: 100%;
-    padding: 1rem 1.5rem;
-    padding-top: 3rem;
+    padding: 0 1.5rem 1rem;
+    max-height: calc(var(--popover-available-height, 70vh) - 3rem);
+    overflow-y: auto;
   }
 }

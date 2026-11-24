@@ -22,7 +22,7 @@ Autocomplete and DrawerList dependencies are excluded when only `Search.Input` i
 
 ### Compact with shortcut
 
-All three components expand on focus and display the shortcut inside the input. When several examples enable the shortcut, Cmd+K or Ctrl+K focuses the first visible one.
+All three components expand on focus and display the shortcut inside the input. When several examples enable the shortcut, Cmd+K or Ctrl+K focuses the first visible one. The Portal header owns the shortcut on this page. Open the examples in fullscreen to try their shortcuts.
 
 With `labelSrOnly={false}`, a vertical label keeps the expanded width while only the input changes width. This keeps wrapping and the input's vertical position stable.
 
@@ -40,7 +40,7 @@ Use a panel when results need additional controls. This example filters by categ
 
 The required `panelDescription` tells screen reader users what they can find in the panel and how to reach its controls. Describe the controls your application provides and supply the text in the user's language. Result counts are announced separately.
 
-The render function receives `results`, the inline Autocomplete list, and `close`. Keep controls outside `results` so they retain their own keyboard behavior. Up and Down navigate results while the input has focus, Enter selects, and Tab reaches the controls. Escape closes the surface and returns focus to the input.
+The render function receives `results`, the inline Autocomplete list, and `close`. Keep controls outside `results` so they retain their own keyboard behavior. Up and Down navigate results while the input has focus, Enter selects, and Tab reaches the controls. Category chips keep focus when selected; return to the input to type a query. Escape closes the surface and returns focus to the input.
 
 <SearchPanel />
 

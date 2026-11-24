@@ -806,6 +806,14 @@ test('panel reveals keyboard results when controls fill a short viewport', async
     .toBe(true)
   const pageScroll = await page.evaluate(() => window.scrollY)
 
+  const closeBox = await panel
+    .getByRole('button', { name: 'Lukk', exact: true })
+    .boundingBox()
+  const sortBox = await page
+    .getByRole('button', { name: /^Sort results:/ })
+    .boundingBox()
+  expect(sortBox.y).toBeGreaterThanOrEqual(closeBox.y + closeBox.height)
+
   for (const index of [0, 1, 2]) {
     await input.press('ArrowDown')
     await expect(options.nth(index)).toHaveClass(
@@ -847,6 +855,46 @@ test('panel reveals keyboard results when controls fill a short viewport', async
       .toBe(true)
   }
   expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
+})
+
+test('panel category changes settle without resize observer errors', async ({
+  page,
+}) => {
+  const errors: string[] = []
+  page.on('pageerror', (error) => {
+    if (error.message.includes('ResizeObserver')) {
+      errors.push(error.message)
+    }
+  })
+  const input = page.locator('[data-testid="search-panel"] input')
+  await input.focus()
+  const all = page.getByRole('radio', { name: 'All', exact: true })
+  const components = page.getByRole('radio', {
+    name: 'Components',
+    exact: true,
+  })
+  const guidance = page.getByRole('radio', {
+    name: 'Guidance',
+    exact: true,
+  })
+  for (let index = 0; index < 8; index++) {
+    await components.click()
+    await expect(components).toBeChecked()
+    await page.keyboard.press('ArrowRight')
+    await expect(guidance).toBeChecked()
+    await input.fill('a')
+    await input.press('ArrowDown')
+    await input.fill('')
+    await all.click()
+    await expect(all).toBeChecked()
+  }
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      })
+  )
+  expect(errors).toEqual([])
 })
 
 test('panel keeps the keyboard focus outline inside the results viewport', async ({
