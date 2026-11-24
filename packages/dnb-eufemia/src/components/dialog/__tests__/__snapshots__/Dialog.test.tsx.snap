@@ -463,11 +463,13 @@ button .dnb-form-status__text {
 .dnb-button--tertiary .dnb-skeleton .dnb-button__text {
   text-decoration: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) .dnb-button__text {
-  text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
+@media (hover: hover) {
+  html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) .dnb-button__text {
+    text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
+  }
 }
 .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled] {
   cursor: not-allowed;
@@ -613,20 +615,22 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
   color: var(--button-color-icon, var(--button-color-icon--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) {
-  --button-color-bg: var(--button-color-bg--hover);
-  --button-color-border: var(--button-color-border--hover);
-  --button-color-icon: var(--button-color-icon--hover);
-  --button-color-text: var(--button-color-text--hover);
-  --button-color-underline: var(--button-color-underline--hover);
-  --button-border-inset: var(--button-border-inset--hover);
-  --button-border-width: var(--button-border-width--hover);
-  --button-input-separator-color: var(
-    --button-input-separator-color--hover
-  );
+@media (hover: hover) {
+  html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) {
+    --button-color-bg: var(--button-color-bg--hover);
+    --button-color-border: var(--button-color-border--hover);
+    --button-color-icon: var(--button-color-icon--hover);
+    --button-color-text: var(--button-color-text--hover);
+    --button-color-underline: var(--button-color-underline--hover);
+    --button-border-inset: var(--button-border-inset--hover);
+    --button-border-width: var(--button-border-width--hover);
+    --button-input-separator-color: var(
+      --button-input-separator-color--hover
+    );
+  }
 }
 .dnb-button--primary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):active[disabled], .dnb-button--secondary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):active[disabled], .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled] {
   cursor: not-allowed;
@@ -1216,12 +1220,14 @@ html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabl
   box-shadow: none;
   border: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
+@media (hover: hover) {
+  html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover:not([disabled]) {
+    box-shadow: none;
+    border: none;
+  }
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
