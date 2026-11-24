@@ -112,19 +112,21 @@ test.describe('Card.Action on touch devices', () => {
   }) => {
     const { action, ownCard } = getCards(page)
 
-    // The focus outline before any tap
-    await page.keyboard.press('a')
+    // The focus outline from the keyboard, before any tap. Use Tab and
+    // Shift+Tab, because Firefox does not show focus-visible on a
+    // focus() call after a tap.
     await action.focus()
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Shift+Tab')
     await expect(action).toBeFocused()
     const focusOutline = await getOutline(ownCard)
     await action.blur()
 
     await action.tap()
-    await action.blur()
 
     // Come back with the keyboard. The tapped card keeps :hover.
-    await page.keyboard.press('a')
-    await action.focus()
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Shift+Tab')
     await expect(action).toBeFocused()
     expect(
       await action.evaluate((element) => element.matches(':hover'))
