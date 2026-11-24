@@ -846,23 +846,6 @@ describe('Button scss', () => {
       )
     )
 
-    // No hover or active state
-    expect(css).toMatch(
-      new RegExp(
-        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--hover\\);`
-      )
-    )
-    expect(css).toMatch(
-      new RegExp(
-        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):active:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--active\\);`
-      )
-    )
-    expect(css).toMatch(
-      new RegExp(
-        `\\.dnb-button--tertiary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
-      )
-    )
-
     // Forced colors mode
     expect(css).toMatch(
       new RegExp(

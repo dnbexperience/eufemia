@@ -234,7 +234,7 @@ p > .dnb-icon {
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header:hover[disabled] {
     cursor: not-allowed;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header:hover:not([disabled]) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header:hover:not([disabled]):where(:not([aria-disabled=true])) {
     --accordion-color-text: var(--accordion-color-text--hover);
     --accordion-color-description: var(
       --accordion-color-description--hover
@@ -249,7 +249,7 @@ p > .dnb-icon {
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header--after-click:hover[disabled] {
     cursor: not-allowed;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header--after-click:hover:not([disabled]) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header--after-click:hover:not([disabled]):where(:not([aria-disabled=true])) {
     --accordion-color-text: var(--accordion-color-text--after-click);
     --accordion-color-description: var(
       --accordion-color-description--after-click
@@ -263,7 +263,7 @@ p > .dnb-icon {
 .dnb-accordion__header:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-accordion__header:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header:active:not([disabled]) {
+.dnb-accordion__header:active:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch]) .dnb-accordion__header:active:not([disabled]):where(:not([aria-disabled=true])) {
   --accordion-color-text: var(--accordion-color-text--active);
   --accordion-color-description: var(
     --accordion-color-description--active
@@ -348,7 +348,7 @@ html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disab
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header--outlined:hover[disabled] {
     cursor: not-allowed;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header--outlined:hover:not([disabled]) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-accordion__header--outlined:hover:not([disabled]):where(:not([aria-disabled=true])) {
     z-index: 1;
   }
 }

@@ -292,23 +292,23 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
     cursor: not-allowed;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true])) {
     --tab-title-background: var(--tab-title-background--hover);
     --tab-title-border: var(--token-color-background-action-hover);
     background-color: var(--tab-button-background--hover);
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true]))::after {
     background-color: var(--token-color-background-action-hover);
     opacity: 0.25;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true])):active {
     --tab-title-background: var(
       --token-color-background-action-pressed-subtle
     );
     --tab-title-border: var(--token-color-background-action-pressed);
     background-color: var(--tab-button-background--active);
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true])):active::after {
     background-color: var(--token-color-background-action-pressed);
   }
 }
@@ -399,10 +399,10 @@ html:where(:not([data-whatintent=mouse])) .dnb-tabs__button:focus-visible::befor
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover[disabled] {
     cursor: not-allowed;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]) ~ .dnb-tabs__selection {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]):where(:not([aria-disabled=true])) ~ .dnb-tabs__selection {
     background-color: var(--token-color-background-action-hover);
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]):has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]):where(:not([aria-disabled=true])):has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
     background-color: var(--token-color-background-action-pressed);
   }
 }
@@ -771,23 +771,23 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
     cursor: not-allowed;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true])) {
     --tab-title-background: var(--tab-title-background--hover);
     --tab-title-border: var(--token-color-background-action-hover);
     background-color: var(--tab-button-background--hover);
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true]))::after {
     background-color: var(--token-color-background-action-hover);
     opacity: 0.25;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true])):active {
     --tab-title-background: var(
       --token-color-background-action-pressed-subtle
     );
     --tab-title-border: var(--token-color-background-action-pressed);
     background-color: var(--tab-button-background--active);
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):where(:not([aria-disabled=true])):active::after {
     background-color: var(--token-color-background-action-pressed);
   }
 }
@@ -878,10 +878,10 @@ html:where(:not([data-whatintent=mouse])) .dnb-tabs__button:focus-visible::befor
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover[disabled] {
     cursor: not-allowed;
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]) ~ .dnb-tabs__selection {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]):where(:not([aria-disabled=true])) ~ .dnb-tabs__selection {
     background-color: var(--token-color-background-action-hover);
   }
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]):has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-tabs__button__snap.selected:hover:not([disabled]):where(:not([aria-disabled=true])):has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
     background-color: var(--token-color-background-action-pressed);
   }
 }
