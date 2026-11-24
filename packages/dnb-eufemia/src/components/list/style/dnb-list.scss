@@ -585,9 +585,11 @@
       // browser without support for :has() or :focus-visible drops the
       // whole rule.
       // Touch browsers keep :hover on the last tapped element.
-      html[data-whatintent='mouse']
-        &:not(.dnb-list__item--disabled):hover {
-        @include navigationOutline();
+      @media (any-hover: hover) {
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+          &:not(.dnb-list__item--disabled):hover {
+          @include navigationOutline();
+        }
       }
       &:not(.dnb-list__item--disabled):where(
           :not(:hover):not(:active)
@@ -659,11 +661,13 @@
     }
 
     // Handle accordion states (own header only, not nested accordions)
-    html[data-whatintent='mouse']
-      &:not(.dnb-list__item--disabled):has(
-        > #{&}__accordion__header:hover
-      ) {
-      @include navigationOutline();
+    @media (any-hover: hover) {
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &:not(.dnb-list__item--disabled):has(
+          > #{&}__accordion__header:hover
+        ) {
+        @include navigationOutline();
+      }
     }
     &:not(.dnb-list__item--disabled):has(
         > #{&}__accordion__header:focus-visible:where(
@@ -855,20 +859,24 @@
         // Keep these rules separate, because a browser without support
         // for :has() or :focus-visible drops the whole rule.
         // Touch browsers keep :hover on the last tapped element.
-        html[data-whatintent='mouse']
-          &.dnb-list__item__action:not(
-            .dnb-list__item--disabled
-          ):hover::after {
-          border: var(--list-item-outline-width) solid
-            var(--list-item-outline-color);
+        @media (any-hover: hover) {
+          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+            &.dnb-list__item__action:not(
+              .dnb-list__item--disabled
+            ):hover::after {
+            border: var(--list-item-outline-width) solid
+              var(--list-item-outline-color);
+          }
         }
 
-        html[data-whatintent='mouse']
-          &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
-            > .dnb-list__item__accordion__header:hover
-          )::after {
-          border: var(--list-item-outline-width) solid
-            var(--list-item-outline-color);
+        @media (any-hover: hover) {
+          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+            &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
+              > .dnb-list__item__accordion__header:hover
+            )::after {
+            border: var(--list-item-outline-width) solid
+              var(--list-item-outline-color);
+          }
         }
         &.dnb-list__item__action:not(.dnb-list__item--disabled):has(
             > a:focus-visible,
