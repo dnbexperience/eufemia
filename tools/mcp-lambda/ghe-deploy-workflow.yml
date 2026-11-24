@@ -64,7 +64,7 @@ jobs:
       - name: Post deploy summary
         run: |
           cd infra
-          ENDPOINT=$(terraform output -raw custom_domain 2>/dev/null || terraform output -raw api_endpoint)
+          ENDPOINT=$(terraform output -raw custom_domain)
           echo "## MCP Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"

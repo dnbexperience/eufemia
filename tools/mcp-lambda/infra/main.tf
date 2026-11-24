@@ -232,7 +232,9 @@ resource "aws_cloudwatch_metric_alarm" "mcp_usage_dead_letter" {
 resource "aws_apigatewayv2_api" "mcp" {
   name          = local.function_name
   protocol_type = "HTTP"
-  tags          = local.tags
+  # Reached only through the custom domain that Akamai uses as its origin.
+  disable_execute_api_endpoint = true
+  tags                         = local.tags
 }
 
 resource "aws_apigatewayv2_stage" "mcp" {
