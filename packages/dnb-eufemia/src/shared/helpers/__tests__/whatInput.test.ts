@@ -96,8 +96,8 @@ describe('whatInput', () => {
 
   describe('touch and mouse switching', () => {
     const dispatchPointer = (
-      type: 'pointerdown' | 'pointermove',
-      pointerType: 'touch' | 'mouse',
+      type: 'pointerdown' | 'pointermove' | 'pointerup',
+      pointerType: 'touch' | 'mouse' | 'pen',
       screenX = 0
     ) =>
       window.dispatchEvent(
@@ -190,6 +190,37 @@ describe('whatInput', () => {
         document.documentElement.getAttribute('data-whatintent')
       ).toBe('mouse')
     })
+
+    it.each(['touch', 'pen'] as const)(
+      'ignores compatibility mouse events after a held %s is released',
+      (pointerType) => {
+        dispatchPointer('pointerdown', pointerType)
+        vi.advanceTimersByTime(300)
+        dispatchPointer('pointerup', pointerType)
+
+        for (const delay of [0, 100]) {
+          vi.advanceTimersByTime(delay)
+          dispatchMouse()
+
+          expect(
+            document.documentElement.getAttribute('data-whatinput')
+          ).toBe('touch')
+          expect(
+            document.documentElement.getAttribute('data-whatintent')
+          ).toBe('touch')
+        }
+
+        vi.advanceTimersByTime(100)
+        dispatchMouse()
+
+        expect(
+          document.documentElement.getAttribute('data-whatinput')
+        ).toBe('mouse')
+        expect(
+          document.documentElement.getAttribute('data-whatintent')
+        ).toBe('mouse')
+      }
+    )
   })
 })
 

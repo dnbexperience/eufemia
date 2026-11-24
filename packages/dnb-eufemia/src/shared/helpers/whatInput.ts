@@ -41,6 +41,7 @@ function setUp() {
   if (window.PointerEvent) {
     window.addEventListener('pointerdown', setInput, true)
     window.addEventListener('pointermove', setIntent, passiveCapture)
+    window.addEventListener('pointerup', trackTouchRelease, true)
   } else {
     window.addEventListener('mousemove', setIntent, passiveCapture)
 
@@ -64,6 +65,12 @@ function resolvePointerType(event: PointerEvent): InputType {
     return 'touch'
   }
   return 'mouse'
+}
+
+function trackTouchRelease(event: PointerEvent) {
+  if (resolvePointerType(event) === 'touch') {
+    lastTouchTimestamp = Date.now()
+  }
 }
 
 function resolveInputType(event: Event): InputType {
