@@ -357,12 +357,16 @@
     visibility: hidden;
   }
 
-  // hover and focus
+  // focus
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
     --textarea-border-width: var(--textarea-border-width--hover);
     --textarea-border-inset: ;
+    --textarea-color-border: var(--token-color-stroke-action-pressed);
+
+    @include utilities.forcedColorsOutline($inset: inset);
   }
 
+  // hover, after focus so the hover color wins.
   // Touch browsers keep :hover on the last tapped element
   @media (any-hover: hover) {
     html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
@@ -370,21 +374,6 @@
       ~ &__state {
       --textarea-border-width: var(--textarea-border-width--hover);
       --textarea-border-inset: ;
-    }
-  }
-
-  //  focus
-  &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
-    --textarea-color-border: var(--token-color-stroke-action-pressed);
-
-    @include utilities.forcedColorsOutline($inset: inset);
-  }
-
-  //  hover
-  @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      &__textarea:not([disabled]):not(#{&}--disabled):hover
-      ~ &__state {
       --textarea-color-border: var(--token-color-stroke-action-hover);
     }
   }

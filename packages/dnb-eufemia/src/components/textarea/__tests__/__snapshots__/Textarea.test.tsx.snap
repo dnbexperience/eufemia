@@ -535,14 +535,6 @@ html[data-visual-test] .dnb-textarea__textarea {
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state {
   --textarea-border-width: var(--textarea-border-width--hover);
   --textarea-border-inset: ;
-}
-@media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-    --textarea-border-width: var(--textarea-border-width--hover);
-    --textarea-border-inset: ;
-  }
-}
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-action-pressed);
 }
 @media (forced-colors: active) {
@@ -553,6 +545,8 @@ html[data-visual-test] .dnb-textarea__textarea {
 }
 @media (any-hover: hover) {
   html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+    --textarea-border-width: var(--textarea-border-width--hover);
+    --textarea-border-inset: ;
     --textarea-color-border: var(--token-color-stroke-action-hover);
   }
 }
