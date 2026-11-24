@@ -1384,6 +1384,21 @@ resource "aws_cloudfront_response_headers_policy" "dashboard" {
       ])
     }
   }
+
+  # security_headers_config has no fields for these two headers.
+  custom_headers_config {
+    items {
+      header   = "Permissions-Policy"
+      value    = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+      override = true
+    }
+
+    items {
+      header   = "Cross-Origin-Opener-Policy"
+      value    = "same-origin"
+      override = true
+    }
+  }
 }
 
 # Locks the CloudFront origin to the Akamai edge: Akamai injects the
