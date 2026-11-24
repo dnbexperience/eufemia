@@ -84,41 +84,34 @@ You may check out this [Prettier Plugin](https://www.npmjs.com/package/prettier-
 
 ## Hover styles
 
-Touch browsers keep `:hover` on the last tapped element until something else is tapped. Hover styles then stay visible, and can make a control look checked or selected when it isn't. `@media (hover: hover)` doesn't prevent this on devices with both a touchscreen and a mouse or touchpad, such as touchscreen laptops and Chromebooks, because it describes the primary pointer.
+Touch browsers can keep `:hover` on the last tapped element until something else is tapped. Hover styles then stay visible, and can make a control look checked or selected when it isn't.
 
-- Use the `hover` mixin from `utilities.scss`. It applies hover styles only while the user uses a mouse (`html[data-whatintent='mouse']`), so a tap or a key press does not leave them on.
-- For a hover selector the mixin can't wrap, prefix it with `html[data-whatintent='mouse']`.
-- Keep pressed (`:active`) styles outside of it, so touch users still get feedback when they tap.
-- Keep focus styles outside of it too, so keyboard users see focus on every device.
-- If a focus style excludes hovered elements with `:not(:hover)`, add the same focus style for `html:where(:not([data-whatintent='mouse']))`. A tapped element keeps `:hover`, so the focus style would not show when the user comes back to it with the keyboard.
-- Add `:not(:active)` to hover selectors, so hover styles don't hide the pressed style.
+Use the shared `utilities.hover()` mixin, as Button does. It checks `data-whatintent` on `<html>` and shows hover styles when the tracked intent is `mouse`. A tap hides them, a key press keeps them hidden, and using the mouse brings them back. Eufemia sets these attributes through its shared input tracking. Typing in a form field preserves pointer intent so it does not change the surrounding hover styling.
 
-Eufemia's JavaScript sets `data-whatintent` on the `html` element. Without it, these hover styles don't apply.
+[`@media (hover: hover)`](https://www.w3.org/TR/mediaqueries-4/#hover) describes whether the primary pointer can hover. On a laptop with a touchscreen and a mouse, it can remain true while the touchscreen is being used. Browsers may update the query when the primary pointer changes, but it does not track every switch between touch, keyboard and mouse. `any-hover` also describes a capability, rather than the current input.
+
+- Keep pressed (`:active`) styles outside the hover mixin, so touch users still get feedback when they tap.
+- Keep focus styles outside it too, so keyboard users see focus on every device.
+- If a focus style excludes hovered elements with `:not(:hover)`, also show it when the tracked intent is not `mouse`. A tapped element can keep `:hover` when the user returns with the keyboard.
+- Add `:not(:active)` inside the hover mixin when needed to keep hover styles from hiding the pressed style.
 
 ```scss
 @use '@dnb/eufemia/style/core/utilities.scss' as utilities;
 
 .my-toggle {
-  @include utilities.hover {
+  @include utilities.hover() {
     &:not(:active) {
       border-color: var(--token-color-stroke-action-hover);
     }
   }
 
-  &:active {
+  @include utilities.active() {
     border-color: var(--token-color-stroke-action-pressed);
-  }
-
-  &:focus-visible:not(:hover) {
-    @include utilities.focusOutline();
-  }
-
-  // A tapped element keeps :hover
-  html:where(:not([data-whatintent='mouse'])) &:focus-visible {
-    @include utilities.focusOutline();
   }
 }
 ```
+
+For custom selectors that cannot use the mixin, use `html[data-whatintent='mouse'] &:hover`. Keep this guard beside other input guards instead of nesting them, so they refer to the same `<html>` element.
 
 ## CSS Units
 
