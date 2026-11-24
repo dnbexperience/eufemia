@@ -161,6 +161,20 @@ describe('portal page sections', () => {
     expect(tabPages.length).toBeGreaterThan(50)
   })
 
+  it('writes the Overview tab in overview.mdx, not info.mdx', () => {
+    // An info.mdx is no longer a tab, so it would become a page of its own.
+    const offenders = pages
+      .map(({ file }) => file)
+      .filter((file) => path.basename(file) === 'info.mdx')
+
+    expect(
+      offenders,
+      `These files use the old name of the Overview tab:\n` +
+        offenders.join('\n') +
+        `\n\nRename each of them to overview.mdx.`
+    ).toEqual([])
+  })
+
   it('structures each Overview, Demos, Properties and Events tab around its tab heading', () => {
     const offenders: string[] = []
 
