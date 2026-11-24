@@ -307,27 +307,39 @@
     * Touch browsers keep :hover on the last tapped element,
     * which would make an unchecked switch look checked.
     */
-  html[data-whatintent='mouse']:not([data-whatinput='keyboard'])
-    &__input:not([disabled]):not(:active):hover
-    ~ &__background {
-    border-color: var(--switch-hover-border);
-    background-color: var(--switch-hover-background);
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
+        [data-whatinput='keyboard']
+      )
+      &__input:not([disabled]):not(:active):hover
+      ~ &__background {
+      border-color: var(--switch-hover-border);
+      background-color: var(--switch-hover-background);
 
-    @include utilities.fakeBorder(var(--switch-hover-border), 0.125rem);
+      @include utilities.fakeBorder(var(--switch-hover-border), 0.125rem);
+    }
   }
-  html[data-whatintent='mouse']:not([data-whatinput='keyboard'])
-    &__input:not([disabled]):not(:active):hover
-    ~ &__button {
-    color: var(--switch-interaction-icon);
-    background-color: var(--switch-hover-button-background);
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
+        [data-whatinput='keyboard']
+      )
+      &__input:not([disabled]):not(:active):hover
+      ~ &__button {
+      color: var(--switch-interaction-icon);
+      background-color: var(--switch-hover-button-background);
 
-    @include utilities.fakeBorder(var(--switch-hover-border), 0.0625rem);
+      @include utilities.fakeBorder(var(--switch-hover-border), 0.0625rem);
+    }
   }
 
-  html[data-whatintent='mouse']:not([data-whatinput='keyboard'])
-    &__input:checked:not([disabled]):not(:active):hover
-    ~ &__button {
-    box-shadow: none;
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
+        [data-whatinput='keyboard']
+      )
+      &__input:checked:not([disabled]):not(:active):hover
+      ~ &__button {
+      box-shadow: none;
+    }
   }
 
   /*
@@ -485,10 +497,14 @@
     box-shadow: none;
   }
 
-  html[data-whatintent='mouse']:not([data-whatinput='keyboard'])
-    &__status--error
-    &__input:not([disabled]):not(:active):hover
-    ~ &__button {
-    box-shadow: none;
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
+        [data-whatinput='keyboard']
+      )
+      &__status--error
+      &__input:not([disabled]):not(:active):hover
+      ~ &__button {
+      box-shadow: none;
+    }
   }
 }

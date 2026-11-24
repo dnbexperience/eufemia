@@ -492,24 +492,30 @@ button .dnb-form-status__text {
     * which would make an unchecked switch look checked.
     */
 }
-html[data-whatintent=mouse]:not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__background {
-  border-color: var(--switch-hover-border);
-  background-color: var(--switch-hover-background);
-  --border-color: var(--switch-hover-border);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__background {
+    border-color: var(--switch-hover-border);
+    background-color: var(--switch-hover-background);
+    --border-color: var(--switch-hover-border);
+    --border-width: 0.125rem;
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+  }
 }
-html[data-whatintent=mouse]:not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
-  color: var(--switch-interaction-icon);
-  background-color: var(--switch-hover-button-background);
-  --border-color: var(--switch-hover-border);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
+    color: var(--switch-interaction-icon);
+    background-color: var(--switch-hover-button-background);
+    --border-color: var(--switch-hover-border);
+    --border-width: 0.0625rem;
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+  }
 }
-html[data-whatintent=mouse]:not([data-whatinput=keyboard]) .dnb-switch__input:checked:not([disabled]):not(:active):hover ~ .dnb-switch__button {
-  box-shadow: none;
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__input:checked:not([disabled]):not(:active):hover ~ .dnb-switch__button {
+    box-shadow: none;
+  }
 }
 .dnb-switch {
   /*
@@ -653,7 +659,9 @@ html[data-whatinput=keyboard] .dnb-switch--surface-dark .dnb-switch__input:not([
 html[data-whatinput=keyboard] .dnb-switch--surface-dark.dnb-switch__status--error .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
   box-shadow: none;
 }
-html[data-whatintent=mouse]:not([data-whatinput=keyboard]) .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
-  box-shadow: none;
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
+    box-shadow: none;
+  }
 }"
 `;
