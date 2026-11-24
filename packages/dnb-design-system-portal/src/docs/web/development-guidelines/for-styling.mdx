@@ -89,6 +89,7 @@ Touch browsers keep `:hover` on the last tapped element until something else is 
 - Put hover styles inside `@media (hover: hover)`, so they only apply on devices that can hover.
 - Keep pressed (`:active`) styles outside of it, so touch users still get feedback when they tap.
 - Keep focus styles outside of it too, so keyboard users see focus on every device.
+- If a focus style excludes hovered elements with `:not(:hover)`, add the same focus style without `:not(:hover)` inside `@media (hover: none)`. A tapped element keeps `:hover`, so the focus style would not show when the user comes back to it with the keyboard.
 - Add `:not(:active)` to hover selectors, so hover styles don't hide the pressed style.
 
 ```scss
