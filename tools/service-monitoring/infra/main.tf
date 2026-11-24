@@ -127,7 +127,8 @@ resource "aws_dynamodb_table" "state" {
     enabled = true
   }
   server_side_encryption {
-    enabled = true
+    enabled     = true
+    kms_key_arn = aws_kms_key.stack.arn
   }
   deletion_protection_enabled = true
   tags                        = local.tags
@@ -149,6 +150,7 @@ resource "aws_cloudwatch_log_group" "monitor" {
   for_each          = local.services
   name              = "/aws/lambda/${local.prefix}-${lower(each.key)}"
   retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
   tags              = local.tags
 }
 
@@ -226,8 +228,9 @@ resource "aws_scheduler_schedule" "monitor" {
 }
 
 resource "aws_sns_topic" "alerts" {
-  name = "${local.prefix}-alerts"
-  tags = local.tags
+  name              = "${local.prefix}-alerts"
+  kms_master_key_id = aws_kms_key.stack.arn
+  tags              = local.tags
 }
 
 resource "aws_scheduler_schedule" "weekly_report" {
@@ -314,6 +317,7 @@ resource "aws_cloudwatch_metric_alarm" "failures" {
 resource "aws_cloudwatch_log_group" "notifier" {
   name              = "/aws/lambda/${local.prefix}-alarms"
   retention_in_days = 30
+  kms_key_id        = aws_kms_key.stack.arn
   tags              = local.tags
 }
 
