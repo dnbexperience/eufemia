@@ -124,11 +124,14 @@
       color: var(--token-color-component-button-text-action);
       cursor: pointer;
 
-      html[data-whatintent='mouse'] &:hover {
-        background-color: var(
-          --token-color-background-action-hover-subtle
-        );
-        color: var(--token-color-component-button-text-action-hover);
+      @media (any-hover: hover) {
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+          &:hover {
+          background-color: var(
+            --token-color-background-action-hover-subtle
+          );
+          color: var(--token-color-component-button-text-action-hover);
+        }
       }
       &:active {
         background-color: var(
@@ -237,11 +240,15 @@
   }
   // Touch browsers keep :hover on the last tapped element,
   // and FormLabel sets the hover class when its label is tapped
-  html[data-whatintent='mouse'] &__border:hover,
-  html[data-whatintent='mouse'] &__border.hover {
-    --b-color: var(--input-border-color--hover);
-    --b-width: var(--input-border-width--hover);
-    --b-inset: var(--input-border-inset--hover);
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__border:hover,
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__border.hover {
+      --b-color: var(--input-border-color--hover);
+      --b-width: var(--input-border-width--hover);
+      --b-inset: var(--input-border-inset--hover);
+    }
   }
 
   &__border:has(#{&}__input:autofill) {
@@ -261,14 +268,20 @@
     --b-width: var(--input-border-width__error--active);
     --b-inset: var(--input-border-inset--active);
   }
-  html[data-whatintent='mouse'] &__status--error &__border:hover,
-  html[data-whatintent='mouse']
-    &__status--error
-    &__border:hover:has(#{&}__input:autofill),
-  html[data-whatintent='mouse'] &__status--error &__border.hover {
-    --b-color: var(--input-border-color__error);
-    --b-width: var(--input-border-width__error--hover);
-    --b-inset: var(--input-border-inset--hover);
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__status--error
+      &__border:hover,
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__status--error
+      &__border:hover:has(#{&}__input:autofill),
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &__status--error
+      &__border.hover {
+      --b-color: var(--input-border-color__error);
+      --b-width: var(--input-border-width__error--hover);
+      --b-inset: var(--input-border-inset--hover);
+    }
   }
   html[data-whatinput='keyboard'] &__border:focus-within {
     --b-color: var(--input-border-color--focus);
@@ -499,9 +512,11 @@
         margin: auto;
       }
 
-      html[data-whatintent='mouse']
-        &:not(.dnb-button--has-text):hover[disabled] {
-        cursor: default;
+      @media (any-hover: hover) {
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+          &:not(.dnb-button--has-text):hover[disabled] {
+          cursor: default;
+        }
       }
     }
   }
