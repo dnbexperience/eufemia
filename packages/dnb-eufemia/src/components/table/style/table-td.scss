@@ -246,21 +246,11 @@
 
     // A tapped cell keeps :hover on touch devices, so show the selected
     // border there too
-    html:where([data-whatintent='touch'], [data-whatintent='keyboard'])
+    html:where(:not([data-whatintent='mouse']))
       &
       .dnb-table__td__button:not(:active)::before {
       --border-width: var(--table-accordion-outline-width--active);
       --border-color: var(--token-color-stroke-selected);
-    }
-
-    // Devices that cannot hover show no hover styles at all
-    @media (any-hover: none) {
-      html:where(:not([data-whatintent='mouse']))
-        &
-        .dnb-table__td__button:not(:active)::before {
-        --border-width: var(--table-accordion-outline-width--active);
-        --border-color: var(--token-color-stroke-selected);
-      }
     }
   }
 
