@@ -69,6 +69,7 @@ describe('Eufemia agent skills', () => {
         'utf-8'
       )
       expect(content.toLowerCase()).not.toContain('when available')
+      expect(content).toContain(`skill: "${skill.name}"`)
     }
   })
 
