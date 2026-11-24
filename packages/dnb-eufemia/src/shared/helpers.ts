@@ -182,6 +182,11 @@ export function getOffsetLeft(elem: HTMLElement | null) {
  * follow, while fixed positions stay where they were.
  */
 export function getFixedPositionOrigin() {
+  const viewport = window.visualViewport
+  if (!viewport?.offsetTop && !viewport?.offsetLeft) {
+    return { top: 0, left: 0 }
+  }
+
   const probe = document.createElement('span')
   probe.style.position = 'fixed'
   probe.style.top = '0'

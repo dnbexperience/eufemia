@@ -2064,6 +2064,13 @@ describe('DrawerList portal', () => {
   })
 
   it('places a fixed list at its root when the visual viewport is moved, like in iOS Safari with the keyboard open', async () => {
+    vi.stubGlobal('visualViewport', {
+      height: 412,
+      offsetTop: 64,
+      offsetLeft: 0,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })
     const getBoundingClientRect =
       HTMLElement.prototype.getBoundingClientRect
     vi.spyOn(
@@ -2080,13 +2087,17 @@ describe('DrawerList portal', () => {
       return getBoundingClientRect.call(this)
     })
 
-    render(<DrawerList open noAnimation fixedPosition />)
+    try {
+      render(<DrawerList open noAnimation fixedPosition />)
 
-    const portal = document.querySelector<HTMLElement>(
-      '.dnb-drawer-list__portal__style'
-    )
-    await waitFor(() => expect(portal.style.top).toBe('248px'))
-    expect(portal.style.left).toBe('16px')
+      const portal = document.querySelector<HTMLElement>(
+        '.dnb-drawer-list__portal__style'
+      )
+      await waitFor(() => expect(portal.style.top).toBe('248px'))
+      expect(portal.style.left).toBe('16px')
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 
   it('will set correct width when independentWidth is set and isolated style scope is used', async () => {
