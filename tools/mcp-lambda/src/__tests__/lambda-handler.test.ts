@@ -113,7 +113,12 @@ describe('lambda-handler protocol versions', () => {
     }
   }
 
-  function postModern(id: number, method: string, params = {}) {
+  function postModern(
+    id: number,
+    method: string,
+    params = {},
+    headers: Record<string, string> = {}
+  ) {
     return postMcp(
       {
         jsonrpc: '2.0',
@@ -131,7 +136,11 @@ describe('lambda-handler protocol versions', () => {
           },
         },
       },
-      { 'mcp-protocol-version': '2026-07-28', 'mcp-method': method }
+      {
+        'mcp-protocol-version': '2026-07-28',
+        'mcp-method': method,
+        ...headers,
+      }
     )
   }
 
@@ -214,18 +223,66 @@ describe('lambda-handler protocol versions', () => {
     params: { name: 'docs_entry', arguments: {} },
   }
 
-  it('captures usage for an accepted tool call', async () => {
+  const capturedTools = () =>
+    vi
+      .mocked(captureUsage)
+      .mock.calls.flatMap(([toolCalls]) =>
+        toolCalls.map(({ name }) => name)
+      )
+
+  it('captures usage for a tool that ran', async () => {
     const result = await postMcp(docsEntryCall)
 
     expect(result.statusCode).toBe(200)
-    expect(captureUsage).toHaveBeenCalledTimes(1)
+    expect(capturedTools()).toEqual(['docs_entry'])
+  })
+
+  it('captures usage for every tool that ran in a batch', async () => {
+    const result = await postMcp([
+      docsEntryCall,
+      { ...docsEntryCall, id: 2 },
+    ])
+
+    expect(result.statusCode).toBe(200)
+    expect(capturedTools()).toEqual(['docs_entry', 'docs_entry'])
+  })
+
+  it('captures usage for a tool that ran on MCP 2026', async () => {
+    const result = await postModern(
+      5,
+      'tools/call',
+      { name: 'docs_entry', arguments: {} },
+      { 'mcp-name': 'docs_entry' }
+    )
+
+    expect(result.statusCode).toBe(200)
+    expect(capturedTools()).toEqual(['docs_entry'])
   })
 
   it('captures no usage when the MCP transport rejects the request', async () => {
     const result = await postMcp(docsEntryCall, { accept: 'text/plain' })
 
     expect(result.statusCode).toBeGreaterThanOrEqual(400)
-    expect(captureUsage).not.toHaveBeenCalled()
+    expect(capturedTools()).toEqual([])
+  })
+
+  it('captures no usage for a tool call without an id', async () => {
+    const { id: _id, ...notification } = docsEntryCall
+    const result = await postMcp(notification)
+
+    expect(result.statusCode).toBe(202)
+    expect(capturedTools()).toEqual([])
+  })
+
+  it('captures no usage when the tool arguments fail validation', async () => {
+    const result = await postMcp({
+      ...docsEntryCall,
+      params: { name: 'component_doc', arguments: { name: 123 } },
+    })
+
+    expect(result.statusCode).toBe(200)
+    expect(result.body).toContain('Input validation error')
+    expect(capturedTools()).toEqual([])
   })
 })
 
