@@ -2158,13 +2158,15 @@ html:not([data-whatintent=mouse]) .dnb-date-picker__day--within-selection:not(.d
 .dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--preview) .dnb-button:hover {
   box-shadow: none;
 }
-html[data-whatintent=mouse] .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:hover:not([disabled]), html[data-whatintent=mouse] .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]), html[data-whatintent=mouse] .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
-  color: var(--token-color-text-action);
-  background-color: var(--token-color-background-neutral);
-  --border-color: var(--token-color-stroke-action-pressed);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:hover:not([disabled]), html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]), html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
+    color: var(--token-color-text-action);
+    background-color: var(--token-color-background-neutral);
+    --border-color: var(--token-color-stroke-action-pressed);
+    --border-width: 0.125rem;
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+  }
 }
 html:not([data-whatintent=touch]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:active:not([disabled]) {
   color: var(--token-color-text-action-pressed);
@@ -2213,12 +2215,14 @@ html:not([data-whatintent=mouse]) .dnb-date-picker__header__nav .dnb-button:not(
     box-shadow: none;
   }
 }
-html[data-whatintent=mouse] .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
-  background-color: var(--token-color-background-neutral);
-}
-@supports not (selector(:focus-visible)) {
-  html[data-whatintent=mouse] .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
     background-color: var(--token-color-background-neutral);
+  }
+  @supports not (selector(:focus-visible)) {
+    html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
+      background-color: var(--token-color-background-neutral);
+    }
   }
 }
 .dnb-date-picker .rtl {

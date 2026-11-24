@@ -472,22 +472,24 @@
     }
 
     // Hover states for checked date buttons
-    html[data-whatintent='mouse']
-      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
-      .dnb-button:hover:not([disabled]),
-    html[data-whatintent='mouse']
-      &--start-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]),
-    html[data-whatintent='mouse']
-      &--end-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]) {
-      color: var(--token-color-text-action);
-      background-color: var(--token-color-background-neutral);
+    @media (any-hover: hover) {
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+        .dnb-button:hover:not([disabled]),
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &--start-date#{&}--within-selection
+        .dnb-button:hover:not([disabled]),
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &--end-date#{&}--within-selection
+        .dnb-button:hover:not([disabled]) {
+        color: var(--token-color-text-action);
+        background-color: var(--token-color-background-neutral);
 
-      @include utilities.fakeBorder(
-        var(--token-color-stroke-action-pressed),
-        0.125rem
-      );
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-pressed),
+          0.125rem
+        );
+      }
     }
 
     // Active states for selected date buttons
@@ -563,9 +565,13 @@
       }
     }
 
-    html[data-whatintent='mouse'] & .dnb-button:hover:not(:active) {
-      @include utilities.notFocusVisible() {
-        background-color: var(--token-color-background-neutral);
+    @media (any-hover: hover) {
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &
+        .dnb-button:hover:not(:active) {
+        @include utilities.notFocusVisible() {
+          background-color: var(--token-color-background-neutral);
+        }
       }
     }
   }
