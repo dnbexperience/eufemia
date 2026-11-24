@@ -814,7 +814,9 @@ resource "aws_lambda_function" "analytics" {
 resource "aws_apigatewayv2_api" "analytics" {
   name          = local.function_name
   protocol_type = "HTTP"
-  tags          = local.tags
+  # Reached only through the custom domain that Akamai uses as its origin.
+  disable_execute_api_endpoint = true
+  tags                         = local.tags
 }
 
 resource "aws_apigatewayv2_stage" "analytics" {

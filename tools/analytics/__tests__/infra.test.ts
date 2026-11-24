@@ -85,6 +85,19 @@ describe('analytics infrastructure', () => {
     )
   })
 
+  it('turns off the execute-api endpoint on the ingest API but not the dashboard API', () => {
+    const disabled = /disable_execute_api_endpoint\s+=\s+true/
+
+    expect(
+      terraformBlock('resource "aws_apigatewayv2_api" "analytics"')
+    ).toMatch(disabled)
+
+    // The dashboard app calls the dashboard API's execute-api URL.
+    expect(
+      terraformBlock('resource "aws_apigatewayv2_api" "dashboard"')
+    ).not.toMatch(disabled)
+  })
+
   it('notifies an SNS topic from every snapshot alarm, with an optional email subscription', () => {
     expect(terraform).toContain(
       'resource "aws_sns_topic" "snapshot_alerts"'
