@@ -425,6 +425,16 @@
       }
     }
 
+    // Touch browsers keep :hover on the last tapped element
+    @media (hover: none) {
+      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+        .dnb-button:not(:active) {
+        @include utilities.notFocusVisible() {
+          background-color: transparent;
+        }
+      }
+    }
+
     &--preview:not(#{&}--inactive):not(#{&}--outside-month):not(
         #{&}--start-date
       ):not(#{&}--end-date),
@@ -545,9 +555,22 @@
         box-shadow: none;
       }
     }
-    .dnb-button:hover:not(:active) {
-      @include utilities.notFocusVisible() {
-        background-color: var(--token-color-background-neutral);
+
+    // Touch browsers keep :hover on the last tapped element, so style a
+    // tapped button like one without the mouse over it
+    @media (hover: none) {
+      .dnb-button:not(:active) {
+        @include utilities.notFocusVisible() {
+          box-shadow: none;
+        }
+      }
+    }
+
+    @media (hover: hover) {
+      .dnb-button:hover:not(:active) {
+        @include utilities.notFocusVisible() {
+          background-color: var(--token-color-background-neutral);
+        }
       }
     }
   }
