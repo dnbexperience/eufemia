@@ -364,7 +364,7 @@
   }
 
   // Touch browsers keep :hover on the last tapped element
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__textarea:not([disabled]):not(#{&}--disabled):hover
     ~ &__state {
     --textarea-border-width: var(--textarea-border-width--hover);
@@ -379,7 +379,7 @@
   }
 
   //  hover
-  html:not([data-whatintent='touch'])
+  html[data-whatintent='mouse']
     &__textarea:not([disabled]):not(#{&}--disabled):hover
     ~ &__state {
     --textarea-color-border: var(--token-color-stroke-action-hover);
