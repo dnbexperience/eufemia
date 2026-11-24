@@ -108,9 +108,12 @@
   &__list-wrapper {
     position: relative;
 
-    &:has(a[aria-current]:hover) .dnb-table-of-content__marker {
-      box-shadow: inset 0 0 0 0.0625rem
-        var(--token-color-stroke-action-alternative);
+    // Touch browsers keep :hover on the last tapped element
+    @media (hover: hover) {
+      &:has(a[aria-current]:hover) .dnb-table-of-content__marker {
+        box-shadow: inset 0 0 0 0.0625rem
+          var(--token-color-stroke-action-alternative);
+      }
     }
   }
 
@@ -157,7 +160,12 @@
   &__link.dnb-anchor {
     overflow-wrap: anywhere;
 
-    &:hover,
+    @media (hover: hover) {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     &:active {
       text-decoration: underline;
     }
@@ -183,9 +191,14 @@
 
     border-radius: var(--token-radius-xl);
 
-    &[aria-current],
-    &:hover {
+    &[aria-current] {
       color: var(--token-color-text-neutral);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--token-color-text-neutral);
+      }
     }
 
     &:active {

@@ -155,9 +155,12 @@
     @include anchorFocusStyle();
   }
 
-  &:hover {
-    @include notNoHover() {
-      @include anchorHoverStyle();
+  // Touch browsers keep :hover on the last tapped element
+  @media (hover: hover) {
+    &:hover {
+      @include notNoHover() {
+        @include anchorHoverStyle();
+      }
     }
   }
 
