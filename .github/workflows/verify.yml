@@ -166,17 +166,15 @@ jobs:
       # skipped on type-check. Unique key per commit + restore-keys pulls the
       # latest prior build info; tsc re-checks only what changed (and falls
       # back to a full check if the cache is missing or stale). The library
-      # and portal check with tsgo (TypeScript 7), whose build info differs
-      # from TypeScript 6, hence the separate key.
+      # and portal check with tsgo (TypeScript 7) without build info, because
+      # tsgo 7.0 can skip files that need a re-check when it reuses one.
       - name: Use TypeScript build-info cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: |
-            packages/dnb-eufemia/tsconfig.tsbuildinfo
-            packages/dnb-design-system-portal/tsconfig.tsbuildinfo
             tools/eufemia-llm-metadata/tsconfig.tsbuildinfo
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-tsgo-${{ github.sha }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-tsgo-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-
 
       - name: Run type checks
         # Every workspace with a type-check script runs here — keep this list
