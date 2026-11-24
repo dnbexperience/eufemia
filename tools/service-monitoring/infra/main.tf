@@ -242,7 +242,8 @@ resource "aws_scheduler_schedule" "weekly_report" {
   target {
     arn      = aws_lambda_function.notifier.arn
     role_arn = aws_iam_role.scheduler.arn
-    input    = jsonencode({ kind = "weekly", at = "<aws.scheduler.scheduled-time>" })
+    # jsonencode would escape < and >, hiding the placeholder from Scheduler.
+    input = "{\"kind\":\"weekly\",\"at\":\"<aws.scheduler.scheduled-time>\"}"
     retry_policy {
       maximum_event_age_in_seconds = 900
       maximum_retry_attempts       = 2
