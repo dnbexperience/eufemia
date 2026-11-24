@@ -68,7 +68,7 @@ export default function StickyMenuBar() {
 
         {!home && (
           <span className={toolsStyle}>
-            <SearchBarInput />
+            <SearchBarInput fixedPosition />
             <PortalToolsMenu />
           </span>
         )}

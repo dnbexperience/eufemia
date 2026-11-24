@@ -174,6 +174,42 @@ describe('SearchBarInput', () => {
     )
   })
 
+  it('keeps the list with the page, except in the fixed menu bar', async () => {
+    search.mockResolvedValue({
+      hits: [{ slug: 'web/components/button', title: 'Button' }],
+    })
+    const openListIsFixed = async () => {
+      const input = document.querySelector('#portal-search')
+      fireEvent.focus(input)
+      fireEvent.change(input, { target: { value: 'button' } })
+      await waitFor(() =>
+        expect(
+          document.querySelector(
+            '#eufemia-portal-root a[href="/web/components/button/"]'
+          )
+        ).not.toBeNull()
+      )
+      return document
+        .querySelector('.dnb-drawer-list__portal__style')
+        .classList.contains('dnb-drawer-list__portal__style--fixed')
+    }
+
+    const { unmount } = render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+    expect(await openListIsFixed()).toBe(false)
+    unmount()
+
+    render(
+      <MemoryRouter>
+        <SearchBarInput fixedPosition />
+      </MemoryRouter>
+    )
+    expect(await openListIsFixed()).toBe(true)
+  })
+
   it('keeps searching when the query callback returns a value', async () => {
     search.mockResolvedValueOnce({
       hits: [

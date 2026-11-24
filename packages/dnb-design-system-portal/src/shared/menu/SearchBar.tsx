@@ -43,11 +43,14 @@ export const SearchBarInput = ({
   id = searchInputId,
   placeholder = 'Search ...',
   stretch = false,
+  fixedPosition = false,
   onQuery,
 }: {
   id?: string
   placeholder?: string
   stretch?: boolean
+  /** Set when the search is in a fixed container, like the menu bar */
+  fixedPosition?: boolean
   onQuery?: (value: string) => boolean | void
 } = {}) => {
   const searchIndex = useRef(null)
@@ -198,7 +201,7 @@ export const SearchBarInput = ({
       noScrollAnimation
       preventSelection
       search={{ filter: false }}
-      fixedPosition
+      fixedPosition={fixedPosition}
       size="medium"
       align="right"
       placeholder={placeholder}
@@ -222,7 +225,7 @@ export const SearchBarInput = ({
           <ShortcutHint hint={shortcutHint} />
         ) : undefined
       }
-      pageOffset={0} // drawer-list property
+      pageOffset={fixedPosition ? 0 : undefined} // A fixed container does not scroll with the page
       optionsRender={({ Items, data }) => {
         return (
           <>
