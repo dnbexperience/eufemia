@@ -105,6 +105,6 @@ describe('MCP infrastructure', () => {
   it('turns off the execute-api endpoint', () => {
     expect(
       terraformBlock('resource "aws_apigatewayv2_api" "mcp"')
-    ).toMatch(/disable_execute_api_endpoint\s+=\s+true/)
+    ).toMatch(/^\s*disable_execute_api_endpoint\s*=\s*true/m)
   })
 })
