@@ -1132,7 +1132,7 @@ describe('Wizard.Container', () => {
       ).toHaveTextContent('Steg 1 av 1')
       expect(
         document.querySelector('.dnb-step-indicator__trigger__button')
-      ).toHaveTextContent('')
+      ).toHaveTextContent(/^Steg 1 av 1:$/)
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(0)
@@ -1351,7 +1351,7 @@ describe('Wizard.Container', () => {
       expect(output()).toBeNull()
       expect(
         document.querySelector('.dnb-step-indicator__trigger__button')
-      ).toHaveTextContent('')
+      ).toHaveTextContent(/^Steg 1 av 1:$/)
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(0)
