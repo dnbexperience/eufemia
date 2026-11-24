@@ -159,10 +159,10 @@
       }
 
       // Touch browsers keep :hover on the last tapped element
-      @media (hover: none) {
-        &:not(:active) .dnb-button__text {
-          text-decoration-color: transparent;
-        }
+      html:where(:not([data-whatintent='mouse']))
+        &:not(:active)
+        .dnb-button__text {
+        text-decoration-color: transparent;
       }
 
       .dnb-icon {
