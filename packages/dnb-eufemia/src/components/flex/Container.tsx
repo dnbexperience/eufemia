@@ -3,6 +3,7 @@ import {
   Fragment,
   createElement,
   isValidElement,
+  useContext,
   useMemo,
   useRef,
 } from 'react'
@@ -33,11 +34,12 @@ import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers
 import FlexLayoutContext from './FlexLayoutContext'
 import FlexDividers from './FlexDividers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import Context from '../../shared/Context'
 
 export type FlexContainerProps = {
   direction?: 'horizontal' | 'vertical'
   /**
-   * Select the Flex layout engine. The legacy engine remains the default for backwards compatibility. Use `css` to opt in to native CSS gaps without changing existing layouts.
+   * Select the Flex layout engine. The legacy engine remains the default for backwards compatibility. Use `css` to opt in to native CSS gaps, or set `Flex={{ layoutEngine: "css" }}` on [Provider](/web/styling-and-themes/configuration/provider/) for all nested Flex containers. An explicit property overrides Provider.
    * Default: `'legacy'`
    */
   layoutEngine?: 'legacy' | 'css'
@@ -123,13 +125,14 @@ export function pickFlexContainerProps<T extends FlexContainerAllProps>(
 }
 
 function FlexContainer(props: FlexContainerAllProps) {
+  const context = useContext(Context)
   const {
     className,
     style,
     children,
     element = 'div',
     direction = 'horizontal',
-    layoutEngine = 'legacy',
+    layoutEngine = context.Flex?.layoutEngine ?? 'legacy',
     wrap = true,
     wrapChildrenInSpace = true,
     sizeCount = 12,

@@ -95,6 +95,19 @@ For shortening the usage of `direction="..."`, you can use:
 
 Set `layoutEngine="css"` to use native CSS flex gaps. In CSS mode, React children are rendered unchanged, so intrinsic elements and custom components participate automatically through their rendered DOM roots.
 
+Use [Provider](/web/styling-and-themes/configuration/provider/) to set the layout engine for all nested `Flex.Container`, `Flex.Horizontal`, `Flex.Vertical`, and `Flex.Stack` components:
+
+```tsx
+<Provider Flex={{ layoutEngine: 'css' }}>
+  <Flex.Horizontal>
+    <Flex.Item>First</Flex.Item>
+    <Flex.Item>Second</Flex.Item>
+  </Flex.Horizontal>
+</Provider>
+```
+
+An explicit `layoutEngine` property overrides the Provider setting. Without either setting, the legacy engine remains the default.
+
 ```tsx
 const MyItem = () => (
   <>
