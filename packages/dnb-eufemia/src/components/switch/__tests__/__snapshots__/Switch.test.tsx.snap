@@ -493,7 +493,7 @@ button .dnb-form-status__text {
     */
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__background {
+  html:where(:not([data-whatintent=touch], [data-whatintent=keyboard])):not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__background {
     border-color: var(--switch-hover-border);
     background-color: var(--switch-hover-background);
     --border-color: var(--switch-hover-border);
@@ -503,7 +503,7 @@ button .dnb-form-status__text {
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
+  html:where(:not([data-whatintent=touch], [data-whatintent=keyboard])):not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
     color: var(--switch-interaction-icon);
     background-color: var(--switch-hover-button-background);
     --border-color: var(--switch-hover-border);
@@ -513,7 +513,7 @@ button .dnb-form-status__text {
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__input:checked:not([disabled]):not(:active):hover ~ .dnb-switch__button {
+  html:where(:not([data-whatintent=touch], [data-whatintent=keyboard])):not([data-whatinput=keyboard]) .dnb-switch__input:checked:not([disabled]):not(:active):hover ~ .dnb-switch__button {
     box-shadow: none;
   }
 }
@@ -660,7 +660,7 @@ html[data-whatinput=keyboard] .dnb-switch--surface-dark.dnb-switch__status--erro
   box-shadow: none;
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
+  html:where(:not([data-whatintent=touch], [data-whatintent=keyboard])):not([data-whatinput=keyboard]) .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
     box-shadow: none;
   }
 }"

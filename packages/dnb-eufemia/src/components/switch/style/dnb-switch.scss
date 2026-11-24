@@ -308,9 +308,9 @@
     * which would make an unchecked switch look checked.
     */
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
-        [data-whatinput='keyboard']
-      )
+    html:where(
+        :not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      ):not([data-whatinput='keyboard'])
       &__input:not([disabled]):not(:active):hover
       ~ &__background {
       border-color: var(--switch-hover-border);
@@ -320,9 +320,9 @@
     }
   }
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
-        [data-whatinput='keyboard']
-      )
+    html:where(
+        :not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      ):not([data-whatinput='keyboard'])
       &__input:not([disabled]):not(:active):hover
       ~ &__button {
       color: var(--switch-interaction-icon);
@@ -333,9 +333,9 @@
   }
 
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
-        [data-whatinput='keyboard']
-      )
+    html:where(
+        :not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      ):not([data-whatinput='keyboard'])
       &__input:checked:not([disabled]):not(:active):hover
       ~ &__button {
       box-shadow: none;
@@ -498,9 +498,9 @@
   }
 
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard']):not(
-        [data-whatinput='keyboard']
-      )
+    html:where(
+        :not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      ):not([data-whatinput='keyboard'])
       &__status--error
       &__input:not([disabled]):not(:active):hover
       ~ &__button {
