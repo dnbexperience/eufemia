@@ -95,19 +95,6 @@ For shortening the usage of `direction="..."`, you can use:
 
 Set `layoutEngine="css"` to use native CSS flex gaps. In CSS mode, React children are rendered unchanged, so intrinsic elements and custom components participate automatically through their rendered DOM roots.
 
-Use [Provider](/web/styling-and-themes/configuration/provider/) to set the layout engine for all nested `Flex.Container`, `Flex.Horizontal`, `Flex.Vertical`, and `Flex.Stack` components:
-
-```tsx
-<Provider Flex={{ layoutEngine: 'css' }}>
-  <Flex.Horizontal>
-    <Flex.Item>First</Flex.Item>
-    <Flex.Item>Second</Flex.Item>
-  </Flex.Horizontal>
-</Provider>
-```
-
-An explicit `layoutEngine` property overrides the Provider setting. Without either setting, the legacy engine remains the default.
-
 ```tsx
 const MyItem = () => (
   <>
@@ -132,6 +119,21 @@ Ordinary custom components do not need a marker or wrapper to receive the contai
 ### Divider accessibility
 
 In CSS mode, `divider="line"` and `divider="line-framed"` are painted visual lines. Unlike the legacy engine, they do not render `<hr>` elements and therefore do not add separator roles to the accessibility tree. If the separation is meaningful rather than decorative, render explicit `Hr` elements instead of relying on the `divider` property.
+
+## Configure the layout engine with Provider
+
+Use [Provider](/web/styling-and-themes/configuration/provider/) to set the layout engine for all nested `Flex.Container`, `Flex.Horizontal`, `Flex.Vertical`, and `Flex.Stack` components, including the internal Flex container in `Card`:
+
+```tsx
+<Provider Flex={{ layoutEngine: 'css' }}>
+  <Flex.Horizontal>
+    <Flex.Item>First</Flex.Item>
+    <Flex.Item>Second</Flex.Item>
+  </Flex.Horizontal>
+</Provider>
+```
+
+An explicit `layoutEngine` property overrides the Provider setting. Without either setting, the legacy engine remains the default.
 
 ## Backwards compatibility
 

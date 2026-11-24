@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
   layoutEngine: {
-    doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap.',
+    doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap, or set `Flex={{ layoutEngine: "css" }}` on [Provider](/web/styling-and-themes/configuration/provider/) for all nested Cards. An explicit property overrides Provider.',
     type: ['"css"', '"legacy"'],
     defaultValue: `'legacy'`,
     status: 'optional',
