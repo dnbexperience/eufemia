@@ -285,10 +285,14 @@
   }
 
   // Touch browsers keep :hover on the last tapped element
-  html[data-whatintent='mouse'] &:hover > .dnb-card {
-    --card-outline-color: var(--token-color-stroke-action-hover);
-    --outline-color: var(--token-color-stroke-action-hover);
-    --outline-width: 0.125rem;
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &:hover
+      > .dnb-card {
+      --card-outline-color: var(--token-color-stroke-action-hover);
+      --outline-color: var(--token-color-stroke-action-hover);
+      --outline-width: 0.125rem;
+    }
   }
 
   &:active > .dnb-card {
