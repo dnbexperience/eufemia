@@ -141,12 +141,16 @@
       border-right: none;
     }
 
-    @include utilities.hover() {
-      td::before {
-        --border-color: var(--table-accordion-outline-color);
-      }
+    // Touch browsers keep :hover on the last tapped element. The hover
+    // mixin hides it after a touch, but not after the user presses a key.
+    @media (hover: hover) {
+      @include utilities.hover() {
+        td::before {
+          --border-color: var(--table-accordion-outline-color);
+        }
 
-      @include tableAccordionActiveColor();
+        @include tableAccordionActiveColor();
+      }
     }
   }
 
@@ -157,8 +161,10 @@
     bottom: calc(var(--table-border-width) * -1);
   }
 
-  &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover &__td {
-    --table-td-background: var(--table-accordion-header-background);
+  @media (hover: hover) {
+    &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover &__td {
+      --table-td-background: var(--table-accordion-header-background);
+    }
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):not(
@@ -178,6 +184,24 @@
     }
   }
 
+  // A tapped row keeps :hover, so do not exclude it on touch devices
+  @media (hover: none) {
+    &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):focus {
+      td::before {
+        @include utilities.whatInput(keyboard) {
+          --border-color: var(--token-color-stroke-action-focus);
+          --border-width: var(--focus-outline-width);
+        }
+      }
+      td:first-of-type::before {
+        left: 0;
+      }
+      td:last-of-type::before {
+        right: 0;
+      }
+    }
+  }
+
   &__tr--clickable#{&}__tr:not(&__tr--disabled):active {
     html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
@@ -192,15 +216,17 @@
     @include tableAccordionActiveColor();
   }
 
-  &__tr--clickable#{&}__tr--expanded:not(
-      &__tr--disabled
-    )#{&}__tr--hover:not(:active):hover
-    &__td {
-    --table-td-background: var(--table-accordion-header-background);
+  @media (hover: hover) {
+    &__tr--clickable#{&}__tr--expanded:not(
+        &__tr--disabled
+      )#{&}__tr--hover:not(:active):hover
+      &__td {
+      --table-td-background: var(--table-accordion-header-background);
 
-    &::before {
-      border: none;
-      border-top: var(--table-accordion-border);
+      &::before {
+        border: none;
+        border-top: var(--table-accordion-border);
+      }
     }
   }
 
@@ -213,6 +239,22 @@
       td::before {
         border: none;
         border-top: var(--table-accordion-border);
+      }
+    }
+  }
+
+  // On touch devices, style a tapped row like one without the mouse over it
+  @media (hover: none) {
+    &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
+        :active
+      ) {
+      @include utilities.whatInputNot('keyboard') {
+        --table-td-background: var(--table-accordion-header-background);
+
+        td::before {
+          border: none;
+          border-top: var(--table-accordion-border);
+        }
       }
     }
   }
