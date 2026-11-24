@@ -93,6 +93,7 @@ Use the shared `utilities.hover()` mixin, as Button does. It shows hover styles 
 - Keep pressed (`:active`) styles outside the hover mixin, so touch users still get feedback when they tap.
 - Keep focus styles outside it too, so keyboard users see focus on every device.
 - If a focus style excludes hovered elements with `:not(:hover)`, also show it when the tracked intent is not `mouse`. A tapped element can keep `:hover` when the user returns with the keyboard.
+- If a resting style excludes hovered elements with `:not(:hover)`, give a tapped element that style only where hover styles are off: inside `@media (any-hover: none)`, and with `html:is([data-whatintent='touch'], [data-whatintent='keyboard'])`. With `:not([data-whatintent='mouse'])` it would also cancel hover styles before the input tracking has started.
 - Add `:not(:active)` inside the hover mixin when needed to keep hover styles from hiding the pressed style.
 
 ```scss
@@ -111,7 +112,7 @@ Use the shared `utilities.hover()` mixin, as Button does. It shows hover styles 
 }
 ```
 
-For custom selectors that cannot use the mixin, put the rule inside `@media (any-hover: hover)` and use `html:not([data-whatintent='touch'], [data-whatintent='keyboard']) &:hover`. Keep this guard beside other input guards instead of nesting them, so they refer to the same `<html>` element.
+For custom selectors that cannot use the mixin, put the rule inside `@media (any-hover: hover)` and prefix it with `:where(html:not([data-whatintent='touch'], [data-whatintent='keyboard']))`. The `:where()` keeps the specificity of the plain `:hover` rule, so pressed, disabled and error styles still win over it. If the selector already starts with `html`, add the check to that element as `html:where(:not([data-whatintent='touch'], [data-whatintent='keyboard']))`, so all input checks refer to the same `<html>` element.
 
 ## CSS Units
 
