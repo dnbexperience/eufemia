@@ -1401,8 +1401,7 @@ legend.dnb-form-label {
   cursor: pointer;
 }
 @media (any-hover: hover) {
-  :where(html:not([data-whatintent=touch],
-  [data-whatintent=keyboard])) .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
     background-color: var(--token-color-background-action-hover-subtle);
     color: var(--token-color-component-button-text-action-hover);
   }
@@ -1481,7 +1480,7 @@ legend.dnb-form-label {
   }
 }
 @media (any-hover: hover) {
-  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__border:hover, :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__border.hover {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__border:hover, html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__border.hover {
     --b-color: var(--input-border-color--hover);
     --b-width: var(--input-border-width--hover);
     --b-inset: var(--input-border-inset--hover);
@@ -1504,7 +1503,7 @@ legend.dnb-form-label {
   --b-inset: var(--input-border-inset--active);
 }
 @media (any-hover: hover) {
-  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__status--error .dnb-input__border:hover, :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-input__status--error .dnb-input__border.hover {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__status--error .dnb-input__border:hover, html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input__status--error .dnb-input__border.hover {
     --b-color: var(--input-border-color__error);
     --b-width: var(--input-border-width__error--hover);
     --b-inset: var(--input-border-inset--hover);
@@ -2680,10 +2679,10 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
   color: transparent;
 }
 @media (any-hover: hover) {
-  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
     --input-border-width--default: 0.125rem;
   }
-  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
     --button-color-bg--default: var(--button-color-bg--hover);
     --button-color-icon--default: var(--button-color-icon--hover);
   }
@@ -2929,10 +2928,10 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
   color: transparent;
 }
 @media (any-hover: hover) {
-  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
     --input-border-width--default: 0.125rem;
   }
-  :where(html:not([data-whatintent=touch], [data-whatintent=keyboard])) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
     --button-color-bg--default: var(--button-color-bg--hover);
     --button-color-icon--default: var(--button-color-icon--hover);
   }

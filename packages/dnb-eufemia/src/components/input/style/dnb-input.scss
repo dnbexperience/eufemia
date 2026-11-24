@@ -125,12 +125,7 @@
       cursor: pointer;
 
       @media (any-hover: hover) {
-        :where(
-            html:not(
-              [data-whatintent='touch'],
-              [data-whatintent='keyboard']
-            )
-          )
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
           &:hover {
           background-color: var(
             --token-color-background-action-hover-subtle
@@ -246,13 +241,9 @@
   // Touch browsers keep :hover on the last tapped element,
   // and FormLabel sets the hover class when its label is tapped
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__border:hover,
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__border.hover {
       --b-color: var(--input-border-color--hover);
       --b-width: var(--input-border-width--hover);
@@ -278,19 +269,13 @@
     --b-inset: var(--input-border-inset--active);
   }
   @media (any-hover: hover) {
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__status--error
       &__border:hover,
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__status--error
       &__border:hover:has(#{&}__input:autofill),
-    :where(
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      )
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
       &__status--error
       &__border.hover {
       --b-color: var(--input-border-color__error);
