@@ -679,6 +679,33 @@ describe('FieldBlock', () => {
       delete MockComponent._formElement
     })
 
+    it('should not include the help button in the fieldset name', () => {
+      render(
+        <FieldBlock
+          label="Legend"
+          labelDescription="Description"
+          asFieldset
+          help={{ title: 'Help title', content: 'Help content' }}
+        >
+          content
+        </FieldBlock>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const labelledBy = fieldset
+        .getAttribute('aria-labelledby')
+        .split(' ')
+
+      expect(labelledBy).toHaveLength(2)
+      labelledBy.forEach((id) => {
+        expect(document.getElementById(id)).toBeInTheDocument()
+        expect(
+          document.getElementById(id).querySelector('button')
+        ).toBeNull()
+      })
+      expect(fieldset).toHaveAccessibleName('Legend Description')
+    })
+
     it('should have role on fieldset when fieldsetRole is provided', () => {
       render(
         <FieldBlock label="Legend" asFieldset fieldsetRole="radiogroup">
