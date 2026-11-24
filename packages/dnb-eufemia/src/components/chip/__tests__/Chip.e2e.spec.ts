@@ -502,6 +502,49 @@ for (const variant of ['checkbox', 'radio']) {
   })
 }
 
+test('indicators change at once with the pill in both selection modes', async ({
+  page,
+}) => {
+  // A fading indicator lags behind the pill and makes nearby icons jump in
+  // iOS Safari
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+
+  for (const variant of ['default', 'addable', 'checkbox', 'radio']) {
+    for (const mode of ['single', 'multiple'] as const) {
+      await test.step(`${variant}: ${mode}`, async () => {
+        const chip = groupChip(page, variant, mode, 'Available')
+        const control = chip.locator(
+          'input:not([type="hidden"]), .dnb-chip__button'
+        )
+
+        const transitions = await chip.evaluate((element) => {
+          element
+            .querySelector<HTMLElement>(
+              'input:not([type="hidden"]), .dnb-chip__button'
+            )
+            .click()
+
+          return element
+            .closest('[data-visual-test]')
+            .getAnimations({ subtree: true })
+            .filter((animation) => animation instanceof CSSTransition)
+            .map((animation) =>
+              [
+                (animation.effect as KeyframeEffect).target.getAttribute(
+                  'class'
+                ),
+                animation.transitionProperty,
+              ].join(': ')
+            )
+        })
+
+        await expectSelected(control, true)
+        expect(transitions).toEqual([])
+      })
+    }
+  }
+})
+
 test('checkboxes support Tab and Space without duplicate changes', async ({
   page,
   browserName,
