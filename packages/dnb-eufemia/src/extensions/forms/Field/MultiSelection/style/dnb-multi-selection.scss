@@ -155,7 +155,7 @@
     }
 
     // Touch browsers keep :hover on the last tapped element
-    html:not([data-whatintent='touch']) &:hover:not(&--disabled) {
+    html[data-whatintent='mouse'] &:hover:not(&--disabled) {
       --item-outline-color: var(--token-color-stroke-action);
       --item-outline-width: var(--item-outline-width--hover);
       &::after {
