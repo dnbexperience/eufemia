@@ -41,6 +41,69 @@ export type OutsideClickOptions = {
 const TAP_MOVE_TOLERANCE = 10 // CSS pixels from where the touch started
 
 /**
+ * Returns `true` when a mouse or pen press is on a scrollbar, like the page scrollbar.
+ * Overlay scrollbars, like on macOS by default, take up no space and are not detected.
+ */
+function isScrollbarPress(event: Event) {
+  const element = event.target
+  if (!(element instanceof HTMLElement) || !('offsetX' in event)) {
+    return false
+  }
+
+  const { clientX, clientY, offsetX, offsetY } = event as MouseEvent
+  const { clientWidth, clientHeight } = element
+
+  // Without a layout, like inline elements, there is no scrollbar
+  if (clientWidth === 0 || clientHeight === 0) {
+    return false
+  }
+
+  const style = window.getComputedStyle(element)
+  const isRtl = style.direction === 'rtl'
+
+  if (element === document.documentElement) {
+    // Its client size is the viewport without the scrollbars
+    return (
+      clientX >= clientWidth ||
+      clientY >= clientHeight ||
+      (isRtl && clientX < window.innerWidth - clientWidth)
+    )
+  }
+
+  const border = (side: string) =>
+    parseFloat(style.getPropertyValue(`border-${side}-width`)) || 0
+
+  // Only these show scrollbars. Form fields like text inputs report odd client sizes.
+  const canScroll = (overflow: string) =>
+    /auto|scroll|overlay/.test(overflow)
+
+  const scrollbarWidth = canScroll(style.overflowY)
+    ? element.offsetWidth - clientWidth - border('left') - border('right')
+    : 0
+  const scrollbarHeight = canScroll(style.overflowX)
+    ? element.offsetHeight -
+      clientHeight -
+      border('top') -
+      border('bottom')
+    : 0
+
+  if (scrollbarWidth > 1) {
+    // Chrome places the scrollbar of a right-to-left element on the left
+    const scrollbarLeft = element.clientLeft - border('left')
+    const onScrollbar =
+      scrollbarLeft > 1
+        ? offsetX < scrollbarLeft
+        : offsetX >= clientWidth || (isRtl && offsetX < 0)
+
+    if (onScrollbar) {
+      return true
+    }
+  }
+
+  return scrollbarHeight > 1 && offsetY >= clientHeight
+}
+
+/**
  * Calls `onOutsideClick` when the user presses outside.
  * A tap counts, but a touch that scrolls does not.
  * Returns a function that removes the listeners.
@@ -79,6 +142,11 @@ export function addOutsideClickListener({
 
     // Browsers follow a tap with a mousedown, which the tap already counted for
     if (event.timeStamp - tapTimeStamp < 1000) {
+      return // stop here
+    }
+
+    // Like scrolling with the wheel or by touch, using a scrollbar does not count
+    if (isScrollbarPress(event)) {
       return // stop here
     }
 

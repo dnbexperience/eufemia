@@ -21,7 +21,10 @@ export default defineConfig({
   projects: [
     {
       name: 'firefox',
-      testIgnore: 'OpenOnFind.e2e.spec.ts',
+      testIgnore: [
+        'OpenOnFind.e2e.spec.ts',
+        'useOutsideClick.e2e.spec.ts',
+      ],
       use: { browserName: 'firefox' },
     },
     {
@@ -64,6 +67,15 @@ export default defineConfig({
       name: 'webkit-table-sticky',
       testMatch: 'TableStickyHeader.e2e.spec.ts',
       use: { browserName: 'webkit' },
+    },
+    {
+      name: 'chromium-outside-click',
+      testMatch: 'useOutsideClick.e2e.spec.ts',
+      use: {
+        browserName: 'chromium',
+        // Show scrollbars, so a press on one can be tested
+        launchOptions: { ignoreDefaultArgs: ['--hide-scrollbars'] },
+      },
     },
   ],
 })
