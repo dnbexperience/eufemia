@@ -69,6 +69,25 @@ describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   }
 )
 
+describe.each(['light', 'dark'] as const)(
+  'Logo for birdhouse %s',
+  (colorScheme) => {
+    setupPageScreenshot({
+      themeName: 'birdhouse',
+      colorScheme,
+      url: '/web/components/logo/demos/',
+    })
+
+    it('matches the brand color', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="logo-theme-change"]',
+        screenshotSelector:
+          '[data-visual-test="logo-theme-change"] .dnb-logo',
+      })
+    })
+  }
+)
+
 describe('png image', () => {
   it('have to match image snapshot', async () => {
     // The path is resolved server-side; we hand it a path

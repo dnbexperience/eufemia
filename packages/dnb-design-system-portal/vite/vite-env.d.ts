@@ -28,3 +28,7 @@ declare module 'virtual:eufemia-theme-carnegie' {
 declare module 'virtual:eufemia-theme-coconut' {
   // Side-effect only module
 }
+
+declare module 'virtual:eufemia-theme-birdhouse' {
+  // Side-effect only module
+}

@@ -634,8 +634,8 @@ describe('extractTokens', () => {
       '/tokens/brand/sbanken-light.tokens.json',
       '/tokens/brand/sbanken-dark.tokens.json',
       '/tokens/brand/dnbcarnegie-light.tokens.json',
-      '/tokens/brand/dnbeiendom-light.tokens.json',
-      '/tokens/brand/dnbeiendom-dark.tokens.json',
+      '/tokens/brand/birdhouse-light.tokens.json',
+      '/tokens/brand/birdhouse-dark.tokens.json',
       '/tokens/brand/coconut-light.tokens.json',
       '/tokens/brand/coconut-dark.tokens.json',
     ])

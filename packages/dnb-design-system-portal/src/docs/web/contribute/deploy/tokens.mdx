@@ -63,10 +63,16 @@ We currently export the Figma variable collections for:
   - "sbanken-light" (`brand/sbanken-light.tokens.json`)
   - "sbanken-dark" (`brand/sbanken-dark.tokens.json`)
   - "dnbcarnegie-light" (`brand/dnbcarnegie-light.tokens.json`)
-  - "dnbeiendom-light" (`brand/dnbeiendom-light.tokens.json`)
-  - "dnbeiendom-dark" (`brand/dnbeiendom-dark.tokens.json`)
+  - "dnbeiendom-light" (`brand/birdhouse-light.tokens.json`)
+  - "dnbeiendom-dark" (`brand/birdhouse-dark.tokens.json`)
 
-The Eiendom theme still uses the DNB tokens, so its exports do not generate CSS yet.
+These modes generate the opt-in Birdhouse preview. The legacy Eiendom theme
+continues to use the DNB tokens.
+
+Birdhouse dark uses Eufemia accessibility overrides for error text, focus rings
+and control boundaries until the corresponding Figma colors meet contrast
+requirements. Keep an icon or another non-color cue alongside errors, since
+the accessible error text is close to the neutral text color.
 
 Place `color.tokens.json` directly in `packages/dnb-eufemia/src/style/themes/figma`, and place the brand-mode exports in its `brand` subfolder.
 

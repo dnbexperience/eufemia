@@ -68,6 +68,15 @@ The Eufemia Portal (documentation) uses a dedicated runtime theme loader to hand
 
 In future we may provide a built-in solution for runtime theme switching.
 
+### Birdhouse preview
+
+Birdhouse is a transitional preview with light and dark color schemes. Do not
+rely on it in application code. Preview it in the Portal by adding
+`?eufemia-theme=birdhouse` to the URL.
+
+Use semantic role tokens for the new palette. Legacy `--color-*` properties
+retain the original DNB palette and do not represent Birdhouse's colors.
+
 ## Design tokens
 
 Design tokens are CSS custom properties that store colors and other values used by Eufemia components.

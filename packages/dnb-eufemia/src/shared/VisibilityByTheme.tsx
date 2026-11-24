@@ -62,7 +62,9 @@ export default function VisibilityByTheme({
 
   function matchBrand(brand: ThemeNames, expected: ThemeNames) {
     return (
-      brand === expected || (brand === 'coconut' && expected === 'sbanken')
+      brand === expected ||
+      (brand === 'coconut' && expected === 'sbanken') ||
+      (brand === 'birdhouse' && expected === 'eiendom')
     )
   }
 
