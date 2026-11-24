@@ -259,7 +259,7 @@
   }
 
   // Touch browsers keep :hover on the last tapped element
-  html:not([data-whatintent='touch']) .dnb-form-label:hover ~ &__inner {
+  html[data-whatintent='mouse'] .dnb-form-label:hover ~ &__inner {
     .dnb-input {
       --input-border-width--default: 0.125rem;
     }

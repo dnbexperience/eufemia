@@ -1400,7 +1400,7 @@ legend.dnb-form-label {
   color: var(--token-color-component-button-text-action);
   cursor: pointer;
 }
-html:not([data-whatintent=touch]) .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
+html[data-whatintent=mouse] .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
   background-color: var(--token-color-background-action-hover-subtle);
   color: var(--token-color-component-button-text-action-hover);
 }
@@ -1477,7 +1477,7 @@ html:not([data-whatintent=touch]) .dnb-input__input:not([disabled])::-webkit-fil
     outline-offset: calc(var(--focus-ring-width) * -1);
   }
 }
-html:not([data-whatintent=touch]) .dnb-input__border:hover, html:not([data-whatintent=touch]) .dnb-input__border.hover {
+html[data-whatintent=mouse] .dnb-input__border:hover, html[data-whatintent=mouse] .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
   --b-width: var(--input-border-width--hover);
   --b-inset: var(--input-border-inset--hover);
@@ -1498,7 +1498,7 @@ html:not([data-whatintent=touch]) .dnb-input__border:hover, html:not([data-whati
   --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
 }
-html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__border:hover, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__border.hover {
+html[data-whatintent=mouse] .dnb-input__status--error .dnb-input__border:hover, html[data-whatintent=mouse] .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), html[data-whatintent=mouse] .dnb-input__status--error .dnb-input__border.hover {
   --b-color: var(--input-border-color__error);
   --b-width: var(--input-border-width__error--hover);
   --b-inset: var(--input-border-inset--hover);
@@ -1673,7 +1673,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
   margin: auto;
 }
-html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
+html[data-whatintent=mouse] .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
   cursor: default;
 }
 .dnb-input--small .dnb-input--clear.dnb-input__submit-element .dnb-button {
@@ -2670,10 +2670,10 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
+html[data-whatintent=mouse] .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
   --input-border-width--default: 0.125rem;
 }
-html:not([data-whatintent=touch]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+html[data-whatintent=mouse] .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
   --button-color-bg--default: var(--button-color-bg--hover);
   --button-color-icon--default: var(--button-color-icon--hover);
 }
@@ -2917,10 +2917,10 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
+html[data-whatintent=mouse] .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
   --input-border-width--default: 0.125rem;
 }
-html:not([data-whatintent=touch]) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+html[data-whatintent=mouse] .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
   --button-color-bg--default: var(--button-color-bg--hover);
   --button-color-icon--default: var(--button-color-icon--hover);
 }
