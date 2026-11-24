@@ -126,19 +126,15 @@
       --border-color: transparent;
     }
 
-    // Touch browsers keep :hover on the last tapped element. The hover
-    // mixin hides it after a touch, but not after the user presses a key.
-    @media (hover: hover) {
-      @include utilities.hover() {
-        &::before {
-          --border-width: var(--table-accordion-outline-width);
-          --border-color: var(--table-accordion-outline-color);
-        }
+    @include utilities.hover() {
+      &::before {
+        --border-width: var(--table-accordion-outline-width);
+        --border-color: var(--table-accordion-outline-color);
+      }
 
-        .dnb-table__td__button__icon {
-          color: var(--table-accordion-icon-color--active);
-          opacity: 1;
-        }
+      .dnb-table__td__button__icon {
+        color: var(--table-accordion-icon-color--active);
+        opacity: 1;
       }
     }
 
