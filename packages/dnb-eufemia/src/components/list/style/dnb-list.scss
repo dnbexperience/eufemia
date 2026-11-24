@@ -586,12 +586,7 @@
       // whole rule.
       // Touch browsers keep :hover on the last tapped element.
       @media (any-hover: hover) {
-        :where(
-            html:not(
-              [data-whatintent='touch'],
-              [data-whatintent='keyboard']
-            )
-          )
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
           &:not(.dnb-list__item--disabled):hover {
           @include navigationOutline();
         }
@@ -667,9 +662,7 @@
 
     // Handle accordion states (own header only, not nested accordions)
     @media (any-hover: hover) {
-      :where(
-          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-        )
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
         &:not(.dnb-list__item--disabled):has(
           > #{&}__accordion__header:hover
         ) {
@@ -756,21 +749,11 @@
 
       // Touch devices show no hover outline, so a tapped header does not
       // need to stay above a focused nested row
-      html:is([data-whatintent='touch'], [data-whatintent='keyboard'])
+      html:not([data-whatintent='mouse'])
         &
         > #{&}__content
         .dnb-list__item:has(> :focus-visible) {
         z-index: 11;
-      }
-
-      // Devices that cannot hover show no hover styles at all
-      @media (any-hover: none) {
-        html:not([data-whatintent='mouse'])
-          &
-          > #{&}__content
-          .dnb-list__item:has(> :focus-visible) {
-          z-index: 11;
-        }
       }
     }
 
@@ -877,12 +860,7 @@
         // for :has() or :focus-visible drops the whole rule.
         // Touch browsers keep :hover on the last tapped element.
         @media (any-hover: hover) {
-          :where(
-              html:not(
-                [data-whatintent='touch'],
-                [data-whatintent='keyboard']
-              )
-            )
+          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
             &.dnb-list__item__action:not(
               .dnb-list__item--disabled
             ):hover::after {
@@ -892,12 +870,7 @@
         }
 
         @media (any-hover: hover) {
-          :where(
-              html:not(
-                [data-whatintent='touch'],
-                [data-whatintent='keyboard']
-              )
-            )
+          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
             &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
               > .dnb-list__item__accordion__header:hover
             )::after {
