@@ -190,6 +190,21 @@ describe('useOutsideClick', () => {
     }
   )
 
+  it.each(['mousedown', 'pointerdown'] as const)(
+    'should count a pen press outside once when the pen also sends touch events, with pressEvent %s',
+    (pressEvent) => {
+      const { onOutsideClick } = renderOutsideClick({ pressEvent })
+
+      // Like an Apple Pencil in Safari on iPad
+      fireEvent.pointerDown(outside, { pointerType: 'pen' })
+      fireEvent.touchStart(outside)
+      fireEvent.touchEnd(outside)
+      fireEvent.mouseDown(outside)
+
+      expect(onOutsideClick).toHaveBeenCalledTimes(1)
+    }
+  )
+
   it('should call onOutsideClick when a released key is outside', () => {
     const { onOutsideClick } = renderOutsideClick()
 
