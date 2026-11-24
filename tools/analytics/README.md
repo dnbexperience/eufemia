@@ -111,7 +111,7 @@ The deploy creates the three Lambda execution roles with the OIDC permissions bo
 - `eufemia-<env>-analytics-snapshot-lambda` (snapshot generator): `eufemia-<env>-analytics-snapshot-build` (`s3:GetObject` and `s3:ListBucket` only on the `portal-views/*`, `portal-views-daily/*`, `mcp-usage/*`, `mcp-usage-daily/*`, `component-usage/*`, `component-usage-daily/*` and `athena-results/*` prefixes; `s3:PutObject` only on the three `*-daily/*` prefixes, `athena-results/*` and `snapshots/dashboard.json`; run Athena queries in the workgroup; read the analytics Glue tables).
 - `eufemia-<env>-dashboard-lambda` (dashboard read): `eufemia-<env>-dashboard-snapshot-read` (`s3:GetObject` only on `snapshots/dashboard.json`).
 
-A new Athena table under a new prefix needs that prefix added to the snapshot-build policy in the OIDC federation repo first; otherwise its queries fail with `AccessDenied`.
+A new data or rollup prefix must be added to the snapshot-build policy in the OIDC federation repo first; otherwise the snapshot generator's reads or writes there fail with `AccessDenied`.
 
 The deploy role can't change a role's trust policy, description or maximum session duration; such a change fails the deploy until the OIDC federation repo grants it. Renaming a role replaces it, so the new name must be granted there first and `prevent_destroy` lifted in the same change.
 
