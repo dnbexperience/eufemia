@@ -86,7 +86,7 @@ describe('analytics infrastructure', () => {
   })
 
   it('turns off the execute-api endpoint on the ingest API but not the dashboard API', () => {
-    const disabled = /disable_execute_api_endpoint\s+=\s+true/
+    const disabled = /^\s*disable_execute_api_endpoint\s*=\s*true/m
 
     expect(
       terraformBlock('resource "aws_apigatewayv2_api" "analytics"')
