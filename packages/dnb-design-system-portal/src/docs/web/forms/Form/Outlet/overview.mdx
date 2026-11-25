@@ -31,6 +31,6 @@ render(<Form.Outlet formHandlerId="my-form-id">...</Form.Outlet>)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/Outlet)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/Form/Outlet)
 
-### Server rendering
+### Server-side rendering (SSR)
 
-On the server, an outlet outside its `Form.Handler` gets the form context only when both are inside the same Eufemia `Provider`. Without it, the outlet renders nothing during server rendering and logs a warning in development, and its fields appear only after hydration, which can cause a hydration mismatch.
+On the server, an outlet outside its `Form.Handler` gets the form context only when both are inside the same Eufemia [Provider](/web/styling-and-themes/configuration/provider/). Without it, the outlet renders nothing during server rendering and logs a warning in development, and its fields appear only after hydration, which can cause a hydration mismatch.
