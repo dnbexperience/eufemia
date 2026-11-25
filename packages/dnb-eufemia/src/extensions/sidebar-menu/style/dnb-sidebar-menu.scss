@@ -729,7 +729,6 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
 .dnb-sidebar-menu-responsive-trigger.dnb-button {
   display: none;
-  transform: translateY(2px);
 
   @include utilities.whatInput('touch') {
     outline: none;

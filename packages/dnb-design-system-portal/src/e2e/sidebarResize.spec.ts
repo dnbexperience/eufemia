@@ -262,10 +262,10 @@ test.describe('Sidebar resize', () => {
       })
     ).toEqual({
       backgroundColor: 'rgb(255, 255, 255)',
-      bottom: '-6px',
+      bottom: '-4px',
       borderRadius: '32px',
       opacity: '1',
-      top: '-2px',
+      top: '-4px',
     })
 
     await trigger.click()
