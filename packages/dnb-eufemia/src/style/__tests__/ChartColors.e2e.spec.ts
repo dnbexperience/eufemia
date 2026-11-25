@@ -5,7 +5,7 @@ import { expect, test } from '@playwright/test'
 import isolateStyles from '../../plugins/postcss-isolated-style-scope'
 import properties from '../themes/ui/properties'
 
-test('keeps the fixed chart palette on a light surface in both portal color schemes', async ({
+test('keeps chart color references readable across portal themes and viewport sizes', async ({
   page,
 }) => {
   await page.addInitScript(() => {
@@ -51,6 +51,41 @@ test('keeps the fixed chart palette on a light surface in both portal color sche
           )
           .toBe('rgb(255, 255, 255)')
       }
+    })
+  }
+
+  await test.step('swatches in forced colors', async () => {
+    await page.emulateMedia({ forcedColors: 'active' })
+    await expect(
+      page.locator('[title="--chart-color-gray-950"] > span').first()
+    ).toHaveCSS('background-color', 'rgb(28, 28, 30)')
+    await expect(
+      page
+        .getByRole('table', { name: 'DNB chart color roles' })
+        .locator('tbody [aria-hidden="true"]')
+        .first()
+    ).toHaveCSS('background-color', 'rgb(0, 52, 62)')
+  })
+
+  for (const width of [1440, 1366, 768, 375]) {
+    await test.step(`palette at ${width}px`, async () => {
+      await page.setViewportSize({ width, height: 900 })
+      const palettes = page.locator('ul:has([title^="--chart-color-"])')
+      await expect(palettes).toHaveCount(8)
+      await expect
+        .poll(() =>
+          palettes.evaluateAll((elements) =>
+            elements.every((element) => {
+              const { left, right } = element.getBoundingClientRect()
+              return (
+                element.scrollWidth <= element.clientWidth &&
+                left >= 0 &&
+                right <= window.innerWidth
+              )
+            })
+          )
+        )
+        .toBe(true)
     })
   }
 })

@@ -1,4 +1,4 @@
-import { H4, ScrollView, Table } from '@dnb/eufemia/src'
+import { H4, Table } from '@dnb/eufemia/src'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import properties from '@dnb/eufemia/src/style/themes/ui/properties'
 import styles from './ColorReference.module.scss'
@@ -25,30 +25,25 @@ export function ChartColors() {
             {family.charAt(0).toUpperCase() + family.slice(1)}
           </H4>
           <code>{'--chart-color-' + family + '-{step}'}</code>
-          <ScrollView
-            interactive="auto"
-            aria-label={family + ' chart colors'}
-          >
-            <ul>
-              {steps.map((step) => {
-                const name = '--chart-color-' + family + '-' + step
-                return (
-                  <li key={step} title={name}>
-                    <span
-                      aria-hidden="true"
-                      style={{ backgroundColor: 'var(' + name + ')' }}
-                    />
-                    <span>{step}</span>
-                    <span>
-                      {formatHex(
-                        properties[name as keyof typeof properties]
-                      )}
-                    </span>
-                  </li>
-                )
-              })}
-            </ul>
-          </ScrollView>
+          <ul>
+            {steps.map((step) => {
+              const name = '--chart-color-' + family + '-' + step
+              return (
+                <li key={step} title={name}>
+                  <span
+                    aria-hidden="true"
+                    style={{ backgroundColor: 'var(' + name + ')' }}
+                  />
+                  <span>{step}</span>
+                  <span>
+                    {formatHex(
+                      properties[name as keyof typeof properties]
+                    )}
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
         </section>
       ))}
     </Theme>

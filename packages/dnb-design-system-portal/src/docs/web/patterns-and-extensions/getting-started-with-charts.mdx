@@ -57,6 +57,8 @@ Use `--chart-color-secondary-solid` for deposits. Positive return segments use `
 
 Help people see how costs affect value over time. Use `--chart-color-primary-solid` for value after costs and `--chart-color-negative-solid` for the cost segments. Label both measures and state the currency, time horizon and assumptions. Distinguish projections from observed results.
 
+Separate the value and cost segments with a gap of at least 2 CSS pixels in the light chart surface color. The two fills have less than 3:1 contrast against each other; the gap gives each segment a contrasting boundary. Keep each segment's length proportional to its value when adding the gap.
+
 If a switch controls cost visibility, update the chart, legend, summary and data table together. Make it clear whether hiding costs changes the displayed total or only hides the cost breakdown. Do not silently change the meaning of the remaining bars.
 
 ## Keep the context with the values
@@ -89,6 +91,8 @@ Check contrast against the actual adjacent backgrounds and in selected states. M
 
 Start with these roles for the financial patterns above: primary, secondary, tertiary and negative, each with a solid fill, an outline fill and an outline stroke. The primary, secondary and tertiary roles are similar greens. Use distinct numbered hues for unrelated categories rather than relying on these roles alone.
 
+The tertiary and negative solids also have similar lightness and can be hard to distinguish with red-green color vision deficiencies. For gains and losses, use position above or below zero, direct labels and different marker shapes or patterns. Keep legend entries distinguishable without color.
+
 <ChartRoleColors />
 
 Pair an outline fill with its outline stroke unless a pattern specifies another pairing. The stroke uses the same color as the corresponding solid fill. Use the listed role values rather than substituting a similar numbered swatch; the negative solid color differs from red 600.
@@ -100,6 +104,19 @@ Eufemia includes all 88 numbered swatches in the DNB chart palette: gray, red, g
 <ChartColors />
 
 Choose darker strokes for lines and lighter shades for area fills. For categories, select distinct hues and add labels or shapes. For ordered values, use a small selection of shades from one family and explain the direction. Adjacent steps are not necessarily distinguishable, and a palette step does not guarantee contrast.
+
+These are the lightest numbered steps that meet 3:1 contrast against a white (`#ffffff`) chart surface. Higher numbered steps in each family also meet that threshold. Check contrast again for other backgrounds, touching series, opacity and interaction states. Text labels still need to meet text contrast requirements.
+
+| Family | First step with 3:1 contrast against white |
+| ------ | ------------------------------------------ |
+| Gray   | 400                                        |
+| Red    | 500                                        |
+| Green  | 700                                        |
+| Orange | 600                                        |
+| Blue   | 500                                        |
+| Teal   | 500                                        |
+| Yellow | 700                                        |
+| Purple | 500                                        |
 
 ### Import chart colors
 
@@ -133,6 +150,8 @@ function Chart() {
 ```
 
 The standalone bundles only provide the 100 chart color properties. Load the relevant Eufemia styles separately for typography, controls and tables. They do not include a chart library.
+
+Isolated properties are available inside the scope element. Render tooltips and legends inside that scope too, or pass resolved color values when the library renders overlays elsewhere, such as under `document.body`.
 
 ### Apply colors to your library
 
@@ -172,4 +191,4 @@ Avoid animation that delays reading or implies a change that did not occur. Resp
 
 ## Check the finished chart
 
-Check your library integration with realistic data ranges, missing observations and long labels. Verify keyboard and touch access, screen reader output, narrow layouts and high zoom. Confirm that the summary, legend, tooltips and data table still agree after every filter or series change. Check localization, contrast and reduced motion in the application where the chart will be used.
+Check your library integration with realistic data ranges, missing observations and long labels. Verify keyboard and touch access, screen reader output, narrow layouts and high zoom. Confirm that the summary, legend, tooltips and data table still agree after every filter or series change. Check localization, contrast, forced colors and reduced motion in the application where the chart will be used. In forced colors, check both the graphic and any HTML legend swatches; background colors can be replaced by system colors. Keep labels, shapes or patterns and the data table usable when colors change.
