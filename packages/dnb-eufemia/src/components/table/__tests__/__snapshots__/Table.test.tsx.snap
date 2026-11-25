@@ -927,14 +927,26 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
     }
   }
 }
-.dnb-table--outline tr[data-sticky]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: var(--table-outline);
-  border-bottom: 0;
-  border-radius: var(--table-outline-radius-top) var(--table-outline-radius-top) 0 0;
-  pointer-events: none;
+.dnb-table--outline tr[data-sticky] > * {
+  --table-outline-shadow-top: inset 0 var(--table-outline-width)
+    var(--table-outline-color);
+  --table-outline-shadow-left: inset var(--table-outline-width) 0
+    var(--table-outline-color);
+  --table-outline-shadow-right: inset
+    calc(var(--table-outline-width) * -1) 0 var(--table-outline-color);
+  box-shadow: var(--table-outline-shadow-top);
+}
+
+.dnb-table--outline tr[data-sticky] > *:first-child {
+  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-left);
+}
+
+.dnb-table--outline tr[data-sticky] > *:last-child {
+  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-right);
+}
+
+.dnb-table--outline tr[data-sticky] > *:only-child {
+  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-left), var(--table-outline-shadow-right);
 }
 
 .dnb-table tr[data-sticky][data-is-sticky] th::before {
