@@ -62,7 +62,7 @@ export const TextareaProperties: PropertiesTableProps = {
     status: 'optional',
   },
   characterCounter: {
-    doc: 'Use a number to define the displayed max length. You can also use an object defining the [TextCounter](/web/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.',
+    doc: 'Use a number to define the displayed max length. You can also use an object defining the [TextCounter](/web/components/fragments/text-counter/) `variant` or properties. When the max length is exceeded, the border shows the error color, unless `status` is set. Please avoid using `maxLength` for accessibility reasons.',
     type: ['number', 'object'],
     status: 'optional',
   },

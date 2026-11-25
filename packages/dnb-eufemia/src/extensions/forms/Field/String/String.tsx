@@ -122,7 +122,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    */
   hideResizeHandle?: TextareaProps['hideResizeHandle']
   /**
-   * To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.
+   * To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`. When the max length is exceeded, the border shows the error color. Use `maxLength` to also validate the length.
    */
   characterCounter?: Omit<TextCounterProps, 'text'> | number
 

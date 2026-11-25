@@ -874,6 +874,40 @@ describe('Textarea component', () => {
     )
   })
 
+  it('should show the error border when characterCounter is exceeded', async () => {
+    render(<Textarea characterCounter={4} value="foo" />)
+
+    const element = document.querySelector('.dnb-textarea')
+    const textarea = document.querySelector('textarea')
+
+    expect(element).not.toHaveClass('dnb-textarea__status--error')
+
+    await userEvent.type(textarea, 'bar')
+
+    expect(element).toHaveClass('dnb-textarea__status--error')
+    expect(textarea).not.toHaveAttribute('aria-invalid')
+
+    await userEvent.type(textarea, '{Backspace}{Backspace}')
+
+    expect(element).not.toHaveClass('dnb-textarea__status--error')
+  })
+
+  it('should let status take precedence over an exceeded characterCounter', () => {
+    render(
+      <Textarea
+        characterCounter={{ max: 2 }}
+        value="foo"
+        status="Message to the user"
+        statusState="information"
+      />
+    )
+
+    const element = document.querySelector('.dnb-textarea')
+
+    expect(element).toHaveClass('dnb-textarea__status--information')
+    expect(element).not.toHaveClass('dnb-textarea__status--error')
+  })
+
   it('supports inline styling', () => {
     render(<Textarea style={{ color: 'red' }} />)
     expect(document.querySelector('textarea').getAttribute('style')).toBe(
