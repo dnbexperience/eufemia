@@ -243,7 +243,12 @@ function SearchPanelSurface({
           '--popover-available-height'
         )
       )
-      if (checkSpace && availableHeight < minimumSurfaceHeight) {
+      // Reopening can briefly retain the closing surface's measurements.
+      if (
+        checkSpace &&
+        surface.classList.contains('dnb-popover--active') &&
+        availableHeight < minimumSurfaceHeight
+      ) {
         close()
         return
       }

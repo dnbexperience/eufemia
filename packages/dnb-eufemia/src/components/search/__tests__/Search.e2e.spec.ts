@@ -817,6 +817,7 @@ test('panel keeps its opening direction while scrolling', async ({
   await expect(input).toBeFocused()
   await scrollInputTo(400)
   await input.press('ArrowDown')
+  await expect(input).toHaveAttribute('aria-expanded', 'true')
   await expectFit('bottom')
   await scrollInputTo(460)
   await expectFit('bottom')
