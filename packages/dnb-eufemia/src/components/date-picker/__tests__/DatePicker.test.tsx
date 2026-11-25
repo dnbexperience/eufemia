@@ -7253,18 +7253,24 @@ describe('DatePicker component', () => {
     render(
       <>
         <DatePicker inline date="2026-11-10" firstDay="sunday" />
+        <DatePicker inline date="2026-11-10" />
         <DatePicker inline date="2026-11-10" onlyMonth />
         <DatePicker inline date="2026-11-10" />
       </>
     )
 
-    const [sunday, onlyMonth, monday] = Array.from(
+    const [sunday, monday, onlyMonth, mondayAfterOnlyMonth] = Array.from(
       document.querySelectorAll('.dnb-date-picker__calendar')
     )
 
     expect(getDates(sunday)).toEqual(['2026-11-01', '2026-12-12', 42])
-    expect(getDates(onlyMonth)).toEqual(['2026-11-01', '2026-11-30', 30])
     expect(getDates(monday)).toEqual(['2026-10-26', '2026-12-06', 42])
+    expect(getDates(onlyMonth)).toEqual(['2026-11-01', '2026-11-30', 30])
+    expect(getDates(mondayAfterOnlyMonth)).toEqual([
+      '2026-10-26',
+      '2026-12-06',
+      42,
+    ])
   })
 
   it('should hide month label when onlyMonth is "without-label"', async () => {
