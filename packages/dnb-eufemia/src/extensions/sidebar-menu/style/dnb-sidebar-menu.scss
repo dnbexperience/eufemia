@@ -801,14 +801,21 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
   display: contents;
   position: relative;
-  // Keep navigation above content borders and controls, below dropdowns and overlays.
-  z-index: calc(var(--z-index-dropdown) - 1);
+  z-index: 3;
 
   flex: 0 0 auto;
   width: var(--sidebar-menu-expanded-width);
   min-width: 0;
 
   transition: width 240ms var(--easing-default);
+
+  &:where(
+    .dnb-sidebar-menu-responsive-inline--expanded,
+    .dnb-sidebar-menu-responsive-inline--closing
+  ) {
+    // Keep the compact overlay above content controls until it finishes closing.
+    z-index: calc(var(--z-index-dropdown) - 1);
+  }
 
   &[data-sidebar-menu-responsive-surface] {
     display: block;
