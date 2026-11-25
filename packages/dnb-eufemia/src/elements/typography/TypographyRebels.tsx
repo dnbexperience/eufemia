@@ -7,6 +7,7 @@ import {
 } from 'react'
 import type { ContextType, ReactNode } from 'react'
 import HeadingContentContext from './HeadingContentContext'
+import Span from '../span/Span'
 
 export type TypographyRebelsProps = {
   /** Maximum number of Rebels per heading. Defaults to 2. Use 0 to disable. */
@@ -41,6 +42,7 @@ export default function TypographyRebels({
         family === 'display' ||
         (!family && !['basis', 'small', 'x-small'].includes(size))
 
+      // Move this check and the .dnb-t__rebel theme rule when Coconut becomes Sbanken.
       if (
         brand !== 'coconut' ||
         !usesHeadingFont ||
@@ -81,14 +83,28 @@ function renderRebels(children: ReactNode, maxPerHeading: number) {
     return children
   }
 
+  // Avoid the largest kerning losses at the boundary of a Rebel span.
+  const preferredPositions = positions.filter(
+    (index) => !/\p{Lu}$/u.test(text.slice(Math.max(0, index - 2), index))
+  )
   const wordPositions = Array.from(text.matchAll(/\S+/gu)).flatMap(
     ({ 0: word, index }) => {
+      const preferred = preferredPositions.find(
+        (position) => position >= index && position < index + word.length
+      )
+      if (preferred !== undefined) {
+        return [preferred]
+      }
       const match = word.match(/[aefilnort!](?!\p{Mark})/u)
       return match ? [index + match.index] : []
     }
   )
   const candidates =
-    wordPositions.length >= limit ? wordPositions : positions
+    wordPositions.length >= limit
+      ? wordPositions
+      : preferredPositions.length >= limit
+        ? preferredPositions
+        : positions
   const selected = new Set(
     Array.from(
       { length: limit },
@@ -136,6 +152,7 @@ function mapText(
     if (
       isValidElement<{ children?: ReactNode }>(child) &&
       (child.type === Fragment ||
+        child.type === Span ||
         (typeof child.type === 'string' && inlineElements.has(child.type)))
     ) {
       return cloneElement(child, {

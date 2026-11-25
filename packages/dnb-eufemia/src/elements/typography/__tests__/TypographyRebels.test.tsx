@@ -11,6 +11,7 @@ import H4 from '../H4'
 import H5 from '../H5'
 import H6 from '../H6'
 import Typography from '../Typography'
+import Span from '../../span/Span'
 import Theme from '../../../shared/Theme'
 
 const text = 'En enklere hverdag for alle!'
@@ -92,6 +93,52 @@ describe('TypographyRebels', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
+  it.each([H1, Heading])(
+    'keeps the same selection when words are split across inline children (%#)',
+    (Component) => {
+      render(
+        <Theme brand="coconut">
+          <TypographyRebels>
+            <Component size="large">Hello world</Component>
+            <Component size="large">
+              He<span>llo</span> world
+            </Component>
+            <Component size="large">
+              He<Span>llo</Span> world
+            </Component>
+            <Component size="large">
+              H<Span>ello</Span> world
+            </Component>
+            <Component size="large">
+              H
+              <em>
+                e<Span>llo</Span>
+              </em>{' '}
+              wo<Fragment>rld</Fragment>
+            </Component>
+          </TypographyRebels>
+        </Theme>
+      )
+
+      for (const heading of document.querySelectorAll(
+        '[data-flex-item-type="heading"]'
+      )) {
+        expect(heading.textContent).toBe('Hello world')
+        expect(
+          getRebels(heading).map(({ textContent }) => textContent)
+        ).toEqual(['l', 'o'])
+        expect(
+          getRebels(heading).map((rebel) => {
+            const range = document.createRange()
+            range.selectNodeContents(heading)
+            range.setEndBefore(rebel)
+            return range.toString().length
+          })
+        ).toEqual([2, 7])
+      }
+    }
+  )
+
   it('supports nested overrides through the existing Typography context', () => {
     render(
       <TypographyRebels>
@@ -113,6 +160,30 @@ describe('TypographyRebels', () => {
     expect(getRebels(document.querySelector('h2'))).toHaveLength(1)
     expect(getRebels(document.querySelector('h3'))).toHaveLength(0)
   })
+
+  it.each([
+    ['Velkommen til oss', 2, ['l', 'o']],
+    ['Fordeler', 1, ['r']],
+    ['Velkommen', 2, ['l', 'n']],
+    ['Ta', 2, ['a']],
+    ['En Spare mer!', 2, ['n', 'e']],
+  ])(
+    'prefers Rebels away from capitals while retaining a fallback (%s)',
+    (value, maxPerHeading, expected) => {
+      render(
+        <Theme brand="coconut">
+          <TypographyRebels maxPerHeading={maxPerHeading}>
+            <H1>{value}</H1>
+          </TypographyRebels>
+        </Theme>
+      )
+
+      expect(getRebels().map(({ textContent }) => textContent)).toEqual(
+        expected
+      )
+      expect(document.querySelector('h1').textContent).toBe(value)
+    }
+  )
 
   it.each(['ui', 'sbanken', 'eiendom', 'carnegie', undefined] as const)(
     'leaves other brands unchanged (%s)',

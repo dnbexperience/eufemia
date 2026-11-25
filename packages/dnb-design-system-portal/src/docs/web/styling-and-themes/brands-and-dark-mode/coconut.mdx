@@ -8,7 +8,7 @@ navigation:
   platform: web
 ---
 
-import { RebelsExample } from './coconut/Examples'
+import { InlineRebelsExample, RebelsExample } from './coconut/Examples'
 
 Coconut is the preview theme for the new Sbanken brand. It uses Sbanken
 Display for large headings. Preview this page with
@@ -39,6 +39,11 @@ The font metadata names the set **Rebeller**. These Rebels are available through
 `ss01` for lowercase `a e f i l n o r t` and `!`. Applying `ss01` to a
 whole heading replaces every supported character. The font cannot limit
 the number for you.
+
+Rebels are individual character alternates and do not require specific
+letter pairs. The font also contains decorative ligatures, such as `rt`
+and `tf`, under the separate OpenType feature `dlig`. `TypographyRebels`
+enables only the selected `ss01` alternates.
 
 ### When to use Rebels
 
@@ -96,21 +101,34 @@ the default font with the limited Rebels.
 ### Selection and content
 
 The provider spreads Rebels across eligible words, starting with the
-first and last eligible word for a limit of two. It uses the first
-eligible character in each selected word. If there are fewer eligible
-words than the limit, it spreads the selection across eligible
-characters instead. Headings with fewer supported characters receive
-fewer Rebels. Selection is deterministic, including during server
-rendering and hydration.
+first and last eligible word for a limit of two. Within each word, it
+prefers an eligible character that does not directly follow a capital
+letter. This reduces visible spacing changes because the Rebel span
+interrupts the font's kerning. If there is no alternative, it uses the
+first eligible character, as in `Ta`.
+
+If there are fewer eligible words than the limit, it spreads the
+selection across eligible characters instead, with the same preference
+when enough characters are available. This can place two Rebels in one
+word. Headings with fewer supported characters receive fewer Rebels.
+Selection is deterministic, including during server rendering and
+hydration.
 
 Editors keep writing ordinary text in the CMS. The original Unicode
 text, accessible heading text and copied content stay intact. Only the
 selected characters receive a span with the font feature enabled.
 
-Strings, numbers, fragments and native inline elements such as `span`,
-`strong` and `a` share one budget per heading. Text rendered inside
-custom React components is left unchanged. Render CMS heading text
-directly as children or through the `Heading` `text` property.
+Strings, numbers, fragments, Eufemia `Span` and native inline elements
+such as `span`, `em`, `strong` and `a` share one budget per heading.
+Splitting the same text across these elements keeps the same Rebels
+selected, including when a word is split. Other custom React components
+are left unchanged. Render CMS heading text directly as children or
+through the `Heading` `text` property.
+
+These two `Heading` components select the same characters. The second
+heading also preserves its `Span` and emphasis:
+
+<InlineRebelsExample />
 
 ### Nested overrides
 
