@@ -1478,6 +1478,7 @@ export const StickyColumnLast = () => {
                     icon={composeIcon}
                     iconPosition="left"
                     text="Edit"
+                    aria-label={`Edit ${recipient}`}
                   />
                 </Td>
               </Tr>
