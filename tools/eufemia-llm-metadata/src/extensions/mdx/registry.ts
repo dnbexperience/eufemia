@@ -1,5 +1,6 @@
 import { createAvailableCountriesTableExtension } from './availableCountriesTable.ts'
 import { createCardProductsTableExtension } from './cardProductsTable.ts'
+import { createChartColorsExtension } from './chartColors.ts'
 import { createColorTableExtension } from './colorTable.ts'
 import { createGitHubChangelogExtension } from './githubChangelog.ts'
 import { createHomeExtension } from './home.ts'
@@ -37,6 +38,7 @@ function createSpecialMdxExtensions(
     createTokenSectionTableExtension(deps),
     createRadiusTokenTableExtension(deps),
     createColorTableExtension(deps),
+    createChartColorsExtension(deps),
     createGitHubChangelogExtension(),
     createListSummaryFromEdgesExtension(deps),
     createHomeExtension(),
