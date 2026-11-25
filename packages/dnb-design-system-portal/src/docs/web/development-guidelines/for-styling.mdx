@@ -111,7 +111,24 @@ Use the shared `utilities.hover()` mixin, as Button does. It shows hover styles 
 }
 ```
 
-For custom selectors that cannot use the mixin, put the rule inside `@media (any-hover: hover)` and use `html:not([data-whatintent='touch'], [data-whatintent='keyboard']) &:hover`. Keep this guard beside other input guards instead of nesting them, so they refer to the same `<html>` element.
+For custom selectors that cannot use the mixin, put the rule inside `@media (any-hover: hover)` and add the check to the hovered element:
+
+```scss
+.my-toggle {
+  @media (any-hover: hover) {
+    &:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ) {
+      border-color: var(--token-color-stroke-action-hover);
+    }
+  }
+}
+```
+
+The check is inside `:where()`, so the rule keeps the specificity of a plain `:hover` rule, and later pressed, disabled and error rules still win. A check in front of the selector, such as `html:not(…) &:hover`, adds specificity and can hide those states.
 
 ## CSS Units
 
