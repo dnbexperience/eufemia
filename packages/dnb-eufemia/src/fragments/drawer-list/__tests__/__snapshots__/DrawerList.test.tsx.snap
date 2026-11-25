@@ -286,16 +286,18 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
 .dnb-drawer-list__option__item.item-nr-1 {
   font-weight: var(--font-weight-medium);
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) {
-  --drawer-list-option-color-text: var(
-    --drawer-list-option-color-text--hover
-  );
-  --drawer-list-option-color-bg: var(
-    --drawer-list-option-color-bg--hover
-  );
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-drawer-list__option:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-drawer-list__option:hover:not([disabled]) {
+    --drawer-list-option-color-text: var(
+      --drawer-list-option-color-text--hover
+    );
+    --drawer-list-option-color-bg: var(
+      --drawer-list-option-color-bg--hover
+    );
+  }
 }
 .dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;
@@ -893,16 +895,18 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
 .dnb-drawer-list__option__item.item-nr-1 {
   font-weight: var(--font-weight-medium);
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) {
-  --drawer-list-option-color-text: var(
-    --drawer-list-option-color-text--hover
-  );
-  --drawer-list-option-color-bg: var(
-    --drawer-list-option-color-bg--hover
-  );
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-drawer-list__option:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-drawer-list__option:hover:not([disabled]) {
+    --drawer-list-option-color-text: var(
+      --drawer-list-option-color-text--hover
+    );
+    --drawer-list-option-color-bg: var(
+      --drawer-list-option-color-bg--hover
+    );
+  }
 }
 .dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;

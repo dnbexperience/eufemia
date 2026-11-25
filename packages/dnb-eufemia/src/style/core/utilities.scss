@@ -16,16 +16,17 @@
   box-shadow: var(--shadow-sharp);
 }
 
-// Uses html:not([data-whatintent='touch'] )
-// classes on <html> element
-// based on js touch device test
+// Follow the current input so touch hover does not return on a key press.
 @mixin hover() {
-  html:not([data-whatintent='touch']) &:hover {
-    &[disabled] {
-      cursor: not-allowed;
-    }
-    &:not([disabled]) {
-      @content;
+  @media (any-hover: hover) {
+    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &:hover {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+      &:not([disabled]) {
+        @content;
+      }
     }
   }
 }
