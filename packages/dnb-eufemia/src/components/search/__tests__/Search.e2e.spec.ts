@@ -1431,8 +1431,15 @@ test('panel closes from controls and preserves outside interaction focus', async
     exact: true,
   })
 
-  // Keep the input and controls visible before testing pointer focus.
-  await input.scrollIntoViewIfNeeded()
+  // Keep pointer coordinates independent of scrolling the demo page.
+  await fixture.evaluate((element) => {
+    Object.assign((element as HTMLElement).style, {
+      position: 'fixed',
+      top: '100px',
+      left: '16px',
+      width: '400px',
+    })
+  })
   await input.focus()
   await close.focus()
   await close.press('Escape')
@@ -1443,6 +1450,9 @@ test('panel closes from controls and preserves outside interaction focus', async
   await input.fill('')
 
   await input.click()
+  await waitForPanelAnimation(
+    page.getByRole('listbox', { name: 'Search with filters' })
+  )
   await close.hover()
   const closeBounds = await close.boundingBox()
   await page.mouse.down()
