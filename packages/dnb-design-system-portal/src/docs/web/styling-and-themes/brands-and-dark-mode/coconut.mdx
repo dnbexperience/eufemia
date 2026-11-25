@@ -32,15 +32,32 @@ render(
 
 ## Rebels in headings
 
-Sbanken Display names its alternate glyph set **Rebeller** in the font
-metadata. These Rebels are available through the OpenType feature
+Sbanken Display's alternate letterforms are called **Friendly Rebels**
+(_Vennlige rebeller_) in the
+[Sbanken brand guidelines](https://bc.dnb.no/point/no/sbanken/component/default/279261).
+The font metadata names the set **Rebeller**. These Rebels are available through the OpenType feature
 `ss01` for lowercase `a e f i l n o r t` and `!`. Applying `ss01` to a
 whole heading replaces every supported character. The font cannot limit
 the number for you.
 
-Import `TypographyRebels` separately to apply at most two Rebels to each
-Eufemia `Heading` or `H1`–`H6` in the provider. The default Typography
-import does not include the selection logic.
+### When to use Rebels
+
+Use Rebels for warm, expressive or playful messages, such as a campaign
+heading. Use ordinary Sbanken Display for functional and informative
+content, such as article headings and information pages.
+
+The brand guidelines recommend one Rebel per line as a starting point,
+adjusted to the message and surface. `TypographyRebels` defaults to a
+maximum of two per heading for the website. It does not measure rendered
+lines: both Rebels can appear on one line, and their positions stay the
+same when text wraps. Check the result at different screen widths and
+adjust the limit for the content when needed.
+
+### Enable Rebels
+
+Import `TypographyRebels` separately and wrap the headings that should
+use Rebels. It processes Eufemia `Heading` and `H1`–`H6`. The default
+Typography import does not include the selection logic.
 
 ```tsx
 import TypographyRebels from '@dnb/eufemia/elements/TypographyRebels'
@@ -48,15 +65,20 @@ import { Heading } from '@dnb/eufemia'
 import { Theme } from '@dnb/eufemia/shared'
 
 render(
-  <TypographyRebels maxPerHeading={2}>
-    <Theme brand="coconut">
+  <Theme brand="coconut">
+    <Heading>Priser og vilkår</Heading>
+    <TypographyRebels maxPerHeading={2}>
       <Heading>En enklere hverdag for alle!</Heading>
-    </Theme>
-  </TypographyRebels>
+    </TypographyRebels>
+  </Theme>
 )
 ```
 
-Place the provider around your application or an editorial section.
+Scope the provider to expressive content sections. Every eligible heading
+inside it receives Rebels; the provider does not determine the intent of
+the message. Your application or CMS decides which content should use
+Rebels. Headings outside the provider keep their ordinary letterforms.
+
 Shared DNB and Sbanken applications can keep the same heading source:
 Rebels are only applied when the heading's active theme is Coconut and
 its typography uses Sbanken Display. Body text and headings using the
@@ -97,7 +119,7 @@ Use a nested provider to change the limit for a section. Set
 
 ```tsx
 <TypographyRebels>
-  <AppContent />
+  <CampaignContent />
   <TypographyRebels maxPerHeading={0}>
     <DocumentContent />
   </TypographyRebels>
