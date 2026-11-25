@@ -24,6 +24,33 @@ export type TableScrollViewAllProps = TableScrollViewProps &
   SpacingProps &
   ScrollViewAllProps
 
+// Sticky cells, e.g. of a sticky column, cover the columns that are scrolled underneath them
+const getUncoveredArea = (
+  element: HTMLElement,
+  cells: Array<HTMLTableCellElement>
+) => {
+  const viewport = element.getBoundingClientRect()
+  const middle = viewport.left + element.clientWidth / 2
+  const stickyCells = new Set<HTMLTableCellElement>()
+  let start = viewport.left
+  let end = viewport.left + element.clientWidth
+
+  cells.forEach((cell) => {
+    if (getComputedStyle(cell).position === 'sticky') {
+      const rect = cell.getBoundingClientRect()
+      stickyCells.add(cell)
+
+      if ((rect.left + rect.right) / 2 < middle) {
+        start = Math.max(start, rect.right)
+      } else {
+        end = Math.min(end, rect.left)
+      }
+    }
+  })
+
+  return { start, end, stickyCells }
+}
+
 type Column = {
   cell: HTMLTableCellElement
   active: boolean
@@ -85,12 +112,17 @@ export default function TableScrollView(
         null
       )
       const cells = overflows ? Array.from(row?.cells || []) : []
+      const area = getUncoveredArea(element, cells)
       const next = cells.map((cell, index) => {
         const rect = cell.getBoundingClientRect()
+        const isSticky = area.stickyCells.has(cell)
+        const start = isSticky ? viewport.left : area.start
+        const end = isSticky
+          ? viewport.left + element.clientWidth
+          : area.end
         const width = Math.max(
           0,
-          Math.min(rect.right, viewport.left + element.clientWidth) -
-            Math.max(rect.left, viewport.left)
+          Math.min(rect.right, end) - Math.max(rect.left, start)
         )
         // A small threshold gap keeps clipped edges from flickering.
         const threshold = previousColumns?.[index]?.active ? 0.45 : 0.55
@@ -101,8 +133,7 @@ export default function TableScrollView(
               ? cell.textContent.trim()
               : ''
             : previousColumns?.[index]?.label || '',
-          active:
-            width > Math.min(rect.width, element.clientWidth) * threshold,
+          active: width > Math.min(rect.width, end - start) * threshold,
         }
       })
       // Scrolling updates the active columns without hiding the controls.
@@ -197,11 +228,24 @@ export default function TableScrollView(
         onChange={({ index }) => {
           const element = ref.current
           const viewport = element.getBoundingClientRect()
-          const rect = columns[index].cell.getBoundingClientRect()
+          const { cell } = columns[index]
+          const rect = cell.getBoundingClientRect()
           const isRtl = getComputedStyle(element).direction === 'rtl'
+
+          // Scroll the column next to a sticky column, not underneath it
+          const { start, end, stickyCells } = getUncoveredArea(
+            element,
+            columns.map((column) => column.cell)
+          )
+          const isSticky = stickyCells.has(cell)
+          const coveredStart = isSticky ? 0 : start - viewport.left
+          const coveredEnd = isSticky
+            ? 0
+            : viewport.left + element.clientWidth - end
+
           const offset = isRtl
-            ? rect.right - viewport.right
-            : rect.left - viewport.left
+            ? rect.right - viewport.right + coveredEnd
+            : rect.left - viewport.left - coveredStart
           const max = element.scrollWidth - element.clientWidth
           const left = isRtl
             ? Math.max(-max, Math.min(0, element.scrollLeft + offset))

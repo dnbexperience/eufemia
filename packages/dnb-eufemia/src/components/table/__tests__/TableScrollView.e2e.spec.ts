@@ -431,6 +431,60 @@ test.describe('Table.ScrollView', () => {
     )
   })
 
+  test('keeps columns underneath a sticky column out of view', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const container = page.locator(
+      '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container'
+    )
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicators = container.locator('.dnb-scroll-indicator__item')
+    const headerCells = scrollView.locator('thead th')
+    await expect(indicators).toHaveCount(5)
+
+    // Like Table stickyColumn="first"
+    await page.addStyleTag({
+      content:
+        '[data-visual-test="table-horizontal-scroll"] .dnb-table > * > tr > :first-child { position: sticky; left: 0; z-index: 1 }',
+    })
+    await expect(headerCells.first()).toHaveCSS('position', 'sticky')
+
+    await test.step('marks a covered column as hidden', async () => {
+      await scrollView.evaluate((element) => {
+        const [first, second] = element.querySelectorAll('th')
+        element.scrollLeft = Math.min(
+          second.offsetWidth + second.offsetLeft - first.offsetWidth,
+          element.scrollWidth - element.clientWidth
+        )
+        element.dispatchEvent(new Event('scroll'))
+      })
+      await expect(indicators.first()).toHaveAttribute(
+        'data-active',
+        'true'
+      )
+      await expect(indicators.nth(1)).toHaveAttribute(
+        'data-active',
+        'false'
+      )
+    })
+
+    await test.step('scrolls the column next to the sticky column', async () => {
+      await indicators.nth(1).click()
+      await expect
+        .poll(async () => {
+          const sticky = await headerCells.first().boundingBox()
+          const target = await headerCells.nth(1).boundingBox()
+          return target.x - (sticky.x + sticky.width)
+        })
+        .toBeCloseTo(0, 0)
+      await expect(indicators.nth(1)).toHaveAttribute(
+        'data-active',
+        'true'
+      )
+    })
+  })
+
   test('keeps indicators outside a vertically scrolling table', async ({
     page,
   }) => {
