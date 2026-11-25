@@ -1522,7 +1522,9 @@ describe('makePropertiesFile', () => {
           'utf-8'
         )
 
-      expect(read('ui', 'properties.scss')).not.toContain('@use')
+      expect(read('ui', 'properties.scss')).not.toContain(
+        'typography-properties.scss'
+      )
       for (const theme of [
         'ui',
         'sbanken',

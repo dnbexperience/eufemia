@@ -3,6 +3,8 @@
  *
  */
 
+@use '../../charts/colors.scss' as charts;
+
 :root {
   // Typography Family
   --font-family-default: 'DNB', 'Arial', sans-serif;
@@ -80,6 +82,8 @@
   --color-lavender: #f2f2f5;
   --color-sand-yellow: #fbf6ec;
   --color-pistachio: #f2f4ec;
+
+  @include charts.properties();
 
   // Spacing
   --spacing-xx-small: 0.25rem;

@@ -1,0 +1,172 @@
+---
+title: Getting started with charts
+description: Create clear, accessible charts with your chart library and Eufemia's chart colors.
+navigation:
+  title: Getting started with charts
+  parent: web/patterns-and-extensions/patterns
+---
+
+import {
+  ChartColors,
+  ChartRoleColors,
+} from 'Docs/web/patterns-and-extensions/getting-started-with-charts/ColorReference'
+
+Use these patterns when designing and integrating charts with your application's chart library. Eufemia provides chart colors and components for the surrounding controls, formatting and data tables. Configure your library to support the same visual language and accessible experience.
+
+## Start with the question
+
+A chart helps people see a relationship, such as a trend or a difference. Keep one main question per chart. Use a number for one important value and a table when people need to find, compare or copy exact values.
+
+- **Compare categories:** use bars, with horizontal bars for long labels. Start the value axis at zero so bar lengths represent differences fairly.
+- **Follow change over time:** use a line with a consistent time scale. Keep gaps for missing observations; a connected line would imply data you do not have.
+- **Show parts of a whole:** use stacked bars for a few parts that add up to a meaningful total. A pie can work for a single total with clearly different parts and numeric labels. Use separate bars to compare similar values.
+- **Show a distribution or relationship:** use a histogram for the spread of values or a scatter plot for two numeric measures. Explain bins, units and any uncertainty.
+
+Split crowded series into smaller charts with the same scale, or let people narrow the data. Avoid 3D effects and decorative shapes that make values harder to compare.
+
+## Choose a library for your needs
+
+Use the right tool for the requirements. No chart library covers every need equally well. Start with the library your application already uses and check whether it supports the intended chart, interactions and accessible experience before introducing another one.
+
+Compare required chart types, keyboard and touch behavior, data volume, responsive labels, localization, export needs, React and server rendering compatibility, maintenance and licensing. SVG is convenient for CSS styling; Canvas needs drawing options. Both need an accessible experience around the graphic.
+
+Measure the production bundle for the charts you actually use. Tree shaking depends on the library, imports and application build. Include any accessibility modules and plugins in the comparison.
+
+### Share integration defaults
+
+Reuse color mappings, typography, axis and tooltip formatting, and reduced-motion settings across charts. Keep titles, units, series meaning and accessible descriptions specific to each chart, and allow applications to override shared defaults.
+
+## Financial chart patterns
+
+### Fund performance
+
+Help people understand how a fund changed over the selected period. Keep the period, headline percentage and percentage scale together. Make the comparison basis clear, including whether the result includes fees and reinvested distributions.
+
+Use a green line (`--chart-color-tertiary-solid`) with a pale area (`--chart-color-tertiary-outline-fill`). The line carries the values; the area supports it. Keep the line distinct from its fill and gridlines. The period selector must update the line, headline value, summary and data table together.
+
+### Deposits and returns
+
+Help people distinguish money they deposited from investment returns. Use solid bars for deposits and outlined segments for unrealized returns. Keep a visible zero baseline, put negative returns below it, and explain the treatments in the legend. Label the period and currency.
+
+Use `--chart-color-secondary-solid` for deposits. Positive return segments use `--chart-color-tertiary-outline-fill` with `--chart-color-secondary-outline-stroke`. Negative return segments use `--chart-color-negative-outline-fill` with `--chart-color-red-600`. Keep deposits and returns separately available in the data table.
+
+### Value and costs
+
+Help people see how costs affect value over time. Use `--chart-color-primary-solid` for value after costs and `--chart-color-negative-solid` for the cost segments. Label both measures and state the currency, time horizon and assumptions. Distinguish projections from observed results.
+
+If a switch controls cost visibility, update the chart, legend, summary and data table together. Make it clear whether hiding costs changes the displayed total or only hides the cost breakdown. Do not silently change the meaning of the remaining bars.
+
+## Keep the context with the values
+
+Give the chart a specific title and a short visible summary of what matters. State the unit, period, time zone where relevant, and comparison basis. Compare a partial period with the same elapsed period, or clearly distinguish it from complete periods. Label targets and thresholds with their meaning.
+
+Use [NumberFormat](/web/components/number-format/) and [DateFormat](/web/components/date-format/) for surrounding values. Configure the library's axis and tooltip formatters to use the same locale and precision. Rounding should not turn a small nonzero value into an unexplained zero. Keep Eufemia's typography readable instead of shrinking labels to fit.
+
+## Make the information accessible
+
+Give the graphic an accessible name and connect it to the visible summary. Keep detailed values in an HTML [Table](/web/components/table/) with a caption, row and column headers, and units. Use the same data, filters, sorting and update time for both views. Keep the table visible or place it in a tertiary [Accordion](/web/components/accordion/demos/#variant-tertiary) titled “Data table” beside the chart. A download alone makes the values harder to reach.
+
+Use ordinary buttons and form controls for filters and series selection. Keep focus on the control after an update and announce a concise result when needed. If points or tooltips provide additional information, make it available by keyboard and touch, with visible focus and a way to dismiss it. Avoid adding every point to the Tab order.
+
+At narrow widths and high zoom, let labels and controls wrap. Reduce visual detail or offer the table before shrinking text. Keep any necessary horizontal scrolling inside a named, keyboard accessible chart or table region, using [ScrollView](/web/components/scroll-view/) where appropriate. Check the actual experience at 400% zoom, including focus and long translated labels.
+
+## Use color to explain meaning
+
+Use one color when labels and position already distinguish the data; add colors for meaningful groups or emphasis.
+
+- **Categorical:** distinct colors identify unrelated groups. Keep each group's color stable when people filter, reorder or move between charts.
+- **Sequential:** ordered lightness represents increasing amounts. Show the scale and its direction.
+- **Diverging:** two directions meet at a meaningful midpoint, such as zero or a target. Label that midpoint and explain what each side means.
+
+Use status colors when the data has that meaning. A negative amount is not automatically an error, and an arbitrary category should not look like a warning. Pair color with direct labels, line dashes, marker shapes or patterns. Keep legend order aligned with the visual order.
+
+Check contrast against the actual adjacent backgrounds and in selected states. Meaningful graphical marks need at least 3:1 contrast; normal text needs 4.5:1 and large text needs 3:1. Touching areas may need contrasting boundaries. Faint gridlines can stay subtle when they are not needed to understand values. A table complements a readable chart; it does not repair indistinguishable series.
+
+### Chart color roles
+
+Start with these roles for the financial patterns above: primary, secondary, tertiary and negative, each with a solid fill, an outline fill and an outline stroke. The primary, secondary and tertiary roles are similar greens. Use distinct numbered hues for unrelated categories rather than relying on these roles alone.
+
+<ChartRoleColors />
+
+Pair an outline fill with its outline stroke unless a pattern specifies another pairing. The stroke uses the same color as the corresponding solid fill. Use the listed role values rather than substituting a similar numbered swatch; the negative solid color differs from red 600.
+
+### DNB chart colors
+
+Eufemia includes all 88 numbered swatches in the DNB chart palette: gray, red, green, orange, blue, teal, yellow and purple, with steps from 50 to 950. Together with the 12 role properties, these provide 100 chart color properties.
+
+<ChartColors />
+
+Choose darker strokes for lines and lighter shades for area fills. For categories, select distinct hues and add labels or shapes. For ordered values, use a small selection of shades from one family and explain the direction. Adjacent steps are not necessarily distinguishable, and a palette step does not guarantee contrast.
+
+### Import chart colors
+
+The chart properties are included in the [Eufemia theme styles](/web/get-started/quick-start/), including the isolated styles. If your application already loads a theme, no extra import is needed.
+
+For applications that only need the chart colors, load the independent CSS bundle:
+
+```js
+import '@dnb/eufemia/style/dnb-ui-charts.min.css'
+```
+
+A JavaScript entry point is also available for builds with SCSS support:
+
+```js
+import '@dnb/eufemia/style/charts'
+```
+
+For [style isolation](/web/styling-and-themes/css/style-isolation/), use the isolated CSS bundle and render the chart inside `IsolatedStyleScope`:
+
+```jsx
+import '@dnb/eufemia/style/dnb-ui-charts--isolated.min.css'
+import { IsolatedStyleScope } from '@dnb/eufemia/shared'
+
+function Chart() {
+  return (
+    <IsolatedStyleScope>
+      <YourChart />
+    </IsolatedStyleScope>
+  )
+}
+```
+
+The standalone bundles only provide the 100 chart color properties. Load the relevant Eufemia styles separately for typography, controls and tables. They do not include a chart library.
+
+### Apply colors to your library
+
+Use the properties directly in CSS or in SVG styling options that accept CSS custom properties:
+
+```css
+.my-chart__line {
+  fill: none;
+  stroke: var(--chart-color-tertiary-solid);
+}
+
+.my-chart__area {
+  fill: var(--chart-color-tertiary-outline-fill);
+}
+```
+
+Canvas-based libraries need resolved color strings. Read the property from the chart's own element after it is mounted and the styles have loaded, then pass the value to the library's color option. This also reads values inside an isolated scope:
+
+```js
+const styles = getComputedStyle(chartElement)
+const lineColor = styles
+  .getPropertyValue('--chart-color-tertiary-solid')
+  .trim()
+```
+
+Read the values again and update the chart if your application changes local property overrides. These chart colors stay fixed across brands and color schemes. Keep a light chart surface and readable labels when the surrounding application uses dark mode; a nested [Theme](/web/styling-and-themes/brands-and-dark-mode/theme/) with `colorScheme="light"` can provide the surrounding component styles. Set the chart surface explicitly and check the library's own labels and controls too.
+
+## Handle incomplete and changing data
+
+- **Zero:** an observed value of zero. Display it as zero.
+- **Missing:** no observation. Leave a gap or label it “Not available”; do not replace it with zero or silently interpolate.
+- **Empty:** no results for the current selection. Explain this and keep the filters available.
+- **Loading:** identify the region as busy and keep the layout stable. If old values remain, say that they are being updated.
+- **Error:** explain that the values could not be loaded and offer a retry. Preserve the selection and distinguish stale values from current data.
+
+Avoid animation that delays reading or implies a change that did not occur. Respect reduced motion, and let people pause frequent updates.
+
+## Check the finished chart
+
+Check your library integration with realistic data ranges, missing observations and long labels. Verify keyboard and touch access, screen reader output, narrow layouts and high zoom. Confirm that the summary, legend, tooltips and data table still agree after every filter or series change. Check localization, contrast and reduced motion in the application where the chart will be used.

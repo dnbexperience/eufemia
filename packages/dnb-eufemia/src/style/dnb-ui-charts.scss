@@ -1,0 +1,5 @@
+@use './charts/colors.scss' as charts;
+
+:root {
+  @include charts.properties();
+}
