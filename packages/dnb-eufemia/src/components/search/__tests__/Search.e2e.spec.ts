@@ -502,6 +502,7 @@ test('keeps all search types within a narrow container', async ({
   ]) {
     const search = page.locator(`[data-testid="${fixture}"] .dnb-search`)
     const input = search.locator('input')
+    await input.scrollIntoViewIfNeeded()
     await input.focus()
     await input.fill('A long search query')
     const box = await search.boundingBox()
@@ -1123,7 +1124,13 @@ test('panel supports results, chip filters, sorting, and natural keyboard focus'
   ).toBeFocused()
   await expect(results.getByRole('option')).toHaveCount(13)
   await expect(announcement).toHaveText('13 alternativer')
-  await sort.click()
+  await expect(sort).toBeInViewport()
+  // Avoid Playwright scrolling the portaled button before the pointer click.
+  const sortBox = await sort.boundingBox()
+  await page.mouse.click(
+    sortBox.x + sortBox.width / 2,
+    sortBox.y + sortBox.height / 2
+  )
   await expect(sort).toHaveAttribute('aria-expanded', 'true')
   await expect(
     page.getByRole('menu', { name: 'Sort results' })
@@ -1138,7 +1145,7 @@ test('panel supports results, chip filters, sorting, and natural keyboard focus'
   await expect(
     page.getByRole('menuitem', { name: 'Alphabetical', exact: true })
   ).toBeHidden()
-  await sort.click()
+  await sort.press('Enter')
   await expect(sort).toHaveAttribute('aria-expanded', 'true')
   await expect(
     page.getByRole('menu', { name: 'Sort results' })
