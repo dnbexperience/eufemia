@@ -120,6 +120,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -251,6 +252,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }, [getCurrencyObjectByIso, itemPath, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx('dnb-forms-field-select-currency', className),
     label,

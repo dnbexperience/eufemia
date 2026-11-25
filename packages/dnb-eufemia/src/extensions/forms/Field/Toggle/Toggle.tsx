@@ -69,6 +69,7 @@ function Toggle(props: FieldToggleProps) {
   const { help } = props
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     className,
     valueOn,
@@ -133,6 +134,7 @@ function Toggle(props: FieldToggleProps) {
   const cn = clsx('dnb-forms-field-toggle', className)
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: cn,
     disabled,

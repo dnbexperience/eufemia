@@ -1,7 +1,10 @@
 import { useCallback } from 'react'
 import { useTranslation } from '../../hooks'
 import type { Path } from '../../types'
-import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import {
+  useSharedState,
+  useSharedStateStore,
+} from '../../../../shared/helpers/useSharedState'
 
 type SharedState = {
   show?: boolean
@@ -10,7 +13,13 @@ type SharedState = {
 }
 
 export default function useArrayLimit(path: Path) {
-  const sharedState = useSharedState<SharedState>(path + '-iterate-limit')
+  const store = useSharedStateStore()
+  const sharedState = useSharedState<SharedState>(
+    path + '-iterate-limit',
+    undefined,
+    undefined,
+    { store }
+  )
   const { set, update, extend, data } = sharedState || {}
   const { limit, total, show } = data || {}
 

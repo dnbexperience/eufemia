@@ -76,6 +76,7 @@ export type FieldArraySelectionProps = FieldProps<
 
 function ArraySelection(props: FieldArraySelectionProps) {
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     dataPath,
@@ -112,6 +113,7 @@ function ArraySelection(props: FieldArraySelectionProps) {
     splitGroupNameAttributes(htmlAttributes)
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     ...groupNameAttributes,
     forId: id,
     className: clsx(
