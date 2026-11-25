@@ -101,6 +101,25 @@ describe('Icon component', () => {
     ).toBe('false')
   })
 
+  it('should use alt as the accessible name of an icon component', () => {
+    // A minified build renames the icon function, e.g. to "n"
+    const n = (props: SVGProps<SVGSVGElement>) => <svg {...props} />
+
+    const { rerender } = render(<Icon icon={n} alt="Done" />)
+    const elem = document.querySelector('span.dnb-icon')
+    expect(elem).toHaveAttribute('role', 'img')
+    expect(elem).toHaveAttribute('aria-label', 'Done')
+
+    rerender(<Icon icon={question} alt="Done" />)
+    expect(elem).toHaveAttribute('aria-label', 'Done')
+
+    rerender(<Icon icon={<svg />} alt="Done" />)
+    expect(elem).toHaveAttribute('aria-label', 'Done')
+
+    rerender(<Icon icon={n} alt="Done" aria-label="Custom label" />)
+    expect(elem).toHaveAttribute('aria-label', 'Custom label')
+  })
+
   it('should work with custom size', () => {
     const { rerender } = render(<Icon {...props} size="100" />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(

@@ -366,11 +366,7 @@ export function prepareIcon(
     title, // to show on hover, if defined
     ...attributes,
   })
-  if (
-    typeof iconToRender === 'string' &&
-    alt &&
-    !attributes['aria-label']
-  ) {
+  if (alt && !attributes['aria-label']) {
     wrapperParams['aria-label'] = alt
   }
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {

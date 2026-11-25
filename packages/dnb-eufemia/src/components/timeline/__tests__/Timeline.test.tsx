@@ -7,6 +7,9 @@ import type { TimelineItemAllProps } from '../TimelineItem'
 import TimelineItem from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
+import CheckIcon from '../../../icons/check'
+import CalendarIcon from '../../../icons/calendar'
+import PinIcon from '../../../icons/pin'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import Input from '../../input/Input'
@@ -346,23 +349,30 @@ describe('Timeline', () => {
     describe('renders default icon based on state property', () => {
       it('renders check icon when state is completed', () => {
         render(<TimelineItem title="Complete" state="completed" />)
-        expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
-          'check icon'
+        expect(screen.queryByRole('img').innerHTML).toBe(
+          render(<CheckIcon />).container.innerHTML
         )
+        expect(screen.queryByRole('img', { name: 'Utført' })).toBeTruthy()
       })
 
       it('renders pin icon when state is current', () => {
         render(<TimelineItem title="Current" state="current" />)
-        expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
-          'pin icon'
+        expect(screen.queryByRole('img').innerHTML).toBe(
+          render(<PinIcon />).container.innerHTML
         )
+        expect(
+          screen.queryByRole('img', { name: 'Nåværende' })
+        ).toBeTruthy()
       })
 
       it('renders calendar icon when state is upcoming', () => {
         render(<TimelineItem title="Upcoming" state="upcoming" />)
-        expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
-          'calendar icon'
+        expect(screen.queryByRole('img').innerHTML).toBe(
+          render(<CalendarIcon />).container.innerHTML
         )
+        expect(
+          screen.queryByRole('img', { name: 'Kommende' })
+        ).toBeTruthy()
       })
 
       it('renders alt label "Utfør"t when state is completed', () => {
