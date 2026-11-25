@@ -1,6 +1,6 @@
 // @vitest-environment node
 
-import { convertStringToDate } from '../DatePickerCalc'
+import { convertStringToDate, getCalendar } from '../DatePickerCalc'
 
 describe('convertStringToDate', () => {
   it('returns null for falsy input', () => {
@@ -85,5 +85,65 @@ describe('convertStringToDate', () => {
     const result = convertStringToDate(now)
     expect(result).toBeInstanceOf(Date)
     expect(result?.getTime()).toBe(now.getTime())
+  })
+})
+
+describe('getCalendar', () => {
+  // 1 November 2026 is a Sunday
+  const month = new Date(2026, 10, 1)
+  const toDay = (date: Date) =>
+    `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+  const range = (dates: Date[]) => [
+    toDay(dates[0]),
+    toDay(dates[dates.length - 1]),
+    dates.length,
+  ]
+
+  it('returns a grid that matches firstDay, regardless of earlier calls', () => {
+    expect(range(getCalendar(month, 1))).toEqual([
+      '2026-10-26',
+      '2026-12-6',
+      42,
+    ])
+    expect(range(getCalendar(month, 0))).toEqual([
+      '2026-11-1',
+      '2026-12-12',
+      42,
+    ])
+    expect(range(getCalendar(month, 1))).toEqual([
+      '2026-10-26',
+      '2026-12-6',
+      42,
+    ])
+  })
+
+  it('returns a full grid after an onlyMonth grid of the same month', () => {
+    expect(range(getCalendar(month, 1, { onlyMonth: true }))).toEqual([
+      '2026-11-1',
+      '2026-11-30',
+      30,
+    ])
+    expect(range(getCalendar(month, 1))).toEqual([
+      '2026-10-26',
+      '2026-12-6',
+      42,
+    ])
+  })
+
+  it('returns a grid that matches hideNextMonthWeek, regardless of earlier calls', () => {
+    // 1 September 2026 is a Tuesday, so five weeks fit the month
+    const september = new Date(2026, 8, 1)
+
+    expect(
+      range(getCalendar(september, 1, { hideNextMonthWeek: true }))
+    ).toEqual(['2026-8-31', '2026-10-4', 35])
+    expect(range(getCalendar(september, 1))).toEqual([
+      '2026-8-31',
+      '2026-10-11',
+      42,
+    ])
+    expect(
+      range(getCalendar(september, 1, { hideNextMonthWeek: true }))
+    ).toEqual(['2026-8-31', '2026-10-4', 35])
   })
 })
