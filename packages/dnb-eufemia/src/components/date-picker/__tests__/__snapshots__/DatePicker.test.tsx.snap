@@ -1568,6 +1568,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--small {
   --input-height-current: var(--input-height--small);
+  --input-font-size: var(--input-font-size--small);
   line-height: var(--input-height--small);
 }
 .dnb-input--small .dnb-input__shell,
@@ -1578,7 +1579,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--small .dnb-input__input {
   padding-left: var(--input-padding--small);
   padding-right: var(--input-padding--small);
-  font-size: var(--input-font-size--small);
 }
 .dnb-input--small .dnb-input__submit-element {
   margin-left: calc(var(--input-height--small) * -1);
@@ -1593,6 +1593,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--medium {
   --input-height-current: var(--input-height--medium);
+  --input-font-size: var(--input-font-size--medium);
   line-height: var(--input-height--medium);
 }
 .dnb-input--medium .dnb-input__shell,
@@ -1603,7 +1604,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--medium .dnb-input__input {
   padding-left: var(--input-padding--medium);
   padding-right: var(--input-padding--medium);
-  font-size: var(--input-font-size--medium);
 }
 .dnb-input--medium .dnb-input__submit-element {
   margin-left: calc(var(--input-height--medium) * -1);
@@ -1618,6 +1618,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--large {
   --input-height-current: var(--input-height--large);
+  --input-font-size: var(--input-font-size--large);
   --input-submit-button-width: 3.5rem;
   line-height: var(--input-height--large);
 }
@@ -1629,7 +1630,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--large .dnb-input__input {
   padding-left: var(--input-padding--large);
   padding-right: var(--input-padding--large);
-  font-size: var(--input-font-size--large);
 }
 .dnb-input--large .dnb-input__submit-element {
   margin-left: calc(var(--input-submit-button-width) * -1);
