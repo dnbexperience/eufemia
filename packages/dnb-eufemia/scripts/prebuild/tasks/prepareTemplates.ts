@@ -165,6 +165,7 @@ export const processElements = async () => {
       'label',
       'lists',
       'typography',
+      'TypographyRebels',
     ],
     filesToFindGlobByUsingFolders: false,
   }
@@ -181,7 +182,12 @@ export const processElements = async () => {
       '../../../src/core/templates/elements-lib-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/lib.ts'),
-    processToNamesIgnoreList: ['index', 'lib', 'Element'],
+    processToNamesIgnoreList: [
+      'index',
+      'lib',
+      'Element',
+      'TypographyRebels',
+    ],
   }).then((res) => {
     if (isCLI) {
       log.info('> Created the index template with all the elements')

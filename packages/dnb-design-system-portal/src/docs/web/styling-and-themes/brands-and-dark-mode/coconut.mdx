@@ -1,0 +1,110 @@
+---
+title: Coconut preview
+description: Preview the new Sbanken brand and enable limited Rebels in headings.
+navigation:
+  parent: web/styling-and-themes/brands-and-dark-mode
+  title: Coconut preview
+  order: 2
+  platform: web
+---
+
+import { RebelsExample } from './coconut/Examples'
+
+Coconut is the preview theme for the new Sbanken brand. It uses Sbanken
+Display for large headings. Preview this page with
+[the Coconut theme](?eufemia-theme=coconut#rebels-in-headings).
+
+## Theme setup
+
+Load the Coconut styles and set the matching theme context:
+
+```tsx
+import '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/coconut'
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme brand="coconut">
+    <App />
+  </Theme>
+)
+```
+
+## Rebels in headings
+
+Sbanken Display names its alternate glyph set **Rebeller** in the font
+metadata. These Rebels are available through the OpenType feature
+`ss01` for lowercase `a e f i l n o r t` and `!`. Applying `ss01` to a
+whole heading replaces every supported character. The font cannot limit
+the number for you.
+
+Import `TypographyRebels` separately to apply at most two Rebels to each
+Eufemia `Heading` or `H1`–`H6` in the provider. The default Typography
+import does not include the selection logic.
+
+```tsx
+import TypographyRebels from '@dnb/eufemia/elements/TypographyRebels'
+import { Heading } from '@dnb/eufemia'
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <TypographyRebels maxPerHeading={2}>
+    <Theme brand="coconut">
+      <Heading>En enklere hverdag for alle!</Heading>
+    </Theme>
+  </TypographyRebels>
+)
+```
+
+Place the provider around your application or an editorial section.
+Shared DNB and Sbanken applications can keep the same heading source:
+Rebels are only applied when the heading's active theme is Coconut and
+its typography uses Sbanken Display. Body text and headings using the
+body font stay unchanged, including sizes `basis`, `small` and
+`x-small` unless you explicitly select `family="heading"` or
+`family="display"`. Native `<h1>`–`<h6>` elements are not processed.
+
+### Preview
+
+Switch to the [Coconut theme](?eufemia-theme=coconut#preview) to compare
+the default font with the limited Rebels.
+
+<RebelsExample />
+
+### Selection and content
+
+The provider spreads Rebels across eligible words, starting with the
+first and last eligible word for a limit of two. It uses the first
+eligible character in each selected word. If there are fewer eligible
+words than the limit, it spreads the selection across eligible
+characters instead. Headings with fewer supported characters receive
+fewer Rebels. Selection is deterministic, including during server
+rendering and hydration.
+
+Editors keep writing ordinary text in the CMS. The original Unicode
+text, accessible heading text and copied content stay intact. Only the
+selected characters receive a span with the font feature enabled.
+
+Strings, numbers, fragments and native inline elements such as `span`,
+`strong` and `a` share one budget per heading. Text rendered inside
+custom React components is left unchanged. Render CMS heading text
+directly as children or through the `Heading` `text` property.
+
+### Nested overrides
+
+Use a nested provider to change the limit for a section. Set
+`maxPerHeading={0}` to disable Rebels there.
+
+```tsx
+<TypographyRebels>
+  <AppContent />
+  <TypographyRebels maxPerHeading={0}>
+    <DocumentContent />
+  </TypographyRebels>
+</TypographyRebels>
+```
+
+| Property        | Type        | Default | Description                                                                                    |
+| --------------- | ----------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `maxPerHeading` | `number`    | `2`     | Maximum Rebels per heading. Rounded down. Zero, negative and non-finite values disable Rebels. |
+| `children`      | `ReactNode` |         | Content containing the Eufemia headings to process.                                            |

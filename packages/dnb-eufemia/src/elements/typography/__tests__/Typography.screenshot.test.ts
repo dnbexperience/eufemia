@@ -4,6 +4,19 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
+describe('Coconut heading Rebels', () => {
+  setupPageScreenshot({
+    themeName: 'coconut',
+    url: '/web/styling-and-themes/brands-and-dark-mode/coconut/',
+  })
+
+  it('matches default and limited Rebels', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="coconut-rebels"]',
+    })
+  })
+})
+
 describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   `Typography for %s`,
   (themeName) => {
