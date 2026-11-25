@@ -34,6 +34,7 @@ import {
 import {
   getOffsetTop,
   getOffsetLeft,
+  getFixedPositionOrigin,
   hasSelectedText,
   getSelectedElement as getSelectedTextElement,
 } from '../../shared/helpers'
@@ -404,6 +405,20 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       return spaceToBottom
     }
 
+    // The on-screen keyboard in iOS Safari covers the bottom of the page.
+    // Only the visual viewport is reduced by it.
+    const getVisibleSpaceToBottom = (elem: HTMLElement) => {
+      const viewport = window.visualViewport
+      if (!viewport) {
+        return Infinity
+      }
+
+      const visibleBottom =
+        getFixedPositionOrigin().top + viewport.offsetTop + viewport.height
+
+      return visibleBottom - elem.getBoundingClientRect().bottom
+    }
+
     const calculateMaxHeight = () => {
       const rootElem = customElem || document.documentElement
 
@@ -412,10 +427,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         : rootElem.scrollTop
       const spaceToTop =
         getOffsetTop(elem) + elem.offsetHeight - pageYOffset
-      const spaceToBottom = getSpaceToBottom({
-        rootElem,
-        pageYOffset,
-      })
+      const spaceToBottom = Math.min(
+        getSpaceToBottom({
+          rootElem,
+          pageYOffset,
+        }),
+        getVisibleSpaceToBottom(elem)
+      )
 
       let direction = directionProp
       if (!direction || direction === 'auto') {
