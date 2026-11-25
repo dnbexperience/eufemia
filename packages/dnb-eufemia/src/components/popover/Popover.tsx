@@ -77,6 +77,8 @@ export default function Popover(props: PopoverProps) {
     hideOutline = false,
     noInnerSpace = false,
     noMaxWidth = false,
+    minHeight,
+    style,
     keepInDOM = false,
     triggerOffset,
     targetElement: externalTargetElement,
@@ -367,6 +369,7 @@ export default function Popover(props: PopoverProps) {
     }
 
     const timers: Array<ReturnType<typeof setTimeout>> = []
+    let focusAnimationFrame: number | undefined
 
     const focusContent = () => {
       const focusTarget =
@@ -379,6 +382,10 @@ export default function Popover(props: PopoverProps) {
       }
 
       focusTarget.focus({ preventScroll: true })
+
+      if (!focusTarget.contains(document.activeElement)) {
+        return false
+      }
 
       timers.push(
         setTimeout(() => {
@@ -393,21 +400,25 @@ export default function Popover(props: PopoverProps) {
       return true
     }
 
-    const scheduleFocusAttempt = (delay: number, retries: number) => {
-      timers.push(
-        setTimeout(() => {
-          if (!focusContent() && retries > 0) {
-            scheduleFocusAttempt(delay, retries - 1)
-          }
-        }, delay)
-      )
+    const scheduleFocusAttempt = (retries: number) => {
+      focusAnimationFrame = requestAnimationFrame(() => {
+        if (!focusContent() && retries > 0) {
+          scheduleFocusAttempt(retries - 1)
+        }
+      })
     }
 
     if (!focusContent()) {
-      scheduleFocusAttempt(10, 3) // Wait until the Popover is rendered
+      // Wait for inherited visibility to allow the content to receive focus.
+      scheduleFocusAttempt(20)
     }
 
-    return () => timers.forEach(clearTimeout)
+    return () => {
+      timers.forEach(clearTimeout)
+      if (focusAnimationFrame !== undefined) {
+        cancelAnimationFrame(focusAnimationFrame)
+      }
+    }
   }, [focusOnOpen, isOpen, resolveFocusTarget, onFocusComplete])
 
   useOutsideClick({
@@ -655,6 +666,13 @@ export default function Popover(props: PopoverProps) {
   const popoverAttributes: HTMLAttributes<HTMLElement> = {
     ...(restAttributes as HTMLAttributes<HTMLElement>),
     className: popoverClassName,
+    style:
+      minHeight === undefined
+        ? style
+        : {
+            ...style,
+            minHeight: `min(${Math.max(0, parseFloat(String(minHeight)) || 0)}rem, var(--popover-available-height, 100vh))`,
+          },
   }
 
   const contentRef = externalContentRef || tooltipRef

@@ -21,6 +21,10 @@ import { Popover } from '@dnb/eufemia'
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/popover)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/popover)
 
+### Available height
+
+The surface exposes `--popover-available-height`, the space available on its resolved side of the trigger. It accounts for the trigger offset and viewport margins, and updates when the surface or viewport changes, including when a mobile keyboard opens. Use it in custom content styles to limit height and provide scrolling when needed. Popover itself keeps its content's natural height unless you opt into a minimum with `minHeight`, for example `minHeight={16}` for 16rem. The minimum shrinks to fit the available space. This sets a minimum, so taller content can still grow beyond it.
+
 ### Accessibility
 
 - Focus moves into the popover body once it opens (similar to TermDefinition). When `restoreFocus` is enabled, closing returns focus to the trigger, including when a controlled `open` prop changes to `false`. If the trigger cannot receive focus, Popover falls back to the element focused when it opened. A click or tap outside closes the popover without moving focus back to the trigger.
