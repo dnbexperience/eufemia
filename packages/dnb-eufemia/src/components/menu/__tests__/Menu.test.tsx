@@ -1,7 +1,8 @@
 import { act } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import postcss from 'postcss'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import Menu from '../Menu'
 
 vi.mock('../../popover/Popover', async () => {
@@ -616,5 +617,54 @@ describe('Menu integration', () => {
 
       expect(await axeComponent(container)).toHaveNoViolations()
     })
+  })
+})
+
+describe('Menu scss', () => {
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
+    expect(css).toMatchSnapshot()
+  })
+
+  // Touch browsers keep :hover on the last tapped action, for example an
+  // accordion trigger that stays visible after it closes. The hover
+  // background must skip touch and keyboard intent, and keyboard focus must
+  // show its outline even while that :hover remains.
+  it('should keep hover styles off and the focus outline on after a tap', () => {
+    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
+    const rules: Array<{ media?: string; selector: string }> = []
+
+    postcss.parse(css).walkRules((rule) => {
+      const parent = rule.parent as postcss.AtRule
+      for (const selector of rule.selectors) {
+        if (/\.dnb-menu__action:(hover|focus)/.test(selector)) {
+          rules.push({
+            ...(parent.type === 'atrule' && { media: parent.params }),
+            selector: selector.replace(/\s+/g, ' '),
+          })
+        }
+      }
+    })
+
+    expect(rules).toEqual([
+      {
+        selector:
+          'html[data-whatinput=keyboard] .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled):not(:hover):not(:active)',
+      },
+      {
+        media: '(forced-colors: active)',
+        selector:
+          'html[data-whatinput=keyboard] .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled)',
+      },
+      {
+        selector:
+          'html[data-whatinput=keyboard]:where(:not([data-whatintent=mouse])) .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled):not(:active)',
+      },
+      {
+        media: '(any-hover: hover)',
+        selector:
+          '.dnb-menu__action:hover:not(.dnb-menu__action--disabled):not(:where(html[data-whatintent=touch] *, html[data-whatintent=keyboard] *))',
+      },
+    ])
   })
 })

@@ -1,0 +1,180 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Menu scss > has to match style dependencies css 1`] = `
+"/*
+ * Utilities
+ */
+.dnb-menu {
+  --menu-action-padding-inline: 1rem;
+  --menu-action-padding-block: 1rem;
+  --menu-action-gap: 0.5rem;
+  --menu-action-min-height: 3.5rem;
+  --menu-action-border-radius: var(--token-radius-sm);
+  --menu-action-background-color: transparent;
+  --menu-action-background-color--hover: var(
+    --token-color-background-neutral-subtle
+  );
+  --menu-action-background-color--active: var(
+    --token-color-background-neutral-base
+  );
+  --menu-action-background-color--active-trigger: var(
+    --token-color-background-neutral-subtle
+  );
+  --menu-action-text-color: var(--token-color-text-neutral);
+  --menu-action-text-color--disabled: var(
+    --token-color-text-action-disabled
+  );
+  --menu-action-icon-color: var(--token-color-icon-neutral);
+  --menu-action-icon-color--disabled: var(
+    --token-color-icon-action-disabled
+  );
+  --menu-divider-color: var(--token-color-stroke-neutral-subtle);
+  --menu-content-padding: 0rem;
+}
+.dnb-menu.dnb-popover {
+  min-width: auto;
+  box-shadow: var(--shadow-sharp);
+}
+.dnb-menu .dnb-menu.dnb-popover {
+  box-shadow: var(--shadow-default);
+}
+.dnb-menu__popover-content {
+  padding: 0;
+}
+.dnb-menu__list {
+  margin: 0;
+  padding: var(--menu-content-padding);
+  list-style: none;
+}
+.dnb-menu__list .dnb-menu__list {
+  white-space: nowrap;
+}
+.dnb-menu__list .dnb-menu .dnb-menu__popover-content {
+  padding: 0.5rem;
+}
+.dnb-menu__action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--menu-action-gap);
+  min-height: var(--menu-action-min-height);
+  padding: var(--menu-action-padding-block) var(--menu-action-padding-inline);
+  border: none;
+  border-radius: var(--menu-action-border-radius);
+  font-family: inherit;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  color: var(--menu-action-text-color);
+  text-decoration: none;
+  background-color: var(--menu-action-background-color);
+  cursor: pointer;
+  outline: none;
+}
+.dnb-menu__action__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--menu-action-icon-color);
+}
+.dnb-menu__action__text {
+  flex: 1;
+  text-align: start;
+}
+html[data-whatinput=keyboard] .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled):not(:hover):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: calc(-1 * var(--focus-outline-width));
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled) {
+    outline: var(--focus-outline-width) solid CanvasText;
+    outline-offset: calc(-1 * var(--focus-outline-width));
+  }
+}
+html[data-whatinput=keyboard]:where(:not([data-whatintent=mouse])) .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: calc(-1 * var(--focus-outline-width));
+}
+@media (any-hover: hover) {
+  .dnb-menu__action:hover:not(.dnb-menu__action--disabled):not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) {
+    background-color: var(--menu-action-background-color--hover);
+  }
+}
+.dnb-menu__action:active:not(.dnb-menu__action--disabled) {
+  background-color: var(--menu-action-background-color--active);
+}
+.dnb-menu__action--active-trigger {
+  background-color: var(--menu-action-background-color--active-trigger);
+}
+.dnb-menu__action--disabled {
+  color: var(--menu-action-text-color--disabled);
+  cursor: not-allowed;
+}
+.dnb-menu__action--disabled .dnb-menu__action__icon {
+  color: var(--menu-action-icon-color--disabled);
+}
+.dnb-menu__action--link {
+  padding: 0;
+}
+.dnb-menu__action--link .dnb-menu__action__link {
+  display: flex;
+  align-items: center;
+  gap: var(--menu-action-gap);
+  width: 100%;
+  padding: var(--menu-action-padding-block) var(--menu-action-padding-inline);
+  text-decoration: none;
+  color: inherit;
+}
+.dnb-menu__action--has-submenu .dnb-menu__action__submenu-indicator {
+  margin-inline-start: auto;
+  padding-inline-start: var(--menu-action-gap);
+}
+.dnb-menu__divider {
+  height: 0.0625rem;
+  margin: var(--menu-content-padding) var(--menu-action-padding-inline);
+  background-color: var(--menu-divider-color);
+}
+.dnb-menu__header {
+  padding: var(--menu-action-padding-block) var(--menu-action-padding-inline);
+  padding-block-end: 0.25rem;
+  list-style: none;
+}
+.dnb-menu__header__text {
+  display: block;
+}
+.dnb-menu__accordion {
+  list-style: none;
+}
+.dnb-menu__accordion--open > .dnb-menu__accordion__trigger {
+  background-color: var(--menu-action-background-color--active-trigger);
+}
+.dnb-menu__accordion--disabled > .dnb-menu__accordion__trigger {
+  color: var(--menu-action-text-color--disabled);
+  cursor: not-allowed;
+}
+.dnb-menu__accordion--disabled > .dnb-menu__accordion__trigger .dnb-menu__action__icon {
+  color: var(--menu-action-icon-color--disabled);
+}
+.dnb-menu__accordion__indicator {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  padding-inline-start: var(--menu-action-gap);
+}
+.dnb-menu__accordion--open > .dnb-menu__accordion__trigger .dnb-menu__accordion__indicator .dnb-icon {
+  --icon-transition: var(
+    --icon-transition-expanded,
+    var(--icon-transition-default)
+  );
+}
+.dnb-menu__accordion .dnb-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-inline-start: var(--menu-action-padding-inline);
+}
+.dnb-menu__accordion > .dnb-height-animation > .dnb-menu__list {
+  padding-top: 0.25rem;
+}"
+`;
