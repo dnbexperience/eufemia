@@ -110,8 +110,12 @@
 
     // Touch browsers keep :hover on the last tapped element
     @media (any-hover: hover) {
-      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-        &:has(a[aria-current]:hover)
+      &:has(a[aria-current]:hover):not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        )
         .dnb-table-of-content__marker {
         box-shadow: inset 0 0 0 0.0625rem
           var(--token-color-stroke-action-alternative);
@@ -163,8 +167,12 @@
     overflow-wrap: anywhere;
 
     @media (any-hover: hover) {
-      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-        &:hover {
+      &:hover:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ) {
         text-decoration: underline;
       }
     }
@@ -199,8 +207,12 @@
     }
 
     @media (any-hover: hover) {
-      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-        &:hover {
+      &:hover:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ) {
         color: var(--token-color-text-neutral);
       }
     }
