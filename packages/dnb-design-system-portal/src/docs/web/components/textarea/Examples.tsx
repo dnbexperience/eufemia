@@ -70,9 +70,9 @@ export const CharacterCounter = () => (
 
 export const CharacterCounterExceeded = () => (
   <Wrapper>
-    <ComponentBox>
+    <ComponentBox data-visual-test="textarea-character-counter-exceeded">
       <Textarea
-        label="Count characters"
+        label="Describe your request"
         autoResize
         value="This text is longer than the limit allows"
         characterCounter={30}

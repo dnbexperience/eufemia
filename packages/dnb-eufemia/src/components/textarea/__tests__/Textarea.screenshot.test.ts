@@ -34,6 +34,17 @@ describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
       })
     })
 
+    it('have to match exceeded character counter', async () => {
+      await makeScreenshot({
+        style,
+        selector:
+          '[data-visual-test="textarea-character-counter-exceeded"]',
+        // Only for screenshot testing - make textarea having same width on linux chromium
+        styleSelector:
+          '[data-visual-test="textarea-character-counter-exceeded"] textarea',
+      })
+    })
+
     it('have to match the default error textarea style', async () => {
       await makeScreenshot({
         style,
