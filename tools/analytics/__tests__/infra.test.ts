@@ -375,7 +375,6 @@ describe('analytics infrastructure', () => {
         )
       ).toEqual([
         `arn:aws:iam::\${data.aws_caller_identity.current.account_id}:policy/tooling/${policy}`,
-        'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
       ])
       expect(lambdaBlock).toMatch(
         new RegExp(`^\\s+role\\s+=\\s+aws_iam_role\\.${role}\\.arn$`, 'm')
