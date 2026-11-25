@@ -15,7 +15,7 @@ describe.each(['light', 'dark'] as const)(
       colorScheme,
     })
 
-    it.each(['hover', 'keyboard focus'] as const)(
+    it.each(['hover', 'keyboard focus while hovered'] as const)(
       'shows the card menu on %s',
       async (state) => {
         await makeScreenshot({
