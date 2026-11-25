@@ -3,6 +3,7 @@
 import type { ComponentType } from 'react'
 import { renderToString } from 'react-dom/server'
 import SharedProvider from '../../../../shared/Provider'
+import { createSharedState } from '../../../../shared/helpers/useSharedState'
 import FieldBlock from '../FieldBlock'
 import { Form, Field } from '../../'
 import { useFieldProps } from '../../hooks'
@@ -173,6 +174,20 @@ describe('FieldBlock SSR', () => {
     )
 
     expect(html).not.toContain('Message for user A')
+  })
+
+  it('should not write the props of a standalone field to the process-wide store', () => {
+    renderToString(
+      <Field.String
+        id="ssr-handoff-standalone"
+        label="Label"
+        info="Info text"
+      />
+    )
+
+    expect(
+      createSharedState('field-block-props-ssr-handoff-standalone').get()
+    ).toBeUndefined()
   })
 
   it('should render the label and messages of a field', () => {
