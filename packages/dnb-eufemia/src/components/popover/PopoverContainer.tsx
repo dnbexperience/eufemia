@@ -831,7 +831,12 @@ function PopoverContainer(props: PopoverContainerProps) {
     }
 
     computedStyle.left = actualLeft - marginLeft
-    computedStyle.top = nextTop
+    // Keep the edge beside the trigger anchored as content changes height.
+    // Translate composes with the opening animation's transform.
+    computedStyle.top =
+      placementKey === 'top' ? nextTop + elementHeight : nextTop
+    computedStyle.translate =
+      placementKey === 'top' ? '0 -100%' : undefined
 
     const actualTop = nextTop
 

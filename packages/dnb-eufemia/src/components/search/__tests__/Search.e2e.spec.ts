@@ -681,8 +681,11 @@ test('panel uses available height above and below the input and resizes with the
 test('fixed panel stays anchored on every scroll frame', async ({
   page,
 }) => {
+  await page.goto(
+    '/web/components/search/demos/?fullscreen&data-visual-test'
+  )
   const search = page.locator(
-    '[data-testid="search-panel-compact"] .dnb-search'
+    '[data-testid="search-panel-fixed"] .dnb-search'
   )
   await search.evaluate((element: HTMLElement) => {
     Object.assign(element.style, {
@@ -700,7 +703,7 @@ test('fixed panel stays anchored on every scroll frame', async ({
   await expect(panel).toHaveClass(/dnb-popover--fixed/)
   const gaps = await panel.evaluate(async (element) => {
     const input = document.querySelector(
-      '[data-testid="search-panel-compact"] input'
+      '[data-testid="search-panel-fixed"] input'
     )
     const gaps: number[] = []
 
@@ -906,7 +909,43 @@ test('panel reveals keyboard results when controls fill a short viewport', async
   expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
 })
 
-test('panel category changes settle without resize observer errors', async ({
+test('panel stays closed when neither side has its minimum space', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 844, height: 200 })
+  const search = page.locator('[data-testid="search-panel"] .dnb-search')
+  const input = search.getByRole('combobox')
+  await search.evaluate((element: HTMLElement) => {
+    Object.assign(element.style, {
+      position: 'fixed',
+      top: '100px',
+      left: '24px',
+    })
+    window['expandedFrames'] = []
+    const record = () => {
+      window['expandedFrames'].push(
+        element.querySelector('input').getAttribute('aria-expanded')
+      )
+      requestAnimationFrame(record)
+    }
+    requestAnimationFrame(record)
+  })
+  await input.focus()
+  await input.pressSequentially('che')
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      })
+  )
+  expect(
+    await page.evaluate(() => window['expandedFrames'])
+  ).not.toContain('true')
+  await expect(input).toHaveAttribute('aria-expanded', 'false')
+  await expect(input).toBeFocused()
+})
+
+test('panel height changes stay anchored above without resize observer errors', async ({
   page,
 }) => {
   await page.evaluate(() => {
@@ -917,8 +956,37 @@ test('panel category changes settle without resize observer errors', async ({
       }
     })
   })
+  await page.setViewportSize({ width: 900, height: 900 })
   const input = page.locator('[data-testid="search-panel"] input')
+  await input.evaluate((element) => {
+    document.querySelector<HTMLElement>('main').style.paddingBottom =
+      '100vh'
+    window.scrollBy(0, element.getBoundingClientRect().top - 650)
+  })
   await input.focus()
+  const panel = page.locator('.dnb-search__panel')
+  await waitForPanelAnimation(panel.getByRole('listbox'))
+  expect((await panel.boundingBox()).y).toBeLessThan(
+    (await input.boundingBox()).y
+  )
+  await panel.evaluate((element) => {
+    const input = document.querySelector(
+      '[data-testid="search-panel"] input'
+    )
+    window['panelGaps'] = []
+    window['recordPanelGaps'] = true
+    const record = () => {
+      if (!window['recordPanelGaps']) {
+        return
+      }
+      window['panelGaps'].push(
+        input.getBoundingClientRect().top -
+          element.getBoundingClientRect().bottom
+      )
+      requestAnimationFrame(record)
+    }
+    requestAnimationFrame(record)
+  })
   const all = page.getByRole('radio', { name: 'All', exact: true })
   const components = page.getByRole('radio', {
     name: 'Components',
@@ -928,6 +996,9 @@ test('panel category changes settle without resize observer errors', async ({
     name: 'Guidance',
     exact: true,
   })
+  await input.pressSequentially('che')
+  await input.press('Backspace')
+  await input.press('Backspace')
   await input.fill('a')
   for (let index = 0; index < 8; index++) {
     await components.click()
@@ -945,6 +1016,13 @@ test('panel category changes settle without resize observer errors', async ({
         requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
       })
   )
+  const gaps = await page.evaluate(() => {
+    window['recordPanelGaps'] = false
+    return window['panelGaps'] as number[]
+  })
+  expect(gaps.length).toBeGreaterThan(0)
+  expect(Math.min(...gaps)).toBeGreaterThanOrEqual(7)
+  expect(Math.max(...gaps)).toBeLessThanOrEqual(9)
   expect(await page.evaluate(() => window['resizeErrors'])).toEqual([])
 })
 

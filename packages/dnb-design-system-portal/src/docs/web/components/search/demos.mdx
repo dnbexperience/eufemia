@@ -8,6 +8,7 @@ import {
   SearchCompact,
   SearchPanel,
   SearchAsync,
+  SearchFixedPanel,
 } from 'Docs/web/components/search/Examples'
 
 ## Demos
@@ -51,3 +52,9 @@ Both Search.Autocomplete and Search.Panel support `mode="async"`. These examples
 The `onType` callback receives the same result and loading methods as Autocomplete. For remote results, see [loading data asynchronously](/web/components/autocomplete/events#dynamically-change-data). Ignore outdated responses when a newer query is typed or the input is cleared.
 
 <SearchAsync />
+
+<VisibleWhenVisualTest>
+  <div data-testid="search-panel-fixed">
+    <SearchFixedPanel />
+  </div>
+</VisibleWhenVisualTest>

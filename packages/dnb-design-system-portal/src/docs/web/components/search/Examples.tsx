@@ -141,13 +141,22 @@ export const SearchCompact = () => (
           variant="compact"
           shortcut
           label="Search components in a panel"
-          popoverProps={{ fixedPosition: true }}
           panelDescription="Use the arrow keys to navigate search results."
           data={['Button', 'Input', 'Table']}
         />
       </Flex.Stack>
     </Flex.Stack>
   </ComponentBox>
+)
+
+export const SearchFixedPanel = () => (
+  <Search.Panel
+    variant="compact"
+    label="Search components in a fixed panel"
+    popoverProps={{ fixedPosition: true }}
+    panelDescription="Use the arrow keys to navigate search results."
+    data={['Button', 'Input', 'Table']}
+  />
 )
 
 export const SearchAsync = () => (

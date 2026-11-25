@@ -4592,8 +4592,8 @@ describe('Popover', () => {
       const popover = document.querySelector('.dnb-popover') as HTMLElement
       expect(popover).toBeInTheDocument()
 
-      const top = parseFloat(popover.style.top || '0')
-      expect(top).toBeLessThan(80)
+      expect(popover.style.top).toBe('130px')
+      expect(popover.style.translate).toBe('0 -100%')
     })
 
     cleanup()

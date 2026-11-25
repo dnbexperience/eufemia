@@ -10,6 +10,7 @@ import { combineDescribedBy } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import useSearchProps, { getSearchOptions } from './useSearchProps'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import getAvailableSpace from '../../shared/helpers/getAvailableSpace'
 
 const interactiveSelector =
   'a[href], button, input, select, textarea, label, summary, [contenteditable]:not([contenteditable="false"]), [tabindex]:not([tabindex="-1"])'
@@ -198,8 +199,33 @@ function SearchPanelSurface({
   }, [open, nestedInteractionRef])
 
   useIsomorphicLayoutEffect(() => {
+    const input = inputRef.current
+    if (!open || !input) {
+      return undefined
+    }
+
+    const minimumSurfaceHeight =
+      7 *
+      parseFloat(
+        getComputedStyle(input.ownerDocument.documentElement).fontSize
+      )
+    const { above, below } = getAvailableSpace(
+      input.getBoundingClientRect(),
+      { margin: 16, offset: props.triggerOffset }
+    )
+    const initialAvailableHeight =
+      props.autoAlignMode === 'never'
+        ? props.placement === 'top'
+          ? above
+          : below
+        : Math.max(above, below)
+    if (initialAvailableHeight < minimumSurfaceHeight) {
+      close()
+      return undefined
+    }
+
     const surface = contentRef.current
-    if (!open || !surface) {
+    if (!surface) {
       return undefined
     }
 
@@ -217,11 +243,6 @@ function SearchPanelSurface({
           '--popover-available-height'
         )
       )
-      const minimumSurfaceHeight =
-        7 *
-        parseFloat(
-          getComputedStyle(surface.ownerDocument.documentElement).fontSize
-        )
       if (checkSpace && availableHeight < minimumSurfaceHeight) {
         close()
         return
@@ -256,7 +277,16 @@ function SearchPanelSurface({
       cancelAnimationFrame(frame)
       observer.disconnect()
     }
-  }, [open, close, contentRef, props.children])
+  }, [
+    open,
+    close,
+    contentRef,
+    inputRef,
+    props.children,
+    props.triggerOffset,
+    props.autoAlignMode,
+    props.placement,
+  ])
 
   useEffect(() => {
     const input = inputRef.current
