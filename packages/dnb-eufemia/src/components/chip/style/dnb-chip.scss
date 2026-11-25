@@ -108,8 +108,12 @@
     // Touch browsers keep :hover on the last tapped element
     @include chipState(':not(:disabled):hover', ':not(:disabled):hover') {
       @media (any-hover: hover) {
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-          & {
+        &:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ) {
           --chip-border: var(
             --chip-hover-border,
             var(--token-color-stroke-action-hover)
@@ -139,8 +143,12 @@
       "[aria-pressed='true']:not(:disabled):hover"
     ) {
       @media (any-hover: hover) {
-        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-          & {
+        &:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ) {
           --chip-control-selected-border: var(--chip-control-border);
           --chip-action-background: var(
             --token-color-background-action-hover
@@ -291,8 +299,12 @@
     }
 
     @media (any-hover: hover) {
-      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-        &:hover {
+      &:hover:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ) {
         --chip-border: var(
           --token-color-component-button-stroke-action-destructive-hover
         );
@@ -300,8 +312,12 @@
     }
 
     @media (any-hover: hover) {
-      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-        &[aria-pressed='true']:hover {
+      &[aria-pressed='true']:hover:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ) {
         --chip-background: var(
           --token-color-component-button-background-action-destructive-hover-subtle
         );
@@ -427,8 +443,12 @@
         }
 
         @media (any-hover: hover) {
-          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-            &:has(input:hover) {
+          &:has(input:hover):not(
+              :where(
+                html[data-whatintent='touch'] *,
+                html[data-whatintent='keyboard'] *
+              )
+            ) {
             --chip-control-border-width: 0.125rem;
             --chip-border: var(
               --token-color-component-button-stroke-action-destructive-hover
@@ -447,8 +467,12 @@
         }
 
         @media (any-hover: hover) {
-          html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-            &:has(input:checked:hover) {
+          &:has(input:checked:hover):not(
+              :where(
+                html[data-whatintent='touch'] *,
+                html[data-whatintent='keyboard'] *
+              )
+            ) {
             --chip-background: var(
               --token-color-component-button-background-action-destructive-hover-subtle
             );
