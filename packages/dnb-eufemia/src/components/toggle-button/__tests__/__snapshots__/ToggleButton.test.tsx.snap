@@ -1779,7 +1779,8 @@ button.dnb-button::-moz-focus-inner {
   /** Hover state **/
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-checkbox__input:not([disabled]):hover:not(:active) ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:not([disabled]):hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-checkbox__button {
     --checkbox-color-border: var(--checkbox-color-border--hover);
     --checkbox-border-width: var(--checkbox-border-width--hover);
     --checkbox-border-inset: var(--checkbox-border-inset--hover);
@@ -1787,12 +1788,15 @@ button.dnb-button::-moz-focus-inner {
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-checkbox__input:not([disabled]):hover:not(:active) ~ .dnb-checkbox__gfx {
+  .dnb-checkbox__input:not([disabled]):hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-checkbox__gfx {
     color: var(--checkbox-color-gfx--hover);
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-checkbox__input:not([disabled]):checked:hover:not(:active) ~ .dnb-checkbox__button, html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-checkbox__input:not([disabled])[data-checked=true]:hover:not(:active) ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:not([disabled]):checked:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-checkbox__button {
     --checkbox-color-border: var(--checkbox-color-border--hover);
     --checkbox-border-width: var(--checkbox-border-width--hover);
     --checkbox-border-inset: var(--checkbox-border-inset--hover);
@@ -1800,7 +1804,8 @@ button.dnb-button::-moz-focus-inner {
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active) ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-checkbox__button {
     --checkbox-color-border: var(
       --checkbox-color-border__indeterminate--hover
     );
@@ -1808,12 +1813,14 @@ button.dnb-button::-moz-focus-inner {
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active) ~ .dnb-checkbox__indeterminate {
+  .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-checkbox__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--hover);
   }
 }
 @media (any-hover: hover) {
-  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:active) ~ .dnb-checkbox__gfx {
+  .dnb-checkbox__input:not([disabled]):indeterminate:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-checkbox__gfx {
     color: transparent;
   }
 }
