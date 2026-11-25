@@ -52,8 +52,8 @@ const normalize = (value: string) =>
   value.replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')')
 
 describe('List scss', () => {
-  // Touch browsers keep :hover on the last tapped element, so the rules in
-  // (hover: none) show the outline on a tapped item too
+  // Touch browsers keep :hover on the last tapped element, so the rules for
+  // an intent other than mouse show the outline on a tapped item too
   it('should show the outline of a focused item in browsers without :has()', () => {
     expect(getFallbackRules()).toEqual([
       {
@@ -69,14 +69,12 @@ describe('List scss', () => {
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus-visible:where(:not(:active))::before',
-        media: '(hover: none)',
+          'html:not([data-whatintent=mouse]) .dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus-visible:where(:not(:active))::before',
       },
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus-visible:where(:not(:active))::before',
-        media: '(hover: none)',
+          'html:not([data-whatintent=mouse]) .dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus-visible:where(:not(:active))::before',
       },
       {
         condition: withoutFocusVisible,
@@ -91,14 +89,12 @@ describe('List scss', () => {
       {
         condition: withoutFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus:not(:active)::before',
-        media: '(hover: none)',
+          'html:not([data-whatintent=mouse]) .dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus:not(:active)::before',
       },
       {
         condition: withoutFocusVisible,
         selector:
-          '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus:not(:active)::before',
-        media: '(hover: none)',
+          'html:not([data-whatintent=mouse]) .dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus:not(:active)::before',
       },
       {
         condition: withFocusVisible,
@@ -108,8 +104,7 @@ describe('List scss', () => {
       {
         condition: withFocusVisible,
         selector:
-          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus-visible:where(:not(:active))::before',
-        media: '(hover: none)',
+          'html:not([data-whatintent=mouse]) .dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus-visible:where(:not(:active))::before',
       },
       {
         condition: withoutFocusVisible,
@@ -119,8 +114,7 @@ describe('List scss', () => {
       {
         condition: withoutFocusVisible,
         selector:
-          '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus:not(:active)::before',
-        media: '(hover: none)',
+          'html:not([data-whatintent=mouse]) .dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus:not(:active)::before',
       },
     ])
   })
