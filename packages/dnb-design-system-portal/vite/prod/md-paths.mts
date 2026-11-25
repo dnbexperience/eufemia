@@ -12,8 +12,9 @@ import path from 'node:path'
 /**
  * Tab pages have no markdown copy of their own — their content is part of
  * the entry one level up. These are exactly the names findEntryMdxFiles in
- * eufemia-llm-metadata excludes when it picks entries, which is what makes
- * the list complete: a page may declare any tab names it likes through its
+ * eufemia-llm-metadata excludes when it picks entries (`overview` only when
+ * it is a first tab without a title of its own), which is what makes the
+ * list complete: a page may declare any tab names it likes through its
  * `tabs` frontmatter, but any other name is treated as an entry, so such a
  * page advertises its own copy when one was written and nothing when it was
  * not. Either way it needs no fallback to its parent.
@@ -23,7 +24,7 @@ import path from 'node:path'
  * instead of their own — a link that resolves, so the build's link check
  * cannot catch it.
  */
-const TAB_SEGMENTS = new Set(['info', 'demos', 'properties', 'events'])
+const TAB_SEGMENTS = new Set(['overview', 'demos', 'properties', 'events'])
 
 /**
  * Resolve the markdown alternate link path for a URL, or null when the page

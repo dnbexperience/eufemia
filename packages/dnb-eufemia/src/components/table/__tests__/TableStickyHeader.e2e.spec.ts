@@ -26,7 +26,9 @@ test.describe('Table sticky header with minified CSS', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 600, height: 720 })
     await page.goto('/web/components/table/visual-tests/sticky-header/')
-    await expect(page.locator('thead tr')).toHaveClass(/page-scroll/)
+    await expect(page.locator('thead tr')).toHaveAttribute(
+      'data-page-scroll'
+    )
     await page.addStyleTag({ content: stickyCss })
   })
 
@@ -110,28 +112,23 @@ test.describe('Table sticky header with minified CSS', () => {
       }
     })
 
-    // The existing JavaScript fallback keeps its previous offset at the end.
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (supportsTimeline) {
-      await test.step('stops at the last table row', async () => {
-        await table.evaluate((element) => {
-          window.scrollTo(
-            0,
-            element.getBoundingClientRect().bottom + window.scrollY + 100
-          )
-        })
-        // eslint-disable-next-line playwright/no-conditional-expect
-        await expect
-          .poll(() =>
-            table.evaluate(
-              (element) =>
-                element.querySelector('thead tr').getBoundingClientRect()
-                  .bottom - element.getBoundingClientRect().bottom
-            )
-          )
-          .toBeCloseTo(0, 0)
+    await test.step('stops at the last table row', async () => {
+      await table.evaluate((element) => {
+        window.scrollTo(
+          0,
+          element.getBoundingClientRect().bottom + window.scrollY + 100
+        )
       })
-    }
+      await expect
+        .poll(() =>
+          table.evaluate(
+            (element) =>
+              element.querySelector('thead tr').getBoundingClientRect()
+                .bottom - element.getBoundingClientRect().bottom
+          )
+        )
+        .toBeCloseTo(0, 0)
+    })
   })
 
   test('updates the scroll range after layout changes and clears it when switching modes', async ({
@@ -151,22 +148,22 @@ test.describe('Table sticky header with minified CSS', () => {
       .getByRole('button', { name: 'Toggle internal scroll' })
       .click()
     await page.setViewportSize({ width: 601, height: 720 })
-    await expect(header).not.toHaveClass(/page-scroll/)
+    await expect(header).not.toHaveAttribute('data-page-scroll')
     await expect(header).not.toHaveAttribute('style', /--table-scroll-/)
 
     await page
       .getByRole('button', { name: 'Toggle internal scroll' })
       .click()
     await page.setViewportSize({ width: 600, height: 720 })
-    await expect(header).toHaveClass(/page-scroll/)
+    await expect(header).toHaveAttribute('data-page-scroll')
 
     await page.getByRole('button', { name: 'Use CSS position' }).click()
-    await expect(header).toHaveClass(/css-position/)
-    await expect(header).not.toHaveClass(/page-scroll/)
+    await expect(header).toHaveAttribute('data-sticky', 'css-position')
+    await expect(header).not.toHaveAttribute('data-page-scroll')
     await expect(header).not.toHaveAttribute('style', /--table-scroll-/)
 
     await page.getByRole('button', { name: 'Toggle sticky' }).click()
-    await expect(header).not.toHaveClass(/sticky/)
+    await expect(header).not.toHaveAttribute('data-sticky')
     await expect(header).not.toHaveAttribute('style', /--table-/)
   })
 
@@ -188,7 +185,7 @@ test.describe('Table sticky header with minified CSS', () => {
     await page.emulateMedia({ media: 'screen' })
 
     await page.evaluate(() => window.scrollTo(0, 700))
-    await expect(header).toHaveClass(/is-sticky/)
+    await expect(header).toHaveAttribute('data-is-sticky')
     await expect.poll(headerOffset).toBeGreaterThan(0)
 
     await page.emulateMedia({ media: 'print' })

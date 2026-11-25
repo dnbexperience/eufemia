@@ -155,9 +155,17 @@
     @include anchorFocusStyle();
   }
 
-  &:hover {
-    @include notNoHover() {
-      @include anchorHoverStyle();
+  // Touch browsers keep :hover on the last tapped element
+  @media (any-hover: hover) {
+    &:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ) {
+      @include notNoHover() {
+        @include anchorHoverStyle();
+      }
     }
   }
 

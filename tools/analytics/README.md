@@ -105,7 +105,7 @@ The internal deployment repository holds two origin secrets, each matching a val
 
 ### Lambda execution roles
 
-The deploy creates the three Lambda execution roles with the OIDC permissions boundary. Each gets basic Lambda logging plus one policy from the OIDC federation repo, and the deploy role may attach no others:
+The deploy creates the three Lambda execution roles with the OIDC permissions boundary. Each gets one policy from the OIDC federation repo, and the deploy role may attach no others. That policy also allows writes to the role's own Lambda log group, which Terraform creates:
 
 - `eufemia-<env>-analytics-lambda` (ingest): `eufemia-<env>-analytics-collect` (`s3:PutObject` on the data bucket's `portal-views/*` and `mcp-usage/*` prefixes).
 - `eufemia-<env>-analytics-snapshot-lambda` (snapshot generator): `eufemia-<env>-analytics-snapshot-build` (`s3:GetObject` only on the `portal-views/*`, `portal-views-daily/*`, `mcp-usage/*`, `mcp-usage-daily/*`, `component-usage/*`, `component-usage-daily/*` and `athena-results/*` prefixes, and `s3:ListBucket` limited to the same prefixes by an `s3:prefix` condition; `s3:PutObject` only on the three `*-daily/*` prefixes, `athena-results/*` and `snapshots/dashboard.json`; run Athena queries in the workgroup; read the analytics Glue tables).

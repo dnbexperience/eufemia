@@ -11,11 +11,13 @@ import {
   TdEventProperties,
 } from '@dnb/eufemia/src/components/table/TableDocs'
 
-## Table events
+## Events
+
+### Table events
 
 <PropertiesTable props={TableEventProperties} showDefaultValue />
 
-## Table Row `<Tr>` events
+### Table Row `<Tr>` events
 
 Table Row `<Tr>` events are a part of the mode feature and needs to be enabled with the `mode` property on the main Table.
 
@@ -25,7 +27,7 @@ Table with accordion mode(`mode="accordion"`) supports all the `<Tr>` events lis
 
 <PropertiesTable props={TrEventProperties} showDefaultValue />
 
-## Table Data `<Td>` events
+### Table Data `<Td>` events
 
 The `<Td>` `onClick` event renders a native `<button>` inside the cell for accessibility and provides element references in the second argument.
 

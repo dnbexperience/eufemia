@@ -124,6 +124,26 @@ describe('Field.Toggle', () => {
       }
     )
 
+    it.each(['radio', 'buttons', 'radio-button'] as const)(
+      'names the %s group, not each option, with aria-label',
+      (variant) => {
+        render(
+          <Field.Toggle
+            variant={variant}
+            valueOn="on"
+            valueOff="off"
+            aria-label="Consent"
+          />
+        )
+
+        const radiogroup = document.querySelector('[role="radiogroup"]')
+        const options = radiogroup.querySelectorAll('input')
+        expect(radiogroup).toHaveAccessibleName('Consent')
+        expect(options[0]).toHaveAccessibleName('Ja')
+        expect(options[1]).toHaveAccessibleName('Nei')
+      }
+    )
+
     describe('switch', () => {
       it('should support size', () => {
         render(

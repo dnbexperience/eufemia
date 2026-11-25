@@ -32,6 +32,7 @@ import DataContext from '../DataContext/Context'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
+  combineLabelledBy,
   convertJsxToString,
   findElementInChildren,
 } from '../../../shared/component-helper'
@@ -662,11 +663,12 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
         style={mainStyle}
         className={mainClasses}
-        aria-labelledby={
-          enableFieldset && showLabel ? fieldsetLabelledBy : undefined
-        }
         role={enableFieldset ? fieldsetRole : undefined}
         {...rest}
+        aria-labelledby={combineLabelledBy(
+          enableFieldset && showLabel ? fieldsetLabelledBy : null,
+          rest['aria-labelledby']
+        )}
       >
         <div className={gridClasses}>
           {showLabel && (

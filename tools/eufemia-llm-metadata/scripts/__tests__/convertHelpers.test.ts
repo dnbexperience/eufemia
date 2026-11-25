@@ -15,6 +15,7 @@ import {
   extractTitleFromMdx,
   formatUnhandledStandaloneMdxWarnings,
   findUnhandledStandaloneMdxComponents,
+  findEntryMdxFiles,
   findSourceInfo,
   loadTsDocsForDocPath,
   recordUnhandledStandaloneMdxWarning,
@@ -40,8 +41,8 @@ describe('convertMdxToMd', () => {
           '  title: Actions',
           '  description: Menu description',
           'tabs:',
-          '  - title: Info',
-          '    key: /info',
+          '  - title: Overview',
+          '    key: /overview',
           '---',
           '',
           'Button documentation.',
@@ -80,11 +81,11 @@ describe('convertMdxToMd', () => {
     const inputPath = path.join(directory, '../Message.mdx')
     fs.writeFileSync(
       inputPath,
-      "---\ntitle: Chat.Message\n---\n\nimport Info from './Message/info'\n\n<Info />"
+      "---\ntitle: Chat.Message\n---\n\nimport Info from './Message/overview'\n\n<Info />"
     )
     fs.writeFileSync(
-      path.join(directory, 'info.mdx'),
-      '## Description\n\nMessage details.'
+      path.join(directory, 'overview.mdx'),
+      '## Overview\n\nMessage details.'
     )
     try {
       const output = await convertMdxToMd({
@@ -100,7 +101,7 @@ describe('convertMdxToMd', () => {
         'The Chat extension and its component APIs may change in the future.'
       )
       expect(output.indexOf('**Experimental:**')).toBeLessThan(
-        output.indexOf('## Description')
+        output.indexOf('## Overview')
       )
       expect(output).toContain('Message details.')
     } finally {
@@ -448,10 +449,10 @@ describe('convertMdxToMd', () => {
     const sectionDir = path.join(docsRoot, 'components', 'breadcrumb')
     fs.mkdirSync(sectionDir, { recursive: true })
 
-    const infoPath = path.join(sectionDir, 'info.mdx')
+    const overviewPath = path.join(sectionDir, 'overview.mdx')
     fs.writeFileSync(
-      infoPath,
-      ['## Description', '', 'Breadcrumb description.'].join('\n')
+      overviewPath,
+      ['## Overview', '', 'Breadcrumb description.'].join('\n')
     )
 
     const demosPath = path.join(sectionDir, 'demos.mdx')
@@ -464,7 +465,7 @@ describe('convertMdxToMd', () => {
     fs.writeFileSync(
       mdxPath,
       [
-        "import BreadcrumbInfo from 'Docs/components/breadcrumb/info'",
+        "import BreadcrumbInfo from 'Docs/components/breadcrumb/overview'",
         "import BreadcrumbDemos from 'Docs/components/breadcrumb/demos'",
         '',
         '# Breadcrumb',
@@ -483,7 +484,7 @@ describe('convertMdxToMd', () => {
       state: { mdxCache: new Map(), inProgress: new Set() },
     })
 
-    expect(output).toContain('## Description')
+    expect(output).toContain('## Overview')
     expect(output).toContain('Breadcrumb description.')
     expect(output).toContain('## Demos')
     expect(output).toContain('render(<div />)')
@@ -1230,13 +1231,13 @@ describe('convertMdxToMd', () => {
     )
 
     fs.writeFileSync(
-      path.join(componentsDir, 'button', 'info.mdx'),
+      path.join(componentsDir, 'button', 'overview.mdx'),
       [
         '---',
         'showTabs: true',
         '---',
         '',
-        '## Description',
+        '## Overview',
         '',
         'Button description.',
         '',
@@ -1245,7 +1246,7 @@ describe('convertMdxToMd', () => {
     )
 
     const output = await convertMdxToMd({
-      inputPath: path.join(componentsDir, 'button', 'info.mdx'),
+      inputPath: path.join(componentsDir, 'button', 'overview.mdx'),
       docsRoot,
       docsBaseRoot: docsRoot,
       prettierConfig: {},
@@ -1253,7 +1254,7 @@ describe('convertMdxToMd', () => {
       state: { mdxCache: new Map(), inProgress: new Set() },
     })
 
-    expect(output).toContain('## Related components')
+    expect(output).toMatch(/^### Related components$/m)
     expect(output).toContain(
       'Button is part of the [Actions](/web/components/overview/#actions) category.'
     )
@@ -1300,14 +1301,14 @@ describe('convertMdxToMd', () => {
     }
 
     fs.writeFileSync(
-      path.join(componentsDir, 'current', 'info.mdx'),
+      path.join(componentsDir, 'current', 'overview.mdx'),
       ['---', 'showTabs: true', '---', '', '<RelatedComponents />'].join(
         '\n'
       )
     )
 
     const output = await convertMdxToMd({
-      inputPath: path.join(componentsDir, 'current', 'info.mdx'),
+      inputPath: path.join(componentsDir, 'current', 'overview.mdx'),
       docsRoot,
       docsBaseRoot: docsRoot,
       prettierConfig: {},
@@ -1518,5 +1519,40 @@ describe('findSourceInfo', () => {
     })
 
     expect(info?.fileUrl).toContain(`/blob/${ref}/`)
+  })
+})
+
+describe('findEntryMdxFiles', () => {
+  it('leaves out tabs, but keeps pages named like a tab', async () => {
+    const docsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-entries-'))
+    const write = (file: string, frontmatter: string) => {
+      fs.mkdirSync(path.dirname(path.join(docsRoot, file)), {
+        recursive: true,
+      })
+      fs.writeFileSync(
+        path.join(docsRoot, file),
+        `---\n${frontmatter}\n---\n\nContent.`
+      )
+    }
+
+    try {
+      write('components/button.mdx', 'title: Button\nshowTabs: true')
+      write('components/button/overview.mdx', 'showTabs: true')
+      write('components/button/demos.mdx', 'showTabs: true')
+      write('components/overview.mdx', 'title: Components by category')
+      write('chat/Info.mdx', 'title: Chat.Info\nshowTabs: true')
+
+      const entries = (await findEntryMdxFiles(docsRoot))
+        .map((file) => path.relative(docsRoot, file))
+        .sort()
+
+      expect(entries).toEqual([
+        path.join('chat', 'Info.mdx'),
+        path.join('components', 'button.mdx'),
+        path.join('components', 'overview.mdx'),
+      ])
+    } finally {
+      fs.rmSync(docsRoot, { recursive: true, force: true })
+    }
   })
 })

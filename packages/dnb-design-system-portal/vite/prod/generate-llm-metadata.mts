@@ -88,7 +88,7 @@ async function main() {
       events = mergeDocs(events, await extractTableDocs(eventsFile))
     }
 
-    const { name, description, infoFile } = await resolveMetaText(file)
+    const { name, description, overviewFile } = await resolveMetaText(file)
     const group = rel.split(path.sep)[0] || ''
 
     const sourceInfo = tsDocs.tsDocsDir
@@ -110,7 +110,7 @@ async function main() {
       events,
       related: tsDocs.related,
       sourceInfo,
-      infoFile,
+      overviewFile,
       propsFile,
       eventsFile,
       demosFile,

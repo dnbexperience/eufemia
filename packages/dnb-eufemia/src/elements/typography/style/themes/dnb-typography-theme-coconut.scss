@@ -7,6 +7,10 @@
   font-variant-ligatures: none;
 }
 
+.dnb-t__rebel {
+  font-feature-settings: 'ss01' 1;
+}
+
 @include typography.typographySelectors() {
   --typography-h-xx-large-weight: var(--font-weight-regular);
   --typography-h-x-large-weight: var(--font-weight-regular);

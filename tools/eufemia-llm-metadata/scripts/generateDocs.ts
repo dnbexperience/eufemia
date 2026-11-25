@@ -115,7 +115,7 @@ export async function generateDocs() {
       events = mergeDocs(events, await extractTableDocs(eventsFile))
     }
 
-    const { name, description, infoFile } = await resolveMetaText(file)
+    const { name, description, overviewFile } = await resolveMetaText(file)
     const group = rel.split(path.sep)[0] || ''
     const sourceInfo = tsDocs.tsDocsDir
       ? await findSourceInfo({
@@ -136,7 +136,7 @@ export async function generateDocs() {
       events,
       related: tsDocs.related,
       sourceInfo,
-      infoFile,
+      overviewFile,
       propsFile,
       eventsFile,
       demosFile,

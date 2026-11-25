@@ -38,7 +38,7 @@ vi.mock('fs-extra', async () => {
         return ['component-a', 'component-b']
       }
       if (/\/elements\/?$/.test(source)) {
-        return ['element-a', 'element-b']
+        return ['element-a', 'element-b', 'TypographyRebels']
       }
       if (/\/extensions\/?$/.test(source)) {
         return ['extension-a', 'extension-b']
@@ -275,6 +275,10 @@ describe('prepareTemplates', () => {
       dest2,
       expect.stringContaining(`export { ElementA, ElementB }`)
     )
+
+    for (const [, content] of writeFile.mock.calls) {
+      expect(content).not.toContain('TypographyRebels')
+    }
   })
 
   it('has to write "extensions" files', async () => {

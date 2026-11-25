@@ -11,6 +11,7 @@ import Table from '../../../../shared/tags/Table'
 import Anchor from '../../../../shared/tags/Anchor'
 import { Td, Th, Tooltip, Tr, Card, P, Lead, Flex } from '@dnb/eufemia/src'
 import { Theme, useTheme } from '@dnb/eufemia/src/shared'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import {
@@ -306,8 +307,14 @@ const DarkModeCard = ({
 
 export function DarkModeTokenSwatches() {
   const theme = useTheme()
+
+  // Pages are prerendered in the light color scheme, so the active dark
+  // scheme is shown first only after hydration
+  const canUseDOM = useCanUseDOM()
   const schemes: ColorScheme[] =
-    theme?.colorScheme === 'dark' ? ['dark', 'light'] : ['light', 'dark']
+    canUseDOM && theme?.colorScheme === 'dark'
+      ? ['dark', 'light']
+      : ['light', 'dark']
 
   return (
     <div style={darkModeGridStyle}>

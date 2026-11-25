@@ -425,6 +425,26 @@
       }
     }
 
+    // Touch browsers keep :hover on the last tapped element
+    html:is([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:not(:active) {
+      @include utilities.notFocusVisible() {
+        background-color: transparent;
+      }
+    }
+
+    // Devices that cannot hover show no hover styles at all
+    @media (any-hover: none) {
+      html:not([data-whatintent='mouse'])
+        &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+        .dnb-button:not(:active) {
+        @include utilities.notFocusVisible() {
+          background-color: transparent;
+        }
+      }
+    }
+
     &--preview:not(#{&}--inactive):not(#{&}--outside-month):not(
         #{&}--start-date
       ):not(#{&}--end-date),
@@ -463,22 +483,24 @@
     }
 
     // Hover states for checked date buttons
-    html:not([data-whatintent='touch'])
-      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
-      .dnb-button:hover:not([disabled]),
-    html:not([data-whatintent='touch'])
-      &--start-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]),
-    html:not([data-whatintent='touch'])
-      &--end-date#{&}--within-selection
-      .dnb-button:hover:not([disabled]) {
-      color: var(--token-color-text-action);
-      background-color: var(--token-color-background-neutral);
+    @media (any-hover: hover) {
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+        .dnb-button:hover:not([disabled]),
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &--start-date#{&}--within-selection
+        .dnb-button:hover:not([disabled]),
+      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &--end-date#{&}--within-selection
+        .dnb-button:hover:not([disabled]) {
+        color: var(--token-color-text-action);
+        background-color: var(--token-color-background-neutral);
 
-      @include utilities.fakeBorder(
-        var(--token-color-stroke-action-pressed),
-        0.125rem
-      );
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-pressed),
+          0.125rem
+        );
+      }
     }
 
     // Active states for selected date buttons
@@ -545,9 +567,37 @@
         box-shadow: none;
       }
     }
-    .dnb-button:hover:not(:active) {
+
+    // Touch browsers keep :hover on the last tapped element, so style a
+    // tapped button like one without the mouse over it
+    html:is([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &
+      .dnb-button:not(:active) {
       @include utilities.notFocusVisible() {
-        background-color: var(--token-color-background-neutral);
+        box-shadow: none;
+      }
+    }
+
+    // Devices that cannot hover show no hover styles at all
+    @media (any-hover: none) {
+      html:not([data-whatintent='mouse']) & .dnb-button:not(:active) {
+        @include utilities.notFocusVisible() {
+          box-shadow: none;
+        }
+      }
+    }
+
+    @media (any-hover: hover) {
+      &
+        .dnb-button:hover:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ):not(:active) {
+        @include utilities.notFocusVisible() {
+          background-color: var(--token-color-background-neutral);
+        }
       }
     }
   }

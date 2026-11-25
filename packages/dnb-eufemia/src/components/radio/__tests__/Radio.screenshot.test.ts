@@ -37,6 +37,15 @@ describe.each(['ui', 'sbanken', 'coconut'])(
         })
       })
 
+      it('have to match radio in unchecked state while pressed', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="radio-default"] .dnb-radio',
+          simulateSelector:
+            '[data-visual-test="radio-default"] .dnb-radio__input',
+          simulate: 'active',
+        })
+      })
+
       it('have to match radio in unchecked state with error', async () => {
         await makeScreenshot({
           selector:
@@ -84,6 +93,15 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           simulateSelector:
             '[data-visual-test="radio-checked"] .dnb-radio__input',
           simulate: 'hover',
+        })
+      })
+
+      it('have to match radio in checked state while pressed', async () => {
+        await makeScreenshot({
+          selector: '[data-visual-test="radio-checked"] .dnb-radio',
+          simulateSelector:
+            '[data-visual-test="radio-checked"] .dnb-radio__input',
+          simulate: 'active',
         })
       })
 

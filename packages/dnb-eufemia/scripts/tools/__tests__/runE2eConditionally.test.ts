@@ -86,7 +86,7 @@ it.each([
   LIBRARY + 'src/shared/Context.ts',
   PORTAL + 'src/shared/menu/Header.tsx',
   PORTAL + 'vite.config.ts',
-  PORTAL + 'src/docs/web/components/button/info.mdx',
+  PORTAL + 'src/docs/web/components/button/overview.mdx',
 ])('runs full coverage for shared or unmapped input %s', (file) => {
   expect(run({ changedFiles: [file] }).mode).toBe('all')
 })

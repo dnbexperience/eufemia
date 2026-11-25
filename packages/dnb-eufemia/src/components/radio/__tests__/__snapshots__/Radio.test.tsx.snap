@@ -586,14 +586,20 @@ button .dnb-form-status__text {
 .dnb-radio {
   /** Hover state **/
 }
-.dnb-radio__input:not([disabled]):hover ~ .dnb-radio__button {
-  --radio-border-inset: var(--radio-border-inset--hover);
-  --radio-border-width: var(--radio-border-width--hover);
-  --radio-color-border: var(--radio-color-border--hover);
-  --radio-color-background: var(--radio-color-background--hover);
+@media (any-hover: hover) {
+  .dnb-radio__input:not([disabled]):hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-radio__button {
+    --radio-border-inset: var(--radio-border-inset--hover);
+    --radio-border-width: var(--radio-border-width--hover);
+    --radio-color-border: var(--radio-color-border--hover);
+    --radio-color-background: var(--radio-color-background--hover);
+  }
 }
-.dnb-radio__input:not([disabled]):hover ~ .dnb-radio__dot {
-  --radio-color-dot-on: var(--radio-color-dot-on--hover);
+@media (any-hover: hover) {
+  .dnb-radio__input:not([disabled]):hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-radio__dot {
+    --radio-color-dot-on: var(--radio-color-dot-on--hover);
+  }
 }
 .dnb-radio {
   /** Active state **/

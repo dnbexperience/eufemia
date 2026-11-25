@@ -16,10 +16,10 @@ describe('suggestEdit', () => {
     expect(
       getSuggestEditUrl(
         '/web/components/button/#events',
-        'packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx'
+        'packages/dnb-design-system-portal/src/docs/web/components/button/overview.mdx'
       )
     ).toBe(
-      '/web/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
+      '/web/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Foverview.mdx'
     )
   })
 
@@ -28,7 +28,7 @@ describe('suggestEdit', () => {
       createSuggestEditPrompt({
         pageUrl: 'https://eufemia.dnb.no/web/components/button/#events',
         sourcePath:
-          'packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx',
+          'packages/dnb-design-system-portal/src/docs/web/components/button/overview.mdx',
         requestedChange: 'Clarify when the click event fires.',
         proposedWording: 'The event fires after activation.',
         includeInReleaseNotes: false,
@@ -39,7 +39,7 @@ describe('suggestEdit', () => {
       .toBe(`Use the eufemia-portal-content skill to update this Eufemia portal page and create or update the pull request. If the skill is not available, follow the instructions below directly. Use the Eufemia MCP server for current documentation if it is configured.
 
 Page: https://eufemia.dnb.no/web/components/button/#events
-Source: https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx
+Source: https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-design-system-portal/src/docs/web/components/button/overview.mdx
 
 Requested change:
 Clarify when the click event fires.
@@ -92,14 +92,14 @@ Keep the change focused, preserve the page's MDX structure and formatting, run o
         parseSuggestEditQuery(
           query(
             '/uilib/components/button/#events',
-            'packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx'
+            'packages/dnb-design-system-portal/src/docs/uilib/components/button/overview.mdx'
           )
         )
       ).toEqual({
         page: '/uilib/components/button/#events',
         pageUrl: 'https://eufemia.dnb.no/uilib/components/button/#events',
         sourcePath:
-          'packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx',
+          'packages/dnb-design-system-portal/src/docs/uilib/components/button/overview.mdx',
       })
     })
 

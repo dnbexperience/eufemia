@@ -32,6 +32,7 @@ import { initCounter } from './HeadingCounter'
 import { useTheme, Context } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTypography } from '../../elements/typography/Typography'
+import HeadingContentContext from '../../elements/typography/HeadingContentContext'
 import useHeadingOrder from './useHeadingOrder'
 import type {
   HeadingAllProps,
@@ -266,6 +267,8 @@ export default function Heading(props: HeadingAllProps) {
       className
     ),
   })
+  const renderHeading = useContext(HeadingContentContext)
+  const content = text || text === 0 ? text : children
 
   return (
     <Element {...elementProps} ref={elementRef}>
@@ -282,7 +285,9 @@ export default function Heading(props: HeadingAllProps) {
           )}
         </span>
       )}
-      {text || text === 0 ? text : children}
+      {renderHeading
+        ? renderHeading(content, { family, size, brand: theme?.brand })
+        : content}
     </Element>
   )
 }

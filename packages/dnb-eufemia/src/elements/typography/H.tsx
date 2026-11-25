@@ -19,6 +19,7 @@ import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import useHeadingOrder from '../../components/heading/useHeadingOrder'
 import { useTypography } from './Typography'
+import HeadingContentContext from './HeadingContentContext'
 import type { TypographyProps } from './Typography'
 
 export type HSize = HeadingSize
@@ -56,6 +57,7 @@ const H = (props: HProps) => {
     size,
     className,
     family,
+    children,
     ...rest
   } = useTypography(props)
 
@@ -73,6 +75,7 @@ const H = (props: HProps) => {
     'xx-large'
 
   const context = useContext(Context)
+  const renderHeading = useContext(HeadingContentContext)
 
   return (
     <E
@@ -86,7 +89,15 @@ const H = (props: HProps) => {
       )}
       {...rest}
       ref={elementRef}
-    />
+    >
+      {renderHeading
+        ? renderHeading(children, {
+            family,
+            size: targetSize,
+            brand: theme?.brand,
+          })
+        : children}
+    </E>
   )
 }
 

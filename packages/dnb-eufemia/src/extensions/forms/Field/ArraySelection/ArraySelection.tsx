@@ -20,6 +20,7 @@ import type { CheckboxProps } from '../../../../components/Checkbox'
 import type { ChipProps } from '../../../../components/Chip'
 import ChipGroupContext from '../../../../components/chip/ChipGroupContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import splitGroupNameAttributes from '../../utils/splitGroupNameAttributes'
 
 type OptionProps = ComponentProps<
   (props: {
@@ -107,7 +108,11 @@ function ArraySelection(props: FieldArraySelectionProps) {
     return resolveChildren(children, value, dataList)
   }, [children, dataList, value])
 
+  const { groupNameAttributes, optionAttributes, hasGroupName } =
+    splitGroupNameAttributes(htmlAttributes)
+
   const fieldBlockProps: FieldBlockProps = {
+    ...groupNameAttributes,
     forId: id,
     className: clsx(
       'dnb-forms-field-array-selection',
@@ -120,7 +125,7 @@ function ArraySelection(props: FieldArraySelectionProps) {
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
     disableStatusSummary: true,
-    asFieldset: Boolean(label),
+    asFieldset: Boolean(label) || hasGroupName,
     fieldsetRole: 'group',
     ...pickSpacingProps(props),
   }
@@ -141,7 +146,7 @@ function ArraySelection(props: FieldArraySelectionProps) {
     info,
     warning,
     emptyValue,
-    htmlAttributes,
+    htmlAttributes: optionAttributes,
     dataList: hasRenderPropChildren ? undefined : dataList,
     children: renderedChildren,
     value,
