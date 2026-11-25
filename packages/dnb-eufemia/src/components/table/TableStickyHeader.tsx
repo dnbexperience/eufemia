@@ -160,32 +160,24 @@ export const useStickyHeader = ({
 
           offset -= hasScrollbar ? offsetTopPx : totalOffset
 
-          // By sub thHeight and checking for the height, we avoid a scrollbar inside a Table.ScrollView
-          if (offset > 0 && offset < tableHeight - thHeight) {
-            if (sticky !== 'css-position' && !usesScrollTimeline) {
+          // Stop at the last row, like the scroll timeline. This also avoids a scrollbar inside a Table.ScrollView
+          const maxOffset = Math.max(0, tableHeight - thHeight)
+
+          if (sticky !== 'css-position' && !usesScrollTimeline) {
+            if (offset > 0) {
               trElem.style.setProperty(
                 '--table-offset',
-                String(offset) + 'px'
+                `${Math.min(offset, maxOffset)}px`
               )
+            } else {
+              trElem.style.removeProperty('--table-offset')
             }
+          }
 
-            if (!isSticky) {
-              isSticky = true
-
-              trElem.toggleAttribute('data-is-sticky', true)
-            }
-          } else {
-            if (isSticky) {
-              isSticky = false
-
-              if (offset <= 0) {
-                if (sticky !== 'css-position' && !usesScrollTimeline) {
-                  trElem.style.removeProperty('--table-offset')
-                }
-              }
-
-              trElem.removeAttribute('data-is-sticky')
-            }
+          const isInside = offset > 0 && offset < maxOffset
+          if (isInside !== isSticky) {
+            isSticky = isInside
+            trElem.toggleAttribute('data-is-sticky', isSticky)
           }
         }
 

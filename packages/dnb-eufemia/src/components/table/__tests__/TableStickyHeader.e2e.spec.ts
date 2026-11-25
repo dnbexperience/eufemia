@@ -112,28 +112,23 @@ test.describe('Table sticky header with minified CSS', () => {
       }
     })
 
-    // The existing JavaScript fallback keeps its previous offset at the end.
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (supportsTimeline) {
-      await test.step('stops at the last table row', async () => {
-        await table.evaluate((element) => {
-          window.scrollTo(
-            0,
-            element.getBoundingClientRect().bottom + window.scrollY + 100
-          )
-        })
-        // eslint-disable-next-line playwright/no-conditional-expect
-        await expect
-          .poll(() =>
-            table.evaluate(
-              (element) =>
-                element.querySelector('thead tr').getBoundingClientRect()
-                  .bottom - element.getBoundingClientRect().bottom
-            )
-          )
-          .toBeCloseTo(0, 0)
+    await test.step('stops at the last table row', async () => {
+      await table.evaluate((element) => {
+        window.scrollTo(
+          0,
+          element.getBoundingClientRect().bottom + window.scrollY + 100
+        )
       })
-    }
+      await expect
+        .poll(() =>
+          table.evaluate(
+            (element) =>
+              element.querySelector('thead tr').getBoundingClientRect()
+                .bottom - element.getBoundingClientRect().bottom
+          )
+        )
+        .toBeCloseTo(0, 0)
+    })
   })
 
   test('updates the scroll range after layout changes and clears it when switching modes', async ({

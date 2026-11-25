@@ -171,10 +171,10 @@ describe('useStickyHeader', () => {
       '204px'
     )
 
-    // Should keep the previous value (300-(160-64)=204)
+    // Should stop at the last row (480-72=408)
     simulateScroll(3000)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '204px'
+      '408px'
     )
 
     // change the table offset
@@ -471,10 +471,10 @@ describe('useStickyHeader', () => {
       '180px'
     )
 
-    // Should keep the previous value (300-(160-40)=180)
+    // Should stop at the last row (480-72=408)
     simulateScroll(3000, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '180px'
+      '408px'
     )
 
     // change the table offset
@@ -556,6 +556,62 @@ describe('useStickyHeader', () => {
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
       '320px'
     )
+  })
+
+  it('should keep the header inside the table when the rows shrink while scrolled', () => {
+    let triggerResize: () => void
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: () => void) {
+          triggerResize = callback
+        }
+        observe() {
+          /* noop */
+        }
+        disconnect() {
+          /* noop */
+        }
+      }
+    )
+
+    render(
+      <Table.ScrollView>
+        <Table sticky>
+          <BasicTable />
+        </Table>
+      </Table.ScrollView>
+    )
+
+    const tableElement = document.querySelector('table')
+    const trElem: HTMLElement = document.querySelector('tr')
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
+    vi.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(100)
+
+    setSizes()
+    simulateScroll(320, scrollElem)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '320px'
+    )
+
+    // The rows shrink before the scroll position is updated
+    vi.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(200)
+    triggerResize()
+
+    // 200 - 72 (the header height) = 128
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '128px'
+    )
+    expect(trElem).not.toHaveAttribute('data-is-sticky')
+
+    // Jumping straight to the top from below the table
+    simulateScroll(0, scrollElem)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
   })
 
   it.each([false, true])(
