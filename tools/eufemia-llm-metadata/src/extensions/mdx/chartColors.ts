@@ -54,7 +54,7 @@ export function createChartColorsExtension(
           const label = group.charAt(0).toUpperCase() + group.slice(1)
           const rows = groups.get(label) || []
           rows.push(
-            `| ${roleTable ? label + ' | ' : ''}\`${name}\` | \`${value}\` |`
+            `| ${roleTable ? label + ' | ' : ''}\`${name}\` | \`${value.replace(/^#([a-f0-9])([a-f0-9])([a-f0-9])$/i, '#$1$1$2$2$3$3')}\` |`
           )
           groups.set(label, rows)
         }

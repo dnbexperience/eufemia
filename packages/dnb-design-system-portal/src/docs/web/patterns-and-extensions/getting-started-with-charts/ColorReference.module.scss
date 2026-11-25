@@ -1,3 +1,10 @@
+.dnb-chart-reference {
+  padding: 1rem;
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-background-neutral);
+  border-radius: 0.25rem;
+}
+
 .dnb-chart-palette {
   margin-bottom: 1.5rem;
 
@@ -30,13 +37,17 @@
 }
 
 .dnb-chart-roles {
+  tbody tr > td {
+    vertical-align: middle;
+  }
+
   th,
   td,
   code {
     white-space: nowrap;
   }
 
-  th[scope='rowgroup'] {
+  tbody th[scope='rowgroup'] {
     vertical-align: top;
   }
 

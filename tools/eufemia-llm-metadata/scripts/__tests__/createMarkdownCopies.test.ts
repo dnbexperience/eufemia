@@ -48,7 +48,15 @@ describe('createMarkdownCopies', () => {
 
       expect(rows).toHaveLength(chartProperties.length)
       expect(Object.fromEntries(rows)).toEqual(
-        Object.fromEntries(chartProperties)
+        Object.fromEntries(
+          chartProperties.map(([name, value]) => [
+            name,
+            value.replace(
+              /^#([a-f0-9])([a-f0-9])([a-f0-9])$/i,
+              '#$1$1$2$2$3$3'
+            ),
+          ])
+        )
       )
       expect(output).toContain(
         '| Role | CSS custom property | Hex value |'
