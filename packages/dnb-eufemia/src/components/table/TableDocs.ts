@@ -44,7 +44,7 @@ export const TableProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stickyColumn: {
-    doc: 'Use `"first"` or `"last"` to keep the first or last column visible while the table scrolls horizontally, e.g. inside a `Table.ScrollView`.',
+    doc: 'Use `"first"` or `"last"` to keep the first or last column visible while the table scrolls horizontally, e.g. inside a `Table.ScrollView`. The column stops sticking while it is wider than half of the visible width.',
     type: ['"first"', '"last"'],
     status: 'optional',
   },

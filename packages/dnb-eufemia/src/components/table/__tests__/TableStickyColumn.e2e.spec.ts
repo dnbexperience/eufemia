@@ -92,4 +92,39 @@ test.describe('Table sticky column', () => {
       })
       .toBeGreaterThanOrEqual(0)
   })
+
+  test('keeps the scroll position when an element in the sticky column gets focus', async ({
+    page,
+  }) => {
+    const scrollView = page.locator('.dnb-table__scroll-view')
+    const row = page.locator('.dnb-table tbody tr').nth(2)
+
+    await row
+      .locator('td')
+      .first()
+      .evaluate((cell) => {
+        const link = document.createElement('a')
+        link.href = '#'
+        link.textContent = 'Day'
+        cell.replaceChildren(link)
+      })
+    await scrollView.evaluate((element) => {
+      element.scrollTo({ left: 300, behavior: 'instant' })
+    })
+    await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
+
+    const link = row.getByRole('link', { name: 'Day' })
+    await link.focus()
+
+    // Browsers scroll the focused element into view with some delay, so do it at once
+    await link.evaluate((element) =>
+      element.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
+        behavior: 'instant',
+      })
+    )
+
+    await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
+  })
 })

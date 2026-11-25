@@ -111,7 +111,7 @@ Use `stickyColumn="first"` or `stickyColumn="last"` to keep the first or last co
 </Table.ScrollView>
 ```
 
-- Keep the sticky column narrow, so there is room left for the other columns on small screens.
+- Keep the sticky column narrow. While it is wider than half of the visible width, e.g. on small screens or when zoomed in, it stops sticking, so there is room left for the other columns.
 - Cells that span several columns (`colSpan`) do not stick. Avoid `rowSpan` in the sticky column, because the cells of the following rows take its place.
 - In `mode="accordion"`, the chevron column comes first. Use `accordionChevronPlacement="right"` to keep your own first column sticky. In `mode="navigation"`, the chevron column comes last.
 

@@ -3,112 +3,130 @@
 *
 */
 
+// "data-sticky-column-disabled" is set when the column takes too much of the visible width
+$first: '.dnb-table--sticky-column-first:not([data-sticky-column-disabled])';
+$last: '.dnb-table--sticky-column-last:not([data-sticky-column-disabled])';
+
 // Cells spanning several columns would cover more than the sticky column
 $sticky-cell: ':not([colspan]:not([colspan="1"]))';
 
-.dnb-table {
-  &--sticky-column-first > * > tr > :first-child#{$sticky-cell},
-  &--sticky-column-last > * > tr > :last-child#{$sticky-cell} {
-    position: sticky;
-    z-index: 7; // above the focus ring of the cells scrolled underneath
+#{$first} > * > tr > :first-child#{$sticky-cell},
+#{$last} > * > tr > :last-child#{$sticky-cell} {
+  position: sticky;
+  z-index: 7; // above the focus ring of the cells scrolled underneath
 
-    box-shadow:
-      var(--table-sticky-column-edge, 0 0 transparent),
-      var(--table-sticky-column-edge-top, 0 0 transparent),
-      var(--table-sticky-column-edge-bottom, 0 0 transparent),
-      var(--table-sticky-column-divider, 0 0 transparent);
+  box-shadow:
+    var(--table-sticky-column-edge, 0 0 transparent),
+    var(--table-sticky-column-edge-top, 0 0 transparent),
+    var(--table-sticky-column-edge-bottom, 0 0 transparent),
+    var(--table-sticky-column-divider, 0 0 transparent);
+}
+
+#{$first} > * > tr > :first-child#{$sticky-cell} {
+  left: 0;
+}
+
+#{$last} > * > tr > :last-child#{$sticky-cell} {
+  right: 0;
+}
+
+// Scroll focused elements into view next to the sticky column, not underneath it.
+// "useStickyColumn" marks the scroll container and sets the width on it.
+[data-table-sticky-column='first'] {
+  scroll-padding-left: var(--table-sticky-column-width);
+}
+
+[data-table-sticky-column='last'] {
+  scroll-padding-right: var(--table-sticky-column-width);
+}
+
+// Elements inside the sticky column are always in view.
+// So the padding must not scroll the table when they get focus.
+[data-table-sticky-column='first']:has(
+  #{$first} > * > tr > :first-child#{$sticky-cell}:focus-within
+) {
+  scroll-padding-left: 0;
+}
+
+[data-table-sticky-column='last']:has(
+  #{$last} > * > tr > :last-child#{$sticky-cell}:focus-within
+) {
+  scroll-padding-right: 0;
+}
+
+// Keep a sticky header above the sticky body cells
+:is(#{$first}, #{$last}).dnb-table > thead > tr {
+  z-index: 8;
+}
+
+// While the sticky header cell covers other header cells, their shadows would add up underneath it.
+// So the sticky header cell draws one shadow across the visible width instead.
+#{$first}[data-sticky-column-overlap]
+  > thead
+  > tr[data-is-sticky]
+  > :first-child#{$sticky-cell} {
+  &::before {
+    right: auto;
+    width: var(--table-sticky-column-viewport-width);
   }
 
-  &--sticky-column-first > * > tr > :first-child#{$sticky-cell} {
-    left: 0;
+  ~ th::before {
+    content: none;
+  }
+}
+
+#{$last}[data-sticky-column-overlap] > thead > tr[data-is-sticky] {
+  > :last-child#{$sticky-cell}::before {
+    left: auto;
+    width: var(--table-sticky-column-viewport-width);
   }
 
-  &--sticky-column-last > * > tr > :last-child#{$sticky-cell} {
-    right: 0;
+  > th:has(~ :last-child#{$sticky-cell})::before {
+    content: none;
   }
+}
 
-  // Keep a sticky header above the sticky body cells
-  &--sticky-column-first#{&},
-  &--sticky-column-last#{&} {
-    > thead > tr {
-      z-index: 8;
-    }
-  }
+// Shown while content is scrolled underneath the sticky column
+#{$first}[data-sticky-column-overlap] {
+  --table-sticky-column-divider: inset calc(var(--table-border-width) * -1)
+    0 var(--table-border-color);
+}
 
-  // While the sticky header cell covers other header cells, their shadows would add up underneath it.
-  // So the sticky header cell draws one shadow across the visible width instead.
-  &--sticky-column-first[data-sticky-column-overlap]
-    > thead
-    > tr[data-is-sticky]
-    > :first-child#{$sticky-cell} {
-    &::before {
-      right: auto;
-      width: var(--table-sticky-column-viewport-width);
-    }
+#{$last}[data-sticky-column-overlap] {
+  --table-sticky-column-divider: inset var(--table-border-width) 0
+    var(--table-border-color);
+}
 
-    ~ th::before {
-      content: none;
-    }
-  }
+// The sticky cells cover the outline, so they draw the covered parts of it
+#{$first}.dnb-table--outline {
+  --table-sticky-column-edge: inset var(--table-outline-width) 0
+    var(--table-outline-color);
+}
 
-  &--sticky-column-last[data-sticky-column-overlap]
-    > thead
-    > tr[data-is-sticky] {
-    > :last-child#{$sticky-cell}::before {
-      left: auto;
-      width: var(--table-sticky-column-viewport-width);
-    }
+#{$last}.dnb-table--outline {
+  --table-sticky-column-edge: inset calc(var(--table-outline-width) * -1) 0
+    var(--table-outline-color);
+}
 
-    > th:has(~ :last-child#{$sticky-cell})::before {
-      content: none;
-    }
-  }
-
-  // Shown while content is scrolled underneath the sticky column
-  &--sticky-column-first[data-sticky-column-overlap] {
-    --table-sticky-column-divider: inset
-      calc(var(--table-border-width) * -1) 0 var(--table-border-color);
-  }
-
-  &--sticky-column-last[data-sticky-column-overlap] {
-    --table-sticky-column-divider: inset var(--table-border-width) 0
-      var(--table-border-color);
-  }
-
-  // The sticky cells cover the outline, so they draw the covered parts of it
-  &--outline#{&}--sticky-column-first {
-    --table-sticky-column-edge: inset var(--table-outline-width) 0
+:is(#{$first}, #{$last}).dnb-table--outline {
+  > :is(
+      thead:first-of-type,
+      tbody:first-child,
+      caption:first-child + tbody
+    )
+    > tr:first-of-type {
+    --table-sticky-column-edge-top: inset 0 var(--table-outline-width)
       var(--table-outline-color);
   }
 
-  &--outline#{&}--sticky-column-last {
-    --table-sticky-column-edge: inset calc(var(--table-outline-width) * -1)
-      0 var(--table-outline-color);
-  }
-
-  &--outline:is(
-      .dnb-table--sticky-column-first,
-      .dnb-table--sticky-column-last
-    ) {
+  > tbody:last-child
     > :is(
-        thead:first-of-type,
-        tbody:first-child,
-        caption:first-child + tbody
-      )
-      > tr:first-of-type {
-      --table-sticky-column-edge-top: inset 0 var(--table-outline-width)
-        var(--table-outline-color);
-    }
-
-    > tbody:last-child
-      > :is(
-        tr:last-child,
-        .dnb-table__tr--clickable:not(
-            .dnb-table__tr--expanded
-          ).dnb-table__tr--last
-      ) {
-      --table-sticky-column-edge-bottom: inset 0
-        calc(var(--table-outline-width) * -1) var(--table-outline-color);
-    }
+      tr:last-child,
+      .dnb-table__tr--clickable:not(
+          .dnb-table__tr--expanded
+        ).dnb-table__tr--last
+    ) {
+    --table-sticky-column-edge-bottom: inset 0
+      calc(var(--table-outline-width) * -1) var(--table-outline-color);
   }
 }

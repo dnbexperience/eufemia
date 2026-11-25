@@ -39,6 +39,11 @@ describe('useStickyColumn', () => {
   const getScrollContainer = () =>
     document.querySelector<HTMLElement>('#scroll-container')
 
+  const getColumnWidth = () =>
+    getScrollContainer().style.getPropertyValue(
+      '--table-sticky-column-width'
+    )
+
   const simulateScroll = (scrollLeft: number) => {
     const element = getScrollContainer()
     element.scrollLeft = scrollLeft
@@ -94,17 +99,18 @@ describe('useStickyColumn', () => {
     }
   )
 
-  it('should keep focused elements from being scrolled underneath the sticky column', () => {
-    const { rerender } = render(<StickyColumnTable stickyColumn="first" />)
+  it.each(['first', 'last'] as const)(
+    'should mark the scroll container with the width of the %s column, so focused elements are not scrolled underneath it',
+    (stickyColumn) => {
+      render(<StickyColumnTable stickyColumn={stickyColumn} />)
 
-    expect(getScrollContainer().style.scrollPaddingLeft).toBe('120px')
-    expect(getScrollContainer().style.scrollPaddingRight).toBe('')
-
-    rerender(<StickyColumnTable stickyColumn="last" />)
-
-    expect(getScrollContainer().style.scrollPaddingLeft).toBe('')
-    expect(getScrollContainer().style.scrollPaddingRight).toBe('120px')
-  })
+      expect(getScrollContainer()).toHaveAttribute(
+        'data-table-sticky-column',
+        stickyColumn
+      )
+      expect(getColumnWidth()).toBe('120px')
+    }
+  )
 
   it('should set the visible width for the sticky header shadow', () => {
     render(<StickyColumnTable stickyColumn="first" />)
@@ -126,15 +132,43 @@ describe('useStickyColumn', () => {
     ).toBe('250px')
   })
 
-  it('should update the scroll padding when the column width changes', () => {
+  it('should update the column width when it changes', () => {
     render(<StickyColumnTable stickyColumn="first" />)
 
     vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(
-      160
+      140
     )
     triggerResize()
 
-    expect(getScrollContainer().style.scrollPaddingLeft).toBe('160px')
+    expect(getColumnWidth()).toBe('140px')
+  })
+
+  it('should stop sticking while the column is wider than half of the visible width', () => {
+    render(<StickyColumnTable stickyColumn="first" />)
+
+    const tableElement = document.querySelector('table')
+    simulateScroll(100)
+    expect(tableElement).not.toHaveAttribute('data-sticky-column-disabled')
+    expect(tableElement).toHaveAttribute('data-sticky-column-overlap')
+
+    vi.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(239)
+    triggerResize()
+
+    expect(tableElement).toHaveAttribute('data-sticky-column-disabled')
+    expect(tableElement).not.toHaveAttribute('data-sticky-column-overlap')
+    expect(getScrollContainer()).not.toHaveAttribute(
+      'data-table-sticky-column'
+    )
+
+    vi.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(240)
+    triggerResize()
+
+    expect(tableElement).not.toHaveAttribute('data-sticky-column-disabled')
+    expect(tableElement).toHaveAttribute('data-sticky-column-overlap')
+    expect(getScrollContainer()).toHaveAttribute(
+      'data-table-sticky-column',
+      'first'
+    )
   })
 
   it('should set data-sticky-column-overlap while columns are scrolled underneath the first column', () => {
@@ -163,21 +197,22 @@ describe('useStickyColumn', () => {
     expect(tableElement).toHaveAttribute('data-sticky-column-overlap')
   })
 
-  it('should reset the scroll container when stickyColumn is removed', () => {
+  it('should reset the table when stickyColumn is removed', () => {
     const { rerender } = render(<StickyColumnTable stickyColumn="first" />)
 
-    simulateScroll(100)
+    vi.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(200)
+    triggerResize()
     rerender(<StickyColumnTable />)
 
     const tableElement = document.querySelector('table')
     expect(tableElement).not.toHaveAttribute('data-sticky-column-overlap')
+    expect(tableElement).not.toHaveAttribute('data-sticky-column-disabled')
     expect(tableElement).not.toHaveClass('dnb-table--sticky-column-first')
-    expect(
-      tableElement.style.getPropertyValue(
-        '--table-sticky-column-viewport-width'
-      )
-    ).toBe('')
-    expect(getScrollContainer().style.scrollPaddingLeft).toBe('')
+    expect(tableElement.style).toHaveLength(0)
+    expect(getScrollContainer()).not.toHaveAttribute(
+      'data-table-sticky-column'
+    )
+    expect(getColumnWidth()).toBe('')
 
     simulateScroll(50)
     expect(tableElement).not.toHaveAttribute('data-sticky-column-overlap')
@@ -188,9 +223,15 @@ describe('useStickyColumn', () => {
 
     simulateScroll(100)
 
-    expect(getScrollContainer().style.scrollPaddingLeft).toBe('')
+    expect(
+      document.querySelector('table').getAttribute('style')
+    ).toBeNull()
     expect(document.querySelector('table')).not.toHaveAttribute(
       'data-sticky-column-overlap'
     )
+    expect(getScrollContainer()).not.toHaveAttribute(
+      'data-table-sticky-column'
+    )
+    expect(getColumnWidth()).toBe('')
   })
 })

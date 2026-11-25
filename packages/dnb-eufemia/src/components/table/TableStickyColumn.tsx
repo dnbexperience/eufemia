@@ -3,7 +3,7 @@ import type { RefObject } from 'react'
 
 export type TableStickyColumnProps = {
   /**
-   * Use `"first"` or `"last"` to keep the first or last column visible while the table scrolls horizontally, e.g. inside a `Table.ScrollView`.
+   * Use `"first"` or `"last"` to keep the first or last column visible while the table scrolls horizontally, e.g. inside a `Table.ScrollView`. The column stops sticking while it is wider than half of the visible width.
    */
   stickyColumn?: 'first' | 'last'
 }
@@ -21,15 +21,14 @@ export const useStickyColumn = (
     }
 
     const isFirst = stickyColumn === 'first'
-    const paddingProperty = isFirst
-      ? 'scroll-padding-left'
-      : 'scroll-padding-right'
     let maxScroll = 0
+    let isDisabled = false
     let observedCell: HTMLTableCellElement = null
 
     const onScroll = () => {
       const offset = Math.abs(scrollElem.scrollLeft)
-      const overlaps = isFirst ? offset >= 1 : maxScroll - offset >= 1
+      const overlaps =
+        !isDisabled && (isFirst ? offset >= 1 : maxScroll - offset >= 1)
       tableElem.toggleAttribute('data-sticky-column-overlap', overlaps)
     }
 
@@ -50,19 +49,31 @@ export const useStickyColumn = (
         observedCell = cell
       }
 
-      // Scroll focused elements into view next to the sticky column, not underneath it
+      const width = cell?.offsetWidth || 0
+      const visibleWidth = scrollElem.clientWidth
+
+      // Leave room for the other columns, e.g. on small screens or when zoomed in
+      isDisabled = width > visibleWidth / 2
+      tableElem.toggleAttribute('data-sticky-column-disabled', isDisabled)
+
+      // Lets focused elements scroll into view next to the sticky column, not underneath it
+      if (isDisabled) {
+        scrollElem.removeAttribute('data-table-sticky-column')
+      } else {
+        scrollElem.setAttribute('data-table-sticky-column', stickyColumn)
+      }
       scrollElem.style.setProperty(
-        paddingProperty,
-        `${cell?.offsetWidth || 0}px`
+        '--table-sticky-column-width',
+        `${width}px`
       )
 
       // Lets the sticky header cell draw its shadow across the visible width
       tableElem.style.setProperty(
         '--table-sticky-column-viewport-width',
-        `${scrollElem.clientWidth}px`
+        `${visibleWidth}px`
       )
 
-      maxScroll = scrollElem.scrollWidth - scrollElem.clientWidth
+      maxScroll = scrollElem.scrollWidth - visibleWidth
       onScroll()
     }
 
@@ -85,10 +96,12 @@ export const useStickyColumn = (
       observer?.disconnect()
       window.removeEventListener('resize', onResize)
       scrollElem.removeEventListener('scroll', onScroll)
-      scrollElem.style.removeProperty(paddingProperty)
+      scrollElem.removeAttribute('data-table-sticky-column')
+      scrollElem.style.removeProperty('--table-sticky-column-width')
       tableElem.style.removeProperty(
         '--table-sticky-column-viewport-width'
       )
+      tableElem.removeAttribute('data-sticky-column-disabled')
       tableElem.removeAttribute('data-sticky-column-overlap')
     }
   }, [elementRef, stickyColumn])
