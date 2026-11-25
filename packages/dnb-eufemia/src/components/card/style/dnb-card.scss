@@ -286,8 +286,12 @@
 
   // Touch browsers keep :hover on the last tapped element
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      &:hover
+    &:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      )
       > .dnb-card {
       --card-outline-color: var(--token-color-stroke-action-hover);
       --outline-color: var(--token-color-stroke-action-hover);
