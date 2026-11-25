@@ -18,7 +18,11 @@ import type {
   SyntheticEvent,
 } from 'react'
 import { clsx } from 'clsx'
-import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
+import {
+  getFixedPositionOrigin,
+  getOffsetLeft,
+  getOffsetTop,
+} from '../../shared/helpers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import type {
   PopoverAlign,
@@ -416,7 +420,9 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     const scrollY = window.scrollY
     const scrollX = window.scrollX
-    const scrollYOffset = fixedPosition ? 0 : scrollY
+    const scrollYOffset = fixedPosition
+      ? -getFixedPositionOrigin().top
+      : scrollY
     const top = skipPortal
       ? relativeVerticalTop
       : scrollYOffset + verticalRect.top - offsetTop.current
