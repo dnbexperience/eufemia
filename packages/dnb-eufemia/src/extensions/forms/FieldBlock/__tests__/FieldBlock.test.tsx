@@ -15,6 +15,8 @@ import type { Validator } from '../..'
 import { Field, Form } from '../..'
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
+import SharedProvider from '../../../../shared/Provider'
+import useCanUseDOM from '../../../../shared/helpers/useCanUseDOM'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
@@ -1580,6 +1582,43 @@ describe('FieldBlock', () => {
         container.remove()
       }
     )
+
+    it('should hydrate the status with the server locale when the locale changes after mount', async () => {
+      const App = () => {
+        const canUseDOM = useCanUseDOM()
+
+        return (
+          <SharedProvider locale={canUseDOM ? 'en-GB' : 'nb-NO'}>
+            <Field.String
+              label="Label"
+              error={[new Error('First'), new Error('Second')]}
+            />
+          </SharedProvider>
+        )
+      }
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(<App />)
+      document.body.appendChild(container)
+      expect(
+        container.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(nb.Field.errorSummary + 'First' + 'Second')
+
+      const onRecoverableError = vi.fn()
+      const { unmount } = render(<App />, {
+        container,
+        hydrate: true,
+        onRecoverableError,
+      })
+      await waitFor(() => {
+        expect(
+          container.querySelector('.dnb-form-status--error')
+        ).toHaveTextContent(en.Field.errorSummary + 'First' + 'Second')
+      })
+
+      expect(onRecoverableError).not.toHaveBeenCalled()
+      unmount()
+      container.remove()
+    })
   })
 
   describe('fieldState', () => {

@@ -28,6 +28,7 @@ import type {
   FieldBlockRecordOwner,
 } from './FieldBlockContext'
 import FieldBlockContext from './FieldBlockContext'
+import SharedContext from '../../../shared/Context'
 import DataContext from '../DataContext/Context'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
@@ -198,6 +199,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     ? fieldBlockContext
     : null
 
+  const sharedContext = useContext(SharedContext)
   const id = useId(props.id ?? props.forId)
   const sharedProps = useFieldBlockPropsHandoff(id).get()
   const {
@@ -600,17 +602,21 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   // Hydrate the summary after any deferred field boundaries. Until then,
   // keep the same element, so an update of this component does not make
-  // React hydrate the summary before these fields.
+  // React hydrate the summary before these fields. The element also keeps
+  // the shared context of that render, so a change after mount, such as a
+  // new locale, does not reach the summary before it has hydrated.
   const getSummaryElement = () => {
     if (summaryElementRef.current && !summaryHydratedRef.current) {
       summaryElementReusedRef.current = true
     } else {
       summaryElementRef.current = (
         <Suspense fallback={null}>
-          <RenderAfterChildren
-            render={renderStatus}
-            onHydrated={handleSummaryHydrated}
-          />
+          <SharedContext value={sharedContext}>
+            <RenderAfterChildren
+              render={renderStatus}
+              onHydrated={handleSummaryHydrated}
+            />
+          </SharedContext>
         </Suspense>
       )
     }
