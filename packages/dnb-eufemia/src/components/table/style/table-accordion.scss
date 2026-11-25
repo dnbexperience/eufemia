@@ -158,8 +158,12 @@
   }
 
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover
+    &__tr--clickable#{&}__tr--expanded:not(&__tr--disabled):hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      )
       &__td {
       --table-td-background: var(--table-accordion-header-background);
     }
@@ -212,10 +216,14 @@
   }
 
   @media (any-hover: hover) {
-    html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-      &__tr--clickable#{&}__tr--expanded:not(
+    &__tr--clickable#{&}__tr--expanded:not(
         &__tr--disabled
-      )#{&}__tr--hover:not(:active):hover
+      )#{&}__tr--hover:not(:active):hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      )
       &__td {
       --table-td-background: var(--table-accordion-header-background);
 
@@ -240,7 +248,7 @@
   }
 
   // Keep the resting border while native hover remains after a tap.
-  html:where(:not([data-whatintent='mouse'])):not(
+  html:where([data-whatintent='touch'], [data-whatintent='keyboard']):not(
       [data-whatinput='keyboard']
     )
     &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
@@ -251,6 +259,23 @@
     td::before {
       border: none;
       border-top: var(--table-accordion-border);
+    }
+  }
+
+  // Devices that cannot hover show no hover styles at all
+  @media (any-hover: none) {
+    html:where(:not([data-whatintent='mouse'])):not(
+        [data-whatinput='keyboard']
+      )
+      &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
+        :active
+      ) {
+      --table-td-background: var(--table-accordion-header-background);
+
+      td::before {
+        border: none;
+        border-top: var(--table-accordion-border);
+      }
     }
   }
 
