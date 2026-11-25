@@ -151,27 +151,35 @@ describe('SearchBar', () => {
 })
 
 describe('SearchBarInput', () => {
-  it('renders search results in the portal', async () => {
-    search.mockResolvedValueOnce({
-      hits: [{ slug: 'web/components/button', title: 'Button' }],
-    })
-    render(
-      <MemoryRouter>
-        <SearchBarInput />
-      </MemoryRouter>
-    )
-    const input = document.querySelector('#portal-search')
-    fireEvent.focus(input)
-    fireEvent.change(input, { target: { value: 'button' } })
+  it.each(['compact', 'hero'] as const)(
+    'renders %s search results in the portal',
+    async (variant) => {
+      search.mockResolvedValueOnce({
+        hits: [{ slug: 'web/components/button', title: 'Button' }],
+      })
+      render(
+        <MemoryRouter>
+          <SearchBarInput variant={variant} />
+        </MemoryRouter>
+      )
+      const input = document.querySelector('#portal-search')
+      fireEvent.focus(input)
+      fireEvent.change(input, { target: { value: 'button' } })
 
-    await waitFor(() =>
+      await waitFor(() =>
+        expect(
+          document.querySelector(
+            '#eufemia-portal-root a[href="/web/components/button/"]'
+          )
+        ).not.toBeNull()
+      )
       expect(
-        document.querySelector(
-          '#eufemia-portal-root a[href="/web/components/button/"]'
-        )
-      ).not.toBeNull()
-    )
-  })
+        document
+          .querySelector('.dnb-drawer-list__portal__style')
+          .classList.contains('dnb-drawer-list__portal__style--fixed')
+      ).toBe(variant === 'compact')
+    }
+  )
 
   it('keeps searching when the query callback returns a value', async () => {
     search.mockResolvedValueOnce({

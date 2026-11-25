@@ -123,6 +123,19 @@ test('keeps header and hero results aligned across screen sizes', async ({
           0
         )
         expect(box.x).toBeCloseTo(fullWidth ? 16 : inputBox.x, 0)
+        for (const delta of [64, -64]) {
+          await page.evaluate((delta) => window.scrollBy(0, delta), delta)
+          await expect
+            .poll(async () => {
+              const resultsBox = await results.boundingBox()
+              const field = await input.boundingBox()
+              return Math.min(
+                Math.abs(resultsBox.y - field.y - field.height - 8),
+                Math.abs(field.y - resultsBox.y - resultsBox.height - 8)
+              )
+            })
+            .toBeLessThan(1)
+        }
         await input.press('Escape')
       })
     }

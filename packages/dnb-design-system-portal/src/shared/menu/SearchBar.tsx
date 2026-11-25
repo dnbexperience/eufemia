@@ -155,7 +155,7 @@ export const SearchBarInput = ({
       className="portal-search"
       mode="async"
       search={{ filter: false }}
-      fixedPosition
+      fixedPosition={variant === 'compact'}
       align="right"
       placeholder={placeholder}
       label="Search the Eufemia documentation"
@@ -173,7 +173,7 @@ export const SearchBarInput = ({
         searchRevision.current++
         onQuery?.('')
       }}
-      pageOffset={0} // drawer-list property
+      pageOffset={variant === 'compact' ? 0 : undefined}
       optionsRender={({ Items, data }) => {
         return (
           <>
