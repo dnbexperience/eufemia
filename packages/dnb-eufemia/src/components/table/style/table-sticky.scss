@@ -44,16 +44,33 @@
     }
   }
 
-  &--outline tr[data-sticky]::after {
-    // Continue the outer frame above the focused body cells.
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: var(--table-outline);
-    border-bottom: 0;
-    border-radius: var(--table-outline-radius-top)
-      var(--table-outline-radius-top) 0 0;
-    pointer-events: none;
+  // Continue the outer frame above the focused body cells.
+  // The cells draw it, because a pseudo-element of the row would add a column to a fixed table.
+  &--outline tr[data-sticky] > * {
+    --table-outline-shadow-top: inset 0 var(--table-outline-width)
+      var(--table-outline-color);
+    --table-outline-shadow-left: inset var(--table-outline-width) 0
+      var(--table-outline-color);
+    --table-outline-shadow-right: inset
+      calc(var(--table-outline-width) * -1) 0 var(--table-outline-color);
+
+    box-shadow: var(--table-outline-shadow-top);
+
+    &:first-child {
+      box-shadow:
+        var(--table-outline-shadow-top), var(--table-outline-shadow-left);
+    }
+
+    &:last-child {
+      box-shadow:
+        var(--table-outline-shadow-top), var(--table-outline-shadow-right);
+    }
+
+    &:only-child {
+      box-shadow:
+        var(--table-outline-shadow-top), var(--table-outline-shadow-left),
+        var(--table-outline-shadow-right);
+    }
   }
 
   tr[data-sticky][data-is-sticky] th::before {

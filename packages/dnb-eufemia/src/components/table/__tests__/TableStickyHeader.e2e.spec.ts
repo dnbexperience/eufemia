@@ -167,6 +167,27 @@ test.describe('Table sticky header with minified CSS', () => {
     await expect(header).not.toHaveAttribute('style', /--table-/)
   })
 
+  // The outline of the header row must not add a column in the fixed table layout
+  test('keeps the columns across the whole width of a fixed table with an outline', async ({
+    page,
+  }) => {
+    const table = page.locator('.dnb-table')
+    await table.evaluate((element) => {
+      element.classList.add('dnb-table--outline', 'dnb-table--fixed')
+      element.style.width = '70rem'
+    })
+    await expect(page.locator('thead tr')).toHaveAttribute('data-sticky')
+
+    const lastHeaderCell = table.locator('thead th').last()
+    await expect
+      .poll(async () => {
+        const tableBox = await table.boundingBox()
+        const cellBox = await lastHeaderCell.boundingBox()
+        return tableBox.x + tableBox.width - (cellBox.x + cellBox.width)
+      })
+      .toBeCloseTo(0, 0)
+  })
+
   test('prints a scrolled header above the body rows', async ({
     page,
   }) => {
