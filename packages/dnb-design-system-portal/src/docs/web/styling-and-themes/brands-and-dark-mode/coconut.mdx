@@ -47,16 +47,21 @@ enables only the selected `ss01` alternates.
 
 ### When to use Rebels
 
-Use Rebels for warm, expressive or playful messages, such as a campaign
-heading. Use ordinary Sbanken Display for functional and informative
-content, such as article headings and information pages.
+Use Rebels in the largest headings for warm, expressive or playful
+messages, such as a campaign heading. Use ordinary Sbanken Display for
+functional and informative content, such as article headings and information pages.
 
-The brand guidelines recommend one Rebel per line as a starting point,
-adjusted to the message and surface. `TypographyRebels` defaults to a
-maximum of two per heading for the website. It does not measure rendered
-lines: both Rebels can appear on one line, and their positions stay the
-same when text wraps. Check the result at different screen widths and
-adjust the limit for the content when needed.
+The provider applies these limits:
+
+- Only sizes `x-large` and `xx-large` receive Rebels, regardless of the
+  HTML heading level. These are Coconut's default H2 and H1 sizes.
+- At most two Rebels per heading, with at most one per word. A single-word
+  heading receives at most one Rebel.
+- The whole heading shares one budget, including when it wraps or contains
+  multiple sentences. Selection stays the same at every screen width.
+
+Review the result at different screen widths. Use `maxPerHeading={1}` for
+less emphasis or `maxPerHeading={0}` for ordinary letterforms.
 
 ### Enable Rebels
 
@@ -71,9 +76,9 @@ import { Theme } from '@dnb/eufemia/shared'
 
 render(
   <Theme brand="coconut">
-    <Heading>Priser og vilkår</Heading>
+    <Heading size="x-large">Priser og vilkår</Heading>
     <TypographyRebels maxPerHeading={2}>
-      <Heading>En enklere hverdag for alle!</Heading>
+      <Heading size="x-large">En enklere hverdag for alle!</Heading>
     </TypographyRebels>
   </Theme>
 )
@@ -85,16 +90,16 @@ the message. Your application or CMS decides which content should use
 Rebels. Headings outside the provider keep their ordinary letterforms.
 Built-in components that render `Heading` or `H1`–`H6`, including
 `Form.MainHeading`, `Form.SubHeading` and the `GlobalError` title, are
-also affected. Dialog and Drawer titles currently use different markup
-and are not processed. Keep functional components outside the provider
-or disable Rebels around them with a nested provider.
+also affected when they use an eligible size. Dialog and Drawer titles
+currently use different markup and are not processed. Keep functional
+components outside the provider or disable Rebels around them with a nested provider.
 
 Shared DNB and Sbanken applications can keep the same heading source:
 Rebels are only applied when the heading's active theme is Coconut and
-its typography uses Sbanken Display. Body text and headings using the
-body font stay unchanged, including sizes `basis`, `small` and
-`x-small` unless you explicitly select `family="heading"` or
-`family="display"`. Native `<h1>`–`<h6>` elements are not processed.
+its typography uses Sbanken Display at `x-large` or `xx-large`. Body text,
+smaller headings and headings using the body font stay unchanged. Setting
+`family="heading"` or `family="display"` does not enable Rebels in smaller
+sizes. Native `<h1>`–`<h6>` elements are not processed.
 
 ### Preview
 
@@ -113,13 +118,9 @@ because the Rebel span interrupts the font's kerning. If there are not
 enough alternatives, it can still select a character after one of these
 capitals, as in `Ta`. Some spacing differences can therefore remain.
 
-If there are fewer eligible words than the limit, it spreads the
-selection across eligible characters instead, with the same preference
-when enough characters are available. This can place two Rebels in one
-word, but adjacent characters are never both selected, to avoid glyph
-collisions. Headings can receive fewer Rebels than the configured maximum.
-Selection is deterministic, including during server rendering and
-hydration.
+Each selected word receives one Rebel. Headings with fewer eligible words
+can receive fewer Rebels than the configured maximum. Selection is
+deterministic, including during server rendering and hydration.
 
 Editors keep writing ordinary text in the CMS. The original Unicode
 text, accessible heading text and copied content stay intact. Only the
@@ -138,8 +139,9 @@ and their content is excluded from selection. Use a native `a` when
 linked heading text should receive Rebels. Render CMS heading text
 directly as children or through the `Heading` `text` property.
 
-The first two `Heading` components select the same characters. The second
-heading also preserves its `Span` and emphasis:
+The first two headings select the same characters and preserve inline
+formatting. `Ta kontakt med oss` skips `Ta` to avoid a kerning gap after
+`T`. `Bytt` gets one Rebel because it is a single word:
 
 <InlineRebelsExample />
 
@@ -157,7 +159,7 @@ Use a nested provider to change the limit for a section. Set
 </TypographyRebels>
 ```
 
-| Property        | Type        | Default | Description                                                                                    |
-| --------------- | ----------- | ------- | ---------------------------------------------------------------------------------------------- |
-| `maxPerHeading` | `number`    | `2`     | Maximum Rebels per heading. Rounded down. Zero, negative and non-finite values disable Rebels. |
-| `children`      | `ReactNode` |         | Content containing the Eufemia headings to process.                                            |
+| Property        | Type        | Default | Description                                                                                                                  |
+| --------------- | ----------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `maxPerHeading` | `number`    | `2`     | Maximum Rebels per heading, capped at 2 and one per word. Rounded down. Values below 1 and non-finite values disable Rebels. |
+| `children`      | `ReactNode` |         | Content containing the Eufemia headings to process.                                                                          |

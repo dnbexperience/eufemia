@@ -10,7 +10,7 @@ import HeadingContentContext from './HeadingContentContext'
 import Span from '../span/Span'
 
 export type TypographyRebelsProps = {
-  /** Maximum number of Rebels per heading. Defaults to 2. Use 0 to disable. */
+  /** Maximum Rebels per heading, capped at 2 and one per word. Use 0 to disable. */
   maxPerHeading?: number
   children: ReactNode
 }
@@ -38,14 +38,13 @@ export default function TypographyRebels({
   >(
     (children, { family, size, brand }) => {
       const usesHeadingFont =
-        family === 'heading' ||
-        family === 'display' ||
-        (!family && !['basis', 'small', 'x-small'].includes(size))
+        !family || family === 'heading' || family === 'display'
 
       // Move this check and the .dnb-t__rebel theme rule when Coconut becomes Sbanken.
       if (
         brand !== 'coconut' ||
         !usesHeadingFont ||
+        !['x-large', 'xx-large'].includes(size) ||
         !Number.isFinite(maxPerHeading) ||
         maxPerHeading < 1
       ) {
@@ -83,8 +82,6 @@ function renderRebels(children: ReactNode, maxPerHeading: number) {
     text.matchAll(eligible),
     ({ index }) => index
   )
-  const requestedLimit = Math.min(maxPerHeading, positions.length)
-
   // Avoid the largest kerning losses at the boundary of a Rebel span.
   const preferredPositions = positions.filter(
     (index) =>
@@ -105,28 +102,18 @@ function renderRebels(children: ReactNode, maxPerHeading: number) {
   const preferredWords = wordPositions.filter((position) =>
     preferredPositions.includes(position)
   )
+  const limit = Math.min(maxPerHeading, 2, wordPositions.length)
   const candidates =
-    wordPositions.length >= requestedLimit
-      ? preferredWords.length >= requestedLimit
-        ? preferredWords
-        : wordPositions
-      : preferredPositions.length >= requestedLimit
-        ? preferredPositions
-        : positions
+    preferredWords.length >= limit ? preferredWords : wordPositions
   const selected = new Set<number>()
-  for (let index = 0; index < requestedLimit; index++) {
+  for (let index = 0; index < limit; index++) {
     const position =
       candidates[
-        requestedLimit === 1
+        limit === 1
           ? 0
-          : Math.round(
-              (index * (candidates.length - 1)) / (requestedLimit - 1)
-            )
+          : Math.round((index * (candidates.length - 1)) / (limit - 1))
       ]
-    // Keep the character fallback from placing colliding Rebels side by side.
-    if (!selected.has(position - 1)) {
-      selected.add(position)
-    }
+    selected.add(position)
   }
   let offset = 0
 

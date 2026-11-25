@@ -22,14 +22,14 @@ export const RebelsExample = () => (
 export const InlineRebelsExample = () => (
   <ComponentBox scope={{ TypographyRebels, Heading, Span }}>
     <TypographyRebels>
-      <Heading size="large">Velkommen til oss</Heading>
-      <Heading size="large" top>
+      <Heading size="x-large">Velkommen til oss</Heading>
+      <Heading size="x-large" top>
         V<Span>elkommen</Span> til <em>oss</em>
       </Heading>
-      <Heading size="large" top>
+      <Heading size="x-large" top>
         Ta kontakt med oss
       </Heading>
-      <Heading size="large" top>
+      <Heading size="x-large" top>
         Bytt
       </Heading>
     </TypographyRebels>

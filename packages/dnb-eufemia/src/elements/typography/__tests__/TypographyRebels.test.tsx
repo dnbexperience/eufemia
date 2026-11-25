@@ -52,8 +52,8 @@ describe('TypographyRebels', () => {
       render(
         <Theme brand="coconut">
           <TypographyRebels>
-            <Component size="large">{text}</Component>
-            <Component size="large">{text}</Component>
+            <Component size="x-large">{text}</Component>
+            <Component size="x-large">{text}</Component>
           </TypographyRebels>
         </Theme>
       )
@@ -99,17 +99,17 @@ describe('TypographyRebels', () => {
       render(
         <Theme brand="coconut">
           <TypographyRebels>
-            <Component size="large">Hello world</Component>
-            <Component size="large">
+            <Component size="x-large">Hello world</Component>
+            <Component size="x-large">
               He<span>llo</span> world
             </Component>
-            <Component size="large">
+            <Component size="x-large">
               He<Span>llo</Span> world
             </Component>
-            <Component size="large">
+            <Component size="x-large">
               H<Span>ello</Span> world
             </Component>
-            <Component size="large">
+            <Component size="x-large">
               H
               <em>
                 e<Span>llo</Span>
@@ -148,7 +148,7 @@ describe('TypographyRebels', () => {
             <TypographyRebels maxPerHeading={1}>
               <H2>{text}</H2>
               <TypographyRebels maxPerHeading={0}>
-                <H3>{text}</H3>
+                <H3 size="x-large">{text}</H3>
               </TypographyRebels>
             </TypographyRebels>
           </Typography.Context>
@@ -164,7 +164,7 @@ describe('TypographyRebels', () => {
   it.each([
     ['Velkommen til oss', 2, ['l', 'o']],
     ['Fordeler', 1, ['r']],
-    ['Velkommen', 2, ['l', 'n']],
+    ['Velkommen', 2, ['l']],
     ['Ta', 2, ['a']],
     ['En Spare mer!', 2, ['n', 'e']],
   ])(
@@ -353,11 +353,11 @@ describe('TypographyRebels', () => {
   })
 
   it.each([
-    ['aefilnort!', 5],
+    ['aefilnort!', 1],
     ['a', 1],
     ['SKY ÆØÅ 123 👨‍👩‍👧‍👦', 0],
     ['á é í ó ñ á é', 0],
-    ['👋 spare 😊', 2],
+    ['👋 spare 😊', 1],
   ])(
     'preserves Unicode text and only uses supported glyphs (%s)',
     (value, count) => {
@@ -401,38 +401,68 @@ describe('TypographyRebels', () => {
     expect(getRebels()).toHaveLength(1)
   })
 
-  it('only transforms headings using the Sbanken Display font', () => {
+  it.each([
+    ['xx-large', undefined, 2],
+    ['x-large', undefined, 2],
+    ['x-large', 'heading', 2],
+    ['x-large', 'display', 2],
+    ['xx-large', 'basis', 0],
+    ['large', undefined, 0],
+    ['medium', undefined, 0],
+    ['basis', undefined, 0],
+    ['small', 'heading', 0],
+    ['x-small', 'display', 0],
+  ] as const)(
+    'only transforms the largest Sbanken Display headings (%s, %s)',
+    (size, family, count) => {
+      render(
+        <Theme brand="coconut">
+          <TypographyRebels>
+            <H1 size={size} family={family}>
+              {text}
+            </H1>
+            <Heading size={size} family={family}>
+              {text}
+            </Heading>
+            <p>{text}</p>
+          </TypographyRebels>
+        </Theme>
+      )
+
+      for (const heading of document.querySelectorAll(
+        '[data-flex-item-type="heading"]'
+      )) {
+        expect(getRebels(heading)).toHaveLength(count)
+      }
+      expect(getRebels(document.querySelector('p'))).toHaveLength(0)
+    }
+  )
+
+  it('caps the configured limit at two Rebels per heading and one per word', () => {
     render(
       <Theme brand="coconut">
-        <TypographyRebels>
-          <H1 family="basis">{text}</H1>
-          <H2 size="basis">{text}</H2>
-          <H3 size="small">{text}</H3>
-          <H4 size="x-small">{text}</H4>
-          <H5 size="small" family="heading">
-            {text}
-          </H5>
-          <H6 family="display">{text}</H6>
-          <p>{text}</p>
+        <TypographyRebels maxPerHeading={20}>
+          <H1>{text}</H1>
+          <H2>Sparing</H2>
+          <H2>SKY Sparing</H2>
         </TypographyRebels>
       </Theme>
     )
 
-    for (const heading of document.querySelectorAll('h1, h2, h3, h4, p')) {
-      expect(getRebels(heading)).toHaveLength(0)
-    }
-    expect(getRebels(document.querySelector('h5'))).toHaveLength(2)
-    expect(getRebels(document.querySelector('h6'))).toHaveLength(2)
+    const headings = document.querySelectorAll('h1, h2')
+    expect(getRebels(headings[0])).toHaveLength(2)
+    expect(getRebels(headings[1])).toHaveLength(1)
+    expect(getRebels(headings[2])).toHaveLength(1)
   })
 
   it('supports the Heading text property, including zero', () => {
     render(
       <Theme brand="coconut">
         <TypographyRebels>
-          <Heading size="large" text={text}>
+          <Heading size="x-large" text={text}>
             Ignored children
           </Heading>
-          <Heading size="large" text={0}>
+          <Heading size="x-large" text={0}>
             Ignored children
           </Heading>
         </TypographyRebels>
