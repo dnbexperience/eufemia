@@ -1,6 +1,18 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss';
 @use './../parts/PortalStyle.mixins.scss' as PortalMixins;
 
+@mixin liveEditorOutline() {
+  @include utilities.focusOutline();
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+  border-end-start-radius: var(--border-radius);
+  border-end-end-radius: var(--border-radius);
+
+  :global(.focusmode) & {
+    outline: none;
+  }
+}
+
 .codeBlockStyle {
   position: relative;
 
@@ -192,17 +204,20 @@ button.copyButtonStyle {
       position: relative;
       cursor: text;
 
-      &:hover,
-      &:focus-within {
-        @include utilities.focusOutline();
-        border-start-start-radius: 0;
-        border-start-end-radius: 0;
-        border-end-start-radius: var(--border-radius);
-        border-end-end-radius: var(--border-radius);
-
-        :global(.focusmode) & {
-          outline: none;
+      // Touch browsers keep :hover on the last tapped element.
+      @media (any-hover: hover) {
+        &:hover:not(
+            :where(
+              html[data-whatintent='touch'] *,
+              html[data-whatintent='keyboard'] *
+            )
+          ) {
+          @include liveEditorOutline();
         }
+      }
+
+      &:focus-within {
+        @include liveEditorOutline();
       }
 
       &__editable {
