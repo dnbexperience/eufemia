@@ -21,6 +21,7 @@ test('keeps chart color references readable across portal themes and viewport si
     'data-portal-ready',
     'true'
   )
+  await page.evaluate(() => document.fonts.ready)
 
   for (const colorScheme of ['light', 'dark'] as const) {
     await test.step(colorScheme, async () => {
@@ -67,7 +68,7 @@ test('keeps chart color references readable across portal themes and viewport si
     ).toHaveCSS('background-color', 'rgb(0, 52, 62)')
   })
 
-  for (const width of [1440, 1366, 768, 375]) {
+  for (const width of [1440, 1400, 1366, 860, 768, 375]) {
     await test.step(`palette at ${width}px`, async () => {
       await page.setViewportSize({ width, height: 900 })
       const palettes = page.locator('ul:has([title^="--chart-color-"])')
@@ -80,7 +81,14 @@ test('keeps chart color references readable across portal themes and viewport si
               return (
                 element.scrollWidth <= element.clientWidth &&
                 left >= 0 &&
-                right <= window.innerWidth
+                right <= window.innerWidth &&
+                Array.from(
+                  element.querySelectorAll('li > span:last-child')
+                ).every((label) => {
+                  const range = document.createRange()
+                  range.selectNodeContents(label)
+                  return range.getClientRects().length === 1
+                })
               )
             })
           )
