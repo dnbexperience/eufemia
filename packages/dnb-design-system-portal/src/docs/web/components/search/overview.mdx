@@ -2,13 +2,13 @@
 showTabs: true
 ---
 
-## Description
+## Overview
 
 Search helps people find content. Choose `Search.Input` for a search field, `Search.Autocomplete` for suggestions as people type, or `Search.Panel` to combine suggestions with filters and sorting. All three keep the query on blur, have a translated screen reader label, and support the same variants, shortcut hint, and focus expansion.
 
 Give the component a descriptive `label`, such as "Search products", when the search scope needs explanation. Set `labelSrOnly={false}` to show the label.
 
-## Import
+### Import
 
 ```tsx
 import { Search } from '@dnb/eufemia'
@@ -32,19 +32,19 @@ import SearchAutocomplete from '@dnb/eufemia/components/search/SearchAutocomplet
 import SearchPanel from '@dnb/eufemia/components/search/SearchPanel'
 ```
 
-## Behavior
+### Behavior
 
-### Input behavior
+#### Input behavior
 
 Search.Input builds on [Input](/web/components/input). Use `onChange` to receive the query and `onSubmit` to search when Enter is pressed. It renders a native search input without a suggestions list. All Search components default to a Search keyboard action without autocapitalization, autocorrection, or spellcheck. Native input props can override these defaults.
 
-### Autocomplete behavior
+#### Autocomplete behavior
 
 Search.Autocomplete builds on [Autocomplete](/web/components/autocomplete), including accessible suggestions, keyboard navigation, loading indicators, clear buttons, and asynchronous results. Provide `data` for local suggestions or use `mode="async"` and `onType` to load results. Use `onChange` to open a selected result and `onSubmit` to handle a query without a selected result. Selecting a result does not replace the query by default.
 
 For a fixed or sticky header, set `fixedPosition` on Search.Autocomplete or `popoverProps={{ fixedPosition: true }}` on Search.Panel. This keeps results attached to the input while the page scrolls. Leave it disabled for inputs in normal page flow.
 
-### Panel behavior
+#### Panel behavior
 
 Search.Panel combines Autocomplete's inline results with [Popover](/web/components/popover). It opens on focus when results are available and includes Popover's close button. Results render through a React portal, avoiding clipping by the input's container. The rounded panel uses the same corner radius and horizontal padding as Filter.Panel, with a 0.5rem gap below the input and space for the close button. The surface aligns with the input's left edge by default. Set `align="center"` or `align="right"` to change this; the surface stays inside the viewport. Use a render function to place filters, sorting, or actions around the provided `results`. These controls stay outside the listbox and retain their own keyboard behavior.
 
@@ -73,7 +73,7 @@ Provide the required `panelDescription` in the user's language. Describe what th
 
 For asynchronous results, use `mode="async"` and load data in `onType`, just like Search.Autocomplete. An empty panel stays closed on focus and while waiting for results. Use `showIndicator()` for a loading indicator inside the input. Call `updateData()` when results arrive, or `showNoOptionsItem()` for an explicit no-results message. Use `showIndicatorItem()` if the loading state should appear inside the panel instead. See the [asynchronous examples](/web/components/search/demos#asynchronous-results).
 
-### Variants
+#### Variants
 
 All three components accept `variant="default"`, `variant="hero"` for a large input that fills its container, or `variant="compact"` for an input that expands on focus. Compact stays expanded while it has a query or the suggestions are open. Reduced motion preferences disable the width transition.
 
@@ -81,13 +81,13 @@ All variants use the theme's normal corner radius.
 
 Set `--search-width` and `--search-compact-width` to customize the expanded and collapsed widths. Their defaults are `17.5rem` and `11rem`. Widths are limited to the available container. `stretch` fills the container in every state.
 
-### Keyboard shortcut
+#### Keyboard shortcut
 
 Set `shortcut` to enable Cmd+K on Mac and Ctrl+K elsewhere and display a platform-specific hint inside the input. The shortcut leaves other focused text fields and editors alone. If several Search components enable the shortcut, the first visible, enabled input in document order receives focus. When a modal is open, the shortcut stays within that modal. Enable it on the primary search in a page. The shortcut hint is hidden on small screens and while the input has content.
 
 When the shortcut moves focus into Search, Escape closes open results first. Press Escape again to return focus to the original control without clearing the query. An empty compact input collapses after losing focus; a query keeps it expanded.
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/search)
 - [Input events](/web/components/input/events)
