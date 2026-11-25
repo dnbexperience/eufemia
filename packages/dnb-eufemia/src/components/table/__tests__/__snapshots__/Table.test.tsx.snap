@@ -286,6 +286,14 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
 .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text {
   text-decoration-color: transparent;
 }
+html:where([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:active) .dnb-button__text, html:where([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:active) .dnb-button__text {
+  text-decoration-color: transparent;
+}
+@media (any-hover: none) {
+  html:where(:not([data-whatintent=mouse])) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:active) .dnb-button__text, html:where(:not([data-whatintent=mouse])) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:active) .dnb-button__text {
+    text-decoration-color: transparent;
+  }
+}
 .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon {
   opacity: 1;
 }
@@ -609,6 +617,15 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
   opacity: 1;
 }
 
+html:where(:not([data-whatintent=mouse])) .dnb-table__td__button:not(:active):focus-visible::before, html:where(:not([data-whatintent=mouse])) .dnb-table__td--selected .dnb-table__td__button:not(:active):focus-visible::before {
+  --border-width: var(--focus-outline-width);
+  --border-color: var(--token-color-stroke-action-focus);
+}
+
+html:where(:not([data-whatintent=mouse])) .dnb-table__td__button:not(:active):focus-visible .dnb-table__td__button__icon {
+  opacity: 1;
+}
+
 .dnb-table__td__button__content {
   flex: 1;
   min-width: 0;
@@ -669,6 +686,17 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
   --border-color: var(--token-color-stroke-selected);
 }
 
+html:where([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-table__td--selected .dnb-table__td__button:not(:active)::before {
+  --border-width: var(--table-accordion-outline-width--active);
+  --border-color: var(--token-color-stroke-selected);
+}
+
+@media (any-hover: none) {
+  html:where(:not([data-whatintent=mouse])) .dnb-table__td--selected .dnb-table__td__button:not(:active)::before {
+    --border-width: var(--table-accordion-outline-width--active);
+    --border-color: var(--token-color-stroke-selected);
+  }
+}
 .dnb-table {
   /* stylelint-disable */
 }
@@ -1181,10 +1209,12 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   bottom: calc(var(--table-border-width) * -1);
 }
 
-.dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
-  --table-td-background: var(--table-accordion-header-background);
+@media (any-hover: hover) {
+  .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) .dnb-table__td {
+    --table-td-background: var(--table-accordion-header-background);
+  }
 }
-
 html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-outline-width);
@@ -1195,6 +1225,19 @@ html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-t
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:last-of-type::before {
+  right: 0;
+}
+
+html:where(:not([data-whatintent=mouse]))[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td::before {
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: var(--focus-outline-width);
+}
+
+html:where(:not([data-whatintent=mouse]))[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td:first-of-type::before {
+  left: 0;
+}
+
+html:where(:not([data-whatintent=mouse]))[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td:last-of-type::before {
   right: 0;
 }
 
@@ -1212,15 +1255,17 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
   color: var(--table-accordion-icon-color--active);
 }
 
-.dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
-  --table-td-background: var(--table-accordion-header-background);
+@media (any-hover: hover) {
+  .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) .dnb-table__td {
+    --table-td-background: var(--table-accordion-header-background);
+  }
+  .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) .dnb-table__td::before {
+    border: none;
+    border-top: var(--table-accordion-border);
+  }
 }
-
-.dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td::before {
-  border: none;
-  border-top: var(--table-accordion-border);
-}
-
 html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) {
   --table-td-background: var(--table-accordion-header-background);
 }
@@ -1230,6 +1275,24 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
   border-top: var(--table-accordion-border);
 }
 
+html:where([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active) {
+  --table-td-background: var(--table-accordion-header-background);
+}
+
+html:where([data-whatintent=touch], [data-whatintent=keyboard]):not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active) td::before {
+  border: none;
+  border-top: var(--table-accordion-border);
+}
+
+@media (any-hover: none) {
+  html:where(:not([data-whatintent=mouse])):not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active) {
+    --table-td-background: var(--table-accordion-header-background);
+  }
+  html:where(:not([data-whatintent=mouse])):not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active) td::before {
+    border: none;
+    border-top: var(--table-accordion-border);
+  }
+}
 .dnb-table__tr--clickable.dnb-table__tr--disabled .dnb-table__td__button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--disabled);
 }
