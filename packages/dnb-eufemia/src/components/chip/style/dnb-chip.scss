@@ -526,6 +526,13 @@
     background-color: var(--chip-control-selected);
   }
 
+  // Change the indicator together with the pill. A fading indicator lags
+  // behind it and makes nearby icons jump in iOS Safari.
+  .dnb-checkbox__gfx,
+  .dnb-radio__dot {
+    transition: none;
+  }
+
   &--default {
     --chip-selected-border: var(--token-color-stroke-selected);
 
