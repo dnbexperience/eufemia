@@ -20,6 +20,10 @@ const searchDefaultProps: Partial<SearchProps> = {
   size: 'medium',
   labelSrOnly: true,
   showClearButton: true,
+  enterKeyHint: 'search',
+  autoCapitalize: 'none',
+  autoCorrect: 'off',
+  spellCheck: false,
 }
 
 const subscribeToPlatform = () => () => undefined

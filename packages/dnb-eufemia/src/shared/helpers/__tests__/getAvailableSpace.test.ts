@@ -31,6 +31,33 @@ describe('getAvailableSpace', () => {
     vi.unstubAllGlobals()
   })
 
+  it('uses visual-viewport coordinates when iOS pans the page', () => {
+    vi.stubGlobal('visualViewport', { offsetTop: 172, height: 480 })
+    const rect = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ top: -172 } as DOMRect)
+    const children = document.body.childElementCount
+
+    expect(getViewportBounds()).toEqual({
+      top: 0,
+      bottom: 480,
+      height: 480,
+    })
+    expect(
+      getAvailableSpace(
+        { top: 184, bottom: 227 },
+        {
+          margin: 16,
+          offset: 8,
+        }
+      )
+    ).toEqual({ top: 16, bottom: 464, above: 160, below: 229 })
+    expect(document.body.childElementCount).toBe(children)
+
+    rect.mockRestore()
+    vi.unstubAllGlobals()
+  })
+
   it('falls back to the layout viewport without visualViewport', () => {
     vi.stubGlobal('visualViewport', undefined)
     expect(getViewportBounds()).toEqual({

@@ -37,6 +37,7 @@ export type SearchPanelProps = Omit<
   /** Configure the position and appearance of the results surface. */
   popoverProps?: Pick<
     PopoverProps,
+    | 'fixedPosition'
     | 'placement'
     | 'triggerOffset'
     | 'autoAlignMode'
@@ -95,6 +96,7 @@ function SearchPanel(localProps: SearchPanelProps) {
             className={clsx('dnb-search__panel', popoverProps?.className)}
             inputRef={targetRef}
             nestedInteractionRef={nestedInteractionRef}
+            close={close}
             minHeight={minHeight}
             maxHeight={maxHeight}
             contentRef={resultsRef}
@@ -162,6 +164,7 @@ function SearchPanel(localProps: SearchPanelProps) {
 function SearchPanelSurface({
   inputRef,
   nestedInteractionRef,
+  close,
   minHeight,
   maxHeight,
   ...props
@@ -169,6 +172,7 @@ function SearchPanelSurface({
   inputRef: RefObject<HTMLInputElement>
   nestedInteractionRef: RefObject<boolean>
   contentRef: RefObject<HTMLSpanElement>
+  close: () => void
   minHeight?: SearchPanelProps['minHeight']
   maxHeight?: SearchPanelProps['maxHeight']
 }) {
@@ -207,7 +211,21 @@ function SearchPanelSurface({
       return undefined
     }
 
-    const updateHeight = () => {
+    const updateHeight = (checkSpace = false) => {
+      const availableHeight = parseFloat(
+        getComputedStyle(surface).getPropertyValue(
+          '--popover-available-height'
+        )
+      )
+      const minimumSurfaceHeight =
+        7 *
+        parseFloat(
+          getComputedStyle(surface.ownerDocument.documentElement).fontSize
+        )
+      if (checkSpace && availableHeight < minimumSurfaceHeight) {
+        close()
+        return
+      }
       const reservedHeight = Math.max(
         0,
         content.scrollHeight -
@@ -229,15 +247,16 @@ function SearchPanelSurface({
     let frame: number
     const observer = new ResizeObserver(() => {
       cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(updateHeight)
+      frame = requestAnimationFrame(() => updateHeight(true))
     })
     observer.observe(content)
     observer.observe(results)
+    observer.observe(surface)
     return () => {
       cancelAnimationFrame(frame)
       observer.disconnect()
     }
-  }, [open, contentRef, props.children])
+  }, [open, close, contentRef, props.children])
 
   useEffect(() => {
     const input = inputRef.current
@@ -256,12 +275,12 @@ function SearchPanelSurface({
       const content = contentRef.current?.querySelector<HTMLElement>(
         '.dnb-search__panel-content'
       )
-      const option = input.ownerDocument.getElementById(
-        input.getAttribute('aria-activedescendant')
-      )
-      if (content && option && content.contains(option)) {
+      const results =
+        content?.querySelector<HTMLElement>('[role="listbox"]')
+      if (content && results) {
         const viewport = content.getBoundingClientRect()
-        const item = option.getBoundingClientRect()
+        // DrawerList reveals the active option inside this viewport.
+        const item = results.getBoundingClientRect()
         const offset =
           item.bottom > viewport.bottom - 8
             ? item.bottom - viewport.bottom + 8
@@ -273,7 +292,14 @@ function SearchPanelSurface({
     }
     let navigating = false
     const onKeyDown = (event: KeyboardEvent) => {
-      navigating = event.key === 'ArrowDown' || event.key === 'ArrowUp'
+      navigating = [
+        'ArrowDown',
+        'ArrowUp',
+        'Home',
+        'End',
+        'PageUp',
+        'PageDown',
+      ].includes(event.key)
       if (navigating) {
         revealResults()
       }

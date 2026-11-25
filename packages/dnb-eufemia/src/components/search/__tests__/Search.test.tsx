@@ -65,6 +65,29 @@ describe.each([
     expect(document.querySelector('kbd')).toBeNull()
   })
 
+  it('uses search keyboard defaults and allows explicit overrides', () => {
+    const { rerender } = render(<Component {...requiredProps} />)
+    const input = document.querySelector('input')
+    expect(input).toHaveAttribute('enterkeyhint', 'search')
+    expect(input).toHaveAttribute('autocapitalize', 'none')
+    expect(input).toHaveAttribute('autocorrect', 'off')
+    expect(input).toHaveAttribute('spellcheck', 'false')
+
+    rerender(
+      <Component
+        {...requiredProps}
+        enterKeyHint="go"
+        autoCapitalize="words"
+        autoCorrect="on"
+        spellCheck
+      />
+    )
+    expect(input).toHaveAttribute('enterkeyhint', 'go')
+    expect(input).toHaveAttribute('autocapitalize', 'words')
+    expect(input).toHaveAttribute('autocorrect', 'on')
+    expect(input).toHaveAttribute('spellcheck', 'true')
+  })
+
   it('supports Norwegian and custom labels', () => {
     const { rerender } = render(<Component {...requiredProps} />)
     expect(document.querySelector('input')).toHaveAccessibleName('Søk')
@@ -725,6 +748,20 @@ describe('Search.Panel', () => {
     expect(inputs[1]).toHaveAccessibleDescription('Sort product results.')
     expect(inputs[0].getAttribute('aria-describedby')).not.toBe(
       inputs[1].getAttribute('aria-describedby')
+    )
+  })
+
+  it('supports fixed positioning for a panel in a fixed header', async () => {
+    render(
+      <Search.Panel
+        panelDescription="Search results."
+        data={['Button']}
+        popoverProps={{ fixedPosition: true }}
+      />
+    )
+    await userEvent.click(document.querySelector('input'))
+    expect(document.querySelector('.dnb-search__panel')).toHaveClass(
+      'dnb-popover--fixed'
     )
   })
 

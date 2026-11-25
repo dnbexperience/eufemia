@@ -131,6 +131,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   const debounceTimeout = useRef<NodeJS.Timeout>(undefined)
   const resizeObserver = useRef<ResizeObserver | null>(null)
+  const resizeFrame = useRef<number>(undefined)
   const tmpRef = useRef<HTMLSpanElement>(null)
   const elementRef =
     contentRef && 'current' in contentRef ? contentRef : tmpRef
@@ -229,8 +230,12 @@ function PopoverContainer(props: PopoverContainerProps) {
       resizeObserver.current = new ResizeObserver((entries) => {
         clearTimers()
         if (entries.some(({ target }) => target === elementRef.current)) {
-          // Keep the anchor aligned before resized content is painted.
-          flushSync(requestRecalculation)
+          // React may commit pending content changes too. Recalculate before
+          // the next paint, outside the observer's delivery cycle.
+          cancelAnimationFrame(resizeFrame.current)
+          resizeFrame.current = requestAnimationFrame(() => {
+            flushSync(requestRecalculation)
+          })
           return
         }
         debounceTimeout.current = setTimeout(requestRecalculation, 100)
@@ -248,6 +253,7 @@ function PopoverContainer(props: PopoverContainerProps) {
   useLayoutEffect(() => {
     const removePositionObserver = () => {
       clearTimers()
+      cancelAnimationFrame(resizeFrame.current)
       resizeObserver.current?.disconnect()
       resizeObserver.current = null
     }
@@ -336,14 +342,18 @@ function PopoverContainer(props: PopoverContainerProps) {
         }
       }
 
-      requestRecalculation()
+      if (fixedPosition) {
+        flushSync(requestRecalculation)
+      } else {
+        requestRecalculation()
+      }
     }
 
     document.addEventListener('scroll', handleScroll, true)
     return () => {
       document.removeEventListener('scroll', handleScroll, true)
     }
-  }, [isActive, requestRecalculation])
+  }, [fixedPosition, isActive, requestRecalculation])
 
   useLayoutEffect(() => {
     if (!isActive && renewStyles) {

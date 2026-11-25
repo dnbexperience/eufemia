@@ -2,6 +2,10 @@ import type { InputProps } from '../input/Input'
 
 export type SearchProps = Pick<
   InputProps,
+  | 'enterKeyHint'
+  | 'autoCapitalize'
+  | 'autoCorrect'
+  | 'spellCheck'
   | 'label'
   | 'lang'
   | 'placeholder'

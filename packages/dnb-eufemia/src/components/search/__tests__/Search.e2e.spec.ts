@@ -677,6 +677,58 @@ test('panel uses available height above and below the input and resizes with the
   }
 })
 
+test('fixed panel stays anchored on every scroll frame', async ({
+  page,
+}) => {
+  const search = page.locator(
+    '[data-testid="search-panel-compact"] .dnb-search'
+  )
+  await search.evaluate((element: HTMLElement) => {
+    Object.assign(element.style, {
+      position: 'fixed',
+      top: '24px',
+      left: '24px',
+      zIndex: '100',
+    })
+    document.querySelector<HTMLElement>('main').style.paddingBottom =
+      '100vh'
+  })
+  await search.locator('input').focus()
+  const panel = page.locator('.dnb-search__panel')
+  await waitForPanelAnimation(panel.getByRole('listbox'))
+  await expect(panel).toHaveClass(/dnb-popover--fixed/)
+  const gaps = await panel.evaluate(async (element) => {
+    const input = document.querySelector(
+      '[data-testid="search-panel-compact"] input'
+    )
+    const gaps: number[] = []
+
+    for (const delta of [100, 100, -100, -100]) {
+      await new Promise<void>((resolve) => {
+        window.addEventListener(
+          'scroll',
+          () => {
+            requestAnimationFrame(() => {
+              gaps.push(
+                element.getBoundingClientRect().top -
+                  input.getBoundingClientRect().bottom
+              )
+              resolve()
+            })
+          },
+          { once: true }
+        )
+        window.scrollBy(0, delta)
+      })
+    }
+    return gaps
+  })
+
+  for (const gap of gaps) {
+    expect(gap).toBeCloseTo(8, 0)
+  }
+})
+
 test('panel keeps its opening direction while scrolling', async ({
   page,
 }) => {
@@ -727,6 +779,7 @@ test('panel keeps its opening direction while scrolling', async ({
         '[data-testid="search-panel"] input'
       )
       const gaps: number[] = []
+
       for (const delta of [60, -60, 60, -60]) {
         await new Promise<void>((resolve) => {
           window.addEventListener(
@@ -747,6 +800,7 @@ test('panel keeps its opening direction while scrolling', async ({
       }
       return gaps
     })
+
     for (const gap of gaps) {
       expect(gap).toBeCloseTo(8, 0)
     }
@@ -754,26 +808,9 @@ test('panel keeps its opening direction while scrolling', async ({
   await scrollInputTo(400)
   await expectFit('top')
   await scrollInputTo(24)
-  await expect
-    .poll(() =>
-      panel.evaluate((element) =>
-        getComputedStyle(element).getPropertyValue(
-          '--popover-available-height'
-        )
-      )
-    )
-    .toBe('0px')
-  await expect.poll(async () => (await panel.boundingBox()).height).toBe(0)
-  await expect
-    .poll(async () => {
-      const surface = await panel.boundingBox()
-      const trigger = await input.boundingBox()
-      return surface.y >= 15 && surface.y + surface.height <= trigger.y - 7
-    })
-    .toBe(true)
-
-  await input.press('Escape')
   await expect(panel).toBeHidden()
+  await expect(input).toHaveAttribute('aria-expanded', 'false')
+  await expect(input).toBeFocused()
   await scrollInputTo(400)
   await input.press('ArrowDown')
   await expectFit('bottom')
@@ -818,8 +855,15 @@ test('panel reveals keyboard results when controls fill a short viewport', async
     .boundingBox()
   expect(sortBox.y).toBeGreaterThanOrEqual(closeBox.y + closeBox.height)
 
-  for (const index of [0, 1, 2]) {
-    await input.press('ArrowDown')
+  for (const [key, index] of [
+    ['End', 19],
+    ['Home', 0],
+    ['PageDown', 19],
+    ['PageUp', 0],
+    ['ArrowDown', 1],
+    ['ArrowDown', 2],
+  ] as const) {
+    await input.press(key)
     await expect(options.nth(index)).toHaveClass(
       /dnb-drawer-list__option--focus/
     )
@@ -864,11 +908,13 @@ test('panel reveals keyboard results when controls fill a short viewport', async
 test('panel category changes settle without resize observer errors', async ({
   page,
 }) => {
-  const errors: string[] = []
-  page.on('pageerror', (error) => {
-    if (error.message.includes('ResizeObserver')) {
-      errors.push(error.message)
-    }
+  await page.evaluate(() => {
+    window['resizeErrors'] = []
+    window.addEventListener('error', (event) => {
+      if (event.message.includes('ResizeObserver')) {
+        window['resizeErrors'].push(event.message)
+      }
+    })
   })
   const input = page.locator('[data-testid="search-panel"] input')
   await input.focus()
@@ -881,6 +927,7 @@ test('panel category changes settle without resize observer errors', async ({
     name: 'Guidance',
     exact: true,
   })
+  await input.fill('a')
   for (let index = 0; index < 8; index++) {
     await components.click()
     await expect(components).toBeChecked()
@@ -888,7 +935,6 @@ test('panel category changes settle without resize observer errors', async ({
     await expect(guidance).toBeChecked()
     await input.fill('a')
     await input.press('ArrowDown')
-    await input.fill('')
     await all.click()
     await expect(all).toBeChecked()
   }
@@ -898,7 +944,7 @@ test('panel category changes settle without resize observer errors', async ({
         requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
       })
   )
-  expect(errors).toEqual([])
+  expect(await page.evaluate(() => window['resizeErrors'])).toEqual([])
 })
 
 test('panel keeps the keyboard focus outline inside the results viewport', async ({
@@ -932,6 +978,39 @@ test('panel keeps the keyboard focus outline inside the results viewport', async
   expect(focusRing.left).toBeGreaterThanOrEqual(focusRing.spread)
   expect(focusRing.right).toBeGreaterThanOrEqual(focusRing.spread)
 })
+
+for (const variant of ['default', 'hero']) {
+  test(
+    'simple ' +
+      variant +
+      ' panel preserves the first focus ring without outer overflow',
+    async ({ page }) => {
+      const input = page.locator(
+        '[data-testid="search-panel-' + variant + '"] input'
+      )
+      await input.scrollIntoViewIfNeeded()
+      await input.focus()
+      const panel = page.locator('.dnb-search__panel')
+      await expect(panel).toBeVisible()
+      await input.press('ArrowDown')
+      await waitForPanelAnimation(panel.getByRole('listbox'))
+      const geometry = await panel.evaluate((element) => {
+        const content = element.querySelector('.dnb-search__panel-content')
+        const option = element.querySelector(
+          '.dnb-drawer-list__option--focus'
+        )
+        return {
+          overflow: content.scrollHeight - content.clientHeight,
+          top:
+            option.getBoundingClientRect().top -
+            content.getBoundingClientRect().top,
+        }
+      })
+      expect(geometry.overflow).toBe(0)
+      expect(geometry.top).toBeGreaterThanOrEqual(3)
+    }
+  )
+}
 
 test('panel restores results and keyboard navigation after clearing the query', async ({
   page,

@@ -2,7 +2,15 @@ type VerticalBounds = { top: number; bottom: number }
 
 export function getViewportBounds() {
   const viewport = window.visualViewport
-  const top = viewport?.offsetTop ?? 0
+  let top = viewport?.offsetTop ?? 0
+  if (top !== 0) {
+    // Safari reports element rectangles relative to the panned visual viewport.
+    const origin = document.createElement('span')
+    origin.style.cssText = 'position:fixed;top:0;left:0;visibility:hidden'
+    document.body.appendChild(origin)
+    top += origin.getBoundingClientRect().top
+    origin.remove()
+  }
   const height =
     viewport?.height ??
     Math.max(

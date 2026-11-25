@@ -40,7 +40,7 @@ export const SearchPanelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   popoverProps: {
-    doc: 'Configure the underlying [Popover](/web/components/popover/properties) with `placement`, `triggerOffset`, `autoAlignMode`, `className`, or `noAnimation`. Defaults to `triggerOffset: 8` pixels and `autoAlignMode: "initial"`, keeping the opening direction while the panel is open.',
+    doc: 'Configure the underlying [Popover](/web/components/popover/properties) with `fixedPosition`, `placement`, `triggerOffset`, `autoAlignMode`, `className`, or `noAnimation`. Use `fixedPosition: true` for a fixed or sticky header. Defaults to `triggerOffset: 8` pixels and `autoAlignMode: "initial"`, keeping the opening direction while the panel is open.',
     type: 'object',
     status: 'optional',
   },

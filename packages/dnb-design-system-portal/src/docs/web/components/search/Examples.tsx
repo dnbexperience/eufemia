@@ -141,6 +141,7 @@ export const SearchCompact = () => (
           variant="compact"
           shortcut
           label="Search components in a panel"
+          popoverProps={{ fixedPosition: true }}
           panelDescription="Use the arrow keys to navigate search results."
           data={['Button', 'Input', 'Table']}
         />

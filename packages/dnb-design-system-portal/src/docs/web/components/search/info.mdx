@@ -36,11 +36,13 @@ import SearchPanel from '@dnb/eufemia/components/search/SearchPanel'
 
 ### Input behavior
 
-Search.Input builds on [Input](/web/components/input). Use `onChange` to receive the query and `onSubmit` to search when Enter is pressed. It renders a native search input without a suggestions list.
+Search.Input builds on [Input](/web/components/input). Use `onChange` to receive the query and `onSubmit` to search when Enter is pressed. It renders a native search input without a suggestions list. All Search components default to a Search keyboard action without autocapitalization, autocorrection, or spellcheck. Native input props can override these defaults.
 
 ### Autocomplete behavior
 
 Search.Autocomplete builds on [Autocomplete](/web/components/autocomplete), including accessible suggestions, keyboard navigation, loading indicators, clear buttons, and asynchronous results. Provide `data` for local suggestions or use `mode="async"` and `onType` to load results. Use `onChange` to open a selected result and `onSubmit` to handle a query without a selected result. Selecting a result does not replace the query by default.
+
+For a fixed or sticky header, set `fixedPosition` on Search.Autocomplete or `popoverProps={{ fixedPosition: true }}` on Search.Panel. This keeps results attached to the input while the page scrolls. Leave it disabled for inputs in normal page flow.
 
 ### Panel behavior
 
@@ -61,7 +63,9 @@ Search.Panel combines Autocomplete's inline results with [Popover](/web/componen
 </Search.Panel>
 ```
 
-The results grow with their content into the available space above or below the input. The panel reserves room for custom controls, padding, and the close button, and scrolls the results when needed. It keeps its opening direction while open and updates the available height when the page scrolls or the viewport changes, including when a mobile keyboard opens. The results have a minimum height of 10rem, configurable with `minHeight`. This minimum is reduced when less space is available on the opening side. The panel scrolls when custom controls need more room. Use `minHeight={0}` for the natural height of a short list. Set `maxHeight={16}` to cap the results at 16rem. A smaller explicit `maxHeight` takes precedence over `minHeight`.
+The results grow with their content into the available space above or below the input. The panel reserves room for custom controls, padding, and the close button, and scrolls the results when needed. It keeps its opening direction while open and updates the available height when the page scrolls or the viewport changes, including when a mobile keyboard opens. The results have a minimum height of 10rem, configurable with `minHeight`. This minimum is reduced when less space is available on the opening side. The panel scrolls when custom controls need more room. It closes if the opening side has less than 7rem available, keeping focus in the input. Use `minHeight={0}` for the natural height of a short list. Set `maxHeight={16}` to cap the results at 16rem. A smaller explicit `maxHeight` takes precedence over `minHeight`.
+
+The panel defaults to a maximum width of 32rem, including the hero variant. Use `popoverProps.className` to customize the surface width.
 
 Up and Down navigate results while the input has focus, and Enter selects a result. Pressing text or empty space in the panel keeps focus in the input. Tab moves between the input and custom controls without trapping focus. Escape closes the results and returns focus to the input. See the [sorting and filter example](/web/components/search/demos#panel-with-filtering-and-sorting).
 
