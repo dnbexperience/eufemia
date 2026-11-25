@@ -91,11 +91,9 @@ describe('MCP infrastructure', () => {
 
     expect(attachedPolicies('mcp')).toEqual([
       'arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-enqueue',
-      'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
     ])
     expect(attachedPolicies('usage_consumer')).toEqual([
       'arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-consume',
-      'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
     ])
     expect(terraform).not.toMatch(
       /resource "aws_iam_(role_policy|policy_attachment|role_policy_attachments_exclusive)" |managed_policy_arns|inline_policy/
