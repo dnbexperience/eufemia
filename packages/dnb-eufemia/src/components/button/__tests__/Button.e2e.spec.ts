@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('ARIA disabled buttons keep their background and underline on hover and press', async ({
+test('ARIA disabled buttons keep their appearance on hover and press', async ({
   page,
 }) => {
   await page.goto(
@@ -29,6 +29,7 @@ test('ARIA disabled buttons keep their background and underline on hover and pre
 
           return {
             background: getComputedStyle(element).backgroundColor,
+            border: getComputedStyle(element).boxShadow,
             underline: getComputedStyle(text).textDecoration,
           }
         })
@@ -50,9 +51,15 @@ test('ARIA disabled buttons keep their background and underline on hover and pre
       await button.evaluate((element) => {
         element.setAttribute('aria-disabled', 'false')
       })
-      expect(await appearance()).not.toEqual(disabled)
+      await page.mouse.move(0, 0)
+      const rest = await appearance()
+
+      await button.hover()
+      const hovered = await appearance()
+      expect(hovered).not.toEqual(rest)
+
       await page.mouse.down()
-      expect(await appearance()).not.toEqual(disabled)
+      expect(await appearance()).not.toEqual(hovered)
       await page.mouse.up()
     })
   }
