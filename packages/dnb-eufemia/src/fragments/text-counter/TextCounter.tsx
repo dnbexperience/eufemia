@@ -26,6 +26,7 @@ export default function TextCounter(localProps: TextCounterProps) {
     max,
     className,
     locale,
+    id,
     ...rest
   } = localProps
 
@@ -65,10 +66,16 @@ export default function TextCounter(localProps: TextCounterProps) {
         length > max && 'dnb-text-counter--exceeded',
         className
       )}
+      id={id}
       {...rest}
     >
       <Icon icon={exclamation_triangle} />
-      {message}
+      <span
+        className="dnb-text-counter__message"
+        id={id ? `${id}-message` : undefined}
+      >
+        {message}
+      </span>
       <AriaLive element="span" disabled={bypassAria} delay={2000}>
         {message}
       </AriaLive>

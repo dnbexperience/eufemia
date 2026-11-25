@@ -890,7 +890,10 @@ describe('Textarea component', () => {
     expect(textarea).toHaveAttribute('aria-invalid', 'true')
 
     const counter = document.querySelector('.dnb-text-counter')
-    expect(textarea).toHaveAttribute('aria-describedby', counter.id)
+    expect(textarea).toHaveAttribute(
+      'aria-describedby',
+      counter.id + '-message'
+    )
     expect(counter).toHaveTextContent(
       gb.TextCounter.characterExceeded
         .replace('%count', '2')
@@ -902,6 +905,45 @@ describe('Textarea component', () => {
     expect(element).not.toHaveClass('dnb-textarea__status--error')
     expect(textarea).not.toHaveAttribute('aria-invalid')
     expect(textarea).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('should describe the textarea with the counter message only, not with its live region', async () => {
+    render(<Textarea characterCounter={4} value="foo" lang="en-GB" />)
+
+    const textarea = document.querySelector('textarea')
+    await userEvent.type(textarea, 'bar')
+
+    const description = document.getElementById(
+      textarea.getAttribute('aria-describedby')
+    )
+    expect(description).toBeInTheDocument()
+    expect(description.querySelector('[aria-live]')).toBeNull()
+    expect(description.textContent).toBe(
+      gb.TextCounter.characterExceeded
+        .replace('%count', '2')
+        .replace('%max', '4')
+    )
+  })
+
+  it('should link an exceeded counter that has a custom id', () => {
+    render(
+      <Textarea
+        id="textarea-id"
+        characterCounter={{ max: 2, id: 'custom-counter' }}
+        value="foo"
+      />
+    )
+
+    const textarea = document.querySelector('textarea')
+    const counter = document.querySelector('.dnb-text-counter')
+
+    expect(counter.id).toBe('custom-counter')
+
+    const description = document.getElementById(
+      textarea.getAttribute('aria-describedby')
+    )
+    expect(description).toBeInTheDocument()
+    expect(counter).toContainElement(description)
   })
 
   it('should let status take precedence over an exceeded characterCounter', () => {

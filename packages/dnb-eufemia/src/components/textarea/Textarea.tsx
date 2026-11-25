@@ -395,6 +395,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     typeof characterCounter === 'object'
       ? characterCounter.max
       : characterCounter
+  const characterCounterId =
+    (typeof characterCounter === 'object' && characterCounter.id) ||
+    id + '-counter'
   // A given status, including `false`, takes precedence over the counter
   const characterCounterExceeded =
     !status &&
@@ -434,7 +437,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       textareaParams,
       showStatus ? id + '-status' : null,
       suffix ? id + '-suffix' : null,
-      characterCounterExceeded ? id + '-counter' : null
+      characterCounterExceeded ? characterCounterId + '-message' : null
     )
   }
   if ((status && statusState === 'error') || characterCounterExceeded) {
@@ -574,7 +577,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
         {characterCounter && (
           <TextCounter
-            id={id + '-counter'}
             top="x-small"
             text={value}
             max={characterCounter as number}
@@ -583,6 +585,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
             {...(typeof characterCounter === 'object'
               ? characterCounter
               : {})}
+            id={characterCounterId}
           />
         )}
       </span>
