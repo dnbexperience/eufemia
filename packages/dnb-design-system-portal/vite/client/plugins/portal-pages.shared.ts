@@ -116,8 +116,8 @@ export type KnownFrontmatter = {
   /**
    * Render the page heading inside a tab bar.
    *
-   * Special case: If the page is named `info.mdx`, has no `title`, and is the
-   * first tab, it redirects to its parent.
+   * Special case: If the page is named `overview.mdx`, has no `title`, and is
+   * the first tab, it redirects to its parent.
    */
   showTabs?: boolean
   hideTabs?: Array<{ title: string }>
@@ -174,16 +174,17 @@ export type PageFileInfo = {
 /**
  * Is this the first tab of a tabbed page?
  *
- * Such a page (e.g. `components/table/info.mdx`) has no route of its own. The
- * parent page already imports and renders it, so the router redirects there
- * instead. Every other tab (`demos`, `properties`, ...) is a real route.
+ * Such a page (e.g. `components/table/overview.mdx`) has no route of its
+ * own. The parent page already imports and renders it, so the router
+ * redirects there instead. Every other tab (`demos`, `properties`, ...) is a
+ * real route.
  */
 export function isFirstTabPage(file: PageFileInfo): boolean {
   return Boolean(
     file.type === 'mdx' &&
     file.frontmatter.showTabs &&
     !file.frontmatter.title &&
-    file.slug.endsWith('/info')
+    file.slug.endsWith('/overview')
   )
 }
 
@@ -221,10 +222,18 @@ export function getPageRedirects(files: PageFileInfo[]) {
       }
     }
     const targetSlug = isFirstTabPage(file)
-      ? file.slug.replace(/\/info$/, '')
+      ? file.slug.replace(/\/overview$/, '')
       : file.slug
     if (isFirstTabPage(file)) {
       aliases.push('/' + file.slug)
+
+      // The first tab used to be written in info.mdx, so its old /info
+      // URLs keep redirecting to the parent page.
+      for (const alias of [...aliases]) {
+        if (/\/overview\/?$/.test(alias)) {
+          aliases.push(alias.replace(/\/overview(\/?)$/, '/info$1'))
+        }
+      }
     }
     for (const alias of aliases) {
       const from = '/' + alias.replace(/^\/+|\/+$/g, '')

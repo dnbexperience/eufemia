@@ -10,19 +10,21 @@ import {
   TableOfContentItemProperties,
 } from '@dnb/eufemia/src/extensions/table-of-content/TableOfContentDocs'
 
-## TableOfContent.Root
+## Properties
+
+### TableOfContent.Root
 
 <PropertiesTable props={TableOfContentRootProperties} showDefaultValue />
 
-## TableOfContent.Data
+### TableOfContent.Data
 
 <PropertiesTable props={TableOfContentDataProperties} showDefaultValue />
 
-## TableOfContent.Item
+### TableOfContent.Item
 
 <PropertiesTable props={TableOfContentItemProperties} showDefaultValue />
 
-## TableOfContentPreHydrationScript
+### TableOfContentPreHydrationScript
 
 Import this helper from `@dnb/eufemia/extensions/table-of-content/TableOfContentPreHydrationScript`. It restores the saved disclosure styling before first paint in SSR and static pages. Place it after the navigation markup and before application hydration. It accepts standard script attributes, including nonce, except children and dangerouslySetInnerHTML.
 

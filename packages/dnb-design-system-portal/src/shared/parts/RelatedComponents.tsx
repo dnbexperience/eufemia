@@ -25,7 +25,7 @@ type Entry = {
 function normalizeSlug(pathname: string): string {
   return pathname
     .replace(/^\/|\/$/g, '')
-    .replace(/\/(info|demos|properties|events)$/, '')
+    .replace(/\/(overview|demos|properties|events)$/, '')
 }
 
 function cleanTitle(title: string): string {
@@ -139,7 +139,7 @@ export default function RelatedComponents() {
 
   return (
     <>
-      <AutoLinkHeader level={2} useSlug="related-components">
+      <AutoLinkHeader level={3} useSlug="related-components">
         Related components
       </AutoLinkHeader>
 

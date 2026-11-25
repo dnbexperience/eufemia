@@ -24,10 +24,10 @@ describe('resolveEditSourcePath', () => {
       title: 'Button',
       showTabs: true,
     })
-    const info = createNode('uilib/components/button/info')
+    const info = createNode('uilib/components/button/overview')
 
     expect(resolveEditSourcePath(parent, [parent, info])).toBe(
-      `${sourceRoot}/uilib/components/button/info.mdx`
+      `${sourceRoot}/uilib/components/button/overview.mdx`
     )
   })
 
@@ -47,15 +47,15 @@ describe('resolveEditSourcePath', () => {
       showTabs: true,
       tabs: [
         {
-          title: 'Info',
-          key: '/uilib/components/date-format/info',
+          title: 'Overview',
+          key: '/uilib/components/date-format/overview',
         },
       ],
     })
-    const info = createNode('uilib/components/date-format/info')
+    const info = createNode('uilib/components/date-format/overview')
 
     expect(resolveEditSourcePath(parent, [parent, info])).toBe(
-      `${sourceRoot}/uilib/components/date-format/info.mdx`
+      `${sourceRoot}/uilib/components/date-format/overview.mdx`
     )
   })
 
@@ -64,10 +64,10 @@ describe('resolveEditSourcePath', () => {
       title: 'Example',
       showTabs: true,
       tabs: [
-        { title: 'Info', key: '/info' },
+        { title: 'Overview', key: '/overview' },
         { title: 'Demos', key: '/demos' },
       ],
-      hideTabs: [{ title: 'Info' }],
+      hideTabs: [{ title: 'Overview' }],
     })
     const demos = createNode('uilib/components/example/demos')
 

@@ -686,7 +686,7 @@ describeDocsBuild('docs build', () => {
     expect(markdown).toContain('version:')
     expect(markdown).toContain('generatedAt:')
     expect(markdown).toContain('checksum:')
-    expect(markdown).toContain('## Description')
+    expect(markdown).toContain('## Overview')
     expect(markdown).toContain('## Demos')
     expect(markdown).toContain('## Properties')
     expect(markdown).toContain('## Translations')

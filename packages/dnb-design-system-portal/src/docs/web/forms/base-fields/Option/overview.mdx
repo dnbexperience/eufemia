@@ -1,0 +1,39 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/base-fields/Option/info
+  - /web/extensions/forms/base-fields/Option/info
+---
+
+## Overview
+
+`Field.Option` is a pseudo-component that is used by parent components to configure options. It has no use on its own. How it renders, and what extra props it accepts, are defined by the parent.
+
+It is used by:
+
+- [Field.ArraySelection](/web/forms/base-fields/ArraySelection/)
+- [Field.Selection](/web/forms/base-fields/Selection/)
+
+### Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Option />)
+```
+
+### Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Option)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/base-fields/Option)
+
+### Usage
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Field.Selection>
+    <Field.Option value="foo" title="Foo!" />
+    <Field.Option value="bar" title="Baar!" />
+  </Field.Selection>
+)
+```

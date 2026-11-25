@@ -27,15 +27,17 @@ import {
   SidebarMenuResponsiveDrawerProperties,
 } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuDocs'
 
-## SidebarMenu.Root
+## Properties
+
+### SidebarMenu.Root
 
 <PropertiesTable props={SidebarMenuRootProperties} />
 
-## SidebarMenu.Data
+### SidebarMenu.Data
 
 <PropertiesTable props={SidebarMenuDataProperties} />
 
-## SidebarMenu.getController
+### SidebarMenu.getController
 
 ```ts
 const sidebar = SidebarMenu.getController(controllerId)
@@ -58,71 +60,71 @@ const removeTransform = sidebar.transformContent((content) => content, {
 
 Returns a controller for `SidebarMenu.Root`, `SidebarMenu.Data`, and `SidebarMenu.ResponsiveProvider` instances with the matching `controllerId`. It requires no provider and accepts calls before a menu mounts. Every method returns an idempotent cleanup function. Keys must be non-empty and should identify the owning app and feature. The latest content replacement wins. Transformations run in ascending order, then by key. Prop overrides merge per property in registration order. See [Content controlled by micro frontends](/web/patterns-and-extensions/sidebar-menu#content-controlled-by-micro-frontends) and [Props controlled by micro frontends](/web/patterns-and-extensions/sidebar-menu#props-controlled-by-micro-frontends) for lifecycle and server-rendering behavior.
 
-## SidebarMenu.Item
+### SidebarMenu.Item
 
 <PropertiesTable props={SidebarMenuItemProperties} />
 
-## SidebarMenu.Accordion
+### SidebarMenu.Accordion
 
 <PropertiesTable props={SidebarMenuAccordionProperties} />
 
-## SidebarMenu.Section
+### SidebarMenu.Section
 
 <PropertiesTable props={SidebarMenuSectionProperties} />
 
-## SidebarMenu.Group
+### SidebarMenu.Group
 
 <PropertiesTable props={SidebarMenuGroupProperties} />
 
-## SidebarMenu.Header
+### SidebarMenu.Header
 
 <PropertiesTable props={SidebarMenuHeaderProperties} />
 
-## SidebarMenu.Divider
+### SidebarMenu.Divider
 
 Supports standard `HTMLAttributes<HTMLLIElement>`.
 
-## SidebarMenu.PreHydrationScript
+### SidebarMenu.PreHydrationScript
 
 Renders the blocking script that restores persisted open menu items, scroll position, and inline dismissal before hydration. It supports standard `ScriptHTMLAttributes<HTMLScriptElement>` except `children` and `dangerouslySetInnerHTML`. Place it after the prerendered menu markup and before the application hydration script.
 
-## SidebarMenu.getPreHydrationScript
+### SidebarMenu.getPreHydrationScript
 
 Returns the same standalone script as a string for HTML templates assembled outside React.
 
-## SidebarMenu.ResizeHandle
+### SidebarMenu.ResizeHandle
 
 <PropertiesTable props={SidebarMenuResizeHandleProperties} />
 
-## SidebarMenu.ResponsiveProvider
+### SidebarMenu.ResponsiveProvider
 
 <PropertiesTable props={SidebarMenuResponsiveProviderProperties} />
 
-## SidebarMenu.ResponsiveInline
+### SidebarMenu.ResponsiveInline
 
 <PropertiesTable props={SidebarMenuResponsiveInlineProperties} />
 
-## SidebarMenu.ResponsiveAside
+### SidebarMenu.ResponsiveAside
 
 <PropertiesTable props={SidebarMenuResponsiveAsideProperties} />
 
-## SidebarMenu.ResponsiveShell
+### SidebarMenu.ResponsiveShell
 
 <PropertiesTable props={SidebarMenuResponsiveShellProperties} />
 
-## SidebarMenu.Toggle
+### SidebarMenu.Toggle
 
 <PropertiesTable props={SidebarMenuToggleProperties} />
 
-## SidebarMenu.ResponsiveTrigger
+### SidebarMenu.ResponsiveTrigger
 
 <PropertiesTable props={SidebarMenuResponsiveTriggerProperties} />
 
-## SidebarMenu.ResponsiveDrawer
+### SidebarMenu.ResponsiveDrawer
 
 <PropertiesTable props={SidebarMenuResponsiveDrawerProperties} />
 
-## SidebarMenu.useResponsive
+### SidebarMenu.useResponsive
 
 Returns `SidebarMenuResponsiveValue` with:
 
