@@ -273,6 +273,10 @@ p > .dnb-icon {
   --accordion-border-width: var(--accordion-border-width--active);
   --accordion-border-inset: var(--accordion-border-inset--active);
 }
+html:where(:not([data-whatintent=mouse])):not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disabled]):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
 html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible[disabled] {
   cursor: not-allowed;
 }
