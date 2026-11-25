@@ -801,7 +801,8 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
   display: contents;
   position: relative;
-  z-index: 3;
+  // Keep navigation above content borders and controls, below dropdowns and overlays.
+  z-index: calc(var(--z-index-dropdown) - 1);
 
   flex: 0 0 auto;
   width: var(--sidebar-menu-expanded-width);
