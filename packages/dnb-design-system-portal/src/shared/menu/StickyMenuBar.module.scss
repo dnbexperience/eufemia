@@ -197,6 +197,9 @@
 
   :global(svg) {
     width: 6rem;
+
+    /* Optically center the lowercase wordmark beside the menu icon. */
+    transform: translateY(-0.0625rem);
   }
 }
 
