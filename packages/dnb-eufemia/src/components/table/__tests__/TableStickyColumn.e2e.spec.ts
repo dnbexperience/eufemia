@@ -127,4 +127,37 @@ test.describe('Table sticky column', () => {
 
     await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
   })
+
+  test('gives row headers in key/value rows an opaque background', async ({
+    page,
+  }) => {
+    const scrollView = page.locator('.dnb-table__scroll-view')
+    const row = page.locator('.dnb-table tbody tr').nth(1)
+
+    // Make a key/value row: a row header (<Th scope="row">) and one value cell
+    await row.evaluate((tr) => {
+      const th = document.createElement('th')
+      th.className = 'dnb-table__th'
+      th.scope = 'row'
+      th.textContent = 'Key'
+      tr.cells[0].replaceWith(th)
+      while (tr.cells.length > 2) {
+        tr.cells[2].remove()
+      }
+      tr.cells[1].textContent =
+        'A value that is wider than the visible area '.repeat(4)
+    })
+    await scrollView.evaluate((element) => {
+      element.scrollTo({ left: 300, behavior: 'instant' })
+    })
+    await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
+
+    const backgroundOf = (selector: string) =>
+      row
+        .locator(selector)
+        .evaluate((cell) => getComputedStyle(cell).backgroundColor)
+
+    expect(await backgroundOf('td')).not.toBe('rgba(0, 0, 0, 0)')
+    expect(await backgroundOf('th')).toBe(await backgroundOf('td'))
+  })
 })

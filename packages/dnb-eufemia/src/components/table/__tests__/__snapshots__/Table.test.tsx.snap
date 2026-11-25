@@ -1000,6 +1000,10 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
   right: 0;
 }
 
+.dnb-table--sticky-column-first:not([data-sticky-column-disabled]) > tbody > tr > th:first-child:not([colspan]:not([colspan="1"])) {
+  background-color: var(--table-th-background-color, var(--table-td-background));
+}
+
 [data-table-sticky-column=first] {
   scroll-padding-left: var(--table-sticky-column-width);
 }

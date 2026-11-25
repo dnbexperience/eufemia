@@ -30,6 +30,15 @@ $sticky-cell: ':not([colspan]:not([colspan="1"]))';
   right: 0;
 }
 
+// Row headers in key/value rows have no background of their own.
+// When sticky, they take the row background, so the cells scrolled underneath do not show through.
+#{$first} > tbody > tr > th:first-child#{$sticky-cell} {
+  background-color: var(
+    --table-th-background-color,
+    var(--table-td-background)
+  );
+}
+
 // Scroll focused elements into view next to the sticky column, not underneath it.
 // "useStickyColumn" marks the scroll container and sets the width on it.
 [data-table-sticky-column='first'] {
