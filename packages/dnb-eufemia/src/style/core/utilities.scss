@@ -24,7 +24,7 @@
       &[disabled] {
         cursor: not-allowed;
       }
-      &:not([disabled]) {
+      &:not([disabled]):where(:not([aria-disabled='true'])) {
         @content;
       }
     }
@@ -37,7 +37,7 @@
       cursor: not-allowed;
     }
     // stylelint-disable-next-line
-    &:not([disabled]) {
+    &:not([disabled]):where(:not([aria-disabled='true'])) {
       @content;
     }
   }
