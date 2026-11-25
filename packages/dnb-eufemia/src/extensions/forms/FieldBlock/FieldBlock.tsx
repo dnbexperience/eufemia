@@ -324,21 +324,41 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   )
 
   // Only the server render and the hydration of the summary use these
-  // records. After hydration, the summary uses the records that fields
-  // register after commit, so suspended fields cannot enter it.
+  // records. They keep the text of the first render, as the server rendered
+  // it, because a message can change before the summary hydrates, for
+  // example when the locale changes. After hydration, the summary uses the
+  // records that fields register after commit, so suspended fields cannot
+  // enter it.
+  const collectRenderMessage = (record: StateBasis) => {
+    if (summaryHydratedRef.current) {
+      return // stop here
+    }
+
+    const records = (renderRecordsRef.current[record.identifier] ??= [])
+    const exists = records.some(
+      (item) =>
+        item.stateId === record.stateId && item.type === record.type
+    )
+    if (!exists) {
+      setInternalRecord(
+        {
+          ...record,
+          content:
+            record.content === undefined
+              ? undefined
+              : getMessagesFromError(record),
+        },
+        records
+      )
+    }
+  }
+
   // A status above the contents renders before the fields, so it cannot
   // collect their messages during render.
   const collectMessages = nestedFieldBlockContext
     ? nestedFieldBlockContext.collectMessages
     : statusPosition !== 'above'
-      ? (record: StateBasis) => {
-          if (!summaryHydratedRef.current) {
-            setInternalRecord(
-              record,
-              (renderRecordsRef.current[record.identifier] ??= [])
-            )
-          }
-        }
+      ? collectRenderMessage
       : undefined
 
   const setFieldState = useCallback(
@@ -398,16 +418,18 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       content !== undefined ||
       stateRecordRef.current[blockId]?.some((item) => item.type === type)
     ) {
-      setInternalRecord(
-        {
-          identifier: blockId,
-          showInitially:
-            type !== 'error' || hasInitiallyErrorPropRef.current,
-          type,
-          content,
-        },
-        (stateRecordRef.current[blockId] ??= [])
-      )
+      const record: StateBasis = {
+        identifier: blockId,
+        showInitially:
+          type !== 'error' || hasInitiallyErrorPropRef.current,
+        type,
+        content,
+      }
+      setInternalRecord(record, (stateRecordRef.current[blockId] ??= []))
+
+      if (!nestedFieldBlockContext && statusPosition !== 'above') {
+        collectRenderMessage(record)
+      }
     }
   }
 

@@ -12,7 +12,7 @@ import {
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import type { Validator } from '../..'
-import { Field, Form } from '../..'
+import { Field, Form, FormError } from '../..'
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
 import SharedProvider from '../../../../shared/Provider'
@@ -1583,42 +1583,61 @@ describe('FieldBlock', () => {
       }
     )
 
-    it('should hydrate the status with the server locale when the locale changes after mount', async () => {
-      const App = () => {
-        const canUseDOM = useCanUseDOM()
+    it.each([
+      [
+        'the summary heading',
+        () => [new Error('First'), new Error('Second')],
+        nb.Field.errorSummary + 'First' + 'Second',
+        en.Field.errorSummary + 'First' + 'Second',
+      ],
+      [
+        'a message that the field translates',
+        () => new FormError('Field.errorRequired'),
+        nb.Field.errorRequired,
+        en.Field.errorRequired,
+      ],
+      [
+        'a message from the app',
+        (canUseDOM: boolean) => new Error(canUseDOM ? 'English' : 'Norsk'),
+        'Norsk',
+        'English',
+      ],
+    ])(
+      'should hydrate %s with the server locale when the locale changes after mount',
+      async (_, getError, serverText, clientText) => {
+        const App = () => {
+          const canUseDOM = useCanUseDOM()
 
-        return (
-          <SharedProvider locale={canUseDOM ? 'en-GB' : 'nb-NO'}>
-            <Field.String
-              label="Label"
-              error={[new Error('First'), new Error('Second')]}
-            />
-          </SharedProvider>
-        )
-      }
-      const container = document.createElement('div')
-      container.innerHTML = renderToString(<App />)
-      document.body.appendChild(container)
-      expect(
-        container.querySelector('.dnb-form-status--error')
-      ).toHaveTextContent(nb.Field.errorSummary + 'First' + 'Second')
-
-      const onRecoverableError = vi.fn()
-      const { unmount } = render(<App />, {
-        container,
-        hydrate: true,
-        onRecoverableError,
-      })
-      await waitFor(() => {
+          return (
+            <SharedProvider locale={canUseDOM ? 'en-GB' : 'nb-NO'}>
+              <Field.String label="Label" error={getError(canUseDOM)} />
+            </SharedProvider>
+          )
+        }
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(<App />)
+        document.body.appendChild(container)
         expect(
           container.querySelector('.dnb-form-status--error')
-        ).toHaveTextContent(en.Field.errorSummary + 'First' + 'Second')
-      })
+        ).toHaveTextContent(serverText)
 
-      expect(onRecoverableError).not.toHaveBeenCalled()
-      unmount()
-      container.remove()
-    })
+        const onRecoverableError = vi.fn()
+        const { unmount } = render(<App />, {
+          container,
+          hydrate: true,
+          onRecoverableError,
+        })
+        await waitFor(() => {
+          expect(
+            container.querySelector('.dnb-form-status--error')
+          ).toHaveTextContent(clientText)
+        })
+
+        expect(onRecoverableError).not.toHaveBeenCalled()
+        unmount()
+        container.remove()
+      }
+    )
   })
 
   describe('fieldState', () => {

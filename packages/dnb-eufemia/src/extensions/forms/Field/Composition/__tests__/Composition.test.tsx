@@ -13,6 +13,7 @@ import {
   Field,
   FieldBlock,
   Form,
+  FormError,
   Iterate,
   makeAjvInstance,
 } from '../../..'
@@ -890,6 +891,10 @@ describe('Field.Composition', () => {
         <SharedProvider locale={canUseDOM ? 'en-GB' : 'nb-NO'}>
           <Field.Composition id="composition">
             <Field.Number id="number" warning="Outside warning" />
+            <Field.String
+              id="required"
+              error={new FormError('Field.errorRequired')}
+            />
             <Suspense fallback="Loading">
               <Field.String id="string" warning="Warning" />
             </Suspense>
@@ -902,9 +907,11 @@ describe('Field.Composition', () => {
     document.body.appendChild(container)
     const warning = () =>
       container.querySelector('.dnb-form-status--warning')
+    const error = () => container.querySelector('.dnb-form-status--error')
     expect(warning()).toHaveTextContent(
       nb.Field.stateSummary + 'Outside warning' + 'Warning'
     )
+    expect(error()).toHaveTextContent(nb.Field.errorRequired)
 
     const onRecoverableError = vi.fn()
     const { unmount } = render(<App />, {
@@ -917,6 +924,7 @@ describe('Field.Composition', () => {
         en.Field.stateSummary + 'Outside warning' + 'Warning'
       )
     })
+    expect(error()).toHaveTextContent(en.Field.errorRequired)
 
     expect(onRecoverableError).not.toHaveBeenCalled()
     expect(container.querySelector('#string')).toHaveAttribute(
