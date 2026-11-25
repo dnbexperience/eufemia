@@ -1490,6 +1490,50 @@ export const StickyColumnLast = () => {
   )
 }
 
+export const StickyColumnOutline = () => {
+  return (
+    <ComponentBox hideCode data-visual-test="table-sticky-column-outline">
+      <Table.ScrollView style={{ maxHeight: '14rem' }}>
+        <Table
+          sticky="css-position"
+          stickyColumn="first"
+          outline
+          border
+          style={{ minWidth: '50rem' }}
+        >
+          <thead>
+            <Tr>
+              <Th>Fund</Th>
+              <Th align="right">Units</Th>
+              <Th align="right">Price</Th>
+              <Th align="right">Last day</Th>
+              <Th align="right">Return</Th>
+              <Th align="right">Value</Th>
+            </Tr>
+          </thead>
+          <tbody>
+            {[
+              'Global Index',
+              'Nordic Equity',
+              'Technology',
+              'Health Care',
+            ].map((fund) => (
+              <Tr key={fund}>
+                <Td>{fund}</Td>
+                <Td align="right">100</Td>
+                <Td align="right">NOK 1,234.56</Td>
+                <Td align="right">+1.23%</Td>
+                <Td align="right">NOK 12,345</Td>
+                <Td align="right">NOK 123,456</Td>
+              </Tr>
+            ))}
+          </tbody>
+        </Table>
+      </Table.ScrollView>
+    </ComponentBox>
+  )
+}
+
 export const StickyOutline = () => {
   return (
     <ComponentBox hideCode data-visual-test="table-sticky-outline">

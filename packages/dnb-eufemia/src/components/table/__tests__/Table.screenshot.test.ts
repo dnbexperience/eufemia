@@ -172,6 +172,24 @@ describe.each(['ui', 'sbanken', 'coconut'])(
       })
     })
 
+    // While scrolled, the sticky cells have square corners and one divider, also with "border"
+    it('have to match a sticky first column with an outline and a border while scrolled', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-column-outline"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="table-sticky-column-outline"] .dnb-table__scroll-view'
+            )
+            .scrollTo({ left: 150, top: 80, behavior: 'instant' })
+        },
+      })
+    })
+
     it('have to match header with wrapped text', async () => {
       const selector = '[data-visual-test="table-header"] .dnb-table'
       await makeScreenshot({

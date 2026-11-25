@@ -1048,6 +1048,19 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
     var(--table-border-color);
 }
 
+.dnb-table--sticky-column-first:not([data-sticky-column-disabled])[data-sticky-column-overlap] > tbody > tr > :first-child:not([colspan]:not([colspan="1"])) {
+  --table-border-right: none;
+}
+
+.dnb-table--sticky-column-first:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :first-child:not([colspan]:not([colspan="1"])), .dnb-table--sticky-column-first:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :first-child:not([colspan]:not([colspan="1"]))::before, .dnb-table--sticky-column-first:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :first-child:not([colspan]:not([colspan="1"]))::after,
+.dnb-table--sticky-column-first:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :first-child:not([colspan]:not([colspan="1"])) .dnb-table__td__button::before,
+.dnb-table--sticky-column-last:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :last-child:not([colspan]:not([colspan="1"])),
+.dnb-table--sticky-column-last:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :last-child:not([colspan]:not([colspan="1"]))::before,
+.dnb-table--sticky-column-last:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :last-child:not([colspan]:not([colspan="1"]))::after,
+.dnb-table--sticky-column-last:not([data-sticky-column-disabled]).dnb-table[data-sticky-column-overlap] > * > tr > :last-child:not([colspan]:not([colspan="1"])) .dnb-table__td__button::before {
+  border-radius: 0;
+}
+
 .dnb-table--sticky-column-first:not([data-sticky-column-disabled]).dnb-table--outline {
   --table-sticky-column-edge: inset var(--table-outline-width) 0
     var(--table-outline-color);

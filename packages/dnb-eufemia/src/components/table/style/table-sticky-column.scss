@@ -97,6 +97,32 @@ $sticky-cell: ':not([colspan]:not([colspan="1"]))';
     var(--table-border-color);
 }
 
+// With "border", the cells also draw a line just outside their right edge, which would double the divider
+#{$first}[data-sticky-column-overlap]
+  > tbody
+  > tr
+  > :first-child#{$sticky-cell} {
+  --table-border-right: none;
+}
+
+// While content is scrolled underneath, the sticky cells are not at the corners of the table.
+// If they were rounded, the outline of the table would show through their corners.
+#{$first}.dnb-table[data-sticky-column-overlap]
+  > *
+  > tr
+  > :first-child#{$sticky-cell},
+#{$last}.dnb-table[data-sticky-column-overlap]
+  > *
+  > tr
+  > :last-child#{$sticky-cell} {
+  &,
+  &::before,
+  &::after,
+  .dnb-table__td__button::before {
+    border-radius: 0;
+  }
+}
+
 // The sticky cells cover the outline, so they draw the covered parts of it
 #{$first}.dnb-table--outline {
   --table-sticky-column-edge: inset var(--table-outline-width) 0
