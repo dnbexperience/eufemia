@@ -26,6 +26,12 @@ export const InlineRebelsExample = () => (
       <Heading size="large" top>
         V<Span>elkommen</Span> til <em>oss</em>
       </Heading>
+      <Heading size="large" top>
+        Ta kontakt med oss
+      </Heading>
+      <Heading size="large" top>
+        Bytt
+      </Heading>
     </TypographyRebels>
   </ComponentBox>
 )

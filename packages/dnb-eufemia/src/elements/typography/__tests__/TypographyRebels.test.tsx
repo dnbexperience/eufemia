@@ -1,4 +1,4 @@
-import { act, Fragment } from 'react'
+import { act, Fragment, useEffect } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
 import { hydrateRoot } from 'react-dom/client'
@@ -126,7 +126,7 @@ describe('TypographyRebels', () => {
         expect(heading.textContent).toBe('Hello world')
         expect(
           getRebels(heading).map(({ textContent }) => textContent)
-        ).toEqual(['l', 'o'])
+        ).toEqual(['e', 'o'])
         expect(
           getRebels(heading).map((rebel) => {
             const range = document.createRange()
@@ -134,7 +134,7 @@ describe('TypographyRebels', () => {
             range.setEndBefore(rebel)
             return range.toString().length
           })
-        ).toEqual([2, 7])
+        ).toEqual([1, 7])
       }
     }
   )
@@ -185,6 +185,132 @@ describe('TypographyRebels', () => {
     }
   )
 
+  it.each([
+    ['Ta kontakt med oss', ['o', 'o']],
+    ['Vi er her for deg', ['e', 'e']],
+    ['Tid for å spare', ['f', 'a']],
+  ])(
+    'prefers other words over large kerning gaps (%s)',
+    (value, expected) => {
+      render(
+        <Theme brand="coconut">
+          <TypographyRebels>
+            <H1>{value}</H1>
+          </TypographyRebels>
+        </Theme>
+      )
+
+      expect(getRebels().map(({ textContent }) => textContent)).toEqual(
+        expected
+      )
+    }
+  )
+
+  it.each(['Bytt', 'tf', 'Mye!', 'aefilnort!'])(
+    'does not select adjacent Rebels (%s)',
+    (value) => {
+      render(
+        <Theme brand="coconut">
+          <TypographyRebels maxPerHeading={20}>
+            <H1>{value}</H1>
+          </TypographyRebels>
+        </Theme>
+      )
+
+      expect(getRebels().length).toBeGreaterThan(0)
+      const positions = getRebels().map((rebel) => {
+        const range = document.createRange()
+        range.selectNodeContents(document.querySelector('h1'))
+        range.setEndBefore(rebel)
+        return range.toString().length
+      })
+      for (let index = 1; index < positions.length; index++) {
+        expect(positions[index] - positions[index - 1]).toBeGreaterThan(1)
+      }
+      expect(document.querySelector('h1').textContent).toBe(value)
+    }
+  )
+
+  it('treats line breaks as word boundaries without adding text', () => {
+    render(
+      <Theme brand="coconut">
+        <TypographyRebels>
+          <H1>
+            Spar
+            <br />
+            mer
+          </H1>
+        </TypographyRebels>
+      </Theme>
+    )
+
+    expect(getRebels().map(({ textContent }) => textContent)).toEqual([
+      'a',
+      'e',
+    ])
+    expect(document.querySelector('h1').textContent).toBe('Sparmer')
+    expect(document.querySelectorAll('h1 br')).toHaveLength(1)
+  })
+
+  it('avoids adjacent Rebels across inline children', () => {
+    render(
+      <Theme brand="coconut">
+        <TypographyRebels>
+          <H1>
+            By<Span>t</Span>
+            <em>t</em>
+          </H1>
+        </TypographyRebels>
+      </Theme>
+    )
+
+    expect(getRebels().map(({ textContent }) => textContent)).toEqual([
+      't',
+    ])
+    expect(document.querySelector('h1').textContent).toBe('Bytt')
+  })
+
+  it('preserves child identity when content, brand and limit change', () => {
+    const onMount = vi.fn()
+    const CustomChild = () => {
+      useEffect(() => {
+        onMount()
+      }, [])
+      return <a href="#more">More</a>
+    }
+    const Example = ({
+      title = '',
+      brand = 'coconut',
+      max = 2,
+    }: {
+      title?: string
+      brand?: 'coconut' | 'ui'
+      max?: number
+    }) => (
+      <Theme brand={brand}>
+        <TypographyRebels maxPerHeading={max}>
+          <H1>
+            {title}
+            <CustomChild />
+          </H1>
+        </TypographyRebels>
+      </Theme>
+    )
+    const { rerender } = render(<Example />)
+    const link = document.querySelector('a')
+
+    for (const props of [
+      { title: 'Velkommen' },
+      { title: 'Velkommen', max: 0 },
+      { title: 'Velkommen', brand: 'ui' },
+      { title: 'Velkommen' },
+    ] as const) {
+      rerender(<Example {...props} />)
+      expect(document.querySelector('a')).toBe(link)
+      expect(onMount).toHaveBeenCalledTimes(1)
+    }
+  })
+
   it.each(['ui', 'sbanken', 'eiendom', 'carnegie', undefined] as const)(
     'leaves other brands unchanged (%s)',
     (brand) => {
@@ -227,11 +353,11 @@ describe('TypographyRebels', () => {
   })
 
   it.each([
-    ['aefilnort!', 10],
+    ['aefilnort!', 5],
     ['a', 1],
     ['SKY ÆØÅ 123 👨‍👩‍👧‍👦', 0],
     ['á é í ó ñ á é', 0],
-    ['👋 spare 😊', 3],
+    ['👋 spare 😊', 2],
   ])(
     'preserves Unicode text and only uses supported glyphs (%s)',
     (value, count) => {

@@ -83,6 +83,11 @@ Scope the provider to expressive content sections. Every eligible heading
 inside it receives Rebels; the provider does not determine the intent of
 the message. Your application or CMS decides which content should use
 Rebels. Headings outside the provider keep their ordinary letterforms.
+Built-in components that render `Heading` or `H1`–`H6`, including
+`Form.MainHeading`, `Form.SubHeading` and the `GlobalError` title, are
+also affected. Dialog and Drawer titles currently use different markup
+and are not processed. Keep functional components outside the provider
+or disable Rebels around them with a nested provider.
 
 Shared DNB and Sbanken applications can keep the same heading source:
 Rebels are only applied when the heading's active theme is Coconut and
@@ -101,16 +106,18 @@ the default font with the limited Rebels.
 ### Selection and content
 
 The provider spreads Rebels across eligible words, starting with the
-first and last eligible word for a limit of two. Within each word, it
-prefers an eligible character that does not directly follow a capital
-letter. This reduces visible spacing changes because the Rebel span
-interrupts the font's kerning. If there is no alternative, it uses the
-first eligible character, as in `Ta`.
+first and last eligible word for a limit of two. It prefers characters
+and words that avoid the largest kerning gaps after capitals (`F`, `K`,
+`P`, `T`, `V`, `W`, `X` and `Y`). This reduces visible spacing changes
+because the Rebel span interrupts the font's kerning. If there are not
+enough alternatives, it can still select a character after one of these
+capitals, as in `Ta`. Some spacing differences can therefore remain.
 
 If there are fewer eligible words than the limit, it spreads the
 selection across eligible characters instead, with the same preference
 when enough characters are available. This can place two Rebels in one
-word. Headings with fewer supported characters receive fewer Rebels.
+word, but adjacent characters are never both selected, to avoid glyph
+collisions. Headings can receive fewer Rebels than the configured maximum.
 Selection is deterministic, including during server rendering and
 hydration.
 
@@ -121,11 +128,17 @@ selected characters receive a span with the font feature enabled.
 Strings, numbers, fragments, Eufemia `Span` and native inline elements
 such as `span`, `em`, `strong` and `a` share one budget per heading.
 Splitting the same text across these elements keeps the same Rebels
-selected, including when a word is split. Other custom React components
-are left unchanged. Render CMS heading text directly as children or
-through the `Heading` `text` property.
+selected, including when a word is split. A native `br` separates words
+for selection without adding text or changing the heading's total budget.
+Native `small`, `sub` and `sup` content also shares the budget. Keep
+functional sublines outside the heading when they should remain plain.
 
-These two `Heading` components select the same characters. The second
+Other React components, including Eufemia `Anchor`, are left unchanged
+and their content is excluded from selection. Use a native `a` when
+linked heading text should receive Rebels. Render CMS heading text
+directly as children or through the `Heading` `text` property.
+
+The first two `Heading` components select the same characters. The second
 heading also preserves its `Span` and emphasis:
 
 <InlineRebelsExample />

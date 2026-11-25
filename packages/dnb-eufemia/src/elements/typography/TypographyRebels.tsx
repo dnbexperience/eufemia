@@ -49,7 +49,7 @@ export default function TypographyRebels({
         !Number.isFinite(maxPerHeading) ||
         maxPerHeading < 1
       ) {
-        return children
+        return mapText(children, (value) => value)
       }
 
       return renderRebels(children, Math.floor(maxPerHeading))
@@ -66,10 +66,16 @@ export default function TypographyRebels({
 
 function renderRebels(children: ReactNode, maxPerHeading: number) {
   let text = ''
-  mapText(children, (value) => {
-    text += value
-    return value
-  })
+  mapText(
+    children,
+    (value) => {
+      text += value
+      return value
+    },
+    () => {
+      text += '\n'
+    }
+  )
 
   // Keep decomposed accented letters together and use only glyphs in ss01.
   const eligible = /[aefilnort!](?!\p{Mark})/gu
@@ -77,15 +83,12 @@ function renderRebels(children: ReactNode, maxPerHeading: number) {
     text.matchAll(eligible),
     ({ index }) => index
   )
-  const limit = Math.min(maxPerHeading, positions.length)
-
-  if (limit === 0) {
-    return children
-  }
+  const requestedLimit = Math.min(maxPerHeading, positions.length)
 
   // Avoid the largest kerning losses at the boundary of a Rebel span.
   const preferredPositions = positions.filter(
-    (index) => !/\p{Lu}$/u.test(text.slice(Math.max(0, index - 2), index))
+    (index) =>
+      !/[FKPTVWXY]$/.test(text.slice(Math.max(0, index - 1), index))
   )
   const wordPositions = Array.from(text.matchAll(/\S+/gu)).flatMap(
     ({ 0: word, index }) => {
@@ -99,54 +102,75 @@ function renderRebels(children: ReactNode, maxPerHeading: number) {
       return match ? [index + match.index] : []
     }
   )
+  const preferredWords = wordPositions.filter((position) =>
+    preferredPositions.includes(position)
+  )
   const candidates =
-    wordPositions.length >= limit
-      ? wordPositions
-      : preferredPositions.length >= limit
+    wordPositions.length >= requestedLimit
+      ? preferredWords.length >= requestedLimit
+        ? preferredWords
+        : wordPositions
+      : preferredPositions.length >= requestedLimit
         ? preferredPositions
         : positions
-  const selected = new Set(
-    Array.from(
-      { length: limit },
-      (_, index) =>
-        candidates[
-          limit === 1
-            ? 0
-            : Math.round((index * (candidates.length - 1)) / (limit - 1))
-        ]
-    )
-  )
+  const selected = new Set<number>()
+  for (let index = 0; index < requestedLimit; index++) {
+    const position =
+      candidates[
+        requestedLimit === 1
+          ? 0
+          : Math.round(
+              (index * (candidates.length - 1)) / (requestedLimit - 1)
+            )
+      ]
+    // Keep the character fallback from placing colliding Rebels side by side.
+    if (!selected.has(position - 1)) {
+      selected.add(position)
+    }
+  }
   let offset = 0
 
-  return mapText(children, (value) => {
-    const start = offset
-    offset += value.length
-    const parts: ReactNode[] = []
-    let previous = 0
+  return mapText(
+    children,
+    (value) => {
+      const start = offset
+      offset += value.length
+      const parts: ReactNode[] = []
+      let previous = 0
 
-    for (let index = 0; index < value.length; index++) {
-      if (selected.has(start + index)) {
-        parts.push(value.slice(previous, index))
-        parts.push(
-          <span className="dnb-t__rebel" key={index}>
-            {value[index]}
-          </span>
-        )
-        previous = index + 1
+      for (let index = 0; index < value.length; index++) {
+        if (selected.has(start + index)) {
+          parts.push(value.slice(previous, index))
+          parts.push(
+            <span className="dnb-t__rebel" key={index}>
+              {value[index]}
+            </span>
+          )
+          previous = index + 1
+        }
       }
-    }
 
-    return parts.length ? [...parts, value.slice(previous)] : value
-  })
+      return parts.length ? [...parts, value.slice(previous)] : value
+    },
+    () => {
+      offset += 1
+    }
+  )
 }
 
 function mapText(
   children: ReactNode,
-  transform: (text: string) => ReactNode
+  transform: (text: string) => ReactNode,
+  onBreak?: () => void
 ): ReactNode {
   return Children.map(children, (child) => {
     if (typeof child === 'string' || typeof child === 'number') {
       return transform(String(child))
+    }
+
+    if (isValidElement(child) && child.type === 'br') {
+      onBreak?.()
+      return child
     }
 
     if (
@@ -156,7 +180,7 @@ function mapText(
         (typeof child.type === 'string' && inlineElements.has(child.type)))
     ) {
       return cloneElement(child, {
-        children: mapText(child.props.children, transform),
+        children: mapText(child.props.children, transform, onBreak),
       })
     }
 
