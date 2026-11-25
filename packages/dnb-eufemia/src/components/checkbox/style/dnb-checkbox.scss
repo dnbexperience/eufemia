@@ -578,45 +578,101 @@
 
   /** Hover state **/
 
+  // Touch browsers keep :hover on the last tapped element
   // General
-  &__input:not([disabled]):hover:not(:active) ~ &__button {
-    --checkbox-color-border: var(--checkbox-color-border--hover);
-    --checkbox-border-width: var(--checkbox-border-width--hover);
-    --checkbox-border-inset: var(--checkbox-border-inset--hover);
-    background-color: var(--checkbox-color-background-off--hover);
+
+  @media (any-hover: hover) {
+    &__input:not([disabled]):hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):not(:active)
+      ~ &__button {
+      --checkbox-color-border: var(--checkbox-color-border--hover);
+      --checkbox-border-width: var(--checkbox-border-width--hover);
+      --checkbox-border-inset: var(--checkbox-border-inset--hover);
+      background-color: var(--checkbox-color-background-off--hover);
+    }
   }
 
-  &__input:not([disabled]):hover:not(:active) ~ &__gfx {
-    color: var(--checkbox-color-gfx--hover);
+  @media (any-hover: hover) {
+    &__input:not([disabled]):hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):not(:active)
+      ~ &__gfx {
+      color: var(--checkbox-color-gfx--hover);
+    }
   }
 
   // On
-  &__input:not([disabled]):checked:hover:not(:active) ~ &__button,
-  &__input:not([disabled])[data-checked='true']:hover:not(:active)
-    ~ &__button {
-    --checkbox-color-border: var(--checkbox-color-border--hover);
-    --checkbox-border-width: var(--checkbox-border-width--hover);
-    --checkbox-border-inset: var(--checkbox-border-inset--hover);
-    background-color: var(--checkbox-color-background-on--hover);
+
+  @media (any-hover: hover) {
+    &__input:not([disabled]):checked:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):not(:active)
+      ~ &__button,
+    &__input:not([disabled])[data-checked='true']:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):not(:active)
+      ~ &__button {
+      --checkbox-color-border: var(--checkbox-color-border--hover);
+      --checkbox-border-width: var(--checkbox-border-width--hover);
+      --checkbox-border-inset: var(--checkbox-border-inset--hover);
+      background-color: var(--checkbox-color-background-on--hover);
+    }
   }
 
   // Indeterminate
-  &__input:not([disabled]):indeterminate:hover:not(:active) ~ &__button {
-    --checkbox-color-border: var(
-      --checkbox-color-border__indeterminate--hover
-    );
-    background-color: var(
-      --checkbox-color-background__indeterminate--hover
-    );
+
+  @media (any-hover: hover) {
+    &__input:not([disabled]):indeterminate:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):not(:active)
+      ~ &__button {
+      --checkbox-color-border: var(
+        --checkbox-color-border__indeterminate--hover
+      );
+      background-color: var(
+        --checkbox-color-background__indeterminate--hover
+      );
+    }
   }
 
-  &__input:not([disabled]):indeterminate:hover:not(:active)
-    ~ &__indeterminate {
-    background-color: var(--checkbox-color-gfx__indeterminate--hover);
+  @media (any-hover: hover) {
+    &__input:not([disabled]):indeterminate:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):not(:active)
+      ~ &__indeterminate {
+      background-color: var(--checkbox-color-gfx__indeterminate--hover);
+    }
   }
 
-  &__input:not([disabled]):indeterminate:hover:not(:active) ~ &__gfx {
-    color: transparent;
+  @media (any-hover: hover) {
+    &__input:not([disabled]):indeterminate:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):not(:active)
+      ~ &__gfx {
+      color: transparent;
+    }
   }
 
   /** Active state **/
