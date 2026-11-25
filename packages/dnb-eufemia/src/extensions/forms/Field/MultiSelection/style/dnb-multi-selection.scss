@@ -156,8 +156,12 @@
 
     // Touch browsers keep :hover on the last tapped element
     @media (any-hover: hover) {
-      html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
-        &:hover:not(&--disabled) {
+      &:hover:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ):not(&--disabled) {
         --item-outline-color: var(--token-color-stroke-action);
         --item-outline-width: var(--item-outline-width--hover);
         &::after {
