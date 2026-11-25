@@ -588,7 +588,7 @@ button .dnb-form-status__text {
 }
 @media (any-hover: hover) {
   .dnb-radio__input:not([disabled]):hover:not(:where(html[data-whatintent=touch] *,
-  html[data-whatintent=keyboard] *)) ~ .dnb-radio__button {
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-radio__button {
     --radio-border-inset: var(--radio-border-inset--hover);
     --radio-border-width: var(--radio-border-width--hover);
     --radio-color-border: var(--radio-color-border--hover);
@@ -597,7 +597,7 @@ button .dnb-form-status__text {
 }
 @media (any-hover: hover) {
   .dnb-radio__input:not([disabled]):hover:not(:where(html[data-whatintent=touch] *,
-  html[data-whatintent=keyboard] *)) ~ .dnb-radio__dot {
+  html[data-whatintent=keyboard] *)):not(:active) ~ .dnb-radio__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--hover);
   }
 }

@@ -435,7 +435,7 @@
           html[data-whatintent='touch'] *,
           html[data-whatintent='keyboard'] *
         )
-      )
+      ):not(:active)
       ~ &__button {
       --radio-border-inset: var(--radio-border-inset--hover);
       --radio-border-width: var(--radio-border-width--hover);
@@ -450,7 +450,7 @@
           html[data-whatintent='touch'] *,
           html[data-whatintent='keyboard'] *
         )
-      )
+      ):not(:active)
       ~ &__dot {
       --radio-color-dot-on: var(--radio-color-dot-on--hover);
     }
