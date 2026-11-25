@@ -122,7 +122,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    */
   hideResizeHandle?: TextareaProps['hideResizeHandle']
   /**
-   * To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`. When the max length is exceeded, the border shows the error color. Use `maxLength` to also validate the length.
+   * To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`. Use `maxLength` to validate the length, so the field shows an error like with other validation.
    */
   characterCounter?: Omit<TextCounterProps, 'text'> | number
 
@@ -419,6 +419,8 @@ function StringComponent(props: FieldStringProps) {
     autoResize,
     hideResizeHandle,
     characterCounter,
+    // Forms decides when to show errors, so the counter must not do it while typing
+    status: hasError ? 'error' : false,
   }
 
   const inputProps = {

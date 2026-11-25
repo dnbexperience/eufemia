@@ -1808,6 +1808,25 @@ describe('Field.String', () => {
     )
   })
 
+  it('should show the error state for an exceeded characterCounter only when the field shows its error', async () => {
+    render(<Field.String multiline characterCounter={4} maxLength={4} />)
+
+    const element = document.querySelector('.dnb-textarea')
+    const textarea = document.querySelector('textarea')
+
+    await userEvent.type(textarea, 'foobar')
+
+    expect(element).not.toHaveClass('dnb-textarea__status--error')
+    expect(textarea).not.toHaveAttribute('aria-invalid')
+
+    fireEvent.blur(textarea)
+
+    await waitFor(() => {
+      expect(element).toHaveClass('dnb-textarea__status--error')
+    })
+    expect(textarea).toHaveAttribute('aria-invalid', 'true')
+  })
+
   it('gets valid ref element', () => {
     const id = 'unique'
     let ref: RefObject<HTMLInputElement | HTMLTextAreaElement>

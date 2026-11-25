@@ -142,7 +142,7 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   characterCounter: {
-    doc: "To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`. When the max length is exceeded, the border shows the error color. Use `maxLength` to also validate the length.",
+    doc: "To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`. Use `maxLength` to validate the length, so the field shows an error like with other validation.",
     type: ['number', 'object'],
     status: 'optional',
   },

@@ -395,8 +395,12 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     typeof characterCounter === 'object'
       ? characterCounter.max
       : characterCounter
+  // A given status, including `false`, takes precedence over the counter
   const characterCounterExceeded =
-    characterCounterMax > 0 && (value || '').length > characterCounterMax
+    !status &&
+    status !== false &&
+    characterCounterMax > 0 &&
+    (value || '').length > characterCounterMax
 
   let TextareaElement: TextareaElement = props.textareaElement
 
@@ -432,7 +436,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       suffix ? id + '-suffix' : null
     )
   }
-  if (status && statusState === 'error') {
+  if ((status && statusState === 'error') || characterCounterExceeded) {
     textareaParams['aria-invalid'] ??= true
   }
   if (readOnly) {
@@ -447,9 +451,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       currentHasValue && 'dnb-textarea--has-content',
       align && `dnb-textarea__align--${align}`,
       typeof size === 'string' && `dnb-textarea__size--${size}`,
-      status
-        ? `dnb-textarea__status--${statusState}`
-        : characterCounterExceeded && 'dnb-textarea__status--error',
+      status && `dnb-textarea__status--${statusState}`,
+      characterCounterExceeded && 'dnb-textarea__status--error',
       autoResize && 'dnb-textarea__autoresize',
       hideResizeHandle && 'dnb-textarea__no-resize',
       labelDirection && `dnb-textarea--${labelDirection}`,
