@@ -43,9 +43,8 @@ export const logoColors = {
 
 /**
  * With `colorScheme="auto"`, the server renders the light fill, while the
- * first client render already uses the color scheme from the color scheme
- * scripts. React keeps the server attribute during hydration, so set the
- * resolved fill before paint.
+ * client may already know the user's color scheme during hydration. React
+ * keeps the server attribute then, so set the resolved fill before paint.
  */
 function useResolvedFill(
   resolvedFill: string,
@@ -61,9 +60,7 @@ function useResolvedFill(
 
   return {
     ref: combinedRef,
-    suppressHydrationWarning:
-      fill === undefined &&
-      typeof globalThis.__eufemiaColorScheme === 'string',
+    suppressHydrationWarning: fill === undefined,
   }
 }
 

@@ -3,8 +3,13 @@
  *
  */
 
-import { act } from 'react'
-import type { ReactElement, ReactNode, SVGProps } from 'react'
+import { Suspense, act, lazy } from 'react'
+import type {
+  ComponentType,
+  ReactElement,
+  ReactNode,
+  SVGProps,
+} from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { LogoProps } from '../Logo'
 import Logo, {
@@ -539,7 +544,8 @@ describe('Logo component', () => {
 
     async function hydrate(
       element: ReactElement,
-      clientColorScheme?: 'light' | 'dark'
+      clientColorScheme?: 'light' | 'dark',
+      clientElement: ReactElement = element
     ) {
       const container = document.createElement('div')
       container.innerHTML = renderToString(element)
@@ -567,7 +573,7 @@ describe('Logo component', () => {
       const recoverableError = vi.fn()
       let root: ReturnType<typeof hydrateRoot>
       await act(async () => {
-        root = hydrateRoot(container, element, {
+        root = hydrateRoot(container, clientElement, {
           onRecoverableError: recoverableError,
         })
       })
@@ -576,7 +582,7 @@ describe('Logo component', () => {
         .getAttribute('fill')
 
       await act(async () => {
-        root.render(element)
+        root.render(clientElement)
       })
       const rerenderedFill = container
         .querySelector('svg')
@@ -616,6 +622,25 @@ describe('Logo component', () => {
         expect(result.errors).toEqual([])
       }
     )
+
+    it('uses the dark fill without hydration warnings inside a Suspense boundary', async () => {
+      const DnbLogo = () => <Logo height="40" />
+      const LazyDnbLogo = lazy(async () => ({ default: DnbLogo }))
+      const app = (Content: ComponentType) => (
+        <Theme colorScheme="auto">
+          <Suspense fallback={null}>
+            <Content />
+          </Suspense>
+        </Theme>
+      )
+
+      const result = await hydrate(app(DnbLogo), 'dark', app(LazyDnbLogo))
+
+      expect(result.serverFill).toBe(logoColors.dnb.light)
+      expect(result.hydratedFill).toBe(logoColors.dnb.dark)
+      expect(result.rerenderedFill).toBe(logoColors.dnb.dark)
+      expect(result.errors).toEqual([])
+    })
 
     it('keeps the light fill when colorScheme="auto" resolves to light', async () => {
       const result = await hydrate(
