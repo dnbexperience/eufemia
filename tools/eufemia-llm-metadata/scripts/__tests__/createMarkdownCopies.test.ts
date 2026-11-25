@@ -9,7 +9,7 @@ vi.mock('prettier', () => ({
 }))
 
 import { createMarkdownCopies } from '../../src/convertHelpers.ts'
-import properties from '@dnb/eufemia/src/style/themes/ui/properties'
+import propertiesModule from '@dnb/eufemia/src/style/themes/ui/properties.ts'
 
 describe('createMarkdownCopies', () => {
   it('includes every chart color and role as Markdown alongside the guidance', async () => {
@@ -42,6 +42,10 @@ describe('createMarkdownCopies', () => {
         ),
         ([, name, value]) => [name, value]
       )
+      const properties =
+        'default' in propertiesModule
+          ? propertiesModule.default
+          : propertiesModule
       const chartProperties = Object.entries(properties).filter(([name]) =>
         name.startsWith('--chart-color-')
       )

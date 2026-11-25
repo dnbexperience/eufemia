@@ -159,8 +159,10 @@ test('exposes fixed DNB chart colors through theme, standalone and isolated styl
         await page
           .locator('.eufemia-theme')
           .evaluate((element, scheme) => {
-            element.className =
+            element.setAttribute(
+              'class',
               'eufemia-theme eufemia-theme__color-scheme--' + scheme
+            )
           }, scheme)
 
         const resolvedSwatches = await page
