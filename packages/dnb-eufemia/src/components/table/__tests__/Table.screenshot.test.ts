@@ -144,6 +144,34 @@ describe.each(['ui', 'sbanken', 'coconut'])(
       })
     })
 
+    it('have to match a sticky first column while scrolled underneath the sticky header', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-column"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="table-sticky-column"] .dnb-table__scroll-view'
+            )
+            .scrollTo({ left: 150, top: 120, behavior: 'instant' })
+        },
+      })
+    })
+
+    // The sticky cells draw the parts of the outline they cover
+    it('have to match a sticky last column with an outline', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-column-last"]',
+      })
+    })
+
     it('have to match header with wrapped text', async () => {
       const selector = '[data-visual-test="table-header"] .dnb-table'
       await makeScreenshot({
