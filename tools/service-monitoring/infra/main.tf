@@ -20,7 +20,6 @@ locals {
 locals {
   permissions_boundary  = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
   tooling_policy_prefix = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.prefix}"
-  lambda_logs_policy    = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 data "aws_iam_policy_document" "lambda_assume" {
@@ -73,11 +72,6 @@ resource "aws_iam_role_policy_attachment" "check" {
   policy_arn = "${local.tooling_policy_prefix}-check"
 }
 
-resource "aws_iam_role_policy_attachment" "check_logs" {
-  role       = aws_iam_role.check.name
-  policy_arn = local.lambda_logs_policy
-}
-
 resource "aws_iam_role" "notifier" {
   name                 = "${local.prefix}-alarms-lambda"
   assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
@@ -92,11 +86,6 @@ resource "aws_iam_role" "notifier" {
 resource "aws_iam_role_policy_attachment" "notifier" {
   role       = aws_iam_role.notifier.name
   policy_arn = "${local.tooling_policy_prefix}-notify"
-}
-
-resource "aws_iam_role_policy_attachment" "notifier_logs" {
-  role       = aws_iam_role.notifier.name
-  policy_arn = local.lambda_logs_policy
 }
 
 resource "aws_iam_role" "scheduler" {
@@ -180,7 +169,6 @@ resource "aws_lambda_function" "monitor" {
   depends_on = [
     aws_cloudwatch_log_group.monitor,
     aws_iam_role_policy_attachment.check,
-    aws_iam_role_policy_attachment.check_logs,
   ]
   tags = local.tags
 }
@@ -345,7 +333,6 @@ resource "aws_lambda_function" "notifier" {
   depends_on = [
     aws_cloudwatch_log_group.notifier,
     aws_iam_role_policy_attachment.notifier,
-    aws_iam_role_policy_attachment.notifier_logs,
   ]
   tags = local.tags
 }
