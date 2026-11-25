@@ -73,6 +73,19 @@
     }
   }
 
+  // While the header is stuck, it is not at the top of the table.
+  // If it were rounded, the outline of the table would show through its corners.
+  &--outline#{&}
+    > thead:first-of-type
+    > tr[data-sticky][data-is-sticky]:first-of-type
+    > :is(.dnb-table__th, th, td) {
+    &,
+    &::after {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
   tr[data-sticky][data-is-sticky] th::before {
     content: '';
     position: absolute;
