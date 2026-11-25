@@ -121,3 +121,7 @@ You can customize the `success` and `error` messages by using the `success` and 
 ### Accessibility
 
 The component will manage focus handling, which is important for screen readers and users using keyboard navigation.
+
+### Server-side rendering (SSR)
+
+`Form.InfoOverlay.setContent` has no effect during server rendering. Call it in the browser, for example after submit. To show content in the first render, use the `content` property. In development, Eufemia logs a warning when `Form.InfoOverlay.setContent` runs on the server.

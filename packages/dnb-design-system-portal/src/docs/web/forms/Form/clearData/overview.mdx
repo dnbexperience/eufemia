@@ -35,3 +35,7 @@ function Component() {
 // You can call it later and even outside of the form
 Form.clearData(myFormId)
 ```
+
+### Server-side rendering (SSR)
+
+`Form.clearData` has no effect during server rendering, because each server render starts without data. In development, Eufemia logs a warning when `Form.clearData` runs on the server.

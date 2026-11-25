@@ -346,3 +346,7 @@ function ComponentB() {
 When you use an async `onChange`, `onChangeValidator` or `onBlurValidator` event handler on a field, it will delay the "submitted" value, because of its async nature.
 
 That means, if you want to access the value of a field immediately, you can use the `useData` hook for that, as it always returns unvalidated data, in sync.
+
+### Server-side rendering (SSR)
+
+During server rendering, `Form.useData(id)` and `Form.useDataWithoutSubscription(id)` share data with other components only when they are inside the same `Form.Handler` or Eufemia [Provider](/web/styling-and-themes/configuration/provider/). Without one, they get no data from other components on the server, while they do in the browser, which can cause a hydration mismatch. In development, Eufemia logs a warning when this happens. Read more in [Data and state](/web/forms/data-and-state/#server-side-rendering-ssr).
