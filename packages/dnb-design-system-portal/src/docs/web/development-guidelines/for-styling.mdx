@@ -82,6 +82,54 @@ For the "logical" groups we recommend the following rational order principle:
 
 You may check out this [Prettier Plugin](https://www.npmjs.com/package/prettier-plugin-rational-order) for handling it automatic with [prettier](https://prettier.io/).
 
+## Hover styles
+
+Touch browsers can keep `:hover` on the last tapped element until something else is tapped. Hover styles then stay visible, and can make a control look checked or selected when it isn't.
+
+Use the shared `utilities.hover()` mixin, as Button does. It shows hover styles only on devices with a pointer that can hover (`@media (any-hover: hover)`), and not while the current input is touch or keyboard. Eufemia's shared input tracking sets `data-whatintent` on `<html>`: a tap hides hover styles, a key press keeps them hidden, and using the mouse brings them back. Typing in a form field preserves pointer intent so it does not change the surrounding hover styling. Before the input tracking has started, or without Eufemia's JavaScript, the media query alone decides.
+
+[`@media (hover: hover)`](https://www.w3.org/TR/mediaqueries-4/#hover) describes whether the primary pointer can hover. On a laptop with a touchscreen and a mouse, it can remain true while the touchscreen is being used. On an iPad with a trackpad, or an Android tablet with a mouse, it is false. `any-hover` is true when any connected pointer can hover, so the mixin uses it. Both describe a capability rather than the current input, so the mixin also checks the tracked input to follow each switch between touch, keyboard and mouse.
+
+- Keep pressed (`:active`) styles outside the hover mixin, so touch users still get feedback when they tap.
+- Keep focus styles outside it too, so keyboard users see focus on every device.
+- If a focus style excludes hovered elements with `:not(:hover)`, also show it when the tracked intent is not `mouse`. A tapped element can keep `:hover` when the user returns with the keyboard.
+- Add `:not(:active)` inside the hover mixin when needed to keep hover styles from hiding the pressed style.
+
+```scss
+@use '@dnb/eufemia/style/core/utilities.scss' as utilities;
+
+.my-toggle {
+  @include utilities.hover() {
+    &:not(:active) {
+      border-color: var(--token-color-stroke-action-hover);
+    }
+  }
+
+  @include utilities.active() {
+    border-color: var(--token-color-stroke-action-pressed);
+  }
+}
+```
+
+For custom selectors that cannot use the mixin, put the rule inside `@media (any-hover: hover)` and add the check to the hovered element:
+
+```scss
+.my-toggle {
+  @media (any-hover: hover) {
+    &:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ) {
+      border-color: var(--token-color-stroke-action-hover);
+    }
+  }
+}
+```
+
+The check is inside `:where()`, so the rule keeps the specificity of a plain `:hover` rule, and later pressed, disabled and error rules still win. A check in front of the selector, such as `html:not(…) &:hover`, adds specificity and can hide those states.
+
 ## CSS Units
 
 Here is a list of what we should use as layout and styling units to embrace the best possible accessibility experience and visual correctness.
