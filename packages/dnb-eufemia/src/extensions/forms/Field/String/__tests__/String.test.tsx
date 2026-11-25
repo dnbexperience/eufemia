@@ -1808,7 +1808,7 @@ describe('Field.String', () => {
     )
   })
 
-  it('should show the error state for an exceeded characterCounter only when the field shows its error', async () => {
+  it('should show the error state while characterCounter is exceeded, and the maxLength error on blur', async () => {
     render(<Field.String multiline characterCounter={4} maxLength={4} />)
 
     const element = document.querySelector('.dnb-textarea')
@@ -1816,15 +1816,26 @@ describe('Field.String', () => {
 
     await userEvent.type(textarea, 'foobar')
 
-    expect(element).not.toHaveClass('dnb-textarea__status--error')
-    expect(textarea).not.toHaveAttribute('aria-invalid')
+    expect(element).toHaveClass('dnb-textarea__status--error')
+    expect(textarea).toHaveAttribute('aria-invalid', 'true')
+    expect(textarea.getAttribute('aria-describedby')).toContain('-counter')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     fireEvent.blur(textarea)
 
     await waitFor(() => {
-      expect(element).toHaveClass('dnb-textarea__status--error')
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
     })
+    expect(element).toHaveClass('dnb-textarea__status--error')
     expect(textarea).toHaveAttribute('aria-invalid', 'true')
+    expect(textarea.getAttribute('aria-describedby')).toContain(
+      'form-status--error'
+    )
+    expect(textarea.getAttribute('aria-describedby')).not.toContain(
+      '-counter'
+    )
   })
 
   it('gets valid ref element', () => {

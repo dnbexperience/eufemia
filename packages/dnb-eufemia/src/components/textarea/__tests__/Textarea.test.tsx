@@ -875,23 +875,33 @@ describe('Textarea component', () => {
   })
 
   it('should show the error state when characterCounter is exceeded', async () => {
-    render(<Textarea characterCounter={4} value="foo" />)
+    render(<Textarea characterCounter={4} value="foo" lang="en-GB" />)
 
     const element = document.querySelector('.dnb-textarea')
     const textarea = document.querySelector('textarea')
 
     expect(element).not.toHaveClass('dnb-textarea__status--error')
     expect(textarea).not.toHaveAttribute('aria-invalid')
+    expect(textarea).not.toHaveAttribute('aria-describedby')
 
     await userEvent.type(textarea, 'bar')
 
     expect(element).toHaveClass('dnb-textarea__status--error')
     expect(textarea).toHaveAttribute('aria-invalid', 'true')
 
+    const counter = document.querySelector('.dnb-text-counter')
+    expect(textarea).toHaveAttribute('aria-describedby', counter.id)
+    expect(counter).toHaveTextContent(
+      gb.TextCounter.characterExceeded
+        .replace('%count', '2')
+        .replace('%max', '4')
+    )
+
     await userEvent.type(textarea, '{Backspace}{Backspace}')
 
     expect(element).not.toHaveClass('dnb-textarea__status--error')
     expect(textarea).not.toHaveAttribute('aria-invalid')
+    expect(textarea).not.toHaveAttribute('aria-describedby')
   })
 
   it('should let status take precedence over an exceeded characterCounter', () => {
@@ -916,6 +926,7 @@ describe('Textarea component', () => {
 
     expect(element).not.toHaveClass('dnb-textarea__status--error')
     expect(textarea).not.toHaveAttribute('aria-invalid')
+    expect(textarea).not.toHaveAttribute('aria-describedby')
   })
 
   it('supports inline styling', () => {

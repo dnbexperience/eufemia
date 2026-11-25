@@ -429,11 +429,12 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     onKeyDown: onKeyDownHandler,
   }
 
-  if (showStatus || suffix) {
+  if (showStatus || suffix || characterCounterExceeded) {
     textareaParams['aria-describedby'] = combineDescribedBy(
       textareaParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
+      characterCounterExceeded ? id + '-counter' : null
     )
   }
   if ((status && statusState === 'error') || characterCounterExceeded) {
@@ -573,6 +574,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
         {characterCounter && (
           <TextCounter
+            id={id + '-counter'}
             top="x-small"
             text={value}
             max={characterCounter as number}
