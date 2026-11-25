@@ -809,10 +809,10 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
   transition: width 240ms var(--easing-default);
 
-  &:where(
-    .dnb-sidebar-menu-responsive-inline--expanded,
-    .dnb-sidebar-menu-responsive-inline--closing
-  ) {
+  &:where([data-sidebar-menu-responsive-compact='true']):where(
+      .dnb-sidebar-menu-responsive-inline--expanded,
+      .dnb-sidebar-menu-responsive-inline--closing
+    ) {
     // Keep the compact overlay above content controls until it finishes closing.
     z-index: calc(var(--z-index-dropdown) - 1);
   }
