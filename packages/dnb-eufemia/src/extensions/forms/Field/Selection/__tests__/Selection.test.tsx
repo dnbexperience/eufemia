@@ -655,6 +655,58 @@ describe('Selection', () => {
     ).toHaveTextContent('Bar! Text')
   })
 
+  it.each(['radio', 'button', 'radio-button'] as const)(
+    'names the %s group, not each option, with aria-label',
+    (variant) => {
+      const { rerender } = render(
+        <Field.Selection variant={variant} aria-label="Account type">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const radiogroup = document.querySelector('[role="radiogroup"]')
+      const options = radiogroup.querySelectorAll('input')
+      expect(radiogroup).toHaveAccessibleName('Account type')
+      expect(options[0]).toHaveAccessibleName('Foo')
+      expect(options[1]).toHaveAccessibleName('Bar')
+
+      rerender(
+        <>
+          <span id="external">External</span>
+          <Field.Selection variant={variant} aria-labelledby="external">
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.Selection>
+        </>
+      )
+
+      expect(
+        document.querySelector('[role="radiogroup"]')
+      ).toHaveAccessibleName('External')
+      expect(document.querySelector('input')).toHaveAccessibleName('Foo')
+    }
+  )
+
+  it('adds aria-labelledby to the visible label in the group name', () => {
+    render(
+      <>
+        <span id="hint">Hint</span>
+        <Field.Selection
+          variant="radio"
+          label="Account type"
+          aria-labelledby="hint"
+        >
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      </>
+    )
+
+    expect(document.querySelector('fieldset')).toHaveAccessibleName(
+      'Account type Hint'
+    )
+  })
+
   describe('transformSelection', () => {
     it('renders selected option with the "transformSelection" return', () => {
       render(

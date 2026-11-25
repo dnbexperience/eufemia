@@ -15,6 +15,24 @@ import Chip from '../../../../../components/Chip'
 const nb = nbNO['nb-NO']
 
 describe('ArraySelection', () => {
+  it.each(['checkbox', 'button', 'checkbox-button'] as const)(
+    'names the %s group, not each option, with aria-label',
+    (variant) => {
+      render(
+        <Field.ArraySelection variant={variant} aria-label="Interests">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const group = document.querySelector('[role="group"]')
+      const options = group.querySelectorAll('input')
+      expect(group).toHaveAccessibleName('Interests')
+      expect(options[0]).toHaveAccessibleName('Foo')
+      expect(options[1]).toHaveAccessibleName('Bar')
+    }
+  )
+
   it.each(['button', 'checkbox-button'] as const)(
     'keeps %s selection independent of a surrounding Chip.Group',
     async (variant) => {
