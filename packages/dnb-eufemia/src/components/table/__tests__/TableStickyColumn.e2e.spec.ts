@@ -135,7 +135,7 @@ test.describe('Table sticky column', () => {
     const row = page.locator('.dnb-table tbody tr').nth(1)
 
     // Make a key/value row: a row header (<Th scope="row">) and one value cell
-    await row.evaluate((tr) => {
+    await row.evaluate((tr: HTMLTableRowElement) => {
       const th = document.createElement('th')
       th.className = 'dnb-table__th'
       th.scope = 'row'
