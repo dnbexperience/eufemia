@@ -3,7 +3,7 @@
  *
  */
 
-import { Suspense, act, lazy } from 'react'
+import { Suspense, act, createRef, lazy } from 'react'
 import type {
   ComponentType,
   ReactElement,
@@ -543,12 +543,12 @@ describe('Logo component', () => {
     })
 
     async function hydrate(
-      element: ReactElement,
+      app: () => ReactElement,
       clientColorScheme?: 'light' | 'dark',
-      clientElement: ReactElement = element
+      clientApp: () => ReactElement = app
     ) {
       const container = document.createElement('div')
-      container.innerHTML = renderToString(element)
+      container.innerHTML = renderToString(app())
       document.body.appendChild(container)
       const serverFill = container
         .querySelector('svg')
@@ -573,7 +573,7 @@ describe('Logo component', () => {
       const recoverableError = vi.fn()
       let root: ReturnType<typeof hydrateRoot>
       await act(async () => {
-        root = hydrateRoot(container, clientElement, {
+        root = hydrateRoot(container, clientApp(), {
           onRecoverableError: recoverableError,
         })
       })
@@ -582,7 +582,7 @@ describe('Logo component', () => {
         .getAttribute('fill')
 
       await act(async () => {
-        root.render(clientElement)
+        root.render(clientApp())
       })
       const rerenderedFill = container
         .querySelector('svg')
@@ -610,9 +610,11 @@ describe('Logo component', () => {
       'uses the dark fill of %s after hydration when colorScheme="auto" resolves to dark',
       async (_name, svg, colors) => {
         const result = await hydrate(
-          <Theme colorScheme="auto">
-            <Logo svg={svg} height="40" />
-          </Theme>,
+          () => (
+            <Theme colorScheme="auto">
+              <Logo svg={svg} height="40" />
+            </Theme>
+          ),
           'dark'
         )
 
@@ -634,7 +636,11 @@ describe('Logo component', () => {
         </Theme>
       )
 
-      const result = await hydrate(app(DnbLogo), 'dark', app(LazyDnbLogo))
+      const result = await hydrate(
+        () => app(DnbLogo),
+        'dark',
+        () => app(LazyDnbLogo)
+      )
 
       expect(result.serverFill).toBe(logoColors.dnb.light)
       expect(result.hydratedFill).toBe(logoColors.dnb.dark)
@@ -642,11 +648,25 @@ describe('Logo component', () => {
       expect(result.errors).toEqual([])
     })
 
+    it('forwards a ref to the svg element', () => {
+      const ref = createRef<SVGSVGElement>()
+      render(
+        <Theme colorScheme="dark">
+          <DnbDefault ref={ref} />
+        </Theme>
+      )
+
+      expect(ref.current).toBe(document.querySelector('svg'))
+      expect(ref.current).toHaveAttribute('fill', logoColors.dnb.dark)
+    })
+
     it('keeps the light fill when colorScheme="auto" resolves to light', async () => {
       const result = await hydrate(
-        <Theme colorScheme="auto">
-          <Logo height="40" />
-        </Theme>,
+        () => (
+          <Theme colorScheme="auto">
+            <Logo height="40" />
+          </Theme>
+        ),
         'light'
       )
 
@@ -656,11 +676,11 @@ describe('Logo component', () => {
     })
 
     it('keeps the dark fill of an explicit colorScheme="dark" without hydration warnings', async () => {
-      const result = await hydrate(
+      const result = await hydrate(() => (
         <Theme colorScheme="dark">
           <Logo height="40" />
         </Theme>
-      )
+      ))
 
       expect(result.serverFill).toBe(logoColors.dnb.dark)
       expect(result.hydratedFill).toBe(logoColors.dnb.dark)
@@ -670,9 +690,11 @@ describe('Logo component', () => {
 
     it('keeps the fill prop when colorScheme="auto" resolves to dark', async () => {
       const result = await hydrate(
-        <Theme colorScheme="auto">
-          <SbankenDefault fill="tomato" />
-        </Theme>,
+        () => (
+          <Theme colorScheme="auto">
+            <SbankenDefault fill="tomato" />
+          </Theme>
+        ),
         'dark'
       )
 
@@ -683,9 +705,11 @@ describe('Logo component', () => {
 
     it('keeps the light fill of CarnegieDefault when colorScheme="auto" resolves to dark', async () => {
       const result = await hydrate(
-        <Theme colorScheme="auto">
-          <Logo svg={CarnegieDefault} />
-        </Theme>,
+        () => (
+          <Theme colorScheme="auto">
+            <Logo svg={CarnegieDefault} />
+          </Theme>
+        ),
         'dark'
       )
 
