@@ -22,7 +22,7 @@ export const IconProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alt: {
-    doc: 'The alternative label (text version) of the icon. Defaults to the imported icon name.',
+    doc: 'The accessible name of the icon. Without it, the icon is decorative and hidden from assistive technology.',
     type: 'string',
     status: 'optional',
   },
