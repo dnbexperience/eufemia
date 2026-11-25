@@ -329,5 +329,51 @@ describe('useSharedState during server rendering', () => {
       expect(text(log)).not.toContain('Tabs.Content')
       log.mockRestore()
     })
+
+    it('should warn when Form.Outlet outside its Form.Handler has no Provider', () => {
+      const log = logs()
+
+      const html = renderToString(
+        formAnd(
+          'ssr-warn-outlet',
+          <Form.Outlet formHandlerId="ssr-warn-outlet">
+            <output>Outlet content</output>
+          </Form.Outlet>
+        )
+      )
+
+      expect(html).not.toContain('Outlet content')
+      expect(text(log)).toContain(
+        "Form.Outlet('ssr-warn-outlet') renders nothing during server rendering"
+      )
+      log.mockRestore()
+    })
+
+    it('should not warn for Form.Outlet inside a Provider or inside its Form.Handler', () => {
+      const log = logs()
+
+      const html = renderToString(
+        <>
+          <SharedProvider>
+            {formAnd(
+              'ssr-warn-outlet-provider',
+              <Form.Outlet formHandlerId="ssr-warn-outlet-provider">
+                <output>Provider outlet</output>
+              </Form.Outlet>
+            )}
+          </SharedProvider>
+          <Form.Handler id="ssr-warn-outlet-inside">
+            <Form.Outlet formHandlerId="ssr-warn-outlet-inside">
+              <output>Inside outlet</output>
+            </Form.Outlet>
+          </Form.Handler>
+        </>
+      )
+
+      expect(html).toContain('Provider outlet')
+      expect(html).toContain('Inside outlet')
+      expect(text(log)).not.toContain('Form.Outlet')
+      log.mockRestore()
+    })
   })
 })

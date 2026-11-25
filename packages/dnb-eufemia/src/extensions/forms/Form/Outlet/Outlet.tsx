@@ -3,9 +3,11 @@ import type { ReactNode } from 'react'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
+  SharedStateScopeContext,
   useSharedState,
   useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
+import { warnOnServer } from '../../../../shared/helpers/warnOnServer'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
@@ -35,6 +37,16 @@ function Outlet(props: FormOutletProps) {
   const flexLayout = useContext(FlexLayoutContext)
   const isInsideLinkedHandler =
     outerContext?.hasContext && outerContext?.id === formHandlerId
+
+  // On the server, an outlet outside its Form.Handler gets the form only inside the same Provider
+  const hasScope = Boolean(useContext(SharedStateScopeContext))
+  if (!isInsideLinkedHandler && !hasScope) {
+    warnOnServer(
+      'Form.Outlet',
+      formHandlerId,
+      'renders nothing during server rendering, because no Eufemia Provider surrounds it and its Form.Handler. Put both inside the same Provider.'
+    )
+  }
 
   // Subscribe to reactive attachments updates to trigger re-renders
   // when linked validation/form state changes in the source handler.
