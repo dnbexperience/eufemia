@@ -182,6 +182,8 @@ export default function TableScrollView(
       childList: true,
       characterData: true,
       subtree: true,
+      // Is set while a sticky column sticks, e.g. on "Table" with "stickyColumn"
+      attributeFilter: ['data-table-sticky-column'],
     })
     if (!observer) {
       window.addEventListener('resize', updateLayout)

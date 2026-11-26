@@ -164,9 +164,9 @@ describe('Table.ScrollView', () => {
     } as DOMRect)
     element.querySelectorAll('th').forEach((cell, index) => {
       vi.spyOn(cell, 'getBoundingClientRect').mockImplementation(() => {
-        // A sticky first column stays at the start while the others scroll
+        // A sticky column stays at the start while the others scroll
         const scrollLeft =
-          stickyFirstColumn && index === 0 ? 0 : element.scrollLeft
+          cell.style.position === 'sticky' ? 0 : element.scrollLeft
         const left =
           direction === 'rtl'
             ? 100 - index * 100 - scrollLeft
@@ -242,40 +242,64 @@ describe('Table.ScrollView', () => {
     }
   )
 
-  it('does not show columns underneath a sticky column as visible', () => {
-    const { element, indicators } = renderColumns('ltr', {
-      stickyFirstColumn: true,
-    })
+  it.each(['ltr', 'rtl'] as const)(
+    'does not show columns underneath a sticky column as visible in %s',
+    (direction) => {
+      const { element, indicators } = renderColumns(direction, {
+        stickyFirstColumn: true,
+      })
+      const sign = direction === 'rtl' ? -1 : 1
+
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 100 } })
+
+      expect(indicators[0]).toHaveAttribute('data-active', 'true')
+      expect(indicators[1]).toHaveAttribute('data-active', 'false')
+      expect(indicators[2]).toHaveAttribute('data-active', 'true')
+      expect(indicators[3]).toHaveAttribute('data-active', 'false')
+    }
+  )
+
+  it.each(['ltr', 'rtl'] as const)(
+    'scrolls a column next to a sticky column, not underneath it in %s',
+    (direction) => {
+      const { element, indicators } = renderColumns(direction, {
+        stickyFirstColumn: true,
+      })
+      const sign = direction === 'rtl' ? -1 : 1
+      element.scrollLeft = sign * 100
+
+      fireEvent.click(indicators[1])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: 0 })
+      )
+
+      fireEvent.click(indicators[3])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 200 })
+      )
+
+      // The sticky column is always visible
+      fireEvent.click(indicators[0])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 100 })
+      )
+    }
+  )
+
+  it('updates the indicators when a column starts sticking', async () => {
+    const { element, indicators } = renderColumns()
 
     fireEvent.scroll(element, { target: { scrollLeft: 100 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'false')
+    expect(indicators[1]).toHaveAttribute('data-active', 'true')
 
+    element.querySelector('th').style.position = 'sticky'
+    element.setAttribute('data-table-sticky-column', 'first')
+
+    await waitFor(() =>
+      expect(indicators[1]).toHaveAttribute('data-active', 'false')
+    )
     expect(indicators[0]).toHaveAttribute('data-active', 'true')
-    expect(indicators[1]).toHaveAttribute('data-active', 'false')
-    expect(indicators[2]).toHaveAttribute('data-active', 'true')
-    expect(indicators[3]).toHaveAttribute('data-active', 'false')
-  })
-
-  it('scrolls a column next to a sticky column, not underneath it', () => {
-    const { element, indicators } = renderColumns('ltr', {
-      stickyFirstColumn: true,
-    })
-    element.scrollLeft = 100
-
-    fireEvent.click(indicators[1])
-    expect(element.scrollTo).toHaveBeenLastCalledWith(
-      expect.objectContaining({ left: 0 })
-    )
-
-    fireEvent.click(indicators[3])
-    expect(element.scrollTo).toHaveBeenLastCalledWith(
-      expect.objectContaining({ left: 200 })
-    )
-
-    // The sticky column is always visible
-    fireEvent.click(indicators[0])
-    expect(element.scrollTo).toHaveBeenLastCalledWith(
-      expect.objectContaining({ left: 100 })
-    )
   })
 
   it('hides the indicators when every column is active and restores them on resize', () => {
