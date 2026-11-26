@@ -1584,6 +1584,31 @@ describe('FieldBlock', () => {
       }
     )
 
+    it('should not show the messages of a field in another hydrated root', () => {
+      // Roots that hydrate without an identifierPrefix get the same ids
+      const hydrate = (element: ReactElement) => {
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(element)
+        document.body.appendChild(container)
+        render(element, { container, hydrate: true })
+        return container
+      }
+
+      const first = hydrate(
+        <Field.String label="First" warning="Warning" />
+      )
+      const second = hydrate(
+        <Field.Composition label="Second">
+          <Field.String label="Street" />
+        </Field.Composition>
+      )
+
+      expect(first.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Warning'
+      )
+      expect(second.querySelector('.dnb-form-status')).toBeNull()
+    })
+
     it.each([
       [
         'the summary heading',
@@ -1674,31 +1699,6 @@ describe('FieldBlock', () => {
       expect(onRecoverableError).not.toHaveBeenCalled()
       unmount()
       container.remove()
-    })
-
-    it('should not show the messages of a field in another hydrated root', () => {
-      // Roots that hydrate without an identifierPrefix get the same ids
-      const hydrate = (element: ReactElement) => {
-        const container = document.createElement('div')
-        container.innerHTML = renderToString(element)
-        document.body.appendChild(container)
-        render(element, { container, hydrate: true })
-        return container
-      }
-
-      const first = hydrate(
-        <Field.String label="First" warning="Warning" />
-      )
-      const second = hydrate(
-        <Field.Composition label="Second">
-          <Field.String label="Street" />
-        </Field.Composition>
-      )
-
-      expect(first.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Warning'
-      )
-      expect(second.querySelector('.dnb-form-status')).toBeNull()
     })
   })
 
