@@ -187,6 +187,8 @@ export default {
       accordionToggleButtonSR: 'Visa mer innehåll',
       accordionMoreContentSR: 'Mer innehåll i nästa rad',
       navigationButtonSR: 'Navigera till mer innehåll',
+      scrollColumnsSR: 'Tabellkolumner',
+      scrollColumnSR: 'Visa kolumn %s',
     },
     Upload: {
       title: 'Ladda upp dokument',

@@ -1,11 +1,13 @@
 import { act } from 'react'
 import type { RefObject } from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import Table from '../Table'
+import Provider from '../../../shared/Provider'
 import type { TableScrollViewAllProps } from '../TableScrollView'
 import ScrollView from '../TableScrollView'
 import { BasicTable } from './TableMocks'
 import { setResizeObserver } from '../../scroll-view/__tests__/shared-mocks/ResizeObserver'
+import '../../../core/vitest/mockMatchMediaSetup'
 
 describe('Table.ScrollView', () => {
   it('renders with props as an object', () => {
@@ -23,6 +25,42 @@ describe('Table.ScrollView', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders empty children without throwing', () => {
+    render(<ScrollView>{null}</ScrollView>)
+    expect(
+      document.querySelector('.dnb-table__scroll-view')
+    ).toBeEmptyDOMElement()
+  })
+
+  it.each([true, false])(
+    'uses a window resize listener only without ResizeObserver (available: %s)',
+    (available) => {
+      setResizeObserver()
+      const observer = globalThis.ResizeObserver
+      if (!available) {
+        vi.stubGlobal('ResizeObserver', undefined)
+      }
+      const add = vi.spyOn(window, 'addEventListener')
+      const remove = vi.spyOn(window, 'removeEventListener')
+      const { unmount } = render(
+        <ScrollView>
+          <table />
+        </ScrollView>
+      )
+      const resizeListeners = add.mock.calls.filter(
+        ([event]) => event === 'resize'
+      )
+      expect(resizeListeners).toHaveLength(available ? 0 : 1)
+      unmount()
+      expect(
+        remove.mock.calls.filter(([event]) => event === 'resize')
+      ).toEqual(resizeListeners)
+      vi.stubGlobal('ResizeObserver', observer)
+      add.mockRestore()
+      remove.mockRestore()
+    }
+  )
+
   it('should support spacing props', () => {
     render(
       <ScrollView top="large">
@@ -32,20 +70,20 @@ describe('Table.ScrollView', () => {
       </ScrollView>
     )
 
-    const element = document.querySelector('.dnb-table__scroll-view')
+    const element = document.querySelector('.dnb-table__scroll-container')
 
     expect(element).toHaveClass(
-      'dnb-scroll-view dnb-table__scroll-view dnb-space__top--large',
+      'dnb-table__scroll-container dnb-space__top--large',
       { exact: true }
     )
   })
 
   it('should have tabindex="0"', () => {
-    let renderResizeObserver = null
+    const renderResizeObservers = []
 
     const observe = vi.fn()
     const init = vi.fn((callback) => {
-      renderResizeObserver = callback
+      renderResizeObservers.push(callback)
     })
     setResizeObserver({ init, observe })
 
@@ -65,7 +103,7 @@ describe('Table.ScrollView', () => {
       vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
       vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
-      renderResizeObserver()
+      renderResizeObservers.forEach((callback) => callback())
     })
 
     expect(element.getAttribute('tabindex')).toBe('0')
@@ -74,10 +112,326 @@ describe('Table.ScrollView', () => {
       vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
       vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
-      renderResizeObserver()
+      renderResizeObservers.forEach((callback) => callback())
     })
 
     expect(element).not.toHaveAttribute('tabindex')
+  })
+
+  function renderColumns(
+    direction: 'ltr' | 'rtl' = 'ltr',
+    { stickyFirstColumn = false } = {}
+  ) {
+    const callbacks = []
+    setResizeObserver({ init: (callback) => callbacks.push(callback) })
+    render(
+      <Provider locale="en-GB">
+        <ScrollView style={{ overflowX: 'auto', direction }}>
+          <Table>
+            <thead>
+              <tr>
+                {['First', 'Second', 'Third', 'Fourth'].map(
+                  (label, index) => (
+                    <th
+                      key={label}
+                      style={
+                        stickyFirstColumn && index === 0
+                          ? { position: 'sticky' }
+                          : undefined
+                      }
+                    >
+                      {label}
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
+          </Table>
+        </ScrollView>
+      </Provider>
+    )
+    const element = document.querySelector<HTMLDivElement>(
+      '.dnb-table__scroll-view'
+    )
+    vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(200)
+    vi.spyOn(element, 'offsetWidth', 'get').mockReturnValue(200)
+    const scrollWidth = vi
+      .spyOn(element, 'scrollWidth', 'get')
+      .mockReturnValue(400)
+    vi.spyOn(element, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      right: 200,
+    } as DOMRect)
+    element.querySelectorAll('th').forEach((cell, index) => {
+      vi.spyOn(cell, 'getBoundingClientRect').mockImplementation(() => {
+        // A sticky column stays at the start while the others scroll
+        const scrollLeft =
+          cell.style.position === 'sticky' ? 0 : element.scrollLeft
+        const left =
+          direction === 'rtl'
+            ? 100 - index * 100 - scrollLeft
+            : index * 100 - scrollLeft
+        return { left, right: left + 100, width: 100 } as DOMRect
+      })
+    })
+    element.scrollTo = vi.fn()
+    act(() => callbacks.forEach((callback) => callback()))
+    const indicators = document.querySelectorAll<HTMLButtonElement>(
+      '.dnb-scroll-indicator__item'
+    )
+    return {
+      element,
+      indicators,
+      scrollWidth,
+      resize: () => act(() => callbacks.forEach((callback) => callback())),
+    }
+  }
+
+  it('shows whole-column indicators without range text and avoids flickering at an edge', () => {
+    const { element, indicators } = renderColumns()
+    expect(indicators).toHaveLength(4)
+    expect(indicators[0]).toHaveAccessibleName('Show column First')
+    expect(indicators[0]).toHaveAttribute('data-active', 'true')
+    expect(indicators[2]).toHaveAttribute('data-active', 'false')
+    expect(
+      document.querySelector('.dnb-table__scroll-container')
+    ).not.toHaveTextContent(/Columns.*of/)
+
+    fireEvent.scroll(element, { target: { scrollLeft: 46 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'true')
+    expect(indicators[2]).toHaveAttribute('data-active', 'false')
+    fireEvent.scroll(element, { target: { scrollLeft: 56 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'false')
+    expect(indicators[2]).toHaveAttribute('data-active', 'true')
+    fireEvent.scroll(element, { target: { scrollLeft: 50 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'false')
+    expect(indicators[2]).toHaveAttribute('data-active', 'true')
+  })
+
+  it('updates column names and falls back to numbers for empty headers', async () => {
+    const { element, indicators } = renderColumns()
+    const cells = element.querySelectorAll('th')
+    cells[0].firstChild.textContent = 'Amount'
+    await waitFor(() =>
+      expect(indicators[0]).toHaveAccessibleName('Show column Amount')
+    )
+    cells[0].textContent = ''
+    await waitFor(() =>
+      expect(indicators[0]).toHaveAccessibleName('Show column 1')
+    )
+  })
+
+  it.each(['ltr', 'rtl'] as const)(
+    'scrolls to a column in %s and clamps to the remaining content',
+    (direction) => {
+      const { element, indicators } = renderColumns(direction)
+      const sign = direction === 'rtl' ? -1 : 1
+      fireEvent.click(indicators[1])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 100 })
+      )
+      fireEvent.click(indicators[3])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 200 })
+      )
+      element.scrollLeft = sign * 200
+      fireEvent.click(indicators[0])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: 0 })
+      )
+    }
+  )
+
+  it.each(['ltr', 'rtl'] as const)(
+    'does not show columns underneath a sticky column as visible in %s',
+    (direction) => {
+      const { element, indicators } = renderColumns(direction, {
+        stickyFirstColumn: true,
+      })
+      const sign = direction === 'rtl' ? -1 : 1
+
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 100 } })
+
+      expect(indicators[0]).toHaveAttribute('data-active', 'true')
+      expect(indicators[1]).toHaveAttribute('data-active', 'false')
+      expect(indicators[2]).toHaveAttribute('data-active', 'true')
+      expect(indicators[3]).toHaveAttribute('data-active', 'false')
+    }
+  )
+
+  it.each(['ltr', 'rtl'] as const)(
+    'scrolls a column next to a sticky column, not underneath it in %s',
+    (direction) => {
+      const { element, indicators } = renderColumns(direction, {
+        stickyFirstColumn: true,
+      })
+      const sign = direction === 'rtl' ? -1 : 1
+      element.scrollLeft = sign * 100
+
+      fireEvent.click(indicators[1])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: 0 })
+      )
+
+      fireEvent.click(indicators[3])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 200 })
+      )
+
+      // The sticky column is always visible
+      fireEvent.click(indicators[0])
+      expect(element.scrollTo).toHaveBeenLastCalledWith(
+        expect.objectContaining({ left: sign * 100 })
+      )
+    }
+  )
+
+  it.each(['ltr', 'rtl'] as const)(
+    'scrolls only the dot row to reveal the active dots in %s',
+    (direction) => {
+      const { element, indicators } = renderColumns(direction)
+      const sign = direction === 'rtl' ? -1 : 1
+      const row = document.querySelector<HTMLDivElement>(
+        '.dnb-table__scroll-indicator'
+      )
+      // The dot row has room for two of the four dots
+      const rowRect = vi
+        .spyOn(row, 'getBoundingClientRect')
+        .mockReturnValue({ left: 0, right: 48 } as DOMRect)
+      indicators.forEach((dot, index) => {
+        vi.spyOn(dot, 'getBoundingClientRect').mockImplementation(() => {
+          const { right } = row.getBoundingClientRect()
+          const left =
+            direction === 'rtl'
+              ? right - (index + 1) * 24 - row.scrollLeft
+              : index * 24 - row.scrollLeft
+          return { left, right: left + 24 } as DOMRect
+        })
+      })
+      row.scrollBy = vi.fn(({ left }: ScrollToOptions) => {
+        row.scrollLeft += left
+      }) as typeof row.scrollBy
+
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 200 } })
+      expect(indicators[2]).toHaveAttribute('data-active', 'true')
+      expect(indicators[3]).toHaveAttribute('data-active', 'true')
+      expect(row.scrollLeft).toBe(sign * 48)
+
+      // Active dots that are already in view do not move the swiped row
+      row.scrollLeft = sign * 24
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 100 } })
+      expect(indicators[1]).toHaveAttribute('data-active', 'true')
+      expect(row.scrollLeft).toBe(sign * 24)
+
+      fireEvent.scroll(element, { target: { scrollLeft: 0 } })
+      expect(row.scrollLeft).toBe(0)
+
+      // The first active dot wins when the active dots do not fit
+      rowRect.mockReturnValue({ left: 0, right: 36 } as DOMRect)
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 200 } })
+      expect(row.scrollLeft).toBe(sign * 48)
+
+      expect(element.scrollTo).not.toHaveBeenCalled()
+    }
+  )
+
+  it('keeps the overflowing dot row itself out of the tab order', () => {
+    const { indicators } = renderColumns()
+
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).toHaveAttribute('tabindex', '-1')
+    expect(
+      Array.from(indicators).map((dot) => dot.getAttribute('tabindex'))
+    ).toEqual(['0', '-1', '-1', '-1'])
+  })
+
+  it('updates the indicators when a column starts sticking', async () => {
+    const { element, indicators } = renderColumns()
+
+    fireEvent.scroll(element, { target: { scrollLeft: 100 } })
+    expect(indicators[0]).toHaveAttribute('data-active', 'false')
+    expect(indicators[1]).toHaveAttribute('data-active', 'true')
+
+    element.querySelector('th').style.position = 'sticky'
+    element.setAttribute('data-table-sticky-column', 'first')
+
+    await waitFor(() =>
+      expect(indicators[1]).toHaveAttribute('data-active', 'false')
+    )
+    expect(indicators[0]).toHaveAttribute('data-active', 'true')
+  })
+
+  it('hides the indicators when every column is active and restores them on resize', () => {
+    const { element, indicators, resize } = renderColumns()
+    indicators[0].focus()
+    const width = vi
+      .spyOn(element, 'clientWidth', 'get')
+      .mockReturnValue(360)
+    resize()
+
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).toHaveAttribute('data-hidden', 'true')
+    expect(element).toHaveFocus()
+
+    width.mockReturnValue(200)
+    resize()
+    expect(
+      document.querySelectorAll('.dnb-scroll-indicator__item')
+    ).toHaveLength(4)
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('keeps the indicators visible when scrolling brings every column into view', () => {
+    const { element, indicators, resize } = renderColumns()
+    vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(340)
+    resize()
+    indicators[3].focus()
+
+    for (const scrollLeft of [30, 60, 0]) {
+      fireEvent.scroll(element, { target: { scrollLeft } })
+      expect(
+        document.querySelector('.dnb-table__scroll-indicator')
+      ).toHaveAttribute('data-hidden', 'false')
+      expect(indicators[3]).toHaveFocus()
+    }
+  })
+
+  it('removes indicators when content fits and keeps focus in the table', () => {
+    const { element, indicators, scrollWidth, resize } = renderColumns()
+    indicators[0].focus()
+    scrollWidth.mockReturnValue(200)
+    resize()
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).not.toBeInTheDocument()
+    expect(element.querySelector('table')).toHaveFocus()
+    expect(element).not.toHaveAttribute('tabindex')
+  })
+
+  it('keeps observers when a parent rerenders the same table', () => {
+    const init = vi.fn()
+    const observe = vi.fn()
+    setResizeObserver({ init, observe })
+    const content = (text: string) => (
+      <ScrollView>
+        <Table>
+          <tbody>
+            <tr>
+              <td>{text}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </ScrollView>
+    )
+    const { rerender } = render(content('First'))
+    const initialCount = init.mock.calls.length
+    rerender(content('Second'))
+    expect(init).toHaveBeenCalledTimes(initialCount)
+    expect(observe).toHaveBeenCalledWith(document.querySelector('table'))
   })
 
   it('should have constant of _supportsSpacingProps', () => {

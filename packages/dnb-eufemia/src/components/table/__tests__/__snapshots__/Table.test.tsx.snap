@@ -12,6 +12,109 @@ exports[`Table scss > should match style dependencies css 1`] = `
 /*
  * Utilities
  */
+.dnb-scroll-indicator {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.dnb-scroll-indicator__item {
+  display: inline-flex;
+  flex: 0 0 1.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.125rem;
+  color: var(--token-color-stroke-action-alternative);
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+}
+html:not([data-whatinput=touch]) .dnb-scroll-indicator__item:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-scroll-indicator__item:focus-visible:not([disabled]) > span {
+  width: 0.875rem;
+  height: 0.875rem;
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+.dnb-scroll-indicator__item > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  transition: width 200ms cubic-bezier(0.2, 0, 0, 1), height 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+.dnb-scroll-indicator__item > span::before {
+  display: block;
+  flex: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: 0.0625rem solid currentcolor;
+  border-radius: 50%;
+  background-color: transparent;
+  content: "";
+  transition: background-color 240ms ease-out;
+}
+.dnb-scroll-indicator__item[data-active=true] > span::before {
+  background-color: currentcolor;
+  animation: scroll-indicator-settle 520ms both;
+}
+@media (forced-colors: active) {
+  .dnb-scroll-indicator__item[data-active=true] > span::before {
+    background-color: CanvasText;
+  }
+}
+html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:hover:not([disabled]) > span {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.dnb-scroll-indicator__item:active[disabled], html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-scroll-indicator__item:active:not([disabled]) > span, html:not([data-whatintent=touch]) .dnb-scroll-indicator__item:active:not([disabled]) > span {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-scroll-indicator__item > span,
+  .dnb-scroll-indicator__item > span::before {
+    animation: none !important;
+    transition: none;
+  }
+}
+@keyframes scroll-indicator-settle {
+  0% {
+    transform: scale(0.8);
+  }
+  45% {
+    transform: scale(1.18);
+    animation-timing-function: ease-in-out;
+  }
+  70% {
+    transform: scale(0.96);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media print {
+  .dnb-scroll-indicator {
+    display: none;
+  }
+}
+
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
   --table-highlight-background: var(--token-color-decorative-first-muted);
@@ -30,6 +133,29 @@ exports[`Table scss > should match style dependencies css 1`] = `
 }
 .dnb-table--no-wrap {
   white-space: nowrap;
+}
+.dnb-table__scroll-container {
+  min-width: 0;
+  max-width: 100%;
+}
+.dnb-table__scroll-container > .dnb-table__scroll-indicator {
+  background-color: var(--token-color-background-neutral);
+}
+.dnb-table__scroll-container > .dnb-table__scroll-indicator > .dnb-scroll-indicator__item {
+  height: 2rem;
+}
+.dnb-table__scroll-indicator {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  padding-inline: 0.25rem;
+  scrollbar-width: none;
+}
+.dnb-table__scroll-indicator > .dnb-scroll-indicator__item:first-child {
+  margin-inline-start: auto;
+}
+.dnb-table__scroll-indicator[data-hidden=true] > .dnb-scroll-indicator__item {
+  visibility: hidden;
 }
 .dnb-table > caption {
   position: relative;
@@ -94,6 +220,13 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-table.dnb-skeleton > * {
   -webkit-text-fill-color: var(--skeleton-color);
 }
+.dnb-card .dnb-flex-container:has(> .dnb-card__title + .dnb-table__scroll-container) {
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+.dnb-card > .dnb-flex-container > .dnb-space:has(> .dnb-table__scroll-container), .dnb-card > .dnb-flex-container > .dnb-table__scroll-container {
+  width: 100%;
+}
 .dnb-card--no-inner-space .dnb-table {
   --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
   --table-outline-color: transparent;
@@ -106,10 +239,10 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-card--filled .dnb-table__scroll-view {
   clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));
 }
-.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {
+.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-container:last-child > .dnb-table__scroll-view[tabindex="0"], .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-container:only-child > .dnb-table__scroll-view[tabindex="0"] {
   margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);
 }
-.dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {
+.dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-container:last-child > .dnb-table__scroll-view[tabindex="0"], .dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-container:only-child > .dnb-table__scroll-view[tabindex="0"] {
   clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));
 }
 .dnb-spacing .dnb-table p,
@@ -263,6 +396,9 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button {
   flex-direction: row-reverse;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button::before, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button::before {
+  right: -0.5rem;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right {
   padding-right: 0.5rem;
@@ -992,6 +1128,18 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
 
 .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*=space__top]) {
   margin: 0;
+}
+
+.dnb-table__container > .dnb-table__scroll-indicator {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0.75rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dnb-table__container > .dnb-table__scroll-indicator .dnb-scroll-indicator__item {
+  pointer-events: auto;
 }
 
 .dnb-table__container__foot {

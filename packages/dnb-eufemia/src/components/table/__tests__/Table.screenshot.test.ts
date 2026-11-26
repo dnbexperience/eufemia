@@ -28,6 +28,62 @@ describe.each(['light', 'dark'] as const)(
   }
 )
 
+describe.each(['light', 'dark'] as const)(
+  'Table horizontal scroll in %s mode',
+  (colorScheme) => {
+    setupPageScreenshot({
+      url: '/web/components/table/demos/',
+      themeName: 'ui',
+      colorScheme,
+    })
+
+    it('shows whole-column indicators above the table', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector:
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container',
+      })
+    })
+
+    it('shows column indicators inside a rounded container', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: { width: '28rem' },
+        selector: '[data-visual-test="table-container"]',
+      })
+    })
+
+    it('shows keyboard focus around the column indicator', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector:
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector<HTMLButtonElement>(
+              '[data-visual-test="table-horizontal-scroll"] .dnb-scroll-indicator__item'
+            )
+            .focus()
+        },
+      })
+    })
+
+    it('updates the active columns after scrolling', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector:
+          '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container',
+        executeBeforeSimulate: () => {
+          const element = document.querySelector(
+            '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-view'
+          )
+          element.scrollLeft = element.scrollWidth
+        },
+      })
+    })
+  }
+)
+
 describe.each(['ui', 'sbanken', 'coconut'])(
   `Table for %s`,
   (themeName) => {
@@ -319,9 +375,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type tbody tr:first-of-type',
         simulate: 'hover',
       })
     })
@@ -333,7 +389,7 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector: '#accordion-table-2-3',
         simulate: 'hover',
       })
@@ -346,7 +402,7 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector: '#accordion-table-2-3',
         simulate: 'focus',
       })
@@ -359,7 +415,7 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector: '#accordion-table-2-3',
         simulate: 'active',
       })
@@ -373,9 +429,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
         },
         recalculateHeightAfterSimulate: true,
         selector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+          '[data-visual-test="table-accordion"] .dnb-table__scroll-container:last-of-type tbody tr:first-of-type',
         simulate: 'click',
       })
     })
@@ -525,9 +581,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type tbody tr:first-of-type',
         simulate: 'hover',
       })
     })
@@ -539,9 +595,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr[data-row-id="3"]',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type tbody tr[data-row-id="3"]',
         simulate: 'hover',
       })
     })
@@ -553,9 +609,9 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '35rem',
         },
         selector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr[data-row-id="3"]',
+          '[data-visual-test="table-navigation"] .dnb-table__scroll-container:last-of-type tbody tr[data-row-id="3"]',
         simulate: 'focus',
       })
     })
@@ -589,6 +645,8 @@ describe('Table', () => {
   it('have to match table with one td', async () => {
     await makeScreenshot({
       ...defaults,
+      // Let the wrapper shrink when its width removes horizontal overflow.
+      wrapperStyle: { ...defaults.wrapperStyle, height: 'auto' },
       pageViewport: {
         width: 300,
       },

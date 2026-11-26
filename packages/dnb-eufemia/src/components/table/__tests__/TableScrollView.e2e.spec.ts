@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { contrastRatio } from '../../../../scripts/figma/tokenReview'
 
 // Click inside the scroll view, then press a key,
 // so it gets the keyboard focus ring.
@@ -27,7 +28,7 @@ async function focusScrollViewWithKeyboard(page: Page, example: string) {
   return scrollView
 }
 
-test.describe('Table.ScrollView focus ring', () => {
+test.describe('Table.ScrollView', () => {
   test.beforeEach(async ({ page }) => {
     // Make the tables wider than the scroll view, so it gets focusable
     await page.setViewportSize({ width: 375, height: 1024 })
@@ -113,5 +114,480 @@ test.describe('Table.ScrollView focus ring', () => {
 
     expect(colors.length).toBeGreaterThan(0)
     expect(new Set(colors)).toEqual(new Set(['rgba(0, 0, 0, 0)']))
+  })
+
+  test('removes overflow when the Basic table has enough space', async ({
+    page,
+  }) => {
+    const scrollView = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-view'
+    )
+    const indicator = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-indicator'
+    )
+
+    await expect(indicator).toBeVisible()
+    await indicator.locator('button').first().focus()
+    await page.setViewportSize({ width: 550, height: 1024 })
+    await expect(indicator.locator('button').first()).toBeHidden()
+    await expect(indicator).toBeVisible()
+    expect(
+      await scrollView.evaluate(
+        (element) => element.scrollWidth - element.clientWidth
+      )
+    ).toBeGreaterThan(1)
+    await expect(scrollView).toBeFocused()
+    await scrollView.evaluate((element) => {
+      element.scrollLeft = element.scrollWidth
+    })
+
+    for (const width of [1280, 1600]) {
+      await test.step(`viewport width ${width}`, async () => {
+        await page.setViewportSize({ width, height: 1024 })
+        await expect
+          .poll(() =>
+            scrollView.evaluate(
+              (element) => element.scrollWidth - element.clientWidth
+            )
+          )
+          .toBeLessThanOrEqual(1)
+        await expect(indicator).toBeHidden()
+        await expect(indicator).toHaveCount(0)
+        await expect(scrollView).not.toHaveAttribute('tabindex')
+
+        const sortButton = scrollView
+          .locator('.dnb-table__sort-button')
+          .last()
+        await sortButton.focus()
+        await expect(sortButton).toBeFocused()
+        expect(
+          await scrollView.evaluate(
+            (element) => element.scrollWidth - element.clientWidth
+          )
+        ).toBeLessThanOrEqual(1)
+      })
+    }
+  })
+
+  test('keeps many column dots on one row and reveals keyboard focus', async ({
+    page,
+  }) => {
+    const example = page.locator('[data-visual-test="table-default"]')
+    await example.locator('table').evaluate((table) => {
+      for (const row of (table as HTMLTableElement).rows) {
+        const cells = Array.from(row.cells)
+        for (let index = cells.length; index < 16; index++) {
+          row.append(cells[index % cells.length].cloneNode(true))
+        }
+      }
+    })
+    const indicator = example.locator('.dnb-table__scroll-indicator')
+    const buttons = indicator.getByRole('button')
+    await expect(buttons).toHaveCount(16)
+    const rows = await buttons.evaluateAll(
+      (items) =>
+        new Set(items.map((item) => item.getBoundingClientRect().top)).size
+    )
+    expect(rows).toBe(1)
+    for (const direction of ['ltr', 'rtl']) {
+      await test.step(direction, async () => {
+        await example.evaluate((element, value) => {
+          element.setAttribute('dir', value)
+        }, direction)
+        const withinRow = (index: number) =>
+          buttons.nth(index).evaluate((button) => {
+            const rect = button.getBoundingClientRect()
+            const parent = button.parentElement.getBoundingClientRect()
+            return rect.left >= parent.left && rect.right <= parent.right
+          })
+        await buttons.first().focus()
+        await page.keyboard.press('End')
+        await expect(buttons.last()).toBeFocused()
+        await expect.poll(() => withinRow(15)).toBe(true)
+        await page.keyboard.press('Home')
+        await expect(buttons.first()).toBeFocused()
+        await expect.poll(() => withinRow(0)).toBe(true)
+      })
+    }
+  })
+
+  test('keeps the table in place and retains indicator focus during keyboard scrolling', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.setViewportSize({ width: 500, height: 900 })
+    const container = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-container'
+    )
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicator = container
+      .locator('.dnb-scroll-indicator__item')
+      .last()
+    await indicator.focus()
+    const [movement] = await Promise.all([
+      scrollView.evaluate(
+        (element) =>
+          new Promise<number>((resolve) => {
+            const start = element.getBoundingClientRect().y
+            let movement = 0
+            // Catch temporary layout jumps during smooth scrolling too.
+            const measure = () => {
+              movement = Math.max(
+                movement,
+                Math.abs(element.getBoundingClientRect().y - start)
+              )
+              if (
+                element.scrollLeft >=
+                element.scrollWidth - element.clientWidth - 1
+              ) {
+                resolve(movement)
+              } else {
+                requestAnimationFrame(measure)
+              }
+            }
+            measure()
+          })
+      ),
+      indicator.press('Enter'),
+    ])
+
+    expect(movement).toBeLessThan(1)
+    await expect(indicator).toBeVisible()
+    await expect(indicator).toBeFocused()
+  })
+
+  test('reveals more columns in property tables', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/web/components/table/properties/')
+    const container = page.locator('.dnb-table__scroll-container').first()
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicators = container.locator('.dnb-scroll-indicator__item')
+
+    await expect(indicators.last()).toBeVisible()
+    await indicators.last().click()
+    await expect
+      .poll(() => scrollView.evaluate((element) => element.scrollLeft))
+      .toBeGreaterThan(0)
+    await expect(indicators.last()).toHaveAttribute('data-active', 'true')
+  })
+
+  test('inactive column indicators have at least 3:1 contrast in light and dark mode', async ({
+    page,
+  }) => {
+    for (const colorScheme of ['light', 'dark']) {
+      await test.step(colorScheme, async () => {
+        await page.evaluate((colorScheme) => {
+          localStorage.setItem(
+            'eufemia-theme',
+            JSON.stringify({ brand: 'ui', colorScheme })
+          )
+        }, colorScheme)
+        await page.reload()
+        await expect(page.locator('body')).toHaveClass(
+          new RegExp(`eufemia-theme__color-scheme--${colorScheme}`)
+        )
+        const indicator = page
+          .locator(
+            '[data-visual-test="table-horizontal-scroll"] .dnb-scroll-indicator__item[data-active="false"]'
+          )
+          .first()
+        await expect(indicator).toBeVisible()
+        const { foreground, background } = await indicator.evaluate(
+          (element) => {
+            let surface = element.parentElement
+            while (
+              getComputedStyle(surface).backgroundColor ===
+              'rgba(0, 0, 0, 0)'
+            ) {
+              surface = surface.parentElement
+            }
+            return {
+              foreground: getComputedStyle(
+                element.querySelector('span'),
+                '::before'
+              ).borderTopColor,
+              background: getComputedStyle(surface).backgroundColor,
+            }
+          }
+        )
+        expect(
+          contrastRatio(foreground, background, background)
+        ).toBeGreaterThanOrEqual(3)
+      })
+    }
+  })
+
+  test('column indicators have generous targets and support keyboard activation in both directions', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const container = page.locator(
+      '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container'
+    )
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicators = container.locator('.dnb-scroll-indicator__item')
+    await expect(indicators).toHaveCount(5)
+
+    for (const [direction, nextKey] of [
+      ['ltr', 'ArrowRight'],
+      ['rtl', 'ArrowLeft'],
+    ]) {
+      await test.step(direction, async () => {
+        await container.evaluate((element, direction) => {
+          element.setAttribute('dir', direction)
+          const scrollView = element.querySelector(
+            '.dnb-table__scroll-view'
+          )
+          scrollView.scrollLeft = 0
+          scrollView.dispatchEvent(new Event('scroll'))
+        }, direction)
+        await expect(indicators.first()).toHaveAttribute(
+          'data-active',
+          'true'
+        )
+        await expect(indicators.last()).toHaveAttribute(
+          'data-active',
+          'false'
+        )
+        const box = await indicators.last().boundingBox()
+        expect(box.width).toBeCloseTo(24)
+        expect(box.height).toBeCloseTo(32)
+        expect(box.y + box.height).toBeCloseTo(
+          (await scrollView.boundingBox()).y
+        )
+        const previousBox = await indicators.nth(3).boundingBox()
+        expect(Math.abs(box.x - previousBox.x)).toBeCloseTo(box.width)
+        // Activate near the target's edge, away from the visible dot.
+        await indicators.last().click({ position: { x: 2, y: 2 } })
+        await expect(indicators.last()).toHaveAttribute(
+          'data-active',
+          'true'
+        )
+        await expect(indicators.first()).toHaveAttribute(
+          'data-active',
+          'false'
+        )
+        await expect(indicators.first()).toHaveAccessibleName(
+          /(?:Show|Vis) (?:column|kolonne) Date/
+        )
+        await expect(container.getByRole('toolbar')).toHaveAccessibleName(
+          /Table columns|Tabellkolonner/
+        )
+        await expect(
+          container.locator('.dnb-scroll-indicator__item[tabindex="0"]')
+        ).toHaveCount(1)
+        await indicators.first().focus()
+        const initialScroll = await scrollView.evaluate(
+          (element) => element.scrollLeft
+        )
+        await page.keyboard.press(nextKey)
+        await expect(indicators.nth(1)).toBeFocused()
+        await page.keyboard.press('Home')
+        await expect(indicators.first()).toBeFocused()
+        expect(
+          await scrollView.evaluate((element) => element.scrollLeft)
+        ).toBe(initialScroll)
+        await indicators.first().press('Enter')
+        await expect
+          .poll(() =>
+            scrollView.evaluate((element) => Math.abs(element.scrollLeft))
+          )
+          .toBeLessThan(1)
+        await expect(indicators.first()).toBeFocused()
+        await page.keyboard.press('Tab')
+        await expect(scrollView).toBeFocused()
+        await page.keyboard.press('Shift+Tab')
+        await expect(indicators.first()).toBeFocused()
+        await page.keyboard.press(nextKey)
+        await expect(indicators.nth(1)).toBeFocused()
+        await indicators.nth(1).press('Space')
+        await expect
+          .poll(() =>
+            scrollView.evaluate((element) => Math.abs(element.scrollLeft))
+          )
+          .toBeGreaterThan(0)
+        await expect(indicators.nth(1)).toBeFocused()
+        await page.keyboard.press('Tab')
+        await expect(scrollView).toBeFocused()
+        await page.keyboard.press('Shift+Tab')
+        await expect(indicators.nth(1)).toBeFocused()
+        await page.keyboard.press('Home')
+        await indicators.first().press('Enter')
+        await scrollView.focus()
+        await scrollView.press(nextKey)
+        await expect
+          .poll(() =>
+            scrollView.evaluate((element) => Math.abs(element.scrollLeft))
+          )
+          .toBeGreaterThan(0)
+      })
+    }
+
+    await page.emulateMedia({ forcedColors: 'active' })
+    await indicators.first().focus()
+    await expect(indicators.first().locator('span')).toHaveCSS(
+      'outline-style',
+      'solid'
+    )
+  })
+
+  test('keeps columns underneath a sticky column out of view', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const container = page.locator(
+      '[data-visual-test="table-horizontal-scroll"] .dnb-table__scroll-container'
+    )
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicators = container.locator('.dnb-scroll-indicator__item')
+    const headerCells = scrollView.locator('thead th')
+    await expect(indicators).toHaveCount(5)
+
+    // Like Table stickyColumn="first"
+    await page.addStyleTag({
+      content:
+        '[data-visual-test="table-horizontal-scroll"] .dnb-table > * > tr > :first-child { position: sticky; left: 0; z-index: 1 }',
+    })
+    await expect(headerCells.first()).toHaveCSS('position', 'sticky')
+
+    await test.step('marks a covered column as hidden', async () => {
+      await scrollView.evaluate((element) => {
+        const [first, second] = element.querySelectorAll('th')
+        element.scrollLeft = Math.min(
+          second.offsetWidth + second.offsetLeft - first.offsetWidth,
+          element.scrollWidth - element.clientWidth
+        )
+        element.dispatchEvent(new Event('scroll'))
+      })
+      await expect(indicators.first()).toHaveAttribute(
+        'data-active',
+        'true'
+      )
+      await expect(indicators.nth(1)).toHaveAttribute(
+        'data-active',
+        'false'
+      )
+    })
+
+    await test.step('scrolls the column next to the sticky column', async () => {
+      await indicators.nth(1).click()
+      await expect
+        .poll(async () => {
+          const sticky = await headerCells.first().boundingBox()
+          const target = await headerCells.nth(1).boundingBox()
+          return target.x - (sticky.x + sticky.width)
+        })
+        .toBeCloseTo(0, 0)
+      await expect(indicators.nth(1)).toHaveAttribute(
+        'data-active',
+        'true'
+      )
+    })
+  })
+
+  test('keeps indicators outside a vertically scrolling table', async ({
+    page,
+  }) => {
+    const container = page.locator(
+      '[data-visual-test="table-sticky"] .dnb-table__scroll-container'
+    )
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const indicator = container
+      .locator('.dnb-scroll-indicator__item')
+      .first()
+    await indicator.scrollIntoViewIfNeeded()
+    const before = await indicator.boundingBox()
+    await scrollView.evaluate((element) => {
+      element.scrollTop = 160
+    })
+    await expect
+      .poll(async () => (await indicator.boundingBox()).y)
+      .toBe(before.y)
+    await indicator.click({ trial: true })
+  })
+
+  test('keeps column indicators inside Table.Container without changing its inner spacing', async ({
+    page,
+  }) => {
+    for (const example of ['table-container', 'table-container-empty']) {
+      await test.step(example, async () => {
+        const container = page.locator(
+          `[data-visual-test="${example}"] .dnb-table__container`
+        )
+        const indicator = page
+          .locator(
+            `[data-visual-test="${example}"] .dnb-table__scroll-indicator`
+          )
+          .first()
+        await expect(indicator).toBeVisible()
+        const indicatorBox = await indicator.boundingBox()
+        const containerBox = await container.boundingBox()
+        await expect(
+          container.locator('.dnb-table__scroll-indicator')
+        ).toHaveCount(1)
+        expect(indicatorBox.y).toBeGreaterThanOrEqual(containerBox.y)
+        expect(indicatorBox.x + indicatorBox.width).toBeLessThanOrEqual(
+          containerBox.x + containerBox.width
+        )
+
+        const head = container.locator('.dnb-table__container__head')
+        const headBox = await head.boundingBox()
+        expect(headBox.y).toBeCloseTo(containerBox.y, 0)
+        const dotBox = await indicator
+          .locator('span')
+          .first()
+          .boundingBox()
+        const contentBox = await container
+          .locator(
+            example === 'table-container'
+              ? '.dnb-table__container__head h2'
+              : 'th'
+          )
+          .first()
+          .evaluate((element) => {
+            const range = document.createRange()
+            range.selectNodeContents(element)
+            return range.getBoundingClientRect().toJSON()
+          })
+        expect(dotBox.y + dotBox.height).toBeLessThanOrEqual(contentBox.y)
+        const padding = await head.evaluate((element) => {
+          const style = getComputedStyle(element)
+          return [style.paddingTop, style.paddingInlineStart]
+        })
+        expect(padding).toEqual(
+          example === 'table-container' ? ['32px', '16px'] : ['0px', '0px']
+        )
+
+        const scrollView = container.locator('.dnb-table__scroll-view')
+        await indicator.locator('button').last().click()
+        await expect
+          .poll(() => scrollView.evaluate((element) => element.scrollLeft))
+          .toBeGreaterThan(0)
+        const afterScroll = await indicator.boundingBox()
+        expect(afterScroll.x).toBeCloseTo(indicatorBox.x, 0)
+      })
+    }
+  })
+
+  test('retains focus when overflow disappears and returns while the indicator is focused', async ({
+    page,
+  }) => {
+    const container = page.locator(
+      '[data-visual-test="table-default"] .dnb-table__scroll-container'
+    )
+    const scrollView = container.locator('.dnb-table__scroll-view')
+    const button = container.locator('.dnb-scroll-indicator__item').first()
+    const table = scrollView.locator('table')
+    await button.focus()
+    await page.setViewportSize({ width: 1600, height: 1024 })
+    await expect(button).toBeHidden()
+    await expect(scrollView).not.toHaveAttribute('tabindex')
+    await expect(table).toBeFocused()
+    await page.setViewportSize({ width: 375, height: 1024 })
+    await expect(button).toBeVisible()
+    await expect(scrollView).toHaveAttribute('tabindex', '0')
+    await expect(table).toBeFocused()
+    await page.keyboard.press('Tab')
+    await expect(scrollView.locator('table button').first()).toBeFocused()
   })
 })

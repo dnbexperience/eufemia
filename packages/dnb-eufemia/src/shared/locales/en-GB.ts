@@ -187,6 +187,8 @@ export default {
       accordionToggleButtonSR: 'Show more content',
       accordionMoreContentSR: 'More content in the next row',
       navigationButtonSR: 'Navigate to more content',
+      scrollColumnsSR: 'Table columns',
+      scrollColumnSR: 'Show column %s',
     },
     Upload: {
       title: 'Upload documents',

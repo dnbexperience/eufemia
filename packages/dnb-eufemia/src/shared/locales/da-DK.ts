@@ -188,6 +188,8 @@ export default {
       accordionToggleButtonSR: 'Vis mere indhold',
       accordionMoreContentSR: 'Mere indhold i næste række',
       navigationButtonSR: 'Naviger til mere indhold',
+      scrollColumnsSR: 'Tabelkolonner',
+      scrollColumnSR: 'Vis kolonne %s',
     },
     Upload: {
       title: 'Upload dokumenter',

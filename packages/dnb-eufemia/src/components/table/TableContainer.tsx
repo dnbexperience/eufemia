@@ -37,6 +37,10 @@ type InternalTableContainerTableScrollView = Omit<
   'children'
 > & {
   children: ReactNode
+  _renderScrollView: (
+    scrollView: ReactElement,
+    indicator: ReactElement
+  ) => ReactElement
 }
 
 export default function TableContainer(props: TableContainerAllProps) {
@@ -64,9 +68,16 @@ export default function TableContainer(props: TableContainerAllProps) {
   }
 
   return (
-    <section {...sectionProps}>
-      <ScrollView>{content}</ScrollView>
-    </section>
+    <ScrollView
+      _renderScrollView={(scrollView, indicator) => (
+        <section {...sectionProps}>
+          {indicator}
+          {scrollView}
+        </section>
+      )}
+    >
+      {content}
+    </ScrollView>
   )
 }
 

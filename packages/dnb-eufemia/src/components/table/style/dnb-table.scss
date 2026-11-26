@@ -6,6 +6,7 @@
 @use 'sass:meta';
 @use './table-mixins.scss' as table-mixins;
 @use './table-header-buttons.scss';
+@use '../../scroll-indicator/style/dnb-scroll-indicator.scss';
 
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
@@ -31,6 +32,36 @@
 
   &--no-wrap {
     white-space: nowrap;
+  }
+
+  &__scroll-container {
+    min-width: 0;
+    max-width: 100%;
+
+    > .dnb-table__scroll-indicator {
+      background-color: var(--token-color-background-neutral);
+
+      > .dnb-scroll-indicator__item {
+        height: 2rem;
+      }
+    }
+  }
+
+  &__scroll-indicator {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-inline: 0.25rem;
+    scrollbar-width: none;
+
+    > .dnb-scroll-indicator__item:first-child {
+      margin-inline-start: auto;
+    }
+
+    &[data-hidden='true'] > .dnb-scroll-indicator__item {
+      // Keep the row and its background when the indicators are hidden.
+      visibility: hidden;
+    }
   }
 
   & > caption {
@@ -105,6 +136,17 @@
     }
   }
 
+  .dnb-card
+    .dnb-flex-container:has(> .dnb-card__title + &__scroll-container) {
+    align-items: stretch;
+    flex-wrap: nowrap;
+  }
+
+  .dnb-card > .dnb-flex-container > .dnb-space:has(> &__scroll-container),
+  .dnb-card > .dnb-flex-container > &__scroll-container {
+    width: 100%;
+  }
+
   // When used in a Card without inner space
   .dnb-card--no-inner-space & {
     --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
@@ -134,11 +176,13 @@
   // The Flex.Container of the Card wraps a custom component in a Space.
   .dnb-card--no-inner-space
     > .dnb-flex-container
-    > &__scroll-view[tabindex='0']:last-child,
+    > &__scroll-container:last-child
+    > .dnb-table__scroll-view[tabindex='0'],
   .dnb-card--no-inner-space
     > .dnb-flex-container
     > .dnb-space:last-child
-    > &__scroll-view[tabindex='0']:only-child {
+    > &__scroll-container:only-child
+    > .dnb-table__scroll-view[tabindex='0'] {
     margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);
   }
 
@@ -147,11 +191,13 @@
   // Other Cards get no clip, because it would hide the focus ring.
   .dnb-card--filled.dnb-card--no-inner-space
     > .dnb-flex-container
-    > &__scroll-view[tabindex='0']:last-child,
+    > &__scroll-container:last-child
+    > .dnb-table__scroll-view[tabindex='0'],
   .dnb-card--filled.dnb-card--no-inner-space
     > .dnb-flex-container
     > .dnb-space:last-child
-    > &__scroll-view[tabindex='0']:only-child {
+    > &__scroll-container:only-child
+    > .dnb-table__scroll-view[tabindex='0'] {
     clip-path: inset(
       0 round 0 0 min(var(--rounded-corner), 0.5rem)
         min(var(--rounded-corner), 0.5rem)
