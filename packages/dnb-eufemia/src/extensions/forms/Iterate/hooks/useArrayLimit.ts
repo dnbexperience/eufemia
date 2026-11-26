@@ -3,7 +3,6 @@ import { useTranslation } from '../../hooks'
 import type { Path } from '../../types'
 import DataContext from '../../DataContext/Context'
 import {
-  createReferenceKey,
   useSharedState,
   useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
@@ -14,17 +13,28 @@ type SharedState = {
   total?: number
 }
 
+// A key per form that does not keep the form in memory after it unmounts
+const formKeys = new WeakMap<object, string>()
+let formCount = 0
+
+function getFormKey(form: object) {
+  let key = formKeys.get(form)
+  if (!key) {
+    key = `form-${++formCount}-`
+    formKeys.set(form, key)
+  }
+  return key
+}
+
 export default function useArrayLimit(path: Path) {
   const store = useSharedStateStore()
   const { internalDataRef } = useContext(DataContext) || {}
 
   // Give each form its own limit, so another form with the same path does
   // not change it
-  const key = path + '-iterate-limit'
+  const formKey = internalDataRef ? getFormKey(internalDataRef) : ''
   const sharedState = useSharedState<SharedState>(
-    internalDataRef
-      ? createReferenceKey(internalDataRef, key, store)
-      : key,
+    formKey + path + '-iterate-limit',
     undefined,
     undefined,
     { store }
