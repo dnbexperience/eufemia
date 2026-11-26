@@ -286,6 +286,66 @@ describe('Table.ScrollView', () => {
     }
   )
 
+  it.each(['ltr', 'rtl'] as const)(
+    'scrolls only the dot row to reveal the active dots in %s',
+    (direction) => {
+      const { element, indicators } = renderColumns(direction)
+      const sign = direction === 'rtl' ? -1 : 1
+      const row = document.querySelector<HTMLDivElement>(
+        '.dnb-table__scroll-indicator'
+      )
+      // The dot row has room for two of the four dots
+      const rowRect = vi
+        .spyOn(row, 'getBoundingClientRect')
+        .mockReturnValue({ left: 0, right: 48 } as DOMRect)
+      indicators.forEach((dot, index) => {
+        vi.spyOn(dot, 'getBoundingClientRect').mockImplementation(() => {
+          const { right } = row.getBoundingClientRect()
+          const left =
+            direction === 'rtl'
+              ? right - (index + 1) * 24 - row.scrollLeft
+              : index * 24 - row.scrollLeft
+          return { left, right: left + 24 } as DOMRect
+        })
+      })
+      row.scrollBy = vi.fn(({ left }: ScrollToOptions) => {
+        row.scrollLeft += left
+      }) as typeof row.scrollBy
+
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 200 } })
+      expect(indicators[2]).toHaveAttribute('data-active', 'true')
+      expect(indicators[3]).toHaveAttribute('data-active', 'true')
+      expect(row.scrollLeft).toBe(sign * 48)
+
+      // Active dots that are already in view do not move the swiped row
+      row.scrollLeft = sign * 24
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 100 } })
+      expect(indicators[1]).toHaveAttribute('data-active', 'true')
+      expect(row.scrollLeft).toBe(sign * 24)
+
+      fireEvent.scroll(element, { target: { scrollLeft: 0 } })
+      expect(row.scrollLeft).toBe(0)
+
+      // The first active dot wins when the active dots do not fit
+      rowRect.mockReturnValue({ left: 0, right: 36 } as DOMRect)
+      fireEvent.scroll(element, { target: { scrollLeft: sign * 200 } })
+      expect(row.scrollLeft).toBe(sign * 48)
+
+      expect(element.scrollTo).not.toHaveBeenCalled()
+    }
+  )
+
+  it('keeps the overflowing dot row itself out of the tab order', () => {
+    const { indicators } = renderColumns()
+
+    expect(
+      document.querySelector('.dnb-table__scroll-indicator')
+    ).toHaveAttribute('tabindex', '-1')
+    expect(
+      Array.from(indicators).map((dot) => dot.getAttribute('tabindex'))
+    ).toEqual(['0', '-1', '-1', '-1'])
+  })
+
   it('updates the indicators when a column starts sticking', async () => {
     const { element, indicators } = renderColumns()
 

@@ -51,6 +51,26 @@ const getUncoveredArea = (
   return { start, end, stickyCells }
 }
 
+// Scroll the dot row, not the page or the table, to reveal the dots.
+// The first dot wins when they do not fit.
+const revealDots = (row: HTMLElement, first: Element, last = first) => {
+  const viewport = row.getBoundingClientRect()
+  const getOffset = ({ left, right }: { left: number; right: number }) =>
+    left < viewport.left
+      ? left - viewport.left
+      : Math.max(0, right - viewport.right)
+  const start = first.getBoundingClientRect()
+  let offset = getOffset(last.getBoundingClientRect())
+  offset += getOffset({
+    left: start.left - offset,
+    right: start.right - offset,
+  })
+
+  if (offset) {
+    row.scrollBy({ left: offset, behavior: 'instant' })
+  }
+}
+
 type Column = {
   cell: HTMLTableCellElement
   active: boolean
@@ -199,6 +219,16 @@ export default function TableScrollView(
     }
   }, [childType, childKey])
 
+  // Keep the active dots in view when the dot row overflows
+  useLayoutEffect(() => {
+    const row = indicatorRef.current
+    const dots = row?.querySelectorAll('[data-active="true"]')
+
+    if (dots?.length) {
+      revealDots(row, dots[0], dots[dots.length - 1])
+    }
+  }, [columns])
+
   const indicator =
     columns.length > 0 ? (
       <ScrollIndicator
@@ -207,18 +237,10 @@ export default function TableScrollView(
         data-hidden={indicatorHidden}
         aria-hidden={indicatorHidden || undefined}
         aria-label={translations.scrollColumnsSR}
+        // Firefox makes an overflowing row a tab stop, but the dots already have one
+        tabIndex={-1}
         onFocusCapture={(event) => {
-          const element = event.currentTarget
-          const viewport = element.getBoundingClientRect()
-          const target = event.target.getBoundingClientRect()
-          // Reveal the focused dot without scrolling the page or table.
-          const offset =
-            target.left < viewport.left
-              ? target.left - viewport.left
-              : Math.max(0, target.right - viewport.right)
-          if (offset) {
-            element.scrollBy({ left: offset, behavior: 'instant' })
-          }
+          revealDots(event.currentTarget, event.target)
         }}
         items={columns.map(({ active, label }, index) => ({
           label: translations.scrollColumnSR.replace(
