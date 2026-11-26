@@ -1388,7 +1388,7 @@ export const StickyColumn = () => {
         <Table
           sticky="css-position"
           stickyColumn="first"
-          style={{ minWidth: '50rem' }}
+          style={{ minWidth: '70rem' }}
         >
           <caption className="dnb-sr-only">Funds (sample data)</caption>
           <thead>
@@ -1404,7 +1404,16 @@ export const StickyColumn = () => {
                 Last day
               </Th>
               <Th scope="col" align="right">
-                Return
+                This year
+              </Th>
+              <Th scope="col" align="right">
+                1 year
+              </Th>
+              <Th scope="col" align="right">
+                3 years
+              </Th>
+              <Th scope="col" align="right">
+                5 years
               </Th>
               <Th scope="col" align="right">
                 Value
@@ -1427,7 +1436,10 @@ export const StickyColumn = () => {
                 <Td align="right">100</Td>
                 <Td align="right">NOK 1,234.56</Td>
                 <Td align="right">+1.23%</Td>
-                <Td align="right">NOK 12,345</Td>
+                <Td align="right">+4.56%</Td>
+                <Td align="right">+7.89%</Td>
+                <Td align="right">+12.34%</Td>
+                <Td align="right">+23.45%</Td>
                 <Td align="right">NOK 123,456</Td>
               </Tr>
             ))}
@@ -1449,14 +1461,16 @@ export const StickyColumnLast = () => {
           stickyColumn="last"
           outline
           border
-          style={{ minWidth: '50rem' }}
+          style={{ minWidth: '70rem' }}
         >
           <caption className="dnb-sr-only">Payments (sample data)</caption>
           <thead>
             <Tr>
               <Th scope="col">Recipient</Th>
               <Th scope="col">Due date</Th>
-              <Th scope="col">Account</Th>
+              <Th scope="col">From account</Th>
+              <Th scope="col">To account</Th>
+              <Th scope="col">Message</Th>
               <Th scope="col" align="right">
                 Amount
               </Th>
@@ -1471,6 +1485,8 @@ export const StickyColumnLast = () => {
                 <Td>{recipient}</Td>
                 <Td>2026-12-20</Td>
                 <Td>1234 56 78901</Td>
+                <Td>9876 54 32109</Td>
+                <Td>Invoice 2026-11</Td>
                 <Td align="right">NOK 1,234.56</Td>
                 <Td>
                   <Button
@@ -1499,7 +1515,7 @@ export const StickyColumnOutline = () => {
           stickyColumn="first"
           outline
           border
-          style={{ minWidth: '50rem' }}
+          style={{ minWidth: '70rem' }}
         >
           <thead>
             <Tr>
@@ -1507,7 +1523,10 @@ export const StickyColumnOutline = () => {
               <Th align="right">Units</Th>
               <Th align="right">Price</Th>
               <Th align="right">Last day</Th>
-              <Th align="right">Return</Th>
+              <Th align="right">This year</Th>
+              <Th align="right">1 year</Th>
+              <Th align="right">3 years</Th>
+              <Th align="right">5 years</Th>
               <Th align="right">Value</Th>
             </Tr>
           </thead>
@@ -1523,7 +1542,10 @@ export const StickyColumnOutline = () => {
                 <Td align="right">100</Td>
                 <Td align="right">NOK 1,234.56</Td>
                 <Td align="right">+1.23%</Td>
-                <Td align="right">NOK 12,345</Td>
+                <Td align="right">+4.56%</Td>
+                <Td align="right">+7.89%</Td>
+                <Td align="right">+12.34%</Td>
+                <Td align="right">+23.45%</Td>
                 <Td align="right">NOK 123,456</Td>
               </Tr>
             ))}
