@@ -203,7 +203,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
       )}
       inert={exiting || undefined}
       aria-hidden={exiting || undefined}
-      tabIndex={animate ? -1 : undefined}
       aria-current={!exiting && variant === 'current' ? 'page' : undefined}
       style={style}
     >

@@ -4,10 +4,10 @@ const demo = '/web/components/breadcrumb/visual-tests/animation/'
 
 test('wraps long labels within a narrow breadcrumb', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 })
-  await page.goto(demo + '?page=chartist')
-  const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
+  await page.goto(demo + '?page=accounts')
+  const breadcrumb = page.getByRole('navigation', { name: 'Example path' })
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Chartist'
+    'Accounts'
   )
   await expect(
     breadcrumb.locator('.dnb-breadcrumb__item--enter')
@@ -16,7 +16,7 @@ test('wraps long labels within a narrow breadcrumb', async ({ page }) => {
     .locator('[aria-current="page"] p')
     .evaluate((element) => {
       element.textContent =
-        'A long library name that should stay readable on narrow screens'
+        'A long page name that should stay readable on narrow screens'
     })
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth)
@@ -26,9 +26,17 @@ test('wraps long labels within a narrow breadcrumb', async ({ page }) => {
 test('keeps the home icon in the navigation link hit area', async ({
   page,
 }) => {
-  await page.goto(demo + '?page=chartist')
+  await page.goto(demo + '?page=accounts')
   const icon = page.locator('.dnb-breadcrumb__item__home-icon')
   const bounds = await icon.boundingBox()
+  const linkBounds = await page
+    .getByRole('navigation', { name: 'Example path' })
+    .getByRole('link', { name: 'Overview', exact: true })
+    .boundingBox()
+  expect(linkBounds.x).toBeLessThanOrEqual(bounds.x)
+  expect(linkBounds.x + linkBounds.width).toBeGreaterThanOrEqual(
+    bounds.x + bounds.width
+  )
   await page.mouse.click(
     bounds.x + bounds.width / 2,
     bounds.y + bounds.height / 2
@@ -45,7 +53,7 @@ test('reverses an unfinished entrance from its current width', async ({
   ).toBeVisible()
   await page.evaluate(() => {
     document
-      .querySelector<HTMLAnchorElement>('a[href$="?page=chartist"]')
+      .querySelector<HTMLAnchorElement>('a[href$="?page=accounts"]')
       .click()
   })
   const entering = page.locator('.dnb-breadcrumb__item--enter')
@@ -85,18 +93,44 @@ test('reverses an unfinished entrance from its current width', async ({
   expect(Math.abs(after - before.width)).toBeLessThan(1)
 })
 
+test('matches the home link color in Eiendom and forced colors', async ({
+  page,
+}) => {
+  await page.goto(demo + '?page=accounts&eufemia-theme=eiendom')
+  const icon = page.locator('.dnb-breadcrumb__item__home-icon')
+  const colors = () =>
+    icon.evaluate((element) => ({
+      icon: getComputedStyle(element).color,
+      link: getComputedStyle(element.nextElementSibling).color,
+    }))
+  await expect(icon).toBeVisible()
+  await expect
+    .poll(async () => {
+      const actual = await colors()
+      return actual.icon === actual.link
+    })
+    .toBe(true)
+  await page.emulateMedia({ forcedColors: 'active' })
+  await expect
+    .poll(async () => {
+      const actual = await colors()
+      return actual.icon === actual.link
+    })
+    .toBe(true)
+})
+
 test('preserves keyboard focus when a link becomes the current page', async ({
   page,
   browserName,
 }) => {
-  await page.goto(demo + '?page=chartist')
-  const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
+  await page.goto(demo + '?page=accounts')
+  const breadcrumb = page.getByRole('navigation', { name: 'Example path' })
   const home = breadcrumb.getByRole('link', {
-    name: 'Charts',
+    name: 'Overview',
     exact: true,
   })
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Chartist'
+    'Accounts'
   )
   await home.focus()
   await page.keyboard.press('Enter')
@@ -114,36 +148,36 @@ test('preserves keyboard focus when a link becomes the current page', async ({
 test('keeps exits inert and settles replacement, history and rapid navigation', async ({
   page,
 }) => {
-  await page.goto(demo + '?page=chartist')
-  const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
+  await page.goto(demo + '?page=accounts')
+  const breadcrumb = page.getByRole('navigation', { name: 'Example path' })
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Chartist'
+    'Accounts'
   )
   await page.evaluate(() => {
     document
-      .querySelector<HTMLAnchorElement>('a[href$="?page=nivo"]')
+      .querySelector<HTMLAnchorElement>('a[href$="?page=payments"]')
       .click()
   })
   const exiting = breadcrumb.locator('[inert]')
   await expect(exiting).toHaveAttribute('aria-hidden', 'true')
   await expect(breadcrumb.getByRole('listitem')).toHaveCount(2)
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Nivo'
+    'Payments'
   )
   await expect(exiting).toHaveCount(0)
   await page.goBack()
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Chartist'
+    'Accounts'
   )
   await page.goForward()
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Nivo'
+    'Payments'
   )
   await page.getByRole('button', { name: 'Rapid navigation' }).click()
   await expect(page).toHaveURL(/\?page=overview$/)
   await expect(breadcrumb.locator('li')).toHaveCount(1)
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Charts'
+    'Overview'
   )
 })
 
@@ -151,17 +185,17 @@ test('removes items immediately with reduced motion and retains the icon node', 
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto(demo + '?page=chartist')
-  const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
+  await page.goto(demo + '?page=accounts')
+  const breadcrumb = page.getByRole('navigation', { name: 'Example path' })
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
-    'Chartist'
+    'Accounts'
   )
   const icon = await breadcrumb
     .locator('li > .dnb-icon')
     .first()
     .elementHandle()
   await breadcrumb
-    .getByRole('link', { name: 'Charts', exact: true })
+    .getByRole('link', { name: 'Overview', exact: true })
     .click()
   await expect(breadcrumb.locator('li')).toHaveCount(1)
   expect(await icon.evaluate((element) => element.isConnected)).toBe(true)

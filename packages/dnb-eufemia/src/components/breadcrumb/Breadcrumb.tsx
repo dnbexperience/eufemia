@@ -281,7 +281,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
                 items={items}
                 collapsed={false}
                 noAnimation={noAnimation}
-                animate={animate}
               />
             </div>
           </Accordion>
@@ -321,7 +320,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             items={items}
             collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
-            animate={animate}
             openOnFind={openOnFind}
             onBeforeMatch={() => {
               isCollapsedRef.current = false

@@ -1,6 +1,7 @@
 import { isValidElement, useMemo, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { applyPageFocus } from '../../shared/helpers'
 import useMediaQuery from '../../shared/useMediaQuery'
 import BreadcrumbItem from './BreadcrumbItem'
 import type { BreadcrumbItemProps } from './BreadcrumbItem'
@@ -67,16 +68,32 @@ export default function BreadcrumbList({ data, items }: Props) {
   })
   const [retained, setRetained] = useState(current)
   const previous = useRef(current)
+  const previousReducedMotion = useRef(reducedMotion)
+  const latest = useRef(current)
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const listRef = useRef<HTMLOListElement>(null)
+  const focusedElement = useRef<HTMLElement>(null)
   const restoreFocus = useRef(false)
 
   useLayoutEffect(() => {
-    if (previous.current === current) {
+    latest.current = current
+    if (
+      previousReducedMotion.current === reducedMotion &&
+      previous.current.length === current.length &&
+      previous.current.every(
+        ({ key, element }, i) =>
+          key === current[i].key &&
+          element.props.variant === current[i].element.props.variant
+      )
+    ) {
       return
     }
     previous.current = current
-    restoreFocus.current = listRef.current?.contains(
-      document.activeElement
+    previousReducedMotion.current = reducedMotion
+    clearTimeout(timer.current)
+    restoreFocus.current = Boolean(
+      listRef.current?.contains(document.activeElement) ||
+      (focusedElement.current && !focusedElement.current.isConnected)
     )
 
     setRetained((old) => {
@@ -101,6 +118,11 @@ export default function BreadcrumbList({ data, items }: Props) {
       }
       return next
     })
+
+    if (!reducedMotion) {
+      // Settle hidden lists too, where no animation may run.
+      timer.current = setTimeout(() => setRetained(latest.current), 180)
+    }
   }, [current, reducedMotion])
 
   useLayoutEffect(() => {
@@ -110,38 +132,41 @@ export default function BreadcrumbList({ data, items }: Props) {
         document.activeElement === document.body ||
         document.activeElement?.closest('[inert]')
       ) {
-        listRef.current
-          ?.querySelector<HTMLElement>('[aria-current="page"]')
-          ?.focus()
+        const target = listRef.current?.querySelector<HTMLElement>(
+          '[aria-current="page"]'
+        )
+        if (target) {
+          applyPageFocus(target)
+        }
       }
     }
   }, [retained])
 
-  useLayoutEffect(() => {
-    if (!retained.some(({ motion }) => motion)) {
-      return undefined
-    }
-
-    if (reducedMotion) {
-      setRetained(current)
-      return undefined
-    }
-
-    // Settle hidden lists too, where no animation may run.
-    const timer = setTimeout(() => setRetained(current), 180)
-    return () => clearTimeout(timer)
-  }, [retained, current, reducedMotion])
+  useLayoutEffect(() => () => clearTimeout(timer.current), [])
 
   return (
-    <ol ref={listRef} className="dnb-breadcrumb__list">
-      {retained.map(({ key, element, itemNo, motion }) => (
-        <BreadcrumbItemContext
-          key={key}
-          value={{ itemNo, animate: true, motion }}
-        >
-          {element}
-        </BreadcrumbItemContext>
-      ))}
+    <ol
+      ref={listRef}
+      className="dnb-breadcrumb__list"
+      onFocusCapture={(event) => {
+        focusedElement.current = event.target as HTMLElement
+      }}
+      onBlurCapture={() => {
+        focusedElement.current = null
+      }}
+    >
+      {retained.map((item) => {
+        const { key, element, itemNo } =
+          current.find(({ key }) => key === item.key) ?? item
+        return (
+          <BreadcrumbItemContext
+            key={key}
+            value={{ itemNo, animate: true, motion: item.motion }}
+          >
+            {element}
+          </BreadcrumbItemContext>
+        )
+      })}
     </ol>
   )
 }

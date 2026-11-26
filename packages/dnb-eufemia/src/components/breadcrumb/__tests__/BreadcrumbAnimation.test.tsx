@@ -1,11 +1,11 @@
-import { act, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { setMedia } from 'mock-match-media'
 import Breadcrumb from '../Breadcrumb'
 import '../../../core/vitest/mockMatchMediaSetup'
 
 const pages = (page?: string) => [
   {
-    text: 'Charts',
+    text: 'Overview',
     href: '#overview',
     variant: page ? ('home' as const) : ('current' as const),
   },
@@ -22,6 +22,70 @@ describe('Breadcrumb animation', () => {
     vi.useRealTimers()
   })
 
+  it('settles transitions while the parent keeps rendering and uses the latest item props', () => {
+    const { rerender } = render(
+      <Breadcrumb animate variant="multiple" data={pages('Page')} />
+    )
+    rerender(<Breadcrumb animate variant="multiple" data={pages()} />)
+    for (let i = 0; i < 3; i++) {
+      act(() => vi.advanceTimersByTime(75))
+      rerender(<Breadcrumb animate variant="multiple" data={pages()} />)
+    }
+    expect(document.querySelector('[inert]')).toBeNull()
+
+    const onClick = vi.fn()
+    rerender(
+      <Breadcrumb
+        animate
+        variant="multiple"
+        data={[{ text: 'Updated', href: '#overview', onClick }]}
+      />
+    )
+    expect(document.querySelector('a')).toHaveTextContent('Updated')
+    fireEvent.click(document.querySelector('a'))
+    expect(onClick).toHaveBeenCalledOnce()
+  })
+
+  it.each(['responsive', 'collapse'] as const)(
+    'updates the vertical %s list immediately',
+    (variant) => {
+      const { rerender } = render(
+        <Breadcrumb
+          animate
+          variant={variant}
+          collapsed={false}
+          data={pages('Page')}
+        />
+      )
+      rerender(
+        <Breadcrumb
+          animate
+          variant={variant}
+          collapsed={false}
+          data={pages()}
+        />
+      )
+      const list = document.querySelector('.dnb-breadcrumb__collapse')
+      expect(list.querySelectorAll('li')).toHaveLength(1)
+      expect(list.querySelector('[class*="--animated"]')).toBeNull()
+    }
+  )
+
+  it('only makes the current item focusable while restoring focus', () => {
+    const { rerender } = render(
+      <Breadcrumb animate variant="multiple" data={pages('Page')} />
+    )
+    expect(document.querySelector('li[tabindex]')).toBeNull()
+    act(() => document.querySelector('a').focus())
+    rerender(<Breadcrumb animate variant="multiple" data={pages()} />)
+    const current = document.querySelector('[aria-current="page"]')
+    expect(current).toHaveFocus()
+    expect(current).toHaveClass('dnb-no-focus')
+    fireEvent.blur(current)
+    expect(current).not.toHaveAttribute('tabindex')
+    expect(current).not.toHaveClass('dnb-no-focus')
+  })
+
   it('retains removed items briefly, hides them from navigation, and settles rapid updates', () => {
     const { rerender } = render(
       <Breadcrumb animate variant="multiple" data={pages()} />
@@ -29,17 +93,17 @@ describe('Breadcrumb animation', () => {
     expect(document.querySelector('[class*="--enter"]')).toBeNull()
 
     rerender(
-      <Breadcrumb animate variant="multiple" data={pages('Chartist')} />
+      <Breadcrumb animate variant="multiple" data={pages('Accounts')} />
     )
     expect(
       document.querySelector('.dnb-breadcrumb__item--enter')
-    ).toHaveTextContent('Chartist')
+    ).toHaveTextContent('Accounts')
 
     rerender(
-      <Breadcrumb animate variant="multiple" data={pages('Nivo')} />
+      <Breadcrumb animate variant="multiple" data={pages('Payments')} />
     )
     const removed = document.querySelector('.dnb-breadcrumb__item--exit')
-    expect(removed).toHaveTextContent('Chartist')
+    expect(removed).toHaveTextContent('Accounts')
     expect(removed).toHaveAttribute('inert')
     expect(removed).toHaveAttribute('aria-hidden', 'true')
     expect(removed).not.toHaveAttribute('aria-current')
@@ -49,7 +113,7 @@ describe('Breadcrumb animation', () => {
 
     rerender(<Breadcrumb animate variant="multiple" data={pages()} />)
     rerender(
-      <Breadcrumb animate variant="multiple" data={pages('Chartist')} />
+      <Breadcrumb animate variant="multiple" data={pages('Accounts')} />
     )
     act(() => vi.advanceTimersByTime(180))
 
@@ -57,7 +121,7 @@ describe('Breadcrumb animation', () => {
     expect(document.querySelector('[inert]')).toBeNull()
     expect(
       document.querySelector('[aria-current="page"]')
-    ).toHaveTextContent('Chartist')
+    ).toHaveTextContent('Accounts')
     expect(document.querySelector('a')).toHaveAttribute(
       'href',
       '#overview'
@@ -71,7 +135,7 @@ describe('Breadcrumb animation', () => {
         <Breadcrumb
           {...props}
           variant="multiple"
-          data={pages('Chartist')}
+          data={pages('Accounts')}
         />
       )
       rerender(<Breadcrumb {...props} variant="multiple" data={pages()} />)
@@ -84,14 +148,14 @@ describe('Breadcrumb animation', () => {
       <Breadcrumb.Item
         key="root"
         href="#overview"
-        text="Charts"
+        text="Overview"
         variant="home"
       />
     )
     const { rerender } = render(
       <Breadcrumb animate variant="multiple">
         {root}
-        <Breadcrumb.Item key="page" text="Chartist" variant="current" />
+        <Breadcrumb.Item key="page" text="Accounts" variant="current" />
       </Breadcrumb>
     )
     rerender(
@@ -99,7 +163,7 @@ describe('Breadcrumb animation', () => {
         {root}
       </Breadcrumb>
     )
-    expect(document.querySelector('[inert]')).toHaveTextContent('Chartist')
+    expect(document.querySelector('[inert]')).toHaveTextContent('Accounts')
     act(() => vi.advanceTimersByTime(180))
     expect(document.querySelectorAll('li')).toHaveLength(1)
   })
@@ -147,7 +211,7 @@ describe('Breadcrumb animation', () => {
 
   it('removes items immediately with reduced motion and cancels a running exit', () => {
     const { rerender } = render(
-      <Breadcrumb animate variant="multiple" data={pages('Chartist')} />
+      <Breadcrumb animate variant="multiple" data={pages('Accounts')} />
     )
     rerender(<Breadcrumb animate variant="multiple" data={pages()} />)
     expect(document.querySelector('[inert]')).toBeInTheDocument()
@@ -156,7 +220,7 @@ describe('Breadcrumb animation', () => {
     expect(document.querySelectorAll('li')).toHaveLength(1)
 
     rerender(
-      <Breadcrumb animate variant="multiple" data={pages('Nivo')} />
+      <Breadcrumb animate variant="multiple" data={pages('Payments')} />
     )
     rerender(<Breadcrumb animate variant="multiple" data={pages()} />)
     expect(document.querySelectorAll('li')).toHaveLength(1)
@@ -164,7 +228,7 @@ describe('Breadcrumb animation', () => {
 
   it('cancels pending work on unmount', () => {
     const { rerender, unmount } = render(
-      <Breadcrumb animate variant="multiple" data={pages('Chartist')} />
+      <Breadcrumb animate variant="multiple" data={pages('Accounts')} />
     )
     rerender(<Breadcrumb animate variant="multiple" data={pages()} />)
     unmount()

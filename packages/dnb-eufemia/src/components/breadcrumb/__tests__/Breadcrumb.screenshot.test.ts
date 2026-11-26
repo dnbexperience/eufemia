@@ -127,3 +127,24 @@ describe.each(['ui', 'sbanken', 'coconut'])(
     })
   }
 )
+
+describe.each(['ui', 'eiendom'])(
+  'Animated Breadcrumb for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/web/components/breadcrumb/visual-tests/animation/?page=accounts',
+    })
+
+    it.each(['rest', 'hover', 'focus'] as const)(
+      'matches the home link %s state',
+      async (state) => {
+        await makeScreenshot({
+          selector: '.dnb-breadcrumb',
+          simulateSelector: '.dnb-breadcrumb a',
+          simulate: state === 'rest' ? undefined : state,
+        })
+      }
+    )
+  }
+)

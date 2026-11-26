@@ -1505,12 +1505,35 @@ button.dnb-button::-moz-focus-inner {
   overflow-wrap: anywhere;
 }
 .dnb-breadcrumb__item--animated .dnb-breadcrumb__item__home-icon {
-  color: var(--token-color-icon-action);
+  position: relative;
+  z-index: 1;
+  color: var(--breadcrumb-home-icon-color, var(--token-color-icon-action));
+  pointer-events: none;
+}
+.dnb-breadcrumb__item--animated .dnb-breadcrumb__item__home-icon + .dnb-anchor {
+  margin-left: -1.5rem;
+  padding-left: 1.5rem;
 }
 .dnb-breadcrumb__item--animated .dnb-breadcrumb__item__home-icon + .dnb-anchor::after {
-  left: -1.5rem;
   transform: none;
   border: none;
+}
+@media (forced-colors: active) {
+  .dnb-breadcrumb__item--animated .dnb-breadcrumb__item__home-icon {
+    color: LinkText;
+  }
+}
+@media (forced-colors: none) and (any-hover: hover) {
+  .dnb-breadcrumb__item--animated:has(> .dnb-anchor:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *),
+  .dnb-anchor--no-hover)) .dnb-breadcrumb__item__home-icon {
+    color: var(--token-color-icon-action-hover);
+  }
+}
+@media (forced-colors: none) {
+  .dnb-breadcrumb__item--animated:has(> .dnb-anchor:active) .dnb-breadcrumb__item__home-icon {
+    color: var(--breadcrumb-home-icon-color--active, var(--token-color-icon-action-pressed));
+  }
 }
 .dnb-breadcrumb__item--animated .dnb-icon--transition-fallback svg[data-icon-state] {
   transition: opacity 180ms var(--easing-default);
