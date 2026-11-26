@@ -9,8 +9,8 @@ import {
   Dropdown,
   Flex,
   Grid,
-  H3,
   H4,
+  H5,
   HeightAnimation,
   HelpButton,
   Hr,
@@ -27,7 +27,7 @@ import {
 import { formatDate } from '@dnb/eufemia/src/components/date-format/DateFormatUtils'
 import { useSharedContext } from '@dnb/eufemia/src/shared'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import './style.scss'
+import styles from './Examples.module.scss'
 
 export const OperationalExample = () => (
   <ComponentBox hideCode background="plain" scope={{ useId }}>
@@ -148,9 +148,9 @@ export const OperationalExample = () => (
                   <P space={0} size="small">
                     Northstar AS (sample data)
                   </P>
-                  <H3 size="large" space={0}>
+                  <H4 size="large" space={0}>
                     Payment follow-up
-                  </H3>
+                  </H4>
                   <P space={0} size="small">
                     Open work as of <DateFormat value="2026-11-01" /> at
                     09:00 CET
@@ -254,9 +254,9 @@ export const OperationalExample = () => (
                 }}
                 aria-labelledby={id + '-attention'}
               >
-                <H4 space={0} id={id + '-attention'}>
+                <H5 size="basis" space={0} id={id + '-attention'}>
                   Needs attention
-                </H4>
+                </H5>
                 <P space={0} top="x-small" size="small">
                   Ordered by urgency
                 </P>
@@ -399,9 +399,9 @@ export const OperationalExample = () => (
                       layoutEngine="css"
                       gap="medium"
                     >
-                      <H4 space={0} id={id + '-upcoming'}>
+                      <H5 size="basis" space={0} id={id + '-upcoming'}>
                         Coming up
-                      </H4>
+                      </H5>
                       <Menu.Root>
                         <Menu.Button
                           variant="tertiary"
@@ -489,7 +489,7 @@ export const FinancialExample = () => (
   <ComponentBox
     hideCode
     background="plain"
-    scope={{ useId, useSharedContext, formatDate }}
+    scope={{ useId, useSharedContext, formatDate, styles }}
   >
     {() => {
       type DateRange = { start: string; end?: string }
@@ -671,9 +671,9 @@ export const FinancialExample = () => (
               <P space={0} size="small">
                 All business accounts (sample data)
               </P>
-              <H3 size="large" space={0}>
+              <H4 size="large" space={0}>
                 Money in and out
-              </H3>
+              </H4>
               <P space={0} size="small">
                 Booked transactions as of <DateFormat value="2026-11-01" />{' '}
                 at 09:00 CET
@@ -747,11 +747,11 @@ export const FinancialExample = () => (
               )}
             </AriaLive>
             <Space
-              className="dnb-dashboard-summary"
+              className={styles['dnb-dashboard-summary']}
               role="group"
               aria-label="Cash movement summary"
             >
-              <div className="dnb-dashboard-summary__cards">
+              <div className={styles['dnb-dashboard-summary__cards']}>
                 <Card
                   element="div"
                   responsive={false}
@@ -851,9 +851,9 @@ export const FinancialExample = () => (
                         layoutEngine="css"
                         gap="x-small"
                       >
-                        <H4 space={0} id={id + '-movement'}>
+                        <H5 size="basis" space={0} id={id + '-movement'}>
                           Cash movement
-                        </H4>
+                        </H5>
                         <P space={0} size="small">
                           {data.grouping} Values in NOK.
                         </P>
@@ -872,41 +872,69 @@ export const FinancialExample = () => (
                       </Accordion.Content>
                       <Space
                         top="medium"
-                        className="dnb-dashboard-chart"
+                        className={styles['dnb-dashboard-chart']}
                         aria-hidden="true"
                       >
-                        <div className="dnb-dashboard-chart__legend">
+                        <div
+                          className={styles['dnb-dashboard-chart__legend']}
+                        >
                           <span>Money in</span>
                           <span>Money out</span>
                         </div>
-                        <div className="dnb-dashboard-chart__unit">
+                        <div
+                          className={styles['dnb-dashboard-chart__unit']}
+                        >
                           NOK
                         </div>
-                        <div className="dnb-dashboard-chart__frame">
-                          <div className="dnb-dashboard-chart__scale">
+                        <div
+                          className={styles['dnb-dashboard-chart__frame']}
+                        >
+                          <div
+                            className={
+                              styles['dnb-dashboard-chart__scale']
+                            }
+                          >
                             {[maximum, maximum / 2, 0].map((value) => (
                               <span key={value}>
                                 <Amount value={value} />
                               </span>
                             ))}
                           </div>
-                          <div className="dnb-dashboard-chart__plot">
+                          <div
+                            className={styles['dnb-dashboard-chart__plot']}
+                          >
                             {data.values.map(
                               ([label, moneyIn, moneyOut]) => (
                                 <div
-                                  className="dnb-dashboard-chart__interval"
+                                  className={
+                                    styles['dnb-dashboard-chart__interval']
+                                  }
                                   key={label}
                                 >
-                                  <div className="dnb-dashboard-chart__bars">
+                                  <div
+                                    className={
+                                      styles['dnb-dashboard-chart__bars']
+                                    }
+                                  >
                                     <div
-                                      className="dnb-dashboard-chart__bar"
+                                      className={
+                                        styles['dnb-dashboard-chart__bar']
+                                      }
                                       style={{
                                         height:
                                           (moneyIn / maximum) * 100 + '%',
                                       }}
                                     />
                                     <div
-                                      className="dnb-dashboard-chart__bar dnb-dashboard-chart__bar--out"
+                                      className={
+                                        styles[
+                                          'dnb-dashboard-chart__bar'
+                                        ] +
+                                        ' ' +
+                                        styles[
+                                          'dnb-dashboard-chart__bar--out'
+                                        ]
+                                      }
                                       style={{
                                         height:
                                           (moneyOut / maximum) * 100 + '%',
@@ -946,9 +974,9 @@ export const FinancialExample = () => (
                         justify="space-between"
                         gap="small"
                       >
-                        <H4 space={0} id={id + '-context'}>
+                        <H5 size="basis" space={0} id={id + '-context'}>
                           Comparison
-                        </H4>
+                        </H5>
                         <HelpButton
                           title="About the comparison"
                           size="small"
@@ -999,7 +1027,9 @@ export const FinancialExample = () => (
                     layoutEngine="css"
                     gap="x-small"
                   >
-                    <H4 space={0}>Cash movement by interval</H4>
+                    <H5 size="basis" space={0}>
+                      Cash movement by interval
+                    </H5>
                     <P space={0} size="small">
                       {data.grouping}
                     </P>
