@@ -647,6 +647,22 @@ html[data-whatinput='keyboard']
   }
 }
 
+// Arrow keys can move focus to the option under the mouse. It keeps :hover,
+// so draw the same outline as on the other focused options.
+html[data-whatinput='keyboard']:where(:not([data-whatintent='mouse']))
+  .dnb-sidebar-menu__sections-portal
+  .dnb-drawer-list__option.dnb-drawer-list__option--focus:hover:not(
+    :active
+  ) {
+  outline: none;
+
+  .dnb-drawer-list__option__inner {
+    @include utilities.focusOutline();
+
+    box-shadow: none;
+  }
+}
+
 .dnb-sidebar-menu-resize-handle {
   position: fixed;
   z-index: 3;
