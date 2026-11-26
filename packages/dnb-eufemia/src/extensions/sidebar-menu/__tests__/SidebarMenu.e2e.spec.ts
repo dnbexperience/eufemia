@@ -57,6 +57,7 @@ test('keeps the hover style on the section option under the mouse', async ({
         --token-color-stroke-action-focus: rgb(39, 106, 206);
         --focus-outline-width: 0.1875rem;
         --token-color-stroke-neutral-bold: rgb(10, 10, 10);
+        --token-color-stroke-neutral-subtle: rgb(235, 235, 235);
       }
       ${css}
     </style>
@@ -84,6 +85,12 @@ test('keeps the hover style on the section option under the mouse', async ({
     'box-shadow',
     'rgb(10, 10, 10) 0px 0px 0px 1px inset'
   )
+  // The divider below the option stays
+  expect(
+    await inner.evaluate(
+      (element) => getComputedStyle(element, '::before').backgroundColor
+    )
+  ).toBe('rgb(235, 235, 235)')
 })
 
 test('navigates visible items with arrow keys while preserving Tab and section selection', async ({

@@ -655,6 +655,10 @@ html[data-whatinput='keyboard']
     :active
   ) {
   outline: none;
+
+  .dnb-drawer-list__option__inner::before {
+    background-color: var(--token-color-stroke-neutral-subtle);
+  }
 }
 
 .dnb-sidebar-menu-resize-handle {
