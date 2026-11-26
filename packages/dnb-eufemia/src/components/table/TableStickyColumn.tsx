@@ -82,11 +82,11 @@ export const useStickyColumn = (
         ({ cells }) => cells[isFirst ? 0 : cells.length - 1]
       ).find((cell) => cell?.colSpan === 1)
 
-      if (observer && cell !== observedCell) {
-        if (observedCell) {
+      if (cell !== observedCell) {
+        if (observer && observedCell) {
           observer.unobserve(observedCell)
         }
-        if (cell) {
+        if (observer && cell) {
           observer.observe(cell)
         }
         observedCell = cell
