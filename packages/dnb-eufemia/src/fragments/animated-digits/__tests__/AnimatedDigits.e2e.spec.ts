@@ -140,7 +140,8 @@ test('preserves formatted wrapping and complete values in forced colors', async 
   )
   await page.setContent(`<style>${css}</style>
     <p>${digits} kr</p>
-    <span class="dnb-animated-digits__formatted dnb-animated-digits__formatted--fluid">
+    <p id="plain-amount">NOK −28,00</p>
+    <span id="animated-amount" class="dnb-animated-digits__formatted dnb-animated-digits__formatted--fluid">
       <span class="dnb-animated-digits__formatted-text">NOK −28,00</span>
       <span class="dnb-animated-digits__formatted-visual" aria-hidden="true">${digits}</span>
     </span>
@@ -149,6 +150,30 @@ test('preserves formatted wrapping and complete values in forced colors', async 
       <p id="animated-date" style="margin-bottom:0"><span class="dnb-animated-digits__formatted"><span class="dnb-animated-digits__formatted-text">31. desember 2026</span><span class="dnb-animated-digits__formatted-visual" aria-hidden="true">${renderToStaticMarkup(createElement(AnimatedDigits, { value: '31', decorative: true }))}<span class="dnb-animated-digits__formatted-literal" data-text=". desember "></span>${renderToStaticMarkup(createElement(AnimatedDigits, { value: '2026', decorative: true }))}</span></span></p>
       <a href="#details">Open details</a>
     </div>`)
+  const selections: string[] = []
+  for (const selector of [
+    '#plain-amount',
+    '#animated-amount > .dnb-animated-digits__formatted-text',
+  ]) {
+    const position = await page.locator(selector).evaluate((element) => {
+      window.getSelection().removeAllRanges()
+      const range = document.createRange()
+      range.setStart(element.firstChild, 5)
+      range.setEnd(element.firstChild, 6)
+      const bounds = range.getBoundingClientRect()
+      return {
+        x: bounds.x + bounds.width / 2,
+        y: bounds.y + bounds.height / 2,
+      }
+    })
+    await page.mouse.dblclick(position.x, position.y)
+    selections.push(
+      await page.evaluate(() => window.getSelection().toString())
+    )
+  }
+  expect(selections[0]).toContain('28')
+  expect(selections[1]).toBe(selections[0])
+
   const plainHeight = await page
     .locator('#plain-date')
     .evaluate((element) => element.getBoundingClientRect().height)

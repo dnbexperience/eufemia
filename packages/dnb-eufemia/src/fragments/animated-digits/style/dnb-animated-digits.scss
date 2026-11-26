@@ -139,6 +139,10 @@
       pointer-events: none;
     }
 
+    &__formatted--fluid > &__formatted-text {
+      pointer-events: auto;
+    }
+
     &__formatted-visual {
       position: relative;
       inset: auto;
