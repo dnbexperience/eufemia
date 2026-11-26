@@ -68,7 +68,7 @@ export type NumberFormatProps = {
   compact?: NumberFormatCompact
   /** If `true`, renders the value in monospace font for tabular alignment. */
   monospace?: boolean
-  /** Cascades digits from left to right, 25 ms apart with a 160 ms slide per digit. Reduced motion disables animation. Reserve width to avoid width changes. */
+  /** Cascades digits from left to right, 25 ms apart with a 160 ms slide per digit. New leading digits enter immediately. Reduced motion disables animation. Reserve width to avoid width changes. */
   animate?: boolean | { reserveWidth?: string }
   /** Additional `Intl.NumberFormat` options for custom formatting. */
   options?: NumberFormatOptions
