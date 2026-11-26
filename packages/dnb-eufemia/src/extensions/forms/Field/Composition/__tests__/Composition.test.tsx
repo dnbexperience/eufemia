@@ -13,6 +13,7 @@ import {
   Field,
   FieldBlock,
   Form,
+  FormError,
   Iterate,
   makeAjvInstance,
 } from '../../..'
@@ -21,8 +22,12 @@ import {
   wait,
 } from '../../../../../core/test-utils/testSetup'
 
+import SharedProvider from '../../../../../shared/Provider'
+import useCanUseDOM from '../../../../../shared/helpers/useCanUseDOM'
 import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
 const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Field.Composition', () => {
   const blockError = 'FieldBlock error'
@@ -878,6 +883,57 @@ describe('Field.Composition', () => {
       container.remove()
     }
   )
+
+  it('should hydrate messages inside Suspense when the locale changes after mount', async () => {
+    function App() {
+      const canUseDOM = useCanUseDOM()
+      return (
+        <SharedProvider locale={canUseDOM ? 'en-GB' : 'nb-NO'}>
+          <Field.Composition id="composition">
+            <Field.Number id="number" warning="Outside warning" />
+            <Field.String
+              id="required"
+              error={new FormError('Field.errorRequired')}
+            />
+            <Suspense fallback="Loading">
+              <Field.String id="string" warning="Warning" />
+            </Suspense>
+          </Field.Composition>
+        </SharedProvider>
+      )
+    }
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(<App />)
+    document.body.appendChild(container)
+    const warning = () =>
+      container.querySelector('.dnb-form-status--warning')
+    const error = () => container.querySelector('.dnb-form-status--error')
+    expect(warning()).toHaveTextContent(
+      nb.Field.stateSummary + 'Outside warning' + 'Warning'
+    )
+    expect(error()).toHaveTextContent(nb.Field.errorRequired)
+
+    const onRecoverableError = vi.fn()
+    const { unmount } = render(<App />, {
+      container,
+      hydrate: true,
+      onRecoverableError,
+    })
+    await waitFor(() => {
+      expect(warning()).toHaveTextContent(
+        en.Field.stateSummary + 'Outside warning' + 'Warning'
+      )
+    })
+    expect(error()).toHaveTextContent(en.Field.errorRequired)
+
+    expect(onRecoverableError).not.toHaveBeenCalled()
+    expect(container.querySelector('#string')).toHaveAttribute(
+      'aria-describedby',
+      'composition-form-status--warning'
+    )
+    unmount()
+    container.remove()
+  })
 
   it('should give the summary the latest props once it has hydrated', async () => {
     // The summary keeps its element while it waits for hydration

@@ -28,6 +28,7 @@ import type {
   FieldBlockRecordOwner,
 } from './FieldBlockContext'
 import FieldBlockContext from './FieldBlockContext'
+import SharedContext from '../../../shared/Context'
 import DataContext from '../DataContext/Context'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
@@ -198,6 +199,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     ? fieldBlockContext
     : null
 
+  const sharedContext = useContext(SharedContext)
   const id = useId(props.id ?? props.forId)
   const sharedProps = useFieldBlockPropsHandoff(id).get()
   const {
@@ -322,21 +324,41 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   )
 
   // Only the server render and the hydration of the summary use these
-  // records. After hydration, the summary uses the records that fields
-  // register after commit, so suspended fields cannot enter it.
+  // records. They keep the text of the first render, as the server rendered
+  // it, because a message can change before the summary hydrates, for
+  // example when the locale changes. After hydration, the summary uses the
+  // records that fields register after commit, so suspended fields cannot
+  // enter it.
+  const collectRenderMessage = (record: StateBasis) => {
+    if (summaryHydratedRef.current) {
+      return // stop here
+    }
+
+    const records = (renderRecordsRef.current[record.identifier] ??= [])
+    const exists = records.some(
+      (item) =>
+        item.stateId === record.stateId && item.type === record.type
+    )
+    if (!exists) {
+      setInternalRecord(
+        {
+          ...record,
+          content:
+            record.content === undefined
+              ? undefined
+              : getMessagesFromError(record),
+        },
+        records
+      )
+    }
+  }
+
   // A status above the contents renders before the fields, so it cannot
   // collect their messages during render.
   const collectMessages = nestedFieldBlockContext
     ? nestedFieldBlockContext.collectMessages
     : statusPosition !== 'above'
-      ? (record: StateBasis) => {
-          if (!summaryHydratedRef.current) {
-            setInternalRecord(
-              record,
-              (renderRecordsRef.current[record.identifier] ??= [])
-            )
-          }
-        }
+      ? collectRenderMessage
       : undefined
 
   const setFieldState = useCallback(
@@ -396,16 +418,18 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       content !== undefined ||
       stateRecordRef.current[blockId]?.some((item) => item.type === type)
     ) {
-      setInternalRecord(
-        {
-          identifier: blockId,
-          showInitially:
-            type !== 'error' || hasInitiallyErrorPropRef.current,
-          type,
-          content,
-        },
-        (stateRecordRef.current[blockId] ??= [])
-      )
+      const record: StateBasis = {
+        identifier: blockId,
+        showInitially:
+          type !== 'error' || hasInitiallyErrorPropRef.current,
+        type,
+        content,
+      }
+      setInternalRecord(record, (stateRecordRef.current[blockId] ??= []))
+
+      if (!nestedFieldBlockContext && statusPosition !== 'above') {
+        collectRenderMessage(record)
+      }
     }
   }
 
@@ -600,17 +624,21 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   // Hydrate the summary after any deferred field boundaries. Until then,
   // keep the same element, so an update of this component does not make
-  // React hydrate the summary before these fields.
+  // React hydrate the summary before these fields. The element also keeps
+  // the shared context of that render, so a change after mount, such as a
+  // new locale, does not reach the summary before it has hydrated.
   const getSummaryElement = () => {
     if (summaryElementRef.current && !summaryHydratedRef.current) {
       summaryElementReusedRef.current = true
     } else {
       summaryElementRef.current = (
         <Suspense fallback={null}>
-          <RenderAfterChildren
-            render={renderStatus}
-            onHydrated={handleSummaryHydrated}
-          />
+          <SharedContext value={sharedContext}>
+            <RenderAfterChildren
+              render={renderStatus}
+              onHydrated={handleSummaryHydrated}
+            />
+          </SharedContext>
         </Suspense>
       )
     }
