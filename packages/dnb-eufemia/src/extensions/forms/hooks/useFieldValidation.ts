@@ -691,7 +691,11 @@ export default function useFieldValidation<Value>({
   )
 
   const revealOnBlurValidatorResult = useCallback(
-    ({ result, runAsync = isAsync(onBlurValidatorRef.current) }) => {
+    ({
+      result,
+      runAsync = isAsync(onBlurValidatorRef.current),
+      reveal = true,
+    }) => {
       persistErrorState('gracefully', 'onBlurValidator', result)
 
       if (runAsync) {
@@ -699,7 +703,9 @@ export default function useFieldValidation<Value>({
         setFieldState(result instanceof Error ? 'error' : 'complete')
       }
 
-      revealError()
+      if (reveal) {
+        revealError()
+      }
     },
     [defineAsyncProcess, persistErrorState, revealError, setFieldState]
   )
@@ -707,8 +713,11 @@ export default function useFieldValidation<Value>({
   const startOnBlurValidatorProcess = useCallback(
     async ({
       overrideValue = null,
+      reveal = true,
     }: {
       overrideValue?: Value
+      /** When false, the result is stored, but not shown as a new visible error */
+      reveal?: boolean
     } = {}) => {
       if (typeof onBlurValidatorRef.current !== 'function') {
         return undefined // stop here
@@ -757,7 +766,7 @@ export default function useFieldValidation<Value>({
           setFieldState(result instanceof Error ? 'error' : 'complete')
         }
 
-        revealOnBlurValidatorResult({ result, runAsync })
+        revealOnBlurValidatorResult({ result, runAsync, reveal })
 
         return { result }
       }
@@ -782,7 +791,7 @@ export default function useFieldValidation<Value>({
         return { result: undefined }
       }
 
-      revealOnBlurValidatorResult({ result, runAsync })
+      revealOnBlurValidatorResult({ result, runAsync, reveal })
 
       return { result }
     },

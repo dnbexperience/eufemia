@@ -1335,30 +1335,35 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validationPromiseRef.current = validateValue()
   }, [validateValue])
 
-  const revalidateWithOnBlurValidator = useCallback(() => {
-    addToPool(
-      'onBlurValidator',
-      () => {
-        setValidatedValidatorValue('onBlurValidator')
+  const revalidateWithOnBlurValidator = useCallback(
+    ({ reveal = true }: { reveal?: boolean } = {}) => {
+      addToPool(
+        'onBlurValidator',
+        () => {
+          setValidatedValidatorValue('onBlurValidator')
 
-        return startOnBlurValidatorProcess()
-      },
-      hasAsyncValidatorBehavior(onBlurValidatorRef.current)
-    )
+          return startOnBlurValidatorProcess({ reveal })
+        },
+        hasAsyncValidatorBehavior(onBlurValidatorRef.current)
+      )
 
-    runPool(() => {
-      revealError()
-      forceUpdate()
-    })
-  }, [
-    addToPool,
-    forceUpdate,
-    onBlurValidatorRef,
-    revealError,
-    runPool,
-    setValidatedValidatorValue,
-    startOnBlurValidatorProcess,
-  ])
+      runPool(() => {
+        if (reveal) {
+          revealError()
+        }
+        forceUpdate()
+      })
+    },
+    [
+      addToPool,
+      forceUpdate,
+      onBlurValidatorRef,
+      revealError,
+      runPool,
+      setValidatedValidatorValue,
+      startOnBlurValidatorProcess,
+    ]
+  )
 
   // When the path changes (e.g. an Iterate.Array item before this one was removed),
   // replace any error or pending state left at the new path by the field that used it before.
@@ -1438,7 +1443,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
-        revalidateWithOnBlurValidator()
+        // Translate an error that is already visible, but do not reveal a
+        // hidden one, e.g. the required error of a field the user has not
+        // touched yet. It shows on blur or submit, as for other fields.
+        revalidateWithOnBlurValidator({ reveal: hasVisibleError })
 
         return undefined // stop here
       }
