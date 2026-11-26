@@ -12,6 +12,7 @@ import {
   validateAgentSkills,
 } from '../agentSkills'
 import { runEufemiaCli } from '../eufemiaCli'
+import type { ReportSkillInstalls } from '../skillsTelemetry'
 
 const packageRoot = path.resolve(__dirname, '../../..')
 const sourceRoot = path.join(packageRoot, 'agent-skills')
@@ -22,6 +23,7 @@ describe('Eufemia agent skills', () => {
   let targetRoot: string
 
   beforeEach(async () => {
+    vi.stubEnv('EUFEMIA_SKILLS_TELEMETRY', '0')
     temporaryRoot = await fs.mkdtemp(
       path.join(os.tmpdir(), 'eufemia-agent-skills-')
     )
@@ -29,6 +31,7 @@ describe('Eufemia agent skills', () => {
   })
 
   afterEach(async () => {
+    vi.unstubAllEnvs()
     await fs.rm(temporaryRoot, { recursive: true, force: true })
   })
 
@@ -564,6 +567,48 @@ describe('Eufemia agent skills', () => {
     ).resolves.toBe(0)
     expect(output).toEqual([
       expect.stringContaining('No managed Eufemia agent skills found'),
+    ])
+  })
+
+  it('reports installs, updates and uninstalls without custom folder paths', async () => {
+    const reportInstalls = vi.fn<ReportSkillInstalls>(
+      async () => undefined
+    )
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+
+    const run = (...args: string[]) =>
+      runEufemiaCli({
+        args: ['skills', ...args],
+        packageRoot: cliPackageRoot,
+        cwd: temporaryRoot,
+        output: () => undefined,
+        reportInstalls,
+      })
+
+    await run('install', '--target', '.claude/skills')
+    await run('update', '--target', '.claude/skills')
+    await run('install', '--target', 'my-team/skills')
+    await run('uninstall', '--target', 'my-team/skills')
+    await run('uninstall')
+
+    const event = (action: string, target: string) => ({
+      action,
+      target,
+      eufemiaVersion: packageVersion,
+    })
+    expect(reportInstalls.mock.calls.map(([events]) => events)).toEqual([
+      [event('install', '.claude/skills')],
+      [event('update', '.claude/skills')],
+      [event('install', 'custom')],
+      [event('uninstall', 'custom')],
+      [event('uninstall', '.claude/skills')],
     ])
   })
 
