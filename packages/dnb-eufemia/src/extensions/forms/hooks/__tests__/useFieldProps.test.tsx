@@ -17,6 +17,7 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
 import type {
+  DotNotationErrorMessages,
   JSONSchema,
   OnChange,
   SubmitState,
@@ -1619,6 +1620,61 @@ describe('useFieldProps', () => {
         expect(error.code).toBe('E42')
         expect(error.message).toBe(nb.Field.errorRequired)
         expect(errorProp.message).toBe('Field.errorRequired')
+      })
+
+      it('should show a later change to a field of the given FormError when the field prepares it again', () => {
+        class MyError extends FormError {
+          code = 'E42'
+        }
+        const errorProp = new MyError('Field.errorRequired')
+        const MockComponent = () => {
+          const props = useFieldProps({ error: errorProp })
+          const error = getError(props.error) as MyError
+          return (
+            <output>
+              {error.code} {error.message}
+            </output>
+          )
+        }
+        const output = () => document.querySelector('output').textContent
+
+        const { rerender } = render(
+          <Provider locale="nb-NO">
+            <MockComponent />
+          </Provider>
+        )
+        expect(output()).toBe(`E42 ${nb.Field.errorRequired}`)
+
+        errorProp.code = 'E43'
+        rerender(
+          <Provider locale="en-GB">
+            <MockComponent />
+          </Provider>
+        )
+
+        expect(output()).toBe(`E43 ${en.Field.errorRequired}`)
+      })
+
+      it('should not keep a formatted message from an earlier translation', () => {
+        const errorProp = new FormError('MyCustom.message')
+        const initialProps: { errorMessages: DotNotationErrorMessages } = {
+          errorMessages: { 'MyCustom.message': <b>Formatted</b> },
+        }
+
+        const { result, rerender } = renderHook(
+          (props) => useFieldProps({ error: errorProp, ...props }),
+          { initialProps }
+        )
+        expect(
+          (getError(result.current.error) as FormError).formattedMessage
+        ).toEqual(<b>Formatted</b>)
+
+        rerender({ errorMessages: { 'MyCustom.message': 'Plain text' } })
+
+        const error = getError(result.current.error) as FormError
+        expect(error.formattedMessage).toBeUndefined()
+        expect(error.message).toBe('Plain text')
+        expect(errorProp.formattedMessage).toBeUndefined()
       })
 
       it('should return the same prepared error on every render of the same FormError', () => {

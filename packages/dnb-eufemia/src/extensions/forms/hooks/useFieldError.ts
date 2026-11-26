@@ -404,14 +404,26 @@ export default function useFieldError<Value>({
       const getPreparedCopy = (error: FormError): FormError => {
         let copy = preparedErrorsRef.current.get(error)
         if (!copy) {
-          // A real FormError, with the own fields and the class of the given one
+          // A real FormError, with the class of the given one
           copy = Object.setPrototypeOf(
-            Object.assign(new FormError(error.message), error),
+            new FormError(error.message),
             Object.getPrototypeOf(error)
           ) as FormError
           preparedErrorsRef.current.set(error, copy)
         }
-        return copy
+
+        // Take the own fields of the given error each time the field
+        // prepares it, not only when the copy is made. A field that the
+        // app changes later is shown, and a field that the given error no
+        // longer has is removed, for example a formattedMessage from an
+        // earlier translation. The message is not an own enumerable field,
+        // so the caller sets it.
+        for (const key of Object.keys(copy)) {
+          if (!Object.prototype.hasOwnProperty.call(error, key)) {
+            delete copy[key]
+          }
+        }
+        return Object.assign(copy, error)
       }
 
       const prepare = (error: FormError) => {
@@ -473,6 +485,7 @@ export default function useFieldError<Value>({
       if (error instanceof FormError) {
         if (Array.isArray(error.errors)) {
           const copy = getPreparedCopy(error)
+          copy.message = error.message
           copy.errors = error.errors.map(prepare)
           return copy
         }
