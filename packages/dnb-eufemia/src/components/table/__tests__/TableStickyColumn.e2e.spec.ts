@@ -253,6 +253,33 @@ test.describe('Table sticky column', () => {
     await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
   })
 
+  // At the last row, the header draws the bottom of the outline with rounded corners
+  test('keeps the corners of the sticky cell square at the last row while columns are scrolled underneath', async ({
+    page,
+  }) => {
+    const table = page.locator('.dnb-table')
+    const stickyCell = table.locator('thead th').first()
+    await table.evaluate((element) => {
+      element.classList.add('dnb-table--outline')
+      element.parentElement.scrollTo({ left: 300, behavior: 'instant' })
+      const headerHeight = element.querySelector('thead tr').clientHeight
+      const { bottom } = element.getBoundingClientRect()
+      window.scrollTo(0, window.scrollY + bottom - 56 - headerHeight + 10)
+    })
+
+    await expect(table.locator('thead tr')).toHaveAttribute(
+      'data-is-at-end'
+    )
+    await expect(table).toHaveAttribute('data-sticky-column-overlap')
+    await expect(stickyCell).toHaveCSS('border-bottom-left-radius', '0px')
+    expect(
+      await stickyCell.evaluate(
+        (element) =>
+          getComputedStyle(element, '::after').borderBottomLeftRadius
+      )
+    ).toBe('0px')
+  })
+
   test('gives row headers in key/value rows an opaque background', async ({
     page,
   }) => {

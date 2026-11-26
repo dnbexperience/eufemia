@@ -133,6 +133,23 @@ $sticky-cell: ':not([colspan]:not([colspan="1"]))';
   }
 }
 
+// At the last row, a sticky header draws the bottom of the outline with rounded corners (table-sticky.scss).
+// While content is scrolled underneath, the sticky header cell is not at a corner of the table either.
+#{$first}.dnb-table--outline.dnb-table[data-sticky-column-overlap]
+  > thead:first-of-type
+  > tr[data-sticky][data-is-at-end]:first-of-type
+  > :first-child#{$sticky-cell},
+#{$last}.dnb-table--outline.dnb-table[data-sticky-column-overlap]
+  > thead:first-of-type
+  > tr[data-sticky][data-is-at-end]:first-of-type
+  > :last-child#{$sticky-cell} {
+  &,
+  &::after {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
 // The sticky cells cover the outline, so they draw the covered parts of it
 #{$first}.dnb-table--outline {
   --table-sticky-column-edge: inset var(--table-outline-width) 0
