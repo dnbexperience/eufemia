@@ -78,6 +78,7 @@ import {
   getCurrentData,
   getCurrentIndex,
   normalizeData,
+  parseCurrentValue,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 import type {
   AutocompleteAllProps,
@@ -1901,6 +1902,39 @@ function AutocompleteComponent({
         preferSelectedValue: true,
       })
       setInputValueState(newInputValue)
+    } else if (
+      prevDataRef.current?.length > 0 &&
+      props.data?.length > 0 &&
+      props.value !== undefined &&
+      props.value !== null &&
+      props.value !== 'initval'
+    ) {
+      // The selected item is the same, but its title changed, e.g. after a
+      // locale change. Show the new title, unless the user has typed
+      // something else than the old title.
+      const oldData = normalizeData(prevDataRef.current)
+      const newData = normalizeData(props.data)
+      const oldIndex = getCurrentIndex(props.value, oldData)
+      const newIndex = getCurrentIndex(props.value, newData)
+      const oldItem = oldData[oldIndex]
+      const newItem = newData[newIndex]
+
+      if (
+        oldItem &&
+        newItem &&
+        parseCurrentValue(oldItem) === parseCurrentValue(newItem)
+      ) {
+        const oldTitle = getCurrentDataTitle(oldIndex, oldData)
+        const newTitle = getCurrentDataTitle(newIndex, newData)
+
+        if (
+          newTitle &&
+          newTitle !== oldTitle &&
+          (inputValueRef.current ?? '') === (oldTitle ?? '')
+        ) {
+          setInputValueState(newTitle)
+        }
+      }
     }
 
     prevDataRef.current = props.data
