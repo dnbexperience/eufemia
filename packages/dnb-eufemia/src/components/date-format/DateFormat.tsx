@@ -44,7 +44,7 @@ type DateFormatProps = SpacingProps & {
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
   /**
-   * Animates changing digits in absolute dates and times in 160 ms. Text such as month names changes immediately. Initial values, formatting changes, and values revealed after a skeleton appear without motion. Respects reduced motion. Relative times and durations are not animated. Defaults to `false`.
+   * Cascades digits within each changing numeric date or time field from left to right, 25 ms apart with a 160 ms slide per digit. Text such as month names changes immediately. Initial values, formatting changes, and values revealed after a skeleton appear without motion. Respects reduced motion. Relative times and durations are not animated. Defaults to `false`.
    */
   animate?: boolean
   dateTimeSeparator?: string

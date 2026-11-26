@@ -61,8 +61,10 @@ describe('DateFormat', () => {
       expect(document.querySelector('.dnb-animated-digits')).toBeNull()
     })
 
-    const changedDigits = () =>
-      document.querySelectorAll('.dnb-animated-digits__character--changed')
+    const animatedDigits = () =>
+      document.querySelectorAll(
+        '.dnb-animated-digits__character--animated'
+      )
     const previousDigits = () =>
       Array.from(
         document.querySelectorAll('.dnb-animated-digits__previous')
@@ -74,7 +76,7 @@ describe('DateFormat', () => {
 
       rerender(<DateFormat value="2026-12-31" animate />)
       expect(document.querySelector('.dnb-animated-digits')).not.toBeNull()
-      expect(changedDigits()).toHaveLength(0)
+      expect(animatedDigits()).toHaveLength(0)
     })
 
     it.each(['nb-NO', 'en-GB', 'en-US'] as const)(
@@ -106,7 +108,7 @@ describe('DateFormat', () => {
         expect(
           time.querySelector('.dnb-animated-digits__formatted-text')
         ).toHaveTextContent(expected)
-        expect(changedDigits().length).toBeGreaterThan(0)
+        expect(animatedDigits().length).toBeGreaterThan(0)
       }
     )
 
@@ -116,14 +118,14 @@ describe('DateFormat', () => {
       )
       rerender(<DateFormat value="2027-01-01" locale="en-GB" animate />)
 
-      expect(previousDigits()).toEqual(['0', '6'])
+      expect(previousDigits()).toEqual(['0', '2', '0', '2', '6'])
       expect(
         document.querySelector('.dnb-animated-digits__formatted-text')
       ).toHaveTextContent('1 January 2027')
 
       rerender(<DateFormat value="2026-12-30" locale="en-GB" animate />)
 
-      expect(previousDigits()).toEqual(['1', '7'])
+      expect(previousDigits()).toEqual(['1', '2', '0', '2', '7'])
       expect(document.querySelector('.dnb-animated-digits')).toHaveClass(
         'dnb-animated-digits--down'
       )
@@ -159,6 +161,10 @@ describe('DateFormat', () => {
       expect(previousDigits()).toEqual([
         '3',
         '1',
+        '1',
+        '2',
+        '2',
+        '0',
         '2',
         '6',
         '2',
@@ -193,7 +199,7 @@ describe('DateFormat', () => {
         <DateFormat value="2026-12-31" locale="nb-NO" animate />
       )
       rerender(<DateFormat value="2027-01-01" locale="en-GB" animate />)
-      expect(changedDigits()).toHaveLength(0)
+      expect(animatedDigits()).toHaveLength(0)
 
       rerender(
         <DateFormat
@@ -203,7 +209,7 @@ describe('DateFormat', () => {
           animate
         />
       )
-      expect(changedDigits()).toHaveLength(0)
+      expect(animatedDigits()).toHaveLength(0)
     })
 
     it('does not animate a skeleton or the value revealed afterwards', () => {
@@ -219,7 +225,7 @@ describe('DateFormat', () => {
           <DateFormat value="2027-01-01" animate />
         </Provider>
       )
-      expect(changedDigits()).toHaveLength(0)
+      expect(animatedDigits()).toHaveLength(0)
     })
 
     it('does not animate durations or relative time', () => {
@@ -2134,7 +2140,7 @@ describe('DateFormat', () => {
         expect(time).toHaveTextContent('08.10.2026')
         expect(time).toHaveTextContent('00:30')
         expect(
-          time.querySelector('.dnb-animated-digits__character--changed')
+          time.querySelector('.dnb-animated-digits__character--animated')
         ).toBeNull()
 
         unmount()
