@@ -1427,6 +1427,70 @@ describe('useFieldProps', () => {
         })
       })
 
+      it.each([
+        [
+          'a message key',
+          () => new FormError('Field.errorRequired'),
+          nb.Field.errorRequired,
+          en.Field.errorRequired,
+        ],
+        [
+          'a message key with values',
+          () =>
+            new FormError('NumberField.errorMaximum', {
+              messageValues: { maximum: '5' },
+            }),
+          nb.NumberField.errorMaximum.replace('{maximum}', '5'),
+          en.NumberField.errorMaximum.replace('{maximum}', '5'),
+        ],
+      ])(
+        'should translate a given FormError with %s again when the locale changes',
+        (_, createError, nbMessage, enMessage) => {
+          // The same instance in every render
+          const error = createError()
+          const MockComponent = () => {
+            const props = useFieldProps({ error })
+            return (
+              <output className="error-message">
+                {getError(props.error)?.message}
+              </output>
+            )
+          }
+          const message = () =>
+            document.querySelector('.error-message').textContent
+
+          const { rerender } = render(
+            <Provider locale="nb-NO">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(nbMessage)
+
+          rerender(
+            <Provider locale="en-GB">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(enMessage)
+
+          rerender(
+            <Provider locale="nb-NO">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(nbMessage)
+
+          // A message that the app changes after it was translated is the new key
+          error.message = 'Field.errorPattern'
+          rerender(
+            <Provider locale="en-GB">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(en.Field.errorPattern)
+        }
+      )
+
       it('should not warn when error already contains a localized sentence with a period', () => {
         const log = spyOnEufemiaWarn()
 
