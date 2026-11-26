@@ -1643,6 +1643,37 @@ describe('useFieldProps', () => {
           })
         })
 
+        it('should not reveal an onBlurValidator error again while the user is typing a new value', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1')
+          fireEvent.blur(input)
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.FirstName.errorPattern])
+          })
+
+          // The error is hidden while the user types a new value
+          fireEvent.focus(input)
+          await userEvent.type(input, '2')
+          expect(statuses()).toEqual([])
+
+          // Change the locale without a blur on the field
+          fireEvent.click(document.querySelector('button#change-locale'))
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          // The error shows again on blur, in the new locale
+          fireEvent.blur(input)
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.FirstName.errorPattern])
+          })
+        })
+
         it('should translate a visible required error of a field with an onBlurValidator', async () => {
           render(
             <LocaleApp>
