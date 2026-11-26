@@ -101,6 +101,54 @@ describe('useStickyHeader', () => {
     expect(trElem).not.toHaveAttribute('data-is-sticky')
   })
 
+  it('should set data-is-at-end while the header stays at the last row', () => {
+    render(
+      <Table sticky>
+        <BasicTable />
+      </Table>
+    )
+
+    setSizes()
+
+    const trElem = document.querySelector('tr')
+
+    simulateScroll(200)
+
+    expect(trElem).toHaveAttribute('data-is-sticky')
+    expect(trElem).not.toHaveAttribute('data-is-at-end')
+
+    simulateScroll(600)
+
+    expect(trElem).not.toHaveAttribute('data-is-sticky')
+    expect(trElem).toHaveAttribute('data-is-at-end')
+
+    simulateScroll(0)
+
+    expect(trElem).not.toHaveAttribute('data-is-at-end')
+  })
+
+  it('should not set data-is-at-end when the header is the only row', () => {
+    render(
+      <Table sticky>
+        <BasicTable />
+      </Table>
+    )
+
+    setSizes()
+    vi.spyOn(
+      document.querySelector('table'),
+      'offsetHeight',
+      'get'
+    ).mockReturnValue(72)
+    fireEvent(window, new Event('resize'))
+
+    simulateScroll(600)
+
+    expect(document.querySelector('tr')).not.toHaveAttribute(
+      'data-is-at-end'
+    )
+  })
+
   it('should set --table-top with given stickyOffset when sticky="css-position"', () => {
     const { rerender } = render(
       <Table sticky="css-position" stickyOffset="4rem">

@@ -53,36 +53,64 @@
       var(--table-outline-color);
     --table-outline-shadow-right: inset
       calc(var(--table-outline-width) * -1) 0 var(--table-outline-color);
+    --table-outline-shadow-bottom: 0 0 transparent;
 
-    box-shadow: var(--table-outline-shadow-top);
+    box-shadow:
+      var(--table-outline-shadow-top), var(--table-outline-shadow-bottom);
 
     &:first-child {
       box-shadow:
-        var(--table-outline-shadow-top), var(--table-outline-shadow-left);
+        var(--table-outline-shadow-top), var(--table-outline-shadow-left),
+        var(--table-outline-shadow-bottom);
     }
 
     &:last-child {
       box-shadow:
-        var(--table-outline-shadow-top), var(--table-outline-shadow-right);
+        var(--table-outline-shadow-top), var(--table-outline-shadow-right),
+        var(--table-outline-shadow-bottom);
     }
 
     &:only-child {
       box-shadow:
         var(--table-outline-shadow-top), var(--table-outline-shadow-left),
-        var(--table-outline-shadow-right);
+        var(--table-outline-shadow-right),
+        var(--table-outline-shadow-bottom);
     }
   }
 
-  // While the header is stuck, it is not at the top of the table.
+  // While the header is stuck or at the last row, it is not at the top of the table.
   // If it were rounded, the outline of the table would show through its corners.
   &--outline#{&}
     > thead:first-of-type
-    > tr[data-sticky][data-is-sticky]:first-of-type
+    > tr[data-sticky]:is([data-is-sticky], [data-is-at-end]):first-of-type
     > :is(.dnb-table__th, th, td) {
     &,
     &::after {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
+    }
+  }
+
+  // At the last row, the header covers the bottom of the outline, so it draws it instead
+  &--outline#{&}
+    > thead:first-of-type
+    > tr[data-sticky][data-is-at-end]:first-of-type
+    > :is(.dnb-table__th, th, td) {
+    --table-outline-shadow-bottom: inset 0
+      calc(var(--table-outline-width) * -1) var(--table-outline-color);
+
+    &:first-child {
+      &,
+      &::after {
+        border-bottom-left-radius: var(--table-outline-radius);
+      }
+    }
+
+    &:last-child {
+      &,
+      &::after {
+        border-bottom-right-radius: var(--table-outline-radius);
+      }
     }
   }
 
