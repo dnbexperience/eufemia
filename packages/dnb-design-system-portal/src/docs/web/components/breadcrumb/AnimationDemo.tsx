@@ -19,16 +19,17 @@ const pages = [
   { key: 'echarts', title: 'Apache ECharts' },
 ]
 export default function AnimationDemo() {
-  const { hash } = useLocation()
+  const { pathname, search } = useLocation()
   const navigate = useNavigate()
-  const page = pages.find(({ key }) => '#' + key === hash) ?? pages[0]
+  const pageKey = new URLSearchParams(search).get('page')
+  const page = pages.find(({ key }) => key === pageKey) ?? pages[0]
   const [menuOpen, setMenuOpen] = useState(false)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
   const isOverview = page.key === 'overview'
 
   useEffect(() => {
     setMenuOpen(false)
-  }, [hash])
+  }, [search])
 
   useEffect(() => {
     return () => timers.current.forEach(clearTimeout)
@@ -44,7 +45,7 @@ export default function AnimationDemo() {
           key={key}
           id={location + '-' + key}
           text={title}
-          href={'#' + key}
+          href={pathname + '?page=' + key}
         />
       ))}
     </SidebarMenu.Root>
@@ -88,7 +89,7 @@ export default function AnimationDemo() {
               <Breadcrumb.Item
                 key="charts"
                 text="Charts"
-                href="#overview"
+                href={pathname + '?page=overview'}
                 variant={isOverview ? 'current' : 'home'}
               />
               {!isOverview && (
@@ -127,7 +128,7 @@ export default function AnimationDemo() {
                   ]
                   timers.current = sequence.map((key, index) =>
                     setTimeout(() => {
-                      navigate('#' + key)
+                      navigate('?page=' + key)
                     }, index * 75)
                   )
                 }}
@@ -148,7 +149,7 @@ export default function AnimationDemo() {
                       : 'Explore examples, accessible data and theme integration.'}
                   </P>
                   <Button
-                    href={'#' + key}
+                    href={pathname + '?page=' + key}
                     variant="tertiary"
                     icon="chevron_right"
                   >

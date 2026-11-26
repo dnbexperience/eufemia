@@ -4,7 +4,7 @@ const demo = '/web/components/breadcrumb/visual-tests/animation/'
 
 test('wraps long labels within a narrow breadcrumb', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 })
-  await page.goto(demo + '#chartist')
+  await page.goto(demo + '?page=chartist')
   const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
     'Chartist'
@@ -26,25 +26,27 @@ test('wraps long labels within a narrow breadcrumb', async ({ page }) => {
 test('keeps the home icon in the navigation link hit area', async ({
   page,
 }) => {
-  await page.goto(demo + '#chartist')
+  await page.goto(demo + '?page=chartist')
   const icon = page.locator('.dnb-breadcrumb__item__home-icon')
   const bounds = await icon.boundingBox()
   await page.mouse.click(
     bounds.x + bounds.width / 2,
     bounds.y + bounds.height / 2
   )
-  await expect(page).toHaveURL(/#overview$/, { timeout: 1000 })
+  await expect(page).toHaveURL(/\?page=overview$/, { timeout: 1000 })
 })
 
 test('reverses an unfinished entrance from its current width', async ({
   page,
 }) => {
-  await page.goto(demo + '#overview')
+  await page.goto(demo + '?page=overview')
   await expect(
     page.getByRole('heading', { name: 'Overview', level: 1, exact: true })
   ).toBeVisible()
   await page.evaluate(() => {
-    window.location.hash = 'chartist'
+    document
+      .querySelector<HTMLAnchorElement>('a[href$="?page=chartist"]')
+      .click()
   })
   const entering = page.locator('.dnb-breadcrumb__item--enter')
   await expect(entering).toHaveCount(1)
@@ -68,7 +70,9 @@ test('reverses an unfinished entrance from its current width', async ({
   expect(before.height).toBe(before.expandedHeight)
 
   await page.evaluate(() => {
-    window.location.hash = 'overview'
+    document
+      .querySelector<HTMLAnchorElement>('a[href$="?page=overview"]')
+      .click()
   })
   const exiting = page.locator('.dnb-breadcrumb__item--exit')
   await expect(exiting).toHaveCount(1)
@@ -85,7 +89,7 @@ test('preserves keyboard focus when a link becomes the current page', async ({
   page,
   browserName,
 }) => {
-  await page.goto(demo + '#chartist')
+  await page.goto(demo + '?page=chartist')
   const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
   const home = breadcrumb.getByRole('link', {
     name: 'Charts',
@@ -110,13 +114,15 @@ test('preserves keyboard focus when a link becomes the current page', async ({
 test('keeps exits inert and settles replacement, history and rapid navigation', async ({
   page,
 }) => {
-  await page.goto(demo + '#chartist')
+  await page.goto(demo + '?page=chartist')
   const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
     'Chartist'
   )
   await page.evaluate(() => {
-    window.location.hash = 'nivo'
+    document
+      .querySelector<HTMLAnchorElement>('a[href$="?page=nivo"]')
+      .click()
   })
   const exiting = breadcrumb.locator('[inert]')
   await expect(exiting).toHaveAttribute('aria-hidden', 'true')
@@ -134,7 +140,7 @@ test('keeps exits inert and settles replacement, history and rapid navigation', 
     'Nivo'
   )
   await page.getByRole('button', { name: 'Rapid navigation' }).click()
-  await expect(page).toHaveURL(/#overview$/)
+  await expect(page).toHaveURL(/\?page=overview$/)
   await expect(breadcrumb.locator('li')).toHaveCount(1)
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
     'Charts'
@@ -145,7 +151,7 @@ test('removes items immediately with reduced motion and retains the icon node', 
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto(demo + '#chartist')
+  await page.goto(demo + '?page=chartist')
   const breadcrumb = page.getByRole('navigation', { name: 'Chart path' })
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
     'Chartist'
