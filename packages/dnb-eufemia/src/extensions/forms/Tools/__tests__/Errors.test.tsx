@@ -128,8 +128,10 @@ describe('Tools.Errors', () => {
           fieldErrors: {
             '/foo': 'Dette feltet må fylles ut.',
           },
+          // The form error stays as the schema created it; each field
+          // translates its own copy
           formErrors: {
-            '/foo': 'Dette feltet må fylles ut.',
+            '/foo': 'Field.errorRequired',
           },
         },
         null,

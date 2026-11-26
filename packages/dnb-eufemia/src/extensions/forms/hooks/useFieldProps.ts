@@ -1928,7 +1928,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useLayoutEffect(() => {
     if (inFieldBlock) {
       for (const [type, content] of [
-        ['error', error],
+        [
+          'error',
+          error instanceof Error || Array.isArray(error)
+            ? prepareError(error)
+            : error,
+        ],
         ['warning', warning],
         ['information', info],
       ] as const) {
@@ -1950,6 +1955,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldBlockIdentifier,
     inFieldBlock,
     info,
+    prepareError,
     setBlockRecord,
     warning,
   ])
@@ -2044,7 +2050,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // Register the messages during render, so they are part of the server-rendered HTML.
     // The field block ignores them after its summary has hydrated.
     for (const [type, content] of [
-      ['error', error],
+      [
+        'error',
+        error instanceof Error || Array.isArray(error)
+          ? prepareError(error)
+          : error,
+      ],
       ['warning', warning],
       ['information', info],
     ] as const) {

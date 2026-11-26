@@ -1491,6 +1491,133 @@ describe('useFieldProps', () => {
         }
       )
 
+      it('should translate a FormError given via error again when the locale changes', async () => {
+        // Created once, like an error kept in state, a constant or a memo
+        const errorProp = new FormError('Field.errorRequired')
+
+        const MockComponent = () => {
+          const props = useFieldProps({ error: errorProp })
+          return (
+            <div data-testid="error-message">
+              {getError(props.error)?.message}
+            </div>
+          )
+        }
+
+        const { rerender } = render(
+          <Provider locale="nb-NO">
+            <MockComponent />
+          </Provider>
+        )
+
+        await waitFor(() => {
+          expect(screen.getByTestId('error-message').textContent).toBe(
+            nb.Field.errorRequired
+          )
+        })
+
+        rerender(
+          <Provider locale="en-GB">
+            <MockComponent />
+          </Provider>
+        )
+
+        await waitFor(() => {
+          expect(screen.getByTestId('error-message').textContent).toBe(
+            en.Field.errorRequired
+          )
+        })
+
+        // The given error keeps its translation key
+        expect(errorProp.message).toBe('Field.errorRequired')
+      })
+
+      it('should show each field its own locale when fields share a FormError', () => {
+        const sharedError = new FormError('Field.errorRequired', {
+          errors: [new FormError('Field.errorPattern')],
+        })
+        const nestedErrors = sharedError.errors
+
+        const MockComponent = ({ testId }: { testId: string }) => {
+          const props = useFieldProps({ error: sharedError })
+          const error = getError(props.error) as FormError
+          return (
+            <div data-testid={testId}>
+              {error.errors.map((item) => item.message).join()}
+            </div>
+          )
+        }
+
+        render(
+          <>
+            <Provider locale="nb-NO">
+              <MockComponent testId="nb" />
+            </Provider>
+            <Provider locale="en-GB">
+              <MockComponent testId="en" />
+            </Provider>
+          </>
+        )
+
+        expect(screen.getByTestId('nb').textContent).toBe(
+          nb.Field.errorPattern
+        )
+        expect(screen.getByTestId('en').textContent).toBe(
+          en.Field.errorPattern
+        )
+
+        // The given error and its nested errors are not changed
+        expect(sharedError.message).toBe('Field.errorRequired')
+        expect(sharedError.errors).toBe(nestedErrors)
+        expect(sharedError.errors[0].message).toBe('Field.errorPattern')
+      })
+
+      it('should translate a FormError given via error in a field block again when the locale changes', async () => {
+        const errorProp = new FormError('Field.errorRequired')
+
+        const { rerender } = render(
+          <Provider locale="nb-NO">
+            <FieldBlock>
+              <Field.String error={errorProp} />
+            </FieldBlock>
+          </Provider>
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(nb.Field.errorRequired)
+
+        rerender(
+          <Provider locale="en-GB">
+            <FieldBlock>
+              <Field.String error={errorProp} />
+            </FieldBlock>
+          </Provider>
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe(en.Field.errorRequired)
+        })
+        expect(errorProp.message).toBe('Field.errorRequired')
+      })
+
+      it('should return the same prepared error on every render of the same FormError', () => {
+        // onStatusChange compares the error by identity, so a new object
+        // on every render would call it on every render
+        const errorProp = new FormError('Field.errorRequired')
+        const { result, rerender } = renderHook(() =>
+          useFieldProps({ error: errorProp })
+        )
+        const first = result.current.error
+
+        rerender()
+
+        expect(result.current.error).toBe(first)
+        expect(getError(first).message).toBe(nb.Field.errorRequired)
+      })
+
       it('should not warn when error already contains a localized sentence with a period', () => {
         const log = spyOnEufemiaWarn()
 
