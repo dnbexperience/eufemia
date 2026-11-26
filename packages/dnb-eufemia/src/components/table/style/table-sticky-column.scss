@@ -41,12 +41,13 @@ $sticky-cell: ':not([colspan]:not([colspan="1"]))';
 
 // Scroll focused elements into view next to the sticky column, not underneath it.
 // "useStickyColumn" marks the scroll container and sets the width on it.
+// The gap keeps the focus ring visible.
 [data-table-sticky-column='first'] {
-  scroll-padding-left: var(--table-sticky-column-width);
+  scroll-padding-left: calc(var(--table-sticky-column-width) + 0.5rem);
 }
 
 [data-table-sticky-column='last'] {
-  scroll-padding-right: var(--table-sticky-column-width);
+  scroll-padding-right: calc(var(--table-sticky-column-width) + 0.5rem);
 }
 
 // Elements inside the sticky column are always in view.
@@ -163,5 +164,28 @@ $sticky-cell: ':not([colspan]:not([colspan="1"]))';
     ) {
     --table-sticky-column-edge-bottom: inset 0
       calc(var(--table-outline-width) * -1) var(--table-outline-color);
+  }
+}
+
+// Forced colors remove box shadows, which draw the divider and the covered parts of the outline.
+// So the sticky cells keep their shadows and use system colors instead. Their content still gets forced colors.
+@media (forced-colors: active) {
+  #{$first},
+  #{$last} {
+    --table-border-color: CanvasText;
+    --table-outline-color: CanvasText;
+  }
+
+  #{$first} > * > tr > :first-child#{$sticky-cell},
+  #{$last} > * > tr > :last-child#{$sticky-cell} {
+    forced-color-adjust: none;
+    color: CanvasText;
+    background-color: Canvas;
+
+    > *,
+    &::before,
+    &::after {
+      forced-color-adjust: auto;
+    }
   }
 }

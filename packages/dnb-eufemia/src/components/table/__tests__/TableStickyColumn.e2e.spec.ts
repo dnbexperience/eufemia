@@ -93,6 +93,131 @@ test.describe('Table sticky column', () => {
       .toBeGreaterThanOrEqual(0)
   })
 
+  // Browsers only scroll elements into view that are fully hidden
+  test('scrolls partly hidden elements fully into view next to the sticky column', async ({
+    page,
+    browserName,
+  }) => {
+    const scrollView = page.locator('.dnb-table__scroll-view')
+    const row = page.locator('.dnb-table tbody tr').nth(2)
+    const addButtons = (cellIndexes: Array<number>) =>
+      row.evaluate((tr: HTMLTableRowElement, cellIndexes) => {
+        Array.from(tr.querySelectorAll('button')).forEach((button) => {
+          button.remove()
+        })
+        cellIndexes.forEach((index) => {
+          const button = document.createElement('button')
+          button.type = 'button'
+          button.textContent = `Account details ${index}`
+          tr.cells[index].replaceChildren(button)
+        })
+      }, cellIndexes)
+
+    // Scrolls the button 40px underneath the sticky column
+    const coverButton = (name: string, side: 'first' | 'last') =>
+      scrollView.evaluate(
+        (element, { name, side }) => {
+          const button = Array.from(
+            element.querySelectorAll('button')
+          ).find((button) => button.textContent === name)
+          const row = button.closest('tr')
+          const sticky = (
+            side === 'first'
+              ? row.cells[0]
+              : row.cells[row.cells.length - 1]
+          ).getBoundingClientRect()
+          const rect = button.getBoundingClientRect()
+          const offset =
+            side === 'first'
+              ? rect.left - sticky.right + 40
+              : rect.right - sticky.left - 40
+          element.scrollTo({
+            left: element.scrollLeft + offset,
+            behavior: 'instant',
+          })
+        },
+        { name, side }
+      )
+    const hiddenWidth = (name: string, side: 'first' | 'last') =>
+      row.evaluate(
+        (tr: HTMLTableRowElement, { name, side }) => {
+          const button = Array.from(tr.querySelectorAll('button')).find(
+            (button) => button.textContent === name
+          )
+          const sticky = (
+            side === 'first' ? tr.cells[0] : tr.cells[tr.cells.length - 1]
+          ).getBoundingClientRect()
+          const rect = button.getBoundingClientRect()
+          return side === 'first'
+            ? sticky.right - rect.left
+            : rect.right - sticky.left
+        },
+        { name, side }
+      )
+
+    await test.step('with the first column, when tabbing backwards', async () => {
+      await addButtons([3, 6])
+      await coverButton('Account details 3', 'first')
+      await expect
+        .poll(() => hiddenWidth('Account details 3', 'first'))
+        .toBeGreaterThan(0)
+
+      await row.getByRole('button', { name: 'Account details 6' }).focus()
+      await page.keyboard.press(
+        browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
+      )
+
+      await expect(
+        row.getByRole('button', { name: 'Account details 3' })
+      ).toBeFocused()
+      await expect
+        .poll(() => hiddenWidth('Account details 3', 'first'))
+        .toBeLessThanOrEqual(0)
+    })
+
+    await test.step('with the last column, when tabbing forwards', async () => {
+      await page
+        .getByRole('button', { name: 'Sticky column: first' })
+        .click()
+      await expect(page.locator('table')).toHaveClass(
+        /dnb-table--sticky-column-last/
+      )
+      await addButtons([4, 7])
+      await coverButton('Account details 7', 'last')
+      await expect
+        .poll(() => hiddenWidth('Account details 7', 'last'))
+        .toBeGreaterThan(0)
+
+      await row.getByRole('button', { name: 'Account details 4' }).focus()
+      await page.keyboard.press(
+        browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+      )
+
+      await expect(
+        row.getByRole('button', { name: 'Account details 7' })
+      ).toBeFocused()
+      await expect
+        .poll(() => hiddenWidth('Account details 7', 'last'))
+        .toBeLessThanOrEqual(0)
+    })
+  })
+
+  // Forced colors remove box shadows, which draw the divider
+  test('keeps the divider in forced colors', async ({ page }) => {
+    const scrollView = page.locator('.dnb-table__scroll-view')
+    const stickyCell = page.locator('.dnb-table tbody td').first()
+
+    await page.emulateMedia({ forcedColors: 'active' })
+    await scrollView.evaluate((element) => {
+      element.scrollTo({ left: 300, behavior: 'instant' })
+    })
+    await expect(page.locator('table')).toHaveAttribute(
+      'data-sticky-column-overlap'
+    )
+
+    await expect(stickyCell).not.toHaveCSS('box-shadow', 'none')
+  })
+
   test('keeps the scroll position when an element in the sticky column gets focus', async ({
     page,
   }) => {

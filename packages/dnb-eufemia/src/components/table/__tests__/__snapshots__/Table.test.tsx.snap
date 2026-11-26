@@ -1005,11 +1005,11 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
 }
 
 [data-table-sticky-column=first] {
-  scroll-padding-left: var(--table-sticky-column-width);
+  scroll-padding-left: calc(var(--table-sticky-column-width) + 0.5rem);
 }
 
 [data-table-sticky-column=last] {
-  scroll-padding-right: var(--table-sticky-column-width);
+  scroll-padding-right: calc(var(--table-sticky-column-width) + 0.5rem);
 }
 
 [data-table-sticky-column=first]:has(.dnb-table--sticky-column-first:not([data-sticky-column-disabled]) > * > tr > :first-child:not([colspan]:not([colspan="1"])):focus-within) {
@@ -1088,6 +1088,25 @@ caption:first-child + tbody) > tr:first-of-type {
     calc(var(--table-outline-width) * -1) var(--table-outline-color);
 }
 
+@media (forced-colors: active) {
+  .dnb-table--sticky-column-first:not([data-sticky-column-disabled]),
+  .dnb-table--sticky-column-last:not([data-sticky-column-disabled]) {
+    --table-border-color: CanvasText;
+    --table-outline-color: CanvasText;
+  }
+  .dnb-table--sticky-column-first:not([data-sticky-column-disabled]) > * > tr > :first-child:not([colspan]:not([colspan="1"])),
+  .dnb-table--sticky-column-last:not([data-sticky-column-disabled]) > * > tr > :last-child:not([colspan]:not([colspan="1"])) {
+    forced-color-adjust: none;
+    color: CanvasText;
+    background-color: Canvas;
+  }
+  .dnb-table--sticky-column-first:not([data-sticky-column-disabled]) > * > tr > :first-child:not([colspan]:not([colspan="1"])) > *, .dnb-table--sticky-column-first:not([data-sticky-column-disabled]) > * > tr > :first-child:not([colspan]:not([colspan="1"]))::before, .dnb-table--sticky-column-first:not([data-sticky-column-disabled]) > * > tr > :first-child:not([colspan]:not([colspan="1"]))::after,
+  .dnb-table--sticky-column-last:not([data-sticky-column-disabled]) > * > tr > :last-child:not([colspan]:not([colspan="1"])) > *,
+  .dnb-table--sticky-column-last:not([data-sticky-column-disabled]) > * > tr > :last-child:not([colspan]:not([colspan="1"]))::before,
+  .dnb-table--sticky-column-last:not([data-sticky-column-disabled]) > * > tr > :last-child:not([colspan]:not([colspan="1"]))::after {
+    forced-color-adjust: auto;
+  }
+}
 /*
 * Table component
 *

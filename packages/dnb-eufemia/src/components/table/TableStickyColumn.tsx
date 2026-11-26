@@ -32,6 +32,49 @@ export const useStickyColumn = (
       tableElem.toggleAttribute('data-sticky-column-overlap', overlaps)
     }
 
+    // Browsers scroll only fully hidden elements into view, so the sticky column may still cover a part of them.
+    // The scroll padding includes a gap for the focus ring.
+    let frame: number
+    const onFocusIn = ({ target }: FocusEvent) => {
+      const element = target as HTMLElement
+      const cell = element.closest?.('td, th')
+
+      if (
+        isDisabled ||
+        !observedCell ||
+        cell?.closest('table') !== tableElem ||
+        cell ===
+          cell.parentElement[
+            isFirst ? 'firstElementChild' : 'lastElementChild'
+          ] ||
+        !element.matches(':focus-visible')
+      ) {
+        return // stop here
+      }
+
+      // WebKit would stop the scrolling when it scrolls the focused element into view itself
+      window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(() => {
+        const style = window.getComputedStyle(scrollElem)
+        const padding =
+          parseFloat(
+            isFirst ? style.scrollPaddingLeft : style.scrollPaddingRight
+          ) || 0
+        const sticky = observedCell.getBoundingClientRect()
+        const rect = element.getBoundingClientRect()
+        const offset = isFirst
+          ? Math.min(0, rect.left - sticky.left - padding)
+          : Math.max(0, rect.right - sticky.right + padding)
+        const isPartlyVisible = isFirst
+          ? rect.right > sticky.right
+          : rect.left < sticky.left
+
+        if (offset && isPartlyVisible) {
+          scrollElem.scrollBy({ left: offset })
+        }
+      })
+    }
+
     const onResize = () => {
       // Like the CSS, skip cells that span several columns
       const cell = Array.from(
@@ -90,12 +133,15 @@ export const useStickyColumn = (
     }
 
     scrollElem.addEventListener('scroll', onScroll, { passive: true })
+    scrollElem.addEventListener('focusin', onFocusIn)
     onResize()
 
     return () => {
+      window.cancelAnimationFrame(frame)
       observer?.disconnect()
       window.removeEventListener('resize', onResize)
       scrollElem.removeEventListener('scroll', onScroll)
+      scrollElem.removeEventListener('focusin', onFocusIn)
       scrollElem.removeAttribute('data-table-sticky-column')
       scrollElem.style.removeProperty('--table-sticky-column-width')
       tableElem.style.removeProperty(
