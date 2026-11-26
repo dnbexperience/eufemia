@@ -185,7 +185,7 @@ describe('"scrollToLocationHashId" should', () => {
 
     expect(scrollTo).toHaveBeenCalledTimes(1)
     expect(scrollTo).toHaveBeenCalledWith({
-      behavior: 'auto',
+      behavior: 'instant',
       top: 300,
     })
   })

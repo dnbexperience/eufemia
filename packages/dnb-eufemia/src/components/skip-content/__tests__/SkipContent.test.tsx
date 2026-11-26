@@ -154,7 +154,7 @@ describe('SkipContent', () => {
     fireEvent.click(element.querySelector('.dnb-button'))
 
     expect(scrollIntoView).toHaveBeenCalledTimes(1)
-    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'auto' })
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' })
   })
 
   it('should focus the shown button when a ref is given', () => {

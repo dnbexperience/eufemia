@@ -1104,7 +1104,7 @@ describe('MultiSelection', () => {
 
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(1)
     expect(scrollIntoViewMock).toHaveBeenCalledWith({
-      behavior: 'auto',
+      behavior: 'instant',
       block: 'nearest',
     })
   })

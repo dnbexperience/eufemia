@@ -1009,7 +1009,7 @@ describe('Infinity scroller', () => {
     })
     expect(scrollIntoView).toHaveBeenCalledWith({
       block: 'nearest',
-      behavior: 'auto',
+      behavior: 'instant',
     })
   })
 })

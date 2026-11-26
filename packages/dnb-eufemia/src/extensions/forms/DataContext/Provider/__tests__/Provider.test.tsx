@@ -2550,7 +2550,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       expect(scrollTo).toHaveBeenCalledTimes(1)
     })
     expect(scrollTo).toHaveBeenCalledWith({
-      behavior: 'auto',
+      behavior: 'instant',
       top: 0,
     })
   })

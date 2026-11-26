@@ -13,7 +13,8 @@ export function prefersReducedMotion(): boolean {
 /**
  * An explicit `behavior: 'smooth'` ignores the CSS `scroll-behavior`,
  * so the global reduced motion rule cannot stop it.
+ * Use `instant`, because `auto` follows a host page's `scroll-behavior: smooth`.
  */
 export function getSmoothScrollBehavior(): ScrollBehavior {
-  return prefersReducedMotion() ? 'auto' : 'smooth'
+  return prefersReducedMotion() ? 'instant' : 'smooth'
 }

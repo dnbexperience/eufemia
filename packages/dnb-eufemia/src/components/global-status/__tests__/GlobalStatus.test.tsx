@@ -551,7 +551,7 @@ describe('GlobalStatus component', () => {
     })
     expect(scrollIntoView).toHaveBeenCalledWith({
       block: 'center',
-      behavior: 'auto',
+      behavior: 'instant',
     })
   })
 

@@ -8,12 +8,12 @@ describe('reducedMotion', () => {
     vi.unstubAllGlobals()
   })
 
-  it('should return "auto" when reduced motion is preferred', () => {
+  it('should return "instant" when reduced motion is preferred', () => {
     const matchMedia = vi.fn(() => ({ matches: true }))
     vi.stubGlobal('matchMedia', matchMedia)
 
     expect(prefersReducedMotion()).toBe(true)
-    expect(getSmoothScrollBehavior()).toBe('auto')
+    expect(getSmoothScrollBehavior()).toBe('instant')
     expect(matchMedia).toHaveBeenCalledWith(
       '(prefers-reduced-motion: reduce)'
     )
@@ -34,7 +34,7 @@ describe('reducedMotion', () => {
 
     matches = true
 
-    expect(getSmoothScrollBehavior()).toBe('auto')
+    expect(getSmoothScrollBehavior()).toBe('instant')
   })
 
   it('should return "smooth" when matchMedia is not supported', () => {
