@@ -42,8 +42,9 @@ test('wraps labels at spaces and explicit hyphens without automatic hyphenation'
   })
 })
 
-// Arrow keys can move focus to the section option under the mouse.
-test('shows the focus outline on the section option under the mouse', async ({
+// Arrow keys can move focus to the section option under the mouse. It keeps
+// its hover style, as in the screenshot of this state.
+test('keeps the hover style on the section option under the mouse', async ({
   page,
 }) => {
   const css = [
@@ -55,6 +56,7 @@ test('shows the focus outline on the section option under the mouse', async ({
       :root {
         --token-color-stroke-action-focus: rgb(39, 106, 206);
         --focus-outline-width: 0.1875rem;
+        --token-color-stroke-neutral-bold: rgb(10, 10, 10);
       }
       ${css}
     </style>
@@ -76,8 +78,12 @@ test('shows the focus outline on the section option under the mouse', async ({
     element.dataset.whatintent = 'keyboard'
   })
 
-  await expect(inner).toHaveCSS('outline-style', 'solid')
   await expect(option).toHaveCSS('outline-style', 'none')
+  await expect(inner).toHaveCSS('outline-style', 'none')
+  await expect(inner).toHaveCSS(
+    'box-shadow',
+    'rgb(10, 10, 10) 0px 0px 0px 1px inset'
+  )
 })
 
 test('navigates visible items with arrow keys while preserving Tab and section selection', async ({
