@@ -81,7 +81,7 @@ export const colorizeBySignProperty: PropertiesTableProps[string] = {
 }
 
 export const animateProperty: PropertiesTableProps[string] = {
-  doc: 'Animates value changes in 160 ms on Stat.Number, Stat.Currency, and Stat.Percent. Changed digits roll; the unit slides horizontally only when its position changes. Initial values, newly available data and locale changes appear immediately. Respects reduced motion and exposes the final accessible value immediately. Use for selected metrics, avoiding dense tables and frequent updates. Set `{ reserveWidth: "9ch" }` to reserve enough space for the largest expected amount. The digits follow the surrounding text alignment. See [Animated updates](/web/components/stat/demos/#animated-updates).',
+  doc: 'Cascades digits from left to right on Stat.Number, Stat.Currency, and Stat.Percent, 25 ms apart with a 160 ms slide per digit. The direction follows the value; the unit slides horizontally only when its position changes. Initial values, newly available data and locale changes appear immediately. Respects reduced motion and exposes the final accessible value immediately. Use for selected metrics, avoiding dense tables and frequent updates. Set `{ reserveWidth: "9ch" }` to reserve enough space for the largest expected amount. The digits follow the surrounding text alignment. See [Animated updates](/web/components/stat/demos/#animated-updates).',
   type: ['boolean', '{ reserveWidth?: string }'],
   defaultValue: 'false',
   status: 'optional',

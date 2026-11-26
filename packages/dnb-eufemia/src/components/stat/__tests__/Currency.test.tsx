@@ -101,7 +101,7 @@ describe('Stat.Currency', () => {
         ).toHaveTextContent('34')
         expect(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed .dnb-animated-digits__value'
+            '.dnb-animated-digits__character--animated .dnb-animated-digits__value'
           )
         ).toHaveLength(2)
         expect(
@@ -119,12 +119,12 @@ describe('Stat.Currency', () => {
       )
       expect(
         document.querySelectorAll(
-          '.dnb-animated-digits__character--changed'
+          '.dnb-animated-digits__character--animated'
         )
       ).toHaveLength(0)
     })
 
-    it('rolls only changed digits and exposes the final amount immediately', () => {
+    it('cascades all digits and exposes the final amount immediately', () => {
       const { rerender } = render(<Stat.Currency value={1234} animate />)
       const currency = document.querySelector('.dnb-stat__currency')
 
@@ -136,14 +136,14 @@ describe('Stat.Currency', () => {
       expect(
         Array.from(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed'
+            '.dnb-animated-digits__character--animated'
           )
         ).map((digit) =>
           digit
             .querySelector('[data-previous]')
             ?.getAttribute('data-previous')
         )
-      ).toEqual(['3', '4'])
+      ).toEqual(['1', '2', '3', '4'])
       expect(
         document.querySelector('.dnb-sr-only').getAttribute('data-text')
       ).toContain('1 278')
@@ -195,7 +195,7 @@ describe('Stat.Currency', () => {
       )
       expect(
         document.querySelectorAll(
-          '.dnb-animated-digits__character--changed'
+          '.dnb-animated-digits__character--animated'
         )
       ).toHaveLength(0)
     })
@@ -210,7 +210,7 @@ describe('Stat.Currency', () => {
 
         expect(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed'
+            '.dnb-animated-digits__character--animated'
           )
         ).toHaveLength(0)
       }
@@ -224,7 +224,7 @@ describe('Stat.Currency', () => {
 
       expect(
         document.querySelectorAll(
-          '.dnb-animated-digits__character--changed'
+          '.dnb-animated-digits__character--animated'
         )
       ).toHaveLength(0)
     })
@@ -242,7 +242,7 @@ describe('Stat.Currency', () => {
       expect(
         Array.from(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed .dnb-animated-digits__value'
+            '.dnb-animated-digits__character--animated .dnb-animated-digits__value'
           )
         ).map((digit) => digit.getAttribute('data-text'))
       ).toEqual(['2', '7', '5'])
@@ -262,7 +262,7 @@ describe('Stat.Currency', () => {
       )
       expect(
         document.querySelectorAll(
-          '.dnb-animated-digits__character--changed'
+          '.dnb-animated-digits__character--animated'
         )
       ).toHaveLength(0)
     })

@@ -186,6 +186,9 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
     position: absolute;
     pointer-events: none;
   }
+  .dnb-animated-digits__formatted--fluid > .dnb-animated-digits__formatted-text {
+    pointer-events: auto;
+  }
   .dnb-animated-digits__formatted-visual {
     position: relative;
     inset: auto;
@@ -198,17 +201,19 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
     display: inline-block;
     animation: dnb-animated-digits-remove 160ms ease-out both;
   }
-  .dnb-animated-digits__character--changed .dnb-animated-digits__previous {
+  .dnb-animated-digits__character--animated .dnb-animated-digits__previous {
     display: block;
     animation: dnb-animated-digits-out 160ms ease-out both;
+    animation-delay: inherit;
   }
-  .dnb-animated-digits__character--changed .dnb-animated-digits__value {
+  .dnb-animated-digits__character--animated .dnb-animated-digits__value {
     animation: dnb-animated-digits-in 160ms ease-out both;
+    animation-delay: inherit;
   }
-  .dnb-animated-digits--down .dnb-animated-digits__character--changed .dnb-animated-digits__previous {
+  .dnb-animated-digits--down .dnb-animated-digits__character--animated .dnb-animated-digits__previous {
     animation-name: dnb-animated-digits-out-down;
   }
-  .dnb-animated-digits--down .dnb-animated-digits__character--changed .dnb-animated-digits__value {
+  .dnb-animated-digits--down .dnb-animated-digits__character--animated .dnb-animated-digits__value {
     animation-name: dnb-animated-digits-in-down;
   }
 }

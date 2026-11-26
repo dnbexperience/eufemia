@@ -136,7 +136,7 @@ describe('NumberFormat component', () => {
         )
         expect(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed'
+            '.dnb-animated-digits__character--animated'
           )
         ).toHaveLength(0)
 
@@ -153,9 +153,9 @@ describe('NumberFormat component', () => {
         ).toContain('34')
         expect(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed'
+            '.dnb-animated-digits__character--animated'
           )
-        ).toHaveLength(2)
+        ).toHaveLength(NumericComponent === NumberFormat.Currency ? 4 : 2)
         expect(document.querySelector(ariaSelector)).toHaveAttribute(
           'data-text',
           expect.stringContaining('34')
@@ -264,7 +264,7 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormat.Currency value={34} locale="en-GB" animate />)
       expect(
         document.querySelectorAll(
-          '.dnb-animated-digits__character--changed'
+          '.dnb-animated-digits__character--animated'
         )
       ).toHaveLength(0)
     })
@@ -278,7 +278,7 @@ describe('NumberFormat component', () => {
         rerender(<NumberFormat.Number value={34} animate />)
         expect(
           document.querySelectorAll(
-            '.dnb-animated-digits__character--changed'
+            '.dnb-animated-digits__character--animated'
           )
         ).toHaveLength(0)
       }
@@ -292,7 +292,7 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormat.Number value={34} animate skeleton={false} />)
       expect(
         document.querySelectorAll(
-          '.dnb-animated-digits__character--changed'
+          '.dnb-animated-digits__character--animated'
         )
       ).toHaveLength(0)
     })
