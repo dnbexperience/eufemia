@@ -107,6 +107,22 @@ export default function RootLayout({ children }) {
 }
 ```
 
+## Several React roots on one page
+
+If a page hydrates more than one React root, for example when separate apps render different parts of it, give each root its own `identifierPrefix`. Use the same prefix for the server render and for `hydrateRoot`:
+
+```tsx
+// On the server
+const html = renderToString(<SearchApp />, {
+  identifierPrefix: 'search-',
+})
+
+// In the browser
+hydrateRoot(container, <SearchApp />, { identifierPrefix: 'search-' })
+```
+
+Without a prefix, the roots get the same ids from `useId`. Some Eufemia components share their state by id, so the roots can affect each other. For example, opening the help of a field in one root also opens it in the other. Roots that only render in the browser with `createRoot` get different ids and are not affected.
+
 ## Browser bundles
 
 The `@dnb/eufemia` also supports ready to use `UMD` and `ESM` bundles.
