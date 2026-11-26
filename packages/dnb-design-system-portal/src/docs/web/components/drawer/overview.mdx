@@ -32,7 +32,7 @@ To provide custom content to parts of the Drawer, a set of component parts are p
 
 ### Reveal the page
 
-Import the reveal driver separately to move the page to the right while keeping a left Drawer stationary. The driver also supports dragging right on the page to open the menu and dragging left inside the menu or on the exposed page to close it. Menu links and buttons can still be tapped. Form controls, horizontal scroll areas, and vertical scrolling keep their native interactions.
+Import the reveal driver separately to move the page to the right while keeping a left Drawer stationary. The driver also supports dragging right on the page to open the menu and dragging left inside the menu or on the exposed page to close it. Menu links and buttons can still be tapped. Form controls, horizontal scroll areas, and vertical scrolling keep their native interactions. Drags that start at the left or right screen edge are left to the browser's back and forward navigation.
 
 ```tsx
 import { Drawer } from '@dnb/eufemia'

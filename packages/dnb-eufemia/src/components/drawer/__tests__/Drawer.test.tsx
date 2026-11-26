@@ -1063,15 +1063,22 @@ describe('Drawer reveal', () => {
       </>
     )
 
-  const swipe = (element: Element, distance: number, cancel = false) => {
+  const swipe = (
+    element: Element,
+    distance: number,
+    cancel = false,
+    from = 20
+  ) => {
     fireEvent.touchStart(element, {
-      touches: [{ clientX: 20, clientY: 100 }],
+      touches: [{ clientX: from, clientY: 100 }],
     })
     fireEvent.touchMove(element, {
-      touches: [{ clientX: 20 + Math.sign(distance) * 10, clientY: 100 }],
+      touches: [
+        { clientX: from + Math.sign(distance) * 10, clientY: 100 },
+      ],
     })
     fireEvent.touchMove(element, {
-      touches: [{ clientX: 20 + distance, clientY: 100 }],
+      touches: [{ clientX: from + distance, clientY: 100 }],
     })
     if (cancel) {
       fireEvent.touchCancel(element, { touches: [] })
@@ -1579,6 +1586,39 @@ describe('Drawer reveal', () => {
     fireEvent.touchEnd(heading, { touches: [] })
     expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
   })
+
+  it('leaves swipes from the screen edges to browser navigation', () => {
+    renderReveal()
+    swipe(document.querySelector('#reveal-page p'), 220, false, 5)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    swipe(
+      document.querySelector('.dnb-drawer__content h1'),
+      -220,
+      false,
+      window.innerWidth - 5
+    )
+    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+  })
+
+  it.each([
+    { distance: 40, cancel: true, open: false },
+    { distance: 40, cancel: false, open: false },
+    { distance: 600, cancel: false, open: true },
+  ])(
+    'settles a swipe that ends before the Drawer renders: %j',
+    ({ distance, cancel, open }) => {
+      renderReveal()
+
+      // Browsers can deliver the whole gesture before React renders.
+      act(() => {
+        swipe(document.querySelector('#reveal-page p'), distance, cancel)
+      })
+
+      expect(Boolean(document.querySelector('[role=dialog]'))).toBe(open)
+    }
+  )
 
   it('keeps the normal Drawer behavior for other placements', () => {
     renderReveal({ containerPlacement: 'right' })
