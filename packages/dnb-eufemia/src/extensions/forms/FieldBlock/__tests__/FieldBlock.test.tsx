@@ -1638,6 +1638,42 @@ describe('FieldBlock', () => {
         container.remove()
       }
     )
+
+    it('should hydrate the messages of a nested block with the server text when they change after mount', async () => {
+      const App = () => {
+        const canUseDOM = useCanUseDOM()
+
+        return (
+          <FieldBlock>
+            <FieldBlock warning={canUseDOM ? 'English' : 'Norsk'}>
+              content
+            </FieldBlock>
+          </FieldBlock>
+        )
+      }
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(<App />)
+      document.body.appendChild(container)
+      expect(
+        container.querySelector('.dnb-form-status--warning')
+      ).toHaveTextContent('Norsk')
+
+      const onRecoverableError = vi.fn()
+      const { unmount } = render(<App />, {
+        container,
+        hydrate: true,
+        onRecoverableError,
+      })
+      await waitFor(() => {
+        expect(
+          container.querySelector('.dnb-form-status--warning')
+        ).toHaveTextContent('English')
+      })
+
+      expect(onRecoverableError).not.toHaveBeenCalled()
+      unmount()
+      container.remove()
+    })
   })
 
   describe('fieldState', () => {
