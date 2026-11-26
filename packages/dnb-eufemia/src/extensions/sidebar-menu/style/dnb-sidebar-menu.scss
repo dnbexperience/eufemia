@@ -626,11 +626,11 @@ html[data-whatinput='keyboard']
   box-shadow: none;
 
   &,
-  &:not(:hover):not(:active) {
+  &:not(:active) {
     outline: none;
   }
 
-  &:not(:hover) .dnb-drawer-list__option__inner {
+  .dnb-drawer-list__option__inner {
     @include utilities.focusOutline();
 
     box-shadow: none;

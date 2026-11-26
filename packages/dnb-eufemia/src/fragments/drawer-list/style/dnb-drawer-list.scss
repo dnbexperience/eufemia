@@ -417,7 +417,7 @@
     }
 
     html[data-whatinput='keyboard'] &--focus:not([disabled]) {
-      &:not(:hover):not(:active) {
+      &:not(:active) {
         @include utilities.focusOutline();
 
         .dnb-drawer-list__option__inner::before {
