@@ -181,7 +181,9 @@ export default function AnimatedDigits({
                   )}
                   style={
                     animated
-                      ? { animationDelay: `${cascadeIndex++ * 25}ms` }
+                      ? {
+                          animationDelay: `${from === undefined ? 0 : cascadeIndex++ * 25}ms`,
+                        }
                       : undefined
                   }
                 >

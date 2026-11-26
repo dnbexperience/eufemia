@@ -128,6 +128,13 @@ describe('AnimatedDigits', () => {
       )
     ).toHaveLength(4)
     expect(
+      Array.from(
+        document.querySelectorAll<HTMLElement>(
+          '.dnb-animated-digits__character--animated'
+        )
+      ).map((digit) => digit.style.animationDelay)
+    ).toEqual(['0ms', '0ms', '0ms', '25ms'])
+    expect(
       document.querySelectorAll('.dnb-animated-digits__previous')
     ).toHaveLength(2)
 

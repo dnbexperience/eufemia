@@ -111,7 +111,7 @@ const presentationProps: PropertiesTableProps = {
 const animationProp: PropertiesTableProps = {
   animate: {
     doc: 'Cascades digits from left to right, 25 ms apart with a 160 ms slide per digit. The direction follows the value. Currency and percent symbols slide horizontally when their position changes. Use `{ reserveWidth: "9ch" }` to reserve space for the largest expected number. Initial values, newly available data and formatting changes appear immediately. Respects reduced motion. Available on Number, Currency and Percent. Defaults to `false`.',
-    type: ['boolean', 'object'],
+    type: ['boolean', '{ reserveWidth?: string }'],
     status: 'optional',
   },
 }
