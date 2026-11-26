@@ -909,7 +909,7 @@ describe('Field.Composition', () => {
       container.querySelector('.dnb-form-status--warning')
     const error = () => container.querySelector('.dnb-form-status--error')
     expect(warning()).toHaveTextContent(
-      nb.Field.stateSummary + 'Outside warning' + 'Warning'
+      [nb.Field.stateSummary, 'Outside warning', 'Warning'].join('')
     )
     expect(error()).toHaveTextContent(nb.Field.errorRequired)
 
@@ -921,7 +921,7 @@ describe('Field.Composition', () => {
     })
     await waitFor(() => {
       expect(warning()).toHaveTextContent(
-        en.Field.stateSummary + 'Outside warning' + 'Warning'
+        [en.Field.stateSummary, 'Outside warning', 'Warning'].join('')
       )
     })
     expect(error()).toHaveTextContent(en.Field.errorRequired)
