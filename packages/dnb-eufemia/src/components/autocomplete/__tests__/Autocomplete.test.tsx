@@ -472,6 +472,61 @@ describe('Autocomplete component', () => {
     )
   })
 
+  describe('when the title of the selected item changes', () => {
+    const norwegian = [
+      { selectedKey: 'no', content: 'Norge' },
+      { selectedKey: 'se', content: 'Sverige' },
+    ]
+    const english = [
+      { selectedKey: 'no', content: 'Norway' },
+      { selectedKey: 'se', content: 'Sweden' },
+    ]
+
+    it('should show the new title', async () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <Autocomplete value="se" data={norwegian} onChange={onChange} />
+      )
+      const input = document.querySelector('input')
+      expect(input.value).toBe('Sverige')
+
+      rerender(
+        <Autocomplete value="se" data={english} onChange={onChange} />
+      )
+      await waitFor(() => {
+        expect(input.value).toBe('Sweden')
+      })
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should find the selected item when the order changes', async () => {
+      const { rerender } = render(
+        <Autocomplete value="se" data={norwegian} />
+      )
+      const input = document.querySelector('input')
+      expect(input.value).toBe('Sverige')
+
+      rerender(<Autocomplete value="se" data={[...english].reverse()} />)
+      await waitFor(() => {
+        expect(input.value).toBe('Sweden')
+      })
+    })
+
+    it('should keep text the user has typed', async () => {
+      const { rerender } = render(
+        <Autocomplete value="se" data={norwegian} />
+      )
+      const input = document.querySelector('input')
+      await userEvent.clear(input)
+      await userEvent.type(input, 'Nor')
+      expect(input.value).toBe('Nor')
+
+      rerender(<Autocomplete value="se" data={english} />)
+      await wait(50)
+      expect(input.value).toBe('Nor')
+    })
+  })
+
   describe('suffixValue', () => {
     const mockData = [
       {
