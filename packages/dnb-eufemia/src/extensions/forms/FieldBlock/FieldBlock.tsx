@@ -427,7 +427,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       }
       setInternalRecord(record, (stateRecordRef.current[blockId] ??= []))
 
-      if (!nestedFieldBlockContext && statusPosition !== 'above') {
+      if (statusPosition !== 'above') {
         collectRenderMessage(record)
       }
     }
