@@ -25,6 +25,7 @@ export const useStickyHeader = ({
   useEffect(() => {
     if (sticky) {
       let isSticky = false
+      let isAtEnd = false
       let thHeight = 0
       let offsetTopPx = 0
       let tableOffset = 0
@@ -179,6 +180,13 @@ export const useStickyHeader = ({
             isSticky = isInside
             trElem.toggleAttribute('data-is-sticky', isSticky)
           }
+
+          // The header covers the last row until the table scrolls out of view
+          const isAtLastRow = maxOffset > 0 && offset >= maxOffset
+          if (isAtLastRow !== isAtEnd) {
+            isAtEnd = isAtLastRow
+            trElem.toggleAttribute('data-is-at-end', isAtEnd)
+          }
         }
 
         // the scroll target can change, because a scrollbar may appear first on a resize
@@ -249,6 +257,7 @@ const resetStickyHeader = (tableElem: HTMLTableElement) => {
   trElem.removeAttribute('data-sticky')
   trElem.removeAttribute('data-page-scroll')
   trElem.removeAttribute('data-is-sticky')
+  trElem.removeAttribute('data-is-at-end')
   trElem.style.removeProperty('--table-offset')
   trElem.style.removeProperty('--table-top')
   trElem.style.removeProperty('--table-scroll-start')

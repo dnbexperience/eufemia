@@ -131,6 +131,33 @@ test.describe('Table sticky header with minified CSS', () => {
     })
   })
 
+  // At the last row, the header covers the bottom of the outline
+  test('keeps the outline around a header that stops at the last row', async ({
+    page,
+  }) => {
+    const table = page.locator('.dnb-table')
+    const header = table.locator('thead tr')
+    const firstCell = header.locator('th').first()
+    await table.evaluate((element) => {
+      element.classList.add('dnb-table--outline')
+      const headerHeight = element.querySelector('thead tr').clientHeight
+      const { bottom } = element.getBoundingClientRect()
+      window.scrollTo(0, window.scrollY + bottom - 56 - headerHeight + 10)
+    })
+
+    await expect(header).toHaveAttribute('data-is-at-end')
+    await expect(header).not.toHaveAttribute('data-is-sticky')
+    await expect(firstCell).toHaveCSS('border-top-left-radius', '0px')
+    await expect(firstCell).not.toHaveCSS(
+      'border-bottom-left-radius',
+      '0px'
+    )
+    await expect(firstCell).toHaveCSS(
+      'box-shadow',
+      / 0px -1px 0px 0px inset/
+    )
+  })
+
   test('updates the scroll range after layout changes and clears it when switching modes', async ({
     page,
   }) => {

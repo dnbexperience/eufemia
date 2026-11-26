@@ -934,19 +934,38 @@ caption:first-child + tbody) :is(tr, .dnb-table__tr):first-of-type > .dnb-table_
     var(--table-outline-color);
   --table-outline-shadow-right: inset
     calc(var(--table-outline-width) * -1) 0 var(--table-outline-color);
-  box-shadow: var(--table-outline-shadow-top);
+  --table-outline-shadow-bottom: 0 0 transparent;
+  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-bottom);
 }
 
 .dnb-table--outline tr[data-sticky] > *:first-child {
-  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-left);
+  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-left), var(--table-outline-shadow-bottom);
 }
 
 .dnb-table--outline tr[data-sticky] > *:last-child {
-  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-right);
+  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-right), var(--table-outline-shadow-bottom);
 }
 
 .dnb-table--outline tr[data-sticky] > *:only-child {
-  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-left), var(--table-outline-shadow-right);
+  box-shadow: var(--table-outline-shadow-top), var(--table-outline-shadow-left), var(--table-outline-shadow-right), var(--table-outline-shadow-bottom);
+}
+
+.dnb-table--outline.dnb-table > thead:first-of-type > tr[data-sticky]:is([data-is-sticky], [data-is-at-end]):first-of-type > :is(.dnb-table__th, th, td), .dnb-table--outline.dnb-table > thead:first-of-type > tr[data-sticky]:is([data-is-sticky], [data-is-at-end]):first-of-type > :is(.dnb-table__th, th, td)::after {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.dnb-table--outline.dnb-table > thead:first-of-type > tr[data-sticky][data-is-at-end]:first-of-type > :is(.dnb-table__th, th, td) {
+  --table-outline-shadow-bottom: inset 0
+    calc(var(--table-outline-width) * -1) var(--table-outline-color);
+}
+
+.dnb-table--outline.dnb-table > thead:first-of-type > tr[data-sticky][data-is-at-end]:first-of-type > :is(.dnb-table__th, th, td):first-child, .dnb-table--outline.dnb-table > thead:first-of-type > tr[data-sticky][data-is-at-end]:first-of-type > :is(.dnb-table__th, th, td):first-child::after {
+  border-bottom-left-radius: var(--table-outline-radius);
+}
+
+.dnb-table--outline.dnb-table > thead:first-of-type > tr[data-sticky][data-is-at-end]:first-of-type > :is(.dnb-table__th, th, td):last-child, .dnb-table--outline.dnb-table > thead:first-of-type > tr[data-sticky][data-is-at-end]:first-of-type > :is(.dnb-table__th, th, td):last-child::after {
+  border-bottom-right-radius: var(--table-outline-radius);
 }
 
 .dnb-table tr[data-sticky][data-is-sticky] th::before {

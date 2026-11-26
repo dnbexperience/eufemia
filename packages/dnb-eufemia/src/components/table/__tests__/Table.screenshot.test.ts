@@ -126,6 +126,24 @@ describe.each(['ui', 'sbanken', 'coconut'])(
       })
     })
 
+    // A stuck header has square corners, so the outline does not show through them
+    it('have to match a stuck header with an outline', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-outline"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="table-sticky-outline"] .dnb-table__scroll-view'
+            )
+            .scrollTo({ top: 60, behavior: 'instant' })
+        },
+      })
+    })
+
     it('have to match header with wrapped text', async () => {
       const selector = '[data-visual-test="table-header"] .dnb-table'
       await makeScreenshot({
