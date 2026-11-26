@@ -321,11 +321,11 @@ html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus {
 html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   background-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) {
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:active) {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) .dnb-drawer-list__option__inner::before {
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:active) .dnb-drawer-list__option__inner::before {
   background-color: transparent;
 }
 @media (forced-colors: active) {
@@ -930,11 +930,11 @@ html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus {
 html:not([data-whatinput=keyboard]) .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   background-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) {
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:active) {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:hover):not(:active) .dnb-drawer-list__option__inner::before {
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):not(:active) .dnb-drawer-list__option__inner::before {
   background-color: transparent;
 }
 @media (forced-colors: active) {

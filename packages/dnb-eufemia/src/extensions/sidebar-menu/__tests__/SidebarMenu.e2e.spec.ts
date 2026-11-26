@@ -108,10 +108,17 @@ test('navigates visible items with arrow keys while preserving Tab and section s
     'data-dnb-drawer-list-active',
     await sections.getAttribute('id')
   )
+  const business = page.getByRole('option', { name: /Business/ })
+  await business.hover()
   await page.keyboard.press('ArrowDown')
+  await expect(business).toBeFocused()
+  expect(
+    await business.evaluate((option) => option.matches(':hover'))
+  ).toBe(true)
+  await expect(business).toHaveCSS('outline-style', 'none')
   await expect(
-    page.getByRole('option', { name: /Business/ })
-  ).toBeFocused()
+    business.locator('.dnb-drawer-list__option__inner')
+  ).toHaveCSS('outline-style', 'solid')
   await page.keyboard.press('Enter')
   await expect(sections).toContainText('Business')
   await expect(page.locator('html')).not.toHaveAttribute(
