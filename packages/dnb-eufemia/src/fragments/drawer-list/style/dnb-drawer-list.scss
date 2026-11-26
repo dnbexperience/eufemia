@@ -430,6 +430,17 @@
       }
     }
 
+    // Arrow keys can move focus to the option under the mouse. It keeps
+    // :hover, while the hover style is off for keyboard intent.
+    html[data-whatinput='keyboard']:where(:not([data-whatintent='mouse']))
+      &--focus:hover:not([disabled]):not(:active) {
+      @include utilities.focusOutline();
+
+      .dnb-drawer-list__option__inner::before {
+        background-color: transparent;
+      }
+    }
+
     &__suffix {
       // TODO: Use CSS Container Queries when available
       @include utilities.allAbove(small) {

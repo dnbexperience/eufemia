@@ -647,6 +647,20 @@ html[data-whatinput='keyboard']
   }
 }
 
+// The section option under the mouse shows its hover style instead of the
+// focus outline, also when arrow keys move focus to it.
+html[data-whatinput='keyboard']
+  .dnb-sidebar-menu__sections-portal
+  .dnb-drawer-list__option.dnb-drawer-list__option--focus:hover:not(
+    :active
+  ) {
+  outline: none;
+
+  .dnb-drawer-list__option__inner::before {
+    background-color: var(--token-color-stroke-neutral-subtle);
+  }
+}
+
 .dnb-sidebar-menu-resize-handle {
   position: fixed;
   z-index: 3;

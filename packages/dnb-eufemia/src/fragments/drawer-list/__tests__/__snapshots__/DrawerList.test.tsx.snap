@@ -334,6 +334,13 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):no
     outline-offset: var(--focus-outline-offset);
   }
 }
+html[data-whatinput=keyboard]:where(:not([data-whatintent=mouse])) .dnb-drawer-list__option--focus:hover:not([disabled]):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+html[data-whatinput=keyboard]:where(:not([data-whatintent=mouse])) .dnb-drawer-list__option--focus:hover:not([disabled]):not(:active) .dnb-drawer-list__option__inner::before {
+  background-color: transparent;
+}
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
     grid-column: 2;
@@ -942,6 +949,13 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus:not([disabled]):no
     outline: var(--focus-outline-width) solid CanvasText;
     outline-offset: var(--focus-outline-offset);
   }
+}
+html[data-whatinput=keyboard]:where(:not([data-whatintent=mouse])) .dnb-drawer-list__option--focus:hover:not([disabled]):not(:active) {
+  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
+  outline-offset: var(--focus-outline-offset);
+}
+html[data-whatinput=keyboard]:where(:not([data-whatintent=mouse])) .dnb-drawer-list__option--focus:hover:not([disabled]):not(:active) .dnb-drawer-list__option__inner::before {
+  background-color: transparent;
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
