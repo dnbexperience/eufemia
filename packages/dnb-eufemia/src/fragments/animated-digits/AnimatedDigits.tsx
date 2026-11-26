@@ -114,8 +114,10 @@ export default function AnimatedDigits({
   ) {
     sharedPrefix++
   }
-  let digitIndex =
-    previousDigits.length - characters.filter(isDigit).length
+  const digits = characters.filter(isDigit)
+  const animateDigits = digits.join('') !== previousDigits.join('')
+  let cascadeIndex = 0
+  let digitIndex = previousDigits.length - digits.length
   const removed =
     digitIndex > 0
       ? previousCharacters
@@ -168,17 +170,22 @@ export default function AnimatedDigits({
             {characters.slice(sharedPrefix).map((character, index) => {
               const digit = isDigit(character)
               const from = digit ? previousDigits[digitIndex++] : undefined
-              const changed = digit && from !== character
+              const animated = digit && animateDigits
 
               return (
                 <span
                   key={characters.length - index}
                   className={clsx(
                     'dnb-animated-digits__character',
-                    changed && 'dnb-animated-digits__character--changed'
+                    animated && 'dnb-animated-digits__character--animated'
                   )}
+                  style={
+                    animated
+                      ? { animationDelay: `${cascadeIndex++ * 25}ms` }
+                      : undefined
+                  }
                 >
-                  {changed && from !== undefined && (
+                  {animated && from !== undefined && (
                     <span
                       className="dnb-animated-digits__previous"
                       data-previous={from}

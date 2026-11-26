@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-AnimatedDigits is a low-level fragment for building components. It rolls changed digits directly from the previous text to the final text in 160 ms using CSS. It does not count through intermediate values.
+AnimatedDigits is a low-level fragment for building components. When the digits change, every digit slides out and in from left to right, 25 ms apart. Each slide takes 160 ms using CSS, and follows the supplied direction. It does not count through intermediate values. Separators and units stay still, while width changes move surrounding content smoothly.
 
 Use this fragment when building a component that owns the formatted output and update tracking. For application content, prefer [NumberFormat](/web/components/number-format/), [Stat](/web/components/stat/) and [DateFormat](/web/components/date-format/) for formatting and accessibility.
 

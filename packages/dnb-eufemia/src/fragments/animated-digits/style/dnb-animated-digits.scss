@@ -154,18 +154,20 @@
       animation: dnb-animated-digits-remove 160ms ease-out both;
     }
 
-    &__character--changed {
+    &__character--animated {
       .dnb-animated-digits__previous {
         display: block;
         animation: dnb-animated-digits-out 160ms ease-out both;
+        animation-delay: inherit;
       }
 
       .dnb-animated-digits__value {
         animation: dnb-animated-digits-in 160ms ease-out both;
+        animation-delay: inherit;
       }
     }
 
-    &--down &__character--changed {
+    &--down &__character--animated {
       .dnb-animated-digits__previous {
         animation-name: dnb-animated-digits-out-down;
       }

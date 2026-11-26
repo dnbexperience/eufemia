@@ -39,13 +39,15 @@ describe('AnimatedDigits', () => {
       document.querySelector('.dnb-animated-digits').textContent
     ).toBe('20 Nov 2026, 09:41')
     expect(
-      document.querySelectorAll('.dnb-animated-digits__character--changed')
+      document.querySelectorAll(
+        '.dnb-animated-digits__character--animated'
+      )
     ).toHaveLength(0)
   })
 
   it.each([
-    ['21 Nov 2026', '20 Nov 2026', ['0']],
-    ['09:42', '09:41', ['1']],
+    ['21 Nov 2026', '20 Nov 2026', ['2', '0', '2', '0', '2', '6']],
+    ['09:42', '09:41', ['0', '9', '4', '1']],
     ['3 minutes ago', '2 minutes ago', ['2']],
     ['٣٤', '١٢', ['١', '٢']],
   ])(
@@ -77,14 +79,42 @@ describe('AnimatedDigits', () => {
     )
 
     expect(
-      document.querySelectorAll('.dnb-animated-digits__character--changed')
+      document.querySelectorAll(
+        '.dnb-animated-digits__character--animated'
+      )
     ).toHaveLength(0)
 
     rerender(<AnimatedDigits value="1,234.50" previousValue="1 234,50" />)
 
     expect(
-      document.querySelectorAll('.dnb-animated-digits__character--changed')
+      document.querySelectorAll(
+        '.dnb-animated-digits__character--animated'
+      )
     ).toHaveLength(0)
+  })
+
+  it('cascades every digit from left to right, skipping separators and units', () => {
+    render(
+      <AnimatedDigits value="NOK 2 238,50" previousValue="NOK 2 128,50" />
+    )
+
+    const digits = document.querySelectorAll<HTMLElement>(
+      '.dnb-animated-digits__character--animated'
+    )
+    expect(
+      Array.from(digits).map((digit) => ({
+        value: digit.lastElementChild.getAttribute('data-text'),
+        previous: digit.firstElementChild.getAttribute('data-previous'),
+        delay: digit.style.animationDelay,
+      }))
+    ).toEqual([
+      { value: '2', previous: '2', delay: '0ms' },
+      { value: '2', previous: '1', delay: '25ms' },
+      { value: '3', previous: '2', delay: '50ms' },
+      { value: '8', previous: '8', delay: '75ms' },
+      { value: '5', previous: '5', delay: '100ms' },
+      { value: '0', previous: '0', delay: '125ms' },
+    ])
   })
 
   it('supports new leading digits and immediate interrupted updates', () => {
@@ -93,7 +123,9 @@ describe('AnimatedDigits', () => {
     )
 
     expect(
-      document.querySelectorAll('.dnb-animated-digits__character--changed')
+      document.querySelectorAll(
+        '.dnb-animated-digits__character--animated'
+      )
     ).toHaveLength(4)
     expect(
       document.querySelectorAll('.dnb-animated-digits__previous')
@@ -115,8 +147,10 @@ describe('AnimatedDigits', () => {
     expect(element).toHaveClass('dnb-animated-digits--down')
     expect(element.style.minInlineSize).toBe('4ch')
     expect(
-      document.querySelectorAll('.dnb-animated-digits__character--changed')
-    ).toHaveLength(1)
+      document.querySelectorAll(
+        '.dnb-animated-digits__character--animated'
+      )
+    ).toHaveLength(2)
   })
 
   it('keeps the number container when the digit count changes', () => {
