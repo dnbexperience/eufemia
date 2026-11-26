@@ -682,5 +682,12 @@ describe.each(['ui', 'sbanken', 'coconut'])(
         selector: '[data-visual-test="table-plain-cells"]',
       })
     })
+
+    it('have to match the outline of a sticky header with plain th elements', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector: '[data-visual-test="table-plain-cells-sticky-outline"]',
+      })
+    })
   }
 )
