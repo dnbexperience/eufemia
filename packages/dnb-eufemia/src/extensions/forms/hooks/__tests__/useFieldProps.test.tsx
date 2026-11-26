@@ -1427,6 +1427,208 @@ describe('useFieldProps', () => {
         })
       })
 
+      describe('when the locale changes', () => {
+        const LocaleApp = ({
+          children,
+        }: {
+          children: React.ReactNode
+        }) => {
+          const [locale, setLocale] = useState<'nb-NO' | 'en-GB'>('nb-NO')
+
+          return (
+            <Form.Handler locale={locale}>
+              <button
+                type="button"
+                id="change-locale"
+                onClick={() =>
+                  setLocale((current) =>
+                    current === 'nb-NO' ? 'en-GB' : 'nb-NO'
+                  )
+                }
+              >
+                Change locale
+              </button>
+              {children}
+            </Form.Handler>
+          )
+        }
+        const changeLocale = () =>
+          userEvent.click(document.querySelector('button#change-locale'))
+        const statuses = () =>
+          Array.from(
+            document.querySelectorAll('.dnb-form-status--error')
+          ).map((element) => element.textContent)
+
+        it('should not reveal the required error of an untouched field with an onBlurValidator', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/withValidator"
+                required
+                onBlurValidator={() => undefined}
+              />
+              <Field.String label="Street" path="/street" required />
+            </LocaleApp>
+          )
+
+          expect(statuses()).toEqual([])
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+        })
+
+        it.each([
+          [
+            'Field.Name.First',
+            () => <Field.Name.First path="/a" required />,
+          ],
+          [
+            'Field.Name.Last',
+            () => <Field.Name.Last path="/a" required />,
+          ],
+          [
+            'Field.PostalCodeAndCity',
+            () => (
+              <Field.PostalCodeAndCity
+                postalCode={{ path: '/a', required: true }}
+                city={{ path: '/b', required: true }}
+              />
+            ),
+          ],
+          [
+            'Field.NationalIdentityNumber',
+            () => <Field.NationalIdentityNumber path="/a" required />,
+          ],
+          [
+            'Field.BankAccountNumber',
+            () => <Field.BankAccountNumber path="/a" required />,
+          ],
+          ['Field.Date', () => <Field.Date path="/a" required />],
+        ])(
+          'should not reveal the required error of an untouched %s',
+          async (_, renderField) => {
+            render(
+              <LocaleApp>
+                {renderField()}
+                <Field.String label="Street" path="/street" required />
+              </LocaleApp>
+            )
+
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
+          }
+        )
+
+        it('should not reveal an onBlurValidator error while the user is still typing', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/withValidator"
+                onBlurValidator={(value: string) =>
+                  value === 'x' ? new Error('Blur error') : undefined
+                }
+              />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'x')
+          expect(statuses()).toEqual([])
+
+          // Change the locale without a blur on the field
+          fireEvent.click(document.querySelector('button#change-locale'))
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          // The error still shows on blur
+          fireEvent.blur(input)
+          await waitFor(() => {
+            expect(statuses()).toEqual(['Blur error'])
+          })
+        })
+
+        it('should translate a visible required error of a field with an onBlurValidator', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/withValidator"
+                required
+                onBlurValidator={() => undefined}
+              />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'a{Backspace}')
+          fireEvent.blur(input)
+
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.Field.errorRequired])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.Field.errorRequired])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.Field.errorRequired])
+          })
+        })
+
+        it('should translate and keep a visible onBlurValidator error', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1')
+          fireEvent.blur(input)
+
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.FirstName.errorPattern])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.FirstName.errorPattern])
+          })
+        })
+
+        it('should still block submit and show the hidden required error after the locale changed', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" required />
+              <Form.SubmitButton />
+            </LocaleApp>
+          )
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          await userEvent.click(
+            document.querySelector('button[type="submit"]')
+          )
+
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.FirstName.errorRequired])
+          })
+        })
+      })
+
       it.each([
         [
           'a message key',
