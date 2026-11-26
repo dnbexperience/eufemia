@@ -29,8 +29,6 @@ type ZeroDayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 type DateRange = { startDate: Date; endDate: Date }
 
-const calendarCache: { [isoString: string]: Date[] } = {}
-
 // Is used as DatePickerCalc
 export function makeDayObject(
   date: Date,
@@ -76,16 +74,10 @@ export function getCalendar(
     hideNextMonthWeek = false,
   }: { onlyMonth?: boolean; hideNextMonthWeek?: boolean } = {}
 ) {
-  const cacheKey = month.toISOString()
-
   // Get the main month
   const thisMonth = getMonth(month)
   if (onlyMonth) {
-    return (calendarCache[cacheKey] = [...thisMonth])
-  }
-
-  if (calendarCache[cacheKey]) {
-    return calendarCache[cacheKey]
+    return thisMonth
   }
 
   // Get day of the week of the first day of month, e.g. => 3
@@ -108,11 +100,7 @@ export function getCalendar(
     0,
     fillCount > -1 ? fillCount : 0
   )
-  return (calendarCache[cacheKey] = [
-    ...lastMonth,
-    ...thisMonth,
-    ...nextMonth,
-  ])
+  return [...lastMonth, ...thisMonth, ...nextMonth]
 }
 
 // calculates offset from Sunday, e.g. Monday is +1
