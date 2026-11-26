@@ -3,6 +3,79 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.19.0](https://github.com/dnbexperience/eufemia/compare/v11.18.1...v11.19.0) (2026-11-26)
+
+### :sparkles: Features
+
+* **Card:** support custom playback in MediaButton ([#10972](https://github.com/dnbexperience/eufemia/issues/10972)) ([ecaa2f5](https://github.com/dnbexperience/eufemia/commit/ecaa2f594e4dc462d4158ea045aa23203fe36aca))
+* **PaymentCard:** export the Visa, Mastercard and BankAxept logos ([#10869](https://github.com/dnbexperience/eufemia/issues/10869)) ([77ae2b5](https://github.com/dnbexperience/eufemia/commit/77ae2b5e5c6419738b95c91391fb985cada3126a))
+* **Search:** add reusable search inputs and flexible results ([#10673](https://github.com/dnbexperience/eufemia/issues/10673)) ([38a2c6c](https://github.com/dnbexperience/eufemia/commit/38a2c6c75778cac344f82712fc0d43b6edb1003d))
+* **Table:** add stickyColumn to keep the first or last column visible ([#11072](https://github.com/dnbexperience/eufemia/issues/11072)) ([c3f59c8](https://github.com/dnbexperience/eufemia/commit/c3f59c8d3bdc011fcad729d696e3c73cca4153cc))
+* **Textarea:** show error border when character counter limit is exceeded ([#11080](https://github.com/dnbexperience/eufemia/issues/11080)) ([072fe73](https://github.com/dnbexperience/eufemia/commit/072fe73e36a50ec187de707bf11113880bb24e8c))
+* **Typography:** add an optional provider for heading Rebels ([#11068](https://github.com/dnbexperience/eufemia/issues/11068)) ([3c75ded](https://github.com/dnbexperience/eufemia/commit/3c75ded123ab42a28a519991fc952ad78d0e0010))
+
+### :bug: Bug Fixes
+
+* **Accordion:** show the focus outline on a tapped header on touch devices ([#11048](https://github.com/dnbexperience/eufemia/issues/11048)) ([778ce08](https://github.com/dnbexperience/eufemia/commit/778ce08a05d5d787ad7a0bce4150fa2dd8c40d96))
+* **Ai.PromptInput:** prevent sticky hover border after typing on touch devices ([#11108](https://github.com/dnbexperience/eufemia/issues/11108)) ([ca19ca9](https://github.com/dnbexperience/eufemia/commit/ca19ca9fab66469e7663e7a98a6533551c93c235))
+* **Anchor:** prevent sticky link hover styles after tapping on touch devices ([#11044](https://github.com/dnbexperience/eufemia/issues/11044)) ([4e83a7f](https://github.com/dnbexperience/eufemia/commit/4e83a7f3de359ee1365d986a639c611abb6fa2d0))
+* **Autocomplete, Dropdown:** keep the list next to its field and above the iOS keyboard ([#11058](https://github.com/dnbexperience/eufemia/issues/11058)) ([c10ce09](https://github.com/dnbexperience/eufemia/commit/c10ce0921d1c8446164dccae3fdd0ffbf4bfb14e))
+* **Card:** prevent sticky Card.Action hover outline after tapping on touch devices ([#11043](https://github.com/dnbexperience/eufemia/issues/11043)) ([78ccb8a](https://github.com/dnbexperience/eufemia/commit/78ccb8acf79b8ecfdd84cf1db3e6268b46736b1a))
+* **Checkbox:** prevent sticky hover styles after tapping on touch devices ([#11008](https://github.com/dnbexperience/eufemia/issues/11008)) ([d9d0a50](https://github.com/dnbexperience/eufemia/commit/d9d0a500570c92be20bfbc5a6951c1997dd5f4ee))
+* **Chip:** prevent sticky hover styles after tapping on touch devices ([#11010](https://github.com/dnbexperience/eufemia/issues/11010)) ([244a29b](https://github.com/dnbexperience/eufemia/commit/244a29b80b2e528e8c4a1e036323e2dc81ed6479))
+* **Chip:** switch the checkmark and radio dot at once instead of fading them ([#11050](https://github.com/dnbexperience/eufemia/issues/11050)) ([4313c29](https://github.com/dnbexperience/eufemia/commit/4313c29e27b6c9de91b6732ccce54a9e6a612213))
+* **DatePicker:** close calendar when disabled ([#10779](https://github.com/dnbexperience/eufemia/issues/10779)) ([91e446b](https://github.com/dnbexperience/eufemia/commit/91e446bcd7ae5b56a7f5e9e1cd73ab9e2d21e441))
+* **DatePicker:** prevent sticky month button hover after tapping on touch devices ([#11047](https://github.com/dnbexperience/eufemia/issues/11047)) ([c31f1ad](https://github.com/dnbexperience/eufemia/commit/c31f1ad9d9308eb813e00bdaeaebe0168a9cb942))
+* **DatePicker:** stop calendars of the same month from sharing one day grid ([#11091](https://github.com/dnbexperience/eufemia/issues/11091)) ([338fdb2](https://github.com/dnbexperience/eufemia/commit/338fdb20bdce977dfa2c30d0cdf449db287b103c))
+* **DrawerList:** keep keyboard focus visible on hovered options ([#11104](https://github.com/dnbexperience/eufemia/issues/11104)) ([d338b7c](https://github.com/dnbexperience/eufemia/commit/d338b7c34c1a82890669ac874c0b15463f936c12))
+* **DrawerList:** show the focus outline on the option under the mouse ([#11107](https://github.com/dnbexperience/eufemia/issues/11107)) ([1a87cd6](https://github.com/dnbexperience/eufemia/commit/1a87cd63999163ae7c45b88d2951387f048196ed))
+* **Field.MultiSelection:** prevent sticky row hover after tapping on touch devices ([#11025](https://github.com/dnbexperience/eufemia/issues/11025)) ([116b75e](https://github.com/dnbexperience/eufemia/commit/116b75e34338cf234d785bcdf3f2ceb903f0a320))
+* **Field.Selection, Field.Toggle:** avoid a nested radiogroup in the radio variant ([#11005](https://github.com/dnbexperience/eufemia/issues/11005)) ([4e63f4c](https://github.com/dnbexperience/eufemia/commit/4e63f4c7dd47a39948f73e9b4fd140dbce697fd8))
+* **FieldBlock:** hydrate status messages with the server locale when the locale changes after mount ([#11093](https://github.com/dnbexperience/eufemia/issues/11093)) ([25732c3](https://github.com/dnbexperience/eufemia/commit/25732c3704fd3221b1e6d21083205c3543f12bfc))
+* **FieldBlock:** leave the help button out of the fieldset name ([#11017](https://github.com/dnbexperience/eufemia/issues/11017)) ([20f47da](https://github.com/dnbexperience/eufemia/commit/20f47da1155d0e4518edbe4a1a448533cda19c82))
+* **Flex:** read layout engine from Provider ([#11056](https://github.com/dnbexperience/eufemia/issues/11056)) ([53fa3bd](https://github.com/dnbexperience/eufemia/commit/53fa3bdce6b19a1f8c7fcbd5fd7fb69356463f10))
+* **Forms:** do not reveal required errors of untouched fields when the locale changes ([#11125](https://github.com/dnbexperience/eufemia/issues/11125)) ([04db954](https://github.com/dnbexperience/eufemia/commit/04db9540f74b80b389167d7a30a34e8c8580b06e))
+* **Forms:** keep the value of Field.SelectCountry and Field.SelectCurrency when the locale changes ([#11126](https://github.com/dnbexperience/eufemia/issues/11126)) ([518f34a](https://github.com/dnbexperience/eufemia/commit/518f34a92bd90808ae22af4a1d70bb9757542a6a))
+* **Forms:** name the option group instead of each option with aria-label ([#11016](https://github.com/dnbexperience/eufemia/issues/11016)) ([c56bce6](https://github.com/dnbexperience/eufemia/commit/c56bce6cda32b9a36451fd7f2bb11b1fa01abd55))
+* **Forms:** stop an endless render loop after submit with a nested Field.Composition ([#11127](https://github.com/dnbexperience/eufemia/issues/11127)) ([c15be45](https://github.com/dnbexperience/eufemia/commit/c15be4597e008e1881783afac793c940b47ac06d))
+* **FormStatus:** give the error icon a rounded diamond shape, so it differs from the warning icon ([#10844](https://github.com/dnbexperience/eufemia/issues/10844)) ([6834644](https://github.com/dnbexperience/eufemia/commit/6834644c37f9e20487b7d1b858f8efb307a4912b))
+* **Forms:** translate a given FormError again when the locale changes ([#11122](https://github.com/dnbexperience/eufemia/issues/11122)) ([1a13c7f](https://github.com/dnbexperience/eufemia/commit/1a13c7f2f0217abc70fa42601707b0935b1d3eac))
+* **Icon:** use alt as the accessible name of icon components ([#11092](https://github.com/dnbexperience/eufemia/issues/11092)) ([3646af4](https://github.com/dnbexperience/eufemia/commit/3646af4810a3acaacf17859f24e1b2f6d5266392))
+* **Input:** apply the size font-size to the typed value ([#10924](https://github.com/dnbexperience/eufemia/issues/10924)) ([1d300c8](https://github.com/dnbexperience/eufemia/commit/1d300c88b4e78c46b894841a017826c84eed49b8))
+* **Input:** prevent sticky hover border after tapping on touch devices ([#11039](https://github.com/dnbexperience/eufemia/issues/11039)) ([0526244](https://github.com/dnbexperience/eufemia/commit/05262445bc216642615cd3ec2e9ed6da2d088492))
+* keep hover styles from coming back after a key press on touch devices ([#11053](https://github.com/dnbexperience/eufemia/issues/11053)) ([da18dff](https://github.com/dnbexperience/eufemia/commit/da18dffe661f025a60070f7a4f4159a9bfb0105c))
+* keep the state that components share by id per server render ([#9887](https://github.com/dnbexperience/eufemia/issues/9887)) ([c7de476](https://github.com/dnbexperience/eufemia/commit/c7de476af5b6e648d08b88166fabf328664ab11c))
+* **List:** keep rows hidden by visibleCount from taking space ([#10984](https://github.com/dnbexperience/eufemia/issues/10984)) ([0942b53](https://github.com/dnbexperience/eufemia/commit/0942b531012df55a38191dc77d118d8a01efa19f))
+* **List:** prevent sticky hover outline after tapping on touch devices ([#11042](https://github.com/dnbexperience/eufemia/issues/11042)) ([c9cbf56](https://github.com/dnbexperience/eufemia/commit/c9cbf568914b30c8d35666ab81c01238407db13a))
+* **Logo:** show the dark color after hydration with colorScheme="auto" ([#11090](https://github.com/dnbexperience/eufemia/issues/11090)) ([39d4e11](https://github.com/dnbexperience/eufemia/commit/39d4e1195895766852dd4d522c32440c20a79152))
+* **Menu:** prevent sticky action hover after tapping on touch devices ([#11078](https://github.com/dnbexperience/eufemia/issues/11078)) ([687cc17](https://github.com/dnbexperience/eufemia/commit/687cc173bd3a1b5fd6a06e3f1652041fbdedac5b))
+* **Radio:** prevent sticky hover styles after tapping on touch devices ([#11009](https://github.com/dnbexperience/eufemia/issues/11009)) ([0a3724d](https://github.com/dnbexperience/eufemia/commit/0a3724d24eddd5fb24477469f9991a7f97810965))
+* **Radio:** show the pressed state while the mouse button is held down ([#11028](https://github.com/dnbexperience/eufemia/issues/11028)) ([590c672](https://github.com/dnbexperience/eufemia/commit/590c672503ae1ab200de3b25438eda9dfe4c710c))
+* respect aria-disabled in hover and active styles ([#11055](https://github.com/dnbexperience/eufemia/issues/11055)) ([02a7dd4](https://github.com/dnbexperience/eufemia/commit/02a7dd465a52b6da188c8bdb3a2b4299e5d081b4))
+* restore mouse hover after touchscreen use ([#11052](https://github.com/dnbexperience/eufemia/issues/11052)) ([4feb441](https://github.com/dnbexperience/eufemia/commit/4feb441386865a172bf18900cbfed9044a03c4af))
+* **SidebarMenu:** align responsive trigger with adjacent content ([#11074](https://github.com/dnbexperience/eufemia/issues/11074)) ([b380809](https://github.com/dnbexperience/eufemia/commit/b380809a138ce21bd32d5c537ec3f97d503d0556))
+* **SidebarMenu:** show the focus outline on an item under the mouse ([#11106](https://github.com/dnbexperience/eufemia/issues/11106)) ([553d481](https://github.com/dnbexperience/eufemia/commit/553d4811b50a07e23d747cc0f813c779767c6951))
+* **Slider:** stop the tooltip from repeating the value to screen readers ([#10986](https://github.com/dnbexperience/eufemia/issues/10986)) ([f8491df](https://github.com/dnbexperience/eufemia/commit/f8491df6f4cbdc68531e6df5b4b578fb856fc139))
+* **StepIndicator:** include the visible step title in the trigger button's accessible name ([#11003](https://github.com/dnbexperience/eufemia/issues/11003)) ([a9b458d](https://github.com/dnbexperience/eufemia/commit/a9b458d9c733c8332d1e4ef1d762cc5ca29138da))
+* **Switch:** prevent sticky hover styles after tapping on touch devices ([#11007](https://github.com/dnbexperience/eufemia/issues/11007)) ([28efab6](https://github.com/dnbexperience/eufemia/commit/28efab6334920ad34bc3a1d29aaf2469338333ca))
+* **Table:** keep sticky headers in place after CSS minification ([#11000](https://github.com/dnbexperience/eufemia/issues/11000)) ([df77c2a](https://github.com/dnbexperience/eufemia/commit/df77c2af7b2a7bfeb2ea389f8e68aeb10765f76d))
+* **Table:** keep the selected border and focus outline visible after a tap on touch devices ([#11049](https://github.com/dnbexperience/eufemia/issues/11049)) ([b3d4844](https://github.com/dnbexperience/eufemia/commit/b3d4844741c21bbe534d1f95b106da604508b9f4))
+* **Table:** keep the sticky header working after the rows are reloaded ([#11057](https://github.com/dnbexperience/eufemia/issues/11057)) ([0b447d3](https://github.com/dnbexperience/eufemia/commit/0b447d3068f8331667e0eb01c8b17842703b8954))
+* **Table:** prevent an empty column in fixed tables with a sticky header and an outline ([#11073](https://github.com/dnbexperience/eufemia/issues/11073)) ([843a8c6](https://github.com/dnbexperience/eufemia/commit/843a8c6743150c9d8d7ca0534d7c35c13471d721))
+* **Table:** square the top corners of a stuck header with an outline ([#11081](https://github.com/dnbexperience/eufemia/issues/11081)) ([66c6eb9](https://github.com/dnbexperience/eufemia/commit/66c6eb90ad7bd39414ac69c3c0565cca8aab428b))
+* **Textarea:** prevent sticky hover border after tapping on touch devices ([#11040](https://github.com/dnbexperience/eufemia/issues/11040)) ([ab26f6a](https://github.com/dnbexperience/eufemia/commit/ab26f6a7f229c79c00e3292327d82b74118e076b))
+* **ToggleButton:** switch the checkmark and radio dot at once instead of fading them ([#11051](https://github.com/dnbexperience/eufemia/issues/11051)) ([843705c](https://github.com/dnbexperience/eufemia/commit/843705c795aee4b7496013f3aa5298d895cf46bf))
+* **Tooltip:** describe the trigger when it gets focus, instead of announcing the content afterwards ([#10994](https://github.com/dnbexperience/eufemia/issues/10994)) ([b39dd84](https://github.com/dnbexperience/eufemia/commit/b39dd847464903aa4dfe3257f85ef16ca4f22364))
+
+### :memo: Documentation
+
+* explain how to keep hover styles from sticking on touch devices ([#11027](https://github.com/dnbexperience/eufemia/issues/11027)) ([4a1681b](https://github.com/dnbexperience/eufemia/commit/4a1681b00216837be60dda21ffe846576d534c1d))
+* include font license terms ([#10982](https://github.com/dnbexperience/eufemia/issues/10982)) ([07fd0d7](https://github.com/dnbexperience/eufemia/commit/07fd0d700ca9e203b9cffa6884efa0ce6950930c))
+
+### :zap: Refactoring
+
+* share one outside click handler between Popover, DrawerList, NumberFormat and SidebarMenu ([#10347](https://github.com/dnbexperience/eufemia/issues/10347)) ([db4c7f7](https://github.com/dnbexperience/eufemia/commit/db4c7f7f992476664c80cfdb2f8b961e58343b61))
+
 ## [11.18.1](https://github.com/dnbexperience/eufemia/compare/v11.18.0...v11.18.1) (2026-11-20)
 
 ### :bug: Bug Fixes
