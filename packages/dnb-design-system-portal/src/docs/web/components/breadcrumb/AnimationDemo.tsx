@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
 import Breadcrumb from '@dnb/eufemia/src/components/Breadcrumb'
 import Button from '@dnb/eufemia/src/components/Button'
 import Flex from '@dnb/eufemia/src/components/Flex'
@@ -15,19 +15,13 @@ const pages = [
 
 export default function AnimationDemo() {
   const { pathname, search } = useLocation()
-  const navigate = useNavigate()
   const [pageKey, setPageKey] = useState('overview')
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([])
   const page = pages.find(({ key }) => key === pageKey) ?? pages[0]
   const isOverview = page.key === 'overview'
 
   useEffect(() => {
     setPageKey(new URLSearchParams(search).get('page') ?? 'overview')
   }, [search])
-
-  useEffect(() => {
-    return () => timers.current.forEach(clearTimeout)
-  }, [])
 
   return (
     <main style={{ padding: '2rem' }}>
@@ -53,31 +47,6 @@ export default function AnimationDemo() {
       </Breadcrumb>
       <H1 bottom="small">{page.title}</H1>
       <P bottom="medium">Choose a page to animate the breadcrumb.</P>
-      <Flex.Container gap="small" bottom="medium">
-        <Button variant="secondary" onClick={() => navigate(-1)}>
-          Back
-        </Button>
-        <Button variant="secondary" onClick={() => navigate(1)}>
-          Forward
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            timers.current.forEach(clearTimeout)
-            timers.current = [
-              'accounts',
-              'payments',
-              'overview',
-              'settings',
-              'overview',
-            ].map((key, index) =>
-              setTimeout(() => navigate('?page=' + key), index * 75)
-            )
-          }}
-        >
-          Rapid navigation
-        </Button>
-      </Flex.Container>
       <Flex.Container gap="small">
         {pages.map(({ key, title }) => (
           <Button

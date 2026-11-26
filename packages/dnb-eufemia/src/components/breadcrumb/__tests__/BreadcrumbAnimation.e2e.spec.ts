@@ -168,7 +168,7 @@ test('preserves keyboard focus when a link becomes the current page', async ({
   await expect(breadcrumb.locator('li')).toHaveCount(1)
   await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
   await expect(
-    page.getByRole('button', { name: 'Back', exact: true })
+    page.getByRole('link', { name: 'Overview', exact: true })
   ).toBeFocused()
 })
 
@@ -200,7 +200,20 @@ test('keeps exits inert and settles replacement, history and rapid navigation', 
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
     'Payments'
   )
-  await page.getByRole('button', { name: 'Rapid navigation' }).click()
+  await page.evaluate(async () => {
+    for (const key of [
+      'accounts',
+      'payments',
+      'overview',
+      'settings',
+      'overview',
+    ]) {
+      document
+        .querySelector<HTMLAnchorElement>('a[href$="?page=' + key + '"]')
+        .click()
+      await new Promise((resolve) => setTimeout(resolve, 75))
+    }
+  })
   await expect(page).toHaveURL(/\?page=overview$/)
   await expect(breadcrumb.locator('li')).toHaveCount(1)
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(

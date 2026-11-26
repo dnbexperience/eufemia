@@ -24,6 +24,8 @@ import { Breadcrumb } from '@dnb/eufemia'
 
 Set `animate` to animate changes to the path. Items enter and exit, and the navigation icon crossfades when an item changes between the current page and home. Reduced motion removes item transitions. `noAnimation` also disables them.
 
+Item transitions apply to the horizontal list. The `collapse` variant and the small-screen list of the `responsive` variant keep their existing behavior.
+
 Keep Breadcrumb mounted in a shared application layout and update its items when the route changes. A Breadcrumb that mounts again for every page cannot animate the previous path because it has no previous items.
 
 Give child items stable React keys for their page identity. Change the key when replacing a page. Data items use their `href`, string `to`, or text as identity. Repeated identities are matched by occurrence. Use keyed children when repeated labels or rich text need to keep their identity after reordering.
@@ -42,7 +44,7 @@ Give child items stable React keys for their page identity. Change the key when 
 </Breadcrumb>
 ```
 
-[Try the Breadcrumb animation demo](/web/components/breadcrumb/visual-tests/animation/). Switch pages, return to Overview, or use back, forward, and rapid navigation to explore the transitions.
+[Try the animated navigation example](/web/components/breadcrumb/demos/#animated-navigation).
 
 ### Accessibility
 

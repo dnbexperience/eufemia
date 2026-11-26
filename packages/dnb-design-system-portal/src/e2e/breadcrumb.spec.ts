@@ -1,5 +1,32 @@
 import { test, expect } from '@playwright/test'
 
+test('shows animated navigation as an interactive component demo', async ({
+  page,
+}) => {
+  await page.goto('/web/components/breadcrumb/demos/#animated-navigation')
+  const breadcrumb = page.getByRole('navigation', {
+    name: 'Animated example',
+  })
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
+    'Overview'
+  )
+  await page.getByRole('button', { name: 'Accounts', exact: true }).click()
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
+    'Accounts'
+  )
+  await page.getByRole('button', { name: 'Payments', exact: true }).click()
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
+    'Payments'
+  )
+  await breadcrumb
+    .getByRole('link', { name: 'Overview', exact: true })
+    .click()
+  await expect(breadcrumb.locator('li')).toHaveCount(1)
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(
+    'Overview'
+  )
+})
+
 for (const { section, root, leaf, labels } of [
   {
     section: 'Forms',
