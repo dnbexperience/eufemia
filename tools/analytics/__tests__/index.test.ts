@@ -1,14 +1,18 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
 
-const { storePortalViews, storeMcpUsage } = vi.hoisted(() => ({
-  storePortalViews: vi.fn(),
-  storeMcpUsage: vi.fn(),
-}))
+const { storePortalViews, storeMcpUsage, storeSkillInstalls } = vi.hoisted(
+  () => ({
+    storePortalViews: vi.fn(),
+    storeMcpUsage: vi.fn(),
+    storeSkillInstalls: vi.fn(),
+  })
+)
 
 vi.mock('../src/lambda/store.js', () => ({
   storePortalViews,
   storeMcpUsage,
+  storeSkillInstalls,
 }))
 
 import { handler } from '../src/lambda/index.js'
@@ -192,6 +196,47 @@ describe('handler /collect-local-mcp-usage (public ingest)', () => {
     expect(res.statusCode).toBe(400)
     expect(JSON.parse(res.body).error).toBe('Validation failed')
     expect(storeMcpUsage).not.toHaveBeenCalled()
+  })
+})
+
+describe('handler /collect-skill-installs (public ingest)', () => {
+  beforeEach(() => {
+    storeSkillInstalls.mockReset()
+    process.env.EDGE_AUTH_SECRET = 'edge-secret'
+  })
+
+  afterEach(() => {
+    delete process.env.EDGE_AUTH_SECRET
+  })
+
+  it('accepts skill installs', async () => {
+    storeSkillInstalls.mockResolvedValue(1)
+
+    const res = await invoke(
+      event('POST', '/collect-skill-installs', {
+        body: JSON.stringify([
+          { action: 'install', target: '.claude/skills' },
+        ]),
+      })
+    )
+
+    expect(res.statusCode).toBe(202)
+    expect(JSON.parse(res.body)).toEqual({ accepted: 1 })
+    expect(storeSkillInstalls).toHaveBeenCalledWith([
+      { action: 'install', target: '.claude/skills' },
+    ])
+  })
+
+  it('returns 400 with details when validation fails', async () => {
+    const res = await invoke(
+      event('POST', '/collect-skill-installs', {
+        body: JSON.stringify([{ action: 'reinstall', target: 'x' }]),
+      })
+    )
+
+    expect(res.statusCode).toBe(400)
+    expect(JSON.parse(res.body).error).toBe('Validation failed')
+    expect(storeSkillInstalls).not.toHaveBeenCalled()
   })
 })
 

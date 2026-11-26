@@ -50,11 +50,23 @@ export type PortalViewTrends = {
   }>
 }
 
+export type SkillInstallCounts = {
+  install: number
+  update: number
+  uninstall: number
+}
+
+export type SkillInstalls = {
+  total?: SkillInstallCounts
+  perTarget?: Array<SkillInstallCounts & { target: string }>
+}
+
 export type DashboardPayload = {
   generatedAt?: string
   portalViewTrends?: PortalViewTrends
   mcpUsage?: McpUsage
   componentUsage?: ComponentUsage
+  skillInstalls?: SkillInstalls
 }
 
 /**

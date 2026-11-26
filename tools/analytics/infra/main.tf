@@ -661,6 +661,75 @@ resource "aws_glue_catalog_table" "component_usage_daily" {
   }
 }
 
+# Anonymous CLI skill installs. No expiry and no rollup: a few rows a day, each as coarse as a rollup row.
+resource "aws_glue_catalog_table" "skill_installs" {
+  name          = "skill_installs"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/skill-installs/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/skill-installs/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "action"
+      type = "string"
+    }
+
+    columns {
+      name = "target"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "eufemia_version"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
+
+    columns {
+      name = "created_at"
+      type = "string"
+    }
+  }
+}
+
 # ---------------------------------------------------------------------------
 # Athena
 # ---------------------------------------------------------------------------
@@ -840,6 +909,12 @@ resource "aws_apigatewayv2_route" "collect_local_mcp_usage" {
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 
+resource "aws_apigatewayv2_route" "collect_skill_installs" {
+  api_id    = aws_apigatewayv2_api.analytics.id
+  route_key = "POST /collect-skill-installs"
+  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
+}
+
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowAPIGateway"
   action        = "lambda:InvokeFunction"
@@ -998,6 +1073,7 @@ resource "aws_lambda_function" "snapshot" {
       GLUE_TABLE_MCP_USAGE_DAILY       = aws_glue_catalog_table.mcp_usage_daily.name
       GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
       GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
+      GLUE_TABLE_SKILL_INSTALLS        = aws_glue_catalog_table.skill_installs.name
       ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
       # Set to "true" once a producer writes to component-usage/.
       COMPONENT_USAGE_ENABLED = "false"
@@ -1145,6 +1221,23 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
   namespace           = "Eufemia/Analytics"
   metric_name         = "ComponentUsageBuildFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
+}
+
+# A failed skill installs query falls back to an empty section and the run still
+# publishes, so only this EMF metric surfaces it (e.g. a missing S3 read grant).
+resource "aws_cloudwatch_metric_alarm" "snapshot_skill_installs_build_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-skill-installs-build-failed"
+  alarm_description   = "Dashboard snapshot generator failed to build the skill installs section"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "SkillInstallsBuildFailure"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
   statistic           = "Sum"
   period              = 3600

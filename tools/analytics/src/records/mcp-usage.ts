@@ -36,48 +36,10 @@ import {
 import {
   isIsoTimestamp,
   isKnownEnv,
+  isSemver,
   parseIngestBatch,
   type ValidationResult,
 } from './shared.js'
-
-const MAX_VERSION_LENGTH = 64
-
-// Checks the shape, not that the release exists, so free text can't be stored
-// in the version field.
-const SEMVER_CORE = /^\d+\.\d+\.\d+$/
-const SEMVER_IDENTIFIER = /^[0-9A-Za-z-]+$/
-
-/**
- * True only for a semver-shaped string: `major.minor.patch`, each a plain
- * number, with optional dot-separated pre-release (after `-`) and build
- * (after `+`) identifiers. Splits on the separators instead of using one regex
- * with several optional quantified groups, which would be ReDoS-prone.
- */
-function isSemver(value: string): boolean {
-  const buildSplit = value.split('+')
-  if (buildSplit.length > 2) {
-    return false
-  }
-  const [withoutBuild, build] = buildSplit
-  if (
-    build !== undefined &&
-    !build.split('.').every((id) => SEMVER_IDENTIFIER.test(id))
-  ) {
-    return false
-  }
-
-  const preSplit = (withoutBuild ?? '').split('-')
-  const core = preSplit[0] ?? ''
-  const pre = preSplit.slice(1).join('-')
-
-  if (!SEMVER_CORE.test(core)) {
-    return false
-  }
-
-  return (
-    pre === '' || pre.split('.').every((id) => SEMVER_IDENTIFIER.test(id))
-  )
-}
 
 /** A single anonymous MCP usage event sent by an MCP server. */
 export type McpUsageInput = {
@@ -136,17 +98,11 @@ export function validateMcpUsage(
       valid = false
     }
 
-    if (eufemiaVersion !== undefined) {
-      if (
-        typeof eufemiaVersion !== 'string' ||
-        eufemiaVersion.length > MAX_VERSION_LENGTH ||
-        !isSemver(eufemiaVersion)
-      ) {
-        errors.push(
-          `Event ${index}: "eufemiaVersion" must be a semver string`
-        )
-        valid = false
-      }
+    if (eufemiaVersion !== undefined && !isSemver(eufemiaVersion)) {
+      errors.push(
+        `Event ${index}: "eufemiaVersion" must be a semver string`
+      )
+      valid = false
     }
 
     if (timestamp !== undefined && !isIsoTimestamp(timestamp)) {

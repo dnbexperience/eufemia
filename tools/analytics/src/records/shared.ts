@@ -31,6 +31,50 @@ export function isKnownEnv(value: unknown): value is string {
   return typeof value === 'string' && KNOWN_ENVS.has(value)
 }
 
+const MAX_VERSION_LENGTH = 64
+
+// Checks the shape, not that the release exists, so free text can't be stored
+// in the version field.
+const SEMVER_CORE = /^\d+\.\d+\.\d+$/
+const SEMVER_IDENTIFIER = /^[0-9A-Za-z-]+$/
+
+/**
+ * True only for a semver-shaped string of at most 64 characters:
+ * `major.minor.patch`, each a plain number, with optional dot-separated
+ * pre-release (after `-`) and build (after `+`) identifiers. Splits on the
+ * separators instead of using one regex with several optional quantified
+ * groups, which would be ReDoS-prone.
+ */
+export function isSemver(value: unknown): value is string {
+  if (typeof value !== 'string' || value.length > MAX_VERSION_LENGTH) {
+    return false
+  }
+
+  const buildSplit = value.split('+')
+  if (buildSplit.length > 2) {
+    return false
+  }
+  const [withoutBuild, build] = buildSplit
+  if (
+    build !== undefined &&
+    !build.split('.').every((id) => SEMVER_IDENTIFIER.test(id))
+  ) {
+    return false
+  }
+
+  const preSplit = (withoutBuild ?? '').split('-')
+  const core = preSplit[0] ?? ''
+  const pre = preSplit.slice(1).join('-')
+
+  if (!SEMVER_CORE.test(core)) {
+    return false
+  }
+
+  return (
+    pre === '' || pre.split('.').every((id) => SEMVER_IDENTIFIER.test(id))
+  )
+}
+
 /**
  * True only for a canonical ISO 8601 UTC timestamp (the form produced by
  * `Date.prototype.toISOString`), rejecting the looser inputs `Date.parse`

@@ -7,12 +7,15 @@ import {
   retrieveMcpUsageDaily,
   retrievePortalViewsPerDay,
   retrievePortalViewsPerLocaleAndTheme,
+  retrieveSkillInstallCounts,
   retrieveTopPortalPathsPerMonth,
 } from './retrieve.js'
 import { requireEnv } from './env.js'
+import type { SkillInstallAction } from '../records/skill-install.js'
 import {
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
+  EMPTY_SKILL_INSTALLS,
   storeDailyRollup,
   writeSnapshot,
   type ComponentUsageSection,
@@ -23,6 +26,9 @@ import {
   type McpVersionUsageRow,
   type PortalViewTrendsSection,
   type RankedCount,
+  type SkillInstallCountRow,
+  type SkillInstallCounts,
+  type SkillInstallsSection,
   type Snapshot,
 } from './snapshot-store.js'
 
@@ -33,6 +39,7 @@ type MetricName =
   | 'McpUsageBuildFailure'
   | 'ComponentUsageBuildFailure'
   | 'PortalViewsRollupFailure'
+  | 'SkillInstallsBuildFailure'
 
 /**
  * Emit a CloudWatch metric using the Embedded Metric Format (a structured log
@@ -335,14 +342,41 @@ export async function buildComponentUsage(
   }
 }
 
+function countActions(rows: SkillInstallCountRow[]): SkillInstallCounts {
+  const countOf = (action: SkillInstallAction) =>
+    rows
+      .filter((row) => row.action === action)
+      .reduce((sum, row) => sum + row.count, 0)
+
+  return {
+    install: countOf('install'),
+    update: countOf('update'),
+    uninstall: countOf('uninstall'),
+  }
+}
+
+const eventCount = ({ install, update, uninstall }: SkillInstallCounts) =>
+  install + update + uninstall
+
+async function buildSkillInstalls(): Promise<SkillInstallsSection> {
+  const rows = await retrieveSkillInstallCounts()
+
+  return {
+    total: countActions(rows),
+    perTarget: [...Map.groupBy(rows, (row) => row.target)]
+      .map(([target, group]) => ({ target, ...countActions(group) }))
+      .sort((a, b) => eventCount(b) - eventCount(a)),
+  }
+}
+
 /**
  * Scheduled dashboard snapshot generator (EventBridge, off the request path).
  *
  * Refreshes the durable daily rollups, reads the page-view trends, the MCP
- * usage section and (when enabled) the component usage section from Athena, and
- * writes the snapshot to S3. Runs under its own execution role (Athena +
- * S3 write); keeping it separate from the read endpoint lets that endpoint run
- * with a read-only role.
+ * usage section, the skill installs section and (when enabled) the component
+ * usage section from Athena, and writes the snapshot to S3. Runs under its own
+ * execution role (Athena + S3 write); keeping it separate from the read
+ * endpoint lets that endpoint run with a read-only role.
  *
  * An optional `sinceDt` on the invocation event backfills the page-view and MCP
  * usage rollups from that date instead of the recent tail — used for one-time
@@ -358,6 +392,15 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
     bucket,
     event?.sinceDt
   )
+
+  // Runs alongside the MCP queries so the sequential Athena chain still fits the Lambda timeout.
+  const skillInstallsBuild = buildSkillInstalls().catch((error) => {
+    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+    console.error('Failed to build skill installs section', error)
+    emitMetric('SkillInstallsBuildFailure', 1)
+
+    return EMPTY_SKILL_INSTALLS
+  })
 
   // The MCP section is additive; a failure here (e.g. a missing Glue grant or a
   // slow query) must not discard the page-view trends that were just built. Fall
@@ -390,6 +433,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
     portalViewTrends,
     mcpUsage,
     componentUsage,
+    skillInstalls: await skillInstallsBuild,
   }
 
   await writeSnapshot(bucket, snapshot)
