@@ -4,9 +4,14 @@ import type {
 } from 'aws-lambda'
 import { decodeEventBody } from 'eufemia-usage-ingest'
 import { isEdgeAuthorized, json } from './http.js'
-import { storePortalViews, storeMcpUsage } from './store.js'
+import {
+  storePortalViews,
+  storeMcpUsage,
+  storeSkillInstalls,
+} from './store.js'
 import { validatePortalViews } from '../records/portal-view.js'
 import { validateMcpUsage } from '../records/mcp-usage.js'
+import { validateSkillInstalls } from '../records/skill-install.js'
 import type { ValidationResult } from '../records/shared.js'
 
 function parseBody(event: APIGatewayProxyEventV2): unknown {
@@ -49,6 +54,7 @@ async function handleIngest<T>(
  * - `GET  /healthz`                  liveness probe
  * - `POST /collect-portal-views`     store anonymous portal page views in S3
  * - `POST /collect-local-mcp-usage`  store anonymous local (stdio) MCP usage in S3
+ * - `POST /collect-skill-installs`   store anonymous CLI skill installs in S3
  *
  * Every route is gated by the Akamai X-Edge-Auth origin lock; there is no
  * bearer token. The web MCP Lambda writes its own S3 prefix directly via IAM
@@ -81,6 +87,10 @@ export async function handler(
     return handleIngest(event, validateMcpUsage, (events) =>
       storeMcpUsage(events, 'local')
     )
+  }
+
+  if (method === 'POST' && path === '/collect-skill-installs') {
+    return handleIngest(event, validateSkillInstalls, storeSkillInstalls)
   }
 
   return json(404, { error: 'Not found' })

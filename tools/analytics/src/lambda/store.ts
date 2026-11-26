@@ -9,6 +9,10 @@ import {
   buildMcpUsageRecord,
   type McpUsageInput,
 } from '../records/mcp-usage.js'
+import {
+  buildSkillInstallRecord,
+  type SkillInstallInput,
+} from '../records/skill-install.js'
 import { requireEnv } from './env.js'
 
 const s3 = new S3Client({})
@@ -65,4 +69,10 @@ export function storeMcpUsage(
   return putBatch('mcp-usage', events, (event, createdAt) =>
     buildMcpUsageRecord(event, createdAt, transport)
   )
+}
+
+export function storeSkillInstalls(
+  events: SkillInstallInput[]
+): Promise<number> {
+  return putBatch('skill-installs', events, buildSkillInstallRecord)
 }

@@ -11,6 +11,7 @@ const {
   aggregateMcpUsageByVersion,
   aggregateComponentUsageRaw,
   retrieveComponentUsageTotals,
+  retrieveSkillInstallCounts,
 } = vi.hoisted(() => ({
   send: vi.fn(),
   aggregatePortalViewsRaw: vi.fn(),
@@ -22,6 +23,7 @@ const {
   aggregateMcpUsageByVersion: vi.fn(),
   aggregateComponentUsageRaw: vi.fn(),
   retrieveComponentUsageTotals: vi.fn(),
+  retrieveSkillInstallCounts: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -54,6 +56,7 @@ vi.mock('../src/lambda/retrieve.js', () => ({
   aggregateMcpUsageByVersion,
   aggregateComponentUsageRaw,
   retrieveComponentUsageTotals,
+  retrieveSkillInstallCounts,
 }))
 
 import { buildComponentUsage, handler } from '../src/lambda/snapshot.js'
@@ -118,6 +121,7 @@ beforeEach(() => {
   aggregateMcpUsageByVersion.mockReset()
   aggregateComponentUsageRaw.mockReset()
   retrieveComponentUsageTotals.mockReset()
+  retrieveSkillInstallCounts.mockReset()
   send.mockResolvedValue({})
   aggregatePortalViewsRaw.mockResolvedValue([])
   retrievePortalViewsPerDay.mockResolvedValue([])
@@ -128,6 +132,7 @@ beforeEach(() => {
   aggregateMcpUsageByVersion.mockResolvedValue([])
   aggregateComponentUsageRaw.mockResolvedValue([])
   retrieveComponentUsageTotals.mockResolvedValue([])
+  retrieveSkillInstallCounts.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
@@ -808,6 +813,39 @@ describe('component usage section', () => {
     expect(
       findEmittedMetric('ComponentUsageBuildFailure')
         ?.ComponentUsageBuildFailure
+    ).toBe(1)
+  })
+})
+
+describe('skill installs section', () => {
+  it('folds action and target rows into totals and targets', async () => {
+    retrieveSkillInstallCounts.mockResolvedValue([
+      { action: 'install', target: '.claude/skills', count: 2 },
+      { action: 'install', target: 'custom', count: 1 },
+      { action: 'update', target: '.claude/skills', count: 3 },
+      { action: 'uninstall', target: 'custom', count: 1 },
+    ])
+
+    await handler()
+
+    expect(snapshotBody().skillInstalls).toEqual({
+      total: { install: 3, update: 3, uninstall: 1 },
+      perTarget: [
+        { target: '.claude/skills', install: 2, update: 3, uninstall: 0 },
+        { target: 'custom', install: 1, update: 0, uninstall: 1 },
+      ],
+    })
+  })
+
+  it('falls back to the empty section and still publishes when the build fails', async () => {
+    retrieveSkillInstallCounts.mockRejectedValue(new Error('s3 denied'))
+
+    await handler()
+
+    expect(snapshotBody().skillInstalls.perTarget).toEqual([])
+    expect(
+      findEmittedMetric('SkillInstallsBuildFailure')
+        ?.SkillInstallsBuildFailure
     ).toBe(1)
   })
 })

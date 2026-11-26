@@ -450,6 +450,58 @@ describe('App (smoke)', () => {
     expect(container.textContent).not.toContain('Agent skills')
   })
 
+  it('shows skill installs per folder in the Local MCP tab', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        skillInstalls: {
+          total: { install: 3, update: 1, uninstall: 0 },
+          perTarget: [
+            {
+              target: '.claude/skills',
+              install: 2,
+              update: 1,
+              uninstall: 0,
+            },
+          ],
+        },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
+
+    expect(container.textContent).toContain(
+      'Installs: 3, updates: 1, uninstalls: 0.'
+    )
+    const table = screen.getByRole('table', {
+      name: 'Skill installs per folder',
+    })
+    expect(table.textContent).toContain('.claude/skills')
+    expect(table.textContent).toContain('3')
+  })
+
+  it('hides the skill installs card when there are none', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: populated,
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
+
+    expect(container.textContent).not.toContain('Skill installs')
+  })
+
   it('shows an empty message in the Component usage tab when there is no component data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',

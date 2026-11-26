@@ -29,6 +29,7 @@ import {
   type DashboardPayload,
   type McpTransportUsage,
   type PortalViewTrendsView,
+  type SkillInstalls,
 } from './data'
 import Kpis from './components/Kpis'
 import BarList from './components/BarList'
@@ -248,7 +249,10 @@ function Dashboard({
         </Tabs.Content>
 
         <Tabs.Content title="Local MCP" key="mcp-local">
-          <McpUsagePanel transport="local" usage={mcp?.local} />
+          <Flex.Stack gap="large">
+            <McpUsagePanel transport="local" usage={mcp?.local} />
+            <SkillInstallsCard installs={payload?.skillInstalls} />
+          </Flex.Stack>
         </Tabs.Content>
 
         <Tabs.Content title="Component usage" key="components">
@@ -516,5 +520,35 @@ function McpUsagePanel({
 
       <MissedLookupsPerVersion label={label} versions={perVersion} />
     </Flex.Stack>
+  )
+}
+
+function SkillInstallsCard({
+  installs,
+}: {
+  installs: SkillInstalls | undefined
+}) {
+  const { install = 0, update = 0, uninstall = 0 } = installs?.total ?? {}
+
+  if (install + update + uninstall === 0) {
+    return null
+  }
+
+  return (
+    <Card stack>
+      <H2 size="medium">Skill installs</H2>
+      <P className="dashboard__meta">
+        {`From the eufemia skills command. Installs: ${install.toLocaleString()}, updates: ${update.toLocaleString()}, uninstalls: ${uninstall.toLocaleString()}.`}
+      </P>
+      <RankedTable
+        caption="Skill installs per folder"
+        nameHeader="Folder"
+        countHeader="Commands"
+        items={(installs?.perTarget ?? []).map((row) => ({
+          name: row.target,
+          count: row.install + row.update + row.uninstall,
+        }))}
+      />
+    </Card>
   )
 }

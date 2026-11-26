@@ -18,6 +18,7 @@ export type Snapshot = {
   portalViewTrends: PortalViewTrendsSection
   mcpUsage: McpUsageSection
   componentUsage: ComponentUsageSection
+  skillInstalls: SkillInstallsSection
 }
 
 export type RankedCount = { name: string; count: number }
@@ -156,6 +157,28 @@ export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
   perComponent: [],
   perApp: [],
   perVersion: [],
+}
+
+export type SkillInstallCountRow = {
+  action: string
+  target: string
+  count: number
+}
+
+export type SkillInstallCounts = {
+  install: number
+  update: number
+  uninstall: number
+}
+
+export type SkillInstallsSection = {
+  total: SkillInstallCounts
+  perTarget: Array<SkillInstallCounts & { target: string }>
+}
+
+export const EMPTY_SKILL_INSTALLS: SkillInstallsSection = {
+  total: { install: 0, update: 0, uninstall: 0 },
+  perTarget: [],
 }
 
 // No s3:ListBucket, so a missing snapshot is AccessDenied; all failures throw.

@@ -40,6 +40,20 @@ describe('analytics infrastructure', () => {
     }
   )
 
+  it('never expires skill-installs/, the only store of that history', () => {
+    const lifecycle = terraformBlock(
+      'resource "aws_s3_bucket_lifecycle_configuration" "data"'
+    )
+    const prefixes = [
+      ...(lifecycle ?? '').matchAll(/^\s*prefix\s*=\s*"([^"]*)"/gm),
+    ].map(([, prefix]) => prefix)
+
+    expect(prefixes.length).toBeGreaterThan(0)
+    expect(
+      prefixes.filter((prefix) => 'skill-installs/'.startsWith(prefix))
+    ).toEqual([])
+  })
+
   it('cleans noncurrent versions bucket-wide', () => {
     expect(lifecycleRule('expire-noncurrent-versions')).toMatch(
       /filter \{\}\s+noncurrent_version_expiration \{\s+noncurrent_days\s+=\s+\d+\s+\}/
@@ -65,6 +79,7 @@ describe('analytics infrastructure', () => {
     // Up to seven Athena queries run one after another (page-view rollup
     // refresh, the concurrent trend reads, three MCP queries, then two
     // component-usage queries when enabled), each waiting up to 2 minutes.
+    // The skill installs query runs alongside the MCP queries.
     const snapshotLambda = terraformBlock(
       'resource "aws_lambda_function" "snapshot"'
     )
