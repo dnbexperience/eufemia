@@ -1525,8 +1525,8 @@ button.dnb-button::-moz-focus-inner {
 }
 @media (forced-colors: none) and (any-hover: hover) {
   .dnb-breadcrumb__item--animated:has(> .dnb-anchor:hover:not(:where(html[data-whatintent=touch] *,
-  html[data-whatintent=keyboard] *),
-  .dnb-anchor--no-hover)) .dnb-breadcrumb__item__home-icon {
+  html[data-whatintent=keyboard] *,
+  .dnb-anchor--no-hover))) .dnb-breadcrumb__item__home-icon {
     color: var(--token-color-icon-action-hover);
   }
 }
