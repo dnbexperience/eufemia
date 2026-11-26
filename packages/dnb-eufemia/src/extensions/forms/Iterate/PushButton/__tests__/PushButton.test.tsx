@@ -264,6 +264,42 @@ describe('PushButton', () => {
     })
   })
 
+  it('should not share the limit with an array at the same path in another form', async () => {
+    render(
+      <>
+        <Form.Handler defaultData={{ myList: ['a'] }}>
+          <Iterate.Array path="/myList" limit={2}>
+            <i className="first" />
+          </Iterate.Array>
+          <Iterate.PushButton path="/myList" pushValue="push value" />
+        </Form.Handler>
+
+        <Form.Handler defaultData={{ myList: ['b', 'c'] }}>
+          <Iterate.Array path="/myList" limit={2}>
+            <i className="second" />
+          </Iterate.Array>
+          <Iterate.PushButton path="/myList" pushValue="push value" />
+        </Form.Handler>
+      </>
+    )
+
+    const [firstPushButton, secondPushButton] = Array.from(
+      document.querySelectorAll('.dnb-forms-iterate-push-button')
+    )
+
+    await userEvent.click(firstPushButton)
+
+    expect(document.querySelectorAll('i.first')).toHaveLength(2)
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    await userEvent.click(secondPushButton)
+
+    await waitFor(() => {
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    })
+    expect(document.querySelectorAll('i.second')).toHaveLength(2)
+  })
+
   describe('itemPath', () => {
     it('should add item to the correct array', async () => {
       let collectedData = null

@@ -1,7 +1,9 @@
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import { useTranslation } from '../../hooks'
 import type { Path } from '../../types'
+import DataContext from '../../DataContext/Context'
 import {
+  createReferenceKey,
   useSharedState,
   useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
@@ -14,8 +16,15 @@ type SharedState = {
 
 export default function useArrayLimit(path: Path) {
   const store = useSharedStateStore()
+  const { internalDataRef } = useContext(DataContext) || {}
+
+  // Give each form its own limit, so another form with the same path does
+  // not change it
+  const key = path + '-iterate-limit'
   const sharedState = useSharedState<SharedState>(
-    path + '-iterate-limit',
+    internalDataRef
+      ? createReferenceKey(internalDataRef, key, store)
+      : key,
     undefined,
     undefined,
     { store }
