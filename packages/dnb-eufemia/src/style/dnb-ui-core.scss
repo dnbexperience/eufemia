@@ -10,7 +10,7 @@
 
 @include scopes.globalReset();
 
-@include scopes.reducedMotion();
+@include scopes.globalReducedMotion();
 
 // make sure we have dynamic root font size
 @include scopes.htmlDefault();

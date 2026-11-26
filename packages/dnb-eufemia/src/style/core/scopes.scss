@@ -87,7 +87,7 @@
 }
 
 // Global reduced motion support for accessibility
-@mixin reducedMotion() {
+@mixin globalReducedMotion() {
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
