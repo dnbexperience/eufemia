@@ -93,16 +93,43 @@ test('reverses an unfinished entrance from its current width', async ({
   expect(Math.abs(after - before.width)).toBeLessThan(1)
 })
 
-test('matches the home link color in Eiendom and forced colors', async ({
+test('matches home link colors while pressed, in Eiendom and forced colors', async ({
   page,
 }) => {
-  await page.goto(demo + '?page=accounts&eufemia-theme=eiendom')
+  await page.goto(demo + '?page=accounts')
   const icon = page.locator('.dnb-breadcrumb__item__home-icon')
   const colors = () =>
     icon.evaluate((element) => ({
       icon: getComputedStyle(element).color,
       link: getComputedStyle(element.nextElementSibling).color,
     }))
+  const home = page
+    .getByRole('navigation', { name: 'Example path' })
+    .getByRole('link', { name: 'Overview', exact: true })
+  await expect(page.locator('.dnb-breadcrumb__item--enter')).toHaveCount(0)
+  const pressedColor = await home.evaluate((element) => {
+    const probe = document.createElement('span')
+    probe.style.color = 'var(--token-color-icon-action-pressed)'
+    element.append(probe)
+    const color = getComputedStyle(probe).color
+    probe.remove()
+    return color
+  })
+  await home.hover()
+  await expect
+    .poll(() => home.evaluate((element) => element.matches(':hover')))
+    .toBe(true)
+  await page.mouse.down()
+  await expect(home).toHaveCSS('color', pressedColor)
+  await expect
+    .poll(async () => {
+      const actual = await colors()
+      return actual.icon === actual.link
+    })
+    .toBe(true)
+  await page.mouse.up()
+
+  await page.goto(demo + '?page=accounts&eufemia-theme=eiendom')
   await expect(icon).toBeVisible()
   await expect
     .poll(async () => {

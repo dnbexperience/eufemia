@@ -105,9 +105,9 @@
               > .dnb-anchor:hover:not(
                   :where(
                     html[data-whatintent='touch'] *,
-                    html[data-whatintent='keyboard'] *
-                  ),
-                  .dnb-anchor--no-hover
+                    html[data-whatintent='keyboard'] *,
+                    .dnb-anchor--no-hover
+                  )
                 )
             )
             .dnb-breadcrumb__item__home-icon {
