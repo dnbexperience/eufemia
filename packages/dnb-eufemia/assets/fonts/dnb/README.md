@@ -42,7 +42,7 @@ The `DNB-*` and `DNBMono-*` files and their ZIPs remain byte-for-byte unchanged
 for existing public URLs and direct package imports.
 Remove published legacy assets only with separate migration guidance.
 
-The supplied Variable, Eiendom and Ung families are not registered or bundled.
+The supplied Variable and Ung families are not registered or bundled.
 Variable is intended for separately configured animation use, not as a
 replacement for Eufemia's static UI families. Existing theme choices remain.
 
@@ -59,3 +59,20 @@ can overlap. Check the actual words and widths and increase spacing when
 needed. Some Mono per-mille glyphs and Display subscript parentheses extend
 below the declared Windows descent. Browser compatibility tests do not
 certify desktop applications or PowerPoint font installation and export.
+
+## Birdhouse preview typography
+
+Birdhouse registers DNB Sans Eiendom Light (300) for explicit Display headlines.
+Ordinary headings and body text retain DNB Sans Text in both color schemes.
+The face renders lowercase characters as capitals without changing the source
+text. Use it for short display messages, not paragraphs. Before it loads, the
+DNB Light fallback can show mixed case with different widths. Short 16px eyebrow
+labels use an explicit 24px line height (`lineHeight="basis"`).
+The approved [DNB Sans Eiendom package](https://bc.dnb.no/place/asset/11369111/preview/information?p_com_id=10314&p_oty_id=92072&p_ptl_id=12972&p_lae_id=1&p_mode=plugin_detail)
+was uploaded to the brand center on 16 November 2026. Its unmodified Light
+TTF, WOFF and WOFF2 files are version 26.302.1 and recorded in font-sources.json.
+The package also contains Heavy, which is not registered: the current
+Eiendom hero design uses Light.
+
+The skeleton generator reads DNBSansEiendom-Light.ttf and preserves its
+advances, shaping and line metrics for DNBSansEiendomSkeleton.

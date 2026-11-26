@@ -299,7 +299,7 @@ describe('StepIndicator in loose mode', () => {
     )
     expect(
       document.querySelector('.dnb-step-indicator__trigger').textContent
-    ).toContain('Steg 2 av 4:Step B')
+    ).toContain('Steg 2 av 4: Step B')
   })
 
   it('has correct states on steps', () => {
@@ -725,22 +725,31 @@ describe('StepIndicator ARIA', () => {
     expect(srOnlySpan).toHaveAttribute('aria-hidden')
   })
 
-  it('should have aria-label on trigger button to support NVDA properly', () => {
-    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
+  it('should include the visible step title in the accessible name of the trigger button', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        currentStep={1}
+        data={stepIndicatorListData}
+      />
+    )
 
-    // Find the trigger button
     const triggerButton = document.querySelector(
       '.dnb-step-indicator__trigger__button'
     )
-    expect(triggerButton).toBeInTheDocument()
 
-    // Since there seems to be a React/DOM timing issue, we'll check the HTML directly
-    // The aria-label should be present in the rendered HTML
-    const buttonHTML = triggerButton.outerHTML
-    expect(buttonHTML).toContain('aria-label=')
+    expect(triggerButton).toHaveAccessibleName('Steg 2 av 4: Step B')
+    expect(triggerButton).not.toHaveAttribute('aria-label')
+  })
 
-    // Verify the aria-label contains step information (e.g., "Steg 1 av 4:")
-    expect(buttonHTML).toMatch(/aria-label="Steg \d+ av \d+:"/)
+  it('should not reference missing elements from the trigger button', () => {
+    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
+
+    const triggerButton = document.querySelector(
+      '.dnb-step-indicator__trigger__button'
+    )
+
+    expect(triggerButton).not.toHaveAttribute('aria-describedby')
   })
 
   it('connects a step status message to the step button via aria-describedby', () => {

@@ -133,11 +133,11 @@ jobs:
         if: always()
         run: |
           cd infra
-          ENDPOINT=$(terraform output -raw api_endpoint)
+          ORIGIN=$(terraform output -raw origin_domain)
           BUCKET=$(terraform output -raw data_bucket)
           DASHBOARD_URL=$(terraform output -raw dashboard_public_url)
           echo "## Analytics Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Origin:** \`${ORIGIN}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "**Data bucket:** \`${BUCKET}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "**Dashboard:** ${DASHBOARD_URL}" >> "$GITHUB_STEP_SUMMARY"

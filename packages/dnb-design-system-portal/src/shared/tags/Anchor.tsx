@@ -56,8 +56,12 @@ export default function Anchor({ href, to = null, ...rest }: AnchorProps) {
     href = `/${href}`
   }
 
+  // Static files, such as /fonts/dnb/LICENSE.txt, are not Portal routes.
+  // The router would render its 404 page, so let the browser load them.
+  const isFile = /\.[a-z\d]+$/i.test(href?.replace(/[?#].*$/, '') ?? '')
+
   const element = (
-    isAbsoluteUrl || hasScheme || isHash ? 'a' : PortalLink
+    isAbsoluteUrl || hasScheme || isHash || isFile ? 'a' : PortalLink
   ) as Props['element']
 
   return <EufemiaAnchor href={href} element={element} {...rest} />

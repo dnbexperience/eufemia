@@ -1,8 +1,9 @@
 /**
  * Anonymous MCP usage record: "someone called this tool", captured server-side
- * from the JSON-RPC request. Only closed, validated fields are stored — the tool
+ * for each tool that ran. Only closed, validated fields are stored — the tool
  * name (from the fixed registered set) plus an optional component or doc path
- * derived from the tool's arguments. The user's free-text query is never stored.
+ * derived from the tool's arguments, and on docs_meta the agent skill name (from
+ * the fixed skill set). The user's free-text query is never stored.
  *
  * Validation is structural first (closed character sets, bounded length, no
  * traversal), so nothing incidental in an argument can reach storage. A
@@ -17,13 +18,16 @@
 import {
   COMPONENT_TOOLS,
   KNOWN_TOOLS,
+  SKILL_TOOL,
   isPathTool,
   normalizeComponent,
   parseComponentName,
   parseDocsPath,
+  parseSkillName,
   type McpUsageRecord,
   type PathTool,
 } from 'eufemia-usage-ingest'
+import type { ToolCall } from '../tool-calls.js'
 
 /** Mirrors `UsageResolver` in mcp-docs-server; declared here so this module doesn't import the docs server. */
 export type UsageResolver = {
@@ -41,11 +45,6 @@ export type WebMcpUsageRecordWithoutVersion = Omit<
   'eufemia_version'
 >
 
-type JsonRpcMessage = {
-  method?: unknown
-  params?: { name?: unknown; arguments?: unknown }
-}
-
 const PATH_TOOL_ARGUMENTS: Record<
   PathTool,
   { argument: string; check: 'docsFile' | 'docsDir' }
@@ -54,22 +53,17 @@ const PATH_TOOL_ARGUMENTS: Record<
   docs_list: { argument: 'prefix', check: 'docsDir' },
 }
 
-async function recordFromMessage(
-  message: JsonRpcMessage,
+async function recordFromToolCall(
+  { name: tool, input }: ToolCall,
   env: string,
   createdAt: string,
   resolver: UsageResolver
 ): Promise<WebMcpUsageRecordWithoutVersion | null> {
-  if (message.method !== 'tools/call') {
+  if (!KNOWN_TOOLS.has(tool)) {
     return null
   }
 
-  const tool = message.params?.name
-  if (typeof tool !== 'string' || !KNOWN_TOOLS.has(tool)) {
-    return null
-  }
-
-  const args = (message.params?.arguments ?? {}) as Record<string, unknown>
+  const args = (input ?? {}) as Record<string, unknown>
 
   const rawComponent = COMPONENT_TOOLS.has(tool)
     ? parseComponentName(args.name)
@@ -98,6 +92,7 @@ async function recordFromMessage(
     tool,
     component,
     component_missed: componentMissed,
+    skill: tool === SKILL_TOOL ? parseSkillName(args.skill) : '',
     path,
     env,
     // The web Lambda writes this producer's rows only; the local (stdio)
@@ -109,39 +104,25 @@ async function recordFromMessage(
 }
 
 /**
- * Extract anonymous usage records from a raw JSON-RPC request body. Accepts a
- * single message or a batch array; anything that is not a `tools/call` for a
- * known tool is ignored. Malformed JSON yields no records, so usage capture
- * never affects the request.
+ * Build anonymous usage records from the tools that ran during one request.
+ * A call to a tool outside the known set is ignored.
  */
-export async function usageRecordsFromRequestBody(
-  body: string,
+export async function usageRecordsFromToolCalls(
+  toolCalls: ToolCall[],
   options: { env: string; now?: string; resolver: UsageResolver }
 ): Promise<WebMcpUsageRecordWithoutVersion[]> {
-  let parsed: unknown
-  try {
-    parsed = JSON.parse(body)
-  } catch {
-    return []
-  }
-
-  const messages = Array.isArray(parsed) ? parsed : [parsed]
   const createdAt = options.now ?? new Date().toISOString()
 
-  const records: WebMcpUsageRecordWithoutVersion[] = []
-  for (const message of messages) {
-    if (typeof message === 'object' && message !== null) {
-      const record = await recordFromMessage(
-        message as JsonRpcMessage,
+  const records = await Promise.all(
+    toolCalls.map((toolCall) =>
+      recordFromToolCall(
+        toolCall,
         options.env,
         createdAt,
         options.resolver
       )
-      if (record) {
-        records.push(record)
-      }
-    }
-  }
+    )
+  )
 
-  return records
+  return records.filter((record) => record !== null)
 }

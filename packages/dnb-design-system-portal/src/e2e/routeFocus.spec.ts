@@ -170,7 +170,7 @@ test.describe('Route Focus', () => {
     await waitForApp(page)
 
     const figmaLink = page
-      .getByRole('tabpanel', { name: 'Info' })
+      .getByRole('tabpanel', { name: 'Overview' })
       .getByRole('link', { name: 'Figma', exact: true })
     const headingLink = page.getByRole('link', {
       name: 'Link to Relevant links',

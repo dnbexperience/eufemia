@@ -94,7 +94,7 @@ The HTTP server is configured via environment variables:
 | `PORT`                | `8787`         | HTTP port to listen on.                                                                           |
 | `HOST`                | `127.0.0.1`    | Bind host. Set to `0.0.0.0` to expose the server beyond the local machine.                        |
 | `EUFEMIA_DOCS_ROOT`   | `./build/docs` | Path to the Eufemia docs directory.                                                               |
-| `MCP_AUTH_TOKEN`      | _(unset)_      | If set, every request must send `Authorization: Bearer <token>`.                                  |
+| `MCP_AUTH_TOKEN`      | _(unset)_      | If set, requests to `/mcp`, `/sse` and `/messages` must send `Authorization: Bearer <token>`.     |
 | `MCP_ALLOWED_HOSTS`   | _(unset)_      | Comma-separated `Host` header allowlist for DNS-rebinding protection (e.g. `eufemia-mcp.dnb.no`). |
 | `MCP_ALLOWED_ORIGINS` | _(loopback)_   | Comma-separated `Origin` header allowlist. Use `*` to accept any browser origin.                  |
 
@@ -132,8 +132,8 @@ curl http://localhost:8787/healthz
 ## Telemetry
 
 The **stdio** server sends anonymous, aggregate usage statistics so we can see
-which tools, components and documentation areas are most used and prioritise the
-docs accordingly. It is **on by default** and **opt-out**.
+which tools, components, documentation areas and agent skills are most used and
+prioritise the docs accordingly. It is **on by default** and **opt-out**.
 
 **What is collected** (a closed, public vocabulary only):
 
@@ -146,6 +146,8 @@ docs accordingly. It is **on by default** and **opt-out**.
   `/web/components/overview/`), gated against the areas this server's own docs
   actually contain — a path outside the docs (or a model's guess) is dropped
   instead of narrowed;
+- for `docs_meta`, the name of the Eufemia agent skill making the call (e.g.
+  `eufemia-review`), only when it is one of the fixed skill names;
 - the running `@dnb/eufemia` version.
 
 **What is not in the payload:** no machine id, install id, user, session or

@@ -19,6 +19,7 @@ describe('eufemia-theme plugin', () => {
         'eiendom',
         'carnegie',
         'coconut',
+        'birdhouse',
       ])
     })
 
@@ -257,7 +258,7 @@ describe('eufemia-theme plugin', () => {
       expect(code).toBeDefined()
       expect(code).toContain('sbanken')
       // Should only import sbanken files, not other themes
-      expect(code).not.toContain('eiendom')
+      expect(code).not.toContain('/themes/eiendom/')
       expect(code).not.toContain('carnegie')
     })
 
@@ -270,6 +271,19 @@ describe('eufemia-theme plugin', () => {
         expect(code).toContain('/coconut/coconut-theme-' + part + '.scss')
       }
       expect(code).not.toContain('/sbanken/')
+    })
+
+    it('loads independent Birdhouse styles', () => {
+      const plugin = eufemiaThemePlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:eufemia-theme-birdhouse')
+
+      for (const part of ['basis', 'components', 'dark-mode']) {
+        expect(code).toContain(
+          '/birdhouse/birdhouse-theme-' + part + '.scss'
+        )
+      }
+      expect(code).not.toContain('/eiendom/')
     })
 
     it('returns nothing for non-virtual module IDs', () => {

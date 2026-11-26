@@ -28,10 +28,12 @@ import type {
   FieldBlockRecordOwner,
 } from './FieldBlockContext'
 import FieldBlockContext from './FieldBlockContext'
+import SharedContext from '../../../shared/Context'
 import DataContext from '../DataContext/Context'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
+  combineLabelledBy,
   convertJsxToString,
   findElementInChildren,
 } from '../../../shared/component-helper'
@@ -48,7 +50,7 @@ import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../../../components/help-button/HelpButtonInline'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
-import { createSharedState } from '../../../shared/helpers/useSharedState'
+import { useFieldBlockPropsHandoff } from './useFieldBlockPropsHandoff'
 import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
@@ -197,10 +199,14 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     ? fieldBlockContext
     : null
 
+  const sharedContext = useContext(SharedContext)
   const id = useId(props.id ?? props.forId)
-  const sharedData = createSharedState<FieldBlockProps>(
-    'field-block-props-' + id
-  )
+  const propsHandoff = useFieldBlockPropsHandoff(id)
+
+  // A field gives its block its id. A generated id can be the same as the
+  // id of a field in another hydrated root, so do not use it to get props.
+  const sharedProps =
+    (props.id ?? props.forId) ? propsHandoff.get() : undefined
   const {
     className,
     style: givenStyle,
@@ -233,7 +239,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     fieldsetRole,
     children,
     ...rest
-  } = Object.assign({}, sharedData.data, props)
+  } = Object.assign({}, sharedProps, props)
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
@@ -323,27 +329,55 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   )
 
   // Only the server render and the hydration of the summary use these
-  // records. After hydration, the summary uses the records that fields
-  // register after commit, so suspended fields cannot enter it.
+  // records. They keep the text of the first render, as the server rendered
+  // it, because a message can change before the summary hydrates, for
+  // example when the locale changes. After hydration, the summary uses the
+  // records that fields register after commit, so suspended fields cannot
+  // enter it.
+  const collectRenderMessage = (record: StateBasis) => {
+    if (summaryHydratedRef.current) {
+      return // stop here
+    }
+
+    const records = (renderRecordsRef.current[record.identifier] ??= [])
+    const exists = records.some(
+      (item) =>
+        item.stateId === record.stateId && item.type === record.type
+    )
+    if (!exists) {
+      setInternalRecord(
+        {
+          ...record,
+          content:
+            record.content === undefined
+              ? undefined
+              : getMessagesFromError(record),
+        },
+        records
+      )
+    }
+  }
+
   // A status above the contents renders before the fields, so it cannot
   // collect their messages during render.
   const collectMessages = nestedFieldBlockContext
     ? nestedFieldBlockContext.collectMessages
     : statusPosition !== 'above'
-      ? (record: StateBasis) => {
-          if (!summaryHydratedRef.current) {
-            setInternalRecord(
-              record,
-              (renderRecordsRef.current[record.identifier] ??= [])
-            )
-          }
-        }
+      ? collectRenderMessage
       : undefined
+
+  // Use the functions of the outer block, not its context value. The outer
+  // block makes a new context value on each render. If these callbacks
+  // changed with it, a nested composition would render in an endless loop
+  // after a submit (each forwarded call renders the outer block again).
+  const setFieldStateNested = nestedFieldBlockContext?.setFieldState
+  const showFieldErrorNested = nestedFieldBlockContext?.showFieldError
+  const isNested = Boolean(nestedFieldBlockContext)
 
   const setFieldState = useCallback(
     (identifier: Identifier, fieldState: SubmitState) => {
       if (composition) {
-        nestedFieldBlockContext?.setFieldState?.(identifier, fieldState)
+        setFieldStateNested?.(identifier, fieldState)
         return undefined
       }
 
@@ -357,7 +391,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         forceUpdate()
       }
     },
-    [composition, nestedFieldBlockContext]
+    [composition, setFieldStateNested]
   )
 
   const showFieldError = useCallback(
@@ -366,9 +400,9 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       show: boolean,
       owner?: FieldBlockRecordOwner
     ) => {
-      if (nestedFieldBlockContext) {
+      if (isNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.showFieldError(identifier, show, owner)
+        showFieldErrorNested?.(identifier, show, owner)
         return undefined
       }
 
@@ -385,7 +419,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         }
       }
     },
-    [nestedFieldBlockContext]
+    [isNested, showFieldErrorNested]
   )
 
   for (const [type, content] of [
@@ -393,20 +427,25 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     ['warning', warning],
     ['information', info],
   ] as const) {
+    const record: StateBasis = {
+      identifier: blockId,
+      showInitially: type !== 'error' || hasInitiallyErrorPropRef.current,
+      type,
+      content,
+    }
+
     if (
       content !== undefined ||
       stateRecordRef.current[blockId]?.some((item) => item.type === type)
     ) {
-      setInternalRecord(
-        {
-          identifier: blockId,
-          showInitially:
-            type !== 'error' || hasInitiallyErrorPropRef.current,
-          type,
-          content,
-        },
-        (stateRecordRef.current[blockId] ??= [])
-      )
+      setInternalRecord(record, (stateRecordRef.current[blockId] ??= []))
+    }
+
+    // Also collect a type without a message, like fields do, so a message
+    // that only the browser renders does not enter the summary before it
+    // has hydrated
+    if (statusPosition !== 'above') {
+      collectRenderMessage(record)
     }
   }
 
@@ -601,17 +640,21 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   // Hydrate the summary after any deferred field boundaries. Until then,
   // keep the same element, so an update of this component does not make
-  // React hydrate the summary before these fields.
+  // React hydrate the summary before these fields. The element also keeps
+  // the shared context of that render, so a change after mount, such as a
+  // new locale, does not reach the summary before it has hydrated.
   const getSummaryElement = () => {
     if (summaryElementRef.current && !summaryHydratedRef.current) {
       summaryElementReusedRef.current = true
     } else {
       summaryElementRef.current = (
         <Suspense fallback={null}>
-          <RenderAfterChildren
-            render={renderStatus}
-            onHydrated={handleSummaryHydrated}
-          />
+          <SharedContext value={sharedContext}>
+            <RenderAfterChildren
+              render={renderStatus}
+              onHydrated={handleSummaryHydrated}
+            />
+          </SharedContext>
         </Suspense>
       )
     }
@@ -631,6 +674,20 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const showLabel =
     label || labelDescription || (hasHelp && !hideHelpButton)
 
+  // The help button is inside the legend, so name the fieldset by the label text only
+  const nameByLabelText = enableFieldset && hasHelp && !hideHelpButton
+  const labelContentId = nameByLabelText
+    ? `${id}-label-content`
+    : undefined
+  const labelDescriptionId = nameByLabelText
+    ? `${id}-label-description`
+    : undefined
+  const fieldsetLabelledBy = nameByLabelText
+    ? [label && labelContentId, hasLabelDescription && labelDescriptionId]
+        .filter(Boolean)
+        .join(' ') || undefined
+    : labelProps.id
+
   return (
     <FieldBlockContext
       value={{
@@ -648,18 +705,22 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
         style={mainStyle}
         className={mainClasses}
-        aria-labelledby={
-          enableFieldset && showLabel ? labelProps.id : undefined
-        }
         role={enableFieldset ? fieldsetRole : undefined}
         {...rest}
+        aria-labelledby={combineLabelledBy(
+          enableFieldset && showLabel ? fieldsetLabelledBy : null,
+          rest['aria-labelledby']
+        )}
       >
         <div className={gridClasses}>
           {showLabel && (
             <FormLabel {...labelProps}>
               <span>
                 {label && (
-                  <span className="dnb-forms-field-block__label__content">
+                  <span
+                    id={labelContentId}
+                    className="dnb-forms-field-block__label__content"
+                  >
                     {label}
                   </span>
                 )}
@@ -680,7 +741,10 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
                   !labelDescriptionInline && <br />}
 
                 {hasLabelDescription && (
-                  <span className="dnb-forms-field-block__label__description">
+                  <span
+                    id={labelDescriptionId}
+                    className="dnb-forms-field-block__label__description"
+                  >
                     {labelDescription}
                   </span>
                 )}

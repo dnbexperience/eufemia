@@ -12,8 +12,10 @@ import {
 import ScrollView from './TableScrollView'
 import { TableContext } from './TableContext'
 import { useStickyHeader } from './TableStickyHeader'
+import { useStickyColumn } from './TableStickyColumn'
 
 import type { TableStickyHeaderProps } from './TableStickyHeader'
+import type { TableStickyColumnProps } from './TableStickyColumn'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import { useHandleOddEven } from './TableTr'
@@ -94,7 +96,8 @@ export type TableProps = {
    * Default: `undefined`
    */
   collapseAllHandleRef?: RefObject<() => void>
-} & TableStickyHeaderProps
+} & TableStickyHeaderProps &
+  TableStickyColumnProps
 
 export type TableAllProps = TableProps &
   Omit<TableHTMLAttributes<HTMLTableElement>, 'border'> &
@@ -128,6 +131,7 @@ const Table = (componentProps: TableAllProps) => {
     variant,
     sticky,
     stickyOffset,
+    stickyColumn,
     fixed,
     border,
     outline,
@@ -140,6 +144,7 @@ const Table = (componentProps: TableAllProps) => {
   } = allProps
 
   const { elementRef } = useStickyHeader(allProps)
+  useStickyColumn(elementRef, allProps)
   const mergedRef = useCombinedRef(elementRef, ref)
 
   const { trCountRef, rerenderAlias, totalCount } = useHandleOddEven({
@@ -169,6 +174,7 @@ const Table = (componentProps: TableAllProps) => {
       variant && `dnb-table__variant--${variant}`,
       size && `dnb-table__size--${size}`,
       sticky && 'dnb-table--sticky',
+      stickyColumn && `dnb-table--sticky-column-${stickyColumn}`,
       fixed && 'dnb-table--fixed',
       border && 'dnb-table--border',
       typeof border === 'string' && `dnb-table--border-${border}`,

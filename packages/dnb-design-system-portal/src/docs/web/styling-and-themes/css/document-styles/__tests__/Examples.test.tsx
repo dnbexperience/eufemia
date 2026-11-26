@@ -12,6 +12,7 @@ describe('Document letter branding', () => {
     ['coconut', 'Sbanken'],
     ['carnegie', 'DNB Carnegie'],
     ['eiendom', 'DNB Eiendom'],
+    ['birdhouse', 'DNB Eiendom'],
   ] as const)('inherits the active %s brand', (brand, name) => {
     render(
       <Theme brand={brand}>
@@ -33,7 +34,7 @@ describe('Document letter branding', () => {
       document
         .querySelector('.dnb-logo')
         .classList.contains(
-          `dnb-logo--${brand === 'coconut' ? 'sbanken' : brand}`
+          `dnb-logo--${brand === 'coconut' ? 'sbanken' : brand === 'birdhouse' ? 'eiendom' : brand}`
         )
     ).toBe(true)
   })

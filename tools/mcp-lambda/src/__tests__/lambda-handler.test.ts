@@ -1,7 +1,18 @@
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterAll,
+  vi,
+} from 'vitest'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import { captureUsage } from '../usage-capture.js'
+
+vi.mock('../usage-capture.js', () => ({ captureUsage: vi.fn() }))
 
 async function createTempDocs(): Promise<string> {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'mcp-handler-test-'))
@@ -67,6 +78,10 @@ describe('lambda-handler protocol versions', () => {
     process.env.EDGE_AUTH_SECRET = secret
   })
 
+  beforeEach(() => {
+    vi.mocked(captureUsage).mockClear()
+  })
+
   afterAll(async () => {
     delete process.env.EUFEMIA_DOCS_ROOT
     delete process.env.EDGE_AUTH_SECRET
@@ -98,7 +113,12 @@ describe('lambda-handler protocol versions', () => {
     }
   }
 
-  function postModern(id: number, method: string, params = {}) {
+  function postModern(
+    id: number,
+    method: string,
+    params = {},
+    headers: Record<string, string> = {}
+  ) {
     return postMcp(
       {
         jsonrpc: '2.0',
@@ -116,7 +136,11 @@ describe('lambda-handler protocol versions', () => {
           },
         },
       },
-      { 'mcp-protocol-version': '2026-07-28', 'mcp-method': method }
+      {
+        'mcp-protocol-version': '2026-07-28',
+        'mcp-method': method,
+        ...headers,
+      }
     )
   }
 
@@ -191,6 +215,75 @@ describe('lambda-handler protocol versions', () => {
     )
     expect(listen.body).toContain('"resultType":"complete"')
   }, 2000)
+
+  const docsEntryCall = {
+    jsonrpc: '2.0',
+    id: 1,
+    method: 'tools/call',
+    params: { name: 'docs_entry', arguments: {} },
+  }
+
+  const capturedTools = () =>
+    vi
+      .mocked(captureUsage)
+      .mock.calls.flatMap(([toolCalls]) =>
+        toolCalls.map(({ name }) => name)
+      )
+
+  it('captures usage for a tool that ran', async () => {
+    const result = await postMcp(docsEntryCall)
+
+    expect(result.statusCode).toBe(200)
+    expect(capturedTools()).toEqual(['docs_entry'])
+  })
+
+  it('captures usage for every tool that ran in a batch', async () => {
+    const result = await postMcp([
+      docsEntryCall,
+      { ...docsEntryCall, id: 2 },
+    ])
+
+    expect(result.statusCode).toBe(200)
+    expect(capturedTools()).toEqual(['docs_entry', 'docs_entry'])
+  })
+
+  it('captures usage for a tool that ran on MCP 2026', async () => {
+    const result = await postModern(
+      5,
+      'tools/call',
+      { name: 'docs_entry', arguments: {} },
+      { 'mcp-name': 'docs_entry' }
+    )
+
+    expect(result.statusCode).toBe(200)
+    expect(capturedTools()).toEqual(['docs_entry'])
+  })
+
+  it('captures no usage when the MCP transport rejects the request', async () => {
+    const result = await postMcp(docsEntryCall, { accept: 'text/plain' })
+
+    expect(result.statusCode).toBeGreaterThanOrEqual(400)
+    expect(capturedTools()).toEqual([])
+  })
+
+  it('captures no usage for a tool call without an id', async () => {
+    const { id: _id, ...notification } = docsEntryCall
+    const result = await postMcp(notification)
+
+    expect(result.statusCode).toBe(202)
+    expect(capturedTools()).toEqual([])
+  })
+
+  it('captures no usage when the tool arguments fail validation', async () => {
+    const result = await postMcp({
+      ...docsEntryCall,
+      params: { name: 'component_doc', arguments: { name: 123 } },
+    })
+
+    expect(result.statusCode).toBe(200)
+    expect(result.body).toContain('Input validation error')
+    expect(capturedTools()).toEqual([])
+  })
 })
 
 describe('lambda-handler error handling', () => {

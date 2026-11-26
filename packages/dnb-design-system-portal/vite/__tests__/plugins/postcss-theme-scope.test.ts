@@ -32,6 +32,28 @@ describe('postcss-eufemia-theme-scope', () => {
     ).toBe(expected + ' { color: red; }')
   })
 
+  it.each([
+    [
+      '.eufemia-scope--portal',
+      '.eufemia-scope--portal .eufemia-theme__birdhouse',
+    ],
+    [
+      '.eufemia-scope--portal .eufemia-theme__color-scheme--dark',
+      '.eufemia-scope--portal .eufemia-theme__birdhouse.eufemia-theme__color-scheme--dark',
+    ],
+    [
+      '.eufemia-scope--portal .dnb-button',
+      '.eufemia-scope--portal :where(.eufemia-theme__birdhouse) .dnb-button',
+    ],
+  ])('scopes Birdhouse selector %s', async (input, expected) => {
+    expect(
+      await run(
+        input + ' { color: red; }',
+        '/path/to/themes/birdhouse/birdhouse-theme-basis.scss'
+      )
+    ).toBe(expected + ' { color: red; }')
+  })
+
   it('does not modify selectors for default theme files', async () => {
     const css = await run(
       '.eufemia-scope--portal .dnb-accordion { color: red; }',

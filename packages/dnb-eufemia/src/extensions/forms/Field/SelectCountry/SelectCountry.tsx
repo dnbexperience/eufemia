@@ -123,6 +123,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -142,7 +143,6 @@ function SelectCountry(props: FieldSelectCountryProps) {
     handleFocus,
     handleBlur,
     handleChange,
-    updateValue,
     setDisplayValue,
     forceUpdate,
     filterCountries,
@@ -180,16 +180,8 @@ function SelectCountry(props: FieldSelectCountryProps) {
           : filter,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
-
-      // To force Autocomplete to re-evaluate the internal data
-      if (isLangChange && value && typeof window !== 'undefined') {
-        updateValue(null)
-        window.requestAnimationFrame(() => {
-          updateValue(value)
-        })
-      }
     }
-  }, [lang, countries, filter, ccFilter, value, updateValue])
+  }, [lang, countries, filter, ccFilter, value])
 
   const handleCountryChange = useCallback(
     (event: AutocompleteOnChangeParams) => {
@@ -254,6 +246,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
   }, [getCountryObjectByIso, itemPath, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx('dnb-forms-field-select-country', className),
     label,

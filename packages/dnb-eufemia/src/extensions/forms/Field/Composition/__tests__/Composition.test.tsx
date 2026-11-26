@@ -1,4 +1,5 @@
 import {
+  Profiler,
   StrictMode,
   Suspense,
   startTransition,
@@ -13,6 +14,7 @@ import {
   Field,
   FieldBlock,
   Form,
+  FormError,
   Iterate,
   makeAjvInstance,
 } from '../../..'
@@ -21,8 +23,12 @@ import {
   wait,
 } from '../../../../../core/test-utils/testSetup'
 
+import SharedProvider from '../../../../../shared/Provider'
+import useCanUseDOM from '../../../../../shared/helpers/useCanUseDOM'
 import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
 const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Field.Composition', () => {
   const blockError = 'FieldBlock error'
@@ -879,6 +885,57 @@ describe('Field.Composition', () => {
     }
   )
 
+  it('should hydrate messages inside Suspense when the locale changes after mount', async () => {
+    function App() {
+      const canUseDOM = useCanUseDOM()
+      return (
+        <SharedProvider locale={canUseDOM ? 'en-GB' : 'nb-NO'}>
+          <Field.Composition id="composition">
+            <Field.Number id="number" warning="Outside warning" />
+            <Field.String
+              id="required"
+              error={new FormError('Field.errorRequired')}
+            />
+            <Suspense fallback="Loading">
+              <Field.String id="string" warning="Warning" />
+            </Suspense>
+          </Field.Composition>
+        </SharedProvider>
+      )
+    }
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(<App />)
+    document.body.appendChild(container)
+    const warning = () =>
+      container.querySelector('.dnb-form-status--warning')
+    const error = () => container.querySelector('.dnb-form-status--error')
+    expect(warning()).toHaveTextContent(
+      [nb.Field.stateSummary, 'Outside warning', 'Warning'].join('')
+    )
+    expect(error()).toHaveTextContent(nb.Field.errorRequired)
+
+    const onRecoverableError = vi.fn()
+    const { unmount } = render(<App />, {
+      container,
+      hydrate: true,
+      onRecoverableError,
+    })
+    await waitFor(() => {
+      expect(warning()).toHaveTextContent(
+        [en.Field.stateSummary, 'Outside warning', 'Warning'].join('')
+      )
+    })
+    expect(error()).toHaveTextContent(en.Field.errorRequired)
+
+    expect(onRecoverableError).not.toHaveBeenCalled()
+    expect(container.querySelector('#string')).toHaveAttribute(
+      'aria-describedby',
+      'composition-form-status--warning'
+    )
+    unmount()
+    container.remove()
+  })
+
   it('should give the summary the latest props once it has hydrated', async () => {
     // The summary keeps its element while it waits for hydration
     function Composition() {
@@ -1238,6 +1295,99 @@ describe('Field.Composition', () => {
       'outer-form-status--information'
     )
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+  })
+
+  it.each([
+    [
+      'a nested composition',
+      <Field.Composition label="Outer" key="nested">
+        <Field.Composition label="Inner">
+          <Field.String label="Street" path="/street" required />
+        </Field.Composition>
+      </Field.Composition>,
+    ],
+    [
+      'PostalCodeAndCity in a composition',
+      <Field.Composition label="Address" key="postal">
+        <Field.String label="Street" path="/street" required />
+        <Field.PostalCodeAndCity
+          postalCode={{ path: '/zip', required: true }}
+          city={{ path: '/city', required: true }}
+        />
+      </Field.Composition>,
+    ],
+    [
+      'PhoneNumber in a composition',
+      <Field.Composition label="Contact" key="phone">
+        <Field.PhoneNumber path="/phone" required />
+      </Field.Composition>,
+    ],
+    [
+      'a FieldBlock in a FieldBlock',
+      <FieldBlock label="Outer" key="block">
+        <FieldBlock label="Inner">
+          <Field.String label="Street" path="/street" required />
+        </FieldBlock>
+      </FieldBlock>,
+    ],
+  ])('should stop rendering after submit with %s', async (_, fields) => {
+    let commits = 0
+
+    render(
+      <Profiler id="form" onRender={() => commits++}>
+        <Form.Handler>{fields}</Form.Handler>
+      </Profiler>
+    )
+
+    // Submit outside of act, so an endless render loop cannot hang the test
+    document
+      .querySelector('form')
+      .dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true })
+      )
+
+    await wait(300)
+    expect(document.querySelector('.dnb-form-status--error')).toBeTruthy()
+
+    const commitsAfterSubmit = commits
+    await wait(300)
+    expect(commits).toBe(commitsAfterSubmit)
+  })
+
+  it('should show the error of an onBlurValidator in a nested composition after submit', async () => {
+    let commits = 0
+
+    render(
+      <Profiler id="form" onRender={() => commits++}>
+        <Form.Handler>
+          <Field.Composition label="Outer">
+            <Field.Composition label="Inner">
+              <Field.String
+                path="/street"
+                value="a"
+                onBlurValidator={() => new Error('Invalid street')}
+              />
+            </Field.Composition>
+          </Field.Composition>
+        </Form.Handler>
+      </Profiler>
+    )
+
+    // Submit outside of act, so an endless render loop cannot hang the test
+    document
+      .querySelector('form')
+      .dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true })
+      )
+
+    await wait(300)
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      'Invalid street'
+    )
+
+    const commitsAfterSubmit = commits
+    await wait(300)
+    expect(commits).toBe(commitsAfterSubmit)
   })
 
   it('should retain the committed message when a transition suspends', async () => {

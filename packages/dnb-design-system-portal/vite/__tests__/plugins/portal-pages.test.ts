@@ -71,7 +71,7 @@ describe('portal-pages plugin', () => {
     })
 
     it('does not ignore regular page files', () => {
-      expect(shouldIgnore('/src/docs/button/info.mdx')).toBe(false)
+      expect(shouldIgnore('/src/docs/button/overview.mdx')).toBe(false)
       expect(shouldIgnore('/src/docs/web/index.tsx')).toBe(false)
     })
   })
@@ -94,7 +94,10 @@ describe('portal-pages plugin', () => {
     })
 
     it('finds MDX and TSX files', () => {
-      createFile('button/info.mdx', '---\ntitle: Button\n---\n# Button')
+      createFile(
+        'button/overview.mdx',
+        '---\ntitle: Button\n---\n# Button'
+      )
       createFile('index.tsx', 'export default () => <div/>')
 
       const files = scanPageFiles(tmpDir)
@@ -102,9 +105,9 @@ describe('portal-pages plugin', () => {
 
       const mdxFile = files.find((f) => f.type === 'mdx')
       expect(mdxFile).toBeDefined()
-      expect(mdxFile!.slug).toBe('button/info')
+      expect(mdxFile!.slug).toBe('button/overview')
       expect(mdxFile!.sourcePath).toBe(
-        'packages/dnb-design-system-portal/src/docs/button/info.mdx'
+        'packages/dnb-design-system-portal/src/docs/button/overview.mdx'
       )
       expect(mdxFile!.frontmatter).toEqual({ title: 'Button' })
 
@@ -114,12 +117,12 @@ describe('portal-pages plugin', () => {
     })
 
     it('ignores files matching IGNORE_PATTERNS', () => {
-      createFile('button/info.mdx', '# Button')
+      createFile('button/overview.mdx', '# Button')
       createFile('button/Examples.tsx', 'export default () => null')
 
       const files = scanPageFiles(tmpDir)
       expect(files).toHaveLength(1)
-      expect(files[0].slug).toBe('button/info')
+      expect(files[0].slug).toBe('button/overview')
     })
 
     it('ignores MDX files starting with underscore', () => {
@@ -210,13 +213,13 @@ describe('portal-pages plugin', () => {
       fs.rmSync(tmpDir, { recursive: true, force: true })
     })
 
-    it('identifies info.mdx with showTabs but no title as first-tab page', () => {
+    it('identifies overview.mdx with showTabs but no title as first-tab page', () => {
       createFile(
         'uilib/components/button.mdx',
         '---\ntitle: Button\nshowTabs: true\n---\n# Button'
       )
       createFile(
-        'uilib/components/button/info.mdx',
+        'uilib/components/button/overview.mdx',
         '---\nshowTabs: true\n---\n# Info'
       )
       createFile(
@@ -226,19 +229,19 @@ describe('portal-pages plugin', () => {
 
       const files = scanPageFiles(tmpDir)
 
-      const infoFile = files.find(
-        (f) => f.slug === 'uilib/components/button/info'
+      const overviewFile = files.find(
+        (f) => f.slug === 'uilib/components/button/overview'
       )
-      expect(infoFile).toBeDefined()
-      expect(infoFile!.frontmatter.showTabs).toBe(true)
-      expect(infoFile!.frontmatter.title).toBeUndefined()
+      expect(overviewFile).toBeDefined()
+      expect(overviewFile!.frontmatter.showTabs).toBe(true)
+      expect(overviewFile!.frontmatter.title).toBeUndefined()
 
       // The first-tab detection condition from portal-pages plugin
       const isFirstTab =
-        infoFile!.type === 'mdx' &&
-        infoFile!.frontmatter.showTabs &&
-        !infoFile!.frontmatter.title &&
-        infoFile!.slug.endsWith('/info')
+        overviewFile!.type === 'mdx' &&
+        overviewFile!.frontmatter.showTabs &&
+        !overviewFile!.frontmatter.title &&
+        overviewFile!.slug.endsWith('/overview')
       expect(isFirstTab).toBe(true)
 
       // Demos should NOT be a first-tab page
@@ -249,45 +252,45 @@ describe('portal-pages plugin', () => {
         demosFile!.type === 'mdx' &&
         demosFile!.frontmatter.showTabs &&
         !demosFile!.frontmatter.title &&
-        demosFile!.slug.endsWith('/info')
+        demosFile!.slug.endsWith('/overview')
       expect(isDemosFirstTab).toBe(false)
     })
 
-    it('does not flag info.mdx with a title as first-tab', () => {
+    it('does not flag overview.mdx with a title as first-tab', () => {
       createFile(
-        'uilib/components/widget/info.mdx',
+        'uilib/components/widget/overview.mdx',
         '---\ntitle: Widget Info\nshowTabs: true\n---\n# Info'
       )
 
       const files = scanPageFiles(tmpDir)
-      const infoFile = files.find(
-        (f) => f.slug === 'uilib/components/widget/info'
+      const overviewFile = files.find(
+        (f) => f.slug === 'uilib/components/widget/overview'
       )
 
       const isFirstTab =
-        infoFile!.type === 'mdx' &&
-        infoFile!.frontmatter.showTabs &&
-        !infoFile!.frontmatter.title &&
-        infoFile!.slug.endsWith('/info')
+        overviewFile!.type === 'mdx' &&
+        overviewFile!.frontmatter.showTabs &&
+        !overviewFile!.frontmatter.title &&
+        overviewFile!.slug.endsWith('/overview')
       expect(isFirstTab).toBe(false)
     })
 
-    it('does not flag info.mdx without showTabs as first-tab', () => {
+    it('does not flag overview.mdx without showTabs as first-tab', () => {
       createFile(
-        'uilib/components/standalone/info.mdx',
+        'uilib/components/standalone/overview.mdx',
         '---\n---\n# Info'
       )
 
       const files = scanPageFiles(tmpDir)
-      const infoFile = files.find(
-        (f) => f.slug === 'uilib/components/standalone/info'
+      const overviewFile = files.find(
+        (f) => f.slug === 'uilib/components/standalone/overview'
       )
 
       const isFirstTab =
-        infoFile!.type === 'mdx' &&
-        infoFile!.frontmatter.showTabs &&
-        !infoFile!.frontmatter.title &&
-        infoFile!.slug.endsWith('/info')
+        overviewFile!.type === 'mdx' &&
+        overviewFile!.frontmatter.showTabs &&
+        !overviewFile!.frontmatter.title &&
+        overviewFile!.slug.endsWith('/overview')
       expect(isFirstTab).toBeFalsy()
     })
   })
@@ -525,7 +528,7 @@ describe('portal-pages plugin', () => {
     })
 
     it('ignores body-only MDX changes in the virtual module signature', () => {
-      const file = path.join(tmpDir, 'button/info.mdx')
+      const file = path.join(tmpDir, 'button/overview.mdx')
       fs.mkdirSync(path.dirname(file), { recursive: true })
 
       fs.writeFileSync(
@@ -548,7 +551,7 @@ describe('portal-pages plugin', () => {
     })
 
     it('ignores heading-only MDX changes in the virtual module signature', () => {
-      const file = path.join(tmpDir, 'button/info.mdx')
+      const file = path.join(tmpDir, 'button/overview.mdx')
       fs.mkdirSync(path.dirname(file), { recursive: true })
 
       fs.writeFileSync(file, '---\ntitle: Button\n---\n## Heading')

@@ -33,22 +33,20 @@ describe('Anchor element', () => {
       )
 
       const anchorElement = document.querySelector('a')
-      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(
+          anchorElement.getAttribute('aria-describedby')
+        )
+      ).toHaveTextContent(nb.targetBlankTitle)
 
       // Activate the tooltip
       fireEvent.mouseEnter(anchorElement)
 
       // Wait for tooltip to become active
       await waitFor(() => {
-        const describedById =
-          anchorElement.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-        // aria-describedby should point to the tooltip id
-        const tooltipElement = document.getElementById(describedById)
-        expect(tooltipElement).toBeInTheDocument()
-        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
-        // Verify tooltip content matches locale
-        expect(tooltipElement).toHaveTextContent(nb.targetBlankTitle)
+        expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
+          nb.targetBlankTitle
+        )
       })
     })
 
@@ -66,22 +64,20 @@ describe('Anchor element', () => {
       )
 
       const anchorElement = document.querySelector('a')
-      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(
+          anchorElement.getAttribute('aria-describedby')
+        )
+      ).toHaveTextContent(nb.targetBlankTitle)
 
       // Activate the tooltip
       fireEvent.mouseEnter(anchorElement)
 
       // Wait for tooltip to become active
       await waitFor(() => {
-        const describedById =
-          anchorElement.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-        // aria-describedby should point to the tooltip id
-        const tooltipElement = document.getElementById(describedById)
-        expect(tooltipElement).toBeInTheDocument()
-        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
-        // Verify tooltip content matches locale
-        expect(tooltipElement).toHaveTextContent(nb.targetBlankTitle)
+        expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
+          nb.targetBlankTitle
+        )
       })
     })
 
@@ -99,22 +95,20 @@ describe('Anchor element', () => {
       )
 
       const anchorElement = document.querySelector('a')
-      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(
+          anchorElement.getAttribute('aria-describedby')
+        )
+      ).toHaveTextContent(nb.targetBlankTitle)
 
       // Activate the tooltip
       fireEvent.mouseEnter(anchorElement)
 
       // Wait for tooltip to become active
       await waitFor(() => {
-        const describedById =
-          anchorElement.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-        // aria-describedby should point to the tooltip id
-        const tooltipElement = document.getElementById(describedById)
-        expect(tooltipElement).toBeInTheDocument()
-        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
-        // Verify tooltip content matches locale
-        expect(tooltipElement).toHaveTextContent(nb.targetBlankTitle)
+        expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
+          nb.targetBlankTitle
+        )
       })
     })
 
@@ -323,21 +317,20 @@ describe('Anchor element', () => {
       )
 
       const anchorElement = document.querySelector('a')
-      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(
+          anchorElement.getAttribute('aria-describedby')
+        )
+      ).toHaveTextContent(en.targetBlankTitle)
 
       // Activate the tooltip
       fireEvent.mouseEnter(anchorElement)
 
       // Wait for tooltip to become active
       await waitFor(() => {
-        const id = anchorElement.getAttribute('aria-describedby')
-        expect(id).toBeTruthy()
-        // aria-describedby should point to the tooltip id
-        const tooltipElement = document.getElementById(id)
-        expect(tooltipElement).toBeInTheDocument()
-        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
-        // Verify tooltip content matches locale
-        expect(tooltipElement).toHaveTextContent(en.targetBlankTitle)
+        expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
+          en.targetBlankTitle
+        )
       })
 
       const title = 'External site'
@@ -467,20 +460,20 @@ describe('Anchor element', () => {
     )
 
     const anchorElement = document.querySelector('a')
-    expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+    expect(
+      document.getElementById(
+        anchorElement.getAttribute('aria-describedby')
+      )
+    ).toHaveTextContent('Tooltip')
 
     // Activate the tooltip
     fireEvent.mouseEnter(anchorElement)
 
     // Wait for tooltip to become active
     await waitFor(() => {
-      const describedById = anchorElement.getAttribute('aria-describedby')
-      expect(describedById).toBeTruthy()
-      // aria-describedby should point to the tooltip id
-      const tooltipElement = document.getElementById(describedById)
-      expect(tooltipElement).toBeInTheDocument()
-      expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
-      expect(tooltipElement).toHaveTextContent('Tooltip')
+      expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
+        'Tooltip'
+      )
     })
   })
 
@@ -492,19 +485,16 @@ describe('Anchor element', () => {
     )
 
     const element = document.getElementById('unique-id')
-    expect(element.getAttribute('aria-describedby')).toBeNull()
+    expect(
+      document.getElementById(element.getAttribute('aria-describedby'))
+    ).toBeInTheDocument()
 
     // Activate the tooltip
     fireEvent.mouseEnter(element)
 
     // Wait for tooltip to become active
     await waitFor(() => {
-      const describedById = element.getAttribute('aria-describedby')
-      expect(describedById).toBeTruthy()
-      // aria-describedby should point to the tooltip id
-      const tooltipElement = document.getElementById(describedById)
-      expect(tooltipElement).toBeInTheDocument()
-      expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
+      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
     })
   })
 
@@ -788,18 +778,18 @@ describe('Anchor element', () => {
       )
 
       const anchorElement = document.querySelector('a')
-      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(
+          anchorElement.getAttribute('aria-describedby')
+        )
+      ).toHaveTextContent(nb.targetBlankTitle)
 
       fireEvent.mouseEnter(anchorElement)
 
       await waitFor(() => {
-        const describedById =
-          anchorElement.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-        const tooltipElement = document.getElementById(describedById)
-        expect(tooltipElement).toBeInTheDocument()
-        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
-        expect(tooltipElement).toHaveTextContent(nb.targetBlankTitle)
+        expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
+          nb.targetBlankTitle
+        )
       })
     })
 
@@ -811,18 +801,18 @@ describe('Anchor element', () => {
       )
 
       const anchorElement = document.querySelector('a')
-      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+      expect(
+        document.getElementById(
+          anchorElement.getAttribute('aria-describedby')
+        )
+      ).toHaveTextContent('Tooltip')
 
       fireEvent.mouseEnter(anchorElement)
 
       await waitFor(() => {
-        const describedById =
-          anchorElement.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-        const tooltipElement = document.getElementById(describedById)
-        expect(tooltipElement).toBeInTheDocument()
-        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
-        expect(tooltipElement).toHaveTextContent('Tooltip')
+        expect(document.querySelector('.dnb-tooltip')).toHaveTextContent(
+          'Tooltip'
+        )
       })
     })
 

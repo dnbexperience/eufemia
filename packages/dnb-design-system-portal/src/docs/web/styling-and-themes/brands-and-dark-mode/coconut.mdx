@@ -1,0 +1,165 @@
+---
+title: Coconut preview
+description: Preview the new Sbanken brand and enable limited Rebels in headings.
+navigation:
+  parent: web/styling-and-themes/brands-and-dark-mode
+  title: Coconut preview
+  order: 2
+  platform: web
+---
+
+import { InlineRebelsExample, RebelsExample } from './coconut/Examples'
+
+Coconut is the preview theme for the new Sbanken brand. It uses Sbanken
+Display for large headings. Preview this page with
+[the Coconut theme](/web/styling-and-themes/brands-and-dark-mode/coconut/?eufemia-theme=coconut#rebels-in-headings).
+
+## Theme setup
+
+Load the Coconut styles and set the matching theme context:
+
+```tsx
+import '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/coconut'
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme brand="coconut">
+    <App />
+  </Theme>
+)
+```
+
+## Rebels in headings
+
+Sbanken Display's alternate letterforms are called **Friendly Rebels**
+(_Vennlige rebeller_) in the
+[Sbanken brand guidelines](https://bc.dnb.no/point/no/sbanken/component/default/279261).
+The font metadata names the set **Rebeller**. These Rebels are available through the OpenType feature
+`ss01` for lowercase `a e f i l n o r t` and `!`. Applying `ss01` to a
+whole heading replaces every supported character. The font cannot limit
+the number for you.
+
+Rebels are individual character alternates and do not require specific
+letter pairs. The font also contains decorative ligatures, such as `rt`
+and `tf`, under the separate OpenType feature `dlig`. `TypographyRebels`
+enables only the selected `ss01` alternates.
+
+### When to use Rebels
+
+Use Rebels in the largest headings for warm, expressive or playful
+messages, such as a campaign heading. Use ordinary Sbanken Display for
+functional and informative content, such as article headings and information pages.
+
+The provider applies these limits:
+
+- Only sizes `x-large` and `xx-large` receive Rebels, regardless of the
+  HTML heading level. These are Coconut's default H2 and H1 sizes.
+- At most two Rebels per heading, with at most one per word. A single-word
+  heading receives at most one Rebel.
+- The whole heading shares one budget, including when it wraps or contains
+  multiple sentences. Selection stays the same at every screen width.
+
+Review the result at different screen widths. Use `maxPerHeading={1}` for
+less emphasis or `maxPerHeading={0}` for ordinary letterforms.
+
+### Enable Rebels
+
+Import `TypographyRebels` separately and wrap the headings that should
+use Rebels. It processes Eufemia `Heading` and `H1`–`H6`. The default
+Typography import does not include the selection logic.
+
+```tsx
+import TypographyRebels from '@dnb/eufemia/elements/TypographyRebels'
+import { Heading } from '@dnb/eufemia'
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme brand="coconut">
+    <Heading size="x-large">Priser og vilkår</Heading>
+    <TypographyRebels maxPerHeading={2}>
+      <Heading size="x-large">En enklere hverdag for alle!</Heading>
+    </TypographyRebels>
+  </Theme>
+)
+```
+
+Scope the provider to expressive content sections. Every eligible heading
+inside it receives Rebels; the provider does not determine the intent of
+the message. Your application or CMS decides which content should use
+Rebels. Headings outside the provider keep their ordinary letterforms.
+Built-in components that render `Heading` or `H1`–`H6`, including
+`Form.MainHeading`, `Form.SubHeading` and the `GlobalError` title, are
+also affected when they use an eligible size. Dialog and Drawer titles
+currently use different markup and are not processed. Keep functional
+components outside the provider or disable Rebels around them with a nested provider.
+
+Shared DNB and Sbanken applications can keep the same heading source:
+Rebels are only applied when the heading's active theme is Coconut and
+its typography uses Sbanken Display at `x-large` or `xx-large`. Body text,
+smaller headings and headings using the body font stay unchanged. Setting
+`family="heading"` or `family="display"` does not enable Rebels in smaller
+sizes. Native `<h1>`–`<h6>` elements are not processed.
+
+### Preview
+
+Switch to the [Coconut theme](/web/styling-and-themes/brands-and-dark-mode/coconut/?eufemia-theme=coconut#preview) to compare
+the default font with the limited Rebels.
+
+<RebelsExample />
+
+### Selection and content
+
+The provider spreads Rebels across eligible words, starting with the
+first and last eligible word for a limit of two. It prefers characters
+and words that avoid the largest kerning gaps after capitals (`F`, `K`,
+`P`, `T`, `V`, `W`, `X` and `Y`). This reduces visible spacing changes
+because the Rebel span interrupts the font's kerning. If there are not
+enough alternatives, it can still select a character after one of these
+capitals, as in `Ta`. Some spacing differences can therefore remain.
+
+Each selected word receives one Rebel. Headings with fewer eligible words
+can receive fewer Rebels than the configured maximum. Selection is
+deterministic, including during server rendering and hydration.
+
+Editors keep writing ordinary text in the CMS. The original Unicode
+text, accessible heading text and copied content stay intact. Only the
+selected characters receive a span with the font feature enabled.
+
+Strings, numbers, fragments, Eufemia `Span` and native inline elements
+such as `span`, `em`, `strong` and `a` share one budget per heading.
+Splitting the same text across these elements keeps the same Rebels
+selected, including when a word is split. A native `br` separates words
+for selection without adding text or changing the heading's total budget.
+Native `small`, `sub` and `sup` content also shares the budget. Keep
+functional sublines outside the heading when they should remain plain.
+
+Other React components, including Eufemia `Anchor`, are left unchanged
+and their content is excluded from selection. Use a native `a` when
+linked heading text should receive Rebels. Render CMS heading text
+directly as children or through the `Heading` `text` property.
+
+The first two headings select the same characters and preserve inline
+formatting. `Ta kontakt med oss` skips `Ta` to avoid a kerning gap after
+`T`. `Bytt` gets one Rebel because it is a single word:
+
+<InlineRebelsExample />
+
+### Nested overrides
+
+Use a nested provider to change the limit for a section. Set
+`maxPerHeading={0}` to disable Rebels there.
+
+```tsx
+<TypographyRebels>
+  <CampaignContent />
+  <TypographyRebels maxPerHeading={0}>
+    <DocumentContent />
+  </TypographyRebels>
+</TypographyRebels>
+```
+
+| Property        | Type        | Default | Description                                                                                                                  |
+| --------------- | ----------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `maxPerHeading` | `number`    | `2`     | Maximum Rebels per heading, capped at 2 and one per word. Rounded down. Values below 1 and non-finite values disable Rebels. |
+| `children`      | `ReactNode` |         | Content containing the Eufemia headings to process.                                                                          |

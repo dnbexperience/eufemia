@@ -18,8 +18,8 @@ describe('Chat documentation migration', () => {
     for (const page of chatPages) {
       const target =
         '/' +
-        (page.slug.endsWith('/info')
-          ? page.slug.slice(0, -5)
+        (page.slug.endsWith('/overview')
+          ? page.slug.slice(0, -'/overview'.length)
           : page.slug) +
         '/'
       for (const prefix of [
@@ -27,10 +27,10 @@ describe('Chat documentation migration', () => {
         '/web/extensions/ai',
         '/uilib/extensions/ai',
       ]) {
-        const from = page.slug.replace(
-          'web/patterns-and-extensions/chat',
-          prefix
-        )
+        // The Overview tabs were written in info.mdx at the time
+        const from = page.slug
+          .replace('web/patterns-and-extensions/chat', prefix)
+          .replace(/\/overview$/, '/info')
         expect(
           redirects.find((redirect) => redirect.from === from)?.to
         ).toBe(target)

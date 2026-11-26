@@ -96,6 +96,11 @@ export function useCatchLinks() {
           return
         }
 
+        // Static files, such as /fonts/dnb/LICENSE.txt, are not routes.
+        if (/\\.[a-z\\d]+$/i.test(url.pathname)) {
+          return
+        }
+
         e.preventDefault()
         navigateFn(url.pathname + url.search + url.hash)
       } catch {

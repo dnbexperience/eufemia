@@ -368,6 +368,24 @@ describe('NumberFormat component', () => {
     expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
   })
 
+  it('announces the copy advice without describing the number with it', async () => {
+    render(<Component value={-value} currency />)
+
+    fireEvent.click(document.querySelector('.dnb-number-format__visible'))
+    fireEvent.copy(document.querySelector('.dnb-number-format__selection'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Kopiert'
+      )
+    })
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .hasAttribute('aria-describedby')
+    ).toBe(false)
+  })
+
   it('passes triggerOffset to the copy tooltip', () => {
     const triggerOffsets: Array<number | undefined> = []
     const originalTooltip = TooltipModule.default
@@ -1248,6 +1266,32 @@ describe('NumberFormat component', () => {
     })
 
     focusSpy.mockRestore()
+  })
+
+  it('removes every outside click listener it adds when copySelection is false', () => {
+    const addEventListener = vi.spyOn(document, 'addEventListener')
+    const removeEventListener = vi.spyOn(document, 'removeEventListener')
+    const countMouseDown = (spy: typeof addEventListener) =>
+      spy.mock.calls.filter(([type]) => type === 'mousedown').length
+
+    const { unmount } = render(
+      <NumberFormatBase selectAll copySelection={false} value={1234568} />
+    )
+    const number = document.querySelector('.dnb-number-format__visible')
+
+    for (let i = 0; i < 3; i++) {
+      window.getSelection().removeAllRanges()
+      fireEvent.click(number)
+      fireEvent.mouseDown(document.body)
+    }
+
+    unmount()
+
+    expect(countMouseDown(addEventListener)).toBe(3)
+    expect(countMouseDown(removeEventListener)).toBe(3)
+
+    addEventListener.mockRestore()
+    removeEventListener.mockRestore()
   })
 
   it('should not call setFocus on touch devices', async () => {

@@ -5,10 +5,12 @@ import Anchor from './Anchor'
 import Heading, {
   type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
+import AriaLive from '@dnb/eufemia/src/components/AriaLive'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import {
   getSlugFromReactHeading,
   getSlugFromText,
+  getTextFromReactHeading,
   stripCustomMarkdownId,
 } from '../../uilib/utils/slug.mjs'
 import { useLocation } from 'react-router'
@@ -60,7 +62,7 @@ const AutoLinkHeader = ({
       ? children
       : typeof title === 'string'
         ? title
-        : id
+        : getTextFromReactHeading(children).trim() || id
 
   const clickHandler =
     className && /skip-anchor/g.test(String(className))
@@ -118,6 +120,11 @@ const AutoLinkHeader = ({
           >
             #
           </Anchor>
+        )}
+        {clickHandler && id && (
+          <AriaLive element="span">
+            {anchorUrlSet ? 'Copied' : null}
+          </AriaLive>
         )}
       </span>
     </Heading>

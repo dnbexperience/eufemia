@@ -120,6 +120,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -139,7 +140,6 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
     handleFocus,
     handleBlur,
     handleChange,
-    updateValue,
     setDisplayValue,
     forceUpdate,
     filterCurrencies,
@@ -177,16 +177,8 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
         enableSort: ccFilter as Extract<CurrencyFilterSet, 'Prioritized'>,
         enableSearch: true,
       })
-
-      // To force Autocomplete to re-evaluate the internal data
-      if (isLangChange && value && typeof window !== 'undefined') {
-        updateValue(null)
-        window.requestAnimationFrame(() => {
-          updateValue(value)
-        })
-      }
     }
-  }, [lang, filter, ccFilter, updateValue, value])
+  }, [lang, filter, ccFilter, value])
 
   const handleCurrencyChange = useCallback(
     (event: AutocompleteOnChangeParams) => {
@@ -251,6 +243,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
   }, [getCurrencyObjectByIso, itemPath, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx('dnb-forms-field-select-currency', className),
     label,

@@ -24,6 +24,7 @@ import type {
 import type { SwitchOnChangeParams } from '../../../../components/Switch'
 import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import splitGroupNameAttributes from '../../utils/splitGroupNameAttributes'
 
 export type ToggleProps = {
   valueOn: unknown
@@ -68,6 +69,7 @@ function Toggle(props: FieldToggleProps) {
   const { help } = props
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     className,
     valueOn,
@@ -83,6 +85,9 @@ function Toggle(props: FieldToggleProps) {
     handleChange,
     setDisplayValue,
   } = useFieldProps(preparedProps)
+
+  const { groupNameAttributes, optionAttributes } =
+    splitGroupNameAttributes(htmlAttributes)
 
   const helpButton =
     help && (variant === 'checkbox' || variant === 'switch') ? (
@@ -129,6 +134,7 @@ function Toggle(props: FieldToggleProps) {
   const cn = clsx('dnb-forms-field-toggle', className)
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: cn,
     disabled,
@@ -241,6 +247,7 @@ function Toggle(props: FieldToggleProps) {
     case 'radio-button':
       return (
         <FieldBlock
+          {...(label ? groupNameAttributes : undefined)}
           {...fieldBlockProps}
           asFieldset={Boolean(label)}
           fieldsetRole="radiogroup"
@@ -248,6 +255,7 @@ function Toggle(props: FieldToggleProps) {
           <ButtonRow bottom="x-small">
             <Chip.Group
               attributes={label ? { role: 'presentation' } : undefined}
+              {...(label ? undefined : groupNameAttributes)}
               value={isOn ? 'on' : isOff ? 'off' : undefined}
               onChange={handleToggleChange}
               status={hasError ? 'error' : undefined}
@@ -258,13 +266,13 @@ function Toggle(props: FieldToggleProps) {
                 variant={variant === 'radio-button' ? 'radio' : undefined}
                 text={textOn ?? translations.yes}
                 value="on"
-                {...htmlAttributes}
+                {...optionAttributes}
               />
               <Chip
                 variant={variant === 'radio-button' ? 'radio' : undefined}
                 text={textOff ?? translations.no}
                 value="off"
-                {...htmlAttributes}
+                {...optionAttributes}
               />
             </Chip.Group>
           </ButtonRow>
@@ -273,12 +281,15 @@ function Toggle(props: FieldToggleProps) {
     case 'radio':
       return (
         <FieldBlock
+          {...(label ? groupNameAttributes : undefined)}
           {...fieldBlockProps}
           asFieldset={Boolean(label)}
           fieldsetRole="radiogroup"
         >
           <Radio.Group
+            attributes={label ? { role: 'presentation' } : undefined}
             value={isOn ? 'on' : isOff ? 'off' : null}
+            {...(label ? undefined : groupNameAttributes)}
             onChange={handleToggleChange}
             status={hasError ? 'error' : undefined}
             disabled={disabled}
@@ -288,13 +299,13 @@ function Toggle(props: FieldToggleProps) {
               label={textOn ?? translations.yes}
               value="on"
               status={hasError ? 'error' : undefined}
-              {...htmlAttributes}
+              {...optionAttributes}
             />
             <Radio
               label={textOff ?? translations.no}
               value="off"
               status={hasError ? 'error' : undefined}
-              {...htmlAttributes}
+              {...optionAttributes}
             />
           </Radio.Group>
         </FieldBlock>

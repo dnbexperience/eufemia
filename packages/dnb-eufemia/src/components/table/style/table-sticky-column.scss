@@ -1,0 +1,208 @@
+/*
+* Table component
+*
+*/
+
+// "data-sticky-column-disabled" is set when the column takes too much of the visible width
+$first: '.dnb-table--sticky-column-first:not([data-sticky-column-disabled])';
+$last: '.dnb-table--sticky-column-last:not([data-sticky-column-disabled])';
+
+// Cells spanning several columns would cover more than the sticky column
+$sticky-cell: ':not([colspan]:not([colspan="1"]))';
+
+#{$first} > * > tr > :first-child#{$sticky-cell},
+#{$last} > * > tr > :last-child#{$sticky-cell} {
+  position: sticky;
+  z-index: 7; // above the focus ring of the cells scrolled underneath
+
+  box-shadow:
+    var(--table-sticky-column-edge, 0 0 transparent),
+    var(--table-sticky-column-edge-top, 0 0 transparent),
+    var(--table-sticky-column-edge-bottom, 0 0 transparent),
+    var(--table-sticky-column-divider, 0 0 transparent);
+}
+
+#{$first} > * > tr > :first-child#{$sticky-cell} {
+  left: 0;
+}
+
+#{$last} > * > tr > :last-child#{$sticky-cell} {
+  right: 0;
+}
+
+// Row headers in key/value rows have no background of their own.
+// When sticky, they take the row background, so the cells scrolled underneath do not show through.
+#{$first} > tbody > tr > th:first-child#{$sticky-cell} {
+  background-color: var(
+    --table-th-background-color,
+    var(--table-td-background)
+  );
+}
+
+// Scroll focused elements into view next to the sticky column, not underneath it.
+// "useStickyColumn" marks the scroll container and sets the width on it.
+// The gap keeps the focus ring visible.
+[data-table-sticky-column='first'] {
+  scroll-padding-left: calc(var(--table-sticky-column-width) + 0.5rem);
+}
+
+[data-table-sticky-column='last'] {
+  scroll-padding-right: calc(var(--table-sticky-column-width) + 0.5rem);
+}
+
+// Elements inside the sticky column are always in view.
+// So the padding must not scroll the table when they get focus.
+[data-table-sticky-column='first']:has(
+  #{$first} > * > tr > :first-child#{$sticky-cell}:focus-within
+) {
+  scroll-padding-left: 0;
+}
+
+[data-table-sticky-column='last']:has(
+  #{$last} > * > tr > :last-child#{$sticky-cell}:focus-within
+) {
+  scroll-padding-right: 0;
+}
+
+// Keep a sticky header above the sticky body cells
+:is(#{$first}, #{$last}).dnb-table > thead > tr {
+  z-index: 8;
+}
+
+// While the sticky header cell covers other header cells, their shadows would add up underneath it.
+// So the sticky header cell draws one shadow across the visible width instead.
+#{$first}[data-sticky-column-overlap]
+  > thead
+  > tr[data-is-sticky]
+  > :first-child#{$sticky-cell} {
+  &::before {
+    right: auto;
+    width: var(--table-sticky-column-viewport-width);
+  }
+
+  ~ th::before {
+    content: none;
+  }
+}
+
+#{$last}[data-sticky-column-overlap] > thead > tr[data-is-sticky] {
+  > :last-child#{$sticky-cell}::before {
+    left: auto;
+    width: var(--table-sticky-column-viewport-width);
+  }
+
+  > th:has(~ :last-child#{$sticky-cell})::before {
+    content: none;
+  }
+}
+
+// Shown while content is scrolled underneath the sticky column
+#{$first}[data-sticky-column-overlap] {
+  --table-sticky-column-divider: inset calc(var(--table-border-width) * -1)
+    0 var(--table-border-color);
+}
+
+#{$last}[data-sticky-column-overlap] {
+  --table-sticky-column-divider: inset var(--table-border-width) 0
+    var(--table-border-color);
+}
+
+// With "border", the cells also draw a line just outside their right edge, which would double the divider
+#{$first}[data-sticky-column-overlap]
+  > tbody
+  > tr
+  > :first-child#{$sticky-cell} {
+  --table-border-right: none;
+}
+
+// While content is scrolled underneath, the sticky cells are not at the corners of the table.
+// If they were rounded, the outline of the table would show through their corners.
+#{$first}.dnb-table[data-sticky-column-overlap]
+  > *
+  > tr
+  > :first-child#{$sticky-cell},
+#{$last}.dnb-table[data-sticky-column-overlap]
+  > *
+  > tr
+  > :last-child#{$sticky-cell} {
+  &,
+  &::before,
+  &::after,
+  .dnb-table__td__button::before {
+    border-radius: 0;
+  }
+}
+
+// At the last row, a sticky header draws the bottom of the outline with rounded corners (table-sticky.scss).
+// While content is scrolled underneath, the sticky header cell is not at a corner of the table either.
+#{$first}.dnb-table--outline.dnb-table[data-sticky-column-overlap]
+  > thead:first-of-type
+  > tr[data-sticky][data-is-at-end]:first-of-type
+  > :first-child#{$sticky-cell},
+#{$last}.dnb-table--outline.dnb-table[data-sticky-column-overlap]
+  > thead:first-of-type
+  > tr[data-sticky][data-is-at-end]:first-of-type
+  > :last-child#{$sticky-cell} {
+  &,
+  &::after {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+// The sticky cells cover the outline, so they draw the covered parts of it
+#{$first}.dnb-table--outline {
+  --table-sticky-column-edge: inset var(--table-outline-width) 0
+    var(--table-outline-color);
+}
+
+#{$last}.dnb-table--outline {
+  --table-sticky-column-edge: inset calc(var(--table-outline-width) * -1) 0
+    var(--table-outline-color);
+}
+
+:is(#{$first}, #{$last}).dnb-table--outline {
+  > :is(
+      thead:first-of-type,
+      tbody:first-child,
+      caption:first-child + tbody
+    )
+    > tr:first-of-type {
+    --table-sticky-column-edge-top: inset 0 var(--table-outline-width)
+      var(--table-outline-color);
+  }
+
+  > tbody:last-child
+    > :is(
+      tr:last-child,
+      .dnb-table__tr--clickable:not(
+          .dnb-table__tr--expanded
+        ).dnb-table__tr--last
+    ) {
+    --table-sticky-column-edge-bottom: inset 0
+      calc(var(--table-outline-width) * -1) var(--table-outline-color);
+  }
+}
+
+// Forced colors remove box shadows, which draw the divider and the covered parts of the outline.
+// So the sticky cells keep their shadows and use system colors instead. Their content still gets forced colors.
+@media (forced-colors: active) {
+  #{$first},
+  #{$last} {
+    --table-border-color: CanvasText;
+    --table-outline-color: CanvasText;
+  }
+
+  #{$first} > * > tr > :first-child#{$sticky-cell},
+  #{$last} > * > tr > :last-child#{$sticky-cell} {
+    forced-color-adjust: none;
+    color: CanvasText;
+    background-color: Canvas;
+
+    > *,
+    &::before,
+    &::after {
+      forced-color-adjust: auto;
+    }
+  }
+}

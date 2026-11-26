@@ -335,6 +335,26 @@ describe('Slider component', () => {
       expect(tooltipElem).toHaveClass('dnb-tooltip', 'dnb-tooltip--active')
     })
 
+    it('hides the Tooltip from screen readers, since the input gives the value', () => {
+      render(
+        <Slider
+          {...props}
+          numberFormat={{ currency: 'EUR' }}
+          tooltip
+          alwaysShowTooltip
+        />
+      )
+
+      expect(document.querySelector('.dnb-tooltip')).toHaveAttribute(
+        'aria-hidden',
+        'true'
+      )
+      expect(document.querySelector('.dnb-aria-live')).toBeNull()
+      expect(
+        document.querySelector('.dnb-slider__button-helper')
+      ).toHaveAttribute('aria-valuetext', '70,00 euro')
+    })
+
     it('shows Tooltip on hover with numberFormat', async () => {
       render(
         <Slider

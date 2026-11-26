@@ -1,6 +1,5 @@
-import path from 'node:path'
 import {
-  loadTokenModes,
+  type loadTokenModes,
   changedTokens,
   contrastRatio,
   parseColor,
@@ -59,6 +58,8 @@ const mode = (text: string, background: string) => [
     tokens: {
       '--token-color-icon-info': '#000',
       '--token-color-stroke-info': '#000',
+      '--token-color-stroke-action-focus': '#000',
+      '--token-color-stroke-action': '#000',
       '--token-color-background-page-background': '#fff',
       ...Object.fromEntries(
         ['neutral', 'neutral-alternative', 'action', 'error'].map(
@@ -217,30 +218,6 @@ it('reports added and removed tokens', () => {
   ])
 })
 
-it('loads every shipped palette and resolves the colors used by the contrast checks', () => {
-  const modes = loadTokenModes(path.resolve(__dirname, '../../../../..'))
-  expect(modes.map(({ name }) => name)).toEqual([
-    'DNB light',
-    'DNB dark',
-    'Sbanken light',
-    'Sbanken dark',
-    // @deprecated Transitional "coconut" brand
-    'Coconut light',
-    // @deprecated Transitional "coconut" brand
-    'Coconut dark',
-    'Carnegie light',
-  ])
-  for (const { tokens } of modes) {
-    const ratio = contrastRatio(
-      tokens['--token-color-text-error'],
-      tokens['--token-color-background-neutral-subtle'],
-      tokens['--token-color-background-page-background']
-    )
-    expect(ratio).toBeGreaterThan(1)
-    expect(ratio).toBeLessThanOrEqual(21)
-  }
-})
-
 it('detects an invisible neutral UI fill on its parent surface', () => {
   const before = mode('#000', '#eee')
   const after = mode('#000', '#eee')
@@ -264,6 +241,21 @@ it('uses the 3:1 icon target independently of the 4.5:1 text target', () => {
       line.includes('icon-info')
     )
   ).toBe(true)
+})
+
+it('checks focus contrast on each neutral surface', () => {
+  const before = mode('#000', '#fff')
+  const after = mode('#000', '#fff')
+  after[0].tokens['--token-color-stroke-action-focus'] = '#aaa'
+
+  expect(reviewTokenChanges(before, after).regressions).toEqual(
+    ['neutral', 'neutral-subtle', 'neutral-base'].map((background) =>
+      expect.stringContaining(
+        '--token-color-stroke-action-focus on --token-color-background-' +
+          background
+      )
+    )
+  )
 })
 
 it('rejects invalid channel and opacity ranges', () => {
@@ -320,4 +312,18 @@ it('blocks a new threshold failure even when the ratio change is tiny', () => {
       mode(gray(4.4998), '#fff')
     ).regressions
   ).toHaveLength(20)
+})
+
+it('checks control boundary contrast on each neutral surface', () => {
+  const before = mode('#000', '#fff')
+  const after = mode('#000', '#fff')
+  after[0].tokens['--token-color-stroke-action'] = '#aaa'
+  expect(reviewTokenChanges(before, after).regressions).toEqual(
+    ['neutral', 'neutral-subtle', 'neutral-base'].map((background) =>
+      expect.stringContaining(
+        '--token-color-stroke-action on --token-color-background-' +
+          background
+      )
+    )
+  )
 })

@@ -242,19 +242,55 @@ describe('Chip', () => {
       await user.tab()
 
       await waitFor(() => {
-        expect(input).toHaveAccessibleDescription(
-          'Choose an account Select an option Earn interest on your savings'
-        )
+        expect(
+          document.querySelector('[role="tooltip"] strong')
+        ).toHaveTextContent('Earn interest')
       })
-      expect(
-        document.querySelector('[role="tooltip"] strong')
-      ).toHaveTextContent('Earn interest')
+      expect(input).toHaveAccessibleDescription(
+        'Choose an account Select an option Earn interest on your savings'
+      )
       await user.keyboard('{Escape}')
       await waitFor(() => {
-        expect(input).toHaveAccessibleDescription(
-          'Choose an account Select an option'
-        )
+        expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
       })
+      expect(input).toHaveAccessibleDescription(
+        'Choose an account Select an option Earn interest on your savings'
+      )
+    }
+  )
+
+  it.each(['default', 'radio', 'addable'] as const)(
+    'keeps the tooltip description when the %s status changes',
+    (variant) => {
+      const { rerender } = render(
+        <Chip variant={variant} tooltip="Earn interest">
+          Savings
+        </Chip>
+      )
+      const input = document.querySelector<ChipElement>(
+        'input:not([type="hidden"]), .dnb-chip__button'
+      )
+      expect(input).toHaveAccessibleDescription('Earn interest')
+
+      rerender(
+        <Chip
+          variant={variant}
+          status="Select an option"
+          tooltip="Earn interest"
+        >
+          Savings
+        </Chip>
+      )
+      expect(input).toHaveAccessibleDescription(
+        'Select an option Earn interest'
+      )
+
+      rerender(
+        <Chip variant={variant} tooltip="Earn interest">
+          Savings
+        </Chip>
+      )
+      expect(input).toHaveAccessibleDescription('Earn interest')
     }
   )
 

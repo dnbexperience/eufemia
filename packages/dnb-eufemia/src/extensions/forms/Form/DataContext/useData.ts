@@ -15,7 +15,10 @@ import {
   createReferenceKey,
   createSharedState,
   useSharedState,
+  useSharedStateStore,
+  SharedStateScopeContext,
 } from '../../../../shared/helpers/useSharedState'
+import { warnOnServer } from '../../../../shared/helpers/warnOnServer'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
 import type { PathValue } from '../../typed-paths'
@@ -141,13 +144,32 @@ export default function useData<Data = JsonObject>(
     typeof createSharedState<SharedAttachments<Data>>
   > | null>(null)
 
-  sharedDataRef.current = useSharedState<Data>(id, initialData)
+  const store = useSharedStateStore()
+  // On the server, sharing by id needs a surrounding Form.Handler or Provider
+  const hasScope = Boolean(useContext(SharedStateScopeContext))
+  if (id && !hasScope) {
+    warnOnServer(
+      'Form.useData',
+      id,
+      'gets no data from other components during server rendering, because no Form.Handler or Eufemia Provider surrounds it. Put it and the Form.Handler inside the same Provider.'
+    )
+  }
+  sharedDataRef.current = useSharedState<Data>(
+    id,
+    initialData,
+    undefined,
+    {
+      store,
+    }
+  )
 
   // Use createSharedState (non-reactive) for attachments — we only ever access
   // them imperatively, so subscribing to changes would cause unnecessary re-renders.
   sharedAttachmentsRef.current = id
     ? createSharedState<SharedAttachments<Data>>(
-        createReferenceKey(id, 'attachments')
+        createReferenceKey(id, 'attachments', store),
+        undefined,
+        store
       )
     : null
 

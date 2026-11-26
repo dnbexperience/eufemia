@@ -43,9 +43,9 @@ describe('componentCatalog', () => {
     expect(normalizeComponentSlug('/uilib/components/accordion/')).toBe(
       'uilib/components/accordion'
     )
-    expect(normalizeComponentSlug('uilib/components/accordion/info')).toBe(
-      'uilib/components/accordion'
-    )
+    expect(
+      normalizeComponentSlug('uilib/components/accordion/overview')
+    ).toBe('uilib/components/accordion')
     expect(
       normalizeComponentSlug('uilib/components/accordion/demos')
     ).toBe('uilib/components/accordion')

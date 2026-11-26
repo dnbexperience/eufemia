@@ -12,6 +12,26 @@ const chevronPoints = [
   { x: 5, from: -2, to: 3 },
 ]
 
+// The drawn radii match DNB, so they are scaled by the DNB token values
+// to let other brands follow their own radius tokens.
+const dnbRadius = { xl: 24, md: 8, sm: 4 }
+
+function tokenRadius(token: keyof typeof dnbRadius, rx: number) {
+  return {
+    rx,
+    style: {
+      rx: `calc(var(--token-radius-${token}) * ${rx} / ${dnbRadius[token]})`,
+    },
+  }
+}
+
+const surfaceRadius = tokenRadius('xl', 12)
+const blockRadius = tokenRadius('md', 6)
+const switchRadius = {
+  rx: 18,
+  style: { rx: 'min(18px, calc(var(--token-radius-xl) * 36 / 24))' },
+}
+
 export default function MotionDemos({
   children,
 }: {
@@ -237,7 +257,7 @@ function DialogScene() {
         y="24"
         width="312"
         height="192"
-        rx="12"
+        {...surfaceRadius}
       />
       <Lines x={48} y={48} />
       <rect
@@ -246,7 +266,7 @@ function DialogScene() {
         y="92"
         width="264"
         height="44"
-        rx="6"
+        {...blockRadius}
       />
       <rect
         className="dnb-motion-scene__muted"
@@ -254,7 +274,7 @@ function DialogScene() {
         y="148"
         width="264"
         height="44"
-        rx="6"
+        {...blockRadius}
       />
       <rect
         className="dnb-motion-scene__backdrop"
@@ -263,7 +283,7 @@ function DialogScene() {
         y="24"
         width="312"
         height="192"
-        rx="12"
+        {...surfaceRadius}
       />
       <g className="dnb-motion-scene__dialog" data-motion="">
         <rect
@@ -272,7 +292,7 @@ function DialogScene() {
           y="52"
           width="196"
           height="136"
-          rx="10"
+          {...tokenRadius('md', 10)}
         />
         <circle
           className="dnb-motion-scene__accent-soft"
@@ -312,7 +332,7 @@ function ExpansionScene() {
         y="28"
         width="272"
         height="184"
-        rx="12"
+        {...surfaceRadius}
       />
       <rect
         className="dnb-motion-scene__expansion-fill"
@@ -321,7 +341,7 @@ function ExpansionScene() {
         y="80"
         width="240"
         height="64"
-        rx="6"
+        {...blockRadius}
       />
       <text className="dnb-motion-scene__label" x="64" y="63">
         Payment details
@@ -371,7 +391,7 @@ function SwitchScene() {
         y="62"
         width="288"
         height="116"
-        rx="12"
+        {...surfaceRadius}
       />
       <text className="dnb-motion-scene__label" x="56" y="95">
         Notifications
@@ -384,7 +404,7 @@ function SwitchScene() {
         y="99"
         width="64"
         height="36"
-        rx="18"
+        {...switchRadius}
       />
       <g className="dnb-motion-scene__switch-thumb" data-motion="">
         <circle cx="254" cy="117" r="12" />
@@ -405,7 +425,13 @@ function DrawerScene() {
     <>
       <defs>
         <clipPath id={clipId}>
-          <rect x="24" y="24" width="312" height="192" rx="12" />
+          <rect
+            x="24"
+            y="24"
+            width="312"
+            height="192"
+            {...surfaceRadius}
+          />
         </clipPath>
       </defs>
       <g clipPath={`url(#${clipId})`}>
@@ -415,7 +441,7 @@ function DrawerScene() {
           y="24"
           width="312"
           height="192"
-          rx="12"
+          {...surfaceRadius}
         />
         <text className="dnb-motion-scene__label" x="48" y="60">
           Accounts
@@ -426,7 +452,7 @@ function DrawerScene() {
           y="84"
           width="120"
           height="104"
-          rx="8"
+          {...tokenRadius('md', 8)}
         />
         <Lines x={56} y={104} />
         <rect
@@ -459,7 +485,7 @@ function DrawerScene() {
             y="142"
             width="104"
             height="28"
-            rx="6"
+            {...blockRadius}
           />
         </g>
       </g>
@@ -517,7 +543,7 @@ function BreadcrumbScene() {
         y="24"
         width="288"
         height="192"
-        rx="12"
+        {...surfaceRadius}
       />
       <text className="dnb-motion-scene__label" x="56" y="60">
         Back to...
@@ -535,7 +561,7 @@ function BreadcrumbScene() {
           y="76"
           width="256"
           height={revealHeight}
-          rx="6"
+          {...blockRadius}
         />
         {['Home', 'Accounts', 'Everyday account'].map((label, index) => (
           <g
@@ -580,7 +606,7 @@ function TableScene() {
         y="24"
         width="288"
         height="192"
-        rx="12"
+        {...surfaceRadius}
       />
       <text className="dnb-motion-scene__label" x="56" y="52">
         Payments
@@ -629,7 +655,7 @@ function TextCounterScene() {
         y="40"
         width="288"
         height="160"
-        rx="12"
+        {...surfaceRadius}
       />
       <text className="dnb-motion-scene__label" x="56" y="70">
         Message
@@ -640,7 +666,7 @@ function TextCounterScene() {
         y="84"
         width="256"
         height="50"
-        rx="6"
+        {...tokenRadius('sm', 6)}
       />
       <text className="dnb-motion-scene__label" x="64" y="114">
         Thanks for your help
@@ -687,7 +713,7 @@ function ProgressScene() {
         y="28"
         width="216"
         height="184"
-        rx="12"
+        {...surfaceRadius}
       />
       <circle
         className="dnb-motion-scene__progress-track"
@@ -732,7 +758,7 @@ function SubmitScene() {
         y="28"
         width="272"
         height="184"
-        rx="12"
+        {...surfaceRadius}
       />
       <text className="dnb-motion-scene__label" x="64" y="62">
         Payment
@@ -743,7 +769,7 @@ function SubmitScene() {
         y="78"
         width="232"
         height="42"
-        rx="6"
+        {...blockRadius}
       />
       <Lines x={80} y={88} />
       {/* An SVG cutout avoids Safari's misplaced CSS mask inside foreignObject. */}
@@ -815,7 +841,7 @@ function GraphFrame({ children }: { children: ReactNode }) {
         y="24"
         width="288"
         height="192"
-        rx="12"
+        {...surfaceRadius}
       />
       <g className="dnb-motion-scene__graph-axes">
         <text className="dnb-motion-scene__graph-label" x="56" y="48">

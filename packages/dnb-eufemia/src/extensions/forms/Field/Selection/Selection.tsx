@@ -50,6 +50,7 @@ import type {
 } from '../../../../components/Chip'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import splitGroupNameAttributes from '../../utils/splitGroupNameAttributes'
 
 type IOption = {
   title: string | ReactNode
@@ -159,6 +160,7 @@ function Selection(props: FieldSelectionProps) {
   const clearValue = `clear-option-${useId()}`
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     className,
     variant = 'dropdown',
@@ -343,6 +345,7 @@ function Selection(props: FieldSelectionProps) {
   )
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: cn,
     disableStatusSummary: true,
@@ -372,13 +375,16 @@ function Selection(props: FieldSelectionProps) {
         variant === 'radio' ? Radio : Chip
       ) as typeof Radio & typeof Chip
 
+      const { groupNameAttributes, optionAttributes } =
+        splitGroupNameAttributes(htmlAttributes)
+
       const items = renderRadioItems({
         id,
         value,
         variant,
         info,
         warning,
-        htmlAttributes,
+        htmlAttributes: optionAttributes,
         children: renderedChildren,
         dataList: hasRenderPropChildren ? undefined : dataList,
         hasError,
@@ -393,6 +399,9 @@ function Selection(props: FieldSelectionProps) {
         asFieldset: hasRenderPropChildren || Children.count(items) > 1,
         fieldsetRole: 'radiogroup',
       }
+      if (additionalFieldBlockProps.asFieldset) {
+        Object.assign(additionalFieldBlockProps, groupNameAttributes)
+      }
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
       }
@@ -406,15 +415,16 @@ function Selection(props: FieldSelectionProps) {
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
+            {...(!additionalFieldBlockProps.asFieldset &&
+              groupNameAttributes)}
             size={size as ChipGroupProps['size'] & RadioGroupProps['size']}
             className={cn}
             layoutDirection={
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
-            {...(variant !== 'radio' &&
-              additionalFieldBlockProps.asFieldset && {
-                attributes: { role: 'presentation' },
-              })}
+            {...(additionalFieldBlockProps.asFieldset && {
+              attributes: { role: 'presentation' },
+            })}
             disabled={disabled}
             onChange={onChangeHandler}
             value={String(value ?? '')}

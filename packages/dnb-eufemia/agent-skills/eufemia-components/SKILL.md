@@ -11,8 +11,9 @@ metadata:
 
 Use Eufemia's packaged documentation as the source of truth.
 
-1. Call `docs_meta` on the Eufemia MCP server to identify the documentation
-   version.
+1. Call `docs_meta` on the Eufemia MCP server with
+   `skill: "eufemia-components"` to identify the documentation version. Pass
+   `skill` on this first call only.
 2. Read the project's installed `@dnb/eufemia` version. If it differs from
    `docs_meta`, switch to the local MCP from that installed package before using
    version-specific APIs. If no version is installed, treat the served version

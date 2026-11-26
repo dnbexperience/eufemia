@@ -117,8 +117,26 @@
       }
     }
 
-    &:hover:not(&--disabled) {
-      background-color: var(--menu-action-background-color--hover);
+    // A tapped action can keep :hover after switching to the keyboard.
+    html[data-whatinput='keyboard']:where(:not([data-whatintent='mouse']))
+      &:focus:not([disabled]):not(.dnb-menu__action--disabled):not(
+        :active
+      ) {
+      @include utilities.focusOutline(
+        $offset: calc(-1 * var(--focus-outline-width))
+      );
+    }
+
+    // Touch browsers keep :hover on the last tapped element.
+    @media (any-hover: hover) {
+      &:hover:not(&--disabled):not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ) {
+        background-color: var(--menu-action-background-color--hover);
+      }
     }
 
     &:active:not(&--disabled) {

@@ -8,8 +8,8 @@ export function getSocialImage(
       .split(/[?#]/)[0]
       .replace(/\/+$/, '') + '/'
   let entry = manifest[route]
-  if (!entry && /\/(info|demos|properties|events)\/$/.test(route)) {
-    route = route.replace(/(info|demos|properties|events)\/$/, '')
+  if (!entry && /\/(demos|properties|events)\/$/.test(route)) {
+    route = route.replace(/(demos|properties|events)\/$/, '')
     entry = manifest[route]
   }
   if (

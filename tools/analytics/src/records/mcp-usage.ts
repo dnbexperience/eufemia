@@ -10,10 +10,11 @@
  * object with {@link buildMcpUsageRecord}.
  *
  * Only closed, validated fields are stored — the tool name (from the fixed
- * registered set), an optional component or doc path, a miss flag with the
- * real component a missed name matches, a coarse environment label and the
- * Eufemia version (validated to a semver shape). No identifiers, IP or free
- * text are accepted, so nothing incidental in the request can reach storage.
+ * registered set), an optional component or doc path, a miss flag, the agent
+ * skill that made the call (from the fixed skill set), a coarse environment
+ * label and the Eufemia version (validated to a semver shape). No identifiers,
+ * IP or free text are accepted, so nothing incidental in the request can reach
+ * storage.
  *
  * Validation here is structural only: this side has no docs, so the producers
  * (web Lambda and local server) check that a component or path exists before
@@ -24,9 +25,11 @@ import {
   COMPONENT_TOOLS,
   KNOWN_TOOLS,
   PATH_TOOLS,
+  SKILL_TOOL,
   normalizeComponent,
   parseComponentName,
   parseDocsPath,
+  parseSkillName,
   type McpUsageRecord,
   type McpUsageTransport,
 } from 'eufemia-usage-ingest'
@@ -81,6 +84,7 @@ export type McpUsageInput = {
   tool: string
   component?: string
   componentMissed?: true
+  skill?: string
   path?: string
   env?: string
   eufemiaVersion?: string
@@ -117,6 +121,7 @@ export function validateMcpUsage(
       tool,
       component,
       componentMissed,
+      skill,
       path,
       env,
       eufemiaVersion,
@@ -156,6 +161,7 @@ export function validateMcpUsage(
         parseComponentName(component)
       )
       const normalizedPath = parseDocsPath(path)
+      const skillName = parseSkillName(skill)
 
       value.push({
         tool: tool as string,
@@ -163,6 +169,7 @@ export function validateMcpUsage(
         ...(componentMissed === true
           ? { componentMissed: true as const }
           : {}),
+        ...(skillName ? { skill: skillName } : {}),
         ...(normalizedPath ? { path: normalizedPath } : {}),
         ...(isKnownEnv(env) ? { env } : {}),
         ...(typeof eufemiaVersion === 'string' ? { eufemiaVersion } : {}),
@@ -183,8 +190,8 @@ export function validateMcpUsage(
  * the caller (stamped server-side, never trusted from the client). A component
  * is kept only for a component tool and a path only for a path tool, so a
  * dimension can never be attributed to a tool it does not belong to; a miss is
- * kept only for a component tool call that resolved no component. Every
- * absent field defaults so the row shape is stable.
+ * kept only for a component tool call that resolved no component, and a skill
+ * only for docs_meta. Every absent field defaults so the row shape is stable.
  */
 export function buildMcpUsageRecord(
   input: McpUsageInput,
@@ -200,6 +207,7 @@ export function buildMcpUsageRecord(
     tool: input.tool,
     component,
     component_missed: componentMissed,
+    skill: input.tool === SKILL_TOOL ? (input.skill ?? '') : '',
     path: PATH_TOOLS.has(input.tool) ? (input.path ?? '') : '',
     env: input.env ?? 'unknown',
     transport,

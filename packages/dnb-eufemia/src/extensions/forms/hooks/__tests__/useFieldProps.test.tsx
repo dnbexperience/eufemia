@@ -1427,6 +1427,419 @@ describe('useFieldProps', () => {
         })
       })
 
+      describe('when the locale changes', () => {
+        const LocaleApp = ({
+          children,
+        }: {
+          children: React.ReactNode
+        }) => {
+          const [locale, setLocale] = useState<'nb-NO' | 'en-GB'>('nb-NO')
+
+          return (
+            <Form.Handler locale={locale}>
+              <button
+                type="button"
+                id="change-locale"
+                onClick={() =>
+                  setLocale((current) =>
+                    current === 'nb-NO' ? 'en-GB' : 'nb-NO'
+                  )
+                }
+              >
+                Change locale
+              </button>
+              {children}
+            </Form.Handler>
+          )
+        }
+        const changeLocale = () =>
+          userEvent.click(document.querySelector('button#change-locale'))
+        const statuses = () =>
+          Array.from(
+            document.querySelectorAll('.dnb-form-status--error')
+          ).map((element) => element.textContent)
+
+        it('should not reveal the required error of an untouched field with an onBlurValidator', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/withValidator"
+                required
+                onBlurValidator={() => undefined}
+              />
+              <Field.String label="Street" path="/street" required />
+            </LocaleApp>
+          )
+
+          expect(statuses()).toEqual([])
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+        })
+
+        // Every built-in field with an onBlurValidator
+        const builtInFields: Array<
+          [
+            string,
+            (props: {
+              required?: boolean
+              validateInitially?: boolean
+            }) => React.ReactNode,
+          ]
+        > = [
+          ['Field.Name', (props) => <Field.Name path="/a" {...props} />],
+          [
+            'Field.Name.First',
+            (props) => <Field.Name.First path="/a" {...props} />,
+          ],
+          [
+            'Field.Name.Last',
+            (props) => <Field.Name.Last path="/a" {...props} />,
+          ],
+          [
+            'Field.Name.Company',
+            (props) => <Field.Name.Company path="/a" {...props} />,
+          ],
+          [
+            'Field.PostalCodeAndCity',
+            (props) => (
+              <Field.PostalCodeAndCity
+                postalCode={{ path: '/a', ...props }}
+                city={{ path: '/b', ...props }}
+              />
+            ),
+          ],
+          [
+            'Field.NationalIdentityNumber',
+            (props) => (
+              <Field.NationalIdentityNumber path="/a" {...props} />
+            ),
+          ],
+          [
+            'Field.OrganizationNumber',
+            (props) => <Field.OrganizationNumber path="/a" {...props} />,
+          ],
+          [
+            'Field.BankAccountNumber',
+            (props) => <Field.BankAccountNumber path="/a" {...props} />,
+          ],
+          ['Field.Date', (props) => <Field.Date path="/a" {...props} />],
+          [
+            'Field.Date with range',
+            (props) => <Field.Date path="/a" range {...props} />,
+          ],
+          [
+            'Field.DateOfBirth',
+            (props) => <Field.DateOfBirth path="/a" {...props} />,
+          ],
+          [
+            'Field.Expiry',
+            (props) => <Field.Expiry path="/a" {...props} />,
+          ],
+          ['Field.Time', (props) => <Field.Time path="/a" {...props} />],
+          [
+            'Field.String with an async onBlurValidator',
+            (props) => (
+              <Field.String
+                label="With async onBlurValidator"
+                path="/a"
+                onBlurValidator={async () => undefined}
+                {...props}
+              />
+            ),
+          ],
+        ]
+
+        it.each(builtInFields)(
+          'should not reveal the required error of an untouched %s',
+          async (_, renderField) => {
+            render(
+              <LocaleApp>
+                {renderField({ required: true })}
+                <Field.String label="Street" path="/street" required />
+              </LocaleApp>
+            )
+
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
+
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
+          }
+        )
+
+        it.each(builtInFields)(
+          'should not reveal the required error of an untouched %s with validateInitially={false}',
+          async (_, renderField) => {
+            render(
+              <LocaleApp>
+                {renderField({ required: true, validateInitially: false })}
+              </LocaleApp>
+            )
+
+            // The second change showed the error before
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
+
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
+          }
+        )
+
+        it('should not reveal the error of an invalid value the user has not touched', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/a"
+                defaultValue="abc"
+                pattern="^z$"
+                onBlurValidator={() => undefined}
+              />
+            </LocaleApp>
+          )
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+        })
+
+        it('should not reveal an onBlurValidator error while the user is still typing', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/withValidator"
+                onBlurValidator={(value: string) =>
+                  value === 'x' ? new Error('Blur error') : undefined
+                }
+              />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'x')
+          expect(statuses()).toEqual([])
+
+          // Change the locale without a blur on the field
+          fireEvent.click(document.querySelector('button#change-locale'))
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          // The error still shows on blur
+          fireEvent.blur(input)
+          await waitFor(() => {
+            expect(statuses()).toEqual(['Blur error'])
+          })
+        })
+
+        it('should not reveal an onBlurValidator error again while the user is typing a new value', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1')
+          fireEvent.blur(input)
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.FirstName.errorPattern])
+          })
+
+          // The error is hidden while the user types a new value
+          fireEvent.focus(input)
+          await userEvent.type(input, '2')
+          expect(statuses()).toEqual([])
+
+          // Change the locale without a blur on the field
+          fireEvent.click(document.querySelector('button#change-locale'))
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          // The error shows again on blur, in the new locale
+          fireEvent.blur(input)
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.FirstName.errorPattern])
+          })
+        })
+
+        it('should translate a visible required error of a field with an onBlurValidator', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/withValidator"
+                required
+                onBlurValidator={() => undefined}
+              />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'a{Backspace}')
+          fireEvent.blur(input)
+
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.Field.errorRequired])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.Field.errorRequired])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.Field.errorRequired])
+          })
+        })
+
+        it('should translate visible errors after a submit', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" required />
+              <Field.String label="Street" path="/street" required />
+              <Form.SubmitButton />
+            </LocaleApp>
+          )
+
+          await userEvent.click(
+            document.querySelector('button[type="submit"]')
+          )
+          await waitFor(() => {
+            expect(statuses()).toEqual([
+              nb.FirstName.errorRequired,
+              nb.Field.errorRequired,
+            ])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([
+              en.FirstName.errorRequired,
+              en.Field.errorRequired,
+            ])
+          })
+        })
+
+        it('should translate and keep a visible onBlurValidator error', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" />
+            </LocaleApp>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1')
+          fireEvent.blur(input)
+
+          await waitFor(() => {
+            expect(statuses()).toEqual([nb.FirstName.errorPattern])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.FirstName.errorPattern])
+          })
+        })
+
+        it('should still block submit and show the hidden required error after the locale changed', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" required />
+              <Form.SubmitButton />
+            </LocaleApp>
+          )
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+
+          await userEvent.click(
+            document.querySelector('button[type="submit"]')
+          )
+
+          await waitFor(() => {
+            expect(statuses()).toEqual([en.FirstName.errorRequired])
+          })
+        })
+      })
+
+      it.each([
+        [
+          'a message key',
+          () => new FormError('Field.errorRequired'),
+          nb.Field.errorRequired,
+          en.Field.errorRequired,
+        ],
+        [
+          'a message key with values',
+          () =>
+            new FormError('NumberField.errorMaximum', {
+              messageValues: { maximum: '5' },
+            }),
+          nb.NumberField.errorMaximum.replace('{maximum}', '5'),
+          en.NumberField.errorMaximum.replace('{maximum}', '5'),
+        ],
+      ])(
+        'should translate a given FormError with %s again when the locale changes',
+        (_, createError, nbMessage, enMessage) => {
+          // The same instance in every render
+          const error = createError()
+          const MockComponent = () => {
+            const props = useFieldProps({ error })
+            return (
+              <output className="error-message">
+                {getError(props.error)?.message}
+              </output>
+            )
+          }
+          const message = () =>
+            document.querySelector('.error-message').textContent
+
+          const { rerender } = render(
+            <Provider locale="nb-NO">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(nbMessage)
+
+          rerender(
+            <Provider locale="en-GB">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(enMessage)
+
+          rerender(
+            <Provider locale="nb-NO">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(nbMessage)
+
+          // A message that the app changes after it was translated is the new key
+          error.message = 'Field.errorPattern'
+          rerender(
+            <Provider locale="en-GB">
+              <MockComponent />
+            </Provider>
+          )
+          expect(message()).toBe(en.Field.errorPattern)
+        }
+      )
+
       it('should not warn when error already contains a localized sentence with a period', () => {
         const log = spyOnEufemiaWarn()
 

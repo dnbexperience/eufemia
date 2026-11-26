@@ -2,7 +2,10 @@ import { useContext, useRef } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Skeleton from '../skeleton/Skeleton'
-import { useSharedState } from '../../shared/helpers/useSharedState'
+import {
+  useSharedState,
+  useSharedStateStore,
+} from '../../shared/helpers/useSharedState'
 import type { FilterState } from './FilterContext'
 import { FilterConnectedIdContext, FilterContext } from './FilterContext'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -36,7 +39,13 @@ function FilterContent({
     )
   }
 
-  const { data } = useSharedState<FilterState>(resolvedId)
+  const store = useSharedStateStore()
+  const { data } = useSharedState<FilterState>(
+    resolvedId,
+    undefined,
+    undefined,
+    { store }
+  )
 
   const isLoading = data?.resultLoading ?? context?.resultLoading ?? false
   const resultCount = data?.resultCount ?? context?.resultCount

@@ -132,7 +132,7 @@ describe('prerender-utils', () => {
         },
       },
       {
-        fields: { slug: 'uilib/components/button/info' },
+        fields: { slug: 'uilib/components/button/overview' },
         frontmatter: { title: '', description: '', showTabs: true },
       },
       {
@@ -161,8 +161,8 @@ describe('prerender-utils', () => {
     })
 
     it('constructs tab title for tab sub-pages with showTabs', () => {
-      const meta = getPageMeta('/uilib/components/button/info/', nodes)
-      expect(meta.title).toBe('Button → Info')
+      const meta = getPageMeta('/uilib/components/button/overview/', nodes)
+      expect(meta.title).toBe('Button → Overview')
       expect(meta.description).toBe('A button component')
     })
 
@@ -180,8 +180,8 @@ describe('prerender-utils', () => {
             description: '',
             tabs: [
               {
-                title: 'Info',
-                key: '/uilib/components/country-flag/info',
+                title: 'Overview',
+                key: '/uilib/components/country-flag/overview',
               },
               {
                 title: 'Demos',
@@ -209,12 +209,12 @@ describe('prerender-utils', () => {
           frontmatter: { title: 'Button', description: '' },
         },
         {
-          fields: { slug: 'uilib/components/button/info' },
+          fields: { slug: 'uilib/components/button/overview' },
           frontmatter: { title: '', description: '' },
         },
       ]
       const meta = getPageMeta(
-        '/uilib/components/button/info/',
+        '/uilib/components/button/overview/',
         noTabNodes
       )
       expect(meta.title).toBe('Button')

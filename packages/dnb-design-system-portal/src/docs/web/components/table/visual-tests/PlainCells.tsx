@@ -3,6 +3,38 @@ import Table, { Tr, Th, Td } from '@dnb/eufemia/src/components/Table'
 
 export default function PlainCells() {
   return (
+    <>
+      <PlainCellSizes />
+
+      <div
+        data-visual-test="table-plain-cells-sticky-outline"
+        style={{ width: '20rem' }}
+      >
+        <Table
+          sticky="css-position"
+          outline
+          aria-label="Plain cells: sticky outline"
+        >
+          <thead>
+            <Tr>
+              <Th>Th</Th>
+              <th>th</th>
+            </Tr>
+          </thead>
+          <tbody>
+            <Tr>
+              <Td>Td</Td>
+              <td>td</td>
+            </Tr>
+          </tbody>
+        </Table>
+      </div>
+    </>
+  )
+}
+
+function PlainCellSizes() {
+  return (
     <Flex.Horizontal
       data-visual-test="table-plain-cells"
       align="flex-start"

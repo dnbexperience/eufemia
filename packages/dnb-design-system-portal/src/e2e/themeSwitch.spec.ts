@@ -198,8 +198,9 @@ test('should apply the brand from the URL after hydration', async ({
   await page.goto('/web/components/logo/demos/?eufemia-theme=sbanken')
   await waitForApp(page)
 
-  await expect(page.locator('#change-theme')).toHaveValue('sbanken')
-  await expect(page.locator('#change-theme')).toBeChecked()
+  const sbanken = page.getByRole('radio', { name: 'Sbanken', exact: true })
+  await expect(sbanken).toHaveValue('sbanken')
+  await expect(sbanken).toBeChecked()
   expect(hydrationErrors).toEqual([])
 })
 
@@ -254,6 +255,75 @@ test('should enable Coconut from the URL without offering it in settings', async
   )
   await expect
     .poll(() => coconutLink.evaluate((el: HTMLLinkElement) => el.disabled))
+    .toBe(true)
+})
+
+test('should enable Birdhouse from the URL without offering it in settings', async ({
+  page,
+}) => {
+  await page.goto('/web/components/overview?eufemia-theme=birdhouse')
+  await waitForApp(page)
+
+  await expect(page.locator('body')).toHaveClass(
+    /eufemia-theme__birdhouse/
+  )
+
+  const birdhouseStyles = page.locator(
+    'link[data-eufemia-theme="birdhouse"], style[data-vite-dev-id*="/themes/birdhouse/"]'
+  )
+  await expect
+    .poll(() =>
+      birdhouseStyles.evaluateAll(
+        (styles: Array<HTMLLinkElement | HTMLStyleElement>) =>
+          styles.length > 0 && styles.every((style) => !style.disabled)
+      )
+    )
+    .toBe(true)
+
+  await page.locator('#portal-tools').click()
+  const brands = page
+    .getByRole('dialog', { name: 'Settings' })
+    .getByRole('radiogroup')
+    .filter({ has: page.getByRole('radio', { name: 'DNB', exact: true }) })
+  await expect(brands.locator('.dnb-chip__text')).toHaveText([
+    'DNB',
+    'Sbanken',
+    'DNB Eiendom',
+    'DNB Carnegie',
+  ])
+  const dnb = brands.getByRole('radio', { name: 'DNB', exact: true })
+  await expect(dnb).toBeFocused()
+  await expect(dnb).not.toBeChecked()
+
+  await page.evaluate(() => {
+    const theme = JSON.parse(localStorage.getItem('eufemia-theme'))
+    localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ ...theme, colorScheme: 'dark' })
+    )
+  })
+  await page.reload()
+  await waitForApp(page)
+  await expect(page.locator('body')).toHaveClass(
+    /eufemia-theme__birdhouse/
+  )
+  await expect(page.locator('body')).toHaveClass(
+    /eufemia-theme__color-scheme--dark/
+  )
+
+  await page.locator('#portal-tools').click()
+  await brands.getByRole('radio', { name: 'DNB', exact: true }).click()
+  await expect(page.locator('body')).toHaveClass(/eufemia-theme__ui/)
+  await expect(page.locator('body')).not.toHaveClass(
+    /eufemia-theme__birdhouse/
+  )
+  await expect
+    .poll(() =>
+      birdhouseStyles.evaluateAll(
+        (styles: Array<HTMLLinkElement | HTMLStyleElement>) =>
+          styles.length > 0 && styles.every((style) => style.disabled)
+      )
+    )
     .toBe(true)
 })
 

@@ -1,8 +1,3 @@
-output "api_endpoint" {
-  description = "Base URL of the HTTP API"
-  value       = aws_apigatewayv2_stage.analytics.invoke_url
-}
-
 output "dashboard_api_endpoint" {
   description = "Base URL of the browser-facing dashboard API (Entra JWT auth)"
   value       = aws_apigatewayv2_stage.dashboard.invoke_url

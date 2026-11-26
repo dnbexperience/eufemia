@@ -1,0 +1,28 @@
+@use '../ui/fonts.scss';
+
+$fonts-path: '../../../../assets/fonts/dnb' !default;
+
+@font-face {
+  font-family: 'DNB Sans Eiendom';
+  src:
+    url('#{$fonts-path}/DNBSansEiendom-Light.woff2') format('woff2'),
+    url('#{$fonts-path}/DNBSansEiendom-Light.woff') format('woff'),
+    url('#{$fonts-path}/DNBSansEiendom-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: DNBSansEiendomSkeleton;
+  src:
+    url('#{$fonts-path}/skeleton/DNBSansEiendom-Skeleton-Light.woff2')
+      format('woff2'),
+    url('#{$fonts-path}/skeleton/DNBSansEiendom-Skeleton-Light.woff')
+      format('woff'),
+    url('#{$fonts-path}/skeleton/DNBSansEiendom-Skeleton-Light.ttf')
+      format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: fallback;
+}

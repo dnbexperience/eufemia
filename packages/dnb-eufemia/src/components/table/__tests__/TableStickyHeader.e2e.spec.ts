@@ -1,10 +1,36 @@
+import path from 'node:path'
+import { compile } from 'sass'
+import postcss from 'postcss'
+import { PNG } from 'pngjs'
 import { test, expect } from '@playwright/test'
+import isolateStyles from '../../../plugins/postcss-isolated-style-scope'
+import { transformCssnano } from '../../../../scripts/prebuild/tasks/transformUtils'
 
-test.describe('Table sticky header', () => {
+test.describe('Table sticky header with minified CSS', () => {
+  let stickyCss: string
+
+  test.beforeAll(async () => {
+    const file = {
+      path: path.resolve(__dirname, '../style/table-sticky.scss'),
+    }
+    const minified = await transformCssnano({ reduceIdents: false })(
+      compile(file.path).css,
+      file
+    )
+    stickyCss = (
+      await postcss([
+        isolateStyles({ scopeHash: 'eufemia-scope--portal' }),
+      ]).process(minified, { from: file.path })
+    ).css
+  })
+
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 600, height: 720 })
     await page.goto('/web/components/table/visual-tests/sticky-header/')
-    await expect(page.locator('thead tr')).toHaveClass(/page-scroll/)
+    await expect(page.locator('thead tr')).toHaveAttribute(
+      'data-page-scroll'
+    )
+    await page.addStyleTag({ content: stickyCss })
   })
 
   test('follows page scrolling within the table bounds and preserves horizontal scrolling', async ({
@@ -87,28 +113,54 @@ test.describe('Table sticky header', () => {
       }
     })
 
-    // The existing JavaScript fallback keeps its previous offset at the end.
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (supportsTimeline) {
-      await test.step('stops at the last table row', async () => {
-        await table.evaluate((element) => {
-          window.scrollTo(
-            0,
-            element.getBoundingClientRect().bottom + window.scrollY + 100
-          )
-        })
-        // eslint-disable-next-line playwright/no-conditional-expect
-        await expect
-          .poll(() =>
-            table.evaluate(
-              (element) =>
-                element.querySelector('thead tr').getBoundingClientRect()
-                  .bottom - element.getBoundingClientRect().bottom
-            )
-          )
-          .toBeCloseTo(0, 0)
+    await test.step('stops at the last table row', async () => {
+      await table.evaluate((element) => {
+        window.scrollTo(
+          0,
+          element.getBoundingClientRect().bottom + window.scrollY + 100
+        )
       })
-    }
+      await expect
+        .poll(() =>
+          table.evaluate(
+            (element) =>
+              element.querySelector('thead tr').getBoundingClientRect()
+                .bottom - element.getBoundingClientRect().bottom
+          )
+        )
+        .toBeCloseTo(0, 0)
+    })
+  })
+
+  // At the last row, the header covers the bottom of the outline
+  test('keeps the outline around a header that stops at the last row', async ({
+    page,
+  }) => {
+    const table = page.locator('.dnb-table')
+    const header = table.locator('thead tr')
+    const firstCell = header.locator('th').first()
+    await table.evaluate((element) => {
+      element.classList.add('dnb-table--outline')
+      const headerHeight = element.querySelector('thead tr').clientHeight
+      const { bottom } = element.getBoundingClientRect()
+      window.scrollTo(0, window.scrollY + bottom - 56 - headerHeight + 10)
+    })
+
+    await expect(header).toHaveAttribute('data-is-at-end')
+    await expect(header).not.toHaveAttribute('data-is-sticky')
+    await expect(firstCell).toHaveCSS('border-top-left-radius', '0px')
+    await expect(firstCell).not.toHaveCSS(
+      'border-bottom-left-radius',
+      '0px'
+    )
+    await expect
+      .poll(() =>
+        firstCell.evaluate(
+          (element) =>
+            getComputedStyle(element, '::after').borderBottomStyle
+        )
+      )
+      .toBe('solid')
   })
 
   test('updates the scroll range after layout changes and clears it when switching modes', async ({
@@ -128,23 +180,86 @@ test.describe('Table sticky header', () => {
       .getByRole('button', { name: 'Toggle internal scroll' })
       .click()
     await page.setViewportSize({ width: 601, height: 720 })
-    await expect(header).not.toHaveClass(/page-scroll/)
+    await expect(header).not.toHaveAttribute('data-page-scroll')
     await expect(header).not.toHaveAttribute('style', /--table-scroll-/)
 
     await page
       .getByRole('button', { name: 'Toggle internal scroll' })
       .click()
     await page.setViewportSize({ width: 600, height: 720 })
-    await expect(header).toHaveClass(/page-scroll/)
+    await expect(header).toHaveAttribute('data-page-scroll')
 
     await page.getByRole('button', { name: 'Use CSS position' }).click()
-    await expect(header).toHaveClass(/css-position/)
-    await expect(header).not.toHaveClass(/page-scroll/)
+    await expect(header).toHaveAttribute('data-sticky', 'css-position')
+    await expect(header).not.toHaveAttribute('data-page-scroll')
     await expect(header).not.toHaveAttribute('style', /--table-scroll-/)
 
     await page.getByRole('button', { name: 'Toggle sticky' }).click()
-    await expect(header).not.toHaveClass(/sticky/)
+    await expect(header).not.toHaveAttribute('data-sticky')
     await expect(header).not.toHaveAttribute('style', /--table-/)
+  })
+
+  // The outline of the header row must not add a column in the fixed table layout
+  test('keeps the columns across the whole width of a fixed table with an outline', async ({
+    page,
+  }) => {
+    const table = page.locator('.dnb-table')
+    await table.evaluate((element) => {
+      element.classList.add('dnb-table--outline', 'dnb-table--fixed')
+      element.style.width = '70rem'
+    })
+    await expect(page.locator('thead tr')).toHaveAttribute('data-sticky')
+
+    const lastHeaderCell = table.locator('thead th').last()
+    await expect
+      .poll(async () => {
+        const tableBox = await table.boundingBox()
+        const cellBox = await lastHeaderCell.boundingBox()
+        return tableBox.x + tableBox.width - (cellBox.x + cellBox.width)
+      })
+      .toBeCloseTo(0, 0)
+  })
+
+  test.describe('on a high-density display', () => {
+    test.use({ deviceScaleFactor: 2 })
+
+    // Inset shadows on the cells drew lines between them in Firefox
+    test('draws the outline of the header without lines between the cells', async ({
+      page,
+    }) => {
+      const table = page.locator('.dnb-table')
+      await table.evaluate((element) => {
+        element.classList.add('dnb-table--outline')
+      })
+
+      // A pixel row below the top line and above the text, inside the rounded corners
+      const headerBox = await table.locator('thead tr').boundingBox()
+      const viewBox = await page
+        .locator('.dnb-table__scroll-view')
+        .boundingBox()
+      const left = headerBox.x + 24
+      const right =
+        Math.min(
+          headerBox.x + headerBox.width,
+          viewBox.x + viewBox.width
+        ) - 24
+      const { data } = PNG.sync.read(
+        await page.screenshot({
+          clip: {
+            x: left,
+            y: headerBox.y + 8,
+            width: right - left,
+            height: 1,
+          },
+        })
+      )
+
+      const colors = new Set<string>()
+      for (let i = 0; i < data.length; i += 4) {
+        colors.add(data.subarray(i, i + 4).join())
+      }
+      expect([...colors]).toHaveLength(1)
+    })
   })
 
   test('prints a scrolled header above the body rows', async ({
@@ -165,7 +280,7 @@ test.describe('Table sticky header', () => {
     await page.emulateMedia({ media: 'screen' })
 
     await page.evaluate(() => window.scrollTo(0, 700))
-    await expect(header).toHaveClass(/is-sticky/)
+    await expect(header).toHaveAttribute('data-is-sticky')
     await expect.poll(headerOffset).toBeGreaterThan(0)
 
     await page.emulateMedia({ media: 'print' })

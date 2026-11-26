@@ -417,7 +417,7 @@
     }
 
     html[data-whatinput='keyboard'] &--focus:not([disabled]) {
-      &:not(:hover):not(:active) {
+      &:not(:active) {
         @include utilities.focusOutline();
 
         .dnb-drawer-list__option__inner::before {
@@ -427,6 +427,17 @@
 
       @media (forced-colors: active) {
         @include utilities.focusOutline($color: CanvasText);
+      }
+    }
+
+    // Arrow keys can move focus to the option under the mouse. It keeps
+    // :hover, while the hover style is off for keyboard intent.
+    html[data-whatinput='keyboard']:where(:not([data-whatintent='mouse']))
+      &--focus:hover:not([disabled]):not(:active) {
+      @include utilities.focusOutline();
+
+      .dnb-drawer-list__option__inner::before {
+        background-color: transparent;
       }
     }
 

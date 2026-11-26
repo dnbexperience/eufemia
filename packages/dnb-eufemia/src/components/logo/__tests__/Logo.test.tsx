@@ -3,7 +3,13 @@
  *
  */
 
-import type { ReactNode, SVGProps } from 'react'
+import { Suspense, act, createRef, lazy } from 'react'
+import type {
+  ComponentType,
+  ReactElement,
+  ReactNode,
+  SVGProps,
+} from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { LogoProps } from '../Logo'
 import Logo, {
@@ -16,8 +22,11 @@ import Logo, {
   logoColors,
 } from '../Logo'
 import { render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
+import { getContentScript } from '../../../shared/ColorSchemeScriptUtils'
 import type { UseThemeReturn } from '../../../shared/useTheme'
 
 describe('Logo component', () => {
@@ -368,6 +377,39 @@ describe('Logo component', () => {
   })
 
   describe('Logo SVG fill colors', () => {
+    it.each(['light', 'dark'] as const)(
+      'uses the action color token for the Birdhouse logo in %s mode',
+      (colorScheme) => {
+        render(
+          <Provider theme={{ brand: 'birdhouse', colorScheme }}>
+            <Logo
+              svg={(theme) =>
+                theme.isEiendom ? EiendomDefault : DnbDefault
+              }
+            />
+          </Provider>
+        )
+
+        expect(document.querySelector('svg')).toHaveAttribute(
+          'fill',
+          'var(--token-color-icon-action)'
+        )
+      }
+    )
+
+    it('preserves an explicit Birdhouse logo fill', () => {
+      render(
+        <Provider theme={{ brand: 'birdhouse' }}>
+          <EiendomDefault fill="tomato" />
+        </Provider>
+      )
+
+      expect(document.querySelector('svg')).toHaveAttribute(
+        'fill',
+        'tomato'
+      )
+    })
+
     it('should use correct fill in light mode for DnbDefault', () => {
       render(<Logo svg={DnbDefault} />)
 
@@ -492,6 +534,187 @@ describe('Logo component', () => {
 
       const svg = document.querySelector('svg')
       expect(svg).toHaveAttribute('fill', 'tomato')
+    })
+  })
+
+  describe('server rendering and hydration', () => {
+    afterEach(() => {
+      delete globalThis.__eufemiaColorScheme
+    })
+
+    async function hydrate(
+      app: () => ReactElement,
+      clientColorScheme?: 'light' | 'dark',
+      clientApp: () => ReactElement = app
+    ) {
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(app())
+      document.body.appendChild(container)
+      const serverFill = container
+        .querySelector('svg')
+        .getAttribute('fill')
+
+      if (clientColorScheme) {
+        // Run the documented color scheme scripts before hydration
+        globalThis.__eufemiaColorScheme = clientColorScheme
+        new Function(getContentScript())()
+      }
+
+      const matchMediaOriginal = window.matchMedia
+      window.matchMedia = vi.fn().mockImplementation((query) => ({
+        media: query,
+        matches: clientColorScheme === 'dark',
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }))
+      const consoleError = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {})
+      const recoverableError = vi.fn()
+      let root: ReturnType<typeof hydrateRoot>
+      await act(async () => {
+        root = hydrateRoot(container, clientApp(), {
+          onRecoverableError: recoverableError,
+        })
+      })
+      const hydratedFill = container
+        .querySelector('svg')
+        .getAttribute('fill')
+
+      await act(async () => {
+        root.render(clientApp())
+      })
+      const rerenderedFill = container
+        .querySelector('svg')
+        .getAttribute('fill')
+
+      const errors = [
+        ...consoleError.mock.calls,
+        ...recoverableError.mock.calls,
+      ]
+      consoleError.mockRestore()
+      await act(async () => root.unmount())
+      window.matchMedia = matchMediaOriginal
+      container.remove()
+
+      return { serverFill, hydratedFill, rerenderedFill, errors }
+    }
+
+    it.each([
+      ['DnbDefault', DnbDefault, logoColors.dnb],
+      ['EiendomDefault', EiendomDefault, logoColors.eiendom],
+      ['SbankenDefault', SbankenDefault, logoColors.sbanken],
+      ['SbankenCompact', SbankenCompact, logoColors.sbanken],
+      ['SbankenHorizontal', SbankenHorizontal, logoColors.sbanken],
+    ])(
+      'uses the dark fill of %s after hydration when colorScheme="auto" resolves to dark',
+      async (_name, svg, colors) => {
+        const result = await hydrate(
+          () => (
+            <Theme colorScheme="auto">
+              <Logo svg={svg} height="40" />
+            </Theme>
+          ),
+          'dark'
+        )
+
+        expect(result.serverFill).toBe(colors.light)
+        expect(result.hydratedFill).toBe(colors.dark)
+        expect(result.rerenderedFill).toBe(colors.dark)
+        expect(result.errors).toEqual([])
+      }
+    )
+
+    it('uses the dark fill without hydration warnings inside a Suspense boundary', async () => {
+      const DnbLogo = () => <Logo height="40" />
+      const LazyDnbLogo = lazy(async () => ({ default: DnbLogo }))
+      const app = (Content: ComponentType) => (
+        <Theme colorScheme="auto">
+          <Suspense fallback={null}>
+            <Content />
+          </Suspense>
+        </Theme>
+      )
+
+      const result = await hydrate(
+        () => app(DnbLogo),
+        'dark',
+        () => app(LazyDnbLogo)
+      )
+
+      expect(result.serverFill).toBe(logoColors.dnb.light)
+      expect(result.hydratedFill).toBe(logoColors.dnb.dark)
+      expect(result.rerenderedFill).toBe(logoColors.dnb.dark)
+      expect(result.errors).toEqual([])
+    })
+
+    it('forwards a ref to the svg element', () => {
+      const ref = createRef<SVGSVGElement>()
+      render(
+        <Theme colorScheme="dark">
+          <DnbDefault ref={ref} />
+        </Theme>
+      )
+
+      expect(ref.current).toBe(document.querySelector('svg'))
+      expect(ref.current).toHaveAttribute('fill', logoColors.dnb.dark)
+    })
+
+    it('keeps the light fill when colorScheme="auto" resolves to light', async () => {
+      const result = await hydrate(
+        () => (
+          <Theme colorScheme="auto">
+            <Logo height="40" />
+          </Theme>
+        ),
+        'light'
+      )
+
+      expect(result.hydratedFill).toBe(logoColors.dnb.light)
+      expect(result.rerenderedFill).toBe(logoColors.dnb.light)
+      expect(result.errors).toEqual([])
+    })
+
+    it('keeps the dark fill of an explicit colorScheme="dark" without hydration warnings', async () => {
+      const result = await hydrate(() => (
+        <Theme colorScheme="dark">
+          <Logo height="40" />
+        </Theme>
+      ))
+
+      expect(result.serverFill).toBe(logoColors.dnb.dark)
+      expect(result.hydratedFill).toBe(logoColors.dnb.dark)
+      expect(result.rerenderedFill).toBe(logoColors.dnb.dark)
+      expect(result.errors).toEqual([])
+    })
+
+    it('keeps the fill prop when colorScheme="auto" resolves to dark', async () => {
+      const result = await hydrate(
+        () => (
+          <Theme colorScheme="auto">
+            <SbankenDefault fill="tomato" />
+          </Theme>
+        ),
+        'dark'
+      )
+
+      expect(result.hydratedFill).toBe('tomato')
+      expect(result.rerenderedFill).toBe('tomato')
+      expect(result.errors).toEqual([])
+    })
+
+    it('keeps the light fill of CarnegieDefault when colorScheme="auto" resolves to dark', async () => {
+      const result = await hydrate(
+        () => (
+          <Theme colorScheme="auto">
+            <Logo svg={CarnegieDefault} />
+          </Theme>
+        ),
+        'dark'
+      )
+
+      expect(result.hydratedFill).toBe(logoColors.carnegie.light)
+      expect(result.errors).toEqual([])
     })
   })
 })

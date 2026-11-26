@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import type { ReactElement } from 'react'
 import { wait, axeComponent } from '../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
@@ -12,9 +13,11 @@ import {
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import type { Validator } from '../..'
-import { Field, Form } from '../..'
+import { Field, Form, FormError } from '../..'
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
+import SharedProvider from '../../../../shared/Provider'
+import useCanUseDOM from '../../../../shared/helpers/useCanUseDOM'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
@@ -677,6 +680,33 @@ describe('FieldBlock', () => {
       expect(legend).toHaveAttribute('id')
 
       delete MockComponent._formElement
+    })
+
+    it('should not include the help button in the fieldset name', () => {
+      render(
+        <FieldBlock
+          label="Legend"
+          labelDescription="Description"
+          asFieldset
+          help={{ title: 'Help title', content: 'Help content' }}
+        >
+          content
+        </FieldBlock>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const labelledBy = fieldset
+        .getAttribute('aria-labelledby')
+        .split(' ')
+
+      expect(labelledBy).toHaveLength(2)
+      labelledBy.forEach((id) => {
+        expect(document.getElementById(id)).toBeInTheDocument()
+        expect(
+          document.getElementById(id).querySelector('button')
+        ).toBeNull()
+      })
+      expect(fieldset).toHaveAccessibleName('Legend Description')
     })
 
     it('should have role on fieldset when fieldsetRole is provided', () => {
@@ -1549,6 +1579,179 @@ describe('FieldBlock', () => {
           'aria-describedby',
           'field-form-status--error'
         )
+        unmount()
+        container.remove()
+      }
+    )
+
+    it('should not show the messages of a field in another hydrated root', () => {
+      // Roots that hydrate without an identifierPrefix get the same ids
+      const hydrate = (element: ReactElement) => {
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(element)
+        document.body.appendChild(container)
+        render(element, { container, hydrate: true })
+        return container
+      }
+
+      const first = hydrate(
+        <Field.String label="First" warning="Warning" />
+      )
+      const second = hydrate(
+        <Field.Composition label="Second">
+          <Field.String label="Street" />
+        </Field.Composition>
+      )
+
+      expect(first.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Warning'
+      )
+      expect(second.querySelector('.dnb-form-status')).toBeNull()
+    })
+
+    it.each([
+      [
+        'the summary heading',
+        () => [new Error('First'), new Error('Second')],
+        nb.Field.errorSummary + 'First' + 'Second',
+        en.Field.errorSummary + 'First' + 'Second',
+      ],
+      [
+        'a message that the field translates',
+        () => new FormError('Field.errorRequired'),
+        nb.Field.errorRequired,
+        en.Field.errorRequired,
+      ],
+      [
+        'a message from the app',
+        (canUseDOM: boolean) => new Error(canUseDOM ? 'English' : 'Norsk'),
+        'Norsk',
+        'English',
+      ],
+    ])(
+      'should hydrate %s with the server locale when the locale changes after mount',
+      async (_, getError, serverText, clientText) => {
+        const App = () => {
+          const canUseDOM = useCanUseDOM()
+
+          return (
+            <SharedProvider locale={canUseDOM ? 'en-GB' : 'nb-NO'}>
+              <Field.String label="Label" error={getError(canUseDOM)} />
+            </SharedProvider>
+          )
+        }
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(<App />)
+        document.body.appendChild(container)
+        expect(
+          container.querySelector('.dnb-form-status--error')
+        ).toHaveTextContent(serverText)
+
+        const onRecoverableError = vi.fn()
+        const { unmount } = render(<App />, {
+          container,
+          hydrate: true,
+          onRecoverableError,
+        })
+        await waitFor(() => {
+          expect(
+            container.querySelector('.dnb-form-status--error')
+          ).toHaveTextContent(clientText)
+        })
+
+        expect(onRecoverableError).not.toHaveBeenCalled()
+        unmount()
+        container.remove()
+      }
+    )
+
+    it('should hydrate the messages of a nested block with the server text when they change after mount', async () => {
+      const App = () => {
+        const canUseDOM = useCanUseDOM()
+
+        return (
+          <FieldBlock>
+            <FieldBlock warning={canUseDOM ? 'English' : 'Norsk'}>
+              content
+            </FieldBlock>
+          </FieldBlock>
+        )
+      }
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(<App />)
+      document.body.appendChild(container)
+      expect(
+        container.querySelector('.dnb-form-status--warning')
+      ).toHaveTextContent('Norsk')
+
+      const onRecoverableError = vi.fn()
+      const { unmount } = render(<App />, {
+        container,
+        hydrate: true,
+        onRecoverableError,
+      })
+      await waitFor(() => {
+        expect(
+          container.querySelector('.dnb-form-status--warning')
+        ).toHaveTextContent('English')
+      })
+
+      expect(onRecoverableError).not.toHaveBeenCalled()
+      unmount()
+      container.remove()
+    })
+
+    it.each([
+      [
+        'a field',
+        (warning: string) => (
+          <Field.String label="Label" warning={warning} />
+        ),
+      ],
+      [
+        'a field block',
+        (warning: string) => (
+          <FieldBlock id="client-only" warning={warning}>
+            content
+          </FieldBlock>
+        ),
+      ],
+      [
+        'a nested field block',
+        (warning: string) => (
+          <FieldBlock id="outer">
+            <FieldBlock id="client-only" warning={warning}>
+              content
+            </FieldBlock>
+          </FieldBlock>
+        ),
+      ],
+    ])(
+      'should hydrate %s with a message that is only rendered in the browser',
+      async (_, renderElement) => {
+        const App = () => {
+          const canUseDOM = useCanUseDOM()
+
+          return renderElement(canUseDOM ? 'Message' : undefined)
+        }
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(<App />)
+        document.body.appendChild(container)
+        expect(container.querySelector('.dnb-form-status')).toBeNull()
+
+        const onRecoverableError = vi.fn()
+        const { unmount } = render(<App />, {
+          container,
+          hydrate: true,
+          onRecoverableError,
+        })
+        await waitFor(() => {
+          expect(
+            container.querySelector('.dnb-form-status--warning')
+          ).toHaveTextContent('Message')
+        })
+
+        expect(onRecoverableError).not.toHaveBeenCalled()
         unmount()
         container.remove()
       }

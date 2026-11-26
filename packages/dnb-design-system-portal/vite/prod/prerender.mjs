@@ -155,7 +155,14 @@ async function prerender() {
   // paint — avoiding a flash of the wrong brand theme.
   const assetsDir = path.resolve(outDir, 'assets')
   // @deprecated The "coconut" entry is for a transitional brand, removed later
-  const themeNames = ['ui', 'sbanken', 'eiendom', 'carnegie', 'coconut']
+  const themeNames = [
+    'ui',
+    'sbanken',
+    'eiendom',
+    'carnegie',
+    'coconut',
+    'birdhouse',
+  ]
   const themeCssPaths = {}
   for (const name of themeNames) {
     const file = fs
@@ -520,7 +527,7 @@ function getPageMeta(url, allMdxNodes) {
       if (node.frontmatter.showTabs) {
         const tabKey = slug.split('/').pop()
         const defaultTabs = [
-          { title: 'Info', key: '/info' },
+          { title: 'Overview', key: '/overview' },
           { title: 'Demos', key: '/demos' },
           { title: 'Properties', key: '/properties' },
           { title: 'Events', key: '/events' },

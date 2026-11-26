@@ -1,0 +1,17 @@
+/**
+ * Birdhouse UI Theme
+ * Overrides css variables from the ui theme
+ */
+
+// WIP: Remove this import as soon as we have a mapping for all existing properties
+@use '../ui/properties.scss';
+@use './typography-properties.scss';
+
+.eufemia-theme__birdhouse,
+:root {
+  --font-family-display-skeleton: 'DNBSansEiendomSkeleton';
+  --font-family-display: 'DNB Sans Eiendom', var(--font-family-default);
+  --font-weight-display: var(--font-weight-light);
+  --button-text-translate-y: 0;
+  --font-size-basis-native: var(--font-size-basis-web);
+}

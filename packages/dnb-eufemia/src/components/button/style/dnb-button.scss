@@ -105,34 +105,30 @@
     }
 
     // Template modifiers
-    // A Button with aria-disabled has no hover or active state, the same
-    // as a disabled Button
-    &:where(:not([aria-disabled='true'])) {
-      @include utilities.hover() {
-        --button-color-bg: var(--button-color-bg--hover);
-        --button-color-border: var(--button-color-border--hover);
-        --button-color-icon: var(--button-color-icon--hover);
-        --button-color-text: var(--button-color-text--hover);
-        --button-color-underline: var(--button-color-underline--hover);
-        --button-border-inset: var(--button-border-inset--hover);
-        --button-border-width: var(--button-border-width--hover);
-        --button-input-separator-color: var(
-          --button-input-separator-color--hover
-        );
-      }
+    @include utilities.hover() {
+      --button-color-bg: var(--button-color-bg--hover);
+      --button-color-border: var(--button-color-border--hover);
+      --button-color-icon: var(--button-color-icon--hover);
+      --button-color-text: var(--button-color-text--hover);
+      --button-color-underline: var(--button-color-underline--hover);
+      --button-border-inset: var(--button-border-inset--hover);
+      --button-border-width: var(--button-border-width--hover);
+      --button-input-separator-color: var(
+        --button-input-separator-color--hover
+      );
+    }
 
-      @include utilities.active() {
-        --button-color-bg: var(--button-color-bg--active);
-        --button-color-border: var(--button-color-border--active);
-        --button-color-icon: var(--button-color-icon--active);
-        --button-color-text: var(--button-color-text--active);
-        --button-color-underline: var(--button-color-underline--default);
-        --button-border-inset: var(--button-border-inset--default);
-        --button-border-width: var(--button-border-width--active);
-        --button-input-separator-color: var(
-          --button-input-separator-color--active
-        );
-      }
+    @include utilities.active() {
+      --button-color-bg: var(--button-color-bg--active);
+      --button-color-border: var(--button-color-border--active);
+      --button-color-icon: var(--button-color-icon--active);
+      --button-color-text: var(--button-color-text--active);
+      --button-color-underline: var(--button-color-underline--default);
+      --button-border-inset: var(--button-border-inset--default);
+      --button-border-width: var(--button-border-width--active);
+      --button-input-separator-color: var(
+        --button-input-separator-color--active
+      );
     }
 
     @include utilities.focusVisible() {
@@ -678,12 +674,10 @@
         );
       }
 
-      &:where(:not([aria-disabled='true'])) {
-        @include utilities.active() {
-          &::after {
-            top: var(--input-border-width);
-            bottom: var(--input-border-width);
-          }
+      @include utilities.active() {
+        &::after {
+          top: var(--input-border-width);
+          bottom: var(--input-border-width);
         }
       }
     }

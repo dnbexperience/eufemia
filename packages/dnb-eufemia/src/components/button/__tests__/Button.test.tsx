@@ -745,8 +745,15 @@ describe('Button status', () => {
     expect(describedBy).toContain(statusId)
   })
 
-  it('keeps the status describedby when a tooltip is also set', () => {
-    render(
+  it('keeps the tooltip description when the status changes', () => {
+    const { rerender } = render(
+      <Button text="With status and tooltip" tooltip="Helpful hint" />
+    )
+
+    const button = document.querySelector('button')
+    expect(button).toHaveAccessibleDescription('Helpful hint')
+
+    rerender(
       <Button
         text="With status and tooltip"
         status="my error"
@@ -754,14 +761,46 @@ describe('Button status', () => {
       />
     )
 
-    const button = document.querySelector('button')
     const statusId = document
       .querySelector('.dnb-form-status__text')
       .getAttribute('id')
 
-    // The tooltip id is only added on hover/focus, but the status link
-    // must already be present and share the same base id.
-    expect(button.getAttribute('aria-describedby')).toBe(statusId)
+    expect(button.getAttribute('aria-describedby')).toMatch(
+      new RegExp(`^${statusId} `)
+    )
+    expect(button).toHaveAccessibleDescription('my error Helpful hint')
+
+    rerender(
+      <Button text="With status and tooltip" tooltip="Helpful hint" />
+    )
+    expect(button).toHaveAccessibleDescription('Helpful hint')
+  })
+
+  it('keeps the tooltip description when aria-describedby changes', () => {
+    const Example = ({ description }: { description: string }) => (
+      <>
+        <p id="first-description">First description</p>
+        <p id="second-description">Second description</p>
+        <Button
+          text="With description and tooltip"
+          aria-describedby={description}
+          tooltip="Helpful hint"
+        />
+      </>
+    )
+    const { rerender } = render(
+      <Example description="first-description" />
+    )
+
+    const button = document.querySelector('button')
+    expect(button).toHaveAccessibleDescription(
+      'First description Helpful hint'
+    )
+
+    rerender(<Example description="second-description" />)
+    expect(button).toHaveAccessibleDescription(
+      'Second description Helpful hint'
+    )
   })
 
   it('should validate with ARIA rules when a status is set', async () => {
@@ -804,23 +843,6 @@ describe('Button scss', () => {
     expect(css).toMatch(
       new RegExp(
         `\\.dnb-button--primary\\[disabled\\],\\s*\\.dnb-button--primary${ariaDisabled},[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);`
-      )
-    )
-
-    // No hover or active state
-    expect(css).toMatch(
-      new RegExp(
-        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--hover\\);`
-      )
-    )
-    expect(css).toMatch(
-      new RegExp(
-        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):active:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--active\\);`
-      )
-    )
-    expect(css).toMatch(
-      new RegExp(
-        `\\.dnb-button--tertiary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
       )
     )
 

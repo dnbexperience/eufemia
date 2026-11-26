@@ -30,6 +30,7 @@ export default function PortalToolsDrawer({
       <Drawer.Body innerSpace={{ block: 'large' }}>
         <Flex.Stack gap="large">
           <ChangeStyleTheme
+            id="change-theme"
             labelDescription={
               <>
                 Read more about{' '}

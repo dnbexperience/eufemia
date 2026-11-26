@@ -158,6 +158,22 @@
         text-decoration-color: transparent;
       }
 
+      // Touch browsers keep :hover on the last tapped element
+      html:where([data-whatintent='touch'], [data-whatintent='keyboard'])
+        &:not(:active)
+        .dnb-button__text {
+        text-decoration-color: transparent;
+      }
+
+      // Devices that cannot hover show no hover styles at all
+      @media (any-hover: none) {
+        html:where(:not([data-whatintent='mouse']))
+          &:not(:active)
+          .dnb-button__text {
+          text-decoration-color: transparent;
+        }
+      }
+
       .dnb-icon {
         opacity: 1;
       }

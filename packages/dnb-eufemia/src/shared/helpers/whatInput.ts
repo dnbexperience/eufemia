@@ -15,7 +15,7 @@ type InputType = 'initial' | 'keyboard' | 'mouse' | 'touch'
 let currentInput: InputType = 'initial'
 let currentIntent: InputType = 'initial'
 
-let currentTimestamp = Date.now()
+let lastTouchTimestamp = Date.now()
 
 /** Keys to ignore – modifier keys that accompany pointer interactions. */
 const ignoreMap = ['Shift', 'Control', 'Alt', 'Meta']
@@ -41,6 +41,7 @@ function setUp() {
   if (window.PointerEvent) {
     window.addEventListener('pointerdown', setInput, true)
     window.addEventListener('pointermove', setIntent, passiveCapture)
+    window.addEventListener('pointerup', trackTouchRelease, true)
   } else {
     window.addEventListener('mousemove', setIntent, passiveCapture)
 
@@ -64,6 +65,12 @@ function resolvePointerType(event: PointerEvent): InputType {
     return 'touch'
   }
   return 'mouse'
+}
+
+function trackTouchRelease(event: PointerEvent) {
+  if (resolvePointerType(event) === 'touch') {
+    lastTouchTimestamp = Date.now()
+  }
 }
 
 function resolveInputType(event: Event): InputType {
@@ -98,9 +105,12 @@ function validateTouch(value: InputType): boolean {
   const isFalsePositive =
     value === 'mouse' &&
     currentInput === 'touch' &&
-    now - currentTimestamp < 200
+    now - lastTouchTimestamp < 200
 
-  currentTimestamp = now
+  if (value === 'touch') {
+    lastTouchTimestamp = now
+  }
+
   return isFalsePositive
 }
 

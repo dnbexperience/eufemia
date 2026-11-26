@@ -1,4 +1,15 @@
+$anchor-hash-gap: 0.25em;
+
 .anchorLinkStyle {
+  // Keep inline code within the heading line and close to its text size
+  &:global(.dnb-heading) :global(.dnb-code) {
+    margin-block: 0;
+    padding-block: 0.125em;
+
+    font-size: 0.8em;
+    line-height: 1;
+  }
+
   :global {
     .anchor-hash {
       position: absolute;
@@ -7,7 +18,7 @@
       display: inline-block;
 
       width: 1em;
-      margin-left: 0.25em;
+      margin-left: $anchor-hash-gap;
       padding: 0;
 
       line-height: 1;
@@ -37,6 +48,18 @@
 
 .headingContentStyle {
   position: relative;
+
+  // Bridges the gap to the anchor hash, so the heading stays hovered when
+  // it is only as wide as its text, such as in centered cards
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+
+    width: $anchor-hash-gap;
+    height: 100%;
+  }
 
   &:global(.focus) {
     border-radius: var(--token-radius-xs);

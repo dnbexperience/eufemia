@@ -46,9 +46,7 @@ export const CustomComponentWithAjvSchemaExample = () => {
           const {
             id,
             label,
-            info,
-            warning,
-            error,
+            fieldBlockProps,
             value,
             width = 'medium',
             minimum = 0,
@@ -62,14 +60,7 @@ export const CustomComponentWithAjvSchemaExample = () => {
           const steps = { minimum, maximum, step }
 
           return (
-            <FieldBlock
-              forId={id}
-              label={label}
-              info={info}
-              warning={warning}
-              error={error}
-              width={width}
-            >
+            <FieldBlock {...fieldBlockProps} forId={id} width={width}>
               <Flex.Stack>
                 <Field.Number
                   id={id}
@@ -149,9 +140,7 @@ export const CustomComponentWithZodSchemaExample = () => {
           const {
             id,
             label,
-            info,
-            warning,
-            error,
+            fieldBlockProps,
             value,
             width = 'medium',
             minimum = 0,
@@ -165,14 +154,7 @@ export const CustomComponentWithZodSchemaExample = () => {
           const steps = { minimum, maximum, step }
 
           return (
-            <FieldBlock
-              forId={id}
-              label={label}
-              info={info}
-              warning={warning}
-              error={error}
-              width={width}
-            >
+            <FieldBlock {...fieldBlockProps} forId={id} width={width}>
               <Flex.Stack>
                 <Field.Number
                   id={id}
@@ -255,9 +237,7 @@ export const CustomComponentWithJsonSchema = () => {
           const {
             id,
             label,
-            info,
-            warning,
-            error,
+            fieldBlockProps,
             value,
             width = 'medium',
             minimum = 0,
@@ -271,14 +251,7 @@ export const CustomComponentWithJsonSchema = () => {
           const steps = { minimum, maximum, step }
 
           return (
-            <FieldBlock
-              forId={id}
-              label={label}
-              info={info}
-              warning={warning}
-              error={error}
-              width={width}
-            >
+            <FieldBlock {...fieldBlockProps} forId={id} width={width}>
               <Flex.Stack>
                 <Field.Number
                   id={id}

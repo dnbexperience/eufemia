@@ -126,7 +126,7 @@ test.describe('Portal table of contents', () => {
       bottom
     )
 
-    await page.goto('/web/components/button/demos/')
+    await page.goto('/web/components/tag/demos/')
     await expect(scroll).toBeVisible()
     await expect(scroll).toHaveCSS('overscroll-behavior-y', 'auto')
     await scroll.hover()
@@ -264,7 +264,7 @@ test.describe('Portal table of contents', () => {
     })
     const heading = page
       .locator('#tableofcontentitem')
-      .locator('xpath=ancestor::h2')
+      .locator('xpath=ancestor::h3')
     await link.click()
     await expect(link).toHaveAttribute('aria-current', 'location')
     await heading.evaluate((element) => {
@@ -571,7 +571,7 @@ test.describe('Portal table of contents', () => {
     await toc
       .getByRole('button', { name: 'On this page', exact: true })
       .click()
-    await page.getByRole('tab', { name: 'Info', exact: true }).focus()
+    await page.getByRole('tab', { name: 'Overview', exact: true }).focus()
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(
       /\/web\/patterns-and-extensions\/table-of-content\/?$/
@@ -579,7 +579,7 @@ test.describe('Portal table of contents', () => {
     await expect(
       page
         .locator('main')
-        .getByRole('heading', { name: 'Description', exact: true })
+        .getByRole('heading', { name: 'Overview', exact: true })
     ).toBeVisible()
     await expect(
       toc.getByRole('button', { name: 'On this page', exact: true })
@@ -650,7 +650,7 @@ test.describe('Portal table of contents', () => {
         exact: true,
       })
     ).toBeVisible()
-    await expect(toc.locator('a')).toHaveCount(3)
+    await expect(toc.locator('a')).toHaveCount(4)
     await expect(page.locator('[data-toc-outgoing]')).toHaveCount(0)
     await page.setViewportSize({ width: 390, height: 844 })
     await page

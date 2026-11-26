@@ -53,20 +53,14 @@ it.each([
     role: 'check',
     trust: 'lambda_assume',
     consumer: 'resource "aws_lambda_function" "monitor"',
-    policies: [
-      '"${local.tooling_policy_prefix}-check"',
-      'local.lambda_logs_policy',
-    ],
+    policies: ['"${local.tooling_policy_prefix}-check"'],
   },
   {
     label: 'the Slack notifier Lambda',
     role: 'notifier',
     trust: 'lambda_assume',
     consumer: 'resource "aws_lambda_function" "notifier"',
-    policies: [
-      '"${local.tooling_policy_prefix}-notify"',
-      'local.lambda_logs_policy',
-    ],
+    policies: ['"${local.tooling_policy_prefix}-notify"'],
   },
   {
     label: 'the schedules',

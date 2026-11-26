@@ -67,7 +67,7 @@ describe('themeCapabilities', () => {
         ? 'Yes'
         : 'No'
 
-      if (name === 'coconut') {
+      if (name === 'coconut' || name === 'birdhouse') {
         expect(rows.map(([theme]) => theme)).not.toContain(`\`${name}\``)
         continue
       }

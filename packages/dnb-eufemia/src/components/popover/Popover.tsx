@@ -25,6 +25,7 @@ import type {
 import { clsx } from 'clsx'
 import PopoverCloseButton from './internal/PopoverCloseButton'
 import useId from '../../shared/helpers/useId'
+import useOutsideClick from '../../shared/helpers/useOutsideClick'
 import useTranslation from '../../shared/useTranslation'
 import {
   combineDescribedBy,
@@ -76,6 +77,8 @@ export default function Popover(props: PopoverProps) {
     hideOutline = false,
     noInnerSpace = false,
     noMaxWidth = false,
+    minHeight,
+    style,
     keepInDOM = false,
     triggerOffset,
     targetElement: externalTargetElement,
@@ -128,8 +131,6 @@ export default function Popover(props: PopoverProps) {
   const activeElementRef = useRef<HTMLElement | null>(null)
   const shouldRestoreFocusRef = useRef(true)
   const closedByPopoverRef = useRef(false)
-  const touchStartTargetRef = useRef<EventTarget | null>(null)
-  const touchMovedRef = useRef(false)
 
   const subscribeToParentEvents = useContext(PopoverNestedEventsContext)
 
@@ -368,6 +369,7 @@ export default function Popover(props: PopoverProps) {
     }
 
     const timers: Array<ReturnType<typeof setTimeout>> = []
+    let focusAnimationFrame: number | undefined
 
     const focusContent = () => {
       const focusTarget =
@@ -380,6 +382,10 @@ export default function Popover(props: PopoverProps) {
       }
 
       focusTarget.focus({ preventScroll: true })
+
+      if (!focusTarget.contains(document.activeElement)) {
+        return false
+      }
 
       timers.push(
         setTimeout(() => {
@@ -394,50 +400,39 @@ export default function Popover(props: PopoverProps) {
       return true
     }
 
-    const scheduleFocusAttempt = (delay: number, retries: number) => {
-      timers.push(
-        setTimeout(() => {
-          if (!focusContent() && retries > 0) {
-            scheduleFocusAttempt(delay, retries - 1)
-          }
-        }, delay)
-      )
+    const scheduleFocusAttempt = (retries: number) => {
+      focusAnimationFrame = requestAnimationFrame(() => {
+        if (!focusContent() && retries > 0) {
+          scheduleFocusAttempt(retries - 1)
+        }
+      })
     }
 
     if (!focusContent()) {
-      scheduleFocusAttempt(10, 3) // Wait until the Popover is rendered
+      // Wait for inherited visibility to allow the content to receive focus.
+      scheduleFocusAttempt(20)
     }
 
-    return () => timers.forEach(clearTimeout)
+    return () => {
+      timers.forEach(clearTimeout)
+      if (focusAnimationFrame !== undefined) {
+        cancelAnimationFrame(focusAnimationFrame)
+      }
+    }
   }, [focusOnOpen, isOpen, resolveFocusTarget, onFocusComplete])
 
-  const handleDocumentInteraction = useCallback(
-    (
-      event: MouseEvent | TouchEvent | KeyboardEvent,
-      overrideTarget?: EventTarget | null
-    ) => {
-      if (preventClose) {
-        return undefined // stop here
-      }
-      const target = overrideTarget ?? event.target
-      if (!(target instanceof Node)) {
-        return undefined // stop here
-      }
-
+  useOutsideClick({
+    enabled: isOpen,
+    subscribe: subscribeToParentEvents,
+    isInside: (target, event) => {
       // Ignore keyboard events targeting the body element, as this
       // indicates focus was temporarily lost during a React re-render
       // rather than a deliberate user interaction outside the popover.
       if (event instanceof KeyboardEvent && target === document.body) {
-        return undefined // stop here
+        return true
       }
 
-      const insideContent =
-        !!tooltipRef.current && tooltipRef.current.contains(target)
       const triggerElement = getCurrentTriggerElement()
-      const insideTrigger =
-        !!triggerElement &&
-        typeof triggerElement.contains === 'function' &&
-        triggerElement.contains(target as Node)
 
       // Also check horizontalRef when targetElement has both refs,
       // so clicks on sibling elements (e.g. DatePicker inputs) stay inside the trigger area
@@ -446,53 +441,28 @@ export default function Popover(props: PopoverProps) {
       )
         ? resolveTargetNode(externalTargetElement.horizontalRef)
         : null
-      const insideHorizontal =
-        !!horizontalElement && horizontalElement.contains(target as Node)
 
-      if (!insideContent && !insideTrigger && !insideHorizontal) {
-        if (event instanceof KeyboardEvent) {
-          toggle(false)
-        } else {
-          // Leave the focus where the user clicked or tapped
-          shouldRestoreFocusRef.current = false
-          setOpenState(false)
-        }
-      }
+      return Boolean(
+        tooltipRef.current?.contains(target) ||
+        (typeof triggerElement?.contains === 'function' &&
+          triggerElement.contains(target)) ||
+        horizontalElement?.contains(target)
+      )
     },
-    [
-      preventClose,
-      getCurrentTriggerElement,
-      toggle,
-      setOpenState,
-      externalTargetElement,
-    ]
-  )
-
-  const handleDocumentTouchStart = useCallback((event: TouchEvent) => {
-    touchMovedRef.current = false
-    touchStartTargetRef.current = event.target
-  }, [])
-
-  const handleDocumentTouchMove = useCallback(() => {
-    touchMovedRef.current = true
-  }, [])
-
-  const handleDocumentTouchEnd = useCallback(
-    (event: TouchEvent) => {
-      const target = touchStartTargetRef.current
-      const moved = touchMovedRef.current
-      touchMovedRef.current = false
-      touchStartTargetRef.current = null
-
-      // No touchstart was seen, e.g. it was stopped in a nested Popover
-      if (moved || !target) {
-        return undefined // stop here
+    onOutsideClick: (event) => {
+      if (preventClose) {
+        return // stop here
       }
 
-      handleDocumentInteraction(event, target)
+      if (event instanceof KeyboardEvent) {
+        toggle(false)
+      } else {
+        // Leave the focus where the user clicked or tapped
+        shouldRestoreFocusRef.current = false
+        setOpenState(false)
+      }
     },
-    [handleDocumentInteraction]
-  )
+  })
 
   const handleDocumentKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -525,73 +495,13 @@ export default function Popover(props: PopoverProps) {
       return undefined // stop here
     }
 
-    document.documentElement.addEventListener(
-      'mousedown',
-      handleDocumentInteraction
-    )
-    document.documentElement.addEventListener(
-      'touchstart',
-      handleDocumentTouchStart,
-      { passive: true }
-    )
-    document.documentElement.addEventListener(
-      'touchmove',
-      handleDocumentTouchMove,
-      { passive: true }
-    )
-    document.documentElement.addEventListener(
-      'touchend',
-      handleDocumentTouchEnd,
-      { passive: true }
-    )
-    document.documentElement.addEventListener(
-      'keyup',
-      handleDocumentInteraction
-    )
     // Use capture phase (true) to ensure we handle Escape before Modal/Dialog handlers
     document.addEventListener('keydown', handleDocumentKeyDown, true)
 
-    const unsubscribeFromParent = subscribeToParentEvents?.((event) => {
-      if (event.type === 'touchstart') {
-        handleDocumentTouchStart(event as TouchEvent)
-      } else {
-        handleDocumentInteraction(event as MouseEvent)
-      }
-    })
-
     return () => {
-      unsubscribeFromParent?.()
-      document.documentElement.removeEventListener(
-        'mousedown',
-        handleDocumentInteraction
-      )
-      document.documentElement.removeEventListener(
-        'touchstart',
-        handleDocumentTouchStart
-      )
-      document.documentElement.removeEventListener(
-        'touchmove',
-        handleDocumentTouchMove
-      )
-      document.documentElement.removeEventListener(
-        'touchend',
-        handleDocumentTouchEnd
-      )
-      document.documentElement.removeEventListener(
-        'keyup',
-        handleDocumentInteraction
-      )
       document.removeEventListener('keydown', handleDocumentKeyDown, true)
     }
-  }, [
-    handleDocumentInteraction,
-    handleDocumentKeyDown,
-    handleDocumentTouchEnd,
-    handleDocumentTouchMove,
-    handleDocumentTouchStart,
-    isOpen,
-    subscribeToParentEvents,
-  ])
+  }, [handleDocumentKeyDown, isOpen])
 
   const handleTriggerKeyDown = useCallback(
     (
@@ -756,6 +666,13 @@ export default function Popover(props: PopoverProps) {
   const popoverAttributes: HTMLAttributes<HTMLElement> = {
     ...(restAttributes as HTMLAttributes<HTMLElement>),
     className: popoverClassName,
+    style:
+      minHeight === undefined
+        ? style
+        : {
+            ...style,
+            minHeight: `min(${Math.max(0, parseFloat(String(minHeight)) || 0)}rem, var(--popover-available-height, 100vh))`,
+          },
   }
 
   const contentRef = externalContentRef || tooltipRef

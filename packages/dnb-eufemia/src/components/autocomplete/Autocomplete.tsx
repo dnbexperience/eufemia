@@ -19,6 +19,7 @@ import type {
   MouseEvent,
   MouseEventHandler,
   ReactNode,
+  RefObject,
 } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { clsx } from 'clsx'
@@ -77,6 +78,7 @@ import {
   getCurrentData,
   getCurrentIndex,
   normalizeData,
+  parseCurrentValue,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 import type {
   AutocompleteAllProps,
@@ -173,6 +175,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   onClear: null,
   onSubmit: null,
   inputElement: null,
+  resultsRender: null,
 }
 
 function Autocomplete(ownProps: AutocompleteAllProps) {
@@ -180,7 +183,7 @@ function Autocomplete(ownProps: AutocompleteAllProps) {
   const filteredOwnProps = Object.fromEntries(
     Object.entries(ownProps).filter(([, value]) => value !== undefined)
   )
-  const { inline, disabled } = extendPropsWithContext(
+  const { inline, disabled, resultsRender } = extendPropsWithContext(
     filteredOwnProps,
     autocompleteDefaultProps,
     context.getTranslation?.(ownProps)?.Autocomplete,
@@ -189,28 +192,34 @@ function Autocomplete(ownProps: AutocompleteAllProps) {
   )
 
   const _id = useId(ownProps.id)
+  const resultsRef = useRef<HTMLSpanElement>(null)
 
   const providerProps = {
     ...ownProps,
     id: _id,
     data: ownProps.data || ownProps.children,
-    inline,
+    inline: inline || Boolean(resultsRender),
     // Include disabled from context (e.g. Provider or Form.Handler),
     // so the open list ignores selection as well
     disabled,
-    open: inline ? true : null,
-    noAnimation: inline || ownProps.noAnimation,
+    open: inline ? true : (ownProps.open ?? null),
+    noAnimation: inline || Boolean(resultsRender) || ownProps.noAnimation,
     preventClose: inline || ownProps.preventClose,
-    skipPortal: inline || ownProps.skipPortal,
+    skipPortal: inline || Boolean(resultsRender) || ownProps.skipPortal,
     tagName: 'dnb-autocomplete',
     ignoreEvents: inline && disabled,
     preventFocus: true,
     skipKeysearch: true,
+    _refResults: resultsRef,
   } as unknown as Partial<DrawerListProps>
 
   return (
     <DrawerListProvider {...providerProps}>
-      <AutocompleteComponent {...ownProps} id={_id} />
+      <AutocompleteComponent
+        {...ownProps}
+        id={_id}
+        resultsRef={resultsRef}
+      />
     </DrawerListProvider>
   )
 }
@@ -257,7 +266,10 @@ function getCurrentDataTitle(
   })
 }
 
-function AutocompleteComponent(ownProps: AutocompleteAllProps) {
+function AutocompleteComponent({
+  resultsRef,
+  ...ownProps
+}: AutocompleteAllProps & { resultsRef: RefObject<HTMLSpanElement> }) {
   const context = useContext(
     DrawerListContext
   ) as DrawerListContextValue & {
@@ -369,6 +381,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     onSelect: _onSelect,
     onSubmit: _onSubmit,
     onItemMouseEnter,
+    resultsRender,
 
     ...attributes
   } = props
@@ -845,7 +858,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
   const wrapWithShowAll = useCallback(
     (data: DrawerListInternalData) => {
-      if (!data || !hasFilterActive(data)) {
+      if (!data || props.showAll === false || !hasFilterActive(data)) {
         return data
       }
 
@@ -1399,6 +1412,16 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     suppressFocusHandlerRef.current = false
   }, [focusInput])
 
+  const closeResults = useCallback(() => {
+    setHidden()
+
+    // The refocus on close is suppressed, so typing must still reopen the results.
+    if (document.activeElement === _refInput.current) {
+      setHasFocus(true)
+      setHasBlur(false)
+    }
+  }, [setHidden, setHasBlur])
+
   const setVisibleAndFocusOnInput = useCallback(() => {
     if (!hasFocusRef.current && !hasSelectedText()) {
       setFocusOnInput()
@@ -1416,14 +1439,16 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       // Typing is a clear intent to (re)open and filter the list.
       preventReopenRef.current = false
 
+      const trimmed = String(val).trim()
+      runFilterWithSideEffects(trimmed)
+      // Refocusing during the same event must use the updated query.
+      inputValueRef.current = val
+
       dispatchCustomElementEvent(propsRef.current, 'onType', {
         value: val,
         event,
         ...getEventObjects('onType'),
       })
-
-      const trimmed = String(val).trim()
-      runFilterWithSideEffects(trimmed)
     },
     [runFilterWithSideEffects]
   )
@@ -1635,7 +1660,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         }
       }
 
-      if (openOnFocus) {
+      if (openOnFocus && !resultsRender) {
         setHidden()
       } else if (
         drawerListRef.current.open &&
@@ -1660,6 +1685,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       preventSelection,
       noAnimation,
       openOnFocus,
+      resultsRender,
       resetInputValue,
       hasSelectedItem,
       resetActiveItem,
@@ -1709,13 +1735,18 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       const skipFocus = skipCloseFocusRef.current
       skipCloseFocusRef.current = false
 
-      if (res !== false && !closingFromChangeRef.current && !skipFocus) {
+      if (
+        res !== false &&
+        !closingFromChangeRef.current &&
+        !skipFocus &&
+        (!resultsRender || !args.preventHideFocus)
+      ) {
         setFocusOnInput()
       }
 
       return res
     },
-    [setFocusOnInput]
+    [setFocusOnInput, resultsRender]
   )
 
   const onSelectHandler = useCallback((args: DrawerListSelectEvent) => {
@@ -1764,6 +1795,11 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     }) => {
       const selectedItem = args.selectedItem
 
+      if (!keepOpen) {
+        // A parent data update after selection must not reopen the results.
+        preventReopenRef.current = true
+      }
+
       if (!preventSelection) {
         if (!keepOpen) {
           setSkipFocusDuringChange(true)
@@ -1776,10 +1812,6 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
           // is intentionally ineffective.
           closingFromChangeRef.current = true
           setHidden()
-
-          // Prevent a data-prop change triggered by this selection (e.g. a
-          // fetch in the parent) from reopening the just-closed drawer.
-          preventReopenRef.current = true
 
           // Do this, so screen readers get a NEW focus later on
           // So we first need a blur of the input basically
@@ -1870,6 +1902,39 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         preferSelectedValue: true,
       })
       setInputValueState(newInputValue)
+    } else if (
+      prevDataRef.current?.length > 0 &&
+      props.data?.length > 0 &&
+      props.value !== undefined &&
+      props.value !== null &&
+      props.value !== 'initval'
+    ) {
+      // The selected item is the same, but its title changed, e.g. after a
+      // locale change. Show the new title, unless the user has typed
+      // something else than the old title.
+      const oldData = normalizeData(prevDataRef.current)
+      const newData = normalizeData(props.data)
+      const oldIndex = getCurrentIndex(props.value, oldData)
+      const newIndex = getCurrentIndex(props.value, newData)
+      const oldItem = oldData[oldIndex]
+      const newItem = newData[newIndex]
+
+      if (
+        oldItem &&
+        newItem &&
+        parseCurrentValue(oldItem) === parseCurrentValue(newItem)
+      ) {
+        const oldTitle = getCurrentDataTitle(oldIndex, oldData)
+        const newTitle = getCurrentDataTitle(newIndex, newData)
+
+        if (
+          newTitle &&
+          newTitle !== oldTitle &&
+          (inputValueRef.current ?? '') === (oldTitle ?? '')
+        ) {
+          setInputValueState(newTitle)
+        }
+      }
     }
 
     prevDataRef.current = props.data
@@ -2151,6 +2216,44 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     return ''
   })()
 
+  const results = (
+    <DrawerList
+      id={id}
+      className={clsx('dnb-autocomplete__root', drawerClass)}
+      portalClass={portalClass}
+      listClass="dnb-autocomplete__list"
+      value={selectedItem}
+      defaultValue={defaultValue}
+      scrollable={scrollable}
+      focusable={focusable}
+      noAnimation={inline || Boolean(resultsRender) || noAnimation}
+      noScrollAnimation={inline || noScrollAnimation}
+      skipPortal={skipPortal || Boolean(resultsRender)}
+      inline={inline || Boolean(resultsRender)}
+      ignoreEvents={inline && disabled}
+      preventSelection={preventSelection}
+      keepOpen={keepOpen}
+      preventClose={preventClose}
+      alignDrawer={align}
+      noDivider={noDivider}
+      fixedPosition={fixedPosition}
+      disabled={disabled}
+      maxHeight={maxHeight}
+      direction={direction}
+      size={size}
+      optionsRender={optionsRender}
+      listDriver={listDriver}
+      onChange={onChangeHandler}
+      onSelect={onSelectHandler}
+      onClose={onCloseHandler}
+      onPreChange={onPreChangeHandler}
+      onKeyDown={reserveActivityHandler}
+      onMouseDown={reserveActivityHandler}
+      onItemMouseEnter={onItemMouseEnter}
+      independentWidth={independentWidth}
+    />
+  )
+
   return (
     <span {...mainParams}>
       {label && (
@@ -2234,41 +2337,14 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               </span>
             )}
 
-            <DrawerList
-              id={id}
-              className={clsx('dnb-autocomplete__root', drawerClass)}
-              portalClass={portalClass}
-              listClass="dnb-autocomplete__list"
-              value={selectedItem}
-              defaultValue={defaultValue}
-              scrollable={scrollable}
-              focusable={focusable}
-              noAnimation={inline || noAnimation}
-              noScrollAnimation={inline || noScrollAnimation}
-              skipPortal={skipPortal}
-              inline={inline}
-              ignoreEvents={inline && disabled}
-              preventSelection={preventSelection}
-              keepOpen={keepOpen}
-              preventClose={preventClose}
-              alignDrawer={align}
-              noDivider={noDivider}
-              fixedPosition={fixedPosition}
-              disabled={disabled}
-              maxHeight={maxHeight}
-              direction={direction}
-              size={size}
-              optionsRender={optionsRender}
-              listDriver={listDriver}
-              onChange={onChangeHandler}
-              onSelect={onSelectHandler}
-              onClose={onCloseHandler}
-              onPreChange={onPreChangeHandler}
-              onKeyDown={reserveActivityHandler}
-              onMouseDown={reserveActivityHandler}
-              onItemMouseEnter={onItemMouseEnter}
-              independentWidth={independentWidth}
-            />
+            {resultsRender
+              ? resultsRender({
+                  results,
+                  open: isExpanded,
+                  close: closeResults,
+                  resultsRef,
+                })
+              : results}
           </span>
 
           {suffix && (

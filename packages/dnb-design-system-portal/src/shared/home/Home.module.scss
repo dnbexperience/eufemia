@@ -103,23 +103,6 @@
 .searchStyle {
   max-width: 37rem;
   margin-top: 1.75rem;
-
-  > :global(.dnb-autocomplete) {
-    --autocomplete-border-radius: var(--token-radius-full);
-    --autocomplete-height--medium: 3.5rem;
-    --input-border-radius: var(--token-radius-full);
-
-    width: 100%;
-  }
-
-  :global(kbd) {
-    right: 1rem;
-  }
-
-  :global(.dnb-input) {
-    --input-border-radius--default: var(--token-radius-full);
-    --input-height--medium: 3.5rem;
-  }
 }
 
 .sceneStyle {

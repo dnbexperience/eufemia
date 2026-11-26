@@ -4,7 +4,8 @@
 */
 
 .dnb-table {
-  tr.sticky {
+  // The state is set by "useStickyHeader"
+  tr[data-sticky] {
     position: sticky;
     z-index: 7; // above focused body cells
 
@@ -17,7 +18,7 @@
     }
   }
 
-  tr.sticky.css-position {
+  tr[data-sticky='css-position'] {
     top: var(--table-top, 0); // is set by "stickyOffset" prop
   }
 
@@ -25,28 +26,85 @@
   @supports (animation-timeline: scroll(root block)) and
     (animation-range: 0 1px) {
     @media screen {
-      tr.sticky.page-scroll {
+      tr[data-sticky][data-page-scroll] {
         // This positions the header, so reduced-motion resets must not disable it.
-        animation: table-sticky-scroll auto linear both !important;
+        // Longhands prevent minifiers from moving a shorthand after the timeline and resetting it.
+        animation-name: table-sticky-scroll !important;
+        animation-duration: auto !important;
+        animation-timing-function: linear !important;
+        animation-delay: 0s !important;
+        animation-iteration-count: 1 !important;
+        animation-direction: normal !important;
+        animation-fill-mode: both !important;
+        // stylelint-disable-next-line declaration-block-no-redundant-longhand-properties
+        animation-play-state: running !important;
         animation-timeline: scroll(root block) !important;
         animation-range: var(--table-scroll-start) var(--table-scroll-end) !important;
       }
     }
   }
 
-  &--outline tr.sticky::after {
-    // Continue the outer frame above the focused body cells.
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: var(--table-outline);
-    border-bottom: 0;
-    border-radius: var(--table-outline-radius-top)
-      var(--table-outline-radius-top) 0 0;
-    pointer-events: none;
+  // Continue the outer frame above the focused body cells.
+  // A pseudo-element of the row would add a column to a fixed table,
+  // and inset shadows on the cells show lines between them in Firefox on high-density displays.
+  &--outline tr[data-sticky] > * {
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-top: var(--table-outline);
+      pointer-events: none;
+    }
+
+    &:first-child::after {
+      border-left: var(--table-outline);
+      border-top-left-radius: var(--table-outline-radius-top);
+    }
+
+    &:last-child::after {
+      border-right: var(--table-outline);
+      border-top-right-radius: var(--table-outline-radius-top);
+    }
   }
 
-  tr.sticky.is-sticky th::before {
+  // While the header is stuck or at the last row, it is not at the top of the table.
+  // If it were rounded, the outline of the table would show through its corners.
+  &--outline#{&}
+    > thead:first-of-type
+    > tr[data-sticky]:is([data-is-sticky], [data-is-at-end]):first-of-type
+    > :is(.dnb-table__th, th, td) {
+    &,
+    &::after {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
+  // At the last row, the header covers the bottom of the outline, so it draws it instead
+  &--outline#{&}
+    > thead:first-of-type
+    > tr[data-sticky][data-is-at-end]:first-of-type
+    > :is(.dnb-table__th, th, td) {
+    &::after {
+      border-bottom: var(--table-outline);
+    }
+
+    &:first-child {
+      &,
+      &::after {
+        border-bottom-left-radius: var(--table-outline-radius);
+      }
+    }
+
+    &:last-child {
+      &,
+      &::after {
+        border-bottom-right-radius: var(--table-outline-radius);
+      }
+    }
+  }
+
+  tr[data-sticky][data-is-sticky] th::before {
     content: '';
     position: absolute;
     left: 0;

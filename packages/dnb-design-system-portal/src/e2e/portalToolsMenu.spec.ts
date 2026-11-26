@@ -81,11 +81,11 @@ test.describe('Settings', () => {
           .getByRole('button', { name: /Close|Lukk/ })
           .first()
           .click()
-        const infoTab = page
-          .getByRole('tab', { name: 'Info', exact: true })
+        const overviewTab = page
+          .getByRole('tab', { name: 'Overview', exact: true })
           .first()
-        await infoTab.focus()
-        await infoTab.press('Enter')
+        await overviewTab.focus()
+        await overviewTab.press('Enter')
         await expect(page).toHaveURL(/\/web\/components\/button\/?$/)
         await expect
           .poll(() =>

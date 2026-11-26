@@ -1241,3 +1241,19 @@ for (const width of [320, 640, 641, 768, 1280]) {
     }
   })
 }
+
+test('scene radii follow the brand radius tokens', async ({ page }) => {
+  const surface = page.locator('rect.dnb-motion-scene__surface').first()
+  const switchTrack = page.locator('.dnb-motion-scene__switch-track')
+
+  await expect(surface).toHaveCSS('rx', '12px')
+  await expect(switchTrack).toHaveCSS('rx', '18px')
+
+  await page.goto(
+    '/web/development-guidelines/motion/?eufemia-theme=carnegie'
+  )
+  await waitForApp(page)
+
+  await expect(surface).toHaveCSS('rx', '4px')
+  await expect(switchTrack).toHaveCSS('rx', '12px')
+})

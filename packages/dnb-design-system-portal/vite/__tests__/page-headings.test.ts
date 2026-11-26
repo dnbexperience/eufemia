@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from '@11ty/gray-matter'
 import { scanPageFiles } from '../client/plugins/portal-pages'
-import { buildImportedSet, docsDir } from './shared/helpers'
+import { buildImportedSet, docsDir, walk } from './shared/helpers'
 
 /**
  * Guards the "main heading" pattern for portal documentation pages.
@@ -26,12 +26,15 @@ import { buildImportedSet, docsDir } from './shared/helpers'
  * - `visual-tests` pages (screenshot fixtures, rendered without a heading)
  */
 
+type MarkdownHeading = { level: number; text: string }
+
 /**
- * Inspect an MDX body (frontmatter already stripped) and return the level of
- * its first markdown heading. Fenced code blocks are skipped, so a `#`
- * comment inside a code block is not mistaken for a heading.
+ * Return the markdown headings of an MDX body (frontmatter already stripped).
+ * Fenced code blocks are skipped, so a `#` comment inside a code block is not
+ * mistaken for a heading.
  */
-function findFirstHeadingLevel(body: string): number | null {
+function getHeadings(body: string): MarkdownHeading[] {
+  const headings: MarkdownHeading[] = []
   let inFence = false
   let fenceMarker = ''
 
@@ -53,11 +56,15 @@ function findFirstHeadingLevel(body: string): number | null {
 
     const heading = /^(#{1,6})\s+\S/.exec(line)
     if (heading) {
-      return heading[1].length
+      headings.push({ level: heading[1].length, text: line.trim() })
     }
   }
 
-  return null
+  return headings
+}
+
+function findFirstHeadingLevel(body: string): number | null {
+  return getHeadings(body)[0]?.level ?? null
 }
 
 describe('portal page main headings', () => {
@@ -122,6 +129,74 @@ describe('portal page main headings', () => {
         `\n\nRemove the "# Title" heading and give the page a frontmatter ` +
         `"title" or "contentTitle" instead. ` +
         `See vite/__tests__/page-headings.test.ts for the rules.`
+    ).toEqual([])
+  })
+})
+
+/**
+ * Guards the heading outline within each documentation source file, since
+ * screen reader users and the page table of contents navigate by it.
+ *
+ * - A heading is at most one level deeper than the heading before it. The
+ *   first heading is not checked, because a partial may continue the outline
+ *   of the page that renders it.
+ * - "Relevant links" only lists links, so it has no subsections.
+ */
+describe('portal page heading outline', () => {
+  const files = walk(docsDir)
+    .filter((file) => file.endsWith('.mdx'))
+    .map((file) => ({
+      file: path.relative(docsDir, file),
+      headings: getHeadings(
+        matter(fs.readFileSync(file, 'utf-8')).content
+      ),
+    }))
+
+  it('scans a meaningful number of MDX files', () => {
+    expect(files.length).toBeGreaterThan(50)
+  })
+
+  it('never skips a heading level', () => {
+    const offenders: string[] = []
+
+    for (const { file, headings } of files) {
+      headings.forEach(({ level, text }, index) => {
+        const previous = headings[index - 1]
+        if (previous && level > previous.level + 1) {
+          offenders.push(`${file}: ${text}`)
+        }
+      })
+    }
+
+    expect(
+      offenders,
+      `These headings skip a level:\n` +
+        offenders.join('\n') +
+        `\n\nUse a heading one level below the section it belongs to.`
+    ).toEqual([])
+  })
+
+  it('has no subsections under "Relevant links"', () => {
+    const offenders: string[] = []
+
+    for (const { file, headings } of files) {
+      let linksLevel = 0
+
+      for (const { level, text } of headings) {
+        if (linksLevel && level > linksLevel) {
+          offenders.push(`${file}: ${text}`)
+        } else {
+          linksLevel = /^#+ Relevant links\b/.test(text) ? level : 0
+        }
+      }
+    }
+
+    expect(
+      offenders,
+      `These headings are nested under "Relevant links":\n` +
+        offenders.join('\n') +
+        `\n\nMake them sections of their own, or move them to the section ` +
+        `they belong to.`
     ).toEqual([])
   })
 })

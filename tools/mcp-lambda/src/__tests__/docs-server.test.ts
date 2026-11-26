@@ -3,7 +3,10 @@ import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { Client, InMemoryTransport } from '@modelcontextprotocol/client'
-import { createDocsServer } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
+import {
+  AGENT_SKILL_NAMES,
+  createDocsServer,
+} from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 
 async function createTempDocs(
   files: Record<string, string>
@@ -99,6 +102,32 @@ describe('docs-server tools', () => {
 
       expect(result).toContain('Eufemia LLM Guide')
     })
+  })
+
+  describe('docs_meta', () => {
+    it('lists the known skill names in its input schema', async () => {
+      const { tools } = await client.listTools()
+      const docsMeta = tools.find(({ name }) => name === 'docs_meta')
+
+      expect(docsMeta?.inputSchema.properties?.skill).toMatchObject({
+        enum: [...AGENT_SKILL_NAMES],
+      })
+    })
+
+    it.each(['eufemia-review', 'eufemia-future-skill'])(
+      'returns the metadata when called with the skill %s',
+      async (skill) => {
+        const result = await client.callTool({
+          name: 'docs_meta',
+          arguments: { skill },
+        })
+
+        expect(result.isError).toBeFalsy()
+        expect(parseResult(result)).toMatchObject({
+          eufemiaVersion: '11.0.0',
+        })
+      }
+    )
   })
 
   describe('portal_content_workflow', () => {

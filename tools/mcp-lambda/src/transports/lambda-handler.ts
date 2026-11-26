@@ -9,6 +9,7 @@ import {
   WebStandardStreamableHTTPServerTransport,
 } from '@modelcontextprotocol/server'
 import { createServer, usageCaptureOptions } from '../server.js'
+import { withToolCalls } from '../tool-calls.js'
 import { captureUsage } from '../usage-capture.js'
 
 const modernMcpHandler = createMcpHandler(createServer, {
@@ -134,12 +135,14 @@ export async function handler(
 
   try {
     const request = toWebRequest(event)
-    const response = await handleMcpRequest(request)
+    // Read the body inside the collector, in case a streamed response runs tools late.
+    const { result, toolCalls } = await withToolCalls(async () =>
+      toApiGatewayResult(await handleMcpRequest(request))
+    )
 
-    await captureUsage(event, usageCaptureOptions)
+    await captureUsage(toolCalls, usageCaptureOptions)
 
-    // API Gateway requires a buffered response body.
-    return await toApiGatewayResult(response)
+    return result
   } catch (error) {
     // Lambda surfaces logs to CloudWatch through the console; this is the
     // intended sink for unexpected handler failures.

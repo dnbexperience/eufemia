@@ -119,8 +119,9 @@ The deploy tokens (`GHE_DEPLOY_PAT` and `GHE_MONITORING_DEPLOY_PAT`) are secrets
 The jobs that read a token run in the `ghe-deploy` environment, and the workflow check (`lint:workflows`) fails when a job that reads one runs outside it. The environment only accepts `main`, `release` and release tags (`v*`), so a manual run from any other branch stops before the job starts. To set it up, create the environment in **Settings → Environments**, limit its deployment branches and tags to those three, and add both tokens as environment secrets.
 
 The deploy creates both Lambda execution roles with the OIDC permissions
-boundary. Each gets basic Lambda logging plus one policy from the OIDC
-federation repo, and the deploy role may attach no others:
+boundary. Each gets one policy from the OIDC federation repo, and the deploy
+role may attach no others. That policy also allows writes to the role's own
+Lambda log group, which Terraform creates:
 
 - `eufemia-<env>-mcp-lambda`: `eufemia-<env>-mcp-usage-enqueue`
   (`sqs:SendMessage` on the usage queue).

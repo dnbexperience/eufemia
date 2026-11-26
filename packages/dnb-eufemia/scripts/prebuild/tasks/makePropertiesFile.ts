@@ -12,6 +12,11 @@ import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
 import { formatNumberValue as transformNumberValue } from '../../../src/style/themes/figma/tokenValueUtils'
+import {
+  birdhouseDarkActionOverride,
+  birdhouseDarkErrorOverride,
+  birdhouseDarkFocusOverride,
+} from '../../../src/style/themes/figma/tokenOverrides'
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
@@ -245,6 +250,7 @@ const foundationPrefixMap = {
   // The Figma set is still named after the brand it replaces.
   coconut: { css: 'coconut', figma: 'sbanken-new' },
   carnegie: { css: 'carnegie', figma: 'dnb-carnegie' },
+  birdhouse: { css: 'birdhouse', figma: 'dnb-eiendom' },
 }
 
 export const transformFigmaAlias = (alias: FigmaAlias) => {
@@ -826,11 +832,9 @@ export const overrideFoundationReferencePrefix = (
   scssContent: string,
   referencePrefixOverride: string
 ) => {
-  const prefixPattern = [
-    foundationPrefixMap.ui.css,
-    foundationPrefixMap.sbanken.css,
-    foundationPrefixMap.carnegie.css,
-  ].join('|')
+  const prefixPattern = Object.values(foundationPrefixMap)
+    .map(({ css }) => css)
+    .join('|')
 
   return scssContent.replace(
     new RegExp(
@@ -917,12 +921,14 @@ const webFontFamilies: Record<string, string> = {
   'Maison Neue':
     "'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif",
   'ABC Arizona Flare': "'ArizonaFlare', var(--font-family-default)",
+  'Sbanken Display': "'Sbanken Display', var(--font-family-default)",
 }
 
 const webFontFamiliesByBrand: Record<string, string[]> = {
   ui: ['DNB'],
   sbanken: ['Roboto', 'Maison Neue'],
-  coconut: ['DNB', 'Roboto', 'Maison Neue'],
+  coconut: ['DNB', 'Sbanken Display', 'Roboto', 'Maison Neue'],
+  birdhouse: ['DNB'],
   carnegie: ['DNB', 'ABC Arizona Flare'],
 }
 
@@ -1046,19 +1052,30 @@ export const makeTypographyPropertiesSCSS = async ({
   if (brand === 'sbanken' || brand === 'coconut') {
     if (brand === 'coconut') {
       // @deprecated Transitional "coconut" brand. Its Figma file still uses
-      // the Sbanken body font (Roboto). Remove this block and Roboto from
-      // webFontFamiliesByBrand.coconut once Figma uses DNB.
-      const expected = webFontFamilies.DNB
-      const actual = fontProperties['--font-family-default']
-      if (actual === expected) {
-        log.warn(
-          `Figma now exports the expected ${expected} as the Coconut body font. Remove the Coconut font family replacement in makePropertiesFile.ts.`
-        )
-      } else {
-        log.warn(
-          `Replaced the Coconut body font from Figma (${actual}) with ${expected}.`
-        )
-        fontProperties['--font-family-default'] = expected
+      // the Sbanken font families (Roboto and Maison Neue). Remove this block,
+      // Roboto and Maison Neue from webFontFamiliesByBrand.coconut once Figma
+      // uses DNB and Sbanken Display.
+      const expectedFamilies = {
+        body: ['--font-family-default', webFontFamilies.DNB],
+        heading: [
+          '--font-family-heading',
+          webFontFamilies['Sbanken Display'],
+        ],
+      } as const
+      for (const [role, [property, expected]] of Object.entries(
+        expectedFamilies
+      )) {
+        const actual = fontProperties[property]
+        if (actual === expected) {
+          log.warn(
+            `Figma now exports the expected ${expected} as the Coconut ${role} font. Remove the Coconut ${role} font family replacement in makePropertiesFile.ts.`
+          )
+        } else {
+          log.warn(
+            `Replaced the Coconut ${role} font from Figma (${actual}) with ${expected}.`
+          )
+          fontProperties[property] = expected
+        }
       }
     }
 
@@ -1068,8 +1085,8 @@ export const makeTypographyPropertiesSCSS = async ({
         value.replaceAll('--font-', '--sb-font-'),
       ])
     )
-  } else if (brand === 'carnegie') {
-    // Carnegie inherits its body family and weight scale from UI.
+  } else if (brand === 'carnegie' || brand === 'birdhouse') {
+    // Both inherit UI typography; Carnegie overrides its heading family.
     const uiTokens = convertToTokenList(
       JSON.parse(
         await promises.readFile(
@@ -1082,17 +1099,21 @@ export const makeTypographyPropertiesSCSS = async ({
     const uiProperties = getTypographyFontProperties(uiTokens, 'ui')
     for (const property of Object.keys(fontProperties)) {
       if (
-        property !== '--font-family-heading' &&
+        (brand !== 'carnegie' || property !== '--font-family-heading') &&
         fontProperties[property] !== uiProperties[property]
       ) {
         throw new Error(
-          'Expected Carnegie to inherit UI typography: ' + property
+          'Expected ' + brand + ' to inherit UI typography: ' + property
         )
       }
     }
-    propertiesToSync = {
-      '--ca-font-family-heading': fontProperties['--font-family-heading'],
-    }
+    propertiesToSync =
+      brand === 'carnegie'
+        ? {
+            '--ca-font-family-heading':
+              fontProperties['--font-family-heading'],
+          }
+        : {}
   }
 
   const declarations = Object.entries(typographyProperties).map(
@@ -1162,6 +1183,7 @@ const runDesignTokenFactory = async () => {
     scopeSelector?: string
     appendToFile?: boolean
     referencePrefixOverride?: string
+    filter?: (json: FigmaExport) => FigmaNode
     colorScheme: 'light' | 'dark'
   }> = [
     {
@@ -1232,6 +1254,41 @@ const runDesignTokenFactory = async () => {
       referencePrefixOverride: foundationPrefixMap.carnegie.css,
       colorScheme: 'light',
     },
+    {
+      theme: 'birdhouse',
+      in: './src/style/themes/figma/brand/birdhouse-light.tokens.json',
+      out: './src/style/themes/birdhouse/tokens.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+      prefix: 'token',
+      colorScheme: 'light',
+    },
+    {
+      theme: 'birdhouse',
+      in: './src/style/themes/figma/brand/birdhouse-dark.tokens.json',
+      out: './src/style/themes/birdhouse/tokens-dark.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+      prefix: 'token',
+      scopeSelector: '.eufemia-theme__color-scheme--dark',
+      filter: (json) => {
+        const text = (json.color as FigmaGroup).text as FigmaGroup
+        const error = text.error as FigmaValueColor
+        text.error = {
+          ...error,
+          ...birdhouseDarkErrorOverride,
+        }
+        const stroke = (json.color as FigmaGroup).stroke as FigmaGroup
+        stroke.action = {
+          ...(stroke.action as FigmaValueColor),
+          ...birdhouseDarkActionOverride,
+        }
+        stroke['action-focus'] = {
+          ...(stroke['action-focus'] as FigmaValueColor),
+          ...birdhouseDarkFocusOverride,
+        }
+        return json
+      },
+      colorScheme: 'dark',
+    },
   ]
 
   const foundationFiles: Array<{
@@ -1285,6 +1342,17 @@ const runDesignTokenFactory = async () => {
           json[foundationPrefixMap.carnegie.figma],
       }),
     },
+    {
+      theme: 'birdhouse',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/birdhouse/foundation.scss',
+      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+      filter: (json) => ({
+        [foundationPrefixMap['birdhouse'].figma]:
+          json[foundationPrefixMap['birdhouse'].figma],
+        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
+      }),
+    },
   ]
 
   log.info(
@@ -1300,6 +1368,7 @@ const runDesignTokenFactory = async () => {
       scopeSelector: file.scopeSelector,
       appendToFile: file.appendToFile,
       referencePrefixOverride: file.referencePrefixOverride,
+      filter: file.filter,
       colorScheme: file.colorScheme,
     })
     if (file.colorScheme === 'light') {

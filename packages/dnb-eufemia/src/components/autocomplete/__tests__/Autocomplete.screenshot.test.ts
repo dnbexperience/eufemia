@@ -198,8 +198,8 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           )
           option?.classList.add('dnb-drawer-list__option--focus')
         },
-        // Hover that same option with the mouse. The keyboard focus ring
-        // has to stay visible underneath the hover highlight.
+        // Simulated hover only checks styling. Search.e2e.spec.ts covers
+        // real pointer hover, which is needed to exercise :not(:hover).
         simulate: {
           action: 'hover',
           selector:

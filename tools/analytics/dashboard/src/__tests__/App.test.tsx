@@ -417,6 +417,39 @@ describe('App (smoke)', () => {
     expect(container.textContent).not.toContain('Missed component lookups')
   })
 
+  it('lists agent skill starts in the Web MCP tab and hides the card without any', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        mcpUsage: {
+          ...populated.mcpUsage,
+          web: {
+            ...populated.mcpUsage?.web,
+            perSkill: [{ name: 'eufemia-review', count: 3 }],
+          },
+        },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
+
+    const table = screen.getByRole('table', {
+      name: 'Web MCP agent skills',
+    })
+    expect(table.textContent).toContain('eufemia-review')
+    expect(table.textContent).toContain('3')
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
+
+    expect(container.textContent).not.toContain('Agent skills')
+  })
+
   it('shows an empty message in the Component usage tab when there is no component data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',

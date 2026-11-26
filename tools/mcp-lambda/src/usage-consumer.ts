@@ -13,6 +13,8 @@ function isUsageRecord(value: unknown): value is WebMcpUsageRecord {
     typeof record.tool === 'string' &&
     typeof record.component === 'string' &&
     typeof record.component_missed === 'boolean' &&
+    // Messages queued by a Lambda older than the skill field have none.
+    (record.skill === undefined || typeof record.skill === 'string') &&
     typeof record.path === 'string' &&
     typeof record.env === 'string' &&
     record.transport === 'web' &&

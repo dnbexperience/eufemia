@@ -1,7 +1,3 @@
-output "api_endpoint" {
-  value = aws_apigatewayv2_stage.mcp.invoke_url
-}
-
 output "custom_domain" {
   value = "https://${var.domain_name}/mcp/web"
 }

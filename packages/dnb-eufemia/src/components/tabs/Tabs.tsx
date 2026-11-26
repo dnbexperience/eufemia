@@ -51,6 +51,7 @@ import ContentWrapper from './TabsContentWrapper'
 import { supportsOpenOnFind } from '../height-animation/HeightAnimation'
 import {
   createSharedState,
+  useDefaultSharedStateStore,
   useSharedState,
   type SharedStateReturn,
 } from '../../shared/helpers/useSharedState'
@@ -278,8 +279,12 @@ function TabsComponent(ownProps: TabsProps) {
   // Reactively reflects whether an external <Tabs.Content> tabpanel is mounted.
   // ContentWrapper registers/unregisters its presence in this shared state, so
   // the selected tab links to it only while it actually exists.
+  const sharedStateStore = useDefaultSharedStateStore()
   const { data: tabPanelPresence } = useSharedState<{ count?: number }>(
-    `${_id}-tabpanel-presence`
+    `${_id}-tabpanel-presence`,
+    undefined,
+    null,
+    { store: sharedStateStore }
   )
   const hasTabPanel = Boolean(tabPanelPresence?.count)
 
@@ -793,7 +798,11 @@ function TabsComponent(ownProps: TabsProps) {
   // Use silent: true to avoid triggering subscribers during render, which would cause
   // "Cannot update a component while rendering a different component" errors.
   if (ownProps.id && !sharedStateRef.current) {
-    sharedStateRef.current = createSharedState(ownProps.id)
+    sharedStateRef.current = createSharedState(
+      ownProps.id,
+      undefined,
+      sharedStateStore
+    )
     sharedStateRef.current.set(
       {
         key: selectedKey,

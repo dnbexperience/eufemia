@@ -520,6 +520,31 @@ describe('Popover', () => {
     )
   })
 
+  it('retries when the content cannot receive focus yet', async () => {
+    const originalFocus = HTMLElement.prototype.focus
+    let attempts = 0
+    const focusSpy = vi
+      .spyOn(HTMLElement.prototype, 'focus')
+      .mockImplementation(function (this: HTMLElement) {
+        attempts += 1
+        if (attempts > 2) {
+          originalFocus.call(this)
+        }
+      })
+
+    try {
+      renderWithTrigger({ open: true, noAnimation: true })
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-popover__content')
+        ).toHaveFocus()
+      )
+    } finally {
+      focusSpy.mockRestore()
+    }
+  })
+
   it('calls onFocusComplete after focus sequence finishes', async () => {
     const onFocusComplete = vi.fn()
 
@@ -721,6 +746,17 @@ describe('Popover', () => {
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
+  })
+
+  it('stays open when a released key lands on body', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    fireEvent.keyUp(document.body, { key: 'ArrowDown' })
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('stays open when touch scrolls outside before ending', async () => {
@@ -2015,6 +2051,57 @@ describe('Popover', () => {
       document.querySelector('.dnb-popover')
     )
     expect(popover).toHaveClass('custom-popover')
+  })
+
+  it('places a fixed popover at its target when the visual viewport is moved, like in iOS Safari with the keyboard open', async () => {
+    const { element } = createTargetElement({
+      left: 16,
+      top: 175,
+      width: 370,
+      height: 34,
+    })
+    vi.stubGlobal('visualViewport', {
+      height: 385,
+      offsetTop: 73,
+      offsetLeft: 0,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })
+    const getBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect
+    const rect = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLElement) {
+        // Fixed positions start 73px above the coordinates of getBoundingClientRect
+        if (this.style.position === 'fixed') {
+          return { top: -73, left: 0 } as DOMRect
+        }
+        return getBoundingClientRect.call(this)
+      })
+
+    try {
+      render(
+        <Popover
+          open
+          noAnimation
+          fixedPosition
+          placement="bottom"
+          autoAlignMode="never"
+          targetElement={element}
+        >
+          Below the field
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector<HTMLElement>('.dnb-popover')
+        expect(popover?.style.top).toBe('282px')
+      })
+    } finally {
+      vi.unstubAllGlobals()
+      rect.mockRestore()
+      element.remove()
+    }
   })
 
   it('adds the fixed class when fixedPosition is true', async () => {
@@ -4505,11 +4592,90 @@ describe('Popover', () => {
       const popover = document.querySelector('.dnb-popover') as HTMLElement
       expect(popover).toBeInTheDocument()
 
-      const top = parseFloat(popover.style.top || '0')
-      expect(top).toBeLessThan(80)
+      expect(popover.style.top).toBe('130px')
+      expect(popover.style.translate).toBe('0 -100%')
     })
 
     cleanup()
+  })
+
+  it('opts into a viewport-constrained minimum height and preserves custom styles', () => {
+    const renderPopover = (minHeight?: number | string) => (
+      <Popover
+        open
+        noAnimation
+        targetElement={document.body}
+        minHeight={minHeight}
+        style={{ color: 'red' }}
+      >
+        {contentText}
+      </Popover>
+    )
+    const { rerender } = render(renderPopover())
+    const popover = () =>
+      document.querySelector<HTMLElement>('.dnb-popover')
+    expect(popover().style.minHeight).toBe('')
+
+    for (const [value, expected] of [
+      [16, '16rem'],
+      ['12', '12rem'],
+      [0, '0rem'],
+    ] as const) {
+      rerender(renderPopover(value))
+      expect(popover().style.minHeight).toBe(
+        `min(${expected}, var(--popover-available-height, 100vh))`
+      )
+      expect(popover().style.color).toBe('red')
+      expect(popover()).not.toHaveAttribute('minHeight')
+    }
+
+    rerender(renderPopover())
+    expect(popover().style.minHeight).toBe('')
+  })
+
+  it('exposes available height for the resolved placement and updates on viewport changes', async () => {
+    const viewport = new EventTarget()
+    Object.assign(viewport, { offsetTop: 0, height: 800 })
+    vi.stubGlobal('visualViewport', viewport)
+    const targetElement = document.createElement('div')
+    document.body.appendChild(targetElement)
+    targetElement.getBoundingClientRect = () =>
+      createRect({
+        top: 100,
+        left: 100,
+        width: 100,
+        height: 40,
+      })
+    render(
+      <Popover
+        open
+        noAnimation
+        targetElement={targetElement}
+        triggerOffset={8}
+        autoAlignMode="never"
+      >
+        {contentText}
+      </Popover>
+    )
+    const popover = () =>
+      document.querySelector<HTMLElement>('.dnb-popover')
+    await waitFor(() =>
+      expect(
+        popover().style.getPropertyValue('--popover-available-height')
+      ).toBe('636px')
+    )
+
+    Object.assign(viewport, { offsetTop: 80, height: 400 })
+    act(() => {
+      viewport.dispatchEvent(new Event('resize'))
+    })
+    await waitFor(() =>
+      expect(
+        popover().style.getPropertyValue('--popover-available-height')
+      ).toBe('316px')
+    )
+    vi.unstubAllGlobals()
+    targetElement.remove()
   })
 
   describe('Popover accessibility', () => {

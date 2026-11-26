@@ -81,7 +81,6 @@ resource "aws_lambda_function" "mcp" {
   depends_on = [
     aws_cloudwatch_log_group.lambda,
     aws_iam_role_policy_attachment.mcp_usage_enqueue,
-    aws_iam_role_policy_attachment.mcp_logs,
   ]
   tags = local.tags
 }
@@ -126,11 +125,6 @@ resource "aws_iam_role_policy_attachment" "mcp_usage_enqueue" {
   policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-enqueue"
 }
 
-resource "aws_iam_role_policy_attachment" "mcp_logs" {
-  role       = aws_iam_role.mcp.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
 resource "aws_iam_role" "usage_consumer" {
   name                 = "${local.function_name}-usage-consumer-lambda"
   assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
@@ -146,11 +140,6 @@ resource "aws_iam_role" "usage_consumer" {
 resource "aws_iam_role_policy_attachment" "usage_consumer_consume" {
   role       = aws_iam_role.usage_consumer.name
   policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-usage-consume"
-}
-
-resource "aws_iam_role_policy_attachment" "usage_consumer_logs" {
-  role       = aws_iam_role.usage_consumer.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_cloudwatch_log_group" "usage_consumer" {
@@ -182,7 +171,6 @@ resource "aws_lambda_function" "usage_consumer" {
   depends_on = [
     aws_cloudwatch_log_group.usage_consumer,
     aws_iam_role_policy_attachment.usage_consumer_consume,
-    aws_iam_role_policy_attachment.usage_consumer_logs,
   ]
   tags = local.tags
 }
@@ -232,7 +220,9 @@ resource "aws_cloudwatch_metric_alarm" "mcp_usage_dead_letter" {
 resource "aws_apigatewayv2_api" "mcp" {
   name          = local.function_name
   protocol_type = "HTTP"
-  tags          = local.tags
+  # Reached only through the custom domain that Akamai uses as its origin.
+  disable_execute_api_endpoint = true
+  tags                         = local.tags
 }
 
 resource "aws_apigatewayv2_stage" "mcp" {

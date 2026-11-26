@@ -4,7 +4,7 @@
  */
 
 import type { RefObject } from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 
 import {
   extendDeep,
@@ -84,79 +84,92 @@ describe('"detectOutsideClick" should', () => {
   ).mockImplementation(() => 200)
 
   it('detect a click outside of our scope element', () => {
-    // create some DOM elements
     const inside = document.createElement('BUTTON')
     const outside = document.createElement('DIV')
-    const wrapperWithScrollbar = document.createElement('DIV')
     outside.appendChild(inside)
-    wrapperWithScrollbar.appendChild(outside)
-    document.body.appendChild(wrapperWithScrollbar)
+    document.body.appendChild(outside)
 
-    // give the scroll wrapper some styles and mock the offset- and scroll width
-    wrapperWithScrollbar.style = 'overflow: auto scroll;'
-    Object.defineProperty(wrapperWithScrollbar, 'scrollWidth', {
-      configurable: true,
-      value: 200,
-    })
-    Object.defineProperty(wrapperWithScrollbar, 'offsetWidth', {
-      configurable: true,
-      value: 100,
-    })
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess)
+    const event = new MouseEvent('mousedown', { bubbles: true })
 
-    const testEvent = ({ mockedEvent, event, calledTimes }) => {
-      const outsideClick = detectOutsideClick(inside, mockedEvent)
+    document.documentElement.dispatchEvent(event) // count
+    document.body.dispatchEvent(event) // count
+    outside.dispatchEvent(event) // count
+    inside.dispatchEvent(event) // ignore
+    expect(onSuccess).toHaveBeenCalledTimes(3)
 
-      // and dispatch it 3 time
-      document.childNodes[1].dispatchEvent(event) // ignore
-      document.body.dispatchEvent(event) // count
-      outside.dispatchEvent(event) // count
-      wrapperWithScrollbar.dispatchEvent(event) // ignore
-      inside.dispatchEvent(event) // ignore
+    outsideClick.remove()
+    outside.dispatchEvent(event)
+    expect(onSuccess).toHaveBeenCalledTimes(3)
 
-      // but since "inside" is protected, it should not call the callback
-      expect(mockedEvent).toHaveBeenCalledTimes(calledTimes)
+    outside.remove()
+  })
 
-      // remove the detection
-      outsideClick.remove()
+  it('count a press on a scrollable element, but not on its scrollbar or the page scrollbar', () => {
+    const inside = document.createElement('BUTTON')
+    const scrollable = document.createElement('DIV')
+    document.body.append(inside, scrollable)
 
-      // call again outside
-      outside.dispatchEvent(event)
-
-      // but we don't expect more event calls
-      expect(mockedEvent).toHaveBeenCalledTimes(calledTimes)
+    // A scroll box with a 15 px vertical scrollbar
+    scrollable.style.overflowX = 'auto'
+    scrollable.style.overflowY = 'scroll'
+    const geometry = {
+      scrollHeight: 400,
+      offsetWidth: 300,
+      offsetHeight: 150,
+      clientWidth: 285,
+      clientHeight: 150,
+    }
+    for (const [key, value] of Object.entries(geometry)) {
+      Object.defineProperty(scrollable, key, { configurable: true, value })
     }
 
-    const event = new CustomEvent('mousedown', {
-      bubbles: true,
-    }) as CustomEvent & { pageX: number; pageY: number }
-    event.pageX = 300 // over 200 clientWidth
-    event.pageY = 0
+    const press = (target: Element, init: Record<string, number>) => {
+      const event = new MouseEvent('mousedown', {
+        bubbles: true,
+        clientX: init.clientX,
+      })
+      Object.defineProperty(event, 'offsetX', { value: init.offsetX ?? 0 })
+      target.dispatchEvent(event)
+    }
 
-    // test mousedown
-    testEvent({
-      event,
-      mockedEvent: vi.fn(),
-      calledTimes: 2,
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess)
+
+    press(scrollable, { offsetX: 290 }) // its scrollbar
+    press(document.documentElement, { clientX: 250 }) // the page scrollbar, over 200 clientWidth
+    expect(onSuccess).toHaveBeenCalledTimes(0)
+
+    press(scrollable, { offsetX: 10 })
+    press(document.documentElement, { clientX: 100 })
+    expect(onSuccess).toHaveBeenCalledTimes(2)
+
+    outsideClick.remove()
+    inside.remove()
+    scrollable.remove()
+  })
+
+  it('count an included key release that moves the focus to a scrollable element', () => {
+    const inside = document.createElement('BUTTON')
+    const scrollable = document.createElement('DIV')
+    document.body.append(inside, scrollable)
+
+    scrollable.style.overflow = 'auto'
+    Object.defineProperty(scrollable, 'scrollHeight', { value: 400 })
+    Object.defineProperty(scrollable, 'offsetHeight', { value: 150 })
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess, {
+      includedKeys: ['Tab'],
     })
-    event.pageX = 0
-    event.pageY = 300 // over 200 clientHeight
 
-    // test mousedown
-    testEvent({
-      event,
-      mockedEvent: vi.fn(),
-      calledTimes: 2,
-    })
+    fireEvent.keyUp(scrollable, { key: 'Tab' })
+    expect(onSuccess).toHaveBeenCalledTimes(1)
 
-    event.pageX = 100
-    event.pageY = 100
-
-    // test mousedown
-    testEvent({
-      event,
-      mockedEvent: vi.fn(),
-      calledTimes: 3,
-    })
+    outsideClick.remove()
+    inside.remove()
+    scrollable.remove()
   })
 
   it('detect a click outside when an ancestor of the target stops the propagation', () => {
@@ -183,6 +196,50 @@ describe('"detectOutsideClick" should', () => {
 
     inside.remove()
     outside.remove()
+  })
+
+  it('detect a mousedown and an included key release on the document and body', () => {
+    const inside = document.createElement('BUTTON')
+    document.body.appendChild(inside)
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess, {
+      includedKeys: ['Tab'],
+    })
+
+    fireEvent.mouseDown(document)
+    fireEvent.keyUp(document, { key: 'Tab' })
+    fireEvent.keyUp(document.body, { key: 'Tab' })
+    fireEvent.keyUp(inside, { key: 'Tab' })
+
+    expect(onSuccess).toHaveBeenCalledTimes(3)
+
+    outsideClick.remove()
+    inside.remove()
+  })
+
+  it('should keep listening for included key releases on window', () => {
+    const inside = document.createElement('BUTTON')
+    document.body.appendChild(inside)
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess, {
+      includedKeys: ['Tab'],
+    })
+
+    expect(typeof outsideClick.handleClickOutside).toBe('function')
+    expect(typeof outsideClick.keyupCallback).toBe('function')
+
+    fireEvent.keyUp(window, { key: 'Tab' })
+
+    expect(onSuccess).toHaveBeenCalledTimes(1)
+
+    outsideClick.remove()
+
+    expect(outsideClick.handleClickOutside).toBeNull()
+    expect(outsideClick.keyupCallback).toBeNull()
+
+    inside.remove()
   })
 
   it('should support react refs as ignore element', async () => {

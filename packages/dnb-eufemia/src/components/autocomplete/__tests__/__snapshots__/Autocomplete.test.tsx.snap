@@ -459,27 +459,29 @@ button .dnb-form-status__text {
 .dnb-button--tertiary .dnb-skeleton .dnb-button__text {
   text-decoration: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--tertiary:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--tertiary:hover:not([disabled]):where(:not([aria-disabled=true])) .dnb-button__text {
+    text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
+  }
+}
+.dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) .dnb-button__text {
-  text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
-}
-.dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) {
+.dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])) {
   outline: initial;
 }
-html[data-whatinput=keyboard] .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) {
+html[data-whatinput=keyboard] .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])) {
   box-shadow: none;
 }
-html[data-whatintent=touch] .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text {
+html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])) .dnb-button__text {
   --button-color-underline: var(--button-color-underline--hover);
   transition: none;
   text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text {
+html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])) .dnb-button__text, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])) .dnb-button__text {
   text-decoration: none;
 }
 .dnb-button--tertiary.dnb-button--has-text {
@@ -609,25 +611,27 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disable
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
   color: var(--button-color-icon, var(--button-color-icon--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--tertiary:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--primary:hover:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--secondary:hover:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--tertiary:hover:not([disabled]):where(:not([aria-disabled=true])) {
+    --button-color-bg: var(--button-color-bg--hover);
+    --button-color-border: var(--button-color-border--hover);
+    --button-color-icon: var(--button-color-icon--hover);
+    --button-color-text: var(--button-color-text--hover);
+    --button-color-underline: var(--button-color-underline--hover);
+    --button-border-inset: var(--button-border-inset--hover);
+    --button-border-width: var(--button-border-width--hover);
+    --button-input-separator-color: var(
+      --button-input-separator-color--hover
+    );
+  }
+}
+.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) {
-  --button-color-bg: var(--button-color-bg--hover);
-  --button-color-border: var(--button-color-border--hover);
-  --button-color-icon: var(--button-color-icon--hover);
-  --button-color-text: var(--button-color-text--hover);
-  --button-color-underline: var(--button-color-underline--hover);
-  --button-border-inset: var(--button-border-inset--hover);
-  --button-border-width: var(--button-border-width--hover);
-  --button-input-separator-color: var(
-    --button-input-separator-color--hover
-  );
-}
-.dnb-button--primary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):active[disabled], .dnb-button--secondary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):active[disabled], .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--primary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):active:not([disabled]), .dnb-button--secondary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):active:not([disabled]), .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) {
+.dnb-button--primary:active:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]):where(:not([aria-disabled=true])), .dnb-button--secondary:active:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]):where(:not([aria-disabled=true])), .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]):where(:not([aria-disabled=true])) {
   --button-color-bg: var(--button-color-bg--active);
   --button-color-border: var(--button-color-border--active);
   --button-color-icon: var(--button-color-icon--active);
@@ -1066,10 +1070,10 @@ html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabl
   width: var(--input-border-width);
   background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
 }
-.dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active[disabled] {
+.dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active:not([disabled])::after {
+.dnb-button--icon-only.dnb-button--input-button:active:not([disabled]):where(:not([aria-disabled=true]))::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active:not([disabled]):where(:not([aria-disabled=true]))::after {
   top: var(--input-border-width);
   bottom: var(--input-border-width);
 }
@@ -1212,12 +1216,14 @@ html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabl
   box-shadow: none;
   border: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover[disabled], html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover:not([disabled]):where(:not([aria-disabled=true])), html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover:not([disabled]):where(:not([aria-disabled=true])) {
+    box-shadow: none;
+    border: none;
+  }
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
@@ -1400,9 +1406,12 @@ legend.dnb-form-label {
   color: var(--token-color-component-button-text-action);
   cursor: pointer;
 }
-.dnb-input__input:not([disabled])::-webkit-file-upload-button:hover {
-  background-color: var(--token-color-background-action-hover-subtle);
-  color: var(--token-color-component-button-text-action-hover);
+@media (any-hover: hover) {
+  .dnb-input__input:not([disabled])::-webkit-file-upload-button:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) {
+    background-color: var(--token-color-background-action-hover-subtle);
+    color: var(--token-color-component-button-text-action-hover);
+  }
 }
 .dnb-input__input:not([disabled])::-webkit-file-upload-button:active {
   background-color: var(--token-color-background-action-pressed-subtle);
@@ -1477,10 +1486,14 @@ legend.dnb-form-label {
     outline-offset: calc(var(--focus-ring-width) * -1);
   }
 }
-.dnb-input__border:hover, .dnb-input__border.hover {
-  --b-color: var(--input-border-color--hover);
-  --b-width: var(--input-border-width--hover);
-  --b-inset: var(--input-border-inset--hover);
+@media (any-hover: hover) {
+  .dnb-input__border:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)), .dnb-input__border.hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) {
+    --b-color: var(--input-border-color--hover);
+    --b-width: var(--input-border-width--hover);
+    --b-inset: var(--input-border-inset--hover);
+  }
 }
 .dnb-input__border:has(.dnb-input__input:autofill) {
   --b-color: var(--input-border-color);
@@ -1498,10 +1511,15 @@ legend.dnb-form-label {
   --b-width: var(--input-border-width__error--active);
   --b-inset: var(--input-border-inset--active);
 }
-.dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), .dnb-input__status--error .dnb-input__border.hover {
-  --b-color: var(--input-border-color__error);
-  --b-width: var(--input-border-width__error--hover);
-  --b-inset: var(--input-border-inset--hover);
+@media (any-hover: hover) {
+  .dnb-input__status--error .dnb-input__border:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)), .dnb-input__status--error .dnb-input__border:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)):has(.dnb-input__input:autofill), .dnb-input__status--error:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) .dnb-input__border.hover {
+    --b-color: var(--input-border-color__error);
+    --b-width: var(--input-border-width__error--hover);
+    --b-inset: var(--input-border-inset--hover);
+  }
 }
 html[data-whatinput=keyboard] .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--focus);
@@ -1568,6 +1586,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--small {
   --input-height-current: var(--input-height--small);
+  --input-font-size: var(--input-font-size--small);
   line-height: var(--input-height--small);
 }
 .dnb-input--small .dnb-input__shell,
@@ -1578,7 +1597,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--small .dnb-input__input {
   padding-left: var(--input-padding--small);
   padding-right: var(--input-padding--small);
-  font-size: var(--input-font-size--small);
 }
 .dnb-input--small .dnb-input__submit-element {
   margin-left: calc(var(--input-height--small) * -1);
@@ -1593,6 +1611,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--medium {
   --input-height-current: var(--input-height--medium);
+  --input-font-size: var(--input-font-size--medium);
   line-height: var(--input-height--medium);
 }
 .dnb-input--medium .dnb-input__shell,
@@ -1603,7 +1622,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--medium .dnb-input__input {
   padding-left: var(--input-padding--medium);
   padding-right: var(--input-padding--medium);
-  font-size: var(--input-font-size--medium);
 }
 .dnb-input--medium .dnb-input__submit-element {
   margin-left: calc(var(--input-height--medium) * -1);
@@ -1618,6 +1636,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--large {
   --input-height-current: var(--input-height--large);
+  --input-font-size: var(--input-font-size--large);
   --input-submit-button-width: 3.5rem;
   line-height: var(--input-height--large);
 }
@@ -1629,7 +1648,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--large .dnb-input__input {
   padding-left: var(--input-padding--large);
   padding-right: var(--input-padding--large);
-  font-size: var(--input-font-size--large);
 }
 .dnb-input--large .dnb-input__submit-element {
   margin-left: calc(var(--input-submit-button-width) * -1);
@@ -1673,8 +1691,10 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
   margin: auto;
 }
-html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
-  cursor: default;
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
+    cursor: default;
+  }
 }
 .dnb-input--small .dnb-input--clear.dnb-input__submit-element .dnb-button {
   width: 1rem;
@@ -2670,12 +2690,16 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
 }
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
-  --input-border-width--default: 0.125rem;
-}
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
-  --button-color-bg--default: var(--button-color-bg--hover);
-  --button-color-icon--default: var(--button-color-icon--hover);
+@media (any-hover: hover) {
+  .dnb-form-label:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) ~ .dnb-autocomplete__inner .dnb-input {
+    --input-border-width--default: 0.125rem;
+  }
+  .dnb-form-label:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+    --button-color-bg--default: var(--button-color-bg--hover);
+    --button-color-icon--default: var(--button-color-icon--hover);
+  }
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-autocomplete {
@@ -2917,12 +2941,16 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
 }
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
-  --input-border-width--default: 0.125rem;
-}
-.dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
-  --button-color-bg--default: var(--button-color-bg--hover);
-  --button-color-icon--default: var(--button-color-icon--hover);
+@media (any-hover: hover) {
+  .dnb-form-label:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) ~ .dnb-autocomplete__inner .dnb-input {
+    --input-border-width--default: 0.125rem;
+  }
+  .dnb-form-label:hover:not(:where(html[data-whatintent=touch] *,
+  html[data-whatintent=keyboard] *)) ~ .dnb-autocomplete__inner .dnb-input__submit-button__button {
+    --button-color-bg--default: var(--button-color-bg--hover);
+    --button-color-icon--default: var(--button-color-icon--hover);
+  }
 }
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-autocomplete {

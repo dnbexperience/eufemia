@@ -1,0 +1,9 @@
+Typefaces: DNB, DNB Mono, DNB Sans Text, DNB Sans Mono, DNB Sans Display,
+DNB Sans Eiendom and their skeleton variants
+Copyright: DNB. See individual font files for dates and credits.
+
+The Eufemia DNB Project License applies only to the extent that DNB Bank ASA
+is entitled to license these fonts. Any applicable separate font terms
+continue to apply. See the LICENSE included at the root of the Eufemia
+package. Public availability does not grant permission to use these fonts
+outside the applicable license.

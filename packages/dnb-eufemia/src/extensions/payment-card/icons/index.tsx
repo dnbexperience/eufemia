@@ -137,7 +137,9 @@ const TypeLogo = ({
       switch (cardDesign.visa.tag) {
         case 'Colored':
           return (
-            <VisaDefault className={id} fill={cardDesign.visa.color} />
+            <div style={{ color: cardDesign.visa.color }}>
+              <VisaDefault className={id} />
+            </div>
           )
         case 'Platinum':
           return <VisaPlatinum className={id} />
@@ -146,7 +148,11 @@ const TypeLogo = ({
     case 'Mastercard':
       switch (cardDesign.mastercard.tag) {
         case 'Default':
-          return <MastercardDefault className={id} />
+          return (
+            <div>
+              <MastercardDefault className={id} />
+            </div>
+          )
         case 'Dark':
           return <MastercardDark className={id} />
       }

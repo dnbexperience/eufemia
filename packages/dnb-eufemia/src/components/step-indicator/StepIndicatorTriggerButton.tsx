@@ -14,11 +14,7 @@ import chevron_down from '../../icons/chevron_down'
 import chevron_up from '../../icons/chevron_up'
 import Icon from '../icon/Icon'
 import IconPrimary from '../icon-primary/IconPrimary'
-import {
-  validateDOMAttributes,
-  combineDescribedBy,
-} from '../../shared/component-helper'
-import useId from '../../shared/helpers/useId'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
 import {
@@ -58,7 +54,7 @@ function StepIndicatorTriggerButton({
 
   const item = data[activeStep || 0]
   const label = stepsLabel
-  const id = useId()
+  const title = typeof item === 'string' ? item : item?.title
 
   const triggerParams = {
     ...contextWithoutDataRest,
@@ -79,11 +75,6 @@ function StepIndicatorTriggerButton({
       className
     ),
   }
-
-  buttonParams['aria-describedby'] = combineDescribedBy(
-    buttonParams,
-    id + '-overview'
-  )
 
   // Cache Object.keys() result for performance
   const triggerParamKeys = Object.keys(triggerParams)
@@ -118,7 +109,6 @@ function StepIndicatorTriggerButton({
         <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
           <FormLabel
             element="span"
-            aria-describedby={id}
             aria-hidden // In order to not duplicate information for screen readers
             className="dnb-step-indicator__label"
             vertical={false}
@@ -136,7 +126,6 @@ function StepIndicatorTriggerButton({
               }
             }}
             aria-expanded={open}
-            aria-label={label} // To support NVDA properly
             wrap
             variant="tertiary"
             icon={
@@ -147,7 +136,7 @@ function StepIndicatorTriggerButton({
             }
             iconPosition="right"
           >
-            {(typeof item === 'string' ? item : item && item.title) || ''}
+            <span className="dnb-sr-only">{label}</span> {title}
           </Button>
         </div>
       </HeightAnimation>

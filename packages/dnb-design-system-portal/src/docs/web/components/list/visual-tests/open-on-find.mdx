@@ -1,0 +1,33 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { List, VisuallyHidden } from '@dnb/eufemia/src'
+
+<VisuallyHidden element="h1">List: Open on find</VisuallyHidden>
+
+{[false, true].map((separated) => {
+const id = separated ? 'separated-findable-list' : 'findable-list'
+
+return (
+
+<div key={id}>
+<List.ShowMoreButton id={id} />
+<List.Container id={id} visibleCount={1} separated={separated}>
+<List.Item.Basic title="Visible row" />
+<List.Item.Action title="Hidden action">
+<List.Cell.End>
+<span id={id + '-match'}>Findable content</span>
+</List.Cell.End>
+</List.Item.Action>
+<List.Item.Accordion title="Hidden accordion">
+<List.Item.Accordion.Content>
+Accordion content
+</List.Item.Accordion.Content>
+</List.Item.Accordion>
+</List.Container>
+</div>
+)
+})}

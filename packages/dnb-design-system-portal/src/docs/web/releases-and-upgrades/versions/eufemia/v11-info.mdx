@@ -69,6 +69,23 @@ The button variants of [Field.Selection](/web/forms/base-fields/Selection/), [Fi
 
 Existing variant names, values, validation, and help remain supported. No Forms API migration is required. Target the field classes when customizing these fields rather than the internal control classes.
 
+## Tooltip in v11.19
+
+[Tooltip](/web/components/tooltip/) describes its trigger before it opens, so screen readers read the content when the trigger gets focus. It no longer announces its content through a live region.
+
+If your application uses Tooltip for a status message, such as "Copied", announce the message with [AriaLive](/web/components/aria-live/). Set `omitDescribedBy` on the Tooltip, so the status message does not become the trigger's description:
+
+```tsx
+<>
+  <Tooltip open={copied} targetElement={buttonRef} omitDescribedBy>
+    Copied
+  </Tooltip>
+  <AriaLive>{copied ? 'Copied' : null}</AriaLive>
+</>
+```
+
+CopyOnClick, CopyOnClick.Button and NumberFormat handle their own copy announcements. Tests that expect no `aria-describedby` on a closed Tooltip trigger, or that wait for the live region, need an update.
+
 ## DNB font update
 
 The current DNB Sans Text and DNB Sans Mono update targets a v11 minor

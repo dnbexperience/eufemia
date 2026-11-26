@@ -7,8 +7,8 @@ import { warnOnce } from './log.js'
 
 const s3 = new S3Client({})
 
-// Key of the pre-generated dashboard snapshot in the data bucket. Must match the
-// s3:GetObject resource in the dashboard-read execution role's policy.
+// Key of the dashboard snapshot in the data bucket. Must match the snapshot-build
+// policy's s3:PutObject and the dashboard-read policy's s3:GetObject resources.
 export const SNAPSHOT_KEY = 'snapshots/dashboard.json'
 
 // One combined snapshot with a named section per data source. New sources add a
@@ -63,8 +63,9 @@ export type PortalViewDaily = {
   count: number
 }
 
-// A daily MCP usage aggregate row (one per transport+tool+component+path+miss
-// per day), read from and written to the durable mcp_usage_daily rollup.
+// A daily MCP usage aggregate row (one per transport, tool, component, path,
+// miss and skill per day), read from and written to the durable mcp_usage_daily
+// rollup.
 export type McpUsageDaily = {
   dt: string
   transport: string
@@ -72,6 +73,7 @@ export type McpUsageDaily = {
   component: string
   path: string
   component_missed: boolean
+  skill: string
   count: number
 }
 
@@ -97,6 +99,7 @@ export type McpTransportUsage = {
   perComponent: RankedCount[]
   perPath: RankedCount[]
   missedLookups: number
+  perSkill: RankedCount[]
   perVersion: McpVersionUsage[]
   daily: McpUsageDay[]
 }
@@ -114,6 +117,7 @@ const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   perComponent: [],
   perPath: [],
   missedLookups: 0,
+  perSkill: [],
   perVersion: [],
   daily: [],
 }

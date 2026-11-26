@@ -75,6 +75,29 @@ describe('analytics infrastructure', () => {
     expect(timeout).toBeGreaterThanOrEqual(7 * 120)
   })
 
+  it('caps the data one Athena query may scan', () => {
+    const workgroup = terraformBlock(
+      'resource "aws_athena_workgroup" "analytics"'
+    )
+
+    expect(workgroup).toMatch(
+      /bytes_scanned_cutoff_per_query\s+=\s+1024 \* 1024 \* 1024/
+    )
+  })
+
+  it('turns off the execute-api endpoint on the ingest API but not the dashboard API', () => {
+    const disabled = /^\s*disable_execute_api_endpoint\s*=\s*true/m
+
+    expect(
+      terraformBlock('resource "aws_apigatewayv2_api" "analytics"')
+    ).toMatch(disabled)
+
+    // The dashboard app calls the dashboard API's execute-api URL.
+    expect(
+      terraformBlock('resource "aws_apigatewayv2_api" "dashboard"')
+    ).not.toMatch(disabled)
+  })
+
   it('notifies an SNS topic from every snapshot alarm, with an optional email subscription', () => {
     expect(terraform).toContain(
       'resource "aws_sns_topic" "snapshot_alerts"'
@@ -243,6 +266,19 @@ describe('analytics infrastructure', () => {
     )
   })
 
+  it('sends Permissions-Policy and Cross-Origin-Opener-Policy from the dashboard', () => {
+    const headersPolicy = terraformBlock(
+      'resource "aws_cloudfront_response_headers_policy" "dashboard"'
+    )
+
+    expect(headersPolicy).toMatch(
+      /header\s+=\s+"Permissions-Policy"\s+value\s+=\s+"camera=\(\), microphone=\(\), geolocation=\(\), payment=\(\), usb=\(\)"\s+override\s+=\s+true/
+    )
+    expect(headersPolicy).toMatch(
+      /header\s+=\s+"Cross-Origin-Opener-Policy"\s+value\s+=\s+"same-origin"\s+override\s+=\s+true/
+    )
+  })
+
   it('requires TLS on both buckets', () => {
     const requireTls = terraformBlock(
       'data "aws_iam_policy_document" "require_tls"'
@@ -339,7 +375,6 @@ describe('analytics infrastructure', () => {
         )
       ).toEqual([
         `arn:aws:iam::\${data.aws_caller_identity.current.account_id}:policy/tooling/${policy}`,
-        'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
       ])
       expect(lambdaBlock).toMatch(
         new RegExp(`^\\s+role\\s+=\\s+aws_iam_role\\.${role}\\.arn$`, 'm')

@@ -154,11 +154,19 @@
       overflow: clip;
     }
 
-    &:hover:not(&--disabled) {
-      --item-outline-color: var(--token-color-stroke-action);
-      --item-outline-width: var(--item-outline-width--hover);
-      &::after {
-        z-index: 2;
+    // Touch browsers keep :hover on the last tapped element
+    @media (any-hover: hover) {
+      &:hover:not(
+          :where(
+            html[data-whatintent='touch'] *,
+            html[data-whatintent='keyboard'] *
+          )
+        ):not(&--disabled) {
+        --item-outline-color: var(--token-color-stroke-action);
+        --item-outline-width: var(--item-outline-width--hover);
+        &::after {
+          z-index: 2;
+        }
       }
     }
 
@@ -173,6 +181,13 @@
 
     html[data-whatinput='keyboard']
       &:not(:hover):not(:active):has(.dnb-checkbox__input:focus) {
+      --item-outline-color: var(--token-color-stroke-action-focus);
+      --item-outline-width: var(--item-outline-width--focus);
+    }
+
+    // A tapped row keeps :hover, so do not exclude it on touch devices
+    html:not([data-whatintent='mouse'])[data-whatinput='keyboard']
+      &:not(:active):has(.dnb-checkbox__input:focus) {
       --item-outline-color: var(--token-color-stroke-action-focus);
       --item-outline-width: var(--item-outline-width--focus);
     }

@@ -1,3 +1,4 @@
+import React from 'react'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -378,6 +379,90 @@ describe('Field.SelectCountry', () => {
 
     expect(inputElement.value).toBe('Danmark')
     expect(selectedItemElement().textContent).toBe('Danmark')
+  })
+
+  describe('when the locale changes', () => {
+    const LocaleApp = ({ onChange = undefined, open = false }) => {
+      const [locale, setLocale] = React.useState<'nb-NO' | 'en-GB'>(
+        'nb-NO'
+      )
+      const { data } = Form.useData<{ value?: string }>(
+        'locale-change-select-country'
+      )
+      seenValues.push(data?.value)
+
+      return (
+        <Form.Handler
+          id="locale-change-select-country"
+          locale={locale}
+          defaultData={{ value: 'SE' }}
+          onChange={onChange}
+        >
+          <button
+            type="button"
+            id="change-locale"
+            onClick={() =>
+              setLocale((current) =>
+                current === 'nb-NO' ? 'en-GB' : 'nb-NO'
+              )
+            }
+          />
+          <Field.SelectCountry path="/value" data-open={open} />
+        </Form.Handler>
+      )
+    }
+    let seenValues: Array<unknown> = []
+    beforeEach(() => {
+      seenValues = []
+    })
+    const inputElement = (): HTMLInputElement =>
+      document.querySelector('.dnb-forms-field-select-country input')
+    const changeLocale = async () => {
+      fireEvent.click(document.querySelector('button#change-locale'))
+      // Let animation frames and timers run
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    }
+
+    it('should translate the shown value when the list was never opened', async () => {
+      render(<LocaleApp />)
+
+      expect(inputElement().value).toBe('Sverige')
+
+      await changeLocale()
+      await waitFor(() => {
+        expect(inputElement().value).toBe('Sweden')
+      })
+
+      await changeLocale()
+      await waitFor(() => {
+        expect(inputElement().value).toBe('Sverige')
+      })
+    })
+
+    it('should translate the shown value after the list was opened', async () => {
+      render(<LocaleApp />)
+
+      fireEvent.mouseDown(inputElement())
+      fireEvent.keyDown(inputElement(), { key: 'Escape' })
+      expect(inputElement().value).toBe('Sverige')
+
+      await changeLocale()
+      await waitFor(() => {
+        expect(inputElement().value).toBe('Sweden')
+      })
+    })
+
+    it('should not call onChange or remove the value from the data', async () => {
+      const onChange = vi.fn()
+      render(<LocaleApp onChange={onChange} />)
+
+      await changeLocale()
+      await changeLocale()
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(seenValues.length).toBeGreaterThan(1)
+      expect(seenValues.filter((value) => value !== 'SE')).toEqual([])
+    })
   })
 
   it('renders error', () => {

@@ -415,6 +415,11 @@ resource "aws_glue_catalog_table" "mcp_usage" {
     }
 
     columns {
+      name = "skill"
+      type = "string"
+    }
+
+    columns {
       name = "path"
       type = "string"
     }
@@ -509,6 +514,11 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
     columns {
       name = "component_missed"
       type = "boolean"
+    }
+
+    columns {
+      name = "skill"
+      type = "string"
     }
 
     columns {
@@ -661,6 +671,8 @@ resource "aws_athena_workgroup" "analytics" {
   configuration {
     enforce_workgroup_configuration    = true
     publish_cloudwatch_metrics_enabled = true
+    # Stops a runaway query. Raise it before a scheduled query or a backfill gets close.
+    bytes_scanned_cutoff_per_query = 1024 * 1024 * 1024
 
     result_configuration {
       output_location = "s3://${aws_s3_bucket.data.id}/athena-results/"
@@ -677,8 +689,8 @@ resource "aws_athena_workgroup" "analytics" {
 # ---------------------------------------------------------------------------
 
 # The OIDC deploy role may create these roles only under these names and with
-# this boundary, and attach only AWSLambdaBasicExecutionRole plus each role's
-# own policy, which lives in the OIDC federation repo.
+# this boundary, and attach only each role's own policy from the OIDC federation
+# repo. That policy also grants writes to the role's own log group.
 locals {
   lambda_permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tlz/oidc-tooling-github-permissionboundarypolicy"
 }
@@ -711,11 +723,6 @@ resource "aws_iam_role_policy_attachment" "analytics_collect" {
   policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-collect"
 }
 
-resource "aws_iam_role_policy_attachment" "analytics_logs" {
-  role       = aws_iam_role.analytics.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
 resource "aws_iam_role" "snapshot" {
   name                 = "${local.function_name}-snapshot-lambda"
   assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
@@ -733,11 +740,6 @@ resource "aws_iam_role_policy_attachment" "snapshot_build" {
   policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/${local.function_name}-snapshot-build"
 }
 
-resource "aws_iam_role_policy_attachment" "snapshot_logs" {
-  role       = aws_iam_role.snapshot.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
 resource "aws_iam_role" "dashboard" {
   name                 = "eufemia-${var.environment}-dashboard-lambda"
   assume_role_policy   = data.aws_iam_policy_document.lambda_assume.json
@@ -753,11 +755,6 @@ resource "aws_iam_role" "dashboard" {
 resource "aws_iam_role_policy_attachment" "dashboard_snapshot_read" {
   role       = aws_iam_role.dashboard.name
   policy_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/tooling/eufemia-${var.environment}-dashboard-snapshot-read"
-}
-
-resource "aws_iam_role_policy_attachment" "dashboard_logs" {
-  role       = aws_iam_role.dashboard.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {
@@ -790,7 +787,6 @@ resource "aws_lambda_function" "analytics" {
   depends_on = [
     aws_cloudwatch_log_group.lambda,
     aws_iam_role_policy_attachment.analytics_collect,
-    aws_iam_role_policy_attachment.analytics_logs,
   ]
   tags = local.tags
 }
@@ -802,7 +798,9 @@ resource "aws_lambda_function" "analytics" {
 resource "aws_apigatewayv2_api" "analytics" {
   name          = local.function_name
   protocol_type = "HTTP"
-  tags          = local.tags
+  # Reached only through the custom domain that Akamai uses as its origin.
+  disable_execute_api_endpoint = true
+  tags                         = local.tags
 }
 
 resource "aws_apigatewayv2_stage" "analytics" {
@@ -961,7 +959,6 @@ resource "aws_lambda_function" "dashboard_read" {
   depends_on = [
     aws_cloudwatch_log_group.dashboard_read,
     aws_iam_role_policy_attachment.dashboard_snapshot_read,
-    aws_iam_role_policy_attachment.dashboard_logs,
   ]
   tags = local.tags
 }
@@ -1010,7 +1007,6 @@ resource "aws_lambda_function" "snapshot" {
   depends_on = [
     aws_cloudwatch_log_group.snapshot,
     aws_iam_role_policy_attachment.snapshot_build,
-    aws_iam_role_policy_attachment.snapshot_logs,
   ]
   tags = local.tags
 }
@@ -1368,6 +1364,21 @@ resource "aws_cloudfront_response_headers_policy" "dashboard" {
         "frame-ancestors 'none'",
         "object-src 'none'",
       ])
+    }
+  }
+
+  # security_headers_config has no fields for these two headers.
+  custom_headers_config {
+    items {
+      header   = "Permissions-Policy"
+      value    = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+      override = true
+    }
+
+    items {
+      header   = "Cross-Origin-Opener-Policy"
+      value    = "same-origin"
+      override = true
     }
   }
 }

@@ -25,6 +25,7 @@ export const useStickyHeader = ({
   useEffect(() => {
     if (sticky) {
       let isSticky = false
+      let isAtEnd = false
       let thHeight = 0
       let offsetTopPx = 0
       let tableOffset = 0
@@ -34,6 +35,7 @@ export const useStickyHeader = ({
       let scrollViewElem = null
       let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
+      let resizeObserver: ResizeObserver = null
       let usesScrollTimeline = false
 
       try {
@@ -50,7 +52,7 @@ export const useStickyHeader = ({
         const setScrollRange = () => {
           const usesPageScroll =
             sticky !== 'css-position' && !scrollViewElem
-          trElem.classList.toggle('page-scroll', usesPageScroll)
+          trElem.toggleAttribute('data-page-scroll', usesPageScroll)
           usesScrollTimeline = usesPageScroll && supportsScrollTimeline
 
           if (usesScrollTimeline) {
@@ -128,7 +130,7 @@ export const useStickyHeader = ({
               '--table-top',
               `${offsetTopPx / 16}rem`
             )
-            // tr.sticky always applies the transform, so a leftover offset would stack on top
+            // The sticky row always applies the transform, so a leftover offset would stack on top
             trElem.style.removeProperty('--table-offset')
           } else {
             trElem.style.removeProperty('--table-top')
@@ -159,32 +161,31 @@ export const useStickyHeader = ({
 
           offset -= hasScrollbar ? offsetTopPx : totalOffset
 
-          // By sub thHeight and checking for the height, we avoid a scrollbar inside a Table.ScrollView
-          if (offset > 0 && offset < tableHeight - thHeight) {
-            if (sticky !== 'css-position' && !usesScrollTimeline) {
+          // Stop at the last row, like the scroll timeline. This also avoids a scrollbar inside a Table.ScrollView
+          const maxOffset = Math.max(0, tableHeight - thHeight)
+
+          if (sticky !== 'css-position' && !usesScrollTimeline) {
+            if (offset > 0) {
               trElem.style.setProperty(
                 '--table-offset',
-                String(offset) + 'px'
+                `${Math.min(offset, maxOffset)}px`
               )
+            } else {
+              trElem.style.removeProperty('--table-offset')
             }
+          }
 
-            if (!isSticky) {
-              isSticky = true
+          const isInside = offset > 0 && offset < maxOffset
+          if (isInside !== isSticky) {
+            isSticky = isInside
+            trElem.toggleAttribute('data-is-sticky', isSticky)
+          }
 
-              trElem.classList.add('is-sticky')
-            }
-          } else {
-            if (isSticky) {
-              isSticky = false
-
-              if (offset <= 0) {
-                if (sticky !== 'css-position' && !usesScrollTimeline) {
-                  trElem.style.removeProperty('--table-offset')
-                }
-              }
-
-              trElem.classList.remove('is-sticky')
-            }
+          // The header covers the last row until the table scrolls out of view
+          const isAtLastRow = maxOffset > 0 && offset >= maxOffset
+          if (isAtLastRow !== isAtEnd) {
+            isAtEnd = isAtLastRow
+            trElem.toggleAttribute('data-is-at-end', isAtEnd)
           }
         }
 
@@ -206,16 +207,19 @@ export const useStickyHeader = ({
 
         const applyObservers = () => {
           try {
-            trElem.classList.add('sticky')
-            trElem.classList.toggle(
-              'css-position',
-              sticky === 'css-position'
-            )
+            // Unlike classes, data attributes are kept when React re-renders the row
+            trElem.setAttribute('data-sticky', String(sticky))
 
             setSizes()
 
             bindScroll()
             window.addEventListener('resize', onResize)
+
+            // Rows can be added or removed without a scroll or resize event
+            if (typeof ResizeObserver !== 'undefined') {
+              resizeObserver = new ResizeObserver(onResize)
+              resizeObserver.observe(tableElem)
+            }
           } catch (e) {
             stickyWarning(String(e))
           }
@@ -225,6 +229,7 @@ export const useStickyHeader = ({
 
         return () => {
           clearTimeout(timeout)
+          resizeObserver?.disconnect()
           scrollTargetElem?.removeEventListener('scroll', onScroll)
           window.removeEventListener('resize', onResize)
         }
@@ -249,12 +254,10 @@ const resetStickyHeader = (tableElem: HTMLTableElement) => {
     return // stop here
   }
 
-  trElem.classList.remove(
-    'sticky',
-    'css-position',
-    'is-sticky',
-    'page-scroll'
-  )
+  trElem.removeAttribute('data-sticky')
+  trElem.removeAttribute('data-page-scroll')
+  trElem.removeAttribute('data-is-sticky')
+  trElem.removeAttribute('data-is-at-end')
   trElem.style.removeProperty('--table-offset')
   trElem.style.removeProperty('--table-top')
   trElem.style.removeProperty('--table-scroll-start')

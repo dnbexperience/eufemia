@@ -95,6 +95,30 @@ import { Heading } from '@dnb/eufemia/components'
 
 <DisplayFontExample />
 
+### Birdhouse preview
+
+Birdhouse uses a Light (300), caps-only Display face. Lowercase characters
+render as capitals while the source text keeps its original case for
+screen readers, copying and search. Use it sparingly for short headlines,
+usually at `x-large` and above. Keep paragraphs and ordinary headings in
+the default text family. Before the font loads, DNB Light can render in
+mixed case with different widths, so allow room for wrapping.
+
+The design also uses short eyebrow labels at 16px with a 24px line height.
+Set `lineHeight="basis"` explicitly to match that spacing:
+
+```tsx
+<P family="display" size="small" lineHeight="basis">
+  Få flere på visning
+</P>
+```
+
+Hero headlines in the design use 72px or 80px with a line height of 1.2.
+These need custom sizing and responsive layout checks; the shared Eufemia
+size tokens remain unchanged.
+
+### Display styling
+
 The equivalent helper is `.dnb-t__family--display`. Custom CSS can use
 `font-family: var(--font-family-display)`. The helper uses the single
 upright weight and disables synthesized bold and italic.
@@ -120,7 +144,7 @@ Display uses geometric text precision so source and skeleton keep the same
 design advances, including at small sizes where native outline hinting can
 otherwise move a word onto another line. Text, Mono and other brands keep
 their existing rendering policy.
-The [skeleton font generator](/web/components/skeleton/info/#generate-a-skeleton-font)
+The [skeleton font generator](/web/components/skeleton/#generate-a-skeleton-font)
 reproduces it from the current `DNBSansDisplay.ttf`, including its own line
 metrics, kerning and substitutions.
 Left-align or center Display headlines. Check wrapping and accented

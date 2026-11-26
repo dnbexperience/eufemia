@@ -472,6 +472,61 @@ describe('Autocomplete component', () => {
     )
   })
 
+  describe('when the title of the selected item changes', () => {
+    const norwegian = [
+      { selectedKey: 'no', content: 'Norge' },
+      { selectedKey: 'se', content: 'Sverige' },
+    ]
+    const english = [
+      { selectedKey: 'no', content: 'Norway' },
+      { selectedKey: 'se', content: 'Sweden' },
+    ]
+
+    it('should show the new title', async () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <Autocomplete value="se" data={norwegian} onChange={onChange} />
+      )
+      const input = document.querySelector('input')
+      expect(input.value).toBe('Sverige')
+
+      rerender(
+        <Autocomplete value="se" data={english} onChange={onChange} />
+      )
+      await waitFor(() => {
+        expect(input.value).toBe('Sweden')
+      })
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should find the selected item when the order changes', async () => {
+      const { rerender } = render(
+        <Autocomplete value="se" data={norwegian} />
+      )
+      const input = document.querySelector('input')
+      expect(input.value).toBe('Sverige')
+
+      rerender(<Autocomplete value="se" data={[...english].reverse()} />)
+      await waitFor(() => {
+        expect(input.value).toBe('Sweden')
+      })
+    })
+
+    it('should keep text the user has typed', async () => {
+      const { rerender } = render(
+        <Autocomplete value="se" data={norwegian} />
+      )
+      const input = document.querySelector('input')
+      await userEvent.clear(input)
+      await userEvent.type(input, 'Nor')
+      expect(input.value).toBe('Nor')
+
+      rerender(<Autocomplete value="se" data={english} />)
+      await wait(50)
+      expect(input.value).toBe('Nor')
+    })
+  })
+
   describe('suffixValue', () => {
     const mockData = [
       {
@@ -1527,6 +1582,25 @@ describe('Autocomplete component', () => {
         'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
       )
     ).toHaveLength(4)
+  })
+
+  it('omits the show all item when showAll is false', async () => {
+    render(
+      <Autocomplete
+        data={['AA', 'AB', 'BB']}
+        showAll={false}
+        {...mockProps}
+      />
+    )
+
+    await userEvent.type(document.querySelector('.dnb-input__input'), 'A')
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+    expect(
+      document.querySelector('li.dnb-autocomplete__show-all')
+    ).toBeNull()
   })
 
   it('does not crash with disableFilter when searching a full number with whitespace', () => {
@@ -4625,6 +4699,49 @@ describe('Autocomplete component', () => {
     const selectedElement = () =>
       document.querySelector('li.dnb-drawer-list__option--selected')
 
+    it.each([
+      ['Tab', () => userEvent.tab()],
+      ['click', () => userEvent.click(document.querySelector('#after'))],
+    ] as const)(
+      'keeps async results closed when they arrive after leaving with %s',
+      async (_, leave) => {
+        let events: Parameters<AutocompleteAllProps['onType']>[0]
+        render(
+          <>
+            <Autocomplete
+              {...mockProps}
+              mode="async"
+              onType={(event) => {
+                events = event
+                event.showIndicator()
+              }}
+            />
+            <button id="after">After</button>
+          </>
+        )
+
+        await userEvent.type(inputElement(), 'in')
+        await leave()
+        expect(document.querySelector('#after')).toHaveFocus()
+
+        act(() => {
+          events.updateData(['Input'])
+          events.hideIndicator()
+        })
+
+        expect(inputElement()).toHaveAttribute('aria-expanded', 'false')
+        expect(optionElement()).not.toBeInTheDocument()
+
+        await userEvent.click(inputElement())
+        await userEvent.type(inputElement(), 'p')
+        act(() => {
+          events.updateData(['Input'])
+        })
+        expect(inputElement()).toHaveAttribute('aria-expanded', 'true')
+        expect(optionElement()).toHaveTextContent('Input')
+      }
+    )
+
     it('should emit with empty value', async () => {
       const onBlur = vi.fn()
 
@@ -5345,41 +5462,45 @@ describe('Autocomplete component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should not reopen the drawer when the parent passes a new data reference on every render after a selection', async () => {
-    function Parent() {
-      const [, forceRender] = useState(0)
+  it.each([false, true])(
+    'should not reopen the drawer when the parent passes a new data reference after selection with preventSelection=%s',
+    async (preventSelection) => {
+      function Parent() {
+        const [, forceRender] = useState(0)
 
-      // New array reference on every render, mimicking Field.Selection.
-      const data = ['AA', 'AB', 'BB'].map((item) => item)
+        // New array reference on every render, mimicking Field.Selection.
+        const data = ['AA', 'AB', 'BB'].map((item) => item)
 
-      return (
-        <Autocomplete
-          {...mockProps}
-          data={data}
-          onChange={() => {
-            setTimeout(() => forceRender((n) => n + 1), 10)
-          }}
-        />
-      )
+        return (
+          <Autocomplete
+            {...mockProps}
+            data={data}
+            preventSelection={preventSelection}
+            onChange={() => {
+              setTimeout(() => forceRender((n) => n + 1), 10)
+            }}
+          />
+        )
+      }
+
+      render(<Parent />)
+
+      keyDownOnInput('ArrowDown')
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).toBeInTheDocument()
+
+      fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
+
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50))
+      })
+
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).not.toBeInTheDocument()
     }
-
-    render(<Parent />)
-
-    keyDownOnInput('ArrowDown')
-    expect(
-      document.querySelector('.dnb-drawer-list__options')
-    ).toBeInTheDocument()
-
-    fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
-
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 50))
-    })
-
-    expect(
-      document.querySelector('.dnb-drawer-list__options')
-    ).not.toBeInTheDocument()
-  })
+  )
 
   it('should not reopen the drawer when the data prop changes after typing and selecting with the keyboard', async () => {
     function Parent() {

@@ -167,6 +167,23 @@
       }
     }
 
+    // A tapped cell keeps :hover, so do not exclude it on touch devices
+    &:not(:active):focus-visible {
+      &::before,
+      .dnb-table__td--selected &::before {
+        html:where(:not([data-whatintent='mouse'])) & {
+          --border-width: var(--focus-outline-width);
+          --border-color: var(--token-color-stroke-action-focus);
+        }
+      }
+
+      .dnb-table__td__button__icon {
+        html:where(:not([data-whatintent='mouse'])) & {
+          opacity: 1;
+        }
+      }
+    }
+
     &__content {
       flex: 1;
       min-width: 0;
@@ -225,6 +242,25 @@
     .dnb-table__td__button:not(:hover):not(:active)::before {
       --border-width: var(--table-accordion-outline-width--active);
       --border-color: var(--token-color-stroke-selected);
+    }
+
+    // A tapped cell keeps :hover on touch devices, so show the selected
+    // border there too
+    html:where([data-whatintent='touch'], [data-whatintent='keyboard'])
+      &
+      .dnb-table__td__button:not(:active)::before {
+      --border-width: var(--table-accordion-outline-width--active);
+      --border-color: var(--token-color-stroke-selected);
+    }
+
+    // Devices that cannot hover show no hover styles at all
+    @media (any-hover: none) {
+      html:where(:not([data-whatintent='mouse']))
+        &
+        .dnb-table__td__button:not(:active)::before {
+        --border-width: var(--table-accordion-outline-width--active);
+        --border-color: var(--token-color-stroke-selected);
+      }
     }
   }
 

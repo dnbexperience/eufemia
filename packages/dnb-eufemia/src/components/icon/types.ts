@@ -48,7 +48,7 @@ export type IconProps = {
   inheritColor?: boolean
 
   /**
-   * The alternative label (text version) of the icon. Defaults to the imported icon name.
+   * The accessible name of the icon. Without it, the icon is decorative and hidden from assistive technology.
    */
   alt?: string
 

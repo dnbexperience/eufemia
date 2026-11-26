@@ -45,7 +45,7 @@ export function resolveImportCandidates(
 
 /**
  * Build the set of files that are imported by another file inside the docs
- * tree. These are partials (e.g. `info.mdx`, section fragments) whose heading
+ * tree. These are partials (e.g. `overview.mdx`, section fragments) whose heading
  * is rendered within a parent page, so they don't need their own leading H1.
  */
 export function buildImportedSet(): Set<string> {

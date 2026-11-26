@@ -258,7 +258,7 @@ for (const width of [1600, 800, 390]) {
           .focus()
         await page.keyboard.press('Enter')
         await expect(page.locator('body')).toHaveClass(/eufemia-theme__ui/)
-        await page.keyboard.press('Meta+k')
+        await page.keyboard.press('ControlOrMeta+k')
         await expect(page.locator('#portal-home-search')).toBeFocused()
         const layout = await specimens.evaluateAll((items) =>
           items.map((item) => {

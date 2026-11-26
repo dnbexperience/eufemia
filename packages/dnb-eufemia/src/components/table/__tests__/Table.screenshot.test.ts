@@ -7,6 +7,30 @@ import {
 
 const defaults = { wrapperStyle: { margin: '0 !important' } } // because of ScrollView overflow
 
+describe.each(['light', 'dark'] as const)(
+  'Table in Card in %s mode',
+  (colorScheme) => {
+    setupPageScreenshot({
+      url: '/web/components/table/demos/',
+      colorScheme,
+    })
+
+    it.each(['hover', 'keyboard focus while hovered'] as const)(
+      'shows the card menu on %s',
+      async (state) => {
+        await makeScreenshot({
+          ...defaults,
+          style: { width: '40rem' },
+          selector: '[data-visual-test="table-in-card"]',
+          simulateSelector:
+            '[data-visual-test="table-in-card"] .dnb-popover__trigger',
+          simulate: state === 'hover' ? 'hover' : ['hover', 'focus'],
+        })
+      }
+    )
+  }
+)
+
 describe.each(['ui', 'sbanken', 'coconut'])(
   `Table for %s`,
   (themeName) => {
@@ -99,6 +123,70 @@ describe.each(['ui', 'sbanken', 'coconut'])(
           width: '30rem',
         },
         selector: '[data-visual-test="table-sticky-outline"]',
+      })
+    })
+
+    // A stuck header has square corners, so the outline does not show through them
+    it('have to match a stuck header with an outline', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-outline"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="table-sticky-outline"] .dnb-table__scroll-view'
+            )
+            .scrollTo({ top: 60, behavior: 'instant' })
+        },
+      })
+    })
+
+    it('have to match a sticky first column while scrolled underneath the sticky header', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-column"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="table-sticky-column"] .dnb-table__scroll-view'
+            )
+            .scrollTo({ left: 150, top: 120, behavior: 'instant' })
+        },
+      })
+    })
+
+    // The sticky cells draw the parts of the outline they cover
+    it('have to match a sticky last column with an outline', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-column-last"]',
+      })
+    })
+
+    // While scrolled, the sticky cells have square corners and one divider, also with "border"
+    it('have to match a sticky first column with an outline and a border while scrolled', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '30rem',
+        },
+        selector: '[data-visual-test="table-sticky-column-outline"]',
+        executeBeforeSimulate: () => {
+          document
+            .querySelector(
+              '[data-visual-test="table-sticky-column-outline"] .dnb-table__scroll-view'
+            )
+            .scrollTo({ left: 150, top: 80, behavior: 'instant' })
+        },
       })
     })
 
@@ -638,6 +726,13 @@ describe.each(['ui', 'sbanken', 'coconut'])(
       await makeScreenshot({
         ...defaults,
         selector: '[data-visual-test="table-plain-cells"]',
+      })
+    })
+
+    it('have to match the outline of a sticky header with plain th elements', async () => {
+      await makeScreenshot({
+        ...defaults,
+        selector: '[data-visual-test="table-plain-cells-sticky-outline"]',
       })
     })
   }

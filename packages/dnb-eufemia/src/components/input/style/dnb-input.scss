@@ -124,11 +124,18 @@
       color: var(--token-color-component-button-text-action);
       cursor: pointer;
 
-      &:hover {
-        background-color: var(
-          --token-color-background-action-hover-subtle
-        );
-        color: var(--token-color-component-button-text-action-hover);
+      @media (any-hover: hover) {
+        &:hover:not(
+            :where(
+              html[data-whatintent='touch'] *,
+              html[data-whatintent='keyboard'] *
+            )
+          ) {
+          background-color: var(
+            --token-color-background-action-hover-subtle
+          );
+          color: var(--token-color-component-button-text-action-hover);
+        }
       }
       &:active {
         background-color: var(
@@ -235,11 +242,25 @@
 
     @include utilities.forcedColorsOutline($inset: inset);
   }
-  &__border:hover,
-  &__border.hover {
-    --b-color: var(--input-border-color--hover);
-    --b-width: var(--input-border-width--hover);
-    --b-inset: var(--input-border-inset--hover);
+  // Touch browsers keep :hover on the last tapped element,
+  // and FormLabel sets the hover class when its label is tapped
+  @media (any-hover: hover) {
+    &__border:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ),
+    &__border.hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ) {
+      --b-color: var(--input-border-color--hover);
+      --b-width: var(--input-border-width--hover);
+      --b-inset: var(--input-border-inset--hover);
+    }
   }
 
   &__border:has(#{&}__input:autofill) {
@@ -259,12 +280,32 @@
     --b-width: var(--input-border-width__error--active);
     --b-inset: var(--input-border-inset--active);
   }
-  &__status--error &__border:hover,
-  &__status--error &__border:hover:has(#{&}__input:autofill),
-  &__status--error &__border.hover {
-    --b-color: var(--input-border-color__error);
-    --b-width: var(--input-border-width__error--hover);
-    --b-inset: var(--input-border-inset--hover);
+  @media (any-hover: hover) {
+    &__status--error
+      &__border:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ),
+    &__status--error
+      &__border:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ):has(#{&}__input:autofill),
+    &__status--error:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      )
+      &__border.hover {
+      --b-color: var(--input-border-color__error);
+      --b-width: var(--input-border-width__error--hover);
+      --b-inset: var(--input-border-inset--hover);
+    }
   }
   html[data-whatinput='keyboard'] &__border:focus-within {
     --b-color: var(--input-border-color--focus);
@@ -348,6 +389,7 @@
 
   &--small {
     --input-height-current: var(--input-height--small);
+    --input-font-size: var(--input-font-size--small);
 
     line-height: var(--input-height--small);
 
@@ -360,7 +402,6 @@
     .dnb-input__input {
       padding-left: var(--input-padding--small);
       padding-right: var(--input-padding--small);
-      font-size: var(--input-font-size--small);
     }
 
     .dnb-input__submit-element {
@@ -382,6 +423,7 @@
 
   &--medium {
     --input-height-current: var(--input-height--medium);
+    --input-font-size: var(--input-font-size--medium);
 
     line-height: var(--input-height--medium);
 
@@ -394,7 +436,6 @@
     .dnb-input__input {
       padding-left: var(--input-padding--medium);
       padding-right: var(--input-padding--medium);
-      font-size: var(--input-font-size--medium);
     }
 
     .dnb-input__submit-element {
@@ -416,6 +457,7 @@
 
   &--large {
     --input-height-current: var(--input-height--large);
+    --input-font-size: var(--input-font-size--large);
     --input-submit-button-width: 3.5rem;
 
     line-height: var(--input-height--large);
@@ -429,7 +471,6 @@
     .dnb-input__input {
       padding-left: var(--input-padding--large);
       padding-right: var(--input-padding--large);
-      font-size: var(--input-font-size--large);
     }
 
     .dnb-input__submit-element {
@@ -495,9 +536,11 @@
         margin: auto;
       }
 
-      html:not([data-whatintent='touch'])
-        &:not(.dnb-button--has-text):hover[disabled] {
-        cursor: default;
+      @media (any-hover: hover) {
+        html:not([data-whatintent='touch'], [data-whatintent='keyboard'])
+          &:not(.dnb-button--has-text):hover[disabled] {
+          cursor: default;
+        }
       }
     }
   }

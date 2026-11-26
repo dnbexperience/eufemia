@@ -18,7 +18,7 @@ describe('createMarkdownCopies', () => {
     const routes = [
       'web/patterns-and-extensions/chat.mdx',
       'web/patterns-and-extensions/chat/Message.mdx',
-      'web/patterns-and-extensions/chat/Message/info.mdx',
+      'web/patterns-and-extensions/chat/Message/overview.mdx',
       'web/patterns-and-extensions/chat/Message/properties.mdx',
       'web/patterns-and-extensions/chat/Message/events.mdx',
       'web/patterns-and-extensions/chat/Message/demos.mdx',

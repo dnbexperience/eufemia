@@ -49,6 +49,11 @@
   display: flow-root;
 }
 
+// Keep portaled surfaces and their nested menus above the sidebar and header.
+.dnb-popover__portal {
+  --popover-z-index: 3203;
+}
+
 .dnb-live-preview p.dnb-p {
   &:not([class*='dnb-space__bottom']) {
     margin-bottom: 0;

@@ -4,6 +4,19 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
+describe('Coconut heading Rebels', () => {
+  setupPageScreenshot({
+    themeName: 'coconut',
+    url: '/web/styling-and-themes/brands-and-dark-mode/coconut/',
+  })
+
+  it('matches default and limited Rebels', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="coconut-rebels"]',
+    })
+  })
+})
+
 describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
   `Typography for %s`,
   (themeName) => {
@@ -68,6 +81,26 @@ describe.each(['ui', 'sbanken', 'coconut', 'eiendom', 'carnegie'])(
       await makeScreenshot({
         pageViewport: { width: 400 },
         selector: '[data-visual-test="typography-responsive"]',
+      })
+    })
+  }
+)
+
+describe.each(['light', 'dark'] as const)(
+  'Birdhouse Display typography in %s mode',
+  (colorScheme) => {
+    setupPageScreenshot({
+      themeName: 'birdhouse',
+      colorScheme,
+      url: '/web/layout-and-typography/typography/',
+    })
+
+    it('matches opt-in Eiendom Light headlines', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="font-display"]',
+        wrapperStyle: {
+          background: 'var(--token-color-background-neutral)',
+        },
       })
     })
   }

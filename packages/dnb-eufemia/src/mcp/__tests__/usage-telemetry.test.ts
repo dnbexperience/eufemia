@@ -150,6 +150,33 @@ describe('buildUsageRecord', () => {
     expect(record?.path).toBeUndefined()
   })
 
+  it('captures a known skill name on docs_meta', () => {
+    const record = buildUsageRecord(
+      'docs_meta',
+      { skill: 'eufemia-review' },
+      VERSION
+    )
+    expect(record?.skill).toBe('eufemia-review')
+  })
+
+  it.each(['my-skill', 42, undefined])(
+    'sends no skill for %j on docs_meta',
+    (skill) => {
+      const record = buildUsageRecord('docs_meta', { skill }, VERSION)
+      expect(record).toMatchObject({ tool: 'docs_meta' })
+      expect(record?.skill).toBeUndefined()
+    }
+  )
+
+  it('drops a skill on any tool other than docs_meta', () => {
+    const record = buildUsageRecord(
+      'docs_search',
+      { query: 'x', skill: 'eufemia-review' },
+      VERSION
+    )
+    expect(record?.skill).toBeUndefined()
+  })
+
   it('stamps an ISO timestamp', () => {
     const record = buildUsageRecord('docs_entry', {}, VERSION)
     expect(record?.timestamp).toMatch(
@@ -288,6 +315,25 @@ describe('createUsageReporter', () => {
     reporter?.onToolCall('docs_entry', {})
 
     expect(fetchImpl.mock.calls[0][0]).toBe('http://localhost:9999/x')
+  })
+
+  it('POSTs the skill name with docs_meta', () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('docs_meta', { skill: 'eufemia-components' })
+
+    expect(JSON.parse(fetchImpl.mock.calls[0][1].body)).toEqual({
+      tool: 'docs_meta',
+      skill: 'eufemia-components',
+      eufemiaVersion: VERSION,
+      timestamp: expect.any(String),
+    })
   })
 
   it('does not post a record for an unknown tool', () => {

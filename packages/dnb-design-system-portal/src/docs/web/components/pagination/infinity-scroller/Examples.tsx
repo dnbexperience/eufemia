@@ -448,9 +448,17 @@ const StyledTable = styled(Table)`
 `
 
 const TableRow = styled.tr`
-  &:not(.expanded-content):hover {
-    cursor: pointer;
-    opacity: 0.8;
+  /* Touch browsers keep :hover on the last tapped row */
+  @media (any-hover: hover) {
+    &:not(.expanded-content):hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ) {
+      cursor: pointer;
+      opacity: 0.8;
+    }
   }
 
   .dnb-icon {

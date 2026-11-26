@@ -104,6 +104,14 @@
       --accordion-border-inset: var(--accordion-border-inset--active);
     }
 
+    // A tapped header can keep :hover after switching to the keyboard.
+    html:where(:not([data-whatintent='mouse'])):not(
+        [data-whatinput='touch']
+      )
+      &:focus-visible:not([disabled]):not(:active) {
+      @include utilities.focusOutline();
+    }
+
     @include utilities.focusVisible() {
       &:not(:hover):not(:active) {
         @include utilities.focusOutline();

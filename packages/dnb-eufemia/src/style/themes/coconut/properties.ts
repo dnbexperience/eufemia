@@ -3,7 +3,7 @@
 export default {
   '--sb-font-family-default': "'DNB', 'Arial', sans-serif",
   '--sb-font-family-heading':
-    "'MaisonNeueHeadings', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+    "'Sbanken Display', var(--sb-font-family-default)",
   '--sb-font-weight-default': 'normal',
   '--sb-font-weight-basis': 'normal',
   '--sb-font-weight-regular': 'normal',
@@ -111,6 +111,7 @@ export default {
   '--font-family-monospace':
     "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace",
   '--font-weight-default': 'normal',
+  '--font-weight-display': 'normal',
   '--font-weight-basis': 'normal',
   '--font-weight-light': '300',
   '--font-weight-regular': 'normal',

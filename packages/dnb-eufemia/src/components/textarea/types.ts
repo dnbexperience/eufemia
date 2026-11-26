@@ -133,7 +133,7 @@ export type TextareaProps = Omit<
      */
     hideResizeHandle?: boolean
     /**
-     * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](/web/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
+     * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](/web/components/fragments/text-counter/) `variant` or properties. When the max length is exceeded, the Textarea shows the error state, together with the counter message. A given `status` takes precedence, and `status={false}` keeps the default state. Please avoid using `maxLength` for accessibility reasons.
      */
     characterCounter?: Omit<TextCounterProps, 'text'> | number
     /**

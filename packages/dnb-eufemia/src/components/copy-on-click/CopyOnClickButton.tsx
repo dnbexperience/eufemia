@@ -2,13 +2,14 @@
  * Web CopyOnClick.Button Component
  */
 
-import { useCallback, useRef } from 'react'
+import { Fragment, useCallback, useRef } from 'react'
 import type { CopyOnClickButtonProps } from './types'
 import { useTranslation } from '../../shared'
 import mergeProps from '../../shared/helpers/mergeProps'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import Button from '../button/Button'
 import Tooltip from '../Tooltip'
+import AriaLive from '../AriaLive'
 import copyIcon from '../../icons/copy'
 import useCopyToClipboard from './useCopyToClipboard'
 
@@ -54,9 +55,18 @@ export default function CopyOnClickButton({
       />
       {copyCount > 0 && (
         // A new key per copy lets screen readers announce every copy
-        <Tooltip key={copyCount} open={active} targetElement={elementRef}>
-          {tooltipContent ?? clipboardCopy}
-        </Tooltip>
+        <Fragment key={copyCount}>
+          <Tooltip
+            open={active}
+            targetElement={elementRef}
+            omitDescribedBy
+          >
+            {tooltipContent ?? clipboardCopy}
+          </Tooltip>
+          <AriaLive element="span">
+            {active ? (tooltipContent ?? clipboardCopy) : null}
+          </AriaLive>
+        </Fragment>
       )}
     </>
   )

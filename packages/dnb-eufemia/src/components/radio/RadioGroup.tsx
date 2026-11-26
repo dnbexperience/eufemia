@@ -182,6 +182,12 @@ function RadioGroup(ownProps: RadioGroupProps) {
   // also used for code markup simulation
   validateDOMAttributes(ownProps, params)
 
+  // The role belongs to the group element as well
+  const { role = 'radiogroup', ...shellParams } =
+    params as typeof params & {
+      role?: string
+    }
+
   const groupContext = {
     name: nameRef.current,
     value,
@@ -206,8 +212,8 @@ function RadioGroup(ownProps: RadioGroupProps) {
               .filter(Boolean)
               .join(' ') || undefined
           }
-          aria-readonly={readOnly || undefined}
-          role="radiogroup"
+          aria-readonly={(role === 'radiogroup' && readOnly) || undefined}
+          role={role}
         >
           <Flex.Container
             layoutEngine="css"
@@ -234,7 +240,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
               element="span"
               id={id}
               className="dnb-radio-group__shell"
-              {...params}
+              {...shellParams}
             >
               {children as ReactNode}
 

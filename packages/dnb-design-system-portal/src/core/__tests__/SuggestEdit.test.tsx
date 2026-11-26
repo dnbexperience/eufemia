@@ -155,7 +155,7 @@ describe('SuggestEdit', () => {
       window.history.replaceState(
         null,
         '',
-        '/web/contribute/suggest-edit/?page=%2Fuilib%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fuilib%2Fcomponents%2Fbutton%2Finfo.mdx'
+        '/web/contribute/suggest-edit/?page=%2Fuilib%2Fcomponents%2Fbutton%2F%23events&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fuilib%2Fcomponents%2Fbutton%2Foverview.mdx'
       )
 
       await submitPrompt()
@@ -164,7 +164,7 @@ describe('SuggestEdit', () => {
         document.querySelector('.dnb-form-status a').getAttribute('href')
       ).toBe('/uilib/components/button/#events')
       expect(mockCopyToClipboard.mock.calls[0][0]).toContain(
-        `Page: https://eufemia.dnb.no/uilib/components/button/#events\nSource: https://github.com/${githubSource.repository}/blob/${githubSource.editRef}/packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx\n`
+        `Page: https://eufemia.dnb.no/uilib/components/button/#events\nSource: https://github.com/${githubSource.repository}/blob/${githubSource.editRef}/packages/dnb-design-system-portal/src/docs/uilib/components/button/overview.mdx\n`
       )
     })
 

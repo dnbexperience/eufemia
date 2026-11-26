@@ -53,6 +53,17 @@ describe('Anchor', () => {
     }
   )
 
+  it.each([
+    '/fonts/dnb/LICENSE.txt',
+    '/pdf/guide.pdf?v=1',
+    '/llms.txt#top',
+  ])('lets the browser load the static file %s', (href) => {
+    const anchor = renderAnchor(href)
+
+    expect(anchor.getAttribute('href')).toBe(href)
+    expect(anchor.hasAttribute('data-discover')).toBe(false)
+  })
+
   it('adds the trailing slash to a Link `to` path', () => {
     const { container } = render(
       <MemoryRouter>

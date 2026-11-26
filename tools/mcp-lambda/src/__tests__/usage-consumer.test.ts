@@ -15,6 +15,7 @@ function usageRecord(
     tool: 'component_props',
     component: 'Button',
     component_missed: false,
+    skill: '',
     path: '',
     env: 'dev',
     transport: 'web',
@@ -117,6 +118,34 @@ describe('usage consumer', () => {
       queuedEarlier,
     ])
     expect(errorSpy).not.toHaveBeenCalled()
+  })
+
+  it('stores a record queued before the skill field existed', async () => {
+    const queuedEarlier: Partial<WebMcpUsageRecord> = usageRecord()
+    delete queuedEarlier.skill
+
+    await handler(
+      event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      queuedEarlier,
+    ])
+    expect(errorSpy).not.toHaveBeenCalled()
+  })
+
+  it('drops a message whose skill is not a string', async () => {
+    await handler(
+      event(
+        sqsRecord(
+          'bad-skill',
+          JSON.stringify([{ ...usageRecord(), skill: 1 }])
+        )
+      )
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [])
+    expect(errorSpy).toHaveBeenCalledTimes(1)
   })
 
   it('drops a message whose version or miss field is missing or has the wrong type', async () => {

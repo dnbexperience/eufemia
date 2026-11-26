@@ -15,6 +15,20 @@ describe('Filter.Search', () => {
     const input = document.querySelector('.dnb-filter__search input')
 
     expect(input).toBeInTheDocument()
+    expect(input).toHaveAccessibleName('Søk')
+    expect(document.querySelector('label')).not.toHaveClass('dnb-sr-only')
+    expect(document.querySelector('.dnb-input__icon')).toBeInTheDocument()
+  })
+
+  it('supports a screen reader only label', () => {
+    render(
+      <FilterRoot>
+        <FilterSearch label="Søk" labelSrOnly />
+      </FilterRoot>
+    )
+
+    expect(document.querySelector('input')).toHaveAccessibleName('Søk')
+    expect(document.querySelector('label')).toHaveClass('dnb-sr-only')
   })
 
   it('updates search state on input', () => {

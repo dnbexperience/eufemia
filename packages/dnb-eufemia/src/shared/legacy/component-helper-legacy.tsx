@@ -6,6 +6,7 @@
 
 import type { RefObject } from 'react'
 import { warn, isMac, isWin, isLinux } from '../helpers'
+import { addOutsideClickListener } from '../helpers/useOutsideClick'
 
 /**
  * Check if device is touch device or not
@@ -114,6 +115,7 @@ export class DetectOutsideClickClass {
     | ((event: Event, onDone?: () => void) => void)
     | null = null
 
+  removeOutsideClickListener: (() => void) | null = null
   keydownCallback: ((event: KeyboardEvent) => void) | null = null
   keyupCallback: ((event: KeyboardEvent) => void) | null = null
 
@@ -144,8 +146,18 @@ export class DetectOutsideClickClass {
           () => typeof onSuccess === 'function' && onSuccess({ event })
         )
       }
-      // Capture phase, so stopPropagation (e.g. in a Popover) cannot hide the click
-      document.addEventListener('mousedown', this.handleClickOutside, true)
+      this.removeOutsideClickListener = addOutsideClickListener({
+        // Capture phase, so stopPropagation (e.g. in a Popover) cannot hide the click
+        capture: true,
+        keys: [],
+        isInside: (target, event) =>
+          !this.checkOutsideClick({ event, ignoreElements }),
+        onOutsideClick: (event) => {
+          if (typeof onSuccess === 'function') {
+            onSuccess({ event })
+          }
+        },
+      })
 
       this.keydownCallback = (event) => {
         if (event.key === 'Escape') {
@@ -177,14 +189,11 @@ export class DetectOutsideClickClass {
   }
 
   remove() {
-    if (this.handleClickOutside && typeof document !== 'undefined') {
-      document.removeEventListener(
-        'mousedown',
-        this.handleClickOutside,
-        true
-      )
-      this.handleClickOutside = null
+    if (this.removeOutsideClickListener) {
+      this.removeOutsideClickListener()
+      this.removeOutsideClickListener = null
     }
+    this.handleClickOutside = null
     if (this.keydownCallback && typeof window !== 'undefined') {
       window.removeEventListener('keydown', this.keydownCallback)
       this.keydownCallback = null
@@ -204,26 +213,9 @@ export class DetectOutsideClickClass {
       ignoreElements: (HTMLElement | RefObject<HTMLElement> | null)[]
     },
     onSuccess: (() => void) | null = null
-  ) => {
+  ): boolean => {
     try {
       const currentElement = event.target as HTMLElement | null
-
-      // we also check if currentElement is documentElement
-      // and if it has scrollbars, we then ignore the click
-      if (
-        currentElement?.tagName === 'HTML' &&
-        ((event as MouseEvent).pageX >
-          document.documentElement.clientWidth - 40 ||
-          (event as MouseEvent).pageY >
-            document.documentElement.clientHeight - 40)
-      ) {
-        return // stop here
-      }
-
-      // check if element has e.g. "overflow: scroll"
-      if (checkIfHasScrollbar(currentElement)) {
-        return // stop here
-      }
 
       // check the rest
       for (let i = 0, elem, l = ignoreElements.length; i < l; ++i) {
@@ -243,7 +235,7 @@ export class DetectOutsideClickClass {
         }
         do {
           if (elem === ignoreElement) {
-            return // stop here
+            return false // stop here
           }
           elem = elem && elem.parentNode
         } while (elem)
@@ -252,9 +244,13 @@ export class DetectOutsideClickClass {
       if (typeof onSuccess === 'function') {
         onSuccess()
       }
+
+      return true
     } catch (e) {
       warn('detectOutsideClick: Failed to handle outside click:', e)
     }
+
+    return false
   }
 }
 
