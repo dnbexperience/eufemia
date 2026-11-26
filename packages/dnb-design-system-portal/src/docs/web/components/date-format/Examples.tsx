@@ -3,9 +3,10 @@
  *
  */
 
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { DateFormat, H4, Hr, P } from '@dnb/eufemia/src'
+import { Button, DateFormat, Flex, H4, Hr, P } from '@dnb/eufemia/src'
 
 const Style = styled.div`
   p > .dnb-date-format {
@@ -307,6 +308,52 @@ export const DateAndTime = () => {
           dateTimeSeparator=" – "
         />
       </P>
+    </ComponentBox>
+  )
+}
+
+export const Animated = () => {
+  return (
+    <ComponentBox hideCode>
+      {() => {
+        function Example() {
+          const initialValue = '2026-12-31'
+          const [value, setValue] = useState(initialValue)
+
+          function move(days: number) {
+            const date = new Date(value)
+            date.setUTCDate(date.getUTCDate() + days)
+            setValue(date.toISOString().slice(0, 10))
+          }
+
+          return (
+            <Flex.Stack layoutEngine="css">
+              <Flex.Container layoutEngine="css" align="center">
+                <Button
+                  text="Previous day"
+                  variant="secondary"
+                  onClick={() => move(-1)}
+                />
+                <Button text="Next day" onClick={() => move(1)} />
+                <Button
+                  text="Reset"
+                  variant="tertiary"
+                  icon="reset"
+                  onClick={() => setValue(initialValue)}
+                />
+              </Flex.Container>
+              <P space={0} size="x-large">
+                <DateFormat value={value} dateStyle="short" animate />
+              </P>
+              <P space={0} size="x-large">
+                <DateFormat value={value} animate />
+              </P>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
     </ComponentBox>
   )
 }

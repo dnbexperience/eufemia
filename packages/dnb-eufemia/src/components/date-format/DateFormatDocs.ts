@@ -26,6 +26,11 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: ['"long"', '"medium"', '"short"', '"full"'],
     status: 'optional',
   },
+  animate: {
+    doc: 'Cascades digits within each changing numeric date or time field from left to right, 25 ms apart with a 160 ms slide per digit. Text such as month names changes immediately. Initial values, formatting changes, and values revealed after a skeleton appear without motion. Respects reduced motion. Relative times and durations are not animated. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   dateTimeSeparator: {
     doc: 'Custom separator used between date and time when both are rendered (e.g. " - "). When not provided, uses the locale-appropriate separator (e.g. " kl. " for Norwegian, " at " for English).',
     type: 'string',
