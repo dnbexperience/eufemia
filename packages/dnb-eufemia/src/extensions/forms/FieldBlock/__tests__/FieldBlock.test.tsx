@@ -1690,6 +1690,16 @@ describe('FieldBlock', () => {
           </FieldBlock>
         ),
       ],
+      [
+        'a nested field block',
+        (warning: string) => (
+          <FieldBlock id="outer">
+            <FieldBlock id="client-only" warning={warning}>
+              content
+            </FieldBlock>
+          </FieldBlock>
+        ),
+      ],
     ])(
       'should hydrate %s with a message that is only rendered in the browser',
       async (_, renderElement) => {
