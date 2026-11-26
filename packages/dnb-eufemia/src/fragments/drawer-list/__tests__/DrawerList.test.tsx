@@ -1247,6 +1247,56 @@ describe('DrawerList component', () => {
       }
     })
 
+    it('keeps a list that opens upward below the top of the visual viewport', () => {
+      // Pinch zoom, or the on-screen keyboard in a fixed container, moves the top of the visual viewport down
+      vi.stubGlobal('visualViewport', {
+        height: 412,
+        offsetTop: 64,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })
+      const offsetHeight = vi
+        .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+        .mockImplementation(function (this: HTMLElement) {
+          return this.classList.contains('dnb-drawer-list__root') ? 43 : 0
+        })
+      // The root is far down the page, so the page above it is tall
+      const offsetTop = vi
+        .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
+        .mockImplementation(function (this: HTMLElement) {
+          return this.classList.contains('dnb-drawer-list__root') ? 600 : 0
+        })
+      const getBoundingClientRect =
+        HTMLElement.prototype.getBoundingClientRect
+      const rect = vi
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockImplementation(function (this: HTMLElement) {
+          if (this.style.position === 'fixed') {
+            return { top: 0, left: 0 } as DOMRect
+          }
+          if (this.classList.contains('dnb-drawer-list__root')) {
+            return { top: 257, bottom: 300 } as DOMRect
+          }
+          return getBoundingClientRect.call(this)
+        })
+
+      try {
+        render(<DrawerList {...props} data={mockData} direction="top" />)
+
+        // The visible area starts at 64px and the root ends at 300px, minus the root and a 32px margin
+        expect(
+          document
+            .querySelector('.dnb-drawer-list__options')
+            .getAttribute('style')
+        ).toBe('max-height: 10rem;')
+      } finally {
+        vi.unstubAllGlobals()
+        offsetHeight.mockRestore()
+        offsetTop.mockRestore()
+        rect.mockRestore()
+      }
+    })
+
     it('has correct max-height with direction top', () => {
       vi.spyOn(
         document.documentElement,

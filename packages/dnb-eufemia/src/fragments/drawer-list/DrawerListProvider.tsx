@@ -427,14 +427,25 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       return visibleBottom - elem.getBoundingClientRect().bottom
     }
 
+    // Pinch zoom, or the on-screen keyboard in a fixed container, moves the top of the visual viewport down
+    const getVisibleSpaceToTop = (elem: HTMLElement) => {
+      if (!window.visualViewport) {
+        return Infinity
+      }
+
+      return elem.getBoundingClientRect().bottom - getViewportBounds().top
+    }
+
     const calculateMaxHeight = () => {
       const rootElem = customElem || document.documentElement
 
       const pageYOffset = !isNaN(parseFloat(pageOffset as string))
         ? parseFloat(pageOffset as string)
         : rootElem.scrollTop
-      const spaceToTop =
-        getOffsetTop(elem) + elem.offsetHeight - pageYOffset
+      const spaceToTop = Math.min(
+        getOffsetTop(elem) + elem.offsetHeight - pageYOffset,
+        getVisibleSpaceToTop(elem)
+      )
       const spaceToBottom = Math.min(
         getSpaceToBottom({
           rootElem,
