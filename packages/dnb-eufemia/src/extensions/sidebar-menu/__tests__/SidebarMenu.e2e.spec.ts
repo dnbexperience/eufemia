@@ -1,6 +1,6 @@
 import path from 'node:path'
 import * as sass from 'sass'
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 const sourceRoot = path.resolve(__dirname, '../../..')
 const compile = (file: string) =>
@@ -196,3 +196,95 @@ for (const [brand, colorScheme] of [
     expect(border).not.toBe(background)
   })
 }
+
+const setIntent = (page: Page, whatinput: string, whatintent: string) =>
+  page.locator('html').evaluate(
+    (element, { whatinput, whatintent }) => {
+      element.dataset.whatinput = whatinput
+      element.dataset.whatintent = whatintent
+    },
+    { whatinput, whatintent }
+  )
+
+test.describe('hover and focus after switching input', () => {
+  const hoverBackground = 'rgb(248, 248, 248)'
+  const handleColor = 'rgb(235, 235, 235)'
+  const handleHoverColor = 'rgb(0, 114, 114)'
+
+  test.beforeEach(async ({ page }) => {
+    await page.setContent(`
+      <style>
+        :root {
+          --token-color-background-neutral-subtle: ${hoverBackground};
+          --token-color-stroke-neutral-subtle: ${handleColor};
+          --token-color-stroke-action: ${handleHoverColor};
+          --token-color-stroke-action-focus: rgb(39, 106, 206);
+          --focus-outline-width: 0.1875rem;
+        }
+        ${compile('extensions/sidebar-menu/style/dnb-sidebar-menu.scss')}
+        /* The handle color changes after a delay */
+        .dnb-sidebar-menu-resize-handle {
+          transition: none !important;
+        }
+      </style>
+      <nav class="dnb-sidebar-menu">
+        <ul>
+          <li class="dnb-sidebar-menu__item">
+            <button class="dnb-sidebar-menu__item__action">Overview</button>
+          </li>
+        </ul>
+      </nav>
+      <button class="dnb-sidebar-menu-resize-handle" style="position: relative; width: 1rem; height: 4rem">
+        Resize
+      </button>
+    `)
+  })
+
+  // A key press while the mouse rests on an item must not hide where focus is.
+  test('shows the focus outline on an item under the mouse', async ({
+    page,
+  }) => {
+    const action = page.locator('.dnb-sidebar-menu__item__action')
+    await action.hover()
+
+    await test.step('mouse intent shows the hover background', async () => {
+      await setIntent(page, 'mouse', 'mouse')
+      await expect(action).toHaveCSS('background-color', hoverBackground)
+    })
+
+    await test.step('keyboard focus shows the outline', async () => {
+      await action.focus()
+      await setIntent(page, 'keyboard', 'keyboard')
+      await expect(action).toHaveCSS('outline-style', 'solid')
+      await expect(action).toHaveCSS(
+        'background-color',
+        'rgba(0, 0, 0, 0)'
+      )
+    })
+
+    await test.step('touch intent shows no hover background', async () => {
+      await action.blur()
+      await setIntent(page, 'touch', 'touch')
+      await expect(action).toHaveCSS(
+        'background-color',
+        'rgba(0, 0, 0, 0)'
+      )
+    })
+  })
+
+  // Touch browsers keep :hover on the last touched element.
+  test('keeps the resize handle at rest after touch', async ({ page }) => {
+    const handle = page.locator('.dnb-sidebar-menu-resize-handle')
+    await handle.hover()
+
+    await test.step('touch intent shows the resting color', async () => {
+      await setIntent(page, 'touch', 'touch')
+      await expect(handle).toHaveCSS('color', handleColor)
+    })
+
+    await test.step('mouse intent shows the hover color', async () => {
+      await setIntent(page, 'mouse', 'mouse')
+      await expect(handle).toHaveCSS('color', handleHoverColor)
+    })
+  })
+})

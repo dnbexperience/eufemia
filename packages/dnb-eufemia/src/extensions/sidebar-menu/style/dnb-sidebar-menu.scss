@@ -210,15 +210,32 @@
         }
       }
 
+      // An item under the mouse keeps :hover after switching to the keyboard.
+      html[data-whatinput='keyboard']:where(
+          :not([data-whatintent='mouse'])
+        )
+        &:focus:not([disabled], [aria-disabled='true']) {
+        @include utilities.focusOutline(
+          $offset: calc(-1 * var(--focus-outline-width))
+        );
+
+        box-shadow: none;
+      }
+
       // Safari can keep the touched link :active beneath the drag shield.
       &:not(:where(.dnb-drawer__reveal-dragging *)) {
-        &:hover:not(:where(html[data-whatintent='touch'] *)):not(
-            [disabled],
-            [aria-disabled='true']
-          ) {
-          background-color: var(
-            --sidebar-menu-action-background-color--hover
-          );
+        // Touch browsers keep :hover on the last tapped element.
+        @media (any-hover: hover) {
+          &:hover:not(
+              :where(
+                html[data-whatintent='touch'] *,
+                html[data-whatintent='keyboard'] *
+              )
+            ):not([disabled], [aria-disabled='true']) {
+            background-color: var(
+              --sidebar-menu-action-background-color--hover
+            );
+          }
         }
 
         &:active:not([disabled], [aria-disabled='true']) {
@@ -685,14 +702,22 @@ html[data-whatinput='keyboard']
       opacity 100ms linear;
   }
 
-  &:hover {
-    color: var(--token-color-stroke-action);
-    transition-delay: 200ms;
-
-    &::before {
-      width: 0.125rem;
-      opacity: 1;
+  // Touch browsers keep :hover on the last touched element.
+  @media (any-hover: hover) {
+    &:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ) {
+      color: var(--token-color-stroke-action);
       transition-delay: 200ms;
+
+      &::before {
+        width: 0.125rem;
+        opacity: 1;
+        transition-delay: 200ms;
+      }
     }
   }
 
