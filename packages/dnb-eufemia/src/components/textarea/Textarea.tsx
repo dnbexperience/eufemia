@@ -391,6 +391,19 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)
+  const characterCounterMax =
+    typeof characterCounter === 'object'
+      ? characterCounter?.max
+      : characterCounter
+  const characterCounterId =
+    (typeof characterCounter === 'object' && characterCounter?.id) ||
+    id + '-counter'
+  // A given status, including `false`, takes precedence over the counter
+  const characterCounterExceeded =
+    !status &&
+    status !== false &&
+    characterCounterMax > 0 &&
+    (value || '').length > characterCounterMax
 
   let TextareaElement: TextareaElement = props.textareaElement
 
@@ -419,14 +432,15 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     onKeyDown: onKeyDownHandler,
   }
 
-  if (showStatus || suffix) {
+  if (showStatus || suffix || characterCounterExceeded) {
     textareaParams['aria-describedby'] = combineDescribedBy(
       textareaParams,
       showStatus ? id + '-status' : null,
-      suffix ? id + '-suffix' : null
+      suffix ? id + '-suffix' : null,
+      characterCounterExceeded ? characterCounterId + '-message' : null
     )
   }
-  if (status && statusState === 'error') {
+  if ((status && statusState === 'error') || characterCounterExceeded) {
     textareaParams['aria-invalid'] ??= true
   }
   if (readOnly) {
@@ -442,6 +456,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       align && `dnb-textarea__align--${align}`,
       typeof size === 'string' && `dnb-textarea__size--${size}`,
       status && `dnb-textarea__status--${statusState}`,
+      characterCounterExceeded && 'dnb-textarea__status--error',
       autoResize && 'dnb-textarea__autoresize',
       hideResizeHandle && 'dnb-textarea__no-resize',
       labelDirection && `dnb-textarea--${labelDirection}`,
@@ -570,6 +585,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
             {...(typeof characterCounter === 'object'
               ? characterCounter
               : {})}
+            id={characterCounterId}
           />
         )}
       </span>

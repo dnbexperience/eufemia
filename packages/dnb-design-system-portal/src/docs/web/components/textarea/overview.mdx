@@ -39,9 +39,9 @@ When users insert values using autofill in their browser, the browser applies it
 
 Please avoid using the `maxlength` attribute whenever possible, as it is not accessible. Instead, use the `characterCounter` property.
 
-This way, the user gets visual feedback on the number of characters entered and the maximum number of characters allowed, and it will not limit the user in their workflow.
+This way, the user gets visual feedback on the number of characters entered and the maximum number of characters allowed, and it will not limit the user in their workflow. When the text is longer than the limit, the Textarea shows the error state while the user types, and the counter message describes the error to screen readers.
 
-You can still set the requirement for your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/web/forms/base-fields/String/).
+You can still set the requirement for your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/web/forms/base-fields/String/). There, the error message is shown like with other validation, when the user leaves the field or submits the form.
 
 <Examples.MaxLength />
 
