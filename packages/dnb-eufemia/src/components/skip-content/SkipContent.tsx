@@ -12,6 +12,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import { getSmoothScrollBehavior } from '../../shared/helpers/reducedMotion'
 
 export type SkipContentProps = {
   /**
@@ -105,7 +106,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
 
       // Scroll to the element at first
       const element = getTargetElement()
-      element?.scrollIntoView?.({ behavior: 'smooth' })
+      element?.scrollIntoView?.({ behavior: getSmoothScrollBehavior() })
 
       if (element && !isInteractive(element)) {
         element.classList.add('dnb-skip-content__focus')

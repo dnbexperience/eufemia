@@ -38,6 +38,7 @@ import type {
 import type { TableTrProps } from '../TableTr'
 import decodeHashId from '../../../shared/helpers/decodeHashId'
 import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
+import { prefersReducedMotion } from '../../../shared/helpers/reducedMotion'
 
 const accordionChevron = Icon.transition({
   collapsed: chevron_down,
@@ -152,7 +153,8 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
       const doc = document as DocumentWithViewTransition
       if (
         typeof doc !== 'undefined' &&
-        typeof doc.startViewTransition !== 'undefined'
+        typeof doc.startViewTransition !== 'undefined' &&
+        !prefersReducedMotion()
       ) {
         if (tableContext.hasAccordionRows && !trIsOpen) {
           doc.startViewTransition?.(() => {

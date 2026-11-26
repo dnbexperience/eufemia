@@ -21,6 +21,7 @@ import type {
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
+import { getSmoothScrollBehavior } from '../../shared/helpers/reducedMotion'
 import Context from '../../shared/Context'
 import type { DetectOutsideClickClass } from '../../shared/component-helper'
 import {
@@ -797,7 +798,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                   }
                 } else if (liElement.scrollIntoView) {
                   liElement.scrollIntoView({
-                    behavior: 'smooth',
+                    behavior: getSmoothScrollBehavior(),
                     block: 'nearest',
                   })
                 } else {
@@ -806,7 +807,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                   if (ulElement.scrollTo) {
                     ulElement.scrollTo({
                       top,
-                      behavior: 'smooth',
+                      behavior: getSmoothScrollBehavior(),
                     })
                   } else if (ulElement.scrollTop) {
                     ulElement.scrollTop = top

@@ -4,6 +4,7 @@
  */
 
 import decodeHashId from './helpers/decodeHashId'
+import { getSmoothScrollBehavior } from './helpers/reducedMotion'
 
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
@@ -245,7 +246,7 @@ export function scrollToLocationHashId({
 
                 window.scrollTo({
                   top,
-                  behavior: 'smooth',
+                  behavior: getSmoothScrollBehavior(),
                 })
               }
             } catch (e) {

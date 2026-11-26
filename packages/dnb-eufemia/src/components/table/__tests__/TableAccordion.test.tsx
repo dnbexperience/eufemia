@@ -1012,6 +1012,35 @@ describe('TableAccordion', () => {
       expect(startViewTransition).toHaveBeenCalledTimes(1)
     })
 
+    it('should open without startViewTransition when reduced motion is preferred', () => {
+      vi.stubGlobal('matchMedia', () => ({ matches: true }))
+      onTestFinished(() => {
+        vi.unstubAllGlobals()
+      })
+      const startViewTransition = vi.fn((cb) => cb())
+      document.startViewTransition = startViewTransition
+
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr>
+              <Td>content</Td>
+              <Tr.AccordionContent>
+                <Td>row content</Td>
+              </Tr.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const trElement = document.querySelector('tr')
+
+      fireEvent.click(trElement)
+
+      expect(startViewTransition).toHaveBeenCalledTimes(0)
+      expect(trElement).toHaveClass('dnb-table__tr--expanded')
+    })
+
     it('should add viewTransitionName style to tr', () => {
       render(
         <Table mode="accordion">

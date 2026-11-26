@@ -21,6 +21,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
+import { getSmoothScrollBehavior } from '../../shared/helpers/reducedMotion'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -316,13 +317,13 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
           await wait(1)
           element.scrollIntoView({
             block: 'center',
-            behavior: 'smooth',
+            behavior: getSmoothScrollBehavior(),
           })
         } else {
           const top = element.offsetTop
           window.scrollTo({
             top,
-            behavior: 'smooth',
+            behavior: getSmoothScrollBehavior(),
           })
         }
       } catch (e) {
@@ -391,7 +392,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             // then go there
             element.scrollIntoView({
               block: 'center', // center of page
-              behavior: 'smooth',
+              behavior: getSmoothScrollBehavior(),
             })
           }
         } catch (e) {

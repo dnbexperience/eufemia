@@ -13,6 +13,7 @@ import type {
   SyntheticEvent,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import { getSmoothScrollBehavior } from '../../shared/helpers/reducedMotion'
 import {
   warn,
   dispatchCustomElementEvent,
@@ -622,7 +623,7 @@ function ScrollToElement({
     if (elem && typeof elem.scrollIntoView === 'function') {
       elem.scrollIntoView({
         block: 'nearest',
-        behavior: 'smooth',
+        behavior: getSmoothScrollBehavior(),
       })
     }
   })
