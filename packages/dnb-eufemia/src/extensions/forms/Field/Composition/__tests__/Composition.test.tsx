@@ -1316,6 +1316,20 @@ describe('Field.Composition', () => {
         />
       </Field.Composition>,
     ],
+    [
+      'PhoneNumber in a composition',
+      <Field.Composition label="Contact" key="phone">
+        <Field.PhoneNumber path="/phone" required />
+      </Field.Composition>,
+    ],
+    [
+      'a FieldBlock in a FieldBlock',
+      <FieldBlock label="Outer" key="block">
+        <FieldBlock label="Inner">
+          <Field.String label="Street" path="/street" required />
+        </FieldBlock>
+      </FieldBlock>,
+    ],
   ])('should stop rendering after submit with %s', async (_, fields) => {
     let commits = 0
 
@@ -1334,6 +1348,42 @@ describe('Field.Composition', () => {
 
     await wait(300)
     expect(document.querySelector('.dnb-form-status--error')).toBeTruthy()
+
+    const commitsAfterSubmit = commits
+    await wait(300)
+    expect(commits).toBe(commitsAfterSubmit)
+  })
+
+  it('should show the error of an onBlurValidator in a nested composition after submit', async () => {
+    let commits = 0
+
+    render(
+      <Profiler id="form" onRender={() => commits++}>
+        <Form.Handler>
+          <Field.Composition label="Outer">
+            <Field.Composition label="Inner">
+              <Field.String
+                path="/street"
+                value="a"
+                onBlurValidator={() => new Error('Invalid street')}
+              />
+            </Field.Composition>
+          </Field.Composition>
+        </Form.Handler>
+      </Profiler>
+    )
+
+    // Submit outside of act, so an endless render loop cannot hang the test
+    document
+      .querySelector('form')
+      .dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true })
+      )
+
+    await wait(300)
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      'Invalid street'
+    )
 
     const commitsAfterSubmit = commits
     await wait(300)
