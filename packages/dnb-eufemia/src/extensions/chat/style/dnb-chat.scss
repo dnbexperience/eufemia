@@ -252,12 +252,17 @@
     @include utilities.forcedColorsOutline($inset: inset);
   }
 
-  &:not(&--disabled, &--error, &--focus) {
-    @include utilities.whatInputNot('touch') {
-      &:hover {
-        --border-color: var(--token-color-stroke-action-hover);
-        --border-width: 0.125rem;
-      }
+  // Touch browsers keep :hover on the last tapped element. Typing sets the
+  // input to keyboard, so check the intent rather than the input.
+  @media (any-hover: hover) {
+    &:not(&--disabled, &--error, &--focus):hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      ) {
+      --border-color: var(--token-color-stroke-action-hover);
+      --border-width: 0.125rem;
     }
   }
 
