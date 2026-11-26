@@ -874,6 +874,30 @@ describe('Textarea component', () => {
     )
   })
 
+  it('should disable characterCounter when it is null', () => {
+    const { rerender } = render(
+      <Textarea characterCounter={{ max: 2 }} value="foo" />
+    )
+
+    expect(document.querySelector('.dnb-text-counter')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__status--error'
+    )
+
+    rerender(<Textarea characterCounter={null} value="foo" />)
+
+    expect(document.querySelector('.dnb-text-counter')).toBeNull()
+    expect(document.querySelector('.dnb-textarea')).not.toHaveClass(
+      'dnb-textarea__status--error'
+    )
+    expect(document.querySelector('textarea')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+    expect(document.querySelector('textarea')).not.toHaveAttribute(
+      'aria-describedby'
+    )
+  })
+
   it('should show the error state when characterCounter is exceeded', async () => {
     render(<Textarea characterCounter={4} value="foo" lang="en-GB" />)
 

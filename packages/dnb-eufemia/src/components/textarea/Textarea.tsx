@@ -393,10 +393,10 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const currentHasValue = hasValue(value)
   const characterCounterMax =
     typeof characterCounter === 'object'
-      ? characterCounter.max
+      ? characterCounter?.max
       : characterCounter
   const characterCounterId =
-    (typeof characterCounter === 'object' && characterCounter.id) ||
+    (typeof characterCounter === 'object' && characterCounter?.id) ||
     id + '-counter'
   // A given status, including `false`, takes precedence over the counter
   const characterCounterExceeded =
