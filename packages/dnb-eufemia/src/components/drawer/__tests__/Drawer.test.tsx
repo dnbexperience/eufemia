@@ -1587,11 +1587,12 @@ describe('Drawer reveal', () => {
     expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
   })
 
-  it('leaves swipes from the screen edges to browser navigation', () => {
+  it('leaves swipes from the screen edges to browser navigation while the menu is closed', () => {
     renderReveal()
     swipe(document.querySelector('#reveal-page p'), 220, false, 5)
     expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
 
+    // The exposed page next to the open menu reaches the screen edge
     fireEvent.click(document.querySelector('.dnb-modal__trigger'))
     swipe(
       document.querySelector('.dnb-drawer__content h1'),
@@ -1599,7 +1600,7 @@ describe('Drawer reveal', () => {
       false,
       window.innerWidth - 5
     )
-    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
   })
 
   it.each([

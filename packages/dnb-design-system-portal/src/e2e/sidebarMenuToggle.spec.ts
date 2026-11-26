@@ -680,8 +680,8 @@ test.describe('Portal sidebar reveal', () => {
       )
       // Touch browsers can retain a hover location after the finger is lifted.
       await page.mouse.move(x, y)
-      await touch('touchStart', 360, y)
-      await touch('touchMove', 330, y)
+      await touch('touchStart', 375, y)
+      await touch('touchMove', 345, y)
       await expect(surface).toHaveClass(/dnb-drawer__reveal-dragging/)
       await page.mouse.move(x, y)
       await expect
@@ -720,9 +720,9 @@ test.describe('Portal sidebar reveal', () => {
       await page.mouse.move(380, 20)
     })
 
-    await drag(360, 305)
+    await drag(375, 320)
     await expect(dialog).toBeVisible()
-    await drag(360, 100)
+    await drag(375, 100)
     await expect(dialog).not.toBeVisible()
     await expect(surface).not.toHaveClass(/dnb-drawer__reveal-target/)
     const trigger = page.locator('#toggle-sidebar-menu')

@@ -131,14 +131,16 @@ function useDrawerReveal(target: string, open: boolean) {
         return
       }
       const touch = event.touches[0]
+      const opened = reveal.active
+      // Only an opening drag competes with edge swipes, and the exposed page has to stay draggable to close the menu.
       if (
-        touch.clientX < navigationEdgeWidth ||
-        touch.clientX > window.innerWidth - navigationEdgeWidth
+        !opened &&
+        (touch.clientX < navigationEdgeWidth ||
+          touch.clientX > window.innerWidth - navigationEdgeWidth)
       ) {
         return
       }
       const element = event.target as HTMLElement
-      const opened = reveal.active
       if (!opened) {
         for (let parent = element; parent; parent = parent.parentElement) {
           const owner = revealTargets.get(parent)
