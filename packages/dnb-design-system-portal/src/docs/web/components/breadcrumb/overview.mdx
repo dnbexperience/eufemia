@@ -14,6 +14,30 @@ The Breadcrumb is a component for navigation and for showing the current website
 import { Breadcrumb } from '@dnb/eufemia'
 ```
 
+### Animating navigation
+
+Set `animate` to animate changes to the path. Items enter and exit, and the navigation icon crossfades when an item changes between the current page and home. Reduced motion removes item transitions. `noAnimation` also disables them.
+
+Keep Breadcrumb mounted in a shared application layout and update its items when the route changes. A Breadcrumb that mounts again for every page cannot animate the previous path because it has no previous items.
+
+Give child items stable React keys for their page identity. Change the key when replacing a page. Data items use their `href`, string `to`, or text as identity. Repeated identities are matched by occurrence. Use keyed children when repeated labels or rich text need to keep their identity after reordering.
+
+```tsx
+<Breadcrumb animate variant="multiple">
+  <Breadcrumb.Item
+    key="charts"
+    text="Charts"
+    href="#overview"
+    variant={page ? 'home' : 'current'}
+  />
+  {page && (
+    <Breadcrumb.Item key={page.id} text={page.title} variant="current" />
+  )}
+</Breadcrumb>
+```
+
+[Try the application navigation demo](/web/components/breadcrumb/visual-tests/animation/#overview). Switch libraries, return to Overview, or use back, forward, and rapid navigation to explore the transitions.
+
 ### Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=17025-0)

@@ -121,9 +121,14 @@ export type BreadcrumbProps = {
   spacing?: SpaceTypeAll | SpaceTypeMedia
 
   /**
-   * Disables the height animation. Defaults to `false`.
+   * Disables height and item animations. Defaults to `false`.
    */
   noAnimation?: boolean
+
+  /**
+   * Animates item changes and navigation icons. Keep Breadcrumb mounted in a shared layout. Respects reduced motion and `noAnimation`. Defaults to `false`.
+   */
+  animate?: boolean
   /**
    * Keeps collapsed breadcrumb items findable by the browser's find-in-page feature. Matching content expands the breadcrumb. Defaults to `false`.
    */
@@ -177,6 +182,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     collapsed: overrideCollapsed,
     spacing,
     noAnimation,
+    animate,
     openOnFind,
     data,
     href,
@@ -275,6 +281,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
                 items={items}
                 collapsed={false}
                 noAnimation={noAnimation}
+                animate={animate}
               />
             </div>
           </Accordion>
@@ -301,6 +308,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
               items={items}
               collapsed={false}
               noAnimation={noAnimation}
+              animate={animate}
             />
           </>
         )}
@@ -313,6 +321,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             items={items}
             collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
+            animate={animate}
             openOnFind={openOnFind}
             onBeforeMatch={() => {
               isCollapsedRef.current = false

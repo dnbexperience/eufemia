@@ -1,4 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
+import { clsx } from 'clsx'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import Icon from '../icon/Icon'
+import chevronRight from '../../icons/chevron_right'
 import type { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 
 // Components
@@ -64,6 +68,11 @@ export type BreadcrumbItemProps = {
 } & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
   DataAttributes
 
+const navigationIcon = Icon.transition({
+  previous: chevronRight,
+  home: homeIcon,
+})
+
 const determineIcon = (variant: string) => {
   switch (variant) {
     case 'home':
@@ -98,6 +107,10 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = extendPropsWithContext(localProps, {}, context?.BreadcrumbItem)
 
   const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
+  const { animate, motion } = breadcrumbItemContext ?? {}
+  const exiting = motion === 'exit'
+  const ref = useRef<HTMLLIElement>(null)
+  const animation = useRef<Animation>(undefined)
 
   const currentIcon = icon ?? determineIcon(variant)
 
@@ -111,13 +124,115 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
       ? homeIcon
       : currentIcon
 
+  useLayoutEffect(() => {
+    if (!animate || !ref.current) {
+      return
+    }
+
+    const item = ref.current
+    if (!motion) {
+      animation.current?.cancel()
+      animation.current = undefined
+      item.style.removeProperty('--breadcrumb-text-width')
+      return
+    }
+
+    if (!animation.current) {
+      const text = item.querySelector(
+        ':scope > .dnb-anchor, :scope > .dnb-p'
+      )
+      if (text) {
+        // Keep wrapping stable while the item changes width.
+        item.style.setProperty(
+          '--breadcrumb-text-width',
+          text.getBoundingClientRect().width + 'px'
+        )
+      }
+    }
+
+    const computed = getComputedStyle(item)
+    const expanded = {
+      maxWidth: item.scrollWidth + 'px',
+      marginRight: '0px',
+      opacity: '1',
+      transform: 'none',
+    }
+    const collapsed = {
+      maxWidth: '0px',
+      marginRight: '-0.5rem',
+      opacity: '0',
+      transform: 'translateX(-0.25rem)',
+    }
+    const from = animation.current
+      ? {
+          maxWidth: computed.maxWidth,
+          marginRight: computed.marginRight,
+          opacity: computed.opacity,
+          transform: computed.transform,
+        }
+      : exiting
+        ? expanded
+        : collapsed
+    animation.current?.cancel()
+    animation.current = item.animate?.(
+      [from, exiting ? collapsed : expanded],
+      {
+        duration: 180,
+        easing:
+          computed.getPropertyValue('--easing-default').trim() || 'ease',
+        fill: 'both',
+      }
+    )
+  }, [animate, motion, exiting, isInteractive, currentText])
+
+  useLayoutEffect(
+    () => () => {
+      animation.current?.cancel()
+      animation.current = undefined
+    },
+    []
+  )
+
   return (
     <li
-      className="dnb-breadcrumb__item"
-      aria-current={variant === 'current' ? 'page' : undefined}
+      ref={ref}
+      className={clsx(
+        'dnb-breadcrumb__item',
+        animate && 'dnb-breadcrumb__item--animated',
+        motion && 'dnb-breadcrumb__item--' + motion
+      )}
+      inert={exiting || undefined}
+      aria-hidden={exiting || undefined}
+      tabIndex={animate ? -1 : undefined}
+      aria-current={!exiting && variant === 'current' ? 'page' : undefined}
       style={style}
     >
-      {isInteractive ? (
+      {animate ? (
+        <>
+          <IconPrimary
+            icon={!icon || variant === 'home' ? navigationIcon : iconToUse}
+            transitionState={variant === 'home' ? 'home' : 'previous'}
+            className={clsx(
+              'dnb-breadcrumb__item__span__icon',
+              variant === 'home' &&
+                isInteractive &&
+                'dnb-breadcrumb__item__home-icon'
+            )}
+          />
+          {isInteractive ? (
+            <Anchor
+              href={href}
+              onClick={onClick}
+              skeleton={skeleton}
+              {...props}
+            >
+              {currentText}
+            </Anchor>
+          ) : (
+            <P space="0">{currentText}</P>
+          )}
+        </>
+      ) : isInteractive ? (
         <>
           {variant !== 'home' && (
             <IconPrimary
