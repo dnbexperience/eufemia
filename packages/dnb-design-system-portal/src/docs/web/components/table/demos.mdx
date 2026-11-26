@@ -116,6 +116,16 @@ A sticky table header with `sticky="css-position"` and `max-height` on the `Tabl
 
 <Examples.StickyMaxHeight />
 
+### Table with a sticky column
+
+Use `stickyColumn="first"` to keep the first column visible while the table scrolls horizontally. A divider shows while columns are scrolled underneath it. This example also uses a sticky header.
+
+<Examples.StickyColumn />
+
+Use `stickyColumn="last"` to keep the last column visible, e.g. for actions.
+
+<Examples.StickyColumnLast />
+
 ### Table with a sticky header and an outline
 
 The `outline` is drawn on top of the sticky header, so the frame stays unbroken while the header is stuck.
@@ -197,4 +207,5 @@ render(<Table ref={highlightRef}>...</Table>)
   <Examples.AccordionMixed />
   <Examples.NavigationMixed />
   <Examples.TableInAccordionTable />
+  <Examples.StickyColumnOutline />
 </VisibleWhenVisualTest>

@@ -65,12 +65,18 @@ export default defineConfig({
     },
     {
       name: 'chromium-table-sticky',
-      testMatch: 'TableStickyHeader.e2e.spec.ts',
+      testMatch: [
+        'TableStickyHeader.e2e.spec.ts',
+        'TableStickyColumn.e2e.spec.ts',
+      ],
       use: { browserName: 'chromium' },
     },
     {
       name: 'webkit-table-sticky',
-      testMatch: 'TableStickyHeader.e2e.spec.ts',
+      testMatch: [
+        'TableStickyHeader.e2e.spec.ts',
+        'TableStickyColumn.e2e.spec.ts',
+      ],
       use: { browserName: 'webkit' },
     },
     {

@@ -16,10 +16,14 @@ const columns = [
   'AUD',
 ]
 
+// Each click on the "Sticky column" button selects the next one
+const stickyColumns = [undefined, 'first', 'last'] as const
+
 export default function Page() {
   const [banner, setBanner] = useState(false)
   const [sticky, setSticky] = useState<true | false | 'css-position'>(true)
   const [internalScroll, setInternalScroll] = useState(false)
+  const [stickyColumnIndex, setStickyColumnIndex] = useState(0)
 
   return (
     <div style={{ overflowX: 'hidden', minHeight: '100vh' }}>
@@ -51,6 +55,15 @@ export default function Page() {
         <Button onClick={() => setInternalScroll(!internalScroll)}>
           Toggle internal scroll
         </Button>
+        <Button
+          onClick={() =>
+            setStickyColumnIndex(
+              (stickyColumnIndex + 1) % stickyColumns.length
+            )
+          }
+        >
+          Sticky column: {stickyColumns[stickyColumnIndex] ?? 'none'}
+        </Button>
         {banner && (
           <div style={{ height: '5rem' }}>
             Dynamic content above the table
@@ -62,6 +75,7 @@ export default function Page() {
           <Table
             sticky={sticky}
             stickyOffset="3.5rem"
+            stickyColumn={stickyColumns[stickyColumnIndex]}
             style={{ minWidth: '70rem' }}
           >
             <thead>

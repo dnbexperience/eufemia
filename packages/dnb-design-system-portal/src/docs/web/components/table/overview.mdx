@@ -101,6 +101,22 @@ Method no. 2 should be used when a `max-height` is set to the wrapping `Table.Sc
 
 Have a [look at this example](/web/components/table/demos/#table-with-a-max-height).
 
+### Sticky column
+
+Use `stickyColumn="first"` or `stickyColumn="last"` to keep the first or last column visible while the table scrolls horizontally inside a `Table.ScrollView` or another horizontally scrolling element. A divider shows while columns are scrolled underneath the sticky column, and keyboard focus scrolls cells into view next to it instead of underneath it. You can combine it with a sticky header.
+
+```jsx
+<Table.ScrollView>
+  <Table stickyColumn="first" />
+</Table.ScrollView>
+```
+
+- Keep the sticky column narrow. While it is wider than half of the visible width, e.g. on small screens or when zoomed in, it stops sticking, so there is room left for the other columns.
+- Cells that span several columns (`colSpan`) do not stick. Avoid `rowSpan` in the sticky column, because the cells of the following rows take its place.
+- In `mode="accordion"`, the chevron column comes first. Use `accordionChevronPlacement="right"` to keep your own first column sticky. In `mode="navigation"`, the chevron column comes last.
+
+Have a [look at this example](/web/components/table/demos/#table-with-a-sticky-column).
+
 ### Sortable table
 
 Optionally, make use of the following React Hook to handle the `Th.SortButton` directions.
