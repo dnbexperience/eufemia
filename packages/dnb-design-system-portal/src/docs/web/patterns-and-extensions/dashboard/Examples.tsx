@@ -694,6 +694,8 @@ export const FinancialExample = () => (
                 align="center"
                 justify="space-between"
                 gap="medium"
+                // When the chips wrap, place them above the range text, so its height does not move them
+                style={{ flexWrap: 'wrap-reverse' }}
               >
                 <Flex.Stack element="div" layoutEngine="css" gap="x-small">
                   <Flex.Container
