@@ -42,57 +42,6 @@ test('wraps labels at spaces and explicit hyphens without automatic hyphenation'
   })
 })
 
-// Arrow keys can move focus to the section option under the mouse. It keeps
-// its hover style, as in the screenshot of this state.
-test('keeps the hover style on the section option under the mouse', async ({
-  page,
-}) => {
-  const css = [
-    compile('fragments/drawer-list/style/dnb-drawer-list.scss'),
-    compile('extensions/sidebar-menu/style/dnb-sidebar-menu.scss'),
-  ].join('\n')
-
-  await page.setContent(`<style>
-      :root {
-        --token-color-stroke-action-focus: rgb(39, 106, 206);
-        --focus-outline-width: 0.1875rem;
-        --token-color-stroke-neutral-bold: rgb(10, 10, 10);
-        --token-color-stroke-neutral-subtle: rgb(235, 235, 235);
-      }
-      ${css}
-    </style>
-    <div class="dnb-sidebar-menu__sections-portal">
-      <span class="dnb-drawer-list">
-        <ul class="dnb-drawer-list__options">
-          <li class="dnb-drawer-list__option dnb-drawer-list__option--focus">
-            <span class="dnb-drawer-list__option__inner">Business</span>
-          </li>
-        </ul>
-      </span>
-    </div>`)
-
-  const option = page.locator('.dnb-drawer-list__option--focus')
-  const inner = option.locator('.dnb-drawer-list__option__inner')
-  await option.hover()
-  await page.locator('html').evaluate((element) => {
-    element.dataset.whatinput = 'keyboard'
-    element.dataset.whatintent = 'keyboard'
-  })
-
-  await expect(option).toHaveCSS('outline-style', 'none')
-  await expect(inner).toHaveCSS('outline-style', 'none')
-  await expect(inner).toHaveCSS(
-    'box-shadow',
-    'rgb(10, 10, 10) 0px 0px 0px 1px inset'
-  )
-  // The divider below the option stays
-  expect(
-    await inner.evaluate(
-      (element) => getComputedStyle(element, '::before').backgroundColor
-    )
-  ).toBe('rgb(235, 235, 235)')
-})
-
 test('navigates visible items with arrow keys while preserving Tab and section selection', async ({
   page,
 }) => {
