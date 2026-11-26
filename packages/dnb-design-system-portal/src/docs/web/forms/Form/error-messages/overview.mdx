@@ -92,6 +92,8 @@ render(
 
 Each field translates its own copy of the given `FormError`. The given `FormError` is not changed, so `error.message` keeps the translation key (for example `Field.errorRequired`) after the field is rendered. Because of this, you can reuse one `FormError` in several fields, and each field shows it in its current locale. To get the translated text, use the error that the field gives you, for example in `onStatusChange` or in the `getErrors` of `onSubmitRequest`.
 
+The error that the field gives you is a copy with the same class as your `FormError`, so `instanceof` works. Its public fields are copied, but JavaScript cannot copy private `#fields`. If you extend `FormError`, use public fields for values that you read from the error the field gives you.
+
 ##### Overwrite existing keys
 
 Per field, you can overwrite existing keys:

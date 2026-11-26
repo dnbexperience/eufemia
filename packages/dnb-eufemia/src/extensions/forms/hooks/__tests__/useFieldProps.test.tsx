@@ -1677,6 +1677,74 @@ describe('useFieldProps', () => {
         expect(errorProp.formattedMessage).toBeUndefined()
       })
 
+      it('should keep a field that the app adds to the error it gets from onStatusChange', () => {
+        const errorProp = new FormError('Field.errorRequired')
+        const onStatusChange = vi.fn(({ error }) => {
+          error.reported = true
+        })
+        const MockComponent = () => {
+          const props = useFieldProps({ error: errorProp, onStatusChange })
+          const error = getError(props.error) as FormError & {
+            reported?: boolean
+          }
+          return (
+            <output>
+              {String(error.reported)} {error.message}
+            </output>
+          )
+        }
+        const output = () => document.querySelector('output').textContent
+
+        const { rerender } = render(
+          <Provider locale="nb-NO">
+            <MockComponent />
+          </Provider>
+        )
+        rerender(
+          <Provider locale="nb-NO">
+            <MockComponent />
+          </Provider>
+        )
+        rerender(
+          <Provider locale="en-GB">
+            <MockComponent />
+          </Provider>
+        )
+
+        expect(output()).toBe(`true ${en.Field.errorRequired}`)
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(errorProp).not.toHaveProperty('reported')
+      })
+
+      it('should remove a field from the copy when the given FormError no longer has it', () => {
+        class MyError extends FormError {
+          code?: string = 'E42'
+        }
+        const errorProp = new MyError('Field.errorRequired')
+        const MockComponent = () => {
+          const props = useFieldProps({ error: errorProp })
+          const error = getError(props.error) as MyError
+          return <output>{String(error.code)}</output>
+        }
+        const output = () => document.querySelector('output').textContent
+
+        const { rerender } = render(
+          <Provider locale="nb-NO">
+            <MockComponent />
+          </Provider>
+        )
+        expect(output()).toBe('E42')
+
+        delete errorProp.code
+        rerender(
+          <Provider locale="en-GB">
+            <MockComponent />
+          </Provider>
+        )
+
+        expect(output()).toBe('undefined')
+      })
+
       it('should return the same prepared error on every render of the same FormError', () => {
         // onStatusChange compares the error by identity, so a new object
         // on every render would call it on every render

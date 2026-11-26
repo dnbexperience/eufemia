@@ -396,33 +396,46 @@ export default function useFieldError<Value>({
   // translation key, so it can be translated again when the locale
   // changes, and fields that share it do not change each other's text.
   // Each copy is reused for its error, so the prepared error keeps the
-  // same identity between renders.
-  const preparedErrorsRef = useRef(new WeakMap<FormError, FormError>())
+  // same identity between renders. With each copy, keep the names of the
+  // fields that were taken from the given error.
+  const preparedErrorsRef = useRef(
+    new WeakMap<FormError, { copy: FormError; keys: Array<string> }>()
+  )
 
   const prepareError = useCallback(
     (error: FieldPropsGeneric<Value>['error']): FormError | undefined => {
       const getPreparedCopy = (error: FormError): FormError => {
-        let copy = preparedErrorsRef.current.get(error)
-        if (!copy) {
+        let prepared = preparedErrorsRef.current.get(error)
+        if (!prepared) {
           // A real FormError, with the class of the given one
-          copy = Object.setPrototypeOf(
+          const copy = Object.setPrototypeOf(
             new FormError(error.message),
             Object.getPrototypeOf(error)
           ) as FormError
-          preparedErrorsRef.current.set(error, copy)
+          prepared = { copy, keys: [] }
+          preparedErrorsRef.current.set(error, prepared)
         }
+        const { copy } = prepared
 
         // Take the own fields of the given error each time the field
-        // prepares it, not only when the copy is made. A field that the
-        // app changes later is shown, and a field that the given error no
-        // longer has is removed, for example a formattedMessage from an
-        // earlier translation. The message is not an own enumerable field,
-        // so the caller sets it.
-        for (const key of Object.keys(copy)) {
+        // prepares it, not only when the copy is made, so a field that the
+        // app changes later is shown. Remove only the fields that this hook
+        // put on the copy and that the given error no longer has: a field
+        // taken from it earlier, and the formattedMessage and errors that
+        // the field sets. A field that the app adds to the copy it gets,
+        // for example in onStatusChange, is kept. The message is not an
+        // own enumerable field, so the caller sets it.
+        const keys = Object.keys(error)
+        for (const key of [
+          ...prepared.keys,
+          'formattedMessage',
+          'errors',
+        ]) {
           if (!Object.prototype.hasOwnProperty.call(error, key)) {
             delete copy[key]
           }
         }
+        prepared.keys = keys
         return Object.assign(copy, error)
       }
 
