@@ -32,9 +32,9 @@ test.describe('Table sticky column', () => {
       await expect(table).not.toHaveAttribute('data-sticky-column-overlap')
 
       await scrollView.evaluate((element) => {
-        element.scrollLeft = 300
+        element.scrollLeft = 200
       })
-      await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
+      await expect(scrollView).toHaveJSProperty('scrollLeft', 200)
       await expect(table).toHaveAttribute('data-sticky-column-overlap')
     })
 
@@ -209,7 +209,7 @@ test.describe('Table sticky column', () => {
 
     await page.emulateMedia({ forcedColors: 'active' })
     await scrollView.evaluate((element) => {
-      element.scrollTo({ left: 300, behavior: 'instant' })
+      element.scrollTo({ left: 200, behavior: 'instant' })
     })
     await expect(page.locator('table')).toHaveAttribute(
       'data-sticky-column-overlap'
@@ -234,9 +234,9 @@ test.describe('Table sticky column', () => {
         cell.replaceChildren(link)
       })
     await scrollView.evaluate((element) => {
-      element.scrollTo({ left: 300, behavior: 'instant' })
+      element.scrollTo({ left: 200, behavior: 'instant' })
     })
-    await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
+    await expect(scrollView).toHaveJSProperty('scrollLeft', 200)
 
     const link = row.getByRole('link', { name: 'Day' })
     await link.focus()
@@ -250,7 +250,7 @@ test.describe('Table sticky column', () => {
       })
     )
 
-    await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
+    await expect(scrollView).toHaveJSProperty('scrollLeft', 200)
   })
 
   // At the last row, the header draws the bottom of the outline with rounded corners
@@ -261,7 +261,7 @@ test.describe('Table sticky column', () => {
     const stickyCell = table.locator('thead th').first()
     await table.evaluate((element) => {
       element.classList.add('dnb-table--outline')
-      element.parentElement.scrollTo({ left: 300, behavior: 'instant' })
+      element.parentElement.scrollTo({ left: 200, behavior: 'instant' })
       const headerHeight = element.querySelector('thead tr').clientHeight
       const { bottom } = element.getBoundingClientRect()
       window.scrollTo(0, window.scrollY + bottom - 56 - headerHeight + 10)
@@ -300,9 +300,9 @@ test.describe('Table sticky column', () => {
         'A value that is wider than the visible area '.repeat(4)
     })
     await scrollView.evaluate((element) => {
-      element.scrollTo({ left: 300, behavior: 'instant' })
+      element.scrollTo({ left: 200, behavior: 'instant' })
     })
-    await expect(scrollView).toHaveJSProperty('scrollLeft', 300)
+    await expect(scrollView).toHaveJSProperty('scrollLeft', 200)
 
     const backgroundOf = (selector: string) =>
       row
