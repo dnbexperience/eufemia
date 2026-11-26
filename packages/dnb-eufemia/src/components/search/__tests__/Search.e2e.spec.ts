@@ -1057,6 +1057,16 @@ test('panel keeps the keyboard focus outline inside the results viewport', async
   expect(focusRing.spread).toBeGreaterThan(0)
   expect(focusRing.left).toBeGreaterThanOrEqual(focusRing.spread)
   expect(focusRing.right).toBeGreaterThanOrEqual(focusRing.spread)
+
+  await waitForPanelAnimation(results)
+  const second = results.getByRole('option').nth(1)
+  await second.hover()
+  await input.press('ArrowDown')
+  await expect(second).toHaveClass(/dnb-drawer-list__option--focus/)
+  expect(await second.evaluate((option) => option.matches(':hover'))).toBe(
+    true
+  )
+  await expect(second).toHaveCSS('outline-style', 'solid')
 })
 
 for (const variant of ['default', 'hero']) {
