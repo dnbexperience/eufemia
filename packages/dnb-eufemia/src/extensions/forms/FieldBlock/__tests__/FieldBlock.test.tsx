@@ -1674,6 +1674,62 @@ describe('FieldBlock', () => {
       unmount()
       container.remove()
     })
+
+    it.each([
+      [
+        'a field',
+        (warning: string) => (
+          <Field.String label="Label" warning={warning} />
+        ),
+      ],
+      [
+        'a field block',
+        (warning: string) => (
+          <FieldBlock id="client-only" warning={warning}>
+            content
+          </FieldBlock>
+        ),
+      ],
+      [
+        'a nested field block',
+        (warning: string) => (
+          <FieldBlock id="outer">
+            <FieldBlock id="client-only" warning={warning}>
+              content
+            </FieldBlock>
+          </FieldBlock>
+        ),
+      ],
+    ])(
+      'should hydrate %s with a message that is only rendered in the browser',
+      async (_, renderElement) => {
+        const App = () => {
+          const canUseDOM = useCanUseDOM()
+
+          return renderElement(canUseDOM ? 'Message' : undefined)
+        }
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(<App />)
+        document.body.appendChild(container)
+        expect(container.querySelector('.dnb-form-status')).toBeNull()
+
+        const onRecoverableError = vi.fn()
+        const { unmount } = render(<App />, {
+          container,
+          hydrate: true,
+          onRecoverableError,
+        })
+        await waitFor(() => {
+          expect(
+            container.querySelector('.dnb-form-status--warning')
+          ).toHaveTextContent('Message')
+        })
+
+        expect(onRecoverableError).not.toHaveBeenCalled()
+        unmount()
+        container.remove()
+      }
+    )
   })
 
   describe('fieldState', () => {

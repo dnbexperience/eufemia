@@ -414,22 +414,25 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     ['warning', warning],
     ['information', info],
   ] as const) {
+    const record: StateBasis = {
+      identifier: blockId,
+      showInitially: type !== 'error' || hasInitiallyErrorPropRef.current,
+      type,
+      content,
+    }
+
     if (
       content !== undefined ||
       stateRecordRef.current[blockId]?.some((item) => item.type === type)
     ) {
-      const record: StateBasis = {
-        identifier: blockId,
-        showInitially:
-          type !== 'error' || hasInitiallyErrorPropRef.current,
-        type,
-        content,
-      }
       setInternalRecord(record, (stateRecordRef.current[blockId] ??= []))
+    }
 
-      if (statusPosition !== 'above') {
-        collectRenderMessage(record)
-      }
+    // Also collect a type without a message, like fields do, so a message
+    // that only the browser renders does not enter the summary before it
+    // has hydrated
+    if (statusPosition !== 'above') {
+      collectRenderMessage(record)
     }
   }
 
