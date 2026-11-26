@@ -1,7 +1,7 @@
 import { act } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import Menu from '../Menu'
 
 vi.mock('../../popover/Popover', async () => {
@@ -616,5 +616,12 @@ describe('Menu integration', () => {
 
       expect(await axeComponent(container)).toHaveNoViolations()
     })
+  })
+})
+
+describe('Menu scss', () => {
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/dnb-menu.scss'))
+    expect(css).toMatchSnapshot()
   })
 })
