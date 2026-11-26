@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { compile } from 'sass'
 import postcss from 'postcss'
+import { PNG } from 'pngjs'
 import { test, expect } from '@playwright/test'
 import isolateStyles from '../../../plugins/postcss-isolated-style-scope'
 import { transformCssnano } from '../../../../scripts/prebuild/tasks/transformUtils'
@@ -152,10 +153,14 @@ test.describe('Table sticky header with minified CSS', () => {
       'border-bottom-left-radius',
       '0px'
     )
-    await expect(firstCell).toHaveCSS(
-      'box-shadow',
-      / 0px -1px 0px 0px inset/
-    )
+    await expect
+      .poll(() =>
+        firstCell.evaluate(
+          (element) =>
+            getComputedStyle(element, '::after').borderBottomStyle
+        )
+      )
+      .toBe('solid')
   })
 
   test('updates the scroll range after layout changes and clears it when switching modes', async ({
@@ -213,6 +218,48 @@ test.describe('Table sticky header with minified CSS', () => {
         return tableBox.x + tableBox.width - (cellBox.x + cellBox.width)
       })
       .toBeCloseTo(0, 0)
+  })
+
+  test.describe('on a high-density display', () => {
+    test.use({ deviceScaleFactor: 2 })
+
+    // Inset shadows on the cells drew lines between them in Firefox
+    test('draws the outline of the header without lines between the cells', async ({
+      page,
+    }) => {
+      const table = page.locator('.dnb-table')
+      await table.evaluate((element) => {
+        element.classList.add('dnb-table--outline')
+      })
+
+      // A pixel row below the top line and above the text, inside the rounded corners
+      const headerBox = await table.locator('thead tr').boundingBox()
+      const viewBox = await page
+        .locator('.dnb-table__scroll-view')
+        .boundingBox()
+      const left = headerBox.x + 24
+      const right =
+        Math.min(
+          headerBox.x + headerBox.width,
+          viewBox.x + viewBox.width
+        ) - 24
+      const { data } = PNG.sync.read(
+        await page.screenshot({
+          clip: {
+            x: left,
+            y: headerBox.y + 8,
+            width: right - left,
+            height: 1,
+          },
+        })
+      )
+
+      const colors = new Set<string>()
+      for (let i = 0; i < data.length; i += 4) {
+        colors.add(data.subarray(i, i + 4).join())
+      }
+      expect([...colors]).toHaveLength(1)
+    })
   })
 
   test('prints a scrolled header above the body rows', async ({

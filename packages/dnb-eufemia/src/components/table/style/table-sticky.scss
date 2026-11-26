@@ -45,36 +45,25 @@
   }
 
   // Continue the outer frame above the focused body cells.
-  // The cells draw it, because a pseudo-element of the row would add a column to a fixed table.
+  // A pseudo-element of the row would add a column to a fixed table,
+  // and inset shadows on the cells show lines between them in Firefox on high-density displays.
   &--outline tr[data-sticky] > * {
-    --table-outline-shadow-top: inset 0 var(--table-outline-width)
-      var(--table-outline-color);
-    --table-outline-shadow-left: inset var(--table-outline-width) 0
-      var(--table-outline-color);
-    --table-outline-shadow-right: inset
-      calc(var(--table-outline-width) * -1) 0 var(--table-outline-color);
-    --table-outline-shadow-bottom: 0 0 transparent;
-
-    box-shadow:
-      var(--table-outline-shadow-top), var(--table-outline-shadow-bottom);
-
-    &:first-child {
-      box-shadow:
-        var(--table-outline-shadow-top), var(--table-outline-shadow-left),
-        var(--table-outline-shadow-bottom);
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-top: var(--table-outline);
+      pointer-events: none;
     }
 
-    &:last-child {
-      box-shadow:
-        var(--table-outline-shadow-top), var(--table-outline-shadow-right),
-        var(--table-outline-shadow-bottom);
+    &:first-child::after {
+      border-left: var(--table-outline);
+      border-top-left-radius: var(--table-outline-radius-top);
     }
 
-    &:only-child {
-      box-shadow:
-        var(--table-outline-shadow-top), var(--table-outline-shadow-left),
-        var(--table-outline-shadow-right),
-        var(--table-outline-shadow-bottom);
+    &:last-child::after {
+      border-right: var(--table-outline);
+      border-top-right-radius: var(--table-outline-radius-top);
     }
   }
 
@@ -96,8 +85,9 @@
     > thead:first-of-type
     > tr[data-sticky][data-is-at-end]:first-of-type
     > :is(.dnb-table__th, th, td) {
-    --table-outline-shadow-bottom: inset 0
-      calc(var(--table-outline-width) * -1) var(--table-outline-color);
+    &::after {
+      border-bottom: var(--table-outline);
+    }
 
     &:first-child {
       &,
