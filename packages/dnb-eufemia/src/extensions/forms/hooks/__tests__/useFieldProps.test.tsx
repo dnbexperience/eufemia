@@ -1483,39 +1483,85 @@ describe('useFieldProps', () => {
           expect(statuses()).toEqual([])
         })
 
-        it.each([
+        // Every built-in field with an onBlurValidator
+        const builtInFields: Array<
+          [
+            string,
+            (props: {
+              required?: boolean
+              validateInitially?: boolean
+            }) => React.ReactNode,
+          ]
+        > = [
+          ['Field.Name', (props) => <Field.Name path="/a" {...props} />],
           [
             'Field.Name.First',
-            () => <Field.Name.First path="/a" required />,
+            (props) => <Field.Name.First path="/a" {...props} />,
           ],
           [
             'Field.Name.Last',
-            () => <Field.Name.Last path="/a" required />,
+            (props) => <Field.Name.Last path="/a" {...props} />,
+          ],
+          [
+            'Field.Name.Company',
+            (props) => <Field.Name.Company path="/a" {...props} />,
           ],
           [
             'Field.PostalCodeAndCity',
-            () => (
+            (props) => (
               <Field.PostalCodeAndCity
-                postalCode={{ path: '/a', required: true }}
-                city={{ path: '/b', required: true }}
+                postalCode={{ path: '/a', ...props }}
+                city={{ path: '/b', ...props }}
               />
             ),
           ],
           [
             'Field.NationalIdentityNumber',
-            () => <Field.NationalIdentityNumber path="/a" required />,
+            (props) => (
+              <Field.NationalIdentityNumber path="/a" {...props} />
+            ),
+          ],
+          [
+            'Field.OrganizationNumber',
+            (props) => <Field.OrganizationNumber path="/a" {...props} />,
           ],
           [
             'Field.BankAccountNumber',
-            () => <Field.BankAccountNumber path="/a" required />,
+            (props) => <Field.BankAccountNumber path="/a" {...props} />,
           ],
-          ['Field.Date', () => <Field.Date path="/a" required />],
-        ])(
+          ['Field.Date', (props) => <Field.Date path="/a" {...props} />],
+          [
+            'Field.Date with range',
+            (props) => <Field.Date path="/a" range {...props} />,
+          ],
+          [
+            'Field.DateOfBirth',
+            (props) => <Field.DateOfBirth path="/a" {...props} />,
+          ],
+          [
+            'Field.Expiry',
+            (props) => <Field.Expiry path="/a" {...props} />,
+          ],
+          ['Field.Time', (props) => <Field.Time path="/a" {...props} />],
+          [
+            'Field.String with an async onBlurValidator',
+            (props) => (
+              <Field.String
+                label="With async onBlurValidator"
+                path="/a"
+                onBlurValidator={async () => undefined}
+                {...props}
+              />
+            ),
+          ],
+        ]
+
+        it.each(builtInFields)(
           'should not reveal the required error of an untouched %s',
           async (_, renderField) => {
             render(
               <LocaleApp>
-                {renderField()}
+                {renderField({ required: true })}
                 <Field.String label="Street" path="/street" required />
               </LocaleApp>
             )
@@ -1523,8 +1569,50 @@ describe('useFieldProps', () => {
             await changeLocale()
             await wait(10)
             expect(statuses()).toEqual([])
+
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
           }
         )
+
+        it.each(builtInFields)(
+          'should not reveal the required error of an untouched %s with validateInitially={false}',
+          async (_, renderField) => {
+            render(
+              <LocaleApp>
+                {renderField({ required: true, validateInitially: false })}
+              </LocaleApp>
+            )
+
+            // The second change showed the error before
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
+
+            await changeLocale()
+            await wait(10)
+            expect(statuses()).toEqual([])
+          }
+        )
+
+        it('should not reveal the error of an invalid value the user has not touched', async () => {
+          render(
+            <LocaleApp>
+              <Field.String
+                label="With onBlurValidator"
+                path="/a"
+                defaultValue="abc"
+                pattern="^z$"
+                onBlurValidator={() => undefined}
+              />
+            </LocaleApp>
+          )
+
+          await changeLocale()
+          await wait(10)
+          expect(statuses()).toEqual([])
+        })
 
         it('should not reveal an onBlurValidator error while the user is still typing', async () => {
           render(
@@ -1583,6 +1671,34 @@ describe('useFieldProps', () => {
           await changeLocale()
           await waitFor(() => {
             expect(statuses()).toEqual([nb.Field.errorRequired])
+          })
+        })
+
+        it('should translate visible errors after a submit', async () => {
+          render(
+            <LocaleApp>
+              <Field.Name.First path="/firstName" required />
+              <Field.String label="Street" path="/street" required />
+              <Form.SubmitButton />
+            </LocaleApp>
+          )
+
+          await userEvent.click(
+            document.querySelector('button[type="submit"]')
+          )
+          await waitFor(() => {
+            expect(statuses()).toEqual([
+              nb.FirstName.errorRequired,
+              nb.Field.errorRequired,
+            ])
+          })
+
+          await changeLocale()
+          await waitFor(() => {
+            expect(statuses()).toEqual([
+              en.FirstName.errorRequired,
+              en.Field.errorRequired,
+            ])
           })
         })
 
