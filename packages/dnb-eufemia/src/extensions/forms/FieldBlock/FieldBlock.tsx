@@ -201,7 +201,12 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   const sharedContext = useContext(SharedContext)
   const id = useId(props.id ?? props.forId)
-  const sharedProps = useFieldBlockPropsHandoff(id).get()
+  const propsHandoff = useFieldBlockPropsHandoff(id)
+
+  // A field gives its block its id. A generated id can be the same as the
+  // id of a field in another hydrated root, so do not use it to get props.
+  const sharedProps =
+    (props.id ?? props.forId) ? propsHandoff.get() : undefined
   const {
     className,
     style: givenStyle,
