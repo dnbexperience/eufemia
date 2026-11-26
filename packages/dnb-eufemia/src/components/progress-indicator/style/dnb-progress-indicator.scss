@@ -145,11 +145,6 @@
       animation-delay: 200ms;
       animation-timing-function: var(--progress-indicator-timing);
       animation-iteration-count: infinite;
-
-      @include utilities.reducedMotion() {
-        animation-duration: 0.01ms;
-        animation-iteration-count: 1;
-      }
     }
 
     &__line.background {
@@ -180,6 +175,24 @@
 
     &__line.paused {
       animation-play-state: paused;
+    }
+
+    // Without motion, show a still part of the circle, so it looks busy
+    @include utilities.reducedMotion() {
+      &:not(#{&}--has-progress-value) &__line {
+        animation-name: none;
+      }
+
+      // !important, so that it also wins over the inline style set when onComplete is used
+      &:not(#{&}--has-progress-value) &__line.dark {
+        stroke-dashoffset: calc(
+          var(--progress-indicator-circular-circle) * 0.75
+        ) !important;
+      }
+
+      &:not(#{&}--has-progress-value) &__line.dark ~ &__line.light {
+        visibility: hidden;
+      }
     }
 
     // for static progress-indicator animation
@@ -256,11 +269,11 @@
       animation: progress-indicator-linear-bar-1 2.1s
         cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 
-      // Without the animation, the bar would have no width
+      // Without motion, show a still part of the bar, so it looks busy
       @include utilities.reducedMotion() {
-        right: 0;
-        animation-duration: 0.01ms;
-        animation-iteration-count: 1;
+        left: 30%;
+        right: 30%;
+        animation: none;
       }
     }
 
@@ -270,9 +283,7 @@
         cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 
       @include utilities.reducedMotion() {
-        right: 0;
-        animation-duration: 0.01ms;
-        animation-iteration-count: 1;
+        display: none;
       }
     }
 
