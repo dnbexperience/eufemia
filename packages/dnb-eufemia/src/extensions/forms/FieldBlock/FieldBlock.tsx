@@ -366,10 +366,18 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       ? collectRenderMessage
       : undefined
 
+  // Use the functions of the outer block, not its context value. The outer
+  // block makes a new context value on each render. If these callbacks
+  // changed with it, a nested composition would render in an endless loop
+  // after a submit (each forwarded call renders the outer block again).
+  const setFieldStateNested = nestedFieldBlockContext?.setFieldState
+  const showFieldErrorNested = nestedFieldBlockContext?.showFieldError
+  const isNested = Boolean(nestedFieldBlockContext)
+
   const setFieldState = useCallback(
     (identifier: Identifier, fieldState: SubmitState) => {
       if (composition) {
-        nestedFieldBlockContext?.setFieldState?.(identifier, fieldState)
+        setFieldStateNested?.(identifier, fieldState)
         return undefined
       }
 
@@ -383,7 +391,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         forceUpdate()
       }
     },
-    [composition, nestedFieldBlockContext]
+    [composition, setFieldStateNested]
   )
 
   const showFieldError = useCallback(
@@ -392,9 +400,9 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       show: boolean,
       owner?: FieldBlockRecordOwner
     ) => {
-      if (nestedFieldBlockContext) {
+      if (isNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.showFieldError(identifier, show, owner)
+        showFieldErrorNested?.(identifier, show, owner)
         return undefined
       }
 
@@ -411,7 +419,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         }
       }
     },
-    [nestedFieldBlockContext]
+    [isNested, showFieldErrorNested]
   )
 
   for (const [type, content] of [

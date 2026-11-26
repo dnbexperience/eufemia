@@ -1,4 +1,5 @@
 import {
+  Profiler,
   StrictMode,
   Suspense,
   startTransition,
@@ -1294,6 +1295,49 @@ describe('Field.Composition', () => {
       'outer-form-status--information'
     )
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+  })
+
+  it.each([
+    [
+      'a nested composition',
+      <Field.Composition label="Outer" key="nested">
+        <Field.Composition label="Inner">
+          <Field.String label="Street" path="/street" required />
+        </Field.Composition>
+      </Field.Composition>,
+    ],
+    [
+      'PostalCodeAndCity in a composition',
+      <Field.Composition label="Address" key="postal">
+        <Field.String label="Street" path="/street" required />
+        <Field.PostalCodeAndCity
+          postalCode={{ path: '/zip', required: true }}
+          city={{ path: '/city', required: true }}
+        />
+      </Field.Composition>,
+    ],
+  ])('should stop rendering after submit with %s', async (_, fields) => {
+    let commits = 0
+
+    render(
+      <Profiler id="form" onRender={() => commits++}>
+        <Form.Handler>{fields}</Form.Handler>
+      </Profiler>
+    )
+
+    // Submit outside of act, so an endless render loop cannot hang the test
+    document
+      .querySelector('form')
+      .dispatchEvent(
+        new Event('submit', { bubbles: true, cancelable: true })
+      )
+
+    await wait(300)
+    expect(document.querySelector('.dnb-form-status--error')).toBeTruthy()
+
+    const commitsAfterSubmit = commits
+    await wait(300)
+    expect(commits).toBe(commitsAfterSubmit)
   })
 
   it('should retain the committed message when a transition suspends', async () => {
