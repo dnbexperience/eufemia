@@ -40,7 +40,7 @@ import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ### Animated updates
 
-Use `animate` on `NumberFormat.Number`, `NumberFormat.Currency` or `NumberFormat.Percent` for selected values that change after a user action. Digits cascade from left to right, 25 ms apart with a 160 ms slide per digit. The direction follows the value. Removed leading digits and signs fade out as their space closes. Currency and percent symbols slide horizontally when the number changes width, keeping their baseline stable. Keep dense tables and frequently refreshing values still.
+Use `animate` on `NumberFormat.Number`, `NumberFormat.Currency` or `NumberFormat.Percent` for selected values that change after a user action. Digits cascade from left to right, 25 ms apart with a 160 ms slide per digit. New leading digits enter immediately. The direction follows the value. Removed leading digits and signs fade out as their space closes. Currency and percent symbols slide horizontally when the number changes width, keeping their baseline stable. Keep dense tables and frequently refreshing values still.
 
 <AnimatedUpdates />
 
