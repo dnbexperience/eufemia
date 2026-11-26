@@ -1603,6 +1603,24 @@ describe('useFieldProps', () => {
         expect(errorProp.message).toBe('Field.errorRequired')
       })
 
+      it('should keep the class of a FormError subclass given via error', () => {
+        class MyError extends FormError {
+          code = 'E42'
+        }
+        const errorProp = new MyError('Field.errorRequired')
+        const onStatusChange = vi.fn()
+
+        renderHook(() =>
+          useFieldProps({ error: errorProp, onStatusChange })
+        )
+
+        const { error } = onStatusChange.mock.calls.at(-1)[0]
+        expect(error).toBeInstanceOf(MyError)
+        expect(error.code).toBe('E42')
+        expect(error.message).toBe(nb.Field.errorRequired)
+        expect(errorProp.message).toBe('Field.errorRequired')
+      })
+
       it('should return the same prepared error on every render of the same FormError', () => {
         // onStatusChange compares the error by identity, so a new object
         // on every render would call it on every render

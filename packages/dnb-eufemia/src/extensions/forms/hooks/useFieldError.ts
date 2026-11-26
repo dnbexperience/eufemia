@@ -404,8 +404,11 @@ export default function useFieldError<Value>({
       const getPreparedCopy = (error: FormError): FormError => {
         let copy = preparedErrorsRef.current.get(error)
         if (!copy) {
-          // A real FormError, with the own fields of the given one
-          copy = Object.assign(new FormError(error.message), error)
+          // A real FormError, with the own fields and the class of the given one
+          copy = Object.setPrototypeOf(
+            Object.assign(new FormError(error.message), error),
+            Object.getPrototypeOf(error)
+          ) as FormError
           preparedErrorsRef.current.set(error, copy)
         }
         return copy
