@@ -2,6 +2,8 @@ import type { ReactNode } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
+import Anchor from '../../anchor/Anchor'
+import Button from '../../button/Button'
 
 function renderInRoot(node: ReactNode) {
   return render(
@@ -127,6 +129,26 @@ describe('Stat.Text', () => {
     expect(text.classList).toContain('dnb-skeleton--font')
     expect(text).toHaveAttribute('aria-disabled', 'true')
   })
+
+  it.each([
+    ['Stat.Text', Stat.Text],
+    ['Stat.Info', Stat.Info],
+  ])(
+    'disables Eufemia links and buttons inside %s with skeleton',
+    (_, Component) => {
+      renderInRoot(
+        <Component skeleton>
+          Updated hourly <Anchor href="/history">See history</Anchor>
+          <Button text="Refresh" />
+        </Component>
+      )
+
+      const link = document.querySelector('a')
+      expect(link).not.toHaveAttribute('href')
+      expect(link).toHaveAttribute('tabindex', '-1')
+      expect(document.querySelector('button')).toBeDisabled()
+    }
+  )
 
   it('supports spacing props', () => {
     renderInRoot(<Stat.Text top="large">Custom content</Stat.Text>)

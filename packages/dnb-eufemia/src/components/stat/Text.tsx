@@ -15,6 +15,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import useStatSkeleton from './useStatSkeleton'
 import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import Provider from '../../shared/Provider'
 
 type TextOwnProps = {
   /** @internal Not documented – used by internal sub-components only. */
@@ -55,10 +56,8 @@ function TextInternal(props: TextInternalProps) {
     ...rest
   } = props
 
-  const { skeletonClass, applySkeletonAttributes } = useStatSkeleton(
-    skeleton,
-    skeletonMethod
-  )
+  const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton, skeletonMethod)
 
   const resolvedSignTone = resolveSignTone(colorizeBySign, children)
   const textValue = convertJsxToString(children)
@@ -93,17 +92,19 @@ function TextInternal(props: TextInternalProps) {
   applySkeletonAttributes(attributes)
 
   return (
-    <Element {...attributes}>
-      {srLabel ? (
-        <>
-          <span aria-hidden>{children}</span>
-          {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
-          <span className="dnb-sr-only" data-text={srText} />
-        </>
-      ) : (
-        children
-      )}
-    </Element>
+    <Provider skeleton={hasSkeleton}>
+      <Element {...attributes}>
+        {srLabel ? (
+          <>
+            <span aria-hidden>{children}</span>
+            {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
+            <span className="dnb-sr-only" data-text={srText} />
+          </>
+        ) : (
+          children
+        )}
+      </Element>
+    </Provider>
   )
 }
 
