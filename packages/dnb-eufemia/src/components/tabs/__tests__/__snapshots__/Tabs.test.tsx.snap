@@ -32,6 +32,13 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
 }
+:is(.dnb-section--information,
+.dnb-section--error,
+.dnb-section--success) .dnb-tabs__tabs, .dnb-tabs__tabs:is(.dnb-section--information,
+.dnb-section--error,
+.dnb-section--success) {
+  --tab-title-font-color: var(--token-color-text-neutral);
+}
 .dnb-tabs__tabs {
   position: relative;
   z-index: 1;
@@ -510,6 +517,13 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   --tab-title-border--selected: var(--token-color-background-selected);
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
+}
+:is(.dnb-section--information,
+.dnb-section--error,
+.dnb-section--success) .dnb-tabs__tabs, .dnb-tabs__tabs:is(.dnb-section--information,
+.dnb-section--error,
+.dnb-section--success) {
+  --tab-title-font-color: var(--token-color-text-neutral);
 }
 .dnb-tabs__tabs {
   position: relative;

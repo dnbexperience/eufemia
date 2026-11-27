@@ -41,6 +41,20 @@
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
 
+  :is(
+      .dnb-section--information,
+      .dnb-section--error,
+      .dnb-section--success
+    )
+    &__tabs,
+  &__tabs:is(
+      .dnb-section--information,
+      .dnb-section--error,
+      .dnb-section--success
+    ) {
+    --tab-title-font-color: var(--token-color-text-neutral);
+  }
+
   &__tabs {
     position: relative;
     z-index: 1;
