@@ -139,13 +139,13 @@ function setInput(event: Event) {
   }
 
   if (currentIntent !== value) {
-    // Preserve intent for keyboard interaction with form fields
-    const activeElem = document.activeElement
+    // In form fields, keyboard events other than Tab keep the intent, so
+    // typing does not change hover styles. Pointers and Tab update it.
+    const nodeName = document.activeElement?.nodeName?.toLowerCase()
     if (
-      activeElem?.nodeName &&
-      (!formInputs.includes(activeElem.nodeName.toLowerCase()) ||
-        (activeElem.nodeName.toLowerCase() === 'button' &&
-          !activeElem.closest('form')))
+      value !== 'keyboard' ||
+      eventKey === 'Tab' ||
+      (nodeName && !formInputs.includes(nodeName))
     ) {
       currentIntent = value
       doUpdate('intent')
