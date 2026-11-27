@@ -35,6 +35,7 @@ describe('Portal accessibility report', () => {
       )
     ).toEqual(['#other-portal'])
   })
+
   it('combines hydrated duplicate IDs and axe findings', () => {
     const report = createPortalAccessibilityReport({
       duplicateIdFindings: [duplicateId('/button/', 'examples', 2)],
