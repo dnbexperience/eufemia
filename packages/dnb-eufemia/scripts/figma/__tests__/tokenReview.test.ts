@@ -1,9 +1,9 @@
 import {
   type CrossBrandReference,
-  type loadTokenModes,
   changedTokens,
   contrastRatio,
   findCrossBrandReferences,
+  holdBackContrastRegressions,
   parseColor,
   resolveTokenValues,
   reviewTokenChanges,
@@ -109,95 +109,181 @@ it('reports existing failures without blocking unchanged or improved pairs', () 
   ).toHaveLength(20)
 })
 
-const coconutMode = (
-  error: string,
-  base: string,
-  alternative = base
-): ReturnType<typeof loadTokenModes> => [
-  {
-    name: 'Coconut light',
-    tokens: {
-      ...mode('#000', '#fff')[0].tokens,
-      '--token-color-text-error': error,
-      '--token-color-background-neutral-base': base,
-      '--token-color-background-neutral-alternative': alternative,
+it('holds back a token that would lower contrast and keeps the other changes', () => {
+  const before = mode('#000', '#fff')[0].tokens
+  const after = {
+    ...before,
+    '--token-color-background-neutral-alternative': '#555',
+    '--token-color-background-neutral-subtle': '#eee',
+  }
+
+  const { tokens, heldBack } = holdBackContrastRegressions(
+    'DNB light',
+    before,
+    after
+  )
+
+  expect(tokens).toEqual({
+    ...after,
+    ...{ '--token-color-background-neutral-alternative': '#fff' },
+  })
+  expect(heldBack).toEqual([
+    {
+      theme: 'DNB light',
+      token: '--token-color-background-neutral-alternative',
+      keptValue: '#fff',
+      rejectedValue: '#555',
+      checkedAgainst: '--token-color-text-neutral',
+      oldContrast: 21,
+      rejectedContrast: 2.82,
+      target: 4.5,
+      cause: undefined,
     },
-  },
-]
-
-it('reports the two accepted Coconut error contrast changes without failing', () => {
-  const result = reviewTokenChanges(
-    coconutMode('#d8134b', '#f2f2f7', '#ebebf1'),
-    coconutMode('#c82610', '#dedfd8')
-  )
-
-  expect(result.regressions).toEqual([])
-  expect(result.markdown).toContain(
-    '## Accepted temporary contrast regressions'
-  )
-  expect(result.markdown).toContain(
-    'Coconut light: --token-color-text-error on --token-color-background-neutral-base (4.57:1 → 4.18:1; target 4.5:1)'
-  )
-  expect(result.markdown).toContain(
-    'Coconut light: --token-color-text-error on --token-color-background-neutral-alternative (4.30:1 → 4.18:1; target 4.5:1)'
-  )
-  expect(result.markdown).toContain(
-    'https://github.com/dnbexperience/eufemia/pull/10759#issuecomment-6917082027'
-  )
-})
-
-it.each([
-  ['lighter error text', '#d82610', '#dedfd8'],
-  ['darker background', '#c82610', '#cecec8'],
-])(
-  'rejects further Coconut contrast reductions: %s',
-  (_, error, background) => {
-    const after = coconutMode(error, background)
-    expect(
-      reviewTokenChanges(
-        coconutMode('#d8134b', '#f2f2f7', '#ebebf1'),
-        after
-      ).regressions
-    ).toHaveLength(2)
-    expect(
-      reviewTokenChanges(coconutMode('#c82610', '#dedfd8'), after)
-        .regressions
-    ).toHaveLength(2)
-  }
-)
-
-it('rejects restoring the accepted Coconut colors after a contrast improvement', () => {
-  expect(
-    reviewTokenChanges(
-      coconutMode('#000', '#dedfd8'),
-      coconutMode('#c82610', '#dedfd8')
-    ).regressions
-  ).toHaveLength(2)
-})
-
-it.each(['DNB light', 'Coconut dark'] as const)(
-  'keeps the same contrast changes failing for %s',
-  (name) => {
-    const before = coconutMode('#d8134b', '#f2f2f7', '#ebebf1')
-    const after = coconutMode('#c82610', '#dedfd8')
-    before[0].name = name
-    after[0].name = name
-
-    expect(reviewTokenChanges(before, after).regressions).toHaveLength(2)
-  }
-)
-
-it('keeps unrelated Coconut contrast regressions failing', () => {
-  const before = coconutMode('#d8134b', '#f2f2f7', '#ebebf1')
-  const after = coconutMode('#c82610', '#dedfd8')
-  before[0].tokens['--token-color-background-info-subtle'] = '#f2f2f7'
-  after[0].tokens['--token-color-background-info-subtle'] = '#dedfd8'
-
-  expect(reviewTokenChanges(before, after).regressions).toEqual([
-    expect.stringContaining(
-      '--token-color-text-error on --token-color-background-info-subtle'
-    ),
   ])
+})
+
+it('holds back tokens that regress because another token was held back', () => {
+  const before = mode('#000', '#fff')[0].tokens
+  const after = {
+    ...before,
+    '--token-color-background-info-subtle': '#000',
+    '--token-color-icon-info': '#fff',
+  }
+
+  const { tokens, heldBack } = holdBackContrastRegressions(
+    'DNB light',
+    before,
+    after
+  )
+
+  expect(tokens).toEqual(before)
+  expect(
+    heldBack.map(({ token, checkedAgainst, cause }) => ({
+      token,
+      checkedAgainst,
+      cause,
+    }))
+  ).toEqual([
+    {
+      token: '--token-color-background-info-subtle',
+      checkedAgainst: '--token-color-text-neutral',
+      cause: undefined,
+    },
+    {
+      token: '--token-color-icon-info',
+      checkedAgainst: '--token-color-background-info-subtle',
+      cause: '--token-color-background-info-subtle',
+    },
+  ])
+})
+
+it('holds back the token that conflicts with many others instead of all of them', () => {
+  const before = mode('#000', '#fff')[0].tokens
+  const after = {
+    ...mode('#000', '#999')[0].tokens,
+    '--token-color-text-neutral': '#595959',
+  }
+
+  const { tokens, heldBack } = holdBackContrastRegressions(
+    'DNB light',
+    before,
+    after
+  )
+
+  expect(tokens).toEqual({
+    ...after,
+    '--token-color-text-neutral': '#000',
+  })
+  expect(heldBack.map(({ token }) => token)).toEqual([
+    '--token-color-text-neutral',
+  ])
+})
+
+it('checks the transparency background only for transparent backgrounds', () => {
+  const before = {
+    ...mode('#000', '#fff')[0].tokens,
+    '--token-color-background-info-subtle': 'rgba(0 0 0 / 0%)',
+  }
+  const after = {
+    ...before,
+    '--token-color-background-page-background': '#000',
+    '--token-color-stroke-info': '#fff',
+  }
+
+  const { tokens, heldBack } = holdBackContrastRegressions(
+    'DNB light',
+    before,
+    after
+  )
+
+  expect(tokens).toEqual(before)
+  expect(
+    heldBack.map(({ token, checkedAgainst, cause }) => ({
+      token,
+      checkedAgainst,
+      cause,
+    }))
+  ).toEqual([
+    {
+      token: '--token-color-background-page-background',
+      checkedAgainst:
+        '--token-color-text-neutral on --token-color-background-info-subtle',
+      cause: undefined,
+    },
+    {
+      token: '--token-color-stroke-info',
+      checkedAgainst: '--token-color-background-page-background',
+      cause: '--token-color-background-page-background',
+    },
+  ])
+
+  const opaque = { '--token-color-background-info-subtle': '#fff' }
+  expect(
+    holdBackContrastRegressions(
+      'DNB light',
+      { ...before, ...opaque },
+      { ...after, ...opaque }
+    ).heldBack
+  ).toEqual([])
+})
+
+it('does not hold back pairs that stay below the target without losing contrast', () => {
+  const before = mode('#909090', '#fff')[0].tokens
+  const after = { ...before, '--token-color-text-error': '#808080' }
+
+  expect(holdBackContrastRegressions('DNB light', before, after)).toEqual({
+    tokens: after,
+    heldBack: [],
+  })
+})
+
+it('renders held back tokens with their contrast and cascade cause', () => {
+  const { markdown, regressions } = reviewTokenChanges(
+    mode('#000', '#fff'),
+    mode('#000', '#fff'),
+    [
+      {
+        theme: 'DNB light',
+        token: '--token-color-icon-info',
+        keptValue: '#000',
+        rejectedValue: '#fff',
+        checkedAgainst: '--token-color-background-info-subtle',
+        oldContrast: 21,
+        rejectedContrast: 1,
+        target: 3,
+        cause: '--token-color-background-info-subtle',
+      },
+    ]
+  )
+
+  expect(regressions).toEqual([])
+  expect(markdown).toContain(
+    '## Held back tokens\n\nThese Figma values would lower contrast below the target'
+  )
+  expect(markdown).toContain(
+    '| DNB light | --token-color-icon-info | #000 | #fff | --token-color-background-info-subtle | 21.00:1 | 1.00:1 | 3:1 | --token-color-background-info-subtle held back |'
+  )
+  expect(markdown).not.toContain('## Contrast regressions')
 })
 
 it('ignores support fallbacks when reviewing the modern token values', () => {
@@ -232,7 +318,9 @@ it('lists only new references to another brand foundation', () => {
   expect(
     reviewTokenChanges(withReferences(references), withReferences([]))
       .markdown
-  ).toContain('## New cross-brand foundation references\n\nNone.')
+  ).toContain(
+    '## New cross-brand foundation references\n\nTokens that now use a foundation color from another brand. Check in Figma that this is intended.\n\nNone.'
+  )
 })
 
 it('reports added and removed tokens', () => {

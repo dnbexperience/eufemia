@@ -20,6 +20,10 @@ on:
         description: Skip snapshot update
         type: boolean
         default: false
+      skip_make_properties:
+        description: Skip make-properties and lock file generation (debug)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -63,6 +67,7 @@ jobs:
           GENERATE_SCREENSHOTS: ${{ inputs.generate_screenshots }}
           CONTINUE_ON_TOKEN_REVIEW_FAILURE: ${{ inputs.continue_on_token_review_failure }}
           SKIP_SNAPSHOT_UPDATE: ${{ inputs.skip_snapshot_update }}
+          SKIP_MAKE_PROPERTIES: ${{ inputs.skip_make_properties }}
         run: |
           if [ -n "$OUTPUT_BRANCH" ]; then
             branch=$OUTPUT_BRANCH
@@ -92,6 +97,7 @@ jobs:
             echo "- Generate screenshots: $GENERATE_SCREENSHOTS"
             echo "- Continue on token review failure: $CONTINUE_ON_TOKEN_REVIEW_FAILURE"
             echo "- Skip snapshot update: $SKIP_SNAPSHOT_UPDATE"
+            echo "- Skip make-properties and lock file generation: $SKIP_MAKE_PROPERTIES"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check if branch has PR
@@ -131,7 +137,18 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Design tokens fetch and generate
+        if: ${{ !inputs.skip_make_properties }}
         run: yarn workspace @dnb/eufemia prebuild:figma:tokens:ci
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_TOKENS_FILE: ${{ vars.FIGMA_TOKENS_FILE }}
+
+      - name: Design tokens fetch only (debug)
+        if: inputs.skip_make_properties
+        # Commits only the Figma exports. The generated files keep the previous values, so make-properties --update-lock can be run locally after debugging
+        run: |
+          yarn workspace @dnb/eufemia figma:tokens:verify
+          yarn workspace @dnb/eufemia figma:tokens
         env:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FIGMA_TOKENS_FILE: ${{ vars.FIGMA_TOKENS_FILE }}
@@ -148,7 +165,7 @@ jobs:
           fi
 
       - name: Review resolved token values and text contrast
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.changes.outputs.changed == 'true' && !inputs.skip_make_properties
         # The report is still written and published, the run just keeps going
         continue-on-error: ${{ inputs.continue_on_token_review_failure }}
         # Against HEAD, so the report covers what this run fetched and
@@ -156,27 +173,28 @@ jobs:
         run: yarn workspace @dnb/eufemia review:tokens HEAD "$RUNNER_TEMP/token-review.md"
 
       - name: Publish token review summary
-        if: always() && steps.changes.outputs.changed == 'true'
+        if: always() && steps.changes.outputs.changed == 'true' && !inputs.skip_make_properties
         run: |
           if [ -f "$RUNNER_TEMP/token-review.md" ]; then
             cat "$RUNNER_TEMP/token-review.md" >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Update design token snapshots
-        if: steps.changes.outputs.changed == 'true' && !inputs.skip_snapshot_update
+        if: steps.changes.outputs.changed == 'true' && !inputs.skip_snapshot_update && !inputs.skip_make_properties
         # The snapshots mirror the generated theme files, so a token change always changes them
         run: yarn workspace @dnb/eufemia test:scripts makePropertiesFile -u --hookTimeout=180000
 
+      # Prebuild regenerates the theme files, so it and the steps that depend on it are skipped when debugging
       - name: Prebuild Library
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.changes.outputs.changed == 'true' && !inputs.skip_make_properties
         run: yarn workspace @dnb/eufemia build:prebuild
 
       - name: Build portal
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.changes.outputs.changed == 'true' && !inputs.skip_make_properties
         run: yarn workspace dnb-design-system-portal build
 
       - name: Generate screenshots
-        if: steps.changes.outputs.changed == 'true' && inputs.generate_screenshots
+        if: steps.changes.outputs.changed == 'true' && inputs.generate_screenshots && !inputs.skip_make_properties
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
       - name: Store visual test artifacts

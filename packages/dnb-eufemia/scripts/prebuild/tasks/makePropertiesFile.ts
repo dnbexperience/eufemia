@@ -12,6 +12,13 @@ import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
 import { foundationPrefixMap } from './foundationPrefixMap'
+import {
+  makePropertiesLockFile,
+  holdBackContrastRegressions,
+  loadTokenModes,
+  tokenModes,
+  type LockedToken,
+} from '../../figma/tokenReview'
 import { formatNumberValue as transformNumberValue } from '../../../src/style/themes/figma/tokenValueUtils'
 
 const prettierrc = JSON.parse(
@@ -239,6 +246,12 @@ type TokenItem = {
   figmaSetId: FigmaSetId
 } & FigmaValue
 
+/** Previous declarations of tokens whose new Figma value is held back */
+type HeldBackDeclarations = Map<
+  string,
+  { value: string; fallback?: string }
+>
+
 export const transformFigmaAlias = (alias: FigmaAlias) => {
   const figmaAliasName = alias.targetVariableName
   const figmaAliasSetId = alias.targetVariableSetId
@@ -383,16 +396,88 @@ export const generateColorMixFallback = (
   selector: string,
   namespace?: string
 ) => {
-  const declarations = generateCSSVariablesFromTokenList(
+  const declarations = generateColorMixFallbackDeclarations(
+    tokenList,
+    namespace
+  )
+
+  return wrapColorMixFallback(declarations, selector)
+}
+
+const generateColorMixFallbackDeclarations = (
+  tokenList: TokenList,
+  namespace?: string
+) =>
+  generateCSSVariablesFromTokenList(
     tokenList
       .filter((token) => getComposedColor(token))
       .map((token) => ({ ...token, $extensions: undefined })),
     namespace
   )
 
-  return declarations
+const wrapColorMixFallback = (declarations: string, selector: string) =>
+  declarations
     ? `${COLOR_MIX_FALLBACK_CONDITION} {\n${selector} {\n${declarations}}\n}\n`
     : ''
+
+const replaceHeldBackDeclarations = (
+  declarations: string,
+  heldBack: HeldBackDeclarations,
+  pick: (declaration: { value: string; fallback?: string }) => string
+) => {
+  const remaining = new Map(heldBack)
+  const lines = declarations
+    .split('\n')
+    .filter(Boolean)
+    .flatMap((line) => {
+      const name = line.match(CSS_VARIABLE_DECLARATION_REGEX)?.[1]
+
+      if (!heldBack.has(name)) {
+        return [line]
+      }
+
+      remaining.delete(name)
+      const value = pick(heldBack.get(name))
+
+      return value ? [`${name}: ${value};`] : []
+    })
+
+  remaining.forEach((declaration, name) => {
+    const value = pick(declaration)
+
+    if (value) {
+      lines.push(`${name}: ${value};`)
+    }
+  })
+
+  return lines.length ? lines.join('\n') + '\n' : ''
+}
+
+/** Declarations of a generated SCSS file, split into the main block and the `color-mix()` fallback */
+const parseGeneratedDeclarations = (content: string) => {
+  const fallbackIndex = content.indexOf(COLOR_MIX_FALLBACK_CONDITION)
+  const parse = (css: string) =>
+    new Map(
+      Array.from(css.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/gi)).map(
+        ([, name, value]) => [
+          name,
+          value
+            .replace(/\s+/g, ' ')
+            .replace(/\(\s/g, '(')
+            .replace(/\s\)/g, ')')
+            .trim(),
+        ]
+      )
+    )
+
+  return {
+    main: parse(
+      fallbackIndex === -1 ? content : content.slice(0, fallbackIndex)
+    ),
+    fallback: parse(
+      fallbackIndex === -1 ? '' : content.slice(fallbackIndex)
+    ),
+  }
 }
 
 const transformFigmaRawValue = (value: FigmaValue) => {
@@ -715,6 +800,7 @@ const makeDesignTokenSCSS = async ({
   appendToFile = false,
   referencedVariables,
   colorScheme,
+  heldBack,
 }: {
   /** Root path to Figma JSON export file */
   inputPath: string
@@ -730,6 +816,7 @@ const makeDesignTokenSCSS = async ({
   appendToFile?: boolean
   referencedVariables?: Set<string>
   colorScheme?: 'light' | 'dark'
+  heldBack?: HeldBackDeclarations
 }) => {
   try {
     const tokenList = convertToTokenList(
@@ -750,12 +837,33 @@ const makeDesignTokenSCSS = async ({
       scssContent += `color-scheme: ${colorScheme};\n`
     }
 
-    scssContent += generateCSSVariablesFromTokenList(tokenList, namespace)
-    scssContent += '}\n'
-    scssContent += generateColorMixFallback(
+    let declarations = generateCSSVariablesFromTokenList(
       tokenList,
-      combinedSelector,
       namespace
+    )
+    let fallbackDeclarations = generateColorMixFallbackDeclarations(
+      tokenList,
+      namespace
+    )
+
+    if (heldBack) {
+      declarations = replaceHeldBackDeclarations(
+        declarations,
+        heldBack,
+        ({ value }) => value
+      )
+      fallbackDeclarations = replaceHeldBackDeclarations(
+        fallbackDeclarations,
+        heldBack,
+        ({ fallback }) => fallback
+      )
+    }
+
+    scssContent += declarations
+    scssContent += '}\n'
+    scssContent += wrapColorMixFallback(
+      fallbackDeclarations,
+      combinedSelector
     )
 
     if (referencedVariables) {
@@ -1253,8 +1361,25 @@ const runDesignTokenFactory = async () => {
     `> PrePublish: "makePropertiesFile" Generating Figma SCSS files:`
   )
 
-  for (const file of tokenFiles) {
-    await makeDesignTokenSCSS({
+  const repositoryRoot = path.resolve(ROOT_DIR, '../..')
+  const updateLock = process.argv.includes('--update-lock')
+
+  // The generated files on disk hold the previous values, so read them before they are regenerated
+  const previousModes = updateLock ? loadTokenModes(repositoryRoot) : []
+  const previousContent = new Map(
+    updateLock
+      ? [...tokenFiles, ...foundationFiles].map(({ out }) => [
+          out,
+          fs.existsSync(out) ? fs.readFileSync(out, 'utf-8') : '',
+        ])
+      : []
+  )
+
+  const makeTokenSCSS = (
+    file: (typeof tokenFiles)[number],
+    heldBack?: HeldBackDeclarations
+  ) =>
+    makeDesignTokenSCSS({
       inputPath: file.in,
       outputPath: file.out,
       figmaSetId: file.figmaSetId,
@@ -1262,7 +1387,11 @@ const runDesignTokenFactory = async () => {
       scopeSelector: file.scopeSelector,
       appendToFile: file.appendToFile,
       colorScheme: file.colorScheme,
+      heldBack,
     })
+
+  for (const file of tokenFiles) {
+    await makeTokenSCSS(file)
     if (file.colorScheme === 'light') {
       await makeTypographyPropertiesSCSS({
         inputPath: file.in,
@@ -1272,41 +1401,155 @@ const runDesignTokenFactory = async () => {
     }
   }
 
-  const referencedVariablesEntries: Array<[string, Set<string>]> =
-    await Promise.all(
-      tokenFiles.map(async (file) => {
-        const tokensContent = await promises.readFile(file.out, 'utf-8')
-        return [
-          file.theme,
-          extractReferencedCssVariables(tokensContent),
-        ] as [string, Set<string>]
-      })
+  const makeFoundationSCSS = async () => {
+    const referencedVariablesEntries: Array<[string, Set<string>]> =
+      await Promise.all(
+        tokenFiles.map(async (file) => {
+          const tokensContent = await promises.readFile(file.out, 'utf-8')
+          return [
+            file.theme,
+            extractReferencedCssVariables(tokensContent),
+          ] as [string, Set<string>]
+        })
+      )
+
+    const referencedVariablesByTheme = referencedVariablesEntries.reduce(
+      (acc, [theme, variables]) => {
+        const existingVariables = acc.get(theme) ?? new Set<string>()
+
+        for (const variable of Array.from(variables)) {
+          existingVariables.add(variable)
+        }
+
+        acc.set(theme, existingVariables)
+        return acc
+      },
+      new Map<string, Set<string>>()
     )
 
-  const referencedVariablesByTheme = referencedVariablesEntries.reduce(
-    (acc, [theme, variables]) => {
-      const existingVariables = acc.get(theme) ?? new Set<string>()
+    await Promise.all(
+      foundationFiles.map(async (file) =>
+        makeDesignTokenSCSS({
+          inputPath: file.in,
+          outputPath: file.out,
+          figmaSetId: file.figmaSetId,
+          referencedVariables: referencedVariablesByTheme.get(file.theme),
+        })
+      )
+    )
+  }
 
-      for (const variable of Array.from(variables)) {
-        existingVariables.add(variable)
+  await makeFoundationSCSS()
+
+  const lockPath = path.join(repositoryRoot, makePropertiesLockFile)
+  const modeName = (file: (typeof tokenFiles)[number]) =>
+    tokenModes.find(
+      (mode) => mode.brand === file.theme && mode.mode === file.colorScheme
+    )?.name
+  let lockedTokens: LockedToken[] = fs.existsSync(lockPath)
+    ? JSON.parse(fs.readFileSync(lockPath, 'utf-8'))
+    : []
+
+  // Hold back tokens whose new Figma value lowers contrast compared with the previous generated files
+  if (updateLock) {
+    const readPrevious = (file: string) => previousContent.get(file) ?? ''
+    const currentModes = loadTokenModes(repositoryRoot)
+    const foundationColors = parseGeneratedDeclarations(
+      generateCSSVariablesFromTokenList(
+        convertToTokenList(
+          JSON.parse(fs.readFileSync(foundationFiles[0].in, 'utf-8')),
+          TOKEN_SETS.colors.targetVariableSetId
+        )
+      )
+    ).main
+    lockedTokens = []
+
+    for (const file of tokenFiles) {
+      const name = modeName(file)
+      const previous = previousModes.find((mode) => mode.name === name)
+      const current = currentModes.find((mode) => mode.name === name)
+
+      if (!previous || !current) {
+        continue
       }
 
-      acc.set(theme, existingVariables)
-      return acc
-    },
-    new Map<string, Set<string>>()
-  )
+      const { heldBack } = holdBackContrastRegressions(
+        name,
+        previous.tokens,
+        current.tokens
+      )
+      const previousFoundation = parseGeneratedDeclarations(
+        readPrevious(
+          foundationFiles.find(({ theme }) => theme === file.theme).out
+        )
+      ).main
+      // Dark files may inherit a token from the light file
+      const sources = [
+        file,
+        tokenFiles.find(
+          ({ theme, colorScheme }) =>
+            theme === file.theme && colorScheme === 'light'
+        ),
+      ].map(({ out }) => parseGeneratedDeclarations(readPrevious(out)))
 
-  await Promise.all(
-    foundationFiles.map(async (file) =>
-      makeDesignTokenSCSS({
-        inputPath: file.in,
-        outputPath: file.out,
-        figmaSetId: file.figmaSetId,
-        referencedVariables: referencedVariablesByTheme.get(file.theme),
+      for (const heldBackToken of heldBack) {
+        const source = sources.find(({ main }) =>
+          main.has(heldBackToken.token)
+        )
+        const value = source?.main.get(heldBackToken.token)
+        // Foundation colors can change too, so only keep references that still resolve to the kept value
+        const keepsReferences =
+          value &&
+          Array.from(extractReferencedCssVariables(value)).every(
+            (variable) =>
+              previousFoundation.has(variable) &&
+              previousFoundation.get(variable) ===
+                foundationColors.get(variable)
+          )
+
+        lockedTokens.push({
+          ...heldBackToken,
+          declaration: keepsReferences ? value : heldBackToken.keptValue,
+          fallback: source?.fallback.get(heldBackToken.token),
+        })
+      }
+    }
+
+    await promises.writeFile(
+      lockPath,
+      await prettier.format(JSON.stringify(lockedTokens), {
+        filepath: '*.json',
+        ...prettierrc,
       })
     )
-  )
+  }
+
+  for (const file of tokenFiles) {
+    const name = modeName(file)
+    const declarations: HeldBackDeclarations = new Map(
+      lockedTokens
+        .filter(({ theme }) => theme === name)
+        .map(({ token, declaration, fallback }) => [
+          token,
+          { value: declaration, fallback },
+        ])
+    )
+
+    if (!declarations.size) {
+      continue
+    }
+
+    log.info(
+      `Holding back ${declarations.size} token(s) in ${name}: ${Array.from(
+        declarations.keys()
+      ).join(', ')}`
+    )
+    await makeTokenSCSS(file, declarations)
+  }
+
+  if (lockedTokens.length) {
+    await makeFoundationSCSS()
+  }
 
   const uniqueTokenOutputs = Array.from(
     new Set(tokenFiles.map((file) => file.out))
