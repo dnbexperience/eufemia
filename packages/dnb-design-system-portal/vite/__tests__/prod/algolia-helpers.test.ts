@@ -19,7 +19,8 @@ const portalRoot = path.resolve(__dirname, '../..')
 
 describe('algolia-helpers', () => {
   it('prepares settings and records before atomically replacing the live index', async () => {
-    const records = [{ objectID: 'web/components/button' }]
+    const content = 'Use `<button>` & `<Td>` and keep &lt;literal&gt;.'
+    const records = [{ objectID: 'web/components/button', content }]
     const settings = { attributeForDistinct: 'url', distinct: true }
     const operations: string[] = []
     const operation = (name: string, result = {}) =>
@@ -52,7 +53,14 @@ describe('algolia-helpers', () => {
       scope: ['settings', 'synonyms', 'rules'],
     })
     expect(temporary.setSettings).toHaveBeenCalledWith(settings)
-    expect(temporary.saveObjects).toHaveBeenCalledWith(records)
+    expect(temporary.saveObjects).toHaveBeenCalledWith([
+      {
+        ...records[0],
+        content:
+          'Use `&lt;button&gt;` &amp; `&lt;Td&gt;` and keep &amp;lt;literal&amp;gt;.',
+      },
+    ])
+    expect(records[0].content).toBe(content)
     expect(client.moveIndex).toHaveBeenCalledWith(temporaryName, 'docs')
     expect(operations).toEqual(['copy', 'settings', 'records', 'move'])
     expect(temporary.delete).not.toHaveBeenCalled()

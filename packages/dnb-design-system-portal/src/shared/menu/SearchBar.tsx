@@ -306,8 +306,12 @@ const makeHitsHumanFriendly = (hits: SearchHit[]) => {
         )
         .join(' → ')
       const snippet =
-        section._snippetResult?.content?.value?.replace(/<\/?em>/g, '') ??
-        section.description
+        section._snippetResult?.content?.value
+          ?.replace(/<\/?em>/g, '')
+          .replace(
+            /&(lt|gt|amp);/g,
+            (_, entity) => ({ lt: '<', gt: '>', amp: '&' })[entity]
+          ) ?? section.description
       return [
         {
           hit: section,

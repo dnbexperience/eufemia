@@ -41,7 +41,18 @@ export async function replaceAlgoliaRecords(
       })
       .wait()
     await temporary.setSettings(settings).wait()
-    const result = await temporary.saveObjects(records).wait()
+    // Algolia strips HTML-like text from snippets, including component names.
+    const result = await temporary
+      .saveObjects(
+        records.map((record) => ({
+          ...record,
+          content: record.content
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;'),
+        }))
+      )
+      .wait()
     await client.moveIndex(temporaryName, indexName).wait()
     return result
   } catch (error) {

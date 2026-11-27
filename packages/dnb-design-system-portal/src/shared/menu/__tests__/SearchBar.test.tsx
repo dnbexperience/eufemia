@@ -221,7 +221,8 @@ describe('SearchBarInput', () => {
       headings: ['Overview', 'Behavior'],
       _snippetResult: {
         content: {
-          value: 'Use <em>Cmd+K</em> to focus the `<button>` search.',
+          value:
+            'Use <em>Cmd+K</em> to focus the `&lt;<em>button</em>&gt;` search. Keep &amp; and &amp;lt;Td&amp;gt;.',
         },
       },
     }
@@ -253,7 +254,9 @@ describe('SearchBarInput', () => {
     ).toContain('Search → Overview → Behavior')
     expect(
       document.querySelector('[role="option"]')?.textContent
-    ).toContain('Use Cmd+K to focus the <button> search.')
+    ).toContain(
+      'Use Cmd+K to focus the <button> search. Keep & and &lt;Td&gt;.'
+    )
     expect(document.querySelector('[role="option"] em')).toBeNull()
     expect(
       document.querySelector('[role="option"] code')?.textContent
