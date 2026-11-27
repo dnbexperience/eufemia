@@ -77,6 +77,10 @@ export type AnchorProps = {
    */
   noLaunchIcon?: boolean
   /**
+   * Set to `true` to inherit the font family from the parent element instead of using the action font. Defaults to `false`.
+   */
+  inheritFont?: boolean
+  /**
    * Disables the Anchor (no navigation, no hover). Keep a short reason nearby (e.g. using the `tooltip` property).
    */
   disabled?: boolean
@@ -93,6 +97,7 @@ const anchorDefaultProps: AnchorProps = {
   noUnderline: false,
   noIcon: false,
   noLaunchIcon: false,
+  inheritFont: false,
   disabled: false,
 }
 
@@ -131,6 +136,7 @@ export function AnchorComponent(localProps: AnchorAllProps) {
     noUnderline,
     noIcon,
     noLaunchIcon,
+    inheritFont,
     disabled,
     ...rest
   } = allProps
@@ -236,6 +242,7 @@ export function AnchorComponent(localProps: AnchorAllProps) {
               hasNoHover && 'dnb-anchor--no-hover',
               noStyle && 'dnb-anchor--no-style',
               hasNoUnderline && 'dnb-anchor--no-underline',
+              inheritFont && 'dnb-anchor--inherit-font',
               isDisabled && 'dnb-anchor--disabled',
               noIcon &&
                 !className?.includes('dnb-anchor--no-icon') &&

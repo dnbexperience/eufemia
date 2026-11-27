@@ -120,6 +120,7 @@ export default function TermDefinition(
     className: clsx(
       'dnb-term-definition__trigger',
       'dnb-anchor',
+      'dnb-anchor--inherit-font',
       active && 'dnb-anchor--hover',
       skeletonClasses,
       className

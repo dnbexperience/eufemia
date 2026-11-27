@@ -141,6 +141,7 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
         variant="tertiary"
         icon={icon}
         iconPosition={iconPosition ?? 'left'}
+        inheritFont
         transitionState={expanded ? 'expanded' : 'collapsed'}
         aria-expanded={expanded}
         aria-controls={contentId}

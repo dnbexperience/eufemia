@@ -253,6 +253,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             variant="tertiary"
             icon="chevron_left"
             iconPosition="left"
+            inheritFont
             onClick={onClick}
             href={href}
           />
@@ -290,6 +291,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
                   !isCollapsedRef.current ? 'expanded' : 'collapsed'
                 }
                 iconPosition="left"
+                inheritFont
                 onClick={onClick ?? onClickHandler}
                 aria-expanded={!isCollapsedRef.current}
                 bounding

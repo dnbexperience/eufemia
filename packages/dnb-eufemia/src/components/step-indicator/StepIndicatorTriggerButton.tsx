@@ -127,6 +127,7 @@ function StepIndicatorTriggerButton({
             }}
             aria-expanded={open}
             wrap
+            inheritFont
             variant="tertiary"
             icon={
               <IconPrimary

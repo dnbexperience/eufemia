@@ -76,6 +76,11 @@ export const ButtonProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  inheritFont: {
+    doc: 'Set to `true` to inherit the font family from the parent element instead of using the action font. Use it when the button is part of another component and should not look like a button. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   stretch: {
     doc: 'Set it to `true` in order to stretch the button to the available space. Defaults to `false`.',
     type: 'boolean',

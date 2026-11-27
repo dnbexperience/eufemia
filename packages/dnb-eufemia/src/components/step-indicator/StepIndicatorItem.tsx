@@ -315,6 +315,7 @@ export function StepItemButton({
           `dnb-step-indicator__button--has-status dnb-step-indicator__button--${statusState}`
       )}
       noStyle={notClickable}
+      inheritFont
       ref={ref}
       {...props}
     >

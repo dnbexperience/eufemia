@@ -53,6 +53,7 @@ const buttonDefaultProps: Partial<ButtonProps> = {
   id: null,
   customContent: null,
   wrap: null,
+  inheritFont: null,
   bounding: null,
   stretch: null,
   skeleton: null,
@@ -123,6 +124,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     iconPosition,
     iconSize,
     wrap,
+    inheritFont,
     bounding,
     stretch,
     skeleton,
@@ -219,6 +221,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
       isIconOnly && 'dnb-button--icon-only',
       selected && 'dnb-button--selected',
       wrap && 'dnb-button--wrap',
+      inheritFont && 'dnb-button--inherit-font',
       status && `dnb-button__status--${statusState}`,
       createSkeletonClass(
         variant === 'tertiary' ? 'font' : 'shape',

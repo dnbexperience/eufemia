@@ -737,6 +737,18 @@ describe('Anchor element', () => {
     expect(anchor.className).toContain('dnb-anchor--no-underline')
   })
 
+  it('should have inherit-font class if "inheritFont" prop is true', () => {
+    const { rerender } = render(<Anchor />)
+
+    const anchor = document.querySelector('.dnb-anchor')
+
+    expect(anchor).not.toHaveClass('dnb-anchor--inherit-font')
+
+    rerender(<Anchor inheritFont />)
+
+    expect(anchor).toHaveClass('dnb-anchor--inherit-font')
+  })
+
   it('should have no-icon class if "noIcon" prop is true', () => {
     render(<Anchor noIcon icon="bell" />)
 

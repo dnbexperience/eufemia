@@ -275,6 +275,7 @@ button.dnb-anchor {
   --anchor-icon-position: translateY(-0.175em);
   display: inline;
   padding: 0.05575em 0;
+  font-family: var(--font-family-action);
   font-size: var(--font-size-basis);
   text-decoration: underline;
   text-decoration-color: currentcolor;
@@ -405,6 +406,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     --anchor-icon-position: translateY(-0.175em);
     display: inline;
     padding: 0.05575em 0;
+    font-family: var(--font-family-action);
     font-size: var(--font-size-basis);
     text-decoration: underline;
     text-decoration-color: currentcolor;
@@ -538,6 +540,10 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 
 .dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {
   text-decoration: none;
+}
+
+.dnb-anchor.dnb-anchor--inherit-font {
+  font-family: inherit;
 }
 
 .dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active {

@@ -73,6 +73,10 @@
     white-space: normal;
   }
 
+  &#{&}--inherit-font {
+    font-family: inherit;
+  }
+
   &__icon {
     margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0
       var(--button-icon-margin-left);
@@ -99,6 +103,7 @@
       --button-color-bg,
       var(--button-color-bg--default)
     );
+    font-family: var(--font-family-action);
 
     .dnb-button__icon {
       color: var(--button-color-icon, var(--button-color-icon--default));

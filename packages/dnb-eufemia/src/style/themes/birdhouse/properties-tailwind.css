@@ -108,6 +108,7 @@
   --font-display: 'DNB Sans Eiendom', var(--font-family-default);
   --font-display-text-rendering: geometricprecision;
   --font-heading: var(--font-family-default);
+  --font-action: var(--font-family-default);
   --font-monospace:
     'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',
     'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace;

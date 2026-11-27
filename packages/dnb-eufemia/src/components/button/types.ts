@@ -149,6 +149,10 @@ export type ButtonProps = {
    */
   wrap?: boolean
   /**
+   * Set to `true` to inherit the font family from the parent element instead of using the action font. Use it when the button is part of another component and should not look like a button. Defaults to `false`.
+   */
+  inheritFont?: boolean
+  /**
    * Set to `true` to extend the click and touch area without changing the visible size or layout spacing. See [click and touch area](/web/components/button/info/#click-and-touch-area) for spacing and customization.
    */
   bounding?: boolean
