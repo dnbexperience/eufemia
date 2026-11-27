@@ -1,5 +1,6 @@
 import {
   type CrossBrandReference,
+  type HeldBackToken,
   changedTokens,
   contrastRatio,
   findCrossBrandReferences,
@@ -284,6 +285,22 @@ it('renders held back tokens with their contrast and cascade cause', () => {
     '| DNB light | --token-color-icon-info | #000 | #fff | --token-color-background-info-subtle | 21.00:1 | 1.00:1 | 3:1 | --token-color-background-info-subtle held back |'
   )
   expect(markdown).not.toContain('## Contrast regressions')
+})
+
+it('renders a manual lock entry without contrast values', () => {
+  const { markdown } = reviewTokenChanges(
+    mode('#000', '#fff'),
+    mode('#000', '#fff'),
+    [
+      {
+        theme: 'DNB light',
+        token: '--token-color-icon-info',
+      } as HeldBackToken,
+    ]
+  )
+
+  expect(markdown).toContain('| DNB light | --token-color-icon-info |')
+  expect(markdown).toContain('| – | – |')
 })
 
 it('ignores support fallbacks when reviewing the modern token values', () => {

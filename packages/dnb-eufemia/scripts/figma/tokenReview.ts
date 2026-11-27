@@ -759,8 +759,11 @@ export const reviewTokenChanges = (
         item.keptValue,
         item.rejectedValue,
         item.checkedAgainst,
-        ratioText(item.oldContrast),
-        ratioText(item.rejectedContrast),
+        // A manually added lock entry has no contrast values until the next fetch fills them in
+        item.oldContrast === undefined ? '–' : ratioText(item.oldContrast),
+        item.rejectedContrast === undefined
+          ? '–'
+          : ratioText(item.rejectedContrast),
         item.target + ':1',
         item.cause ? item.cause + ' held back' : '–',
       ])
