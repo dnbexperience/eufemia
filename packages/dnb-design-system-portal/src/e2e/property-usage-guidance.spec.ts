@@ -5,7 +5,6 @@ const guidanceName = 'Read about intended use and customization'
 
 for (const path of [
   '/web/styling-and-themes/configuration/component-properties/#intended-use-and-customization',
-  '/web/components/breadcrumb/events/',
   '/web/forms/Wizard/properties/',
   '/web/forms/Form/useSubmit/properties/',
   '/web/forms/Form/useTranslation/properties/',
@@ -66,8 +65,8 @@ test('links to the shared guidance and stays off other tabs', async ({
   await expect(page.getByRole('link', { name: guidanceName })).toHaveCount(
     1
   )
-  await page.getByRole('tab', { name: 'Events', exact: true }).click()
-  await expect(page).toHaveURL(new RegExp('breadcrumb/events/?$'))
+  await page.getByRole('tab', { name: 'Demos', exact: true }).click()
+  await expect(page).toHaveURL(new RegExp('breadcrumb/demos/?$'))
   await expect(page.getByRole('link', { name: guidanceName })).toHaveCount(
     0
   )

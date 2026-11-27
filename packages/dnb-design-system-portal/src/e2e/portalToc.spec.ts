@@ -255,7 +255,7 @@ test.describe('Portal table of contents', () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto(
-      '/web/patterns-and-extensions/table-of-content/events/'
+      '/web/patterns-and-extensions/table-of-content/properties/'
     )
     const toc = page.locator('#portal-page-toc')
     const link = toc.getByRole('link', {
@@ -512,7 +512,7 @@ test.describe('Portal table of contents', () => {
         }
       )
     })
-    for (const tab of ['Properties', 'Events', 'Demos']) {
+    for (const tab of ['Properties', 'Demos']) {
       await page.getByRole('tab', { name: tab, exact: true }).click()
       await expect(toggle).toHaveAttribute('aria-expanded', 'true')
       await expect(toc.locator('style')).toHaveCount(0)
@@ -563,7 +563,7 @@ test.describe('Portal table of contents', () => {
       toc.getByRole('link', { name: 'TableOfContent.Root', exact: true })
     ).toBeVisible()
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.getByRole('tab', { name: 'Events', exact: true }).click()
+    await page.getByRole('tab', { name: 'Demos', exact: true }).click()
     await page.setViewportSize({ width: 390, height: 1000 })
     await expect(
       toc.getByRole('button', { name: 'On this page', exact: true })
@@ -639,23 +639,21 @@ test.describe('Portal table of contents', () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto('/web/patterns-and-extensions/table-of-content/')
+    await page.getByRole('tab', { name: 'Demos', exact: true }).click()
     await page
       .getByRole('tab', { name: 'Properties', exact: true })
       .click()
-    await page.getByRole('tab', { name: 'Events', exact: true }).click()
     const toc = page.locator('#content-grid-sidebar nav')
     await expect(
       toc.getByRole('link', {
-        name: 'TableOfContent.Root and TableOfContent.Data',
+        name: 'TableOfContent.Item events',
         exact: true,
       })
     ).toBeVisible()
-    await expect(toc.locator('a')).toHaveCount(4)
+    await expect(toc.locator('a')).toHaveCount(10)
     await expect(page.locator('[data-toc-outgoing]')).toHaveCount(0)
     await page.setViewportSize({ width: 390, height: 844 })
-    await page
-      .getByRole('tab', { name: 'Properties', exact: true })
-      .click()
+    await page.getByRole('tab', { name: 'Demos', exact: true }).click()
     await expect(
       toc.getByRole('button', { name: 'On this page', exact: true })
     ).toHaveAttribute('aria-expanded', 'false')
@@ -664,7 +662,7 @@ test.describe('Portal table of contents', () => {
       .getByRole('button', { name: 'On this page', exact: true })
       .click()
     await expect(
-      toc.getByRole('link', { name: 'TableOfContent.Root', exact: true })
+      toc.getByRole('link', { name: 'Compose section links', exact: true })
     ).toBeVisible()
   })
   test('does not animate heading replacements in the Portal', async ({
@@ -1010,7 +1008,9 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/web/patterns-and-extensions/table-of-content/events')
+    await page.goto(
+      '/web/patterns-and-extensions/table-of-content/properties'
+    )
     const link = page.locator('#content-grid-sidebar').getByRole('link', {
       name: 'TableOfContent.Item',
       exact: true,
@@ -1062,12 +1062,10 @@ test.describe('Portal table of contents', () => {
         height,
       async ({ page }) => {
         await page.setViewportSize({ width: 1440, height })
-        await page.goto(
-          '/web/patterns-and-extensions/table-of-content/events'
-        )
+        await page.goto('/web/components/icon-primary/demos/')
         const toc = page.locator('#content-grid-sidebar nav')
         const link = toc.getByRole('link', {
-          name: 'TableOfContent.Item',
+          name: 'Default Icon with custom, but fixed size (64)',
           exact: true,
         })
         if (height === 1600) {
@@ -1095,7 +1093,9 @@ test.describe('Portal table of contents', () => {
           })
           return [...result]
         })
-        expect(selected).toEqual(['TableOfContent.Item'])
+        expect(selected).toEqual([
+          'Default Icon with custom, but fixed size (64)',
+        ])
         expect(
           await page.evaluate(
             () =>
@@ -1108,7 +1108,7 @@ test.describe('Portal table of contents', () => {
         ).toBe(true)
         await expect(
           page.getByRole('heading', {
-            name: 'TableOfContent.Item',
+            name: 'Default Icon with custom, but fixed size (64)',
             exact: true,
           })
         ).toBeFocused()

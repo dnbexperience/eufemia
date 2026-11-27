@@ -13,7 +13,7 @@ test.describe('SidebarMenu documentation tabs', () => {
     await waitForApp(page)
   })
 
-  test('navigates to properties and events', async ({ page }) => {
+  test('navigates to properties and their events', async ({ page }) => {
     const properties = page.getByRole('tab', {
       name: 'Properties',
       exact: true,
@@ -31,25 +31,20 @@ test.describe('SidebarMenu documentation tabs', () => {
       })
     ).toBeVisible()
 
-    const events = page.getByRole('tab', {
-      name: 'Events',
-      exact: true,
-    })
-    await events.click()
-
-    await expect(page).toHaveURL(
-      '/web/patterns-and-extensions/sidebar-menu/events/'
-    )
-    await expect(events).toHaveAttribute('aria-selected', 'true')
     await expect(
       page.getByRole('heading', {
         name: 'SidebarMenu.Root Events',
         exact: true,
       })
     ).toBeVisible()
+    await expect(
+      page.getByRole('tab', { name: 'Events', exact: true })
+    ).toHaveCount(0)
   })
 
-  test('loads properties and events directly', async ({ page }) => {
+  test('loads properties directly and opens old events links in properties', async ({
+    page,
+  }) => {
     await page.goto('/web/patterns-and-extensions/sidebar-menu/properties')
     await waitForApp(page)
     await expect(
@@ -60,6 +55,9 @@ test.describe('SidebarMenu documentation tabs', () => {
     ).toBeVisible()
 
     await page.goto('/web/patterns-and-extensions/sidebar-menu/events')
+    await expect(page).toHaveURL(
+      '/web/patterns-and-extensions/sidebar-menu/properties/#events'
+    )
     await waitForApp(page)
     await expect(
       page.getByRole('heading', {
