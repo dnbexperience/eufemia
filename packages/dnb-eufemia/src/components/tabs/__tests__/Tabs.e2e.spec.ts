@@ -1,3 +1,5 @@
+import path from 'node:path'
+import * as sass from 'sass'
 import { expect, test } from '@playwright/test'
 import type { Locator } from '@playwright/test'
 
@@ -97,3 +99,46 @@ for (const width of [480, 1440]) {
     })
   })
 }
+
+// Moving the mouse sets the intent to mouse, while the last input stays
+// keyboard. The focus outline must stay visible under the pointer (#11104).
+test('keeps the keyboard focus outline when the mouse moves onto the focused tab', async ({
+  page,
+}) => {
+  const css = sass.compile(
+    path.resolve(__dirname, '../style/dnb-tabs.scss')
+  ).css
+  await page.setContent(`
+    <style>
+      :root {
+        --token-color-stroke-action-focus: rgb(0, 114, 114);
+        --focus-outline-width: 0.1875rem;
+      }
+      ${css}
+    </style>
+    <button class="dnb-tabs__button">Tab</button>
+  `)
+
+  const setIntent = (whatinput: string, whatintent: string) =>
+    page.locator('html').evaluate(
+      (element, { whatinput, whatintent }) => {
+        element.dataset.whatinput = whatinput
+        element.dataset.whatintent = whatintent
+      },
+      { whatinput, whatintent }
+    )
+  const tab = page.locator('.dnb-tabs__button')
+  const outlineStyle = () =>
+    tab.evaluate(
+      (element) => getComputedStyle(element, '::before').outlineStyle
+    )
+
+  await page.keyboard.press('Tab')
+  await setIntent('keyboard', 'keyboard')
+  await expect(tab).toBeFocused()
+  await expect.poll(outlineStyle).toBe('solid')
+
+  await tab.hover()
+  await setIntent('keyboard', 'mouse')
+  await expect.poll(outlineStyle).toBe('solid')
+})

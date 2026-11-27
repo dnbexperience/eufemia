@@ -365,17 +365,9 @@
 
         height: inherit;
         border-radius: var(--token-radius-xl);
-      }
 
-      &:not(:hover)::before {
+        // Keep the outline under the mouse, so keyboard focus stays visible.
         @include utilities.focusOutline();
-      }
-
-      // A tapped tab can keep :hover after switching to the keyboard.
-      html:where(:not([data-whatintent='mouse'])) & {
-        &::before {
-          @include utilities.focusOutline();
-        }
       }
 
       @media (forced-colors: active) {

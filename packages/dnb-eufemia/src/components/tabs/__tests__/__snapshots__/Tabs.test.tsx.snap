@@ -329,12 +329,6 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
-}
-.dnb-tabs__button:focus-visible:not(:hover)::before {
-  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
-  outline-offset: var(--focus-outline-offset);
-}
-html:where(:not([data-whatintent=mouse])) .dnb-tabs__button:focus-visible::before {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
@@ -808,12 +802,6 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   right: -0.5rem;
   height: inherit;
   border-radius: var(--token-radius-xl);
-}
-.dnb-tabs__button:focus-visible:not(:hover)::before {
-  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
-  outline-offset: var(--focus-outline-offset);
-}
-html:where(:not([data-whatintent=mouse])) .dnb-tabs__button:focus-visible::before {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: var(--focus-outline-offset);
 }
