@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/tabs/properties
+  - /web/components/tabs/events
+  - /uilib/components/tabs/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
@@ -9,6 +11,7 @@ import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/Propertie
 import {
   TabsProperties,
   TabsDataObject,
+  TabsEvents,
 } from '@dnb/eufemia/src/components/tabs/TabsDocs'
 
 ## Properties
@@ -45,6 +48,27 @@ const tabsData = [
 ## Current tab
 
 The current Tab content can be a `string`, a function returning content or a `React component`.
+
+## Events
+
+<PropertiesTable props={TabsEvents} />
+
+### Prevent a change
+
+You can prevent a change from happening by returning false on the `onClick` event handler:
+
+```tsx
+<Tabs
+  onClick={() => {
+    if (condition === true) {
+      return false
+    }
+  }}
+  onChange={() => {
+    // Will not get emitted
+  }}
+/>
+```
 
 ## Translations
 

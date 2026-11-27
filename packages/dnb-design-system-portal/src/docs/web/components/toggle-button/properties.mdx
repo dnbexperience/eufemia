@@ -2,13 +2,21 @@
 showTabs: true
 redirect_from:
   - /uilib/components/toggle-button/properties
+  - /web/components/toggle-button/events
+  - /uilib/components/toggle-button/events
 legacyFragments:
   togglebutton: /web/components/toggle-button/properties/#toggle-button
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { ToggleButtonProperties } from '@dnb/eufemia/src/components/toggle-button/ToggleButtonDocs'
-import { ToggleButtonGroupProperties } from '@dnb/eufemia/src/components/toggle-button/ToggleButtonGroupDocs'
+import {
+  ToggleButtonProperties,
+  ToggleButtonEvents,
+} from '@dnb/eufemia/src/components/toggle-button/ToggleButtonDocs'
+import {
+  ToggleButtonGroupProperties,
+  ToggleButtonGroupEvents,
+} from '@dnb/eufemia/src/components/toggle-button/ToggleButtonGroupDocs'
 
 ## Properties
 
@@ -19,3 +27,13 @@ import { ToggleButtonGroupProperties } from '@dnb/eufemia/src/components/toggle-
 ### `ToggleButton.Group` properties
 
 <PropertiesTable props={ToggleButtonGroupProperties} />
+
+## Events
+
+### `ToggleButton` events
+
+<PropertiesTable props={ToggleButtonEvents} />
+
+### `ToggleButton.Group` events
+
+<PropertiesTable props={ToggleButtonGroupEvents} />

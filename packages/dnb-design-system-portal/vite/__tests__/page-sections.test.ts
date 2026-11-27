@@ -8,15 +8,17 @@ import { defaultTabsValue } from '../../src/shared/tags/defaultValues'
 /**
  * Guards the section structure of portal documentation pages.
  *
- * - A tab page for Overview, Demos, Properties or Events starts with a
- *   heading named after its tab, such as `## Overview`. Overview and Demos
- *   have no other `##` sections, since a component page shows them together.
- *   In Overview, `### Import` is the first subsection, followed by
+ * - A tab page for Overview, Demos or Properties starts with a heading
+ *   named after its tab, such as `## Overview`. Overview and Demos have no
+ *   other `##` sections, since a component page shows them together. In
+ *   Overview, `### Import` is the first subsection, followed by
  *   `### Relevant links`. Headings of the MDX partials a tab renders count as
  *   part of the tab.
+ * - The Properties tab documents events in an `## Events` section, before
+ *   `## Translations`. There is no Events tab of its own.
  * - The table of contents lists two levels by default, so a page whose
- *   Overview, Properties or Events tab has `####` headings sets `tocDepth: 3`
- *   to list them as well.
+ *   Overview or Properties tab has `####` headings sets `tocDepth: 3` to list
+ *   them as well.
  * - "Relevant links" only lists links. Other content placed after the list
  *   would be announced as part of the links section, so it belongs in the
  *   description or in a section of its own. `<RelatedComponents />` and MDX
@@ -114,7 +116,7 @@ describe('portal page sections', () => {
       return { file: path.relative(docsDir, file), data, body: content }
     })
   const pagesByFile = new Map(pages.map((page) => [page.file, page]))
-  const tabTitles = ['Overview', 'Demos', 'Properties', 'Events']
+  const tabTitles = ['Overview', 'Demos', 'Properties']
 
   const tabPages = pages.flatMap(({ file, data }) => {
     if (data.showTabs !== true) {
@@ -175,7 +177,44 @@ describe('portal page sections', () => {
     ).toEqual([])
   })
 
-  it('structures each Overview, Demos, Properties and Events tab around its tab heading', () => {
+  it('documents events in properties.mdx, not events.mdx', () => {
+    // Events are part of the Properties tab, so an events.mdx would become
+    // a page of its own without a tab.
+    const offenders = pages
+      .map(({ file }) => file)
+      .filter((file) => path.basename(file) === 'events.mdx')
+
+    expect(
+      offenders,
+      `These files use the removed Events tab:\n` +
+        offenders.join('\n') +
+        `\n\nMove their content into the "## Events" section of the ` +
+        `properties.mdx next to them.`
+    ).toEqual([])
+  })
+
+  it('puts the Events section before Translations in the Properties tab', () => {
+    const offenders = tabPages
+      .filter(({ title, headings }) => {
+        const events = headings.indexOf('## Events')
+        const translations = headings.indexOf('## Translations')
+        return (
+          title === 'Properties' &&
+          events > -1 &&
+          translations > -1 &&
+          events > translations
+        )
+      })
+      .map(({ tabFile }) => tabFile)
+
+    expect(
+      offenders,
+      `These Properties tabs list "## Translations" before "## Events":\n` +
+        offenders.join('\n')
+    ).toEqual([])
+  })
+
+  it('structures each Overview, Demos and Properties tab around its tab heading', () => {
     const offenders: string[] = []
 
     // A component page shows these tabs together, so each of them is one
@@ -211,14 +250,14 @@ describe('portal page sections', () => {
       `These tab pages don't start with a heading named after their tab, ` +
         `or have other "##" sections:\n` +
         offenders.join('\n') +
-        `\n\nStart the page with "## Overview", "## Demos", "## Properties" ` +
-        `or "## Events", matching its tab. In Overview and Demos, use "###" ` +
+        `\n\nStart the page with "## Overview", "## Demos" or ` +
+        `"## Properties", matching its tab. In Overview and Demos, use "###" ` +
         `for the sections below it, also in the MDX partials they render. ` +
         `In Overview, start with "### Import" and "### Relevant links".`
     ).toEqual([])
   })
 
-  it('lists the "####" headings of Overview, Properties and Events in the table of contents', () => {
+  it('lists the "####" headings of Overview and Properties in the table of contents', () => {
     const offenders = new Set<string>()
 
     for (const { file, title, headings, tocDepth } of tabPages) {
@@ -233,8 +272,8 @@ describe('portal page sections', () => {
 
     expect(
       [...offenders],
-      `These pages have "####" headings in their Overview, Properties or ` +
-        `Events tab, which the table of contents doesn't list:\n` +
+      `These pages have "####" headings in their Overview or Properties ` +
+        `tab, which the table of contents doesn't list:\n` +
         [...offenders].join('\n') +
         `\n\nAdd "tocDepth: 3" to the frontmatter of the page.`
     ).toEqual([])

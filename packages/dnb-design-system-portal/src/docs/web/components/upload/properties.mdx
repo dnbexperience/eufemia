@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/upload/properties
+  - /web/components/upload/events
+  - /uilib/components/upload/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
@@ -10,6 +12,7 @@ import {
   UploadProperties,
   AcceptedFileTypeProperties,
   FileItemProperties,
+  UploadEvents,
 } from '@dnb/eufemia/src/components/upload/UploadDocs'
 
 ## Properties
@@ -31,6 +34,12 @@ When providing a list of AcceptedFileType to [Uploads](/web/components/upload/pr
 The table is sorted by `maxFileSize`, with the smallest first. File types without a max size come last. File types with the same `maxFileSize` are listed in the given order.
 
 <PropertiesTable props={AcceptedFileTypeProperties} />
+
+## Events
+
+<PropertiesTable props={UploadEvents} />
+
+Read more about `fileItem` in the properties docs section [FileItem](/web/components/upload/properties/#fileitem).
 
 ## Translations
 

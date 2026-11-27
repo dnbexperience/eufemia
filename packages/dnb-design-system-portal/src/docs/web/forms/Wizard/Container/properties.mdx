@@ -3,11 +3,22 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/Wizard/Container/properties
   - /web/extensions/forms/Wizard/Container/properties
+  - /web/forms/Wizard/Container/events
+  - /uilib/extensions/forms/Wizard/Container/events
+  - /web/extensions/forms/Wizard/Container/events
+  - /uilib/forms/Wizard/Container/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { WizardContainerProperties } from '@dnb/eufemia/src/extensions/forms/Wizard/Container/WizardContainerDocs'
+import {
+  WizardContainerProperties,
+  WizardContainerEvents,
+} from '@dnb/eufemia/src/extensions/forms/Wizard/Container/WizardContainerDocs'
 
 ## Properties
 
 <PropertiesTable props={WizardContainerProperties} />
+
+## Events
+
+<PropertiesTable props={WizardContainerEvents} />

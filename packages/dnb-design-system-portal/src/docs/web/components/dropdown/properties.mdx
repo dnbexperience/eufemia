@@ -2,13 +2,18 @@
 showTabs: true
 redirect_from:
   - /uilib/components/dropdown/properties
+  - /web/components/dropdown/events
+  - /uilib/components/dropdown/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { DrawerListProperties } from '@dnb/eufemia/src/fragments/drawer-list/DrawerListDocs'
 import DrawerListDataDoc from '../fragments/drawer-list/_prop-data.mdx'
-import { DropdownProperties } from '@dnb/eufemia/src/components/dropdown/DropdownDocs'
+import {
+  DropdownProperties,
+  DropdownEvents,
+} from '@dnb/eufemia/src/components/dropdown/DropdownDocs'
 
 ## Properties
 
@@ -36,6 +41,17 @@ Should either be an index (integer) of the data array or a key – defined by `s
 If `data` is an object, use the object key as the `value` to define the selected item. Can be a string or integer.
 
 <DrawerListDataDoc />
+
+## Events
+
+<PropertiesTable props={DropdownEvents} />
+
+### The `onChange` vs `onSelect` difference
+
+The difference between `onChange` and `onSelect` is:
+
+- `onChange` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
+- `onSelect` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.
 
 ## Translations
 

@@ -3,12 +3,19 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/base-fields/MultiSelection/properties
   - /web/extensions/forms/base-fields/MultiSelection/properties
+  - /web/forms/base-fields/MultiSelection/events
+  - /uilib/extensions/forms/base-fields/MultiSelection/events
+  - /web/extensions/forms/base-fields/MultiSelection/events
+  - /uilib/forms/base-fields/MultiSelection/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { MultiSelectionProperties } from '@dnb/eufemia/src/extensions/forms/Field/MultiSelection/MultiSelectionDocs'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Properties
 
@@ -34,6 +41,10 @@ type MultiSelectionItem = {
   omit={['width', 'contentWidth']}
   valueType="Array<MultiSelectionItem>"
 />
+
+## Events
+
+<PropertiesTable props={FieldEvents} />
 
 ## Translations
 

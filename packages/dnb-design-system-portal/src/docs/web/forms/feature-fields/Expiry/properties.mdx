@@ -3,11 +3,18 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/Expiry/properties
   - /web/extensions/forms/feature-fields/Expiry/properties
+  - /web/forms/feature-fields/Expiry/events
+  - /uilib/extensions/forms/feature-fields/Expiry/events
+  - /web/extensions/forms/feature-fields/Expiry/events
+  - /uilib/forms/feature-fields/Expiry/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { ExpiryProperties } from '@dnb/eufemia/src/extensions/forms/Field/Expiry/ExpiryDocs'
 
 ## Properties
@@ -22,6 +29,10 @@ import { ExpiryProperties } from '@dnb/eufemia/src/extensions/forms/Field/Expiry
   props={FieldProperties}
   omit={['width', 'contentWidth', 'onBlurValidator']}
 />
+
+## Events
+
+<PropertiesTable props={FieldEvents} />
 
 ## Translations
 

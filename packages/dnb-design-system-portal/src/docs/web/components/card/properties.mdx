@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/card/properties
+  - /web/components/card/events
+  - /uilib/components/card/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
@@ -14,6 +16,9 @@ import {
   CardInfoProperties,
   CardListProperties,
   CardListItemProperties,
+  CardCloseButtonEvents,
+  CardMediaButtonEvents,
+  CardActionEvents,
 } from '@dnb/eufemia/src/components/card/CardDocs'
 
 ## Properties
@@ -47,3 +52,17 @@ import {
 ### Card.Info.Overlay Properties
 
 <PropertiesTable props={CardOverlayProperties} />
+
+## Events
+
+### Card.Info.CloseButton events
+
+<PropertiesTable props={CardCloseButtonEvents} />
+
+### Card.Info.MediaButton events
+
+<PropertiesTable props={CardMediaButtonEvents} />
+
+### `Card.Action` events
+
+<PropertiesTable props={CardActionEvents} />

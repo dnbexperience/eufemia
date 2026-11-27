@@ -25,7 +25,7 @@ type Entry = {
 function normalizeSlug(pathname: string): string {
   return pathname
     .replace(/^\/|\/$/g, '')
-    .replace(/\/(overview|demos|properties|events)$/, '')
+    .replace(/\/(overview|demos|properties)$/, '')
 }
 
 function cleanTitle(title: string): string {

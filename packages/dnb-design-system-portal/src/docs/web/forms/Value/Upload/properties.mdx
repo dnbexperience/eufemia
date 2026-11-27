@@ -3,9 +3,16 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/Value/Upload/properties
   - /web/extensions/forms/Value/Upload/properties
+  - /web/forms/Value/Upload/events
+  - /uilib/extensions/forms/Value/Upload/events
+  - /web/extensions/forms/Value/Upload/events
+  - /uilib/forms/Value/Upload/events
 ---
 
-import { UploadValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/Upload/UploadDocs'
+import {
+  UploadValueProperties,
+  UploadValueEvents,
+} from '@dnb/eufemia/src/extensions/forms/Value/Upload/UploadDocs'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
 
@@ -21,3 +28,7 @@ import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDo
   props={ValueProperties}
   valueType="Array<string | number>"
 />
+
+## Events
+
+<PropertiesTable props={UploadValueEvents} />

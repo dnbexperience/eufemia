@@ -3,6 +3,10 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/sidebar-menu/properties
   - /web/extensions/sidebar-menu/properties
+  - /web/patterns-and-extensions/sidebar-menu/events
+  - /uilib/extensions/sidebar-menu/events
+  - /web/extensions/sidebar-menu/events
+  - /uilib/patterns-and-extensions/sidebar-menu/events
 legacyFragments:
   sidebarmenu: /web/patterns-and-extensions/sidebar-menu/properties/#sidebar-menu
 ---
@@ -25,6 +29,12 @@ import {
   SidebarMenuResponsiveShellProperties,
   SidebarMenuResponsiveTriggerProperties,
   SidebarMenuResponsiveDrawerProperties,
+  SidebarMenuRootEvents,
+  SidebarMenuItemEvents,
+  SidebarMenuAccordionEvents,
+  SidebarMenuGroupEvents,
+  SidebarMenuResizeHandleEvents,
+  SidebarMenuResponsiveProviderEvents,
 } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuDocs'
 
 ## Properties
@@ -132,6 +142,34 @@ Returns `SidebarMenuResponsiveValue` with:
 - `isSmallScreen` for the active responsive mode.
 - `isCompact` for the icon-rail mode.
 - `inlineCollapsed`, `collapseInline`, and `restoreInline` for dismissible inline navigation.
+
+## Events
+
+### SidebarMenu.Root Events
+
+<PropertiesTable props={SidebarMenuRootEvents} />
+
+`SidebarMenu.Data` supports the same events.
+
+### SidebarMenu.ResizeHandle Events
+
+<PropertiesTable props={SidebarMenuResizeHandleEvents} />
+
+### SidebarMenu.ResponsiveProvider Events
+
+<PropertiesTable props={SidebarMenuResponsiveProviderEvents} />
+
+### SidebarMenu.Item Events
+
+<PropertiesTable props={SidebarMenuItemEvents} />
+
+### SidebarMenu.Accordion Events
+
+<PropertiesTable props={SidebarMenuAccordionEvents} />
+
+### SidebarMenu.Group Events
+
+<PropertiesTable props={SidebarMenuGroupEvents} />
 
 ## Translations
 

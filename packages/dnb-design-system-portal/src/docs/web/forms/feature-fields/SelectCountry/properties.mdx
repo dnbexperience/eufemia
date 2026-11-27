@@ -3,12 +3,19 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/SelectCountry/properties
   - /web/extensions/forms/feature-fields/SelectCountry/properties
+  - /web/forms/feature-fields/SelectCountry/events
+  - /uilib/extensions/forms/feature-fields/SelectCountry/events
+  - /web/extensions/forms/feature-fields/SelectCountry/events
+  - /uilib/forms/feature-fields/SelectCountry/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { SelectCountryProperties } from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/SelectCountryDocs'
+import {
+  SelectCountryProperties,
+  SelectCountryGeneralEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/SelectCountryDocs'
 import { AvailableCountriesTable } from 'dnb-design-system-portal/src/docs/web/forms/feature-fields/SelectCountry/assets/AvailableCountriesTable'
 
 ## Properties
@@ -20,6 +27,31 @@ import { AvailableCountriesTable } from 'dnb-design-system-portal/src/docs/web/f
 ### General properties
 
 <PropertiesTable props={FieldProperties} />
+
+## Events
+
+<PropertiesTable props={SelectCountryGeneralEvents} />
+
+### Details about argument values
+
+The event handlers has two arguments. The first one is a `string` containing the `ISO` of the selected country, e.g. `CH`, and the second argument is an object with the properties `cdc`, `continent`, `i18n` and `iso`.
+
+```jsx
+(
+  value?: string, // e.g. "CH"
+  additionalArgs?: {
+    i18n: {
+      en: string, // e.g. "Switzerland"
+      nb: string // e.g. "Sveits"
+    },
+    cdc: string, // e.g. "41"
+    iso: string, // e.g. "CH"
+    continent: string, // e.g. "Europe"
+    name: string, // e.g. "Sveits"
+    regions?: string[] // e.g ["Scandinavia", "Nordic"]
+  }
+) => void
+```
 
 ## Translations
 

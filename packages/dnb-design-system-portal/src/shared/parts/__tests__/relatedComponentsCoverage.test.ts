@@ -10,7 +10,7 @@ const componentsDir = path.resolve(
   '../../../docs/web/components'
 )
 
-const tabPagePattern = /\/(overview|demos|properties|events)\.mdx$/
+const tabPagePattern = /\/(overview|demos|properties)\.mdx$/
 
 function findMdxFiles(dir: string): string[] {
   const files: string[] = []

@@ -3,12 +3,22 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/Name/properties
   - /web/extensions/forms/feature-fields/Name/properties
+  - /web/forms/feature-fields/Name/events
+  - /uilib/extensions/forms/feature-fields/Name/events
+  - /web/extensions/forms/feature-fields/Name/events
+  - /uilib/forms/feature-fields/Name/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { NameProperties } from '@dnb/eufemia/src/extensions/forms/Field/Name/NameDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  NameProperties,
+  NameEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/Name/NameDocs'
 
 ## Properties
 
@@ -22,6 +32,16 @@ import { NameProperties } from '@dnb/eufemia/src/extensions/forms/Field/Name/Nam
   props={FieldProperties}
   omit={['onBlurValidator', 'width']}
 />
+
+## Events
+
+### Field-specific events
+
+<PropertiesTable props={NameEvents} />
+
+### General events
+
+<PropertiesTable props={FieldEvents} />
 
 ## Translations
 

@@ -36,7 +36,7 @@ legacyFragments:
   datepicker: /web/components/date-picker/#date-picker
   moved: /guides/other#section`
       )
-      for (const tab of ['overview', 'demos', 'properties', 'events']) {
+      for (const tab of ['overview', 'demos', 'properties']) {
         write(
           'web/components/date-picker/' + tab,
           `showTabs: true
@@ -63,7 +63,7 @@ legacyFragments:
       const files = scanPageFiles(docs)
       const pages = toMdxNodes(files)
       const redirects = getPageRedirects(files)
-      for (const tab of ['demos', 'properties', 'events']) {
+      for (const tab of ['demos', 'properties']) {
         const slug = 'web/components/date-picker/' + tab
         const fragments = { datepicker: '/' + slug + '/#date-picker' }
         expect(

@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/step-indicator/properties
+  - /web/components/step-indicator/events
+  - /uilib/components/step-indicator/events
 legacyFragments:
   stepindicator: /web/components/step-indicator/properties/#step-indicator
 ---
@@ -11,6 +13,8 @@ import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/Transla
 import {
   StepIndicatorProperties,
   StepIndicatorStepProperties,
+  StepIndicatorEvents,
+  StepIndicatorStepEvents,
 } from '@dnb/eufemia/src/components/step-indicator/StepIndicatorDocs'
 
 ## Properties
@@ -36,6 +40,14 @@ const steps = [
   },
 ]
 ```
+
+## Events
+
+<PropertiesTable props={StepIndicatorEvents} />
+
+## Step Item Events
+
+<PropertiesTable props={StepIndicatorStepEvents} />
 
 ## Translations
 

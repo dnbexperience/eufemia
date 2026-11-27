@@ -2,12 +2,20 @@
 showTabs: true
 redirect_from:
   - /uilib/components/dialog/properties
+  - /web/components/dialog/events
+  - /uilib/components/dialog/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
-import { DialogProperties } from '@dnb/eufemia/src/components/dialog/DialogDocs'
-import { ModalProperties } from '@dnb/eufemia/src/components/modal/ModalDocs'
+import {
+  DialogProperties,
+  DialogEvents,
+} from '@dnb/eufemia/src/components/dialog/DialogDocs'
+import {
+  ModalProperties,
+  ModalEvents,
+} from '@dnb/eufemia/src/components/modal/ModalDocs'
 
 ## Properties
 
@@ -35,6 +43,14 @@ See the table below:
     '[Space](/web/layout-and-typography/layout/space/properties)',
   ]}
 />
+
+## Events
+
+<PropertiesTable props={DialogEvents} />
+
+Dialog also includes the same events as [Modal](/web/components/modal), only formatted as camel case.
+
+<PropertiesTable props={ModalEvents} />
 
 ## Translations
 

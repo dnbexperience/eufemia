@@ -3,11 +3,22 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/DataContext/Provider/properties
   - /web/extensions/forms/DataContext/Provider/properties
+  - /web/forms/DataContext/Provider/events
+  - /uilib/extensions/forms/DataContext/Provider/events
+  - /web/extensions/forms/DataContext/Provider/events
+  - /uilib/forms/DataContext/Provider/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { ProviderProperties } from '@dnb/eufemia/src/extensions/forms/DataContext/Provider/ProviderDocs'
+import {
+  ProviderProperties,
+  ProviderEvents,
+} from '@dnb/eufemia/src/extensions/forms/DataContext/Provider/ProviderDocs'
 
 ## Properties
 
 <PropertiesTable props={ProviderProperties} />
+
+## Events
+
+<PropertiesTable props={ProviderEvents} />

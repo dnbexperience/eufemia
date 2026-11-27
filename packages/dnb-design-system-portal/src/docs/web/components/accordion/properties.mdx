@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/accordion/properties
+  - /web/components/accordion/events
+  - /uilib/components/accordion/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
@@ -9,6 +11,7 @@ import {
   AccordionContentProperties,
   AccordionProperties,
   AccordionProviderGroupProperties,
+  AccordionEvents,
 } from '@dnb/eufemia/src/components/accordion/AccordionDocs'
 
 ## Properties
@@ -24,3 +27,7 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
 ### `Accordion.Provider` and `Accordion.Group` properties
 
 <PropertiesTable props={AccordionProviderGroupProperties} />
+
+## Events
+
+<PropertiesTable props={AccordionEvents} />

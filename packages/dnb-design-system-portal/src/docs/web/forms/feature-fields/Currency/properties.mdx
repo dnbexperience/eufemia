@@ -3,12 +3,22 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/Currency/properties
   - /web/extensions/forms/feature-fields/Currency/properties
+  - /web/forms/feature-fields/Currency/events
+  - /uilib/extensions/forms/feature-fields/Currency/events
+  - /web/extensions/forms/feature-fields/Currency/events
+  - /uilib/forms/feature-fields/Currency/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { CurrencyProperties } from '@dnb/eufemia/src/extensions/forms/Field/Currency/CurrencyDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  CurrencyProperties,
+  CurrencyEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/Currency/CurrencyDocs'
 
 ## Properties
 
@@ -19,6 +29,16 @@ import { CurrencyProperties } from '@dnb/eufemia/src/extensions/forms/Field/Curr
 ### General properties
 
 <PropertiesTable props={FieldProperties} valueType="number" />
+
+## Events
+
+### Field-specific events
+
+<PropertiesTable props={CurrencyEvents} />
+
+### General events
+
+<PropertiesTable props={FieldEvents} />
 
 ## Translations
 

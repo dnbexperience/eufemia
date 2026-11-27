@@ -530,7 +530,6 @@ function getPageMeta(url, allMdxNodes) {
           { title: 'Overview', key: '/overview' },
           { title: 'Demos', key: '/demos' },
           { title: 'Properties', key: '/properties' },
-          { title: 'Events', key: '/events' },
         ]
         const tabs = parent.frontmatter.tabs || defaultTabs
         // Keys can be relative (`/demos`) or full paths, like TabBar accepts

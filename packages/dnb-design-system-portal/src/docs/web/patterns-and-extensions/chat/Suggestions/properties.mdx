@@ -4,10 +4,18 @@ redirect_from:
   - /web/patterns-and-extensions/ai/Suggestions/properties
   - /web/extensions/ai/Suggestions/properties
   - /uilib/extensions/ai/Suggestions/properties
+  - /web/patterns-and-extensions/chat/Suggestions/events
+  - /web/patterns-and-extensions/ai/Suggestions/events
+  - /web/extensions/ai/Suggestions/events
+  - /uilib/extensions/ai/Suggestions/events
+  - /uilib/patterns-and-extensions/chat/Suggestions/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { ChatSuggestionProperties } from '@dnb/eufemia/src/extensions/chat/ChatDocs'
+import {
+  ChatSuggestionProperties,
+  ChatSuggestionEvents,
+} from '@dnb/eufemia/src/extensions/chat/ChatDocs'
 
 ## Properties
 
@@ -18,6 +26,12 @@ import { ChatSuggestionProperties } from '@dnb/eufemia/src/extensions/chat/ChatD
 ### Chat.Suggestion properties
 
 <PropertiesTable props={ChatSuggestionProperties} />
+
+## Events
+
+### Chat.Suggestion events
+
+<PropertiesTable props={ChatSuggestionEvents} />
 
 ## Translations
 

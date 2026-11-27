@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/list/properties
+  - /web/components/list/events
+  - /uilib/components/list/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
@@ -23,6 +25,8 @@ import {
   CardProperties,
   ScrollViewProperties,
   ShowMoreButtonProperties,
+  ItemActionEvents,
+  ItemAccordionEvents,
 } from '@dnb/eufemia/src/components/list/ListDocs'
 
 ## Properties
@@ -90,6 +94,16 @@ import {
 ### List.ShowMoreButton
 
 <PropertiesTable props={ShowMoreButtonProperties} />
+
+## Events
+
+### List.Item.Action Events
+
+<PropertiesTable props={ItemActionEvents} />
+
+### List.Item.Accordion Events
+
+<PropertiesTable props={ItemAccordionEvents} />
 
 ## Translations
 

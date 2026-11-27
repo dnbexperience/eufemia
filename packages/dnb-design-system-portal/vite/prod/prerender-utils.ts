@@ -122,7 +122,6 @@ export function getPageMeta(
           { title: 'Overview', key: '/overview' },
           { title: 'Demos', key: '/demos' },
           { title: 'Properties', key: '/properties' },
-          { title: 'Events', key: '/events' },
         ]
         const tabs =
           (parent.frontmatter.tabs as typeof defaultTabs) || defaultTabs

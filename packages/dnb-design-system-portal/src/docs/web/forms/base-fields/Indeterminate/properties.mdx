@@ -3,11 +3,21 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/base-fields/Indeterminate/properties
   - /web/extensions/forms/base-fields/Indeterminate/properties
+  - /web/forms/base-fields/Indeterminate/events
+  - /uilib/extensions/forms/base-fields/Indeterminate/events
+  - /web/extensions/forms/base-fields/Indeterminate/events
+  - /uilib/forms/base-fields/Indeterminate/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { IndeterminateProperties } from '@dnb/eufemia/src/extensions/forms/Field/Indeterminate/IndeterminateDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  IndeterminateProperties,
+  IndeterminateEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/Indeterminate/IndeterminateDocs'
 
 ## Properties
 
@@ -22,3 +32,13 @@ import { IndeterminateProperties } from '@dnb/eufemia/src/extensions/forms/Field
   valueType="any"
   omit={['layout', 'layoutOptions']}
 />
+
+## Events
+
+### Field-specific events
+
+<PropertiesTable props={IndeterminateEvents} />
+
+### General events
+
+<PropertiesTable props={FieldEvents} />

@@ -3,12 +3,20 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/DateOfBirth/properties
   - /web/extensions/forms/feature-fields/DateOfBirth/properties
+  - /web/forms/feature-fields/DateOfBirth/events
+  - /uilib/extensions/forms/feature-fields/DateOfBirth/events
+  - /web/extensions/forms/feature-fields/DateOfBirth/events
+  - /uilib/forms/feature-fields/DateOfBirth/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { DateOfBirthProperties } from '@dnb/eufemia/src/extensions/forms/Field/DateOfBirth/DateOfBirthDocs'
+import {
+  DateOfBirthProperties,
+  DateOfBirthSpecificEvents,
+  DateOfBirthGeneralEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/DateOfBirth/DateOfBirthDocs'
 
 ## Properties
 
@@ -22,6 +30,37 @@ import { DateOfBirthProperties } from '@dnb/eufemia/src/extensions/forms/Field/D
   props={FieldProperties}
   omit={['layout', 'layoutOptions', 'onBlurValidator']}
 />
+
+## Events
+
+### Field-specific events
+
+<PropertiesTable props={DateOfBirthSpecificEvents} />
+
+### General events
+
+<PropertiesTable props={DateOfBirthGeneralEvents} />
+
+#### Details about general events arguments
+
+The first argument value returned by the event handlers is a string where the day, month, and year is separated by a `/`, e.g. `24/01/2024`.
+
+The DateOfBirth field also has an extra second parameter that includes additional information about the day, month, and year. This is an object with the following properties:
+
+```tsx
+render(
+  <Field.DateOfBirth
+    onChange={(
+      value: string | undefined, // e.g. "24/01/2024"
+      additionalArgs?: {
+        day: string | undefined // e.g. "24"
+        month: string // e.g. "01"
+        year: string // e.g. "2024"
+      }
+    ) => {}}
+  />
+)
+```
 
 ## Translations
 

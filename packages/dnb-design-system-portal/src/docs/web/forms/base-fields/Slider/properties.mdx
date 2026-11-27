@@ -3,11 +3,18 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/base-fields/Slider/properties
   - /web/extensions/forms/base-fields/Slider/properties
+  - /web/forms/base-fields/Slider/events
+  - /uilib/extensions/forms/base-fields/Slider/events
+  - /web/extensions/forms/base-fields/Slider/events
+  - /uilib/forms/base-fields/Slider/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { SliderFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/Slider/SliderDocs'
 
 ## Properties
@@ -26,6 +33,10 @@ import { SliderFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/S
     '[Space](/web/layout-and-typography/layout/space/properties)',
   ]}
 />
+
+## Events
+
+<PropertiesTable props={FieldEvents} />
 
 ## Translations
 

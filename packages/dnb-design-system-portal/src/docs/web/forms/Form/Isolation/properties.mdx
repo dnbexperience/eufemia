@@ -4,15 +4,28 @@ hideInMenu: true
 redirect_from:
   - /uilib/extensions/forms/Form/Isolation/properties
   - /web/extensions/forms/Form/Isolation/properties
+  - /web/forms/Form/Isolation/events
+  - /uilib/extensions/forms/Form/Isolation/events
+  - /web/extensions/forms/Form/Isolation/events
+  - /uilib/forms/Form/Isolation/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { IsolationProperties } from '@dnb/eufemia/src/extensions/forms/Form/Isolation/IsolationDocs'
+import {
+  IsolationProperties,
+  IsolationEvents,
+} from '@dnb/eufemia/src/extensions/forms/Form/Isolation/IsolationDocs'
 
 ## Properties
 
 <PropertiesTable props={IsolationProperties} />
+
+## Events
+
+### Isolation-specific events
+
+<PropertiesTable props={IsolationEvents} />
 
 ## Translations
 

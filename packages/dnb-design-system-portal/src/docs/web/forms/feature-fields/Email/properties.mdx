@@ -3,11 +3,18 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/Email/properties
   - /web/extensions/forms/feature-fields/Email/properties
+  - /web/forms/feature-fields/Email/events
+  - /uilib/extensions/forms/feature-fields/Email/events
+  - /web/extensions/forms/feature-fields/Email/events
+  - /uilib/forms/feature-fields/Email/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { EmailProperties } from '@dnb/eufemia/src/extensions/forms/Field/Email/EmailDocs'
 
 ## Properties
@@ -19,6 +26,10 @@ import { EmailProperties } from '@dnb/eufemia/src/extensions/forms/Field/Email/E
 ### General properties
 
 <PropertiesTable props={FieldProperties} omit={['width']} />
+
+## Events
+
+<PropertiesTable props={FieldEvents} />
 
 ## Translations
 

@@ -3,11 +3,22 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/Form/Visibility/properties
   - /web/extensions/forms/Form/Visibility/properties
+  - /web/forms/Form/Visibility/events
+  - /uilib/extensions/forms/Form/Visibility/events
+  - /web/extensions/forms/Form/Visibility/events
+  - /uilib/forms/Form/Visibility/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { VisibilityProperties } from '@dnb/eufemia/src/extensions/forms/Form/Visibility/VisibilityDocs'
+import {
+  VisibilityProperties,
+  VisibilityEvents,
+} from '@dnb/eufemia/src/extensions/forms/Form/Visibility/VisibilityDocs'
 
 ## Properties
 
 <PropertiesTable props={VisibilityProperties} />
+
+## Events
+
+<PropertiesTable props={VisibilityEvents} />

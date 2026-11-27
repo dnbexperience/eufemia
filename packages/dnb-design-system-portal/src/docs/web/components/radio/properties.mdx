@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/radio/properties
+  - /web/components/radio/events
+  - /uilib/components/radio/events
 legacyFragments:
   radio: /web/components/radio/properties/#radio-button
 ---
@@ -10,6 +12,8 @@ import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/Propertie
 import {
   RadioProperties,
   RadioGroupProperties,
+  RadioEvents,
+  RadioGroupEvents,
 } from '@dnb/eufemia/src/components/radio/RadioDocs'
 
 ## Properties
@@ -25,3 +29,13 @@ import {
 #### Radio group Context
 
 You can also pass through `labelPosition` and some more **Radio button** properties to the Group. This way all nested Radio buttons will get the properties.
+
+## Events
+
+### `Radio` events
+
+<PropertiesTable props={RadioEvents} />
+
+### `Radio.Group` events
+
+<PropertiesTable props={RadioGroupEvents} />
