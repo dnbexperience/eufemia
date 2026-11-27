@@ -433,7 +433,7 @@ describe('ArrayItemArea', () => {
     expect(containerMode).toBe('edit')
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
-      omitFocusManagement: true,
+      omitFocusOnOpen: true,
     })
   })
 
@@ -465,7 +465,7 @@ describe('ArrayItemArea', () => {
     expect(containerMode).toBe('edit')
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
-      omitFocusManagement: true,
+      omitFocusOnOpen: true,
     })
   })
 
@@ -489,7 +489,7 @@ describe('ArrayItemArea', () => {
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
-      omitFocusManagement: true,
+      omitFocusOnOpen: true,
     })
   })
 

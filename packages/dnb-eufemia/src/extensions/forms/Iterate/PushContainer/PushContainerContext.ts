@@ -7,6 +7,7 @@ type PushContainerContext = {
   path: Path
   itemPath: Path
   entries?: Array<unknown>
+  addButtonRef?: (button: HTMLElement | null) => void
   commitHandleRef: RefObject<() => void>
   switchContainerMode?: (mode: ContainerMode) => void
 }

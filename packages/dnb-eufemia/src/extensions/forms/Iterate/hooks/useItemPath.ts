@@ -1,10 +1,18 @@
 import { useContext } from 'react'
 import IterateItemContext from '../IterateItemContext'
 import usePath from '../../hooks/usePath'
-import type { Path } from '../../types'
+import type { UsePathProps } from '../../hooks/usePath'
 
-export default function useItemPath(itemPath: Path) {
-  const { joinPath } = usePath()
+export default function useItemPath({
+  path,
+  itemPath,
+  omitSectionPath,
+}: UsePathProps) {
+  const { joinPath, path: resolvedPath } = usePath({
+    path,
+    itemPath,
+    omitSectionPath,
+  })
   const iterateItemContext = useContext(IterateItemContext)
 
   const absolutePath =
@@ -16,5 +24,5 @@ export default function useItemPath(itemPath: Path) {
       itemPath,
     ])
 
-  return { absolutePath }
+  return { absolutePath, resolvedPath }
 }

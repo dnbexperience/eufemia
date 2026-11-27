@@ -31,6 +31,7 @@ import EditContainer, {
 import type { ContainerMode } from '../Array'
 import IterateArray from '../Array'
 import OpenButton from './OpenButton'
+import useAddButtonRef from '../hooks/useAddButtonRef'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import type { OnCommit, Path } from '../../types'
 import type { SpacingProps } from '../../../../shared/types'
@@ -40,7 +41,7 @@ import {
   useSwitchContainerMode,
 } from '../hooks'
 import Toolbar from '../Toolbar'
-import { usePath, useTranslation } from '../../hooks'
+import { useTranslation } from '../../hooks'
 import type { JsonObject } from '../../utils'
 import { clearedData } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
@@ -177,8 +178,10 @@ function PushContainer(props: IteratePushContainerAllProps) {
     ...rest
   } = props
 
-  const { absolutePath } = useItemPath(itemPath)
-  const { path: relativePath } = usePath({ path, itemPath })
+  const { absolutePath, resolvedPath: relativePath } = useItemPath({
+    path,
+    itemPath,
+  })
   const targetPath = useMemo(() => {
     if (absolutePath) {
       return absolutePath
@@ -199,6 +202,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
 
     return relativePath
   }, [absolutePath, path, relativePath, sectionContext?.path])
+  const addButtonRef = useAddButtonRef(targetPath)
   const rootRelativeTargetPath = useMemo(() => {
     if (!targetPath || targetPath === '/') {
       return targetPath
@@ -230,6 +234,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
     path,
     itemPath,
     entries,
+    addButtonRef,
     commitHandleRef,
     switchContainerMode: switchContainerModeRef.current,
   }

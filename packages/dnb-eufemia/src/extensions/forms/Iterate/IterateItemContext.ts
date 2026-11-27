@@ -5,6 +5,8 @@ import type { ContainerMode } from './Array/types'
 
 export type ModeOptions = {
   omitFocusManagement?: boolean
+  /** Suppress focus for an automatic mode switch, but not for a later removal. */
+  omitFocusOnOpen?: boolean
   preventUpdate?: boolean
 }
 
@@ -29,10 +31,13 @@ export type IterateItemContextState = {
     options?: ModeOptions
   ) => void
   handleChange?: (path: Path, value: unknown) => void
-  handleRemove?: ({ keepItems }?: { keepItems?: boolean }) => void
+  handleRemove?: (options?: {
+    keepItems?: boolean
+    focusAfterRemove?: boolean
+  }) => void
   handlePush?: (value: unknown) => void
   restoreOriginalValue?: (value?: unknown) => void
-  fulfillRemove?: () => void
+  fulfillRemove?: (options?: { focusAfterRemove?: boolean }) => void
 }
 
 const IterateItemContext = createContext<

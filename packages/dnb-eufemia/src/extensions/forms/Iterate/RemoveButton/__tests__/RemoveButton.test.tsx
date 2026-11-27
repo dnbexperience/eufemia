@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../RemoveButton'
@@ -27,7 +27,7 @@ describe('RemoveButton', () => {
     const button = document.querySelector('button')
     fireEvent.click(button)
 
-    expect(handleRemove).toHaveBeenCalledWith()
+    expect(handleRemove).toHaveBeenCalledWith({ focusAfterRemove: true })
   })
 
   it('should throw an error if value is not an array', () => {
@@ -153,34 +153,57 @@ describe('RemoveButton', () => {
     expect(handleRemove).toHaveBeenCalledTimes(0)
   })
 
-  it('should not call "handleRemoveItem" when itemPath was given', async () => {
-    const handleRemoveItem = vi.fn()
-    const handleRemove = vi.fn()
+  it.each([false, true])(
+    'should keep removal focus in the nested array (animated: %s)',
+    async (animated) => {
+      render(
+        <Form.Handler
+          defaultData={{
+            groups: [{ items: ['a'] }, { items: ['b', 'c', 'd'] }],
+          }}
+        >
+          <Iterate.Array path="/groups">
+            <Iterate.ViewContainer>
+              <Iterate.Array itemPath="/items" className="inner" reverse>
+                {animated ? (
+                  <Iterate.ViewContainer>Inner item</Iterate.ViewContainer>
+                ) : (
+                  <RemoveButton />
+                )}
+              </Iterate.Array>
+              <Iterate.PushButton
+                itemPath="/items"
+                pushValue="new"
+                text="Add item"
+              />
+            </Iterate.ViewContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
 
-    render(
-      <ArrayItemAreaContext
-        value={{
-          handleRemoveItem,
-        }}
-      >
-        <RemoveButton />
-      </ArrayItemAreaContext>,
-      {
-        wrapper: ({ children }) => (
-          <IterateItemContext
-            value={{ handleRemove, itemPath: '/itemPath' }}
-          >
-            {children}
-          </IterateItemContext>
-        ),
+      const [firstGroup, secondGroup] = document.querySelectorAll('.inner')
+      const rows = secondGroup.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      const remove = async (row: Element) => {
+        await userEvent.click(
+          row.querySelector('.dnb-forms-iterate-remove-element-button')
+        )
+        await waitFor(() => expect(row).not.toBeInTheDocument())
       }
-    )
-
-    await userEvent.click(document.querySelector('button'))
-
-    expect(handleRemoveItem).toHaveBeenCalledTimes(0)
-    expect(handleRemove).toHaveBeenCalledTimes(1)
-  })
+      await remove(rows[0])
+      expect(rows[1]).toHaveFocus()
+      await remove(rows[2])
+      expect(rows[1]).toHaveFocus()
+      await remove(rows[1])
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate-push-button')[1]
+      ).toHaveFocus()
+      expect(
+        firstGroup.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(1)
+    }
+  )
 
   it('should support "itemNo" in text', () => {
     render(

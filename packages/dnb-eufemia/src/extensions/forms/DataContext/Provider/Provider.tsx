@@ -288,6 +288,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - Element
   const formElementRef = useRef<HTMLFormElement>(null)
+  const iterateAddButtonsRef = useRef(new Map<HTMLElement, Path>())
   const mountedRef = useRef(true)
 
   useLayoutEffect(() => {
@@ -2145,6 +2146,7 @@ export default function Provider<Data extends JsonObject>(
     snapshotsRef,
     existingFieldsRef,
     formElementRef,
+    iterateAddButtonsRef,
     isEmptyDataRef,
     fieldErrorRef,
     errorsRef,

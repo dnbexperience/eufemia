@@ -827,43 +827,195 @@ describe('EditContainer and ViewContainer', () => {
       })
     })
 
-    it('should set focus on other item __element when containerMode gets removed', async () => {
-      render(
-        <Iterate.Array value={['foo', 'bar', 'baz']}>
-          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
-          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
-        </Iterate.Array>
-      )
+    it.each([
+      ['first', 0, 1],
+      ['middle', 1, 0],
+      ['last', 2, 1],
+    ] as const)(
+      'should focus the neighbor after removing the %s item',
+      async (_, removed, neighbor) => {
+        render(
+          <Iterate.Array value={['foo', 'bar', 'baz']}>
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          </Iterate.Array>
+        )
 
-      const elements = document.querySelectorAll(
-        '.dnb-forms-iterate__element'
-      )
-      expect(elements).toHaveLength(3)
-
-      const firstElement = elements[0]
-      const [viewBlock, editBlock] = Array.from(
-        firstElement.querySelectorAll('.dnb-forms-section-block')
-      )
-      const [, removeButton] = Array.from(
-        viewBlock.querySelectorAll('button')
-      )
-
-      expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
-      expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
-
-      expect(document.body).toHaveFocus()
-
-      // Remove the element
-      await userEvent.click(removeButton)
-      expect(removeButton).toHaveTextContent(tr.editContainer.removeButton)
-
-      await waitFor(() => {
-        const elements = document.querySelectorAll(
+        const rows = document.querySelectorAll(
           '.dnb-forms-iterate__element'
         )
-        expect(elements).toHaveLength(2)
-        expect(elements[1]).toHaveFocus()
-      })
+        const remove = rows[removed].querySelector<HTMLButtonElement>(
+          '.dnb-forms-iterate-remove-element-button'
+        )
+        remove.focus()
+        await userEvent.keyboard('{Enter}')
+
+        await waitFor(() => {
+          expect(rows[removed]).not.toBeInTheDocument()
+          expect(rows[neighbor]).toHaveFocus()
+        })
+      }
+    )
+
+    it.each([true, false])(
+      'should focus the matching Add button or the empty array (hasAdd: %s)',
+      async (hasAdd) => {
+        render(
+          <Form.Handler defaultData={{ items: ['foo'] }}>
+            <Iterate.PushButton
+              path="/other"
+              text="Other Add"
+              pushValue="bar"
+            />
+            <Iterate.Array path="/items" id="items" placeholder="No items">
+              <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            </Iterate.Array>
+            {hasAdd && (
+              <Iterate.PushButton
+                path="/items"
+                id="add-item"
+                text="Add item"
+                pushValue="baz"
+              />
+            )}
+            <button type="button" id="after">
+              After
+            </button>
+          </Form.Handler>
+        )
+
+        const remove = document.querySelector<HTMLButtonElement>(
+          '.dnb-forms-iterate-remove-element-button'
+        )
+        remove.focus()
+        await userEvent.keyboard('{Enter}')
+
+        await waitFor(() => {
+          expect(document.querySelector('#items')).toHaveTextContent(
+            'No items'
+          )
+          expect(
+            document.querySelector(hasAdd ? '#add-item' : '#items')
+          ).toHaveFocus()
+        })
+        await userEvent.tab()
+        expect(document.querySelector('#after')).toHaveFocus()
+      }
+    )
+
+    it.each([false, true])(
+      'should focus the Add control at the resolved section path (omitSectionPath: %s)',
+      async (omitSectionPath) => {
+        render(
+          <Form.Handler
+            defaultData={{
+              items: ['root'],
+              group: { items: ['section'] },
+            }}
+          >
+            <Iterate.PushButton
+              path="/items"
+              id="root-add"
+              pushValue="new"
+              text="Add root item"
+            />
+            <Form.Section path="/group">
+              <Iterate.PushContainer
+                path="/items"
+                showOpenButtonWhen={() => true}
+                openButton={
+                  <Iterate.PushContainer.OpenButton
+                    id="section-add"
+                    text="Add section item"
+                  />
+                }
+              >
+                <Field.String itemPath="/" />
+              </Iterate.PushContainer>
+              <Iterate.Array
+                path="/items"
+                omitSectionPath={omitSectionPath}
+              >
+                <Iterate.ViewContainer>
+                  <Value.String itemPath="/" />
+                </Iterate.ViewContainer>
+              </Iterate.Array>
+            </Form.Section>
+          </Form.Handler>
+        )
+        await userEvent.click(
+          document.querySelector(
+            '.dnb-forms-iterate-remove-element-button'
+          )
+        )
+        await waitFor(() =>
+          expect(
+            document.querySelector(
+              omitSectionPath ? '#root-add' : '#section-add'
+            )
+          ).toHaveFocus()
+        )
+      }
+    )
+
+    it('should return to Add after removing an item that opened automatically in edit mode', async () => {
+      render(
+        <Form.Handler defaultData={{ items: [{}] }}>
+          <Iterate.Array path="/items">
+            <Iterate.EditContainer toolbar={<Iterate.RemoveButton />}>
+              Empty item
+            </Iterate.EditContainer>
+          </Iterate.Array>
+          <Iterate.PushButton
+            path="/items"
+            pushValue={{}}
+            text="Add item"
+          />
+        </Form.Handler>
+      )
+      expect(document.body).toHaveFocus()
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-forms-iterate-push-button')
+        ).toHaveFocus()
+      )
+    })
+
+    it('should not move focus after removal when focus management is omitted', async () => {
+      function ViewItem() {
+        const { switchContainerMode } = useItem()
+        return (
+          <Iterate.ViewContainer>
+            <button
+              type="button"
+              onClick={() =>
+                switchContainerMode('view', { omitFocusManagement: true })
+              }
+            >
+              Keep focus
+            </button>
+          </Iterate.ViewContainer>
+        )
+      }
+
+      render(
+        <Iterate.Array value={['foo', 'bar']}>
+          <ViewItem />
+        </Iterate.Array>
+      )
+      const [row, other] = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      await userEvent.click(row.querySelector('button'))
+      await userEvent.click(
+        row.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await waitFor(() => expect(row).not.toBeInTheDocument())
+      expect(other).not.toHaveFocus()
+      expect(document.body).toHaveFocus()
     })
 
     it('should removed item from data context', async () => {

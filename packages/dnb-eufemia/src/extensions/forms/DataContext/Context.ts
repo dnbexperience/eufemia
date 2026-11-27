@@ -236,6 +236,7 @@ export type ContextState = {
   snapshotsRef?: RefObject<Map<SnapshotName, Map<Path, unknown>>>
   existingFieldsRef?: RefObject<Map<Path, boolean>>
   formElementRef?: RefObject<HTMLFormElement>
+  iterateAddButtonsRef?: RefObject<Map<HTMLElement, Path>>
   fieldErrorRef?: RefObject<Record<Path, Error>>
   errorsRef?: RefObject<Record<Path, Error>>
   showAllErrors: boolean | number

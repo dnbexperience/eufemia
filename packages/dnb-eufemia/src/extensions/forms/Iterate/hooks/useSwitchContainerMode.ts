@@ -77,7 +77,7 @@ export default function useSwitchContainerMode(path?: Path) {
         const item = data[id]
         const mode = item && fn?.(item)
         if (mode) {
-          item.switchContainerMode(mode, { omitFocusManagement: true })
+          item.switchContainerMode(mode, { omitFocusOnOpen: true })
         }
       }
     },

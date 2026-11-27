@@ -19,7 +19,7 @@ export type IterateRemoveButtonProps = ButtonProps &
 
 function RemoveButton(props: IterateRemoveButtonProps) {
   const iterateItemContext = useContext(IterateItemContext)
-  const { handleRemove, itemPath, index } = iterateItemContext || {}
+  const { handleRemove, modeOptions, index } = iterateItemContext || {}
 
   if (!iterateItemContext) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
@@ -38,14 +38,15 @@ function RemoveButton(props: IterateRemoveButtonProps) {
     ({ close }: { close?: () => void }) => {
       close?.()
 
-      // - Don't call handleRemoveItem when itemPath is given to support nested arrays
-      if (handleRemoveItem && !itemPath) {
+      if (handleRemoveItem) {
         handleRemoveItem()
       } else {
-        handleRemove?.()
+        handleRemove?.({
+          focusAfterRemove: !modeOptions?.omitFocusManagement,
+        })
       }
     },
-    [handleRemove, handleRemoveItem, itemPath]
+    [handleRemove, handleRemoveItem, modeOptions]
   )
 
   const defaultProps: ButtonProps = {

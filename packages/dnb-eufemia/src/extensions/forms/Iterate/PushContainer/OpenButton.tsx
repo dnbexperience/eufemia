@@ -6,6 +6,7 @@ import add from '../../../../icons/add'
 import IterateItemContext from '../IterateItemContext'
 import PushContainerContext from './PushContainerContext'
 import mergeProps from '../../../../shared/helpers/mergeProps'
+import useCombinedRef from '../../../../shared/helpers/useCombinedRef'
 import { convertJsxToString } from '../../../../shared/component-helper'
 
 type Props = ButtonProps
@@ -13,7 +14,8 @@ type Props = ButtonProps
 function OpenButton(props: Props) {
   const { className, text, children, ...restProps } = props
   const { switchContainerMode } = useContext(IterateItemContext) || {}
-  const { entries } = useContext(PushContainerContext) || {}
+  const { entries, addButtonRef } = useContext(PushContainerContext) || {}
+  const ref = useCombinedRef(props.ref, addButtonRef)
 
   const handleClick = useCallback(() => {
     switchContainerMode?.('edit')
@@ -39,6 +41,7 @@ function OpenButton(props: Props) {
       icon={add}
       iconPosition="left"
       {...mergeProps({ onClick: handleClick }, restProps)}
+      ref={ref}
     >
       {content}
     </Button>
