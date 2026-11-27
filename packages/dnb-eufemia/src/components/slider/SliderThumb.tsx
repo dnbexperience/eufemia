@@ -9,7 +9,7 @@ import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp, getFormattedNumber } from './SliderHelpers'
+import { clamp, getFormattedNumber, snapToStep } from './SliderHelpers'
 
 export function SliderThumb() {
   const { values } = useSliderProps()
@@ -129,7 +129,12 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         className="dnb-slider__button-helper"
         min={min}
         max={max}
-        step={step}
+        // A range would round an off-step endpoint back to its last full step.
+        step={
+          value === max && step > 0 && snapToStep(max, min, step) !== max
+            ? 'any'
+            : step
+        }
         value={value}
         disabled={disabled || skeleton}
         onChange={onHelperChangeHandler}

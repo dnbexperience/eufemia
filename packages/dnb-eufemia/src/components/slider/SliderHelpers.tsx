@@ -61,6 +61,28 @@ export const calculatePercent = (
 
 export { clamp }
 
+const decimalPlaces = (number: number) => {
+  const [mantissa, exponent = '0'] = String(number).split('e')
+  return Math.max(
+    0,
+    (mantissa.split('.')[1]?.length ?? 0) - Number(exponent)
+  )
+}
+
+export const snapToStep = (
+  value: number,
+  min: number,
+  step: number,
+  round = Math.round
+) => {
+  const precision = Math.max(decimalPlaces(min), decimalPlaces(step))
+  const factor = 10 ** precision
+  const base = Math.round(min * factor)
+  const increment = Math.round(step * factor)
+  const steps = round((value * factor - base) / increment)
+  return (base + steps * increment) / factor
+}
+
 export const roundValue = (
   value: number,
   { step, min, max }: { step: number; min: number; max: number }
@@ -69,10 +91,7 @@ export const roundValue = (
     if (value >= max) {
       return max
     }
-    if (value <= min) {
-      return min
-    }
-    return Math.round(value / step) * step
+    return clamp(snapToStep(value, min, step), min, max)
   }
 
   return parseFloat(parseFloat(String(value)).toFixed(3))

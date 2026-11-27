@@ -9,7 +9,11 @@ import {
   dispatchCustomElementEvent,
   warn,
 } from '../../../shared/component-helper'
-import { calculatePercent, percentToValue } from '../SliderHelpers'
+import {
+  calculatePercent,
+  percentToValue,
+  snapToStep,
+} from '../SliderHelpers'
 import { SliderContext } from '../SliderProvider'
 
 export function useSliderEvents() {
@@ -125,7 +129,12 @@ export function useSliderEvents() {
     const currentValue = parseFloat(event.currentTarget.value)
     const currentIndex = parseFloat(event.currentTarget.dataset.index)
 
-    emitChange(emitEvent as MouseEvent, currentValue)
+    // From an off-step maximum, return to the native grid on the first decrease.
+    const upperLimit =
+      event.currentTarget.step === 'any' && currentValue < max
+        ? snapToStep(max, min, allProps.step, Math.floor)
+        : max
+    emitChange(emitEvent as MouseEvent, currentValue, upperLimit)
 
     if (isMulti) {
       const thumbs: NodeListOf<HTMLInputElement> =

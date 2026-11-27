@@ -91,7 +91,7 @@ export type SliderProps = {
   max?: number
 
   /**
-   * The `value` of the slider as a number or an array. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).
+   * The `value` of the slider as a number or an array. Defaults to `min`. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).
    */
   value?: SliderValue
 
@@ -194,7 +194,11 @@ export type SliderContextValue = {
   setValue: (value: SliderValue) => void
   setThumbState: (thumbState: SliderThumbState) => void
   setThumbIndex: (thumbIndex: number) => void
-  emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
+  emitChange: (
+    emitEvent: MouseEvent | TouchEvent,
+    value: number,
+    upperLimit?: number
+  ) => void
   trackRef: RefObject<HTMLElement>
   setShouldAnimate: (state: boolean) => void
   animationTimeout: RefObject<NodeJS.Timeout>
