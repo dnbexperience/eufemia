@@ -45,6 +45,21 @@ _"Using data-testid attributes do not resemble how your software is used and sho
 
 There are several packages you can integrate in your test, so your can test your code for accessibility e.g. `axe` and `pa11y`.
 
+### Record what you tested
+
+Name the Eufemia version, browser and component state. Describe the task, the result and any exceptions. Record [screen reader checks](/web/accessibility/screenreader) separately. A browser test can tell you where focus went. It cannot tell you what a person heard.
+
+For example, these results apply to **Eufemia 11.19.0 in Chromium 151**. They describe the component tests, not a complete application:
+
+| Task                                                                                  | Result in that version                                                                  | Check in your application                                                                                         |
+| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Submit a required family name                                                         | `Anne-Marie` submitted. `O’Connor` did not pass the default validation.                 | Can people enter their name as written on the document your service accepts? Does the service keep that spelling? |
+| Follow the first link in an error summary                                             | The summary received focus. The link moved focus to the inline error, not to the input. | Can you type the correction immediately? Can you hear which field has the error and why?                          |
+| Enter a horizontal tab list using Tab                                                 | Focus went to the list, not to the selected tab.                                        | Can you identify the selected tab, change it and reach the panel content with the keyboard?                       |
+| Remove the first of three items from an `Iterate.Array` with View and Edit containers | Focus went to the last item, not to the one that became first.                          | Where do focus and the next Tab go when you remove the first, middle or only item?                                |
+
+These checks did not include a manual screen reader test. Repeat them with your version, content and supported assistive technologies before you publish a result for your service.
+
 ### End-to-end testing
 
 Having tests which actually run in a browser, makes a lot of sense in frontend code. This method of testing is good to gain confidence and ensure a flow of interactions is working correctly - like a user registration process.
