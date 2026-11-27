@@ -154,7 +154,10 @@
       right: 0;
     }
 
-    &:not(:active):not(:hover):focus-visible {
+    // Keep the focus border under the mouse, so keyboard focus stays
+    // visible (#11104). :not([disabled]) and :focus match every focused
+    // button; they only make this rule win over the hover rule.
+    &:not([disabled]):not(:active):focus:focus-visible {
       &::before,
       // Take precedence over the selected border
       .dnb-table__td--selected &::before {
@@ -164,23 +167,6 @@
 
       .dnb-table__td__button__icon {
         opacity: 1;
-      }
-    }
-
-    // A tapped cell keeps :hover, so do not exclude it on touch devices
-    &:not(:active):focus-visible {
-      &::before,
-      .dnb-table__td--selected &::before {
-        html:where(:not([data-whatintent='mouse'])) & {
-          --border-width: var(--focus-outline-width);
-          --border-color: var(--token-color-stroke-action-focus);
-        }
-      }
-
-      .dnb-table__td__button__icon {
-        html:where(:not([data-whatintent='mouse'])) & {
-          opacity: 1;
-        }
       }
     }
 
