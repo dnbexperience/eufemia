@@ -12,6 +12,7 @@ import {
   validateAgentSkills,
 } from '../agentSkills'
 import { runEufemiaCli } from '../eufemiaCli'
+import type { ReportSkillInstalls } from '../skillsTelemetry'
 
 const packageRoot = path.resolve(__dirname, '../../..')
 const sourceRoot = path.join(packageRoot, 'agent-skills')
@@ -22,6 +23,7 @@ describe('Eufemia agent skills', () => {
   let targetRoot: string
 
   beforeEach(async () => {
+    vi.stubEnv('EUFEMIA_SKILLS_TELEMETRY', '0')
     temporaryRoot = await fs.mkdtemp(
       path.join(os.tmpdir(), 'eufemia-agent-skills-')
     )
@@ -29,6 +31,7 @@ describe('Eufemia agent skills', () => {
   })
 
   afterEach(async () => {
+    vi.unstubAllEnvs()
     await fs.rm(temporaryRoot, { recursive: true, force: true })
   })
 
@@ -566,6 +569,107 @@ describe('Eufemia agent skills', () => {
       expect.stringContaining('No managed Eufemia agent skills found'),
     ])
   })
+
+  it('reports installs, updates and uninstalls without custom folder paths', async () => {
+    const reportInstalls = vi.fn<ReportSkillInstalls>(
+      async () => undefined
+    )
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+
+    const run = (...args: string[]) =>
+      runEufemiaCli({
+        args: ['skills', ...args],
+        packageRoot: cliPackageRoot,
+        cwd: temporaryRoot,
+        output: () => undefined,
+        reportInstalls,
+      })
+
+    await run('install', '--target', '.claude/skills')
+    await run('update', '--target', '.claude/skills')
+    await run('install', '--target', 'my-team/skills')
+    await run('uninstall', '--target', 'my-team/skills')
+    await run('uninstall')
+
+    const event = (action: string, target: string) => ({
+      action,
+      target,
+      eufemiaVersion: packageVersion,
+    })
+    expect(reportInstalls.mock.calls.map(([events]) => events)).toEqual([
+      [event('install', '.claude/skills')],
+      [event('update', '.claude/skills')],
+      [event('install', 'custom')],
+      [event('uninstall', 'custom')],
+      [event('uninstall', '.claude/skills')],
+    ])
+  })
+
+  it('posts install stats from the main package CLI by default', async () => {
+    vi.stubEnv('EUFEMIA_SKILLS_TELEMETRY', '')
+    vi.stubEnv('DO_NOT_TRACK', '')
+    vi.stubEnv('CI', '')
+    const fetchMock = vi.fn(
+      async () => new Response(null, { status: 202 })
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    const errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    try {
+      await runEufemiaCli({
+        args: ['skills', 'install', '--target', '.claude/skills'],
+        packageRoot,
+        cwd: temporaryRoot,
+        output: () => undefined,
+      })
+    } finally {
+      vi.unstubAllGlobals()
+      errorSpy.mockRestore()
+    }
+
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it.each(['0', ''])(
+    'installs and exits 0 without a global fetch (EUFEMIA_SKILLS_TELEMETRY=%j)',
+    async (telemetry) => {
+      vi.stubEnv('EUFEMIA_SKILLS_TELEMETRY', telemetry)
+      vi.stubEnv('DO_NOT_TRACK', '')
+      vi.stubEnv('CI', '')
+      // Delete it: a global set to undefined still exists, so a bare `fetch` would not throw.
+      const originalFetch = globalThis.fetch
+      delete (globalThis as { fetch?: typeof fetch }).fetch
+
+      try {
+        await expect(
+          runEufemiaCli({
+            args: ['skills', 'install', '--target', '.claude/skills'],
+            packageRoot,
+            cwd: temporaryRoot,
+            output: () => undefined,
+          })
+        ).resolves.toBe(0)
+      } finally {
+        globalThis.fetch = originalFetch
+      }
+
+      await expect(
+        fs.readFile(
+          path.join(targetRoot, 'eufemia-components', 'SKILL.md'),
+          'utf-8'
+        )
+      ).resolves.toContain('name: eufemia-components')
+    }
+  )
 
   it('shows skills through the main package CLI', async () => {
     const output: string[] = []

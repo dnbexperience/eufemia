@@ -137,6 +137,22 @@ any files. `check` reports missing, changed, stale, or version-mismatched files.
 `uninstall` removes only files tracked by Eufemia skills locks and leaves
 unrelated project skills untouched.
 
+### Telemetry
+
+`install`, `update` and `uninstall` send **anonymous usage statistics** so we
+can see how often the skills are added, updated or removed. It is **on by
+default** and **opt-out**.
+
+Each event contains only the action (`install`, `update` or `uninstall`), the
+skills location (`.claude/skills`, `.github/skills`, `.agents/skills`, or
+`custom` for any other `--target`, never the path itself) and the
+`@dnb/eufemia` version. No machine identifier, user, project name or file
+content is sent. The request has a short timeout and never fails the command.
+
+Turn it off with `EUFEMIA_SKILLS_TELEMETRY=0` (also accepts `false`, `off` or
+`no`). It is also off when `DO_NOT_TRACK` is set (for example `DO_NOT_TRACK=1`)
+and in CI environments (when `CI` is set).
+
 ## Evaluate skill changes
 
 Eufemia keeps representative output cases and trigger/non-trigger prompts in

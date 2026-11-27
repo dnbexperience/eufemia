@@ -35,6 +35,10 @@ The installer tracks generated files and refuses to replace local changes
 unless `--force` is given. Commit installed project skills when they should be
 available to cloud agents.
 
+`install`, `update` and `uninstall` send anonymous usage statistics (the
+action, the skills location and the Eufemia version). Turn them off with
+`EUFEMIA_SKILLS_TELEMETRY=0` or `DO_NOT_TRACK=1`; they are off in CI.
+
 Configure the [Eufemia MCP server](https://eufemia.dnb.no/web/ai-tools-and-resources/developer-tools/#ai-assistance-and-mcp-server)
 before using the skills. The skill files contain workflows, while component
 APIs, tokens, theme support, and other version-sensitive facts remain in

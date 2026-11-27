@@ -1,6 +1,11 @@
 import { createHash } from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+// Type-only: babel-node (copyAgentSkills) can't resolve './skillsTelemetry.js'.
+import type {
+  ReportSkillInstalls,
+  SkillInstallEvent,
+} from './skillsTelemetry.js'
 
 export const AGENT_SKILLS_LOCK_FILE = '.eufemia-skills-lock.json'
 export const DEFAULT_AGENT_SKILLS_TARGET = '.claude/skills'
@@ -66,6 +71,7 @@ export type RunAgentSkillsCliOptions = {
   cwd?: string
   output?: (message: string) => void
   selectTargets?: SelectAgentSkillsTargets
+  reportInstalls?: ReportSkillInstalls
 }
 
 export type AgentSkillsTargetChoice = {
@@ -675,6 +681,14 @@ const findManagedTargetRoots = async (cwd: string) => {
   return managedTargetRoots
 }
 
+// Never send a custom folder: its path can name the user or the project.
+const toInstallTarget = (cwd: string, targetRoot: string) => {
+  const target = toPosixPath(path.relative(cwd, targetRoot))
+  return AGENT_SKILLS_TARGETS.some((known) => known.target === target)
+    ? target
+    : 'custom'
+}
+
 const selectAgentSkillsTargets: SelectAgentSkillsTargets = async (
   choices
 ) => {
@@ -743,6 +757,7 @@ export async function runAgentSkillsCli({
   cwd = process.cwd(),
   output = console.log,
   selectTargets = selectAgentSkillsTargets,
+  reportInstalls = async () => undefined,
 }: RunAgentSkillsCliOptions) {
   const options = parseCliOptions(args, cwd)
   const { command, force } = options
@@ -786,6 +801,7 @@ export async function runAgentSkillsCli({
       throw new Error('Select at least one target')
     }
 
+    const installs: SkillInstallEvent[] = []
     for (const target of Array.from(new Set(selectedTargets))) {
       if (!targetRoot && !knownTargets.has(target)) {
         throw new Error(`Unknown agent skills target: ${target}`)
@@ -794,6 +810,10 @@ export async function runAgentSkillsCli({
       const selectedTargetRoot = targetRoot
         ? target
         : path.resolve(cwd, target)
+      const previousLock = await readAgentSkillsLock(
+        selectedTargetRoot,
+        cwd
+      )
       const names = await installAgentSkills({
         sourceRoot,
         targetRoot: selectedTargetRoot,
@@ -804,7 +824,14 @@ export async function runAgentSkillsCli({
       output(
         `Installed ${names.length} Eufemia skills in ${selectedTargetRoot}`
       )
+      installs.push({
+        action: previousLock ? 'update' : 'install',
+        target: toInstallTarget(cwd, selectedTargetRoot),
+        eufemiaVersion: packageVersion,
+      })
     }
+
+    await reportInstalls(installs)
     return 0
   }
   if (command === 'check') {
@@ -867,6 +894,14 @@ export async function runAgentSkillsCli({
         `Removed ${files?.length ?? 0} Eufemia skill files from ${uninstallTarget}`
       )
     }
+
+    await reportInstalls(
+      managedTargets.map((uninstallTarget) => ({
+        action: 'uninstall',
+        target: toInstallTarget(cwd, uninstallTarget),
+        eufemiaVersion: packageVersion,
+      }))
+    )
     return 0
   }
 
