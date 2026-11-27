@@ -440,8 +440,33 @@ function McpUsagePanel({
   const perSkill = usage?.perSkill ?? []
   const perVersion = usage?.perVersion ?? []
 
+  const agentSkillsCard = (
+    <Card stack>
+      <H2 size="medium">Agent skills</H2>
+      <P className="dashboard__meta">
+        Skills that named themselves in their first docs_meta call. Agents
+        can skip this, so real use can be higher.
+      </P>
+      {perSkill.length > 0 ? (
+        <RankedTable
+          caption={`${label} agent skills`}
+          nameHeader="Skill"
+          countHeader="Starts"
+          items={perSkill}
+        />
+      ) : (
+        <P className="dashboard__meta">No skill starts yet.</P>
+      )}
+    </Card>
+  )
+
   if (total === 0) {
-    return <P className="dashboard__meta">{`No ${label} usage yet.`}</P>
+    return (
+      <Flex.Stack gap="large">
+        <P className="dashboard__meta">{`No ${label} usage yet.`}</P>
+        {agentSkillsCard}
+      </Flex.Stack>
+    )
   }
 
   return (
@@ -460,23 +485,7 @@ function McpUsagePanel({
         />
       </Card>
 
-      <Card stack>
-        <H2 size="medium">Agent skills</H2>
-        <P className="dashboard__meta">
-          Skills that named themselves in their first docs_meta call.
-          Agents can skip this, so real use can be higher.
-        </P>
-        {perSkill.length > 0 ? (
-          <RankedTable
-            caption={`${label} agent skills`}
-            nameHeader="Skill"
-            countHeader="Starts"
-            items={perSkill}
-          />
-        ) : (
-          <P className="dashboard__meta">No skill starts yet.</P>
-        )}
-      </Card>
+      {agentSkillsCard}
 
       <Card stack>
         <H2 size="medium">Components</H2>

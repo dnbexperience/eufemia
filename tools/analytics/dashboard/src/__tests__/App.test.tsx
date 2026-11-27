@@ -268,6 +268,7 @@ describe('App (smoke)', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
     expect(container.textContent).toContain('No Local MCP usage yet.')
+    expect(container.textContent).toContain('No skill starts yet.')
   })
 
   it('renders the Eufemia versions section in the Local MCP tab when perVersion has data', async () => {
