@@ -144,6 +144,40 @@ test('keeps header and hero results aligned across screen sizes', async ({
       })
     }
   }
+
+  await test.step('shows a complete result below the hero input in a short mobile viewport', async () => {
+    await page.route(
+      /(?:algolia(net)?\.(net|com)\/|\/_search\?)/,
+      (route) =>
+        route.fulfill({
+          json: {
+            hits: [1, 2, 3].map((index) => ({
+              objectID: String(index),
+              title: `Button ${index}`,
+              hash: `button-${index}`,
+              slug: 'web/components/button',
+              pageTitle: 'Button',
+            })),
+          },
+        })
+    )
+    const input = page.locator('#portal-home-search')
+    for (const width of [390, 320]) {
+      await page.setViewportSize({ width, height: 495 })
+      await input.evaluate((element) => {
+        window.scrollTo(
+          0,
+          element.getBoundingClientRect().top + window.scrollY - 240
+        )
+      })
+      await input.fill('butto')
+      const options = page.getByRole('option')
+      await expect(options).toHaveCount(3)
+      await expect(options.first()).toBeInViewport({ ratio: 1 })
+      await input.press('Escape')
+      await input.fill('')
+    }
+  })
 })
 
 test('opens the third section with the keyboard and focuses its anchor', async ({

@@ -242,9 +242,10 @@ export const SearchBarInput = ({
       }}
     >
       {({ results }) => (
-        <Flex.Stack gap="small">
+        <Flex.Stack layoutEngine="css" gap="x-small">
           <Chip.Group
             aria-label="Search platform"
+            size="small"
             value={platform}
             onChange={({ value }) => {
               const nextPlatform = value as PortalPlatform
