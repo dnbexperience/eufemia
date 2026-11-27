@@ -595,17 +595,8 @@
           @include navigationOutline();
         }
       }
-      &:not(.dnb-list__item--disabled):where(
-          :not(:hover):not(:active)
-        ):has(
-          > a:focus-visible,
-          > .dnb-list__item__action__button:focus-visible
-        ) {
-        @include navigationFocusOutline();
-      }
-      // A tapped item keeps :hover, so do not exclude it on touch devices
-      html:not([data-whatintent='mouse'])
-        &:not(.dnb-list__item--disabled):where(:not(:active)):has(
+      // Keep the outline under the mouse, so keyboard focus stays visible.
+      &:not(.dnb-list__item--disabled):where(:not(:active)):has(
           > a:focus-visible,
           > .dnb-list__item__action__button:focus-visible
         ) {
@@ -677,15 +668,8 @@
         @include navigationOutline();
       }
     }
+    // Keep the outline under the mouse, so keyboard focus stays visible.
     &:not(.dnb-list__item--disabled):has(
-        > #{&}__accordion__header:focus-visible:where(
-            :not(:hover):not(:active)
-          )
-      ) {
-      @include navigationFocusOutline();
-    }
-    html:not([data-whatintent='mouse'])
-      &:not(.dnb-list__item--disabled):has(
         > #{&}__accordion__header:focus-visible:where(:not(:active))
       ) {
       @include navigationFocusOutline();
