@@ -639,6 +639,38 @@ describe('Eufemia agent skills', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
+  it.each(['0', ''])(
+    'installs and exits 0 without a global fetch (EUFEMIA_SKILLS_TELEMETRY=%j)',
+    async (telemetry) => {
+      vi.stubEnv('EUFEMIA_SKILLS_TELEMETRY', telemetry)
+      vi.stubEnv('DO_NOT_TRACK', '')
+      vi.stubEnv('CI', '')
+      // Delete it: a global set to undefined still exists, so a bare `fetch` would not throw.
+      const originalFetch = globalThis.fetch
+      delete (globalThis as { fetch?: typeof fetch }).fetch
+
+      try {
+        await expect(
+          runEufemiaCli({
+            args: ['skills', 'install', '--target', '.claude/skills'],
+            packageRoot,
+            cwd: temporaryRoot,
+            output: () => undefined,
+          })
+        ).resolves.toBe(0)
+      } finally {
+        globalThis.fetch = originalFetch
+      }
+
+      await expect(
+        fs.readFile(
+          path.join(targetRoot, 'eufemia-components', 'SKILL.md'),
+          'utf-8'
+        )
+      ).resolves.toContain('name: eufemia-components')
+    }
+  )
+
   it('shows skills through the main package CLI', async () => {
     const output: string[] = []
 

@@ -36,7 +36,7 @@ export async function reportSkillInstalls(
   events: SkillInstallEvent[],
   {
     env = process.env,
-    fetchImpl = fetch,
+    fetchImpl,
     notice = console.error,
   }: ReportSkillInstallsOptions = {}
 ) {
@@ -47,10 +47,16 @@ export async function reportSkillInstalls(
     return
   }
 
+  // Looked up here, not as a default: a bare `fetch` throws where it doesn't exist.
+  const post = fetchImpl ?? globalThis.fetch
+  if (typeof post !== 'function') {
+    return
+  }
+
   notice(NOTICE)
 
   try {
-    await fetchImpl(ENDPOINT, {
+    await post(ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(events),
