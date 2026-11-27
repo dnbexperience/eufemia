@@ -187,14 +187,13 @@
       outline: none;
 
       @include utilities.whatInput('keyboard') {
+        // Keep the outline under the mouse, so keyboard focus stays visible.
         &:focus:not([disabled], [aria-disabled='true']) {
-          &:not(:hover) {
-            @include utilities.focusOutline(
-              $offset: calc(-1 * var(--focus-outline-width))
-            );
+          @include utilities.focusOutline(
+            $offset: calc(-1 * var(--focus-outline-width))
+          );
 
-            box-shadow: none;
-          }
+          box-shadow: none;
 
           @media (forced-colors: active) {
             @include utilities.focusOutline(
@@ -208,18 +207,6 @@
             }
           }
         }
-      }
-
-      // An item under the mouse keeps :hover after switching to the keyboard.
-      html[data-whatinput='keyboard']:where(
-          :not([data-whatintent='mouse'])
-        )
-        &:focus:not([disabled], [aria-disabled='true']) {
-        @include utilities.focusOutline(
-          $offset: calc(-1 * var(--focus-outline-width))
-        );
-
-        box-shadow: none;
       }
 
       // Safari can keep the touched link :active beneath the drag shield.
