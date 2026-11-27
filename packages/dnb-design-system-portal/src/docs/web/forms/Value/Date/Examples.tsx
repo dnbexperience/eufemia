@@ -22,6 +22,16 @@ export const VariantNumeric = () => {
   )
 }
 
+export const CustomDateFormat = () => (
+  <ComponentBox>
+    <Value.Date
+      label="Payment date"
+      value="2028-02-29"
+      dateFormat="dd/MM/yyyy"
+    />
+  </ComponentBox>
+)
+
 export const LabelAndValue = () => {
   return (
     <ComponentBox>
