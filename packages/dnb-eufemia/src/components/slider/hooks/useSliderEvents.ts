@@ -23,13 +23,20 @@ export function useSliderEvents() {
     setThumbState,
     setThumbIndex,
     allProps,
+    dragRef,
   } = useContext(SliderContext)
-  const { min, max, onDragStart, onDragEnd } = allProps
+  const { min, max, disabled, skeleton, onDragStart, onDragEnd } = allProps
+
+  const onTrackPointerDownHandler = () => {
+    dragRef.current.isTouch = false
+  }
 
   const onTrackMouseDownHandler = (
     event: MouseEvent | TouchEvent | ReactMouseEvent | ReactTouchEvent
   ) => {
-    onThumbMouseDownHandler(event)
+    if (!onThumbMouseDownHandler(event)) {
+      return // stop here
+    }
 
     const nativeEvent = 'nativeEvent' in event ? event.nativeEvent : event
     const percent = calculatePercent(
@@ -48,27 +55,58 @@ export function useSliderEvents() {
   const onThumbMouseDownHandler = (
     event: MouseEvent | TouchEvent | SyntheticEvent
   ) => {
+    const drag = dragRef.current
+
+    if (disabled || skeleton) {
+      return false
+    }
+
+    // Browsers follow a tap with mouse events, which must not start a second drag.
+    // The next pointerdown, or the ignored mousedown, clears the flag for a real mouse.
+    if (event.type === 'touchstart') {
+      drag.isTouch = true
+    } else if (drag.isTouch) {
+      drag.isTouch = false
+      return false
+    }
+
     const target = event.target as HTMLButtonElement
 
     setThumbIndex(parseFloat(target.dataset.index))
     setThumbState('activated')
 
-    if (typeof onDragStart === 'function') {
+    // A press during a drag, like one that bubbles from a thumb to the track, continues it
+    const isNewDrag = !drag.removeEvents
+    removeEvents()
+
+    if (isNewDrag && typeof onDragStart === 'function') {
       dispatchCustomElementEvent(allProps, 'onDragStart', {
         event,
       })
     }
 
-    if (typeof document !== 'undefined') {
+    // Listen on the window, so a release outside the body also ends the drag
+    if (typeof window !== 'undefined') {
       try {
-        document.body.addEventListener('touchmove', onBodyMouseMoveHandler)
-        document.body.addEventListener('touchend', onBodyMouseUpHandler)
-        document.body.addEventListener('mousemove', onBodyMouseMoveHandler)
-        document.body.addEventListener('mouseup', onBodyMouseUpHandler)
+        window.addEventListener('touchmove', onBodyMouseMoveHandler)
+        window.addEventListener('touchend', onBodyMouseUpHandler)
+        window.addEventListener('touchcancel', onBodyMouseUpHandler)
+        window.addEventListener('mousemove', onBodyMouseMoveHandler)
+        window.addEventListener('mouseup', onBodyMouseUpHandler)
+
+        drag.removeEvents = () => {
+          window.removeEventListener('touchmove', onBodyMouseMoveHandler)
+          window.removeEventListener('touchend', onBodyMouseUpHandler)
+          window.removeEventListener('touchcancel', onBodyMouseUpHandler)
+          window.removeEventListener('mousemove', onBodyMouseMoveHandler)
+          window.removeEventListener('mouseup', onBodyMouseUpHandler)
+        }
       } catch (e) {
         warn('Slider: Failed to add drag event listeners:', e)
       }
     }
+
+    return true
   }
 
   const onThumbMouseUpHandler = () => {
@@ -76,22 +114,15 @@ export function useSliderEvents() {
   }
 
   const removeEvents = () => {
-    if (typeof document !== 'undefined') {
-      try {
-        document.body.removeEventListener(
-          'touchmove',
-          onBodyMouseMoveHandler
-        )
-        document.body.removeEventListener('touchend', onBodyMouseUpHandler)
-        document.body.removeEventListener(
-          'mousemove',
-          onBodyMouseMoveHandler
-        )
-        document.body.removeEventListener('mouseup', onBodyMouseUpHandler)
-      } catch (e) {
-        warn('Slider: Failed to remove drag event listeners:', e)
-      }
+    const drag = dragRef.current
+
+    try {
+      drag.removeEvents?.()
+    } catch (e) {
+      warn('Slider: Failed to remove drag event listeners:', e)
     }
+
+    drag.removeEvents = undefined
   }
 
   const onBodyMouseUpHandler = (event: MouseEvent | TouchEvent) => {
@@ -108,6 +139,10 @@ export function useSliderEvents() {
   }
 
   const onBodyMouseMoveHandler = (event: MouseEvent | TouchEvent) => {
+    if (dragRef.current.isDisabled) {
+      return // stop here
+    }
+
     event.preventDefault() // ensures correct cursor in Safari (desktop)
 
     const elem = trackRef.current
@@ -159,6 +194,7 @@ export function useSliderEvents() {
     onThumbMouseDownHandler,
     onThumbMouseUpHandler,
     onTrackMouseDownHandler,
+    onTrackPointerDownHandler,
     onHelperChangeHandler,
     onHelperFocusHandler,
     removeEvents,

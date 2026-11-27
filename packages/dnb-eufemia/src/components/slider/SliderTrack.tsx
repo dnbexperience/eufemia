@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
@@ -9,9 +10,19 @@ export function SliderMainTrack({
 }: {
   children: ReactNode | ReactNode[]
 }) {
-  const { allProps, trackRef, animationTimeout } = useSliderProps()
-  const { id } = allProps
-  const { onTrackMouseDownHandler, removeEvents } = useSliderEvents()
+  const { allProps, trackRef, dragRef, animationTimeout } =
+    useSliderProps()
+  const { id, disabled, skeleton } = allProps
+  const {
+    onTrackMouseDownHandler,
+    onTrackPointerDownHandler,
+    removeEvents,
+  } = useSliderEvents()
+
+  // When disabled during a drag, the value stops changing, and the release still ends the drag
+  useEffect(() => {
+    dragRef.current.isDisabled = Boolean(disabled || skeleton)
+  }, [dragRef, disabled, skeleton])
 
   useMountEffect(() => {
     return () => {
@@ -26,6 +37,7 @@ export function SliderMainTrack({
       id={id}
       ref={trackRef}
       className="dnb-slider__track"
+      onPointerDown={onTrackPointerDownHandler}
       onTouchStart={onTrackMouseDownHandler}
       onMouseDown={onTrackMouseDownHandler}
     >

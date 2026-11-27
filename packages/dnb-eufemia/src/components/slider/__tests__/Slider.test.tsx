@@ -3,7 +3,7 @@
  *
  */
 
-import { useState } from 'react'
+import { act, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
   axeComponent,
@@ -17,7 +17,11 @@ import * as PopoverModule from '../../popover/Popover'
 import type { SliderAllProps, SliderOnChangeParams } from '../Slider'
 import { formatPercent } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
-import { resetMouseSimulation, simulateMouseMove } from './simulateSlider'
+import {
+  mockDOMRect,
+  resetMouseSimulation,
+  simulateMouseMove,
+} from './simulateSlider'
 
 const props: SliderAllProps = {
   id: 'slider',
@@ -1102,6 +1106,333 @@ describe('Slider component', () => {
         'dnb-slider dnb-form-component dnb-slider__label--vertical',
         { exact: true }
       )
+    })
+  })
+
+  describe('drag lifecycle', () => {
+    const getTrack = () =>
+      document.querySelector('.dnb-slider__track') as HTMLElement
+    const getThumbButton = (index = 0) =>
+      document.querySelectorAll('.dnb-slider__thumb .dnb-button')[
+        index
+      ] as HTMLElement
+
+    const dispatch = <E extends Event>(target: EventTarget, event: E) => {
+      act(() => {
+        target.dispatchEvent(event)
+      })
+
+      return event
+    }
+
+    const mouse = (target: EventTarget, type: string, pageX?: number) => {
+      const event = new MouseEvent(type, {
+        bubbles: true,
+        cancelable: true,
+      })
+      if (typeof pageX === 'number') {
+        Object.defineProperty(event, 'pageX', { value: pageX })
+      }
+
+      return dispatch(target, event)
+    }
+
+    const touch = (target: EventTarget, type: string, pageX?: number) => {
+      const event = new TouchEvent(type, {
+        bubbles: true,
+        cancelable: true,
+      })
+      if (typeof pageX === 'number') {
+        Object.defineProperty(event, 'changedTouches', {
+          value: [{ pageX, pageY: 0 }],
+        })
+      }
+
+      return dispatch(target, event)
+    }
+
+    // Browsers send pointerdown before touchstart and mousedown
+    const pointerDown = (target: Element, pointerType: string) => {
+      act(() => {
+        fireEvent.pointerDown(target, { pointerType })
+      })
+    }
+
+    const renderSlider = (
+      sliderProps: Partial<SliderAllProps> = {}
+    ): {
+      onChange: ReturnType<typeof vi.fn>
+      onDragStart: ReturnType<typeof vi.fn>
+      onDragEnd: ReturnType<typeof vi.fn>
+      rerender: (sliderProps: Partial<SliderAllProps>) => void
+      unmount: () => void
+    } => {
+      const onChange = vi.fn()
+      const onDragStart = vi.fn()
+      const onDragEnd = vi.fn()
+      const element = (props: Partial<SliderAllProps>) => (
+        <Slider
+          id="drag"
+          min={0}
+          max={100}
+          value={70}
+          onChange={onChange}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          {...sliderProps}
+          {...props}
+        />
+      )
+      const { rerender, unmount } = render(element({}))
+      getTrack().getBoundingClientRect = () => mockDOMRect(100, 10)
+
+      return {
+        onChange,
+        onDragStart,
+        onDragEnd,
+        rerender: (props) => rerender(element(props)),
+        unmount,
+      }
+    }
+
+    it.each([
+      ['single', 70, 0, 90],
+      ['range', [20, 70], 1, [20, 90]],
+    ])(
+      'should end a %s drag when the mouse is released outside the body',
+      (_, value, thumb, draggedValue) => {
+        const { onChange, onDragStart, onDragEnd } = renderSlider({
+          value: value as SliderAllProps['value'],
+        })
+
+        pointerDown(getThumbButton(thumb), 'mouse')
+        mouse(getThumbButton(thumb), 'mousedown', 70)
+        mouse(document.body, 'mousemove', 90)
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange.mock.calls[0][0].value).toEqual(draggedValue)
+
+        // Below a short body, the mouseup target is <html>
+        const mouseUp = mouse(document.documentElement, 'mouseup', 90)
+        expect(onDragStart).toHaveBeenCalledTimes(1)
+        expect(onDragEnd).toHaveBeenCalledTimes(1)
+        expect(onDragEnd.mock.calls[0][0].event).toBe(mouseUp)
+
+        // A hover without a pressed button must not move the thumb, or
+        // block other controls by preventing the default
+        const hover = mouse(document.body, 'mousemove', 10)
+        expect(hover.defaultPrevented).toBe(false)
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(getRangeElement(thumb).value).toBe('90')
+
+        mouse(document.body, 'mouseup', 10)
+        expect(onDragEnd).toHaveBeenCalledTimes(1)
+      }
+    )
+
+    it.each([
+      ['single', 70, 0],
+      ['range', [20, 70], 1],
+    ])('should end a %s touch drag on touchcancel', (_, value, thumb) => {
+      const { onChange, onDragStart, onDragEnd } = renderSlider({
+        value: value as SliderAllProps['value'],
+      })
+
+      pointerDown(getThumbButton(thumb), 'touch')
+      const touchStart = touch(getThumbButton(thumb), 'touchstart', 70)
+      const touchMove = touch(document.body, 'touchmove', 80)
+      expect(onDragStart).toHaveBeenCalledTimes(1)
+      expect(onDragStart.mock.calls[0][0].event.nativeEvent).toBe(
+        touchStart
+      )
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange.mock.calls[0][0].event).toBe(touchMove)
+
+      const touchCancel = touch(getThumbButton(thumb), 'touchcancel')
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+      expect(onDragEnd.mock.calls[0][0].event).toBe(touchCancel)
+
+      // A new finger or a hovering mouse elsewhere must not move the thumb
+      const paragraph = document.createElement('p')
+      document.body.appendChild(paragraph)
+      touch(paragraph, 'touchstart', 10)
+      touch(paragraph, 'touchmove', 0)
+      touch(paragraph, 'touchend', 0)
+      mouse(paragraph, 'mousemove', 0)
+      paragraph.remove()
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(getRangeElement(thumb).value).toBe('80')
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+    })
+
+    it('should fire the drag callbacks once for a tap', () => {
+      const { onChange, onDragStart, onDragEnd } = renderSlider()
+
+      pointerDown(getTrack(), 'touch')
+      const touchStart = touch(getTrack(), 'touchstart', 30)
+      const touchEnd = touch(getTrack(), 'touchend', 30)
+
+      // The browser follows a tap with compatibility mouse events
+      mouse(getTrack(), 'mousedown', 30)
+      mouse(getTrack(), 'mouseup', 30)
+
+      expect(onDragStart).toHaveBeenCalledTimes(1)
+      expect(onDragStart.mock.calls[0][0].event.nativeEvent).toBe(
+        touchStart
+      )
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+      expect(onDragEnd.mock.calls[0][0].event).toBe(touchEnd)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange.mock.calls[0][0].value).toBe(30)
+    })
+
+    it('should start a mouse drag after a touch drag', () => {
+      const { onChange, onDragStart, onDragEnd } = renderSlider()
+
+      // A touch drag has no compatibility mouse events
+      pointerDown(getThumbButton(), 'touch')
+      touch(getThumbButton(), 'touchstart', 70)
+      touch(document.body, 'touchmove', 60)
+      touch(document.body, 'touchend', 60)
+
+      pointerDown(getThumbButton(), 'mouse')
+      const mouseDown = mouse(getThumbButton(), 'mousedown', 60)
+      const mouseMove = mouse(document.body, 'mousemove', 20)
+      mouse(document.body, 'mouseup', 20)
+
+      expect(onDragStart).toHaveBeenCalledTimes(2)
+      expect(onDragStart.mock.calls[1][0].event.nativeEvent).toBe(
+        mouseDown
+      )
+      expect(onDragEnd).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange.mock.calls[1][0].event).toBe(mouseMove)
+      expect(getRangeElement(0).value).toBe('20')
+    })
+
+    it('should start a mouse drag after a touch without pointer events', () => {
+      const { onChange, onDragStart } = renderSlider()
+
+      touch(getThumbButton(), 'touchstart', 70)
+      touch(document.body, 'touchend', 70)
+
+      // Without pointerdown, the first mousedown counts as a compatibility event
+      mouse(getThumbButton(), 'mousedown', 70)
+      mouse(document.body, 'mouseup', 70)
+      mouse(getThumbButton(), 'mousedown', 70)
+      mouse(document.body, 'mousemove', 20)
+
+      expect(onDragStart).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(getRangeElement(0).value).toBe('20')
+    })
+
+    it.each([
+      ['disabled', { disabled: true }],
+      ['skeleton', { skeleton: true }],
+    ])(
+      'should not start a drag when %s',
+      (_, sliderProps: Partial<SliderAllProps>) => {
+        const { onChange, onDragStart, onDragEnd } =
+          renderSlider(sliderProps)
+
+        pointerDown(getThumbButton(), 'mouse')
+        mouse(getThumbButton(), 'mousedown', 70)
+        const mouseMove = mouse(document.body, 'mousemove', 20)
+        mouse(document.body, 'mouseup', 20)
+
+        pointerDown(getTrack(), 'touch')
+        touch(getTrack(), 'touchstart', 30)
+        touch(getTrack(), 'touchend', 30)
+        mouse(getTrack(), 'mousedown', 30)
+        mouse(getTrack(), 'mouseup', 30)
+
+        expect(onDragStart).not.toHaveBeenCalled()
+        expect(onDragEnd).not.toHaveBeenCalled()
+        expect(onChange).not.toHaveBeenCalled()
+        expect(mouseMove.defaultPrevented).toBe(false)
+      }
+    )
+
+    it('should stop changing the value when disabled during a drag', () => {
+      const { onChange, onDragStart, onDragEnd, rerender } = renderSlider()
+
+      pointerDown(getThumbButton(), 'mouse')
+      mouse(getThumbButton(), 'mousedown', 70)
+      mouse(document.body, 'mousemove', 80)
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      rerender({ disabled: true })
+      mouse(document.body, 'mousemove', 20)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(getRangeElement(0).value).toBe('80')
+
+      // The drag still ends once, with the real release
+      const mouseUp = mouse(document.body, 'mouseup', 20)
+      mouse(document.body, 'mouseup', 20)
+      expect(onDragStart).toHaveBeenCalledTimes(1)
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+      expect(onDragEnd.mock.calls[0][0].event).toBe(mouseUp)
+    })
+
+    it('should remove the drag listeners when unmounted during a drag', () => {
+      const { onChange, onDragEnd, unmount } = renderSlider()
+
+      // Re-render before the drag, so its handlers come from a later render
+      pointerDown(getThumbButton(), 'mouse')
+      mouse(getThumbButton(), 'mousedown', 70)
+      mouse(document.body, 'mousemove', 60)
+      mouse(document.body, 'mouseup', 60)
+
+      pointerDown(getThumbButton(), 'mouse')
+      mouse(getThumbButton(), 'mousedown', 60)
+      mouse(document.body, 'mousemove', 50)
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+
+      unmount()
+
+      const mouseMove = mouse(document.body, 'mousemove', 20)
+      mouse(document.body, 'mouseup', 20)
+      expect(mouseMove.defaultPrevented).toBe(false)
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+    })
+
+    it('should start one drag for a press on the range input', () => {
+      const { onDragStart, onDragEnd } = renderSlider()
+
+      // The press bubbles from the range input to the track
+      mouse(getRangeElement(0), 'mousedown', 70)
+      mouse(document.body, 'mouseup', 70)
+      const mouseMove = mouse(document.body, 'mousemove', 20)
+
+      expect(onDragStart).toHaveBeenCalledTimes(1)
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+      expect(mouseMove.defaultPrevented).toBe(false)
+    })
+
+    it('should end a drag once when released on the body', () => {
+      const { onChange, onDragStart, onDragEnd } = renderSlider()
+
+      pointerDown(getThumbButton(), 'mouse')
+      const mouseDown = mouse(getThumbButton(), 'mousedown', 70)
+      mouse(document.body, 'mousemove', 90)
+      const mouseUp = mouse(document.body, 'mouseup', 90)
+      mouse(document.documentElement, 'mouseup', 90)
+
+      expect(onDragStart).toHaveBeenCalledTimes(1)
+      expect(onDragStart.mock.calls[0][0].event.nativeEvent).toBe(
+        mouseDown
+      )
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+      expect(onDragEnd.mock.calls[0][0].event).toBe(mouseUp)
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      // The keyboard still changes the value after the drag
+      fireEvent.change(getRangeElement(0), { target: { value: '40' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange.mock.calls[1][0].value).toBe(40)
     })
   })
 

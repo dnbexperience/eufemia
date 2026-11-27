@@ -46,6 +46,29 @@ describe('Field.Slider', () => {
     expect(fieldOnChange).toHaveBeenCalledWith(11, expect.anything())
   })
 
+  it.each([
+    ['call', {}, 1],
+    ['not call', { readOnly: true }, 0],
+  ])('should %s onFocus and onBlur for a drag', (_, fieldProps, times) => {
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
+
+    render(
+      <Field.Slider
+        value={70}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        {...fieldProps}
+      />
+    )
+
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+    resetMouseSimulation()
+
+    expect(onFocus).toHaveBeenCalledTimes(times)
+    expect(onBlur).toHaveBeenCalledTimes(times)
+  })
+
   describe('single thumb', () => {
     it('with "value"', () => {
       const value = 70

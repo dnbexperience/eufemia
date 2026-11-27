@@ -26,6 +26,7 @@ import type {
   SliderOnChangeParams,
   SliderAllProps,
   SliderContextValue,
+  SliderDragState,
   SliderThumbState,
 } from './types'
 
@@ -215,6 +216,7 @@ export function SliderProvider(localProps: SliderAllProps) {
   }, [_value, isMulti])
 
   const trackRef = useRef<HTMLElement>(undefined)
+  const dragRef = useRef<SliderDragState>({})
 
   const animationTimeout = useRef<NodeJS.Timeout>(undefined)
   const setShouldAnimate = (state: boolean) => {
@@ -252,6 +254,7 @@ export function SliderProvider(localProps: SliderAllProps) {
         emitChange,
         allProps,
         trackRef,
+        dragRef,
         setShouldAnimate,
         animationTimeout,
       }}

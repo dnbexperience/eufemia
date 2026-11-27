@@ -1,7 +1,7 @@
 import { act } from 'react'
 import { fireEvent } from '@testing-library/react'
 
-const mockDOMRect = (width: number, height: number): DOMRect =>
+export const mockDOMRect = (width: number, height: number): DOMRect =>
   ({
     width,
     height,
