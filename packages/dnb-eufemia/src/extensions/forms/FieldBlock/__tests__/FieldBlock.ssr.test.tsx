@@ -5,7 +5,7 @@ import { renderToString } from 'react-dom/server'
 import SharedProvider from '../../../../shared/Provider'
 import { createSharedState } from '../../../../shared/helpers/useSharedState'
 import FieldBlock from '../FieldBlock'
-import { Form, Field } from '../../'
+import { Form, Field, FormError } from '../../'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps } from '../../types'
 
@@ -204,6 +204,28 @@ describe('FieldBlock SSR', () => {
     expect(html).toContain('Standalone info')
     expect(html).toContain('Handler label')
     expect(html).toContain('Handler info')
+  })
+
+  it('should render a FormError given via error translated, in every server render', () => {
+    // Shared between requests, like a module-level constant
+    const error = new FormError('Field.errorRequired')
+    const renderPage = (locale: 'nb-NO' | 'en-GB') =>
+      renderToString(
+        <SharedProvider locale={locale}>
+          <FieldBlock>
+            <Field.String error={error} />
+          </FieldBlock>
+        </SharedProvider>
+      )
+
+    const nbHtml = renderPage('nb-NO')
+    const enHtml = renderPage('en-GB')
+
+    expect(nbHtml).toContain('Dette feltet må fylles ut.')
+    expect(enHtml).toContain('This field is required.')
+    expect(enHtml).not.toContain('Dette feltet må fylles ut.')
+    expect(nbHtml + enHtml).not.toContain('Field.errorRequired')
+    expect(error.message).toBe('Field.errorRequired')
   })
 
   it('should render the label of a field when a Provider is between the field and its FieldBlock', () => {

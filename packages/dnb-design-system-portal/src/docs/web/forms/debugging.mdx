@@ -36,7 +36,7 @@ You can also provide your own data to the `Tools.Log` component by using the `da
 In order to debug your forms, you can use the `Tools.Errors` component. It will render a list of all errors in your form, including the field path and the error message.
 
 - `fieldErrors` will render all field errors.
-- `formErrors` will render all form errors initiated by e.g. `schema`.
+- `formErrors` will render all form errors initiated by e.g. `schema`. They show the message as the schema created it, for example the translation key `Field.errorRequired`. Each field translates its own copy, so `fieldErrors` show the translated text.
 
 ```tsx
 import { Tools } from '@dnb/eufemia/extensions/forms'

@@ -36,13 +36,6 @@ import type {
 const translationKeyPattern = /^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$/
 const messagePlaceholderPattern = /{\w+}/
 
-// The message key of a translated FormError and the text it was translated
-// to, so the same FormError can be translated again when the locale changes
-const translatedMessages = new WeakMap<
-  FormError,
-  { key: string; text: string }
->()
-
 export function checkForError(potentialErrors: Array<unknown>): boolean {
   return potentialErrors.some((error) => {
     return error instanceof Error || error instanceof FormError
@@ -399,18 +392,56 @@ export default function useFieldError<Value>({
 
   // -- prepareError --
 
+  // Translated copies of the given errors. The given error keeps its
+  // translation key, so it can be translated again when the locale
+  // changes, and fields that share it do not change each other's text.
+  // Each copy is reused for its error, so the prepared error keeps the
+  // same identity between renders. With each copy, keep the names of the
+  // fields that were taken from the given error.
+  const preparedErrorsRef = useRef(
+    new WeakMap<FormError, { copy: FormError; keys: Array<string> }>()
+  )
+
   const prepareError = useCallback(
     (error: FieldPropsGeneric<Value>['error']): FormError | undefined => {
+      const getPreparedCopy = (error: FormError): FormError => {
+        let prepared = preparedErrorsRef.current.get(error)
+        if (!prepared) {
+          // A real FormError, with the class of the given one
+          const copy = Object.setPrototypeOf(
+            new FormError(error.message),
+            Object.getPrototypeOf(error)
+          ) as FormError
+          prepared = { copy, keys: [] }
+          preparedErrorsRef.current.set(error, prepared)
+        }
+        const { copy } = prepared
+
+        // Take the own fields of the given error each time the field
+        // prepares it, not only when the copy is made, so a field that the
+        // app changes later is shown. Remove only the fields that this hook
+        // put on the copy and that the given error no longer has: a field
+        // taken from it earlier, and the formattedMessage and errors that
+        // the field sets. A field that the app adds to the copy it gets,
+        // for example in onStatusChange, is kept. The message is not an
+        // own enumerable field, so the caller sets it.
+        const keys = Object.keys(error)
+        for (const key of [
+          ...prepared.keys,
+          'formattedMessage',
+          'errors',
+        ]) {
+          if (!Object.prototype.hasOwnProperty.call(error, key)) {
+            delete copy[key]
+          }
+        }
+        prepared.keys = keys
+        return Object.assign(copy, error)
+      }
+
       const prepare = (error: FormError) => {
         if (error instanceof FormError) {
-          // Start from the message key, unless the message was changed after
-          // it was translated
-          const translated = translatedMessages.get(error)
-          const key =
-            translated?.text === error.message
-              ? translated.key
-              : error.message
-          let message = key
+          let message = error.message
 
           const { ajvKeyword } = error
           if (typeof ajvKeyword === 'string') {
@@ -446,12 +477,13 @@ export default function useFieldError<Value>({
             )
           }
 
+          const copy = getPreparedCopy(error)
           if (isValidElement(message)) {
-            error.formattedMessage = message
+            copy.formattedMessage = message
           } else {
-            error.message = message
-            translatedMessages.set(error, { key, text: message })
+            copy.message = message
           }
+          return ensureErrorMessageObject(copy)
         }
 
         return ensureErrorMessageObject(error)
@@ -465,8 +497,10 @@ export default function useFieldError<Value>({
 
       if (error instanceof FormError) {
         if (Array.isArray(error.errors)) {
-          error.errors = error.errors.map(prepare)
-          return error
+          const copy = getPreparedCopy(error)
+          copy.message = error.message
+          copy.errors = error.errors.map(prepare)
+          return copy
         }
         return prepare(error)
       }
