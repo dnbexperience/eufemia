@@ -460,21 +460,23 @@ function McpUsagePanel({
         />
       </Card>
 
-      {perSkill.length > 0 && (
-        <Card stack>
-          <H2 size="medium">Agent skills</H2>
-          <P className="dashboard__meta">
-            Skills that named themselves in their first docs_meta call.
-            Agents can skip this, so real use can be higher.
-          </P>
+      <Card stack>
+        <H2 size="medium">Agent skills</H2>
+        <P className="dashboard__meta">
+          Skills that named themselves in their first docs_meta call.
+          Agents can skip this, so real use can be higher.
+        </P>
+        {perSkill.length > 0 ? (
           <RankedTable
             caption={`${label} agent skills`}
             nameHeader="Skill"
             countHeader="Starts"
             items={perSkill}
           />
-        </Card>
-      )}
+        ) : (
+          <P className="dashboard__meta">No skill starts yet.</P>
+        )}
+      </Card>
 
       <Card stack>
         <H2 size="medium">Components</H2>
@@ -529,26 +531,27 @@ function SkillInstallsCard({
   installs: SkillInstalls | undefined
 }) {
   const { install = 0, update = 0, uninstall = 0 } = installs?.total ?? {}
-
-  if (install + update + uninstall === 0) {
-    return null
-  }
+  const hasInstalls = install + update + uninstall > 0
 
   return (
     <Card stack>
       <H2 size="medium">Skill installs</H2>
       <P className="dashboard__meta">
-        {`From the eufemia skills command. Installs: ${install.toLocaleString()}, updates: ${update.toLocaleString()}, uninstalls: ${uninstall.toLocaleString()}.`}
+        {hasInstalls
+          ? `From the eufemia skills command. Installs: ${install.toLocaleString()}, updates: ${update.toLocaleString()}, uninstalls: ${uninstall.toLocaleString()}.`
+          : 'No installs from the eufemia skills command yet.'}
       </P>
-      <RankedTable
-        caption="Skill installs per folder"
-        nameHeader="Folder"
-        countHeader="Commands"
-        items={(installs?.perTarget ?? []).map((row) => ({
-          name: row.target,
-          count: row.install + row.update + row.uninstall,
-        }))}
-      />
+      {hasInstalls && (
+        <RankedTable
+          caption="Skill installs per folder"
+          nameHeader="Folder"
+          countHeader="Commands"
+          items={(installs?.perTarget ?? []).map((row) => ({
+            name: row.target,
+            count: row.install + row.update + row.uninstall,
+          }))}
+        />
+      )}
     </Card>
   )
 }

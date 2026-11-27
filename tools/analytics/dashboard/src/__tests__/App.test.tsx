@@ -417,7 +417,7 @@ describe('App (smoke)', () => {
     expect(container.textContent).not.toContain('Missed component lookups')
   })
 
-  it('lists agent skill starts in the Web MCP tab and hides the card without any', async () => {
+  it('lists agent skill starts in the Web MCP tab and shows the empty message in the Local MCP tab', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: {
@@ -447,7 +447,10 @@ describe('App (smoke)', () => {
 
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
-    expect(container.textContent).not.toContain('Agent skills')
+    expect(container.textContent).toContain('No skill starts yet.')
+    expect(
+      screen.queryByRole('table', { name: 'Local MCP agent skills' })
+    ).toBeNull()
   })
 
   it('shows skill installs per folder in the Local MCP tab', async () => {
@@ -486,7 +489,7 @@ describe('App (smoke)', () => {
     expect(table.textContent).toContain('3')
   })
 
-  it('hides the skill installs card when there are none', async () => {
+  it('shows an empty message in the skill installs card when there are none', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: populated,
@@ -499,7 +502,12 @@ describe('App (smoke)', () => {
     )
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
-    expect(container.textContent).not.toContain('Skill installs')
+    expect(container.textContent).toContain(
+      'No installs from the eufemia skills command yet.'
+    )
+    expect(
+      screen.queryByRole('table', { name: 'Skill installs per folder' })
+    ).toBeNull()
   })
 
   it('shows an empty message in the Component usage tab when there is no component data', async () => {
