@@ -34,7 +34,7 @@ export const HelpButtonProperties: PropertiesTableProps = {
 }
 
 export const HelpButtonEvents: PropertiesTableProps = {
-  '[Button](/web/components/button/events)': {
+  '[Button](/web/components/button/properties#events)': {
     doc: 'Accepts all Button events.',
     type: 'Various',
     status: 'optional',

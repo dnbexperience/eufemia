@@ -152,7 +152,7 @@ You can also use component entries such as `@dnb/eufemia/components/button`. See
 
 ## Events
 
-Component event handlers receive the values documented on each component's Events tab:
+Component event handlers receive the values documented in the Events section of each component's Properties tab:
 
 <EventsExample />
 
@@ -165,7 +165,7 @@ Eufemia components apply the props you give them on top of the ones they set the
 - A `style` is merged with the component's own, where your values win.
 - For every other prop, your value wins. Avoid setting what the component controls itself, and use the property it offers for it instead.
 
-To keep a component from doing what it normally does, use the property it offers for that, such as [`preventClose`](/web/components/drawer/properties/) on a `Drawer`, or the `preventNavigation` function that [`onStepChange`](/web/forms/Wizard/Container/events/) gives you on a `Wizard.Container`.
+To keep a component from doing what it normally does, use the property it offers for that, such as [`preventClose`](/web/components/drawer/properties/) on a `Drawer`, or the `preventNavigation` function that [`onStepChange`](/web/forms/Wizard/Container/properties/#events) gives you on a `Wizard.Container`.
 
 Fields in [Eufemia Forms](/web/forms/) merge the same way. See [how given attributes are merged](/web/forms/about-fields/#how-given-attributes-are-merged) for what that means for a field's value and validation.
 

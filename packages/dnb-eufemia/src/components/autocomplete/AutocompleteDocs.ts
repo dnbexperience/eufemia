@@ -271,27 +271,27 @@ export const AutocompleteProperties: PropertiesTableProps = {
 
 export const AutocompleteEvents: PropertiesTableProps = {
   onType: {
-    doc: 'Will be called for every key change the user makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called for every key change the user makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/properties#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onFocus: {
-    doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/properties#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onBlur: {
-    doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/web/components/autocomplete/properties#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onChange: {
-    doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including [these methods](/web/components/autocomplete/properties#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
   onSelect: {
-    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/web/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
+    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem, selectedItem }` including [these methods](/web/components/autocomplete/properties#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
@@ -311,7 +311,7 @@ export const AutocompleteEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmit: {
-    doc: 'Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/web/components/autocomplete/events#dynamically-change-data).',
+    doc: 'Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/web/components/autocomplete/properties#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },

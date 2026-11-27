@@ -49,7 +49,7 @@ The render function receives `results`, the inline Autocomplete list, and `close
 
 Both Search.Autocomplete and Search.Panel support `mode="async"`. These examples simulate a delayed response with Autocomplete's managed `debounce` method. Focusing an empty input keeps the results closed. The input shows a loading indicator while waiting, then opens the results or an explicit no-results message. Clearing the query closes the results and cancels the pending response.
 
-The `onType` callback receives the same result and loading methods as Autocomplete. For remote results, see [loading data asynchronously](/web/components/autocomplete/events#dynamically-change-data). Ignore outdated responses when a newer query is typed or the input is cleared.
+The `onType` callback receives the same result and loading methods as Autocomplete. For remote results, see [loading data asynchronously](/web/components/autocomplete/properties#dynamically-change-data). Ignore outdated responses when a newer query is typed or the input is cleared.
 
 <SearchAsync />
 
