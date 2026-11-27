@@ -662,6 +662,7 @@ resource "aws_glue_catalog_table" "component_usage_daily" {
 }
 
 # Anonymous CLI skill installs. No expiry and no rollup: a few rows a day, each as coarse as a rollup row.
+# Range starts just before the first row: the hourly query has no dt filter, so Athena lists every day in it.
 resource "aws_glue_catalog_table" "skill_installs" {
   name          = "skill_installs"
   database_name = aws_glue_catalog_database.analytics.name
@@ -673,7 +674,7 @@ resource "aws_glue_catalog_table" "skill_installs" {
 
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-11-01,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
