@@ -2217,7 +2217,8 @@ function AutocompleteComponent({
         {currentDataItemVO && (
           <>
             {activeItem === selectedItem ? <>{selectedSr} </> : null}
-            {voiceOverContent[drawerList.ariaActiveDescendant]}
+            {voiceOverContent[drawerList.ariaActiveDescendant] ||
+              parseContentTitle(currentDataItemVO, { separator: ' ' })}
           </>
         )}
       </AriaLive>

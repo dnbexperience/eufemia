@@ -1214,12 +1214,14 @@ describe('Autocomplete component', () => {
     }
   )
 
-  it('announces the kept selection after browsing and tabbing away', async () => {
+  it('announces the kept selection and later controlled changes while closed', async () => {
     const isMac = helpers.IS_MAC
     Object.defineProperty(helpers, 'IS_MAC', { value: true })
 
     try {
-      render(<Autocomplete {...mockProps} data={mockData} value={0} />)
+      const { rerender } = render(
+        <Autocomplete {...mockProps} data={mockData} value={0} />
+      )
       const input = document.querySelector('input')
       fireEvent.focus(input)
       keyDownOnInput('ArrowDown')
@@ -1238,6 +1240,16 @@ describe('Autocomplete component', () => {
       expect(input).toHaveValue('AA c')
       await waitFor(() => {
         expect(announcement).toHaveTextContent('Valgt: AA c')
+      })
+
+      rerender(<Autocomplete {...mockProps} data={mockData} value={2} />)
+
+      expect(input).toHaveValue('CC cc')
+      expect(
+        document.querySelector('.dnb-autocomplete--open')
+      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(announcement).toHaveTextContent('Valgt: CC cc')
       })
     } finally {
       Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
