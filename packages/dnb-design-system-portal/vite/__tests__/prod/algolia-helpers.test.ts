@@ -4,8 +4,6 @@ import { fileURLToPath } from 'node:url'
 import { describe, it, expect, vi } from 'vitest'
 import {
   shouldIncludeInAlgolia,
-  buildAlgoliaRecord,
-  findAncestorPages,
   excludedSlugPartials,
   replaceAlgoliaRecords,
 } from '../../prod/algolia-helpers.mjs'
@@ -20,19 +18,74 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 
 describe('algolia-helpers', () => {
-  it('replaces stale search records atomically and waits for completion', async () => {
-    const records = [{ objectID: 'web/components/button' }]
-    const wait = vi
-      .fn()
-      .mockResolvedValue({ objectIDs: ['web/components/button'] })
-    const index = { replaceAllObjects: vi.fn().mockReturnValue({ wait }) }
-    await expect(replaceAlgoliaRecords(index, records)).resolves.toEqual({
+  it('prepares settings and records before atomically replacing the live index', async () => {
+    const content = 'Use `<button>` & `<Td>` and keep &lt;literal&gt;.'
+    const records = [{ objectID: 'web/components/button', content }]
+    const settings = { attributeForDistinct: 'url', distinct: true }
+    const operations: string[] = []
+    const operation = (name: string, result = {}) =>
+      vi.fn(() => ({
+        wait: vi.fn(async () => {
+          operations.push(name)
+          return result
+        }),
+      }))
+    const temporary = {
+      setSettings: operation('settings'),
+      saveObjects: operation('records', {
+        objectIDs: ['web/components/button'],
+      }),
+      delete: operation('delete'),
+    }
+    const client = {
+      initIndex: vi.fn((_name: string) => temporary),
+      copyIndex: operation('copy'),
+      moveIndex: operation('move'),
+    }
+    await expect(
+      replaceAlgoliaRecords(client, 'docs', records, settings)
+    ).resolves.toEqual({
       objectIDs: ['web/components/button'],
     })
-    expect(index.replaceAllObjects).toHaveBeenCalledWith(records, {
-      safe: true,
+    const temporaryName = client.initIndex.mock.calls[0][0]
+    expect(temporaryName).not.toBe('docs')
+    expect(client.copyIndex).toHaveBeenCalledWith('docs', temporaryName, {
+      scope: ['settings', 'synonyms', 'rules'],
     })
-    expect(wait).toHaveBeenCalledOnce()
+    expect(temporary.setSettings).toHaveBeenCalledWith(settings)
+    expect(temporary.saveObjects).toHaveBeenCalledWith([
+      {
+        ...records[0],
+        content:
+          'Use `&lt;button&gt;` &amp; `&lt;Td&gt;` and keep &amp;lt;literal&amp;gt;.',
+      },
+    ])
+    expect(records[0].content).toBe(content)
+    expect(client.moveIndex).toHaveBeenCalledWith(temporaryName, 'docs')
+    expect(operations).toEqual(['copy', 'settings', 'records', 'move'])
+    expect(temporary.delete).not.toHaveBeenCalled()
+  })
+
+  it('keeps the live index untouched and cleans up when preparation fails', async () => {
+    const error = new Error('Upload failed')
+    const wait = vi.fn().mockResolvedValue({})
+    const temporary = {
+      setSettings: vi.fn(() => ({ wait })),
+      saveObjects: vi.fn(() => ({
+        wait: vi.fn().mockRejectedValue(error),
+      })),
+      delete: vi.fn(() => ({ wait })),
+    }
+    const client = {
+      initIndex: vi.fn(() => temporary),
+      copyIndex: vi.fn(() => ({ wait })),
+      moveIndex: vi.fn(),
+    }
+    await expect(
+      replaceAlgoliaRecords(client, 'docs', [], {})
+    ).rejects.toBe(error)
+    expect(client.moveIndex).not.toHaveBeenCalled()
+    expect(temporary.delete).toHaveBeenCalledOnce()
   })
   describe('heading slugs', () => {
     // Mirrors how push-algolia walks a document: it holds an mdast node.
@@ -59,6 +112,14 @@ describe('algolia-helpers', () => {
   })
 
   describe('shouldIncludeInAlgolia', () => {
+    it('excludes internal visual-test fixtures', () => {
+      expect(
+        shouldIncludeInAlgolia({
+          slug: 'web/components/button/visual-tests',
+        })
+      ).toBe(false)
+    })
+
     it('excludes contentless navigation entries', () => {
       expect(
         shouldIncludeInAlgolia({ slug: 'web/get-started', route: false })
@@ -99,202 +160,6 @@ describe('algolia-helpers', () => {
         ).toBe(false)
       }
     )
-  })
-
-  describe('buildAlgoliaRecord', () => {
-    it('excludes pages marked search: false even when they inherit a title', () => {
-      expect(
-        buildAlgoliaRecord({
-          fields: {
-            slug: 'uilib/components/list/visual-tests/custom-cells',
-          },
-          frontmatter: { search: false },
-          recordHeadings: [],
-          siblings: [
-            {
-              fields: { slug: 'uilib/components/list' },
-              frontmatter: { title: 'List' },
-            },
-          ],
-        })
-      ).toBeNull()
-    })
-
-    it('should return null when no title or description exists', () => {
-      expect(
-        buildAlgoliaRecord({
-          fields: { slug: '/page' },
-          frontmatter: {},
-          recordHeadings: [],
-          siblings: [],
-        })
-      ).toBeNull()
-    })
-
-    it('should use frontmatter title', () => {
-      const result = buildAlgoliaRecord({
-        fields: { slug: '/page' },
-        frontmatter: { title: 'My Page' },
-        recordHeadings: [],
-        siblings: [],
-      })
-
-      expect(result).toMatchObject({
-        slug: '/page',
-        title: 'My Page',
-      })
-    })
-
-    it('should use contentTitle as title when frontmatter has no title', () => {
-      const result = buildAlgoliaRecord({
-        fields: { slug: '/parent/page' },
-        frontmatter: { contentTitle: 'My Page' },
-        recordHeadings: [],
-        siblings: [
-          {
-            fields: { slug: '/parent' },
-            frontmatter: { title: 'Parent' },
-          },
-        ],
-      })
-
-      expect(result).toMatchObject({
-        slug: '/parent/page',
-        title: 'My Page',
-      })
-    })
-
-    it('should promote h1 heading to title when frontmatter has no title', () => {
-      const result = buildAlgoliaRecord({
-        fields: { slug: '/page' },
-        frontmatter: {},
-        recordHeadings: [{ value: 'Heading 1', depth: 1 }],
-        siblings: [],
-      })
-
-      expect(result).toMatchObject({
-        slug: '/page',
-        title: 'Heading 1',
-      })
-      expect(result.headings).toHaveLength(0)
-    })
-
-    it('should use frontmatter search field as title', () => {
-      const result = buildAlgoliaRecord({
-        fields: { slug: '/page' },
-        frontmatter: { search: 'search string' },
-        recordHeadings: [{ value: 'Heading 1', depth: 1 }],
-        siblings: [],
-      })
-
-      expect(result).toMatchObject({
-        slug: '/page',
-        title: 'search string',
-        search: null,
-      })
-    })
-
-    it('should carry the headings it was given into the record', () => {
-      const result = buildAlgoliaRecord({
-        fields: { slug: '/page' },
-        frontmatter: { title: 'Title' },
-        recordHeadings: [
-          { value: 'Some Heading', depth: 2, slug: 'some-heading' },
-        ],
-        siblings: [],
-      })
-
-      expect(result.headings[0]).toMatchObject({
-        value: 'Some Heading',
-        slug: 'some-heading',
-      })
-    })
-
-    it('should set category from the first sibling', () => {
-      const result = buildAlgoliaRecord({
-        fields: { slug: '/page' },
-        frontmatter: { title: 'Title' },
-        recordHeadings: [],
-        siblings: [
-          {
-            fields: { slug: '/category' },
-            frontmatter: { title: 'Category' },
-          },
-        ],
-      })
-
-      expect(result.category).toMatchObject({
-        slug: '/category',
-        title: 'Category',
-      })
-    })
-
-    it('should combine sibling title with h2 heading', () => {
-      const result = buildAlgoliaRecord({
-        fields: { slug: '/page' },
-        frontmatter: {},
-        recordHeadings: [{ value: 'Properties', depth: 2 }],
-        siblings: [
-          {
-            fields: { slug: '/page' },
-            frontmatter: { title: 'Button' },
-          },
-        ],
-      })
-
-      expect(result.title).toBe('Button \u2192 Properties')
-    })
-  })
-
-  describe('findAncestorPages', () => {
-    const nodes = [
-      {
-        fields: { slug: '/uilib' },
-        frontmatter: { title: 'UI Library' },
-      },
-      {
-        fields: { slug: '/uilib/components' },
-        frontmatter: { title: 'Components' },
-      },
-      {
-        fields: { slug: '/uilib/components/button' },
-        frontmatter: { title: 'Button' },
-      },
-    ]
-
-    it('should find ancestors ordered from closest to farthest', () => {
-      const result = findAncestorPages(
-        '/uilib/components/button/properties',
-        nodes
-      )
-
-      expect(result.map(({ fields }) => fields.slug)).toEqual([
-        '/uilib/components/button',
-        '/uilib/components',
-        '/uilib',
-      ])
-    })
-
-    it('should not include the page itself', () => {
-      const result = findAncestorPages('/uilib/components/button', nodes)
-
-      expect(result.map(({ fields }) => fields.slug)).toEqual([
-        '/uilib/components',
-        '/uilib',
-      ])
-    })
-
-    it('should skip nodes without a title', () => {
-      const result = findAncestorPages('/uilib/components/button', [
-        { fields: { slug: '/uilib' }, frontmatter: {} },
-      ])
-
-      expect(result).toHaveLength(0)
-    })
-
-    it('should return empty array when no ancestors exist', () => {
-      expect(findAncestorPages('/uilib', nodes)).toHaveLength(0)
-    })
   })
 
   describe('push-algolia.mjs', () => {

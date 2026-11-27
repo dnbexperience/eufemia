@@ -8695,6 +8695,7 @@ __metadata:
     eslint-plugin-react: "npm:7.37.5"
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-workspaces: "npm:0.12.1"
+    eufemia-llm-metadata: "workspace:*"
     fs-extra: "npm:10.0.0"
     github-slugger: "npm:1.4.0"
     globby: "npm:11.0.4"
@@ -9922,7 +9923,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"eufemia-llm-metadata@workspace:tools/eufemia-llm-metadata":
+"eufemia-llm-metadata@workspace:*, eufemia-llm-metadata@workspace:tools/eufemia-llm-metadata":
   version: 0.0.0-use.local
   resolution: "eufemia-llm-metadata@workspace:tools/eufemia-llm-metadata"
   dependencies:

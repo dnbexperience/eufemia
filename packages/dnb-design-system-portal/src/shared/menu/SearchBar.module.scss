@@ -1,18 +1,25 @@
-@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
-
-.portalClassStyle {
+.panelClassStyle {
   z-index: 6000;
 
-  &:global(.dnb-drawer-list__portal__style) {
-    transition: none;
-  }
-}
+  &:global(.dnb-search__panel) {
+    :global {
+      .dnb-popover__content {
+        padding-top: 0;
+      }
 
-.compactPortalClassStyle {
-  // The compact input is too narrow for result titles on small screens.
-  @include utilities.allBelow(small) {
-    left: 1rem !important;
-    width: calc(100vw - 2rem) !important;
+      .dnb-popover__close.dnb-button {
+        top: 0.25rem;
+      }
+
+      .dnb-search__panel-content {
+        padding-bottom: 0.5rem;
+        max-height: var(--popover-available-height, 70vh);
+      }
+
+      .dnb-chip-group {
+        padding-right: 2rem;
+      }
+    }
   }
 }
 
