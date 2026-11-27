@@ -2,6 +2,10 @@ import {
   runAgentSkillsCli,
   type SelectAgentSkillsTargets,
 } from './agentSkills.js'
+import {
+  reportSkillInstalls,
+  type ReportSkillInstalls,
+} from './skillsTelemetry.js'
 
 export type RunEufemiaCliOptions = {
   args: string[]
@@ -9,6 +13,7 @@ export type RunEufemiaCliOptions = {
   cwd?: string
   output?: (message: string) => void
   selectTargets?: SelectAgentSkillsTargets
+  reportInstalls?: ReportSkillInstalls
 }
 
 const HELP = `Usage: eufemia <command>
@@ -24,6 +29,7 @@ export async function runEufemiaCli({
   cwd = process.cwd(),
   output = console.log,
   selectTargets,
+  reportInstalls = reportSkillInstalls,
 }: RunEufemiaCliOptions) {
   const command = args[0] ?? 'help'
 
@@ -43,6 +49,7 @@ export async function runEufemiaCli({
       cwd,
       output,
       selectTargets,
+      reportInstalls,
     })
   }
 
@@ -53,6 +60,7 @@ export async function runEufemiaCli({
       cwd,
       output,
       selectTargets,
+      reportInstalls,
     })
   }
 

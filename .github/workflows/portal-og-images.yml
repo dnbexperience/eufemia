@@ -59,7 +59,7 @@ jobs:
         if: github.event_name == 'schedule' || inputs.publish
         run: node packages/dnb-design-system-portal/scripts/og-images/request.mts
         env:
-          GH_ENTERPRISE_TOKEN: ${{ secrets.GHE_DEPLOY_PAT }}
+          GH_TOKEN: ${{ secrets.GHE_DEPLOY_PAT }}
           GHE_ASSETS_DEPLOY_REPO: ${{ vars.GHE_ASSETS_DEPLOY_REPO }}
           OG_MODE: ${{ inputs.mode || 'refresh' }}
       - name: Restore newly published catalogue

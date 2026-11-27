@@ -193,11 +193,13 @@ function RouteEffects({ children }: { children: React.ReactNode }) {
 }
 
 function useRouteFocus() {
-  const { pathname, search, hash: routeHash } = useLocation()
+  const { pathname, search, hash: routeHash, key } = useLocation()
   const navigationType = useNavigationType()
   const previousRouteRef = useRef<{
     pathname: string
     route: string
+    search: string
+    key: string
   } | null>(null)
 
   // Focus mode owns its scroll position.
@@ -214,32 +216,54 @@ function useRouteFocus() {
         : pathname + routeHash
 
     const previousRoute = previousRouteRef.current
-    if (previousRoute?.route === currentRoute) {
-      return
-    }
     previousRouteRef.current = {
       pathname,
       route: currentRoute,
+      search,
+      key,
+    }
+    if (
+      previousRoute?.route === currentRoute &&
+      (previousRoute.key === key || previousRoute.search !== search)
+    ) {
+      return
     }
 
-    if (hash || previousRoute) {
-      const samePageClick =
-        navigationType === 'PUSH' && previousRoute?.pathname === pathname
-      applyRouteFocus(hash, samePageClick ? 'auto' : 'instant')
+    let canceled = false
+    const samePageClick =
+      navigationType === 'PUSH' && previousRoute?.pathname === pathname
+    const focusRoute = () => {
+      if (canceled) {
+        return
+      }
+      if (hash || previousRoute) {
+        applyRouteFocus(hash, samePageClick ? 'auto' : 'instant')
+      }
+      document.documentElement.setAttribute('data-portal-ready', 'true')
+      window.dispatchEvent(new Event('portal:ready'))
     }
-
-    document.documentElement.setAttribute('data-portal-ready', 'true')
-    window.dispatchEvent(new Event('portal:ready'))
+    if (hash && !samePageClick) {
+      // Destination fonts can change the layout above the hash target.
+      void document.fonts.ready.then(focusRoute)
+    } else {
+      focusRoute()
+    }
     const warmHints = () => {
       void loadHints()
     }
     if (window.requestIdleCallback) {
       const idle = window.requestIdleCallback(warmHints, { timeout: 1000 })
-      return () => window.cancelIdleCallback(idle)
+      return () => {
+        canceled = true
+        window.cancelIdleCallback(idle)
+      }
     }
     const timer = window.setTimeout(warmHints, 200)
-    return () => window.clearTimeout(timer)
-  }, [routeHash, pathname, routeSearch, navigationType])
+    return () => {
+      canceled = true
+      window.clearTimeout(timer)
+    }
+  }, [routeHash, pathname, routeSearch, search, key, navigationType])
 }
 
 /** Records an anonymous page view on initial load and each navigation. */

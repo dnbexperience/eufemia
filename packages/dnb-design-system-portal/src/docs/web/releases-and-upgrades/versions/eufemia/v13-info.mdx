@@ -95,6 +95,10 @@ See [print styles](/web/styling-and-themes/css/document-styles/#print-styles).
 
 ## Component changes
 
+### DrawerList option content
+
+DrawerList no longer moves focus into links inside an option when pressing Tab. This also applies to components that use DrawerList, such as Autocomplete and Dropdown. Keep option content free of links, buttons and other interactive elements. Handle selection in `onChange`; for navigation, use a [Menu](/web/components/menu/) or a results list with real links. Place filtering and sorting controls outside the options, for example in [Search.Panel](/web/components/search/).
+
 ### Server rendering of state shared by `id`
 
 Server-rendered state that components share by `id` is isolated per render. This covers Forms and Filter, and also `Tabs` with `Tabs.Content`, a tertiary `Accordion` with `Accordion.Content` (`connectedTo`), `HelpButtonInline` with `HelpButtonInlineContent`, `List.Container` with `List.ShowMoreButton`, `Upload` with `Upload.useUpload`, and `Chat.Conversation` with `Chat.useConversation`. Wrap components that share state by `id` outside `Form.Handler` or `Filter.Root` in the same Eufemia `Provider`. Without that scope, server rendering cannot share their data, although the browser still can, which can cause a hydration mismatch.

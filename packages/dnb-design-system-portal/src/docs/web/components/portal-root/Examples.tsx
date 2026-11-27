@@ -10,7 +10,8 @@ import { BrowserTranslate } from '@dnb/eufemia/src/shared'
 export const PortalRootExample = () => (
   <ComponentBox socialPreview={false}>
     <PortalRoot>
-      <div
+      <aside
+        aria-label="Portal content"
         style={{
           position: 'fixed',
           top: '16rem',
@@ -26,7 +27,7 @@ export const PortalRootExample = () => (
         <P style={{ color: 'var(--token-color-text-neutral-ondark)' }}>
           My content
         </P>
-      </div>
+      </aside>
     </PortalRoot>
     <P>Do you see the red box?</P>
   </ComponentBox>

@@ -1,11 +1,13 @@
 import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
 import {
   cleanup,
+  act,
   fireEvent,
   render,
   waitFor,
 } from '@testing-library/react'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, useLocation } from 'react-router'
+import { useNavigateSetup } from 'portal-query'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { formatSearchResultMarkdown } from '../SearchBarMarkdown'
@@ -120,39 +122,191 @@ describe('SearchBar', () => {
     expect(highlight).not.toBeNull()
     expect(highlight?.textContent).toBe('--z-index')
   })
-
-  it('keeps inline code highlighting inside linked search results', () => {
-    const { container } = render(
-      <Autocomplete
-        data={[
-          <a key="result" href="/components/card">
-            {formatSearchResultMarkdown('Use `Card`')}
-          </a>,
-        ]}
-        open
-        inputValue="Ca"
-        id="portal-search-link-test"
-        search={{ filter: false }}
-        noAnimation
-        skipPortal
-      />
-    )
-
-    const link = container.querySelector('a')
-    const code = link?.querySelector('code')
-    const highlight = code?.querySelector(
-      '.dnb-drawer-list__option__item--highlight'
-    )
-
-    expect(link).not.toBeNull()
-    expect(code?.textContent).toBe('Card')
-    expect(highlight?.textContent).toBe('Ca')
-  })
 })
 
 describe('SearchBarInput', () => {
+  it('defaults to Web and searches the current query again when the platform changes, including with no results', async () => {
+    const onQuery = vi.fn()
+    render(
+      <Provider locale="en-GB">
+        <SearchBarInput onQuery={onQuery} />
+      </Provider>
+    )
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'button' } })
+    await waitFor(() =>
+      expect(search).toHaveBeenLastCalledWith('button', {
+        filters: 'platform:web',
+      })
+    )
+    await waitFor(() =>
+      expect(document.body.textContent).toContain('No options')
+    )
+    expect(search).toHaveBeenLastCalledWith('button', {
+      filters: 'platform:web',
+    })
+    expect(
+      document.querySelector<HTMLInputElement>('input[value="web"]')
+        ?.checked
+    ).toBe(true)
+    for (const platform of ['ios', 'android', 'web']) {
+      fireEvent.click(document.querySelector(`input[value="${platform}"]`))
+      await waitFor(() =>
+        expect(search).toHaveBeenLastCalledWith('button', {
+          filters: `platform:${platform}`,
+        })
+      )
+      await waitFor(() =>
+        expect(document.body.textContent).toContain('No options')
+      )
+      expect(
+        document.querySelector<HTMLInputElement>(
+          `input[value="${platform}"]`
+        ).checked
+      ).toBe(true)
+    }
+    expect(onQuery).toHaveBeenCalledTimes(1)
+  })
+
+  it('ignores a pending response from the previous platform', async () => {
+    let resolveIos: (value: { hits: unknown[] }) => void
+    search.mockResolvedValueOnce({
+      hits: [{ slug: 'web/button', title: 'Web Button' }],
+    })
+    render(<SearchBarInput />)
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'button' } })
+    await waitFor(() =>
+      expect(document.querySelector('[role="option"]')?.textContent).toBe(
+        'Web Button'
+      )
+    )
+    search.mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveIos = resolve
+      })
+    )
+    fireEvent.click(document.querySelector('input[value="ios"]'))
+    await waitFor(() =>
+      expect(search).toHaveBeenLastCalledWith('button', {
+        filters: 'platform:ios',
+      })
+    )
+    expect(document.body.textContent).not.toContain('Web Button')
+    search.mockResolvedValueOnce({
+      hits: [{ slug: 'android/button', title: 'Android Button' }],
+    })
+    fireEvent.click(document.querySelector('input[value="android"]'))
+    await waitFor(() =>
+      expect(document.querySelector('[role="option"]')?.textContent).toBe(
+        'Android Button'
+      )
+    )
+    await act(async () =>
+      resolveIos({ hits: [{ slug: 'ios/button', title: 'iOS Button' }] })
+    )
+    expect(document.querySelector('[role="option"]')?.textContent).toBe(
+      'Android Button'
+    )
+  })
+
+  it('offers each section once without nested links and opens the selected heading with Enter', async () => {
+    const hit = {
+      slug: 'web/components/search',
+      pageTitle: 'Search → Overview',
+      title: 'Keyboard shortcut',
+      hash: 'keyboard-shortcut',
+      headings: ['Overview', 'Behavior'],
+      _snippetResult: {
+        content: {
+          value:
+            'Use <em>Cmd+K</em> to focus the `&lt;<em>button</em>&gt;` search. Keep &amp; and &amp;lt;Td&amp;gt;.',
+        },
+      },
+    }
+    search.mockResolvedValueOnce({ hits: [hit, hit] })
+    function Location() {
+      useNavigateSetup()
+      const location = useLocation()
+      return <output>{location.pathname + location.hash}</output>
+    }
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+        <Location />
+      </MemoryRouter>
+    )
+    const input =
+      document.querySelector<HTMLInputElement>('#portal-search')
+    act(() => input.focus())
+    fireEvent.change(input, { target: { value: 'shortcut' } })
+
+    await waitFor(() =>
+      expect(
+        document.querySelector('[role="option"]')?.textContent
+      ).toContain('Keyboard shortcut')
+    )
+    expect(document.querySelectorAll('[role="option"]')).toHaveLength(1)
+    expect(
+      document.querySelector('[role="option"]')?.textContent
+    ).toContain('Search → Overview → Behavior')
+    expect(
+      document.querySelector('[role="option"]')?.textContent
+    ).toContain(
+      'Use Cmd+K to focus the <button> search. Keep & and &lt;Td&gt;.'
+    )
+    expect(document.querySelector('[role="option"] em')).toBeNull()
+    expect(
+      document.querySelector('[role="option"] code')?.textContent
+    ).toBe('<button>')
+    expect(
+      document.querySelector('[role="option"] a, [role="option"] button')
+    ).toBeNull()
+    fireEvent.keyDown(input, { key: 'ArrowDown', keyCode: 40 })
+    await waitFor(() =>
+      expect(input.getAttribute('aria-activedescendant')).toBe(
+        'option-portal-search-0'
+      )
+    )
+    fireEvent.keyDown(input, { key: 'Enter', keyCode: 13 })
+    await waitFor(() =>
+      expect(document.querySelector('output')?.textContent).toBe(
+        '/web/components/search/#keyboard-shortcut'
+      )
+    )
+  })
+
+  it('keeps legacy headings independently selectable while the index migrates', async () => {
+    search.mockResolvedValueOnce({
+      hits: [
+        {
+          slug: 'web/components/button',
+          title: 'Button',
+          headings: [null, { value: 'Keyboard', slug: 'keyboard' }],
+        },
+      ],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'button' } })
+    await waitFor(() =>
+      expect(document.querySelectorAll('[role="option"]')).toHaveLength(2)
+    )
+    expect(
+      document.querySelectorAll('[role="option"]')[1].textContent
+    ).toContain('Keyboard')
+    expect(document.querySelector('[role="option"] a')).toBeNull()
+  })
+
   it.each(['compact', 'hero'] as const)(
-    'renders %s search results in the portal',
+    'renders %s search results in a portaled panel',
     async (variant) => {
       search.mockResolvedValueOnce({
         hits: [{ slug: 'web/components/button', title: 'Button' }],
@@ -168,15 +322,13 @@ describe('SearchBarInput', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector(
-            '#eufemia-portal-root a[href="/web/components/button/"]'
-          )
+          document.querySelector('#eufemia-portal-root [role="option"]')
         ).not.toBeNull()
       )
       expect(
         document
-          .querySelector('.dnb-drawer-list__portal__style')
-          .classList.contains('dnb-drawer-list__portal__style--fixed')
+          .querySelector('#eufemia-portal-root .dnb-search__panel')
+          .classList.contains('dnb-popover--fixed')
       ).toBe(variant === 'compact')
     }
   )
@@ -200,11 +352,9 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'space' } })
     expect(onQuery).toHaveBeenCalledWith('space')
     await waitFor(() =>
-      expect(
-        document.querySelector(
-          'a[href="/web/layout-and-typography/layout/space/"]'
-        )
-      ).not.toBeNull()
+      expect(document.querySelector('[role="option"]')?.textContent).toBe(
+        'Space'
+      )
     )
   })
 
@@ -221,18 +371,18 @@ describe('SearchBarInput', () => {
     fireEvent.focus(input)
     fireEvent.change(input, { target: { value: 'bu' } })
     await waitFor(() =>
-      expect(
-        document.querySelector('a[href="/web/components/button/"]')
-      ).not.toBeNull()
+      expect(document.querySelector('[role="option"]')?.textContent).toBe(
+        'Button'
+      )
     )
     search.mockResolvedValue({
       hits: [{ slug: 'web/components/card', title: 'Card' }],
     })
     fireEvent.change(input, { target: { value: 'card' } })
     await waitFor(() =>
-      expect(
-        document.querySelector('a[href="/web/components/card/"]')
-      ).not.toBeNull()
+      expect(document.querySelector('[role="option"]')?.textContent).toBe(
+        'Card'
+      )
     )
     expect(
       document.querySelector('.dnb-autocomplete--show-indicator')
@@ -256,9 +406,9 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'dance' } })
     fireEvent.change(input, { target: { value: 'button' } })
     await waitFor(() =>
-      expect(
-        document.querySelector('a[href="/web/components/button/"]')
-      ).not.toBeNull()
+      expect(document.querySelector('[role="option"]')?.textContent).toBe(
+        'Button'
+      )
     )
     expect(
       document.querySelector(
@@ -313,9 +463,9 @@ describe('SearchBarInput', () => {
     fireEvent.change(input, { target: { value: 'list' } })
 
     await waitFor(() => {
-      expect(
-        document.querySelector('a[href="/uilib/components/list/"]')
-      ).not.toBeNull()
+      expect(document.querySelector('[role="option"]')?.textContent).toBe(
+        'List'
+      )
     })
     expect(document.body.textContent).not.toContain('List visual test')
     expect(document.body.textContent).not.toContain(

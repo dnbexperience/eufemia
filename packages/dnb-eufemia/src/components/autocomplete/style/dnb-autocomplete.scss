@@ -319,9 +319,5 @@
     &__item--highlight {
       font-weight: var(--font-weight-bold);
     }
-
-    &--selected .dnb-anchor {
-      --anchor-color--default: var(--token-color-text-neutral-inverse);
-    }
   }
 }

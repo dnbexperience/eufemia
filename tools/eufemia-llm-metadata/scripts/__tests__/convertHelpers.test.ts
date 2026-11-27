@@ -25,6 +25,41 @@ import {
 } from '../../src/convertHelpers.ts'
 
 describe('convertMdxToMd', () => {
+  it('can omit separately indexed MDX imports while keeping the default full conversion', async () => {
+    const root = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'mdx-search-source-')
+    )
+    try {
+      const inputPath = path.join(root, 'button.mdx')
+      const demosPath = path.join(root, 'demos.mdx')
+      fs.writeFileSync(
+        inputPath,
+        "import Info from './_info.mdx'\n\n<Info />"
+      )
+      fs.writeFileSync(
+        path.join(root, '_info.mdx'),
+        "import Demos from './demos.mdx'\n\n## Overview\nOverview prose.\n<Demos />"
+      )
+      fs.writeFileSync(demosPath, '## Primary button\nDemo prose.')
+      const convert = (excludeMdxPaths?: ReadonlySet<string>) =>
+        convertMdxToMd({
+          inputPath,
+          docsRoot: root,
+          docsBaseRoot: root,
+          prettierConfig: {},
+          includeFrontmatter: false,
+          state: { mdxCache: new Map(), inProgress: new Set() },
+          excludeMdxPaths,
+        })
+      expect(await convert()).toContain('Demo prose.')
+      const search = await convert(new Set([demosPath]))
+      expect(search).toContain('Overview prose.')
+      expect(search).not.toContain('Demo prose.')
+      expect(search).not.toContain('<Demos')
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
   it('keeps only top-level title and description in generated YAML', async () => {
     const root = fs.mkdtempSync(
       path.join(os.tmpdir(), 'mdx-navigation-yaml-')

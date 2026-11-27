@@ -14,6 +14,7 @@ import {
 import * as helpers from '../../../shared/helpers'
 import type { AutocompleteAllProps } from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
+import NumberFormat from '../../number-format/NumberFormat'
 import { SubmitButton } from '../../input/Input'
 import { List } from '../../lib'
 import {
@@ -168,9 +169,9 @@ describe('Autocomplete component', () => {
     render(
       <Autocomplete
         data={[
-          <a key="item" href="/styling">
+          <span key="item">
             Use <code>Card</code>
-          </a>,
+          </span>,
         ]}
         open
         inputValue="Ca"
@@ -180,13 +181,11 @@ describe('Autocomplete component', () => {
     )
 
     const option = document.querySelector('li.dnb-drawer-list__option')
-    const link = option?.querySelector('a')
-    const code = link?.querySelector('code')
+    const code = option?.querySelector('code')
     const highlight = code?.querySelector(
       '.dnb-drawer-list__option__item--highlight'
     )
 
-    expect(link).toBeInTheDocument()
     expect(code).toHaveTextContent('Card')
     expect(highlight).toHaveTextContent('Ca')
   })
@@ -1146,6 +1145,144 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
+  it.each([
+    {
+      data: [
+        [
+          'Second option',
+          <a key="legacy-link" href="#legacy">
+            Nested link
+          </a>,
+        ],
+      ],
+      expected: 'Second option Nested link',
+    },
+    {
+      data: [
+        {
+          content: ['Sparekonto', '2000 12 34567'],
+          suffixValue: (
+            <NumberFormat.Currency srLabel="Balance:">
+              {12345678}
+            </NumberFormat.Currency>
+          ),
+        },
+      ],
+      expected: 'Sparekonto 2000 12 34567 Balance: 12 345 678,00 kroner',
+    },
+    {
+      data: [
+        [
+          'Sparekonto',
+          <NumberFormat.Currency key="amount" value={1234} />,
+        ],
+      ],
+      expected: 'Sparekonto 1234,00 kroner',
+    },
+  ])(
+    'announces rendered option content as plain text for VoiceOver: $expected',
+    async ({ data, expected }) => {
+      const isMac = helpers.IS_MAC
+      Object.defineProperty(helpers, 'IS_MAC', { value: true })
+
+      try {
+        render(
+          <Autocomplete {...mockProps} showSubmitButton data={data} />
+        )
+        toggle()
+        await act(async () => {
+          keyDownOnInput('ArrowDown')
+        })
+
+        const announcement = document.querySelector(
+          '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
+        )
+        await waitFor(() => {
+          expect(announcement).toHaveTextContent(expected)
+        })
+        expect(announcement.querySelector('a, button, input')).toBeNull()
+
+        act(() => {
+          dispatchKeyDown('Enter')
+        })
+        await waitFor(() => {
+          expect(announcement).toHaveTextContent(`Valgt: ${expected}`)
+        })
+      } finally {
+        Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
+      }
+    }
+  )
+
+  it('announces the kept selection and later controlled changes while closed', async () => {
+    const isMac = helpers.IS_MAC
+    Object.defineProperty(helpers, 'IS_MAC', { value: true })
+
+    try {
+      const { rerender } = render(
+        <Autocomplete {...mockProps} data={mockData} value={0} />
+      )
+      const input = document.querySelector('input')
+      fireEvent.focus(input)
+      keyDownOnInput('ArrowDown')
+      keyDownOnInput('ArrowDown')
+
+      const announcement = document.querySelector(
+        '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
+      )
+      await waitFor(() => {
+        expect(announcement).toHaveTextContent('BB cc zethx')
+      })
+
+      keyDownOnInput('Tab')
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('AA c')
+      await waitFor(() => {
+        expect(announcement).toHaveTextContent('Valgt: AA c')
+      })
+
+      rerender(<Autocomplete {...mockProps} data={mockData} value={2} />)
+
+      expect(input).toHaveValue('CC cc')
+      expect(
+        document.querySelector('.dnb-autocomplete--open')
+      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(announcement).toHaveTextContent('Valgt: CC cc')
+      })
+    } finally {
+      Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
+    }
+  })
+
+  it('announces the option selected by pointer for VoiceOver', async () => {
+    const isMac = helpers.IS_MAC
+    Object.defineProperty(helpers, 'IS_MAC', { value: true })
+
+    try {
+      render(
+        <Autocomplete {...mockProps} showSubmitButton data={mockData} />
+      )
+      toggle()
+      await act(async () => {
+        keyDownOnInput('ArrowDown')
+      })
+
+      fireEvent.click(document.querySelectorAll('[role="option"]')[2])
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
+          )
+        ).toHaveTextContent('Valgt: CC cc')
+      })
+    } finally {
+      Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
+    }
+  })
+
   it('should update aria-live (for VoiceOver support) with selected item', async () => {
     Object.defineProperty(helpers, 'IS_MAC', {
       value: true,
@@ -1249,7 +1386,7 @@ describe('Autocomplete component', () => {
     await waitFor(
       () => {
         const ariaLive = getVoiceOverAriaLive()
-        expect(ariaLive?.textContent).toBe('CCcc')
+        expect(ariaLive?.textContent).toBe('CC cc')
       },
       { timeout: 3000 }
     )
@@ -1261,7 +1398,7 @@ describe('Autocomplete component', () => {
     await waitFor(
       () => {
         const ariaLive = getVoiceOverAriaLive()
-        expect(ariaLive?.textContent).toBe('Valgt: CCcc')
+        expect(ariaLive?.textContent).toBe('Valgt: CC cc')
       },
       { timeout: 2000 }
     )
@@ -4253,62 +4390,40 @@ describe('Autocomplete component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
-  const orig = window.requestAnimationFrame
-  afterEach(() => {
-    window.requestAnimationFrame = orig
-  })
-
-  it('will make anchors inside drawer-list item accessible', async () => {
-    window.requestAnimationFrame = undefined
-
-    const mockData = [
-      'first item',
-      [
-        <a href="/" className="first-anchor" key="first">
-          anchor
-        </a>,
-        <a href="/" className="second-anchor" key="second">
-          anchor
-        </a>,
-      ],
-      'one more item',
-    ]
-
-    render(<Autocomplete {...mockProps} data={mockData} />)
-
-    const inputElement = document.querySelector('input')
-    fireEvent.focus(inputElement)
-
-    // Open the dropdown
-    keyDownOnInput('ArrowDown')
-
-    // Focus the first item
-    keyDownOnInput('ArrowDown')
-
-    // Focus the second item (with anchors)
-    keyDownOnInput('ArrowDown')
-
-    fireEvent.keyDown(document.activeElement, { key: 'Tab', keyCode: 9 })
-
-    // Verify handler focused the LI
-    expect(document.activeElement.tagName).toBe('LI')
-
-    // Now manually move focus to first anchor (simulating browser Tab behavior)
-    const firstAnchor = document.querySelector(
-      '.first-anchor'
-    ) as HTMLElement
-    firstAnchor.focus()
-
-    expect(Array.from(document.activeElement.classList)).toContain(
-      'first-anchor'
+  it('dismisses results on Tab without moving focus into option content', () => {
+    render(
+      <Autocomplete
+        {...mockProps}
+        noAnimation
+        data={[
+          'first item',
+          <a href="/" key="legacy-link">
+            Legacy nested link
+          </a>,
+        ]}
+      />
     )
 
-    // Tab to the second anchor
-    await userEvent.tab()
+    const input = document.querySelector('input')
+    input.focus()
+    keyDownOnInput('ArrowDown')
+    keyDownOnInput('ArrowDown')
+    keyDownOnInput('ArrowDown')
 
-    expect(Array.from(document.activeElement.classList)).toContain(
-      'second-anchor'
-    )
+    expect(
+      document.querySelector('.dnb-drawer-list__option--focus')
+        ?.textContent
+    ).toBe('Legacy nested link')
+
+    keyDownOnInput('Tab')
+
+    expect(document.activeElement).toBe(input)
+    expect(
+      document.querySelector('.dnb-drawer-list--open')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-drawer-list__option button')
+    ).not.toBeInTheDocument()
   })
 
   it('will keep focus on input when opening', () => {
@@ -6068,48 +6183,6 @@ describe('Autocomplete inline', () => {
         `option-${inlineProps.id}-1`
       )
     })
-  })
-
-  it('preserves the natural tab order through option anchors', async () => {
-    render(
-      <>
-        <Autocomplete
-          {...inlineProps}
-          data={[
-            [
-              <a href="/first" key="first">
-                First anchor
-              </a>,
-              <a href="/second" key="second">
-                Second anchor
-              </a>,
-            ],
-          ]}
-        />
-        <button>After autocomplete</button>
-      </>
-    )
-
-    const input = document.querySelector(
-      '.dnb-input__input'
-    ) as HTMLInputElement
-    const firstAnchor = document.querySelector(
-      'a[href="/first"]'
-    ) as HTMLAnchorElement
-    const secondAnchor = document.querySelector(
-      'a[href="/second"]'
-    ) as HTMLAnchorElement
-    const nextButton = document.querySelector('button')
-
-    input.focus()
-    await userEvent.tab()
-    expect(document.activeElement).toBe(firstAnchor)
-
-    await userEvent.tab()
-    expect(document.activeElement).toBe(secondAnchor)
-
-    await userEvent.tab()
-    expect(document.activeElement).toBe(nextButton)
   })
 
   it('should validate with ARIA rules in inline mode', async () => {

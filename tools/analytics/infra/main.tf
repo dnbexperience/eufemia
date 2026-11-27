@@ -190,10 +190,12 @@ resource "aws_glue_catalog_table" "portal_views" {
     has_encrypted_data = "true"
 
     # Partition projection avoids running MSCK / ADD PARTITION as new days
-    # arrive. Athena derives the partitions from the dt range at query time.
+    # arrive. Athena derives the partitions from the dt range at query time and
+    # lists every day a query's dt filter doesn't exclude, so start the range at
+    # the table's earliest dt= folder.
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -288,7 +290,7 @@ resource "aws_glue_catalog_table" "portal_views_daily" {
 
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -374,7 +376,7 @@ resource "aws_glue_catalog_table" "mcp_usage" {
 
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -455,6 +457,7 @@ resource "aws_glue_catalog_table" "mcp_usage" {
 # tail from mcp_usage each run and writes one object per day here. This prefix
 # has NO lifecycle expiry, so aggregates outlive the raw rows and keep long-range
 # (year-over-year) comparison available.
+# Range starts at the earliest dt= folder: the hourly query has no dt filter, so Athena lists every day in it.
 resource "aws_glue_catalog_table" "mcp_usage_daily" {
   name          = "mcp_usage_daily"
   database_name = aws_glue_catalog_database.analytics.name
@@ -466,7 +469,7 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
 
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -661,6 +664,76 @@ resource "aws_glue_catalog_table" "component_usage_daily" {
   }
 }
 
+# Anonymous CLI skill installs. No expiry and no rollup: a few rows a day, each as coarse as a rollup row.
+# Range starts just before the first row: the hourly query has no dt filter, so Athena lists every day in it.
+resource "aws_glue_catalog_table" "skill_installs" {
+  name          = "skill_installs"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2026-11-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/skill-installs/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/skill-installs/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "action"
+      type = "string"
+    }
+
+    columns {
+      name = "target"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "eufemia_version"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
+
+    columns {
+      name = "created_at"
+      type = "string"
+    }
+  }
+}
+
 # ---------------------------------------------------------------------------
 # Athena
 # ---------------------------------------------------------------------------
@@ -840,6 +913,12 @@ resource "aws_apigatewayv2_route" "collect_local_mcp_usage" {
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 
+resource "aws_apigatewayv2_route" "collect_skill_installs" {
+  api_id    = aws_apigatewayv2_api.analytics.id
+  route_key = "POST /collect-skill-installs"
+  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
+}
+
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowAPIGateway"
   action        = "lambda:InvokeFunction"
@@ -998,8 +1077,10 @@ resource "aws_lambda_function" "snapshot" {
       GLUE_TABLE_MCP_USAGE_DAILY       = aws_glue_catalog_table.mcp_usage_daily.name
       GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
       GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
+      GLUE_TABLE_SKILL_INSTALLS        = aws_glue_catalog_table.skill_installs.name
       ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
-      # Set to "true" once a producer writes to component-usage/.
+      # Set to "true" once a producer writes to component-usage/. Then start
+      # component_usage_daily's dt range at its earliest dt= folder (its query has no dt filter).
       COMPONENT_USAGE_ENABLED = "false"
     }
   }
@@ -1034,22 +1115,32 @@ resource "aws_lambda_permission" "snapshot_events" {
 
 # Notification target for the alarms below. Same-account CloudWatch alarms can
 # publish to a topic under its default access policy, so no extra topic policy
-# is needed. The email subscription is optional (snapshot_alert_email empty
-# skips it) so the topic can ship before an owner is chosen; a different target
-# (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw incoming webhook
-# can't complete the SNS subscription handshake) just needs its own
-# aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
+# is needed. Each comma-separated address in snapshot_alert_emails gets its own
+# email subscription, so people confirm and unsubscribe independently. Empty
+# skips them in local runs; the deploy workflow refuses a list with no address.
+# A different target (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw
+# incoming webhook can't complete the SNS subscription handshake) just needs its
+# own aws_sns_topic_subscription pointed at this topic — alarm_actions never
+# change.
 # The MCP usage alarms in tools/mcp-lambda/infra publish here by name.
 resource "aws_sns_topic" "snapshot_alerts" {
   name = "eufemia-${var.environment}-analytics-snapshot-alerts"
   tags = local.tags
 }
 
+# Keyed by hash because Terraform prints for_each keys in the plan.
+locals {
+  snapshot_alert_emails_by_hash = {
+    for address in distinct(compact([for entry in split(",", var.snapshot_alert_emails) : trimspace(entry)])) :
+    sha256(address) => address
+  }
+}
+
 resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
-  count     = var.snapshot_alert_email != "" ? 1 : 0
+  for_each  = nonsensitive(toset(keys(local.snapshot_alert_emails_by_hash)))
   topic_arn = aws_sns_topic.snapshot_alerts.arn
   protocol  = "email"
-  endpoint  = var.snapshot_alert_email
+  endpoint  = local.snapshot_alert_emails_by_hash[each.key]
 }
 
 # Failure signals for the scheduled generator. Without them a failed run, or a
@@ -1145,6 +1236,23 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
   namespace           = "Eufemia/Analytics"
   metric_name         = "ComponentUsageBuildFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
+}
+
+# A failed skill installs query falls back to an empty section and the run still
+# publishes, so only this EMF metric surfaces it (e.g. a missing S3 read grant).
+resource "aws_cloudwatch_metric_alarm" "snapshot_skill_installs_build_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-skill-installs-build-failed"
+  alarm_description   = "Dashboard snapshot generator failed to build the skill installs section"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "SkillInstallsBuildFailure"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
   statistic           = "Sum"
   period              = 3600

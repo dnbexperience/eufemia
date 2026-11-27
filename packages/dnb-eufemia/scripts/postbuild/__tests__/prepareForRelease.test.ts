@@ -216,6 +216,7 @@ describe('package.json', () => {
       const result = spawnSync(process.execPath, [cliPath, ...args], {
         cwd: temporaryRoot,
         encoding: 'utf-8',
+        env: { ...process.env, EUFEMIA_SKILLS_TELEMETRY: '0' },
       })
       expect(result.stderr).toBe('')
       expect(result.status).toBe(0)

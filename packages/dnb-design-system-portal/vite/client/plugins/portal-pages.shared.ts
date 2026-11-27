@@ -136,7 +136,7 @@ export type KnownFrontmatter = {
   status?: string
   icon?: string
   accordion?: boolean
-  search?: string
+  search?: string | false
   redirect_from?: string[]
   /** Hides the table of contents for the page. */
   hideToc?: boolean

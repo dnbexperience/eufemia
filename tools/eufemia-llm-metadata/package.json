@@ -20,7 +20,7 @@
   "devDependencies": {
     "@11ty/gray-matter": "2.1.0",
     "@babel/core": "7.29.7",
-    "@babel/generator": "7.29.12",
+    "@babel/generator": "7.29.15",
     "@babel/parser": "7.29.12",
     "@babel/plugin-transform-modules-commonjs": "7.27.1",
     "@babel/plugin-transform-typescript": "7.29.7",

@@ -15,6 +15,7 @@ import type {
   PortalViewDayCount,
   PortalViewLocaleThemeCount,
   PortalViewMonthPathCount,
+  SkillInstallCountRow,
 } from './snapshot-store.js'
 
 const athena = new AthenaClient({})
@@ -392,5 +393,21 @@ export async function retrieveComponentUsageTotals(): Promise<
   return runQuery(
     `SELECT app, component, version, sum(count) AS cnt FROM ${table} GROUP BY app, component, version`,
     toComponentUsageAggregateRow
+  )
+}
+
+/** Count skill installs per action and target, leaving out smoke-test rows. */
+export async function retrieveSkillInstallCounts(): Promise<
+  SkillInstallCountRow[]
+> {
+  const table = glueTable('GLUE_TABLE_SKILL_INSTALLS')
+
+  return runQuery(
+    `SELECT action, target, count(*) AS cnt FROM ${table} WHERE env <> 'smoketest' GROUP BY action, target`,
+    ([action, target, count]) => ({
+      action: action ?? '',
+      target: target ?? '',
+      count: Number(count ?? 0),
+    })
   )
 }

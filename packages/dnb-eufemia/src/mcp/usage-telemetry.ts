@@ -30,6 +30,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import { AGENT_SKILL_NAMES, type UsageResolver } from './mcp-docs-server'
+import { isTelemetryOptedOut } from './telemetryOptOut'
 
 const DEFAULT_ENDPOINT =
   'https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage'
@@ -252,34 +253,11 @@ export function buildUsageRecord(
   return record
 }
 
-const OFF_VALUES: ReadonlySet<string> = new Set([
-  '0',
-  'false',
-  'off',
-  'no',
-])
-
-/**
- * True when telemetry is switched off: `EUFEMIA_MCP_TELEMETRY=0|false|off|no`,
- * the cross-tool `DO_NOT_TRACK` convention, or a CI environment.
- */
+/** True when `EUFEMIA_MCP_TELEMETRY`, `DO_NOT_TRACK` or `CI` switches telemetry off. */
 export function isTelemetryDisabled(
   env: NodeJS.ProcessEnv = process.env
 ): boolean {
-  return (
-    OFF_VALUES.has(normalize(env.EUFEMIA_MCP_TELEMETRY)) ||
-    isFlagSet(env.DO_NOT_TRACK) ||
-    isFlagSet(env.CI)
-  )
-}
-
-function normalize(value: string | undefined) {
-  return (value ?? '').trim().toLowerCase()
-}
-
-function isFlagSet(value: string | undefined) {
-  const normalized = normalize(value)
-  return normalized !== '' && !OFF_VALUES.has(normalized)
+  return isTelemetryOptedOut(env, 'EUFEMIA_MCP_TELEMETRY')
 }
 
 // Looks up the name as the caller passed it, the form the docs tools use.

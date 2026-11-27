@@ -99,6 +99,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-workspaces": "0.12.1",
+    "eufemia-llm-metadata": "workspace:*",
     "fs-extra": "10.0.0",
     "globby": "11.0.4",
     "jsdom": "30.1.3",

@@ -1,6 +1,12 @@
 import type { Report } from '../../monitoring/report.ts'
 
 export const services = ['CDN', 'MCP', 'Analytics', 'Tokens'] as const
+
+// Keep the deployed Tokens resource and state keys when expanding its checks.
+export function serviceName(service: string) {
+  return service === 'Tokens' ? 'GitHub workflows' : service
+}
+
 export type Service = (typeof services)[number]
 export type State = { report?: Report; pendingObservation?: Report }
 type Dependencies = {

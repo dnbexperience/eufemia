@@ -126,10 +126,8 @@ const DrawerListComponent = memo(function DrawerListComponent(
             return
           }
 
-          if (!context.drawerList._hasFocusOnElementRef.current) {
-            e.preventDefault()
-            context.drawerList.setHidden()
-          }
+          e.preventDefault()
+          context.drawerList.setHidden()
           break
 
         case 'PageDown':

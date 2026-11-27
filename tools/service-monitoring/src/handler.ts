@@ -8,7 +8,7 @@ import { readSecret } from './secrets.ts'
 import { checkCdn } from '../../assets/check-cdn.ts'
 import { checkHttpMcp } from '../../mcp-lambda/src/check-http.ts'
 import { checkAnalytics } from '../../analytics/src/monitor/check-analytics.ts'
-import { checkTokens } from './check-tokens.ts'
+import { checkScheduledWorkflows } from './check-scheduled-workflows.ts'
 import { runMonitor, services } from './monitor.ts'
 import type { Service, State } from './monitor.ts'
 import type { Report } from '../../monitoring/report.ts'
@@ -133,7 +133,10 @@ export async function handler() {
             process.env.GITHUB_TOKEN_SECRET_ARN
           )
           if (service === 'Tokens') {
-            report = await checkTokens({ ...options, githubToken })
+            report = await checkScheduledWorkflows({
+              ...options,
+              githubToken,
+            })
           } else if (service === 'MCP') {
             report = await checkHttpMcp({ ...options, githubToken })
           } else {

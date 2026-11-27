@@ -1,14 +1,41 @@
 import { describe, expect, it } from 'vitest'
+import { createRequire } from 'node:module'
 import {
   comparePortalAccessibilityReports,
   createPortalAccessibilityReport,
   findDuplicateIds,
   formatPortalAccessibilityChanges,
   formatPortalAccessibilityReport,
+  getAxeOptions,
   splitIssueBody,
 } from '../../../scripts/portal-accessibility-report.mjs'
 
+// Use the axe-core version that the scan runs with @axe-core/playwright
+const require = createRequire(import.meta.url)
+const axeCore = createRequire(require.resolve('@axe-core/playwright'))(
+  'axe-core'
+)
+
 describe('Portal accessibility report', () => {
+  it('accepts open tooltips outside landmarks, but not other content', async () => {
+    document.body.innerHTML = `
+      <div id="tooltip-portal"><span role="tooltip">Tooltip text</span></div>
+      <main><h1>Page</h1></main>
+      <div id="other-portal"><p>Portal content</p></div>
+    `
+
+    const { violations } = await axeCore.run(document, {
+      ...getAxeOptions(),
+      runOnly: ['region'],
+    })
+
+    expect(
+      violations.flatMap(({ nodes }) =>
+        nodes.map(({ target }) => target.join(' '))
+      )
+    ).toEqual(['#other-portal'])
+  })
+
   it('combines hydrated duplicate IDs and axe findings', () => {
     const report = createPortalAccessibilityReport({
       duplicateIdFindings: [duplicateId('/button/', 'examples', 2)],

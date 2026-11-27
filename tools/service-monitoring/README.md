@@ -1,6 +1,6 @@
 # Eufemia service monitoring
 
-Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. A fourth check, Tokens, reports when the latest scheduled run of the daily GHE token expiry workflow failed, or when no scheduled run has finished in 48 hours. That workflow posts its expiry warnings through its own Slack webhook, and GitHub emails a failed scheduled run only to the last editor of its schedule.
+Hourly AWS checks of the public CDN, the HTTP MCP server and the analytics service, independent of GitHub's scheduled-workflow delivery. Reuses the existing checkCdn, checkHttpMcp and checkAnalytics implementations, including their retries, response limits and rollout grace periods. The GitHub workflows check monitors all scheduled GitHub Actions workflows, including social image publishing and GHE token expiry. It reports failed runs and schedules that stop completing. GitHub emails a failed scheduled run only to the last editor of its schedule.
 
 ## Deployment
 
@@ -8,13 +8,13 @@ The public Service Monitoring Lambda workflow tests and bundles the checks, then
 
 Each service has a separate Node.js 22 Lambda using the same bundle, with 256 MB memory and one reserved concurrent execution. The HTTP budget is 330 seconds; Lambda allows 480 seconds for checks, persistence and notifications. There is no public inbound endpoint, runtime checkout, docs build or package installation. The production checks always use the public edge, including npm and GitHub for freshness verification.
 
-EventBridge Scheduler runs CDN at :07, MCP at :11, Analytics at :17 and Tokens at :23 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation.
+EventBridge Scheduler runs CDN at :07, MCP at :11, Analytics at :17 and GitHub workflows at :23 hourly in UTC, with flexible windows disabled. Scheduler has minute-level precision, not a hard execution-time guarantee. Scheduler delivery and asynchronous Lambda execution have separate bounded retry policies and failure destinations. Retried invocations perform fresh checks, so old event payloads cannot overwrite a newer observation. The GitHub workflows check retains the deployed Tokens resource and state keys, so this extension needs no new Lambda, log group or IAM grants.
 
 ## When an alert fires
 
-Each outage post lists the failing checks with their reasons and links to the service and the monitor's logs. Start there, then use the entry for the service below. The recovery reply comes from the next healthy check, so nothing needs closing by hand. While an incident is open, new failures in the same service only update the overview. To rerun a check without posting, use the local diagnostic commands in [Local validation](#local-validation); Tokens has none, and check:analytics needs the GHE settings in the [analytics README](../analytics/README.md#production-health-monitor) for its GHE deploy run check. To roll back a monitor change, revert it on main; the next handoff deploys the previous package.
+Each outage post lists the failing checks with their reasons and links to the service and the monitor's logs. Start there, then use the entry for the service below. The recovery reply comes from the next healthy check, so nothing needs closing by hand. While an incident is open, new failures in the same service only update the overview, except newly failing GitHub workflows, which also get a reply in the incident thread. To rerun a check without posting, use the local diagnostic commands in [Local validation](#local-validation); GitHub workflows has none, and check:analytics needs the GHE settings in the [analytics README](../analytics/README.md#production-health-monitor) for its GHE deploy run check. To roll back a monitor change, revert it on main; the next handoff deploys the previous package.
 
-Without the optional read-only GitHub token, a 403 or 429 from the GitHub API in a deployment source or PAT expiry workflow check is the unauthenticated GitHub API limit. It clears by itself; provision the token if it repeats.
+Without the optional read-only GitHub token, a 403 or 429 from the GitHub API in a deployment source or scheduled workflow check is the unauthenticated GitHub API limit. It clears by itself; provision the token if it repeats.
 
 A failure ending in "(blocked by Akamai, reference …)", in any service, means the edge firewall denied the monitor's request; the service itself may be fine. Send the reference to the Akamai owners the same day: it is the only way to find the rule that blocked the request, and it can be looked up for 2 days only.
 
@@ -38,9 +38,12 @@ A failure ending in "(blocked by Akamai, reference …)", in any service, means 
 - **Other GHE deploy run failures:** the internal deploy run failed, has run for more than 60 minutes, or the monitor's GHE settings are missing. Check the internal deploy run.
 - **deployment source or deployed source:** as for MCP, for the analytics deployment.
 
-### Tokens
+### GitHub workflows
 
-- **PAT expiry workflow:** the daily token expiry workflow failed or has not finished a scheduled run in 48 hours, so expiry warnings may not reach Slack. Open its latest scheduled run, fix the cause, then re-run that run; a manual run does not count.
+- **Latest scheduled run concluded …:** open the linked run and fix the cause. Dependency audit and CodeQL also recover after a newer successful push run on main, where they run the same checks. The push must have been triggered after the latest scheduled attempt started. Other workflows need a successful scheduled run. Re-running can clear a transient failure, but uses the original code; a fix merged to main will be picked up by the next schedule. Manual runs can use different inputs, so they and pull request runs do not clear alerts. Queued and running scheduled runs are pending and cannot recover an open incident until they succeed. Recovery is posted when all monitored workflows are healthy.
+- **No recent scheduled run within …:** check whether the workflow is disabled, delayed or stuck. Daily workflows have a 48-hour freshness window, weekly workflows 8 days and monthly workflows 32 days. These windows allow for GitHub scheduling delays.
+
+The check covers Dependency audit, GHE token expiry, Release SBOM check, CodeQL, Portal accessibility and duplicate IDs, Portal social images, Portal hydration and Country Flags. Maintain the list and freshness windows in src/check-scheduled-workflows.ts when adding or changing schedules. CI checks that every scheduled workflow is included. Each hourly check makes one GitHub API request per workflow, plus a recovery lookup when Dependency audit or CodeQL has a recent completed scheduled failure, with retries on request failure. Push runs do not extend the scheduled freshness window. Workflow incidents are reported through Slack and do not fail the deployment smoke test; Lambda invocation errors still fail it.
 
 ### Monitoring
 
@@ -81,7 +84,7 @@ State uses the default Terraform workspace at service-monitoring/terraform.tfsta
 
 The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secrets are created by an administrator; the Lambdas read their values at runtime. Terraform passes the GitHub and Slack bot secrets by ARN. The analytics check reads its GHE token by the fixed name eufemia/<environment>/monitoring/ghe-analytics-token: a dnb.ghe.com fine-grained token with Actions read on the analytics deployment repository only, stored as plain text with the default Secrets Manager key. Create it before deploying the analytics function; without it the analytics check reports unhealthy and the smoke test fails.
 
-The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification and the Tokens workflow check use the unauthenticated API limit. A 403/429 makes those checks unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
+The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification and the scheduled workflow checks use the unauthenticated API limit. A 403/429 makes those checks unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
 
 Functions use Lambda's default network with outbound HTTPS. If account policy requires a VPC, provide approved outbound connectivity to the public edge, npm, GitHub, Slack and AWS services before deployment.
 
@@ -102,8 +105,9 @@ they do not reconstruct earlier outages. Stale events are ignored for state and 
 retained in DynamoDB alongside cumulative counters.
 
 A new outage creates one channel post. Repeated failures and changes to the set
-of failed checks update the summary only. A pending rollout does not recover an
-open outage. Recovery posts once as a reply to the recorded outage thread, with
+of failed checks update the summary only, except newly failing GitHub workflows,
+which also get a reply in the incident thread. A pending rollout does not recover
+an open outage. Recovery posts once as a reply to the recorded outage thread, with
 reply_broadcast disabled. Multiple active monitor-health alarms form one grouped
 Monitoring incident; it recovers after every known alarm has cleared. An alarm
 that was already active before deployment is learned on its next transition;
@@ -130,9 +134,9 @@ All notifications, including monitor-health alarms, require the monitoring Dynam
 ### Weekly report
 
 One new channel post each Monday at 09:00 Europe/Oslo summarizes CDN (public
-assets), MCP (HTTP server), Analytics (API and dashboard) and Tokens (expiry
-workflow). It shows accepted observations by result, new incidents, observed and
-missing hourly windows, latest status and observation time, and active monitor
+assets), MCP (HTTP server), Analytics (API and dashboard) and GitHub workflows
+(scheduled workflows). It shows accepted observations by result, new incidents,
+observed and missing hourly windows, latest status and observation time, and active monitor
 alarms. The first report covers a partial week starting with the first accepted
 observation after deployment. Later reports cover Monday to Monday in Oslo time,
 including 167- or 169-hour weeks when daylight saving time changes. The report
@@ -185,7 +189,8 @@ the production incident state.
 
 Production CDN, MCP and analytics checks and alert ownership stay in AWS. Use the
 local diagnostic commands for on-demand checks. The notifier does not write GitHub
-issues. The Portal monitor remains a separate workflow. A regional AWS outage
+issues. Portal scans remain separate GitHub workflows; their scheduled run
+results are covered by the GitHub workflows check. A regional AWS outage
 still needs an external uptime service for independent paging.
 
 ## Local validation
