@@ -82,6 +82,15 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     clearTimeout(delayTimeout.current)
   }
 
+  // Give back the user-select value when the Tooltip stops listening to that element
+  const restoreTouchUserSelect = (keep?: Element) => {
+    const saved = touchUserSelect.current
+    if (saved && saved.elem !== keep) {
+      saved.elem.style.userSelect = saved.value
+      touchUserSelect.current = undefined
+    }
+  }
+
   const clearOverlayTimers = () => {
     clearTimeout(overlayDelayTimeout.current)
   }
@@ -292,11 +301,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }, [describedById, omitDescribedBy, target])
 
   useEffect(() => {
-    if (!target) {
-      return () => clearTimers()
-    }
+    const element = target ? getRefElement(cloneRef) : null
 
-    const element = getRefElement(cloneRef)
+    restoreTouchUserSelect(isControlled ? null : element)
 
     if (!(element instanceof HTMLElement) || isControlled) {
       return () => clearTimers()
@@ -367,6 +374,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   })
 
   useEffect(() => clearOverlayTimers, [])
+
+  useEffect(() => () => restoreTouchUserSelect(), [])
 
   const {
     className: attributeClassName,
