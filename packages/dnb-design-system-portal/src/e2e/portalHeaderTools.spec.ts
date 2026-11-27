@@ -460,11 +460,18 @@ test.describe('header logo', () => {
     const logo = page
       .locator('header.sticky-menu')
       .getByRole('link', { name: 'Go to Eufemia home' })
-    // Real navigation is covered on touch devices above. Here the tap
-    // stays on the page: in CI, Chromium no longer matched :hover after
-    // the navigation, so the test could not show the guard.
-    await logo.evaluate((link) =>
-      link.addEventListener('click', (event) => event.preventDefault())
+    // The touch test above covers navigation. Keep the same link under the
+    // pointer here to test the hybrid hover guard.
+    const url = page.url()
+    const urlAfterClick = logo.evaluate(
+      (link) =>
+        new Promise<string>((resolve) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault()
+            // The router navigates shortly after the click.
+            setTimeout(() => resolve(location.href), 500)
+          })
+        })
     )
     await tapWithTouchEvents(logo)
     expect(
@@ -474,6 +481,7 @@ test.describe('header logo', () => {
       true
     )
     await expect(logo.locator('svg g')).toHaveCSS('transform', 'none')
+    expect(await urlAfterClick).toBe(url)
   })
 })
 
