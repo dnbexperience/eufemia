@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import type { Report } from '../../monitoring/report.ts'
+import { serviceName } from './monitor.ts'
 import type { Service } from './monitor.ts'
 import { logFailure } from './diagnostics.ts'
 import {
@@ -24,10 +25,11 @@ type Source = {
   checks: number
   incidents: number
   downtimeMs: number
+  failedChecks?: string[]
   outage?: { started: string; thread?: string }
 }
 type Pending = {
-  type: 'outage' | 'recovery'
+  type: 'outage' | 'failure' | 'recovery'
   source: string
   id: string
   text: string
@@ -53,8 +55,7 @@ type Dependencies = {
 const serviceUrls: Partial<Record<Service, string>> = {
   MCP: 'https://server.eufemia.dnb.no/healthz',
   Analytics: 'https://dashboard.eufemia.dnb.no/',
-  Tokens:
-    'https://github.com/dnbexperience/eufemia/actions/workflows/ghe-token-expiry.yml',
+  Tokens: 'https://github.com/dnbexperience/eufemia/actions',
 }
 
 // Check details can quote response bodies, so Slack control sequences are escaped.
@@ -129,7 +130,7 @@ export function summaryText(state: NotificationState) {
           ? ''
           : ', ' + source.checks + ' observed checks'
       return (
-        name +
+        serviceName(name) +
         ': ' +
         source.status +
         runs +
@@ -144,7 +145,7 @@ export function summaryText(state: NotificationState) {
     ...(latest
       ? [
           'Recent recovery: ' +
-            latest.source +
+            serviceName(latest.source) +
             ', ' +
             latest.started +
             ' to ' +
@@ -259,17 +260,24 @@ export async function processNotification(
       source.checks++
     }
     state.sources[name] = source
+    const failures =
+      event.kind === 'service'
+        ? event.report.checks.filter(
+            (check) => !check.ok && !check.pending
+          )
+        : []
+    const newFailures = failures.filter(
+      (check) => !source.failedChecks?.includes(check.name)
+    )
     if (status === 'unhealthy' && !source.outage) {
       source.outage = { started: source.at }
       source.incidents++
       const checks =
         event.kind === 'service'
-          ? event.report.checks
-              .filter((check) => !check.ok && !check.pending)
-              .map(
-                (check) =>
-                  '• ' + escapeSlack(check.name + ': ' + check.detail)
-              )
+          ? failures.map(
+              (check) =>
+                '• ' + escapeSlack(check.name + ': ' + check.detail)
+            )
           : [
               escapeSlack(
                 event.description || 'Monitor-health alarm active.'
@@ -280,10 +288,29 @@ export async function processNotification(
         source: name,
         id: messageId(name + ':' + source.outage.started + ':outage'),
         text: [
-          'Eufemia ' + name + ' incident detected.',
+          'Eufemia ' + serviceName(name) + ' incident detected.',
           ...checks,
           'First observed: ' + source.outage.started,
           ...linkLines(event, dependencies.aws),
+        ].join('\n'),
+      }
+    } else if (
+      event.kind === 'service' &&
+      event.service === 'Tokens' &&
+      status === 'unhealthy' &&
+      source.outage?.thread &&
+      newFailures.length
+    ) {
+      state.pending = {
+        type: 'failure',
+        source: name,
+        thread: source.outage.thread,
+        id: messageId(name + ':' + source.at + ':failure'),
+        text: [
+          'Additional GitHub workflow failures detected.',
+          ...newFailures.map(
+            (check) => '• ' + escapeSlack(check.name + ': ' + check.detail)
+          ),
         ].join('\n'),
       }
     } else if (status === 'healthy' && source.outage) {
@@ -300,7 +327,7 @@ export async function processNotification(
         thread: source.outage.thread,
         id: messageId(name + ':' + source.outage.started + ':recovery'),
         text: [
-          'Eufemia ' + name + ' recovered.',
+          'Eufemia ' + serviceName(name) + ' recovered.',
           'Observed incident window: ' +
             Math.round(duration / 60000) +
             ' minutes.',
@@ -309,6 +336,15 @@ export async function processNotification(
       }
     }
     if (event.kind === 'service') {
+      if (event.service === 'Tokens') {
+        source.failedChecks = event.report.checks
+          .filter(
+            (check) =>
+              !check.ok &&
+              (!check.pending || source.failedChecks?.includes(check.name))
+          )
+          .map((check) => check.name)
+      }
       recordWeeklyObservation(state, event, incident)
     }
     await dependencies.save(state)

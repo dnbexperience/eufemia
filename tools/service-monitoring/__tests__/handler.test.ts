@@ -23,8 +23,8 @@ vi.mock('../../mcp-lambda/src/check-http.ts', () => ({
 vi.mock('../../analytics/src/monitor/check-analytics.ts', () => ({
   checkAnalytics: mocks.check,
 }))
-vi.mock('../src/check-tokens.ts', () => ({
-  checkTokens: mocks.check,
+vi.mock('../src/check-scheduled-workflows.ts', () => ({
+  checkScheduledWorkflows: mocks.check,
 }))
 vi.mock('../src/secrets.ts', () => ({ readSecret: mocks.secret }))
 vi.mock('../src/publish-observation.ts', () => ({
@@ -139,7 +139,7 @@ it('reports an unreadable analytics GHE credential without exposing the error', 
     expect.objectContaining({ name: 'GHE deploy credential', ok: false })
   )
 })
-it('passes the optional GitHub credential to the Tokens check', async () => {
+it('passes the optional GitHub credential to scheduled workflow checks without changing the deployed state key', async () => {
   vi.stubEnv('SERVICE', 'Tokens')
   vi.stubEnv('GITHUB_TOKEN_SECRET_ARN', 'test-secret')
   mocks.secret.mockResolvedValue('github-token')

@@ -239,3 +239,68 @@ describe('quiet notifications', () => {
     }
   })
 })
+
+it('alerts on a newly failing GitHub workflow during an open incident, stays quiet and recovers', async () => {
+  const test = setup()
+  const run = async (
+    minute: number,
+    failures: string[],
+    pending: string[] = []
+  ) => {
+    const event = check(
+      failures.length
+        ? 'unhealthy'
+        : pending.length
+          ? 'pending'
+          : 'healthy',
+      minute,
+      failures,
+      'Latest scheduled run concluded failure: https://github.com/dnbexperience/eufemia/actions/runs/123'
+    )
+    if (event.kind === 'service') {
+      event.service = 'Tokens'
+      event.report.checks.push(
+        ...pending.map((name) => ({
+          name,
+          ok: false,
+          pending: true,
+          detail: 'Latest scheduled run is in_progress',
+        }))
+      )
+    }
+    await test.run(event)
+  }
+  await run(0, [])
+  await run(1, ['Portal social images'])
+  const thread = test.state().sources.Tokens?.outage?.thread
+  expect(test.dependencies.post.mock.calls[1][0]).toContain(
+    'GitHub workflows incident detected'
+  )
+  await run(2, ['Portal social images', 'Dependency audit'])
+  expect(test.dependencies.post).toHaveBeenCalledTimes(3)
+  expect(test.dependencies.post.mock.calls[2][0]).toContain(
+    'Dependency audit'
+  )
+  expect(test.dependencies.post.mock.calls[2][0]).not.toContain(
+    'Portal social images:'
+  )
+  expect(test.dependencies.post.mock.calls[2][0]).toContain(
+    '/actions/runs/123'
+  )
+  expect(test.dependencies.post.mock.calls[2][2]).toBe(thread)
+  await run(3, ['Dependency audit'], ['Portal social images'])
+  await run(4, ['Portal social images', 'Dependency audit'])
+  expect(test.dependencies.post).toHaveBeenCalledTimes(3)
+  await run(5, ['Dependency audit'])
+  await run(6, ['Portal social images', 'Dependency audit'])
+  expect(test.dependencies.post).toHaveBeenCalledTimes(4)
+  await run(7, [], ['Portal social images', 'Dependency audit'])
+  expect(test.state().sources.Tokens?.outage?.thread).toBe(thread)
+  expect(test.dependencies.post).toHaveBeenCalledTimes(4)
+  await run(8, [])
+  expect(test.dependencies.post).toHaveBeenLastCalledWith(
+    expect.stringContaining('GitHub workflows recovered'),
+    expect.any(String),
+    thread
+  )
+})

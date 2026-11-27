@@ -59,7 +59,9 @@ it('posts actual weekly results and missing hourly windows for every service, on
   expect(text).toContain('3/167 full hourly windows observed; 164 missing')
   expect(text).toContain('CDN (public assets): no observations')
   expect(text).toContain('Analytics (API and dashboard): no observations')
-  expect(text).toContain('Tokens (expiry workflow): no observations')
+  expect(text).toContain(
+    'GitHub workflows (scheduled workflows): no observations'
+  )
   expect(text).toContain('Partial week')
   expect(test.state().sources.MCP?.checks).toBe(5)
   const posts = test.dependencies.post.mock.calls.length
