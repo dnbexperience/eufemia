@@ -279,7 +279,6 @@ resource "aws_glue_catalog_table" "portal_views" {
 # keeps the anonymous view dimensions (status/locale/theme/color_scheme/referrer/
 # via_search) so their history survives the raw expiry and stays queryable via
 # Athena.
-# Range starts at the earliest dt= folder: the 13-month trend reads start before it.
 resource "aws_glue_catalog_table" "portal_views_daily" {
   name          = "portal_views_daily"
   database_name = aws_glue_catalog_database.analytics.name

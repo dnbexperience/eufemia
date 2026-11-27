@@ -131,7 +131,7 @@ Scheduled runs recompute only the recent tail. To capture page-views recorded be
 
 ```sh
 aws lambda invoke --function-name eufemia-<env>-analytics-snapshot \
-  --payload '{"sinceDt":"2024-01-01"}' --cli-binary-format raw-in-base64-out /dev/stdout
+  --payload '{"sinceDt":"2026-09-16"}' --cli-binary-format raw-in-base64-out /dev/stdout
 ```
 
 The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` and `McpUsageBuildFailure` metrics, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (900 s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day). The workgroup caps each query at 1 GiB scanned; because every pass scans up to today, a backfill above that needs a temporarily higher `bytes_scanned_cutoff_per_query` in `infra/main.tf`.
