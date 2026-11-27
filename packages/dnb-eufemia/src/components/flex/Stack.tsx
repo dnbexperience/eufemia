@@ -3,7 +3,7 @@ import Container from './Container'
 import type { FlexContainerAllProps } from './Container'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type StackProps = Omit<
+export type FlexStackProps = Omit<
   FlexContainerAllProps,
   'direction' | 'align' | 'alignSelf' | 'gap' | 'element'
 > & {
@@ -29,7 +29,7 @@ export type StackProps = Omit<
   element?: FlexContainerAllProps['element']
 }
 
-function Stack(props: StackProps) {
+function Stack(props: FlexStackProps) {
   const {
     className,
     direction = 'vertical',

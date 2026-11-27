@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import type { HTMLProps } from 'react'
 import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
-import type { HorizontalProps as FlexHorizontalProps } from '../flex/Horizontal'
+import type { FlexHorizontalProps } from '../flex/Horizontal'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
@@ -10,7 +10,7 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type InlineProps = Omit<FlexHorizontalProps, 'layoutEngine'> & {
+export type StatInlineProps = Omit<FlexHorizontalProps, 'layoutEngine'> & {
   id?: string
   /**
    * Select the internal Flex layout engine. Defaults to `css`. Use `legacy` as a temporary compatibility fallback for custom integrations that depend on the previous wrapper-based layout.
@@ -31,7 +31,7 @@ function Inline({
   layoutEngine = 'css',
   skeleton = null,
   ...rest
-}: InlineProps) {
+}: StatInlineProps) {
   const { inRoot } = useContext(StatRootContext)
   const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)

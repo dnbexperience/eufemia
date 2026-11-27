@@ -36,8 +36,8 @@ import HeadingContentContext from '../../elements/typography/HeadingContentConte
 import useHeadingOrder from './useHeadingOrder'
 import type {
   HeadingAllProps,
+  HeadingInternalLevel,
   HeadingProps,
-  InternalHeadingLevel,
 } from './types'
 
 export type * from './types'
@@ -71,7 +71,7 @@ export default function Heading(props: HeadingAllProps) {
   } = useTypography(props)
 
   type State = {
-    level: InternalHeadingLevel
+    level: HeadingInternalLevel
     counter: HeadingCounter
     context: HeadingContextValue
     contextRevision?: number
@@ -135,7 +135,7 @@ export default function Heading(props: HeadingAllProps) {
   const level = parseFloat(String(props.level))
   const contextRevision = headingContext.heading?.revision
 
-  const recalculateLevel = (level: InternalHeadingLevel) => {
+  const recalculateLevel = (level: HeadingInternalLevel) => {
     state.counter.restart()
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,

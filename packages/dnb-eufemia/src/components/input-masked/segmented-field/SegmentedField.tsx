@@ -19,21 +19,23 @@ import SegmentedFieldSection from './SegmentedFieldSection'
 import { ensureTextNode, listAllSections } from './dom'
 import { joinValues } from './utils'
 import type {
-  SectionSelectionMode,
-  SegmentedFieldProps,
-  SegmentedFieldValue,
+  InputMaskedSectionSelectionMode,
+  InputMaskedSegmentedFieldProps,
+  InputMaskedSegmentedFieldValue,
 } from './types'
 
 export type {
-  OverwriteMode,
-  SegmentedFieldItem,
-  SegmentedFieldProps,
-  SegmentedFieldSpinButton,
-  SegmentedFieldValue,
+  InputMaskedSegmentedFieldOverwriteMode,
+  InputMaskedSegmentedFieldItem,
+  InputMaskedSegmentedFieldProps,
+  InputMaskedSegmentedFieldSpinButton,
+  InputMaskedSegmentedFieldValue,
 } from './types'
 
 // @internal This component is for internal use only as of now.
-function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
+function SegmentedField<T extends string>(
+  props: InputMaskedSegmentedFieldProps<T>
+) {
   const fallbackId = useId(props?.id)
   const fallbackFieldsetRef = useRef<HTMLElement | null>(null)
   const {
@@ -78,7 +80,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   const sectionRefs = useRef<Record<string, HTMLSpanElement | null>>({})
   const caretPositionsRef = useRef<Record<string, number>>({})
   const sectionSelectionModeRef = useRef<
-    Record<string, SectionSelectionMode>
+    Record<string, InputMaskedSectionSelectionMode>
   >({})
   const areInputsInFocus = useRef(false)
   const [wholeGroupSelectionUi, setWholeGroupSelectionUi] = useState(false)
@@ -97,7 +99,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
       const updatedValues = {
         ...valuesRef.current,
         [inputId]: value,
-      } as SegmentedFieldValue<T>
+      } as InputMaskedSegmentedFieldValue<T>
 
       valuesRef.current = updatedValues
       onChangeBase(updatedValues)
@@ -325,7 +327,9 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
               onChange={onChange}
               onGroupFocus={() => {
                 if (!areInputsInFocus.current) {
-                  onFocus?.(valuesRef.current as SegmentedFieldValue<T>)
+                  onFocus?.(
+                    valuesRef.current as InputMaskedSegmentedFieldValue<T>
+                  )
                 }
 
                 areInputsInFocus.current = true
@@ -333,7 +337,9 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
               onGroupBlur={(event) => {
                 if (!event.relatedTarget?.id?.startsWith(`${id}-`)) {
                   const run = () =>
-                    onBlur?.(valuesRef.current as SegmentedFieldValue<T>)
+                    onBlur?.(
+                      valuesRef.current as InputMaskedSegmentedFieldValue<T>
+                    )
 
                   window.requestAnimationFrame(run)
 

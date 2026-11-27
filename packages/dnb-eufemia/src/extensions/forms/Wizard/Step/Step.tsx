@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react'
 import type { JSX, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
-import type { StackProps } from '../../../../components/flex/Stack'
+import type { FlexStackProps } from '../../../../components/flex/Stack'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from './StepContext'
 import Flex from '../../../../components/flex/Flex'
@@ -13,12 +13,12 @@ import type { VisibleWhen } from '../../Form/Visibility'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardStepProps = ComponentProps &
-  Omit<StackProps, 'layoutEngine'> & {
+  Omit<FlexStackProps, 'layoutEngine'> & {
     /**
      * Select the internal Flex layout engine. Defaults to `css`. Use `legacy` as a temporary compatibility fallback for custom integrations that depend on the previous wrapper-based layout.
      * Default: `'css'`
      */
-    layoutEngine?: StackProps['layoutEngine']
+    layoutEngine?: FlexStackProps['layoutEngine']
     /**
      * A unique title of the step.
      */

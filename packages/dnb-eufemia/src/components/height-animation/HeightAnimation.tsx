@@ -2,7 +2,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, RefObject } from 'react'
 import { clsx } from 'clsx'
-import type { UseHeightAnimationOptions } from './useHeightAnimation'
+import type { HeightAnimationHookOptions } from './useHeightAnimation'
 import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'
 
@@ -59,7 +59,7 @@ export type HeightAnimationProps = {
    * Send along a custom `React.Ref`.
    */
   ref?: RefObject<HTMLElement>
-} & UseHeightAnimationOptions
+} & HeightAnimationHookOptions
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
@@ -105,26 +105,25 @@ function HeightAnimation({
   const canOpenOnFind = shouldOpenOnFind && supportsOpenOnFind()
   const resolvedOpen = open || (canOpenOnFind && isOpenedByFind)
 
-  const handleAnimationStart: UseHeightAnimationOptions['onAnimationStart'] =
+  const handleAnimationStart: HeightAnimationHookOptions['onAnimationStart'] =
     (state) => {
       if (canOpenOnFind && state === 'opening') {
         targetRef.current?.removeAttribute('hidden')
       }
       onAnimationStart?.(state)
     }
-  const handleAnimationEnd: UseHeightAnimationOptions['onAnimationEnd'] = (
-    state
-  ) => {
-    if (canOpenOnFind) {
-      if (state === 'closed') {
-        targetRef.current?.style.removeProperty('visibility')
-        targetRef.current?.setAttribute('hidden', 'until-found')
-      } else if (state === 'opened') {
-        targetRef.current?.removeAttribute('hidden')
+  const handleAnimationEnd: HeightAnimationHookOptions['onAnimationEnd'] =
+    (state) => {
+      if (canOpenOnFind) {
+        if (state === 'closed') {
+          targetRef.current?.style.removeProperty('visibility')
+          targetRef.current?.setAttribute('hidden', 'until-found')
+        } else if (state === 'opened') {
+          targetRef.current?.removeAttribute('hidden')
+        }
       }
+      onAnimationEnd?.(state)
     }
-    onAnimationEnd?.(state)
-  }
   const rootLayout = useFlexLayoutRoot(flexLayout, targetRef)
 
   const {
