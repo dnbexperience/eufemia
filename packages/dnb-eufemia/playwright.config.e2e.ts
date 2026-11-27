@@ -80,6 +80,12 @@ export default defineConfig({
       use: { browserName: 'webkit' },
     },
     {
+      // Firefox emulates forced colors with the light palette only
+      name: 'chromium-date-picker',
+      testMatch: 'DatePicker.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
       name: 'chromium-outside-click',
       testMatch: 'useOutsideClick.e2e.spec.ts',
       use: {
