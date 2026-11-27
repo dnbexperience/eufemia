@@ -164,8 +164,7 @@ export async function checkScheduledWorkflows(
           if (
             recovery?.status === 'completed' &&
             recovery.conclusion === 'success' &&
-            Date.parse(recovery.created_at ?? '') >
-              Date.parse(run.created_at ?? '')
+            Date.parse(recovery.created_at ?? '') > startedAt
           ) {
             return check
           }

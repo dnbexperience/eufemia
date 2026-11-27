@@ -91,6 +91,34 @@ it.each(['dependency-audit.yml', 'codeql-analysis.yml'])(
   }
 )
 
+it.each(['dependency-audit.yml', 'codeql-analysis.yml'])(
+  'keeps a failed %s retry that started after the successful push',
+  async (file) => {
+    const report = await check(
+      respond({
+        [file]: [
+          {
+            ...success,
+            conclusion: 'failure',
+            run_started_at: '2026-11-27T07:30:00Z',
+          },
+        ],
+        [file + ':push']: [
+          {
+            ...success,
+            created_at: '2026-11-27T07:00:00Z',
+            run_started_at: '2026-11-27T07:00:00Z',
+          },
+        ],
+      })
+    )
+    expect(report.status).toBe('unhealthy')
+    expect(report.checks.find(({ ok }) => !ok)?.detail).toContain(
+      'Latest scheduled run concluded failure'
+    )
+  }
+)
+
 it.each([
   { runs: [] },
   {
