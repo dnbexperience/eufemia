@@ -9,6 +9,7 @@ import {
   Flex,
   Grid,
   Icon,
+  Input,
   CopyOnClick,
   Chip,
 } from '@dnb/eufemia/src/components'
@@ -133,6 +134,7 @@ export default function ListAllIcons(props: Props) {
   const { groupBy, variant } = props
   const [showFilled, setShowFilled] = useState(false)
   const [showAnimated, setShowAnimated] = useState(false)
+  const [query, setQuery] = useState('')
 
   const iconsToRender = useMemo(() => {
     let icons: typeof PrimaryIcons | typeof SecondaryIcons
@@ -150,18 +152,26 @@ export default function ListAllIcons(props: Props) {
         break
     }
 
-    const all = getListOfIcons(icons)
+    let all = getListOfIcons(icons)
 
     if (showAnimated) {
-      return all.filter(({ iconName }) => isSupportedAnimated(iconName))
+      all = all.filter(({ iconName }) => isSupportedAnimated(iconName))
+    } else if (showFilled) {
+      all = all.filter(({ iconName }) => isSupportedFilled(iconName))
     }
 
-    if (showFilled) {
-      return all.filter(({ iconName }) => isSupportedFilled(iconName))
+    const searchTerm = query.trim().toLowerCase()
+
+    if (searchTerm) {
+      all = all.filter(({ iconName, tags }) =>
+        [iconName, ...tags].some((value) =>
+          value.toLowerCase().includes(searchTerm)
+        )
+      )
     }
 
     return all
-  }, [variant, showAnimated, showFilled])
+  }, [variant, showAnimated, showFilled, query])
 
   const renderList = (icons) => (
     <Grid.Container
@@ -203,13 +213,19 @@ export default function ListAllIcons(props: Props) {
     </Grid.Container>
   )
 
-  if (iconsToRender.length === 0) {
-    return <></>
-  }
-
   const toggle = (
     <>
       <Hr bottom="medium" />
+      <Input
+        type="search"
+        label="Search icons"
+        placeholder="Search by name or tag, e.g. launch"
+        value={query}
+        onChange={({ value }) => setQuery(value)}
+        showClearButton
+        stretch
+        bottom="medium"
+      />
       <Chip
         checked={showFilled}
         onChange={({ checked }) => {
@@ -234,10 +250,17 @@ export default function ListAllIcons(props: Props) {
     </>
   )
 
+  const noResults = iconsToRender.length === 0 && (
+    <P role="status">
+      No icons found{query.trim() ? ` for "${query.trim()}"` : ''}.
+    </P>
+  )
+
   if (groupBy === 'category') {
     return (
       <>
         {toggle}
+        {noResults}
         {groupByCategory(iconsToRender).map(([categoryName, icons]) => (
           <Fragment key={categoryName}>
             <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
@@ -253,7 +276,7 @@ export default function ListAllIcons(props: Props) {
   return (
     <>
       {toggle}
-      {renderList(iconsToRender)}
+      {noResults || renderList(iconsToRender)}
     </>
   )
 }
