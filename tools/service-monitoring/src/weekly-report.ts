@@ -1,4 +1,4 @@
-import { services } from './monitor.ts'
+import { services, serviceName } from './monitor.ts'
 import type { Service } from './monitor.ts'
 import type { NotificationState, Observation } from './notifications.ts'
 
@@ -73,7 +73,7 @@ const descriptions: Record<Service, string> = {
   CDN: 'public assets',
   MCP: 'HTTP server',
   Analytics: 'API and dashboard',
-  Tokens: 'expiry workflow',
+  Tokens: 'scheduled workflows',
 }
 
 export function weeklyText(state: NotificationState, at: string) {
@@ -121,7 +121,11 @@ export function weeklyText(state: NotificationState, at: string) {
           ? 'stale (last: ' + source.status + ')'
           : source.status
       return [
-        service + ' (' + descriptions[service] + '): ' + status,
+        serviceName(service) +
+          ' (' +
+          descriptions[service] +
+          '): ' +
+          status,
         'Observations: ' +
           (counts[0] + counts[1] + counts[2]) +
           ' (' +
