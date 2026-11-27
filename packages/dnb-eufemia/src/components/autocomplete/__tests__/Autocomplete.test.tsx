@@ -14,6 +14,7 @@ import {
 import * as helpers from '../../../shared/helpers'
 import type { AutocompleteAllProps } from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
+import NumberFormat from '../../number-format/NumberFormat'
 import { SubmitButton } from '../../input/Input'
 import { List } from '../../lib'
 import {
@@ -1144,37 +1145,97 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('announces option content as plain text for VoiceOver', async () => {
+  it.each([
+    {
+      data: [
+        [
+          'Second option',
+          <a key="legacy-link" href="#legacy">
+            Nested link
+          </a>,
+        ],
+      ],
+      expected: 'Second option Nested link',
+    },
+    {
+      data: [
+        {
+          content: ['Sparekonto', '2000 12 34567'],
+          suffixValue: (
+            <NumberFormat.Currency srLabel="Balance:">
+              {12345678}
+            </NumberFormat.Currency>
+          ),
+        },
+      ],
+      expected: 'Sparekonto 2000 12 34567 Balance: 12 345 678,00 kroner',
+    },
+    {
+      data: [
+        [
+          'Sparekonto',
+          <NumberFormat.Currency key="amount" value={1234} />,
+        ],
+      ],
+      expected: 'Sparekonto 1234,00 kroner',
+    },
+  ])(
+    'announces rendered option content as plain text for VoiceOver: $expected',
+    async ({ data, expected }) => {
+      const isMac = helpers.IS_MAC
+      Object.defineProperty(helpers, 'IS_MAC', { value: true })
+
+      try {
+        render(
+          <Autocomplete {...mockProps} showSubmitButton data={data} />
+        )
+        toggle()
+        await act(async () => {
+          keyDownOnInput('ArrowDown')
+        })
+
+        const announcement = document.querySelector(
+          '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
+        )
+        await waitFor(() => {
+          expect(announcement).toHaveTextContent(expected)
+        })
+        expect(announcement.querySelector('a, button, input')).toBeNull()
+
+        act(() => {
+          dispatchKeyDown('Enter')
+        })
+        await waitFor(() => {
+          expect(announcement).toHaveTextContent(`Valgt: ${expected}`)
+        })
+      } finally {
+        Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
+      }
+    }
+  )
+
+  it('announces the option selected by pointer for VoiceOver', async () => {
     const isMac = helpers.IS_MAC
     Object.defineProperty(helpers, 'IS_MAC', { value: true })
 
     try {
       render(
-        <Autocomplete
-          {...mockProps}
-          showSubmitButton
-          data={[
-            [
-              'Second option',
-              <a key="legacy-link" href="#legacy">
-                Nested link
-              </a>,
-            ],
-          ]}
-        />
+        <Autocomplete {...mockProps} showSubmitButton data={mockData} />
       )
       toggle()
       await act(async () => {
         keyDownOnInput('ArrowDown')
       })
 
-      const announcement = document.querySelector(
-        '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
-      )
+      fireEvent.click(document.querySelectorAll('[role="option"]')[2])
+
       await waitFor(() => {
-        expect(announcement).toHaveTextContent('Second option Nested link')
+        expect(
+          document.querySelector(
+            '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
+          )
+        ).toHaveTextContent('Valgt: CC cc')
       })
-      expect(announcement.querySelector('a, button, input')).toBeNull()
     } finally {
       Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
     }

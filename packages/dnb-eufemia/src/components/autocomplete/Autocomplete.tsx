@@ -475,6 +475,7 @@ function AutocompleteComponent({
     _disableHighlighting
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
+  const [voiceOverContent, setVoiceOverContent] = useState('')
   const [searchIndex, setSearchIndexState] = useState<
     SearchIndexItem[] | null
   >(null)
@@ -2179,6 +2180,23 @@ function AutocompleteComponent({
   validateDOMAttributes(null, shellParams)
 
   // VoiceOver support helper
+  useEffect(() => {
+    const option =
+      IS_MAC && drawerList.open && drawerList.ariaActiveDescendant
+        ? document.getElementById(drawerList.ariaActiveDescendant)
+        : null
+
+    if (option) {
+      setVoiceOverContent(
+        Array.from(
+          option.querySelector('.dnb-drawer-list__option__inner')
+            ?.children ?? [],
+          getVoiceOverText
+        ).join(' ')
+      )
+    }
+  }, [drawerList.open, drawerList.ariaActiveDescendant, drawerList.data])
+
   const voiceOverActiveItem = (() => {
     const { activeItem, selectedItem } = drawerList
     const currentDataItemVO = getCurrentData(activeItem, drawerList.data)
@@ -2188,7 +2206,7 @@ function AutocompleteComponent({
         {currentDataItemVO && (
           <>
             {activeItem === selectedItem ? <>{selectedSr} </> : null}
-            {parseContentTitle(currentDataItemVO, { separator: ' ' })}
+            {voiceOverContent}
           </>
         )}
       </AriaLive>
@@ -2370,3 +2388,24 @@ withComponentMarkers(Autocomplete, {
 })
 
 export default Autocomplete
+
+function getVoiceOverText(node: Node): string {
+  if (node instanceof Element) {
+    if (
+      node.getAttribute('aria-hidden') === 'true' ||
+      node.hasAttribute('hidden')
+    ) {
+      return ''
+    }
+
+    const text =
+      node.getAttribute('aria-label') ?? node.getAttribute('data-text')
+    if (text !== null) {
+      return text
+    }
+  }
+
+  return node.nodeType === Node.TEXT_NODE
+    ? (node.textContent ?? '')
+    : Array.from(node.childNodes, getVoiceOverText).join('')
+}

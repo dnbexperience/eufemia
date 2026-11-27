@@ -22,7 +22,10 @@ test('Tab skips the VoiceOver announcement for an option with a legacy link', as
         noAnimation
         data={[
           'First option',
-          ['Second option', <a key="link" href="#legacy">Nested link</a>],
+          {
+            content: ['Second option', <a key="link" href="#legacy">Nested link</a>],
+            suffixValue: <span aria-label="Balance: 1234 kroner">1 234,00 kr</span>,
+          },
           'Third option',
         ]}
       />
@@ -35,12 +38,25 @@ test('Tab skips the VoiceOver announcement for an option with a legacy link', as
   })
   await input.focus()
   await page.keyboard.press('ArrowDown')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-dnb-drawer-list-active',
+    await input.getAttribute('id')
+  )
   await page.keyboard.press('ArrowDown')
+  await expect(page.locator('.dnb-drawer-list__option--focus')).toHaveText(
+    'First option'
+  )
   await page.keyboard.press('ArrowDown')
+  await expect(
+    page.locator('.dnb-drawer-list__option--focus')
+  ).toContainText('Second option')
   const announcement = page
     .locator('.dnb-aria-live[aria-live="assertive"]:not([hidden])')
     .first()
   await expect(announcement).toContainText('Nested link')
+  await expect(announcement).toContainText('Balance:')
+  await expect(announcement).toContainText('kroner')
+  await expect(announcement.locator('a, button, input')).toHaveCount(0)
   await page.keyboard.press('Tab')
   await expect(
     page.getByRole('button', { name: 'After autocomplete', exact: true })
