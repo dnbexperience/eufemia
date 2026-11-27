@@ -17,11 +17,7 @@ import type {
 } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'portal-query'
 import { panelClassStyle, drawerClassStyle } from './SearchBar.module.scss'
-import { scrollToAnimation } from '../parts/layout-utils'
-import {
-  applyPageFocus,
-  isModifiedClickEvent,
-} from '@dnb/eufemia/src/shared/helpers'
+import { isModifiedClickEvent } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 import { markNextViewFromSearch } from '../../../vite/client/track-page-view'
 import { loadPortalRoutes } from '../../../vite/client/load-portal-routes'
@@ -360,8 +356,6 @@ const handleSearchResultNavigation = ({
   emptyData?.()
   markNextViewFromSearch()
   navigate(url)
-  scrollToAnimation()
-  applyPageFocus('content')
 
   return true
 }

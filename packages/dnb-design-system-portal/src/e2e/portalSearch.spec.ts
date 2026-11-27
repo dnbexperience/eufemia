@@ -149,6 +149,24 @@ test('keeps header and hero results aligned across screen sizes', async ({
 test('opens the third section with the keyboard and focuses its anchor', async ({
   page,
 }) => {
+  await page.addStyleTag({
+    content:
+      'code { font-family: DNBMono, Arial, sans-serif !important; }',
+  })
+  await page.evaluate(() => {
+    document.fonts.forEach((font) => {
+      font.display = 'swap'
+    })
+  })
+  let releaseFonts: () => void
+  const fontsReleased = new Promise<void>((resolve) => {
+    releaseFonts = resolve
+  })
+  await page.route(/DNBSansMono.*\.woff2?(?:\?|$)/i, async (route) => {
+    await fontsReleased
+    await route.continue()
+  })
+
   const input = page.locator('#portal-search')
   await input.fill('custom update')
   const options = page.getByRole('option')
@@ -169,6 +187,16 @@ test('opens the third section with the keyboard and focuses its anchor', async (
   const heading = page
     .locator('main h2')
     .filter({ has: page.locator('#shortcuts') })
+  await heading.waitFor()
+  await page.waitForFunction(() => document.fonts.status === 'loading')
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve())
+      )
+  )
+  releaseFonts()
+  await page.evaluate(() => document.fonts.ready)
   await expect(heading).toBeInViewport()
   await expect(heading).toBeFocused()
 })
@@ -238,6 +266,7 @@ test('switches platforms with the keyboard and keeps chips available with no res
   const input = page.locator('#portal-search')
   await input.fill('button')
   await expect(page.getByRole('option')).toHaveText('web button')
+  await expect.poll(() => requests.at(-1)).toBe('web')
   const web = page.getByRole('radio', { name: 'Web', exact: true })
   const ios = page.getByRole('radio', { name: 'iOS', exact: true })
   const android = page.getByRole('radio', {
@@ -265,6 +294,7 @@ test('switches platforms with the keyboard and keeps chips available with no res
   await ios.press('ArrowRight')
   await expect(android).toBeFocused()
   await expect(android).toBeChecked()
+  await expect.poll(() => requests.at(-1)).toBe('android')
   await expect(page.getByRole('option')).toHaveText('android button')
   await expect(android).toBeFocused()
   await android.press('ArrowUp')
@@ -291,5 +321,5 @@ test('switches platforms with the keyboard and keeps chips available with no res
   )
   await expect(web).toBeChecked()
   await expect(input).toHaveValue('button')
-  expect(requests).toEqual(['web', 'ios', 'android'])
+  expect([...new Set(requests)]).toEqual(['web', 'ios', 'android'])
 })

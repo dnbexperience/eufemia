@@ -222,23 +222,40 @@ function useRouteFocus() {
       route: currentRoute,
     }
 
-    if (hash || previousRoute) {
-      const samePageClick =
-        navigationType === 'PUSH' && previousRoute?.pathname === pathname
-      applyRouteFocus(hash, samePageClick ? 'auto' : 'instant')
+    let canceled = false
+    const samePageClick =
+      navigationType === 'PUSH' && previousRoute?.pathname === pathname
+    const focusRoute = () => {
+      if (canceled) {
+        return
+      }
+      if (hash || previousRoute) {
+        applyRouteFocus(hash, samePageClick ? 'auto' : 'instant')
+      }
+      document.documentElement.setAttribute('data-portal-ready', 'true')
+      window.dispatchEvent(new Event('portal:ready'))
     }
-
-    document.documentElement.setAttribute('data-portal-ready', 'true')
-    window.dispatchEvent(new Event('portal:ready'))
+    if (hash && !samePageClick) {
+      // Destination fonts can change the layout above the hash target.
+      void document.fonts.ready.then(focusRoute)
+    } else {
+      focusRoute()
+    }
     const warmHints = () => {
       void loadHints()
     }
     if (window.requestIdleCallback) {
       const idle = window.requestIdleCallback(warmHints, { timeout: 1000 })
-      return () => window.cancelIdleCallback(idle)
+      return () => {
+        canceled = true
+        window.cancelIdleCallback(idle)
+      }
     }
     const timer = window.setTimeout(warmHints, 200)
-    return () => window.clearTimeout(timer)
+    return () => {
+      canceled = true
+      window.clearTimeout(timer)
+    }
   }, [routeHash, pathname, routeSearch, navigationType])
 }
 

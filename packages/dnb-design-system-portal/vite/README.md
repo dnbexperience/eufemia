@@ -82,6 +82,8 @@ Search excludes drafts, non-routes, and pages marked `search: false`. Crawler ru
 
 During development, `search-dev` serves the same section records at `/_search?q=...&platform=web` (also `ios` or `android`; defaults to `web`). Its lightweight local ranking lets the Portal preview body-text search without updating Algolia or shipping the corpus to the browser. Production continues to use Algolia for ranking, snippets, and typo tolerance.
 
+When changing the record schema or search settings, update `dev_eufemia_docs` before reviewing branch previews. From the Portal workspace, build the full site with `yarn build`, then run `ALGOLIA_INDEX_NAME=dev_eufemia_docs yarn build:algolia` with `ALGOLIA_APP_ID` and `ALGOLIA_API_KEY` configured locally. The write key needs the `editSettings` ACL in addition to the permissions for replacing records and indexes. Verify common queries, section snippets, and each platform filter on the preview. The release workflow updates the production index before deploying the Portal.
+
 ## Current Gaps
 
 - Responsive image processing is still not part of the Vite pipeline.
