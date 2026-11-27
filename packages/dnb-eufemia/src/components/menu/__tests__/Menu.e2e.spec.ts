@@ -60,3 +60,19 @@ test('keeps hover styles off and the focus outline on after a tap', async ({
     await expect(action).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
   })
 })
+
+// Moving the mouse sets the intent to mouse, while the last input stays
+// keyboard. The focus outline must stay visible under the pointer (#11104).
+test('keeps the keyboard focus outline when the mouse moves onto the focused action', async ({
+  page,
+}) => {
+  const action = page.locator('.dnb-menu__action')
+
+  await action.focus()
+  await setIntent(page, 'keyboard', 'keyboard')
+  await expect(action).toHaveCSS('outline-style', 'solid')
+
+  await action.hover()
+  await setIntent(page, 'keyboard', 'mouse')
+  await expect(action).toHaveCSS('outline-style', 'solid')
+})
