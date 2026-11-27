@@ -50,6 +50,69 @@ const getColors = (calendar: Locator, day: number) =>
       }
     })
 
+// A strip inside the left edge of the button, where the ring of the dates
+// in a range is painted, but not the thin outline of every date
+const screenshotRingEdge = async (
+  page: Page,
+  calendar: Locator,
+  day: number
+) => {
+  const box = await getDay(calendar, day).locator('button').boundingBox()
+  return page.screenshot({
+    clip: {
+      x: Math.round(box.x) + 1,
+      y: Math.round(box.y + box.height / 2) - 4,
+      width: 2,
+      height: 8,
+    },
+    animations: 'disabled',
+  })
+}
+
+// Returns the largest color difference inside the box of the number. It is
+// zero when the number is not painted, or when it has the color of the
+// background behind it, for example the backplate of forced colors mode.
+const getNumberContrast = async (
+  page: Page,
+  calendar: Locator,
+  day: number
+) => {
+  const box = await getDay(calendar, day)
+    .locator('.dnb-button__text')
+    .evaluate((element) => {
+      const range = document.createRange()
+      range.selectNodeContents(element)
+      const { x, y, width, height } = range.getBoundingClientRect()
+      return { x, y, width, height }
+    })
+  // Leave out the anti-aliased edges of the box
+  const clip = {
+    x: Math.ceil(box.x) + 1,
+    y: Math.ceil(box.y) + 1,
+    width: Math.floor(box.width) - 2,
+    height: Math.floor(box.height) - 2,
+  }
+  const image = await page.screenshot({ clip, animations: 'disabled' })
+  return page.evaluate(async (source) => {
+    const img = new Image()
+    img.src = 'data:image/png;base64,' + source
+    await img.decode()
+    const canvas = document.createElement('canvas')
+    canvas.width = img.width
+    canvas.height = img.height
+    const context = canvas.getContext('2d')
+    context.drawImage(img, 0, 0)
+    const { data } = context.getImageData(0, 0, img.width, img.height)
+    let max = 0
+    for (let i = 4; i < data.length; i += 4) {
+      for (let channel = 0; channel < 3; channel++) {
+        max = Math.max(max, Math.abs(data[i + channel] - data[channel]))
+      }
+    }
+    return max
+  }, image.toString('base64'))
+}
+
 for (const colorScheme of ['light', 'dark'] as const) {
   test(`selected dates stay visible in forced colors (${colorScheme} palette)`, async ({
     page,
@@ -72,9 +135,17 @@ for (const colorScheme of ['light', 'dark'] as const) {
     // Compare the same date in each state, so that only the state differs
     await selectRange(page, calendar, 21, 26)
     const unselected = await screenshotDay(calendar, 15)
+    const unselectedEdge = await screenshotRingEdge(page, calendar, 15)
+    const unselectedSize = await getDay(calendar, 15)
+      .locator('button')
+      .boundingBox()
 
     await selectRange(page, calendar, 10, 20)
     const withinRange = await screenshotDay(calendar, 15)
+    const withinRangeEdge = await screenshotRingEdge(page, calendar, 15)
+    const withinRangeSize = await getDay(calendar, 15)
+      .locator('button')
+      .boundingBox()
 
     await selectRange(page, calendar, 15, 20)
     const startDate = await screenshotDay(calendar, 15)
@@ -82,15 +153,23 @@ for (const colorScheme of ['light', 'dark'] as const) {
     await selectRange(page, calendar, 10, 15)
     const endDate = await screenshotDay(calendar, 15)
     const endDateColors = await getColors(calendar, 15)
+    const startDateContrast = await getNumberContrast(page, calendar, 10)
+    const endDateContrast = await getNumberContrast(page, calendar, 15)
     await getDay(calendar, 15).locator('button').hover()
     const hoveredEndDateColors = await getColors(calendar, 15)
     await page.mouse.move(0, 0)
 
     expect(withinRange.equals(unselected)).toBe(false)
+    expect(withinRangeEdge.equals(unselectedEdge)).toBe(false)
+    // The ring must not change the size of the round button
+    expect(withinRangeSize).toEqual(unselectedSize)
     expect(startDate.equals(unselected)).toBe(false)
     expect(startDate.equals(withinRange)).toBe(false)
     expect(endDate.equals(unselected)).toBe(false)
     expect(endDate.equals(withinRange)).toBe(false)
+    // The number must be readable on the selected dates
+    expect(startDateContrast).toBeGreaterThan(127)
+    expect(endDateContrast).toBeGreaterThan(127)
     // The hover state must keep the selected colors
     expect(hoveredEndDateColors.background).toBe(endDateColors.background)
     expect(hoveredEndDateColors.color).toBe(endDateColors.color)

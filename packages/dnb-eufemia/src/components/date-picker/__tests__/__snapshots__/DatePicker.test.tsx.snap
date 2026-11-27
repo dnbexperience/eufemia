@@ -2242,12 +2242,12 @@ html:not([data-whatinput=touch]) .dnb-date-picker__day--selectable .dnb-button:f
     outline-color: CanvasText;
   }
   .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button {
-    box-sizing: border-box;
+    padding: 0;
     border: 0.1875rem solid Highlight;
-    outline-color: Highlight;
   }
-  .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:focus-visible, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:focus-visible {
-    outline-color: CanvasText;
+  .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button .dnb-button__text, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button .dnb-button__text {
+    forced-color-adjust: none;
+    color: CanvasText;
   }
 }
 html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {

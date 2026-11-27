@@ -593,12 +593,15 @@
         ):not(#{&}--end-date) {
         // A border, so that the focus outline does not replace it
         .dnb-button {
-          box-sizing: border-box;
+          // Else the border makes the round button wider than it is high
+          padding: 0;
           border: 0.1875rem solid Highlight;
-          outline-color: Highlight;
 
-          &:focus-visible {
-            outline-color: CanvasText;
+          // Else the browser draws a backplate in the canvas color behind
+          // the text, and its corners cover the border
+          .dnb-button__text {
+            forced-color-adjust: none;
+            color: CanvasText;
           }
         }
       }
