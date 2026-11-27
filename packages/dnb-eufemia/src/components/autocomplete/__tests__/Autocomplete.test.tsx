@@ -1144,6 +1144,42 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
+  it('announces option content as plain text for VoiceOver', async () => {
+    const isMac = helpers.IS_MAC
+    Object.defineProperty(helpers, 'IS_MAC', { value: true })
+
+    try {
+      render(
+        <Autocomplete
+          {...mockProps}
+          showSubmitButton
+          data={[
+            [
+              'Second option',
+              <a key="legacy-link" href="#legacy">
+                Nested link
+              </a>,
+            ],
+          ]}
+        />
+      )
+      toggle()
+      await act(async () => {
+        keyDownOnInput('ArrowDown')
+      })
+
+      const announcement = document.querySelector(
+        '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
+      )
+      await waitFor(() => {
+        expect(announcement).toHaveTextContent('Second option Nested link')
+      })
+      expect(announcement.querySelector('a, button, input')).toBeNull()
+    } finally {
+      Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
+    }
+  })
+
   it('should update aria-live (for VoiceOver support) with selected item', async () => {
     Object.defineProperty(helpers, 'IS_MAC', {
       value: true,
@@ -1247,7 +1283,7 @@ describe('Autocomplete component', () => {
     await waitFor(
       () => {
         const ariaLive = getVoiceOverAriaLive()
-        expect(ariaLive?.textContent).toBe('CCcc')
+        expect(ariaLive?.textContent).toBe('CC cc')
       },
       { timeout: 3000 }
     )
@@ -1259,7 +1295,7 @@ describe('Autocomplete component', () => {
     await waitFor(
       () => {
         const ariaLive = getVoiceOverAriaLive()
-        expect(ariaLive?.textContent).toBe('Valgt: CCcc')
+        expect(ariaLive?.textContent).toBe('Valgt: CC cc')
       },
       { timeout: 2000 }
     )

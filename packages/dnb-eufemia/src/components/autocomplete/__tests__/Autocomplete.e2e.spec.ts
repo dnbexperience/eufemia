@@ -1,5 +1,53 @@
 import { expect, test } from '@playwright/test'
 
+test('Tab skips the VoiceOver announcement for an option with a legacy link', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'platform', { value: 'MacIntel' })
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: { platform: 'macOS' },
+    })
+  })
+  await page.goto('/web/components/autocomplete/demos/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  await page.locator('.dnb-live-editor pre[contenteditable]').first()
+    .fill(`
+    <>
+      <Autocomplete
+        label="VoiceOver regression"
+        noAnimation
+        data={[
+          'First option',
+          ['Second option', <a key="link" href="#legacy">Nested link</a>],
+          'Third option',
+        ]}
+      />
+      <button>After autocomplete</button>
+    </>
+  `)
+  await page.keyboard.press('End')
+  const input = page.getByRole('combobox', {
+    name: 'VoiceOver regression',
+  })
+  await input.focus()
+  await page.keyboard.press('ArrowDown')
+  await page.keyboard.press('ArrowDown')
+  await page.keyboard.press('ArrowDown')
+  const announcement = page
+    .locator('.dnb-aria-live[aria-live="assertive"]:not([hidden])')
+    .first()
+  await expect(announcement).toContainText('Nested link')
+  await page.keyboard.press('Tab')
+  await expect(
+    page.getByRole('button', { name: 'After autocomplete', exact: true })
+  ).toBeFocused()
+  await expect(input).toHaveAttribute('aria-expanded', 'false')
+})
+
 test('Tab leaves autocomplete options and Enter selects the active option', async ({
   page,
 }) => {
