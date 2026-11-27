@@ -116,7 +116,6 @@ export type InfoCardAllProps = InfoCardProps &
 export const infoCardDefaultProps = {
   centered: false,
   dropShadow: true,
-  skeleton: false,
   icon: LightbulbIcon,
 }
 

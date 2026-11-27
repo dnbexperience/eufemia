@@ -129,8 +129,6 @@ const paymentCardDefaultProps: Partial<PaymentCardProps> = {
 
   id: null,
   rawData: null,
-
-  skeleton: false,
   className: null,
   children: null,
 }
@@ -181,7 +179,7 @@ function PaymentCard(props: PaymentCardProps) {
   validateDOMAttributes(props, params)
 
   return (
-    <Provider locale={locale}>
+    <Provider locale={locale} skeleton={skeleton}>
       <PaymentCardContent
         props={props}
         params={params}

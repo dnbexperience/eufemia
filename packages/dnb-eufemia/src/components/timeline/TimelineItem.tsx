@@ -66,9 +66,7 @@ export type TimelineItemProps = {
 export type TimelineItemAllProps = TimelineItemProps &
   Omit<AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
 
-const timelineItemDefaultProps: Partial<TimelineItemAllProps> = {
-  skeleton: false,
-}
+const timelineItemDefaultProps: Partial<TimelineItemAllProps> = {}
 
 const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
@@ -185,6 +183,7 @@ const TimelineItemIcon = ({
           icon={currentIcon}
           alt={currentAltLabel}
           size={state === 'completed' ? 'small' : undefined}
+          skeleton={skeleton}
         />
       )}
     </span>

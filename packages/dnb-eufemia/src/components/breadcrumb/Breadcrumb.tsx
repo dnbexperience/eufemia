@@ -51,6 +51,7 @@ import {
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 import { useMedia } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import Provider from '../../shared/Provider'
 
 export type BreadcrumbProps = {
   /**
@@ -145,7 +146,6 @@ export type BreadcrumbAllProps = BreadcrumbProps &
   Omit<HTMLProps<HTMLElement>, keyof BreadcrumbProps>
 
 const breadcrumbDefaultProps: Partial<BreadcrumbAllProps> = {
-  skeleton: false,
   collapsed: true,
   spacing: false,
   openOnFind: false,
@@ -245,84 +245,86 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   })
 
   return (
-    <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
-      <div className="dnb-breadcrumb__bar">
-        {currentVariant === 'single' ? (
-          <Button
-            text={goBackText}
-            variant="tertiary"
-            icon="chevron_left"
-            iconPosition="left"
-            onClick={onClick}
-            href={href}
-          />
-        ) : currentVariant === 'collapse' ? (
-          <Accordion
-            variant="tertiary"
-            title={backToText}
-            expanded={!isCollapsedRef.current}
-            noAnimation={noAnimation}
-            openOnFind={openOnFind}
-            onChange={({ expanded, event }) => {
-              onClick?.(event as MouseEvent<HTMLButtonElement>)
-              isCollapsedRef.current = !expanded
-              onToggle?.(!expanded)
-            }}
-          >
-            <div className="dnb-breadcrumb__collapse">
+    <Provider skeleton={skeleton}>
+      <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
+        <div className="dnb-breadcrumb__bar">
+          {currentVariant === 'single' ? (
+            <Button
+              text={goBackText}
+              variant="tertiary"
+              icon="chevron_left"
+              iconPosition="left"
+              onClick={onClick}
+              href={href}
+            />
+          ) : currentVariant === 'collapse' ? (
+            <Accordion
+              variant="tertiary"
+              title={backToText}
+              expanded={!isCollapsedRef.current}
+              noAnimation={noAnimation}
+              openOnFind={openOnFind}
+              onChange={({ expanded, event }) => {
+                onClick?.(event as MouseEvent<HTMLButtonElement>)
+                isCollapsedRef.current = !expanded
+                onToggle?.(!expanded)
+              }}
+            >
+              <div className="dnb-breadcrumb__collapse">
+                <BreadcrumbMultiple
+                  data={data}
+                  items={items}
+                  collapsed={false}
+                  noAnimation={noAnimation}
+                />
+              </div>
+            </Accordion>
+          ) : (
+            <>
+              {currentVariant === 'responsive' && (
+                <Button
+                  className="dnb-breadcrumb__toggle"
+                  text={backToText}
+                  variant="tertiary"
+                  icon={toggleIcon}
+                  transitionState={
+                    !isCollapsedRef.current ? 'expanded' : 'collapsed'
+                  }
+                  iconPosition="left"
+                  onClick={onClick ?? onClickHandler}
+                  aria-expanded={!isCollapsedRef.current}
+                  bounding
+                />
+              )}
+
               <BreadcrumbMultiple
                 data={data}
                 items={items}
                 collapsed={false}
                 noAnimation={noAnimation}
               />
-            </div>
-          </Accordion>
-        ) : (
-          <>
-            {currentVariant === 'responsive' && (
-              <Button
-                className="dnb-breadcrumb__toggle"
-                text={backToText}
-                variant="tertiary"
-                icon={toggleIcon}
-                transitionState={
-                  !isCollapsedRef.current ? 'expanded' : 'collapsed'
-                }
-                iconPosition="left"
-                onClick={onClick ?? onClickHandler}
-                aria-expanded={!isCollapsedRef.current}
-                bounding
-              />
-            )}
+            </>
+          )}
+        </div>
 
+        {currentVariant === 'responsive' && (
+          <div className="dnb-breadcrumb__collapse">
             <BreadcrumbMultiple
               data={data}
               items={items}
-              collapsed={false}
+              collapsed={isCollapsedRef.current}
               noAnimation={noAnimation}
+              openOnFind={openOnFind}
+              onBeforeMatch={() => {
+                isCollapsedRef.current = false
+                forceUpdate()
+                onToggle?.(false)
+              }}
             />
-          </>
+          </div>
         )}
-      </div>
-
-      {currentVariant === 'responsive' && (
-        <div className="dnb-breadcrumb__collapse">
-          <BreadcrumbMultiple
-            data={data}
-            items={items}
-            collapsed={isCollapsedRef.current}
-            noAnimation={noAnimation}
-            openOnFind={openOnFind}
-            onBeforeMatch={() => {
-              isCollapsedRef.current = false
-              forceUpdate()
-              onToggle?.(false)
-            }}
-          />
-        </div>
-      )}
-    </nav>
+      </nav>
+    </Provider>
   )
 }
 

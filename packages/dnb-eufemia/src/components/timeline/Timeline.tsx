@@ -45,9 +45,7 @@ export type TimelineAllProps = TimelineProps &
     ref?: Ref<HTMLOListElement>
   }
 
-const timelineDefaultProps: Partial<TimelineAllProps> = {
-  skeleton: false,
-}
+const timelineDefaultProps: Partial<TimelineAllProps> = {}
 
 const Timeline = (localProps: TimelineAllProps) => {
   // Every component should have a context

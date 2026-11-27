@@ -14,6 +14,13 @@ import { skeletonDOMAttributes } from '../SkeletonHelper'
 import Provider from '../../../shared/Provider'
 import FormLabel from '../../form-label/FormLabel'
 import Button from '../../button/Button'
+import Badge from '../../badge/Badge'
+import Avatar from '../../avatar/Avatar'
+import Breadcrumb from '../../breadcrumb/Breadcrumb'
+import InfoCard from '../../info-card/InfoCard'
+import PaymentCard from '../../../extensions/payment-card/PaymentCard'
+import Timeline from '../../timeline/Timeline'
+import Tag from '../../tag/Tag'
 
 const props: SkeletonProps = {
   children: (
@@ -120,6 +127,69 @@ describe('undefined props should fall through to defaults', () => {
     expect(
       container.querySelector('[aria-busy="true"]')
     ).toBeInTheDocument()
+  })
+})
+
+describe('skeleton={false} inside a Provider with skeleton', () => {
+  it.each([
+    [
+      'Badge',
+      <Badge key="badge" content="1" label="New" skeleton={false} />,
+    ],
+    [
+      'Avatar',
+      <Avatar key="avatar" skeleton={false}>
+        A
+      </Avatar>,
+    ],
+    [
+      'Avatar.Group',
+      <Avatar.Group key="avatar-group" label="People" skeleton={false}>
+        <Avatar>A</Avatar>
+      </Avatar.Group>,
+    ],
+    [
+      'Breadcrumb',
+      <Breadcrumb
+        key="breadcrumb"
+        skeleton={false}
+        data={[
+          { href: '/', text: 'Home' },
+          { href: '/page', text: 'Page' },
+        ]}
+      />,
+    ],
+    [
+      'InfoCard',
+      <InfoCard key="info-card" text="Info" skeleton={false} />,
+    ],
+    [
+      'PaymentCard',
+      <PaymentCard
+        key="payment-card"
+        productCode="NK1"
+        cardNumber="************1337"
+        skeleton={false}
+      />,
+    ],
+    [
+      'Timeline',
+      <Timeline
+        key="timeline"
+        skeleton={false}
+        data={[{ title: 'Step', state: 'completed' }]}
+      />,
+    ],
+    [
+      'Tag.Group',
+      <Tag.Group key="tag-group" label="Tags" skeleton={false}>
+        <Tag text="Tag" />
+      </Tag.Group>,
+    ],
+  ])('keeps %s and its content out of the skeleton', (_, element) => {
+    render(<Provider skeleton>{element}</Provider>)
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
   })
 })
 
