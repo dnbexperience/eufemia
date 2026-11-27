@@ -95,7 +95,7 @@
   --color-text-neutral-ondark: var(--birdhouse-beige-50);
   --color-text-neutral-subtle: var(--birdhouse-beige-300);
   --color-text-neutral-subtle-ondark: var(--birdhouse-beige-300);
-  --color-text-error: var(--dnb-red-100);
+  --color-text-error: var(--dnb-red-500);
   --color-text-error-inverse: var(--dnb-red-700);
   --color-text-warning: var(--dnb-yellow-500);
   --color-text-warning-inverse: var(--dnb-yellow-800);
@@ -131,14 +131,14 @@
   --color-icon-error-subtle: var(--dnb-red-950);
   --color-icon-marketing: var(--birdhouse-beige-200);
   --color-icon-marketing-subtle: var(--birdhouse-emeraldgreen-700);
-  --color-stroke-action: var(--birdhouse-emeraldgreen-200);
+  --color-stroke-action: var(--birdhouse-emeraldgreen-300);
   --color-stroke-action-alternative: var(--birdhouse-beige-300);
   --color-stroke-action-hover: var(--birdhouse-beige-100);
   --color-stroke-action-pressed: var(--birdhouse-beige-300);
   --color-stroke-action-inverse: var(--birdhouse-emeraldgreen-700);
   --color-stroke-action-hover-inverse: var(--birdhouse-emeraldgreen-600);
   --color-stroke-action-pressed-inverse: var(--birdhouse-emeraldgreen-500);
-  --color-stroke-action-focus: var(--dnb-blue-100);
+  --color-stroke-action-focus: var(--dnb-blue-600);
   --color-stroke-action-focus-ondark: var(--dnb-blue-100);
   --color-stroke-action-focus-inverse: var(--dnb-blue-600);
   --color-stroke-action-focus-subtle: var(--dnb-greyscale-1000);

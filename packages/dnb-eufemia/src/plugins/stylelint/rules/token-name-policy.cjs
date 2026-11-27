@@ -41,7 +41,9 @@ const DEFAULT_POLICY = {
     'page',
   ],
 
-  // Map theme folder names to their required foundation variable prefix.
+  // Map theme folder names to their foundation variable prefix.
+  // Theme foundation and token files may use the prefix of any theme,
+  // because brands can share foundation colors.
   themePrefixes: {
     ui: 'dnb',
     sbanken: 'sbanken',
@@ -102,10 +104,14 @@ const createTokenReferenceRegex = (tokenPrefix, flags = 'gi') => {
 const messages = stylelint.utils.ruleMessages(RULE_NAME, {
   disallowedSuffix: (prop, suffix) =>
     `Unexpected token variable "${prop}". Suffix "${suffix}" is not allowed.`,
-  wrongPrefix: (prop, expectedPrefix, theme) =>
-    `Unexpected token variable "${prop}" in theme "${theme}". Expected prefix "--${expectedPrefix}-".`,
-  wrongReferencePrefix: (ref, expectedPrefix, theme) =>
-    `Unexpected token reference "${ref}" in theme "${theme}". Expected prefix "--${expectedPrefix}-".`,
+  wrongPrefix: (prop, allowedPrefixes, theme) =>
+    `Unexpected token variable "${prop}" in theme "${theme}". Expected one of the theme prefixes: ${allowedPrefixes.join(
+      ', '
+    )}.`,
+  wrongReferencePrefix: (ref, allowedPrefixes, theme) =>
+    `Unexpected token reference "${ref}" in theme "${theme}". Expected one of the theme prefixes: ${allowedPrefixes.join(
+      ', '
+    )}.`,
   wrongTokenDeclarationPrefix: (prop, tokenPrefix) =>
     `Unexpected token variable "${prop}" in tokens file. Expected prefix "${tokenPrefix}".`,
   wrongTokenCategory: (prop, categories) =>
@@ -323,16 +329,25 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
       }
     }
 
+    const allowedVariablePrefixes = Array.from(
+      new Set(Object.values(themePrefixes))
+    ).map((prefix) => `--${prefix}-`)
+    const hasAllowedVariablePrefix = (variable) => {
+      return allowedVariablePrefixes.some((prefix) =>
+        variable.startsWith(prefix)
+      )
+    }
+
     const filePath = root.source?.input?.file || ''
     const theme = getThemeFromPath(filePath)
-    const expectedPrefix = theme ? themePrefixes[theme] : null
+    const isKnownTheme = Boolean(theme && themePrefixes[theme])
     const shouldValidateThemePrefix =
-      Boolean(expectedPrefix) && isFoundationFile(filePath)
+      isKnownTheme && isFoundationFile(filePath)
     const shouldValidateTokenReferences =
-      Boolean(expectedPrefix) && isTokensFile(filePath)
+      isKnownTheme && isTokensFile(filePath)
     const shouldValidateTokenDeclarationPrefix = isTokensFile(filePath)
     const shouldValidateHasAllTokensAsOtherBrands =
-      Boolean(expectedPrefix) && isTokensFile(filePath)
+      isKnownTheme && isTokensFile(filePath)
 
     if (shouldValidateHasAllTokensAsOtherBrands) {
       const normalizedFilePath = path.resolve(filePath)
@@ -494,30 +509,23 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
         }
       }
 
-      const hasThemeReferenceValidation =
-        shouldValidateThemePrefix || shouldValidateTokenReferences
-      const expectedVariablePrefix = hasThemeReferenceValidation
-        ? `--${expectedPrefix}-`
-        : null
-      // Birdhouse shares DNB status colors alongside its own palette.
-      const hasExpectedPrefix = (variable) =>
-        variable.startsWith(expectedVariablePrefix) ||
-        (theme === 'birdhouse' && variable.startsWith('--dnb-'))
-
       if (
         shouldValidateThemePrefix &&
-        expectedVariablePrefix &&
-        !hasExpectedPrefix(decl.prop)
+        !hasAllowedVariablePrefix(decl.prop)
       ) {
         stylelint.utils.report({
           result,
           ruleName: RULE_NAME,
           node: decl,
-          message: messages.wrongPrefix(decl.prop, expectedPrefix, theme),
+          message: messages.wrongPrefix(
+            decl.prop,
+            allowedVariablePrefixes,
+            theme
+          ),
         })
       }
 
-      if (shouldValidateTokenReferences && expectedVariablePrefix) {
+      if (shouldValidateTokenReferences) {
         const variableReferenceMatches =
           decl.value?.match(GENERIC_VAR_REFERENCE_REGEX) || []
 
@@ -525,14 +533,17 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
           const referenceMatch = match.match(SINGLE_VAR_REFERENCE_REGEX)
           const variableReference = referenceMatch?.[1]
 
-          if (variableReference && !hasExpectedPrefix(variableReference)) {
+          if (
+            variableReference &&
+            !hasAllowedVariablePrefix(variableReference)
+          ) {
             stylelint.utils.report({
               result,
               ruleName: RULE_NAME,
               node: decl,
               message: messages.wrongReferencePrefix(
                 variableReference,
-                expectedPrefix,
+                allowedVariablePrefixes,
                 theme
               ),
             })

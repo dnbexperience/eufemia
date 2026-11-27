@@ -1,7 +1,9 @@
 import {
+  type CrossBrandReference,
   type loadTokenModes,
   changedTokens,
   contrastRatio,
+  findCrossBrandReferences,
   parseColor,
   resolveTokenValues,
   reviewTokenChanges,
@@ -204,6 +206,33 @@ it('ignores support fallbacks when reviewing the modern token values', () => {
       ':root { --token-color-text-error: #123; } @supports not (color: color-mix(in srgb, red, red)) { :root { --token-color-text-error: #456; } }'
     )
   ).toEqual({ '--token-color-text-error': '#123' })
+})
+
+it('lists only new references to another brand foundation', () => {
+  const references = findCrossBrandReferences(
+    ':root { --carnegie-blue: #00f; --dnb-blue: #00f; --dnb-green: #0f0; --token-cross-a: var(--carnegie-blue); --token-cross-b: var(--dnb-blue); --token-cross-c: var(--dnb-green); }',
+    'carnegie'
+  )
+  expect(references).toEqual([
+    { token: '--token-cross-b', reference: '--dnb-blue' },
+    { token: '--token-cross-c', reference: '--dnb-green' },
+  ])
+
+  const withReferences = (crossBrandReferences: CrossBrandReference[]) => [
+    { ...mode('#000', '#fff')[0], crossBrandReferences },
+  ]
+  const { markdown } = reviewTokenChanges(
+    withReferences(references.slice(0, 1)),
+    withReferences(references)
+  )
+  expect(markdown).toContain(
+    '| DNB light | --token-cross-c | --dnb-green |'
+  )
+  expect(markdown).not.toContain('--token-cross-b')
+  expect(
+    reviewTokenChanges(withReferences(references), withReferences([]))
+      .markdown
+  ).toContain('## New cross-brand foundation references\n\nNone.')
 })
 
 it('reports added and removed tokens', () => {

@@ -66,32 +66,41 @@ const makeTempTokenFiles = () => {
 
 describe('token-name-policy stylelint rule', () => {
   it.each(['foundation.scss', 'tokens.scss', 'tokens-dark.scss'])(
-    'validates Birdhouse and shared DNB foundation prefixes in %s',
+    'requires a theme prefix in Coconut %s',
     async (fileName) => {
-      const codeFilename = `/repo/src/style/themes/birdhouse/${fileName}`
-      const declaration = (prefix: string) =>
-        fileName === 'foundation.scss'
-          ? `:root { --${prefix}-red-100: #fcc; }`
-          : `:root { --token-color-text-error: var(--${prefix}-red-100); }`
-
-      for (const prefix of ['birdhouse', 'dnb']) {
-        expect(
-          await lintWithRule({ code: declaration(prefix), codeFilename })
-        ).toHaveLength(0)
-      }
-
       const errors = await lintWithRule({
-        code: declaration('sbanken'),
-        codeFilename,
+        code:
+          fileName === 'foundation.scss'
+            ? ':root { --color-black: #111; }'
+            : ':root { --token-color-text-neutral: var(--color-black); }',
+        codeFilename: `/repo/src/style/themes/coconut/${fileName}`,
       })
+
       expect(errors).toHaveLength(1)
-      expect(errors[0].text).toContain('Expected prefix "--birdhouse-"')
+      expect(errors[0].text).toContain(
+        'Expected one of the theme prefixes'
+      )
     }
   )
 
-  it('flags Birdhouse foundation references outside tokens.scss', async () => {
+  it.each(['foundation.scss', 'tokens.scss', 'tokens-dark.scss'])(
+    'allows foundation colors from other themes in Coconut %s',
+    async (fileName) => {
+      const errors = await lintWithRule({
+        code:
+          fileName === 'foundation.scss'
+            ? ':root { --dnb-blue-600: #111; --sbanken-greyscale-1000: #111; }'
+            : ':root { --token-color-text-neutral: var(--dnb-blue-600); }',
+        codeFilename: `/repo/src/style/themes/coconut/${fileName}`,
+      })
+
+      expect(errors).toHaveLength(0)
+    }
+  )
+
+  it('flags Coconut foundation references outside tokens.scss', async () => {
     const errors = await lintWithRule({
-      code: '.dnb-button { color: var(--birdhouse-beige-50); }',
+      code: '.dnb-button { color: var(--coconut-greyscale-1000); }',
       codeFilename: '/repo/src/components/button/style/dnb-button.scss',
     })
 
@@ -99,25 +108,9 @@ describe('token-name-policy stylelint rule', () => {
     expect(errors[0].text).toContain('outside tokens.scss')
   })
 
-  it.each(['foundation.scss', 'tokens.scss', 'tokens-dark.scss'])(
-    'requires Coconut foundation prefixes in %s',
-    async (fileName) => {
-      const errors = await lintWithRule({
-        code:
-          fileName === 'foundation.scss'
-            ? ':root { --sbanken-greyscale-1000: #111; }'
-            : ':root { --token-color-text-neutral: var(--sbanken-greyscale-1000); }',
-        codeFilename: `/repo/src/style/themes/coconut/${fileName}`,
-      })
-
-      expect(errors).toHaveLength(1)
-      expect(errors[0].text).toContain('Expected prefix "--coconut-"')
-    }
-  )
-
-  it('flags Coconut foundation references outside tokens.scss', async () => {
+  it('flags Birdhouse foundation references outside tokens.scss', async () => {
     const errors = await lintWithRule({
-      code: '.dnb-button { color: var(--coconut-greyscale-1000); }',
+      code: '.dnb-button { color: var(--birdhouse-beige-50); }',
       codeFilename: '/repo/src/components/button/style/dnb-button.scss',
     })
 
@@ -180,17 +173,19 @@ describe('token-name-policy stylelint rule', () => {
 
   it('flags wrong prefix in carnegie foundation variables', async () => {
     const errors = await lintWithRule({
-      code: ':root { --dnb-blue-500: #123; }',
+      code: ':root { --eiendom-blue-500: #123; }',
       codeFilename: '/repo/src/style/themes/carnegie/foundation.scss',
     })
 
     expect(errors).toHaveLength(1)
-    expect(errors[0].text).toContain('Expected prefix "--carnegie-"')
+    expect(errors[0].text).toContain(
+      'Expected one of the theme prefixes: --dnb-, --sbanken-, --carnegie-'
+    )
   })
 
-  it('allows correct prefix in carnegie foundation variables', async () => {
+  it('allows theme prefixes in carnegie foundation variables', async () => {
     const errors = await lintWithRule({
-      code: ':root { --carnegie-blue-500: #123; }',
+      code: ':root { --carnegie-blue-500: #123; --dnb-blue-600: #123; }',
       codeFilename: '/repo/src/style/themes/carnegie/foundation.scss',
     })
 
@@ -209,22 +204,23 @@ describe('token-name-policy stylelint rule', () => {
   it('flags wrong token reference prefix in carnegie tokens', async () => {
     const errors = await lintWithRule({
       code: `:root {
-        --token-color-background-neutral-subtle: var(--dnb-greyscale-50);
+        --token-color-background-neutral-subtle: var(--color-black);
       }`,
       codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
     })
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Unexpected token reference "--dnb-greyscale-50"'
+      'Unexpected token reference "--color-black"'
     )
-    expect(errors[0].text).toContain('Expected prefix "--carnegie-"')
+    expect(errors[0].text).toContain('Expected one of the theme prefixes')
   })
 
-  it('allows carnegie-prefixed token references in carnegie tokens', async () => {
+  it('allows theme-prefixed token references in carnegie tokens', async () => {
     const errors = await lintWithRule({
       code: `:root {
         --token-color-background-neutral-subtle: var(--carnegie-greyscale-50);
+        --token-color-background-action-focus: var(--dnb-blue-600);
       }`,
       codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
     })

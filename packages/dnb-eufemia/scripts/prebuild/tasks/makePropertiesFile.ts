@@ -11,12 +11,8 @@ import stylelint from 'stylelint'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
+import { foundationPrefixMap } from './foundationPrefixMap'
 import { formatNumberValue as transformNumberValue } from '../../../src/style/themes/figma/tokenValueUtils'
-import {
-  birdhouseDarkActionOverride,
-  birdhouseDarkErrorOverride,
-  birdhouseDarkFocusOverride,
-} from '../../../src/style/themes/figma/tokenOverrides'
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
@@ -242,16 +238,6 @@ type TokenItem = {
   figmaPath: string[]
   figmaSetId: FigmaSetId
 } & FigmaValue
-
-const foundationPrefixMap = {
-  ui: { css: 'dnb', figma: 'dnb' },
-  sbanken: { css: 'sbanken', figma: 'sbanken' },
-  // @deprecated Transitional "coconut" brand, removed later.
-  // The Figma set is still named after the brand it replaces.
-  coconut: { css: 'coconut', figma: 'sbanken-new' },
-  carnegie: { css: 'carnegie', figma: 'dnb-carnegie' },
-  birdhouse: { css: 'birdhouse', figma: 'dnb-eiendom' },
-}
 
 export const transformFigmaAlias = (alias: FigmaAlias) => {
   const figmaAliasName = alias.targetVariableName
@@ -727,8 +713,6 @@ const makeDesignTokenSCSS = async ({
   namespace,
   scopeSelector = ':root',
   appendToFile = false,
-  referencePrefixOverride,
-  filter = (json) => json,
   referencedVariables,
   colorScheme,
 }: {
@@ -744,18 +728,12 @@ const makeDesignTokenSCSS = async ({
   scopeSelector?: string
   /** append generated content to existing file */
   appendToFile?: boolean
-  /** force all foundation references to this prefix */
-  referencePrefixOverride?: string
-  /** Optional filter function that transforms the source before generating */
-  filter?: (json: FigmaExport) => FigmaNode
   referencedVariables?: Set<string>
   colorScheme?: 'light' | 'dark'
 }) => {
   try {
     const tokenList = convertToTokenList(
-      filter(
-        JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
-      ),
+      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8')),
       figmaSetId
     )
 
@@ -784,13 +762,6 @@ const makeDesignTokenSCSS = async ({
       scssContent = keepOnlyReferencedVariableDeclarations(
         scssContent,
         referencedVariables
-      )
-    }
-
-    if (referencePrefixOverride) {
-      scssContent = overrideFoundationReferencePrefix(
-        scssContent,
-        referencePrefixOverride
       )
     }
 
@@ -826,31 +797,6 @@ const makeDesignTokenSCSS = async ({
     log.fail(`Failed to generate SCSS file: ${outputPath}`)
     throw e
   }
-}
-
-export const overrideFoundationReferencePrefix = (
-  scssContent: string,
-  referencePrefixOverride: string
-) => {
-  const prefixPattern = Object.values(foundationPrefixMap)
-    .map(({ css }) => css)
-    .join('|')
-
-  return scssContent.replace(
-    new RegExp(
-      `(var\\(\\s*--)(${prefixPattern})(-[a-z0-9-]+\\s*\\))`,
-      'gi'
-    ),
-    (match, $1, $2, $3) => {
-      if ($2 !== referencePrefixOverride) {
-        log.warn(
-          `Overriding reference "${$2}" to "${referencePrefixOverride}" in variable "${match}"`
-        )
-        return `${$1}${referencePrefixOverride}${$3}`
-      }
-      return match
-    }
-  )
 }
 
 export const convertToTokenList = (
@@ -1182,8 +1128,6 @@ const runDesignTokenFactory = async () => {
     prefix: string
     scopeSelector?: string
     appendToFile?: boolean
-    referencePrefixOverride?: string
-    filter?: (json: FigmaExport) => FigmaNode
     colorScheme: 'light' | 'dark'
   }> = [
     {
@@ -1192,7 +1136,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/ui/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.ui.css,
       colorScheme: 'light',
     },
     {
@@ -1202,7 +1145,6 @@ const runDesignTokenFactory = async () => {
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: foundationPrefixMap.ui.css,
       colorScheme: 'dark',
     },
 
@@ -1212,7 +1154,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/sbanken/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.sbanken.css,
       colorScheme: 'light',
     },
     {
@@ -1222,7 +1163,6 @@ const runDesignTokenFactory = async () => {
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: foundationPrefixMap.sbanken.css,
       colorScheme: 'dark',
     },
     // @deprecated Transitional "coconut" brand, removed later
@@ -1232,8 +1172,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/coconut/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      // No referencePrefixOverride: this brand intentionally reuses a few
-      // Sbanken foundation colors alongside its own set
       colorScheme: 'light',
     },
     {
@@ -1251,7 +1189,6 @@ const runDesignTokenFactory = async () => {
       out: './src/style/themes/carnegie/tokens.scss',
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.carnegie.css,
       colorScheme: 'light',
     },
     {
@@ -1269,24 +1206,6 @@ const runDesignTokenFactory = async () => {
       figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
-      filter: (json) => {
-        const text = (json.color as FigmaGroup).text as FigmaGroup
-        const error = text.error as FigmaValueColor
-        text.error = {
-          ...error,
-          ...birdhouseDarkErrorOverride,
-        }
-        const stroke = (json.color as FigmaGroup).stroke as FigmaGroup
-        stroke.action = {
-          ...(stroke.action as FigmaValueColor),
-          ...birdhouseDarkActionOverride,
-        }
-        stroke['action-focus'] = {
-          ...(stroke['action-focus'] as FigmaValueColor),
-          ...birdhouseDarkFocusOverride,
-        }
-        return json
-      },
       colorScheme: 'dark',
     },
   ]
@@ -1296,26 +1215,18 @@ const runDesignTokenFactory = async () => {
     in: string
     out: string
     figmaSetId: FigmaSetId
-    filter: (json: FigmaExport) => FigmaNode
   }> = [
     {
       theme: 'ui',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/ui/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
-      }),
     },
     {
       theme: 'sbanken',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/sbanken/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.sbanken.figma]:
-          json[foundationPrefixMap.sbanken.figma],
-      }),
     },
     // @deprecated Transitional "coconut" brand, removed later
     {
@@ -1323,35 +1234,18 @@ const runDesignTokenFactory = async () => {
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/coconut/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      // A few tokens still reference the Sbanken set, so both are kept.
-      // Unreferenced variables are filtered out before the file is written.
-      filter: (json) => ({
-        [foundationPrefixMap.coconut.figma]:
-          json[foundationPrefixMap.coconut.figma],
-        [foundationPrefixMap.sbanken.figma]:
-          json[foundationPrefixMap.sbanken.figma],
-      }),
     },
     {
       theme: 'carnegie',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/carnegie/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.carnegie.figma]:
-          json[foundationPrefixMap.carnegie.figma],
-      }),
     },
     {
       theme: 'birdhouse',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/birdhouse/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap['birdhouse'].figma]:
-          json[foundationPrefixMap['birdhouse'].figma],
-        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
-      }),
     },
   ]
 
@@ -1367,8 +1261,6 @@ const runDesignTokenFactory = async () => {
       namespace: file.prefix,
       scopeSelector: file.scopeSelector,
       appendToFile: file.appendToFile,
-      referencePrefixOverride: file.referencePrefixOverride,
-      filter: file.filter,
       colorScheme: file.colorScheme,
     })
     if (file.colorScheme === 'light') {
@@ -1411,7 +1303,6 @@ const runDesignTokenFactory = async () => {
         inputPath: file.in,
         outputPath: file.out,
         figmaSetId: file.figmaSetId,
-        filter: file.filter,
         referencedVariables: referencedVariablesByTheme.get(file.theme),
       })
     )
