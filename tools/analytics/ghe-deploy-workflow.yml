@@ -56,9 +56,14 @@ jobs:
           TF_VAR_entra_client_id: ${{ vars.ENTRA_CLIENT_ID }}
           TF_VAR_entra_tenant_id: ${{ vars.ENTRA_TENANT_ID }}
           TF_VAR_dashboard_public_url: ${{ vars.DASHBOARD_PUBLIC_URL }}
-          TF_VAR_snapshot_alert_email: ${{ vars.SNAPSHOT_ALERT_EMAIL }}
+          TF_VAR_snapshot_alert_emails: ${{ secrets.SNAPSHOT_ALERT_EMAILS }}
         run: |
           set -euo pipefail
+          # A list with no address would make the apply delete every alert subscription.
+          if [ -z "$(printf '%s' "$TF_VAR_snapshot_alert_emails" | tr -d '[:space:],')" ]; then
+            echo "::error::SNAPSHOT_ALERT_EMAILS has no address, so the alarms would email nobody."
+            exit 1
+          fi
           cd infra
           terraform init -input=false
           terraform apply -auto-approve -input=false

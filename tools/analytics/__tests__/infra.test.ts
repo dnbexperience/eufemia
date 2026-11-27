@@ -122,9 +122,16 @@ describe('analytics infrastructure', () => {
       'resource "aws_sns_topic_subscription" "snapshot_alerts_email"'
     )
     expect(subscription).toMatch(
-      /count\s+=\s+var\.snapshot_alert_email != "" \? 1 : 0/
+      /^\s*for_each\s+=\s+nonsensitive\(toset\(keys\(local\.snapshot_alert_emails_by_hash\)\)\)$/m
     )
-    expect(subscription).toMatch(/protocol\s+=\s+"email"/)
+    expect(subscription).toMatch(
+      /^\s*endpoint\s+=\s+local\.snapshot_alert_emails_by_hash\[each\.key\]$/m
+    )
+    expect(terraform).toMatch(
+      /^\s*for address in distinct\(compact\(\[for entry in split\(",", var\.snapshot_alert_emails\)/m
+    )
+    expect(terraform).toMatch(/^\s*sha256\(address\) => address$/m)
+    expect(subscription).toMatch(/^\s*protocol\s+=\s+"email"$/m)
 
     expect(alarms.length).toBeGreaterThan(0)
     for (const alarm of alarms) {

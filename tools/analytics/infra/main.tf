@@ -1111,22 +1111,32 @@ resource "aws_lambda_permission" "snapshot_events" {
 
 # Notification target for the alarms below. Same-account CloudWatch alarms can
 # publish to a topic under its default access policy, so no extra topic policy
-# is needed. The email subscription is optional (snapshot_alert_email empty
-# skips it) so the topic can ship before an owner is chosen; a different target
-# (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw incoming webhook
-# can't complete the SNS subscription handshake) just needs its own
-# aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
+# is needed. Each comma-separated address in snapshot_alert_emails gets its own
+# email subscription, so people confirm and unsubscribe independently. Empty
+# skips them in local runs; the deploy workflow refuses a list with no address.
+# A different target (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw
+# incoming webhook can't complete the SNS subscription handshake) just needs its
+# own aws_sns_topic_subscription pointed at this topic — alarm_actions never
+# change.
 # The MCP usage alarms in tools/mcp-lambda/infra publish here by name.
 resource "aws_sns_topic" "snapshot_alerts" {
   name = "eufemia-${var.environment}-analytics-snapshot-alerts"
   tags = local.tags
 }
 
+# Keyed by hash because Terraform prints for_each keys in the plan.
+locals {
+  snapshot_alert_emails_by_hash = {
+    for address in distinct(compact([for entry in split(",", var.snapshot_alert_emails) : trimspace(entry)])) :
+    sha256(address) => address
+  }
+}
+
 resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
-  count     = var.snapshot_alert_email != "" ? 1 : 0
+  for_each  = nonsensitive(toset(keys(local.snapshot_alert_emails_by_hash)))
   topic_arn = aws_sns_topic.snapshot_alerts.arn
   protocol  = "email"
-  endpoint  = var.snapshot_alert_email
+  endpoint  = local.snapshot_alert_emails_by_hash[each.key]
 }
 
 # Failure signals for the scheduled generator. Without them a failed run, or a
