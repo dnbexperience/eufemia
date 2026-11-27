@@ -160,7 +160,8 @@
           :where(
             html[data-whatintent='touch'] *,
             html[data-whatintent='keyboard'] *,
-            [data-arrow-navigation] *
+            .dnb-forms-field-multi-selection__popover-content[data-arrow-navigation]
+              *
           )
         ):not(&--disabled) {
         --item-outline-color: var(--token-color-stroke-action);
@@ -190,7 +191,7 @@
     // Arrow keys can also move focus to the row under the mouse.
     html:not([data-whatintent='mouse'])[data-whatinput='keyboard']
       &:not(:active):has(.dnb-checkbox__input:focus),
-    [data-arrow-navigation]
+    .dnb-forms-field-multi-selection__popover-content[data-arrow-navigation]
       &:not(:active):has(.dnb-checkbox__input:focus) {
       --item-outline-color: var(--token-color-stroke-action-focus);
       --item-outline-width: var(--item-outline-width--focus);
