@@ -1373,11 +1373,6 @@ caption:first-child + tbody) > tr:first-of-type {
     --table-td-background: var(--table-accordion-header-background);
   }
 }
-html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
-  --border-color: var(--token-color-stroke-action-focus);
-  --border-width: var(--focus-outline-width);
-}
-
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {
   left: 0;
 }
@@ -1386,16 +1381,16 @@ html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-t
   right: 0;
 }
 
-html:where(:not([data-whatintent=mouse]))[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td::before {
+html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td::before {
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-outline-width);
 }
 
-html:where(:not([data-whatintent=mouse]))[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td:first-of-type::before {
+html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td:first-of-type::before {
   left: 0;
 }
 
-html:where(:not([data-whatintent=mouse]))[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td:last-of-type::before {
+html[data-whatinput=keyboard] .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):focus td:last-of-type::before {
   right: 0;
 }
 
