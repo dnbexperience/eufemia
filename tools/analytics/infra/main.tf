@@ -1122,11 +1122,19 @@ resource "aws_sns_topic" "snapshot_alerts" {
   tags = local.tags
 }
 
+# Keyed by hash because Terraform prints for_each keys in the plan.
+locals {
+  snapshot_alert_emails_by_hash = {
+    for address in distinct(compact([for entry in split(",", var.snapshot_alert_emails) : trimspace(entry)])) :
+    sha256(address) => address
+  }
+}
+
 resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
-  for_each  = toset(compact([for address in split(",", var.snapshot_alert_emails) : trimspace(address)]))
+  for_each  = nonsensitive(toset(keys(local.snapshot_alert_emails_by_hash)))
   topic_arn = aws_sns_topic.snapshot_alerts.arn
   protocol  = "email"
-  endpoint  = each.value
+  endpoint  = local.snapshot_alert_emails_by_hash[each.key]
 }
 
 # Failure signals for the scheduled generator. Without them a failed run, or a

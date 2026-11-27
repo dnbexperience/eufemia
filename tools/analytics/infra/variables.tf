@@ -97,9 +97,9 @@ variable "dashboard_public_url" {
   }
 }
 
-# Not sensitive: for_each keys can't be.
 variable "snapshot_alert_emails" {
   type        = string
   description = "Comma-separated email addresses to subscribe to the dashboard snapshot alert SNS topic. Empty skips creating a subscription."
   default     = ""
+  sensitive   = true
 }
