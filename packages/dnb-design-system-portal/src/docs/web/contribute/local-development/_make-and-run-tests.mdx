@@ -73,19 +73,21 @@ Visual screenshot tests use this naming convention: `/__tests__/{ComponentName}.
 
 ### Filter by theme
 
-Run only one theme with `theme=<name>`
+Run only some themes with `theme=<name>`, or a comma-separated list such as `theme=sbanken,ui`
 
 ```bash
 # Only run the 'sbanken' theme, for anchor and breadcrumb
 yarn test:screenshots breadcrumb theme=sbanken anchor
 ```
 
-Skip a theme with `theme=-<name>`
+Skip themes with `theme=-<name>`, or a comma-separated list such as `theme=-coconut,-sbanken`
 
 ```bash
-# Run every theme except 'sbanken'
-yarn test:screenshots theme=-sbanken
+# Run every theme except 'coconut' and 'sbanken'
+yarn test:screenshots theme=-coconut,-sbanken
 ```
+
+Every theme in a list must be either included or excluded. Mixing them, as in `theme=-coconut,sbanken`, throws an error.
 
 This also works with `test:screenshots:update`, `:watch`, and the `:ci`/`:ci:update` variants (see [Conditional screenshot testing](#conditional-screenshot-testing) below), for example `yarn workspace dnb-design-system-portal test:screenshots:ci theme=-coconut`.
 

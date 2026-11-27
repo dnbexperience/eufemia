@@ -35,6 +35,7 @@ type CliOptions = {
   isDryRun: boolean
   isPlan: boolean
   changedFilesMode: ChangedFilesMode
+  themeArgs: string[]
 }
 
 const VISUAL_LOG_LABEL =
@@ -88,6 +89,7 @@ export function resolveCliOptions(argv: string[]): CliOptions {
   const shouldExplain = argv.includes('--explain')
   const isPlan = argv.includes('--plan')
   const isDryRun = argv.includes('--dry-run') || shouldExplain || isPlan
+  const themeArgs = argv.filter((argument) => /^theme=/i.test(argument))
 
   for (let i = 0; i < argv.length; i += 1) {
     const argument = argv[i]
@@ -124,6 +126,7 @@ export function resolveCliOptions(argv: string[]): CliOptions {
     isDryRun,
     isPlan,
     changedFilesMode,
+    themeArgs,
   }
 }
 
@@ -250,7 +253,8 @@ function printGlobalImpactCauses(
 export async function runScreenshotsTests() {
   const context = createContext()
   const cliOptions = resolveCliOptions(process.argv.slice(2))
-  const { changedFilesMode, shouldExplain, isDryRun, isPlan } = cliOptions
+  const { changedFilesMode, shouldExplain, isDryRun, isPlan, themeArgs } =
+    cliOptions
 
   const commitMessage = await getLatestCommitMessage(context)
   const runAllFromCommit = shouldRunAll(commitMessage)
@@ -258,10 +262,10 @@ export async function runScreenshotsTests() {
   const runAllFromEnvironment = shouldRunAllByEnvironment()
   const runAll =
     runAllFromCommit || runAllFromBranch || runAllFromEnvironment
-  const commandTokens = getBaseCommandTokens(
-    context.packageJson,
-    context.packageRoot
-  )
+  const commandTokens = [
+    ...getBaseCommandTokens(context.packageJson, context.packageRoot),
+    ...themeArgs,
+  ]
 
   if (runAll) {
     const reason = runAllFromCommit

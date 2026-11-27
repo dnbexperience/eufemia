@@ -14,6 +14,7 @@ describe('runScreenshotsConditionally runner cli options', () => {
       isDryRun: false,
       isPlan: false,
       changedFilesMode: 'auto',
+      themeArgs: [],
     })
   })
 
@@ -35,12 +36,19 @@ describe('runScreenshotsConditionally runner cli options', () => {
     ).toBe('uncommitted')
   })
 
+  it('collects theme args to forward to the test run', () => {
+    expect(
+      resolveCliOptions(['--plan', 'theme=-coconut,-birdhouse']).themeArgs
+    ).toEqual(['theme=-coconut,-birdhouse'])
+  })
+
   it('enables dry-run when explain is used', () => {
     expect(resolveCliOptions(['--explain'])).toEqual({
       shouldExplain: true,
       isDryRun: true,
       isPlan: false,
       changedFilesMode: 'auto',
+      themeArgs: [],
     })
   })
 
@@ -50,6 +58,7 @@ describe('runScreenshotsConditionally runner cli options', () => {
       isDryRun: true,
       isPlan: true,
       changedFilesMode: 'auto',
+      themeArgs: [],
     })
   })
 })
