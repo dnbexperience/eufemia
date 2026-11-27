@@ -59,6 +59,11 @@ jobs:
           TF_VAR_snapshot_alert_emails: ${{ secrets.SNAPSHOT_ALERT_EMAILS }}
         run: |
           set -euo pipefail
+          # An empty secret would make the apply delete every alert subscription.
+          if [ -z "$TF_VAR_snapshot_alert_emails" ]; then
+            echo "::error::SNAPSHOT_ALERT_EMAILS is empty, so the alarms would email nobody."
+            exit 1
+          fi
           cd infra
           terraform init -input=false
           terraform apply -auto-approve -input=false

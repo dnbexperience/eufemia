@@ -5,9 +5,11 @@ const workflow = readFileSync(
   new URL('../ghe-deploy-workflow.yml', import.meta.url),
   'utf8'
 )
-const publishStep = workflow
-  .split(/^ {6}- name: /m)
-  .find((step) => step.startsWith('Publish dashboard\n'))
+const steps = workflow.split(/^ {6}- name: /m)
+const deployStep = steps.find((step) => step.startsWith('Deploy\n'))
+const publishStep = steps.find((step) =>
+  step.startsWith('Publish dashboard\n')
+)
 const [assetsSync, rootSync, invalidation, pruneSync] =
   publishStep
     ?.split(/^\s+aws /m)
@@ -17,6 +19,17 @@ const immutableCache =
   "--cache-control 'public,max-age=31536000,immutable'"
 
 describe('GHE deploy workflow', () => {
+  it('stops before terraform apply when the alert recipients are empty', () => {
+    const guard = deployStep?.indexOf(
+      'if [ -z "$TF_VAR_snapshot_alert_emails" ]; then'
+    )
+
+    expect(guard).toBeGreaterThan(-1)
+    expect(guard).toBeLessThan(
+      deployStep?.indexOf('terraform apply') ?? -1
+    )
+  })
+
   it('lets browsers keep the hashed dashboard assets', () => {
     expect(assetsSync).toMatch(/^s3 sync \.\.\/dashboard\/assets /)
     expect(assetsSync).toContain(immutableCache)
