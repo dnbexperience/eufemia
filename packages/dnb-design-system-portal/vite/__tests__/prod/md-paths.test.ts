@@ -28,7 +28,7 @@ describe('getMdPath', () => {
   })
 
   it('resolves tab pages to their entry copy', () => {
-    for (const tab of ['overview', 'demos', 'properties', 'events']) {
+    for (const tab of ['overview', 'demos', 'properties']) {
       expect(getMdPath(`/uilib/components/button/${tab}/`, mdPaths)).toBe(
         '/uilib/components/button.md'
       )

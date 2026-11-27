@@ -99,7 +99,7 @@ export async function generateDocs() {
 
     allowedEntryFiles.push(file)
 
-    const { propsFile, eventsFile, demosFile } = await findDocExtras(file)
+    const { propsFile, demosFile } = await findDocExtras(file)
 
     let props: DocEntryMap = {}
     let events: DocEntryMap = {}
@@ -110,9 +110,6 @@ export async function generateDocs() {
 
     if (propsFile) {
       props = mergeDocs(props, await extractTableDocs(propsFile))
-    }
-    if (eventsFile) {
-      events = mergeDocs(events, await extractTableDocs(eventsFile))
     }
 
     const { name, description, overviewFile } = await resolveMetaText(file)
@@ -138,7 +135,6 @@ export async function generateDocs() {
       sourceInfo,
       overviewFile,
       propsFile,
-      eventsFile,
       demosFile,
       version,
       publicUrlBase: PUBLIC_URL_BASE,

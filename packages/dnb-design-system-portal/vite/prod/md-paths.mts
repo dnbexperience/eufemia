@@ -24,7 +24,7 @@ import path from 'node:path'
  * instead of their own — a link that resolves, so the build's link check
  * cannot catch it.
  */
-const TAB_SEGMENTS = new Set(['overview', 'demos', 'properties', 'events'])
+const TAB_SEGMENTS = new Set(['overview', 'demos', 'properties'])
 
 /**
  * Resolve the markdown alternate link path for a URL, or null when the page

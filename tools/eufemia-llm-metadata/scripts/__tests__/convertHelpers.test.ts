@@ -1014,13 +1014,13 @@ describe('convertMdxToMd', () => {
       'src'
     )
 
-    const dateOfBirthEventsPath = path.join(
+    const dateOfBirthPropertiesPath = path.join(
       docsRoot,
       'web',
       'forms',
       'feature-fields',
       'DateOfBirth',
-      'events.mdx'
+      'properties.mdx'
     )
     const selectCurrencyPropertiesPath = path.join(
       docsRoot,
@@ -1031,10 +1031,10 @@ describe('convertMdxToMd', () => {
       'properties.mdx'
     )
 
-    const [dateOfBirthEvents, selectCurrencyProperties] =
+    const [dateOfBirthProperties, selectCurrencyProperties] =
       await Promise.all([
         convertMdxToMd({
-          inputPath: dateOfBirthEventsPath,
+          inputPath: dateOfBirthPropertiesPath,
           docsRoot,
           docsBaseRoot,
           prettierConfig: {},
@@ -1051,14 +1051,13 @@ describe('convertMdxToMd', () => {
         }),
       ])
 
-    expect(dateOfBirthEvents).not.toContain('PropertiesTable')
-    expect(dateOfBirthEvents).toContain('```json')
-    expect(dateOfBirthEvents).toContain('"onChange"')
-    expect(dateOfBirthEvents).toContain('"onBlur"')
-    expect(dateOfBirthEvents).not.toContain('usageGuidance')
-    expect(dateOfBirthEvents).not.toContain(
-      'Some properties provide flexibility for specific integrations.'
-    )
+    // The events are part of the properties copy, and the usage guidance
+    // is not repeated for their tables.
+    expect(dateOfBirthProperties).not.toContain('PropertiesTable')
+    expect(dateOfBirthProperties).toContain('```json')
+    expect(dateOfBirthProperties).toContain('"onChange"')
+    expect(dateOfBirthProperties).toContain('"onBlur"')
+    expect(dateOfBirthProperties.match(/"usageGuidance"/g)).toHaveLength(1)
 
     expect(selectCurrencyProperties).not.toContain('PropertiesTable')
     expect(selectCurrencyProperties).toContain('```json')
