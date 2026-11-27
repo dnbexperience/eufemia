@@ -178,12 +178,6 @@ export type SliderThumbState =
   | 'activated'
   | 'released'
 
-export type SliderDragState = {
-  removeEvents?: () => void
-  isTouch?: boolean
-  isDisabled?: boolean
-}
-
 export type SliderContextValue = {
   isMulti: boolean
   isReverse: boolean
@@ -202,7 +196,6 @@ export type SliderContextValue = {
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
   trackRef: RefObject<HTMLElement>
-  dragRef: RefObject<SliderDragState>
   setShouldAnimate: (state: boolean) => void
   animationTimeout: RefObject<NodeJS.Timeout>
 }

@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import type { RefObject } from 'react'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   dispatchCustomElementEvent,
@@ -26,7 +27,6 @@ import type {
   SliderOnChangeParams,
   SliderAllProps,
   SliderContextValue,
-  SliderDragState,
   SliderThumbState,
 } from './types'
 
@@ -39,7 +39,19 @@ const sliderDefaultProps: Partial<SliderAllProps> = {
   labelDirection: 'vertical',
 }
 
-export const SliderContext = createContext<SliderContextValue>(null)
+type SliderDragState = {
+  removeEvents?: () => void
+  isTouch?: boolean
+  isDisabled?: boolean
+}
+
+// Keeps the drag storage out of the exported SliderContextValue type
+type SliderInternalContextValue = SliderContextValue & {
+  dragRef: RefObject<SliderDragState>
+}
+
+export const SliderContext =
+  createContext<SliderInternalContextValue>(null)
 
 export function SliderProvider(localProps: SliderAllProps) {
   const context = useContext(Context)
