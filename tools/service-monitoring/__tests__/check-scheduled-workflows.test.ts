@@ -10,6 +10,7 @@ const success = {
   id: 123,
   status: 'completed',
   conclusion: 'success',
+  created_at: '2026-11-27T06:30:00Z',
   run_started_at: '2026-11-27T06:30:00Z',
 }
 const socialImages = 'portal-og-images.yml'
@@ -19,7 +20,11 @@ const workflowUrl =
 function respond(overrides: Record<string, object[] | number> = {}) {
   return vi.fn<typeof fetch>(async (input) => {
     const file = String(input).split('/workflows/')[1].split('/')[0]
-    const value = overrides[file] ?? [success]
+    const key =
+      new URL(String(input)).searchParams.get('event') === 'push'
+        ? file + ':push'
+        : file
+    const value = overrides[key] ?? [success]
     return typeof value === 'number'
       ? new Response('', { status: value })
       : Response.json({ workflow_runs: value })
@@ -49,7 +54,7 @@ it('covers every scheduled workflow in the repository', () => {
   )
 })
 
-it('checks scheduled runs without letting manual or pull request runs mask their results', async () => {
+it('checks scheduled runs first', async () => {
   const request = respond()
   const report = await check(request)
   expect(report.status).toBe('healthy')
@@ -61,6 +66,142 @@ it('checks scheduled runs without letting manual or pull request runs mask their
     expect(new Headers(init?.headers).has('Authorization')).toBe(false)
     expect(init?.redirect).toBe('error')
   }
+  expect(request).toHaveBeenCalledTimes(8)
+})
+
+it.each(['dependency-audit.yml', 'codeql-analysis.yml'])(
+  'recovers %s after a newer successful main push',
+  async (file) => {
+    const request = respond({
+      [file]: [{ ...success, conclusion: 'failure' }],
+      [file + ':push']: [
+        {
+          ...success,
+          created_at: '2026-11-27T07:00:00Z',
+          run_started_at: '2026-11-27T07:00:00Z',
+        },
+      ],
+    })
+    expect((await check(request)).status).toBe('healthy')
+    expect(request.mock.calls.map(([url]) => String(url))).toContain(
+      'https://api.github.com/repos/dnbexperience/eufemia/actions/workflows/' +
+        file +
+        '/runs?event=push&branch=main&status=completed&per_page=1'
+    )
+  }
+)
+
+it.each(['dependency-audit.yml', 'codeql-analysis.yml'])(
+  'keeps a failed %s retry that started after the successful push',
+  async (file) => {
+    const report = await check(
+      respond({
+        [file]: [
+          {
+            ...success,
+            conclusion: 'failure',
+            run_started_at: '2026-11-27T07:30:00Z',
+          },
+        ],
+        [file + ':push']: [
+          {
+            ...success,
+            created_at: '2026-11-27T07:00:00Z',
+            run_started_at: '2026-11-27T07:00:00Z',
+          },
+        ],
+      })
+    )
+    expect(report.status).toBe('unhealthy')
+    expect(report.checks.find(({ ok }) => !ok)?.detail).toContain(
+      'Latest scheduled run concluded failure'
+    )
+  }
+)
+
+it.each([
+  { runs: [] },
+  {
+    runs: [
+      {
+        ...success,
+        created_at: '2026-11-27T05:00:00Z',
+        run_started_at: '2026-11-27T07:00:00Z',
+      },
+    ],
+  },
+  { runs: [{ ...success }] },
+  { runs: [{ ...success, created_at: 'invalid' }] },
+  {
+    runs: [
+      {
+        ...success,
+        created_at: '2026-11-27T07:00:00Z',
+        status: 'in_progress',
+        conclusion: null,
+      },
+    ],
+  },
+  {
+    runs: [
+      {
+        ...success,
+        created_at: '2026-11-27T07:00:00Z',
+        conclusion: 'failure',
+      },
+    ],
+  },
+])(
+  'keeps the scheduled failure without a newer completed successful push: %j',
+  async ({ runs }) => {
+    const report = await check(
+      respond({
+        'dependency-audit.yml': [{ ...success, conclusion: 'failure' }],
+        'dependency-audit.yml:push': runs,
+      })
+    )
+    expect(report.status).toBe('unhealthy')
+    expect(report.checks.find(({ ok }) => !ok)?.detail).toContain(
+      'Latest scheduled run concluded failure'
+    )
+  }
+)
+
+it('still requires a recent scheduled run after a successful push', async () => {
+  const report = await check(
+    respond({
+      'dependency-audit.yml': [
+        {
+          ...success,
+          conclusion: 'failure',
+          created_at: '2026-11-24T06:30:00Z',
+          run_started_at: '2026-11-24T06:30:00Z',
+        },
+      ],
+      'dependency-audit.yml:push': [success],
+    })
+  )
+  expect(report.status).toBe('unhealthy')
+  expect(report.checks.find(({ ok }) => !ok)?.detail).toContain(
+    'No recent scheduled run within 48 hours'
+  )
+})
+
+it('retries recovery requests and reports a GitHub error if recovery cannot be checked', async () => {
+  const request = respond({
+    'dependency-audit.yml': [{ ...success, conclusion: 'failure' }],
+    'dependency-audit.yml:push': 503,
+  })
+  const report = await check(request)
+  expect(
+    request.mock.calls.filter(
+      ([url]) => new URL(String(url)).searchParams.get('event') === 'push'
+    )
+  ).toHaveLength(3)
+  expect(report.checks.filter(({ ok }) => ok)).toHaveLength(7)
+  expect(report.checks.find(({ ok }) => !ok)?.detail).toContain(
+    'HTTP 503 from GitHub'
+  )
 })
 
 it('sends the optional read-only GitHub token', async () => {
@@ -81,9 +222,11 @@ it.each([
 ])(
   'reports a %s scheduled run with its run link while checking the other workflows',
   async (conclusion) => {
-    const report = await check(
-      respond({ [socialImages]: [{ ...success, conclusion }] })
-    )
+    const request = respond({
+      [socialImages]: [{ ...success, conclusion }],
+    })
+    const report = await check(request)
+    expect(request).toHaveBeenCalledTimes(8)
     expect(report.status).toBe('unhealthy')
     expect(report.checks.filter(({ ok }) => !ok)).toEqual([
       {
