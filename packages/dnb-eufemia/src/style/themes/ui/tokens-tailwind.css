@@ -240,14 +240,16 @@
     var(--dnb-coldgreen-700) 40%,
     transparent
   );
+  --color-component-switch-selected: var(--dnb-coldgreen-800);
+  --color-component-switch-action-disabled-ondark: var(
+    --dnb-greyscale-800
+  );
+  --color-component-switch-error-subtle: var(--dnb-red-50);
   --color-component-tooltip-background-neutral: var(--dnb-greyscale-800);
   --color-component-dimmer-background: color-mix(
     in srgb,
     var(--dnb-greyscale-1000) 30%,
     transparent
-  );
-  --color-component-switch-action-disabled-ondark: var(
-    --dnb-greyscale-800
   );
   --color-component-progressbar-neutral-onsubtle: var(--dnb-greyscale-200);
   --color-component-cell-background-striped: var(--dnb-greyscale-50);

@@ -274,6 +274,11 @@
     var(--dnb-coldgreen-300) 40%,
     transparent
   );
+  --token-color-component-switch-selected: var(--dnb-warmgreen-100);
+  --token-color-component-switch-action-disabled-ondark: var(
+    --dnb-greyscale-800
+  );
+  --token-color-component-switch-error-subtle: var(--dnb-greyscale-950);
   --token-color-component-tooltip-background-neutral: var(
     --dnb-greyscale-100
   );
@@ -281,9 +286,6 @@
     in srgb,
     var(--dnb-greyscale-800) 60%,
     transparent
-  );
-  --token-color-component-switch-action-disabled-ondark: var(
-    --dnb-greyscale-800
   );
   --token-color-component-progressbar-neutral-onsubtle: var(
     --dnb-greyscale-700
