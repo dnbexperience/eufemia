@@ -20,7 +20,7 @@ import * as Examples from 'Docs/web/accessibility/Examples'
 
 1. Use the blue `--token-color-stroke-action-focus` except for input fields and explicitly dark surfaces.
 2. Use a 3px outline with a 2px transparent gap. Keep text, icon, and background colors unchanged.
-3. Lists, tables, cards, and similar layouts replace the existing edge with a 3px focus-colored edge, with no gap. Use 2px if a scroll container's existing spacing would clip 3px. Hover styling takes precedence while focused.
+3. Lists, tables, cards, and similar layouts replace the existing edge with a 3px focus-colored edge, with no gap. Use 2px if a scroll container's existing spacing would clip 3px. Keep the focus edge visible while the element is hovered.
 
 Use `--token-color-stroke-action-focus-ondark` on local dark surfaces and `--token-color-stroke-action-focus-inverse` on surfaces using the opposite color scheme. See the [dark mode guide](/web/styling-and-themes/design-tokens/dark-mode/#choosing-the-right-variant).
 
@@ -48,7 +48,7 @@ Use the [focusOutline()](/web/ai-tools-and-resources/utilities/sass/#keyboard-fo
 
 The gap shows the surface behind the element. Keep enough space around the outline so containers do not clip it.
 
-Tab to these examples to compare the focus styles. The layout example also shows hover taking precedence:
+Tab to these examples to compare the focus styles. The focus styles stay visible when the mouse moves onto a focused example:
 
 <Examples.FocusExample />
 

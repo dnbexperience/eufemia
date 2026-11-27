@@ -28,11 +28,6 @@
     @include utilities.focusVisible() {
       @include utilities.focusOutline($offset: -0.0625rem);
       border-color: var(--token-color-stroke-action-focus);
-
-      &:hover {
-        border-color: var(--token-color-stroke-action-hover);
-        outline-color: var(--token-color-stroke-action-hover);
-      }
     }
 
     @include utilities.hover() {

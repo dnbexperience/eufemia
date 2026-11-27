@@ -70,7 +70,7 @@ The deprecated Sbanken-prefixed properties are still emitted. Their values diffe
 
 ## Keyboard focus styling
 
-The [keyboard focus guidance](/web/accessibility/focus/#keyboard-focus-styling) now uses a 3px blue outline with a 2px transparent gap, without changing text, icon, or background colors. Input fields keep their field focus styles. Lists, tables, cards, and similar layouts use no gap, and hover styling takes precedence while focused.
+The [keyboard focus guidance](/web/accessibility/focus/#keyboard-focus-styling) now uses a 3px blue outline with a 2px transparent gap, without changing text, icon, or background colors. Input fields keep their field focus styles. Lists, tables, cards, and similar layouts use no gap, and the focus edge stays visible while hovered.
 
 For new and updated custom styles, use `--token-color-stroke-action-focus` with `--focus-outline-width` (`0.1875rem`) and `--focus-outline-offset` (`0.125rem`), or the [focusOutline()](/web/ai-tools-and-resources/utilities/sass/#keyboard-focus) Sass helper. Layouts use a 3px blue edge: pass `$offset: 0` without an existing edge, or overlap a 1px border or inset shadow with `$offset: -0.0625rem` and replace its color with the focus token. Use `$width: 0.125rem` (2px) if a scroll container's existing spacing would clip 3px. Remove focus-only text, icon, and background color overrides when migrating to the blue outline.
 

@@ -92,7 +92,7 @@ Use the shared `utilities.hover()` mixin, as Button does. It shows hover styles 
 
 - Keep pressed (`:active`) styles outside the hover mixin, so touch users still get feedback when they tap.
 - Keep focus styles outside it too, so keyboard users see focus on every device.
-- If a focus style excludes hovered elements with `:not(:hover)`, also show it when the tracked intent is not `mouse`. A tapped element can keep `:hover` when the user returns with the keyboard.
+- Do not hide focus styles on hovered elements, for example with `:not(:hover)`. Keyboard users can leave the mouse over the element they focus, and moving the mouse must not hide the focus.
 - Add `:not(:active)` inside the hover mixin when needed to keep hover styles from hiding the pressed style.
 
 ```scss
