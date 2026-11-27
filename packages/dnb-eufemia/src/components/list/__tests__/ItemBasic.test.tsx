@@ -7,6 +7,9 @@ import ItemTitle from '../ItemTitle'
 import ItemEnd from '../ItemEnd'
 import { fish_medium } from '../../../icons'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
+import Anchor from '../../anchor/Anchor'
+import Button from '../../button/Button'
+import Checkbox from '../../checkbox/Checkbox'
 
 describe('ItemBasic', () => {
   it('renders with props as an object', () => {
@@ -393,6 +396,60 @@ describe('ItemBasic', () => {
     const element = document.querySelector('.dnb-list__item')
 
     expect(element.classList).toContain('dnb-list__item--disabled')
+  })
+
+  it.each([
+    ['its own disabled prop', { disabled: true }, {}],
+    ['a disabled Container', {}, { disabled: true }],
+  ])(
+    'disables Eufemia form elements, buttons and links with %s',
+    (_, itemProps, containerProps) => {
+      render(
+        <Container {...containerProps}>
+          <ItemBasic {...itemProps} title="Item">
+            <Checkbox label="Select" />
+            <Button text="Edit" />
+            <Anchor href="#help">Help</Anchor>
+          </ItemBasic>
+        </Container>
+      )
+
+      expect(
+        document.querySelector('input[type="checkbox"]')
+      ).toBeDisabled()
+      expect(document.querySelector('button')).toBeDisabled()
+      expect(document.querySelector('a')).not.toHaveAttribute('href')
+    }
+  )
+
+  it('keeps controls enabled when the item overrides a disabled Container', () => {
+    render(
+      <Container disabled>
+        <ItemBasic disabled={false}>
+          <Checkbox label="Select" />
+        </ItemBasic>
+      </Container>
+    )
+
+    expect(document.querySelector('input[type="checkbox"]')).toBeEnabled()
+  })
+
+  it('keeps the same controls when disabled changes', () => {
+    const { rerender } = render(
+      <ItemBasic>
+        <Checkbox label="Select" />
+      </ItemBasic>
+    )
+    const checkbox = document.querySelector('input[type="checkbox"]')
+
+    rerender(
+      <ItemBasic disabled>
+        <Checkbox label="Select" />
+      </ItemBasic>
+    )
+
+    expect(document.querySelector('input[type="checkbox"]')).toBe(checkbox)
+    expect(checkbox).toBeDisabled()
   })
 
   it('applies pending modifier and pending indicator when pending', () => {

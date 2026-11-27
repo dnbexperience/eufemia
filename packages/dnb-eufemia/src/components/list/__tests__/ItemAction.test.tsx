@@ -7,6 +7,7 @@ import Container from '../Container'
 import ItemFooter from '../ItemFooter'
 import Button from '../../button/Button'
 import Anchor from '../../anchor/Anchor'
+import Checkbox from '../../checkbox/Checkbox'
 import Context from '../../../shared/Context'
 import Provider from '../../../shared/Provider'
 
@@ -975,6 +976,7 @@ describe('ItemAction', () => {
               Footer details
               <Button text="Save" />
               <Anchor href="#help">Help</Anchor>
+              <Checkbox label="Notify me" />
             </ItemFooter>
           }
         />
@@ -984,6 +986,9 @@ describe('ItemAction', () => {
 
       expect(button.closest('[inert]')).toBeNull()
       expect(button).toBeDisabled()
+      expect(
+        document.querySelector('input[type="checkbox"]')
+      ).toBeDisabled()
       expect(
         document.querySelector('.dnb-list__item__footer')
       ).toHaveTextContent('Footer details')
