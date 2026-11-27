@@ -14,6 +14,20 @@ const hasFocus = (row: Locator) =>
     .locator('input')
     .evaluate((element) => element === document.activeElement)
 
+// The row must be the hovered element at the mouse position, so that a
+// scroll cannot change its outline for another reason.
+const isUnderMouse = (row: Locator, x: number, y: number) =>
+  row.evaluate(
+    (element, { x, y }) =>
+      element.matches(':hover') &&
+      element.contains(document.elementFromPoint(x, y)),
+    { x, y }
+  )
+
+// The whole list fits at this height, so arrow keys do not scroll it
+// away from the resting mouse.
+test.use({ viewport: { width: 1280, height: 1200 } })
+
 // After a checkbox click, the intent stays "mouse" while arrow keys move
 // focus. The row under the resting mouse must still show the focus.
 test('shows the focus outline when arrow keys move focus to the row under the mouse', async ({
@@ -44,18 +58,29 @@ test('shows the focus outline when arrow keys move focus to the row under the mo
   const copenhagen = row('Copenhagen')
   await expect(copenhagen).toBeVisible()
 
-  const box = await stockholm.boundingBox()
-  const parkX = box.x + box.width / 2
-  const parkY = box.y + box.height / 2
-
   await oslo.click({ position: { x: 30, y: 20 } })
-  await page.mouse.move(parkX, parkY, { steps: 4 })
+
+  // The click can scroll the page, so hover and measure after it
+  await stockholm.hover()
+  const box = await stockholm.boundingBox()
+  const mouseX = box.x + box.width / 2
+  const mouseY = box.y + box.height / 2
 
   const hoverEdge = await edge(stockholm)
   const restEdge = await edge(copenhagen)
 
   await test.step('the mouse shows the hover edge', async () => {
+    const list = page.locator(
+      '.dnb-forms-field-multi-selection__popover-content .dnb-scroll-view'
+    )
+    await expect(list).toHaveCount(1)
+    expect(
+      await list.evaluate(
+        (element) => element.scrollHeight <= element.clientHeight
+      )
+    ).toBe(true)
     expect(await hasFocus(oslo)).toBe(true)
+    expect(await isUnderMouse(stockholm, mouseX, mouseY)).toBe(true)
     expect(hoverEdge).not.toBe(restEdge)
   })
 
@@ -65,21 +90,32 @@ test('shows the focus outline when arrow keys move focus to the row under the mo
 
   await test.step('ArrowDown focuses the row under the mouse', async () => {
     expect(await hasFocus(stockholm)).toBe(true)
-    await expect.poll(() => edge(stockholm)).not.toBe(hoverEdge)
-    expect(await edge(stockholm)).not.toBe(restEdge)
-    expect(await stockholm.screenshot()).not.toEqual(beforeArrow)
+    expect(await isUnderMouse(stockholm, mouseX, mouseY)).toBe(true)
   })
 
-  const focusEdge = await edge(stockholm)
+  const underMouseEdge = await edge(stockholm)
 
-  await test.step('ArrowDown and ArrowUp return to the same edge', async () => {
-    await page.keyboard.press('ArrowDown')
+  await page.keyboard.press('ArrowDown')
+
+  const focusEdge = await edge(copenhagen)
+
+  await test.step('a focused row away from the mouse shows the focus edge', async () => {
     expect(await hasFocus(copenhagen)).toBe(true)
-    expect(await edge(copenhagen)).toBe(focusEdge)
+    expect(await copenhagen.evaluate((e) => e.matches(':hover'))).toBe(
+      false
+    )
+    expect(focusEdge).not.toBe(restEdge)
+    expect(focusEdge).not.toBe(hoverEdge)
+  })
+
+  await test.step('the row under the mouse shows the same focus edge', async () => {
+    expect(underMouseEdge).toBe(focusEdge)
 
     await page.keyboard.press('ArrowUp')
     expect(await hasFocus(stockholm)).toBe(true)
+    expect(await isUnderMouse(stockholm, mouseX, mouseY)).toBe(true)
     expect(await edge(stockholm)).toBe(focusEdge)
+    expect(await stockholm.screenshot()).not.toEqual(beforeArrow)
   })
 
   await test.step('Space toggles the focused row', async () => {
@@ -89,7 +125,8 @@ test('shows the focus outline when arrow keys move focus to the row under the mo
   })
 
   await test.step('moving the mouse shows the hover edge again', async () => {
-    await page.mouse.move(parkX + 20, parkY, { steps: 2 })
+    await page.mouse.move(mouseX + 20, mouseY, { steps: 2 })
+    expect(await isUnderMouse(stockholm, mouseX + 20, mouseY)).toBe(true)
     await expect.poll(() => edge(stockholm)).toBe(hoverEdge)
     expect(await hasFocus(stockholm)).toBe(true)
   })
