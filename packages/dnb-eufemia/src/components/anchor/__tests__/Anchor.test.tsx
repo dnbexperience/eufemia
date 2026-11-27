@@ -866,6 +866,26 @@ describe('Anchor element', () => {
       )
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
+
+    it('should inherit disabled from Provider, unless disabled is false', () => {
+      render(
+        <Provider Anchor={{ disabled: true }}>
+          <Anchor href="/inherited">Inherited</Anchor>
+          <Anchor href="/enabled" disabled={false}>
+            Enabled
+          </Anchor>
+        </Provider>
+      )
+
+      const [inherited, enabled] = Array.from(
+        document.querySelectorAll('a')
+      )
+
+      expect(inherited).toHaveAttribute('aria-disabled', 'true')
+      expect(inherited).not.toHaveAttribute('href')
+      expect(enabled).toHaveAttribute('href', '/enabled')
+      expect(enabled).not.toHaveAttribute('aria-disabled')
+    })
   })
 
   describe('skeleton', () => {

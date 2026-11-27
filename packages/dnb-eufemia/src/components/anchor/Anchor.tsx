@@ -93,7 +93,7 @@ const anchorDefaultProps: AnchorProps = {
   noUnderline: false,
   noIcon: false,
   noLaunchIcon: false,
-  disabled: false,
+  // No default for `disabled`, so `disabled={false}` overrides a disabled state from the context
 }
 
 export function AnchorComponent(localProps: AnchorAllProps) {
