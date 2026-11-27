@@ -305,16 +305,8 @@
     --outline-width: 0.0625rem;
   }
 
-  &:focus-visible:not(:hover):not(:active) > .dnb-card {
-    --card-outline-color: var(--token-color-stroke-action-focus);
-    --outline-color: var(--token-color-stroke-action-focus);
-    --outline-width: var(--focus-outline-width);
-  }
-
-  // A tapped card keeps :hover, so do not exclude it on touch devices
-  html:not([data-whatintent='mouse'])
-    &:focus-visible:not(:active)
-    > .dnb-card {
+  // Keep the outline under the mouse, so keyboard focus stays visible.
+  &:focus-visible:not(:active) > .dnb-card {
     --card-outline-color: var(--token-color-stroke-action-focus);
     --outline-color: var(--token-color-stroke-action-focus);
     --outline-width: var(--focus-outline-width);
