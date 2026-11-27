@@ -214,6 +214,27 @@ describe('portal page sections', () => {
     ).toEqual([])
   })
 
+  it('keeps the events of the Properties tab inside its Events section', () => {
+    const offenders = tabPages
+      .filter(({ title }) => title === 'Properties')
+      .flatMap(({ tabFile, headings }) => {
+        const sections = headings.filter((heading) => /^## /.test(heading))
+        const next = sections[sections.indexOf('## Events') + 1]
+        return sections.includes('## Events') &&
+          next &&
+          next !== '## Translations'
+          ? [`${tabFile}: ${next}`]
+          : []
+      })
+
+    expect(
+      offenders,
+      `These Properties tabs have a "##" section right after "## Events":\n` +
+        offenders.join('\n') +
+        `\n\nUse "###" for the sections that belong to the events.`
+    ).toEqual([])
+  })
+
   it('structures each Overview, Demos and Properties tab around its tab heading', () => {
     const offenders: string[] = []
 
