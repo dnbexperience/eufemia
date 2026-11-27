@@ -36,7 +36,7 @@ describe('GHE deploy workflow', () => {
     )
   })
 
-  it.each(['', ' ', ',', ' , ,', '\n'])(
+  it.each(['', ' ', ',', ' , ,', ' ,\t, ', '\n'])(
     'stops the deploy when %j holds no address',
     (emails) => {
       expect(runRecipientGuard(emails)).toBe(1)
