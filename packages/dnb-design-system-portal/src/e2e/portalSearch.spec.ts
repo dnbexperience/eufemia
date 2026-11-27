@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test.use({ trace: 'retain-on-failure', screenshot: 'only-on-failure' })
+
 test.beforeEach(async ({ page }) => {
   const hits = [
     { title: 'Date picker', hash: 'date-picker' },
