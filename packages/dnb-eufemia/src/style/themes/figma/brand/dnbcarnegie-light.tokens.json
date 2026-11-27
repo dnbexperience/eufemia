@@ -215,8 +215,8 @@
             "WEB": "--token-color-background-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/6948:268",
-            "targetVariableName": "dnb-carnegie/blue/600",
+            "targetVariableId": "VariableID:33c7740ba59394f9128151bc91acebaf6cc6e226/6948:114",
+            "targetVariableName": "dnb/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -244,8 +244,8 @@
             "WEB": "--token-color-background-action-focus-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/6948:274",
-            "targetVariableName": "dnb-carnegie/blue/50",
+            "targetVariableId": "VariableID:76c5e004e15557cb32d2d1cbcb7e7c88584d57ac/6948:112",
+            "targetVariableName": "dnb/blue/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -1333,8 +1333,8 @@
             "WEB": "--token-color-text-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/6948:268",
-            "targetVariableName": "dnb-carnegie/blue/600",
+            "targetVariableId": "VariableID:33c7740ba59394f9128151bc91acebaf6cc6e226/6948:114",
+            "targetVariableName": "dnb/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -2124,8 +2124,8 @@
             "WEB": "--token-color-icon-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/6948:268",
-            "targetVariableName": "dnb-carnegie/blue/600",
+            "targetVariableId": "VariableID:33c7740ba59394f9128151bc91acebaf6cc6e226/6948:114",
+            "targetVariableName": "dnb/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -3104,8 +3104,8 @@
             "WEB": "--token-color-stroke-action-focus"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/6948:268",
-            "targetVariableName": "dnb-carnegie/blue/600",
+            "targetVariableId": "VariableID:33c7740ba59394f9128151bc91acebaf6cc6e226/6948:114",
+            "targetVariableName": "dnb/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -3132,8 +3132,8 @@
             "WEB": "--token-color-stroke-action-focus-ondark"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:940125b24d466d56479286e386bb1ccef61b5611/6948:273",
-            "targetVariableName": "dnb-carnegie/blue/100",
+            "targetVariableId": "VariableID:30d59e3587135b4eefd312e8ebd93665586c8fdb/6948:111",
+            "targetVariableName": "dnb/blue/100",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -3160,8 +3160,8 @@
             "WEB": "--token-color-stroke-action-focus-inverse"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:940125b24d466d56479286e386bb1ccef61b5611/6948:273",
-            "targetVariableName": "dnb-carnegie/blue/100",
+            "targetVariableId": "VariableID:30d59e3587135b4eefd312e8ebd93665586c8fdb/6948:111",
+            "targetVariableName": "dnb/blue/100",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -3188,8 +3188,8 @@
             "WEB": "--token-color-stroke-action-focus-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/6948:240",
-            "targetVariableName": "dnb-carnegie/greyscale/0",
+            "targetVariableId": "VariableID:6298df1ecd7673ad11a868ad535d1c74d6eb319e/6948:200",
+            "targetVariableName": "dnb/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
             "targetVariableSetName": "colors"
           }
@@ -5612,6 +5612,94 @@
           }
         }
       },
+      "switch": {
+        "selected": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 1,
+            "hex": "#000000"
+          },
+          "$extensions": {
+            "com.figma.variableId": "VariableID:73727:33698",
+            "com.figma.scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ],
+            "com.figma.codeSyntax": {
+              "WEB": "--token-color-component-switch-selected"
+            },
+            "com.figma.aliasData": {
+              "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/6948:227",
+              "targetVariableName": "dnb-carnegie/greyscale/1000",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+              "targetVariableSetName": "colors"
+            }
+          }
+        },
+        "action-disabled-ondark": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224
+            ],
+            "alpha": 1,
+            "hex": "#333333"
+          },
+          "$extensions": {
+            "com.figma.variableId": "VariableID:56059:1770",
+            "com.figma.scopes": [
+              "FRAME_FILL"
+            ],
+            "com.figma.codeSyntax": {
+              "WEB": "--token-color-component-switch-action-disabled-ondark"
+            },
+            "com.figma.aliasData": {
+              "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/6948:230",
+              "targetVariableName": "dnb-carnegie/greyscale/800",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+              "targetVariableSetName": "colors"
+            }
+          }
+        },
+        "error-subtle": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9882352948188782,
+              0.9333333373069763,
+              0.9333333373069763
+            ],
+            "alpha": 1,
+            "hex": "#FCEEEE"
+          },
+          "$extensions": {
+            "com.figma.variableId": "VariableID:73727:40717",
+            "com.figma.scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ],
+            "com.figma.codeSyntax": {
+              "WEB": "--token-color-component-switch-error-subtle"
+            },
+            "com.figma.aliasData": {
+              "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/6948:296",
+              "targetVariableName": "dnb-carnegie/red/50",
+              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
+              "targetVariableSetName": "colors"
+            }
+          }
+        }
+      },
       "tooltip": {
         "background": {
           "neutral": {
@@ -5684,36 +5772,6 @@
           }
         }
       },
-      "switch": {
-        "action-disabled-ondark": {
-          "$type": "color",
-          "$value": {
-            "colorSpace": "srgb",
-            "components": [
-              0.20000000298023224,
-              0.20000000298023224,
-              0.20000000298023224
-            ],
-            "alpha": 1,
-            "hex": "#333333"
-          },
-          "$extensions": {
-            "com.figma.variableId": "VariableID:56059:1770",
-            "com.figma.scopes": [
-              "FRAME_FILL"
-            ],
-            "com.figma.codeSyntax": {
-              "WEB": "--token-color-component-switch-action-disabled-ondark"
-            },
-            "com.figma.aliasData": {
-              "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/6948:230",
-              "targetVariableName": "dnb-carnegie/greyscale/800",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/6948:19",
-              "targetVariableSetName": "colors"
-            }
-          }
-        }
-      },
       "progressbar": {
         "neutral-onsubtle": {
           "$type": "color",
@@ -5764,6 +5822,9 @@
               "FRAME_FILL",
               "SHAPE_FILL"
             ],
+            "com.figma.codeSyntax": {
+              "WEB": "--token-color-component-cell-background-striped"
+            },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:7c239d6a893c102375d3acdf4f94a9e4deaa4d41/6948:238",
               "targetVariableName": "dnb-carnegie/greyscale/50",
@@ -5786,7 +5847,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-heading-xx-large"
+            "WEB": "--token-font-size-heading-2xl"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:a4b02598ba7ad88a59bf238341040baef2d44ea1/5593:1",
@@ -5805,7 +5866,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-heading-x-large"
+            "WEB": "--token-font-size-heading-xl"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:51725f0c9f726c38352f7c3d62487382416fa9af/5552:1054",
@@ -5824,7 +5885,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-heading-large"
+            "WEB": "--token-font-size-heading-lg"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:bb003eded10c6e8d7c726753132e6e7631cc3aea/5552:1063",
@@ -5900,7 +5961,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-text-small"
+            "WEB": "--token-font-size-text-sm"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:f73a4c76d4a94305b2cbec754df9de29c3ab1c33/5552:1062",
@@ -5919,7 +5980,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-text-small-medium"
+            "WEB": "--token-font-size-text-sm-medium"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:f73a4c76d4a94305b2cbec754df9de29c3ab1c33/5552:1062",
@@ -5938,7 +5999,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-text-x-small"
+            "WEB": "--token-font-size-text-xs"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7acf44ef022851e9f5abdf0eb99db64bb21cf59c/5552:1061",
@@ -5957,7 +6018,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-text-x-small-medium"
+            "WEB": "--token-font-size-text-xs-medium"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7acf44ef022851e9f5abdf0eb99db64bb21cf59c/5552:1061",
@@ -5977,7 +6038,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-text-x-small"
+            "WEB": "--token-font-size-text-2xs"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:626f296cfec5688b921cb69c0d5c914c1e7c7060/5552:1059",
@@ -5997,7 +6058,7 @@
             "FONT_SIZE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-size-text-x-small-medium"
+            "WEB": "--token-font-size-text-2xs-medium"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:626f296cfec5688b921cb69c0d5c914c1e7c7060/5552:1059",
@@ -6018,7 +6079,7 @@
             "LINE_HEIGHT"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-height-heading-xx-large"
+            "WEB": "--token-font-height-heading-2xl"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:da13b02a2dfcbea90a5ec38cbb0ac32dca88f3ba/5594:3",
@@ -6037,7 +6098,7 @@
             "LINE_HEIGHT"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-height-heading-x-large"
+            "WEB": "--token-font-height-heading-xl"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:f4cd931d6c61e08a07dccbc63ca7768f5eb050b5/5552:1072",
@@ -6132,7 +6193,7 @@
             "LINE_HEIGHT"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-height-text-small"
+            "WEB": "--token-font-height-text-sm"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:add5bf56c5c169e86e5fd605d2b4b7589b0d9564/5552:1068",
@@ -6151,7 +6212,7 @@
             "LINE_HEIGHT"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-height-text-small-medium"
+            "WEB": "--token-font-height-text-sm-medium"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:add5bf56c5c169e86e5fd605d2b4b7589b0d9564/5552:1068",
@@ -6170,7 +6231,7 @@
             "LINE_HEIGHT"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-height-text-x-small"
+            "WEB": "--token-font-height-text-xs"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:add5bf56c5c169e86e5fd605d2b4b7589b0d9564/5552:1068",
@@ -6189,7 +6250,7 @@
             "LINE_HEIGHT"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-height-text-x-small-medium"
+            "WEB": "--token-font-height-text-xs-medium"
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:add5bf56c5c169e86e5fd605d2b4b7589b0d9564/5552:1068",
@@ -6210,7 +6271,7 @@
             "FONT_STYLE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-weight-heading-xx-large"
+            "WEB": "--token-font-weight-heading-2xl"
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
@@ -6230,7 +6291,7 @@
             "FONT_STYLE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-weight-heading-x-large"
+            "WEB": "--token-font-weight-heading-xl"
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
@@ -6250,7 +6311,7 @@
             "FONT_STYLE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-weight-heading-large"
+            "WEB": "--token-font-weight-heading-lg"
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
@@ -6330,7 +6391,7 @@
             "FONT_STYLE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-weight-text-small"
+            "WEB": "--token-font-weight-text-sm"
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
@@ -6350,7 +6411,7 @@
             "FONT_STYLE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-weight-text-small-medium"
+            "WEB": "--token-font-weight-text-sm-medium"
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
@@ -6370,7 +6431,7 @@
             "FONT_STYLE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-weight-text-x-small"
+            "WEB": "--token-font-weight-text-xs"
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
@@ -6390,7 +6451,7 @@
             "FONT_STYLE"
           ],
           "com.figma.codeSyntax": {
-            "WEB": "--token-font-weight-text-x-small-medium"
+            "WEB": "--token-font-weight-text-xs-medium"
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
