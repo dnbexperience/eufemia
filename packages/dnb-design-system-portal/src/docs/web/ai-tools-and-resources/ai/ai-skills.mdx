@@ -140,7 +140,7 @@ unrelated project skills untouched.
 ### Telemetry
 
 `install`, `update` and `uninstall` send **anonymous usage statistics** so we
-can see how many projects add, update or remove the skills. It is **on by
+can see how often the skills are added, updated or removed. It is **on by
 default** and **opt-out**.
 
 Each event contains only the action (`install`, `update` or `uninstall`), the
@@ -150,8 +150,8 @@ skills location (`.claude/skills`, `.github/skills`, `.agents/skills`, or
 content is sent. The request has a short timeout and never fails the command.
 
 Turn it off with `EUFEMIA_SKILLS_TELEMETRY=0` (also accepts `false`, `off` or
-`no`). It is also off when `DO_NOT_TRACK` is set and in CI environments (when
-`CI` is set).
+`no`). It is also off when `DO_NOT_TRACK` is set (for example `DO_NOT_TRACK=1`)
+and in CI environments (when `CI` is set).
 
 ## Evaluate skill changes
 
