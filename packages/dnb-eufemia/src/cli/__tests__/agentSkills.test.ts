@@ -612,6 +612,33 @@ describe('Eufemia agent skills', () => {
     ])
   })
 
+  it('posts install stats from the main package CLI by default', async () => {
+    vi.stubEnv('EUFEMIA_SKILLS_TELEMETRY', '')
+    vi.stubEnv('DO_NOT_TRACK', '')
+    vi.stubEnv('CI', '')
+    const fetchMock = vi.fn(
+      async () => new Response(null, { status: 202 })
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    const errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    try {
+      await runEufemiaCli({
+        args: ['skills', 'install', '--target', '.claude/skills'],
+        packageRoot,
+        cwd: temporaryRoot,
+        output: () => undefined,
+      })
+    } finally {
+      vi.unstubAllGlobals()
+      errorSpy.mockRestore()
+    }
+
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
   it('shows skills through the main package CLI', async () => {
     const output: string[] = []
 

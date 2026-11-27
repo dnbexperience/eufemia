@@ -2,7 +2,10 @@ import {
   runAgentSkillsCli,
   type SelectAgentSkillsTargets,
 } from './agentSkills.js'
-import type { ReportSkillInstalls } from './skillsTelemetry.js'
+import {
+  reportSkillInstalls,
+  type ReportSkillInstalls,
+} from './skillsTelemetry.js'
 
 export type RunEufemiaCliOptions = {
   args: string[]
@@ -26,7 +29,7 @@ export async function runEufemiaCli({
   cwd = process.cwd(),
   output = console.log,
   selectTargets,
-  reportInstalls,
+  reportInstalls = reportSkillInstalls,
 }: RunEufemiaCliOptions) {
   const command = args[0] ?? 'help'
 

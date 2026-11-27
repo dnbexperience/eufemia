@@ -1,10 +1,10 @@
 import { createHash } from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import {
-  reportSkillInstalls,
-  type ReportSkillInstalls,
-  type SkillInstallEvent,
+// Type-only: babel-node (copyAgentSkills) can't resolve './skillsTelemetry.js'.
+import type {
+  ReportSkillInstalls,
+  SkillInstallEvent,
 } from './skillsTelemetry.js'
 
 export const AGENT_SKILLS_LOCK_FILE = '.eufemia-skills-lock.json'
@@ -757,7 +757,7 @@ export async function runAgentSkillsCli({
   cwd = process.cwd(),
   output = console.log,
   selectTargets = selectAgentSkillsTargets,
-  reportInstalls = reportSkillInstalls,
+  reportInstalls = async () => undefined,
 }: RunAgentSkillsCliOptions) {
   const options = parseCliOptions(args, cwd)
   const { command, force } = options
