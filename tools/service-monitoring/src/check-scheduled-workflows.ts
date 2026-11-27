@@ -13,6 +13,7 @@ export const scheduledWorkflows = [
     file: 'dependency-audit.yml',
     name: 'Dependency audit',
     maxAgeHours: 48,
+    recoverOnPush: true,
   },
   {
     file: 'ghe-token-expiry.yml',
@@ -24,7 +25,12 @@ export const scheduledWorkflows = [
     name: 'Release SBOM check',
     maxAgeHours: 48,
   },
-  { file: 'codeql-analysis.yml', name: 'CodeQL', maxAgeHours: 8 * 24 },
+  {
+    file: 'codeql-analysis.yml',
+    name: 'CodeQL',
+    maxAgeHours: 8 * 24,
+    recoverOnPush: true,
+  },
   {
     file: 'portal-accessibility-and-duplicate-ids.yml',
     name: 'Portal accessibility and duplicate IDs',
@@ -52,18 +58,23 @@ type Run = {
   id: number
   status: string
   conclusion: string | null
+  created_at?: string
   run_started_at?: string
 }
 
 async function readLatestRun(
   file: string,
+  event: 'schedule' | 'push',
   request: typeof fetch,
   token?: string
 ) {
   const url =
     'https://api.github.com/repos/dnbexperience/eufemia/actions/workflows/' +
     file +
-    '/runs?event=schedule&per_page=1'
+    '/runs?event=' +
+    event +
+    (event === 'push' ? '&branch=main&status=completed' : '') +
+    '&per_page=1'
   const response = await request(url, {
     headers: {
       Accept: 'application/vnd.github+json',
@@ -85,13 +96,19 @@ export async function checkScheduledWorkflows(
 ): Promise<Report> {
   const now = options.now ?? Date.now()
   const checks = await Promise.all(
-    scheduledWorkflows.map(async ({ file, name, maxAgeHours }) => {
+    scheduledWorkflows.map(async (workflow) => {
+      const { file, name, maxAgeHours, recoverOnPush } = workflow
       const url = actionsUrl + '/workflows/' + file
       const checks: Check[] = []
       const run = await createProbe(checks, options.sleep)(
         name,
         () =>
-          readLatestRun(file, options.fetch ?? fetch, options.githubToken),
+          readLatestRun(
+            file,
+            'schedule',
+            options.fetch ?? fetch,
+            options.githubToken
+          ),
         url
       )
       const check = checks[0]
@@ -127,6 +144,32 @@ export async function checkScheduledWorkflows(
         }
       }
       if (run.conclusion !== 'success') {
+        // These workflows run the same checks on pushes to main. Keep cron
+        // freshness above independent from recovery on newer code.
+        if (recoverOnPush) {
+          const recovery = await createProbe(checks, options.sleep)(
+            name,
+            () =>
+              readLatestRun(
+                file,
+                'push',
+                options.fetch ?? fetch,
+                options.githubToken
+              ),
+            url
+          )
+          if (!checks[1].ok) {
+            return checks[1]
+          }
+          if (
+            recovery?.status === 'completed' &&
+            recovery.conclusion === 'success' &&
+            Date.parse(recovery.created_at ?? '') >
+              Date.parse(run.created_at ?? '')
+          ) {
+            return check
+          }
+        }
         return {
           name,
           ok: false,
