@@ -1,4 +1,5 @@
 import { expect, it, vi } from 'vitest'
+import { getAxeOptions } from '../../../scripts/portal-accessibility-report.mjs'
 
 const mocks = vi.hoisted(() => ({
   writeFile: vi.fn<(path: string, data: string) => Promise<void>>(
@@ -20,6 +21,7 @@ const mocks = vi.hoisted(() => ({
       rules?: string[]
     ) => Promise<{ violations: unknown[]; incomplete?: unknown[] }>
   >(async () => ({ violations: [], incomplete: [] })),
+  options: vi.fn(),
 }))
 
 const scanArgs = [
@@ -45,6 +47,11 @@ vi.mock('node:fs/promises', () => ({
 vi.mock('@axe-core/playwright', () => ({
   default: class {
     rules?: string[]
+
+    options(options: unknown) {
+      mocks.options(options)
+      return this
+    }
 
     withRules(rules: string[]) {
       this.rules = rules
@@ -222,6 +229,7 @@ it('checks dark mode on the loaded page without loading it again', async () => {
   mocks.goto.mockClear()
   mocks.emulateMedia.mockClear()
   mocks.locator.mockClear()
+  mocks.options.mockClear()
   mocks.analyze.mockClear().mockImplementation(async (rules) => ({
     incomplete: [],
     violations: rules
@@ -258,6 +266,13 @@ it('checks dark mode on the loaded page without loading it again', async () => {
       [undefined],
       [['color-contrast', 'link-in-text-block']],
     ])
+    expect(mocks.options.mock.calls).toEqual([
+      [getAxeOptions()],
+      [getAxeOptions()],
+    ])
+    expect(mocks.options.mock.calls[0][0]).not.toBe(
+      mocks.options.mock.calls[1][0]
+    )
 
     const report = JSON.parse(mocks.writeFile.mock.calls[0][1])
     expect(report.findings).toEqual([
