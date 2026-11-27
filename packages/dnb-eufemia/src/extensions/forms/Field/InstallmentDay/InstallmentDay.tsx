@@ -88,6 +88,7 @@ function InstallmentDay(props: FieldInstallmentDayProps) {
     path,
     itemPath,
     setDisplayValue,
+    fieldBlockProps: sharedFieldBlockProps,
   } = useFieldProps(preparedProps)
 
   const dayList = useMemo(
@@ -217,6 +218,7 @@ function InstallmentDay(props: FieldInstallmentDayProps) {
   )
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx('dnb-forms-field-installment-day', className),
     label: labelProp ?? defaultLabel,
