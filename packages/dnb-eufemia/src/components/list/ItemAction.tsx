@@ -165,7 +165,10 @@ function ItemAction<E extends ElementType = 'a'>(
     </>
   )
   const footerContent = hasFooter && (
-    <FlexItem className="dnb-list__item__action__footer">
+    <FlexItem
+      className="dnb-list__item__action__footer"
+      {...(appliedDisabled && { role: 'group', 'aria-disabled': true })}
+    >
       <ActionFooter disabled={appliedDisabled}>{footer}</ActionFooter>
     </FlexItem>
   )

@@ -990,6 +990,12 @@ describe('ItemAction', () => {
       expect(
         document.querySelector('.dnb-list__item__footer a')
       ).not.toHaveAttribute('href')
+
+      const footer = document.querySelector(
+        '.dnb-list__item__action__footer'
+      )
+      expect(footer).toHaveAttribute('role', 'group')
+      expect(footer).toHaveAttribute('aria-disabled', 'true')
     })
 
     it('inherits the disabled state for the footer', () => {
@@ -1011,6 +1017,9 @@ describe('ItemAction', () => {
         document.querySelector('button').closest('[inert]')
       ).toBeNull()
       expect(document.querySelector('button')).toBeDisabled()
+      expect(
+        document.querySelector('.dnb-list__item__action__footer')
+      ).toHaveAttribute('aria-disabled', 'true')
     })
 
     it('keeps footer controls enabled while pending', () => {
@@ -1032,6 +1041,9 @@ describe('ItemAction', () => {
       button.focus()
       expect(button).toBeEnabled()
       expect(button.closest('[inert]')).toBeNull()
+      expect(
+        document.querySelector('.dnb-list__item__action__footer')
+      ).not.toHaveAttribute('aria-disabled')
 
       rerender(
         <ItemAction title="Show details" href={href} footer={footer} />
