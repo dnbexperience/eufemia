@@ -3,7 +3,7 @@ import type { ReactElement } from 'react'
 import { wait, axeComponent } from '../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
-import { Input } from '../../../../components'
+import { GlobalStatus, Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
 import userEvent from '@testing-library/user-event'
 import { useFieldProps } from '../../hooks'
@@ -101,6 +101,45 @@ describe('FieldBlock', () => {
       'dnb-forms-field-block__grid dnb-forms-field-block--layout-vertical',
       { exact: true }
     )
+  })
+
+  it('should focus only an editable answer that belongs to the group error', async () => {
+    const group = (showAnswer: boolean) => (
+      <>
+        <GlobalStatus show noAnimation autoScroll={false} />
+        <FieldBlock
+          id="group"
+          asFieldset
+          forId="valid"
+          label="Payment"
+          error="Check the payment."
+        >
+          <Field.String id="valid" label="Valid answer" />
+          <input readOnly aria-describedby="group-form-status--error" />
+          <div hidden>
+            <input aria-describedby="group-form-status--error" />
+          </div>
+          {showAnswer && (
+            <Field.String
+              id="answer"
+              label="Amount"
+              error="Enter an amount."
+            />
+          )}
+        </FieldBlock>
+      </>
+    )
+    const { rerender } = render(group(true))
+    const message = () =>
+      document.getElementById('group-form-status--error')
+    const link = () => document.querySelector('.dnb-global-status a')
+    expect(link()).toHaveAttribute('href', `#${message().id}`)
+    await userEvent.click(link())
+    expect(document.getElementById('answer')).toHaveFocus()
+
+    rerender(group(false))
+    await userEvent.click(link())
+    await waitFor(() => expect(message()).toHaveFocus(), { timeout: 2000 })
   })
 
   it('should support "forId" property', () => {

@@ -149,6 +149,7 @@ function FormStatusComponent(
     id: idProp,
     text,
     globalStatus,
+    focusAnswer,
     label,
     show,
     noAnimation,
@@ -242,6 +243,7 @@ function FormStatusComponent(
             statusId,
             item: {
               itemId: id,
+              focusAnswer: currentProps.focusAnswer,
               text:
                 currentProps.globalStatus?.message ||
                 currentProps.text ||
@@ -304,6 +306,7 @@ function FormStatusComponent(
       prevProps.text !== text ||
       prevProps.children !== children ||
       prevProps.show !== show ||
+      prevProps.focusAnswer !== focusAnswer ||
       (prevProps.globalStatus as Record<string, unknown>)?.show !==
         (globalStatus as Record<string, unknown>)?.show ||
       prevProps.state !== state
@@ -323,6 +326,7 @@ function FormStatusComponent(
               statusId,
               item: {
                 itemId: id,
+                focusAnswer,
                 text: globalStatus?.message || text || children,
                 statusAnchorLabel: label,
                 statusAnchorUrl: true,

@@ -21,7 +21,7 @@ import Autocomplete from '../../autocomplete/Autocomplete'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import { P } from '../../../elements'
-import { Icon } from '../../../components'
+import { FormStatus, Icon } from '../../../components'
 import {
   initializeTestSetup,
   simulateAnimationEnd,
@@ -1521,6 +1521,21 @@ describe('GlobalStatus component', () => {
         '.dnb-global-status__message a.dnb-anchor'
       )
     }
+
+    it('should use the inline message for a standalone FormStatus', () => {
+      render(
+        <>
+          <GlobalStatus show noAnimation autoScroll={false} />
+          <input aria-describedby="notice" />
+          <FormStatus id="notice" text="Account not available." />
+        </>
+      )
+
+      const link = document.querySelector('.dnb-global-status a')
+      expect(link).toHaveAttribute('href', '#notice')
+      fireEvent.keyDown(link, { key: 'Enter' })
+      expect(document.getElementById('notice')).toHaveFocus()
+    })
 
     it('should focus the target and restore it when it loses focus', () => {
       const link = renderWithTarget(<span id="target">Target</span>)

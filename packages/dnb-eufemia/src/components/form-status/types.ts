@@ -90,6 +90,8 @@ export type FormStatusProps = {
   size?: FormStatusSize
   attributes?: FormStatusAttributes
   textId?: string
+  /** @internal Focus the answer for a Forms-generated message. */
+  focusAnswer?: (messageId: string) => HTMLElement | undefined
   widthSelector?: string
   widthElement?: { current: HTMLElement | null } | null
   /**

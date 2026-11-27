@@ -335,7 +335,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
   const gotoItem = useCallback(
     (
       event: MouseEvent | KeyboardEvent,
-      item: { itemId?: string; [key: string]: unknown }
+      item: Exclude<GlobalStatusItem, string>
     ) => {
       const key = (event as KeyboardEvent).key
       if (
@@ -348,10 +348,17 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       ) {
         event.preventDefault()
         try {
-          // find the element
-          const element = document.getElementById(item.itemId)
+          const answer = item.focusAnswer?.(item.itemId)
+          const element = answer ?? document.getElementById(item.itemId)
 
           if (!element) {
+            return
+          }
+
+          if (typeof element.scrollIntoView === 'function') {
+            element.scrollIntoView({ block: 'center', behavior: 'smooth' })
+          }
+          if (answer) {
             return
           }
 
@@ -386,14 +393,6 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
               warn('GlobalStatus: Failed to focus status element:', e)
             }
           })
-
-          if (typeof element.scrollIntoView === 'function') {
-            // then go there
-            element.scrollIntoView({
-              block: 'center', // center of page
-              behavior: 'smooth',
-            })
-          }
         } catch (e) {
           warn('GlobalStatus: Failed to scroll to status element:', e)
         }
