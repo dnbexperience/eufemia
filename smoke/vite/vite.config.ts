@@ -5,23 +5,31 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: 'assert-string-fields-without-zod',
+      name: 'assert-forms-dependencies',
       generateBundle(_, bundle) {
         for (const output of Object.values(bundle)) {
           if (output.type !== 'chunk') {
             continue
           }
 
-          const zodModules = Object.entries(output.modules).filter(
-            ([id, module]) =>
-              /[/\\]node_modules[/\\]zod[/\\]/.test(id) &&
-              module.renderedLength > 0
-          )
+          for (const [id, module] of Object.entries(output.modules)) {
+            if (module.renderedLength === 0) {
+              continue
+            }
 
-          if (zodModules.length > 0) {
-            this.error(
-              `String-only forms must not bundle Zod: ${zodModules.map(([id]) => id).join(', ')}`
-            )
+            if (/[/\\]node_modules[/\\]zod[/\\]/.test(id)) {
+              this.error(`String-only forms must not bundle Zod: ${id}`)
+            }
+
+            if (
+              /[/\\]core-js-pure[/\\]modules[/\\]web\.structured-clone\.js$/.test(
+                id
+              )
+            ) {
+              this.error(
+                `Forms already provides a structuredClone fallback. Do not bundle a second one: ${id}`
+              )
+            }
           }
         }
       },
