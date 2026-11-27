@@ -17,6 +17,35 @@ test.describe('Redirects', () => {
       await expect(page).toHaveURL(/\/web\/components\/button\/?$/)
       expect(response?.status()).toBeLessThan(400)
     })
+
+    test('opens the Events section for an old Events tab URL', async ({
+      page,
+    }) => {
+      if (await isDev(page)) {
+        return // stop here
+      }
+
+      await page.goto('/web/components/button/events/')
+      await expect(page).toHaveURL(
+        /\/web\/components\/button\/properties\/#events$/
+      )
+    })
+  })
+
+  test('opens the Events section for an old Events tab URL', async ({
+    page,
+  }) => {
+    await page.goto('/web/components/button/events/')
+    await expect(page).toHaveURL(
+      /\/web\/components\/button\/properties\/#events$/
+    )
+  })
+
+  test('keeps the section of an old Events tab URL', async ({ page }) => {
+    await page.goto('/web/components/autocomplete/events/#methods')
+    await expect(page).toHaveURL(
+      /\/web\/components\/autocomplete\/properties\/#methods$/
+    )
   })
 
   test('redirects /uilib/components/button/info/ to parent', async ({

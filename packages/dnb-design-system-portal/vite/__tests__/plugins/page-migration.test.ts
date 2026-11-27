@@ -251,6 +251,30 @@ legacyFragments:
       replace: true,
       to: '/web/ai-tools-and-resources/ai/ai-skills/?from=link#agent-skills',
     })
+
+    const eventsRoutes = generated(
+      React,
+      'Navigate',
+      null,
+      () => ({
+        pathname: '/web/components/button/events',
+        search: '',
+        hash: '',
+      }),
+      resolvePageRedirect,
+      {}
+    )
+    const events = eventsRoutes.find(
+      ({ path }) => path === '/web/components/button/events'
+    )
+    // Prerendering writes the static redirect page from these fragments
+    expect(events.handle.fragments['']).toBe(
+      '/web/components/button/properties/#events'
+    )
+    expect(events.Component()).toMatchObject({
+      replace: true,
+      to: '/web/components/button/properties/#events',
+    })
   })
   it('keeps TSX routes and first-tab aliases through MDX-defined prefixes', () => {
     const files = scanPageFiles(
