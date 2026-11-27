@@ -55,7 +55,6 @@ const textareaDefaultProps = {
   value: 'initval',
   statusState: 'error',
   readOnly: false,
-  labelDirection: 'vertical',
 }
 
 function hasValue(value: string | number | null | undefined) {
@@ -95,7 +94,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   const {
     label,
-    labelDirection,
+    labelDirection = 'vertical',
     labelSrOnly,
     status,
     statusState,

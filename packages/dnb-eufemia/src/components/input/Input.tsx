@@ -67,7 +67,6 @@ export type * from './types'
 export const inputDefaultProps: Partial<InputProps> = {
   type: 'text',
   value: 'initval',
-  labelDirection: 'vertical',
   statusState: 'error',
   autocomplete: 'off',
   iconPosition: 'left',
@@ -340,7 +339,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     type,
     size,
     label,
-    labelDirection,
+    labelDirection = 'vertical',
     labelSrOnly,
     status,
     globalStatus,

@@ -34,7 +34,6 @@ export type * from './group-types'
 
 const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
   label: null,
-  labelDirection: 'vertical',
   labelSrOnly: null,
   title: null,
   multiselect: null,
@@ -171,7 +170,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     statusNoAnimation,
     globalStatus,
     suffix,
-    labelDirection,
+    labelDirection = 'vertical',
     labelSrOnly,
     vertical,
     layoutDirection,

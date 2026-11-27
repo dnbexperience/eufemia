@@ -31,7 +31,6 @@ export type * from './group-types'
 
 const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   label: null,
-  labelDirection: 'vertical',
   labelSrOnly: null,
   labelPosition: null,
   title: null,
@@ -128,7 +127,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     globalStatus,
     suffix,
     label,
-    labelDirection,
+    labelDirection = 'vertical',
     labelSrOnly,
     labelPosition,
     vertical,
