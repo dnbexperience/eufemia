@@ -1110,8 +1110,9 @@ resource "aws_lambda_permission" "snapshot_events" {
 
 # Notification target for the alarms below. Same-account CloudWatch alarms can
 # publish to a topic under its default access policy, so no extra topic policy
-# is needed. The email subscription is optional (snapshot_alert_email empty
-# skips it) so the topic can ship before an owner is chosen; a different target
+# is needed. Each comma-separated address in snapshot_alert_emails gets its own
+# email subscription, so people confirm and unsubscribe independently. Empty
+# skips them so the topic can ship before an owner is chosen; a different target
 # (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw incoming webhook
 # can't complete the SNS subscription handshake) just needs its own
 # aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
@@ -1122,10 +1123,10 @@ resource "aws_sns_topic" "snapshot_alerts" {
 }
 
 resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
-  count     = var.snapshot_alert_email != "" ? 1 : 0
+  for_each  = toset(compact([for address in split(",", var.snapshot_alert_emails) : trimspace(address)]))
   topic_arn = aws_sns_topic.snapshot_alerts.arn
   protocol  = "email"
-  endpoint  = var.snapshot_alert_email
+  endpoint  = each.value
 }
 
 # Failure signals for the scheduled generator. Without them a failed run, or a

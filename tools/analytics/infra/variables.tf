@@ -97,14 +97,9 @@ variable "dashboard_public_url" {
   }
 }
 
-# Optional. Subscribes this address to the snapshot alert SNS topic so a real
-# person is notified when a snapshot alarm fires. Empty ships the topic without
-# a subscriber (e.g. before an owner is chosen, or when a different
-# subscription — such as an HTTPS Slack webhook — is added directly in Terraform
-# instead).
-variable "snapshot_alert_email" {
+# Not sensitive: for_each keys can't be.
+variable "snapshot_alert_emails" {
   type        = string
-  description = "Email address to subscribe to the dashboard snapshot alert SNS topic. Empty skips creating a subscription."
+  description = "Comma-separated email addresses to subscribe to the dashboard snapshot alert SNS topic. Empty skips creating a subscription."
   default     = ""
-  sensitive   = true
 }

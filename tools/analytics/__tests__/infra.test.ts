@@ -122,9 +122,10 @@ describe('analytics infrastructure', () => {
       'resource "aws_sns_topic_subscription" "snapshot_alerts_email"'
     )
     expect(subscription).toMatch(
-      /count\s+=\s+var\.snapshot_alert_email != "" \? 1 : 0/
+      /^\s*for_each\s+=.*split\(",", var\.snapshot_alert_emails\)/m
     )
-    expect(subscription).toMatch(/protocol\s+=\s+"email"/)
+    expect(subscription).toMatch(/^\s*endpoint\s+=\s+each\.value$/m)
+    expect(subscription).toMatch(/^\s*protocol\s+=\s+"email"$/m)
 
     expect(alarms.length).toBeGreaterThan(0)
     for (const alarm of alarms) {
