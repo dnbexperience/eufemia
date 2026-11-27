@@ -31,7 +31,6 @@ import {
   slugify,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  getClosestParent,
   filterProps,
   combineLabelledBy,
 } from '../../shared/component-helper'
@@ -45,7 +44,6 @@ import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
 import useId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
-import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import { supportsOpenOnFind } from '../height-animation/HeightAnimation'
@@ -108,65 +106,37 @@ function getSelectedKeyOrFallback(
   selectedKey: TabsSelectedKey | null,
   data: TabDataItem[]
 ) {
-  let useKey = selectedKey
+  const selected =
+    selectedKey == null
+      ? data.reduce<TabDataItem | undefined>(
+          (last, tab) => (tab.selected ? tab : last),
+          undefined
+        )
+      : data.find(({ key }) => key == selectedKey)
+  return (
+    selected?.key ??
+    data.find(({ disabled }) => !disabled)?.key ??
+    data[0]?.key
+  )
+}
 
-  // 1. if selectedKey is null/undefined then try to get it from data
-  if (!useKey) {
-    useKey =
-      data.reduce<TabsSelectedKey | null>(
-        (acc, { selected, key }) => (selected ? key : acc),
-        null
-      ) ||
-      (data[0] && data[0].key)
-  } else {
-    // 2. check if the key is valid
-    // just to make sure we never get an empty content
-    const keyExists = data.findIndex(({ key }) => key == selectedKey)
-    if (keyExists === -1) {
-      // key did not exists, so we get the first one
-      useKey = data[0] && data[0].key
-    }
-  }
-
-  return useKey
+function canFocusTab({ disabled, tooltip }: TabDataItem) {
+  return !disabled || Boolean(tooltip)
 }
 
 function getData(props: TabsProps) {
   const addReactElement = (
     list: TabDataItem[],
-    reactElem: ReactElement,
-    reactElemIndex?: number
+    reactElem: ReactElement<React.ComponentProps<typeof CustomContent>>
   ) => {
     if (reactElem && reactElem.type === CustomContent) {
-      // tabs data from main prop
-      const dataProps =
-        (props.children &&
-          Array.isArray(props.children) &&
-          props.children[reactElemIndex]) ||
-        {}
-
-      // props from the "CustomContent" Component
-      const componentProps = {
-        ...(reactElem.props as Record<string, unknown>),
-      }
-      if (componentProps.title === null) {
-        delete componentProps.title
-      }
-
-      const {
-        title,
-        key: _key,
-        hash,
-        ...rest
-      } = {
-        ...dataProps,
-        ...componentProps,
-        ...{ children: null }, // remove children, if there is some
-      }
-
+      const { title, hash, children: _children, ...rest } = reactElem.props
       list.push({
-        title,
-        key: (!_key && hash ? hash : _key) || slugify(title),
+        title: title as ReactNode,
+        key:
+          reactElem.key != null
+            ? String(reactElem.key)
+            : hash || slugify(title),
         content: reactElem, // can be a Node or a Function
         ...rest,
       })
@@ -185,8 +155,8 @@ function getData(props: TabsProps) {
       (element) => typeof element === 'function' || isValidElement(element)
     )
   ) {
-    res = props.children.reduce((list, reactElem, i) => {
-      addReactElement(list, reactElem, i)
+    res = props.children.reduce((list, reactElem) => {
+      addReactElement(list, reactElem)
       return list
     }, [])
   }
@@ -197,7 +167,12 @@ function getData(props: TabsProps) {
     (typeof props.children === 'function' ||
       isValidElement(props.children))
   ) {
-    addReactElement(res, props.children as ReactElement)
+    addReactElement(
+      res,
+      props.children as ReactElement<
+        React.ComponentProps<typeof CustomContent>
+      >
+    )
   }
 
   // continue, while the children didn't contain our data
@@ -255,7 +230,6 @@ function TabsComponent(ownProps: TabsProps) {
   const cacheRef = useRef<
     Record<string, { content: ReactNode; [key: string]: unknown }>
   >({})
-  const listenForPropChangesRef = useRef(true)
 
   // ID
   const _id = useId(ownProps.id)
@@ -271,7 +245,12 @@ function TabsComponent(ownProps: TabsProps) {
     getSelectedKeyOrFallback(ownProps.selectedKey, initialData.current)
   )
   const previousSelectionKeyRef = useRef(selectedKey)
-  const [focusKey, setFocusKey] = useState<string | number>(selectedKey)
+  const [focusedTab, setFocusedTab] = useState<TabsSelectedKey>(null)
+  const focusableTabs = data.filter(canFocusTab)
+  const focusKey =
+    focusableTabs.find(({ key }) => key === focusedTab)?.key ??
+    focusableTabs.find(({ key }) => key === selectedKey)?.key ??
+    focusableTabs[0]?.key
   const [hasScrollbar, setHasScrollbar] = useState(false)
   const [isFirst, setIsFirst] = useState<boolean | undefined>(undefined)
   const [isLast, setIsLast] = useState<boolean | undefined>(undefined)
@@ -297,29 +276,26 @@ function TabsComponent(ownProps: TabsProps) {
   )
 
   // Sync state from props
-  if (listenForPropChangesRef.current) {
-    const dataSource = ownProps.data || ownProps.children
-    let currentData = data
-    if (prevDataSource !== dataSource) {
-      setPrevDataSource(dataSource)
-      const newData = getData(ownProps)
-      setData(newData)
-      currentData = newData
-      propChangeRef.current = true
-    }
-    if (ownProps.selectedKey && prevSelectedKey !== ownProps.selectedKey) {
-      setPrevSelectedKey(ownProps.selectedKey)
-      setSelectedKey(
-        getSelectedKeyOrFallback(ownProps.selectedKey, currentData)
+  const dataSource = ownProps.data || ownProps.children
+  if (
+    prevDataSource !== dataSource ||
+    prevSelectedKey !== ownProps.selectedKey
+  ) {
+    const nextData =
+      prevDataSource !== dataSource ? getData(ownProps) : data
+    setPrevDataSource(dataSource)
+    setData(nextData)
+    setPrevSelectedKey(ownProps.selectedKey)
+    setSelectedKey(
+      getSelectedKeyOrFallback(
+        prevSelectedKey !== ownProps.selectedKey || selectedKey == null
+          ? ownProps.selectedKey
+          : selectedKey,
+        nextData
       )
-      propChangeRef.current = true
-    }
+    )
+    propChangeRef.current = true
   }
-
-  // Reset listen flag after each render
-  useEffect(() => {
-    listenForPropChangesRef.current = true
-  })
 
   // Store latest state in refs so stable sub-components can access them
   const dataRef = useRef(data)
@@ -570,26 +546,6 @@ function TabsComponent(ownProps: TabsProps) {
     window.scrollBy({ top: event.deltaY, behavior: 'auto' })
   }
 
-  const setFocusOnTabButton = useCallback(() => {
-    try {
-      const elem = tablistRef.current.querySelector(
-        '.dnb-tabs__button.focus'
-      ) as HTMLElement
-      elem.focus({ preventScroll: true })
-
-      if (
-        !document.getElementById(`${_id}-content`) &&
-        process.env.NODE_ENV !== 'test'
-      ) {
-        warn(
-          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
-        )
-      }
-    } catch (e) {
-      warn('Tabs: Failed to set focus on tab button:', e)
-    }
-  }, [_id])
-
   const getCurrentTitle = (key?: string | number) => {
     const useKey = key ?? selectedKeyRef.current
     const current = dataRef.current.filter(({ key: k }) => k == useKey)[0]
@@ -602,8 +558,7 @@ function TabsComponent(ownProps: TabsProps) {
     includeDisabledWithTooltip = false
   ) => {
     const currentData = dataRef.current.filter(
-      ({ disabled, tooltip }) =>
-        !disabled || (includeDisabledWithTooltip && Boolean(tooltip))
+      includeDisabledWithTooltip ? canFocusTab : (tab) => !tab.disabled
     )
     const currentIndex = currentData.reduce(
       (acc: number, { key }: TabDataItem, i: number) =>
@@ -639,20 +594,26 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
+  const focusTabButton = (key: TabsSelectedKey) => {
+    document
+      .getElementById(`${_id}-tab-${key}`)
+      ?.focus({ preventScroll: true })
+  }
+
   const focusTab = (
     newFocusKey: string | number,
     event: SyntheticEvent | null = null,
     mode: string | null = null
   ) => {
     // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(String(newFocusKey))) {
+    if (mode === 'step') {
       newFocusKey = getStepKey(newFocusKey, focusKeyRef.current, true)
     }
 
-    listenForPropChangesRef.current = false
-    setFocusKey(newFocusKey)
-
-    // setFocusOnTabButton will be called via useEffect below
+    if (newFocusKey == null) {
+      return
+    }
+    focusTabButton(newFocusKey)
 
     dispatchCustomElementEvent(
       { props: propsRef.current },
@@ -660,11 +621,6 @@ function TabsComponent(ownProps: TabsProps) {
       getEventArgs({ event, focusKey: newFocusKey })
     )
   }
-
-  // Focus tab button when focusKey changes
-  useUpdateEffect(() => {
-    setFocusOnTabButton()
-  }, [focusKey])
 
   const openTab = (
     newSelectedKey: string | number,
@@ -678,14 +634,16 @@ function TabsComponent(ownProps: TabsProps) {
     }
 
     // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(String(newSelectedKey))) {
+    if (mode === 'step') {
       newSelectedKey = getStepKey(newSelectedKey, selectedKeyRef.current)
     }
 
-    if (typeof newSelectedKey !== 'undefined') {
-      listenForPropChangesRef.current = false
-      setSelectedKey(newSelectedKey)
-      setFocusKey(newSelectedKey)
+    if (newSelectedKey == null) {
+      return
+    }
+    setSelectedKey(newSelectedKey)
+    if (mode === 'step') {
+      focusTabButton(newSelectedKey)
     }
 
     dispatchCustomElementEvent(
@@ -842,7 +800,9 @@ function TabsComponent(ownProps: TabsProps) {
           hasLastUsedTab() !== null &&
           !propsRef.current.onOpenTabNavigationFn
         ) {
-          setFocusOnTabButton()
+          tablistRef.current
+            .querySelector<HTMLElement>('[role="tab"][tabindex="0"]')
+            ?.focus({ preventScroll: true })
         }
       }
     }
@@ -897,14 +857,13 @@ function TabsComponent(ownProps: TabsProps) {
 
   // Navigation handlers
   const focusFirstTab = (e: KeyboardEvent) => {
-    const key = dataRef.current[0].key
+    const key = focusableTabs[0]?.key
     focusTab(key, e)
     scrollToTab({ type: 'focus' })
   }
 
   const focusLastTab = (e: KeyboardEvent) => {
-    const d = dataRef.current
-    const key = d[d.length - 1].key
+    const key = focusableTabs.at(-1)?.key
     focusTab(key, e)
     scrollToTab({ type: 'focus' })
   }
@@ -931,14 +890,10 @@ function TabsComponent(ownProps: TabsProps) {
 
   const onTablistKeyDownHandler = (e: KeyboardEvent) => {
     switch (e.key) {
-      case 'ArrowUp':
-      case 'PageUp':
       case 'ArrowLeft':
         e.preventDefault()
         focusPrevTab(e)
         break
-      case 'ArrowDown':
-      case 'PageDown':
       case 'ArrowRight':
         e.preventDefault()
         focusNextTab(e)
@@ -954,66 +909,28 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
-  const getCurrentKey = (event: SyntheticEvent) => {
-    let currentKey: string | undefined
-    try {
-      const elem = getClosestParent(
-        'dnb-tabs__button',
-        event.target as HTMLElement
-      ) as HTMLElement | null
-      currentKey = elem?.dataset?.tabKey
-    } catch (e) {
-      warn('Tabs: Failed to get tab key from event target:', e)
-    }
-    return currentKey
-  }
-
-  const onMouseEnterHandler = (event: SyntheticEvent) => {
-    const key = getCurrentKey(event)
-    if (key) {
-      dispatchCustomElementEvent(
-        { props: propsRef.current },
-        'onMouseEnter',
-        getEventArgs({ event, selectedKey: key })
-      )
-    }
-  }
-
-  const onClickHandler = (event: SyntheticEvent) => {
-    const key = getCurrentKey(event)
-    // A disabled tab with a tooltip has no native `disabled`, so it still
-    // receives clicks.
-    const isDisabled = dataRef.current.some(
-      (item) => item.key == key && item.disabled
+  const onClickHandler = (event: SyntheticEvent, key: TabsSelectedKey) => {
+    const ret = dispatchCustomElementEvent(
+      { props: propsRef.current },
+      'onClick',
+      getEventArgs({ event, selectedKey: key })
     )
-    if (isDisabled) {
-      event.preventDefault()
-      return
-    }
-
-    if (key) {
-      const ret = dispatchCustomElementEvent(
-        { props: propsRef.current },
-        'onClick',
-        getEventArgs({ event, selectedKey: key })
-      )
-
-      if (ret !== false) {
-        openTab(key, event)
-        scrollToTab({ type: 'selected' })
-      }
+    if (ret !== false) {
+      openTab(key, event)
+      scrollToTab({ type: 'selected' })
     }
   }
 
   const onKeyUpHandler = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      try {
-        const elem = document.getElementById(`${_id}-content`)
-        elem.focus({ preventScroll: true })
-      } catch (e) {
-        warn(
-          `Could not find the required <Tabs.Content id="${_id}-content" ... /> that provides role="tabpanel"`
-        )
+    if (
+      event.key === 'Enter' &&
+      !event.defaultPrevented &&
+      event.currentTarget instanceof HTMLButtonElement &&
+      !propsRef.current.onOpenTabNavigationFn
+    ) {
+      const panelId = event.currentTarget.getAttribute('aria-controls')
+      if (panelId) {
+        document.getElementById(panelId)?.focus({ preventScroll: true })
       }
     }
   }
@@ -1021,6 +938,13 @@ function TabsComponent(ownProps: TabsProps) {
   // Content rendering helper
   const getContent = (key: string | number) => {
     const { children, content: _content } = propsRef.current
+
+    const tabContent = dataRef.current.find(
+      (tab) => tab.key === key
+    )?.content
+    if (isValidElement(tabContent) && tabContent.type === CustomContent) {
+      return tabContent
+    }
 
     const contentToRender = children || _content
     let content = null
@@ -1035,21 +959,7 @@ function TabsComponent(ownProps: TabsProps) {
       }
     }
 
-    if (!content) {
-      let items = []
-
-      if (Array.isArray(dataRef.current)) {
-        items = dataRef.current
-      } else if (Array.isArray(contentToRender)) {
-        items = contentToRender
-      }
-
-      if (items) {
-        content = items
-          .filter(({ key: k }) => k && key && k == key)
-          .reduce((acc, { content }) => content || acc, null)
-      }
-    }
+    content ||= tabContent
 
     if (typeof content === 'function') {
       const Component = content
@@ -1234,7 +1144,13 @@ function TabsComponent(ownProps: TabsProps) {
                 tabKey={key}
                 hidden={hide}
                 openOnFind={shouldOpenOnFind}
-                onBeforeMatch={(event) => openTab(key, event)}
+                onBeforeMatch={(event) =>
+                  openTab(
+                    currentData.find((tab) => String(tab.key) === key)
+                      ?.key,
+                    event
+                  )
+                }
               >
                 {cachedContent}
               </CachedContent>
@@ -1255,6 +1171,9 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       <ContentWrapper
         id={_id}
         nested
+        tabIndex={
+          propsRef.current.skeleton || !selectedContent ? -1 : undefined
+        }
         selectedKey={currentSelectedKey}
         contentStyle={propsRef.current.contentStyle}
         contentInnerSpace={propsRef.current.contentInnerSpace}
@@ -1319,7 +1238,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
           >
             <TabElement
               role="tab"
-              tabIndex={-1}
+              tabIndex={!isSkeleton && isFocus ? 0 : -1}
               id={`${_id}-tab-${key}`}
               aria-selected={isSelected}
               className={clsx(
@@ -1327,9 +1246,20 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                 isFocus && 'focus',
                 isSelected && 'selected'
               )}
-              onMouseEnter={onMouseEnterHandler}
-              onClick={isSkeleton ? preventDefault : onClickHandler}
-              onKeyUp={onKeyUpHandler}
+              onFocus={() => setFocusedTab(key)}
+              onMouseEnter={(event) =>
+                dispatchCustomElementEvent(
+                  { props: propsRef.current },
+                  'onMouseEnter',
+                  getEventArgs({ event, selectedKey: key })
+                )
+              }
+              onClick={
+                isSkeleton || disabled
+                  ? preventDefault
+                  : (event) => onClickHandler(event, key)
+              }
+              onKeyUp={isSkeleton || disabled ? undefined : onKeyUpHandler}
               data-tab-key={key}
               {...itemParams}
             >
@@ -1365,8 +1295,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     const params: Record<string, unknown> = {}
     if (label) {
       params['aria-label'] = label
-    }
-    if (currentSelectedKey) {
+    } else if (currentSelectedKey != null) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
         `${_id}-tab-${currentSelectedKey}`
@@ -1380,7 +1309,12 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
             'dnb-tabs__tabs__tablist',
             isSkeleton && 'dnb-tabs__tabs__tablist--skeleton'
           )}
-          tabIndex={isSkeleton ? -1 : 0}
+          tabIndex={-1}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              setFocusedTab(null)
+            }
+          }}
           onKeyDown={isSkeleton ? undefined : onTablistKeyDownHandler}
           onWheelCapture={onTablistWheelHandler}
           onScroll={updateScrollNavigation}

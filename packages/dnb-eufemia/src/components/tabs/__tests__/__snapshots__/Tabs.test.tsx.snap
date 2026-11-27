@@ -84,6 +84,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   }
 }
 .dnb-tabs__tabs__tablist {
+  overscroll-behavior-y: auto;
   /* Hide scrollbar for Chrome, Safari */
   /* stylelint-disable-next-line */
 }
@@ -563,6 +564,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   }
 }
 .dnb-tabs__tabs__tablist {
+  overscroll-behavior-y: auto;
   /* Hide scrollbar for Chrome, Safari */
   /* stylelint-disable-next-line */
 }

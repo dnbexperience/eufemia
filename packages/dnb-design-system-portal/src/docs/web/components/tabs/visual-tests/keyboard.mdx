@@ -1,0 +1,37 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Tabs } from '@dnb/eufemia/src'
+
+<div data-testid="keyboard-tabs" style={{ minHeight: '200vh' }}>
+  <button>Before tabs</button>
+  <Tabs
+    keepInDOM
+    selectedKey={0}
+    data={[
+      {
+        key: 3,
+        title: 'Links',
+        content: (
+          <div>
+            <a href="#details">Read details</a>
+          </div>
+        ),
+      },
+      {
+        key: 0,
+        title: 'Overview',
+        content: (
+          <div>
+            Overview text <a href="#details">More information</a>
+          </div>
+        ),
+      },
+      { key: 1, title: 'Details', content: 'Details text' },
+    ]}
+  />
+  <button id="details">After tabs</button>
+</div>

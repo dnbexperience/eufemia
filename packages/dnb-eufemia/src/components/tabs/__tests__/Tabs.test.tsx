@@ -656,6 +656,166 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   })
 })
 
+describe('Tabs selection and keyboard navigation', () => {
+  const data = [
+    { title: 'Three', key: 3, content: 'Three panel' },
+    { title: 'Zero', key: 0, content: 'Zero panel' },
+    { title: 'One', key: 1, content: 'One panel' },
+  ]
+  const tab = (key: number | string) =>
+    document.querySelector<HTMLElement>(
+      `[role="tab"][data-tab-key="${key}"]`
+    )
+  const panel = () => document.querySelector('[role="tabpanel"]')
+
+  function expectSelected(key: number, name: string) {
+    expect(tab(key)).toHaveAttribute('aria-selected', 'true')
+    expect(tab(key)).toHaveAttribute('aria-controls', panel()?.id)
+    expect(panel()).toHaveAccessibleName(name)
+    expect(panel()).toHaveTextContent(`${name} panel`)
+  }
+
+  it('uses zero on mount and on prop changes without moving focus', () => {
+    const { rerender } = render(<Tabs data={data} selectedKey={0} />)
+    expectSelected(0, 'Zero')
+    rerender(<Tabs data={data} selectedKey={1} />)
+    expectSelected(1, 'One')
+    rerender(<Tabs data={data} selectedKey={0} />)
+    expectSelected(0, 'Zero')
+    expect(document.activeElement).toBe(document.body)
+  })
+
+  it('preserves selection across data refreshes and retains an entry tab when focus is removed', async () => {
+    const { rerender } = render(<Tabs data={data} selectedKey={1} />)
+    await userEvent.click(tab(0))
+    rerender(<Tabs data={[...data]} selectedKey={1} />)
+    expectSelected(0, 'Zero')
+    await userEvent.keyboard('{ArrowLeft}')
+    expect(tab(3)).toHaveFocus()
+    rerender(<Tabs data={data.slice(1)} selectedKey={1} />)
+    expect(tab(0)).toHaveAttribute('tabindex', '0')
+  })
+
+  it('uses child keys rather than array positions for Tabs.Content', () => {
+    render(
+      <Tabs selectedKey={0}>
+        <Tabs.Content key={3} title="Three">
+          Three panel
+        </Tabs.Content>
+        <Tabs.Content key={0} title="Zero">
+          Zero panel
+        </Tabs.Content>
+      </Tabs>
+    )
+    expect(panel()).toHaveAccessibleName('Zero')
+    expect(panel()).toHaveTextContent('Zero panel')
+  })
+
+  it('respects a zero key marked selected in the data', () => {
+    render(
+      <Tabs
+        data={data.map((item) => ({ ...item, selected: item.key === 0 }))}
+      />
+    )
+    expectSelected(0, 'Zero')
+    expect(
+      document.querySelector('[role="tablist"]')
+    ).toHaveAccessibleName('Zero')
+  })
+
+  it('keeps numeric keys and the named panel on click and keyboard activation', async () => {
+    const onChange = vi.fn()
+    render(<Tabs data={data} onChange={onChange} />)
+    await userEvent.click(tab(0))
+    expectSelected(0, 'Zero')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ key: 0 })
+    )
+    await userEvent.keyboard('{ArrowRight}[Space]')
+    expectSelected(1, 'One')
+    await userEvent.keyboard('{ArrowLeft}[Space]')
+    expectSelected(0, 'Zero')
+  })
+
+  it('keeps the external panel named and the entry tab current on a prop change to zero', async () => {
+    const linked = (selectedKey: number) => (
+      <>
+        <button>Before</button>
+        <Tabs
+          id="external-zero"
+          label="Accounts"
+          data={data.map(({ key, title }) => ({ key, title }))}
+          selectedKey={selectedKey}
+        />
+        <Tabs.Content id="external-zero">
+          {({ key }) => `Panel ${key}`}
+        </Tabs.Content>
+      </>
+    )
+    const { rerender } = render(linked(1))
+    document.querySelector('button').focus()
+    rerender(linked(0))
+    expect(panel()).toHaveTextContent('Panel 0')
+    expect(panel()).toHaveAccessibleName('Zero')
+    expect(
+      document.querySelector('[role="tablist"]')
+    ).toHaveAccessibleName('Accounts')
+    await userEvent.tab()
+    expect(tab(0)).toHaveFocus()
+    await userEvent.keyboard('{ArrowRight}')
+    expect(tab(1)).toHaveFocus()
+    expect(panel()).toHaveAccessibleName('Zero')
+  })
+
+  it.each(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'])(
+    'leaves %s to the browser',
+    (key) => {
+      render(<Tabs data={data} />)
+      tab(3).focus()
+      expect(fireEvent.keyDown(tab(3), { key })).toBe(true)
+      expect(tab(3)).toHaveFocus()
+    }
+  )
+
+  it('skips disabled endpoints on entry, Home, and End', async () => {
+    render(
+      <Tabs
+        data={[
+          { key: 'a', title: 'Unavailable', disabled: true },
+          ...data,
+          { key: 'b', title: 'Unavailable', disabled: true },
+        ]}
+      />
+    )
+    await userEvent.tab()
+    expect(tab(3)).toHaveFocus()
+    await userEvent.keyboard('{End}')
+    expect(tab(1)).toHaveFocus()
+    await userEvent.keyboard('{Home}')
+    expect(tab(3)).toHaveFocus()
+  })
+
+  it('does not put an empty tab list in the tab order', async () => {
+    const { rerender } = render(
+      <>
+        <Tabs id="empty" data={[]} />
+        <button>After</button>
+      </>
+    )
+    await userEvent.tab()
+    expect(document.activeElement).toHaveTextContent('After')
+    rerender(
+      <>
+        <Tabs id="empty" data={data} />
+        <button>After</button>
+      </>
+    )
+    expectSelected(3, 'Three')
+    await userEvent.tab({ shift: true })
+    expect(panel()).toHaveFocus()
+  })
+})
+
 describe('Tabs disabled with tooltip', () => {
   const data = [
     { title: 'First', key: 'first' },
@@ -832,6 +992,7 @@ describe('Tabs skeleton', () => {
     const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
     expect(tablist).toHaveAttribute('tabindex', '-1')
 
+    expect(tablist.querySelector('[role="tab"][tabindex="0"]')).toBeNull()
     fireEvent.keyDown(tablist, { key: 'ArrowRight' })
     fireEvent.click(document.querySelector('[data-tab-key="second"]'))
     document
@@ -888,7 +1049,7 @@ describe('Tabs skeleton', () => {
     }
   )
 
-  it('keeps the tab list in the tab order with skeleton={false}', () => {
+  it('keeps the selected tab in the tab order with skeleton={false}', () => {
     render(
       <Provider skeleton>
         <Tabs {...props} data={tablistData} skeleton={false} />
@@ -896,7 +1057,10 @@ describe('Tabs skeleton', () => {
     )
 
     const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
-    expect(tablist).toHaveAttribute('tabindex', '0')
+    expect(tablist).toHaveAttribute('tabindex', '-1')
+    expect(
+      tablist.querySelector('[aria-selected="true"]')
+    ).toHaveAttribute('tabindex', '0')
     expect(tablist).not.toHaveClass('dnb-tabs__tabs__tablist--skeleton')
     document
       .querySelectorAll('.dnb-tabs__scroll-nav-button')
