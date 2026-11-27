@@ -126,6 +126,17 @@ describe('Button component', () => {
     ).toBeInTheDocument()
   })
 
+  it('should set inherit-font class when inheritFont is true', () => {
+    const { rerender } = render(<Button />)
+    const button = document.querySelector('.dnb-button')
+
+    expect(button).not.toHaveClass('dnb-button--inherit-font')
+
+    rerender(<Button inheritFont />)
+
+    expect(button).toHaveClass('dnb-button--inherit-font')
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Button />)
     expect(document.querySelector('button')).not.toHaveAttribute(

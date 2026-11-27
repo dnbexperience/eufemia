@@ -249,6 +249,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
           skeleton={skeleton}
           aria-current={isCurrent ? 'page' : null}
           onClick={(event) => clickHandler({ pageNumber, event })}
+          inheritFont
         />
       )
     }
@@ -304,6 +305,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
           text={title}
           onClick={onNavigate}
           title={isDisabled ? null : title}
+          inheritFont
         />
       )
     }

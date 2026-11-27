@@ -644,6 +644,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
                 icon="close"
                 onClick={closeHandler}
                 iconPosition="left"
+                inheritFont
               />
             )}
           </div>

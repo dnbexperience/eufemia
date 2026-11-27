@@ -587,6 +587,9 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]):w
   overflow-wrap: break-word;
   white-space: normal;
 }
+.dnb-button.dnb-button--inherit-font {
+  font-family: inherit;
+}
 .dnb-button__icon {
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }

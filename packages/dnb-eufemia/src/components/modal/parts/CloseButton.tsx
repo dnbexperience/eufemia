@@ -46,6 +46,7 @@ function CloseButton(props: CloseButtonProps) {
       text={closeTitle}
       size={size}
       iconPosition={iconPosition}
+      inheritFont
       className={clsx('dnb-modal__close-button', className)}
       {...buttonProps}
     />

@@ -22,6 +22,7 @@ export default function TableSortButton({
       icon={sortIcon}
       transitionState={thContext?.reversed ? 'desc' : 'asc'}
       wrap
+      inheritFont
       onClick={(...args) => {
         thContext?.onSortClick?.()
         return onClick?.(...args)

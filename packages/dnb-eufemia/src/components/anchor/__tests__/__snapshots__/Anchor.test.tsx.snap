@@ -542,6 +542,10 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   text-decoration: none;
 }
 
+.dnb-anchor.dnb-anchor--inherit-font {
+  font-family: inherit;
+}
+
 .dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active {
   border-radius: 0;
 }

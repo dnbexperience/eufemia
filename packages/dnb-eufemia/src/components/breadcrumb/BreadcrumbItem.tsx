@@ -130,6 +130,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             onClick={onClick}
             icon={variant === 'home' ? iconToUse : null}
             skeleton={skeleton}
+            inheritFont
             {...props}
           >
             {currentText}

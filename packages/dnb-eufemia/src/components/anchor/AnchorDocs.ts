@@ -71,6 +71,11 @@ export const AnchorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  inheritFont: {
+    doc: 'Set to `true` to inherit the font family from the parent element instead of using the action font. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   disabled: {
     doc: 'Disables the Anchor (no navigation, no hover). Keep a short reason nearby (e.g. using the `tooltip` property).',
     type: 'boolean',
