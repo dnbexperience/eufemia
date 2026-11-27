@@ -122,7 +122,7 @@ describe('analytics infrastructure', () => {
       'resource "aws_sns_topic_subscription" "snapshot_alerts_email"'
     )
     expect(subscription).toMatch(
-      /^\s*for_each\s+=.*split\(",", var\.snapshot_alert_emails\)/m
+      /^\s*for_each\s+=\s+toset\(compact\(.*split\(",", var\.snapshot_alert_emails\)/m
     )
     expect(subscription).toMatch(/^\s*endpoint\s+=\s+each\.value$/m)
     expect(subscription).toMatch(/^\s*protocol\s+=\s+"email"$/m)
