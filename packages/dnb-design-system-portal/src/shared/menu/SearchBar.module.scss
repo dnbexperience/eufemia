@@ -1,5 +1,26 @@
 .panelClassStyle {
   z-index: 6000;
+
+  &:global(.dnb-search__panel) {
+    :global {
+      .dnb-popover__content {
+        padding-top: 0;
+      }
+
+      .dnb-popover__close.dnb-button {
+        top: 0.25rem;
+      }
+
+      .dnb-search__panel-content {
+        padding-bottom: 0.5rem;
+        max-height: var(--popover-available-height, 70vh);
+      }
+
+      .dnb-chip-group {
+        padding-right: 2rem;
+      }
+    }
+  }
 }
 
 .drawerClassStyle {

@@ -153,10 +153,13 @@ test('keeps header and hero results aligned across screen sizes', async ({
           json: {
             hits: [1, 2, 3].map((index) => ({
               objectID: String(index),
-              title: `Button ${index}`,
+              title: 'Button',
               hash: `button-${index}`,
               slug: 'web/components/button',
               pageTitle: 'Button',
+              _snippetResult: {
+                content: { value: 'Use Button to confirm an action.' },
+              },
             })),
           },
         })
@@ -167,13 +170,23 @@ test('keeps header and hero results aligned across screen sizes', async ({
       await input.evaluate((element) => {
         window.scrollTo(
           0,
-          element.getBoundingClientRect().top + window.scrollY - 240
+          element.getBoundingClientRect().top + window.scrollY - 264
         )
       })
       await input.fill('butto')
       const options = page.getByRole('option')
       await expect(options).toHaveCount(3)
       await expect(options.first()).toBeInViewport({ ratio: 1 })
+      await expect
+        .poll(() =>
+          options.first().evaluate((element) => {
+            const row = element.getBoundingClientRect()
+            const list = element.closest('[role="listbox"]')
+            const viewport = list.getBoundingClientRect()
+            return row.top >= viewport.top && row.bottom <= viewport.bottom
+          })
+        )
+        .toBe(true)
       await input.press('Escape')
       await input.fill('')
     }
