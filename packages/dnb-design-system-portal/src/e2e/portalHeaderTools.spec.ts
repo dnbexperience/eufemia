@@ -460,28 +460,30 @@ test.describe('header logo', () => {
     const logo = page
       .locator('header.sticky-menu')
       .getByRole('link', { name: 'Go to Eufemia home' })
+    const letter = logo.locator('svg g')
+    const url = page.url()
     // The touch test above covers navigation. Keep the same link under the
     // pointer here to test the hybrid hover guard.
-    const url = page.url()
-    const urlAfterClick = logo.evaluate(
-      (link) =>
-        new Promise<string>((resolve) => {
-          link.addEventListener('click', (event) => {
-            event.preventDefault()
-            // The router navigates shortly after the click.
-            setTimeout(() => resolve(location.href), 500)
-          })
-        })
+    await logo.evaluate((link) =>
+      link.addEventListener(
+        'click',
+        (event) => {
+          event.preventDefault()
+          link.dataset.e2eTapped = 'true'
+        },
+        { once: true }
+      )
     )
+    await logo.hover()
+    await expect(letter).not.toHaveCSS('transform', 'none')
     await tapWithTouchEvents(logo)
-    expect(
-      await page.evaluate(() => matchMedia('(any-hover: hover)').matches)
-    ).toBe(true)
-    expect(await logo.evaluate((link) => link.matches(':hover'))).toBe(
-      true
+    await expect(logo).toHaveAttribute('data-e2e-tapped', 'true')
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-whatintent',
+      'touch'
     )
-    await expect(logo.locator('svg g')).toHaveCSS('transform', 'none')
-    expect(await urlAfterClick).toBe(url)
+    await expect(letter).toHaveCSS('transform', 'none')
+    expect(page.url()).toBe(url)
   })
 })
 
