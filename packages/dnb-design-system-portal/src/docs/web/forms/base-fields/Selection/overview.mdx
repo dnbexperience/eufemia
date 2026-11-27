@@ -13,7 +13,7 @@ Before using this component, ensure there is not a more specific [field componen
 
 Uses the [Field.Option](/web/forms/base-fields/Option/) pseudo-component to define options.
 
-In the `dropdown` and `autocomplete` variants, keep an option's `title` and `text` free of links, buttons and other interactive elements. Arrow-key navigation skips nested controls. Handle selection in `onChange`; use a [Menu](/web/components/menu/) or a results list with real links for navigation.
+In the `dropdown` and `autocomplete` variants, links, buttons and other interactive elements inside an option's `title` or `text` are not supported. Use the arrow keys to navigate options and Tab to leave the list. Handle selection in `onChange`; use a [Menu](/web/components/menu/) or a results list with real links for navigation.
 
 There is a corresponding [Value.Selection](/web/forms/Value/Selection) component.
 

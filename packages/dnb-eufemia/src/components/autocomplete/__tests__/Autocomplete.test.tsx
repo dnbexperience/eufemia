@@ -168,9 +168,9 @@ describe('Autocomplete component', () => {
     render(
       <Autocomplete
         data={[
-          <a key="item" href="/styling">
+          <span key="item">
             Use <code>Card</code>
-          </a>,
+          </span>,
         ]}
         open
         inputValue="Ca"
@@ -180,13 +180,11 @@ describe('Autocomplete component', () => {
     )
 
     const option = document.querySelector('li.dnb-drawer-list__option')
-    const link = option?.querySelector('a')
-    const code = link?.querySelector('code')
+    const code = option?.querySelector('code')
     const highlight = code?.querySelector(
       '.dnb-drawer-list__option__item--highlight'
     )
 
-    expect(link).toBeInTheDocument()
     expect(code).toHaveTextContent('Card')
     expect(highlight).toHaveTextContent('Ca')
   })
