@@ -358,6 +358,11 @@ After:
 +import { ScrollView } from '@dnb/eufemia'
 ```
 
+### [Field.Name](/web/forms/feature-fields/Name/)
+
+- The default personal-name pattern accepts straight and curly apostrophes between letters. It accepts combining marks after a letter, including at the end of a name, but not immediately after a separator. The field does not normalize the submitted spelling. Check that your identity service accepts the same inputs before adopting this change.
+- If your service needs the previous pattern, the exported `namePattern` is unchanged. See [Choosing a product policy](/web/forms/feature-fields/Name/#choosing-a-product-policy) for how to apply it. Custom callbacks still run after the built-in pattern unless you choose `onBlurValidatorMode="replace"`. This guidance applies to the release containing the new pattern, even if you are not upgrading to v13.
+
 ### [Field.Name.Company](/web/forms/feature-fields/Name/)
 
 - The `onBlurValidator` property now only accepts a `CompanyNameValidator`, and its `validators` no longer include `nameValidator`. Use `companyValidator` instead.

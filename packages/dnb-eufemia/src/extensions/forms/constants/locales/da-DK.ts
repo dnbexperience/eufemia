@@ -186,13 +186,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du skal udfylde fornavn.',
       errorPattern:
-        'Du skal indtaste et gyldigt fornavn. Kun bogstaver, bindestreger og mellemrum er tilladt. Bindestreger og mellemrum skal stå mellem to bogstaver.',
+        'Skriv fornavnet med bogstaver. Mellem to bogstaver kan du bruge én apostrof, én bindestreg eller ét mellemrum.',
     },
     LastName: {
       label: 'Efternavn',
       errorRequired: 'Du skal udfylde efternavn.',
       errorPattern:
-        'Du skal indtaste et gyldigt efternavn. Kun bogstaver, bindestreger og mellemrum er tilladt. Bindestreger og mellemrum skal stå mellem to bogstaver.',
+        'Skriv efternavnet med bogstaver. Mellem to bogstaver kan du bruge én apostrof, én bindestreg eller ét mellemrum.',
     },
     CompanyName: {
       label: 'Firmanavn',

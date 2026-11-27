@@ -185,13 +185,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du må fylle inn fornavn.',
       errorPattern:
-        'Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt. Bindestrek og mellomrom må stå mellom to bokstaver.',
+        'Skriv fornavnet med bokstaver. Mellom to bokstaver kan du bruke én apostrof, én bindestrek eller ett mellomrom.',
     },
     LastName: {
       label: 'Etternavn',
       errorRequired: 'Du må fylle inn etternavn.',
       errorPattern:
-        'Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt. Bindestrek og mellomrom må stå mellom to bokstaver.',
+        'Skriv etternavnet med bokstaver. Mellom to bokstaver kan du bruke én apostrof, én bindestrek eller ett mellomrom.',
     },
     CompanyName: {
       label: 'Firmanavn',

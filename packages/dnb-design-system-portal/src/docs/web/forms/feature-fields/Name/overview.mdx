@@ -46,70 +46,82 @@ render(<Field.Name.Company />)
 - [Lov om personnavn (navneloven)](https://lovdata.no/dokument/NL/lov/2002-06-07-19)
 - [Krav til foretaksnavn](https://lovdata.no/lov/1985-06-21-79/§2-1)
 
-### Characteristics
-
-#### Allowed characters
-
-- **`Field.Name.First` and `Field.Name.Last`**: Only letters, hyphens, and spaces are allowed.
-- **`Field.Name.Company`**: Letters, numbers, punctuation marks, spaces, and dots are allowed.
-
-#### Behavior
-
-- Trailing spaces are automatically removed.
-- The HTML `autocomplete` attribute is automatically set:
-  - `name` for `Field.Name`
-  - `given-name` for `Field.Name.First`
-  - `family-name` for `Field.Name.Last`
-  - `organization` for `Field.Name.Company`
-
 ### Validation rules
 
-All name fields have the following validation rules:
+#### Personal names
 
-- **Minimum length**:
-  - For `Field.Name.First` and `Field.Name.Last`: Names must be at least 1 character long.
-  - For `Field.Name.Company`: Company names must be at least 3 characters long.
-- **Pattern validation**:
-  - For `Field.Name.First` and `Field.Name.Last`: Names must start and end with a letter, and hyphens and spaces must be placed between two letters, so `Anne-Marie` and `Anne Marie` are valid, but `Anne- Marie` is not. Only letters, spaces, and hyphens are allowed.
-  - For `Field.Name.Company`: Must start and end with a letter or number, and cannot contain consecutive hyphens, spaces, or dots. Letters, numbers, punctuation marks, spaces, and dots are allowed in between.
+`Field.Name`, `Field.Name.First` and `Field.Name.Last` accept Unicode letters with their combining marks. A single straight apostrophe (`'`), curly apostrophe (`’`), hyphen or space can separate letters. For example, `O'Connor`, `O’Connor` and `Anne-Marie` pass. `Anne- Marie` does not. Digits and periods do not pass the default check.
 
-The validation happens on blur, internally using the `onBlurValidator` [property](/web/forms/feature-fields/Name/properties/#field-specific-properties).
+A final `é` can be one character or an `e` followed by a combining accent. Both pass. The field does not normalize the spelling it submits. It still trims leading and trailing whitespace on blur by default.
 
-**Note**: The validation patterns are tailored to Norwegian name and company name requirements. If you need support for additional characters or different validation rules, you can extend the validation using the `onBlurValidator` property. See the [Validators](#validators) section below for more information.
+#### Company names
+
+`Field.Name.Company` has a separate pattern. A company name must start and end with a letter or number. It can contain punctuation and spaces inside. Two adjacent spaces or hyphens (including one of each), or two consecutive periods, do not pass.
+
+### Autofill and length
+
+| Field                | HTML `autocomplete` | Default `minLength` |
+| -------------------- | ------------------- | ------------------- |
+| `Field.Name`         | `name`              | 1                   |
+| `Field.Name.First`   | `given-name`        | 1                   |
+| `Field.Name.Last`    | `family-name`       | 1                   |
+| `Field.Name.Company` | `organization`      | 3                   |
 
 ### Validators
 
-#### Internal validators exposed
+The built-in pattern runs on blur and on submit. By default, it runs **before** your `onBlurValidator`. A callback can reject a name that passes the pattern. It cannot accept a name the pattern rejects. For example, a company callback can require a particular suffix without having to check `companyValidator` again.
 
-`Field.Name` and `Field.Name.Company` expose validators through their `onBlurValidator` property:
-
-- **`nameValidator`**: Validates names for `Field.Name`, `Field.Name.First`, and `Field.Name.Last`. It checks that the name:
-  - Is at least 1 character long.
-  - Matches the name pattern (starts and ends with a letter, with hyphens and spaces only between two letters).
-
-- **`companyValidator`**: Validates company names for `Field.Name.Company`. It checks that the company name:
-  - Is at least 3 characters long (default, can be customized via `minLength` property).
-  - Matches the company pattern (starts and ends with a letter or number, no consecutive hyphens, spaces, or dots).
-
-You can extend the validation by providing your own `onBlurValidator` function. Access the internal validator through the `validators` parameter and combine it with your custom validation. This allows you to add additional validation rules while keeping the default validation intact.
+For a personal-name field, set `onBlurValidatorMode="replace"` when the product needs a different pattern. The callback then decides which spellings to accept. It can still use `validators.nameValidator`. This example also accepts an initial followed by a period:
 
 ```tsx
-import { Field, Validator } from '@dnb/eufemia/extensions/forms'
-import type { CompanyNameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { NameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
 
-// Extend validation to require company names to contain "Corp"
-const myValidator: CompanyNameValidator = (value, { validators }) => {
-  const { companyValidator } = validators
-
-  const customValidator: Validator<string> = (value) => {
-    if (value && !value.includes('Corp')) {
-      return new Error('Company name must contain "Corp"')
-    }
+const allowInitial: NameValidator = (value, { validators }) => {
+  if (value && /^\p{L}\p{M}*\.$/u.test(value)) {
+    return
   }
-
-  // Keep the built-in company validation along with the custom rule.
-  return [companyValidator, customValidator]
+  return [validators.nameValidator]
 }
 
-render(<Field.Name.Company onBlurValidator={myValidator} />)
+render(
+  <Field.Name.First
+    required
+    onBlurValidatorMode="replace"
+    onBlurValidator={allowInitial}
+  />
+)
 ```
+
+Without a callback, `replace` keeps the built-in pattern. `onBlurValidator={false}` turns off the blur validator; it does not supply a replacement rule. Required and length checks are separate from the blur validator. `Field.Name.Company` keeps its built-in-first behavior and exposes `validators.companyValidator`.
+
+### Choosing a product policy
+
+The default is an input aid, not a test of someone's identity or of whether a name is legal. Confirm restrictions with the service that stores or matches the name. A narrower policy can reject someone's spelling. An untested wider policy can let someone complete the form only to be rejected by that service.
+
+The exported `personalNamePattern` is the current default. If your product policy fits a regular expression, use the `pattern` prop with `onBlurValidator={false}`. This uses `Field.String` pattern validation instead of the built-in blur check. For example, a service that needs the exact previous rules can still use the unchanged `namePattern` export:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import { namePattern } from '@dnb/eufemia/extensions/forms/Field/Name'
+
+render(
+  <Field.Name.Last
+    required
+    pattern={namePattern}
+    onBlurValidator={false}
+    errorMessages={{
+      'Field.errorPattern':
+        'Use the name format required by the registration service.',
+    }}
+  />
+)
+```
+
+This preserves the old pattern's distinction between a final precomposed letter and a final combining mark. Use that policy only if the service requires it. Localize any product-specific instructions.
+
+### Test your form
+
+- Type or paste both apostrophe spellings and both representations of `José`. Submit the form and compare the saved value with the exact input, not just its appearance.
+- Leave a required name empty, submit, then correct it using only the keyboard. With a screen reader, check that you can identify the field, understand its error and submit the correction.
+- Test a name that your service accepts but the default pattern does not. Also test a name your service rejects. Check the full journey, including storage and retrieval.

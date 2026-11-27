@@ -2,7 +2,7 @@ import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { CompanyNameValidator, FieldNameProps } from '../'
-import { companyPattern, namePattern } from '../'
+import { companyPattern, namePattern, personalNamePattern } from '../'
 import { Field, Form, FormError } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -86,6 +86,29 @@ describe('Field.Name', () => {
       expect.anything()
     )
   })
+
+  it.each(["O'Connor", 'O’Connor', 'José', 'Jose\u0301', 'Anne-Marie'])(
+    'submits the entered surname unchanged: %s',
+    async (surname) => {
+      const onSubmit = vi.fn()
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Name.Last path="/surname" required />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, surname)
+      fireEvent.blur(input)
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledWith({ surname }, expect.anything())
+      expect(input).toHaveValue(surname)
+      expect(
+        document.querySelector('[role="alert"]')
+      ).not.toBeInTheDocument()
+    }
+  )
 
   it('should trim whitespaces', async () => {
     const onSubmit = vi.fn()
@@ -200,12 +223,12 @@ describe('Field.Name', () => {
     ['First', Field.Name.First],
     ['Last', Field.Name.Last],
   ])(
-    '%s name should explain where hyphens and spaces are allowed',
+    '%s name should explain where apostrophes, hyphens and spaces are allowed',
     (_, Component) => {
       render(<Component validateInitially value="Hanne- Mari" />)
 
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        'Bindestrek og mellomrom må stå mellom to bokstaver.'
+        'Mellom to bokstaver kan du bruke én apostrof, én bindestrek eller ett mellomrom.'
       )
     }
   )
@@ -262,6 +285,106 @@ describe('Field.Name', () => {
     await userEvent.type(input, '{Backspace>3}FOO')
     fireEvent.blur(input)
 
+    expect(
+      document.querySelector('[role="alert"]')
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps the built-in personal-name pattern ahead of a custom rule by default', () => {
+    const onBlurValidator = vi.fn()
+    render(
+      <Field.Name.Last
+        onBlurValidator={onBlurValidator}
+        value="St. John"
+        validateInitially
+      />
+    )
+
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      nb.LastName.errorPattern
+    )
+    expect(onBlurValidator).not.toHaveBeenCalled()
+  })
+
+  it('applies the replacement rule on submit and still requires a name', async () => {
+    const registeredName = 'St. John'
+    const onBlurValidator = vi.fn((value: string) =>
+      !value || value === registeredName
+        ? undefined
+        : new Error('Use the registered spelling.')
+    )
+    const onSubmit = vi.fn()
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Name.Last
+          required
+          path="/surname"
+          onBlurValidator={onBlurValidator}
+          onBlurValidatorMode="replace"
+        />
+      </Form.Handler>
+    )
+    const input = document.querySelector('input')
+    const submit = () => fireEvent.submit(document.querySelector('form'))
+
+    await userEvent.type(input, registeredName)
+    submit()
+    expect(onBlurValidator).toHaveBeenCalledWith(
+      registeredName,
+      expect.objectContaining({
+        validators: { nameValidator: expect.any(Function) },
+      })
+    )
+    expect(onSubmit).toHaveBeenCalledWith(
+      { surname: registeredName },
+      expect.anything()
+    )
+
+    await userEvent.clear(input)
+    submit()
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      nb.LastName.errorRequired
+    )
+
+    await userEvent.type(input, 'Other')
+    submit()
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      'Use the registered spelling.'
+    )
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the built-in pattern in replace mode without a callback', () => {
+    render(
+      <Field.Name.First
+        onBlurValidatorMode="replace"
+        value="J."
+        validateInitially
+      />
+    )
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      nb.FirstName.errorPattern
+    )
+  })
+
+  it('applies an explicit product pattern when blur validation is disabled', () => {
+    const policy = {
+      pattern: namePattern,
+      onBlurValidator: false as const,
+      errorMessages: {
+        'Field.errorPattern': 'Use the registered spelling.',
+      },
+    }
+    const { rerender } = render(
+      <Field.Name.Last {...policy} validateInitially value="O’Connor" />
+    )
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      'Use the registered spelling.'
+    )
+
+    rerender(
+      <Field.Name.Last {...policy} validateInitially value="Anne-Marie" />
+    )
     expect(
       document.querySelector('[role="alert"]')
     ).not.toBeInTheDocument()
@@ -343,6 +466,7 @@ describe('Field.Name', () => {
       'Tech  Solutions', // Consecutive spaces not allowed
       'XYZ--Corp', // Consecutive hyphens not allowed
       'Acme..Inc', // Consecutive dots not allowed
+      'Jose\u0301', // The personal-name combining mark rule is not used here
     ]
 
     it.each(validNames)('Valid name: %s', (name) => {
@@ -400,9 +524,13 @@ describe('Field.Name', () => {
         ).not.toBeInTheDocument()
       })
 
-      // Test that default validator would reject invalid pattern
+      // The built-in pattern still rejects invalid input before the custom rule.
       rerender(
-        <Field.Name.Company validateInitially value="!Special Corp" />
+        <Field.Name.Company
+          onBlurValidator={customValidator}
+          validateInitially
+          value="!Special Corp"
+        />
       )
 
       await waitFor(() => {
@@ -550,8 +678,17 @@ describe('Field.Name', () => {
 })
 
 describe('Name field patterns', () => {
-  describe('namePattern (for First and Last names)', () => {
+  it('keeps the previous exported namePattern available for strict policies', () => {
     const pattern = new RegExp(namePattern, 'u')
+    expect(pattern.test('Anne-Marie')).toBe(true)
+    expect(pattern.test('José')).toBe(true)
+    expect(pattern.test('Jose\u0301')).toBe(false)
+    expect(pattern.test("O'Connor")).toBe(false)
+    expect(pattern.test('O’Connor')).toBe(false)
+  })
+
+  describe('personalNamePattern', () => {
+    const pattern = new RegExp(personalNamePattern, 'u')
 
     describe('valid names', () => {
       const validNames = [
@@ -608,11 +745,14 @@ describe('Name field patterns', () => {
         'Anne-Marie Christian',
         'García-López y Pérez',
 
-        // Names with combining marks (diacritics)
-        'Müller', // ü with combining mark
-        'García', // í with combining mark
-        'José', // é with combining mark
-        'François', // ç with combining mark
+        // Combining marks belong to the preceding letter
+        'Jose\u0301',
+        'A\u030a\u0301',
+        'शर्मा',
+
+        // Apostrophes between letters
+        "Ole'Anders",
+        'O’Connor',
 
         // Long names
         'Very Long Name With Multiple Parts',
@@ -708,7 +848,13 @@ describe('Name field patterns', () => {
         'Name!Test',
         'Ole:Anders',
         'Name;Test',
-        "Ole'Anders",
+        "'Connor",
+        'Connor’',
+        "O''Connor",
+        'O’-Connor',
+        'O’ Connor',
+        '\u0301Anne',
+        'A-\u0301B',
         'Name"Test',
         'Ole<Anders>',
         'Name,Test',
