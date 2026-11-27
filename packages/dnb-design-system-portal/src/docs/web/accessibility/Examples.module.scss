@@ -25,13 +25,14 @@
   &__layout {
     border-radius: var(--token-radius-md);
 
+    // Hover comes first, so the focus border wins while hovered
+    @include utilities.hover() {
+      border-color: var(--token-color-stroke-action-hover);
+    }
+
     @include utilities.focusVisible() {
       @include utilities.focusOutline($offset: -0.0625rem);
       border-color: var(--token-color-stroke-action-focus);
-    }
-
-    @include utilities.hover() {
-      border-color: var(--token-color-stroke-action-hover);
     }
   }
 }

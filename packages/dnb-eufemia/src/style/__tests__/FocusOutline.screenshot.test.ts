@@ -55,7 +55,7 @@ describe.each([
       })
     })
 
-    it('gives hover precedence over layout focus', async () => {
+    it('keeps layout focus visible while hovered', async () => {
       await makeScreenshot({
         selector,
         wrapperStyle,
