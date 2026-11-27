@@ -483,6 +483,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           if (!currentStart || (resetDate && currentEnd)) {
             // First selection: set start date, clear end date
             // Keep focusedDateRef so arrow keys continue from this date
+            if (currentEnd) {
+              // The hover date can still point at the previous end date
+              setHoverDate(startOfDay(focusedDate))
+            }
+
             updateDates(
               {
                 startDate: startOfDay(focusedDate),
@@ -670,6 +675,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       onlyMonth,
       resetDate,
       setHasClickedCalendarDay,
+      setHoverDate,
       views,
       setViews,
       isLinkedCalendars,
@@ -935,6 +941,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   resetDate,
                                   event,
                                   setHasClickedCalendarDay,
+                                  setHoverDate,
                                   onSelect: (state) => {
                                     updateDates(state, (dates) =>
                                       callOnSelect({
@@ -991,7 +998,7 @@ export default DatePickerCalendar
 
 type SelectRangeEvent = Pick<
   DatePickerContextValue,
-  'setHasClickedCalendarDay'
+  'setHasClickedCalendarDay' | 'setHoverDate'
 > & {
   day: DatePickerCalendarDay
   event?: MouseEvent<HTMLButtonElement>
@@ -1011,6 +1018,7 @@ function onSelectRange({
   resetDate,
   event,
   setHasClickedCalendarDay,
+  setHoverDate,
 }: SelectRangeEvent) {
   if (!isRange) {
     // set only date
@@ -1029,6 +1037,11 @@ function onSelectRange({
   if (!startDate || (resetDate && endDate)) {
     // set startDate
     // user is selecting startDate
+    if (endDate) {
+      // The hover date can still point at the previous end date
+      setHoverDate(startOfDay(day.date))
+    }
+
     return onSelect({
       startDate: startOfDay(day.date),
       endDate: undefined,
