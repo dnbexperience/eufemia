@@ -31,8 +31,8 @@ import { PortalRoot } from '@dnb/eufemia'
 - It is used in other components, like [Tooltip](/web/components/tooltip), [Modal](/web/components/modal), [TermDefinition](/web/components/term-definition) and [DatePicker's calendar](/web/components/date-picker).
 - A wrapper is inserted automatically as a child node to the HTML `<body>` or the `<IsolatedStyleScope scopeHash="your-scope" />` element.
 - It adds `dnb-core-style` class to the portal element, so you do not need to deal with that yourself.
-- In order to remove it from the accessibility tree, it uses `role="presentation"`. That means, when your content is visible, you need to set focus to it, so screen readers can read it.
-- The portal root is placed outside the landmarks of your page. Unless your content is a popup that belongs to its trigger, such as a tooltip, put it in a dialog or in a landmark with a name, such as `<aside aria-label="…">`, so screen reader users can find it.
+- The portal root has `role="presentation"`, which only removes the semantics of the wrapper element. Screen readers can still read the content, but where the portal root is placed, not where the content was opened. So move focus to content that opens, like a dialog, or connect it to its trigger, like Tooltip does with `aria-describedby`.
+- By default, the portal root is placed outside the landmarks of your page. Unless your content is a popup that belongs to its trigger, such as a tooltip, put it in a dialog or in a landmark with a name, such as `<aside aria-label="…">`, so screen reader users can find it.
 - `PortalRoot` props override values from `PortalRoot.Provider` if both are present.
 - `beforeSelector` takes precedence over `insideSelector` when both are provided on the same level.
 
