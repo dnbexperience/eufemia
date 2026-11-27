@@ -1214,6 +1214,36 @@ describe('Autocomplete component', () => {
     }
   )
 
+  it('announces the kept selection after browsing and tabbing away', async () => {
+    const isMac = helpers.IS_MAC
+    Object.defineProperty(helpers, 'IS_MAC', { value: true })
+
+    try {
+      render(<Autocomplete {...mockProps} data={mockData} value={0} />)
+      const input = document.querySelector('input')
+      fireEvent.focus(input)
+      keyDownOnInput('ArrowDown')
+      keyDownOnInput('ArrowDown')
+
+      const announcement = document.querySelector(
+        '.dnb-aria-live[aria-live="assertive"]:not([hidden])'
+      )
+      await waitFor(() => {
+        expect(announcement).toHaveTextContent('BB cc zethx')
+      })
+
+      keyDownOnInput('Tab')
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('AA c')
+      await waitFor(() => {
+        expect(announcement).toHaveTextContent('Valgt: AA c')
+      })
+    } finally {
+      Object.defineProperty(helpers, 'IS_MAC', { value: isMac })
+    }
+  })
+
   it('announces the option selected by pointer for VoiceOver', async () => {
     const isMac = helpers.IS_MAC
     Object.defineProperty(helpers, 'IS_MAC', { value: true })

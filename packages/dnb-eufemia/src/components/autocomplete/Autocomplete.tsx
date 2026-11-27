@@ -475,7 +475,9 @@ function AutocompleteComponent({
     _disableHighlighting
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
-  const [voiceOverContent, setVoiceOverContent] = useState('')
+  const [voiceOverContent, setVoiceOverContent] = useState<
+    Record<string, string>
+  >({})
   const [searchIndex, setSearchIndexState] = useState<
     SearchIndexItem[] | null
   >(null)
@@ -2187,15 +2189,24 @@ function AutocompleteComponent({
         : null
 
     if (option) {
-      setVoiceOverContent(
-        Array.from(
-          option.querySelector('.dnb-drawer-list__option__inner')
-            ?.children ?? [],
-          getVoiceOverText
-        ).join(' ')
-      )
+      const text = Array.from(
+        option.querySelector('.dnb-drawer-list__option__inner')
+          ?.children ?? [],
+        getVoiceOverText
+      ).join(' ')
+      const selectedOptionId = `option-${id}-${drawerList.selectedItem}`
+      setVoiceOverContent((content) => ({
+        [selectedOptionId]: content[selectedOptionId] ?? '',
+        [option.id]: text,
+      }))
     }
-  }, [drawerList.open, drawerList.ariaActiveDescendant, drawerList.data])
+  }, [
+    id,
+    drawerList.open,
+    drawerList.ariaActiveDescendant,
+    drawerList.selectedItem,
+    drawerList.data,
+  ])
 
   const voiceOverActiveItem = (() => {
     const { activeItem, selectedItem } = drawerList
@@ -2206,7 +2217,7 @@ function AutocompleteComponent({
         {currentDataItemVO && (
           <>
             {activeItem === selectedItem ? <>{selectedSr} </> : null}
-            {voiceOverContent}
+            {voiceOverContent[drawerList.ariaActiveDescendant]}
           </>
         )}
       </AriaLive>

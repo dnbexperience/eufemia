@@ -20,6 +20,7 @@ test('Tab skips the VoiceOver announcement for an option with a legacy link', as
       <Autocomplete
         label="VoiceOver regression"
         noAnimation
+        value={0}
         data={[
           'First option',
           {
@@ -43,10 +44,6 @@ test('Tab skips the VoiceOver announcement for an option with a legacy link', as
     await input.getAttribute('id')
   )
   await page.keyboard.press('ArrowDown')
-  await expect(page.locator('.dnb-drawer-list__option--focus')).toHaveText(
-    'First option'
-  )
-  await page.keyboard.press('ArrowDown')
   await expect(
     page.locator('.dnb-drawer-list__option--focus')
   ).toContainText('Second option')
@@ -62,6 +59,8 @@ test('Tab skips the VoiceOver announcement for an option with a legacy link', as
     page.getByRole('button', { name: 'After autocomplete', exact: true })
   ).toBeFocused()
   await expect(input).toHaveAttribute('aria-expanded', 'false')
+  await expect(input).toHaveValue('First option')
+  await expect(announcement).toHaveText('Valgt: First option')
 })
 
 test('Tab leaves autocomplete options and Enter selects the active option', async ({
