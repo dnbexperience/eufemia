@@ -1620,11 +1620,7 @@ function AutocompleteComponent({
 
   const onBlurHandler = useCallback(
     (event: InputFocusEvent | FocusEvent<HTMLInputElement>) => {
-      if (
-        preventFiringBlurEvent.current ||
-        drawerList._hasFocusOnElementRef?.current ||
-        hasBlurRef.current
-      ) {
+      if (preventFiringBlurEvent.current || hasBlurRef.current) {
         preventFiringBlurEvent.current = null
         return false
       }
@@ -1679,7 +1675,6 @@ function AutocompleteComponent({
       return undefined
     },
     [
-      drawerList._hasFocusOnElementRef,
       keepValue,
       keepValueAndSelection,
       preventSelection,

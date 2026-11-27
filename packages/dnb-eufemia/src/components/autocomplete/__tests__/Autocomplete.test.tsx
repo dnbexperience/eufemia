@@ -4253,62 +4253,40 @@ describe('Autocomplete component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
-  const orig = window.requestAnimationFrame
-  afterEach(() => {
-    window.requestAnimationFrame = orig
-  })
-
-  it('will make anchors inside drawer-list item accessible', async () => {
-    window.requestAnimationFrame = undefined
-
-    const mockData = [
-      'first item',
-      [
-        <a href="/" className="first-anchor" key="first">
-          anchor
-        </a>,
-        <a href="/" className="second-anchor" key="second">
-          anchor
-        </a>,
-      ],
-      'one more item',
-    ]
-
-    render(<Autocomplete {...mockProps} data={mockData} />)
-
-    const inputElement = document.querySelector('input')
-    fireEvent.focus(inputElement)
-
-    // Open the dropdown
-    keyDownOnInput('ArrowDown')
-
-    // Focus the first item
-    keyDownOnInput('ArrowDown')
-
-    // Focus the second item (with anchors)
-    keyDownOnInput('ArrowDown')
-
-    fireEvent.keyDown(document.activeElement, { key: 'Tab', keyCode: 9 })
-
-    // Verify handler focused the LI
-    expect(document.activeElement.tagName).toBe('LI')
-
-    // Now manually move focus to first anchor (simulating browser Tab behavior)
-    const firstAnchor = document.querySelector(
-      '.first-anchor'
-    ) as HTMLElement
-    firstAnchor.focus()
-
-    expect(Array.from(document.activeElement.classList)).toContain(
-      'first-anchor'
+  it('dismisses results on Tab without moving focus into option content', () => {
+    render(
+      <Autocomplete
+        {...mockProps}
+        noAnimation
+        data={[
+          'first item',
+          <a href="/" key="legacy-link">
+            Legacy nested link
+          </a>,
+        ]}
+      />
     )
 
-    // Tab to the second anchor
-    await userEvent.tab()
+    const input = document.querySelector('input')
+    input.focus()
+    keyDownOnInput('ArrowDown')
+    keyDownOnInput('ArrowDown')
+    keyDownOnInput('ArrowDown')
 
-    expect(Array.from(document.activeElement.classList)).toContain(
-      'second-anchor'
-    )
+    expect(
+      document.querySelector('.dnb-drawer-list__option--focus')
+        ?.textContent
+    ).toBe('Legacy nested link')
+
+    keyDownOnInput('Tab')
+
+    expect(document.activeElement).toBe(input)
+    expect(
+      document.querySelector('.dnb-drawer-list--open')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-drawer-list__option button')
+    ).not.toBeInTheDocument()
   })
 
   it('will keep focus on input when opening', () => {
@@ -6068,48 +6046,6 @@ describe('Autocomplete inline', () => {
         `option-${inlineProps.id}-1`
       )
     })
-  })
-
-  it('preserves the natural tab order through option anchors', async () => {
-    render(
-      <>
-        <Autocomplete
-          {...inlineProps}
-          data={[
-            [
-              <a href="/first" key="first">
-                First anchor
-              </a>,
-              <a href="/second" key="second">
-                Second anchor
-              </a>,
-            ],
-          ]}
-        />
-        <button>After autocomplete</button>
-      </>
-    )
-
-    const input = document.querySelector(
-      '.dnb-input__input'
-    ) as HTMLInputElement
-    const firstAnchor = document.querySelector(
-      'a[href="/first"]'
-    ) as HTMLAnchorElement
-    const secondAnchor = document.querySelector(
-      'a[href="/second"]'
-    ) as HTMLAnchorElement
-    const nextButton = document.querySelector('button')
-
-    input.focus()
-    await userEvent.tab()
-    expect(document.activeElement).toBe(firstAnchor)
-
-    await userEvent.tab()
-    expect(document.activeElement).toBe(secondAnchor)
-
-    await userEvent.tab()
-    expect(document.activeElement).toBe(nextButton)
   })
 
   it('should validate with ARIA rules in inline mode', async () => {

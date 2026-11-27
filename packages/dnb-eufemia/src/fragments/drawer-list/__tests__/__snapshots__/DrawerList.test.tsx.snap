@@ -277,12 +277,6 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
 .dnb-drawer-list__option__item > .dnb-icon {
   vertical-align: initial;
 }
-.dnb-drawer-list__option__item .dnb-anchor {
-  display: inline-block;
-  margin-right: 0.5rem;
-  word-break: break-word;
-  font-size: inherit;
-}
 .dnb-drawer-list__option__item.item-nr-1 {
   font-weight: var(--font-weight-medium);
 }
@@ -892,12 +886,6 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
 }
 .dnb-drawer-list__option__item > .dnb-icon {
   vertical-align: initial;
-}
-.dnb-drawer-list__option__item .dnb-anchor {
-  display: inline-block;
-  margin-right: 0.5rem;
-  word-break: break-word;
-  font-size: inherit;
 }
 .dnb-drawer-list__option__item.item-nr-1 {
   font-weight: var(--font-weight-medium);

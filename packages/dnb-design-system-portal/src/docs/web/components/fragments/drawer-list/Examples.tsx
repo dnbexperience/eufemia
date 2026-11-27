@@ -76,12 +76,7 @@ export const DrawerListExampleOnlyToVisualize = () => (
                   </NumberFormat.BankAccountNumber>
                 </span>
                 <span className="dnb-drawer-list__option__item item-nr-2">
-                  <a
-                    className="dnb-anchor dnb-anchor--has-icon"
-                    href="/web/components/fragments/drawer-list/"
-                  >
-                    Long link that will wrap over several lines
-                  </a>
+                  Long description that will wrap over several lines
                 </span>
                 <span className="dnb-drawer-list__option__item">
                   Feriekonto - Kari Nordmann med et kjempelangt
