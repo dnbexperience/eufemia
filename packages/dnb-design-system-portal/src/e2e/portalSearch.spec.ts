@@ -199,6 +199,15 @@ test('opens the third section with the keyboard and focuses its anchor', async (
   await page.evaluate(() => document.fonts.ready)
   await expect(heading).toBeInViewport()
   await expect(heading).toBeFocused()
+
+  await test.step('focuses the section again when it is already open', async () => {
+    await input.fill('custom update again')
+    await expect(options).toHaveCount(3)
+    await options.nth(2).click()
+    await expect(heading).toBeFocused()
+    await expect(heading).toBeInViewport()
+    await expect(options).toHaveCount(0)
+  })
 })
 
 test('clears sections and tabs out of results without scrolling the page', async ({

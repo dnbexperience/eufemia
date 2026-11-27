@@ -193,11 +193,13 @@ function RouteEffects({ children }: { children: React.ReactNode }) {
 }
 
 function useRouteFocus() {
-  const { pathname, search, hash: routeHash } = useLocation()
+  const { pathname, search, hash: routeHash, key } = useLocation()
   const navigationType = useNavigationType()
   const previousRouteRef = useRef<{
     pathname: string
     route: string
+    search: string
+    key: string
   } | null>(null)
 
   // Focus mode owns its scroll position.
@@ -214,12 +216,17 @@ function useRouteFocus() {
         : pathname + routeHash
 
     const previousRoute = previousRouteRef.current
-    if (previousRoute?.route === currentRoute) {
-      return
-    }
     previousRouteRef.current = {
       pathname,
       route: currentRoute,
+      search,
+      key,
+    }
+    if (
+      previousRoute?.route === currentRoute &&
+      (previousRoute.key === key || previousRoute.search !== search)
+    ) {
+      return
     }
 
     let canceled = false
@@ -256,7 +263,7 @@ function useRouteFocus() {
       canceled = true
       window.clearTimeout(timer)
     }
-  }, [routeHash, pathname, routeSearch, navigationType])
+  }, [routeHash, pathname, routeSearch, search, key, navigationType])
 }
 
 /** Records an anonymous page view on initial load and each navigation. */
