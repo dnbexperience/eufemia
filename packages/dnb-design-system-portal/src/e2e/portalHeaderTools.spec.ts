@@ -460,15 +460,19 @@ test.describe('header logo', () => {
     const logo = page
       .locator('header.sticky-menu')
       .getByRole('link', { name: 'Go to Eufemia home' })
+    // Real navigation is covered on touch devices above. Here the tap
+    // stays on the page: in CI, Chromium no longer matched :hover after
+    // the navigation, so the test could not show the guard.
+    await logo.evaluate((link) =>
+      link.addEventListener('click', (event) => event.preventDefault())
+    )
     await tapWithTouchEvents(logo)
-    await expect(page).toHaveURL('/')
     expect(
-      await logo.evaluate(
-        (link) =>
-          link.matches(':hover') &&
-          matchMedia('(any-hover: hover)').matches
-      )
+      await page.evaluate(() => matchMedia('(any-hover: hover)').matches)
     ).toBe(true)
+    expect(await logo.evaluate((link) => link.matches(':hover'))).toBe(
+      true
+    )
     await expect(logo.locator('svg g')).toHaveCSS('transform', 'none')
   })
 })
