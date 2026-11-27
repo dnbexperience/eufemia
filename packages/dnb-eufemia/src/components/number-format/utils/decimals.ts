@@ -6,31 +6,37 @@ import type {
   NumberFormatValue,
   InternalNumberFormatOptions,
 } from './types'
+import { parseDecimal, roundDecimal } from './decimalValue'
+import type { DecimalRounding } from './decimalValue'
 
-/**
- * Rounds the number to the nearest even number.
- */
-export function roundHalfEven(num: number, decimalPlaces = 2): number {
-  const multiplier = Math.pow(10, decimalPlaces)
-  const adjustedNum = num * multiplier
-  const floored = Math.floor(adjustedNum)
-  const diff = adjustedNum - floored
-
-  if (diff > 0.5) {
-    return Math.ceil(adjustedNum) / multiplier
-  } else if (diff < 0.5) {
-    return Math.floor(adjustedNum) / multiplier
+function roundValue(
+  value: NumberFormatValue,
+  places: number,
+  mode: DecimalRounding
+): NumberFormatValue {
+  if (!Number.isInteger(places)) {
+    return value
   }
-
-  // If exactly halfway, round to the nearest even number
-  return floored % 2 === 0
-    ? floored / multiplier
-    : Math.ceil(adjustedNum) / multiplier
+  const decimal = parseDecimal(String(value))
+  if (!decimal || Object.is(value, -0)) {
+    return Number(value)
+  }
+  const rounded = roundDecimal(decimal, places, mode)
+  const numeric = Number(rounded)
+  // Keep the previous numeric return type only when it can carry all digits.
+  return typeof value === 'number' ||
+    String(numeric) === rounded ||
+    rounded === '-0'
+    ? numeric
+    : rounded
 }
 
-/**
- * Fill format decimals.
- */
+/** Rounds a decimal tie to the nearest even digit. */
+export function roundHalfEven(num: number, decimalPlaces = 2): number {
+  return Number(roundValue(num, decimalPlaces, 'half-even'))
+}
+
+/** Sets fraction digit options and applies the requested decimal rounding. */
 export const formatDecimals = (
   value: NumberFormatValue,
   decimals: number | string | null,
@@ -39,28 +45,23 @@ export const formatDecimals = (
 ): NumberFormatValue => {
   decimals = parseFloat(String(decimals))
 
-  // Mutate the given options
   if (decimals >= 0) {
     opts.minimumFractionDigits = decimals
     opts.maximumFractionDigits = decimals
   }
 
-  if (String(value).includes('.')) {
-    const decimalPlaces = decimals || opts.maximumFractionDigits
-    if (rounding === 'omit' || rounding === true) {
-      const factor = Math.pow(10, decimalPlaces)
-      value = Math.trunc(Number(value) * factor) / factor
-    } else {
-      switch (rounding) {
-        case 'half-even': {
-          value = roundHalfEven(Number(value), decimalPlaces)
-
-          break
-        }
-      }
-    }
+  if (
+    (rounding === true ||
+      rounding === 'omit' ||
+      rounding === 'half-even') &&
+    /[.e]/i.test(String(value))
+  ) {
+    return roundValue(
+      value,
+      opts.maximumFractionDigits ?? 2,
+      rounding === 'half-even' ? rounding : 'omit'
+    )
   }
-
   return value
 }
 
