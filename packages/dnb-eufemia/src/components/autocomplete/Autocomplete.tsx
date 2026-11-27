@@ -69,7 +69,6 @@ import Input, { SubmitButton } from '../input/Input'
 import type { InputChangeEvent, InputFocusEvent } from '../input/types'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
-import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
 import type { DrawerListContextValue } from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
@@ -476,6 +475,9 @@ function AutocompleteComponent({
     _disableHighlighting
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
+  const [voiceOverContent, setVoiceOverContent] = useState<
+    Record<string, string>
+  >({})
   const [searchIndex, setSearchIndexState] = useState<
     SearchIndexItem[] | null
   >(null)
@@ -1620,11 +1622,7 @@ function AutocompleteComponent({
 
   const onBlurHandler = useCallback(
     (event: InputFocusEvent | FocusEvent<HTMLInputElement>) => {
-      if (
-        preventFiringBlurEvent.current ||
-        drawerList._hasFocusOnElementRef?.current ||
-        hasBlurRef.current
-      ) {
+      if (preventFiringBlurEvent.current || hasBlurRef.current) {
         preventFiringBlurEvent.current = null
         return false
       }
@@ -1679,7 +1677,6 @@ function AutocompleteComponent({
       return undefined
     },
     [
-      drawerList._hasFocusOnElementRef,
       keepValue,
       keepValueAndSelection,
       preventSelection,
@@ -2185,6 +2182,32 @@ function AutocompleteComponent({
   validateDOMAttributes(null, shellParams)
 
   // VoiceOver support helper
+  useEffect(() => {
+    const option =
+      IS_MAC && drawerList.open && drawerList.ariaActiveDescendant
+        ? document.getElementById(drawerList.ariaActiveDescendant)
+        : null
+
+    if (option) {
+      const text = Array.from(
+        option.querySelector('.dnb-drawer-list__option__inner')
+          ?.children ?? [],
+        getVoiceOverText
+      ).join(' ')
+      const selectedOptionId = `option-${id}-${drawerList.selectedItem}`
+      setVoiceOverContent((content) => ({
+        [selectedOptionId]: content[selectedOptionId] ?? '',
+        [option.id]: text,
+      }))
+    }
+  }, [
+    id,
+    drawerList.open,
+    drawerList.ariaActiveDescendant,
+    drawerList.selectedItem,
+    drawerList.data,
+  ])
+
   const voiceOverActiveItem = (() => {
     const { activeItem, selectedItem } = drawerList
     const currentDataItemVO = getCurrentData(activeItem, drawerList.data)
@@ -2194,7 +2217,8 @@ function AutocompleteComponent({
         {currentDataItemVO && (
           <>
             {activeItem === selectedItem ? <>{selectedSr} </> : null}
-            <ItemContent>{currentDataItemVO}</ItemContent>
+            {voiceOverContent[drawerList.ariaActiveDescendant] ||
+              parseContentTitle(currentDataItemVO, { separator: ' ' })}
           </>
         )}
       </AriaLive>
@@ -2376,3 +2400,24 @@ withComponentMarkers(Autocomplete, {
 })
 
 export default Autocomplete
+
+function getVoiceOverText(node: Node): string {
+  if (node instanceof Element) {
+    if (
+      node.getAttribute('aria-hidden') === 'true' ||
+      node.hasAttribute('hidden')
+    ) {
+      return ''
+    }
+
+    const text =
+      node.getAttribute('aria-label') ?? node.getAttribute('data-text')
+    if (text !== null) {
+      return text
+    }
+  }
+
+  return node.nodeType === Node.TEXT_NODE
+    ? (node.textContent ?? '')
+    : Array.from(node.childNodes, getVoiceOverText).join('')
+}

@@ -327,7 +327,6 @@
 
       color: inherit;
 
-      // So e.g. an anchor gets aligned to left
       > * {
         align-self: self-start;
       }
@@ -370,13 +369,6 @@
         vertical-align: initial;
       }
 
-      .dnb-anchor {
-        display: inline-block;
-        margin-right: 0.5rem;
-        word-break: break-word;
-
-        font-size: inherit;
-      }
       &.item-nr-1 {
         font-weight: var(--font-weight-medium);
       }

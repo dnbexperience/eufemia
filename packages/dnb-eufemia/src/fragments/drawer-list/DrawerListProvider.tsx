@@ -105,7 +105,6 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
   > &
   SpacingProps & {
     skeleton?: SkeletonShow
-    _hasFocusOnElementRef?: React.RefObject<boolean>
     setData?: (
       data: DrawerListData,
       cb?: (data: DrawerListInternalData) => void,
@@ -254,7 +253,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const _refUl = useRef<HTMLUListElement>(null)
 
   // Instance variables
-  const _hasFocusOnElementRef = useRef<boolean>(false)
   const attributesRef = useRef<Record<string, any>>({})
   const showTimeoutRef = useRef<NodeJS.Timeout>(null)
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null)
@@ -710,20 +708,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     },
     []
   )
-
-  /**
-   * Returns the first anchor element within the given element, or null if none found.
-   *
-   * @param  {Element} element The element to begin with
-   * @return {Element} Found element or `null`
-   */
-  const getAnchorElem = useCallback((element) => {
-    try {
-      return element?.querySelector('a:first-of-type')
-    } catch (e) {
-      return null
-    }
-  }, [])
 
   const setActiveState = useCallback((active: boolean) => {
     if (typeof document !== 'undefined') {
@@ -1406,14 +1390,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       case 'Enter':
       case ' ':
         {
-          if ((e.target as HTMLElement).tagName === 'A') {
-            ;(e.target as HTMLElement).dispatchEvent(
-              new MouseEvent('click')
-            )
-            setHidden()
-            return // stop here
-          }
-
           activeItem = Number(
             getCurrentActiveItem() ?? getCurrentSelectedItem()
           )
@@ -1445,78 +1421,8 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
       case 'Tab':
         {
-          if (activeItem > -1) {
-            const activeElement = getActiveElement()
-            const activeElementHasAnchor = Boolean(
-              getAnchorElem(activeElement)
-            )
-
-            _hasFocusOnElementRef.current = activeElementHasAnchor
-
-            if (activeElementHasAnchor) {
-              e.stopPropagation()
-
-              const currentActiveElement = getClosestParent(
-                'dnb-drawer-list__option',
-                document.activeElement,
-                true
-              )
-
-              if (currentActiveElement !== activeElement) {
-                const createTabElem = () => {
-                  try {
-                    const elem = document.createElement('BUTTON')
-                    elem.setAttribute(
-                      'style',
-                      'opacity:0;position:absolute;'
-                    )
-                    const focus = () => {
-                      prevActiveElement.focus()
-                      elem.removeEventListener('focus', focus)
-                      activeElement.removeChild(after)
-                      activeElement.removeChild(before)
-                      _hasFocusOnElementRef.current = false
-                    }
-                    elem.addEventListener('focus', focus)
-                    return elem
-                  } catch (err) {
-                    //
-                  }
-
-                  return undefined
-                }
-
-                const prevActiveElement =
-                  document.activeElement as HTMLElement
-                const after = createTabElem()
-                const before = createTabElem()
-
-                // focus active element before Tab focus is handled by browser
-                activeElement.focus()
-
-                const insertElem = () => {
-                  try {
-                    activeElement.appendChild(after)
-                    activeElement.insertBefore(
-                      before,
-                      activeElement.firstChild
-                    )
-                  } catch (err) {
-                    //
-                  }
-                }
-
-                if (typeof window.requestAnimationFrame === 'function') {
-                  window.requestAnimationFrame(insertElem)
-                } else {
-                  insertElem()
-                }
-              }
-
-              return // stop here
-            } else if (propsRef.current.preventClose) {
-              activeItem = -1
-            }
+          if (activeItem > -1 && propsRef.current.preventClose) {
+            activeItem = -1
           }
 
           setHidden({ event: e })
@@ -1595,7 +1501,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const prevDataRef = useRef(props.data)
   const prevDirectionRef = useRef(stateRef.current.direction)
   useEffect(() => {
-    _hasFocusOnElementRef.current = false
     if (stateRef.current.open) {
       if (
         !propsRef.current.inline &&
@@ -1636,7 +1541,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         ...context,
         drawerList: {
           attributes: attributesRef.current,
-          _hasFocusOnElementRef,
           _refRoot,
           _refShell,
           _refUl,
