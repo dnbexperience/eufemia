@@ -1,0 +1,35 @@
+[
+  {
+    "theme": "Coconut light",
+    "token": "--token-color-background-neutral-alternative",
+    "keptValue": "#dedfd8",
+    "rejectedValue": "#b7b6ab",
+    "checkedAgainst": "--token-color-text-neutral-alternative",
+    "oldContrast": 4.89,
+    "rejectedContrast": 3.22,
+    "target": 4.5,
+    "declaration": "var(--coconut-brown-100)"
+  },
+  {
+    "theme": "Coconut dark",
+    "token": "--token-color-background-neutral-alternative",
+    "keptValue": "#18110b",
+    "rejectedValue": "#392e23",
+    "checkedAgainst": "--token-color-text-error",
+    "oldContrast": 6.11,
+    "rejectedContrast": 4.32,
+    "target": 4.5,
+    "declaration": "var(--coconut-brown-950)"
+  },
+  {
+    "theme": "Coconut dark",
+    "token": "--token-color-stroke-action-focus",
+    "keptValue": "#dae8ff",
+    "rejectedValue": "#276ace",
+    "checkedAgainst": "--token-color-background-neutral-subtle",
+    "oldContrast": 12.26,
+    "rejectedContrast": 2.92,
+    "target": 3,
+    "declaration": "var(--coconut-semantic-information-100)"
+  }
+]

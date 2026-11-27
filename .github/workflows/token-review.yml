@@ -41,9 +41,6 @@ jobs:
         with:
           cache-version: token-review
 
-      - name: Generate token CSS from the source exports
-        run: yarn workspace @dnb/eufemia make-properties
-
       - name: Review tokens against the pull request base
         env:
           # Use the branch a PR merges into as base. If not, a stacked PR will
@@ -56,4 +53,14 @@ jobs:
         run: |
           if [ -f "$RUNNER_TEMP/token-review.md" ]; then
             cat "$RUNNER_TEMP/token-review.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Verify that make-properties has been run
+        if: ${{ !cancelled() }}
+        # Regenerates from the committed Figma exports and lock file, and fails if the committed files differ
+        run: |
+          yarn workspace @dnb/eufemia make-properties
+          if ! git diff --exit-code --stat -- packages/dnb-eufemia/src/style/themes; then
+            echo "::error::The committed theme files differ from the make-properties output. Run yarn make-properties and commit the result."
+            exit 1
           fi

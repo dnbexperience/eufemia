@@ -112,13 +112,13 @@ const luminance = (color: Color) =>
 export const contrastRatio = (
   foreground: string,
   background: string,
-  page: string
+  transparencyBackground: string
 ) => {
-  const pageColor = parseColor(page)
-  if (pageColor[3] !== 1) {
-    throw new Error('The page background must be opaque')
+  const base = parseColor(transparencyBackground)
+  if (base[3] !== 1) {
+    throw new Error('The transparency background must be opaque')
   }
-  const surface = composite(parseColor(background), pageColor)
+  const surface = composite(parseColor(background), base)
   const text = composite(parseColor(foreground), surface)
   const a = luminance(text)
   const b = luminance(surface)
@@ -294,6 +294,14 @@ export const changedTokens = (before: TokenValues, after: TokenValues) =>
       return [{ name, before: before[name], after: after[name] }]
     })
 
+// A transparent background is blended onto its transparency background, the page background by default.
+type ContrastPair = {
+  foreground: string
+  background: string
+  minimum: number
+  transparencyBackground?: string
+}
+
 // Normal text requires 4.5:1. These pairs cover application surfaces and filled form containers.
 export const textContrastPairs = [
   'neutral',
@@ -349,81 +357,331 @@ export const iconContrastPairs = [
   },
 ]
 
-// Remove these temporary acceptances when the Coconut error colors and the
-// Birdhouse dark error and action colors are corrected in Figma.
-const acceptedContrastChanges = [
-  {
-    theme: 'Coconut light',
-    foreground: '--token-color-text-error',
-    background: '--token-color-background-neutral-base',
-    before: ['#d8134b', '#f2f2f7'],
-    after: ['#c82610', '#dedfd8'],
-  },
-  {
-    theme: 'Coconut light',
-    foreground: '--token-color-text-error',
-    background: '--token-color-background-neutral-alternative',
-    before: ['#d8134b', '#ebebf1'],
-    after: ['#c82610', '#dedfd8'],
-  },
-  {
-    theme: 'Birdhouse dark',
-    foreground: '--token-color-text-error',
-    background: '--token-color-background-neutral-subtle',
-    before: ['#fcdddd', '#003842'],
-    after: ['#ff5959', '#003842'],
-  },
-  {
-    theme: 'Birdhouse dark',
-    foreground: '--token-color-text-error',
-    background: '--token-color-background-neutral-base',
-    before: ['#fcdddd', '#0a4e5a'],
-    after: ['#ff5959', '#0a4e5a'],
-  },
-  {
-    theme: 'Birdhouse dark',
-    foreground: '--token-color-stroke-action-focus',
-    background: '--token-color-background-neutral',
-    before: ['#e1e9f9', '#0b2b34'],
-    after: ['#276ace', '#0b2b34'],
-  },
-  {
-    theme: 'Birdhouse dark',
-    foreground: '--token-color-stroke-action-focus',
-    background: '--token-color-background-neutral-subtle',
-    before: ['#e1e9f9', '#003842'],
-    after: ['#276ace', '#003842'],
-  },
-  {
-    theme: 'Birdhouse dark',
-    foreground: '--token-color-stroke-action-focus',
-    background: '--token-color-background-neutral-base',
-    before: ['#e1e9f9', '#0a4e5a'],
-    after: ['#276ace', '#0a4e5a'],
-  },
-  {
-    theme: 'Birdhouse dark',
-    foreground: '--token-color-stroke-action',
-    background: '--token-color-background-neutral-base',
-    before: ['#8bb1bb', '#0a4e5a'],
-    after: ['#578f9b', '#0a4e5a'],
-  },
+export const contrastPairs: ContrastPair[] = [
+  ...textContrastPairs,
+  ...iconContrastPairs,
+  ...surfaceContrastPairs,
 ]
+
+const defaultTransparencyBackground =
+  '--token-color-background-page-background'
+
+export const makePropertiesLockFile =
+  'packages/dnb-eufemia/src/style/themes/figma/makeProperties.lock.json'
+
+/** A held back token as stored in the lock file, with the declaration make-properties writes instead of the Figma value */
+export type LockedToken = HeldBackToken & {
+  declaration: string
+  fallback?: string
+}
+
+export type HeldBackToken = {
+  theme: string
+  token: string
+  keptValue: string
+  rejectedValue: string
+  checkedAgainst: string
+  oldContrast: number
+  rejectedContrast: number
+  target: number
+  cause?: string
+}
+
+const pairRatio = (tokens: TokenValues, pair: ContrastPair) => {
+  const transparencyBackground =
+    pair.transparencyBackground ?? defaultTransparencyBackground
+  for (const name of [
+    pair.foreground,
+    pair.background,
+    transparencyBackground,
+  ]) {
+    if (tokens[name] === undefined) {
+      throw new Error('Missing contrast token: ' + name)
+    }
+  }
+  return contrastRatio(
+    tokens[pair.foreground],
+    tokens[pair.background],
+    tokens[transparencyBackground]
+  )
+}
+
+// A sub-threshold pair must not lose contrast. The tolerance only covers numerical noise.
+const isContrastRegression = (
+  oldRatio: number,
+  newRatio: number,
+  minimum: number
+) =>
+  newRatio < minimum &&
+  (oldRatio >= minimum || newRatio < oldRatio - 0.001)
+
+const round = (ratio: number) => Math.round(ratio * 100) / 100
+
+// Maps each decided token to true when it is held back and false when it is kept
+type Decisions = Map<string, boolean>
+
+const heldCount = (decisions: Decisions) =>
+  [...decisions.values()].filter(Boolean).length
+
+/**
+ * Keeps the previous value of as few tokens as possible, so that no contrast pair regresses.
+ * Certain decisions are locked first. The remaining conflicts are decided by two greedy
+ * passes, and the one that holds back fewer tokens is used. See scripts/figma/TOKEN_REVIEW.md.
+ */
+export const holdBackContrastRegressions = (
+  theme: string,
+  before: TokenValues,
+  after: TokenValues
+) => {
+  const pairs = contrastPairs.map((pair) => {
+    const members = [pair.foreground, pair.background]
+    const transparencyBackground =
+      pair.transparencyBackground ?? defaultTransparencyBackground
+    const isTransparent = [before, after].some(
+      (tokens) =>
+        tokens[pair.background] !== undefined &&
+        parseColor(tokens[pair.background])[3] < 1
+    )
+    if (isTransparent && !members.includes(transparencyBackground)) {
+      members.push(transparencyBackground)
+    }
+    const oldRatio = pairRatio(before, pair)
+    pairRatio(after, pair)
+
+    return {
+      pair,
+      members,
+      oldRatio,
+      passes: (tokens: TokenValues) =>
+        !isContrastRegression(
+          oldRatio,
+          pairRatio(tokens, pair),
+          pair.minimum
+        ),
+    }
+  })
+
+  const role = (name: string) =>
+    pairs.some(({ pair }) => pair.foreground === name)
+      ? 0
+      : pairs.some(({ pair }) => pair.background === name)
+        ? 1
+        : 2
+  const changed = [...new Set(pairs.flatMap(({ members }) => members))]
+    .filter((name) => !sameValue(name, before[name], after[name]))
+    .sort((a, b) => role(a) - role(b) || a.localeCompare(b))
+  const isChanged = new Set(changed)
+
+  const valuesOf = (decisions: Decisions, held = new Set<string>()) =>
+    new Proxy(after, {
+      get: (target, name: string) =>
+        decisions.get(name) || held.has(name)
+          ? before[name]
+          : target[name],
+    })
+  const openOf = (decisions: Decisions) =>
+    changed.filter((name) => !decisions.has(name))
+
+  // Locks every decision that follows from a single pair. Returns null when a pair can't pass.
+  const propagate = (start: Decisions): Decisions | null => {
+    const decisions = new Map(start)
+    for (let locked = true; locked; ) {
+      locked = false
+      const safeKeeps = new Set(openOf(decisions))
+      for (const entry of pairs) {
+        const open = entry.members.filter(
+          (name) => isChanged.has(name) && !decisions.has(name)
+        )
+        const combinations = Array.from(
+          { length: 2 ** open.length },
+          (_, bits) =>
+            new Set(open.filter((_, index) => bits & (1 << index)))
+        )
+        const passing = combinations.filter((held) =>
+          entry.passes(valuesOf(decisions, held))
+        )
+        if (!passing.length) {
+          return null
+        }
+        for (const name of open) {
+          const keptPassing = passing.filter((held) => !held.has(name))
+          if (keptPassing.length < combinations.length / 2) {
+            safeKeeps.delete(name)
+          }
+          if (passing.every((held) => held.has(name))) {
+            decisions.set(name, true)
+            locked = true
+          } else if (passing.every((held) => !held.has(name))) {
+            decisions.set(name, false)
+            locked = true
+          }
+        }
+      }
+      for (const name of safeKeeps) {
+        if (!decisions.has(name)) {
+          decisions.set(name, false)
+          locked = true
+        }
+      }
+    }
+    return decisions
+  }
+
+  // Also holds back tokens that can't be kept because keeping them eventually forces their own hold
+  const settle = (start: Decisions | null): Decisions | null => {
+    for (let decisions = start && propagate(start); decisions; ) {
+      const impossible = openOf(decisions).filter(
+        (name) => !propagate(new Map(decisions).set(name, false))
+      )
+      if (!impossible.length) {
+        return decisions
+      }
+      for (const name of impossible) {
+        decisions.set(name, true)
+      }
+      decisions = propagate(decisions)
+    }
+    return null
+  }
+
+  const allHeld = new Map(changed.map((name) => [name, true]))
+  const locked = settle(new Map()) ?? allHeld
+
+  type Option = {
+    kept: Decisions | null
+    held: Decisions | null
+    kill: number
+    bundle: number
+  }
+  const greedy = (pick: (options: Option[]) => Decisions | null) => {
+    let decisions: Decisions | null = locked
+    while (decisions && openOf(decisions).length) {
+      const current = decisions
+      const options = openOf(current).map((name) => {
+        const kept = propagate(new Map(current).set(name, false))
+        const held = propagate(new Map(current).set(name, true))
+        return {
+          kept,
+          held,
+          kill: kept ? heldCount(kept) - heldCount(current) : Infinity,
+          bundle: held ? heldCount(held) - heldCount(current) : Infinity,
+        }
+      })
+      decisions = settle(pick(options))
+    }
+
+    // Holding every open token is always safe, because only safe keeps are locked
+    const result = new Map(
+      decisions ?? [
+        ...locked,
+        ...openOf(locked).map((name) => [name, true] as const),
+      ]
+    )
+
+    // A greedy hold can become unnecessary after later holds, so release it again if possible
+    for (const name of changed) {
+      if (result.get(name)) {
+        result.set(name, false)
+        if (
+          !pairs.every(
+            (entry) =>
+              !entry.members.includes(name) ||
+              entry.passes(valuesOf(result))
+          )
+        ) {
+          result.set(name, true)
+        }
+      }
+    }
+    return result
+  }
+
+  const holdHighest = greedy((options) => {
+    const option = options.reduce((best, next) =>
+      next.kill > best.kill ? next : best
+    )
+    return option.kill > option.bundle ? option.held : option.kept
+  })
+  const keepLowest = greedy(
+    (options) =>
+      options.reduce((best, next) => (next.kill < best.kill ? next : best))
+        .kept
+  )
+  const decisions =
+    heldCount(keepLowest) < heldCount(holdHighest)
+      ? keepLowest
+      : holdHighest
+
+  const tokens = { ...after }
+  const heldBack: HeldBackToken[] = []
+  for (const name of [...changed].sort()) {
+    if (!decisions.get(name)) {
+      continue
+    }
+    tokens[name] = before[name]
+
+    const rejected = new Map(decisions).set(name, false)
+    const entry = pairs.find(
+      (entry) =>
+        entry.members.includes(name) && !entry.passes(valuesOf(rejected))
+    )
+    const { pair } = entry
+
+    // A pair that passes with the Figma values only regresses because another member was held back
+    const cause = entry.passes(after)
+      ? entry.members.find(
+          (member) => member !== name && decisions.get(member)
+        )
+      : undefined
+
+    heldBack.push({
+      theme,
+      token: name,
+      keptValue: before[name],
+      rejectedValue: after[name],
+      checkedAgainst:
+        name === pair.foreground
+          ? pair.background
+          : name === pair.background
+            ? pair.foreground
+            : pair.foreground + ' on ' + pair.background,
+      oldContrast: round(entry.oldRatio),
+      rejectedContrast: round(pairRatio(valuesOf(rejected), pair)),
+      target: pair.minimum,
+      cause,
+    })
+  }
+
+  return { tokens, heldBack }
+}
+
+const table = (
+  description: string,
+  header: string[],
+  rows: string[][]
+) => [
+  description,
+  '',
+  ...(rows.length
+    ? [
+        '| ' + header.join(' | ') + ' |',
+        '| ' + header.map(() => '---').join(' | ') + ' |',
+        ...rows.map((row) => '| ' + row.join(' | ') + ' |'),
+      ]
+    : ['None.']),
+]
+
+const ratioText = (ratio: number) => ratio.toFixed(2) + ':1'
 
 export const reviewTokenChanges = (
   before: ReturnType<typeof loadTokenModes>,
-  after: ReturnType<typeof loadTokenModes>
+  after: ReturnType<typeof loadTokenModes>,
+  heldBack: HeldBackToken[] = []
 ) => {
-  const lines = [
-    '## Resolved design token changes',
-    '',
-    '| Theme / mode | Token | Before | After |',
-    '| --- | --- | --- | --- |',
-  ]
+  const changes: string[][] = []
   const regressions: string[] = []
-  const acceptedRegressions: string[] = []
-  const existingFailures: string[] = []
-  const newCrossBrandReferences: string[] = []
+  const existingFailures: string[][] = []
+  const newCrossBrandReferences: string[][] = []
   for (const current of after) {
     const previous = before.find(({ name }) => name === current.name)
     if (!previous) {
@@ -435,124 +693,122 @@ export const reviewTokenChanges = (
         (item) => item.token === token && item.reference === reference
       )
       if (!existed) {
-        newCrossBrandReferences.push(
-          '| ' + [current.name, token, reference].join(' | ') + ' |'
-        )
+        newCrossBrandReferences.push([current.name, token, reference])
       }
     }
     for (const change of changedTokens(previous.tokens, current.tokens)) {
-      lines.push(
-        '| ' +
-          [
-            current.name,
-            change.name,
-            change.before ?? 'Not present',
-            change.after ?? 'Removed',
-          ].join(' | ') +
-          ' |'
-      )
+      changes.push([
+        current.name,
+        change.name,
+        change.before ?? 'Not present',
+        change.after ?? 'Removed',
+      ])
     }
-    for (const pair of [
-      ...textContrastPairs,
-      ...iconContrastPairs,
-      ...surfaceContrastPairs,
-    ]) {
-      const ratio = (tokens: TokenValues) => {
-        for (const name of [
-          pair.foreground,
-          pair.background,
-          '--token-color-background-page-background',
-        ]) {
-          if (tokens[name] === undefined) {
-            throw new Error('Missing contrast token: ' + name)
-          }
-        }
-        return contrastRatio(
-          tokens[pair.foreground],
-          tokens[pair.background],
-          tokens['--token-color-background-page-background']
-        )
-      }
-      const oldRatio = ratio(previous.tokens)
-      const newRatio = ratio(current.tokens)
+    for (const pair of contrastPairs) {
+      const oldRatio = pairRatio(previous.tokens, pair)
+      const newRatio = pairRatio(current.tokens, pair)
       if (newRatio >= pair.minimum) {
         continue
       }
-      const detail =
-        current.name +
-        ': ' +
-        pair.foreground +
-        ' on ' +
-        pair.background +
-        ' (' +
-        oldRatio.toFixed(2) +
-        ':1 → ' +
-        newRatio.toFixed(2) +
-        ':1; target ' +
-        pair.minimum +
-        ':1)'
-      // A sub-threshold pair must not lose contrast. The tolerance only covers numerical noise.
-      if (oldRatio >= pair.minimum || newRatio < oldRatio - 0.001) {
-        const accepted = acceptedContrastChanges.some(
-          (change) =>
-            change.theme === current.name &&
-            change.foreground === pair.foreground &&
-            change.background === pair.background &&
-            [pair.foreground, pair.background].every(
-              (name, index) =>
-                sameValue(
-                  name,
-                  previous.tokens[name],
-                  change.before[index]
-                ) &&
-                sameValue(name, current.tokens[name], change.after[index])
-            )
+      if (isContrastRegression(oldRatio, newRatio, pair.minimum)) {
+        regressions.push(
+          current.name +
+            ': ' +
+            pair.foreground +
+            ' on ' +
+            pair.background +
+            ' (' +
+            ratioText(oldRatio) +
+            ' → ' +
+            ratioText(newRatio) +
+            '; target ' +
+            pair.minimum +
+            ':1)'
         )
-        if (accepted) {
-          acceptedRegressions.push(detail)
-        } else {
-          regressions.push(detail)
-        }
       } else {
-        existingFailures.push(detail)
+        existingFailures.push([
+          current.name,
+          pair.foreground,
+          pair.background,
+          ratioText(oldRatio),
+          ratioText(newRatio),
+          pair.minimum + ':1',
+        ])
       }
     }
   }
-  lines.push(
+  const lines = [
+    '## Held back tokens',
+    '',
+    ...table(
+      'These Figma values would lower contrast below the target, so the previous value is kept until Figma fixes them.',
+      [
+        'Theme / mode',
+        'Token',
+        'Kept value',
+        'Rejected Figma value',
+        'Checked against',
+        'Old contrast',
+        'Rejected contrast',
+        'Target',
+        'Cascade cause',
+      ],
+      heldBack.map((item) => [
+        item.theme,
+        item.token,
+        item.keptValue,
+        item.rejectedValue,
+        item.checkedAgainst,
+        // A manually added lock entry has no contrast values until the next fetch fills them in
+        item.oldContrast === undefined ? '–' : ratioText(item.oldContrast),
+        item.rejectedContrast === undefined
+          ? '–'
+          : ratioText(item.rejectedContrast),
+        item.target + ':1',
+        item.cause ? item.cause + ' held back' : '–',
+      ])
+    ),
+    '',
+    '## Resolved design token changes',
+    '',
+    ...table(
+      'Semantic tokens whose generated value changed, compared with the base.',
+      ['Theme / mode', 'Token', 'Before', 'After'],
+      changes
+    ),
     '',
     '## New cross-brand foundation references',
     '',
-    ...(newCrossBrandReferences.length
-      ? [
-          'These tokens now use a foundation color from another brand. Check in Figma that this is intended.',
-          '',
-          '| Theme / mode | Token | Foundation variable |',
-          '| --- | --- | --- |',
-          ...newCrossBrandReferences,
-        ]
-      : ['None.']),
-    '',
-    '## Contrast regressions',
-    '',
-    ...(regressions.length
-      ? regressions.map((line) => '- ' + line)
-      : ['None.']),
-    ...(acceptedRegressions.length
-      ? [
-          '',
-          '## Accepted temporary contrast regressions',
-          '',
-          'Accepted by [Snorre](https://github.com/dnbexperience/eufemia/pull/10759#issuecomment-6917082027) pending the Coconut UX contrast fixes. These pairs remain below their contrast target.',
-          '',
-          ...acceptedRegressions.map((line) => '- ' + line),
-        ]
-      : []),
+    ...table(
+      'Tokens that now use a foundation color from another brand. Check in Figma that this is intended.',
+      ['Theme / mode', 'Token', 'Foundation variable'],
+      newCrossBrandReferences
+    ),
     '',
     '## Existing pairs below their contrast target',
     '',
-    ...(existingFailures.length
-      ? existingFailures.map((line) => '- ' + line)
-      : ['None.'])
-  )
+    ...table(
+      "Pairs that were already below the target. They don't block anything, but should be fixed in Figma.",
+      [
+        'Theme / mode',
+        'Token',
+        'Checked against',
+        'Old contrast',
+        'New contrast',
+        'Target',
+      ],
+      existingFailures
+    ),
+  ]
+  if (regressions.length) {
+    lines.push(
+      '',
+      '## Contrast regressions',
+      '',
+      'These pairs lost contrast in the generated files, which the token generator should have prevented.',
+      '',
+      ...regressions.map((line) => '- ' + line)
+    )
+  }
   return { markdown: lines.join('\n') + '\n', regressions }
 }

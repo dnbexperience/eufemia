@@ -254,6 +254,11 @@
     var(--sbanken-purple-700) 40%,
     transparent
   );
+  --color-component-switch-selected: var(--sbanken-purple-950);
+  --color-component-switch-action-disabled-ondark: var(
+    --sbanken-purple-1000
+  );
+  --color-component-switch-error-subtle: var(--sbanken-red-200);
   --color-component-tooltip-background-neutral: var(
     --sbanken-greyscale-800
   );
@@ -261,9 +266,6 @@
     in srgb,
     var(--sbanken-greyscale-1000) 30%,
     transparent
-  );
-  --color-component-switch-action-disabled-ondark: var(
-    --sbanken-purple-1000
   );
   --color-component-progressbar-neutral-onsubtle: var(
     --sbanken-greyscale-300

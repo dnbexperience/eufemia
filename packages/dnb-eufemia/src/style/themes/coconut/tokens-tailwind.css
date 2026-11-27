@@ -9,10 +9,8 @@
   --color-background-action-hover-subtle: var(--coconut-brown-100);
   --color-background-action-pressed: var(--coconut-coffee-900);
   --color-background-action-pressed-subtle: var(--coconut-brown-200);
-  --color-background-action-focus: var(--coconut-semantic-information-500);
-  --color-background-action-focus-subtle: var(
-    --coconut-semantic-information-100
-  );
+  --color-background-action-focus: var(--dnb-blue-600);
+  --color-background-action-focus-subtle: var(--dnb-blue-50);
   --color-background-action-disabled: var(--coconut-brown-200);
   --color-background-action-inverse: var(--coconut-brown-25);
   --color-background-action-hover-inverse: var(--coconut-brown-25);
@@ -55,7 +53,7 @@
   --color-text-action: var(--coconut-coffee-900);
   --color-text-action-hover: var(--coconut-coffee-900);
   --color-text-action-pressed: var(--coconut-coffee-900);
-  --color-text-action-focus: var(--coconut-semantic-information-500);
+  --color-text-action-focus: var(--dnb-blue-600);
   --color-text-action-disabled: var(--coconut-brown-250);
   --color-text-action-inverse: var(--coconut-brown-25);
   --color-text-action-hover-inverse: var(--coconut-brown-25);
@@ -83,7 +81,7 @@
   --color-icon-action: var(--coconut-coffee-900);
   --color-icon-action-hover: var(--coconut-coffee-900);
   --color-icon-action-pressed: var(--coconut-coffee-900);
-  --color-icon-action-focus: var(--coconut-semantic-information-500);
+  --color-icon-action-focus: var(--dnb-blue-600);
   --color-icon-action-disabled: var(--coconut-brown-250);
   --color-icon-action-inverse: var(--coconut-brown-25);
   --color-icon-action-hover-inverse: var(--coconut-brown-25);
@@ -117,14 +115,10 @@
   --color-stroke-action-inverse: var(--coconut-brown-25);
   --color-stroke-action-hover-inverse: var(--coconut-brown-25);
   --color-stroke-action-pressed-inverse: var(--coconut-brown-100);
-  --color-stroke-action-focus: var(--coconut-semantic-information-500);
-  --color-stroke-action-focus-ondark: var(
-    --coconut-semantic-information-100
-  );
-  --color-stroke-action-focus-inverse: var(
-    --coconut-semantic-information-100
-  );
-  --color-stroke-action-focus-subtle: var(--coconut-brown-25);
+  --color-stroke-action-focus: var(--dnb-blue-600);
+  --color-stroke-action-focus-ondark: var(--dnb-blue-100);
+  --color-stroke-action-focus-inverse: var(--dnb-blue-100);
+  --color-stroke-action-focus-subtle: var(--dnb-greyscale-0);
   --color-stroke-action-disabled: var(--coconut-brown-300);
   --color-stroke-selected: var(--coconut-coffee-900);
   --color-stroke-selected-ondark: var(--coconut-brown-25);
@@ -252,14 +246,16 @@
     var(--coconut-coffee-900) 40%,
     transparent
   );
+  --color-component-switch-selected: var(--coconut-blue-500);
+  --color-component-switch-action-disabled-ondark: var(
+    --coconut-coffee-900
+  );
+  --color-component-switch-error-subtle: var(--coconut-semantic-error-100);
   --color-component-tooltip-background-neutral: var(--coconut-brown-800);
   --color-component-dimmer-background: color-mix(
     in srgb,
     var(--coconut-coffee-900) 30%,
     transparent
-  );
-  --color-component-switch-action-disabled-ondark: var(
-    --coconut-coffee-900
   );
   --color-component-progressbar-neutral-onsubtle: var(--coconut-brown-200);
   --color-component-cell-background-striped: var(--coconut-brown-50);

@@ -108,13 +108,38 @@ it('reviews uncommitted values against the merge base and returns a failing exit
       )
     }
 
+    mkdirSync(path.join(temporaryRoot, themePath, 'figma'), {
+      recursive: true,
+    })
+    writeFileSync(
+      path.join(
+        temporaryRoot,
+        themePath,
+        'figma/makeProperties.lock.json'
+      ),
+      JSON.stringify([
+        {
+          theme: 'DNB dark',
+          token: '--token-color-stroke-action-focus',
+          keptValue: '#dae8ff',
+          rejectedValue: '#276ace',
+          checkedAgainst: '--token-color-background-neutral',
+          oldContrast: 12.26,
+          rejectedContrast: 2.92,
+          target: 3,
+        },
+      ])
+    )
+
     const output = path.join(temporaryRoot, 'review.md')
     const regressions = () =>
-      readFileSync(output, 'utf8')
-        .split('## Contrast regressions')[1]
-        .split('## Existing')[0]
-    review('main', output)
-    expect(regressions()).not.toContain('--token-color-text-action on')
+      readFileSync(output, 'utf8').split('## Contrast regressions')[1] ??
+      ''
+    expect(review('main', output).status).toBe(0)
+    expect(regressions()).toBe('')
+    expect(readFileSync(output, 'utf8')).toContain(
+      '| DNB dark | --token-color-stroke-action-focus | #dae8ff | #276ace | --token-color-background-neutral | 12.26:1 | 2.92:1 | 3:1 | – |'
+    )
     expect(readFileSync(output, 'utf8')).toContain(
       '| Birdhouse light | --token-color-background-page-background | #fff | #f6f1e8 |'
     )
