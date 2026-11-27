@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
@@ -17,17 +18,33 @@ const [assetsSync, rootSync, invalidation, pruneSync] =
     .map((command) => command.split('\n\n')[0]) ?? []
 const immutableCache =
   "--cache-control 'public,max-age=31536000,immutable'"
+const recipientGuard = deployStep?.match(/^ +if \[ -z [\s\S]*?^ +fi$/m)
+
+const runRecipientGuard = (emails: string) =>
+  spawnSync(
+    'bash',
+    ['-euo', 'pipefail', '-c', recipientGuard?.[0] ?? ''],
+    {
+      env: { ...process.env, TF_VAR_snapshot_alert_emails: emails },
+    }
+  ).status
 
 describe('GHE deploy workflow', () => {
-  it('stops before terraform apply when the alert recipients are empty', () => {
-    const guard = deployStep?.indexOf(
-      'if [ -z "$TF_VAR_snapshot_alert_emails" ]; then'
-    )
-
-    expect(guard).toBeGreaterThan(-1)
-    expect(guard).toBeLessThan(
+  it('checks the alert recipients before terraform apply', () => {
+    expect(recipientGuard?.index).toBeLessThan(
       deployStep?.indexOf('terraform apply') ?? -1
     )
+  })
+
+  it.each(['', ' ', ',', ' , ,', '\n'])(
+    'stops the deploy when %j holds no address',
+    (emails) => {
+      expect(runRecipientGuard(emails)).toBe(1)
+    }
+  )
+
+  it('lets the deploy continue when one address remains', () => {
+    expect(runRecipientGuard(' , a@example.com,')).toBe(0)
   })
 
   it('lets browsers keep the hashed dashboard assets', () => {
