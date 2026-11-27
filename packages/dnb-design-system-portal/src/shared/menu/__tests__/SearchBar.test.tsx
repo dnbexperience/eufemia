@@ -220,7 +220,9 @@ describe('SearchBarInput', () => {
       hash: 'keyboard-shortcut',
       headings: ['Overview', 'Behavior'],
       _snippetResult: {
-        content: { value: 'Use Cmd+K to focus the search.' },
+        content: {
+          value: 'Use <em>Cmd+K</em> to focus the `<button>` search.',
+        },
       },
     }
     search.mockResolvedValueOnce({ hits: [hit, hit] })
@@ -251,7 +253,11 @@ describe('SearchBarInput', () => {
     ).toContain('Search → Overview → Behavior')
     expect(
       document.querySelector('[role="option"]')?.textContent
-    ).toContain('Use Cmd+K')
+    ).toContain('Use Cmd+K to focus the <button> search.')
+    expect(document.querySelector('[role="option"] em')).toBeNull()
+    expect(
+      document.querySelector('[role="option"] code')?.textContent
+    ).toBe('<button>')
     expect(
       document.querySelector('[role="option"] a, [role="option"] button')
     ).toBeNull()

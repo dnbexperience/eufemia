@@ -19,6 +19,7 @@ export function shouldIncludeInAlgolia({
 }) {
   return (
     !slug.includes('not_in_use') &&
+    !slug.split('/').includes('visual-tests') &&
     !excludedSlugPartials.some((partial) => slug.includes(partial)) &&
     draft !== true &&
     route !== false

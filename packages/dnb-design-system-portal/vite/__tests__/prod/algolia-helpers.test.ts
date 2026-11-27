@@ -104,6 +104,14 @@ describe('algolia-helpers', () => {
   })
 
   describe('shouldIncludeInAlgolia', () => {
+    it('excludes internal visual-test fixtures', () => {
+      expect(
+        shouldIncludeInAlgolia({
+          slug: 'web/components/button/visual-tests',
+        })
+      ).toBe(false)
+    })
+
     it('excludes contentless navigation entries', () => {
       expect(
         shouldIncludeInAlgolia({ slug: 'web/get-started', route: false })

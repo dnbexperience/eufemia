@@ -33,8 +33,6 @@ export const searchIndexSettings = {
   attributesForFaceting: ['filterOnly(platform)'],
   distinct: true,
   attributesToSnippet: ['content:24'],
-  highlightPreTag: '',
-  highlightPostTag: '',
 }
 
 const parser = unified().use(remarkParse).use(remarkGfm)

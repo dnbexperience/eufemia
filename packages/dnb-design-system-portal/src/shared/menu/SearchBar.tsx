@@ -306,7 +306,8 @@ const makeHitsHumanFriendly = (hits: SearchHit[]) => {
         )
         .join(' → ')
       const snippet =
-        section._snippetResult?.content?.value ?? section.description
+        section._snippetResult?.content?.value?.replace(/<\/?em>/g, '') ??
+        section.description
       return [
         {
           hit: section,
