@@ -71,8 +71,16 @@ In production, `prerender.mjs` builds the client and server bundles, collects ro
 
 - `prerender.mjs` runs the full production build and prerender flow.
 - `prerender-utils.ts` contains shared HTML injection and markdown path helpers.
-- `push-algolia.mjs` scans MDX files and sends search records to Algolia.
+- `push-algolia.mjs` reuses the MCP/llms.txt MDX converter to index each documentation section and its prose. Production indexing verifies anchors against prerendered HTML and atomically replaces records and search settings, preserving synonyms and rules. Use `--dry-run` to inspect source records without publishing.
 - `generate-llm-metadata.mts` creates `llms.txt` and markdown copies for documentation entries.
+
+The search panel offers Web, iOS, and Android platform chips, defaulting to Web. Changing the platform reruns the current query. Each section record carries a `platform` facet. Routes under `/web/`, `/ios/`, and `/android/` belong to their platform; all other routes, such as `/collections/icons/`, belong to all three. Algolia applies the selected `platform` filter before ranking and limiting results.
+
+Search indexes each routable MDX source once. Imported tabs with their own route stay under that route, so Button demos link to `/web/components/button/demos/#primary-button`. Fragments and first-tab overviews are inlined into their consuming page. The Portal page composition remains unchanged.
+
+Search excludes drafts, non-routes, and pages marked `search: false`. Crawler rules in `robots.txt` apply independently, so a page such as `/collections/icons/` can remain available in Portal search.
+
+During development, `search-dev` serves the same section records at `/_search?q=...&platform=web` (also `ios` or `android`; defaults to `web`). Its lightweight local ranking lets the Portal preview body-text search without updating Algolia or shipping the corpus to the browser. Production continues to use Algolia for ranking, snippets, and typo tolerance.
 
 ## Current Gaps
 

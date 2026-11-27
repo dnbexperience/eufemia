@@ -1,10 +1,10 @@
 /**
  * Push search index to Algolia after a Vite production build.
  *
- * Scans src/docs/ for MDX files, extracts frontmatter and headings,
- * and pushes search records using the shared Algolia record builder.
+ * Reuses the MCP/LLM Markdown converter and indexes individual sections.
+ * Published records are checked against the prerendered page anchors.
  *
- * This script reads source files directly — it does NOT depend on
+ * This script reads source files directly and does not depend on
  * the SSR bundle (which is deleted after prerendering).
  *
  * Usage:
@@ -16,59 +16,21 @@
  *   ALGOLIA_INDEX_NAME – Override index name (optional)
  */
 
-import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkMdx from 'remark-mdx'
-import { visit } from 'unist-util-visit'
-import { toString as nodeToString } from 'mdast-util-to-string'
-import matter from '@11ty/gray-matter'
 import algoliasearch from 'algoliasearch'
-import {
-  shouldIncludeInAlgolia,
-  buildAlgoliaRecord,
-  findAncestorPages,
-  replaceAlgoliaRecords,
-} from './algolia-helpers.mjs'
-import { getSlugFromMdastHeading } from '../../src/uilib/utils/slug.mjs'
+import { replaceAlgoliaRecords } from './algolia-helpers.mjs'
+import { generateSearchRecords } from '../search/generate-search-records.ts'
+import { searchIndexSettings } from '../search/search-records.ts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
-const docsDir = path.resolve(portalRoot, 'src/docs')
 
 // Load .env from the portal root when running locally
 try {
   process.loadEnvFile(path.resolve(portalRoot, '.env'))
 } catch {
-  // .env is optional — CI provides env vars directly
-}
-
-/**
- * Read the headings of an MDX file in the shape an Algolia record needs.
- */
-function extractRecordHeadings(filePath) {
-  try {
-    const content = fs.readFileSync(filePath, 'utf-8')
-    // Strip frontmatter
-    const body = content.replace(/^---[\s\S]*?---\n?/, '')
-
-    const tree = unified().use(remarkParse).use(remarkMdx).parse(body)
-
-    const headings = []
-    visit(tree, 'heading', (node) => {
-      headings.push({
-        value: nodeToString(node),
-        depth: node.depth,
-        slug: getSlugFromMdastHeading(node),
-      })
-    })
-
-    return headings
-  } catch {
-    return []
-  }
+  // .env is optional. CI provides env vars directly.
 }
 
 /**
@@ -92,49 +54,6 @@ function getIndexName() {
   return 'dev_eufemia_docs'
 }
 
-/**
- * Scan src/docs/ for MDX files and return an array matching the
- * allMdxNodes shape: { fields: { slug }, frontmatter }.
- */
-function scanMdxFiles() {
-  const results = []
-
-  function walk(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const fullPath = path.join(dir, entry.name)
-
-      if (entry.isDirectory()) {
-        walk(fullPath)
-        continue
-      }
-
-      if (!entry.name.endsWith('.mdx') || entry.name.startsWith('_')) {
-        continue
-      }
-
-      const relativePath = path.relative(docsDir, fullPath)
-      const slug = relativePath
-        .replace(/\.mdx$/, '')
-        .replace(/(^|\/)index$/, '$1')
-        .replace(/\/$/, '')
-
-      try {
-        const content = fs.readFileSync(fullPath, 'utf-8')
-        const parsed = matter(content)
-        results.push({
-          fields: { slug },
-          frontmatter: parsed.data,
-        })
-      } catch {
-        // skip files with parse errors
-      }
-    }
-  }
-
-  walk(docsDir)
-  return results
-}
-
 async function pushAlgolia() {
   const dryRun = process.argv.includes('--dry-run')
   const appId = process.env.ALGOLIA_APP_ID
@@ -147,50 +66,9 @@ async function pushAlgolia() {
     return
   }
 
-  const allMdxNodes = scanMdxFiles()
-  console.log(`Found ${allMdxNodes.length} MDX files in src/docs/`)
-
-  // Build records for Algolia
-  const records = []
-
-  for (const node of allMdxNodes) {
-    const { slug } = node.fields
-    const frontmatter = { ...node.frontmatter }
-
-    if (
-      !shouldIncludeInAlgolia({
-        slug,
-        draft: frontmatter.draft,
-        route: frontmatter.route,
-      })
-    ) {
-      continue
-    }
-
-    // Resolve the source file to extract headings
-    const candidates = [
-      path.resolve(docsDir, `${slug}.mdx`),
-      path.resolve(docsDir, `${slug}/index.mdx`),
-    ]
-    const sourceFile = candidates.find((f) => fs.existsSync(f))
-    const recordHeadings = sourceFile
-      ? extractRecordHeadings(sourceFile)
-      : []
-    const siblings = findAncestorPages(slug, allMdxNodes)
-    const record = buildAlgoliaRecord({
-      ...node,
-      frontmatter,
-      recordHeadings,
-      siblings,
-    })
-
-    if (record) {
-      records.push({
-        objectID: slug || 'index',
-        ...record,
-      })
-    }
-  }
+  const records = await generateSearchRecords({
+    renderedDir: dryRun ? undefined : path.resolve(portalRoot, 'public'),
+  })
 
   // Push to Algolia
   const indexName = getIndexName()
@@ -211,8 +89,12 @@ async function pushAlgolia() {
   )
 
   const client = algoliasearch(appId, apiKey)
-  const index = client.initIndex(indexName)
-  const { objectIDs } = await replaceAlgoliaRecords(index, records)
+  const { objectIDs } = await replaceAlgoliaRecords(
+    client,
+    indexName,
+    records,
+    searchIndexSettings
+  )
   console.log(`✓ Pushed ${objectIDs.length} records to Algolia`)
 }
 

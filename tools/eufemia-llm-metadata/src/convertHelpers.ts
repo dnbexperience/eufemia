@@ -1528,6 +1528,7 @@ export async function convertMdxToMd({
   state,
   frontmatterLinks,
   skipFormat = false,
+  excludeMdxPaths,
 }: {
   inputPath: string
   docsRoot: string
@@ -1537,6 +1538,8 @@ export async function convertMdxToMd({
   publicUrlBase?: string
   state: ConvertState
   skipFormat?: boolean
+  /** Omit imports indexed separately by a caller. Use a separate conversion state. */
+  excludeMdxPaths?: ReadonlySet<string>
   frontmatterLinks?: {
     docUrl?: string | null
     propertiesUrl?: string | null
@@ -1557,6 +1560,7 @@ export async function convertMdxToMd({
     prettierConfig,
     state,
     skipFormat,
+    excludeMdxPaths,
   })
 
   let outputBody = cleanedBody
@@ -2600,6 +2604,7 @@ async function collectComponentCode({
   prettierConfig,
   state,
   skipFormat = false,
+  excludeMdxPaths,
 }: {
   importsByFile: Map<string, string[]>
   inputDir: string
@@ -2608,6 +2613,7 @@ async function collectComponentCode({
   prettierConfig: PrettierConfig
   state: ConvertState
   skipFormat?: boolean
+  excludeMdxPaths?: ReadonlySet<string>
 }) {
   const componentCode = new Map<string, ComponentEntry>()
   const parsedFiles = new Map<string, Map<string, ComponentEntry>>()
@@ -2682,6 +2688,12 @@ async function collectComponentCode({
     }
 
     if (resolvedPath.endsWith('.mdx')) {
+      if (excludeMdxPaths?.has(resolvedPath)) {
+        for (const name of names) {
+          componentCode.set(name, { code: '', format: 'md' })
+        }
+        continue
+      }
       let md = mdxCache.get(resolvedPath)
 
       if (!md && !inProgress.has(resolvedPath)) {
@@ -2694,6 +2706,7 @@ async function collectComponentCode({
           includeFrontmatter: false,
           skipFormat,
           state,
+          excludeMdxPaths,
         })
         inProgress.delete(resolvedPath)
         mdxCache.set(resolvedPath, md)

@@ -13,6 +13,7 @@ import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel.ts'
 import loadJsAsJsxPlugin from './vite/client/plugins/load-js-as-jsx.ts'
 import portalMdxPlugin from './vite/client/plugins/portal-mdx.ts'
 import portalPagesPlugin from './vite/client/plugins/portal-pages.ts'
+import searchDevPlugin from './vite/client/plugins/search-dev.ts'
 import eufemiaThemePlugin from './vite/client/plugins/eufemia-theme.ts'
 import redirectIndexHtmlPlugin from './vite/client/plugins/redirect-index-html.ts'
 import prefetchOnHoverPlugin from './vite/client/plugins/prefetch-on-hover.ts'
@@ -77,6 +78,7 @@ const config = defineConfig({
   },
 
   plugins: [
+    searchDevPlugin(),
     // Redirect /path/index.html → /path/ for SPA navigation and cleaner URLs
     redirectIndexHtmlPlugin(),
 

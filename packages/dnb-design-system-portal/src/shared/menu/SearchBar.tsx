@@ -5,18 +5,18 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
-import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import Search from '@dnb/eufemia/src/components/search/Search'
+import Chip from '@dnb/eufemia/src/components/chip/Chip'
+import Flex from '@dnb/eufemia/src/components/flex/Flex'
+import Hr from '@dnb/eufemia/src/elements/hr/Hr'
 import type { SearchProps } from '@dnb/eufemia/src/components/search/Search'
-import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
+import type {
+  AutocompleteOnChangeParams,
+  AutocompleteOnTypeParams,
+} from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'portal-query'
-import Anchor from '../tags/Anchor'
-import {
-  portalClassStyle,
-  compactPortalClassStyle,
-  drawerClassStyle,
-} from './SearchBar.module.scss'
+import { panelClassStyle, drawerClassStyle } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
 import {
   applyPageFocus,
@@ -25,8 +25,22 @@ import {
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 import { markNextViewFromSearch } from '../../../vite/client/track-page-view'
 import { loadPortalRoutes } from '../../../vite/client/load-portal-routes'
+import type { PortalPlatform } from './MdxSidebarNavigation'
 
 const searchInputId = 'portal-search'
+
+type SearchHit = {
+  slug: string
+  title: string
+  hash?: string
+  pageTitle?: string
+  headings?: (string | { value: string; slug: string })[]
+  search?: string | false
+  description?: string
+  _snippetResult?: { content?: { value: string } }
+}
+
+type SearchResponse = { hits: SearchHit[] }
 
 export const SearchBarInput = ({
   id = searchInputId,
@@ -39,49 +53,69 @@ export const SearchBarInput = ({
   variant?: SearchProps['variant']
   onQuery?: (value: string) => boolean | void
 } = {}) => {
-  const searchIndex = useRef(null)
+  const searchIndex = useRef<{
+    search: (
+      query: string,
+      platform: PortalPlatform
+    ) => Promise<SearchResponse>
+  }>(null)
   const searchRevision = useRef(0)
+  const latestQuery = useRef<AutocompleteOnTypeParams>(null)
   const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const [status, setStatus] = useState(null)
+  const [status, setStatus] = useState<string>(null)
+  const [platform, setPlatform] = useState<PortalPlatform>('web')
 
   useEffect(() => () => clearTimeout(hideTimer.current), [])
 
-  const onTypeHandler = ({
-    value,
-    setHidden,
-    setVisible,
-    showIndicator,
-    hideIndicator,
-    showNoOptionsItem,
-    updateData,
-    debounce,
-  }) => {
+  const searchForQuery = (
+    {
+      value,
+      setHidden,
+      setVisible,
+      showIndicator,
+      showIndicatorItem,
+      hideIndicator,
+      showNoOptionsItem,
+      updateData,
+      debounce,
+    }: AutocompleteOnTypeParams,
+    platform: PortalPlatform,
+    queryChanged = true
+  ) => {
     const revision = ++searchRevision.current
     clearTimeout(hideTimer.current)
     setStatus(null)
-    if (onQuery?.(value)) {
+    if (queryChanged && onQuery?.(value)) {
       hideTimer.current = setTimeout(() => {
         if (revision === searchRevision.current) {
           searchRevision.current++
-          setHidden(true)
+          setHidden()
           hideIndicator()
         }
       }, 1500)
     }
     if (!value.trim()) {
-      setHidden(true)
+      setHidden()
       hideIndicator()
       updateData([])
       return
     }
+    if (!queryChanged) {
+      showIndicatorItem()
+    }
 
     debounce(
-      ({ value, revision }) => {
+      (params) => {
+        const { value, revision, platform } = params as {
+          value: string
+          revision: number
+          platform: PortalPlatform
+        }
         if (revision !== searchRevision.current) {
           return
         }
         searchIndex.current
-          ?.search(value)
+          ?.search(value, platform)
           .then(({ hits }) => {
             if (revision !== searchRevision.current) {
               return
@@ -92,9 +126,7 @@ export const SearchBarInput = ({
             if (document.activeElement?.id === id) {
               setVisible()
             }
-            updateData(
-              makeHitsHumanFriendly({ hits: searchableHits, setHidden })
-            )
+            updateData(makeHitsHumanFriendly(searchableHits))
             hideIndicator()
             if (searchableHits.length === 0) {
               showNoOptionsItem()
@@ -106,9 +138,10 @@ export const SearchBarInput = ({
             }
             setStatus(err.message || err)
             hideIndicator()
+            showNoOptionsItem()
           })
       },
-      { value, revision }
+      { value, revision, platform }
     )
     showIndicator()
   }
@@ -120,14 +153,16 @@ export const SearchBarInput = ({
     event,
   }: AutocompleteOnChangeParams) => {
     try {
-      const hit = typeof data === 'object' && 'hit' in data && data.hit
-      if (!hit?.slug) {
+      const hit =
+        data && typeof data === 'object' && 'hit' in data && data.hit
+      if (!hit || typeof hit.slug !== 'string') {
         return // stop here
       }
 
       handleSearchResultNavigation({
         event: event as unknown as SearchResultNavigationArgs['event'],
         slug: hit.slug,
+        hash: hit.hash,
         setHidden,
         emptyData,
       })
@@ -138,47 +173,70 @@ export const SearchBarInput = ({
 
   const onFocusHandler = () => {
     void loadPortalRoutes().catch(() => undefined)
+    if (import.meta.env.DEV && import.meta.env.MODE !== 'test') {
+      searchIndex.current = {
+        search: async (value, platform) => {
+          const response = await fetch(
+            `/_search?q=${encodeURIComponent(value)}&platform=${platform}`
+          )
+          if (!response.ok) {
+            throw new Error('Documentation search is unavailable')
+          }
+          return response.json()
+        },
+      }
+      return
+    }
     const searchClient = algoliasearch(
       process.env.ALGOLIA_APP_ID,
       process.env.ALGOLIA_SEARCH_KEY
     )
-    searchIndex.current = searchClient.initIndex(
-      process.env.ALGOLIA_INDEX_NAME
-    )
+    const index = searchClient.initIndex(process.env.ALGOLIA_INDEX_NAME)
+    searchIndex.current = {
+      search: (query, platform) =>
+        index.search<SearchHit>(query, {
+          filters: `platform:${platform}`,
+        }),
+    }
   }
 
   return (
-    <Search.Autocomplete
+    <Search.Panel
       id={id}
       variant={variant}
       shortcut
       className="portal-search"
       mode="async"
       search={{ filter: false }}
-      fixedPosition={variant === 'compact'}
-      align="right"
+      align={variant === 'compact' ? 'right' : 'left'}
+      panelDescription="Documentation results with a platform filter. While the search input is focused, use the arrow keys to browse results and Enter to open a section. Press Tab to reach the platform chips, then use the arrow keys to change platform. Press Shift+Tab to return, or Escape to close the panel."
+      popoverProps={{
+        fixedPosition: variant === 'compact',
+        placement: 'bottom',
+        autoAlignMode: 'never',
+        className: panelClassStyle,
+      }}
       placeholder={placeholder}
       label="Search the Eufemia documentation"
       status={status}
-      portalClass={clsx(
-        portalClassStyle,
-        variant === 'compact' && compactPortalClassStyle
-      )}
       drawerClass={drawerClassStyle}
-      onType={onTypeHandler}
+      onType={(params) => {
+        latestQuery.current = params
+        searchForQuery(params, platform)
+      }}
       onChange={onChangeHandler}
       onFocus={onFocusHandler}
       onClear={() => {
         clearTimeout(hideTimer.current)
         searchRevision.current++
+        latestQuery.current = null
         onQuery?.('')
       }}
-      pageOffset={variant === 'compact' ? 0 : undefined}
       optionsRender={({ Items, data }) => {
         return (
           <>
             <Items />
-            {data.length > 1 && (
+            {data.length > 1 && !import.meta.env.DEV && (
               <li>
                 <SearchLogo />
               </li>
@@ -186,85 +244,85 @@ export const SearchBarInput = ({
           </>
         )
       }}
-    />
+    >
+      {({ results }) => (
+        <Flex.Stack gap="small">
+          <Chip.Group
+            aria-label="Search platform"
+            value={platform}
+            onChange={({ value }) => {
+              const nextPlatform = value as PortalPlatform
+              setPlatform(nextPlatform)
+              if (latestQuery.current) {
+                searchForQuery(latestQuery.current, nextPlatform, false)
+              }
+            }}
+          >
+            <Chip value="web">Web</Chip>
+            <Chip value="ios">iOS</Chip>
+            <Chip value="android">Android</Chip>
+          </Chip.Group>
+          <Hr />
+          {results}
+        </Flex.Stack>
+      )}
+    </Search.Panel>
   )
 }
 
-const makeHitsHumanFriendly = ({ hits, setHidden }) => {
-  const data = []
-
-  hits.forEach((hit) => {
-    const { slug, title, description, search } = hit
-
-    const handleTitleClick = (
-      event: MouseEvent<HTMLAnchorElement | HTMLLinkElement>
-    ) => {
-      event.stopPropagation()
-      if (
-        handleSearchResultNavigation({
-          event,
-          slug,
-          setHidden,
-          allowBrowserDefaultOnModified: true,
-        })
-      ) {
-        event.preventDefault()
-      }
-    }
-
-    const content = [
-      <Anchor
-        key={slug}
-        href={`/${slug}`}
-        onMouseDown={(event) => event.stopPropagation()}
-        onClick={handleTitleClick}
-      >
-        {formatSearchResultMarkdown(title)}
-      </Anchor>,
-      formatSearchResultMarkdown(description),
-      formatSearchResultMarkdown(search),
-    ].filter(Boolean)
-
-    hit.headings?.forEach(({ value, slug: hash }, i) => {
-      const handleHeadingClick = (
-        event: MouseEvent<HTMLAnchorElement | HTMLLinkElement>
-      ) => {
-        event.stopPropagation()
-        if (
-          handleSearchResultNavigation({
-            event,
-            slug,
-            hash,
-            setHidden,
-            allowBrowserDefaultOnModified: true,
-          })
-        ) {
-          event.preventDefault()
-        }
-      }
-
-      // Because we don't want duplication
-      if (value !== title) {
-        content.push(
-          <Anchor
-            key={slug + hash + i}
-            href={`/${slug}#${hash}`}
-            onMouseDown={(event) => event.stopPropagation()}
-            onClick={handleHeadingClick}
-          >
-            {formatSearchResultMarkdown(value)}
-          </Anchor>
-        )
-      }
-    })
-
-    data.push({
+// Flatten legacy page records while the hosted index moves to section records.
+const makeHitsHumanFriendly = (hits: SearchHit[]) => {
+  const destinations = new Set<string>()
+  return hits.flatMap((hit) => {
+    const sections = [
       hit,
-      content,
+      ...(hit.headings ?? [])
+        .filter(
+          (heading): heading is { value: string; slug: string } =>
+            heading &&
+            typeof heading === 'object' &&
+            heading.value !== hit.title
+        )
+        .map(({ value, slug }) => ({
+          ...hit,
+          title: value,
+          pageTitle: hit.title,
+          hash: slug,
+        })),
+    ]
+    return sections.flatMap((section) => {
+      const destination = section.slug + '#' + (section.hash ?? '')
+      if (destinations.has(destination)) {
+        return []
+      }
+      destinations.add(destination)
+      const context = [
+        ...(section.pageTitle !== section.title
+          ? (section.pageTitle?.split(' → ') ?? [])
+          : []),
+        ...(section.headings ?? []).filter(
+          (heading) => typeof heading === 'string'
+        ),
+      ]
+        .filter(Boolean)
+        .filter(
+          (heading, index, headings) => heading !== headings[index - 1]
+        )
+        .join(' → ')
+      const snippet =
+        section._snippetResult?.content?.value ?? section.description
+      return [
+        {
+          hit: section,
+          content: [
+            formatSearchResultMarkdown(section.title),
+            formatSearchResultMarkdown(context),
+            formatSearchResultMarkdown(snippet),
+          ].filter(Boolean),
+        },
+      ]
     })
   })
-
-  return data
 }
 
 type SearchResultNavigationArgs = {
@@ -276,7 +334,6 @@ type SearchResultNavigationArgs = {
   hash?: string
   setHidden?: () => void
   emptyData?: () => void
-  allowBrowserDefaultOnModified?: boolean
 }
 
 const handleSearchResultNavigation = ({
@@ -285,14 +342,9 @@ const handleSearchResultNavigation = ({
   hash,
   setHidden,
   emptyData,
-  allowBrowserDefaultOnModified = false,
 }: SearchResultNavigationArgs) => {
   const url = `/${slug}${hash ? `#${hash}` : ''}`.replace('//', '/')
   const modifiedClick = isModifiedClickEvent(event)
-
-  if (modifiedClick && allowBrowserDefaultOnModified) {
-    return false
-  }
 
   if (modifiedClick) {
     if (typeof window !== 'undefined') {

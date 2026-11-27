@@ -2,6 +2,24 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.beforeEach(async ({ page }) => {
+  const hits = [
+    { title: 'Date picker', hash: 'date-picker' },
+    { title: 'Translations', hash: 'translations' },
+    { title: 'Shortcuts', hash: 'shortcuts' },
+  ].map((section) => ({
+    ...section,
+    objectID: section.hash,
+    slug: 'web/components/date-picker/properties',
+    pageTitle: 'Date picker',
+    _snippetResult: {
+      content: {
+        value: 'Custom update behavior described in the section body.',
+      },
+    },
+  }))
+  await page.route(/(?:algolia(net)?\.(net|com)\/|\/_search\?)/, (route) =>
+    route.fulfill({ json: { hits } })
+  )
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/web/components/overview/')
   await waitForApp(page)
@@ -72,28 +90,6 @@ test('keeps header and hero results aligned across screen sizes', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.route(/algolia(net)?\.(net|com)\//, (route) =>
-    route.fulfill({
-      json: {
-        hits: [
-          {
-            objectID: 'date-picker',
-            slug: 'web/components/date-picker',
-            title: 'Date picker',
-            description:
-              'Use DatePicker when people need to choose one date or a date range.',
-          },
-        ],
-        nbHits: 1,
-        page: 0,
-        nbPages: 1,
-        hitsPerPage: 20,
-        processingTimeMS: 1,
-        query: 'date',
-        params: '',
-      },
-    })
-  )
   for (const [id, url, widths] of [
     ['portal-search', '/web/components/overview/', [375, 640, 641, 1440]],
     ['portal-home-search', '/', [375, 639, 641, 1440]],
@@ -104,6 +100,7 @@ test('keeps header and hero results aligned across screen sizes', async ({
     const input = page.locator(`#${id}`)
     const search = page.locator('.portal-search').filter({ has: input })
     const results = page.locator(`#${id}-ul`)
+    const panel = page.locator('.dnb-search__panel:visible')
 
     for (const width of widths) {
       await test.step(`${id} at ${width}px`, async () => {
@@ -111,23 +108,28 @@ test('keeps header and hero results aligned across screen sizes', async ({
         await input.fill('')
         await input.focus()
         await input.fill('date')
-        await expect(results.getByRole('option')).toHaveCount(1)
+        await expect(results.getByRole('option')).toHaveCount(3)
 
-        const box = await results.boundingBox()
+        await expect
+          .poll(async () => (await panel.boundingBox()).width)
+          .toBeCloseTo(Math.min(512, width - 32), 0)
+        const box = await panel.boundingBox()
         const inputBox = await search.boundingBox()
-        const fullWidth = id === 'portal-search' && width <= 640
         expect(box.x).toBeGreaterThanOrEqual(15)
         expect(box.x + box.width).toBeLessThanOrEqual(width - 15)
-        expect(box.width).toBeCloseTo(
-          fullWidth ? width - 32 : inputBox.width,
+        const alignedX =
+          id === 'portal-search'
+            ? inputBox.x + inputBox.width - box.width
+            : inputBox.x
+        expect(box.x).toBeCloseTo(
+          Math.max(16, Math.min(alignedX, width - box.width - 16)),
           0
         )
-        expect(box.x).toBeCloseTo(fullWidth ? 16 : inputBox.x, 0)
         for (const delta of [64, -64]) {
           await page.evaluate((delta) => window.scrollBy(0, delta), delta)
           await expect
             .poll(async () => {
-              const resultsBox = await results.boundingBox()
+              const resultsBox = await panel.boundingBox()
               const field = await input.boundingBox()
               return Math.min(
                 Math.abs(resultsBox.y - field.y - field.height - 8),
@@ -140,4 +142,152 @@ test('keeps header and hero results aligned across screen sizes', async ({
       })
     }
   }
+})
+
+test('opens the third section with the keyboard and focuses its anchor', async ({
+  page,
+}) => {
+  const input = page.locator('#portal-search')
+  await input.fill('custom update')
+  const options = page.getByRole('option')
+  await expect(options).toHaveCount(3)
+  await expect(options.nth(2)).toContainText('Custom update behavior')
+  await expect(options.locator('a, button')).toHaveCount(0)
+  for (let index = 0; index < 3; index++) {
+    await input.press('ArrowDown')
+  }
+  await expect(input).toHaveAttribute(
+    'aria-activedescendant',
+    'option-portal-search-2'
+  )
+  await input.press('Enter')
+  await expect(page).toHaveURL(
+    '/web/components/date-picker/properties/#shortcuts'
+  )
+  const heading = page
+    .locator('main h2')
+    .filter({ has: page.locator('#shortcuts') })
+  await expect(heading).toBeInViewport()
+  await expect(heading).toBeFocused()
+})
+
+test('clears sections and tabs out of results without scrolling the page', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.evaluate(() => window.scrollTo(0, 208))
+  const input = page.locator('#portal-search')
+  await input.fill('custom update')
+  await expect(page.getByRole('option')).toHaveCount(3)
+  const scrollY = await page.evaluate(() => window.scrollY)
+  await input.press('Tab')
+  const clear = page.locator('header .dnb-input--clear button')
+  await expect(clear).toBeFocused()
+  expect(await page.evaluate(() => window.scrollY)).toBe(scrollY)
+  await clear.press('Tab')
+  const web = page.getByRole('radio', { name: 'Web', exact: true })
+  await expect(web).toBeFocused()
+  expect(await page.evaluate(() => window.scrollY)).toBe(scrollY)
+  await web.press('Tab')
+  const close = page.locator('.dnb-search__panel .dnb-popover__close')
+  await expect(close).toBeFocused()
+  expect(await page.evaluate(() => window.scrollY)).toBe(scrollY)
+  await close.press('Tab')
+  await expect(page.locator('#portal-tools')).toBeFocused()
+  await expect(page.getByRole('option')).toHaveCount(0)
+  expect(await page.evaluate(() => window.scrollY)).toBe(scrollY)
+  await input.focus()
+  await input.fill('custom update')
+  await expect(page.getByRole('option')).toHaveCount(3)
+  await clear.click()
+  await expect(input).toHaveValue('')
+  await expect(page.getByRole('option')).toHaveCount(0)
+})
+
+test('switches platforms with the keyboard and keeps chips available with no results', async ({
+  page,
+}) => {
+  const requests: string[] = []
+  await page.route(
+    /(?:algolia(net)?\.(net|com)\/|\/_search\?)/,
+    (route) => {
+      const request = route.request()
+      const params = new URL(request.url()).searchParams
+      const platform =
+        params.get('platform') ??
+        JSON.parse(request.postData()).filters.split(':')[1]
+      requests.push(platform)
+      return route.fulfill({
+        json: {
+          hits:
+            platform === 'ios'
+              ? []
+              : [
+                  {
+                    objectID: platform,
+                    slug: `${platform}/components/button`,
+                    title: `${platform} button`,
+                  },
+                ],
+        },
+      })
+    }
+  )
+  const input = page.locator('#portal-search')
+  await input.fill('button')
+  await expect(page.getByRole('option')).toHaveText('web button')
+  const web = page.getByRole('radio', { name: 'Web', exact: true })
+  const ios = page.getByRole('radio', { name: 'iOS', exact: true })
+  const android = page.getByRole('radio', {
+    name: 'Android',
+    exact: true,
+  })
+  await expect(web).toBeChecked()
+  await input.press('ArrowDown')
+  await expect(input).toBeFocused()
+  await expect(input).toHaveAttribute(
+    'aria-activedescendant',
+    'option-portal-search-0'
+  )
+  await expect(web).toBeChecked()
+  await input.press('Tab')
+  const clear = page.locator('header .dnb-input--clear button')
+  await expect(clear).toBeFocused()
+  await clear.press('Tab')
+  await expect(web).toBeFocused()
+  await web.press('ArrowDown')
+  await expect(ios).toBeFocused()
+  await expect(ios).toBeChecked()
+  await expect.poll(() => requests.at(-1)).toBe('ios')
+  await expect(page.locator('[data-item="noOptions"]')).toBeVisible()
+  await ios.press('ArrowRight')
+  await expect(android).toBeFocused()
+  await expect(android).toBeChecked()
+  await expect(page.getByRole('option')).toHaveText('android button')
+  await expect(android).toBeFocused()
+  await android.press('ArrowUp')
+  await expect(ios).toBeFocused()
+  await expect(ios).toBeChecked()
+  await expect(page.locator('[data-item="noOptions"]')).toBeVisible()
+  await ios.press('ArrowLeft')
+  await expect(web).toBeFocused()
+  await expect(web).toBeChecked()
+  await expect(page.getByRole('option')).toHaveText('web button')
+  await web.press('Tab')
+  const close = page.locator('.dnb-search__panel .dnb-popover__close')
+  await expect(close).toBeFocused()
+  await close.press('Shift+Tab')
+  await expect(web).toBeFocused()
+  await web.press('Shift+Tab')
+  await expect(clear).toBeFocused()
+  await clear.press('Shift+Tab')
+  await expect(input).toBeFocused()
+  await input.press('ArrowDown')
+  await expect(input).toHaveAttribute(
+    'aria-activedescendant',
+    'option-portal-search-0'
+  )
+  await expect(web).toBeChecked()
+  await expect(input).toHaveValue('button')
+  expect(requests).toEqual(['web', 'ios', 'android'])
 })
