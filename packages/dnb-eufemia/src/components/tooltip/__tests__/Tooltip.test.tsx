@@ -68,6 +68,88 @@ describe('Tooltip', () => {
     })
   })
 
+  it('hides the tooltip when a touch is cancelled', async () => {
+    render(<Tooltip targetElement={<span id="touch-target">Text</span>} />)
+
+    const target = document.querySelector<HTMLElement>('#touch-target')
+    fireEvent.touchStart(target)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+
+    fireEvent.touchCancel(target)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+    })
+    expect(target.style.userSelect).toBe('')
+
+    // A later tap still shows the tooltip
+    fireEvent.touchStart(target)
+    fireEvent.touchEnd(target)
+    fireEvent.mouseEnter(target)
+    fireEvent.click(target)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+  })
+
+  it('does not show the tooltip when a touch is cancelled before the show delay', async () => {
+    render(
+      <Tooltip
+        noAnimation={false}
+        showDelay={50}
+        targetElement={<span id="touch-target">Text</span>}
+      />
+    )
+
+    const target = document.querySelector('#touch-target')
+    fireEvent.touchStart(target)
+    fireEvent.touchCancel(target)
+
+    await wait(70)
+
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+  })
+
+  it('keeps the inline user-select style of the target after a touch', () => {
+    render(
+      <Tooltip
+        targetElement={
+          <span id="touch-target" style={{ userSelect: 'all' }}>
+            Text
+          </span>
+        }
+      />
+    )
+
+    const target = document.querySelector<HTMLElement>('#touch-target')
+
+    fireEvent.touchStart(target)
+    expect(target.style.userSelect).toBe('none')
+    fireEvent.touchEnd(target)
+    expect(target.style.userSelect).toBe('all')
+
+    fireEvent.touchStart(target)
+    expect(target.style.userSelect).toBe('none')
+    fireEvent.touchCancel(target)
+    expect(target.style.userSelect).toBe('all')
+
+    // A second finger must not save 'none' as the original value
+    fireEvent.touchStart(target)
+    fireEvent.touchStart(target)
+    fireEvent.touchEnd(target)
+    expect(target.style.userSelect).toBe('all')
+
+    // An end or cancel without a matching start keeps the author's value
+    fireEvent.touchEnd(target)
+    expect(target.style.userSelect).toBe('all')
+    fireEvent.touchCancel(target)
+    expect(target.style.userSelect).toBe('all')
+  })
+
   it('keeps updated tooltip feedback visible after activation', async () => {
     const Component = () => {
       const [copied, setCopied] = useState(false)

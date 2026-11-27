@@ -73,6 +73,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const overlayDelayTimeout = useRef<NodeJS.Timeout>(undefined)
   const isHideAnimationRunning = useRef(false)
   const cloneRef = useRef<HTMLElement>(undefined)
+  const touchUserSelect = useRef<{ elem: HTMLElement; value: string }>(
+    undefined
+  )
   const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
@@ -109,6 +112,12 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         }
 
         if (isTouch(e.type)) {
+          if (touchUserSelect.current?.elem !== elem) {
+            touchUserSelect.current = {
+              elem,
+              value: elem.style.userSelect,
+            }
+          }
           elem.style.userSelect = 'none'
         }
       } catch (e) {
@@ -157,7 +166,11 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       try {
         if (isTouch(e.type)) {
           const elem = e.currentTarget as HTMLElement
-          elem.style.userSelect = ''
+          const saved = touchUserSelect.current
+          if (saved?.elem === elem) {
+            elem.style.userSelect = saved.value
+            touchUserSelect.current = undefined
+          }
         }
       } catch (e) {
         warn('Tooltip: Failed to handle mouse leave event:', e)
@@ -198,6 +211,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.addEventListener('mouseleave', onMouseLeave)
         element.addEventListener('touchstart', onMouseEnter)
         element.addEventListener('touchend', onMouseLeave)
+        element.addEventListener('touchcancel', onMouseLeave)
         document.addEventListener(MODAL_OPEN_EVENT, dismiss)
       } catch (e) {
         warn(
@@ -221,6 +235,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.removeEventListener('mouseleave', onMouseLeave)
         element.removeEventListener('touchstart', onMouseEnter)
         element.removeEventListener('touchend', onMouseLeave)
+        element.removeEventListener('touchcancel', onMouseLeave)
         document.removeEventListener(MODAL_OPEN_EVENT, dismiss)
       } catch (e) {
         warn(
