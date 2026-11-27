@@ -7,9 +7,17 @@
     transition: transform 700ms var(--easing-fast-bounce);
   }
 
-  &:hover .i {
-    transform: rotateY(165deg) scale(1.05);
-    transition-duration: 450ms;
+  @media (any-hover: hover) {
+    &:hover:not(
+        :where(
+          html[data-whatintent='touch'] *,
+          html[data-whatintent='keyboard'] *
+        )
+      )
+      .i {
+      transform: rotateY(165deg) scale(1.05);
+      transition-duration: 450ms;
+    }
   }
 }
 

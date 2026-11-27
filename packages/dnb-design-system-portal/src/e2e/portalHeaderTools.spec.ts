@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import tapWithTouchEvents from './shared/tapWithTouchEvents'
 import waitForApp from './shared/waitForApp'
 
 for (const width of [320, 390, 640]) {
@@ -411,6 +412,65 @@ test('keeps long brand labels accessible in the phone cog button', async ({
   )
   expect(toolsBox.x).toBeGreaterThanOrEqual(16)
   expect(toolsBox.x + toolsBox.width).toBeLessThanOrEqual(304)
+})
+
+test.describe('header logo', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/web/get-started/design-for-web')
+    await waitForApp(page)
+  })
+
+  test('turns the letter i on mouse hover', async ({ page }) => {
+    const logo = page
+      .locator('header.sticky-menu')
+      .getByRole('link', { name: 'Go to Eufemia home' })
+    const letter = logo.locator('svg g')
+    await logo.hover()
+    await expect(letter).not.toHaveCSS('transform', 'none')
+    await page.mouse.move(5, 600)
+    await expect(letter).toHaveCSS('transform', 'none')
+  })
+
+  test.describe('on touch devices', () => {
+    test.use({ hasTouch: true })
+
+    test('does not keep the letter i turned after a tap navigates home', async ({
+      page,
+    }) => {
+      const logo = page
+        .locator('header.sticky-menu')
+        .getByRole('link', { name: 'Go to Eufemia home' })
+      await logo.tap()
+      await expect(page).toHaveURL('/')
+      // The header is reused, and touch browsers keep :hover on it.
+      expect(await logo.evaluate((link) => link.matches(':hover'))).toBe(
+        true
+      )
+      await expect(logo.locator('svg g')).toHaveCSS('transform', 'none')
+    })
+  })
+
+  test('does not keep the letter i turned after a tap on a device that has both touch and a mouse', async ({
+    page,
+    browserName,
+  }) => {
+    test.skip(browserName !== 'chromium', 'Touch input uses Chromium CDP')
+    const logo = page
+      .locator('header.sticky-menu')
+      .getByRole('link', { name: 'Go to Eufemia home' })
+    await tapWithTouchEvents(logo)
+    await expect(page).toHaveURL('/')
+    expect(
+      await logo.evaluate(
+        (link) =>
+          link.matches(':hover') &&
+          matchMedia('(any-hover: hover)').matches
+      )
+    ).toBe(true)
+    await expect(logo.locator('svg g')).toHaveCSS('transform', 'none')
+  })
 })
 
 test('lets clicks pass through the transparent header area', async ({

@@ -43,6 +43,8 @@ These examples show how to apply design tokens in typical UI scenarios. Choose f
 
 #### Action elements
 
+The hover rule follows the [hover styles guidance](/web/development-guidelines/for-styling/#hover-styles), so the hover color does not stay after a tap.
+
 ```css
 .my-button {
   background-color: var(--token-color-background-action);
@@ -50,8 +52,15 @@ These examples show how to apply design tokens in typical UI scenarios. Choose f
   border: 1px solid var(--token-color-stroke-action);
 }
 
-.my-button:hover {
-  background-color: var(--token-color-background-action-hover);
+@media (any-hover: hover) {
+  .my-button:hover:not(
+      :where(
+        html[data-whatintent='touch'] *,
+        html[data-whatintent='keyboard'] *
+      )
+    ) {
+    background-color: var(--token-color-background-action-hover);
+  }
 }
 ```
 

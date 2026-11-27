@@ -28,6 +28,15 @@ export default defineConfig({
       testMatch: '**/deferredRoutes.spec.ts',
       use: { browserName: 'chromium' },
     },
+    {
+      name: 'chromium-hybrid-touch',
+      testMatch: [
+        '**/portalHeaderTools.spec.ts',
+        '**/touchHoverExamples.spec.ts',
+      ],
+      grep: /both touch and a mouse/,
+      use: { browserName: 'chromium' },
+    },
   ],
 
   use: {
