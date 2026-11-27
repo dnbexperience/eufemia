@@ -11,6 +11,7 @@ import {
   wait,
 } from '../../../core/test-utils/testSetup'
 import {
+  act,
   createEvent,
   fireEvent,
   render,
@@ -46,6 +47,213 @@ describe('Pagination bar', () => {
       innerElem.querySelectorAll('button.dnb-button--primary').length
     ).toBe(1)
   })
+
+  it.each([{}, { currentPage: 1 }])(
+    'renders page 1 on the first content request with %j',
+    (initialProps) => {
+      const renderPage = vi.fn(({ pageNumber }) => (
+        <p>Page {pageNumber}</p>
+      ))
+      render(
+        <Pagination pageCount={5} {...initialProps}>
+          {renderPage}
+        </Pagination>
+      )
+
+      expect(
+        renderPage.mock.calls.map(([{ pageNumber }]) => pageNumber)
+      ).toEqual([1])
+      expect(
+        document.querySelector('.dnb-pagination__content')
+      ).toHaveTextContent('Page 1')
+      expect(
+        document.querySelector('[aria-current="page"]')
+      ).toHaveTextContent('1')
+    }
+  )
+
+  it('starts the bar on page 1 without a content callback', () => {
+    const { getByRole } = render(<Pagination pageCount={5} />)
+
+    expect(
+      document.querySelector('[aria-current="page"]')
+    ).toHaveTextContent('1')
+    expect(getByRole('button', { name: nb.prevTitle })).toBeDisabled()
+    expect(getByRole('button', { name: nb.nextTitle })).toBeEnabled()
+  })
+
+  it('uses the last remaining page when the page count shrinks', () => {
+    const onChange = vi.fn()
+    const renderPage = vi.fn(({ pageNumber }) => <p>Page {pageNumber}</p>)
+    const pagination = (pageCount: number) => (
+      <Pagination
+        pageCount={pageCount}
+        startupPage={1}
+        onChange={onChange}
+      >
+        {renderPage}
+      </Pagination>
+    )
+    const { getByRole, rerender } = render(pagination(5))
+    const next = getByRole('button', { name: nb.nextTitle })
+
+    fireEvent.click(
+      getByRole('button', { name: nb.buttonTitle.replace('%s', '5') })
+    )
+    expect(next).toBeDisabled()
+    expect(
+      document.querySelector('.dnb-pagination__content')
+    ).toHaveTextContent('Page 5')
+
+    rerender(pagination(2))
+    fireEvent.click(next)
+
+    expect(
+      onChange.mock.calls.map(([{ pageNumber }]) => pageNumber)
+    ).toEqual([5])
+    expect(
+      renderPage.mock.calls.map(([{ pageNumber }]) => pageNumber)
+    ).toEqual([1, 5, 2])
+    expect(
+      document.querySelector('.dnb-pagination__content')
+    ).toHaveTextContent('Page 2')
+    expect(
+      document.querySelector('[aria-current="page"]')
+    ).toHaveTextContent('2')
+    expect(next).toBeDisabled()
+  })
+
+  it('does not restore a removed page when its content arrives late', () => {
+    let finishRequest: () => void
+    const { rerender } = render(
+      <Pagination pageCount={5} startupPage={5}>
+        {({ pageNumber, setContent }) => {
+          finishRequest = () =>
+            setContent(pageNumber, <p>Old page {pageNumber}</p>)
+        }}
+      </Pagination>
+    )
+    const renderPage = vi.fn(({ pageNumber }) => (
+      <p>New page {pageNumber}</p>
+    ))
+    rerender(
+      <Pagination pageCount={2} startupPage={5}>
+        {renderPage}
+      </Pagination>
+    )
+
+    act(finishRequest)
+
+    expect(
+      renderPage.mock.calls.map(([{ pageNumber }]) => pageNumber)
+    ).toEqual([2])
+    expect(
+      document.querySelector('.dnb-pagination__content')
+    ).toHaveTextContent('New page 2')
+    expect(
+      document.querySelector('[aria-current="page"]')
+    ).toHaveTextContent('2')
+  })
+
+  it('updates the controlled page without a known count', () => {
+    const renderPage = vi.fn(({ pageNumber }) => <p>Page {pageNumber}</p>)
+    const { rerender } = render(
+      <Pagination currentPage={3}>{renderPage}</Pagination>
+    )
+
+    rerender(<Pagination currentPage={4}>{renderPage}</Pagination>)
+    rerender(
+      <Pagination currentPage={1} pageCount={2}>
+        {renderPage}
+      </Pagination>
+    )
+
+    expect(
+      renderPage.mock.calls.map(([{ pageNumber }]) => pageNumber)
+    ).toEqual([3, 4, 1])
+    expect(
+      document.querySelector('.dnb-pagination__content')
+    ).toHaveTextContent('Page 1')
+  })
+
+  it('uses startupPage first and restores currentPage when the count grows', () => {
+    const renderPage = vi.fn(({ pageNumber }) => <p>Page {pageNumber}</p>)
+    const pagination = (pageCount: number) => (
+      <Pagination startupPage={4} currentPage={5} pageCount={pageCount}>
+        {renderPage}
+      </Pagination>
+    )
+    const { rerender } = render(pagination(5))
+    expect(
+      document.querySelector('[aria-current="page"]')
+    ).toHaveTextContent('4')
+
+    rerender(pagination(2))
+    rerender(pagination(5))
+
+    expect(
+      renderPage.mock.calls.map(([{ pageNumber }]) => pageNumber)
+    ).toEqual([4, 2, 5])
+    expect(
+      document.querySelector('[aria-current="page"]')
+    ).toHaveTextContent('5')
+  })
+
+  it.each([0, 1])(
+    'restores startupPage after an initial count of %i',
+    (count) => {
+      const renderPage = vi.fn(({ pageNumber }) => (
+        <p>Page {pageNumber}</p>
+      ))
+      const pagination = (pageCount: number) => (
+        <Pagination startupPage={3} pageCount={pageCount}>
+          {renderPage}
+        </Pagination>
+      )
+      const { rerender } = render(pagination(count))
+      rerender(pagination(10))
+
+      expect(
+        renderPage.mock.calls.map(([{ pageNumber }]) => pageNumber)
+      ).toEqual([1, 3])
+      expect(
+        document.querySelector('[aria-current="page"]')
+      ).toHaveTextContent('3')
+    }
+  )
+
+  it.each([
+    { currentPage: 1, count: 10, selected: 3, requests: [1, 2, 3] },
+    { currentPage: 5, count: 2, selected: 1, requests: [2, 1] },
+  ])(
+    'keeps a user selection when the count grows from $count',
+    ({ currentPage, count, selected, requests }) => {
+      const renderPage = vi.fn(({ pageNumber }) => (
+        <p>Page {pageNumber}</p>
+      ))
+      const pagination = (pageCount: number) => (
+        <Pagination currentPage={currentPage} pageCount={pageCount}>
+          {renderPage}
+        </Pagination>
+      )
+      const { getByRole, rerender } = render(pagination(count))
+      if (selected === 3) {
+        const next = getByRole('button', { name: nb.nextTitle })
+        fireEvent.click(next)
+        fireEvent.click(next)
+      } else {
+        fireEvent.click(getByRole('button', { name: nb.prevTitle }))
+      }
+      rerender(pagination(20))
+
+      expect(
+        renderPage.mock.calls.map(([{ pageNumber }]) => pageNumber)
+      ).toEqual(requests)
+      expect(
+        document.querySelector('[aria-current="page"]')
+      ).toHaveTextContent(String(selected))
+    }
+  )
 
   it('reacts to prop changes with valid button attributes', () => {
     const { rerender } = render(

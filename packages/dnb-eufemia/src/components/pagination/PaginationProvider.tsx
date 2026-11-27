@@ -27,25 +27,28 @@ import PaginationContext from './PaginationContext'
 const PaginationProviderComponent = (props: any) => {
   const sharedContext = useContext(Context)
 
-  // ---- Derive state from props ----
-  const computeDerived = useCallback(() => {
-    const state: Record<string, unknown> = {}
-
-    if (props.pageCount != null) {
-      state.pageCountInternal = parseFloat(props.pageCount) || 1
-    }
-
-    state.parallelLoadCount = parseFloat(props.parallelLoadCount) || 1
-    state.minTime = parseFloat(props.minWaitTime) || 0
-    state.placeMakerBeforeContent = props.placeMarkerBeforeContent
-
-    return state
-  }, [
-    props.pageCount,
-    props.parallelLoadCount,
-    props.minWaitTime,
-    props.placeMarkerBeforeContent,
-  ])
+  const derived = useMemo(
+    () => ({
+      pageCountInternal:
+        props.pageCount != null
+          ? parseFloat(props.pageCount) || 1
+          : undefined,
+      parallelLoadCount: parseFloat(props.parallelLoadCount) || 1,
+      minTime: parseFloat(props.minWaitTime) || 0,
+      placeMakerBeforeContent: props.placeMarkerBeforeContent,
+    }),
+    [
+      props.pageCount,
+      props.parallelLoadCount,
+      props.minWaitTime,
+      props.placeMarkerBeforeContent,
+    ]
+  )
+  const isPaginated = props.mode === 'pagination' && !props.useMarkerOnly
+  const lastPage =
+    isPaginated && derived.pageCountInternal > 0
+      ? derived.pageCountInternal
+      : Infinity
 
   // ---- Internal state ----
   const [items, setItemsState] = useState<ContentObject[]>(() => {
@@ -59,24 +62,25 @@ const PaginationProviderComponent = (props: any) => {
   const [isLoading, setIsLoading] = useState(false)
   const [hasEndedInfinity, setHasEndedInfinity] = useState(false)
 
+  const initialPage =
+    parseFloat(props.startupPage) || parseFloat(props.currentPage) || 1
   const [currentPageInternal, setCurrentPageInternal] = useState<
     number | undefined
   >(() => {
+    if (isPaginated) {
+      return Math.min(initialPage, lastPage)
+    }
     if (props.currentPage != null) {
       return parseFloat(props.currentPage) || 1
     }
     return undefined
   })
 
-  const [startupPage, setStartupPage] = useState<number>(() => {
-    return (
-      parseFloat(props.startupPage) ||
-      parseFloat(props.currentPage) ||
-      (props.currentPage != null
-        ? parseFloat(props.currentPage) || 1
-        : undefined)
-    )
-  })
+  const [startupPage, setStartupPage] = useState<number>(() =>
+    isPaginated
+      ? currentPageInternal
+      : parseFloat(props.startupPage) || currentPageInternal
+  )
 
   const [lowerPage, setLowerPage] = useState<number | undefined>(() => {
     if (props.useMarkerOnly) {
@@ -123,8 +127,14 @@ const PaginationProviderComponent = (props: any) => {
   const propsRef = useRef(props)
   propsRef.current = props
 
-  // ---- Derived values ----
-  const derived = computeDerived()
+  const lastPageRef = useRef(lastPage)
+  lastPageRef.current = lastPage
+  const pendingPageRef = useRef(
+    initialPage > lastPage ? initialPage : undefined
+  )
+  const useStartupPageRef = useRef(
+    isPaginated && parseFloat(props.startupPage) === initialPage
+  )
 
   const prevPropsRef = useRef({
     currentPage: props.currentPage,
@@ -200,6 +210,12 @@ const PaginationProviderComponent = (props: any) => {
       }
 
       const pageNumber = parseFloat(newContent[0]) || 1
+
+      // A pending request can finish after its page has been removed.
+      if (pageNumber > lastPageRef.current) {
+        return
+      }
+
       newContent = newContent[1]
 
       if (typeof newContent === 'function') {
@@ -310,6 +326,8 @@ const PaginationProviderComponent = (props: any) => {
         setHasEndedInfinity(state.hasEndedInfinity)
       }
       if ('currentPageInternal' in state) {
+        pendingPageRef.current = undefined
+        useStartupPageRef.current = false
         setCurrentPageInternal(state.currentPageInternal)
       }
       if ('startupPage' in state) {
@@ -577,14 +595,39 @@ const PaginationProviderComponent = (props: any) => {
 
   // Sync page and content when props change
   useIsomorphicLayoutEffect(() => {
-    const prevCurrentPage = prevPropsRef.current.currentPage
-    const prevInternalContent = prevPropsRef.current.internalContent
+    const prev = prevPropsRef.current
+    const currentPageChanged = props.currentPage !== prev.currentPage
+    const controlledPage = parseFloat(props.currentPage)
+    let nextPage = currentPageChanged
+      ? controlledPage
+      : currentPageInternal
 
-    if (props.currentPage !== prevCurrentPage) {
-      const newCurrentPage = parseFloat(props.currentPage)
-      setCurrentPageInternal(newCurrentPage)
-      updatePageContent(newCurrentPage)
-    } else if (props.internalContent !== prevInternalContent) {
+    if (isPaginated) {
+      let requestedPage = pendingPageRef.current ?? currentPageInternal
+      if (currentPageChanged) {
+        useStartupPageRef.current = false
+        requestedPage = controlledPage || currentPageInternal
+      } else if (
+        useStartupPageRef.current &&
+        pendingPageRef.current == null &&
+        currentPageInternal > lastPage
+      ) {
+        // Once the startup page is removed, honor the currentPage prop.
+        useStartupPageRef.current = false
+        requestedPage = controlledPage || currentPageInternal
+      }
+
+      nextPage = Math.min(requestedPage || 1, lastPage)
+      pendingPageRef.current =
+        requestedPage > lastPage ? requestedPage : undefined
+    }
+
+    if (
+      isPaginated ? nextPage !== currentPageInternal : currentPageChanged
+    ) {
+      setCurrentPageInternal(nextPage)
+      updatePageContent(nextPage)
+    } else if (props.internalContent !== prev.internalContent) {
       updatePageContent()
     }
 
