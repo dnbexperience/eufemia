@@ -7,6 +7,7 @@ import {
   findDuplicateIds,
   formatPortalAccessibilityChanges,
   formatPortalAccessibilityReport,
+  getAxeOptions,
   splitIssueBody,
 } from './portal-accessibility-report.mjs'
 
@@ -72,7 +73,7 @@ async function main() {
             .evaluateAll((elements) => elements.map(({ id }) => id))
           pageDuplicateIdFindings.push(...findDuplicateIds(ids, path))
         }
-        const axe = new AxeBuilder({ page })
+        const axe = new AxeBuilder({ page }).options(getAxeOptions())
         const result = await (
           isLight ? axe : axe.withRules(colorRules)
         ).analyze()

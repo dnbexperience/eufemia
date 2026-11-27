@@ -322,3 +322,19 @@ function impactLabel(impact) {
 function capitalize(value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
+
+// A tooltip is a popup that belongs to its trigger, like a dialog, so the
+// region rule accepts it outside landmarks too. Return a new object each time,
+// because AxeBuilder changes the options it gets.
+export function getAxeOptions() {
+  return {
+    checks: {
+      region: {
+        options: {
+          regionMatcher:
+            'dialog, [role=dialog], [role=alertdialog], svg, [role=tooltip]',
+        },
+      },
+    },
+  }
+}
