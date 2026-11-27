@@ -190,10 +190,12 @@ resource "aws_glue_catalog_table" "portal_views" {
     has_encrypted_data = "true"
 
     # Partition projection avoids running MSCK / ADD PARTITION as new days
-    # arrive. Athena derives the partitions from the dt range at query time.
+    # arrive. Athena derives the partitions from the dt range at query time and
+    # lists every day a query's dt filter doesn't exclude, so start the range at
+    # the table's earliest dt= folder.
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -277,6 +279,7 @@ resource "aws_glue_catalog_table" "portal_views" {
 # keeps the anonymous view dimensions (status/locale/theme/color_scheme/referrer/
 # via_search) so their history survives the raw expiry and stays queryable via
 # Athena.
+# Range starts at the earliest dt= folder: the 13-month trend reads start before it.
 resource "aws_glue_catalog_table" "portal_views_daily" {
   name          = "portal_views_daily"
   database_name = aws_glue_catalog_database.analytics.name
@@ -288,7 +291,7 @@ resource "aws_glue_catalog_table" "portal_views_daily" {
 
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -374,7 +377,7 @@ resource "aws_glue_catalog_table" "mcp_usage" {
 
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -455,6 +458,7 @@ resource "aws_glue_catalog_table" "mcp_usage" {
 # tail from mcp_usage each run and writes one object per day here. This prefix
 # has NO lifecycle expiry, so aggregates outlive the raw rows and keep long-range
 # (year-over-year) comparison available.
+# Range starts at the earliest dt= folder: the hourly query has no dt filter, so Athena lists every day in it.
 resource "aws_glue_catalog_table" "mcp_usage_daily" {
   name          = "mcp_usage_daily"
   database_name = aws_glue_catalog_database.analytics.name
@@ -466,7 +470,7 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
 
     "projection.enabled"          = "true"
     "projection.dt.type"          = "date"
-    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.range"         = "2026-09-16,NOW"
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
@@ -1076,7 +1080,8 @@ resource "aws_lambda_function" "snapshot" {
       GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
       GLUE_TABLE_SKILL_INSTALLS        = aws_glue_catalog_table.skill_installs.name
       ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
-      # Set to "true" once a producer writes to component-usage/.
+      # Set to "true" once a producer writes to component-usage/. Then start
+      # component_usage_daily's dt range at its earliest dt= folder (its query has no dt filter).
       COMPONENT_USAGE_ENABLED = "false"
     }
   }
