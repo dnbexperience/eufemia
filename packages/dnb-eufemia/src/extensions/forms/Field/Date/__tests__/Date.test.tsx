@@ -1407,16 +1407,134 @@ describe('Field.Date', () => {
     ).toHaveAttribute('aria-current', 'date')
   })
 
-  it('should return dates in specified return format', async () => {
-    const onChange = vi.fn()
+  it.each([false, true])(
+    'should submit a typed date in the return format (required: %s)',
+    async (required) => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Date
+            path="/value"
+            dateFormat="dd/MM/yyyy"
+            returnFormat="dd/MM/yyyy"
+            required={required}
+          />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      await userEvent.click(
+        document.querySelector('.dnb-date-picker__input--day')
+      )
+      await userEvent.keyboard('29022028')
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      expect(onSubmit).toHaveBeenCalledWith(
+        { value: '29/02/2028' },
+        expect.anything()
+      )
+    }
+  )
+
+  it.each([
+    ['2028-2-9', undefined],
+    ['29.02.2028', 'dd/MM/yyyy'],
+  ])(
+    'should reject %s outside the configured format',
+    (value, dateFormat) => {
+      render(
+        <Field.Date
+          required
+          value={value}
+          dateFormat={dateFormat}
+          validateInitially
+        />
+      )
+
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        nb.Date.errorRequired
+      )
+    }
+  )
+
+  it('should check the order and limits of a range in the return format', async () => {
+    const onSubmit = vi.fn()
 
     render(
-      <Field.Date
-        value="01/10/2024"
-        dateFormat="dd/MM/yyyy"
-        returnFormat="dd/MM/yyyy"
-        onChange={onChange}
-      />
+      <Form.Handler locale="en-GB" onSubmit={onSubmit}>
+        <Field.Date
+          path="/value"
+          range
+          required
+          dateFormat="MM/dd/yyyy"
+          returnFormat="MM/dd/yyyy"
+          minDate="02/29/2028"
+          maxDate="03/01/2028"
+        />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const [start, end] = document.querySelectorAll(
+      '.dnb-date-picker__input--day'
+    )
+    const submit = document.querySelector('button[type="submit"]')
+
+    // Mask order follows the locale, not the return format.
+    await userEvent.click(start)
+    await userEvent.keyboard('28022028')
+    await userEvent.click(end)
+    await userEvent.keyboard('02032028')
+    await userEvent.click(submit)
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      'Start date cannot be before 29 February 2028.'
+    )
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      'End date cannot be after 1 March 2028.'
+    )
+    expect(onSubmit).not.toHaveBeenCalled()
+
+    await userEvent.click(start)
+    await userEvent.keyboard('01032028')
+    await userEvent.click(end)
+    await userEvent.keyboard('29022028')
+    await userEvent.click(submit)
+    expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+      'End date cannot be before 1 March 2028.'
+    )
+    expect(onSubmit).not.toHaveBeenCalled()
+
+    await userEvent.click(start)
+    await userEvent.keyboard('29022028')
+    await userEvent.click(end)
+    await userEvent.keyboard('01032028')
+    await userEvent.click(submit)
+    expect(onSubmit).toHaveBeenCalledWith(
+      { value: '02/29/2028|03/01/2028' },
+      expect.anything()
+    )
+  })
+
+  it('should return and submit a picked date in the return format', async () => {
+    const onChange = vi.fn()
+    const onSubmit = vi.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Date
+          path="/value"
+          required
+          value="01/10/2024"
+          dateFormat="dd/MM/yyyy"
+          returnFormat="dd/MM/yyyy"
+          onChange={onChange}
+          showSubmitButton
+        />
+        <Form.SubmitButton />
+      </Form.Handler>
     )
 
     const [startDay, startMonth, startYear]: Array<HTMLInputElement> =
@@ -1445,6 +1563,17 @@ describe('Field.Date', () => {
     expect(
       screen.getByLabelText('torsdag 31. oktober 2024')
     ).toHaveAttribute('aria-current', 'date')
+
+    await userEvent.click(
+      document.querySelector(
+        '.dnb-date-picker__footer button[data-testid="submit"]'
+      )
+    )
+    await userEvent.click(document.querySelector('button[type="submit"]'))
+    expect(onSubmit).toHaveBeenCalledWith(
+      { value: '31/10/2024' },
+      expect.anything()
+    )
   })
 
   it('should display input by default', () => {
