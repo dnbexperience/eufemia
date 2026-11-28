@@ -30,9 +30,10 @@ permissions:
   contents: read
 
 # No workflow-wide `env:` on purpose: secrets are scoped to the individual steps
-# that need them. The build job has no publish authority; npm OIDC and GitHub
-# write permissions exist only in the release job. FIGMA_* is not used by the
-# release flow, so it is intentionally not injected anywhere.
+# that need them. The build job has no publish authority; npm OIDC exists only
+# in the release job, and only it and notify-release get a release bot token.
+# FIGMA_* is not used by the release flow, so it is intentionally not injected
+# anywhere.
 
 jobs:
   build:
@@ -274,12 +275,13 @@ jobs:
     # publishes, so 30 minutes is generous.
     timeout-minutes: 30
 
-    # Only the release branches can deploy to this environment, and the npm
-    # trusted publisher for @dnb/eufemia is bound to it.
+    # Only the release branches can deploy to this environment. The npm
+    # trusted publisher for @dnb/eufemia is bound to it, and the release bot's
+    # private key is one of its secrets.
     environment: npm-release
 
-    # semantic-release pushes, tags and comments with GH_TOKEN, so the job token
-    # only reads.
+    # GitHub writes (changelog commit, tag, GitHub release and the failure
+    # issue) use the release bot token, so the built-in token only reads.
     permissions:
       contents: read
       id-token: write # Required for npm Trusted Publishing (OIDC) and provenance
@@ -358,6 +360,27 @@ jobs:
       - name: Re-validate restored package contents
         run: yarn workspace @dnb/eufemia validate:package
 
+      # A short-lived token from the release GitHub App, limited to this
+      # repository. Created right before it is used, after every validation.
+      # The GitHub release it creates starts the workflows that react to
+      # published releases, which a release made with the built-in token would
+      # not. Its pushes start no workflows: the changelog commit is [skip ci].
+      - name: Create release bot token
+        id: release-bot
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write # Changelog commit, tag and GitHub release
+          # The failure issue. Release comments come from notify-release.
+          permission-issues: write
+
       - name: Release
         id: release
         if: github.repository == 'dnbexperience/eufemia' &&
@@ -374,11 +397,12 @@ jobs:
           # @dnb/eufemia configured on npmjs.com pointing at this workflow and
           # the npm-release environment, with `npm publish` allowed (not only
           # `npm stage publish`).
-          # GH_* are for the GitHub release and the changelog/tag commit push.
           RELEASE_NOTIFICATION_FILE: ${{ runner.temp }}/release-notification.json
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          # The release bot token is for the GitHub release, the failure issue
+          # and the changelog/tag push. It is passed as GITHUB_TOKEN, because
+          # semantic-release adds the `x-access-token:` git user name, which
+          # GitHub documents for App tokens, only to that variable.
+          GITHUB_TOKEN: ${{ steps.release-bot.outputs.token }}
           # The prepared build/package.json carries no scripts (prepareForRelease
           # strips them), so this is a no-op in normal operation — but it stops a
           # tampered artifact from running an npm lifecycle hook in this
@@ -464,7 +488,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
-    # The notifications use GH_TOKEN, so the job token only needs to read.
+    # The release bot's private key is a secret of this environment.
+    environment: npm-release
+
+    # The comments and labels use the release bot token, which has a larger
+    # API rate limit than the built-in token.
     permissions:
       contents: read
 
@@ -490,12 +518,22 @@ jobs:
           artifact-ids: ${{ needs.action.outputs.notification-artifact-id || 'missing' }}
           path: ${{ runner.temp }}/release-notification
 
+      - name: Create release bot token
+        id: release-bot
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: read
+          permission-issues: write
+          permission-pull-requests: write
+
       - name: Notify released PRs and issues
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           RELEASE_NOTIFICATION_FILE: ${{ runner.temp }}/release-notification/release-notification.json
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ steps.release-bot.outputs.token }}
           retries: 3
           script: |
             const { readFileSync } = require('node:fs')
