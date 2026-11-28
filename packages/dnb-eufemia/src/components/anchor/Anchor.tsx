@@ -197,20 +197,29 @@ export function AnchorComponent(localProps: AnchorAllProps) {
     attributes.disabled = true
   }
 
-  if ((isDisabled || attributes.skeleton) && as === 'a') {
+  // A custom element, such as a router Link, renders a link too
+  const isCustomElement = typeof as !== 'string'
+
+  if (
+    (isDisabled || attributes.skeleton) &&
+    (as === 'a' || isCustomElement)
+  ) {
     attributes.tabIndex = -1
     attributes['aria-disabled'] = true
 
-    // Without href, an "a" has no role, which does not allow aria-disabled or a name
-    if (!attributes.role) {
-      attributes.role = 'link'
-    }
+    // A custom element may need href or to to render, so it keeps them
+    if (as === 'a') {
+      // Without href, an "a" has no role, which does not allow aria-disabled or a name
+      if (!attributes.role) {
+        attributes.role = 'link'
+      }
 
-    if (attributes.href) {
-      delete attributes.href
-    }
-    if (attributes.to) {
-      delete attributes.to
+      if (attributes.href) {
+        delete attributes.href
+      }
+      if (attributes.to) {
+        delete attributes.to
+      }
     }
 
     attributes.onClick = (event) => {

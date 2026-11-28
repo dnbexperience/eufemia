@@ -846,6 +846,48 @@ describe('Anchor element', () => {
       expect(button).toHaveAttribute('disabled')
     })
 
+    it('should prevent navigation with a custom element, such as a router Link', () => {
+      const navigate = vi.fn()
+      const Link = ({
+        to,
+        onClick,
+        children,
+        ...rest
+      }: Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+        to: string | Record<string, string>
+        ref?: Ref<HTMLAnchorElement>
+      }) => (
+        <a
+          {...rest}
+          href={String(to)}
+          onClick={(event) => {
+            onClick?.(event)
+            if (!event.defaultPrevented) {
+              event.preventDefault()
+              navigate(to)
+            }
+          }}
+        >
+          {children}
+        </a>
+      )
+
+      render(
+        <Provider Anchor={{ disabled: true }}>
+          <Anchor element={Link} to="/url">
+            text
+          </Anchor>
+        </Provider>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).toHaveAttribute('aria-disabled', 'true')
+      expect(anchor).toHaveAttribute('tabindex', '-1')
+
+      fireEvent.click(anchor)
+      expect(navigate).not.toHaveBeenCalled()
+    })
     it('should not show launch icon when disabled', () => {
       render(
         <Anchor href="/url" target="_blank" disabled>
