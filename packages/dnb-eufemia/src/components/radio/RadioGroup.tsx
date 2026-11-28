@@ -31,6 +31,7 @@ export type * from './group-types'
 
 const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   label: null,
+  labelDirection: undefined,
   labelSrOnly: null,
   labelPosition: null,
   title: null,

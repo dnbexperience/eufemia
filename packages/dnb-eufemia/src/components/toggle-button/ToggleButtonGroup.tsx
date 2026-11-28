@@ -34,6 +34,7 @@ export type * from './group-types'
 
 const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
   label: null,
+  labelDirection: undefined,
   labelSrOnly: null,
   title: null,
   multiselect: null,

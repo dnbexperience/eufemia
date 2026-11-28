@@ -45,6 +45,7 @@ export type * from './types'
 const toggleButtonDefaultProps: Partial<ToggleButtonProps> = {
   text: null,
   label: null,
+  labelDirection: undefined,
   labelSrOnly: null,
   title: null,
   checked: undefined,
