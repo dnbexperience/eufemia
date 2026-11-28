@@ -70,6 +70,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     onThumbMouseDownHandler,
     onThumbMouseUpHandler,
     onHelperChangeHandler,
+    onHelperKeyDownHandler,
     onHelperFocusHandler,
   } = useSliderEvents()
 
@@ -115,10 +116,8 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const [forceActive, setForceActive] = useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
-  const { onFocus, onBlur, ...restHelperParams } = helperParams as Record<
-    string,
-    (event: unknown) => void
-  >
+  const { onFocus, onBlur, onKeyDown, ...restHelperParams } =
+    helperParams as Record<string, (event: unknown) => void>
 
   return (
     <span className="dnb-slider__thumb" style={style}>
@@ -138,6 +137,10 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         value={value}
         disabled={disabled || skeleton}
         onChange={onHelperChangeHandler}
+        onKeyDown={(event) => {
+          onKeyDown?.(event)
+          onHelperKeyDownHandler(event)
+        }}
         onFocus={(event) => {
           onHelperFocusHandler(event)
           setForceActive(true)

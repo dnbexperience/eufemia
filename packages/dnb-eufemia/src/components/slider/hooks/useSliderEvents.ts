@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import type {
   FormEvent,
+  KeyboardEvent,
   SyntheticEvent,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
@@ -124,15 +125,37 @@ export function useSliderEvents() {
     setShouldAnimate(false)
   }
 
+  const getLastFullStep = () =>
+    snapToStep(max, min, allProps.step, Math.floor)
+
+  const onHelperKeyDownHandler = (
+    event: KeyboardEvent<HTMLInputElement>
+  ) => {
+    // The browser's increment for step="any" can be larger than one step.
+    if (
+      event.currentTarget.step === 'any' &&
+      (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
+    ) {
+      event.preventDefault()
+      handleHelperValue(event, getLastFullStep())
+    }
+  }
+
   const onHelperChangeHandler = (event: FormEvent<HTMLInputElement>) => {
+    handleHelperValue(event, parseFloat(event.currentTarget.value))
+  }
+
+  const handleHelperValue = (
+    event: SyntheticEvent<HTMLInputElement>,
+    currentValue: number
+  ) => {
     const emitEvent = event as unknown
-    const currentValue = parseFloat(event.currentTarget.value)
     const currentIndex = parseFloat(event.currentTarget.dataset.index)
 
     // From an off-step maximum, return to the native grid on the first decrease.
     const upperLimit =
       event.currentTarget.step === 'any' && currentValue < max
-        ? snapToStep(max, min, allProps.step, Math.floor)
+        ? getLastFullStep()
         : max
     emitChange(emitEvent as MouseEvent, currentValue, upperLimit)
 
@@ -169,6 +192,7 @@ export function useSliderEvents() {
     onThumbMouseUpHandler,
     onTrackMouseDownHandler,
     onHelperChangeHandler,
+    onHelperKeyDownHandler,
     onHelperFocusHandler,
     removeEvents,
   }

@@ -378,6 +378,32 @@ describe('Slider component', () => {
       )
     })
 
+    it.each(['ArrowLeft', 'ArrowDown'])(
+      'should move one step down from an off-step max with %s',
+      (key) => {
+        const onChange = vi.fn()
+
+        render(
+          <Slider
+            min={0}
+            max={100.05}
+            step={0.1}
+            value={100.05}
+            onChange={onChange}
+          />
+        )
+
+        expect(getRangeElement(0)).toHaveAttribute('step', 'any')
+        expect(fireEvent.keyDown(getRangeElement(0), { key })).toBe(false)
+        expect(onChange).toHaveBeenCalledExactlyOnceWith(
+          expect.objectContaining({ value: 100 })
+        )
+        expect(getRangeElement(0)).toHaveAttribute('step', '0.1')
+        expect(getRangeElement(0).valueAsNumber).toBe(100)
+        expect(fireEvent.keyDown(getRangeElement(0), { key })).toBe(true)
+      }
+    )
+
     it('should respect max value with too large "step" and large number', () => {
       const onChange = vi.fn()
 
