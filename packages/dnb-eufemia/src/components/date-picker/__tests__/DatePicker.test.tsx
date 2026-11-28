@@ -8747,3 +8747,27 @@ describe('DatePicker attributes', () => {
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
+
+describe('DatePicker skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <DatePicker skeleton={false} showInput />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <DatePicker showInput />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-input__submit-button__button')
+    ).toHaveClass('dnb-skeleton')
+  })
+})

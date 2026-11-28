@@ -6680,3 +6680,27 @@ const closeAndReopen = () => {
   fireEvent.focus(input)
   fireEvent.mouseDown(input)
 }
+
+describe('Autocomplete skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <Autocomplete skeleton={false} data={['A']} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <Autocomplete data={['A']} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-skeleton'
+    )
+  })
+})
