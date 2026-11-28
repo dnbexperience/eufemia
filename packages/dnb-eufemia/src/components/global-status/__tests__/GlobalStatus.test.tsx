@@ -1537,6 +1537,47 @@ describe('GlobalStatus component', () => {
       expect(document.getElementById('notice')).toHaveFocus()
     })
 
+    it('should keep focus on a followed link target when the opening ends', () => {
+      const renderStatus = (show: boolean) => (
+        <>
+          <input id="answer" />
+          <GlobalStatus
+            show={show}
+            autoScroll={false}
+            items={[
+              {
+                itemId: 'message',
+                text: 'Error',
+                statusAnchorUrl: true,
+                statusAnchorLabel: 'answer',
+                focusAnswer: () => {
+                  const answer = document.getElementById('answer')
+                  answer.focus()
+                  return answer
+                },
+              },
+            ]}
+          />
+        </>
+      )
+      const { rerender } = render(renderStatus(false))
+      rerender(renderStatus(true))
+      const answer = document.getElementById('answer')
+
+      fireEvent.click(document.querySelector('.dnb-global-status a'))
+      expect(answer).toHaveFocus()
+      simulateAnimationEnd()
+      expect(answer).toHaveFocus()
+
+      rerender(renderStatus(false))
+      simulateAnimationEnd()
+      rerender(renderStatus(true))
+      simulateAnimationEnd()
+      expect(
+        document.querySelector('.dnb-global-status__wrapper')
+      ).toHaveFocus()
+    })
+
     it('should focus the target and restore it when it loses focus', () => {
       const link = renderWithTarget(<span id="target">Target</span>)
       const target = document.getElementById('target')

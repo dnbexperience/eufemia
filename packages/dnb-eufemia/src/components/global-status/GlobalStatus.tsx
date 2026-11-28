@@ -147,6 +147,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
   // Refs
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const hasFollowedItemRef = useRef(false)
   const globalStatusRef = useRef<GlobalStatusResult | null>(null)
   const hadContentRef = useRef(false)
   const initialActiveElementRef = useRef<Element | null>(null)
@@ -355,6 +356,8 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             return
           }
 
+          hasFollowedItemRef.current = true
+
           if (typeof element.scrollIntoView === 'function') {
             element.scrollIntoView({ block: 'center', behavior: 'smooth' })
           }
@@ -405,6 +408,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     (state: HeightAnimationOnStart) => {
       switch (state) {
         case 'opening':
+          hasFollowedItemRef.current = false
           scrollToStatus()
       }
     },
@@ -415,7 +419,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     (state: HeightAnimationOnEnd) => {
       switch (state) {
         case 'opened':
-          setFocus()
+          // Keep focus where the user went with a link during the opening.
+          if (!hasFollowedItemRef.current) {
+            setFocus()
+          }
 
           dispatchCustomElementEvent(
             globalStatusRef.current,
