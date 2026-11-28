@@ -102,7 +102,9 @@
     // so it works even when focus is triggered programmatically.
     @include utilities.whatInput('keyboard') {
       &:focus:not([disabled]):not(.dnb-menu__action--disabled) {
-        &:not(:hover):not(:active) {
+        // Keep the outline under the mouse, so keyboard focus stays visible.
+        // :where() keeps the specificity low, so the forced-colors rule wins.
+        &:where(:not(:active)) {
           @include utilities.focusOutline(
             $offset: calc(-1 * var(--focus-outline-width))
           );
@@ -115,16 +117,6 @@
           );
         }
       }
-    }
-
-    // A tapped action can keep :hover after switching to the keyboard.
-    html[data-whatinput='keyboard']:where(:not([data-whatintent='mouse']))
-      &:focus:not([disabled]):not(.dnb-menu__action--disabled):not(
-        :active
-      ) {
-      @include utilities.focusOutline(
-        $offset: calc(-1 * var(--focus-outline-width))
-      );
     }
 
     // Touch browsers keep :hover on the last tapped element.

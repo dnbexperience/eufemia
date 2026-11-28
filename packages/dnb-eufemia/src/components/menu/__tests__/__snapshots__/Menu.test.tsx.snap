@@ -80,7 +80,7 @@ exports[`Menu scss > has to match style dependencies css 1`] = `
   flex: 1;
   text-align: start;
 }
-html[data-whatinput=keyboard] .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled):not(:hover):not(:active) {
+html[data-whatinput=keyboard] .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled):where(:not(:active)) {
   outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
   outline-offset: calc(-1 * var(--focus-outline-width));
 }
@@ -89,10 +89,6 @@ html[data-whatinput=keyboard] .dnb-menu__action:focus:not([disabled]):not(.dnb-m
     outline: var(--focus-outline-width) solid CanvasText;
     outline-offset: calc(-1 * var(--focus-outline-width));
   }
-}
-html[data-whatinput=keyboard]:where(:not([data-whatintent=mouse])) .dnb-menu__action:focus:not([disabled]):not(.dnb-menu__action--disabled):not(:active) {
-  outline: var(--focus-outline-width) solid var(--token-color-stroke-action-focus);
-  outline-offset: calc(-1 * var(--focus-outline-width));
 }
 @media (any-hover: hover) {
   .dnb-menu__action:hover:not(.dnb-menu__action--disabled):not(:where(html[data-whatintent=touch] *,
