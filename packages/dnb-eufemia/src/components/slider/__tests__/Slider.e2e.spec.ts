@@ -1,5 +1,37 @@
 import { test, expect } from '@playwright/test'
 
+test('keeps native keyboard steps and the pointer endpoint in sync with the tooltip', async ({
+  page,
+}) => {
+  await page.goto('/web/components/slider/visual-tests/stepped-range/')
+  const range = page.getByRole('slider', { name: 'Amount' })
+  const tooltip = page.locator('.dnb-tooltip')
+  const expectValue = async (value: string) => {
+    await expect(range).toHaveValue(value)
+    await expect(range).toHaveAttribute('aria-valuenow', value)
+    await expect(tooltip).toHaveText(value)
+  }
+
+  await expectValue('5')
+  await range.press('ArrowRight')
+  await expectValue('15')
+  await range.press('End')
+  await expectValue('31')
+  await range.press('ArrowLeft')
+  await expectValue('25')
+  await range.press('ArrowRight')
+  await expectValue('31')
+  await range.press('Home')
+  await expectValue('5')
+
+  const track = page.locator('.dnb-slider__track')
+  const { width, height } = await track.boundingBox()
+  await track.click({ position: { x: width - 1, y: height / 2 } })
+  await expectValue('31')
+  await range.press('ArrowLeft')
+  await expectValue('25')
+})
+
 test.describe('Slider', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components/slider/demos/?data-visual-test')

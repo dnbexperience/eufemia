@@ -33,7 +33,6 @@ const sliderDefaultProps: Partial<SliderAllProps> = {
   statusState: 'error',
   min: 0,
   max: 100,
-  value: -1,
   multiThumbBehavior: 'swap',
   labelDirection: 'vertical',
 }
@@ -88,7 +87,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     onDragEnd,
     vertical: _vertical,
     reverse: _reverse,
-    value: _value,
+    value: _value = min,
     children: _children,
 
     ...attributes // Find a DOM element to forwards props too when multi buttons are supported
@@ -129,13 +128,14 @@ export function SliderProvider(localProps: SliderAllProps) {
 
   const emitChange = (
     event: MouseEvent | TouchEvent,
-    rawValue: number
+    rawValue: number,
+    upperLimit = max
   ) => {
     if (disabled || skeleton) {
       return
     }
 
-    let numberValue = roundValue(rawValue, { step, min, max })
+    let numberValue = roundValue(rawValue, { step, min, max: upperLimit })
     let multiValues: SliderValue = numberValue
 
     if (numberValue >= min) {
@@ -207,7 +207,18 @@ export function SliderProvider(localProps: SliderAllProps) {
         updateExternValue(_value)
       }
     } else if (_value !== externValue) {
-      updateValue(_value)
+      // A new minimum should not discard an uncontrolled selection that still fits.
+      const nextValue =
+        allProps.value === undefined &&
+        typeof value === 'number' &&
+        value !== externValue
+          ? roundValue(Math.min(max, Math.max(min, value)), {
+              step,
+              min,
+              max,
+            })
+          : _value
+      updateValue(nextValue)
       updateExternValue(_value)
     }
 

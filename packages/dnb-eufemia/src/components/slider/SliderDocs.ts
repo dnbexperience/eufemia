@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const SliderProperties: PropertiesTableProps = {
   value: {
-    doc: 'The `value` of the slider as a number or an array. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).',
+    doc: 'The `value` of the slider as a number or an array. Defaults to `min`. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).',
     type: ['number', 'Array<number>'],
     status: 'optional',
   },

@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import type {
   FormEvent,
+  KeyboardEvent,
   SyntheticEvent,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
@@ -9,7 +10,11 @@ import {
   dispatchCustomElementEvent,
   warn,
 } from '../../../shared/component-helper'
-import { calculatePercent, percentToValue } from '../SliderHelpers'
+import {
+  calculatePercent,
+  percentToValue,
+  snapToStep,
+} from '../SliderHelpers'
 import { SliderContext } from '../SliderProvider'
 
 export function useSliderEvents() {
@@ -120,12 +125,57 @@ export function useSliderEvents() {
     setShouldAnimate(false)
   }
 
+  const getLastFullStep = () =>
+    snapToStep(max, min, allProps.step, Math.floor)
+
+  const onHelperKeyDownHandler = (
+    event: KeyboardEvent<HTMLInputElement>
+  ) => {
+    const { step, valueAsNumber } = event.currentTarget
+
+    // The browser's increment for step="any" can be larger than one step.
+    if (
+      step === 'any' &&
+      (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
+    ) {
+      event.preventDefault()
+      handleHelperValue(event, getLastFullStep())
+      return // stop here
+    }
+
+    // The browser stops at the last full step, below an off-step maximum.
+    const lastFullStep = getLastFullStep()
+    if (
+      step !== 'any' &&
+      lastFullStep < max &&
+      (event.key === 'End' ||
+        (valueAsNumber >= lastFullStep &&
+          (event.key === 'ArrowRight' ||
+            event.key === 'ArrowUp' ||
+            event.key === 'PageUp')))
+    ) {
+      event.preventDefault()
+      handleHelperValue(event, max)
+    }
+  }
+
   const onHelperChangeHandler = (event: FormEvent<HTMLInputElement>) => {
+    handleHelperValue(event, parseFloat(event.currentTarget.value))
+  }
+
+  const handleHelperValue = (
+    event: SyntheticEvent<HTMLInputElement>,
+    currentValue: number
+  ) => {
     const emitEvent = event as unknown
-    const currentValue = parseFloat(event.currentTarget.value)
     const currentIndex = parseFloat(event.currentTarget.dataset.index)
 
-    emitChange(emitEvent as MouseEvent, currentValue)
+    // From an off-step maximum, return to the native grid on the first decrease.
+    const upperLimit =
+      event.currentTarget.step === 'any' && currentValue < max
+        ? getLastFullStep()
+        : max
+    emitChange(emitEvent as MouseEvent, currentValue, upperLimit)
 
     if (isMulti) {
       const thumbs: NodeListOf<HTMLInputElement> =
@@ -160,6 +210,7 @@ export function useSliderEvents() {
     onThumbMouseUpHandler,
     onTrackMouseDownHandler,
     onHelperChangeHandler,
+    onHelperKeyDownHandler,
     onHelperFocusHandler,
     removeEvents,
   }

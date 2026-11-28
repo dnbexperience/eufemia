@@ -9,7 +9,7 @@ import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp, getFormattedNumber } from './SliderHelpers'
+import { clamp, getFormattedNumber, snapToStep } from './SliderHelpers'
 
 export function SliderThumb() {
   const { values } = useSliderProps()
@@ -70,6 +70,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     onThumbMouseDownHandler,
     onThumbMouseUpHandler,
     onHelperChangeHandler,
+    onHelperKeyDownHandler,
     onHelperFocusHandler,
   } = useSliderEvents()
 
@@ -115,10 +116,8 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const [forceActive, setForceActive] = useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
-  const { onFocus, onBlur, ...restHelperParams } = helperParams as Record<
-    string,
-    (event: unknown) => void
-  >
+  const { onFocus, onBlur, onKeyDown, ...restHelperParams } =
+    helperParams as Record<string, (event: unknown) => void>
 
   return (
     <span className="dnb-slider__thumb" style={style}>
@@ -129,10 +128,19 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         className="dnb-slider__button-helper"
         min={min}
         max={max}
-        step={step}
+        // A range would round an off-step endpoint back to its last full step.
+        step={
+          value === max && step > 0 && snapToStep(max, min, step) !== max
+            ? 'any'
+            : step
+        }
         value={value}
         disabled={disabled || skeleton}
         onChange={onHelperChangeHandler}
+        onKeyDown={(event) => {
+          onKeyDown?.(event)
+          onHelperKeyDownHandler(event)
+        }}
         onFocus={(event) => {
           onHelperFocusHandler(event)
           setForceActive(true)

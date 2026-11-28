@@ -232,6 +232,44 @@ describe('Slider component', () => {
   })
 
   describe('min', () => {
+    it('should start at min without emitting a change when value is omitted', () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <Slider
+          min={10}
+          max={30}
+          step={10}
+          tooltip
+          alwaysShowTooltip
+          onChange={onChange}
+        />
+      )
+      const add = document.querySelector('.dnb-slider__button--add')
+      expect(getRangeElement(0)).toHaveValue('10')
+      expect(getRangeElement(0)).toHaveAttribute('aria-valuenow', '10')
+      expect(getTooltipElements(0).textContent).toBe('10')
+      expect(add).toHaveAccessibleName('Øk (10)')
+      expect(onChange).not.toHaveBeenCalled()
+
+      fireEvent.click(add)
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ value: 20 })
+      )
+
+      rerender(
+        <Slider
+          min={-10}
+          max={30}
+          step={10}
+          tooltip
+          alwaysShowTooltip
+          onChange={onChange}
+        />
+      )
+      expect(getTooltipElements(0).textContent).toBe('20')
+      expect(onChange).toHaveBeenCalledTimes(1)
+    })
+
     it('should respect min value', () => {
       const onChange = vi.fn()
 
@@ -262,6 +300,49 @@ describe('Slider component', () => {
       )
     })
   })
+
+  it.each([
+    { min: 5, max: 25, step: 10, percent: 50, expected: 15 },
+    { min: -0.25, max: 0.75, step: 0.1, percent: 32, expected: 0.05 },
+    { min: 0, max: 1, step: 0.1, percent: 30, expected: 0.3 },
+    { min: 0, max: 1e-5, step: 1.2e-7, percent: 3.6, expected: 3.6e-7 },
+    { min: 0, max: 96, step: 10, percent: 99.8, expected: 96 },
+    { min: 5, max: 31, step: 10, percent: 85, expected: 25 },
+    { min: 5, max: 31, step: 10, percent: 95, expected: 31 },
+    { min: 0, max: 5, step: 10, percent: 70, expected: 5 },
+  ])(
+    'should snap $percent% to $expected with min=$min and step=$step',
+    ({ min, max, step, percent, expected }) => {
+      const onChange = vi.fn()
+      render(
+        <Slider
+          min={min}
+          max={max}
+          value={min}
+          step={step}
+          tooltip
+          alwaysShowTooltip
+          onChange={onChange}
+        />
+      )
+
+      simulateMouseMove({ pageX: percent })
+
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ value: expected })
+      )
+      expect(onChange.mock.calls[0][0].rawValue).toBeCloseTo(
+        min + ((max - min) * percent) / 100,
+        15
+      )
+      expect(getRangeElement(0).valueAsNumber).toBe(expected)
+      expect(getRangeElement(0)).toHaveAttribute(
+        'aria-valuenow',
+        String(expected)
+      )
+      expect(getTooltipElements(0).textContent).toBe(String(expected))
+    }
+  )
 
   describe('max', () => {
     it('should respect max value', () => {
@@ -297,6 +378,86 @@ describe('Slider component', () => {
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({ value: 105 })
+      )
+    })
+
+    it.each(['ArrowLeft', 'ArrowDown'])(
+      'should move one step down from an off-step max with %s',
+      (key) => {
+        const onChange = vi.fn()
+
+        render(
+          <Slider
+            min={0}
+            max={100.05}
+            step={0.1}
+            value={100.05}
+            onChange={onChange}
+          />
+        )
+
+        expect(getRangeElement(0)).toHaveAttribute('step', 'any')
+        expect(fireEvent.keyDown(getRangeElement(0), { key })).toBe(false)
+        expect(onChange).toHaveBeenCalledExactlyOnceWith(
+          expect.objectContaining({ value: 100 })
+        )
+        expect(getRangeElement(0)).toHaveAttribute('step', '0.1')
+        expect(getRangeElement(0).valueAsNumber).toBe(100)
+        expect(fireEvent.keyDown(getRangeElement(0), { key })).toBe(true)
+      }
+    )
+
+    it.each([
+      { key: 'End', value: 5 },
+      { key: 'ArrowRight', value: 25 },
+      { key: 'ArrowUp', value: 25 },
+      { key: 'PageUp', value: 25 },
+    ])(
+      'should move to an off-step max with $key from $value',
+      ({ key, value }) => {
+        const onChange = vi.fn()
+
+        render(
+          <Slider
+            min={5}
+            max={31}
+            step={10}
+            value={value}
+            hideButtons
+            onChange={onChange}
+          />
+        )
+
+        expect(fireEvent.keyDown(getRangeElement(0), { key })).toBe(false)
+        expect(onChange).toHaveBeenCalledExactlyOnceWith(
+          expect.objectContaining({ value: 31 })
+        )
+        expect(getRangeElement(0)).toHaveAttribute('step', 'any')
+        expect(getRangeElement(0).valueAsNumber).toBe(31)
+      }
+    )
+
+    it('should leave keys below the last full step to the browser', () => {
+      const onChange = vi.fn()
+
+      render(
+        <Slider
+          min={5}
+          max={31}
+          step={10}
+          value={15}
+          onChange={onChange}
+        />
+      )
+
+      expect(
+        fireEvent.keyDown(getRangeElement(0), { key: 'ArrowRight' })
+      ).toBe(true)
+      expect(fireEvent.keyDown(getRangeElement(0), { key: 'End' })).toBe(
+        false
+      )
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ value: 31 })
       )
     })
 
