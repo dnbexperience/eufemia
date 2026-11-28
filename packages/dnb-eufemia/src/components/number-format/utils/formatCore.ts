@@ -12,6 +12,7 @@ import {
 } from './constants'
 import { cleanNumber } from './cleanNumber'
 import { formatDecimals } from './decimals'
+import { percentToFraction } from './decimalValue'
 import {
   formatNumberCore,
   formatNumberCoreParts,
@@ -123,7 +124,7 @@ export function buildReturn({
 
   if (cleanCopyValue) {
     cleanedValue = formatNumberCore(
-      opts.style === 'percent' ? Number(value) / 100 : value,
+      opts.style === 'percent' ? percentToFraction(value) : value,
       locale,
       opts,
       (item: FormatPartItem) => {

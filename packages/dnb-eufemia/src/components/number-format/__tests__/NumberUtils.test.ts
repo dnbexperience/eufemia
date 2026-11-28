@@ -289,6 +289,31 @@ describe('Decimals format', () => {
       ).toBe(whole + '.15')
     })
 
+    it('keeps the last digit of a large percentage string', () => {
+      expect(
+        formatPercent('9007199254740993', {
+          locale: 'en-GB',
+          returnAria: true,
+          cleanCopyValue: true,
+        })
+      ).toMatchObject({
+        number: '9,007,199,254,740,993%',
+        aria: '9,007,199,254,740,993 per cent',
+        cleanedValue: '9007199254740993',
+      })
+      expect(
+        formatPercent('-9007199254740993.5', {
+          locale: 'en-GB',
+          decimals: 1,
+          cleanCopyValue: true,
+          returnAria: true,
+        })
+      ).toMatchObject({
+        number: '−9,007,199,254,740,993.5%',
+        cleanedValue: '-9007199254740993.5',
+      })
+    })
+
     it('rounds decimal ties in the shared helper and percent formatter', () => {
       expect.soft(roundHalfEven(-1.015)).toBe(-1.02)
       expect

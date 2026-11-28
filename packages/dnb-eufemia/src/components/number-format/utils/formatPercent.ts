@@ -24,6 +24,7 @@ import {
   resolveLocale,
 } from './formatCore'
 import { countDecimals } from './decimals'
+import { percentToFraction } from './decimalValue'
 import { escapeRegexChars } from '../../../shared/component-helper'
 
 export function formatPercent(
@@ -73,7 +74,7 @@ export function formatPercent(
   }
 
   const { number: display, parts } = formatNumberCoreParts(
-    Number(value) / 100,
+    percentToFraction(value),
     locale,
     opts
   )

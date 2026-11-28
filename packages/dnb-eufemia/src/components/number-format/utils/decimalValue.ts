@@ -75,3 +75,19 @@ export function roundDecimal(
   }
   return sign + integer + (end ? '.' + fraction.slice(0, end) : '')
 }
+
+/** Divide by 100 for Intl percent formatting without losing string digits. */
+export function percentToFraction(value: string | number) {
+  const decimal = typeof value === 'string' && parseDecimal(value)
+  if (!decimal) {
+    return Number(value) / 100
+  }
+  const integer = decimal.integer.padStart(3, '0')
+  return (
+    decimal.sign +
+    integer.slice(0, -2) +
+    '.' +
+    integer.slice(-2) +
+    decimal.fraction
+  )
+}
