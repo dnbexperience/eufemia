@@ -1,4 +1,6 @@
-import { test, expect } from '@playwright/test'
+import path from 'node:path'
+import * as sass from 'sass'
+import { test, expect, type Page } from '@playwright/test'
 import { PNG } from 'pngjs'
 
 for (const width of [400, 1024]) {
@@ -867,6 +869,66 @@ test.describe('List nested row alignment', () => {
         expect(Math.abs(offset.end)).toBeLessThanOrEqual(1)
         expect(Math.abs(offset.chevron)).toBeLessThanOrEqual(1)
       }
+    })
+  }
+})
+
+// Moving the mouse sets the intent to mouse, while the last input stays
+// keyboard. The focus outline must stay visible under the pointer (#11104).
+test.describe('List keyboard focus under the mouse', () => {
+  const focusColor = 'rgb(0, 114, 114)'
+  const setIntent = (page: Page, whatinput: string, whatintent: string) =>
+    page.locator('html').evaluate(
+      (element, { whatinput, whatintent }) => {
+        element.dataset.whatinput = whatinput
+        element.dataset.whatintent = whatintent
+      },
+      { whatinput, whatintent }
+    )
+
+  test.beforeEach(async ({ page }) => {
+    const css = sass.compile(
+      path.resolve(__dirname, '../style/dnb-list.scss')
+    ).css
+    await page.setContent(`
+      <style>
+        :root { --token-color-stroke-action-focus: ${focusColor}; }
+        ${css}
+      </style>
+      <div class="dnb-list__item dnb-list__item__action" id="action">
+        <button class="dnb-list__item__action__button">Action</button>
+      </div>
+      <div class="dnb-list__item dnb-list__item__accordion" id="accordion">
+        <div class="dnb-list__item__accordion__header" role="button" tabindex="0">
+          Accordion
+        </div>
+      </div>
+    `)
+  })
+
+  for (const [name, tabs] of [
+    ['action', 1],
+    ['accordion', 2],
+  ] as const) {
+    test(`keeps the ${name} item outline when the mouse moves onto it`, async ({
+      page,
+    }) => {
+      const item = page.locator(`#${name}`)
+      const outlineColor = () =>
+        item.evaluate((element) =>
+          getComputedStyle(element).getPropertyValue(
+            '--list-item-outline-color'
+          )
+        )
+      for (let i = 0; i < tabs; i++) {
+        await page.keyboard.press('Tab')
+      }
+      await setIntent(page, 'keyboard', 'keyboard')
+      await expect.poll(outlineColor).toBe(focusColor)
+
+      await item.hover()
+      await setIntent(page, 'keyboard', 'mouse')
+      await expect.poll(outlineColor).toBe(focusColor)
     })
   }
 })

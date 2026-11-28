@@ -80,6 +80,30 @@ for (const browser of [
       })
     }
 
+    // Moving the mouse sets the intent to mouse, while the last input
+    // stays keyboard. The outline must stay visible under the pointer.
+    for (const title of ['Action row', 'Link row', 'Parent accordion']) {
+      test(`should keep the outline of "${title}" when the mouse moves onto it`, async ({
+        page,
+      }) => {
+        const item = row(page, title)
+        const target = primaryTarget(item)
+        await focusWithKeyboard(page, target)
+        expect(await hasOutline(item)).toBe(true)
+
+        await target.hover()
+        await expect(page.locator('html')).toHaveAttribute(
+          'data-whatintent',
+          'mouse'
+        )
+        await expect(page.locator('html')).toHaveAttribute(
+          'data-whatinput',
+          'keyboard'
+        )
+        expect(await hasOutline(item)).toBe(true)
+      })
+    }
+
     test('should not show a bottom border on the last row in a Card', async ({
       page,
     }) => {
