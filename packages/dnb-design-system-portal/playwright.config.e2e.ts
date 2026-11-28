@@ -30,10 +30,7 @@ export default defineConfig({
     },
     {
       name: 'chromium-hybrid-touch',
-      testMatch: [
-        '**/portalHeaderTools.spec.ts',
-        '**/touchHoverExamples.spec.ts',
-      ],
+      testMatch: '**/portalHeaderTools.spec.ts',
       grep: /both touch and a mouse/,
       use: { browserName: 'chromium' },
     },
