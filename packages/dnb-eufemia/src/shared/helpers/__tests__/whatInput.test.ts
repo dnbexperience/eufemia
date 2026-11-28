@@ -292,6 +292,25 @@ describe('whatInput with a focused form field', () => {
     expect(intent()).toBe('keyboard')
   })
 
+  it('follows Shift+Tab from the field to show keyboard focus', () => {
+    dispatchPointer('mouse')
+    document.getElementById('field').focus()
+    dispatchKey('a')
+
+    dispatchKey('Shift')
+    expect(intent()).toBe('mouse')
+
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Tab',
+        shiftKey: true,
+        bubbles: true,
+      })
+    )
+
+    expect(intent()).toBe('keyboard')
+  })
+
   it('ignores Tab when specificKeys excludes it', () => {
     whatInput.specificKeys(['Enter'])
     dispatchPointer('mouse')
