@@ -410,6 +410,12 @@
 
         border-radius: 50%;
         background-color: currentcolor;
+
+        // Else Chromium paints the dot in the canvas color in forced
+        // colors mode, which hides it
+        @media (forced-colors: active) {
+          forced-color-adjust: preserve-parent-color;
+        }
       }
     }
 
@@ -553,6 +559,58 @@
       .dnb-button:focus-visible:not([disabled]) {
       z-index: 2;
       @include utilities.focusOutline();
+
+      // Else the focus outline has the color of the selected dates
+      @media (forced-colors: active) {
+        outline-color: CanvasText;
+      }
+    }
+
+    // Forced colors mode removes the background colors that show the
+    // selected dates, so use the system colors for them
+    @media (forced-colors: active) {
+      &--start-date:not(#{&}--inactive):not(#{&}--outside-month),
+      &--end-date:not(#{&}--inactive):not(#{&}--outside-month) {
+        // As specific as the hover and active states, so that they keep
+        // the selected colors. Disabled dates are inactive, so they never
+        // get these colors.
+        html & .dnb-button[aria-current]:not([disabled]) {
+          background-color: Highlight;
+          color: HighlightText;
+          outline-color: Highlight;
+
+          // Else the browser draws a backplate in the canvas color behind
+          // the text, which hides it
+          .dnb-button__text {
+            forced-color-adjust: none;
+          }
+
+          &:focus-visible {
+            outline-color: CanvasText;
+          }
+        }
+      }
+
+      &--preview:not(#{&}--inactive):not(#{&}--outside-month):not(
+          #{&}--start-date
+        ):not(#{&}--end-date),
+      &--within-selection:not(#{&}--inactive):not(#{&}--outside-month):not(
+          #{&}--start-date
+        ):not(#{&}--end-date) {
+        // A border, so that the focus outline does not replace it
+        .dnb-button {
+          // Else the border makes the round button wider than it is high
+          padding: 0;
+          border: 0.1875rem solid Highlight;
+
+          // Else the browser draws a backplate in the canvas color behind
+          // the text, and its corners cover the border
+          .dnb-button__text {
+            forced-color-adjust: none;
+            color: CanvasText;
+          }
+        }
+      }
     }
 
     html:not([data-whatintent='touch']) &--inactive .dnb-button[disabled] {
