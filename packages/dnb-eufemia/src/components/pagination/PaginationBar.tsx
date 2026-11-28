@@ -87,7 +87,9 @@ type PaginationBarContext = {
   ) => ReactNode
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
-  updatePageContent: (currentPageInternal: number) => void
+  updatePageContent: (
+    currentPageInternal: number
+  ) => (...args: unknown[]) => void
 }
 
 const PaginationBar = (localProps: PaginationBarAllProps) => {
@@ -155,11 +157,12 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     setContextState({
       currentPageInternal,
     })
-    updatePageContent(currentPageInternal)
+    const setContent = updatePageContent(currentPageInternal)
 
     dispatchCustomElementEvent(props, 'onChange', {
       pageNumber: currentPageInternal,
       ...props,
+      setContent,
       event,
     })
   }
