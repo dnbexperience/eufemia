@@ -1,3 +1,5 @@
+import path from 'node:path'
+import * as sass from 'sass'
 import { test, expect, type Locator, type Page } from '@playwright/test'
 
 function getOutline(card: Locator) {
@@ -78,5 +80,53 @@ test.describe('Card.Action with a nested Card', () => {
     await expect(ownCard).toHaveCSS('outline-style', 'solid')
     await expect(ownCard).toHaveCSS('outline-width', '3px')
     await expect(nestedCard).toHaveCSS('outline-style', 'none')
+  })
+})
+
+// Moving the mouse sets the intent to mouse, while the last input stays
+// keyboard. The focus outline must stay visible under the pointer (#11104).
+test.describe('Card.Action keyboard focus under the mouse', () => {
+  const focusColor = 'rgb(0, 114, 114)'
+
+  test('keeps the focus outline when the mouse moves onto the focused action', async ({
+    page,
+  }) => {
+    const css = sass.compile(
+      path.resolve(__dirname, '../style/dnb-card.scss')
+    ).css
+    await page.setContent(`
+      <style>
+        :root { --token-color-stroke-action-focus: ${focusColor}; }
+        ${css}
+      </style>
+      <a class="dnb-card-action" href="#">
+        <div class="dnb-card">Card</div>
+      </a>
+    `)
+
+    const setIntent = (whatinput: string, whatintent: string) =>
+      page.locator('html').evaluate(
+        (element, { whatinput, whatintent }) => {
+          element.dataset.whatinput = whatinput
+          element.dataset.whatintent = whatintent
+        },
+        { whatinput, whatintent }
+      )
+    const action = page.locator('.dnb-card-action')
+    const outlineColor = () =>
+      action
+        .locator('> .dnb-card')
+        .evaluate((card) =>
+          getComputedStyle(card).getPropertyValue('--card-outline-color')
+        )
+
+    await page.keyboard.press('Tab')
+    await setIntent('keyboard', 'keyboard')
+    await expect(action).toBeFocused()
+    await expect.poll(outlineColor).toBe(focusColor)
+
+    await action.hover()
+    await setIntent('keyboard', 'mouse')
+    await expect.poll(outlineColor).toBe(focusColor)
   })
 })
