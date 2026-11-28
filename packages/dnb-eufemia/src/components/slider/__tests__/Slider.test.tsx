@@ -404,6 +404,60 @@ describe('Slider component', () => {
       }
     )
 
+    it.each([
+      { key: 'End', value: 5 },
+      { key: 'ArrowRight', value: 25 },
+      { key: 'ArrowUp', value: 25 },
+      { key: 'PageUp', value: 25 },
+    ])(
+      'should move to an off-step max with $key from $value',
+      ({ key, value }) => {
+        const onChange = vi.fn()
+
+        render(
+          <Slider
+            min={5}
+            max={31}
+            step={10}
+            value={value}
+            hideButtons
+            onChange={onChange}
+          />
+        )
+
+        expect(fireEvent.keyDown(getRangeElement(0), { key })).toBe(false)
+        expect(onChange).toHaveBeenCalledExactlyOnceWith(
+          expect.objectContaining({ value: 31 })
+        )
+        expect(getRangeElement(0)).toHaveAttribute('step', 'any')
+        expect(getRangeElement(0).valueAsNumber).toBe(31)
+      }
+    )
+
+    it('should leave keys below the last full step to the browser', () => {
+      const onChange = vi.fn()
+
+      render(
+        <Slider
+          min={5}
+          max={31}
+          step={10}
+          value={15}
+          onChange={onChange}
+        />
+      )
+
+      expect(
+        fireEvent.keyDown(getRangeElement(0), { key: 'ArrowRight' })
+      ).toBe(true)
+      expect(fireEvent.keyDown(getRangeElement(0), { key: 'End' })).toBe(
+        false
+      )
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(
+        expect.objectContaining({ value: 31 })
+      )
+    })
+
     it('should respect max value with too large "step" and large number', () => {
       const onChange = vi.fn()
 

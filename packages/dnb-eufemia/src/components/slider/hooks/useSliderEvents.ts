@@ -131,13 +131,31 @@ export function useSliderEvents() {
   const onHelperKeyDownHandler = (
     event: KeyboardEvent<HTMLInputElement>
   ) => {
+    const { step, valueAsNumber } = event.currentTarget
+
     // The browser's increment for step="any" can be larger than one step.
     if (
-      event.currentTarget.step === 'any' &&
+      step === 'any' &&
       (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
     ) {
       event.preventDefault()
       handleHelperValue(event, getLastFullStep())
+      return // stop here
+    }
+
+    // The browser stops at the last full step, below an off-step maximum.
+    const lastFullStep = getLastFullStep()
+    if (
+      step !== 'any' &&
+      lastFullStep < max &&
+      (event.key === 'End' ||
+        (valueAsNumber >= lastFullStep &&
+          (event.key === 'ArrowRight' ||
+            event.key === 'ArrowUp' ||
+            event.key === 'PageUp')))
+    ) {
+      event.preventDefault()
+      handleHelperValue(event, max)
     }
   }
 

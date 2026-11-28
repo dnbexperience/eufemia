@@ -16,7 +16,11 @@ test('keeps native keyboard steps and the pointer endpoint in sync with the tool
   await range.press('ArrowRight')
   await expectValue('15')
   await range.press('End')
+  await expectValue('31')
+  await range.press('ArrowLeft')
   await expectValue('25')
+  await range.press('ArrowRight')
+  await expectValue('31')
   await range.press('Home')
   await expectValue('5')
 
