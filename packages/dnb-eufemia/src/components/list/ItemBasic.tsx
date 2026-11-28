@@ -1,6 +1,9 @@
+import { useContext } from 'react'
 import type { ReactNode } from 'react'
 import type { ItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
+import { ListContext } from './ListContext'
+import DisabledControls from './DisabledControls'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
@@ -29,6 +32,7 @@ function isSetGap(
 
 function ItemBasic(props: ItemBasicProps) {
   const { icon, title, children, element, layoutEngine, ...rest } = props
+  const inheritedDisabled = useContext(ListContext)?.disabled
 
   // The css engine leaves the children unchanged, so cells rendered by your
   // own components are placed like cells used directly. But it turns these
@@ -53,18 +57,20 @@ function ItemBasic(props: ItemBasicProps) {
   const cellElement = element === 'span' ? 'span' : undefined
 
   return (
-    <ItemContent
-      element={element}
-      layoutEngine={appliedLayoutEngine}
-      rowGap={appliedLayoutEngine === 'css' ? false : undefined}
-      {...rest}
-    >
-      {icon && <ItemIcon element={cellElement}>{icon}</ItemIcon>}
-      {title !== undefined && (
-        <ItemTitle element={cellElement}>{title}</ItemTitle>
-      )}
-      {children}
-    </ItemContent>
+    <DisabledControls disabled={rest.disabled ?? inheritedDisabled}>
+      <ItemContent
+        element={element}
+        layoutEngine={appliedLayoutEngine}
+        rowGap={appliedLayoutEngine === 'css' ? false : undefined}
+        {...rest}
+      >
+        {icon && <ItemIcon element={cellElement}>{icon}</ItemIcon>}
+        {title !== undefined && (
+          <ItemTitle element={cellElement}>{title}</ItemTitle>
+        )}
+        {children}
+      </ItemContent>
+    </DisabledControls>
   )
 }
 withComponentMarkers(ItemBasic, {

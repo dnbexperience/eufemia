@@ -21,7 +21,7 @@ import chevron_down from '../../icons/chevron_down'
 import chevron_up from '../../icons/chevron_up'
 import FlexItem from '../flex/Item'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import Context from '../../shared/Context'
+import DisabledControls from './DisabledControls'
 
 export type ItemActionIconPosition = 'left' | 'right'
 
@@ -38,7 +38,7 @@ export type ItemActionProps<E extends ElementType = 'a'> = {
   icon?: IconIcon
   title?: ReactNode
   /**
-   * Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Eufemia buttons and links inherit the item's disabled state. Footer controls remain available while pending; manage their loading and disabled states individually.
+   * Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Eufemia form elements, buttons and links inherit the item's disabled state. Footer controls remain available while pending; manage their loading and disabled states individually.
    */
   footer?: ReactNode
   href?: string
@@ -166,7 +166,9 @@ function ItemAction<E extends ElementType = 'a'>(
   )
   const footerContent = hasFooter && (
     <FlexItem className="dnb-list__item__action__footer">
-      <ActionFooter disabled={appliedDisabled}>{footer}</ActionFooter>
+      <DisabledControls disabled={appliedDisabled}>
+        {footer}
+      </DisabledControls>
     </FlexItem>
   )
 
@@ -258,32 +260,6 @@ const listChevronIcon = Icon.transition({
 })
 
 export default ItemAction
-
-function ActionFooter({
-  disabled,
-  children,
-}: {
-  disabled?: boolean
-  children: ReactNode
-}) {
-  const context = useContext(Context)
-
-  return (
-    <Context
-      value={
-        disabled
-          ? {
-              ...context,
-              Button: { ...context.Button, disabled: true },
-              Anchor: { ...context.Anchor, disabled: true },
-            }
-          : context
-      }
-    >
-      {children}
-    </Context>
-  )
-}
 
 export function ChevronIcon({ expanded }: { expanded?: boolean }) {
   const isAccordion = expanded !== undefined
